@@ -1,12 +1,15 @@
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
-import Layout from "../components/Layout";
+import Navbar from "../components/Navbar";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Layout>
+    <div>
+      {/*  <Navbar> */}
       <Component {...pageProps} />
-    </Layout>
+      {/* </Navbar> */}
+    </div>
   );
 }
 

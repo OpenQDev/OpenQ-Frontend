@@ -1,5 +1,10 @@
 import Head from "next/head";
 import Image from "next/image";
+import BountyCardList from "../components/BountyCardList";
+import BountySearch from "../components/BountySearch";
+import ConnectWallet from "../components/ConnectWallet";
+import CreateBounty from "../components/CreateBounty";
+import StackSearch from "../components/StackSearch";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -12,7 +17,30 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1>Hello World Hello World Hello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello World</h1>
+        <div className="flex flex-fill pl-5 pt-5 pb-5 border-b w-screen items-center justify-between">
+          <BountySearch />
+          <ConnectWallet />
+        </div>
+        <div className="flex pl-5 pt-5 items-center justify-between">
+          <h1 className="font-mont font-bold text-4xl">Smashboard</h1>
+          <CreateBounty />
+        </div>
+        <div className="flex pl-5 pt-5 flex-col">
+          <h2 className="font-mont font-normal text-lg text-gray-700">Layer</h2>
+          <div className="flex pt-3 flex-grow flex-row space-x-2">
+            <button className="font-mont rounded-md border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer border-blue-400 text-gray-800 hover:bg-blue-400 hover:text-white">Front-End</button>
+            <button className="font-mont rounded-md border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer border-pink-400  text-gray-800 hover:bg-pink-400 hover:text-white">Back-End</button>
+          </div>
+        </div>
+        <div className="flex pl-5 pt-5 flex-col">
+          <h2 className="font-mont font-normal text-lg text-gray-700">Stack</h2>
+          <div className="flex pt-3 flex-grow flex-row space-x-2">
+            <StackSearch />
+          </div>
+        </div>
+        <div className="flex pl-5 pt-10 flex-col">
+          <BountyCardList />
+        </div>
       </main>
     </div>
   );

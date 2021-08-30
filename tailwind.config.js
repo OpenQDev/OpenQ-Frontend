@@ -1,7 +1,11 @@
 const colors = require('tailwindcss/colors')
 
 module.exports = {
-  purge: [],
+  mode: 'jit',
+  purge: [
+    './components/*.js',
+    './pages/*.js',
+  ],
   darkMode: false, // or 'media' or 'class'
   theme: {
 
@@ -18,6 +22,9 @@ module.exports = {
     extend: {
       colors: {
         'menu-black': '#090909',
+      },
+      fontFamily: {
+        mont: "'Montserrat', sans-serif;"
       },
     },
   },

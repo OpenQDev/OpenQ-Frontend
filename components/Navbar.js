@@ -24,12 +24,12 @@ const Navbar = ({ children }) => {
   });
 
   return (
-    <div className="flex">
-      <div className="flex bg-gray-200">
+    <div className="flex flex-row flex-grow">
+      <div className="flex">
         {!isClosed && (
           <div
             ref={menuRef}
-            className="bg-menu-black rounded-lg w-20 flex flex-col"
+            className="bg-menu-black  w-20 flex flex-col"
           >
             {/*  <div class="bg-white broder-r broder-b px-4 h-10 flex items-center">
             {" "}
@@ -62,7 +62,7 @@ const Navbar = ({ children }) => {
           </div>
         )
         }
-        <main className="flex-grow flex min-h-screen">
+        <main className="flex-grow pt-5 flex">
           <header className="h-10 flex">
             <div
               className={"flex flex-grow px-3"}
