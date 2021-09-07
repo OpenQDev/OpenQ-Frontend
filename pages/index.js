@@ -11,7 +11,7 @@ import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 //import results here!
 export default function Home() {
-  console.log(results);
+  /* console.log(results); */
   return (
     <div>
       <Head>
