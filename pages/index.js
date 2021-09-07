@@ -6,8 +6,12 @@ import ConnectWallet from "../components/ConnectWallet";
 import CreateBounty from "../components/CreateBounty";
 import StackSearch from "../components/StackSearch";
 import styles from "../styles/Home.module.css";
+import { useState } from "react";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
+//import results here!
 export default function Home() {
+  console.log(results);
   return (
     <div>
       <Head>
@@ -47,3 +51,37 @@ export default function Home() {
     </div>
   );
 }
+
+/* Get GitHub Issue URL Information for CreateBountyModal Component */
+/* export async function getStaticProps() {
+  const client = new ApolloClient({
+    uri: "https://api.github.com/graphql",
+    cache: new InMemoryCache(),
+  });
+  const { data } = await client.query({
+    query: gql`
+      query MyQuery {
+        organization(login: "OpenQDev") {
+          id
+          repository(name: "app") {
+            issue(number: 86) {
+              id
+              author {
+                login
+              }
+              createdAt
+              comments {
+                totalCount
+              }
+              title
+            }
+          }
+        }
+      }
+    `,
+  });
+  return {
+    props: {},
+  };
+}
+ */
