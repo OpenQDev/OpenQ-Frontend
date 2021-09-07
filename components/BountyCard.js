@@ -8,7 +8,7 @@ const BountyCard = () => {
   return (
     <div>
       <div
-        className="flex flex-col font-mont rounded-lg w-1/4 h-1/4 bg-white shadow-md p-4 cursor-pointer"
+        className="flex flex-col font-mont rounded-lg  bg-white shadow-md p-4 cursor-pointer"
         onClick={() => setShowModal(true)}
       >
         <div className="flex flex-row justify-between">

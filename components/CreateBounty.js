@@ -1,13 +1,20 @@
+import { useState } from "react";
+import CreateBountyModal from "./createBountyModal";
+
 const CreateBounty = () => {
-    return (
-        <div>
-            <a href="">
-                <button className="font-mont rounded-md border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer" >
-                    Create Bounty
-                </button>
-            </a>
-        </div>
-    );
-}
+  const [showModal, setShowModal] = useState(false);
+
+  return (
+    <div>
+      <button
+        onClick={() => setShowModal(true)}
+        className="font-mont rounded-lg bg-button-pink py-2 px-3 pr-5 pl-5 text-white font-bold cursor-pointer"
+      >
+        Create Bounty
+      </button>
+      {showModal && <CreateBountyModal modalVisibility={setShowModal} />}
+    </div>
+  );
+};
 
 export default CreateBounty;

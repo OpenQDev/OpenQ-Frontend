@@ -2,11 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
-    body{
-        background: #F3F3F3;
-    }
+  body {
+    background: #f3f3f3;
+  }
 }
 /* @layer base {
     body{
@@ -24,3 +23,12 @@
         @apply font-mont rounded-md border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer;
     }
 } */
+
+@layer components {
+  .layer-button {
+    @apply font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer border-blue-400 text-gray-800 hover:bg-blue-400 hover:text-white;
+  }
+  .confirm-btn {
+    @apply font-mont rounded-lg w-full py-3 text-base font-bold cursor-pointer bg-button-pink text-white hover:bg-pink-300 hover:text-white;
+  }
+}
