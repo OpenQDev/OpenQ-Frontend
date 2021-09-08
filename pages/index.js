@@ -7,7 +7,12 @@ import CreateBounty from "../components/CreateBounty";
 import StackSearch from "../components/StackSearch";
 import styles from "../styles/Home.module.css";
 import { useState } from "react";
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import {
+  ApolloClient,
+  createHttpLink,
+  InMemoryCache,
+  gql,
+} from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
 //import results here!
@@ -61,7 +66,13 @@ export async function getStaticProps() {
 
   const authLink = setContext((_, { headers }) => {
     // get the authentication token via GitHub PAT
+    console.log("___________________");
     const token = process.env.PAT;
+    if (token) {
+      console.log("token exists");
+    } else {
+      console.log("no token");
+    }
     // return the headers to the context so httpLink can read them
     return {
       headers: {
@@ -77,9 +88,8 @@ export async function getStaticProps() {
   });
   const { data } = await client.query({
     query: gql`
-      query MyQuery {
+      query {
         organization(login: "OpenQDev") {
-          id
           repository(name: "app") {
             issue(number: 86) {
               id
@@ -98,6 +108,6 @@ export async function getStaticProps() {
     `,
   });
   return {
-    props: {},
+    props: { data },
   };
 }
