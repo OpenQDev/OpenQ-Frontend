@@ -7,11 +7,12 @@ import CreateBounty from "../components/CreateBounty";
 import StackSearch from "../components/StackSearch";
 import styles from "../styles/Home.module.css";
 import { useState } from "react";
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 
 //import results here!
-export default function Home() {
-  /* console.log(results); */
+export default function Home(results) {
+  console.log(results);
   return (
     <div>
       <Head>
@@ -53,9 +54,25 @@ export default function Home() {
 }
 
 /* Get GitHub Issue URL Information for CreateBountyModal Component */
-/* export async function getStaticProps() {
-  const client = new ApolloClient({
+export async function getStaticProps() {
+  const httpLink = createHttpLink({
     uri: "https://api.github.com/graphql",
+  });
+
+  const authLink = setContext((_, { headers }) => {
+    // get the authentication token via GitHub PAT
+    const token = process.env.PAT;
+    // return the headers to the context so httpLink can read them
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : "",
+      },
+    };
+  });
+
+  const client = new ApolloClient({
+    link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
   });
   const { data } = await client.query({
@@ -84,4 +101,3 @@ export default function Home() {
     props: {},
   };
 }
- */
