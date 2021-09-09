@@ -8,7 +8,7 @@ import { setContext } from "@apollo/client/link/context";
 import GET_ISSUE from "../lib/queries/getIssue";
 /* Get GitHub Issue URL Information for CreateBountyModal Component */
 
-export async function fetchIssue(orgName, repoName, issueNumber) {
+export async function fetchIssue() {
   const httpLink = createHttpLink({
     uri: "https://api.github.com/graphql",
   });
