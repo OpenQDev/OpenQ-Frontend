@@ -5,18 +5,23 @@ import BountySearch from "../components/BountySearch";
 import ConnectWallet from "../components/ConnectWallet";
 import CreateBounty from "../components/CreateBounty";
 import StackSearch from "../components/StackSearch";
+import { useEffect } from "react";
 import styles from "../styles/Home.module.css";
 import { useState } from "react";
-import {
-  ApolloClient,
-  createHttpLink,
-  InMemoryCache,
-  gql,
-} from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { fetchIssue } from "../scripts/fetchIssue";
+import { useQuery } from "@apollo/client";
+import GET_ISSUE from "../lib/queries/getIssue";
+import { useApollo } from "../lib/apollo";
+import { ApolloProvider } from "@apollo/client";
 
 //import results here!
 export default function Home() {
+  useEffect(async () => {
+    const data = fetchIssue();
+    console.log(data);
+  });
+
   return (
     <div>
       <Head>

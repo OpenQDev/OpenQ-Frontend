@@ -1,6 +1,14 @@
+import {
+  ApolloClient,
+  createHttpLink,
+  InMemoryCache,
+  gql,
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+import GET_ISSUE from "../lib/queries/getIssue";
 /* Get GitHub Issue URL Information for CreateBountyModal Component */
 
-export async function getStaticProps() {
+export async function fetchIssue(orgName, repoName, issueNumber) {
   const httpLink = createHttpLink({
     uri: "https://api.github.com/graphql",
   });
@@ -21,28 +29,20 @@ export async function getStaticProps() {
     link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
   });
-  const { data } = await client.query({
-    query: gql`
-      query {
-        organization(login: "OpenQDev") {
-          repository(name: "app") {
-            issue(number: 86) {
-              id
-              author {
-                login
-              }
-              createdAt
-              comments {
-                totalCount
-              }
-              title
-            }
-          }
-        }
-      }
-    `,
+
+  const promise = new Promise(async (resolve, reject) => {
+    try {
+      const result = await client.query({
+        query: GET_ISSUE,
+      });
+      console.log("resolved data: ", result);
+      resolve(result);
+    } catch (e) {
+      reject(e);
+    }
   });
+
   return {
-    props: { data },
+    props: { result },
   };
 }
