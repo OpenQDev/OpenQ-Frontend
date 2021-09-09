@@ -16,8 +16,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 
 //import results here!
-export default function Home(results) {
-  console.log(results);
+export default function Home() {
   return (
     <div>
       <Head>
@@ -56,58 +55,4 @@ export default function Home(results) {
       </main>
     </div>
   );
-}
-
-/* Get GitHub Issue URL Information for CreateBountyModal Component */
-export async function getStaticProps() {
-  const httpLink = createHttpLink({
-    uri: "https://api.github.com/graphql",
-  });
-
-  const authLink = setContext((_, { headers }) => {
-    // get the authentication token via GitHub PAT
-    console.log("___________________");
-    const token = process.env.PAT;
-    if (token) {
-      console.log("token exists");
-    } else {
-      console.log("no token");
-    }
-    // return the headers to the context so httpLink can read them
-    return {
-      headers: {
-        ...headers,
-        authorization: token ? `Bearer ${token}` : "",
-      },
-    };
-  });
-
-  const client = new ApolloClient({
-    link: authLink.concat(httpLink),
-    cache: new InMemoryCache(),
-  });
-  const { data } = await client.query({
-    query: gql`
-      query {
-        organization(login: "OpenQDev") {
-          repository(name: "app") {
-            issue(number: 86) {
-              id
-              author {
-                login
-              }
-              createdAt
-              comments {
-                totalCount
-              }
-              title
-            }
-          }
-        }
-      }
-    `,
-  });
-  return {
-    props: { data },
-  };
 }
