@@ -42,7 +42,5 @@ export async function fetchIssue() {
     }
   });
 
-  return {
-    props: { result },
-  };
+  return promise;
 }
