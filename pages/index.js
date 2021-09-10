@@ -14,12 +14,14 @@ import { useQuery } from "@apollo/client";
 import GET_ISSUE from "../lib/queries/getIssue";
 import { useApollo } from "../lib/apollo";
 import { ApolloProvider } from "@apollo/client";
+import IssueRepository from "../services/IssueRepository";
 
 //import results here!
 export default function Home() {
   useEffect(async () => {
-    const data = fetchIssue();
-    console.log(data);
+    const issueRepository = new IssueRepository();
+    const response = await issueRepository.fetchIssue();
+    console.log(response);
   });
 
   return (
