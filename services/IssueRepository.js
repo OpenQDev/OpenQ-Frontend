@@ -4,12 +4,12 @@ import fetch from "cross-fetch";
 import { setContext } from "@apollo/client/link/context";
 
 class IssueRepository {
-  constructor() {}
+  constructor() { }
 
   httpLink = new HttpLink({ uri: "https://api.github.com/graphql", fetch });
 
   authLink = setContext((_, { headers }) => {
-    const token = "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";
+    const token = process.env.PAT;
     return {
       headers: {
         ...headers,

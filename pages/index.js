@@ -3,16 +3,15 @@ import Image from "next/image";
 import BountyCardList from "../components/BountyCardList";
 import BountySearch from "../components/BountySearch";
 import ConnectWallet from "../components/ConnectWallet";
+import SignIn from "../components/SignIn";
 import CreateBounty from "../components/CreateBounty";
 import StackSearch from "../components/StackSearch";
 import { useEffect } from "react";
 import styles from "../styles/Home.module.css";
 import { useState } from "react";
 import { setContext } from "@apollo/client/link/context";
-import { fetchIssue } from "../scripts/fetchIssue";
 import { useQuery } from "@apollo/client";
 import GET_ISSUE from "../lib/queries/getIssue";
-import { useApollo } from "../lib/apollo";
 import { ApolloProvider } from "@apollo/client";
 import IssueRepository from "../services/IssueRepository";
 
@@ -36,6 +35,7 @@ export default function Home() {
         <div className="flex flex-fill pl-5 pt-5 pr-20 pb-5 border-b items-center justify-between">
           <BountySearch />
           <ConnectWallet />
+          <SignIn />
         </div>
         <div className="flex pl-5 pt-5 pr-20 items-center justify-between">
           <h1 className="font-mont font-bold text-4xl">Dashboard</h1>
