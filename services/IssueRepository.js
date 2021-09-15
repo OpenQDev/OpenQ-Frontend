@@ -9,7 +9,7 @@ class IssueRepository {
   httpLink = new HttpLink({ uri: "https://api.github.com/graphql", fetch });
 
   authLink = setContext((_, { headers }) => {
-    const token = "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";
+    const token = process.env.PAT;
     return {
       headers: {
         ...headers,
@@ -24,11 +24,15 @@ class IssueRepository {
     cache: new InMemoryCache(),
   });
 
-  async fetchIssue(id) {
+  async fetchIssue(orgName, repoName, issueId) {
+    /*    const orgName = "OpenQDev";
+    const repoName = "app";
+    const issueId = 86; */
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
           query: GET_ISSUE,
+          variables: { orgName, repoName, issueId },
         });
         resolve(result);
       } catch (e) {

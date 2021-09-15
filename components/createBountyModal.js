@@ -1,4 +1,8 @@
+import IssueRepository from "../services/IssueRepository";
+import { useEffect, useState } from "react";
+
 const CreateBountyModal = (props) => {
+  const [searchTerm, setSearchTerm] = useState("");
   const updateModal = () => {
     props.modalVisibility(false);
   };
@@ -14,6 +18,24 @@ const CreateBountyModal = (props) => {
     // where we'll add our form logic
     console.log("input submit: ", event.target.name.value);
   };
+
+  //#endregion
+  useEffect(async () => {
+    const gitHubHome = "https://github.com/";
+    console.log("sliced ", searchTerm.slice(0, 18));
+
+    if (gitHubHome == searchTerm.slice(0, 18)) {
+      console.log("Strings matched");
+    }
+    /* sample string: https://github.com/OpenQDev/app/issues/86*/
+
+    /*    console.log("searchTerm", searchTerm); */
+
+    /* const issueRepository = new IssueRepository();
+    const response = await issueRepository.fetchIssue("OpenQDev", "app", 86);
+    console.log(response); */
+  });
+
   return (
     <div>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -55,15 +77,16 @@ const CreateBountyModal = (props) => {
                   </div>
                 </button>
                 <div className="font-mont bg-gray-100 font-normal text-gray-600">
-                  <form onSubmit={searchIssue}>
-                    <input
-                      className="bg-gray-100 w-6/7 border-gray-100 outline-none"
-                      id="name"
-                      placeholder="Issue URL"
-                      type="text"
-                    />
-                    <button type="submit"></button>
-                  </form>
+                  <input
+                    className="bg-gray-100 w-6/7 border-gray-100 outline-none"
+                    id="name"
+                    placeholder="Issue URL"
+                    autoComplete="off"
+                    type="text"
+                    onChange={(event) => {
+                      setSearchTerm(event.target.value);
+                    }}
+                  />
                 </div>
               </div>
               <div className="items-center justify-left p-6 w-full font-mont rounded-lg w-full py-3 text-base cursor-pointer bg-gray-100 text-white">
@@ -90,7 +113,7 @@ const CreateBountyModal = (props) => {
                 type="button"
                 onClick={() => updateModal()}
               >
-                Confirm
+                Create Bounty
               </button>
             </div>
           </div>
