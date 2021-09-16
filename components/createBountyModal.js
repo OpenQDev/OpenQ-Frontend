@@ -1,8 +1,15 @@
 import IssueRepository from "../services/IssueRepository";
 import { useEffect, useState } from "react";
+import { getDefaultValues } from "@apollo/client/utilities";
 
 const CreateBountyModal = (props) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [orgName, setOrgName] = useState("");
+  const [repoName, setRepoName] = useState("");
+  const [repoId, setRepoId] = useState("");
+  const [issueData, setIssueData] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
   const updateModal = () => {
     props.modalVisibility(false);
   };
@@ -19,22 +26,61 @@ const CreateBountyModal = (props) => {
     console.log("input submit: ", event.target.name.value);
   };
 
+  const getDate = () => {
+    const rawDate = issueData.data.organization.repository.issue.createdAt;
+    const date = new Date(rawDate);
+    return date.toDateString().split(" ").slice(1).join(" ");
+  };
+
   //#endregion
-  useEffect(async () => {
+  useEffect(() => {
     const gitHubHome = "https://github.com/";
-    console.log("sliced ", searchTerm.slice(0, 18));
 
-    if (gitHubHome == searchTerm.slice(0, 18)) {
-      console.log("Strings matched");
+    /*
+    Query GitHub issue link to fetch graphQL API
+    A correct search string looks like this:
+    https://github.com/openqdev/app/issues/86
+
+
+    Currently doesnt support any error handling
+    */
+    if (gitHubHome === searchTerm.slice(0, 19)) {
+      const orgStringIndex = 19 + parseInt(searchTerm.slice(19).search("/"));
+      if (orgStringIndex > 18) {
+        setOrgName(searchTerm.slice(19, orgStringIndex));
+        const repoStringIndex =
+          orgStringIndex +
+          parseInt(searchTerm.slice(orgStringIndex + 1).search("/"));
+        if (repoStringIndex > orgStringIndex + 1) {
+          setRepoName(
+            searchTerm.slice(orgStringIndex + 1, repoStringIndex + 1)
+          );
+          const issueIdIndex = repoStringIndex + 9;
+          const issueId = searchTerm.slice(issueIdIndex);
+          if (issueId) {
+            setRepoId(issueId);
+          }
+        }
+      }
     }
-    /* sample string: https://github.com/OpenQDev/app/issues/86*/
-
-    /*    console.log("searchTerm", searchTerm); */
-
-    /* const issueRepository = new IssueRepository();
-    const response = await issueRepository.fetchIssue("OpenQDev", "app", 86);
-    console.log(response); */
   });
+
+  useEffect(async () => {
+    /* Fetch issue data if search query is complete
+       TODO: Throws error and breaks if URL does not exist
+    */
+    if (orgName && repoName && repoId) {
+      const issueRepository = new IssueRepository();
+      const response = await issueRepository.fetchIssue(
+        orgName,
+        repoName,
+        parseInt(repoId)
+      );
+      /*   console.log("res: ", response.data.organization.repository); */
+      setIssueData(response);
+      setIsLoading(false);
+    }
+  }, [repoId]);
 
   return (
     <div>
@@ -52,42 +98,78 @@ const CreateBountyModal = (props) => {
               </h3>
             </div>
             {/*body*/}
-            <div className="flex flex-col pl-6 pr-6 space-y-2">
-              <div className="flex flex-row space-x-2 items-center p-2 font-mont rounded-lg py-1 text-base cursor-pointer bg-gray-100 text-white">
-                <button
-                  className="flex flex-row items-center font-mont rounded-lg px-4 py-2 text-base font-bold cursor-pointer bg-button-pink text-white hover:bg-pink-600 hover:text-white"
-                  type="button"
-                >
-                  Bounty
-                  <div className="pl-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
+            <div className="flex flex-col pl-8 pr-6 space-y-2">
+              <div className="border-gray-100 border-2 rounded-lg">
+                <div className="flex flex-row space-x-2 items-center p-2 font-mont rounded-lg py-1 text-base cursor-pointer bg-gray-100 text-white">
+                  <button
+                    className="flex flex-row items-center font-mont rounded-lg px-4 py-2 text-base font-bold cursor-pointer bg-button-pink text-white hover:bg-pink-600 hover:text-white"
+                    type="button"
+                  >
+                    Bounty
+                    <div className="pl-1">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </div>
+                  </button>
+                  <div className="font-mont bg-gray-100 font-normal text-gray-600">
+                    <input
+                      className="bg-gray-100 w-6/7 border-gray-100 outline-none"
+                      id="name"
+                      placeholder="Issue URL"
+                      autoComplete="off"
+                      type="text"
+                      onChange={(event) => {
+                        setSearchTerm(event.target.value);
+                      }}
+                    />
                   </div>
-                </button>
-                <div className="font-mont bg-gray-100 font-normal text-gray-600">
-                  <input
-                    className="bg-gray-100 w-6/7 border-gray-100 outline-none"
-                    id="name"
-                    placeholder="Issue URL"
-                    autoComplete="off"
-                    type="text"
-                    onChange={(event) => {
-                      setSearchTerm(event.target.value);
-                    }}
-                  />
                 </div>
+                {/*   Conditional Issue Data */}
+                {isLoading ? null : (
+                  <div className="flex flex-col pb-3 pt-3 pl-5 font-mont">
+                    <div className="flex flex-grow flex-row items-center space-x-2">
+                      <div className="">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="#15FB31"
+                          viewBox="0 0 16 16"
+                          width="17"
+                          height="17"
+                        >
+                          <path d="M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
+                          <path
+                            fillRule="evenodd"
+                            d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"
+                          ></path>
+                        </svg>
+                      </div>
+                      <div className="text-sm">
+                        {" "}
+                        {issueData.data.organization.repository.issue.title}
+                      </div>
+                    </div>
+                    <div className="text-xs pt-3 pl-6 text-gray-300">
+                      {" "}
+                      created at {getDate()} by{" "}
+                      {
+                        issueData.data.organization.repository.issue.author
+                          .login
+                      }
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="items-center justify-left p-6 w-full font-mont rounded-lg w-full py-3 text-base cursor-pointer bg-gray-100 text-white">
                 <div className="font-mont font-normal text-gray-600">
