@@ -1,6 +1,6 @@
-import gql from "graphql-tag";
+import { gql } from '@apollo/client';
 
-const GET_ISSUE = gql`
+export const GET_ISSUE = gql`
   query {
     organization(login: "OpenQDev") {
       repository(name: "app") {
@@ -20,4 +20,10 @@ const GET_ISSUE = gql`
   }
 `;
 
-export default GET_ISSUE;
+export const GET_CURRENT_USER_AVATAR_URL = gql`
+    query { 
+    viewer { 
+        avatarUrl
+    }
+    }
+`;

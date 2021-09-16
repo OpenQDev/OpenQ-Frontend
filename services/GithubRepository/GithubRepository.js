@@ -1,9 +1,9 @@
 import { ApolloClient, HttpLink, InMemoryCache, gql } from "@apollo/client";
-import GET_ISSUE from "../lib/queries/getIssue";
+import { GET_ISSUE, GET_CURRENT_USER_AVATAR_URL } from "./graphql/query";
 import fetch from "cross-fetch";
 import { setContext } from "@apollo/client/link/context";
 
-class IssueRepository {
+class GithubRepository {
   constructor() { }
 
   httpLink = new HttpLink({ uri: "https://api.github.com/graphql", fetch });
@@ -38,6 +38,21 @@ class IssueRepository {
 
     return promise;
   }
+
+  async fetchAvatarUrl() {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_CURRENT_USER_AVATAR_URL,
+        });
+        resolve(result);
+      } catch (e) {
+        reject(e);
+      }
+    });
+
+    return promise;
+  }
 }
 
-export default IssueRepository;
+export default GithubRepository;

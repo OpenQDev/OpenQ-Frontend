@@ -1,4 +1,4 @@
-const Reducer = (state, action) => {
+const StoreReducer = (state, action) => {
   console.log("action payload", action.payload);
 
   switch (action.type) {
@@ -12,4 +12,4 @@ const Reducer = (state, action) => {
   }
 };
 
-export default Reducer;
+export default StoreReducer;

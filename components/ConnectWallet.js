@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Context } from "./stateManagement/Store";
+import StoreContext from "../store/StoreContext";
 import { ethers } from "ethers";
 
 const ConnectWallet = () => {
-  const [state, dispatch] = useContext(Context);
+  const [state, dispatch] = useContext(StoreContext);
   const [userName, setUsername] = useState("");
   const [stateManager, setStateManager] = useState(true);
 

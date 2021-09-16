@@ -2,15 +2,15 @@ import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
 import Navbar from "../components/Navbar";
 import Head from "next/head";
-import Store from "../components/stateManagement/Store";
+import StoreProvider from "../store/StoreProvider";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Store>
+    <StoreProvider>
       <Navbar>
         <Component {...pageProps} />
       </Navbar>
-    </Store>
+    </StoreProvider>
   );
 }
 

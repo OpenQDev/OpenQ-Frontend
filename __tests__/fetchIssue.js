@@ -1,10 +1,10 @@
 import { expect } from "chai";
-import IssueRepository from "../services/IssueRepository";
+import GithubRepository from "../services/GithubRepository/GithubRepository";
 
-describe("IssueRepository Tests", function () {
+describe("GithubRepository Tests", function () {
     it("Should return an issue", async () => {
-        const issueRepository = new IssueRepository();
-        const response = await issueRepository.fetchIssue("mock id");
+        const githubRepository = new GithubRepository();
+        const response = await githubRepository.fetchIssue("mock id");
         console.log(response.data.organization);
         expect(response.data.organization.repository.issue.id).to.equal("MDU6SXNzdWU4NjA0MTQ3ODk=");
     });
