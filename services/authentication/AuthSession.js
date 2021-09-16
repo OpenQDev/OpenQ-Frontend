@@ -1,7 +1,6 @@
 class AuthSession {
     userId;
     accessToken;
-    userVerified;
 
     constructor(userId, accessToken) {
         this.userId = userId;

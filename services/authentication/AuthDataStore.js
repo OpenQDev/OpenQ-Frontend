@@ -1,4 +1,4 @@
-import AuthSession from '../AuthSession/AuthSession';
+import AuthSession from './AuthSession';
 
 class AuthDataStore {
     constructor() { }
@@ -42,4 +42,4 @@ class AuthDataStore {
     }
 }
 
-export default AsyncStorageAuthDataStore;
+export default AuthDataStore;
