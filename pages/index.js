@@ -3,7 +3,7 @@ import Image from "next/image";
 import BountyCardList from "../components/BountyCardList";
 import BountySearch from "../components/BountySearch";
 import ConnectWallet from "../components/ConnectWallet";
-import SignIn from "../components/SignIn";
+import AuthButton from "../components/Authentication/AuthButton";
 import CreateBounty from "../components/CreateBounty";
 import StackSearch from "../components/StackSearch";
 import { useEffect } from "react";
@@ -14,10 +14,8 @@ import { useQuery } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client";
 import ProfilePicture from "../components/ProfilePicture";
 import React from "react";
-import StoreContext from "../store/StoreContext";
 
 export default function Home() {
-  const [appState, setAppState] = React.useContext(StoreContext);
 
   return (
     <div>
@@ -32,7 +30,7 @@ export default function Home() {
           <BountySearch />
           <ConnectWallet />
           <ProfilePicture />
-          <SignIn />
+          <AuthButton />
         </div>
         <div className="flex pl-5 pt-5 pr-20 items-center justify-between">
           <h1 className="font-mont font-bold text-4xl">Dashboard</h1>

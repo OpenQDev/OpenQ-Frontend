@@ -1,23 +1,28 @@
 import React, { useEffect, useState, useContext } from "react";
-import StoreContext from "../store/StoreContext";
+import AuthContext from "../store/AuthStore/AuthContext";
 import Image from "next/image";
+import StoreContext from "../store/Store/StoreContext";
 
 const ProfilePicture = () => {
-    const [appState, setAppState] = React.useContext(StoreContext);
+    const [authState, setAuthState] = useContext(AuthContext);
+    const [appState, setAppState] = useContext(StoreContext);
 
     const [propicUrl, setProPicUrl] = useState(null);
 
     useEffect(() => {
-        async function readAuthSession() {
-            const authSession = await appState.authDataStore.readAuthSession();
-            if (authSession) {
+        async function setProfilePicture() {
+            const isAuthenticated = authState.isAuthenticated;
+            if (isAuthenticated) {
                 const res = await appState.githubRepository.fetchAvatarUrl();
                 const avatarUrl = res.data.viewer.avatarUrl;
                 setProPicUrl(avatarUrl);
+            } else {
+                const openQLogo = "https://avatars.githubusercontent.com/u/77402538?v=4";
+                setProPicUrl(openQLogo);
             }
         }
-        readAuthSession();
-    }, []);
+        setProfilePicture();
+    }, [authState]);
 
     return (
         <div>

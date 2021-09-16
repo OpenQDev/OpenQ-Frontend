@@ -1,11 +1,11 @@
 const StoreReducer = (state, action) => {
-  console.log("action payload", action.payload);
+  console.log(`${action.type} : ${action.payload}`);
 
   switch (action.type) {
-    case "UPDATE_NAME":
+    case "UPDATE_IS_AUTHENTICATED":
       return {
         ...state,
-        username: action.payload,
+        isAuthenticated: action.payload,
       };
     default:
       return state;

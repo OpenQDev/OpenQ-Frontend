@@ -1,5 +1,5 @@
-import GithubRepository from "../services/GithubRepository/GithubRepository";
-import AuthDataStore from "../services/authentication/AuthDataStore";
+import GithubRepository from "../../services/GithubRepository/GithubRepository";
+import AuthDataStore from "../../services/authentication/AuthDataStore";
 
 let InitialState = {};
 

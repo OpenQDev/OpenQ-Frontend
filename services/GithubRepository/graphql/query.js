@@ -22,8 +22,8 @@ export const GET_ISSUE = gql`
 
 export const GET_CURRENT_USER_AVATAR_URL = gql`
     query { 
-    viewer { 
-        avatarUrl
-    }
+      viewer { 
+          avatarUrl
+      }
     }
 `;

@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import AuthSession from "../../services/authentication/AuthSession";
-import StoreContext from "../../store/StoreContext";
+import AuthContext from "../../store/AuthStore/AuthContext";
+import { useRouter } from 'next/router';
 
 function GitHubAuth({ Component, pageProps }) {
+    const router = useRouter();
     const [authCode, setAuthCode] = useState("NO AUTH CODE");
     const [token, setToken] = useState("");
-    const [appState, setAppState] = React.useContext(StoreContext);
+
+    const [authState, setAuthState] = useContext(AuthContext);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -17,15 +20,14 @@ function GitHubAuth({ Component, pageProps }) {
     const exchangeAuthCodeForAccessToken = (authCode) => {
         axios.get(`https://development.openq.dev/auth?app=openq&code=${authCode}`)
             .then((res) => {
-                window.localStorage.setItem("res", JSON.stringify(res.data));
                 const accessToken = res.data.access_token;
                 const authSession = new AuthSession("mockId", accessToken);
 
                 setToken(accessToken);
 
-                appState.authDataStore.save(authSession);
+                setAuthState({ type: "LOGIN", payload: { user: "mockUser", token: accessToken } });
 
-                window.location = "http://localhost:3000";
+                router.push("http://localhost:3000");
             })
             .catch((error) => {
                 console.log(error);

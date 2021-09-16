@@ -3,42 +3,28 @@ import AuthSession from './AuthSession';
 class AuthDataStore {
     constructor() { }
 
+    isAuthenticated() {
+        const authSession = this.readAuthSession();
+        const isAuthenticated = authSession != "null";
+        console.log(authSession);
+        console.log(isAuthenticated);
+        return isAuthenticated;
+    }
+
     readAuthSession() {
-        const promise = new Promise((resolve, reject) => {
-            try {
-                const jsonValue = window.localStorage.getItem('@authSession');
-                const authSession = jsonValue != null ? JSON.parse(jsonValue) : null;
-                resolve(authSession);
-            } catch (e) {
-                reject(`Error retrieving auth session from data store: ", ${e}`);
-            }
-        });
-        return promise;
+        const jsonValue = window.localStorage.getItem('@authSession');
+        const authSession = jsonValue != null ? JSON.parse(jsonValue) : null;
+        return authSession;
     }
 
     save(authSession) {
-        const promise = new Promise((resolve, reject) => {
-            try {
-                const jsonValue = JSON.stringify(authSession);
-                window.localStorage.setItem('@authSession', jsonValue);
-                resolve(authSession);
-            } catch (e) {
-                reject(`Error saving auth session: ${e}`);
-            }
-        });
-        return promise;
+        const jsonValue = JSON.stringify(authSession);
+        window.localStorage.setItem('@authSession', jsonValue);
+        return authSession;
     };
 
     delete() {
-        const promise = new Promise(async (resolve, reject) => {
-            try {
-                await AsyncStorage.removeItem('@authSession');
-                resolve(true);
-            } catch (error) {
-                reject(`Error deleting auth session: ${error}`);
-            }
-        });
-        return promise;
+        window.localStorage.removeItem('@authSession');
     }
 }
 

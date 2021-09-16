@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
+import AuthContext from "../../store/AuthStore/AuthContext";
 
 const SignIn = () => {
+    const [appState, setAppState] = useContext(AuthContext);
 
-    const redirectToGithubAuth = () => {
+    const signIn = () => {
         const clientId = "client_id=5fbd39c6916b7efb63cc";
         const scopes = "scope=read:user%20public_repo";
         window.location = `https://github.com/login/oauth/authorize?${clientId}`;
@@ -11,7 +13,7 @@ const SignIn = () => {
     return (
         <div>
             <button
-                onClick={() => redirectToGithubAuth()}
+                onClick={() => signIn()}
                 className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
             >
                 Sign In

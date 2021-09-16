@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import StoreContext from "../store/StoreContext";
+import StoreContext from "../store/Store/StoreContext";
 import { ethers } from "ethers";
 
 const ConnectWallet = () => {
