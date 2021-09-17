@@ -1,7 +1,7 @@
 FROM node:alpine
+WORKDIR /app
 RUN apk update && apk upgrade && \
     apk add --no-cache bash git
-WORKDIR /app
 COPY . .
 RUN yarn
 RUN yarn build
