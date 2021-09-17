@@ -5,6 +5,5 @@ RUN apk update && apk upgrade && \
 WORKDIR /usr/src
 COPY . /usr/src
 RUN yarn
-RUN yarn build
 EXPOSE 3000
 CMD yarn dev
