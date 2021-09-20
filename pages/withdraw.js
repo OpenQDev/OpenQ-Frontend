@@ -3,7 +3,7 @@ import axios from "axios";
 import AuthContext from "../store/AuthStore/AuthContext";
 
 function Withdraw() {
-    const [issueUrl, setIssueUrl] = useState("");
+    const [issueUrl, setIssueUrl] = useState("https://github.com/OpenQDev/frontend/issues/3");
     const [authState, setAuthState] = useContext(AuthContext);
 
     const withdrawBounty = (event) => {
@@ -12,9 +12,9 @@ function Withdraw() {
         const token = window.localStorage.getItem('token');
         axios.post(`http://localhost:8090/withdraw`, {
             username: "alo9507",
-            issueId: "I_kwDOGAqhQc47ptzS",
+            issueId: "I_kwDOGAqhQc47ptzS", //
             payoutAddress: "0xDf9aF175CE0BB59bcAC9CbD965Cd46cfd9806277",
-            oauthToken: token
+            oauthToken: "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"
         })
             .then((response) => {
                 console.log(response);
@@ -32,13 +32,11 @@ function Withdraw() {
                     id="name"
                     placeholder="https://github.com/OpenQDev/frontend/issues/3"
                     type="text"
+                    value={issueUrl}
                     onChange={(event) => setIssueUrl(event.target.value)}
                 />
                 <button type="submit">Withdraw</button>
             </form>
-            <div>
-                {issueUrl}
-            </div>
         </div>
     );
 }
