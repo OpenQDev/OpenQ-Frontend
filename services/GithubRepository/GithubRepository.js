@@ -9,7 +9,7 @@ class GithubRepository {
   httpLink = new HttpLink({ uri: "https://api.github.com/graphql", fetch });
 
   authLink = setContext((_, { headers }) => {
-    const token = "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";
+    const token = "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";
     return {
       headers: {
         ...headers,

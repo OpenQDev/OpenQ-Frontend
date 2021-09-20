@@ -6,8 +6,6 @@ class AuthDataStore {
     isAuthenticated() {
         const authSession = this.readAuthSession();
         const isAuthenticated = authSession != "null";
-        console.log(authSession);
-        console.log(isAuthenticated);
         return isAuthenticated;
     }
 
