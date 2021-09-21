@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CreateBountyModal from "./createBountyModal";
+import CreateBountyModal from "./createBountyModal/CreateBountyModal";
 
 const CreateBounty = () => {
   const [showModal, setShowModal] = useState(false);

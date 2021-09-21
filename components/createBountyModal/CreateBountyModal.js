@@ -1,4 +1,5 @@
-import IssueRepository from "../services/IssueRepository";
+import IssueRepository from "../../services/IssueRepository";
+import TokenDropdown from "./TokenDropdown";
 import { useEffect, useState } from "react";
 import { getDefaultValues } from "@apollo/client/utilities";
 
@@ -171,7 +172,7 @@ const CreateBountyModal = (props) => {
                   </div>
                 )}
               </div>
-              <div className="items-center justify-left p-6 w-full font-mont rounded-lg w-full py-3 text-base cursor-pointer bg-gray-100 text-white">
+              <div className="flex flex-row items-center justify-left p-6 w-full font-mont rounded-lg w-full py-3 text-base cursor-pointer bg-gray-100 text-white">
                 <div className="font-mont font-normal text-gray-600">
                   {" "}
                   <div className="font-mont bg-gray-100 font-normal text-gray-600">
@@ -185,6 +186,9 @@ const CreateBountyModal = (props) => {
                       <button type="submit"></button>
                     </form>
                   </div>
+                </div>
+                <div className="dropdown">
+                  <TokenDropdown />
                 </div>
               </div>
             </div>
