@@ -41,6 +41,7 @@ const StackSearch = () => {
           </div>
         </button>
         <input
+          className="bg-gray-100 w-6/7 border-gray-100 outline-none"
           type="text"
           placeholder="Press enter to add tags"
           onKeyUp={addTags}

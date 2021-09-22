@@ -11,12 +11,19 @@ import styles from "../styles/Home.module.css";
 import { useState, useContext } from "react";
 import { setContext } from "@apollo/client/link/context";
 import { useQuery } from "@apollo/client";
+<<<<<<< HEAD
+=======
+import GET_ISSUE from "../lib/queries/getIssue";
+>>>>>>> fetch-github-issue
 import { ApolloProvider } from "@apollo/client";
 import ProfilePicture from "../components/ProfilePicture";
 import React from "react";
 
 export default function Home() {
+<<<<<<< HEAD
 
+=======
+>>>>>>> fetch-github-issue
   return (
     <div>
       <Head>
@@ -26,17 +33,17 @@ export default function Home() {
       </Head>
 
       <main>
-        <div className="flex flex-fill pl-5 pt-5 pr-20 pb-5 border-b items-center justify-between">
+        <div className="flex flex-fill pl-12 pt-5 pr-12 pb-5 border-b items-center justify-between">
           <BountySearch />
           <ConnectWallet />
           <ProfilePicture />
           <AuthButton />
         </div>
-        <div className="flex pl-5 pt-5 pr-20 items-center justify-between">
+        <div className="flex pl-12 pt-5 pr-12 items-center justify-between">
           <h1 className="font-mont font-bold text-4xl">Dashboard</h1>
           <CreateBounty />
         </div>
-        <div className="flex pl-5 pt-5 flex-col">
+        <div className="flex pl-12 pt-5 flex-col">
           <h2 className="font-mont font-normal text-lg text-gray-700">Layer</h2>
           <div className="flex pt-3 flex-grow flex-row space-x-2">
             <button className="layer-button">Front-End</button>
@@ -45,13 +52,13 @@ export default function Home() {
             </button>
           </div>
         </div>
-        <div className="flex pl-5 pt-5 flex-col">
+        <div className="flex pl-12 pt-5 flex-col">
           <h2 className="font-mont font-normal text-lg text-gray-700">Stack</h2>
           <div className="flex pt-3 flex-grow flex-row space-x-2">
             <StackSearch />
           </div>
         </div>
-        <div className="flex pl-5 pt-10 flex-col">
+        <div className="flex pl-12 pt-10 flex-col">
           <BountyCardList />
         </div>
       </main>
