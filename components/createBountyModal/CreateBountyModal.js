@@ -187,9 +187,7 @@ const CreateBountyModal = (props) => {
                     </form>
                   </div>
                 </div>
-                <div className="dropdown">
-                  <TokenDropdown />
-                </div>
+                <div className="dropdown">{/*  <TokenDropdown /> */}</div>
               </div>
             </div>
             {/*footer*/}
