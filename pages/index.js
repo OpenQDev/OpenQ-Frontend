@@ -11,19 +11,12 @@ import styles from "../styles/Home.module.css";
 import { useState, useContext } from "react";
 import { setContext } from "@apollo/client/link/context";
 import { useQuery } from "@apollo/client";
-<<<<<<< HEAD
-=======
-import GET_ISSUE from "../lib/queries/getIssue";
->>>>>>> fetch-github-issue
 import { ApolloProvider } from "@apollo/client";
 import ProfilePicture from "../components/ProfilePicture";
 import React from "react";
 
 export default function Home() {
-<<<<<<< HEAD
-
-=======
->>>>>>> fetch-github-issue
+  console.log("PAT", process.env.NEXT_PUBLIC_ANALYTICS_PAT);
   return (
     <div>
       <Head>
