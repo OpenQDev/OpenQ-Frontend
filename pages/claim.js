@@ -26,8 +26,6 @@ function Claim() {
                 const [orgName, repoName, issueId] = pathArray;
                 const resp = await appState.githubRepository.fetchIssue(orgName, repoName, issueId);
                 const globalIssueId = resp.data.organization.repository.issue.id;
-                console.log(globalIssueId);
-                console.log(payoutAddress);
                 const transaction = await contract.claimBounty(globalIssueId, payoutAddress);
                 await transaction.wait();
             } catch (error) {
