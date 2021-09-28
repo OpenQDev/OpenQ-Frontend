@@ -22,7 +22,7 @@ const CreateBountyModal = (props) => {
     await window.ethereum.request({ method: 'eth_requestAccounts' });
   }
 
-  async function fetchOwner() {
+  async function getNumber() {
     if (typeof window.ethereum !== 'undefined') {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       console.log({ provider });
