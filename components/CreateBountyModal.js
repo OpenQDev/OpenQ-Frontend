@@ -8,9 +8,10 @@ const CreateBountyModal = (props) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [orgName, setOrgName] = useState("");
   const [repoName, setRepoName] = useState("");
-  const [repoId, setRepoId] = useState("");
+  const [issueId, setIssueId] = useState("");
   const [issueData, setIssueData] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [bountyAddress, setBountyAddress] = useState(null);
 
   const openQAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
 
@@ -29,7 +30,7 @@ const CreateBountyModal = (props) => {
       const contract = new ethers.Contract(openQAddress, OpenQ.abi, provider);
       try {
         const bountyAddress = await contract.getBountyAddress(id);
-        console.log('bounty address: ', bountyAddress);
+        return bountyAddress
       } catch (err) {
         console.log("Error: ", err);
       }
@@ -46,6 +47,8 @@ const CreateBountyModal = (props) => {
       try {
         const transaction = await contract.mintBounty(id)
         await transaction.wait()
+        const address = await getBountyAddress()
+        setBountyAddress(address)
       } catch (error) {
         if (error?.data?.message.includes("Issue already exists for given id")) {
           alert("Issue already exists")
@@ -86,25 +89,25 @@ const CreateBountyModal = (props) => {
     
     setOrgName(pathArray[1]);
     setRepoName(pathArray[2])
-    setRepoId(pathArray[4]);
+    setIssueId(pathArray[4]);
   }, [searchTerm]);
 
   useEffect(() => {
     async function fetchIssue() {
-      console.log(`${orgName}/${repoName}/${repoId}`)
+      console.log(`${orgName}/${repoName}/${issueId}`)
 
-      if (orgName && repoName && repoId) {
+      if (orgName && repoName && issueId) {
         const response = await appState.githubRepository.fetchIssue(
           orgName,
           repoName,
-          parseInt(repoId)
+          parseInt(issueId)
         );
         setIssueData(response);
         setIsLoading(false);
       }
     }
     fetchIssue()
-  }, [repoId]);
+  }, [issueId]);
 
   return (
     <div>
@@ -214,18 +217,12 @@ const CreateBountyModal = (props) => {
               <button
                 className="confirm-btn"
                 type="button"
-                onClick={() => mintBounty("mockid")}
+                onClick={() => mintBounty(issueId)}
               >
                 Mint Bounty
               </button>
-              <button
-                className="confirm-btn"
-                type="button"
-                onClick={() => getBountyAddress("mockid")}
-              >
-                Get Address
-              </button>
             </div>
+                    <div><p>{bountyAddress}</p></div>
           </div>
         </div>
       </div>
