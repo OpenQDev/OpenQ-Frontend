@@ -7,16 +7,19 @@ switch ("local") {
     case "development":
         InitialState = {
             githubRepository: new GithubRepository(),
+            publicAddress: ""
         };
         break;
     case "production":
         InitialState = {
             githubRepository: new GithubRepository(),
+            publicAddress: ""
         };
         break;
     case "local":
         InitialState = {
             githubRepository: new GithubRepository(),
+            publicAddress: ""
         };
         break;
     default:

@@ -3,32 +3,29 @@ import StoreContext from "../store/Store/StoreContext";
 import { ethers } from "ethers";
 
 const ConnectWallet = () => {
-  const [state, dispatch] = useContext(StoreContext);
-  const [userName, setUsername] = useState("");
-  const [stateManager, setStateManager] = useState(true);
+  const [appState, dispatch] = useContext(StoreContext);
+  const [metamask, setMetamask] = useState(false);
+
+  const checkForMetamask = () => {
+    const { ethereum } = window;
+    return Boolean(ethereum && ethereum.isMetaMask);
+
+  };
 
   useEffect(() => {
-    if (userName && stateManager) {
-      console.log("updating to: ", userName);
-      dispatch({ type: "UPDATE_NAME", payload: userName });
-
-      //Connect to Metamask
-      window.ethereum.request({ method: "eth_requestAccounts" });
-      setStateManager(false);
-    }
-  });
-
-  useEffect(() => {
-    if (!stateManager) {
-      console.log(state);
+    if (!appState.publicAddress) {
+      const getAccounts = async () => {
+        const address = await window.ethereum.request({ method: "eth_requestAccounts" });
+        dispatch({ type: "UPDATE_ADDRESS", payload: address[0] });
+      };
+      getAccounts();
     }
   });
 
   const updateConnection = () => {
-    console.log("update Requested...");
-    console.log(state);
-    setUsername("BOBBY");
+    console.log(appState.publicAddress);
   };
+
   return (
     <div>
       <button

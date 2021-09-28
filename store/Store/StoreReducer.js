@@ -7,6 +7,11 @@ const StoreReducer = (state, action) => {
         ...state,
         isAuthenticated: action.payload,
       };
+    case "UPDATE_ADDRESS":
+      return {
+        ...state,
+        publicAddress: action.payload,
+      };
     default:
       return state;
   }
