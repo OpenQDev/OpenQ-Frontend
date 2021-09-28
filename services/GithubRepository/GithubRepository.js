@@ -31,8 +31,7 @@ class GithubRepository {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
-          query: GET_ISSUE,
-          variables: { orgName, repoName, issueId },
+          query: GET_ISSUE, variables: { orgName, repoName, issueId },
         });
         resolve(result);
       } catch (e) {

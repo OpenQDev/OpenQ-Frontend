@@ -1,9 +1,8 @@
-import IssueRepository from "../../services/IssueRepository";
-import TokenDropdown from "./TokenDropdown";
-import { useEffect, useState } from "react";
-import { getDefaultValues } from "@apollo/client/utilities";
+import { useEffect, useState, useContext } from "react";
+import StoreContext from "../store/Store/StoreContext";
 
 const CreateBountyModal = (props) => {
+  const [appState, setAppState] = useContext(StoreContext);
   const [searchTerm, setSearchTerm] = useState("");
   const [orgName, setOrgName] = useState("");
   const [repoName, setRepoName] = useState("");
@@ -71,8 +70,7 @@ const CreateBountyModal = (props) => {
        TODO: Throws error and breaks if URL does not exist
     */
     if (orgName && repoName && repoId) {
-      const issueRepository = new IssueRepository();
-      const response = await issueRepository.fetchIssue(
+      const response = await appState.githubRepository.fetchIssue(
         orgName,
         repoName,
         parseInt(repoId)
@@ -98,7 +96,6 @@ const CreateBountyModal = (props) => {
                 Send funds to any GitHub Issue
               </h3>
             </div>
-            {/*body*/}
             <div className="flex flex-col pl-8 pr-6 space-y-2">
               <div className="border-gray-100 border-2 rounded-lg">
                 <div className="flex flex-row space-x-2 items-center p-2 font-mont rounded-lg py-1 text-base cursor-pointer bg-gray-100 text-white">
@@ -137,7 +134,6 @@ const CreateBountyModal = (props) => {
                     />
                   </div>
                 </div>
-                {/*   Conditional Issue Data */}
                 {isLoading ? null : (
                   <div className="flex flex-col pb-3 pt-3 pl-5 font-mont">
                     <div className="flex flex-grow flex-row items-center space-x-2">
@@ -187,10 +183,8 @@ const CreateBountyModal = (props) => {
                     </form>
                   </div>
                 </div>
-                <div className="dropdown">{/*  <TokenDropdown /> */}</div>
               </div>
             </div>
-            {/*footer*/}
             <div className="flex items-center justify-center p-6 rounded-b w-full">
               <button
                 className="confirm-btn"

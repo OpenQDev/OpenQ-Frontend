@@ -7,19 +7,16 @@ switch ("local") {
     case "development":
         InitialState = {
             githubRepository: new GithubRepository(),
-            authDataStore: new AuthDataStore(),
         };
         break;
     case "production":
         InitialState = {
             githubRepository: new GithubRepository(),
-            authDataStore: new AuthDataStore(),
         };
         break;
     case "local":
         InitialState = {
             githubRepository: new GithubRepository(),
-            authDataStore: new AuthDataStore(),
         };
         break;
     default:

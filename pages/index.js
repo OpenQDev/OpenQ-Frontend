@@ -16,7 +16,6 @@ import ProfilePicture from "../components/ProfilePicture";
 import React from "react";
 
 export default function Home() {
-  console.log("PAT", process.env.NEXT_PUBLIC_ANALYTICS_PAT);
   return (
     <div>
       <Head>
