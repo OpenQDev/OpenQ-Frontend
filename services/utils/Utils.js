@@ -1,0 +1,28 @@
+class Utils {
+    constructor() { }
+
+    parseGitHubUrl = (githubUrl) => {
+        let url;
+        let pathArray = [];
+        let githubData = [];
+
+        try {
+            url = new URL(githubUrl);
+            pathArray = url.pathname.split('/');
+        } catch (error) {
+            return githubData;
+        }
+        // orgName
+        githubData.push(pathArray[1]);
+
+        // repoName
+        githubData.push(pathArray[2]);
+
+        // issueId
+        githubData.push(pathArray[4]);
+
+        return githubData;
+    };
+}
+
+export default Utils;

@@ -5,7 +5,7 @@ import { ethers } from 'ethers';
 
 const CreateBountyModal = (props) => {
   const [appState, setAppState] = useContext(StoreContext);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [issueUrl, setIssueUrl] = useState("");
   const [orgName, setOrgName] = useState("");
   const [repoName, setRepoName] = useState("");
   const [issueId, setIssueId] = useState("");
@@ -72,19 +72,12 @@ const CreateBountyModal = (props) => {
 
   useEffect(() => {
     // https://github.com/OpenQDev/contracts/issues/44
-    let url;
-    let pathArray = [];
-    try {
-      url = new URL(searchTerm);
-      pathArray = url.pathname.split('/');
-    } catch (error) {
-      return;
-    }
-
-    setOrgName(pathArray[1]);
-    setRepoName(pathArray[2]);
-    setIssueId(pathArray[4]);
-  }, [searchTerm]);
+    let pathArray = appState.utils.parseGitHubUrl(issueUrl);
+    const [orgName, repoName, issueId] = pathArray;
+    setOrgName(orgName);
+    setRepoName(repoName);
+    setIssueId(issueId);
+  }, [issueUrl, appState.utils]);
 
   useEffect(() => {
     async function fetchIssue() {
@@ -151,7 +144,7 @@ const CreateBountyModal = (props) => {
                       autoComplete="off"
                       type="text"
                       onChange={(event) => {
-                        setSearchTerm(event.target.value);
+                        setIssueUrl(event.target.value);
                       }}
                     />
                   </div>
