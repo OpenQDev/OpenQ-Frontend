@@ -26,7 +26,6 @@ const CreateBountyModal = (props) => {
   async function getBountyAddress(id) {
     if (typeof window.ethereum !== 'undefined') {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      console.log({ provider });
       const contract = new ethers.Contract(openQAddress, OpenQ.abi, provider);
       try {
         const bountyAddress = await contract.getBountyAddress(id);
@@ -44,7 +43,6 @@ const CreateBountyModal = (props) => {
 
       await requestAccount();
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      console.log({ provider });
       const signer = provider.getSigner();
       const contract = new ethers.Contract(openQAddress, OpenQ.abi, signer);
       try {
@@ -60,12 +58,6 @@ const CreateBountyModal = (props) => {
       }
     }
   }
-
-  const searchIssue = (event) => {
-    event.preventDefault(); // don't redirect the page
-    // where we'll add our form logic
-    console.log("input submit: ", event.target.name.value);
-  };
 
   const getDate = () => {
     const rawDate = issueData.data.organization.repository.issue.createdAt;
@@ -84,8 +76,6 @@ const CreateBountyModal = (props) => {
 
   useEffect(() => {
     async function fetchIssue() {
-      console.log(`${orgName}/${repoName}/${issueId}`);
-
       if (orgName && repoName && issueId) {
         const response = await appState.githubRepository.fetchIssue(
           orgName,

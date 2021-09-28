@@ -13,19 +13,20 @@ function Claim() {
         await window.ethereum.request({ method: 'eth_requestAccounts' });
     }
 
-    async function claimBounty(issueId) {
+    async function claimBounty(event) {
+        event.preventDefault();
+        const issueUrl = event.target.value;
         if (typeof window.ethereum !== 'undefined') {
             await requestAccount();
             const provider = new ethers.providers.Web3Provider(window.ethereum);
-            console.log({ provider });
             const signer = provider.getSigner();
             const payoutAddress = await signer.getAddress();
-            console.log(payoutAddress);
             const contract = new ethers.Contract(openQAddress, OpenQ.abi, signer);
             try {
                 let pathArray = appState.utils.parseGitHubUrl(issueUrl);
                 const [orgName, repoName, issueId] = pathArray;
-                const transaction = await contract.claimBounty(issueId, payoutAddress);
+                const globalIssueId = await appState.githubRepository.fetchIssue(orgName, repoName, issueId);
+                const transaction = await contract.claimBounty(globalIssueId, payoutAddress);
                 await transaction.wait();
             } catch (error) {
                 console.log("claimBounty error:", error);
@@ -35,7 +36,7 @@ function Claim() {
 
     return (
         <div className="font-mont bg-gray-100 font-normal text-gray-600">
-            <form onSubmit={(event) => claimBounty(event.target.value)}>
+            <form onSubmit={(event) => claimBounty(event)}>
                 <input
                     className="bg-gray-100 w-6/7 border-gray-100 outline-none"
                     id="name"
