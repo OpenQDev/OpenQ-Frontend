@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import StoreContext from "../store/Store/StoreContext";
 import OpenQ from '../artifacts/contracts/OpenQ.sol/OpenQ.json';
+import { ethers } from 'ethers'
 
 const CreateBountyModal = (props) => {
   const [appState, setAppState] = useContext(StoreContext);
@@ -11,29 +12,29 @@ const CreateBountyModal = (props) => {
   const [issueData, setIssueData] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  // const openQAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+  const openQAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
 
-  // const updateModal = () => {
-  //   props.modalVisibility(false);
-  // };
+  const updateModal = () => {
+    props.modalVisibility(false);
+  };
 
-  // async function requestAccount() {
-  //   await window.ethereum.request({ method: 'eth_requestAccounts' });
-  // }
+  async function requestAccount() {
+    await window.ethereum.request({ method: 'eth_requestAccounts' });
+  }
 
-  // async function fetchData() {
-  //   if (typeof window.ethereum !== 'undefined') {
-  //     const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //     console.log({ provider });
-  //     const contract = new ethers.Contract(openQAddress, OpenQ.abi, provider);
-  //     try {
-  //       const data = await contract.greet();
-  //       console.log('data: ', data);
-  //     } catch (err) {
-  //       console.log("Error: ", err);
-  //     }
-  //   }
-  // }
+  async function fetchOwner() {
+    if (typeof window.ethereum !== 'undefined') {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      console.log({ provider });
+      const contract = new ethers.Contract(openQAddress, OpenQ.abi, provider);
+      try {
+        const number = await contract.getValue();
+        console.log('number: ', number.toNumber());
+      } catch (err) {
+        console.log("Error: ", err);
+      }
+    }
+  }
 
   const searchIssue = (event) => {
     event.preventDefault(); // don't redirect the page
@@ -210,7 +211,7 @@ const CreateBountyModal = (props) => {
               <button
                 className="confirm-btn"
                 type="button"
-                onClick={() => updateModal()}
+                onClick={() => fetchOwner()}
               >
                 Create Bounty
               </button>
