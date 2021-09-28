@@ -8,7 +8,7 @@ const CreateBountyModal = (props) => {
   const [issueUrl, setIssueUrl] = useState("");
   const [orgName, setOrgName] = useState("");
   const [repoName, setRepoName] = useState("");
-  const [issueId, setIssueId] = useState("");
+  const [issueId, setIssueId] = useState(0);
   const [issueData, setIssueData] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [bountyAddress, setBountyAddress] = useState("No Issue Address Yet");
@@ -38,7 +38,7 @@ const CreateBountyModal = (props) => {
 
   async function mintBounty(id) {
     if (typeof window.ethereum !== 'undefined') {
-      const resp = await appState.githubRepository.fetchIssue(orgName, repoName, parseInt(issueId));
+      const resp = await appState.githubRepository.fetchIssue(orgName, repoName, issueId);
       const globalIssueId = resp.data.organization.repository.issue.id;
 
       await requestAccount();
@@ -80,7 +80,7 @@ const CreateBountyModal = (props) => {
         const response = await appState.githubRepository.fetchIssue(
           orgName,
           repoName,
-          parseInt(issueId)
+          issueId
         );
         setIssueData(response);
         setIsLoading(false);

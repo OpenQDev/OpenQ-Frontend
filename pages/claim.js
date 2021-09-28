@@ -15,7 +15,6 @@ function Claim() {
 
     async function claimBounty(event) {
         event.preventDefault();
-        const issueUrl = event.target.value;
         if (typeof window.ethereum !== 'undefined') {
             await requestAccount();
             const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -25,7 +24,10 @@ function Claim() {
             try {
                 let pathArray = appState.utils.parseGitHubUrl(issueUrl);
                 const [orgName, repoName, issueId] = pathArray;
-                const globalIssueId = await appState.githubRepository.fetchIssue(orgName, repoName, issueId);
+                const resp = await appState.githubRepository.fetchIssue(orgName, repoName, issueId);
+                const globalIssueId = resp.data.organization.repository.issue.id;
+                console.log(globalIssueId);
+                console.log(payoutAddress);
                 const transaction = await contract.claimBounty(globalIssueId, payoutAddress);
                 await transaction.wait();
             } catch (error) {

@@ -19,7 +19,7 @@ class Utils {
         githubData.push(pathArray[2]);
 
         // issueId
-        githubData.push(pathArray[4]);
+        githubData.push(parseInt(pathArray[4]));
 
         return githubData;
     };
