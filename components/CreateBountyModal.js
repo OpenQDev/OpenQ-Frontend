@@ -22,16 +22,35 @@ const CreateBountyModal = (props) => {
     await window.ethereum.request({ method: 'eth_requestAccounts' });
   }
 
-  async function fetchOwner() {
+  async function getBountyAddress(id) {
     if (typeof window.ethereum !== 'undefined') {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       console.log({ provider });
       const contract = new ethers.Contract(openQAddress, OpenQ.abi, provider);
       try {
-        const number = await contract.getValue();
-        console.log('number: ', number.toNumber());
+        const bountyAddress = await contract.getBountyAddress(id);
+        console.log('bounty address: ', bountyAddress);
       } catch (err) {
         console.log("Error: ", err);
+      }
+    }
+  }
+
+  async function mintBounty(id) {
+    if (typeof window.ethereum !== 'undefined') {
+      await requestAccount()
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      console.log({ provider })
+      const signer = provider.getSigner()
+      const contract = new ethers.Contract(openQAddress, OpenQ.abi, signer)
+      try {
+        const transaction = await contract.mintBounty(id)
+        await transaction.wait()
+      } catch (error) {
+        if (error.data.message.includes("Issue already exists for given id")) {
+          alert("Issue already exists")
+        }
+        console.log(error)
       }
     }
   }
@@ -211,9 +230,16 @@ const CreateBountyModal = (props) => {
               <button
                 className="confirm-btn"
                 type="button"
-                onClick={() => fetchOwner()}
+                onClick={() => mintBounty("mockid")}
               >
-                Create Bounty
+                Mint Bounty
+              </button>
+              <button
+                className="confirm-btn"
+                type="button"
+                onClick={() => getBountyAddress("mockid")}
+              >
+                Get Address
               </button>
             </div>
           </div>
