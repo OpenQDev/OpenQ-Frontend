@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import StoreContext from "../store/Store/StoreContext";
 import OpenQ from '../artifacts/contracts/OpenQ.sol/OpenQ.json';
-import { ethers } from 'ethers'
+import { ethers } from 'ethers';
 
 const CreateBountyModal = (props) => {
   const [appState, setAppState] = useContext(StoreContext);
@@ -11,7 +11,7 @@ const CreateBountyModal = (props) => {
   const [issueId, setIssueId] = useState("");
   const [issueData, setIssueData] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [bountyAddress, setBountyAddress] = useState(null);
+  const [bountyAddress, setBountyAddress] = useState("No Issue Address Yet");
 
   const openQAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
 
@@ -30,41 +30,35 @@ const CreateBountyModal = (props) => {
       const contract = new ethers.Contract(openQAddress, OpenQ.abi, provider);
       try {
         const bountyAddress = await contract.getBountyAddress(id);
-        return bountyAddress
+        return bountyAddress;
       } catch (err) {
-        console.log("Error: ", err);
+        console.log("getBountyAddress Error: ", err);
       }
     }
   }
 
   async function mintBounty(id) {
     if (typeof window.ethereum !== 'undefined') {
-      await requestAccount()
+      await requestAccount();
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      console.log({ provider })
-      const signer = provider.getSigner()
-      const contract = new ethers.Contract(openQAddress, OpenQ.abi, signer)
+      console.log({ provider });
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(openQAddress, OpenQ.abi, signer);
       try {
-        const transaction = await contract.mintBounty(id)
-        await transaction.wait()
-        const address = await getBountyAddress()
-        setBountyAddress(address)
+        const transaction = await contract.mintBounty(id);
+        await transaction.wait();
+        const address = await getBountyAddress(id);
+        setBountyAddress(address);
       } catch (error) {
         if (error?.data?.message.includes("Issue already exists for given id")) {
-          alert("Issue already exists")
+          alert("Issue already exists");
         }
-        console.log(error)
+        console.log(error);
       }
     }
   }
 
   const searchIssue = (event) => {
-    event.preventDefault(); // don't redirect the page
-    // where we'll add our form logic
-    console.log("input submit: ", event.target.name.value);
-  };
-
-  const storeAmount = (event) => {
     event.preventDefault(); // don't redirect the page
     // where we'll add our form logic
     console.log("input submit: ", event.target.name.value);
@@ -78,23 +72,23 @@ const CreateBountyModal = (props) => {
 
   useEffect(() => {
     // https://github.com/OpenQDev/contracts/issues/44
-   let url
-   let pathArray = []
-   try {
-    url = new URL(searchTerm)
-    pathArray = url.pathname.split('/');
-   } catch (error) {
-     return
-   }
-    
+    let url;
+    let pathArray = [];
+    try {
+      url = new URL(searchTerm);
+      pathArray = url.pathname.split('/');
+    } catch (error) {
+      return;
+    }
+
     setOrgName(pathArray[1]);
-    setRepoName(pathArray[2])
+    setRepoName(pathArray[2]);
     setIssueId(pathArray[4]);
   }, [searchTerm]);
 
   useEffect(() => {
     async function fetchIssue() {
-      console.log(`${orgName}/${repoName}/${issueId}`)
+      console.log(`${orgName}/${repoName}/${issueId}`);
 
       if (orgName && repoName && issueId) {
         const response = await appState.githubRepository.fetchIssue(
@@ -106,7 +100,7 @@ const CreateBountyModal = (props) => {
         setIsLoading(false);
       }
     }
-    fetchIssue()
+    fetchIssue();
   }, [issueId]);
 
   return (
@@ -200,15 +194,7 @@ const CreateBountyModal = (props) => {
                 <div className="font-mont font-normal text-gray-600">
                   {" "}
                   <div className="font-mont bg-gray-100 font-normal text-gray-600">
-                    <form onSubmit={storeAmount}>
-                      <input
-                        className="bg-gray-100 w-6/7 border-gray-100 outline-none"
-                        id="name"
-                        placeholder="0"
-                        type="text"
-                      />
-                      <button type="submit"></button>
-                    </form>
+                    {bountyAddress}
                   </div>
                 </div>
               </div>
@@ -222,7 +208,6 @@ const CreateBountyModal = (props) => {
                 Mint Bounty
               </button>
             </div>
-                    <div><p>{bountyAddress}</p></div>
           </div>
         </div>
       </div>
