@@ -39,15 +39,18 @@ const CreateBountyModal = (props) => {
 
   async function mintBounty(id) {
     if (typeof window.ethereum !== 'undefined') {
+      const resp = await appState.githubRepository.fetchIssue(orgName, repoName, parseInt(issueId));
+      const globalIssueId = resp.data.organization.repository.issue.id;
+
       await requestAccount();
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       console.log({ provider });
       const signer = provider.getSigner();
       const contract = new ethers.Contract(openQAddress, OpenQ.abi, signer);
       try {
-        const transaction = await contract.mintBounty(id);
+        const transaction = await contract.mintBounty(globalIssueId);
         await transaction.wait();
-        const address = await getBountyAddress(id);
+        const address = await getBountyAddress(globalIssueId);
         setBountyAddress(address);
       } catch (error) {
         if (error?.data?.message.includes("Issue already exists for given id")) {
@@ -196,7 +199,7 @@ const CreateBountyModal = (props) => {
               <button
                 className="confirm-btn"
                 type="button"
-                onClick={() => mintBounty(issueId)}
+                onClick={() => mintBounty()}
               >
                 Mint Bounty
               </button>
