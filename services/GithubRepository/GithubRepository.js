@@ -25,9 +25,6 @@ class GithubRepository {
   });
 
   async fetchIssue(orgName, repoName, issueId) {
-    /*    const orgName = "OpenQDev";
-    const repoName = "app";
-    const issueId = 86; */
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({

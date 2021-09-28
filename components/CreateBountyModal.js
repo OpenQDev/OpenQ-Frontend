@@ -47,7 +47,7 @@ const CreateBountyModal = (props) => {
         const transaction = await contract.mintBounty(id)
         await transaction.wait()
       } catch (error) {
-        if (error.data.message.includes("Issue already exists for given id")) {
+        if (error?.data?.message.includes("Issue already exists for given id")) {
           alert("Issue already exists")
         }
         console.log(error)
@@ -73,53 +73,37 @@ const CreateBountyModal = (props) => {
     return date.toDateString().split(" ").slice(1).join(" ");
   };
 
-  //#endregion
   useEffect(() => {
-    const gitHubHome = "https://github.com/";
+    // https://github.com/OpenQDev/contracts/issues/44
+   let url
+   let pathArray = []
+   try {
+    url = new URL(searchTerm)
+    pathArray = url.pathname.split('/');
+   } catch (error) {
+     return
+   }
+    
+    setOrgName(pathArray[1]);
+    setRepoName(pathArray[2])
+    setRepoId(pathArray[4]);
+  }, [searchTerm]);
 
-    /*
-    Query GitHub issue link to fetch graphQL API
-    A correct search string looks like this:
-    https://github.com/openqdev/app/issues/86
+  useEffect(() => {
+    async function fetchIssue() {
+      console.log(`${orgName}/${repoName}/${repoId}`)
 
-
-    Currently doesnt support any error handling
-    */
-    if (gitHubHome === searchTerm.slice(0, 19)) {
-      const orgStringIndex = 19 + parseInt(searchTerm.slice(19).search("/"));
-      if (orgStringIndex > 18) {
-        setOrgName(searchTerm.slice(19, orgStringIndex));
-        const repoStringIndex =
-          orgStringIndex +
-          parseInt(searchTerm.slice(orgStringIndex + 1).search("/"));
-        if (repoStringIndex > orgStringIndex + 1) {
-          setRepoName(
-            searchTerm.slice(orgStringIndex + 1, repoStringIndex + 1)
-          );
-          const issueIdIndex = repoStringIndex + 9;
-          const issueId = searchTerm.slice(issueIdIndex);
-          if (issueId) {
-            setRepoId(issueId);
-          }
-        }
+      if (orgName && repoName && repoId) {
+        const response = await appState.githubRepository.fetchIssue(
+          orgName,
+          repoName,
+          parseInt(repoId)
+        );
+        setIssueData(response);
+        setIsLoading(false);
       }
     }
-  });
-
-  useEffect(async () => {
-    /* Fetch issue data if search query is complete
-       TODO: Throws error and breaks if URL does not exist
-    */
-    if (orgName && repoName && repoId) {
-      const response = await appState.githubRepository.fetchIssue(
-        orgName,
-        repoName,
-        parseInt(repoId)
-      );
-      /*   console.log("res: ", response.data.organization.repository); */
-      setIssueData(response);
-      setIsLoading(false);
-    }
+    fetchIssue()
   }, [repoId]);
 
   return (
@@ -131,7 +115,7 @@ const CreateBountyModal = (props) => {
             {/*header*/}
             <div className="flex flex-col items-center justify-center p-5 rounded-t">
               <h3 className="text-3xl text-gray-700 font-semibold">
-                Create Bounty
+                Mint Bounty
               </h3>
               <h3 className="text-2xl pt-3 w-2/3 text-center text-gray-300">
                 Send funds to any GitHub Issue
