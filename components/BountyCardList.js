@@ -5,6 +5,7 @@ import { ethers } from 'ethers';
 
 const BountyCardList = () => {
   const [appState, dispatch] = useContext(StoreContext);
+  const [issueIds, setIssueIds]  = useState([])
 
   const bountyData = [
     {repoName: "uniswap/uniswap", issueName: "Issue name"},
@@ -19,31 +20,52 @@ const BountyCardList = () => {
       const contract = new ethers.Contract(appState.openQAddress, appState.OpenQ.abi, provider);
       try {
         const issueIds = await contract.getIssueIds();
-        console.log(issueIds);
+        setIssueIds(issueIds)
       } catch (err) {
         console.log("getAllIssues Error: ", err);
       }
     }
   }
 
-  async function getBalanceOfBounty(tokenAddress, bountyAddress) {
+  async function getIssueAddresses() {
     if (typeof window.ethereum !== 'undefined') {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const contract = new ethers.Contract(appState.openQAddress, appState.OpenQ.abi, provider);
       try {
-        const bountyAddress = await contract.getBountyAddress(id);
-        return bountyAddress;
+        issueIds.foreach(async (issueId) => {
+          const issueAddress = await contract.issueToAddress(issueId);
+          issueIdToAddress[issueId] = issueAddress
+        })
+        console.log(JSON.stringify(issueIdToAddress))
       } catch (err) {
-        console.log("getBountyAddress Error: ", err);
+        console.log("getIssueAddresses Error: ", err);
       }
     }
   }
 
+  // async function getIssueAddresses() {
+  //   if (typeof window.ethereum !== 'undefined') {
+  //     const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //     const contract = new ethers.Contract(appState.openQAddress, appState.OpenQ.abi, provider);
+  //     try {
+  //       for (entry in issueToAddress) {
+  //         appState.tokenAddresses.forEach(tokenAddress => {
+  //           const issueAddress = await contract.issueToAddress(issueId);
+  //         });
+  //       }
+  //     } catch (err) {
+  //       console.log("getIssueAddresses Error: ", err);
+  //     }
+  //   }
+  // }
+
   useEffect(() =>{
-    getAllIssues()
-    // appState.tokenAddresses.forEach(tokenAddress => {
-      
-    // });
+    async function populateBountyData() {
+      await getAllIssues()
+      await getIssueAddresses()
+      // await getIssueBalances()
+    }
+    populateBountyData
   }, [])
 
   return (
