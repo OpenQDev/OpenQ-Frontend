@@ -3,7 +3,7 @@ import { useState } from "react";
 import BountyCardDetails from "./BountyCardDetails";
 
 const BountyCard = (props) => {
-  const { repoName, issueName } = props
+  const { repoName, issueName, avatarUrl, labels } = props
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -36,17 +36,17 @@ const BountyCard = (props) => {
           </div>
           <div className="flex flex-col">
             <Image
-              src="/BountyMaterial/uniswap.png"
-              alt="Uniswap"
+              src={avatarUrl}
+              alt="avatarUrl"
               width="51"
               height="51"
             />
           </div>
         </div>
         <div className="flex flex-row justify-between pt-3 pl-6 pr-3">
-          <button className="font-mont rounded-md text-xs py-1 px-2 font-bold cursor-pointe bg-pink-500 text-white">
-            Solidity
-          </button>
+          {labels.map((label, index) => {
+              return <button key={index} className="font-mont rounded-md text-xs py-1 px-2 font-bold cursor-pointe bg-pink-500 text-white">{label.name}</button>
+            })}
           <div className="flex flex-row space-x-2">
             <svg
               width="22"

@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache, gql } from "@apollo/client";
-import { GET_ISSUE, GET_CURRENT_USER_AVATAR_URL } from "./graphql/query";
+import { GET_ISSUE, GET_CURRENT_USER_AVATAR_URL, GET_ISSUE_BY_ID } from "./graphql/query";
 import fetch from "cross-fetch";
 import { setContext } from "@apollo/client/link/context";
 
@@ -29,6 +29,21 @@ class GithubRepository {
       try {
         const result = await this.client.query({
           query: GET_ISSUE, variables: { orgName, repoName, issueId },
+        });
+        resolve(result);
+      } catch (e) {
+        reject(e);
+      }
+    });
+
+    return promise;
+  }
+
+  async fetchIssueById(issueId) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_ISSUE_BY_ID, variables: { issueId },
         });
         resolve(result);
       } catch (e) {
