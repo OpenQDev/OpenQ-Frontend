@@ -2,7 +2,8 @@ import Image from "next/image";
 import { useState } from "react";
 import BountyCardDetails from "./BountyCardDetails";
 
-const BountyCard = () => {
+const BountyCard = (props) => {
+  const { repoName, issueName } = props
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -27,10 +28,10 @@ const BountyCard = () => {
                   d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"
                 ></path>
               </svg>
-              <div>uniswap/uniswap-v3-core</div>
+            <div>{repoName}</div>
             </div>
             <div className="font-bold pl-6">
-              Libraries FullMath.sol and FixedPoint...
+              {issueName}
             </div>
           </div>
           <div className="flex flex-col">

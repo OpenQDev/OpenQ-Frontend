@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext } from "react";
 import StoreContext from "../store/Store/StoreContext";
-import OpenQ from '../artifacts/contracts/OpenQ.sol/OpenQ.json';
 import { ethers } from 'ethers';
 
 const CreateBountyModal = (props) => {
@@ -13,8 +12,6 @@ const CreateBountyModal = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [bountyAddress, setBountyAddress] = useState("No Issue Address Yet");
 
-  const openQAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
-
   const updateModal = () => {
     props.modalVisibility(false);
   };
@@ -26,7 +23,7 @@ const CreateBountyModal = (props) => {
   async function getBountyAddress(id) {
     if (typeof window.ethereum !== 'undefined') {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = new ethers.Contract(openQAddress, OpenQ.abi, provider);
+      const contract = new ethers.Contract(appState.openQAddress, appState.OpenQ.abi, provider);
       try {
         const bountyAddress = await contract.getBountyAddress(id);
         return bountyAddress;
@@ -44,7 +41,7 @@ const CreateBountyModal = (props) => {
       await requestAccount();
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      const contract = new ethers.Contract(openQAddress, OpenQ.abi, signer);
+      const contract = new ethers.Contract(appState.openQAddress, appState.OpenQ.abi, signer);
       try {
         const transaction = await contract.mintBounty(globalIssueId);
         await transaction.wait();
