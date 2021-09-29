@@ -8,6 +8,8 @@ const BountyCardList = () => {
   const [issueIds, setIssueIds]  = useState([])
   const [issueIdToAddress, setIssueIdToAddress]  = useState({})
   const [issueData, setIssueData]  = useState([])
+  const [fundingData, setFundingData]  = useState({})
+  const [isLoading, setIsLoading]  = useState(true)
 
   const bountyData = [
     {repoName: "uniswap/uniswap", issueName: "Issue name"},
@@ -62,33 +64,76 @@ const BountyCardList = () => {
     return issueDataObjects
   }
 
+  async function getIssueDeposits(issueIdToAddresses) {
+    if (typeof window.ethereum !== 'undefined') {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      let issueDeposits = {}
+      try {
+        for (const [issueId, issueAddress] of Object.entries(issueIdToAddresses)) {
+          issueDeposits[issueId] = []
+          for(const tokenAddress of appState.tokenAddresses) {
+            const contract = new ethers.Contract(tokenAddress, appState.ERC20.abi, provider);
+            const symbol = await contract.symbol()
+            const name = await contract.name()
+            const issueBalanceBigNumber = await contract.balanceOf(issueAddress)
+            
+            var balance = issueBalanceBigNumber.toString()
+            
+            const deposit = { symbol, name, balance, issueAddress }
+            if (balance > 0) {
+              issueDeposits[issueId].push(deposit)
+            }
+          }
+        }
+        console.log(issueDeposits)
+        return issueDeposits
+      } catch (err) {
+        console.log("getIssueDeposits Error: ", err);
+      }
+    }
+  }
+
   useEffect(() => {
     async function populateBountyData() {
       const issues = await getAllIssues()
       setIssueIds(issues)
 
       const issueIdToAddresses = await getIssueAddresses(issues)
-      setIssueIdToAddress(issueIdToAddress)
+      setIssueIdToAddress(issueIdToAddresses)
 
       const issueData = await getIssueData(issues)
       setIssueData(issueData)
+
+      const fundingDataObject = await getIssueDeposits(issueIdToAddresses)
+      setFundingData(fundingDataObject)
+
+      setIsLoading(false)
     }
-    
+
     populateBountyData()
   }, [])
 
-  return (
-    <div className="grid grid-cols-3 gap-6 pr-20">
-      {issueData.map((issue) => {
-        return <BountyCard 
-                  repoName={issue.repoName} 
-                  issueName={issue.title} 
-                  avatarUrl={issue.avatarUrl} 
-                  labels={issue.labels}
-                  key={issue.issueId}/>
-      })}
-    </div>
-  );
+  if (isLoading) {
+    return (
+      <div>Loading...</div>
+    )
+  } else {
+    console.log("fundingData", fundingData)
+    return (
+      <div className="grid grid-cols-3 gap-6 pr-20">
+        {issueData.map((issue) => {
+          return <BountyCard 
+                    repoName={issue.repoName} 
+                    issueName={issue.title} 
+                    avatarUrl={issue.avatarUrl} 
+                    labels={issue.labels}
+                    address={issueIdToAddress[issue.issueId]}
+                    deposits={fundingData[issue.issueId]}
+                    key={issue.issueId}/>
+        })}
+      </div>
+    );
+  }
 };
 
 export default BountyCardList;
