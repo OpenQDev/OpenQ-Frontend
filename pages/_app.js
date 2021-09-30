@@ -5,6 +5,7 @@ import StoreProvider from "../store/Store/StoreProvider";
 import AuthProvider from "../store/AuthStore/AuthProvider";
 
 function MyApp({ Component, pageProps }) {
+  console.log("FAKE_TOKEN", process.env.FAKE_TOKEN);
   return (
     <AuthProvider>
       <StoreProvider>
