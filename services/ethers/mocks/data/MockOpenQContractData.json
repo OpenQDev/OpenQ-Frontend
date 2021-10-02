@@ -1,14 +1,19 @@
 {
     "addTokenAddress": "0xsdfjsdfcsf",
     "claimBounty": "sdf",
-    "getBountyAddress": [
-        "0xsdfjsdfcsf",
-        "0xsdfjsdfcsf"
+    "getBountyAddress": "0xsdfsdf",
+    "getIssueIds": [
+        "sdf",
+        "sdf"
     ],
-    "getIssueIds": "",
-    "issueIds": "",
-    "issueToAddress": "",
-    "mintBounty": "",
-    "tokenAddresses": "",
-    "IssueCreated": ""
+    "issueIds": [
+        "sdf",
+        "fsd"
+    ],
+    "issueToAddress": "0xsdfsdfsd",
+    "mintBounty": "0xsdfsdfsd",
+    "tokenAddresses": [
+        "0xsdfsdfsd",
+        "0xsdfsdfsd"
+    ]
 }

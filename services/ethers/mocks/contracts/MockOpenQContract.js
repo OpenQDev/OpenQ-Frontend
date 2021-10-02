@@ -1,4 +1,4 @@
-import MockOpenQContractData from "../mockData";
+import MockOpenQContractData from "../data/MockOpenQContractData.json";
 
 class MockOpenQContract {
     getERC20Balance(_tokenAddress) {

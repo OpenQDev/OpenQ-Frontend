@@ -1,4 +1,4 @@
-const OpenQ = require("../../../artifacts/contracts/OpenQ.sol/OpenQ.json");
+const Contract = require("../../../artifacts/contracts/OpenQ.sol/OpenQ.json");
 const MockOpenQContractData = require("./data/MockOpenQContractData.json");
 // import all abis from artifacts/
 
@@ -32,36 +32,52 @@ function extractOutputTypes(outputs) {
 }
 
 // for contract of contracts
-// create a file in mocks/contracts called `${contract.contractName}.js`
-// start with class Mock${contract.contractName}, then open class body
+const mockContractName = `Mock${Contract.contractName}`;
+console.log(`import ${mockContractName}Data from '../data/${mockContractName}Data.json'`);
+console.log(`class ${mockContractName} {`);
 
-for (member of OpenQ.abi) {
+for (member of Contract.abi) {
     let name = "";
     let memberType = "";
     let inputNames = [];
     let functionSignature = "";
-    let funtionBody = "";
+    let functionBody = "";
 
     switch (member.type) {
         case "constructor":
             memberType = member.type;
             inputNames = extractInputNames(member.inputs);
-            functionSignature = `${memberType} ${name}(${inputNames.toString()})`;
+            functionSignature = `${memberType} (${inputNames.toString()})`;
             functionBody = ` { }`;
+            console.log(functionSignature + functionBody);
             break;
         case "function":
             functionCount += 1;
             memberType = member.type;
             name = member.name;
             inputNames = extractInputNames(member.inputs);
-            functionSignature = `${memberType} ${name}(${inputNames.toString()})`;
-            functionBody = ` { return ${MockOpenQContractData[name]}; }`;
+            functionSignature = `${name}(${inputNames.toString()})`;
+
+            if (typeof MockOpenQContractData[name] == "string") {
+                functionBody = ` { return '${MockOpenQContractData[name]}'; }`;
+            } else if (typeof MockOpenQContractData[name] == "string") {
+                functionBody = ` { return ${MockOpenQContractData[name]}; }`;
+            } else {
+                let items = "[";
+                for (item of MockOpenQContractData[name]) {
+                    items += `'${item}',`;
+                }
+                items += "]";
+                functionBody = ` { return ${items}; }`;
+            }
+            console.log(functionSignature + functionBody);
             break;
         default:
             break;
     }
-
-    console.log(functionSignature + functionBody);
 }
+
+console.log(`}`);
+console.log(`export default ${mockContractName}`);
 
 console.log("Function count: ", functionCount);
