@@ -1,4 +1,9 @@
-const OpenQ = require("../../artifacts/contracts/Issue.sol/Issue.json");
+const OpenQ = require("../../../artifacts/contracts/OpenQ.sol/OpenQ.json");
+const MockOpenQContractData = require("./mockData/MockOpenQContractData.json");
+
+// extend to also return mockData 
+// find a way to even generate this based off of the ABI outputs values, just like input
+// build a bunch of fake addresses etc into the library
 
 let functionCount = 0;
 let evenCount = 0;
@@ -22,34 +27,40 @@ function extractInputNames(inputs) {
 }
 
 for (member of OpenQ.abi) {
-    let memberType = "";
     let name = "";
+    let memberType = "";
     let inputNames = [];
+    let functionSignature = "";
+    let funtionBody = "";
 
     switch (member.type) {
         case "constructor":
             memberType = member.type;
             inputNames = extractInputNames(member.inputs);
+            functionSignature = `${memberType} ${name}(${inputNames.toString()})`;
+            functionBody = ` { }`;
             break;
         case "function":
             functionCount += 1;
             memberType = member.type;
             name = member.name;
             inputNames = extractInputNames(member.inputs);
+            functionSignature = `${memberType} ${name}(${inputNames.toString()})`;
+            functionBody = ` { return ${MockOpenQContractData[name]}; }`;
             break;
         case "event":
             evenCount += 1;
             memberType = member.type;
             name = member.name;
             inputNames = extractInputNames(member.inputs);
+            functionSignature = `${memberType} ${name}(${inputNames.toString()})`;
             break;
         default:
             break;
     }
 
-    console.log(`${memberType} ${name}(${inputNames.toString()}) {}`);
+    console.log(functionSignature + functionBody);
 }
 
 console.log("Function count: ", functionCount);
 console.log("Event count: ", evenCount);
-;;;

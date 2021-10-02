@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "gen": "node services/utils/abiToJavascriptClass.js"
+    "gen": "node services/ethers/mocks/abiToJavascriptClass.js "
   },
   "dependencies": {
     "@apollo/client": "^3.4.10",
