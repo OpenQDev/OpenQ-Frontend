@@ -11,31 +11,26 @@ const BountyCardList = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   async function getAllIssues() {
-    if (typeof window.ethereum !== 'undefined') {
-      const contract = appState.openQClient.OpenQ();
-      try {
-        const allIssueIds = await contract.getIssueIds();
-        return allIssueIds;
-      } catch (err) {
-        console.log("getAllIssues Error: ", err);
-      }
+    const contract = appState.openQClient.OpenQ();
+    try {
+      const allIssueIds = await contract.getIssueIds();
+      return allIssueIds;
+    } catch (err) {
+      console.log("getAllIssues Error: ", err);
     }
   }
 
   async function getIssueAddresses(issues) {
-    if (typeof window.ethereum !== 'undefined') {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = new ethers.Contract(appState.openQAddress, appState.OpenQ.abi, provider);
-      const issueIdToAddress = {};
-      try {
-        for (const issueId of issues) {
-          const issueAddress = await contract.issueToAddress(issueId);
-          issueIdToAddress[issueId] = issueAddress;
-        }
-        return issueIdToAddress;
-      } catch (err) {
-        console.log("getIssueAddresses Error: ", err);
+    const contract = appState.openQClient.OpenQ();
+    const issueIdToAddress = {};
+    try {
+      for (const issueId of issues) {
+        const issueAddress = await contract.issueToAddress(issueId);
+        issueIdToAddress[issueId] = issueAddress;
       }
+      return issueIdToAddress;
+    } catch (err) {
+      console.log("getIssueAddresses Error: ", err);
     }
   }
 
@@ -58,30 +53,27 @@ const BountyCardList = () => {
   }
 
   async function getIssueDeposits(issueIdToAddresses) {
-    if (typeof window.ethereum !== 'undefined') {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      let issueDeposits = {};
-      try {
-        for (const [issueId, issueAddress] of Object.entries(issueIdToAddresses)) {
-          issueDeposits[issueId] = [];
-          for (const tokenAddress of appState.tokenAddresses) {
-            const contract = new ethers.Contract(tokenAddress, appState.ERC20.abi, provider);
-            const symbol = await contract.symbol();
-            const name = await contract.name();
-            const issueBalanceBigNumber = await contract.balanceOf(issueAddress);
+    let issueDeposits = {};
+    try {
+      for (const [issueId, issueAddress] of Object.entries(issueIdToAddresses)) {
+        issueDeposits[issueId] = [];
+        for (const tokenAddress of appState.tokenAddresses) {
+          const contract = appState.openQClient.Contract(tokenAddress, appState.ERC20.abi);
+          const symbol = await contract.symbol();
+          const name = await contract.name();
+          const issueBalanceBigNumber = await contract.balanceOf(issueAddress);
 
-            var balance = parseFloat(issueBalanceBigNumber.toString()).toFixed(2);
+          var balance = parseFloat(issueBalanceBigNumber.toString()).toFixed(2);
 
-            const deposit = { symbol, name, balance, issueAddress };
-            if (balance > 0) {
-              issueDeposits[issueId].push(deposit);
-            }
+          const deposit = { symbol, name, balance, issueAddress };
+          if (balance > 0) {
+            issueDeposits[issueId].push(deposit);
           }
         }
-        return issueDeposits;
-      } catch (err) {
-        console.log("getIssueDeposits Error: ", err);
       }
+      return issueDeposits;
+    } catch (err) {
+      console.log("getIssueDeposits Error: ", err);
     }
   }
 

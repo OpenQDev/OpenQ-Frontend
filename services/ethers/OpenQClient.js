@@ -18,6 +18,11 @@ class OpenQClient {
         const contract = new ethers.Contract(this.openQAddress, OpenQABI, this.signer);
         return contract;
     };
+
+    Contract = (tokenAddress, abi) => {
+        const contract = new ethers.Contract(tokenAddress, abi, this.signer);
+        return contract;
+    };
 }
 
 export default OpenQClient;

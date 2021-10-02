@@ -1,6 +1,7 @@
-const Contract = require("../../../artifacts/contracts/OpenQ.sol/OpenQ.json");
+const Contract = require("../../../artifacts/contracts/FakeToken.sol/FakeToken.json");
 const MockOpenQContractData = require("./data/MockOpenQContractData.json");
 // import all abis from artifacts/
+// import all data from ../data/
 
 // extend to also return mockData 
 // find a way to even generate this based off of the ABI outputs values, just like input
@@ -32,7 +33,7 @@ function extractOutputTypes(outputs) {
 }
 
 // for contract of contracts
-const mockContractName = `Mock${Contract.contractName}`;
+const mockContractName = `Mock${Contract.contractName}Contract`;
 console.log(`import ${mockContractName}Data from '../data/${mockContractName}Data.json'`);
 console.log(`class ${mockContractName} {`);
 
@@ -58,18 +59,10 @@ for (member of Contract.abi) {
             inputNames = extractInputNames(member.inputs);
             functionSignature = `${name}(${inputNames.toString()})`;
 
-            if (typeof MockOpenQContractData[name] == "string") {
-                functionBody = ` { return '${MockOpenQContractData[name]}'; }`;
-            } else if (typeof MockOpenQContractData[name] == "string") {
-                functionBody = ` { return ${MockOpenQContractData[name]}; }`;
-            } else {
-                let items = "[";
-                for (item of MockOpenQContractData[name]) {
-                    items += `'${item}',`;
-                }
-                items += "]";
-                functionBody = ` { return ${items}; }`;
-            }
+            // if number, wrap in BigNumber
+            if (typeof )
+                functionBody = ` { return ${mockContractName}Data[${name}]; }`;
+
             console.log(functionSignature + functionBody);
             break;
         default:

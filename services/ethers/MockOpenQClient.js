@@ -3,15 +3,16 @@ import { useEffect, useState, useContext } from "react";
 import { ethers } from 'ethers';
 import MockOpenQContract from "./mocks/contracts/MockOpenQContract";
 
-import MockOpenQContract from "";
-class OpenQClient {
+class MockOpenQClient {
     constructor() { }
-
-    provider = new ethers.providers.Web3Provider(window.ethereum);
 
     OpenQ = () => {
         return new MockOpenQContract();
     };
+
+    Contract = (tokenAddress, abi) => {
+        return new MockFakeTokenContract();
+    };
 }
 
-export default OpenQClient;
+export default MockOpenQClient;

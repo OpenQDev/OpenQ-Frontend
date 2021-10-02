@@ -3,6 +3,7 @@ import MockGithubRepository from "../../services/github/MockGithubRepository";
 import AuthDataStore from "../../services/authentication/AuthDataStore";
 import Utils from "../../services/utils/Utils";
 import OpenQClient from '../../services/ethers/OpenQClient';
+import MockOpenQClient from "../../services/ethers/MockOpenQClient";
 
 let InitialState = {};
 
@@ -31,7 +32,7 @@ switch ("local") {
             publicAddress: "",
             utils: new Utils(),
             tokenAddresses: [process.env.FAKE_TOKEN_ADDRESS, process.env.MOCK_TOKEN_ADDRESS],
-            openQClient: new OpenQClient(process.env.OPENQ_ADDRESS)
+            openQClient: new MockOpenQClient()
         };
         break;
     default:
