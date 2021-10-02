@@ -1,7 +1,5 @@
-const Contract = require("../../../artifacts/contracts/OpenQ.sol/OpenQ.json");
-const MockOpenQContractData = require("./data/MockOpenQContractData.json");
+const Contract = require("../../../artifacts/contracts/FakeToken.sol/FakeToken.json");
 // import all abis from artifacts/
-// import all data from ../data/
 
 // extend to also return mockData 
 // find a way to even generate this based off of the ABI outputs values, just like input

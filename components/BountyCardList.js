@@ -14,7 +14,6 @@ const BountyCardList = () => {
     const contract = appState.openQClient.OpenQ();
     try {
       const allIssueIds = await contract.getIssueIds();
-      console.log("allIssueIds", allIssueIds);
       return allIssueIds;
     } catch (err) {
       console.log("getAllIssues Error: ", err);
@@ -59,7 +58,7 @@ const BountyCardList = () => {
       for (const [issueId, issueAddress] of Object.entries(issueIdToAddresses)) {
         issueDeposits[issueId] = [];
         for (const tokenAddress of appState.tokenAddresses) {
-          const contract = appState.openQClient.Contract(tokenAddress, appState.ERC20.abi);
+          const contract = appState.openQClient.ERC20(tokenAddress);
           const symbol = await contract.symbol();
           const name = await contract.name();
           const issueBalanceBigNumber = await contract.balanceOf(issueAddress);

@@ -3,12 +3,12 @@
     "claimBounty": "sdf",
     "getBountyAddress": "0xsdfsdf",
     "getIssueIds": [
-        "sdf",
-        "sdf"
+        "issueId1",
+        "issueId2"
     ],
     "issueIds": [
-        "sdf",
-        "fsd"
+        "issueId1",
+        "issueId2"
     ],
     "issueToAddress": "0xsdfsdfsd",
     "mintBounty": "0xsdfsdfsd",

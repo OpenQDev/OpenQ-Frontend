@@ -18,8 +18,8 @@ class OpenQClient {
         return contract;
     };
 
-    Contract = (tokenAddress, abi) => {
-        const contract = new ethers.Contract(tokenAddress, abi, this.signer);
+    ERC20 = (tokenAddress) => {
+        const contract = new ethers.Contract(tokenAddress, ERC20ABI, this.signer);
         return contract;
     };
 }
