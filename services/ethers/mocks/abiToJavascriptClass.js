@@ -1,12 +1,13 @@
 const OpenQ = require("../../../artifacts/contracts/OpenQ.sol/OpenQ.json");
-const MockOpenQContractData = require("./mockData/MockOpenQContractData.json");
+const MockOpenQContractData = require("./data/MockOpenQContractData.json");
+// import all abis from artifacts/
 
 // extend to also return mockData 
 // find a way to even generate this based off of the ABI outputs values, just like input
 // build a bunch of fake addresses etc into the library
+// Add a header comment that reads "This mock contract was generated using EthMock."
 
 let functionCount = 0;
-let evenCount = 0;
 
 function extractInputNames(inputs) {
     const inputNames = [];
@@ -25,6 +26,14 @@ function extractInputNames(inputs) {
     }
     return inputNames;
 }
+
+function extractOutputTypes(outputs) {
+
+}
+
+// for contract of contracts
+// create a file in mocks/contracts called `${contract.contractName}.js`
+// start with class Mock${contract.contractName}, then open class body
 
 for (member of OpenQ.abi) {
     let name = "";
@@ -48,13 +57,6 @@ for (member of OpenQ.abi) {
             functionSignature = `${memberType} ${name}(${inputNames.toString()})`;
             functionBody = ` { return ${MockOpenQContractData[name]}; }`;
             break;
-        case "event":
-            evenCount += 1;
-            memberType = member.type;
-            name = member.name;
-            inputNames = extractInputNames(member.inputs);
-            functionSignature = `${memberType} ${name}(${inputNames.toString()})`;
-            break;
         default:
             break;
     }
@@ -63,4 +65,3 @@ for (member of OpenQ.abi) {
 }
 
 console.log("Function count: ", functionCount);
-console.log("Event count: ", evenCount);
