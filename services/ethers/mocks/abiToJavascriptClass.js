@@ -1,4 +1,4 @@
-const Contract = require("../../../artifacts/contracts/FakeToken.sol/FakeToken.json");
+const Contract = require("../../../artifacts/contracts/OpenQ.sol/OpenQ.json");
 const MockOpenQContractData = require("./data/MockOpenQContractData.json");
 // import all abis from artifacts/
 // import all data from ../data/
@@ -57,11 +57,10 @@ for (member of Contract.abi) {
             memberType = member.type;
             name = member.name;
             inputNames = extractInputNames(member.inputs);
-            functionSignature = `${name}(${inputNames.toString()})`;
+            functionSignature = `async ${name}(${inputNames.toString()})`;
 
             // if number, wrap in BigNumber
-            if (typeof )
-                functionBody = ` { return ${mockContractName}Data[${name}]; }`;
+            functionBody = ` { return new Promise((resolve, reject) => resolve(${mockContractName}Data['${name}'])) }`;
 
             console.log(functionSignature + functionBody);
             break;

@@ -14,6 +14,7 @@ const BountyCardList = () => {
     const contract = appState.openQClient.OpenQ();
     try {
       const allIssueIds = await contract.getIssueIds();
+      console.log("allIssueIds", allIssueIds);
       return allIssueIds;
     } catch (err) {
       console.log("getAllIssues Error: ", err);

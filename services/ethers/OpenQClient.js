@@ -1,4 +1,3 @@
-import StoreContext from "../store/Store/StoreContext";
 import { ethers } from 'ethers';
 import OpenQABI from '../../artifacts/contracts/OpenQ.sol/OpenQ.json';
 import ERC20ABI from '../../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json';
