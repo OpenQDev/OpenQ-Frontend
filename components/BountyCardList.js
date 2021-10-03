@@ -1,6 +1,7 @@
 import BountyCard from "./BountyCard";
 import { useEffect, useState, useContext } from "react";
 import StoreContext from "../store/Store/StoreContext";
+import { ethers } from 'ethers';
 
 const BountyCardList = () => {
   const [appState, dispatch] = useContext(StoreContext);
@@ -11,7 +12,10 @@ const BountyCardList = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   async function getAllIssues() {
-    const contract = appState.openQClient.OpenQ();
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = appState.openQClient.OpenQ(signer);
+
     try {
       const allIssueIds = await contract.getIssueIds();
       return allIssueIds;
@@ -77,8 +81,16 @@ const BountyCardList = () => {
     }
   }
 
+  async function setProviders() {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    dispatch({ type: "PROVIDER", payload: provider });
+    dispatch({ type: "SIGNER", payload: provider.getSigner() });
+  }
+
   useEffect(() => {
     async function populateBountyData() {
+      setProviders();
+
       const issues = await getAllIssues();
       setIssueIds(issues);
 

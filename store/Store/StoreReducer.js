@@ -10,6 +10,16 @@ const StoreReducer = (state, action) => {
         ...state,
         publicAddress: action.payload,
       };
+    case "PROVIDER":
+      return {
+        ...state,
+        provider: action.payload,
+      };
+    case "SIGNER":
+      return {
+        ...state,
+        signer: action.payload,
+      };
     default:
       return state;
   }

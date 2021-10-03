@@ -4,26 +4,21 @@ import AuthDataStore from "../../services/authentication/AuthDataStore";
 import Utils from "../../services/utils/Utils";
 import OpenQClient from '../../services/ethers/OpenQClient';
 import MockOpenQClient from "../../services/ethers/MockOpenQClient";
+import { ethers } from 'ethers';
 
 let InitialState = {};
 
-switch ("local") {
+switch (process.env.DEPLOY_ENV) {
     case "development":
+        console.log("OPENQ_ADDRESS", process.env.OPENQ_ADDRESS);
         InitialState = {
             githubRepository: new GithubRepository(),
             publicAddress: "",
             utils: new Utils(),
             tokenAddresses: [process.env.FAKE_TOKEN_ADDRESS, process.env.MOCK_TOKEN_ADDRESS],
-            openQClient: new OpenQClient(process.env.OPENQ_ADDRESS)
-        };
-        break;
-    case "production":
-        InitialState = {
-            githubRepository: new GithubRepository(),
-            publicAddress: "",
-            utils: new Utils(),
-            tokenAddresses: [process.env.FAKE_TOKEN_ADDRESS, process.env.MOCK_TOKEN_ADDRESS],
-            openQClient: new OpenQClient(process.env.OPENQ_ADDRESS)
+            openQClient: new OpenQClient(process.env.OPENQ_ADDRESS),
+            provider: null,
+            signer: null
         };
         break;
     case "local":
