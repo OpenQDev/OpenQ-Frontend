@@ -7,6 +7,7 @@ module.exports = () => {
     MOCK_TOKEN_ADDRESS: process.env.MOCK_TOKEN_ADDRESS,
     FAKE_TOKEN_ADDRESS: process.env.FAKE_TOKEN_ADDRESS
   };
+  
   return {
     reactStrictMode: true,
     env,

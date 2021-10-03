@@ -10,7 +10,6 @@ let InitialState = {};
 
 switch (process.env.DEPLOY_ENV) {
     case "development":
-        console.log("OPENQ_ADDRESS", process.env.OPENQ_ADDRESS);
         InitialState = {
             githubRepository: new GithubRepository(),
             publicAddress: "",
@@ -31,7 +30,7 @@ switch (process.env.DEPLOY_ENV) {
         };
         break;
     default:
-        throw Error(`ENVIRONMENT NOT CONFIGURED CORRECTLY. Set an environment`);
+        throw Error(`ENVIRONMENT NOT CONFIGURED CORRECTLY. Set an environment with DEPLOY_ENV`);
 }
 
 export default InitialState;

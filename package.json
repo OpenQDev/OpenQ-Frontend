@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "DEPLOY_ENV=development next dev",
-    "dev:local": "DEPLOY_ENV=local next dev",
+    "boot:development": "DEPLOY_ENV=development next dev",
+    "boot:local": "DEPLOY_ENV=local next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
