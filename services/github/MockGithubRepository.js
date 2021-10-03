@@ -35,7 +35,7 @@ class MockGithubRepository {
                 node: {
                     title: "sdf",
                     body: "sdf",
-                    url: "sdf",
+                    url: "https://github.com/OpenQDev/frontend/issues/7",
                     labels: {
                         edges: [{
                             node: {
@@ -49,7 +49,7 @@ class MockGithubRepository {
                         name: "sdf",
                         owner: {
                             login: "alo9507",
-                            avatarUrl: "sdf"
+                            avatarUrl: "https://avatars.githubusercontent.com/u/77402538?v=4"
                         }
                     }
                 }
@@ -67,7 +67,7 @@ class MockGithubRepository {
         const result = {
             data: {
                 viewer: {
-                    avatarUrl: "sdf"
+                    avatarUrl: "https://avatars.githubusercontent.com/u/32375569?u=946349015cfa1195ef50b5bb33a952a546bbdc2d&v=4"
                 }
             }
         };

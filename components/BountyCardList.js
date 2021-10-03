@@ -102,7 +102,6 @@ const BountyCardList = () => {
       <div>Loading...</div>
     );
   } else {
-    console.log("fundingData", fundingData);
     return (
       <div className="grid grid-cols-3 gap-6 pr-20">
         {issueData.map((issue) => {

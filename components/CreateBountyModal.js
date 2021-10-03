@@ -64,6 +64,7 @@ const CreateBountyModal = (props) => {
 
   useEffect(() => {
     // https://github.com/OpenQDev/contracts/issues/44
+    console.log("issueUrl", issueUrl);
     let pathArray = appState.utils.parseGitHubUrl(issueUrl);
     const [orgName, repoName, issueId] = pathArray;
     setOrgName(orgName);
