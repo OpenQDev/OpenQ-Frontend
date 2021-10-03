@@ -1,5 +1,7 @@
 # Mock Contract Data
 
-contract:
-    memberName:
-        returnValue
+```bash
+{
+    contractMemberName: returnValue
+}
+```

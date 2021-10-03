@@ -15,9 +15,8 @@ switch (process.env.DEPLOY_ENV) {
             publicAddress: "",
             utils: new Utils(),
             tokenAddresses: [process.env.FAKE_TOKEN_ADDRESS, process.env.MOCK_TOKEN_ADDRESS],
+            openQAddress: process.env.OPENQ_ADDRESS,
             openQClient: new OpenQClient(),
-            provider: null,
-            signer: null
         };
         break;
     case "local":
@@ -26,6 +25,7 @@ switch (process.env.DEPLOY_ENV) {
             publicAddress: "",
             utils: new Utils(),
             tokenAddresses: [process.env.FAKE_TOKEN_ADDRESS, process.env.MOCK_TOKEN_ADDRESS],
+            openQAddress: process.env.OPENQ_ADDRESS,
             openQClient: new MockOpenQClient()
         };
         break;

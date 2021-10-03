@@ -23,7 +23,8 @@ const CreateBountyModal = (props) => {
   async function getBountyAddress(id) {
     if (typeof window.ethereum !== 'undefined') {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = new ethers.Contract(appState.openQAddress, appState.OpenQ.abi, provider);
+      const contract = appState.openQClient.OpenQ(appState.openQAddress, provider);
+
       try {
         const bountyAddress = await contract.getBountyAddress(id);
         return bountyAddress;
@@ -41,7 +42,8 @@ const CreateBountyModal = (props) => {
       await requestAccount();
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      const contract = new ethers.Contract(appState.openQAddress, appState.OpenQ.abi, signer);
+      const contract = appState.openQClient.OpenQ(appState.openQAddress, signer);
+
       try {
         const transaction = await contract.mintBounty(globalIssueId);
         await transaction.wait();

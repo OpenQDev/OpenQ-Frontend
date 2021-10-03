@@ -4,11 +4,11 @@ import MockFakeTokenContract from "./mocks/contracts/MockFakeTokenContract";
 class MockOpenQClient {
     constructor() { }
 
-    OpenQ = () => {
+    OpenQ = (address, providerOrSigner) => {
         return new MockOpenQContract();
     };
 
-    ERC20 = (tokenAddress) => {
+    ERC20 = (address, providerOrSigner) => {
         return new MockFakeTokenContract();
     };
 };

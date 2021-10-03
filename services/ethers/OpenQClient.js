@@ -5,13 +5,13 @@ import ERC20ABI from '../../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.
 class OpenQClient {
     constructor() { }
 
-    OpenQ = (openQAddress, signer) => {
-        const contract = new ethers.Contract(openQAddress, OpenQABI.abi, signer);
+    OpenQ = (openQAddress, provierOrSigner) => {
+        const contract = new ethers.Contract(openQAddress, OpenQABI.abi, provierOrSigner);
         return contract;
     };
 
-    ERC20 = (tokenAddress, signer) => {
-        const contract = new ethers.Contract(tokenAddress, ERC20ABI.abi, signer);
+    ERC20 = (tokenAddress, provierOrSigner) => {
+        const contract = new ethers.Contract(tokenAddress, ERC20ABI.abi, provierOrSigner);
         return contract;
     };
 }
