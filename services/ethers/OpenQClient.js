@@ -6,12 +6,12 @@ class OpenQClient {
     constructor() { }
 
     OpenQ = (openQAddress, signer) => {
-        const contract = new ethers.Contract(openQAddress, OpenQABI, signer);
+        const contract = new ethers.Contract(openQAddress, OpenQABI.abi, signer);
         return contract;
     };
 
-    ERC20 = (tokenAddress) => {
-        const contract = new ethers.Contract(tokenAddress, ERC20ABI, this.signer);
+    ERC20 = (tokenAddress, signer) => {
+        const contract = new ethers.Contract(tokenAddress, ERC20ABI.abi, signer);
         return contract;
     };
 }

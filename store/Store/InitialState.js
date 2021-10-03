@@ -15,7 +15,7 @@ switch (process.env.DEPLOY_ENV) {
             publicAddress: "",
             utils: new Utils(),
             tokenAddresses: [process.env.FAKE_TOKEN_ADDRESS, process.env.MOCK_TOKEN_ADDRESS],
-            openQClient: new OpenQClient(process.env.OPENQ_ADDRESS),
+            openQClient: new OpenQClient(),
             provider: null,
             signer: null
         };

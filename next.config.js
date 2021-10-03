@@ -5,9 +5,10 @@ module.exports = () => {
     RPC_NODE: process.env.RPC_NODE,
     WALLET_KEY: process.env.WALLET_KEY,
     MOCK_TOKEN_ADDRESS: process.env.MOCK_TOKEN_ADDRESS,
-    FAKE_TOKEN_ADDRESS: process.env.FAKE_TOKEN_ADDRESS
+    FAKE_TOKEN_ADDRESS: process.env.FAKE_TOKEN_ADDRESS,
+    PAT: process.env.PAT
   };
-  
+
   return {
     reactStrictMode: true,
     env,

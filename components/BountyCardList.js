@@ -2,6 +2,7 @@ import BountyCard from "./BountyCard";
 import { useEffect, useState, useContext } from "react";
 import StoreContext from "../store/Store/StoreContext";
 import { ethers } from 'ethers';
+import OpenQABI from '../artifacts/contracts/OpenQ.sol/OpenQ.json';
 
 const BountyCardList = () => {
   const [appState, dispatch] = useContext(StoreContext);
@@ -14,7 +15,7 @@ const BountyCardList = () => {
   async function getAllIssues() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    const contract = appState.openQClient.OpenQ(signer);
+    const contract = appState.openQClient.OpenQ(process.env.OPENQ_ADDRESS, signer);
 
     try {
       const allIssueIds = await contract.getIssueIds();
@@ -25,7 +26,9 @@ const BountyCardList = () => {
   }
 
   async function getIssueAddresses(issues) {
-    const contract = appState.openQClient.OpenQ();
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = appState.openQClient.OpenQ(process.env.OPENQ_ADDRESS, signer);
     const issueIdToAddress = {};
     try {
       for (const issueId of issues) {
@@ -58,11 +61,13 @@ const BountyCardList = () => {
 
   async function getIssueDeposits(issueIdToAddresses) {
     let issueDeposits = {};
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
     try {
       for (const [issueId, issueAddress] of Object.entries(issueIdToAddresses)) {
         issueDeposits[issueId] = [];
         for (const tokenAddress of appState.tokenAddresses) {
-          const contract = appState.openQClient.ERC20(tokenAddress);
+          const contract = appState.openQClient.ERC20(tokenAddress, signer);
           const symbol = await contract.symbol();
           const name = await contract.name();
           const issueBalanceBigNumber = await contract.balanceOf(issueAddress);

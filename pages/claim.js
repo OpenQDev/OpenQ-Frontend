@@ -16,8 +16,8 @@ function Claim() {
             await requestAccount();
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = provider.getSigner();
+            const contract = appState.openQClient.OpenQ(process.env.OPENQ_ADDRESS, signer);
             const payoutAddress = await signer.getAddress();
-            const contract = new ethers.Contract(appState.openQAddress, appState.OpenQ.abi, signer);
             try {
                 let pathArray = appState.utils.parseGitHubUrl(issueUrl);
                 const [orgName, repoName, issueId] = pathArray;
