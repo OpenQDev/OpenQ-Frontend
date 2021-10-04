@@ -3,6 +3,7 @@ orbs:
   kubernetes: circleci/kubernetes@0.12.0
 jobs:
   build:
+    context: OpenQ
     machine: true
     steps:
       - checkout
