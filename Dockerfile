@@ -8,5 +8,4 @@ ENV DEPLOY_ENV=$deploy_env
 RUN yarn
 RUN yarn build
 EXPOSE 3000
-ENV DEPLOY_ENV=production
 ENTRYPOINT yarn start
