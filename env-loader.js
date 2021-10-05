@@ -17,7 +17,7 @@ const getEnvValue = (key) => {
     // find the line that contains the key (exact match)
     const matchedLine = readEnvVars().find((line) => line.split("=")[0] === key);
     // split the line (delimiter is '=') and return the item at index 2
-    return matchedLine !== undefined ? matchedLine.split("=")[1] : null;
+    return matchedLine !== undefined ? matchedLine.split("=")[1].replaceAll('"', '') : null;
 };
 
 module.exports = { readEnvVars, getEnvValue };
