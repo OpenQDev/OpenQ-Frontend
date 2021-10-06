@@ -5,7 +5,7 @@
   "scripts": {
     "boot:local": "DEPLOY_ENV=local next dev",
     "boot:mock": "DEPLOY_ENV=mock next dev",
-    "boot:polygon": "DEPLOY_ENV=polygon next dev",
+    "boot:production": "DEPLOY_ENV=polygon next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
