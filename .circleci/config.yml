@@ -15,3 +15,12 @@ workflows:
     jobs:
       - build:
           context: OpenQ
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only:
+                - /^local*/
+                - /^development*/
+                - /^staging*/
+                - /^production*/
