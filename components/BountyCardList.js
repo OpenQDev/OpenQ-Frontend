@@ -17,10 +17,18 @@ const BountyCardList = () => {
     const contract = appState.openQClient.OpenQ(process.env.OPENQ_ADDRESS, signer);
 
     try {
+      const code = await signer.provider.getCode(process.env.OPENQ_ADDRESS);
+      if (code == "0x") {
+        const noContractCodeErrorMessage = `
+          Your browser wallet provider pointing to chainId ${window.ethereum.networkVersion} returned no bytecode for the contract you are trying to call at address ${process.env.OPENQ_ADDRESS}. 
+          Are you sure MetaMask is connected to the same location as ${process.env.PROVIDER_URL}?
+        `;
+        throw (new Error(noContractCodeErrorMessage));
+      }
       const allIssueIds = await contract.getIssueIds();
       return allIssueIds;
     } catch (err) {
-      console.log("getAllIssues Error: ", err);
+      console.log("Error thrown in contract.getIssueIds()", err);
     }
   }
 
