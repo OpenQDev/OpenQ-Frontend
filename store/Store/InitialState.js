@@ -7,7 +7,6 @@ import MockOpenQClient from "../../services/ethers/MockOpenQClient";
 import { ethers } from 'ethers';
 
 let InitialState = {};
-console.log(process.env.OPENQ_ADDRESS);
 switch (process.env.DEPLOY_ENV) {
     // Booting local will sping up A) an Ethnode B) deploy contracts C) boot API D) boot frontend to point to all three of the former
     case "local":
@@ -22,6 +21,7 @@ switch (process.env.DEPLOY_ENV) {
         break;
     // Booting mock will spin up A) an Ethnode B) a frontend to which we inject all mocks
     case "mock":
+        console.log(process.env.FAKE_TOKEN_ADDRESS);
         InitialState = {
             githubRepository: new MockGithubRepository(),
             publicAddress: "",
