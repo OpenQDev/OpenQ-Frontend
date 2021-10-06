@@ -18,7 +18,7 @@ function GitHubAuth({ Component, pageProps }) {
     }, []);
 
     const exchangeAuthCodeForAccessToken = (authCode) => {
-        axios.get(`https://development.openq.dev/auth?app=openq&code=${authCode}`)
+        axios.get(`https://${process.env.DEPLOY_ENV}.openq.dev/auth?app=openq&code=${authCode}`)
             .then((res) => {
                 const accessToken = res.data.access_token;
                 const authSession = new AuthSession("mockId", accessToken);

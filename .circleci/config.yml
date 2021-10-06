@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - run: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USER --password-stdin
-      - run: docker build -t alo42/openq-frontend:latest --build-arg deploy_env=development .
+      - run: docker build -t alo42/openq-frontend:latest --build-arg deploy_env=$CIRCLE_TAG .
       - run: docker push alo42/openq-frontend:latest
 workflows:
   version: 2
