@@ -51,6 +51,16 @@ switch (process.env.DEPLOY_ENV) {
             openQClient: new OpenQClient(),
         };
         break;
+    case "staging":
+        InitialState = {
+            githubRepository: new GithubRepository(),
+            publicAddress: "",
+            utils: new Utils(),
+            tokenAddresses: [process.env.FAKE_TOKEN_ADDRESS, process.env.MOCK_TOKEN_ADDRESS],
+            openQAddress: process.env.OPENQ_ADDRESS,
+            openQClient: new OpenQClient(),
+        };
+        break;
     default:
         throw Error(`ENVIRONMENT NOT CONFIGURED CORRECTLY. Set an environment with DEPLOY_ENV`);
 }
