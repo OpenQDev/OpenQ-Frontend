@@ -18,7 +18,10 @@ switch (process.env.DEPLOY_ENV) {
             tokenAddresses: [process.env.FAKE_TOKEN_ADDRESS, process.env.MOCK_TOKEN_ADDRESS],
             openQAddress: process.env.OPENQ_ADDRESS,
             openQClient: new MockOpenQClient(),
-            baseUrl: "localhost:3000"
+            baseUrl: "http://localhost",
+            frontendPort: ":3000",
+            oauthPort: "",
+            githubOAuthPath: "auth"
         };
         break;
     // Booting local will sping up A) an Ethnode B) deploy contracts C) boot API D) boot frontend to point to all three of the former
@@ -30,7 +33,10 @@ switch (process.env.DEPLOY_ENV) {
             tokenAddresses: [process.env.FAKE_TOKEN_ADDRESS, process.env.MOCK_TOKEN_ADDRESS],
             openQAddress: process.env.OPENQ_ADDRESS,
             openQClient: new OpenQClient(),
-            baseUrl: "local.openq.dev"
+            baseUrl: "http://localhost",
+            frontendPort: ":3000",
+            oauthPort: ":3001",
+            githubOAuthPath: ""
         };
         break;
     case "development":
@@ -41,7 +47,10 @@ switch (process.env.DEPLOY_ENV) {
             tokenAddresses: [process.env.FAKE_TOKEN_ADDRESS, process.env.MOCK_TOKEN_ADDRESS],
             openQAddress: process.env.OPENQ_ADDRESS,
             openQClient: new OpenQClient(),
-            baseUrl: "development.openq.dev"
+            baseUrl: "https://development.openq.dev",
+            frontendPort: "",
+            oauthPort: "",
+            githubOAuthPath: "auth"
         };
         break;
     case "staging":
@@ -52,7 +61,10 @@ switch (process.env.DEPLOY_ENV) {
             tokenAddresses: [process.env.FAKE_TOKEN_ADDRESS, process.env.MOCK_TOKEN_ADDRESS],
             openQAddress: process.env.OPENQ_ADDRESS,
             openQClient: new OpenQClient(),
-            baseUrl: "staging.openq.dev"
+            baseUrl: "https://staging.openq.dev",
+            frontendPort: "",
+            oauthPort: "",
+            githubOAuthPath: "auth"
         };
         break;
     case "production":
@@ -63,7 +75,10 @@ switch (process.env.DEPLOY_ENV) {
             tokenAddresses: [process.env.FAKE_TOKEN_ADDRESS, process.env.MOCK_TOKEN_ADDRESS],
             openQAddress: process.env.OPENQ_ADDRESS,
             openQClient: new OpenQClient(),
-            baseUrl: "app.openq.dev"
+            baseUrl: "https://app.openq.dev",
+            frontendPort: "",
+            oauthPort: "",
+            githubOAuthPath: "auth"
         };
         break;
     default:
