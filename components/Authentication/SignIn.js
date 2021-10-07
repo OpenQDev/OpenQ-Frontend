@@ -5,9 +5,7 @@ const SignIn = () => {
     const [appState, setAppState] = useContext(AuthContext);
 
     const signIn = () => {
-        const clientId = "client_id=5fbd39c6916b7efb63cc";
-        const scopes = "scope=read:user%20public_repo";
-        window.location = `https://github.com/login/oauth/authorize?${clientId}`;
+        window.location = `https://github.com/login/oauth/authorize?${appState.clientId}`;
     };
 
     return (

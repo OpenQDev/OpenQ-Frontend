@@ -21,7 +21,8 @@ switch (process.env.DEPLOY_ENV) {
             baseUrl: "http://localhost",
             frontendPort: ":3000",
             oauthPort: "",
-            githubOAuthPath: "auth"
+            githubOAuthPath: "auth",
+            clientId: "82e208319d33d8a6f6b8"
         };
         break;
     // Booting local will sping up A) an Ethnode B) deploy contracts C) boot API D) boot frontend to point to all three of the former
@@ -36,7 +37,8 @@ switch (process.env.DEPLOY_ENV) {
             baseUrl: "http://localhost",
             frontendPort: ":3000",
             oauthPort: ":3001",
-            githubOAuthPath: ""
+            githubOAuthPath: "",
+            clientId: "82e208319d33d8a6f6b8"
         };
         break;
     case "development":
@@ -50,7 +52,8 @@ switch (process.env.DEPLOY_ENV) {
             baseUrl: "https://development.openq.dev",
             frontendPort: "",
             oauthPort: "",
-            githubOAuthPath: "auth"
+            githubOAuthPath: "auth",
+            clientId: "82e208319d33d8a6f6b8"
         };
         break;
     case "staging":
@@ -64,7 +67,8 @@ switch (process.env.DEPLOY_ENV) {
             baseUrl: "https://staging.openq.dev",
             frontendPort: "",
             oauthPort: "",
-            githubOAuthPath: "auth"
+            githubOAuthPath: "auth",
+            clientId: ""
         };
         break;
     case "production":
@@ -78,7 +82,8 @@ switch (process.env.DEPLOY_ENV) {
             baseUrl: "https://app.openq.dev",
             frontendPort: "",
             oauthPort: "",
-            githubOAuthPath: "auth"
+            githubOAuthPath: "auth",
+            clientId: ""
         };
         break;
     default:
