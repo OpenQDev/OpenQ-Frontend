@@ -1,20 +1,31 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import AuthContext from "../store/AuthStore/AuthContext";
+import StoreContext from "../store/Store/StoreContext";
 
 function Withdraw() {
-    const [issueUrl, setIssueUrl] = useState("https://github.com/OpenQDev/frontend/issues/3");
+    const [issueUrl, setIssueUrl] = useState("https://github.com/OpenQDev/OpenQ-Contracts/issues/46");
     const [authState, setAuthState] = useContext(AuthContext);
+    const [appState, setAppState] = useContext(StoreContext);
 
-    const withdrawBounty = (event) => {
+    const withdrawBounty = async (event) => {
         event.preventDefault();
-        console.log(issueUrl);
+        let pathArray = appState.utils.parseGitHubUrl(issueUrl);
+        const [orgName, repoName, issueId] = pathArray;
+
+        const issueResponse = await appState.githubRepository.fetchIssue(orgName, repoName, issueId);
+        const globalIssueId = issueResponse.data.organization.repository.issue.id;
+
+        const userResponse = await appState.githubRepository.fetchAvatarUrl();
+        const username = userResponse.data.viewer.login;
+
         const token = window.localStorage.getItem('token');
-        axios.post(`http://localhost:8090/withdraw`, {
-            username: "alo9507",
-            issueId: "I_kwDOGAqhQc47ptzS", //
-            payoutAddress: "0xDf9aF175CE0BB59bcAC9CbD965Cd46cfd9806277",
-            oauthToken: "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"
+
+        axios.post(`${appState.baseUrl}${appState.apiPort}/withdraw`, {
+            username: username,
+            issueId: globalIssueId,
+            payoutAddress: window.ethereum.selectedAddress,
+            oauthToken: token
         })
             .then((response) => {
                 console.log(response);

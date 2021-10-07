@@ -2,6 +2,10 @@ import { useEffect, useState, useContext } from "react";
 import StoreContext from "../store/Store/StoreContext";
 import { ethers } from 'ethers';
 
+/***
+ * This is used for a future in which we directly call the OpenQ contract to withdraw and use an orcale
+ * 
+ */
 function Claim() {
     const [appState, setAppState] = useContext(StoreContext);
     const [issueUrl, setIssueUrl] = useState("https://github.com/OpenQDev/frontend/issues/3");

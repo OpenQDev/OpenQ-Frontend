@@ -20,6 +20,7 @@ switch (process.env.DEPLOY_ENV) {
             openQClient: new MockOpenQClient(),
             baseUrl: "http://localhost",
             frontendPort: ":3000",
+            apiPort: ":8090",
             oauthPort: "",
             githubOAuthPath: "auth",
             clientId: "doesntmatter"
@@ -37,6 +38,7 @@ switch (process.env.DEPLOY_ENV) {
             baseUrl: "http://localhost",
             frontendPort: ":3000",
             oauthPort: ":3001",
+            apiPort: ":8090",
             githubOAuthPath: "",
             clientId: "5fbd39c6916b7efb63cc"
         };
@@ -52,6 +54,7 @@ switch (process.env.DEPLOY_ENV) {
             baseUrl: "https://development.openq.dev",
             frontendPort: "",
             oauthPort: "",
+            apiPort: "",
             githubOAuthPath: "auth",
             clientId: "82e208319d33d8a6f6b8"
         };
@@ -67,6 +70,7 @@ switch (process.env.DEPLOY_ENV) {
             baseUrl: "https://staging.openq.dev",
             frontendPort: "",
             oauthPort: "",
+            apiPort: "",
             githubOAuthPath: "auth",
             clientId: "6fef986c27015da76128"
         };
@@ -82,6 +86,7 @@ switch (process.env.DEPLOY_ENV) {
             baseUrl: "https://app.openq.dev",
             frontendPort: "",
             oauthPort: "",
+            apiPort: "",
             githubOAuthPath: "auth",
             clientId: "79c2b8f305ad223cfb5e"
         };

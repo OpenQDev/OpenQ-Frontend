@@ -15,6 +15,10 @@ class OpenQClient {
         return contract;
     };
 
+    getCurrentAddress = () => {
+
+    };
+
     async getAllIssues(openQAddress, signer) {
         const contract = this.OpenQ(openQAddress, signer);
 

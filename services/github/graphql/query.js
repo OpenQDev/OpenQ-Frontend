@@ -46,12 +46,13 @@ export const GET_ISSUE_BY_ID = gql`
       }
     }
   }
-`
+`;
 
 export const GET_CURRENT_USER_AVATAR_URL = gql`
   query {
     viewer {
       avatarUrl
+      login
     }
   }
 `;
