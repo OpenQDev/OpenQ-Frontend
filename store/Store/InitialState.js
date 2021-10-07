@@ -22,7 +22,7 @@ switch (process.env.DEPLOY_ENV) {
             frontendPort: ":3000",
             oauthPort: "",
             githubOAuthPath: "auth",
-            clientId: "82e208319d33d8a6f6b8"
+            clientId: "doesntmatter"
         };
         break;
     // Booting local will sping up A) an Ethnode B) deploy contracts C) boot API D) boot frontend to point to all three of the former
@@ -38,7 +38,7 @@ switch (process.env.DEPLOY_ENV) {
             frontendPort: ":3000",
             oauthPort: ":3001",
             githubOAuthPath: "",
-            clientId: "82e208319d33d8a6f6b8"
+            clientId: "5fbd39c6916b7efb63cc"
         };
         break;
     case "development":
@@ -68,7 +68,7 @@ switch (process.env.DEPLOY_ENV) {
             frontendPort: "",
             oauthPort: "",
             githubOAuthPath: "auth",
-            clientId: ""
+            clientId: "6fef986c27015da76128"
         };
         break;
     case "production":
@@ -83,7 +83,7 @@ switch (process.env.DEPLOY_ENV) {
             frontendPort: "",
             oauthPort: "",
             githubOAuthPath: "auth",
-            clientId: ""
+            clientId: "79c2b8f305ad223cfb5e"
         };
         break;
     default:
