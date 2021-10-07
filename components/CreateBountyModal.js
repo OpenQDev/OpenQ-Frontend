@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import StoreContext from "../store/Store/StoreContext";
-import { ethers } from 'ethers';
+import { ethers } from "ethers";
 
 const CreateBountyModal = (props) => {
   const [appState, setAppState] = useContext(StoreContext);
@@ -17,13 +17,16 @@ const CreateBountyModal = (props) => {
   };
 
   async function requestAccount() {
-    await window.ethereum.request({ method: 'eth_requestAccounts' });
+    await window.ethereum.request({ method: "eth_requestAccounts" });
   }
 
   async function getBountyAddress(id) {
-    if (typeof window.ethereum !== 'undefined') {
+    if (typeof window.ethereum !== "undefined") {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = appState.openQClient.OpenQ(appState.openQAddress, provider);
+      const contract = appState.openQClient.OpenQ(
+        appState.openQAddress,
+        provider
+      );
 
       try {
         const bountyAddress = await contract.getBountyAddress(id);
@@ -35,22 +38,32 @@ const CreateBountyModal = (props) => {
   }
 
   async function mintBounty(id) {
-    if (typeof window.ethereum !== 'undefined') {
-      const resp = await appState.githubRepository.fetchIssue(orgName, repoName, issueId);
+    if (typeof window.ethereum !== "undefined") {
+      const resp = await appState.githubRepository.fetchIssue(
+        orgName,
+        repoName,
+        issueId
+      );
       const globalIssueId = resp.data.organization.repository.issue.id;
 
       await requestAccount();
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      const contract = appState.openQClient.OpenQ(appState.openQAddress, signer);
+      const contract = appState.openQClient.OpenQ(
+        appState.openQAddress,
+        signer
+      );
 
       try {
         const transaction = await contract.mintBounty(globalIssueId);
         await transaction.wait();
         const address = await getBountyAddress(globalIssueId);
         setBountyAddress(address);
+        console.log("BountyAddress is: ", address);
       } catch (error) {
-        if (error?.data?.message.includes("Issue already exists for given id")) {
+        if (
+          error?.data?.message.includes("Issue already exists for given id")
+        ) {
           alert("Issue already exists");
         }
         console.log(error);
@@ -88,6 +101,24 @@ const CreateBountyModal = (props) => {
     }
     fetchIssue();
   }, [issueId]);
+
+  /* Get Bounty Address and Display if already minted */
+
+  useEffect(async () => {
+    if (issueId) {
+      const resp = await appState.githubRepository.fetchIssue(
+        orgName,
+        repoName,
+        issueId
+      );
+      const globalIssueId = resp.data.organization.repository.issue.id;
+      const address = await getBountyAddress(globalIssueId);
+      setBountyAddress(address);
+    }
+  });
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(bountyAddress);
+  };
 
   return (
     <div>
@@ -165,7 +196,7 @@ const CreateBountyModal = (props) => {
                         {issueData.data.organization.repository.issue.title}
                       </div>
                     </div>
-                    <div className="text-xs pt-3 pl-6 text-gray-300">
+                    <div className="text-xs pt-3 pl-6 text-gray-400">
                       {" "}
                       created at {getDate()} by{" "}
                       {
@@ -176,15 +207,33 @@ const CreateBountyModal = (props) => {
                   </div>
                 )}
               </div>
-              <div className="flex flex-row items-center justify-left p-6 w-full font-mont rounded-lg w-full py-3 text-base cursor-pointer bg-gray-100 text-white">
-                <div className="font-mont font-normal text-gray-600">
-                  {" "}
-                  <div className="font-mont bg-gray-100 font-normal text-gray-600">
-                    {bountyAddress}
-                  </div>
-                </div>
+            </div>
+            <div
+              onClick={copyToClipboard}
+              className="flex flex-row justify-center font-mont font-normal py-2 cursor-pointer space-x-1 text-gray-500"
+            >
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                  />
+                </svg>
+              </div>
+              <div>
+                {bountyAddress.substring(0, 24)}
+                ...
               </div>
             </div>
+
             <div className="flex items-center justify-center p-6 rounded-b w-full">
               <button
                 className="confirm-btn"
