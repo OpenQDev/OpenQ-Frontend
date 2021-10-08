@@ -46,18 +46,20 @@ const BountyCardList = () => {
     );
   } else {
     return (
-      <div className="grid grid-cols-3 gap-6 pr-20">
-        {issueData.map((issue) => {
-          return <BountyCard
-            repoName={issue.repoName}
-            issueName={issue.title}
-            avatarUrl={issue.avatarUrl}
-            labels={issue.labels}
-            address={issueIdToAddress[issue.issueId]}
-            deposits={fundingData[issue.issueId]}
-            key={issue.issueId} />;
-        })}
-      </div>
+      <>
+        <div className="grid grid-cols-3 gap-6 pr-20">
+          {issueData.map((issue) => {
+            return <BountyCard
+              repoName={issue.repoName}
+              issueName={issue.title}
+              avatarUrl={issue.avatarUrl}
+              labels={issue.labels}
+              address={issueIdToAddress[issue.issueId]}
+              deposits={fundingData[issue.issueId]}
+              key={issue.issueId} />;
+          })}
+        </div>
+      </>
     );
   }
 };
