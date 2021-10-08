@@ -16,10 +16,14 @@ module.exports = {
       full: "9999px",
       large: "12px",
     },
+    boxShadow: {
+      inner: "inset 0 -2px 3px 0 rgba(0, 0, 0, 0.06)",
+    },
     extend: {
       colors: {
         "menu-black": "#090909",
         "button-pink": "#FF006A",
+        "bg-input-color": "#C45454",
       },
       fontFamily: {
         mont: "'Montserrat', sans-serif;",
