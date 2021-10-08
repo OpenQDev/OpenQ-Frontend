@@ -29,7 +29,7 @@ export default function Home() {
         <div className="flex flex-fill pl-12 pt-5 pr-12 pb-5 border-b items-center justify-between">
           <BountySearch />
           <ConnectWallet />
-          <AddNetworkButton />
+          <AddNetworkButton deployEnv={process.env.DEPLOY_ENV} />
           <ProfilePicture />
           <AuthButton />
         </div>
