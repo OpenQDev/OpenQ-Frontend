@@ -64,9 +64,7 @@ const AddNetworkButton = (props) => {
     }, []);
 
     const addNetwork = () => {
-        console.log(params);
         window.ethereum.request({ method: 'wallet_addEthereumChain', params })
-            .then(() => console.log('Success'))
             .catch((error) => console.log("Error", error.message));
     };
 

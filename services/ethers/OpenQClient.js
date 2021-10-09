@@ -4,9 +4,7 @@ import ERC20ABI from '../../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.
 import addresses from '../../addresses.json';
 
 class OpenQClient {
-    constructor() {
-        console.log(addresses);
-    }
+    constructor() { }
 
     OpenQ = (provierOrSigner) => {
         const contract = new ethers.Contract(addresses.OPENQ_ADDRESS, OpenQABI.abi, provierOrSigner);
@@ -27,11 +25,10 @@ class OpenQClient {
 
         try {
             const contractBytecode = await signer.provider.getCode(addresses.OPENQ_ADDRESS);
-            console.log(contractBytecode);
 
             if (contractBytecode == "0x") {
                 const noContractBytecodeErrorMessage = `
-              Your browser wallet provider pointing to chainId ${window.ethereum.networkVersion} returned no bytecode for the contract you are trying to call at address ${process.env.OPENQ_ADDRESS}. 
+              Your browser wallet provider pointing to chainId ${window.ethereum.networkVersion} returned no bytecode for the contract you are trying to call at address ${addresses.OPENQ_ADDRESS}. 
               Are you sure MetaMask is connected to the same location as ${process.env.PROVIDER_URL}?
             `;
                 throw (new Error(noContractBytecodeErrorMessage));
@@ -58,7 +55,6 @@ class OpenQClient {
     }
 
     async getIssueDeposits(tokenAddresses, signer, issueIdToAddresses) {
-        console.log(tokenAddresses);
         let issueDeposits = {};
         try {
             for (const [issueId, issueAddress] of Object.entries(issueIdToAddresses)) {
