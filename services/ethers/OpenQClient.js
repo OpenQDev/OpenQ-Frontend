@@ -1,12 +1,13 @@
 import { ethers } from 'ethers';
 import OpenQABI from '../../artifacts/contracts/OpenQ.sol/OpenQ.json';
 import ERC20ABI from '../../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json';
+import addresses from '../../addresses.json';
 
 class OpenQClient {
     constructor() { }
 
     OpenQ = (openQAddress, provierOrSigner) => {
-        const contract = new ethers.Contract(openQAddress, OpenQABI.abi, provierOrSigner);
+        const contract = new ethers.Contract(addresses.OPENQ_ADDRESS, OpenQABI.abi, provierOrSigner);
         return contract;
     };
 
@@ -20,10 +21,10 @@ class OpenQClient {
     };
 
     async getAllIssues(openQAddress, signer) {
-        const contract = this.OpenQ(openQAddress, signer);
+        const contract = this.OpenQ(addresses.OPENQ_ADDRESS, signer);
 
         try {
-            const contractBytecode = await signer.provider.getCode(process.env.OPENQ_ADDRESS);
+            const contractBytecode = await signer.provider.getCode(addresses.OPENQ_ADDRESS);
 
             if (contractBytecode == "0x") {
                 const noContractBytecodeErrorMessage = `
@@ -41,7 +42,7 @@ class OpenQClient {
     }
 
     async getIssueAddresses(openQAddress, signer, issues) {
-        const contract = this.OpenQ(openQAddress, signer);
+        const contract = this.OpenQ(addresses.OPENQ_ADDRESS, signer);
         const issueIdToAddress = {};
         try {
             for (const issueId of issues) {
