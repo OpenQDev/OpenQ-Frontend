@@ -45,7 +45,7 @@ const AddNetworkButton = (props) => {
         }];
 
         switch (props.deployEnv) {
-            case "local":
+            case "docker":
                 setNetworkName("Localhost");
                 setParams(localhost);
                 break;

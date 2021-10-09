@@ -4,9 +4,11 @@ import ERC20ABI from '../../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.
 import addresses from '../../addresses.json';
 
 class OpenQClient {
-    constructor() { }
+    constructor() {
+        console.log(addresses);
+    }
 
-    OpenQ = (openQAddress, provierOrSigner) => {
+    OpenQ = (provierOrSigner) => {
         const contract = new ethers.Contract(addresses.OPENQ_ADDRESS, OpenQABI.abi, provierOrSigner);
         return contract;
     };
@@ -20,11 +22,12 @@ class OpenQClient {
 
     };
 
-    async getAllIssues(openQAddress, signer) {
-        const contract = this.OpenQ(addresses.OPENQ_ADDRESS, signer);
+    async getAllIssues(signer) {
+        const contract = this.OpenQ(signer);
 
         try {
             const contractBytecode = await signer.provider.getCode(addresses.OPENQ_ADDRESS);
+            console.log(contractBytecode);
 
             if (contractBytecode == "0x") {
                 const noContractBytecodeErrorMessage = `
@@ -33,7 +36,6 @@ class OpenQClient {
             `;
                 throw (new Error(noContractBytecodeErrorMessage));
             }
-
             const allIssueIds = await contract.getIssueIds();
             return allIssueIds;
         } catch (err) {
@@ -41,8 +43,8 @@ class OpenQClient {
         }
     }
 
-    async getIssueAddresses(openQAddress, signer, issues) {
-        const contract = this.OpenQ(addresses.OPENQ_ADDRESS, signer);
+    async getIssueAddresses(signer, issues) {
+        const contract = this.OpenQ(signer);
         const issueIdToAddress = {};
         try {
             for (const issueId of issues) {
@@ -56,6 +58,7 @@ class OpenQClient {
     }
 
     async getIssueDeposits(tokenAddresses, signer, issueIdToAddresses) {
+        console.log(tokenAddresses);
         let issueDeposits = {};
         try {
             for (const [issueId, issueAddress] of Object.entries(issueIdToAddresses)) {
