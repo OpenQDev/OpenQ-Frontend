@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "boot:local": "DEPLOY_ENV=local next dev",
+    "boot:docker": "DEPLOY_ENV=docker next dev",
     "boot:mock": "DEPLOY_ENV=mock next dev",
     "boot:production": "DEPLOY_ENV=polygon next dev",
     "build": "next build",
