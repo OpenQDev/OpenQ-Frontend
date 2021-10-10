@@ -4,7 +4,7 @@ import AuthContext from "../store/AuthStore/AuthContext";
 import StoreContext from "../store/Store/StoreContext";
 
 function Withdraw() {
-    const [issueUrl, setIssueUrl] = useState("https://github.com/OpenQDev/OpenQ-Contracts/issues/46");
+    const [issueUrl, setIssueUrl] = useState("https://github.com/OpenQDev/OpenQ-Contracts/issues/48");
     const [authState, setAuthState] = useContext(AuthContext);
     const [appState, setAppState] = useContext(StoreContext);
 
@@ -22,7 +22,6 @@ function Withdraw() {
         const token = window.localStorage.getItem('token');
 
         axios.post(`${appState.baseUrl}${appState.apiPort}/withdraw`, {
-            username: username,
             issueId: globalIssueId,
             payoutAddress: window.ethereum.selectedAddress,
             oauthToken: token

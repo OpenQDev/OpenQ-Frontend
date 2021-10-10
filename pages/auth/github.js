@@ -20,6 +20,7 @@ function GitHubAuth({ Component, pageProps }) {
     }, []);
 
     const exchangeAuthCodeForAccessToken = (authCode) => {
+        console.log(`${appState.baseUrl}${appState.oauthPort}/${appState.githubOAuthPath}?app=openq&code=${authCode}`);
         axios.get(`${appState.baseUrl}${appState.oauthPort}/${appState.githubOAuthPath}?app=openq&code=${authCode}`)
             .then((res) => {
                 const accessToken = res.data.access_token;
