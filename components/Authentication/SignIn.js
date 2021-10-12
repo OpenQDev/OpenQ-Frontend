@@ -1,13 +1,16 @@
 import React, { useContext, useState, useEffect } from "react";
-import AuthContext from "../../store/AuthStore/AuthContext";
+import { useRouter } from 'next/router';
+import StoreContext from "../../store/Store/StoreContext";
 
 const SignIn = () => {
-    const [appState, setAppState] = useContext(AuthContext);
+    const [appState, setAppState] = useContext(StoreContext);
+    const router = useRouter();
 
     const signIn = () => {
-        const clientId = "client_id=5fbd39c6916b7efb63cc";
+        console.log(appState);
+        const clientId = `client_id=${appState.clientId}`;
         const scopes = "scope=read:user%20public_repo";
-        window.location = `https://github.com/login/oauth/authorize?${clientId}`;
+        router.push(`https://github.com/login/oauth/authorize?${clientId}`);
     };
 
     return (

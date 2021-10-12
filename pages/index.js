@@ -3,6 +3,7 @@ import Image from "next/image";
 import BountyCardList from "../components/BountyCardList";
 import BountySearch from "../components/BountySearch";
 import ConnectWallet from "../components/ConnectWallet";
+import AddNetworkButton from "../components/AddNetworkButton";
 import AuthButton from "../components/Authentication/AuthButton";
 import CreateBounty from "../components/CreateBounty";
 import StackSearch from "../components/StackSearch";
@@ -28,6 +29,7 @@ export default function Home() {
         <div className="flex flex-fill pl-12 pt-5 pr-12 pb-5 border-b items-center justify-between">
           <BountySearch />
           <ConnectWallet />
+          <AddNetworkButton deployEnv={process.env.DEPLOY_ENV} />
           <ProfilePicture />
           <AuthButton />
         </div>
