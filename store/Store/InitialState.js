@@ -49,12 +49,12 @@ switch (process.env.DEPLOY_ENV) {
             tokenAddresses: [addresses.FAKE_TOKEN_ADDRESS, addresses.MOCK_TOKEN_ADDRESS],
             openQAddress: addresses.OPENQ_ADDRESS,
             openQClient: new OpenQClient(),
-            baseUrl: "http://localhost",
-            frontendPort: ":3000",
-            oauthPort: ":3001",
-            apiPort: ":8090",
-            githubOAuthPath: "",
-            clientId: "5fbd39c6916b7efb63cc"
+            baseUrl: "https://development.openq.dev",
+            frontendPort: "",
+            oauthPort: "",
+            apiPort: "",
+            githubOAuthPath: "auth",
+            clientId: "82e208319d33d8a6f6b8"
         };
         break;
     case "staging":
