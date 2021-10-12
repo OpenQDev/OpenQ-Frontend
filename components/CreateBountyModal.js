@@ -26,7 +26,6 @@ const CreateBountyModal = (props) => {
     if (typeof window.ethereum !== "undefined") {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const contract = appState.openQClient.OpenQ(
-        appState.openQAddress,
         provider
       );
 
@@ -273,9 +272,8 @@ const CreateBountyModal = (props) => {
 
             <div className="flex items-center justify-center p-6 rounded-b w-full">
               <button
-                className={`${
-                  disableMint ? "confirm-btn-disabled" : "confirm-btn"
-                }`}
+                className={`${disableMint ? "confirm-btn-disabled" : "confirm-btn"
+                  }`}
                 type="button"
                 onClick={() => mintBounty()}
                 disabled={disableMint}
