@@ -68,6 +68,24 @@ class GithubRepository {
 
     return promise;
   }
+
+  async getIssueData(issues) {
+    const issueDataObjects = [];
+    for (let issueId of issues) {
+      const response = await this.fetchIssueById(issueId);
+      const responseData = response.data.node;
+      const { title, body, url } = responseData;
+      const repoName = responseData.repository.name;
+      const avatarUrl = responseData.repository.owner.avatarUrl;
+      const owner = responseData.repository.owner.login;
+      const labels = responseData.labels.edges.map(edge => edge.node);
+
+      const issueData = { issueId, title, body, url, repoName, owner, avatarUrl, labels };
+
+      issueDataObjects.push(issueData);
+    }
+    return issueDataObjects;
+  }
 }
 
 export default GithubRepository;

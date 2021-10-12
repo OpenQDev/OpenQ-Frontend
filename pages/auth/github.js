@@ -3,8 +3,10 @@ import axios from "axios";
 import AuthSession from "../../services/authentication/AuthSession";
 import AuthContext from "../../store/AuthStore/AuthContext";
 import { useRouter } from 'next/router';
+import StoreContext from "../../store/Store/StoreContext";
 
 function GitHubAuth({ Component, pageProps }) {
+    const [appState, dispatch] = useContext(StoreContext);
     const router = useRouter();
     const [authCode, setAuthCode] = useState("NO AUTH CODE");
     const [token, setToken] = useState("");
@@ -18,7 +20,8 @@ function GitHubAuth({ Component, pageProps }) {
     }, []);
 
     const exchangeAuthCodeForAccessToken = (authCode) => {
-        axios.get(`https://development.openq.dev/auth?app=openq&code=${authCode}`)
+        console.log(`${appState.baseUrl}${appState.oauthPort}/${appState.githubOAuthPath}?app=openq&code=${authCode}`);
+        axios.get(`${appState.baseUrl}${appState.oauthPort}/${appState.githubOAuthPath}?app=openq&code=${authCode}`)
             .then((res) => {
                 const accessToken = res.data.access_token;
                 const authSession = new AuthSession("mockId", accessToken);
@@ -27,7 +30,7 @@ function GitHubAuth({ Component, pageProps }) {
 
                 setAuthState({ type: "LOGIN", payload: { user: "mockUser", token: accessToken } });
 
-                router.push("http://localhost:3000");
+                router.push(`${appState.baseUrl}${appState.frontendPort}`);
             })
             .catch((error) => {
                 console.log(error);

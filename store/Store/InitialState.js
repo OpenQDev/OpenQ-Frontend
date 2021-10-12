@@ -5,30 +5,40 @@ import Utils from "../../services/utils/Utils";
 import OpenQClient from '../../services/ethers/OpenQClient';
 import MockOpenQClient from "../../services/ethers/MockOpenQClient";
 import { ethers } from 'ethers';
+import addresses from '../../addresses.json';
 
 let InitialState = {};
 switch (process.env.DEPLOY_ENV) {
-    // Booting local will sping up A) an Ethnode B) deploy contracts C) boot API D) boot frontend to point to all three of the former
-    case "local":
-        InitialState = {
-            githubRepository: new GithubRepository(),
-            publicAddress: "",
-            utils: new Utils(),
-            tokenAddresses: [process.env.FAKE_TOKEN_ADDRESS, process.env.MOCK_TOKEN_ADDRESS],
-            openQAddress: process.env.OPENQ_ADDRESS,
-            openQClient: new OpenQClient(),
-        };
-        break;
-    // Booting mock will spin up A) an Ethnode B) a frontend to which we inject all mocks
     case "mock":
-        console.log(process.env.FAKE_TOKEN_ADDRESS);
         InitialState = {
             githubRepository: new MockGithubRepository(),
             publicAddress: "",
             utils: new Utils(),
-            tokenAddresses: [process.env.FAKE_TOKEN_ADDRESS, process.env.MOCK_TOKEN_ADDRESS],
-            openQAddress: process.env.OPENQ_ADDRESS,
-            openQClient: new MockOpenQClient()
+            tokenAddresses: [addresses.FAKE_TOKEN_ADDRESS, addresses.MOCK_TOKEN_ADDRESS],
+            openQAddress: addresses.OPENQ_ADDRESS,
+            openQClient: new MockOpenQClient(),
+            baseUrl: "http://localhost",
+            frontendPort: ":3000",
+            apiPort: ":8090",
+            oauthPort: "",
+            githubOAuthPath: "auth",
+            clientId: "doesntmatter"
+        };
+        break;
+    case "docker":
+        InitialState = {
+            githubRepository: new GithubRepository(),
+            publicAddress: "",
+            utils: new Utils(),
+            tokenAddresses: [addresses.FAKE_TOKEN_ADDRESS, addresses.MOCK_TOKEN_ADDRESS],
+            openQAddress: addresses.OPENQ_ADDRESS,
+            openQClient: new OpenQClient(),
+            baseUrl: "http://localhost",
+            frontendPort: ":3000",
+            oauthPort: ":3001",
+            apiPort: ":8090",
+            githubOAuthPath: "",
+            clientId: "5fbd39c6916b7efb63cc"
         };
         break;
     case "development":
@@ -36,9 +46,31 @@ switch (process.env.DEPLOY_ENV) {
             githubRepository: new GithubRepository(),
             publicAddress: "",
             utils: new Utils(),
-            tokenAddresses: [process.env.FAKE_TOKEN_ADDRESS, process.env.MOCK_TOKEN_ADDRESS],
-            openQAddress: process.env.OPENQ_ADDRESS,
+            tokenAddresses: [addresses.FAKE_TOKEN_ADDRESS, addresses.MOCK_TOKEN_ADDRESS],
+            openQAddress: addresses.OPENQ_ADDRESS,
             openQClient: new OpenQClient(),
+            baseUrl: "http://localhost",
+            frontendPort: ":3000",
+            oauthPort: ":3001",
+            apiPort: ":8090",
+            githubOAuthPath: "",
+            clientId: "5fbd39c6916b7efb63cc"
+        };
+        break;
+    case "staging":
+        InitialState = {
+            githubRepository: new GithubRepository(),
+            publicAddress: "",
+            utils: new Utils(),
+            tokenAddresses: [addresses.FAKE_TOKEN_ADDRESS, addresses.MOCK_TOKEN_ADDRESS],
+            openQAddress: addresses.OPENQ_ADDRESS,
+            openQClient: new OpenQClient(),
+            baseUrl: "https://staging.openq.dev",
+            frontendPort: "",
+            oauthPort: "",
+            apiPort: "",
+            githubOAuthPath: "auth",
+            clientId: "6fef986c27015da76128"
         };
         break;
     case "production":
@@ -46,9 +78,15 @@ switch (process.env.DEPLOY_ENV) {
             githubRepository: new GithubRepository(),
             publicAddress: "",
             utils: new Utils(),
-            tokenAddresses: [process.env.FAKE_TOKEN_ADDRESS, process.env.MOCK_TOKEN_ADDRESS],
-            openQAddress: process.env.OPENQ_ADDRESS,
+            tokenAddresses: [addresses.FAKE_TOKEN_ADDRESS, addresses.MOCK_TOKEN_ADDRESS],
+            openQAddress: addresses.OPENQ_ADDRESS,
             openQClient: new OpenQClient(),
+            baseUrl: "https://app.openq.dev",
+            frontendPort: "",
+            oauthPort: "",
+            apiPort: "",
+            githubOAuthPath: "auth",
+            clientId: "79c2b8f305ad223cfb5e"
         };
         break;
     default:
