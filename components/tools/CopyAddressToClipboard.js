@@ -13,10 +13,10 @@ const  CopyAddressToClipboard = (props) => {
       };
 
     return(
-        <div className="relative px-8 pt-3">
+        <div className="relative pt-2">
         <div
           onClick={copyTextToClipboard}
-          className="flex flex-row justify-center font-mont font-normal py-2 cursor-pointer rounded-lg text-base cursor-pointer bg-gray-100 shadow-inner text-white space-x-1 text-gray-500"
+          className="flex flex-row space-x-1"
         >
           <div className="relative flex flex-col items-center group">
             {copySuccess ? (

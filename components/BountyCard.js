@@ -1,6 +1,7 @@
   import Image from "next/image";
 import { useState } from "react";
 import BountyCardDetails from "./BountyCardDetails";
+import CopyAddressToClipboard from "./tools/CopyAddressToClipboard";
 
 const BountyCard = (props) => {
   const { repoName, issueName, avatarUrl, labels, deposits, address } = props
@@ -43,7 +44,9 @@ const BountyCard = (props) => {
             />
           </div>
         </div>
-        <div className="pl-6">{address}</div>
+        <div className="justify-left pl-5 pt-3">
+        <CopyAddressToClipboard data={address}/>
+        </div>
         <div className="flex flex-row justify-between pt-3 pl-6 pr-3">
           {labels.map((label, index) => {
               return <button key={index} className="font-mont rounded-md text-xs py-1 px-2 font-bold cursor-pointe bg-pink-500 text-white">{label.name}</button>
