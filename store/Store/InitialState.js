@@ -5,7 +5,7 @@ import Utils from "../../services/utils/Utils";
 import OpenQClient from '../../services/ethers/OpenQClient';
 import MockOpenQClient from "../../services/ethers/MockOpenQClient";
 import { ethers } from 'ethers';
-import addresses from '../../addresses.json';
+import addresses from '../../addresses/addresses.json';
 
 let InitialState = {};
 switch (process.env.DEPLOY_ENV) {
