@@ -1,14 +1,10 @@
-const { readEnvVars, getEnvValue } = require("./env-loader");
-
 module.exports = () => {
   const env = {
     DEPLOY_ENV: process.env.DEPLOY_ENV,
-    PROVIDER_URL: getEnvValue("PROVIDER_URL"),
-    WALLET_KEY: getEnvValue("WALLET_KEY"),
-    PAT: getEnvValue("PAT"),
+    PROVIDER_URL: process.env.PROVIDER_URL,
+    WALLET_KEY: process.env.WALLET_KEY,
+    PAT: process.env.PAT,
   };
-
-  console.log(`Environment loaded from .env.${process.env.DEPLOY_ENV}`, env);
 
   const config = {
     reactStrictMode: true,
