@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import StoreContext from "../store/Store/StoreContext";
-import { ethers } from 'ethers';
+import { ethers } from "ethers";
 
 const CreateBountyModal = (props) => {
   const [appState, setAppState] = useContext(StoreContext);
@@ -11,19 +11,24 @@ const CreateBountyModal = (props) => {
   const [issueData, setIssueData] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [bountyAddress, setBountyAddress] = useState("No Issue Address Yet");
+  const [copySuccess, setCopySuccess] = useState("");
+  const [disableMint, setDisableMint] = useState(false);
 
   const updateModal = () => {
     props.modalVisibility(false);
   };
 
   async function requestAccount() {
-    await window.ethereum.request({ method: 'eth_requestAccounts' });
+    await window.ethereum.request({ method: "eth_requestAccounts" });
   }
 
   async function getBountyAddress(id) {
-    if (typeof window.ethereum !== 'undefined') {
+    if (typeof window.ethereum !== "undefined") {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = appState.openQClient.OpenQ(appState.openQAddress, provider);
+      const contract = appState.openQClient.OpenQ(
+        appState.openQAddress,
+        provider
+      );
 
       try {
         const bountyAddress = await contract.getBountyAddress(id);
@@ -35,22 +40,33 @@ const CreateBountyModal = (props) => {
   }
 
   async function mintBounty(id) {
-    if (typeof window.ethereum !== 'undefined') {
-      const resp = await appState.githubRepository.fetchIssue(orgName, repoName, issueId);
+    if (typeof window.ethereum !== "undefined") {
+      const resp = await appState.githubRepository.fetchIssue(
+        orgName,
+        repoName,
+        issueId
+      );
       const globalIssueId = resp.data.organization.repository.issue.id;
 
       await requestAccount();
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      const contract = appState.openQClient.OpenQ(appState.openQAddress, signer);
+      const contract = appState.openQClient.OpenQ(
+        appState.openQAddress,
+        signer
+      );
 
       try {
         const transaction = await contract.mintBounty(globalIssueId);
         await transaction.wait();
         const address = await getBountyAddress(globalIssueId);
         setBountyAddress(address);
+        console.log("BountyAddress is: ", address);
+        setDisableMint(true);
       } catch (error) {
-        if (error?.data?.message.includes("Issue already exists for given id")) {
+        if (
+          error?.data?.message.includes("Issue already exists for given id")
+        ) {
           alert("Issue already exists");
         }
         console.log(error);
@@ -89,6 +105,29 @@ const CreateBountyModal = (props) => {
     fetchIssue();
   }, [issueId]);
 
+  /* Get Bounty Address and Display if already minted */
+
+  useEffect(async () => {
+    if (issueId) {
+      const resp = await appState.githubRepository.fetchIssue(
+        orgName,
+        repoName,
+        issueId
+      );
+      const globalIssueId = resp.data.organization.repository.issue.id;
+      const address = await getBountyAddress(globalIssueId);
+      setBountyAddress(address);
+      setDisableMint(true);
+    }
+  });
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(bountyAddress);
+    setCopySuccess("Copied!");
+    setTimeout(function () {
+      setCopySuccess("");
+    }, 2000);
+  };
+
   return (
     <div>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -101,12 +140,12 @@ const CreateBountyModal = (props) => {
                 Mint Bounty
               </h3>
               <h3 className="text-2xl pt-3 w-2/3 text-center text-gray-300">
-                Send funds to any GitHub Issue
+                Create a Bounty to send funds to any GitHub Issue
               </h3>
             </div>
-            <div className="flex flex-col pl-8 pr-6 space-y-2">
+            <div className="flex flex-col pl-6 pr-6 space-y-2">
               <div className="border-gray-100 border-2 rounded-lg">
-                <div className="flex flex-row space-x-2 items-center p-2 font-mont rounded-lg py-1 text-base cursor-pointer bg-gray-100 text-white">
+                <div className="flex flex-row space-x-2 items-center p-2 font-mont rounded-lg py-1 text-base cursor-pointer bg-gray-100 shadow-inner text-white">
                   <button
                     className="flex flex-row items-center font-mont rounded-lg px-4 py-2 text-base font-bold cursor-pointer bg-button-pink text-white hover:bg-pink-600 hover:text-white"
                     type="button"
@@ -131,7 +170,7 @@ const CreateBountyModal = (props) => {
                   </button>
                   <div className="font-mont bg-gray-100 font-normal text-gray-600">
                     <input
-                      className="bg-gray-100 w-6/7 border-gray-100 outline-none"
+                      className="bg-gray-100 w-8/9 border-gray-100 outline-none"
                       id="name"
                       placeholder="Issue URL"
                       autoComplete="off"
@@ -143,7 +182,7 @@ const CreateBountyModal = (props) => {
                   </div>
                 </div>
                 {isLoading ? null : (
-                  <div className="flex flex-col pb-3 pt-3 pl-5 font-mont">
+                  <div className="flex flex-col pb-3 pt-4 pl-5 font-mont">
                     <div className="flex flex-grow flex-row items-center space-x-2">
                       <div className="">
                         <svg
@@ -165,7 +204,7 @@ const CreateBountyModal = (props) => {
                         {issueData.data.organization.repository.issue.title}
                       </div>
                     </div>
-                    <div className="text-xs pt-3 pl-6 text-gray-300">
+                    <div className="text-xs pt-3 pl-6 text-gray-400">
                       {" "}
                       created at {getDate()} by{" "}
                       {
@@ -176,22 +215,72 @@ const CreateBountyModal = (props) => {
                   </div>
                 )}
               </div>
-              <div className="flex flex-row items-center justify-left p-6 w-full font-mont rounded-lg w-full py-3 text-base cursor-pointer bg-gray-100 text-white">
-                <div className="font-mont font-normal text-gray-600">
-                  {" "}
-                  <div className="font-mont bg-gray-100 font-normal text-gray-600">
-                    {bountyAddress}
+            </div>
+            {!disableMint ? null : (
+              <div className="relative px-8 pt-3">
+                <div
+                  onClick={copyToClipboard}
+                  className="flex flex-row justify-center font-mont font-normal py-2 cursor-pointer rounded-lg text-base cursor-pointer bg-gray-100 shadow-inner text-white space-x-1 text-gray-500"
+                >
+                  <div className="relative flex flex-col items-center group">
+                    {copySuccess ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                        />
+                      </svg>
+                    )}
+                    {!copySuccess ? null : (
+                      <div className="absolute bottom-0 flex flex-col items-center hidden mb-6 ml-4 group-hover:flex">
+                        <span className="relative z-10 p-2 text-xs rounded-md leading-none text-gray-500 whitespace-no-wrap bg-gray-200 shadow-lg">
+                          Copied!
+                        </span>
+                        <div className="w-3 h-3 -mt-2 mr-4 rotate-45 bg-gray-200"></div>
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    {bountyAddress.substring(0, 24)}
+                    ...
                   </div>
                 </div>
               </div>
-            </div>
+            )}
+
             <div className="flex items-center justify-center p-6 rounded-b w-full">
               <button
-                className="confirm-btn"
+                className={`${
+                  disableMint ? "confirm-btn-disabled" : "confirm-btn"
+                }`}
                 type="button"
                 onClick={() => mintBounty()}
+                disabled={disableMint}
               >
-                Mint Bounty
+                {disableMint ? "Bounty Minted" : "Mint Bounty"}
               </button>
             </div>
           </div>

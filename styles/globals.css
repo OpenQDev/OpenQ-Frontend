@@ -31,4 +31,7 @@
   .confirm-btn {
     @apply font-mont rounded-lg w-full py-3 text-base font-bold cursor-pointer bg-button-pink text-white hover:bg-pink-300 hover:text-white;
   }
+  .confirm-btn-disabled {
+    @apply font-mont rounded-lg w-full py-3 text-base font-bold text-white bg-pink-300;
+  }
 }
