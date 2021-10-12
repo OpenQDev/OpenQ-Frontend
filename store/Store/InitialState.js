@@ -21,7 +21,7 @@ switch (process.env.DEPLOY_ENV) {
             frontendPort: ":3000",
             apiPort: ":8090",
             oauthPort: "",
-            githubOAuthPath: "auth",
+            githubOAuthPath: "oauth",
             clientId: "doesntmatter"
         };
         break;
@@ -53,7 +53,7 @@ switch (process.env.DEPLOY_ENV) {
             frontendPort: "",
             oauthPort: "",
             apiPort: "",
-            githubOAuthPath: "auth",
+            githubOAuthPath: "oauth",
             clientId: "82e208319d33d8a6f6b8"
         };
         break;
@@ -69,7 +69,7 @@ switch (process.env.DEPLOY_ENV) {
             frontendPort: "",
             oauthPort: "",
             apiPort: "",
-            githubOAuthPath: "auth",
+            githubOAuthPath: "oauth",
             clientId: "6fef986c27015da76128"
         };
         break;
@@ -85,7 +85,7 @@ switch (process.env.DEPLOY_ENV) {
             frontendPort: "",
             oauthPort: "",
             apiPort: "",
-            githubOAuthPath: "auth",
+            githubOAuthPath: "oauth",
             clientId: "79c2b8f305ad223cfb5e"
         };
         break;
