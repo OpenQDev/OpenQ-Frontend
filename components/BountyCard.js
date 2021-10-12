@@ -1,11 +1,11 @@
-import Image from "next/image";
+  import Image from "next/image";
 import { useState } from "react";
 import BountyCardDetails from "./BountyCardDetails";
 
 const BountyCard = (props) => {
   const { repoName, issueName, avatarUrl, labels, deposits, address } = props
   const [showModal, setShowModal] = useState(false);
-
+  
   return (
     <div>
       <div
@@ -29,7 +29,6 @@ const BountyCard = (props) => {
                 ></path>
               </svg>
             <div>{repoName}</div>
-            <div>{address}</div>
             </div>
             <div className="font-bold pl-6">
               {issueName}
@@ -44,6 +43,7 @@ const BountyCard = (props) => {
             />
           </div>
         </div>
+        <div className="pl-6">{address}</div>
         <div className="flex flex-row justify-between pt-3 pl-6 pr-3">
           {labels.map((label, index) => {
               return <button key={index} className="font-mont rounded-md text-xs py-1 px-2 font-bold cursor-pointe bg-pink-500 text-white">{label.name}</button>
