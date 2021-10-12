@@ -8,6 +8,8 @@
 # testing
 /coverage
 
+PAT
+
 # next.js
 /.next/
 /out/
