@@ -21,15 +21,8 @@ function GitHubAuth({ Component, pageProps }) {
 
     const exchangeAuthCodeForAccessToken = (authCode) => {
         console.log(`${appState.baseUrl}${appState.oauthPort}/${appState.githubOAuthPath}?app=openq&code=${authCode}`);
-        axios.get(`${appState.baseUrl}${appState.oauthPort}/${appState.githubOAuthPath}?app=openq&code=${authCode}`)
+        axios.get(`${appState.baseUrl}${appState.oauthPort}/${appState.githubOAuthPath}?app=openq&code=${authCode}`, { withCredentials: true })
             .then((res) => {
-                const accessToken = res.data.access_token;
-                const authSession = new AuthSession("mockId", accessToken);
-
-                setToken(accessToken);
-
-                setAuthState({ type: "LOGIN", payload: { user: "mockUser", token: accessToken } });
-
                 router.push(`${appState.baseUrl}${appState.frontendPort}`);
             })
             .catch((error) => {
