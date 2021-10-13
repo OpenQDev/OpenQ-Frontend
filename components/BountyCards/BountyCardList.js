@@ -1,9 +1,9 @@
 import BountyCard from "./BountyCard";
 import { useEffect, useState, useContext } from "react";
-import StoreContext from "../store/Store/StoreContext";
+import StoreContext from "../../store/Store/StoreContext";
 import { ethers } from 'ethers';
-import useTrait from "../services/utils/hooks/useTrait";
-import addresses from "../addresses/addresses.json";
+import useTrait from "../../services/utils/hooks/useTrait";
+import addresses from "../../addresses/addresses.json";
 
 const BountyCardList = () => {
   const [appState, dispatch] = useContext(StoreContext);

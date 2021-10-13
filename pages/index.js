@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import BountyCardList from "../components/BountyCardList";
+import BountyCardList from "../components/BountyCards/BountyCardList";
 import BountySearch from "../components/BountySearch";
 import ConnectWallet from "../components/ConnectWallet";
 import AddNetworkButton from "../components/AddNetworkButton";
