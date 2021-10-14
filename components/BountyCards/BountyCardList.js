@@ -17,8 +17,12 @@ const BountyCardList = () => {
   const [tokenAddresses, setTokenAddresses] = useState([addresses.FAKE_TOKEN_ADDRESS, addresses.MOCK_TOKEN_ADDRESS]);
 
   function setSignerAndProvider() {
-    provider.set(new ethers.providers.Web3Provider(window.ethereum));
-    signer.set(provider.get().getSigner());
+    if (window.ethereum) {
+      provider.set(new ethers.providers.Web3Provider(window.ethereum));
+      signer.set(provider.get().getSigner());
+    } else {
+      alert("You will need a browser wallet!");
+    }
   }
 
   useEffect(() => {
