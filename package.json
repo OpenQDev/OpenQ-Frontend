@@ -20,6 +20,7 @@
     "@fortawesome/react-fontawesome": "^0.1.15",
     "@headlessui/react": "^1.4.1",
     "@heroicons/react": "^1.0.4",
+    "@metamask/onboarding": "^1.0.1",
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "apollo-link-http": "^1.5.17",
