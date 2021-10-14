@@ -15,8 +15,25 @@ import { useQuery } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client";
 import ProfilePicture from "../components/ProfilePicture";
 import React from "react";
+import axios from "axios";
+import StoreContext from "../store/Store/StoreContext";
 
 export default function Home() {
+  const [appState, dispatch] = useContext(StoreContext);
+
+  useEffect(() => {
+    async function checkAuth() {
+      axios.get(`${appState.baseUrl}${appState.oauthPort}/${appState.githubOAuthPath}/checkAuth`, { withCredentials: true })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    checkAuth();
+  }, []);
+
   return (
     <div>
       <Head>
