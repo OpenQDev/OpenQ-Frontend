@@ -40,15 +40,18 @@ const BountyCardList = () => {
 
   useEffect(() => {
     window.ethereum.on('accountsChanged', function (networkId) {
-      if (window.ethereum.selectedAddress !== null) {
-        populateBountyData();
-      } else {
+      if (window.ethereum.selectedAddress == null) {
         setIsConnected(false);
+      } else {
+        setIsConnected(true);
+        populateBountyData();
       }
     });
   }, []);
 
   async function populateBountyData() {
+    setIsLoading(true);
+
     const issues = await appState.openQClient.getAllIssues(signer.get());
     setIssueIds(issues);
 
