@@ -12,6 +12,7 @@ const BountyCardList = () => {
   const [issueData, setIssueData] = useState([]);
   const [fundingData, setFundingData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [isConnected, setIsConnected] = useState(false);
   const provider = useTrait(null);
   const signer = useTrait(null);
   const [tokenAddresses, setTokenAddresses] = useState([addresses.FAKE_TOKEN_ADDRESS, addresses.MOCK_TOKEN_ADDRESS]);
@@ -26,48 +27,74 @@ const BountyCardList = () => {
   }
 
   useEffect(() => {
-    async function populateBountyData() {
-      const issues = await appState.openQClient.getAllIssues(signer.get());
-      setIssueIds(issues);
-
-      const issueIdToAddresses = await appState.openQClient.getIssueAddresses(signer.get(), issues);
-      setIssueIdToAddress(issueIdToAddresses);
-
-      const issueData = await appState.githubRepository.getIssueData(issues);
-      setIssueData(issueData);
-
-      const fundingDataObject = await appState.openQClient.getIssueDeposits(tokenAddresses, signer.get(), issueIdToAddresses);
-      setFundingData(fundingDataObject);
-
-      setIsLoading(false);
-    }
-
     setSignerAndProvider();
-    populateBountyData();
+    if (window.ethereum.selectedAddress !== null) {
+      setIsConnected(true);
+      populateBountyData();
+    } else {
+      setIsLoading(false);
+      setIsConnected(false);
+      return;
+    }
   }, []);
 
-  if (isLoading) {
-    return (
-      <div>Loading...</div>
-    );
-  } else {
-    return (
-      <>
-        <div className="grid grid-cols-3 gap-6 pr-20">
-          {issueData.map((issue) => {
-            return <BountyCard
-              repoName={issue.repoName}
-              issueName={issue.title}
-              avatarUrl={issue.avatarUrl}
-              labels={issue.labels}
-              address={issueIdToAddress[issue.issueId]}
-              deposits={fundingData[issue.issueId]}
-              key={issue.issueId} />;
-          })}
-        </div>
-      </>
-    );
+  useEffect(() => {
+    window.ethereum.on('accountsChanged', function (networkId) {
+      if (window.ethereum.selectedAddress !== null) {
+        populateBountyData();
+      } else {
+        setIsConnected(false);
+      }
+    });
+  }, []);
+
+  async function populateBountyData() {
+    const issues = await appState.openQClient.getAllIssues(signer.get());
+    setIssueIds(issues);
+
+    const issueIdToAddresses = await appState.openQClient.getIssueAddresses(signer.get(), issues);
+    setIssueIdToAddress(issueIdToAddresses);
+
+    const issueData = await appState.githubRepository.getIssueData(issues);
+    setIssueData(issueData);
+
+    const fundingDataObject = await appState.openQClient.getIssueDeposits(tokenAddresses, signer.get(), issueIdToAddresses);
+    setFundingData(fundingDataObject);
+
+    setIsLoading(false);
   }
+
+  const Loading = () => {
+    return (<div>Loading...</div>);
+  };
+
+  const BountyList = () => {
+    return (
+      <div className="grid grid-cols-3 gap-6 pr-20">
+        {issueData.map((issue) => {
+          return <BountyCard
+            repoName={issue.repoName}
+            issueName={issue.title}
+            avatarUrl={issue.avatarUrl}
+            labels={issue.labels}
+            address={issueIdToAddress[issue.issueId]}
+            deposits={fundingData[issue.issueId]}
+            key={issue.issueId} />;
+        })}
+      </div>
+    );
+  };
+
+  const MustConnect = () => {
+    return (<div>Must connect wallet to load boutnies.</div>);
+  };
+
+  return (
+    <>
+      {isLoading ? <Loading /> : isConnected ? <BountyList /> : <MustConnect />}
+    </>
+  );
+
 };
 
 export default BountyCardList;
