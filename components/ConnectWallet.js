@@ -5,6 +5,7 @@ import MetaMaskOnboarding from '@metamask/onboarding';
 
 const ConnectWallet = () => {
   const [isMetaMaskInstalled, setIsMetaMaskInstalled] = useState(false);
+  const [showButton, setShowButton] = useState(true);
 
   //Created check function to see if the MetaMask extension is installed
   const metaMaskClientCheck = () => {
@@ -25,6 +26,7 @@ const ConnectWallet = () => {
         setIsDisabled(true);
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         setIsDisabled(false);
+        setShowButton(false);
       } catch (error) {
         console.error(error);
         setIsDisabled(false);
@@ -68,26 +70,20 @@ const ConnectWallet = () => {
     );
   };
 
-  const onClickConnect = async () => {
-    try {
-      // Will open the MetaMask UI
-      // You should disable this button while the request is pending!
-      // setIsDisabled(true);
-      await window.ethereum.request({ method: 'eth_requestAccounts' });
-      // setIsDisabled(false);
-      // setShowButton(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
+    // First see if MetaMask is installed
     setIsMetaMaskInstalled(metaMaskClientCheck());
+
+    // Then if it is, see if the wallet is already connected
+    // to determine whether or not to show the button at all
+    if (window.ethereum.selectedAddress !== null) {
+      setShowButton(false);
+    }
   }, []);
 
   return (
     <>
-      {isMetaMaskInstalled ? <ConnectButton /> : <InstallButton />}
+      {showButton ? isMetaMaskInstalled ? <ConnectButton /> : <InstallButton /> : null}
     </>
   );
 };
