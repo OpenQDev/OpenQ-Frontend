@@ -3,8 +3,27 @@ import { useState, useEffect } from "react";
 const AddNetworkButton = (props) => {
     const [params, setParams] = useState([]);
     const [networkName, setNetworkName] = useState('');
+    const [showButton, setShowButton] = useState(true);
 
     useEffect(() => {
+        window.ethereum.on('networkChanged', function (networkId) {
+            updateCurrentNetwork();
+        });
+
+        window.ethereum.on('accountsChanged', function (networkId) {
+            updateCurrentNetwork();
+        });
+
+        updateCurrentNetwork();
+    }, []);
+
+    const updateCurrentNetwork = () => {
+        if (window.ethereum.selectedAddress == null) {
+            setShowButton(false);
+        } else {
+            setShowButton(true);
+        }
+
         const polygon = [{
             chainId: '0x89',
             chainName: 'Polygon Mainnet',
@@ -44,38 +63,54 @@ const AddNetworkButton = (props) => {
             blockExplorerUrls: ['https://mumbai.polygonscan.com/']
         }];
 
+        const chainId = window.ethereum.networkVersion;
+        const { deployEnv } = props;
+
         switch (props.deployEnv) {
             case "docker":
                 setNetworkName("Localhost");
                 setParams(localhost);
+                if (chainId == '31337') {
+                    setShowButton(false);
+                }
                 break;
             case "development":
                 setNetworkName("Mumbai");
                 setParams(mumbai);
+                if (chainId == '80001') {
+                    setShowButton(false);
+                }
                 break;
             case "production":
                 setNetworkName("Polygon");
                 setParams(polygon);
+                if (chainId == '137') {
+                    setShowButton(false);
+                }
                 break;
             default:
                 console.log("Error...");
                 break;
         }
-    }, []);
+    };
 
-    const addNetwork = () => {
+    const addOrSwitchNetwork = () => {
         window.ethereum.request({ method: 'wallet_addEthereumChain', params })
             .catch((error) => console.log("Error", error.message));
     };
 
+    const NetworkActionButton = () => {
+        return (<button
+            onClick={addOrSwitchNetwork}
+            className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
+        >
+            Use {networkName} Network
+        </button>);
+    };
+
     return (
         <div>
-            <button
-                onClick={addNetwork}
-                className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
-            >
-                Add {networkName} Network
-            </button>
+            {showButton ? <NetworkActionButton /> : null}
         </div>
     );
 };

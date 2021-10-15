@@ -71,15 +71,24 @@ const ConnectWallet = () => {
   };
 
   useEffect(() => {
+    window.ethereum.on('accountsChanged', function (networkId) {
+      checkAccounts();
+    });
     // First see if MetaMask is installed
     setIsMetaMaskInstalled(metaMaskClientCheck());
 
-    // Then if it is, see if the wallet is already connected
+    // Then if it is, see 
     // to determine whether or not to show the button at all
+    checkAccounts();
+  }, []);
+
+  const checkAccounts = () => {
     if (window.ethereum.selectedAddress !== null) {
       setShowButton(false);
+    } else {
+      setShowButton(true);
     }
-  }, []);
+  };
 
   return (
     <>
