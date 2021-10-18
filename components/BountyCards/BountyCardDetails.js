@@ -19,8 +19,8 @@ const BountyCardDetails = (props) => {
                 <div className="flex flex-row space-x-20 justify-between">
                   <div className="flex flex-col">
                     <div className="text-xl">smartcontract/chainlink</div>
-                    <div className="text-2xl font-bold">
-                      Render content directly from dom
+                    <div className="text-xl font-bold">
+                      render content directly from dom
                     </div>
                   </div>
                   <div>
@@ -101,7 +101,7 @@ const BountyCardDetails = (props) => {
                       <DisplayPrice />
                     </div>
                     <div className="flex flex-row space-x-1 items-center">
-                      <div>112,33</div>{" "}
+                      <div>243,13</div>{" "}
                       <div className="flex font-semibold">DAI</div>
                     </div>
                   </div>
