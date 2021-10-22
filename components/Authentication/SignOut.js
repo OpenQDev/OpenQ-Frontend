@@ -1,11 +1,20 @@
+import axios from "axios";
 import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "../../store/AuthStore/AuthContext";
+import StoreContext from "../../store/Store/StoreContext";
 
 const SignOut = () => {
     const [authState, setAuthState] = useContext(AuthContext);
+    const [appState, setAppState] = useContext(StoreContext);
 
     const signOut = () => {
-        setAuthState({ type: "LOGOUT" });
+        axios.get(appState.githubLogoutPath, { withCredentials: true })
+            .then((res) => {
+                setAuthState({ type: "UPDATE_IS_AUTHENTICATED", payload: res.data.isAuthenticated });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     return (

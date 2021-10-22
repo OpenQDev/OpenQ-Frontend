@@ -6,6 +6,12 @@ const AuthReducer = (state, action) => {
                 isAuthenticated: action.payload,
                 _id: "fakeid"
             };
+        case "LOGOUT":
+            return {
+                ...state,
+                isAuthenticated: action.payload,
+                _id: "fakeid"
+            };
         default:
             return state;
     }

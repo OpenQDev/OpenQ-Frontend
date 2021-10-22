@@ -39,6 +39,7 @@ switch (process.env.DEPLOY_ENV) {
             apiPort: ":8090",
             githubOAuthPath: "",
             githubCheckAuthPath: "http://localhost:3001/checkAuth",
+            githubLogoutPath: "http://localhost:3001/logout",
             clientId: "5fbd39c6916b7efb63cc"
         };
         break;
@@ -56,6 +57,7 @@ switch (process.env.DEPLOY_ENV) {
             apiPort: "",
             githubOAuthPath: "oauth",
             githubCheckAuthPath: "https://development.openq.dev/oauth/checkAuth",
+            githubLogoutPath: "https://development.openq.dev/oauth/logout",
             clientId: "82e208319d33d8a6f6b8"
         };
         break;
@@ -73,6 +75,7 @@ switch (process.env.DEPLOY_ENV) {
             apiPort: "",
             githubOAuthPath: "oauth",
             githubCheckAuthPath: "https://staging.openq.dev/oauth/checkAuth",
+            githubLogoutPath: "https://staging.openq.dev/oauth/logout",
             clientId: "6fef986c27015da76128"
         };
         break;
@@ -90,6 +93,7 @@ switch (process.env.DEPLOY_ENV) {
             apiPort: "",
             githubOAuthPath: "oauth",
             githubCheckAuthPath: "https://app.openq.dev/oauth/checkAuth",
+            githubLogoutPath: "https://app.openq.dev/oauth/logout",
             clientId: "79c2b8f305ad223cfb5e"
         };
         break;
