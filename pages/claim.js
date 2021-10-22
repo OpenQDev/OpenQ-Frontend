@@ -13,7 +13,7 @@ function Claim() {
 
         const token = window.localStorage.getItem('token');
 
-        axios.post(`${appState.baseUrl}${appState.apiPort}/withdraw`, {
+        axios.post(`${appState.baseUrl}${appState.apiPort}/claim`, {
             issueUrl,
             payoutAddress: window.ethereum.selectedAddress
         }, { withCredentials: true })
@@ -21,8 +21,27 @@ function Claim() {
                 console.log(response);
             })
             .catch((error) => {
-                if (error.message.includes("401")) {
-                    alert("You are unauthorized. You must sign in to claim a bounty");
+                switch (error.response.data.type) {
+                    case "ISSUE_IS_CLAIMED":
+                        alert("This issue has already been claimed.");
+                        break;
+                    case "NOT_FOUND":
+                        alert("NOT_FOUND");
+                        break;
+                    case "NOT_CLOSED":
+                        alert("NOT_CLOSED");
+                        break;
+                    case "INVALID_OAUTH_TOKEN":
+                        alert("INVALID_OAUTH_TOKEN");
+                        break;
+                    case "ISSUE_NOT_CLOSED_BY_USER":
+                        alert("ISSUE_NOT_CLOSED_BY_USER");
+                        break;
+                    case "UNKNOWN_ERROR":
+                        alert("UNKNOWN_ERROR");
+                        break;
+                    default:
+                        alert("Uncaught error");
                 }
             });
     };
