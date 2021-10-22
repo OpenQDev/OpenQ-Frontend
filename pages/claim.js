@@ -21,7 +21,9 @@ function Claim() {
                 console.log(response);
             })
             .catch((error) => {
-                console.log(error);
+                if (error.message.includes("401")) {
+                    alert("You are unauthorized. You must sign in to claim a bounty");
+                }
             });
     };
 
