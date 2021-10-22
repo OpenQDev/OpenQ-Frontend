@@ -15,9 +15,8 @@ function Claim() {
 
         axios.post(`${appState.baseUrl}${appState.apiPort}/withdraw`, {
             issueUrl,
-            payoutAddress: window.ethereum.selectedAddress,
-            oauthToken: token
-        })
+            payoutAddress: window.ethereum.selectedAddress
+        }, { withCredentials: true })
             .then((response) => {
                 console.log(response);
             })
