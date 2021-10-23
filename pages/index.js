@@ -33,13 +33,6 @@ export default function Home() {
       </Head>
 
       <main>
-        <div className="flex flex-fill pl-12 pt-5 pr-12 pb-5 border-b items-center justify-between">
-          <BountySearch />
-          <ConnectWallet />
-          <AddNetworkButton deployEnv={process.env.DEPLOY_ENV} />
-          <ProfilePicture />
-          <AuthButton />
-        </div>
         <div className="flex pl-12 pt-5 pr-12 items-center justify-between">
           <h1 className="font-mont font-bold text-4xl">Dashboard</h1>
           <CreateBounty />

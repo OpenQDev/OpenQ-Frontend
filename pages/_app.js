@@ -3,14 +3,15 @@ import "tailwindcss/tailwind.css";
 import Navbar from "../components/Navbar";
 import StoreProvider from "../store/Store/StoreProvider";
 import AuthProvider from "../store/AuthStore/AuthProvider";
+import Layout from "../components/Layout";
 
 function MyApp({ Component, pageProps }) {
   return (
     <AuthProvider>
       <StoreProvider>
-        <Navbar>
+        <Layout>
           <Component {...pageProps} />
-        </Navbar>
+        </Layout>
       </StoreProvider>
     </AuthProvider>
   );
