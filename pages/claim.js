@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import AuthContext from "../store/AuthStore/AuthContext";
 import StoreContext from "../store/Store/StoreContext";
+import useAuth from "../hooks/useAuth";
 
 function Claim() {
     const [issueUrl, setIssueUrl] = useState("https://github.com/OpenQDev/OpenQ-Contracts/issues/48");
-    const [authState, setAuthState] = useContext(AuthContext);
     const [appState, setAppState] = useContext(StoreContext);
+
+    useAuth();
 
     const claimBounty = async (event) => {
         event.preventDefault();
-
-        const token = window.localStorage.getItem('token');
 
         axios.post(`${appState.baseUrl}${appState.apiPort}/claim`, {
             issueUrl,

@@ -16,25 +16,13 @@ import { ApolloProvider } from "@apollo/client";
 import ProfilePicture from "../components/ProfilePicture";
 import React from "react";
 import axios from "axios";
-import AuthContext from "../store/AuthStore/AuthContext";
 import StoreContext from "../store/Store/StoreContext";
+import useAuth from "../hooks/useAuth";
 
 export default function Home() {
-  const [authState, authStateDispatch] = useContext(AuthContext);
   const [appState, appStateDispatch] = useContext(StoreContext);
 
-  useEffect(() => {
-    async function checkAuth() {
-      axios.get(appState.githubCheckAuthPath, { withCredentials: true })
-        .then((res) => {
-          authStateDispatch({ type: "UPDATE_IS_AUTHENTICATED", payload: res.data.isAuthenticated });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-    checkAuth();
-  }, []);
+  useAuth();
 
   return (
     <div>
