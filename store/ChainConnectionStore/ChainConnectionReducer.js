@@ -10,6 +10,11 @@ const ChainConnectionReducer = (state, action) => {
                 ...state,
                 hasMetamask: action.payload,
             };
+        case "SHOW_WALLET_CONNECT":
+            return {
+                ...state,
+                showWalletConnect: action.payload,
+            };
         default:
             return state;
     }

@@ -1,6 +1,7 @@
 const InitialState = {
     hasMetamask: false,
-    activeAccount: null
+    activeAccount: null,
+    showWalletConnect: true
 };
 
 export default InitialState;

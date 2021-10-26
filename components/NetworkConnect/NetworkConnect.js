@@ -7,7 +7,7 @@ const NetworkConnect = (props) => {
     const [showButton, setShowButton] = useState(true);
 
     useEffect(() => {
-        window.ethereum?.on('chainChanged', function (networkId) {
+        window.ethereum?.on('networkChanged', function (networkId) {
             updateCurrentNetwork();
         });
 
@@ -26,10 +26,12 @@ const NetworkConnect = (props) => {
         }
 
         const chainId = window.ethereum?.networkVersion;
+        console.log(chainId);
         const { deployEnv } = props;
 
         switch (props.deployEnv) {
             case "docker":
+                console.log("chainidddd", window.ethereum?.networkVersion);
                 setNetworkName("Localhost");
                 setParams(localhost);
                 if (chainId == '31337') {

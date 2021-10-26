@@ -8,27 +8,26 @@ const ConnectButton = () => {
 
     const onClickConnect = async () => {
         try {
-            // Will open the MetaMask UI
-            // You should disable this button while the request is pending!
             setButtonText("Connecting...");
             setIsDisabled(true);
             const accounts = await window.ethereum?.request({ method: 'eth_requestAccounts' });
             setIsDisabled(false);
-            dispatch({ type: "ACTIVE_ACCOUNT", payload: { activeAccount: accounts[0] } });
+            dispatch({ type: "SHOW_WALLET_CONNECT", payload: false });
+            dispatch({ type: "ACTIVE_ACCOUNT", payload: accounts[0] });
         } catch (error) {
-            console.error(error);
-            dispatch({ type: "ACTIVE_ACCOUNT", payload: { activeAccount: "null" } });
-
+            dispatch({ type: "SHOW_WALLET_CONNECT", payload: true });
+            dispatch({ type: "ACTIVE_ACCOUNT", payload: null });
             setIsDisabled(false);
             setButtonText("Connect Wallet");
-        }
+        };
     };
 
     const checkAccounts = () => {
         if (window.ethereum?.selectedAddress !== null) {
-            console.log("checking accounts");
+            dispatch({ type: "SHOW_WALLET_CONNECT", payload: false });
             dispatch({ type: "ACTIVE_ACCOUNT", payload: window.ethereum?.selectedAddress });
         } else {
+            dispatch({ type: "SHOW_WALLET_CONNECT", payload: true });
             dispatch({ type: "ACTIVE_ACCOUNT", payload: null });
         }
     };
