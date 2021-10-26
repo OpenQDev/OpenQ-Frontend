@@ -14,9 +14,11 @@ const ConnectButton = () => {
             setIsDisabled(false);
             dispatch({ type: "SHOW_WALLET_CONNECT", payload: false });
             dispatch({ type: "ACTIVE_ACCOUNT", payload: accounts[0] });
+            dispatch({ type: "FULLY_CONNECTED", payload: true });
         } catch (error) {
             dispatch({ type: "SHOW_WALLET_CONNECT", payload: true });
             dispatch({ type: "ACTIVE_ACCOUNT", payload: null });
+            dispatch({ type: "FULLY_CONNECTED", payload: false });
             setIsDisabled(false);
             setButtonText("Connect Wallet");
         };
@@ -24,11 +26,14 @@ const ConnectButton = () => {
 
     const checkAccounts = () => {
         if (window.ethereum?.selectedAddress !== null) {
+            console.log("Wallet Address found in ConnectButton");
             dispatch({ type: "SHOW_WALLET_CONNECT", payload: false });
             dispatch({ type: "ACTIVE_ACCOUNT", payload: window.ethereum?.selectedAddress });
+            dispatch({ type: "FULLY_CONNECTED", payload: true });
         } else {
             dispatch({ type: "SHOW_WALLET_CONNECT", payload: true });
             dispatch({ type: "ACTIVE_ACCOUNT", payload: null });
+            dispatch({ type: "FULLY_CONNECTED", payload: false });
         }
     };
 

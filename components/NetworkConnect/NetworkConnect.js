@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { polygon, localhost, mumbai } from "./networks";
+import ChainConnectionContext from "../../store/ChainConnectionStore/ChainConnectionContext";
 
 const NetworkConnect = (props) => {
     const [params, setParams] = useState([]);
     const [networkName, setNetworkName] = useState('');
     const [showButton, setShowButton] = useState(true);
+    const [connectionState, dispatch] = useContext(ChainConnectionContext);
 
     useEffect(() => {
         window.ethereum?.on('networkChanged', function (networkId) {
@@ -23,18 +25,19 @@ const NetworkConnect = (props) => {
             setShowButton(false);
         } else {
             setShowButton(true);
+            dispatch({ type: "IS_FULLY_CONNECTED", payload: false });
+            dispatch({ type: "IS_ON_CORRECT_NETWORK", payload: false });
         }
 
         const chainId = window.ethereum?.networkVersion;
-        console.log(chainId);
         const { deployEnv } = props;
 
         switch (props.deployEnv) {
             case "docker":
-                console.log("chainidddd", window.ethereum?.networkVersion);
                 setNetworkName("Localhost");
                 setParams(localhost);
                 if (chainId == '31337') {
+                    dispatch({ type: "IS_ON_CORRECT_NETWORK", payload: true });
                     setShowButton(false);
                 }
                 break;
@@ -42,6 +45,7 @@ const NetworkConnect = (props) => {
                 setNetworkName("Mumbai");
                 setParams(mumbai);
                 if (chainId == '80001') {
+                    dispatch({ type: "IS_ON_CORRECT_NETWORK", payload: true });
                     setShowButton(false);
                 }
                 break;
@@ -49,6 +53,7 @@ const NetworkConnect = (props) => {
                 setNetworkName("Polygon");
                 setParams(polygon);
                 if (chainId == '137') {
+                    dispatch({ type: "IS_ON_CORRECT_NETWORK", payload: true });
                     setShowButton(false);
                 }
                 break;

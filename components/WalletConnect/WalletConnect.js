@@ -20,8 +20,6 @@ const WalletConnect = () => {
     dispatch({ type: "HAS_METAMASK", payload: metaMaskClientCheck() });
   }, []);
 
-  console.log(connectionState);
-
   if (connectionState.showWalletConnect) {
     return connectionState.hasMetamask ? <ConnectButton /> : <InstallButton />;
   } else {

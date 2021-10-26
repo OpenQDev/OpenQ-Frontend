@@ -15,6 +15,16 @@ const ChainConnectionReducer = (state, action) => {
                 ...state,
                 showWalletConnect: action.payload,
             };
+        case "FULLY_CONNECTED":
+            return {
+                ...state,
+                fullyConnected: action.payload,
+            };
+        case "IS_ON_CORRECT_NETWORK":
+            return {
+                ...state,
+                isOnCorrectNetwork: action.payload,
+            };
         default:
             return state;
     }
