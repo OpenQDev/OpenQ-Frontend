@@ -25,6 +25,8 @@ const ConnectWallet = () => {
         setButtonText("Connecting...");
         setIsDisabled(true);
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        console.log(window.ethereum);
+        console.log(accounts);
         setIsDisabled(false);
         setShowButton(false);
       } catch (error) {

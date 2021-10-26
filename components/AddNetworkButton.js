@@ -6,7 +6,7 @@ const AddNetworkButton = (props) => {
     const [showButton, setShowButton] = useState(true);
 
     useEffect(() => {
-        window.ethereum.on('networkChanged', function (networkId) {
+        window.ethereum.on('chainChanged', function (networkId) {
             updateCurrentNetwork();
         });
 
@@ -18,6 +18,7 @@ const AddNetworkButton = (props) => {
     }, []);
 
     const updateCurrentNetwork = () => {
+        console.log("selected address", window.ethereum.selectedAddress);
         if (window.ethereum.selectedAddress == null) {
             setShowButton(false);
         } else {
