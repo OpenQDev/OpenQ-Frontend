@@ -26,14 +26,14 @@ const BountyCardList = () => {
       provider.set(new ethers.providers.Web3Provider(window.ethereum));
       signer.set(provider.get().getSigner());
     } else {
-      alert("You will need a browser wallet!");
+      return;
     }
   }
 
   useEffect(() => {
     setSignerAndProvider();
 
-    if (window.ethereum.selectedAddress !== null) {
+    if (window.ethereum?.selectedAddress !== null) {
       setIsConnected(true);
       checkNetwork();
 
@@ -48,8 +48,8 @@ const BountyCardList = () => {
   }, []);
 
   useEffect(() => {
-    window.ethereum.on('accountsChanged', function (networkId) {
-      if (window.ethereum.selectedAddress == null) {
+    window.ethereum?.on('accountsChanged', function (networkId) {
+      if (window.ethereum?.selectedAddress == null) {
         setIsConnected(false);
       } else {
         setIsConnected(true);
@@ -59,14 +59,13 @@ const BountyCardList = () => {
       }
     });
 
-    window.ethereum.on('chainChanged', function (networkId) {
+    window.ethereum?.on('chainChanged', function (networkId) {
       checkNetwork();
     });
   }, []);
 
   function checkNetwork() {
-    const chainId = window.ethereum.networkVersion;
-    console.log(chainId);
+    const chainId = window.ethereum?.networkVersion;
 
     switch (process.env.DEPLOY_ENV) {
       case "docker":

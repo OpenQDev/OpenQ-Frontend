@@ -2,10 +2,12 @@ import React, { useState, useContext, useEffect } from "react";
 import StoreContext from "../../store/Store/StoreContext";
 import { ethers } from "ethers";
 import MetaMaskOnboarding from '@metamask/onboarding';
+import ChainConnectionContext from "../../store/ChainConnectionStore/ChainConnectionContext";
 
 const InstallButton = () => {
     const [buttonText, setButtonText] = useState("Install MetaMask!");
     const [isDisabled, setIsDisabled] = useState(false);
+    const [connectionState, dispatch] = useContext(ChainConnectionContext);
 
     //This will start the onboarding proccess
     const onClickInstall = () => {

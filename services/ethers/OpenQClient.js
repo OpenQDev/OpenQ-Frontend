@@ -28,7 +28,7 @@ class OpenQClient {
 
             if (contractBytecode == "0x") {
                 const noContractBytecodeErrorMessage = `
-              Your browser wallet provider pointing to chainId ${window.ethereum.networkVersion} returned no bytecode for the contract you are trying to call at address ${addresses.OPENQ_ADDRESS}. 
+              Your browser wallet provider pointing to chainId ${window.ethereum?.networkVersion} returned no bytecode for the contract you are trying to call at address ${addresses.OPENQ_ADDRESS}. 
               Are you sure MetaMask is connected to the same location as ${process.env.PROVIDER_URL}?
             `;
                 throw (new Error(noContractBytecodeErrorMessage));

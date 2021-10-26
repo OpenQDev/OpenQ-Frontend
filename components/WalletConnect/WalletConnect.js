@@ -4,43 +4,32 @@ import { ethers } from "ethers";
 import MetaMaskOnboarding from '@metamask/onboarding';
 import InstallButton from "./InstallButton";
 import ConnectButton from "./ConnectButton";
+import ChainConnectionContext from "../../store/ChainConnectionStore/ChainConnectionContext";
 
 const WalletConnect = () => {
   const [isMetaMaskInstalled, setIsMetaMaskInstalled] = useState(false);
   const [showButton, setShowButton] = useState(true);
+  const [connectionState, dispatch] = useContext(ChainConnectionContext);
 
-  //Created check function to see if the MetaMask extension is installed
   const metaMaskClientCheck = () => {
-    //Have to check the ethereum binding on the window object to see if it's installed
     const { ethereum } = window;
     return Boolean(ethereum && ethereum.isMetaMask);
   };
 
   useEffect(() => {
-    window.ethereum.on('accountsChanged', function (networkId) {
-      checkAccounts();
-    });
-    // First see if MetaMask is installed
-    setIsMetaMaskInstalled(metaMaskClientCheck());
-
-    // Then if it is, see 
-    // to determine whether or not to show the button at all
-    checkAccounts();
+    dispatch({ type: "HAS_METAMASK", payload: metaMaskClientCheck() });
   }, []);
 
-  const checkAccounts = () => {
-    if (window.ethereum.selectedAddress !== null) {
-      setShowButton(false);
-    } else {
-      setShowButton(true);
-    }
-  };
+  const hasAConnectedMetaMask = Boolean(connectionState.hasMetamask && connectionState.activeAccount);
+  const doesNotHaveMetaMask = !connectionState.hasMetamask;
 
-  return (
-    <>
-      {showButton ? isMetaMaskInstalled ? <ConnectButton /> : <InstallButton /> : null}
-    </>
-  );
+  if (!connectionState.hasMetamask) {
+    return <InstallButton />;
+  } else if (connectionState.activeAccount === null) {
+    return <ConnectButton />;
+  } else {
+    return null;
+  }
 };
 
 export default WalletConnect;

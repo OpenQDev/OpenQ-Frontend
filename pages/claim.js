@@ -14,7 +14,7 @@ function Claim() {
 
         axios.post(`${appState.baseUrl}${appState.apiPort}/claim`, {
             issueUrl,
-            payoutAddress: window.ethereum.selectedAddress
+            payoutAddress: window.ethereum?.selectedAddress
         }, { withCredentials: true })
             .then((response) => {
                 console.log(response);

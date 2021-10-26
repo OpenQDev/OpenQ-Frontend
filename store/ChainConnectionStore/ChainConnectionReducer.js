@@ -1,9 +1,9 @@
 const ChainConnectionReducer = (state, action) => {
     switch (action.type) {
-        case "ACCOUNT":
+        case "ACTIVE_ACCOUNT":
             return {
                 ...state,
-                account: action.payload,
+                activeAccount: action.payload,
             };
         case "HAS_METAMASK":
             return {

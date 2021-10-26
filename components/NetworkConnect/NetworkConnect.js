@@ -6,11 +6,11 @@ const NetworkConnect = (props) => {
     const [showButton, setShowButton] = useState(true);
 
     useEffect(() => {
-        window.ethereum.on('chainChanged', function (networkId) {
+        window.ethereum?.on('chainChanged', function (networkId) {
             updateCurrentNetwork();
         });
 
-        window.ethereum.on('accountsChanged', function (networkId) {
+        window.ethereum?.on('accountsChanged', function (networkId) {
             updateCurrentNetwork();
         });
 
@@ -18,7 +18,7 @@ const NetworkConnect = (props) => {
     }, []);
 
     const updateCurrentNetwork = () => {
-        if (window.ethereum.selectedAddress == null) {
+        if (window.ethereum?.selectedAddress == null) {
             setShowButton(false);
         } else {
             setShowButton(true);
@@ -63,7 +63,7 @@ const NetworkConnect = (props) => {
             blockExplorerUrls: ['https://mumbai.polygonscan.com/']
         }];
 
-        const chainId = window.ethereum.networkVersion;
+        const chainId = window.ethereum?.networkVersion;
         const { deployEnv } = props;
 
         switch (props.deployEnv) {
@@ -95,7 +95,7 @@ const NetworkConnect = (props) => {
     };
 
     const addOrSwitchNetwork = () => {
-        window.ethereum.request({ method: 'wallet_addEthereumChain', params })
+        window.ethereum?.request({ method: 'wallet_addEthereumChain', params })
             .catch((error) => console.log("Error", error.message));
     };
 
