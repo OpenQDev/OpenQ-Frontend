@@ -59,7 +59,7 @@ const BountyCardList = () => {
       }
     });
 
-    window.ethereum?.on('chainChanged', function (networkId) {
+    window.ethereum?.on('networkChanged', function (networkId) {
       checkNetwork();
     });
   }, []);
