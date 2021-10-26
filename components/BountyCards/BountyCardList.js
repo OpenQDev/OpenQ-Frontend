@@ -66,6 +66,7 @@ const BountyCardList = () => {
 
   function checkNetwork() {
     const chainId = window.ethereum.networkVersion;
+    console.log(chainId);
 
     switch (process.env.DEPLOY_ENV) {
       case "docker":

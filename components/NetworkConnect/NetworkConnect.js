@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const AddNetworkButton = (props) => {
+const NetworkConnect = (props) => {
     const [params, setParams] = useState([]);
     const [networkName, setNetworkName] = useState('');
     const [showButton, setShowButton] = useState(true);
@@ -18,7 +18,6 @@ const AddNetworkButton = (props) => {
     }, []);
 
     const updateCurrentNetwork = () => {
-        console.log("selected address", window.ethereum.selectedAddress);
         if (window.ethereum.selectedAddress == null) {
             setShowButton(false);
         } else {
@@ -109,11 +108,16 @@ const AddNetworkButton = (props) => {
         </button>);
     };
 
-    return (
-        <div>
-            {showButton ? <NetworkActionButton /> : null}
-        </div>
-    );
+    if (showButton) {
+        return (<button
+            onClick={addOrSwitchNetwork}
+            className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
+        >
+            Use {networkName} Network
+        </button>);
+    } else {
+        return null;
+    }
 };
 
-export default AddNetworkButton;
+export default NetworkConnect;
