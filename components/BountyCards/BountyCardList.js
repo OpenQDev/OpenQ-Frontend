@@ -4,9 +4,9 @@ import StoreContext from "../../store/Store/StoreContext";
 import { ethers } from 'ethers';
 import useTrait from "../../services/utils/hooks/useTrait";
 import addresses from "../../addresses/addresses.json";
-import ChainConnectionContext from "../../store/ChainConnectionStore/ChainConnectionContext";
 
 const BountyCardList = () => {
+
   const [appState, dispatch] = useContext(StoreContext);
   const [issueIds, setIssueIds] = useState([]);
   const [issueIdToAddress, setIssueIdToAddress] = useState({});
@@ -19,24 +19,12 @@ const BountyCardList = () => {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const [connectionState, dispatchConnectionState] = useContext(ChainConnectionContext);
-
   function setSignerAndProvider() {
     if (window.ethereum) {
       provider.set(new ethers.providers.Web3Provider(window.ethereum));
       signer.set(provider.get().getSigner());
     }
   }
-
-  useEffect(() => {
-    if (connectionState.fullyConnected && connectionState.isOnCorrectNetwork) {
-      setSignerAndProvider();
-      populateBountyData();
-    } else {
-      setIsLoading(false);
-    }
-
-  }, [connectionState.fullyConnected]);
 
   async function populateBountyData() {
     setIsLoading(true);
@@ -83,10 +71,8 @@ const BountyCardList = () => {
 
   if (isLoading) {
     return <Loading />;
-  } else if (connectionState.fullyConnected && connectionState.isOnCorrectNetwork) {
-    return <BountyList />;
   } else {
-    return <MustConnect />;
+    return <BountyCardList />;
   }
 
 };
