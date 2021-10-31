@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import BountyCardList from "../components/BountyCards/BountyCardList";
+import BountyHomepage from "../components/BountyCards/BountyHomepage";
 import BountySearch from "../components/BountySearch";
 import AuthButton from "../components/Authentication/AuthButton";
 import CreateBounty from "../components/CreateBounty";
@@ -51,7 +51,7 @@ export default function Home() {
           </div>
         </div>
         <div className="flex pl-12 pt-10 flex-col">
-          <BountyCardList />
+          <BountyHomepage />
         </div>
       </main>
     </div>

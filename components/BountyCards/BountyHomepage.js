@@ -6,7 +6,7 @@ import useTrait from "../../services/utils/hooks/useTrait";
 import addresses from "../../addresses/addresses.json";
 import { useWeb3React } from '@web3-react/core';
 
-const BountyCardList = () => {
+const BountyHomepage = () => {
   const [appState, dispatch] = useContext(StoreContext);
   const [issueIds, setIssueIds] = useState([]);
   const [issueIdToAddress, setIssueIdToAddress] = useState({});
@@ -19,7 +19,6 @@ const BountyCardList = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   async function populateBountyData() {
-    console.log("populateBountyData");
     setIsLoading(true);
 
     const issues = await appState.openQClient.getAllIssues(library);
@@ -62,4 +61,4 @@ const BountyCardList = () => {
   }
 };
 
-export default BountyCardList;
+export default BountyHomepage;
