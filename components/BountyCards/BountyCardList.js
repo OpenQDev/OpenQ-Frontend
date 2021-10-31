@@ -4,9 +4,9 @@ import StoreContext from "../../store/Store/StoreContext";
 import { ethers } from 'ethers';
 import useTrait from "../../services/utils/hooks/useTrait";
 import addresses from "../../addresses/addresses.json";
+import { useWeb3React } from '@web3-react/core';
 
 const BountyCardList = () => {
-
   const [appState, dispatch] = useContext(StoreContext);
   const [issueIds, setIssueIds] = useState([]);
   const [issueIdToAddress, setIssueIdToAddress] = useState({});
@@ -14,17 +14,16 @@ const BountyCardList = () => {
   const [fundingData, setFundingData] = useState({});
   const [tokenAddresses, setTokenAddresses] = useState([addresses.FAKE_TOKEN_ADDRESS, addresses.MOCK_TOKEN_ADDRESS]);
 
+  const { connector, library, chainId, account, activate, deactivate, active, error } = useWeb3React();
+
   const provider = useTrait(null);
   const signer = useTrait(null);
 
   const [isLoading, setIsLoading] = useState(true);
 
-  function setSignerAndProvider() {
-    if (window.ethereum) {
-      provider.set(new ethers.providers.Web3Provider(window.ethereum));
-      signer.set(provider.get().getSigner());
-    }
-  }
+  useEffect(() => {
+    console.log(active);
+  }, [active]);
 
   async function populateBountyData() {
     setIsLoading(true);
