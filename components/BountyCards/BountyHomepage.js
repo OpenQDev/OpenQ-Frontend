@@ -12,12 +12,11 @@ const BountyHomepage = () => {
   const [issueIdToAddress, setIssueIdToAddress] = useState({});
   const [issueData, setIssueData] = useState([]);
   const [fundingData, setFundingData] = useState({});
-  const [tokenAddresses, setTokenAddresses] = useState([addresses.FAKE_TOKEN_ADDRESS, addresses.MOCK_TOKEN_ADDRESS]);
 
   const { connector, library, chainId, account, activate, deactivate, active, error } = useWeb3React();
 
   const [isLoading, setIsLoading] = useState(true);
-  console.log(appState.openQAddress);
+
   async function populateBountyData() {
     setIsLoading(true);
 
@@ -30,7 +29,7 @@ const BountyHomepage = () => {
     const issueData = await appState.githubRepository.getIssueData(issues);
     setIssueData(issueData);
 
-    const fundingDataObject = await appState.openQClient.getIssueDeposits(tokenAddresses, library, issueIdToAddresses);
+    const fundingDataObject = await appState.openQClient.getIssueDeposits(library, issueIdToAddresses);
     setFundingData(fundingDataObject);
     setIsLoading(false);
   }

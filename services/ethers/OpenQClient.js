@@ -1,28 +1,28 @@
 import { ethers } from 'ethers';
 import OpenQABI from '../../artifacts/contracts/OpenQ.sol/OpenQ.json';
 import ERC20ABI from '../../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json';
-import fs from "fs";
 
 class OpenQClient {
     constructor() { }
 
-    OpenQ = (signer) => {
-        let rawAddresses = fs.readFileSync('../../addresses/addresses.json');
-        console.log(rawAddresses);
-        let addresses = JSON.parse(rawAddresses);
+    OpenQ = async (signer) => {
+        let addresses = (await import('../../addresses/addresses.json'));
+        console.log(addresses);
         const contract = new ethers.Contract(addresses.OPENQ_ADDRESS, OpenQABI.abi, signer);
         return contract;
     };
 
-    ERC20 = (tokenAddress, signer) => {
+    ERC20 = async (tokenAddress, signer) => {
         const contract = new ethers.Contract(tokenAddress, ERC20ABI.abi, signer);
         return contract;
     };
 
     async getAllIssues(library) {
+        let addresses = (await import('../../addresses/addresses.json'));
+        console.log(addresses);
         const signer = library.getSigner();
 
-        const contract = this.OpenQ(signer);
+        const contract = await this.OpenQ(signer);
 
         try {
             const contractBytecode = await signer.provider.getCode(addresses.OPENQ_ADDRESS);
@@ -42,9 +42,11 @@ class OpenQClient {
     }
 
     async getIssueAddresses(library, issues) {
+        let addresses = (await import('../../addresses/addresses.json'));
+        console.log(addresses);
         const signer = library.getSigner();
 
-        const contract = this.OpenQ(signer);
+        const contract = await this.OpenQ(signer);
         const issueIdToAddress = {};
         try {
             for (const issueId of issues) {
@@ -57,7 +59,10 @@ class OpenQClient {
         }
     }
 
-    async getIssueDeposits(tokenAddresses, library, issueIdToAddresses) {
+    async getIssueDeposits(library, issueIdToAddresses) {
+        let addresses = (await import('../../addresses/addresses.json'));
+        let tokenAddresses = [addresses.MOCK_TOKEN_ADDRESS, addresses.FAKE_TOKEN_ADDRESS];
+        console.log(addresses);
         const signer = library.getSigner();
 
         let issueDeposits = {};
@@ -65,7 +70,7 @@ class OpenQClient {
             for (const [issueId, issueAddress] of Object.entries(issueIdToAddresses)) {
                 issueDeposits[issueId] = [];
                 for (const tokenAddress of tokenAddresses) {
-                    const contract = this.ERC20(tokenAddress, signer);
+                    const contract = await this.ERC20(tokenAddress, signer);
                     const symbol = await contract.symbol();
                     const name = await contract.name();
                     const issueBalanceBigNumber = await contract.balanceOf(issueAddress);
