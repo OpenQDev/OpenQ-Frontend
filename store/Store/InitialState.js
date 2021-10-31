@@ -23,12 +23,11 @@ switch (process.env.DEPLOY_ENV) {
         };
         break;
     case "docker":
-        console.log(process.env);
         InitialState = {
             githubRepository: new GithubRepository(),
             publicAddress: "",
             utils: new Utils(),
-            openQClient: new OpenQClient(process.env),
+            openQClient: new OpenQClient(),
             baseUrl: "http://localhost",
             frontendPort: ":3000",
             oauthPort: ":3001",
