@@ -1,11 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { ethers } from "ethers";
-import { Web3ReactProvider, useWeb3React, UnsupportedChainIdError } from '@web3-react/core';
-import {
-    NoEthereumProviderError,
-    UserRejectedRequestError as UserRejectedRequestErrorInjected
-} from '@web3-react/injected-connector';
-import { Web3Provider } from '@ethersproject/providers';
+import { useWeb3React } from '@web3-react/core';
 import {
     injected
 } from './connectors';
