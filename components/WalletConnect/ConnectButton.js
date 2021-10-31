@@ -10,7 +10,7 @@ import {
     injected
 } from './connectors';
 
-import { useEagerConnect } from "../../hooks/useEagerConnect";
+import useEagerConnect from "../../hooks/useEagerConnect";
 
 const ConnectButton = () => {
     const { connector, library, chainId, account, activate, deactivate, active, error } = useWeb3React();

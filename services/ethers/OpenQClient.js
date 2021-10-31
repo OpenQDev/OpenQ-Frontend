@@ -6,21 +6,19 @@ import addresses from '../../addresses/addresses.json';
 class OpenQClient {
     constructor() { }
 
-    OpenQ = (provierOrSigner) => {
-        const contract = new ethers.Contract(addresses.OPENQ_ADDRESS, OpenQABI.abi, provierOrSigner);
+    OpenQ = (signer) => {
+        const contract = new ethers.Contract(addresses.OPENQ_ADDRESS, OpenQABI.abi, signer);
         return contract;
     };
 
-    ERC20 = (tokenAddress, provierOrSigner) => {
-        const contract = new ethers.Contract(tokenAddress, ERC20ABI.abi, provierOrSigner);
+    ERC20 = (tokenAddress, signer) => {
+        const contract = new ethers.Contract(tokenAddress, ERC20ABI.abi, signer);
         return contract;
     };
 
-    getCurrentAddress = () => {
+    async getAllIssues(library) {
+        const signer = library.getSigner();
 
-    };
-
-    async getAllIssues(signer) {
         const contract = this.OpenQ(signer);
 
         try {
@@ -40,7 +38,9 @@ class OpenQClient {
         }
     }
 
-    async getIssueAddresses(signer, issues) {
+    async getIssueAddresses(library, issues) {
+        const signer = library.getSigner();
+
         const contract = this.OpenQ(signer);
         const issueIdToAddress = {};
         try {
@@ -54,7 +54,9 @@ class OpenQClient {
         }
     }
 
-    async getIssueDeposits(tokenAddresses, signer, issueIdToAddresses) {
+    async getIssueDeposits(tokenAddresses, library, issueIdToAddresses) {
+        const signer = library.getSigner();
+
         let issueDeposits = {};
         try {
             for (const [issueId, issueAddress] of Object.entries(issueIdToAddresses)) {

@@ -16,38 +16,35 @@ const BountyCardList = () => {
 
   const { connector, library, chainId, account, activate, deactivate, active, error } = useWeb3React();
 
-  const provider = useTrait(null);
-  const signer = useTrait(null);
-
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    console.log(active);
-  }, [active]);
-
   async function populateBountyData() {
+    console.log("populateBountyData");
     setIsLoading(true);
 
-    const issues = await appState.openQClient.getAllIssues(signer.get());
+    const issues = await appState.openQClient.getAllIssues(library);
     setIssueIds(issues);
 
-    const issueIdToAddresses = await appState.openQClient.getIssueAddresses(signer.get(), issues);
+    const issueIdToAddresses = await appState.openQClient.getIssueAddresses(library, issues);
     setIssueIdToAddress(issueIdToAddresses);
 
     const issueData = await appState.githubRepository.getIssueData(issues);
     setIssueData(issueData);
 
-    const fundingDataObject = await appState.openQClient.getIssueDeposits(tokenAddresses, signer.get(), issueIdToAddresses);
+    const fundingDataObject = await appState.openQClient.getIssueDeposits(tokenAddresses, library, issueIdToAddresses);
     setFundingData(fundingDataObject);
-
     setIsLoading(false);
   }
 
-  const Loading = () => {
-    return (<div>Loading...</div>);
-  };
+  useEffect(() => {
+    if (active) {
+      populateBountyData();
+    }
+  }, [active]);
 
-  const BountyList = () => {
+  if (isLoading) {
+    return "Loading...";
+  } else {
     return (
       <div className="grid grid-cols-3 gap-6 pr-20">
         {issueData.map((issue) => {
@@ -62,18 +59,7 @@ const BountyCardList = () => {
         })}
       </div>
     );
-  };
-
-  const MustConnect = () => {
-    return (<div>Must connect wallet to load boutnies.</div>);
-  };
-
-  if (isLoading) {
-    return <Loading />;
-  } else {
-    return <BountyCardList />;
   }
-
 };
 
 export default BountyCardList;
