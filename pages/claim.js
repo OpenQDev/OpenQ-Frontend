@@ -2,10 +2,12 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import StoreContext from "../store/Store/StoreContext";
 import useAuth from "../hooks/useAuth";
+import { useWeb3React } from '@web3-react/core';
 
 function Claim() {
     const [issueUrl, setIssueUrl] = useState("https://github.com/OpenQDev/OpenQ-Contracts/issues/48");
     const [appState, setAppState] = useContext(StoreContext);
+    const { connector, library, chainId, account, activate, deactivate, active, error } = useWeb3React();
 
     useAuth();
 
@@ -14,7 +16,7 @@ function Claim() {
 
         axios.post(`${appState.baseUrl}${appState.apiPort}/claim`, {
             issueUrl,
-            payoutAddress: window.ethereum?.selectedAddress
+            payoutAddress: account
         }, { withCredentials: true })
             .then((response) => {
                 console.log(response);
