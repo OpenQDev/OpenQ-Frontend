@@ -8,7 +8,7 @@
     "boot:mock": "DEPLOY_ENV=mock next dev",
     "boot:production": "DEPLOY_ENV=polygon next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next build && next start",
     "lint": "next lint",
     "test": "jest",
     "gen": "node services/ethers/mocks/abiToJavascriptClass.js "
