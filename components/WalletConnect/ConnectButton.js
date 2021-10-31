@@ -10,12 +10,22 @@ import {
     injected
 } from './connectors';
 
+import { useEagerConnect } from "../../hooks/useEagerConnect";
+
 const ConnectButton = () => {
     const { connector, library, chainId, account, activate, deactivate, active, error } = useWeb3React();
 
     const [buttonText, setButtonText] = useState("Connect Wallet");
     const [isDisabled, setIsDisabled] = useState(false);
     const [isHidden, setIsHidden] = useState(false);
+
+    useEagerConnect();
+
+    useEffect(() => {
+        if (active) {
+            setIsHidden(true);
+        }
+    }, [active]);
 
     const onClickConnect = async () => {
         setButtonText("Connecting...");
