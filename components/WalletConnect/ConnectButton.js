@@ -35,16 +35,27 @@ const ConnectButton = () => {
         setIsHidden(true);
     };
 
-    return (
-        <button
-            hidden={isHidden}
-            disabled={isDisabled}
-            onClick={onClickConnect}
-            className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
-        >
-            {buttonText}
-        </button>
-    );
+    if (account) {
+        const firstThree = account.slice(0, 5);
+        const lastThree = account.slice(-3);
+        return (
+            <button
+                disabled={true}
+                className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
+            >{firstThree}...{lastThree}</button>
+        );
+    } else {
+        return (
+            <button
+                hidden={isHidden}
+                disabled={isDisabled}
+                onClick={onClickConnect}
+                className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
+            >
+                {buttonText}
+            </button>
+        );
+    }
 };
 
 export default ConnectButton;
