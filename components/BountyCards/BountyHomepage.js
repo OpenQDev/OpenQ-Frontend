@@ -17,7 +17,7 @@ const BountyHomepage = () => {
   const { connector, library, chainId, account, activate, deactivate, active, error } = useWeb3React();
 
   const [isLoading, setIsLoading] = useState(true);
-
+  console.log(appState.openQAddress);
   async function populateBountyData() {
     setIsLoading(true);
 

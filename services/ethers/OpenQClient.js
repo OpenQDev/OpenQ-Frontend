@@ -1,12 +1,15 @@
 import { ethers } from 'ethers';
 import OpenQABI from '../../artifacts/contracts/OpenQ.sol/OpenQ.json';
 import ERC20ABI from '../../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json';
-import addresses from '../../addresses/addresses.json';
+import fs from "fs";
 
 class OpenQClient {
     constructor() { }
 
     OpenQ = (signer) => {
+        let rawAddresses = fs.readFileSync('../../addresses/addresses.json');
+        console.log(rawAddresses);
+        let addresses = JSON.parse(rawAddresses);
         const contract = new ethers.Contract(addresses.OPENQ_ADDRESS, OpenQABI.abi, signer);
         return contract;
     };
