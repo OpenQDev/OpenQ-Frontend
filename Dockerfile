@@ -5,6 +5,8 @@ RUN apk update && apk upgrade && \
 COPY . .
 ARG deploy_env
 ENV DEPLOY_ENV=$deploy_env
+ARG node_opt
+ENV NODE_OPTIONS=$node_opt
 RUN yarn
 RUN yarn build
 EXPOSE 3000
