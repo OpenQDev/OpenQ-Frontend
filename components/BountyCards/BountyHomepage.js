@@ -2,7 +2,6 @@ import BountyCard from "./BountyCard";
 import { useEffect, useState, useContext } from "react";
 import StoreContext from "../../store/Store/StoreContext";
 import { useWeb3React } from '@web3-react/core';
-import process from "process";
 
 const BountyHomepage = () => {
   const [appState, dispatch] = useContext(StoreContext);
@@ -18,16 +17,16 @@ const BountyHomepage = () => {
   async function populateBountyData() {
     setIsLoading(true);
 
-    const issues = await appState.openQClient.getAllIssues(library, process.env.OPENQ_ADDRESS);
+    const issues = await appState.openQClient.getAllIssues(library);
     setIssueIds(issues);
 
-    const issueIdToAddresses = await appState.openQClient.getIssueAddresses(library, issues, process.env.OPENQ_ADDRESS);
+    const issueIdToAddresses = await appState.openQClient.getIssueAddresses(library, issues);
     setIssueIdToAddress(issueIdToAddresses);
 
     const issueData = await appState.githubRepository.getIssueData(issues);
     setIssueData(issueData);
 
-    const fundingDataObject = await appState.openQClient.getIssueDeposits(library, issueIdToAddresses, process.env.OPENQ_ADDRESS);
+    const fundingDataObject = await appState.openQClient.getIssueDeposits(library, issueIdToAddresses);
     setFundingData(fundingDataObject);
     setIsLoading(false);
   }

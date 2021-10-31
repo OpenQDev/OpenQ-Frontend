@@ -8,7 +8,7 @@ const SignOut = () => {
     const [appState, setAppState] = useContext(StoreContext);
 
     const signOut = () => {
-        axios.get(appState.githubLogoutPath, { withCredentials: true })
+        axios.get(`${appState.authBaseUrl}/logout`, { withCredentials: true })
             .then((res) => {
                 setAuthState({ type: "UPDATE_IS_AUTHENTICATED", payload: res.data.isAuthenticated });
             })

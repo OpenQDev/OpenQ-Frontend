@@ -9,7 +9,7 @@ const useAuth = () => {
 
     useEffect(() => {
         async function checkAuth() {
-            axios.get(appState.githubCheckAuthPath, { withCredentials: true })
+            axios.get(`${appState.authBaseUrl}/checkAuth`, { withCredentials: true })
                 .then((res) => {
                     setAuthState({ type: "UPDATE_IS_AUTHENTICATED", payload: res.data.isAuthenticated });
                 })

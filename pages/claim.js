@@ -13,8 +13,7 @@ function Claim() {
 
     const claimBounty = async (event) => {
         event.preventDefault();
-
-        axios.post(`${appState.baseUrl}${appState.apiPort}/claim`, {
+        axios.post(`${appState.oracleBaseUrl}/claim`, {
             issueUrl,
             payoutAddress: account
         }, { withCredentials: true })
@@ -23,6 +22,9 @@ function Claim() {
             })
             .catch((error) => {
                 switch (error.response.data.type) {
+                    case "NO_GITHUB_OAUTH_TOKEN":
+                        alert("You must sign into GitHub to claim a bounty.");
+                        break;
                     case "ISSUE_IS_CLAIMED":
                         alert("This issue has already been claimed.");
                         break;
