@@ -7,7 +7,7 @@ import MockOpenQClient from "../../services/ethers/MockOpenQClient";
 import { ethers } from 'ethers';
 
 let InitialState = {};
-switch (process.env.DEPLOY_ENV) {
+switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
     case "mock":
         InitialState = {
             baseUrl: "http://localhost:3000",

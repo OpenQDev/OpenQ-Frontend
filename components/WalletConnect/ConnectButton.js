@@ -13,14 +13,26 @@ const ConnectButton = () => {
     const [buttonText, setButtonText] = useState("Connect Wallet");
     const [isDisabled, setIsDisabled] = useState(false);
     const [isHidden, setIsHidden] = useState(false);
+    const [isOnCorrectNetwork, setIsOnCorrectNetwork] = useState(true);
 
     useEagerConnect();
+
+    const chainIdDeployEnvMap = {
+        "docker": 31337,
+        "development": 80001,
+        "staging": 137,
+        "production": 137
+    };
 
     useEffect(() => {
         if (active) {
             setIsHidden(true);
         }
     }, [active]);
+
+    useEffect(() => {
+        setIsOnCorrectNetwork(chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV] == chainId);
+    }, [chainId]);
 
     const onClickConnect = async () => {
         setButtonText("Connecting...");
@@ -30,7 +42,7 @@ const ConnectButton = () => {
         setIsHidden(true);
     };
 
-    if (account) {
+    if (account && isOnCorrectNetwork) {
         const firstThree = account.slice(0, 5);
         const lastThree = account.slice(-3);
         return (
@@ -38,6 +50,10 @@ const ConnectButton = () => {
                 disabled={true}
                 className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
             >{firstThree}...{lastThree}</button>
+        );
+    } else if (account) {
+        return (
+            <div>Switch Networks</div>
         );
     } else {
         return (
