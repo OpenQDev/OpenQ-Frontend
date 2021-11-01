@@ -6,23 +6,20 @@ import {
 } from './connectors';
 
 import useEagerConnect from "../../hooks/useEagerConnect";
+import chainIdDeployEnvMap from "./chainIdDeployEnvMap";
 
 const ConnectButton = () => {
-    const { connector, library, chainId, account, activate, deactivate, active, error } = useWeb3React();
-
+    // State
     const [buttonText, setButtonText] = useState("Connect Wallet");
     const [isDisabled, setIsDisabled] = useState(false);
     const [isHidden, setIsHidden] = useState(false);
     const [isOnCorrectNetwork, setIsOnCorrectNetwork] = useState(true);
 
-    useEagerConnect();
+    // Context
+    const { connector, library, chainId, account, activate, deactivate, active, error } = useWeb3React();
 
-    const chainIdDeployEnvMap = {
-        "docker": 31337,
-        "development": 80001,
-        "staging": 137,
-        "production": 137
-    };
+    // Hooks
+    useEagerConnect(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
 
     useEffect(() => {
         if (active) {
@@ -31,17 +28,26 @@ const ConnectButton = () => {
     }, [active]);
 
     useEffect(() => {
-        setIsOnCorrectNetwork(chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV] == chainId);
+        setIsOnCorrectNetwork(chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]["chainId"] == chainId);
     }, [chainId]);
 
+    // Methods
     const onClickConnect = async () => {
         setButtonText("Connecting...");
         setIsDisabled(true);
+
         await activate(injected);
+
         setIsDisabled(false);
         setIsHidden(true);
     };
 
+    const addOrSwitchNetwork = () => {
+        window.ethereum.request({ method: 'wallet_addEthereumChain', params: chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]["params"] })
+            .catch((error) => console.log("Error", error.message));
+    };
+
+    // Render
     if (account && isOnCorrectNetwork) {
         const firstThree = account.slice(0, 5);
         const lastThree = account.slice(-3);
@@ -53,7 +59,12 @@ const ConnectButton = () => {
         );
     } else if (account) {
         return (
-            <div>Switch Networks</div>
+            <button
+                onClick={addOrSwitchNetwork}
+                className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
+            >
+                Use {chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]["networkName"]} Network
+            </button>
         );
     } else {
         return (
