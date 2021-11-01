@@ -2,18 +2,35 @@ import BountyCard from "./BountyCard";
 import { useEffect, useState, useContext } from "react";
 import StoreContext from "../../store/Store/StoreContext";
 import { useWeb3React } from '@web3-react/core';
+import chainIdDeployEnvMap from "../WalletConnect/chainIdDeployEnvMap";
 
 const BountyHomepage = () => {
-  const [appState, dispatch] = useContext(StoreContext);
+  // State
   const [issueIds, setIssueIds] = useState([]);
   const [issueIdToAddress, setIssueIdToAddress] = useState({});
   const [issueData, setIssueData] = useState([]);
   const [fundingData, setFundingData] = useState({});
-
-  const { connector, library, chainId, account, activate, deactivate, active, error } = useWeb3React();
-
   const [isLoading, setIsLoading] = useState(true);
 
+  // Context
+  const { connector, library, chainId, account, activate, deactivate, active, error } = useWeb3React();
+  const [appState, dispatch] = useContext(StoreContext);
+
+  // Hooks
+  useEffect(() => {
+    const isOnCorrectNetwork = chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]["chainId"] == chainId;
+    if (active && isOnCorrectNetwork) {
+      populateBountyData();
+    } else {
+      setIsLoading(true);
+    }
+  }, [active, chainId]);
+
+  // Methods
+
+  /**
+   * 
+   */
   async function populateBountyData() {
     setIsLoading(true);
 
@@ -31,12 +48,7 @@ const BountyHomepage = () => {
     setIsLoading(false);
   }
 
-  useEffect(() => {
-    if (active) {
-      populateBountyData();
-    }
-  }, [active]);
-
+  // Render
   if (isLoading) {
     return "Loading...";
   } else {

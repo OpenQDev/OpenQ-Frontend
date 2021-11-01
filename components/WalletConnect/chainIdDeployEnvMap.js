@@ -1,3 +1,6 @@
+/**
+ * Map of the four deployment environments and their corresponding parameters.
+ */
 const chainIdDeployEnvMap = {
     "docker": {
         chainId: 31337,
