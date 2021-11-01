@@ -4,32 +4,47 @@ import StoreContext from "../store/Store/StoreContext";
 import useAuth from "../hooks/useAuth";
 import { useWeb3React } from '@web3-react/core';
 import ErrorModal from "../components/ErrorModal";
+import LoadingIcon from "../components/LoadingIcon";
 
 function Claim() {
+    // State
     const [issueUrl, setIssueUrl] = useState("https://github.com/OpenQDev/OpenQ-Contracts/issues/48");
-    const [showModal, setShowModal] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
 
+    const [successMessage, setSuccessMessage] = useState("");
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+
+    // Context
     const [appState, setAppState] = useContext(StoreContext);
     const { connector, library, chainId, account, activate, deactivate, active, error } = useWeb3React();
 
+    // Hooks
     useAuth();
 
+    // Methods
     const claimBounty = async (event) => {
         event.preventDefault();
+        setIsLoading(true);
         axios.post(`${appState.oracleBaseUrl}/claim`, {
             issueUrl,
             payoutAddress: account
         }, { withCredentials: true })
             .then((response) => {
-                console.log(response);
+                setIsLoading(false);
+                setSuccessMessage("Success!");
+                setShowSuccessModal(true);
             })
             .catch((error) => {
+                setIsLoading(false);
                 setErrorMessage(error.response.data.message);
-                setShowModal(true);
+                setShowErrorModal(true);
             });
     };
 
+    // Render
     return (
         <div className="font-mont bg-gray-100 font-normal text-gray-600">
             <form onSubmit={(event) => claimBounty(event)}>
@@ -48,7 +63,8 @@ function Claim() {
                     Claim
                 </button>
             </form>
-            {showModal && <ErrorModal modalVisibility={setShowModal} message={errorMessage} />}
+            {isLoading && <LoadingIcon />}
+            {showErrorModal && <ErrorModal modalVisibility={setShowErrorModal} message={errorMessage} />}
         </div>
     );
 }
