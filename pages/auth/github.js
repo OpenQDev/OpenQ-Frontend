@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import AuthSession from "../../services/authentication/AuthSession";
 import AuthContext from "../../store/AuthStore/AuthContext";
 import { useRouter } from 'next/router';
 import StoreContext from "../../store/Store/StoreContext";

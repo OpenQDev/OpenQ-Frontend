@@ -1,6 +1,5 @@
 import GithubRepository from "../../services/github/GithubRepository";
 import MockGithubRepository from "../../services/github/MockGithubRepository";
-import AuthDataStore from "../../services/authentication/AuthDataStore";
 import Utils from "../../services/utils/Utils";
 import OpenQClient from '../../services/ethers/OpenQClient';
 import MockOpenQClient from "../../services/ethers/MockOpenQClient";
