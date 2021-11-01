@@ -1,10 +1,10 @@
-import Image from "next/image";
-import { useState } from "react";
+import Image from 'next/image';
+import { useState } from 'react';
 
 const DisplayPrice = (props) => {
 
-    return (
-          /*   <svg
+	return (
+	/*   <svg
               width="22"
               height="22"
               viewBox="0 0 32 32"
@@ -15,15 +15,15 @@ const DisplayPrice = (props) => {
              {deposits.map((deposit, index) => {
               return <div key={index} className="text-bold">{deposit.balance} : {deposit.symbol}</div>
             })}  */
-            <div className="flex">
-            <Image
-              src="/cryptocurrency-icons/32/color/matic.png"
-              alt="BTC"
-              height={23}
-              width={23}
-            />
-            </div>
-    )
-}
+		<div className="flex">
+			<Image
+				src="/cryptocurrency-icons/32/color/matic.png"
+				alt="BTC"
+				height={23}
+				width={23}
+			/>
+		</div>
+	);
+};
 
 export default DisplayPrice;

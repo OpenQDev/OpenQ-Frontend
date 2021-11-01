@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const GET_ISSUE = gql`
   query GetIssue($orgName: String!, $repoName: String!, $issueId: Int!) {

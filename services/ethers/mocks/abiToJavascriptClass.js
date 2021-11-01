@@ -1,4 +1,4 @@
-const Contract = require("../../../artifacts/contracts/FakeToken.sol/FakeToken.json");
+const Contract = require('../../../artifacts/contracts/FakeToken.sol/FakeToken.json');
 // import all abis from artifacts/
 
 // extend to also return mockData 
@@ -9,21 +9,21 @@ const Contract = require("../../../artifacts/contracts/FakeToken.sol/FakeToken.j
 let functionCount = 0;
 
 function extractInputNames(inputs) {
-    const inputNames = [];
-    if (inputs) {
-        for (input of inputs) {
-            let inputName = "";
+	const inputNames = [];
+	if (inputs) {
+		for (input of inputs) {
+			let inputName = '';
 
-            if (input.name) {
-                inputName = input.name;
-            } else {
-                inputName = input.type;
-            }
+			if (input.name) {
+				inputName = input.name;
+			} else {
+				inputName = input.type;
+			}
 
-            inputNames.push(inputName);
-        }
-    }
-    return inputNames;
+			inputNames.push(inputName);
+		}
+	}
+	return inputNames;
 }
 
 function extractOutputTypes(outputs) {
@@ -36,38 +36,38 @@ console.log(`import ${mockContractName}Data from '../data/${mockContractName}Dat
 console.log(`class ${mockContractName} {`);
 
 for (member of Contract.abi) {
-    let name = "";
-    let memberType = "";
-    let inputNames = [];
-    let functionSignature = "";
-    let functionBody = "";
+	let name = '';
+	let memberType = '';
+	let inputNames = [];
+	let functionSignature = '';
+	let functionBody = '';
 
-    switch (member.type) {
-        case "constructor":
-            memberType = member.type;
-            inputNames = extractInputNames(member.inputs);
-            functionSignature = `${memberType} (${inputNames.toString()})`;
-            functionBody = ` { }`;
-            console.log(functionSignature + functionBody);
-            break;
-        case "function":
-            functionCount += 1;
-            memberType = member.type;
-            name = member.name;
-            inputNames = extractInputNames(member.inputs);
-            functionSignature = `async ${name}(${inputNames.toString()})`;
+	switch (member.type) {
+	case 'constructor':
+		memberType = member.type;
+		inputNames = extractInputNames(member.inputs);
+		functionSignature = `${memberType} (${inputNames.toString()})`;
+		functionBody = ' { }';
+		console.log(functionSignature + functionBody);
+		break;
+	case 'function':
+		functionCount += 1;
+		memberType = member.type;
+		name = member.name;
+		inputNames = extractInputNames(member.inputs);
+		functionSignature = `async ${name}(${inputNames.toString()})`;
 
-            // if number, wrap in BigNumber
-            functionBody = ` { return new Promise((resolve, reject) => resolve(${mockContractName}Data['${name}'])) }`;
+		// if number, wrap in BigNumber
+		functionBody = ` { return new Promise((resolve, reject) => resolve(${mockContractName}Data['${name}'])) }`;
 
-            console.log(functionSignature + functionBody);
-            break;
-        default:
-            break;
-    }
+		console.log(functionSignature + functionBody);
+		break;
+	default:
+		break;
+	}
 }
 
-console.log(`}`);
+console.log('}');
 console.log(`export default ${mockContractName}`);
 
-console.log("Function count: ", functionCount);
+console.log('Function count: ', functionCount);
