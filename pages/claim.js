@@ -3,9 +3,13 @@ import axios from "axios";
 import StoreContext from "../store/Store/StoreContext";
 import useAuth from "../hooks/useAuth";
 import { useWeb3React } from '@web3-react/core';
+import ErrorModal from "../components/ErrorModal";
 
 function Claim() {
     const [issueUrl, setIssueUrl] = useState("https://github.com/OpenQDev/OpenQ-Contracts/issues/48");
+    const [showModal, setShowModal] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+
     const [appState, setAppState] = useContext(StoreContext);
     const { connector, library, chainId, account, activate, deactivate, active, error } = useWeb3React();
 
@@ -21,31 +25,8 @@ function Claim() {
                 console.log(response);
             })
             .catch((error) => {
-                switch (error.response.data.type) {
-                    case "NO_GITHUB_OAUTH_TOKEN":
-                        alert("You must sign into GitHub to claim a bounty.");
-                        break;
-                    case "ISSUE_IS_CLAIMED":
-                        alert("This issue has already been claimed.");
-                        break;
-                    case "NOT_FOUND":
-                        alert("NOT_FOUND");
-                        break;
-                    case "NOT_CLOSED":
-                        alert("NOT_CLOSED");
-                        break;
-                    case "INVALID_OAUTH_TOKEN":
-                        alert("INVALID_OAUTH_TOKEN");
-                        break;
-                    case "ISSUE_NOT_CLOSED_BY_USER":
-                        alert("ISSUE_NOT_CLOSED_BY_USER");
-                        break;
-                    case "UNKNOWN_ERROR":
-                        alert("UNKNOWN_ERROR");
-                        break;
-                    default:
-                        alert("Uncaught error");
-                }
+                setErrorMessage(error.response.data.message);
+                setShowModal(true);
             });
     };
 
@@ -60,8 +41,14 @@ function Claim() {
                     value={issueUrl}
                     onChange={(event) => setIssueUrl(event.target.value)}
                 />
-                <button type="submit">Claim</button>
+                <button
+                    type="submit"
+                    className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
+                >
+                    Claim
+                </button>
             </form>
+            {showModal && <ErrorModal modalVisibility={setShowModal} message={errorMessage} />}
         </div>
     );
 }
