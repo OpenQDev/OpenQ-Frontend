@@ -5,6 +5,7 @@ import useAuth from "../hooks/useAuth";
 import { useWeb3React } from '@web3-react/core';
 import ErrorModal from "../components/ErrorModal";
 import LoadingIcon from "../components/LoadingIcon";
+import AuthButton from "../components/Authentication/AuthButton";
 
 function Claim() {
     // State
@@ -22,7 +23,7 @@ function Claim() {
     const { connector, library, chainId, account, activate, deactivate, active, error } = useWeb3React();
 
     // Hooks
-    useAuth();
+    const [authState, setAuthState] = useAuth();
 
     // Methods
     const claimBounty = async (event) => {
@@ -47,6 +48,8 @@ function Claim() {
     // Render
     return (
         <div className="font-mont bg-gray-100 font-normal text-gray-600">
+            {!authState.isAuthenticated && <div>We noticed you're not signed into Github. You must sign in to claim an issue!</div>}
+            <AuthButton />
             <form onSubmit={(event) => claimBounty(event)}>
                 <input
                     className="bg-gray-100 w-6/7 border-gray-100 outline-none"

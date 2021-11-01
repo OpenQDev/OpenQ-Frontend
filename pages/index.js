@@ -2,7 +2,6 @@ import Head from "next/head";
 import Image from "next/image";
 import BountyHomepage from "../components/BountyCards/BountyHomepage";
 import BountySearch from "../components/BountySearch";
-import AuthButton from "../components/Authentication/AuthButton";
 import CreateBounty from "../components/CreateBounty";
 import StackSearch from "../components/StackSearch";
 import { useEffect } from "react";

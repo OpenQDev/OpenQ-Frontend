@@ -20,9 +20,11 @@ function GitHubAuth({ Component, pageProps }) {
     }, []);
 
     const exchangeAuthCodeForAccessToken = (authCode) => {
-        axios.get(`${appState.authBaseUrl}/?app=openq&code=${authCode}`, { withCredentials: true })
+        const url = `${appState.authBaseUrl}/?app=openq&code=${authCode}`;
+        console.log(url);
+        axios.get(url, { withCredentials: true })
             .then((res) => {
-                router.push(`${appState.baseUrl}`);
+                router.push(`${appState.baseUrl}/claim`);
             })
             .catch((error) => {
                 console.log(error);

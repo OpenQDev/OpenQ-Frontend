@@ -19,6 +19,8 @@ const useAuth = () => {
         }
         checkAuth();
     }, []);
+
+    return [authState, setAuthState];
 };
 
 export default useAuth;
