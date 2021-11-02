@@ -3,6 +3,7 @@ import StoreContext from '../store/Store/StoreContext';
 import CopyAddressToClipboard from './tools/CopyAddressToClipboard';
 import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
+import Link from "next/link";
 
 const CreateBountyModal = (props) => {
 	// Context
@@ -22,6 +23,7 @@ const CreateBountyModal = (props) => {
 	const [isValidUrl, setIsValidUrl] = useState(false);
 	const [disableMint, setDisableMint] = useState(true);
 	const [bountyExists, setBountyExists] = useState(false);
+	const [transactionPending, setTransactionPending] = useState(false);
 
 	// Hooks
 
@@ -58,7 +60,6 @@ const CreateBountyModal = (props) => {
 				} catch (error) {
 					setIssueFound(false);
 					setIssueData(null);
-					console.log("No issue found");
 				}
 			}
 			fetchIssue();
@@ -121,7 +122,7 @@ const CreateBountyModal = (props) => {
 			setDisableMint(true);
 
 			await appState.openQClient.mintBounty(library, issueId);
-
+			setTransactionPending(true);
 			const filter = {
 				address: process.env.NEXT_PUBLIC_OPENQ_ADDRESS,
 				topics: [
@@ -136,7 +137,11 @@ const CreateBountyModal = (props) => {
 				];
 				let iface = new ethers.utils.Interface(abi);
 				const { data, topics } = event;
-				console.log(iface.parseLog({ data, topics }));
+				const logs = iface.parseLog({ data, topics });
+				if (logs.args.id == issueId) {
+					setBountyAddress(logs.args.issueAddress);
+					setTransactionPending(false);
+				}
 			});
 		} catch (error) {
 			if (
@@ -221,14 +226,41 @@ const CreateBountyModal = (props) => {
 							</div>
 						</div>
 						{isValidUrl && !issueFound ? <div>Issue not found</div> : null}
-						<div className="pt-5 px-8 cursor-pointer">
-							{isValidUrl && bountyAddress && issueFound ? (<div>Bounty Already Minted at:<CopyAddressToClipboard data={bountyAddress} /></div>)
+						<div className="pt-5 px-8">
+							{isValidUrl && bountyAddress && issueFound ? (
+								<>
+									<span>Bounty Minted</span>
+									<Link
+										href={`/?address=${bountyAddress}}`}
+										as={`/bounty/${bountyAddress}`}
+									>
+										<a target="_blank" rel="noreferrer">
+											<div id={'bounty-link'} className='cursor-pointer'>
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													className="h-6 w-6"
+													fill="none"
+													viewBox="0 0 24 24"
+													stroke="#383838"
+												>
+													<path
+														strokeLinecap="round"
+														strokeLinejoin="round"
+														strokeWidth="2"
+														d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+													/>
+												</svg>
+											</div>
+										</a>
+									</Link>
+								</>
+							)
 								: null}
 						</div>
 
 						<div className="flex items-center justify-center p-6 rounded-b w-full">
 							<button
-								className={`${disableMint ? 'confirm-btn-disabled' : 'confirm-btn'
+								className={`${disableMint ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'
 									}`}
 								type="button"
 								onClick={() => mintBounty()}
@@ -236,6 +268,7 @@ const CreateBountyModal = (props) => {
 							>
 								Mint Bounty
 							</button>
+							{transactionPending ? <div>Txn pending...</div> : null}
 						</div>
 					</div>
 				</div>
