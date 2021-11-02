@@ -113,10 +113,6 @@ const BountyCard = (props) => {
 						<Image src={avatarUrl} alt="avatarUrl" width="51" height="51" />
 					</div>
 				</div>
-				{/* <div className="justify-left pl-5 pt-1">
-          <CopyAddressToClipboard data={address} />
-        </div>{" "} */}
-				{/*  Please make this better */}
 				{labels ? (
 					<div className="flex flex-row pt-3 pl-6 pr-3 justify-between">
 						<div className="space-x-2">

@@ -3,6 +3,7 @@ import DisplayPrice from './BountyCardComps/DisplayPrice';
 import React from 'react';
 import Link from "next/link";
 import { useRouter } from 'next/router';
+import CopyAddressToClipboard from '../tools/CopyAddressToClipboard';
 
 const BountyCardDetailsModal = (props) => {
 	const {
@@ -73,25 +74,8 @@ const BountyCardDetailsModal = (props) => {
 									</div>
 									<div className="flex flex-col">
 										<div className="font-bold">Smart Contract</div>
-										<div className="flex flex-row items-center space-x-2">
-											<div className="1">
-												{" "}
-												<svg
-													xmlns="http://www.w3.org/2000/svg"
-													className="h-6 w-6"
-													fill="none"
-													viewBox="0 0 24 24"
-													stroke="#383838"
-												>
-													<path
-														strokeLinecap="round"
-														strokeLinejoin="round"
-														strokeWidth="2"
-														d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-													/>
-												</svg>
-											</div>
-											<div>{address}</div>
+										<div className="flex flex-row items-center space-x-2 cursor-pointer">
+											<CopyAddressToClipboard data={address} />
 										</div>
 									</div>
 								</div>
@@ -208,7 +192,7 @@ const BountyCardDetailsModal = (props) => {
 				</div>
 			</div>
 			<div className="opacity-25 fixed inset-0 bg-black"></div>
-		</div>
+		</div >
 	);
 };
 
