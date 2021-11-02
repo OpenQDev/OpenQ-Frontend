@@ -1,18 +1,17 @@
+import { useRouter } from "next/router";
 import Image from "next/image";
-import DisplayPrice from "./BountyCardComps/DisplayPrice";
+import DisplayPrice from "../../components/BountyCards/BountyCardComps/DisplayPrice";
 
-const BountyCardDetails = (props) => {
-  const updateModal = () => {
-    props.modalVisibility(false);
-    props.onRequestClose();
-  };
+const address = () => {
+  const router = useRouter();
+  const { address } = router.query;
 
   return (
     <div>
-      <div className="justify-center font-mont items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className="w-auto my-6 mx-auto max-w-3xl">
+      <div className="flex font-mont pt-7 justify-center items-center">
+        <div className="">
           {/*content*/}
-          <div className="rounded-lg shadow-lg  flex flex-col w-full bg-white">
+          <div className="flex flex-col">
             {/*header*/}
             <div className="flex flex-col pl-16 pr-16 pt-10 pb-10">
               <div className="flex flex-col border-b border-solid rounded-t">
@@ -166,9 +165,8 @@ const BountyCardDetails = (props) => {
           </div>
         </div>
       </div>
-      <div className="opacity-25 fixed inset-0 bg-black"></div>
     </div>
   );
 };
 
-export default BountyCardDetails;
+export default address;
