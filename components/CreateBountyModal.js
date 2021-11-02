@@ -118,19 +118,36 @@ const CreateBountyModal = (props) => {
 
 	async function mintBounty() {
 		try {
-			const issues = await appState.openQClient.mintBounty(library, issueId);
-			const address = await getBountyAddress(issueId);
-			setBountyAddress(address);
 			setDisableMint(true);
+
+			await appState.openQClient.mintBounty(library, issueId);
+
+			const filter = {
+				address: process.env.NEXT_PUBLIC_OPENQ_ADDRESS,
+				topics: [
+					// the name of the event, parnetheses containing the data type of each event, no spaces
+					ethers.utils.id("IssueCreated(address,string,address)")
+				]
+			};
+
+			library.on(filter, (event) => {
+				let abi = [
+					"event IssueCreated(address indexed from, string id, address indexed issueAddress)"
+				];
+				let iface = new ethers.utils.Interface(abi);
+				const { data, topics } = event;
+				console.log(iface.parseLog({ data, topics }));
+			});
 		} catch (error) {
 			if (
 				error?.data?.message.includes('Issue already exists for given id')
 			) {
 				alert('Issue already exists');
 			}
+			setDisableMint(false);
 			console.log(error);
 		}
-	}
+	};
 
 	// Render
 	return (
