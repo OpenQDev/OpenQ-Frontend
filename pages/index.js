@@ -1,10 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
-import BountyCardList from "../components/BountyCards/BountyCardList";
+import BountyHomepage from "../components/BountyCards/BountyHomepage";
 import BountySearch from "../components/BountySearch";
-import ConnectWallet from "../components/ConnectWallet";
-import AddNetworkButton from "../components/AddNetworkButton";
-import AuthButton from "../components/Authentication/AuthButton";
 import CreateBounty from "../components/CreateBounty";
 import StackSearch from "../components/StackSearch";
 import { useEffect } from "react";
@@ -16,23 +13,13 @@ import { ApolloProvider } from "@apollo/client";
 import ProfilePicture from "../components/ProfilePicture";
 import React from "react";
 import axios from "axios";
-// import StoreContext from "../store/Store/StoreContext";
+import StoreContext from "../store/Store/StoreContext";
+import useAuth from "../hooks/useAuth";
 
 export default function Home() {
-  // const [appState, dispatch] = useContext(StoreContext);
+  const [appState, appStateDispatch] = useContext(StoreContext);
 
-  // useEffect(() => {
-  //   async function checkAuth() {
-  //     axios.get(`${appState.baseUrl}${appState.oauthPort}/${appState.githubOAuthPath}/checkAuth`, { withCredentials: true })
-  //       .then((res) => {
-  //         console.log(res);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   }
-  //   checkAuth();
-  // }, []);
+  useAuth();
 
   return (
     <div>
@@ -43,13 +30,6 @@ export default function Home() {
       </Head>
 
       <main>
-        <div className="flex flex-fill pl-12 pt-5 pr-12 pb-5 border-b items-center justify-between">
-          <BountySearch />
-          <ConnectWallet />
-          <AddNetworkButton deployEnv={process.env.DEPLOY_ENV} />
-          <ProfilePicture />
-          <AuthButton />
-        </div>
         <div className="flex pl-12 pt-5 pr-12 items-center justify-between">
           <h1 className="font-mont font-bold text-4xl">Dashboard</h1>
           <CreateBounty />
@@ -70,7 +50,7 @@ export default function Home() {
           </div>
         </div>
         <div className="flex pl-12 pt-10 flex-col">
-          <BountyCardList />
+          <BountyHomepage />
         </div>
       </main>
     </div>

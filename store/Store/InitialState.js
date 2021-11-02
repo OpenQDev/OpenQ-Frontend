@@ -1,92 +1,70 @@
 import GithubRepository from "../../services/github/GithubRepository";
 import MockGithubRepository from "../../services/github/MockGithubRepository";
-import AuthDataStore from "../../services/authentication/AuthDataStore";
 import Utils from "../../services/utils/Utils";
 import OpenQClient from '../../services/ethers/OpenQClient';
 import MockOpenQClient from "../../services/ethers/MockOpenQClient";
 import { ethers } from 'ethers';
-import addresses from '../../addresses/addresses.json';
 
 let InitialState = {};
-switch (process.env.DEPLOY_ENV) {
+switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
     case "mock":
         InitialState = {
-            githubRepository: new MockGithubRepository(),
-            publicAddress: "",
-            utils: new Utils(),
-            tokenAddresses: [addresses.FAKE_TOKEN_ADDRESS, addresses.MOCK_TOKEN_ADDRESS],
-            openQAddress: addresses.OPENQ_ADDRESS,
+            baseUrl: "http://localhost:3000",
+            authBaseUrl: "http://localhost:3001",
+            oracleBaseUrl: "http://localhost:8090",
+            apiBaseUrl: "http://localhost:4000",
+            coinApiBaseUrl: "http://localhost:8081",
             openQClient: new MockOpenQClient(),
-            baseUrl: "http://localhost",
-            frontendPort: ":3000",
-            apiPort: ":8090",
-            oauthPort: "",
-            githubOAuthPath: "oauth",
-            clientId: "doesntmatter"
+            githubRepository: new MockGithubRepository(),
+            utils: new Utils(),
         };
         break;
     case "docker":
         InitialState = {
-            githubRepository: new GithubRepository(),
-            publicAddress: "",
-            utils: new Utils(),
-            tokenAddresses: [addresses.FAKE_TOKEN_ADDRESS, addresses.MOCK_TOKEN_ADDRESS],
-            openQAddress: addresses.OPENQ_ADDRESS,
+            baseUrl: "http://localhost:3000",
+            authBaseUrl: "http://localhost:3001",
+            oracleBaseUrl: "http://localhost:8090",
+            apiBaseUrl: "http://localhost:4000",
+            coinApiBaseUrl: "http://localhost:8081",
             openQClient: new OpenQClient(),
-            baseUrl: "http://localhost",
-            frontendPort: ":3000",
-            oauthPort: ":3001",
-            apiPort: ":8090",
-            githubOAuthPath: "",
-            clientId: "5fbd39c6916b7efb63cc"
+            githubRepository: new GithubRepository(),
+            utils: new Utils(),
         };
         break;
     case "development":
         InitialState = {
-            githubRepository: new GithubRepository(),
-            publicAddress: "",
-            utils: new Utils(),
-            tokenAddresses: [addresses.FAKE_TOKEN_ADDRESS, addresses.MOCK_TOKEN_ADDRESS],
-            openQAddress: addresses.OPENQ_ADDRESS,
-            openQClient: new OpenQClient(),
             baseUrl: "https://development.openq.dev",
-            frontendPort: "",
-            oauthPort: "",
-            apiPort: "",
-            githubOAuthPath: "oauth",
-            clientId: "82e208319d33d8a6f6b8"
+            authBaseUrl: "https://development.openq.dev/oauth",
+            oracleBaseUrl: "https://development.openq.dev/oracle",
+            apiBaseUrl: "https://development.openq.dev/api",
+            coinApiBaseUrl: "https://development.openq.dev/coinapi",
+            openQClient: new OpenQClient(),
+            githubRepository: new GithubRepository(),
+            utils: new Utils(),
         };
         break;
     case "staging":
         InitialState = {
-            githubRepository: new GithubRepository(),
-            publicAddress: "",
-            utils: new Utils(),
-            tokenAddresses: [addresses.FAKE_TOKEN_ADDRESS, addresses.MOCK_TOKEN_ADDRESS],
-            openQAddress: addresses.OPENQ_ADDRESS,
-            openQClient: new OpenQClient(),
             baseUrl: "https://staging.openq.dev",
-            frontendPort: "",
-            oauthPort: "",
-            apiPort: "",
-            githubOAuthPath: "oauth",
-            clientId: "6fef986c27015da76128"
+            authBaseUrl: "https://staging.openq.dev/oauth",
+            oracleBaseUrl: "https://staging.openq.dev/oracle",
+            apiBaseUrl: "https://staging.openq.dev/api",
+            coinApiBaseUrl: "https://staging.openq.dev/coinapi",
+            openQClient: new OpenQClient(),
+            githubRepository: new GithubRepository(),
+            utils: new Utils(),
         };
         break;
     case "production":
         InitialState = {
-            githubRepository: new GithubRepository(),
-            publicAddress: "",
-            utils: new Utils(),
-            tokenAddresses: [addresses.FAKE_TOKEN_ADDRESS, addresses.MOCK_TOKEN_ADDRESS],
-            openQAddress: addresses.OPENQ_ADDRESS,
-            openQClient: new OpenQClient(),
             baseUrl: "https://app.openq.dev",
-            frontendPort: "",
-            oauthPort: "",
-            apiPort: "",
-            githubOAuthPath: "oauth",
-            clientId: "79c2b8f305ad223cfb5e"
+            authBaseUrl: "https://app.openq.dev/oauth",
+            oracleBaseUrl: "https://app.openq.dev/oracle",
+            apiBaseUrl: "https://app.openq.dev/api",
+            coinApiBaseUrl: "https://app.openq.dev/coinapi",
+            openQClient: new OpenQClient(),
+            githubRepository: new GithubRepository(),
+            utils: new Utils(),
         };
         break;
     default:

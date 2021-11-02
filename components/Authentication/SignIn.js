@@ -8,7 +8,7 @@ const SignIn = () => {
 
     const signIn = () => {
         console.log(appState);
-        const clientId = `client_id=${appState.clientId}`;
+        const clientId = `client_id=${process.env.NEXT_PUBLIC_OPENQ_ID}`;
         const scopes = "scope=read:user%20public_repo";
         router.push(`https://github.com/login/oauth/authorize?${clientId}`);
     };

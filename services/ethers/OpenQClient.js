@@ -1,35 +1,43 @@
 import { ethers } from 'ethers';
 import OpenQABI from '../../artifacts/contracts/OpenQ.sol/OpenQ.json';
 import ERC20ABI from '../../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json';
-import addresses from '../../addresses/addresses.json';
 
 class OpenQClient {
     constructor() { }
 
-    OpenQ = (provierOrSigner) => {
-        const contract = new ethers.Contract(addresses.OPENQ_ADDRESS, OpenQABI.abi, provierOrSigner);
+    /**
+     * 
+     * @param {Web3Provider} signer An ethers.js signer
+     * @returns Web3Contract
+     */
+    OpenQ = (signer) => {
+        const contract = new ethers.Contract(process.env.NEXT_PUBLIC_OPENQ_ADDRESS, OpenQABI.abi, signer);
         return contract;
     };
 
-    ERC20 = (tokenAddress, provierOrSigner) => {
-        const contract = new ethers.Contract(tokenAddress, ERC20ABI.abi, provierOrSigner);
+    /**
+     * 
+     * @param {string} tokenAddress Contract address of an ERC20 token
+     * @param {Web3Provider} signer An ethers.js signer
+     * @returns Web3Contract
+     */
+    ERC20 = (tokenAddress, signer) => {
+        const contract = new ethers.Contract(tokenAddress, ERC20ABI.abi, signer);
         return contract;
     };
 
-    getCurrentAddress = () => {
+    async getAllIssues(library) {
+        const signer = library.getSigner();
 
-    };
-
-    async getAllIssues(signer) {
         const contract = this.OpenQ(signer);
 
         try {
-            const contractBytecode = await signer.provider.getCode(addresses.OPENQ_ADDRESS);
+            const contractBytecode = await signer.provider.getCode(process.env.NEXT_PUBLIC_OPENQ_ADDRESS);
 
             if (contractBytecode == "0x") {
                 const noContractBytecodeErrorMessage = `
-              Your browser wallet provider pointing to chainId ${window.ethereum.networkVersion} returned no bytecode for the contract you are trying to call at address ${addresses.OPENQ_ADDRESS}. 
-              Are you sure MetaMask is connected to the same location as ${process.env.PROVIDER_URL}?
+              Your browser wallet provider pointing to chainId ${window.ethereum?.networkVersion} returned no bytecode for the contract you are trying to call at address ${process.env.NEXT_PUBLIC_OPENQ_ADDRESS}. 
+              Are you sure MetaMask is connected to the same location as ${process.env.NEXT_PUBLIC_PROVIDER_URL}?
             `;
                 throw (new Error(noContractBytecodeErrorMessage));
             }
@@ -40,7 +48,9 @@ class OpenQClient {
         }
     }
 
-    async getIssueAddresses(signer, issues) {
+    async getIssueAddresses(library, issues) {
+        const signer = library.getSigner();
+
         const contract = this.OpenQ(signer);
         const issueIdToAddress = {};
         try {
@@ -54,7 +64,10 @@ class OpenQClient {
         }
     }
 
-    async getIssueDeposits(tokenAddresses, signer, issueIdToAddresses) {
+    async getIssueDeposits(library, issueIdToAddresses) {
+        let tokenAddresses = [process.env.NEXT_PUBLIC_MOCK_TOKEN_ADDRESS, process.env.NEXT_PUBLIC_FAKE_TOKEN_ADDRESS];
+        const signer = library.getSigner();
+
         let issueDeposits = {};
         try {
             for (const [issueId, issueAddress] of Object.entries(issueIdToAddresses)) {

@@ -8,14 +8,17 @@
     "boot:mock": "DEPLOY_ENV=mock next dev",
     "boot:production": "DEPLOY_ENV=polygon next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next build && next start",
     "lint": "next lint",
     "test": "jest",
     "gen": "node services/ethers/mocks/abiToJavascriptClass.js "
   },
   "dependencies": {
     "@apollo/client": "^3.4.10",
-    "@metamask/onboarding": "^1.0.1",
+    "@ethersproject/providers": "^5.1.2",
+    "@ethersproject/units": "^5.1.0",
+    "@web3-react/core": "latest",
+    "@web3-react/injected-connector": "latest",
     "apollo-link-http": "^1.5.17",
     "axios": "^0.21.4",
     "bignumber.js": "^9.0.1",
@@ -33,6 +36,7 @@
     "autoprefixer": "^10.3.3",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.0",
+    "eslint-plugin-react": "^7.26.1",
     "postcss": "^8.3.6",
     "tailwindcss": "^2.2.8"
   }

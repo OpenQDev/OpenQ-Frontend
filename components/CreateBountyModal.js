@@ -20,7 +20,7 @@ const CreateBountyModal = (props) => {
   };
 
   async function requestAccount() {
-    await window.ethereum.request({ method: "eth_requestAccounts" });
+    await window.ethereum?.request({ method: "eth_requestAccounts" });
   }
 
   async function getBountyAddress(id) {
@@ -211,13 +211,13 @@ const CreateBountyModal = (props) => {
             </div>
             {!disableMint ? null : (
               <div className="pt-5 px-8">
-              <div className="flex px-8 font-mont font-normal py-2 cursor-pointer rounded-lg text-base cursor-pointer bg-gray-100 shadow-inner text-white space-x-1 text-gray-500">
-              <CopyAddressToClipboard data={bountyAddress}/>
-              </div>
+                <div className="flex px-8 font-mont font-normal py-2 cursor-pointer rounded-lg text-base cursor-pointer bg-gray-100 shadow-inner text-white space-x-1 text-gray-500">
+                  <CopyAddressToClipboard data={bountyAddress} />
+                </div>
               </div>
             )}
 
-     <div className="flex items-center justify-center p-6 rounded-b w-full">
+            <div className="flex items-center justify-center p-6 rounded-b w-full">
               <button
                 className={`${disableMint ? "confirm-btn-disabled" : "confirm-btn"
                   }`}
