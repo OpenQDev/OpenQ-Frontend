@@ -14,6 +14,7 @@ const CreateBountyModal = (props) => {
 	const [repoName, setRepoName] = useState('');
 	const [issueNumber, setIssueNumber] = useState(0);
 	const [issueId, setIssueId] = useState('');
+	const [issueFound, setIssueFound] = useState(false);
 
 	const [issueData, setIssueData] = useState('');
 	const [bountyAddress, setBountyAddress] = useState(null);
@@ -45,13 +46,20 @@ const CreateBountyModal = (props) => {
 	useEffect(() => {
 		if (isValidUrl) {
 			async function fetchIssue() {
-				const response = await appState.githubRepository.fetchIssue(
-					orgName,
-					repoName,
-					issueNumber
-				);
-				setIssueData(response.data.organization.repository.issue);
-				setIssueId(response.data.organization.repository.issue.id);
+				try {
+					const response = await appState.githubRepository.fetchIssue(
+						orgName,
+						repoName,
+						issueNumber
+					);
+					setIssueFound(true);
+					setIssueData(response.data.organization.repository.issue);
+					setIssueId(response.data.organization.repository.issue.id);
+				} catch (error) {
+					setIssueFound(false);
+					setIssueData(null);
+					console.log("No issue found");
+				}
 			}
 			fetchIssue();
 		}
@@ -149,13 +157,7 @@ const CreateBountyModal = (props) => {
 						</div>
 						<div className="flex flex-col pl-6 pr-6 space-y-2">
 							<div className="border-gray-100 border-2 rounded-lg">
-								<div className="flex flex-row space-x-2 items-center p-2 font-mont rounded-lg py-1 text-base cursor-pointer bg-gray-100 shadow-inner text-white">
-									<button
-										className="flex flex-row items-center font-mont rounded-lg px-4 py-2 text-base font-bold cursor-pointer bg-button-pink text-white hover:bg-pink-600 hover:text-white"
-										type="button"
-									>
-										Bounty
-									</button>
+								<div className="flex flex-row space-x-2 items-center p-2 font-mont rounded-lg py-1 text-base bg-gray-100 shadow-inner text-white">
 									<div className="font-mont bg-gray-100 font-normal text-gray-600">
 										<input
 											className="bg-gray-100 w-8/9 border-gray-100 outline-none"
@@ -201,8 +203,9 @@ const CreateBountyModal = (props) => {
 								) : null}
 							</div>
 						</div>
+						{isValidUrl && !issueFound ? <div>Issue not found</div> : null}
 						<div className="pt-5 px-8 cursor-pointer">
-							{isValidUrl && bountyAddress ? (<div>Bounty Already Minted at:<CopyAddressToClipboard data={bountyAddress} /></div>)
+							{isValidUrl && bountyAddress && issueFound ? (<div>Bounty Already Minted at:<CopyAddressToClipboard data={bountyAddress} /></div>)
 								: null}
 						</div>
 
