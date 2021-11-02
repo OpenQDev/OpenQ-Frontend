@@ -2,6 +2,11 @@ class Utils {
 	constructor() { }
 
 	parseGitHubUrl = (githubUrl) => {
+		const pattern = /https?:\/\/github\.com\/(?:[^\/\s]+\/)+(?:issues\/\d+)/;
+		if (!pattern.test(githubUrl)) {
+			return null;
+		}
+
 		let url;
 		let pathArray = [];
 		let githubData = [];

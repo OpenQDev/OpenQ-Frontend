@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import CreateBountyModal from './CreateBountyModal';
 
-const CreateBounty = () => {
+const CreateBountyButton = () => {
 	const [showModal, setShowModal] = useState(false);
 
 	return (
@@ -10,11 +10,11 @@ const CreateBounty = () => {
 				onClick={() => setShowModal(true)}
 				className="font-mont rounded-lg bg-button-pink py-2 px-3 pr-5 pl-5 text-white font-bold cursor-pointer"
 			>
-        Create Bounty
+				Create Bounty
 			</button>
 			{showModal && <CreateBountyModal modalVisibility={setShowModal} />}
 		</div>
 	);
 };
 
-export default CreateBounty;
+export default CreateBountyButton;

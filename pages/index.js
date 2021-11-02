@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import BountyHomepage from '../components/BountyCards/BountyHomepage';
 import BountySearch from '../components/BountySearch';
-import CreateBounty from '../components/CreateBounty';
+import CreateBountyButton from '../components/CreateBountyButton';
 import StackSearch from '../components/StackSearch';
 import { useEffect } from 'react';
 import styles from '../styles/Home.module.css';
@@ -32,7 +32,7 @@ export default function Home() {
 			<main>
 				<div className="flex pl-12 pt-5 pr-12 items-center justify-between">
 					<h1 className="font-mont font-bold text-4xl">Dashboard</h1>
-					<CreateBounty />
+					<CreateBountyButton />
 				</div>
 				<div className="flex pl-12 pt-5 flex-col">
 					<h2 className="font-mont font-normal text-lg text-gray-700">Layer</h2>
