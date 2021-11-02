@@ -1,8 +1,7 @@
 import Image from 'next/image';
-import { useState } from 'react';
-import BountyCardDetails from './BountyCardDetails';
-import CopyAddressToClipboard from '../tools/CopyAddressToClipboard';
+import React, { useState } from 'react';
 import DisplayPrice from './BountyCardComps/DisplayPrice';
+import BountyCardDetailsModal from './BountyCardDetailsModal';
 
 const BountyCard = (props) => {
 	const {
@@ -16,6 +15,9 @@ const BountyCard = (props) => {
 		deposits,
 		address,
 	} = props;
+
+	console.log(props);
+
 	const [showModal, setShowModal] = useState(false);
 
 	const getColor = () => {
@@ -33,10 +35,8 @@ const BountyCard = (props) => {
 	return (
 		<div>
 			<div
-				className={`
-          flex flex-col p-6 font-mont rounded-xl shadow-sm bg-white cursor-pointer pr-10 pl-10}
-        `}
-			/* onClick={() => setShowModal(true)} */
+				className={'flex flex-col p-6 font-mont rounded-xl shadow-sm bg-white cursor-pointer pr-10 pl-10'}
+				onClick={() => setShowModal(true)}
 			>
 				<div className="flex flex-row justify-between">
 					<div>
@@ -156,7 +156,17 @@ const BountyCard = (props) => {
 					</div>
 				)}
 			</div>
-			{/*     {showModal && <BountyCardDetails modalVisibility={setShowModal} />} */}
+			{showModal && <BountyCardDetailsModal
+				issueColor={issueColor}
+				orgName={orgName}
+				issue={issue}
+				repoName={repoName}
+				issueName={issueName}
+				avatarUrl={avatarUrl}
+				labels={labels}
+				deposits={deposits}
+				address={address}
+				modalVisibility={setShowModal} />}
 		</div>
 	);
 };
