@@ -56,12 +56,12 @@ const CreateBountyModal = (props) => {
 			}
 			fetchIssue();
 		}
-	}, [isValidUrl]);
+	}, [issueNumber]);
 
 	useEffect(() => {
-		if (issueData.issueId) {
+		if (issueData) {
 			async function alreadyExists() {
-				const address = await getBountyAddress(issueData.issueId);
+				const address = await getBountyAddress(issueData.id);
 				if (address == '0x0000000000000000000000000000000000000000') {
 					setBountyExists(false);
 					setDisableMint(false);
@@ -73,7 +73,7 @@ const CreateBountyModal = (props) => {
 			}
 			alreadyExists();
 		}
-	}, [issueData.issueId]);
+	}, [issueData]);
 
 	// Methods
 	const updateModal = () => {
@@ -128,7 +128,6 @@ const CreateBountyModal = (props) => {
 				await transaction.wait();
 				const address = await getBountyAddress(globalIssueId);
 				setBountyAddress(address);
-				console.log('BountyAddress is: ', address);
 				setDisableMint(true);
 			} catch (error) {
 				if (
@@ -186,7 +185,7 @@ const CreateBountyModal = (props) => {
 										/>
 									</div>
 								</div>
-								{isLoading ? null : (
+								{isLoading ? null : isValidUrl ? (
 									<div className="flex flex-col pb-3 pt-4 pl-5 font-mont">
 										<div className="flex flex-grow flex-row items-center space-x-2">
 											<div className="">
@@ -215,7 +214,7 @@ const CreateBountyModal = (props) => {
 											{issueData.author.login}
 										</div>
 									</div>
-								)}
+								) : null}
 							</div>
 						</div>
 						<div className="pt-5 px-8">
