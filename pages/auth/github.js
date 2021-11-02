@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import AuthSession from "../../services/authentication/AuthSession";
 import AuthContext from "../../store/AuthStore/AuthContext";
 import { useRouter } from 'next/router';
 import StoreContext from "../../store/Store/StoreContext";
@@ -20,17 +19,11 @@ function GitHubAuth({ Component, pageProps }) {
     }, []);
 
     const exchangeAuthCodeForAccessToken = (authCode) => {
-        console.log(`${appState.baseUrl}${appState.oauthPort}/${appState.githubOAuthPath}?app=openq&code=${authCode}`);
-        axios.get(`${appState.baseUrl}${appState.oauthPort}/${appState.githubOAuthPath}?app=openq&code=${authCode}`)
+        const url = `${appState.authBaseUrl}/?app=openq&code=${authCode}`;
+        console.log(url);
+        axios.get(url, { withCredentials: true })
             .then((res) => {
-                const accessToken = res.data.access_token;
-                const authSession = new AuthSession("mockId", accessToken);
-
-                setToken(accessToken);
-
-                setAuthState({ type: "LOGIN", payload: { user: "mockUser", token: accessToken } });
-
-                router.push(`${appState.baseUrl}${appState.frontendPort}`);
+                router.push(`${appState.baseUrl}/claim`);
             })
             .catch((error) => {
                 console.log(error);
