@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import StoreContext from '../store/Store/StoreContext';
 import CopyAddressToClipboard from './tools/CopyAddressToClipboard';
+import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 
 const CreateBountyModal = (props) => {
@@ -50,6 +51,7 @@ const CreateBountyModal = (props) => {
 					issueNumber
 				);
 				setIssueData(response.data.organization.repository.issue);
+				setIssueId(response.data.organization.repository.issue.id);
 			}
 			fetchIssue();
 		}
@@ -104,37 +106,21 @@ const CreateBountyModal = (props) => {
 		}
 	}
 
-	async function mintBounty(id) {
-		if (typeof window.ethereum !== 'undefined') {
-			const resp = await appState.githubRepository.fetchIssue(
-				orgName,
-				repoName,
-				issueNumber
-			);
-			const globalIssueId = resp.data.organization.repository.issue.id;
+	const { library, chainId, active } = useWeb3React();
 
-			await requestAccount();
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const signer = provider.getSigner();
-			const contract = appState.openQClient.OpenQ(
-				appState.openQAddress,
-				signer
-			);
-
-			try {
-				const transaction = await contract.mintBounty(globalIssueId);
-				await transaction.wait();
-				const address = await getBountyAddress(globalIssueId);
-				setBountyAddress(address);
-				setDisableMint(true);
-			} catch (error) {
-				if (
-					error?.data?.message.includes('Issue already exists for given id')
-				) {
-					alert('Issue already exists');
-				}
-				console.log(error);
+	async function mintBounty() {
+		try {
+			const issues = await appState.openQClient.mintBounty(library, issueId);
+			const address = await getBountyAddress(issueId);
+			setBountyAddress(address);
+			setDisableMint(true);
+		} catch (error) {
+			if (
+				error?.data?.message.includes('Issue already exists for given id')
+			) {
+				alert('Issue already exists');
 			}
+			console.log(error);
 		}
 	}
 

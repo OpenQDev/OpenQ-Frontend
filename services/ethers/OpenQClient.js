@@ -6,21 +6,21 @@ class OpenQClient {
 	constructor() { }
 
 	/**
-     * 
-     * @param {Web3Provider} signer An ethers.js signer
-     * @returns Web3Contract
-     */
+		 * 
+		 * @param {Web3Provider} signer An ethers.js signer
+		 * @returns Web3Contract
+		 */
 	OpenQ = (signer) => {
 		const contract = new ethers.Contract(process.env.NEXT_PUBLIC_OPENQ_ADDRESS, OpenQABI.abi, signer);
 		return contract;
 	};
 
 	/**
-     * 
-     * @param {string} tokenAddress Contract address of an ERC20 token
-     * @param {Web3Provider} signer An ethers.js signer
-     * @returns Web3Contract
-     */
+		 * 
+		 * @param {string} tokenAddress Contract address of an ERC20 token
+		 * @param {Web3Provider} signer An ethers.js signer
+		 * @returns Web3Contract
+		 */
 	ERC20 = (tokenAddress, signer) => {
 		const contract = new ethers.Contract(tokenAddress, ERC20ABI.abi, signer);
 		return contract;
@@ -89,6 +89,18 @@ class OpenQClient {
 			return issueDeposits;
 		} catch (err) {
 			console.log('getIssueDeposits Error: ', err);
+		}
+	}
+
+	async mintBounty(library, issueId) {
+		const signer = library.getSigner();
+
+		const contract = this.OpenQ(signer);
+		try {
+			const issueAddress = await contract.mintBounty(issueId);
+			return issueAddress;
+		} catch (err) {
+			console.log('mintBounty Error: ', err);
 		}
 	}
 }
