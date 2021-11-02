@@ -1,20 +1,20 @@
 import { useState } from 'react';
 
 export default function useTrait(initialValue) {
-    const [trait, updateTrait] = useState(initialValue);
+	const [trait, updateTrait] = useState(initialValue);
 
-    let current = trait;
+	let current = trait;
 
-    const get = () => current;
+	const get = () => current;
 
-    const set = newValue => {
-        current = newValue;
-        updateTrait(newValue);
-        return current;
-    };
+	const set = newValue => {
+		current = newValue;
+		updateTrait(newValue);
+		return current;
+	};
 
-    return {
-        get,
-        set,
-    };
+	return {
+		get,
+		set,
+	};
 }

@@ -1,42 +1,42 @@
-import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
-import AuthContext from "../../store/AuthStore/AuthContext";
+import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
+import AuthContext from '../../store/AuthStore/AuthContext';
 import { useRouter } from 'next/router';
-import StoreContext from "../../store/Store/StoreContext";
+import StoreContext from '../../store/Store/StoreContext';
 
 function GitHubAuth({ Component, pageProps }) {
-    const [appState, dispatch] = useContext(StoreContext);
-    const router = useRouter();
-    const [authCode, setAuthCode] = useState("NO AUTH CODE");
-    const [token, setToken] = useState("");
+	const [appState, dispatch] = useContext(StoreContext);
+	const router = useRouter();
+	const [authCode, setAuthCode] = useState('NO AUTH CODE');
+	const [token, setToken] = useState('');
 
-    const [authState, setAuthState] = useContext(AuthContext);
+	const [authState, setAuthState] = useContext(AuthContext);
 
-    useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        setAuthCode(params.get("code"));
-        exchangeAuthCodeForAccessToken(params.get("code"));
-    }, []);
+	useEffect(() => {
+		const params = new URLSearchParams(window.location.search);
+		setAuthCode(params.get('code'));
+		exchangeAuthCodeForAccessToken(params.get('code'));
+	}, []);
 
-    const exchangeAuthCodeForAccessToken = (authCode) => {
-        const url = `${appState.authBaseUrl}/?app=openq&code=${authCode}`;
-        console.log(url);
-        axios.get(url, { withCredentials: true })
-            .then((res) => {
-                router.push(`${appState.baseUrl}/claim`);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
+	const exchangeAuthCodeForAccessToken = (authCode) => {
+		const url = `${appState.authBaseUrl}/?app=openq&code=${authCode}`;
+		console.log(url);
+		axios.get(url, { withCredentials: true })
+			.then((res) => {
+				router.push(`${appState.baseUrl}/claim`);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
 
-    return (
-        <div>
+	return (
+		<div>
             AuthCode is: {authCode}
-            <br />
+			<br />
             Token is: {token}
-        </div>
-    );
+		</div>
+	);
 }
 
 export default GitHubAuth;
