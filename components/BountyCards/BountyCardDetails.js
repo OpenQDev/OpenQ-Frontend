@@ -161,16 +161,6 @@ const BountyCardDetails = (props) => {
 								onClick={() => updateModal()}
 							>
                 Save Changes
-<<<<<<< HEAD
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div className="opacity-25 fixed inset-0 bg-black"></div>
-		</div>
-	);
-=======
               </button>
             </div> */}
 					</div>
@@ -179,7 +169,6 @@ const BountyCardDetails = (props) => {
 			<div className="opacity-25 fixed inset-0 bg-black"></div>
 		</div>
 	);
->>>>>>> main
 };
 
 export default BountyCardDetails;
