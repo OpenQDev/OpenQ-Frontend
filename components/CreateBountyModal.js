@@ -15,9 +15,7 @@ const CreateBountyModal = (props) => {
 	const [issueId, setIssueId] = useState('');
 
 	const [issueData, setIssueData] = useState('');
-	const [isLoading, setIsLoading] = useState(true);
 	const [bountyAddress, setBountyAddress] = useState(null);
-	const [copySuccess, setCopySuccess] = useState('');
 
 	const [isValidUrl, setIsValidUrl] = useState(false);
 	const [disableMint, setDisableMint] = useState(true);
@@ -52,7 +50,6 @@ const CreateBountyModal = (props) => {
 					issueNumber
 				);
 				setIssueData(response.data.organization.repository.issue);
-				setIsLoading(false);
 			}
 			fetchIssue();
 		}
@@ -65,6 +62,7 @@ const CreateBountyModal = (props) => {
 				if (address == '0x0000000000000000000000000000000000000000') {
 					setBountyExists(false);
 					setDisableMint(false);
+					setBountyAddress(null);
 				} else {
 					setBountyExists(true);
 					setBountyAddress(address);
@@ -185,7 +183,7 @@ const CreateBountyModal = (props) => {
 										/>
 									</div>
 								</div>
-								{isLoading ? null : isValidUrl ? (
+								{isValidUrl && issueData ? (
 									<div className="flex flex-col pb-3 pt-4 pl-5 font-mont">
 										<div className="flex flex-grow flex-row items-center space-x-2">
 											<div className="">
@@ -217,8 +215,9 @@ const CreateBountyModal = (props) => {
 								) : null}
 							</div>
 						</div>
-						<div className="pt-5 px-8">
-							{bountyAddress ? <CopyAddressToClipboard data={bountyAddress} /> : null}
+						<div className="pt-5 px-8 cursor-pointer">
+							{isValidUrl && bountyAddress ? (<div>Bounty Already Minted at:<CopyAddressToClipboard data={bountyAddress} /></div>)
+								: null}
 						</div>
 
 						<div className="flex items-center justify-center p-6 rounded-b w-full">
@@ -229,7 +228,7 @@ const CreateBountyModal = (props) => {
 								onClick={() => mintBounty()}
 								disabled={disableMint}
 							>
-								{disableMint ? 'Bounty Minted' : 'Mint Bounty'}
+								Mint Bounty
 							</button>
 						</div>
 					</div>
