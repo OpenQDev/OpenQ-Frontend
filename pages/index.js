@@ -39,7 +39,7 @@ export default function Home() {
 					<div className="flex pt-3 flex-grow flex-row space-x-2">
 						<button className="layer-button">Front-End</button>
 						<button className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer border-pink-400  text-gray-800 hover:bg-pink-400 hover:text-white">
-              Back-End
+							Back-End
 						</button>
 					</div>
 				</div>
