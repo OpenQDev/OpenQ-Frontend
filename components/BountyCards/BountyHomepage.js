@@ -39,6 +39,7 @@ const BountyHomepage = () => {
 		const issueData = await appState.githubRepository.getIssueData(issues);
 		setIssueData(issueData);
 
+		console.log(issueIdToAddresses);
 		const fundingDataObject = await appState.openQClient.getIssueDeposits(library, issueIdToAddresses);
 		console.log(fundingDataObject);
 		setFundingData(fundingDataObject);

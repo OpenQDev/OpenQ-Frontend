@@ -11,6 +11,7 @@ const BountyCardDetails = (props) => {
 		repoName,
 		labels,
 		address,
+		deposits
 	} = props;
 
 	return (
@@ -93,16 +94,20 @@ const BountyCardDetails = (props) => {
 					<div className="font-semibold text-gray-700">
 						Total Value Locked (TVL)
 					</div>
-					<div className="font-bold text-xl">$243,13</div>
+					<div className="font-bold text-xl">$243.13</div>
 					<div className="flex flex-row space-x-2 pt-1">
-						<div className="flex pt-1 w-5 h-5 items-center">
-							{' '}
-							<DisplayPrice />
+						{deposits ? (<div>
+							{
+								deposits.map(deposit => {
+									return (
+										<div className="flex flex-row space-x-2" key={deposit.symbol}>
+											<div className="">{deposit.balance}{' '}{deposit.symbol}{'    '}(1USD/{deposit.symbol})</div>
+										</div>
+									);
+								})
+							}
 						</div>
-						<div className="flex flex-row space-x-1 items-center">
-							<div>243,13</div>{' '}
-							<div className="flex font-semibold">DAI</div>
-						</div>
+						) : null}
 					</div>
 				</div>
 			</div>

@@ -15,24 +15,31 @@ const address = () => {
 	const [issueId, setIssueId] = useState('');
 	const [issueData, setIssueData] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
+	const [fundingData, setFundingData] = useState([]);
 
 	// Methods
 	async function getIssueId() {
 		const issueId = await appState.openQClient.getIssueIdFromAddress(library, address);
-		console.log(issueId);
 		setIssueId(issueId);
 	}
 
 	async function getIssueData() {
 		try {
 			const response = await appState.githubRepository.fetchIssueById(issueId);
-			console.log(response);
 			setIssueData(response.data.node);
-			setIsLoading(false);
 		} catch (error) {
-			setIsLoading(false);
 			console.log(error);
 		}
+	}
+
+	async function getDeposits() {
+		const issueIdToAddresses = { [issueId]: address };
+		const fundingDataObject = await appState.openQClient.getIssueDeposits(library, issueIdToAddresses);
+
+		console.log(fundingDataObject[issueId]);
+
+		setFundingData(fundingDataObject);
+		setIsLoading(false);
 	}
 
 	// Hooks
@@ -47,6 +54,12 @@ const address = () => {
 			getIssueData();
 		}
 	}, [issueId]);
+
+	useEffect(() => {
+		if (issueData) {
+			getDeposits();
+		}
+	}, [issueData]);
 
 	// Render
 	if (isLoading) {
@@ -65,7 +78,7 @@ const address = () => {
 								issueName={issueData.title}
 								avatarUrl={issueData.repository.avatarUrl}
 								labels={issueData.labels.edges}
-								deposits={[]}
+								deposits={fundingData[issueId]}
 								address={address}
 							/>
 						</div>
