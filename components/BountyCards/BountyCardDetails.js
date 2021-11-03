@@ -1,20 +1,15 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React from 'react';
 import CopyAddressToClipboard from '../tools/CopyAddressToClipboard';
 import DisplayPrice from './BountyCardComps/DisplayPrice';
 import Image from 'next/image';
-import Link from "next/link";
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const BountyCardDetails = (props) => {
 	const {
-		issueColor,
 		orgName,
 		issue,
 		repoName,
-		issueName,
-		avatarUrl,
 		labels,
-		deposits,
 		address,
 	} = props;
 
@@ -42,7 +37,7 @@ const BountyCardDetails = (props) => {
 						<div className="font-bold">Status</div>
 						<div className="flex flex-row items-center space-x-2">
 							<div className="pt-1">
-								{" "}
+								{' '}
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill="#15FB31"
@@ -101,11 +96,11 @@ const BountyCardDetails = (props) => {
 					<div className="font-bold text-xl">$243,13</div>
 					<div className="flex flex-row space-x-2 pt-1">
 						<div className="flex pt-1 w-5 h-5 items-center">
-							{" "}
+							{' '}
 							<DisplayPrice />
 						</div>
 						<div className="flex flex-row space-x-1 items-center">
-							<div>243,13</div>{" "}
+							<div>243,13</div>{' '}
 							<div className="flex font-semibold">DAI</div>
 						</div>
 					</div>

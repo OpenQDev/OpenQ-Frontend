@@ -1,16 +1,16 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { useRouter } from 'next/router';
 import StoreContext from '../../store/Store/StoreContext';
 
 const SignIn = () => {
-	const [appState, setAppState] = useContext(StoreContext);
+	const [appState,] = useContext(StoreContext);
 	const router = useRouter();
 
 	const signIn = () => {
 		console.log(appState);
 		const clientId = `client_id=${process.env.NEXT_PUBLIC_OPENQ_ID}`;
 		const scopes = 'scope=read:user%20public_repo';
-		router.push(`https://github.com/login/oauth/authorize?${clientId}`);
+		router.push(`https://github.com/login/oauth/authorize?${clientId}&${scopes}`);
 	};
 
 	return (
@@ -19,7 +19,7 @@ const SignIn = () => {
 				onClick={() => signIn()}
 				className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
 			>
-                Sign In
+				Sign In
 			</button>
 		</div>
 	);

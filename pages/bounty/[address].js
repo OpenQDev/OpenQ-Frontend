@@ -1,15 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useRouter } from "next/router";
-import Image from "next/image";
-import DisplayPrice from "../../components/BountyCards/BountyCardComps/DisplayPrice";
+import { useRouter } from 'next/router';
 import StoreContext from '../../store/Store/StoreContext';
 import { useWeb3React } from '@web3-react/core';
 import BountyCardDetails from '../../components/BountyCards/BountyCardDetails';
 
 const address = () => {
 	// Context
-	const { library, chainId, active } = useWeb3React();
-	const [appState, dispatch] = useContext(StoreContext);
+	const { library, active } = useWeb3React();
+	const [appState,] = useContext(StoreContext);
 	const router = useRouter();
 
 	// State
@@ -18,38 +16,41 @@ const address = () => {
 	const [issueData, setIssueData] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
 
+	// Methods
+	async function getIssueId() {
+		const issueId = await appState.openQClient.getIssueIdFromAddress(library, address);
+		console.log(issueId);
+		setIssueId(issueId);
+	}
+
+	async function getIssueData() {
+		try {
+			const response = await appState.githubRepository.fetchIssueById(issueId);
+			console.log(response);
+			setIssueData(response.data.node);
+			setIsLoading(false);
+		} catch (error) {
+			setIsLoading(false);
+			console.log(error);
+		}
+	}
+
 	// Hooks
 	useEffect(() => {
 		if (address && active) {
-			async function getIssueId() {
-				const issueId = await appState.openQClient.getIssueIdFromAddress(library, address);
-				console.log(issueId);
-				setIssueId(issueId);
-			}
 			getIssueId();
 		}
 	}, [address, active]);
 
 	useEffect(() => {
 		if (issueId) {
-			async function getIssueData() {
-				try {
-					const response = await appState.githubRepository.fetchIssueById(issueId);
-					console.log(response);
-					setIssueData(response.data.node);
-					setIsLoading(false);
-				} catch (error) {
-					setIsLoading(false);
-					console.log(error);
-				}
-			}
 			getIssueData();
 		}
 	}, [issueId]);
 
 	// Render
 	if (isLoading) {
-		return "Loading...";
+		return 'Loading...';
 	} else {
 		return (
 			<div>

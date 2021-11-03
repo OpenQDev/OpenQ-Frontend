@@ -1,8 +1,5 @@
-import Image from 'next/image';
-import Link from "next/link";
-import { useRouter } from 'next/router';
 import React from 'react';
-import BountyCardDetails from "./BountyCardDetails";
+import BountyCardDetails from './BountyCardDetails';
 
 const BountyCardDetailsModal = (props) => {
 	const {
@@ -16,8 +13,6 @@ const BountyCardDetailsModal = (props) => {
 		deposits,
 		address,
 	} = props;
-
-	const router = useRouter();
 
 	const updateModal = () => {
 		props.modalVisibility(false);

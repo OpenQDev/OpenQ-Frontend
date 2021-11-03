@@ -1,10 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import AuthContext from '../../store/AuthStore/AuthContext';
 import SignOut from './SignOut';
 import SignIn from './SignIn';
 
 const AuthButton = () => {
-	const [authState, setAuthState] = useContext(AuthContext);
+	const [authState,] = useContext(AuthContext);
 
 	return (
 		<>

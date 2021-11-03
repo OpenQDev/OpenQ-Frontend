@@ -3,11 +3,10 @@ import React, { useEffect, useState, useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import { useWeb3React } from '@web3-react/core';
 import chainIdDeployEnvMap from '../WalletConnect/chainIdDeployEnvMap';
-import Link from "next/link";
 
 const BountyHomepage = () => {
 	// State
-	const [issueIds, setIssueIds] = useState([]);
+	const [, setIssueIds] = useState([]);
 	const [issueIdToAddress, setIssueIdToAddress] = useState({});
 	const [issueData, setIssueData] = useState([]);
 	const [fundingData, setFundingData] = useState({});
@@ -15,7 +14,7 @@ const BountyHomepage = () => {
 
 	// Context
 	const { library, chainId, active } = useWeb3React();
-	const [appState, dispatch] = useContext(StoreContext);
+	const [appState,] = useContext(StoreContext);
 
 	// Hooks
 	useEffect(() => {

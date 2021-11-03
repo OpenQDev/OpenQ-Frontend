@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import React from 'react';
 
 const ErrorModal = (props) => {
 	const updateModal = () => {
@@ -24,7 +24,7 @@ const ErrorModal = (props) => {
 								type="button"
 								onClick={() => updateModal()}
 							>
-                Close
+								Close
 							</button>
 						</div>
 					</div>

@@ -18,18 +18,6 @@ const BountyCard = (props) => {
 
 	const [showModal, setShowModal] = useState(false);
 
-	const getColor = () => {
-		const colors = [
-			"border-green-300",
-			"border-blue-500",
-			"border-yellow-100",
-			"border-purple-600",
-			"border-pink-200",
-			"border-indigo-600",
-		];
-		return colors[issueColor];
-	};
-
 	return (
 		<div>
 			<div

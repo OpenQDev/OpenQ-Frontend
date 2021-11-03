@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import AuthContext from '../../store/AuthStore/AuthContext';
 import { useRouter } from 'next/router';
 import StoreContext from '../../store/Store/StoreContext';
 
-function GitHubAuth({ Component, pageProps }) {
-	const [appState, dispatch] = useContext(StoreContext);
+function GitHubAuth() {
+	const [appState,] = useContext(StoreContext);
 	const router = useRouter();
 	const [authCode, setAuthCode] = useState('NO AUTH CODE');
-	const [token, setToken] = useState('');
-
-	const [authState, setAuthState] = useContext(AuthContext);
+	const [token,] = useState('');
 
 	useEffect(() => {
 		const params = new URLSearchParams(window.location.search);
@@ -20,9 +17,8 @@ function GitHubAuth({ Component, pageProps }) {
 
 	const exchangeAuthCodeForAccessToken = (authCode) => {
 		const url = `${appState.authBaseUrl}/?app=openq&code=${authCode}`;
-		console.log(url);
 		axios.get(url, { withCredentials: true })
-			.then((res) => {
+			.then(() => {
 				router.push(`${appState.baseUrl}/claim`);
 			})
 			.catch((error) => {
@@ -32,9 +28,9 @@ function GitHubAuth({ Component, pageProps }) {
 
 	return (
 		<div>
-            AuthCode is: {authCode}
+			AuthCode is: {authCode}
 			<br />
-            Token is: {token}
+			Token is: {token}
 		</div>
 	);
 }

@@ -1,5 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { ethers } from 'ethers';
+import React, { useState, useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import {
 	injected
@@ -16,7 +15,7 @@ const ConnectButton = () => {
 	const [isOnCorrectNetwork, setIsOnCorrectNetwork] = useState(true);
 
 	// Context
-	const { connector, library, chainId, account, activate, deactivate, active, error } = useWeb3React();
+	const { chainId, account, activate, active } = useWeb3React();
 
 	// Hooks
 	useEagerConnect(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
@@ -63,7 +62,7 @@ const ConnectButton = () => {
 				onClick={addOrSwitchNetwork}
 				className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
 			>
-                Use {chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['networkName']} Network
+				Use {chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['networkName']} Network
 			</button>
 		);
 	} else {

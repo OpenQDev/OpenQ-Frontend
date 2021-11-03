@@ -1,3 +1,5 @@
+import React from 'react';
+
 const StackSearch = () => {
 	const addTags = (event) => {
 		console.log('Key entered' + event);

@@ -1,11 +1,11 @@
 import '../styles/globals.css';
 import 'tailwindcss/tailwind.css';
-import Navbar from '../components/Navbar';
 import StoreProvider from '../store/Store/StoreProvider';
 import AuthProvider from '../store/AuthStore/AuthProvider';
 import Layout from '../components/Layout';
 import { Web3ReactProvider } from '@web3-react/core';
 import { ethers } from 'ethers';
+import React from 'react';
 
 function MyApp({ Component, pageProps }) {
 

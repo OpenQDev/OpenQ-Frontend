@@ -1,13 +1,13 @@
-import { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import StoreContext from '../store/Store/StoreContext';
-import CopyAddressToClipboard from './tools/CopyAddressToClipboard';
 import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
-import Link from "next/link";
+import Link from 'next/link';
 
 const CreateBountyModal = (props) => {
 	// Context
-	const [appState, setAppState] = useContext(StoreContext);
+	const [appState,] = useContext(StoreContext);
+	const { library } = useWeb3React();
 
 	// State
 	const [issueUrl, setIssueUrl] = useState('');
@@ -22,8 +22,39 @@ const CreateBountyModal = (props) => {
 
 	const [isValidUrl, setIsValidUrl] = useState(false);
 	const [disableMint, setDisableMint] = useState(true);
-	const [bountyExists, setBountyExists] = useState(false);
+	const [, setBountyExists] = useState(false);
 	const [transactionPending, setTransactionPending] = useState(false);
+
+	// Methods
+	async function fetchIssue() {
+		try {
+			const response = await appState.githubRepository.fetchIssue(
+				orgName,
+				repoName,
+				issueNumber
+			);
+			setIssueFound(true);
+			setIssueData(response.data.organization.repository.issue);
+			setIssueId(response.data.organization.repository.issue.id);
+		} catch (error) {
+			setIssueFound(false);
+			setIssueData(null);
+		}
+	}
+
+	async function alreadyExists() {
+		const address = await getBountyAddress(issueData.id);
+		// Solidity returns the default zero address for uninitiated members of a mapping
+		if (address == '0x0000000000000000000000000000000000000000') {
+			setBountyExists(false);
+			setDisableMint(false);
+			setBountyAddress(null);
+		} else {
+			setBountyExists(true);
+			setBountyAddress(address);
+			setDisableMint(true);
+		}
+	}
 
 	// Hooks
 
@@ -47,39 +78,12 @@ const CreateBountyModal = (props) => {
 	// Only runs when parseGitHubUrl succeeds
 	useEffect(() => {
 		if (isValidUrl) {
-			async function fetchIssue() {
-				try {
-					const response = await appState.githubRepository.fetchIssue(
-						orgName,
-						repoName,
-						issueNumber
-					);
-					setIssueFound(true);
-					setIssueData(response.data.organization.repository.issue);
-					setIssueId(response.data.organization.repository.issue.id);
-				} catch (error) {
-					setIssueFound(false);
-					setIssueData(null);
-				}
-			}
 			fetchIssue();
 		}
 	}, [issueNumber]);
 
 	useEffect(() => {
 		if (issueData) {
-			async function alreadyExists() {
-				const address = await getBountyAddress(issueData.id);
-				if (address == '0x0000000000000000000000000000000000000000') {
-					setBountyExists(false);
-					setDisableMint(false);
-					setBountyAddress(null);
-				} else {
-					setBountyExists(true);
-					setBountyAddress(address);
-					setDisableMint(true);
-				}
-			}
 			alreadyExists();
 		}
 	}, [issueData]);
@@ -88,10 +92,6 @@ const CreateBountyModal = (props) => {
 	const updateModal = () => {
 		props.modalVisibility(false);
 	};
-
-	async function requestAccount() {
-		await window.ethereum?.request({ method: 'eth_requestAccounts' });
-	}
 
 	const getDate = () => {
 		const rawDate = issueData.createdAt;
@@ -115,8 +115,6 @@ const CreateBountyModal = (props) => {
 		}
 	}
 
-	const { library, chainId, active } = useWeb3React();
-
 	async function mintBounty() {
 		try {
 			setDisableMint(true);
@@ -127,13 +125,13 @@ const CreateBountyModal = (props) => {
 				address: process.env.NEXT_PUBLIC_OPENQ_ADDRESS,
 				topics: [
 					// the name of the event, parnetheses containing the data type of each event, no spaces
-					ethers.utils.id("IssueCreated(address,string,address)")
+					ethers.utils.id('IssueCreated(address,string,address)')
 				]
 			};
 
 			library.on(filter, (event) => {
 				let abi = [
-					"event IssueCreated(address indexed from, string id, address indexed issueAddress)"
+					'event IssueCreated(address indexed from, string id, address indexed issueAddress)'
 				];
 				let iface = new ethers.utils.Interface(abi);
 				const { data, topics } = event;
@@ -152,7 +150,7 @@ const CreateBountyModal = (props) => {
 			setDisableMint(false);
 			console.log(error);
 		}
-	};
+	}
 
 	// Render
 	return (
@@ -261,7 +259,7 @@ const CreateBountyModal = (props) => {
 						<div className="flex items-center justify-center p-6 rounded-b w-full">
 							<button
 								className={`${disableMint ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'
-									}`}
+								}`}
 								type="button"
 								onClick={() => mintBounty()}
 								disabled={disableMint}

@@ -26,9 +26,9 @@ function extractInputNames(inputs) {
 	return inputNames;
 }
 
-function extractOutputTypes(outputs) {
+// function extractOutputTypes(outputs) {
 
-}
+// }
 
 // for contract of contracts
 const mockContractName = `Mock${Contract.contractName}Contract`;

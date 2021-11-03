@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef, Children } from "react";
-import { useMediaQuery } from "../scripts/useMediaQuery";
-import Image from "next/image";
-import Link from "next/link";
+import React, { useState, useEffect, useRef } from 'react';
+import { useMediaQuery } from '../scripts/useMediaQuery';
+import Image from 'next/image';
+import Link from 'next/link';
 
 const Navbar = ({ children }) => {
 	let isPageWide = useMediaQuery('(min-width: 500px)');
@@ -94,7 +94,7 @@ const Navbar = ({ children }) => {
 				<main className="flex-grow pt-5 flex">
 					<header className="h-10 flex">
 						{isClosed && (
-							<div className={"flex flex-grow px-3"}>
+							<div className={'flex flex-grow px-3'}>
 								<button
 									aria-label="open menu"
 									title="Open menu"

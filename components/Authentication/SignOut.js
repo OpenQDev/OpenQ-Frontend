@@ -1,11 +1,11 @@
 import axios from 'axios';
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import AuthContext from '../../store/AuthStore/AuthContext';
 import StoreContext from '../../store/Store/StoreContext';
 
 const SignOut = () => {
-	const [authState, setAuthState] = useContext(AuthContext);
-	const [appState, setAppState] = useContext(StoreContext);
+	const [, setAuthState] = useContext(AuthContext);
+	const [appState,] = useContext(StoreContext);
 
 	const signOut = () => {
 		axios.get(`${appState.authBaseUrl}/logout`, { withCredentials: true })
@@ -23,7 +23,7 @@ const SignOut = () => {
 				onClick={() => signOut()}
 				className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
 			>
-                Sign Out
+				Sign Out
 			</button>
 		</div>
 	);

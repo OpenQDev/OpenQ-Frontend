@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-const  CopyAddressToClipboard = (props) => {
+const CopyAddressToClipboard = (props) => {
 
 	const [copySuccess, setCopySuccess] = useState('');
 
@@ -12,7 +12,7 @@ const  CopyAddressToClipboard = (props) => {
 		}, 2000);
 	};
 
-	return(
+	return (
 		<div className="relative pt-2">
 			<div
 				onClick={copyTextToClipboard}
@@ -53,15 +53,15 @@ const  CopyAddressToClipboard = (props) => {
 					{!copySuccess ? null : (
 						<div className="absolute bottom-0 flex flex-col items-center hidden mb-6 ml-4 group-hover:flex">
 							<span className="relative z-10 p-2 text-xs rounded-md leading-none text-gray-500 whitespace-no-wrap bg-gray-200 shadow-lg">
-                  Copied!
+								Copied!
 							</span>
 							<div className="w-3 h-3 -mt-2 mr-4 rotate-45 bg-gray-200"></div>
 						</div>
 					)}
 				</div>
 				<div>
-					{props.data.substring(0,12)}
-            ...
+					{props.data.substring(0, 12)}
+					...
 					{props.data.substring(32)}
 				</div>
 			</div>

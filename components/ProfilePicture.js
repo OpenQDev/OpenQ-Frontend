@@ -4,8 +4,8 @@ import Image from 'next/image';
 import StoreContext from '../store/Store/StoreContext';
 
 const ProfilePicture = () => {
-	const [authState, setAuthState] = useContext(AuthContext);
-	const [appState, setAppState] = useContext(StoreContext);
+	const [authState,] = useContext(AuthContext);
+	const [appState,] = useContext(StoreContext);
 
 	const [propicUrl, setProPicUrl] = useState(null);
 

@@ -3,7 +3,6 @@ import MockGithubRepository from '../../services/github/MockGithubRepository';
 import Utils from '../../services/utils/Utils';
 import OpenQClient from '../../services/ethers/OpenQClient';
 import MockOpenQClient from '../../services/ethers/MockOpenQClient';
-import { ethers } from 'ethers';
 
 let InitialState = {};
 switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {

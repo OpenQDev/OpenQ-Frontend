@@ -1,23 +1,11 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import BountyHomepage from '../components/BountyCards/BountyHomepage';
-import BountySearch from '../components/BountySearch';
 import CreateBountyButton from '../components/CreateBountyButton';
 import StackSearch from '../components/StackSearch';
-import { useEffect } from 'react';
-import styles from '../styles/Home.module.css';
-import { useState, useContext } from 'react';
-import { setContext } from '@apollo/client/link/context';
-import { useQuery } from '@apollo/client';
-import { ApolloProvider } from '@apollo/client';
-import ProfilePicture from '../components/ProfilePicture';
 import React from 'react';
-import axios from 'axios';
-import StoreContext from '../store/Store/StoreContext';
 import useAuth from '../hooks/useAuth';
 
 export default function Home() {
-	const [appState, appStateDispatch] = useContext(StoreContext);
 
 	useAuth();
 
