@@ -35,6 +35,7 @@ export const GET_ISSUE_BY_ID = gql`
             }
           }
         }
+				createdAt
         repository {
           id
           name

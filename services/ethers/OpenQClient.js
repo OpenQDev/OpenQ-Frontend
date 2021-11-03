@@ -64,6 +64,18 @@ class OpenQClient {
 		}
 	}
 
+	async getIssueIdFromAddress(library, address) {
+		const signer = library.getSigner();
+
+		const contract = this.OpenQ(signer);
+		try {
+			const issueId = await contract.addressToIssue(address);
+			return issueId;
+		} catch (err) {
+			console.log('getIssueIdFromAddress Error: ', err);
+		}
+	}
+
 	async getIssueDeposits(library, issueIdToAddresses) {
 		let tokenAddresses = [process.env.NEXT_PUBLIC_MOCK_TOKEN_ADDRESS, process.env.NEXT_PUBLIC_FAKE_TOKEN_ADDRESS];
 		const signer = library.getSigner();
