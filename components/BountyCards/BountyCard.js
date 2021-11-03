@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
-import DisplayPrice from './BountyCardComps/DisplayPrice';
 import BountyCardDetailsModal from './BountyCardDetailsModal';
 
 const BountyCard = (props) => {

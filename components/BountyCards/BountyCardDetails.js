@@ -1,6 +1,5 @@
 import React from 'react';
 import CopyAddressToClipboard from '../tools/CopyAddressToClipboard';
-import DisplayPrice from './BountyCardComps/DisplayPrice';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -13,6 +12,8 @@ const BountyCardDetails = (props) => {
 		address,
 		deposits
 	} = props;
+
+	console.log(deposits);
 
 	return (
 		<div className="flex flex-col pl-16 pr-16 pt-10 pb-10">
@@ -94,9 +95,9 @@ const BountyCardDetails = (props) => {
 					<div className="font-semibold text-gray-700">
 						Total Value Locked (TVL)
 					</div>
-					<div className="font-bold text-xl">$243.13</div>
+					<div className="font-bold text-xl">{deposits.length == 0 ? '0.00' : '$243.13'}</div>
 					<div className="flex flex-row space-x-2 pt-1">
-						{deposits ? (<div>
+						<div>
 							{
 								deposits.map(deposit => {
 									return (
@@ -107,7 +108,6 @@ const BountyCardDetails = (props) => {
 								})
 							}
 						</div>
-						) : null}
 					</div>
 				</div>
 			</div>
