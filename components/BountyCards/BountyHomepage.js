@@ -40,6 +40,7 @@ const BountyHomepage = () => {
 		setIssueData(issueData);
 
 		const fundingDataObject = await appState.openQClient.getIssueDeposits(library, issueIdToAddresses);
+		console.log(fundingDataObject);
 		setFundingData(fundingDataObject);
 		setIsLoading(false);
 	}

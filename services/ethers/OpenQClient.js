@@ -78,6 +78,7 @@ class OpenQClient {
 
 	async getIssueDeposits(library, issueIdToAddresses) {
 		let tokenAddresses = [process.env.NEXT_PUBLIC_MOCK_TOKEN_ADDRESS, process.env.NEXT_PUBLIC_FAKE_TOKEN_ADDRESS];
+
 		const signer = library.getSigner();
 
 		let issueDeposits = {};
@@ -86,11 +87,12 @@ class OpenQClient {
 				issueDeposits[issueId] = [];
 				for (const tokenAddress of tokenAddresses) {
 					const contract = this.ERC20(tokenAddress, signer);
+
 					const symbol = await contract.symbol();
 					const name = await contract.name();
 					const issueBalanceBigNumber = await contract.balanceOf(issueAddress);
 
-					var balance = parseFloat(issueBalanceBigNumber.toString()).toFixed(2);
+					const balance = ethers.utils.formatEther(issueBalanceBigNumber);
 
 					const deposit = { symbol, name, balance, issueAddress };
 					if (balance > 0) {

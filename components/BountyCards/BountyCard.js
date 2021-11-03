@@ -126,17 +126,20 @@ const BountyCard = (props) => {
 								}
 							})}
 						</div>
-						<div className="flex flex-row space-x-2">
-							<DisplayPrice />
-							<div className="">20 DAI</div>
-						</div>
 					</div>
-				) : (
-					<div className="flex flex-row space-x-2 justify-end">
-						<DisplayPrice />
-						<div className="">10 DAI</div>
-					</div>
-				)}
+				) : null}
+				{deposits ? (<div>
+					{
+						deposits.map(deposit => {
+							return (
+								<div className="flex flex-row space-x-2" key={deposit.symbol}>
+									<div className="">{deposit.balance}{' '}{deposit.symbol}</div>
+								</div>
+							);
+						})
+					}
+				</div>
+				) : null}
 			</div>
 			{showModal && <BountyCardDetailsModal
 				issueColor={issueColor}

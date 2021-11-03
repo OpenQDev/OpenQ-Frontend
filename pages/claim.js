@@ -9,7 +9,7 @@ import AuthButton from '../components/Authentication/AuthButton';
 
 function Claim() {
 	// State
-	const [issueUrl, setIssueUrl] = useState('https://github.com/OpenQDev/OpenQ-Contracts/issues/48');
+	const [issueUrl, setIssueUrl] = useState('');
 
 	const [showErrorModal, setShowErrorModal] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
@@ -42,27 +42,35 @@ function Claim() {
 
 	// Render
 	return (
-		<div className="font-mont bg-gray-100 font-normal text-gray-600">
-			{!authState.isAuthenticated && <div>We noticed you are not signed into Github. You must sign in to claim an issue!</div>}
-			<AuthButton />
-			<form onSubmit={(event) => claimBounty(event)}>
-				<input
-					className="bg-gray-100 w-6/7 border-gray-100 outline-none"
-					id="name"
-					placeholder="https://github.com/OpenQDev/frontend/issues/3"
-					type="text"
-					value={issueUrl}
-					onChange={(event) => setIssueUrl(event.target.value)}
-				/>
-				<button
-					type="submit"
-					className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
-				>
-					Claim
-				</button>
-			</form>
-			{isLoading && <LoadingIcon />}
-			{showErrorModal && <ErrorModal modalVisibility={setShowErrorModal} message={errorMessage} />}
+		<div>
+			<div className="flex font-mont pt-7 justify-center items-center">
+				<div className="">
+					<div className="flex flex-col">
+						<div className="font-mont bg-gray-100 font-normal text-gray-600">
+							{!authState.isAuthenticated && <div>We noticed you are not signed into Github. You must sign in to claim an issue!</div>}
+							<form onSubmit={(event) => claimBounty(event)}>
+								<input
+									className="bg-gray-100 w-6/7 border-gray-100 outline-none"
+									id="name"
+									placeholder="https://github.com/OpenQDev/OpenQ-Frontend/issues/3"
+									type="text"
+									value={issueUrl}
+									onChange={(event) => setIssueUrl(event.target.value)}
+								/>
+								<button
+									type="submit"
+									className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
+								>
+									Claim
+								</button>
+								<AuthButton />
+							</form>
+							{isLoading && <LoadingIcon />}
+							{showErrorModal && <ErrorModal modalVisibility={setShowErrorModal} message={errorMessage} />}
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 }
