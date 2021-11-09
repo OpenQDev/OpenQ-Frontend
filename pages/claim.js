@@ -3,6 +3,7 @@ import axios from 'axios';
 import StoreContext from '../store/Store/StoreContext';
 import useAuth from '../hooks/useAuth';
 import { useWeb3React } from '@web3-react/core';
+import { ethers } from 'ethers';
 import ErrorModal from '../components/ErrorModal';
 import LoadingIcon from '../components/LoadingIcon';
 import AuthButton from '../components/Authentication/AuthButton';
@@ -17,7 +18,7 @@ function Claim() {
 
 	// Context
 	const [appState,] = useContext(StoreContext);
-	const { account } = useWeb3React();
+	const { account, library } = useWeb3React();
 
 	// Hooks
 	const [authState,] = useAuth();
@@ -31,7 +32,28 @@ function Claim() {
 			payoutAddress: account
 		}, { withCredentials: true })
 			.then(() => {
-				setIsLoading(false);
+				const filter = {
+					address: process.env.NEXT_PUBLIC_OPENQ_ADDRESS,
+					topics: [
+						// the name of the event, parnetheses containing the data type of each event, no spaces
+						ethers.utils.id('IssueClosed(string,address,address)')
+					]
+				};
+
+				library.on(filter, (event) => {
+					let abi = [
+						'event IssueClosed(string indexed id,address indexed issueAddress,address indexed payoutAddress)'
+					];
+
+					let iface = new ethers.utils.Interface(abi);
+					const { data, topics } = event;
+					const logs = iface.parseLog({ data, topics });
+					console.log(event);
+					if (logs.args.payoutAddress == account) {
+						console.log('successful transfer!');
+						setIsLoading(false);
+					}
+				});
 			})
 			.catch((error) => {
 				setIsLoading(false);

@@ -114,7 +114,7 @@ class OpenQClient {
 			const issueAddress = await contract.mintBounty(issueId);
 			return issueAddress;
 		} catch (err) {
-			console.log('mintBounty Error: ', err);
+			throw (err);
 		}
 	}
 }

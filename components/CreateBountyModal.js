@@ -147,8 +147,8 @@ const CreateBountyModal = (props) => {
 			) {
 				alert('Issue already exists');
 			}
+			setTransactionPending(false);
 			setDisableMint(false);
-			console.log(error);
 		}
 	}
 
@@ -259,7 +259,7 @@ const CreateBountyModal = (props) => {
 						<div className="flex items-center justify-center p-6 rounded-b w-full">
 							<button
 								className={`${disableMint ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'
-								}`}
+									}`}
 								type="button"
 								onClick={() => mintBounty()}
 								disabled={disableMint}
