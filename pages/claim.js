@@ -5,6 +5,7 @@ import useAuth from '../hooks/useAuth';
 import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 import ErrorModal from '../components/ErrorModal';
+import SuccessModal from '../components/SuccessModal';
 import LoadingIcon from '../components/LoadingIcon';
 import AuthButton from '../components/Authentication/AuthButton';
 
@@ -15,6 +16,9 @@ function Claim() {
 	const [showErrorModal, setShowErrorModal] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
+	const [showSuccessModal, setShowSuccessModal] = useState(false);
+	const [successMessage, setSuccessMessage] = useState('');
+	const [transactionHash, setTransactionHash] = useState(null);
 
 	// Context
 	const [appState,] = useContext(StoreContext);
@@ -49,10 +53,11 @@ function Claim() {
 					const { data, topics } = event;
 					const logs = iface.parseLog({ data, topics });
 					console.log(logs);
-					console.log(event);
 					if (logs.args.payoutAddress == account) {
-						console.log('successful transfer!');
 						setIsLoading(false);
+						setTransactionHash(event.transactionHash);
+						setSuccessMessage(`Successfully transferred assets on issue at ${logs.args.issueAddress} to ${logs.args.payoutAddress}!`);
+						setShowSuccessModal(true);
 					}
 				});
 			})
@@ -90,6 +95,7 @@ function Claim() {
 							</form>
 							{isLoading && <LoadingIcon />}
 							{showErrorModal && <ErrorModal modalVisibility={setShowErrorModal} message={errorMessage} />}
+							{showSuccessModal && <SuccessModal modalVisibility={setShowSuccessModal} message={successMessage} transactionHash={transactionHash} />}
 						</div>
 					</div>
 				</div>

@@ -17,6 +17,8 @@ const CreateBountyModal = (props) => {
 	const [issueId, setIssueId] = useState('');
 	const [issueFound, setIssueFound] = useState(false);
 	const [issueClosed, setIssueClosed] = useState(false);
+	const [error, setError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState(null);
 
 	const [issueData, setIssueData] = useState('');
 	const [bountyAddress, setBountyAddress] = useState(null);
@@ -44,9 +46,12 @@ const CreateBountyModal = (props) => {
 			}
 			setIssueData(response.data.organization.repository.issue);
 			setIssueId(response.data.organization.repository.issue.id);
-		} catch (error) {
+		} catch (e) {
+			setError(true);
+			setErrorMessage(e.message);
 			setIssueFound(false);
 			setIssueData(null);
+			setDisableMint(true);
 		}
 	}
 
@@ -71,6 +76,9 @@ const CreateBountyModal = (props) => {
 	// Parse the Organization name, Repository Name and Issue number from the URL
 	// This is needed to fetch the globally unique issue id
 	useEffect(() => {
+		setError(false);
+		setErrorMessage(null);
+
 		let pathArray = appState.utils.parseGitHubUrl(issueUrl);
 		if (pathArray == null) {
 			setIsValidUrl(false);
@@ -82,6 +90,7 @@ const CreateBountyModal = (props) => {
 			setRepoName(repoName);
 			setIssueNumber(issueNumber);
 			setIsValidUrl(true);
+			setDisableMint(false);
 		}
 	}, [issueUrl]);
 
@@ -119,8 +128,9 @@ const CreateBountyModal = (props) => {
 			try {
 				const bountyAddress = await contract.getBountyAddress(id);
 				return bountyAddress;
-			} catch (err) {
-				console.log('getBountyAddress Error: ', err);
+			} catch (e) {
+				setError(true);
+				setErrorMessage(e.message);
 			}
 		}
 	}
@@ -128,6 +138,7 @@ const CreateBountyModal = (props) => {
 	async function mintBounty() {
 		try {
 			setDisableMint(true);
+			setError(false);
 
 			await appState.openQClient.mintBounty(library, issueId);
 			setTransactionPending(true);
@@ -146,18 +157,15 @@ const CreateBountyModal = (props) => {
 				let iface = new ethers.utils.Interface(abi);
 				const { data, topics } = event;
 				const logs = iface.parseLog({ data, topics });
-				console.log(logs);
+
 				if (logs.args.id == issueId) {
 					setBountyAddress(logs.args.issueAddress);
 					setTransactionPending(false);
 				}
 			});
-		} catch (error) {
-			if (
-				error?.data?.message.includes('Issue already exists for given id')
-			) {
-				alert('Issue already exists');
-			}
+		} catch (e) {
+			setError(true);
+			setErrorMessage(e.message);
 			setTransactionPending(false);
 			setDisableMint(false);
 		}
@@ -234,6 +242,7 @@ const CreateBountyModal = (props) => {
 								) : null}
 							</div>
 						</div>
+						{error ? errorMessage : null}
 						{isValidUrl && !issueFound ? <div>Issue not found</div> : null}
 						<div className="pt-5 px-8">
 							{issueClosed ? 'This issue is already closed on GitHub' : null}

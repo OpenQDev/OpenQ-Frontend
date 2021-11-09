@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const useAuth = () => {
 	const [authState, setAuthState] = useContext(AuthContext);
-	const [appState, appStateDispatch] = useContext(StoreContext);
+	const [appState,] = useContext(StoreContext);
 
 	useEffect(() => {
 		async function checkAuth() {
