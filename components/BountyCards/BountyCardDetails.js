@@ -13,8 +13,6 @@ const BountyCardDetails = (props) => {
 		deposits
 	} = props;
 
-	console.log(deposits);
-
 	return (
 		<div className="flex flex-col pl-16 pr-16 pt-10 pb-10">
 			<div className="flex flex-col border-b border-solid rounded-t">

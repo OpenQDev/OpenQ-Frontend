@@ -7,7 +7,8 @@ export const GET_ISSUE = gql`
       repository(name: $repoName) {
         name
         issue(number: $issueId) {
-          id
+          closed
+					id
           author {
             login
           }
@@ -24,7 +25,8 @@ export const GET_ISSUE_BY_ID = gql`
   query($issueId: ID!) {
     node(id: $issueId) {
       ... on Issue {
-        title
+        closed
+				title
         body
         url
         labels(first: 10) {

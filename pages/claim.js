@@ -42,12 +42,13 @@ function Claim() {
 
 				library.on(filter, (event) => {
 					let abi = [
-						'event IssueClosed(string indexed id,address indexed issueAddress,address indexed payoutAddress)'
+						'event IssueClosed(string id, address indexed issueAddress, address indexed payoutAddress)'
 					];
 
 					let iface = new ethers.utils.Interface(abi);
 					const { data, topics } = event;
 					const logs = iface.parseLog({ data, topics });
+					console.log(logs);
 					console.log(event);
 					if (logs.args.payoutAddress == account) {
 						console.log('successful transfer!');

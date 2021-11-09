@@ -16,6 +16,7 @@ const CreateBountyModal = (props) => {
 	const [issueNumber, setIssueNumber] = useState(0);
 	const [issueId, setIssueId] = useState('');
 	const [issueFound, setIssueFound] = useState(false);
+	const [issueClosed, setIssueClosed] = useState(false);
 
 	const [issueData, setIssueData] = useState('');
 	const [bountyAddress, setBountyAddress] = useState(null);
@@ -34,6 +35,13 @@ const CreateBountyModal = (props) => {
 				issueNumber
 			);
 			setIssueFound(true);
+			if (response.data.organization.repository.issue.closed) {
+				setIssueClosed(true);
+				setDisableMint(true);
+			} else {
+				setIssueClosed(false);
+				setDisableMint(false);
+			}
 			setIssueData(response.data.organization.repository.issue);
 			setIssueId(response.data.organization.repository.issue.id);
 		} catch (error) {
@@ -47,7 +55,9 @@ const CreateBountyModal = (props) => {
 		// Solidity returns the default zero address for uninitiated members of a mapping
 		if (address == '0x0000000000000000000000000000000000000000') {
 			setBountyExists(false);
-			setDisableMint(false);
+			if (!issueClosed) {
+				setDisableMint(false);
+			}
 			setBountyAddress(null);
 		} else {
 			setBountyExists(true);
@@ -136,6 +146,7 @@ const CreateBountyModal = (props) => {
 				let iface = new ethers.utils.Interface(abi);
 				const { data, topics } = event;
 				const logs = iface.parseLog({ data, topics });
+				console.log(logs);
 				if (logs.args.id == issueId) {
 					setBountyAddress(logs.args.issueAddress);
 					setTransactionPending(false);
@@ -225,6 +236,7 @@ const CreateBountyModal = (props) => {
 						</div>
 						{isValidUrl && !issueFound ? <div>Issue not found</div> : null}
 						<div className="pt-5 px-8">
+							{issueClosed ? 'This issue is already closed on GitHub' : null}
 							{isValidUrl && bountyAddress && issueFound ? (
 								<>
 									<span>Bounty Minted</span>
