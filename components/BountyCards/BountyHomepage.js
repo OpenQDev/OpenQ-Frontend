@@ -55,12 +55,14 @@ const BountyHomepage = () => {
 					{issueData.map((issue) => {
 						return (
 							<BountyCard
+								issueIsOpen={true}
 								issueColor={Math.floor(Math.random() * 5)}
 								issue={issue}
 								orgName={issue.owner}
 								repoName={issue.repoName}
 								issueName={issue.title}
 								avatarUrl={issue.avatarUrl}
+								createdAt={issue.createdAt}
 								labels={issue.labels}
 								address={issueIdToAddress[issue.issueId]}
 								deposits={fundingData[issue.issueId]}

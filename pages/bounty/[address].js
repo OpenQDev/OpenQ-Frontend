@@ -16,11 +16,17 @@ const address = () => {
 	const [issueData, setIssueData] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [fundingData, setFundingData] = useState([]);
+	const [issueIsOpen, setIssueIsOpen] = useState(true);
 
 	// Methods
 	async function getIssueId() {
 		const issueId = await appState.openQClient.getIssueIdFromAddress(library, address);
 		setIssueId(issueId);
+	}
+
+	async function getIssueIsOpen() {
+		const issueId = await appState.openQClient.getIssueIsOpen(library, issueId);
+		setIssueIsOpen(issueId);
 	}
 
 	async function getIssueData() {
@@ -52,6 +58,7 @@ const address = () => {
 	useEffect(() => {
 		if (issueId) {
 			getIssueData();
+			getIssueIsOpen();
 		}
 	}, [issueId]);
 
@@ -71,6 +78,7 @@ const address = () => {
 					<div className="">
 						<div className="flex flex-col">
 							<BountyCardDetails
+								issueIsOpen={issueIsOpen}
 								issueColor={Math.floor(Math.random() * 5)}
 								orgName={issueData.repository.owner.login}
 								issue={issueData}

@@ -154,9 +154,12 @@ const CreateBountyModal = (props) => {
 				let abi = [
 					'event IssueCreated(address indexed from, string id, address indexed issueAddress)'
 				];
+
 				let iface = new ethers.utils.Interface(abi);
 				const { data, topics } = event;
 				const logs = iface.parseLog({ data, topics });
+				console.log(event);
+				console.log(logs);
 
 				if (logs.args.id == issueId) {
 					setBountyAddress(logs.args.issueAddress);
@@ -245,7 +248,7 @@ const CreateBountyModal = (props) => {
 						{error ? errorMessage : null}
 						{isValidUrl && !issueFound ? <div>Issue not found</div> : null}
 						<div className="pt-5 px-8">
-							{issueClosed ? 'This issue is already closed on GitHub' : null}
+							{isValidUrl && issueClosed && issueFound ? 'This issue is already closed on GitHub' : null}
 							{isValidUrl && bountyAddress && issueFound ? (
 								<>
 									<span>Bounty Minted</span>
@@ -279,8 +282,7 @@ const CreateBountyModal = (props) => {
 
 						<div className="flex items-center justify-center p-6 rounded-b w-full">
 							<button
-								className={`${disableMint ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'
-									}`}
+								className={`${disableMint ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`}
 								type="button"
 								onClick={() => mintBounty()}
 								disabled={disableMint}

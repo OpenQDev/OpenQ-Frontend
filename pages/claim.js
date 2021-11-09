@@ -45,19 +45,29 @@ function Claim() {
 				};
 
 				library.on(filter, (event) => {
+					console.log(event);
 					let abi = [
 						'event IssueClosed(string id, address indexed issueAddress, address indexed payoutAddress)'
 					];
 
 					let iface = new ethers.utils.Interface(abi);
 					const { data, topics } = event;
-					const logs = iface.parseLog({ data, topics });
-					console.log(logs);
-					if (logs.args.payoutAddress == account) {
+					let logs;
+
+					try {
+						logs = iface.parseLog({ data, topics });
+						console.log(logs);
+						if (logs.args.payoutAddress == account) {
+							setIsLoading(false);
+							setTransactionHash(event.transactionHash);
+							setSuccessMessage(`Successfully transferred assets on issue at ${logs.args.issueAddress} to ${logs.args.payoutAddress}!`);
+							setShowSuccessModal(true);
+						}
+					} catch (error) {
 						setIsLoading(false);
-						setTransactionHash(event.transactionHash);
-						setSuccessMessage(`Successfully transferred assets on issue at ${logs.args.issueAddress} to ${logs.args.payoutAddress}!`);
-						setShowSuccessModal(true);
+						setErrorMessage(JSON.stringify(error));
+						setShowErrorModal(true);
+						console.log(error);
 					}
 				});
 			})
@@ -76,23 +86,22 @@ function Claim() {
 					<div className="flex flex-col">
 						<div className="font-mont bg-gray-100 font-normal text-gray-600">
 							{!authState.isAuthenticated && <div>We noticed you are not signed into Github. You must sign in to claim an issue!</div>}
-							<form onSubmit={(event) => claimBounty(event)}>
-								<input
-									className="bg-gray-100 w-6/7 border-gray-100 outline-none"
-									id="name"
-									placeholder="https://github.com/OpenQDev/OpenQ-Frontend/issues/3"
-									type="text"
-									value={issueUrl}
-									onChange={(event) => setIssueUrl(event.target.value)}
-								/>
-								<button
-									type="submit"
-									className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
-								>
-									Claim
-								</button>
-								<AuthButton />
-							</form>
+							<input
+								className="bg-gray-100 w-6/7 border-gray-100 outline-none"
+								id="name"
+								placeholder="https://github.com/OpenQDev/OpenQ-Frontend/issues/3"
+								type="text"
+								value={issueUrl}
+								onChange={(event) => setIssueUrl(event.target.value)}
+							/>
+							<button
+								type="submit"
+								className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
+								onClick={(event) => claimBounty(event)}
+							>
+								Claim
+							</button>
+							<AuthButton />
 							{isLoading && <LoadingIcon />}
 							{showErrorModal && <ErrorModal modalVisibility={setShowErrorModal} message={errorMessage} />}
 							{showSuccessModal && <SuccessModal modalVisibility={setShowSuccessModal} message={successMessage} transactionHash={transactionHash} />}

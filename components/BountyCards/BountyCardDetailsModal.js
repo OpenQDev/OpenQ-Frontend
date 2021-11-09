@@ -12,6 +12,7 @@ const BountyCardDetailsModal = (props) => {
 		labels,
 		deposits,
 		address,
+		createdAt
 	} = props;
 
 	const updateModal = () => {
@@ -24,6 +25,8 @@ const BountyCardDetailsModal = (props) => {
 				<div className="w-auto my-6 mx-auto max-w-3xl">
 					<div className="rounded-lg shadow-lg  flex flex-col w-full bg-white">
 						<BountyCardDetails
+							createdAt={createdAt}
+							issueIsOpen={true}
 							issueColor={issueColor}
 							orgName={orgName}
 							issue={issue}

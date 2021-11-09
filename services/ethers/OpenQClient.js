@@ -64,6 +64,19 @@ class OpenQClient {
 		}
 	}
 
+	async getIssueIsOpen(library, issueId) {
+		const signer = library.getSigner();
+
+		const contract = this.OpenQ(signer);
+		const issueIdToAddress = {};
+		try {
+			const issueIsOpen = await contract.issueIsOpen(issueId);
+			return issueIsOpen;
+		} catch (err) {
+			console.log('getIssueIsOpen Error: ', err);
+		}
+	}
+
 	async getIssueIdFromAddress(library, address) {
 		const signer = library.getSigner();
 
