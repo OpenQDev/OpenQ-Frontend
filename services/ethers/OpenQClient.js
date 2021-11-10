@@ -122,8 +122,14 @@ class OpenQClient {
 
 		const contract = this.OpenQ(signer);
 		try {
-			const issueAddress = await contract.mintBounty(issueId);
-			return issueAddress;
+			const txnResponse = await contract.mintBounty(issueId);
+			const txnReceipt = await txnResponse.wait();
+
+			const id = txnReceipt.events[0].args.id;
+			const from = txnReceipt.events[0].args.from;
+			const issueAddress = txnReceipt.events[0].args.issueAddress;
+
+			return { id, from, issueAddress };
 		} catch (err) {
 			throw (err);
 		}

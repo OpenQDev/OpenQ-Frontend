@@ -142,32 +142,11 @@ const CreateBountyModal = (props) => {
 			setDisableMint(true);
 			setError(false);
 
-			await appState.openQClient.mintBounty(library, issueId);
 			setTransactionPending(true);
-			const filter = {
-				address: process.env.NEXT_PUBLIC_OPENQ_ADDRESS,
-				topics: [
-					// the name of the event, parnetheses containing the data type of each event, no spaces
-					ethers.utils.id('IssueCreated(address,string,address)')
-				]
-			};
+			const { issueAddress } = await appState.openQClient.mintBounty(library, issueId);
 
-			library.on(filter, (event) => {
-				let abi = [
-					'event IssueCreated(address indexed from, string id, address indexed issueAddress)'
-				];
-
-				let iface = new ethers.utils.Interface(abi);
-				const { data, topics } = event;
-				const logs = iface.parseLog({ data, topics });
-				console.log(event);
-				console.log(logs);
-
-				if (logs.args.id == issueId) {
-					setBountyAddress(logs.args.issueAddress);
-					setTransactionPending(false);
-				}
-			});
+			setBountyAddress(issueAddress);
+			setTransactionPending(false);
 		} catch (e) {
 			setError(true);
 			setErrorMessage(e.message);
