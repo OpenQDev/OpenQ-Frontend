@@ -39,13 +39,23 @@ class GithubRepository {
 		return promise;
 	}
 
+	parseIssueData(rawIssueResponse) {
+		const responseData = rawIssueResponse.data.node;
+		const { title, body, url, createdAt, closed, id } = responseData;
+		const repoName = responseData.repository.name;
+		const avatarUrl = responseData.repository.owner.avatarUrl;
+		const owner = responseData.repository.owner.login;
+		const labels = responseData.labels.edges.map(edge => edge.node);
+		return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed };
+	}
+
 	async fetchIssueById(issueId) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
 					query: GET_ISSUE_BY_ID, variables: { issueId },
 				});
-				resolve(result);
+				resolve(this.parseIssueData(result));
 			} catch (e) {
 				reject(e);
 			}
@@ -73,16 +83,7 @@ class GithubRepository {
 		const issueDataObjects = [];
 		for (let issueId of issues) {
 			const response = await this.fetchIssueById(issueId);
-			const responseData = response.data.node;
-			const { title, body, url, createdAt } = responseData;
-			const repoName = responseData.repository.name;
-			const avatarUrl = responseData.repository.owner.avatarUrl;
-			const owner = responseData.repository.owner.login;
-			const labels = responseData.labels.edges.map(edge => edge.node);
-
-			const issueData = { issueId, title, body, url, repoName, owner, avatarUrl, labels, createdAt };
-
-			issueDataObjects.push(issueData);
+			issueDataObjects.push(response);
 		}
 		return issueDataObjects;
 	}

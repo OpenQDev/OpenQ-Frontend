@@ -41,6 +41,13 @@ const BountyHomepage = () => {
 
 		const fundingDataObject = await appState.openQClient.getIssueDeposits(library, issueIdToAddresses);
 
+		let issueClaimedMap = {};
+		issues.forEach(async issue => {
+			const isClaimed = await appState.openQClient.getIssueIsOpen(library, issue.id);
+			console.log(isClaimed);
+			issueClaimedMap[issue.id] = isClaimed;
+		});
+
 		setFundingData(fundingDataObject);
 		setIsLoading(false);
 	}
@@ -55,12 +62,11 @@ const BountyHomepage = () => {
 					{issueData.map((issue) => {
 						return (
 							<BountyCard
-								issueIsOpen={true}
-								issueColor={Math.floor(Math.random() * 5)}
 								issue={issue}
-								address={issueIdToAddress[issue.issueId]}
-								deposits={fundingData[issue.issueId]}
-								key={issue.issueId}
+								issueColor={Math.floor(Math.random() * 5)}
+								address={issueIdToAddress[issue.id]}
+								deposits={fundingData[issue.id]}
+								key={issue.id}
 							/>
 						);
 					})}

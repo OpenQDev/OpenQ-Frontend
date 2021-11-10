@@ -10,7 +10,7 @@ const BountyCardDetails = (props) => {
 		deposits,
 	} = props;
 
-	const { owner, repoName, issueName, labels, createdAt } = issue;
+	const { owner, repoName, title, labels, createdAt, closed } = issue;
 
 	return (
 		<div className="flex flex-col pl-16 pr-16 pt-10 pb-10">
@@ -19,7 +19,7 @@ const BountyCardDetails = (props) => {
 					<div className="flex flex-col">
 						<div className="text-xl">{owner}/{repoName}</div>
 						<div className="text-xl font-bold">
-							{issue.title}
+							{title}
 						</div>
 					</div>
 					<div>
@@ -33,13 +33,18 @@ const BountyCardDetails = (props) => {
 				</div>
 				<div className="flex flex-row pt-5 space-x-10">
 					<div className="flex flex-col">
-						<div className="font-bold">Status</div>
 						<div className="flex flex-row items-center space-x-2">
 							<div className="pt-1">
+								{closed ? (<div className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+									Status: Closed
+								</div>) : (
+									<div className="text-green-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+										Status: Open
+									</div>)}
 								{' '}
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
-									fill="#15FB31"
+									fill={closed ? '#F0431D' : '#15FB31'}
 									viewBox="0 0 16 16"
 									width="15"
 									height="15"

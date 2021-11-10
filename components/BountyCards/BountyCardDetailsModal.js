@@ -20,7 +20,6 @@ const BountyCardDetailsModal = (props) => {
 					<div className="rounded-lg shadow-lg  flex flex-col w-full bg-white">
 						<BountyCardDetails
 							issue={issue}
-							issueIsOpen={true}
 							issueColor={issueColor}
 							deposits={deposits}
 							address={address}

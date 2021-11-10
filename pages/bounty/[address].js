@@ -32,14 +32,8 @@ const address = () => {
 	async function getIssueData() {
 		try {
 			const response = await appState.githubRepository.fetchIssueById(issueId);
-			const responseData = response.data.node;
-			const { title, body, url, createdAt } = responseData;
-			const repoName = responseData.repository.name;
-			const avatarUrl = responseData.repository.owner.avatarUrl;
-			const owner = responseData.repository.owner.login;
-			const labels = responseData.labels.edges.map(edge => edge.node);
-
-			setIssue({ issueId, title, body, url, repoName, owner, avatarUrl, labels, createdAt });
+			console.log(response);
+			setIssue(response);
 		} catch (error) {
 			console.log(error);
 		}

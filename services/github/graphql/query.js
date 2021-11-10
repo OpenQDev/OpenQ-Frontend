@@ -29,6 +29,7 @@ export const GET_ISSUE_BY_ID = gql`
 				title
         body
         url
+				id
         labels(first: 10) {
           edges {
             node {

@@ -4,15 +4,13 @@ import BountyCardDetailsModal from './BountyCardDetailsModal';
 
 const BountyCard = (props) => {
 	const {
-		issueColor,
 		issue,
+		issueColor,
 		deposits,
 		address,
 	} = props;
 
-	const { owner, repoName, title, avatarUrl, labels, createdAt } = issue;
-
-	console.log(issue);
+	const { owner, repoName, title, avatarUrl, labels, createdAt, closed } = issue;
 
 	const [showModal, setShowModal] = useState(false);
 
@@ -27,7 +25,7 @@ const BountyCard = (props) => {
 						<div className="flex flex-grow flex-row items-center space-x-2">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
-								fill="#15FB31"
+								fill={closed ? '#F0431D' : '#15FB31'}
 								viewBox="0 0 16 16"
 								width="19"
 								height="19"
@@ -99,7 +97,6 @@ const BountyCard = (props) => {
 			</div>
 			{showModal && <BountyCardDetailsModal
 				issue={issue}
-				issueIsOpen={true}
 				issueColor={issueColor}
 				deposits={deposits}
 				address={address}
