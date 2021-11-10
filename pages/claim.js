@@ -1,7 +1,6 @@
 // Third Party Libraries
 import React, { useState, useContext } from 'react';
 import { useWeb3React } from '@web3-react/core';
-import { ethers } from 'ethers';
 import axios from 'axios';
 
 // Custom
@@ -26,7 +25,7 @@ function Claim() {
 
 	// Context
 	const [appState,] = useContext(StoreContext);
-	const { account, library } = useWeb3React();
+	const { account } = useWeb3React();
 
 	// Hooks
 	const [authState,] = useAuth();
@@ -38,41 +37,12 @@ function Claim() {
 			issueUrl,
 			payoutAddress: account
 		}, { withCredentials: true })
-			.then(() => {
-				const filter = {
-					address: process.env.NEXT_PUBLIC_OPENQ_ADDRESS,
-					topics: [
-						// the name of the event, parnetheses containing the data type of each event, no spaces
-						ethers.utils.id('IssueClosed(string,address,address)')
-					]
-				};
-
-				library.on(filter, (event) => {
-					console.log(event);
-					let abi = [
-						'event IssueClosed(string id, address indexed issueAddress, address indexed payoutAddress)'
-					];
-
-					let iface = new ethers.utils.Interface(abi);
-					const { data, topics } = event;
-					let logs;
-
-					try {
-						logs = iface.parseLog({ data, topics });
-						console.log(logs);
-						if (logs.args.payoutAddress == account) {
-							setIsLoading(false);
-							setTransactionHash(event.transactionHash);
-							setSuccessMessage(`Successfully transferred assets on issue at ${logs.args.issueAddress} to ${logs.args.payoutAddress}!`);
-							setShowSuccessModal(true);
-						}
-					} catch (error) {
-						setIsLoading(false);
-						setErrorMessage(JSON.stringify(error));
-						setShowErrorModal(true);
-						console.log(error);
-					}
-				});
+			.then((result) => {
+				const { id, payoutAddress, issueAddress, transactionHash } = result.data;
+				setIsLoading(false);
+				setTransactionHash(transactionHash);
+				setSuccessMessage(`Successfully transferred assets on issue with id ${id} at ${issueAddress} to ${payoutAddress}!`);
+				setShowSuccessModal(true);
 			})
 			.catch((error) => {
 				setIsLoading(false);
