@@ -8,15 +8,19 @@ import ErrorModal from '../components/ErrorModal';
 import SuccessModal from '../components/SuccessModal';
 import LoadingIcon from '../components/LoadingIcon';
 import AuthButton from '../components/Authentication/AuthButton';
+import ConfirmClaimModal from '../components/ConfirmClaimModal';
 
 function Claim() {
 	// State
 	const [issueUrl, setIssueUrl] = useState('');
 
 	const [showErrorModal, setShowErrorModal] = useState(false);
+	const [showSuccessModal, setShowSuccessModal] = useState(false);
+	const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
 	const [errorMessage, setErrorMessage] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
-	const [showSuccessModal, setShowSuccessModal] = useState(false);
+
 	const [successMessage, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
 
@@ -28,8 +32,7 @@ function Claim() {
 	const [authState,] = useAuth();
 
 	// Methods
-	const claimBounty = async (event) => {
-		event.preventDefault();
+	const claimBounty = async () => {
 		setIsLoading(true);
 		axios.post(`${appState.oracleBaseUrl}/claim`, {
 			issueUrl,
@@ -97,13 +100,14 @@ function Claim() {
 							<button
 								type="submit"
 								className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
-								onClick={(event) => claimBounty(event)}
+								onClick={() => setShowConfirmationModal(true)}
 							>
 								Claim
 							</button>
 							<AuthButton />
 							{isLoading && <LoadingIcon />}
 							{showErrorModal && <ErrorModal modalVisibility={setShowErrorModal} message={errorMessage} />}
+							{showConfirmationModal && <ConfirmClaimModal modalVisibility={setShowConfirmationModal} address={account} claimBounty={claimBounty} issueUrl={issueUrl} />}
 							{showSuccessModal && <SuccessModal modalVisibility={setShowSuccessModal} message={successMessage} transactionHash={transactionHash} />}
 						</div>
 					</div>
