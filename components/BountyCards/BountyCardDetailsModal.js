@@ -4,15 +4,9 @@ import BountyCardDetails from './BountyCardDetails';
 const BountyCardDetailsModal = (props) => {
 	const {
 		issueColor,
-		orgName,
 		issue,
-		repoName,
-		issueName,
-		avatarUrl,
-		labels,
 		deposits,
 		address,
-		createdAt
 	} = props;
 
 	const updateModal = () => {
@@ -25,15 +19,9 @@ const BountyCardDetailsModal = (props) => {
 				<div className="w-auto my-6 mx-auto max-w-3xl">
 					<div className="rounded-lg shadow-lg  flex flex-col w-full bg-white">
 						<BountyCardDetails
-							createdAt={createdAt}
+							issue={issue}
 							issueIsOpen={true}
 							issueColor={issueColor}
-							orgName={orgName}
-							issue={issue}
-							repoName={repoName}
-							issueName={issueName}
-							avatarUrl={avatarUrl}
-							labels={labels}
 							deposits={deposits}
 							address={address}
 						/>

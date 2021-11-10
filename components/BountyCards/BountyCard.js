@@ -5,16 +5,14 @@ import BountyCardDetailsModal from './BountyCardDetailsModal';
 const BountyCard = (props) => {
 	const {
 		issueColor,
-		orgName,
 		issue,
-		repoName,
-		issueName,
-		avatarUrl,
-		labels,
 		deposits,
 		address,
-		createdAt
 	} = props;
+
+	const { owner, repoName, title, avatarUrl, labels, createdAt } = issue;
+
+	console.log(issue);
 
 	const [showModal, setShowModal] = useState(false);
 
@@ -41,15 +39,15 @@ const BountyCard = (props) => {
 								></path>
 							</svg>
 							<div className="font-mont text-2xl">
-								{orgName.toLowerCase()}/{repoName.toLowerCase()}
+								{owner.toLowerCase()}/{repoName.toLowerCase()}
 							</div>
 						</div>
 						<div className="font-bold text-xl pl-6">
-							{issueName.toLowerCase()}
+							{title.toLowerCase()}
 						</div>
 						<div className="flex flex-row items-center space-x-4 pt-1">
 							<div className="font-mont font-light pl-6 text-sm text-gray-500">
-								{issue.createdAt}
+								{createdAt}
 							</div>
 						</div>
 					</div>
@@ -100,15 +98,9 @@ const BountyCard = (props) => {
 				) : null}
 			</div>
 			{showModal && <BountyCardDetailsModal
-				createdAt={createdAt}
+				issue={issue}
 				issueIsOpen={true}
 				issueColor={issueColor}
-				orgName={orgName}
-				issue={issue}
-				repoName={repoName}
-				issueName={issueName}
-				avatarUrl={avatarUrl}
-				labels={labels}
 				deposits={deposits}
 				address={address}
 				modalVisibility={setShowModal} />}

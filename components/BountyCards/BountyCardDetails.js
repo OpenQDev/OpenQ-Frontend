@@ -5,21 +5,19 @@ import Link from 'next/link';
 
 const BountyCardDetails = (props) => {
 	const {
-		orgName,
 		issue,
-		repoName,
-		labels,
 		address,
 		deposits,
-		createdAt
 	} = props;
+
+	const { owner, repoName, issueName, labels, createdAt } = issue;
 
 	return (
 		<div className="flex flex-col pl-16 pr-16 pt-10 pb-10">
 			<div className="flex flex-col border-b border-solid rounded-t">
 				<div className="flex flex-row space-x-20 justify-between">
 					<div className="flex flex-col">
-						<div className="text-xl">{orgName}/{repoName}</div>
+						<div className="text-xl">{owner}/{repoName}</div>
 						<div className="text-xl font-bold">
 							{issue.title}
 						</div>

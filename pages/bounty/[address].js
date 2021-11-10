@@ -13,10 +13,10 @@ const address = () => {
 	// State
 	const { address } = router.query;
 	const [issueId, setIssueId] = useState('');
-	const [issueData, setIssueData] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [fundingData, setFundingData] = useState([]);
 	const [issueIsOpen, setIssueIsOpen] = useState(true);
+	const [issue, setIssue] = useState(null);
 
 	// Methods
 	async function getIssueId() {
@@ -32,7 +32,14 @@ const address = () => {
 	async function getIssueData() {
 		try {
 			const response = await appState.githubRepository.fetchIssueById(issueId);
-			setIssueData(response.data.node);
+			const responseData = response.data.node;
+			const { title, body, url, createdAt } = responseData;
+			const repoName = responseData.repository.name;
+			const avatarUrl = responseData.repository.owner.avatarUrl;
+			const owner = responseData.repository.owner.login;
+			const labels = responseData.labels.edges.map(edge => edge.node);
+
+			setIssue({ issueId, title, body, url, repoName, owner, avatarUrl, labels, createdAt });
 		} catch (error) {
 			console.log(error);
 		}
@@ -63,10 +70,10 @@ const address = () => {
 	}, [issueId]);
 
 	useEffect(() => {
-		if (issueData) {
+		if (issue) {
 			getDeposits();
 		}
-	}, [issueData]);
+	}, [issue]);
 
 	// Render
 	if (isLoading) {
@@ -78,14 +85,9 @@ const address = () => {
 					<div className="">
 						<div className="flex flex-col">
 							<BountyCardDetails
+								issue={issue}
 								issueIsOpen={issueIsOpen}
 								issueColor={Math.floor(Math.random() * 5)}
-								orgName={issueData.repository.owner.login}
-								issue={issueData}
-								repoName={issueData.repository.name}
-								issueName={issueData.title}
-								avatarUrl={issueData.repository.avatarUrl}
-								labels={issueData.labels.edges}
 								deposits={fundingData[issueId]}
 								address={address}
 							/>
