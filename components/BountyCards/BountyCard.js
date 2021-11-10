@@ -5,7 +5,7 @@ import BountyCardDetailsModal from './BountyCardDetailsModal';
 const BountyCard = (props) => {
 	const {
 		issue,
-		issueColor,
+		isClaimed,
 		deposits,
 		address,
 	} = props;
@@ -23,6 +23,7 @@ const BountyCard = (props) => {
 				<div className="flex flex-row justify-between">
 					<div>
 						<div className="flex flex-grow flex-row items-center space-x-2">
+							<div>{isClaimed ? 'Claimed' : 'Unclaimed'}</div>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill={closed ? '#F0431D' : '#15FB31'}
@@ -97,7 +98,7 @@ const BountyCard = (props) => {
 			</div>
 			{showModal && <BountyCardDetailsModal
 				issue={issue}
-				issueColor={issueColor}
+				isClaimed={isClaimed}
 				deposits={deposits}
 				address={address}
 				modalVisibility={setShowModal} />}

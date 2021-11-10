@@ -3,8 +3,8 @@ import BountyCardDetails from './BountyCardDetails';
 
 const BountyCardDetailsModal = (props) => {
 	const {
-		issueColor,
 		issue,
+		isClaimed,
 		deposits,
 		address,
 	} = props;
@@ -20,7 +20,7 @@ const BountyCardDetailsModal = (props) => {
 					<div className="rounded-lg shadow-lg  flex flex-col w-full bg-white">
 						<BountyCardDetails
 							issue={issue}
-							issueColor={issueColor}
+							isClaimed={isClaimed}
 							deposits={deposits}
 							address={address}
 						/>

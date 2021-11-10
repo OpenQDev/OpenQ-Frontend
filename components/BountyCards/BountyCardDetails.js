@@ -6,11 +6,12 @@ import Link from 'next/link';
 const BountyCardDetails = (props) => {
 	const {
 		issue,
+		isClaimed,
 		address,
 		deposits,
 	} = props;
 
-	const { owner, repoName, title, labels, createdAt, closed } = issue;
+	const { owner, repoName, title, labels, createdAt, closed, avatarUrl } = issue;
 
 	return (
 		<div className="flex flex-col pl-16 pr-16 pt-10 pb-10">
@@ -24,7 +25,7 @@ const BountyCardDetails = (props) => {
 					</div>
 					<div>
 						<Image
-							src="/openq-logo.png"
+							src={avatarUrl}
 							alt="avatarUrl"
 							width="51"
 							height="51"
@@ -42,6 +43,7 @@ const BountyCardDetails = (props) => {
 										Status: Open
 									</div>)}
 								{' '}
+								<div>{isClaimed ? 'Claimed' : 'Unclaimed'}</div>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill={closed ? '#F0431D' : '#15FB31'}

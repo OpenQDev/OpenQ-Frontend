@@ -6,9 +6,10 @@ import chainIdDeployEnvMap from '../WalletConnect/chainIdDeployEnvMap';
 
 const BountyHomepage = () => {
 	// State
-	const [, setIssueIds] = useState([]);
+	const [issueIds, setIssueIds] = useState([]);
 	const [issueIdToAddress, setIssueIdToAddress] = useState({});
 	const [issueData, setIssueData] = useState([]);
+	const [issueClaimedMap, setIssueClaimedMap] = useState({});
 	const [fundingData, setFundingData] = useState({});
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -26,6 +27,12 @@ const BountyHomepage = () => {
 		}
 	}, [active, chainId]);
 
+	useEffect(() => {
+		if (issueIds) {
+			getIssueClaimStatuses(issueIds);
+		}
+	}, [issueIds]);
+
 	// Methods
 	async function populateBountyData() {
 		setIsLoading(true);
@@ -41,15 +48,17 @@ const BountyHomepage = () => {
 
 		const fundingDataObject = await appState.openQClient.getIssueDeposits(library, issueIdToAddresses);
 
-		let issueClaimedMap = {};
-		issues.forEach(async issue => {
-			const isClaimed = await appState.openQClient.getIssueIsOpen(library, issue.id);
-			console.log(isClaimed);
-			issueClaimedMap[issue.id] = isClaimed;
-		});
-
 		setFundingData(fundingDataObject);
 		setIsLoading(false);
+	}
+
+	async function getIssueClaimStatuses(issueIds) {
+		let mapping = {};
+		for (let issueId of issueIds) {
+			const isOpen = await appState.openQClient.getIssueIsOpen(library, issueId);
+			mapping[issueId] = !isOpen;
+		}
+		setIssueClaimedMap(mapping);
 	}
 
 	// Render
@@ -62,8 +71,8 @@ const BountyHomepage = () => {
 					{issueData.map((issue) => {
 						return (
 							<BountyCard
+								isClaimed={issueClaimedMap[issue.id]}
 								issue={issue}
-								issueColor={Math.floor(Math.random() * 5)}
 								address={issueIdToAddress[issue.id]}
 								deposits={fundingData[issue.id]}
 								key={issue.id}

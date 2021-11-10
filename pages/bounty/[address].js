@@ -15,7 +15,7 @@ const address = () => {
 	const [issueId, setIssueId] = useState('');
 	const [isLoading, setIsLoading] = useState(true);
 	const [fundingData, setFundingData] = useState([]);
-	const [issueIsOpen, setIssueIsOpen] = useState(true);
+	const [isClaimed, setIssueIsClaimed] = useState(true);
 	const [issue, setIssue] = useState(null);
 
 	// Methods
@@ -25,8 +25,8 @@ const address = () => {
 	}
 
 	async function getIssueIsOpen() {
-		const issueId = await appState.openQClient.getIssueIsOpen(library, issueId);
-		setIssueIsOpen(issueId);
+		const isOpen = await appState.openQClient.getIssueIsOpen(library, issueId);
+		setIssueIsClaimed(!isOpen);
 	}
 
 	async function getIssueData() {
@@ -80,7 +80,7 @@ const address = () => {
 						<div className="flex flex-col">
 							<BountyCardDetails
 								issue={issue}
-								issueIsOpen={issueIsOpen}
+								isClaimed={isClaimed}
 								issueColor={Math.floor(Math.random() * 5)}
 								deposits={fundingData[issueId]}
 								address={address}
