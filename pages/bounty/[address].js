@@ -1,7 +1,10 @@
+// Third Party
 import React, { useEffect, useState, useContext } from 'react';
-import { useRouter } from 'next/router';
-import StoreContext from '../../store/Store/StoreContext';
 import { useWeb3React } from '@web3-react/core';
+import { useRouter } from 'next/router';
+
+// Custom
+import StoreContext from '../../store/Store/StoreContext';
 import BountyCardDetails from '../../components/BountyCards/BountyCardDetails';
 
 const address = () => {
@@ -32,7 +35,6 @@ const address = () => {
 	async function getIssueData() {
 		try {
 			const response = await appState.githubRepository.fetchIssueById(issueId);
-			console.log(response);
 			setIssue(response);
 		} catch (error) {
 			console.log(error);
@@ -42,9 +44,6 @@ const address = () => {
 	async function getDeposits() {
 		const issueIdToAddresses = { [issueId]: address };
 		const fundingDataObject = await appState.openQClient.getIssueDeposits(library, issueIdToAddresses);
-
-		console.log(fundingDataObject[issueId]);
-
 		setFundingData(fundingDataObject);
 		setIsLoading(false);
 	}

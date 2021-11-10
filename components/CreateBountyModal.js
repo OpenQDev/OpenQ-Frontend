@@ -1,8 +1,10 @@
+// Third Party
 import React, { useEffect, useState, useContext } from 'react';
-import StoreContext from '../store/Store/StoreContext';
 import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 import Link from 'next/link';
+// Custom
+import StoreContext from '../store/Store/StoreContext';
 
 const CreateBountyModal = (props) => {
 	// Context

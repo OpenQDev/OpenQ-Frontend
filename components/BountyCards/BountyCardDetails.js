@@ -1,7 +1,9 @@
+// Third Party
 import React from 'react';
-import CopyAddressToClipboard from '../tools/CopyAddressToClipboard';
 import Image from 'next/image';
 import Link from 'next/link';
+// Custom
+import CopyAddressToClipboard from '../tools/CopyAddressToClipboard';
 
 const BountyCardDetails = (props) => {
 	const {

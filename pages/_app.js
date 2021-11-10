@@ -1,13 +1,16 @@
-import '../styles/globals.css';
+// Third Party Libraries
+import React from 'react';
+import { Web3ReactProvider } from '@web3-react/core';
+import { ethers } from 'ethers';
 import 'tailwindcss/tailwind.css';
+
+// Custom
+import '../styles/globals.css';
 import StoreProvider from '../store/Store/StoreProvider';
 import AuthProvider from '../store/AuthStore/AuthProvider';
 import Layout from '../components/Layout';
-import { Web3ReactProvider } from '@web3-react/core';
-import { ethers } from 'ethers';
-import React from 'react';
 
-function MyApp({ Component, pageProps }) {
+function OpenQ({ Component, pageProps }) {
 
 	function getLibrary(provider) {
 		const library = new ethers.providers.Web3Provider(provider);
@@ -28,4 +31,4 @@ function MyApp({ Component, pageProps }) {
 	);
 }
 
-export default MyApp;
+export default OpenQ;

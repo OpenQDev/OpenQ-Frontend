@@ -1,5 +1,7 @@
-import Image from 'next/image';
+// Third Party
 import React, { useState } from 'react';
+import Image from 'next/image';
+// Custom
 import BountyCardDetailsModal from './BountyCardDetailsModal';
 
 const BountyCard = (props) => {

@@ -1,8 +1,11 @@
+// Third Party
 import React from 'react';
 
 const SuccessModal = (props) => {
+	const { modalVisibility, message, transactionHash } = props;
+
 	const updateModal = () => {
-		props.modalVisibility(false);
+		modalVisibility(false);
 	};
 
 	return (
@@ -15,10 +18,10 @@ const SuccessModal = (props) => {
 						</div>
 						<div className=" p-6 flex-auto">
 							<p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-								{props.message}
+								{message}
 							</p>
 							<p className="my-4 text-blueGray-500 text-lg leading-relaxed underline">
-								<a href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${props.transactionHash}`}>{process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/{props.transactionHash}</a>
+								<a href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`}>{process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/{transactionHash}</a>
 							</p>
 						</div>
 						<div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">

@@ -1,4 +1,6 @@
+// Third Party
 import React from 'react';
+// Custom
 import Footer from './Footer';
 import ProfilePicture from './ProfilePicture';
 import ConnectButton from './WalletConnect/ConnectButton.js';

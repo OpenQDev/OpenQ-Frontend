@@ -1,8 +1,11 @@
+// Third Party
 import React from 'react';
 
 const ConfirmClaimModal = (props) => {
+	const { modalVisibility, issueUrl, address, claimBounty } = props;
+
 	const updateModal = () => {
-		props.modalVisibility(false);
+		modalVisibility(false);
 	};
 
 	return (
@@ -15,7 +18,7 @@ const ConfirmClaimModal = (props) => {
 						</div>
 						<div className=" p-6 flex-auto">
 							<p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-								You are about to claim the deposits on issue {props.issueUrl} to the address {props.address}.
+								You are about to claim the deposits on issue {issueUrl} to the address {address}.
 								Is this correct?
 							</p>
 						</div>
@@ -32,7 +35,7 @@ const ConfirmClaimModal = (props) => {
 								type="button"
 								onClick={() => {
 									updateModal();
-									props.claimBounty(props.issueUrl, props.address);
+									claimBounty(issueUrl, address);
 								}}
 							>
 								Yes, Claim!

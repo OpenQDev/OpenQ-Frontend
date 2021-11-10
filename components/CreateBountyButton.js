@@ -1,4 +1,6 @@
+// Third Party
 import React, { useState } from 'react';
+// Custom
 import CreateBountyModal from './CreateBountyModal';
 
 const CreateBountyButton = () => {

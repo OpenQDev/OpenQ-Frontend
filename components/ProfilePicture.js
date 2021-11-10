@@ -1,6 +1,8 @@
+// Third Party
 import React, { useEffect, useState, useContext } from 'react';
-import AuthContext from '../store/AuthStore/AuthContext';
 import Image from 'next/image';
+// Custom
+import AuthContext from '../store/AuthStore/AuthContext';
 import StoreContext from '../store/Store/StoreContext';
 
 const ProfilePicture = () => {

@@ -1,3 +1,4 @@
+// Third Party
 import React from 'react';
 
 const LoadingIcon = () => {

@@ -1,7 +1,9 @@
-import BountyCard from './BountyCard';
+// Third Party
 import React, { useEffect, useState, useContext } from 'react';
-import StoreContext from '../../store/Store/StoreContext';
 import { useWeb3React } from '@web3-react/core';
+// Custom
+import BountyCard from './BountyCard';
+import StoreContext from '../../store/Store/StoreContext';
 import chainIdDeployEnvMap from '../WalletConnect/chainIdDeployEnvMap';
 
 const BountyHomepage = () => {

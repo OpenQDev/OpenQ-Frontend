@@ -1,7 +1,9 @@
+// Third Party
 import React, { useState, useEffect, useRef } from 'react';
-import { useMediaQuery } from '../scripts/useMediaQuery';
 import Image from 'next/image';
 import Link from 'next/link';
+// Custom
+import { useMediaQuery } from '../scripts/useMediaQuery';
 
 const Navbar = ({ children }) => {
 	let isPageWide = useMediaQuery('(min-width: 500px)');

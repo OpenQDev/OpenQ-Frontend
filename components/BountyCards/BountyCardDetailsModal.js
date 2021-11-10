@@ -1,4 +1,6 @@
+// Third Party
 import React from 'react';
+// Custom
 import BountyCardDetails from './BountyCardDetails';
 
 const BountyCardDetailsModal = (props) => {

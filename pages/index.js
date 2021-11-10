@@ -1,13 +1,12 @@
+// Third Party
+import React from 'react';
 import Head from 'next/head';
+
+// Custom
 import BountyHomepage from '../components/BountyCards/BountyHomepage';
 import CreateBountyButton from '../components/CreateBountyButton';
-import React from 'react';
-import useAuth from '../hooks/useAuth';
 
-export default function Home() {
-
-	useAuth();
-
+export default function Index() {
 	return (
 		<div>
 			<Head>

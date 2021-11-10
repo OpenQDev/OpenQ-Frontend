@@ -1,5 +1,7 @@
-import axios from 'axios';
+// Third Party
 import React, { useContext } from 'react';
+import axios from 'axios';
+// Custom
 import AuthContext from '../../store/AuthStore/AuthContext';
 import StoreContext from '../../store/Store/StoreContext';
 

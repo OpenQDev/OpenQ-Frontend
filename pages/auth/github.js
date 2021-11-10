@@ -1,13 +1,15 @@
+// Third Party
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/router';
+import axios from 'axios';
+
+// Custom
 import StoreContext from '../../store/Store/StoreContext';
 
 function GitHubAuth() {
 	const [appState,] = useContext(StoreContext);
 	const router = useRouter();
-	const [authCode, setAuthCode] = useState('NO AUTH CODE');
-	const [token,] = useState('');
+	const [, setAuthCode] = useState('NO AUTH CODE');
 
 	useEffect(() => {
 		const params = new URLSearchParams(window.location.search);
@@ -28,9 +30,7 @@ function GitHubAuth() {
 
 	return (
 		<div>
-			AuthCode is: {authCode}
-			<br />
-			Token is: {token}
+			Authenticating with GitHub...
 		</div>
 	);
 }
