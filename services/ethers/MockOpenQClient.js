@@ -8,7 +8,7 @@ class MockOpenQClient {
 	async getAllIssues(library) {
 		return axios.get(`http://localhost:3030/getAllIssues`)
 			.then(result => {
-				console.log(result);
+				return result.data;
 			})
 			.catch(error => {
 				console.error(error);
@@ -18,7 +18,7 @@ class MockOpenQClient {
 	async getIssueAddresses(library, issues) {
 		return axios.get(`http://localhost:3030/getIssueAddresses`)
 			.then(result => {
-				console.log(result);
+				return result.data;
 			})
 			.catch(error => {
 				console.error(error);
@@ -30,10 +30,9 @@ class MockOpenQClient {
 	}
 
 	async getIssueIdFromAddress(library, address) {
-		return axios.get(`http://localhost:3030/getIssueIdFromAddress`)
+		return axios.get(`http://localhost:3030/getIssueIdFromAddress/${address}`)
 			.then(result => {
-				console.log(result);
-				return result.data.getIssueIdFromAddress[address];
+				return result.data.issueId;
 			})
 			.catch(error => {
 				console.error(error);
@@ -43,7 +42,7 @@ class MockOpenQClient {
 	async getIssueDeposits(library, issueIdToAddresses) {
 		return axios.get(`http://localhost:3030/getIssueDeposits`)
 			.then(result => {
-				console.log(result);
+				return result.data;
 			})
 			.catch(error => {
 				console.error(error);

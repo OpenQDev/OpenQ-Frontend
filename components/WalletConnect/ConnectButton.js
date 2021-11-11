@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
 import { injected } from './connectors';
-import useEagerConnect from '../../hooks/useEagerConnect';
+import useConnectOnLoad from '../../hooks/useConnectOnLoad';
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
 
 const ConnectButton = () => {
@@ -17,7 +17,7 @@ const ConnectButton = () => {
 	const { chainId, account, activate, active } = useWeb3();
 
 	// Hooks
-	useEagerConnect(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
+	useConnectOnLoad()(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
 
 	useEffect(() => {
 		if (active) {

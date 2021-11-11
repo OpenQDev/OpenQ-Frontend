@@ -14,9 +14,9 @@ class MockGithubRepository {
 	}
 
 	async fetchIssueById(issueId) {
-		return axios.get(`http://localhost:3030/fetchIssue/${issueId}`)
+		return axios.get(`http://localhost:3030/getIssueData/${issueId}`)
 			.then(result => {
-				console.log(result);
+				return result.data;
 			})
 			.catch(error => {
 				console.log(error);
@@ -25,6 +25,16 @@ class MockGithubRepository {
 
 	async fetchAvatarUrl() {
 		return 'http://google.com';
+	}
+
+	async getIssueData() {
+		return axios.get('http://localhost:3030/getIssueData')
+			.then(result => {
+				return result.data;
+			})
+			.catch(error => {
+				console.error(error);
+			});
 	}
 }
 
