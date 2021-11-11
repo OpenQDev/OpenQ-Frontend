@@ -42,6 +42,7 @@ class OpenQClient {
 				throw (new Error(noContractBytecodeErrorMessage));
 			}
 			const allIssueIds = await contract.getIssueIds();
+			console.log("allIssueIds", allIssueIds);
 			return allIssueIds;
 		} catch (err) {
 			console.log('Error thrown in contract.getIssueIds()', err);
@@ -58,6 +59,7 @@ class OpenQClient {
 				const issueAddress = await contract.issueToAddress(issueId);
 				issueIdToAddress[issueId] = issueAddress;
 			}
+			console.log("issueIdToAddress", issueIdToAddress);
 			return issueIdToAddress;
 		} catch (err) {
 			console.log('getIssueAddresses Error: ', err);
@@ -69,6 +71,7 @@ class OpenQClient {
 		const contract = this.OpenQ(signer);
 		try {
 			const issueIsOpen = await contract.issueIsOpen(issueId);
+			console.log("issueIsOpen", issueIsOpen);
 			return issueIsOpen;
 		} catch (err) {
 			console.log('getIssueIsOpen Error: ', err);
@@ -81,6 +84,7 @@ class OpenQClient {
 		const contract = this.OpenQ(signer);
 		try {
 			const issueId = await contract.addressToIssue(address);
+			console.log("issueId", issueId);
 			return issueId;
 		} catch (err) {
 			console.log('getIssueIdFromAddress Error: ', err);
@@ -111,6 +115,7 @@ class OpenQClient {
 					}
 				}
 			}
+			console.log("issueDeposits", issueDeposits);
 			return issueDeposits;
 		} catch (err) {
 			console.log('getIssueDeposits Error: ', err);
@@ -128,7 +133,7 @@ class OpenQClient {
 			const id = txnReceipt.events[0].args.id;
 			const from = txnReceipt.events[0].args.from;
 			const issueAddress = txnReceipt.events[0].args.issueAddress;
-
+			console.log("mintBounty", { id, from, issueAddress });
 			return { id, from, issueAddress };
 		} catch (err) {
 			throw (err);

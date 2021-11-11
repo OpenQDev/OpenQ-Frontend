@@ -2,6 +2,20 @@
  * Map of the four deployment environments and their corresponding parameters.
  */
 const chainIdDeployEnvMap = {
+	'local': {
+		chainId: 31337,
+		networkName: 'Localhost:8545',
+		params: [{
+			chainId: '0x7A69',
+			chainName: 'Localhost 8545',
+			nativeCurrency: {
+				name: 'ETH',
+				symbol: 'ETH',
+				decimals: 18
+			},
+			rpcUrls: ['https://localhost:8545'],
+		}]
+	},
 	'docker': {
 		chainId: 31337,
 		networkName: 'Localhost:8545',

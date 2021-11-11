@@ -1,0 +1,39 @@
+{
+	"getAllIssues": [
+		"I_kwDOE5zs-M480ik8",
+		"I_kwDOGAqhQc48U54v",
+		"I_kwDOGAqhQc48U5_r",
+		"I_kwDOGWnnz84-ibJV"
+	],
+	"getIssueAddresses": {
+		"I_kwDOE5zs-M480ik8": "0x75537828f2ce51be7289709686A69CbFDbB714F1",
+		"I_kwDOGAqhQc48U5_r": "0x5392A33F7F677f59e833FEBF4016cDDD88fF9E67",
+		"I_kwDOGAqhQc48U54v": "0xE451980132E65465d0a498c53f0b5227326Dd73F",
+		"I_kwDOGWnnz84-ibJV": "0xa783CDc72e34a174CCa57a6d9a74904d0Bec05A9"
+	},
+	"getIssueIdFromAddress": {
+		"0x75537828f2ce51be7289709686A69CbFDbB714F1": "I_kwDOE5zs-M480ik8",
+		"0x5392A33F7F677f59e833FEBF4016cDDD88fF9E67": "I_kwDOGAqhQc48U5_r",
+		"0xE451980132E65465d0a498c53f0b5227326Dd73F": "I_kwDOGAqhQc48U54v",
+		"0xa783CDc72e34a174CCa57a6d9a74904d0Bec05A9": "I_kwDOGWnnz84-ibJV"
+	},
+	"getIssueDeposits": {
+		"I_kwDOE5zs-M480ik8": [
+			{
+				"symbol": "MOCK",
+				"name": "Mock",
+				"balance": "0.0000000000025",
+				"issueAddress": "0x75537828f2ce51be7289709686A69CbFDbB714F1"
+			},
+			{
+				"symbol": "FAKE",
+				"name": "Fake",
+				"balance": "0.000000000001",
+				"issueAddress": "0x75537828f2ce51be7289709686A69CbFDbB714F1"
+			}
+		],
+		"I_kwDOGAqhQc48U54v": [],
+		"I_kwDOGAqhQc48U5_r": [],
+		"I_kwDOGWnnz84-ibJV": []
+	}
+}
