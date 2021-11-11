@@ -1,6 +1,5 @@
 // Third Party Libraries
 import React, { useState, useContext } from 'react';
-import { useWeb3React } from '@web3-react/core';
 import axios from 'axios';
 
 // Custom
@@ -11,6 +10,7 @@ import SuccessModal from '../components/SuccessModal';
 import LoadingIcon from '../components/LoadingIcon';
 import AuthButton from '../components/Authentication/AuthButton';
 import ConfirmClaimModal from '../components/ConfirmClaimModal';
+import useWeb3 from '../hooks/useWeb3';
 
 function Claim() {
 	// State
@@ -25,7 +25,7 @@ function Claim() {
 
 	// Context
 	const [appState,] = useContext(StoreContext);
-	const { account } = useWeb3React();
+	const { account } = useWeb3();
 
 	// Hooks
 	const [authState,] = useAuth();

@@ -1,7 +1,7 @@
 // Third Party
 import React, { useState, useEffect } from 'react';
-import { useWeb3React } from '@web3-react/core';
 // Custom
+import useWeb3 from '../../hooks/useWeb3';
 import { injected } from './connectors';
 import useEagerConnect from '../../hooks/useEagerConnect';
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
@@ -14,7 +14,7 @@ const ConnectButton = () => {
 	const [isOnCorrectNetwork, setIsOnCorrectNetwork] = useState(true);
 
 	// Context
-	const { chainId, account, activate, active } = useWeb3React();
+	const { chainId, account, activate, active } = useWeb3();
 
 	// Hooks
 	useEagerConnect(); // See [useEagerConnect](../../hooks/useEagerConnect.js)

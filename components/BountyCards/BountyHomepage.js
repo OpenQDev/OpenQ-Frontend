@@ -1,7 +1,7 @@
 // Third Party
 import React, { useEffect, useState, useContext } from 'react';
-import { useWeb3React } from '@web3-react/core';
 // Custom
+import useWeb3 from '../../hooks/useWeb3';
 import BountyCard from './BountyCard';
 import StoreContext from '../../store/Store/StoreContext';
 import chainIdDeployEnvMap from '../WalletConnect/chainIdDeployEnvMap';
@@ -16,7 +16,7 @@ const BountyHomepage = () => {
 	const [isLoading, setIsLoading] = useState(true);
 
 	// Context
-	const { library, chainId, active } = useWeb3React();
+	const { library, chainId, active } = useWeb3();
 	const [appState,] = useContext(StoreContext);
 
 	// Hooks

@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useWeb3React } from '@web3-react/core';
-
 import { injected } from '../components/WalletConnect/connectors';
+import useWeb3 from './useWeb3';
 
 export default function useEagerConnect() {
-	const { activate, active } = useWeb3React();
+	const { activate, active } = useWeb3();
 
 	const [tried, setTried] = useState(false);
 

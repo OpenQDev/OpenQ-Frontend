@@ -1,15 +1,15 @@
 // Third Party
 import React, { useEffect, useState, useContext } from 'react';
-import { useWeb3React } from '@web3-react/core';
 import { useRouter } from 'next/router';
 
 // Custom
+import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import BountyCardDetails from '../../components/BountyCards/BountyCardDetails';
 
 const address = () => {
 	// Context
-	const { library, active } = useWeb3React();
+	const { library, active } = useWeb3();
 	const [appState,] = useContext(StoreContext);
 	const router = useRouter();
 
