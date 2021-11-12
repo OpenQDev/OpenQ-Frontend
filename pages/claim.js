@@ -38,10 +38,10 @@ function Claim() {
 			payoutAddress: account
 		}, { withCredentials: true })
 			.then((result) => {
-				const { id, payoutAddress, transactionHash, issueUrl } = result.data;
+				const { payoutAddress, transactionHash, issueUrl } = result.data;
 				setIsLoading(false);
 				setTransactionHash(transactionHash);
-				setSuccessMessage(`Successfully transferred assets on issue with id ${id} at ${issueUrl} to ${payoutAddress}!`);
+				setSuccessMessage(`Successfully transferred assets on issue with at ${issueUrl} to ${payoutAddress}!`);
 				setShowSuccessModal(true);
 			})
 			.catch((error) => {
