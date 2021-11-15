@@ -91,12 +91,16 @@ const CreateBountyModal = (props) => {
   //Close Modal on outside click
   useEffect(() => {
     let handler = (event) => {
-      if (
-        !menuRef.current.contains(event.target) &&
-        !notifyMenuRef.current.contains(event.target)
-      ) {
-        updateModal();
-        setIsBountyMinted(false);
+      if (!menuRef.current.contains(event.target)) {
+        console.log("isBountyMinted: ", isBountyMinted);
+        if (isBountyMinted) {
+          if (!notifyMenuRef.current.contains(event.target)) {
+            updateModal();
+            setIsBountyMinted(false);
+          }
+        } else {
+          updateModal();
+        }
       }
       /* if (!notifyMenuRef.current.contains(event.target)) {
         updateModal();
