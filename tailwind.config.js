@@ -1,4 +1,4 @@
-const colors = require('tailwindcss/colors');
+// const colors = require('tailwindcss/colors');
 
 /*CHECK DOC ABOUT extensio parameters vs theem*/
 module.exports = {
@@ -9,7 +9,6 @@ module.exports = {
 		borderRadius: {
 			none: '0',
 			sm: '0.125rem',
-			DEFAULT: '0.25rem',
 			DEFAULT: '4px',
 			md: '0.375rem',
 			lg: '1.7rem',

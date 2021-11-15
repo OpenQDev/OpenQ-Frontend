@@ -1,5 +1,5 @@
 // Third Party
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 // Custom
 import CreateBountyModal from './CreateBountyModal';
 
@@ -12,7 +12,7 @@ const CreateBountyButton = () => {
 				onClick={() => setShowModal(true)}
 				className="font-mont rounded-lg bg-button-pink py-2 px-3 pr-5 pl-5 text-white font-bold cursor-pointer"
 			>
-        Create Bounty
+				Create Bounty
 			</button>
 			<div>
 				{showModal && <CreateBountyModal modalVisibility={setShowModal} />}

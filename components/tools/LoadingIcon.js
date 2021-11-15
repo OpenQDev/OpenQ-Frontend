@@ -1,3 +1,5 @@
+import React from 'react';
+
 const LoadingIcon = (props) => {
 	const color = props.bg;
 	return (
