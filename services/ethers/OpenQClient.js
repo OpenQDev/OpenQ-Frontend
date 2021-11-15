@@ -127,9 +127,9 @@ class OpenQClient {
 			console.log("mintBounty txnReceipt", txnReceipt);
 			console.log("mintBounty events", txnReceipt?.events);
 
-			const id = txnReceipt.events[0].args.id;
-			const from = txnReceipt.events[0].args.from;
-			const issueAddress = txnReceipt.events[0].args.issueAddress;
+			const id = txnReceipt.events[1].args.id;
+			const from = txnReceipt.events[1].args.from;
+			const issueAddress = txnReceipt.events[1].args.issueAddress;
 			console.log("mintBounty", { id, from, issueAddress });
 			return { id, from, issueAddress };
 		} catch (err) {
