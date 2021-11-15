@@ -34,4 +34,7 @@
   .confirm-btn-disabled {
     @apply font-mont rounded-lg w-full py-3 text-base font-bold text-white bg-pink-300;
   }
+	.text-link{
+		@apply text-purple-500;
+	}
 }
