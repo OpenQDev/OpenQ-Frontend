@@ -1,21 +1,28 @@
 import CopyAddressToClipboard from "../CopyAddressToClipboard";
 import Image from "next/image";
 import Link from "next/link";
+import React, { useRef } from "react";
 
 const BountyMintedNotification = (props) => {
   const address = props.address;
   const issue = props.issueUrl;
   const modalVisibility = props.notifyModalVisibility;
+  let notifyRef = useRef();
+
+  props.passRef(notifyRef);
 
   return (
-    <div className="border-0 p-5 w-80 rounded-lg shadow-lg flex flex-col bg-purple-500 text-white outline-none focus:outline-none">
+    <div
+      ref={notifyRef}
+      className="border-0 p-5 w-80 rounded-lg shadow-lg flex flex-col bg-purple-500 text-white outline-none focus:outline-none"
+    >
       <div className="flex flex-row justify-between space-x-5">
         <div className="flex flex-row space-x-2">
           <div className="font-bold">Bounty Minted</div>
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
+              className="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

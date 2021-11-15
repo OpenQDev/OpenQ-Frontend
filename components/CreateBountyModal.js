@@ -38,6 +38,7 @@ const CreateBountyModal = (props) => {
   const [isBountyMinted, setIsBountyMinted] = useState(false);
 
   let menuRef = useRef();
+  let notifyMenuRef;
 
   // Methods
   async function fetchIssue() {
@@ -90,11 +91,17 @@ const CreateBountyModal = (props) => {
   //Close Modal on outside click
   useEffect(() => {
     let handler = (event) => {
-      if (!menuRef.current.contains(event.target)) {
-        console.log("outside click");
+      if (
+        !menuRef.current.contains(event.target) &&
+        !notifyMenuRef.current.contains(event.target)
+      ) {
         updateModal();
         setIsBountyMinted(false);
       }
+      /* if (!notifyMenuRef.current.contains(event.target)) {
+        updateModal();
+        setIsBountyMinted(false);
+      } */
     };
     window.addEventListener("mousedown", handler);
 
@@ -141,6 +148,10 @@ const CreateBountyModal = (props) => {
   // Methods
   const updateModal = () => {
     modalVisibility(false);
+  };
+
+  const passNotificationRef = (data) => {
+    notifyMenuRef = data;
   };
 
   const getDate = () => {
@@ -191,17 +202,17 @@ const CreateBountyModal = (props) => {
     <div>
       <div className="flex flex-col justify-center font-mont items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
         {isBountyMinted ? (
-          <BountyMintedNotification
-            address={bountyAddress}
-            issueUrl={issueUrl}
-            notifyModalVisibility={setIsBountyMinted}
-          />
+          <div>
+            <BountyMintedNotification
+              passRef={passNotificationRef}
+              address={bountyAddress}
+              issueUrl={issueUrl}
+              notifyModalVisibility={setIsBountyMinted}
+            />
+          </div>
         ) : null}
-        <div className="w-2/7 my-6 mx-auto max-w-3xl">
-          <div
-            ref={menuRef}
-            className="border-0 rounded-xl shadow-lg flex flex-col bg-white outline-none focus:outline-none"
-          >
+        <div ref={menuRef} className="w-2/7 my-6 mx-auto max-w-3xl">
+          <div className="border-0 rounded-xl shadow-lg flex flex-col bg-white outline-none focus:outline-none">
             <div className="flex flex-col items-center justify-center p-5 rounded-t">
               <h3 className="text-3xl text-gray-700 font-semibold">
                 Mint Bounty
