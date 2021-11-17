@@ -24,8 +24,8 @@ const CreateBountyModal = (props) => {
 	const [issueId, setIssueId] = useState('');
 	const [issueFound, setIssueFound] = useState(false);
 	const [issueClosed, setIssueClosed] = useState(false);
-	const [error, setError] = useState(false);
-	const [errorMessage, setErrorMessage] = useState(null);
+	const [, setError] = useState(false);
+	const [, setErrorMessage] = useState(null);
 
 	const [issueData, setIssueData] = useState('');
 	const [bountyAddress, setBountyAddress] = useState(null);

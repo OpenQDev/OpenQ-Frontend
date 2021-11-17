@@ -79,7 +79,7 @@ const BountyMintedNotification = (props) => {
 				</div>
 
 				<div>
-					<Link href={`https://polygonscan.com/address/${address}`}>
+					<Link href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/address/${address}`}>
 						<a
 							target="_blank"
 							rel="noreferrer"
