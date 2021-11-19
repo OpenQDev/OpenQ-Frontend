@@ -57,7 +57,7 @@ const BountyMintedNotification = (props) => {
 				You can now top up the bounty address with money.
 			</div>
 			<div className="pt-2 font-semibold">Smart Contract</div>
-			<div>
+			<div className="cursor-pointer">
 				<CopyAddressToClipboard data={address} />
 			</div>
 			<div className="flex pt-3 justify-end space-x-2">
