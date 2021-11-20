@@ -1,11 +1,14 @@
 // Third Party
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import React, { useContext } from "react";
+
 // Custom
 import CopyAddressToClipboard from "../tools/CopyAddressToClipboard";
+import StoreContext from "../../store/Store/StoreContext";
 
 const BountyCardDetails = (props) => {
+  const [appState] = useContext(StoreContext);
   const { issue, isClaimed, address, deposits } = props;
 
   const { owner, repoName, title, labels, createdAt, closed, avatarUrl } =
@@ -15,6 +18,20 @@ const BountyCardDetails = (props) => {
     const rawDate = createdAt;
     const date = new Date(rawDate);
     return date.toDateString().split(" ").slice(1).join(" ");
+  };
+
+  const getTVLBalance = () => {
+    /* console.log("appState: ", appState.coinApiBaseUrl);
+
+    const link =
+      appState.coinApiBaseUrl + '/tvl/?tokens=["bitcoin","litecoin"]';
+    const res = await fetch(link);
+    const data = await res.json();
+
+    console.log("res: ", res);
+    console.log("data: ", data); */
+
+    console.log("TVL Balance Request for following deposits: ", deposits);
   };
 
   return (
@@ -97,6 +114,7 @@ const BountyCardDetails = (props) => {
           </div>
           <div className="font-bold text-xl">
             {deposits.length == 0 ? "0.00" : "$243.13"}
+            {getTVLBalance()}
           </div>
           <div className="flex flex-row space-x-2 pt-1">
             <div>
