@@ -1,15 +1,39 @@
 // Third Party
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import axios from 'axios';
+
 // Custom
 import BountyCardDetails from './BountyCardDetails';
+import StoreContext from '../../store/Store/StoreContext';
 
 const BountyCardDetailsModal = (props) => {
-	const {
-		issue,
-		isClaimed,
-		deposits,
-		address,
-	} = props;
+	const { issue, isClaimed, deposits, address } = props;
+	const [appState] = useContext(StoreContext);
+
+	useEffect(async () => {
+		console.log('appState: ', appState.coinApiBaseUrl);
+		let ethereum = 0.1;
+		let bitcoin = 0.5;
+		const data = {
+			ethereum,
+			bitcoin,
+		};
+
+		const url = appState.coinApiBaseUrl + '/tvl';
+		console.log('url: ', url);
+
+		// this is all i added, fetch overriding headers and the credentials: true on the server was messing something up
+		await axios.post(url, data)
+			.then((result) => {
+				console.log(result);
+			})
+			.catch(error => {
+				console.log(error);
+			});
+
+		/*  const res = await axios.post(url, data);
+		console.log("res: ", res); */
+	});
 
 	const updateModal = () => {
 		props.modalVisibility(false);
@@ -39,7 +63,7 @@ const BountyCardDetailsModal = (props) => {
 				</div>
 			</div>
 			<div className="opacity-25 fixed inset-0 bg-black"></div>
-		</div >
+		</div>
 	);
 };
 
