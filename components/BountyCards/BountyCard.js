@@ -1,8 +1,10 @@
 // Third Party
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Image from "next/image";
+import axios from "axios";
 // Custom
 import BountyCardDetailsModal from "./BountyCardDetailsModal";
+import StoreContext from "../../store/Store/StoreContext";
 
 const BountyCard = (props) => {
   const { issue, isClaimed, deposits, address } = props;
@@ -10,13 +12,50 @@ const BountyCard = (props) => {
   const { owner, repoName, title, avatarUrl, labels, createdAt, closed } =
     issue;
   const [showModal, setShowModal] = useState(false);
+  const [tvl, setTvl] = useState(0);
   const bountyName = title.toLowerCase();
+  const [appState] = useContext(StoreContext);
 
   const getDate = () => {
     const rawDate = createdAt;
     const date = new Date(rawDate);
     return date.toDateString().split(" ").slice(1).join(" ");
   };
+
+  useEffect(async () => {
+    let cleanedDeposits = {};
+    deposits.map((d) => {
+      let coin;
+      if (d.name == "Fake") {
+        coin = "ethereum";
+      } else if (d.name == "Mock") {
+        coin = "bitcoin";
+      } else {
+        coin = d.name;
+      }
+      cleanedDeposits[coin] = d.balance;
+    });
+
+    const data = cleanedDeposits;
+    const url = appState.coinApiBaseUrl + "/tvl";
+
+    //only query tvl for bounties that have deposits
+    if (JSON.stringify(data) != "{}") {
+      await axios
+        .post(url, data)
+        .then((result) => {
+          setTvl(result.data.total);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    // this is all i added, fetch overriding headers and the credentials: true on the server was messing something up
+
+    /*  const res = await axios.post(url, data);
+		console.log("res: ", res); */
+  });
 
   return (
     <div>
@@ -104,7 +143,7 @@ const BountyCard = (props) => {
               />
             </div>
             <div className="font-semibold">TVL</div>
-            <div>$200</div>
+            <div>$ {parseFloat(tvl).toFixed(2)}</div>
           </div>
         </div>
         {/* Not displaying deposits, going for TVL instead */}
@@ -129,6 +168,7 @@ const BountyCard = (props) => {
           deposits={deposits}
           address={address}
           modalVisibility={setShowModal}
+          totalDeposits={parseFloat(tvl).toFixed(2)}
         />
       )}
     </div>

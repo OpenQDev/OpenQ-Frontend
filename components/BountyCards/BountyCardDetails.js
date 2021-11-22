@@ -91,10 +91,7 @@ const BountyCardDetails = (props) => {
               {deposits.map((deposit) => {
                 if (deposit.symbol == "FAKE") {
                   const symbol = "eth";
-                  console.log(
-                    "fake triggered: ",
-                    `/cryptocurrency-icons/32/color/${symbol}.png`
-                  );
+
                   return (
                     <div
                       className="flex flex-row space-x-2"
@@ -112,7 +109,6 @@ const BountyCardDetails = (props) => {
                     </div>
                   );
                 } else if (deposit.symbol == "MOCK") {
-                  console.log("mock triggered");
                   const symbol = "btc";
                   return (
                     <div

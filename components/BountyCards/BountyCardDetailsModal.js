@@ -1,47 +1,11 @@
 // Third Party
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
 
 // Custom
 import BountyCardDetails from "./BountyCardDetails";
-import StoreContext from "../../store/Store/StoreContext";
 
 const BountyCardDetailsModal = (props) => {
-  const { issue, isClaimed, deposits, address } = props;
-  const [tvl, setTvl] = useState(0);
-  const [appState] = useContext(StoreContext);
-
-  useEffect(async () => {
-    let cleanedDeposits = {};
-    deposits.map((d) => {
-      let coin;
-      if (d.name == "Fake") {
-        coin = "ethereum";
-      } else if (d.name == "Mock") {
-        coin = "bitcoin";
-      } else {
-        coin = d.name;
-      }
-      cleanedDeposits[coin] = d.balance;
-    });
-
-    const data = cleanedDeposits;
-    const url = appState.coinApiBaseUrl + "/tvl";
-
-    // this is all i added, fetch overriding headers and the credentials: true on the server was messing something up
-    await axios
-      .post(url, data)
-      .then((result) => {
-        console.log(result);
-        setTvl(result.data.total);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    /*  const res = await axios.post(url, data);
-		console.log("res: ", res); */
-  });
+  const { issue, isClaimed, deposits, address, totalDeposits } = props;
 
   const updateModal = () => {
     props.modalVisibility(false);
@@ -57,7 +21,7 @@ const BountyCardDetailsModal = (props) => {
               isClaimed={isClaimed}
               deposits={deposits}
               address={address}
-              totalDeposits={tvl}
+              totalDeposits={totalDeposits}
             />
             <div className="flex items-center justify-end">
               <button
