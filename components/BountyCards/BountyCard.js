@@ -10,6 +10,7 @@ const BountyCard = (props) => {
   const { owner, repoName, title, avatarUrl, labels, createdAt, closed } =
     issue;
   const [showModal, setShowModal] = useState(false);
+  const bountyName = title.toLowerCase();
 
   const getDate = () => {
     const rawDate = createdAt;
@@ -46,7 +47,11 @@ const BountyCard = (props) => {
                 {owner.toLowerCase()}/{repoName.toLowerCase()}
               </div>
             </div>
-            <div className="font-bold text-xl pl-6">{title.toLowerCase()}</div>
+            <div className="font-bold text-xl pl-6">
+              {title.length < 50
+                ? title.toLowerCase()
+                : bountyName.slice(0, 50) + "..."}
+            </div>
             <div className="flex flex-row items-center space-x-4 pt-1">
               <div className="font-mont font-light pl-6 text-sm text-gray-500">
                 Opened {getDate()}
@@ -57,36 +62,53 @@ const BountyCard = (props) => {
             <Image src={avatarUrl} alt="avatarUrl" width="51" height="51" />
           </div>
         </div>
-        {labels ? (
-          <div className="flex flex-row pt-3 pl-6 pr-3 justify-between">
-            <div className="space-x-2">
-              {labels.map((label, index) => {
-                if (index < 2) {
-                  return (
-                    <button
-                      key={index}
-                      className="font-mont rounded-lg text-xs py-1 px-2 font-bold bg-purple-500 text-white"
-                    >
-                      {label.name}
-                    </button>
-                  );
-                } else if (index == 2) {
-                  return (
-                    <button
-                      key={index}
-                      className="font-mont rounded-lg text-xs py-1 px-2 font-bold bg-purple-500 text-white"
-                    >
-                      more..
-                    </button>
-                  );
-                } else {
-                  null;
-                }
-              })}
-            </div>
+        <div className="flex flex-row pt-3 pl-6 pr-3  items-center justify-between">
+          <div>
+            {labels ? (
+              <div className="flex flex-row justify-between">
+                <div className="space-x-2">
+                  {labels.map((label, index) => {
+                    if (index < 2) {
+                      return (
+                        <button
+                          key={index}
+                          className="font-mont rounded-lg text-xs py-1 px-2 font-bold bg-purple-500 text-white"
+                        >
+                          {label.name}
+                        </button>
+                      );
+                    } else if (index == 2) {
+                      return (
+                        <button
+                          key={index}
+                          className="font-mont rounded-lg text-xs py-1 px-2 font-bold bg-green-300 text-white"
+                        >
+                          more..
+                        </button>
+                      );
+                    } else {
+                      null;
+                    }
+                  })}
+                </div>
+              </div>
+            ) : null}
           </div>
-        ) : null}
-        {deposits ? (
+          <div className="flex flex-row space-x-1 items-center">
+            <div className="pr-2 pt-1">
+              <Image
+                src="/BountyMaterial/eth.png"
+                alt="avatarUrl"
+                width="12"
+                height="20"
+              />
+            </div>
+            <div className="font-semibold">TVL</div>
+            <div>$200</div>
+          </div>
+        </div>
+        {/* Not displaying deposits, going for TVL instead */}
+        {/*  {deposits ? (
           <div>
             {deposits.map((deposit) => {
               return (
@@ -98,7 +120,7 @@ const BountyCard = (props) => {
               );
             })}
           </div>
-        ) : null}
+        ) : null} */}
       </div>
       {showModal && (
         <BountyCardDetailsModal
