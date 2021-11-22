@@ -7,7 +7,7 @@ import React from "react";
 import CopyAddressToClipboard from "../tools/CopyAddressToClipboard";
 
 const BountyCardDetails = (props) => {
-  const { issue, isClaimed, address, deposits } = props;
+  const { issue, isClaimed, address, deposits, totalDeposits } = props;
 
   const { owner, repoName, title, labels, createdAt, closed, avatarUrl } =
     issue;
@@ -16,20 +16,6 @@ const BountyCardDetails = (props) => {
     const rawDate = createdAt;
     const date = new Date(rawDate);
     return date.toDateString().split(" ").slice(1).join(" ");
-  };
-
-  const getTVLBalance = () => {
-    /* console.log("appState: ", appState.coinApiBaseUrl);
-
-		const link =
-			appState.coinApiBaseUrl + '/tvl/?tokens=["bitcoin","litecoin"]';
-		const res = await fetch(link);
-		const data = await res.json();
-
-		console.log("res: ", res);
-		console.log("data: ", data); */
-
-    console.log("TVL Balance Request for following deposits: ", deposits);
   };
 
   return (
@@ -98,20 +84,70 @@ const BountyCardDetails = (props) => {
             Total Value Locked (TVL)
           </div>
           <div className="font-bold text-xl">
-            {deposits.length == 0 ? "0.00" : "$243.13"}
-            {getTVLBalance()}
+            {deposits.length == 0 ? "0.00" : `$ ${totalDeposits}`}
           </div>
           <div className="flex flex-row space-x-2 pt-1">
             <div>
               {deposits.map((deposit) => {
-                return (
-                  <div className="flex flex-row space-x-2" key={deposit.symbol}>
-                    <div className="">
-                      {deposit.balance} {deposit.symbol}
-                      {"    "}(1USD/{deposit.symbol})
+                if (deposit.symbol == "FAKE") {
+                  const symbol = "eth";
+                  console.log(
+                    "fake triggered: ",
+                    `/cryptocurrency-icons/32/color/${symbol}.png`
+                  );
+                  return (
+                    <div
+                      className="flex flex-row space-x-2"
+                      key={deposit.symbol}
+                    >
+                      <div className="text-lg">{deposit.balance}</div>{" "}
+                      <div className="pt-1">
+                        <Image
+                          src={`/cryptocurrency-icons/32/color/${symbol}.png`}
+                          alt="ETH"
+                          width="16"
+                          height="16"
+                        />
+                      </div>
                     </div>
-                  </div>
-                );
+                  );
+                } else if (deposit.symbol == "MOCK") {
+                  console.log("mock triggered");
+                  const symbol = "btc";
+                  return (
+                    <div
+                      className="flex flex-row space-x-2"
+                      key={deposit.symbol}
+                    >
+                      <div className="text-lg">{deposit.balance}</div>{" "}
+                      <div className="pt-1">
+                        <Image
+                          src={`/cryptocurrency-icons/32/color/${symbol}.png`}
+                          alt="ETH"
+                          width="16"
+                          height="16"
+                        />
+                      </div>
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div
+                      className="flex flex-row space-x-2"
+                      key={deposit.symbol}
+                    >
+                      <div className="text-lg">{deposit.balance}</div>{" "}
+                      <div className="pt-1">
+                        <Image
+                          src={`/cryptocurrency-icons/32/color/${deposit.symbol.toLowerCase()}.png`}
+                          alt="n/a"
+                          width="16"
+                          height="16"
+                        />
+                      </div>
+                    </div>
+                  );
+                }
               })}
             </div>
           </div>
