@@ -1,6 +1,6 @@
 // Third Party
 import router from "next/router";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 
 // Custom
@@ -15,17 +15,36 @@ const BountyCardDetailsModal = (props) => {
     totalDeposits,
     modalVisibility,
   } = props;
+  let menuRef = useRef();
 
   const updateModal = () => {
     modalVisibility(false);
     router.push("/");
   };
 
+  // close modal if clicked outside
+  useEffect(() => {
+    let handler = (event) => {
+      if (!menuRef.current.contains(event.target)) {
+        console.log("menu ref triggered");
+        updateModal();
+      }
+    };
+    window.addEventListener("mousedown", handler);
+
+    return () => {
+      window.removeEventListener("mousedown", handler);
+    };
+  });
+
   return (
     <div>
       <div className="justify-center font-mont items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
         <div className="w-auto my-6 mx-auto max-w-3xl">
-          <div className="rounded-lg shadow-lg  flex flex-col w-full bg-white">
+          <div
+            ref={menuRef}
+            className="rounded-lg shadow-lg  flex flex-col w-full bg-white"
+          >
             <BountyCardDetails
               issue={issue}
               isClaimed={isClaimed}
@@ -33,15 +52,6 @@ const BountyCardDetailsModal = (props) => {
               address={address}
               totalDeposits={totalDeposits}
             />
-            <div className="flex items-center justify-end">
-              <button
-                className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button"
-                onClick={() => updateModal()}
-              >
-                Close
-              </button>
-            </div>
           </div>
         </div>
       </div>

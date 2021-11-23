@@ -103,7 +103,6 @@ const address = () => {
           .post(url, data)
           .then((result) => {
             setTvl(result.data.total);
-            console.log("tvl set: ", tvl);
           })
           .catch((error) => {
             console.log(error);
