@@ -1,14 +1,24 @@
 // Third Party
+import router from "next/router";
 import React, { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 // Custom
 import BountyCardDetails from "./BountyCardDetails";
 
 const BountyCardDetailsModal = (props) => {
-  const { issue, isClaimed, deposits, address, totalDeposits } = props;
+  const {
+    issue,
+    isClaimed,
+    deposits,
+    address,
+    totalDeposits,
+    modalVisibility,
+  } = props;
 
   const updateModal = () => {
-    props.modalVisibility(false);
+    modalVisibility(false);
+    router.push("/");
   };
 
   return (
