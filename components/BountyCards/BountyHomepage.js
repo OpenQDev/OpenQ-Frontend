@@ -39,8 +39,11 @@ const BountyHomepage = () => {
 	async function populateBountyData() {
 		setIsLoading(true);
 
-		const issues = await appState.openQClient.getAllIssues(library);
+		const issues = await appState.openQSubgraphClient.getAllIssues();
 		setIssueIds(issues);
+
+		// const issues = await appState.openQClient.getAllIssues(library);
+		// setIssueIds(issues);
 
 		const issueIdToAddresses = await appState.openQClient.getIssueAddresses(library, issues);
 		setIssueIdToAddress(issueIdToAddresses);

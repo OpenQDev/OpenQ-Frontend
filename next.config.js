@@ -8,7 +8,8 @@ module.exports = () => {
 		WALLET_KEY: process.env.WALLET_KEY,
 		NEXT_PUBLIC_PAT: process.env.PAT,
 		NEXT_PUBLIC_OPENQ_ID: process.env.OPENQ_ID,
-		NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL: process.env.BLOCK_EXPLORER_BASE_URL
+		NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL: process.env.BLOCK_EXPLORER_BASE_URL,
+		NEXT_PUBLIC_OPENQ_SUBGRAPH_URL: process.env.OPENQ_SUBGRAPH_URL
 	};
 
 	const config = {

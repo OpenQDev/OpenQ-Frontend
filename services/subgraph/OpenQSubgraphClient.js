@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache, gql } from '@apollo/client';
-import { GET_ISSUE } from './graphql/query';
+import { GET_ALL_ISSUES } from './graphql/query';
 import fetch from 'cross-fetch';
 import { setContext } from '@apollo/client/link/context';
 
@@ -8,21 +8,26 @@ class OpenQSubgraphClient {
 
 	httpLink = new HttpLink({ uri: process.env.NEXT_PUBLIC_OPENQ_SUBGRAPH_URL, fetch });
 
-	authLink = setContext((_, { headers }) => {
-		const token = process.env.NEXT_PUBLIC_PAT;
-		return {
-			headers: {
-				...headers,
-				Authorization: `Bearer ${token}`,
-			},
-		};
-	});
-
 	client = new ApolloClient({
 		uri: process.env.NEXT_PUBLIC_OPENQ_SUBGRAPH_URL,
-		link: this.authLink.concat(this.httpLink),
+		link: this.httpLink,
 		cache: new InMemoryCache(),
 	});
+
+	async getAllIssues() {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.query({
+					query: GET_ALL_ISSUES,
+				});
+				resolve(result.data.issues.map(issue => issue.id));
+			} catch (e) {
+				reject(e);
+			}
+		});
+
+		return promise;
+	}
 
 	async fetchIssue(orgName, repoName, issueId) {
 		const promise = new Promise(async (resolve, reject) => {
