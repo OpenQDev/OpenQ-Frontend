@@ -87,9 +87,8 @@ class OpenQClient {
 		}
 	}
 
+	// to be replaced with The Graph
 	async getIssueDeposits(library, issueIdToAddresses) {
-		let tokenAddresses = [process.env.NEXT_PUBLIC_MOCK_TOKEN_ADDRESS, process.env.NEXT_PUBLIC_FAKE_TOKEN_ADDRESS];
-
 		const signer = library.getSigner();
 
 		let issueDeposits = {};

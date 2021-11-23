@@ -20,7 +20,7 @@ class OpenQSubgraphClient {
 				const result = await this.client.query({
 					query: GET_ALL_ISSUES,
 				});
-				resolve(result.data.issues.map(issue => issue.id));
+				resolve(result.data.issues);
 			} catch (e) {
 				reject(e);
 			}

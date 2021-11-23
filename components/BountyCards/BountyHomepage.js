@@ -5,6 +5,7 @@ import useWeb3 from '../../hooks/useWeb3';
 import BountyCard from './BountyCard';
 import StoreContext from '../../store/Store/StoreContext';
 import chainIdDeployEnvMap from '../WalletConnect/chainIdDeployEnvMap';
+import _ from "lodash";
 
 const BountyHomepage = () => {
 	// State
@@ -40,15 +41,14 @@ const BountyHomepage = () => {
 		setIsLoading(true);
 
 		const issues = await appState.openQSubgraphClient.getAllIssues();
-		setIssueIds(issues);
+		const issueIds = issues.map(issue => issue.id);
+		const issueAddresses = issues.map(issue => issue.issueAddress);
+		setIssueIds(issueIds);
 
-		// const issues = await appState.openQClient.getAllIssues(library);
-		// setIssueIds(issues);
-
-		const issueIdToAddresses = await appState.openQClient.getIssueAddresses(library, issues);
+		const issueIdToAddresses = _.zipObject(issueIds, issueAddresses);
 		setIssueIdToAddress(issueIdToAddresses);
 
-		const issueData = await appState.githubRepository.getIssueData(issues);
+		const issueData = await appState.githubRepository.getIssueData(issueIds);
 		setIssueData(issueData);
 
 		const fundingDataObject = await appState.openQClient.getIssueDeposits(library, issueIdToAddresses);

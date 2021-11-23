@@ -4,6 +4,7 @@ export const GET_ALL_ISSUES = gql`
 query GetAllIssues {
   issues {
     id
+		issueAddress
   }
 }
 `;
