@@ -76,19 +76,19 @@ const Navbar = ({ children }) => {
                   </svg>
                 </a>
               </Link> */}
-              <div className="">
+              <div className="navbar-icon pt-1">
                 <Link href="/claim">
                   <a>
                     <Image
                       src="/eth-white.png"
                       alt="OpenQ"
-                      width="25"
-                      height="25"
+                      width="24"
+                      height="24"
                     />
                   </a>
                 </Link>
               </div>
-              <div className="">
+              <div className="navbar-icon">
                 {/* <Link href="/labs">
                 <a> */}
                 <svg
@@ -102,12 +102,12 @@ const Navbar = ({ children }) => {
                 {/*  </a>
               </Link> */}
               </div>
-              <div className="">
+              <div className="navbar-icon">
                 {/* <Link href="/labs">
                 <a> */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6"
+                  className="h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="gray"

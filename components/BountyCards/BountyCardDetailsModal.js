@@ -26,7 +26,6 @@ const BountyCardDetailsModal = (props) => {
   useEffect(() => {
     let handler = (event) => {
       if (!menuRef.current.contains(event.target)) {
-        console.log("menu ref triggered");
         updateModal();
       }
     };

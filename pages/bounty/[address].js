@@ -125,7 +125,7 @@ const address = () => {
                 isClaimed={isClaimed}
                 issueColor={Math.floor(Math.random() * 5)}
                 deposits={fundingData[issueId]}
-                totalDeposits={tvl}
+                totalDeposits={tvl.toFixed(2)}
                 address={address}
               />
             </div>
