@@ -13,7 +13,7 @@ const Navbar = ({ children }) => {
   useEffect(() => {
     if (!isClosed) {
       let handler = (event) => {
-        if (!menuRef.current.contains(event.target)) {
+        if (!menuRef.current.contains(event.target) && !isPageWide) {
           setClosed(true);
         }
       };
