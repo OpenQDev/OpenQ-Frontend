@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React, { useRef } from 'react';
 
 const BountyMintedNotification = (props) => {
-	const address = props.address;
+	const address = props.bountyAddress;
 	const issue = props.issueUrl;
 	const modalVisibility = props.notifyModalVisibility;
 	let notifyRef = useRef();

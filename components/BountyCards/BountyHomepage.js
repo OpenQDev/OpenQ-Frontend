@@ -46,7 +46,6 @@ const BountyHomepage = () => {
 			<>
 				<div className="grid grid-cols-1 gap-6 pr-20">
 					{bounties.map((bounty) => {
-						console.log(bounty);
 						return (
 							<BountyCard
 								bounty={bounty}

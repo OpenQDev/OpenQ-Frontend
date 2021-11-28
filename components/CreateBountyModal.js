@@ -185,12 +185,14 @@ const CreateBountyModal = (props) => {
 			setError(false);
 
 			setTransactionPending(true);
-			const { issueAddress } = await appState.openQClient.mintBounty(
+			const { bountyAddress } = await appState.openQClient.mintBounty(
 				library,
 				issueId
 			);
 
-			setBountyAddress(issueAddress);
+			console.log('minted!', bountyAddress);
+
+			setBountyAddress(bountyAddress);
 			setTransactionPending(false);
 			setIsBountyMinted(true);
 		} catch (e) {
@@ -209,7 +211,7 @@ const CreateBountyModal = (props) => {
 					<div>
 						<BountyMintedNotification
 							passRef={passNotificationRef}
-							address={bountyAddress}
+							bountyAddress={bountyAddress}
 							issueUrl={issueUrl}
 							notifyModalVisibility={setIsBountyMinted}
 						/>
@@ -327,9 +329,9 @@ const CreateBountyModal = (props) => {
 									className={`
 									flex flex-row space-x-2 justify-center
 									${disableMint
-									? 'confirm-btn-disabled cursor-not-allowed'
-									: 'confirm-btn cursor-pointer'
-								}`}
+											? 'confirm-btn-disabled cursor-not-allowed'
+											: 'confirm-btn cursor-pointer'
+										}`}
 									type="button"
 									onClick={() => mintBounty()}
 									disabled={disableMint}
@@ -341,7 +343,7 @@ const CreateBountyModal = (props) => {
 									className={`${disableMint
 										? 'confirm-btn-disabled cursor-not-allowed'
 										: 'confirm-btn cursor-pointer'
-									}`}
+										}`}
 									type="button"
 									onClick={() => mintBounty()}
 									disabled={disableMint}
