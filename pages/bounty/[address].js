@@ -9,64 +9,35 @@ import BountyCardDetails from '../../components/BountyCards/BountyCardDetails';
 
 const address = () => {
 	// Context
-	const { library, active } = useWeb3();
 	const [appState,] = useContext(StoreContext);
 	const router = useRouter();
 
 	// State
 	const { address } = router.query;
-	const [issueId, setIssueId] = useState('');
+	const [bounty, setBounty] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const [fundingData, setFundingData] = useState([]);
-	const [isClaimed, setIssueIsClaimed] = useState(true);
-	const [issue, setIssue] = useState(null);
 
 	// Methods
-	async function getIssueId() {
-		const issueId = await appState.openQClient.getIssueIdFromAddress(library, address);
-		setIssueId(issueId);
-	}
+	async function populateBountyData() {
+		setIsLoading(true);
 
-	async function getIssueIsOpen() {
-		const isOpen = await appState.openQClient.getIssueIsOpen(library, issueId);
-		setIssueIsClaimed(!isOpen);
-	}
+		const bounty = await appState.openQSubgraphClient.getBounty(address);
 
-	async function getIssueData() {
-		try {
-			const response = await appState.githubRepository.fetchIssueById(issueId);
-			setIssue(response);
-		} catch (error) {
-			console.log(error);
-		}
-	}
+		const issueData = await appState.githubRepository.fetchIssueById(bounty.bountyId);
 
-	async function getDeposits() {
-		const issueIdToAddresses = { [issueId]: address };
-		const fundingDataObject = await appState.openQClient.getIssueDeposits(library, issueIdToAddresses);
-		setFundingData(fundingDataObject);
+		const mergedBounty = { ...bounty, ...issueData };
+
+		setBounty(mergedBounty);
+
 		setIsLoading(false);
 	}
 
 	// Hooks
 	useEffect(() => {
-		if (address && active) {
-			getIssueId();
+		if (address) {
+			populateBountyData();
 		}
-	}, [address, active]);
-
-	useEffect(() => {
-		if (issueId) {
-			getIssueData();
-			getIssueIsOpen();
-		}
-	}, [issueId]);
-
-	useEffect(() => {
-		if (issue) {
-			getDeposits();
-		}
-	}, [issue]);
+	}, [address]);
 
 	// Render
 	if (isLoading) {
@@ -78,11 +49,7 @@ const address = () => {
 					<div className="">
 						<div className="flex flex-col">
 							<BountyCardDetails
-								issue={issue}
-								isClaimed={isClaimed}
-								issueColor={Math.floor(Math.random() * 5)}
-								deposits={fundingData[issueId]}
-								address={address}
+								bounty={bounty}
 							/>
 						</div>
 					</div>

@@ -1,11 +1,74 @@
 import { gql } from '@apollo/client';
 
-export const GET_ALL_ISSUES = gql`
+export const GET_ALL_BOUNTIES = gql`
 query GetAllIssues {
-  issues {
-    id
-		issueAddress
+  bounties {
+    bountyAddress
+    bountyId
+    bountyMintTime
+    bountyClosedTime
+    status
+    deposits {
+      id
+      tokenAddress
+      value
+      sender {
+        id
+      }
+      receiveTime
+    }
+    issuer {
+      id
+    }
   }
+}
+`;
+
+export const GET_BOUNTY = gql`
+query GetBounty($id: ID!) {
+  bounty(id: $id) {
+    bountyAddress
+    bountyId
+    bountyMintTime
+    bountyClosedTime
+    status
+    deposits {
+      id
+      tokenAddress
+      value
+      sender {
+        id
+      }
+      receiveTime
+    }
+    issuer {
+      id
+    }
+  }
+}
+`;
+
+export const SUBSCRIBE_TO_BOUNTY = gql`
+subscription SubscribeToBounty($bountyId: String!) {
+	bounties(where: {bountyId: $bountyId}) {
+		id
+		bountyId
+		bountyMintTime
+		bountyClosedTime
+		status
+		payoutAddress {
+			id
+		}
+		deposits {
+			id
+		}
+		refunds {
+			id
+		}
+		payouts {
+			id
+		}   
+	}
 }
 `;
 

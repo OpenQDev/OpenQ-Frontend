@@ -7,7 +7,7 @@ import BountyCardDetails from './BountyCardDetails';
 import StoreContext from '../../store/Store/StoreContext';
 
 const BountyCardDetailsModal = (props) => {
-	const { issue, isClaimed, deposits, address } = props;
+	const { bounty } = props;
 	const [appState] = useContext(StoreContext);
 
 	useEffect(async () => {
@@ -45,10 +45,7 @@ const BountyCardDetailsModal = (props) => {
 				<div className="w-auto my-6 mx-auto max-w-3xl">
 					<div className="rounded-lg shadow-lg  flex flex-col w-full bg-white">
 						<BountyCardDetails
-							issue={issue}
-							isClaimed={isClaimed}
-							deposits={deposits}
-							address={address}
+							bounty={bounty}
 						/>
 						<div className="flex items-center justify-end">
 							<button

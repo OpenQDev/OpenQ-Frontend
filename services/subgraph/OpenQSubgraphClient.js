@@ -1,12 +1,14 @@
 import { ApolloClient, HttpLink, InMemoryCache, gql } from '@apollo/client';
-import { GET_ALL_ISSUES } from './graphql/query';
+import { getMainDefinition } from '@apollo/client/utilities';
+import { GET_BOUNTY, GET_ALL_BOUNTIES, SUBSCRIBE_TO_BOUNTY } from './graphql/query';
 import fetch from 'cross-fetch';
 import { setContext } from '@apollo/client/link/context';
+import { WebSocketLink } from '@apollo/client/link/ws';
 
 class OpenQSubgraphClient {
 	constructor() { }
 
-	httpLink = new HttpLink({ uri: process.env.NEXT_PUBLIC_OPENQ_SUBGRAPH_URL, fetch });
+	httpLink = new HttpLink({ uri: process.env.NEXT_PUBLIC_OPENQ_SUBGRAPH_HTTP_URL, fetch });
 
 	client = new ApolloClient({
 		uri: process.env.NEXT_PUBLIC_OPENQ_SUBGRAPH_URL,
@@ -14,13 +16,29 @@ class OpenQSubgraphClient {
 		cache: new InMemoryCache(),
 	});
 
-	async getAllIssues() {
+	async getAllBounties() {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
-					query: GET_ALL_ISSUES,
+					query: GET_ALL_BOUNTIES,
 				});
-				resolve(result.data.issues);
+				resolve(result.data.bounties);
+			} catch (e) {
+				reject(e);
+			}
+		});
+
+		return promise;
+	}
+
+	async getBounty(id) {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.query({
+					query: GET_BOUNTY,
+					variables: { id }
+				});
+				resolve(result.data.bounty);
 			} catch (e) {
 				reject(e);
 			}

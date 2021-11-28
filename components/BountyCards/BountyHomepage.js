@@ -1,69 +1,41 @@
 // Third Party
 import React, { useEffect, useState, useContext } from 'react';
 // Custom
-import useWeb3 from '../../hooks/useWeb3';
 import BountyCard from './BountyCard';
 import StoreContext from '../../store/Store/StoreContext';
-import chainIdDeployEnvMap from '../WalletConnect/chainIdDeployEnvMap';
-import _ from "lodash";
 
 const BountyHomepage = () => {
 	// State
-	const [issueIds, setIssueIds] = useState([]);
-	const [issueIdToAddress, setIssueIdToAddress] = useState({});
-	const [issueData, setIssueData] = useState([]);
-	const [issueClaimedMap, setIssueClaimedMap] = useState({});
-	const [fundingData, setFundingData] = useState({});
+	const [bounties, setBounties] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 
 	// Context
-	const { library, chainId, active } = useWeb3();
 	const [appState,] = useContext(StoreContext);
 
 	// Hooks
 	useEffect(() => {
-		const isOnCorrectNetwork = chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'] == chainId;
-		if (active && isOnCorrectNetwork) {
-			populateBountyData();
-		} else {
-			setIsLoading(true);
-		}
-	}, [active, chainId]);
-
-	useEffect(() => {
-		if (issueIds) {
-			getIssueClaimStatuses(issueIds);
-		}
-	}, [issueIds]);
+		populateBountyData();
+	}, []);
 
 	// Methods
 	async function populateBountyData() {
 		setIsLoading(true);
 
-		const issues = await appState.openQSubgraphClient.getAllIssues();
-		const issueIds = issues.map(issue => issue.id);
-		const issueAddresses = issues.map(issue => issue.issueAddress);
-		setIssueIds(issueIds);
+		const bounties = await appState.openQSubgraphClient.getAllBounties();
 
-		const issueIdToAddresses = _.zipObject(issueIds, issueAddresses);
-		setIssueIdToAddress(issueIdToAddresses);
+		const bountyIds = bounties.map(bounty => bounty.bountyId);
+		const issueData = await appState.githubRepository.getIssueData(bountyIds);
 
-		const issueData = await appState.githubRepository.getIssueData(issueIds);
-		setIssueData(issueData);
+		const fullBounties = [];
+		bounties.forEach(bounty => {
+			const relatedIssue = issueData.find(issue => issue.id == bounty.bountyId);
+			const mergedBounty = { ...bounty, ...relatedIssue };
+			fullBounties.push(mergedBounty);
+		});
 
-		const fundingDataObject = await appState.openQClient.getIssueDeposits(library, issueIdToAddresses);
+		setBounties(fullBounties);
 
-		setFundingData(fundingDataObject);
 		setIsLoading(false);
-	}
-
-	async function getIssueClaimStatuses(issueIds) {
-		let mapping = {};
-		for (let issueId of issueIds) {
-			const isOpen = await appState.openQClient.getIssueIsOpen(library, issueId);
-			mapping[issueId] = !isOpen;
-		}
-		setIssueClaimedMap(mapping);
 	}
 
 	// Render
@@ -73,14 +45,12 @@ const BountyHomepage = () => {
 		return (
 			<>
 				<div className="grid grid-cols-1 gap-6 pr-20">
-					{issueData.map((issue) => {
+					{bounties.map((bounty) => {
+						console.log(bounty);
 						return (
 							<BountyCard
-								isClaimed={issueClaimedMap[issue.id]}
-								issue={issue}
-								address={issueIdToAddress[issue.id]}
-								deposits={fundingData[issue.id]}
-								key={issue.id}
+								bounty={bounty}
+								key={bounty.bountyId}
 							/>
 						);
 					})}

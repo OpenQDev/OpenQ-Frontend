@@ -7,13 +7,10 @@ import React from 'react';
 import CopyAddressToClipboard from '../tools/CopyAddressToClipboard';
 
 const BountyCardDetails = (props) => {
-	const { issue, isClaimed, address, deposits } = props;
-
-	const { owner, repoName, title, labels, createdAt, closed, avatarUrl } =
-		issue;
+	const { bounty } = props;
 
 	const getDate = () => {
-		const rawDate = createdAt;
+		const rawDate = bounty.createdAt;
 		const date = new Date(rawDate);
 		return date.toDateString().split(' ').slice(1).join(' ');
 	};
@@ -29,7 +26,7 @@ const BountyCardDetails = (props) => {
 		console.log("res: ", res);
 		console.log("data: ", data); */
 
-		console.log('TVL Balance Request for following deposits: ', deposits);
+		console.log('TVL Balance Request for following deposits: ', bounty.deposits);
 	};
 
 	return (
@@ -38,12 +35,12 @@ const BountyCardDetails = (props) => {
 				<div className="flex flex-row space-x-20 justify-between">
 					<div className="flex flex-col">
 						<div className="text-xl">
-							{owner}/{repoName}
+							{bounty.owner}/{bounty.repoName}
 						</div>
-						<div className="text-xl font-bold">{title}</div>
+						<div className="text-xl font-bold">{bounty.title}</div>
 					</div>
 					<div>
-						<Image src={avatarUrl} alt="avatarUrl" width="51" height="51" />
+						<Image src={bounty.avatarUrl} alt="avatarUrl" width="51" height="51" />
 					</div>
 				</div>
 				<div className="flex flex-row pt-5 space-x-10 justify-between">
@@ -66,7 +63,7 @@ const BountyCardDetails = (props) => {
 								</svg>
 							</div>
 							<div className="flex space-x-1">
-								<div>{isClaimed ? 'Claimed' : 'Unclaimed'}</div>
+								<div>{bounty.status == 'OPEN' ? 'Unclaimed' : 'Claimed'}</div>
 								<div>{getDate()}</div>
 							</div>
 						</div>
@@ -75,13 +72,13 @@ const BountyCardDetails = (props) => {
 					<div className="flex flex-col">
 						<div className="font-bold">Smart Contract</div>
 						<div className="flex flex-row items-center space-x-2 cursor-pointer">
-							<CopyAddressToClipboard data={address} />
+							<CopyAddressToClipboard data={bounty.bountyAddress} />
 						</div>
 					</div>
 				</div>
 				<div className="flex flex-row pt-3 space-x-2">
 					<div className="space-x-2">
-						{labels.map((label, index) => {
+						{bounty.labels.map((label, index) => {
 							if (index < 2) {
 								return (
 									<button
@@ -111,17 +108,17 @@ const BountyCardDetails = (props) => {
 						Total Value Locked (TVL)
 					</div>
 					<div className="font-bold text-xl">
-						{deposits.length == 0 ? '0.00' : '$243.13'}
+						{bounty.deposits.length == 0 ? '0.00' : '$243.13'}
 						{getTVLBalance()}
 					</div>
 					<div className="flex flex-row space-x-2 pt-1">
 						<div>
-							{deposits.map((deposit) => {
+							{bounty.deposits.map((deposit) => {
 								return (
-									<div className="flex flex-row space-x-2" key={deposit.symbol}>
+									<div className="flex flex-row space-x-2" key={deposit.tokenAddress}>
 										<div className="">
-											{deposit.balance} {deposit.symbol}
-											{'    '}(1USD/{deposit.symbol})
+											{deposit.balance} {deposit.tokenAddress}
+											{'    '}(1USD/{deposit.tokenAddress})
 										</div>
 									</div>
 								);
@@ -135,7 +132,7 @@ const BountyCardDetails = (props) => {
 				<div className="flex flex-row justify-between">
 					<div className="font-bold text-xl">Description</div>
 					<div className="flex flex-row font-bold text-xl space-x-2">
-						<Link href={issue.url} passHref>
+						<Link href={bounty.url} passHref>
 							<a target="_blank" rel="noreferrer">
 								<div id={'github-link'} className="cursor-pointer">
 									<svg
@@ -149,7 +146,7 @@ const BountyCardDetails = (props) => {
 								</div>
 							</a>
 						</Link>
-						<Link href={`/?address=${address}}`} as={`/bounty/${address}`}>
+						<Link href={`/?address=${bounty.bountyAddress}}`} as={`/bounty/${bounty.bountyAddress}`}>
 							<a target="_blank" rel="noreferrer">
 								<div id={'bounty-link'} className="cursor-pointer">
 									<svg
@@ -171,7 +168,7 @@ const BountyCardDetails = (props) => {
 						</Link>
 					</div>
 				</div>
-				<div className="pt-2">{issue.body}</div>
+				<div className="pt-2">{bounty.body}</div>
 			</div>
 		</div>
 	);

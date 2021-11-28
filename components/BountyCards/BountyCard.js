@@ -6,13 +6,8 @@ import BountyCardDetailsModal from './BountyCardDetailsModal';
 
 const BountyCard = (props) => {
 	const {
-		issue,
-		isClaimed,
-		deposits,
-		address,
+		bounty
 	} = props;
-
-	const { owner, repoName, title, avatarUrl, labels, createdAt, closed } = issue;
 
 	const [showModal, setShowModal] = useState(false);
 
@@ -25,7 +20,7 @@ const BountyCard = (props) => {
 				<div className="flex flex-row justify-between">
 					<div>
 						<div className="flex flex-grow flex-row items-center space-x-2">
-							<div>{isClaimed ? 'Claimed' : 'Unclaimed'}</div>
+							<div>{bounty.status == 'OPEN' ? 'Unclaimed' : 'Claimed'}</div>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill={closed ? '#F0431D' : '#15FB31'}
@@ -40,26 +35,26 @@ const BountyCard = (props) => {
 								></path>
 							</svg>
 							<div className="font-mont text-2xl">
-								{owner.toLowerCase()}/{repoName.toLowerCase()}
+								{bounty.owner.toLowerCase()}/{bounty.repoName.toLowerCase()}
 							</div>
 						</div>
 						<div className="font-bold text-xl pl-6">
-							{title.toLowerCase()}
+							{bounty.title.toLowerCase()}
 						</div>
 						<div className="flex flex-row items-center space-x-4 pt-1">
 							<div className="font-mont font-light pl-6 text-sm text-gray-500">
-								{createdAt}
+								{bounty.createdAt}
 							</div>
 						</div>
 					</div>
 					<div className="flex flex-col">
-						<Image src={avatarUrl} alt="avatarUrl" width="51" height="51" />
+						<Image src={bounty.avatarUrl} alt="avatarUrl" width="51" height="51" />
 					</div>
 				</div>
-				{labels ? (
+				{bounty.labels ? (
 					<div className="flex flex-row pt-3 pl-6 pr-3 justify-between">
 						<div className="space-x-2">
-							{labels.map((label, index) => {
+							{bounty.labels.map((label, index) => {
 								if (index < 2) {
 									return (
 										<button
@@ -85,12 +80,12 @@ const BountyCard = (props) => {
 						</div>
 					</div>
 				) : null}
-				{deposits ? (<div>
+				{bounty.deposits ? (<div>
 					{
-						deposits.map(deposit => {
+						bounty.deposits.map(deposit => {
 							return (
-								<div className="flex flex-row space-x-2" key={deposit.symbol}>
-									<div className="">{deposit.balance}{' '}{deposit.symbol}</div>
+								<div className="flex flex-row space-x-2" key={deposit.tokenAddress}>
+									<div className="">{deposit.value}{' '}{deposit.tokenAddress}</div>
 								</div>
 							);
 						})
@@ -99,10 +94,7 @@ const BountyCard = (props) => {
 				) : null}
 			</div>
 			{showModal && <BountyCardDetailsModal
-				issue={issue}
-				isClaimed={isClaimed}
-				deposits={deposits}
-				address={address}
+				bounty={bounty}
 				modalVisibility={setShowModal} />}
 		</div>
 	);
