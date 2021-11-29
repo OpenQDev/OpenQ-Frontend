@@ -18,6 +18,7 @@ const CreateBountyModal = (props) => {
 
   // State
   const [issueUrl, setIssueUrl] = useState("");
+  const [bountyAmount, setBountyAmount] = useState("");
   const [orgName, setOrgName] = useState("");
   const [repoName, setRepoName] = useState("");
   const [issueNumber, setIssueNumber] = useState(0);
@@ -224,9 +225,9 @@ const CreateBountyModal = (props) => {
                 Create a Bounty to send funds to any GitHub Issue
               </h3>
             </div>
-            <div className="flex flex-col pl-6 pr-6 space-y-2">
+            <div className="flex flex-col pl-7 pr-6 space-y-2">
               <div className="border-gray-100 border-2 rounded-lg">
-                <div className="flex flex-row items-center p-2  rounded-lg py-1 text-base bg-gray-100 shadow-inner text-white">
+                <div className="flex flex-row items-center p-5 rounded-lg py-3 text-base bg-gray-100 shadow-inner text-white">
                   <div className=" bg-gray-100 font-normal text-gray-600">
                     <input
                       className="bg-gray-100 box-content xl:w-80 lg:w-64 md:w-44 sm:w-32 w-18 border-gray-100 outline-none"
@@ -319,7 +320,39 @@ const CreateBountyModal = (props) => {
                 </>
               ) : null}
             </div>
-
+            <div className="pl-7 pr-7 pt-6">
+              <div className="flex flex-row items-center p-5 rounded-lg py-1 text-base bg-gray-100 shadow-inner text-white">
+                <div className="flex flex-row justify-between bg-gray-100 font-normal text-gray-600">
+                  <input
+                    className="bg-gray-100 box-content xl:w-80 lg:w-64 md:w-44 sm:w-32 w-18 border-gray-100 outline-none"
+                    id="name"
+                    placeholder="0"
+                    autoComplete="off"
+                    type="text"
+                    onChange={(event) => {
+                      setBountyAmount(event.target.value);
+                    }}
+                  />
+                  <button className="flex flex-row space-x-1 bg-pink-600 text-white rounded-lg p-2">
+                    <div>DAI</div>
+                    <div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
             <div className="flex items-center justify-center p-5 rounded-b w-full">
               {transactionPending ? (
                 <button
