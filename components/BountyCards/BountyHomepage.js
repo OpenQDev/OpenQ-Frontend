@@ -7,6 +7,8 @@ import StoreContext from '../../store/Store/StoreContext';
 const BountyHomepage = () => {
 	// State
 	const [bounties, setBounties] = useState([]);
+	const [organizationSearchTerm, setOrganizationSearchTerm] = useState('');
+	const [issueTitleSearchTerm, setIssueTitleSearchTerm] = useState('');
 	const [isLoading, setIsLoading] = useState(true);
 
 	// Context
@@ -38,6 +40,14 @@ const BountyHomepage = () => {
 		setIsLoading(false);
 	}
 
+	const filterByOrg = (e) => {
+		setOrganizationSearchTerm(e.target.value);
+	};
+
+	const filterByIssueTitle = (e) => {
+		setIssueTitleSearchTerm(e.target.value);
+	};
+
 	// Render
 	if (isLoading) {
 		return <div>Loading...</div>;
@@ -45,7 +55,15 @@ const BountyHomepage = () => {
 		return (
 			<>
 				<div className="grid grid-cols-1 gap-6 pr-20">
-					{bounties.map((bounty) => {
+					<label>Organization</label>
+					<input onKeyUp={(e) => filterByOrg(e)} type="text"></input>
+					<label>Issue Title</label>
+					<input onKeyUp={(e) => filterByIssueTitle(e)} type="text"></input>
+					{bounties.filter(bounty => {
+						return organizationSearchTerm ? bounty.owner.toLowerCase().indexOf(organizationSearchTerm) > -1 : bounty;
+					}).filter(bounty => {
+						return issueTitleSearchTerm ? bounty.title.toLowerCase().indexOf(issueTitleSearchTerm) > -1 : bounty;
+					}).map((bounty) => {
 						return (
 							<BountyCard
 								bounty={bounty}
