@@ -60,9 +60,9 @@ const BountyHomepage = () => {
 					<label>Issue Title</label>
 					<input onKeyUp={(e) => filterByIssueTitle(e)} type="text"></input>
 					{bounties.filter(bounty => {
-						return organizationSearchTerm ? bounty.owner.toLowerCase().indexOf(organizationSearchTerm) > -1 : bounty;
+						return organizationSearchTerm ? bounty.owner.toLowerCase().indexOf(organizationSearchTerm.toLowerCase()) > -1 : bounty;
 					}).filter(bounty => {
-						return issueTitleSearchTerm ? bounty.title.toLowerCase().indexOf(issueTitleSearchTerm) > -1 : bounty;
+						return issueTitleSearchTerm ? bounty.title.toLowerCase().indexOf(issueTitleSearchTerm.toLowerCase()) > -1 : bounty;
 					}).map((bounty) => {
 						return (
 							<BountyCard
