@@ -333,8 +333,8 @@ const CreateBountyModal = (props) => {
                       setBountyAmount(event.target.value);
                     }}
                   />
-                  <button className="flex flex-row space-x-1 bg-pink-600 text-white rounded-lg p-2">
-                    <div>DAI</div>
+                  <button className="flex flex-row space-x-1 bg-pink-600 text-white rounded-lg p-2 pr-2">
+                    <div className="pl-2 pt-">DAI</div>
                     <div>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
