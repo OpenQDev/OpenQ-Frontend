@@ -6,53 +6,69 @@ import Link from 'next/link';
 // Custom
 import BountyCardDetailsModal from './BountyCardDetailsModal';
 import StoreContext from '../../store/Store/StoreContext';
+const contractMap = require('../../constants/contract-map.json');
 
 const BountyCard = (props) => {
 	const {
 		bounty
 	} = props;
 
+	// State
 	const [showModal, setShowModal] = useState(false);
-	const [tvl, setTvl] = useState(0);
+	const [tokenValueMap, setTokenValueMap] = useState({});
 	const bountyName = bounty.title.toLowerCase();
 	const [appState] = useContext(StoreContext);
 
+	// Hooks
+	useEffect(async () => {
+		let tokenVolumes = {};
+
+		bounty.deposits.map((deposit) => {
+			// REAL
+			// tokenVolumes[deposit.tokenAddress.toLowerCase()] = deposit.value;
+
+			// MOCK
+			tokenVolumes['0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39'] = deposit.value;
+			tokenVolumes['0x8f3cf7ad23cd3cadbd9735aff958023239c6a063'] = deposit.value;
+		});
+
+		const data = { tokenVolumes };
+		const url = appState.coinApiBaseUrl + '/tvl';
+
+		//only query tvl for bounties that have deposits
+		if (JSON.stringify(data.tokenVolumes) != '{}') {
+			await axios
+				.post(url, data)
+				.then((result) => {
+					console.log(result.data);
+					setTokenValueMap(result.data);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		} else {
+			setTokenValueMap({});
+		}
+	}, []);
+
+	// Methods
 	const getDate = () => {
 		const rawDate = bounty.createdAt;
 		const date = new Date(rawDate);
 		return date.toDateString().split(' ').slice(1).join(' ');
 	};
 
-	// fetch deposits
-	useEffect(async () => {
-		let cleanedDeposits = {};
-		bounty.deposits.map((d) => {
-			let coin;
-			if (d.name == 'Fake') {
-				coin = 'ethereum';
-			} else if (d.name == 'Mock') {
-				coin = 'bitcoin';
-			} else {
-				coin = d.name;
-			}
-			cleanedDeposits[coin] = d.balance;
-		});
-
-		const data = cleanedDeposits;
-		const url = appState.coinApiBaseUrl + '/tvl';
-
-		//only query tvl for bounties that have deposits
-		if (JSON.stringify(data) != '{}') {
-			await axios
-				.post(url, data)
-				.then((result) => {
-					setTvl(result.data.total);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
+	const imageElFor = (address) => {
+		const metadata = contractMap[address.toLowerCase()];
+		if (metadata?.logo) {
+			const fileName = metadata.logo;
+			const path = `${__dirname}/images/contract/${fileName}`;
+			const img = document.createElement('img');
+			img.src = path;
+			img.style.width = '100%';
+			return img;
 		}
-	});
+	};
 
 	return (
 		<div>
@@ -141,15 +157,16 @@ const BountyCard = (props) => {
 								/>
 							</div>
 							<div className="font-semibold">TVL</div>
-							<div>$ {parseFloat(tvl).toFixed(2)}</div>
+							<div>$ {tokenValueMap.total ? tokenValueMap.total : 0.00}</div>
 						</div>
 					</div>
 				</div>
 			</Link>
 			{showModal && <BountyCardDetailsModal
 				bounty={bounty}
-				modalVisibility={setShowModal} />}
-			totalDeposits={parseFloat(tvl).toFixed(2)}
+				tokenValueMap={tokenValueMap}
+				modalVisibility={setShowModal}
+			/>}
 		</div>
 	);
 };

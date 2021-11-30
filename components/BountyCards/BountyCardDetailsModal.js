@@ -7,7 +7,7 @@ import axios from 'axios';
 import BountyCardDetails from './BountyCardDetails';
 
 const BountyCardDetailsModal = (props) => {
-	const { bounty } = props;
+	const { bounty, tokenValueMap } = props;
 	const [appState] = useContext(StoreContext);
 
 	let menuRef = useRef();
@@ -65,7 +65,7 @@ const BountyCardDetailsModal = (props) => {
 					>
 						<BountyCardDetails
 							bounty={bounty}
-							totalDeposits={props.totalDeposits}
+							tokenValueMap={tokenValueMap}
 						/>
 					</div>
 				</div>

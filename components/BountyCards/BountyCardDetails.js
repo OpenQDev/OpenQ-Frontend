@@ -5,9 +5,11 @@ import React from 'react';
 
 // Custom
 import CopyAddressToClipboard from '../tools/CopyAddressToClipboard';
+const contractMap = require('../../constants/contract-map.json');
 
 const BountyCardDetails = (props) => {
-	const { bounty, totalDeposits } = props;
+	const { bounty, tokenValueMap } = props;
+	console.log(tokenValueMap);
 
 	const getDate = () => {
 		const rawDate = bounty.createdAt;
@@ -81,20 +83,22 @@ const BountyCardDetails = (props) => {
 						Total Value Locked (TVL)
 					</div>
 					<div className="font-bold text-xl">
-						{totalDeposits.length == 0 ? '0.00' : `$ ${totalDeposits}`}
+						{bounty.deposits.length == 0 ? '0.00' : `$ ${tokenValueMap.total}`}
 					</div>
 					<div className="flex flex-row space-x-2 pt-1">
 						<div>
-							{totalDeposits.map((deposit) => {
-								if (deposit.symbol == 'FAKE') {
-									const symbol = 'eth';
+							{bounty.deposits.length != 0 ? Object.keys(tokenValueMap.tokens).map((tokenAddress) => {
+								let symbol = contractMap[tokenAddress]['symbol'];
+								let value = tokenValueMap[tokenAddress];
+								if (symbol == 'FAKE') {
+									symbol = 'eth';
 
 									return (
 										<div
 											className="flex flex-row space-x-2"
-											key={deposit.symbol}
+											key={symbol}
 										>
-											<div className="text-lg">{deposit.balance}</div>{' '}
+											<div className="text-lg">{value}</div>{' '}
 											<div className="pt-1">
 												<Image
 													src={`/cryptocurrency-icons/32/color/${symbol}.png`}
@@ -105,14 +109,14 @@ const BountyCardDetails = (props) => {
 											</div>
 										</div>
 									);
-								} else if (deposit.symbol == 'MOCK') {
-									const symbol = 'btc';
+								} else if (symbol == 'MOCK') {
+									symbol = 'btc';
 									return (
 										<div
 											className="flex flex-row space-x-2"
-											key={deposit.symbol}
+											key={symbol}
 										>
-											<div className="text-lg">{deposit.balance}</div>{' '}
+											<div className="text-lg">{value}</div>{' '}
 											<div className="pt-1">
 												<Image
 													src={`/cryptocurrency-icons/32/color/${symbol}.png`}
@@ -127,12 +131,12 @@ const BountyCardDetails = (props) => {
 									return (
 										<div
 											className="flex flex-row space-x-2"
-											key={deposit.symbol}
+											key={symbol}
 										>
-											<div className="text-lg">{deposit.balance}</div>{' '}
+											<div className="text-lg">{value}</div>{' '}
 											<div className="pt-1">
 												<Image
-													src={`/cryptocurrency-icons/32/color/${deposit.symbol.toLowerCase()}.png`}
+													src={`/cryptocurrency-icons/32/color/${symbol.toLowerCase()}.png`}
 													alt="n/a"
 													width="16"
 													height="16"
@@ -141,7 +145,7 @@ const BountyCardDetails = (props) => {
 										</div>
 									);
 								}
-							})}
+							}) : null}
 						</div>
 					</div>
 				</div>
