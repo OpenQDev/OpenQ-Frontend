@@ -16,6 +16,7 @@ const BountyCard = (props) => {
 	// State
 	const [showModal, setShowModal] = useState(false);
 	const [tokenValueMap, setTokenValueMap] = useState({});
+	const [tokenVolumes, setTokenVolumes] = useState({});
 	const bountyName = bounty.title.toLowerCase();
 	const [appState] = useContext(StoreContext);
 
@@ -32,6 +33,8 @@ const BountyCard = (props) => {
 			tokenVolumes['0x8f3cf7ad23cd3cadbd9735aff958023239c6a063'] = deposit.value;
 		});
 
+		setTokenVolumes(tokenVolumes);
+
 		const data = { tokenVolumes };
 		const url = appState.coinApiBaseUrl + '/tvl';
 
@@ -40,7 +43,6 @@ const BountyCard = (props) => {
 			await axios
 				.post(url, data)
 				.then((result) => {
-					console.log(result.data);
 					setTokenValueMap(result.data);
 				})
 				.catch((error) => {
@@ -165,6 +167,7 @@ const BountyCard = (props) => {
 			{showModal && <BountyCardDetailsModal
 				bounty={bounty}
 				tokenValueMap={tokenValueMap}
+				tokenVolumes={tokenVolumes}
 				modalVisibility={setShowModal}
 			/>}
 		</div>

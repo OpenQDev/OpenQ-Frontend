@@ -8,8 +8,7 @@ import CopyAddressToClipboard from '../tools/CopyAddressToClipboard';
 const contractMap = require('../../constants/contract-map.json');
 
 const BountyCardDetails = (props) => {
-	const { bounty, tokenValueMap } = props;
-	console.log(tokenValueMap);
+	const { bounty, tokenValueMap, tokenVolumes } = props;
 
 	const getDate = () => {
 		const rawDate = bounty.createdAt;
@@ -89,62 +88,26 @@ const BountyCardDetails = (props) => {
 						<div>
 							{bounty.deposits.length != 0 ? Object.keys(tokenValueMap.tokens).map((tokenAddress) => {
 								let symbol = contractMap[tokenAddress]['symbol'];
-								let value = tokenValueMap[tokenAddress];
-								if (symbol == 'FAKE') {
-									symbol = 'eth';
+								let usdValue = tokenValueMap.tokens[tokenAddress];
+								let volume = tokenVolumes[tokenAddress];
 
-									return (
-										<div
-											className="flex flex-row space-x-2"
-											key={symbol}
-										>
-											<div className="text-lg">{value}</div>{' '}
-											<div className="pt-1">
-												<Image
-													src={`/cryptocurrency-icons/32/color/${symbol}.png`}
-													alt="ETH"
-													width="16"
-													height="16"
-												/>
-											</div>
+								return (
+									<div
+										className="flex flex-row space-x-2"
+										key={symbol}
+									>
+										<div className="text-lg">${usdValue}</div>{' '}
+										<div className="text-lg">({volume})</div>{' '}
+										<div className="pt-1">
+											<Image
+												src={`/cryptocurrency-icons/32/color/${symbol.toLowerCase()}.png`}
+												alt="n/a"
+												width="16"
+												height="16"
+											/>
 										</div>
-									);
-								} else if (symbol == 'MOCK') {
-									symbol = 'btc';
-									return (
-										<div
-											className="flex flex-row space-x-2"
-											key={symbol}
-										>
-											<div className="text-lg">{value}</div>{' '}
-											<div className="pt-1">
-												<Image
-													src={`/cryptocurrency-icons/32/color/${symbol}.png`}
-													alt="ETH"
-													width="16"
-													height="16"
-												/>
-											</div>
-										</div>
-									);
-								} else {
-									return (
-										<div
-											className="flex flex-row space-x-2"
-											key={symbol}
-										>
-											<div className="text-lg">{value}</div>{' '}
-											<div className="pt-1">
-												<Image
-													src={`/cryptocurrency-icons/32/color/${symbol.toLowerCase()}.png`}
-													alt="n/a"
-													width="16"
-													height="16"
-												/>
-											</div>
-										</div>
-									);
-								}
+									</div>
+								);
 							}) : null}
 						</div>
 					</div>

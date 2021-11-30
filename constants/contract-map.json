@@ -3,16 +3,14 @@
 		"name": "Fake Token",
 		"logo": "chainlink.svg",
 		"erc20": true,
-		"symbol": "FAKE",
-		"decimals": 18,
-		"coinId": "bitcoin"
+		"symbol": "eth",
+		"decimals": 18
 	},
 	"0x8f3cf7ad23cd3cadbd9735aff958023239c6a063": {
 		"name": "Mock Token",
 		"logo": "change.svg",
 		"erc20": true,
-		"symbol": "MOCK",
-		"decimals": 18,
-		"coinId": "01coin"
+		"symbol": "ae",
+		"decimals": 18
 	}
 }
