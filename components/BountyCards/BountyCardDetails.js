@@ -77,15 +77,7 @@ const BountyCardDetails = (props) => {
 						})}
 					</div>
 				</div>
-				<div className="flex flex-col pt-4 pb-6">
-					<div className="font-semibold text-gray-700">
-						Total Value Locked (TVL)
-					</div>
-					<div className="font-bold text-xl">
-						{bounty.deposits.length == 0 ? '0.00' : `$ ${tokenValueMap.total}`}
-					</div>
-					{bounty.deposits.length != 0 ? <BountyTokenBalances bounty={bounty} tokenValueMap={tokenValueMap} tokenVolumes={tokenVolumes} /> : null}
-				</div>
+				{bounty.deposits.length != 0 ? <BountyTokenBalances bounty={bounty} tokenValueMap={tokenValueMap} tokenVolumes={tokenVolumes} /> : null}
 			</div>
 			<div className="flex flex-col pt-5">
 				<div className="flex flex-row justify-between">

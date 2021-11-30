@@ -159,7 +159,7 @@ const BountyCard = (props) => {
 								/>
 							</div>
 							<div className="font-semibold">TVL</div>
-							<div>$ {tokenValueMap.total ? tokenValueMap.total : 0.00}</div>
+							<div>{tokenValueMap.total ? appState.utils.formatter.format(tokenValueMap.total) : 0.00}</div>
 						</div>
 					</div>
 				</div>

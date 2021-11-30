@@ -28,6 +28,11 @@ class Utils {
 
 		return githubData;
 	};
+
+	formatter = new Intl.NumberFormat('en-US', {
+		style: 'currency',
+		currency: 'USD',
+	});
 }
 
 export default Utils;
