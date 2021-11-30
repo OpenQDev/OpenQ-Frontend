@@ -1,6 +1,12 @@
 class Utils {
 	constructor() { }
 
+	formatDate = (createdAt) => {
+		const rawDate = createdAt;
+		const date = new Date(rawDate);
+		return date.toDateString().split(' ').slice(1).join(' ');
+	};
+
 	parseGitHubUrl = (githubUrl) => {
 		const pattern = /https?:\/\/github\.com\/(?:[^\/\s]+\/)+(?:issues\/\d+)/;
 		if (!pattern.test(githubUrl)) {

@@ -54,12 +54,6 @@ const BountyCard = (props) => {
 	}, []);
 
 	// Methods
-	const getDate = () => {
-		const rawDate = bounty.createdAt;
-		const date = new Date(rawDate);
-		return date.toDateString().split(' ').slice(1).join(' ');
-	};
-
 	const imageElFor = (address) => {
 		const metadata = contractMap[address.toLowerCase()];
 		if (metadata?.logo) {
@@ -109,7 +103,7 @@ const BountyCard = (props) => {
 							</div>
 							<div className="flex flex-row items-center space-x-4 pt-1">
 								<div className="font-mont font-light pl-6 text-sm text-gray-500">
-									Opened {getDate()}
+									Opened {appState.utils.formatDate(bounty.createdAt)}
 								</div>
 							</div>
 						</div>
