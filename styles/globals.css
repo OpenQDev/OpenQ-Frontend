@@ -37,4 +37,7 @@
 	.text-link{
 		@apply text-purple-500;
 	}
+	.navbar-icon {
+		@apply shadow-lg flex items-center justify-center h-11 w-11 mb-2 mx-auto rounded-xl border border-menu
+	}
 }

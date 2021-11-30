@@ -1,12 +1,12 @@
 // Third Party
-import React, { useEffect, useState, useContext, useRef } from 'react';
-import { ethers } from 'ethers';
-import Link from 'next/link';
+import React, { useEffect, useState, useContext, useRef } from "react";
+import { ethers } from "ethers";
+import Link from "next/link";
 // Custom
-import useWeb3 from '../hooks/useWeb3';
-import StoreContext from '../store/Store/StoreContext';
-import LoadingIcon from './tools/LoadingIcon';
-import BountyMintedNotification from './tools/notifications/BountyMintedNotification';
+import useWeb3 from "../hooks/useWeb3";
+import StoreContext from "../store/Store/StoreContext";
+import LoadingIcon from "./tools/LoadingIcon";
+import BountyMintedNotification from "./tools/notifications/BountyMintedNotification";
 
 const CreateBountyModal = (props) => {
 	//props
@@ -17,17 +17,18 @@ const CreateBountyModal = (props) => {
 	const { library } = useWeb3();
 
 	// State
-	const [issueUrl, setIssueUrl] = useState('');
-	const [orgName, setOrgName] = useState('');
-	const [repoName, setRepoName] = useState('');
+	const [issueUrl, setIssueUrl] = useState("");
+	const [bountyAmount, setBountyAmount] = useState("");
+	const [orgName, setOrgName] = useState("");
+	const [repoName, setRepoName] = useState("");
 	const [issueNumber, setIssueNumber] = useState(0);
-	const [issueId, setIssueId] = useState('');
+	const [issueId, setIssueId] = useState("");
 	const [issueFound, setIssueFound] = useState(false);
 	const [issueClosed, setIssueClosed] = useState(false);
 	const [, setError] = useState(false);
 	const [, setErrorMessage] = useState(null);
 
-	const [issueData, setIssueData] = useState('');
+	const [issueData, setIssueData] = useState("");
 	const [bountyAddress, setBountyAddress] = useState(null);
 
 	const [isValidUrl, setIsValidUrl] = useState(false);
@@ -73,7 +74,7 @@ const CreateBountyModal = (props) => {
 	async function alreadyExists() {
 		const address = await getBountyAddress(issueData.id);
 		// Solidity returns the default zero address for uninitiated members of a mapping
-		if (address == '0x0000000000000000000000000000000000000000') {
+		if (address == "0x0000000000000000000000000000000000000000") {
 			setBountyExists(false);
 			if (!issueClosed) {
 				setDisableMint(false);
@@ -92,7 +93,6 @@ const CreateBountyModal = (props) => {
 	useEffect(() => {
 		let handler = (event) => {
 			if (!menuRef.current.contains(event.target)) {
-				console.log('isBountyMinted: ', isBountyMinted);
 				if (isBountyMinted) {
 					if (!notifyMenuRef.current.contains(event.target)) {
 						updateModal();
@@ -107,10 +107,10 @@ const CreateBountyModal = (props) => {
 				setIsBountyMinted(false);
 			} */
 		};
-		window.addEventListener('mousedown', handler);
+		window.addEventListener("mousedown", handler);
 
 		return () => {
-			window.removeEventListener('mousedown', handler);
+			window.removeEventListener("mousedown", handler);
 		};
 	});
 
@@ -161,11 +161,11 @@ const CreateBountyModal = (props) => {
 	const getDate = () => {
 		const rawDate = issueData.createdAt;
 		const date = new Date(rawDate);
-		return date.toDateString().split(' ').slice(1).join(' ');
+		return date.toDateString().split(" ").slice(1).join(" ");
 	};
 
 	async function getBountyAddress(id) {
-		if (typeof window.ethereum !== 'undefined') {
+		if (typeof window.ethereum !== "undefined") {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const contract = appState.openQClient.OpenQ(provider);
 
@@ -300,29 +300,61 @@ const CreateBountyModal = (props) => {
 										>
 											here.
 										</a>
-										{/*  <a target="_blank" rel="noreferrer">
-                      <div id={"bounty-link"} className="cursor-pointer">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-6 w-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="#383838"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-                          />
-                        </svg>
-                      </div>
-                    </a> */}
+										<a target="_blank" rel="noreferrer">
+											<div id={"bounty-link"} className="cursor-pointer">
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													className="h-6 w-6"
+													fill="none"
+													viewBox="0 0 24 24"
+													stroke="#383838"
+												>
+													<path
+														strokeLinecap="round"
+														strokeLinejoin="round"
+														strokeWidth="2"
+														d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+													/>
+												</svg>
+											</div>
+										</a>
 									</Link>
 								</>
 							) : null}
 						</div>
-
+						<div className="pl-7 pr-7 pt-6">
+							<div className="flex flex-row items-center p-5 rounded-lg py-1 text-base bg-gray-100 shadow-inner text-white">
+								<div className="flex flex-row justify-between bg-gray-100 font-normal text-gray-600">
+									<input
+										className="bg-gray-100 box-content xl:w-80 lg:w-64 md:w-44 sm:w-32 w-18 border-gray-100 outline-none"
+										id="name"
+										placeholder="0"
+										autoComplete="off"
+										type="text"
+										onChange={(event) => {
+											setBountyAmount(event.target.value);
+										}}
+									/>
+									<button className="flex flex-row space-x-1 bg-pink-600 text-white rounded-lg p-2 pr-2">
+										<div className="pl-2 pt-">DAI</div>
+										<div>
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												className="h-5 w-5"
+												viewBox="0 0 20 20"
+												fill="currentColor"
+											>
+												<path
+													fill-rule="evenodd"
+													d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+													clip-rule="evenodd"
+												/>
+											</svg>
+										</div>
+									</button>
+								</div>
+							</div>
+						</div>
 						<div className="flex items-center justify-center p-5 rounded-b w-full">
 							{transactionPending ? (
 								<button

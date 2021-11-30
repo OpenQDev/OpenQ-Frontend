@@ -1,21 +1,24 @@
 // Third Party
-import React, { useEffect, useState, useContext } from 'react';
-import { useRouter } from 'next/router';
+import React, { useEffect, useState, useContext } from "react";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import axios from "axios";
 
 // Custom
-import useWeb3 from '../../hooks/useWeb3';
-import StoreContext from '../../store/Store/StoreContext';
-import BountyCardDetails from '../../components/BountyCards/BountyCardDetails';
+import useWeb3 from "../../hooks/useWeb3";
+import StoreContext from "../../store/Store/StoreContext";
+import BountyCardDetails from "../../components/BountyCards/BountyCardDetails";
 
 const address = () => {
 	// Context
-	const [appState,] = useContext(StoreContext);
+	const [appState] = useContext(StoreContext);
 	const router = useRouter();
 
 	// State
 	const { address } = router.query;
 	const [bounty, setBounty] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
+	const [tvl, setTvl] = useState(0);
 
 	// Methods
 	async function populateBountyData() {
@@ -33,11 +36,38 @@ const address = () => {
 	}
 
 	// Hooks
-	useEffect(() => {
-		if (address) {
-			populateBountyData();
+	useEffect(async () => {
+		if (bounty.deposits) {
+			const deposits = bounty.deposits;
+			let cleanedDeposits = {};
+			deposits.map((d) => {
+				let coin;
+				if (d.name == 'Fake') {
+					coin = 'ethereum';
+				} else if (d.name == 'Mock') {
+					coin = 'bitcoin';
+				} else {
+					coin = d.name;
+				}
+				cleanedDeposits[coin] = d.balance;
+			});
+
+			const data = cleanedDeposits;
+			const url = appState.coinApiBaseUrl + '/tvl';
+
+			//only query tvl for bounties that have deposits
+			if (JSON.stringify(data) != '{}') {
+				await axios
+					.post(url, data)
+					.then((result) => {
+						setTvl(result.data.total);
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			}
 		}
-	}, [address]);
+	});
 
 	// Render
 	if (isLoading) {
@@ -50,6 +80,7 @@ const address = () => {
 						<div className="flex flex-col">
 							<BountyCardDetails
 								bounty={bounty}
+								totalDeposits={tvl.toFixed(2)}
 							/>
 						</div>
 					</div>
