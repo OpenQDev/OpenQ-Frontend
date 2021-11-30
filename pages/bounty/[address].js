@@ -14,23 +14,23 @@ const address = () => {
 
 	// State
 	const { address } = router.query;
-	const [bounty, setBounty] = useState([]);
+	const [bounty, setBounty] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
-	const [tvl, setTvl] = useState(0);
+	const [tokenValueMap, setTokenValueMap] = useState({});
+	const [tokenVolumes, setTokenVolumes] = useState({});
 
 	// Methods
 	async function populateBountyData() {
 		setIsLoading(true);
 
-		const bounty = await appState.openQSubgraphClient.getBounty(address);
+		const bounty = await appState.openQSubgraphClient.getBounty(address.toLowerCase());
+		console.log(bounty);
 
 		const issueData = await appState.githubRepository.fetchIssueById(bounty.bountyId);
 
 		const mergedBounty = { ...bounty, ...issueData };
 
 		setBounty(mergedBounty);
-
-		setIsLoading(false);
 	}
 
 	// Hooks
@@ -41,37 +41,39 @@ const address = () => {
 	}, [address]);
 
 	useEffect(async () => {
-		if (bounty.deposits) {
-			const deposits = bounty.deposits;
-			let cleanedDeposits = {};
-			deposits.map((d) => {
-				let coin;
-				if (d.tokenAddress == '0x5fbdb2315678afecb367f032d93f642f64180aa3') {
-					coin = 'ethereum';
-				} else if (d.tokenAddress == '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512') {
-					coin = 'bitcoin';
-				} else {
-					coin = d.value;
-				}
-				cleanedDeposits[coin] = d.balance;
+		if (bounty != null) {
+			let tokenVolumes = {};
+
+			bounty.deposits.map((deposit) => {
+				// REAL
+				// tokenVolumes[deposit.tokenAddress.toLowerCase()] = deposit.value;
+
+				// MOCK
+				tokenVolumes['0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39'] = deposit.value;
+				tokenVolumes['0x8f3cf7ad23cd3cadbd9735aff958023239c6a063'] = deposit.value;
 			});
 
-			const data = cleanedDeposits;
+			setTokenVolumes(tokenVolumes);
+
+			const data = { tokenVolumes };
 			const url = appState.coinApiBaseUrl + '/tvl';
 
 			//only query tvl for bounties that have deposits
-			if (JSON.stringify(data) != '{}') {
+			if (JSON.stringify(data.tokenVolumes) != '{}') {
 				await axios
 					.post(url, data)
 					.then((result) => {
-						setTvl(result.data.total);
+						setTokenValueMap(result.data);
 					})
 					.catch((error) => {
 						console.log(error);
 					});
+			} else {
+				setTokenValueMap({});
 			}
+			setIsLoading(false);
 		}
-	});
+	}, [bounty]);
 
 	// Render
 	if (isLoading) {
@@ -84,7 +86,8 @@ const address = () => {
 						<div className="flex flex-col">
 							<BountyCardDetails
 								bounty={bounty}
-								totalDeposits={tvl.toFixed(2)}
+								tokenValueMap={tokenValueMap}
+								tokenVolumes={tokenVolumes}
 							/>
 						</div>
 					</div>

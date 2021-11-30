@@ -2,10 +2,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import BountyTokenBalances from '../BountyTokenBalances/BountyTokenBalances';
 
 // Custom
 import CopyAddressToClipboard from '../tools/CopyAddressToClipboard';
-const contractMap = require('../../constants/contract-map.json');
 
 const BountyCardDetails = (props) => {
 	const { bounty, tokenValueMap, tokenVolumes } = props;
@@ -84,36 +84,9 @@ const BountyCardDetails = (props) => {
 					<div className="font-bold text-xl">
 						{bounty.deposits.length == 0 ? '0.00' : `$ ${tokenValueMap.total}`}
 					</div>
-					<div className="flex flex-row space-x-2 pt-1">
-						<div>
-							{bounty.deposits.length != 0 ? Object.keys(tokenValueMap.tokens).map((tokenAddress) => {
-								let symbol = contractMap[tokenAddress]['symbol'];
-								let usdValue = tokenValueMap.tokens[tokenAddress];
-								let volume = tokenVolumes[tokenAddress];
-
-								return (
-									<div
-										className="flex flex-row space-x-2"
-										key={symbol}
-									>
-										<div className="text-lg">${usdValue}</div>{' '}
-										<div className="text-lg">({volume})</div>{' '}
-										<div className="pt-1">
-											<Image
-												src={`/cryptocurrency-icons/32/color/${symbol.toLowerCase()}.png`}
-												alt="n/a"
-												width="16"
-												height="16"
-											/>
-										</div>
-									</div>
-								);
-							}) : null}
-						</div>
-					</div>
+					{bounty.deposits.length != 0 ? <BountyTokenBalances bounty={bounty} tokenValueMap={tokenValueMap} tokenVolumes={tokenVolumes} /> : null}
 				</div>
 			</div>
-			{/*body*/}
 			<div className="flex flex-col pt-5">
 				<div className="flex flex-row justify-between">
 					<div className="font-bold text-xl">Description</div>
