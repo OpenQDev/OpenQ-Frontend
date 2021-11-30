@@ -77,7 +77,7 @@ const BountyCardDetails = (props) => {
 						})}
 					</div>
 				</div>
-				{bounty.deposits.length != 0 ? <BountyTokenBalances bounty={bounty} tokenValueMap={tokenValueMap} tokenVolumes={tokenVolumes} /> : null}
+				{bounty.deposits.length != 0 ? <BountyTokenBalances bounty={bounty} tokenValueMap={tokenValueMap} tokenVolumes={tokenVolumes} /> : 'No deposits.'}
 			</div>
 			<div className="flex flex-col pt-5">
 				<div className="flex flex-row justify-between">

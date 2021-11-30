@@ -102,11 +102,8 @@ const CreateBountyModal = (props) => {
 					updateModal();
 				}
 			}
-			/* if (!notifyMenuRef.current.contains(event.target)) {
-				updateModal();
-				setIsBountyMinted(false);
-			} */
 		};
+
 		window.addEventListener('mousedown', handler);
 
 		return () => {
@@ -154,7 +151,7 @@ const CreateBountyModal = (props) => {
 		modalVisibility(false);
 	};
 
-	const passNotificationRef = (data) => {
+	const notificationRef = (data) => {
 		notifyMenuRef = data;
 	};
 
@@ -210,7 +207,7 @@ const CreateBountyModal = (props) => {
 				{isBountyMinted ? (
 					<div>
 						<BountyMintedNotification
-							passRef={passNotificationRef}
+							notificationRef={notificationRef}
 							bountyAddress={bountyAddress}
 							issueUrl={issueUrl}
 							notifyModalVisibility={setIsBountyMinted}
@@ -293,31 +290,33 @@ const CreateBountyModal = (props) => {
 										href={`/?address=${bountyAddress}}`}
 										as={`/bounty/${bountyAddress}`}
 									>
-										<a
-											target="_blank"
-											rel="noreferrer"
-											className="cursor-pointer text-link pt-3"
-										>
-											here.
-										</a>
-										<a target="_blank" rel="noreferrer">
-											<div id={'bounty-link'} className="cursor-pointer">
-												<svg
-													xmlns="http://www.w3.org/2000/svg"
-													className="h-6 w-6"
-													fill="none"
-													viewBox="0 0 24 24"
-													stroke="#383838"
-												>
-													<path
-														strokeLinecap="round"
-														strokeLinejoin="round"
-														strokeWidth="2"
-														d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-													/>
-												</svg>
-											</div>
-										</a>
+										<>
+											<a
+												target="_blank"
+												rel="noreferrer"
+												className="cursor-pointer text-link pt-3"
+											>
+												here.
+											</a>
+											<a target="_blank" rel="noreferrer">
+												<div id={'bounty-link'} className="cursor-pointer">
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														className="h-6 w-6"
+														fill="none"
+														viewBox="0 0 24 24"
+														stroke="#383838"
+													>
+														<path
+															strokeLinecap="round"
+															strokeLinejoin="round"
+															strokeWidth="2"
+															d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+														/>
+													</svg>
+												</div>
+											</a>
+										</>
 									</Link>
 								</>
 							) : null}
@@ -361,9 +360,9 @@ const CreateBountyModal = (props) => {
 									className={`
 									flex flex-row space-x-2 justify-center
 									${disableMint
-									? 'confirm-btn-disabled cursor-not-allowed'
-									: 'confirm-btn cursor-pointer'
-								}`}
+											? 'confirm-btn-disabled cursor-not-allowed'
+											: 'confirm-btn cursor-pointer'
+										}`}
 									type="button"
 									onClick={() => mintBounty()}
 									disabled={disableMint}
@@ -375,7 +374,7 @@ const CreateBountyModal = (props) => {
 									className={`${disableMint
 										? 'confirm-btn-disabled cursor-not-allowed'
 										: 'confirm-btn cursor-pointer'
-									}`}
+										}`}
 									type="button"
 									onClick={() => mintBounty()}
 									disabled={disableMint}
