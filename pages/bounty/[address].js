@@ -1,13 +1,11 @@
 // Third Party
-import React, { useEffect, useState, useContext } from "react";
-import { useRouter } from "next/router";
-import Image from "next/image";
-import axios from "axios";
+import React, { useEffect, useState, useContext } from 'react';
+import { useRouter } from 'next/router';
+import axios from 'axios';
 
 // Custom
-import useWeb3 from "../../hooks/useWeb3";
-import StoreContext from "../../store/Store/StoreContext";
-import BountyCardDetails from "../../components/BountyCards/BountyCardDetails";
+import StoreContext from '../../store/Store/StoreContext';
+import BountyCardDetails from '../../components/BountyCards/BountyCardDetails';
 
 const address = () => {
 	// Context
@@ -36,6 +34,12 @@ const address = () => {
 	}
 
 	// Hooks
+	useEffect(() => {
+		if (address) {
+			populateBountyData();
+		}
+	}, [address]);
+
 	useEffect(async () => {
 		if (bounty.deposits) {
 			const deposits = bounty.deposits;

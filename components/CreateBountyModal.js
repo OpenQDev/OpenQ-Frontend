@@ -1,12 +1,12 @@
 // Third Party
-import React, { useEffect, useState, useContext, useRef } from "react";
-import { ethers } from "ethers";
-import Link from "next/link";
+import React, { useEffect, useState, useContext, useRef } from 'react';
+import { ethers } from 'ethers';
+import Link from 'next/link';
 // Custom
-import useWeb3 from "../hooks/useWeb3";
-import StoreContext from "../store/Store/StoreContext";
-import LoadingIcon from "./tools/LoadingIcon";
-import BountyMintedNotification from "./tools/notifications/BountyMintedNotification";
+import useWeb3 from '../hooks/useWeb3';
+import StoreContext from '../store/Store/StoreContext';
+import LoadingIcon from './tools/LoadingIcon';
+import BountyMintedNotification from './tools/notifications/BountyMintedNotification';
 
 const CreateBountyModal = (props) => {
 	//props
@@ -17,18 +17,18 @@ const CreateBountyModal = (props) => {
 	const { library } = useWeb3();
 
 	// State
-	const [issueUrl, setIssueUrl] = useState("");
-	const [bountyAmount, setBountyAmount] = useState("");
-	const [orgName, setOrgName] = useState("");
-	const [repoName, setRepoName] = useState("");
+	const [issueUrl, setIssueUrl] = useState('');
+	const [, setBountyAmount] = useState('');
+	const [orgName, setOrgName] = useState('');
+	const [repoName, setRepoName] = useState('');
 	const [issueNumber, setIssueNumber] = useState(0);
-	const [issueId, setIssueId] = useState("");
+	const [issueId, setIssueId] = useState('');
 	const [issueFound, setIssueFound] = useState(false);
 	const [issueClosed, setIssueClosed] = useState(false);
 	const [, setError] = useState(false);
 	const [, setErrorMessage] = useState(null);
 
-	const [issueData, setIssueData] = useState("");
+	const [issueData, setIssueData] = useState('');
 	const [bountyAddress, setBountyAddress] = useState(null);
 
 	const [isValidUrl, setIsValidUrl] = useState(false);
@@ -74,7 +74,7 @@ const CreateBountyModal = (props) => {
 	async function alreadyExists() {
 		const address = await getBountyAddress(issueData.id);
 		// Solidity returns the default zero address for uninitiated members of a mapping
-		if (address == "0x0000000000000000000000000000000000000000") {
+		if (address == '0x0000000000000000000000000000000000000000') {
 			setBountyExists(false);
 			if (!issueClosed) {
 				setDisableMint(false);
@@ -107,10 +107,10 @@ const CreateBountyModal = (props) => {
 				setIsBountyMinted(false);
 			} */
 		};
-		window.addEventListener("mousedown", handler);
+		window.addEventListener('mousedown', handler);
 
 		return () => {
-			window.removeEventListener("mousedown", handler);
+			window.removeEventListener('mousedown', handler);
 		};
 	});
 
@@ -161,11 +161,11 @@ const CreateBountyModal = (props) => {
 	const getDate = () => {
 		const rawDate = issueData.createdAt;
 		const date = new Date(rawDate);
-		return date.toDateString().split(" ").slice(1).join(" ");
+		return date.toDateString().split(' ').slice(1).join(' ');
 	};
 
 	async function getBountyAddress(id) {
-		if (typeof window.ethereum !== "undefined") {
+		if (typeof window.ethereum !== 'undefined') {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const contract = appState.openQClient.OpenQ(provider);
 
@@ -301,7 +301,7 @@ const CreateBountyModal = (props) => {
 											here.
 										</a>
 										<a target="_blank" rel="noreferrer">
-											<div id={"bounty-link"} className="cursor-pointer">
+											<div id={'bounty-link'} className="cursor-pointer">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
 													className="h-6 w-6"
@@ -345,9 +345,9 @@ const CreateBountyModal = (props) => {
 												fill="currentColor"
 											>
 												<path
-													fill-rule="evenodd"
+													fillRule="evenodd"
 													d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-													clip-rule="evenodd"
+													clipRule="evenodd"
 												/>
 											</svg>
 										</div>
@@ -361,9 +361,9 @@ const CreateBountyModal = (props) => {
 									className={`
 									flex flex-row space-x-2 justify-center
 									${disableMint
-											? 'confirm-btn-disabled cursor-not-allowed'
-											: 'confirm-btn cursor-pointer'
-										}`}
+									? 'confirm-btn-disabled cursor-not-allowed'
+									: 'confirm-btn cursor-pointer'
+								}`}
 									type="button"
 									onClick={() => mintBounty()}
 									disabled={disableMint}
@@ -375,7 +375,7 @@ const CreateBountyModal = (props) => {
 									className={`${disableMint
 										? 'confirm-btn-disabled cursor-not-allowed'
 										: 'confirm-btn cursor-pointer'
-										}`}
+									}`}
 									type="button"
 									onClick={() => mintBounty()}
 									disabled={disableMint}

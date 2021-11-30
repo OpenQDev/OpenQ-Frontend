@@ -1,10 +1,10 @@
 // Third Party
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 
 // Custom
-import CopyAddressToClipboard from "../tools/CopyAddressToClipboard";
+import CopyAddressToClipboard from '../tools/CopyAddressToClipboard';
 
 const BountyCardDetails = (props) => {
 	const { bounty, totalDeposits } = props;
@@ -36,7 +36,7 @@ const BountyCardDetails = (props) => {
 							<div className="pt-1">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
-									fill={bounty.closed ? "#F0431D" : "#15FB31"}
+									fill={bounty.closed ? '#F0431D' : '#15FB31'}
 									viewBox="0 0 16 16"
 									width="15"
 									height="15"
@@ -49,7 +49,7 @@ const BountyCardDetails = (props) => {
 								</svg>
 							</div>
 							<div className="flex space-x-1">
-								<div>{bounty.status == "OPEN" ? "Unclaimed" : "Claimed"}</div>
+								<div>{bounty.status == 'OPEN' ? 'Unclaimed' : 'Claimed'}</div>
 								<div>{getDate()}</div>
 							</div>
 						</div>
@@ -81,20 +81,20 @@ const BountyCardDetails = (props) => {
 						Total Value Locked (TVL)
 					</div>
 					<div className="font-bold text-xl">
-						{totalDeposits.length == 0 ? "0.00" : `$ ${totalDeposits}`}
+						{totalDeposits.length == 0 ? '0.00' : `$ ${totalDeposits}`}
 					</div>
 					<div className="flex flex-row space-x-2 pt-1">
 						<div>
 							{totalDeposits.map((deposit) => {
-								if (deposit.symbol == "FAKE") {
-									const symbol = "eth";
+								if (deposit.symbol == 'FAKE') {
+									const symbol = 'eth';
 
 									return (
 										<div
 											className="flex flex-row space-x-2"
 											key={deposit.symbol}
 										>
-											<div className="text-lg">{deposit.balance}</div>{" "}
+											<div className="text-lg">{deposit.balance}</div>{' '}
 											<div className="pt-1">
 												<Image
 													src={`/cryptocurrency-icons/32/color/${symbol}.png`}
@@ -105,14 +105,14 @@ const BountyCardDetails = (props) => {
 											</div>
 										</div>
 									);
-								} else if (deposit.symbol == "MOCK") {
-									const symbol = "btc";
+								} else if (deposit.symbol == 'MOCK') {
+									const symbol = 'btc';
 									return (
 										<div
 											className="flex flex-row space-x-2"
 											key={deposit.symbol}
 										>
-											<div className="text-lg">{deposit.balance}</div>{" "}
+											<div className="text-lg">{deposit.balance}</div>{' '}
 											<div className="pt-1">
 												<Image
 													src={`/cryptocurrency-icons/32/color/${symbol}.png`}
@@ -129,7 +129,7 @@ const BountyCardDetails = (props) => {
 											className="flex flex-row space-x-2"
 											key={deposit.symbol}
 										>
-											<div className="text-lg">{deposit.balance}</div>{" "}
+											<div className="text-lg">{deposit.balance}</div>{' '}
 											<div className="pt-1">
 												<Image
 													src={`/cryptocurrency-icons/32/color/${deposit.symbol.toLowerCase()}.png`}
@@ -153,7 +153,7 @@ const BountyCardDetails = (props) => {
 					<div className="flex flex-row font-bold text-xl space-x-2">
 						<Link href={bounty.url} passHref>
 							<a target="_blank" rel="noreferrer">
-								<div id={"github-link"} className="cursor-pointer">
+								<div id={'github-link'} className="cursor-pointer">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										width="24"
@@ -167,7 +167,7 @@ const BountyCardDetails = (props) => {
 						</Link>
 						<Link href={`/?address=${bounty.bountyAddress}}`} as={`/bounty/${bounty.bountyAddress}`}>
 							<a target="_blank" rel="noreferrer">
-								<div id={"bounty-link"} className="cursor-pointer">
+								<div id={'bounty-link'} className="cursor-pointer">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										className="h-6 w-6"

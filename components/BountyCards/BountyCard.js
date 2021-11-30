@@ -1,12 +1,11 @@
 // Third Party
-import React, { useState, useEffect, useContext } from "react";
-import Image from "next/image";
-import axios from "axios";
-import Link from "next/link";
+import React, { useState, useEffect, useContext } from 'react';
+import Image from 'next/image';
+import axios from 'axios';
+import Link from 'next/link';
 // Custom
-import BountyCardDetailsModal from "./BountyCardDetailsModal";
-import StoreContext from "../../store/Store/StoreContext";
-import router from "next/router";
+import BountyCardDetailsModal from './BountyCardDetailsModal';
+import StoreContext from '../../store/Store/StoreContext';
 
 const BountyCard = (props) => {
 	const {
@@ -15,24 +14,24 @@ const BountyCard = (props) => {
 
 	const [showModal, setShowModal] = useState(false);
 	const [tvl, setTvl] = useState(0);
-	const bountyName = title.toLowerCase();
+	const bountyName = bounty.title.toLowerCase();
 	const [appState] = useContext(StoreContext);
 
 	const getDate = () => {
-		const rawDate = createdAt;
+		const rawDate = bounty.createdAt;
 		const date = new Date(rawDate);
-		return date.toDateString().split(" ").slice(1).join(" ");
+		return date.toDateString().split(' ').slice(1).join(' ');
 	};
 
 	// fetch deposits
 	useEffect(async () => {
 		let cleanedDeposits = {};
-		deposits.map((d) => {
+		bounty.deposits.map((d) => {
 			let coin;
-			if (d.name == "Fake") {
-				coin = "ethereum";
-			} else if (d.name == "Mock") {
-				coin = "bitcoin";
+			if (d.name == 'Fake') {
+				coin = 'ethereum';
+			} else if (d.name == 'Mock') {
+				coin = 'bitcoin';
 			} else {
 				coin = d.name;
 			}
@@ -40,10 +39,10 @@ const BountyCard = (props) => {
 		});
 
 		const data = cleanedDeposits;
-		const url = appState.coinApiBaseUrl + "/tvl";
+		const url = appState.coinApiBaseUrl + '/tvl';
 
 		//only query tvl for bounties that have deposits
-		if (JSON.stringify(data) != "{}") {
+		if (JSON.stringify(data) != '{}') {
 			await axios
 				.post(url, data)
 				.then((result) => {
@@ -57,10 +56,10 @@ const BountyCard = (props) => {
 
 	return (
 		<div>
-			<Link href={`/?address=${address}`} as={`/bounty/${address}`}>
+			<Link href={`/?address=${bounty.bountyAddress}`} as={`/bounty/${bounty.bountyAddress}`}>
 				<div
 					className={
-						"flex flex-col p-6 font-mont rounded-xl shadow-sm bg-white cursor-pointer pr-10 pl-10"
+						'flex flex-col p-6 font-mont rounded-xl shadow-sm bg-white cursor-pointer pr-10 pl-10'
 					}
 					onClick={() => setShowModal(true)}
 				>
@@ -70,7 +69,7 @@ const BountyCard = (props) => {
 								{/*  <div>{isClaimed ? "Claimed" : "Unclaimed"}</div> */}
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
-									fill={closed ? "#F0431D" : "#15FB31"}
+									fill={closed ? '#F0431D' : '#15FB31'}
 									viewBox="0 0 16 16"
 									width="19"
 									height="19"
@@ -82,13 +81,13 @@ const BountyCard = (props) => {
 									></path>
 								</svg>
 								<div className="font-mont text-2xl">
-									{owner.toLowerCase()}/{repoName.toLowerCase()}
+									{bounty.owner.toLowerCase()}/{bounty.repoName.toLowerCase()}
 								</div>
 							</div>
 							<div className="font-bold text-xl pl-6">
-								{title.length < 50
-									? title.toLowerCase()
-									: bountyName.slice(0, 50) + "..."}
+								{bounty.title.length < 50
+									? bounty.title.toLowerCase()
+									: bountyName.slice(0, 50) + '...'}
 							</div>
 							<div className="flex flex-row items-center space-x-4 pt-1">
 								<div className="font-mont font-light pl-6 text-sm text-gray-500">
@@ -97,15 +96,15 @@ const BountyCard = (props) => {
 							</div>
 						</div>
 						<div className="flex flex-col">
-							<Image src={avatarUrl} alt="avatarUrl" width="51" height="51" />
+							<Image src={bounty.avatarUrl} alt="avatarUrl" width="51" height="51" />
 						</div>
 					</div>
 					<div className="flex flex-row pt-3 pl-6 pr-3  items-center justify-between">
 						<div>
-							{labels ? (
+							{bounty.labels ? (
 								<div className="flex flex-row justify-between">
 									<div className="space-x-2">
-										{labels.map((label, index) => {
+										{bounty.labels.map((label, index) => {
 											if (index < 2) {
 												return (
 													<button

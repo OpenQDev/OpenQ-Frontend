@@ -1,11 +1,10 @@
 // Third Party
-import router from "next/router";
-import React, { useContext, useEffect, useState, useRef } from "react";
-import { useRouter } from "next/router";
-import StoreContext from "../../store/Store/StoreContext";
+import React, { useContext, useEffect, useRef } from 'react';
+import StoreContext from '../../store/Store/StoreContext';
+import axios from 'axios';
 
 // Custom
-import BountyCardDetails from "./BountyCardDetails";
+import BountyCardDetails from './BountyCardDetails';
 
 const BountyCardDetailsModal = (props) => {
 	const { bounty } = props;
@@ -49,10 +48,10 @@ const BountyCardDetailsModal = (props) => {
 				updateModal();
 			}
 		};
-		window.addEventListener("mousedown", handler);
+		window.addEventListener('mousedown', handler);
 
 		return () => {
-			window.removeEventListener("mousedown", handler);
+			window.removeEventListener('mousedown', handler);
 		};
 	});
 
