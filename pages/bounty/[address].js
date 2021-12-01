@@ -2,7 +2,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import useWeb3 from '../../hooks/useWeb3';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
@@ -13,7 +12,6 @@ const address = () => {
 	// Context
 	const [appState] = useContext(StoreContext);
 	const router = useRouter();
-	const { library } = useWeb3();
 
 	// State
 	const { address } = router.query;

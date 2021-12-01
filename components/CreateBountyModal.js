@@ -184,7 +184,8 @@ const CreateBountyModal = (props) => {
 			setTransactionPending(true);
 			const { bountyAddress } = await appState.openQClient.mintBounty(
 				library,
-				issueId
+				issueId,
+				orgName.toLowerCase()
 			);
 
 			console.log('minted!', bountyAddress);

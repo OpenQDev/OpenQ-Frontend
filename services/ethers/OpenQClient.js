@@ -26,12 +26,12 @@ class OpenQClient {
 		return contract;
 	};
 
-	async mintBounty(library, issueId) {
+	async mintBounty(library, issueId, organization) {
 		const signer = library.getSigner();
 
 		const contract = this.OpenQ(signer);
 		try {
-			const txnResponse = await contract.mintBounty(issueId);
+			const txnResponse = await contract.mintBounty(issueId, organization);
 			const txnReceipt = await txnResponse.wait();
 			console.log("mintBounty txnReceipt", txnReceipt);
 			console.log("mintBounty events", txnReceipt?.events);
