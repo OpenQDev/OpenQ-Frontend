@@ -53,6 +53,7 @@ const account = () => {
 				<h1 className='font-bold uppercase'>Bounties Completed</h1>
 				<h1 className='font-bold uppercase'>Bounties Created</h1>
 				<h1 className='font-bold uppercase'>Bounties Funded</h1>
+				<h1 className='font-bold uppercase'>Buy a Coffee for this User Button</h1>
 			</div>
 		);
 	}
