@@ -1,139 +1,100 @@
 // Third Party
-import React, { useEffect, useState, useContext } from "react";
-import { useRouter } from "next/router";
-import Image from "next/image";
-import axios from "axios";
+import React, { useEffect, useState, useContext } from 'react';
+import { useRouter } from 'next/router';
+import axios from 'axios';
 
 // Custom
-import useWeb3 from "../../hooks/useWeb3";
-import StoreContext from "../../store/Store/StoreContext";
-import BountyCardDetails from "../../components/BountyCards/BountyCardDetails";
+import StoreContext from '../../store/Store/StoreContext';
+import BountyCardDetails from '../../components/BountyCard/BountyCardDetails';
 
 const address = () => {
-  // Context
-  const { library, active } = useWeb3();
-  const [appState] = useContext(StoreContext);
-  const router = useRouter();
+	// Context
+	const [appState] = useContext(StoreContext);
+	const router = useRouter();
 
-  // State
-  const { address } = router.query;
-  const [issueId, setIssueId] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [fundingData, setFundingData] = useState([]);
-  const [isClaimed, setIssueIsClaimed] = useState(true);
-  const [issue, setIssue] = useState(null);
-  const [tvl, setTvl] = useState(0);
+	// State
+	const { address } = router.query;
+	const [bounty, setBounty] = useState(null);
+	const [isLoading, setIsLoading] = useState(true);
+	const [tokenValueMap, setTokenValueMap] = useState({});
+	const [tokenVolumes, setTokenVolumes] = useState({});
 
-  // Methods
+	// Methods
+	async function populateBountyData() {
+		setIsLoading(true);
 
-  async function getIssueId() {
-    const issueId = await appState.openQClient.getIssueIdFromAddress(
-      library,
-      address
-    );
-    setIssueId(issueId);
-  }
+		const bounty = await appState.openQSubgraphClient.getBounty(address.toLowerCase());
+		console.log(bounty);
 
-  async function getIssueIsOpen() {
-    const isOpen = await appState.openQClient.getIssueIsOpen(library, issueId);
-    setIssueIsClaimed(!isOpen);
-  }
+		const issueData = await appState.githubRepository.fetchIssueById(bounty.bountyId);
 
-  async function getIssueData() {
-    try {
-      const response = await appState.githubRepository.fetchIssueById(issueId);
-      setIssue(response);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+		const mergedBounty = { ...bounty, ...issueData };
 
-  async function getDeposits() {
-    const issueIdToAddresses = { [issueId]: address };
-    const fundingDataObject = await appState.openQClient.getIssueDeposits(
-      library,
-      issueIdToAddresses
-    );
-    setFundingData(fundingDataObject);
-    setIsLoading(false);
-  }
+		setBounty(mergedBounty);
+	}
 
-  // Hooks
-  useEffect(() => {
-    if (address && active) {
-      getIssueId();
-    }
-  }, [address, active]);
+	// Hooks
+	useEffect(() => {
+		if (address) {
+			populateBountyData();
+		}
+	}, [address]);
 
-  useEffect(() => {
-    if (issueId) {
-      getIssueData();
-      getIssueIsOpen();
-    }
-  }, [issueId]);
+	useEffect(async () => {
+		if (bounty != null) {
+			let tokenVolumes = {};
 
-  useEffect(() => {
-    if (issue) {
-      getDeposits();
-    }
-  }, [issue]);
+			bounty.deposits.map((deposit) => {
+				// REAL
+				// tokenVolumes[deposit.tokenAddress.toLowerCase()] = deposit.value;
 
-  useEffect(async () => {
-    if (fundingData[issueId]) {
-      const deposits = fundingData[issueId];
-      let cleanedDeposits = {};
-      deposits.map((d) => {
-        let coin;
-        if (d.name == "Fake") {
-          coin = "ethereum";
-        } else if (d.name == "Mock") {
-          coin = "bitcoin";
-        } else {
-          coin = d.name;
-        }
-        cleanedDeposits[coin] = d.balance;
-      });
+				// MOCK
+				tokenVolumes['0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39'] = deposit.value;
+				tokenVolumes['0x8f3cf7ad23cd3cadbd9735aff958023239c6a063'] = deposit.value;
+			});
 
-      const data = cleanedDeposits;
-      const url = appState.coinApiBaseUrl + "/tvl";
+			setTokenVolumes(tokenVolumes);
 
-      //only query tvl for bounties that have deposits
-      if (JSON.stringify(data) != "{}") {
-        await axios
-          .post(url, data)
-          .then((result) => {
-            setTvl(result.data.total);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-    }
-  });
+			const data = { tokenVolumes };
+			const url = appState.coinApiBaseUrl + '/tvl';
 
-  // Render
-  if (isLoading) {
-    return "Loading...";
-  } else {
-    return (
-      <div>
-        <div className="flex font-mont pt-7 justify-center items-center">
-          <div className="">
-            <div className="flex flex-col">
-              <BountyCardDetails
-                issue={issue}
-                isClaimed={isClaimed}
-                issueColor={Math.floor(Math.random() * 5)}
-                deposits={fundingData[issueId]}
-                totalDeposits={tvl.toFixed(2)}
-                address={address}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+			//only query tvl for bounties that have deposits
+			if (JSON.stringify(data.tokenVolumes) != '{}') {
+				await axios
+					.post(url, data)
+					.then((result) => {
+						setTokenValueMap(result.data);
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			} else {
+				setTokenValueMap({});
+			}
+			setIsLoading(false);
+		}
+	}, [bounty]);
+
+	// Render
+	if (isLoading) {
+		return 'Loading...';
+	} else {
+		return (
+			<div>
+				<div className="flex font-mont pt-7 justify-center items-center">
+					<div className="">
+						<div className="flex flex-col">
+							<BountyCardDetails
+								bounty={bounty}
+								tokenValueMap={tokenValueMap}
+								tokenVolumes={tokenVolumes}
+							/>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
 };
 
 export default address;

@@ -3,7 +3,7 @@ import React from 'react';
 import Head from 'next/head';
 
 // Custom
-import BountyHomepage from '../components/BountyCards/BountyHomepage';
+import BountyHomepage from '../components/BountyCard/BountyHomepage';
 import CreateBountyButton from '../components/CreateBountyButton';
 
 export default function Index() {

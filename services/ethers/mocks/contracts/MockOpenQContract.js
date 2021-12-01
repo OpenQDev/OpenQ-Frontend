@@ -1,7 +1,6 @@
 import MockOpenQContractData from '../data/MockOpenQContractData.json';
 class MockOpenQContract {
 	constructor() { }
-	async addTokenAddress(tokenAddress) { return new Promise((resolve, reject) => resolve(MockOpenQContractData['addTokenAddress'])); }
 	async claimBounty(_id, _payoutAddress) { return new Promise((resolve, reject) => resolve(MockOpenQContractData['claimBounty'])); }
 	async getBountyAddress(_id) { return new Promise((resolve, reject) => resolve(MockOpenQContractData['getBountyAddress'])); }
 	async getIssueIds() { return new Promise((resolve, reject) => resolve(MockOpenQContractData['getIssueIds'])); }

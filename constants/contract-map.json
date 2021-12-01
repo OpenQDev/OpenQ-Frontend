@@ -1,0 +1,16 @@
+{
+	"0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39": {
+		"name": "Fake Token",
+		"logo": "chainlink.svg",
+		"erc20": true,
+		"symbol": "eth",
+		"decimals": 18
+	},
+	"0x8f3cf7ad23cd3cadbd9735aff958023239c6a063": {
+		"name": "Mock Token",
+		"logo": "change.svg",
+		"erc20": true,
+		"symbol": "ae",
+		"decimals": 18
+	}
+}

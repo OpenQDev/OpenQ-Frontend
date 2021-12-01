@@ -87,9 +87,9 @@ class OpenQClient {
 		}
 	}
 
+	// to be replaced with The Graph
 	async getIssueDeposits(library, issueIdToAddresses) {
-		let tokenAddresses = [process.env.NEXT_PUBLIC_MOCK_TOKEN_ADDRESS, process.env.NEXT_PUBLIC_FAKE_TOKEN_ADDRESS];
-
+		const tokenAddresses = ["0x5FbDB2315678afecb367f032d93F642f64180aa3", "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"];
 		const signer = library.getSigner();
 
 		let issueDeposits = {};
@@ -127,11 +127,11 @@ class OpenQClient {
 			console.log("mintBounty txnReceipt", txnReceipt);
 			console.log("mintBounty events", txnReceipt?.events);
 
-			const id = txnReceipt.events[1].args.id;
-			const from = txnReceipt.events[1].args.from;
-			const issueAddress = txnReceipt.events[1].args.issueAddress;
-			console.log("mintBounty", { id, from, issueAddress });
-			return { id, from, issueAddress };
+			const bountyId = txnReceipt.events[1].args.bountyId;
+			const issuerAddress = txnReceipt.events[1].args.issuerAddress;
+			const bountyAddress = txnReceipt.events[1].args.bountyAddress;
+			console.log("mintBounty", { bountyId, issuerAddress, bountyAddress });
+			return { bountyId, issuerAddress, bountyAddress };
 		} catch (err) {
 			throw (err);
 		}

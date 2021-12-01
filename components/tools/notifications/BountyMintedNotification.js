@@ -4,12 +4,10 @@ import Link from 'next/link';
 import React, { useRef } from 'react';
 
 const BountyMintedNotification = (props) => {
-	const address = props.address;
-	const issue = props.issueUrl;
-	const modalVisibility = props.notifyModalVisibility;
-	let notifyRef = useRef();
+	const { bountyAddress, issueUrl, notifyModalVisibility, notificationRef } = props;
 
-	props.passRef(notifyRef);
+	let notifyRef = useRef();
+	notificationRef(notifyRef);
 
 	return (
 		<div
@@ -36,7 +34,7 @@ const BountyMintedNotification = (props) => {
 						</svg>
 					</div>
 				</div>
-				<button onClick={() => modalVisibility(false)}>
+				<button onClick={() => notifyModalVisibility(false)}>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						className="h-5 w-5"
@@ -58,56 +56,62 @@ const BountyMintedNotification = (props) => {
 			</div>
 			<div className="pt-2 font-semibold">Smart Contract</div>
 			<div className="cursor-pointer">
-				<CopyAddressToClipboard data={address} />
+				<CopyAddressToClipboard data={bountyAddress} />
 			</div>
 			<div className="flex pt-3 justify-end space-x-2">
 				<div>
-					<Link href={issue}>
-						<a
-							target="_blank"
-							rel="noreferrer"
-							className="cursor-pointer text-link pt-3"
-						>
-							<Image
-								src="/BountyMaterial/github-white.png"
-								alt="Picture of the author"
-								width={20}
-								height={20}
-							/>
-						</a>
+					<Link href={issueUrl}>
+						<>
+							<a
+								target="_blank"
+								rel="noreferrer"
+								className="cursor-pointer text-link pt-3"
+							>
+								<Image
+									src="/BountyMaterial/github-white.png"
+									alt="Picture of the author"
+									width={20}
+									height={20}
+								/>
+							</a>
+						</>
 					</Link>
 				</div>
 
 				<div>
-					<Link href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/address/${address}`}>
-						<a
-							target="_blank"
-							rel="noreferrer"
-							className="cursor-pointer text-link pt-3"
-						>
-							<Image
-								src="/BountyMaterial/polyscan-white.png"
-								alt="Picture of the author"
-								width={20}
-								height={20}
-							/>
-						</a>
+					<Link href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/address/${bountyAddress}`}>
+						<>
+							<a
+								target="_blank"
+								rel="noreferrer"
+								className="cursor-pointer text-link pt-3"
+							>
+								<Image
+									src="/BountyMaterial/polyscan-white.png"
+									alt="Picture of the author"
+									width={20}
+									height={20}
+								/>
+							</a>
+						</>
 					</Link>
 				</div>
 				<div>
-					<Link href={`/?address=${address}}`} as={`/bounty/${address}`}>
-						<a
-							target="_blank"
-							rel="noreferrer"
-							className="cursor-pointer text-link pt-3"
-						>
-							<Image
-								src="/BountyMaterial/openq-white.png"
-								alt="Picture of the author"
-								width={20}
-								height={20}
-							/>
-						</a>
+					<Link href={`/?address=${bountyAddress}}`} as={`/bounty/${bountyAddress}`}>
+						<>
+							<a
+								target="_blank"
+								rel="noreferrer"
+								className="cursor-pointer text-link pt-3"
+							>
+								<Image
+									src="/BountyMaterial/openq-white.png"
+									alt="Picture of the author"
+									width={20}
+									height={20}
+								/>
+							</a>
+						</>
 					</Link>
 				</div>
 			</div>

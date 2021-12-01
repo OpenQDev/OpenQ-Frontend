@@ -3,6 +3,7 @@ import MockGithubRepository from '../../services/github/MockGithubRepository';
 import Utils from '../../services/utils/Utils';
 import OpenQClient from '../../services/ethers/OpenQClient';
 import MockOpenQClient from '../../services/ethers/MockOpenQClient';
+import OpenQSubgraphClient from '../../services/subgraph/OpenQSubgraphClient';
 
 let InitialState = {};
 switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
@@ -15,6 +16,7 @@ case 'local':
 		coinApiBaseUrl: 'http://localhost:3030',
 		openQClient: new MockOpenQClient(),
 		githubRepository: new MockGithubRepository(),
+		openQSubgraphClient: new OpenQSubgraphClient(),
 		utils: new Utils(),
 	};
 	break;
@@ -27,6 +29,7 @@ case 'docker':
 		coinApiBaseUrl: 'http://localhost:8081',
 		openQClient: new OpenQClient(),
 		githubRepository: new GithubRepository(),
+		openQSubgraphClient: new OpenQSubgraphClient(),
 		utils: new Utils(),
 	};
 	break;
@@ -39,6 +42,7 @@ case 'development':
 		coinApiBaseUrl: 'https://development.openq.dev/coinapi',
 		openQClient: new OpenQClient(),
 		githubRepository: new GithubRepository(),
+		openQSubgraphClient: new OpenQSubgraphClient(),
 		utils: new Utils(),
 	};
 	break;
@@ -51,6 +55,7 @@ case 'staging':
 		coinApiBaseUrl: 'https://staging.openq.dev/coinapi',
 		openQClient: new OpenQClient(),
 		githubRepository: new GithubRepository(),
+		openQSubgraphClient: new OpenQSubgraphClient(),
 		utils: new Utils(),
 	};
 	break;
