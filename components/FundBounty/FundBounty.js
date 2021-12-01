@@ -1,12 +1,9 @@
 // Third Party
-import React, { useEffect, useState, useContext } from 'react';
-import { useRouter } from 'next/router';
-import axios from 'axios';
+import React, { useState, useContext } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
-import BountyCardDetails from '../../components/BountyCard/BountyCardDetails';
 
 const FundBounty = (props) => {
 	const { address } = props;
@@ -16,16 +13,15 @@ const FundBounty = (props) => {
 	const { library } = useWeb3();
 
 	// State
-	const [bounty, setBounty] = useState(null);
 	const [value, setValue] = useState(null);
 
 	// Methods
 	async function approve() {
-		const approved = await appState.openQClient.approve(library, address, "0x5FbDB2315678afecb367f032d93F642f64180aa3", value);
+		appState.openQClient.approve(library, address, '0x5FbDB2315678afecb367f032d93F642f64180aa3', value);
 	}
 
 	async function fundBounty() {
-		const funded = await appState.openQClient.fundBounty(library, address.toLowerCase(), "0x5FbDB2315678afecb367f032d93F642f64180aa3", value);
+		await appState.openQClient.fundBounty(library, address.toLowerCase(), '0x5FbDB2315678afecb367f032d93F642f64180aa3', value);
 	}
 
 	// Render

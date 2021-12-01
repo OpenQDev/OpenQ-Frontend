@@ -1,11 +1,9 @@
 // Third Party
 import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
-const contractMapping = require('../../constants/contract-map.json');
 
 const account = () => {
 	// Context

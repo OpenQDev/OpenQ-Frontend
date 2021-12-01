@@ -16,7 +16,6 @@ const address = () => {
 	// State
 	const { address } = router.query;
 	const [bounty, setBounty] = useState(null);
-	const [value, setValue] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [tokenValueMap, setTokenValueMap] = useState({});
 	const [tokenVolumes, setTokenVolumes] = useState({});

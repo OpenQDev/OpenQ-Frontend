@@ -6,7 +6,6 @@ import Link from 'next/link';
 // Custom
 import BountyCardDetailsModal from './BountyCardDetailsModal';
 import StoreContext from '../../store/Store/StoreContext';
-const contractMap = require('../../constants/contract-map.json');
 
 const BountyCard = (props) => {
 	const {
@@ -53,19 +52,7 @@ const BountyCard = (props) => {
 		}
 	}, []);
 
-	// Methods
-	const imageElFor = (address) => {
-		const metadata = contractMap[address.toLowerCase()];
-		if (metadata?.logo) {
-			const fileName = metadata.logo;
-			const path = `${__dirname}/images/contract/${fileName}`;
-			const img = document.createElement('img');
-			img.src = path;
-			img.style.width = '100%';
-			return img;
-		}
-	};
-
+	// Render
 	return (
 		<div>
 			<Link href={`/?address=${bounty.bountyAddress}`} as={`/bounty/${bounty.bountyAddress}`}>

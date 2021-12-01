@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
-const contractMapping = require('../../constants/contract-map.json');
 
 const organization = () => {
 	// Context
