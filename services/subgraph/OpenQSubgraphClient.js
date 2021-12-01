@@ -1,6 +1,6 @@
 import { ApolloClient, HttpLink, InMemoryCache, gql } from '@apollo/client';
 import { getMainDefinition } from '@apollo/client/utilities';
-import { GET_BOUNTY, GET_ALL_BOUNTIES, SUBSCRIBE_TO_BOUNTY } from './graphql/query';
+import { GET_USER, GET_BOUNTY, GET_ALL_BOUNTIES, SUBSCRIBE_TO_BOUNTY } from './graphql/query';
 import fetch from 'cross-fetch';
 import { setContext } from '@apollo/client/link/context';
 import { WebSocketLink } from '@apollo/client/link/ws';
@@ -39,6 +39,23 @@ class OpenQSubgraphClient {
 					variables: { id }
 				});
 				resolve(result.data.bounty);
+			} catch (e) {
+				reject(e);
+			}
+		});
+
+		return promise;
+	}
+
+	async getUser(id) {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.query({
+					query: GET_USER,
+					variables: { id }
+				});
+				console.log(result.data);
+				resolve(result.data.user);
 			} catch (e) {
 				reject(e);
 			}

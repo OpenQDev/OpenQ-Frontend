@@ -1,5 +1,6 @@
 // Third Party
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 // Custom
 
@@ -24,7 +25,11 @@ const BountyContributors = (props) => {
 			<br />
 			{/*Each contributor account should be clickable so people can see other things they've funded, bounties created, etc. more social*/}
 			{Object.keys(contributors).map(contributor => {
-				return contributor;
+				return (
+					<Link href={`/user/${contributor}`}>
+						{contributor}
+					</Link>
+				);
 			})}
 		</>
 	);

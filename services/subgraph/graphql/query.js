@@ -48,6 +48,18 @@ query GetBounty($id: ID!) {
 }
 `;
 
+export const GET_USER = gql`
+query GetUser($id: ID!) {
+  user(id: $id, subgraphError: allow) {
+    id
+    totalFundedTokenBalance {
+      id
+      totalValue
+    }
+  }
+}
+`;
+
 export const SUBSCRIBE_TO_BOUNTY = gql`
 subscription SubscribeToBounty($bountyId: String!) {
 	bounties(where: {bountyId: $bountyId}) {
