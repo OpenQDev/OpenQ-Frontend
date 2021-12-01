@@ -19,8 +19,12 @@ const organization = () => {
 	// Methods
 	async function populateOrganizationData() {
 		const org = await appState.openQSubgraphClient.getOrganization(organization.toLowerCase());
-		console.log(org);
-		setOrganizationData(org);
+
+		const orgData = await appState.githubRepository.fetchOrganizationByName(organization);
+
+		const mergedOrgData = { ...org, ...orgData };
+		console.log(mergedOrgData);
+		setOrganizationData(mergedOrgData);
 		setIsLoading(false);
 	}
 

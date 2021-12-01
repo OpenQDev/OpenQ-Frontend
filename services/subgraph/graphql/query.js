@@ -63,7 +63,6 @@ query GetUser($id: ID!) {
 export const GET_ORGANIZATION = gql`
 query GetOrganization($id: ID!) {
   organization(id: $id, subgraphError: allow) {
-    id
     bountiesCreated {
       id
     }
