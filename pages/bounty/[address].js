@@ -5,7 +5,7 @@ import axios from 'axios';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
-import BountyCardDetails from '../../components/BountyCards/BountyCardDetails';
+import BountyCardDetails from '../../components/BountyCard/BountyCardDetails';
 
 const address = () => {
 	// Context

@@ -4,6 +4,7 @@ import BountyTokenBalances from '../BountyTokenBalances/BountyTokenBalances';
 
 // Custom
 import BountyCardHeader from './BountyCardHeader';
+import BountyContributors from './BountyContributors';
 import BountyLinks from './BountyLinks';
 import BountyStatus from './BountyStatus';
 import CopyBountyAddress from './CopyBountyAddress';
@@ -32,6 +33,11 @@ const BountyCardDetails = (props) => {
 					<BountyLinks bounty={bounty} />
 				</div>
 				<div className="pt-2">{bounty.body}</div>
+			</div>
+			<div className="flex flex-col pt-5">
+				<div className="flex flex-row justify-between">
+					<BountyContributors bounty={bounty} />
+				</div>
 			</div>
 		</div>
 	);
