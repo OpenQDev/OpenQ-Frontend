@@ -21,6 +21,44 @@ export const GET_ISSUE = gql`
   }
 `;
 
+export const GET_ORG_BY_NAME = gql`
+query GetOrg($orgName: String!) {
+  organization(login: $orgName) {
+    name
+    id
+    createdAt
+    description
+    email
+    websiteUrl
+    avatarUrl
+    isVerified
+    membersWithRole(first: 10) {
+      edges {
+        node {
+          login
+        }
+      }
+    }
+    projects(first: 10) {
+      edges {
+        node {
+          name
+        }
+      }
+    }
+    repositories(first: 10) {
+      edges {
+        node {
+          id
+        }
+      }
+    }
+    twitterUsername
+    url
+  }
+}
+`;
+
 export const GET_ISSUE_BY_ID = gql`
   query($issueId: ID!) {
     node(id: $issueId) {

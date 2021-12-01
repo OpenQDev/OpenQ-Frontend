@@ -1,5 +1,5 @@
 // Third Party
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import Image from 'next/image';
 import StoreContext from '../../store/Store/StoreContext';
 const contractMap = require('../../constants/contract-map.json');

@@ -1,11 +1,9 @@
 // Third Party
 import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
-const contractMapping = require('../../constants/contract-map.json');
 
 const account = () => {
 	// Context
@@ -53,6 +51,7 @@ const account = () => {
 				<h1 className='font-bold uppercase'>Bounties Completed</h1>
 				<h1 className='font-bold uppercase'>Bounties Created</h1>
 				<h1 className='font-bold uppercase'>Bounties Funded</h1>
+				<h1 className='font-bold uppercase'>Buy a Coffee for this User Button</h1>
 			</div>
 		);
 	}

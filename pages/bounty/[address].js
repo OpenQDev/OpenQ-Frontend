@@ -6,6 +6,7 @@ import axios from 'axios';
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
 import BountyCardDetails from '../../components/BountyCard/BountyCardDetails';
+import FundBounty from '../../components/FundBounty/FundBounty';
 
 const address = () => {
 	// Context
@@ -90,9 +91,10 @@ const address = () => {
 								tokenVolumes={tokenVolumes}
 							/>
 						</div>
+						<FundBounty address={address} />
 					</div>
 				</div>
-			</div>
+			</div >
 		);
 	}
 };

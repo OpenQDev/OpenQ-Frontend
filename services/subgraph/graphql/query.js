@@ -60,6 +60,29 @@ query GetUser($id: ID!) {
 }
 `;
 
+export const GET_ORGANIZATION = gql`
+query GetOrganization($id: ID!) {
+  organization(id: $id, subgraphError: allow) {
+    bountiesCreated {
+      id
+    }
+    deposits {
+      id
+      tokenAddress
+      value
+      sender {
+        id
+      }
+    }
+    payouts {
+      id
+      tokenAddress
+      value
+    }
+  }
+}
+`;
+
 export const SUBSCRIBE_TO_BOUNTY = gql`
 subscription SubscribeToBounty($bountyId: String!) {
 	bounties(where: {bountyId: $bountyId}) {
