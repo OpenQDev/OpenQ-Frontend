@@ -17,11 +17,13 @@ const FundBounty = (props) => {
 
 	// Methods
 	async function approve() {
-		appState.openQClient.approve(library, address, '0x5FbDB2315678afecb367f032d93F642f64180aa3', value);
+		const txnReceipt = appState.openQClient.approve(library, address, '0x5FbDB2315678afecb367f032d93F642f64180aa3', value);
+		console.log(txnReceipt);
 	}
 
 	async function fundBounty() {
-		await appState.openQClient.fundBounty(library, address.toLowerCase(), '0x5FbDB2315678afecb367f032d93F642f64180aa3', value);
+		const txnReceipt = await appState.openQClient.fundBounty(library, address.toLowerCase(), '0x5FbDB2315678afecb367f032d93F642f64180aa3', value);
+		console.log(txnReceipt);
 	}
 
 	// Render
