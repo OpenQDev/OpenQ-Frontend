@@ -1,8 +1,9 @@
 // Third Party
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import Image from 'next/image';
-import axios from 'axios';
 import Link from 'next/link';
+import useGetTokenValues from '../../hooks/useGetTokenValues';
+
 // Custom
 import BountyCardDetailsModal from './BountyCardDetailsModal';
 import StoreContext from '../../store/Store/StoreContext';
@@ -14,45 +15,11 @@ const BountyCard = (props) => {
 
 	// State
 	const [showModal, setShowModal] = useState(false);
-	const [tokenValues, setTokenValues] = useState({});
 	const bountyName = bounty.title.toLowerCase();
 	const [appState] = useContext(StoreContext);
 
 	// Hooks
-	useEffect(async () => {
-		let tokenVolumes = {};
-
-		bounty.bountyTokenBalances.map((tokenBalance) => {
-			// REAL
-			// tokenVolumes[deposit.tokenAddress.toLowerCase()] = deposit.value;
-
-			// MOCK
-			tokenVolumes['0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39'] = tokenBalance.volume;
-			tokenVolumes['0x8f3cf7ad23cd3cadbd9735aff958023239c6a063'] = tokenBalance.volume;
-		});
-
-		const data = { tokenVolumes };
-		console.log('tokenVolumes', tokenVolumes);
-		const url = appState.coinApiBaseUrl + '/tvl';
-
-		//only query tvl for bounties that have deposits
-		if (JSON.stringify(data.tokenVolumes) != '{}') {
-			await axios
-				.post(url, data)
-				.then((result) => {
-					// FOR NOW JUST REASSIGN THE PRICES from other coin to FAKE and MOCK
-					let foo = { ...result.data };
-					foo['tokens']['0x5fbdb2315678afecb367f032d93f642f64180aa3'] = result.data.tokens['0x8f3cf7ad23cd3cadbd9735aff958023239c6a063'];
-					foo['tokens']['0xe7f1725e7734ce288f8367e1bb143e90bb3f0512'] = result.data.tokens['0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39'];
-					setTokenValues(foo);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		} else {
-			setTokenValues({});
-		}
-	}, []);
+	const [tokenValues] = useGetTokenValues(bounty);
 
 	// Render
 	return (
@@ -142,7 +109,7 @@ const BountyCard = (props) => {
 								/>
 							</div>
 							<div className="font-semibold">TVL</div>
-							<div>{tokenValues.total ? appState.utils.formatter.format(tokenValues.total) : 0.00}</div>
+							<div>{tokenValues ? appState.utils.formatter.format(tokenValues.total) : 0.00}</div>
 						</div>
 					</div>
 				</div>
