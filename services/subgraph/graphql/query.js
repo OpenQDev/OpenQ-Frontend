@@ -8,7 +8,7 @@ query GetAllIssues {
     bountyMintTime
     bountyClosedTime
     status
-    deposits {
+		deposits {
       id
       tokenAddress
       value
@@ -19,6 +19,10 @@ query GetAllIssues {
     }
     issuer {
       id
+    }
+    bountyTokenBalances {
+      volume
+      tokenAddress
     }
   }
 }
@@ -32,7 +36,7 @@ query GetBounty($id: ID!) {
     bountyMintTime
     bountyClosedTime
     status
-    deposits {
+		deposits {
       id
       tokenAddress
       value
@@ -41,6 +45,10 @@ query GetBounty($id: ID!) {
       }
       receiveTime
     }
+		bountyTokenBalances {
+		  tokenAddress
+      volume
+		}
     issuer {
       id
     }

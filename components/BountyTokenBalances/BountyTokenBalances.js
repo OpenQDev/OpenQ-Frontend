@@ -6,7 +6,7 @@ const contractMap = require('../../constants/contract-map.json');
 const ethers = require('ethers');
 
 const BountyTokenBalances = (props) => {
-	const { bounty, tokenValueMap, tokenVolumes } = props;
+	const { bounty, tokenValues } = props;
 	const [appState,] = useContext(StoreContext);
 
 	return (
@@ -15,14 +15,15 @@ const BountyTokenBalances = (props) => {
 				Total Value Locked (TVL)
 			</div>
 			<div className="font-bold text-xl">
-				{bounty.deposits.length == 0 ? '0.00' : `${appState.utils.formatter.format(tokenValueMap.total)}`}
+				{bounty.deposits.length == 0 ? '0.00' : `${appState.utils.formatter.format(tokenValues.total)}`}
 			</div>
 			<div className="flex flex-row space-x-2 pt-1">
 				<div>
-					{Object.keys(tokenValueMap.tokens).map((tokenAddress) => {
+					{bounty.bountyTokenBalances.map((tokenBalance) => {
+						const { tokenAddress, volume } = tokenBalance;
 						let symbol = contractMap[tokenAddress]['symbol'];
-						let usdValue = appState.utils.formatter.format(tokenValueMap.tokens[tokenAddress]);
-						let volume = tokenVolumes[tokenAddress];
+						// let name = contractMap[tokenAddress]['name'];
+						let usdValue = appState.utils.formatter.format(tokenValues.tokens[tokenAddress]);
 
 						return (
 							<div

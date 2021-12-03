@@ -1,11 +1,11 @@
 {
-	"0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39": {
+	"0xe7f1725e7734ce288f8367e1bb143e90bb3f0512": {
 		"name": "Fake Token",
 		"erc20": true,
 		"symbol": "eth",
 		"decimals": 18
 	},
-	"0x8f3cf7ad23cd3cadbd9735aff958023239c6a063": {
+	"0x5fbdb2315678afecb367f032d93f642f64180aa3": {
 		"name": "Mock Token",
 		"erc20": true,
 		"symbol": "ae",
