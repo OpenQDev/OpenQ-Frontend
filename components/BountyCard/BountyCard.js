@@ -32,6 +32,7 @@ const BountyCard = (props) => {
 		});
 
 		const data = { tokenVolumes };
+		console.log('tokenVolumes', tokenVolumes);
 		const url = appState.coinApiBaseUrl + '/tvl';
 
 		//only query tvl for bounties that have deposits

@@ -48,6 +48,7 @@ const address = () => {
 				// REAL
 				// tokenVolumes[deposit.tokenAddress.toLowerCase()] = deposit.value;
 
+				console.log(tokenBalance);
 				// MOCK
 				tokenVolumes['0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39'] = tokenBalance.volume;
 				tokenVolumes['0x8f3cf7ad23cd3cadbd9735aff958023239c6a063'] = tokenBalance.volume;
