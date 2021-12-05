@@ -163,6 +163,17 @@ query GetOrganization($id: ID!) {
 }
 `;
 
+export const GET_ORGANIZATIONS = gql`
+query GetOrganization {
+  organizations {
+    id
+    bountiesCreated(where: { status: OPEN}) {
+      id
+    }
+  }
+}
+`;
+
 export const SUBSCRIBE_TO_BOUNTY = gql`
 subscription SubscribeToBounty($bountyId: String!) {
 	bounties(where: {bountyId: $bountyId}) {

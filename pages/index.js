@@ -3,7 +3,7 @@ import React from 'react';
 import Head from 'next/head';
 
 // Custom
-import BountyHomepage from '../components/BountyCard/BountyHomepage';
+import OpenQHomepage from '../components/OpenQHomepage';
 import CreateBountyButton from '../components/CreateBountyButton';
 
 export default function Index() {
@@ -21,7 +21,7 @@ export default function Index() {
 					<CreateBountyButton />
 				</div>
 				<div className="flex pl-12 pt-10 flex-col">
-					<BountyHomepage />
+					<OpenQHomepage />
 				</div>
 			</main>
 		</div>
