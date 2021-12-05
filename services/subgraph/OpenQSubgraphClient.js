@@ -81,6 +81,23 @@ class OpenQSubgraphClient {
 		return promise;
 	}
 
+	async getOrganization(id) {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.query({
+					query: GET_ORGANIZATION,
+					variables: { id }
+				});
+				console.log(result.data);
+				resolve(result.data.organization);
+			} catch (e) {
+				reject(e);
+			}
+		});
+
+		return promise;
+	}
+
 	async fetchIssue(orgName, repoName, issueId) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
