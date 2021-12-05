@@ -1,5 +1,5 @@
 // Third Party
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
 
 // Custom
@@ -19,7 +19,15 @@ const RefundBounty = (props) => {
 
 	// Context
 	const [appState] = useContext(StoreContext);
+	const [confirmationMessage, setConfirmationMessage] = useState('');
 	const { library, account } = useWeb3();
+
+	useEffect(() => {
+		if (issueUrl) {
+			setConfirmationMessage(`You are about to refund your deposits on issue ${issueUrl} to the address ${account}. Is this correct ?`);
+			console.log(confirmationMessage);
+		}
+	}, [issueUrl]);
 
 	// Methods
 	async function refundBounty() {
@@ -27,7 +35,7 @@ const RefundBounty = (props) => {
 		appState.openQClient.refundBounty(library, address.toLowerCase())
 			.then(txnReceipt => {
 				console.log(txnReceipt);
-				setTransactionHash(JSON.stringify(txnReceipt));
+				setTransactionHash(txnReceipt.transactionHash);
 				setSuccessMessage('Money refunded!');
 				setShowSuccessModal(true);
 				setIsLoading(false);
@@ -51,18 +59,22 @@ const RefundBounty = (props) => {
 				>Refund</button>
 				{isLoading && <LoadingIcon />}
 				<ConfirmErrorSuccessModalsTrio
-					errorMessage={errorMessage}
-					confirmMethod={refundBounty}
-					address={account}
-					issueUrl={issueUrl}
-					transactionHash={transactionHash}
-					showConfirmationModal={showConfirmationModal}
-					showErrorModal={showErrorModal}
-					showSuccessModal={showSuccessModal}
-					setShowConfirmationModal={setShowConfirmationModal}
 					setShowErrorModal={setShowErrorModal}
+					showErrorModal={showErrorModal}
+					errorMessage={errorMessage}
+
+					setShowConfirmationModal={setShowConfirmationModal}
+					showConfirmationModal={showConfirmationModal}
+					confirmationTitle={'Refund Deposits'}
+					confirmationMessage={confirmationMessage}
+					positiveOption={'Yes, Refund!'}
+					confirmMethod={refundBounty}
+
+					showSuccessModal={showSuccessModal}
 					setShowSuccessModal={setShowSuccessModal}
-					message={successMessage} />
+					successMessage={successMessage}
+					transactionHash={transactionHash}
+				/>
 			</div>
 		</>
 	);

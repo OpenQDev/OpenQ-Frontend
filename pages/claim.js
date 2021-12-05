@@ -119,19 +119,19 @@ function Claim() {
 				</div>
 			</div>
 			<ConfirmErrorSuccessModalsTrio
-				errorMessage={errorMessage}
-				confirmMethod={() => claimBounty(issueUrl, account)}
-				positiveOption={'Yes, Claim!'}
-				confirmationTitle={'Confirm Claim'}
-				address={account}
-				issueUrl={issueUrl}
-				transactionHash={transactionHash}
-				showConfirmationModal={showConfirmationModal}
-				showErrorModal={showErrorModal}
-				showSuccessModal={showSuccessModal}
-				setShowConfirmationModal={setShowConfirmationModal}
-				confirmationMessage={confirmationMessage}
 				setShowErrorModal={setShowErrorModal}
+				showErrorModal={showErrorModal}
+				errorMessage={errorMessage}
+
+				setShowConfirmationModal={setShowConfirmationModal}
+				showConfirmationModal={showConfirmationModal}
+				confirmationTitle={'Confirm Claim'}
+				confirmationMessage={confirmationMessage}
+				confirmMethod={claimBounty}
+				positiveOption={'Yes, Claim!'}
+
+				transactionHash={transactionHash}
+				showSuccessModal={showSuccessModal}
 				setShowSuccessModal={setShowSuccessModal}
 				message={successMessage} />
 		</div>

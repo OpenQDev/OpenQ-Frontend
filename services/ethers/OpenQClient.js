@@ -91,6 +91,7 @@ class OpenQClient {
 				reject(err);
 			}
 		});
+		return promise;
 	}
 }
 

@@ -2,10 +2,10 @@
 import React from 'react';
 
 const SuccessModal = (props) => {
-	const { modalVisibility, message, transactionHash } = props;
+	const { successMessage, transactionHash, setShowSuccessModal } = props;
 
 	const updateModal = () => {
-		modalVisibility(false);
+		setShowSuccessModal(false);
 	};
 
 	return (
@@ -18,7 +18,7 @@ const SuccessModal = (props) => {
 						</div>
 						<div className=" p-6 flex-auto">
 							<p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-								{message}
+								{successMessage}
 							</p>
 							<p className="my-4 text-blueGray-500 text-lg leading-relaxed underline">
 								<a href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`}>{process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/{transactionHash}</a>
