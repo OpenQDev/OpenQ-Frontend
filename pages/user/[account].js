@@ -74,7 +74,8 @@ const account = () => {
 					user.deposits.map(deposit => {
 						return (
 							<>
-								<div>Bounty Id: {deposit.bounty.id}</div>
+								<div>Bounty Address: {deposit.bounty.id}</div>
+								<div>Bounty Id: {deposit.bounty.bountyId}</div>
 								<div>Contract Address: {deposit.tokenAddress}</div>
 								<div>Value: {ethers.utils.formatEther(deposit.value)}</div>
 								<div>Name: {contractMapping[deposit.tokenAddress.toLowerCase()].name}</div>

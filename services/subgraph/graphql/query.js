@@ -62,6 +62,7 @@ query GetUser($id: ID!) {
     id
     bountiesCreated {
       id
+      bountyId
     }
     bountiesClosed {
       id
@@ -98,10 +99,19 @@ query GetOrganization($id: ID!) {
     bountiesCreated {
       id
     }
+    fundedTokenBalances {
+      id
+      tokenAddress
+      volume
+    }
     deposits {
       id
       tokenAddress
       value
+      bounty {
+        id
+        bountyId
+      }
       sender {
         id
       }
@@ -109,8 +119,17 @@ query GetOrganization($id: ID!) {
     payouts {
       id
       tokenAddress
+      payoutTime
+      payoutAddress {
+        id
+      }
       value
     }
+		payoutTokenBalances {
+		  id
+      volume
+      tokenAddress
+		}
   }
 }
 `;
