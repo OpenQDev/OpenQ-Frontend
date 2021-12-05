@@ -1,24 +1,44 @@
 // Third Party
 import React, { useState, useContext } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
-import ErrorModal from '../ErrorModal';
-import ConfirmClaimModal from '../ConfirmClaimModal';
-import SuccessModal from '../SuccessModal';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
+import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
+import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModals';
+import LoadingIcon from '../LoadingIcon';
 
-const FundBounty = (props) => {
-	const { address } = props;
+const RefundBounty = (props) => {
+	const { address, issueUrl } = props;
+
+	const { showErrorModal, setShowErrorModal, showSuccessModal, setShowSuccessModal, showConfirmationModal, setShowConfirmationModal } = useConfirmErrorSuccessModals();
+	const [errorMessage, setErrorMessage] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
+	const [successMessage, setSuccessMessage] = useState('');
+	const [transactionHash, setTransactionHash] = useState(null);
 
 	// Context
 	const [appState] = useContext(StoreContext);
-	const { library } = useWeb3();
+	const { library, account } = useWeb3();
 
 	// Methods
 	async function refundBounty() {
-		const txnReceipt = await appState.openQClient.refundBounty(library, address.toLowerCase());
-		console.log(txnReceipt);
+		setIsLoading(true);
+		appState.openQClient.refundBounty(library, address.toLowerCase())
+			.then(txnReceipt => {
+				console.log(txnReceipt);
+				setTransactionHash(JSON.stringify(txnReceipt));
+				setSuccessMessage('Money refunded!');
+				setShowSuccessModal(true);
+				setIsLoading(false);
+			})
+			.catch(error => {
+				console.log(error);
+				setTransactionHash(JSON.stringify(error));
+				setErrorMessage(JSON.stringify(error));
+				setIsLoading(false);
+				setShowErrorModal(true);
+			});
 	}
 
 	// Render
@@ -27,11 +47,25 @@ const FundBounty = (props) => {
 			<div>
 				<button
 					className="flex flex-row space-x-1 bg-pink-600 text-white rounded-lg p-2 pr-2"
-					onClick={() => refundBounty()}
+					onClick={() => setShowConfirmationModal(true)}
 				>Refund</button>
+				{isLoading && <LoadingIcon />}
+				<ConfirmErrorSuccessModalsTrio
+					errorMessage={errorMessage}
+					confirmMethod={refundBounty}
+					address={account}
+					issueUrl={issueUrl}
+					transactionHash={transactionHash}
+					showConfirmationModal={showConfirmationModal}
+					showErrorModal={showErrorModal}
+					showSuccessModal={showSuccessModal}
+					setShowConfirmationModal={setShowConfirmationModal}
+					setShowErrorModal={setShowErrorModal}
+					setShowSuccessModal={setShowSuccessModal}
+					message={successMessage} />
 			</div>
 		</>
 	);
 };
 
-export default FundBounty;
+export default RefundBounty;

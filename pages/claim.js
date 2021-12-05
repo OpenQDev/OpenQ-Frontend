@@ -1,5 +1,5 @@
 // Third Party Libraries
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 
 // Custom
@@ -7,7 +7,6 @@ import StoreContext from '../store/Store/StoreContext';
 import useAuth from '../hooks/useAuth';
 import LoadingIcon from '../components/LoadingIcon';
 import AuthButton from '../components/Authentication/AuthButton';
-import ConfirmClaimModal from '../components/ConfirmClaimModal';
 import useWeb3 from '../hooks/useWeb3';
 import useConfirmErrorSuccessModals from '../hooks/useConfirmErrorSuccessModals';
 import ConfirmErrorSuccessModalsTrio from '../components/ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
@@ -20,6 +19,7 @@ function Claim() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [successMessage, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
+	const [confirmationMessage, setConfirmationMessage] = useState('');
 
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -27,6 +27,13 @@ function Claim() {
 
 	// Hooks
 	const [authState] = useAuth();
+
+	useEffect(() => {
+		if (issueUrl) {
+			setConfirmationMessage(`You are about to claim the deposits on issue ${issueUrl} to the address ${account}. Is this correct ?`);
+			console.log(confirmationMessage);
+		}
+	}, [issueUrl]);
 
 	// Methods
 	const claimBounty = async () => {
@@ -113,7 +120,9 @@ function Claim() {
 			</div>
 			<ConfirmErrorSuccessModalsTrio
 				errorMessage={errorMessage}
-				claimBounty={claimBounty}
+				confirmMethod={() => claimBounty(issueUrl, account)}
+				positiveOption={'Yes, Claim!'}
+				confirmationTitle={'Confirm Claim'}
 				address={account}
 				issueUrl={issueUrl}
 				transactionHash={transactionHash}
@@ -121,6 +130,7 @@ function Claim() {
 				showErrorModal={showErrorModal}
 				showSuccessModal={showSuccessModal}
 				setShowConfirmationModal={setShowConfirmationModal}
+				confirmationMessage={confirmationMessage}
 				setShowErrorModal={setShowErrorModal}
 				setShowSuccessModal={setShowSuccessModal}
 				message={successMessage} />

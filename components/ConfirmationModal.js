@@ -1,8 +1,8 @@
 // Third Party
 import React from 'react';
 
-const ConfirmClaimModal = (props) => {
-	const { setShowConfirmationModal, issueUrl, address, claimBounty } = props;
+const ConfirmationModal = (props) => {
+	const { setShowConfirmationModal, positiveOption, confirmMethod, message, confirmationTitle, confirmationMessage } = props;
 
 	const updateModal = () => {
 		setShowConfirmationModal(false);
@@ -14,12 +14,11 @@ const ConfirmClaimModal = (props) => {
 				<div className="w-auto my-6 mx-auto max-w-3xl">
 					<div className="border-0 rounded-lg shadow-lg  flex flex-col w-full bg-white outline-none focus:outline-none">
 						<div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-							<h3 className="text-3xl font-semibold">Claim Bounty</h3>
+							<h3 className="text-3xl font-semibold">{confirmationTitle}</h3>
 						</div>
 						<div className=" p-6 flex-auto">
 							<p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-								You are about to claim the deposits on issue {issueUrl} to the address {address}.
-								Is this correct?
+								{confirmationMessage}
 							</p>
 						</div>
 						<div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
@@ -35,10 +34,10 @@ const ConfirmClaimModal = (props) => {
 								type="button"
 								onClick={() => {
 									updateModal();
-									claimBounty(issueUrl, address);
+									confirmMethod();
 								}}
 							>
-								Yes, Claim!
+								{positiveOption}
 							</button>
 						</div>
 					</div>
@@ -50,4 +49,4 @@ const ConfirmClaimModal = (props) => {
 };
 
 
-export default ConfirmClaimModal;
+export default ConfirmationModal;

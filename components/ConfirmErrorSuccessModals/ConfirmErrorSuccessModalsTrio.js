@@ -1,7 +1,7 @@
 // Third Party
 import React from 'react';
 import ErrorModal from '../ErrorModal';
-import ConfirmClaimModal from '../ConfirmClaimModal';
+import ConfirmationModal from '../ConfirmationModal';
 import SuccessModal from '../SuccessModal';
 
 const ConfirmErrorSuccessModalsTrio = (props) => {
@@ -12,12 +12,14 @@ const ConfirmErrorSuccessModalsTrio = (props) => {
 		setShowErrorModal,
 		setShowSuccessModal,
 		setShowConfirmationModal,
-		account,
-		issueUrl,
+		positiveOption,
 		errorMessage,
-		claimBounty,
+		confirmMethod,
 		successMessage,
-		transactionHash } = props;
+		transactionHash,
+		confirmationMessage,
+		confirmationTitle
+	} = props;
 
 	// Render
 	return (
@@ -29,11 +31,12 @@ const ConfirmErrorSuccessModalsTrio = (props) => {
 				/>
 			)}
 			{showConfirmationModal && (
-				<ConfirmClaimModal
+				<ConfirmationModal
 					setShowConfirmationModal={setShowConfirmationModal}
-					address={account}
-					claimBounty={claimBounty}
-					issueUrl={issueUrl}
+					confirmationMessage={confirmationMessage}
+					confirmationTitle={confirmationTitle}
+					positiveOption={positiveOption}
+					confirmMethod={confirmMethod}
 				/>
 			)}
 			{showSuccessModal && (

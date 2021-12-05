@@ -58,7 +58,7 @@ const address = () => {
 							/>) : null}
 						</div>
 						<FundBounty address={address} />
-						<RefundBounty address={address} />
+						<RefundBounty address={address} issueUrl={bounty.url} />
 					</div>
 				</div>
 			</div >
