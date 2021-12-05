@@ -5,19 +5,17 @@ import axios from 'axios';
 // Custom
 import StoreContext from '../store/Store/StoreContext';
 import useAuth from '../hooks/useAuth';
-import ErrorModal from '../components/ErrorModal';
-import SuccessModal from '../components/SuccessModal';
 import LoadingIcon from '../components/LoadingIcon';
 import AuthButton from '../components/Authentication/AuthButton';
 import ConfirmClaimModal from '../components/ConfirmClaimModal';
 import useWeb3 from '../hooks/useWeb3';
+import useConfirmErrorSuccessModals from '../hooks/useConfirmErrorSuccessModals';
+import ConfirmErrorSuccessModalsTrio from '../components/ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 
 function Claim() {
 	// State
 	const [issueUrl, setIssueUrl] = useState('');
-	const [showErrorModal, setShowErrorModal] = useState(false);
-	const [showSuccessModal, setShowSuccessModal] = useState(false);
-	const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+	const { showErrorModal, setShowErrorModal, showSuccessModal, setShowSuccessModal, showConfirmationModal, setShowConfirmationModal } = useConfirmErrorSuccessModals();
 	const [errorMessage, setErrorMessage] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 	const [successMessage, setSuccessMessage] = useState('');
@@ -53,6 +51,8 @@ function Claim() {
 			})
 			.catch((error) => {
 				setIsLoading(false);
+				console.log(error.response);
+				console.log(error.response.data.message);
 				setErrorMessage(error.response.data.message);
 				setShowErrorModal(true);
 			});
@@ -111,27 +111,19 @@ function Claim() {
 					</div>
 				</div>
 			</div>
-			{showErrorModal && (
-				<ErrorModal
-					modalVisibility={setShowErrorModal}
-					message={errorMessage}
-				/>
-			)}
-			{showConfirmationModal && (
-				<ConfirmClaimModal
-					modalVisibility={setShowConfirmationModal}
-					address={account}
-					claimBounty={claimBounty}
-					issueUrl={issueUrl}
-				/>
-			)}
-			{showSuccessModal && (
-				<SuccessModal
-					modalVisibility={setShowSuccessModal}
-					message={successMessage}
-					transactionHash={transactionHash}
-				/>
-			)}
+			<ConfirmErrorSuccessModalsTrio
+				errorMessage={errorMessage}
+				claimBounty={claimBounty}
+				address={account}
+				issueUrl={issueUrl}
+				transactionHash={transactionHash}
+				showConfirmationModal={showConfirmationModal}
+				showErrorModal={showErrorModal}
+				showSuccessModal={showSuccessModal}
+				setShowConfirmationModal={setShowConfirmationModal}
+				setShowErrorModal={setShowErrorModal}
+				setShowSuccessModal={setShowSuccessModal}
+				message={successMessage} />
 		</div>
 	);
 }

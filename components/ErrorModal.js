@@ -2,10 +2,10 @@
 import React from 'react';
 
 const ErrorModal = (props) => {
-	const { modalVisibility, message } = props;
+	const { setShowErrorModal, errorMessage } = props;
 
 	const updateModal = () => {
-		modalVisibility(false);
+		setShowErrorModal(false);
 	};
 
 	return (
@@ -18,7 +18,7 @@ const ErrorModal = (props) => {
 						</div>
 						<div className=" p-6 flex-auto">
 							<p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-								{message}
+								{errorMessage}
 							</p>
 						</div>
 						<div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">

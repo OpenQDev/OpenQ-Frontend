@@ -2,10 +2,10 @@
 import React from 'react';
 
 const ConfirmClaimModal = (props) => {
-	const { modalVisibility, issueUrl, address, claimBounty } = props;
+	const { setShowConfirmationModal, issueUrl, address, claimBounty } = props;
 
 	const updateModal = () => {
-		modalVisibility(false);
+		setShowConfirmationModal(false);
 	};
 
 	return (
