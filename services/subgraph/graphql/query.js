@@ -60,9 +60,33 @@ export const GET_USER = gql`
 query GetUser($id: ID!) {
   user(id: $id, subgraphError: allow) {
     id
-    totalFundedTokenBalance {
+    bountiesCreated {
       id
-      totalValue
+    }
+    bountiesClosed {
+      id
+    }
+    deposits {
+      id
+      tokenAddress
+      value
+      bounty {
+        id
+      }
+    }
+    fundedTokenBalances {
+      id
+      volume
+      tokenAddress
+    }
+    payouts {
+      id
+      tokenAddress
+      value
+      payoutTime
+      organization {
+        id
+      }
     }
   }
 }
