@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import StoreContext from '../../store/Store/StoreContext';
 import BountyCardDetails from '../../components/BountyCard/BountyCardDetails';
 import FundBounty from '../../components/FundBounty/FundBounty';
+import RefundBounty from '../../components/RefundBounty/RefundBounty';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 
 const address = () => {
@@ -57,6 +58,7 @@ const address = () => {
 							/>) : null}
 						</div>
 						<FundBounty address={address} />
+						<RefundBounty address={address} />
 					</div>
 				</div>
 			</div >

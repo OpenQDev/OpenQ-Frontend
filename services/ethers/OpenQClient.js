@@ -75,6 +75,21 @@ class OpenQClient {
 			throw (err);
 		}
 	}
+
+	async refundBounty(library, _bountyAddress) {
+		const signer = library.getSigner();
+
+		const contract = this.OpenQ(signer);
+		try {
+			const txnResponse = await contract.refundBountyDeposits(_bountyAddress);
+			const txnReceipt = await txnResponse.wait();
+
+			// wait for confirmation
+			return 'success';
+		} catch (err) {
+			throw (err);
+		}
+	}
 }
 
 export default OpenQClient;
