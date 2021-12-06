@@ -1,20 +1,16 @@
 // Third Party
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
-import { useRouter } from 'next/router';
 
 const BountyCard = (props) => {
 	const {
 		bounty
 	} = props;
-	console.log(bounty);
-
-	const router = useRouter();
 
 	// State
 	const bountyName = bounty.title.toLowerCase();

@@ -3,13 +3,11 @@ import React, { useEffect, useState, useContext } from 'react';
 // Custom
 import StoreContext from '../store/Store/StoreContext';
 import OrganizationCard from './OrganizationCard/OrganizationCard';
-import { useRouter } from 'next/router';
 
 const OpenQHomepage = () => {
 	// State
 	// Context
 	const [appState] = useContext(StoreContext);
-	const router = useRouter();
 
 	// State
 	const [isLoading, setIsLoading] = useState(true);

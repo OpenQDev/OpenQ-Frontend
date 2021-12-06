@@ -2,7 +2,7 @@
 import React from 'react';
 
 const ConfirmationModal = (props) => {
-	const { setShowConfirmationModal, positiveOption, confirmMethod, message, confirmationTitle, confirmationMessage } = props;
+	const { setShowConfirmationModal, positiveOption, confirmMethod, confirmationTitle, confirmationMessage } = props;
 
 	const updateModal = () => {
 		setShowConfirmationModal(false);
