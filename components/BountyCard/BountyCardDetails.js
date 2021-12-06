@@ -12,8 +12,6 @@ import LabelsList from './LabelsList';
 
 const BountyCardDetails = (props) => {
 	const { bounty, tokenValues } = props;
-	console.log(tokenValues);
-	console.log(bounty.bountyTokenBalances);
 
 	return (
 		<div className="flex flex-col font-mont pl-16 pr-16 pt-10 pb-10">
@@ -34,7 +32,7 @@ const BountyCardDetails = (props) => {
 					<div className="font-bold text-xl">Description</div>
 					<BountyLinks bounty={bounty} />
 				</div>
-				<div className="pt-2">{bounty.body}</div>
+				<div dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}></div>
 			</div>
 			<div className="flex flex-col pt-5">
 				<div className="flex flex-row justify-between">

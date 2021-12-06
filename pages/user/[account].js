@@ -2,6 +2,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
+import Image from 'next/image';
+
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
 import contractMapping from '../../constants/contract-map.json';
@@ -73,14 +75,27 @@ const account = () => {
 				{user.deposits.length != 0 ? (
 					user.deposits.map(deposit => {
 						return (
-							<>
+							<div
+								className={
+									'flex flex-col p-6 font-mont rounded-xl shadow-sm bg-white cursor-pointer pr-10 pl-10'
+								}
+								key={deposit.bounty.bountyId}
+							>
 								<div>Bounty Address: {deposit.bounty.id}</div>
 								<div>Bounty Id: {deposit.bounty.bountyId}</div>
 								<div>Contract Address: {deposit.tokenAddress}</div>
 								<div>Value: {ethers.utils.formatEther(deposit.value)}</div>
 								<div>Name: {contractMapping[deposit.tokenAddress.toLowerCase()].name}</div>
 								<div>Symbol: {contractMapping[deposit.tokenAddress.toLowerCase()].symbol}</div>
-							</>
+								<div className="pt-1">
+									<Image
+										src={`/cryptocurrency-icons/32/color/${contractMapping[deposit.tokenAddress.toLowerCase()].symbol}.png`}
+										alt="n/a"
+										width="16"
+										height="16"
+									/>
+								</div>
+							</div>
 						);
 					})
 				) : 'No Bounties Created'}

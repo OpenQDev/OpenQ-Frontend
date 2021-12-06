@@ -9,6 +9,8 @@ export const GET_ISSUE = gql`
         issue(number: $issueId) {
           closed
 					id
+					titleHTML
+        	bodyHTML
           author {
             login
           }
@@ -25,6 +27,7 @@ export const GET_ORG_BY_NAME = gql`
 query GetOrg($orgName: String!) {
   organization(login: $orgName) {
     name
+		login
     id
     createdAt
     description
@@ -32,6 +35,7 @@ query GetOrg($orgName: String!) {
     websiteUrl
     avatarUrl
     isVerified
+		descriptionHTML
     membersWithRole(first: 10) {
       edges {
         node {
@@ -68,6 +72,8 @@ export const GET_ISSUE_BY_ID = gql`
         body
         url
 				id
+				titleHTML
+        bodyHTML
         labels(first: 10) {
           edges {
             node {

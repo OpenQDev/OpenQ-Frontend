@@ -23,10 +23,8 @@ const organization = () => {
 	async function populateOrganizationData() {
 		setIsLoading(true);
 		const org = await appState.openQSubgraphClient.getOrganization(organization.toLowerCase());
-		console.log('org', org);
 
 		const orgData = await appState.githubRepository.fetchOrganizationByName(organization);
-		console.log(orgData);
 
 		const mergedOrgData = { ...org, ...orgData };
 		setOrganizationData(mergedOrgData);
@@ -34,7 +32,6 @@ const organization = () => {
 
 	async function populateBountyData() {
 		const bounties = organizationData.bountiesCreated;
-		console.log('bounties', bounties);
 
 		const bountyIds = bounties.map(bounty => bounty.bountyId);
 		const issueData = await appState.githubRepository.getIssueData(bountyIds);
@@ -106,7 +103,7 @@ const organization = () => {
 							</>
 						);
 					})
-				) : 'No Bounties Created'}
+				) : 'No Deposits on any Issues'}
 				<h1 className='font-bold uppercase'>Bounties</h1>
 				{bounties.length != 0 ? (
 					bounties.map((bounty) => {
