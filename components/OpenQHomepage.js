@@ -19,6 +19,7 @@ const OpenQHomepage = () => {
 	// Methods
 	async function populateOrganizationData() {
 		const orgs = await appState.openQSubgraphClient.getOrganizations();
+		console.log(orgs);
 
 		let mergedOrgs = [];
 

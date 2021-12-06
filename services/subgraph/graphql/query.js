@@ -56,23 +56,6 @@ query GetBounty($id: ID!) {
 }
 `;
 
-export const GET_BOUNTIES_FOR_ORGANIZATION = gql`
-query GetBountiesForOrganization($id: ID!) {
-  bounties(where: {organization: "openqdev"}) {
-    id
-    bountyAddress
-    issuer {
-      id
-    }
-    bountyMintTime
-    bountyClosedTime
-    bountyTokenBalances {
-      id
-    }
-  }
-}
-`;
-
 export const GET_USER = gql`
 query GetUser($id: ID!) {
   user(id: $id, subgraphError: allow) {
@@ -122,6 +105,7 @@ query GetOrganization($id: ID!) {
       bountyMintTime
       bountyClosedTime
       status
+			bountyAddress
       bountyTokenBalances {
         id
         tokenAddress
@@ -164,11 +148,62 @@ query GetOrganization($id: ID!) {
 `;
 
 export const GET_ORGANIZATIONS = gql`
-query GetOrganization {
+query GetOrganizations {
   organizations {
     id
-    bountiesCreated(where: { status: OPEN}) {
+		fundedTokenBalances {
       id
+      tokenAddress
+      volume
+    }
+    deposits {
+      id
+      tokenAddress
+      value
+      bounty {
+        id
+        bountyId
+      }
+      sender {
+        id
+      }
+    }
+    payouts {
+      id
+      tokenAddress
+      payoutTime
+      payoutAddress {
+        id
+      }
+      value
+    }
+		payoutTokenBalances {
+		  id
+      volume
+      tokenAddress
+		}
+    bountiesCreated {
+			bountyAddress
+			bountyId
+			bountyMintTime
+			bountyClosedTime
+			status
+			deposits {
+				id
+				tokenAddress
+				value
+				sender {
+					id
+				}
+				receiveTime
+			}
+			issuer {
+				id
+			}
+			bountyTokenBalances {
+				volume
+				tokenAddress
+			}
     }
   }
 }

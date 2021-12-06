@@ -5,16 +5,18 @@ import Link from 'next/link';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 
 // Custom
-import BountyCardDetailsModal from './BountyCardDetailsModal';
 import StoreContext from '../../store/Store/StoreContext';
+import { useRouter } from 'next/router';
 
 const BountyCard = (props) => {
 	const {
 		bounty
 	} = props;
+	console.log(bounty);
+
+	const router = useRouter();
 
 	// State
-	const [showModal, setShowModal] = useState(false);
 	const bountyName = bounty.title.toLowerCase();
 	const [appState] = useContext(StoreContext);
 
@@ -24,12 +26,11 @@ const BountyCard = (props) => {
 	// Render
 	return (
 		<div>
-			<Link href={`/?address=${bounty.bountyAddress}`} as={`/bounty/${bounty.bountyAddress}`}>
+			<Link href={`/bounty/${bounty.bountyAddress}`}>
 				<div
 					className={
 						'flex flex-col p-6 font-mont rounded-xl shadow-sm bg-white cursor-pointer pr-10 pl-10'
 					}
-					onClick={() => setShowModal(true)}
 				>
 					<div className="flex flex-row justify-between">
 						<div>
@@ -114,11 +115,6 @@ const BountyCard = (props) => {
 					</div>
 				</div>
 			</Link>
-			{showModal && <BountyCardDetailsModal
-				bounty={bounty}
-				tokenValues={tokenValues}
-				modalVisibility={setShowModal}
-			/>}
 		</div>
 	);
 };

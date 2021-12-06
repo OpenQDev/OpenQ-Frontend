@@ -6,6 +6,7 @@ import { ethers } from 'ethers';
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
 import contractMapping from '../../constants/contract-map.json';
+import BountyCard from '../../components/BountyCard/BountyCard';
 
 const organization = () => {
 	// Context
@@ -16,20 +17,47 @@ const organization = () => {
 	const { organization } = router.query;
 	const [isLoading, setIsLoading] = useState(true);
 	const [organizationData, setOrganizationData] = useState(null);
+	const [bounties, setBounties] = useState([]);
 
 	// Methods
 	async function populateOrganizationData() {
+		setIsLoading(true);
 		const org = await appState.openQSubgraphClient.getOrganization(organization.toLowerCase());
+		console.log('org', org);
 
 		const orgData = await appState.githubRepository.fetchOrganizationByName(organization);
+		console.log(orgData);
 
 		const mergedOrgData = { ...org, ...orgData };
-		console.log(mergedOrgData);
 		setOrganizationData(mergedOrgData);
+	}
+
+	async function populateBountyData() {
+		const bounties = organizationData.bountiesCreated;
+		console.log('bounties', bounties);
+
+		const bountyIds = bounties.map(bounty => bounty.bountyId);
+		const issueData = await appState.githubRepository.getIssueData(bountyIds);
+
+		const fullBounties = [];
+		bounties.forEach(bounty => {
+			const relatedIssue = issueData.find(issue => issue.id == bounty.bountyId);
+			const mergedBounty = { ...bounty, ...relatedIssue };
+			fullBounties.push(mergedBounty);
+		});
+
+		setBounties(fullBounties);
+
 		setIsLoading(false);
 	}
 
 	// Hooks
+	useEffect(() => {
+		if (organizationData) {
+			populateBountyData();
+		}
+	}, [organizationData]);
+
 	useEffect(() => {
 		if (organization) {
 			populateOrganizationData();
@@ -79,7 +107,17 @@ const organization = () => {
 						);
 					})
 				) : 'No Bounties Created'}
-				<h1 className='font-bold uppercase'>Buy a Coffee for this organizationData Button</h1>
+				<h1 className='font-bold uppercase'>Bounties</h1>
+				{bounties.length != 0 ? (
+					bounties.map((bounty) => {
+						return (
+							<BountyCard
+								bounty={bounty}
+								key={bounty.bountyId}
+							/>
+						);
+					})
+				) : 'No Bounties'}
 			</div>
 		);
 	}
