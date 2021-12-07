@@ -22,7 +22,7 @@ const FundBounty = (props) => {
 	}
 
 	async function fundBounty() {
-		const txnReceipt = await appState.openQClient.fundBounty(library, address.toLowerCase(), '0x5FbDB2315678afecb367f032d93F642f64180aa3', value);
+		const txnReceipt = await appState.openQClient.fundBounty(library, address, '0x5FbDB2315678afecb367f032d93F642f64180aa3', value);
 		console.log(txnReceipt);
 	}
 

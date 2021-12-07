@@ -74,8 +74,8 @@ const organization = () => {
 						<>
 							<div>Contract Address: {tokenBalance.tokenAddress}</div>
 							<div>Value: {ethers.utils.formatEther(tokenBalance.volume)}</div>
-							<div>Name: {contractMapping[tokenBalance.tokenAddress.toLowerCase()].name}</div>
-							<div>Symbol: {contractMapping[tokenBalance.tokenAddress.toLowerCase()].symbol}</div>
+							<div>Name: {contractMapping[tokenBalance.tokenAddress].name}</div>
+							<div>Symbol: {contractMapping[tokenBalance.tokenAddress].symbol}</div>
 						</>
 					);
 				})}
@@ -98,8 +98,8 @@ const organization = () => {
 								<div>Bounty Id: {deposit.bounty.bountyId}</div>
 								<div>Contract Address: {deposit.tokenAddress}</div>
 								<div>Value: {ethers.utils.formatEther(deposit.value)}</div>
-								<div>Name: {contractMapping[deposit.tokenAddress.toLowerCase()].name}</div>
-								<div>Symbol: {contractMapping[deposit.tokenAddress.toLowerCase()].symbol}</div>
+								<div>Name: {contractMapping[deposit.tokenAddress].name}</div>
+								<div>Symbol: {contractMapping[deposit.tokenAddress].symbol}</div>
 							</>
 						);
 					})

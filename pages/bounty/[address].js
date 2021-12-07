@@ -23,7 +23,7 @@ const address = () => {
 	async function populateBountyData() {
 		setIsLoading(true);
 
-		const bounty = await appState.openQSubgraphClient.getBounty(address.toLowerCase());
+		const bounty = await appState.openQSubgraphClient.getBounty(address);
 
 		const issueData = await appState.githubRepository.fetchIssueById(bounty.bountyId);
 

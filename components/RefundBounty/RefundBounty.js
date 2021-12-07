@@ -32,7 +32,7 @@ const RefundBounty = (props) => {
 	// Methods
 	async function refundBounty() {
 		setIsLoading(true);
-		appState.openQClient.refundBounty(library, address.toLowerCase())
+		appState.openQClient.refundBounty(library, address)
 			.then(txnReceipt => {
 				console.log(txnReceipt);
 				setTransactionHash(txnReceipt.transactionHash);
