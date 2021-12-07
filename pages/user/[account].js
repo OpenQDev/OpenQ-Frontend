@@ -6,12 +6,12 @@ import Image from 'next/image';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
-import contractMapping from '../../constants/contract-map.json';
 
 const account = () => {
 	// Context
 	const [appState] = useContext(StoreContext);
 	const router = useRouter();
+	const { tokenMetadata } = appState;
 
 	// State
 	const { account } = router.query;
@@ -46,8 +46,8 @@ const account = () => {
 						<>
 							<div>Contract Address: {tokenBalance.tokenAddress}</div>
 							<div>Value: {ethers.utils.formatEther(tokenBalance.volume)}</div>
-							<div>Name: {contractMapping[tokenBalance.tokenAddress].name}</div>
-							<div>Symbol: {contractMapping[tokenBalance.tokenAddress].symbol}</div>
+							<div>Name: {tokenMetadata[tokenBalance.tokenAddress].name}</div>
+							<div>Symbol: {tokenMetadata[tokenBalance.tokenAddress].symbol}</div>
 						</>
 					);
 				})}
@@ -74,6 +74,7 @@ const account = () => {
 				<h1 className='font-bold uppercase'>Bounty Contributions</h1>
 				{user.deposits.length != 0 ? (
 					user.deposits.map(deposit => {
+						const tokenAddress = ethers.utils.getAddress(deposit.tokenAddress);
 						return (
 							<div
 								className={
@@ -83,13 +84,13 @@ const account = () => {
 							>
 								<div>Bounty Address: {deposit.bounty.id}</div>
 								<div>Bounty Id: {deposit.bounty.bountyId}</div>
-								<div>Contract Address: {deposit.tokenAddress}</div>
+								<div>Contract Address: {tokenAddress}</div>
 								<div>Value: {ethers.utils.formatEther(deposit.value)}</div>
-								<div>Name: {contractMapping[deposit.tokenAddress].name}</div>
-								<div>Symbol: {contractMapping[deposit.tokenAddress].symbol}</div>
+								<div>Name: {tokenMetadata[tokenAddress].name}</div>
+								<div>Symbol: {tokenMetadata[tokenAddress].symbol}</div>
 								<div className="pt-1">
 									<Image
-										src={`/cryptocurrency-icons/32/color/${contractMapping[deposit.tokenAddress].symbol}.png`}
+										src={`/cryptocurrency-icons/32/color/${tokenMetadata[tokenAddress].symbol}.png`}
 										alt="n/a"
 										width="16"
 										height="16"

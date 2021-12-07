@@ -5,13 +5,13 @@ import { ethers } from 'ethers';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
-import contractMapping from '../../constants/contract-map.json';
 import BountyCard from '../../components/BountyCard/BountyCard';
 
 const organization = () => {
 	// Context
 	const [appState] = useContext(StoreContext);
 	const router = useRouter();
+	const { tokenMetadata } = appState;
 
 	// State
 	const { organization } = router.query;
@@ -70,12 +70,13 @@ const organization = () => {
 				<h1 className='font-bold uppercase'>{organizationData.name}</h1>
 				<h1 className='font-bold uppercase'>Total Contributions</h1>
 				{organizationData.fundedTokenBalances.map(tokenBalance => {
+					const tokenAddress = ethers.utils.getAddress(tokenBalance.tokenAddress);
 					return (
 						<>
-							<div>Contract Address: {tokenBalance.tokenAddress}</div>
+							<div>Contract Address: {tokenAddress}</div>
 							<div>Value: {ethers.utils.formatEther(tokenBalance.volume)}</div>
-							<div>Name: {contractMapping[tokenBalance.tokenAddress].name}</div>
-							<div>Symbol: {contractMapping[tokenBalance.tokenAddress].symbol}</div>
+							<div>Name: {tokenMetadata[tokenAddress].name}</div>
+							<div>Symbol: {tokenMetadata[tokenAddress].symbol}</div>
 						</>
 					);
 				})}
@@ -92,14 +93,15 @@ const organization = () => {
 				<h1 className='font-bold uppercase'>Bounty Contributions</h1>
 				{organizationData.deposits.length != 0 ? (
 					organizationData.deposits.map(deposit => {
+						const tokenAddress = ethers.utils.getAddress(deposit.tokenAddress);
 						return (
 							<>
 								<div>Bounty Address: {deposit.bounty.id}</div>
 								<div>Bounty Id: {deposit.bounty.bountyId}</div>
-								<div>Contract Address: {deposit.tokenAddress}</div>
+								<div>Contract Address: {tokenAddress}</div>
 								<div>Value: {ethers.utils.formatEther(deposit.value)}</div>
-								<div>Name: {contractMapping[deposit.tokenAddress].name}</div>
-								<div>Symbol: {contractMapping[deposit.tokenAddress].symbol}</div>
+								<div>Name: {tokenMetadata[tokenAddress].name}</div>
+								<div>Symbol: {tokenMetadata[tokenAddress].symbol}</div>
 							</>
 						);
 					})
