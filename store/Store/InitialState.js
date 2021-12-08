@@ -4,8 +4,11 @@ import Utils from '../../services/utils/Utils';
 import OpenQClient from '../../services/ethers/OpenQClient';
 import MockOpenQClient from '../../services/ethers/MockOpenQClient';
 import OpenQSubgraphClient from '../../services/subgraph/OpenQSubgraphClient';
+
 import mumbaiTokenMetadata from '../../constants/polygon-mumbai.json';
 import polygonMainnetTokenMetadata from '../../constants/polygon-mainnet.json';
+import mumbaiTokens from '../../constants/polygon-mumbai-tokens.json';
+import polygonMainnetTokens from '../../constants/polygon-mainnet-tokens.json';
 
 let InitialState = {};
 switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
@@ -17,6 +20,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 			apiBaseUrl: 'http://localhost:3030',
 			coinApiBaseUrl: 'http://localhost:3030',
 			tokenMetadata: mumbaiTokenMetadata,
+			tokens: mumbaiTokens,
 			openQClient: new MockOpenQClient(),
 			githubRepository: new MockGithubRepository(),
 			openQSubgraphClient: new OpenQSubgraphClient(),
@@ -31,6 +35,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 			apiBaseUrl: 'http://localhost:4000',
 			coinApiBaseUrl: 'http://localhost:8081',
 			tokenMetadata: mumbaiTokenMetadata,
+			tokens: mumbaiTokens,
 			openQClient: new OpenQClient(),
 			githubRepository: new GithubRepository(),
 			openQSubgraphClient: new OpenQSubgraphClient(),
@@ -45,6 +50,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 			apiBaseUrl: 'https://development.openq.dev/api',
 			coinApiBaseUrl: 'https://development.openq.dev/coinapi',
 			tokenMetadata: mumbaiTokenMetadata,
+			tokens: mumbaiTokens,
 			openQClient: new OpenQClient(),
 			githubRepository: new GithubRepository(),
 			openQSubgraphClient: new OpenQSubgraphClient(),
@@ -59,6 +65,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 			apiBaseUrl: 'https://staging.openq.dev/api',
 			coinApiBaseUrl: 'https://staging.openq.dev/coinapi',
 			tokenMetadata: polygonMainnetTokenMetadata,
+			tokens: polygonMainnetTokens,
 			openQClient: new OpenQClient(),
 			githubRepository: new GithubRepository(),
 			openQSubgraphClient: new OpenQSubgraphClient(),
@@ -73,6 +80,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 			apiBaseUrl: 'https://app.openq.dev/api',
 			coinApiBaseUrl: 'https://app.openq.dev/coinapi',
 			tokenMetadata: polygonMainnetTokenMetadata,
+			tokens: polygonMainnetTokens,
 			openQClient: new OpenQClient(),
 			githubRepository: new GithubRepository(),
 			utils: new Utils(),
