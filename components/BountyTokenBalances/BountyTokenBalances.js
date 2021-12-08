@@ -2,12 +2,13 @@
 import React, { useContext } from 'react';
 import Image from 'next/image';
 import StoreContext from '../../store/Store/StoreContext';
-const contractMap = require('../../constants/contract-map.json');
 const ethers = require('ethers');
 
 const BountyTokenBalances = (props) => {
-	const { bounty, tokenValueMap, tokenVolumes } = props;
+	const { bounty, tokenValues } = props;
 	const [appState,] = useContext(StoreContext);
+
+	const { tokenMetadata } = appState;
 
 	return (
 		<div className="flex flex-col pt-4 pb-6">
@@ -15,14 +16,17 @@ const BountyTokenBalances = (props) => {
 				Total Value Locked (TVL)
 			</div>
 			<div className="font-bold text-xl">
-				{bounty.deposits.length == 0 ? '0.00' : `${appState.utils.formatter.format(tokenValueMap.total)}`}
+				{bounty.deposits.length == 0 ? '0.00' : `${appState.utils.formatter.format(tokenValues.total)}`}
 			</div>
 			<div className="flex flex-row space-x-2 pt-1">
 				<div>
-					{Object.keys(tokenValueMap.tokens).map((tokenAddress) => {
-						let symbol = contractMap[tokenAddress]['symbol'];
-						let usdValue = appState.utils.formatter.format(tokenValueMap.tokens[tokenAddress]);
-						let volume = tokenVolumes[tokenAddress];
+					{bounty.bountyTokenBalances.map((tokenBalance) => {
+						const tokenAddress = ethers.utils.getAddress(tokenBalance.tokenAddress);
+						const tokenValueAddress = tokenMetadata[tokenAddress].address;
+
+						const { volume } = tokenBalance;
+						let symbol = tokenMetadata[tokenAddress].symbol;
+						let usdValue = appState.utils.formatter.format(tokenValues.tokens[tokenValueAddress]);
 
 						return (
 							<div
@@ -33,7 +37,7 @@ const BountyTokenBalances = (props) => {
 								<div className="text-lg">({ethers.utils.formatEther(volume)} {symbol.toUpperCase()})</div>{' '}
 								<div className="pt-1">
 									<Image
-										src={`/cryptocurrency-icons/32/color/${symbol.toLowerCase()}.png`}
+										src={tokenMetadata[tokenAddress].logoURI}
 										alt="n/a"
 										width="16"
 										height="16"

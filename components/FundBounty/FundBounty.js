@@ -22,7 +22,7 @@ const FundBounty = (props) => {
 	}
 
 	async function fundBounty() {
-		const txnReceipt = await appState.openQClient.fundBounty(library, address.toLowerCase(), '0x5FbDB2315678afecb367f032d93F642f64180aa3', value);
+		const txnReceipt = await appState.openQClient.fundBounty(library, address, '0x5FbDB2315678afecb367f032d93F642f64180aa3', value);
 		console.log(txnReceipt);
 	}
 
@@ -39,12 +39,12 @@ const FundBounty = (props) => {
 			<button
 				className="flex flex-row space-x-1 bg-pink-600 text-white rounded-lg p-2 pr-2"
 				onClick={() => approve()}
-			>Approve with Mock Token</button>
+			>Approve with Mock Link</button>
 			<br />
 			<button
 				className="flex flex-row space-x-1 bg-pink-600 text-white rounded-lg p-2 pr-2"
 				onClick={() => fundBounty()}
-			>Fund with Mock Token</button>
+			>Fund with Mock Link</button>
 		</div>
 	);
 };

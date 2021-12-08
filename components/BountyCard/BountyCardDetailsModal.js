@@ -5,7 +5,7 @@ import React, { useEffect, useRef } from 'react';
 import BountyCardDetails from './BountyCardDetails';
 
 const BountyCardDetailsModal = (props) => {
-	const { bounty, tokenValueMap, tokenVolumes } = props;
+	const { bounty, tokenValues } = props;
 
 	let menuRef = useRef();
 
@@ -37,8 +37,7 @@ const BountyCardDetailsModal = (props) => {
 					>
 						<BountyCardDetails
 							bounty={bounty}
-							tokenValueMap={tokenValueMap}
-							tokenVolumes={tokenVolumes}
+							tokenValues={tokenValues}
 						/>
 					</div>
 				</div>

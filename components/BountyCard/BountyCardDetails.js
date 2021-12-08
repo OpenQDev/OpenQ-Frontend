@@ -11,7 +11,7 @@ import CopyBountyAddress from './CopyBountyAddress';
 import LabelsList from './LabelsList';
 
 const BountyCardDetails = (props) => {
-	const { bounty, tokenValueMap, tokenVolumes } = props;
+	const { bounty, tokenValues } = props;
 
 	return (
 		<div className="flex flex-col font-mont pl-16 pr-16 pt-10 pb-10">
@@ -25,14 +25,14 @@ const BountyCardDetails = (props) => {
 					<CopyBountyAddress bounty={bounty} />
 				</div>
 				<LabelsList bounty={bounty} />
-				{bounty.deposits.length != 0 ? <BountyTokenBalances bounty={bounty} tokenValueMap={tokenValueMap} tokenVolumes={tokenVolumes} /> : 'No deposits.'}
+				{bounty.deposits.length != 0 ? <BountyTokenBalances bounty={bounty} tokenValues={tokenValues} /> : 'No deposits.'}
 			</div>
 			<div className="flex flex-col pt-5">
 				<div className="flex flex-row justify-between">
 					<div className="font-bold text-xl">Description</div>
 					<BountyLinks bounty={bounty} />
 				</div>
-				<div className="pt-2">{bounty.body}</div>
+				<div dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}></div>
 			</div>
 			<div className="flex flex-col pt-5">
 				<div className="flex flex-row justify-between">

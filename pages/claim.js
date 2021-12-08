@@ -1,27 +1,25 @@
 // Third Party Libraries
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 
 // Custom
 import StoreContext from '../store/Store/StoreContext';
 import useAuth from '../hooks/useAuth';
-import ErrorModal from '../components/ErrorModal';
-import SuccessModal from '../components/SuccessModal';
 import LoadingIcon from '../components/LoadingIcon';
 import AuthButton from '../components/Authentication/AuthButton';
-import ConfirmClaimModal from '../components/ConfirmClaimModal';
 import useWeb3 from '../hooks/useWeb3';
+import useConfirmErrorSuccessModals from '../hooks/useConfirmErrorSuccessModals';
+import ConfirmErrorSuccessModalsTrio from '../components/ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 
 function Claim() {
 	// State
 	const [issueUrl, setIssueUrl] = useState('');
-	const [showErrorModal, setShowErrorModal] = useState(false);
-	const [showSuccessModal, setShowSuccessModal] = useState(false);
-	const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+	const { showErrorModal, setShowErrorModal, showSuccessModal, setShowSuccessModal, showConfirmationModal, setShowConfirmationModal } = useConfirmErrorSuccessModals();
 	const [errorMessage, setErrorMessage] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 	const [successMessage, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
+	const [confirmationMessage, setConfirmationMessage] = useState('');
 
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -29,6 +27,13 @@ function Claim() {
 
 	// Hooks
 	const [authState] = useAuth();
+
+	useEffect(() => {
+		if (issueUrl) {
+			setConfirmationMessage(`You are about to claim the deposits on issue ${issueUrl} to the address ${account}. Is this correct ?`);
+			console.log(confirmationMessage);
+		}
+	}, [issueUrl]);
 
 	// Methods
 	const claimBounty = async () => {
@@ -53,6 +58,8 @@ function Claim() {
 			})
 			.catch((error) => {
 				setIsLoading(false);
+				console.log(error.response);
+				console.log(error.response.data.message);
 				setErrorMessage(error.response.data.message);
 				setShowErrorModal(true);
 			});
@@ -111,27 +118,22 @@ function Claim() {
 					</div>
 				</div>
 			</div>
-			{showErrorModal && (
-				<ErrorModal
-					modalVisibility={setShowErrorModal}
-					message={errorMessage}
-				/>
-			)}
-			{showConfirmationModal && (
-				<ConfirmClaimModal
-					modalVisibility={setShowConfirmationModal}
-					address={account}
-					claimBounty={claimBounty}
-					issueUrl={issueUrl}
-				/>
-			)}
-			{showSuccessModal && (
-				<SuccessModal
-					modalVisibility={setShowSuccessModal}
-					message={successMessage}
-					transactionHash={transactionHash}
-				/>
-			)}
+			<ConfirmErrorSuccessModalsTrio
+				setShowErrorModal={setShowErrorModal}
+				showErrorModal={showErrorModal}
+				errorMessage={errorMessage}
+
+				setShowConfirmationModal={setShowConfirmationModal}
+				showConfirmationModal={showConfirmationModal}
+				confirmationTitle={'Confirm Claim'}
+				confirmationMessage={confirmationMessage}
+				confirmMethod={claimBounty}
+				positiveOption={'Yes, Claim!'}
+
+				transactionHash={transactionHash}
+				showSuccessModal={showSuccessModal}
+				setShowSuccessModal={setShowSuccessModal}
+				message={successMessage} />
 		</div>
 	);
 }

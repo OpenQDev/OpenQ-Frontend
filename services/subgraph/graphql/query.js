@@ -8,7 +8,7 @@ query GetAllIssues {
     bountyMintTime
     bountyClosedTime
     status
-    deposits {
+		deposits {
       id
       tokenAddress
       value
@@ -19,6 +19,10 @@ query GetAllIssues {
     }
     issuer {
       id
+    }
+    bountyTokenBalances {
+      volume
+      tokenAddress
     }
   }
 }
@@ -32,7 +36,7 @@ query GetBounty($id: ID!) {
     bountyMintTime
     bountyClosedTime
     status
-    deposits {
+		deposits {
       id
       tokenAddress
       value
@@ -41,6 +45,10 @@ query GetBounty($id: ID!) {
       }
       receiveTime
     }
+		bountyTokenBalances {
+		  tokenAddress
+      volume
+		}
     issuer {
       id
     }
@@ -52,9 +60,35 @@ export const GET_USER = gql`
 query GetUser($id: ID!) {
   user(id: $id, subgraphError: allow) {
     id
-    totalFundedTokenBalance {
+    bountiesCreated {
       id
-      totalValue
+      bountyId
+    }
+    bountiesClosed {
+      id
+    }
+    deposits {
+      id
+      tokenAddress
+      value
+      bounty {
+        id
+				bountyId
+      }
+    }
+    fundedTokenBalances {
+      id
+      volume
+      tokenAddress
+    }
+    payouts {
+      id
+      tokenAddress
+      value
+      payoutTime
+      organization {
+        id
+      }
     }
   }
 }
@@ -65,11 +99,33 @@ query GetOrganization($id: ID!) {
   organization(id: $id, subgraphError: allow) {
     bountiesCreated {
       id
+      bountyId
+      issuer {
+        id
+      }
+      bountyMintTime
+      bountyClosedTime
+      status
+			bountyAddress
+      bountyTokenBalances {
+        id
+        tokenAddress
+        volume
+      }
+    }
+    fundedTokenBalances {
+      id
+      tokenAddress
+      volume
     }
     deposits {
       id
       tokenAddress
       value
+      bounty {
+        id
+        bountyId
+      }
       sender {
         id
       }
@@ -77,7 +133,78 @@ query GetOrganization($id: ID!) {
     payouts {
       id
       tokenAddress
+      payoutTime
+      payoutAddress {
+        id
+      }
       value
+    }
+		payoutTokenBalances {
+		  id
+      volume
+      tokenAddress
+		}
+  }
+}
+`;
+
+export const GET_ORGANIZATIONS = gql`
+query GetOrganizations {
+  organizations {
+    id
+		fundedTokenBalances {
+      id
+      tokenAddress
+      volume
+    }
+    deposits {
+      id
+      tokenAddress
+      value
+      bounty {
+        id
+        bountyId
+      }
+      sender {
+        id
+      }
+    }
+    payouts {
+      id
+      tokenAddress
+      payoutTime
+      payoutAddress {
+        id
+      }
+      value
+    }
+		payoutTokenBalances {
+		  id
+      volume
+      tokenAddress
+		}
+    bountiesCreated {
+			bountyAddress
+			bountyId
+			bountyMintTime
+			bountyClosedTime
+			status
+			deposits {
+				id
+				tokenAddress
+				value
+				sender {
+					id
+				}
+				receiveTime
+			}
+			issuer {
+				id
+			}
+			bountyTokenBalances {
+				volume
+				tokenAddress
+			}
     }
   }
 }
@@ -105,25 +232,4 @@ subscription SubscribeToBounty($bountyId: String!) {
 		}   
 	}
 }
-`;
-
-export const GET_ISSUE = gql`
-  query GetIssue($orgName: String!, $repoName: String!, $issueId: Int!) {
-    organization(login: $orgName) {
-      name
-      repository(name: $repoName) {
-        name
-        issue(number: $issueId) {
-          closed
-					id
-          author {
-            login
-          }
-          createdAt
-          title
-          body
-        }
-      }
-    }
-  }
 `;

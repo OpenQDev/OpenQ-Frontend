@@ -41,12 +41,12 @@ class GithubRepository {
 
 	parseIssueData(rawIssueResponse) {
 		const responseData = rawIssueResponse.data.node;
-		const { title, body, url, createdAt, closed, id } = responseData;
+		const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = responseData;
 		const repoName = responseData.repository.name;
 		const avatarUrl = responseData.repository.owner.avatarUrl;
 		const owner = responseData.repository.owner.login;
 		const labels = responseData.labels.edges.map(edge => edge.node);
-		return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed };
+		return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML };
 	}
 
 	async fetchIssueById(issueId) {

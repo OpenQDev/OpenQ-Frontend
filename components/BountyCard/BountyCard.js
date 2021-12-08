@@ -1,10 +1,10 @@
 // Third Party
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import Image from 'next/image';
-import axios from 'axios';
 import Link from 'next/link';
+import useGetTokenValues from '../../hooks/useGetTokenValues';
+
 // Custom
-import BountyCardDetailsModal from './BountyCardDetailsModal';
 import StoreContext from '../../store/Store/StoreContext';
 
 const BountyCard = (props) => {
@@ -13,54 +13,20 @@ const BountyCard = (props) => {
 	} = props;
 
 	// State
-	const [showModal, setShowModal] = useState(false);
-	const [tokenValueMap, setTokenValueMap] = useState({});
-	const [tokenVolumes, setTokenVolumes] = useState({});
 	const bountyName = bounty.title.toLowerCase();
 	const [appState] = useContext(StoreContext);
 
 	// Hooks
-	useEffect(async () => {
-		let tokenVolumes = {};
-
-		bounty.deposits.map((deposit) => {
-			// REAL
-			// tokenVolumes[deposit.tokenAddress.toLowerCase()] = deposit.value;
-
-			// MOCK
-			tokenVolumes['0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39'] = deposit.value;
-			tokenVolumes['0x8f3cf7ad23cd3cadbd9735aff958023239c6a063'] = deposit.value;
-		});
-
-		setTokenVolumes(tokenVolumes);
-
-		const data = { tokenVolumes };
-		const url = appState.coinApiBaseUrl + '/tvl';
-
-		//only query tvl for bounties that have deposits
-		if (JSON.stringify(data.tokenVolumes) != '{}') {
-			await axios
-				.post(url, data)
-				.then((result) => {
-					setTokenValueMap(result.data);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		} else {
-			setTokenValueMap({});
-		}
-	}, []);
+	const [tokenValues] = useGetTokenValues(bounty);
 
 	// Render
 	return (
 		<div>
-			<Link href={`/?address=${bounty.bountyAddress}`} as={`/bounty/${bounty.bountyAddress}`}>
+			<Link href={`/bounty/${bounty.bountyAddress}`}>
 				<div
 					className={
 						'flex flex-col p-6 font-mont rounded-xl shadow-sm bg-white cursor-pointer pr-10 pl-10'
 					}
-					onClick={() => setShowModal(true)}
 				>
 					<div className="flex flex-row justify-between">
 						<div>
@@ -140,17 +106,11 @@ const BountyCard = (props) => {
 								/>
 							</div>
 							<div className="font-semibold">TVL</div>
-							<div>{tokenValueMap.total ? appState.utils.formatter.format(tokenValueMap.total) : 0.00}</div>
+							<div>{tokenValues ? appState.utils.formatter.format(tokenValues.total) : 0.00}</div>
 						</div>
 					</div>
 				</div>
 			</Link>
-			{showModal && <BountyCardDetailsModal
-				bounty={bounty}
-				tokenValueMap={tokenValueMap}
-				tokenVolumes={tokenVolumes}
-				modalVisibility={setShowModal}
-			/>}
 		</div>
 	);
 };
