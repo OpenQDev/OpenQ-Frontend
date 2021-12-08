@@ -56,7 +56,7 @@ const address = () => {
 								tokenValues={tokenValues}
 							/>) : null}
 						</div>
-						<FundBountyButton address={address} />
+						<FundBountyButton bountyAddress={address} />
 						<RefundBounty address={address} issueUrl={bounty.url} />
 					</div>
 				</div>

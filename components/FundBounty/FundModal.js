@@ -3,13 +3,22 @@ import React, { useState, useContext } from 'react';
 import TokenFundBox from './SearchTokens/TokenFundBox';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
+import { ethers } from 'ethers';
 
 const FundModal = (props) => {
-	const { setShowModal } = props;
-	const { address } = useWeb3();
+	const { setShowModal, bountyAddress } = props;
+	const { account } = useWeb3();
 
-	const [token, setToken] = useState(false);
-	const [volume, setVolume] = useState(0);
+	const [token, setToken] = useState({
+		'name': 'Mock Link',
+		'address': '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+		'symbol': 'mLink',
+		'decimals': 18,
+		'chainId': 80001,
+		'logoURI': 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x514910771AF9Ca656af840dff83E8264EcF986CA/logo.png'
+	});
+
+	const [volume, setVolume] = useState('');
 
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -20,10 +29,13 @@ const FundModal = (props) => {
 	// Methods
 
 	async function fundBounty() {
-		const appriveTxnReceipt = appState.openQClient.approve(library, address, token.address, volume);
-		console.log(appriveTxnReceipt);
+		const volumeInWei = volume * (10 ** token.decimals);
+		const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
 
-		const fundTxnReceipt = await appState.openQClient.fundBounty(library, address, token.address, volume);
+		const approveTxnReceipt = await appState.openQClient.approve(library, bountyAddress, token.address, bigNumberVolumeInWei);
+		console.log(approveTxnReceipt);
+
+		const fundTxnReceipt = await appState.openQClient.fundBounty(library, bountyAddress, token.address, bigNumberVolumeInWei);
 		console.log(fundTxnReceipt);
 	}
 

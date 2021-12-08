@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import TokenSearch from './TokenSearch';
+import Image from 'next/image';
 
 const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume }) => {
 	const [showTokenSearch, setShowTokenSearch] = useState(false);
 
 	return (
 		<div className="flex flex-row space-x-3 font-medium text-base text-gray-600 ">
+			<Image
+				src={token.logoURI}
+				alt="n/a"
+				width="16"
+				height="16"
+			/>
 			<button className="flex flex-row space-x-1 bg-pink-600 text-white rounded-lg p-2 pr-2" onClick={() => setShowTokenSearch(true)}>
 				<div className="pl-2 pt-">{token.symbol}</div>
 				<div>
