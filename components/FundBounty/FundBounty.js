@@ -39,12 +39,12 @@ const FundBounty = (props) => {
 			<button
 				className="flex flex-row space-x-1 bg-pink-600 text-white rounded-lg p-2 pr-2"
 				onClick={() => approve()}
-			>Approve with Mock Token</button>
+			>Approve with Mock Link</button>
 			<br />
 			<button
 				className="flex flex-row space-x-1 bg-pink-600 text-white rounded-lg p-2 pr-2"
 				onClick={() => fundBounty()}
-			>Fund with Mock Token</button>
+			>Fund with Mock Link</button>
 		</div>
 	);
 };

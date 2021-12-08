@@ -54,7 +54,6 @@ class OpenQSubgraphClient {
 					query: GET_USER,
 					variables: { id }
 				});
-				console.log(result.data);
 				resolve(result.data.user);
 			} catch (e) {
 				reject(e);
@@ -86,7 +85,6 @@ class OpenQSubgraphClient {
 					query: GET_ORGANIZATION,
 					variables: { id }
 				});
-				console.log(result.data);
 				resolve(result.data.organization);
 			} catch (e) {
 				reject(e);

@@ -21,7 +21,6 @@ const account = () => {
 	// Methods
 	async function populateUserData() {
 		const user = await appState.openQSubgraphClient.getUser(account.toLowerCase());
-		console.log(user);
 		setUser(user);
 		setIsLoading(false);
 	}
@@ -42,22 +41,23 @@ const account = () => {
 				<h1 className='font-bold uppercase'>{account}</h1>
 				<h1 className='font-bold uppercase'>Total Contributions</h1>
 				{user.fundedTokenBalances.map(tokenBalance => {
+					const tokenAddress = ethers.utils.getAddress(tokenBalance.tokenAddress);
 					return (
-						<>
-							<div>Contract Address: {tokenBalance.tokenAddress}</div>
+						<div key={tokenAddress}>
+							<div>Contract Address: {tokenAddress}</div>
 							<div>Value: {ethers.utils.formatEther(tokenBalance.volume)}</div>
-							<div>Name: {tokenMetadata[tokenBalance.tokenAddress].name}</div>
-							<div>Symbol: {tokenMetadata[tokenBalance.tokenAddress].symbol}</div>
-						</>
+							<div>Name: {tokenMetadata[tokenAddress].name}</div>
+							<div>Symbol: {tokenMetadata[tokenAddress].symbol}</div>
+						</div>
 					);
 				})}
 				<h1 className='font-bold uppercase'>Bounties Completed</h1>
 				{user.bountiesClosed.length != 0 ? (
 					user.bountiesClosed.map(bounty => {
 						return (
-							<>
-								<div>BountyId: {bounty.id}</div>
-							</>
+							<div key={bounty.id}>
+								<div>Bounty Address: {bounty.id}</div>
+							</div>
 						);
 					})
 				) : 'No Bounties Completed'}
@@ -65,9 +65,9 @@ const account = () => {
 				{user.bountiesCreated.length != 0 ? (
 					user.bountiesCreated.map(bounty => {
 						return (
-							<>
-								<div>BountyId: {bounty.id}</div>
-							</>
+							<div key={bounty.id}>
+								<div>Bounty Address: {bounty.id}</div>
+							</div>
 						);
 					})
 				) : 'No Bounties Created'}
@@ -80,7 +80,7 @@ const account = () => {
 								className={
 									'flex flex-col p-6 font-mont rounded-xl shadow-sm bg-white cursor-pointer pr-10 pl-10'
 								}
-								key={deposit.bounty.bountyId}
+								key={deposit.id}
 							>
 								<div>Bounty Address: {deposit.bounty.id}</div>
 								<div>Bounty Id: {deposit.bounty.bountyId}</div>

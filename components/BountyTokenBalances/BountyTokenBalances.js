@@ -2,12 +2,13 @@
 import React, { useContext } from 'react';
 import Image from 'next/image';
 import StoreContext from '../../store/Store/StoreContext';
-const contractMap = require('../../constants/contract-map.json');
 const ethers = require('ethers');
 
 const BountyTokenBalances = (props) => {
 	const { bounty, tokenValues } = props;
 	const [appState,] = useContext(StoreContext);
+
+	const { tokenMetadata } = appState;
 
 	return (
 		<div className="flex flex-col pt-4 pb-6">
@@ -20,10 +21,12 @@ const BountyTokenBalances = (props) => {
 			<div className="flex flex-row space-x-2 pt-1">
 				<div>
 					{bounty.bountyTokenBalances.map((tokenBalance) => {
-						const { tokenAddress, volume } = tokenBalance;
-						let symbol = contractMap[tokenAddress]['symbol'];
-						// let name = contractMap[tokenAddress]['name'];
-						let usdValue = appState.utils.formatter.format(tokenValues.tokens[tokenAddress]);
+						const tokenAddress = ethers.utils.getAddress(tokenBalance.tokenAddress);
+						const tokenValueAddress = tokenMetadata[tokenAddress].address;
+
+						const { volume } = tokenBalance;
+						let symbol = tokenMetadata[tokenAddress].symbol;
+						let usdValue = appState.utils.formatter.format(tokenValues.tokens[tokenValueAddress]);
 
 						return (
 							<div
@@ -34,7 +37,7 @@ const BountyTokenBalances = (props) => {
 								<div className="text-lg">({ethers.utils.formatEther(volume)} {symbol.toUpperCase()})</div>{' '}
 								<div className="pt-1">
 									<Image
-										src={`/cryptocurrency-icons/32/color/${symbol.toLowerCase()}.png`}
+										src={tokenMetadata[tokenAddress].logoURI}
 										alt="n/a"
 										width="16"
 										height="16"

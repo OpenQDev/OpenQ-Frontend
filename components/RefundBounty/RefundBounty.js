@@ -25,7 +25,6 @@ const RefundBounty = (props) => {
 	useEffect(() => {
 		if (issueUrl) {
 			setConfirmationMessage(`You are about to refund your deposits on issue ${issueUrl} to the address ${account}. Is this correct ?`);
-			console.log(confirmationMessage);
 		}
 	}, [issueUrl]);
 
@@ -34,14 +33,12 @@ const RefundBounty = (props) => {
 		setIsLoading(true);
 		appState.openQClient.refundBounty(library, address)
 			.then(txnReceipt => {
-				console.log(txnReceipt);
 				setTransactionHash(txnReceipt.transactionHash);
 				setSuccessMessage('Money refunded!');
 				setShowSuccessModal(true);
 				setIsLoading(false);
 			})
 			.catch(error => {
-				console.log(error);
 				setTransactionHash(JSON.stringify(error));
 				setErrorMessage(JSON.stringify(error));
 				setIsLoading(false);
