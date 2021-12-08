@@ -6,7 +6,7 @@ import StoreContext from '../../store/Store/StoreContext';
 
 const FundModal = (props) => {
 	const { setShowModal } = props;
-	const { address } = props;
+	const { address } = useWeb3();
 
 	const [token, setToken] = useState(false);
 	const [volume, setVolume] = useState(0);
@@ -18,14 +18,13 @@ const FundModal = (props) => {
 	// State
 
 	// Methods
-	async function approve() {
-		const txnReceipt = appState.openQClient.approve(library, address, '0x5FbDB2315678afecb367f032d93F642f64180aa3', value);
-		console.log(txnReceipt);
-	}
 
 	async function fundBounty() {
-		const txnReceipt = await appState.openQClient.fundBounty(library, address, '0x5FbDB2315678afecb367f032d93F642f64180aa3', value);
-		console.log(txnReceipt);
+		const appriveTxnReceipt = appState.openQClient.approve(library, address, token.address, volume);
+		console.log(appriveTxnReceipt);
+
+		const fundTxnReceipt = await appState.openQClient.fundBounty(library, address, token.address, volume);
+		console.log(fundTxnReceipt);
 	}
 
 	const updateModal = () => {
