@@ -16,10 +16,10 @@ const RefundBounty = (props) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [successMessage, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
+	const [confirmationMessage, setConfirmationMessage] = useState('');
 
 	// Context
 	const [appState] = useContext(StoreContext);
-	const [confirmationMessage, setConfirmationMessage] = useState('');
 	const { library, account } = useWeb3();
 
 	useEffect(() => {

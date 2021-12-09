@@ -4,11 +4,12 @@ import TokenFundBox from './SearchTokens/TokenFundBox';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
+import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModals';
+import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
+import LoadingIcon from '../LoadingIcon';
 
-const FundModal = (props) => {
-	const { setShowModal, bountyAddress } = props;
-	const { account } = useWeb3();
-
+const FundModal = ({ setShowModal, bountyAddress }) => {
+	// State
 	const [token, setToken] = useState({
 		'name': 'Mock Link',
 		'address': '0x5FbDB2315678afecb367f032d93F642f64180aa3',
@@ -17,26 +18,49 @@ const FundModal = (props) => {
 		'chainId': 80001,
 		'logoURI': 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x514910771AF9Ca656af840dff83E8264EcF986CA/logo.png'
 	});
-
 	const [volume, setVolume] = useState('');
+	const { showErrorModal, setShowErrorModal, showSuccessModal, setShowSuccessModal, showConfirmationModal, setShowConfirmationModal } = useConfirmErrorSuccessModals();
+	const [errorMessage, setErrorMessage] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
+	const [successMessage, setSuccessMessage] = useState('');
+	const [transactionHash, setTransactionHash] = useState(null);
+	const [confirmationMessage, setConfirmationMessage] = useState('');
 
 	// Context
 	const [appState] = useContext(StoreContext);
 	const { library } = useWeb3();
 
-	// State
-
 	// Methods
-
 	async function fundBounty() {
+		setIsLoading(true);
 		const volumeInWei = volume * (10 ** token.decimals);
 		const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
 
-		const approveTxnReceipt = await appState.openQClient.approve(library, bountyAddress, token.address, bigNumberVolumeInWei);
-		console.log(approveTxnReceipt);
+		let approveSucceeded = false;
+		try {
+			await appState.openQClient.approve(library, bountyAddress, token.address, bigNumberVolumeInWei);
+			approveSucceeded = true;
+		} catch (error) {
+			setTransactionHash(JSON.stringify(error));
+			setErrorMessage(JSON.stringify(error));
+			setIsLoading(false);
+			setShowErrorModal(true);
+		}
 
-		const fundTxnReceipt = await appState.openQClient.fundBounty(library, bountyAddress, token.address, bigNumberVolumeInWei);
-		console.log(fundTxnReceipt);
+		if (approveSucceeded) {
+			try {
+				const fundTxnReceipt = await appState.openQClient.fundBounty(library, bountyAddress, token.address, bigNumberVolumeInWei);
+				setTransactionHash(fundTxnReceipt.transactionHash);
+				setSuccessMessage('Money funded!');
+				setShowSuccessModal(true);
+				setIsLoading(false);
+			} catch (error) {
+				setTransactionHash(JSON.stringify(error));
+				setErrorMessage(JSON.stringify(error));
+				setIsLoading(false);
+				setShowErrorModal(true);
+			}
+		}
 	}
 
 	const updateModal = () => {
@@ -46,13 +70,16 @@ const FundModal = (props) => {
 	function onCurrencySelect(token) {
 		console.log(token);
 		setToken(token);
+		setConfirmationMessage(`You are about to fund this bounty at address ${bountyAddress} with ${volume} ${token.name}. Is this correct?`);
 	}
 
 	function onVolumeChange(volume) {
 		console.log(volume);
 		setVolume(volume);
+		setConfirmationMessage(`You are about to fund this bounty at address ${bountyAddress} with ${volume} ${token.name}. Is this correct?`);
 	}
 
+	// Render
 	return (
 		<div>
 			<div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -68,7 +95,7 @@ const FundModal = (props) => {
 							<button
 								className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
 								type="button"
-								onClick={() => fundBounty()}
+								onClick={() => setShowConfirmationModal(true)}
 							>
 								Fund
 							</button>
@@ -86,6 +113,24 @@ const FundModal = (props) => {
 				</div>
 			</div>
 			<div className="opacity-25 fixed inset-0 bg-black"></div>
+			{isLoading && <LoadingIcon />}
+			<ConfirmErrorSuccessModalsTrio
+				setShowErrorModal={setShowErrorModal}
+				showErrorModal={showErrorModal}
+				errorMessage={errorMessage}
+
+				setShowConfirmationModal={setShowConfirmationModal}
+				showConfirmationModal={showConfirmationModal}
+				confirmationTitle={'Fund Bounty'}
+				confirmationMessage={confirmationMessage}
+				positiveOption={'Yes, Refund!'}
+				confirmMethod={fundBounty}
+
+				showSuccessModal={showSuccessModal}
+				setShowSuccessModal={setShowSuccessModal}
+				successMessage={successMessage}
+				transactionHash={transactionHash}
+			/>
 		</div>
 	);
 };

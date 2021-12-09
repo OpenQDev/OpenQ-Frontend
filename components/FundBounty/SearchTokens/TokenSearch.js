@@ -13,7 +13,7 @@ const TokenSearch = ({ setShowTokenSearch, onCurrencySelect }) => {
 							<h3 className="text-3xl font-semibold">Select Token</h3>
 						</div>
 						<div className=" p-6 flex-auto">
-							<TokenList onCurrencySelect={onCurrencySelect} />
+							<TokenList onCurrencySelect={onCurrencySelect} setShowTokenSearch={setShowTokenSearch} />
 						</div>
 						<div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
 							<button
