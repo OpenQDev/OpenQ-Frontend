@@ -72,21 +72,21 @@ const organization = () => {
 				{organizationData.fundedTokenBalances.map(tokenBalance => {
 					const tokenAddress = ethers.utils.getAddress(tokenBalance.tokenAddress);
 					return (
-						<>
+						<div key={tokenBalance.id}>
 							<div>Contract Address: {tokenAddress}</div>
 							<div>Value: {ethers.utils.formatEther(tokenBalance.volume)}</div>
 							<div>Name: {tokenMetadata[tokenAddress].name}</div>
 							<div>Symbol: {tokenMetadata[tokenAddress].symbol}</div>
-						</>
+						</div>
 					);
 				})}
 				<h1 className='font-bold uppercase'>Bounties Created</h1>
 				{organizationData.bountiesCreated.length != 0 ? (
 					organizationData.bountiesCreated.map(bounty => {
 						return (
-							<>
+							<div key={bounty.bountyId}>
 								<div>BountyId: {bounty.id}</div>
-							</>
+							</div>
 						);
 					})
 				) : 'No Bounties Created'}
@@ -95,14 +95,14 @@ const organization = () => {
 					organizationData.deposits.map(deposit => {
 						const tokenAddress = ethers.utils.getAddress(deposit.tokenAddress);
 						return (
-							<>
+							<div key={deposit.id}>
 								<div>Bounty Address: {deposit.bounty.id}</div>
 								<div>Bounty Id: {deposit.bounty.bountyId}</div>
 								<div>Contract Address: {tokenAddress}</div>
 								<div>Value: {ethers.utils.formatEther(deposit.value)}</div>
 								<div>Name: {tokenMetadata[tokenAddress].name}</div>
 								<div>Symbol: {tokenMetadata[tokenAddress].symbol}</div>
-							</>
+							</div>
 						);
 					})
 				) : 'No Deposits on any Issues'}
