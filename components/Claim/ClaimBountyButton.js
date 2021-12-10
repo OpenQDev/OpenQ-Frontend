@@ -1,6 +1,7 @@
 // Third Party
 import React, { useState, useContext, useEffect } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
+import axios from 'axios';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
@@ -8,9 +9,7 @@ import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmE
 import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModals';
 import LoadingIcon from '../LoadingIcon';
 
-const RefundBountyButton = (props) => {
-	const { address, issueUrl } = props;
-
+const ClaimBountyButton = ({ issueUrl }) => {
 	const { showErrorModal, setShowErrorModal, showSuccessModal, setShowSuccessModal, showConfirmationModal, setShowConfirmationModal } = useConfirmErrorSuccessModals();
 	const [errorMessage, setErrorMessage] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
@@ -20,35 +19,43 @@ const RefundBountyButton = (props) => {
 
 	// Context
 	const [appState] = useContext(StoreContext);
-	const { library, account } = useWeb3();
+	const { account } = useWeb3();
 
 	useEffect(() => {
 		if (issueUrl) {
-			setConfirmationMessage(`You are about to refund your deposits on issue ${issueUrl} to the address ${account}. Is this correct ?`);
+			setConfirmationMessage(`You are about to claim the bounty on issue ${issueUrl} to the address ${account}. Is this correct ?`);
 		}
 	}, [issueUrl]);
 
 	// Methods
-	async function refundBounty() {
+	const claimBounty = async () => {
 		setIsLoading(true);
-		appState.openQClient.refundBounty(library, address)
-			.then(txnReceipt => {
-				setTransactionHash(txnReceipt.transactionHash);
-				setSuccessMessage('Money refunded!');
+		axios
+			.post(
+				`${appState.oracleBaseUrl}/claim`,
+				{
+					issueUrl,
+					payoutAddress: account,
+				},
+				{ withCredentials: true }
+			)
+			.then((result) => {
+				const { payoutAddress, transactionHash, issueUrl } = result.data;
+				setIsLoading(false);
+				setTransactionHash(transactionHash);
+				setSuccessMessage(
+					`Successfully transferred assets on issue at ${issueUrl} to ${payoutAddress}!`
+				);
 				setShowSuccessModal(true);
-				setIsLoading(false);
 			})
-			.catch(error => {
-				setTransactionHash(JSON.stringify(error));
-				if (error?.data?.message?.includes('Only funders of this bounty can reclaim funds after 30 days')) {
-					setErrorMessage(`Only funders can request refunds on this issue. Your address ${account} has not funded this issue.`);
-				} else {
-					setErrorMessage(error?.message);
-				}
+			.catch((error) => {
 				setIsLoading(false);
+				console.log(error.response);
+				console.log(error.response.data.message);
+				setErrorMessage(error.response.data.message);
 				setShowErrorModal(true);
 			});
-	}
+	};
 
 	// Render
 	return (
@@ -57,7 +64,7 @@ const RefundBountyButton = (props) => {
 				<button
 					className="flex flex-row space-x-1 bg-pink-600 text-white rounded-lg p-2 pr-2"
 					onClick={() => setShowConfirmationModal(true)}
-				>Refund</button>
+				>Claim</button>
 				{isLoading && <LoadingIcon />}
 				<ConfirmErrorSuccessModalsTrio
 					setShowErrorModal={setShowErrorModal}
@@ -66,10 +73,10 @@ const RefundBountyButton = (props) => {
 
 					setShowConfirmationModal={setShowConfirmationModal}
 					showConfirmationModal={showConfirmationModal}
-					confirmationTitle={'Refund Deposits'}
+					confirmationTitle={'Claim Bounty'}
 					confirmationMessage={confirmationMessage}
-					positiveOption={'Yes, Refund!'}
-					confirmMethod={refundBounty}
+					positiveOption={'Yes, Claim!'}
+					confirmMethod={claimBounty}
 
 					showSuccessModal={showSuccessModal}
 					setShowSuccessModal={setShowSuccessModal}
@@ -81,4 +88,4 @@ const RefundBountyButton = (props) => {
 	);
 };
 
-export default RefundBountyButton;
+export default ClaimBountyButton;

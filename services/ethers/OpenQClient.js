@@ -33,13 +33,10 @@ class OpenQClient {
 		try {
 			const txnResponse = await contract.mintBounty(issueId, organization);
 			const txnReceipt = await txnResponse.wait();
-			console.log("mintBounty txnReceipt", txnReceipt);
-			console.log("mintBounty events", txnReceipt?.events);
 
 			const bountyId = txnReceipt.events[1].args.bountyId;
 			const issuerAddress = txnReceipt.events[1].args.issuerAddress;
 			const bountyAddress = txnReceipt.events[1].args.bountyAddress;
-			console.log("mintBounty", { bountyId, issuerAddress, bountyAddress });
 			return { bountyId, issuerAddress, bountyAddress };
 		} catch (err) {
 			throw (err);
@@ -53,9 +50,7 @@ class OpenQClient {
 		try {
 			const txnResponse = await contract.approve(_bountyAddress, _value);
 			const txnReceipt = await txnResponse.wait();
-
-			// wait for confirmation
-			return 'success';
+			return txnReceipt;
 		} catch (err) {
 			throw (err);
 		}
@@ -68,9 +63,7 @@ class OpenQClient {
 		try {
 			const txnResponse = await contract.fundBounty(_bountyAddress, _tokenAddress, _value);
 			const txnReceipt = await txnResponse.wait();
-
-			// wait for confirmation
-			return 'success';
+			return txnReceipt;
 		} catch (err) {
 			throw (err);
 		}

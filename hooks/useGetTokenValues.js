@@ -18,7 +18,6 @@ const useGetTokenValues = (bounty) => {
 
 			const data = { tokenVolumes };
 			const url = appState.coinApiBaseUrl + '/tvl';
-
 			//only query tvl for bounties that have deposits
 			if (JSON.stringify(data.tokenVolumes) != '{}') {
 				await axios
@@ -30,7 +29,7 @@ const useGetTokenValues = (bounty) => {
 						console.log(error);
 					});
 			} else {
-				setTokenValues({});
+				setTokenValues(null);
 			}
 		}
 	}, [bounty]);

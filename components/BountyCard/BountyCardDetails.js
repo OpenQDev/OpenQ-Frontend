@@ -10,9 +10,7 @@ import BountyStatus from './BountyStatus';
 import CopyBountyAddress from './CopyBountyAddress';
 import LabelsList from './LabelsList';
 
-const BountyCardDetails = (props) => {
-	const { bounty, tokenValues } = props;
-
+const BountyCardDetails = ({ bounty, tokenValues }) => {
 	return (
 		<div className="flex flex-col font-mont pl-16 pr-16 pt-10 pb-10">
 			<div className="flex flex-col border-b border-solid rounded-t">

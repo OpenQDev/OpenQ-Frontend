@@ -106,7 +106,7 @@ const BountyCard = (props) => {
 								/>
 							</div>
 							<div className="font-semibold">TVL</div>
-							<div>{tokenValues ? appState.utils.formatter.format(tokenValues.total) : 0.00}</div>
+							<div>{tokenValues != null && tokenValues != {} ? appState.utils.formatter.format(tokenValues.total) : appState.utils.formatter.format(0)}</div>
 						</div>
 					</div>
 				</div>

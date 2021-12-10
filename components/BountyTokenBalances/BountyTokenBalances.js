@@ -4,8 +4,7 @@ import Image from 'next/image';
 import StoreContext from '../../store/Store/StoreContext';
 const ethers = require('ethers');
 
-const BountyTokenBalances = (props) => {
-	const { bounty, tokenValues } = props;
+const BountyTokenBalances = ({ bounty, tokenValues }) => {
 	const [appState,] = useContext(StoreContext);
 
 	const { tokenMetadata } = appState;
@@ -16,11 +15,11 @@ const BountyTokenBalances = (props) => {
 				Total Value Locked (TVL)
 			</div>
 			<div className="font-bold text-xl">
-				{bounty.deposits.length == 0 ? '0.00' : `${appState.utils.formatter.format(tokenValues.total)}`}
+				{tokenValues ? `${appState.utils.formatter.format(tokenValues.total)}` : `${appState.utils.formatter.format(0)}`}
 			</div>
 			<div className="flex flex-row space-x-2 pt-1">
 				<div>
-					{bounty.bountyTokenBalances.map((tokenBalance) => {
+					{tokenValues ? bounty.bountyTokenBalances.map((tokenBalance) => {
 						const tokenAddress = ethers.utils.getAddress(tokenBalance.tokenAddress);
 						const tokenValueAddress = tokenMetadata[tokenAddress].address;
 
@@ -45,7 +44,7 @@ const BountyTokenBalances = (props) => {
 								</div>
 							</div>
 						);
-					})}
+					}) : null}
 				</div>
 			</div>
 		</div>

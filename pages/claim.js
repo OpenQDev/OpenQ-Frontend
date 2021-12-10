@@ -112,7 +112,7 @@ function Claim() {
 								</div>
 							</div>
 
-							<AuthButton />
+							<AuthButton redirectUrl={`${appState.baseUrl}/claim`} />
 							{isLoading && <LoadingIcon />}
 						</div>
 					</div>

@@ -3,8 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useRef } from 'react';
 
-const BountyMintedNotification = (props) => {
-	const { bountyAddress, issueUrl, notifyModalVisibility, notificationRef } = props;
+const BountyMintedNotification = ({ bountyAddress, issueUrl, notifyModalVisibility, notificationRef }) => {
 
 	let notifyRef = useRef();
 	notificationRef(notifyRef);
