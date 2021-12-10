@@ -40,7 +40,11 @@ const RefundBountyButton = (props) => {
 			})
 			.catch(error => {
 				setTransactionHash(JSON.stringify(error));
-				setErrorMessage(JSON.stringify(error));
+				if (error?.data?.message?.includes('Only funders of this bounty can reclaim funds after 30 days')) {
+					setErrorMessage(`Only funders can request refunds on this issue. Your address ${account} has not funded this issue.`);
+				} else {
+					setErrorMessage(error?.message);
+				}
 				setIsLoading(false);
 				setShowErrorModal(true);
 			});

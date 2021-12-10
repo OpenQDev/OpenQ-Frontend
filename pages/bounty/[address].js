@@ -36,6 +36,7 @@ const address = () => {
 		setIsLoading(true);
 		const bounty = await appState.openQSubgraphClient.getBounty(address);
 
+
 		const issueData = await appState.githubRepository.fetchIssueById(bounty.bountyId);
 
 		const mergedBounty = { ...bounty, ...issueData };
@@ -63,10 +64,10 @@ const address = () => {
 				<div className="flex font-mont pt-7 justify-center items-center">
 					<div className="">
 						<div className="flex flex-col">
-							{tokenValues ? (<BountyCardDetails
+							<BountyCardDetails
 								bounty={bounty}
 								tokenValues={tokenValues}
-							/>) : null}
+							/>
 						</div>
 						<FundBountyButton bountyAddress={address} />
 						<RefundBountyButton address={address} issueUrl={bounty.url} />
