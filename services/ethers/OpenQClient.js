@@ -50,9 +50,7 @@ class OpenQClient {
 		try {
 			const txnResponse = await contract.approve(_bountyAddress, _value);
 			const txnReceipt = await txnResponse.wait();
-
-			// wait for confirmation
-			return 'success';
+			return txnReceipt;
 		} catch (err) {
 			throw (err);
 		}
@@ -65,9 +63,7 @@ class OpenQClient {
 		try {
 			const txnResponse = await contract.fundBounty(_bountyAddress, _tokenAddress, _value);
 			const txnReceipt = await txnResponse.wait();
-
-			// wait for confirmation
-			return 'success';
+			return txnReceipt;
 		} catch (err) {
 			throw (err);
 		}
