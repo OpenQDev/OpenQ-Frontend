@@ -8,7 +8,7 @@ import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModa
 import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 import LoadingIcon from '../LoadingIcon';
 
-const FundModal = ({ setShowModal, bountyAddress }) => {
+const FundModal = ({ setShowModal, bounty }) => {
 	// State
 	const [token, setToken] = useState({
 		'name': 'Mock Link',
@@ -38,7 +38,7 @@ const FundModal = ({ setShowModal, bountyAddress }) => {
 
 		let approveSucceeded = false;
 		try {
-			await appState.openQClient.approve(library, bountyAddress, token.address, bigNumberVolumeInWei);
+			await appState.openQClient.approve(library, bounty.bountyAddress, token.address, bigNumberVolumeInWei);
 			approveSucceeded = true;
 		} catch (error) {
 			setTransactionHash(JSON.stringify(error));
@@ -48,10 +48,11 @@ const FundModal = ({ setShowModal, bountyAddress }) => {
 		}
 
 		if (approveSucceeded) {
+			console.log(bounty);
 			try {
-				const fundTxnReceipt = await appState.openQClient.fundBounty(library, bountyAddress, token.address, bigNumberVolumeInWei);
+				const fundTxnReceipt = await appState.openQClient.fundBounty(library, bounty.bountyAddress, token.address, bigNumberVolumeInWei);
 				setTransactionHash(fundTxnReceipt.transactionHash);
-				setSuccessMessage('Money funded!');
+				setSuccessMessage(`Successfully funded issue ${bounty.url} with ${volume} ${token.symbol}!`);
 				setShowSuccessModal(true);
 				setIsLoading(false);
 			} catch (error) {
@@ -69,12 +70,12 @@ const FundModal = ({ setShowModal, bountyAddress }) => {
 
 	function onCurrencySelect(token) {
 		setToken(token);
-		setConfirmationMessage(`You are about to fund this bounty at address ${bountyAddress} with ${volume} ${token.name}. Is this correct?`);
+		setConfirmationMessage(`You are about to fund this bounty at address ${bounty.bountyAddress} with ${volume} ${token.name}. Is this correct?`);
 	}
 
 	function onVolumeChange(volume) {
 		setVolume(volume);
-		setConfirmationMessage(`You are about to fund this bounty at address ${bountyAddress} with ${volume} ${token.name}. Is this correct?`);
+		setConfirmationMessage(`You are about to fund this bounty at address ${bounty.bountyAddress} with ${volume} ${token.name}. Is this correct?`);
 	}
 
 	// Render

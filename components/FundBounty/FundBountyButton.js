@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 // Custom
 import FundModal from './FundModal';
 
-const FundBountyButton = ({ bountyAddress }) => {
+const FundBountyButton = ({ bounty }) => {
 	const [showModal, setShowModal] = useState(false);
 
 	function showTokenSearch() {
@@ -19,7 +19,7 @@ const FundBountyButton = ({ bountyAddress }) => {
 				onClick={() => showTokenSearch()}
 			>Fund</button>
 			{showModal ? (
-				<FundModal setShowModal={setShowModal} bountyAddress={bountyAddress} />
+				<FundModal setShowModal={setShowModal} bounty={bounty} />
 			) : null}
 		</div>
 	);
