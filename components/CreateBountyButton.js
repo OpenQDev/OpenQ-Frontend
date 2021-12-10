@@ -12,7 +12,7 @@ const CreateBountyButton = () => {
 				onClick={() => setShowModal(true)}
 				className="font-mont rounded-lg bg-button-pink py-2 px-3 pr-5 pl-5 text-white font-bold cursor-pointer"
 			>
-				Create Bounty
+				Mint Bounty
 			</button>
 			<div>
 				{showModal && <CreateBountyModal modalVisibility={setShowModal} />}
