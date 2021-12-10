@@ -1,4 +1,3 @@
-// Third Party
 import React, { useState } from 'react';
 
 // Custom

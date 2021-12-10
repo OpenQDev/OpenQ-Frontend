@@ -7,6 +7,7 @@ import useWeb3 from '../hooks/useWeb3';
 import StoreContext from '../store/Store/StoreContext';
 import LoadingIcon from './tools/LoadingIcon';
 import BountyMintedNotification from './tools/notifications/BountyMintedNotification';
+import FundBountyButton from '../components/FundBounty/FundBountyButton';
 
 const CreateBountyModal = (props) => {
 	//props
@@ -18,7 +19,6 @@ const CreateBountyModal = (props) => {
 
 	// State
 	const [issueUrl, setIssueUrl] = useState('');
-	const [, setBountyAmount] = useState('');
 	const [orgName, setOrgName] = useState('');
 	const [repoName, setRepoName] = useState('');
 	const [issueNumber, setIssueNumber] = useState(0);
@@ -37,6 +37,7 @@ const CreateBountyModal = (props) => {
 	const [, setBountyExists] = useState(false);
 	const [transactionPending, setTransactionPending] = useState(false);
 	const [isBountyMinted, setIsBountyMinted] = useState(false);
+	const [bounty, setBounty] = useState(null);
 
 	let menuRef = useRef();
 	let notifyMenuRef;
@@ -190,7 +191,6 @@ const CreateBountyModal = (props) => {
 
 			setBountyAddress(bountyAddress);
 			setTransactionPending(false);
-			setIsBountyMinted(true);
 		} catch (e) {
 			setError(true);
 			setErrorMessage(e.message);
@@ -198,6 +198,24 @@ const CreateBountyModal = (props) => {
 			setDisableMint(false);
 		}
 	}
+
+	async function getBounty(bountyAddress) {
+		try {
+			console.log('bountyAddress', bountyAddress);
+			const bounty = await appState.openQSubgraphClient.getBounty(bountyAddress.toLowerCase());
+			console.log('bounty', bounty);
+			setBounty(bounty);
+			setIsBountyMinted(true);
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	useEffect(() => {
+		if (bountyAddress) {
+			getBounty(bountyAddress);
+		}
+	}, [bountyAddress]);
 
 	// Render
 	return (
@@ -320,39 +338,7 @@ const CreateBountyModal = (props) => {
 								</>
 							) : null}
 						</div>
-						<div className="pl-7 pr-7 pt-6">
-							<div className="flex flex-row items-center p-5 rounded-lg py-1 text-base bg-gray-100 shadow-inner text-white">
-								<div className="flex flex-row justify-between bg-gray-100 font-normal text-gray-600">
-									<input
-										className="bg-gray-100 box-content xl:w-80 lg:w-64 md:w-44 sm:w-32 w-18 border-gray-100 outline-none"
-										id="name"
-										placeholder="0"
-										autoComplete="off"
-										type="text"
-										onChange={(event) => {
-											setBountyAmount(event.target.value);
-										}}
-									/>
-									<button className="flex flex-row space-x-1 bg-pink-600 text-white rounded-lg p-2 pr-2">
-										<div className="pl-2 pt-">DAI</div>
-										<div>
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												className="h-5 w-5"
-												viewBox="0 0 20 20"
-												fill="currentColor"
-											>
-												<path
-													fillRule="evenodd"
-													d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-													clipRule="evenodd"
-												/>
-											</svg>
-										</div>
-									</button>
-								</div>
-							</div>
-						</div>
+						{bounty ? <FundBountyButton bounty={bounty} /> : null}
 						<div className="flex items-center justify-center p-5 rounded-b w-full">
 							{transactionPending ? (
 								<button
