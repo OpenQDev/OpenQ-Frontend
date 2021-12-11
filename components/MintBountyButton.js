@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 // Custom
 import CreateBountyModal from './CreateBountyModal';
 
-const CreateBountyButton = () => {
+const MintBountyButton = () => {
 	const [showModal, setShowModal] = useState(false);
 
 	return (
@@ -21,4 +21,4 @@ const CreateBountyButton = () => {
 	);
 };
 
-export default CreateBountyButton;
+export default MintBountyButton;

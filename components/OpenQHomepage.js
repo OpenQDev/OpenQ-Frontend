@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from 'react';
 // Custom
 import StoreContext from '../store/Store/StoreContext';
 import OrganizationCard from './OrganizationCard/OrganizationCard';
+import SearchBar from './SearchBar';
 
 const OpenQHomepage = () => {
 	// State
@@ -48,8 +49,7 @@ const OpenQHomepage = () => {
 		return (
 			<>
 				<div className="grid grid-cols-1 gap-6 pr-20">
-					<label>Organization</label>
-					<input onKeyUp={(e) => filterByOrg(e)} type="text"></input>
+					<SearchBar onKeyUp={filterByOrg} />
 					{organizations.filter(organization => {
 						return organizationSearchTerm ? organization.name.toLowerCase().indexOf(organizationSearchTerm.toLowerCase()) > -1 : organization;
 					}).map((organization) => {

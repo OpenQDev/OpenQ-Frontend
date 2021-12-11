@@ -4,7 +4,6 @@ import Head from 'next/head';
 
 // Custom
 import OpenQHomepage from '../components/OpenQHomepage';
-import CreateBountyButton from '../components/CreateBountyButton';
 
 export default function Index() {
 	return (
@@ -16,10 +15,6 @@ export default function Index() {
 			</Head>
 
 			<main>
-				<div className="flex pl-12 pt-5 pr-12 items-center justify-between">
-					<h1 className="font-mont font-bold text-4xl">Dashboard</h1>
-					<CreateBountyButton />
-				</div>
 				<div className="flex pl-12 pt-10 flex-col">
 					<OpenQHomepage />
 				</div>
