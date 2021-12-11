@@ -5,7 +5,7 @@ import axios from 'axios';
 // Custom
 import StoreContext from '../store/Store/StoreContext';
 import useAuth from '../hooks/useAuth';
-import LoadingIcon from '../components/LoadingIcon';
+import LoadingIcon from '../components/Loading/LoadingIcon';
 import AuthButton from '../components/Authentication/AuthButton';
 import useWeb3 from '../hooks/useWeb3';
 import useConfirmErrorSuccessModals from '../hooks/useConfirmErrorSuccessModals';

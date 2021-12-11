@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 // Custom
-import { useMediaQuery } from '../scripts/useMediaQuery';
+import { useMediaQuery } from '../../scripts/useMediaQuery';
 
 const Navbar = ({ children }) => {
 	let isPageWide = useMediaQuery('(min-width: 500px)');
@@ -38,7 +38,7 @@ const Navbar = ({ children }) => {
             {" "}
             <span>Application</span>
           </div> */}
-            ;
+						;
 						<nav className="text-white flex flex-col space-y-4 items-center pt-4 flex-grow">
 							<Link href="/">
 								<a href="">

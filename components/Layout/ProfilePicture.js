@@ -18,9 +18,6 @@ const ProfilePicture = () => {
 				const res = await appState.githubRepository.fetchAvatarUrl();
 				const avatarUrl = res.data.viewer.avatarUrl;
 				setProPicUrl(avatarUrl);
-			} else {
-				const openQLogo = 'https://avatars.githubusercontent.com/u/77402538?v=4';
-				setProPicUrl(openQLogo);
 			}
 		}
 		setProfilePicture();
@@ -28,8 +25,8 @@ const ProfilePicture = () => {
 
 	return (
 		<div>
-			{propicUrl ? <Image src={propicUrl} width={50} height={50} alt={'propic'} /> : <div></div>}
-		</div>
+			{propicUrl ? <Image src={propicUrl} width={60} height={60} alt={'propic'} className='rounded-lg' /> : <div></div>}
+		</div >
 	);
 };
 

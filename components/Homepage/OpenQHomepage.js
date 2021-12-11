@@ -4,11 +4,13 @@ import React, { useEffect, useState, useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import OrganizationCard from '../Organization/OrganizationCard';
 import SearchBar from '../Search/SearchBar';
+import useAuth from '../../hooks/useAuth';
 
 const OpenQHomepage = () => {
 	// State
 	// Context
 	const [appState] = useContext(StoreContext);
+	useAuth();
 
 	// State
 	const [isLoading, setIsLoading] = useState(true);
