@@ -3,7 +3,7 @@ import React from 'react';
 import Head from 'next/head';
 
 // Custom
-import OpenQHomepage from '../components/OpenQHomepage';
+import OpenQHomepage from '../components/Homepage/OpenQHomepage';
 
 export default function Index() {
 	return (

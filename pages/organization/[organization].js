@@ -5,7 +5,7 @@ import { ethers } from 'ethers';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
-import BountyCard from '../../components/BountyCard/BountyCard';
+import BountyCard from '../../components/Bounty/BountyCard';
 
 const organization = () => {
 	// Context

@@ -1,9 +1,9 @@
 // Third Party
 import React from 'react';
 // Custom
-import ConnectButton from './WalletConnect/ConnectButton.js';
+import ConnectButton from '../WalletConnect/ConnectButton.js';
 import ProfilePicture from './ProfilePicture.js';
-import MintBountyButton from './MintBountyButton';
+import MintBountyButton from '../MintBounty/MintBountyButton';
 
 const Layout = ({ children }) => {
 	return (

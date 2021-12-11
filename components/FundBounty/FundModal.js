@@ -6,7 +6,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModals';
 import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
-import LoadingIcon from '../LoadingIcon';
+import LoadingIcon from '../Loading/LoadingIcon';
 
 const FundModal = ({ setShowModal, bounty }) => {
 	// State

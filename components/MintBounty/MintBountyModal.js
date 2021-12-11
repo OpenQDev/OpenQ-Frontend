@@ -3,11 +3,11 @@ import React, { useEffect, useState, useContext, useRef } from 'react';
 import { ethers } from 'ethers';
 import Link from 'next/link';
 // Custom
-import useWeb3 from '../hooks/useWeb3';
-import StoreContext from '../store/Store/StoreContext';
-import LoadingIcon from './tools/LoadingIcon';
-import BountyMintedNotification from './tools/notifications/BountyMintedNotification';
-import FundBountyButton from '../components/FundBounty/FundBountyButton';
+import useWeb3 from '../../hooks/useWeb3';
+import StoreContext from '../../store/Store/StoreContext';
+import LoadingIcon from '../Loading/ButtonLoadingIcon';
+import BountyMintedNotification from './BountyMintedNotification';
+import FundBountyButton from '../FundBounty/FundBountyButton';
 
 const CreateBountyModal = (props) => {
 	//props
@@ -345,9 +345,9 @@ const CreateBountyModal = (props) => {
 									className={`
 									flex flex-row space-x-2 justify-center
 									${disableMint
-									? 'confirm-btn-disabled cursor-not-allowed'
-									: 'confirm-btn cursor-pointer'
-								}`}
+											? 'confirm-btn-disabled cursor-not-allowed'
+											: 'confirm-btn cursor-pointer'
+										}`}
 									type="button"
 									onClick={() => mintBounty()}
 									disabled={disableMint}
@@ -359,7 +359,7 @@ const CreateBountyModal = (props) => {
 									className={`${disableMint
 										? 'confirm-btn-disabled cursor-not-allowed'
 										: 'confirm-btn cursor-pointer'
-									}`}
+										}`}
 									type="button"
 									onClick={() => mintBounty()}
 									disabled={disableMint}

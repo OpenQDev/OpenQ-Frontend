@@ -1,4 +1,4 @@
-import CopyAddressToClipboard from '../CopyAddressToClipboard';
+import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useRef } from 'react';

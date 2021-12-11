@@ -1,8 +1,8 @@
 // Third Party
 import React from 'react';
-import ErrorModal from '../ErrorModal';
-import ConfirmationModal from '../ConfirmationModal';
-import SuccessModal from '../SuccessModal';
+import ErrorModal from './ErrorModal';
+import ConfirmationModal from './ConfirmationModal';
+import SuccessModal from './SuccessModal';
 
 const ConfirmErrorSuccessModalsTrio = (props) => {
 	const {

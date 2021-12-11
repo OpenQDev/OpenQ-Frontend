@@ -1,7 +1,7 @@
 // Third Party
 import React, { useState } from 'react';
 // Custom
-import CreateBountyModal from './CreateBountyModal';
+import MintBountyModal from './MintBountyModal';
 
 const MintBountyButton = () => {
 	const [showModal, setShowModal] = useState(false);
@@ -15,7 +15,7 @@ const MintBountyButton = () => {
 				Mint Bounty
 			</button>
 			<div>
-				{showModal && <CreateBountyModal modalVisibility={setShowModal} />}
+				{showModal && <MintBountyModal modalVisibility={setShowModal} />}
 			</div>
 		</div>
 	);

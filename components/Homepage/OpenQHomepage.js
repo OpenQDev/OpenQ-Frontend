@@ -1,9 +1,9 @@
 // Third Party
 import React, { useEffect, useState, useContext } from 'react';
 // Custom
-import StoreContext from '../store/Store/StoreContext';
-import OrganizationCard from './OrganizationCard/OrganizationCard';
-import SearchBar from './SearchBar';
+import StoreContext from '../../store/Store/StoreContext';
+import OrganizationCard from '../Organization/OrganizationCard';
+import SearchBar from '../Search/SearchBar';
 
 const OpenQHomepage = () => {
 	// State
