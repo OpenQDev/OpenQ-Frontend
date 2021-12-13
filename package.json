@@ -12,7 +12,9 @@
 		"start": "next build && next start",
 		"lint": "next lint",
 		"test": "jest",
-		"gen": "node services/ethers/mocks/abiToJavascriptClass.js "
+		"gen": "node services/ethers/mocks/abiToJavascriptClass.js",
+		"prepare-mumbai": "mustache constants/config/mumbai.json constants/polygon-mumbai.json.mustache > constants/polygon-mumbai.json && mustache constants/config/mumbai.json constants/polygon-mumbai-tokens.json.mustache > constants/polygon-mumbai-tokens.json",
+		"prepare-polygon": "mustache constants/config/mainnet.json constants/polygon-mainnet.json.mustache > constants/polygon-mainnet.json && mustache constants/config/mainnet.json constants/polygon-mainnet-tokens.json.mustache > constants/polygon-mainnet-tokens.json"
 	},
 	"dependencies": {
 		"@apollo/client": "^3.4.10",
@@ -33,6 +35,7 @@
 		"jest": "^27.1.1",
 		"json-server": "^0.17.0",
 		"lodash": "^4.17.21",
+		"mustache": "^4.2.0",
 		"next": "11.1.0",
 		"react": "17.0.2",
 		"react-dom": "17.0.2",
