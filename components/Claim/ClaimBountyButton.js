@@ -7,7 +7,7 @@ import axios from 'axios';
 import StoreContext from '../../store/Store/StoreContext';
 import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModals';
-import LoadingIcon from '../LoadingIcon';
+import LoadingIcon from '../Loading/LoadingIcon';
 
 const ClaimBountyButton = ({ issueUrl }) => {
 	const { showErrorModal, setShowErrorModal, showSuccessModal, setShowSuccessModal, showConfirmationModal, setShowConfirmationModal } = useConfirmErrorSuccessModals();

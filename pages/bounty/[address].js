@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
-import BountyCardDetails from '../../components/BountyCard/BountyCardDetails';
+import BountyCardDetails from '../../components/Bounty/BountyCardDetails';
 import FundBountyButton from '../../components/FundBounty/FundBountyButton';
 import RefundBountyButton from '../../components/RefundBounty/RefundBounty';
 import useGetTokenValues from '../../hooks/useGetTokenValues';

@@ -6,7 +6,7 @@ import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModals';
-import LoadingIcon from '../LoadingIcon';
+import LoadingIcon from '../Loading/LoadingIcon';
 
 const RefundBountyButton = (props) => {
 	const { address, issueUrl } = props;

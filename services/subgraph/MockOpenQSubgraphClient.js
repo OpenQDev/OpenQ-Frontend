@@ -1,13 +1,11 @@
 import axios from 'axios';
 
-class MockGithubRepository {
+class MockOpenQSubgraphClient {
 	constructor() { }
 
-	async fetchIssue(orgName, repoName, issueId) {
-		// just return any old issue
-		const id = 'sdfsd';
+	async getAllBounties() {
 		const promise = new Promise((resolve, reject) => {
-			axios.get(`http://localhost:3030/githubIssuesById/${id}`)
+			axios.get('http://localhost:3030/bounties')
 				.then(result => {
 					resolve(result.data);
 				})
@@ -19,9 +17,9 @@ class MockGithubRepository {
 		return promise;
 	}
 
-	async fetchOrganizationByName(orgName) {
+	async getBounty(id) {
 		const promise = new Promise((resolve, reject) => {
-			axios.get(`http://localhost:3030/githubOrganizations/${orgName}`)
+			axios.get(`http://localhost:3030/bounties/${id}`)
 				.then(result => {
 					resolve(result.data);
 				})
@@ -33,9 +31,9 @@ class MockGithubRepository {
 		return promise;
 	}
 
-	async fetchIssueById(issueId) {
+	async getUser(id) {
 		const promise = new Promise((resolve, reject) => {
-			axios.get(`http://localhost:3030/githubIssues/${issueId}`)
+			axios.get(`http://localhost:3030/users/${id}`)
 				.then(result => {
 					resolve(result.data);
 				})
@@ -47,13 +45,23 @@ class MockGithubRepository {
 		return promise;
 	}
 
-	async fetchAvatarUrl() {
-		return 'https://avatars.githubusercontent.com/u/77402538?s=200&v=4';
+	async getOrganizations() {
+		const promise = new Promise((resolve, reject) => {
+			axios.get('http://localhost:3030/organizations')
+				.then(result => {
+					resolve(result.data);
+				})
+				.catch(error => {
+					reject(error);
+				});
+		});
+
+		return promise;
 	}
 
-	async getIssueData() {
+	async getOrganization(id) {
 		const promise = new Promise((resolve, reject) => {
-			axios.get('http://localhost:3030/githubIssues')
+			axios.get(`http://localhost:3030/organizations/${id}`)
 				.then(result => {
 					resolve(result.data);
 				})
@@ -66,4 +74,4 @@ class MockGithubRepository {
 	}
 }
 
-export default MockGithubRepository;
+export default MockOpenQSubgraphClient;

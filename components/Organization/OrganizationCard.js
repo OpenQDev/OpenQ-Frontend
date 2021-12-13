@@ -6,7 +6,6 @@ import Link from 'next/link';
 
 const OrganizationCard = (props) => {
 	const { organization } = props;
-	console.log(organization);
 
 	// Context
 

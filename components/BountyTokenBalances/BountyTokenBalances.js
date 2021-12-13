@@ -33,7 +33,7 @@ const BountyTokenBalances = ({ bounty, tokenValues }) => {
 								key={symbol}
 							>
 								<div className="text-lg">{usdValue}</div>{' '}
-								<div className="text-lg">({ethers.utils.formatEther(volume)} {symbol.toUpperCase()})</div>{' '}
+								<div className="text-lg">({ethers.utils.formatEther(ethers.BigNumber.from(volume.toString()))} {symbol.toUpperCase()})</div>{' '}
 								<div className="pt-1">
 									<Image
 										src={tokenMetadata[tokenAddress].logoURI}

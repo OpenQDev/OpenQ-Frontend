@@ -74,7 +74,7 @@ const organization = () => {
 					return (
 						<div key={tokenBalance.id}>
 							<div>Contract Address: {tokenAddress}</div>
-							<div>Value: {ethers.utils.formatEther(tokenBalance.volume)}</div>
+							<div>Value: {ethers.utils.formatEther(ethers.BigNumber.from(tokenBalance.volume.toString()))}</div>
 							<div>Name: {tokenMetadata[tokenAddress].name}</div>
 							<div>Symbol: {tokenMetadata[tokenAddress].symbol}</div>
 						</div>
@@ -99,7 +99,7 @@ const organization = () => {
 								<div>Bounty Address: {deposit.bounty.id}</div>
 								<div>Bounty Id: {deposit.bounty.bountyId}</div>
 								<div>Contract Address: {tokenAddress}</div>
-								<div>Value: {ethers.utils.formatEther(deposit.value)}</div>
+								<div>Value: {ethers.utils.formatEther(ethers.BigNumber.from(deposit.value.toString()))}</div>
 								<div>Name: {tokenMetadata[tokenAddress].name}</div>
 								<div>Symbol: {tokenMetadata[tokenAddress].symbol}</div>
 							</div>
