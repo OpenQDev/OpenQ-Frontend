@@ -11,7 +11,7 @@ query GetAllIssues {
 		deposits {
       id
       tokenAddress
-      value
+      volume
       sender {
         id
       }
@@ -39,7 +39,7 @@ query GetBounty($id: ID!) {
 		deposits {
       id
       tokenAddress
-      value
+      volume
       sender {
         id
       }
@@ -70,7 +70,7 @@ query GetUser($id: ID!) {
     deposits {
       id
       tokenAddress
-      value
+      volume
       bounty {
         id
 				bountyId
@@ -84,7 +84,7 @@ query GetUser($id: ID!) {
     payouts {
       id
       tokenAddress
-      value
+      volume
       payoutTime
       organization {
         id
@@ -122,7 +122,7 @@ query GetOrganization($id: ID!) {
     deposits {
       id
       tokenAddress
-      value
+      volume
       bounty {
         id
         bountyId
@@ -138,7 +138,7 @@ query GetOrganization($id: ID!) {
       payoutAddress {
         id
       }
-      value
+      volume
     }
 		payoutTokenBalances {
 		  id
@@ -161,7 +161,7 @@ query GetOrganizations {
     deposits {
       id
       tokenAddress
-      value
+      volume
       bounty {
         id
         bountyId
@@ -177,7 +177,7 @@ query GetOrganizations {
       payoutAddress {
         id
       }
-      value
+      volume
     }
 		payoutTokenBalances {
 		  id
@@ -193,7 +193,7 @@ query GetOrganizations {
 			deposits {
 				id
 				tokenAddress
-				value
+				volume
 				sender {
 					id
 				}

@@ -10,7 +10,6 @@ const useGetTokenValues = (bounty) => {
 	useEffect(async () => {
 		if (bounty != null) {
 			let tokenVolumes = {};
-
 			bounty.bountyTokenBalances.map((tokenBalance) => {
 				const tokenAddress = appState.tokenMetadata[ethers.utils.getAddress(tokenBalance.tokenAddress)].address;
 				tokenVolumes[tokenAddress] = tokenBalance.volume;

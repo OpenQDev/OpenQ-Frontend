@@ -2,7 +2,7 @@
 {
 	"0x5FbDB2315678afecb367f032d93F642f64180aa3": {
 		"name": "Mock Link",
-		"address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+		"address": "0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39",
 		"symbol": "mLink",
 		"decimals": 18,
 		"chainId": 80001,
@@ -10,7 +10,7 @@
 	},
 	"0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512": {
 		"name": "Mock DAI",
-		"address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+		"address": "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
 		"symbol": "mDai",
 		"decimals": 18,
 		"chainId": 80001,

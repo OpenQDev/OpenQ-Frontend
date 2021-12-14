@@ -12,7 +12,7 @@ const BountyContributors = (props) => {
 	useEffect(() => {
 		let contribs = {};
 		bounty.deposits.forEach(deposit => {
-			contribs[deposit.sender.id] = deposit.value;
+			contribs[deposit.sender.id] = deposit.volume;
 		});
 
 		setContributors(contribs);

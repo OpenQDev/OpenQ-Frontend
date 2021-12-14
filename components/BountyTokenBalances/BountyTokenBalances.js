@@ -25,7 +25,7 @@ const BountyTokenBalances = ({ bounty, tokenValues }) => {
 
 						const { volume } = tokenBalance;
 						let symbol = tokenMetadata[tokenAddress].symbol;
-						let usdValue = appState.utils.formatter.format(tokenValues.tokens[tokenValueAddress]);
+						let usdValue = appState.utils.formatter.format(tokenValues.tokens[tokenValueAddress.toLowerCase()]);
 
 						return (
 							<div

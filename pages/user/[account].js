@@ -85,7 +85,7 @@ const account = () => {
 								<div>Bounty Address: {deposit.bounty.id}</div>
 								<div>Bounty Id: {deposit.bounty.bountyId}</div>
 								<div>Contract Address: {tokenAddress}</div>
-								<div>Value: {ethers.utils.formatEther(deposit.value)}</div>
+								<div>Value: {ethers.utils.formatEther(deposit.volume)}</div>
 								<div>Name: {tokenMetadata[tokenAddress].name}</div>
 								<div>Symbol: {tokenMetadata[tokenAddress].symbol}</div>
 								<div className="pt-1">
