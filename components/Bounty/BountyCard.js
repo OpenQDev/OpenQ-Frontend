@@ -19,6 +19,7 @@ const BountyCard = (props) => {
 
   // Hooks
   const [tokenValues] = useGetTokenValues(bounty);
+  console.log("tokenvalues: ", tokenValues);
 
   // Render
   return (
@@ -129,6 +130,7 @@ const BountyCard = (props) => {
         <BountyCardDetailsModal
           bounty={bounty}
           modalVisibility={setShowModal}
+          tokenValues={tokenValues}
         />
       )}
     </div>
