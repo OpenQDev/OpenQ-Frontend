@@ -26,7 +26,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
         {bounty.deposits.length != 0 ? (
           <BountyTokenBalances bounty={bounty} tokenValues={tokenValues} />
         ) : (
-          "No deposits."
+          <div className="pt-5 pb-5 font-semibold">No deposits</div>
         )}
       </div>
       <div className="flex flex-col pt-5">
@@ -38,7 +38,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
       </div>
       <div className="flex flex-col pt-5">
         <div className="flex flex-row justify-between">
-          <BountyContributors bounty={bounty} />
+          {/* <BountyContributors bounty={bounty} /> */}
         </div>
       </div>
     </div>
