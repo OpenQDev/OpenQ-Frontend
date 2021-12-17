@@ -93,14 +93,24 @@ const FundModal = ({ showModal, setShowModal, bounty }) => {
   function onCurrencySelect(token) {
     setToken(token);
     setConfirmationMessage(
-      `You are about to fund this bounty at address ${bounty.bountyAddress} with ${volume} ${token.name}. Is this correct?`
+      `You are about to fund this bounty at address ${bounty.bountyAddress.substring(
+        0,
+        12
+      )}...${bounty.bountyAddress.substring(32)} with ${volume} ${
+        token.name
+      }. Is this correct?`
     );
   }
 
   function onVolumeChange(volume) {
     setVolume(volume);
     setConfirmationMessage(
-      `You are about to fund this bounty at address ${bounty.bountyAddress} with ${volume} ${token.name}. Is this correct?`
+      `You are about to fund this bounty at address ${bounty.bountyAddress.substring(
+        0,
+        12
+      )}...${bounty.bountyAddress.substring(32)} with ${volume} ${
+        token.name
+      }. Is this correct?`
     );
   }
 
@@ -187,7 +197,7 @@ const FundModal = ({ showModal, setShowModal, bounty }) => {
         errorMessage={errorMessage}
         setShowConfirmationModal={setShowConfirmationModal}
         showConfirmationModal={showConfirmationModal}
-        confirmationTitle={"Fund Bounty"}
+        confirmationTitle={"Confirm Deposit"}
         confirmationMessage={confirmationMessage}
         positiveOption={"Approve"}
         confirmMethod={fundBounty}
