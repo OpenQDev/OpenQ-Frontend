@@ -35,7 +35,6 @@ const ConfirmErrorSuccessModalsTrio = (props) => {
       )}
       {showConfirmationModal && (
         <ConfirmationModal
-          notificationRef={notificationRef}
           setShowConfirmationModal={setShowConfirmationModal}
           confirmationMessage={confirmationMessage}
           confirmationTitle={confirmationTitle}

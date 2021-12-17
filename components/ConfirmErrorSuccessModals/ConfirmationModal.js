@@ -13,13 +13,13 @@ const ConfirmationModal = ({
     setShowConfirmationModal(false);
   };
 
-  let notifyRef = useRef();
-  notificationRef(notifyRef);
+  /*   let notifyRef = useRef();
+  notificationRef(notifyRef); */
 
   return (
     <div>
       <div className="justify-center items-center font-mont flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div ref={notifyRef} className="w-1/4">
+        <div className="w-1/4">
           <div className="border-0 rounded-lg p-7 shadow-lg flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="flex items-center justify-center border-solid">
               <div className="flex flex-row">

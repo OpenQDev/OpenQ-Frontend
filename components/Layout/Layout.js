@@ -12,10 +12,16 @@ const Layout = ({ children }) => {
       <Navbar>
         <div className="flex flex-grow  font-mont pl-12 pt-5 pr-12 pb-5 border-b items-center justify-between space-x-1">
           <div className="font-bold text-xl">OpenQ</div>
-          <div className="flex flex-row space-x-2">
-            <MintBountyButton />
-            <ProfilePicture />
-            <ConnectButton />
+          <div className="flex flex-row space-x-4 items-center">
+            <div className="pb-1">
+              <MintBountyButton />
+            </div>
+            <div>
+              <ConnectButton />
+            </div>
+            <div className="w-1/12 pt-1">
+              <ProfilePicture />
+            </div>
           </div>
         </div>
         {children}
