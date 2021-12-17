@@ -145,7 +145,7 @@ const FundModal = ({ showModal, setShowModal, bounty }) => {
             </div>
             <div className="flex px-6 pb-7">
               <button
-                className="py-3 confirm-btn text-white"
+                className="py-3 text-lg confirm-btn text-white"
                 type="button"
                 onClick={() => setShowConfirmationModal(true)}
               >

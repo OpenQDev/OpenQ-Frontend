@@ -13,7 +13,7 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
   return (
     <div>
       {/* <div style={{ padding: '25px', margin: '10px', outline: '2px solid pink', borderRadius: '20px' }} > */}
-      <div className="pt-3 pb-3 pl-5 bg-slate-700 border border-gray-300 rounded-lg">
+      <div className="pt-3 pb-3 pl-4 bg-slate-700 border border-gray-300 rounded-lg">
         <div className="">
           <div className="justify-start">
             <input
@@ -31,7 +31,7 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
           .filter((token) => {
             return tokenSearchTerm
               ? token.name
-                  .divowerCase()
+                  .toLowerCase()
                   .indexOf(tokenSearchTerm.toLowerCase()) > -1
               : token;
           })
