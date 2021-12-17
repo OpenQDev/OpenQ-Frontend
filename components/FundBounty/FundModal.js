@@ -154,7 +154,7 @@ const FundModal = ({ showModal, setShowModal, bounty }) => {
                 Deposited ERC-20 Tokens can be withdrawn again after 30 days
               </div>
             </div>
-            <div className="p-6 flex-auto">
+            <div className="p-7 flex-auto">
               <TokenFundBox
                 onCurrencySelect={onCurrencySelect}
                 onVolumeChange={onVolumeChange}
