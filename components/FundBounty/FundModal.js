@@ -6,7 +6,7 @@ import StoreContext from "../../store/Store/StoreContext";
 import { ethers } from "ethers";
 import useConfirmErrorSuccessModals from "../../hooks/useConfirmErrorSuccessModals";
 import ConfirmErrorSuccessModalsTrio from "../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio";
-import LoadingIcon from "../Loading/LoadingIcon";
+import ButtonLoadingIcon from "../Loading/ButtonLoadingIcon";
 
 const FundModal = ({ showModal, setShowModal, bounty }) => {
   // State
@@ -34,6 +34,7 @@ const FundModal = ({ showModal, setShowModal, bounty }) => {
   const [transactionHash, setTransactionHash] = useState(null);
   const [confirmationMessage, setConfirmationMessage] = useState("");
   let menuRef = useRef();
+  let notifyMenuRef;
 
   // Context
   const [appState] = useContext(StoreContext);
@@ -103,22 +104,30 @@ const FundModal = ({ showModal, setShowModal, bounty }) => {
     );
   }
 
+  const notificationRef = (data) => {
+    notifyMenuRef = data;
+  };
+
   //Close Modal on outside click
-  useEffect(() => {
+  /* useEffect(() => {
     let handler = (event) => {
       if (!menuRef.current.contains(event.target)) {
-        if (showModal) {
+        if (!isLoading) {
+          if (!notifyMenuRef.current.contains(event.target)) {
+            setIsLoading(false);
+            updateModal();
+          }
+        } else {
           updateModal();
         }
       }
     };
-
     window.addEventListener("mousedown", handler);
 
     return () => {
       window.removeEventListener("mousedown", handler);
     };
-  });
+  }); */
 
   // Render
   return (
@@ -145,11 +154,16 @@ const FundModal = ({ showModal, setShowModal, bounty }) => {
             </div>
             <div className="flex px-6 pb-7">
               <button
-                className="py-3 text-lg confirm-btn text-white"
+                className={`flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${
+                  isLoading
+                    ? "confirm-btn-disabled cursor-not-allowed"
+                    : "confirm-btn cursor-pointer"
+                }`}
                 type="button"
                 onClick={() => setShowConfirmationModal(true)}
               >
-                Fund
+                <div>{!isLoading ? "Fund" : "Approving"}</div>
+                <div>{isLoading && <ButtonLoadingIcon />}</div>
               </button>
             </div>
             {/*  <div className="flex items-center justify-end p-6 border-solid border-blueGray-200 rounded-b">
@@ -165,16 +179,17 @@ const FundModal = ({ showModal, setShowModal, bounty }) => {
         </div>
       </div>
       <div className="opacity-25 fixed inset-0 bg-black"></div>
-      {isLoading && <LoadingIcon />}
+
       <ConfirmErrorSuccessModalsTrio
         setShowErrorModal={setShowErrorModal}
+        notificationRef={notificationRef}
         showErrorModal={showErrorModal}
         errorMessage={errorMessage}
         setShowConfirmationModal={setShowConfirmationModal}
         showConfirmationModal={showConfirmationModal}
         confirmationTitle={"Fund Bounty"}
         confirmationMessage={confirmationMessage}
-        positiveOption={"Yes, Fund!"}
+        positiveOption={"Approve"}
         confirmMethod={fundBounty}
         showSuccessModal={showSuccessModal}
         setShowSuccessModal={setShowSuccessModal}
