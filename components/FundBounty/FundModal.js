@@ -148,8 +148,25 @@ const FundModal = ({ showModal, setShowModal, bounty }) => {
             ref={menuRef}
             className="border-0 rounded-lg shadow-lg  flex flex-col w-full bg-white outline-none focus:outline-none"
           >
-            <div className="flex flex-col p-5 items-center justify-center border-solid border-blueGray-200 rounded-t">
-              <div className="text-3xl font-semibold">Fund Bounty </div>
+            <div className="flex flex-col p-5  border-solid">
+              <div className="flex flex-row items-center justify-between">
+                <div></div>
+                <div className="text-3xl font-semibold">Fund Bounty </div>
+                <div className="cursor-pointer" onClick={() => updateModal()}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
               <div className="text-lg pt-3 font-mont text-center text-gray-400">
                 Deposited ERC-20 Tokens can be withdrawn again after 30 days
               </div>
