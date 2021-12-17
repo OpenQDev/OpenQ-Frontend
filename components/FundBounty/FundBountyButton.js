@@ -14,13 +14,17 @@ const FundBountyButton = ({ bounty }) => {
   return (
     <div>
       <button
-        className="flex flex-row space-x-1 bg-purple-500 text-white rounded-lg p-2 pr-4 pl-4"
+        className="flex flex-row space-x-1 bg-button-pink font-semibold text-white rounded-lg p-2 pr-4 pl-4"
         onClick={() => showTokenSearch()}
       >
         Fund now
       </button>
       {showModal ? (
-        <FundModal setShowModal={setShowModal} bounty={bounty} />
+        <FundModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          bounty={bounty}
+        />
       ) : null}
     </div>
   );
