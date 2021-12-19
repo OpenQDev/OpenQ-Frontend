@@ -3,6 +3,7 @@ import React from 'react';
 import Head from 'next/head';
 
 // Custom
+import OpenQHomepage from '../components/Homepage/OpenQHomepage';
 import BountyHomepage from '../components/Bounty/BountyHomepage';
 
 export default function Index() {

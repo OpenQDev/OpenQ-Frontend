@@ -6,6 +6,9 @@ import { useRouter } from 'next/router';
 import StoreContext from '../../store/Store/StoreContext';
 import BountyCardDetails from '../../components/Bounty/BountyCardDetails';
 import FundBountyButton from '../../components/FundBounty/FundBountyButton';
+import RefundBountyButton from '../../components/RefundBounty/RefundBountyButton';
+import ClaimBountyButton from '../../components/Claim/ClaimBountyButton';
+import AuthButton from '../../components/Authentication/AuthButton';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import useAuth from '../../hooks/useAuth';
 
@@ -14,19 +17,12 @@ const address = () => {
 	const [appState] = useContext(StoreContext);
 	const router = useRouter();
 	useAuth();
-	const [setRedirectUrl] = useState('');
 
 	// State
 	const { address } = router.query;
+	const [redirectUrl, setRedirectUrl] = useState('');
 	const [bounty, setBounty] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
-
-	// Hooks
-	useEffect(() => {
-		if (address) {
-			setRedirectUrl(`${appState.baseUrl}/bounty/${address}`);
-		}
-	}, [address]);
 
 	// Methods
 	async function populateBountyData() {
@@ -46,6 +42,7 @@ const address = () => {
 	// Hooks
 	useEffect(() => {
 		if (address) {
+			setRedirectUrl(`${appState.baseUrl}/bounty/${address}`);
 			populateBountyData();
 		}
 	}, [address]);
@@ -69,9 +66,9 @@ const address = () => {
 							<FundBountyButton bounty={bounty} />
 						</div>
 					</div>
-					{/* 	<RefundBountyButton address={address} issueUrl={bounty.url} />
-						<ClaimBountyButton issueUrl={bounty.url} />
-						<AuthButton redirectUrl={redirectUrl} /> */}
+					<RefundBountyButton address={address} issueUrl={bounty.url} />
+					<ClaimBountyButton issueUrl={bounty.url} />
+					<AuthButton redirectUrl={redirectUrl} />
 				</div>
 			</div>
 		);
