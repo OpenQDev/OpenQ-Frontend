@@ -9,7 +9,7 @@ import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModa
 import LoadingIcon from '../Loading/LoadingIcon';
 
 const RefundBountyButton = (props) => {
-	const { address, issueUrl } = props;
+	const { address, issueUrl, bounty } = props;
 
 	const { showErrorModal, setShowErrorModal, showSuccessModal, setShowSuccessModal, showConfirmationModal, setShowConfirmationModal } = useConfirmErrorSuccessModals();
 	const [errorMessage, setErrorMessage] = useState('');
@@ -42,6 +42,9 @@ const RefundBountyButton = (props) => {
 				setTransactionHash(JSON.stringify(error));
 				if (error?.data?.message?.includes('Only funders of this bounty can reclaim funds after 30 days')) {
 					setErrorMessage(`Only funders can request refunds on this issue. Your address ${account} has not funded this issue.`);
+				}
+				if (error?.data?.message?.includes('Too early to withdraw funds')) {
+					setErrorMessage(`Too Early To Withdraw Funds! Bounty was minted on ${appState.utils.formatUnixDate(bounty.bountyMintTime)}. You must wait until 30 days after mint date to get a refund.`);
 				} else {
 					setErrorMessage(error?.message);
 				}

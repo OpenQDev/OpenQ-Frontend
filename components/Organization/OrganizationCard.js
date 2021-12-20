@@ -28,7 +28,7 @@ const OrganizationCard = ({ organization }) => {
 					<div className='text-center'>
 						{organization.name}
 					</div>
-					<div className='bg-pink rounded shadow-md font-semibold font-sans relative'>
+					<div className='bg-pink dark:text-white rounded shadow-md font-semibold font-sans relative'>
 						{organization.bountiesCreated.map(bounty => bounty.status == 'OPEN').length}
 					</div>
 					<div>

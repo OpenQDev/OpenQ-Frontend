@@ -7,6 +7,25 @@ class Utils {
 		return date.toDateString().split(' ').slice(1).join(' ');
 	};
 
+	formatUnixDate = (createdAt) => {
+		var date = new Date(createdAt * 1000);
+
+		var day = date.getDate();
+		var month = date.getMonth();
+		var year = date.getYear();
+
+		// Hours part from the timestamp
+		var hours = date.getHours();
+		// Minutes part from the timestamp
+		var minutes = "0" + date.getMinutes();
+		// Seconds part from the timestamp
+		var seconds = "0" + date.getSeconds();
+
+		// Will display time in 10:30:23 format
+		var formattedTime = `${month}/${day}/${year} at ${hours}:${minutes.substr(-2) + ':' + seconds.substr(-2)}`;
+		return formattedTime;
+	};
+
 	parseGitHubUrl = (githubUrl) => {
 		const pattern = /https?:\/\/github\.com\/(?:[^\/\s]+\/)+(?:issues\/\d+)/;
 		if (!pattern.test(githubUrl)) {

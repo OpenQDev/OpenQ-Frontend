@@ -65,7 +65,7 @@ const address = () => {
 							<FundBountyButton bounty={bounty} />
 						</div>
 					</div>
-					<RefundBountyButton address={address} issueUrl={bounty.url} />
+					<RefundBountyButton bounty={bounty} address={address} issueUrl={bounty.url} />
 					<ClaimBountyButton issueUrl={bounty.url} />
 					<AuthButton redirectUrl={redirectUrl} />
 				</div>
