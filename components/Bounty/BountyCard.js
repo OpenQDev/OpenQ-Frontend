@@ -10,7 +10,6 @@ import BountyCardDetailsModal from './BountyCardDetailsModal';
 
 const BountyCard = (props) => {
 	const { bounty } = props;
-	console.log('bounty: ', bounty);
 
 	// State
 	const bountyName = bounty.title.toLowerCase();
@@ -18,8 +17,7 @@ const BountyCard = (props) => {
 	const [showModal, setShowModal] = useState(false);
 
 	// Hooks
-	const [tokenValues] = useGetTokenValues(bounty);
-	console.log('tokenvalues: ', tokenValues);
+	const [tokenValues] = useGetTokenValues(bounty.bountyTokenBalances);
 
 	// Render
 	return (
@@ -62,7 +60,7 @@ const BountyCard = (props) => {
 							</div>
 							<div className="flex flex-row items-center space-x-4 pt-1">
 								<div className="font-mont font-light pl-6 text-sm text-gray-500">
-                  Opened {appState.utils.formatDate(bounty.createdAt)}
+									Opened {appState.utils.formatDate(bounty.createdAt)}
 								</div>
 							</div>
 						</div>
@@ -96,7 +94,7 @@ const BountyCard = (props) => {
 														key={index}
 														className="font-mont rounded-lg text-xs py-1 px-2 font-bold bg-green-300 text-white"
 													>
-                            more..
+														more..
 													</button>
 												);
 											} else {

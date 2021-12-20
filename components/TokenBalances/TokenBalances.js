@@ -4,7 +4,7 @@ import Image from 'next/image';
 import StoreContext from '../../store/Store/StoreContext';
 const ethers = require('ethers');
 
-const BountyTokenBalances = ({ bounty, tokenValues }) => {
+const TokenBalances = ({ tokenBalances, tokenValues }) => {
 	const [appState,] = useContext(StoreContext);
 
 	const { tokenMetadata } = appState;
@@ -19,7 +19,7 @@ const BountyTokenBalances = ({ bounty, tokenValues }) => {
 			</div>
 			<div className="flex flex-row space-x-2 pt-1">
 				<div>
-					{tokenValues ? bounty.bountyTokenBalances.map((tokenBalance) => {
+					{tokenValues ? tokenBalances.map((tokenBalance) => {
 						const tokenAddress = ethers.utils.getAddress(tokenBalance.tokenAddress);
 						const tokenValueAddress = tokenMetadata[tokenAddress].address;
 
@@ -51,4 +51,4 @@ const BountyTokenBalances = ({ bounty, tokenValues }) => {
 	);
 };
 
-export default BountyTokenBalances;
+export default TokenBalances;

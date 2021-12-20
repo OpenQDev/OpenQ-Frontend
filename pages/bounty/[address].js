@@ -18,10 +18,12 @@ const address = () => {
 	const router = useRouter();
 	useAuth();
 
+	const [bounty, setBounty] = useState(null);
+	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
+
 	// State
 	const { address } = router.query;
 	const [redirectUrl, setRedirectUrl] = useState('');
-	const [bounty, setBounty] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
 
 	// Methods
@@ -46,9 +48,6 @@ const address = () => {
 			populateBountyData();
 		}
 	}, [address]);
-
-	// Refactor this hook our to be shared
-	const [tokenValues] = useGetTokenValues(bounty);
 
 	// Render
 	if (isLoading) {

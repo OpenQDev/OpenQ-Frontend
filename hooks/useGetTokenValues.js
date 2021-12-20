@@ -1,16 +1,15 @@
 import { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
 import StoreContext from '../store/Store/StoreContext';
 import { ethers } from 'ethers';
 
-const useGetTokenValues = (bounty) => {
+const useGetTokenValues = (tokenBalances) => {
 	const [tokenValues, setTokenValues] = useState(null);
 	const [appState] = useContext(StoreContext);
 
 	useEffect(async () => {
-		if (bounty != null) {
+		if (tokenBalances != null) {
 			let tokenVolumes = {};
-			bounty.bountyTokenBalances.map((tokenBalance) => {
+			tokenBalances.map((tokenBalance) => {
 				const tokenAddress = appState.tokenMetadata[ethers.utils.getAddress(tokenBalance.tokenAddress)].address;
 				tokenVolumes[tokenAddress] = tokenBalance.volume;
 			});
@@ -29,7 +28,7 @@ const useGetTokenValues = (bounty) => {
 				setTokenValues(null);
 			}
 		}
-	}, [bounty]);
+	}, [tokenBalances]);
 
 	return [tokenValues, setTokenValues];
 };

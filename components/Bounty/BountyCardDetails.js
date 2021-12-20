@@ -1,6 +1,6 @@
 // Third Party
 import React from 'react';
-import BountyTokenBalances from '../BountyTokenBalances/BountyTokenBalances';
+import TokenBalances from '../TokenBalances/TokenBalances';
 
 // Custom
 import BountyCardHeader from './BountyCardHeader';
@@ -23,7 +23,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 				</div>
 				<LabelsList bounty={bounty} />
 				{bounty.deposits.length != 0 ? (
-					<BountyTokenBalances bounty={bounty} tokenValues={tokenValues} />
+					<TokenBalances tokenBalances={bounty.bountyTokenBalances} tokenValues={tokenValues} />
 				) : (
 					<div className="pt-5 pb-5 font-semibold">No deposits</div>
 				)}

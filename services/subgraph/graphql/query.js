@@ -61,8 +61,27 @@ query GetUser($id: ID!) {
   user(id: $id, subgraphError: allow) {
     id
     bountiesCreated {
-      id
-      bountyId
+			bountyAddress
+			bountyId
+			bountyMintTime
+			bountyClosedTime
+			status
+			deposits {
+				id
+				tokenAddress
+				volume
+				sender {
+					id
+				}
+				receiveTime
+			}
+			issuer {
+				id
+			}
+			bountyTokenBalances {
+				volume
+				tokenAddress
+			}
     }
     bountiesClosed {
       id
@@ -99,22 +118,29 @@ query GetOrganization($id: ID!) {
   organization(id: $id, subgraphError: allow) {
 		id
     bountiesCreated {
-      id
-      bountyId
-      issuer {
-        id
-      }
-      bountyMintTime
-      bountyClosedTime
-      status
 			bountyAddress
-      bountyTokenBalances {
-        id
-        tokenAddress
-        volume
-      }
+			bountyId
+			bountyMintTime
+			bountyClosedTime
+			status
+			deposits {
+				id
+				tokenAddress
+				volume
+				sender {
+					id
+				}
+				receiveTime
+			}
+			issuer {
+				id
+			}
+			bountyTokenBalances {
+				volume
+				tokenAddress
+			}
     }
-    fundedTokenBalances {
+    fundedTokenBalances(orderBy: volume, orderDirection: desc) {
       id
       tokenAddress
       volume

@@ -4,7 +4,6 @@ import Head from 'next/head';
 
 // Custom
 import OpenQHomepage from '../components/Homepage/OpenQHomepage';
-import BountyHomepage from '../components/Bounty/BountyHomepage';
 
 export default function Index() {
 	return (
@@ -17,7 +16,7 @@ export default function Index() {
 
 			<main>
 				<div className="flex pl-12 pt-10 flex-col">
-					<BountyHomepage />
+					<OpenQHomepage />
 				</div>
 			</main>
 		</div>
