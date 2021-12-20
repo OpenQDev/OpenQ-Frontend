@@ -23,8 +23,7 @@ const BountyCard = (props) => {
 	return (
 		<div>
 			<Link
-				href={`/?address=${bounty.bountyAddress}`}
-				as={`/bounty/${bounty.bountyAddress}`}
+				href={`/bounty/${bounty.bountyAddress}`}
 			>
 				<div
 					className={

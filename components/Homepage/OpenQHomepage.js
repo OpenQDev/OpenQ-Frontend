@@ -50,13 +50,14 @@ const OpenQHomepage = () => {
 	} else {
 		return (
 			<>
-				<div className="grid grid-cols-1 gap-6 pr-20">
-					<SearchBar onKeyUp={filterByOrg} />
+				<SearchBar onKeyUp={filterByOrg} className="mb-200" />
+				<div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-6 pr-20">
 					{organizations.filter(organization => {
 						return organizationSearchTerm ? organization.name.toLowerCase().indexOf(organizationSearchTerm.toLowerCase()) > -1 : organization;
 					}).map((organization) => {
 						return (
 							<OrganizationCard
+								className="lg: md: sm:"
 								organization={organization}
 								key={organization.id}
 							/>
