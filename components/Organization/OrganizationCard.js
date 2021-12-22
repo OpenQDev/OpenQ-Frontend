@@ -29,7 +29,7 @@ const OrganizationCard = ({ organization }) => {
 						{organization.name}
 					</div>
 					<div className='bg-pink dark:text-white rounded shadow-md font-semibold font-sans relative'>
-						{organization.bountiesCreated.map(bounty => bounty.status == 'OPEN').length}
+						{`OPEN BOUNTIES: ${organization.bountiesCreated.map(bounty => bounty.status == 'OPEN').length}`}
 					</div>
 					<div>
 						{tokenValues ? <TokenBalances tokenBalances={organization.fundedTokenBalances} tokenValues={tokenValues} /> : null}
