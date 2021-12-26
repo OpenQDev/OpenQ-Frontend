@@ -1,6 +1,6 @@
 module.exports = () => {
 	const env = {
-		NEXT_PUBLIC_OPENQ_ADDRESS: process.env.OPENQ_ADDRESS,
+		NEXT_PUBLIC_OPENQ_ADDRESS: process.env.OPENQ_PROXY_ADDRESS,
 		NEXT_PUBLIC_DEPLOY_ENV: process.env.DEPLOY_ENV,
 		NEXT_PUBLIC_PROVIDER_URL: process.env.PROVIDER_URL,
 		NEXT_PUBLIC_PAT: process.env.PAT,

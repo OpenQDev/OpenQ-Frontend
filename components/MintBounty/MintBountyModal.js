@@ -168,7 +168,7 @@ const CreateBountyModal = (props) => {
 			const contract = appState.openQClient.OpenQ(provider);
 
 			try {
-				const bountyAddress = await contract.getBountyAddress(id);
+				const bountyAddress = await contract.bountyIdToAddress(id);
 				return bountyAddress;
 			} catch (e) {
 				setError(true);
@@ -237,10 +237,10 @@ const CreateBountyModal = (props) => {
 					<div className="border-0 rounded-xl shadow-lg flex flex-col bg-white outline-none focus:outline-none">
 						<div className="flex flex-col items-center justify-center p-5 rounded-t">
 							<h3 className="text-3xl text-gray-700 font-semibold">
-                Mint Bounty
+								Mint Bounty
 							</h3>
 							<h3 className="text-2xl pt-3 w-2/3 text-center text-gray-300">
-                Create a Bounty to send funds to any GitHub Issue
+								Create a Bounty to send funds to any GitHub Issue
 							</h3>
 						</div>
 						<div className="flex flex-col pl-6 pr-6 space-y-2">
@@ -281,7 +281,7 @@ const CreateBountyModal = (props) => {
 										</div>
 										<div className="text-xs pt-3 pl-6 text-gray-400">
 											{' '}
-                      created at {getDate()} by {issueData.author.login}
+											created at {getDate()} by {issueData.author.login}
 										</div>
 									</div>
 								) : null}
@@ -299,7 +299,7 @@ const CreateBountyModal = (props) => {
 						<div className="flex flex-row justify-center space-x-1 px-8">
 							{isValidUrl && issueClosed && issueFound ? (
 								<div className="pt-3">
-                  This issue is already closed on GitHub
+									This issue is already closed on GitHub
 								</div>
 							) : null}
 							{isValidUrl && bountyAddress && issueFound ? (
@@ -315,7 +315,7 @@ const CreateBountyModal = (props) => {
 												rel="noreferrer"
 												className="cursor-pointer text-link pt-3"
 											>
-                        here.
+												here.
 											</a>
 											<a target="_blank" rel="noreferrer">
 												<div id={'bounty-link'} className="cursor-pointer">
@@ -346,8 +346,7 @@ const CreateBountyModal = (props) => {
 								<button
 									className={`
 									flex flex-row space-x-2 justify-center
-									${
-								disableMint
+									${disableMint
 									? 'confirm-btn-disabled cursor-not-allowed'
 									: 'confirm-btn cursor-pointer'
 								}`}
@@ -359,16 +358,15 @@ const CreateBountyModal = (props) => {
 								</button>
 							) : (
 								<button
-									className={`${
-										disableMint
-											? 'confirm-btn-disabled cursor-not-allowed'
-											: 'confirm-btn cursor-pointer'
+									className={`${disableMint
+										? 'confirm-btn-disabled cursor-not-allowed'
+										: 'confirm-btn cursor-pointer'
 									}`}
 									type="button"
 									onClick={() => mintBounty()}
 									disabled={disableMint}
 								>
-                  Mint Bounty
+									Mint Bounty
 								</button>
 							)}
 						</div>

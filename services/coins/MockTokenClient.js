@@ -3,7 +3,7 @@ import axios from 'axios';
 class MockCoinClient {
 	constructor() { }
 
-	async getTokenValues(tokenVolumes, url) {
+	async getTokenValues() {
 		const promise = new Promise((resolve, reject) => {
 			axios.get('http://localhost:3030/tvl')
 				.then((result) => {
