@@ -52,11 +52,6 @@ case 'docker':
 	break;
 case 'development':
 	InitialState = {
-		baseUrl: 'https://development.openq.dev',
-		authBaseUrl: 'https://development.openq.dev/oauth',
-		oracleBaseUrl: 'https://development.openq.dev/oracle',
-		apiBaseUrl: 'https://development.openq.dev/api',
-		coinApiBaseUrl: 'https://development.openq.dev/coinapi',
 		tokenMetadata: mumbaiTokenMetadata,
 		tokens: mumbaiTokens,
 		openQClient: new OpenQClient(),
@@ -68,11 +63,6 @@ case 'development':
 	break;
 case 'staging':
 	InitialState = {
-		baseUrl: 'https://staging.openq.dev',
-		authBaseUrl: 'https://staging.openq.dev/oauth',
-		oracleBaseUrl: 'https://staging.openq.dev/oracle',
-		apiBaseUrl: 'https://staging.openq.dev/api',
-		coinApiBaseUrl: 'https://staging.openq.dev/coinapi',
 		tokenMetadata: polygonMainnetTokenMetadata,
 		tokens: polygonMainnetTokens,
 		openQClient: new OpenQClient(),
@@ -84,11 +74,6 @@ case 'staging':
 	break;
 case 'production':
 	InitialState = {
-		baseUrl: 'https://app.openq.dev',
-		authBaseUrl: 'https://app.openq.dev/oauth',
-		oracleBaseUrl: 'https://app.openq.dev/oracle',
-		apiBaseUrl: 'https://app.openq.dev/api',
-		coinApiBaseUrl: 'https://app.openq.dev/coinapi',
 		tokenMetadata: polygonMainnetTokenMetadata,
 		tokens: polygonMainnetTokens,
 		openQClient: new OpenQClient(),

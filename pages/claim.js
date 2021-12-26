@@ -1,9 +1,8 @@
 // Third Party Libraries
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 // Custom
-import StoreContext from '../store/Store/StoreContext';
 import useAuth from '../hooks/useAuth';
 import LoadingIcon from '../components/Loading/LoadingIcon';
 import AuthButton from '../components/Authentication/AuthButton';
@@ -22,7 +21,6 @@ function Claim() {
 	const [confirmationMessage, setConfirmationMessage] = useState('');
 
 	// Context
-	const [appState] = useContext(StoreContext);
 	const { account } = useWeb3();
 
 	// Hooks
@@ -40,7 +38,7 @@ function Claim() {
 		setIsLoading(true);
 		axios
 			.post(
-				`${appState.oracleBaseUrl}/claim`,
+				`${process.env.NEXT_PUBLIC_ORACLE_URL}/claim`,
 				{
 					issueUrl,
 					payoutAddress: account,
@@ -112,7 +110,7 @@ function Claim() {
 								</div>
 							</div>
 
-							<AuthButton redirectUrl={`${appState.baseUrl}/claim`} />
+							<AuthButton redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/claim`} />
 							{isLoading && <LoadingIcon />}
 						</div>
 					</div>

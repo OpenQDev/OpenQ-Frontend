@@ -15,7 +15,7 @@ const useGetTokenValues = (tokenBalances) => {
 			});
 
 			const data = { tokenVolumes };
-			const url = appState.coinApiBaseUrl + '/tvl';
+			const url = process.env.NEXT_PUBLIC_COIN_API_URL + '/tvl';
 			//only query tvl for bounties that have deposits
 			if (JSON.stringify(data.tokenVolumes) != '{}') {
 				try {

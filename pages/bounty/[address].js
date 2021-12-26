@@ -44,7 +44,7 @@ const address = () => {
 	// Hooks
 	useEffect(() => {
 		if (address) {
-			setRedirectUrl(`${appState.baseUrl}/bounty/${address}`);
+			setRedirectUrl(`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${address}`);
 			populateBountyData();
 		}
 	}, [address]);

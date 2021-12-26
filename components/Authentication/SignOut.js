@@ -3,14 +3,12 @@ import React, { useContext } from 'react';
 import axios from 'axios';
 // Custom
 import AuthContext from '../../store/AuthStore/AuthContext';
-import StoreContext from '../../store/Store/StoreContext';
 
 const SignOut = () => {
 	const [, setAuthState] = useContext(AuthContext);
-	const [appState,] = useContext(StoreContext);
 
 	const signOut = () => {
-		axios.get(`${appState.authBaseUrl}/logout`, { withCredentials: true })
+		axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/logout`, { withCredentials: true })
 			.then((res) => {
 				setAuthState({ type: 'UPDATE_IS_AUTHENTICATED', payload: res.data.isAuthenticated });
 			})

@@ -1,10 +1,9 @@
 // Third Party
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
 import axios from 'axios';
 
 // Custom
-import StoreContext from '../../store/Store/StoreContext';
 import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModals';
 import LoadingIcon from '../Loading/LoadingIcon';
@@ -18,7 +17,6 @@ const ClaimBountyButton = ({ issueUrl }) => {
 	const [confirmationMessage, setConfirmationMessage] = useState('');
 
 	// Context
-	const [appState] = useContext(StoreContext);
 	const { account } = useWeb3();
 
 	useEffect(() => {
@@ -32,7 +30,7 @@ const ClaimBountyButton = ({ issueUrl }) => {
 		setIsLoading(true);
 		axios
 			.post(
-				`${appState.oracleBaseUrl}/claim`,
+				`${process.env.NEXT_PUBLIC_ORACLE_URL}/claim`,
 				{
 					issueUrl,
 					payoutAddress: account,
