@@ -6,6 +6,8 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
 	const [appState] = useContext(StoreContext);
 	const [tokenSearchTerm, setTokenSearchTerm] = useState(null);
 
+	console.log(appState);
+
 	function onSelect(token) {
 		onCurrencySelect(token);
 		setShowTokenSearch(false);

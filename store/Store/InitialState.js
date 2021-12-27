@@ -20,11 +20,6 @@ let InitialState = {};
 switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 case 'local':
 	InitialState = {
-		baseUrl: 'http://localhost:3000',
-		authBaseUrl: 'http://localhost:3030',
-		oracleBaseUrl: 'http://localhost:3030',
-		apiBaseUrl: 'http://localhost:3030',
-		coinApiBaseUrl: 'http://localhost:3030',
 		tokenMetadata: mumbaiTokenMetadata,
 		tokens: mumbaiTokens,
 		openQClient: new MockOpenQClient(),
@@ -36,11 +31,6 @@ case 'local':
 	break;
 case 'docker':
 	InitialState = {
-		baseUrl: 'http://localhost:3000',
-		authBaseUrl: 'http://localhost:3001',
-		oracleBaseUrl: 'http://localhost:8090',
-		apiBaseUrl: 'http://localhost:4000',
-		coinApiBaseUrl: 'http://localhost:8081',
 		tokenMetadata: mumbaiTokenMetadata,
 		tokens: mumbaiTokens,
 		openQClient: new OpenQClient(),

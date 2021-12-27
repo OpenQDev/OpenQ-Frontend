@@ -32,6 +32,14 @@ const FundModal = ({ setShowModal, bounty }) => {
 
 	const [token, setToken] = useState(appState.tokens[0]);
 
+	async function sleep(time) {
+		return new Promise((resolve) => {
+			setTimeout(() => {
+				resolve();
+			}, time);
+		});
+	}
+
 	// Methods
 	async function fundBounty() {
 		setIsLoading(true);
@@ -55,7 +63,12 @@ const FundModal = ({ setShowModal, bounty }) => {
 		}
 
 		if (approveSucceeded) {
-			console.log(bounty);
+			console.log(bounty.bountyAddress);
+			console.log(token.address);
+			console.log(bigNumberVolumeInWei);
+
+			sleep(10000);
+
 			try {
 				const fundTxnReceipt = await appState.openQClient.fundBounty(
 					library,
