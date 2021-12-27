@@ -7,17 +7,9 @@ import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModa
 import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 import ButtonLoadingIcon from '../Loading/ButtonLoadingIcon';
 
+
 const FundModal = ({ setShowModal, bounty }) => {
 	// State
-	const [token, setToken] = useState({
-		name: 'Mock Link',
-		address: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
-		symbol: 'mLink',
-		decimals: 18,
-		chainId: 80001,
-		logoURI:
-			'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x514910771AF9Ca656af840dff83E8264EcF986CA/logo.png',
-	});
 	const [volume, setVolume] = useState('');
 	const {
 		showErrorModal,
@@ -37,6 +29,8 @@ const FundModal = ({ setShowModal, bounty }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
 	const { library } = useWeb3();
+
+	const [token, setToken] = useState(appState.tokens[0]);
 
 	// Methods
 	async function fundBounty() {
