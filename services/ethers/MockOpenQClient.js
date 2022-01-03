@@ -3,9 +3,24 @@ import { issueIds } from './mocks/data/issueIds';
 import axios from 'axios';
 
 class MockOpenQClient {
+	shouldSleep = 0;
+
+	setSleep(time) {
+		this.shouldSleep = time;
+	}
+
 	constructor() { }
 
+	async sleep(time) {
+		return new Promise(async (resolve, reject) => {
+			setTimeout(time),
+				resolve();
+		});
+	}
+
 	async getAllIssues(library) {
+		await sleep();
+
 		return axios.get(`http://localhost:3030/getAllIssues`)
 			.then(result => {
 				return result.data;

@@ -1,6 +1,5 @@
 // Third Party
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import { ethers } from 'ethers';
 import Link from 'next/link';
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
@@ -73,9 +72,9 @@ const CreateBountyModal = (props) => {
 	}
 
 	async function alreadyExists() {
-		const address = await getBountyAddress(issueData.id);
+		const bounty = await getBountyAddress(issueData.id);
 		// Solidity returns the default zero address for uninitiated members of a mapping
-		if (address == '0x0000000000000000000000000000000000000000') {
+		if (bounty == 'null') {
 			setBountyExists(false);
 			if (!issueClosed) {
 				setDisableMint(false);
@@ -83,7 +82,7 @@ const CreateBountyModal = (props) => {
 			setBountyAddress(null);
 		} else {
 			setBountyExists(true);
-			setBountyAddress(address);
+			setBountyAddress(bounty.bountyAddress);
 			setDisableMint(true);
 		}
 	}
@@ -163,17 +162,12 @@ const CreateBountyModal = (props) => {
 	};
 
 	async function getBountyAddress(id) {
-		if (typeof window.ethereum !== 'undefined') {
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const contract = appState.openQClient.OpenQ(provider);
-
-			try {
-				const bountyAddress = await contract.bountyIdToAddress(id);
-				return bountyAddress;
-			} catch (e) {
-				setError(true);
-				setErrorMessage(e.message);
-			}
+		try {
+			const nullableBounty = await appState.openQSubgraphClient.getBounty(id);
+			return nullableBounty;
+		} catch (e) {
+			setError(true);
+			setErrorMessage(e.message);
 		}
 	}
 
@@ -183,6 +177,7 @@ const CreateBountyModal = (props) => {
 			setError(false);
 
 			setTransactionPending(true);
+
 			const { bountyAddress } = await appState.openQClient.mintBounty(
 				library,
 				issueId,
