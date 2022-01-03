@@ -6,100 +6,309 @@ import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import BountyMintedNotification from './BountyMintedNotification';
-import FundBountyButton from '../FundBounty/FundBountyButton';
+import MintBountyContext from './MintBountyStore/MintBountyContext';
 
-const CreateBountyModal = (props) => {
-	//props
-	const modalVisibility = props.modalVisibility;
-
+const MintBountyModal = ({ modalVisibility }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
+	const [mintBountyState, setMintBountyState] = useContext(MintBountyContext);
 	const { library } = useWeb3();
 
+	const RESTING_STATE = () => {
+		return {
+			bounty: null,
+			bountyAddress: '',
+			bountyExists: false,
+			enableMint: false,
+			error: false,
+			errorMessage: '',
+			isBountyMinted: false,
+			isLoading: false,
+			isValidUrl: false,
+			issueClosed: false,
+			issueData: '',
+			issueFound: false,
+			issueId: '',
+			issueNumber: '',
+			issueUrl: '',
+			orgName: '',
+			repoName: '',
+			transactionPending: false
+		};
+	};
+
+	const BOUNTY_DOES_NOT_EXIST = () => {
+		return {
+			bounty: null,
+			bountyAddress: '',
+			bountyExists: false,
+			enableMint: false,
+			error: false,
+			errorMessage: '',
+			isBountyMinted: false,
+			isLoading: false,
+			isValidUrl: false,
+			issueClosed: false,
+			issueData: '',
+			issueFound: false,
+			issueId: '',
+			issueNumber: '',
+			issueUrl: '',
+			orgName: '',
+			repoName: '',
+			transactionPending: false
+		};
+	};
+
+	const ISSUE_FOUND = (issue) => {
+		return {
+			bounty: null,
+			bountyAddress: '',
+			bountyExists: false,
+			enableMint: false,
+			error: false,
+			errorMessage: '',
+			isBountyMinted: false,
+			isLoading: false,
+			isValidUrl: false,
+			issueClosed: false,
+			issueData: '',
+			issueFound: false,
+			issueId: '',
+			issueNumber: '',
+			issueUrl: '',
+			orgName: '',
+			repoName: '',
+			transactionPending: false
+		};
+	};
+
+	const VALID_URL = (orgName, repoName, issueNumber) => {
+		return {
+			bounty: null,
+			bountyAddress: '',
+			bountyExists: false,
+			enableMint: false,
+			error: false,
+			errorMessage: '',
+			isBountyMinted: false,
+			isLoading: false,
+			isValidUrl: false,
+			issueClosed: false,
+			issueData: '',
+			issueFound: false,
+			issueId: '',
+			issueNumber,
+			issueUrl: '',
+			orgName,
+			repoName,
+			transactionPending: false
+		};
+	};
+
+	const INVALID_URL = () => {
+		return {
+			bounty: null,
+			bountyAddress: '',
+			bountyExists: false,
+			enableMint: false,
+			error: false,
+			errorMessage: '',
+			isBountyMinted: false,
+			isLoading: false,
+			isValidUrl: false,
+			issueClosed: false,
+			issueData: '',
+			issueFound: false,
+			issueId: '',
+			issueNumber: '',
+			issueUrl: '',
+			orgName: '',
+			repoName: '',
+			transactionPending: false
+		};
+	};
+
+	const BOUNTY_EXISTS = (bounty) => {
+		return {
+			bounty: null,
+			bountyAddress: '',
+			bountyExists: false,
+			enableMint: false,
+			error: false,
+			errorMessage: '',
+			isBountyMinted: false,
+			isLoading: false,
+			isValidUrl: false,
+			issueClosed: false,
+			issueData: '',
+			issueFound: false,
+			issueId: '',
+			issueNumber: '',
+			issueUrl: '',
+			orgName: '',
+			repoName: '',
+			transactionPending: false
+		};
+	};
+
+	const ERROR = (error) => {
+		return {
+			bounty: null,
+			bountyAddress: '',
+			bountyExists: false,
+			enableMint: false,
+			error: false,
+			errorMessage: '',
+			isBountyMinted: false,
+			isLoading: false,
+			isValidUrl: false,
+			issueClosed: false,
+			issueData: '',
+			issueFound: false,
+			issueId: '',
+			issueNumber: '',
+			issueUrl: '',
+			orgName: '',
+			repoName: '',
+			transactionPending: false
+		};
+	};
+
+	const TRANSACTION_PENDING = () => {
+		return {
+			bounty: null,
+			bountyAddress: '',
+			bountyExists: false,
+			enableMint: false,
+			error: false,
+			errorMessage: '',
+			isBountyMinted: false,
+			isLoading: false,
+			isValidUrl: false,
+			issueClosed: false,
+			issueData: '',
+			issueFound: false,
+			issueId: '',
+			issueNumber: '',
+			issueUrl: '',
+			orgName: '',
+			repoName: '',
+			transactionPending: false
+		};
+	};
+
+	const TRANSACTION_SUCCESS = (bountyAddress) => {
+		return {
+			bounty: null,
+			bountyAddress: '',
+			bountyExists: false,
+			enableMint: false,
+			error: false,
+			errorMessage: '',
+			isBountyMinted: false,
+			isLoading: false,
+			isValidUrl: false,
+			issueClosed: false,
+			issueData: '',
+			issueFound: false,
+			issueId: '',
+			issueNumber: '',
+			issueUrl: '',
+			orgName: '',
+			repoName: '',
+			transactionPending: false
+		};
+	};
+
+	const TRANSACTION_FAILURE = (error) => {
+		return {
+			bounty: null,
+			bountyAddress: '',
+			bountyExists: false,
+			enableMint: false,
+			error: false,
+			errorMessage: '',
+			isBountyMinted: false,
+			isLoading: false,
+			isValidUrl: false,
+			issueClosed: false,
+			issueData: '',
+			issueFound: false,
+			issueId: '',
+			issueNumber: '',
+			issueUrl: '',
+			orgName: '',
+			repoName: '',
+			transactionPending: false
+		};
+	};
+
+	const ISSUE_NOT_FOUND = (error) => {
+		return {
+			bounty: null,
+			bountyAddress: '',
+			bountyExists: false,
+			enableMint: false,
+			error: false,
+			errorMessage: '',
+			isBountyMinted: false,
+			isLoading: false,
+			isValidUrl: false,
+			issueClosed: false,
+			issueData: '',
+			issueFound: false,
+			issueId: '',
+			issueNumber: '',
+			issueUrl: '',
+			orgName: '',
+			repoName: '',
+			transactionPending: false
+		};
+	};
+
+	const BOUNTY_MINTED = () => {
+		return {
+			bounty: null,
+			bountyAddress: '',
+			bountyExists: false,
+			enableMint: false,
+			error: false,
+			errorMessage: '',
+			isBountyMinted: false,
+			isLoading: false,
+			isValidUrl: false,
+			issueClosed: false,
+			issueData: '',
+			issueFound: false,
+			issueId: '',
+			issueNumber: '',
+			issueUrl: '',
+			orgName: '',
+			repoName: '',
+			transactionPending: false
+		};
+	};
+
 	// State
+	// GitHub Issue State
 	const [issueUrl, setIssueUrl] = useState('');
-	const [orgName, setOrgName] = useState('');
-	const [repoName, setRepoName] = useState('');
-	const [issueNumber, setIssueNumber] = useState(0);
-	const [issueId, setIssueId] = useState('');
-	const [issueFound, setIssueFound] = useState(false);
-	const [issueClosed, setIssueClosed] = useState(false);
-	const [, setError] = useState(false);
-	const [, setErrorMessage] = useState(null);
 
-	const [issueData, setIssueData] = useState('');
-	const [bountyAddress, setBountyAddress] = useState(null);
-
-	const [isValidUrl, setIsValidUrl] = useState(false);
-	const [displayLoader, setDisplayLoader] = useState(true);
-	const [disableMint, setDisableMint] = useState(true);
-	const [, setBountyExists] = useState(false);
-	const [transactionPending, setTransactionPending] = useState(false);
-	const [isBountyMinted, setIsBountyMinted] = useState(false);
-	const [bounty, setBounty] = useState(null);
-
+	// Refs
 	let menuRef = useRef();
 	let notifyMenuRef;
 
-	// Methods
-	async function fetchIssue() {
-		try {
-			const response = await appState.githubRepository.fetchIssue(
-				orgName,
-				repoName,
-				issueNumber
-			);
-			setIssueFound(true);
-			setDisplayLoader(false);
-
-			if (response.data.organization.repository.issue.closed) {
-				setIssueClosed(true);
-				setDisableMint(true);
-			} else {
-				setIssueClosed(false);
-				setDisableMint(false);
-			}
-			setIssueData(response.data.organization.repository.issue);
-			setIssueId(response.data.organization.repository.issue.id);
-		} catch (e) {
-			setError(true);
-			setErrorMessage(e.message);
-			setIssueFound(false);
-			setDisplayLoader(false);
-			setIssueData(null);
-			setDisableMint(true);
-		}
-	}
-
-	async function alreadyExists() {
-		const bounty = await getBountyAddress(issueData.id);
-		// Solidity returns the default zero address for uninitiated members of a mapping
-		if (bounty == 'null') {
-			setBountyExists(false);
-			if (!issueClosed) {
-				setDisableMint(false);
-			}
-			setBountyAddress(null);
-		} else {
-			setBountyExists(true);
-			setBountyAddress(bounty.bountyAddress);
-			setDisableMint(true);
-		}
-	}
-
 	// Hooks
-
-	//Close Modal on outside click
 	useEffect(() => {
 		let handler = (event) => {
 			if (!menuRef.current.contains(event.target)) {
-				if (isBountyMinted) {
+				if (mintBountyState.isBountyMinted) {
 					if (!notifyMenuRef.current.contains(event.target)) {
-						updateModal();
-						setIsBountyMinted(false);
+						modalVisibility(false);
+						setMintBountyState(BOUNTY_MINTED());
 					}
 				} else {
-					updateModal();
+					modalVisibility(false);
 				}
 			}
 		};
@@ -111,120 +320,104 @@ const CreateBountyModal = (props) => {
 		};
 	});
 
-	// Parse the Organization name, Repository Name and Issue number from the URL
-	// This is needed to fetch the globally unique issue id
 	useEffect(() => {
-		setError(false);
-		setErrorMessage(null);
+		setMintBountyState(RESTING_STATE);
 
 		let pathArray = appState.utils.parseGitHubUrl(issueUrl);
+
 		if (pathArray == null) {
-			setIsValidUrl(false);
-			setDisableMint(true);
-			setBountyExists(false);
+			setMintBountyState(INVALID_URL());
 		} else {
 			const [orgName, repoName, issueNumber] = pathArray;
-			setOrgName(orgName);
-			setRepoName(repoName);
-			setIssueNumber(issueNumber);
-			setIsValidUrl(true);
-
-			setDisableMint(false);
+			setMintBountyState(VALID_URL(orgName, repoName, issueNumber));
 		}
 	}, [issueUrl]);
 
-	// Only runs when parseGitHubUrl succeeds
 	useEffect(() => {
-		if (isValidUrl) {
+		if (mintBountyState.isValidUrl) {
 			fetchIssue();
 		}
-	}, [issueNumber]);
+	}, [mintBountyState.issueNumber]);
 
 	useEffect(() => {
-		if (issueData) {
+		if (mintBountyState.issueData) {
 			alreadyExists();
 		}
-	}, [issueData]);
+	}, [mintBountyState.issueData]);
 
 	// Methods
-	const updateModal = () => {
-		modalVisibility(false);
-	};
-
-	const notificationRef = (data) => {
-		notifyMenuRef = data;
-	};
-
-	const getDate = () => {
-		const rawDate = issueData.createdAt;
-		const date = new Date(rawDate);
-		return date.toDateString().split(' ').slice(1).join(' ');
-	};
-
-	async function getBountyAddress(id) {
+	async function fetchIssue() {
 		try {
-			const nullableBounty = await appState.openQSubgraphClient.getBounty(id);
-			return nullableBounty;
-		} catch (e) {
-			setError(true);
-			setErrorMessage(e.message);
+			const response = await appState.githubRepository.fetchIssue(
+				mintBountyState.orgName,
+				mintBountyState.repoName,
+				mintBountyState.issueNumber
+			);
+
+			setMintBountyState(ISSUE_FOUND(response.data.organization.repository.issue));
+		} catch (error) {
+			setMintBountyState(ISSUE_NOT_FOUND(error));
+		}
+	}
+
+	async function alreadyExists() {
+		let bounty = null;
+
+		try {
+			bounty = await appState.openQSubgraphClient.getBounty(mintBountyState.issueData.id);
+			if (bounty) {
+				setMintBountyState(BOUNTY_EXISTS(bounty));
+			} else {
+				setMintBountyState(BOUNTY_DOES_NOT_EXIST());
+			}
+
+		} catch (error) {
+			setMintBountyState(ERROR(error));
 		}
 	}
 
 	async function mintBounty() {
 		try {
-			setDisableMint(true);
-			setError(false);
-
-			setTransactionPending(true);
+			setMintBountyState(TRANSACTION_PENDING());
 
 			const { bountyAddress } = await appState.openQClient.mintBounty(
 				library,
-				issueId,
-				orgName.toLowerCase()
+				mintBountyState.issueId,
+				mintBountyState.orgName.toLowerCase()
 			);
 
-			setBountyAddress(bountyAddress);
-			setTransactionPending(false);
-		} catch (e) {
-			setError(true);
-			setErrorMessage(e.message);
-			setTransactionPending(false);
-			setDisableMint(false);
+			setMintBountyState(TRANSACTION_SUCCESS(bountyAddress));
+		} catch (error) {
+			setMintBountyState(TRANSACTION_FAILURE(error));
 		}
 	}
 
 	async function getBounty(bountyAddress) {
 		try {
-			console.log('bountyAddress', bountyAddress);
-			const bounty = await appState.openQSubgraphClient.getBounty(
-				bountyAddress.toLowerCase()
-			);
-			console.log('bounty', bounty);
-			setBounty(bounty);
-			setIsBountyMinted(true);
+			const bounty = await appState.openQSubgraphClient.getBounty(bountyAddress.toLowerCase());
+			setMintBountyState(BOUNTY_EXISTS(bounty));
 		} catch (error) {
-			console.log(error);
+			setMintBountyState(ERROR(error));
 		}
 	}
 
 	useEffect(() => {
-		if (bountyAddress) {
-			getBounty(bountyAddress);
+		if (mintBountyState.bountyAddress) {
+			getBounty(mintBountyState.bountyAddress);
 		}
-	}, [bountyAddress]);
+	}, [mintBountyState.bountyAddress]);
 
 	// Render
 	return (
 		<div>
 			<div className="flex flex-col justify-center font-mont items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-				{isBountyMinted ? (
+				{mintBountyState.isBountyMinted ? (
 					<div>
 						<BountyMintedNotification
-							notificationRef={notificationRef}
-							bountyAddress={bountyAddress}
+							notificationRef={(data) => { notifyMenuRef = data; }}
+							bountyAddress={mintBountyState.bountyAddress}
 							issueUrl={issueUrl}
-							notifyModalVisibility={setIsBountyMinted}
+							notifyModalVisibility={mintBountyState.setIsBountyMinted}
 						/>
 					</div>
 				) : null}
@@ -254,7 +447,7 @@ const CreateBountyModal = (props) => {
 										/>
 									</div>
 								</div>
-								{isValidUrl && issueData ? (
+								{mintBountyState.isValidUrl && mintBountyState.issueData ? (
 									<div className="flex flex-col pt-4 pl-5 ">
 										<div className="flex flex-grow flex-row items-center space-x-2">
 											<div className="">
@@ -272,37 +465,37 @@ const CreateBountyModal = (props) => {
 													></path>
 												</svg>
 											</div>
-											<div className="text-sm"> {issueData.title}</div>
+											<div className="text-sm"> {mintBountyState.issueData.title}</div>
 										</div>
 										<div className="text-xs pt-3 pl-6 text-gray-400">
 											{' '}
-											created at {getDate()} by {issueData.author.login}
+											created at {appState.utils.formatDate(mintBountyState.issueData.createdAt)} by {mintBountyState.issueData.author.login}
 										</div>
 									</div>
 								) : null}
 							</div>
 						</div>
 						{/* {error ? errorMessage : null} */}
-						{isValidUrl && !issueFound && displayLoader ? (
+						{mintBountyState.isValidUrl && !mintBountyState.issueFound && mintBountyState.isLoading ? (
 							<div className="pl-10 pt-5">
 								<LoadingIcon bg={'white'} />
 							</div>
 						) : null}
-						{isValidUrl && !issueFound && !displayLoader ? (
+						{mintBountyState.isValidUrl && !mintBountyState.issueFound && !mintBountyState.isLoading ? (
 							<div className="pl-10 pt-5">Github Issue not found</div>
 						) : null}
 						<div className="flex flex-row justify-center space-x-1 px-8">
-							{isValidUrl && issueClosed && issueFound ? (
+							{mintBountyState.isValidUrl && mintBountyState.issueClosed && mintBountyState.issueFound ? (
 								<div className="pt-3">
 									This issue is already closed on GitHub
 								</div>
 							) : null}
-							{isValidUrl && bountyAddress && issueFound ? (
+							{mintBountyState.isValidUrl && mintBountyState.bountyAddress && mintBountyState.issueFound ? (
 								<>
 									<div className="pt-3">Bounty is already minted, top up</div>
 									<Link
-										href={`/?address=${bountyAddress}}`}
-										as={`/bounty/${bountyAddress}`}
+										href={`/?address=${mintBountyState.bountyAddress}}`}
+										as={`/bounty/${mintBountyState.bountyAddress}`}
 									>
 										<>
 											<a
@@ -335,35 +528,18 @@ const CreateBountyModal = (props) => {
 								</>
 							) : null}
 						</div>
-						{bounty ? <FundBountyButton bounty={bounty} /> : null}
 						<div className="flex items-center justify-center p-5 rounded-b w-full">
-							{transactionPending ? (
-								<button
-									className={`
-									flex flex-row space-x-2 justify-center
-									${disableMint
+							<button
+								className={`${!mintBountyState.enableMint
 									? 'confirm-btn-disabled cursor-not-allowed'
 									: 'confirm-btn cursor-pointer'
-								}`}
-									type="button"
-									onClick={() => mintBounty()}
-									disabled={disableMint}
-								>
-									<LoadingIcon bg="colored" /> Mint Bounty
-								</button>
-							) : (
-								<button
-									className={`${disableMint
-										? 'confirm-btn-disabled cursor-not-allowed'
-										: 'confirm-btn cursor-pointer'
 									}`}
-									type="button"
-									onClick={() => mintBounty()}
-									disabled={disableMint}
-								>
-									Mint Bounty
-								</button>
-							)}
+								type="button"
+								onClick={() => mintBounty()}
+								disabled={!mintBountyState.enableMint}
+							>
+								{mintBountyState.transactionPending ? <LoadingIcon bg="colored" /> : null}Mint Bounty
+							</button>
 						</div>
 					</div>
 				</div>
@@ -373,4 +549,4 @@ const CreateBountyModal = (props) => {
 	);
 };
 
-export default CreateBountyModal;
+export default MintBountyModal;
