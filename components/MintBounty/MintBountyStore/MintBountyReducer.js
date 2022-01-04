@@ -8,12 +8,10 @@ const MintBountyReducer = (state, action) => {
 	- A bounty has not already been minted for the provided GitHub issue
 	- Transaction is not pending
 	*/
-	let enableMint = isValidUrl;
 
 	const reducedState = {
 		...state,
-		...action,
-		enableMint
+		...action
 	};
 
 	return reducedState;

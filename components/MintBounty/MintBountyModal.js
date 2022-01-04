@@ -38,6 +38,8 @@ const MintBountyModal = ({ modalVisibility }) => {
 	let menuRef = useRef();
 	let notifyMenuRef;
 
+	let enableMint = mintBountyState.isValidUrl && !mintBountyState.issueClosed && mintBountyState.issueFound && !mintBountyState.bountyExists && !mintBountyState.transactionPending;
+
 	useEffect(() => {
 		let handler = (event) => {
 			if (!menuRef.current.contains(event.target)) {
@@ -82,7 +84,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 						mintBountyState.repoName,
 						mintBountyState.issueNumber
 					);
-
 					setMintBountyState(ISSUE_FOUND(response.data.organization.repository.issue));
 				} catch (error) {
 					setMintBountyState(ISSUE_NOT_FOUND(error));
@@ -104,7 +105,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 						setMintBountyState(BOUNTY_DOES_NOT_EXIST());
 					}
 				} catch (error) {
-					console.log('error', error);
 					setMintBountyState(ERROR(error));
 				}
 			}
@@ -125,6 +125,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 			);
 
 			setMintBountyState(TRANSACTION_SUCCESS(bountyAddress));
+			setIssueUrl('');
 		} catch (error) {
 			setMintBountyState(TRANSACTION_FAILURE(error));
 		}
@@ -177,13 +178,10 @@ const MintBountyModal = ({ modalVisibility }) => {
 					</div>
 					<div className="flex items-center justify-center p-5 rounded-b w-full">
 						<button
-							className={`${!mintBountyState.enableMint
-								? 'confirm-btn-disabled cursor-not-allowed'
-								: 'confirm-btn cursor-pointer'
-								}`}
+							className={`${enableMint ? 'confirm-btn cursor-pointer' : 'confirm-btn-disabled cursor-not-allowed'}`}
 							type="button"
 							onClick={() => mintBounty()}
-							disabled={!mintBountyState.enableMint}
+							disabled={!enableMint}
 						>
 							{mintBountyState.transactionPending ? <LoadingIcon bg="colored" /> : null}Mint Bounty
 						</button>

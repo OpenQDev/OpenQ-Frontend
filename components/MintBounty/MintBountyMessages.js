@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function MintBountyMessages({ mintBountyState }) {
 	return (
 		<>
-			{mintBountyState.isValidUrl && !mintBountyState.issueFound && mintBountyState.isLoading ? (
+			{mintBountyState.isValidUrl && mintBountyState.issueFound && mintBountyState.isLoading ? (
 				<div className="pl-10 pt-5">
 					<LoadingIcon bg={'white'} />
 				</div>

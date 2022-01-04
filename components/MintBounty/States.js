@@ -28,6 +28,7 @@ export const ISSUE_FOUND = (issue) => {
 		isValidUrl: true,
 		issueClosed: issue.closed,
 		issueData: issue,
+		issueId: issue.id,
 		issueFound: true,
 	};
 };
@@ -46,7 +47,6 @@ export const INVALID_URL = () => {
 		bounty: null,
 		bountyAddress: '',
 		bountyExists: false,
-		enableMint: false,
 		error: false,
 		errorMessage: '',
 		isBountyMinted: false,
@@ -76,9 +76,8 @@ export const ERROR = (error) => {
 		bounty: null,
 		bountyAddress: '',
 		bountyExists: false,
-		enableMint: false,
-		error: false,
-		errorMessage: '',
+		error: true,
+		errorMessage: error.message,
 		isBountyMinted: false,
 		isLoading: false,
 		isValidUrl: false,
@@ -95,66 +94,29 @@ export const ERROR = (error) => {
 
 export const TRANSACTION_PENDING = () => {
 	return {
-		bounty: null,
-		bountyAddress: '',
-		bountyExists: false,
-		enableMint: false,
 		error: false,
 		errorMessage: '',
 		isBountyMinted: false,
-		isLoading: false,
-		isValidUrl: false,
-		issueClosed: false,
-		issueData: '',
-		issueFound: false,
-		issueId: '',
-		issueNumber: '',
-		orgName: '',
-		repoName: '',
-		transactionPending: false
+		isLoading: true,
+		transactionPending: true
 	};
 };
 
 export const TRANSACTION_SUCCESS = (bountyAddress) => {
 	return {
-		bounty: null,
-		bountyAddress: '',
-		bountyExists: false,
-		enableMint: false,
-		error: false,
-		errorMessage: '',
-		isBountyMinted: false,
+		bountyAddress,
+		isBountyMinted: true,
 		isLoading: false,
-		isValidUrl: false,
-		issueClosed: false,
-		issueData: '',
-		issueFound: false,
-		issueId: '',
-		issueNumber: '',
-		orgName: '',
-		repoName: '',
 		transactionPending: false
 	};
 };
 
 export const TRANSACTION_FAILURE = (error) => {
 	return {
-		bounty: null,
-		bountyAddress: '',
-		bountyExists: false,
-		enableMint: true,
 		error: false,
 		errorMessage: '',
 		isBountyMinted: false,
 		isLoading: false,
-		isValidUrl: false,
-		issueClosed: false,
-		issueData: '',
-		issueFound: false,
-		issueId: '',
-		issueNumber: '',
-		orgName: '',
-		repoName: '',
 		transactionPending: false
 	};
 };
@@ -170,7 +132,6 @@ export const BOUNTY_MINTED = () => {
 		bounty: null,
 		bountyAddress: '',
 		bountyExists: false,
-		enableMint: false,
 		error: false,
 		errorMessage: '',
 		isBountyMinted: false,
