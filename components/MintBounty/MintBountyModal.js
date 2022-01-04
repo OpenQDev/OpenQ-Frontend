@@ -7,288 +7,28 @@ import StoreContext from '../../store/Store/StoreContext';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import BountyMintedNotification from './BountyMintedNotification';
 import MintBountyContext from './MintBountyStore/MintBountyContext';
+import {
+	RESTING_STATE,
+	BOUNTY_DOES_NOT_EXIST,
+	ISSUE_FOUND,
+	VALID_URL,
+	INVALID_URL,
+	BOUNTY_EXISTS,
+	ERROR,
+	TRANSACTION_PENDING,
+	TRANSACTION_SUCCESS,
+	TRANSACTION_FAILURE,
+	ISSUE_NOT_FOUND,
+	BOUNTY_MINTED
+} from './States';
+import MintBountyMessages from './MintBountyMessages';
+import IssueDetailsBubble from './IssueDetailsBubble';
 
 const MintBountyModal = ({ modalVisibility }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
 	const [mintBountyState, setMintBountyState] = useContext(MintBountyContext);
 	const { library } = useWeb3();
-
-	const RESTING_STATE = () => {
-		return {
-			bounty: null,
-			bountyAddress: '',
-			bountyExists: false,
-			enableMint: false,
-			error: false,
-			errorMessage: '',
-			isBountyMinted: false,
-			isLoading: false,
-			isValidUrl: false,
-			issueClosed: false,
-			issueData: '',
-			issueFound: false,
-			issueId: '',
-			issueNumber: '',
-			issueUrl: '',
-			orgName: '',
-			repoName: '',
-			transactionPending: false
-		};
-	};
-
-	const BOUNTY_DOES_NOT_EXIST = () => {
-		return {
-			bounty: null,
-			bountyAddress: '',
-			bountyExists: false,
-			enableMint: false,
-			error: false,
-			errorMessage: '',
-			isBountyMinted: false,
-			isLoading: false,
-			isValidUrl: false,
-			issueClosed: false,
-			issueData: '',
-			issueFound: false,
-			issueId: '',
-			issueNumber: '',
-			issueUrl: '',
-			orgName: '',
-			repoName: '',
-			transactionPending: false
-		};
-	};
-
-	const ISSUE_FOUND = (issue) => {
-		return {
-			bounty: null,
-			bountyAddress: '',
-			bountyExists: false,
-			enableMint: false,
-			error: false,
-			errorMessage: '',
-			isBountyMinted: false,
-			isLoading: false,
-			isValidUrl: false,
-			issueClosed: false,
-			issueData: '',
-			issueFound: false,
-			issueId: '',
-			issueNumber: '',
-			issueUrl: '',
-			orgName: '',
-			repoName: '',
-			transactionPending: false
-		};
-	};
-
-	const VALID_URL = (orgName, repoName, issueNumber) => {
-		return {
-			bounty: null,
-			bountyAddress: '',
-			bountyExists: false,
-			enableMint: false,
-			error: false,
-			errorMessage: '',
-			isBountyMinted: false,
-			isLoading: false,
-			isValidUrl: false,
-			issueClosed: false,
-			issueData: '',
-			issueFound: false,
-			issueId: '',
-			issueNumber,
-			issueUrl: '',
-			orgName,
-			repoName,
-			transactionPending: false
-		};
-	};
-
-	const INVALID_URL = () => {
-		return {
-			bounty: null,
-			bountyAddress: '',
-			bountyExists: false,
-			enableMint: false,
-			error: false,
-			errorMessage: '',
-			isBountyMinted: false,
-			isLoading: false,
-			isValidUrl: false,
-			issueClosed: false,
-			issueData: '',
-			issueFound: false,
-			issueId: '',
-			issueNumber: '',
-			issueUrl: '',
-			orgName: '',
-			repoName: '',
-			transactionPending: false
-		};
-	};
-
-	const BOUNTY_EXISTS = (bounty) => {
-		return {
-			bounty: null,
-			bountyAddress: '',
-			bountyExists: false,
-			enableMint: false,
-			error: false,
-			errorMessage: '',
-			isBountyMinted: false,
-			isLoading: false,
-			isValidUrl: false,
-			issueClosed: false,
-			issueData: '',
-			issueFound: false,
-			issueId: '',
-			issueNumber: '',
-			issueUrl: '',
-			orgName: '',
-			repoName: '',
-			transactionPending: false
-		};
-	};
-
-	const ERROR = (error) => {
-		return {
-			bounty: null,
-			bountyAddress: '',
-			bountyExists: false,
-			enableMint: false,
-			error: false,
-			errorMessage: '',
-			isBountyMinted: false,
-			isLoading: false,
-			isValidUrl: false,
-			issueClosed: false,
-			issueData: '',
-			issueFound: false,
-			issueId: '',
-			issueNumber: '',
-			issueUrl: '',
-			orgName: '',
-			repoName: '',
-			transactionPending: false
-		};
-	};
-
-	const TRANSACTION_PENDING = () => {
-		return {
-			bounty: null,
-			bountyAddress: '',
-			bountyExists: false,
-			enableMint: false,
-			error: false,
-			errorMessage: '',
-			isBountyMinted: false,
-			isLoading: false,
-			isValidUrl: false,
-			issueClosed: false,
-			issueData: '',
-			issueFound: false,
-			issueId: '',
-			issueNumber: '',
-			issueUrl: '',
-			orgName: '',
-			repoName: '',
-			transactionPending: false
-		};
-	};
-
-	const TRANSACTION_SUCCESS = (bountyAddress) => {
-		return {
-			bounty: null,
-			bountyAddress: '',
-			bountyExists: false,
-			enableMint: false,
-			error: false,
-			errorMessage: '',
-			isBountyMinted: false,
-			isLoading: false,
-			isValidUrl: false,
-			issueClosed: false,
-			issueData: '',
-			issueFound: false,
-			issueId: '',
-			issueNumber: '',
-			issueUrl: '',
-			orgName: '',
-			repoName: '',
-			transactionPending: false
-		};
-	};
-
-	const TRANSACTION_FAILURE = (error) => {
-		return {
-			bounty: null,
-			bountyAddress: '',
-			bountyExists: false,
-			enableMint: false,
-			error: false,
-			errorMessage: '',
-			isBountyMinted: false,
-			isLoading: false,
-			isValidUrl: false,
-			issueClosed: false,
-			issueData: '',
-			issueFound: false,
-			issueId: '',
-			issueNumber: '',
-			issueUrl: '',
-			orgName: '',
-			repoName: '',
-			transactionPending: false
-		};
-	};
-
-	const ISSUE_NOT_FOUND = (error) => {
-		return {
-			bounty: null,
-			bountyAddress: '',
-			bountyExists: false,
-			enableMint: false,
-			error: false,
-			errorMessage: '',
-			isBountyMinted: false,
-			isLoading: false,
-			isValidUrl: false,
-			issueClosed: false,
-			issueData: '',
-			issueFound: false,
-			issueId: '',
-			issueNumber: '',
-			issueUrl: '',
-			orgName: '',
-			repoName: '',
-			transactionPending: false
-		};
-	};
-
-	const BOUNTY_MINTED = () => {
-		return {
-			bounty: null,
-			bountyAddress: '',
-			bountyExists: false,
-			enableMint: false,
-			error: false,
-			errorMessage: '',
-			isBountyMinted: false,
-			isLoading: false,
-			isValidUrl: false,
-			issueClosed: false,
-			issueData: '',
-			issueFound: false,
-			issueId: '',
-			issueNumber: '',
-			issueUrl: '',
-			orgName: '',
-			repoName: '',
-			transactionPending: false
-		};
-	};
 
 	// State
 	// GitHub Issue State
@@ -298,7 +38,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 	let menuRef = useRef();
 	let notifyMenuRef;
 
-	// Hooks
 	useEffect(() => {
 		let handler = (event) => {
 			if (!menuRef.current.contains(event.target)) {
@@ -320,8 +59,9 @@ const MintBountyModal = ({ modalVisibility }) => {
 		};
 	});
 
+	// Hooks
 	useEffect(() => {
-		setMintBountyState(RESTING_STATE);
+		setMintBountyState(RESTING_STATE());
 
 		let pathArray = appState.utils.parseGitHubUrl(issueUrl);
 
@@ -335,47 +75,45 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 	useEffect(() => {
 		if (mintBountyState.isValidUrl) {
+			async function fetchIssue() {
+				try {
+					const response = await appState.githubRepository.fetchIssue(
+						mintBountyState.orgName,
+						mintBountyState.repoName,
+						mintBountyState.issueNumber
+					);
+
+					setMintBountyState(ISSUE_FOUND(response.data.organization.repository.issue));
+				} catch (error) {
+					setMintBountyState(ISSUE_NOT_FOUND(error));
+				}
+			}
 			fetchIssue();
 		}
 	}, [mintBountyState.issueNumber]);
 
 	useEffect(() => {
 		if (mintBountyState.issueData) {
+
+			async function alreadyExists() {
+				try {
+					let bounty = await appState.openQSubgraphClient.getBountyByBountyId(mintBountyState.issueData.id);
+					if (bounty) {
+						setMintBountyState(BOUNTY_EXISTS(bounty));
+					} else {
+						setMintBountyState(BOUNTY_DOES_NOT_EXIST());
+					}
+				} catch (error) {
+					console.log('error', error);
+					setMintBountyState(ERROR(error));
+				}
+			}
+
 			alreadyExists();
 		}
 	}, [mintBountyState.issueData]);
 
 	// Methods
-	async function fetchIssue() {
-		try {
-			const response = await appState.githubRepository.fetchIssue(
-				mintBountyState.orgName,
-				mintBountyState.repoName,
-				mintBountyState.issueNumber
-			);
-
-			setMintBountyState(ISSUE_FOUND(response.data.organization.repository.issue));
-		} catch (error) {
-			setMintBountyState(ISSUE_NOT_FOUND(error));
-		}
-	}
-
-	async function alreadyExists() {
-		let bounty = null;
-
-		try {
-			bounty = await appState.openQSubgraphClient.getBounty(mintBountyState.issueData.id);
-			if (bounty) {
-				setMintBountyState(BOUNTY_EXISTS(bounty));
-			} else {
-				setMintBountyState(BOUNTY_DOES_NOT_EXIST());
-			}
-
-		} catch (error) {
-			setMintBountyState(ERROR(error));
-		}
-	}
-
 	async function mintBounty() {
 		try {
 			setMintBountyState(TRANSACTION_PENDING());
@@ -391,21 +129,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 			setMintBountyState(TRANSACTION_FAILURE(error));
 		}
 	}
-
-	async function getBounty(bountyAddress) {
-		try {
-			const bounty = await appState.openQSubgraphClient.getBounty(bountyAddress.toLowerCase());
-			setMintBountyState(BOUNTY_EXISTS(bounty));
-		} catch (error) {
-			setMintBountyState(ERROR(error));
-		}
-	}
-
-	useEffect(() => {
-		if (mintBountyState.bountyAddress) {
-			getBounty(mintBountyState.bountyAddress);
-		}
-	}, [mintBountyState.bountyAddress]);
 
 	// Render
 	return (
@@ -447,104 +170,26 @@ const MintBountyModal = ({ modalVisibility }) => {
 										/>
 									</div>
 								</div>
-								{mintBountyState.isValidUrl && mintBountyState.issueData ? (
-									<div className="flex flex-col pt-4 pl-5 ">
-										<div className="flex flex-grow flex-row items-center space-x-2">
-											<div className="">
-												<svg
-													xmlns="http://www.w3.org/2000/svg"
-													fill="#15FB31"
-													viewBox="0 0 16 16"
-													width="17"
-													height="17"
-												>
-													<path d="M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
-													<path
-														fillRule="evenodd"
-														d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"
-													></path>
-												</svg>
-											</div>
-											<div className="text-sm"> {mintBountyState.issueData.title}</div>
-										</div>
-										<div className="text-xs pt-3 pl-6 text-gray-400">
-											{' '}
-											created at {appState.utils.formatDate(mintBountyState.issueData.createdAt)} by {mintBountyState.issueData.author.login}
-										</div>
-									</div>
-								) : null}
+								<IssueDetailsBubble mintBountyState={mintBountyState} />
 							</div>
 						</div>
-						{/* {error ? errorMessage : null} */}
-						{mintBountyState.isValidUrl && !mintBountyState.issueFound && mintBountyState.isLoading ? (
-							<div className="pl-10 pt-5">
-								<LoadingIcon bg={'white'} />
-							</div>
-						) : null}
-						{mintBountyState.isValidUrl && !mintBountyState.issueFound && !mintBountyState.isLoading ? (
-							<div className="pl-10 pt-5">Github Issue not found</div>
-						) : null}
-						<div className="flex flex-row justify-center space-x-1 px-8">
-							{mintBountyState.isValidUrl && mintBountyState.issueClosed && mintBountyState.issueFound ? (
-								<div className="pt-3">
-									This issue is already closed on GitHub
-								</div>
-							) : null}
-							{mintBountyState.isValidUrl && mintBountyState.bountyAddress && mintBountyState.issueFound ? (
-								<>
-									<div className="pt-3">Bounty is already minted, top up</div>
-									<Link
-										href={`/?address=${mintBountyState.bountyAddress}}`}
-										as={`/bounty/${mintBountyState.bountyAddress}`}
-									>
-										<>
-											<a
-												target="_blank"
-												rel="noreferrer"
-												className="cursor-pointer text-link pt-3"
-											>
-												here.
-											</a>
-											<a target="_blank" rel="noreferrer">
-												<div id={'bounty-link'} className="cursor-pointer">
-													<svg
-														xmlns="http://www.w3.org/2000/svg"
-														className="h-6 w-6"
-														fill="none"
-														viewBox="0 0 24 24"
-														stroke="#383838"
-													>
-														<path
-															strokeLinecap="round"
-															strokeLinejoin="round"
-															strokeWidth="2"
-															d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-														/>
-													</svg>
-												</div>
-											</a>
-										</>
-									</Link>
-								</>
-							) : null}
-						</div>
-						<div className="flex items-center justify-center p-5 rounded-b w-full">
-							<button
-								className={`${!mintBountyState.enableMint
-									? 'confirm-btn-disabled cursor-not-allowed'
-									: 'confirm-btn cursor-pointer'
-									}`}
-								type="button"
-								onClick={() => mintBounty()}
-								disabled={!mintBountyState.enableMint}
-							>
-								{mintBountyState.transactionPending ? <LoadingIcon bg="colored" /> : null}Mint Bounty
-							</button>
-						</div>
+						<MintBountyMessages mintBountyState={mintBountyState} />
+					</div>
+					<div className="flex items-center justify-center p-5 rounded-b w-full">
+						<button
+							className={`${!mintBountyState.enableMint
+								? 'confirm-btn-disabled cursor-not-allowed'
+								: 'confirm-btn cursor-pointer'
+								}`}
+							type="button"
+							onClick={() => mintBounty()}
+							disabled={!mintBountyState.enableMint}
+						>
+							{mintBountyState.transactionPending ? <LoadingIcon bg="colored" /> : null}Mint Bounty
+						</button>
 					</div>
 				</div>
 			</div>
-			<div className="opacity-25 fixed inset-0 bg-black"></div>
 		</div>
 	);
 };

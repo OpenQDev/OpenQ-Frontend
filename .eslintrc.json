@@ -37,6 +37,12 @@
 		"semi": [
 			"error",
 			"always"
+		],
+		"no-inner-declarations": [
+			"off"
+		],
+		"no-unused-vars": [
+			"off"
 		]
 	}
 }

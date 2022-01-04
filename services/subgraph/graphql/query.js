@@ -56,6 +56,34 @@ query GetBounty($id: ID!) {
 }
 `;
 
+export const GET_BOUNTY_BY_ID = gql`
+query GetBountyById($id: ID!) {
+  bounties(where: { bountyId: $id }) {
+    bountyAddress
+    bountyId
+    bountyMintTime
+    bountyClosedTime
+    status
+		deposits {
+      id
+      tokenAddress
+      volume
+      sender {
+        id
+      }
+      receiveTime
+    }
+		bountyTokenBalances {
+		  tokenAddress
+      volume
+		}
+    issuer {
+      id
+    }
+  }
+}
+`;
+
 export const GET_USER = gql`
 query GetUser($id: ID!) {
   user(id: $id, subgraphError: allow) {

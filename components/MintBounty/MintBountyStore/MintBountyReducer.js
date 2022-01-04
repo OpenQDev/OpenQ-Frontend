@@ -1,6 +1,5 @@
 const MintBountyReducer = (state, action) => {
-	const { payload } = action;
-	const { issueFound, issueClosed, isValidUrl, bountyExists, transactionPending } = payload;
+	const { issueFound, issueClosed, isValidUrl, bountyExists, transactionPending } = action;
 
 	/* Enable mint button when:
 	- Issue URL is valid
@@ -9,13 +8,15 @@ const MintBountyReducer = (state, action) => {
 	- A bounty has not already been minted for the provided GitHub issue
 	- Transaction is not pending
 	*/
-	let enableMint = isValidUrl && issueFound && !issueClosed && !bountyExists && !transactionPending;
+	let enableMint = isValidUrl;
 
-	return {
+	const reducedState = {
 		...state,
-		...payload,
+		...action,
 		enableMint
 	};
+
+	return reducedState;
 };
 
 export default MintBountyReducer;
