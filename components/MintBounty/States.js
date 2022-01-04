@@ -5,7 +5,6 @@ export const RESTING_STATE = () => {
 		bountyExists: false,
 		error: false,
 		errorMessage: '',
-		isBountyMinted: false,
 		isLoading: false,
 		isValidUrl: false,
 		issueClosed: false,
@@ -33,6 +32,12 @@ export const ISSUE_FOUND = (issue) => {
 	};
 };
 
+export const ISSUE_NOT_FOUND = (error) => {
+	return {
+		issueFound: false,
+	};
+};
+
 export const VALID_URL = (orgName, repoName, issueNumber) => {
 	return {
 		isValidUrl: true,
@@ -44,22 +49,7 @@ export const VALID_URL = (orgName, repoName, issueNumber) => {
 
 export const INVALID_URL = () => {
 	return {
-		bounty: null,
-		bountyAddress: '',
-		bountyExists: false,
-		error: false,
-		errorMessage: '',
-		isBountyMinted: false,
-		isLoading: false,
-		isValidUrl: false,
-		issueClosed: false,
-		issueData: '',
-		issueFound: false,
-		issueId: '',
-		issueNumber: '',
-		orgName: '',
-		repoName: '',
-		transactionPending: false
+		isValidUrl: false
 	};
 };
 
@@ -73,22 +63,8 @@ export const BOUNTY_EXISTS = (bounty) => {
 
 export const ERROR = (error) => {
 	return {
-		bounty: null,
-		bountyAddress: '',
-		bountyExists: false,
 		error: true,
 		errorMessage: error.message,
-		isBountyMinted: false,
-		isLoading: false,
-		isValidUrl: false,
-		issueClosed: false,
-		issueData: '',
-		issueFound: false,
-		issueId: '',
-		issueNumber: '',
-		orgName: '',
-		repoName: '',
-		transactionPending: false
 	};
 };
 
@@ -117,33 +93,6 @@ export const TRANSACTION_FAILURE = (error) => {
 		errorMessage: '',
 		isBountyMinted: false,
 		isLoading: false,
-		transactionPending: false
-	};
-};
-
-export const ISSUE_NOT_FOUND = (error) => {
-	return {
-		issueFound: false
-	};
-};
-
-export const BOUNTY_MINTED = () => {
-	return {
-		bounty: null,
-		bountyAddress: '',
-		bountyExists: false,
-		error: false,
-		errorMessage: '',
-		isBountyMinted: false,
-		isLoading: false,
-		isValidUrl: false,
-		issueClosed: false,
-		issueData: '',
-		issueFound: false,
-		issueId: '',
-		issueNumber: '',
-		orgName: '',
-		repoName: '',
 		transactionPending: false
 	};
 };

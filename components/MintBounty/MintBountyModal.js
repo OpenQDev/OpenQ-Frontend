@@ -18,8 +18,7 @@ import {
 	TRANSACTION_PENDING,
 	TRANSACTION_SUCCESS,
 	TRANSACTION_FAILURE,
-	ISSUE_NOT_FOUND,
-	BOUNTY_MINTED
+	ISSUE_NOT_FOUND
 } from './States';
 import MintBountyMessages from './MintBountyMessages';
 import IssueDetailsBubble from './IssueDetailsBubble';
@@ -38,15 +37,12 @@ const MintBountyModal = ({ modalVisibility }) => {
 	let menuRef = useRef();
 	let notifyMenuRef;
 
-	let enableMint = mintBountyState.isValidUrl && !mintBountyState.issueClosed && mintBountyState.issueFound && !mintBountyState.bountyExists && !mintBountyState.transactionPending;
-
 	useEffect(() => {
 		let handler = (event) => {
 			if (!menuRef.current.contains(event.target)) {
 				if (mintBountyState.isBountyMinted) {
 					if (!notifyMenuRef.current.contains(event.target)) {
 						modalVisibility(false);
-						setMintBountyState(BOUNTY_MINTED());
 					}
 				} else {
 					modalVisibility(false);
@@ -91,7 +87,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 			}
 			fetchIssue();
 		}
-	}, [mintBountyState.issueNumber]);
+	}, [mintBountyState.issueNumber, mintBountyState.orgName, mintBountyState.repoName]);
 
 	useEffect(() => {
 		if (mintBountyState.issueData) {
@@ -125,7 +121,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 			);
 
 			setMintBountyState(TRANSACTION_SUCCESS(bountyAddress));
-			setIssueUrl('');
 		} catch (error) {
 			setMintBountyState(TRANSACTION_FAILURE(error));
 		}
@@ -178,16 +173,17 @@ const MintBountyModal = ({ modalVisibility }) => {
 					</div>
 					<div className="flex items-center justify-center p-5 rounded-b w-full">
 						<button
-							className={`${enableMint ? 'confirm-btn cursor-pointer' : 'confirm-btn-disabled cursor-not-allowed'}`}
+							className={`${mintBountyState.enableMint ? 'confirm-btn cursor-pointer' : 'confirm-btn-disabled cursor-not-allowed'}`}
 							type="button"
 							onClick={() => mintBounty()}
-							disabled={!enableMint}
+							disabled={!mintBountyState.enableMint}
 						>
 							{mintBountyState.transactionPending ? <LoadingIcon bg="colored" /> : null}Mint Bounty
 						</button>
 					</div>
 				</div>
 			</div>
+			<div className="opacity-25 fixed inset-0 bg-black"></div>
 		</div>
 	);
 };
