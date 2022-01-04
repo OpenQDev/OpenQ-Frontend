@@ -22,17 +22,17 @@ const organization = () => {
 	// Methods
 	async function populateOrganizationData() {
 		setIsLoading(true);
-		const org = await appState.openQSubgraphClient.getOrganization(organization.toLowerCase());
+		const org = await appState.openQSubgraphClient.getOrganization(organization);
 
 		const orgData = await appState.githubRepository.fetchOrganizationByName(organization);
 
 		const mergedOrgData = { ...org, ...orgData };
+
 		setOrganizationData(mergedOrgData);
 	}
 
 	async function populateBountyData() {
 		const bounties = organizationData.bountiesCreated;
-
 		const bountyIds = bounties.map(bounty => bounty.bountyId);
 		const issueData = await appState.githubRepository.getIssueData(bountyIds);
 
@@ -44,13 +44,13 @@ const organization = () => {
 		});
 
 		setBounties(fullBounties);
-
 		setIsLoading(false);
 	}
 
 	// Hooks
 	useEffect(() => {
 		if (organizationData) {
+			console.log(organizationData);
 			populateBountyData();
 		}
 	}, [organizationData]);
@@ -96,7 +96,7 @@ const organization = () => {
 					organizationData.bountiesCreated.map(bounty => {
 						return (
 							<div key={bounty.bountyId}>
-								<div>BountyId: {bounty.id}</div>
+								<div>BountyId: {bounty.bountyId}</div>
 							</div>
 						);
 					})

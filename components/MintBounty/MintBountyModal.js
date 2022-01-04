@@ -117,7 +117,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 			const { bountyAddress } = await appState.openQClient.mintBounty(
 				library,
 				mintBountyState.issueId,
-				mintBountyState.orgName.toLowerCase()
+				mintBountyState.orgName
 			);
 
 			setMintBountyState(TRANSACTION_SUCCESS(bountyAddress));
