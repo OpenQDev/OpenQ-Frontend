@@ -1,4 +1,9 @@
 {
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
+	},
 	"env": {
 		"browser": true,
 		"node": true,
@@ -9,9 +14,16 @@
 		"eslint:recommended",
 		"plugin:react/recommended"
 	],
+	"parser": "@babel/eslint-parser",
 	"parserOptions": {
+		"requireConfigFile": false,
 		"ecmaFeatures": {
 			"jsx": true
+		},
+		"babelOptions": {
+			"presets": [
+				"@babel/preset-react"
+			]
 		},
 		"ecmaVersion": 12,
 		"sourceType": "module"
@@ -21,6 +33,10 @@
 		"unused-imports"
 	],
 	"rules": {
+		"no-async-promise-executor": "off",
+		"no-inner-declarations": "off",
+		"no-useless-catch": "off",
+		"no-useless-escape": "off",
 		"react/prop-types": 0,
 		"indent": [
 			"error",
@@ -37,12 +53,6 @@
 		"semi": [
 			"error",
 			"always"
-		],
-		"no-inner-declarations": [
-			"off"
-		],
-		"no-unused-vars": [
-			"off"
 		]
 	}
 }

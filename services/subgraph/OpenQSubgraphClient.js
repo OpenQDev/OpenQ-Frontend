@@ -1,9 +1,6 @@
-import { ApolloClient, HttpLink, InMemoryCache, gql } from '@apollo/client';
-import { getMainDefinition } from '@apollo/client/utilities';
-import { GET_ORGANIZATION, GET_USER, GET_BOUNTY, GET_BOUNTY_BY_ID, GET_ALL_BOUNTIES, SUBSCRIBE_TO_BOUNTY, GET_ORGANIZATIONS } from './graphql/query';
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
+import { GET_ORGANIZATION, GET_USER, GET_BOUNTY, GET_BOUNTY_BY_ID, GET_ALL_BOUNTIES, GET_ORGANIZATIONS } from './graphql/query';
 import fetch from 'cross-fetch';
-import { setContext } from '@apollo/client/link/context';
-import { WebSocketLink } from '@apollo/client/link/ws';
 
 class OpenQSubgraphClient {
 	constructor() { }

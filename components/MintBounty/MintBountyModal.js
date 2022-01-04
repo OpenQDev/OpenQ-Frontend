@@ -1,6 +1,6 @@
 // Third Party
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import Link from 'next/link';
+
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';

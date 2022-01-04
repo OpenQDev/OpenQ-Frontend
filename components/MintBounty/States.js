@@ -32,7 +32,7 @@ export const ISSUE_FOUND = (issue) => {
 	};
 };
 
-export const ISSUE_NOT_FOUND = (error) => {
+export const ISSUE_NOT_FOUND = () => {
 	return {
 		issueFound: false,
 	};
@@ -89,8 +89,8 @@ export const TRANSACTION_SUCCESS = (bountyAddress) => {
 
 export const TRANSACTION_FAILURE = (error) => {
 	return {
-		error: false,
-		errorMessage: '',
+		error: error,
+		errorMessage: error.message,
 		isBountyMinted: false,
 		isLoading: false,
 		transactionPending: false
