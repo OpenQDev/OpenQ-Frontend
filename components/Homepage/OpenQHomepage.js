@@ -19,12 +19,24 @@ const OpenQHomepage = () => {
 
 	// Methods
 	async function populateOrganizationData() {
-		const orgs = await appState.openQSubgraphClient.getOrganizations();
+		let orgs = [];
+		try {
+			orgs = await appState.openQSubgraphClient.getOrganizations();
+		} catch (error) {
+			console.log(error);
+		}
 
 		let mergedOrgs = [];
 
 		for (const organization of orgs) {
-			const orgData = await appState.githubRepository.fetchOrganizationByName(organization.id);
+			let orgData = {};
+
+			try {
+				orgData = await appState.githubRepository.fetchOrganizationByName(organization.id);
+			} catch (error) {
+				console.log(error);
+				continue;
+			}
 			const mergedOrgData = { ...organization, ...orgData };
 			mergedOrgs.push(mergedOrgData);
 		}
