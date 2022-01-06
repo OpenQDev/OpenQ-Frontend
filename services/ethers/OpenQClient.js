@@ -44,29 +44,35 @@ class OpenQClient {
 	}
 
 	async approve(library, _bountyAddress, _tokenAddress, _value) {
-		const signer = library.getSigner();
+		const promise = new Promise(async (resolve, reject) => {
+			const signer = library.getSigner();
 
-		const contract = this.ERC20(_tokenAddress, signer);
-		try {
-			const txnResponse = await contract.approve(_bountyAddress, _value);
-			const txnReceipt = await txnResponse.wait();
-			return txnReceipt;
-		} catch (err) {
-			throw (err);
-		}
+			const contract = this.ERC20(_tokenAddress, signer);
+			try {
+				const txnResponse = await contract.approve(_bountyAddress, _value);
+				const txnReceipt = await txnResponse.wait();
+				resolve(txnReceipt);
+			} catch (error) {
+				reject(error);
+			}
+		});
+		return promise;
 	}
 
 	async fundBounty(library, _bountyAddress, _tokenAddress, _value) {
-		const signer = library.getSigner();
+		const promise = new Promise(async (resolve, reject) => {
+			const signer = library.getSigner();
 
-		const contract = this.OpenQ(signer);
-		try {
-			const txnResponse = await contract.fundBounty(_bountyAddress, _tokenAddress, _value);
-			const txnReceipt = await txnResponse.wait();
-			return txnReceipt;
-		} catch (err) {
-			throw (err);
-		}
+			const contract = this.OpenQ(signer);
+			try {
+				const txnResponse = await contract.fundBounty(_bountyAddress, _tokenAddress, _value);
+				const txnReceipt = await txnResponse.wait();
+				resolve(txnReceipt);
+			} catch (error) {
+				reject(error);
+			}
+		});
+		return promise;
 	}
 
 	async refundBounty(library, _bountyAddress) {
