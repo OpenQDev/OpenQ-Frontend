@@ -84,7 +84,7 @@ const FundModal = ({ setShowModal, bounty }) => {
 
 	const parseTransactionRevertedMessage = (error) => {
 		if (error.data.message.includes('Cannot fund a closed bounty')) {
-			return "This bounty is already closed! You cannot fund a bounty that has already been closed.";
+			return 'This bounty is already closed! You cannot fund a bounty that has already been closed.';
 		} else {
 			return JSON.stringify(error);
 		}
@@ -182,7 +182,7 @@ const FundModal = ({ setShowModal, bounty }) => {
 								className={`flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${isLoading
 									? 'confirm-btn-disabled cursor-not-allowed'
 									: 'confirm-btn cursor-pointer'
-									}`}
+								}`}
 								type="button"
 								onClick={() => setShowConfirmationModal(true)}
 							>
