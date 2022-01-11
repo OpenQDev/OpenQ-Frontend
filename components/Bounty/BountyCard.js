@@ -28,7 +28,7 @@ const BountyCard = (props) => {
       >
         <div
           className={
-            "flex flex-col p-6 font-mont rounded-xl shadow-sm bg-white cursor-pointer pr-10 pl-10"
+            "flex flex-col p-6 font-mont rounded-xl shadow-sm border border-web-gray cursor-pointer pr-10 pl-10"
           }
           onClick={() => setShowModal(true)}
         >
@@ -49,17 +49,17 @@ const BountyCard = (props) => {
                     d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"
                   ></path>
                 </svg>
-                <div className="font-mont text-2xl">
+                <div className="font-mont text-2xl text-white">
                   {bounty.owner.toLowerCase()}/{bounty.repoName.toLowerCase()}
                 </div>
               </div>
-              <div className="font-bold text-xl pl-6">
+              <div className="font-bold text-xl text-white pl-6">
                 {bounty.title.length < 50
                   ? bounty.title.toLowerCase()
                   : bountyName.slice(0, 50) + "..."}
               </div>
               <div className="flex flex-row items-center space-x-4 pt-1">
-                <div className="font-mont font-light pl-6 text-sm text-gray-500">
+                <div className="font-mont font-light pl-6 text-sm text-white">
                   Opened {appState.utils.formatDate(bounty.createdAt)}
                 </div>
               </div>
@@ -83,7 +83,7 @@ const BountyCard = (props) => {
                         return (
                           <button
                             key={index}
-                            className="font-mont rounded-lg text-xs py-1 px-2 font-bold bg-purple-500 text-white"
+                            className="font-mont rounded-lg text-xs py-1 px-2 font-bold border border-purple-500 text-white"
                           >
                             {label.name}
                           </button>
@@ -92,7 +92,7 @@ const BountyCard = (props) => {
                         return (
                           <button
                             key={index}
-                            className="font-mont rounded-lg text-xs py-1 px-2 font-bold bg-green-300 text-white"
+                            className="font-mont rounded-lg text-xs py-1 px-2 font-bold border border-green-300 text-white"
                           >
                             more..
                           </button>
@@ -114,8 +114,8 @@ const BountyCard = (props) => {
                   height="20"
                 />
               </div>
-              <div className="font-semibold">TVL</div>
-              <div>
+              <div className="font-semibold text-white">TVL</div>
+              <div className="text-white">
                 {tokenValues != null && tokenValues != {}
                   ? appState.utils.formatter.format(tokenValues.total)
                   : appState.utils.formatter.format(0)}

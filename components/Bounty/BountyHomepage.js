@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from "react";
 // Custom
 import BountyCard from "./BountyCard";
 import StoreContext from "../../store/Store/StoreContext";
+import MintBountyButton from "../MintBounty/MintBountyButton";
 
 const BountyHomepage = () => {
   // State
@@ -56,10 +57,10 @@ const BountyHomepage = () => {
   } else {
     return (
       <div className="flex justify-center">
-        <div className="grid grid-cols w-4/5">
-          <div className="flex flex-row space-x-12 pb-8">
-            <div className="flex flex-col">
-              <div className="pb-3">Organization</div>
+        <div>
+          <div className="flex flex-row space-x-5">
+            {/* <div className="flex flex-col">
+              <div className="pb-3 text-white">Organization</div>
               <div className="">
                 <input
                   className="outline-none rounded-lg py-2 p-5 text-base bg-gray-100 shadow-inner text-black"
@@ -68,18 +69,21 @@ const BountyHomepage = () => {
                   placeholder="Search for Organizations"
                 ></input>
               </div>
-            </div>
-            <div>
-              <div className="pb-3">Issue Title</div>
+            </div> */}
+            <div className="">
               <input
-                className="outline-none rounded-lg py-2 p-5 text-base bg-gray-100 shadow-inner text-black"
+                className="outline-none font-mont rounded-lg py-2 p-5 border border-web-gray bg-dark-mode text-white"
                 onKeyUp={(e) => filterByIssueTitle(e)}
                 type="text"
-                placeholder="Search for Issues"
+                placeholder="Search Issue..."
               ></input>
             </div>
+            <div className="">
+              <MintBountyButton />
+            </div>
           </div>
-          <div>
+          <div className="pt-4">
+            <div className="font-mont text-white pb-3 pt-2">Bounties</div>
             {bounties
               .filter((bounty) => {
                 return organizationSearchTerm
@@ -97,7 +101,7 @@ const BountyHomepage = () => {
               })
               .map((bounty) => {
                 return (
-                  <div className="pb-3">
+                  <div className="pb-3 pr-14">
                     <BountyCard bounty={bounty} key={bounty.bountyId} />
                   </div>
                 );

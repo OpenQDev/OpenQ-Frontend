@@ -32,7 +32,7 @@
     @apply font-mont rounded-lg w-full py-3 text-base font-bold cursor-pointer bg-button-pink text-white hover:bg-pink-300 hover:text-white;
   }
   .confirm-btn-disabled {
-    @apply font-mont rounded-lg w-full py-3 text-base font-bold text-white bg-pink-300;
+    @apply font-mont rounded-lg w-full py-3 text-base font-bold text-white border border-pink-500;
   }
 	.text-link{
 		@apply text-purple-500;
