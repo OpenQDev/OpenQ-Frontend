@@ -7,7 +7,7 @@ const MintBountyButton = () => {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <div>
+    <div className="">
       <button
         onClick={() => setShowModal(true)}
         className="font-mont w-full rounded-lg border border-web-gray py-2 px-6 text-white font-semibold cursor-pointer hover:border-white"

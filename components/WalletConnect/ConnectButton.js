@@ -61,7 +61,7 @@ const ConnectButton = () => {
       <div>
         <button
           disabled={true}
-          className="font-mont whitespace-nowrap rounded-lg border border-web-gray py-2 px-6 text-white font-semibold cursor-pointer hover:border-white"
+          className="font-mont whitespace-nowrap rounded-lg border border-pink-500 bg-pink-700 bg-opacity-20 py-2 px-6 text-white font-semibold cursor-pointer hover:border-pink-300"
         >
           {firstThree}...{lastThree}
         </button>
@@ -72,7 +72,7 @@ const ConnectButton = () => {
       <div>
         <button
           onClick={addOrSwitchNetwork}
-          className="font-mont whitespace-nowrap rounded-lg border border-web-gray py-2 px-6 text-white font-semibold cursor-pointer hover:border-white"
+          className="font-mont whitespace-nowrap rounded-lg border border-pink-500 bg-pink-700 bg-opacity-20 py-2 px-6 text-white font-semibold cursor-pointer hover:border-pink-300"
         >
           Use{" "}
           {
@@ -91,7 +91,7 @@ const ConnectButton = () => {
           hidden={isHidden}
           disabled={isDisabled}
           onClick={onClickConnect}
-          className="font-mont whitespace-nowrap rounded-lg border border-web-gray py-2 px-6 text-white font-semibold cursor-pointer hover:border-white"
+          className="font-mont whitespace-nowrap rounded-lg border border-pink-500 bg-pink-700 bg-opacity-20 py-2 px-6 text-white font-semibold cursor-pointer hover:border-pink-300"
         >
           {buttonText}
         </button>
