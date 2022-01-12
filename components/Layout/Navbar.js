@@ -27,8 +27,8 @@ const Navbar = ({ children }) => {
   });
 
   return (
-    <div className="flex flex-row">
-      <div className="flex">
+    <div className="flex">
+      <div className="flex fixed top-0 left-0 h-screen">
         {!isClosed && (
           <div
             ref={menuRef}

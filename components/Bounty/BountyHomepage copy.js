@@ -56,17 +56,34 @@ const BountyHomepage = () => {
     return <div>Loading...</div>;
   } else {
     return (
-      <div className="flex justify-center items-center">
-        <div className="grid grid-cols-3 gap-3">
-          <input
-            className="col-span-2 outline-none font-mont rounded-lg py-2 p-5 border border-web-gray bg-dark-mode text-white"
-            onKeyUp={(e) => filterByIssueTitle(e)}
-            type="text"
-            placeholder="Search Issue..."
-          ></input>
-          <MintBountyButton />
-          <div className="col-span-3">
-            <div className="font-mont text-white pb-3">Bounties</div>
+      <div className="flex justify-center">
+        <div>
+          <div className="flex flex-row space-x-5">
+            {/* <div className="flex flex-col">
+              <div className="pb-3 text-white">Organization</div>
+              <div className="">
+                <input
+                  className="outline-none rounded-lg py-2 p-5 text-base bg-gray-100 shadow-inner text-black"
+                  onKeyUp={(e) => filterByOrg(e)}
+                  type="text"
+                  placeholder="Search for Organizations"
+                ></input>
+              </div>
+            </div> */}
+            <div className="">
+              <input
+                className="outline-none font-mont rounded-lg py-2 p-5 border border-web-gray bg-dark-mode text-white"
+                onKeyUp={(e) => filterByIssueTitle(e)}
+                type="text"
+                placeholder="Search Issue..."
+              ></input>
+            </div>
+            <div className="">
+              <MintBountyButton />
+            </div>
+          </div>
+          <div className="pt-4">
+            <div className="font-mont text-white pb-3 pt-2">Bounties</div>
             {bounties
               .filter((bounty) => {
                 return organizationSearchTerm
@@ -84,7 +101,7 @@ const BountyHomepage = () => {
               })
               .map((bounty) => {
                 return (
-                  <div className="pb-3">
+                  <div className="pb-3 pr-14">
                     <BountyCard bounty={bounty} key={bounty.bountyId} />
                   </div>
                 );

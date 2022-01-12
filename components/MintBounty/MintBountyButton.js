@@ -10,13 +10,11 @@ const MintBountyButton = () => {
     <div>
       <button
         onClick={() => setShowModal(true)}
-        className="font-mont whitespace-nowrap rounded-lg border border-web-gray py-2 px-6 text-white font-semibold cursor-pointer hover:border-white"
+        className="font-mont w-full rounded-lg border border-web-gray py-2 px-6 text-white font-semibold cursor-pointer hover:border-white"
       >
         Mint Bounty
       </button>
-      <div>
-        {showModal && <MintBountyModal modalVisibility={setShowModal} />}
-      </div>
+      {showModal && <MintBountyModal modalVisibility={setShowModal} />}
     </div>
   );
 };
