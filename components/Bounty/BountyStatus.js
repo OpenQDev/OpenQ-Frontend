@@ -10,7 +10,7 @@ const BountyStatus = (props) => {
 
 	return (
 		<>
-			<div className="font-bold">Status</div>
+			<div className="font-bold text-white">Status</div>
 			<div className="flex flex-row space-x-2 pt-2">
 				<div className="pt-1">
 					<svg
@@ -27,7 +27,7 @@ const BountyStatus = (props) => {
 						></path>
 					</svg>
 				</div>
-				<div className="flex space-x-1">
+				<div className="flex space-x-1 text-white">
 					<div>{bounty.status == 'OPEN' ? 'Unclaimed' : 'Claimed'}</div>
 					<div>{appState.utils.formatDate(bounty.createdAt)}</div>
 				</div>

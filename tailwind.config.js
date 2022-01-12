@@ -29,8 +29,9 @@ module.exports = {
 				inner: 'inset 0 -2px 3px 0 rgba(0, 0, 0, 0.06)',
 			},
 			colors: {
-				'menu-black': '#090909',
+				'dark-mode': '#121212',
 				'button-pink': '#FF006A',
+				'web-gray': '#585858',
 				'bg-input-color': '#C45454',
 			},
 			fontFamily: {

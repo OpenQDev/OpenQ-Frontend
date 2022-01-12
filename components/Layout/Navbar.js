@@ -27,29 +27,31 @@ const Navbar = ({ children }) => {
 	});
 
 	return (
-		<div className="flex flex-row">
-			<div className="flex">
+		<div className="flex">
+			<div className="flex fixed top-0 left-0 h-screen">
 				{!isClosed && (
 					<div
 						ref={menuRef}
-						className="bg-menu-black  w-20 flex min-h-screen flex-col"
+						className="bg-dark-mode w-20 flex min-h-screen flex-col border-r border-web-gray"
 					>
 						{/*  <div class="bg-white broder-r broder-b px-4 h-10 flex items-center">
             {" "}
             <span>Application</span>
           </div> */}
-						;
-						<nav className="text-white flex flex-col space-y-4 items-center pt-4 flex-grow">
-							<Link href="/">
-								<a href="">
-									<Image
-										src="/openq-logo.png"
-										alt="OpenQ"
-										width="31"
-										height="31"
-									/>
-								</a>
-							</Link>
+            ;
+						<nav className="text-white flex flex-col space-y-4 items-center pt-1 flex-grow">
+							<div className="pb-8">
+								<Link href="/">
+									<a href="">
+										<Image
+											src="/openq-logo.png"
+											alt="OpenQ"
+											width="31"
+											height="31"
+										/>
+									</a>
+								</Link>
+							</div>
 							{/* <div className="navbar-icon">
                 <Link href="/">
                   <a>
@@ -76,7 +78,7 @@ const Navbar = ({ children }) => {
                   </svg>
                 </a>
               </Link> */}
-							<div className="navbar-icon pt-1">
+							<div className=" pt-1">
 								<Link href="/claim">
 									<a>
 										<Image
@@ -88,7 +90,7 @@ const Navbar = ({ children }) => {
 									</a>
 								</Link>
 							</div>
-							<div className="navbar-icon">
+							<div className="pt-2">
 								{/* <Link href="/labs">
                 <a> */}
 								<svg
@@ -102,26 +104,24 @@ const Navbar = ({ children }) => {
 								{/*  </a>
               </Link> */}
 							</div>
-							<div className="navbar-icon">
-								{/* <Link href="/labs">
-                <a> */}
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									className="h-6 w-6"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke="gray"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth="2"
-										d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-									/>
-								</svg>
-								{/*  </a>
-              </Link> */}
-							</div>
+							{/*  <div className="">
+              
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="gray"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                  />
+                </svg>
+              
+              </div> */}
 						</nav>
 					</div>
 				)}

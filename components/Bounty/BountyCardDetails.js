@@ -23,17 +23,23 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 				</div>
 				<LabelsList bounty={bounty} />
 				{bounty.deposits.length != 0 ? (
-					<TokenBalances tokenBalances={bounty.bountyTokenBalances} tokenValues={tokenValues} />
+					<TokenBalances
+						tokenBalances={bounty.bountyTokenBalances}
+						tokenValues={tokenValues}
+					/>
 				) : (
-					<div className="pt-5 pb-5 font-semibold">No deposits</div>
+					<div className="pt-5 pb-5 font-semibold text-white">No deposits</div>
 				)}
 			</div>
 			<div className="flex flex-col pt-5">
 				<div className="flex flex-row justify-between">
-					<div className="font-bold text-xl">Description</div>
+					<div className="font-bold text-xl text-white">Description</div>
 					<BountyLinks bounty={bounty} />
 				</div>
-				<div dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}></div>
+				<div
+					className="text-white pt-2"
+					dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}
+				></div>
 			</div>
 			<div className="flex flex-col pt-5">
 				<div className="flex flex-row justify-between">

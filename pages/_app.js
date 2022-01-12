@@ -11,7 +11,6 @@ import AuthProvider from '../store/AuthStore/AuthProvider';
 import Layout from '../components/Layout/Layout';
 
 function OpenQ({ Component, pageProps }) {
-
 	function getLibrary(provider) {
 		const library = new ethers.providers.Web3Provider(provider);
 		library.pollingInterval = 12000;
@@ -19,15 +18,17 @@ function OpenQ({ Component, pageProps }) {
 	}
 
 	return (
-		<AuthProvider>
-			<StoreProvider>
-				<Web3ReactProvider getLibrary={getLibrary}>
-					<Layout>
-						<Component {...pageProps} />
-					</Layout>
-				</Web3ReactProvider>
-			</StoreProvider>
-		</AuthProvider>
+		<div className="bg-dark-mode">
+			<AuthProvider>
+				<StoreProvider>
+					<Web3ReactProvider getLibrary={getLibrary}>
+						<Layout>
+							<Component {...pageProps} />
+						</Layout>
+					</Web3ReactProvider>
+				</StoreProvider>
+			</AuthProvider>
+		</div>
 	);
 }
 

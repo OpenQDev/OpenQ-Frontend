@@ -13,7 +13,7 @@ const LabelsList = (props) => {
 					return (
 						<button
 							key={index}
-							className="rounded-lg text-xs py-1 px-2 font-bold bg-purple-500 text-white"
+							className="rounded-lg text-xs py-1 px-2 font-bold border border-purple-500 text-white"
 						>
 							{label.name}
 						</button>

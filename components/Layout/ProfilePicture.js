@@ -6,8 +6,8 @@ import AuthContext from '../../store/AuthStore/AuthContext';
 import StoreContext from '../../store/Store/StoreContext';
 
 const ProfilePicture = () => {
-	const [authState,] = useContext(AuthContext);
-	const [appState,] = useContext(StoreContext);
+	const [authState] = useContext(AuthContext);
+	const [appState] = useContext(StoreContext);
 
 	const [propicUrl, setProPicUrl] = useState(null);
 
@@ -25,8 +25,18 @@ const ProfilePicture = () => {
 
 	return (
 		<div>
-			{propicUrl ? <Image src={propicUrl} width={60} height={60} alt={'propic'} className='rounded-lg' /> : <div></div>}
-		</div >
+			{propicUrl ? (
+				<Image
+					src={propicUrl}
+					width={180}
+					height={180}
+					alt={'propic'}
+					className="rounded-lg"
+				/>
+			) : (
+				<div></div>
+			)}
+		</div>
 	);
 };
 

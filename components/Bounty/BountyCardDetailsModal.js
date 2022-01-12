@@ -33,7 +33,7 @@ const BountyCardDetailsModal = (props) => {
 				<div className="w-auto my-6 mx-auto max-w-3xl">
 					<div
 						ref={menuRef}
-						className="rounded-lg shadow-lg  flex flex-col w-full bg-white"
+						className="rounded-lg shadow-lg  flex flex-col w-full bg-dark-mode"
 					>
 						<BountyCardDetails
 							bounty={bounty}
@@ -44,7 +44,7 @@ const BountyCardDetailsModal = (props) => {
 					</div>
 				</div>
 			</div>
-			<div className="opacity-25 fixed inset-0 bg-black"></div>
+			<div className="opacity-80 fixed inset-0 bg-black"></div>
 		</div>
 	);
 };

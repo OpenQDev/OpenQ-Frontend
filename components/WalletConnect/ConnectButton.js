@@ -26,7 +26,10 @@ const ConnectButton = () => {
 	}, [active]);
 
 	useEffect(() => {
-		setIsOnCorrectNetwork(chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'] == chainId);
+		setIsOnCorrectNetwork(
+			chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'] ==
+        chainId
+		);
 	}, [chainId]);
 
 	// Methods
@@ -41,7 +44,12 @@ const ConnectButton = () => {
 	};
 
 	const addOrSwitchNetwork = () => {
-		window.ethereum.request({ method: 'wallet_addEthereumChain', params: chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['params'] })
+		window.ethereum
+			.request({
+				method: 'wallet_addEthereumChain',
+				params:
+          chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['params'],
+			})
 			.catch((error) => console.log('Error', error.message));
 	};
 
@@ -50,30 +58,44 @@ const ConnectButton = () => {
 		const firstThree = account.slice(0, 5);
 		const lastThree = account.slice(-3);
 		return (
-			<button
-				disabled={true}
-				className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
-			>{firstThree}...{lastThree}</button>
+			<div>
+				<button
+					disabled={true}
+					className="font-mont whitespace-nowrap rounded-lg border border-pink-500 bg-pink-700 bg-opacity-20 py-2 px-6 text-white font-semibold cursor-pointer hover:border-pink-300"
+				>
+					{firstThree}...{lastThree}
+				</button>
+			</div>
 		);
 	} else if (account) {
 		return (
-			<button
-				onClick={addOrSwitchNetwork}
-				className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
-			>
-				Use {chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['networkName']} Network
-			</button>
+			<div>
+				<button
+					onClick={addOrSwitchNetwork}
+					className="font-mont whitespace-nowrap rounded-lg border border-pink-500 bg-pink-700 bg-opacity-20 py-2 px-6 text-white font-semibold cursor-pointer hover:border-pink-300"
+				>
+          Use{' '}
+					{
+						chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV][
+							'networkName'
+						]
+					}{' '}
+          Network
+				</button>
+			</div>
 		);
 	} else {
 		return (
-			<button
-				hidden={isHidden}
-				disabled={isDisabled}
-				onClick={onClickConnect}
-				className="font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer"
-			>
-				{buttonText}
-			</button>
+			<div>
+				<button
+					hidden={isHidden}
+					disabled={isDisabled}
+					onClick={onClickConnect}
+					className="font-mont whitespace-nowrap rounded-lg border border-pink-500 bg-pink-700 bg-opacity-20 py-2 px-6 text-white font-semibold cursor-pointer hover:border-pink-300"
+				>
+					{buttonText}
+				</button>
+			</div>
 		);
 	}
 };
