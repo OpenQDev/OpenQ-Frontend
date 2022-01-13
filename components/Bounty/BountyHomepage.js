@@ -56,7 +56,7 @@ const BountyHomepage = () => {
     return <div>Loading...</div>;
   } else {
     return (
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center pt-28">
         <div className="grid grid-cols-3 gap-3">
           <input
             className="col-span-2 outline-none font-mont rounded-lg py-2 p-5 border border-web-gray bg-dark-mode text-white"
