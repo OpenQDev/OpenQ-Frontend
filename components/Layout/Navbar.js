@@ -78,7 +78,7 @@ const Navbar = ({ children }) => {
                   </svg>
                 </a>
               </Link> */}
-              <div className=" pt-1">
+              <div className="pt-2">
                 <Link href="/claim">
                   <a>
                     <Image

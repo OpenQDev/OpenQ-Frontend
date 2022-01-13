@@ -54,7 +54,7 @@ const address = () => {
     return "Loading...";
   } else {
     return (
-      <div className="flex flex-col font-mont pt-7 justify-center items-center pt-28">
+      <div className="flex flex-col font-mont justify-center items-center">
         <div className="flex flex-row space-x-2 border border-web-gray bg-zinc-300 p-1 rounded-xl">
           <div className="text-white bg-gray-500 rounded-xl p-2 bg-opacity-20">
             View

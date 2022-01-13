@@ -8,7 +8,7 @@ import MintBountyButton from "../MintBounty/MintBountyButton";
 const BountyHomepage = () => {
   // State
   const [bounties, setBounties] = useState([]);
-  const [organizationSearchTerm, setOrganizationSearchTerm] = useState("");
+  const [organizationSearchTerm] = useState("");
   const [issueTitleSearchTerm, setIssueTitleSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -43,9 +43,9 @@ const BountyHomepage = () => {
     setIsLoading(false);
   }
 
-  const filterByOrg = (e) => {
-    setOrganizationSearchTerm(e.target.value);
-  };
+  // const filterByOrg = (e) => {
+  // 	setOrganizationSearchTerm(e.target.value);
+  // };
 
   const filterByIssueTitle = (e) => {
     setIssueTitleSearchTerm(e.target.value);
@@ -56,7 +56,7 @@ const BountyHomepage = () => {
     return <div>Loading...</div>;
   } else {
     return (
-      <div className="flex justify-center items-center pt-28">
+      <div className="flex justify-center items-center">
         <div className="grid grid-cols-3 gap-3">
           <input
             className="col-span-2 outline-none font-mont rounded-lg py-2 p-5 border border-web-gray bg-dark-mode text-white"
@@ -84,7 +84,7 @@ const BountyHomepage = () => {
               })
               .map((bounty) => {
                 return (
-                  <div className="pb-3">
+                  <div className="pb-3" key={bounty.bountyId}>
                     <BountyCard bounty={bounty} key={bounty.bountyId} />
                   </div>
                 );
