@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import StoreContext from "../../store/Store/StoreContext";
 import BountyCardDetails from "../../components/Bounty/BountyCardDetails";
 import FundBountyButton from "../../components/FundBounty/FundBountyButton";
+import FundPage from "../../components/FundBounty/FundPage";
 import RefundBountyButton from "../../components/RefundBounty/RefundBountyButton";
 import ClaimBountyButton from "../../components/Claim/ClaimBountyButton";
 import AuthButton from "../../components/Authentication/AuthButton";
@@ -25,6 +26,7 @@ const address = () => {
   const { address } = router.query;
   const [redirectUrl, setRedirectUrl] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [internalMenu, setInternalMenu] = useState("view");
 
   // Methods
   async function populateBountyData() {
@@ -41,6 +43,12 @@ const address = () => {
     setIsLoading(false);
   }
 
+  const navigate = (prop) => {
+    console.log("prop: ", prop);
+    setInternalMenu(prop);
+    console.log("internalMenu triggered: ", internalMenu);
+  };
+
   // Hooks
   useEffect(() => {
     if (address) {
@@ -54,14 +62,45 @@ const address = () => {
     return "Loading...";
   } else {
     return (
-      <div className="flex flex-col font-mont justify-center items-center">
+      <div className="flex flex-col font-mont justify-center items-center pt-7">
         <div className="flex flex-row space-x-2 border border-web-gray bg-zinc-300 p-1 rounded-xl">
-          <div className="text-white bg-gray-500 rounded-xl p-2 bg-opacity-20">
+          <button
+            onClick={() => setInternalMenu("view")}
+            className={`text-white rounded-xl p-2 bg-opacity-20 ${
+              internalMenu == "view" ? "bg-gray-500" : null
+            }`}
+          >
             View
-          </div>
-          <div className="text-white  rounded-xl p-2 bg-opacity-20">Manage</div>
+          </button>
+          <button
+            onClick={() => setInternalMenu("fund")}
+            className={`text-white rounded-xl p-2 bg-opacity-20 ${
+              internalMenu == "fund" ? "bg-gray-500" : null
+            }`}
+          >
+            Fund
+          </button>
+          <button
+            onClick={() => setInternalMenu("refund")}
+            className={`text-white rounded-xl p-2 bg-opacity-20 ${
+              internalMenu == "refund" ? "bg-gray-500" : null
+            }`}
+          >
+            Refund
+          </button>
+          <button
+            onClick={() => setInternalMenu("manage")}
+            className={`text-white rounded-xl p-2 bg-opacity-20 ${
+              internalMenu == "claim" ? "bg-gray-500" : null
+            }`}
+          >
+            Claim
+          </button>
         </div>
-        <BountyCardDetails bounty={bounty} tokenValues={tokenValues} />
+        {internalMenu == "view" ? (
+          <BountyCardDetails bounty={bounty} tokenValues={tokenValues} />
+        ) : null}
+        {internalMenu == "fund" ? <FundPage bounty={bounty} /> : null}
       </div>
     );
   }
