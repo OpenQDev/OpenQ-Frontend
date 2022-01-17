@@ -74,7 +74,7 @@ function Claim() {
 
   // Render
   return (
-    <div className="flex flex-1 font-mont justify-center items-center">
+    <div className="flex flex-1 pt-28 font-mont justify-center items-center">
       <div className="w-1/3 pb-28">
         <div className="grid grid-cols-3 gap-3">
           {!authState.isAuthenticated ? (

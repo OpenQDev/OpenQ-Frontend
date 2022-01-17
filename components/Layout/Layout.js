@@ -8,7 +8,7 @@ import Navbar from "../Layout/Navbar";
 
 const Layout = ({ children }) => {
   return (
-    <div className="">
+    <div>
       <Navbar>
         <div className="flex flex-col h-screen">
           <div className="flex bg-dark-mode font-mont pl-12 pt-5 pb-5 items-center justify-between space-x-1 pr-5 fixed right-0 top-0">
