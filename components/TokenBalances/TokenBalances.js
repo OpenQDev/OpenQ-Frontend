@@ -33,9 +33,12 @@ const TokenBalances = ({ tokenBalances, tokenValues }) => {
                 );
 
                 return (
-                  <div className="flex flex-row space-x-2" key={symbol}>
-                    <div className="text-lg">{usdValue}</div>{" "}
-                    <div className="text-lg">
+                  <div
+                    className="flex flex-row space-x-2 text-white"
+                    key={symbol}
+                  >
+                    <div className="text-lg text-white">{usdValue}</div>{" "}
+                    <div className="text-lg text-white">
                       (
                       {ethers.utils.formatEther(
                         ethers.BigNumber.from(volume.toString())
