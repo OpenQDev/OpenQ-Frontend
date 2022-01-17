@@ -1,6 +1,5 @@
 // Third Party
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import Link from 'next/link';
 import FundBountyButton from '../FundBounty/FundBountyButton';
 
 // Custom
@@ -9,6 +8,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import BountyMintedNotification from './BountyMintedNotification';
 import MintBountyContext from './MintBountyStore/MintBountyContext';
+import BountyAlreadyMintedMessage from './BountyAlreadyMintedMessage';
 import {
 	RESTING_STATE,
 	BOUNTY_DOES_NOT_EXIST,
@@ -22,6 +22,8 @@ import {
 	TRANSACTION_FAILURE,
 	ISSUE_NOT_FOUND
 } from './States';
+import MintBountyModalButton from './MintBountyModalButton';
+import IssueDetailsBubble from './IssueDetailsBubble';
 
 const MintBountyModal = ({ modalVisibility }) => {
 	// Context
@@ -146,12 +148,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 		}
 	}
 
-	const getDate = () => {
-		const rawDate = issueData.createdAt;
-		const date = new Date(rawDate);
-		return date.toDateString().split(' ').slice(1).join(' ');
-	};
-
 	// Render
 	return (
 		<div>
@@ -191,32 +187,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 										}}
 									/>
 								</div>
-								{isValidUrl && issueData ? (
-									<div className="flex flex-col p-6 pt-2 pl-5">
-										<div className="flex flex-row text-white items-center space-x-2">
-											<div className="">
-												<svg
-													xmlns="http://www.w3.org/2000/svg"
-													fill="#15FB31"
-													viewBox="0 0 16 16"
-													width="17"
-													height="17"
-												>
-													<path d="M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
-													<path
-														fillRule="evenodd"
-														d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"
-													></path>
-												</svg>
-											</div>
-											<div className="text-sm"> {issueData.title}</div>
-										</div>
-										<div className="text-xs pt-3 pl-6 text-gray-200">
-											{' '}
-											created at {getDate()} by {issueData.author.login}
-										</div>
-									</div>
-								) : null}
+								{isValidUrl && issueData ? <IssueDetailsBubble issueData={issueData}/> : null}
 							</div>
 						</div>
 						{/* {error ? errorMessage : null} */}
@@ -230,79 +201,17 @@ const MintBountyModal = ({ modalVisibility }) => {
 						) : null}
 						<div className="flex flex-row justify-center space-x-1 px-8">
 							{isValidUrl && issueClosed && issueFound ? (
-								<div className="pt-3">
+								<div className="pt-3 text-white">
 									This issue is already closed on GitHub
 								</div>
 							) : null}
 							{isValidUrl && bountyAddress && issueFound ? (
-								<>
-									<div className="pt-3">Bounty is already minted, top up</div>
-									<Link
-										href={`/?address=${bountyAddress}}`}
-										as={`/bounty/${bountyAddress}`}
-									>
-										<>
-											<a
-												target="_blank"
-												rel="noreferrer"
-												className="cursor-pointer text-link pt-3"
-											>
-												here.
-											</a>
-											<a target="_blank" rel="noreferrer">
-												<div id={'bounty-link'} className="cursor-pointer">
-													<svg
-														xmlns="http://www.w3.org/2000/svg"
-														className="h-6 w-6"
-														fill="none"
-														viewBox="0 0 24 24"
-														stroke="#383838"
-													>
-														<path
-															strokeLinecap="round"
-															strokeLinejoin="round"
-															strokeWidth="2"
-															d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-														/>
-													</svg>
-												</div>
-											</a>
-										</>
-									</Link>
-								</>
+								<BountyAlreadyMintedMessage bountyAddress={bountyAddress} />
 							) : null}
 						</div>
-						{bounty ? <FundBountyButton bounty={bounty} /> : null}
+						{bounty && !issueClosed ? <FundBountyButton bounty={bounty} /> : null}
 						<div className="flex items-center justify-center p-5 rounded-b w-full">
-							{transactionPending ? (
-								<button
-									className={`
-								flex flex-row space-x-2 justify-center
-								${enableMint
-									? 'confirm-btn cursor-pointer'
-									: 'confirm-btn-disabled cursor-not-allowed'
-								}`}
-									type="button"
-									onClick={() => mintBounty()}
-									disabled={!enableMint}
-								>
-									<LoadingIcon bg="colored" /> Mint Bounty
-								</button>
-							) : (
-								<button
-									className={`
-										flex flex-row space-x-2 justify-center
-										${enableMint
-									? 'confirm-btn cursor-pointer'
-									: 'confirm-btn-disabled cursor-not-allowed'
-								}`}
-									type="button"
-									onClick={() => mintBounty()}
-									disabled={!enableMint}
-								>
-									Mint Bounty
-								</button>
-							)}
+							<MintBountyModalButton mintBounty={mintBounty} enableMint={enableMint} transactionPending={transactionPending}/>
 						</div>
 					</div>
 				</div>
