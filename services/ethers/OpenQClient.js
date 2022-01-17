@@ -43,13 +43,13 @@ class OpenQClient {
 		}
 	}
 
-	async approve(library, _bountyAddress, _tokenAddress, _value) {
+	async increaseAllowance(library, _bountyAddress, _tokenAddress, _value) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
 
 			const contract = this.ERC20(_tokenAddress, signer);
 			try {
-				const txnResponse = await contract.approve(_bountyAddress, _value);
+				const txnResponse = await contract.increaseAllowance(_bountyAddress, _value);
 				const txnReceipt = await txnResponse.wait();
 				resolve(txnReceipt);
 			} catch (error) {

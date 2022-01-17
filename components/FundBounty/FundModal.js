@@ -41,7 +41,7 @@ const FundModal = ({ setShowModal, bounty }) => {
 
 		let approveSucceeded = false;
 		try {
-			await appState.openQClient.approve(
+			await appState.openQClient.increaseAllowance(
 				library,
 				bounty.bountyAddress,
 				token.address,
