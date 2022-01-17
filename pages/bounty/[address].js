@@ -9,6 +9,7 @@ import FundBountyButton from "../../components/FundBounty/FundBountyButton";
 import FundPage from "../../components/FundBounty/FundPage";
 import RefundBountyButton from "../../components/RefundBounty/RefundBountyButton";
 import ClaimBountyButton from "../../components/Claim/ClaimBountyButton";
+import ClaimPage from "../../components/Claim/ClaimPage";
 import AuthButton from "../../components/Authentication/AuthButton";
 import useGetTokenValues from "../../hooks/useGetTokenValues";
 import useAuth from "../../hooks/useAuth";
@@ -89,7 +90,7 @@ const address = () => {
             Refund
           </button>
           <button
-            onClick={() => setInternalMenu("manage")}
+            onClick={() => setInternalMenu("claim")}
             className={`text-white rounded-xl p-2 bg-opacity-20 ${
               internalMenu == "claim" ? "bg-gray-500" : null
             }`}
@@ -101,6 +102,15 @@ const address = () => {
           <BountyCardDetails bounty={bounty} tokenValues={tokenValues} />
         ) : null}
         {internalMenu == "fund" ? <FundPage bounty={bounty} /> : null}
+        {internalMenu == "claim" ? <ClaimPage bounty={bounty} /> : null}
+        {internalMenu == "refund" ? (
+          <RefundBountyButton
+            bounty={bounty}
+            address={address}
+            issueUrl={bounty.url}
+            address={address}
+          />
+        ) : null}
       </div>
     );
   }

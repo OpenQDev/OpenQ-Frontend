@@ -131,27 +131,23 @@ const FundModal = ({ setShowModal, bounty }) => {
 
   // Render
   return (
-    <div className="pt-10">
-      <div className="rounded-lg shadow-lg flex flex-col w-full bg-dark-mode">
-        <div className="flex flex-col p-5 border-solid">
-          <div className="flex items-center justify-center">
-            <div className="text-3xl font-semibold text-white">
-              Fund Bounty{" "}
-            </div>
-          </div>
-          <div className="text-lg pt-3 font-mont text-center text-white">
-            Deposited ERC-20 Tokens can be withdrawn again after 30 days
-          </div>
+    <div className="pt-16">
+      <div className="flex flex-col space-y-5">
+        <div className="flex text-3xl font-semibold text-white justify-center">
+          Fund Bounty
         </div>
-        <div className="p-7 flex-auto">
-          <TokenFundBox
-            onCurrencySelect={onCurrencySelect}
-            onVolumeChange={onVolumeChange}
-            token={token}
-            volume={volume}
-          />
+        <div className="bg-purple-600 col-span-3 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4">
+          Deposited ERC-20 Tokens can be withdrawn again after 30 days
         </div>
-        <div className="flex px-6 pb-7">
+
+        <TokenFundBox
+          onCurrencySelect={onCurrencySelect}
+          onVolumeChange={onVolumeChange}
+          token={token}
+          volume={volume}
+        />
+
+        <div>
           <button
             className={`flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${
               isLoading
