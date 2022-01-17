@@ -23,8 +23,8 @@ import {
 	ISSUE_NOT_FOUND
 } from './States';
 import MintBountyModalButton from './MintBountyModalButton';
-import IssueDetailsBubble from './IssueDetailsBubble';
 import MintBountyHeader from './MintBountyHeader';
+import MintBountyInput from './MintBountyInput';
 
 const MintBountyModal = ({ modalVisibility }) => {
 	// Context
@@ -167,24 +167,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 					<div className="border-0 rounded-xl shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none">
 						<MintBountyHeader />
 						<div className="flex flex-col pl-6 pr-6 space-y-2">
-							<div className="bg-dark-mode border border-web-gray rounded-lg">
-								<div
-									className={`flex flex-row items-center p-2 rounded-lg py-1 text-base bg-dark-mode text-white ${isValidUrl && issueData ? 'pt-5' : null
-									}`}
-								>
-									<input
-										className="w-full bg-dark-mode px-5 p-1 border-web-gray outline-none"
-										id="name"
-										placeholder="Issue URL"
-										autoComplete="off"
-										type="text"
-										onChange={(event) => {
-											setIssueUrl(event.target.value);
-										}}
-									/>
-								</div>
-								{isValidUrl && issueData ? <IssueDetailsBubble issueData={issueData}/> : null}
-							</div>
+							<MintBountyInput setIssueUrl={setIssueUrl} issueData={issueData} isValidUrl={isValidUrl} />
 						</div>
 						{/* {error ? errorMessage : null} */}
 						{isValidUrl && !issueFound && isLoadingIssueData ? (
