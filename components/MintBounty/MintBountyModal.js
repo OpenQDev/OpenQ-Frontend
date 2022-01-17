@@ -24,6 +24,7 @@ import {
 } from './States';
 import MintBountyModalButton from './MintBountyModalButton';
 import IssueDetailsBubble from './IssueDetailsBubble';
+import MintBountyHeader from './MintBountyHeader';
 
 const MintBountyModal = ({ modalVisibility }) => {
 	// Context
@@ -164,12 +165,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 				) : null}
 				<div ref={menuRef} className="w-2/7 my-6 mx-auto max-w-3xl">
 					<div className="border-0 rounded-xl shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none">
-						<div className="flex flex-col items-center justify-center p-5 rounded-t">
-							<h3 className="text-3xl text-white font-semibold">Mint Bounty</h3>
-							<h3 className="text-2xl pt-3 w-2/3 text-center text-gray-300">
-								Create a Bounty to send funds to any GitHub Issue
-							</h3>
-						</div>
+						<MintBountyHeader />
 						<div className="flex flex-col pl-6 pr-6 space-y-2">
 							<div className="bg-dark-mode border border-web-gray rounded-lg">
 								<div
