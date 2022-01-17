@@ -35,6 +35,7 @@ export const ISSUE_FOUND = (issue) => {
 export const ISSUE_NOT_FOUND = () => {
 	return {
 		issueFound: false,
+		issueData: null
 	};
 };
 

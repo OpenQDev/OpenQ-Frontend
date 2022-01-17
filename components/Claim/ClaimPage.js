@@ -3,14 +3,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 // Custom
-import useAuth from '../hooks/useAuth';
-import LoadingIcon from '../components/Loading/LoadingIcon';
-import AuthButton from '../components/Authentication/AuthButton';
-import useWeb3 from '../hooks/useWeb3';
-import useConfirmErrorSuccessModals from '../hooks/useConfirmErrorSuccessModals';
-import ConfirmErrorSuccessModalsTrio from '../components/ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
+import useAuth from '../../hooks/useAuth';
+import LoadingIcon from '../Loading/LoadingIcon';
+import AuthButton from '../Authentication/AuthButton';
+import useWeb3 from '../../hooks/useWeb3';
+import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModals';
+import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 
-function Claim() {
+const ClaimPage = () => {
 	// State
 	const [issueUrl, setIssueUrl] = useState('');
 	const {
@@ -71,12 +71,13 @@ function Claim() {
 				setShowErrorModal(true);
 			});
 	};
-
-	// Render
 	return (
-		<div className="flex flex-1 pt-28 font-mont justify-center items-center">
-			<div className="w-1/3 pb-28">
-				<div className="grid grid-cols-3 gap-3">
+		<div className="flex flex-1 font-mont justify-center items-center">
+			<div className="w-5/6 pt-16 pb-24">
+				<div className="text-3xl font-semibold text-white text-center pb-5">
+					Claim Bounty
+				</div>
+				<div className="grid grid-cols-3 gap-5">
 					{!authState.isAuthenticated ? (
 						<div className="bg-purple-600 col-span-3 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4">
 							We noticed you are not signed into Github. You must sign to verify
@@ -91,7 +92,7 @@ function Claim() {
 					<div className="col-span-3 flex gap-3">
 						<div className="flex items-center p-2 flex-1 rounded-lg py-1 text-base bg-dark-mode border border-web-gray shadow-inner text-white">
 							<input
-								className="w-2/3 pl-3 bg-dark-mode box-content xl:w-80 lg:w-64 md:w-44 sm:w-32 w-18 outline-none"
+								className="pl-3 bg-dark-mode box-content w-2/3 outline-none"
 								id="name"
 								placeholder="Issue URL"
 								type="text"
@@ -101,7 +102,7 @@ function Claim() {
 						</div>
 						<button
 							type="submit"
-							className="w-1/3 confirm-btn"
+							className="confirm-btn w-1/3"
 							onClick={() => setShowConfirmationModal(true)}
 						>
 							Claim
@@ -130,6 +131,6 @@ function Claim() {
 			/>
 		</div>
 	);
-}
+};
 
-export default Claim;
+export default ClaimPage;

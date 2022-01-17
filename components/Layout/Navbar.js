@@ -38,7 +38,7 @@ const Navbar = ({ children }) => {
             {" "}
             <span>Application</span>
           </div> */}
-            ;
+						;
 						<nav className="text-white flex flex-col space-y-4 items-center pt-1 flex-grow">
 							<div className="pb-8">
 								<Link href="/">
@@ -78,7 +78,7 @@ const Navbar = ({ children }) => {
                   </svg>
                 </a>
               </Link> */}
-							<div className=" pt-1">
+							<div className="pt-2">
 								<Link href="/claim">
 									<a>
 										<Image

@@ -6,20 +6,22 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume }) => {
 	const [showTokenSearch, setShowTokenSearch] = useState(false);
 
 	return (
-		<div className="flex font-mont flex-row space-x-3 text-base items-center text-gray-600 ">
-			<div className="flex flex-row items-center bg-gray-100 pl-14 font-bold text-gray-600 rounded-lg py-1 text-base bg-gray-100 shadow-inner text-white">
-				<div className={'pl-4 font-bold fundBox-amount'}>
+		<div>
+			<div className="flex flex-row justify-between items-center pl-14 py-3 rounded-lg py-1 bg-dark-mode border border-web-gray text-white">
+				<div className={'pl-4 font-bold fundBox-amount bg-dark-mode'}>
 					<input
-						className={'font-sembold number outline-none'}
+						className={
+							'font-semibold text-2xl number outline-none bg-dark-mode'
+						}
 						value={volume}
 						placeholder={'0'}
 						id="amount"
 						onChange={(event) => onVolumeChange(event.target.value)}
 					/>
 				</div>
-				<div>
+				<div className="pr-5">
 					<button
-						className="flex flex-row items-center space-x-1 drop-shadow-lg text-base bg-gray-100 rounded-lg p-2 pr-2"
+						className="flex flex-row items-center space-x-1 py-2 drop-shadow-lg border border-web-gray rounded-lg p-2 pr-2"
 						onClick={() => setShowTokenSearch(true)}
 					>
 						<div className="flex flex-row space-x-5 items-center justify-center">
@@ -27,13 +29,13 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume }) => {
 								<Image src={token.logoURI} alt="n/a" width="40%" height="40%" />
 							</div>
 						</div>
-						<div className="pl-3 text-black">{token.symbol}</div>
+						<div className="pl-3 text-white">{token.symbol}</div>
 						<div>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								className="h-5 w-5"
 								viewBox="0 0 20 20"
-								fill="black"
+								fill="white"
 							>
 								<path
 									fillRule="evenodd"

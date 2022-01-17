@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useContext } from 'react';
 import TokenFundBox from './SearchTokens/TokenFundBox';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
@@ -7,9 +7,17 @@ import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModa
 import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 import ButtonLoadingIcon from '../Loading/ButtonLoadingIcon';
 
-
-const FundModal = ({ setShowModal, bounty }) => {
+const FundModal = ({ bounty }) => {
 	// State
+	const [token, setToken] = useState({
+		name: 'Mock Link',
+		address: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+		symbol: 'mLink',
+		decimals: 18,
+		chainId: 80001,
+		logoURI:
+      'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x514910771AF9Ca656af840dff83E8264EcF986CA/logo.png',
+	});
 	const [volume, setVolume] = useState('');
 	const {
 		showErrorModal,
@@ -24,17 +32,13 @@ const FundModal = ({ setShowModal, bounty }) => {
 	const [successMessage, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
 	const [confirmationMessage, setConfirmationMessage] = useState('');
-	let menuRef = useRef();
 
 	// Context
 	const [appState] = useContext(StoreContext);
 	const { library } = useWeb3();
 
-	const [token, setToken] = useState(appState.tokens[0]);
-
 	// Methods
 	async function fundBounty() {
-		console.log('funding');
 		setIsLoading(true);
 		const volumeInWei = volume * 10 ** token.decimals;
 		const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
@@ -56,10 +60,7 @@ const FundModal = ({ setShowModal, bounty }) => {
 		}
 
 		if (approveSucceeded) {
-			console.log(bounty.bountyAddress);
-			console.log(token.address);
-			console.log(bigNumberVolumeInWei);
-
+			console.log(bounty);
 			try {
 				const fundTxnReceipt = await appState.openQClient.fundBounty(
 					library,
@@ -75,24 +76,12 @@ const FundModal = ({ setShowModal, bounty }) => {
 				setIsLoading(false);
 			} catch (error) {
 				setTransactionHash(JSON.stringify(error));
-				setErrorMessage(parseTransactionRevertedMessage(error));
+				setErrorMessage(JSON.stringify(error));
 				setIsLoading(false);
 				setShowErrorModal(true);
 			}
 		}
 	}
-
-	const parseTransactionRevertedMessage = (error) => {
-		if (error.data.message.includes('Cannot fund a closed bounty')) {
-			return 'This bounty is already closed! You cannot fund a bounty that has already been closed.';
-		} else {
-			return JSON.stringify(error);
-		}
-	};
-
-	const updateModal = () => {
-		setShowModal(false);
-	};
 
 	function onCurrencySelect(token) {
 		setToken(token);
@@ -100,7 +89,8 @@ const FundModal = ({ setShowModal, bounty }) => {
 			`You are about to fund this bounty at address ${bounty.bountyAddress.substring(
 				0,
 				12
-			)}...${bounty.bountyAddress.substring(32)} with ${volume} ${token.name
+			)}...${bounty.bountyAddress.substring(32)} with ${volume} ${
+				token.name
 			}. Is this correct?`
 		);
 	}
@@ -111,7 +101,8 @@ const FundModal = ({ setShowModal, bounty }) => {
 			`You are about to fund this bounty at address ${bounty.bountyAddress.substring(
 				0,
 				12
-			)}...${bounty.bountyAddress.substring(32)} with ${volume} ${token.name
+			)}...${bounty.bountyAddress.substring(32)} with ${volume} ${
+				token.name
 			}. Is this correct?`
 		);
 	}
@@ -139,58 +130,37 @@ const FundModal = ({ setShowModal, bounty }) => {
 
 	// Render
 	return (
-		<div>
-			<div className="justify-center font-mont items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-				<div className="w-1/4 my-6 mx-auto max-w-3xl">
-					<div
-						ref={menuRef}
-						className="border-0 rounded-lg shadow-lg  flex flex-col w-full bg-white outline-none focus:outline-none"
+		<div className="pt-16">
+			<div className="flex flex-col space-y-5">
+				<div className="flex text-3xl font-semibold text-white justify-center">
+          Fund Bounty
+				</div>
+				<div className="bg-purple-600 col-span-3 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4">
+          Deposited ERC-20 Tokens can be withdrawn again after 30 days
+				</div>
+
+				<TokenFundBox
+					onCurrencySelect={onCurrencySelect}
+					onVolumeChange={onVolumeChange}
+					token={token}
+					volume={volume}
+				/>
+
+				<div>
+					<button
+						className={`flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${
+							isLoading
+								? 'confirm-btn-disabled cursor-not-allowed'
+								: 'confirm-btn cursor-pointer'
+						}`}
+						type="button"
+						onClick={() => setShowConfirmationModal(true)}
 					>
-						<div className="flex flex-col p-5  border-solid">
-							<div className="flex flex-row items-center justify-between">
-								<div></div>
-								<div className="text-3xl font-semibold">Fund Bounty </div>
-								<div className="cursor-pointer" onClick={() => updateModal()}>
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										className="h-5 w-5"
-										viewBox="0 0 20 20"
-										fill="currentColor"
-									>
-										<path
-											fillRule="evenodd"
-											d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-											clipRule="evenodd"
-										/>
-									</svg>
-								</div>
-							</div>
-							<div className="text-lg pt-3 font-mont text-center text-gray-400">
-								Deposited ERC-20 Tokens can be withdrawn again after 30 days
-							</div>
-						</div>
-						<div className="p-7 flex-auto">
-							<TokenFundBox
-								onCurrencySelect={onCurrencySelect}
-								onVolumeChange={onVolumeChange}
-								token={token}
-								volume={volume}
-							/>
-						</div>
-						<div className="flex px-6 pb-7">
-							<button
-								className={`flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${isLoading
-									? 'confirm-btn-disabled cursor-not-allowed'
-									: 'confirm-btn cursor-pointer'
-								}`}
-								type="button"
-								onClick={() => setShowConfirmationModal(true)}
-							>
-								<div>{!isLoading ? 'Fund' : 'Approving'}</div>
-								<div>{isLoading && <ButtonLoadingIcon />}</div>
-							</button>
-						</div>
-						{/*  <div className="flex items-center justify-end p-6 border-solid border-blueGray-200 rounded-b">
+						<div>{!isLoading ? 'Fund' : 'Approving'}</div>
+						<div>{isLoading && <ButtonLoadingIcon />}</div>
+					</button>
+				</div>
+				{/*  <div className="flex items-center justify-end p-6 border-solid border-blueGray-200 rounded-b">
               <button
                 className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
@@ -199,10 +169,7 @@ const FundModal = ({ setShowModal, bounty }) => {
                 Close
               </button>
             </div> */}
-					</div>
-				</div>
 			</div>
-			<div className="opacity-25 fixed inset-0 bg-black"></div>
 
 			<ConfirmErrorSuccessModalsTrio
 				setShowErrorModal={setShowErrorModal}

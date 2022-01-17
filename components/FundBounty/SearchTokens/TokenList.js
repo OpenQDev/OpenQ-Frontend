@@ -6,8 +6,6 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
 	const [appState] = useContext(StoreContext);
 	const [tokenSearchTerm, setTokenSearchTerm] = useState(null);
 
-	console.log(appState);
-
 	function onSelect(token) {
 		onCurrencySelect(token);
 		setShowTokenSearch(false);
@@ -15,11 +13,11 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
 	return (
 		<div>
 			{/* <div style={{ padding: '25px', margin: '10px', outline: '2px solid pink', borderRadius: '20px' }} > */}
-			<div className="pt-3 pb-3 pl-4 bg-slate-700 border border-gray-300 rounded-lg">
+			<div className="pt-3 pb-3 pl-4 bg-slate-700 border border-web-gray bg-dark-mode rounded-lg">
 				<div className="">
-					<div className="justify-start">
+					<div className="justify-start bg-dark-mode ">
 						<input
-							className="outline-none"
+							className="outline-none bg-dark-mode text-white"
 							onKeyUp={(e) => setTokenSearchTerm(e.target.value)}
 							type="text"
 							placeholder="Search name"
@@ -28,7 +26,7 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
 				</div>
 			</div>
 
-			<div className="pt-4">
+			<div className="pt-4 text-white">
 				{appState.tokens
 					.filter((token) => {
 						return tokenSearchTerm
@@ -54,7 +52,7 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
 									</div>
 									<div className="flex flex-col">
 										<div className="font-bold">{token.symbol}</div>
-										<div className="text-sm text-gray-600">{token.name}</div>
+										<div className="text-sm text-gray-200">{token.name}</div>
 									</div>
 								</div>
 							</div>
