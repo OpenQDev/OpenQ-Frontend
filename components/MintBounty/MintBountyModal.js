@@ -243,23 +243,25 @@ const CreateBountyModal = (props) => {
             </div>
             <div className="flex flex-col pl-6 pr-6 space-y-2">
               <div className="bg-dark-mode border border-web-gray rounded-lg">
-                <div className="flex flex-row items-center p-2  rounded-lg py-1 text-base bg-dark-mode  shadow-inner text-white">
-                  <div className="bg-dark-mode font-normal text-white">
-                    <input
-                      className="bg-dark-mode pl-5 box-content xl:w-80 lg:w-64 md:w-44 sm:w-32 w-18 border-gray-100 outline-none"
-                      id="name"
-                      placeholder="Issue URL"
-                      autoComplete="off"
-                      type="text"
-                      onChange={(event) => {
-                        setIssueUrl(event.target.value);
-                      }}
-                    />
-                  </div>
+                <div
+                  className={`flex flex-row items-center p-2 rounded-lg py-1 text-base bg-dark-mode text-white ${
+                    isValidUrl && issueData ? "pt-5" : null
+                  }`}
+                >
+                  <input
+                    className="w-full bg-dark-mode px-5 p-1 border-web-gray outline-none"
+                    id="name"
+                    placeholder="Issue URL"
+                    autoComplete="off"
+                    type="text"
+                    onChange={(event) => {
+                      setIssueUrl(event.target.value);
+                    }}
+                  />
                 </div>
                 {isValidUrl && issueData ? (
-                  <div className="flex flex-col pt-4 pl-5 ">
-                    <div className="flex flex-grow flex-row items-center space-x-2">
+                  <div className="flex flex-col p-6 pt-2 pl-5">
+                    <div className="flex flex-row text-white items-center space-x-2">
                       <div className="">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -277,7 +279,7 @@ const CreateBountyModal = (props) => {
                       </div>
                       <div className="text-sm"> {issueData.title}</div>
                     </div>
-                    <div className="text-xs pt-3 pl-6 text-gray-400">
+                    <div className="text-xs pt-3 pl-6 text-gray-200">
                       {" "}
                       created at {getDate()} by {issueData.author.login}
                     </div>
