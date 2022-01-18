@@ -29,11 +29,12 @@ class OpenQSubgraphClient {
 	}
 
 	async getBounty(id) {
+		const lowerCasedAddress = id.toLowerCase();
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
 					query: GET_BOUNTY,
-					variables: { id }
+					variables: { id: lowerCasedAddress }
 				});
 				resolve(result.data.bounty);
 			} catch (e) {
