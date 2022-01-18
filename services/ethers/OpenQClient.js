@@ -27,20 +27,25 @@ class OpenQClient {
 	};
 
 	async mintBounty(library, issueId, organization) {
-		const signer = library.getSigner();
+		const promise = new Promise(async (resolve, reject) => {
+			const signer = library.getSigner();
 
-		const contract = this.OpenQ(signer);
-		try {
-			const txnResponse = await contract.mintBounty(issueId, organization);
-			const txnReceipt = await txnResponse.wait();
+			const contract = this.OpenQ(signer);
+			try {
+				const txnResponse = await contract.mintBounty(issueId, organization);
+				const txnReceipt = await txnResponse.wait();
+				console.log(txnReceipt)
 
-			const bountyId = txnReceipt.events[1].args.bountyId;
-			const issuerAddress = txnReceipt.events[1].args.issuerAddress;
-			const bountyAddress = txnReceipt.events[1].args.bountyAddress;
-			return { bountyId, issuerAddress, bountyAddress };
-		} catch (err) {
-			throw (err);
-		}
+				const bountyId = txnReceipt.events[0].args.bountyId;
+				const issuerAddress = txnReceipt.events[0].args.issuerAddress;
+				const bountyAddress = txnReceipt.events[0].args.bountyAddress;
+				console.log({ bountyId, issuerAddress, bountyAddress })
+				resolve({ bountyId, issuerAddress, bountyAddress });
+			} catch (err) {
+				reject(err);
+			}
+		});
+		return promise;
 	}
 
 	async approve(library, _bountyAddress, _tokenAddress, _value) {
