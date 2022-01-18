@@ -136,16 +136,16 @@ const MintBountyModal = ({ modalVisibility }) => {
 	async function mintBounty() {
 		try {
 			setMintBountyState(TRANSACTION_PENDING());
-			console.log('before', mintBountyState)
+			console.log('before', mintBountyState);
 			const { bountyAddress } = await appState.openQClient.mintBounty(
 				library,
 				mintBountyState.issueId,
 				mintBountyState.orgName
 			);
-			console.log('after', mintBountyState)
+			console.log('after', mintBountyState);
 			setMintBountyState(TRANSACTION_SUCCESS(bountyAddress));
 		} catch (error) {
-			console.log(error)
+			console.log(error);
 			setMintBountyState(TRANSACTION_FAILURE(error));
 		}
 	}
