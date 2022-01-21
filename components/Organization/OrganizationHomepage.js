@@ -2,11 +2,11 @@
 import React, { useEffect, useState, useContext } from 'react';
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
-import OrganizationCard from '../Organization/OrganizationCard';
+import OrganizationCard from './OrganizationCard';
 import SearchBar from '../Search/SearchBar';
 import useAuth from '../../hooks/useAuth';
 
-const OpenQHomepage = () => {
+const OrganizationHomepage = () => {
 	// State
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -61,7 +61,7 @@ const OpenQHomepage = () => {
 		return <div>Loading...</div>;
 	} else {
 		return (
-			<>
+			<div className="flex justify-center items-center">
 				<label className='font-bold text-l'>Organization</label>
 				<SearchBar onKeyUp={filterByOrg} className="mb-200" />
 				<div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-6 pr-20">
@@ -76,9 +76,9 @@ const OpenQHomepage = () => {
 						);
 					})}
 				</div>
-			</>
+			</div>
 		);
 	}
 };
 
-export default OpenQHomepage;
+export default OrganizationHomepage;

@@ -1,5 +1,5 @@
 // Third Party Libraries
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 // Custom
@@ -11,8 +11,7 @@ import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModa
 import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 
 const ClaimPage = ({ bounty }) => {
-	const { url } = bounty
-	console.log(bounty);
+	const { url } = bounty;
 	// State
 	const {
 		showErrorModal,
@@ -29,7 +28,7 @@ const ClaimPage = ({ bounty }) => {
 
 	// Context
 	const { account } = useWeb3();
-	const confirmationMessage = `You are about to claim the deposits on issue ${url} to the address ${account}. Is this correct ?`
+	const confirmationMessage = `You are about to claim the deposits on issue ${url} to the address ${account}. Is this correct ?`;
 	// Hooks
 	const [authState] = useAuth();
 
@@ -46,7 +45,7 @@ const ClaimPage = ({ bounty }) => {
 				{ withCredentials: true }
 			)
 			.then((result) => {
-				const { payoutAddress, transactionHash, issueUrl } = result.data;
+				const { payoutAddress, transactionHash } = result.data;
 				setIsLoading(false);
 				setTransactionHash(transactionHash);
 				setSuccessMessage(
@@ -55,7 +54,7 @@ const ClaimPage = ({ bounty }) => {
 				setShowSuccessModal(true);
 			})
 			.catch((error) => {
-				console.log("in here");
+				console.log('in here');
 				console.log(error);
 
 				setIsLoading(false);

@@ -66,7 +66,7 @@ const organization = () => {
 		return 'Loading...';
 	} else {
 		return (
-			<div>
+			<div className="flex justify-center items-center">
 				<h1 className='font-bold uppercase'>{organizationData.name}</h1>
 				<h1 className='font-bold uppercase'>Bounties</h1>
 				{bounties.length != 0 ? (

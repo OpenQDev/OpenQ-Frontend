@@ -3,7 +3,8 @@ import React from 'react';
 import Head from 'next/head';
 
 // Custom
-import BountyHomepage from '../components/Bounty/BountyHomepage';
+// import BountyHomepage from '../components/Bounty/BountyHomepage';
+import OrganizationHomepage from '../components/Organization/OrganizationHomepage';
 
 export default function Index() {
 	return (
@@ -19,8 +20,8 @@ export default function Index() {
 
 			<main>
 				<div className="bg-dark-mode pl-12 pt-10 flex-col">
-					{/* <OpenQHomepage /> */}
-					<BountyHomepage />
+					<OrganizationHomepage />
+					{/* <BountyHomepage /> */}
 				</div>
 			</main>
 		</div>
