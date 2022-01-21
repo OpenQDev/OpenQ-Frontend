@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const GET_ALL_BOUNTIES = gql`
 query GetAllIssues {
-  bounties {
+  bounties(orderBy: bountyMintTime, orderDirection: desc) {
     bountyAddress
     bountyId
     bountyMintTime

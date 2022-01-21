@@ -10,9 +10,10 @@ import useWeb3 from '../../hooks/useWeb3';
 import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModals';
 import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 
-const ClaimPage = () => {
+const ClaimPage = ({ bounty }) => {
+	const { url } = bounty
+	console.log(bounty);
 	// State
-	const [issueUrl, setIssueUrl] = useState('');
 	const {
 		showErrorModal,
 		setShowErrorModal,
@@ -25,22 +26,12 @@ const ClaimPage = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [successMessage, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
-	const [confirmationMessage, setConfirmationMessage] = useState('');
 
 	// Context
 	const { account } = useWeb3();
-
+	const confirmationMessage = `You are about to claim the deposits on issue ${url} to the address ${account}. Is this correct ?`
 	// Hooks
 	const [authState] = useAuth();
-
-	useEffect(() => {
-		if (issueUrl) {
-			setConfirmationMessage(
-				`You are about to claim the deposits on issue ${issueUrl} to the address ${account}. Is this correct ?`
-			);
-			console.log(confirmationMessage);
-		}
-	}, [issueUrl]);
 
 	// Methods
 	const claimBounty = async () => {
@@ -49,7 +40,7 @@ const ClaimPage = () => {
 			.post(
 				`${process.env.NEXT_PUBLIC_ORACLE_URL}/claim`,
 				{
-					issueUrl,
+					issueUrl: url,
 					payoutAddress: account,
 				},
 				{ withCredentials: true }
@@ -59,14 +50,15 @@ const ClaimPage = () => {
 				setIsLoading(false);
 				setTransactionHash(transactionHash);
 				setSuccessMessage(
-					`Successfully transferred assets on issue with at ${issueUrl} to ${payoutAddress}!`
+					`Successfully transferred assets on issue with at ${url} to ${payoutAddress}!`
 				);
 				setShowSuccessModal(true);
 			})
 			.catch((error) => {
+				console.log("in here");
+				console.log(error);
+
 				setIsLoading(false);
-				console.log(error.response);
-				console.log(error.response.data.message);
 				setErrorMessage(error.response.data.message);
 				setShowErrorModal(true);
 			});
@@ -90,19 +82,9 @@ const ClaimPage = () => {
 					)}
 
 					<div className="col-span-3 flex gap-3">
-						<div className="flex items-center p-2 flex-1 rounded-lg py-1 text-base bg-dark-mode border border-web-gray shadow-inner text-white">
-							<input
-								className="pl-3 bg-dark-mode box-content w-2/3 outline-none"
-								id="name"
-								placeholder="Issue URL"
-								type="text"
-								value={issueUrl}
-								onChange={(event) => setIssueUrl(event.target.value)}
-							/>
-						</div>
 						<button
 							type="submit"
-							className="confirm-btn w-1/3"
+							className="confirm-btn"
 							onClick={() => setShowConfirmationModal(true)}
 						>
 							Claim
