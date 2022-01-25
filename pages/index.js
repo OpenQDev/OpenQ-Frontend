@@ -1,5 +1,5 @@
 // Third Party
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 
 // Custom
@@ -7,6 +7,8 @@ import BountyHomepage from "../components/Bounty/BountyHomepage";
 import OpenQHomepage from "../components/Homepage/OpenQHomepage";
 
 export default function Index() {
+  const [internalMenu, setInternalMenu] = useState("org");
+
   return (
     <div>
       <Head>
@@ -20,15 +22,27 @@ export default function Index() {
 
       <main>
         <div className="bg-dark-mode pl-12 pt-10 flex-col">
-          <div
-            className="flex flex-row justify-center items-center w-1/5
-					rounded-lg border border-web-gray space-x-3"
-          >
-            <div className="text-white">Organizations</div>
-            <div className="text-white">Issues</div>
+          <div className="flex justify-center pb-8">
+            <div className="flex flex-row justify-center space-x-2 border border-web-gray p-1 rounded-xl w-fit">
+              <button
+                onClick={() => setInternalMenu("org")}
+                className={`text-white rounded-xl p-2 px-4 bg-opacity-20 ${
+                  internalMenu == "org" ? "bg-gray-500" : null
+                }`}
+              >
+                Organizations
+              </button>
+              <button
+                onClick={() => setInternalMenu("issue")}
+                className={`text-white rounded-xl p-2 px-4 bg-opacity-20 ${
+                  internalMenu == "issue" ? "bg-gray-500" : null
+                }`}
+              >
+                Issues
+              </button>
+            </div>
           </div>
-          {/*  <OpenQHomepage /> */}
-          <BountyHomepage />
+          {internalMenu == "org" ? <OpenQHomepage /> : <BountyHomepage />}
         </div>
       </main>
     </div>
