@@ -97,3 +97,9 @@ export const TRANSACTION_FAILURE = (error) => {
     transactionPending: false,
   };
 };
+
+export const NOTIFICATIONS_CLOSED = () => {
+  return {
+    isBountyMinted: false,
+  };
+};

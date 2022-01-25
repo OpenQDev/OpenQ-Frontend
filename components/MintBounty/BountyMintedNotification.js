@@ -1,7 +1,9 @@
 import CopyAddressToClipboard from "../Copy/CopyAddressToClipboard";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
+import MintBountyContext from "./MintBountyStore/MintBountyContext";
+import { NOTIFICATIONS_CLOSED } from "./States";
 
 const BountyMintedNotification = ({
   bountyAddress,
@@ -11,6 +13,8 @@ const BountyMintedNotification = ({
 }) => {
   let notifyRef = useRef();
   notificationRef(notifyRef);
+
+  const [mintBountyState, setMintBountyState] = useContext(MintBountyContext);
 
   return (
     <div className="bg-dark-mode">
@@ -38,7 +42,7 @@ const BountyMintedNotification = ({
               </svg>
             </div>
           </div>
-          <button onClick={() => notifyModalVisibility(false)}>
+          <button onClick={() => setMintBountyState(NOTIFICATIONS_CLOSED())}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
