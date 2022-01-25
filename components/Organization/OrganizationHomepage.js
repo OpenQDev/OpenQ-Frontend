@@ -2,7 +2,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
-import OrganizationCard from './OrganizationCard';
+import OrganizationCard from '../Organization/OrganizationCard';
+import MintBountyButton from '../MintBounty/MintBountyButton';
 import SearchBar from '../Search/SearchBar';
 import useAuth from '../../hooks/useAuth';
 
@@ -32,7 +33,9 @@ const OrganizationHomepage = () => {
 			let orgData = {};
 
 			try {
-				orgData = await appState.githubRepository.fetchOrganizationByName(organization.id);
+				orgData = await appState.githubRepository.fetchOrganizationByName(
+					organization.id
+				);
 			} catch (error) {
 				console.log(error);
 				continue;
@@ -61,20 +64,32 @@ const OrganizationHomepage = () => {
 		return <div>Loading...</div>;
 	} else {
 		return (
-			<div className="flex justify-center items-center">
-				<label className='font-bold text-l'>Organization</label>
-				<SearchBar onKeyUp={filterByOrg} className="mb-200" />
-				<div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-6 pr-20">
-					{organizations.filter(organization => {
-						return organizationSearchTerm ? organization.name.toLowerCase().indexOf(organizationSearchTerm.toLowerCase()) > -1 : organization;
-					}).map((organization) => {
-						return (
-							<OrganizationCard
-								organization={organization}
-								key={organization.id}
-							/>
-						);
-					})}
+			<div>
+				<div className="flex justify-center">
+					<div className="grid grid-cols-3 gap-6 pr-20">
+						<div className="col-span-2">
+							<SearchBar onKeyUp={filterByOrg} className="mb-200" />
+						</div>
+						<div>
+							<MintBountyButton />
+						</div>
+						{organizations
+							.filter((organization) => {
+								return organizationSearchTerm
+									? organization.name
+										.toLowerCase()
+										.indexOf(organizationSearchTerm.toLowerCase()) > -1
+									: organization;
+							})
+							.map((organization) => {
+								return (
+									<OrganizationCard
+										organization={organization}
+										key={organization.id}
+									/>
+								);
+							})}
+					</div>
 				</div>
 			</div>
 		);

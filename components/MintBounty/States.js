@@ -8,7 +8,7 @@ export const RESTING_STATE = () => {
 		isLoading: false,
 		isValidUrl: false,
 		issueClosed: false,
-		transactionPending: false
+		transactionPending: false,
 	};
 };
 
@@ -35,7 +35,7 @@ export const ISSUE_FOUND = (issue) => {
 export const ISSUE_NOT_FOUND = () => {
 	return {
 		issueFound: false,
-		issueData: null
+		issueData: null,
 	};
 };
 
@@ -44,13 +44,13 @@ export const VALID_URL = (orgName, repoName, issueNumber) => {
 		isValidUrl: true,
 		orgName,
 		repoName,
-		issueNumber
+		issueNumber,
 	};
 };
 
 export const INVALID_URL = () => {
 	return {
-		isValidUrl: false
+		isValidUrl: false,
 	};
 };
 
@@ -75,7 +75,7 @@ export const TRANSACTION_PENDING = () => {
 		errorMessage: '',
 		isBountyMinted: false,
 		isLoading: true,
-		transactionPending: true
+		transactionPending: true,
 	};
 };
 
@@ -84,7 +84,7 @@ export const TRANSACTION_SUCCESS = (bountyAddress) => {
 		bountyAddress,
 		isBountyMinted: true,
 		isLoading: false,
-		transactionPending: false
+		transactionPending: false,
 	};
 };
 
@@ -94,6 +94,12 @@ export const TRANSACTION_FAILURE = (error) => {
 		errorMessage: error.message,
 		isBountyMinted: false,
 		isLoading: false,
-		transactionPending: false
+		transactionPending: false,
+	};
+};
+
+export const NOTIFICATIONS_CLOSED = () => {
+	return {
+		isBountyMinted: false,
 	};
 };

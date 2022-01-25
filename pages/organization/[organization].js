@@ -1,7 +1,6 @@
 // Third Party
 import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
-import { ethers } from 'ethers';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
@@ -11,20 +10,29 @@ const organization = () => {
 	// Context
 	const [appState] = useContext(StoreContext);
 	const router = useRouter();
-	const { tokenMetadata } = appState;
 
 	// State
 	const { organization } = router.query;
 	const [isLoading, setIsLoading] = useState(true);
+	const [issueTitleSearchTerm, setIssueTitleSearchTerm] = useState('');
 	const [organizationData, setOrganizationData] = useState(null);
 	const [bounties, setBounties] = useState([]);
 
 	// Methods
+
+	const filterByIssueTitle = (e) => {
+		setIssueTitleSearchTerm(e.target.value);
+	};
+
 	async function populateOrganizationData() {
 		setIsLoading(true);
-		const org = await appState.openQSubgraphClient.getOrganization(organization);
+		const org = await appState.openQSubgraphClient.getOrganization(
+			organization
+		);
 
-		const orgData = await appState.githubRepository.fetchOrganizationByName(organization);
+		const orgData = await appState.githubRepository.fetchOrganizationByName(
+			organization
+		);
 
 		const mergedOrgData = { ...org, ...orgData };
 
@@ -33,12 +41,14 @@ const organization = () => {
 
 	async function populateBountyData() {
 		const bounties = organizationData.bountiesCreated;
-		const bountyIds = bounties.map(bounty => bounty.bountyId);
+		const bountyIds = bounties.map((bounty) => bounty.bountyId);
 		const issueData = await appState.githubRepository.getIssueData(bountyIds);
 
 		const fullBounties = [];
-		bounties.forEach(bounty => {
-			const relatedIssue = issueData.find(issue => issue.id == bounty.bountyId);
+		bounties.forEach((bounty) => {
+			const relatedIssue = issueData.find(
+				(issue) => issue.id == bounty.bountyId
+			);
 			const mergedBounty = { ...bounty, ...relatedIssue };
 			fullBounties.push(mergedBounty);
 		});
@@ -66,20 +76,37 @@ const organization = () => {
 		return 'Loading...';
 	} else {
 		return (
-			<div className="flex justify-center items-center">
-				<h1 className='font-bold uppercase'>{organizationData.name}</h1>
-				<h1 className='font-bold uppercase'>Bounties</h1>
-				{bounties.length != 0 ? (
-					bounties.map((bounty) => {
-						return (
-							<BountyCard
-								bounty={bounty}
-								key={bounty.bountyId}
-							/>
-						);
-					})
-				) : 'No Bounties'}
-				<h1 className='font-bold uppercase'>Total Contributions</h1>
+			<div className="bg-dark-mode">
+				{/* <h1 className="font-bold uppercase">{organizationData.name}</h1>
+        <h1 className="font-bold uppercase">Bounties</h1> */}
+				<div className="flex justify-center">
+					<div className="w-1/2 space-y-3">
+						<input
+							className="outline-none w-full font-mont rounded-lg py-2 p-5 pb-1 border border-web-gray bg-dark-mode text-white"
+							onKeyUp={(e) => filterByIssueTitle(e)}
+							type="text"
+							placeholder="Search Issue..."
+						></input>
+						<div className="text-gray-300 font-mont pt-1 font-normal">
+							{bounties.length}
+							{bounties.length < 2 ? ' Bounty found' : ' Bounties found'}
+						</div>
+						{bounties.length != 0
+							? bounties
+								.filter((bounty) => {
+									return issueTitleSearchTerm
+										? bounty.title
+											.toLowerCase()
+											.indexOf(issueTitleSearchTerm.toLowerCase()) > -1
+										: bounty;
+								})
+								.map((bounty) => {
+									return <BountyCard bounty={bounty} key={bounty.bountyId} />;
+								})
+							: 'No Bounties'}
+					</div>
+				</div>
+				{/* <h1 className='font-bold uppercase'>Total Contributions</h1>
 				{organizationData.fundedTokenBalances.map(tokenBalance => {
 					const tokenAddress = ethers.utils.getAddress(tokenBalance.tokenAddress);
 					return (
@@ -116,7 +143,7 @@ const organization = () => {
 							</div>
 						);
 					})
-				) : 'No Deposits on any Issues'}
+				) : 'No Deposits on any Issues'} */}
 			</div>
 		);
 	}

@@ -1,6 +1,5 @@
 // Third Party
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import FundBountyButton from '../FundBounty/FundBountyButton';
 
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
@@ -20,7 +19,7 @@ import {
 	TRANSACTION_PENDING,
 	TRANSACTION_SUCCESS,
 	TRANSACTION_FAILURE,
-	ISSUE_NOT_FOUND
+	ISSUE_NOT_FOUND,
 } from './States';
 import MintBountyModalButton from './MintBountyModalButton';
 import MintBountyHeader from './MintBountyHeader';
@@ -37,7 +36,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 	const [issueUrl, setIssueUrl] = useState('');
 	const [isLoadingIssueData, setIsLoadingIssueData] = useState('');
 	const {
-		bounty,
 		bountyAddress,
 		isValidUrl,
 		issueClosed,
@@ -45,7 +43,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 		issueData,
 		issueFound,
 		isBountyMinted,
-		enableMint
+		enableMint,
 	} = mintBountyState;
 
 	// Refs
@@ -100,7 +98,9 @@ const MintBountyModal = ({ modalVisibility }) => {
 						mintBountyState.repoName,
 						mintBountyState.issueNumber
 					);
-					setMintBountyState(ISSUE_FOUND(response.data.organization.repository.issue));
+					setMintBountyState(
+						ISSUE_FOUND(response.data.organization.repository.issue)
+					);
 					setIsLoadingIssueData(false);
 				} catch (error) {
 					setIsLoadingIssueData(false);
@@ -110,14 +110,19 @@ const MintBountyModal = ({ modalVisibility }) => {
 			}
 			fetchIssue();
 		}
-	}, [mintBountyState.issueNumber, mintBountyState.orgName, mintBountyState.repoName]);
+	}, [
+		mintBountyState.issueNumber,
+		mintBountyState.orgName,
+		mintBountyState.repoName,
+	]);
 
 	useEffect(() => {
 		if (mintBountyState.issueData) {
-
 			async function alreadyExists() {
 				try {
-					let bounty = await appState.openQSubgraphClient.getBountyByBountyId(mintBountyState.issueData.id);
+					let bounty = await appState.openQSubgraphClient.getBountyByBountyId(
+						mintBountyState.issueData.id
+					);
 					if (bounty) {
 						setMintBountyState(BOUNTY_EXISTS(bounty));
 					} else {
@@ -149,48 +154,59 @@ const MintBountyModal = ({ modalVisibility }) => {
 			setMintBountyState(TRANSACTION_FAILURE(error));
 		}
 	}
+
 	// Render
 	return (
 		<div>
-			<div className="flex flex-col justify-center font-mont items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-				{isBountyMinted ? (
-					<div>
+			<div className="flex justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+				<div className="w-1/4 space-y-5">
+					{isBountyMinted ? (
 						<BountyMintedNotification
 							notificationRef={notificationRef}
 							bountyAddress={bountyAddress}
 							issueUrl={issueUrl}
-							notifyModalVisibility={mintBountyState.setIsBountyMinted}
+							notifyModalVisibility={setMintBountyState.setIsBountyMinted}
 						/>
-					</div>
-				) : null}
-				<div ref={menuRef} className="w-2/7 my-6 mx-auto max-w-3xl">
-					<div className="border-0 rounded-xl shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none">
-						<MintBountyHeader />
-						<div className="flex flex-col pl-6 pr-6 space-y-2">
-							<MintBountyInput setIssueUrl={setIssueUrl} issueData={issueData} isValidUrl={isValidUrl} />
-						</div>
-						{/* {error ? errorMessage : null} */}
-						{isValidUrl && !issueFound && isLoadingIssueData ? (
-							<div className="pl-10 pt-5">
-								<LoadingIcon bg={'white'} />
+					) : null}
+					<div ref={menuRef} className="w-full">
+						<div className="border-0 rounded-xl shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none">
+							<MintBountyHeader />
+							<div className="flex flex-col pl-6 pr-6 space-y-2">
+								<MintBountyInput
+									setIssueUrl={setIssueUrl}
+									issueData={issueData}
+									isValidUrl={isValidUrl}
+								/>
 							</div>
-						) : null}
-						{isValidUrl && !issueFound && !isLoadingIssueData ? (
-							<div className="pl-10 pt-5 text-white">Github Issue not found</div>
-						) : null}
-						<div className="flex flex-row justify-center space-x-1 px-8">
-							{isValidUrl && issueClosed && issueFound ? (
-								<div className="pt-3 text-white">
-									This issue is already closed on GitHub
+							{/* {error ? errorMessage : null} */}
+							{isValidUrl && !issueFound && isLoadingIssueData ? (
+								<div className="pl-10 pt-5">
+									<LoadingIcon bg={'white'} />
 								</div>
 							) : null}
-							{isValidUrl && bountyAddress && issueFound ? (
-								<BountyAlreadyMintedMessage bountyAddress={bountyAddress} />
+							{isValidUrl && !issueFound && !isLoadingIssueData ? (
+								<div className="pl-10 pt-5 text-white">
+                  Github Issue not found
+								</div>
 							) : null}
-						</div>
-						{bounty && !issueClosed ? <FundBountyButton bounty={bounty} /> : null}
-						<div className="flex items-center justify-center p-5 rounded-b w-full">
-							<MintBountyModalButton mintBounty={mintBounty} enableMint={enableMint} transactionPending={transactionPending}/>
+							<div className="flex flex-row justify-center space-x-1 px-8">
+								{isValidUrl && issueClosed && issueFound ? (
+									<div className="pt-3 text-white">
+                    This issue is already closed on GitHub
+									</div>
+								) : null}
+								{isValidUrl && bountyAddress && issueFound ? (
+									<BountyAlreadyMintedMessage bountyAddress={bountyAddress} />
+								) : null}
+							</div>
+
+							<div className="flex items-center justify-center p-5 rounded-b w-full">
+								<MintBountyModalButton
+									mintBounty={mintBounty}
+									enableMint={enableMint}
+									transactionPending={transactionPending}
+								/>
+							</div>
 						</div>
 					</div>
 				</div>

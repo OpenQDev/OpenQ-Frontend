@@ -12,34 +12,55 @@ const OrganizationCard = ({ organization }) => {
 	// Context
 	const [tokenValues] = useGetTokenValues(organization.fundedTokenBalances);
 	const [appState] = useContext(StoreContext);
+	const orgName =
+    organization.name.charAt(0).toUpperCase() + organization.name.slice(1);
 
 	// Methods
 
 	// Render
 	return (
-		<>
+		<div>
 			<Link href={`/organization/${organization.login}`}>
 				<div
 					className={
-						'flex flex-col p-6 font-mont rounded-xl shadow-sm bg-white cursor-pointer pr-10 pl-10'
+						'flex flex-col p-6 items-center font-mont rounded-xl shadow-sm border border-web-gray cursor-pointer pr-11 pl-11'
 					}
 				>
-					<Image src={organization.avatarUrl} alt="n/a" width="25px" height="25px" />
-					<div className='text-center'>
-						{organization.name}
+					<div className="w-16 h-16 relative">
+						<Image src={organization.avatarUrl} alt="n/a" layout="fill" />
 					</div>
-					<div className='bg-pink dark:text-white rounded shadow-md font-semibold font-sans relative'>
-						{`OPEN BOUNTIES: ${organization.bountiesCreated.map(bounty => bounty.status == 'OPEN').length}`}
+					<div className="pt-5 text-center font-semibold text-white">
+						{orgName}
+					</div>
+					<div className="bg-pink text-white rounded shadow-md text-gray-300 font-sans relative">
+						{`${
+							organization.bountiesCreated.map(
+								(bounty) => bounty.status == 'OPEN'
+							).length
+						} ${
+							organization.bountiesCreated.map(
+								(bounty) => bounty.status == 'OPEN'
+							).length < 2
+								? 'Bounty'
+								: 'Bounties'
+						}`}
 					</div>
 					<div>
-						{tokenValues ? <TokenBalances tokenBalances={organization.fundedTokenBalances} tokenValues={tokenValues} /> : null}
+						{tokenValues ? (
+							<TokenBalances
+								tokenBalances={organization.fundedTokenBalances}
+								tokenValues={tokenValues}
+							/>
+						) : null}
 					</div>
 					<div>
-						{tokenValues ? <div>{appState.utils.formatter.format(tokenValues.total)}</div> : null}
+						{tokenValues ? (
+							<div>{appState.utils.formatter.format(tokenValues.total)}</div>
+						) : null}
 					</div>
 				</div>
 			</Link>
-		</>
+		</div>
 	);
 };
 

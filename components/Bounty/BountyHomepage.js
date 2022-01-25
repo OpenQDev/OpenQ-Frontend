@@ -8,7 +8,7 @@ import MintBountyButton from '../MintBounty/MintBountyButton';
 const BountyHomepage = () => {
 	// State
 	const [bounties, setBounties] = useState([]);
-	const [organizationSearchTerm,] = useState('');
+	const [organizationSearchTerm] = useState('');
 	const [issueTitleSearchTerm, setIssueTitleSearchTerm] = useState('');
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -66,7 +66,10 @@ const BountyHomepage = () => {
 					></input>
 					<MintBountyButton />
 					<div className="col-span-3">
-						<div className="font-mont text-white pb-3">Bounties</div>
+						<div className="text-gray-300 font-mont pb-2 pt-1 font-normal">
+							{bounties.length}
+							{bounties.length < 2 ? ' Bounty found' : ' Bounties found'}
+						</div>
 						{bounties
 							.filter((bounty) => {
 								return organizationSearchTerm

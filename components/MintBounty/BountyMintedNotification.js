@@ -1,18 +1,25 @@
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
+import MintBountyContext from './MintBountyStore/MintBountyContext';
+import { NOTIFICATIONS_CLOSED } from './States';
 
-const BountyMintedNotification = ({ bountyAddress, issueUrl, notifyModalVisibility, notificationRef }) => {
-
+const BountyMintedNotification = ({
+	bountyAddress,
+	issueUrl,
+	notificationRef,
+}) => {
 	let notifyRef = useRef();
 	notificationRef(notifyRef);
+
+	const [, setMintBountyState] = useContext(MintBountyContext);
 
 	return (
 		<div className="bg-dark-mode">
 			<div
 				ref={notifyRef}
-				className="flex flex-col bg-purple-600 col-span-3 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4 text-white outline-none focus:outline-none"
+				className="flex flex-col bg-purple-600 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4 text-white outline-none focus:outline-none"
 			>
 				<div className="flex flex-row justify-between space-x-5">
 					<div className="flex flex-row space-x-2">
@@ -34,7 +41,7 @@ const BountyMintedNotification = ({ bountyAddress, issueUrl, notifyModalVisibili
 							</svg>
 						</div>
 					</div>
-					<button onClick={() => notifyModalVisibility(false)}>
+					<button onClick={() => setMintBountyState(NOTIFICATIONS_CLOSED())}>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							className="h-5 w-5"
@@ -52,7 +59,7 @@ const BountyMintedNotification = ({ bountyAddress, issueUrl, notifyModalVisibili
 					</button>
 				</div>
 				<div className="pt-2 font-light">
-					You can now view the bounty on our page and fund it
+          You can now view the bounty on our page and fund it
 				</div>
 				<div className="pt-2 font-semibold">Smart Contract</div>
 				<div className="cursor-pointer">
