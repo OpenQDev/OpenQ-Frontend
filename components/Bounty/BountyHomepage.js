@@ -66,7 +66,10 @@ const BountyHomepage = () => {
           ></input>
           <MintBountyButton />
           <div className="col-span-3">
-            <div className="font-mont text-white pb-3">Bounties</div>
+            <div className="text-gray-300 font-mont pb-2 pt-1 font-normal">
+              {bounties.length}
+              {bounties.length < 2 ? " Bounty found" : " Bounties found"}
+            </div>
             {bounties
               .filter((bounty) => {
                 return organizationSearchTerm

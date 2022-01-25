@@ -89,6 +89,10 @@ const organization = () => {
               type="text"
               placeholder="Search Issue..."
             ></input>
+            <div className="text-gray-300 font-mont pt-1 font-normal">
+              {bounties.length}
+              {bounties.length < 2 ? " Bounty found" : " Bounties found"}
+            </div>
             {bounties.length != 0
               ? bounties
                   .filter((bounty) => {
