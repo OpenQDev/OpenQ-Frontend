@@ -23,7 +23,7 @@ const OrganizationCard = ({ organization }) => {
       <Link href={`/organization/${organization.login}`}>
         <div
           className={
-            "flex flex-col p-6 items-center font-mont rounded-xl shadow-sm border border-web-gray cursor-pointer pr-10 pl-10"
+            "flex flex-col p-6 items-center font-mont rounded-xl shadow-sm border border-web-gray cursor-pointer pr-11 pl-11"
           }
         >
           <div className="w-16 h-16 relative">
