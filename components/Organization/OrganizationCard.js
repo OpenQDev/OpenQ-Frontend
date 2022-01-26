@@ -1,17 +1,10 @@
 // Third Party
-import React, { useContext } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-// Custom
-import useGetTokenValues from '../../hooks/useGetTokenValues';
-import StoreContext from '../../store/Store/StoreContext';
-import TokenBalances from '../TokenBalances/TokenBalances';
-
 const OrganizationCard = ({ organization }) => {
 	// Context
-	const [tokenValues] = useGetTokenValues(organization.fundedTokenBalances);
-	const [appState] = useContext(StoreContext);
 	const orgName =
     organization.name.charAt(0).toUpperCase() + organization.name.slice(1);
 
@@ -44,19 +37,6 @@ const OrganizationCard = ({ organization }) => {
 								? 'Bounty'
 								: 'Bounties'
 						}`}
-					</div>
-					<div>
-						{tokenValues ? (
-							<TokenBalances
-								tokenBalances={organization.fundedTokenBalances}
-								tokenValues={tokenValues}
-							/>
-						) : null}
-					</div>
-					<div>
-						{tokenValues ? (
-							<div>{appState.utils.formatter.format(tokenValues.total)}</div>
-						) : null}
 					</div>
 				</div>
 			</Link>

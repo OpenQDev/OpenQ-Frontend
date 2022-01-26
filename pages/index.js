@@ -4,7 +4,7 @@ import Head from 'next/head';
 
 // Custom
 import BountyHomepage from '../components/Bounty/BountyHomepage';
-import OpenQHomepage from '../components/Homepage/OpenQHomepage';
+import OrganizationHomepage from '../components/Organization/OrganizationHomepage';
 
 export default function Index() {
 	const [internalMenu, setInternalMenu] = useState('org');
@@ -42,7 +42,7 @@ export default function Index() {
 							</button>
 						</div>
 					</div>
-					{internalMenu == 'org' ? <OpenQHomepage /> : <BountyHomepage />}
+					{internalMenu == 'org' ? <OrganizationHomepage /> : <BountyHomepage />}
 				</div>
 			</main>
 		</div>
