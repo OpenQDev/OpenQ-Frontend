@@ -7,7 +7,7 @@ import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModa
 import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 import ButtonLoadingIcon from '../Loading/ButtonLoadingIcon';
 
-const FundModal = ({ bounty }) => {
+const FundModal = ({ bounty, refreshBounty }) => {
 	// State
 	const [token, setToken] = useState({
 		name: 'Mock Link',
@@ -67,12 +67,12 @@ const FundModal = ({ bounty }) => {
 					token.address,
 					bigNumberVolumeInWei
 				);
-				console.log(fundTxnReceipt.evet);
 				setTransactionHash(fundTxnReceipt.transactionHash);
 				setSuccessMessage(
 					`Successfully funded issue ${bounty.url} with ${volume} ${token.symbol}!`
 				);
 				setShowSuccessModal(true);
+				refreshBounty();
 				setIsLoading(false);
 			} catch (error) {
 				setTransactionHash(JSON.stringify(error));

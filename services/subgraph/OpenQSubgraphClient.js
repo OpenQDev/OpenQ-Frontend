@@ -11,6 +11,12 @@ class OpenQSubgraphClient {
 		uri: process.env.NEXT_PUBLIC_OPENQ_SUBGRAPH_URL,
 		link: this.httpLink,
 		cache: new InMemoryCache(),
+		defaultOptions: {
+			query: {
+				fetchPolicy: 'no-cache',
+				errorPolicy: 'all'
+			}
+		}
 	});
 
 	async getAllBounties() {

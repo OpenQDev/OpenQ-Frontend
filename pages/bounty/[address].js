@@ -10,11 +10,9 @@ import RefundBountyButton from '../../components/RefundBounty/RefundBountyButton
 import ClaimPage from '../../components/Claim/ClaimPage';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import useAuth from '../../hooks/useAuth';
-import useWeb3 from '../../hooks/useWeb3';
 
 const address = () => {
 	// Context
-	const { library } = useWeb3();
 	const [appState] = useContext(StoreContext);
 	const router = useRouter();
 	useAuth();
@@ -43,18 +41,18 @@ const address = () => {
 		setIsLoading(false);
 	}
 
-	async function updateDeposit(args) {
-		console.log(args);
-		const newBounty = await appState.openQSubgraphClient.getBounty(address);
-		const mergedBounty = { ...bounty, ...newBounty };
-		setBounty(mergedBounty);
+	function sleep(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms));
 	}
 
-	useEffect(() => {
-		if (bounty && address) {
-			appState.openQClient.subscribeDepositEvents(library, process.env.NEXT_PUBLIC_OPENQ_ADDRESS, address, updateDeposit);
-		}
-	}, [address, bounty]);
+	const refreshBounty = async () => {
+		await sleep(10000);
+		console.log('i ran');
+		const newBounty = await appState.openQSubgraphClient.getBounty(address);
+		console.log('newBounty', newBounty);
+		const mergedBounty = { ...bounty, ...newBounty };
+		setBounty(mergedBounty);
+	};
 
 	// Hooks
 	useEffect(() => {
@@ -103,7 +101,7 @@ const address = () => {
 				{internalMenu == 'view' ? (
 					<BountyCardDetails bounty={bounty} tokenValues={tokenValues} />
 				) : null}
-				{internalMenu == 'fund' ? <FundPage bounty={bounty} /> : null}
+				{internalMenu == 'fund' ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 				{internalMenu == 'claim' ? <ClaimPage bounty={bounty} /> : null}
 				{internalMenu == 'refund' ? (
 					<RefundBountyButton
