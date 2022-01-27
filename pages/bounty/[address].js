@@ -10,9 +10,11 @@ import RefundBountyButton from '../../components/RefundBounty/RefundBountyButton
 import ClaimPage from '../../components/Claim/ClaimPage';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import useAuth from '../../hooks/useAuth';
+import useWeb3 from '../../hooks/useWeb3';
 
 const address = () => {
 	// Context
+	const { library } = useWeb3();
 	const [appState] = useContext(StoreContext);
 	const router = useRouter();
 	useAuth();
@@ -37,9 +39,22 @@ const address = () => {
 
 		const mergedBounty = { ...bounty, ...issueData };
 
-		setBounty(mergedBounty);
+		setBounty({ ...mergedBounty });
 		setIsLoading(false);
 	}
+
+	async function updateDeposit(args) {
+		console.log(args);
+		const newBounty = await appState.openQSubgraphClient.getBounty(address);
+		const mergedBounty = { ...bounty, ...newBounty };
+		setBounty(mergedBounty);
+	}
+
+	useEffect(() => {
+		if (bounty && address) {
+			appState.openQClient.subscribeDepositEvents(library, process.env.NEXT_PUBLIC_OPENQ_ADDRESS, address, updateDeposit);
+		}
+	}, [address, bounty]);
 
 	// Hooks
 	useEffect(() => {

@@ -16,7 +16,7 @@ const FundModal = ({ bounty }) => {
 		decimals: 18,
 		chainId: 80001,
 		logoURI:
-      'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x514910771AF9Ca656af840dff83E8264EcF986CA/logo.png',
+			'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x514910771AF9Ca656af840dff83E8264EcF986CA/logo.png',
 	});
 	const [volume, setVolume] = useState('');
 	const {
@@ -60,7 +60,6 @@ const FundModal = ({ bounty }) => {
 		}
 
 		if (approveSucceeded) {
-			console.log(bounty);
 			try {
 				const fundTxnReceipt = await appState.openQClient.fundBounty(
 					library,
@@ -68,6 +67,7 @@ const FundModal = ({ bounty }) => {
 					token.address,
 					bigNumberVolumeInWei
 				);
+				console.log(fundTxnReceipt.evet);
 				setTransactionHash(fundTxnReceipt.transactionHash);
 				setSuccessMessage(
 					`Successfully funded issue ${bounty.url} with ${volume} ${token.symbol}!`
@@ -89,8 +89,7 @@ const FundModal = ({ bounty }) => {
 			`You are about to fund this bounty at address ${bounty.bountyAddress.substring(
 				0,
 				12
-			)}...${bounty.bountyAddress.substring(32)} with ${volume} ${
-				token.name
+			)}...${bounty.bountyAddress.substring(32)} with ${volume} ${token.name
 			}. Is this correct?`
 		);
 	}
@@ -101,8 +100,7 @@ const FundModal = ({ bounty }) => {
 			`You are about to fund this bounty at address ${bounty.bountyAddress.substring(
 				0,
 				12
-			)}...${bounty.bountyAddress.substring(32)} with ${volume} ${
-				token.name
+			)}...${bounty.bountyAddress.substring(32)} with ${volume} ${token.name
 			}. Is this correct?`
 		);
 	}
@@ -133,10 +131,10 @@ const FundModal = ({ bounty }) => {
 		<div className="pt-16">
 			<div className="flex flex-col space-y-5">
 				<div className="flex text-3xl font-semibold text-white justify-center">
-          Fund Bounty
+					Fund Bounty
 				</div>
 				<div className="bg-purple-600 col-span-3 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4">
-          Deposited ERC-20 Tokens can be withdrawn again after 30 days
+					Deposited ERC-20 Tokens can be withdrawn again after 30 days
 				</div>
 
 				<TokenFundBox
@@ -148,10 +146,9 @@ const FundModal = ({ bounty }) => {
 
 				<div>
 					<button
-						className={`flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${
-							isLoading
-								? 'confirm-btn-disabled cursor-not-allowed'
-								: 'confirm-btn cursor-pointer'
+						className={`flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${isLoading
+							? 'confirm-btn-disabled cursor-not-allowed'
+							: 'confirm-btn cursor-pointer'
 						}`}
 						type="button"
 						onClick={() => setShowConfirmationModal(true)}

@@ -64,6 +64,16 @@ class OpenQClient {
 		return promise;
 	}
 
+	async subscribeDepositEvents(library, address, bountyAddress, callback) {
+		const signer = library.getSigner();
+		const openQ = this.OpenQ(signer);
+		const depositsToBounty = openQ.filters.DepositReceived(null, null, bountyAddress);
+
+		openQ.once(depositsToBounty, (...args) => {
+			callback(args);
+		});
+	}
+
 	async fundBounty(library, _bountyAddress, _tokenAddress, _value) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
