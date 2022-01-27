@@ -10,13 +10,7 @@ class OpenQSubgraphClient {
 	client = new ApolloClient({
 		uri: process.env.NEXT_PUBLIC_OPENQ_SUBGRAPH_URL,
 		link: this.httpLink,
-		cache: new InMemoryCache(),
-		defaultOptions: {
-			query: {
-				fetchPolicy: 'no-cache',
-				errorPolicy: 'all'
-			}
-		}
+		cache: new InMemoryCache()
 	});
 
 	async getAllBounties() {
@@ -34,13 +28,14 @@ class OpenQSubgraphClient {
 		return promise;
 	}
 
-	async getBounty(id) {
+	async getBounty(id, fetchPolicy = "cache-first") {
 		const lowerCasedAddress = id.toLowerCase();
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
 					query: GET_BOUNTY,
-					variables: { id: lowerCasedAddress }
+					variables: { id: lowerCasedAddress },
+					fetchPolicy
 				});
 				resolve(result.data.bounty);
 			} catch (e) {
