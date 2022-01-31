@@ -11,7 +11,7 @@ class OpenQClient {
 		 * @returns Web3Contract
 		 */
 	OpenQ = (signer) => {
-		const contract = new ethers.Contract(process.env.NEXT_PUBLIC_OPENQ_ADDRESS, OpenQABI, signer);
+		const contract = new ethers.Contract(process.env.NEXT_PUBLIC_OPENQ_ADDRESS, OpenQABI.abi, signer);
 		return contract;
 	};
 
@@ -22,7 +22,7 @@ class OpenQClient {
 		 * @returns Web3Contract
 		 */
 	ERC20 = (tokenAddress, signer) => {
-		const contract = new ethers.Contract(tokenAddress, ERC20ABI, signer);
+		const contract = new ethers.Contract(tokenAddress, ERC20ABI.abi, signer);
 		return contract;
 	};
 

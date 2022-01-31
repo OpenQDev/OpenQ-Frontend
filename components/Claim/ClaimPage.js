@@ -49,13 +49,12 @@ const ClaimPage = ({ bounty }) => {
 				setIsLoading(false);
 				setTransactionHash(transactionHash);
 				setSuccessMessage(
-					`Successfully transferred assets on issue with at ${url} to ${payoutAddress}!`
+					`Successfully transferred bounties on issue at ${url} to ${payoutAddress}! See txn here: ${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/txn/${transactionHash}`
 				);
 				setShowSuccessModal(true);
 			})
 			.catch((error) => {
 				console.log(error);
-
 				setIsLoading(false);
 				setErrorMessage(error.response.data.message);
 				setShowErrorModal(true);

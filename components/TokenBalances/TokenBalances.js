@@ -11,7 +11,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, claimed }) => {
 
 	return (
 		<div className="flex flex-col pt-4 pb-6">
-			<div className="font-semibold text-white">{claimed ? 'Total Value Locked (TVL)' : 'Total Value Claimed'}</div>
+			<div className="font-semibold text-white">{claimed ? 'Total Value Claimed' : 'Total Value Locked (TVL)'}</div>
 			<div className="font-bold text-xl text-white">
 				{tokenValues
 					? `${appState.utils.formatter.format(tokenValues.total)}`

@@ -10,7 +10,6 @@ import CopyBountyAddress from './CopyBountyAddress';
 import LabelsList from './LabelsList';
 
 const BountyCardDetails = ({ bounty, tokenValues }) => {
-	console.log(bounty);
 	return (
 		<div className="flex flex-col font-mont pl-16 pr-16 pt-10 pb-10">
 			<div className="flex flex-col border-b border-solid rounded-t">
@@ -27,6 +26,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 					<TokenBalances
 						tokenBalances={bounty.bountyTokenBalances}
 						tokenValues={tokenValues}
+						claimed={bounty.status == 'CLOSED'}
 					/>
 				) : (
 					<div className="pt-5 pb-5 font-semibold text-white">No deposits</div>

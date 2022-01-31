@@ -76,7 +76,6 @@ const FundModal = ({ bounty, refreshBounty }) => {
 				setIsLoading(false);
 			} catch (error) {
 				console.log('message', error?.data?.message);
-				setTransactionHash(JSON.stringify(error));
 				setErrorMessage(error?.data?.message);
 				setIsLoading(false);
 				setShowErrorModal(true);
