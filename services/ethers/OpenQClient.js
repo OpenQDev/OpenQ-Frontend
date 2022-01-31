@@ -11,7 +11,7 @@ class OpenQClient {
 		 * @returns Web3Contract
 		 */
 	OpenQ = (signer) => {
-		const contract = new ethers.Contract(process.env.NEXT_PUBLIC_OPENQ_ADDRESS, OpenQABI.abi, signer);
+		const contract = new ethers.Contract(process.env.NEXT_PUBLIC_OPENQ_ADDRESS, OpenQABI, signer);
 		return contract;
 	};
 
@@ -22,7 +22,7 @@ class OpenQClient {
 		 * @returns Web3Contract
 		 */
 	ERC20 = (tokenAddress, signer) => {
-		const contract = new ethers.Contract(tokenAddress, ERC20ABI.abi, signer);
+		const contract = new ethers.Contract(tokenAddress, ERC20ABI, signer);
 		return contract;
 	};
 
@@ -35,7 +35,6 @@ class OpenQClient {
 				const txnResponse = await contract.mintBounty(issueId, organization);
 				const txnReceipt = await txnResponse.wait();
 
-				console.log(txnReceipt.events);
 				const bountyId = txnReceipt.events[0].args.bountyId;
 				const issuerAddress = txnReceipt.events[0].args.issuerAddress;
 				const bountyAddress = txnReceipt.events[0].args.bountyAddress;

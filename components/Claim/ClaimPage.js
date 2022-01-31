@@ -54,7 +54,6 @@ const ClaimPage = ({ bounty }) => {
 				setShowSuccessModal(true);
 			})
 			.catch((error) => {
-				console.log('in here');
 				console.log(error);
 
 				setIsLoading(false);

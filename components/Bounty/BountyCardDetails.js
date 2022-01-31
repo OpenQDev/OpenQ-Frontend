@@ -10,6 +10,7 @@ import CopyBountyAddress from './CopyBountyAddress';
 import LabelsList from './LabelsList';
 
 const BountyCardDetails = ({ bounty, tokenValues }) => {
+	console.log(bounty);
 	return (
 		<div className="flex flex-col font-mont pl-16 pr-16 pt-10 pb-10">
 			<div className="flex flex-col border-b border-solid rounded-t">
@@ -22,7 +23,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 					<CopyBountyAddress bounty={bounty} />
 				</div>
 				<LabelsList bounty={bounty} />
-				{bounty.deposits.length != 0 ? (
+				{bounty.bountyTokenBalances.length != 0 ? (
 					<TokenBalances
 						tokenBalances={bounty.bountyTokenBalances}
 						tokenValues={tokenValues}

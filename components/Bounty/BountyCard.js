@@ -60,7 +60,7 @@ const BountyCard = (props) => {
 							</div>
 							<div className="flex flex-row items-center space-x-4 pt-1">
 								<div className="font-mont font-light pl-6 text-sm text-white">
-                  Opened {appState.utils.formatDate(bounty.createdAt)}
+									Opened {appState.utils.formatDate(bounty.createdAt)}
 								</div>
 							</div>
 						</div>
@@ -94,7 +94,7 @@ const BountyCard = (props) => {
 														key={index}
 														className="font-mont rounded-lg text-xs py-1 px-2 font-bold border border-green-300 text-white"
 													>
-                            more..
+														more..
 													</button>
 												);
 											} else {

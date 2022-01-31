@@ -48,7 +48,6 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 				setIsLoading(false);
 			})
 			.catch((error) => {
-				setTransactionHash(JSON.stringify(error));
 				if (
 					error?.data?.message?.includes(
 						'Only funders of this bounty can reclaim funds after 30 days'
@@ -57,16 +56,16 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 					setErrorMessage(
 						`Only funders can request refunds on this issue. Your address ${account} has not funded this issue.`
 					);
-				}
-				if (error?.data?.message?.includes('Too early to withdraw funds')) {
+				} else if (error?.data?.message?.includes('Too early to withdraw funds')) {
 					setErrorMessage(
 						`Too Early To Withdraw Funds! Bounty was minted on ${appState.utils.formatUnixDate(
 							bounty.bountyMintTime
 						)}. You must wait until 30 days after mint date to get a refund.`
 					);
 				} else {
-					setErrorMessage(error?.message);
+					setErrorMessage('Unknown Error');
 				}
+
 				setIsLoading(false);
 				setShowErrorModal(true);
 			});

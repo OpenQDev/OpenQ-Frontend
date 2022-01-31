@@ -17,7 +17,6 @@ import {
 	BOUNTY_EXISTS,
 	ERROR,
 	TRANSACTION_PENDING,
-	TRANSACTION_SUCCESS,
 	TRANSACTION_FAILURE,
 	ISSUE_NOT_FOUND,
 } from './States';
@@ -135,16 +134,15 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 	// Methods
 	async function mintBounty() {
-		console.log('minting bounty');
 		try {
 			setMintBountyState(TRANSACTION_PENDING());
+
 			const { bountyAddress } = await appState.openQClient.mintBounty(
 				library,
 				mintBountyState.issueId,
 				mintBountyState.orgName
 			);
-			setMintBountyState(TRANSACTION_SUCCESS(bountyAddress));
-			console.log(`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`);
+
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`
 			);
