@@ -34,13 +34,12 @@ class OpenQClient {
 			try {
 				const txnResponse = await contract.mintBounty(issueId, organization);
 				const txnReceipt = await txnResponse.wait();
-				console.log(txnReceipt);
 
+				console.log(txnReceipt.events);
 				const bountyId = txnReceipt.events[0].args.bountyId;
 				const issuerAddress = txnReceipt.events[0].args.issuerAddress;
 				const bountyAddress = txnReceipt.events[0].args.bountyAddress;
-				console.log({ bountyId, issuerAddress, bountyAddress });
-				resolve({ bountyId, issuerAddress, bountyAddress });
+				resolve({ bountyId, issuerAddress, bountyAddress, txnReceipt });
 			} catch (err) {
 				reject(err);
 			}

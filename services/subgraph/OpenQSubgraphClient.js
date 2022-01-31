@@ -28,7 +28,7 @@ class OpenQSubgraphClient {
 		return promise;
 	}
 
-	async getBounty(id, fetchPolicy = "cache-first") {
+	async getBounty(id, fetchPolicy = 'cache-first') {
 		const lowerCasedAddress = id.toLowerCase();
 		const promise = new Promise(async (resolve, reject) => {
 			try {

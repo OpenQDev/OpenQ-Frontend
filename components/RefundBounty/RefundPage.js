@@ -8,9 +8,7 @@ import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmE
 import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModals';
 import LoadingIcon from '../Loading/LoadingIcon';
 
-const RefundBountyButton = (props) => {
-	const { address, issueUrl, bounty } = props;
-
+const RefundPage = ({ bounty, refreshBounty }) => {
 	const {
 		showErrorModal,
 		setShowErrorModal,
@@ -30,22 +28,23 @@ const RefundBountyButton = (props) => {
 	const { library, account } = useWeb3();
 
 	useEffect(() => {
-		if (issueUrl) {
+		if (bounty) {
 			setConfirmationMessage(
-				`You are about to refund your deposits on issue ${issueUrl} to the address ${account}. Is this correct ?`
+				`You are about to refund your deposits on issue ${bounty.url} to the address ${account}. Is this correct ?`
 			);
 		}
-	}, [issueUrl]);
+	}, [bounty]);
 
 	// Methods
 	async function refundBounty() {
 		setIsLoading(true);
 		appState.openQClient
-			.refundBounty(library, address)
+			.refundBounty(library, bounty.bountyAddress)
 			.then((txnReceipt) => {
 				setTransactionHash(txnReceipt.transactionHash);
 				setSuccessMessage('Money refunded!');
 				setShowSuccessModal(true);
+				refreshBounty();
 				setIsLoading(false);
 			})
 			.catch((error) => {
@@ -79,17 +78,17 @@ const RefundBountyButton = (props) => {
 			<div className="flex justify-center items-center">
 				<div className="pt-16 flex flex-col space-y-5 w-1/2">
 					<div className="text-3xl font-semibold text-white text-center">
-            Refund Bounty{' '}
+						Refund Bounty{' '}
 					</div>
 					<div className="bg-purple-600 col-span-3 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4">
-            To refund this bounty the deposits must be stored in the Smart
-            Contract for at least 30 days.
+						To refund this bounty the deposits must be stored in the Smart
+						Contract for at least 30 days.
 					</div>
 					<button
 						className="p-2 py-3 confirm-btn "
 						onClick={() => setShowConfirmationModal(true)}
 					>
-            Refund
+						Refund
 					</button>
 				</div>
 				{isLoading && <LoadingIcon />}
@@ -113,4 +112,4 @@ const RefundBountyButton = (props) => {
 	);
 };
 
-export default RefundBountyButton;
+export default RefundPage;

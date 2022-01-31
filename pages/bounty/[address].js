@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import StoreContext from '../../store/Store/StoreContext';
 import BountyCardDetails from '../../components/Bounty/BountyCardDetails';
 import FundPage from '../../components/FundBounty/FundPage';
-import RefundBountyButton from '../../components/RefundBounty/RefundBountyButton';
+import RefundPage from '../../components/RefundBounty/RefundPage';
 import ClaimPage from '../../components/Claim/ClaimPage';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import useAuth from '../../hooks/useAuth';
@@ -46,12 +46,8 @@ const address = () => {
 	}
 
 	const refreshBounty = async () => {
-		let newBounty = await appState.openQSubgraphClient.getBounty(address);
-		// Yes it's polling - but less buggy than using ethers event listeners with filters
-		while (newBounty.deposits.length == bounty.deposits.length) {
-			await sleep(1000);
-			newBounty = await appState.openQSubgraphClient.getBounty(address, "network-only");
-		}
+		await sleep(1000);
+		let newBounty = await appState.openQSubgraphClient.getBounty(address, 'network-only');
 		const mergedBounty = { ...bounty, ...newBounty };
 		setBounty(mergedBounty);
 	};
@@ -74,28 +70,28 @@ const address = () => {
 					<button
 						onClick={() => setInternalMenu('view')}
 						className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'view' ? 'bg-gray-500' : null
-							}`}
+						}`}
 					>
 						View
 					</button>
 					<button
 						onClick={() => setInternalMenu('fund')}
 						className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'fund' ? 'bg-gray-500' : null
-							}`}
+						}`}
 					>
 						Fund
 					</button>
 					<button
 						onClick={() => setInternalMenu('refund')}
 						className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'refund' ? 'bg-gray-500' : null
-							}`}
+						}`}
 					>
 						Refund
 					</button>
 					<button
 						onClick={() => setInternalMenu('claim')}
 						className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'claim' ? 'bg-gray-500' : null
-							}`}
+						}`}
 					>
 						Claim
 					</button>
@@ -104,14 +100,8 @@ const address = () => {
 					<BountyCardDetails bounty={bounty} tokenValues={tokenValues} />
 				) : null}
 				{internalMenu == 'fund' ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
-				{internalMenu == 'claim' ? <ClaimPage bounty={bounty} /> : null}
-				{internalMenu == 'refund' ? (
-					<RefundBountyButton
-						bounty={bounty}
-						address={address}
-						issueUrl={bounty.url}
-					/>
-				) : null}
+				{internalMenu == 'claim' ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
+				{internalMenu == 'refund' ? (<RefundPage bounty={bounty} refreshBounty={refreshBounty} />) : null}
 			</div>
 		);
 	}
