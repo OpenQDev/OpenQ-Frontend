@@ -126,7 +126,7 @@ function Claim() {
 				transactionHash={transactionHash}
 				showSuccessModal={showSuccessModal}
 				setShowSuccessModal={setShowSuccessModal}
-				message={successMessage}
+				successMessage={successMessage}
 			/>
 		</div>
 	);

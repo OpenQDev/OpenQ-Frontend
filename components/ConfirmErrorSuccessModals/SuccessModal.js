@@ -2,9 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-const SuccessModal = (props) => {
-	const { successMessage, transactionHash, setShowSuccessModal } = props;
-
+const SuccessModal = ({ successMessage, transactionHash, setShowSuccessModal }) => {
 	const updateModal = () => {
 		setShowSuccessModal(false);
 	};
@@ -27,7 +25,7 @@ const SuccessModal = (props) => {
 								>
 									<div className="flex flex-col justify-center">
 										<div className="font-semibold pb-2 text-white">
-                      Polygonscan
+											Polygonscan
 										</div>
 										<div>
 											<Image
@@ -47,7 +45,7 @@ const SuccessModal = (props) => {
 								type="button"
 								onClick={() => updateModal()}
 							>
-                Close
+								Close
 							</button>
 						</div>
 					</div>

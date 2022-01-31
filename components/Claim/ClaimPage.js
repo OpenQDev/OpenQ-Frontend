@@ -10,7 +10,7 @@ import useWeb3 from '../../hooks/useWeb3';
 import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModals';
 import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 
-const ClaimPage = ({ bounty }) => {
+const ClaimPage = ({ bounty, refreshBounty }) => {
 	const { url } = bounty;
 	// State
 	const {
@@ -45,13 +45,14 @@ const ClaimPage = ({ bounty }) => {
 				{ withCredentials: true }
 			)
 			.then((result) => {
-				const { payoutAddress, transactionHash } = result.data;
+				const { payoutAddress, txnHash } = result.data;
 				setIsLoading(false);
-				setTransactionHash(transactionHash);
+				setTransactionHash(txnHash);
 				setSuccessMessage(
-					`Successfully transferred bounties on issue at ${url} to ${payoutAddress}! See txn here: ${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/txn/${transactionHash}`
+					`Successfully transferred bounties on issue at ${url} to ${payoutAddress}!`
 				);
 				setShowSuccessModal(true);
+				refreshBounty();
 			})
 			.catch((error) => {
 				console.log(error);
@@ -106,7 +107,7 @@ const ClaimPage = ({ bounty }) => {
 				transactionHash={transactionHash}
 				showSuccessModal={showSuccessModal}
 				setShowSuccessModal={setShowSuccessModal}
-				message={successMessage}
+				successMessage={successMessage}
 			/>
 		</div>
 	);
