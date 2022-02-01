@@ -62,6 +62,8 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 							bounty.bountyMintTime
 						)}. You must wait until 30 days after mint date to get a refund.`
 					);
+				} else if (error?.data?.message?.includes('Cannot request refund on a closed bounty')) {
+					setErrorMessage('Cannot request refund on a closed bounty');
 				} else {
 					setErrorMessage('Unknown Error');
 				}

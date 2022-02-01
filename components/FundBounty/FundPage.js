@@ -53,8 +53,15 @@ const FundModal = ({ bounty, refreshBounty }) => {
 			);
 			approveSucceeded = true;
 		} catch (error) {
-			setTransactionHash(JSON.stringify(error));
-			setErrorMessage(JSON.stringify(error));
+
+			if (
+				error?.data?.message?.includes('Cannot fund a closed bounty')
+			) {
+				setErrorMessage('Cannot fund a closed bounty');
+			} else {
+				setErrorMessage('Unknown Error');
+			}
+
 			setIsLoading(false);
 			setShowErrorModal(true);
 		}
@@ -75,8 +82,14 @@ const FundModal = ({ bounty, refreshBounty }) => {
 				refreshBounty();
 				setIsLoading(false);
 			} catch (error) {
-				console.log('message', error?.data?.message);
-				setErrorMessage(error?.data?.message);
+				if (
+					error?.data?.message?.includes('Cannot fund a closed bounty')
+				) {
+					setErrorMessage('Cannot fund a closed bounty');
+				} else {
+					setErrorMessage('Unknown Error');
+				}
+
 				setIsLoading(false);
 				setShowErrorModal(true);
 			}
