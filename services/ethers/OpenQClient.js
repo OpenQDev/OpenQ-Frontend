@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 import OpenQABI from '../../artifacts/contracts/OpenQ/Implementations/OpenQV0.sol/OpenQV0.json';
 import ERC20ABI from '../../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json';
+import jsonRpcErrors from './JsonRPCErrors';
 
 class OpenQClient {
 	constructor() { }
@@ -62,16 +63,6 @@ class OpenQClient {
 		return promise;
 	}
 
-	async subscribeDepositEvents(library, address, bountyAddress, callback) {
-		const signer = library.getSigner();
-		const openQ = this.OpenQ(signer);
-		const depositsToBounty = openQ.filters.DepositReceived(null, null, bountyAddress);
-
-		openQ.once(depositsToBounty, (...args) => {
-			callback(args);
-		});
-	}
-
 	async fundBounty(library, _bountyAddress, _tokenAddress, _value) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
@@ -105,6 +96,18 @@ class OpenQClient {
 		});
 		return promise;
 	}
+
+	handleError(jsonRpcError) {
+		const errorString = jsonRpcError?.data?.message;
+		for (const error of jsonRpcErrors) {
+			const revertString = Object.keys(error)[0];
+			if (errorString.includes(revertString)) {
+				return error[revertString];
+			}
+		}
+		return 'Unknown Error';
+	}
+
 }
 
 export default OpenQClient;

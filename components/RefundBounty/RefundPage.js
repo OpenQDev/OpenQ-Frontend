@@ -48,6 +48,8 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 				setIsLoading(false);
 			})
 			.catch((error) => {
+				const errorMessage = appState.openQClient.handleError(error);
+
 				if (
 					error?.data?.message?.includes(
 						'Only funders of this bounty can reclaim funds after 30 days'
@@ -67,6 +69,8 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 				} else {
 					setErrorMessage('Unknown Error');
 				}
+
+				setErrorMessage(errorMessage);
 
 				setIsLoading(false);
 				setShowErrorModal(true);

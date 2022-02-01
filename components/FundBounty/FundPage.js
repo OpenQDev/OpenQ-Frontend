@@ -82,14 +82,8 @@ const FundModal = ({ bounty, refreshBounty }) => {
 				refreshBounty();
 				setIsLoading(false);
 			} catch (error) {
-				if (
-					error?.data?.message?.includes('Cannot fund a closed bounty')
-				) {
-					setErrorMessage('Cannot fund a closed bounty');
-				} else {
-					setErrorMessage('Unknown Error');
-				}
-
+				const errorMessage = appState.openQClient.handleError(error);
+				setErrorMessage(errorMessage);
 				setIsLoading(false);
 				setShowErrorModal(true);
 			}
