@@ -16,6 +16,14 @@ const jsonRpcErrors =
 				}
 			}
 		},
+		{
+			'ERC20: transfer amount exceeds balance': {
+				title: 'Transfer amount exceeds balance',
+				message: () => {
+					return 'Transfer amount exceeds balance';
+				}
+			}
+		},
 		// REFUND
 		{
 			'PREMATURE_REFUND_REQUEST': {

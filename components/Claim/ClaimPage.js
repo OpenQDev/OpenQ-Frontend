@@ -55,9 +55,8 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 				refreshBounty();
 			})
 			.catch((error) => {
-				console.log(error);
 				setIsLoading(false);
-				setErrorMessage(error.response.data.message);
+				setErrorMessage(error.response.data.errorMessage);
 				setShowErrorModal(true);
 			});
 	};
@@ -89,7 +88,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 						</button>
 					</div>
 					<AuthButton
-						redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/claim`}
+						redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyAddress}`}
 					/>
 					{isLoading && <LoadingIcon />}
 				</div>
