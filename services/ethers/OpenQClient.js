@@ -97,12 +97,14 @@ class OpenQClient {
 		return promise;
 	}
 
-	handleError(jsonRpcError) {
+	handleError(jsonRpcError, data) {
 		const errorString = jsonRpcError?.data?.message;
 		for (const error of jsonRpcErrors) {
 			const revertString = Object.keys(error)[0];
 			if (errorString.includes(revertString)) {
-				return error[revertString];
+				const title = error[revertString]['title'];
+				const message = error[revertString].message(data);
+				return { title, message };
 			}
 		}
 		return 'Unknown Error';

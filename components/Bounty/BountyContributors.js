@@ -4,8 +4,7 @@ import Link from 'next/link';
 
 // Custom
 
-const BountyContributors = (props) => {
-	const { bounty } = props;
+const BountyContributors = ({ bounty }) => {
 
 	const [contributors, setContributors] = useState({});
 

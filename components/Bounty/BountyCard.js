@@ -8,9 +8,7 @@ import useGetTokenValues from '../../hooks/useGetTokenValues';
 import StoreContext from '../../store/Store/StoreContext';
 import BountyCardDetailsModal from './BountyCardDetailsModal';
 
-const BountyCard = (props) => {
-	const { bounty } = props;
-
+const BountyCard = ({ bounty }) => {
 	// State
 	const bountyName = bounty.title.toLowerCase();
 	const [appState] = useContext(StoreContext);
@@ -23,8 +21,7 @@ const BountyCard = (props) => {
 	return (
 		<div>
 			<Link
-				href={`/?address=${bounty.bountyAddress}`}
-				as={`/bounty/${bounty.bountyAddress}`}
+				href={`/bounty/${bounty.bountyAddress}`}
 			>
 				<div
 					className={
@@ -35,10 +32,9 @@ const BountyCard = (props) => {
 					<div className="flex flex-row justify-between">
 						<div>
 							<div className="flex flex-grow flex-row items-center space-x-2">
-								{/*  <div>{isClaimed ? "Claimed" : "Unclaimed"}</div> */}
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
-									fill={closed ? '#F0431D' : '#15FB31'}
+									fill={bounty.closed ? '#F0431D' : '#15FB31'}
 									viewBox="0 0 16 16"
 									width="19"
 									height="19"
@@ -61,6 +57,11 @@ const BountyCard = (props) => {
 							<div className="flex flex-row items-center space-x-4 pt-1">
 								<div className="font-mont font-light pl-6 text-sm text-white">
 									Opened {appState.utils.formatDate(bounty.createdAt)}
+								</div>
+							</div>
+							<div className="flex flex-row items-center space-x-4 pt-1">
+								<div className="font-mont font-light pl-6 text-sm text-white">
+									{bounty.status == 'OPEN' ? 'Unclaimed' : 'Claimed'}
 								</div>
 							</div>
 						</div>

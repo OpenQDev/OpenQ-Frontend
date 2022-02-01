@@ -53,15 +53,8 @@ const FundModal = ({ bounty, refreshBounty }) => {
 			);
 			approveSucceeded = true;
 		} catch (error) {
-
-			if (
-				error?.data?.message?.includes('Cannot fund a closed bounty')
-			) {
-				setErrorMessage('Cannot fund a closed bounty');
-			} else {
-				setErrorMessage('Unknown Error');
-			}
-
+			const { message } = appState.openQClient.handleError(error, { bounty });
+			setErrorMessage(message);
 			setIsLoading(false);
 			setShowErrorModal(true);
 		}
@@ -82,8 +75,8 @@ const FundModal = ({ bounty, refreshBounty }) => {
 				refreshBounty();
 				setIsLoading(false);
 			} catch (error) {
-				const errorMessage = appState.openQClient.handleError(error);
-				setErrorMessage(errorMessage);
+				const { message } = appState.openQClient.handleError(error, { bounty });
+				setErrorMessage(message);
 				setIsLoading(false);
 				setShowErrorModal(true);
 			}

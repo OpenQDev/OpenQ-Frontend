@@ -1,8 +1,7 @@
 // Third Party
 import React from 'react';
 
-const ErrorModal = (props) => {
-	const { setShowErrorModal, errorMessage } = props;
+const ErrorModal = ({ setShowErrorModal, errorMessage }) => {
 
 	const updateModal = () => {
 		setShowErrorModal(false);
@@ -27,7 +26,7 @@ const ErrorModal = (props) => {
 								type="button"
 								onClick={() => updateModal()}
 							>
-                Close
+								Close
 							</button>
 						</div>
 					</div>

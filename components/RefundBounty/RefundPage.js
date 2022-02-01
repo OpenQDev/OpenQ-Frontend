@@ -48,29 +48,8 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 				setIsLoading(false);
 			})
 			.catch((error) => {
-				const errorMessage = appState.openQClient.handleError(error);
-
-				if (
-					error?.data?.message?.includes(
-						'Only funders of this bounty can reclaim funds after 30 days'
-					)
-				) {
-					setErrorMessage(
-						`Only funders can request refunds on this issue. Your address ${account} has not funded this issue.`
-					);
-				} else if (error?.data?.message?.includes('Too early to withdraw funds')) {
-					setErrorMessage(
-						`Too Early To Withdraw Funds! Bounty was minted on ${appState.utils.formatUnixDate(
-							bounty.bountyMintTime
-						)}. You must wait until 30 days after mint date to get a refund.`
-					);
-				} else if (error?.data?.message?.includes('Cannot request refund on a closed bounty')) {
-					setErrorMessage('Cannot request refund on a closed bounty');
-				} else {
-					setErrorMessage('Unknown Error');
-				}
-
-				setErrorMessage(errorMessage);
+				const { message } = appState.openQClient.handleError(error, { account, bounty });
+				setErrorMessage(message);
 
 				setIsLoading(false);
 				setShowErrorModal(true);

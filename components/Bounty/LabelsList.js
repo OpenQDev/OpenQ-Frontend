@@ -3,9 +3,7 @@ import React from 'react';
 
 // Custom
 
-const LabelsList = (props) => {
-	const { bounty } = props;
-
+const LabelsList = ({ bounty }) => {
 	return (
 		<div className="flex flex-row pt-3 space-x-2">
 			<div className="space-x-2">
