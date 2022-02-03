@@ -137,11 +137,13 @@ const MintBountyModal = ({ modalVisibility }) => {
 		try {
 			setMintBountyState(TRANSACTION_PENDING());
 
-			const { bountyAddress } = await appState.openQClient.mintBounty(
+			const { bountyAddress, txnReceipt } = await appState.openQClient.mintBounty(
 				library,
 				mintBountyState.issueId,
 				mintBountyState.orgName
 			);
+
+			console.log('txnReceipt', txnReceipt);
 
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`

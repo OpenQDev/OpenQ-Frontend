@@ -27,15 +27,31 @@ const jsonRpcErrors =
 		// REFUND
 		{
 			'PREMATURE_REFUND_REQUEST': {
-				title: 'Too early to withdraw funds', message: ({ bounty }) => {
+				title: 'Too early to withdraw funds',
+				message: ({ bounty }) => {
 					return `Bounty was minted on ${formatUnixDate(bounty.bountyMintTime)}`;
 				}
 			}
 		},
-		{ 'ONLY_FUNDERS_CAN_REQUEST_REFUND': { title: 'Not a Funder', message: ({ account }) => `Only funders can request refunds on this issue. Your address ${account} has not funded this issue.` } },
-		{ 'REFUNDING_CLOSED_BOUNTY': { title: 'Cannot request refund on a closed bounty', message: '' } },
+		{
+			'ONLY_FUNDERS_CAN_REQUEST_REFUND': {
+				title: 'Not a Funder',
+				message: ({ account }) => `Only funders can request refunds on this issue. Your address ${account} has not funded this issue.`
+			}
+		},
+		{
+			'REFUNDING_CLOSED_BOUNTY': {
+				title: 'Cannot request refund on a closed bounty',
+				message: () => 'You are requesting on a closed bounty'
+			}
+		},
 		// CLAIM
-		{ 'CLAIMING_CLOSED_BOUNTY': { title: 'Cannot claim a closed bounty', message: '' } }
+		{
+			'CLAIMING_CLOSED_BOUNTY': {
+				title: 'Cannot claim a closed bounty',
+				message: () => 'You are attempting to claim a closed bounty'
+			}
+		}
 	];
 
 

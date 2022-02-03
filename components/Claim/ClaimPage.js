@@ -45,6 +45,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 				{ withCredentials: true }
 			)
 			.then((result) => {
+				console.log('Result received from /claim: ', result);
 				const { payoutAddress, txnHash } = result.data;
 				setIsLoading(false);
 				setTransactionHash(txnHash);
