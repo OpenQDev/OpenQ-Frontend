@@ -27,7 +27,7 @@ const FundModal = ({ bounty, refreshBounty }) => {
 		showConfirmationModal,
 		setShowConfirmationModal,
 	} = useConfirmErrorSuccessModals();
-	const [errorMessage, setErrorMessage] = useState('');
+	const [error, setError] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 	const [successMessage, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
@@ -53,8 +53,8 @@ const FundModal = ({ bounty, refreshBounty }) => {
 			);
 			approveSucceeded = true;
 		} catch (error) {
-			const { message } = appState.openQClient.handleError(error, { bounty });
-			setErrorMessage(message);
+			const { message, title } = appState.openQClient.handleError(error, { bounty });
+			setError({ message, title });
 			setIsLoading(false);
 			setShowErrorModal(true);
 		}
@@ -76,7 +76,7 @@ const FundModal = ({ bounty, refreshBounty }) => {
 				setIsLoading(false);
 			} catch (error) {
 				const { message } = appState.openQClient.handleError(error, { bounty });
-				setErrorMessage(message);
+				setError(message);
 				setIsLoading(false);
 				setShowErrorModal(true);
 			}
@@ -171,7 +171,7 @@ const FundModal = ({ bounty, refreshBounty }) => {
 			<ConfirmErrorSuccessModalsTrio
 				setShowErrorModal={setShowErrorModal}
 				showErrorModal={showErrorModal}
-				errorMessage={errorMessage}
+				error={error}
 				setShowConfirmationModal={setShowConfirmationModal}
 				showConfirmationModal={showConfirmationModal}
 				confirmationTitle={'Confirm Deposit'}

@@ -24,6 +24,14 @@ const jsonRpcErrors =
 				}
 			}
 		},
+		{
+			'NONCE_TO_HIGH': {
+				title: 'Nonce Too High',
+				message: () => {
+					return 'Nonce too high. If developing locally, Go to MetaMask -> Accounts -> Settings -> Advanced -> Reset Account';
+				}
+			}
+		},
 		// REFUND
 		{
 			'PREMATURE_REFUND_REQUEST': {

@@ -21,7 +21,7 @@ function Claim() {
 		showConfirmationModal,
 		setShowConfirmationModal,
 	} = useConfirmErrorSuccessModals();
-	const [errorMessage, setErrorMessage] = useState('');
+	const [error, setError] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 	const [successMessage, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
@@ -65,7 +65,7 @@ function Claim() {
 			})
 			.catch((error) => {
 				setIsLoading(false);
-				setErrorMessage(error.response.data.errorMessage);
+				setError({ message: error.response.data.errorMessage, title: 'Error' });
 				setShowErrorModal(true);
 			});
 	};
@@ -114,7 +114,7 @@ function Claim() {
 			<ConfirmErrorSuccessModalsTrio
 				setShowErrorModal={setShowErrorModal}
 				showErrorModal={showErrorModal}
-				errorMessage={errorMessage}
+				error={error}
 				setShowConfirmationModal={setShowConfirmationModal}
 				showConfirmationModal={showConfirmationModal}
 				confirmationTitle={'Confirm Claim'}

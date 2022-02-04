@@ -17,7 +17,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 		showConfirmationModal,
 		setShowConfirmationModal,
 	} = useConfirmErrorSuccessModals();
-	const [errorMessage, setErrorMessage] = useState('');
+	const [error, setError] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 	const [successMessage, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
@@ -39,7 +39,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 	async function refundBounty() {
 		setIsLoading(true);
 		appState.openQClient
-			.refundBounty(library, bounty.bountyAddress)
+			.refundBounty(library, bounty.bountyAddress, 'mockDepositId')
 			.then((txnReceipt) => {
 				setTransactionHash(txnReceipt.transactionHash);
 				setSuccessMessage('Money refunded!');
@@ -48,9 +48,8 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 				setIsLoading(false);
 			})
 			.catch((error) => {
-				const { message } = appState.openQClient.handleError(error, { account, bounty });
-				setErrorMessage(message);
-
+				const { message, title } = appState.openQClient.handleError(error, { account, bounty });
+				setError({ message, title });
 				setIsLoading(false);
 				setShowErrorModal(true);
 			});
@@ -79,7 +78,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 				<ConfirmErrorSuccessModalsTrio
 					setShowErrorModal={setShowErrorModal}
 					showErrorModal={showErrorModal}
-					errorMessage={errorMessage}
+					error={error}
 					setShowConfirmationModal={setShowConfirmationModal}
 					showConfirmationModal={showConfirmationModal}
 					confirmationTitle={'Refund Deposits'}

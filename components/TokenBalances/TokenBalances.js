@@ -8,6 +8,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, claimed }) => {
 	const [appState] = useContext(StoreContext);
 
 	const { tokenMetadata } = appState;
+	console.log(tokenMetadata);
 
 	return (
 		<div className="flex flex-col pt-4 pb-6">

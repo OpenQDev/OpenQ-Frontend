@@ -12,7 +12,7 @@ const ConfirmErrorSuccessModalsTrio = ({
 
 	showErrorModal,
 	setShowErrorModal,
-	errorMessage,
+	error,
 
 	showConfirmationModal,
 	confirmMethod,
@@ -28,7 +28,7 @@ const ConfirmErrorSuccessModalsTrio = ({
 			{showErrorModal && (
 				<ErrorModal
 					setShowErrorModal={setShowErrorModal}
-					errorMessage={errorMessage}
+					error={error}
 				/>
 			)}
 			{showConfirmationModal && (

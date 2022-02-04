@@ -80,13 +80,13 @@ class OpenQClient {
 		return promise;
 	}
 
-	async refundBounty(library, _bountyAddress) {
+	async refundBounty(library, _bountyAddress, _depositId) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
 
 			const contract = this.OpenQ(signer);
 			try {
-				const txnResponse = await contract.refundBountyDeposits(_bountyAddress);
+				const txnResponse = await contract.refundBountyDeposit(_bountyAddress, ethers.utils.formatBytes32String(_depositId));
 				const txnReceipt = await txnResponse.wait();
 
 				// wait for confirmation
@@ -99,7 +99,8 @@ class OpenQClient {
 	}
 
 	handleError(jsonRpcError, data) {
-		const errorString = jsonRpcError?.data?.message;
+		let errorString = jsonRpcError?.data?.message;
+		if (jsonRpcError.message.includes('Nonce too high.')) { errorString = 'NONCE_TO_HIGH'; }
 		for (const error of jsonRpcErrors) {
 			const revertString = Object.keys(error)[0];
 			if (errorString.includes(revertString)) {
