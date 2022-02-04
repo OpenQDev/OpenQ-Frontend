@@ -6,13 +6,28 @@ import { formatUnixDate } from '../utils/Utils';
 const jsonRpcErrors =
 	[
 		// MINT
-		{},
+		{
+			'ERC1167: create2 failed': {
+				title: 'Bounty already exists',
+				message: () => {
+					return 'A bounty for that issue already exists';
+				}
+			}
+		},
 		// FUND
 		{
 			'FUNDING_CLOSED_BOUNTY': {
 				title: 'Cannot fund a closed bounty',
 				message: ({ bounty }) => {
 					return `Bounty was closed on ${bounty.bountyClosedTime}`;
+				}
+			}
+		},
+		{
+			'ZERO_VOLUME_SENT': {
+				title: 'Zero Volume Sent',
+				message: () => {
+					return 'Must send a greater than 0 volume of tokens.';
 				}
 			}
 		},
@@ -59,7 +74,16 @@ const jsonRpcErrors =
 				title: 'Cannot claim a closed bounty',
 				message: () => 'You are attempting to claim a closed bounty'
 			}
-		}
+		},
+		// MISCELLANEOUS
+		{
+			'USER_DENIED_TRANSACTION': {
+				title: 'User Denied Transaction',
+				message: () => {
+					return 'Thank You! Come Again!';
+				}
+			}
+		},
 	];
 
 

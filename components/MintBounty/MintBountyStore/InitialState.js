@@ -3,7 +3,7 @@ const InitialState = {
 	bountyAddress: '',
 	bountyExists: false,
 	enableMint: false,
-	error: false,
+	error: null,
 	errorMessage: '',
 	isBountyMinted: false,
 	isLoading: false,

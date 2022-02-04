@@ -41,6 +41,14 @@ const FundModal = ({ bounty, refreshBounty }) => {
 	async function fundBounty() {
 		setIsLoading(true);
 		const volumeInWei = volume * 10 ** token.decimals;
+
+		if (volumeInWei == 0) {
+			setError({ title: 'Zero Volume Sent', message: 'Must send a greater than 0 volume of tokens.' });
+			setShowErrorModal(true);
+			setIsLoading(false);
+			return;
+		}
+
 		const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
 
 		let approveSucceeded = false;
@@ -60,6 +68,7 @@ const FundModal = ({ bounty, refreshBounty }) => {
 		}
 
 		if (approveSucceeded) {
+			console.log('token.address', token.address);
 			try {
 				const fundTxnReceipt = await appState.openQClient.fundBounty(
 					library,
@@ -75,8 +84,8 @@ const FundModal = ({ bounty, refreshBounty }) => {
 				refreshBounty();
 				setIsLoading(false);
 			} catch (error) {
-				const { message } = appState.openQClient.handleError(error, { bounty });
-				setError(message);
+				const { message, title } = appState.openQClient.handleError(error, { bounty });
+				setError({ message, title });
 				setIsLoading(false);
 				setShowErrorModal(true);
 			}

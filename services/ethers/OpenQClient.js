@@ -37,7 +37,6 @@ class OpenQClient {
 				const txnReceipt = await txnResponse.wait();
 
 				const bountyId = txnReceipt.events[0].args.bountyId;
-				console.log(bountyId);
 				const issuerAddress = txnReceipt.events[0].args.issuerAddress;
 				const bountyAddress = txnReceipt.events[0].args.bountyAddress;
 				resolve({ bountyId, issuerAddress, bountyAddress, txnReceipt });
@@ -100,7 +99,9 @@ class OpenQClient {
 
 	handleError(jsonRpcError, data) {
 		let errorString = jsonRpcError?.data?.message;
+		console.log(errorString);
 		if (jsonRpcError.message.includes('Nonce too high.')) { errorString = 'NONCE_TO_HIGH'; }
+		if (jsonRpcError.message.includes('User denied transaction signature')) { errorString = 'USER_DENIED_TRANSACTION'; }
 		for (const error of jsonRpcErrors) {
 			const revertString = Object.keys(error)[0];
 			if (errorString.includes(revertString)) {

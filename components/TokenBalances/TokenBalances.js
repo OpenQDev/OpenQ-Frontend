@@ -8,7 +8,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, claimed }) => {
 	const [appState] = useContext(StoreContext);
 
 	const { tokenMetadata } = appState;
-	console.log(tokenMetadata);
+	console.log('tokenMetadata', tokenMetadata);
 
 	return (
 		<div className="flex flex-col pt-4 pb-6">
@@ -25,6 +25,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, claimed }) => {
 							const tokenAddress = ethers.utils.getAddress(
 								tokenBalance.tokenAddress
 							);
+							console.log(tokenAddress);
 							const tokenValueAddress = tokenMetadata[tokenAddress].address;
 
 							const { volume } = tokenBalance;

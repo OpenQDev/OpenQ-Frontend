@@ -23,6 +23,7 @@ import {
 import MintBountyModalButton from './MintBountyModalButton';
 import MintBountyHeader from './MintBountyHeader';
 import MintBountyInput from './MintBountyInput';
+import ErrorModal from '../ConfirmErrorSuccessModals/ErrorModal';
 
 const MintBountyModal = ({ modalVisibility }) => {
 	// Context
@@ -35,6 +36,8 @@ const MintBountyModal = ({ modalVisibility }) => {
 	// GitHub Issue State
 	const [issueUrl, setIssueUrl] = useState('');
 	const [isLoadingIssueData, setIsLoadingIssueData] = useState('');
+	const [, setShowErrorModal] = useState(false);
+
 	const {
 		bountyAddress,
 		isValidUrl,
@@ -43,6 +46,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 		issueData,
 		issueFound,
 		enableMint,
+		error
 	} = mintBountyState;
 
 	// Refs
@@ -133,6 +137,10 @@ const MintBountyModal = ({ modalVisibility }) => {
 	}, [mintBountyState.issueData]);
 
 	// Methods
+	function sleep(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms));
+	}
+
 	async function mintBounty() {
 		try {
 			setMintBountyState(TRANSACTION_PENDING());
@@ -145,12 +153,23 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 			console.log('txnReceipt', txnReceipt);
 
+			let bountyId = null;
+			while (bountyId == 'undefined') {
+				const bountyResp = await appState.openQSubgraphClient.getBounty(bountyAddress);
+				bountyId = bountyResp?.bountyId;
+				console.log('bountyId', bountyId);
+				await sleep(500);
+			}
+
+			await sleep(1000);
+
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`
 			);
 		} catch (error) {
-			console.log('erorr', error);
-			setMintBountyState(TRANSACTION_FAILURE(error));
+			console.log('error in mintboutny', error);
+			const { message, title } = appState.openQClient.handleError(error);
+			setMintBountyState(TRANSACTION_FAILURE({ message, title }));
 		}
 	}
 
@@ -202,6 +221,12 @@ const MintBountyModal = ({ modalVisibility }) => {
 					</div>
 				</div>
 			</div>
+			{error && (
+				<ErrorModal
+					setShowErrorModal={setShowErrorModal}
+					error={error}
+				/>
+			)}
 			<div className="opacity-80 fixed inset-0 bg-black"></div>
 		</div>
 	);

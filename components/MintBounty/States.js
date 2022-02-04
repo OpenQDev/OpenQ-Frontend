@@ -4,7 +4,6 @@ export const RESTING_STATE = () => {
 		bountyAddress: '',
 		bountyExists: false,
 		error: false,
-		errorMessage: '',
 		isLoading: false,
 		isValidUrl: false,
 		issueClosed: false,
@@ -23,7 +22,6 @@ export const BOUNTY_DOES_NOT_EXIST = () => {
 export const ISSUE_FOUND = (issue) => {
 	return {
 		error: false,
-		errorMessage: '',
 		isValidUrl: true,
 		issueClosed: issue.closed,
 		issueData: issue,
@@ -64,15 +62,12 @@ export const BOUNTY_EXISTS = (bounty) => {
 
 export const ERROR = (error) => {
 	return {
-		error: true,
-		errorMessage: error.message,
+		error,
 	};
 };
 
 export const TRANSACTION_PENDING = () => {
 	return {
-		error: false,
-		errorMessage: '',
 		isBountyMinted: false,
 		isLoading: true,
 		transactionPending: true,
@@ -91,7 +86,6 @@ export const TRANSACTION_SUCCESS = (bountyAddress) => {
 export const TRANSACTION_FAILURE = (error) => {
 	return {
 		error: error,
-		errorMessage: error.message,
 		isBountyMinted: false,
 		isLoading: false,
 		transactionPending: false,
