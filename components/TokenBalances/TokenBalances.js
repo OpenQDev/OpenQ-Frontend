@@ -40,8 +40,8 @@ const TokenBalances = ({ tokenBalances, tokenValues, claimed }) => {
 									<div className="text-lg text-white">{usdValue}</div>{' '}
 									<div className="text-lg text-white">
 										(
-										{ethers.utils.formatEther(
-											ethers.BigNumber.from(volume.toString())
+										{ethers.utils.formatUnits(
+											ethers.BigNumber.from(volume.toString()), parseInt(tokenMetadata[tokenAddress].decimals)
 										)}{' '}
 										{symbol.toUpperCase()})
 									</div>{' '}

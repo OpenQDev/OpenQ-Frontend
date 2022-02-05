@@ -90,7 +90,6 @@ const FundModal = ({ bounty, refreshBounty }) => {
 		}
 
 		if (approveSucceeded) {
-			console.log('token.address', token.address);
 			try {
 				const fundTxnReceipt = await appState.openQClient.fundBounty(
 					library,
