@@ -49,6 +49,14 @@ const jsonRpcErrors =
 		},
 		// REFUND
 		{
+			'BOUNTY_ALREADY_REFUNDED': {
+				title: 'Bounty Already Refunded',
+				message: () => {
+					return 'Bounty was already refunded';
+				}
+			}
+		},
+		{
 			'PREMATURE_REFUND_REQUEST': {
 				title: 'Too early to withdraw funds',
 				message: ({ bounty }) => {

@@ -22,6 +22,7 @@ const SuccessModal = ({ successMessage, transactionHash, setShowSuccessModal }) 
 							<div className="pt-3 text-center justify-center">
 								<a
 									href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`}
+									target="_blank" rel="noreferrer"
 								>
 									<div className="flex flex-col justify-center">
 										<div className="font-semibold pb-2 text-white">

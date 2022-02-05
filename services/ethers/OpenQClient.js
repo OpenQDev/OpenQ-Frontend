@@ -97,10 +97,9 @@ class OpenQClient {
 	async refundBounty(library, _bountyAddress, _depositId) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
-
 			const contract = this.OpenQ(signer);
 			try {
-				const txnResponse = await contract.refundBountyDeposit(_bountyAddress, ethers.utils.formatBytes32String(_depositId));
+				const txnResponse = await contract.refundBountyDeposit(_bountyAddress, _depositId);
 				const txnReceipt = await txnResponse.wait();
 
 				// wait for confirmation
@@ -115,6 +114,7 @@ class OpenQClient {
 	handleError(jsonRpcError, data) {
 		let errorString = jsonRpcError?.data?.message;
 		console.log(errorString);
+		console.log(jsonRpcError);
 		if (jsonRpcError.message.includes('Nonce too high.')) { errorString = 'NONCE_TO_HIGH'; }
 		if (jsonRpcError.message.includes('User denied transaction signature')) { errorString = 'USER_DENIED_TRANSACTION'; }
 		for (const error of jsonRpcErrors) {
