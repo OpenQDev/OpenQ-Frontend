@@ -1,17 +1,16 @@
-
 {
-	"0x5FbDB2315678afecb367f032d93F642f64180aa3": {
-		"name": "Mock Link",
-		"address": "0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39",
-		"symbol": "mLink",
+	"0x326C977E6efc84E512bB9C30f76E30c160eD06FB": {
+		"name": "Chainlink Token",
+		"address": "0x326C977E6efc84E512bB9C30f76E30c160eD06FB",
+		"symbol": "LINK",
 		"decimals": 18,
 		"chainId": 80001,
 		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x514910771AF9Ca656af840dff83E8264EcF986CA/logo.png"
 	},
-	"0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512": {
-		"name": "Mock DAI",
-		"address": "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
-		"symbol": "mDai",
+	"0xfe4F5145f6e09952a5ba9e956ED0C25e3Fa4c7F1": {
+		"name": "Dummy ERC20",
+		"address": "0xfe4F5145f6e09952a5ba9e956ED0C25e3Fa4c7F1",
+		"symbol": "DERC20",
 		"decimals": 18,
 		"chainId": 80001,
 		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png"
