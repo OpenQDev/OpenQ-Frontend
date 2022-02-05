@@ -36,8 +36,8 @@ case 'local':
 	break;
 case 'docker':
 	InitialState = {
-		tokenMetadata: mumbaiTokenMetadata,
-		tokens: mumbaiTokens,
+		tokenMetadata: localTokenMetadata,
+		tokens: localTokens,
 		openQClient: new OpenQClient(),
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),

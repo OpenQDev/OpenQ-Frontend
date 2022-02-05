@@ -95,12 +95,6 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 									);
 								})
 						}
-						<button
-							className="p-2 py-3 confirm-btn "
-							onClick={() => setShowConfirmationModal(true)}
-						>
-							Refund
-						</button>
 					</div>
 					{isLoading && <LoadingIcon />}
 					<ConfirmErrorSuccessModalsTrio

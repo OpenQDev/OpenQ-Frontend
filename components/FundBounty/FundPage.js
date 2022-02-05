@@ -7,17 +7,7 @@ import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModa
 import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 import ButtonLoadingIcon from '../Loading/ButtonLoadingIcon';
 
-const FundModal = ({ bounty, refreshBounty }) => {
-	// State
-	const [token, setToken] = useState({
-		name: 'Mock Link',
-		address: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
-		symbol: 'mLink',
-		decimals: 18,
-		chainId: 80001,
-		logoURI:
-			'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x514910771AF9Ca656af840dff83E8264EcF986CA/logo.png',
-	});
+const FundPage = ({ bounty, refreshBounty }) => {
 	const [volume, setVolume] = useState('');
 	const {
 		showErrorModal,
@@ -36,6 +26,10 @@ const FundModal = ({ bounty, refreshBounty }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
 	const { library, account } = useWeb3();
+
+	// State
+	const [token, setToken] = useState(appState.tokens[0]);
+	console.log(appState.tokens[0]);
 
 	const claimed = bounty.status == 'CLOSED';
 	const isLoadingOrIsClosed = isLoading || claimed;
@@ -232,4 +226,4 @@ const FundModal = ({ bounty, refreshBounty }) => {
 	}
 };
 
-export default FundModal;
+export default FundPage;
