@@ -63,6 +63,21 @@ class OpenQClient {
 		return promise;
 	}
 
+	async balanceOf(library, _callerAddress, _tokenAddress) {
+		const promise = new Promise(async (resolve, reject) => {
+			const signer = library.getSigner();
+
+			const contract = this.ERC20(_tokenAddress, signer);
+			try {
+				const volume = await contract.balanceOf(_callerAddress);
+				resolve(volume);
+			} catch (error) {
+				reject(error);
+			}
+		});
+		return promise;
+	}
+
 	async fundBounty(library, _bountyAddress, _tokenAddress, _value) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();

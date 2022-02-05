@@ -35,7 +35,7 @@ const FundModal = ({ bounty, refreshBounty }) => {
 
 	// Context
 	const [appState] = useContext(StoreContext);
-	const { library } = useWeb3();
+	const { library, account } = useWeb3();
 
 	// Methods
 	async function fundBounty() {
@@ -52,6 +52,28 @@ const FundModal = ({ bounty, refreshBounty }) => {
 		const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
 
 		let approveSucceeded = false;
+
+		try {
+			const callerBalance = await appState.openQClient.balanceOf(library, account, token.address);
+
+			if (callerBalance < bigNumberVolumeInWei) {
+				const title = 'Funds Too Low';
+				const message = 'You do not have sufficient funds for this deposit';
+				setError({ message, title });
+				setIsLoading(false);
+				setShowErrorModal(true);
+				return;
+			}
+		} catch (error) {
+			console.log(error);
+			const title = 'Error';
+			const message = 'A contract call exception occurred';
+			setError({ message, title });
+			setIsLoading(false);
+			setShowErrorModal(true);
+			return;
+		}
+
 		try {
 			await appState.openQClient.approve(
 				library,
