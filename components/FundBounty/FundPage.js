@@ -37,6 +37,11 @@ const FundModal = ({ bounty, refreshBounty }) => {
 	const [appState] = useContext(StoreContext);
 	const { library, account } = useWeb3();
 
+	const claimed = bounty.status == 'CLOSED';
+	const isLoadingOrIsClosed = isLoading || claimed;
+	const disableOrEnable = `${isLoadingOrIsClosed ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`;
+	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${disableOrEnable}`;
+
 	// Methods
 	async function fundBounty() {
 		setIsLoading(true);
@@ -157,64 +162,74 @@ const FundModal = ({ bounty, refreshBounty }) => {
 	}); */
 
 	// Render
-	return (
-		<div className="pt-16">
-			<div className="flex flex-col space-y-5">
-				<div className="flex text-3xl font-semibold text-white justify-center">
-					Fund Bounty
+	if (claimed) {
+		return (
+			<div className="pt-16">
+				<div className="flex flex-col space-y-5">
+					<div className="bg-purple-600 col-span-3 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4">
+						Bounty Is Already Closed
+					</div>
 				</div>
-				<div className="bg-purple-600 col-span-3 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4">
-					Deposited ERC-20 Tokens can be withdrawn again after 30 days
-				</div>
-
-				<TokenFundBox
-					onCurrencySelect={onCurrencySelect}
-					onVolumeChange={onVolumeChange}
-					token={token}
-					volume={volume}
-				/>
-
-				<div>
-					<button
-						className={`flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${isLoading
-							? 'confirm-btn-disabled cursor-not-allowed'
-							: 'confirm-btn cursor-pointer'
-						}`}
-						type="button"
-						onClick={() => setShowConfirmationModal(true)}
-					>
-						<div>{!isLoading ? 'Fund' : 'Approving'}</div>
-						<div>{isLoading && <ButtonLoadingIcon />}</div>
-					</button>
-				</div>
-				{/*  <div className="flex items-center justify-end p-6 border-solid border-blueGray-200 rounded-b">
-              <button
-                className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button"
-                onClick={() => updateModal()}
-              >
-                Close
-              </button>
-            </div> */}
 			</div>
+		);
+	} else {
+		return (
+			<div className="pt-16">
+				<div className="flex flex-col space-y-5">
+					<div className="flex text-3xl font-semibold text-white justify-center">
+						Fund Bounty
+					</div>
+					<div className="bg-purple-600 col-span-3 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4">
+						Deposited ERC-20 Tokens can be withdrawn again after 30 days
+					</div>
 
-			<ConfirmErrorSuccessModalsTrio
-				setShowErrorModal={setShowErrorModal}
-				showErrorModal={showErrorModal}
-				error={error}
-				setShowConfirmationModal={setShowConfirmationModal}
-				showConfirmationModal={showConfirmationModal}
-				confirmationTitle={'Confirm Deposit'}
-				confirmationMessage={confirmationMessage}
-				positiveOption={'Approve'}
-				confirmMethod={fundBounty}
-				showSuccessModal={showSuccessModal}
-				setShowSuccessModal={setShowSuccessModal}
-				successMessage={successMessage}
-				transactionHash={transactionHash}
-			/>
-		</div>
-	);
+					<TokenFundBox
+						onCurrencySelect={onCurrencySelect}
+						onVolumeChange={onVolumeChange}
+						token={token}
+						volume={volume}
+					/>
+
+					<div>
+						<button
+							className={fundButtonClasses}
+							disabled={isLoading || claimed}
+							type="button"
+							onClick={() => setShowConfirmationModal(true)}
+						>
+							<div>{!isLoading ? 'Fund' : 'Approving'}</div>
+							<div>{isLoading && <ButtonLoadingIcon />}</div>
+						</button>
+					</div>
+					{/*  <div className="flex items-center justify-end p-6 border-solid border-blueGray-200 rounded-b">
+								<button
+									className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+									type="button"
+									onClick={() => updateModal()}
+								>
+									Close
+								</button>
+							</div> */}
+				</div>
+
+				<ConfirmErrorSuccessModalsTrio
+					setShowErrorModal={setShowErrorModal}
+					showErrorModal={showErrorModal}
+					error={error}
+					setShowConfirmationModal={setShowConfirmationModal}
+					showConfirmationModal={showConfirmationModal}
+					confirmationTitle={'Confirm Deposit'}
+					confirmationMessage={confirmationMessage}
+					positiveOption={'Approve'}
+					confirmMethod={fundBounty}
+					showSuccessModal={showSuccessModal}
+					setShowSuccessModal={setShowSuccessModal}
+					successMessage={successMessage}
+					transactionHash={transactionHash}
+				/>
+			</div>
+		);
+	}
 };
 
 export default FundModal;
