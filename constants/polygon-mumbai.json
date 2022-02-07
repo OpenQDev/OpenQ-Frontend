@@ -1,7 +1,7 @@
 {
 	"0x326C977E6efc84E512bB9C30f76E30c160eD06FB": {
 		"name": "Chainlink Token",
-		"address": "0x326C977E6efc84E512bB9C30f76E30c160eD06FB",
+		"address": "0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39",
 		"symbol": "LINK",
 		"decimals": 18,
 		"chainId": 80001,
@@ -9,7 +9,7 @@
 	},
 	"0xfe4F5145f6e09952a5ba9e956ED0C25e3Fa4c7F1": {
 		"name": "Dummy ERC20",
-		"address": "0xfe4F5145f6e09952a5ba9e956ED0C25e3Fa4c7F1",
+		"address": "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
 		"symbol": "DERC20",
 		"decimals": 18,
 		"chainId": 80001,
