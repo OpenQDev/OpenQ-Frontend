@@ -8,13 +8,11 @@ class Utils {
 	};
 
 	formatUnixDate = (createdAt) => {
-		console.log(createdAt);
 		var date = new Date(createdAt);
 
 		var day = date.getDate();
 		var month = date.getMonth();
 		var year = date.getFullYear();
-		console.log(year);
 
 		// Hours part from the timestamp
 		var hours = date.getHours();
