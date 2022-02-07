@@ -29,7 +29,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	const claimed = bounty.status == 'CLOSED';
 
 	// Context
-	const { account } = useWeb3();
+	const { account, library } = useWeb3();
 	const confirmationMessage = `You are about to claim the deposits on issue ${url} to the address ${account}. Is this correct ?`;
 	// Hooks
 	const [authState] = useAuth();
@@ -46,9 +46,13 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 				},
 				{ withCredentials: true }
 			)
-			.then((result) => {
+			.then(async (result) => {
 				console.log('Result received from /claim: ', result);
 				const { payoutAddress, txnHash } = result.data;
+				// Upon this return, the claimBounty transaction has been submitted
+				// We should now transition from Transaction Submitted -> Transaction Pending
+				await library.waitForTransaction(txnHash);
+				// We should check here for txn failure before proceeding to Transaction Success
 				setIsLoading(false);
 				setTransactionHash(txnHash);
 				setSuccessMessage(
@@ -58,6 +62,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 				refreshBounty();
 			})
 			.catch((error) => {
+				console.log(error);
 				setIsLoading(false);
 				setError({ message: error.response.data.errorMessage, title: 'Error' });
 				setShowErrorModal(true);

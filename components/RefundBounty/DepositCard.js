@@ -10,6 +10,8 @@ const DepositCard = ({ deposit, bounty, refundBounty }) => {
 
 	// State
 	const token = tokenMetadata[ethers.utils.getAddress(deposit.tokenAddress)];
+	console.log('deposit.tokenAddress', deposit.tokenAddress);
+	console.log('tokenMetadata', tokenMetadata);
 
 	const closed = bounty.status == 'CLOSED';
 	const closedOrRefunded = deposit.refunded || closed;
