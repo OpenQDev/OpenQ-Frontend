@@ -7,17 +7,7 @@ import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModa
 import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 import ButtonLoadingIcon from '../Loading/ButtonLoadingIcon';
 
-const FundModal = ({ bounty }) => {
-	// State
-	const [token, setToken] = useState({
-		name: 'Mock Link',
-		address: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
-		symbol: 'mLink',
-		decimals: 18,
-		chainId: 80001,
-		logoURI:
-      'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x514910771AF9Ca656af840dff83E8264EcF986CA/logo.png',
-	});
+const FundPage = ({ bounty, refreshBounty }) => {
 	const [volume, setVolume] = useState('');
 	const {
 		showErrorModal,
@@ -27,7 +17,7 @@ const FundModal = ({ bounty }) => {
 		showConfirmationModal,
 		setShowConfirmationModal,
 	} = useConfirmErrorSuccessModals();
-	const [errorMessage, setErrorMessage] = useState('');
+	const [error, setError] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 	const [successMessage, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
@@ -35,15 +25,54 @@ const FundModal = ({ bounty }) => {
 
 	// Context
 	const [appState] = useContext(StoreContext);
-	const { library } = useWeb3();
+	const { library, account } = useWeb3();
+
+	// State
+	const [token, setToken] = useState(appState.tokens[0]);
+	console.log(appState.tokens[0]);
+
+	const claimed = bounty.status == 'CLOSED';
+	const isLoadingOrIsClosed = isLoading || claimed;
+	const disableOrEnable = `${isLoadingOrIsClosed ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`;
+	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${disableOrEnable}`;
 
 	// Methods
 	async function fundBounty() {
 		setIsLoading(true);
 		const volumeInWei = volume * 10 ** token.decimals;
+
+		if (volumeInWei == 0) {
+			setError({ title: 'Zero Volume Sent', message: 'Must send a greater than 0 volume of tokens.' });
+			setShowErrorModal(true);
+			setIsLoading(false);
+			return;
+		}
+
 		const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
 
 		let approveSucceeded = false;
+
+		try {
+			const callerBalance = await appState.openQClient.balanceOf(library, account, token.address);
+
+			if (callerBalance < bigNumberVolumeInWei) {
+				const title = 'Funds Too Low';
+				const message = 'You do not have sufficient funds for this deposit';
+				setError({ message, title });
+				setIsLoading(false);
+				setShowErrorModal(true);
+				return;
+			}
+		} catch (error) {
+			console.log(error);
+			const title = 'Error';
+			const message = 'A contract call exception occurred';
+			setError({ message, title });
+			setIsLoading(false);
+			setShowErrorModal(true);
+			return;
+		}
+
 		try {
 			await appState.openQClient.approve(
 				library,
@@ -53,14 +82,13 @@ const FundModal = ({ bounty }) => {
 			);
 			approveSucceeded = true;
 		} catch (error) {
-			setTransactionHash(JSON.stringify(error));
-			setErrorMessage(JSON.stringify(error));
+			const { message, title } = appState.openQClient.handleError(error, { bounty });
+			setError({ message, title });
 			setIsLoading(false);
 			setShowErrorModal(true);
 		}
 
 		if (approveSucceeded) {
-			console.log(bounty);
 			try {
 				const fundTxnReceipt = await appState.openQClient.fundBounty(
 					library,
@@ -73,10 +101,11 @@ const FundModal = ({ bounty }) => {
 					`Successfully funded issue ${bounty.url} with ${volume} ${token.symbol}!`
 				);
 				setShowSuccessModal(true);
+				refreshBounty();
 				setIsLoading(false);
 			} catch (error) {
-				setTransactionHash(JSON.stringify(error));
-				setErrorMessage(JSON.stringify(error));
+				const { message, title } = appState.openQClient.handleError(error, { bounty });
+				setError({ message, title });
 				setIsLoading(false);
 				setShowErrorModal(true);
 			}
@@ -89,8 +118,7 @@ const FundModal = ({ bounty }) => {
 			`You are about to fund this bounty at address ${bounty.bountyAddress.substring(
 				0,
 				12
-			)}...${bounty.bountyAddress.substring(32)} with ${volume} ${
-				token.name
+			)}...${bounty.bountyAddress.substring(32)} with ${volume} ${token.name
 			}. Is this correct?`
 		);
 	}
@@ -101,8 +129,7 @@ const FundModal = ({ bounty }) => {
 			`You are about to fund this bounty at address ${bounty.bountyAddress.substring(
 				0,
 				12
-			)}...${bounty.bountyAddress.substring(32)} with ${volume} ${
-				token.name
+			)}...${bounty.bountyAddress.substring(32)} with ${volume} ${token.name
 			}. Is this correct?`
 		);
 	}
@@ -129,65 +156,74 @@ const FundModal = ({ bounty }) => {
 	}); */
 
 	// Render
-	return (
-		<div className="pt-16">
-			<div className="flex flex-col space-y-5">
-				<div className="flex text-3xl font-semibold text-white justify-center">
-          Fund Bounty
+	if (claimed) {
+		return (
+			<div className="pt-16">
+				<div className="flex flex-col space-y-5">
+					<div className="bg-purple-600 col-span-3 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4">
+						Bounty Is Already Closed
+					</div>
 				</div>
-				<div className="bg-purple-600 col-span-3 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4">
-          Deposited ERC-20 Tokens can be withdrawn again after 30 days
-				</div>
-
-				<TokenFundBox
-					onCurrencySelect={onCurrencySelect}
-					onVolumeChange={onVolumeChange}
-					token={token}
-					volume={volume}
-				/>
-
-				<div>
-					<button
-						className={`flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${
-							isLoading
-								? 'confirm-btn-disabled cursor-not-allowed'
-								: 'confirm-btn cursor-pointer'
-						}`}
-						type="button"
-						onClick={() => setShowConfirmationModal(true)}
-					>
-						<div>{!isLoading ? 'Fund' : 'Approving'}</div>
-						<div>{isLoading && <ButtonLoadingIcon />}</div>
-					</button>
-				</div>
-				{/*  <div className="flex items-center justify-end p-6 border-solid border-blueGray-200 rounded-b">
-              <button
-                className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button"
-                onClick={() => updateModal()}
-              >
-                Close
-              </button>
-            </div> */}
 			</div>
+		);
+	} else {
+		return (
+			<div className="pt-16">
+				<div className="flex flex-col space-y-5">
+					<div className="flex text-3xl font-semibold text-white justify-center">
+						Fund Bounty
+					</div>
+					<div className="bg-purple-600 col-span-3 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4">
+						Deposited ERC-20 Tokens can be withdrawn again after 30 days
+					</div>
 
-			<ConfirmErrorSuccessModalsTrio
-				setShowErrorModal={setShowErrorModal}
-				showErrorModal={showErrorModal}
-				errorMessage={errorMessage}
-				setShowConfirmationModal={setShowConfirmationModal}
-				showConfirmationModal={showConfirmationModal}
-				confirmationTitle={'Confirm Deposit'}
-				confirmationMessage={confirmationMessage}
-				positiveOption={'Approve'}
-				confirmMethod={fundBounty}
-				showSuccessModal={showSuccessModal}
-				setShowSuccessModal={setShowSuccessModal}
-				successMessage={successMessage}
-				transactionHash={transactionHash}
-			/>
-		</div>
-	);
+					<TokenFundBox
+						onCurrencySelect={onCurrencySelect}
+						onVolumeChange={onVolumeChange}
+						token={token}
+						volume={volume}
+					/>
+
+					<div>
+						<button
+							className={fundButtonClasses}
+							disabled={isLoading || claimed}
+							type="button"
+							onClick={() => setShowConfirmationModal(true)}
+						>
+							<div>{!isLoading ? 'Fund' : 'Approving'}</div>
+							<div>{isLoading && <ButtonLoadingIcon />}</div>
+						</button>
+					</div>
+					{/*  <div className="flex items-center justify-end p-6 border-solid border-blueGray-200 rounded-b">
+								<button
+									className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+									type="button"
+									onClick={() => updateModal()}
+								>
+									Close
+								</button>
+							</div> */}
+				</div>
+
+				<ConfirmErrorSuccessModalsTrio
+					setShowErrorModal={setShowErrorModal}
+					showErrorModal={showErrorModal}
+					error={error}
+					setShowConfirmationModal={setShowConfirmationModal}
+					showConfirmationModal={showConfirmationModal}
+					confirmationTitle={'Confirm Deposit'}
+					confirmationMessage={confirmationMessage}
+					positiveOption={'Approve'}
+					confirmMethod={fundBounty}
+					showSuccessModal={showSuccessModal}
+					setShowSuccessModal={setShowSuccessModal}
+					successMessage={successMessage}
+					transactionHash={transactionHash}
+				/>
+			</div>
+		);
+	}
 };
 
-export default FundModal;
+export default FundPage;

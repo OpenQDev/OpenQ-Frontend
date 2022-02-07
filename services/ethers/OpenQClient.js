@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 import OpenQABI from '../../artifacts/contracts/OpenQ/Implementations/OpenQV0.sol/OpenQV0.json';
 import ERC20ABI from '../../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json';
+import jsonRpcErrors from './JsonRPCErrors';
 
 class OpenQClient {
 	constructor() { }
@@ -34,13 +35,11 @@ class OpenQClient {
 			try {
 				const txnResponse = await contract.mintBounty(issueId, organization);
 				const txnReceipt = await txnResponse.wait();
-				console.log(txnReceipt);
 
 				const bountyId = txnReceipt.events[0].args.bountyId;
 				const issuerAddress = txnReceipt.events[0].args.issuerAddress;
 				const bountyAddress = txnReceipt.events[0].args.bountyAddress;
-				console.log({ bountyId, issuerAddress, bountyAddress });
-				resolve({ bountyId, issuerAddress, bountyAddress });
+				resolve({ bountyId, issuerAddress, bountyAddress, txnReceipt });
 			} catch (err) {
 				reject(err);
 			}
@@ -64,6 +63,21 @@ class OpenQClient {
 		return promise;
 	}
 
+	async balanceOf(library, _callerAddress, _tokenAddress) {
+		const promise = new Promise(async (resolve, reject) => {
+			const signer = library.getSigner();
+
+			const contract = this.ERC20(_tokenAddress, signer);
+			try {
+				const volume = await contract.balanceOf(_callerAddress);
+				resolve(volume);
+			} catch (error) {
+				reject(error);
+			}
+		});
+		return promise;
+	}
+
 	async fundBounty(library, _bountyAddress, _tokenAddress, _value) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
@@ -80,13 +94,12 @@ class OpenQClient {
 		return promise;
 	}
 
-	async refundBounty(library, _bountyAddress) {
+	async refundBounty(library, _bountyAddress, _depositId) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
-
 			const contract = this.OpenQ(signer);
 			try {
-				const txnResponse = await contract.refundBountyDeposits(_bountyAddress);
+				const txnResponse = await contract.refundBountyDeposit(_bountyAddress, _depositId);
 				const txnReceipt = await txnResponse.wait();
 
 				// wait for confirmation
@@ -97,6 +110,24 @@ class OpenQClient {
 		});
 		return promise;
 	}
+
+	handleError(jsonRpcError, data) {
+		let errorString = jsonRpcError?.data?.message;
+		console.log(errorString);
+		console.log(jsonRpcError);
+		if (jsonRpcError.message.includes('Nonce too high.')) { errorString = 'NONCE_TO_HIGH'; }
+		if (jsonRpcError.message.includes('User denied transaction signature')) { errorString = 'USER_DENIED_TRANSACTION'; }
+		for (const error of jsonRpcErrors) {
+			const revertString = Object.keys(error)[0];
+			if (errorString.includes(revertString)) {
+				const title = error[revertString]['title'];
+				const message = error[revertString].message(data);
+				return { title, message };
+			}
+		}
+		return 'Unknown Error';
+	}
+
 }
 
 export default OpenQClient;

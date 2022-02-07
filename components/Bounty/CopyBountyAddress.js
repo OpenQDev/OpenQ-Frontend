@@ -2,9 +2,7 @@
 import React from 'react';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 
-const CopyBountyAddress = (props) => {
-	const { bounty } = props;
-
+const CopyBountyAddress = ({ bounty }) => {
 	return (
 		<div className="flex flex-col text-white">
 			<div className="font-bold">Smart Contract</div>

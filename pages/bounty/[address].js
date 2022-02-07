@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import StoreContext from '../../store/Store/StoreContext';
 import BountyCardDetails from '../../components/Bounty/BountyCardDetails';
 import FundPage from '../../components/FundBounty/FundPage';
-import RefundBountyButton from '../../components/RefundBounty/RefundBountyButton';
+import RefundPage from '../../components/RefundBounty/RefundPage';
 import ClaimPage from '../../components/Claim/ClaimPage';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import useAuth from '../../hooks/useAuth';
@@ -37,9 +37,20 @@ const address = () => {
 
 		const mergedBounty = { ...bounty, ...issueData };
 
-		setBounty(mergedBounty);
+		setBounty({ ...mergedBounty });
 		setIsLoading(false);
 	}
+
+	function sleep(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms));
+	}
+
+	const refreshBounty = async () => {
+		await sleep(1000);
+		let newBounty = await appState.openQSubgraphClient.getBounty(address, 'network-only');
+		const mergedBounty = { ...bounty, ...newBounty };
+		setBounty(mergedBounty);
+	};
 
 	// Hooks
 	useEffect(() => {
@@ -88,15 +99,9 @@ const address = () => {
 				{internalMenu == 'view' ? (
 					<BountyCardDetails bounty={bounty} tokenValues={tokenValues} />
 				) : null}
-				{internalMenu == 'fund' ? <FundPage bounty={bounty} /> : null}
-				{internalMenu == 'claim' ? <ClaimPage bounty={bounty} /> : null}
-				{internalMenu == 'refund' ? (
-					<RefundBountyButton
-						bounty={bounty}
-						address={address}
-						issueUrl={bounty.url}
-					/>
-				) : null}
+				{internalMenu == 'fund' ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
+				{internalMenu == 'claim' ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
+				{internalMenu == 'refund' ? (<RefundPage bounty={bounty} refreshBounty={refreshBounty} />) : null}
 			</div>
 		);
 	}

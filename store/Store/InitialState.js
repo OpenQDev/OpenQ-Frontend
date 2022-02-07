@@ -11,17 +11,22 @@ import MockOpenQSubgraphClient from '../../services/subgraph/MockOpenQSubgraphCl
 import MockTokenClient from '../../services/coins/MockTokenClient';
 
 // Token Metadata
-import mumbaiTokenMetadata from '../../constants/polygon-mumbai.json';
-import polygonMainnetTokenMetadata from '../../constants/polygon-mainnet.json';
-import mumbaiTokens from '../../constants/polygon-mumbai-tokens.json';
+// Array of all supported tokens
 import polygonMainnetTokens from '../../constants/polygon-mainnet-tokens.json';
+import mumbaiTokens from '../../constants/polygon-mumbai-tokens.json';
+import localTokens from '../../constants/local-tokens.json';
+
+// Mapping of tokens with token metadata for token address lookup
+import polygonMainnetTokenMetadata from '../../constants/polygon-mainnet.json';
+import mumbaiTokenMetadata from '../../constants/polygon-mumbai.json';
+import localTokenMetadata from '../../constants/local.json';
 
 let InitialState = {};
 switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 case 'local':
 	InitialState = {
-		tokenMetadata: mumbaiTokenMetadata,
-		tokens: mumbaiTokens,
+		tokenMetadata: localTokenMetadata,
+		tokens: localTokens,
 		openQClient: new MockOpenQClient(),
 		githubRepository: new MockGithubRepository(),
 		openQSubgraphClient: new MockOpenQSubgraphClient(),
@@ -31,8 +36,8 @@ case 'local':
 	break;
 case 'docker':
 	InitialState = {
-		tokenMetadata: mumbaiTokenMetadata,
-		tokens: mumbaiTokens,
+		tokenMetadata: localTokenMetadata,
+		tokens: localTokens,
 		openQClient: new OpenQClient(),
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),

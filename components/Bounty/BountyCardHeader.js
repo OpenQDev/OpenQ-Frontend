@@ -4,8 +4,7 @@ import Image from 'next/image';
 
 // Custom
 
-const BountyCardHeader = (props) => {
-	const { bounty } = props;
+const BountyCardHeader = ({ bounty }) => {
 
 	return (
 		<div className="flex flex-row space-x-20 justify-between">

@@ -38,6 +38,7 @@ query GetBounty($id: ID!) {
     status
 		deposits {
       id
+			refunded
       tokenAddress
       volume
       sender {
@@ -66,6 +67,7 @@ query GetBountyById($id: ID!) {
     status
 		deposits {
       id
+			refunded
       tokenAddress
       volume
       sender {
@@ -96,6 +98,7 @@ query GetUser($id: ID!) {
 			status
 			deposits {
 				id
+				refunded
 				tokenAddress
 				volume
 				sender {
@@ -116,6 +119,7 @@ query GetUser($id: ID!) {
     }
     deposits {
       id
+			refunded
       tokenAddress
       volume
       bounty {
@@ -153,6 +157,7 @@ query GetOrganization($id: ID!) {
 			status
 			deposits {
 				id
+				refunded
 				tokenAddress
 				volume
 				sender {
@@ -175,6 +180,7 @@ query GetOrganization($id: ID!) {
     }
     deposits {
       id
+			refunded
       tokenAddress
       volume
       bounty {
@@ -214,6 +220,7 @@ query GetOrganizations {
     }
     deposits {
       id
+			refunded
       tokenAddress
       volume
       bounty {
@@ -248,6 +255,7 @@ query GetOrganizations {
 				id
 				tokenAddress
 				volume
+				refunded
 				sender {
 					id
 				}
@@ -278,6 +286,7 @@ subscription SubscribeToBounty($bountyId: String!) {
 		}
 		deposits {
 			id
+			refunded
 		}
 		refunds {
 			id

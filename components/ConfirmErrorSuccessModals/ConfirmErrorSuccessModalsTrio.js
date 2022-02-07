@@ -4,24 +4,23 @@ import ErrorModal from './ErrorModal';
 import ConfirmationModal from './ConfirmationModal';
 import SuccessModal from './SuccessModal';
 
-const ConfirmErrorSuccessModalsTrio = (props) => {
-	const {
-		showSuccessModal,
-		setShowSuccessModal,
-		successMessage,
-		transactionHash,
+const ConfirmErrorSuccessModalsTrio = ({
+	showSuccessModal,
+	setShowSuccessModal,
+	successMessage,
+	transactionHash,
 
-		showErrorModal,
-		setShowErrorModal,
-		errorMessage,
+	showErrorModal,
+	setShowErrorModal,
+	error,
 
-		showConfirmationModal,
-		confirmMethod,
-		confirmationMessage,
-		confirmationTitle,
-		setShowConfirmationModal,
-		positiveOption,
-	} = props;
+	showConfirmationModal,
+	confirmMethod,
+	confirmationMessage,
+	confirmationTitle,
+	setShowConfirmationModal,
+	positiveOption,
+}) => {
 
 	// Render
 	return (
@@ -29,7 +28,7 @@ const ConfirmErrorSuccessModalsTrio = (props) => {
 			{showErrorModal && (
 				<ErrorModal
 					setShowErrorModal={setShowErrorModal}
-					errorMessage={errorMessage}
+					error={error}
 				/>
 			)}
 			{showConfirmationModal && (

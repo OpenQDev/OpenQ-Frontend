@@ -1,11 +1,11 @@
 // Third Party
 import React, { useEffect, useState, useContext, useRef } from 'react';
+import { useRouter } from 'next/router';
 
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
-import BountyMintedNotification from './BountyMintedNotification';
 import MintBountyContext from './MintBountyStore/MintBountyContext';
 import BountyAlreadyMintedMessage from './BountyAlreadyMintedMessage';
 import {
@@ -17,24 +17,27 @@ import {
 	BOUNTY_EXISTS,
 	ERROR,
 	TRANSACTION_PENDING,
-	TRANSACTION_SUCCESS,
 	TRANSACTION_FAILURE,
 	ISSUE_NOT_FOUND,
 } from './States';
 import MintBountyModalButton from './MintBountyModalButton';
 import MintBountyHeader from './MintBountyHeader';
 import MintBountyInput from './MintBountyInput';
+import ErrorModal from '../ConfirmErrorSuccessModals/ErrorModal';
 
 const MintBountyModal = ({ modalVisibility }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
 	const [mintBountyState, setMintBountyState] = useContext(MintBountyContext);
 	const { library } = useWeb3();
+	const router = useRouter();
 
 	// State
 	// GitHub Issue State
 	const [issueUrl, setIssueUrl] = useState('');
 	const [isLoadingIssueData, setIsLoadingIssueData] = useState('');
+	const [, setShowErrorModal] = useState(false);
+
 	const {
 		bountyAddress,
 		isValidUrl,
@@ -42,17 +45,13 @@ const MintBountyModal = ({ modalVisibility }) => {
 		transactionPending,
 		issueData,
 		issueFound,
-		isBountyMinted,
 		enableMint,
+		error
 	} = mintBountyState;
 
 	// Refs
 	let menuRef = useRef();
 	let notifyMenuRef;
-
-	const notificationRef = (data) => {
-		notifyMenuRef = data;
-	};
 
 	useEffect(() => {
 		let handler = (event) => {
@@ -138,20 +137,39 @@ const MintBountyModal = ({ modalVisibility }) => {
 	}, [mintBountyState.issueData]);
 
 	// Methods
+	function sleep(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms));
+	}
+
 	async function mintBounty() {
 		try {
 			setMintBountyState(TRANSACTION_PENDING());
-			console.log('before', mintBountyState);
-			const { bountyAddress } = await appState.openQClient.mintBounty(
+
+			const { bountyAddress, txnReceipt } = await appState.openQClient.mintBounty(
 				library,
 				mintBountyState.issueId,
 				mintBountyState.orgName
 			);
-			console.log('after', mintBountyState);
-			setMintBountyState(TRANSACTION_SUCCESS(bountyAddress));
+
+			console.log('txnReceipt', txnReceipt);
+
+			let bountyId = null;
+			while (bountyId == 'undefined') {
+				const bountyResp = await appState.openQSubgraphClient.getBounty(bountyAddress);
+				bountyId = bountyResp?.bountyId;
+				console.log('bountyId', bountyId);
+				await sleep(500);
+			}
+
+			await sleep(1000);
+
+			router.push(
+				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`
+			);
 		} catch (error) {
-			console.log(error);
-			setMintBountyState(TRANSACTION_FAILURE(error));
+			console.log('error in mintboutny', error);
+			const { message, title } = appState.openQClient.handleError(error);
+			setMintBountyState(TRANSACTION_FAILURE({ message, title }));
 		}
 	}
 
@@ -160,14 +178,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 		<div>
 			<div className="flex justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
 				<div className="w-1/4 space-y-5">
-					{isBountyMinted ? (
-						<BountyMintedNotification
-							notificationRef={notificationRef}
-							bountyAddress={bountyAddress}
-							issueUrl={issueUrl}
-							notifyModalVisibility={setMintBountyState.setIsBountyMinted}
-						/>
-					) : null}
 					<div ref={menuRef} className="w-full">
 						<div className="border-0 rounded-xl shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none">
 							<MintBountyHeader />
@@ -186,13 +196,13 @@ const MintBountyModal = ({ modalVisibility }) => {
 							) : null}
 							{isValidUrl && !issueFound && !isLoadingIssueData ? (
 								<div className="pl-10 pt-5 text-white">
-                  Github Issue not found
+									Github Issue not found
 								</div>
 							) : null}
 							<div className="flex flex-row justify-center space-x-1 px-8">
 								{isValidUrl && issueClosed && issueFound ? (
 									<div className="pt-3 text-white">
-                    This issue is already closed on GitHub
+										This issue is already closed on GitHub
 									</div>
 								) : null}
 								{isValidUrl && bountyAddress && issueFound ? (
@@ -211,6 +221,12 @@ const MintBountyModal = ({ modalVisibility }) => {
 					</div>
 				</div>
 			</div>
+			{error && (
+				<ErrorModal
+					setShowErrorModal={setShowErrorModal}
+					error={error}
+				/>
+			)}
 			<div className="opacity-80 fixed inset-0 bg-black"></div>
 		</div>
 	);

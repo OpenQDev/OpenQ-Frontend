@@ -10,7 +10,7 @@ import LoadingIcon from '../Loading/LoadingIcon';
 
 const ClaimBountyButton = ({ issueUrl }) => {
 	const { showErrorModal, setShowErrorModal, showSuccessModal, setShowSuccessModal, showConfirmationModal, setShowConfirmationModal } = useConfirmErrorSuccessModals();
-	const [errorMessage, setErrorMessage] = useState('');
+	const [error, setError] = useState({});
 	const [isLoading, setIsLoading] = useState(false);
 	const [successMessage, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
@@ -48,9 +48,7 @@ const ClaimBountyButton = ({ issueUrl }) => {
 			})
 			.catch((error) => {
 				setIsLoading(false);
-				console.log(error.response);
-				console.log(error.response.data.message);
-				setErrorMessage(error.response.data.message);
+				setError({ message: error.response.data.message, title: 'Error' });
 				setShowErrorModal(true);
 			});
 	};
@@ -67,7 +65,7 @@ const ClaimBountyButton = ({ issueUrl }) => {
 				<ConfirmErrorSuccessModalsTrio
 					setShowErrorModal={setShowErrorModal}
 					showErrorModal={showErrorModal}
-					errorMessage={errorMessage}
+					error={error}
 
 					setShowConfirmationModal={setShowConfirmationModal}
 					showConfirmationModal={showConfirmationModal}

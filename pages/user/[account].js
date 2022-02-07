@@ -45,7 +45,9 @@ const account = () => {
 					return (
 						<div key={tokenAddress}>
 							<div>Contract Address: {tokenAddress}</div>
-							<div>Value: {ethers.utils.formatEther(tokenBalance.volume)}</div>
+							<div>Value: {ethers.utils.formatUnits(
+								tokenBalance.volume, parseInt(tokenMetadata[tokenAddress].decimals)
+							)}</div>
 							<div>Name: {tokenMetadata[tokenAddress].name}</div>
 							<div>Symbol: {tokenMetadata[tokenAddress].symbol}</div>
 						</div>
@@ -85,7 +87,9 @@ const account = () => {
 								<div>Bounty Address: {deposit.bounty.id}</div>
 								<div>Bounty Id: {deposit.bounty.bountyId}</div>
 								<div>Contract Address: {tokenAddress}</div>
-								<div>Value: {ethers.utils.formatEther(deposit.volume)}</div>
+								<div>Value: {ethers.utils.formatUnits(
+									deposit.volume, parseInt(tokenMetadata[tokenAddress].decimals)
+								)}</div>
 								<div>Name: {tokenMetadata[tokenAddress].name}</div>
 								<div>Symbol: {tokenMetadata[tokenAddress].symbol}</div>
 								<div className="pt-1">

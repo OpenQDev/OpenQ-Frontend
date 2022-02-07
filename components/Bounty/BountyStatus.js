@@ -4,8 +4,7 @@ import StoreContext from '../../store/Store/StoreContext';
 
 // Custom
 
-const BountyStatus = (props) => {
-	const { bounty } = props;
+const BountyStatus = ({ bounty }) => {
 	const [appState] = useContext(StoreContext);
 
 	return (

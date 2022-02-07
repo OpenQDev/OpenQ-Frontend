@@ -2,9 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-const SuccessModal = (props) => {
-	const { successMessage, transactionHash, setShowSuccessModal } = props;
-
+const SuccessModal = ({ successMessage, transactionHash, setShowSuccessModal }) => {
 	const updateModal = () => {
 		setShowSuccessModal(false);
 	};
@@ -18,16 +16,17 @@ const SuccessModal = (props) => {
 							<div className="text-3xl font-semibold text-white">Success!</div>
 						</div>
 						<div className="flex-auto pl-1 pr-1 justify-center">
-							<p className="pt-5 pl-4 pr-4 text-center text-white">
+							<div className="pt-5 pl-4 pr-4 text-center text-white">
 								{successMessage}
-							</p>
-							<p className="pt-3 text-center justify-center">
+							</div>
+							<div className="pt-3 text-center justify-center">
 								<a
 									href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`}
+									target="_blank" rel="noreferrer"
 								>
 									<div className="flex flex-col justify-center">
 										<div className="font-semibold pb-2 text-white">
-                      Polygonscan
+											Polygonscan
 										</div>
 										<div>
 											<Image
@@ -39,7 +38,7 @@ const SuccessModal = (props) => {
 										</div>
 									</div>
 								</a>
-							</p>
+							</div>
 						</div>
 						<div className="flex items-center justify-end p-5 text-lg rounded-b">
 							<button
@@ -47,7 +46,7 @@ const SuccessModal = (props) => {
 								type="button"
 								onClick={() => updateModal()}
 							>
-                Close
+								Close
 							</button>
 						</div>
 					</div>

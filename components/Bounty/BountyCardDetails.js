@@ -22,10 +22,11 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 					<CopyBountyAddress bounty={bounty} />
 				</div>
 				<LabelsList bounty={bounty} />
-				{bounty.deposits.length != 0 ? (
+				{bounty.bountyTokenBalances.length != 0 ? (
 					<TokenBalances
 						tokenBalances={bounty.bountyTokenBalances}
 						tokenValues={tokenValues}
+						claimed={bounty.status == 'CLOSED'}
 					/>
 				) : (
 					<div className="pt-5 pb-5 font-semibold text-white">No deposits</div>

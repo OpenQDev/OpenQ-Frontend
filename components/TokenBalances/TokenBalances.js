@@ -4,14 +4,14 @@ import Image from 'next/image';
 import StoreContext from '../../store/Store/StoreContext';
 const ethers = require('ethers');
 
-const TokenBalances = ({ tokenBalances, tokenValues }) => {
+const TokenBalances = ({ tokenBalances, tokenValues, claimed }) => {
 	const [appState] = useContext(StoreContext);
 
 	const { tokenMetadata } = appState;
 
 	return (
 		<div className="flex flex-col pt-4 pb-6">
-			<div className="font-semibold text-white">Total Value Locked (TVL)</div>
+			<div className="font-semibold text-white">{claimed ? 'Total Value Claimed' : 'Total Value Locked (TVL)'}</div>
 			<div className="font-bold text-xl text-white">
 				{tokenValues
 					? `${appState.utils.formatter.format(tokenValues.total)}`
@@ -40,8 +40,8 @@ const TokenBalances = ({ tokenBalances, tokenValues }) => {
 									<div className="text-lg text-white">{usdValue}</div>{' '}
 									<div className="text-lg text-white">
 										(
-										{ethers.utils.formatEther(
-											ethers.BigNumber.from(volume.toString())
+										{ethers.utils.formatUnits(
+											ethers.BigNumber.from(volume.toString()), parseInt(tokenMetadata[tokenAddress].decimals)
 										)}{' '}
 										{symbol.toUpperCase()})
 									</div>{' '}

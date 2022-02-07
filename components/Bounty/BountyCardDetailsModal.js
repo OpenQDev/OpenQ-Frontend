@@ -4,13 +4,12 @@ import React, { useEffect, useRef } from 'react';
 // Custom
 import BountyCardDetails from './BountyCardDetails';
 
-const BountyCardDetailsModal = (props) => {
-	const { bounty, tokenValues, deposits } = props;
+const BountyCardDetailsModal = ({ bounty, tokenValues, deposits, modalVisibility }) => {
 
 	let menuRef = useRef();
 
 	const updateModal = () => {
-		props.modalVisibility(false);
+		modalVisibility(false);
 	};
 
 	// close modal if clicked outside
@@ -39,7 +38,6 @@ const BountyCardDetailsModal = (props) => {
 							bounty={bounty}
 							tokenValues={tokenValues}
 							deposits={deposits}
-							props={props}
 						/>
 					</div>
 				</div>

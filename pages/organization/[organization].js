@@ -60,7 +60,6 @@ const organization = () => {
 	// Hooks
 	useEffect(() => {
 		if (organizationData) {
-			console.log(organizationData);
 			populateBountyData();
 		}
 	}, [organizationData]);

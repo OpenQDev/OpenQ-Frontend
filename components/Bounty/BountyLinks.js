@@ -4,8 +4,7 @@ import Link from 'next/link';
 
 // Custom
 
-const BountyLinks = (props) => {
-	const { bounty } = props;
+const BountyLinks = ({ bounty }) => {
 	return (
 		<div className="flex flex-row font-bold text-xl space-x-2">
 			<Link href={bounty.url} passHref>
