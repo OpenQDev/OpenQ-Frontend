@@ -1,5 +1,13 @@
 [
 	{
+		"name": "MATIC",
+		"address": "0x0000000000000000000000000000000000000000",
+		"symbol": "MATIC",
+		"decimals": 18,
+		"chainId": 80001,
+		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0/logo.png"
+	},
+	{
 		"name": "Chainlink Token",
 		"address": "0x326C977E6efc84E512bB9C30f76E30c160eD06FB",
 		"symbol": "LINK",

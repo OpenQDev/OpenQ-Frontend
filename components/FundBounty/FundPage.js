@@ -29,7 +29,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 	// State
 	const [token, setToken] = useState(appState.tokens[0]);
-	console.log(appState.tokens[0]);
 
 	const claimed = bounty.status == 'CLOSED';
 	const isLoadingOrIsClosed = isLoading || claimed;
@@ -74,12 +73,14 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		}
 
 		try {
-			await appState.openQClient.approve(
-				library,
-				bounty.bountyAddress,
-				token.address,
-				bigNumberVolumeInWei
-			);
+			if (token.address != ethers.constants.AddressZero) {
+				await appState.openQClient.approve(
+					library,
+					bounty.bountyAddress,
+					token.address,
+					bigNumberVolumeInWei
+				);
+			}
 			approveSucceeded = true;
 		} catch (error) {
 			const { message, title } = appState.openQClient.handleError(error, { bounty });
