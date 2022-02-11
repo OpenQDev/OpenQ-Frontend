@@ -24,7 +24,7 @@ const BountyLinks = ({ bounty }) => {
 			</Link>
 			<Link
 				href={`/?address=${bounty.bountyAddress}}`}
-				as={`/bounty/${bounty.bountyAddress}`}
+
 			>
 				<a target="_blank" rel="noreferrer">
 					<div id={'bounty-link'} className="cursor-pointer">

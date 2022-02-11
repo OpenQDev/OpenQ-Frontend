@@ -29,11 +29,17 @@ const address = () => {
 	// Methods
 	async function populateBountyData() {
 		setIsLoading(true);
-		const bounty = await appState.openQSubgraphClient.getBounty(address);
+		let bounty;
 
-		const issueData = await appState.githubRepository.fetchIssueById(
-			bounty.bountyId
-		);
+		console.log('bounty', bounty);
+		console.log(bounty === undefined);
+		while (bounty === undefined) {
+			bounty = await appState.openQSubgraphClient.getBounty(address);
+			console.log(bounty == 'undefined');
+			await sleep(500);
+		}
+
+		const issueData = await appState.githubRepository.fetchIssueById(bounty.bountyId);
 
 		const mergedBounty = { ...bounty, ...issueData };
 
