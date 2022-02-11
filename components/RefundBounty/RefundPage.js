@@ -43,7 +43,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 	async function refundBounty(depositId) {
 		setIsLoading(true);
 		appState.openQClient
-			.refundBounty(library, bounty.bountyAddress, depositId)
+			.refundDeposit(library, bounty.bountyAddress, depositId)
 			.then((txnReceipt) => {
 				setTransactionHash(txnReceipt.transactionHash);
 				setSuccessMessage('Money refunded!');
