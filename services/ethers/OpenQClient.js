@@ -69,7 +69,12 @@ class OpenQClient {
 
 			const contract = this.ERC20(_tokenAddress, signer);
 			try {
-				const volume = await contract.balanceOf(_callerAddress);
+				let volume;
+				if (_tokenAddress == ethers.constants.AddressZero) {
+					volume = await library.getBalance(_callerAddress);
+				} else {
+					volume = await contract.balanceOf(_callerAddress);
+				}
 				resolve(volume);
 			} catch (error) {
 				reject(error);
@@ -84,8 +89,16 @@ class OpenQClient {
 
 			const contract = this.OpenQ(signer);
 			try {
-				const txnResponse = await contract.fundBounty(_bountyAddress, _tokenAddress, _value);
-				const txnReceipt = await txnResponse.wait();
+				let txnResponse;
+				let txnReceipt;
+
+				if (_tokenAddress == ethers.constants.AddressZero) {
+					txnResponse = await contract.fundBounty(_bountyAddress, _tokenAddress, _value, false, 0, { value: _value });
+				} else {
+					txnResponse = await contract.fundBounty(_bountyAddress, _tokenAddress, _value, false, 0);
+				}
+
+				txnReceipt = await txnResponse.wait();
 				resolve(txnReceipt);
 			} catch (error) {
 				reject(error);
@@ -101,8 +114,6 @@ class OpenQClient {
 			try {
 				const txnResponse = await contract.refundBountyDeposit(_bountyAddress, _depositId);
 				const txnReceipt = await txnResponse.wait();
-
-				// wait for confirmation
 				resolve(txnReceipt);
 			} catch (err) {
 				reject(err);

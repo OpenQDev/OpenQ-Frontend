@@ -29,7 +29,7 @@ const ConnectButton = () => {
 
 	useEffect(() => {
 		if (account && iconWrapper.current) {
-			iconWrapper.current.innerHTML = "";
+			iconWrapper.current.innerHTML = '';
 			iconWrapper.current.appendChild(jazzicon(24, parseInt(account.slice(2, 10), 16)));
 		}
 	}, [account, isOnCorrectNetwork]);
