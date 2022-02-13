@@ -21,7 +21,6 @@
 		"@ethersproject/address": "^5.5.0",
 		"@ethersproject/providers": "^5.1.2",
 		"@ethersproject/units": "^5.1.0",
-		"@metamask/jazzicon": "^2.0.0",
 		"@web3-react/core": "latest",
 		"@web3-react/injected-connector": "latest",
 		"apollo-link-http": "^1.5.17",
@@ -44,12 +43,12 @@
 		"subscriptions-transport-ws": "^0.11.0"
 	},
 	"devDependencies": {
+		"eslint": "7.32.0",
 		"@babel/eslint-parser": "^7.16.5",
+		"eslint-config-next": "11.1.0",
+		"eslint-plugin-react": "^7.26.1",
 		"@babel/preset-react": "^7.16.7",
 		"autoprefixer": "^10.3.3",
-		"eslint": "7.32.0",
-		"eslint-config-next": "11.1.0",
-		"eslint-plugin-react": "^7.28.0",
 		"postcss": "^8.3.6",
 		"tailwindcss": "^2.2.8"
 	}
