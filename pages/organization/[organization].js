@@ -79,7 +79,7 @@ const organization = () => {
       <div className="bg-dark-mode">
         {/* <h1 className="font-bold uppercase">{organizationData.name}</h1>
         <h1 className="font-bold uppercase">Bounties</h1> */}
-        <div className="flex justify-center">
+        <div className="flex justify-center pt-10">
           <div className="w-1/2 space-y-3">
             <input
               className="outline-none w-full font-mont rounded-lg py-2 p-5 pb-1 border border-web-gray bg-dark-mode text-white"
