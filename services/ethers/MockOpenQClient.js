@@ -54,18 +54,12 @@ class MockOpenQClient {
 			});
 	}
 
-	async getIssueDeposits(library, issueIdToAddresses) {
-		return axios.get(`http://localhost:3030/getIssueDeposits`)
-			.then(result => {
-				return result.data;
-			})
-			.catch(error => {
-				console.error(error);
-			});
-	}
-
-	async mintBounty(library, issueId) {
-		return { id: issueId, from: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC', issueAddress: '0xB30dAf0240261Be564Cea33260F01213c47AAa0D' };
+	async mintBounty(library, issueId, organization) {
+		const promise = new Promise(async (resolve, reject) => {
+			await this.sleep(1500);
+			resolve({ "bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", "txnReceipt": {} });
+		});
+		return promise;
 	}
 }
 
