@@ -17,26 +17,22 @@ const Navbar = () => {
           <nav className="text-white flex flex-col space-y-4 items-center pt-1 flex-grow">
             <div className="pb-8 pt-5">
               <Link href="/">
-                <a href="">
-                  <Image
-                    src="/openq-logo.png"
-                    alt="OpenQ"
-                    width="31"
-                    height="31"
-                  />
-                </a>
+                <Image
+                  src="/openq-logo.png"
+                  alt="OpenQ"
+                  width="31"
+                  height="31"
+                />
               </Link>
             </div>
             <div className="pt-2">
               <Link href="/claim">
-                <a>
-                  <Image
-                    src="/eth-white.png"
-                    alt="OpenQ"
-                    width="24"
-                    height="24"
-                  />
-                </a>
+                <Image
+                  src="/eth-white.png"
+                  alt="OpenQ"
+                  width="24"
+                  height="24"
+                />
               </Link>
             </div>
             <div className="pt-2">

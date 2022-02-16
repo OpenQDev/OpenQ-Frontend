@@ -17,8 +17,10 @@ const Layout = ({ children }) => {
 
           <div className="flex justify-end invisible md:visible">
             {/* 	Profile and login components */}
-            <div className="flex flex-row pr-5 space-x-4 items-center">
-              <ConnectButton />
+            <div className="flex flex-row items-center pr-5">
+              <div className="pr-5">
+                <ConnectButton />
+              </div>
               <div className="w-9 pt-1">
                 <ProfilePicture />
               </div>

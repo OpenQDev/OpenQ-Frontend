@@ -1,13 +1,15 @@
 // Third Party
 import React from "react";
+import Link from "next/link";
+import Image from "next/image";
 
 // Custom
-import ConnectButton from "../WalletConnect/ConnectButton.js";
+import MobileConnectButton from "../WalletConnect/MobileConnectButton.js";
 import ProfilePicture from "./ProfilePicture.js";
 
 const MobileSidebar = () => {
   return (
-    <div className="flex justify-between w-full md:hidden">
+    <div className="flex justify-between items-center w-full md:hidden pr-5">
       <div className="pl-5">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -24,9 +26,20 @@ const MobileSidebar = () => {
           />
         </svg>
       </div>
-      <div className="flex flex-row pr-5 space-x-4 items-center justify-end">
-        <ConnectButton />
-        <div className="w-9 pt-1">
+      {/* <div className="text-white text-lg font-bold font-mont">OpenQ</div> */}
+
+      <div className="pl-7">
+        <Link href="/">
+          <div className="flex flex-row space-x-4">
+            <Image src="/openq-logo.png" alt="OpenQ" width="31" height="31" />
+            <div className="font-mont text-white font-bold text-lg">OpenQ</div>
+          </div>
+        </Link>
+      </div>
+
+      <div className="flex flex-row space-x-4 items-center">
+        <MobileConnectButton />
+        <div className="w-7">
           <ProfilePicture />
         </div>
       </div>

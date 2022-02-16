@@ -1,12 +1,13 @@
 // Third Party
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 // Custom
 import useWeb3 from "../../hooks/useWeb3";
 import { injected } from "./connectors";
 import useConnectOnLoad from "../../hooks/useConnectOnLoad";
 import chainIdDeployEnvMap from "./chainIdDeployEnvMap";
 
-const ConnectButton = ({ mobile }) => {
+const MobileConnectButton = ({ mobile }) => {
   // State
   const [buttonText, setButtonText] = useState("Connect Wallet");
   const [isDisabled, setIsDisabled] = useState(false);
@@ -59,28 +60,26 @@ const ConnectButton = ({ mobile }) => {
     const lastThree = account.slice(-3);
     return (
       <div>
-        <button
-          disabled={true}
-          className="font-mont whitespace-nowrap rounded-lg border border-pink-500 bg-pink-700 bg-opacity-20 py-2 px-6 text-white font-semibold cursor-pointer hover:border-pink-300"
-        >
-          {firstThree}...{lastThree}
+        <button disabled={true}>
+          <Image
+            src="/diverse/metamask.png"
+            alt="Wallet"
+            width={25}
+            height={25}
+          />
         </button>
       </div>
     );
   } else if (account) {
     return (
       <div>
-        <button
-          onClick={addOrSwitchNetwork}
-          className="font-mont whitespace-nowrap rounded-lg border border-pink-500 bg-pink-700 bg-opacity-20 py-2 px-6 text-white font-semibold cursor-pointer hover:border-pink-300"
-        >
-          Use{" "}
-          {
-            chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV][
-              "networkName"
-            ]
-          }{" "}
-          Network
+        <button onClick={addOrSwitchNetwork}>
+          <Image
+            src="/diverse/metamask.png"
+            alt="Wallet"
+            width={25}
+            height={25}
+          />
         </button>
       </div>
     );
@@ -91,13 +90,17 @@ const ConnectButton = ({ mobile }) => {
           hidden={isHidden}
           disabled={isDisabled}
           onClick={onClickConnect}
-          className="font-mont whitespace-nowrap rounded-lg border border-pink-500 bg-pink-700 bg-opacity-20 py-2 px-6 text-white font-semibold cursor-pointer hover:border-pink-300"
         >
-          {buttonText}
+          <Image
+            src="/diverse/metamask.png"
+            alt="Wallet"
+            width={25}
+            height={25}
+          />
         </button>
       </div>
     );
   }
 };
 
-export default ConnectButton;
+export default MobileConnectButton;
