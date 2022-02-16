@@ -41,7 +41,7 @@ export default function Index() {
               </button>
             </div>
           </div>
-          <div className="px-14">
+          <div className="px-5 md:px-14">
             {internalMenu == "org" ? <OpenQHomepage /> : <BountyHomepage />}
           </div>
         </div>
