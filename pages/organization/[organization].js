@@ -106,7 +106,7 @@ const organization = () => {
               : "No Bounties"}
           </div>
         </div>
-        <h1 className="font-bold uppercase">Total Contributions</h1>
+        {/* <h1 className="font-bold uppercase">Total Contributions</h1>
         {organizationData.fundedTokenBalances.map((tokenBalance) => {
           const tokenAddress = ethers.utils.getAddress(
             tokenBalance.tokenAddress
@@ -135,8 +135,8 @@ const organization = () => {
               );
             })
           : "No Bounties Created"}
-        <h1 className="font-bold uppercase">Bounty Contributions</h1>
-        {organizationData.deposits.length != 0
+        <h1 className="font-bold uppercase">Bounty Contributions</h1> */}
+        {/*  {organizationData.deposits.length != 0
           ? organizationData.deposits.map((deposit) => {
               const tokenAddress = ethers.utils.getAddress(
                 deposit.tokenAddress
@@ -157,7 +157,7 @@ const organization = () => {
                 </div>
               );
             })
-          : "No Deposits on any Issues"}
+          : "No Deposits on any Issues"} */}
       </div>
     );
   }
