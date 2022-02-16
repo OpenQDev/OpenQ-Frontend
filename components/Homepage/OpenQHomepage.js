@@ -82,10 +82,12 @@ const OpenQHomepage = () => {
                 })
                 .map((organization) => {
                   return (
-                    <OrganizationCard
-                      organization={organization}
-                      key={organization.id}
-                    />
+                    <div className="col-span-3 md:col-span-1">
+                      <OrganizationCard
+                        organization={organization}
+                        key={organization.id}
+                      />
+                    </div>
                   );
                 })}
         </div>
