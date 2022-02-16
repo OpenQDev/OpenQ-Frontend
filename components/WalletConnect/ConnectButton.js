@@ -1,10 +1,11 @@
 // Third Party
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
 import { injected } from './connectors';
 import useConnectOnLoad from '../../hooks/useConnectOnLoad';
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
+import jazzicon from '@metamask/jazzicon';
 
 const ConnectButton = () => {
 	// State
@@ -12,6 +13,7 @@ const ConnectButton = () => {
 	const [isDisabled, setIsDisabled] = useState(false);
 	const [isHidden, setIsHidden] = useState(false);
 	const [isOnCorrectNetwork, setIsOnCorrectNetwork] = useState(true);
+	const iconWrapper = useRef();
 
 	// Context
 	const { chainId, account, activate, active } = useWeb3();
@@ -25,6 +27,13 @@ const ConnectButton = () => {
 		}
 	}, [active]);
 
+	useEffect(() => {
+		if (account && iconWrapper.current) {
+			iconWrapper.current.innerHTML = '';
+			iconWrapper.current.appendChild(jazzicon(24, parseInt(account.slice(2, 10), 16)));
+		}
+	}, [account, isOnCorrectNetwork]);
+	
 	useEffect(() => {
 		setIsOnCorrectNetwork(
 			chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'] ==
@@ -61,8 +70,9 @@ const ConnectButton = () => {
 			<div>
 				<button
 					disabled={true}
-					className="font-mont whitespace-nowrap rounded-lg border border-pink-500 bg-pink-700 bg-opacity-20 py-2 px-6 text-white font-semibold cursor-pointer hover:border-pink-300"
+					className="group flex gap-x-3 font-mont whitespace-nowrap rounded-lg border border-pink-500 bg-pink-700 bg-opacity-20 py-2 px-6 text-white font-semibold cursor-pointer hover:border-pink-300"
 				>
+					<span className="border-2 border-pink-500 rounded-full leading-3 group-hover:border-pink-300" ref={iconWrapper}></span>
 					{firstThree}...{lastThree}
 				</button>
 			</div>
