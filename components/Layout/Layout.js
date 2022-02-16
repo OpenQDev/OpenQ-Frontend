@@ -13,6 +13,7 @@ const Layout = ({ children }) => {
     <div>
       <div className="flex flex-row">
         <Sidebar trigger={sidebar} setTrigger={setSidebar} />
+
         <div className="flex w-full flex-col pt-5 justify-center">
           {/*  Mobile navbar triggered by tailwind */}
           <MobileSidebar trigger={setSidebar} />
@@ -28,10 +29,13 @@ const Layout = ({ children }) => {
               </div>
             </div>
           </div>
-          <div className="pt-18 md:pl-20 justify-center">{children}</div>
-          {sidebar ? (
-            <div className="opacity-30 fixed inset-0 bg-black"></div>
-          ) : null}
+          <div
+            className={`pt-18 md:pl-20 justify-center ${
+              sidebar ? "opacity-20 pl-20" : null
+            }`}
+          >
+            {children}
+          </div>
         </div>
       </div>
     </div>
