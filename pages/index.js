@@ -19,7 +19,6 @@ export default function Index() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <main>
         <div className="bg-dark-mode pt-10 flex-col">
           <div className="flex justify-center pb-8">
