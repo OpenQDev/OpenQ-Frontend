@@ -7,10 +7,10 @@ import Image from "next/image";
 import MobileConnectButton from "../WalletConnect/MobileConnectButton.js";
 import ProfilePicture from "./ProfilePicture.js";
 
-const MobileSidebar = () => {
+const MobileSidebar = ({ trigger }) => {
   return (
     <div className="flex justify-between items-center w-full md:hidden pr-5">
-      <div className="pl-5">
+      <button onClick={() => trigger(true)} className="pl-5">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-6 w-6"
@@ -25,7 +25,7 @@ const MobileSidebar = () => {
             d="M4 6h16M4 12h16M4 18h16"
           />
         </svg>
-      </div>
+      </button>
       {/* <div className="text-white text-lg font-bold font-mont">OpenQ</div> */}
 
       <div className="pl-7">

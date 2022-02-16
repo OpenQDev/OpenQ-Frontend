@@ -1,5 +1,5 @@
 // Third Party
-import React from "react";
+import React, { useState } from "react";
 // Custom
 import ConnectButton from "../WalletConnect/ConnectButton.js";
 import ProfilePicture from "./ProfilePicture.js";
@@ -7,13 +7,15 @@ import Sidebar from "./Sidebar";
 import MobileSidebar from "./MobileSidebar";
 
 const Layout = ({ children }) => {
+  const [sidebar, setSidebar] = useState(false);
+
   return (
     <div>
       <div className="flex flex-row">
-        <Sidebar />
+        <Sidebar trigger={sidebar} setTrigger={setSidebar} />
         <div className="flex w-full flex-col pt-5 justify-center">
           {/*  Mobile navbar triggered by tailwind */}
-          <MobileSidebar />
+          <MobileSidebar trigger={setSidebar} />
 
           <div className="flex justify-end invisible md:visible">
             {/* 	Profile and login components */}
@@ -27,6 +29,9 @@ const Layout = ({ children }) => {
             </div>
           </div>
           <div className="pt-18 md:pl-20 justify-center">{children}</div>
+          {sidebar ? (
+            <div className="opacity-30 fixed inset-0 bg-black"></div>
+          ) : null}
         </div>
       </div>
     </div>
