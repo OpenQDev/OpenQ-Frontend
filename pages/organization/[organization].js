@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
 import BountyCard from '../../components/Bounty/BountyCard';
+import LargeOrganizationCard from '../../components/Organization/LargeOrganizationCard';
 
 const organization = () => {
 	// Context
@@ -78,8 +79,9 @@ const organization = () => {
 			<div className="bg-dark-mode">
 				{/* <h1 className="font-bold uppercase">{organizationData.name}</h1>
         <h1 className="font-bold uppercase">Bounties</h1> */}
-				<div className="flex justify-center">
-					<div className="w-1/2 space-y-3">
+				<div className="grid grid-cols-wide justify-center w-f gap-8">
+					<LargeOrganizationCard organization={organizationData} />
+					<div className="w-f space-y-3">
 						<input
 							className="outline-none w-full font-mont rounded-lg py-2 p-5 pb-1 border border-web-gray bg-dark-mode text-white"
 							onKeyUp={(e) => filterByIssueTitle(e)}

@@ -46,6 +46,9 @@ module.exports = {
 				'6/7': '85.7142857%',
 			},
 		},
+		gridTemplateColumns: {
+			'wide': '1fr 2fr 1fr',
+		}
 	},
 	variants: {
 		extend: {},
