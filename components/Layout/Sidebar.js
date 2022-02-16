@@ -3,41 +3,17 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 // Custom
-import { useMediaQuery } from "../../scripts/useMediaQuery";
 
 const Navbar = () => {
-  let isPageWide = useMediaQuery("(min-width: 500px)");
-  const [isClosed, setClosed] = useState(isPageWide);
-  let menuRef = useRef();
-
-  useEffect(() => {
-    setClosed(!isPageWide);
-    console.log("isClosed: ", isClosed);
-    if (!isClosed) {
-      let handler = (event) => {
-        if (!menuRef.current.contains(event.target) && !isPageWide) {
-          setClosed(true);
-        }
-      };
-
-      window.addEventListener("mousedown", handler);
-
-      return () => {
-        window.removeEventListener("mousedown", handler);
-      };
-    }
-  });
-
   return (
-    // Mobile Menu Bar
+    /* Sidebar
 
-    // Sidebar
-    <div className="absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
-      <div className="flex">
-        <div
-          ref={menuRef}
-          className="bg-dark-mode w-20 flex min-h-screen flex-col border-r border-web-gray"
-        >
+		This sidebar is hidden via tailwind classes. 
+		absolute inset-y-0 left-0 transform -translate-x-full sm:relative sm:translate-x-0 transition duration-200 ease-in-out
+		*/
+    <div className="invisible md:visible">
+      <div className="flex fixed">
+        <div className="bg-dark-mode w-20 flex min-h-screen flex-col border-r border-web-gray">
           <nav className="text-white flex flex-col space-y-4 items-center pt-1 flex-grow">
             <div className="pb-8 pt-5">
               <Link href="/">
