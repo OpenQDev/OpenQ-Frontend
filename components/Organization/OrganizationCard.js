@@ -28,12 +28,12 @@ const OrganizationCard = ({ organization }) => {
 						{`${organization.bountiesCreated.map(
 							(bounty) => bounty.status == 'OPEN'
 						).length
-							} ${organization.bountiesCreated.map(
-								(bounty) => bounty.status == 'OPEN'
-							).length < 2
-								? 'Bounty'
-								: 'Bounties'
-							}`}
+						} ${organization.bountiesCreated.map(
+							(bounty) => bounty.status == 'OPEN'
+						).length < 2
+							? 'Bounty'
+							: 'Bounties'
+						}`}
 					</div>
 					{/* <div>
 						{tokenValues ? (

@@ -25,7 +25,7 @@ const SuccessModal = ({ successMessage, transactionHash, setShowSuccessModal }) 
 								>
 									<div className="flex flex-col justify-center">
 										<div className="font-semibold pb-2 text-white">
-                      Polygonscan
+											Polygonscan
 										</div>
 										<div>
 											<Image
@@ -37,7 +37,7 @@ const SuccessModal = ({ successMessage, transactionHash, setShowSuccessModal }) 
 										</div>
 									</div>
 								</a>
-							</div>
+							</p>
 						</div>
 						<div className="flex items-center justify-end p-5 text-lg rounded-b">
 							<button
