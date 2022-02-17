@@ -31,6 +31,7 @@ const BountyHomepage = () => {
 
 		const fullBounties = [];
 		bounties.forEach((bounty) => {
+			console.log('bounty', bounty);
 			const relatedIssue = issueData.find(
 				(issue) => issue.id == bounty.bountyId
 			);

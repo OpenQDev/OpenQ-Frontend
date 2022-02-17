@@ -110,7 +110,7 @@
 	"bounty": [
 		{
 			"id": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e",
-			"bountyAddress": "sdf",
+			"bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e",
 			"bountyId": "abc123",
 			"bountyMintTime": "sdf",
 			"bountyClosedTime": "sdf",
@@ -126,7 +126,7 @@
 					"id": "sdf",
 					"refunded": "sdf",
 					"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-					"volume": "sdf",
+					"volume": 10000,
 					"sender": {
 						"id": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e"
 					},
@@ -141,33 +141,31 @@
 	"bounties": [
 		{
 			"id": "abc123",
-			"bounties": {
-				"bountyAddress": "sdf",
-				"bountyId": "sdf",
-				"bountyMintTime": "sdf",
-				"bountyClosedTime": "sdf",
-				"status": "sdf",
-				"deposits": [
-					{
-						"id": "sdf",
-						"refunded": "sdf",
-						"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-						"volume": "sdf",
-						"sender": {
-							"id": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e"
-						},
-						"receiveTime": "sdf"
-					}
-				],
-				"bountyTokenBalances": [
-					{
-						"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-						"volume": "sdf"
-					}
-				],
-				"issuer": {
-					"id": "sdf"
+			"bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e",
+			"bountyId": "abc123",
+			"bountyMintTime": "sdf",
+			"bountyClosedTime": "sdf",
+			"status": "sdf",
+			"deposits": [
+				{
+					"id": "sdf",
+					"refunded": "sdf",
+					"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+					"volume": 10000,
+					"sender": {
+						"id": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e"
+					},
+					"receiveTime": "sdf"
 				}
+			],
+			"bountyTokenBalances": [
+				{
+					"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+					"volume": 10000
+				}
+			],
+			"issuer": {
+				"id": "sdf"
 			}
 		}
 	],
