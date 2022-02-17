@@ -11,15 +11,19 @@ import LabelsList from './LabelsList';
 
 const BountyCardDetails = ({ bounty, tokenValues }) => {
 	return (
-		<div className="flex flex-col font-mont pl-16 pr-16 pt-10 pb-10">
+		<div className="flex flex-col font-mont pl-5 pr-5 md:pl-16 md:pr-16 pt-10 pb-10">
 			<div className="flex flex-col border-b border-solid rounded-t">
 				<BountyCardHeader bounty={bounty} />
-				<div className="flex flex-row pt-5 space-x-10 justify-between">
-					<div className="flex flex-col">
+				<div
+					className="grid grid-cols-2 pt-5 justify-center 
+				md:justify-between"
+				>
+					<div className="col-span-2 pb-5 md:pb-0 md:col-span-1 flex flex-col">
 						<BountyStatus bounty={bounty} />
 					</div>
-
-					<CopyBountyAddress bounty={bounty} />
+					<div className="col-span-2 md:col-span-1">
+						<CopyBountyAddress bounty={bounty} />
+					</div>
 				</div>
 				<LabelsList bounty={bounty} />
 				{bounty.bountyTokenBalances.length != 0 ? (

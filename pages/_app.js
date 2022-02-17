@@ -18,7 +18,7 @@ function OpenQ({ Component, pageProps }) {
 	}
 
 	return (
-		<div className="bg-dark-mode">
+		<div className="bg-dark-mode min-h-screen">
 			<AuthProvider>
 				<StoreProvider>
 					<Web3ReactProvider getLibrary={getLibrary}>

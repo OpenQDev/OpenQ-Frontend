@@ -16,17 +16,16 @@ const SuccessModal = ({ successMessage, transactionHash, setShowSuccessModal }) 
 							<div className="text-3xl font-semibold text-white">Success!</div>
 						</div>
 						<div className="flex-auto pl-1 pr-1 justify-center">
-							<div className="pt-5 pl-4 pr-4 text-center text-white">
+							<p className="pt-5 pl-4 pr-4 text-center text-white">
 								{successMessage}
-							</div>
-							<div className="pt-3 text-center justify-center">
+							</p>
+							<p className="pt-3 text-center justify-center">
 								<a
 									href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`}
-									target="_blank" rel="noreferrer"
 								>
 									<div className="flex flex-col justify-center">
 										<div className="font-semibold pb-2 text-white">
-											Polygonscan
+                      Polygonscan
 										</div>
 										<div>
 											<Image
@@ -53,7 +52,7 @@ const SuccessModal = ({ successMessage, transactionHash, setShowSuccessModal }) 
 				</div>
 			</div>
 			<div className="opacity-80 fixed inset-0 bg-black"></div>
-		</div>
+		</div >
 	);
 };
 

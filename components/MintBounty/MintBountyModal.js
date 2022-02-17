@@ -174,8 +174,16 @@ const MintBountyModal = ({ modalVisibility }) => {
 	// Render
 	return (
 		<div>
-			<div className="flex justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-				<div className="w-1/4 space-y-5">
+			<div className="flex justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none p-5">
+				<div className="md:w-1/2 lg:w-1/3 xl:w-1/4 space-y-5">
+					{isBountyMinted ? (
+						<BountyMintedNotification
+							notificationRef={notificationRef}
+							bountyAddress={bountyAddress}
+							issueUrl={issueUrl}
+							notifyModalVisibility={setMintBountyState.setIsBountyMinted}
+						/>
+					) : null}
 					<div ref={menuRef} className="w-full">
 						<div className="border-0 rounded-xl shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none">
 							<MintBountyHeader />
