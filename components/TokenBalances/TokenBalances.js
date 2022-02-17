@@ -34,7 +34,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, claimed }) => {
 
 							return (
 								<div
-									className="flex flex-row flex-wrap text-white"
+									className="flex flex-row flex-wrap gap-2 text-white"
 									key={symbol}
 								>
 									<div className="pt-1">
@@ -50,9 +50,9 @@ const TokenBalances = ({ tokenBalances, tokenValues, claimed }) => {
 										(
 										{ethers.utils.formatUnits(
 											ethers.BigNumber.from(volume.toString()), parseInt(tokenMetadata[tokenAddress].decimals)
-										)}{}
+										)}{'\xa0'}
 										{symbol.toUpperCase()})
-									</div>{' '}
+									</div>
 									
 								</div>
 							);
