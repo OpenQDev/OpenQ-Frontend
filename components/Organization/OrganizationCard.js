@@ -1,19 +1,11 @@
 // Third Party
-import React, { useContext } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-// Custom
-import useGetTokenValues from '../../hooks/useGetTokenValues';
-import StoreContext from '../../store/Store/StoreContext';
-import TokenBalances from '../TokenBalances/TokenBalances';
-
 const OrganizationCard = ({ organization }) => {
 	// Context
-	const [tokenValues] = useGetTokenValues(organization.fundedTokenBalances);
-	const [appState] = useContext(StoreContext);
-	const orgName =
-    organization.name.charAt(0).toUpperCase() + organization.name.slice(1);
+	const orgName = organization.name.charAt(0).toUpperCase() + organization.name.slice(1);
 
 	// Methods
 
@@ -33,16 +25,14 @@ const OrganizationCard = ({ organization }) => {
 						{orgName}
 					</div>
 					<div className="bg-pink text-white rounded shadow-md text-gray-300 font-sans relative">
-						{`${
-							organization.bountiesCreated.map(
-								(bounty) => bounty.status == 'OPEN'
-							).length
-						} ${
-							organization.bountiesCreated.map(
-								(bounty) => bounty.status == 'OPEN'
-							).length < 2
-								? 'Bounty'
-								: 'Bounties'
+						{`${organization.bountiesCreated.map(
+							(bounty) => bounty.status == 'OPEN'
+						).length
+						} ${organization.bountiesCreated.map(
+							(bounty) => bounty.status == 'OPEN'
+						).length < 2
+							? 'Bounty'
+							: 'Bounties'
 						}`}
 					</div>
 					{/* <div>

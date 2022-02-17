@@ -2,72 +2,72 @@
 
 /*CHECK DOC ABOUT extensio parameters vs theem*/
 module.exports = {
-  mode: "jit",
-  purge: ["./components/**/*.js", "./pages/**/*.js"],
-  darkMode: false, // or 'media' or 'class'
-  theme: {
-    borderRadius: {
-      none: "0",
-      sm: "0.125rem",
-      DEFAULT: "4px",
-      md: "0.375rem",
-      lg: "1.7rem",
-      xl: "2.5rem",
-      full: "9999px",
-      large: "12px",
-    },
-    borderColor: (theme) => ({
-      ...theme("colors"),
-      DEFAULT: theme("colors.gray.300", "currentColor"),
-      menu: "#4c4c4c",
-      primary: "#3490dc",
-      secondary: "#ffed4a",
-      danger: "#e3342f",
-    }),
-    extend: {
-      boxShadow: {
-        inner: "inset 0 -2px 3px 0 rgba(0, 0, 0, 0.06)",
-      },
-      colors: {
-        "dark-mode": "#121212",
-        "button-pink": "#FF006A",
-        "web-gray": "#585858",
-        "bg-input-color": "#C45454",
-      },
-      fontFamily: {
-        mont: "'Montserrat', sans-serif;",
-      },
-      width: {
-        "1/7": "14.2857143%",
-        "2/7": "28.5714286%",
-        "3/7": "42.8571429%",
-        "4/7": "57.1428571%",
-        "5/7": "71.4285714%",
-        "6/7": "85.7142857%",
-      },
-      screens: {
-        xs: { max: "639" },
-        // => @media (min-width: 380px) { ... }
+	mode: 'jit',
+	purge: ['./components/**/*.js', './pages/**/*.js'],
+	darkMode: false, // or 'media' or 'class'
+	theme: {
+		borderRadius: {
+			none: '0',
+			sm: '0.125rem',
+			DEFAULT: '4px',
+			md: '0.375rem',
+			lg: '1.7rem',
+			xl: '2.5rem',
+			full: '9999px',
+			large: '12px',
+		},
+		borderColor: (theme) => ({
+			...theme('colors'),
+			DEFAULT: theme('colors.gray.300', 'currentColor'),
+			menu: '#4c4c4c',
+			primary: '#3490dc',
+			secondary: '#ffed4a',
+			danger: '#e3342f',
+		}),
+		extend: {
+			boxShadow: {
+				inner: 'inset 0 -2px 3px 0 rgba(0, 0, 0, 0.06)',
+			},
+			colors: {
+				'dark-mode': '#121212',
+				'button-pink': '#FF006A',
+				'web-gray': '#585858',
+				'bg-input-color': '#C45454',
+			},
+			fontFamily: {
+				mont: '\'Montserrat\', sans-serif;',
+			},
+			width: {
+				'1/7': '14.2857143%',
+				'2/7': '28.5714286%',
+				'3/7': '42.8571429%',
+				'4/7': '57.1428571%',
+				'5/7': '71.4285714%',
+				'6/7': '85.7142857%',
+			},
+			screens: {
+				xs: { max: '639' },
+				// => @media (min-width: 380px) { ... }
 
-        sm: "640px",
-        // => @media (min-width: 640px) { ... }
+				sm: '640px',
+				// => @media (min-width: 640px) { ... }
 
-        md: "768px",
-        // => @media (min-width: 768px) { ... }
+				md: '768px',
+				// => @media (min-width: 768px) { ... }
 
-        lg: "1024px",
-        // => @media (min-width: 1024px) { ... }
+				lg: '1024px',
+				// => @media (min-width: 1024px) { ... }
 
-        xl: "1280px",
-        // => @media (min-width: 1280px) { ... }
+				xl: '1280px',
+				// => @media (min-width: 1280px) { ... }
 
-        "2xl": "1536px",
-        // => @media (min-width: 1536px) { ... }
-      },
-    },
-  },
-  variants: {
-    extend: {},
-  },
-  plugins: [],
+				'2xl': '1536px',
+				// => @media (min-width: 1536px) { ... }
+			},
+		},
+	},
+	variants: {
+		extend: {},
+	},
+	plugins: [],
 };
