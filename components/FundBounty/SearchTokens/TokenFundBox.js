@@ -7,12 +7,10 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume }) => {
 
 	return (
 		<div>
-			<div className="flex flex-row justify-between items-center pl-14 py-3 rounded-lg py-1 bg-dark-mode border border-web-gray text-white">
-				<div className={'pl-4 font-bold fundBox-amount bg-dark-mode'}>
+			<div className="flex w-full flex-row justify-between items-center pl-14 py-3 rounded-lg py-1 bg-dark-mode border border-web-gray text-white">
+				<div className={'px-4 font-bold fundBox-amount bg-dark-mode'}>
 					<input
-						className={
-							'font-semibold text-2xl number outline-none bg-dark-mode'
-						}
+						className="font-semibold text-2xl number outline-none bg-dark-mode w-full"						
 						value={volume}
 						placeholder={'0'}
 						id="amount"
