@@ -7,7 +7,7 @@
 		"boot:docker": "DEPLOY_ENV=docker next dev",
 		"boot:mock": "DEPLOY_ENV=local next dev",
 		"boot:production": "DEPLOY_ENV=polygon next dev",
-		"json-server": "json-server --watch --port 3030 services/ethers/mock-server.json",
+		"json-server": "json-server --watch --port 3030 __mocks__/mock-server.json",
 		"build": "next build",
 		"start": "next build && next start",
 		"lint": "next lint",
