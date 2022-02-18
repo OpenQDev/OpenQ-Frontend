@@ -3,7 +3,7 @@ import React from 'react';
 import TokenList from './TokenList';
 
 const TokenSearch = ({ setShowTokenSearch, onCurrencySelect }) => {
-	function handleOutsideClick (e){
+	function handleOutsideClick (){
 		setShowTokenSearch(false);
 	}
 	return (

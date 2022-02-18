@@ -11,8 +11,8 @@ import LabelsList from './LabelsList';
 
 const BountyCardDetails = ({ bounty, tokenValues }) => {
 	return (
-		<div className="flex flex-col font-mont pl-5 pr-5 md:pl-16 md:pr-16 pt-10 pb-10">
-			<div className="flex flex-col border-b border-solid rounded-t">
+		<div className="flex flex-col font-mont pl-5 pr-5 md:pl-16 md:pr-16 pt-10 pb-10 my-16 border-web-gray border rounded-lg w-5/6">
+			<div className="flex flex-col border-b border-solid rounded-t ">
 				<BountyCardHeader bounty={bounty} />
 				<div
 					className="grid grid-cols-2 pt-5 justify-center 
@@ -42,7 +42,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 					<BountyLinks bounty={bounty} />
 				</div>
 				<div
-					className="text-white pt-2"
+					className="text-white pt-2 w-full"
 					dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}
 				></div>
 			</div>

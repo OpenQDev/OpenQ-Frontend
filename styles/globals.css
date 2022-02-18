@@ -7,6 +7,13 @@
     background: #f3f3f3;
   }
 }
+.highlight{
+  background-color:  #302929;
+  border-radius: 1rem;
+  margin-top: 2.25rem;
+  overflow-x:scroll;
+  padding: 1rem;
+}
 /* @layer base {
     body{
         @apply font-mont text-3xl font-bold;

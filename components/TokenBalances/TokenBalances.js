@@ -34,17 +34,9 @@ const TokenBalances = ({ tokenBalances, tokenValues, claimed }) => {
 
 							return (
 								<div
-									className="flex flex-row space-x-2 text-white"
+									className="flex flex-row flex-wrap gap-2 text-white"
 									key={symbol}
 								>
-									<div className="text-lg text-white">{usdValue}</div>{' '}
-									<div className="text-lg text-white">
-										(
-										{ethers.utils.formatUnits(
-											ethers.BigNumber.from(volume.toString()), parseInt(tokenMetadata[tokenAddress].decimals)
-										)}{' '}
-										{symbol.toUpperCase()})
-									</div>{' '}
 									<div className="pt-1">
 										<Image
 											src={tokenMetadata[tokenAddress].logoURI}
@@ -53,6 +45,15 @@ const TokenBalances = ({ tokenBalances, tokenValues, claimed }) => {
 											height="16"
 										/>
 									</div>
+									<div className="text-lg text-white">{usdValue}</div>{' '}
+									<div className="text-lg text-white">
+										(
+										{ethers.utils.formatUnits(
+											ethers.BigNumber.from(volume.toString()), parseInt(tokenMetadata[tokenAddress].decimals)
+										)}{'\xa0'}
+										{symbol.toUpperCase()})
+									</div>
+									
 								</div>
 							);
 						})

@@ -169,9 +169,9 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		);
 	} else {
 		return (
-			<div className="pt-16 flex flex-1 w-full justify-center items-center">
+			<div className="flex flex-1 font-mont justify-center items-center">
 				<div className="flex flex-col space-y-5 w-5/6">
-					<div className="flex text-3xl font-semibold text-white justify-center">
+					<div className="flex text-3xl font-semibold text-white justify-center pt-16">
 						Fund Bounty
 					</div>
 					<div className="bg-purple-600 col-span-3 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4">
