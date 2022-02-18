@@ -195,9 +195,6 @@ query GetOrganization($id: ID!) {
       id
       tokenAddress
       payoutTime
-      closer {
-        id
-      }
       volume
     }
 		payoutTokenBalances {
@@ -235,9 +232,6 @@ query GetOrganizations {
       id
       tokenAddress
       payoutTime
-      closer {
-        id
-      }
       volume
     }
 		payoutTokenBalances {
@@ -281,9 +275,6 @@ subscription SubscribeToBounty($bountyId: String!) {
 		bountyMintTime
 		bountyClosedTime
 		status
-		closer {
-			id
-		}
 		deposits {
 			id
 			refunded

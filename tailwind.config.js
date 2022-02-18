@@ -65,6 +65,9 @@ module.exports = {
 				// => @media (min-width: 1536px) { ... }
 			},
 		},
+		gridTemplateColumns: {
+			'wide': '1fr 2fr 1fr',
+		}
 	},
 	variants: {
 		extend: {},
