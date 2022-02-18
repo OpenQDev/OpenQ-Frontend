@@ -25,29 +25,41 @@ const BountyCard = ({ bounty }) => {
 			>
 				<div
 					className={
-						'flex flex-col p-6 font-mont rounded-xl shadow-sm border border-web-gray cursor-pointer pr-10 pl-10'
+						'flex flex-col md:p-6 font-mont shadow-sm border-b border-web-gray cursor-pointer md:pr-10 md:pl-10 md:border md:rounded-xl'
 					}
 					onClick={() => setShowModal(true)}
 				>
-					<div className="flex flex-row justify-between">
+					<div className="flex flex-row justify-between pt-5 sm:pt-0 ">
 						<div>
-							<div className="flex flex-grow flex-row items-center space-x-2">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill={bounty.closed ? '#F0431D' : '#15FB31'}
-									viewBox="0 0 16 16"
-									width="19"
-									height="19"
-								>
-									<path d="M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
-									<path
-										fillRule="evenodd"
-										d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"
-									></path>
-								</svg>
+							<div className="flex flex-grow flex-row items-center space-x-2 pb-2 sm:pb-0">
+								{/*  <div>{isClaimed ? "Claimed" : "Unclaimed"}</div> */}
+								<div className="invisible md:visible">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										fill={closed ? '#F0431D' : '#15FB31'}
+										viewBox="0 0 16 16"
+										width="19"
+										height="19"
+									>
+										<path d="M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
+										<path
+											fillRule="evenodd"
+											d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"
+										></path>
+									</svg>
+								</div>
+
 								<div className="font-mont text-2xl text-white">
 									{bounty.owner.toLowerCase()}/{bounty.repoName.toLowerCase()}
 								</div>
+								{/* <div className="flex justify-center pb-5 pt-5 md:hidden">
+                  <Image
+                    src={bounty.avatarUrl}
+                    alt="avatarUrl"
+                    width="35"
+                    height="35"
+                  />
+                </div> */}
 							</div>
 							<div className="font-bold text-xl text-white pl-6">
 								{bounty.title.length < 50
@@ -74,7 +86,7 @@ const BountyCard = ({ bounty }) => {
 							/>
 						</div>
 					</div>
-					<div className="flex flex-row pt-3 pl-6 pr-3  items-center justify-between">
+					<div className="flex flex-row pt-3 pl-6 pr-3  items-center justify-between xs:pb-5 pb-5 md:pb-0">
 						<div>
 							{bounty.labels ? (
 								<div className="flex flex-row justify-between">

@@ -31,7 +31,7 @@ const ProfilePicture = () => {
 					width={180}
 					height={180}
 					alt={'propic'}
-					className="rounded-lg"
+					className="rounded-full"
 				/>
 			) : (
 				<div></div>

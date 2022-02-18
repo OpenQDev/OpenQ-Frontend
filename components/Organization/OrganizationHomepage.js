@@ -60,20 +60,19 @@ const OrganizationHomepage = () => {
 	};
 
 	// Render
-	if (isLoading) {
-		return <div>Loading...</div>;
-	} else {
-		return (
-			<div>
-				<div className="flex justify-center">
-					<div className="grid grid-cols-3 gap-6 pr-20">
-						<div className="col-span-2">
-							<SearchBar onKeyUp={filterByOrg} className="mb-200" />
-						</div>
-						<div>
-							<MintBountyButton />
-						</div>
-						{organizations
+	return (
+		<div>
+			<div className="flex justify-center">
+				<div className="grid grid-cols-3 gap-5 md:gap-6">
+					<div className="col-span-3 sm:col-span-2">
+						<SearchBar onKeyUp={filterByOrg} className="mb-200" />
+					</div>
+					<div className="col-span-3 sm:col-span-1">
+						<MintBountyButton />
+					</div>
+					{isLoading
+						? null
+						: organizations
 							.filter((organization) => {
 								return organizationSearchTerm
 									? organization.name
@@ -83,17 +82,18 @@ const OrganizationHomepage = () => {
 							})
 							.map((organization) => {
 								return (
-									<OrganizationCard
-										organization={organization}
-										key={organization.id}
-									/>
+									<div className="col-span-3 md:col-span-1" key={organization.id}>
+										<OrganizationCard
+											organization={organization}
+											key={organization.id}
+										/>
+									</div>
 								);
 							})}
-					</div>
 				</div>
 			</div>
-		);
-	}
+		</div>
+	);
 };
 
 export default OrganizationHomepage;

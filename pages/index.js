@@ -7,7 +7,7 @@ import BountyHomepage from '../components/Bounty/BountyHomepage';
 import OrganizationHomepage from '../components/Organization/OrganizationHomepage';
 
 export default function Index() {
-	const [internalMenu, setInternalMenu] = useState('org');
+	const [internalMenu, setInternalMenu] = useState('issue');
 
 	return (
 		<div>
@@ -19,30 +19,29 @@ export default function Index() {
 				/>
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-
 			<main>
-				<div className="bg-dark-mode pl-12 pt-10 flex-col">
+				<div className="bg-dark-mode pt-10 flex-col">
 					<div className="flex justify-center pb-8">
 						<div className="flex flex-row justify-center space-x-2 border border-web-gray p-1 rounded-xl w-fit">
 							<button
 								onClick={() => setInternalMenu('org')}
-								className={`text-white rounded-xl p-2 px-4 bg-opacity-20 ${
-									internalMenu == 'org' ? 'bg-gray-500' : null
+								className={`text-white rounded-xl p-2 px-4 bg-opacity-20 ${internalMenu == 'org' ? 'bg-gray-500' : null
 								}`}
 							>
-                Organizations
+								Organizations
 							</button>
 							<button
 								onClick={() => setInternalMenu('issue')}
-								className={`text-white rounded-xl p-2 px-4 bg-opacity-20 ${
-									internalMenu == 'issue' ? 'bg-gray-500' : null
+								className={`text-white rounded-xl p-2 px-4 bg-opacity-20 ${internalMenu == 'issue' ? 'bg-gray-500' : null
 								}`}
 							>
-                Issues
+								Issues
 							</button>
 						</div>
 					</div>
-					{internalMenu == 'org' ? <OrganizationHomepage /> : <BountyHomepage />}
+					<div className="px-5 md:px-14">
+						{internalMenu == 'org' ? <OrganizationHomepage /> : <BountyHomepage />}
+					</div>
 				</div>
 			</main>
 		</div>

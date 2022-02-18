@@ -19,7 +19,6 @@ const address = () => {
 
 	const [bounty, setBounty] = useState(null);
 	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
-
 	// State
 	const { address } = router.query;
 	const [, setRedirectUrl] = useState('');

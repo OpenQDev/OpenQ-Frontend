@@ -4,10 +4,9 @@ class MockGithubRepository {
 	constructor() { }
 
 	async fetchIssue(orgName, repoName, issueId) {
-		// just return any old issue
 		const id = 'sdfsd';
 		const promise = new Promise((resolve, reject) => {
-			axios.get(`http://localhost:3030/githubIssuesById/${id}`)
+			axios.get(`http://localhost:3030/githubIssues/abc123`)
 				.then(result => {
 					resolve(result.data);
 				})
@@ -35,7 +34,7 @@ class MockGithubRepository {
 
 	async fetchIssueById(issueId) {
 		const promise = new Promise((resolve, reject) => {
-			axios.get(`http://localhost:3030/githubIssues/${issueId}`)
+			axios.get(`http://localhost:3030/fetchIssueById/${issueId}`)
 				.then(result => {
 					resolve(result.data);
 				})

@@ -1,30 +1,43 @@
 // Third Party
-import React from 'react';
+import React, { useState } from 'react';
 // Custom
 import ConnectButton from '../WalletConnect/ConnectButton.js';
 import ProfilePicture from './ProfilePicture.js';
-import Navbar from '../Layout/Navbar';
+import Sidebar from './Sidebar';
+import MobileSidebar from './MobileSidebar';
 
 const Layout = ({ children }) => {
+	const [sidebar, setSidebar] = useState(false);
+
 	return (
 		<div>
-			<Navbar>
-				<div className="flex flex-col h-screen">
-					<div className="flex bg-dark-mode font-mont pl-12 pt-5 pb-5 items-center justify-between space-x-1 pr-5 fixed right-0 top-0">
-						<div className="font-bold text-xl text-white"></div>
-						<div className="flex flex-row space-x-4 items-center">
-							<div className="pb-1">{/*  <MintBountyButton /> */}</div>
-							<div>
+			<div className="flex flex-row">
+				<Sidebar trigger={sidebar} setTrigger={setSidebar} />
+
+				<div className="flex w-full flex-col pt-5 justify-center">
+					{/*  Mobile navbar triggered by tailwind */}
+					<MobileSidebar trigger={setSidebar} />
+
+					<div className="flex justify-end invisible md:visible">
+						{/* 	Profile and login components */}
+						<div className="flex flex-row items-center pr-5">
+							<div className="pr-5">
 								<ConnectButton />
 							</div>
-							<div className="w-1/12 pt-1">
+							<div className="w-9 pt-1">
 								<ProfilePicture />
 							</div>
 						</div>
 					</div>
-					<div className="pt-20">{children}</div>
+					<div
+						className={`pt-18 md:pl-20 justify-center ${
+							sidebar ? 'opacity-20 pl-20' : null
+						}`}
+					>
+						{children}
+					</div>
 				</div>
-			</Navbar>
+			</div>
 		</div>
 	);
 };

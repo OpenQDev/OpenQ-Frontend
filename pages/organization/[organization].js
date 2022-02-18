@@ -85,7 +85,7 @@ const organization = () => {
 				<Toggle toggleFunc={setShowAbout} toggleVal={showAbout} names={['Bounties','About']}/>
 				{(showAbout)?
 					<About organizationData={organizationData}/>:
-					<div className="grid grid-cols-wide justify-center w-f gap-8">
+					<div className="grid grid-cols-wide justify-center w-f gap-8 pt-10">
 					
 						<LargeOrganizationCard organization={organizationData} />
 					

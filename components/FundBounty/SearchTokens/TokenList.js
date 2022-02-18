@@ -13,9 +13,9 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
 	return (
 		<div>
 			{/* <div style={{ padding: '25px', margin: '10px', outline: '2px solid pink', borderRadius: '20px' }} > */}
-			<div className="pt-3 pb-3 pl-4 bg-slate-700 border border-web-gray bg-dark-mode rounded-lg">
+			<div className="pt-3 pb-3 pl-4 bg-slate-700 border border-web-gray bg-dark-mode rounded-lg overflow-hidden mb-2">
 				<div className="">
-					<div className="justify-start bg-dark-mode ">
+					<div className="justify-start bg-dark-mode">
 						<input
 							className="outline-none bg-dark-mode text-white"
 							onKeyUp={(e) => setTokenSearchTerm(e.target.value)}
@@ -26,7 +26,7 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
 				</div>
 			</div>
 
-			<div className="pt-4 text-white">
+			<div className="pt-4 text-white h-96 overflow-x-auto">
 				{appState.tokens
 					.filter((token) => {
 						return tokenSearchTerm

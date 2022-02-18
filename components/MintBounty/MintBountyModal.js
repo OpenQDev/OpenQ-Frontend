@@ -92,13 +92,13 @@ const MintBountyModal = ({ modalVisibility }) => {
 			async function fetchIssue() {
 				setIsLoadingIssueData(true);
 				try {
-					const response = await appState.githubRepository.fetchIssue(
+					const data = await appState.githubRepository.fetchIssue(
 						mintBountyState.orgName,
 						mintBountyState.repoName,
 						mintBountyState.issueNumber
 					);
 					setMintBountyState(
-						ISSUE_FOUND(response.data.organization.repository.issue)
+						ISSUE_FOUND(data.organization.repository.issue)
 					);
 					setIsLoadingIssueData(false);
 				} catch (error) {
@@ -145,13 +145,11 @@ const MintBountyModal = ({ modalVisibility }) => {
 		try {
 			setMintBountyState(TRANSACTION_PENDING());
 
-			const { bountyAddress, txnReceipt } = await appState.openQClient.mintBounty(
+			const { bountyAddress } = await appState.openQClient.mintBounty(
 				library,
 				mintBountyState.issueId,
 				mintBountyState.orgName
 			);
-
-			console.log('txnReceipt', txnReceipt);
 
 			let bountyId = null;
 			while (bountyId == 'undefined') {
@@ -176,8 +174,8 @@ const MintBountyModal = ({ modalVisibility }) => {
 	// Render
 	return (
 		<div>
-			<div className="flex justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-				<div className="w-1/4 space-y-5">
+			<div className="flex justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none p-5">
+				<div className="md:w-1/2 lg:w-1/3 xl:w-1/4 space-y-5">
 					<div ref={menuRef} className="w-full">
 						<div className="border-0 rounded-xl shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none">
 							<MintBountyHeader />

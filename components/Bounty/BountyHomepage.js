@@ -8,9 +8,14 @@ import MintBountyButton from '../MintBounty/MintBountyButton';
 const BountyHomepage = () => {
 	// State
 	const [bounties, setBounties] = useState([]);
+	const [pageNumber,] = useState(0);
 	const [organizationSearchTerm] = useState('');
 	const [issueTitleSearchTerm, setIssueTitleSearchTerm] = useState('');
 	const [isLoading, setIsLoading] = useState(true);
+
+	// Constants
+	const bountiesPerPage = 10;
+	const bountiesVisited = pageNumber * bountiesPerPage;
 
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -25,12 +30,15 @@ const BountyHomepage = () => {
 		setIsLoading(true);
 
 		const bounties = await appState.openQSubgraphClient.getAllBounties();
+		console.log('bounties arrived', bounties);
 
 		const bountyIds = bounties.map((bounty) => bounty.bountyId);
 		const issueData = await appState.githubRepository.getIssueData(bountyIds);
+		console.log('issues arrived,', issueData);
 
 		const fullBounties = [];
 		bounties.forEach((bounty) => {
+			console.log('bounty', bounty);
 			const relatedIssue = issueData.find(
 				(issue) => issue.id == bounty.bountyId
 			);
@@ -52,25 +60,25 @@ const BountyHomepage = () => {
 	};
 
 	// Render
-	if (isLoading) {
-		return <div>Loading...</div>;
-	} else {
-		return (
-			<div className="flex justify-center items-center">
-				<div className="grid grid-cols-3 gap-3">
-					<input
-						className="col-span-2 outline-none font-mont rounded-lg py-2 p-5 border border-web-gray bg-dark-mode text-white"
-						onKeyUp={(e) => filterByIssueTitle(e)}
-						type="text"
-						placeholder="Search Issue..."
-					></input>
-					<MintBountyButton />
-					<div className="col-span-3">
+	return (
+		<div className="flex justify-center items-center">
+			<div className="grid grid-cols-3 gap-3">
+				<input
+					className="col-span-2 outline-none font-mont rounded-lg py-2 p-5 border border-web-gray bg-dark-mode text-white"
+					onKeyUp={(e) => filterByIssueTitle(e)}
+					type="text"
+					placeholder="Search Issue..."
+				></input>
+				<MintBountyButton />
+
+				{isLoading ? null : (
+					<div className="col-span-3 pt-5 md:pt-1">
 						<div className="text-gray-300 font-mont pb-2 pt-1 font-normal">
 							{bounties.length}
 							{bounties.length < 2 ? ' Bounty found' : ' Bounties found'}
 						</div>
 						{bounties
+							.slice(bountiesVisited, bountiesVisited + bountiesPerPage)
 							.filter((bounty) => {
 								return organizationSearchTerm
 									? bounty.owner
@@ -87,16 +95,16 @@ const BountyHomepage = () => {
 							})
 							.map((bounty) => {
 								return (
-									<div className="pb-3" key={bounty.bountyId}>
+									<div className="md:pb-3" key={bounty.bountyId}>
 										<BountyCard bounty={bounty} key={bounty.bountyId} />
 									</div>
 								);
 							})}
 					</div>
-				</div>
+				)}
 			</div>
-		);
-	}
+		</div>
+	);
 };
 
 export default BountyHomepage;

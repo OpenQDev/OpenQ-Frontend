@@ -30,7 +30,7 @@ class GithubRepository {
 				const result = await this.client.query({
 					query: GET_ISSUE, variables: { orgName, repoName, issueId },
 				});
-				resolve(result);
+				resolve(result.data);
 			} catch (e) {
 				reject(e);
 			}

@@ -5,8 +5,7 @@ import Image from 'next/image';
 
 const OrganizationCard = ({ organization }) => {
 	// Context
-	const orgName =
-    organization.name.charAt(0).toUpperCase() + organization.name.slice(1);
+	const orgName = organization.name.charAt(0).toUpperCase() + organization.name.slice(1);
 
 	// Methods
 
@@ -26,18 +25,29 @@ const OrganizationCard = ({ organization }) => {
 						{orgName}
 					</div>
 					<div className="bg-pink text-white rounded shadow-md text-gray-300 font-sans relative">
-						{`${
-							organization.bountiesCreated.map(
-								(bounty) => bounty.status == 'OPEN'
-							).length
-						} ${
-							organization.bountiesCreated.map(
-								(bounty) => bounty.status == 'OPEN'
-							).length < 2
-								? 'Bounty'
-								: 'Bounties'
+						{`${organization.bountiesCreated.map(
+							(bounty) => bounty.status == 'OPEN'
+						).length
+						} ${organization.bountiesCreated.map(
+							(bounty) => bounty.status == 'OPEN'
+						).length < 2
+							? 'Bounty'
+							: 'Bounties'
 						}`}
 					</div>
+					{/* <div>
+						{tokenValues ? (
+							<TokenBalances
+								tokenBalances={organization.fundedTokenBalances}
+								tokenValues={tokenValues}
+							/>
+						) : null}
+					</div>
+					<div>
+						{tokenValues ? (
+							<div>{appState.utils.formatter.format(tokenValues.total)}</div>
+						) : null}
+					</div> */}
 				</div>
 			</Link>
 		</div>
