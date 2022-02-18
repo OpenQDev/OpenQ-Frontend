@@ -6,6 +6,8 @@ import { useRouter } from 'next/router';
 import StoreContext from '../../store/Store/StoreContext';
 import BountyCard from '../../components/Bounty/BountyCard';
 import LargeOrganizationCard from '../../components/Organization/LargeOrganizationCard';
+import Toggle from '../../components/Toggle/Toggle';
+import About from '../../components/About/About';
 
 const organization = () => {
 	// Context
@@ -18,6 +20,7 @@ const organization = () => {
 	const [issueTitleSearchTerm, setIssueTitleSearchTerm] = useState('');
 	const [organizationData, setOrganizationData] = useState(null);
 	const [bounties, setBounties] = useState([]);
+	const [showAbout, setShowAbout] =useState(false);
 
 	// Methods
 
@@ -78,35 +81,40 @@ const organization = () => {
 		return (
 			<div className="bg-dark-mode">
 				{/* <h1 className="font-bold uppercase">{organizationData.name}</h1>
-        <h1 className="font-bold uppercase">Bounties</h1> */}
-				<div className="grid grid-cols-wide justify-center w-f gap-8">
-					<LargeOrganizationCard organization={organizationData} />
-					<div className="w-f space-y-3">
-						<input
-							className="outline-none w-full font-mont rounded-lg py-2 p-5 pb-1 border border-web-gray bg-dark-mode text-white"
-							onKeyUp={(e) => filterByIssueTitle(e)}
-							type="text"
-							placeholder="Search Issue..."
-						></input>
-						<div className="text-gray-300 font-mont pt-1 font-normal">
-							{bounties.length}
-							{bounties.length < 2 ? ' Bounty found' : ' Bounties found'}
+        <h1 className="font-bold uppercase">Bounties</h1> */}				
+				<Toggle toggleFunc={setShowAbout} toggleVal={showAbout} names={['Bounties','About']}/>
+				{(showAbout)?
+					<About organizationData={organizationData}/>:
+					<div className="grid grid-cols-wide justify-center w-f gap-8">
+					
+						<LargeOrganizationCard organization={organizationData} />
+					
+						<div className="w-f space-y-3">
+							<input
+								className="outline-none w-full font-mont rounded-lg py-2 p-5 pb-1 border border-web-gray bg-dark-mode text-white"
+								onKeyUp={(e) => filterByIssueTitle(e)}
+								type="text"
+								placeholder="Search Issue..."
+							></input>
+							<div className="text-gray-300 font-mont pt-1 font-normal">
+								{bounties.length}
+								{bounties.length < 2 ? ' Bounty found' : ' Bounties found'}
+							</div>
+							{bounties.length != 0
+								? bounties
+									.filter((bounty) => {
+										return issueTitleSearchTerm
+											? bounty.title
+												.toLowerCase()
+												.indexOf(issueTitleSearchTerm.toLowerCase()) > -1
+											: bounty;
+									})
+									.map((bounty) => {
+										return <BountyCard bounty={bounty} key={bounty.bountyId} />;
+									})
+								: 'No Bounties'}
 						</div>
-						{bounties.length != 0
-							? bounties
-								.filter((bounty) => {
-									return issueTitleSearchTerm
-										? bounty.title
-											.toLowerCase()
-											.indexOf(issueTitleSearchTerm.toLowerCase()) > -1
-										: bounty;
-								})
-								.map((bounty) => {
-									return <BountyCard bounty={bounty} key={bounty.bountyId} />;
-								})
-							: 'No Bounties'}
-					</div>
-				</div>
+					</div>}
 				{/* <h1 className='font-bold uppercase'>Total Contributions</h1>
 				{organizationData.fundedTokenBalances.map(tokenBalance => {
 					const tokenAddress = ethers.utils.getAddress(tokenBalance.tokenAddress);
