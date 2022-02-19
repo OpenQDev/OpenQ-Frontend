@@ -15,14 +15,11 @@ const MintBountyButton = () => {
 			>
 				Mint Bounty
 			</button>
-
-			<div>
-				{showModal && (
-					<MintBountyProvider>
-						<MintBountyModal modalVisibility={setShowModal} />
-					</MintBountyProvider>
-				)}
-			</div>
+			{showModal && (
+				<MintBountyProvider>
+					<MintBountyModal modalVisibility={setShowModal} />
+				</MintBountyProvider>
+			)}
 		</>
 	);
 };

@@ -105,6 +105,186 @@
 					"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 				}
 			]
+		},
+		{
+			"id": "opensea",
+			"bountiesCreated": [
+				{
+					"id": "sdfds",
+					"bountyId": "abc123",
+					"issuer": {
+						"id": "sfsd"
+					},
+					"bountyMintTime": 123,
+					"bountyClosedTime": "sdfds",
+					"status": "OPEN",
+					"bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e",
+					"bountyTokenBalances": [
+						{
+							"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+							"volume": 1000000000000000000
+						}
+					]
+				}
+			],
+			"fundedTokenBalances": [
+				{
+					"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+					"volume": 1000000000000000000
+				}
+			],
+			"deposits": [
+				{
+					"id": "abc123",
+					"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+					"value": 1000000000000000000,
+					"bounty": {
+						"id": "dsfsd",
+						"bountyId": "abc123"
+					},
+					"sender": {
+						"id": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e"
+					}
+				}
+			],
+			"payouts": [
+				{
+					"id": "sdfsd",
+					"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+					"payoutTime": "dsfsd",
+					"payoutAddress": {
+						"id": "sdfds"
+					},
+					"value": 1000000000000000000
+				}
+			],
+			"payoutTokenBalances": [
+				{
+					"id": "sdfsd",
+					"volume": 1000000000000000000,
+					"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+				}
+			]
+		},
+		{
+			"id": "gitcoin",
+			"bountiesCreated": [
+				{
+					"id": "sdfds",
+					"bountyId": "abc123",
+					"issuer": {
+						"id": "sfsd"
+					},
+					"bountyMintTime": 123,
+					"bountyClosedTime": "sdfds",
+					"status": "OPEN",
+					"bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e",
+					"bountyTokenBalances": [
+						{
+							"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+							"volume": 1000000000000000000
+						}
+					]
+				}
+			],
+			"fundedTokenBalances": [
+				{
+					"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+					"volume": 1000000000000000000
+				}
+			],
+			"deposits": [
+				{
+					"id": "abc123",
+					"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+					"value": 1000000000000000000,
+					"bounty": {
+						"id": "dsfsd",
+						"bountyId": "abc123"
+					},
+					"sender": {
+						"id": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e"
+					}
+				}
+			],
+			"payouts": [
+				{
+					"id": "sdfsd",
+					"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+					"payoutTime": "dsfsd",
+					"payoutAddress": {
+						"id": "sdfds"
+					},
+					"value": 1000000000000000000
+				}
+			],
+			"payoutTokenBalances": [
+				{
+					"id": "sdfsd",
+					"volume": 1000000000000000000,
+					"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+				}
+			]
+		},
+		{
+			"id": "maker",
+			"bountiesCreated": [
+				{
+					"id": "sdfds",
+					"bountyId": "abc123",
+					"issuer": {
+						"id": "sfsd"
+					},
+					"bountyMintTime": 123,
+					"bountyClosedTime": "sdfds",
+					"status": "OPEN",
+					"bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e",
+					"bountyTokenBalances": [
+						{
+							"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+							"volume": 1000000000000000000
+						}
+					]
+				}
+			],
+			"fundedTokenBalances": [
+				{
+					"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+					"volume": 1000000000000000000
+				}
+			],
+			"deposits": [
+				{
+					"id": "abc123",
+					"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+					"value": 1000000000000000000,
+					"bounty": {
+						"id": "dsfsd",
+						"bountyId": "abc123"
+					},
+					"sender": {
+						"id": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e"
+					}
+				}
+			],
+			"payouts": [
+				{
+					"id": "sdfsd",
+					"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+					"payoutTime": "dsfsd",
+					"payoutAddress": {
+						"id": "sdfds"
+					},
+					"value": 1000000000000000000
+				}
+			],
+			"payoutTokenBalances": [
+				{
+					"id": "sdfsd",
+					"volume": 1000000000000000000,
+					"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+				}
+			]
 		}
 	],
 	"bounty": [
@@ -186,14 +366,57 @@
 				}
 			],
 			"closed": false,
-			"titleHTML": "sdf",			
-			"bodyHTML":  "<p dir=\"auto\">Descripription</p>\n<p dir=\"auto\">There is a problem with the test for the telephone validator. They pass validators which do not check for proper spacing or dashing. (i. e. my validator will return true for 55 55-55-555-5).<br>\nThis is the my code which passed the test, but really shouldn't have:</p>\n<div class=\"highlight highlight-source-js position-relative overflow-auto\" data-snippet-clipboard-copy-content=\"\n let firstReg=new RegExp(&quot;^\\-&quot;);\n  if(firstReg.test(str)){return false;}\n  let regEx= new RegExp(&quot;-&quot;,&quot;g&quot;);\n  console.log(firstReg);\n  let newStr=str.replace(regEx,&quot;&quot;);\n  let newRegEx= new RegExp(&quot; &quot;,&quot;g&quot;)\n  newStr=newStr.replace( newRegEx,&quot;&quot;);\n  console.log(newStr);\n  let regExArr=[/^\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d$/, /^[(]\\d\\d\\d[)]\\d\\d\\d\\d\\d\\d\\d$/, /^1[(]\\d\\d\\d[)]\\d\\d\\d\\d\\d\\d\\d$/, /^1\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d$/];\n  for(let i=0; i&lt;regExArr.length; i++){\n    if(regExArr[i].test(newStr)){\n      console.log(i);\n      return regExArr[i].test(newStr);\n    }```\"><pre> <span class=\"pl-k\">let</span> <span class=\"pl-s1\">firstReg</span><span class=\"pl-c1\">=</span><span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\"^\\-\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">if</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">firstReg</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">str</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span><span class=\"pl-k\">return</span> <span class=\"pl-c1\">false</span><span class=\"pl-kos\">;</span><span class=\"pl-kos\">}</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">regEx</span><span class=\"pl-c1\">=</span> <span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\"-\"</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"g\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">firstReg</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">newStr</span><span class=\"pl-c1\">=</span><span class=\"pl-s1\">str</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">replace</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">regEx</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">newRegEx</span><span class=\"pl-c1\">=</span> <span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\" \"</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"g\"</span><span class=\"pl-kos\">)</span>\n  <span class=\"pl-s1\">newStr</span><span class=\"pl-c1\">=</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">replace</span><span class=\"pl-kos\">(</span> <span class=\"pl-s1\">newRegEx</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">regExArr</span><span class=\"pl-c1\">=</span><span class=\"pl-kos\">[</span><span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span><span class=\"pl-kos\">[</span>(<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-kos\">[</span>)<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span>1<span class=\"pl-kos\">[</span>(<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-kos\">[</span>)<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span>1<span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">for</span><span class=\"pl-kos\">(</span><span class=\"pl-k\">let</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">=</span><span class=\"pl-c1\">0</span><span class=\"pl-kos\">;</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">&lt;</span><span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">.</span><span class=\"pl-c1\">length</span><span class=\"pl-kos\">;</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">++</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span>\n    <span class=\"pl-k\">if</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">[</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span>\n      <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n      <span class=\"pl-k\">return</span> <span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">[</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n    <span class=\"pl-kos\">}</span><span class=\"pl-s\">``</span>`</pre></div>"}
+			"titleHTML": "sdf",
+			"bodyHTML": "<p dir=\"auto\">Descripription</p>\n<p dir=\"auto\">There is a problem with the test for the telephone validator. They pass validators which do not check for proper spacing or dashing. (i. e. my validator will return true for 55 55-55-555-5).<br>\nThis is the my code which passed the test, but really shouldn't have:</p>\n<div class=\"highlight highlight-source-js position-relative overflow-auto\" data-snippet-clipboard-copy-content=\"\n let firstReg=new RegExp(&quot;^\\-&quot;);\n  if(firstReg.test(str)){return false;}\n  let regEx= new RegExp(&quot;-&quot;,&quot;g&quot;);\n  console.log(firstReg);\n  let newStr=str.replace(regEx,&quot;&quot;);\n  let newRegEx= new RegExp(&quot; &quot;,&quot;g&quot;)\n  newStr=newStr.replace( newRegEx,&quot;&quot;);\n  console.log(newStr);\n  let regExArr=[/^\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d$/, /^[(]\\d\\d\\d[)]\\d\\d\\d\\d\\d\\d\\d$/, /^1[(]\\d\\d\\d[)]\\d\\d\\d\\d\\d\\d\\d$/, /^1\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d$/];\n  for(let i=0; i&lt;regExArr.length; i++){\n    if(regExArr[i].test(newStr)){\n      console.log(i);\n      return regExArr[i].test(newStr);\n    }```\"><pre> <span class=\"pl-k\">let</span> <span class=\"pl-s1\">firstReg</span><span class=\"pl-c1\">=</span><span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\"^\\-\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">if</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">firstReg</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">str</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span><span class=\"pl-k\">return</span> <span class=\"pl-c1\">false</span><span class=\"pl-kos\">;</span><span class=\"pl-kos\">}</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">regEx</span><span class=\"pl-c1\">=</span> <span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\"-\"</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"g\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">firstReg</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">newStr</span><span class=\"pl-c1\">=</span><span class=\"pl-s1\">str</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">replace</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">regEx</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">newRegEx</span><span class=\"pl-c1\">=</span> <span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\" \"</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"g\"</span><span class=\"pl-kos\">)</span>\n  <span class=\"pl-s1\">newStr</span><span class=\"pl-c1\">=</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">replace</span><span class=\"pl-kos\">(</span> <span class=\"pl-s1\">newRegEx</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">regExArr</span><span class=\"pl-c1\">=</span><span class=\"pl-kos\">[</span><span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span><span class=\"pl-kos\">[</span>(<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-kos\">[</span>)<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span>1<span class=\"pl-kos\">[</span>(<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-kos\">[</span>)<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span>1<span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">for</span><span class=\"pl-kos\">(</span><span class=\"pl-k\">let</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">=</span><span class=\"pl-c1\">0</span><span class=\"pl-kos\">;</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">&lt;</span><span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">.</span><span class=\"pl-c1\">length</span><span class=\"pl-kos\">;</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">++</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span>\n    <span class=\"pl-k\">if</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">[</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span>\n      <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n      <span class=\"pl-k\">return</span> <span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">[</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n    <span class=\"pl-kos\">}</span><span class=\"pl-s\">``</span>`</pre></div>"
+		}
 	],
 	"githubOrganizations": [
 		{
 			"name": "openqdev",
 			"login": "openqdev",
 			"id": "openqdev",
+			"createdAt": "sdfsd",
+			"description": "sdfsd",
+			"email": "sdfsd",
+			"websiteUrl": "sdfsd",
+			"avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
+			"isVerified": "sdfsd",
+			"descriptionHTML": "sdfsd",
+			"twitterUsername": "sdf",
+			"url": ""
+		},
+		{
+			"name": "opensea",
+			"login": "opensea",
+			"id": "opensea",
+			"createdAt": "sdfsd",
+			"description": "sdfsd",
+			"email": "sdfsd",
+			"websiteUrl": "sdfsd",
+			"avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
+			"isVerified": "sdfsd",
+			"descriptionHTML": "sdfsd",
+			"twitterUsername": "sdf",
+			"url": ""
+		},
+		{
+			"name": "gitcoin",
+			"login": "gitcoin",
+			"id": "gitcoin",
+			"createdAt": "sdfsd",
+			"description": "sdfsd",
+			"email": "sdfsd",
+			"websiteUrl": "sdfsd",
+			"avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
+			"isVerified": "sdfsd",
+			"descriptionHTML": "sdfsd",
+			"twitterUsername": "sdf",
+			"url": ""
+		},
+		{
+			"name": "maker",
+			"login": "maker",
+			"id": "maker",
 			"createdAt": "sdfsd",
 			"description": "sdfsd",
 			"email": "sdfsd",
