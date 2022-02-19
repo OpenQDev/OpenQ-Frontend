@@ -28,7 +28,7 @@ const useGetTokenValues = (tokenBalances) => {
 				setTokenValues(null);
 			}
 		}
-	}, [tokenBalances]);
+	}, []);
 
 	return [tokenValues, setTokenValues];
 };

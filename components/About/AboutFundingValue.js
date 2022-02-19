@@ -4,22 +4,20 @@ import useGetTokenValues from '../../hooks/useGetTokenValues';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 
-const AboutFundingValue=({activeFunding})=>{
-	const [appState]= useContext(StoreContext);
-	
-	const {volume}= activeFunding[0];
-	const {logoURI, symbol, decimals}=appState.tokenMetadata[activeFunding[0].tokenAddress];
-	
-	const [value]=useGetTokenValues(activeFunding);
-	console.log(logoURI);
-	
-	return(
+const AboutFundingValue = ({ activeFunding }) => {
+	const [appState] = useContext(StoreContext);
+	console.log('activeFunding', activeFunding);
+	const { volume } = activeFunding;
+	const { logoURI, symbol, decimals } = appState.tokenMetadata[ethers.utils.getAddress(activeFunding.tokenAddress)];
 
+	const [value] = useGetTokenValues([activeFunding]);
+
+	return (
 		<li className='font-semibold  flex justify-between items-center leading-loose'>
-			<Image 
+			<Image
 				width={32}
-				height={32} src={logoURI}/>
-			<span> 
+				height={32} src={logoURI} />
+			<span>
 				{value != null && value != {}
 					? appState.utils.formatter.format(value.total)
 					: appState.utils.formatter.format(0)}
