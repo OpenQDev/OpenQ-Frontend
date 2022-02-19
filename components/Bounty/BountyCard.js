@@ -12,7 +12,6 @@ const BountyCard = ({ bounty }) => {
 	// State
 	const bountyName = bounty.title.toLowerCase();
 	const [appState] = useContext(StoreContext);
-	const [showModal, setShowModal] = useState(false);
 
 	// Hooks
 	const [tokenValues] = useGetTokenValues(bounty.bountyTokenBalances);
@@ -27,12 +26,10 @@ const BountyCard = ({ bounty }) => {
 					className={
 						'flex flex-col md:p-6 font-mont shadow-sm border-b border-web-gray cursor-pointer md:pr-10 md:pl-10 md:border md:rounded-xl'
 					}
-					onClick={() => setShowModal(true)}
 				>
 					<div className="flex flex-row justify-between pt-5 sm:pt-0 ">
 						<div>
 							<div className="flex flex-grow flex-row items-center space-x-2 pb-2 sm:pb-0">
-								{/*  <div>{isClaimed ? "Claimed" : "Unclaimed"}</div> */}
 								<div className="invisible md:visible">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -52,14 +49,6 @@ const BountyCard = ({ bounty }) => {
 								<div className="font-mont text-2xl text-white">
 									{bounty.owner.toLowerCase()}/{bounty.repoName.toLowerCase()}
 								</div>
-								{/* <div className="flex justify-center pb-5 pt-5 md:hidden">
-                  <Image
-                    src={bounty.avatarUrl}
-                    alt="avatarUrl"
-                    width="35"
-                    height="35"
-                  />
-                </div> */}
 							</div>
 							<div className="font-bold text-xl text-white pl-6">
 								{bounty.title.length < 50
@@ -137,13 +126,6 @@ const BountyCard = ({ bounty }) => {
 					</div>
 				</div>
 			</Link>
-			{showModal && (
-				<BountyCardDetailsModal
-					bounty={bounty}
-					modalVisibility={setShowModal}
-					tokenValues={tokenValues}
-				/>
-			)}
 		</div>
 	);
 };
