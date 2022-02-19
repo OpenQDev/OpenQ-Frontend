@@ -4,6 +4,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import BountyCard from './BountyCard';
 import StoreContext from '../../store/Store/StoreContext';
 import MintBountyButton from '../MintBounty/MintBountyButton';
+import SearchBar from '../Search/SearchBar';
 
 const BountyHomepage = () => {
 	// State
@@ -63,12 +64,7 @@ const BountyHomepage = () => {
 	return (
 		<div className="flex justify-center items-center">
 			<div className="grid grid-cols-3 gap-3">
-				<input
-					className="col-span-2 outline-none font-mont rounded-lg py-2 p-5 border border-web-gray bg-dark-mode text-white"
-					onKeyUp={(e) => filterByIssueTitle(e)}
-					type="text"
-					placeholder="Search Issue..."
-				></input>
+				<SearchBar onKeyUp={filterByIssueTitle} placeholder="Seach Issue..." className="mb-200" />
 				<MintBountyButton />
 
 				{isLoading ? null : (

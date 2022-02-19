@@ -5,7 +5,6 @@
 	"scripts": {
 		"boot:local": "next dev",
 		"boot:docker": "DEPLOY_ENV=docker next dev",
-		"boot:mock": "next dev",
 		"boot:production": "DEPLOY_ENV=polygon next dev",
 		"json-server": "json-server --watch --port 3030 __mocks__/mock-server.json",
 		"build": "next build",
