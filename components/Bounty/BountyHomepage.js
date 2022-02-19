@@ -31,15 +31,12 @@ const BountyHomepage = () => {
 		setIsLoading(true);
 
 		const bounties = await appState.openQSubgraphClient.getAllBounties();
-		console.log('bounties arrived', bounties);
 
 		const bountyIds = bounties.map((bounty) => bounty.bountyId);
 		const issueData = await appState.githubRepository.getIssueData(bountyIds);
-		console.log('issues arrived,', issueData);
 
 		const fullBounties = [];
 		bounties.forEach((bounty) => {
-			console.log('bounty', bounty);
 			const relatedIssue = issueData.find(
 				(issue) => issue.id == bounty.bountyId
 			);
@@ -51,10 +48,6 @@ const BountyHomepage = () => {
 
 		setIsLoading(false);
 	}
-
-	// const filterByOrg = (e) => {
-	// 	setOrganizationSearchTerm(e.target.value);
-	// };
 
 	const filterByIssueTitle = (e) => {
 		setIssueTitleSearchTerm(e.target.value);

@@ -1,12 +1,11 @@
 // Third Party
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
-import BountyCardDetailsModal from './BountyCardDetailsModal';
 
 const BountyCard = ({ bounty }) => {
 	// State
@@ -33,7 +32,7 @@ const BountyCard = ({ bounty }) => {
 								<div className="invisible md:visible">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
-										fill={closed ? '#F0431D' : '#15FB31'}
+										fill={bounty.closed ? '#F0431D' : '#15FB31'}
 										viewBox="0 0 16 16"
 										width="19"
 										height="19"
