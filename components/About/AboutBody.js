@@ -9,8 +9,10 @@ const AboutBody = ({ organizationData }) => {
 	// Process Data
 	const bounties = organizationData.bountiesCreated.filter((elem) => {
 		return elem.status === 'OPEN';
-	}).length;
-
+	});
+	
+	const numBounties =bounties.length;
+	const totalValueLocked = bounties.map(elem=>elem.bountyTokenBalances).flat();
 	const users = [];
 
 	organizationData.payouts.forEach((elem) => {
@@ -24,10 +26,10 @@ const AboutBody = ({ organizationData }) => {
 			<h1 className='font-semibold p-4 text-3xl border-web-gray border-b'>{organizationData.login}</h1>
 			<dl className="p-10 pb-0">
 				<dt className='font-semibold text-gray-300 text-lg pb-2'>Bounties</dt>
-				<dd className='font-semibold pb-8'>{bounties}</dd>
+				<dd className='font-semibold pb-8'>{numBounties}</dd>
 				<dt className='font-semibold text-gray-300 text-lg pb-2'>Contributors</dt>
 				<dd className='font-semibold pb-8'>{users.length}</dd>
-				<AboutFunding activeFunding={organizationData.fundedTokenBalances} />
+				<AboutFunding activeFunding={totalValueLocked} />
 			</dl>
 
 		</section>
