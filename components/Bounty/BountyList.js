@@ -1,22 +1,24 @@
+// Third Party
 import React, { useState, useContext, useEffect } from 'react';
 import { ethers } from 'ethers';
-
+//Custom
 import StoreContext from '../../store/Store/StoreContext';
 import BountyCard from './BountyCard';
-import Toggle from '../Toggle/Toggle';
+import Dropdown from '../Toggle/Dropdown';
 
 const BountyList = ({bounties})=>{
 
 	// Hooks
-
+	
 	const [appState]=useContext(StoreContext);
 	const [issueTitleSearchTerm, setIssueTitleSearchTerm] = useState(issueTitleSearchTerm);
 	const [displayBounties, updateDisplayBounties ] =useState([]);
-	const [showUnfunded, updateShowUnfunded]=useState('hide empty bounties');
+	const [unfundedVisible, setUnfundedVisible]=useState(true);
+	const [claimedVisible, setClaimedVisible]=useState('false');
 	const [sortOrder, updateSortOrder] = useState('newest');
 	const [tvlBounties, updateTvlBounties]=useState([]);
     
-	// Add TVL ( similar to useGetTokenValues hook )
+	// Utilities
 
 	const getTVL=async(tokenBalances)=>{
 		let tokenVolumes = {};
@@ -27,7 +29,7 @@ const BountyList = ({bounties})=>{
 
 		const data = { tokenVolumes };
 		const url = process.env.NEXT_PUBLIC_COIN_API_URL + '/tvl';
-		//only query tvl for bounties that have deposits
+		// only query tvl for bounties that have deposits
 		if (JSON.stringify(data.tokenVolumes) != '{}') {
 			try {
 				const tokenValues = await appState.tokenClient.getTokenValues(data, url);
@@ -39,6 +41,20 @@ const BountyList = ({bounties})=>{
 		else return 0;
 	};
 
+	function removeUnfunded(bounties){
+		return bounties.filter((elem)=>{
+			return elem.tvl.total>0;
+		});
+
+	}
+
+	function removeClaimed(bounties){
+		return bounties.filter((elem)=>{
+			return elem.status==='OPEN';
+
+		});
+	} 
+
 	useEffect(async() => {
 		const newBounties=await bounties.map(async(elem,index)=>{
 
@@ -47,10 +63,9 @@ const BountyList = ({bounties})=>{
 		});
 		const resolvedTvls= await Promise.all(newBounties);
 		updateTvlBounties(resolvedTvls);
-		updateDisplayBounties(resolvedTvls.filter((elem)=>{
-			return elem.tvl.total>0;
-		}));
+		updateDisplayBounties(removeUnfunded(removeClaimed(resolvedTvls)));
 	},[bounties]);
+	
 
 	// Methods
 
@@ -59,56 +74,68 @@ const BountyList = ({bounties})=>{
 
 	}
 	
-	function orderBountiesByAge(toggleTo, bounties=displayBounties){
-		if(toggleTo==='oldest'){            
-			updateDisplayBounties(bounties.sort((a, b)=>{
-				return a.bountyMintTime-b.bountyMintTime;
-			}));
-			updateSortOrder('oldest');
-		}
-			
-		else{
-			updateDisplayBounties(bounties.sort((a, b)=>{
-				return b.bountyMintTime-a.bountyMintTime;
-			}));
-			updateSortOrder('newest');
-
-		}
-	}
-
-	async function orderBountiesByPrice(toggleTo, bounties=displayBounties){
-		if(toggleTo==='highest\xa0TVL'){			
+	function orderBounties(toggleTo, bounties=displayBounties){
+		switch(toggleTo){
+		case 'highest\xa0TVL':			
 			updateDisplayBounties(bounties.sort((a, b)=>{
 				return b.tvl.total-a.tvl.total;
 			}));
 			updateSortOrder('highest\xa0TVL');
-
-		}
-		else{
+			
+			break;
+		case 'lowest\xa0TVL':
 			updateDisplayBounties(bounties.sort((a, b)=>{				
 				return a.tvl.total-b.tvl.total;
 			}));
-			updateSortOrder('lowest\xa0TVL');
+			break;
+		case 'newest':
+			updateDisplayBounties(bounties.sort((a, b)=>{
+				return b.bountyMintTime-a.bountyMintTime;
+			}));
+			break;
+		case 'oldest':			           
+			updateDisplayBounties(bounties.sort((a, b)=>{
+				return a.bountyMintTime-b.bountyMintTime;
+			}));
+			break;
 		}
+		updateSortOrder(toggleTo);
+	}
+	
+	function showUnfunded(e){		
+		setUnfundedVisible(e.target.checked);
+		if(e.target.checked){
+			if(claimedVisible){				
+				orderBounties(sortOrder, tvlBounties);
+			}
+			else {
+				orderBounties(sortOrder, removeClaimed(tvlBounties));
+			}
+
+		}
+		else {
+			updateDisplayBounties(removeUnfunded(displayBounties));
+		}
+		
 	}
 
-	async function viewUnfundedBounties (toggleTo){
-		if(toggleTo==='view empty bounties'){
-			if(sortOrder ==='oldest'||sortOrder==='newest'){
-				orderBountiesByAge(sortOrder, tvlBounties);
+	function showClaimed(e){		
+		setClaimedVisible(e.target.checked);
+		if(e.target.checked){
+			if(unfundedVisible){				
+				orderBounties(sortOrder, tvlBounties);
 			}
-			else if(sortOrder==='highest\xa0TVL'|| sortOrder ==='lowest\xa0TVL'){
-				orderBountiesByPrice(sortOrder, tvlBounties);
+			else {
+				orderBounties(sortOrder, removeUnfunded(tvlBounties));
 			}
-			else{ updateDisplayBounties(tvlBounties);}
+
 		}
-		else{
-			updateDisplayBounties(displayBounties.filter((elem)=>{
-				return elem.tvl.total>0;
-			}));
+		else {
+			updateDisplayBounties(removeClaimed(displayBounties));
 		}
-		updateShowUnfunded(toggleTo);
+		
 	}
+	
 
 	// Render
     
@@ -120,18 +147,26 @@ const BountyList = ({bounties})=>{
 				type="text"
 				placeholder="Search Issue..."
 			></input>
-			<div className="flex flex-wrap content-start items-start md:items-center md:content-center flex-col md:flex-row items-start gap-4">
-				<span className="text-white align-self-center pr-4">Filter By</span>
-				<Toggle toggleFunc={orderBountiesByAge} toggleVal={sortOrder} names={['newest', 'oldest']}/>
-				<Toggle toggleFunc={orderBountiesByPrice} toggleVal={sortOrder} names={['highest\xa0TVL', 'lowest\xa0TVL']}/>
-				<Toggle toggleFunc={viewUnfundedBounties} toggleVal={showUnfunded} names={['hide empty bounties','view empty bounties']}/>
-
+			<div className="flex flex-wrap content-center items-center flex-row items-start gap-4">
+				
+				<div className="flex items-center pr-2">
+					<span className="text-white align-self-center pr-4">Sort By</span>
+					<Dropdown toggleFunc={orderBounties} toggleVal={sortOrder} names={['newest', 'oldest','highest\xa0TVL', 'lowest\xa0TVL']}/>
+				</div>
+				<div className="flex py-2 gap-2">
+					<label htmlFor="unfunded" className="text-white">Show unfunded bounties</label>
+					<input id="unfunded" type="checkbox" className="accent-pink-500" onChange={showUnfunded} />
+				</div>
+				<div className="flex py-2 gap-2">
+					<label htmlFor="claimed" className="text-white" >Show claimed bounties</label>
+					<input id="claimed" type="checkbox" className="accent-pink-500" onChange={showClaimed} />
+				</div>
 			</div>
 			<div className="text-gray-300 font-mont pt-1 font-normal">
-				{bounties.length}
-				{bounties.length < 2 ? ' Bounty found' : ' Bounties found'}
+				{displayBounties.length&&displayBounties.length}
+				{displayBounties.length < 2 || displayBounties.length === 0 ? ' Bounty found' : ' Bounties found'}
 			</div>
-			{bounties.length != 0
+			{displayBounties.length != 0
 				? displayBounties
 					.filter((bounty) => {
 						return issueTitleSearchTerm
