@@ -34,15 +34,15 @@ const Dropdown =({toggleFunc, toggleVal, names})=>{
 	}
 
 	// Render
-	
+
 	return(
 		<div ref={ref} className="flex justify-center">
 			<div className="relative w-32">
-				<div className=" flex-col w-44 overflow-hidden absolute bg-dark-mode rounded-md border border-web-gray">
+				<div className={`flex-col w-44 absolute bg-dark-mode border-b border-l border-r border-web-gray ${open ? 'rounded-b-md': 'rounded-r' }`}>
 				
 					{names.map((name, index)=>{
-						return <li className={`text-white list-none hover:bg-gray-500 hover:bg-opacity-10 ${
-							toggleVal===name ? 'bg-gray-500 visible h-min bg-opacity-20' : open ? null: 'h-0 invisible overflow-none p-0'
+						return <li className={`text-white list-none hover:bg-gray-500 w-full hover:bg-opacity-10 ${
+							toggleVal===name ? 'bg-gray-500 visible h-max bg-opacity-20' : open ? null: 'h-0 invisible overflow-none p-0'
 						
 						}`} key={index}>
 							<button className="w-full text-left p-2 px-4" onClick={handleSelection} value={name}>
@@ -52,7 +52,7 @@ const Dropdown =({toggleFunc, toggleVal, names})=>{
 
 					})}
 				</div></div>
-			<button onClick={()=>updateOpen(()=>!open)} className="text-white align-self-start px-2 h-10 bg-gray-500 bg-opacity-20">
+			<button onClick={()=>updateOpen(()=>!open)} className="text-white align-self-start px-2 h-10 bg-gray-500 bg-opacity-20 w-12">
 				<Image width="20" height="40" src="/chevron-down.svg"/>
 			</button>
 		</div>);};

@@ -149,22 +149,22 @@ const BountyList = ({bounties})=>{
 			></input>
 			<div className="flex flex-wrap content-center items-center flex-row items-start gap-4">
 				
-				<div className="flex items-center pr-2">
-					<span className="text-white align-self-center pr-4">Sort By</span>
+				<div className="flex bg-dark-modegap-2  rounded-md border border-web-gray">
+					<span className="text-white p-2  align-self-center pr-4">Sort By</span>
 					<Dropdown toggleFunc={orderBounties} toggleVal={sortOrder} names={['newest', 'oldest','highest\xa0TVL', 'lowest\xa0TVL']}/>
 				</div>
-				<div className="flex py-2 gap-2">
+				<div className="flex p-2 gap-2 border rounded-md border-web-gray">
 					<label htmlFor="unfunded" className="text-white">Show unfunded bounties</label>
 					<input id="unfunded" type="checkbox" className="accent-pink-500" onChange={showUnfunded} />
 				</div>
-				<div className="flex py-2 gap-2">
+				<div className="flex p-2 gap-2 border rounded-md border-web-gray">
 					<label htmlFor="claimed" className="text-white" >Show claimed bounties</label>
 					<input id="claimed" type="checkbox" className="accent-pink-500" onChange={showClaimed} />
 				</div>
 			</div>
 			<div className="text-gray-300 font-mont pt-1 font-normal">
 				{displayBounties.length&&displayBounties.length}
-				{displayBounties.length < 2 || displayBounties.length === 0 ? ' Bounty found' : ' Bounties found'}
+				{displayBounties.length < 2 && displayBounties.length > 0  ?  ' Bounty found' : ' Bounties found'}
 			</div>
 			{displayBounties.length != 0
 				? displayBounties
@@ -178,7 +178,7 @@ const BountyList = ({bounties})=>{
 					.map((bounty) => {
 						return <BountyCard bounty={bounty} key={bounty.bountyId} />;
 					})
-				: 'No Bounties'}
+				: null}
 		</div>
 	);
 };
