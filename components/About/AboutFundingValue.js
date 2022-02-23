@@ -13,7 +13,7 @@ const AboutFundingValue = ({ activeFunding }) => {
 	const [value] = useGetTokenValues([activeFunding]);
 
 	return (
-		<li className='font-semibold  flex justify-between items-center leading-loose'>
+		<li className='font-semibold py-2 flex justify-between items-center leading-loose'>
 			<Image
 				width={32}
 				height={32} src={logoURI} />
