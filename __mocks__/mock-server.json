@@ -167,7 +167,7 @@
 			]
 		},
 		{
-			"id": "gitcoin",
+			"id": "Apache Software Foundation",
 			"bountiesCreated": [
 				{
 					"id": "sdfds",
@@ -400,9 +400,9 @@
 			"url": ""
 		},
 		{
-			"name": "gitcoin",
-			"login": "gitcoin",
-			"id": "gitcoin",
+			"name": "Apache Software Foundation",
+			"login": "Apache Software Foundation",
+			"id": "Apache Software Foundation",
 			"createdAt": "sdfsd",
 			"description": "sdfsd",
 			"email": "sdfsd",

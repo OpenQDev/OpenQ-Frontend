@@ -50,7 +50,7 @@ const BountyList = ({bounties})=>{
 		updateDisplayBounties(resolvedTvls.filter((elem)=>{
 			return elem.tvl.total>0;
 		}));
-	},[]);
+	},[bounties]);
 
 	// Methods
 
@@ -131,7 +131,7 @@ const BountyList = ({bounties})=>{
 				{bounties.length}
 				{bounties.length < 2 ? ' Bounty found' : ' Bounties found'}
 			</div>
-			{displayBounties.length != 0
+			{bounties.length != 0
 				? displayBounties
 					.filter((bounty) => {
 						return issueTitleSearchTerm

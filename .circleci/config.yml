@@ -20,7 +20,6 @@ workflows:
               ignore: /.*/
             tags:
               only:
-                - /^local*/
-                - /^development*/
-                - /^staging*/
-                - /^production*/
+                - /^development.*/
+                - /^staging.*/
+                - /^production.*/
