@@ -42,7 +42,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 					<BountyLinks bounty={bounty} />
 				</div>
 				<div
-					className="text-white pt-2 w-full"
+					className="text-white pt-2 w-full break-words"
 					dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}
 				></div>
 			</div>
