@@ -21,7 +21,6 @@ const BountyList = ({ bounties }) => {
 	// Utilities
 	const getTVL = async (tokenBalances) => {
 		let tokenVolumes = {};
-		console.log('tokenBalances', tokenBalances);
 		tokenBalances.map((tokenBalance) => {
 			const tokenAddress = appState.tokenMetadata[ethers.utils.getAddress(tokenBalance.tokenAddress)].address;
 			tokenVolumes[tokenAddress] = tokenBalance.volume;
@@ -61,13 +60,11 @@ const BountyList = ({ bounties }) => {
 				return { ...elem, tvl };
 			});
 			const resolvedTvls = await Promise.all(newBounties);
-			console.log(resolvedTvls);
 			updateTvlBounties(resolvedTvls);
 			updateDisplayBounties(removeUnfunded(removeClaimed(resolvedTvls)));
 		}
 		foo();
 	}, [bounties]);
-
 
 	// Methods
 	const filterByIssueTitle = (e) => {
@@ -75,25 +72,24 @@ const BountyList = ({ bounties }) => {
 	};
 
 	const orderBounties = (toggleTo, bounties = displayBounties) => {
+		console.log(displayBounties);
 		switch (toggleTo) {
-			case 'highest\xa0TVL':
+			case 'Highest\xa0TVL':
 				updateDisplayBounties(bounties.sort((a, b) => {
 					return b.tvl.total - a.tvl.total;
 				}));
-				updateSortOrder('highest\xa0TVL');
-
 				break;
-			case 'lowest\xa0TVL':
+			case 'Lowest\xa0TVL':
 				updateDisplayBounties(bounties.sort((a, b) => {
 					return a.tvl.total - b.tvl.total;
 				}));
 				break;
-			case 'newest':
+			case 'Newest':
 				updateDisplayBounties(bounties.sort((a, b) => {
 					return b.bountyMintTime - a.bountyMintTime;
 				}));
 				break;
-			case 'oldest':
+			case 'Oldest':
 				updateDisplayBounties(bounties.sort((a, b) => {
 					return a.bountyMintTime - b.bountyMintTime;
 				}));
