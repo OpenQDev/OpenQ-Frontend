@@ -4,7 +4,9 @@ import OpenQClient from '../../services/ethers/OpenQClient';
 import OpenQSubgraphClient from '../../services/subgraph/OpenQSubgraphClient';
 import GithubRepository from '../../services/github/GithubRepository';
 import TokenClient from '../../services/coins/TokenClient';
+import FirstLaunchService from '../../services/firstLaunch/FirstLanchService';
 
+import MockFirstLaunchService from '../../services/firstLaunch/MockFirstLaunchService';
 import MockGithubRepository from '../../services/github/MockGithubRepository';
 import MockOpenQClient from '../../services/ethers/MockOpenQClient';
 import MockOpenQSubgraphClient from '../../services/subgraph/MockOpenQSubgraphClient';
@@ -27,6 +29,7 @@ case 'local':
 	InitialState = {
 		tokenMetadata: localTokenMetadata,
 		tokens: localTokens,
+		firstLaunch: MockFirstLaunchService(),
 		openQClient: new MockOpenQClient(),
 		githubRepository: new MockGithubRepository(),
 		openQSubgraphClient: new MockOpenQSubgraphClient(),
@@ -38,6 +41,7 @@ case 'docker':
 	InitialState = {
 		tokenMetadata: localTokenMetadata,
 		tokens: localTokens,
+		firstLaunch: FirstLaunchService(),
 		openQClient: new OpenQClient(),
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
@@ -49,6 +53,7 @@ case 'development':
 	InitialState = {
 		tokenMetadata: mumbaiTokenMetadata,
 		tokens: mumbaiTokens,
+		firstLaunch: FirstLaunchService(),
 		openQClient: new OpenQClient(),
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
@@ -60,6 +65,7 @@ case 'staging':
 	InitialState = {
 		tokenMetadata: polygonMainnetTokenMetadata,
 		tokens: polygonMainnetTokens,
+		firstLaunch: FirstLaunchService(),
 		openQClient: new OpenQClient(),
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
@@ -71,6 +77,7 @@ case 'production':
 	InitialState = {
 		tokenMetadata: polygonMainnetTokenMetadata,
 		tokens: polygonMainnetTokens,
+		firstLaunch: FirstLaunchService(),
 		openQClient: new OpenQClient(),
 		githubRepository: new GithubRepository(),
 		tokenClient: new TokenClient(),
