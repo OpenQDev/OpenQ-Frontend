@@ -2,11 +2,10 @@ import { useState, useEffect, useContext } from 'react';
 import StoreContext from '../store/Store/StoreContext';
 import { ethers } from 'ethers';
 
-const useGetTokenValues = (tokenBalances) => {
-	const [tokenValues, setTokenValues] = useState(null);
+const getTokenValues = async (tokenBalances) => {
 	const [appState] = useContext(StoreContext);
 
-	async function getTokenValues(tokenBalances) {
+	return new Promise(async (resolve, reject) => {
 		if (tokenBalances != null) {
 			let tokenVolumes = {};
 			tokenBalances.map((tokenBalance) => {
@@ -20,21 +19,15 @@ const useGetTokenValues = (tokenBalances) => {
 			if (JSON.stringify(data.tokenVolumes) != '{}') {
 				try {
 					const tokenValues = await appState.tokenClient.getTokenValues(data, url);
-					setTokenValues(tokenValues);
+					resolve(tokenValues);
 				} catch (error) {
-					console.error(error);
+					reject(error);
 				}
 			} else {
-				setTokenValues(null);
+				resolve(null);
 			}
 		}
-	};
-
-	useEffect(() => {
-		getTokenValues(tokenBalances);
-	}, [tokenBalances]);
-
-	return [tokenValues, setTokenValues];
+	});
 };
 
-export default useGetTokenValues;
+export default getTokenValues;
