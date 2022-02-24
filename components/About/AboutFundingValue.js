@@ -12,7 +12,6 @@ const AboutFundingValue = ({ activeFunding }) => {
 
 	const { volume } = activeFunding;
 	const { logoURI, symbol, decimals } = appState.tokenMetadata[ethers.utils.getAddress(activeFunding.tokenAddress)];
-	console.log('activeFunding', activeFunding);
 	const [tokenValues] = useGetTokenValues([activeFunding]);
 
 	return (

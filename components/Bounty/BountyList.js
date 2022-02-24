@@ -6,6 +6,7 @@ import { ethers } from 'ethers';
 import StoreContext from '../../store/Store/StoreContext';
 import BountyCard from './BountyCard';
 import Dropdown from '../Toggle/Dropdown';
+import SearchBar from '../Search/SearchBar';
 
 const BountyList = ({ bounties }) => {
 
@@ -54,16 +55,19 @@ const BountyList = ({ bounties }) => {
 
 
 	useEffect(() => {
-		async function foo() {
+		async function getTvls() {
+
 			const newBounties = await bounties.map(async (elem, index) => {
 				let tvl = await getTVL(elem.bountyTokenBalances);
 				return { ...elem, tvl };
 			});
+
 			const resolvedTvls = await Promise.all(newBounties);
+			console.log(resolvedTvls);
 			updateTvlBounties(resolvedTvls);
 			updateDisplayBounties(removeUnfunded(removeClaimed(resolvedTvls)));
 		}
-		foo();
+		getTvls();
 	}, [bounties]);
 
 	// Methods
@@ -128,12 +132,10 @@ const BountyList = ({ bounties }) => {
 	// Render
 	return (
 		<div className="w-f space-y-3">
-			<input
-				className="outline-none w-full font-mont rounded-lg py-2 p-5 pb-1 border border-web-gray bg-dark-mode text-white"
-				onKeyUp={(e) => filterByIssueTitle(e)}
-				type="text"
-				placeholder="Search Issue..."
-			></input>
+			<SearchBar
+				onKeyUp={filterByIssueTitle}
+				placeholder={"Search Issue..."}
+			/>
 			<div className="flex flex-wrap content-center items-center flex-row items-start gap-4">
 
 				<div className="flex bg-dark-modegap-2  rounded-md border border-web-gray">

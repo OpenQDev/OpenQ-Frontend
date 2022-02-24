@@ -5,6 +5,7 @@ import BountyCard from './BountyCard';
 import StoreContext from '../../store/Store/StoreContext';
 import MintBountyButton from '../MintBounty/MintBountyButton';
 import SearchBar from '../Search/SearchBar';
+import BountyList from './BountyList';
 
 const BountyHomepage = () => {
 	// State
@@ -57,40 +58,10 @@ const BountyHomepage = () => {
 	return (
 		<div className="flex justify-center items-center">
 			<div className="grid grid-cols-3 gap-3">
-				<SearchBar onKeyUp={filterByIssueTitle} placeholder="Seach Issue..." className="mb-200" />
 				<MintBountyButton />
 
-				{isLoading ? null : (
-					<div className="col-span-3 pt-5 md:pt-1">
-						<div className="text-gray-300 font-mont pb-2 pt-1 font-normal">
-							{bounties.length}
-							{bounties.length < 2 ? ' Bounty found' : ' Bounties found'}
-						</div>
-						{bounties
-							.slice(bountiesVisited, bountiesVisited + bountiesPerPage)
-							.filter((bounty) => {
-								return organizationSearchTerm
-									? bounty.owner
-										.toLowerCase()
-										.indexOf(organizationSearchTerm.toLowerCase()) > -1
-									: bounty;
-							})
-							.filter((bounty) => {
-								return issueTitleSearchTerm
-									? bounty.title
-										.toLowerCase()
-										.indexOf(issueTitleSearchTerm.toLowerCase()) > -1
-									: bounty;
-							})
-							.map((bounty) => {
-								return (
-									<div className="md:pb-3" key={bounty.bountyId}>
-										<BountyCard bounty={bounty} key={bounty.bountyId} />
-									</div>
-								);
-							})}
-					</div>
-				)}
+				{isLoading ? null :
+					<BountyList bounties={bounties} />}
 			</div>
 		</div>
 	);
