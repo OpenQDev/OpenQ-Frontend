@@ -4,7 +4,7 @@ import React from 'react';
 // Custom
 import AboutFunding from './AboutFunding';
 
-const About = ({ organizationData }) => {
+const About = ({ organizationData, tokenValues }) => {
 	const bounties = organizationData.bountiesCreated.filter((elem) => {
 		return elem.status === 'OPEN';
 	});
@@ -28,7 +28,7 @@ const About = ({ organizationData }) => {
 					<dd className='font-semibold pb-8'>{numBounties}</dd>
 					<dt className='font-semibold text-gray-300 text-lg pb-2'>Contributors</dt>
 					<dd className='font-semibold pb-8'>{users.length}</dd>
-					<AboutFunding activeFunding={totalValueLocked} />
+					<AboutFunding organizationFunding={organizationData.fundedTokenBalances} tokenValues={tokenValues} />
 				</dl>
 			</section>
 		</div >

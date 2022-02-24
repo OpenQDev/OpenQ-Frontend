@@ -7,12 +7,10 @@ import { ethers } from 'ethers';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import StoreContext from '../../store/Store/StoreContext';
 
-const AboutFundingValue = ({ activeFunding }) => {
+const AboutFundingValue = ({ organizationFunding, addressValueArray }) => {
 	const [appState] = useContext(StoreContext);
 
-	const { volume } = activeFunding;
-	const { logoURI, symbol, decimals } = appState.tokenMetadata[ethers.utils.getAddress(activeFunding.tokenAddress)];
-	const [tokenValues] = useGetTokenValues([activeFunding]);
+	const { logoURI, symbol, decimals } = appState.tokenMetadata[ethers.utils.getAddress(addressValueArray[0])];
 
 	return (
 		<li className='font-semibold py-2 flex justify-between items-center leading-loose'>
@@ -20,8 +18,8 @@ const AboutFundingValue = ({ activeFunding }) => {
 				width={32}
 				height={32} src={logoURI} />
 			<span>
-				{tokenValues != null && tokenValues != {}
-					? appState.utils.formatter.format(tokenValues.total)
+				{addressValueArray[1] != null && addressValueArray[1] != {}
+					? appState.utils.formatter.format(addressValueArray[1])
 					: appState.utils.formatter.format(0)}
 			</span>
 			<span className='font-semi-bold'>(

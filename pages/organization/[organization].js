@@ -8,6 +8,7 @@ import BountyList from '../../components/Bounty/BountyList';
 import LargeOrganizationCard from '../../components/Organization/LargeOrganizationCard';
 import Toggle from '../../components/Toggle/Toggle';
 import About from '../../components/About/About';
+import useGetTokenValues from '../../hooks/useGetTokenValues';
 
 const organization = () => {
 	// Context
@@ -21,8 +22,10 @@ const organization = () => {
 	const [bounties, setBounties] = useState([]);
 	const [showAbout, setShowAbout] = useState('Bounties');
 
-	// Methods
+	const [tokenValues] = useGetTokenValues(organizationData?.fundedTokenBalances);
+	console.log(tokenValues);
 
+	// Methods
 	async function populateOrganizationData() {
 		setIsLoading(true);
 		const org = await appState.openQSubgraphClient.getOrganization(
@@ -77,7 +80,7 @@ const organization = () => {
 			<div className="bg-dark-mode">
 				<Toggle toggleFunc={setShowAbout} toggleVal={showAbout} names={['Bounties', 'About']} />
 				{(showAbout === 'About') ?
-					<About organizationData={organizationData} /> :
+					<About organizationData={organizationData} tokenValues={tokenValues} /> :
 					<div className="grid px-10 md:grid-cols-wide justify-center w-f gap-8 pt-10">
 						<LargeOrganizationCard organization={organizationData} />
 						<BountyList bounties={bounties} />
