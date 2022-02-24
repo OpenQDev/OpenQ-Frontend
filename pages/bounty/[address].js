@@ -69,7 +69,7 @@ const address = () => {
 	} else {
 		return (
 			<div className="flex flex-col font-mont justify-center items-center pt-7">
-				<div className="flex flex-row space-x-2 border border-web-gray bg-zinc-300 p-1 rounded-xl">
+				<div className="flex flex-row space-x-2 border border-web-gray p-1 rounded-xl">
 					<button
 						onClick={() => setInternalMenu('view')}
 						className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'view' ? 'bg-gray-500' : null
