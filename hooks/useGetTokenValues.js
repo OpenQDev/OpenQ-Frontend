@@ -9,6 +9,7 @@ const useGetTokenValues = (tokenBalances) => {
 	async function getTokenValues(tokenBalances) {
 		if (tokenBalances != null) {
 			let tokenVolumes = {};
+
 			tokenBalances.map((tokenBalance) => {
 				const tokenAddress = appState.tokenMetadata[ethers.utils.getAddress(tokenBalance.tokenAddress)].address;
 				tokenVolumes[tokenAddress] = tokenBalance.volume;
