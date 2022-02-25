@@ -28,9 +28,9 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 				<LabelsList bounty={bounty} />
 				{bounty.bountyTokenBalances.length != 0 ? (
 					<TokenBalances
+						header={bounty.status == 'CLOSED' ? 'Total Value Claimed' : 'Total Value Locked (TVL)'}
 						tokenBalances={bounty.bountyTokenBalances}
 						tokenValues={tokenValues}
-						claimed={bounty.status == 'CLOSED'}
 					/>
 				) : (
 					<div className="pt-5 pb-5 font-semibold text-white">No deposits</div>
