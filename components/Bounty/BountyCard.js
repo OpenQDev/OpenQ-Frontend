@@ -44,7 +44,6 @@ const BountyCard = ({ bounty }) => {
 										></path>
 									</svg>
 								</div>
-
 								<div className="font-mont text-2xl text-white">
 									{bounty.owner.toLowerCase()}/{bounty.repoName.toLowerCase()}
 								</div>

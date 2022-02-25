@@ -16,8 +16,7 @@ const BountyList = ({ bounties }) => {
 	const [displayBounties, updateDisplayBounties] = useState([]);
 	const [unfundedVisible, setUnfundedVisible] = useState(true);
 	const [claimedVisible, setClaimedVisible] = useState('false');
-	const [sortOrder, updateSortOrder] = useState('newest');
-	const [tvlBounties, updateTvlBounties] = useState([]);
+	const [sortOrder, updateSortOrder] = useState('Newest');
 
 	// Utilities
 	const getTVL = async (tokenBalances) => {
@@ -56,15 +55,12 @@ const BountyList = ({ bounties }) => {
 
 	useEffect(() => {
 		async function getTvls() {
-
 			const newBounties = await bounties.map(async (elem, index) => {
 				let tvl = await getTVL(elem.bountyTokenBalances);
 				return { ...elem, tvl };
 			});
 
 			const resolvedTvls = await Promise.all(newBounties);
-			console.log(resolvedTvls);
-			updateTvlBounties(resolvedTvls);
 			updateDisplayBounties(removeUnfunded(removeClaimed(resolvedTvls)));
 		}
 		getTvls();
@@ -106,23 +102,22 @@ const BountyList = ({ bounties }) => {
 		setUnfundedVisible(e.target.checked);
 		if (e.target.checked) {
 			if (claimedVisible) {
-				orderBounties(sortOrder, tvlBounties);
+				orderBounties(sortOrder, displayBounties);
 			} else {
-				orderBounties(sortOrder, removeClaimed(tvlBounties));
+				orderBounties(sortOrder, removeClaimed(displayBounties));
 			}
 		} else {
 			updateDisplayBounties(removeUnfunded(displayBounties));
 		}
-
 	};
 
 	const showClaimed = (e) => {
 		setClaimedVisible(e.target.checked);
 		if (e.target.checked) {
 			if (unfundedVisible) {
-				orderBounties(sortOrder, tvlBounties);
+				orderBounties(sortOrder, displayBounties);
 			} else {
-				orderBounties(sortOrder, removeUnfunded(tvlBounties));
+				orderBounties(sortOrder, removeUnfunded(displayBounties));
 			}
 		} else {
 			updateDisplayBounties(removeClaimed(displayBounties));
@@ -137,7 +132,6 @@ const BountyList = ({ bounties }) => {
 				placeholder={"Search Issue..."}
 			/>
 			<div className="flex flex-wrap content-center items-center flex-row items-start gap-4">
-
 				<div className="flex bg-dark-modegap-2  rounded-md border border-web-gray">
 					<span className="text-white p-2  align-self-center pr-4">Sort By</span>
 					<Dropdown toggleFunc={orderBounties} toggleVal={sortOrder} names={['Newest', 'Oldest', 'Highest\xa0TVL', 'Lowest\xa0TVL']} />
@@ -153,7 +147,7 @@ const BountyList = ({ bounties }) => {
 			</div>
 			<div className="text-gray-300 font-mont pt-1 font-normal">
 				{displayBounties.length && displayBounties.length}
-				{displayBounties.length < 2 && displayBounties.length > 0 ? ' Bounty found' : ' Bounties found'}
+				{displayBounties.length == 1 ? ' Bounty found' : ' Bounties found'}
 			</div>
 			{displayBounties.length != 0
 				? displayBounties.filter((bounty) => {
