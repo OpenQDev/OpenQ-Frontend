@@ -127,7 +127,7 @@ const BountyList = ({ bounties }) => {
 				orderBounties(sortOrder, removeClaimed(tvlBounties));
 			}
 		} else {
-			updateDisplayBounties(removeUnfunded(tvlBounties));
+			updateDisplayBounties(removeUnfunded(displayBounties));
 		}
 	};
 
@@ -137,10 +137,11 @@ const BountyList = ({ bounties }) => {
 			if (unfundedVisible) {
 				orderBounties(sortOrder, tvlBounties);
 			} else {
+				console.log('removeUnfunded', unfundedVisible);
 				orderBounties(sortOrder, removeUnfunded(tvlBounties));
 			}
 		} else {
-			updateDisplayBounties(removeClaimed(tvlBounties));
+			updateDisplayBounties(removeClaimed(displayBounties));
 		}
 	};
 
