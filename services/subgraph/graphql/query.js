@@ -10,6 +10,7 @@ query GetAllIssues {
     status
 		deposits {
       id
+			refunded
       tokenAddress
       volume
       sender {
