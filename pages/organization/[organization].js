@@ -23,7 +23,6 @@ const organization = () => {
 	const [showAbout, setShowAbout] = useState('Bounties');
 
 	const [tokenValues] = useGetTokenValues(organizationData?.fundedTokenBalances);
-	console.log(tokenValues);
 
 	// Methods
 	async function populateOrganizationData() {

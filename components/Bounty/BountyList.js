@@ -9,11 +9,12 @@ import Dropdown from '../Toggle/Dropdown';
 import SearchBar from '../Search/SearchBar';
 
 const BountyList = ({ bounties }) => {
-
+	console.log('bounties', bounties);
 	// Hooks
 	const [appState] = useContext(StoreContext);
 	const [issueTitleSearchTerm, setIssueTitleSearchTerm] = useState(issueTitleSearchTerm);
 	const [displayBounties, updateDisplayBounties] = useState([]);
+	const [tvlBounties, updateTvlBounties] = useState([]);
 	const [unfundedVisible, setUnfundedVisible] = useState(true);
 	const [claimedVisible, setClaimedVisible] = useState('false');
 	const [sortOrder, updateSortOrder] = useState('Newest');
@@ -36,14 +37,31 @@ const BountyList = ({ bounties }) => {
 			} catch (error) {
 				console.error(error);
 			}
-		}
-		else return 0;
+		} else return { total: 0 };
 	};
 
 	const removeUnfunded = (bounties) => {
 		return bounties.filter((elem) => {
-			return elem.tvl.total > 0;
+			console.log(elem.tvl);
+			return elem.tvl?.total > 0;
 		});
+	};
+
+	const filters = [];
+	const claimedFilter = (bounty) => {
+		return elem.status === 'OPEN';
+	};
+
+	const unfundedFilter = (bounty) => {
+		return elem.tvl.total > 0;
+	};
+
+	const bountyOrganizer = (bounties, filters, sortMethod) => {
+		for (let filter of filters) {
+			return filter(bounty);
+		}
+		const filteredSortedBounties = filteredBounties.sort(sortMethod);
+		return filteredSortedBounties;
 	};
 
 	const removeClaimed = (bounties) => {
@@ -61,7 +79,10 @@ const BountyList = ({ bounties }) => {
 			});
 
 			const resolvedTvls = await Promise.all(newBounties);
-			updateDisplayBounties(removeUnfunded(removeClaimed(resolvedTvls)));
+			const initialDisplayBounties = removeUnfunded(removeClaimed(resolvedTvls));
+			console.log('initialDisplayBounties', initialDisplayBounties);
+			updateDisplayBounties(initialDisplayBounties);
+			updateTvlBounties(resolvedTvls);
 		}
 		getTvls();
 	}, [bounties]);
@@ -72,7 +93,6 @@ const BountyList = ({ bounties }) => {
 	};
 
 	const orderBounties = (toggleTo, bounties = displayBounties) => {
-		console.log(displayBounties);
 		switch (toggleTo) {
 			case 'Highest\xa0TVL':
 				updateDisplayBounties(bounties.sort((a, b) => {
@@ -102,12 +122,12 @@ const BountyList = ({ bounties }) => {
 		setUnfundedVisible(e.target.checked);
 		if (e.target.checked) {
 			if (claimedVisible) {
-				orderBounties(sortOrder, displayBounties);
+				orderBounties(sortOrder, tvlBounties);
 			} else {
-				orderBounties(sortOrder, removeClaimed(displayBounties));
+				orderBounties(sortOrder, removeClaimed(tvlBounties));
 			}
 		} else {
-			updateDisplayBounties(removeUnfunded(displayBounties));
+			updateDisplayBounties(removeUnfunded(tvlBounties));
 		}
 	};
 
@@ -115,12 +135,12 @@ const BountyList = ({ bounties }) => {
 		setClaimedVisible(e.target.checked);
 		if (e.target.checked) {
 			if (unfundedVisible) {
-				orderBounties(sortOrder, displayBounties);
+				orderBounties(sortOrder, tvlBounties);
 			} else {
-				orderBounties(sortOrder, removeUnfunded(displayBounties));
+				orderBounties(sortOrder, removeUnfunded(tvlBounties));
 			}
 		} else {
-			updateDisplayBounties(removeClaimed(displayBounties));
+			updateDisplayBounties(removeClaimed(tvlBounties));
 		}
 	};
 
