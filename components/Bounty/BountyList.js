@@ -47,23 +47,6 @@ const BountyList = ({ bounties }) => {
 		});
 	};
 
-	const filters = [];
-	const claimedFilter = (bounty) => {
-		return elem.status === 'OPEN';
-	};
-
-	const unfundedFilter = (bounty) => {
-		return elem.tvl.total > 0;
-	};
-
-	const bountyOrganizer = (bounties, filters, sortMethod) => {
-		for (let filter of filters) {
-			return filter(bounty);
-		}
-		const filteredSortedBounties = filteredBounties.sort(sortMethod);
-		return filteredSortedBounties;
-	};
-
 	const removeClaimed = (bounties) => {
 		return bounties.filter((elem) => {
 			return elem.status === 'OPEN';
@@ -73,7 +56,7 @@ const BountyList = ({ bounties }) => {
 
 	useEffect(() => {
 		async function getTvls() {
-			const newBounties = await bounties.map(async (elem, index) => {
+			const newBounties = await bounties.map(async (elem,) => {
 				let tvl = await getTVL(elem.bountyTokenBalances);
 				return { ...elem, tvl };
 			});
@@ -94,26 +77,26 @@ const BountyList = ({ bounties }) => {
 
 	const orderBounties = (toggleTo, bounties = displayBounties) => {
 		switch (toggleTo) {
-			case 'Highest\xa0TVL':
-				updateDisplayBounties(bounties.sort((a, b) => {
-					return b.tvl.total - a.tvl.total;
-				}));
-				break;
-			case 'Lowest\xa0TVL':
-				updateDisplayBounties(bounties.sort((a, b) => {
-					return a.tvl.total - b.tvl.total;
-				}));
-				break;
-			case 'Newest':
-				updateDisplayBounties(bounties.sort((a, b) => {
-					return b.bountyMintTime - a.bountyMintTime;
-				}));
-				break;
-			case 'Oldest':
-				updateDisplayBounties(bounties.sort((a, b) => {
-					return a.bountyMintTime - b.bountyMintTime;
-				}));
-				break;
+		case 'Highest\xa0TVL':
+			updateDisplayBounties(bounties.sort((a, b) => {
+				return b.tvl.total - a.tvl.total;
+			}));
+			break;
+		case 'Lowest\xa0TVL':
+			updateDisplayBounties(bounties.sort((a, b) => {
+				return a.tvl.total - b.tvl.total;
+			}));
+			break;
+		case 'Newest':
+			updateDisplayBounties(bounties.sort((a, b) => {
+				return b.bountyMintTime - a.bountyMintTime;
+			}));
+			break;
+		case 'Oldest':
+			updateDisplayBounties(bounties.sort((a, b) => {
+				return a.bountyMintTime - b.bountyMintTime;
+			}));
+			break;
 		}
 		updateSortOrder(toggleTo);
 	};
@@ -150,7 +133,7 @@ const BountyList = ({ bounties }) => {
 		<div className="w-f space-y-3">
 			<SearchBar
 				onKeyUp={filterByIssueTitle}
-				placeholder={"Search Issue..."}
+				placeholder={'Search Issue...'}
 			/>
 			<div className="flex flex-wrap content-center items-center flex-row items-start gap-4">
 				<div className="flex bg-dark-modegap-2  rounded-md border border-web-gray">

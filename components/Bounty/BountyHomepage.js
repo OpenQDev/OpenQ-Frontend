@@ -1,23 +1,14 @@
 // Third Party
 import React, { useEffect, useState, useContext } from 'react';
 // Custom
-import BountyCard from './BountyCard';
 import StoreContext from '../../store/Store/StoreContext';
 import MintBountyButton from '../MintBounty/MintBountyButton';
-import SearchBar from '../Search/SearchBar';
 import BountyList from './BountyList';
 
 const BountyHomepage = () => {
 	// State
 	const [bounties, setBounties] = useState([]);
-	const [pageNumber,] = useState(0);
-	const [organizationSearchTerm] = useState('');
-	const [issueTitleSearchTerm, setIssueTitleSearchTerm] = useState('');
 	const [isLoading, setIsLoading] = useState(true);
-
-	// Constants
-	const bountiesPerPage = 10;
-	const bountiesVisited = pageNumber * bountiesPerPage;
 
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -49,10 +40,6 @@ const BountyHomepage = () => {
 
 		setIsLoading(false);
 	}
-
-	const filterByIssueTitle = (e) => {
-		setIssueTitleSearchTerm(e.target.value);
-	};
 
 	// Render
 	return (

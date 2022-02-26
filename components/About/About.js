@@ -10,7 +10,6 @@ const About = ({ organizationData, tokenValues }) => {
 	});
 
 	const numBounties = bounties.length;
-	const totalValueLocked = organizationData.fundedTokenBalances;
 	const users = [];
 
 	organizationData.payouts.forEach((elem) => {
