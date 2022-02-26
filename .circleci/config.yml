@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - run: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USER --password-stdin
-      - run: docker build -t openq/openq-frontend:$CIRCLE_TAG --build-arg deploy_env=$CIRCLE_TAG .
+      - run: docker build -t openq/openq-frontend:$CIRCLE_TAG --build-arg deploy_env=$(echo $CIRCLE_TAG | cut -f1 -d"-") .
       - run: docker push openq/openq-frontend:$CIRCLE_TAG
 workflows:
   version: 2
