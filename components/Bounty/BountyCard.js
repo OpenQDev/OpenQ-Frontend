@@ -11,7 +11,7 @@ const BountyCard = ({ bounty }) => {
 	// State
 	const bountyName = bounty.title.toLowerCase();
 	const [appState] = useContext(StoreContext);
-
+	console.log(bounty.createdAt);
 	// Hooks
 	const [tokenValues] = useGetTokenValues(bounty.bountyTokenBalances);
 
@@ -55,7 +55,12 @@ const BountyCard = ({ bounty }) => {
 							</div>
 							<div className="flex flex-row items-center space-x-4 pt-1">
 								<div className="font-mont font-light pl-6 text-sm text-white">
-									Opened {appState.utils.formatDate(bounty.createdAt)}
+									Issue Opened: {appState.utils.formatDate(bounty.createdAt)}
+								</div>
+							</div>
+							<div className="flex flex-row items-center space-x-4 pt-1">
+								<div className="font-mont font-light pl-6 text-sm text-white">
+									Bounty Minted: {appState.utils.formatUnixDate(parseInt(bounty.bountyMintTime))}
 								</div>
 							</div>
 							<div className="flex flex-row items-center space-x-4 pt-1">

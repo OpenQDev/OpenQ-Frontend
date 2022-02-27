@@ -19,8 +19,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	} = useConfirmErrorSuccessModals();
 	const [error, setError] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
-	const [isApproving, setIsApproving] = useState(false);
-	const [isTransferring, setIsTransferring] = useState(false);
 	const [buttonText, setButtonText] = useState('Fund');
 	const [successMessage, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
