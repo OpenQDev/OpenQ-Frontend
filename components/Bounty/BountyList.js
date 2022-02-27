@@ -9,7 +9,6 @@ import Dropdown from '../Toggle/Dropdown';
 import SearchBar from '../Search/SearchBar';
 
 const BountyList = ({ bounties }) => {
-	console.log('bounties', bounties);
 	// Hooks
 	const [appState] = useContext(StoreContext);
 	const [issueTitleSearchTerm, setIssueTitleSearchTerm] = useState(issueTitleSearchTerm);
@@ -42,7 +41,6 @@ const BountyList = ({ bounties }) => {
 
 	const removeUnfunded = (bounties) => {
 		return bounties.filter((elem) => {
-			console.log(elem.tvl);
 			return elem.tvl?.total > 0;
 		});
 	};
@@ -63,7 +61,6 @@ const BountyList = ({ bounties }) => {
 
 			const resolvedTvls = await Promise.all(newBounties);
 			const initialDisplayBounties = removeUnfunded(removeClaimed(resolvedTvls));
-			console.log('initialDisplayBounties', initialDisplayBounties);
 			updateDisplayBounties(initialDisplayBounties);
 			updateTvlBounties(resolvedTvls);
 		}
@@ -120,7 +117,6 @@ const BountyList = ({ bounties }) => {
 			if (unfundedVisible) {
 				orderBounties(sortOrder, tvlBounties);
 			} else {
-				console.log('removeUnfunded', unfundedVisible);
 				orderBounties(sortOrder, removeUnfunded(tvlBounties));
 			}
 		} else {

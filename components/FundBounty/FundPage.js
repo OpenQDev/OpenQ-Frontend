@@ -39,6 +39,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	async function fundBounty() {
 		setIsLoading(true);
 		const volumeInWei = volume * 10 ** token.decimals;
+		console.log('volumeInWei', volumeInWei);
 
 		if (volumeInWei == 0) {
 			setError({ title: 'Zero Volume Sent', message: 'Must send a greater than 0 volume of tokens.' });
@@ -48,11 +49,15 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		}
 
 		const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
+		console.log('bigNumberVolumeInWei', bigNumberVolumeInWei);
 
 		let approveSucceeded = false;
 
 		try {
 			const callerBalance = await appState.openQClient.balanceOf(library, account, token.address);
+			console.log('callerBalance', callerBalance);
+			console.log('callerBalance < bigNumberVolumeInWei', callerBalance < bigNumberVolumeInWei);
+			console.log('callerBalance.lt(bigNumberVolumeInWei)', callerBalance.lt(bigNumberVolumeInWei));
 
 			if (callerBalance < bigNumberVolumeInWei) {
 				const title = 'Funds Too Low';
