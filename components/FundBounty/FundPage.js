@@ -19,6 +19,9 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	} = useConfirmErrorSuccessModals();
 	const [error, setError] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
+	const [isApproving, setIsApproving] = useState(false);
+	const [isTransferring, setIsTransferring] = useState(false);
+	const [buttonText, setButtonText] = useState('Fund');
 	const [successMessage, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
 	const [confirmationMessage, setConfirmationMessage] = useState('');
@@ -44,6 +47,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 			setError({ title: 'Zero Volume Sent', message: 'Must send a greater than 0 volume of tokens.' });
 			setShowErrorModal(true);
 			setIsLoading(false);
+			setButtonText('Fund');
 			return;
 		}
 
@@ -68,12 +72,14 @@ const FundPage = ({ bounty, refreshBounty }) => {
 			const message = 'A contract call exception occurred';
 			setError({ message, title });
 			setIsLoading(false);
+			setButtonText('Fund');
 			setShowErrorModal(true);
 			return;
 		}
 
 		try {
 			if (token.address != ethers.constants.AddressZero) {
+				setButtonText('Approving');
 				await appState.openQClient.approve(
 					library,
 					bounty.bountyAddress,
@@ -86,10 +92,12 @@ const FundPage = ({ bounty, refreshBounty }) => {
 			const { message, title } = appState.openQClient.handleError(error, { bounty });
 			setError({ message, title });
 			setIsLoading(false);
+			setButtonText('Fund');
 			setShowErrorModal(true);
 		}
 
 		if (approveSucceeded) {
+			setButtonText('Transferring');
 			try {
 				const fundTxnReceipt = await appState.openQClient.fundBounty(
 					library,
@@ -103,11 +111,13 @@ const FundPage = ({ bounty, refreshBounty }) => {
 				);
 				setShowSuccessModal(true);
 				refreshBounty();
+				setButtonText('Fund');
 				setIsLoading(false);
 			} catch (error) {
 				const { message, title } = appState.openQClient.handleError(error, { bounty });
 				setError({ message, title });
 				setIsLoading(false);
+				setButtonText('Fund');
 				setShowErrorModal(true);
 			}
 		}
@@ -192,7 +202,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 							type="button"
 							onClick={() => setShowConfirmationModal(true)}
 						>
-							<div>{!isLoading ? 'Fund' : 'Approving'}</div>
+							<div>{buttonText}</div>
 							<div>{isLoading && <ButtonLoadingIcon />}</div>
 						</button>
 					</div>
