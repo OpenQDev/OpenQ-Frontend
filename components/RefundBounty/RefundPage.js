@@ -78,14 +78,51 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 						<div className="text-3xl font-semibold text-white text-center">
 							Refund Bounty{' '}
 						</div>
-						<div className="bg-purple-600 col-span-3 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4">
-							To refund this bounty the deposits must be stored in the Smart
-							Contract for at least 30 days.
-						</div>
+						<h1 className="text-white">
+							Your Deposits
+						</h1>
+						<h2 className='text-white'>Refundable</h2>
 						{
 							bounty.deposits
 								.filter((deposit) => {
 									return (ethers.utils.getAddress(deposit.sender.id) == account);
+								})
+								.filter((deposit) => {
+									return (deposit.receiveTime + deposit.expiration > Date.now());
+								})
+								.map((deposit) => {
+									return (
+										<div className="pb-3" key={deposit.id}>
+											<DepositCard deposit={deposit} bounty={bounty} refundBounty={refundBounty} />
+										</div>
+									);
+								})
+						}
+						<h2 className='text-white'>Not Yet Refundable</h2>
+						{
+							bounty.deposits
+								.filter((deposit) => {
+									return (ethers.utils.getAddress(deposit.sender.id) == account);
+								})
+								.filter((deposit) => {
+									return (deposit.receiveTime + deposit.expiration < Date.now());
+								})
+								.map((deposit) => {
+									return (
+										<div className="pb-3" key={deposit.id}>
+											<DepositCard deposit={deposit} bounty={bounty} refundBounty={refundBounty} />
+										</div>
+									);
+								})
+						}
+						<h2 className='text-white'>Refunded</h2>
+						{
+							bounty.deposits
+								.filter((deposit) => {
+									return (ethers.utils.getAddress(deposit.sender.id) == account);
+								})
+								.filter((deposit) => {
+									return (deposit.refunded == true);
 								})
 								.map((deposit) => {
 									return (

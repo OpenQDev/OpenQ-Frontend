@@ -11,6 +11,7 @@ query GetAllIssues {
 		deposits {
       id
 			refunded
+			expiration
       tokenAddress
       volume
       sender {
@@ -41,6 +42,7 @@ query GetBounty($id: ID!) {
       id
 			refunded
       tokenAddress
+			expiration
       volume
       sender {
         id
@@ -70,6 +72,7 @@ query GetBountyById($id: ID!) {
       id
 			refunded
       tokenAddress
+			expiration
       volume
       sender {
         id
@@ -102,6 +105,7 @@ query GetUser($id: ID!) {
 				refunded
 				tokenAddress
 				volume
+				expiration
 				sender {
 					id
 				}
@@ -123,6 +127,8 @@ query GetUser($id: ID!) {
 			refunded
       tokenAddress
       volume
+			expiration
+			receiveTime
       bounty {
         id
 				bountyId
@@ -161,6 +167,8 @@ query GetOrganization($id: ID!) {
 				refunded
 				tokenAddress
 				volume
+				expiration
+				receiveTime
 				sender {
 					id
 				}
@@ -184,6 +192,8 @@ query GetOrganization($id: ID!) {
 			refunded
       tokenAddress
       volume
+			expiration
+			receiveTime
       bounty {
         id
         bountyId
@@ -221,6 +231,8 @@ query GetOrganizations {
 			refunded
       tokenAddress
       volume
+			expiration
+			receiveTime
       bounty {
         id
         bountyId
@@ -250,6 +262,7 @@ query GetOrganizations {
 				id
 				tokenAddress
 				volume
+				expiration
 				refunded
 				sender {
 					id
@@ -279,6 +292,7 @@ subscription SubscribeToBounty($bountyId: String!) {
 		deposits {
 			id
 			refunded
+			expiration
 		}
 		refunds {
 			id
