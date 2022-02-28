@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { ethers } from 'ethers';
 import StoreContext from '../../store/Store/StoreContext';
 
-const DepositCard = ({ deposit, bounty, refundBounty }) => {
+const DepositCard = ({ deposit, bounty, refundBounty, notRefundable }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
 	const { tokenMetadata } = appState;
@@ -12,7 +12,7 @@ const DepositCard = ({ deposit, bounty, refundBounty }) => {
 	const token = tokenMetadata[ethers.utils.getAddress(deposit.tokenAddress)];
 
 	const closed = bounty.status == 'CLOSED';
-	const closedOrRefunded = deposit.refunded || closed;
+	const closedOrRefunded = deposit.refunded || closed || notRefundable;
 	const enableOrDisable = closedOrRefunded ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer';
 	const classes = `bg-pink text-white rounded shadow-md text-gray-300 font-sans relative ${enableOrDisable}`;
 
@@ -35,7 +35,7 @@ const DepositCard = ({ deposit, bounty, refundBounty }) => {
 				<div className="pt-5 text-center font-semibold text-white">
 					Refunded: {deposit.refunded.toString()}
 				</div>
-				<button disabled={deposit.refunded || closed} className={classes} onClick={() => refundBounty(deposit.id)}>
+				<button disabled={enableOrDisable} className={classes} onClick={() => refundBounty(deposit.id)}>
 					Refund
 				</button>
 			</div>

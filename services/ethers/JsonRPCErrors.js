@@ -1,4 +1,4 @@
-import { formatUnixDate } from '../utils/Utils';
+import Utils from '../utils/Utils';
 
 /**
 	 * Each method contains a tuple of { CONTRACT_THROWN_REVERT_STRING : USER_FRIENDLY ERROR MESSAGE }
@@ -60,7 +60,8 @@ const jsonRpcErrors =
 			'PREMATURE_REFUND_REQUEST': {
 				title: 'Too early to withdraw funds',
 				message: ({ bounty }) => {
-					return `Bounty was minted on ${formatUnixDate(bounty.bountyMintTime)}`;
+					const utils = new Utils();
+					return `Bounty was minted on ${utils.formatUnixDate(bounty.bountyMintTime)}`;
 				}
 			}
 		},
