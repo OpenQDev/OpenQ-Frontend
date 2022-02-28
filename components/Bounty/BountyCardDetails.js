@@ -32,7 +32,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 				<LabelsList bounty={bounty} />
 				{bounty.bountyTokenBalances.length != 0 ? (
 					<TokenBalances
-						header={bounty.status == 'CLOSED' ? 'Total Value Claimed' : 'Total Value Locked (TVL)'}
+						header={bounty.status == 'CLOSED' ? 'Total Value Claimed' : 'Current Total Value Locked'}
 						tokenBalances={bounty.bountyTokenBalances}
 						tokenValues={tokenValues}
 					/>
@@ -41,9 +41,20 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 				)}
 				<div className='text-white'>Deposits</div>
 				{
-					bounty.deposits.map((deposit) => {
-						return <div key={deposit.id} className='text-white'>Locked until: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}</div>;
-					})
+					bounty.deposits
+						.filter((deposit) => {
+							return deposit.refunded == false;
+						})
+						.sort((a, b) => {
+							return (parseInt(a.receiveTime) + parseInt(a.expiration)) - (parseInt(b.receiveTime) + parseInt(b.expiration));
+						})
+						.map((deposit) => {
+							return (
+								<div key={deposit.id}>
+									<div key={deposit.id} className='text-white'>Locked until: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}</div>
+								</div>
+							);
+						})
 				}
 			</div>
 			<div className="flex flex-col pt-5">

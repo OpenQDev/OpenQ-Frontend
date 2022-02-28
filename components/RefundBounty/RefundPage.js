@@ -96,7 +96,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 								.map((deposit) => {
 									return (
 										<div className="pb-3" key={deposit.id}>
-											<DepositCard deposit={deposit} bounty={bounty} refundBounty={refundBounty} notRefundable={false} />
+											<DepositCard deposit={deposit} bounty={bounty} refundBounty={refundBounty} canRefund={true} />
 										</div>
 									);
 								})
@@ -113,7 +113,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 								.map((deposit) => {
 									return (
 										<div className="pb-3" key={deposit.id}>
-											<DepositCard deposit={deposit} bounty={bounty} refundBounty={refundBounty} notRefundable={true} />
+											<DepositCard deposit={deposit} bounty={bounty} refundBounty={refundBounty} canRefund={false} />
 										</div>
 									);
 								})
@@ -130,7 +130,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 								.map((deposit) => {
 									return (
 										<div className="pb-3" key={deposit.id}>
-											<DepositCard deposit={deposit} bounty={bounty} refundBounty={refundBounty} />
+											<DepositCard deposit={deposit} bounty={bounty} refundBounty={refundBounty} canRefund={false} />
 										</div>
 									);
 								})

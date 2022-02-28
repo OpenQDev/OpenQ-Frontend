@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { ethers } from 'ethers';
 import StoreContext from '../../store/Store/StoreContext';
 
-const DepositCard = ({ deposit, bounty, refundBounty, notRefundable }) => {
+const DepositCard = ({ deposit, refundBounty, canRefund }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
 	const { tokenMetadata } = appState;
@@ -11,9 +11,7 @@ const DepositCard = ({ deposit, bounty, refundBounty, notRefundable }) => {
 	// State
 	const token = tokenMetadata[ethers.utils.getAddress(deposit.tokenAddress)];
 
-	const closed = bounty.status == 'CLOSED';
-	const closedOrRefunded = deposit.refunded || closed || notRefundable;
-	const enableOrDisable = closedOrRefunded ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer';
+	const enableOrDisable = canRefund ? 'confirm-btn cursor-pointer' : 'confirm-btn-disabled cursor-not-allowed';
 	const classes = `bg-pink text-white rounded shadow-md text-gray-300 font-sans relative ${enableOrDisable}`;
 
 	return (
@@ -29,13 +27,16 @@ const DepositCard = ({ deposit, bounty, refundBounty, notRefundable }) => {
 				<div className="pt-5 text-center font-semibold text-white">
 					Deposited on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime))}
 				</div>
-				<div className="pt-5 text-center font-semibold text-white">
-					Refundable on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + 2592000)}
-				</div>
-				<div className="pt-5 text-center font-semibold text-white">
-					Refunded: {deposit.refunded.toString()}
-				</div>
-				<button disabled={enableOrDisable} className={classes} onClick={() => refundBounty(deposit.id)}>
+				{deposit.refunded ?
+					(<div className="pt-5 text-center font-semibold text-white">
+						Refunded on: {appState.utils.formatUnixDate(parseInt(deposit.refundTime))}
+					</div>)
+					:
+					(<div className="pt-5 text-center font-semibold text-white">
+						Refundable on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}
+					</div>)
+				}
+				<button disabled={!canRefund} className={classes} onClick={() => refundBounty(deposit.id)}>
 					Refund
 				</button>
 			</div>

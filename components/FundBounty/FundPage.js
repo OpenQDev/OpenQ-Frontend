@@ -170,9 +170,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					<div className="flex text-3xl font-semibold text-white justify-center pt-16">
 						Fund Bounty
 					</div>
-					<div className="bg-purple-600 col-span-3 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4">
-						Deposited ERC-20 Tokens can be withdrawn again after 30 days
-					</div>
 
 					<TokenFundBox
 						onCurrencySelect={onCurrencySelect}

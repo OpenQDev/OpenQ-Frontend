@@ -12,7 +12,6 @@ class Utils {
 
 	formatUnixDate = (unixTime) => {
 		var date = new Date(unixTime * 1000);
-		console.log(date);
 
 		var day = date.getDate();
 		var month = this.monthNames[date.getMonth()];
