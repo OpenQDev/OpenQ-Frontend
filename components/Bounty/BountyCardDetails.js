@@ -1,5 +1,6 @@
 // Third Party
-import React from 'react';
+import React, { useContext } from 'react';
+import StoreContext from '../../store/Store/StoreContext';
 import TokenBalances from '../TokenBalances/TokenBalances';
 
 // Custom
@@ -9,7 +10,10 @@ import BountyStatus from './BountyStatus';
 import CopyBountyAddress from './CopyBountyAddress';
 import LabelsList from './LabelsList';
 
+
 const BountyCardDetails = ({ bounty, tokenValues }) => {
+	const [appState] = useContext(StoreContext);
+
 	return (
 		<div className="flex flex-col font-mont pl-5 pr-5 md:pl-16 md:pr-16 pt-10 pb-10 my-16 border-web-gray border rounded-lg w-5/6">
 			<div className="flex flex-col border-b border-solid rounded-t ">
@@ -28,13 +32,30 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 				<LabelsList bounty={bounty} />
 				{bounty.bountyTokenBalances.length != 0 ? (
 					<TokenBalances
-						header={bounty.status == 'CLOSED' ? 'Total Value Claimed' : 'Total Value Locked (TVL)'}
+						header={bounty.status == 'CLOSED' ? 'Total Value Claimed' : 'Current Total Value Locked'}
 						tokenBalances={bounty.bountyTokenBalances}
 						tokenValues={tokenValues}
 					/>
 				) : (
 					<div className="pt-5 pb-5 font-semibold text-white">No deposits</div>
 				)}
+				<div className='text-white'>Deposits</div>
+				{
+					bounty.deposits
+						.filter((deposit) => {
+							return deposit.refunded == false;
+						})
+						.sort((a, b) => {
+							return (parseInt(a.receiveTime) + parseInt(a.expiration)) - (parseInt(b.receiveTime) + parseInt(b.expiration));
+						})
+						.map((deposit) => {
+							return (
+								<div key={deposit.id}>
+									<div key={deposit.id} className='text-white'>Locked until: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}</div>
+								</div>
+							);
+						})
+				}
 			</div>
 			<div className="flex flex-col pt-5">
 				<div className="flex flex-row justify-between">

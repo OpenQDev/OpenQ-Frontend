@@ -1,17 +1,20 @@
 class Utils {
 	constructor() { }
 
+	monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+		'July', 'August', 'September', 'October', 'November', 'December'
+	];
+
 	formatDate = (createdAt) => {
-		const rawDate = createdAt;
-		const date = new Date(rawDate);
+		const date = new Date(createdAt);
 		return date.toDateString().split(' ').slice(1).join(' ');
 	};
 
-	formatUnixDate = (createdAt) => {
-		var date = new Date(createdAt);
+	formatUnixDate = (unixTime) => {
+		var date = new Date(unixTime * 1000);
 
 		var day = date.getDate();
-		var month = date.getMonth();
+		var month = this.monthNames[date.getMonth()];
 		var year = date.getFullYear();
 
 		// Hours part from the timestamp
@@ -22,7 +25,7 @@ class Utils {
 		var seconds = '0' + date.getSeconds();
 
 		// Will display time in 10:30:23 format
-		var formattedTime = `${month}/${day}/${year} at ${hours}:${minutes.substr(-2) + ':' + seconds.substr(-2)}`;
+		var formattedTime = `${month} ${day}, ${year} at ${hours}:${minutes.substr(-2) + ':' + seconds.substr(-2)}`;
 		return formattedTime;
 	};
 

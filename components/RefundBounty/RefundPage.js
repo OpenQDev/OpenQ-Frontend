@@ -88,12 +88,15 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 									return (ethers.utils.getAddress(deposit.sender.id) == account);
 								})
 								.filter((deposit) => {
-									return (deposit.receiveTime + deposit.expiration > Date.now());
+									return deposit.refunded == false;
+								})
+								.filter((deposit) => {
+									return ((parseInt(deposit.receiveTime) + parseInt(deposit.expiration)) < Math.floor(Date.now() / 1000));
 								})
 								.map((deposit) => {
 									return (
 										<div className="pb-3" key={deposit.id}>
-											<DepositCard deposit={deposit} bounty={bounty} refundBounty={refundBounty} />
+											<DepositCard deposit={deposit} bounty={bounty} refundBounty={refundBounty} canRefund={true} />
 										</div>
 									);
 								})
@@ -105,12 +108,12 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 									return (ethers.utils.getAddress(deposit.sender.id) == account);
 								})
 								.filter((deposit) => {
-									return (deposit.receiveTime + deposit.expiration < Date.now());
+									return ((parseInt(deposit.receiveTime) + parseInt(deposit.expiration)) > Math.floor(Date.now() / 1000));
 								})
 								.map((deposit) => {
 									return (
 										<div className="pb-3" key={deposit.id}>
-											<DepositCard deposit={deposit} bounty={bounty} refundBounty={refundBounty} />
+											<DepositCard deposit={deposit} bounty={bounty} refundBounty={refundBounty} canRefund={false} />
 										</div>
 									);
 								})
@@ -127,7 +130,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 								.map((deposit) => {
 									return (
 										<div className="pb-3" key={deposit.id}>
-											<DepositCard deposit={deposit} bounty={bounty} refundBounty={refundBounty} />
+											<DepositCard deposit={deposit} bounty={bounty} refundBounty={refundBounty} canRefund={false} />
 										</div>
 									);
 								})
