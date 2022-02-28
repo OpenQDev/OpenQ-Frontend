@@ -11,12 +11,14 @@ import SearchBar from '../Search/SearchBar';
 const BountyList = ({ bounties }) => {
 	// Hooks
 	const [appState] = useContext(StoreContext);
-	const [issueTitleSearchTerm, setIssueTitleSearchTerm] = useState(issueTitleSearchTerm);
+	const [issueTitleSearchTerm, setIssueTitleSearchTerm] = useState('');
 	const [displayBounties, updateDisplayBounties] = useState([]);
 	const [tvlBounties, updateTvlBounties] = useState([]);
 	const [unfundedVisible, setUnfundedVisible] = useState(true);
-	const [claimedVisible, setClaimedVisible] = useState('false');
+	const [claimedVisible, setClaimedVisible] = useState(false);
 	const [sortOrder, updateSortOrder] = useState('Newest');
+	const [tagArr, updateTagArr] = useState([]);
+	const [searchText, updateSearchText] = useState('');
 
 	// Utilities
 	const getTVL = async (tokenBalances) => {
@@ -51,6 +53,15 @@ const BountyList = ({ bounties }) => {
 		});
 	};
 
+	// Process props
+	const availableLabels=[];
+	bounties.forEach((bounty)=>{
+		bounty.labels.forEach(label=>{
+			if(!availableLabels.includes(label)){
+				availableLabels.push(label.name);
+			}			
+		});
+	});
 
 	useEffect(() => {
 		async function getTvls() {
@@ -68,10 +79,14 @@ const BountyList = ({ bounties }) => {
 	}, [bounties]);
 
 	// Methods
-	const filterByIssueTitle = (e) => {
-		setIssueTitleSearchTerm(e.target.value);
+	const handleSearchInput = (e) => {
+		const myRegex = /(tag:)(\w+)/g;
+		const newTagArr=[...e.target.value.matchAll(myRegex, '$2')];
+		updateTagArr(newTagArr);
+		setIssueTitleSearchTerm(e.target.value.replace(myRegex, ' ').trim());
+		updateSearchText(e.target.value);
 	};
-
+	
 	const orderBounties = (toggleTo, bounties = displayBounties) => {
 		switch (toggleTo) {
 		case 'Highest\xa0TVL':
@@ -96,6 +111,11 @@ const BountyList = ({ bounties }) => {
 			break;
 		}
 		updateSortOrder(toggleTo);
+	};
+
+	const addTag = (tag)=>{
+		updateTagArr([...tagArr,[`tag:${tag}`, 'tag:', tag]]);
+		updateSearchText(searchText.concat(` tag:${tag}`));
 	};
 
 	const showUnfunded = (e) => {
@@ -127,14 +147,16 @@ const BountyList = ({ bounties }) => {
 	// Render
 	return (
 		<div className="w-f space-y-3">
-			<SearchBar
-				onKeyUp={filterByIssueTitle}
+			<div className="flex w-min rounded-lg z-10 relative"><SearchBar
+				onKeyUp={handleSearchInput}
 				placeholder={'Search Issue...'}
+				searchText={searchText}
 			/>
+			<Dropdown toggleFunc={addTag}  title="Filter By Label" names={availableLabels} borderShape={'rounded-r-lg'}/></div>	
 			<div className="flex flex-wrap content-center items-center flex-row items-start gap-4">
-				<div className="flex bg-dark-modegap-2  rounded-md border border-web-gray">
+				<div className="flex bg-dark-modegap-2  rounded-md">
 					<span className="text-white p-2  align-self-center pr-4">Sort By</span>
-					<Dropdown toggleFunc={orderBounties} toggleVal={sortOrder} names={['Newest', 'Oldest', 'Highest\xa0TVL', 'Lowest\xa0TVL']} />
+					<Dropdown toggleFunc={orderBounties} toggleVal={sortOrder} names={['Newest', 'Oldest', 'Highest\xa0TVL', 'Lowest\xa0TVL']} borderShape={'rounded-md'}/>
 				</div>
 				<div className="flex p-2 gap-2 border rounded-md border-web-gray">
 					<label htmlFor="unfunded" className="text-white">Show Unfunded Bounties</label>
@@ -151,11 +173,17 @@ const BountyList = ({ bounties }) => {
 			</div>
 			{displayBounties.length != 0
 				? displayBounties.filter((bounty) => {
-					return issueTitleSearchTerm
-						? bounty.title
+					const includesTags=tagArr.reduce((accum, tag)=>{
+						if (!accum) return accum;
+						else return bounty.labels.some(label=>{return label.name===tag[2];});
+
+					}, true);
+					return searchText
+						? (bounty.title
 							.toLowerCase()
 							.indexOf(issueTitleSearchTerm.toLowerCase()) > -1
-						: bounty;
+							&& includesTags):
+						bounty;
 				})
 					.map((bounty) => {
 						return <BountyCard bounty={bounty} key={bounty.bountyId} />;
