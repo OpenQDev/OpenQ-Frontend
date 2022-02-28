@@ -59,10 +59,10 @@ const BountyList = ({ bounties }) => {
 		bounty.labels.forEach(label=>{
 			if(!availableLabels.includes(label)){
 				availableLabels.push(label.name);
-			}
-			
+			}			
 		});
 	});
+
 	useEffect(() => {
 		async function getTvls() {
 			const newBounties = await bounties.map(async (elem,) => {
@@ -116,7 +116,6 @@ const BountyList = ({ bounties }) => {
 	const addTag = (tag)=>{
 		updateTagArr([...tagArr,[`tag:${tag}`, 'tag:', tag]]);
 		updateSearchText(searchText.concat(` tag:${tag}`));
-
 	};
 
 	const showUnfunded = (e) => {
