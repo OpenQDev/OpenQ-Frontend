@@ -29,7 +29,7 @@ const useGetTokenValues = (tokenBalances) => {
 				setTokenValues(null);
 			}
 		}
-	};
+	}
 
 	useEffect(() => {
 		getTokenValues(tokenBalances);

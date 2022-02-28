@@ -1,19 +1,17 @@
 import React from 'react';
-import AboutFundingValue from './AboutFundingValue';
+import TokenBalances from '../TokenBalances/TokenBalances';
 
-const AboutFunding = ({ activeFunding }) => {
-
+const AboutFunding = ({ organizationFunding, tokenValues }) => {
 	return (<div className="w-60 pb-8">
-		<dd className='font-semibold text-gray-300 text-lg pb-2'>Total Value Locked</dd>
 		<dt>
 			<ul>
-				{activeFunding.map((tokenFundingBalance, index) =>
-					<AboutFundingValue key={index} activeFunding={tokenFundingBalance} />
-				)}
+				<TokenBalances
+					tokenBalances={organizationFunding}
+					tokenValues={tokenValues}
+					header={'Current Total Value Locked'}
+				/>
 			</ul>
 		</dt>
-
-
 	</div>);
 };
 export default AboutFunding;

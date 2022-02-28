@@ -9,15 +9,14 @@ import Dropdown from '../Toggle/Dropdown';
 import SearchBar from '../Search/SearchBar';
 
 const BountyList = ({ bounties }) => {
-
 	// Hooks
 	const [appState] = useContext(StoreContext);
 	const [issueTitleSearchTerm, setIssueTitleSearchTerm] = useState(issueTitleSearchTerm);
 	const [displayBounties, updateDisplayBounties] = useState([]);
+	const [tvlBounties, updateTvlBounties] = useState([]);
 	const [unfundedVisible, setUnfundedVisible] = useState(true);
 	const [claimedVisible, setClaimedVisible] = useState('false');
-	const [sortOrder, updateSortOrder] = useState('newest');
-	const [tvlBounties, updateTvlBounties] = useState([]);
+	const [sortOrder, updateSortOrder] = useState('Newest');
 
 	// Utilities
 	const getTVL = async (tokenBalances) => {
@@ -37,13 +36,12 @@ const BountyList = ({ bounties }) => {
 			} catch (error) {
 				console.error(error);
 			}
-		}
-		else return 0;
+		} else return { total: 0 };
 	};
 
 	const removeUnfunded = (bounties) => {
 		return bounties.filter((elem) => {
-			return elem.tvl.total > 0;
+			return elem.tvl?.total > 0;
 		});
 	};
 
@@ -56,16 +54,15 @@ const BountyList = ({ bounties }) => {
 
 	useEffect(() => {
 		async function getTvls() {
-
-			const newBounties = await bounties.map(async (elem, index) => {
+			const newBounties = await bounties.map(async (elem,) => {
 				let tvl = await getTVL(elem.bountyTokenBalances);
 				return { ...elem, tvl };
 			});
 
 			const resolvedTvls = await Promise.all(newBounties);
-			console.log(resolvedTvls);
+			const initialDisplayBounties = removeUnfunded(removeClaimed(resolvedTvls));
+			updateDisplayBounties(initialDisplayBounties);
 			updateTvlBounties(resolvedTvls);
-			updateDisplayBounties(removeUnfunded(removeClaimed(resolvedTvls)));
 		}
 		getTvls();
 	}, [bounties]);
@@ -76,28 +73,27 @@ const BountyList = ({ bounties }) => {
 	};
 
 	const orderBounties = (toggleTo, bounties = displayBounties) => {
-		console.log(displayBounties);
 		switch (toggleTo) {
-			case 'Highest\xa0TVL':
-				updateDisplayBounties(bounties.sort((a, b) => {
-					return b.tvl.total - a.tvl.total;
-				}));
-				break;
-			case 'Lowest\xa0TVL':
-				updateDisplayBounties(bounties.sort((a, b) => {
-					return a.tvl.total - b.tvl.total;
-				}));
-				break;
-			case 'Newest':
-				updateDisplayBounties(bounties.sort((a, b) => {
-					return b.bountyMintTime - a.bountyMintTime;
-				}));
-				break;
-			case 'Oldest':
-				updateDisplayBounties(bounties.sort((a, b) => {
-					return a.bountyMintTime - b.bountyMintTime;
-				}));
-				break;
+		case 'Highest\xa0TVL':
+			updateDisplayBounties(bounties.sort((a, b) => {
+				return b.tvl.total - a.tvl.total;
+			}));
+			break;
+		case 'Lowest\xa0TVL':
+			updateDisplayBounties(bounties.sort((a, b) => {
+				return a.tvl.total - b.tvl.total;
+			}));
+			break;
+		case 'Newest':
+			updateDisplayBounties(bounties.sort((a, b) => {
+				return b.bountyMintTime - a.bountyMintTime;
+			}));
+			break;
+		case 'Oldest':
+			updateDisplayBounties(bounties.sort((a, b) => {
+				return a.bountyMintTime - b.bountyMintTime;
+			}));
+			break;
 		}
 		updateSortOrder(toggleTo);
 	};
@@ -113,7 +109,6 @@ const BountyList = ({ bounties }) => {
 		} else {
 			updateDisplayBounties(removeUnfunded(displayBounties));
 		}
-
 	};
 
 	const showClaimed = (e) => {
@@ -134,10 +129,9 @@ const BountyList = ({ bounties }) => {
 		<div className="w-f space-y-3">
 			<SearchBar
 				onKeyUp={filterByIssueTitle}
-				placeholder={"Search Issue..."}
+				placeholder={'Search Issue...'}
 			/>
 			<div className="flex flex-wrap content-center items-center flex-row items-start gap-4">
-
 				<div className="flex bg-dark-modegap-2  rounded-md border border-web-gray">
 					<span className="text-white p-2  align-self-center pr-4">Sort By</span>
 					<Dropdown toggleFunc={orderBounties} toggleVal={sortOrder} names={['Newest', 'Oldest', 'Highest\xa0TVL', 'Lowest\xa0TVL']} />
@@ -153,7 +147,7 @@ const BountyList = ({ bounties }) => {
 			</div>
 			<div className="text-gray-300 font-mont pt-1 font-normal">
 				{displayBounties.length && displayBounties.length}
-				{displayBounties.length < 2 && displayBounties.length > 0 ? ' Bounty found' : ' Bounties found'}
+				{displayBounties.length == 1 ? ' Bounty found' : ' Bounties found'}
 			</div>
 			{displayBounties.length != 0
 				? displayBounties.filter((bounty) => {

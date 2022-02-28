@@ -7,7 +7,13 @@ jobs:
     steps:
       - checkout
       - run: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USER --password-stdin
-      - run: docker build -t openq/openq-frontend:$CIRCLE_TAG --build-arg deploy_env=$CIRCLE_TAG .
+      - run:
+          name: Update DEPLOY_ENV environment variable using CIRCLE_TAG
+          command: |
+            echo 'export DEPLOY_ENV=$(echo ${CIRCLE_TAG} | sed 's/-.*//')' >> $BASH_ENV
+            source $BASH_ENV
+      - run: echo $DEPLOY_ENV
+      - run: docker build -t openq/openq-frontend:$CIRCLE_TAG --build-arg deploy_env=$DEPLOY_ENV .
       - run: docker push openq/openq-frontend:$CIRCLE_TAG
 workflows:
   version: 2

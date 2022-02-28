@@ -39,7 +39,7 @@ const Dropdown = ({ toggleFunc, toggleVal, names }) => {
 					{names.map((name, index) => {
 						return <li className={`text-white list-none hover:bg-gray-500 w-full hover:bg-opacity-10 ${toggleVal === name ? 'bg-gray-500 visible h-max bg-opacity-20' : open ? null : 'h-0 invisible overflow-none p-0'
 
-							}`} key={index}>
+						}`} key={index}>
 							<button className="w-full text-left p-2 px-4" onClick={handleSelection} value={name}>
 								{name}
 							</button>

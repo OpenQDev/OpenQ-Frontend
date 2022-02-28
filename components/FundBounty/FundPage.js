@@ -9,6 +9,7 @@ import ButtonLoadingIcon from '../Loading/ButtonLoadingIcon';
 
 const FundPage = ({ bounty, refreshBounty }) => {
 	const [volume, setVolume] = useState('');
+	const [depositPeriodDays, setDepositPeriodDays] = useState(30);
 	const {
 		showErrorModal,
 		setShowErrorModal,
@@ -19,9 +20,10 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	} = useConfirmErrorSuccessModals();
 	const [error, setError] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
+	const [buttonText, setButtonText] = useState('Fund');
 	const [successMessage, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
-	const [confirmationMessage, setConfirmationMessage] = useState('');
+	const [confirmationMessage, setConfirmationMessage] = useState('Please enter a volume greater than 0.');
 
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -31,8 +33,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const [token, setToken] = useState(appState.tokens[0]);
 
 	const claimed = bounty.status == 'CLOSED';
-	const isLoadingOrIsClosed = isLoading || claimed;
-	const disableOrEnable = `${isLoadingOrIsClosed ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`;
+	const loadingClosedOrZero = isLoading || claimed || parseInt(volume) == 0 || volume == '';
+	const disableOrEnable = `${loadingClosedOrZero ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`;
 	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${disableOrEnable}`;
 
 	// Methods
@@ -44,6 +46,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 			setError({ title: 'Zero Volume Sent', message: 'Must send a greater than 0 volume of tokens.' });
 			setShowErrorModal(true);
 			setIsLoading(false);
+			setButtonText('Fund');
 			return;
 		}
 
@@ -54,7 +57,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		try {
 			const callerBalance = await appState.openQClient.balanceOf(library, account, token.address);
 
-			if (callerBalance < bigNumberVolumeInWei) {
+			if (callerBalance.lt(bigNumberVolumeInWei)) {
 				const title = 'Funds Too Low';
 				const message = 'You do not have sufficient funds for this deposit';
 				setError({ message, title });
@@ -68,12 +71,14 @@ const FundPage = ({ bounty, refreshBounty }) => {
 			const message = 'A contract call exception occurred';
 			setError({ message, title });
 			setIsLoading(false);
+			setButtonText('Fund');
 			setShowErrorModal(true);
 			return;
 		}
 
 		try {
 			if (token.address != ethers.constants.AddressZero) {
+				setButtonText('Approving');
 				await appState.openQClient.approve(
 					library,
 					bounty.bountyAddress,
@@ -86,16 +91,19 @@ const FundPage = ({ bounty, refreshBounty }) => {
 			const { message, title } = appState.openQClient.handleError(error, { bounty });
 			setError({ message, title });
 			setIsLoading(false);
+			setButtonText('Fund');
 			setShowErrorModal(true);
 		}
 
 		if (approveSucceeded) {
+			setButtonText('Transferring');
 			try {
 				const fundTxnReceipt = await appState.openQClient.fundBounty(
 					library,
 					bounty.bountyAddress,
 					token.address,
-					bigNumberVolumeInWei
+					bigNumberVolumeInWei,
+					depositPeriodDays
 				);
 				setTransactionHash(fundTxnReceipt.transactionHash);
 				setSuccessMessage(
@@ -103,11 +111,13 @@ const FundPage = ({ bounty, refreshBounty }) => {
 				);
 				setShowSuccessModal(true);
 				refreshBounty();
+				setButtonText('Fund');
 				setIsLoading(false);
 			} catch (error) {
 				const { message, title } = appState.openQClient.handleError(error, { bounty });
 				setError({ message, title });
 				setIsLoading(false);
+				setButtonText('Fund');
 				setShowErrorModal(true);
 			}
 		}
@@ -115,24 +125,10 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 	function onCurrencySelect(token) {
 		setToken(token);
-		setConfirmationMessage(
-			`You are about to fund this bounty at address ${bounty.bountyAddress.substring(
-				0,
-				12
-			)}...${bounty.bountyAddress.substring(32)} with ${volume} ${token.name
-			}. Is this correct?`
-		);
 	}
 
 	function onVolumeChange(volume) {
 		setVolume(volume);
-		setConfirmationMessage(
-			`You are about to fund this bounty at address ${bounty.bountyAddress.substring(
-				0,
-				12
-			)}...${bounty.bountyAddress.substring(32)} with ${volume} ${token.name
-			}. Is this correct?`
-		);
 	}
 
 	//Close Modal on outside click
@@ -185,14 +181,40 @@ const FundPage = ({ bounty, refreshBounty }) => {
 						volume={volume}
 					/>
 
+					<div className="flex w-full flex-row justify-between items-center pl-14 py-3 rounded-lg py-1 bg-dark-mode border border-web-gray text-white">
+						<h1 className='text-white'>Deposit Period Days</h1>
+						<div className={'px-4 font-bold fundBox-amount bg-dark-mode'}>
+							<input
+								className="font-semibold text-2xl number outline-none bg-dark-mode w-full"
+								autoComplete="off"
+								value={depositPeriodDays}
+								id="deposit-period"
+								onChange={(event) => setDepositPeriodDays(event.target.value)}
+							/>
+						</div>
+					</div>
+
 					<div>
 						<button
 							className={fundButtonClasses}
-							disabled={isLoading || claimed}
+							disabled={isLoading || claimed || parseInt(volume) == 0 || volume == ''}
 							type="button"
-							onClick={() => setShowConfirmationModal(true)}
+							onClick={() => {
+								setConfirmationMessage(
+									`You are about to fund this bounty at address ${bounty.bountyAddress.substring(
+										0,
+										12
+									)}...${bounty.bountyAddress.substring(32)} with ${volume} ${token.name
+									}.
+									
+									This will be refundable after ${depositPeriodDays} ${depositPeriodDays == 1 ? 'day' : 'days'}.
+									
+									Is this correct?`
+								);
+								setShowConfirmationModal(true);
+							}}
 						>
-							<div>{!isLoading ? 'Fund' : 'Approving'}</div>
+							<div>{buttonText}</div>
 							<div>{isLoading && <ButtonLoadingIcon />}</div>
 						</button>
 					</div>

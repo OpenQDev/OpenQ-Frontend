@@ -83,19 +83,21 @@ class OpenQClient {
 		return promise;
 	}
 
-	async fundBounty(library, _bountyAddress, _tokenAddress, _value) {
+	async fundBounty(library, _bountyAddress, _tokenAddress, _value, _depositPeriodDays) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
 
 			const contract = this.OpenQ(signer);
 			try {
+				const expiration = _depositPeriodDays * 24 * 60 * 60;
+
 				let txnResponse;
 				let txnReceipt;
 
 				if (_tokenAddress == ethers.constants.AddressZero) {
-					txnResponse = await contract.fundBountyToken(_bountyAddress, _tokenAddress, _value, 1, { value: _value });
+					txnResponse = await contract.fundBountyToken(_bountyAddress, _tokenAddress, _value, expiration, { value: _value });
 				} else {
-					txnResponse = await contract.fundBountyToken(_bountyAddress, _tokenAddress, _value, 1);
+					txnResponse = await contract.fundBountyToken(_bountyAddress, _tokenAddress, _value, expiration);
 				}
 
 				txnReceipt = await txnResponse.wait();

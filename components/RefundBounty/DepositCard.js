@@ -27,16 +27,13 @@ const DepositCard = ({ deposit, bounty, refundBounty }) => {
 					{ethers.utils.formatUnits(deposit.volume, parseInt(token.decimals))} {token.name}
 				</div>
 				<div className="pt-5 text-center font-semibold text-white">
-					Deposited On: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime))}
+					Deposited on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime))}
 				</div>
 				<div className="pt-5 text-center font-semibold text-white">
-					Can Refund On: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + 2592000)}
+					Refundable on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + 2592000)}
 				</div>
 				<div className="pt-5 text-center font-semibold text-white">
 					Refunded: {deposit.refunded.toString()}
-				</div>
-				<div className="pt-5 text-center font-semibold text-white">
-					Bounty Closed: {closed.toString()}
 				</div>
 				<button disabled={deposit.refunded || closed} className={classes} onClick={() => refundBounty(deposit.id)}>
 					Refund
