@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
-const Dropdown = ({ toggleFunc, toggleVal, names }) => {
+const Dropdown = ({ toggleFunc, toggleVal, names, title, borderShape }) => {
 
 	// Hooks
 	const [open, updateOpen] = useState(false);
@@ -34,8 +34,11 @@ const Dropdown = ({ toggleFunc, toggleVal, names }) => {
 	return (
 		<div ref={ref} className="flex justify-center">
 			<div className="relative w-32">
-				<div className={`flex-col w-44 absolute bg-dark-mode border-b border-l border-r border-web-gray ${open ? 'rounded-b-md' : 'rounded-r'}`}>
-
+				<div className={`flex-col w-44 absolute bg-dark-mode border ${borderShape} border-web-gray ${open ? 'rounded-r-md' : 'overflow-hidden'}`}>
+					{title && <h4 className={'text-white list-none hover:bg-gray-500 w-full relative hover:bg-opacity-10 box-content bg-gray-500 visible h-max bg-opacity-20'}>
+						<button className="w-full text-left p-2 px-4" onClick={() => updateOpen(() => !open)}>
+							{title}
+						</button></h4>}
 					{names.map((name, index) => {
 						return <li className={`text-white list-none hover:bg-gray-500 w-full hover:bg-opacity-10 ${toggleVal === name ? 'bg-gray-500 visible h-max bg-opacity-20' : open ? null : 'h-0 invisible overflow-none p-0'
 
@@ -47,7 +50,7 @@ const Dropdown = ({ toggleFunc, toggleVal, names }) => {
 
 					})}
 				</div></div>
-			<button onClick={() => updateOpen(() => !open)} className="text-white align-self-start px-2 h-10 bg-gray-500 bg-opacity-20 w-12">
+			<button onClick={() => updateOpen(() => !open)} className="text-white align-self-start px-2 h-10 bg-gray-500 bg-opacity-20 w-12 rounded-lg">
 				<Image width="20" height="40" src="/chevron-down.svg" />
 			</button>
 		</div>);
