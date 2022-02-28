@@ -4,9 +4,7 @@ import OpenQClient from '../../services/ethers/OpenQClient';
 import OpenQSubgraphClient from '../../services/subgraph/OpenQSubgraphClient';
 import GithubRepository from '../../services/github/GithubRepository';
 import TokenClient from '../../services/coins/TokenClient';
-import FirstLaunchService from '../../services/firstLaunch/FirstLanchService';
 
-import MockFirstLaunchService from '../../services/firstLaunch/MockFirstLaunchService';
 import MockGithubRepository from '../../services/github/MockGithubRepository';
 import MockOpenQClient from '../../services/ethers/MockOpenQClient';
 import MockOpenQSubgraphClient from '../../services/subgraph/MockOpenQSubgraphClient';
@@ -40,7 +38,6 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 		InitialState = {
 			tokenMetadata: localTokenMetadata,
 			tokens: localTokens,
-			firstLaunch: new MockFirstLaunchService(),
 			openQClient: new OpenQClient(),
 			githubRepository: new GithubRepository(),
 			openQSubgraphClient: new OpenQSubgraphClient(),
@@ -52,7 +49,6 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 		InitialState = {
 			tokenMetadata: mumbaiTokenMetadata,
 			tokens: mumbaiTokens,
-			firstLaunch: new FirstLaunchService(),
 			openQClient: new OpenQClient(),
 			githubRepository: new GithubRepository(),
 			openQSubgraphClient: new OpenQSubgraphClient(),
@@ -64,7 +60,6 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 		InitialState = {
 			tokenMetadata: polygonMainnetTokenMetadata,
 			tokens: polygonMainnetTokens,
-			firstLaunch: new FirstLaunchService(),
 			openQClient: new OpenQClient(),
 			githubRepository: new GithubRepository(),
 			openQSubgraphClient: new OpenQSubgraphClient(),
@@ -76,7 +71,6 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 		InitialState = {
 			tokenMetadata: polygonMainnetTokenMetadata,
 			tokens: polygonMainnetTokens,
-			firstLaunch: new FirstLaunchService(),
 			openQClient: new OpenQClient(),
 			githubRepository: new GithubRepository(),
 			tokenClient: new TokenClient(),
