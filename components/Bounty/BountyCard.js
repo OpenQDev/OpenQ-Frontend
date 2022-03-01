@@ -93,7 +93,7 @@ const BountyCard = ({ bounty }) => {
 															opacity: .9,
 															color: label.color,
 														}}
-														className="font-mont rounded-lg text-xs py-1 px-2 font-bold border border-purple-500 text-white"
+														className="font-mont rounded-lg text-xs py-1 px-2 font-bold border text-white"
 													>
 														{label.name}
 													</button>

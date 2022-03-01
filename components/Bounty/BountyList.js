@@ -151,6 +151,7 @@ const BountyList = ({ bounties }) => {
 				onKeyUp={handleSearchInput}
 				placeholder={'Search Issue...'}
 				searchText={searchText}
+				borderShape={'border-b border-l rounded-l-lg border-t'}
 			/>
 			<Dropdown toggleFunc={addTag}  title="Filter By Label" names={availableLabels} borderShape={'rounded-r-lg'}/></div>	
 			<div className="flex flex-wrap content-center items-center flex-row items-start gap-4">

@@ -4,7 +4,7 @@ import OpenQClient from '../../services/ethers/OpenQClient';
 import OpenQSubgraphClient from '../../services/subgraph/OpenQSubgraphClient';
 import GithubRepository from '../../services/github/GithubRepository';
 import TokenClient from '../../services/coins/TokenClient';
-import FirstLaunchService from '../../services/firstLaunch/FirstLanchService';
+import FirstLaunchService from '../../services/firstLaunch/FirstLaunchService';
 
 import MockFirstLaunchService from '../../services/firstLaunch/MockFirstLaunchService';
 import MockGithubRepository from '../../services/github/MockGithubRepository';
@@ -25,66 +25,66 @@ import localTokenMetadata from '../../constants/local.json';
 
 let InitialState = {};
 switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
-	case 'local':
-		InitialState = {
-			tokenMetadata: localTokenMetadata,
-			tokens: localTokens,
-			openQClient: new MockOpenQClient(),
-			githubRepository: new MockGithubRepository(),
-			openQSubgraphClient: new MockOpenQSubgraphClient(),
-			tokenClient: new MockTokenClient(),
-			utils: new Utils(),
-		};
-		break;
-	case 'docker':
-		InitialState = {
-			tokenMetadata: localTokenMetadata,
-			tokens: localTokens,
-			firstLaunch: new MockFirstLaunchService(),
-			openQClient: new OpenQClient(),
-			githubRepository: new GithubRepository(),
-			openQSubgraphClient: new OpenQSubgraphClient(),
-			tokenClient: new TokenClient(),
-			utils: new Utils(),
-		};
-		break;
-	case 'development':
-		InitialState = {
-			tokenMetadata: mumbaiTokenMetadata,
-			tokens: mumbaiTokens,
-			firstLaunch: new FirstLaunchService(),
-			openQClient: new OpenQClient(),
-			githubRepository: new GithubRepository(),
-			openQSubgraphClient: new OpenQSubgraphClient(),
-			tokenClient: new TokenClient(),
-			utils: new Utils(),
-		};
-		break;
-	case 'staging':
-		InitialState = {
-			tokenMetadata: polygonMainnetTokenMetadata,
-			tokens: polygonMainnetTokens,
-			firstLaunch: new FirstLaunchService(),
-			openQClient: new OpenQClient(),
-			githubRepository: new GithubRepository(),
-			openQSubgraphClient: new OpenQSubgraphClient(),
-			tokenClient: new TokenClient(),
-			utils: new Utils(),
-		};
-		break;
-	case 'production':
-		InitialState = {
-			tokenMetadata: polygonMainnetTokenMetadata,
-			tokens: polygonMainnetTokens,
-			firstLaunch: new FirstLaunchService(),
-			openQClient: new OpenQClient(),
-			githubRepository: new GithubRepository(),
-			tokenClient: new TokenClient(),
-			utils: new Utils(),
-		};
-		break;
-	default:
-		throw Error('ENVIRONMENT NOT CONFIGURED CORRECTLY. Set an environment with DEPLOY_ENV');
+case 'local':
+	InitialState = {
+		tokenMetadata: localTokenMetadata,
+		tokens: localTokens,
+		openQClient: new MockOpenQClient(),
+		githubRepository: new MockGithubRepository(),
+		openQSubgraphClient: new MockOpenQSubgraphClient(),
+		tokenClient: new MockTokenClient(),
+		utils: new Utils(),
+	};
+	break;
+case 'docker':
+	InitialState = {
+		tokenMetadata: localTokenMetadata,
+		tokens: localTokens,
+		firstLaunch: new MockFirstLaunchService(),
+		openQClient: new OpenQClient(),
+		githubRepository: new GithubRepository(),
+		openQSubgraphClient: new OpenQSubgraphClient(),
+		tokenClient: new TokenClient(),
+		utils: new Utils(),
+	};
+	break;
+case 'development':
+	InitialState = {
+		tokenMetadata: mumbaiTokenMetadata,
+		tokens: mumbaiTokens,
+		firstLaunch: new FirstLaunchService(),
+		openQClient: new OpenQClient(),
+		githubRepository: new GithubRepository(),
+		openQSubgraphClient: new OpenQSubgraphClient(),
+		tokenClient: new TokenClient(),
+		utils: new Utils(),
+	};
+	break;
+case 'staging':
+	InitialState = {
+		tokenMetadata: polygonMainnetTokenMetadata,
+		tokens: polygonMainnetTokens,
+		firstLaunch: new FirstLaunchService(),
+		openQClient: new OpenQClient(),
+		githubRepository: new GithubRepository(),
+		openQSubgraphClient: new OpenQSubgraphClient(),
+		tokenClient: new TokenClient(),
+		utils: new Utils(),
+	};
+	break;
+case 'production':
+	InitialState = {
+		tokenMetadata: polygonMainnetTokenMetadata,
+		tokens: polygonMainnetTokens,
+		firstLaunch: new FirstLaunchService(),
+		openQClient: new OpenQClient(),
+		githubRepository: new GithubRepository(),
+		tokenClient: new TokenClient(),
+		utils: new Utils(),
+	};
+	break;
+default:
+	throw Error('ENVIRONMENT NOT CONFIGURED CORRECTLY. Set an environment with DEPLOY_ENV');
 }
 
 export default InitialState;

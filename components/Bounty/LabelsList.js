@@ -11,6 +11,11 @@ const LabelsList = ({ bounty }) => {
 					return (
 						<button
 							key={index}
+							style={{
+								borderColor: label.color,
+								opacity: .9,
+								color: label.color,
+							}}
 							className="rounded-lg text-xs py-1 px-2 font-bold border border-purple-500 text-white"
 						>
 							{label.name}
