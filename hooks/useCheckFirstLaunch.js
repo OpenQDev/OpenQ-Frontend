@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const useCheckFirstLaunch = () => {
 	const [isFirstLaunch, setIsFirstLaunch] = useState(false);
@@ -8,7 +8,7 @@ const useCheckFirstLaunch = () => {
 			setIsFirstLaunch(false);
 		} else {
 			let firstLaunch;
-			if (typeof window !== 'undefined') {
+			if (typeof window !== 'undefined' && !firstLaunch) {
 				firstLaunch = localStorage.getItem('firstLaunch');
 				localStorage.setItem('firstLaunch', false);
 			}
