@@ -40,7 +40,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 					<div className="pt-5 pb-5 font-semibold text-white">No deposits</div>
 				)}
 				<div className='text-white font-bold'>Deposits</div>
-				<div className="flex gap-8 flex-wrap">
+				<div className="flex gap-x-8 flex-wrap">
 					{bounty.deposits
 						.filter((deposit) => {
 							return deposit.refunded == false;
@@ -51,7 +51,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 						.map((deposit) => {
 							const timeToExpiry = parseInt(deposit.receiveTime)+parseInt(deposit.expiration)-Date.now()*0.001;		
 							return (
-								<div key={deposit.id} className={`bg-web-gray/20 border-${timeToExpiry<604800?'red': timeToExpiry <1209600 ? 'yellow' :'green' }-500 border px-8 my-4 pb-6 rounded-md max-w-s`}>
+								<div key={deposit.id} className={`bg-web-gray/20 border-${timeToExpiry<604800?'red': timeToExpiry <1209600 ? 'yellow' :'green' }-500 border px-8 my-4 pb-4 rounded-md max-w-s`}>
 									<TokenBalances 
 										tokenBalances={[deposit]}
 										tokenValues={tokenValues} />
