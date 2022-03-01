@@ -4,9 +4,7 @@ import OpenQClient from '../../services/ethers/OpenQClient';
 import OpenQSubgraphClient from '../../services/subgraph/OpenQSubgraphClient';
 import GithubRepository from '../../services/github/GithubRepository';
 import TokenClient from '../../services/coins/TokenClient';
-import FirstLaunchService from '../../services/firstLaunch/FirstLaunchService';
 
-import MockFirstLaunchService from '../../services/firstLaunch/MockFirstLaunchService';
 import MockGithubRepository from '../../services/github/MockGithubRepository';
 import MockOpenQClient from '../../services/ethers/MockOpenQClient';
 import MockOpenQSubgraphClient from '../../services/subgraph/MockOpenQSubgraphClient';
@@ -40,7 +38,6 @@ case 'docker':
 	InitialState = {
 		tokenMetadata: localTokenMetadata,
 		tokens: localTokens,
-		firstLaunch: new MockFirstLaunchService(),
 		openQClient: new OpenQClient(),
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
@@ -52,7 +49,6 @@ case 'development':
 	InitialState = {
 		tokenMetadata: mumbaiTokenMetadata,
 		tokens: mumbaiTokens,
-		firstLaunch: new FirstLaunchService(),
 		openQClient: new OpenQClient(),
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
@@ -64,7 +60,6 @@ case 'staging':
 	InitialState = {
 		tokenMetadata: polygonMainnetTokenMetadata,
 		tokens: polygonMainnetTokens,
-		firstLaunch: new FirstLaunchService(),
 		openQClient: new OpenQClient(),
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
@@ -76,7 +71,6 @@ case 'production':
 	InitialState = {
 		tokenMetadata: polygonMainnetTokenMetadata,
 		tokens: polygonMainnetTokens,
-		firstLaunch: new FirstLaunchService(),
 		openQClient: new OpenQClient(),
 		githubRepository: new GithubRepository(),
 		tokenClient: new TokenClient(),

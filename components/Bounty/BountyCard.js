@@ -11,7 +11,7 @@ const BountyCard = ({ bounty }) => {
 	// State
 	const bountyName = bounty.title.toLowerCase();
 	const [appState] = useContext(StoreContext);
-	console.log(bounty.createdAt);
+
 	// Hooks
 	const [tokenValues] = useGetTokenValues(bounty.bountyTokenBalances);
 
