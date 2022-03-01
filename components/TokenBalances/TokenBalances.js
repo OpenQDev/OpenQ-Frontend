@@ -13,9 +13,10 @@ const TokenBalances = ({ tokenBalances, tokenValues, header }) => {
 		<div className="flex flex-col pt-4 pb-6">
 			<div className="font-semibold text-white">{header}</div>
 			<div className="font-bold text-xl text-white">
-				{tokenValues
-					? `${appState.utils.formatter.format(tokenValues.total)}`
-					: `${appState.utils.formatter.format(0)}`}
+				{tokenBalances.length > 1 
+					? tokenValues 
+						? `${appState.utils.formatter.format(tokenValues.total)}`
+						: `${appState.utils.formatter.format(0)}`:null}
 			</div>
 			<div className="flex flex-row space-x-2 pt-1">
 				<div>

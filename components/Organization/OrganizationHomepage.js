@@ -64,7 +64,7 @@ const OrganizationHomepage = () => {
 		<div>
 			<div className="flex justify-center">
 				<div className="grid grid-cols-3 gap-3">
-					<SearchBar onKeyUp={filterByOrg} placeholder="Seach Organization..." className="mb-200" />
+					<SearchBar onKeyUp={filterByOrg} searchText={organizationSearchTerm} placeholder="Search Organization..." borderShape={'border rounded-full'} className="mb-200" />
 					<MintBountyButton />
 					{isLoading
 						? null
