@@ -1,21 +1,14 @@
 // Third Party
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 
 // Custom
 import BountyHomepage from '../components/Bounty/BountyHomepage';
 import OrganizationHomepage from '../components/Organization/OrganizationHomepage';
-import StoreContext from '../store/Store/StoreContext';
-import useCheckFirstLaunch from '../hooks/useCheckFirstLaunch';
 
 export default function Index() {
 	const [internalMenu, setInternalMenu] = useState('issue');
-	const [appState] = useContext(StoreContext);
-
-	// This is a custom hook that should run once on startup
-	// the isFirstLaunch state should be used to toggle display:none on a thin top banner inviting user to watch demo
-	// For some reason it keeps getting rendered and run twice, resulting in isFirstLaunch always being true
-	const [isFirstLaunch] = useCheckFirstLaunch();
+	
 
 	return (
 		<div>
@@ -34,14 +27,14 @@ export default function Index() {
 							<button
 								onClick={() => setInternalMenu('org')}
 								className={`text-white rounded-xl p-2 px-4 bg-opacity-20 ${internalMenu == 'org' ? 'bg-gray-500' : null
-									}`}
+								}`}
 							>
 								Organizations
 							</button>
 							<button
 								onClick={() => setInternalMenu('issue')}
 								className={`text-white rounded-xl p-2 px-4 bg-opacity-20 ${internalMenu == 'issue' ? 'bg-gray-500' : null
-									}`}
+								}`}
 							>
 								Issues
 							</button>
