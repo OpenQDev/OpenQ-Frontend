@@ -1,46 +1,38 @@
 // Third Party
 import React, { useContext } from 'react';
-import { ethers } from 'ethers';
 import StoreContext from '../../store/Store/StoreContext';
-
-const DepositCard = ({ deposit, refundBounty, canRefund }) => {
+import useGetTokenValues from '../../hooks/useGetTokenValues';
+import TokenBalances from '../TokenBalances/TokenBalances';
+const DepositCard = ({ deposit, refundBounty, status }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
-	const { tokenMetadata } = appState;
 
 	// State
-	const token = tokenMetadata[ethers.utils.getAddress(deposit.tokenAddress)];
-
-	const enableOrDisable = canRefund ? 'confirm-btn cursor-pointer' : 'confirm-btn-disabled cursor-not-allowed';
-	const classes = `bg-pink text-white rounded shadow-md text-gray-300 font-sans relative ${enableOrDisable}`;
+	const [tokenValues] = useGetTokenValues(deposit);
 
 	return (
-		<div>
-			<div
-				className={
-					'flex flex-col p-6 items-center font-mont rounded-xl shadow-sm border border-web-gray cursor-pointer pr-11 pl-11'
-				}
-			>
-				<div className="bg-pink text-white rounded shadow-md text-gray-300 font-sans relative">
-					{ethers.utils.formatUnits(deposit.volume, parseInt(token.decimals))} {token.name}
-				</div>
-				<div className="pt-5 text-center font-semibold text-white">
+		<div className={`flex flex-col items-start px-8 sm:px-6 pb-4 max-w-sm bg-web-gray/20 ${status==='refundable'? ' border-pink-300' : status==='not-yet-refundable'?' border-green-300':' border-web-gray'} border rounded-md`}>
+			<TokenBalances 
+				tokenBalances={deposit}
+				tokenValues={tokenValues} />
+			<div className="text-left text-white pb-4">
 					Deposited on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime))}
-				</div>
-				{deposit.refunded ?
-					(<div className="pt-5 text-center font-semibold text-white">
-						Refunded on: {appState.utils.formatUnixDate(parseInt(deposit.refundTime))}
-					</div>)
-					:
-					(<div className="pt-5 text-center font-semibold text-white">
-						Refundable on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}
-					</div>)
-				}
-				<button disabled={!canRefund} className={classes} onClick={() => refundBounty(deposit.id)}>
-					Refund
-				</button>
 			</div>
-		</div >
+			{deposit.refunded ?
+				(<div className="text-left text-white pb-2">
+						Refunded on: {appState.utils.formatUnixDate(parseInt(deposit.refundTime))}
+				</div>)
+				:
+				(<div className="text-left text-white pb-2">
+						Refundable on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}
+				</div>)
+			}
+			{status==='refundable' &&
+			<button  className='items-left w-1/2 text-lg text-white self-center sm-confirm-btn'  onClick={() => refundBounty(deposit.id)}>
+					Refund
+			</button>}
+		</div>
+		
 	);
 };
 

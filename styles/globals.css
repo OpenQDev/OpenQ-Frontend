@@ -38,6 +38,9 @@
   .confirm-btn {
     @apply font-mont rounded-lg w-full py-3 font-bold cursor-pointer text-white border border-pink-300 bg-pink-700 bg-opacity-10 hover:bg-pink-700 hover:bg-opacity-30 hover:text-white;
   }
+  .sm-confirm-btn{
+    @apply font-mont rounded-lg w-full py-2 font-semibold cursor-pointer text-white border border-pink-300 bg-pink-700 bg-opacity-10 hover:bg-pink-700 hover:bg-opacity-30 hover:text-white;
+  }
   .confirm-btn-disabled {
     @apply font-mont rounded-lg w-full py-3 font-bold text-white text-opacity-30 border border-pink-300 bg-pink-700 bg-opacity-10;
   }

@@ -7,14 +7,19 @@ const useGetTokenValues = (tokenBalances) => {
 	const [appState] = useContext(StoreContext);
 
 	async function getTokenValues(tokenBalances) {
+		
 		if (tokenBalances != null) {
 			let tokenVolumes = {};
-
-			tokenBalances.map((tokenBalance) => {
-				const tokenAddress = appState.tokenMetadata[ethers.utils.getAddress(tokenBalance.tokenAddress)].address;
-				tokenVolumes[tokenAddress] = tokenBalance.volume;
-			});
-
+			if(Array.isArray(tokenBalances)){
+				tokenBalances.map((tokenBalance) => {
+					const tokenAddress = appState.tokenMetadata[ethers.utils.getAddress(tokenBalance.tokenAddress)].address;
+					tokenVolumes[tokenAddress] = tokenBalance.volume;
+				});
+			}
+			else{
+				const tokenAddress = appState.tokenMetadata[ethers.utils.getAddress(tokenBalances.tokenAddress)].address;
+				tokenVolumes[tokenAddress] = tokenBalances.volume;
+			}
 			const data = { tokenVolumes };
 			const url = process.env.NEXT_PUBLIC_COIN_API_URL + '/tvl';
 			//only query tvl for bounties that have deposits
