@@ -73,68 +73,71 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 	} else {
 		return (
 			<>
-				<div className="flex justify-center items-center">
-					<div className="pt-16 flex flex-col space-y-5 w-1/2">
-						<div className="text-3xl font-semibold text-white text-center">
-							Refund Bounty{' '}
-						</div>
-						<h1 className="text-white">
+				<div className="flex justify-center items-center pl-5 pr-5 md:pl-16 md:pr-16 pt-10 pb-10 my-16 border-web-gray border rounded-lg w-5/6">
+					<div className="flex flex-col space-y-5 w-full">
+						<h1 className="font-bold py-4 text-2xl border-web-gray border-b text-white">
 							Your Deposits
 						</h1>
-						<h2 className='text-white'>Refundable</h2>
-						{
-							bounty.deposits
-								.filter((deposit) => {
-									return (ethers.utils.getAddress(deposit.sender.id) == account);
-								})
-								.filter((deposit) => {
-									return deposit.refunded == false;
-								})
-								.filter((deposit) => {
-									return ((parseInt(deposit.receiveTime) + parseInt(deposit.expiration)) < Math.floor(Date.now() / 1000));
-								})
-								.map((deposit) => {
-									return (
-										<div className="pb-3" key={deposit.id}>
-											<DepositCard deposit={deposit} bounty={bounty} refundBounty={refundBounty} canRefund={true} />
-										</div>
-									);
-								})
-						}
-						<h2 className='text-white'>Not Yet Refundable</h2>
-						{
-							bounty.deposits
-								.filter((deposit) => {
-									return (ethers.utils.getAddress(deposit.sender.id) == account);
-								})
-								.filter((deposit) => {
-									return ((parseInt(deposit.receiveTime) + parseInt(deposit.expiration)) > Math.floor(Date.now() / 1000));
-								})
-								.map((deposit) => {
-									return (
-										<div className="pb-3" key={deposit.id}>
-											<DepositCard deposit={deposit} bounty={bounty} refundBounty={refundBounty} canRefund={false} />
-										</div>
-									);
-								})
-						}
-						<h2 className='text-white'>Refunded</h2>
-						{
-							bounty.deposits
-								.filter((deposit) => {
-									return (ethers.utils.getAddress(deposit.sender.id) == account);
-								})
-								.filter((deposit) => {
-									return (deposit.refunded == true);
-								})
-								.map((deposit) => {
-									return (
-										<div className="pb-3" key={deposit.id}>
-											<DepositCard deposit={deposit} bounty={bounty} refundBounty={refundBounty} canRefund={false} />
-										</div>
-									);
-								})
-						}
+						<h2 className='text-white font-semibold'>Refundable</h2>
+						<div className='flex flex-wrap gap-8 flex-wrap'>
+							{
+								bounty.deposits
+									.filter((deposit) => {
+										return (ethers.utils.getAddress(deposit.sender.id) == account);
+									})
+									.filter((deposit) => {
+										return deposit.refunded == false;
+									})
+									.filter((deposit) => {
+										return ((parseInt(deposit.receiveTime) + parseInt(deposit.expiration)) < Math.floor(Date.now() / 1000));
+									})
+									.map((deposit) => {
+										return (
+											<div key={deposit.id}>
+												<DepositCard deposit={deposit} status="refundable" bounty={bounty} refundBounty={refundBounty}/>
+											</div>
+										);
+									})
+							}
+						</div>
+						<h2 className='text-white font-semibold'>Not Yet Refundable</h2>
+						<div className='flex flex-wrap gap-8'>
+							{
+								bounty.deposits
+									.filter((deposit) => {
+										return (ethers.utils.getAddress(deposit.sender.id) == account);
+									})
+									.filter((deposit) => {
+										return ((parseInt(deposit.receiveTime) + parseInt(deposit.expiration)) > Math.floor(Date.now() / 1000));
+									})
+									.map((deposit) => {
+										return (
+											<div key={deposit.id}>
+												<DepositCard deposit={deposit} status="not-yet-refundable" bounty={bounty} refundBounty={refundBounty}/>
+											</div>
+										);
+									})
+							}
+						</div>
+						<h2 className='text-white font-semibold'>Refunded</h2>
+						<div className='flex flex-wrap gap-x-8'>
+							{
+								bounty.deposits
+									.filter((deposit) => {
+										return (ethers.utils.getAddress(deposit.sender.id) == account);
+									})
+									.filter((deposit) => {
+										return (deposit.refunded == true);
+									})
+									.map((deposit) => {
+										return (
+											<div key={deposit.id}>
+												<DepositCard deposit={deposit} status="refunded" bounty={bounty} refundBounty={refundBounty}/>
+											</div>
+										);
+									})
+							}
+						</div>
 					</div>
 					{isLoading && <LoadingIcon />}
 					<ConfirmErrorSuccessModalsTrio
