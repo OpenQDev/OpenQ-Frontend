@@ -6,7 +6,7 @@ const ethers = require('ethers');
 
 const TokenBalances = ({ tokenBalances, tokenValues, header }) => {
 	const [appState] = useContext(StoreContext);
-
+	const tokenBalancesArr=Array.isArray(tokenBalances) ? tokenBalances:[tokenBalances];
 	const { tokenMetadata } = appState;
 
 	return (
@@ -21,7 +21,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, header }) => {
 			<div className="flex flex-row space-x-2 pt-1">
 				<div>
 					{tokenValues
-						? tokenBalances.map((tokenBalance) => {
+						? tokenBalancesArr.map((tokenBalance) => {
 							const tokenAddress = ethers.utils.getAddress(
 								tokenBalance.tokenAddress
 							);
