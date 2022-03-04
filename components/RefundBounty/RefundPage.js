@@ -43,7 +43,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 	async function refundBounty(depositId) {
 		setIsLoading(true);
 		appState.openQClient
-			.refundDeposit(library, bounty.bountyAddress, depositId)
+			.refundDeposit(library, bounty.bountyId, depositId)
 			.then((txnReceipt) => {
 				setTransactionHash(txnReceipt.transactionHash);
 				setSuccessMessage('Money refunded!');
@@ -94,7 +94,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 									.map((deposit) => {
 										return (
 											<div key={deposit.id}>
-												<DepositCard deposit={deposit} status="refundable" bounty={bounty} refundBounty={refundBounty}/>
+												<DepositCard deposit={deposit} status="refundable" bounty={bounty} refundBounty={refundBounty} />
 											</div>
 										);
 									})
@@ -113,7 +113,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 									.map((deposit) => {
 										return (
 											<div key={deposit.id}>
-												<DepositCard deposit={deposit} status="not-yet-refundable" bounty={bounty} refundBounty={refundBounty}/>
+												<DepositCard deposit={deposit} status="not-yet-refundable" bounty={bounty} refundBounty={refundBounty} />
 											</div>
 										);
 									})
@@ -132,7 +132,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 									.map((deposit) => {
 										return (
 											<div key={deposit.id}>
-												<DepositCard deposit={deposit} status="refunded" bounty={bounty} refundBounty={refundBounty}/>
+												<DepositCard deposit={deposit} status="refunded" bounty={bounty} refundBounty={refundBounty} />
 											</div>
 										);
 									})

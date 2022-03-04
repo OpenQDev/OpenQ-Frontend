@@ -100,7 +100,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 			try {
 				const fundTxnReceipt = await appState.openQClient.fundBounty(
 					library,
-					bounty.bountyAddress,
+					bounty.bountyId,
 					token.address,
 					bigNumberVolumeInWei,
 					depositPeriodDays
