@@ -23,6 +23,7 @@ export const GET_ISSUE = gql`
   }
 `;
 
+
 export const GET_ORG_BY_NAME = gql`
 query GetOrg($orgName: String!) {
   organization(login: $orgName) {
@@ -95,6 +96,38 @@ export const GET_ISSUE_BY_ID = gql`
     }
   }
 `;
+
+export const GET_ISSUES_BY_ID=gql`
+query($issueIds: [ID!]!) {
+  nodes(ids: $issueIds) {
+    ... on Issue {
+      closed
+      title
+      body
+      url
+      id
+      titleHTML
+      bodyHTML
+      labels(first: 10) {
+        edges {
+          node {
+            name
+            color
+          }
+        }
+      }
+      createdAt
+      repository {
+        id
+        name
+        owner {
+          login
+          avatarUrl
+        }
+      }
+    }
+  }
+}`;
 
 export const GET_CURRENT_USER_AVATAR_URL = gql`
   query {

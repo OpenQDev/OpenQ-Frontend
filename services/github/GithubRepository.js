@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { GET_ORG_BY_NAME, GET_ISSUE, GET_CURRENT_USER_AVATAR_URL, GET_ISSUE_BY_ID } from './graphql/query';
+import { GET_ORG_BY_NAME, GET_ISSUE, GET_CURRENT_USER_AVATAR_URL, GET_ISSUE_BY_ID, GET_ISSUES_BY_ID } from './graphql/query';
 import fetch from 'cross-fetch';
 import { setContext } from '@apollo/client/link/context';
 
@@ -48,6 +48,18 @@ class GithubRepository {
 		const labels = responseData.labels.edges.map(edge => edge.node);
 		return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML };
 	}
+	parseIssuesData(rawIssuesResponse) {
+		const responseData = rawIssuesResponse.data.nodes;
+		return responseData.map((elem)=>{
+				
+			const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = elem;
+			const repoName = elem.repository.name;
+			const avatarUrl = elem.repository.owner.avatarUrl;
+			const owner = elem.repository.owner.login;
+			const labels = elem.labels.edges.map(edge => edge.node);
+			return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML };
+		});
+	}
 
 	async fetchIssueById(issueId) {
 		const promise = new Promise(async (resolve, reject) => {
@@ -56,6 +68,20 @@ class GithubRepository {
 					query: GET_ISSUE_BY_ID, variables: { issueId },
 				});
 				resolve(this.parseIssueData(result));
+			} catch (e) {
+				reject(e);
+			}
+		});
+
+		return promise;
+	}
+	async getIssueData(issueIds){
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.query({
+					query: GET_ISSUES_BY_ID, variables: { issueIds },
+				});
+				resolve(this.parseIssuesData(result));
 			} catch (e) {
 				reject(e);
 			}
@@ -94,14 +120,6 @@ class GithubRepository {
 		return promise;
 	}
 
-	async getIssueData(issues) {
-		const issueDataObjects = [];
-		for (let issueId of issues) {
-			const response = await this.fetchIssueById(issueId);
-			issueDataObjects.push(response);
-		}
-		return issueDataObjects;
-	}
 }
 
 export default GithubRepository;
