@@ -155,7 +155,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 			while (bountyId == 'undefined') {
 				const bountyResp = await appState.openQSubgraphClient.getBounty(bountyAddress);
 				bountyId = bountyResp?.bountyId;
-				console.log('bountyId', bountyId);
 				await sleep(500);
 			}
 

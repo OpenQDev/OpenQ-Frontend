@@ -47,7 +47,6 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 				{ withCredentials: true }
 			)
 			.then(async (result) => {
-				console.log('Result received from /claim: ', result);
 				const { payoutAddress, txnHash } = result.data;
 				// Upon this return, the claimBounty transaction has been submitted
 				// We should now transition from Transaction Submitted -> Transaction Pending

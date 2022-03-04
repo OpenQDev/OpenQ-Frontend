@@ -51,7 +51,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 						.map((deposit) => {
 							const timeToExpiry = parseInt(deposit.receiveTime)+parseInt(deposit.expiration)-Date.now()*0.001;		
 							return (
-								<div key={deposit.id} className={`bg-web-gray/20 border-${timeToExpiry<604800?'red': timeToExpiry <1209600 ? 'yellow' :'green' }-500 border px-8 my-4 pb-4 rounded-md max-w-sm`}>
+								<div key={deposit.id} className={`bg-web-gray/20 ${timeToExpiry<604800?'border-red-500': timeToExpiry <1209600 ? 'border-yellow-500' :'border-green-500' } border px-8 my-4 pb-4 rounded-md max-w-sm`}>
 									<TokenBalances 
 										tokenBalances={[deposit]}
 										tokenValues={tokenValues} />

@@ -7,8 +7,8 @@ import BountyHomepage from '../components/Bounty/BountyHomepage';
 import OrganizationHomepage from '../components/Organization/OrganizationHomepage';
 
 export default function Index() {
-	const [internalMenu, setInternalMenu] = useState('issue');
-	
+	const [internalMenu, setInternalMenu] = useState('org');
+
 
 	return (
 		<div>
@@ -27,14 +27,14 @@ export default function Index() {
 							<button
 								onClick={() => setInternalMenu('org')}
 								className={`text-white rounded-xl p-2 px-4 bg-opacity-20 ${internalMenu == 'org' ? 'bg-gray-500' : null
-								}`}
+									}`}
 							>
 								Organizations
 							</button>
 							<button
 								onClick={() => setInternalMenu('issue')}
 								className={`text-white rounded-xl p-2 px-4 bg-opacity-20 ${internalMenu == 'issue' ? 'bg-gray-500' : null
-								}`}
+									}`}
 							>
 								Issues
 							</button>
