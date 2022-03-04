@@ -75,13 +75,12 @@ class GithubRepository {
 
 		return promise;
 	}
-	async fetchIssuesByIds(issueIds){
+	async getIssueData(issueIds){
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
 					query: GET_ISSUES_BY_ID, variables: { issueIds },
 				});
-				console.log(result);
 				resolve(this.parseIssuesData(result));
 			} catch (e) {
 				reject(e);
@@ -121,10 +120,6 @@ class GithubRepository {
 		return promise;
 	}
 
-	async getIssueData(issues) {
-		const issueDataObjects = await this.fetchIssuesByIds(issues);
-		return issueDataObjects;
-	}
 }
 
 export default GithubRepository;
