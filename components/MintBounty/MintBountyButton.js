@@ -11,7 +11,7 @@ const MintBountyButton = () => {
 		<>
 			<button
 				onClick={() => setShowModal(true)}
-				className="col-start-1 lg:col-start-8 md:col-start-6 sm:col-start-4 font-mont w-full rounded-lg border border-web-gray py-2 px-6 text-white font-semibold cursor-pointer hover:border-white"
+				className="lg:col-start-4 col-span-4 lg:col-span-1 whitespace-nowrap font-mont rounded-lg border border-web-gray py-2 px-6 text-white font-semibold cursor-pointer hover:border-white"
 			>
 				Mint Bounty
 			</button>

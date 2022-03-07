@@ -5,7 +5,11 @@ import Image from 'next/image';
 
 const OrganizationCard = ({ organization }) => {
 	// Context
-	const orgName = organization.name.charAt(0).toUpperCase() + organization.name.slice(1);
+	let orgName = organization.name.charAt(0).toUpperCase() + organization.name.slice(1);
+	
+	if(orgName.length>11){
+		orgName=orgName.slice(0,10).concat('...');
+	}
 
 	// Methods
 

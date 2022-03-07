@@ -62,10 +62,11 @@ const OrganizationHomepage = () => {
 	// Render
 	return (
 		<div>
-			<div className="flex justify-center">
-				<div className="grid gap-3 content-center">
+			<div className="">
+				<div className="grid gap-6 lg:grid-cols-[repeat(4,_1fr)] sm:w-2/3 mb-6 mx-auto">
 					<SearchBar onKeyUp={filterByOrg} searchText={organizationSearchTerm} placeholder="Search Organization..." borderShape={'border rounded-full'} className="mb-200" />
-					<MintBountyButton />
+					<MintBountyButton /></div>
+				<div className="grid grid-cols-[repeat(_auto-fit,_192px)] gap-6 justify-center sm:justify-start w-2/3 mx-auto">
 					{isLoading
 						? null
 						: organizations
@@ -78,7 +79,7 @@ const OrganizationHomepage = () => {
 							})
 							.map((organization) => {
 								return (
-									<div className="col-span-2 w-48" key={organization.id}>
+									<div className="w-48" key={organization.id}>
 										<OrganizationCard
 											organization={organization}
 											key={organization.id}
