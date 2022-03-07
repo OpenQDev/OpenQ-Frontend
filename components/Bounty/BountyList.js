@@ -7,6 +7,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import BountyCard from './BountyCard';
 import Dropdown from '../Toggle/Dropdown';
 import SearchBar from '../Search/SearchBar';
+import MintBountyButton from '../MintBounty/MintBountyButton';
 
 const BountyList = ({ bounties }) => {
 	// Hooks
@@ -146,14 +147,18 @@ const BountyList = ({ bounties }) => {
 
 	// Render
 	return (
-		<div className="w-f space-y-3">
-			<div className="flex w-min rounded-lg z-10 relative"><SearchBar
-				onKeyUp={handleSearchInput}
-				placeholder={'Search Issue...'}
-				searchText={searchText}
-				borderShape={'border-b border-l rounded-l-lg border-t'}
-			/>
-			<Dropdown toggleFunc={addTag}  title="Filter By Label" names={availableLabels} borderShape={'rounded-r-lg'}/></div>	
+		<div className="sm:w-2/3 space-y-3">			
+			<div className="grid lg:grid-cols-[repeat(4,_1fr)] gap-6">
+				<div className="flex rounded-lg z-10 relative lg:col-span-3 col-span-4">
+					<SearchBar
+						onKeyUp={handleSearchInput}
+						placeholder={'Search Issue...'}
+						searchText={searchText}
+						borderShape={'border-b border-l rounded-l-lg border-t'}
+					/>
+					<Dropdown toggleFunc={addTag}  title="Filter By Label" names={availableLabels} borderShape={'rounded-r-lg'}/></div>	
+				<MintBountyButton />
+			</div>
 			<div className="flex flex-wrap content-center items-center flex-row items-start gap-4">
 				<div className="flex bg-dark-modegap-2  rounded-md">
 					<span className="text-white p-2  align-self-center pr-4">Sort By</span>

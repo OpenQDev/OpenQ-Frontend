@@ -2,7 +2,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
-import MintBountyButton from '../MintBounty/MintBountyButton';
 import BountyList from './BountyList';
 
 const BountyHomepage = () => {
@@ -44,12 +43,9 @@ const BountyHomepage = () => {
 	// Render
 	return (
 		<div className="flex justify-center items-center">
-			<div className="grid grid-cols-3 gap-3">
-				<MintBountyButton />
 
-				{isLoading ? null :
-					<BountyList bounties={bounties} />}
-			</div>
+			{isLoading ? null :
+				<BountyList bounties={bounties} />}
 		</div>
 	);
 };
