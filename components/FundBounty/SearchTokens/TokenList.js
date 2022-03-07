@@ -13,11 +13,11 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
 	return (
 		<div>
 			{/* <div style={{ padding: '25px', margin: '10px', outline: '2px solid pink', borderRadius: '20px' }} > */}
-			<div className="pt-3 pb-3 pl-4 bg-slate-700 border border-web-gray bg-dark-mode rounded-lg overflow-hidden mb-2">
+			<div className="pt-3 pb-3 pl-4 bg-dark-mode border border-web-gray rounded-lg overflow-hidden mb-2">
 				<div className="">
-					<div className="justify-start bg-dark-mode">
+					<div className="justify-start ">
 						<input
-							className="outline-none bg-dark-mode text-white"
+							className="outline-none bg-transparent text-white"
 							onKeyUp={(e) => setTokenSearchTerm(e.target.value)}
 							type="text"
 							placeholder="Search name"

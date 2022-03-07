@@ -49,13 +49,15 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 							return (parseInt(a.receiveTime) + parseInt(a.expiration)) - (parseInt(b.receiveTime) + parseInt(b.expiration));
 						})
 						.map((deposit) => {
+							const open=(bounty.status==='OPEN');
 							const timeToExpiry = parseInt(deposit.receiveTime)+parseInt(deposit.expiration)-Date.now()*0.001;		
 							return (
-								<div key={deposit.id} className={`bg-web-gray/20 ${timeToExpiry<604800?'border-red-500': timeToExpiry <1209600 ? 'border-yellow-500' :'border-green-500' } border px-8 my-4 pb-4 rounded-md max-w-sm`}>
+								<div key={deposit.id} className={`bg-web-gray/20 ${(open) ? timeToExpiry<604800?'border-red-500': timeToExpiry <1209600 ? 'border-yellow-500' :'border-green-500' : 'border-web-gray'} border px-8 my-4 pb-4 rounded-md max-w-sm`}>
 									<TokenBalances 
 										tokenBalances={[deposit]}
 										tokenValues={tokenValues} />
-									<div key={deposit.id} className='text-white'>Locked until: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}</div>
+									{(open) && <div key={deposit.id} className='text-white'>Locked until: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}</div>
+									}
 								</div>
 							);
 						})
