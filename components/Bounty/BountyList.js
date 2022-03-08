@@ -147,7 +147,7 @@ const BountyList = ({ bounties }) => {
 
 	// Render
 	return (
-		<div className="xl:col-start-2 max-w-screen-md space-y-3 px-5">			
+		<div className="xl:col-start-2 justify-self-center max-w-screen-md space-y-3 px-5">			
 			<div className="grid lg:grid-cols-[repeat(4,_1fr)] gap-6">
 				<div className="flex rounded-lg z-10 relative lg:col-span-3 col-span-4">
 					<SearchBar
