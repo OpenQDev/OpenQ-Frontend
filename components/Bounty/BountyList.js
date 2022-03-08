@@ -159,16 +159,16 @@ const BountyList = ({ bounties }) => {
 					<Dropdown toggleFunc={addTag}  title="Filter By Label" names={availableLabels} borderShape={'rounded-r-lg'}/></div>	
 				<MintBountyButton />
 			</div>
-			<div className="flex flex-wrap content-center justify-center md:justify-start flex-row gap-4">
+			<div className="flex md:content-start content-center flex-col gap-2">
 				<div className="flex bg-dark-mode justify-between rounded-md w-64">
 					<span className="text-white p-2  align-self-center pr-4">Sort By</span>
 					<Dropdown toggleFunc={orderBounties} toggleVal={sortOrder} names={['Newest', 'Oldest', 'Highest\xa0TVL', 'Lowest\xa0TVL']} borderShape={'rounded-md'}/>
 				</div>
-				<div className="flex p-2 gap-2 border rounded-md border-web-gray w-64">
+				<div className="flex p-2 pr-4 gap-2 border rounded-md justify-between border-web-gray w-64">
 					<label htmlFor="unfunded" className="text-white">Show Unfunded Bounties</label>
 					<input id="unfunded" type="checkbox" className="accent-pink-500" onChange={showUnfunded} />
 				</div>
-				<div className="flex p-2 gap-2 border rounded-md border-web-gray w-64">
+				<div className="flex p-2 pr-4 gap-2 border rounded-md justify-between border-web-gray w-64">
 					<label htmlFor="claimed" className="text-white" >Show Claimed Bounties</label>
 					<input id="claimed" type="checkbox" className="accent-pink-500" onChange={showClaimed} />
 				</div>
