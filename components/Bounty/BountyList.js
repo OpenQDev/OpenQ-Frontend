@@ -15,7 +15,7 @@ const BountyList = ({ bounties }) => {
 	const [issueTitleSearchTerm, setIssueTitleSearchTerm] = useState('');
 	const [displayBounties, updateDisplayBounties] = useState([]);
 	const [tvlBounties, updateTvlBounties] = useState([]);
-	const [unfundedVisible, setUnfundedVisible] = useState(true);
+	const [unfundedVisible, setUnfundedVisible] = useState(false);
 	const [claimedVisible, setClaimedVisible] = useState(false);
 	const [sortOrder, updateSortOrder] = useState('Newest');
 	const [tagArr, updateTagArr] = useState([]);
