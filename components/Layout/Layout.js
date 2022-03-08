@@ -32,7 +32,7 @@ const Layout = ({ children }) => {
 						<div className="pr-5">
 							<ConnectButton />
 						</div>
-						<div className="w-9 pt-1">
+						<div className="w-9">
 							<ProfilePicture />
 						</div>
 					</div>

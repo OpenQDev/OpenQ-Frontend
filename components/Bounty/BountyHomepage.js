@@ -42,7 +42,7 @@ const BountyHomepage = () => {
 
 	// Render
 	return (
-		<div className="flex justify-center items-center">
+		<div className="grid xl:grid-cols-wide justify-center">
 
 			{isLoading ? null :
 				<BountyList bounties={bounties} />}
