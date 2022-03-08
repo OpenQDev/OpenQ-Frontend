@@ -62,7 +62,7 @@ const OrganizationHomepage = () => {
 	// Render
 	return (
 		<div>
-			<div className="">
+			<div className="max-w-screen-xl mx-auto">
 				<div className="grid gap-6 lg:grid-cols-[repeat(4,_1fr)] sm:w-2/3 mb-6 mx-auto">
 					<SearchBar onKeyUp={filterByOrg} searchText={organizationSearchTerm} placeholder="Search Organization..." borderShape={'border rounded-full'} className="mb-200" />
 					<MintBountyButton /></div>

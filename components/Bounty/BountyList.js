@@ -15,7 +15,7 @@ const BountyList = ({ bounties }) => {
 	const [issueTitleSearchTerm, setIssueTitleSearchTerm] = useState('');
 	const [displayBounties, updateDisplayBounties] = useState([]);
 	const [tvlBounties, updateTvlBounties] = useState([]);
-	const [unfundedVisible, setUnfundedVisible] = useState(true);
+	const [unfundedVisible, setUnfundedVisible] = useState(false);
 	const [claimedVisible, setClaimedVisible] = useState(false);
 	const [sortOrder, updateSortOrder] = useState('Newest');
 	const [tagArr, updateTagArr] = useState([]);
@@ -147,7 +147,7 @@ const BountyList = ({ bounties }) => {
 
 	// Render
 	return (
-		<div className="sm:w-2/3 space-y-3">			
+		<div className="xl:col-start-2 justify-self-center max-w-screen-md space-y-3 px-5">			
 			<div className="grid lg:grid-cols-[repeat(4,_1fr)] gap-6">
 				<div className="flex rounded-lg z-10 relative lg:col-span-3 col-span-4">
 					<SearchBar
@@ -159,16 +159,16 @@ const BountyList = ({ bounties }) => {
 					<Dropdown toggleFunc={addTag}  title="Filter By Label" names={availableLabels} borderShape={'rounded-r-lg'}/></div>	
 				<MintBountyButton />
 			</div>
-			<div className="flex flex-wrap content-center items-center flex-row items-start gap-4">
-				<div className="flex bg-dark-modegap-2  rounded-md">
+			<div className="flex md:content-start content-center flex-col gap-2">
+				<div className="flex bg-dark-mode justify-between rounded-md w-64">
 					<span className="text-white p-2  align-self-center pr-4">Sort By</span>
 					<Dropdown toggleFunc={orderBounties} toggleVal={sortOrder} names={['Newest', 'Oldest', 'Highest\xa0TVL', 'Lowest\xa0TVL']} borderShape={'rounded-md'}/>
 				</div>
-				<div className="flex p-2 gap-2 border rounded-md border-web-gray">
+				<div className="flex p-2 pr-4 gap-2 border rounded-md justify-between border-web-gray w-64">
 					<label htmlFor="unfunded" className="text-white">Show Unfunded Bounties</label>
 					<input id="unfunded" type="checkbox" className="accent-pink-500" onChange={showUnfunded} />
 				</div>
-				<div className="flex p-2 gap-2 border rounded-md border-web-gray">
+				<div className="flex p-2 pr-4 gap-2 border rounded-md justify-between border-web-gray w-64">
 					<label htmlFor="claimed" className="text-white" >Show Claimed Bounties</label>
 					<input id="claimed" type="checkbox" className="accent-pink-500" onChange={showClaimed} />
 				</div>

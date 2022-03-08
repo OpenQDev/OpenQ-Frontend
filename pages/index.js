@@ -40,7 +40,7 @@ export default function Index() {
 							</button>
 						</div>
 					</div>
-					<div className="px-5 md:px-14">
+					<div>
 						{internalMenu == 'org' ? <OrganizationHomepage /> : <BountyHomepage />}
 					</div>
 				</div>
