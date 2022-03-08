@@ -7,8 +7,8 @@ const OrganizationCard = ({ organization }) => {
 	// Context
 	let orgName = organization.name.charAt(0).toUpperCase() + organization.name.slice(1);
 	
-	if(orgName.length>11){
-		orgName=orgName.slice(0,10).concat('...');
+	if(orgName.length>10){
+		orgName=orgName.slice(0, 9).concat('...');
 	}
 
 	// Methods
