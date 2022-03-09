@@ -19,7 +19,7 @@ const SuccessModal = ({ successMessage, transactionHash, setShowSuccessModal }) 
 							<p className="pt-5 pl-4 pr-4 text-center text-white">
 								{successMessage}
 							</p>
-							<p className="pt-3 text-center justify-center">
+							<div className="pt-3 text-center justify-center">
 								<a
 									href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`}
 								>
@@ -37,7 +37,7 @@ const SuccessModal = ({ successMessage, transactionHash, setShowSuccessModal }) 
 										</div>
 									</div>
 								</a>
-							</p>
+							</div>
 						</div>
 						<div className="flex items-center justify-end p-5 text-lg rounded-b">
 							<button

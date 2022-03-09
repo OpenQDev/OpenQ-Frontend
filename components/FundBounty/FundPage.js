@@ -33,7 +33,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const [token, setToken] = useState(appState.tokens[0]);
 
 	const claimed = bounty.status == 'CLOSED';
-	const loadingClosedOrZero = isLoading || claimed || parseInt(volume) == 0 || volume == '';
+	const loadingClosedOrZero = isLoading || claimed || parseFloat(volume) == 0 || volume == '';
 	const disableOrEnable = `${loadingClosedOrZero ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`;
 	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${disableOrEnable}`;
 
@@ -194,7 +194,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					<div>
 						<button
 							className={fundButtonClasses}
-							disabled={isLoading || claimed || parseInt(volume) == 0 || volume == ''}
+							disabled={isLoading || claimed || parseFloat(volume) == 0 || volume == ''}
 							type="button"
 							onClick={() => {
 								setConfirmationMessage(
