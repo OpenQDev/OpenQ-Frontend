@@ -22,7 +22,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 					className="grid grid-cols-2 pt-5 justify-center 
 				md:justify-between"
 				>
-					<div className="col-span-2 pb-5 md:pb-0 md:col-span-1 flex flex-col">
+					<div className="col-span-2 pb-5 md:col-span-1 flex flex-col">
 						<BountyStatus bounty={bounty} />
 					</div>
 					<div className="col-span-2 md:col-span-1">
