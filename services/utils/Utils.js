@@ -5,11 +5,6 @@ class Utils {
 		'July', 'August', 'September', 'October', 'November', 'December'
 	];
 
-	formatDate = (createdAt) => {
-		const date = new Date(createdAt);
-		return date.toDateString().split(' ').slice(1).join(' ');
-	};
-
 	formatUnixDate = (unixTime) => {
 		var date = new Date(unixTime * 1000);
 
@@ -27,6 +22,10 @@ class Utils {
 		// Will display time in 10:30:23 format
 		var formattedTime = `${month} ${day}, ${year} at ${hours}:${minutes.substr(-2) + ':' + seconds.substr(-2)}`;
 		return formattedTime;
+	};
+
+	formatDate = (createdAt) => {
+		return this.formatUnixDate(new Date(createdAt).getTime()/1000);
 	};
 
 	parseGitHubUrl = (githubUrl) => {
