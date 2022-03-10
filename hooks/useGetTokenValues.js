@@ -20,7 +20,7 @@ const useGetTokenValues = (tokenBalances) => {
 				const tokenAddress = appState.tokenMetadata[ethers.utils.getAddress(tokenBalances.tokenAddress)].address;
 				tokenVolumes[tokenAddress] = tokenBalances.volume;
 			}
-			const data = { tokenVolumes, network: "polygon-pos" };
+			const data = { tokenVolumes, network: 'polygon-pos' };
 			const url = process.env.NEXT_PUBLIC_COIN_API_URL + '/tvl';
 			//only query tvl for bounties that have deposits
 			if (JSON.stringify(data.tokenVolumes) != '{}') {

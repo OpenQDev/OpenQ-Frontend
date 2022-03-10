@@ -4,7 +4,7 @@ import Image from 'next/image';
 import StoreContext from '../../store/Store/StoreContext';
 const ethers = require('ethers');
 
-const TokenBalances = ({ tokenBalances, tokenValues, header }) => {
+const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency }) => {
 	const [appState] = useContext(StoreContext);
 	const tokenBalancesArr = Array.isArray(tokenBalances) ? tokenBalances : [tokenBalances];
 	const { tokenMetadata } = appState;
@@ -30,12 +30,21 @@ const TokenBalances = ({ tokenBalances, tokenValues, header }) => {
 							const { volume } = tokenBalance;
 							let symbol = tokenMetadata[tokenAddress].symbol;
 
-							let usdValue = appState.utils.formatter.format(
-								tokenValues.tokens[tokenValueAddress.toLowerCase()]
-							);
+							let bigNumberVolume = ethers.BigNumber.from(volume.toString());
+							let decimals = parseInt(tokenMetadata[tokenAddress].decimals);
 
-							let formattedVolume = ethers.utils.formatUnits(
-								ethers.BigNumber.from(volume.toString()), parseInt(tokenMetadata[tokenAddress].decimals));
+							let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
+
+							let totalValue;
+							if (!singleCurrency) {
+								totalValue = tokenValues.tokens[tokenValueAddress.toLowerCase()];
+							} else {
+								totalValue = formattedVolume * tokenValues.tokenPrices[tokenValueAddress.toLowerCase()];
+							}
+
+							let usdValue = appState.utils.formatter.format(
+								totalValue
+							);
 
 							return (
 								<div
@@ -53,7 +62,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, header }) => {
 									<div className="text-lg text-white">{usdValue}</div>{' '}
 									<div className="text-lg text-white">
 										{formattedVolume}{'\xa0'}
-										{symbol.toUpperCase()})
+										{symbol.toUpperCase()}
 									</div>
 
 								</div>

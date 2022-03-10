@@ -15,7 +15,9 @@ const DepositCard = ({ deposit, refundBounty, status }) => {
 		<div className={`flex flex-col items-start px-8 sm:px-6 pb-4 max-w-sm bg-web-gray/20 ${status === 'refundable' ? ' border-pink-300' : status === 'not-yet-refundable' ? ' border-green-500' : ' border-web-gray'} border rounded-md`}>
 			<TokenBalances
 				tokenBalances={deposit}
-				tokenValues={tokenValues} />
+				tokenValues={tokenValues}
+				singleCurrency={false}
+			/>
 			<div className="text-left text-white pb-4">
 				Deposited on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime))}
 			</div>
