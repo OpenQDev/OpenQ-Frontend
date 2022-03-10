@@ -9,30 +9,31 @@ const DepositCard = ({ deposit, refundBounty, status }) => {
 
 	// State
 	const [tokenValues] = useGetTokenValues(deposit);
+	console.log(deposit);
 
 	return (
-		<div className={`flex flex-col items-start px-8 sm:px-6 pb-4 max-w-sm bg-web-gray/20 ${status==='refundable'? ' border-pink-300' : status==='not-yet-refundable'?' border-green-500':' border-web-gray'} border rounded-md`}>
-			<TokenBalances 
+		<div className={`flex flex-col items-start px-8 sm:px-6 pb-4 max-w-sm bg-web-gray/20 ${status === 'refundable' ? ' border-pink-300' : status === 'not-yet-refundable' ? ' border-green-500' : ' border-web-gray'} border rounded-md`}>
+			<TokenBalances
 				tokenBalances={deposit}
 				tokenValues={tokenValues} />
 			<div className="text-left text-white pb-4">
-					Deposited on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime))}
+				Deposited on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime))}
 			</div>
 			{deposit.refunded ?
 				(<div className="text-left text-white pb-2">
-						Refunded on: {appState.utils.formatUnixDate(parseInt(deposit.refundTime))}
+					Refunded on: {appState.utils.formatUnixDate(parseInt(deposit.refundTime))}
 				</div>)
 				:
 				(<div className="text-left text-white pb-2">
-						Refundable on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}
+					Refundable on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}
 				</div>)
 			}
-			{status==='refundable' &&
-			<button  className='items-left w-1/2 text-lg text-white self-center sm-confirm-btn'  onClick={() => refundBounty(deposit.id)}>
+			{status === 'refundable' &&
+				<button className='items-left w-1/2 text-lg text-white self-center sm-confirm-btn' onClick={() => refundBounty(deposit.id)}>
 					Refund
-			</button>}
+				</button>}
 		</div>
-		
+
 	);
 };
 
