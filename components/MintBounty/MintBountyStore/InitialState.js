@@ -2,6 +2,7 @@ const InitialState = {
 	bounty: null,
 	bountyAddress: '',
 	bountyExists: false,
+	walletConnected: false,
 	enableMint: false,
 	error: null,
 	errorMessage: '',

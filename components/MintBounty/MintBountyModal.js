@@ -19,6 +19,8 @@ import {
 	TRANSACTION_PENDING,
 	TRANSACTION_FAILURE,
 	ISSUE_NOT_FOUND,
+	WALLET_CONNECTED,
+	WALLET_DISCONNECTED
 } from './States';
 import MintBountyModalButton from './MintBountyModalButton';
 import MintBountyHeader from './MintBountyHeader';
@@ -29,7 +31,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
 	const [mintBountyState, setMintBountyState] = useContext(MintBountyContext);
-	const { library } = useWeb3();
+	const { library, active, account } = useWeb3();
 	const router = useRouter();
 
 	// State
@@ -46,12 +48,22 @@ const MintBountyModal = ({ modalVisibility }) => {
 		issueData,
 		issueFound,
 		enableMint,
-		error
+		error,
+		walletConnected
 	} = mintBountyState;
 
 	// Refs
 	let menuRef = useRef();
 	let notifyMenuRef;
+
+	useEffect(() => {
+		if (active) {
+			setMintBountyState(WALLET_CONNECTED());
+		} else {
+			setMintBountyState(WALLET_DISCONNECTED());
+		}
+	}, [account]);
+
 
 	useEffect(() => {
 		let handler = (event) => {
