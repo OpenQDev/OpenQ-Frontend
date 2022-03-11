@@ -188,7 +188,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 			<div className="flex justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none p-5">
 				<div className="md:w-1/2 lg:w-1/3 xl:w-1/4 space-y-5">
 					<div ref={menuRef} className="w-full">
-						<div className="border-0 rounded-xl shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none">
+						<div className="border-0 rounded-xl shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none z-11">
 							<MintBountyHeader />
 							<div className="flex flex-col pl-6 pr-6 space-y-2">
 								<MintBountyInput
@@ -236,7 +236,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 					error={error}
 				/>
 			)}
-			<div className="bg-dark-mode/80 fixed inset-0 bg-black z-10"></div>
+			<div className="opacity-80 fixed inset-0 bg-black z-10"></div>
 		</div>
 	);
 };
