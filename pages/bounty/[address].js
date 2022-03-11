@@ -31,6 +31,7 @@ const address = () => {
 		setIsLoading(true);
 		let bounty;
 
+		// or is it null?
 		while (bounty === undefined) {
 			bounty = await appState.openQSubgraphClient.getBounty(address);
 			await sleep(500);

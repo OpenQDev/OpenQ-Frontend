@@ -1,12 +1,16 @@
+// Third Party
 import React, { useState, useContext } from 'react';
-import TokenFundBox from './SearchTokens/TokenFundBox';
-import useWeb3 from '../../hooks/useWeb3';
-import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
+
+// Custom
+import useWeb3 from '../../hooks/useWeb3';
+import TokenFundBox from './SearchTokens/TokenFundBox';
+import StoreContext from '../../store/Store/StoreContext';
 import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModals';
 import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 import ButtonLoadingIcon from '../Loading/ButtonLoadingIcon';
 import ToolTip from '../ToolTip/ToolTip';
+import BountyClosed from '../BountyClosed/BountyClosed';
 
 const FundPage = ({ bounty, refreshBounty }) => {
 	const [volume, setVolume] = useState('');
@@ -132,37 +136,10 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		setVolume(volume);
 	}
 
-	//Close Modal on outside click
-	/* useEffect(() => {
-		let handler = (event) => {
-			if (!menuRef.current.contains(event.target)) {
-				if (!isLoading) {
-					if (!notifyMenuRef.current.contains(event.target)) {
-						setIsLoading(false);
-						updateModal();
-					}
-				} else {
-					updateModal();
-				}
-			}
-		};
-		window.addEventListener("mousedown", handler);
-
-		return () => {
-			window.removeEventListener("mousedown", handler);
-		};
-	}); */
-
 	// Render
 	if (claimed) {
 		return (
-			<div className="pt-16">
-				<div className="flex flex-col space-y-5">
-					<div className="bg-purple-600 col-span-3 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4">
-						Bounty Is Already Closed
-					</div>
-				</div>
-			</div>
+			<BountyClosed bounty={bounty} />
 		);
 	} else {
 		return (
@@ -181,10 +158,10 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 					<div className="flex w-full flex-row justify-between items-center px-4 py-3 rounded-lg py-1 bg-dark-mode border border-web-gray text-white">
 						<div className='text-white flex items-center gap-3 w-full'>
-							<ToolTip toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'}/>
+							<ToolTip toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} />
 							<span>Deposit Locked Period</span>
 						</div>
-							
+
 						<div className={'px-4 font-bold fundBox-amount bg-dark-mode'}>
 							<input
 								className="font-semibold text-right text-white/60 text-2xl number outline-none bg-dark-mode w-full flex-1"
