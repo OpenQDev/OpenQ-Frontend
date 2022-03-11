@@ -57,7 +57,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 									<TokenBalances
 										tokenBalances={[deposit]}
 										tokenValues={tokenValues}
-										singleCurrency={true}
+										singleCurrency={false}
 									/>
 									{(open) && <div key={deposit.id} className='text-white'>Locked until: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}</div>
 									}
