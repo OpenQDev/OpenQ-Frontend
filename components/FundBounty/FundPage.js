@@ -11,6 +11,14 @@ import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmE
 import ButtonLoadingIcon from '../Loading/ButtonLoadingIcon';
 import ToolTip from '../ToolTip/ToolTip';
 import BountyClosed from '../BountyClosed/BountyClosed';
+import ApproveTransferModal from './ApproveTransferModal';
+import {
+	CONFIRM,
+	APPROVING,
+	TRANSFERRING,
+	SUCCESS,
+	ERROR
+} from './ApproveTransferState';
 
 const FundPage = ({ bounty, refreshBounty }) => {
 	const [volume, setVolume] = useState('');
@@ -29,6 +37,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const [successMessage, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
 	const [confirmationMessage, setConfirmationMessage] = useState('Please enter a volume greater than 0.');
+	const [showApproveTransferModal, setShowApproveTransferModal] = useState(false);
+	const [approveTransferState, setApproveTransferState] = useState(CONFIRM);
 
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -44,7 +54,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 	// Methods
 	async function fundBounty() {
-		setIsLoading(true);
 		const volumeInWei = volume * 10 ** token.decimals;
 
 		if (volumeInWei == 0) {
@@ -82,8 +91,10 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		}
 
 		try {
+			setShowApproveTransferModal(true);
 			if (token.address != ethers.constants.AddressZero) {
 				setButtonText('Approving');
+				setApproveTransferState(APPROVING);
 				await appState.openQClient.approve(
 					library,
 					bounty.bountyAddress,
@@ -102,6 +113,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 		if (approveSucceeded) {
 			setButtonText('Transferring');
+			setApproveTransferState(TRANSFERRING);
 			try {
 				const fundTxnReceipt = await appState.openQClient.fundBounty(
 					library,
@@ -111,10 +123,10 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					depositPeriodDays
 				);
 				setTransactionHash(fundTxnReceipt.transactionHash);
+				setApproveTransferState(SUCCESS);
 				setSuccessMessage(
 					`Successfully funded issue ${bounty.url} with ${volume} ${token.symbol}!`
 				);
-				setShowSuccessModal(true);
 				refreshBounty();
 				setButtonText('Fund');
 				setIsLoading(false);
@@ -197,16 +209,9 @@ const FundPage = ({ bounty, refreshBounty }) => {
 							<div>{isLoading && <ButtonLoadingIcon />}</div>
 						</button>
 					</div>
-					{/*  <div className="flex items-center justify-end p-6 border-solid border-blueGray-200 rounded-b">
-								<button
-									className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-									type="button"
-									onClick={() => updateModal()}
-								>
-									Close
-								</button>
-							</div> */}
 				</div>
+
+				{showApproveTransferModal && <ApproveTransferModal approveTransferState={approveTransferState} address={account} transactionHash={transactionHash} error={error} setShowApproveTransferModal={setShowApproveTransferModal} />}
 
 				<ConfirmErrorSuccessModalsTrio
 					setShowErrorModal={setShowErrorModal}
