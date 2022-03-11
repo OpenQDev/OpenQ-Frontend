@@ -9,6 +9,7 @@ import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmE
 import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModals';
 import LoadingIcon from '../Loading/LoadingIcon';
 import DepositCard from './DepositCard';
+import BountyClosed from '../BountyClosed/BountyClosed';
 
 const RefundPage = ({ bounty, refreshBounty }) => {
 	const {
@@ -62,13 +63,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 	// Render
 	if (claimed) {
 		return (
-			<div className="pt-16">
-				<div className="flex flex-col space-y-5">
-					<div className="bg-purple-600 col-span-3 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4">
-						Bounty Is Already Closed
-					</div>
-				</div>
-			</div>
+			<BountyClosed bounty={bounty} />
 		);
 	} else {
 		return (

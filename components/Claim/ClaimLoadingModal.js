@@ -1,31 +1,32 @@
 // Third Party
-import React, { useState } from 'react';
+import React from 'react';
 
 // Custom
 import {
 	CHECKING_WITHDRAWAL_ELIGIBILITY,
-	WITHDRAWAL_ELIGIBLE,
 	WITHDRAWAL_INELIGIBLE,
 	TRANSACTION_SUBMITTED,
 	TRANSACTION_CONFIRMED
-} from "./ClaimStates";
+} from './ClaimStates';
 
-const ClaimLoadingModal = ({ claimState, login, address, transactionHash }) => {
+const ClaimLoadingModal = ({ claimState, address, transactionHash, setShowClaimLoadingModal }) => {
+
+	const updateModal = () => {
+		setShowClaimLoadingModal(false);
+	};
 
 	let title = {
-		[CHECKING_WITHDRAWAL_ELIGIBILITY]: () => "Validating Claim",
-		[WITHDRAWAL_ELIGIBLE]: () => "You are the one!",
-		[WITHDRAWAL_INELIGIBLE]: () => "Withdrawal Ineligible",
-		[TRANSACTION_SUBMITTED]: () => "Transaction Submitted",
-		[TRANSACTION_CONFIRMED]: () => 'Transaction Confirmed!',
+		[CHECKING_WITHDRAWAL_ELIGIBILITY]: 'Validating Claim',
+		[WITHDRAWAL_INELIGIBLE]: 'Withdrawal Ineligible',
+		[TRANSACTION_SUBMITTED]: 'Transaction Submitted',
+		[TRANSACTION_CONFIRMED]: 'Transaction Confirmed!',
 	};
 
 	let message = {
-		[CHECKING_WITHDRAWAL_ELIGIBILITY]: () => `Checking that you are indeed the droid we are looking for...`,
-		[WITHDRAWAL_ELIGIBLE]: () => "You are indeed the droid we are looking for. Transaction pending...",
-		[WITHDRAWAL_INELIGIBLE]: () => "You are NOT the droid we are looking for.",
-		[TRANSACTION_SUBMITTED]: () => "Submitted transaction.",
-		[TRANSACTION_CONFIRMED]: () => `Transaction confirmed! All funds from this bounty will appear in your address at ${address}`,
+		[CHECKING_WITHDRAWAL_ELIGIBILITY]: 'Checking that you are indeed the droid we are looking for...',
+		[WITHDRAWAL_INELIGIBLE]: 'You are NOT the droid we are looking for.',
+		[TRANSACTION_SUBMITTED]: 'You are indeed the droid we are looking for. Transaction pending...',
+		[TRANSACTION_CONFIRMED]: `Transaction confirmed! Transaction hash is: ${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}. All funds from this bounty will appear in your address at ${address}`,
 	};
 
 	return (
@@ -36,15 +37,26 @@ const ClaimLoadingModal = ({ claimState, login, address, transactionHash }) => {
 						<div className="flex items-center justify-center border-solid">
 							<div className="flex flex-row">
 								<div className="text-3xl text-white font-semibold pb-8">
-									{title[claimState]()}
+									{title[claimState]}
 								</div>
 							</div>
 						</div>
 						<div className="flex-auto">
 							<p className="text-md text-white pb-12 text-center">
-								{message[claimState]()}
+								{message[claimState]}
 							</p>
 						</div>
+						{claimState == WITHDRAWAL_INELIGIBLE || claimState == TRANSACTION_CONFIRMED ? (
+							<div className="flex items-center justify-end p-5 text-lg rounded-b">
+								<button
+									className="text-white confirm-btn"
+									type="button"
+									onClick={() => updateModal()}
+								>
+									Close
+								</button>
+							</div>
+						) : null}
 					</div>
 				</div>
 			</div>
