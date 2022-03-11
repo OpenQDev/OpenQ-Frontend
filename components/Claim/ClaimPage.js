@@ -3,12 +3,20 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 // Custom
+import {
+	CHECKING_WITHDRAWAL_ELIGIBILITY,
+	WITHDRAWAL_ELIGIBLE,
+	WITHDRAWAL_INELIGIBLE,
+	TRANSACTION_SUBMITTED,
+	TRANSACTION_CONFIRMED
+} from "./ClaimStates";
 import useAuth from '../../hooks/useAuth';
 import LoadingIcon from '../Loading/LoadingIcon';
 import AuthButton from '../Authentication/AuthButton';
 import useWeb3 from '../../hooks/useWeb3';
 import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModals';
 import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
+import ClaimLoadingModal from './ClaimLoadingModal';
 
 const ClaimPage = ({ bounty, refreshBounty }) => {
 	const { url } = bounty;
@@ -25,6 +33,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [successMessage, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
+	const [claimState, setClaimState] = useState(CHECKING_WITHDRAWAL_ELIGIBILITY);
 
 	const claimed = bounty.status == 'CLOSED';
 
@@ -36,6 +45,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 
 	// Methods
 	const claimBounty = async () => {
+		setClaimState(CHECKING_WITHDRAWAL_ELIGIBILITY);
 		setIsLoading(true);
 		axios
 			.post(
@@ -50,21 +60,20 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 				const { payoutAddress, txnHash } = result.data;
 				// Upon this return, the claimBounty transaction has been submitted
 				// We should now transition from Transaction Submitted -> Transaction Pending
+				setClaimState(TRANSACTION_SUBMITTED);
 				await library.waitForTransaction(txnHash);
+				setClaimState(TRANSACTION_CONFIRMED);
 				// We should check here for txn failure before proceeding to Transaction Success
-				setIsLoading(false);
 				setTransactionHash(txnHash);
 				setSuccessMessage(
 					`Successfully transferred bounties on issue at ${url} to ${payoutAddress}!`
 				);
-				setShowSuccessModal(true);
 				refreshBounty();
 			})
 			.catch((error) => {
 				console.log(error);
-				setIsLoading(false);
+				setClaimState(WITHDRAWAL_INELIGIBLE);
 				setError({ message: error.response.data.errorMessage, title: 'Error' });
-				setShowErrorModal(true);
 			});
 	};
 
@@ -109,7 +118,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 						<AuthButton
 							redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyAddress}`}
 						/>
-						{isLoading && <LoadingIcon />}
+						{isLoading && <ClaimLoadingModal claimState={claimState} login={"FlacoJones"} address={account} txnHash={transactionHash} error={error} />}
 					</div>
 				</div>
 				<ConfirmErrorSuccessModalsTrio
