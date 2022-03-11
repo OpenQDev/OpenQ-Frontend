@@ -9,6 +9,7 @@ const AboutFunding = ({ organizationFunding, tokenValues }) => {
 					tokenBalances={organizationFunding}
 					tokenValues={tokenValues}
 					header={'Current Total Value Locked'}
+					singleCurrency={false}
 				/>
 			</ul>
 		</dt>

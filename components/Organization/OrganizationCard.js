@@ -6,9 +6,9 @@ import Image from 'next/image';
 const OrganizationCard = ({ organization }) => {
 	// Context
 	let orgName = organization.name.charAt(0).toUpperCase() + organization.name.slice(1);
-	
-	if(orgName.length>10){
-		orgName=orgName.slice(0, 9).concat('...');
+
+	if (orgName.length > 10) {
+		orgName = orgName.slice(0, 9).concat('...');
 	}
 
 	// Methods
@@ -39,19 +39,6 @@ const OrganizationCard = ({ organization }) => {
 							: 'Bounties'
 						}`}
 					</div>
-					{/* <div>
-						{tokenValues ? (
-							<TokenBalances
-								tokenBalances={organization.fundedTokenBalances}
-								tokenValues={tokenValues}
-							/>
-						) : null}
-					</div>
-					<div>
-						{tokenValues ? (
-							<div>{appState.utils.formatter.format(tokenValues.total)}</div>
-						) : null}
-					</div> */}
 				</div>
 			</Link>
 		</div>
