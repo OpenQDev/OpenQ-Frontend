@@ -6,6 +6,7 @@ import { ethers } from 'ethers';
 import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModals';
 import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 import ButtonLoadingIcon from '../Loading/ButtonLoadingIcon';
+import ToolTip from '../ToolTip/ToolTip';
 
 const FundPage = ({ bounty, refreshBounty }) => {
 	const [volume, setVolume] = useState('');
@@ -178,11 +179,15 @@ const FundPage = ({ bounty, refreshBounty }) => {
 						volume={volume}
 					/>
 
-					<div className="flex w-full flex-row justify-between items-center pl-14 py-3 rounded-lg py-1 bg-dark-mode border border-web-gray text-white">
-						<h1 className='text-white'>Deposit Period Days</h1>
+					<div className="flex w-full flex-row justify-between items-center px-4 py-3 rounded-lg py-1 bg-dark-mode border border-web-gray text-white">
+						<div className='text-white flex items-center gap-3 w-full'>
+							<ToolTip toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'}/>
+							<span>Deposit Locked Period</span>
+						</div>
+							
 						<div className={'px-4 font-bold fundBox-amount bg-dark-mode'}>
 							<input
-								className="font-semibold text-2xl number outline-none bg-dark-mode w-full"
+								className="font-semibold text-right text-white/60 text-2xl number outline-none bg-dark-mode w-full flex-1"
 								autoComplete="off"
 								value={depositPeriodDays}
 								id="deposit-period"

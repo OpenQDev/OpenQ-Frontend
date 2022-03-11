@@ -12,7 +12,7 @@ const DepositCard = ({ deposit, refundBounty, status }) => {
 	console.log(deposit);
 
 	return (
-		<div className={`flex flex-col items-start px-8 sm:px-6 pb-4 max-w-sm bg-web-gray/20 ${status === 'refundable' ? ' border-pink-300' : status === 'not-yet-refundable' ? ' border-green-500' : ' border-web-gray'} border rounded-md`}>
+		<div className={`flex flex-col items-start px-8 sm:px-6 pb-4 max-w-sm bg-web-gray/20 ${status === 'refundable' ? ' border-pink-300' : status === 'not-yet-refundable' ? '' : ' border-web-gray'} border rounded-md`}>
 			<TokenBalances
 				tokenBalances={deposit}
 				tokenValues={tokenValues}
