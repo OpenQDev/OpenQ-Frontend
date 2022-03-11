@@ -16,7 +16,7 @@ const DepositCard = ({ deposit, refundBounty, status }) => {
 			<TokenBalances
 				tokenBalances={deposit}
 				tokenValues={tokenValues}
-				singleCurrency={false}
+				singleCurrency={true}
 			/>
 			<div className="text-left text-white pb-4">
 				Deposited on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime))}

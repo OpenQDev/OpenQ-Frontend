@@ -1,3 +1,4 @@
+export const RESTING = 'RESTING';
 export const CONFIRM = 'CONFIRM';
 export const APPROVING = 'APPROVING';
 export const TRANSFERRING = 'TRANSFERRING';

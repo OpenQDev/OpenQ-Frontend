@@ -6,13 +6,12 @@ import { ethers } from 'ethers';
 import useWeb3 from '../../hooks/useWeb3';
 import TokenFundBox from './SearchTokens/TokenFundBox';
 import StoreContext from '../../store/Store/StoreContext';
-import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModals';
-import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 import ButtonLoadingIcon from '../Loading/ButtonLoadingIcon';
 import ToolTip from '../ToolTip/ToolTip';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import ApproveTransferModal from './ApproveTransferModal';
 import {
+	RESTING,
 	CONFIRM,
 	APPROVING,
 	TRANSFERRING,
@@ -23,22 +22,13 @@ import {
 const FundPage = ({ bounty, refreshBounty }) => {
 	const [volume, setVolume] = useState('');
 	const [depositPeriodDays, setDepositPeriodDays] = useState(30);
-	const {
-		showErrorModal,
-		setShowErrorModal,
-		showSuccessModal,
-		setShowSuccessModal,
-		showConfirmationModal,
-		setShowConfirmationModal,
-	} = useConfirmErrorSuccessModals();
 	const [error, setError] = useState('');
-	const [isLoading, setIsLoading] = useState(false);
 	const [buttonText, setButtonText] = useState('Fund');
 	const [successMessage, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
 	const [confirmationMessage, setConfirmationMessage] = useState('Please enter a volume greater than 0.');
 	const [showApproveTransferModal, setShowApproveTransferModal] = useState(false);
-	const [approveTransferState, setApproveTransferState] = useState(CONFIRM);
+	const [approveTransferState, setApproveTransferState] = useState(RESTING);
 
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -48,9 +38,13 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const [token, setToken] = useState(appState.tokens[0]);
 
 	const claimed = bounty.status == 'CLOSED';
-	const loadingClosedOrZero = isLoading || claimed || parseFloat(volume) == 0 || volume == '';
+	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) == 0 || volume == '';
 	const disableOrEnable = `${loadingClosedOrZero ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`;
 	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${disableOrEnable}`;
+
+	function resetState() {
+		setApproveTransferState(RESTING);
+	}
 
 	// Methods
 	async function fundBounty() {
@@ -58,8 +52,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 		if (volumeInWei == 0) {
 			setError({ title: 'Zero Volume Sent', message: 'Must send a greater than 0 volume of tokens.' });
-			setShowErrorModal(true);
-			setIsLoading(false);
+			setApproveTransferState(ERROR);
 			setButtonText('Fund');
 			return;
 		}
@@ -75,8 +68,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 				const title = 'Funds Too Low';
 				const message = 'You do not have sufficient funds for this deposit';
 				setError({ message, title });
-				setIsLoading(false);
-				setShowErrorModal(true);
+				setApproveTransferState(ERROR);
 				return;
 			}
 		} catch (error) {
@@ -84,9 +76,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
 			const title = 'Error';
 			const message = 'A contract call exception occurred';
 			setError({ message, title });
-			setIsLoading(false);
 			setButtonText('Fund');
-			setShowErrorModal(true);
+			setApproveTransferState(ERROR);
 			return;
 		}
 
@@ -106,9 +97,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		} catch (error) {
 			const { message, title } = appState.openQClient.handleError(error, { bounty });
 			setError({ message, title });
-			setIsLoading(false);
 			setButtonText('Fund');
-			setShowErrorModal(true);
+			setApproveTransferState(ERROR);
 		}
 
 		if (approveSucceeded) {
@@ -129,13 +119,11 @@ const FundPage = ({ bounty, refreshBounty }) => {
 				);
 				refreshBounty();
 				setButtonText('Fund');
-				setIsLoading(false);
 			} catch (error) {
 				const { message, title } = appState.openQClient.handleError(error, { bounty });
 				setError({ message, title });
-				setIsLoading(false);
 				setButtonText('Fund');
-				setShowErrorModal(true);
+				setApproveTransferState(ERROR);
 			}
 		}
 	}
@@ -188,7 +176,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					<div>
 						<button
 							className={fundButtonClasses}
-							disabled={isLoading || claimed || parseFloat(volume) == 0 || volume == ''}
+							disabled={loadingClosedOrZero}
 							type="button"
 							onClick={() => {
 								setConfirmationMessage(
@@ -202,32 +190,29 @@ const FundPage = ({ bounty, refreshBounty }) => {
 									
 									Is this correct?`
 								);
-								setShowConfirmationModal(true);
+								setApproveTransferState(CONFIRM);
+								setShowApproveTransferModal(true);
 							}}
 						>
 							<div>{buttonText}</div>
-							<div>{isLoading && <ButtonLoadingIcon />}</div>
+							<div>{approveTransferState != RESTING && approveTransferState != SUCCESS && approveTransferState != ERROR ? (
+								<ButtonLoadingIcon />
+							) : null}</div>
 						</button>
 					</div>
 				</div>
 
-				{showApproveTransferModal && <ApproveTransferModal approveTransferState={approveTransferState} address={account} transactionHash={transactionHash} error={error} setShowApproveTransferModal={setShowApproveTransferModal} />}
-
-				<ConfirmErrorSuccessModalsTrio
-					setShowErrorModal={setShowErrorModal}
-					showErrorModal={showErrorModal}
-					error={error}
-					setShowConfirmationModal={setShowConfirmationModal}
-					showConfirmationModal={showConfirmationModal}
-					confirmationTitle={'Confirm Deposit'}
-					confirmationMessage={confirmationMessage}
-					positiveOption={'Approve'}
-					confirmMethod={fundBounty}
-					showSuccessModal={showSuccessModal}
-					setShowSuccessModal={setShowSuccessModal}
-					successMessage={successMessage}
+				{showApproveTransferModal && <ApproveTransferModal
+					approveTransferState={approveTransferState}
+					address={account}
 					transactionHash={transactionHash}
-				/>
+					confirmationMessage={confirmationMessage}
+					error={error}
+					setShowApproveTransferModal={setShowApproveTransferModal}
+					positiveOption={'Confirm'}
+					confirmMethod={fundBounty}
+					resetState={resetState}
+				/>}
 			</div>
 		);
 	}

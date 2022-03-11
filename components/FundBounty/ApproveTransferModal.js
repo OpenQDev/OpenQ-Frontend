@@ -10,24 +10,39 @@ import {
 	ERROR
 } from './ApproveTransferState';
 
-const ApproveTransferModal = ({ approveTransferState, address, transactionHash, setShowApproveTransferModal }) => {
+const ApproveTransferModal = ({
+	approveTransferState,
+	address,
+	transactionHash,
+	setShowApproveTransferModal,
+	resetState,
+	error,
+	successMessage,
+	confirmationTitle,
+	confirmationMessage,
+	positiveOption,
+	confirmMethod
+}) => {
 
 	const updateModal = () => {
+		resetState();
 		setShowApproveTransferModal(false);
 	};
 
 	let title = {
+		[CONFIRM]: 'Confirm',
 		[APPROVING]: 'Approve',
 		[TRANSFERRING]: 'Transfer',
 		[SUCCESS]: 'Transfer Complete!',
-		[ERROR]: 'Error!',
+		[ERROR]: `${error.title}`,
 	};
 
 	let message = {
+		[CONFIRM]: `${confirmationMessage}`,
 		[APPROVING]: 'Approving...',
 		[TRANSFERRING]: 'Transferring...',
 		[SUCCESS]: `Transaction confirmed! Transaction hash is: ${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}. All funds from this bounty will appear in your address at ${address}`,
-		[ERROR]: 'Error',
+		[ERROR]: `${error.message}`,
 	};
 
 	return (
@@ -47,6 +62,20 @@ const ApproveTransferModal = ({ approveTransferState, address, transactionHash, 
 								{message[approveTransferState]}
 							</p>
 						</div>
+						{approveTransferState == "CONFIRM" ? (
+							<div className="flex items-center">
+								<button
+									className="text-white background-transparent confirm-btn font-bold px-6 py-2 text-lg"
+									type="button"
+									onClick={() => {
+										updateModal();
+										confirmMethod();
+									}}
+								>
+									{positiveOption}
+								</button>
+							</div>
+						) : null}
 						{approveTransferState == ERROR || approveTransferState == SUCCESS ? (
 							<div className="flex items-center justify-end p-5 text-lg rounded-b">
 								<button
