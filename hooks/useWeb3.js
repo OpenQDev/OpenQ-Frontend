@@ -5,8 +5,9 @@ const useWeb3 = () => {
 	if (process.env.NEXT_PUBLIC_DEPLOY_ENV == 'local') {
 		return { library: {}, account: '0xsdf88g8g8', active: true, chainId: 31337, activate: () => { } };
 	} else {
-		const { library, account, active, activate, chainId } = useWeb3React();
-		return { library, account, active, activate, chainId };
+		const { library, account, active, activate, chainId, deactivate } = useWeb3React();
+
+		return { library, account, active, activate, chainId, deactivate };
 	}
 };
 
