@@ -1,12 +1,12 @@
 // Third Party
 import React, { useEffect, useRef } from 'react';
-import { ethers } from 'ethers';
 import Link from 'next/link';
 // Custom
 import DepositCard from './DepositCard';
 import TokenBalances from '../TokenBalances/TokenBalances';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import jazzicon from '@metamask/jazzicon';
+import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 
 const UserContracts = ({user,})=>{
 	console.log(user);
@@ -26,7 +26,11 @@ const UserContracts = ({user,})=>{
 		}
 	}, [ ]);
 	return(<>
-		<h1 className='font-semibold p-4 text-3xl border-web-gray border-b flex gap-2 mb-5'><span ref={iconWrapper}></span><span className='leading-none'>{account}</span></h1>
+		<h1 className='font-semibold p-4 text-3xl border-web-gray border-b flex gap-2 mb-5'>
+			<span className='pt-2' ref={iconWrapper}></span>
+			<span className='leading-none'>
+				<CopyAddressToClipboard data={account}/>
+			</span></h1>
 		
 		<div className='px-16 py-5 pb border-b border-web-gray'>
 			<h2 className='font-bold uppercase text-gray-300 text-xl'>Total Contributions</h2>

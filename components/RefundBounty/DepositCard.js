@@ -30,13 +30,8 @@ const DepositCard = ({ deposit, refundBounty, status }) => {
 					Refundable on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}
 				</div>)
 			}
-<<<<<<< HEAD
-			{status==='refundable' && refundBounty &&
-			<button  className='items-left w-1/2 text-lg text-white self-center sm-confirm-btn'  onClick={() => refundBounty(deposit.id)}>
-=======
 			{status === 'refundable' &&
 				<button className='items-left w-1/2 text-lg text-white self-center sm-confirm-btn' onClick={() => refundBounty(deposit.id)}>
->>>>>>> f7dcd838b098975a6df9eea936e1ee59c6630cce
 					Refund
 				</button>}
 		</div>
