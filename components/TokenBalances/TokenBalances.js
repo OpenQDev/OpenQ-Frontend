@@ -4,19 +4,19 @@ import Image from 'next/image';
 import StoreContext from '../../store/Store/StoreContext';
 const ethers = require('ethers');
 
-const TokenBalances = ({ tokenBalances, tokenValues, header }) => {
+const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency }) => {
 	const [appState] = useContext(StoreContext);
-	const tokenBalancesArr=Array.isArray(tokenBalances) ? tokenBalances:[tokenBalances];
+	const tokenBalancesArr = Array.isArray(tokenBalances) ? tokenBalances : [tokenBalances];
 	const { tokenMetadata } = appState;
 
 	return (
 		<div className="flex flex-col pt-2 pb-2">
 			<div className="font-semibold text-white">{header}</div>
 			<div className="font-bold text-xl text-white">
-				{tokenBalances.length > 1 
-					? tokenValues 
+				{tokenBalances.length > 1
+					? tokenValues
 						? `${appState.utils.formatter.format(tokenValues.total)}`
-						: `${appState.utils.formatter.format(0)}`:null}
+						: `${appState.utils.formatter.format(0)}` : null}
 			</div>
 			<div className="flex flex-row space-x-2 pt-1">
 				<div>
@@ -29,8 +29,21 @@ const TokenBalances = ({ tokenBalances, tokenValues, header }) => {
 
 							const { volume } = tokenBalance;
 							let symbol = tokenMetadata[tokenAddress].symbol;
+
+							let bigNumberVolume = ethers.BigNumber.from(volume.toString());
+							let decimals = parseInt(tokenMetadata[tokenAddress].decimals);
+
+							let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
+
+							let totalValue;
+							if (!singleCurrency) {
+								totalValue = tokenValues.tokens[tokenValueAddress.toLowerCase()];
+							} else {
+								totalValue = formattedVolume * tokenValues.tokenPrices[tokenValueAddress.toLowerCase()];
+							}
+
 							let usdValue = appState.utils.formatter.format(
-								tokenValues.tokens[tokenValueAddress.toLowerCase()]
+								totalValue
 							);
 
 							return (
@@ -48,11 +61,8 @@ const TokenBalances = ({ tokenBalances, tokenValues, header }) => {
 									</div>
 									<div className="text-lg text-white">{usdValue}</div>{' '}
 									<div className="text-lg text-white">
-										(
-										{ethers.utils.formatUnits(
-											ethers.BigNumber.from(volume.toString()), parseInt(tokenMetadata[tokenAddress].decimals)
-										)}{'\xa0'}
-										{symbol.toUpperCase()})
+										{formattedVolume}{'\xa0'}
+										{symbol.toUpperCase()}
 									</div>
 
 								</div>

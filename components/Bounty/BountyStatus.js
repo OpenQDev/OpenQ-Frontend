@@ -29,6 +29,8 @@ const BountyStatus = ({ bounty }) => {
 				<div className="flex space-x-1 text-white">
 					<div>{bounty.status == 'OPEN' ? 'Unclaimed' : 'Claimed'}</div>
 				</div>
+			</div>
+			<div>
 				<div className='text-white'>Issue created on {appState.utils.formatDate(bounty.createdAt)}</div>
 				<div className='text-white'>Bounty minted on on {appState.utils.formatUnixDate(bounty.bountyMintTime)}</div>
 			</div>

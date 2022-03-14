@@ -19,6 +19,18 @@ export const BOUNTY_DOES_NOT_EXIST = () => {
 	};
 };
 
+export const WALLET_CONNECTED = () => {
+	return {
+		walletConnected: true
+	};
+};
+
+export const WALLET_DISCONNECTED = () => {
+	return {
+		walletConnected: false
+	};
+};
+
 export const ISSUE_FOUND = (issue) => {
 	return {
 		error: false,

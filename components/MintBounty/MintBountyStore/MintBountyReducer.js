@@ -11,11 +11,12 @@ const MintBountyReducer = (state, action) => {
 - A bounty has not already been minted for the provided GitHub issue
 - A bounty wasn't just minted since opening the modal
 - Transaction is not pending
+- Wallet is connected
 */
 
-	const { issueFound, issueClosed, isValidUrl, bountyExists, transactionPending, isBountyMinted } = reducedState;
+	const { issueFound, issueClosed, isValidUrl, bountyExists, transactionPending, isBountyMinted, walletConnected } = reducedState;
 
-	let enableMint = isValidUrl && !issueClosed && issueFound && !bountyExists && !transactionPending && !isBountyMinted;
+	let enableMint = isValidUrl && !issueClosed && issueFound && !bountyExists && !transactionPending && !isBountyMinted && walletConnected;
 
 	return { ...reducedState, enableMint };
 };

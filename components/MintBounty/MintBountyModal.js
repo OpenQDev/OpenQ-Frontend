@@ -19,6 +19,8 @@ import {
 	TRANSACTION_PENDING,
 	TRANSACTION_FAILURE,
 	ISSUE_NOT_FOUND,
+	WALLET_CONNECTED,
+	WALLET_DISCONNECTED
 } from './States';
 import MintBountyModalButton from './MintBountyModalButton';
 import MintBountyHeader from './MintBountyHeader';
@@ -29,7 +31,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
 	const [mintBountyState, setMintBountyState] = useContext(MintBountyContext);
-	const { library } = useWeb3();
+	const { library, active, account } = useWeb3();
 	const router = useRouter();
 
 	// State
@@ -52,6 +54,15 @@ const MintBountyModal = ({ modalVisibility }) => {
 	// Refs
 	let menuRef = useRef();
 	let notifyMenuRef;
+
+	useEffect(() => {
+		if (active) {
+			setMintBountyState(WALLET_CONNECTED());
+		} else {
+			setMintBountyState(WALLET_DISCONNECTED());
+		}
+	}, [account]);
+
 
 	useEffect(() => {
 		let handler = (event) => {
@@ -176,7 +187,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 			<div className="flex justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none p-5">
 				<div className="md:w-1/2 lg:w-1/3 xl:w-1/4 space-y-5">
 					<div ref={menuRef} className="w-full">
-						<div className="border-0 rounded-xl shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none">
+						<div className="border-0 rounded-xl shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none z-11">
 							<MintBountyHeader />
 							<div className="flex flex-col pl-6 pr-6 space-y-2">
 								<MintBountyInput
@@ -224,7 +235,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 					error={error}
 				/>
 			)}
-			<div className="opacity-80 fixed inset-0 bg-black"></div>
+			<div className="opacity-80 fixed inset-0 bg-black z-10"></div>
 		</div>
 	);
 };

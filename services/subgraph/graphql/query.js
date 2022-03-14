@@ -8,6 +8,7 @@ query GetAllIssues {
     bountyMintTime
     bountyClosedTime
     status
+		claimedTransactionHash
 		deposits {
       id
 			refunded
@@ -31,6 +32,14 @@ query GetAllIssues {
 }
 `;
 
+export const GET_PAYOUT_TRANSACTION_HASH = gql`
+query GetPayoutTransactionHash($bountyAddress: ID!) {
+  payouts(where: {bounty: $bountyAddress}) {
+    transactionHash
+  }
+}
+`;
+
 export const GET_BOUNTY = gql`
 query GetBounty($id: ID!) {
   bounty(id: $id) {
@@ -38,6 +47,7 @@ query GetBounty($id: ID!) {
     bountyId
     bountyMintTime
     bountyClosedTime
+		claimedTransactionHash
     status
 		deposits {
       id
@@ -69,6 +79,7 @@ query GetBountyById($id: ID!) {
     bountyId
     bountyMintTime
     bountyClosedTime
+		claimedTransactionHash
     status
 		deposits {
       id
@@ -102,6 +113,7 @@ query GetUser($id: ID!) {
 			bountyId
 			bountyMintTime
 			bountyClosedTime
+			claimedTransactionHash
 			status
 			deposits {
 				id
@@ -166,6 +178,7 @@ query GetOrganization($id: ID!) {
 			bountyId
 			bountyMintTime
 			bountyClosedTime
+			claimedTransactionHash
 			status
 			deposits {
 				id
@@ -265,6 +278,7 @@ query GetOrganizations {
 			bountyId
 			bountyMintTime
 			bountyClosedTime
+			claimedTransactionHash
 			status
 			deposits {
 				id
@@ -297,6 +311,7 @@ subscription SubscribeToBounty($bountyId: String!) {
 		bountyId
 		bountyMintTime
 		bountyClosedTime
+		claimedTransactionHash
 		status
 		deposits {
 			id

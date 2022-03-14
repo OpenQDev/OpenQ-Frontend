@@ -22,7 +22,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 					className="grid grid-cols-2 pt-5 justify-center 
 				md:justify-between"
 				>
-					<div className="col-span-2 pb-5 md:pb-0 md:col-span-1 flex flex-col">
+					<div className="col-span-2 pb-5 md:col-span-1 flex flex-col">
 						<BountyStatus bounty={bounty} />
 					</div>
 					<div className="col-span-2 md:col-span-1">
@@ -35,6 +35,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 						header={bounty.status == 'CLOSED' ? 'Total Value Claimed' : 'Current Total Value Locked'}
 						tokenBalances={bounty.bountyTokenBalances}
 						tokenValues={tokenValues}
+						singleCurrency={false}
 					/>
 				) : (
 					<div className="pt-5 pb-5 font-semibold text-white">No deposits</div>
@@ -49,13 +50,15 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 							return (parseInt(a.receiveTime) + parseInt(a.expiration)) - (parseInt(b.receiveTime) + parseInt(b.expiration));
 						})
 						.map((deposit) => {
-							const open=(bounty.status==='OPEN');
-							const timeToExpiry = parseInt(deposit.receiveTime)+parseInt(deposit.expiration)-Date.now()*0.001;		
+							const open = (bounty.status === 'OPEN');
+							const timeToExpiry = parseInt(deposit.receiveTime) + parseInt(deposit.expiration) - Date.now() * 0.001;
 							return (
-								<div key={deposit.id} className={`bg-web-gray/20 ${(open) ? timeToExpiry<604800?'border-red-500': timeToExpiry <1209600 ? 'border-yellow-500' :'border-green-500' : 'border-web-gray'} border px-8 my-4 pb-4 rounded-md max-w-sm`}>
-									<TokenBalances 
+								<div key={deposit.id} className={`bg-web-gray/20 ${(open) ? timeToExpiry < 604800 ? 'border-red-500' : timeToExpiry < 1209600 ? 'border-yellow-500' : 'border-green-500' : 'border-web-gray'} border px-8 my-4 pb-4 rounded-md max-w-sm`}>
+									<TokenBalances
 										tokenBalances={[deposit]}
-										tokenValues={tokenValues} />
+										tokenValues={tokenValues}
+										singleCurrency={false}
+									/>
 									{(open) && <div key={deposit.id} className='text-white'>Locked until: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}</div>
 									}
 								</div>
