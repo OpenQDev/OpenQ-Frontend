@@ -10,7 +10,7 @@ import AccountModal from './AccountModal';
 
 const ConnectButton = () => {
 	// State
-	const [buttonText, setButtonText] = useState('Connect Wallet');
+	const [isConnecting, setIsConnecting] = useState(false);
 	const [isOnCorrectNetwork, setIsOnCorrectNetwork] = useState(true);
 	const [showModal, setShowModal] = useState();
 	const iconWrapper = useRef();
@@ -25,7 +25,7 @@ const ConnectButton = () => {
 
 	useEffect(() => {
 		if(!account){
-			setButtonText('Connect Wallet');
+			setIsConnecting(false);
 		}
 		if (account && iconWrapper.current) {
 			iconWrapper.current.innerHTML = '';
@@ -55,7 +55,7 @@ const ConnectButton = () => {
 
 	// Methods
 	const onClickConnect = async () => {
-		setButtonText('Connecting...');
+		setIsConnecting(true);
 		await activate(injected);
 	};
 
@@ -81,7 +81,7 @@ const ConnectButton = () => {
 					className="group flex gap-x-3 font-mont whitespace-nowrap rounded-lg border border-pink-500 bg-pink-700 bg-opacity-20 py-2 px-6 text-white font-semibold cursor-pointer hover:border-pink-300"
 				>
 					<span className="border-2 border-pink-500 rounded-full leading-3 group-hover:border-pink-300" ref={iconWrapper}></span>
-					{firstThree}...{lastThree}
+					<span className='py'>	{firstThree}...{lastThree}</span>
 				</button>
 				{(showModal)&&
 				<AccountModal
@@ -89,7 +89,7 @@ const ConnectButton = () => {
 					account = {account} 
 					chainId = {chainId} 
 					deactivate={deactivate}
-					setButtonText={setButtonText}/>}
+					setIsConnecting={setIsConnecting}/>}
 			</div>
 		);
 	} else if (account) {
@@ -97,7 +97,7 @@ const ConnectButton = () => {
 			<div>
 				<button
 					onClick={addOrSwitchNetwork}
-					className="font-mont whitespace-nowrap rounded-lg border border-pink-500 bg-pink-700 bg-opacity-20 py-2 px-6 text-white font-semibold cursor-pointer hover:border-pink-300"
+					className="font-mont whitespace-nowrap rounded-lg border border-pink-500 bg-pink-700 bg-opacity-20 py-2.5 px-6 text-white font-semibold cursor-pointer hover:border-pink-300"
 				>
 					Use{' '}
 					{
@@ -114,9 +114,9 @@ const ConnectButton = () => {
 			<div>
 				<button
 					onClick={onClickConnect}
-					className="font-mont whitespace-nowrap rounded-lg border border-pink-500 bg-pink-700 bg-opacity-20 py-2 px-6 text-white font-semibold cursor-pointer hover:border-pink-300"
+					className="font-mont whitespace-nowrap rounded-lg border border-pink-500 bg-pink-700 bg-opacity-20 py-2.5 px-6 text-white font-semibold cursor-pointer hover:border-pink-300"
 				>
-					{buttonText}
+					{isConnecting? 'Connecting...': 'Connect Wallet'}
 				</button>
 			</div>
 		);
