@@ -5,7 +5,7 @@ import useWeb3 from '../../hooks/useWeb3';
 import { injected } from './connectors';
 import useConnectOnLoad from '../../hooks/useConnectOnLoad';
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
-import UserModal from './AccountModal';
+import AccountModal from './AccountModal';
 import jazzicon from '@metamask/jazzicon';
 
 const MobileConnectButton = () => {
@@ -80,7 +80,7 @@ const MobileConnectButton = () => {
 					<div ref={iconWrapper}></div>
 				</button>
 				{(showModal)&&
-				<UserModal
+				<AccountModal
 					domRef={modalRef}
 					account = {account} 
 					chainId = {chainId} 

@@ -5,7 +5,7 @@ import jazzicon from '@metamask/jazzicon';
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 
-const UserModal = ({ chainId, account, deactivate, setButtonText, domRef })=>{
+const AccountModal = ({ chainId, account, deactivate, setButtonText, domRef })=>{
 	let networkName;
 	const iconWrapper = useRef();
 	for(let key in chainIdDeployEnvMap){
@@ -39,4 +39,4 @@ const UserModal = ({ chainId, account, deactivate, setButtonText, domRef })=>{
 		</div>
 	);
 };
-export default UserModal;
+export default AccountModal;

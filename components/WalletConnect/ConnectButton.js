@@ -6,7 +6,7 @@ import useWeb3 from '../../hooks/useWeb3';
 import { injected } from './connectors';
 import useConnectOnLoad from '../../hooks/useConnectOnLoad';
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
-import UserModal from './AccountModal';
+import AccountModal from './AccountModal';
 
 const ConnectButton = () => {
 	// State
@@ -84,7 +84,7 @@ const ConnectButton = () => {
 					{firstThree}...{lastThree}
 				</button>
 				{(showModal)&&
-				<UserModal
+				<AccountModal
 					domRef={modalRef}
 					account = {account} 
 					chainId = {chainId} 
