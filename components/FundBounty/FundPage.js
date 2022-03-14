@@ -133,7 +133,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	}
 
 	function onVolumeChange(volume) {
-		setVolume(volume);
+		if(parseFloat(volume)<1000||volume==='') setVolume(volume);
 	}
 
 	// Render
