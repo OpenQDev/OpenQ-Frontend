@@ -147,14 +147,14 @@ const BountyList = ({ bounties }) => {
 
 	// Render
 	return (
-		<div className="xl:col-start-2 justify-self-center max-w-screen-md space-y-3 px-5">			
+		<div className="xl:col-start-2 justify-self-center space-y-3 px-5">			
 			<div className="grid lg:grid-cols-[repeat(4,_1fr)] gap-6">
-				<div className="flex rounded-lg z-10 relative lg:col-span-3 col-span-4">
+				<div className="flex rounded-lg z-10 relative lg:col-span-3 col-span-4 max-w-xs sm:max-w-none">
 					<SearchBar
 						onKeyUp={handleSearchInput}
 						placeholder={'Search Issue...'}
 						searchText={searchText}
-						borderShape={'border-b border-l rounded-l-lg border-t'}
+						borderShape={'border-b border-l rounded-l-lg border-t w-36 sm:w-full'}
 					/>
 					<Dropdown toggleFunc={addTag}  title="Filter By Label" names={availableLabels} borderShape={'rounded-r-lg'}/></div>	
 				<MintBountyButton />

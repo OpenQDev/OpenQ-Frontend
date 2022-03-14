@@ -19,10 +19,10 @@ const Layout = ({ children }) => {
 				<div className='col-start-2 col-end-3 text-center'>Welcome to <span className='font-bold'>OpenQ!</span> Since it{'\''}s your first time with us, check out our <a className='underline font-bold text-white/90' href="https://vimeo.com/677467068" target="_blank" rel="noreferrer">demo</a>.</div>
 				<button onClick={() => updateShowBanner(false)} className='w-6  h-6 justify-self-end text-white cursor-pointer font-bold bg-pink-500/80 hover:bg-pink-500 rounded-md text-center'>{'\×'}</button>
 			</div> : null}
-		<div className="flex flex-row">
+		<div className="flex flex-row px-2">
 			<Sidebar trigger={sidebar} setTrigger={setSidebar} />
 
-			<div className="flex w-full flex-col pt-5 justify-center">
+			<div className="flex w-full flex-col sm:pt-5 justify-center">
 				{/*  Mobile navbar triggered by tailwind */}
 				<MobileSidebar trigger={setSidebar} />
 
@@ -32,7 +32,7 @@ const Layout = ({ children }) => {
 						<div className="pr-5">
 							<ConnectButton />
 						</div>
-						<div className="w-9">
+						<div className="w-8">
 							<ProfilePicture />
 						</div>
 					</div>
