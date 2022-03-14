@@ -5,11 +5,7 @@ import jazzicon from '@metamask/jazzicon';
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 
-<<<<<<< HEAD
-const AccountModal = ({ chainId, account, deactivate, setButtonText, domRef }) => {
-=======
 const AccountModal = ({ chainId, account, deactivate, setIsConnecting, domRef }) => {
->>>>>>> 13a31862a7ad3d776552f4ffe49f5c8600d7120a
 	let networkName;
 	const iconWrapper = useRef();
 	for (let key in chainIdDeployEnvMap) {
@@ -23,14 +19,8 @@ const AccountModal = ({ chainId, account, deactivate, setIsConnecting, domRef })
 		}
 		catch (ex) {
 			console.log(ex);
-<<<<<<< HEAD
-		}
-
-		setButtonText('Connect Wallet');
-=======
 		}		
 		setIsConnecting(false);
->>>>>>> 13a31862a7ad3d776552f4ffe49f5c8600d7120a
 	};
 
 	useEffect(() => {
