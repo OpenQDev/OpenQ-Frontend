@@ -48,8 +48,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 		issueData,
 		issueFound,
 		enableMint,
-		error,
-		walletConnected
+		error
 	} = mintBountyState;
 
 	// Refs
