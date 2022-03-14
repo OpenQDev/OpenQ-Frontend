@@ -17,8 +17,6 @@ const ApproveTransferModal = ({
 	setShowApproveTransferModal,
 	resetState,
 	error,
-	successMessage,
-	confirmationTitle,
 	confirmationMessage,
 	positiveOption,
 	confirmMethod
@@ -62,7 +60,7 @@ const ApproveTransferModal = ({
 								{message[approveTransferState]}
 							</p>
 						</div>
-						{approveTransferState == "CONFIRM" ? (
+						{approveTransferState == 'CONFIRM' ? (
 							<div className="flex items-center">
 								<button
 									className="text-white background-transparent confirm-btn font-bold px-6 py-2 text-lg"
