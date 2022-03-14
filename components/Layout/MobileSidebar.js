@@ -9,7 +9,7 @@ import ProfilePicture from './ProfilePicture.js';
 
 const MobileSidebar = ({ trigger }) => {
 	return (
-		<div className="flex justify-between items-center w-full md:hidden pr-5">
+		<div className="flex justify-between items-center gap-2 w-full md:hidden pr-5">
 			<button onClick={() => trigger(true)} className="pl-5">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -28,7 +28,7 @@ const MobileSidebar = ({ trigger }) => {
 			</button>
 			{/* <div className="text-white text-lg font-bold font-mont">OpenQ</div> */}
 
-			<div className="pl-7">
+			<div className="pl-5">
 				<Link href="/">
 					<div className="flex flex-row space-x-4">
 						<Image src="/openq-logo.png" alt="OpenQ" width="31" height="31" />
@@ -37,9 +37,9 @@ const MobileSidebar = ({ trigger }) => {
 				</Link>
 			</div>
 
-			<div className="flex flex-row space-x-4 items-center">
+			<div className="flex flex-row space-x-4 content-center items-center">
 				<MobileConnectButton />
-				<div className="w-7">
+				<div className="w-7 h-7">
 					<ProfilePicture />
 				</div>
 			</div>

@@ -1,30 +1,26 @@
 // Third Party
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
+import React, { useState, useEffect, useRef } from 'react';
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
 import { injected } from './connectors';
 import useConnectOnLoad from '../../hooks/useConnectOnLoad';
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
+import UserModal from './AccountModal';
+import jazzicon from '@metamask/jazzicon';
 
 const MobileConnectButton = () => {
 	// State
-	const [, setButtonText] = useState('Connect Wallet');
-	const [isDisabled, setIsDisabled] = useState(false);
-	const [isHidden, setIsHidden] = useState(false);
+	const [buttonText, setButtonText] = useState('Connect Wallet');
 	const [isOnCorrectNetwork, setIsOnCorrectNetwork] = useState(true);
-
+	const [showModal, setShowModal] = useState();
+	const modalRef = useRef();
+	const buttonRef = useRef();
+	const iconWrapper = useRef();
 	// Context
-	const { chainId, account, activate, active } = useWeb3();
+	const { chainId, account, activate, active, deactivate } = useWeb3();
 
 	// Hooks
 	useConnectOnLoad()(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
-
-	useEffect(() => {
-		if (active) {
-			setIsHidden(true);
-		}
-	}, [active]);
 
 	useEffect(() => {
 		setIsOnCorrectNetwork(
@@ -33,15 +29,33 @@ const MobileConnectButton = () => {
 		);
 	}, [chainId]);
 
+	useEffect(()=>{
+		if(!active){setButtonText('Connect Wallet');}
+	},[active]);
+
+	useEffect(() => {
+		if (account && iconWrapper.current) {
+			iconWrapper.current.innerHTML = '';
+			iconWrapper.current.appendChild(jazzicon(28, parseInt(account.slice(2, 10), 16)));
+		}
+	}, [account, isOnCorrectNetwork, buttonText]);
+	
+	useEffect(() => {
+		let handler = (event) => {
+			if (!modalRef.current?.contains(event.target)&&event.target!==buttonRef.current) {
+				setShowModal(false);
+			}
+		};
+		window.addEventListener('mousedown', handler);
+
+		return () => {
+			window.removeEventListener('mousedown', handler);
+		};
+	});
 	// Methods
 	const onClickConnect = async () => {
 		setButtonText('Connecting...');
-		setIsDisabled(true);
-
 		await activate(injected);
-
-		setIsDisabled(false);
-		setIsHidden(true);
 	};
 
 	const addOrSwitchNetwork = () => {
@@ -55,31 +69,30 @@ const MobileConnectButton = () => {
 	};
 
 	// Render
-	if (account && isOnCorrectNetwork) {
+	if (account && isOnCorrectNetwork&&buttonText!=='Connect Wallet') {
 		// const firstThree = account.slice(0, 5);
 		// const lastThree = account.slice(-3);
 		return (
-			<div>
-				<button disabled={true}>
-					<Image
-						src="/diverse/metamask.png"
-						alt="Wallet"
-						width={25}
-						height={25}
-					/>
+			<div className='h-7'>
+				<button ref={buttonRef}
+					onClick={()=>setShowModal(()=>!showModal)}>
+					
+					<div ref={iconWrapper}></div>
 				</button>
+				{(showModal)&&
+				<UserModal
+					domRef={modalRef}
+					account = {account} 
+					chainId = {chainId} 
+					deactivate={deactivate}
+					setButtonText={setButtonText}/>}
 			</div>
 		);
-	} else if (account) {
+	} else if (account&&buttonText!=='Connect Wallet') {
 		return (
 			<div>
-				<button onClick={addOrSwitchNetwork}>
-					<Image
-						src="/diverse/metamask.png"
-						alt="Wallet"
-						width={25}
-						height={25}
-					/>
+				<button onClick={addOrSwitchNetwork}>					
+					{buttonText}
 				</button>
 			</div>
 		);
@@ -87,16 +100,9 @@ const MobileConnectButton = () => {
 		return (
 			<div>
 				<button
-					hidden={isHidden}
-					disabled={isDisabled}
-					onClick={onClickConnect}
-				>
-					<Image
-						src="/diverse/metamask.png"
-						alt="Wallet"
-						width={25}
-						height={25}
-					/>
+					className='text-pink-300 text-xs border border-pink-500 rounded-lg p-2'
+					onClick={onClickConnect}>
+					{buttonText}
 				</button>
 			</div>
 		);

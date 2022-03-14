@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 const CopyAddressToClipboard = (props) => {
 
 	const [copySuccess, setCopySuccess] = useState('');
-
+	const [start, stop] = props.clipping||[12,32];
 	const copyTextToClipboard = () => {
 		navigator.clipboard.writeText(props.data);
 		setCopySuccess('Copied!');
@@ -61,9 +61,9 @@ const CopyAddressToClipboard = (props) => {
 					)}
 				</div>
 				<div>
-					{props.data.substring(0, 12)}
+					{props.data.substring(0, start)}
 					...
-					{props.data.substring(32)}
+					{props.data.substring(stop)}
 				</div>
 			</div>
 		</div>

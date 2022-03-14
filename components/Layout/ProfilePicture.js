@@ -24,7 +24,7 @@ const ProfilePicture = () => {
 	}, [authState]);
 
 	return (
-		<div>
+		<>
 			{propicUrl ? (
 				<Image
 					src={propicUrl}
@@ -36,7 +36,7 @@ const ProfilePicture = () => {
 			) : (
 				<div></div>
 			)}
-		</div>
+		</>
 	);
 };
 
