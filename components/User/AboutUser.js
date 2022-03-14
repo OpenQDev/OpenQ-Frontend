@@ -10,12 +10,13 @@ import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 
 const UserContracts = ({user,})=>{
 	console.log(user);
-	const {fundedTokenBalances, bountiesCreated, bountiesClosed, deposits}= user;
+	const {fundedTokenBalances, bountiesCreated, bountiesClosed, deposits, payouts}= user;
 	console.log(user);
 	const account= user.id;
     
 	// State
-	const [tokenValues] = useGetTokenValues(fundedTokenBalances);
+	const [payoutTokenValues] = useGetTokenValues(payouts);
+	const [fundedTokenValues] = useGetTokenValues(fundedTokenBalances);
 
 	const iconWrapper = useRef(null);
 	
@@ -32,13 +33,20 @@ const UserContracts = ({user,})=>{
 				<CopyAddressToClipboard data={account}/>
 			</span></h1>
 		
-		<div className='px-16 py-5 pb border-b border-web-gray'>
+		{fundedTokenBalances.length>0&&<div className='px-16 py-5 pb border-b border-web-gray'>
 			<h2 className='font-bold uppercase text-gray-300 text-xl'>Total Contributions</h2>
 		
 			<TokenBalances 
 				tokenBalances={fundedTokenBalances}
-				tokenValues={tokenValues} />
-		</div>
+				tokenValues={fundedTokenValues} />
+		</div>}
+		{payouts.length>0&&<div className='px-16 py-5 pb border-b border-web-gray'>
+			<h2 className='font-bold uppercase text-gray-300 text-xl'>Total Payouts</h2>
+		
+			<TokenBalances 
+				tokenBalances={payouts}
+				tokenValues={payoutTokenValues} />
+		</div>}
 		<div className='px-16 py-10 pb border-b border-web-gray'>
 			<h2 className='font-bold uppercase text-gray-300 text-xl'>Bounties Claimed</h2>
 			<div className='pt-1'>
