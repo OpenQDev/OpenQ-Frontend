@@ -7,39 +7,23 @@ import Image from 'next/image';
 import MobileConnectButton from '../WalletConnect/MobileConnectButton.js';
 import ProfilePicture from './ProfilePicture.js';
 
-const MobileSidebar = ({ trigger }) => {
+const MobileSidebar = () => {
 	return (
-		<div className="flex justify-between items-center gap-2 w-full md:hidden pr-5">
-			<button onClick={() => trigger(true)} className="pl-5">
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					className="h-6 w-6"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke="white"
-				>
-					<path
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						strokeWidth="2"
-						d="M4 6h16M4 12h16M4 18h16"
-					/>
-				</svg>
-			</button>
+		<div className="flex justify-between items-center gap-2 w-full max-h-12 md:hidden pr-5 py-2 bg-black">
+			
 			{/* <div className="text-white text-lg font-bold font-mont">OpenQ</div> */}
 
 			<div className="pl-5">
 				<Link href="/">
 					<div className="flex flex-row space-x-4">
 						<Image src="/openq-logo.png" alt="OpenQ" width="31" height="31" />
-						<div className="font-mont text-white font-bold text-lg">OpenQ</div>
 					</div>
 				</Link>
 			</div>
 
-			<div className="flex flex-row space-x-4 content-center items-center">
+			<div className="flex flex-row space-x-4 items-center">
 				<MobileConnectButton />
-				<div className="w-7 h-7">
+				<div className="w-8 h-8">
 					<ProfilePicture />
 				</div>
 			</div>
