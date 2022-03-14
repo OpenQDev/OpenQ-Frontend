@@ -24,7 +24,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const [depositPeriodDays, setDepositPeriodDays] = useState(30);
 	const [error, setError] = useState('');
 	const [buttonText, setButtonText] = useState('Fund');
-	const [successMessage, setSuccessMessage] = useState('');
+	const [, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
 	const [confirmationMessage, setConfirmationMessage] = useState('Please enter a volume greater than 0.');
 	const [showApproveTransferModal, setShowApproveTransferModal] = useState(false);
@@ -133,7 +133,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	}
 
 	function onVolumeChange(volume) {
-		if(parseFloat(volume))	setVolume(volume);
+		if(parseFloat(volume)<1000||volume==='') setVolume(volume);
 	}
 
 	// Render
