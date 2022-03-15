@@ -83,6 +83,42 @@ class OpenQClient {
 		return promise;
 	}
 
+	async listOf(library, _callerAddress, tokens) {
+		const promise = new Promise(async (resolve) => {
+			const signer = library.getSigner();
+			const zero= ethers.BigNumber.from(0);
+			const checkBalance = async(token) =>{
+
+				try{
+					const contract = this.ERC20(token.address, signer);
+				
+					if (token.address == ethers.constants.AddressZero) {
+						const balance = await library.getBalance(_callerAddress);
+						const bigNumber = ethers.BigNumber.from(balance);
+						
+						return !bigNumber.eq(zero);
+					} else {
+						const balance = await contract.balanceOf(_callerAddress);
+						const bigNumber = ethers.BigNumber.from(balance);
+						return !bigNumber.eq(zero);
+					}		
+				}
+				catch(error){
+					return false;
+				}
+			
+			};	
+			
+			const tokensInWallet=[];
+			
+			tokens.forEach(async(token)=>{
+				tokensInWallet.push(checkBalance(token));
+			});
+			resolve(Promise.all(tokensInWallet));
+		});
+		return promise;
+	}
+
 	async fundBounty(library, _bountyId, _tokenAddress, _value, _depositPeriodDays) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
