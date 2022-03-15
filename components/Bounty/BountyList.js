@@ -19,7 +19,7 @@ const BountyList = ({ bounties }) => {
 	const [sortOrder, updateSortOrder] = useState('Newest');
 	const [searchText, updateSearchText] = useState('');
 	const [searchedBounties, setSearchedBounties]= useState([]);
-
+	console.log(bounties);
 	// Utilities
 	const getTVL = async (tokenBalances) => {
 		let tokenVolumes = {};
@@ -78,20 +78,25 @@ const BountyList = ({ bounties }) => {
 		}
 		getTvls();
 	}, [bounties]);
-
+	useEffect(()=>{
+		search(searchText);
+	},[displayBounties]);
 	// Methods
-	const handleSearchInput = (e) => {
+	const handleSearchInput = (e) =>{
+		search(e.target.value);
+	};
+	const search = (searchValue) => {
 		const myRegex = /(tag:)(\w+)/g;
-		const tagArr=[...e.target.value.matchAll(myRegex, '$2')];		
-		const issueTitleSearchTerm = e.target.value.replace(myRegex, ' ').trim();
-		updateSearchText(e.target.value);
+		const tagArr=[...searchValue.matchAll(myRegex, '$2')];		
+		const issueTitleSearchTerm = searchValue.replace(myRegex, ' ').trim();
+		updateSearchText(searchValue);
 		setSearchedBounties(displayBounties.filter((bounty) => {
 			const includesTags=tagArr.reduce((accum, tag)=>{
 				if (!accum) return accum;
 				else return bounty.labels.some(label=>{return label.name===tag[2];});
 
 			}, true);
-			return e.target.value
+			return searchValue
 				? (bounty.title
 					.toLowerCase()
 					.indexOf(issueTitleSearchTerm.toLowerCase()) > -1
@@ -127,7 +132,7 @@ const BountyList = ({ bounties }) => {
 	};
 
 	const addTag = (tag)=>{
-		updateSearchText(searchText.concat(` tag:${tag}`));
+		search(searchText.concat(` tag:${tag}`));
 	};
 
 	const showUnfunded = (e) => {
