@@ -11,6 +11,7 @@ const BountyClosed = ({ bounty }) => {
 	const [appState] = useContext(StoreContext);
 	const [closer, setCloser] = useState('');
 
+	// Hooks
 	useEffect(async()=>{
 		try{
 			const closeEvent= await appState.githubRepository.fetchClosedEventByIssueId(bounty.id);
