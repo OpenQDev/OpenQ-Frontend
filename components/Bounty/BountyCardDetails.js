@@ -8,14 +8,14 @@ import BountyLinks from './BountyLinks';
 import BountyStatus from './BountyStatus';
 import CopyBountyAddress from './CopyBountyAddress';
 import LabelsList from './LabelsList';
-import MiniDepositCard from '../User/MiniDepositCard';
+import MiniDepositCard from './MiniDepositCard';
 
 
 const BountyCardDetails = ({ bounty, tokenValues }) => {
 
 	return (
 		<div className="flex flex-col font-mont pl-5 pr-5 md:pl-16 md:pr-16 pt-10 pb-10 my-16 border-web-gray border rounded-lg w-5/6">
-			<div className="flex flex-col border-b border-solid rounded-t ">
+			<div className="flex flex-col border-b border-solid rounded-t gap-2">
 				<BountyCardHeader bounty={bounty} />
 				<div
 					className="grid grid-cols-2 pt-5 justify-center 
@@ -39,7 +39,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 				) : (
 					<div className="pt-5 pb-5 font-semibold text-white">No deposits</div>
 				)}
-				<div className='text-white font-bold'>Deposits</div>
+				<div className='text-white font-bold pt-2'>Deposits</div>
 				<div className="flex gap-x-8 flex-wrap">
 					{bounty.deposits
 						.filter((deposit) => {

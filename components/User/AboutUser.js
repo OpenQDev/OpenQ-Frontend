@@ -2,15 +2,15 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import jazzicon from '@metamask/jazzicon';
 // Custom
-import MiniBountyCard from './MiniBountyCard';
+import MiniBountyCard from '../Bounty/MiniBountyCard';
 import TokenBalances from '../TokenBalances/TokenBalances';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
-import MiniDepositCard from './MiniDepositCard';
-import AvatarPack from './AvatarPack';
+import MiniDepositCard from '../Bounty/MiniDepositCard';
+import AvatarPack from '../Utils/AvatarPack';
 import StoreContext from '../../store/Store/StoreContext';
 
-const UserContracts = ({user})=>{
+const AboutUser = ({user})=>{
 	const {fundedTokenBalances, bountiesCreated, bountiesClosed, deposits, payoutTokenBalances, payouts}= user;
 	const account= user.id;
 	// Context
@@ -115,4 +115,4 @@ const UserContracts = ({user})=>{
 	);
 };
 
-export default UserContracts;
+export default AboutUser;

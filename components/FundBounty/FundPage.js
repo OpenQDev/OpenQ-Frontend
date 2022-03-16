@@ -7,7 +7,7 @@ import useWeb3 from '../../hooks/useWeb3';
 import TokenFundBox from './SearchTokens/TokenFundBox';
 import StoreContext from '../../store/Store/StoreContext';
 import ButtonLoadingIcon from '../Loading/ButtonLoadingIcon';
-import ToolTip from '../ToolTip/ToolTip';
+import ToolTip from '../Utils/ToolTip';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import ApproveTransferModal from './ApproveTransferModal';
 import {

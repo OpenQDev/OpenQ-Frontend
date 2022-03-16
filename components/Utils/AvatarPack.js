@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import ToolTip from '../ToolTip/ToolTip';
+import ToolTip from './ToolTip';
 
 const AvatarPack = ({avatars})=>{
 	return(
