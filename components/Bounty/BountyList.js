@@ -102,26 +102,26 @@ const BountyList = ({ bounties }) => {
 
 	const orderBounties = (toggleTo, bounties = displayBounties) => {
 		switch (toggleTo) {
-			case 'Highest\xa0TVL':
-				updateDisplayBounties(bounties.sort((a, b) => {
-					return b.tvl.total - a.tvl.total;
-				}));
-				break;
-			case 'Lowest\xa0TVL':
-				updateDisplayBounties(bounties.sort((a, b) => {
-					return a.tvl.total - b.tvl.total;
-				}));
-				break;
-			case 'Newest':
-				updateDisplayBounties(bounties.sort((a, b) => {
-					return b.bountyMintTime - a.bountyMintTime;
-				}));
-				break;
-			case 'Oldest':
-				updateDisplayBounties(bounties.sort((a, b) => {
-					return a.bountyMintTime - b.bountyMintTime;
-				}));
-				break;
+		case 'Highest\xa0TVL':
+			updateDisplayBounties(bounties.sort((a, b) => {
+				return b.tvl.total - a.tvl.total;
+			}));
+			break;
+		case 'Lowest\xa0TVL':
+			updateDisplayBounties(bounties.sort((a, b) => {
+				return a.tvl.total - b.tvl.total;
+			}));
+			break;
+		case 'Newest':
+			updateDisplayBounties(bounties.sort((a, b) => {
+				return b.bountyMintTime - a.bountyMintTime;
+			}));
+			break;
+		case 'Oldest':
+			updateDisplayBounties(bounties.sort((a, b) => {
+				return a.bountyMintTime - b.bountyMintTime;
+			}));
+			break;
 		}
 		updateSortOrder(toggleTo);
 	};
