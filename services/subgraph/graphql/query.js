@@ -8,7 +8,7 @@ query GetAllIssues {
     bountyMintTime
     bountyClosedTime
     status
-		transactionHash
+		claimedTransactionHash
 		deposits {
       id
 			refunded
@@ -47,7 +47,8 @@ query GetBounty($id: ID!) {
     bountyId
     bountyMintTime
     bountyClosedTime
-		transactionHash
+		claimedTransactionHash
+    payoutAddress
     status
 		deposits {
       id
@@ -79,7 +80,7 @@ query GetBountyById($id: ID!) {
     bountyId
     bountyMintTime
     bountyClosedTime
-		transactionHash
+		claimedTransactionHash
     status
 		deposits {
       id
@@ -113,7 +114,7 @@ query GetUser($id: ID!) {
 			bountyId
 			bountyMintTime
 			bountyClosedTime
-			transactionHash
+			claimedTransactionHash
 			status
 			deposits {
 				id
@@ -178,7 +179,7 @@ query GetOrganization($id: ID!) {
 			bountyId
 			bountyMintTime
 			bountyClosedTime
-			transactionHash
+			claimedTransactionHash
 			status
 			deposits {
 				id
@@ -278,7 +279,7 @@ query GetOrganizations {
 			bountyId
 			bountyMintTime
 			bountyClosedTime
-			transactionHash
+			claimedTransactionHash
 			status
 			deposits {
 				id
@@ -311,7 +312,7 @@ subscription SubscribeToBounty($bountyId: String!) {
 		bountyId
 		bountyMintTime
 		bountyClosedTime
-		transactionHash
+		claimedTransactionHash
 		status
 		deposits {
 			id

@@ -12,15 +12,14 @@ import MintBountyButton from '../MintBounty/MintBountyButton';
 const BountyList = ({ bounties }) => {
 	// Hooks
 	const [appState] = useContext(StoreContext);
-	const [issueTitleSearchTerm, setIssueTitleSearchTerm] = useState('');
 	const [displayBounties, updateDisplayBounties] = useState([]);
 	const [tvlBounties, updateTvlBounties] = useState([]);
 	const [unfundedVisible, setUnfundedVisible] = useState(false);
 	const [claimedVisible, setClaimedVisible] = useState(false);
 	const [sortOrder, updateSortOrder] = useState('Newest');
-	const [tagArr, updateTagArr] = useState([]);
 	const [searchText, updateSearchText] = useState('');
-
+	const [searchedBounties, setSearchedBounties]= useState([]);
+	console.log(bounties);
 	// Utilities
 	const getTVL = async (tokenBalances) => {
 		let tokenVolumes = {};
@@ -74,18 +73,36 @@ const BountyList = ({ bounties }) => {
 			const resolvedTvls = await Promise.all(newBounties);
 			const initialDisplayBounties = removeUnfunded(removeClaimed(resolvedTvls));
 			updateDisplayBounties(initialDisplayBounties);
+			setSearchedBounties(initialDisplayBounties);
 			updateTvlBounties(resolvedTvls);
 		}
 		getTvls();
 	}, [bounties]);
-
+	useEffect(()=>{
+		search(searchText);
+	},[displayBounties]);
 	// Methods
-	const handleSearchInput = (e) => {
+	const handleSearchInput = (e) =>{
+		search(e.target.value);
+	};
+	const search = (searchValue) => {
 		const myRegex = /(tag:)(\w+)/g;
-		const newTagArr=[...e.target.value.matchAll(myRegex, '$2')];
-		updateTagArr(newTagArr);
-		setIssueTitleSearchTerm(e.target.value.replace(myRegex, ' ').trim());
-		updateSearchText(e.target.value);
+		const tagArr=[...searchValue.matchAll(myRegex, '$2')];		
+		const issueTitleSearchTerm = searchValue.replace(myRegex, ' ').trim();
+		updateSearchText(searchValue);
+		setSearchedBounties(displayBounties.filter((bounty) => {
+			const includesTags=tagArr.reduce((accum, tag)=>{
+				if (!accum) return accum;
+				else return bounty.labels.some(label=>{return label.name===tag[2];});
+
+			}, true);
+			return searchValue
+				? (bounty.title
+					.toLowerCase()
+					.indexOf(issueTitleSearchTerm.toLowerCase()) > -1
+					&& includesTags):
+				bounty;
+		}));
 	};
 	
 	const orderBounties = (toggleTo, bounties = displayBounties) => {
@@ -115,8 +132,7 @@ const BountyList = ({ bounties }) => {
 	};
 
 	const addTag = (tag)=>{
-		updateTagArr([...tagArr,[`tag:${tag}`, 'tag:', tag]]);
-		updateSearchText(searchText.concat(` tag:${tag}`));
+		search(searchText.concat(` tag:${tag}`));
 	};
 
 	const showUnfunded = (e) => {
@@ -147,14 +163,14 @@ const BountyList = ({ bounties }) => {
 
 	// Render
 	return (
-		<div className="xl:col-start-2 justify-self-center max-w-screen-md space-y-3 px-5">			
+		<div className="xl:col-start-2 justify-self-center space-y-3 px-5">			
 			<div className="grid lg:grid-cols-[repeat(4,_1fr)] gap-6">
-				<div className="flex rounded-lg z-10 relative lg:col-span-3 col-span-4">
+				<div className="flex rounded-lg z-10 relative lg:col-span-3 col-span-4 max-w-xs sm:max-w-none">
 					<SearchBar
 						onKeyUp={handleSearchInput}
 						placeholder={'Search Issue...'}
 						searchText={searchText}
-						borderShape={'border-b border-l rounded-l-lg border-t'}
+						borderShape={'border-b border-l rounded-l-lg border-t w-36 sm:w-full'}
 					/>
 					<Dropdown toggleFunc={addTag}  title="Filter By Label" names={availableLabels} borderShape={'rounded-r-lg'}/></div>	
 				<MintBountyButton />
@@ -174,26 +190,14 @@ const BountyList = ({ bounties }) => {
 				</div>
 			</div>
 			<div className="text-gray-300 font-mont pt-1 font-normal">
-				{displayBounties.length && displayBounties.length}
-				{displayBounties.length == 1 ? ' Bounty found' : ' Bounties found'}
+				{searchedBounties.length && searchedBounties.length}
+				{searchedBounties.length == 1 ? ' Bounty found' : ' Bounties found'}
 			</div>
-			{displayBounties.length != 0
-				? displayBounties.filter((bounty) => {
-					const includesTags=tagArr.reduce((accum, tag)=>{
-						if (!accum) return accum;
-						else return bounty.labels.some(label=>{return label.name===tag[2];});
-
-					}, true);
-					return searchText
-						? (bounty.title
-							.toLowerCase()
-							.indexOf(issueTitleSearchTerm.toLowerCase()) > -1
-							&& includesTags):
-						bounty;
+			{searchedBounties.length != 0
+				? searchedBounties.map((bounty) => {
+					console.log(bounty);
+					return <BountyCard bounty={bounty} key={bounty.bountyId} />;
 				})
-					.map((bounty) => {
-						return <BountyCard bounty={bounty} key={bounty.bountyId} />;
-					})
 				: null}
 		</div>
 	);
