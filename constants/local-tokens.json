@@ -8,14 +8,6 @@
 		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0/logo.png"
 	},
 	{
-		"name": "Chainlink Token",
-		"address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-		"symbol": "LINK",
-		"decimals": 18,
-		"chainId": 80001,
-		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x514910771AF9Ca656af840dff83E8264EcF986CA/logo.png"
-	},
-	{
 		"name": "Dummy ERC20",
 		"address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
 		"symbol": "DERC20",
@@ -54,6 +46,14 @@
 		"decimals": 18,
 		"chainId": 80001,
 		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png"
+	},
+	{
+		"name": "Chainlink Token",
+		"address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+		"symbol": "LINK",
+		"decimals": 18,
+		"chainId": 80001,
+		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x514910771AF9Ca656af840dff83E8264EcF986CA/logo.png"
 	},
 	{
 		"name": "NFT Champions",
