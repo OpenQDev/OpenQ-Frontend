@@ -22,7 +22,7 @@ const MiniBountyCard = ( {bounty} ) => {
 
 	return (
 		<Link href={`/bounty/${bounty.id}`}>
-			<div className= "border-pink-500 hover:border-pink-300 hover:bg-gray-800 border rounded-lg px-6 py-2 my-4 cursor-pointer" >
+			<div className= "border-pink-500 hover:border-pink-300 hover:bg-web-gray/10 border rounded-lg px-6 py-2 my-4 cursor-pointer" >
 				<div className="">{title}</div>
 			
 				{tokenValues
