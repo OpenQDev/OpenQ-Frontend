@@ -137,3 +137,24 @@ export const GET_CURRENT_USER_AVATAR_URL = gql`
     }
   }
 `;
+export const GET_ISSUE_CLOSER = gql`query($issueId:ID!) {
+  node(id: $issueId) {
+    ... on Issue {
+      timelineItems(itemTypes: [CLOSED_EVENT], first: 10) {
+        nodes {
+          ... on ClosedEvent {
+            closer {
+              ... on PullRequest {
+                title
+                url
+                author {
+                  login
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;

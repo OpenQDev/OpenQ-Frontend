@@ -48,6 +48,7 @@ query GetBounty($id: ID!) {
     bountyMintTime
     bountyClosedTime
 		claimedTransactionHash
+    payoutAddress
     status
 		deposits {
       id
