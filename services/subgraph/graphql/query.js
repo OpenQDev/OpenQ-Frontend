@@ -114,6 +114,7 @@ query GetUser($id: ID!) {
 			bountyId
 			bountyMintTime
 			bountyClosedTime
+      id
 			claimedTransactionHash
 			status
 			deposits {
@@ -137,12 +138,18 @@ query GetUser($id: ID!) {
 			}
     }
     bountiesClosed {
+      bountyId
+      bountyTokenBalances{
+        volume
+        tokenAddress
+      }
       id
     }
     deposits {
       id
 			refunded
 			refundTime
+      claimed
       tokenAddress
       volume
 			expiration
@@ -154,6 +161,10 @@ query GetUser($id: ID!) {
     }
     fundedTokenBalances {
       id
+      volume
+      tokenAddress
+    }    
+    payoutTokenBalances {
       volume
       tokenAddress
     }

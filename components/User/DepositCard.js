@@ -1,5 +1,5 @@
 // Third Party
-import React, { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
 
 
@@ -11,17 +11,27 @@ const DepositCard = ({ deposit }) => {
 	const [appState] = useContext(StoreContext);
 
 	// State
+	const [, updateTitle] = useState('');
 	const [tokenValues] = useGetTokenValues(deposit);
+	useEffect(async()=>{
+		const fetchedTitle = await appState.githubRepository.fetchIssueById(deposit.bounty.bountyId);
+		updateTitle(fetchedTitle.title);
+	});
+	const timeToExpiry = parseInt(deposit.receiveTime) + parseInt(deposit.expiration)*1000 - Date.now();
+
+	
 
 	return (
-		<div className= "border-web-gray border rounded-lg px-6 py-2 my-4" >
-			<div>Bounty: <span className="underline"><Link href={`/bounty/${deposit.bounty.id}`}>{`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${deposit.bounty.id}`}</Link></span></div>
-			<div>Bounty Id: {deposit.bounty.bountyId}</div>
-			<div>Contract Address: {deposit.tokenAddress}</div>
-			<TokenBalances 
-				tokenBalances={deposit}
-				tokenValues={tokenValues} />
-		</div>
+		<Link href={`/bounty/${deposit.bounty.id}`}>
+			<div key={deposit.id} className={`bg-web-gray/20 ${(open) ? timeToExpiry < 604800 ? 'border-red-500' : timeToExpiry < 1209600 ? 'border-yellow-500' : 'border-green-500' : 'border-web-gray'} border px-8 my-4 pb-4 rounded-md max-w-sm`}>
+				<TokenBalances
+					tokenBalances={[deposit]}
+					tokenValues={tokenValues}
+					singleCurrency={false}
+				/>
+				{(open) && <div key={deposit.id} className='text-white'>Locked until: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}</div>
+				}
+			</div></Link>
 		
 	);
 };

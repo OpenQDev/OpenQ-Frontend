@@ -19,7 +19,7 @@ const BountyList = ({ bounties }) => {
 	const [sortOrder, updateSortOrder] = useState('Newest');
 	const [searchText, updateSearchText] = useState('');
 	const [searchedBounties, setSearchedBounties]= useState([]);
-	console.log(bounties);
+	
 	// Utilities
 	const getTVL = async (tokenBalances) => {
 		let tokenVolumes = {};
@@ -195,7 +195,6 @@ const BountyList = ({ bounties }) => {
 			</div>
 			{searchedBounties.length != 0
 				? searchedBounties.map((bounty) => {
-					console.log(bounty);
 					return <BountyCard bounty={bounty} key={bounty.bountyId} />;
 				})
 				: null}
