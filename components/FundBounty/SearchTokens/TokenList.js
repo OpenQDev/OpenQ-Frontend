@@ -1,15 +1,30 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import StoreContext from '../../../store/Store/StoreContext';
 import Image from 'next/image';
+import useWeb3 from '../../../hooks/useWeb3';
 
 const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
 	const [appState] = useContext(StoreContext);
 	const [tokenSearchTerm, setTokenSearchTerm] = useState(null);
+	const [displayTokens, updateDisplayTokens] = useState();
+	const { library, account } = useWeb3();
+
+	useEffect(async () => {
+		const ownedTokens = await appState.openQClient.userOwnedTokenBalances(library, account, appState.tokens);
+		const tokens = appState.tokens
+			.filter((elem, index) => {
+				return ownedTokens[index];
+			}).concat(appState.tokens.filter((elem, index) => {
+				return !ownedTokens[index];
+			}));
+		updateDisplayTokens(tokens);
+	}, []);
 
 	function onSelect(token) {
 		onCurrencySelect(token);
 		setShowTokenSearch(false);
 	}
+
 	return (
 		<div>
 			{/* <div style={{ padding: '25px', margin: '10px', outline: '2px solid pink', borderRadius: '20px' }} > */}
@@ -27,7 +42,7 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
 			</div>
 
 			<div className="pt-4 text-white h-96 overflow-x-auto">
-				{appState.tokens
+				{(displayTokens || appState.tokens)
 					.filter((token) => {
 						return tokenSearchTerm
 							? token.name
