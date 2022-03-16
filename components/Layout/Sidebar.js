@@ -24,7 +24,7 @@ const Sidebar = ({ trigger, setTrigger }) => {
 	});
 
 	return (
-		/* Sidebar
+	/* Sidebar
 	
 			This sidebar is hidden via tailwind classes. 
 			absolute inset-y-0 left-0 transform -translate-x-full sm:relative sm:translate-x-0 transition duration-200 ease-in-out
@@ -38,12 +38,14 @@ const Sidebar = ({ trigger, setTrigger }) => {
 					<nav className="text-white flex flex-col space-y-4 items-center pt-1 flex-grow">
 						<div className="pb-8 pt-5 cursor-pointer">
 							<Link href="/">
-								<Image
-									src="/openq-logo.png"
-									alt="OpenQ"
-									width="31"
-									height="31"
-								/>
+								<a>
+									<Image
+										src="/openq-logo.png"
+										alt="OpenQ"
+										width="31"
+										height="31"
+									/>
+								</a>
 							</Link>
 						</div>
 					</nav>
