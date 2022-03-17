@@ -68,7 +68,7 @@ const OrganizationHomepage = () => {
 					<MintBountyButton /></div>
 				<div className="grid grid-cols-[repeat(_auto-fit,_192px)] gap-6 justify-center sm:justify-start w-2/3 mx-auto">
 					{isLoading
-						? null
+						? <><OrganizationCard/><OrganizationCard/></>
 						: organizations
 							.filter((organization) => {
 								return organizationSearchTerm

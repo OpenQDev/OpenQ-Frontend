@@ -9,7 +9,6 @@ import useGetTokenValues from '../../hooks/useGetTokenValues';
 import StoreContext from '../../store/Store/StoreContext';
 
 const BountyCard = ({ bounty, loading }) => {
-	console.log(loading);
 	// State
 	const bountyName = bounty?.title.toLowerCase()||'';
 	const [appState] = useContext(StoreContext);
