@@ -1,6 +1,7 @@
 // Third Party
 import React, { useState, useContext, useEffect } from 'react';
 import { ethers } from 'ethers';
+import Skeleton from 'react-loading-skeleton';
 
 //Custom
 import StoreContext from '../../store/Store/StoreContext';
@@ -9,7 +10,7 @@ import Dropdown from '../Toggle/Dropdown';
 import SearchBar from '../Search/SearchBar';
 import MintBountyButton from '../MintBounty/MintBountyButton';
 
-const BountyList = ({ bounties }) => {
+const BountyList = ({ bounties, loading }) => {
 	// Hooks
 	const [appState] = useContext(StoreContext);
 	const [displayBounties, updateDisplayBounties] = useState([]);
@@ -19,7 +20,7 @@ const BountyList = ({ bounties }) => {
 	const [sortOrder, updateSortOrder] = useState('Newest');
 	const [searchText, updateSearchText] = useState('');
 	const [searchedBounties, updateSearchedBounties] = useState([]);
-  
+	
 	// Utilities
 	const getTVL = async (tokenBalances) => {
 		let tokenVolumes = {};
@@ -206,11 +207,12 @@ const BountyList = ({ bounties }) => {
 				{searchedBounties.length && searchedBounties.length}
 				{searchedBounties.length == 1 ? ' Bounty found' : ' Bounties found'}
 			</div>
-			{searchedBounties.length != 0
-				? searchedBounties.map((bounty) => {
+			{loading? searchedBounties.length != 0
+				&& searchedBounties.map((bounty) => {
 					return <BountyCard bounty={bounty} key={bounty.bountyId} />;
-				})
-				: null}
+				}):
+				<><BountyCard loading={true}/><BountyCard loading={true}/><BountyCard loading={true}/><BountyCard loading={true}/><BountyCard loading={true}/><BountyCard loading={true}/></>
+			}
 		</div>
 	);
 };

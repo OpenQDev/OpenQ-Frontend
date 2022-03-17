@@ -73,7 +73,7 @@ const organization = () => {
 
 	// Render
 	if (isLoading) {
-		return 'Loading...';
+		return 			<BountyList bounties={bounties} loading={true} />;
 	} else {
 		return (
 			<div className="bg-dark-mode pt-10">
