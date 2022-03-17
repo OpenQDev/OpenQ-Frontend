@@ -1,7 +1,6 @@
 // Third Party
 import React, { useState, useContext, useEffect } from 'react';
 import { ethers } from 'ethers';
-import Skeleton from 'react-loading-skeleton';
 
 //Custom
 import StoreContext from '../../store/Store/StoreContext';
@@ -9,6 +8,7 @@ import BountyCard from './BountyCard';
 import Dropdown from '../Toggle/Dropdown';
 import SearchBar from '../Search/SearchBar';
 import MintBountyButton from '../MintBounty/MintBountyButton';
+import Skeleton from 'react-loading-skeleton';
 
 const BountyList = ({ bounties, loading }) => {
 	// Hooks
@@ -20,6 +20,7 @@ const BountyList = ({ bounties, loading }) => {
 	const [sortOrder, updateSortOrder] = useState('Newest');
 	const [searchText, updateSearchText] = useState('');
 	const [searchedBounties, updateSearchedBounties] = useState([]);
+	const [isProcessed, updateIsProcessed] = useState(false);
 	
 	// Utilities
 	const getTVL = async (tokenBalances) => {
@@ -112,21 +113,25 @@ const BountyList = ({ bounties, loading }) => {
 	});
 
 	useEffect(() => {
+		updateIsProcessed(false);
 		async function getTvls() {
 			const newBounties = await bounties.map(async (elem,) => {
 				let tvl = await getTVL(elem.bountyTokenBalances);
 				return { ...elem, tvl };
 			});
 
-			const resolvedTvls = await Promise.all(newBounties);
-			const initialDisplayBounties = removeUnfunded(removeClaimed(resolvedTvls));
-			updateDisplayBounties(initialDisplayBounties);
-			updateSearchedBounties(initialDisplayBounties);
-			updateTvlBounties(resolvedTvls);
+			const tvlPromise = Promise.all(newBounties);
+			tvlPromise.then((resolvedTvls)=>{			
+				const initialDisplayBounties = removeUnfunded(removeClaimed(resolvedTvls));
+				updateDisplayBounties(initialDisplayBounties);
+				updateSearchedBounties(initialDisplayBounties);
+				updateTvlBounties(resolvedTvls);	
+				updateIsProcessed(true);		
+			}
+			);
 		}
 		getTvls();
 	}, [bounties]);
-
 	// User Methods
 	const handleSortBounties = (toggleTo) =>{
 		updateSortOrder(toggleTo);
@@ -204,14 +209,22 @@ const BountyList = ({ bounties, loading }) => {
 				</div>
 			</div>
 			<div className="text-gray-300 font-mont pt-1 font-normal">
-				{searchedBounties.length && searchedBounties.length}
-				{searchedBounties.length == 1 ? ' Bounty found' : ' Bounties found'}
+				{ !isProcessed || loading ?
+					<Skeleton  baseColor="#333" borderRadius={'1rem'} height={'12px'} width={100}/>:
+					<>
+						{searchedBounties.length && searchedBounties.length}
+						{searchedBounties.length == 1 ? ' Bounty found' : ' Bounties found'}
+					</>}
 			</div>
-			{loading? searchedBounties.length != 0
+			{ !isProcessed || loading?
+				<>
+					<BountyCard loading={true} />
+					<BountyCard loading={true} />
+				</>:
+				searchedBounties.length != 0
 				&& searchedBounties.map((bounty) => {
 					return <BountyCard bounty={bounty} key={bounty.bountyId} />;
-				}):
-				<><BountyCard loading={true}/><BountyCard loading={true}/><BountyCard loading={true}/><BountyCard loading={true}/><BountyCard loading={true}/><BountyCard loading={true}/></>
+				})
 			}
 		</div>
 	);

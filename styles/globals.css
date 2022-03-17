@@ -8,11 +8,44 @@
   }
 }
 .highlight{
-  background-color:  rgba(88, 88, 88, 0.2);
+  background-color:  #58585833;
   border-radius: 1rem;
   margin-top: 2.25rem;
   overflow-x:scroll;
   padding: 1rem;
+}
+
+.react-loading-skeleton::after {
+  content: ' ';
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width:25%;
+  background-repeat: no-repeat;
+  background-image: linear-gradient( 90deg, var(--base-color), #58585833, var(--base-color) );
+  transform: translateX(-50%);
+  animation-name: react-loading-skeleton;
+  animation-direction: left;
+  animation-duration: 2.5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes react-loading-skeleton { 0% { transform: translateX(-100%); } 50%{transform: translateX(400%);} 100% { transform: translateX(-100%); }  }
+		
+.react-loading-skeleton {
+  background-color: var(--base-color);
+  width: 100%;
+  border-radius: 0.25rem;
+  display: inline-flex;
+  line-height: 1;
+  position: relative;
+  overflow: hidden;
+}
+*, ::after, ::before {
+  box-sizing: border-box;
 }
 /* @layer base {
     body{

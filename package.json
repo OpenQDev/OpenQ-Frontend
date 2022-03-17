@@ -3,7 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"boot:local": "next dev",
+		"boot:local": "next dev -p 3005",
 		"boot:docker": "DEPLOY_ENV=docker next dev",
 		"boot:production": "DEPLOY_ENV=polygon next dev",
 		"json-server": "json-server --watch --port 3030 __mocks__/mock-server.json",
