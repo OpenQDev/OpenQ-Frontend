@@ -1,6 +1,5 @@
 // Third Party
-import React, { useContext } from 'react';
-import StoreContext from '../../store/Store/StoreContext';
+import React from 'react';
 import TokenBalances from '../TokenBalances/TokenBalances';
 
 // Custom
@@ -9,14 +8,14 @@ import BountyLinks from './BountyLinks';
 import BountyStatus from './BountyStatus';
 import CopyBountyAddress from './CopyBountyAddress';
 import LabelsList from './LabelsList';
+import MiniDepositCard from './MiniDepositCard';
 
 
 const BountyCardDetails = ({ bounty, tokenValues }) => {
-	const [appState] = useContext(StoreContext);
 
 	return (
 		<div className="flex flex-col font-mont pl-5 pr-5 md:pl-16 md:pr-16 pt-10 pb-10 my-16 border-web-gray border rounded-lg w-5/6">
-			<div className="flex flex-col border-b border-solid rounded-t ">
+			<div className="flex flex-col border-b border-solid rounded-t gap-2">
 				<BountyCardHeader bounty={bounty} />
 				<div
 					className="grid grid-cols-2 pt-5 justify-center 
@@ -40,7 +39,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 				) : (
 					<div className="pt-5 pb-5 font-semibold text-white">No deposits</div>
 				)}
-				<div className='text-white font-bold'>Deposits</div>
+				<div className='text-white font-bold pt-2'>Deposits</div>
 				<div className="flex gap-x-8 flex-wrap">
 					{bounty.deposits
 						.filter((deposit) => {
@@ -49,21 +48,8 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 						.sort((a, b) => {
 							return (parseInt(a.receiveTime) + parseInt(a.expiration)) - (parseInt(b.receiveTime) + parseInt(b.expiration));
 						})
-						.map((deposit) => {
-							const open = (bounty.status === 'OPEN');
-							const timeToExpiry = parseInt(deposit.receiveTime) + parseInt(deposit.expiration) - Date.now() * 0.001;
-							return (
-								<div key={deposit.id} className={`bg-web-gray/20 ${(open) ? timeToExpiry < 604800 ? 'border-red-500' : timeToExpiry < 1209600 ? 'border-yellow-500' : 'border-green-500' : 'border-web-gray'} border px-8 my-4 pb-4 rounded-md max-w-sm`}>
-									<TokenBalances
-										tokenBalances={[deposit]}
-										tokenValues={tokenValues}
-										singleCurrency={false}
-									/>
-									{(open) && <div key={deposit.id} className='text-white'>Locked until: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}</div>
-									}
-								</div>
-							);
-						})
+						.map((deposit, index) => 	<MiniDepositCard key={index} deposit={deposit} showLink={false}/>
+						)
 					}
 				</div>
 			</div>

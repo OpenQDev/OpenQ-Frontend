@@ -72,21 +72,18 @@ const organization = () => {
 	}, [organization]);
 
 	// Render
-	if (isLoading) {
-		return 'Loading...';
-	} else {
-		return (
-			<div className="bg-dark-mode pt-10">
-				<Toggle toggleFunc={setShowAbout} toggleVal={showAbout} names={['Bounties', 'About']} />
-				{(showAbout === 'About') ?
-					<About organizationData={organizationData} tokenValues={tokenValues} /> :
-					<div className="grid xl:grid-cols-wide justify-center w-f pt-8">
-						<LargeOrganizationCard organization={organizationData} />
-						<BountyList bounties={bounties} />
-					</div>}
-			</div>
-		);
-	}
+	return (
+		<div className="bg-dark-mode pt-10">
+			<Toggle toggleFunc={setShowAbout} toggleVal={showAbout} names={['Bounties', 'About']} />
+			{(showAbout === 'About') ?
+				<About organizationData={organizationData} tokenValues={tokenValues} /> :
+				<div className="grid xl:grid-cols-wide justify-center w-f pt-8">
+					<LargeOrganizationCard organization={organizationData}/>
+					<BountyList bounties={bounties} loading={isLoading}/>
+				</div>}
+		</div>
+	);
+	
 };
 
 export default organization;

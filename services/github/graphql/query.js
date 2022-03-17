@@ -64,6 +64,21 @@ query GetOrg($orgName: String!) {
 }
 `;
 
+export const GET_ORGS_BY_ISSUES= gql`
+query ($issueIds: [ID!]!) {
+  nodes(ids: $issueIds) {
+    ... on Issue {
+      repository {
+        owner {
+          url
+          avatarUrl
+          login
+        }
+      }
+    }
+  }
+}`;
+
 export const GET_ISSUE_BY_ID = gql`
   query($issueId: ID!) {
     node(id: $issueId) {

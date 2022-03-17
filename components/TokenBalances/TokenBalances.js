@@ -10,7 +10,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency }) =
 	const { tokenMetadata } = appState;
 
 	return (
-		<div className="flex flex-col pt-2 pb-2">
+		<div className="flex flex-col">
 			<div className="font-semibold text-white">{header}</div>
 			<div className="font-bold text-xl text-white">
 				{tokenBalances.length > 1

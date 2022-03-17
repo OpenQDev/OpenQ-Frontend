@@ -7,7 +7,7 @@ import useWeb3 from '../../hooks/useWeb3';
 import TokenFundBox from './SearchTokens/TokenFundBox';
 import StoreContext from '../../store/Store/StoreContext';
 import ButtonLoadingIcon from '../Loading/ButtonLoadingIcon';
-import ToolTip from '../ToolTip/ToolTip';
+import ToolTip from '../Utils/ToolTip';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import ApproveTransferModal from './ApproveTransferModal';
 import {
@@ -158,7 +158,9 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 					<div className="flex w-full flex-row justify-between items-center px-4 py-3 rounded-lg py-1 bg-dark-mode border border-web-gray text-white">
 						<div className='text-white flex items-center gap-3 w-full'>
-							<ToolTip toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} />
+							<ToolTip customOffsets={[370, 100]} styles="w-96" toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
+								<div className='cursor-help rounded-full border-2 border-web-gray aspect-square leading-6 h-6 box-content text-center font-bold text-web-gray'>?</div>
+							</ToolTip>
 							<span>Deposit Locked Period</span>
 						</div>
 
