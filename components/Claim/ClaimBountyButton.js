@@ -61,8 +61,9 @@ const ClaimBountyButton = ({ issueUrl }) => {
 					className="flex flex-row space-x-1 bg-pink-600 text-white rounded-lg p-2 pr-2"
 					onClick={() => setShowConfirmationModal(true)}
 				>Claim</button>
-				{isLoading && <LoadingIcon />}
+				{isLoading && <LoadingIcon closeModal={()=>setIsLoading(false)}/>}
 				<ConfirmErrorSuccessModalsTrio
+
 					setShowErrorModal={setShowErrorModal}
 					showErrorModal={showErrorModal}
 					error={error}

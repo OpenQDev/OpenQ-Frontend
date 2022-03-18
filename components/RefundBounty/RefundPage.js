@@ -134,7 +134,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 							}
 						</div>
 					</div>
-					{isLoading && <LoadingIcon />}
+					{isLoading && <LoadingIcon closeModal={()=>setIsLoading(false)}/>}
 					<ConfirmErrorSuccessModalsTrio
 						setShowErrorModal={setShowErrorModal}
 						showErrorModal={showErrorModal}
