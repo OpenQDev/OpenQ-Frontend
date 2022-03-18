@@ -19,7 +19,6 @@ const BountyCard = ({ bounty, loading }) => {
 	// Render
 	return (
 		<div className={loading&&'pointer-events-none cursor-normal'}>
-			<SkeletonTheme baseColor="#333" borderRadius={'1rem'} highlightColor="#aaa" height={'12px'} >
 				<Link
 					href={`/bounty/${bounty?.bountyAddress}`}
 				>
@@ -157,7 +156,6 @@ const BountyCard = ({ bounty, loading }) => {
 						</div>
 					</div>
 				</Link>
-			</SkeletonTheme>
 		</div>
 	);
 };
