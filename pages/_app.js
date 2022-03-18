@@ -24,7 +24,7 @@ function OpenQ({ Component, pageProps }) {
 				<StoreProvider>
 					<Web3ReactProvider getLibrary={getLibrary}>
 						<Layout>
-							<SkeletonTheme baseColor="#333" borderRadius={'1rem'} highlightColor="#aaa" height={'16px'} >
+							<SkeletonTheme baseColor="#333" borderRadius={'1rem'} height={'16px'} >
 								<Component {...pageProps} />
 							</SkeletonTheme>
 						</Layout>

@@ -1,13 +1,14 @@
 // Third Party
 import React from 'react';
 import Link from 'next/link';
+import Skeleton from 'react-loading-skeleton';
 
 // Custom
 
 const BountyLinks = ({ bounty }) => {
 	return (
 		<div className="flex flex-row font-bold text-xl space-x-2">
-			<Link href={bounty.url} passHref>
+			{bounty? <Link href={bounty.url} passHref>
 				<a target="_blank" rel="noreferrer">
 					<div id={'github-link'} className="cursor-pointer">
 						<svg
@@ -21,8 +22,9 @@ const BountyLinks = ({ bounty }) => {
 						</svg>
 					</div>
 				</a>
-			</Link>
-			<Link
+			</Link>:
+				<Skeleton width={'24px'} height={'24px'}/>}
+			{bounty? <Link
 				href={`/?address=${bounty.bountyAddress}}`}
 
 			>
@@ -44,7 +46,8 @@ const BountyLinks = ({ bounty }) => {
 						</svg>
 					</div>
 				</a>
-			</Link>
+			</Link>:
+				<Skeleton width={'24px'} height={'24px'}/>}	
 		</div>
 	);
 };

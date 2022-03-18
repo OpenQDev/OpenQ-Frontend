@@ -1,5 +1,6 @@
 // Third Party
 import React, { useContext } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import StoreContext from '../../store/Store/StoreContext';
 
 // Custom
@@ -14,7 +15,7 @@ const BountyStatus = ({ bounty }) => {
 				<div className="pt-1">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
-						fill={bounty.closed ? '#F0431D' : '#15FB31'}
+						fill={bounty ? bounty.closed ? '#F0431D' : '#15FB31': '#333'}
 						viewBox="0 0 16 16"
 						width="15"
 						height="15"
@@ -27,12 +28,12 @@ const BountyStatus = ({ bounty }) => {
 					</svg>
 				</div>
 				<div className="flex space-x-1 text-white">
-					<div>{bounty.status == 'OPEN' ? 'Unclaimed' : 'Claimed'}</div>
+					<div>{bounty ? bounty.status == 'OPEN' ? 'Unclaimed' : 'Claimed' :  <Skeleton width={'20rem'}/>}</div>
 				</div>
 			</div>
 			<div>
-				<div className='text-white'>Issue created on {appState.utils.formatDate(bounty.createdAt)}</div>
-				<div className='text-white'>Bounty minted on on {appState.utils.formatUnixDate(bounty.bountyMintTime)}</div>
+				{bounty?<div className='text-white'>Issue created on {appState.utils.formatDate(bounty.createdAt)}</div> : <Skeleton width={'20rem'}/>}
+				{bounty?<div className='text-white'>Bounty minted on on {appState.utils.formatUnixDate(bounty.bountyMintTime)}</div> : <Skeleton width={'20rem'}/>}
 			</div>
 		</>
 	);

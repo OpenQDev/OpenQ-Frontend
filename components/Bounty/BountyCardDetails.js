@@ -1,5 +1,6 @@
 // Third Party
 import React from 'react';
+import Skeleton from 'react-loading-skeleton';
 import TokenBalances from '../TokenBalances/TokenBalances';
 
 // Custom
@@ -29,19 +30,24 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 					</div>
 				</div>
 				<LabelsList bounty={bounty} />
-				{bounty.bountyTokenBalances.length != 0 ? (
-					<TokenBalances
-						header={bounty.status == 'CLOSED' ? 'Total Value Claimed' : 'Current Total Value Locked'}
-						tokenBalances={bounty.bountyTokenBalances}
-						tokenValues={tokenValues}
-						singleCurrency={false}
-					/>
-				) : (
-					<div className="pt-5 pb-5 font-semibold text-white">No deposits</div>
-				)}
+				{bounty?
+					bounty.bountyTokenBalances.length != 0 ? (
+						<TokenBalances
+							header={bounty?.status == 'CLOSED' ? 'Total Value Claimed' : 'Current Total Value Locked'}
+							tokenBalances={bounty?.bountyTokenBalances}
+							tokenValues={tokenValues}
+							singleCurrency={false}
+						/>
+					) : (
+						<div className="pt-5 pb-5 font-semibold text-white">No deposits</div>
+					) :
+					<>
+						<TokenBalances />
+					</>
+				}
 				<div className='text-white font-bold pt-2'>Deposits</div>
 				<div className="flex gap-x-8 flex-wrap">
-					{bounty.deposits
+					{bounty ? bounty.deposits
 						.filter((deposit) => {
 							return deposit.refunded == false;
 						})
@@ -49,7 +55,12 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 							return (parseInt(a.receiveTime) + parseInt(a.expiration)) - (parseInt(b.receiveTime) + parseInt(b.expiration));
 						})
 						.map((deposit, index) => 	<MiniDepositCard key={index} deposit={deposit} showLink={false}/>
-						)
+						):
+						<>
+							<MiniDepositCard deposit={false} showLink={false}/>
+							<MiniDepositCard deposit={false} showLink={false}/>
+							<MiniDepositCard deposit={false} showLink={false}/>
+						</>
 					}
 				</div>
 			</div>
@@ -59,10 +70,14 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 					<div className="font-bold text-xl text-white">Description</div>
 					<BountyLinks bounty={bounty} />
 				</div>
-				<div
-					className="text-white pt-2 w-full break-words"
-					dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}
-				></div>
+				{bounty?
+					<div
+						className="text-white pt-2 w-full break-words"
+						dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}
+					></div>:
+					<div className="pt-2 w-3/4">
+						<Skeleton count={4}/>
+					</div>}
 			</div>
 			<div className="flex flex-col pt-5">
 				<div className="flex flex-row justify-between">
