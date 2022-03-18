@@ -63,7 +63,6 @@ const ClaimBountyButton = ({ issueUrl }) => {
 				>Claim</button>
 				{isLoading && <LoadingIcon closeModal={()=>setIsLoading(false)}/>}
 				<ConfirmErrorSuccessModalsTrio
-
 					setShowErrorModal={setShowErrorModal}
 					showErrorModal={showErrorModal}
 					error={error}

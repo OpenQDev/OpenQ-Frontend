@@ -9,7 +9,7 @@ const LoadingIcon = ({closeModal}) => {
 					Loading...
 				</div>
 			</div>
-			<div className="opacity-60 fixed inset-0 bg-black"></div>
+			<div className="opacity-70 fixed inset-0 bg-black"></div>
 		</>
 	);
 };
