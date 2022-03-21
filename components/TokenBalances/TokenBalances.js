@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import Image from 'next/image';
 import StoreContext from '../../store/Store/StoreContext';
 const ethers = require('ethers');
+import Skeleton from 'react-loading-skeleton';
 
 const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency }) => {
 	const [appState] = useContext(StoreContext);
@@ -13,14 +14,14 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency }) =
 		<div className="flex flex-col">
 			<div className="font-semibold text-white">{header}</div>
 			<div className="font-bold text-xl text-white">
-				{tokenBalances.length > 1
+				{tokenBalances?.length > 1
 					? tokenValues
 						? `${appState.utils.formatter.format(tokenValues.total)}`
-						: `${appState.utils.formatter.format(0)}` : null}
+						: <Skeleton width={'6rem'} height={'20px'}/> : null}
 			</div>
 			<div className="flex flex-row space-x-2 pt-1">
 				<div>
-					{tokenValues
+					{tokenValues && tokenBalances
 						? tokenBalancesArr.map((tokenBalance) => {
 							const tokenAddress = ethers.utils.getAddress(
 								tokenBalance.tokenAddress
@@ -68,7 +69,21 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency }) =
 								</div>
 							);
 						})
-						: null}
+						: 
+						<div className="flex flex-row space-x-2 pt-1">
+							<div className="flex flex-row flex-wrap gap-2 text-white">
+								<div className="pt-1">
+									<Skeleton height={'12px'} width={'16px'} />
+								</div>
+								<div className="text-lg text-white">
+									<Skeleton width={'8rem'}/>
+								</div>{' '}
+								<div className="text-lg text-white">
+									<Skeleton width={'10rem'} />
+								</div>
+							</div>
+						</div>
+					}
 				</div>
 			</div>
 		</div>

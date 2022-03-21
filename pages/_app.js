@@ -3,6 +3,7 @@ import React from 'react';
 import { Web3ReactProvider } from '@web3-react/core';
 import { ethers } from 'ethers';
 import 'tailwindcss/tailwind.css';
+import { SkeletonTheme } from 'react-loading-skeleton';
 
 // Custom
 import '../styles/globals.css';
@@ -23,7 +24,9 @@ function OpenQ({ Component, pageProps }) {
 				<StoreProvider>
 					<Web3ReactProvider getLibrary={getLibrary}>
 						<Layout>
-							<Component {...pageProps} />
+							<SkeletonTheme baseColor="#333" borderRadius={'1rem'} height={'16px'} >
+								<Component {...pageProps} />
+							</SkeletonTheme>
 						</Layout>
 					</Web3ReactProvider>
 				</StoreProvider>

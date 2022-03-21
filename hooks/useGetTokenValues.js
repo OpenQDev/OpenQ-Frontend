@@ -8,7 +8,7 @@ const useGetTokenValues = (tokenBalances) => {
 
 	async function getTokenValues(tokenBalances) {
 
-		if (tokenBalances != null) {
+		if (tokenBalances) {
 			let tokenVolumes = {};
 			if (Array.isArray(tokenBalances)) {
 				tokenBalances.map((tokenBalance) => {

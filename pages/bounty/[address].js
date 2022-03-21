@@ -23,7 +23,7 @@ const address = () => {
 	// State
 	const { address } = router.query;
 	const [, setRedirectUrl] = useState('');
-	const [isLoading, setIsLoading] = useState(true);
+	const [, setIsLoading] = useState(true);
 	const [internalMenu, setInternalMenu] = useState('view');
 
 	// Methods
@@ -65,50 +65,48 @@ const address = () => {
 	}, [address]);
 
 	// Render
-	if (isLoading) {
-		return 'Loading...';
-	} else {
-		return (
-			<div className="flex flex-col font-mont justify-center items-center pt-7">
-				<div className="flex flex-row space-x-2 border border-web-gray p-1 rounded-xl">
-					<button
-						onClick={() => setInternalMenu('view')}
-						className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'view' ? 'bg-gray-500' : null
-						}`}
-					>
+	
+	return (
+		<div className="flex flex-col font-mont justify-center items-center pt-7">
+			<div className="flex flex-row space-x-2 border border-web-gray p-1 rounded-xl">
+				<button
+					onClick={() => setInternalMenu('view')}
+					className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'view' ? 'bg-gray-500' : null
+					}`}
+				>
 						View
-					</button>
-					<button
-						onClick={() => setInternalMenu('fund')}
-						className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'fund' ? 'bg-gray-500' : null
-						}`}
-					>
+				</button>
+				<button
+					onClick={() => setInternalMenu('fund')}
+					className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'fund' ? 'bg-gray-500' : null
+					}`}
+				>
 						Fund
-					</button>
-					<button
-						onClick={() => setInternalMenu('refund')}
-						className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'refund' ? 'bg-gray-500' : null
-						}`}
-					>
+				</button>
+				<button
+					onClick={() => setInternalMenu('refund')}
+					className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'refund' ? 'bg-gray-500' : null
+					}`}
+				>
 						Refund
-					</button>
-					<button
-						onClick={() => setInternalMenu('claim')}
-						className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'claim' ? 'bg-gray-500' : null
-						}`}
-					>
+				</button>
+				<button
+					onClick={() => setInternalMenu('claim')}
+					className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'claim' ? 'bg-gray-500' : null
+					}`}
+				>
 						Claim
-					</button>
-				</div>
-				{internalMenu == 'view' ? (
-					<BountyCardDetails bounty={bounty} tokenValues={tokenValues} />
-				) : null}
-				{internalMenu == 'fund' ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
-				{internalMenu == 'claim' ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
-				{internalMenu == 'refund' ? (<RefundPage bounty={bounty} refreshBounty={refreshBounty} />) : null}
+				</button>
 			</div>
-		);
-	}
+			{internalMenu == 'view' ? (
+				<BountyCardDetails bounty={bounty} tokenValues={tokenValues} />
+			) : null}
+			{internalMenu == 'fund' ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
+			{internalMenu == 'claim' ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
+			{internalMenu == 'refund' ? (<RefundPage bounty={bounty} refreshBounty={refreshBounty} />) : null}
+		</div>
+	);
 };
+
 
 export default address;

@@ -1,5 +1,6 @@
 // Third Party
 import React from 'react';
+import Skeleton from 'react-loading-skeleton';
 
 // Custom
 
@@ -7,7 +8,7 @@ const LabelsList = ({ bounty }) => {
 	return (
 		<div className="flex flex-row pt-3 space-x-2">
 			<div className="space-x-2">
-				{bounty.labels.map((label, index) => {
+				{bounty?.labels.map((label, index) => {
 					return (
 						<button
 							key={index}
@@ -21,7 +22,16 @@ const LabelsList = ({ bounty }) => {
 							{label.name}
 						</button>
 					);
-				})}
+				})||
+				<>
+					<div className="rounded-lg text-xs py-1 px-2 font-bold border border-web-gray text-white inline-block">
+						<Skeleton width="10rem" height={'12px'} />
+					</div>
+					<div className="rounded-lg text-xs py-1 px-2 font-bold border border-web-gray text-white inline-block">
+						<Skeleton width="10rem" height={'12px'}/>
+					</div>
+				</>
+				}
 			</div>
 		</div>
 	);
