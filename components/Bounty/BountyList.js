@@ -1,5 +1,5 @@
 // Third Party
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef, useCallback } from 'react';
 import { ethers } from 'ethers';
 
 //Custom
@@ -10,18 +10,22 @@ import SearchBar from '../Search/SearchBar';
 import MintBountyButton from '../MintBounty/MintBountyButton';
 import Skeleton from 'react-loading-skeleton';
 
-const BountyList = ({ bounties, loading }) => {
+const BountyList = ({ bounties, loading, getBountyData, tokenValues, complete, getNewData }) => {
 	// Hooks
 	const [appState] = useContext(StoreContext);
 	const [displayBounties, updateDisplayBounties] = useState([]);
 	const [tvlBounties, updateTvlBounties] = useState([]);
-	const [unfundedVisible, setUnfundedVisible] = useState(false);
-	const [claimedVisible, setClaimedVisible] = useState(false);
+	const [unfundedVisible, setUnfundedVisible] = useState(true);
+	const [claimedVisible, setClaimedVisible] = useState(true);
 	const [sortOrder, updateSortOrder] = useState('Newest');
 	const [searchText, updateSearchText] = useState('');
 	const [searchedBounties, updateSearchedBounties] = useState([]);
 	const [isProcessed, updateIsProcessed] = useState(false);
-	
+	const [scroll, setScroll] = useState(0);
+	const scrollArea = useRef();
+	const [num, updateNum] = useState(0);	
+	const observer = useRef();
+
 	// Utilities
 	const getTVL = async (tokenBalances) => {
 		let tokenVolumes = {};
@@ -54,6 +58,12 @@ const BountyList = ({ bounties, loading }) => {
 	const removeClaimed = (bounties) => {
 		return bounties.filter((elem) => {
 			return elem.status === 'OPEN';
+		});
+	};
+
+	const filter = (bounties) => {
+		return bounties.filter((elem) => {
+			return (unfundedVisible||elem.tvl?.total > 0) && (claimedVisible || elem.status === 'OPEN');
 		});
 	};
 
@@ -95,47 +105,108 @@ const BountyList = ({ bounties, loading }) => {
 				return b.bountyMintTime - a.bountyMintTime;
 			});
 		case 'Oldest':
+			
 			return bounties.sort((a, b) => {
+				console.log('exec');
 				return a.bountyMintTime - b.bountyMintTime;
-			});
+			});		
 		}
 		return bounties;
 	};
 
 	// Process props
 	const availableLabels = [];
-	bounties.forEach((bounty) => {
-		bounty.labels.forEach(label => {
-			if (!availableLabels.includes(label)) {
+	tvlBounties.forEach((bounty) => {
+		if(bounty.labels){ bounty?.labels.forEach(label => {
+			if (![...availableLabels].some((name) => name===label.name)) {
 				availableLabels.push(label.name);
 			}
-		});
+		});}
 	});
 
-	useEffect(() => {
-		updateIsProcessed(false);
-		async function getTvls() {
-			const newBounties = await bounties.map(async (elem,) => {
-				let tvl = await getTVL(elem.bountyTokenBalances);
-				return { ...elem, tvl };
-			});
-
-			const tvlPromise = Promise.all(newBounties);
-			tvlPromise.then((resolvedTvls)=>{			
-				const initialDisplayBounties = removeUnfunded(removeClaimed(resolvedTvls));
-				updateDisplayBounties(initialDisplayBounties);
-				updateSearchedBounties(initialDisplayBounties);
-				updateTvlBounties(resolvedTvls);	
-				updateIsProcessed(true);		
-			}
-			);
+	// When our filter remove everything fetch until there aren't any more to fetch.
+	useEffect(()=>{
+		if(searchedBounties.length===0&&!complete&&!loading){
+			getBountyData(sortOrder==='Newest');
 		}
-		getTvls();
+		console.log('searched');
+	}, [searchedBounties]);
+
+	// On Bounty Change
+	useEffect(() => {
+		console.log('changes');
+		if(bounties[0]?.bountyTokenBalances){
+			
+			updateIsProcessed(true);
+			async function getTvls() {
+				const newBounties = await bounties.map(async (elem,) => {
+					if(elem.bountyTokenBalances){
+						let tvl = await getTVL(elem.bountyTokenBalances);
+						return { ...elem, tvl };}
+					else{
+						return elem;
+					}
+				});
+
+				const tvlPromise = Promise.all(newBounties);
+				tvlPromise.then((resolvedTvls)=>{			
+					const initialDisplayBounties = resolvedTvls;
+					updateDisplayBounties(filter(initialDisplayBounties));
+					updateSearchedBounties(filter(initialDisplayBounties));
+					updateTvlBounties(resolvedTvls);	
+					updateIsProcessed(true);		
+				}
+				);
+			}
+			
+			getTvls();
+		}
+		window.scrollY = scroll;
+		
 	}, [bounties]);
+
+
+	// Manages resize observer
+	const lastElem =	useCallback((node)=>{
+		window.scrollY = scroll;
+		if(observer.current){observer.current.disconnect();}
+		if(node){
+			lastElem();
+
+			let options = {
+				rootMargin: '0px',
+				threshold: .5
+			};
+			const callback = (entries)=>{
+				if(entries[0].isIntersecting){
+					setScroll(window.scrollY);
+					if(!complete)getBountyData(sortOrder==='Newest');
+				}
+		
+			};
+			observer.current = new IntersectionObserver(callback, options);
+			observer.current.observe(node);
+		}},[bounties]);
+
 	// User Methods
 	const handleSortBounties = (toggleTo) =>{
-		updateSortOrder(toggleTo);
-		updateSearchedBounties(orderBounties(toggleTo, searchedBounties));
+		console.log(toggleTo);
+		// are we actually doing something 
+		if (toggleTo===sortOrder) return; 
+		//Is list incomplete
+		if(!complete){
+			// get other direction data
+			getNewData(toggleTo==='Newest');
+			//updateSearchedBounties(orderBounties(toggleTo, searchedBounties));
+		}
+
+		// reorder list
+		else{
+			console.log(orderBounties('Oldest', searchedBounties));
+			updateDisplayBounties(orderBounties(toggleTo, searchedBounties));
+			updateSearchedBounties(orderBounties(toggleTo, searchedBounties));
+			//	updateDisplayBounties(orderBounties(toggleTo,searchedBounties));
+			updateSortOrder(toggleTo);}
 	};
 
 	const handleSearchInput = (e) =>{
@@ -182,7 +253,7 @@ const BountyList = ({ bounties, loading }) => {
 
 	// Render
 	return (
-		<div className="xl:col-start-2 justify-self-center space-y-3 px-5">
+		<div ref={scrollArea} className="xl:col-start-2 justify-self-center space-y-3 px-5">
 			<div className="grid lg:grid-cols-[repeat(4,_1fr)] gap-6">
 				<div className="flex rounded-lg z-10 relative lg:col-span-3 col-span-4 max-w-xs sm:max-w-none">
 					<SearchBar
@@ -197,18 +268,19 @@ const BountyList = ({ bounties, loading }) => {
 			<div className="flex md:content-start content-center flex-col gap-2">
 				<div className="flex bg-dark-mode justify-between rounded-md w-64">
 					<span className="text-white p-2  align-self-center pr-4">Sort By</span>
-					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} names={['Newest', 'Oldest', 'Highest\xa0TVL', 'Lowest\xa0TVL']} borderShape={'rounded-md'} />
+					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} names={['Newest', 'Oldest', /*'Highest\xa0TVL', 'Lowest\xa0TVL'*/]} borderShape={'rounded-md'} />
 				</div>
 				<div className="flex p-2 pr-4 gap-2 border rounded-md justify-between border-web-gray w-64">
 					<label htmlFor="unfunded" className="text-white">Show Unfunded Bounties</label>
-					<input id="unfunded" type="checkbox" className="accent-pink-500" onChange={showUnfunded} />
+					<input id="unfunded" type="checkbox" className="accent-pink-500" onChange={showUnfunded} value={unfundedVisible}/>
 				</div>
 				<div className="flex p-2 pr-4 gap-2 border rounded-md justify-between border-web-gray w-64">
 					<label htmlFor="claimed" className="text-white" >Show Claimed Bounties</label>
-					<input id="claimed" type="checkbox" className="accent-pink-500" onChange={showClaimed} />
+					<input id="claimed" type="checkbox" className="accent-pink-500" onChange={showClaimed} value={claimedVisible} />
 				</div>
 			</div>
 			<div className="text-gray-300 font-mont pt-1 font-normal">
+				<button onClick={getBountyData}>getBounties</button>
 				{ !isProcessed || loading ?
 					<Skeleton  baseColor="#333" borderRadius={'1rem'} height={'12px'} width={100}/>:
 					<>
@@ -216,16 +288,17 @@ const BountyList = ({ bounties, loading }) => {
 						{searchedBounties.length == 1 ? ' Bounty found' : ' Bounties found'}
 					</>}
 			</div>
-			{ !isProcessed || loading?
+			{ !isProcessed || loading || searchedBounties.length===0 && !complete?
 				<>
-					<BountyCard loading={true} />
+					<BountyCard loading={true}ref = {lastElem} />
 					<BountyCard loading={true} />
 				</>:
 				searchedBounties.length != 0
-				&& searchedBounties.map((bounty) => {
-					return <BountyCard bounty={bounty} key={bounty.bountyId} />;
+				&& searchedBounties.map((bounty, index) => {
+					return <div key={bounty.bountyId} ref={ index+1 === searchedBounties.length? lastElem:null}> <BountyCard bounty={bounty}/></div>;
 				})
 			}
+			<div className="text-white" onClick={()=>console.log(lastElem)}>lastElem</div>
 		</div>
 	);
 };

@@ -1,5 +1,5 @@
 // Third Party
-import React, { useContext } from 'react';
+import React, { useContext, forwardRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Skeleton from 'react-loading-skeleton';
@@ -8,7 +8,7 @@ import useGetTokenValues from '../../hooks/useGetTokenValues';
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
 
-const BountyCard = ({ bounty, loading }) => {
+const BountyCard = ({ bounty, loading, ref }) => {
 	// State
 	const bountyName = bounty?.title.toLowerCase()||'';
 	const [appState] = useContext(StoreContext);
@@ -18,7 +18,7 @@ const BountyCard = ({ bounty, loading }) => {
 
 	// Render
 	return (
-		<div className={loading&&'pointer-events-none cursor-normal'}>
+		<div ref={ref} className={loading&&'pointer-events-none cursor-normal'}>
 			<Link
 				href={`/bounty/${bounty?.bountyAddress}`}
 			>
@@ -95,40 +95,38 @@ const BountyCard = ({ bounty, loading }) => {
 							<Skeleton width={51} height={51}/>
 						}
 					</div>
-					<div className="flex flex-row pt-3 pl-6 pr-3  items-center justify-between xs:pb-5 pb-5 md:pb-0">
-						<div>
+					<div className="flex flex-row pt-3 pl-6 pr-3  items-center justify-between xs:pb-5 pb-5 md:pb-0 w-full">
+						<div className="w-full">
 							{bounty?.labels ? (
-								<div className="flex flex-row justify-between">
-									<div className="space-x-2">
-										{bounty?.labels.map((label, index) => {
-											if (index < 2) {
-												return (
-													<div
-														key={index}
-														style={{
-															borderColor: label.color,
-															opacity: .9,
-															color: label.color,
-														}}
-														className="font-mont rounded-lg text-xs py-1 px-2 font-bold border text-white"
-													>
-														{label.name}
-													</div>
-												);
-											} else if (index == 2) {
-												return (
-													<div
-														key={index}
-														className="font-mont rounded-lg text-xs py-1 px-2 font-bold border border-green-300 text-white"
-													>
+								<div className="flex flex-row gap-2 flex-wrap">
+									{bounty?.labels.map((label, index) => {
+										if (index < 2) {
+											return (
+												<div
+													key={index}
+													style={{
+														borderColor: label.color,
+														opacity: .9,
+														color: label.color,
+													}}
+													className="font-mont rounded-lg text-xs py-1 px-2 font-bold border text-white"
+												>
+													{label.name}
+												</div>
+											);
+										} else if (index == 2) {
+											return (
+												<div
+													key={index}
+													className="font-mont rounded-lg text-xs py-1 px-2 font-bold border border-green-300 text-white"
+												>
 														more..
-													</div>
-												);
-											} else {
-												null;
-											}
-										})}
-									</div>
+												</div>
+											);
+										} else {
+											null;
+										}
+									})}
 								</div>
 							) : null}
 						</div>
@@ -160,4 +158,4 @@ const BountyCard = ({ bounty, loading }) => {
 	);
 };
 
-export default BountyCard;
+export default forwardRef(BountyCard);

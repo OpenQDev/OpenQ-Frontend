@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { GET_ORGANIZATION, GET_USER, GET_BOUNTY, GET_BOUNTY_BY_ID, GET_ALL_BOUNTIES, GET_ORGANIZATIONS, GET_PAYOUT_TRANSACTION_HASH } from './graphql/query';
+import { GET_ORGANIZATION, GET_USER, GET_BOUNTY, GET_BOUNTY_BY_ID, GET_ALL_BOUNTIES, GET_ORGANIZATIONS, GET_PAYOUT_TRANSACTION_HASH, GET_PAGINATED_ORGANIZATION_DATA } from './graphql/query';
 import fetch from 'cross-fetch';
 
 class OpenQSubgraphClient {
@@ -13,11 +13,12 @@ class OpenQSubgraphClient {
 		cache: new InMemoryCache()
 	});
 
-	async getAllBounties() {
+	async getAllBounties(startAt) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
 					query: GET_ALL_BOUNTIES,
+					variables: {skip: startAt}
 				});
 				resolve(result.data.bounties);
 			} catch (e) {
@@ -115,7 +116,7 @@ class OpenQSubgraphClient {
 			try {
 				const result = await this.client.query({
 					query: GET_ORGANIZATION,
-					variables: { id }
+					variables: { id, skip: 0 }
 				});
 				resolve(result.data.organization);
 			} catch (e) {
@@ -123,6 +124,23 @@ class OpenQSubgraphClient {
 			}
 		});
 
+		return promise;
+	}
+
+	async getPaginatedOrganizationBounties(id, startAt, desc) {
+		const promise = new Promise(async (resolve, reject) => {
+			const order = (desc)? 'desc' : 'asc';
+			console.log(order);
+			try {
+				const result = await this.client.query({
+					query: GET_PAGINATED_ORGANIZATION_DATA,
+					variables: { id, skip: startAt, order  }
+				});
+				resolve(result.data.organization);
+			} catch (e) {
+				reject(e);
+			}
+		});
 		return promise;
 	}
 }

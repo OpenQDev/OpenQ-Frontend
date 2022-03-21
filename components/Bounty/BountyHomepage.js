@@ -8,6 +8,7 @@ const BountyHomepage = () => {
 	// State
 	const [bounties, setBounties] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
+	const [page, setPage] = useState(0);
 
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -18,32 +19,41 @@ const BountyHomepage = () => {
 	}, []);
 
 	// Methods
-	async function populateBountyData() {
-		setIsLoading(true);
+	
+	async function getBountyData() {
+		console.log('page');
+		const fetchedBounties = await appState.openQSubgraphClient.getAllBounties(10*page);
 
-		const bounties = await appState.openQSubgraphClient.getAllBounties();
-
-		const bountyIds = bounties.map((bounty) => bounty.bountyId);
+		const bountyIds = fetchedBounties.map((bounty) => bounty.bountyId);
 		const issueData = await appState.githubRepository.getIssueData(bountyIds);
 
 		const fullBounties = [];
-		bounties.forEach((bounty) => {
+		fetchedBounties.forEach((bounty) => {
 			const relatedIssue = issueData.find(
 				(issue) => issue.id == bounty.bountyId
 			);
 			const mergedBounty = { ...bounty, ...relatedIssue };
 			fullBounties.push(mergedBounty);
 		});
+		console.log(fullBounties);
+		console.log(bounties);
+		setBounties(fullBounties.concat(bounties));
+		setPage(()=>page+1);
+	}
 
-		setBounties(fullBounties);
-
+	async function populateBountyData() {
+		setIsLoading(true);
+		await getBountyData();
 		setIsLoading(false);
 	}
+
+	
+	
 
 	// Render
 	return (
 		<div className="grid xl:grid-cols-wide justify-center">
-			<BountyList bounties={bounties} loading={isLoading}/>
+			<BountyList bounties={bounties} loading={isLoading} getBountyData={getBountyData}/>
 		</div>
 	);
 };
