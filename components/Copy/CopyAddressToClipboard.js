@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 
 const CopyAddressToClipboard = (props) => {
-
 	const [copySuccess, setCopySuccess] = useState('');
 	const [start, stop] = props.clipping||[12,32];
 	const copyTextToClipboard = () => {
@@ -60,10 +59,13 @@ const CopyAddressToClipboard = (props) => {
 						</div>
 					)}
 				</div>
-				<div>
-					{props.data.substring(0, start)}
-					...
-					{props.data.substring(stop)}
+				<div>{
+					props.noClip ?
+						props.data:
+						`${props.data.substring(0, start)}
+						...
+						${props.data.substring(stop)}`
+				}
 				</div>
 			</div>
 		</div>

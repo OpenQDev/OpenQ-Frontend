@@ -10,6 +10,7 @@ import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModa
 import LoadingIcon from '../Loading/LoadingIcon';
 import DepositCard from './DepositCard';
 import BountyClosed from '../BountyClosed/BountyClosed';
+import useEns from '../../hooks/useENS';
 
 const RefundPage = ({ bounty, refreshBounty }) => {
 	const {
@@ -29,13 +30,14 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
 	const { library, account } = useWeb3();
+	const [ensName] = useEns(account);
 
 	const claimed = bounty.status == 'CLOSED';
 
 	useEffect(() => {
 		if (bounty) {
 			setConfirmationMessage(
-				`You are about to refund your deposits on issue ${bounty.url} to the address ${account}. Is this correct ?`
+				`You are about to refund your deposits on issue ${bounty.url} to the address ${ensName||account}. Is this correct ?`
 			);
 		}
 	}, [bounty]);

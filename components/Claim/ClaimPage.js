@@ -16,6 +16,7 @@ import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModa
 import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 import ClaimLoadingModal from './ClaimLoadingModal';
 import BountyClosed from '../BountyClosed/BountyClosed';
+import useEns from '../../hooks/useENS';
 
 const ClaimPage = ({ bounty, refreshBounty }) => {
 	const { url } = bounty;
@@ -38,7 +39,8 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 
 	// Context
 	const { account, library } = useWeb3();
-	const confirmationMessage = `You are about to claim the deposits on issue ${url} to the address ${account}. Is this correct ?`;
+	const [ensName] = useEns(account);
+	const confirmationMessage = `You are about to claim the deposits on issue ${url} to the address ${ensName||account}. Is this correct ?`;
 	// Hooks
 	const [authState] = useAuth();
 

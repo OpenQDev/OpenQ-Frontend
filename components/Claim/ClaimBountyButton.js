@@ -7,6 +7,7 @@ import axios from 'axios';
 import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModals';
 import LoadingIcon from '../Loading/LoadingIcon';
+import useEns from '../../hooks/useENS';
 
 const ClaimBountyButton = ({ issueUrl }) => {
 	const { showErrorModal, setShowErrorModal, showSuccessModal, setShowSuccessModal, showConfirmationModal, setShowConfirmationModal } = useConfirmErrorSuccessModals();
@@ -18,10 +19,11 @@ const ClaimBountyButton = ({ issueUrl }) => {
 
 	// Context
 	const { account } = useWeb3();
+	const [ensName] = useEns(account);
 
 	useEffect(() => {
 		if (issueUrl) {
-			setConfirmationMessage(`You are about to claim the bounty on issue ${issueUrl} to the address ${account}. Is this correct ?`);
+			setConfirmationMessage(`You are about to claim the bounty on issue ${issueUrl} to the address ${ensName||account}. Is this correct ?`);
 		}
 	}, [issueUrl]);
 
