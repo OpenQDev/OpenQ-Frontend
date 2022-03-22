@@ -23,7 +23,6 @@ const BountyList = ({ bounties, loading, complete,getMoreData }) => {
 	const [isProcessed, updateIsProcessed] = useState(false);
 	const [scroll, setScroll] = useState();
 	let observer = useRef();
-	const boing = useRef();
 	// Utilities
 	const getTVL = async (tokenBalances) => {
 		let tokenVolumes = {};
@@ -61,6 +60,7 @@ const BountyList = ({ bounties, loading, complete,getMoreData }) => {
 
 	const filter = (bounties) =>{
 		return bounties.filter((elem)=>{
+		//	return false;
 			return (elem.status === 'OPEN'||showClaimed)&&(elem.tvl?.total > 0||showUnfunded);
 		});
 	};
@@ -130,7 +130,7 @@ const BountyList = ({ bounties, loading, complete,getMoreData }) => {
 			});
 
 			const tvlPromise = Promise.all(newBounties);
-			tvlPromise.then((resolvedTvls)=>{			
+			return tvlPromise.then((resolvedTvls)=>{			
 				const initialDisplayBounties = filter(resolvedTvls);
 				console.log(initialDisplayBounties);
 				updateDisplayBounties(orderBounties(sortOrder, initialDisplayBounties));
@@ -192,13 +192,11 @@ const BountyList = ({ bounties, loading, complete,getMoreData }) => {
 	};
 
 
-	const lastElem = useRef(null);
-	useEffect(()=>{	
-		const node = lastElem.current;	
+	const lastElem = useCallback((node)=>{
 		console.log(node);
 		window.scrollY = scroll;
 		if(observer.current){observer.current.disconnect();}
-		if(node){		
+		if(node){
 
 			let options = {
 				rootMargin: '100px',
