@@ -21,7 +21,6 @@ const ConnectButton = () => {
 	// Context
 	const { chainId, account, activate, deactivate } = useWeb3();
 	const [accountName] = useEns(account);
-	console.log(showModal);
 	// Hooks
 	useConnectOnLoad()(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
 

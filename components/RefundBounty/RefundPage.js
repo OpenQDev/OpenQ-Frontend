@@ -30,7 +30,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
 	const { library, account } = useWeb3();
-	const [ensName] = useEns({account, });
+	const [ensName] = useEns(account);
 
 	const claimed = bounty.status == 'CLOSED';
 
