@@ -128,7 +128,11 @@ class OpenQClient {
 		let promise = new Promise (async (resolve) =>{
 			let ensName;
 			try{                                                                                    
-				ensName = await this.EthereumMainnet.lookupAddress(_callerAddress);
+				let name = await this.EthereumMainnet.lookupAddress(_callerAddress);
+				let reverseAddress = await this.EthereumMainnet.resolveName(name);
+				if(_callerAddress===reverseAddress){
+					ensName=name;
+				}
 			}
 			catch(error){
 				resolve (false);
