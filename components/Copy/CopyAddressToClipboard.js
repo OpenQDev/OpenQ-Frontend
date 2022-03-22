@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 
 const CopyAddressToClipboard = (props) => {
-	console.log(props.noClip);
 	const [copySuccess, setCopySuccess] = useState('');
 	const [start, stop] = props.clipping||[12,32];
 	const copyTextToClipboard = () => {
