@@ -19,11 +19,11 @@ const ClaimBountyButton = ({ issueUrl }) => {
 
 	// Context
 	const { account } = useWeb3();
-	const [accountName] = useEns(account);
+	const [ensName] = useEns(account);
 
 	useEffect(() => {
 		if (issueUrl) {
-			setConfirmationMessage(`You are about to claim the bounty on issue ${issueUrl} to the address ${accountName}. Is this correct ?`);
+			setConfirmationMessage(`You are about to claim the bounty on issue ${issueUrl} to the address ${ensName||account}. Is this correct ?`);
 		}
 	}, [issueUrl]);
 

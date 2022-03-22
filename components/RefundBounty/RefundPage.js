@@ -37,7 +37,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 	useEffect(() => {
 		if (bounty) {
 			setConfirmationMessage(
-				`You are about to refund your deposits on issue ${bounty.url} to the address ${ensName}. Is this correct ?`
+				`You are about to refund your deposits on issue ${bounty.url} to the address ${ensName||account}. Is this correct ?`
 			);
 		}
 	}, [bounty]);

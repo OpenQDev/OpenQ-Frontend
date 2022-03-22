@@ -20,7 +20,7 @@ const ConnectButton = () => {
 
 	// Context
 	const { chainId, account, activate, deactivate } = useWeb3();
-	const [accountName] = useEns(account);
+	const [ensName] = useEns(account);
 	// Hooks
 	useConnectOnLoad()(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
 
@@ -82,13 +82,13 @@ const ConnectButton = () => {
 					className="group flex gap-x-3 font-mont whitespace-nowrap rounded-lg border border-pink-500 bg-pink-700 bg-opacity-20 py-2 px-6 text-white font-semibold cursor-pointer hover:border-pink-300"
 				>
 					<span className="border-2 border-pink-500 rounded-full leading-3 group-hover:border-pink-300" ref={iconWrapper}></span>
-					<span className='py'>	{accountName < 15 ? accountName: `${firstThree}...${lastThree}`}</span>
+					<span className='py'>{ensName|| `${firstThree}...${lastThree}`}</span>
 				</button>
 				{showModal&&
 				<AccountModal
 					domRef={modalRef}
 					account = {account}
-					accountName = {accountName}
+					ensName = {ensName}
 					chainId = {chainId} 
 					deactivate={deactivate}
 					setIsConnecting={setIsConnecting}/>}

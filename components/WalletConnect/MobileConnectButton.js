@@ -19,7 +19,7 @@ const MobileConnectButton = () => {
 	const iconWrapper = useRef();
 	// Context
 	const { chainId, account, activate, active, deactivate } = useWeb3();
-	const [accountName] = useEns(account);
+	const [ensName] = useEns(account);
 
 	// Hooks
 	useConnectOnLoad()(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
@@ -85,7 +85,7 @@ const MobileConnectButton = () => {
 				{(showModal)&&
 				<AccountModal
 					domRef={modalRef}
-					accountName = {accountName}
+					ensName = {ensName}
 					account = {account}
 					chainId = {chainId} 
 					deactivate={deactivate}

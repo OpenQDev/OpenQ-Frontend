@@ -39,8 +39,8 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 
 	// Context
 	const { account, library } = useWeb3();
-	const [accountName] = useEns(account);
-	const confirmationMessage = `You are about to claim the deposits on issue ${url} to the address ${accountName}. Is this correct ?`;
+	const [ensName] = useEns(account);
+	const confirmationMessage = `You are about to claim the deposits on issue ${url} to the address ${ensName||account}. Is this correct ?`;
 	// Hooks
 	const [authState] = useAuth();
 

@@ -27,8 +27,6 @@ class OpenQClient {
 		return contract;
 	};
 
-	EthereumMainnet = new ethers.getDefaultProvider( 1 ,{infura: process.env.INFURA_KEY, quorum:1});
-
 	async mintBounty(library, issueId, organization) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
@@ -127,17 +125,19 @@ class OpenQClient {
 	async getENS(_callerAddress){
 		let promise = new Promise (async (resolve) =>{
 			let ensName;
-			try{                                                                                    
-				let name = await this.EthereumMainnet.lookupAddress(_callerAddress);
-				let reverseAddress = await this.EthereumMainnet.resolveName(name);
-				if(_callerAddress===reverseAddress){
+			try{      
+				let provider = new ethers.providers.InfuraProvider('homestead', process.env.INFURA_KEY);                                                              
+				let name = await provider.lookupAddress(_callerAddress);
+				let reverseAddress = ethers.utils.getAddress(await provider.resolveName(name));
+				// we need to check if their address is reverse registered 
+				if(ethers.utils.getAddress(_callerAddress)===reverseAddress){
 					ensName=name;
 				}
+				resolve(ensName);
 			}
 			catch(error){
 				resolve (false);
 			}
-			resolve(ensName); 
 		});
 		return promise; 
 	}

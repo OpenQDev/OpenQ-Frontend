@@ -14,7 +14,7 @@ import useEns from '../../hooks/useENS';
 const AboutUser = ({user})=>{
 	const {fundedTokenBalances, bountiesCreated, bountiesClosed, deposits, payoutTokenBalances, payouts}= user;
 	const account= user.id;
-	const [accountName] = useEns(account);
+	const [ensName] = useEns(account);
 	// Context
 	const [appClient] = useContext(StoreContext);
     
@@ -39,10 +39,11 @@ const AboutUser = ({user})=>{
 		}
 	}, [bountiesClosed]);
 	return(<>
-		<h1 className='font-semibold p-4 text-3xl border-web-gray border-b flex gap-2'>
+		<h1 className='font-semibold p-4 text-2xl border-web-gray border-b flex gap-2'>
 			<span className='pt-2' ref={iconWrapper}></span>
 			<span className='leading-none'>
-				<CopyAddressToClipboard data={accountName} noClip={accountName < 15} clipping={[5,39]}/>
+				<span>{ensName}</span>
+				<CopyAddressToClipboard data={account} noClip={ensName < 15} clipping={[5,39]}/>
 			</span>
 		</h1>
 		<div className='px-16 py-6 py-6 gap-6 border-b border-web-gray flex flex-wrap items-stretch w-full font-semibold text-gray-300 text-lg'>
