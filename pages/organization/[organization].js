@@ -72,6 +72,8 @@ const organization = () => {
 
 	async function getMoreData(isDsc){	
 		const newBounties = await getBountyData(isDsc);
+		console.log('here');
+		console.log(newBounties);
 		setBounties(bounties.concat(newBounties));
 		
 	}
@@ -114,7 +116,7 @@ const organization = () => {
 				<About organizationData={organizationData} tokenValues={tokenValues} /> :
 				<div className="grid xl:grid-cols-wide justify-center w-f pt-8">
 					<LargeOrganizationCard organization={organizationData}/>
-					<BountyList bounties={bounties} loading={isLoading} getBountyData={getMoreData} getNewData={getNewData} complete={complete}/>
+					<BountyList bounties={bounties} loading={isLoading} getMoreData={getMoreData} getNewData={getNewData} complete={complete}/>
 				</div>}
 		</div>
 	);

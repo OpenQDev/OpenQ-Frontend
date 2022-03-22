@@ -1,5 +1,5 @@
 // Third Party
-import React, { useContext, forwardRef } from 'react';
+import React, { useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Skeleton from 'react-loading-skeleton';
@@ -8,7 +8,7 @@ import useGetTokenValues from '../../hooks/useGetTokenValues';
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
 
-const BountyCard = ({ bounty, loading, ref }) => {
+const BountyCard = ({ bounty, loading }) => {
 	// State
 	const bountyName = bounty?.title.toLowerCase()||'';
 	const [appState] = useContext(StoreContext);
@@ -18,7 +18,7 @@ const BountyCard = ({ bounty, loading, ref }) => {
 
 	// Render
 	return (
-		<div ref={ref} className={loading&&'pointer-events-none cursor-normal'}>
+		<div className={loading&&'pointer-events-none cursor-normal'}>
 			<Link
 				href={`/bounty/${bounty?.bountyAddress}`}
 			>
@@ -158,4 +158,4 @@ const BountyCard = ({ bounty, loading, ref }) => {
 	);
 };
 
-export default forwardRef(BountyCard);
+export default BountyCard;
