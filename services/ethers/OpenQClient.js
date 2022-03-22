@@ -27,6 +27,8 @@ class OpenQClient {
 		return contract;
 	};
 
+	EthereumMainnet = new ethers.getDefaultProvider( 1 ,{infura: process.env.INFURA_KEY, quorum:1});
+
 	async mintBounty(library, issueId, organization) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
@@ -120,6 +122,20 @@ class OpenQClient {
 		});
 
 		return promise;
+	}
+
+	async getENS(_callerAddress){
+		let promise = new Promise (async (resolve) =>{
+			let ensName;
+			try{                                                                                    
+				ensName = await this.EthereumMainnet.lookupAddress(_callerAddress);
+			}
+			catch(error){
+				resolve (false);
+			}
+			resolve(ensName); 
+		});
+		return promise; 
 	}
 
 	async fundBounty(library, _bountyId, _tokenAddress, _value, _depositPeriodDays) {

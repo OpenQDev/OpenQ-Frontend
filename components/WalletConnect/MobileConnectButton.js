@@ -1,12 +1,13 @@
 // Third Party
 import React, { useState, useEffect, useRef } from 'react';
+import jazzicon from '@metamask/jazzicon';
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
 import { injected } from './connectors';
 import useConnectOnLoad from '../../hooks/useConnectOnLoad';
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
 import AccountModal from './AccountModal';
-import jazzicon from '@metamask/jazzicon';
+import useEns from '../../hooks/useENS';
 
 const MobileConnectButton = () => {
 	// State
@@ -18,6 +19,7 @@ const MobileConnectButton = () => {
 	const iconWrapper = useRef();
 	// Context
 	const { chainId, account, activate, active, deactivate } = useWeb3();
+	const [accountName] = useEns(account);
 
 	// Hooks
 	useConnectOnLoad()(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
@@ -42,7 +44,7 @@ const MobileConnectButton = () => {
 	
 	useEffect(() => {
 		let handler = (event) => {
-			if (!modalRef.current?.contains(event.target)&&event.target!==buttonRef.current) {
+			if (!modalRef.current?.contains(event.target)&&!buttonRef.current?.contains(event.target)) {
 				setShowModal(false);
 			}
 		};
@@ -83,7 +85,8 @@ const MobileConnectButton = () => {
 				{(showModal)&&
 				<AccountModal
 					domRef={modalRef}
-					account = {account} 
+					accountName = {accountName}
+					account = {account}
 					chainId = {chainId} 
 					deactivate={deactivate}
 					setIsConnecting={setIsConnecting}/>}
