@@ -90,7 +90,7 @@ const BountyList = ({ bounties, loading }) => {
 	const availableLabels = [];
 	bounties.forEach((bounty) => {
 		bounty.labels.forEach(label => {
-			if (!availableLabels.includes(label)) {
+			if (!availableLabels.includes(label.name)) {
 				availableLabels.push(label.name);
 			}
 		});
