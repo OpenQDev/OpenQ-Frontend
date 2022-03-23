@@ -3,11 +3,13 @@ import React, { useEffect, useState, useContext } from 'react';
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
 import BountyList from './BountyList';
+import GithubDown from '../Utils/GithubDown';
 
 const BountyHomepage = () => {
 	// State
 	const [bounties, setBounties] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
+	const [githubOutage, setGithubOutage] = useState(true);
 
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -24,8 +26,13 @@ const BountyHomepage = () => {
 		const bounties = await appState.openQSubgraphClient.getAllBounties();
 
 		const bountyIds = bounties.map((bounty) => bounty.bountyId);
-		const issueData = await appState.githubRepository.getIssueData(bountyIds);
-
+		let issueData;
+		try{
+			issueData = await appState.githubRepository.getIssueData(bountyIds);
+		}
+		catch(error){
+			setGithubOutage(true);
+		}
 		const fullBounties = [];
 		bounties.forEach((bounty) => {
 			const relatedIssue = issueData.find(
@@ -36,14 +43,17 @@ const BountyHomepage = () => {
 		});
 
 		setBounties(fullBounties);
-
 		setIsLoading(false);
 	}
 
 	// Render
 	return (
 		<div className="grid xl:grid-cols-wide justify-center">
-			<BountyList bounties={bounties} loading={isLoading}/>
+			{githubOutage?				
+				<GithubDown/>
+				:
+				<BountyList bounties={bounties} loading={isLoading}/>
+			}
 		</div>
 	);
 };

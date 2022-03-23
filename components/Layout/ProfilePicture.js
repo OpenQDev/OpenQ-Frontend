@@ -16,7 +16,7 @@ const ProfilePicture = () => {
 			const isAuthenticated = authState.isAuthenticated;
 			if (isAuthenticated) {
 				const res = await appState.githubRepository.fetchAvatarUrl();
-				const avatarUrl = res.data.viewer.avatarUrl;
+				const avatarUrl = res.data?.viewer.avatarUrl;
 				setProPicUrl(avatarUrl);
 			}
 		}
