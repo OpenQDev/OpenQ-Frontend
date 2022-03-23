@@ -13,12 +13,12 @@ import Skeleton from 'react-loading-skeleton';
 const BountyList = ({ bounties, loading }) => {
 	// Hooks
 	const [appState] = useContext(StoreContext);
-	const [displayBounties, updateDisplayBounties] = useState([]);
 	const [tvlBounties, updateTvlBounties] = useState([]);
 	const [unfundedVisible, setUnfundedVisible] = useState(false);
 	const [claimedVisible, setClaimedVisible] = useState(false);
 	const [sortOrder, updateSortOrder] = useState('Newest');
 	const [searchText, updateSearchText] = useState('');
+	const [tagArr, updateTagArr] = useState([]);
 	const [searchedBounties, updateSearchedBounties] = useState([]);
 	const [isProcessed, updateIsProcessed] = useState(false);
 	
@@ -43,44 +43,28 @@ const BountyList = ({ bounties, loading }) => {
 		} else return { total: 0 };
 	};
 
-	// Filters out unfunded
-	const removeUnfunded = (bounties) => {
-		return bounties.filter((elem) => {
-			return elem.tvl?.total > 0;
+	const filter = (bounties, options={})=>{
+		const localTagArr = options.tagArr || tagArr;
+		const localSearchText = options.searchText || searchText;
+		const  localShowClaimed = options.showClaimed === undefined ? claimedVisible: options.showClaimed;
+		const localShowUnfunded = options.showUnfunded === undefined ? unfundedVisible: options.showUnfunded;
+		return bounties.filter(bounty=>{
+			const containsSearch = (bounty.title
+				.toLowerCase()
+				.indexOf(localSearchText.toLowerCase()) > -1)|| localSearchText.length===0;
+			const containsTag = localTagArr.reduce((accum, tag)=>{
+				if(accum===false) return false;
+				return bounty.labels.some(label=>label.name===tag);
+			},true);
+			const isUnclaimed = bounty.status === 'OPEN';
+			const isFunded = bounty.tvl?.total > 0;
+			return (containsSearch&&containsTag&&(localShowUnfunded||isFunded)&&(localShowClaimed||isUnclaimed));
 		});
-	};
-	// Filters out claimed
 
-	const removeClaimed = (bounties) => {
-		return bounties.filter((elem) => {
-			return elem.status === 'OPEN';
-		});
-	};
-
-	// Filters out non-searched
-	const search = (searchValue, bounties=displayBounties) => {
-		const myRegex = /(tag:)(")([\w\s]+)(")/g;
-		const tagArr=[...searchValue.matchAll(myRegex, '$2')];	
-		const issueTitleSearchTerm = searchValue.replace(myRegex, ' ').trim();
-		updateSearchText(searchValue);
-
-		return bounties.filter((bounty) => {
-			const includesTags = tagArr.reduce((accum, tag) => {
-				if (!accum) return accum;
-				else return bounty.labels.some(label => { return label.name === tag[3]; });
-
-			}, true);
-			return searchValue
-				? (bounty.title
-					.toLowerCase()
-					.indexOf(issueTitleSearchTerm.toLowerCase()) > -1
-					&& includesTags) :
-				bounty;
-		});
 	};
 
 	// Orders bounties	
-	const orderBounties = (toggleTo, bounties = displayBounties) => {
+	const orderBounties = (bounties = tvlBounties, toggleTo=sortOrder ) => {
 		switch (toggleTo) {
 		case 'Highest\xa0TVL':
 			return bounties.sort((a, b) => {
@@ -121,10 +105,8 @@ const BountyList = ({ bounties, loading }) => {
 			});
 
 			const tvlPromise = Promise.all(newBounties);
-			tvlPromise.then((resolvedTvls)=>{			
-				const initialDisplayBounties = removeUnfunded(removeClaimed(resolvedTvls));
-				updateDisplayBounties(initialDisplayBounties);
-				updateSearchedBounties(initialDisplayBounties);
+			tvlPromise.then((resolvedTvls)=>{
+				updateSearchedBounties(filter(resolvedTvls));
 				updateTvlBounties(resolvedTvls);	
 				updateIsProcessed(true);		
 			}
@@ -135,49 +117,34 @@ const BountyList = ({ bounties, loading }) => {
 	// User Methods
 	const handleSortBounties = (toggleTo) =>{
 		updateSortOrder(toggleTo);
-		updateSearchedBounties(orderBounties(toggleTo, searchedBounties));
+		updateSearchedBounties(orderBounties(searchedBounties, toggleTo));
 	};
 
 	const handleSearchInput = (e) =>{
 		updateSearchText(e.target.value);
-		updateSearchedBounties(search(e.target.value));
+		updateSearchedBounties(orderBounties(filter(tvlBounties, {searchText: e.target.value})));
 	};
 
 	const addTag = (tag)=>{
-		updateSearchText(searchText.concat(` tag:"${tag}"`));
-		updateSearchedBounties(search(searchText.concat(` tag:"${tag}"`)));
+		if(!tagArr.includes(tag)){
+			updateTagArr([...tagArr, tag]);
+			updateSearchedBounties(orderBounties(filter(tvlBounties, {tagArr: [...tagArr, tag]})));}
 	};
 
 	const showUnfunded = (e) => {
 		setUnfundedVisible(e.target.checked);
-		if (e.target.checked) {
-			if (claimedVisible) {
-				updateDisplayBounties(orderBounties(sortOrder,tvlBounties));
-				updateSearchedBounties(orderBounties(sortOrder, search (searchText, tvlBounties)));
-			} else {
-				updateDisplayBounties(orderBounties(sortOrder, removeClaimed(tvlBounties)));
-				updateSearchedBounties(orderBounties(sortOrder, search (searchText, removeClaimed(tvlBounties))));
-			}
-		} else {
-			updateDisplayBounties(search(searchText, removeUnfunded(displayBounties)));
-			updateSearchedBounties(search(searchText, removeUnfunded(displayBounties)));
-		}
+		updateSearchedBounties(orderBounties(filter(tvlBounties, {showUnfunded: e.target.checked})));
 	};
 
 	const showClaimed = (e) => {
-		setClaimedVisible(e.target.checked);
-		if (e.target.checked) {
-			if (unfundedVisible) {
-				updateDisplayBounties(orderBounties(sortOrder, tvlBounties));
-				updateSearchedBounties(orderBounties(sortOrder, search(searchText, tvlBounties)));
-			} else {
-				updateDisplayBounties(orderBounties(sortOrder, removeUnfunded(tvlBounties)));
-				updateSearchedBounties(orderBounties(sortOrder, search(searchText, removeUnfunded(tvlBounties))));
-			}
-		} else {
-			updateDisplayBounties(removeClaimed(displayBounties));
-			updateSearchedBounties(search(searchText, removeClaimed(displayBounties)));
-		}
+		setClaimedVisible(e.target.checked);		
+		updateSearchedBounties(orderBounties(filter(tvlBounties, {showClaimed: e.target.checked})));
+	};
+
+	const removeTag = (e)=>{
+		const newTagArr=tagArr.filter(tag=>tag!==e.target.value);
+		updateTagArr(newTagArr);		
+		updateSearchedBounties(orderBounties(filter(tvlBounties, {tagArr: newTagArr})));
 	};
 
 	// Render
@@ -194,6 +161,14 @@ const BountyList = ({ bounties, loading }) => {
 					<Dropdown toggleFunc={addTag} title="Filter By Label" names={availableLabels} borderShape={'rounded-r-lg'} /></div>
 				<MintBountyButton />
 			</div>
+			{tagArr.length>0 && <ul className="flex  flex-wrap">{tagArr.map((tag, index)=> <li key={index}className="border-web-gray border text-white inline ml-2 mb-2 px-2 py-1.5 rounded-md">
+				<span className="px-2">{tag}</span>
+				<button onClick={removeTag} value={tag} className="bg-gray-500/40 hover:bg-gray-500/30 hover:cursor-pointer inline-flex justify-center content-center h-6 w-6 leading-tight rounded-full">
+					×
+				</button>
+				
+			</li>)}
+			</ul>}
 			<div className="flex md:content-start content-center flex-col gap-2">
 				<div className="flex bg-dark-mode justify-between rounded-md w-64">
 					<span className="text-white p-2  align-self-center pr-4">Sort By</span>
@@ -201,11 +176,11 @@ const BountyList = ({ bounties, loading }) => {
 				</div>
 				<div className="flex p-2 pr-4 gap-2 border rounded-md justify-between border-web-gray w-64">
 					<label htmlFor="unfunded" className="text-white">Show Unfunded Bounties</label>
-					<input id="unfunded" type="checkbox" className="accent-pink-500" onChange={showUnfunded} />
+					<input id="unfunded" type="checkbox" className="accent-pink-500" onChange={showUnfunded} checked={unfundedVisible} />
 				</div>
 				<div className="flex p-2 pr-4 gap-2 border rounded-md justify-between border-web-gray w-64">
 					<label htmlFor="claimed" className="text-white" >Show Claimed Bounties</label>
-					<input id="claimed" type="checkbox" className="accent-pink-500" onChange={showClaimed} />
+					<input id="claimed" type="checkbox" className="accent-pink-500" onChange={showClaimed} checked={claimedVisible}/>
 				</div>
 			</div>
 			<div className="text-gray-300 font-mont pt-1 font-normal">
