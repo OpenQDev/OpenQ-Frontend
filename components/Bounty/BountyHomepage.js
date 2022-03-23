@@ -9,7 +9,7 @@ const BountyHomepage = () => {
 	// State
 	const [bounties, setBounties] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const [githubOutage, setGithubOutage] = useState(true);
+	const [githubOutage, setGithubOutage] = useState(false);
 
 	// Context
 	const [appState] = useContext(StoreContext);
