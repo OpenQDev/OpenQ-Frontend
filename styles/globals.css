@@ -7,6 +7,10 @@
     background: #f3f3f3;
   }
 }
+
+.github_markup h2{font-weight: bold;
+padding-top: 16px;}
+
 .highlight{
   background-color:  #58585833;
   border-radius: 1rem;

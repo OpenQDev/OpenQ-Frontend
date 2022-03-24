@@ -68,11 +68,11 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 			<div className="flex flex-col pt-5">
 				<div className="flex flex-row justify-between">
 					<div className="font-bold text-xl text-white">Description</div>
-					<BountyLinks bounty={bounty} />
+					<BountyLinks bounty={bounty} hideBountyLink={true}/>
 				</div>
 				{bounty?
-					<div
-						className="text-white pt-2 w-full break-words"
+					<div 
+						className="github_markup text-white pt-2 w-full break-words"
 						dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}
 					></div>:
 					<div className="pt-2 w-3/4">
