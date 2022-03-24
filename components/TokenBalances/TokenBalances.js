@@ -14,7 +14,6 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 		if(tokenBalancesArr[0]&&tokenValues){
 			let highest= 0;
 			const totalValueBalances=tokenBalancesArr.map((tokenBalance) => {
-				console.log(tokenBalance);
 				const tokenAddress = ethers.utils.getAddress(
 					tokenBalance.tokenAddress
 				);

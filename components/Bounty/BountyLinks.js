@@ -9,7 +9,6 @@ import Image from 'next/image';
 
 const BountyLinks = ({ bounty, hideBountyLink }) => {
 	const router = useRouter();
-	console.log(bounty);
 	const tweetText = router.query.first ? `I\'ve just created a bounty ${bounty?.twitterUsername ? `for %40${bounty.twitterUsername} `:''}on the OpenQ platform by @openqlabs! Check it out at ` : 'Check out this bounty on the OpenQ platform by @openqlabs! ';
 	return (
 		<div className="flex flex-row font-bold text-xl space-x-4">
