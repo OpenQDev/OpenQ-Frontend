@@ -18,7 +18,7 @@ const BountyCard = ({ bounty, loading }) => {
 
 	// Render
 	return (
-		<div className={loading&&'pointer-events-none cursor-normal'}>
+		<div className={loading ? 'pointer-events-none cursor-normal': undefined}>
 			<Link
 				href={`/bounty/${bounty?.bountyAddress}`}
 			>

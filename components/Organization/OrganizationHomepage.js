@@ -6,6 +6,7 @@ import OrganizationCard from '../Organization/OrganizationCard';
 import MintBountyButton from '../MintBounty/MintBountyButton';
 import SearchBar from '../Search/SearchBar';
 import useAuth from '../../hooks/useAuth';
+import GithubDown from '../Utils/GithubDown';
 
 const OrganizationHomepage = () => {
 	// State
@@ -17,6 +18,7 @@ const OrganizationHomepage = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [organizations, setOrganizations] = useState(null);
 	const [organizationSearchTerm, setOrganizationSearchTerm] = useState('');
+	const [githubOutage, updateGithubOutage] = useState(false);
 
 	// Methods
 	async function populateOrganizationData() {
@@ -37,8 +39,7 @@ const OrganizationHomepage = () => {
 					organization.id
 				);
 			} catch (error) {
-				console.log(error);
-				continue;
+				updateGithubOutage(true);
 			}
 			const mergedOrgData = { ...organization, ...orgData };
 			mergedOrgs.push(mergedOrgData);
@@ -67,26 +68,30 @@ const OrganizationHomepage = () => {
 					<SearchBar onKeyUp={filterByOrg} searchText={organizationSearchTerm} placeholder="Search Organization..." borderShape={'border rounded-full'} className="mb-200" />
 					<MintBountyButton /></div>
 				<div className="grid grid-cols-[repeat(_auto-fit,_192px)] gap-6 justify-center sm:justify-start w-2/3 mx-auto">
-					{isLoading
-						? <><OrganizationCard/><OrganizationCard/></>
-						: organizations
-							.filter((organization) => {
-								return organizationSearchTerm
-									? organization.name
-										.toLowerCase()
-										.indexOf(organizationSearchTerm.toLowerCase()) > -1
-									: organization;
-							})
-							.map((organization) => {
-								return (
-									<div className="w-48" key={organization.id}>
-										<OrganizationCard
-											organization={organization}
-											key={organization.id}
-										/>
-									</div>
-								);
-							})}
+					{githubOutage?
+						<GithubDown/>
+						:
+						isLoading
+							? <><OrganizationCard/><OrganizationCard/></>
+							: organizations
+								.filter((organization) => {
+									return organizationSearchTerm
+										? organization.name
+											.toLowerCase()
+											.indexOf(organizationSearchTerm.toLowerCase()) > -1
+										: organization;
+								})
+								.map((organization) => {
+									return (
+										<div className="w-48" key={organization.id}>
+											<OrganizationCard
+												organization={organization}
+												key={organization.id}
+											/>
+										</div>
+									);
+								})}
+						
 				</div>
 			</div>
 		</div>

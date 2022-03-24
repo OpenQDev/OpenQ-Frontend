@@ -1,6 +1,7 @@
 // Third Party
 import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
+import GithubDown from '../../components/Utils/GithubDown';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
@@ -21,6 +22,7 @@ const organization = () => {
 	const [organizationData, setOrganizationData] = useState(null);
 	const [bounties, setBounties] = useState([]);
 	const [showAbout, setShowAbout] = useState('Bounties');
+	const [githubOutage, setGithubOutage] = useState(false);
 
 	const [tokenValues] = useGetTokenValues(organizationData?.fundedTokenBalances);
 
@@ -30,13 +32,16 @@ const organization = () => {
 		const org = await appState.openQSubgraphClient.getOrganization(
 			organization
 		);
-
-		const orgData = await appState.githubRepository.fetchOrganizationByName(
-			organization
-		);
-
+		let orgData;
+		try{
+			orgData = await appState.githubRepository.fetchOrganizationByName(
+				organization
+			);
+		}
+		catch(err){
+			setGithubOutage(true);
+		}
 		const mergedOrgData = { ...org, ...orgData };
-
 		setOrganizationData(mergedOrgData);
 	}
 
@@ -73,15 +78,21 @@ const organization = () => {
 
 	// Render
 	return (
-		<div className="bg-dark-mode pt-10">
-			<Toggle toggleFunc={setShowAbout} toggleVal={showAbout} names={['Bounties', 'About']} />
-			{(showAbout === 'About') ?
-				<About organizationData={organizationData} tokenValues={tokenValues} /> :
-				<div className="grid xl:grid-cols-wide justify-center w-f pt-8">
-					<LargeOrganizationCard organization={organizationData}/>
-					<BountyList bounties={bounties} loading={isLoading}/>
-				</div>}
-		</div>
+		<>
+			{githubOutage?				
+				<GithubDown/>
+				:
+				<div className="bg-dark-mode pt-10">
+					<Toggle toggleFunc={setShowAbout} toggleVal={showAbout} names={['Bounties', 'About']} />
+					{(showAbout === 'About') ?
+						<About organizationData={organizationData} tokenValues={tokenValues} /> :
+						<div className="grid xl:grid-cols-wide justify-center w-f pt-8">
+							<LargeOrganizationCard organization={organizationData}/>
+							<BountyList bounties={bounties} loading={isLoading}/>
+						</div>}
+				</div>
+			}
+		</>
 	);
 	
 };
