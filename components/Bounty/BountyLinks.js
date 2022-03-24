@@ -1,11 +1,14 @@
 // Third Party
 import React from 'react';
 import Link from 'next/link';
+import {useRouter} from 'next/router';
 import Skeleton from 'react-loading-skeleton';
 
 // Custom
 
 const BountyLinks = ({ bounty }) => {
+	const router = useRouter();
+	const tweetText = router.query.first ? `I\'ve just created a bounty ${bounty?.twitterUsername ? `for %40${bounty.twitterUsername} `:''}on the OpenQ platform by @openqlabs! Check it out at ` : 'Check out this bounty on the OpenQ platform by @openqlabs! ';
 	return (
 		<div className="flex flex-row font-bold text-xl space-x-2">
 			{bounty? <Link href={bounty.url} passHref>
@@ -25,25 +28,15 @@ const BountyLinks = ({ bounty }) => {
 			</Link>:
 				<Skeleton width={'24px'} height={'24px'}/>}
 			{bounty? <Link
-				href={`/?address=${bounty.bountyAddress}}`}
+				href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyAddress}`}
 
 			>
-				<a target="_blank" rel="noreferrer">
+				<a target="_blank">
 					<div id={'bounty-link'} className="cursor-pointer">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="h-6 w-6"
-							fill=""
-							viewBox="0 0 24 24"
-							stroke="white"
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth="2"
-								d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-							/>
-						</svg>
+						<svg viewBox="0 0 128 128" width="24" height="24">
+							<path d="M40.254 127.637c48.305 0 74.719-48.957 74.719-91.403 0-1.39 0-2.777-.075-4.156 5.141-4.547 9.579-10.18 13.102-16.633-4.79 2.602-9.871 4.305-15.078 5.063 5.48-4.02 9.582-10.336 11.539-17.774-5.156 3.743-10.797 6.38-16.68 7.801-8.136-10.586-21.07-13.18-31.547-6.32-10.472 6.86-15.882 21.46-13.199 35.617C41.922 38.539 22.246 26.336 8.915 6.27 1.933 20.94 5.487 39.723 17.022 49.16c-4.148-.172-8.207-1.555-11.832-4.031v.41c0 15.273 8.786 28.438 21.02 31.492a21.596 21.596 0 01-11.863.543c3.437 13.094 13.297 22.07 24.535 22.328-9.305 8.918-20.793 13.75-32.617 13.72-2.094 0-4.188-.15-6.266-.446 12.008 9.433 25.98 14.441 40.254 14.422" fill="#ffffff">
+							</path>
+						</svg> 
 					</div>
 				</a>
 			</Link>:

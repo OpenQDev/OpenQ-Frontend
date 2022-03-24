@@ -172,7 +172,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 			await sleep(1000);
 
 			router.push(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`
+				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}?first=true`
 			);
 		} catch (error) {
 			console.log('error in mintboutny', error);
