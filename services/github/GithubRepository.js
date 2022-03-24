@@ -45,8 +45,9 @@ class GithubRepository {
 		const repoName = responseData.repository.name;
 		const avatarUrl = responseData.repository.owner.avatarUrl;
 		const owner = responseData.repository.owner.login;
+		const twitterUsername = responseData.repository.owner.twitterUsername;
 		const labels = responseData.labels.edges.map(edge => edge.node);
-		return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML };
+		return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername };
 	}
 	parseIssuesData(rawIssuesResponse) {
 		const responseData = rawIssuesResponse.data.nodes;

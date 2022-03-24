@@ -105,6 +105,9 @@ export const GET_ISSUE_BY_ID = gql`
           owner {
             login
             avatarUrl
+			... on Organization {
+				twitterUsername
+			  }
           }
         }
       }
