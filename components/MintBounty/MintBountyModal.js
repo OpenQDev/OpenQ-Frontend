@@ -171,11 +171,12 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 			await sleep(1000);
 
+
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}?first=true`
 			);
 		} catch (error) {
-			console.log('error in mintboutny', error);
+			console.log('error in mintbounty', error);
 			const { message, title } = appState.openQClient.handleError(error);
 			setMintBountyState(TRANSACTION_FAILURE({ message, title }));
 		}
