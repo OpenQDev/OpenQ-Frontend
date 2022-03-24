@@ -40,7 +40,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	// Context
 	const { account, library } = useWeb3();
 	const [ensName] = useEns(account);
-	const confirmationMessage = `You are about to claim the deposits on issue ${url} to the address ${ensName||account}. Is this correct ?`;
+	const confirmationMessage = `You are about to claim the deposits on issue ${url} to the address ${ensName || account}. Is this correct ?`;
 	// Hooks
 	const [authState] = useAuth();
 
@@ -113,7 +113,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 						<AuthButton
 							redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyAddress}`}
 						/>
-						{showClaimLoadingModal && <ClaimLoadingModal claimState={claimState} login={'FlacoJones'} address={account} transactionHash={transactionHash} error={error} setShowClaimLoadingModal={setShowClaimLoadingModal} />}
+						{showClaimLoadingModal && <ClaimLoadingModal error={error} claimState={claimState} login={'FlacoJones'} address={account} transactionHash={transactionHash} error={error} setShowClaimLoadingModal={setShowClaimLoadingModal} />}
 					</div>
 				</div>
 				<ConfirmErrorSuccessModalsTrio

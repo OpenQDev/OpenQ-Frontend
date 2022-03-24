@@ -9,7 +9,7 @@ const SignIn = ({ redirectUrl }) => {
 
 	const signIn = () => {
 		const clientId = `client_id=${process.env.NEXT_PUBLIC_OPENQ_ID}`;
-		const scopes = 'scope=read:user%20public_repo';
+		const scopes = 'scope=read:user%20public_repo%20read:org';
 		const nonce = randomString(10);
 		window.localStorage.setItem('csrf_nonce', nonce);
 		const state = {
