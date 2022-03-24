@@ -7,13 +7,12 @@ import {
 	CHECKING_WITHDRAWAL_ELIGIBILITY,
 	WITHDRAWAL_INELIGIBLE,
 	TRANSACTION_SUBMITTED,
-	TRANSACTION_CONFIRMED
+	TRANSACTION_CONFIRMED,
+	CONFIRM_CLAIM
 } from './ClaimStates';
 import useAuth from '../../hooks/useAuth';
 import AuthButton from '../Authentication/AuthButton';
 import useWeb3 from '../../hooks/useWeb3';
-import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModals';
-import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
 import ClaimLoadingModal from './ClaimLoadingModal';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import useEns from '../../hooks/useENS';
@@ -21,33 +20,28 @@ import useEns from '../../hooks/useENS';
 const ClaimPage = ({ bounty, refreshBounty }) => {
 	const { url } = bounty;
 	// State
-	const {
-		showErrorModal,
-		setShowErrorModal,
-		showSuccessModal,
-		setShowSuccessModal,
-		showConfirmationModal,
-		setShowConfirmationModal,
-	} = useConfirmErrorSuccessModals();
 	const [error, setError] = useState('');
-	const [successMessage, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
-	const [claimState, setClaimState] = useState(CHECKING_WITHDRAWAL_ELIGIBILITY);
+	const [claimState, setClaimState] = useState(CONFIRM_CLAIM);
 	const [showClaimLoadingModal, setShowClaimLoadingModal] = useState(false);
 
 	const claimed = bounty.status == 'CLOSED';
 
+	const updateModal = () => {
+		setShowClaimLoadingModal(false);
+		setClaimState(CONFIRM_CLAIM);
+	};
+
 	// Context
 	const { account, library } = useWeb3();
 	const [ensName] = useEns(account);
-	const confirmationMessage = `You are about to claim the deposits on issue ${url} to the address ${ensName || account}. Is this correct ?`;
+
 	// Hooks
 	const [authState] = useAuth();
 
 	// Methods
 	const claimBounty = async () => {
 		setClaimState(CHECKING_WITHDRAWAL_ELIGIBILITY);
-		setShowClaimLoadingModal(true);
 		axios
 			.post(
 				`${process.env.NEXT_PUBLIC_ORACLE_URL}/claim`,
@@ -65,11 +59,8 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 				setClaimState(TRANSACTION_SUBMITTED);
 				await library.waitForTransaction(txnHash);
 				setClaimState(TRANSACTION_CONFIRMED);
-				// We should check here for txn failure before proceeding to Transaction Success
-				setSuccessMessage(
-					`Successfully transferred bounties on issue at ${url} to ${payoutAddress}!`
-				);
 				refreshBounty();
+				setClaimState(CONFIRM_CLAIM);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -105,7 +96,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 							<button
 								type="submit"
 								className="confirm-btn"
-								onClick={() => setShowConfirmationModal(true)}
+								onClick={() => setShowClaimLoadingModal(true)}
 							>
 								Claim
 							</button>
@@ -113,24 +104,9 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 						<AuthButton
 							redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyAddress}`}
 						/>
-						{showClaimLoadingModal && <ClaimLoadingModal error={error} claimState={claimState} login={'FlacoJones'} address={account} transactionHash={transactionHash} error={error} setShowClaimLoadingModal={setShowClaimLoadingModal} />}
+						{showClaimLoadingModal && <ClaimLoadingModal confirmMethod={claimBounty} url={url} ensName={ensName} account={account} error={error} claimState={claimState} login={'FlacoJones'} address={account} transactionHash={transactionHash} error={error} setShowClaimLoadingModal={updateModal} />}
 					</div>
 				</div>
-				<ConfirmErrorSuccessModalsTrio
-					setShowErrorModal={setShowErrorModal}
-					showErrorModal={showErrorModal}
-					error={error}
-					setShowConfirmationModal={setShowConfirmationModal}
-					showConfirmationModal={showConfirmationModal}
-					confirmationTitle={'Confirm Claim'}
-					confirmationMessage={confirmationMessage}
-					confirmMethod={claimBounty}
-					positiveOption={'Yes, Claim!'}
-					transactionHash={transactionHash}
-					showSuccessModal={showSuccessModal}
-					setShowSuccessModal={setShowSuccessModal}
-					successMessage={successMessage}
-				/>
 			</div>
 		);
 	}

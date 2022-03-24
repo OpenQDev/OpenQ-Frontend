@@ -6,16 +6,18 @@ import {
 	CHECKING_WITHDRAWAL_ELIGIBILITY,
 	WITHDRAWAL_INELIGIBLE,
 	TRANSACTION_SUBMITTED,
-	TRANSACTION_CONFIRMED
+	TRANSACTION_CONFIRMED,
+	CONFIRM_CLAIM
 } from './ClaimStates';
 
-const ClaimLoadingModal = ({ claimState, address, transactionHash, setShowClaimLoadingModal, error }) => {
+const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, address, transactionHash, setShowClaimLoadingModal, error }) => {
 
 	const updateModal = () => {
 		setShowClaimLoadingModal(false);
 	};
 
 	let title = {
+		[CONFIRM_CLAIM]: 'Confirm Claim',
 		[CHECKING_WITHDRAWAL_ELIGIBILITY]: 'Validating Claim',
 		[WITHDRAWAL_INELIGIBLE]: 'Withdrawal Ineligible',
 		[TRANSACTION_SUBMITTED]: 'Transaction Submitted',
@@ -23,6 +25,7 @@ const ClaimLoadingModal = ({ claimState, address, transactionHash, setShowClaimL
 	};
 
 	let message = {
+		[CONFIRM_CLAIM]: `You are about to claim the deposits on issue ${url} to the address ${ensName || account}. Is this correct ?`,
 		[CHECKING_WITHDRAWAL_ELIGIBILITY]: 'Checking that you are indeed the droid we are looking for...',
 		[WITHDRAWAL_INELIGIBLE]: `You are NOT the droid we are looking for. ${error.message}`,
 		[TRANSACTION_SUBMITTED]: 'You are indeed the droid we are looking for. Transaction pending...',
@@ -31,7 +34,7 @@ const ClaimLoadingModal = ({ claimState, address, transactionHash, setShowClaimL
 
 	return (
 		<div>
-			<div onClick={() => updateModal()} className="justify-center items-center font-mont flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+			<div className="justify-center items-center font-mont flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
 				<div className="w-1/4">
 					<div className="border-0 rounded-lg p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none">
 						<div className="flex items-center justify-center border-solid">
@@ -57,11 +60,26 @@ const ClaimLoadingModal = ({ claimState, address, transactionHash, setShowClaimL
 								</button>
 							</div>
 						) : null}
+						{claimState == CONFIRM_CLAIM ? (
+							<div className="border-0 rounded-lg p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none">
+								<div className="flex items-center">
+									<button
+										className="text-white background-transparent confirm-btn font-bold px-6 py-2 text-lg"
+										type="button"
+										onClick={() => {
+											confirmMethod();
+										}}
+									>
+										Yes! Claim!
+									</button>
+								</div>
+							</div>
+						) : null}
 					</div>
 				</div>
 			</div>
 			<div className="opacity-70 fixed inset-0 bg-black"></div>
-		</div>
+		</div >
 	);
 };
 
