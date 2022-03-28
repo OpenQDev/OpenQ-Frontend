@@ -1,6 +1,7 @@
 // Third Party Libraries
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
+import confetti from 'canvas-confetti';
 
 // Custom
 import {
@@ -24,6 +25,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	const [transactionHash, setTransactionHash] = useState(null);
 	const [claimState, setClaimState] = useState(CONFIRM_CLAIM);
 	const [showClaimLoadingModal, setShowClaimLoadingModal] = useState(false);
+	const canvas = useRef();
 
 	const claimed = bounty.status == 'CLOSED';
 
@@ -61,6 +63,20 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 				setClaimState(TRANSACTION_CONFIRMED);
 				refreshBounty();
 				setClaimState(CONFIRM_CLAIM);
+				
+				canvas.current.width = window.innerWidth;
+				canvas.current.height = window.innerHeight;
+
+				const canvasConfetti = confetti.create(canvas.current, {
+					resize:true,
+					useWorker: true
+				});
+				canvasConfetti({particleCount: 50,
+					spread: window.innerWidth,
+					origin: {
+						x: 1,
+						y: 0,}
+				});
 			})
 			.catch((error) => {
 				console.log(error);
@@ -107,6 +123,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 						{showClaimLoadingModal && <ClaimLoadingModal confirmMethod={claimBounty} url={url} ensName={ensName} account={account} error={error} claimState={claimState} login={'FlacoJones'} address={account} transactionHash={transactionHash} error={error} setShowClaimLoadingModal={updateModal} />}
 					</div>
 				</div>
+				<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>
 			</div>
 		);
 	}
