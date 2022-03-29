@@ -1,16 +1,19 @@
 import { gql } from '@apollo/client';
 
 export const GET_ISSUE = gql`
-  query GetIssue($orgName: String!, $repoName: String!, $issueId: Int!) {
-    organization(login: $orgName) {
-      name
-      repository(name: $repoName) {
-        name
-        issue(number: $issueId) {
+  query GetIssue($issueUrl: URI!) {
+    resource(url: $issueUrl) {
+        ...on Issue {
           closed
 					id
 					titleHTML
         	bodyHTML
+          repository {
+            name
+            owner {
+              login
+            }
+          }
           author {
             login
           }
@@ -20,9 +23,49 @@ export const GET_ISSUE = gql`
         }
       }
     }
-  }
 `;
 
+export const GET_ORG_BY_ID = gql`
+query GetOrg($orgId: ID!) {
+  node(id: $orgId) {
+    ...on Organization {
+      name
+      login
+      id
+      createdAt
+      description
+      email
+      websiteUrl
+      avatarUrl
+      isVerified
+      descriptionHTML
+      membersWithRole(first: 10) {
+        edges {
+          node {
+            login
+          }
+        }
+      }
+      projects(first: 10) {
+        edges {
+          node {
+            name
+          }
+        }
+      }
+      repositories(first: 10) {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+      twitterUsername
+      url
+    }
+  }
+}
+`;
 
 export const GET_ORG_BY_NAME = gql`
 query GetOrg($orgName: String!) {
@@ -64,7 +107,7 @@ query GetOrg($orgName: String!) {
 }
 `;
 
-export const GET_ORGS_BY_ISSUES= gql`
+export const GET_ORGS_BY_ISSUES = gql`
 query ($issueIds: [ID!]!) {
   nodes(ids: $issueIds) {
     ... on Issue {
@@ -115,7 +158,7 @@ export const GET_ISSUE_BY_ID = gql`
   }
 `;
 
-export const GET_ISSUES_BY_ID=gql`
+export const GET_ISSUES_BY_ID = gql`
 query($issueIds: [ID!]!) {
   nodes(ids: $issueIds) {
     ... on Issue {
