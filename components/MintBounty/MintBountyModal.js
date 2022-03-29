@@ -85,7 +85,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 	});
 
 	// Hooks
-	useEffect(() => {
+	useEffect(async() => {
 		setMintBountyState(RESTING_STATE());
 
 		let pathArray = appState.utils.parseGitHubUrl(issueUrl);
@@ -93,8 +93,11 @@ const MintBountyModal = ({ modalVisibility }) => {
 		if (pathArray == null) {
 			setMintBountyState(INVALID_URL());
 		} else {
-			const [orgName, repoName, issueNumber] = pathArray;
-			setMintBountyState(VALID_URL(orgName, repoName, issueNumber));
+			const [ orgName,repoName, issueNumber] = pathArray;
+			const orgData = await appState.githubRepository.fetchOrganizationByName(orgName
+			);
+			console.log(orgData);
+			setMintBountyState(VALID_URL(orgData.id, repoName, issueNumber));
 		}
 	}, [issueUrl]);
 
@@ -151,7 +154,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 	async function mintBounty() {
 		try {
 			setMintBountyState(TRANSACTION_PENDING());
-
+			console.log(mintBountyState);
 			const { bountyAddress } = await appState.openQClient.mintBounty(
 				library,
 				mintBountyState.issueId,

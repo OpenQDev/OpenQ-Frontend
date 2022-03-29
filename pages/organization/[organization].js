@@ -22,12 +22,12 @@ const organization = () => {
 	const [organizationData, setOrganizationData] = useState(null);
 	const [bounties, setBounties] = useState([]);
 	const [showAbout, setShowAbout] = useState('Bounties');
-	const [pagination, setPagination] = useState(1);
+	const [pagination, setPagination] = useState(2);
 	const [githubOutage, setGithubOutage] = useState(false);
 
 	const [tokenValues] = useGetTokenValues(organizationData?.fundedTokenBalances);
 	const [complete, setComplete] = useState(false);
-
+	const batch=2;
 	// Methods
 	async function populateOrganizationData() {
 		setIsLoading(true);
@@ -50,9 +50,14 @@ const organization = () => {
 
 
 
-	async function getBountyData(dsc = true){
-		setPagination(()=>pagination+1);
-		const newBounties = await appState.openQSubgraphClient.getPaginatedOrganizationBounties(organization, pagination, dsc);
+	async function getBountyData(order){
+		setPagination(()=>pagination+batch);
+		console.log(organizationData.id);
+		console.log(organization, pagination, order, batch);
+		const newBounties = await appState.openQSubgraphClient.getPaginatedOrganizationBounties(organizationData.id, pagination, order, batch);
+		console.log(newBounties);
+		console.log(bounties);
+		console.log(pagination);
 		const bountyIds = newBounties.bountiesCreated.map((bounty) => bounty.bountyId);
 		const issueData = await appState.githubRepository.getIssueData(bountyIds);
 		const fullBounties = [];
@@ -63,25 +68,27 @@ const organization = () => {
 			const mergedBounty = { ...bounty, ...relatedIssue };
 			fullBounties.push(mergedBounty);
 		});
-		if(fullBounties.length===0){
-			setComplete(true);
-		}
 		return fullBounties;
 	}
 
-	async function getNewData (isDsc){
+	async function getNewData (order){
 		setIsLoading(true);
 		setComplete(false);
-		const newBounties = await getBountyData(isDsc);
+		const newBounties = await getBountyData(order);
 		setBounties(newBounties);
 		setIsLoading(false);
 	}
 
-	async function getMoreData(isDsc){	
-		const newBounties = await getBountyData(isDsc);
-		console.log('here');
-		console.log(newBounties);
+	async function getMoreData(order){
+		setComplete(true);
+		const newBounties = await getBountyData(order);
+		if(pagination===14){
+			console.log('exec');
+			return;
+		}
+		setComplete(false);
 		setBounties(bounties.concat(newBounties));
+		
 		
 	}
 
@@ -127,7 +134,7 @@ const organization = () => {
 						<About organizationData={organizationData} tokenValues={tokenValues} /> :
 						<div className="grid xl:grid-cols-wide justify-center w-f pt-8">
 							<LargeOrganizationCard organization={organizationData} />
-							<BountyList bounties={bounties} loading={isLoading} getMoreData={getMoreData} />
+							<BountyList bounties={bounties} loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />
 						</div>}
 				</div>
 			}

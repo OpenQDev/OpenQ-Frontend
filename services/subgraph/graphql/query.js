@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const GET_ALL_BOUNTIES = gql`
 query GetAllIssues($skip: Int!) {
-  bounties(orderBy: bountyMintTime, orderDirection: $orderDirection, first: 10, skip: $skip) {
+  bounties(orderBy: bountyMintTime, orderDirection: $orderDirection, first: 10, after: $skip) {
     bountyAddress
     bountyId
     bountyMintTime
@@ -182,10 +182,10 @@ query GetUser($id: ID!) {
 `;
 
 export const GET_PAGINATED_ORGANIZATION_DATA = gql`
-query GetOrganization($id: ID!, $skip: Int! $order: String) {
+query GetOrganization($id: ID!, $skip: Int! $order: String, $first: Int!) {
   organization(id: $id, subgraphError: allow) {
 	id
-    bountiesCreated(orderBy: bountyMintTime, orderDirection: $order, skip: $skip, first: 1) {
+    bountiesCreated(orderBy: bountyMintTime, orderDirection: $order, skip: $skip, first: $first) {
 		bountyAddress
 		bountyId
 		bountyMintTime
@@ -219,7 +219,7 @@ export const GET_ORGANIZATION = gql`
 query GetOrganization($id: ID!, $skip: Int!) {
   organization(id: $id, subgraphError: allow) {
 		id
-    bountiesCreated(orderBy: bountyMintTime, orderDirection: desc, skip: $skip, first: 5) {
+    bountiesCreated(orderBy: bountyMintTime, orderDirection: desc, skip: $skip, first: 2) {
 			bountyAddress
 			bountyId
 			bountyMintTime

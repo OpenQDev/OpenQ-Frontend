@@ -10,7 +10,7 @@ import SearchBar from '../Search/SearchBar';
 import MintBountyButton from '../MintBounty/MintBountyButton';
 import Skeleton from 'react-loading-skeleton';
 
-const BountyList = ({ bounties, loading, complete,getMoreData }) => {
+const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) => {
 	// Hooks
 	const [appState] = useContext(StoreContext);
 	const [tvlBounties, updateTvlBounties] = useState([]);
@@ -66,28 +66,39 @@ const BountyList = ({ bounties, loading, complete,getMoreData }) => {
 
 	// Orders bounties	
 	const orderBounties = (bounties = tvlBounties, toggleTo=sortOrder ) => {
+		if(toggleTo===sortOrder){return bounties;}
 		switch (toggleTo) {
-		case 'Highest\xa0TVL':
-			return bounties.sort((a, b) => {
-				return b.tvl.total - a.tvl.total;
-			});
-		case 'Lowest\xa0TVL':
-			return bounties.sort((a, b) => {
-				return a.tvl.total - b.tvl.total;
-			});
-		case 'Newest':
-			return bounties.sort((a, b) => {
-				return b.bountyMintTime - a.bountyMintTime;
-			});
-		case 'Oldest':
-			return bounties.sort((a, b) => {
-				return a.bountyMintTime - b.bountyMintTime;
-			});
+		case 'Newest':{
+			if(complete){
+				console.log('newest');
+				return bounties.sort((a, b) => {
+					return b.bountyMintTime - a.bountyMintTime;
+				});}
+			else{
+				console.log('exec');
+				getNewData('desc');
+			}
+		
+		
+		}
+			break;
+		case 'Oldest':{ 
+			if(complete){console.log('exec');
+				return bounties.sort((a, b) => {
+					return b.bountyMintTime - a.bountyMintTime;
+				});}
+			else{
+				getNewData('asc');
+			}
+		
+		
+		}
 		}
 		return bounties;
 	};
 
 	// Process props
+	/*
 	const availableLabels = [];
 	bounties.forEach((bounty) => {
 		bounty.labels.forEach(label => {
@@ -96,9 +107,10 @@ const BountyList = ({ bounties, loading, complete,getMoreData }) => {
 			}
 		});
 	});
+*/
+	useEffect(async() => {			
+		if(!bounties)updateIsProcessed(false);	
 
-	useEffect(async() => {
-		updateIsProcessed(false);
 		async function getTvls() {
 			const newBounties = await bounties.map(async (elem,) => {
 				let tvl = await getTVL(elem.bountyTokenBalances);
@@ -108,8 +120,8 @@ const BountyList = ({ bounties, loading, complete,getMoreData }) => {
 			const tvlPromise = Promise.all(newBounties);
 			tvlPromise.then((resolvedTvls)=>{
 				updateSearchedBounties(filter(resolvedTvls));
-				updateTvlBounties(resolvedTvls);	
-				updateIsProcessed(true);		
+				updateTvlBounties(resolvedTvls);				
+				updateIsProcessed(true);	
 			}
 			);
 		}
@@ -151,8 +163,6 @@ const BountyList = ({ bounties, loading, complete,getMoreData }) => {
 
 
 	const lastElem = useCallback((node)=>{
-		console.log(node);
-		window.scrollY = scroll;
 		if(observer.current){observer.current.disconnect();}
 		if(node){
 
@@ -161,11 +171,10 @@ const BountyList = ({ bounties, loading, complete,getMoreData }) => {
 				threshold: .1
 			};
 			const callback = (entries)=>{
-				console.log(entries);
-				if(entries[0].isIntersecting){
-					console.log(searchedBounties);
-					console.log('exec');
-					setScroll(window.scrollY);
+				if(entries[0].isIntersecting&&isProcessed&&!complete){
+					const scrollPosition= ()=>window.pageYOffset;
+					console.log(scrollPosition());
+					console.log(complete);
 					getMoreData('desc');
 				}
 		
@@ -181,6 +190,7 @@ const BountyList = ({ bounties, loading, complete,getMoreData }) => {
 	// Render
 	return (
 		<div className="xl:col-start-2 justify-self-center space-y-3 px-5">
+			<button className="text-white" onClick={()=>getMoreData('desc')}>getData</button>
 			<div className="grid lg:grid-cols-[repeat(4,_1fr)] gap-6">
 				<div className="flex rounded-lg z-10 relative lg:col-span-3 col-span-4 max-w-xs sm:max-w-none">
 					<SearchBar
@@ -189,7 +199,7 @@ const BountyList = ({ bounties, loading, complete,getMoreData }) => {
 						searchText={searchText}
 						borderShape={'border-b border-l rounded-l-lg border-t w-36 sm:w-full'}
 					/>
-					<Dropdown toggleFunc={addTag} title="Filter By Label" names={availableLabels} borderShape={'rounded-r-lg'} /></div>
+					{/*}	<Dropdown toggleFunc={addTag} title="Filter By Label" names={availableLabels} borderShape={'rounded-r-lg'} />*/}</div>
 				<MintBountyButton />
 			</div>
 			{tagArr.length>0 && <ul className="flex  flex-wrap">{tagArr.map((tag, index)=> <li key={index}className="border-web-gray border text-white inline ml-2 mb-2 px-2 py-1.5 rounded-md">
@@ -203,7 +213,7 @@ const BountyList = ({ bounties, loading, complete,getMoreData }) => {
 			<div className="flex md:content-start content-center flex-col gap-2">
 				<div className="flex bg-dark-mode justify-between rounded-md w-64">
 					<span className="text-white p-2  align-self-center pr-4">Sort By</span>
-					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} names={['Newest', 'Oldest', 'Highest\xa0TVL', 'Lowest\xa0TVL']} borderShape={'rounded-md'} />
+					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} names={['Newest', 'Oldest']} borderShape={'rounded-md'} />
 				</div>
 				<div className="flex p-2 pr-4 gap-2 border rounded-md justify-between border-web-gray w-64">
 					<label htmlFor="unfunded" className="text-white">Show Unfunded Bounties</label>
