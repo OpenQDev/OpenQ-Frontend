@@ -103,13 +103,9 @@ const MintBountyModal = ({ modalVisibility }) => {
 			async function fetchIssue() {
 				setIsLoadingIssueData(true);
 				try {
-					const data = await appState.githubRepository.fetchIssue(
-						mintBountyState.orgName,
-						mintBountyState.repoName,
-						mintBountyState.issueNumber
-					);
+					const data = await appState.githubRepository.fetchIssueByUrl(issueUrl);
 					setMintBountyState(
-						ISSUE_FOUND(data.organization.repository.issue)
+						ISSUE_FOUND(data)
 					);
 					setIsLoadingIssueData(false);
 				} catch (error) {
@@ -171,11 +167,12 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 			await sleep(1000);
 
+
 			router.push(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`
+				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}?first=true`
 			);
 		} catch (error) {
-			console.log('error in mintboutny', error);
+			console.log('error in mintbounty', error);
 			const { message, title } = appState.openQClient.handleError(error);
 			setMintBountyState(TRANSACTION_FAILURE({ message, title }));
 		}
@@ -235,7 +232,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 					error={error}
 				/>
 			)}
-			<div className="opacity-80 fixed inset-0 bg-black z-10"></div>
+			<div className="bg-overlay fixed inset-0 z-10"></div>
 		</div>
 	);
 };

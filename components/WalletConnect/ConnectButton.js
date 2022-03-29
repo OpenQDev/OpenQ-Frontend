@@ -7,6 +7,7 @@ import { injected } from './connectors';
 import useConnectOnLoad from '../../hooks/useConnectOnLoad';
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
 import AccountModal from './AccountModal';
+import useEns from '../../hooks/useENS';
 
 const ConnectButton = () => {
 	// State
@@ -19,11 +20,11 @@ const ConnectButton = () => {
 
 	// Context
 	const { chainId, account, activate, deactivate } = useWeb3();
-
+	const [ensName] = useEns(account);
 	// Hooks
 	useConnectOnLoad()(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
 
-	useEffect(() => {
+	useEffect(async() => {
 		if(!account){
 			setIsConnecting(false);
 		}
@@ -42,7 +43,7 @@ const ConnectButton = () => {
 
 	useEffect(() => {
 		let handler = (event) => {
-			if (!modalRef.current?.contains(event.target)&&event.target!==buttonRef.current) {
+			if (!modalRef.current?.contains(event.target)&&!buttonRef.current?.contains(event.target)) {
 				setShowModal(false);
 			}
 		};
@@ -77,16 +78,17 @@ const ConnectButton = () => {
 			<div>
 				<button
 					ref= {buttonRef}
-					onClick={()=>setShowModal(()=>!showModal)}
-					className="group flex gap-x-3 font-mont whitespace-nowrap rounded-lg border border-pink-500 bg-pink-700 bg-opacity-20 py-2 px-6 text-white font-semibold cursor-pointer hover:border-pink-300"
+					onClick={()=>{setShowModal(!showModal);}}
+					className="group flex gap-x-3 font-mont whitespace-nowrap rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
 				>
-					<span className="border-2 border-pink-500 rounded-full leading-3 group-hover:border-pink-300" ref={iconWrapper}></span>
-					<span className='py'>	{firstThree}...{lastThree}</span>
+					<span className="border-2 border-inactive-accent rounded-full leading-3 group-hover:border-active-accent" ref={iconWrapper}></span>
+					<span className='py'>{ensName|| `${firstThree}...${lastThree}`}</span>
 				</button>
-				{(showModal)&&
+				{showModal&&
 				<AccountModal
 					domRef={modalRef}
-					account = {account} 
+					account = {account}
+					ensName = {ensName}
 					chainId = {chainId} 
 					deactivate={deactivate}
 					setIsConnecting={setIsConnecting}/>}
@@ -97,7 +99,7 @@ const ConnectButton = () => {
 			<div>
 				<button
 					onClick={addOrSwitchNetwork}
-					className="font-mont whitespace-nowrap rounded-lg border border-pink-500 bg-pink-700 bg-opacity-20 py-2.5 px-6 text-white font-semibold cursor-pointer hover:border-pink-300"
+					className="font-mont whitespace-nowrap rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2.5 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
 				>
 					Use{' '}
 					{
@@ -114,7 +116,7 @@ const ConnectButton = () => {
 			<div>
 				<button
 					onClick={onClickConnect}
-					className="font-mont whitespace-nowrap rounded-lg border border-pink-500 bg-pink-700 bg-opacity-20 py-2.5 px-6 text-white font-semibold cursor-pointer hover:border-pink-300"
+					className="font-mont whitespace-nowrap rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2.5 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
 				>
 					{isConnecting? 'Connecting...': 'Connect Wallet'}
 				</button>

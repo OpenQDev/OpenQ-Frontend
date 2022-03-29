@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 
 const CopyAddressToClipboard = (props) => {
-
 	const [copySuccess, setCopySuccess] = useState('');
 	const [start, stop] = props.clipping||[12,32];
 	const copyTextToClipboard = () => {
@@ -53,17 +52,20 @@ const CopyAddressToClipboard = (props) => {
 					)}
 					{!copySuccess ? null : (
 						<div className="absolute bottom-0 flex flex-col items-center hidden mb-6 ml-4 group-hover:flex">
-							<span className="relative z-10 p-2 text-xs rounded-md leading-none text-gray-500 whitespace-no-wrap bg-gray-200 shadow-lg">
+							<span className="relative z-10 p-2 text-xs rounded-md leading-none text-dark-mode whitespace-no-wrap bg-tinted shadow-lg">
 								Copied!
 							</span>
 							<div className="w-3 h-3 -mt-2 mr-4 rotate-45 bg-gray-200"></div>
 						</div>
 					)}
 				</div>
-				<div>
-					{props.data.substring(0, start)}
-					...
-					{props.data.substring(stop)}
+				<div>{
+					props.noClip ?
+						props.data:
+						`${props.data.substring(0, start)}
+						...
+						${props.data.substring(stop)}`
+				}
 				</div>
 			</div>
 		</div>

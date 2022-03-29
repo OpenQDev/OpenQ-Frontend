@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import {ethers} from'ethers';
+import GithubDown from '../../components/Utils/GithubDown';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
@@ -22,22 +23,28 @@ const organization = () => {
 	const [bounties, setBounties] = useState([]);
 	const [showAbout, setShowAbout] = useState('Bounties');
 	const [pagination, setPagination] = useState(1);
+	const [githubOutage, setGithubOutage] = useState(false);
+
 	const [tokenValues] = useGetTokenValues(organizationData?.fundedTokenBalances);
 	const [complete, setComplete] = useState(false);
 
 	// Methods
 	async function populateOrganizationData() {
 		setIsLoading(true);
+		let orgData;
+		try {
+			orgData = await appState.githubRepository.fetchOrganizationByName(
+				organization
+			);
+		}
+		catch (err) {
+			setGithubOutage(true);
+		}
+
 		const org = await appState.openQSubgraphClient.getOrganization(
-			organization
+			orgData.id
 		);
-
-		const orgData = await appState.githubRepository.fetchOrganizationByName(
-			organization
-		);
-
 		const mergedOrgData = { ...org, ...orgData };
-
 		setOrganizationData(mergedOrgData);
 	}
 
@@ -110,17 +117,23 @@ const organization = () => {
 
 	// Render
 	return (
-		<div className="bg-dark-mode pt-10">
-			<Toggle toggleFunc={setShowAbout} toggleVal={showAbout} names={['Bounties', 'About']} />
-			{(showAbout === 'About') ?
-				<About organizationData={organizationData} tokenValues={tokenValues} /> :
-				<div className="grid xl:grid-cols-wide justify-center w-f pt-8">
-					<LargeOrganizationCard organization={organizationData}/>
-					<BountyList bounties={bounties} loading={isLoading} getMoreData={getMoreData} getNewData={getNewData} complete={complete}/>
-				</div>}
-		</div>
+		<>
+			{githubOutage ?
+				<GithubDown />
+				:
+				<div className="bg-dark-mode pt-10">
+					<Toggle toggleFunc={setShowAbout} toggleVal={showAbout} names={['Bounties', 'About']} />
+					{(showAbout === 'About') ?
+						<About organizationData={organizationData} tokenValues={tokenValues} /> :
+						<div className="grid xl:grid-cols-wide justify-center w-f pt-8">
+							<LargeOrganizationCard organization={organizationData} />
+							<BountyList bounties={bounties} loading={isLoading} getMoreData={getMoreData} />
+						</div>}
+				</div>
+			}
+		</>
 	);
-	
+
 };
 
 export default organization;

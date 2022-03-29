@@ -1,12 +1,13 @@
 // Third Party
 import React, { useState, useEffect, useRef } from 'react';
+import jazzicon from '@metamask/jazzicon';
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
 import { injected } from './connectors';
 import useConnectOnLoad from '../../hooks/useConnectOnLoad';
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
 import AccountModal from './AccountModal';
-import jazzicon from '@metamask/jazzicon';
+import useEns from '../../hooks/useENS';
 
 const MobileConnectButton = () => {
 	// State
@@ -18,6 +19,7 @@ const MobileConnectButton = () => {
 	const iconWrapper = useRef();
 	// Context
 	const { chainId, account, activate, active, deactivate } = useWeb3();
+	const [ensName] = useEns(account);
 
 	// Hooks
 	useConnectOnLoad()(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
@@ -42,7 +44,7 @@ const MobileConnectButton = () => {
 	
 	useEffect(() => {
 		let handler = (event) => {
-			if (!modalRef.current?.contains(event.target)&&event.target!==buttonRef.current) {
+			if (!modalRef.current?.contains(event.target)&&!buttonRef.current?.contains(event.target)) {
 				setShowModal(false);
 			}
 		};
@@ -83,7 +85,8 @@ const MobileConnectButton = () => {
 				{(showModal)&&
 				<AccountModal
 					domRef={modalRef}
-					account = {account} 
+					ensName = {ensName}
+					account = {account}
 					chainId = {chainId} 
 					deactivate={deactivate}
 					setIsConnecting={setIsConnecting}/>}
@@ -93,7 +96,7 @@ const MobileConnectButton = () => {
 		return (
 			<div>
 				<button
-					className='text-pink-300 text-xs border border-pink-500 rounded-lg bg-dark-mode'
+					className='text-pink-300 text-xs border border-inactive-accent rounded-lg bg-dark-mode'
 					onClick={addOrSwitchNetwork}>	
 					{isConnecting? 'Connecting...': 'Connect'}
 				</button>
@@ -103,7 +106,7 @@ const MobileConnectButton = () => {
 		return (
 			<div>
 				<button
-					className='text-white flex gap-2 text-xs border border-pink-500 rounded-lg p-2 bg-dark-mode font-semibold'
+					className='text-white flex gap-2 text-xs border border-inactive-accent rounded-lg p-2 bg-dark-mode font-semibold'
 					onClick={onClickConnect}>
 					<span>{isConnecting? 'Connecting...': 'Connect '}</span>
 					<svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2">

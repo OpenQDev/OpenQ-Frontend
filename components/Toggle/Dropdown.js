@@ -35,12 +35,12 @@ const Dropdown = ({ toggleFunc, toggleVal, names, title, borderShape }) => {
 		<div ref={ref} className="flex justify-center">
 			<div className="relative w-32">
 				<div className={`flex-col w-44 absolute bg-dark-mode border ${borderShape} border-web-gray ${open ? 'rounded-r-md' : 'overflow-hidden'}`}>
-					{title && <h4 className={'text-white list-none hover:bg-gray-500 w-full relative hover:bg-opacity-10 box-content bg-gray-500 visible h-max bg-opacity-20'}>
+					{title && <h4 className={'text-white list-none w-full relative box-content bg-inactive-gray hover:bg-active-gray visible h-max'}>
 						<button className="w-full text-left p-2 px-4" onClick={() => updateOpen(() => !open)}>
 							{title}
 						</button></h4>}
 					{names.map((name, index) => {
-						return <li className={`text-white list-none hover:bg-gray-500 w-full hover:bg-opacity-10 ${toggleVal === name ? 'bg-gray-500 visible h-max bg-opacity-20' : open ? null : 'h-0 invisible overflow-none p-0'
+						return <li className={`text-white list-none hover:bg-active-gray w-full ${toggleVal === name ? 'bg-inactive-gray visible h-max' : open ? null : 'h-0 invisible overflow-none p-0'
 
 						}`} key={index}>
 							<button className="w-full text-left p-2 px-4" onClick={handleSelection} value={name}>
@@ -50,7 +50,7 @@ const Dropdown = ({ toggleFunc, toggleVal, names, title, borderShape }) => {
 
 					})}
 				</div></div>
-			<button onClick={() => updateOpen(() => !open)} className="text-white align-self-start px-2 h-10 bg-gray-500 bg-opacity-20 w-12 rounded-lg">
+			<button onClick={() => updateOpen(() => !open)} className="text-white align-self-start px-2 h-10 bg-inactive-gray w-12 rounded-lg">
 				<Image width="20" height="40" src="/chevron-down.svg" />
 			</button>
 		</div>);

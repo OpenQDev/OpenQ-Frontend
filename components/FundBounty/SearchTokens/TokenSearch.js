@@ -34,7 +34,7 @@ const TokenSearch = ({ setShowTokenSearch, onCurrencySelect }) => {
 					</div>
 				</div>
 			</div>
-			<div className="opacity-60 fixed inset-0 bg-black"></div>
+			<div className="fixed inset-0 bg-overlay"></div>
 		</div>
 	);
 };

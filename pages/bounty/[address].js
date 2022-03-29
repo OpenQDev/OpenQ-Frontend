@@ -1,6 +1,7 @@
 // Third Party
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
+import confetti from 'canvas-confetti';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
@@ -21,10 +22,13 @@ const address = () => {
 	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
 
 	// State
-	const { address } = router.query;
+	const { address, first } = router.query;
 	const [, setRedirectUrl] = useState('');
 	const [, setIsLoading] = useState(true);
 	const [internalMenu, setInternalMenu] = useState('view');
+
+	// Refs
+	const canvas = useRef();
 
 	// Methods
 	async function populateBountyData() {
@@ -62,7 +66,23 @@ const address = () => {
 			setRedirectUrl(`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${address}`);
 			populateBountyData();
 		}
+		if(first){
+			canvas.current.width = window.innerWidth;
+			canvas.current.height = window.innerHeight;
+
+			const canvasConfetti = confetti.create(canvas.current, {
+				resize:true,
+				useWorker: true
+			});
+			canvasConfetti({particleCount: 50,
+				spread: window.innerWidth,
+				origin: {
+					x: 1,
+					y: 0,}
+			});
+		}
 	}, [address]);
+
 
 	// Render
 	
@@ -71,28 +91,28 @@ const address = () => {
 			<div className="flex flex-row space-x-2 border border-web-gray p-1 rounded-xl">
 				<button
 					onClick={() => setInternalMenu('view')}
-					className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'view' ? 'bg-gray-500' : null
+					className={`text-white rounded-xl p-2 ${internalMenu == 'view' ? 'bg-inactive-gray' : null
 					}`}
 				>
 						View
 				</button>
 				<button
 					onClick={() => setInternalMenu('fund')}
-					className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'fund' ? 'bg-gray-500' : null
+					className={`text-white rounded-xl p-2 ${internalMenu == 'fund' ? 'bg-inactive-gray' : null
 					}`}
 				>
 						Fund
 				</button>
 				<button
 					onClick={() => setInternalMenu('refund')}
-					className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'refund' ? 'bg-gray-500' : null
+					className={`text-white rounded-xl p-2${internalMenu == 'refund' ? 'bg-inactive-gray' : null
 					}`}
 				>
 						Refund
 				</button>
 				<button
 					onClick={() => setInternalMenu('claim')}
-					className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'claim' ? 'bg-gray-500' : null
+					className={`text-white rounded-xl p-2 ${internalMenu == 'claim' ? 'bg-inactive-gray' : null
 					}`}
 				>
 						Claim
@@ -104,6 +124,7 @@ const address = () => {
 			{internalMenu == 'fund' ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 			{internalMenu == 'claim' ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 			{internalMenu == 'refund' ? (<RefundPage bounty={bounty} refreshBounty={refreshBounty} />) : null}
+			<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>
 		</div>
 	);
 };

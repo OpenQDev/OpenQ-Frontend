@@ -18,6 +18,15 @@ class MockOpenQClient {
 		});
 	}
 
+	async getENS(_callerAddress){
+		let promise = new Promise (async (resolve) =>{
+			await this.sleep(1500);
+			resolve("sample.eth");
+			
+		})
+		return promise
+	}
+
 	async getAllIssues(library) {
 		await sleep();
 

@@ -122,6 +122,26 @@ class OpenQClient {
 		return promise;
 	}
 
+	async getENS(_callerAddress){
+		let promise = new Promise (async (resolve) =>{
+			let ensName;
+			try{      
+				let provider = new ethers.providers.InfuraProvider('homestead', process.env.INFURA_KEY);                                                              
+				let name = await provider.lookupAddress(_callerAddress);
+				let reverseAddress = ethers.utils.getAddress(await provider.resolveName(name));
+				// we need to check if their address is reverse registered 
+				if(ethers.utils.getAddress(_callerAddress)===reverseAddress){
+					ensName=name;
+				}
+				resolve(ensName);
+			}
+			catch(error){
+				resolve (false);
+			}
+		});
+		return promise; 
+	}
+
 	async fundBounty(library, _bountyId, _tokenAddress, _value, _depositPeriodDays) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();

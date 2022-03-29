@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { GET_ORG_BY_NAME, GET_ISSUE, GET_CURRENT_USER_AVATAR_URL, GET_ISSUE_BY_ID, GET_ISSUES_BY_ID, GET_ORGS_BY_ISSUES, GET_ISSUE_CLOSER } from './graphql/query';
+import { GET_ORG_BY_ID, GET_ORG_BY_NAME, GET_ISSUE, GET_CURRENT_USER_AVATAR_URL, GET_ISSUE_BY_ID, GET_ISSUES_BY_ID, GET_ORGS_BY_ISSUES, GET_ISSUE_CLOSER } from './graphql/query';
 import fetch from 'cross-fetch';
 import { setContext } from '@apollo/client/link/context';
 
@@ -24,13 +24,13 @@ class GithubRepository {
 		cache: new InMemoryCache(),
 	});
 
-	async fetchIssue(orgName, repoName, issueId) {
+	async fetchIssueByUrl(issueUrl) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
-					query: GET_ISSUE, variables: { orgName, repoName, issueId },
+					query: GET_ISSUE, variables: { issueUrl },
 				});
-				resolve(result.data);
+				resolve(result.data.resource);
 			} catch (e) {
 				reject(e);
 			}
@@ -45,13 +45,14 @@ class GithubRepository {
 		const repoName = responseData.repository.name;
 		const avatarUrl = responseData.repository.owner.avatarUrl;
 		const owner = responseData.repository.owner.login;
+		const twitterUsername = responseData.repository.owner.twitterUsername;
 		const labels = responseData.labels.edges.map(edge => edge.node);
-		return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML };
+		return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername };
 	}
 	parseIssuesData(rawIssuesResponse) {
 		const responseData = rawIssuesResponse.data.nodes;
-		return responseData.map((elem)=>{
-				
+		return responseData.map((elem) => {
+
 			const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = elem;
 			const repoName = elem.repository.name;
 			const avatarUrl = elem.repository.owner.avatarUrl;
@@ -75,7 +76,8 @@ class GithubRepository {
 
 		return promise;
 	}
-	async getIssueData(issueIds){
+
+	async getIssueData(issueIds) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
@@ -91,7 +93,7 @@ class GithubRepository {
 	}
 
 	async fetchOrgsWithIssues(issueIds) {
-			
+
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
@@ -121,6 +123,22 @@ class GithubRepository {
 		return promise;
 	}
 
+	async fetchOrganizationById(orgId) {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.query({
+					query: GET_ORG_BY_ID, variables: { orgId },
+				});
+				resolve(result.data.node);
+			} catch (e) {
+				console.log(e);
+				reject(e);
+			}
+		});
+
+		return promise;
+	}
+
 	async fetchAvatarUrl() {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
@@ -136,7 +154,7 @@ class GithubRepository {
 		return promise;
 	}
 
-	async fetchClosedEventByIssueId(issueId) {  
+	async fetchClosedEventByIssueId(issueId) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
@@ -151,11 +169,11 @@ class GithubRepository {
 		return promise;
 	}
 
-	async parseOrgIssues(issueIds){	
+	async parseOrgIssues(issueIds) {
 		const nodes = await this.fetchOrgsWithIssues(issueIds);
 		const organizations = [];
-		nodes.forEach((node)=>{			
-			if(!organizations.some((organization=>organization.login===node.repository.owner.login))){
+		nodes.forEach((node) => {
+			if (!organizations.some((organization => organization.login === node.repository.owner.login))) {
 				organizations.push(node.repository.owner);
 			}
 		});

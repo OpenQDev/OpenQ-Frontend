@@ -24,15 +24,13 @@ const BountyClosed = ({ bounty }) => {
 	});
 	
 	const url=`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${bounty.claimedTransactionHash}`;
-
 	//Render
 	return (
 		<div className="w-2/3 lg:w-1/2">
 			<div className="flex flex-col space-y-5">
 				<h2 className="flex text-3xl font-semibold text-white justify-center pt-16">Bounty Closed</h2>
-				<div className="bg-purple-600 col-span-3 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4">
-					<p>Closer: {closer}</p>				
-					<p>Closer Address: {bounty.payoutAddress}</p>
+				<div className="bg-claimed-bounty-inside col-span-3 border border-claimed-bounty rounded-lg text-white p-4">
+					<p>Closer: {closer}</p>
 					<p>Closing Transaction: <Link href={url}>
 						<span className="cursor-pointer break-words">
 							<span className="underline">{url}</span> 
