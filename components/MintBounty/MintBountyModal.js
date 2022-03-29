@@ -103,13 +103,9 @@ const MintBountyModal = ({ modalVisibility }) => {
 			async function fetchIssue() {
 				setIsLoadingIssueData(true);
 				try {
-					const data = await appState.githubRepository.fetchIssue(
-						mintBountyState.orgName,
-						mintBountyState.repoName,
-						mintBountyState.issueNumber
-					);
+					const data = await appState.githubRepository.fetchIssueByUrl(issueUrl);
 					setMintBountyState(
-						ISSUE_FOUND(data.organization.repository.issue)
+						ISSUE_FOUND(data)
 					);
 					setIsLoadingIssueData(false);
 				} catch (error) {
