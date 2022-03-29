@@ -29,18 +29,19 @@ const organization = () => {
 	// Methods
 	async function populateOrganizationData() {
 		setIsLoading(true);
-		const org = await appState.openQSubgraphClient.getOrganization(
-			organization
-		);
 		let orgData;
-		try{
+		try {
 			orgData = await appState.githubRepository.fetchOrganizationByName(
 				organization
 			);
 		}
-		catch(err){
+		catch (err) {
 			setGithubOutage(true);
 		}
+
+		const org = await appState.openQSubgraphClient.getOrganization(
+			orgData.id
+		);
 		const mergedOrgData = { ...org, ...orgData };
 		setOrganizationData(mergedOrgData);
 	}
@@ -79,22 +80,22 @@ const organization = () => {
 	// Render
 	return (
 		<>
-			{githubOutage?				
-				<GithubDown/>
+			{githubOutage ?
+				<GithubDown />
 				:
 				<div className="bg-dark-mode pt-10">
 					<Toggle toggleFunc={setShowAbout} toggleVal={showAbout} names={['Bounties', 'About']} />
 					{(showAbout === 'About') ?
 						<About organizationData={organizationData} tokenValues={tokenValues} /> :
 						<div className="grid xl:grid-cols-wide justify-center w-f pt-8">
-							<LargeOrganizationCard organization={organizationData}/>
-							<BountyList bounties={bounties} loading={isLoading}/>
+							<LargeOrganizationCard organization={organizationData} />
+							<BountyList bounties={bounties} loading={isLoading} />
 						</div>}
 				</div>
 			}
 		</>
 	);
-	
+
 };
 
 export default organization;

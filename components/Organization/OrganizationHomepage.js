@@ -35,9 +35,10 @@ const OrganizationHomepage = () => {
 			let orgData = {};
 
 			try {
-				orgData = await appState.githubRepository.fetchOrganizationByName(
+				orgData = await appState.githubRepository.fetchOrganizationById(
 					organization.id
 				);
+				console.log(orgData);
 			} catch (error) {
 				updateGithubOutage(true);
 			}
@@ -68,11 +69,11 @@ const OrganizationHomepage = () => {
 					<SearchBar onKeyUp={filterByOrg} searchText={organizationSearchTerm} placeholder="Search Organization..." borderShape={'border rounded-full'} className="mb-200" />
 					<MintBountyButton /></div>
 				<div className="grid grid-cols-[repeat(_auto-fit,_192px)] gap-6 justify-center sm:justify-start w-2/3 mx-auto">
-					{githubOutage?
-						<GithubDown/>
+					{githubOutage ?
+						<GithubDown />
 						:
 						isLoading
-							? <><OrganizationCard/><OrganizationCard/></>
+							? <><OrganizationCard /><OrganizationCard /></>
 							: organizations
 								.filter((organization) => {
 									return organizationSearchTerm
@@ -91,7 +92,7 @@ const OrganizationHomepage = () => {
 										</div>
 									);
 								})}
-						
+
 				</div>
 			</div>
 		</div>
