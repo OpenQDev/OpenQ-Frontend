@@ -127,9 +127,8 @@ class OpenQSubgraphClient {
 		return promise;
 	}
 
-	async getPaginatedOrganizationBounties(id, startAt, desc) {
+	async getPaginatedOrganizationBounties(id, startAt, order) {
 		const promise = new Promise(async (resolve, reject) => {
-			const order = (desc)? 'desc' : 'asc';
 			console.log(order);
 			try {
 				const result = await this.client.query({

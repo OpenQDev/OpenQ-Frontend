@@ -14,8 +14,8 @@ const BountyList = ({ bounties, loading, complete,getMoreData }) => {
 	// Hooks
 	const [appState] = useContext(StoreContext);
 	const [tvlBounties, updateTvlBounties] = useState([]);
-	const [unfundedVisible, setUnfundedVisible] = useState(true);
-	const [claimedVisible, setClaimedVisible] = useState(true);
+	const [unfundedVisible, setUnfundedVisible] = useState(false);
+	const [claimedVisible, setClaimedVisible] = useState(false);
 	const [sortOrder, updateSortOrder] = useState('Newest');
 	const [searchText, updateSearchText] = useState('');
 	const [tagArr, updateTagArr] = useState([]);
