@@ -38,7 +38,6 @@ const OrganizationHomepage = () => {
 				orgData = await appState.githubRepository.fetchOrganizationById(
 					organization.id
 				);
-				console.log(orgData);
 			} catch (error) {
 				updateGithubOutage(true);
 			}

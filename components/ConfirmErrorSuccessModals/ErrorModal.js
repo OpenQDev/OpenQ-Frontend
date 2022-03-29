@@ -33,7 +33,7 @@ const ErrorModal = ({ setShowErrorModal, error }) => {
 					</div>
 				</div>
 			</div>
-			<div className="opacity-25 fixed inset-0 bg-black"></div>
+			<div className="fixed inset-0 bg-overlay"></div>
 		</div>
 	);
 };

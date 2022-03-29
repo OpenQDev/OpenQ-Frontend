@@ -47,7 +47,7 @@ const ConfirmationModal = ({
 					</div>
 				</div>
 			</div>
-			<div className="opacity-70 fixed inset-0 bg-black"></div>
+			<div className="bg-overlay fixed inset-0"></div>
 		</div>
 	);
 };

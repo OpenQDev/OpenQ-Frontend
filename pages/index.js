@@ -26,14 +26,14 @@ export default function Index() {
 						<div className="flex flex-row justify-center space-x-2 border border-web-gray p-1 rounded-xl w-fit">
 							<button
 								onClick={() => setInternalMenu('org')}
-								className={`text-white rounded-xl p-2 px-4 bg-opacity-20 ${internalMenu == 'org' ? 'bg-gray-500' : null
+								className={`text-white rounded-xl p-2 px-4 ${internalMenu == 'org' ? 'bg-inactive-gray' : null
 								}`}
 							>
 								Organizations
 							</button>
 							<button
 								onClick={() => setInternalMenu('issue')}
-								className={`text-white rounded-xl p-2 px-4 bg-opacity-20 ${internalMenu == 'issue' ? 'bg-gray-500' : null
+								className={`text-white rounded-xl p-2 px-4 ${internalMenu == 'issue' ? 'bg-inactive-gray' : null
 								}`}
 							>
 								Issues

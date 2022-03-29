@@ -163,7 +163,7 @@ const BountyList = ({ bounties, loading }) => {
 			</div>
 			{tagArr.length>0 && <ul className="flex  flex-wrap">{tagArr.map((tag, index)=> <li key={index}className="border-web-gray border text-white inline ml-2 mb-2 px-2 py-1.5 rounded-md">
 				<span className="px-2">{tag}</span>
-				<button onClick={removeTag} value={tag} className="bg-gray-500/40 hover:bg-gray-500/30 hover:cursor-pointer inline-flex justify-center content-center h-6 w-6 leading-tight rounded-full">
+				<button onClick={removeTag} value={tag} className="bg-inactive-gray hover:bg-active-gray hover:cursor-pointer inline-flex justify-center content-center h-6 w-6 leading-tight rounded-full">
 					×
 				</button>
 				

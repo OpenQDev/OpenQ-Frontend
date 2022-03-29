@@ -232,7 +232,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 					error={error}
 				/>
 			)}
-			<div className="opacity-80 fixed inset-0 bg-black z-10"></div>
+			<div className="bg-overlay fixed inset-0 z-10"></div>
 		</div>
 	);
 };
