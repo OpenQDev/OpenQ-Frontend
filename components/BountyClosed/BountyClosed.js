@@ -24,7 +24,6 @@ const BountyClosed = ({ bounty }) => {
 	});
 	
 	const url=`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${bounty.claimedTransactionHash}`;
-	console.log(bounty);
 	//Render
 	return (
 		<div className="w-2/3 lg:w-1/2">

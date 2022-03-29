@@ -129,7 +129,6 @@ class GithubRepository {
 				const result = await this.client.query({
 					query: GET_ORG_BY_ID, variables: { orgId },
 				});
-				console.log(result);
 				resolve(result.data.node);
 			} catch (e) {
 				console.log(e);

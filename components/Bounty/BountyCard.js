@@ -129,7 +129,7 @@ const BountyCard = ({ bounty, loading }) => {
 										return (
 											<div
 												key={index}
-												className="font-mont rounded-lg text-xs py-1 px-2 font-bold border border-green-300 text-white"
+												className="font-mont rounded-lg text-xs py-1 px-2 font-bold border border-green text-white"
 											>
 														more..
 											</div>
