@@ -30,9 +30,23 @@ module.exports = {
 			},
 			colors: {
 				'dark-mode': '#121212',
+				'overlay': '#000000dd',
 				'button-pink': '#FF006A',
 				'web-gray': '#585858',
-				'bg-input-color': '#C45454',
+				'inactive-gray': '#232528',
+				'active-gray': '#1B1C1D',
+				'input-color': '#C45454',
+				'inactive-accent': '#EC4899',
+				'active-accent': '#f9a8d4',
+				'inactive-accent-inside': '#341220',
+				'claimed-bounty':'#7E22CE',
+				'claimed-bounty-inside': '#2B183D',
+				'button': '#F9A8D4',
+				'button-inside': '#241219',
+				'green-inside': '#293e30',
+				'green': '#22c55e',
+				'tinted': '#D1D5DB'
+
 			},
 			fontFamily: {
 				mont: '\'Montserrat\', sans-serif;',

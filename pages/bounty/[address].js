@@ -91,28 +91,28 @@ const address = () => {
 			<div className="flex flex-row space-x-2 border border-web-gray p-1 rounded-xl">
 				<button
 					onClick={() => setInternalMenu('view')}
-					className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'view' ? 'bg-gray-500' : null
+					className={`text-white rounded-xl p-2 ${internalMenu == 'view' ? 'bg-inactive-gray' : null
 					}`}
 				>
 						View
 				</button>
 				<button
 					onClick={() => setInternalMenu('fund')}
-					className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'fund' ? 'bg-gray-500' : null
+					className={`text-white rounded-xl p-2 ${internalMenu == 'fund' ? 'bg-inactive-gray' : null
 					}`}
 				>
 						Fund
 				</button>
 				<button
 					onClick={() => setInternalMenu('refund')}
-					className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'refund' ? 'bg-gray-500' : null
+					className={`text-white rounded-xl p-2${internalMenu == 'refund' ? 'bg-inactive-gray' : null
 					}`}
 				>
 						Refund
 				</button>
 				<button
 					onClick={() => setInternalMenu('claim')}
-					className={`text-white rounded-xl p-2 bg-opacity-20 ${internalMenu == 'claim' ? 'bg-gray-500' : null
+					className={`text-white rounded-xl p-2 ${internalMenu == 'claim' ? 'bg-inactive-gray' : null
 					}`}
 				>
 						Claim

@@ -54,7 +54,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 				{ withCredentials: true }
 			)
 			.then(async (result) => {
-				const { payoutAddress, txnHash } = result.data;
+				const { txnHash } = result.data;
 				// Upon this return, the claimBounty transaction has been submitted
 				// We should now transition from Transaction Submitted -> Transaction Pending
 				setTransactionHash(txnHash);
@@ -98,12 +98,12 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 					</div>
 					<div className="grid grid-cols-3 gap-5">
 						{!authState.isAuthenticated ? (
-							<div className="bg-purple-600 col-span-3 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4">
+							<div className="bg-claimed-bounty-inside col-span-3 border border-claimed-bounty rounded-lg text-white p-4">
 								We noticed you are not signed into Github. You must sign to verify
 								and claim an issue!
 							</div>
 						) : (
-							<div className="bg-green-300 col-span-3 bg-opacity-20 border border-green-500 rounded-lg text-white p-4">
+							<div className="bg-green-inside col-span-3 border border-green rounded-lg text-white p-4">
 								Successfully signed in, you can claim your issue now.
 							</div>
 						)}
@@ -120,7 +120,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 						<AuthButton
 							redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyAddress}`}
 						/>
-						{showClaimLoadingModal && <ClaimLoadingModal confirmMethod={claimBounty} url={url} ensName={ensName} account={account} error={error} claimState={claimState} login={'FlacoJones'} address={account} transactionHash={transactionHash} error={error} setShowClaimLoadingModal={updateModal} />}
+						{showClaimLoadingModal && <ClaimLoadingModal confirmMethod={claimBounty} url={url} ensName={ensName} account={account} error={error} claimState={claimState} login={'FlacoJones'} address={account} transactionHash={transactionHash} setShowClaimLoadingModal={updateModal} />}
 					</div>
 				</div>
 				<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>

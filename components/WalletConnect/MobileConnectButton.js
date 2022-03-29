@@ -96,7 +96,7 @@ const MobileConnectButton = () => {
 		return (
 			<div>
 				<button
-					className='text-pink-300 text-xs border border-pink-500 rounded-lg bg-dark-mode'
+					className='text-pink-300 text-xs border border-inactive-accent rounded-lg bg-dark-mode'
 					onClick={addOrSwitchNetwork}>	
 					{isConnecting? 'Connecting...': 'Connect'}
 				</button>
@@ -106,7 +106,7 @@ const MobileConnectButton = () => {
 		return (
 			<div>
 				<button
-					className='text-white flex gap-2 text-xs border border-pink-500 rounded-lg p-2 bg-dark-mode font-semibold'
+					className='text-white flex gap-2 text-xs border border-inactive-accent rounded-lg p-2 bg-dark-mode font-semibold'
 					onClick={onClickConnect}>
 					<span>{isConnecting? 'Connecting...': 'Connect '}</span>
 					<svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2">

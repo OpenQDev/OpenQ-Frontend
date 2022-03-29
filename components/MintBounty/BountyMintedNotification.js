@@ -19,7 +19,7 @@ const BountyMintedNotification = ({
 		<div className="bg-dark-mode">
 			<div
 				ref={notifyRef}
-				className="flex flex-col bg-purple-600 bg-opacity-20 border border-purple-700 rounded-lg text-white p-4 text-white outline-none focus:outline-none"
+				className="flex flex-col bg-claimed-bounty-inside border border-claimed-bounty rounded-lg text-white p-4 text-white outline-none focus:outline-none"
 			>
 				<div className="flex flex-row justify-between space-x-5">
 					<div className="flex flex-row space-x-2">

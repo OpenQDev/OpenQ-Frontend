@@ -1,5 +1,5 @@
 // Third Party
-import React from 'react';
+import React, { useRef,  useEffect } from 'react';
 
 // Custom
 import {
@@ -15,6 +15,9 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 	const updateModal = () => {
 		setShowClaimLoadingModal(false);
 	};
+	
+	const modal = useRef();
+	
 
 	let title = {
 		[CONFIRM_CLAIM]: 'Confirm Claim',
@@ -32,10 +35,28 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 		[TRANSACTION_CONFIRMED]: `Transaction confirmed! Transaction hash is: ${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}. All funds from this bounty will appear in your address at ${address}`,
 	};
 
+	// Hooks
+
+	useEffect(() => {
+	// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
+		function handleClickOutside(event) {
+			if (modal.current && !modal.current.contains(event.target)) {
+				updateModal();
+			}
+		}
+
+		// Bind the event listener
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+		// Unbind the event listener on clean up
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [modal]);
+
 	return (
 		<div>
 			<div className="justify-center items-center font-mont flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-				<div className="w-1/4">
+				<div ref = {modal} className="w-1/4">
 					<div className="border-0 rounded-lg p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none">
 						<div className="flex items-center justify-center border-solid">
 							<div className="flex flex-row">
@@ -78,7 +99,7 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 					</div>
 				</div>
 			</div>
-			<div className="opacity-70 fixed inset-0 bg-black"></div>
+			<div onClick={()=> updateModal()} className="bg-overlay absolute inset-0"></div>
 		</div >
 	);
 };

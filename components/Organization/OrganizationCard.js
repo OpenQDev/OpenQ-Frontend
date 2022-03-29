@@ -33,7 +33,7 @@ const OrganizationCard = ({ organization  }) => {
 					<div className="pt-5 text-center font-semibold text-white">
 						{orgName||<Skeleton  width={'50px'} height={'16px'}  baseColor={'#333'}/>}
 					</div>
-					<div className="bg-pink text-white rounded shadow-md text-gray-300 font-sans relative">
+					<div className="text-white rounded shadow-md text-gray-300 font-sans relative">
 
 						
 						{organization &&`${
