@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_ALL_BOUNTIES = gql`
-query GetAllIssues($skip: Int!) {
-  bounties(orderBy: bountyMintTime, orderDirection: $orderDirection, first: 10, after: $skip) {
+query GetAllIssues($skip: Int! $sortOrder: String!, $quantity: Int!) {
+  bounties(orderBy: bountyMintTime, orderDirection: $sortOrder, first: $quantity, skip: $skip) {
     bountyAddress
     bountyId
     bountyMintTime
@@ -114,7 +114,7 @@ query GetUser($id: ID!) {
 			bountyId
 			bountyMintTime
 			bountyClosedTime
-      id
+			id
 			claimedTransactionHash
 			status
 			deposits {
@@ -216,10 +216,10 @@ query GetOrganization($id: ID!, $skip: Int! $order: String, $first: Int!) {
 }`;
 
 export const GET_ORGANIZATION = gql`
-query GetOrganization($id: ID!, $skip: Int!) {
+query GetOrganization($id: ID!, $quantity: Int!) {
   organization(id: $id, subgraphError: allow) {
 		id
-    bountiesCreated(orderBy: bountyMintTime, orderDirection: desc, skip: $skip, first: 2) {
+    bountiesCreated(orderBy: bountyMintTime, orderDirection: desc, first: $quantity) {
 			bountyAddress
 			bountyId
 			bountyMintTime

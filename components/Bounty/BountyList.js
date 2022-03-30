@@ -1,9 +1,7 @@
 // Third Party
-import React, { useState, useContext, useEffect, useRef, useCallback } from 'react';
-import { ethers } from 'ethers';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 //Custom
-import StoreContext from '../../store/Store/StoreContext';
 import BountyCard from './BountyCard';
 import Dropdown from '../Toggle/Dropdown';
 import SearchBar from '../Search/SearchBar';
@@ -12,44 +10,33 @@ import Skeleton from 'react-loading-skeleton';
 
 const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) => {
 	// Hooks
-	const [appState] = useContext(StoreContext);
-	const [tvlBounties, updateTvlBounties] = useState([]);
-	const [unfundedVisible, setUnfundedVisible] = useState(false);
+	const [unfundedVisible, setUnfundedVisible] = useState(true);
 	const [claimedVisible, setClaimedVisible] = useState(false);
 	const [sortOrder, updateSortOrder] = useState('Newest');
 	const [searchText, updateSearchText] = useState('');
 	const [tagArr, updateTagArr] = useState([]);
 	const [searchedBounties, updateSearchedBounties] = useState([]);
 	const [isProcessed, updateIsProcessed] = useState(false);
-	const [scroll, setScroll] = useState();
 	let observer = useRef();
 	// Utilities
-	const getTVL = async (tokenBalances) => {
-		let tokenVolumes = {};
-		tokenBalances.map((tokenBalance) => {
-			const tokenAddress = appState.tokenMetadata[ethers.utils.getAddress(tokenBalance.tokenAddress)].address;
-			tokenVolumes[tokenAddress] = tokenBalance.volume;
-		});
-
-		const data = { tokenVolumes };
-		const url = process.env.NEXT_PUBLIC_COIN_API_URL + '/tvl';
-		// only query tvl for bounties that have deposits
-		if (JSON.stringify(data.tokenVolumes) != '{}') {
-			try {
-				const tokenValues = await appState.tokenClient.getTokenValues(data, url);
-				return tokenValues;
-			} catch (error) {
-				console.error(error);
-			}
-		} else return { total: 0 };
+	
+	
+	const fetchPage = ()=>{
+		if(sortOrder==='Oldest'){
+			getMoreData('asc');
+		}
+		else if (sortOrder==='Newest'){
+			getMoreData('desc');
+		}
 	};
+
 
 	const filter = (bounties, options={})=>{
 		const localTagArr = options.tagArr || tagArr;
 		const localSearchText = options.searchText || searchText;
 		const  localShowClaimed = options.showClaimed === undefined ? claimedVisible: options.showClaimed;
 		const localShowUnfunded = options.showUnfunded === undefined ? unfundedVisible: options.showUnfunded;
-		return bounties.filter(bounty=>{
+		const displayBounties =  bounties.filter(bounty=>{
 			const containsSearch = (bounty.title
 				.toLowerCase()
 				.indexOf(localSearchText.toLowerCase()) > -1)|| localSearchText.length===0;
@@ -61,21 +48,23 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 			const isFunded = bounty.tvl?.total > 0;
 			return (containsSearch&&containsTag&&(localShowUnfunded||isFunded)&&(localShowClaimed||isUnclaimed));
 		});
+		if(displayBounties.length===0&&!complete){
+			fetchPage();
+		}
+		else return displayBounties;
 
 	};
 
 	// Orders bounties	
-	const orderBounties = (bounties = tvlBounties, toggleTo=sortOrder ) => {
+	const orderBounties = (bounties = bounties, toggleTo=sortOrder ) => {
 		if(toggleTo===sortOrder){return bounties;}
 		switch (toggleTo) {
 		case 'Newest':{
 			if(complete){
-				console.log('newest');
 				return bounties.sort((a, b) => {
 					return b.bountyMintTime - a.bountyMintTime;
 				});}
 			else{
-				console.log('exec');
 				getNewData('desc');
 			}
 		
@@ -83,9 +72,9 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 		}
 			break;
 		case 'Oldest':{ 
-			if(complete){console.log('exec');
+			if(complete){
 				return bounties.sort((a, b) => {
-					return b.bountyMintTime - a.bountyMintTime;
+					return a.bountyMintTime - b.bountyMintTime;
 				});}
 			else{
 				getNewData('asc');
@@ -97,35 +86,14 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 		return bounties;
 	};
 
-	// Process props
-	/*
-	const availableLabels = [];
-	bounties.forEach((bounty) => {
-		bounty.labels.forEach(label => {
-			if (!availableLabels.includes(label.name)) {
-				availableLabels.push(label.name);
-			}
-		});
-	});
-*/
-	useEffect(async() => {			
-		if(!bounties)updateIsProcessed(false);	
 
-		async function getTvls() {
-			const newBounties = await bounties.map(async (elem,) => {
-				let tvl = await getTVL(elem.bountyTokenBalances);
-				return { ...elem, tvl };
-			});
-
-			const tvlPromise = Promise.all(newBounties);
-			tvlPromise.then((resolvedTvls)=>{
-				updateSearchedBounties(filter(resolvedTvls));
-				updateTvlBounties(resolvedTvls);				
-				updateIsProcessed(true);	
-			}
-			);
+	useEffect(async() => {	
+		updateIsProcessed(false);		
+		if(!bounties)updateIsProcessed(true);
+		else{
+			updateSearchedBounties(filter(bounties));
+			updateIsProcessed(true);
 		}
-		await getTvls();
 	}, [bounties]);
 	
 	// User Methods
@@ -136,29 +104,30 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 
 	const handleSearchInput = (e) =>{
 		updateSearchText(e.target.value);
-		updateSearchedBounties(orderBounties(filter(tvlBounties, {searchText: e.target.value})));
+		updateSearchedBounties(orderBounties(filter(bounties, {searchText: e.target.value})));
 	};
 
+	/* TODO New tag search 
 	const addTag = (tag)=>{
 		if(!tagArr.includes(tag)){
 			updateTagArr([...tagArr, tag]);
-			updateSearchedBounties(orderBounties(filter(tvlBounties, {tagArr: [...tagArr, tag]})));}
+			updateSearchedBounties(orderBounties(filter(bounties, {tagArr: [...tagArr, tag]})));}
 	};
-
+*/
 	const showUnfunded = (e) => {
 		setUnfundedVisible(e.target.checked);
-		updateSearchedBounties(orderBounties(filter(tvlBounties, {showUnfunded: e.target.checked})));
+		updateSearchedBounties(orderBounties(filter(bounties, {showUnfunded: e.target.checked})));
 	};
 
 	const showClaimed = (e) => {
 		setClaimedVisible(e.target.checked);		
-		updateSearchedBounties(orderBounties(filter(tvlBounties, {showClaimed: e.target.checked})));
+		updateSearchedBounties(orderBounties(filter(bounties, {showClaimed: e.target.checked})));
 	};
 
 	const removeTag = (e)=>{
 		const newTagArr=tagArr.filter(tag=>tag!==e.target.value);
 		updateTagArr(newTagArr);		
-		updateSearchedBounties(orderBounties(filter(tvlBounties, {tagArr: newTagArr})));
+		updateSearchedBounties(orderBounties(filter(bounties, {tagArr: newTagArr})));
 	};
 
 
@@ -167,15 +136,12 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 		if(node){
 
 			let options = {
-				rootMargin: '100px',
-				threshold: .1
+				rootMargin: '50px',
+				threshold: 1
 			};
 			const callback = (entries)=>{
-				if(entries[0].isIntersecting&&isProcessed&&!complete){
-					const scrollPosition= ()=>window.pageYOffset;
-					console.log(scrollPosition());
-					console.log(complete);
-					getMoreData('desc');
+				if(entries[0].isIntersecting&&isProcessed&&!complete&&!loading){
+					fetchPage();
 				}
 		
 			};
@@ -183,10 +149,8 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 			observer.current.observe(node);
 		}
 	});
-	/*
-	useCallback((node)=>{
-		}});
-*/
+
+	
 	// Render
 	return (
 		<div className="xl:col-start-2 justify-self-center space-y-3 px-5">
@@ -238,32 +202,10 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 					<BountyCard loading={true} />
 				</>:
 				searchedBounties.map((bounty, index) => {
-					return <div key={bounty.bountyId} ref={lastElem}><BountyCard bounty={bounty}/></div>;
+					return <div key={index} ref={(index===searchedBounties.length-1)?lastElem: null}><BountyCard bounty={bounty}/></div>;
 				})
 			}
 		</div>
 	);
 };
 export default BountyList;
-{/*ref={(index+1===searchedBounties.length)? lastElem:null*/}
-/*
-	const lastElem =	useCallback((node)=>{
-		window.scrollY = scroll;
-		if(observer.current){observer.current.disconnect();}
-		if(node){
-			lastElem();
-
-			let options = {
-				rootMargin: '0px',
-				threshold: .5
-			};
-			const callback = (entries)=>{
-				if(entries[0].isIntersecting){
-					setScroll(window.scrollY);
-					if(!complete)getBountyData(sortOrder==='Newest');
-				}
-		
-			};
-			observer.current = new IntersectionObserver(callback, options);
-			observer.current.observe(node);
-		}},[searchedBounties]);*/
