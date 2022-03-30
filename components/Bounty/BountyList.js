@@ -10,7 +10,7 @@ import Skeleton from 'react-loading-skeleton';
 
 const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) => {
 	// Hooks
-	const [unfundedVisible, setUnfundedVisible] = useState(true);
+	const [unfundedVisible, setUnfundedVisible] = useState(false);
 	const [claimedVisible, setClaimedVisible] = useState(false);
 	const [sortOrder, updateSortOrder] = useState('Newest');
 	const [searchText, updateSearchText] = useState('');
@@ -57,7 +57,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 			}, true);
 
 			const isUnclaimed = bounty.status === 'OPEN';
-			const isFunded = bounty.tvl?.total > 0;
+			const isFunded = bounty.deposits.length>1;
 			return (containsSearch&&containsTag&&(localShowUnfunded||isFunded)&&(localShowClaimed||isUnclaimed));
 		});
 		if(displayBounties.length===0&&!complete){
@@ -214,11 +214,13 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 				<div className='flex flex-wrap gap-4'>
 					<div className="flex w-44 p-2 pr-4 gap-2 border rounded-md justify-between border-web-gray">
 						<label htmlFor="unfunded" className="text-white">Unfunded</label>
-						<input id="unfunded" type="checkbox" className="h-6 accent-inactive-accent" onChange={showUnfunded} checked={unfundedVisible} />
+						<input id="unfunded" type="checkbox" className="h-6 appearance-none w-4 h-4 checked:bg-inactive-accent checked:bg-[url('/checkbox.svg')] focus:outline-none border-2 border-web-gray  checked:border-inactive-accent rounded-sm
+						m-1 bg-dark-mode accent-inactive-accent" onChange={showUnfunded} checked={unfundedVisible} />
 					</div>
 					<div className="flex p-2 w-44 pr-4 gap-2 border rounded-md justify-between border-web-gray">
 						<label htmlFor="claimed" className="text-white" >Claimed</label>
-						<input id="claimed" type="checkbox" className="h-6 accent-inactive-accent" onChange={showClaimed} checked={claimedVisible}/>
+						<input id="claimed" type="checkbox" className="h-6 appearance-none w-4 h-4 checked:bg-inactive-accent checked:bg-[url('/checkbox.svg')] focus:outline-none border-2 border-web-gray checked:border-inactive-accent rounded-sm
+						m-1 bg-dark-mode accent-inactive-accent" onChange={showClaimed} checked={claimedVisible}/>
 					</div>
 				</div>
 				<div className="flex justify-between bg-dark-mode end rounded-md">
