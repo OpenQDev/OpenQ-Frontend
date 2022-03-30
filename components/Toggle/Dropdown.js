@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
-const Dropdown = ({ toggleFunc, toggleVal, names, title, borderShape }) => {
+const Dropdown = ({ toggleFunc, toggleVal, names, title, borderShape, width=44 }) => {
 
 	// Hooks
 	const [open, updateOpen] = useState(false);
@@ -33,8 +33,8 @@ const Dropdown = ({ toggleFunc, toggleVal, names, title, borderShape }) => {
 	// Render
 	return (
 		<div ref={ref} className="flex justify-center">
-			<div className="relative w-32">
-				<div className={`flex-col w-44 absolute bg-dark-mode border ${borderShape} border-web-gray ${open ? 'rounded-r-md' : 'overflow-hidden'}`}>
+			<div className={`relative w-${width-12}`}>
+				<div className={`flex-col w-${width} absolute bg-dark-mode border ${borderShape} border-web-gray ${open ? 'rounded-r-md' : 'overflow-hidden'}`}>
 					{title && <h4 className={'text-white list-none w-full relative box-content bg-inactive-gray hover:bg-active-gray visible h-max'}>
 						<button className="w-full text-left p-2 px-4" onClick={() => updateOpen(() => !open)}>
 							{title}

@@ -1,6 +1,7 @@
 // Third Party
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Head from 'next/head';
+import StoreContext from '../store/Store/StoreContext';
 
 // Custom
 import BountyHomepage from '../components/Bounty/BountyHomepage';
@@ -8,7 +9,82 @@ import OrganizationHomepage from '../components/Organization/OrganizationHomepag
 
 export default function Index() {
 	const [internalMenu, setInternalMenu] = useState('org');
+	const batch = 3;
+	// State
+	const [bounties, setBounties] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
+	const [githubOutage, setGithubOutage] = useState(false);
+	const [complete, setComplete] = useState(false);
+	const [pagination, setPagination] = useState(batch);
 
+	// Context
+	const [appState] = useContext(StoreContext);
+
+	// Hooks
+	useEffect(() => {
+		populateBountyData();
+	}, []);
+
+	// Methods
+	async function populateBountyData() {
+		setIsLoading(true);
+
+		const newBounties = await appState.openQSubgraphClient.getAllBounties('desc',0, batch );
+
+		const bountyIds = newBounties.map((bounty) => bounty.bountyId);
+		let issueData;
+		try{
+			issueData = await appState.githubRepository.getIssueData(bountyIds);
+		}
+		catch(error){
+			setGithubOutage(true);
+		}
+		const fullBounties = [];
+		newBounties.forEach((bounty) => {
+			const relatedIssue = issueData.find(
+				(issue) => issue.id == bounty.bountyId
+			);
+			const mergedBounty = { ...bounty, ...relatedIssue };
+			fullBounties.push(mergedBounty);
+		});
+		setBounties(fullBounties);
+		setIsLoading(false);
+	}
+
+	
+	async function getBountyData(sortOrder, currentPagination){
+		setPagination(()=>currentPagination+batch);
+		const newBounties = await appState.openQSubgraphClient.getAllBounties( sortOrder, currentPagination, batch);
+		const bountyIds = newBounties.map((bounty) => bounty.bountyId);
+		const issueData = await appState.githubRepository.getIssueData(bountyIds);
+		const fullBounties = [];
+		newBounties.forEach((bounty) => {
+			const relatedIssue = issueData.find(
+				(issue) => issue.id == bounty.bountyId
+			);
+			const mergedBounty = { ...bounty, ...relatedIssue };
+			fullBounties.push(mergedBounty);
+		});
+		return fullBounties;
+	}
+
+	async function getNewData (order){
+		setIsLoading(true);
+		setComplete(false);
+		const newBounties = await getBountyData(order, 0);
+		setBounties(newBounties);
+		setIsLoading(false);
+	}
+
+	async function getMoreData(order){
+		setComplete(true);
+		const newBounties = await getBountyData(order, pagination);
+		if(newBounties.length === batch){
+			setComplete(false);
+		}
+		setBounties(bounties.concat(newBounties));	
+		
+	}
 
 	return (
 		<div>
@@ -41,7 +117,7 @@ export default function Index() {
 						</div>
 					</div>
 					<div>
-						{internalMenu == 'org' ? <OrganizationHomepage /> : <BountyHomepage />}
+						{internalMenu == 'org' ? <OrganizationHomepage /> : <BountyHomepage  bounties={bounties}  loading={isLoading} githubOutage={githubOutage} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />}
 					</div>
 				</div>
 			</main>
