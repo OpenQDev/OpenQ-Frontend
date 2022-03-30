@@ -122,7 +122,7 @@ const organization = () => {
 					<Toggle toggleFunc={setShowAbout} toggleVal={showAbout} names={['Bounties', 'About']} />
 					{(showAbout === 'About') ?
 						<About organizationData={organizationData} tokenValues={tokenValues} /> :
-						<div className="grid xl:grid-cols-wide justify-center w-f pt-8">
+						<div className="sm:grid px-4 xl:grid-cols-wide justify-center w-f pt-8 gap-4">
 							<LargeOrganizationCard organization={organizationData} />
 							<BountyList bounties={bounties}  loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />
 						</div>}

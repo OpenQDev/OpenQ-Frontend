@@ -9,7 +9,7 @@ const BountyHomepage = ({ bounties, loading, complete, getMoreData, getNewData, 
 
 	// Render
 	return (
-		<div className="grid xl:grid-cols-wide justify-center">
+		<div className="xl:grid sm:grid px-4 xl:grid-cols-wide justify-center">
 			{githubOutage?
 				<GithubDown/>
 				:

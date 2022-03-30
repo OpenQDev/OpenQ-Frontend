@@ -96,7 +96,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 			const [ orgName,repoName, issueNumber] = pathArray;
 			const orgData = await appState.githubRepository.fetchOrganizationByName(orgName
 			);
-			console.log(orgData);
 			setMintBountyState(VALID_URL(orgData.id, repoName, issueNumber));
 		}
 	}, [issueUrl]);

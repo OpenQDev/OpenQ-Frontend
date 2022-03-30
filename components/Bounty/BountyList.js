@@ -17,6 +17,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 	const [tagArr, updateTagArr] = useState([]);
 	const [searchedBounties, updateSearchedBounties] = useState([]);
 	const [isProcessed, updateIsProcessed] = useState(false);
+	const [tagSearch, setTagSearch] = useState('Search');
 	let observer = useRef();
 	// Utilities
 	
@@ -36,20 +37,32 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 		const localSearchText = options.searchText || searchText;
 		const  localShowClaimed = options.showClaimed === undefined ? claimedVisible: options.showClaimed;
 		const localShowUnfunded = options.showUnfunded === undefined ? unfundedVisible: options.showUnfunded;
+		const localTagSearch = options.tagSearch|| tagSearch;
 		const displayBounties =  bounties.filter(bounty=>{
-			const containsSearch = (bounty.title
+			
+			const containsSearch = ((bounty.title+bounty.description)
 				.toLowerCase()
-				.indexOf(localSearchText.toLowerCase()) > -1)|| localSearchText.length===0;
+				.indexOf(localSearchText.toLowerCase()) > -1)||
+				bounty.labels.reduce((accum, label)=>{
+					if(accum) return true;
+					return( label.name.toLowerCase()
+						.indexOf(localSearchText.toLowerCase()) > -1);
+				}, false)||
+				localSearchText.length===0||
+				localTagSearch==='Search Tags';
+
 			const containsTag = localTagArr.reduce((accum, tag)=>{
 				if(accum===false) return false;
 				return bounty.labels.some(label=>label.name===tag);
-			},true);
+			}, true);
+
 			const isUnclaimed = bounty.status === 'OPEN';
 			const isFunded = bounty.tvl?.total > 0;
 			return (containsSearch&&containsTag&&(localShowUnfunded||isFunded)&&(localShowClaimed||isUnclaimed));
 		});
 		if(displayBounties.length===0&&!complete){
 			fetchPage();
+			return bounties;
 		}
 		else return displayBounties;
 
@@ -107,13 +120,26 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 		updateSearchedBounties(orderBounties(filter(bounties, {searchText: e.target.value})));
 	};
 
-	/* TODO New tag search 
-	const addTag = (tag)=>{
-		if(!tagArr.includes(tag)){
-			updateTagArr([...tagArr, tag]);
-			updateSearchedBounties(orderBounties(filter(bounties, {tagArr: [...tagArr, tag]})));}
+	const handleTagInput = (e)=>{
+		updateSearchText(e.target.value);
 	};
-*/
+	const addTag =()=>{
+		updateTagArr([...tagArr, searchText]);
+		updateSearchText('');
+		updateSearchedBounties(orderBounties(filter(bounties, {tagArr: [...tagArr, searchText]})));
+	};
+	const toggleTagSearch = (toggleVal)=>{
+		if(toggleVal !== tagSearch){
+			updateSearchText('');
+			updateTagArr([]);
+			updateSearchedBounties(orderBounties(filter(bounties, {tagArr: [], searchText: '', tagSearch: toggleVal})));
+			if(toggleVal==='Search'){
+				setTagSearch('Search');
+			}
+			else setTagSearch('Search Tags');
+		}
+	};
+
 	const showUnfunded = (e) => {
 		setUnfundedVisible(e.target.checked);
 		updateSearchedBounties(orderBounties(filter(bounties, {showUnfunded: e.target.checked})));
@@ -150,23 +176,33 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 		}
 	});
 
-	
+
 	// Render
 	return (
-		<div className="xl:col-start-2 justify-self-center space-y-3 px-5">
-			<button className="text-white" onClick={()=>getMoreData('desc')}>getData</button>
+		<div className="xl:col-start-2 justify-self-center space-y-3 xl:w-full">
 			<div className="grid lg:grid-cols-[repeat(4,_1fr)] gap-6">
-				<div className="flex rounded-lg z-10 relative lg:col-span-3 col-span-4 max-w-xs sm:max-w-none">
-					<SearchBar
-						onKeyUp={handleSearchInput}
-						placeholder={'Search Issue...'}
-						searchText={searchText}
-						borderShape={'border-b border-l rounded-l-lg border-t w-36 sm:w-full'}
-					/>
-					{/*}	<Dropdown toggleFunc={addTag} title="Filter By Label" names={availableLabels} borderShape={'rounded-r-lg'} />*/}</div>
+				<div className="flex rounded-lg z-10 relative lg:col-span-3 col-span-4 justify-center overflow-hidden">
+					{tagSearch==='Search' ?
+						<SearchBar
+							onKeyUp={handleSearchInput}
+							placeholder={'Search Issue...'}
+							searchText={searchText}
+							borderShape={'border-b border-l rounded-l-lg border-t w-36 sm:w-full'}
+						/>:
+					
+						<SearchBar
+							onEnter={addTag}
+							onKeyUp={handleTagInput}
+							placeholder={'Enter Tag...'}
+							searchText={searchText}
+							borderShape={'border-b border-l rounded-l-lg border-t w-36 sm:w-full'}
+						/>
+					}
+					<Dropdown toggleFunc={toggleTagSearch} title={tagSearch} width={36} names={['Search', 'Search Tags']} borderShape={'rounded-r-lg'}/>
+				</div>
 				<MintBountyButton />
 			</div>
-			{tagArr.length>0 && <ul className="flex  flex-wrap">{tagArr.map((tag, index)=> <li key={index}className="border-web-gray border text-white inline ml-2 mb-2 px-2 py-1.5 rounded-md">
+			{tagArr.length>0 && <ul className="flex flex-wrap">{tagArr.map((tag, index)=> <li key={index}className="border-web-gray border text-white inline ml-2 mb-2 px-2 py-1.5 rounded-md">
 				<span className="px-2">{tag}</span>
 				<button onClick={removeTag} value={tag} className="bg-inactive-gray hover:bg-active-gray hover:cursor-pointer inline-flex justify-center content-center h-6 w-6 leading-tight rounded-full">
 					×
@@ -174,27 +210,29 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 				
 			</li>)}
 			</ul>}
-			<div className="flex md:content-start content-center flex-col gap-2">
-				<div className="flex bg-dark-mode justify-between rounded-md w-64">
-					<span className="text-white p-2  align-self-center pr-4">Sort By</span>
-					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} names={['Newest', 'Oldest']} borderShape={'rounded-md'} />
+			<div className="flex md:content-start content-center flex-wrap w-full justify-items-stretch gap-4">
+				<div className='flex flex-wrap gap-4'>
+					<div className="flex w-44 p-2 pr-4 gap-2 border rounded-md border-web-gray">
+						<label htmlFor="unfunded" className="text-white">Unfunded</label>
+						<input id="unfunded" type="checkbox" className="accent-inactive-accent" onChange={showUnfunded} checked={unfundedVisible} />
+					</div>
+					<div className="flex p-2 w-44 pr-4 gap-2 border rounded-md justify-between border-web-gray">
+						<label htmlFor="claimed" className="text-white" >Claimed</label>
+						<input id="claimed" type="checkbox" className="accent-inactive-accent" onChange={showClaimed} checked={claimedVisible}/>
+					</div>
 				</div>
-				<div className="flex p-2 pr-4 gap-2 border rounded-md justify-between border-web-gray w-64">
-					<label htmlFor="unfunded" className="text-white">Show Unfunded Bounties</label>
-					<input id="unfunded" type="checkbox" className="accent-pink-500" onChange={showUnfunded} checked={unfundedVisible} />
-				</div>
-				<div className="flex p-2 pr-4 gap-2 border rounded-md justify-between border-web-gray w-64">
-					<label htmlFor="claimed" className="text-white" >Show Claimed Bounties</label>
-					<input id="claimed" type="checkbox" className="accent-pink-500" onChange={showClaimed} checked={claimedVisible}/>
+				<div className="flex justify-between bg-dark-mode end rounded-md">
+					<span className="text-white p-2 border-t border-l border-b rounded-l-md border-web-gray align-self-center pr-8">Sort By</span>
+					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} names={['Newest', 'Oldest']} borderShape={'rounded-r-md'} width={36} />
 				</div>
 			</div>
 			<div className="text-gray-300 font-mont pt-1 font-normal">
-				{ !isProcessed || loading ?
+				{process.env.NEXT_PUBLIC_DEPLOY_ENV === 'docker' ? !isProcessed || loading  ?
 					<Skeleton  baseColor="#333" borderRadius={'1rem'} height={'12px'} width={100}/>:
 					<>
 						{searchedBounties.length && searchedBounties.length}
 						{searchedBounties.length == 1 ? ' Bounty found' : ' Bounties found'}
-					</>}
+					</>: null}
 			</div>
 			{ !isProcessed || loading?
 				<>
