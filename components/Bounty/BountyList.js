@@ -212,13 +212,13 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 			</ul>}
 			<div className="flex md:content-start content-center flex-wrap w-full justify-items-stretch gap-4">
 				<div className='flex flex-wrap gap-4'>
-					<div className="flex w-44 p-2 pr-4 gap-2 border rounded-md border-web-gray">
+					<div className="flex w-44 p-2 pr-4 gap-2 border rounded-md justify-between border-web-gray">
 						<label htmlFor="unfunded" className="text-white">Unfunded</label>
-						<input id="unfunded" type="checkbox" className="accent-inactive-accent" onChange={showUnfunded} checked={unfundedVisible} />
+						<input id="unfunded" type="checkbox" className="h-6 accent-inactive-accent" onChange={showUnfunded} checked={unfundedVisible} />
 					</div>
 					<div className="flex p-2 w-44 pr-4 gap-2 border rounded-md justify-between border-web-gray">
 						<label htmlFor="claimed" className="text-white" >Claimed</label>
-						<input id="claimed" type="checkbox" className="accent-inactive-accent" onChange={showClaimed} checked={claimedVisible}/>
+						<input id="claimed" type="checkbox" className="h-6 accent-inactive-accent" onChange={showClaimed} checked={claimedVisible}/>
 					</div>
 				</div>
 				<div className="flex justify-between bg-dark-mode end rounded-md">
