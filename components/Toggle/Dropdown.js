@@ -34,7 +34,7 @@ const Dropdown = ({ toggleFunc, toggleVal, names, title, borderShape, width=44 }
 	return (
 		<div ref={ref} className="flex justify-center">
 			<div className={`relative w-${width-12}`}>
-				<div className={`flex-col w-${width} absolute bg-dark-mode border ${borderShape} border-web-gray ${open ? 'rounded-r-md' : 'overflow-hidden'}`}>
+				<div className={`flex-col w-${width} absolute bg-dark-mode border ${borderShape} border-web-gray ${open ? 'rounded-r-md rounded-b-md' : 'overflow-hidden'}`}>
 					{title && <h4 className={'text-white list-none w-full relative box-content bg-inactive-gray hover:bg-active-gray visible h-max'}>
 						<button className="w-full text-left p-2 px-4" onClick={() => updateOpen(() => !open)}>
 							{title}
