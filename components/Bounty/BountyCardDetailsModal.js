@@ -44,13 +44,13 @@ const BountyCardDetailsModal = ({ bounty, TVL, closeModal, tokenValues}) => {
 							TVL: {TVL}
 						</p>
 					</div>
-					{tokenValues &&<div className="flex gap-4 pb-8">
+					{tokenValues &&<div className="flex gap-4 pb-8 items-end">
 						<div className="border border-web-gray px-4 pb-1 w-max rounded-md">
 							<TokenBalances tokenBalances={bounty.bountyTokenBalances} tokenValues={tokenValues} showOne={true}/>						
 						</div>
 						<Link href={`/bounty/${bounty.bountyAddress}`}>
 							<a target={'_blank'}>
-								<div onClick={closeModal} className="border border-web-gray px-4 pb-1 pt-1 w-max rounded-md cursor-pointer">more...
+								<div onClick={closeModal} className="border border-web-gray px-4 pb-1.5 pt-1.5 w-max rounded-md cursor-pointer">more...
 								</div>
 							</a>
 						</Link>
