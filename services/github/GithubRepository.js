@@ -8,7 +8,7 @@ class GithubRepository {
 
 	getRandomPAT = () => {
 		let patsArray = process.env.NEXT_PUBLIC_PATS.split(' ');
-		let randomToken = patsArray[Math.floor(Math.random() * patsArray.length)];;
+		let randomToken = patsArray[Math.floor(Math.random() * patsArray.length)];
 		return randomToken;
 	};
 
