@@ -131,7 +131,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	}
 
 	function onVolumeChange(volume) {
-		if(parseInt(volume) < 1000|| volume === '') setVolume(parseInt(volume));
+		if(0 < parseInt(volume) && parseInt(volume) < 1000) setVolume(parseInt(volume));
+		if(volume===''){setVolume(0);}
 	}
 	const onDepositPeriodChanged = (e) =>{
 		if(parseInt(e.target.value)>=0) setDepositPeriodDays(parseInt(e.target.value));
