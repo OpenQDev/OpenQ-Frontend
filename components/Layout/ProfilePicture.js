@@ -14,22 +14,15 @@ const ProfilePicture = () => {
 	useEffect(() => {
 		async function setProfilePicture() {
 			const isAuthenticated = authState.isAuthenticated;
-			if (isAuthenticated) {
-				try{
-					const res = await appState.githubRepository.fetchAvatarUrl();
-					const avatarUrl = res.data?.viewer.avatarUrl;
-					setProPicUrl(avatarUrl);}
-				catch(err){
-					console.log(err);
-				}
-			}
+			const avatarUrl = authState.avatarUrl;
+			setProPicUrl(avatarUrl);
 		}
 		setProfilePicture();
 	}, [authState]);
 
 	return (
 		<>
-			{propicUrl ? (
+			{propicUrl != null ? (
 				<Image
 					src={propicUrl}
 					width={180}
@@ -37,9 +30,7 @@ const ProfilePicture = () => {
 					alt={'propic'}
 					className="rounded-full"
 				/>
-			) : (
-				<div></div>
-			)}
+			) : null}
 		</>
 	);
 };
