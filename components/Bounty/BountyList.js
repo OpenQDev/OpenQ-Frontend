@@ -62,14 +62,14 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 		});
 		if(displayBounties.length===0&&!complete){
 			fetchPage();
-			return bounties;
+			return [];
 		}
 		else return displayBounties;
 
 	};
 
 	// Orders bounties	
-	const orderBounties = (bounties = bounties, toggleTo=sortOrder ) => {
+	const orderBounties = (bounties = [], toggleTo=sortOrder ) => {
 		if(toggleTo===sortOrder){return bounties;}
 		switch (toggleTo) {
 		case 'Newest':{
@@ -103,7 +103,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 	useEffect(async() => {	
 		updateIsProcessed(false);		
 		if(!bounties)updateIsProcessed(true);
-		else{
+		else {
 			updateSearchedBounties(filter(bounties));
 			updateIsProcessed(true);
 		}
@@ -167,6 +167,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 			};
 			const callback = (entries)=>{
 				if(entries[0].isIntersecting&&isProcessed&&!complete&&!loading){
+					//updateIsProcessed(false);
 					fetchPage();
 				}
 		
