@@ -15,9 +15,13 @@ const ProfilePicture = () => {
 		async function setProfilePicture() {
 			const isAuthenticated = authState.isAuthenticated;
 			if (isAuthenticated) {
-				const res = await appState.githubRepository.fetchAvatarUrl();
-				const avatarUrl = res.data?.viewer.avatarUrl;
-				setProPicUrl(avatarUrl);
+				try{
+					const res = await appState.githubRepository.fetchAvatarUrl();
+					const avatarUrl = res.data?.viewer.avatarUrl;
+					setProPicUrl(avatarUrl);}
+				catch(err){
+					console.log(err);
+				}
 			}
 		}
 		setProfilePicture();
