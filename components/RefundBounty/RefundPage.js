@@ -70,7 +70,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 	} else {
 		return (
 			<>
-				<div className="flex justify-center items-center pl-5 pr-5 md:pl-16 md:pr-16 pt-10 pb-10 my-16 border-web-gray border rounded-lg w-5/6">
+				<div className="flex justify-center items-center pl-5 pr-5 md:pl-16 md:pr-16 pt-10 pb-10 my-16 border-web-gray border rounded-lg w-5/6 max-w-6xl">
 					<div className="flex flex-col space-y-5 w-full">
 						<h1 className="font-bold py-4 text-2xl border-web-gray border-b text-white">
 							Your Deposits
