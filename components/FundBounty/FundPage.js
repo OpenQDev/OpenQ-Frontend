@@ -84,8 +84,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		try {
 			setShowApproveTransferModal(true);
 			if (token.address != ethers.constants.AddressZero) {
-				setButtonText('Approving');
-				setApproveTransferState(APPROVING);
 				await appState.openQClient.approve(
 					library,
 					bounty.bountyAddress,
@@ -133,9 +131,12 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	}
 
 	function onVolumeChange(volume) {
-		if(parseFloat(volume)<1000||volume==='') setVolume(volume);
+		if(parseInt(volume)<1000||volume==='') setVolume(parseInt(volume));
 	}
-
+	const onDepositPeriodChanged = (e) =>{
+		if(parseInt(e.target.value)>=0) setDepositPeriodDays(parseInt(e.target.value));
+		if(e.target.value==='')setDepositPeriodDays(0);
+	};
 	// Render
 	if (claimed) {
 		return (
@@ -170,7 +171,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 								autoComplete="off"
 								value={depositPeriodDays}
 								id="deposit-period"
-								onChange={(event) => setDepositPeriodDays(event.target.value)}
+								onChange={onDepositPeriodChanged}
 							/>
 						</div>
 					</div>
