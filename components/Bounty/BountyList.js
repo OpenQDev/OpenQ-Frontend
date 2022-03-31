@@ -124,9 +124,11 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 		updateSearchText(e.target.value);
 	};
 	const addTag =()=>{
-		updateTagArr([...tagArr, searchText]);
+		if(!tagArr.includes(searchText)){
+			updateTagArr([...tagArr, searchText]);
+			updateSearchedBounties(orderBounties(filter(bounties, {tagArr: [...tagArr, searchText]})));
+		}
 		updateSearchText('');
-		updateSearchedBounties(orderBounties(filter(bounties, {tagArr: [...tagArr, searchText]})));
 	};
 	const toggleTagSearch = (toggleVal)=>{
 		if(toggleVal !== tagSearch){
@@ -140,14 +142,14 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 		}
 	};
 
-	const showUnfunded = (e) => {
-		setUnfundedVisible(e.target.checked);
-		updateSearchedBounties(orderBounties(filter(bounties, {showUnfunded: e.target.checked})));
+	const showUnfunded = () => {
+		setUnfundedVisible(!unfundedVisible);
+		updateSearchedBounties(orderBounties(filter(bounties, {showUnfunded: !unfundedVisible})));
 	};
 
-	const showClaimed = (e) => {
-		setClaimedVisible(e.target.checked);		
-		updateSearchedBounties(orderBounties(filter(bounties, {showClaimed: e.target.checked})));
+	const showClaimed = () => {
+		setClaimedVisible(!claimedVisible);		
+		updateSearchedBounties(orderBounties(filter(bounties, {showClaimed: !claimedVisible})));
 	};
 
 	const removeTag = (e)=>{
@@ -181,7 +183,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 	return (
 		<div className="xl:col-start-2 justify-self-center space-y-3 xl:w-full">
 			<div className="grid lg:grid-cols-[repeat(4,_1fr)] gap-6">
-				<div className="flex rounded-lg z-10 relative lg:col-span-3 col-span-4 justify-center overflow-hidden">
+				<div className="flex rounded-lg lg:col-span-3 col-span-4 justify-center">
 					{tagSearch==='Search' ?
 						<SearchBar
 							onKeyUp={handleSearchInput}
@@ -202,7 +204,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 				</div>
 				<MintBountyButton />
 			</div>
-			{tagArr.length>0 && <ul className="flex flex-wrap">{tagArr.map((tag, index)=> <li key={index}className="border-web-gray border text-white inline ml-2 mb-2 px-2 py-1.5 rounded-md">
+			{tagArr.length>0 && <ul className="flex flex-wrap">{tagArr.map((tag, index)=> <li key={index}className="border-web-gray border text-white inline mr-2 mb-2 px-2 py-1.5 rounded-md">
 				<span className="px-2">{tag}</span>
 				<button onClick={removeTag} value={tag} className="bg-inactive-gray hover:bg-active-gray hover:cursor-pointer inline-flex justify-center content-center h-6 w-6 leading-tight rounded-full">
 					×
@@ -216,15 +218,15 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} names={['Newest', 'Oldest']} borderShape={'rounded-r-md'} width={36} />
 				</div>
 				<div className='flex flex-wrap gap-4'>
-					<div className="flex w-32 p-2 pr-4 gap-2 border rounded-md justify-between border-web-gray">
-						<label htmlFor="unfunded" className="text-white">Unfunded</label>
+					<div onClick={showUnfunded} className="flex w-32 p-2 pr-4 gap-2 border rounded-md justify-between border-web-gray">
+						<label htmlFor="unfunded" className="text-white pointer-events-none">Unfunded</label>
 						<input id="unfunded" type="checkbox" className="h-6 appearance-none w-4 h-4 checked:bg-inactive-accent checked:bg-[url('/checkbox.svg')] focus:outline-none border-2 border-web-gray  checked:border-inactive-accent rounded-sm
-						m-1 bg-dark-mode accent-inactive-accent" onChange={showUnfunded} checked={unfundedVisible} />
+						m-1 bg-dark-mode accent-inactive-accent"checked={unfundedVisible} />
 					</div>
-					<div className="flex p-2 w-32 pr-4 gap-2 border rounded-md justify-between border-web-gray">
-						<label htmlFor="claimed" className="text-white" >Claimed</label>
+					<div onClick={showClaimed} className="flex p-2 w-32 pr-4 gap-2 border rounded-md justify-between border-web-gray">
+						<label htmlFor="claimed" className="text-white pointer-events-none" >Claimed</label>
 						<input id="claimed" type="checkbox" className="h-6 appearance-none w-4 h-4 checked:bg-inactive-accent checked:bg-[url('/checkbox.svg')] focus:outline-none border-2 border-web-gray checked:border-inactive-accent rounded-sm
-						m-1 bg-dark-mode accent-inactive-accent" onChange={showClaimed} checked={claimedVisible}/>
+						m-1 bg-dark-mode accent-inactive-accent" checked={claimedVisible}/>
 					</div>
 				</div>
 			</div>
