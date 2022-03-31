@@ -167,7 +167,6 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 			};
 			const callback = (entries)=>{
 				if(entries[0].isIntersecting&&isProcessed&&!complete&&!loading){
-					//updateIsProcessed(false);
 					fetchPage();
 				}
 		

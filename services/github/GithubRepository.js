@@ -6,10 +6,16 @@ import { setContext } from '@apollo/client/link/context';
 class GithubRepository {
 	constructor() { }
 
+	getRandomPAT = () => {
+		let patsArray = process.env.NEXT_PUBLIC_PATS.split(' ');
+		let randomToken = patsArray[Math.floor(Math.random() * patsArray.length)];;
+		return randomToken;
+	};
+
 	httpLink = new HttpLink({ uri: 'https://api.github.com/graphql', fetch });
 
 	authLink = setContext((_, { headers }) => {
-		const token = process.env.NEXT_PUBLIC_PAT;
+		const token = this.getRandomPAT();
 		return {
 			headers: {
 				...headers,
