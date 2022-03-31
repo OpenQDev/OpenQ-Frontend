@@ -6,7 +6,7 @@ import OrganizationCard from '../Organization/OrganizationCard';
 import MintBountyButton from '../MintBounty/MintBountyButton';
 import SearchBar from '../Search/SearchBar';
 import useAuth from '../../hooks/useAuth';
-import GithubDown from '../Utils/GithubDown';
+import UnexpectedError from '../Utils/UnexpectedError';
 
 const OrganizationHomepage = () => {
 	// State
@@ -18,7 +18,7 @@ const OrganizationHomepage = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [organizations, setOrganizations] = useState(null);
 	const [organizationSearchTerm, setOrganizationSearchTerm] = useState('');
-	const [githubOutage, updateGithubOutage] = useState(false);
+	const [error, updateError] = useState(false);
 
 	// Methods
 	async function populateOrganizationData() {
@@ -39,7 +39,8 @@ const OrganizationHomepage = () => {
 					organization.id
 				);
 			} catch (error) {
-				updateGithubOutage(true);
+				console.log(error);
+				updateError(true);
 			}
 			const mergedOrgData = { ...organization, ...orgData };
 			mergedOrgs.push(mergedOrgData);
@@ -61,15 +62,16 @@ const OrganizationHomepage = () => {
 	};
 
 	// Render
-	return (
+	if(error){return <UnexpectedError/>;}
+	else return (
 		<div>
 			<div className="max-w-screen-xl mx-auto">
 				<div className="grid gap-6 lg:grid-cols-[repeat(4,_1fr)] sm:w-2/3 mb-6 mx-auto">
 					<SearchBar onKeyUp={filterByOrg} searchText={organizationSearchTerm} placeholder="Search Organization..." borderShape={'border rounded-full'} className="mb-200" />
 					<MintBountyButton /></div>
 				<div className="grid grid-cols-[repeat(_auto-fit,_192px)] gap-6 justify-center sm:justify-start w-2/3 mx-auto">
-					{githubOutage ?
-						<GithubDown />
+					{error ?
+						<UnexpectedError />
 						:
 						isLoading
 							? <><OrganizationCard /><OrganizationCard /></>

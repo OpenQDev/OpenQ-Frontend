@@ -19,8 +19,13 @@ const MiniDepositCard = ({deposit, showLink})=>{
 	// Hooks
 	useEffect(async()=>{
 		if(showLink){
-			const fetchedTitle = await appState.githubRepository.fetchIssueById(deposit.bounty.bountyId);
-			updateTitle(fetchedTitle.title);
+			try{
+				const fetchedTitle = await appState.githubRepository.fetchIssueById(deposit.bounty.bountyId);
+				updateTitle(fetchedTitle.title);
+			}
+			catch(error){
+				console.log(error);
+			}
 		}
 	});
 
