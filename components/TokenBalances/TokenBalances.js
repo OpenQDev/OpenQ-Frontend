@@ -61,7 +61,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 			</div>
 			<div className="flex flex-row space-x-2 pt-1">
 				<div>
-					{tokenValues && tokenBalances
+					{tokenValues && tokenBalances&&(displayedBalances.length > 0)
 						? displayedBalances.map((tokenBalance) => {
 							const {symbol, tokenAddress, usdValue, formattedVolume} = tokenBalance;
 
@@ -94,7 +94,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 									<Skeleton height={'12px'} width={'16px'} />
 								</div>
 								<div className="text-lg text-white">
-									<Skeleton width={'8rem'}/>
+									<Skeleton width={'8rem'} height={'12px'}/>
 								</div>
 							</div>
 						</div>

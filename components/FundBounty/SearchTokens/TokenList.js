@@ -10,14 +10,19 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
 	const { library, account } = useWeb3();
 
 	useEffect(async () => {
-		const ownedTokens = await appState.openQClient.userOwnedTokenBalances(library, account, appState.tokens);
-		const tokens = appState.tokens
-			.filter((elem, index) => {
-				return ownedTokens[index];
-			}).concat(appState.tokens.filter((elem, index) => {
-				return !ownedTokens[index];
-			}));
-		updateDisplayTokens(tokens);
+		try{
+			const ownedTokens = await appState.openQClient.userOwnedTokenBalances(library, account, appState.tokens);
+			const tokens = appState.tokens
+				.filter((elem, index) => {
+					return ownedTokens[index];
+				}).concat(appState.tokens.filter((elem, index) => {
+					return !ownedTokens[index];
+				}));
+			updateDisplayTokens(tokens);
+		}
+		catch(err){
+			console.log(err);
+		}
 	}, []);
 
 	function onSelect(token) {

@@ -94,9 +94,14 @@ const MintBountyModal = ({ modalVisibility }) => {
 			setMintBountyState(INVALID_URL());
 		} else {
 			const [ orgName,repoName, issueNumber] = pathArray;
-			const orgData = await appState.githubRepository.fetchOrganizationByName(orgName
-			);
-			setMintBountyState(VALID_URL(orgData.id, repoName, issueNumber));
+			try {
+				const orgData = await appState.githubRepository.fetchOrganizationByName(orgName
+				);
+				setMintBountyState(VALID_URL(orgData.id, repoName, issueNumber));
+				
+			} catch (error) {
+				console.log(error);
+			}
 		}
 	}, [issueUrl]);
 

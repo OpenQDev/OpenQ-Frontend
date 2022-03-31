@@ -11,6 +11,8 @@ import RefundPage from '../../components/RefundBounty/RefundPage';
 import ClaimPage from '../../components/Claim/ClaimPage';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import useAuth from '../../hooks/useAuth';
+import UnexpectedError from '../../components/Utils/UnexpectedError';
+import Toggle from '../../components/Toggle/Toggle';
 
 const address = () => {
 	// Context
@@ -22,10 +24,11 @@ const address = () => {
 	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
 
 	// State
-	const { address, first } = router.query;
+	const { address, first, } = router.query;
 	const [, setRedirectUrl] = useState('');
 	const [, setIsLoading] = useState(true);
-	const [internalMenu, setInternalMenu] = useState('view');
+	const [error, setError] = useState(false);
+	const [internalMenu, setInternalMenu] = useState();
 
 	// Refs
 	const canvas = useRef();
@@ -35,18 +38,24 @@ const address = () => {
 		setIsLoading(true);
 		let bounty;
 
+		try{
 		// or is it null?
-		while (bounty === undefined) {
-			bounty = await appState.openQSubgraphClient.getBounty(address);
-			await sleep(500);
+			while (bounty === undefined) {
+				bounty = await appState.openQSubgraphClient.getBounty(address);
+				await sleep(500);
+			}
+
+			const issueData = await appState.githubRepository.fetchIssueById(bounty.bountyId);
+
+			const mergedBounty = { ...bounty, ...issueData };
+
+			setBounty({ ...mergedBounty });
+			setIsLoading(false);}
+		catch(error){
+			console.log(error);
+			setError(true);
+			return; 
 		}
-
-		const issueData = await appState.githubRepository.fetchIssueById(bounty.bountyId);
-
-		const mergedBounty = { ...bounty, ...issueData };
-
-		setBounty({ ...mergedBounty });
-		setIsLoading(false);
 	}
 
 	function sleep(ms) {
@@ -55,14 +64,24 @@ const address = () => {
 
 	const refreshBounty = async () => {
 		await sleep(1000);
-		let newBounty = await appState.openQSubgraphClient.getBounty(address, 'network-only');
-		const mergedBounty = { ...bounty, ...newBounty };
-		setBounty(mergedBounty);
+		try{
+			let newBounty = await appState.openQSubgraphClient.getBounty(address, 'network-only');
+			const mergedBounty = { ...bounty, ...newBounty };
+			setBounty(mergedBounty);
+		}
+		catch(error){
+			setError(true);
+		}
 	};
 
 	// Hooks
 	useEffect(() => {
 		if (address) {
+			const route = sessionStorage.getItem(address);
+		
+			if(route&&route!==internalMenu){
+				setInternalMenu(route);
+			}
 			setRedirectUrl(`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${address}`);
 			populateBountyData();
 		}
@@ -83,47 +102,24 @@ const address = () => {
 		}
 	}, [address]);
 
+	// User Methods
+
+	const handleToggle = (e)=>{
+		setInternalMenu(e);
+		sessionStorage.setItem(address, e);
+	};
 
 	// Render
-	
-	return (
+	if(error){
+		return <UnexpectedError/>;
+	}
+	else return (
 		<div className="flex flex-col font-mont justify-center items-center pt-7">
-			<div className="flex flex-row space-x-2 border border-web-gray p-1 rounded-xl">
-				<button
-					onClick={() => setInternalMenu('view')}
-					className={`text-white rounded-xl p-2 ${internalMenu == 'view' ? 'bg-inactive-gray' : null
-					}`}
-				>
-						View
-				</button>
-				<button
-					onClick={() => setInternalMenu('fund')}
-					className={`text-white rounded-xl p-2 ${internalMenu == 'fund' ? 'bg-inactive-gray' : null
-					}`}
-				>
-						Fund
-				</button>
-				<button
-					onClick={() => setInternalMenu('refund')}
-					className={`text-white rounded-xl p-2${internalMenu == 'refund' ? 'bg-inactive-gray' : null
-					}`}
-				>
-						Refund
-				</button>
-				<button
-					onClick={() => setInternalMenu('claim')}
-					className={`text-white rounded-xl p-2 ${internalMenu == 'claim' ? 'bg-inactive-gray' : null
-					}`}
-				>
-						Claim
-				</button>
-			</div>
-			{internalMenu == 'view' ? (
-				<BountyCardDetails bounty={bounty} tokenValues={tokenValues} />
-			) : null}
-			{internalMenu == 'fund' ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
-			{internalMenu == 'claim' ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
-			{internalMenu == 'refund' ? (<RefundPage bounty={bounty} refreshBounty={refreshBounty} />) : null}
+			<Toggle toggleFunc={handleToggle} toggleVal={internalMenu||'View'} names={['View', 'Fund', 'Refund', 'Claim']}/>
+			{internalMenu == 'Fund' && bounty  ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : 
+				internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : 
+					internalMenu == 'Refund' && bounty ? (<RefundPage bounty={bounty} refreshBounty={refreshBounty} />) : 
+						<BountyCardDetails bounty={bounty} tokenValues={tokenValues} />}
 			<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>
 		</div>
 	);
