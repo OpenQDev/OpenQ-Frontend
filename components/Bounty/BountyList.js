@@ -218,12 +218,12 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 				<div className='flex flex-wrap gap-4'>
 					<div onClick={showUnfunded} className="flex w-32 p-2 pr-4 gap-2 border rounded-md justify-between border-web-gray">
 						<label htmlFor="unfunded" className="text-white pointer-events-none">Unfunded</label>
-						<input id="unfunded" onChange={()=>null} type="checkbox" className="h-6 bg-no-repeat appearance-none w-4 h-4 checked:bg-inactive-accent checked:bg-[url('/checkbox.svg')] focus:outline-none border-2 border-web-gray  checked:border-inactive-accent rounded-sm
+						<input id="unfunded" onChange={showUnfunded} type="checkbox" className="h-6 bg-no-repeat appearance-none w-4 h-4 checked:bg-inactive-accent checked:bg-[url('/checkbox.svg')] focus:outline-none border-2 border-web-gray  checked:border-inactive-accent rounded-sm
 						m-1 bg-dark-mode accent-inactive-accent"checked={unfundedVisible} />
 					</div>
 					<div onClick={showClaimed} className="flex p-2 w-32 pr-4 gap-2 border rounded-md justify-between border-web-gray">
 						<label htmlFor="claimed" className="text-white pointer-events-none" >Claimed</label>
-						<input id="claimed" onChange={()=>null} type="checkbox" className="h-6 bg-no-repeat appearance-none w-4 h-4 checked:bg-inactive-accent checked:bg-[url('/checkbox.svg')] focus:outline-none border-2 border-web-gray checked:border-inactive-accent rounded-sm
+						<input id="claimed" onChange={showUnfunded} type="checkbox" className="h-6 bg-no-repeat appearance-none w-4 h-4 checked:bg-inactive-accent checked:bg-[url('/checkbox.svg')] focus:outline-none border-2 border-web-gray checked:border-inactive-accent rounded-sm
 						m-1 bg-dark-mode accent-inactive-accent" checked={claimedVisible}/>
 					</div>
 				</div>
