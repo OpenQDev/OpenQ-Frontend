@@ -13,7 +13,7 @@ export default function Index() {
 	// State
 	const [bounties, setBounties] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const [githubOutage, setGithubOutage] = useState(false);
+	const [error, setError] = useState(false);
 	const [complete, setComplete] = useState(false);
 	const [pagination, setPagination] = useState(batch);
 
@@ -29,26 +29,28 @@ export default function Index() {
 	async function populateBountyData() {
 		setIsLoading(true);
 
-		const newBounties = await appState.openQSubgraphClient.getAllBounties('desc',0, batch );
-
-		const bountyIds = newBounties.map((bounty) => bounty.bountyId);
-		let issueData;
 		try{
+			const newBounties = await appState.openQSubgraphClient.getAllBounties('desc',0, batch );
+
+			const bountyIds = newBounties.map((bounty) => bounty.bountyId);
+			let issueData;
 			issueData = await appState.githubRepository.getIssueData(bountyIds);
-		}
+		
+			const fullBounties = [];
+			newBounties.forEach((bounty) => {
+				const relatedIssue = issueData.find(
+					(issue) => issue.id == bounty.bountyId
+				);
+				const mergedBounty = { ...bounty, ...relatedIssue };
+				fullBounties.push(mergedBounty);
+			});
+			setBounties(fullBounties);
+			setIsLoading(false);}
 		catch(error){
-			setGithubOutage(true);
+			console.log(error);
+			setError(true);
+			return;
 		}
-		const fullBounties = [];
-		newBounties.forEach((bounty) => {
-			const relatedIssue = issueData.find(
-				(issue) => issue.id == bounty.bountyId
-			);
-			const mergedBounty = { ...bounty, ...relatedIssue };
-			fullBounties.push(mergedBounty);
-		});
-		setBounties(fullBounties);
-		setIsLoading(false);
 	}
 
 	
@@ -82,7 +84,8 @@ export default function Index() {
 		if(newBounties.length === batch){
 			setComplete(false);
 		}
-		setBounties(bounties.concat(newBounties));	
+		setBounties(bounties.concat(newBounties));
+		
 		
 	}
 
@@ -117,7 +120,7 @@ export default function Index() {
 						</div>
 					</div>
 					<div>
-						{internalMenu == 'org' ? <OrganizationHomepage /> : <BountyHomepage  bounties={bounties}  loading={isLoading} githubOutage={githubOutage} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />}
+						{internalMenu == 'org' ? <OrganizationHomepage /> : <BountyHomepage  bounties={bounties}  loading={isLoading} error={error} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />}
 					</div>
 				</div>
 			</main>

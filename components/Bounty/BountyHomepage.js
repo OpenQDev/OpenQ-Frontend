@@ -3,15 +3,15 @@ import React from 'react';
 
 // Custom
 import BountyList from './BountyList';
-import GithubDown from '../Utils/GithubDown';
+import UnexpectedError from '../Utils/UnexpectedError';
 
-const BountyHomepage = ({ bounties, loading, complete, getMoreData, getNewData, githubOutage }) => {
+const BountyHomepage = ({ bounties, loading, complete, getMoreData, getNewData, error }) => {
 
 	// Render
 	return (
 		<div className="xl:grid sm:grid px-4 xl:grid-cols-wide justify-center">
-			{githubOutage?
-				<GithubDown/>
+			{error?
+				<UnexpectedError/>
 				:
 				<BountyList bounties={bounties}  loading={loading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />
 			}

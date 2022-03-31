@@ -1,10 +1,10 @@
 // Third Party
 import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
-import GithubDown from '../../components/Utils/GithubDown';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
+import UnexpectedError from '../../components/Utils/UnexpectedError';
 import BountyList from '../../components/Bounty/BountyList';
 import LargeOrganizationCard from '../../components/Organization/LargeOrganizationCard';
 import Toggle from '../../components/Toggle/Toggle';
@@ -23,7 +23,7 @@ const organization = () => {
 	const [bounties, setBounties] = useState();
 	const [showAbout, setShowAbout] = useState('Bounties');
 	const [pagination, setPagination] = useState(batch);
-	const [githubOutage, setGithubOutage] = useState(false);
+	const [error, setError] = useState(false);
 
 	const [tokenValues] = useGetTokenValues(organizationData?.fundedTokenBalances);
 	const [complete, setComplete] = useState(false);
@@ -35,16 +35,17 @@ const organization = () => {
 			orgData = await appState.githubRepository.fetchOrganizationByName(
 				organization
 			);
-		}
+		
+			const org = await appState.openQSubgraphClient.getOrganization(
+				orgData.id, batch
+			);
+			const mergedOrgData = { ...org, ...orgData };
+			setOrganizationData(mergedOrgData);}
 		catch (err) {
-			setGithubOutage(true);
+			console.log(error);
+			setError(true);
 		}
-
-		const org = await appState.openQSubgraphClient.getOrganization(
-			orgData.id, batch
-		);
-		const mergedOrgData = { ...org, ...orgData };
-		setOrganizationData(mergedOrgData);
+		
 	}
 
 
@@ -53,7 +54,8 @@ const organization = () => {
 		setPagination(()=>currentPagination+batch);
 		const newBounties = await appState.openQSubgraphClient.getPaginatedOrganizationBounties(organizationData.id, currentPagination, order, batch);
 		const bountyIds = newBounties.bountiesCreated.map((bounty) => bounty.bountyId);
-		const issueData = await appState.githubRepository.getIssueData(bountyIds);
+		let issueData;
+		issueData = await appState.githubRepository.getIssueData(bountyIds);
 		const fullBounties = [];
 		newBounties.bountiesCreated.forEach((bounty) => {
 			const relatedIssue = issueData.find(
@@ -68,14 +70,26 @@ const organization = () => {
 	async function getNewData (order){
 		setIsLoading(true);
 		setComplete(false);
-		const newBounties = await getBountyData(order, 0);
+		let newBounties;
+		try{
+			newBounties = await getBountyData(order, 0);}
+		catch (err) {
+			setError(true);
+			return ;
+		}
 		setBounties(newBounties);
 		setIsLoading(false);
 	}
 
 	async function getMoreData(order){
 		setComplete(true);
-		const newBounties = await getBountyData(order, pagination);
+		let newBounties;
+		try{
+			newBounties = await getBountyData(order, pagination);}
+		catch (err) {
+			setError(true);
+			return ;
+		}
 		if(newBounties.length === batch){
 			setComplete(false);
 		}
@@ -115,14 +129,14 @@ const organization = () => {
 	// Render
 	return (
 		<>
-			{githubOutage ?
-				<GithubDown />
+			{error ?
+				<UnexpectedError />
 				:
 				<div className="bg-dark-mode pt-10">
 					<Toggle toggleFunc={setShowAbout} toggleVal={showAbout} names={['Bounties', 'About']} />
 					{(showAbout === 'About') ?
 						<About organizationData={organizationData} tokenValues={tokenValues} /> :
-						<div className="sm:grid px-4 xl:grid-cols-wide justify-center w-f pt-8 gap-4">
+						<div className="sm:grid xl:grid-cols-wide justify-center w-f pt-8 gap-4">
 							<LargeOrganizationCard organization={organizationData} />
 							<BountyList bounties={bounties}  loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />
 						</div>}
