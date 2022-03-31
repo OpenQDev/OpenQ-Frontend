@@ -211,21 +211,21 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 			</li>)}
 			</ul>}
 			<div className="flex md:content-start content-center flex-wrap w-full justify-items-stretch gap-4">
+				<div className="flex justify-between bg-dark-mode end rounded-md">
+					<span className="text-white p-2 border-t border-l border-b rounded-l-md border-web-gray align-self-center pr-8">Sort By</span>
+					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} names={['Newest', 'Oldest']} borderShape={'rounded-r-md'} width={36} />
+				</div>
 				<div className='flex flex-wrap gap-4'>
-					<div className="flex w-44 p-2 pr-4 gap-2 border rounded-md justify-between border-web-gray">
+					<div className="flex w-32 p-2 pr-4 gap-2 border rounded-md justify-between border-web-gray">
 						<label htmlFor="unfunded" className="text-white">Unfunded</label>
 						<input id="unfunded" type="checkbox" className="h-6 appearance-none w-4 h-4 checked:bg-inactive-accent checked:bg-[url('/checkbox.svg')] focus:outline-none border-2 border-web-gray  checked:border-inactive-accent rounded-sm
 						m-1 bg-dark-mode accent-inactive-accent" onChange={showUnfunded} checked={unfundedVisible} />
 					</div>
-					<div className="flex p-2 w-44 pr-4 gap-2 border rounded-md justify-between border-web-gray">
+					<div className="flex p-2 w-32 pr-4 gap-2 border rounded-md justify-between border-web-gray">
 						<label htmlFor="claimed" className="text-white" >Claimed</label>
 						<input id="claimed" type="checkbox" className="h-6 appearance-none w-4 h-4 checked:bg-inactive-accent checked:bg-[url('/checkbox.svg')] focus:outline-none border-2 border-web-gray checked:border-inactive-accent rounded-sm
 						m-1 bg-dark-mode accent-inactive-accent" onChange={showClaimed} checked={claimedVisible}/>
 					</div>
-				</div>
-				<div className="flex justify-between bg-dark-mode end rounded-md">
-					<span className="text-white p-2 border-t border-l border-b rounded-l-md border-web-gray align-self-center pr-8">Sort By</span>
-					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} names={['Newest', 'Oldest']} borderShape={'rounded-r-md'} width={36} />
 				</div>
 			</div>
 			<div className="text-gray-300 font-mont pt-1 font-normal">
