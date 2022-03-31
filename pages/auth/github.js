@@ -43,8 +43,10 @@ function GitHubAuth() {
 	};
 
 	return (
-		<div>
-			Authenticating with GitHub...
+		<div className='flex fixed inset-0 justify-center'>
+			<div className='text-white h-min self-center'>
+			Authenticating with GitHub. You will be redirected to the Claim page once we{'\''}re done.
+			</div>
 		</div>
 	);
 }
