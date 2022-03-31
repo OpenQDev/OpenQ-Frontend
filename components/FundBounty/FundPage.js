@@ -63,8 +63,13 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 		try {
 			const callerBalance = await appState.openQClient.balanceOf(library, account, token.address);
-
-			if (callerBalance.lt(bigNumberVolumeInWei)) {
+			if(callerBalance.noSigner){
+				const title = 'No wallet connected.';
+				const message = 'Please connect your wallet.';
+				setError({ message, title });
+				setApproveTransferState(ERROR);
+				return;
+			} else if (callerBalance.lt(bigNumberVolumeInWei)) {
 				const title = 'Funds Too Low';
 				const message = 'You do not have sufficient funds for this deposit';
 				setError({ message, title });
