@@ -46,10 +46,6 @@ class MockGithubRepository {
 		return promise;
 	}
 
-	async fetchAvatarUrl() {
-		return 'https://avatars.githubusercontent.com/u/77402538?s=200&v=4';
-	}
-
 	async getIssueData() {
 		const promise = new Promise((resolve, reject) => {
 			axios.get('http://localhost:3030/githubIssues')

@@ -145,21 +145,6 @@ class GithubRepository {
 		return promise;
 	}
 
-	async fetchAvatarUrl() {
-		const promise = new Promise(async (resolve, reject) => {
-			try {
-				const result = await this.client.query({
-					query: GET_CURRENT_USER_AVATAR_URL,
-				});
-				resolve(result);
-			} catch (e) {
-				reject(e);
-			}
-		});
-
-		return promise;
-	}
-
 	async fetchClosedEventByIssueId(issueId) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {

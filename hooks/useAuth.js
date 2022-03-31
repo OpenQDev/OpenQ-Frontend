@@ -9,7 +9,7 @@ const useAuth = () => {
 		async function checkAuth() {
 			axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/checkAuth`, { withCredentials: true })
 				.then((res) => {
-					setAuthState({ type: 'UPDATE_IS_AUTHENTICATED', payload: res.data.isAuthenticated });
+					setAuthState({ type: 'UPDATE_IS_AUTHENTICATED', payload: { isAuthenticated: res.data.isAuthenticated, avatarUrl: res.data.avatarUrl } });
 				})
 				.catch((error) => {
 					console.error(error);

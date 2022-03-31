@@ -190,14 +190,6 @@ query($issueIds: [ID!]!) {
   }
 }`;
 
-export const GET_CURRENT_USER_AVATAR_URL = gql`
-  query {
-    viewer {
-      avatarUrl
-      login
-    }
-  }
-`;
 export const GET_ISSUE_CLOSER = gql`query($issueId:ID!) {
   node(id: $issueId) {
     ... on Issue {
