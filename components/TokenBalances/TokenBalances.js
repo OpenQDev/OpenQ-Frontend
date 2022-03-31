@@ -73,6 +73,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 									<div className="pt-1">
 										<Image
 											src={tokenMetadata[tokenAddress].logoURI}
+											className="rounded-full"
 											alt="n/a"
 											width="16"
 											height="16"

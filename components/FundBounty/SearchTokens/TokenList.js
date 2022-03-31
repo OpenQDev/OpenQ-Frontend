@@ -65,6 +65,7 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
 									<div className="pt-2">
 										<Image
 											src={token.logoURI}
+											className="rounded-full"
 											alt="n/a"
 											width="25%"
 											height="25%"

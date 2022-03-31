@@ -186,7 +186,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 	// Render
 	return (
-		<div>
+		<>
 			<div className="flex justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none p-5">
 				<div className="md:w-1/2 lg:w-1/3 xl:w-1/4 space-y-5">
 					<div ref={menuRef} className="w-full">
@@ -239,7 +239,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 				/>
 			)}
 			<div className="bg-overlay fixed inset-0 z-10"></div>
-		</div>
+		</>
 	);
 };
 

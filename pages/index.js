@@ -1,6 +1,5 @@
 // Third Party
 import React, { useState, useContext, useEffect } from 'react';
-import Head from 'next/head';
 import StoreContext from '../store/Store/StoreContext';
 
 // Custom
@@ -91,14 +90,6 @@ export default function Index() {
 
 	return (
 		<div>
-			<Head>
-				<title>OpenQ</title>
-				<meta
-					name="OpenQ Bounties"
-					content="width=device-width, initial-scale=1.0"
-				/>
-				<link rel="icon" href="/favicon.ico" />
-			</Head>
 			<main>
 				<div className="bg-dark-mode pt-10 flex-col">
 					<div className="flex justify-center pb-8">

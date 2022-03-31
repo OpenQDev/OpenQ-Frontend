@@ -37,7 +37,6 @@ const BountyCardDetailsModal = ({ bounty, TVL, closeModal, tokenValues}) => {
 					<div className="text-base">
 						<BountyStatus bounty={bounty} />
 					</div>
-					<Link href={`/bounty/${bounty.bountyAddress}`}>link</Link>
 					<div className="flex justify-between pb-4">
 						{bounty.labels.length>0 && 
 						<LabelsList bounty={bounty} />}
@@ -50,8 +49,10 @@ const BountyCardDetailsModal = ({ bounty, TVL, closeModal, tokenValues}) => {
 							<TokenBalances tokenBalances={bounty.bountyTokenBalances} tokenValues={tokenValues} showOne={true}/>						
 						</div>
 						<Link href={`/bounty/${bounty.bountyAddress}`}>
-							<div onClick={closeModal} className="border border-web-gray px-4 pb-1 pt-1 w-max rounded-md cursor-pointer">more...
-							</div>
+							<a target={'_blank'}>
+								<div onClick={closeModal} className="border border-web-gray px-4 pb-1 pt-1 w-max rounded-md cursor-pointer">more...
+								</div>
+							</a>
 						</Link>
 					</div>}
 					<section className="github_markup" dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}></section>
