@@ -3,14 +3,15 @@
 import React, { useState } from 'react';
 
 const ToolTip = (props)=>{
-	const {toolTipText, customOffsets} = props;
+	const {toolTipText, customOffsets, hideToolTip} = props;
 	const [x, y] = customOffsets;
 	const [isToolTip, setIsTooltip] = useState();
 	const showToolTip = (e) =>{
 		setIsTooltip([e.pageX, e.pageY]);
 	};
+	if(hideToolTip)return props.children;
 	return (
-		<div className='text-white' onMouseEnter={showToolTip} onMouseLeave={()=>setIsTooltip(false)}>
+		<div className='text-white' onMouseMove={showToolTip} onMouseLeave={()=>setIsTooltip(false)}>
 			{props.children}	
 			{isToolTip&& <div 
 				style={{
