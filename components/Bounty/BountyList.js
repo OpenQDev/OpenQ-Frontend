@@ -6,7 +6,6 @@ import BountyCard from './BountyCard';
 import Dropdown from '../Toggle/Dropdown';
 import SearchBar from '../Search/SearchBar';
 import MintBountyButton from '../MintBounty/MintBountyButton';
-import Skeleton from 'react-loading-skeleton';
 
 const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) => {
 	// Hooks
@@ -229,12 +228,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 				</div>
 			</div>
 			<div className="text-gray-300 font-mont pt-1 font-normal">
-				{process.env.NEXT_PUBLIC_DEPLOY_ENV === 'docker' ? !isProcessed || loading  ?
-					<Skeleton  baseColor="#333" borderRadius={'1rem'} height={'12px'} width={100}/>:
-					<>
-						{searchedBounties.length && searchedBounties.length}
-						{searchedBounties.length == 1 ? ' Bounty found' : ' Bounties found'}
-					</>: null}
+				
 			</div>
 			{ !isProcessed || loading?
 				<>
