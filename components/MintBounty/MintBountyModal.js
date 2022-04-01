@@ -38,7 +38,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 	// GitHub Issue State
 	const [issueUrl, setIssueUrl] = useState('');
 	const [isLoadingIssueData, setIsLoadingIssueData] = useState('');
-	const [, setShowErrorModal] = useState(false);
+	const [errorModal, setShowErrorModal] = useState(false);
 
 	const {
 		bountyAddress,
@@ -51,10 +51,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 		error
 	} = mintBountyState;
 
-	// Refs
-	let menuRef = useRef();
-	let notifyMenuRef;
-
 	useEffect(() => {
 		if (active) {
 			setMintBountyState(WALLET_CONNECTED());
@@ -63,26 +59,9 @@ const MintBountyModal = ({ modalVisibility }) => {
 		}
 	}, [account]);
 
-
-	useEffect(() => {
-		let handler = (event) => {
-			if (!menuRef.current.contains(event.target)) {
-				if (mintBountyState.isBountyMinted) {
-					if (!notifyMenuRef.current.contains(event.target)) {
-						modalVisibility(false);
-					}
-				} else {
-					modalVisibility(false);
-				}
-			}
-		};
-
-		window.addEventListener('mousedown', handler);
-
-		return () => {
-			window.removeEventListener('mousedown', handler);
-		};
-	});
+	// Refs
+	
+	const modal = useRef();
 
 	// Hooks
 	useEffect(async() => {
@@ -143,12 +122,30 @@ const MintBountyModal = ({ modalVisibility }) => {
 					}
 				} catch (error) {
 					setMintBountyState(ERROR(error));
+					setShowErrorModal(true);
 				}
 			}
 
 			alreadyExists();
 		}
 	}, [mintBountyState.issueData]);
+	
+	useEffect(() => {
+		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
+		function handleClickOutside(event) {
+			if (modal.current && !modal.current.contains(event.target)) {
+				modalVisibility(false);
+				setMintBountyState(RESTING_STATE);			
+			}
+		}
+
+		// Bind the event listener
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			// Unbind the event listener on clean up
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [modal]);
 
 	// Methods
 	function sleep(ms) {
@@ -181,65 +178,70 @@ const MintBountyModal = ({ modalVisibility }) => {
 			console.log('error in mintbounty', error);
 			const { message, title } = appState.openQClient.handleError(error);
 			setMintBountyState(TRANSACTION_FAILURE({ message, title }));
+			setShowErrorModal(true);
 		}
 	}
 
+	const closeModal = ()=>{
+		setShowErrorModal(false);
+		modalVisibility(false);
+	};
+
 	// Render
 	return (
-		<>
-			<div className="flex justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none p-5">
-				<div className="md:w-1/2 lg:w-1/3 xl:w-1/4 space-y-5">
-					<div ref={menuRef} className="w-full">
-						<div className="border-0 rounded-xl shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none z-11">
-							<MintBountyHeader />
-							<div className="flex flex-col pl-6 pr-6 space-y-2">
-								<MintBountyInput
-									setIssueUrl={setIssueUrl}
-									issueData={issueData}
-									isValidUrl={isValidUrl}
-								/>
-							</div>
-							{/* {error ? errorMessage : null} */}
-							{isValidUrl && !issueFound && isLoadingIssueData ? (
-								<div className="pl-10 pt-5">
-									<LoadingIcon bg={'white'} />
+		<div className="flex justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-5">
+			{errorModal ? 
+				<ErrorModal
+					setShowErrorModal={closeModal}
+					error={error}
+				/>:
+				<>
+					<div ref={modal} className="md:w-1/2 lg:w-1/3 xl:w-1/4 space-y-5 z-50">
+						<div className="w-full">
+							<div className="border-0 rounded-xl shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none z-11">
+								<MintBountyHeader />
+								<div className="flex flex-col pl-6 pr-6 space-y-2">
+									<MintBountyInput
+										setIssueUrl={setIssueUrl}
+										issueData={issueData}
+										isValidUrl={isValidUrl}
+									/>
 								</div>
-							) : null}
-							{isValidUrl && !issueFound && !isLoadingIssueData ? (
-								<div className="pl-10 pt-5 text-white">
-									Github Issue not found
-								</div>
-							) : null}
-							<div className="flex flex-row justify-center space-x-1 px-8">
-								{isValidUrl && issueClosed && issueFound ? (
-									<div className="pt-3 text-white">
-										This issue is already closed on GitHub
+								{/* {error ? errorMessage : null} */}
+								{isValidUrl && !issueFound && isLoadingIssueData ? (
+									<div className="pl-10 pt-5">
+										<LoadingIcon bg={'white'} />
 									</div>
 								) : null}
-								{isValidUrl && bountyAddress && issueFound ? (
-									<BountyAlreadyMintedMessage bountyAddress={bountyAddress} />
+								{isValidUrl && !issueFound && !isLoadingIssueData ? (
+									<div className="pl-10 pt-5 text-white">
+									Github Issue not found
+									</div>
 								) : null}
-							</div>
+								<div className="flex flex-row justify-center space-x-1 px-8">
+									{isValidUrl && issueClosed && issueFound ? (
+										<div className="pt-3 text-white">
+										This issue is already closed on GitHub
+										</div>
+									) : null}
+									{isValidUrl && bountyAddress && issueFound ? (
+										<BountyAlreadyMintedMessage bountyAddress={bountyAddress} />
+									) : null}
+								</div>
 
-							<div className="flex items-center justify-center p-5 rounded-b w-full">
-								<MintBountyModalButton
-									mintBounty={mintBounty}
-									enableMint={enableMint}
-									transactionPending={transactionPending}
-								/>
+								<div className="flex items-center justify-center p-5 rounded-b w-full">
+									<MintBountyModalButton
+										mintBounty={mintBounty}
+										enableMint={enableMint}
+										transactionPending={transactionPending}
+									/>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-			{error && (
-				<ErrorModal
-					setShowErrorModal={setShowErrorModal}
-					error={error}
-				/>
-			)}
-			<div className="bg-overlay fixed inset-0 z-10"></div>
-		</>
+					<div className="bg-overlay fixed inset-0 z-10"></div>
+				</>}
+		</div>
 	);
 };
 

@@ -1,15 +1,13 @@
 // Third Party
 import React from 'react';
 import Link from 'next/link';
-import {useRouter} from 'next/router';
 import Skeleton from 'react-loading-skeleton';
 import Image from 'next/image';
 
 // Custom
 
 const BountyLinks = ({ bounty, hideBountyLink }) => {
-	const router = useRouter();
-	const tweetText = router.query.first ? `I\'ve just created a bounty ${bounty?.twitterUsername ? `for %40${bounty.twitterUsername} `:''}on the OpenQ platform by @openqlabs! Check it out at ` : 'Check out this bounty on the OpenQ platform by @openqlabs! ';
+	const tweetText = `Check out this bounty ${bounty?.owner && `for ${bounty?.owner}`} on OpenQ. You can claim it just by making a pull requesting that completes the issue! `;
 	return (
 		<div className="flex flex-row font-bold text-xl space-x-4">
 			{!hideBountyLink ? bounty ? <Link

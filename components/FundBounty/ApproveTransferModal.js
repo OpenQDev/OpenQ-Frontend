@@ -1,5 +1,5 @@
 // Third Party
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 
 // Custom
 import {
@@ -21,11 +21,28 @@ const ApproveTransferModal = ({
 	positiveOption,
 	confirmMethod
 }) => {
-
+	const modal= useRef();
 	const updateModal = () => {
 		resetState();
 		setShowApproveTransferModal(false);
 	};
+
+	
+	useEffect(() => {
+		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
+		function handleClickOutside(event) {
+			if (modal.current && !modal.current.contains(event.target)) {
+				updateModal();				
+			}
+		}
+
+		// Bind the event listener
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			// Unbind the event listener on clean up
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [modal]);
 
 	let title = {
 		[CONFIRM]: 'Confirm',
@@ -45,8 +62,8 @@ const ApproveTransferModal = ({
 
 	return (
 		<div>
-			<div onClick={() => {if(approveTransferState!==TRANSFERRING) updateModal();}} className="justify-center items-center font-mont flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-				<div className="w-1/4">
+			<div className="justify-center items-center font-mont flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+				<div ref={modal} className="w-1/4">
 					<div className="border-0 rounded-lg p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none">
 						<div className="flex items-center justify-center border-solid">
 							<div className="flex flex-row">
