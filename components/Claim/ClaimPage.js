@@ -25,6 +25,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	const [transactionHash, setTransactionHash] = useState(null);
 	const [claimState, setClaimState] = useState(CONFIRM_CLAIM);
 	const [showClaimLoadingModal, setShowClaimLoadingModal] = useState(false);
+	const [justClaimed, setJustClaimed] = useState(false);
 	const canvas = useRef();
 
 	const claimed = bounty.status == 'CLOSED';
@@ -61,6 +62,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 				setClaimState(TRANSACTION_SUBMITTED);
 				await library.waitForTransaction(txnHash);
 				setClaimState(TRANSACTION_CONFIRMED);
+				setJustClaimed(true);
 				refreshBounty();
 				setClaimState(CONFIRM_CLAIM);
 				
@@ -87,7 +89,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 
 	if (claimed) {
 		return (
-			<BountyClosed bounty={bounty} />
+			<BountyClosed bounty={bounty} showTweetLink={justClaimed} />
 		);
 	} else {
 		return (
