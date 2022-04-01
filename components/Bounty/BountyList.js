@@ -227,9 +227,6 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 					</div>
 				</div>
 			</div>
-			<div className="text-gray-300 font-mont pt-1 font-normal">
-				
-			</div>
 			{ !isProcessed || loading?
 				<>
 					<BountyCard loading={true} />
