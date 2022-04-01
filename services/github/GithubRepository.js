@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { GET_ORG_BY_ID, GET_ORG_BY_NAME, GET_ISSUE, GET_CURRENT_USER_AVATAR_URL, GET_ISSUE_BY_ID, GET_ISSUES_BY_ID, GET_ORGS_BY_ISSUES, GET_ISSUE_CLOSER } from './graphql/query';
+import { GET_ORG_BY_ID, GET_ORG_BY_NAME, GET_ISSUE, GET_ISSUE_BY_ID, GET_ISSUES_BY_ID, GET_ORGS_BY_ISSUES, GET_ISSUE_CLOSER } from './graphql/query';
 import fetch from 'cross-fetch';
 import { setContext } from '@apollo/client/link/context';
 
