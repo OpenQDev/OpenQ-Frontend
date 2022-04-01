@@ -79,8 +79,8 @@ const address = () => {
 		if (address) {
 			const route = sessionStorage.getItem(address);
 		
-			if(route&&route!==internalMenu){
-				setInternalMenu(route);
+			if(route!==internalMenu){
+				setInternalMenu(route || 'View');
 			}
 			setRedirectUrl(`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${address}`);
 			populateBountyData();
@@ -115,11 +115,13 @@ const address = () => {
 	}
 	else return (
 		<div className="flex flex-col font-mont justify-center items-center pt-7">
-			<Toggle toggleFunc={handleToggle} toggleVal={internalMenu||'View'} names={['View', 'Fund', 'Refund', 'Claim']}/>
-			{internalMenu == 'Fund' && bounty  ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : 
-				internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : 
-					internalMenu == 'Refund' && bounty ? (<RefundPage bounty={bounty} refreshBounty={refreshBounty} />) : 
-						<BountyCardDetails bounty={bounty} tokenValues={tokenValues} />}
+			<Toggle toggleFunc={handleToggle} toggleVal={internalMenu} names={['View', 'Fund', 'Refund', 'Claim']}/>
+			{internalMenu == 'View' ? (
+				<BountyCardDetails bounty={bounty} tokenValues={tokenValues} />
+			) : null}
+			{internalMenu == 'Fund' && bounty  ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
+			{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
+			{internalMenu == 'Refund' && bounty ? (<RefundPage bounty={bounty} refreshBounty={refreshBounty} />) : null}
 			<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>
 		</div>
 	);
