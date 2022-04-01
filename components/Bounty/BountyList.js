@@ -161,8 +161,8 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 		if(node){
 
 			let options = {
-				rootMargin: '50px',
-				threshold: 1
+				rootMargin: '100px',
+				threshold: .1
 			};
 			const callback = (entries)=>{
 				if(entries[0].isIntersecting&&isProcessed&&!complete&&!loading){
@@ -178,7 +178,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 
 	// Render
 	return (
-		<div className="xl:col-start-2 justify-self-center space-y-3 xl:w-full xl:max-w-6xl">
+		<div className="xl:col-start-2 justify-self-center space-y-3 xl:w-full xl:max-w-6xl pb-8">
 			<div className="grid lg:grid-cols-[repeat(4,_1fr)] gap-6">
 				<div className="flex rounded-lg lg:col-span-3 col-span-4 justify-center">
 					{tagSearch==='Search' ?

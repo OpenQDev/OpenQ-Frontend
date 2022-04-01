@@ -15,7 +15,7 @@ const organization = () => {
 	const [appState] = useContext(StoreContext);
 	const router = useRouter();
 
-	const batch=3;
+	const batch=10;
 	// State
 	const { organization } = router.query;
 	const [isLoading, setIsLoading] = useState(true);
