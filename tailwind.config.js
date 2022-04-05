@@ -82,6 +82,22 @@ module.exports = {
 		gridTemplateColumns: {
 			'wide': '1fr 2fr 1fr',
 			'annoying': 'repeat( auto-fit, 192px)',
+		},
+		keyframes: {
+			bump: {
+				'0%':{
+					transform: 'translate(0, 0)'
+				},
+				'50%':{
+					transform: 'translate(0, -.1rem)  scale(1.10)'
+				},
+			
+				'100%':{
+					transform: 'translate(0, 0) scale(1.10)',
+				},	}		
+		},
+		animation: {
+			'single-bounce': 'bump 1s ease-in-out forwards'
 		}
 	},
 	variants: {
