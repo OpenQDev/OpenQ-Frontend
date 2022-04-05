@@ -38,7 +38,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const [token, setToken] = useState(appState.tokens[0]);
 
 	const claimed = bounty.status == 'CLOSED';
-	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) == 0 || volume == '';
+	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) == 0 || volume == '' || !account;
 	const disableOrEnable = `${loadingClosedOrZero ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`;
 	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${disableOrEnable}`;
 
@@ -89,6 +89,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		try {
 			setShowApproveTransferModal(true);
 			if (token.address != ethers.constants.AddressZero) {
+				setButtonText('Approving');
+				setApproveTransferState(APPROVING);
 				await appState.openQClient.approve(
 					library,
 					bounty.bountyAddress,
@@ -165,7 +167,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 					<div className="flex w-full flex-row justify-between items-center px-4 py-3 rounded-lg py-1 bg-dark-mode border border-web-gray text-white">
 						<div className='text-white flex items-center gap-3 w-full'>
-							<ToolTip customOffsets={[370, 100]} styles="w-96" toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
+							<ToolTip customOffsets={[380, 120]} styles="w-96" toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
 								<div className='cursor-help rounded-full border-2 border-web-gray aspect-square leading-6 h-6 box-content text-center font-bold text-web-gray'>?</div>
 							</ToolTip>
 							<span>Deposit Locked Period</span>
@@ -183,31 +185,33 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					</div>
 
 					<div>
-						<button
-							className={fundButtonClasses}
-							disabled={loadingClosedOrZero}
-							type="button"
-							onClick={() => {
-								setConfirmationMessage(
-									`You are about to fund this bounty at address ${bounty.bountyAddress.substring(
-										0,
-										12
-									)}...${bounty.bountyAddress.substring(32)} with ${volume} ${token.name
-									}.
+						<ToolTip hideToolTip={account} toolTipText={'Connect your wallet to fund this bounty!'} customOffsets={[0,0]}>
+							<button
+								className={fundButtonClasses}
+								disabled={loadingClosedOrZero}
+								type="button"
+								onClick={() => {
+									setConfirmationMessage(
+										`You are about to fund this bounty at address ${bounty.bountyAddress.substring(
+											0,
+											12
+										)}...${bounty.bountyAddress.substring(32)} with ${volume} ${token.name
+										}.
 									
 									This will be refundable after ${depositPeriodDays} ${depositPeriodDays == 1 ? 'day' : 'days'}.
 									
 									Is this correct?`
-								);
-								setApproveTransferState(CONFIRM);
-								setShowApproveTransferModal(true);
-							}}
-						>
-							<div>{buttonText}</div>
-							<div>{approveTransferState != RESTING && approveTransferState != SUCCESS && approveTransferState != ERROR ? (
-								<ButtonLoadingIcon />
-							) : null}</div>
-						</button>
+									);
+									setApproveTransferState(CONFIRM);
+									setShowApproveTransferModal(true);
+								}}
+							>
+								<div>{buttonText}</div>
+								<div>{approveTransferState != RESTING && approveTransferState != SUCCESS && approveTransferState != ERROR ? (
+									<ButtonLoadingIcon />
+								) : null}</div>
+							</button>
+						</ToolTip>
 					</div>
 				</div>
 

@@ -8,7 +8,7 @@ import OrganizationHomepage from '../components/Organization/OrganizationHomepag
 
 export default function Index() {
 	const [internalMenu, setInternalMenu] = useState('org');
-	const batch = 3;
+	const batch = 10;
 	// State
 	const [bounties, setBounties] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);

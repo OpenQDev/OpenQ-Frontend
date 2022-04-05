@@ -6,7 +6,6 @@ import BountyCard from './BountyCard';
 import Dropdown from '../Toggle/Dropdown';
 import SearchBar from '../Search/SearchBar';
 import MintBountyButton from '../MintBounty/MintBountyButton';
-import Skeleton from 'react-loading-skeleton';
 
 const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) => {
 	// Hooks
@@ -55,7 +54,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 			}, true);
 
 			const isUnclaimed = bounty.status === 'OPEN';
-			const isFunded = bounty.deposits.length>1;
+			const isFunded = bounty.deposits.length>0;
 			return (containsSearch&&containsTag&&(localShowUnfunded||isFunded)&&(localShowClaimed||isUnclaimed));
 		});
 		if(displayBounties.length===0&&!complete){
@@ -162,8 +161,8 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 		if(node){
 
 			let options = {
-				rootMargin: '50px',
-				threshold: 1
+				rootMargin: '100px',
+				threshold: .1
 			};
 			const callback = (entries)=>{
 				if(entries[0].isIntersecting&&isProcessed&&!complete&&!loading){
@@ -179,7 +178,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 
 	// Render
 	return (
-		<div className="xl:col-start-2 justify-self-center space-y-3 xl:w-full xl:max-w-6xl">
+		<div className="xl:col-start-2 justify-self-center space-y-3 xl:w-full xl:max-w-6xl pb-8">
 			<div className="grid lg:grid-cols-[repeat(4,_1fr)] gap-6">
 				<div className="flex rounded-lg lg:col-span-3 col-span-4 justify-center">
 					{tagSearch==='Search' ?
@@ -227,14 +226,6 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 						m-1 bg-dark-mode accent-inactive-accent" checked={claimedVisible}/>
 					</div>
 				</div>
-			</div>
-			<div className="text-gray-300 font-mont pt-1 font-normal">
-				{process.env.NEXT_PUBLIC_DEPLOY_ENV === 'docker' ? !isProcessed || loading  ?
-					<Skeleton  baseColor="#333" borderRadius={'1rem'} height={'12px'} width={100}/>:
-					<>
-						{searchedBounties.length && searchedBounties.length}
-						{searchedBounties.length == 1 ? ' Bounty found' : ' Bounties found'}
-					</>: null}
 			</div>
 			{ !isProcessed || loading?
 				<>
