@@ -60,11 +60,11 @@ const MintBountyModal = ({ modalVisibility }) => {
 	}, [account]);
 
 	// Refs
-	
+
 	const modal = useRef();
 
 	// Hooks
-	useEffect(async() => {
+	useEffect(async () => {
 		setMintBountyState(RESTING_STATE());
 
 		let pathArray = appState.utils.parseGitHubUrl(issueUrl);
@@ -72,12 +72,12 @@ const MintBountyModal = ({ modalVisibility }) => {
 		if (pathArray == null) {
 			setMintBountyState(INVALID_URL());
 		} else {
-			const [ orgName,repoName, issueNumber] = pathArray;
+			const [orgName, repoName, issueNumber] = pathArray;
 			try {
 				const orgData = await appState.githubRepository.fetchOrganizationByName(orgName
 				);
 				setMintBountyState(VALID_URL(orgData.id, repoName, issueNumber));
-				
+
 			} catch (error) {
 				console.log(error);
 			}
@@ -129,13 +129,12 @@ const MintBountyModal = ({ modalVisibility }) => {
 			alreadyExists();
 		}
 	}, [mintBountyState.issueData]);
-	
+
 	useEffect(() => {
 		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
 		function handleClickOutside(event) {
 			if (modal.current && !modal.current.contains(event.target)) {
 				modalVisibility(false);
-				setMintBountyState(RESTING_STATE);			
 			}
 		}
 
@@ -182,7 +181,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 		}
 	}
 
-	const closeModal = ()=>{
+	const closeModal = () => {
 		setShowErrorModal(false);
 		modalVisibility(false);
 	};
@@ -190,11 +189,11 @@ const MintBountyModal = ({ modalVisibility }) => {
 	// Render
 	return (
 		<div className="flex justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-5">
-			{errorModal ? 
+			{errorModal ?
 				<ErrorModal
 					setShowErrorModal={closeModal}
 					error={error}
-				/>:
+				/> :
 				<>
 					<div ref={modal} className="md:w-1/2 lg:w-1/3 xl:w-1/4 space-y-5 z-50">
 						<div className="w-full">
@@ -215,13 +214,13 @@ const MintBountyModal = ({ modalVisibility }) => {
 								) : null}
 								{isValidUrl && !issueFound && !isLoadingIssueData ? (
 									<div className="pl-10 pt-5 text-white">
-									Github Issue not found
+										Github Issue not found
 									</div>
 								) : null}
 								<div className="flex flex-row justify-center space-x-1 px-8">
 									{isValidUrl && issueClosed && issueFound ? (
 										<div className="pt-3 text-white">
-										This issue is already closed on GitHub
+											This issue is already closed on GitHub
 										</div>
 									) : null}
 									{isValidUrl && bountyAddress && issueFound ? (
