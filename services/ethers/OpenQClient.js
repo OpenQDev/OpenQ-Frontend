@@ -12,6 +12,8 @@ class OpenQClient {
 		 * @returns Web3Contract
 		 */
 	OpenQ = (signer) => {
+		console.log('OpenQABI.abi', OpenQABI.abi);
+		console.log('process.env.NEXT_PUBLIC_OPENQ_ADDRESS', process.env.NEXT_PUBLIC_OPENQ_ADDRESS);
 		const contract = new ethers.Contract(process.env.NEXT_PUBLIC_OPENQ_ADDRESS, OpenQABI.abi, signer);
 		return contract;
 	};
@@ -66,8 +68,8 @@ class OpenQClient {
 	async balanceOf(library, _callerAddress, _tokenAddress) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library?.getSigner();
-			if(!signer){
-				resolve({noSigner: true});
+			if (!signer) {
+				resolve({ noSigner: true });
 			}
 			const contract = this.ERC20(_tokenAddress, signer);
 			try {
