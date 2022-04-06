@@ -38,6 +38,7 @@ export const ISSUE_FOUND = (issue) => {
 		issueClosed: issue.closed,
 		issueData: issue,
 		issueId: issue.id,
+		orgId: issue.repository.owner.id,
 		issueFound: true,
 	};
 };
@@ -49,12 +50,10 @@ export const ISSUE_NOT_FOUND = () => {
 	};
 };
 
-export const VALID_URL = (orgName, repoName, issueNumber) => {
+export const VALID_URL = (issueUrl) => {
 	return {
 		isValidUrl: true,
-		orgName,
-		repoName,
-		issueNumber,
+		issueUrl
 	};
 };
 

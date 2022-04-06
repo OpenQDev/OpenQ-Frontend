@@ -12,8 +12,6 @@ class OpenQClient {
 		 * @returns Web3Contract
 		 */
 	OpenQ = (signer) => {
-		console.log('OpenQABI.abi', OpenQABI.abi);
-		console.log('process.env.NEXT_PUBLIC_OPENQ_ADDRESS', process.env.NEXT_PUBLIC_OPENQ_ADDRESS);
 		const contract = new ethers.Contract(process.env.NEXT_PUBLIC_OPENQ_ADDRESS, OpenQABI.abi, signer);
 		return contract;
 	};

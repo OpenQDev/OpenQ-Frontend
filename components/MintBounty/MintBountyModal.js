@@ -23,7 +23,7 @@ import {
 	ISSUE_NOT_FOUND,
 	WALLET_CONNECTED,
 	WALLET_DISCONNECTED
-} from './States';
+} from './MintBountyStates';
 import MintBountyModalButton from './MintBountyModalButton';
 import MintBountyHeader from './MintBountyHeader';
 import MintBountyInput from './MintBountyInput';
@@ -70,20 +70,12 @@ const MintBountyModal = ({ modalVisibility }) => {
 	useEffect(async () => {
 		setMintBountyState(RESTING_STATE());
 
-		let pathArray = appState.utils.parseGitHubUrl(issueUrl);
+		let issurUrlIsValid = appState.utils.issurUrlRegex(issueUrl);
 
-		if (pathArray == null) {
-			setMintBountyState(INVALID_URL());
+		if (issurUrlIsValid) {
+			setMintBountyState(VALID_URL(issueUrl));
 		} else {
-			const [orgName, repoName, issueNumber] = pathArray;
-			try {
-				const orgData = await appState.githubRepository.fetchOrganizationByName(orgName
-				);
-				setMintBountyState(VALID_URL(orgData.id, repoName, issueNumber));
-
-			} catch (error) {
-				console.log(error);
-			}
+			setMintBountyState(INVALID_URL(issueUrl));
 		}
 	}, [issueUrl]);
 
@@ -100,16 +92,11 @@ const MintBountyModal = ({ modalVisibility }) => {
 				} catch (error) {
 					setIsLoadingIssueData(false);
 					setMintBountyState(ISSUE_NOT_FOUND(error));
-					setMintBountyState(ISSUE_NOT_FOUND(error));
 				}
 			}
 			fetchIssue();
 		}
-	}, [
-		mintBountyState.issueNumber,
-		mintBountyState.orgName,
-		mintBountyState.repoName,
-	]);
+	}, [mintBountyState.issueUrl]);
 
 	useEffect(() => {
 		if (mintBountyState.issueData) {
@@ -148,7 +135,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
 	}, [modal]);
-	
+
 	useEffect(() => {
 		setIsOnCorrectNetwork(
 			chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'] ==
@@ -167,7 +154,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 			const { bountyAddress } = await appState.openQClient.mintBounty(
 				library,
 				mintBountyState.issueId,
-				mintBountyState.orgName
+				mintBountyState.orgId
 			);
 
 			let bountyId = null;
@@ -239,16 +226,16 @@ const MintBountyModal = ({ modalVisibility }) => {
 									) : null}
 								</div>
 
-								<ToolTip 
+								<ToolTip
 									hideToolTip={enableMint}
 									toolTipText={
 										account && isOnCorrectNetwork ?
-											'Please choose an elgible issue.':
-											account ? 
-												'Please switch to the correct network to fund this bounty.' : 
-												'Connect your wallet to fund this bounty!' } 
+											'Please choose an elgible issue.' :
+											account ?
+												'Please switch to the correct network to fund this bounty.' :
+												'Connect your wallet to fund this bounty!'}
 									customOffsets={account && isOnCorrectNetwork ?
-										[240, 42] : 
+										[240, 42] :
 										account ? [410, 42] :
 											[300, 42]}>
 									<div className="flex items-center justify-center p-5 rounded-b w-full">
