@@ -5,12 +5,12 @@ import AuthContext from '../../store/AuthStore/AuthContext';
 import SignOut from './SignOut';
 import SignIn from './SignIn';
 
-const AuthButton = ({ redirectUrl }) => {
+const AuthButton = ({ redirectUrl, propicUrl, styles }) => {
 	const [authState,] = useContext(AuthContext);
 
 	return (
 		<>
-			{authState.isAuthenticated ? <SignOut /> : <SignIn redirectUrl={redirectUrl} />}
+			{authState.isAuthenticated ? <SignOut propicUrl={propicUrl} styles={styles} /> : <SignIn redirectUrl={redirectUrl} styles={styles} />}
 		</>
 	);
 };

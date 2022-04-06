@@ -79,9 +79,9 @@ const ConnectButton = () => {
 				<button
 					ref= {buttonRef}
 					onClick={()=>{setShowModal(!showModal);}}
-					className="group flex gap-x-3 font-mont whitespace-nowrap rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
+					className="group flex items-center gap-x-3 h-12 font-mont whitespace-nowrap rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
 				>
-					<span className="border-2 border-inactive-accent rounded-full leading-3 group-hover:border-active-accent" ref={iconWrapper}></span>
+					<span className="border-2 border-inactive-accent rounded-full h-7 group-hover:border-active-accent" ref={iconWrapper}></span>
 					<span className='py'>{ensName|| `${firstThree}...${lastThree}`}</span>
 				</button>
 				{showModal&&
@@ -99,7 +99,7 @@ const ConnectButton = () => {
 			<div>
 				<button
 					onClick={addOrSwitchNetwork}
-					className="font-mont whitespace-nowrap rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2.5 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
+					className="flex items-center font-mont whitespace-nowrap h-12 rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2.5 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
 				>
 					Use{' '}
 					{
@@ -116,7 +116,7 @@ const ConnectButton = () => {
 			<div>
 				<button
 					onClick={onClickConnect}
-					className="font-mont whitespace-nowrap rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2.5 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
+					className="flex items-center font-mont whitespace-nowrap h-12 rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
 				>
 					{isConnecting? 'Connecting...': 'Connect Wallet'}
 				</button>

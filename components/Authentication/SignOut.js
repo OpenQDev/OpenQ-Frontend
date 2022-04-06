@@ -5,7 +5,7 @@ import axios from 'axios';
 import AuthContext from '../../store/AuthStore/AuthContext';
 import Image from 'next/image';
 
-const SignOut = () => {
+const SignOut = ({propicUrl, styles}) => {
 	const [, setAuthState] = useContext(AuthContext);
 
 	const signOut = () => {
@@ -27,17 +27,16 @@ const SignOut = () => {
 	return (
 		<button
 			onClick={() => signOut()}
-			className="col-span-3 pb-1 space-x-2 font-mont rounded-lg border border-web-gray py-2 px-3 text-white font-bold cursor-pointer hover:border-white"
+			className={`col-span-3 font-mont py-2 rounded-lg border border-web-gray px-3 text-white font-bold cursor-pointer hover:border-white ${styles}`}
 		>
-			<div className="flex flex-row justify-center space-x-3">
-				<div>
-					<Image
-						src="/BountyMaterial/github-white.png"
-						alt="Picture of the author"
-						width={20}
-						height={20}
-					/>
-				</div>
+			<div className="flex flex-row justify-center items-center space-x-3">
+				<Image
+					src={propicUrl||'/BountyMaterial/github-white.png'}
+					alt="Picture of the author"
+					width={24}
+					height={24}
+					className={'rounded-full'}
+				/>
 				<div>Sign Out</div>
 			</div>
 		</button>
