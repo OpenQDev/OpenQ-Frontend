@@ -94,10 +94,20 @@ module.exports = {
 			
 				'100%':{
 					transform: 'translate(0, 0) scale(1.10)',
-				},	}		
+				},	
+			},
+			spin: {
+				'0%': {
+					transform: 'rotate(0deg)'
+				},
+				'100%': {
+					transform: 'rotate(360deg)'
+				}
+			}	
 		},
 		animation: {
-			'single-bounce': 'bump 1s ease-in-out forwards'
+			'single-bounce': 'bump 1s ease-in-out forwards',
+			'spin':'spin 1s linear infinite'
 		}
 	},
 	variants: {
