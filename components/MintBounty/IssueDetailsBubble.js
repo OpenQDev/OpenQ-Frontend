@@ -11,7 +11,7 @@ export default function IssueDetailsBubble({ issueData }) {
 					<div className="">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							fill="#15FB31"
+							fill={ issueData?.closed ? '#F0431D' : '#15FB31' }
 							viewBox="0 0 16 16"
 							width="17"
 							height="17"

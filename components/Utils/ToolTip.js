@@ -11,9 +11,9 @@ const ToolTip = (props)=>{
 	};
 	if(hideToolTip)return props.children;
 	return (
-		<div className='text-white' onMouseMove={showToolTip} onMouseLeave={()=>setIsTooltip(false)}>
+		<div className={`text-white ${props.outerStyles}`} onMouseMove={showToolTip} onMouseLeave={()=>setIsTooltip(false)}>
 			{props.children}	
-			{isToolTip&& <div 
+			{isToolTip&& <div
 				style={{
 					position: 'fixed',
 					left: (isToolTip[0]-x)>5 ? isToolTip[0]-x : 5,

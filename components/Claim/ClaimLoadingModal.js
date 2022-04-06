@@ -66,7 +66,7 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 							</div>
 						</div>
 						<div className="flex-auto">
-							<p className="text-md text-white pb-12 text-center">
+							<p className="text-md text-white pb-12 text-center break-words">
 								{message[claimState]}
 							</p>
 						</div>

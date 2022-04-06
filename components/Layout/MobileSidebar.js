@@ -23,9 +23,7 @@ const MobileSidebar = () => {
 
 			<div className="flex flex-row space-x-4 items-center">
 				<MobileConnectButton />
-				<div className="w-8 h-8">
-					<ProfilePicture />
-				</div>
+				<ProfilePicture mobile={true} />
 			</div>
 		</div>
 	);

@@ -8,6 +8,8 @@ import StoreContext from '../../store/Store/StoreContext';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import MintBountyContext from './MintBountyStore/MintBountyContext';
 import BountyAlreadyMintedMessage from './BountyAlreadyMintedMessage';
+import ToolTip from '../Utils/ToolTip';
+import chainIdDeployEnvMap from '../WalletConnect/chainIdDeployEnvMap';
 import {
 	RESTING_STATE,
 	BOUNTY_DOES_NOT_EXIST,
@@ -31,7 +33,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
 	const [mintBountyState, setMintBountyState] = useContext(MintBountyContext);
-	const { library, active, account } = useWeb3();
+	const { library, active, account, chainId } = useWeb3();
 	const router = useRouter();
 
 	// State
@@ -39,18 +41,19 @@ const MintBountyModal = ({ modalVisibility }) => {
 	const [issueUrl, setIssueUrl] = useState('');
 	const [isLoadingIssueData, setIsLoadingIssueData] = useState('');
 	const [errorModal, setShowErrorModal] = useState(false);
+	const [isOnCorrectNetwork, setIsOnCorrectNetwork] = useState([]);
 
 	const {
 		bountyAddress,
+		claimed,
 		isValidUrl,
 		issueClosed,
 		transactionPending,
 		issueData,
 		issueFound,
 		enableMint,
-		error
+		error,
 	} = mintBountyState;
-
 	useEffect(() => {
 		if (active) {
 			setMintBountyState(WALLET_CONNECTED());
@@ -145,6 +148,13 @@ const MintBountyModal = ({ modalVisibility }) => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
 	}, [modal]);
+	
+	useEffect(() => {
+		setIsOnCorrectNetwork(
+			chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'] ==
+			chainId
+		);
+	}, [chainId]);
 
 	// Methods
 	function sleep(ms) {
@@ -183,6 +193,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 	const closeModal = () => {
 		setShowErrorModal(false);
+		setMintBountyState(RESTING_STATE());
 		modalVisibility(false);
 	};
 
@@ -217,24 +228,37 @@ const MintBountyModal = ({ modalVisibility }) => {
 										Github Issue not found
 									</div>
 								) : null}
-								<div className="flex flex-row justify-center space-x-1 px-8">
+								<div className="flex flex-col justify-center space-x-1 px-8">
 									{isValidUrl && issueClosed && issueFound ? (
 										<div className="pt-3 text-white">
 											This issue is already closed on GitHub
 										</div>
 									) : null}
 									{isValidUrl && bountyAddress && issueFound ? (
-										<BountyAlreadyMintedMessage bountyAddress={bountyAddress} />
+										<BountyAlreadyMintedMessage claimed={claimed} bountyAddress={bountyAddress} />
 									) : null}
 								</div>
 
-								<div className="flex items-center justify-center p-5 rounded-b w-full">
-									<MintBountyModalButton
-										mintBounty={mintBounty}
-										enableMint={enableMint}
-										transactionPending={transactionPending}
-									/>
-								</div>
+								<ToolTip 
+									hideToolTip={enableMint}
+									toolTipText={
+										account && isOnCorrectNetwork ?
+											'Please choose an elgible issue.':
+											account ? 
+												'Please switch to the correct network to fund this bounty.' : 
+												'Connect your wallet to fund this bounty!' } 
+									customOffsets={account && isOnCorrectNetwork ?
+										[240, 42] : 
+										account ? [410, 42] :
+											[300, 42]}>
+									<div className="flex items-center justify-center p-5 rounded-b w-full">
+										<MintBountyModalButton
+											mintBounty={mintBounty}
+											enableMint={enableMint}
+											transactionPending={transactionPending}
+										/>
+									</div>
+								</ToolTip>
 							</div>
 						</div>
 					</div>

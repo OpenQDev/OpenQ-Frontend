@@ -1,5 +1,5 @@
 // Third Party Libraries
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import confetti from 'canvas-confetti';
 
@@ -17,6 +17,8 @@ import useWeb3 from '../../hooks/useWeb3';
 import ClaimLoadingModal from './ClaimLoadingModal';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import useEns from '../../hooks/useENS';
+import chainIdDeployEnvMap from '../WalletConnect/chainIdDeployEnvMap';
+import ToolTip from '../Utils/ToolTip';
 
 const ClaimPage = ({ bounty, refreshBounty }) => {
 	const { url } = bounty;
@@ -26,17 +28,23 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	const [claimState, setClaimState] = useState(CONFIRM_CLAIM);
 	const [showClaimLoadingModal, setShowClaimLoadingModal] = useState(false);
 	const [justClaimed, setJustClaimed] = useState(false);
+	const [isOnCorrectNetwork, setIsOnCorrectNetwork] = useState(false);
 	const canvas = useRef();
 
 	const claimed = bounty.status == 'CLOSED';
 
 	const updateModal = () => {
 		setShowClaimLoadingModal(false);
-		setClaimState(CONFIRM_CLAIM);
+		if(claimState===TRANSACTION_CONFIRMED){
+			refreshBounty();
+		}
+		else{
+			setClaimState(CONFIRM_CLAIM);
+		}
 	};
 
 	// Context
-	const { account, library } = useWeb3();
+	const { account, library, chainId } = useWeb3();
 	const [ensName] = useEns(account);
 
 	// Hooks
@@ -63,8 +71,6 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 				await library.waitForTransaction(txnHash);
 				setClaimState(TRANSACTION_CONFIRMED);
 				setJustClaimed(true);
-				refreshBounty();
-				setClaimState(CONFIRM_CLAIM);
 				
 				canvas.current.width = window.innerWidth;
 				canvas.current.height = window.innerHeight;
@@ -86,6 +92,14 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 				setError({ message: error.response.data.errorMessage, title: 'Error' });
 			});
 	};
+
+	// Hooks
+	useEffect(() => {
+		setIsOnCorrectNetwork(
+			chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'] ==
+			chainId
+		);
+	}, [chainId]);
 
 	if (claimed) {
 		return (
@@ -109,15 +123,30 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 								Successfully signed in, you can claim your issue now.
 							</div>
 						)}
-
+						
 						<div className="col-span-3 flex gap-3">
-							<button
-								type="submit"
-								className="confirm-btn"
-								onClick={() => setShowClaimLoadingModal(true)}
-							>
+							<ToolTip
+								outerStyles="w-full"
+								hideToolTip={account && isOnCorrectNetwork} 
+								toolTipText={
+									account && isOnCorrectNetwork ?
+										'Please indicate the volume you\'d like to fund with.':
+										account ? 
+											'Please switch to the correct network to fund this bounty.' : 
+											'Connect your wallet to fund this bounty!' } 
+								customOffsets={account && isOnCorrectNetwork ?
+									[370, 42] : 
+									account ? [410, 42] :
+										[300, 42]}>
+								<button
+									type="submit"
+									className={account && isOnCorrectNetwork ? 'confirm-btn cursor-pointer' : 'confirm-btn-disabled cursor-not-allowed text-white' }
+									disabled={!account || !isOnCorrectNetwork}
+									onClick={() => setShowClaimLoadingModal(true)}
+								>
 								Claim
-							</button>
+								</button>
+							</ToolTip>
 						</div>
 						<AuthButton
 							redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyAddress}`}
