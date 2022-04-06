@@ -54,6 +54,11 @@ const MintBountyModal = ({ modalVisibility }) => {
 		enableMint,
 		error,
 	} = mintBountyState;
+
+	// Refs
+	const modal = useRef();
+
+	// Hooks
 	useEffect(() => {
 		if (active) {
 			setMintBountyState(WALLET_CONNECTED());
@@ -62,11 +67,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 		}
 	}, [account]);
 
-	// Refs
-
-	const modal = useRef();
-
-	// Hooks
 	useEffect(async () => {
 		setMintBountyState(RESTING_STATE());
 
