@@ -109,18 +109,18 @@ const BountyCard = ({ bounty, loading }) => {
 				<div className="flex flex-row pt-3 pl-6 pr-3  items-center justify-between xs:pb-5 pb-5 md:pb-0">
 					<div>
 						{bounty?.labels ? (
-							<div className="flex flex-row justify-between gap-2">
+							<div className="flex flex-row flex-wrap justify-between gap-2">
 								{bounty?.labels.map((label, index) => {
 									if (index < 2) {
 										return (
 											<div
 												key={index}
 												style={{
-													borderColor: label.color,
+													borderColor: `#${label.color}`,
 													opacity: .9,
-													color: label.color,
+													color: `#${label.color}`,
 												}}
-												className="font-mont rounded-lg text-xs py-1 px-2 font-bold border text-white"
+												className="font-mont rounded-lg text-xs py-1 px-2 font-bold border text-white truncate"
 											>
 												{label.name}
 											</div>
