@@ -3,7 +3,8 @@ import React, { useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import TokenBalances from '../TokenBalances/TokenBalances';
-const DepositCard = ({ deposit, refundBounty, status }) => {
+import ToolTip from '../Utils/ToolTip';
+const DepositCard = ({ deposit, refundBounty, status, isOnCorrectNetwork }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
 
@@ -30,9 +31,18 @@ const DepositCard = ({ deposit, refundBounty, status }) => {
 				</div>)
 			}
 			{status === 'refundable' &&
-				<button className='items-left w-1/2 text-lg text-white self-center sm-confirm-btn' onClick={() => refundBounty(deposit.id)}>
+			<ToolTip
+				outerStyles="w-full flex justify-center"
+				hideToolTip={ isOnCorrectNetwork} 
+				toolTipText={'Please switch to the correct network to fund this bounty.' } 
+				customOffsets={[415, 42]}>
+				<button	onClick={() => refundBounty(deposit.id)}
+					disabled={!isOnCorrectNetwork}
+					className={`items-left w-1/2 text-lg text-white self-center ${isOnCorrectNetwork ? 'sm-confirm-btn' : 'sm-confirm-btn-disabled cursor-not-allowed' }`} >
 					Refund
-				</button>}
+				</button>
+			</ToolTip>
+			}
 		</div>
 
 	);

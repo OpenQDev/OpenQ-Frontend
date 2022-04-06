@@ -11,6 +11,7 @@ import LoadingIcon from '../Loading/LoadingIcon';
 import DepositCard from './DepositCard';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import useEns from '../../hooks/useENS';
+import chainIdDeployEnvMap from '../WalletConnect/chainIdDeployEnvMap';
 
 const RefundPage = ({ bounty, refreshBounty }) => {
 	const {
@@ -26,21 +27,30 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 	const [successMessage, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
 	const [confirmationMessage, setConfirmationMessage] = useState('');
+	const [isOnCorrectNetwork, setIsOnCorrectNetwork]= useState(true);
 
 	// Context
 	const [appState] = useContext(StoreContext);
-	const { library, account } = useWeb3();
+	const { library, account, chainId } = useWeb3();
 	const [ensName] = useEns(account);
 
 	const claimed = bounty.status == 'CLOSED';
-
+	
+	// Side Effects
 	useEffect(() => {
 		if (bounty) {
 			setConfirmationMessage(
 				`You are about to refund your deposits on issue ${bounty.url} to the address ${ensName||account}. Is this correct ?`
 			);
 		}
-	}, [bounty]);
+	}, [bounty]);	
+	
+	useEffect(() => {
+		setIsOnCorrectNetwork(
+			chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'] ==
+			chainId
+		);
+	}, [chainId]);
 
 	// Methods
 	async function refundBounty(depositId) {
@@ -91,7 +101,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 									.map((deposit) => {
 										return (
 											<div key={deposit.id}>
-												<DepositCard deposit={deposit} status="refundable" bounty={bounty} refundBounty={refundBounty} />
+												<DepositCard deposit={deposit} status="refundable" bounty={bounty} refundBounty={refundBounty} isOnCorrectNetwork={isOnCorrectNetwork}/>
 											</div>
 										);
 									})
