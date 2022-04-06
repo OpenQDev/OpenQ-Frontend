@@ -1,10 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
 
-export default function BountyAlreadyMintedMessage({ bountyAddress }) {
+export default function BountyAlreadyMintedMessage({ bountyAddress, claimed }) {
 	return (
 		<div className="flex flex-row items-center space-x-1">
-			<div className="pt-4 text-white">Bounty is already minted, view</div>
+			<div className="pt-4 text-white">Bounty is already {claimed? 'claimed': 'minted'}, view</div>
 			<Link
 				href={`/?address=${bountyAddress}}`}
 				as={`/bounty/${bountyAddress}`}

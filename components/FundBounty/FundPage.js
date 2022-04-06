@@ -1,5 +1,5 @@
 // Third Party
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { ethers } from 'ethers';
 
 // Custom
@@ -10,6 +10,7 @@ import ButtonLoadingIcon from '../Loading/ButtonLoadingIcon';
 import ToolTip from '../Utils/ToolTip';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import ApproveTransferModal from './ApproveTransferModal';
+import chainIdDeployEnvMap from '../WalletConnect/chainIdDeployEnvMap';
 import {
 	RESTING,
 	CONFIRM,
@@ -29,10 +30,11 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const [confirmationMessage, setConfirmationMessage] = useState('Please enter a volume greater than 0.');
 	const [showApproveTransferModal, setShowApproveTransferModal] = useState(false);
 	const [approveTransferState, setApproveTransferState] = useState(RESTING);
+	const [isOnCorrectNetwork, setIsOnCorrectNetwork] = useState(false);
 
 	// Context
 	const [appState] = useContext(StoreContext);
-	const { library, account } = useWeb3();
+	const { library, account, chainId } = useWeb3();
 
 	// State
 	const [token, setToken] = useState(appState.tokens[0]);
@@ -138,13 +140,23 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	}
 
 	function onVolumeChange(volume) {
-		if(0 < parseInt(volume) && parseInt(volume) < 1000) setVolume(parseInt(volume));
+		if(0 < parseFloat(volume) && parseFloat(volume) < 1000) setVolume(parseFloat(volume));
 		if(volume===''){setVolume(0);}
 	}
 	const onDepositPeriodChanged = (e) =>{
 		if(parseInt(e.target.value)>=0) setDepositPeriodDays(parseInt(e.target.value));
 		if(e.target.value==='')setDepositPeriodDays(0);
 	};
+
+	// Side effects
+	
+	useEffect(() => {
+		setIsOnCorrectNetwork(
+			chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'] ==
+			chainId
+		);
+	}, [chainId]);
+
 	// Render
 	if (claimed) {
 		return (
@@ -185,10 +197,20 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					</div>
 
 					<div>
-						<ToolTip hideToolTip={account} toolTipText={'Connect your wallet to fund this bounty!'} customOffsets={[0,0]}>
+						<ToolTip hideToolTip={account && isOnCorrectNetwork && !loadingClosedOrZero} 
+							toolTipText={
+								account && isOnCorrectNetwork ?
+									'Please indicate the volume you\'d like to fund with.':
+									account ? 
+										'Please switch to the correct network to fund this bounty.' : 
+										'Connect your wallet to fund this bounty!' } 
+							customOffsets={account && isOnCorrectNetwork ?
+								[370, 42] : 
+								account ? [410, 42] :
+									[300, 42]}>
 							<button
 								className={fundButtonClasses}
-								disabled={loadingClosedOrZero}
+								disabled={loadingClosedOrZero || !isOnCorrectNetwork}
 								type="button"
 								onClick={() => {
 									setConfirmationMessage(
