@@ -19,7 +19,9 @@ const ApproveTransferModal = ({
 	error,
 	confirmationMessage,
 	positiveOption,
-	confirmMethod
+	confirmMethod,
+	approvingMessage,
+	approvingTitle
 }) => {
 	const modal= useRef();
 	const updateModal = () => {
@@ -46,7 +48,7 @@ const ApproveTransferModal = ({
 
 	let title = {
 		[CONFIRM]: 'Confirm',
-		[APPROVING]: 'Approve',
+		[APPROVING]: approvingTitle || 'Approve',
 		[TRANSFERRING]: 'Transfer',
 		[SUCCESS]: 'Transfer Complete!',
 		[ERROR]: `${error.title}`,
@@ -54,7 +56,7 @@ const ApproveTransferModal = ({
 
 	let message = {
 		[CONFIRM]: `${confirmationMessage}`,
-		[APPROVING]: 'Approving...',
+		[APPROVING]: approvingMessage || 'Approving...',
 		[TRANSFERRING]: 'Transferring...',
 		[SUCCESS]: `Transaction confirmed! Transaction hash is: ${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}. All funds from this bounty will appear in your address at ${address}`,
 		[ERROR]: `${error.message}`,
