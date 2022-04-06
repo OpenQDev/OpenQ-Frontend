@@ -69,6 +69,7 @@ export const BOUNTY_EXISTS = (bounty) => {
 		bounty: bounty,
 		bountyAddress: bounty.bountyAddress,
 		bountyExists: true,
+		claimed: bounty.status === 'CLOSED'
 	};
 };
 
