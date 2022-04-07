@@ -9,7 +9,7 @@ const BountyHomepage = ({ bounties, loading, complete, getMoreData, getNewData, 
 
 	// Render
 	return (
-		<div className="xl:grid sm:grid px-4 xl:grid-cols-wide justify-center">
+		<div className="lg:grid lg:grid-cols-extra-wide mx-16 xl:grid-cols-wide justify-center">
 			{error?
 				<UnexpectedError/>
 				:
