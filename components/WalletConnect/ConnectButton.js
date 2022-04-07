@@ -8,11 +8,12 @@ import useConnectOnLoad from '../../hooks/useConnectOnLoad';
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
 import AccountModal from './AccountModal';
 import useEns from '../../hooks/useENS';
+import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 
 const ConnectButton = () => {
 	// State
 	const [isConnecting, setIsConnecting] = useState(false);
-	const [isOnCorrectNetwork, setIsOnCorrectNetwork] = useState(true);
+	const [isOnCorrectNetwork, ] = useIsOnCorrectNetwork();
 	const [showModal, setShowModal] = useState();
 	const iconWrapper = useRef();
 	const modalRef = useRef();
@@ -33,13 +34,6 @@ const ConnectButton = () => {
 			iconWrapper.current.appendChild(jazzicon(24, parseInt(account.slice(2, 10), 16)));
 		}
 	}, [account, isOnCorrectNetwork]);
-	
-	useEffect(() => {
-		setIsOnCorrectNetwork(
-			chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'] ==
-			chainId
-		);
-	}, [chainId]);
 
 	useEffect(() => {
 		let handler = (event) => {

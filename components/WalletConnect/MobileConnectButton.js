@@ -8,11 +8,12 @@ import useConnectOnLoad from '../../hooks/useConnectOnLoad';
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
 import AccountModal from './AccountModal';
 import useEns from '../../hooks/useENS';
+import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 
 const MobileConnectButton = () => {
 	// State
 	const [isConnecting, setIsConnecting] = useState(false);
-	const [isOnCorrectNetwork, setIsOnCorrectNetwork] = useState(true);
+	const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
 	const [showModal, setShowModal] = useState();
 	const modalRef = useRef();
 	const buttonRef = useRef();
@@ -23,13 +24,6 @@ const MobileConnectButton = () => {
 
 	// Hooks
 	useConnectOnLoad()(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
-
-	useEffect(() => {
-		setIsOnCorrectNetwork(
-			chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'] ==
-			chainId
-		);
-	}, [chainId]);
 
 	useEffect(()=>{
 		if(!active){setIsConnecting(false);}
@@ -96,16 +90,22 @@ const MobileConnectButton = () => {
 		return (
 			<div>
 				<button
-					className='text-pink-300 text-xs border border-inactive-accent rounded-lg bg-dark-mode'
-					onClick={addOrSwitchNetwork}>	
-					{isConnecting? 'Connecting...': 'Connect'}
+					className='text-pink-300 h-10 px-2 text-xs border border-inactive-accent rounded-lg bg-dark-mode font-bold'
+					onClick={addOrSwitchNetwork}>
+						Use{' '}
+					{
+						chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV][
+							'networkName'
+						]
+					}{' '}
+					Network
 				</button>
 			</div>
 		);
 	} else {
 		return (
 			<button
-				className='text-white flex items-center gap-2 text-xs border border-inactive-accent h-10 rounded-lg p-2 bg-dark-mode font-semibold'
+				className='text-white flex items-center gap-2 text-xs border border-inactive-accent rounded-lg px-2 h-10 bg-dark-mode font-semibold'
 				onClick={onClickConnect}>
 				<span className='font-bold'>{isConnecting? 'Connecting...': 'Connect '}</span>
 				<svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2">

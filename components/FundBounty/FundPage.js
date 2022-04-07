@@ -1,5 +1,5 @@
 // Third Party
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { ethers } from 'ethers';
 
 // Custom
@@ -10,7 +10,6 @@ import ButtonLoadingIcon from '../Loading/ButtonLoadingIcon';
 import ToolTip from '../Utils/ToolTip';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import ApproveTransferModal from './ApproveTransferModal';
-import chainIdDeployEnvMap from '../WalletConnect/chainIdDeployEnvMap';
 import {
 	RESTING,
 	CONFIRM,
@@ -19,6 +18,7 @@ import {
 	SUCCESS,
 	ERROR
 } from './ApproveTransferState';
+import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 
 const FundPage = ({ bounty, refreshBounty }) => {
 	const [volume, setVolume] = useState('');
@@ -30,11 +30,11 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const [confirmationMessage, setConfirmationMessage] = useState('Please enter a volume greater than 0.');
 	const [showApproveTransferModal, setShowApproveTransferModal] = useState(false);
 	const [approveTransferState, setApproveTransferState] = useState(RESTING);
-	const [isOnCorrectNetwork, setIsOnCorrectNetwork] = useState(false);
+	const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
 
 	// Context
 	const [appState] = useContext(StoreContext);
-	const { library, account, chainId } = useWeb3();
+	const { library, account, } = useWeb3();
 
 	// State
 	const [token, setToken] = useState(appState.tokens[0]);
@@ -151,15 +151,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		if(e.target.value==='')setDepositPeriodDays(0);
 	};
 
-	// Side effects
-	
-	useEffect(() => {
-		setIsOnCorrectNetwork(
-			chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'] ==
-			chainId
-		);
-	}, [chainId]);
-
 	// Render
 	if (claimed) {
 		return (
@@ -182,7 +173,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 					<div className="flex w-full flex-row justify-between items-center px-4 py-3 rounded-lg py-1 bg-dark-mode border border-web-gray text-white">
 						<div className='text-white flex items-center gap-3 w-full'>
-							<ToolTip customOffsets={[-192, -116]} outerStyles={''} styles="w-96" mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
+							<ToolTip customOffsets={[-192, -142]} outerStyles={''} styles="w-96" mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
 								<div className='cursor-help rounded-full border-2 border-web-gray aspect-square leading-6 h-6 box-content text-center font-bold text-web-gray'>?</div>
 							</ToolTip>
 							<span>Deposit Locked Period</span>

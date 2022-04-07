@@ -9,7 +9,6 @@ import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import MintBountyContext from './MintBountyStore/MintBountyContext';
 import BountyAlreadyMintedMessage from './BountyAlreadyMintedMessage';
 import ToolTip from '../Utils/ToolTip';
-import chainIdDeployEnvMap from '../WalletConnect/chainIdDeployEnvMap';
 import {
 	RESTING_STATE,
 	BOUNTY_DOES_NOT_EXIST,
@@ -28,12 +27,13 @@ import MintBountyModalButton from './MintBountyModalButton';
 import MintBountyHeader from './MintBountyHeader';
 import MintBountyInput from './MintBountyInput';
 import ErrorModal from '../ConfirmErrorSuccessModals/ErrorModal';
+import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 
 const MintBountyModal = ({ modalVisibility }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
 	const [mintBountyState, setMintBountyState] = useContext(MintBountyContext);
-	const { library, active, account, chainId } = useWeb3();
+	const { library, active, account, } = useWeb3();
 	const router = useRouter();
 
 	// State
@@ -41,7 +41,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 	const [issueUrl, setIssueUrl] = useState('');
 	const [isLoadingIssueData, setIsLoadingIssueData] = useState('');
 	const [errorModal, setShowErrorModal] = useState(false);
-	const [isOnCorrectNetwork, setIsOnCorrectNetwork] = useState([]);
+	const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
 
 	const {
 		bountyAddress,
@@ -135,13 +135,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
 	}, [modal]);
-
-	useEffect(() => {
-		setIsOnCorrectNetwork(
-			chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'] ==
-			chainId
-		);
-	}, [chainId]);
 
 	// Methods
 	function sleep(ms) {
