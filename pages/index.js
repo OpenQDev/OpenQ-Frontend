@@ -29,6 +29,7 @@ export default function Index() {
 		setIsLoading(true);
 
 		try{
+			setComplete(true);
 			const newBounties = await appState.openQSubgraphClient.getAllBounties('desc',0, batch );
 
 			const bountyIds = newBounties.map((bounty) => bounty.bountyId);
@@ -44,6 +45,9 @@ export default function Index() {
 				fullBounties.push(mergedBounty);
 			});
 			setBounties(fullBounties);
+			if(batch===fullBounties.length){
+				setComplete(false);
+			}
 			setIsLoading(false);}
 		catch(error){
 			console.log(error);
