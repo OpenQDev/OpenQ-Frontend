@@ -19,7 +19,9 @@ const ApproveTransferModal = ({
 	error,
 	confirmationMessage,
 	positiveOption,
-	confirmMethod
+	confirmMethod,
+	approvingMessage,
+	approvingTitle
 }) => {
 	const modal = useRef();
 	const updateModal = () => {
@@ -46,7 +48,7 @@ const ApproveTransferModal = ({
 
 	let title = {
 		[CONFIRM]: 'Confirm',
-		[APPROVING]: 'Approve',
+		[APPROVING]: approvingTitle || 'Approve',
 		[TRANSFERRING]: 'Transfer',
 		[SUCCESS]: 'Transfer Complete!',
 		[ERROR]: `${error.title}`,
@@ -54,7 +56,7 @@ const ApproveTransferModal = ({
 
 	let message = {
 		[CONFIRM]: `${confirmationMessage}`,
-		[APPROVING]: 'Approving...',
+		[APPROVING]: approvingMessage || 'Approving...',
 		[TRANSFERRING]: 'Transferring...',
 		[SUCCESS]: `Transaction confirmed! Transaction hash is: ${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}.`,
 		[ERROR]: `${error.message}`,
@@ -67,7 +69,7 @@ const ApproveTransferModal = ({
 					<div className="border-0 rounded-lg p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none">
 						<div className="flex items-center justify-center border-solid">
 							<div className="flex flex-row">
-								<div className="text-3xl text-white font-semibold pb-8">
+								<div className="text-3xl text-white text-center font-semibold pb-8">
 									{title[approveTransferState]}
 								</div>
 							</div>

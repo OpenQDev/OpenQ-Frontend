@@ -81,6 +81,7 @@ module.exports = {
 		},
 		gridTemplateColumns: {
 			'wide': '1fr 2fr 1fr',
+			'extra-wide': '.5fr 3fr .5fr',
 			'annoying': 'repeat( auto-fit, 192px)',
 		},
 		keyframes: {
