@@ -23,18 +23,18 @@ const ApproveTransferModal = ({
 	approvingMessage,
 	approvingTitle
 }) => {
-	const modal= useRef();
+	const modal = useRef();
 	const updateModal = () => {
 		resetState();
 		setShowApproveTransferModal(false);
 	};
 
-	
+
 	useEffect(() => {
 		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
 		function handleClickOutside(event) {
 			if (modal.current && !modal.current.contains(event.target)) {
-				updateModal();				
+				updateModal();
 			}
 		}
 
@@ -58,7 +58,7 @@ const ApproveTransferModal = ({
 		[CONFIRM]: `${confirmationMessage}`,
 		[APPROVING]: approvingMessage || 'Approving...',
 		[TRANSFERRING]: 'Transferring...',
-		[SUCCESS]: `Transaction confirmed! Transaction hash is: ${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}. All funds from this bounty will appear in your address at ${address}`,
+		[SUCCESS]: `Transaction confirmed! Transaction hash is: ${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}.`,
 		[ERROR]: `${error.message}`,
 	};
 

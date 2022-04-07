@@ -11,6 +11,7 @@ export const GET_ISSUE = gql`
           repository {
             name
             owner {
+							id
               login
             }
           }

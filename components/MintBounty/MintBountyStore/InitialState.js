@@ -15,7 +15,7 @@ const InitialState = {
 	issueId: '',
 	issueNumber: '',
 	issueUrl: '',
-	orgName: '',
+	orgId: '',
 	repoName: '',
 	transactionPending: false
 };

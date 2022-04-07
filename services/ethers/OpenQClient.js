@@ -66,8 +66,8 @@ class OpenQClient {
 	async balanceOf(library, _callerAddress, _tokenAddress) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library?.getSigner();
-			if(!signer){
-				resolve({noSigner: true});
+			if (!signer) {
+				resolve({ noSigner: true });
 			}
 			const contract = this.ERC20(_tokenAddress, signer);
 			try {
