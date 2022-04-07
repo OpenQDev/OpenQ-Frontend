@@ -69,7 +69,7 @@ const ApproveTransferModal = ({
 					<div className="border-0 rounded-lg p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none">
 						<div className="flex items-center justify-center border-solid">
 							<div className="flex flex-row">
-								<div className="text-3xl text-white font-semibold pb-8">
+								<div className="text-3xl text-white text-center font-semibold pb-8">
 									{title[approveTransferState]}
 								</div>
 							</div>

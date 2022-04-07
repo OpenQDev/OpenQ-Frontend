@@ -234,11 +234,8 @@ const MintBountyModal = ({ modalVisibility }) => {
 											account ?
 												'Please switch to the correct network to fund this bounty.' :
 												'Connect your wallet to fund this bounty!'}
-									customOffsets={account && isOnCorrectNetwork ?
-										[240, 42] :
-										account ? [410, 42] :
-											[300, 42]}>
-									<div className="flex items-center justify-center p-5 rounded-b w-full">
+									customOffsets =	{[0, 70]}>
+									<div className ="flex items-center justify-center p-5 rounded-b w-full">
 										<MintBountyModalButton
 											mintBounty={mintBounty}
 											enableMint={enableMint}

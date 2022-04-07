@@ -134,10 +134,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 										account ? 
 											'Please switch to the correct network to fund this bounty.' : 
 											'Connect your wallet to fund this bounty!' } 
-								customOffsets={account && isOnCorrectNetwork ?
-									[370, 42] : 
-									account ? [410, 42] :
-										[300, 42]}>
+								customOffsets={[0, 50]}>
 								<button
 									type="submit"
 									className={account && isOnCorrectNetwork ? 'confirm-btn cursor-pointer' : 'confirm-btn-disabled cursor-not-allowed text-white' }
