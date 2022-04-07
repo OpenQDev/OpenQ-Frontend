@@ -40,13 +40,10 @@ const address = () => {
 
 		try {
 			// or is it null?
-			while (bounty === undefined) {
-				console.log('bounty in [address] loop', bounty);
+			while (bounty === undefined || bounty === null) {
 				bounty = await appState.openQSubgraphClient.getBounty(address);
 				await sleep(500);
 			}
-
-			console.log('bounty after [address] loop', bounty);
 
 			const issueData = await appState.githubRepository.fetchIssueById(bounty.bountyId);
 
