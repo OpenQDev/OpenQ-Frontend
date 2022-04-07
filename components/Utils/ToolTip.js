@@ -12,11 +12,11 @@ const ToolTip = (props)=>{
 	};
 	if(props.hideToolTip) return props.children;
 	return (
-		<div className={`relative group ${props.outerStyles}`} onMouseEnter={setToolTip}>
+		<div className={`relative group rounded-full ${props.outerStyles}`} onMouseEnter={setToolTip}>
 			{props.children}
 			<div style={{left: x, top: y}} className={`flex justify-center absolute justify-items-center w-full h-3 pt-0.5 ${mobileX === x ? 'w-72' : styles}`}>
-				<div className='text-white bg-dark-mode invisible group-hover:visible h-min border-web-gray border rounded-md p-2 z-20 w-96'>
-					{toolTipText}
+				<div className='text-white bg-dark-mode invisible group-hover:visible h-min border-web-gray border rounded-md p-2 z-20'>
+					<div className='w-72'>{toolTipText}</div>
 				</div>
 			</div>
 		</div>
