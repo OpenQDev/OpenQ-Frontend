@@ -95,8 +95,8 @@ const organization = () => {
 		}
 		setBounties(bounties.concat(newBounties));	
 	}
-
 	async function populateBountyData() {
+		setComplete(true);
 		const bounties = organizationData.bountiesCreated;
 		const bountyIds = bounties.map((bounty) => bounty.bountyId);
 		const issueData = await appState.githubRepository.getIssueData(bountyIds);
@@ -108,7 +108,9 @@ const organization = () => {
 			const mergedBounty = { ...bounty, ...relatedIssue };
 			fullBounties.push(mergedBounty);
 		});
-
+		if(fullBounties.length===batch){
+			setComplete(false);
+		}
 		setBounties(fullBounties);
 		setIsLoading(false);
 	}
@@ -136,7 +138,7 @@ const organization = () => {
 					<Toggle toggleFunc={setShowAbout} toggleVal={showAbout} names={['Bounties', 'About']} />
 					{(showAbout === 'About') ?
 						<About organizationData={organizationData} tokenValues={tokenValues} /> :
-						<div className="sm:grid xl:grid-cols-wide justify-center w-f pt-8 gap-4">
+						<div className="lg:grid lg:grid-cols-extra-wide mx-16 xl:grid-cols-wide justify-center pt-8">
 							<LargeOrganizationCard organization={organizationData} />
 							<BountyList bounties={bounties}  loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />
 						</div>}

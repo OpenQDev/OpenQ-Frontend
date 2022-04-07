@@ -5,60 +5,69 @@ import { ethers } from 'ethers';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
-import ConfirmErrorSuccessModalsTrio from '../ConfirmErrorSuccessModals/ConfirmErrorSuccessModalsTrio';
-import useConfirmErrorSuccessModals from '../../hooks/useConfirmErrorSuccessModals';
-import LoadingIcon from '../Loading/LoadingIcon';
 import DepositCard from './DepositCard';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import useEns from '../../hooks/useENS';
+import chainIdDeployEnvMap from '../WalletConnect/chainIdDeployEnvMap';
+import ApproveTransferModal from '../FundBounty/ApproveTransferModal';
+import {
+	RESTING,
+	CONFIRM,
+	APPROVING,
+	SUCCESS,
+	ERROR
+} from '../FundBounty/ApproveTransferState';
 
 const RefundPage = ({ bounty, refreshBounty }) => {
-	const {
-		showErrorModal,
-		setShowErrorModal,
-		showSuccessModal,
-		setShowSuccessModal,
-		showConfirmationModal,
-		setShowConfirmationModal,
-	} = useConfirmErrorSuccessModals();
 	const [error, setError] = useState('');
-	const [isLoading, setIsLoading] = useState(false);
-	const [successMessage, setSuccessMessage] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
 	const [confirmationMessage, setConfirmationMessage] = useState('');
+	const [isOnCorrectNetwork, setIsOnCorrectNetwork]= useState(true);
+	const [approveTransferState, setApproveTransferState] = useState(RESTING);
+	const [showApproveTransferModal, setShowApproveTransferModal] = useState(false);
 
 	// Context
 	const [appState] = useContext(StoreContext);
-	const { library, account } = useWeb3();
+	const { library, account, chainId } = useWeb3();
 	const [ensName] = useEns(account);
 
 	const claimed = bounty.status == 'CLOSED';
 
+	// Side Effects
 	useEffect(() => {
 		if (bounty) {
 			setConfirmationMessage(
 				`You are about to refund your deposits on issue ${bounty.url} to the address ${ensName||account}. Is this correct ?`
 			);
 		}
-	}, [bounty]);
+	}, [bounty]);	
+	
+	useEffect(() => {
+		setIsOnCorrectNetwork(
+			chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'] ==
+			chainId
+		);
+	}, [chainId]);
+	const resetState = () =>{
+		setShowApproveTransferModal(false);
+		setApproveTransferState(CONFIRM);
+	};
 
 	// Methods
-	async function refundBounty(depositId) {
-		setIsLoading(true);
+	async function refundBounty() {
+		setApproveTransferState(APPROVING);
+		const depositId = showApproveTransferModal;
 		appState.openQClient
 			.refundDeposit(library, bounty.bountyId, depositId)
 			.then((txnReceipt) => {
 				setTransactionHash(txnReceipt.transactionHash);
-				setSuccessMessage('Money refunded!');
-				setShowSuccessModal(true);
+				setApproveTransferState(SUCCESS);
 				refreshBounty();
-				setIsLoading(false);
 			})
 			.catch((error) => {
 				const { message, title } = appState.openQClient.handleError(error, { account, bounty });
 				setError({ message, title });
-				setIsLoading(false);
-				setShowErrorModal(true);
+				setApproveTransferState(ERROR);
 			});
 	}
 
@@ -76,7 +85,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 							Your Deposits
 						</h1>
 						<h2 className='text-white font-semibold'>Refundable</h2>
-						<div className='flex flex-wrap gap-8 flex-wrap'>
+						<div className='flex flex-wrap gap-8'>
 							{
 								bounty.deposits
 									.filter((deposit) => {
@@ -91,7 +100,17 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 									.map((deposit) => {
 										return (
 											<div key={deposit.id}>
-												<DepositCard deposit={deposit} status="refundable" bounty={bounty} refundBounty={refundBounty} />
+												<DepositCard deposit={deposit} status="refundable" bounty={bounty} refundBounty={() => {
+													setConfirmationMessage(
+														`You are about to refund the bounty at ${bounty.bountyAddress.substring(
+															0,
+															12
+														)}...${bounty.bountyAddress.substring(32)}		Are you sure you want to refund this deposit?`
+													);
+													setApproveTransferState(CONFIRM);
+													setShowApproveTransferModal(deposit.id);
+												}}
+												isOnCorrectNetwork={isOnCorrectNetwork}/>
 											</div>
 										);
 									})
@@ -117,7 +136,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 							}
 						</div>
 						<h2 className='text-white font-semibold'>Refunded</h2>
-						<div className='flex flex-wrap gap-x-8'>
+						<div className='flex flex-wrap gap-8'>
 							{
 								bounty.deposits
 									.filter((deposit) => {
@@ -136,22 +155,19 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 							}
 						</div>
 					</div>
-					{isLoading && <LoadingIcon closeModal={()=>setIsLoading(false)}/>}
-					<ConfirmErrorSuccessModalsTrio
-						setShowErrorModal={setShowErrorModal}
-						showErrorModal={showErrorModal}
-						error={error}
-						setShowConfirmationModal={setShowConfirmationModal}
-						showConfirmationModal={showConfirmationModal}
-						confirmationTitle={'Refund Deposits'}
+					{showApproveTransferModal && <ApproveTransferModal
+						approveTransferState={approveTransferState}
+						address={account}
+						transactionHash={transactionHash}
 						confirmationMessage={confirmationMessage}
+						error={error}
+						setShowApproveTransferModal={setShowApproveTransferModal}
 						positiveOption={'Yes, Refund!'}
 						confirmMethod={refundBounty}
-						showSuccessModal={showSuccessModal}
-						setShowSuccessModal={setShowSuccessModal}
-						successMessage={successMessage}
-						transactionHash={transactionHash}
-					/>
+						resetState={resetState}
+						approvingMessage = {'Refunding...'}
+						approvingTitle = {'Refund'}
+					/>}
 				</div>
 			</>
 		);

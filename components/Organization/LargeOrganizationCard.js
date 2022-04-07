@@ -10,7 +10,7 @@ const LargeOrganizationCard = ({ organization }) => {
 
 	// Render
 	return (
-		<div className='w-min justify-self-end hidden xl:block'>
+		<div className='w-min justify-self-end hidden xl:block mr-8'>
 			<div
 				className={
 					'flex flex-col p-10 items-center font-mont rounded-lg shadow-sm border border-web-gray pr-11 pl-11'

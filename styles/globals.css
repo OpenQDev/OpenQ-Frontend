@@ -51,10 +51,10 @@ padding-top: 16px;}
 *, ::after, ::before {
   box-sizing: border-box;
 }
-/* @layer base {
+@layer base {
     body{
-        @apply font-mont text-3xl font-bold;
-    }
+        @apply w-screen overflow-x-hidden;
+    }/* 
     h1{
         @apply font-mont font-black text-4xl;
     }
@@ -65,8 +65,8 @@ padding-top: 16px;}
 @layer components {
     .btn {
         @apply font-mont rounded-md border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer;
-    }
-} */
+    }*/
+}
 
 @layer components {
   .layer-button {
@@ -77,6 +77,9 @@ padding-top: 16px;}
   }
   .sm-confirm-btn{
     @apply font-mont rounded-lg w-full py-2 font-semibold cursor-pointer text-white border border-pink-300 bg-pink-700 bg-opacity-10 hover:bg-pink-700 hover:bg-opacity-30 hover:text-white;
+  }
+  .sm-confirm-btn-disabled{
+    @apply font-mont rounded-lg w-full py-2 font-semibold text-white text-opacity-30 border border-pink-300 bg-pink-700 bg-opacity-10;
   }
   .confirm-btn-disabled {
     @apply font-mont rounded-lg w-full py-3 font-bold text-white text-opacity-30 border border-pink-300 bg-pink-700 bg-opacity-10;
