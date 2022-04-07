@@ -1,15 +1,8 @@
 // Third Party
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 
-// Custom
-import StoreContext from '../../store/Store/StoreContext';
-
 const BountyClosed = ({ bounty }) => {
-
-	// State
-	const [appState] = useContext(StoreContext);
-
 	// Hooks
 	const tweetText = 'Just claimed a developer bounty from on OpenQ for : ';
 	const url = `${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${bounty.claimedTransactionHash}`;

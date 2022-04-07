@@ -12,7 +12,6 @@ import {
 
 const ApproveTransferModal = ({
 	approveTransferState,
-	address,
 	transactionHash,
 	setShowApproveTransferModal,
 	resetState,
