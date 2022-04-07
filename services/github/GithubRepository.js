@@ -145,21 +145,6 @@ class GithubRepository {
 		return promise;
 	}
 
-	async fetchClosedEventByIssueId(issueId) {
-		const promise = new Promise(async (resolve, reject) => {
-			try {
-				const result = await this.client.query({
-					query: GET_ISSUE_CLOSER, variables: { issueId },
-				});
-				resolve(result.data.node.timelineItems.nodes[0]);
-			} catch (e) {
-				reject(e);
-			}
-		});
-
-		return promise;
-	}
-
 	async parseOrgIssues(issueIds) {
 		const nodes = await this.fetchOrgsWithIssues(issueIds);
 		const organizations = [];
