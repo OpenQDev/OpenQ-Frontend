@@ -32,13 +32,13 @@ const DepositCard = ({ deposit, refundBounty, status, isOnCorrectNetwork }) => {
 			}
 			{status === 'refundable' &&
 			<ToolTip
-				outerStyles="w-full flex justify-center"
+				outerStyles="w-full flex self-center w-1/2"
 				hideToolTip={ isOnCorrectNetwork} 
 				toolTipText={'Please switch to the correct network to refund this bounty.' } 
 				customOffsets={[0, 46]}>
 				<button	onClick={() => refundBounty(deposit.id)}
 					disabled={!isOnCorrectNetwork}
-					className={`items-left w-1/2 text-lg text-white self-center ${isOnCorrectNetwork ? 'sm-confirm-btn' : 'sm-confirm-btn-disabled cursor-not-allowed' }`} >
+					className={`items-left text-lg text-white self-center ${isOnCorrectNetwork ? 'sm-confirm-btn' : 'sm-confirm-btn-disabled cursor-not-allowed' }`} >
 					Refund
 				</button>
 			</ToolTip>

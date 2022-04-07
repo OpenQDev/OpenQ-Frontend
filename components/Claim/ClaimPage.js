@@ -1,5 +1,5 @@
 // Third Party Libraries
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, } from 'react';
 import axios from 'axios';
 import confetti from 'canvas-confetti';
 
@@ -17,8 +17,8 @@ import useWeb3 from '../../hooks/useWeb3';
 import ClaimLoadingModal from './ClaimLoadingModal';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import useEns from '../../hooks/useENS';
-import chainIdDeployEnvMap from '../WalletConnect/chainIdDeployEnvMap';
 import ToolTip from '../Utils/ToolTip';
+import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 
 const ClaimPage = ({ bounty, refreshBounty }) => {
 	const { url } = bounty;
@@ -28,7 +28,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	const [claimState, setClaimState] = useState(CONFIRM_CLAIM);
 	const [showClaimLoadingModal, setShowClaimLoadingModal] = useState(false);
 	const [justClaimed, setJustClaimed] = useState(false);
-	const [isOnCorrectNetwork, setIsOnCorrectNetwork] = useState(false);
+	const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
 	const canvas = useRef();
 
 	const claimed = bounty.status == 'CLOSED';
@@ -44,7 +44,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	};
 
 	// Context
-	const { account, library, chainId } = useWeb3();
+	const { account, library } = useWeb3();
 	const [ensName] = useEns(account);
 
 	// Hooks
@@ -92,14 +92,6 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 				setError({ message: error.response.data.errorMessage, title: 'Error' });
 			});
 	};
-
-	// Hooks
-	useEffect(() => {
-		setIsOnCorrectNetwork(
-			chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'] ==
-			chainId
-		);
-	}, [chainId]);
 
 	if (claimed) {
 		return (

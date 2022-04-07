@@ -8,7 +8,6 @@ import StoreContext from '../../store/Store/StoreContext';
 import DepositCard from './DepositCard';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import useEns from '../../hooks/useENS';
-import chainIdDeployEnvMap from '../WalletConnect/chainIdDeployEnvMap';
 import ApproveTransferModal from '../FundBounty/ApproveTransferModal';
 import {
 	RESTING,
@@ -17,18 +16,19 @@ import {
 	SUCCESS,
 	ERROR
 } from '../FundBounty/ApproveTransferState';
+import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 
 const RefundPage = ({ bounty, refreshBounty }) => {
 	const [error, setError] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
 	const [confirmationMessage, setConfirmationMessage] = useState('');
-	const [isOnCorrectNetwork, setIsOnCorrectNetwork]= useState(true);
+	const [isOnCorrectNetwork]= useIsOnCorrectNetwork();
 	const [approveTransferState, setApproveTransferState] = useState(RESTING);
 	const [showApproveTransferModal, setShowApproveTransferModal] = useState(false);
 
 	// Context
 	const [appState] = useContext(StoreContext);
-	const { library, account, chainId } = useWeb3();
+	const { library, account, } = useWeb3();
 	const [ensName] = useEns(account);
 
 	const claimed = bounty.status == 'CLOSED';
@@ -42,12 +42,6 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 		}
 	}, [bounty]);	
 	
-	useEffect(() => {
-		setIsOnCorrectNetwork(
-			chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'] ==
-			chainId
-		);
-	}, [chainId]);
 	const resetState = () =>{
 		setShowApproveTransferModal(false);
 		setApproveTransferState(CONFIRM);

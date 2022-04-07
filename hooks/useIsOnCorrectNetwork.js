@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
+import useWeb3 from './useWeb3';
+import chainIdDeployEnvMap from '../components/WalletConnect/chainIdDeployEnvMap';
 
-const useIsOnCorrectNetwork = (account) => {
+const useIsOnCorrectNetwork = () => {
 	const { chainId } = useWeb3();
 	const [isOnCorrectNetwork, setIsOnCorrectNetwork] = useState([]);
 
