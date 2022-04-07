@@ -95,8 +95,8 @@ const organization = () => {
 		}
 		setBounties(bounties.concat(newBounties));	
 	}
-
 	async function populateBountyData() {
+		setComplete(true);
 		const bounties = organizationData.bountiesCreated;
 		const bountyIds = bounties.map((bounty) => bounty.bountyId);
 		const issueData = await appState.githubRepository.getIssueData(bountyIds);
@@ -108,7 +108,9 @@ const organization = () => {
 			const mergedBounty = { ...bounty, ...relatedIssue };
 			fullBounties.push(mergedBounty);
 		});
-
+		if(fullBounties.length===batch){
+			setComplete(false);
+		}
 		setBounties(fullBounties);
 		setIsLoading(false);
 	}
