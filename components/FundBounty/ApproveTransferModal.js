@@ -9,10 +9,10 @@ import {
 	SUCCESS,
 	ERROR
 } from './ApproveTransferState';
+import LoadingIcon from '../Loading/ButtonLoadingIcon';
 
 const ApproveTransferModal = ({
 	approveTransferState,
-	address,
 	transactionHash,
 	setShowApproveTransferModal,
 	resetState,
@@ -28,7 +28,6 @@ const ApproveTransferModal = ({
 		resetState();
 		setShowApproveTransferModal(false);
 	};
-
 
 	useEffect(() => {
 		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
@@ -75,7 +74,7 @@ const ApproveTransferModal = ({
 							</div>
 						</div>
 						<div className="flex-auto">
-							<p className="text-md text-white pb-12 text-center break-words">
+							<p className="text-md text-white pb-4 text-center break-words">
 								{message[approveTransferState]}
 							</p>
 						</div>
@@ -103,6 +102,9 @@ const ApproveTransferModal = ({
 								</button>
 							</div>
 						) : null}
+						{(approveTransferState===TRANSFERRING || approveTransferState === APPROVING) &&
+						<div className='self-center'><LoadingIcon bg="colored" /></div>
+						}
 					</div>
 				</div>
 			</div>
