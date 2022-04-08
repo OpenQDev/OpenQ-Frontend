@@ -40,12 +40,11 @@ const address = () => {
 
 		try{
 		// or is it null?
-			while (bounty === undefined) {
+			while (!bounty) {
 				bounty = await appState.openQSubgraphClient.getBounty(address);
 				await sleep(500);
 			}
-
-			const issueData = await appState.githubRepository.fetchIssueById(bounty.bountyId);
+			const issueData = await appState.githubRepository.fetchIssueById(bounty?.bountyId);
 
 			const mergedBounty = { ...bounty, ...issueData };
 
