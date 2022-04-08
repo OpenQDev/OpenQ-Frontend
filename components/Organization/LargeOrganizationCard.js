@@ -5,8 +5,12 @@ import Skeleton from 'react-loading-skeleton';
 
 const LargeOrganizationCard = ({ organization }) => {
 
-	const orgName =
-		organization?.name.charAt(0).toUpperCase() + organization?.name.slice(1);
+	let orgName;
+	if (organization?.__typename === "Organization") {
+		orgName = organization?.name.charAt(0).toUpperCase() + organization?.name.slice(1);
+	} else {
+		orgName = organization?.login.charAt(0).toUpperCase() + organization?.login.slice(1);
+	}
 
 	// Render
 	return (
@@ -17,14 +21,14 @@ const LargeOrganizationCard = ({ organization }) => {
 				}
 			>
 				<div className="w-24 h-24 relative">
-					{organization?
-						<Image src={organization?.avatarUrl} alt="n/a" layout="fill" />:
-						<Skeleton  baseColor="#333" borderRadius={'1rem'} height={'96px'}  />}
+					{organization ?
+						<Image src={organization?.avatarUrl} alt="n/a" layout="fill" /> :
+						<Skeleton baseColor="#333" borderRadius={'1rem'} height={'96px'} />}
 				</div>
 				<div className="pt-5 text-center font-semibold text-white">
-					{orgName?
-						orgName:
-						<Skeleton  baseColor="#333" borderRadius={'1rem'} height={'12px'} width={'96px'}/>
+					{orgName ?
+						orgName :
+						<Skeleton baseColor="#333" borderRadius={'1rem'} height={'12px'} width={'96px'} />
 					}
 				</div>
 			</div>

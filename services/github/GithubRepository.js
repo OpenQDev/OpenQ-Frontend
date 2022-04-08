@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { GET_ORG_BY_ID, GET_ORG_BY_NAME, GET_ISSUE, GET_ISSUE_BY_ID, GET_ISSUES_BY_ID, GET_ORGS_BY_ISSUES } from './graphql/query';
+import { GET_USER_BY_ID, GET_USER_BY_NAME, GET_ORG_BY_ID, GET_ORG_BY_NAME, GET_ISSUE, GET_ISSUE_BY_ID, GET_ISSUES_BY_ID, GET_ORGS_BY_ISSUES } from './graphql/query';
 import fetch from 'cross-fetch';
 import { setContext } from '@apollo/client/link/context';
 
@@ -114,14 +114,80 @@ class GithubRepository {
 		return promise;
 	}
 
-	async fetchOrganizationByName(orgName) {
+	async fetchOrgOrUserByLogin(login) {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const organizationResult = await this.fetchOrganizationByLogin(login);
+				resolve(organizationResult);
+			} catch (e) {
+				const userResult = await this.fetchUserByLogin(login);
+				resolve(userResult);
+				console.log(e);
+				reject(e);
+			}
+		});
+
+		return promise;
+	}
+
+	async fetchOrganizationByLogin(login) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
-					query: GET_ORG_BY_NAME, variables: { orgName },
+					query: GET_ORG_BY_NAME, variables: { login },
 				});
 				resolve(result.data.organization);
 			} catch (e) {
+				reject(e);
+			}
+		});
+
+		return promise;
+	}
+
+	async fetchUserByLogin(login) {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.query({
+					query: GET_USER_BY_NAME, variables: { login },
+				});
+				resolve(result.data.user);
+			} catch (e) {
+				reject(e);
+			}
+		});
+
+		return promise;
+	}
+
+	async fetchOrgOrUserById(id) {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const organizationResult = await this.fetchOrganizationById(id);
+				if (organizationResult.__typename == "Organization") {
+					resolve(organizationResult);
+				} else {
+					const userResult = await this.fetchUserById(id);
+					resolve(userResult);
+				}
+			} catch (e) {
+				console.log(e);
+				reject(e);
+			}
+		});
+
+		return promise;
+	}
+
+	async fetchUserById(userId) {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.query({
+					query: GET_USER_BY_ID, variables: { userId },
+				});
+				resolve(result.data.node);
+			} catch (e) {
+				console.log(e);
 				reject(e);
 			}
 		});

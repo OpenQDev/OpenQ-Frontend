@@ -15,7 +15,7 @@ const organization = () => {
 	const [appState] = useContext(StoreContext);
 	const router = useRouter();
 
-	const batch=10;
+	const batch = 10;
 	// State
 	const { organization } = router.query;
 	const [isLoading, setIsLoading] = useState(true);
@@ -32,26 +32,25 @@ const organization = () => {
 		setIsLoading(true);
 		let orgData;
 		try {
-			orgData = await appState.githubRepository.fetchOrganizationByName(
+			orgData = await appState.githubRepository.fetchOrgOrUserByLogin(
 				organization
 			);
-		
+
 			const org = await appState.openQSubgraphClient.getOrganization(
 				orgData.id, batch
 			);
 			const mergedOrgData = { ...org, ...orgData };
-			setOrganizationData(mergedOrgData);}
+			setOrganizationData(mergedOrgData);
+		}
 		catch (err) {
 			console.log(error);
 			setError(true);
 		}
-		
+
 	}
 
-
-
-	async function getBountyData(order, currentPagination){
-		setPagination(()=>currentPagination+batch);
+	async function getBountyData(order, currentPagination) {
+		setPagination(() => currentPagination + batch);
 		const newBounties = await appState.openQSubgraphClient.getPaginatedOrganizationBounties(organizationData.id, currentPagination, order, batch);
 		const bountyIds = newBounties.bountiesCreated.map((bounty) => bounty.bountyId);
 		let issueData;
@@ -67,33 +66,35 @@ const organization = () => {
 		return fullBounties;
 	}
 
-	async function getNewData (order){
+	async function getNewData(order) {
 		setIsLoading(true);
 		setComplete(false);
 		let newBounties;
-		try{
-			newBounties = await getBountyData(order, 0);}
+		try {
+			newBounties = await getBountyData(order, 0);
+		}
 		catch (err) {
 			setError(true);
-			return ;
+			return;
 		}
 		setBounties(newBounties);
 		setIsLoading(false);
 	}
 
-	async function getMoreData(order){
+	async function getMoreData(order) {
 		setComplete(true);
 		let newBounties;
-		try{
-			newBounties = await getBountyData(order, pagination);}
+		try {
+			newBounties = await getBountyData(order, pagination);
+		}
 		catch (err) {
 			setError(true);
-			return ;
+			return;
 		}
-		if(newBounties.length === batch){
+		if (newBounties.length === batch) {
 			setComplete(false);
 		}
-		setBounties(bounties.concat(newBounties));	
+		setBounties(bounties.concat(newBounties));
 	}
 	async function populateBountyData() {
 		setComplete(true);
@@ -108,7 +109,7 @@ const organization = () => {
 			const mergedBounty = { ...bounty, ...relatedIssue };
 			fullBounties.push(mergedBounty);
 		});
-		if(fullBounties.length===batch){
+		if (fullBounties.length === batch) {
 			setComplete(false);
 		}
 		setBounties(fullBounties);
@@ -140,7 +141,7 @@ const organization = () => {
 						<About organizationData={organizationData} tokenValues={tokenValues} /> :
 						<div className="lg:grid lg:grid-cols-extra-wide mx-16 xl:grid-cols-wide justify-center pt-8">
 							<LargeOrganizationCard organization={organizationData} />
-							<BountyList bounties={bounties}  loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />
+							<BountyList bounties={bounties} loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />
 						</div>}
 				</div>
 			}

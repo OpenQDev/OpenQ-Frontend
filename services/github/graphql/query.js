@@ -29,6 +29,7 @@ export const GET_ISSUE = gql`
 export const GET_ORG_BY_ID = gql`
 query GetOrg($orgId: ID!) {
   node(id: $orgId) {
+		__typename
     ...on Organization {
       name
       login
@@ -47,9 +48,28 @@ query GetOrg($orgId: ID!) {
 }
 `;
 
+export const GET_USER_BY_ID = gql`
+query GetUser($userId: ID!) {
+  node(id: $userId) {
+		__typename
+    ...on User {
+      name
+      login
+      id
+      createdAt
+      websiteUrl
+      avatarUrl
+      twitterUsername
+      url
+    }
+  }
+}
+`;
+
 export const GET_ORG_BY_NAME = gql`
-query GetOrg($orgName: String!) {
-  organization(login: $orgName) {
+query GetOrg($login: String!) {
+  organization(login: $login) {
+		__typename
     name
 		login
     id
@@ -60,6 +80,21 @@ query GetOrg($orgName: String!) {
     avatarUrl
     isVerified
 		descriptionHTML
+    twitterUsername
+    url
+  }
+}
+`;
+
+export const GET_USER_BY_NAME = gql`
+query GetUser($login: String!) {
+  user(login: $login) {
+		__typename
+		login
+    id
+    createdAt
+    websiteUrl
+    avatarUrl
     twitterUsername
     url
   }

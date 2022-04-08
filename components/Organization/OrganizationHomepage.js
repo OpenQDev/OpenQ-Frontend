@@ -35,7 +35,7 @@ const OrganizationHomepage = () => {
 			let orgData = {};
 
 			try {
-				orgData = await appState.githubRepository.fetchOrganizationById(
+				orgData = await appState.githubRepository.fetchOrgOrUserById(
 					organization.id
 				);
 			} catch (error) {
@@ -62,7 +62,7 @@ const OrganizationHomepage = () => {
 	};
 
 	// Render
-	if(error){return <UnexpectedError/>;}
+	if (error) { return <UnexpectedError />; }
 	else return (
 		<div className="lg:grid lg:grid-cols-extra-wide mx-16 xl:grid-cols-wide justify-center">
 			<div className="lg:col-start-2 justify-self-center space-y-3 w-full pb-8">
