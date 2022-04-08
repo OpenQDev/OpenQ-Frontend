@@ -164,7 +164,7 @@ class GithubRepository {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const organizationResult = await this.fetchOrganizationById(id);
-				if (organizationResult.__typename == "Organization") {
+				if (organizationResult.__typename == 'Organization') {
 					resolve(organizationResult);
 				} else {
 					const userResult = await this.fetchUserById(id);

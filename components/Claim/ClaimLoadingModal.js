@@ -9,6 +9,7 @@ import {
 	TRANSACTION_CONFIRMED,
 	CONFIRM_CLAIM
 } from './ClaimStates';
+import LoadingIcon from '../Loading/ButtonLoadingIcon';
 
 const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, address, transactionHash, setShowClaimLoadingModal, error }) => {
 
@@ -66,7 +67,7 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 							</div>
 						</div>
 						<div className="flex-auto">
-							<p className="text-md text-white pb-12 text-center break-words">
+							<p className="text-md text-white pb-4 text-center break-words">
 								{message[claimState]}
 							</p>
 						</div>
@@ -96,6 +97,10 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 								</div>
 							</div>
 						) : null}
+						
+						{claimState===CHECKING_WITHDRAWAL_ELIGIBILITY &&
+						<div className='self-center'><LoadingIcon bg="colored" /></div>
+						}
 					</div>
 				</div>
 			</div>

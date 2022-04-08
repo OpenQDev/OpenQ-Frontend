@@ -122,10 +122,10 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 								hideToolTip={account && isOnCorrectNetwork} 
 								toolTipText={
 									account && isOnCorrectNetwork ?
-										'Please indicate the volume you\'d like to fund with.':
+										'Please indicate the volume you\'d like to claim with.':
 										account ? 
-											'Please switch to the correct network to fund this bounty.' : 
-											'Connect your wallet to fund this bounty!' } 
+											'Please switch to the correct network to claim this bounty.' : 
+											'Connect your wallet to claim this bounty!' } 
 								customOffsets={[0, 50]}>
 								<button
 									type="submit"

@@ -95,7 +95,7 @@ const BountyCard = ({ bounty, loading }) => {
 						</div>
 					</div>
 					{bounty?.avatarUrl?
-						<div className="flex flex-col">
+						<div className="flex flex-col invisible sm:visible">
 							<Image
 								src={bounty?.avatarUrl}
 								alt="avatarUrl"
