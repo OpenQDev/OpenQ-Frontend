@@ -16,54 +16,53 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 
 	return (
 		<div className="flex flex-col font-mont pl-5 pr-5 md:pl-16 md:pr-16 pt-10 pb-10 my-16 border-web-gray border rounded-lg w-5/6 max-w-6xl">
-			<div className="flex flex-col border-b border-solid rounded-t gap-2">
+			<div className="flex flex-col border-b border-solid rounded-t">
 				<BountyCardHeader bounty={bounty} />
 				<div
-					className="grid grid-cols-2 pt-5 justify-center 
-				md:justify-between"
-				>
-					<div className="col-span-2 pb-5 md:col-span-1 flex flex-col">
+					className="grid lg:grid-cols-[repeat(2,_minmax(300px,_1fr))] justify-center justify-items-start pt-5 mx-auto lg:mx-5 gap-5">
+					<div className="col-span-2 lg:col-span-1 lg:w-96">
 						<BountyStatus bounty={bounty} />
 					</div>
-					<div className="col-span-2 md:col-span-1">
+					<div className="col-span-2 lg:col-start-2 lg:w-96">
 						<CopyBountyAddress bounty={bounty} />
 					</div>
+					<div>
+						{bounty?
+							bounty.bountyTokenBalances.length != 0 ? (
+								<>
+									<div className="text-white flex font-bold gap-2">
+										{bounty?.status == 'CLOSED' ? 
+											<>
+												<span>Total Value Claimed</span>
+												<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+													<path strokeLinecap="round" strokeLinejoin="round" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
+												</svg>
+											</> :
+											<>
+												<span>Current Total Value Locked</span>
+												<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+													<path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+												</svg>
+											</>
+										}
+									</div>
+									<TokenBalances
+										tokenBalances={bounty?.bountyTokenBalances}
+										tokenValues={tokenValues}
+										singleCurrency={false}
+									/>
+								</>
+							) : (
+								<div className="pt-5 pb-5 font-semibold text-white">No deposits</div>
+							) :
+							<>
+								<TokenBalances />
+							</>
+						}
+					</div>
 				</div>
-				<LabelsList bounty={bounty} />
-				{bounty?
-					bounty.bountyTokenBalances.length != 0 ? (
-						<>
-							<div className="text-white flex font-bold gap-4 text-lg">
-								{bounty?.status == 'CLOSED' ? 
-									<>
-										<span>Total Value Claimed</span>
-										<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-											<path strokeLinecap="round" strokeLinejoin="round" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
-										</svg>
-									</> :
-									<>
-										<span>Current Total Value Locked</span>
-										<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-											<path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-										</svg>
-									</>
-								}
-							</div>
-							<TokenBalances
-								tokenBalances={bounty?.bountyTokenBalances}
-								tokenValues={tokenValues}
-								singleCurrency={false}
-							/>
-						</>
-					) : (
-						<div className="pt-5 pb-5 font-semibold text-white">No deposits</div>
-					) :
-					<>
-						<TokenBalances />
-					</>
-				}
-				{bounty?.bountyTokenBalances.length != 0 && <div className='text-white font-bold pt-2'>Deposits</div>}
-				<div className="flex gap-x-8 flex-wrap">
+				{bounty?.bountyTokenBalances.length != 0 && <div className='text-white text-center font-bold text-xl py-4'>Deposits</div>}
+				<div className="grid gap-4 lg:grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] w-full justify-space-between justify-items-center">
 					{bounty ? bounty.deposits
 						.filter((deposit) => {
 							return deposit.refunded == false;
@@ -86,6 +85,9 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 				<div className="flex flex-row justify-between">
 					<div className="font-bold text-xl text-white">Description</div>
 					<BountyLinks bounty={bounty} hideBountyLink={true}/>
+				</div>				
+				<div>
+					<LabelsList bounty={bounty} />
 				</div>
 				{bounty?
 					<div 
