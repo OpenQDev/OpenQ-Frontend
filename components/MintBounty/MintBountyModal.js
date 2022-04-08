@@ -199,7 +199,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 								</div>
 								{/* {error ? errorMessage : null} */}
 								{isValidUrl && !issueFound && isLoadingIssueData ? (
-									<div className="pl-10 pt-5">
+									<div className="pt-5 self-center">
 										<LoadingIcon bg={'white'} />
 									</div>
 								) : null}
