@@ -84,6 +84,15 @@ const jsonRpcErrors =
 				message: () => 'You are attempting to claim a closed bounty'
 			}
 		},
+		// CONNECTION
+		{
+			'METAMASK_HAVING_TROUBLE': {
+				title: 'Cannot Connect to network.',				
+				message: () => {
+					return 'Please check your wallet settings.';
+				}
+			}
+		},
 		// MISCELLANEOUS
 		{
 			'USER_DENIED_TRANSACTION': {

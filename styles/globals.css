@@ -11,7 +11,7 @@
 .github_markup h2{font-weight: bold;
 padding-top: 16px;}
 
-.highlight{
+pre{
   background-color:  #58585833;
   border-radius: 1rem;
   margin-top: 2.25rem;
@@ -53,7 +53,7 @@ padding-top: 16px;}
 }
 @layer base {
     body{
-        @apply w-screen overflow-x-hidden;
+        @apply w-screen overflow-x-hidden bg-dark-mode;
     }/* 
     h1{
         @apply font-mont font-black text-4xl;
