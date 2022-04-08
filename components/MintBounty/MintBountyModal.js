@@ -220,7 +220,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 								</div>
 
 								<ToolTip
-									hideToolTip={enableMint}
+									hideToolTip={enableMint || transactionPending}
 									toolTipText={
 										account && isOnCorrectNetwork ?
 											'Please choose an elgible issue.' :
@@ -231,7 +231,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 									<div className ="flex items-center justify-center p-5 rounded-b w-full">
 										<MintBountyModalButton
 											mintBounty={mintBounty}
-											enableMint={enableMint}
+											enableMint={enableMint && isOnCorrectNetwork}
 											transactionPending={transactionPending}
 										/>
 									</div>
