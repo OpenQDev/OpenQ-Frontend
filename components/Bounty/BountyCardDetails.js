@@ -62,7 +62,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 						<TokenBalances />
 					</>
 				}
-				<div className='text-white font-bold pt-2'>Deposits</div>
+				{bounty?.bountyTokenBalances.length != 0 && <div className='text-white font-bold pt-2'>Deposits</div>}
 				<div className="flex gap-x-8 flex-wrap">
 					{bounty ? bounty.deposits
 						.filter((deposit) => {

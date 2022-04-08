@@ -199,7 +199,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 								</div>
 								{/* {error ? errorMessage : null} */}
 								{isValidUrl && !issueFound && isLoadingIssueData ? (
-									<div className="pl-10 pt-5">
+									<div className="pt-5 self-center">
 										<LoadingIcon bg={'white'} />
 									</div>
 								) : null}
@@ -220,18 +220,18 @@ const MintBountyModal = ({ modalVisibility }) => {
 								</div>
 
 								<ToolTip
-									hideToolTip={enableMint}
+									hideToolTip={enableMint || transactionPending}
 									toolTipText={
 										account && isOnCorrectNetwork ?
 											'Please choose an elgible issue.' :
 											account ?
-												'Please switch to the correct network to fund this bounty.' :
-												'Connect your wallet to fund this bounty!'}
+												'Please switch to the correct network to mint a bounty.' :
+												'Connect your wallet to mint a bounty!'}
 									customOffsets =	{[0, 70]}>
 									<div className ="flex items-center justify-center p-5 rounded-b w-full">
 										<MintBountyModalButton
 											mintBounty={mintBounty}
-											enableMint={enableMint}
+											enableMint={enableMint && isOnCorrectNetwork}
 											transactionPending={transactionPending}
 										/>
 									</div>

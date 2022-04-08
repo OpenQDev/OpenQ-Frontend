@@ -54,14 +54,16 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 		<div className="flex flex-col">
 			<div className="font-semibold text-white">{header}</div>
 			<div className="font-bold text-xl text-white">
-				{tokenBalances?.length > 1 && !showOne
+				{tokenBalances && !showOne
 					? tokenValues
-						? `${appState.utils.formatter.format(tokenValues.total)}`
-						: <Skeleton width={'6rem'} height={'20px'}/> : null}
+						? `${appState.utils.formatter.format(tokenValues.total)}`:
+						tokenBalances.length===0 
+							? `${appState.utils.formatter.format(0)}`
+							: <Skeleton width={'6rem'} height={'20px'}/> : null}
 			</div>
 			<div className="flex flex-row space-x-2 pt-1">
 				<div>
-					{tokenValues && tokenBalances&&(displayedBalances.length > 0)
+					{tokenBalances&&((tokenValues && displayedBalances.length > 0) || tokenBalances.length===0)
 						? displayedBalances.map((tokenBalance) => {
 							const {symbol, tokenAddress, usdValue, formattedVolume} = tokenBalance;
 
