@@ -40,9 +40,9 @@
 		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png"
 	},
 	{
-		"name": "Ether",
+		"name": "Wrapped Ether",
 		"address": "0x714550C2C1Ea08688607D86ed8EeF4f5E4F22323",
-		"symbol": "ETH",
+		"symbol": "WETH",
 		"decimals": 18,
 		"chainId": 80001,
 		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png"
@@ -54,77 +54,5 @@
 		"decimals": 18,
 		"chainId": 80001,
 		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x514910771AF9Ca656af840dff83E8264EcF986CA/logo.png"
-	},
-	{
-		"name": "NFT Champions",
-		"address": "0x8f9E8e833A69Aa467E42c46cCA640da84DD4585f",
-		"symbol": "CHAMP",
-		"decimals": 8,
-		"chainId": 137,
-		"logoURI": "https://assets.coingecko.com/coins/images/19536/small/champ.png?1635905981"
-	},
-	{
-		"name": "Kirobo",
-		"address": "0xB382C1cfA622795a534e5bd56Fac93d59BAc8B0D",
-		"symbol": "KIRO",
-		"decimals": 18,
-		"chainId": 137,
-		"logoURI": "https://assets.coingecko.com/coins/images/12688/small/QmScxyKBwqbGJZmp38EwaoRpXbzPkq3tvuMjeuJE1YLZeG.png?1601672684"
-	},
-	{
-		"name": "Render Token",
-		"address": "0x61299774020dA444Af134c82fa83E3810b309991",
-		"symbol": "RNDR",
-		"decimals": 18,
-		"chainId": 137,
-		"logoURI": "https://assets.coingecko.com/coins/images/11636/small/uTDd98ZN_400x400.jpg?1592200150"
-	},
-	{
-		"name": "Wrapped CRO",
-		"address": "0xf2D8124b8F9267DaD61351c7aD252362880C6638",
-		"symbol": "WCRO",
-		"decimals": 18,
-		"chainId": 137,
-		"logoURI": "https://assets.coingecko.com/coins/images/7310/small/cypto.png?1547043960"
-	},
-	{
-		"name": "Polygon Ecosystem Index",
-		"address": "0xA9536B9c75A9E0faE3B56a96AC8EdF76AbC91978",
-		"symbol": "PECO",
-		"decimals": 18,
-		"chainId": 137,
-		"logoURI": "https://assets.coingecko.com/coins/images/19270/small/amun-peco.png?1634868167"
-	},
-	{
-		"name": "FABWELT",
-		"address": "0x23E8B6A3f6891254988B84Da3738D2bfe5E703b9",
-		"symbol": "WELT",
-		"decimals": 18,
-		"chainId": 137,
-		"logoURI": "https://assets.coingecko.com/coins/images/20505/small/welt.PNG?1637143324"
-	},
-	{
-		"name": "MASQ",
-		"address": "0xEe9A352F6aAc4aF1A5B9f467F6a93E0ffBe9Dd35",
-		"symbol": "MASQ",
-		"decimals": 18,
-		"chainId": 137,
-		"logoURI": "https://assets.coingecko.com/coins/images/13699/small/MASQ_Logo_Blue_Solo_Transparent.png?1616661801"
-	},
-	{
-		"name": "Starchi Liquid Luck",
-		"address": "0xED0bb69f9F96E8C5FffdF16c468eceC385134eA5",
-		"symbol": "ELIXIR",
-		"decimals": 18,
-		"chainId": 137,
-		"logoURI": "https://assets.coingecko.com/coins/images/18941/small/starchi.jpg?1633961292"
-	},
-	{
-		"name": "ZigCoin",
-		"address": "0x7BeBd226154E865954A87650FAefA8F485d36081",
-		"symbol": "ZIG",
-		"decimals": 18,
-		"chainId": 137,
-		"logoURI": "https://assets.coingecko.com/coins/images/14796/small/zignaly.jpg?1618496339"
 	}
 ]
