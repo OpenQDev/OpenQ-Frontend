@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { GET_ORG_BY_ID, GET_ORG_BY_NAME, GET_ISSUE, GET_ISSUE_BY_ID, GET_ISSUES_BY_ID, GET_ORGS_BY_ISSUES, GET_ISSUE_CLOSER } from './graphql/query';
+import { GET_ORG_BY_ID, GET_ORG_BY_NAME, GET_ISSUE, GET_ISSUE_BY_ID, GET_ISSUES_BY_ID, GET_ORGS_BY_ISSUES } from './graphql/query';
 import fetch from 'cross-fetch';
 import { setContext } from '@apollo/client/link/context';
 
@@ -138,21 +138,6 @@ class GithubRepository {
 				resolve(result.data.node);
 			} catch (e) {
 				console.log(e);
-				reject(e);
-			}
-		});
-
-		return promise;
-	}
-
-	async fetchClosedEventByIssueId(issueId) {
-		const promise = new Promise(async (resolve, reject) => {
-			try {
-				const result = await this.client.query({
-					query: GET_ISSUE_CLOSER, variables: { issueId },
-				});
-				resolve(result.data.node.timelineItems.nodes[0]);
-			} catch (e) {
 				reject(e);
 			}
 		});

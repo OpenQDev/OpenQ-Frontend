@@ -38,9 +38,9 @@ const address = () => {
 		setIsLoading(true);
 		let bounty;
 
-		try{
-		// or is it null?
-			while (!bounty) {
+		try {
+			// or is it null?
+			while (bounty === undefined || bounty === null) {
 				bounty = await appState.openQSubgraphClient.getBounty(address);
 				await sleep(500);
 			}
@@ -49,11 +49,12 @@ const address = () => {
 			const mergedBounty = { ...bounty, ...issueData };
 
 			setBounty({ ...mergedBounty });
-			setIsLoading(false);}
-		catch(error){
+			setIsLoading(false);
+		}
+		catch (error) {
 			console.log(error);
 			setError(true);
-			return; 
+			return;
 		}
 	}
 
@@ -63,12 +64,12 @@ const address = () => {
 
 	const refreshBounty = async () => {
 		await sleep(1000);
-		try{
+		try {
 			let newBounty = await appState.openQSubgraphClient.getBounty(address, 'network-only');
 			const mergedBounty = { ...bounty, ...newBounty };
 			setBounty(mergedBounty);
 		}
-		catch(error){
+		catch (error) {
 			setError(true);
 		}
 	};
@@ -77,48 +78,50 @@ const address = () => {
 	useEffect(() => {
 		if (address) {
 			const route = sessionStorage.getItem(address);
-		
-			if(route!==internalMenu){
+
+			if (route !== internalMenu) {
 				setInternalMenu(route || 'View');
 			}
 			setRedirectUrl(`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${address}`);
 			populateBountyData();
 		}
-		if(first){
+		if (first) {
 			canvas.current.width = window.innerWidth;
 			canvas.current.height = window.innerHeight;
 
 			const canvasConfetti = confetti.create(canvas.current, {
-				resize:true,
+				resize: true,
 				useWorker: true
 			});
-			canvasConfetti({particleCount: 50,
+			canvasConfetti({
+				particleCount: 50,
 				spread: window.innerWidth,
 				origin: {
 					x: 1,
-					y: 0,}
+					y: 0,
+				}
 			});
 		}
 	}, [address]);
 
 	// User Methods
 
-	const handleToggle = (e)=>{
+	const handleToggle = (e) => {
 		setInternalMenu(e);
 		sessionStorage.setItem(address, e);
 	};
 
 	// Render
-	if(error){
-		return <UnexpectedError/>;
+	if (error) {
+		return <UnexpectedError />;
 	}
 	else return (
 		<div className="flex flex-col font-mont justify-center items-center pt-7">
-			<Toggle toggleFunc={handleToggle} toggleVal={internalMenu} names={['View', 'Fund', 'Refund', 'Claim']}/>
+			<Toggle toggleFunc={handleToggle} toggleVal={internalMenu} names={['View', 'Fund', 'Refund', 'Claim']} />
 			{internalMenu == 'View' ? (
 				<BountyCardDetails bounty={bounty} tokenValues={tokenValues} />
 			) : null}
-			{internalMenu == 'Fund' && bounty  ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
+			{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 			{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 			{internalMenu == 'Refund' && bounty ? (<RefundPage bounty={bounty} refreshBounty={refreshBounty} />) : null}
 			<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>

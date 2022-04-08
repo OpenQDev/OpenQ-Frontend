@@ -40,27 +40,6 @@ query GetOrg($orgId: ID!) {
       avatarUrl
       isVerified
       descriptionHTML
-      membersWithRole(first: 10) {
-        edges {
-          node {
-            login
-          }
-        }
-      }
-      projects(first: 10) {
-        edges {
-          node {
-            name
-          }
-        }
-      }
-      repositories(first: 10) {
-        edges {
-          node {
-            id
-          }
-        }
-      }
       twitterUsername
       url
     }
@@ -81,27 +60,6 @@ query GetOrg($orgName: String!) {
     avatarUrl
     isVerified
 		descriptionHTML
-    membersWithRole(first: 10) {
-      edges {
-        node {
-          login
-        }
-      }
-    }
-    projects(first: 10) {
-      edges {
-        node {
-          name
-        }
-      }
-    }
-    repositories(first: 10) {
-      edges {
-        node {
-          id
-        }
-      }
-    }
     twitterUsername
     url
   }
@@ -150,8 +108,8 @@ export const GET_ISSUE_BY_ID = gql`
             login
             avatarUrl
 			... on Organization {
-				twitterUsername
-			  }
+							twitterUsername
+						}
           }
         }
       }
@@ -185,28 +143,6 @@ query($issueIds: [ID!]!) {
         owner {
           login
           avatarUrl
-        }
-      }
-    }
-  }
-}`;
-
-export const GET_ISSUE_CLOSER = gql`query($issueId:ID!) {
-  node(id: $issueId) {
-    ... on Issue {
-      timelineItems(itemTypes: [CLOSED_EVENT], first: 10) {
-        nodes {
-          ... on ClosedEvent {
-            closer {
-              ... on PullRequest {
-                title
-                url
-                author {
-                  login
-                }
-              }
-            }
-          }
         }
       }
     }
