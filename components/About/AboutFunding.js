@@ -1,4 +1,7 @@
+// Third Party
 import React from 'react';
+
+// Custom
 import TokenBalances from '../TokenBalances/TokenBalances';
 
 const AboutFunding = ({ organizationFunding, tokenValues }) => {
