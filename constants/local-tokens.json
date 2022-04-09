@@ -29,7 +29,7 @@
 		"symbol": "WMATIC",
 		"decimals": 18,
 		"chainId": 80001,
-		"path": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0/logo.png"
+		"path": "/crypto-logos/MATIC.svg"
 	},
 	{
 		"name": "Dai Stablecoin",
@@ -37,7 +37,7 @@
 		"symbol": "DAI",
 		"decimals": 18,
 		"chainId": 80001,
-		"path": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png"
+		"path": "/crypto-logos/DAI.svg"
 	},
 	{
 		"name": "Tether USD",
@@ -45,7 +45,7 @@
 		"symbol": "USDT",
 		"decimals": 6,
 		"chainId": 80001,
-		"path": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png"
+		"path": "/crypto-logos/USDT.svg"
 	},
 	{
 		"name": "Wrapped Ether",
@@ -53,6 +53,6 @@
 		"symbol": "WETH",
 		"decimals": 18,
 		"chainId": 80001,
-		"path": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png"
+		"path": "/crypto-logos/ETH.svg"
 	}
 ]
