@@ -25,7 +25,7 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume }) => {
 					>
 						<div className="flex flex-row space-x-5 items-center justify-center">
 							<div className="h-1 w-6 pb-6">
-								<Image src={token.logoURI} className="rounded-full" alt="n/a" width="40%" height="40%" />
+								<Image src={token.path} className="rounded-full" alt="n/a" width="40%" height="40%" />
 							</div>
 						</div>
 						<div className="pl-3 text-white">{token.symbol}</div>

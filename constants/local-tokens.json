@@ -5,7 +5,7 @@
 		"symbol": "MATIC",
 		"decimals": 18,
 		"chainId": 80001,
-		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0/logo.png"
+		"path": "/crypto-logos/MATIC.svg"
 	},
 	{
 		"name": "Dummy ERC20",
@@ -13,7 +13,7 @@
 		"symbol": "DERC20",
 		"decimals": 18,
 		"chainId": 80001,
-		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png"
+		"path": "https://cryptologos.cc/logos/multi-collateral-dai-dai-logo.svg?v=022"
 	},
 	{
 		"name": "Wrapped Matic",
@@ -21,7 +21,7 @@
 		"symbol": "WMATIC",
 		"decimals": 18,
 		"chainId": 80001,
-		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0/logo.png"
+		"path": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0/logo.png"
 	},
 	{
 		"name": "Dai Stablecoin",
@@ -29,7 +29,7 @@
 		"symbol": "DAI",
 		"decimals": 18,
 		"chainId": 80001,
-		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png"
+		"path": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png"
 	},
 	{
 		"name": "Tether USD",
@@ -37,7 +37,7 @@
 		"symbol": "USDT",
 		"decimals": 6,
 		"chainId": 80001,
-		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png"
+		"path": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png"
 	},
 	{
 		"name": "Wrapped Ether",
@@ -45,7 +45,7 @@
 		"symbol": "WETH",
 		"decimals": 18,
 		"chainId": 80001,
-		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png"
+		"path": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png"
 	},
 	{
 		"name": "Chainlink Token",
@@ -53,6 +53,6 @@
 		"symbol": "LINK",
 		"decimals": 18,
 		"chainId": 80001,
-		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x514910771AF9Ca656af840dff83E8264EcF986CA/logo.png"
+		"path": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x514910771AF9Ca656af840dff83E8264EcF986CA/logo.png"
 	}
 ]

@@ -17,7 +17,14 @@ module.exports = () => {
 		reactStrictMode: true,
 		env,
 		images: {
-			domains: ['githubusercontent.com', 'assets.coingecko.com', 'avatars.githubusercontent.com', 'raw.githubusercontent.com'],
+			domains: [
+				'githubusercontent.com',
+				'assets.coingecko.com',
+				'avatars.githubusercontent.com',
+				'raw.githubusercontent.com',
+				'cryptologos.cc',
+				'wallet-asset.matic.network'
+			],
 		}
 	};
 

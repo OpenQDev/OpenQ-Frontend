@@ -10,7 +10,7 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
 	const { library, account } = useWeb3();
 
 	useEffect(async () => {
-		try{
+		try {
 			const ownedTokens = await appState.openQClient.userOwnedTokenBalances(library, account, appState.tokens);
 			const tokens = appState.tokens
 				.filter((elem, index) => {
@@ -20,7 +20,7 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
 				}));
 			updateDisplayTokens(tokens);
 		}
-		catch(err){
+		catch (err) {
 			console.log(err);
 		}
 	}, []);
@@ -64,7 +64,7 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
 								>
 									<div className="pt-2">
 										<Image
-											src={token.logoURI}
+											src={token.path}
 											className="rounded-full"
 											alt="n/a"
 											width="25%"
