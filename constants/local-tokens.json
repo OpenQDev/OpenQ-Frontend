@@ -5,7 +5,7 @@
 		"symbol": "MATIC",
 		"decimals": 18,
 		"chainId": 80001,
-		"path": "/crypto-logos/MATIC.svg"
+		"path": "/crypto-logos/ERC20.svg"
 	},
 	{
 		"name": "Chainlink Token",
