@@ -59,7 +59,7 @@ const BountyMintedNotification = ({
 					</button>
 				</div>
 				<div className="pt-2 font-light">
-          You can now view the bounty on our page and fund it
+					You can now view the bounty on our page and fund it
 				</div>
 				<div className="pt-2 font-semibold">Smart Contract</div>
 				<div className="cursor-pointer">
@@ -75,7 +75,7 @@ const BountyMintedNotification = ({
 									className="cursor-pointer text-link pt-3"
 								>
 									<Image
-										src="/BountyMaterial/github-white.png"
+										src="/github-logo-white.svg"
 										alt="Picture of the author"
 										width={20}
 										height={20}

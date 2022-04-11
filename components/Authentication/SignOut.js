@@ -5,7 +5,7 @@ import axios from 'axios';
 import AuthContext from '../../store/AuthStore/AuthContext';
 import Image from 'next/image';
 
-const SignOut = ({propicUrl, styles}) => {
+const SignOut = ({ propicUrl, styles }) => {
 	const [, setAuthState] = useContext(AuthContext);
 
 	const signOut = () => {
@@ -31,7 +31,7 @@ const SignOut = ({propicUrl, styles}) => {
 		>
 			<div className="flex flex-row justify-center items-center space-x-3">
 				<Image
-					src={propicUrl||'/BountyMaterial/github-white.png'}
+					src={propicUrl || '/github-logo-white.svg'}
 					alt="Picture of the author"
 					width={24}
 					height={24}
