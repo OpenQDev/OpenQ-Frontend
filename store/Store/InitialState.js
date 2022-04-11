@@ -73,6 +73,7 @@ case 'production':
 		tokens: polygonMainnetTokens,
 		openQClient: new OpenQClient(),
 		githubRepository: new GithubRepository(),
+		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
 		utils: new Utils(),
 	};
