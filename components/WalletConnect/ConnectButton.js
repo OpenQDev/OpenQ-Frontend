@@ -75,7 +75,7 @@ const ConnectButton = () => {
 					onClick={()=>{setShowModal(!showModal);}}
 					className="group flex items-center gap-x-3 h-12 font-mont whitespace-nowrap rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
 				>
-					<span className="border-2 border-inactive-accent rounded-full h-7 group-hover:border-active-accent" ref={iconWrapper}></span>
+					<span className="border-2 border-inactive-accent rounded-full h-7 py-px bg-inactive-accent group-hover:bg-active-accent group-hover:border-active-accent" ref={iconWrapper}></span>
 					<span className='py'>{ensName|| `${firstThree}...${lastThree}`}</span>
 				</button>
 				{showModal&&

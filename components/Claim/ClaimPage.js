@@ -119,18 +119,21 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 						<div className="col-span-3 flex gap-3">
 							<ToolTip
 								outerStyles="w-full"
-								hideToolTip={account && isOnCorrectNetwork} 
+								hideToolTip={account && isOnCorrectNetwork && authState.isAuthenticated} 
 								toolTipText={
-									account && isOnCorrectNetwork ?
+									account && isOnCorrectNetwork && authState.isAuthenticated ?
 										'Please indicate the volume you\'d like to claim with.':
-										account ? 
+										account && authState.isAuthenticated ? 
 											'Please switch to the correct network to claim this bounty.' : 
-											'Connect your wallet to claim this bounty!' } 
+											(authState.isAuthenticated)?
+												'Connect your wallet to claim this bounty!':
+												'Connect your GitHub account to claim this bounty!'
+								} 
 								customOffsets={[0, 50]}>
 								<button
 									type="submit"
-									className={account && isOnCorrectNetwork ? 'confirm-btn cursor-pointer' : 'confirm-btn-disabled cursor-not-allowed text-white' }
-									disabled={!account || !isOnCorrectNetwork}
+									className={account && isOnCorrectNetwork && authState.isAuthenticated ? 'confirm-btn cursor-pointer' : 'confirm-btn-disabled cursor-not-allowed text-white' }
+									disabled={!account || !isOnCorrectNetwork|| !authState.isAuthenticated}
 									onClick={() => setShowClaimLoadingModal(true)}
 								>
 								Claim
