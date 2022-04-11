@@ -74,7 +74,7 @@ const OrganizationHomepage = () => {
 						<UnexpectedError />
 						:
 						isLoading
-							? <><OrganizationCard /><OrganizationCard /><OrganizationCard /><OrganizationCard /></>
+							? <><OrganizationCard /><OrganizationCard /><OrganizationCard /><OrganizationCard /><OrganizationCard /><OrganizationCard /><OrganizationCard /><OrganizationCard /><OrganizationCard /><OrganizationCard /><OrganizationCard /><OrganizationCard /></>
 							: organizations
 								.filter((organization) => {
 									return organizationSearchTerm

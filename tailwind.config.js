@@ -43,6 +43,7 @@ module.exports = {
 				'claimed-bounty-inside': '#2B183D',
 				'button': '#F9A8D4',
 				'button-inside': '#241219',
+				'button-inside-hover': '#461429',
 				'green-inside': '#293e30',
 				'green': '#22c55e',
 				'tinted': '#D1D5DB'

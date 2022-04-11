@@ -46,7 +46,7 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
 			>
 				<a target="_blank">
 					<div id={'bounty-link'} className="cursor-pointer">
-						<Image src="/BountyMaterial/polyscan-white.png" width={24} height={24}/>
+						<Image src="/BountyMaterial/polyscan-white.svg" width={24} height={24}/>
 					</div>
 				</a>
 			</Link>:

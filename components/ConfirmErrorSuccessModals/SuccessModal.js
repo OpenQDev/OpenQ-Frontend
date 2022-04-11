@@ -29,7 +29,7 @@ const SuccessModal = ({ successMessage, transactionHash, setShowSuccessModal }) 
 										</div>
 										<div>
 											<Image
-												src="/BountyMaterial/polyscan.png"
+												src="/BountyMaterial/polyscan.svg"
 												alt="Polygonscan"
 												width="25"
 												height="25"
