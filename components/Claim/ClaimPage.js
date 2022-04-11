@@ -99,9 +99,9 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 		);
 	} else {
 		return (
-			<div className="flex flex-1 font-mont justify-center items-center">
-				<div className="w-5/6 pt-16 pb-24">
-					<div className="text-3xl font-semibold text-white text-center pb-5">
+			<div className="flex flex-1 font-mont justify-center">
+				<div className="w-5/6 pt-16 pb-24 min-w-min">
+					<div className="text-3xl font-semibold text-white text-center pb-5 min-w-[200px]">
 						Claim Bounty
 					</div>
 					<div className="grid grid-cols-3 gap-5">
@@ -110,11 +110,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 								We noticed you are not signed into Github. You must sign to verify
 								and claim an issue!
 							</div>
-						) : (
-							<div className="bg-green-inside col-span-3 border border-green rounded-lg text-white p-4">
-								Successfully signed in, you can claim your issue now.
-							</div>
-						)}
+						) : <div className='h-32'></div>}
 						
 						<div className="col-span-3 flex gap-3">
 							<ToolTip
@@ -141,6 +137,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 							</ToolTip>
 						</div>
 						<AuthButton
+							hideSignOut={true}
 							redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyAddress}`}
 						/>
 						{showClaimLoadingModal && <ClaimLoadingModal confirmMethod={claimBounty} url={url} ensName={ensName} account={account} error={error} claimState={claimState} login={'FlacoJones'} address={account} transactionHash={transactionHash} setShowClaimLoadingModal={updateModal} />}
