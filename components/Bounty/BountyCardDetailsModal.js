@@ -30,8 +30,13 @@ const BountyCardDetailsModal = ({ bounty, TVL, closeModal, tokenValues}) => {
 	return (
 		<div className='flex justify-center items-center bg-overlay inset-0 fixed text-white py-4 overflow-hidden z-30'>
 			<div ref={modal} className="bg-dark-mode w-5/6 h-min rounded-lg lg:w-2/3 max-w-3xl text-lg relative overflow-hidden">
-				<div className="px-8 py-4">
-					<BountyCardHeader bounty={bounty} />
+				<div className="px-8 py-2">
+					<BountyCardHeader bounty={bounty} />					
+					<div className='py-4'>
+						<Link href={`/bounty/${bounty.bountyAddress}`} >
+							<a className='bg-button-inside hover:bg-button-inside-hover border-button rounded-full text-base px-3 py-1.5 border'>See Full Bounty</a>
+						</Link>
+					</div>
 				</div>					
 				<div className="px-8 py-4 max-h-[60vh] overflow-y-auto">
 					<div className="text-base">

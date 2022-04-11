@@ -30,8 +30,8 @@ const OrganizationCard = ({ organization }) => {
 					}
 				>
 					<div className="w-16 h-16 relative">
-						{organization ?
-							<Image src={organization?.avatarUrl} alt="n/a" layout="fill" /> :
+						{organization?.avatarUrl ?
+							<Image src={organization.avatarUrl} alt="n/a" layout="fill" priority={true} /> :
 							<Skeleton baseColor="#333" borderRadius={'1rem'} height={'64px'} width="64px" />}
 
 					</div>
