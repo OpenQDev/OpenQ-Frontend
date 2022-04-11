@@ -5,7 +5,7 @@
 		"symbol": "MATIC",
 		"decimals": 18,
 		"chainId": 137,
-		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0/logo.png"
+		"path": "/crypto-logos/MATIC.svg"
 	},
 	{
 		"name": "Wrapped Ether",
@@ -13,7 +13,7 @@
 		"symbol": "WETH",
 		"decimals": 18,
 		"chainId": 137,
-		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0/logo.png"
+		"path": "/crypto-logos/ETH.svg"
 	},
 	{
 		"name": "Balancer",
@@ -21,7 +21,7 @@
 		"symbol": "BAL",
 		"decimals": 18,
 		"chainId": 137,
-		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0/logo.png"
+		"path": "/crypto-logos/BAL.svg"
 	},
 	{
 		"name": "Wrapped Matic",
@@ -29,7 +29,7 @@
 		"symbol": "WMATIC",
 		"decimals": 18,
 		"chainId": 137,
-		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0/logo.png"
+		"path": "/crypto-logos/MATIC.svg"
 	},
 	{
 		"name": "Dai Stablecoin",
@@ -37,7 +37,7 @@
 		"symbol": "DAI",
 		"decimals": 18,
 		"chainId": 137,
-		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png"
+		"path": "/crypto-logos/DAI.svg"
 	},
 	{
 		"name": "Tether USD",
@@ -45,7 +45,7 @@
 		"symbol": "USDT",
 		"decimals": 6,
 		"chainId": 137,
-		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png"
+		"path": "/crypto-logos/USDT.svg"
 	},
 	{
 		"name": "USD Coin",
@@ -53,15 +53,7 @@
 		"symbol": "USDC",
 		"decimals": 6,
 		"chainId": 137,
-		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png"
-	},
-	{
-		"name": "Quickswap",
-		"address": "0x831753DD7087CaC61aB5644b308642cc1c33Dc13",
-		"symbol": "QUICK",
-		"decimals": 18,
-		"chainId": 137,
-		"logoURI": "https://raw.githubusercontent.com/sameepsi/quickswap-interface/master/public/favicon.jpeg"
+		"path": "/crypto-logos/USDC.svg"
 	},
 	{
 		"name": "Uniswap",
@@ -69,15 +61,7 @@
 		"symbol": "UNI",
 		"decimals": 18,
 		"chainId": 137,
-		"logoURI": "https://raw.githubusercontent.com/sameepsi/quickswap-interface/master/public/favicon1.png"
-	},
-	{
-		"name": "OM",
-		"address": "0xC3Ec80343D2bae2F8E680FDADDe7C17E71E114ea",
-		"symbol": "OM",
-		"decimals": 18,
-		"chainId": 137,
-		"logoURI": "https://etherscan.io/token/images/mantradao_32.png"
+		"path": "/crypto-logos/UNI.svg"
 	},
 	{
 		"name": "Wrapped BTC",
@@ -85,7 +69,7 @@
 		"symbol": "WBTC",
 		"decimals": 8,
 		"chainId": 137,
-		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png"
+		"path": "/crypto-logos/WBTC.svg"
 	},
 	{
 		"name": "Compound",
@@ -93,7 +77,7 @@
 		"symbol": "COMP",
 		"decimals": 18,
 		"chainId": 137,
-		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xc00e94Cb662C3520282E6f5717214004A7f26888/logo.png"
+		"path": "/crypto-logos/COMP.svg"
 	},
 	{
 		"name": "yearn.finance",
@@ -101,7 +85,7 @@
 		"symbol": "YFI",
 		"decimals": 18,
 		"chainId": 137,
-		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e/logo.png"
+		"path": "/crypto-logos/YFI.svg"
 	},
 	{
 		"name": "ChainLink Token",
@@ -109,14 +93,6 @@
 		"symbol": "LINK",
 		"decimals": 18,
 		"chainId": 137,
-		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x514910771AF9Ca656af840dff83E8264EcF986CA/logo.png"
-	},
-	{
-		"name": "Decentraland MANA",
-		"address": "0xA1c57f48F0Deb89f569dFbE6E2B7f46D33606fD4",
-		"symbol": "MANA",
-		"decimals": 18,
-		"chainId": 137,
-		"logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x0F5D2fB29fb7d3CFeE444a200298f468908cC942/logo.png"
+		"path": "/crypto-logos/LINK.svg"
 	}
 ]
