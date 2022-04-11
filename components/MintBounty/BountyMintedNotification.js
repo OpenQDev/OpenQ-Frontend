@@ -96,7 +96,7 @@ const BountyMintedNotification = ({
 									className="cursor-pointer text-link pt-3"
 								>
 									<Image
-										src="/BountyMaterial/polyscan-white.svg"
+										src="/BountyMaterial/polyscan-white.png"
 										alt="Picture of the author"
 										width={20}
 										height={20}
