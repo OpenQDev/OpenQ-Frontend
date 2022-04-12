@@ -180,7 +180,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 
 	// Render
 	return (
-		<div className="lg:col-start-2 justify-self-center space-y-3 w-full pb-8">
+		<div className="lg:col-start-2 justify-self-center space-y-3 w-full pb-8 max-w-[900px]">
 			<div className="grid lg:grid-cols-[repeat(4,_1fr)] gap-6 w-full">
 				<div className="flex rounded-lg lg:col-span-3 col-span-4 justify-center">
 					{tagSearch === 'Search' ?

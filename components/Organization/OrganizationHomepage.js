@@ -64,12 +64,12 @@ const OrganizationHomepage = () => {
 	// Render
 	if (error) { return <UnexpectedError />; }
 	else return (
-		<div className="lg:grid lg:grid-cols-extra-wide mx-16 xl:grid-cols-wide justify-center">
-			<div className="lg:col-start-2 justify-self-center space-y-3 w-full pb-8">
+		<div className="lg:grid lg:grid-cols-extra-wide mx-10 xl:grid-cols-wide justify-center">
+			<div className="lg:col-start-2 justify-between justify-self-center space-y-3 w-full pb-8 max-w-[900px]">
 				<div className="grid gap-6 lg:grid-cols-[repeat(4,_1fr)] w-full mb-6">
 					<SearchBar onKeyUp={filterByOrg} searchText={organizationSearchTerm} placeholder="Search Organization..." borderShape={'border rounded-full'} className="mb-200" />
 					<MintBountyButton /></div>
-				<div className="grid grid-cols-[repeat(_auto-fit,_192px)] gap-6 justify-center sm:justify-start xl:gap-10 mx-auto">
+				<div className="grid grid-cols-[repeat(_auto-fill,_192px)] gap-4 justify-center lg:justify-between mx-auto">
 					{error ?
 						<UnexpectedError />
 						:
