@@ -28,12 +28,12 @@ const BountyStatus = ({ bounty }) => {
 					</svg>
 				</div>
 				<div className="flex space-x-1 text-white">
-					<div>{bounty ? bounty.status == 'OPEN' ? 'Unclaimed' : 'Claimed' :  <Skeleton width={'20rem'}/>}</div>
+					<div>{bounty ? bounty.status == 'OPEN' ? 'Unclaimed' : 'Claimed' :  <Skeleton width={'10rem'}/>}</div>
 				</div>
 			</div>
 			<div>
-				{bounty?<div className='text-white'>Issue created on {appState.utils.formatDate(bounty.createdAt)}</div> : <Skeleton width={'20rem'}/>}
-				{bounty?<div className='text-white'>Bounty minted on on {appState.utils.formatUnixDate(bounty.bountyMintTime)}</div> : <Skeleton width={'20rem'}/>}
+				{bounty?<div className='text-white'>Issue created on {appState.utils.formatDate(bounty.createdAt)}</div> : <Skeleton width={'10rem'}/>}
+				{bounty?<div className='text-white'>Bounty minted on on {appState.utils.formatUnixDate(bounty.bountyMintTime)}</div> : <Skeleton width={'10rem'}/>}
 			</div>
 		</>
 	);
