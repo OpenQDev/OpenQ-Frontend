@@ -101,18 +101,15 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 		return (
 			<div className="flex flex-1 font-mont justify-center">
 				<div className="w-5/6 pt-16 pb-24 min-w-min">
-					<div className="text-3xl font-semibold text-white text-center pb-5 min-w-[200px]">
-						Claim Bounty
-					</div>
-					<div className="grid grid-cols-3 gap-5">
+					<div className="grid grid-cols-3 gap-5 pt-12">
 						{!authState.isAuthenticated ? (
 							<div className="bg-claimed-bounty-inside col-span-3 border border-claimed-bounty rounded-lg text-white p-4">
 								We noticed you are not signed into Github. You must sign to verify
 								and claim an issue!
 							</div>
-						) : <div className='h-32'></div>}
+						) : <div className='h-44'></div>}
 						
-						<div className="col-span-3 flex gap-3">
+						<div className="col-span-3 flex gap-3 w-full">
 							<ToolTip
 								outerStyles="w-full"
 								hideToolTip={account && isOnCorrectNetwork && authState.isAuthenticated} 
@@ -128,7 +125,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 								customOffsets={[0, 50]}>
 								<button
 									type="submit"
-									className={account && isOnCorrectNetwork && authState.isAuthenticated ? 'confirm-btn cursor-pointer' : 'confirm-btn-disabled cursor-not-allowed text-white' }
+									className={account && isOnCorrectNetwork && authState.isAuthenticated ? 'confirm-btn cursor-pointer px-32' : 'confirm-btn-disabled cursor-not-allowed text-white px-32 py-4' }
 									disabled={!account || !isOnCorrectNetwork|| !authState.isAuthenticated}
 									onClick={() => setShowClaimLoadingModal(true)}
 								>
