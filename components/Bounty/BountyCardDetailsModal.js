@@ -34,7 +34,7 @@ const BountyCardDetailsModal = ({ bounty, TVL, closeModal, tokenValues}) => {
 					<BountyCardHeader bounty={bounty} />					
 					<div className='py-4'>
 						<Link href={`/bounty/${bounty.bountyAddress}`} >
-							<a className='bg-button-inside hover:bg-button-inside-hover border-button rounded-full text-base px-3 py-1.5 border'>See Full Bounty</a>
+							<a target='_blank' className='bg-button-inside hover:bg-button-inside-hover border-button rounded-full text-base px-3 py-1.5 border'>See Full Bounty</a>
 						</Link>
 					</div>
 				</div>					
