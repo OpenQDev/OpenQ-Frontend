@@ -41,7 +41,7 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
 			</Link> :
 				<Skeleton width={'24px'} height={'24px'} />}
 			{bounty ? <Link
-				href={`https://polygonscan.com/address/${bounty.bountyAddress}`}
+				href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/address/${bounty.bountyAddress}`}
 
 			>
 				<a target="_blank">
