@@ -69,7 +69,7 @@ const OrganizationHomepage = () => {
 				<div className="grid gap-6 lg:grid-cols-[repeat(4,_1fr)] w-full mb-6">
 					<SearchBar onKeyUp={filterByOrg} searchText={organizationSearchTerm} placeholder="Search Organization..." borderShape={'border rounded-full'} className="mb-200" />
 					<MintBountyButton /></div>
-				<div className="grid grid-cols-[repeat(_auto-fit,_192px)] gap-4 justify-center lg:justify-between mx-auto">
+				<div className="grid grid-cols-[repeat(_auto-fill,_192px)] gap-4 justify-center lg:justify-between mx-auto">
 					{error ?
 						<UnexpectedError />
 						:
