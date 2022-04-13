@@ -39,16 +39,15 @@ const address = () => {
 	// Methods
 	async function populateBountyData() {
 		setIsLoading(true);
-		let bounty;
+		let bounty = null;
 
 		try {
-			// or is it null?
-			while (bounty === undefined || bounty === null) {
-				bounty = await appState.openQSubgraphClient.getBounty(address);
-				if(bounty){
+			while (bounty === null) {
+				bounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
+				if (bounty) {
 					setIsIndexing(false);
 				}
-				await sleep(500);				
+				await sleep(500);
 			}
 			const issueData = await appState.githubRepository.fetchIssueById(bounty?.bountyId);
 
@@ -68,10 +67,12 @@ const address = () => {
 		return new Promise(resolve => setTimeout(resolve, ms));
 	}
 
+	// What needs to be done here to poll until the new deposit is seen? 1 second is not enough
+	// Needs a retry mechanism like [address] has on first load
 	const refreshBounty = async () => {
 		await sleep(1000);
 		try {
-			let newBounty = await appState.openQSubgraphClient.getBounty(address, 'network-only');
+			let newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
 			const mergedBounty = { ...bounty, ...newBounty };
 			setBounty(mergedBounty);
 		}
@@ -84,7 +85,7 @@ const address = () => {
 	useEffect(() => {
 
 		// Confetti
-		const justMinted = sessionStorage.getItem('justMinted')==='true';
+		const justMinted = sessionStorage.getItem('justMinted') === 'true';
 		sessionStorage.setItem('justMinted', false);
 		if (justMinted) {
 			setIsIndexing(true);
@@ -139,7 +140,7 @@ const address = () => {
 				{internalMenu == 'Refund' && bounty ? (<RefundPage bounty={bounty} refreshBounty={refreshBounty} />) : null}
 				<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>
 			</div>
-			{isIndexing && showIndexingModal && <LoadingModal updateModal={()=>setShowIndexingModal(false)} loadingText={{title: 'Indexing Bounty', message: 'Please wait while your bounty is indexed.'}}/>}
+			{isIndexing && showIndexingModal && <LoadingModal updateModal={() => setShowIndexingModal(false)} loadingText={{ title: 'Indexing Bounty', message: 'Please wait while your bounty is indexed.' }} />}
 		</>
 	);
 };

@@ -18,7 +18,7 @@ class OpenQSubgraphClient {
 			try {
 				const result = await this.client.query({
 					query: GET_ALL_BOUNTIES,
-					variables: {skip: startAt, sortOrder, quantity}
+					variables: { skip: startAt, sortOrder, quantity }
 				});
 				resolve(result.data.bounties);
 			} catch (e) {
@@ -47,6 +47,7 @@ class OpenQSubgraphClient {
 	}
 
 	async getBounty(id, fetchPolicy = 'cache-first') {
+		console.log(fetchPolicy);
 		const lowerCasedAddress = id.toLowerCase();
 		const promise = new Promise(async (resolve, reject) => {
 			try {
@@ -56,22 +57,6 @@ class OpenQSubgraphClient {
 					fetchPolicy
 				});
 				resolve(result.data.bounty);
-			} catch (e) {
-				reject(e);
-			}
-		});
-
-		return promise;
-	}
-
-	async getBountyByBountyId(id) {
-		const promise = new Promise(async (resolve, reject) => {
-			try {
-				const result = await this.client.query({
-					query: GET_BOUNTY_BY_ID,
-					variables: { id }
-				});
-				resolve(result.data.bounties[0] ? result.data.bounties[0] : null);
 			} catch (e) {
 				reject(e);
 			}
@@ -132,7 +117,7 @@ class OpenQSubgraphClient {
 			try {
 				const result = await this.client.query({
 					query: GET_PAGINATED_ORGANIZATION_DATA,
-					variables: { id, skip: startAt, order, first  }
+					variables: { id, skip: startAt, order, first }
 				});
 				resolve(result.data.organization);
 			} catch (e) {

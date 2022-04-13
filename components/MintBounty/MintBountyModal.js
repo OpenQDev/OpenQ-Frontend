@@ -102,8 +102,9 @@ const MintBountyModal = ({ modalVisibility }) => {
 		if (mintBountyState.issueData) {
 			async function alreadyExists() {
 				try {
-					let bounty = await appState.openQSubgraphClient.getBountyByBountyId(
-						mintBountyState.issueData.id
+					let bounty = await appState.openQSubgraphClient.getBounty(
+						mintBountyState.issueData.id,
+						'no-cache'
 					);
 					if (bounty) {
 						setMintBountyState(BOUNTY_EXISTS(bounty));
@@ -154,7 +155,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 			sessionStorage.setItem('justMinted', true);
 			router.push(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}?first=true`
+				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`
 			);
 		} catch (error) {
 			console.log('error in mintbounty', error);
@@ -220,8 +221,8 @@ const MintBountyModal = ({ modalVisibility }) => {
 											account ?
 												'Please switch to the correct network to mint a bounty.' :
 												'Connect your wallet to mint a bounty!'}
-									customOffsets =	{[0, 70]}>
-									<div className ="flex items-center justify-center p-5 rounded-b w-full">
+									customOffsets={[0, 70]}>
+									<div className="flex items-center justify-center p-5 rounded-b w-full">
 										<MintBountyModalButton
 											mintBounty={mintBounty}
 											enableMint={enableMint && isOnCorrectNetwork}
