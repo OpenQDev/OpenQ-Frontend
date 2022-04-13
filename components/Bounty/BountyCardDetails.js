@@ -16,14 +16,14 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 
 	return (
 		<div className="flex flex-col font-mont pl-5 pr-5 md:pl-16 md:pr-16 pt-10 pb-10 my-16 border-web-gray border rounded-lg w-5/6 max-w-6xl">
-			<div className="flex flex-col border-b border-solid rounded-t">
+			<div className="flex flex-col border-b pb-6 border-solid rounded-t">
 				<BountyCardHeader bounty={bounty} />
 				<div
-					className="grid lg:grid-cols-[repeat(2,_minmax(300px,_1fr))] justify-center justify-items-start pt-5 mx-auto lg:mx-5 gap-5">
-					<div className="col-span-2 lg:col-span-1 lg:w-96">
+					className="grid md:grid-cols-[repeat(2,_minmax(260px,_1fr))] justify-center justify-items-stretch pt-5 mx-auto md:mx-2 gap-4">
+					<div className="col-span-2 md:col-span-1 md:w-64">
 						<BountyStatus bounty={bounty} />
 					</div>
-					<div className="col-span-2 lg:col-start-2 lg:w-96">
+					<div className="col-span-2 md:col-start-2 md:w-68">
 						<CopyBountyAddress bounty={bounty} />
 					</div>
 					<div>
@@ -81,7 +81,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 				</div>
 			</div>
 
-			<div className="flex flex-col pt-5">
+			<div className="flex flex-col pt-6">
 				<div className="flex flex-row justify-between">
 					<div className="font-bold text-xl text-white">Description</div>
 					<BountyLinks bounty={bounty} hideBountyLink={true}/>

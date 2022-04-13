@@ -5,7 +5,7 @@ class Utils {
 		'July', 'August', 'September', 'October', 'November', 'December'
 	];
 
-	formatUnixDate = (unixTime) => {
+	formatUnixDate = (unixTime, hideDate) => {
 		var date = new Date(unixTime * 1000);
 
 		var day = date.getDate();
@@ -20,12 +20,15 @@ class Utils {
 		var seconds = '0' + date.getSeconds();
 
 		// Will display time in 10:30:23 format
+		if(hideDate){
+			return `${month} ${day}, ${year}`;
+		}
 		var formattedTime = `${month} ${day}, ${year} at ${hours}:${minutes.substr(-2) + ':' + seconds.substr(-2)}`;
 		return formattedTime;
 	};
 
-	formatDate = (createdAt) => {
-		return this.formatUnixDate(new Date(createdAt).getTime() / 1000);
+	formatDate = (createdAt, hideDate) => {
+		return this.formatUnixDate(new Date(createdAt).getTime() / 1000, hideDate);
 	};
 
 	issurUrlRegex = (issueUrl) => {
