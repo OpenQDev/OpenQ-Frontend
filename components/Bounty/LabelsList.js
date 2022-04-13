@@ -7,12 +7,12 @@ import Skeleton from 'react-loading-skeleton';
 const LabelsList = ({ bounty }) => {
 	return (
 		<div className="flex flex-row space-x-2">
-			<div className="space-x-2 space-y-2">
+			<div>
 				{bounty?.labels.map((label, index) => {
 					return (
 						<button
 							key={index}
-							className="rounded-lg text-xs py-1 px-2 font-bold border border-purple-500 text-white truncate"
+							className="rounded-lg text-xs mr-2 mb-px py-1 px-2 font-bold border border-purple-500 text-white truncate"
 							style={{
 								borderColor: `#${label.color}`,
 								opacity: .9,

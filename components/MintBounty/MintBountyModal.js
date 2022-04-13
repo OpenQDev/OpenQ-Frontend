@@ -150,16 +150,9 @@ const MintBountyModal = ({ modalVisibility }) => {
 				mintBountyState.orgId
 			);
 
-			let bountyId = null;
-			while (bountyId == 'undefined') {
-				const bountyResp = await appState.openQSubgraphClient.getBounty(bountyAddress);
-				bountyId = bountyResp?.bountyId;
-				await sleep(500);
-			}
-
 			await sleep(1000);
 
-
+			sessionStorage.setItem('justMinted', true);
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}?first=true`
 			);

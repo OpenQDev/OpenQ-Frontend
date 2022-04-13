@@ -73,7 +73,7 @@ const BountyCard = ({ bounty, loading }) => {
 								{loading?
 									<Skeleton width={'100%'}/>:
 									
-									`Issue Opened: ${appState.utils.formatDate(bounty?.createdAt)}`}
+									`Issue Opened: ${appState.utils.formatDate(bounty?.createdAt, true)}`}
 							</div>
 						</div>
 						<div className="flex flex-row items-center space-x-4 pt-1 w-full">
@@ -81,7 +81,7 @@ const BountyCard = ({ bounty, loading }) => {
 									
 								{loading?
 									<Skeleton width={'100%'}/>:
-									`Bounty Minted: ${appState.utils.formatUnixDate(parseInt(bounty?.bountyMintTime))}`
+									`Bounty Minted: ${appState.utils.formatUnixDate(parseInt(bounty?.bountyMintTime), true)}`
 								}
 							</div>
 						</div>

@@ -53,12 +53,12 @@ const BountyCardDetailsModal = ({ bounty, TVL, closeModal, tokenValues}) => {
 						<div className="border border-web-gray px-4 pb-1 w-max rounded-md">
 							<TokenBalances tokenBalances={bounty.bountyTokenBalances} tokenValues={tokenValues} showOne={true}/>						
 						</div>
-						<Link href={`/bounty/${bounty.bountyAddress}`}>
+						{bounty.bountyTokenBalances?.length>1 && <Link href={`/bounty/${bounty.bountyAddress}`}>
 							<a target={'_blank'}>
 								<div onClick={closeModal} className="border border-web-gray px-4 pb-1.5 pt-1.5 w-max rounded-md cursor-pointer">more...
 								</div>
 							</a>
-						</Link>
+						</Link>}
 					</div>}
 					<section className="github_markup" dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}></section>
 				</div>
