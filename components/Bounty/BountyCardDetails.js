@@ -15,18 +15,20 @@ import MiniDepositCard from './MiniDepositCard';
 const BountyCardDetails = ({ bounty, tokenValues }) => {
 
 	return (
-		<div className="flex flex-col font-mont pl-5 pr-5 md:pl-16 md:pr-16 pt-10 pb-10 my-16 border-web-gray border rounded-lg w-5/6 max-w-6xl">
-			<div className="flex flex-col border-b pb-6 border-solid rounded-t">
-				<BountyCardHeader bounty={bounty} />
+		<div className="flex flex-col w-full font-mont sm:pl-5 sm:pr-5 md:px-10 pt-10 pb-10 my-16 border-web-gray sm:border rounded-lg w-5/6 max-w-6xl">
+			<div className="flex w-full flex-col border-b pb-6 border-solid justify-items-center items-center content-between rounded-t">
+				<	div className='self-start w-full'>
+					<BountyCardHeader bounty={bounty} />
+				</div>
 				<div
-					className="grid md:grid-cols-[repeat(2,_minmax(260px,_1fr))] justify-center justify-items-stretch pt-5 mx-auto md:mx-2 gap-4">
-					<div className="col-span-2 md:col-span-1 md:w-64">
+					className="grid w-full lg:grid-cols-[repeat(auto-fill,_minmax(max(102px,_100%/4-16px),_1fr))] xl:grid-cols-[repeat(auto-fill,_minmax(max(102px,_100%/6-32px),_1fr))] justify-center lg:justify-items-start pt-5 mx-auto md:mx-2 gap-4">
+					<div className="xl:col-span-3 lg:col-span-2">
 						<BountyStatus bounty={bounty} />
 					</div>
-					<div className="col-span-2 md:col-start-2 md:w-68">
+					<div className="lg:col-span-2  xl:col-span-3">
 						<CopyBountyAddress bounty={bounty} />
 					</div>
-					<div>
+					<div className='lg:col-span-3'>
 						{bounty?
 							bounty.bountyTokenBalances.length != 0 ? (
 								<>
@@ -60,9 +62,8 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 							</>
 						}
 					</div>
-				</div>
-				{bounty?.bountyTokenBalances.length != 0 && <div className='text-white text-center font-bold text-xl py-4'>Deposits</div>}
-				<div className="grid gap-4 lg:grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] w-full justify-space-between justify-items-center">
+					{bounty?.bountyTokenBalances.length != 0 && <div className='text-white text-center font-bold text-xl py-4 col-start-1 md:col-end-3 lg:col-end-[-1] w-full'>Deposits</div>}
+			
 					{bounty ? bounty.deposits
 						.filter((deposit) => {
 							return deposit.refunded == false;
