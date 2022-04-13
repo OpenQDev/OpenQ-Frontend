@@ -8,7 +8,7 @@ import Skeleton from 'react-loading-skeleton';
 import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import TokenBalances from '../TokenBalances/TokenBalances';
-const MiniDepositCard = ({deposit, showLink})=>{
+const MiniDepositCard = ({deposit, showLink, status})=>{
 	// Context
 	const [appState] = useContext(StoreContext);
 
@@ -30,11 +30,11 @@ const MiniDepositCard = ({deposit, showLink})=>{
 	});
 
 	const timeToExpiry = parseInt(deposit.receiveTime) + parseInt(deposit.expiration) - Date.now()* 0.001 ;
-	const open = !deposit.refunded&&!deposit.claimed;
+	const open = !deposit.refunded && status==='OPEN';
 
 	// render
 	return(
-		<div key={deposit.id} className={`bg-web-gray/20 ${(open&&deposit) ? timeToExpiry < 604800 ? 'border-red-500' : timeToExpiry < 1209600 ? 'border-yellow-500' : 'border-green' : 'border-web-gray'} border px-8 py-4 my-4 pb-4 h-min rounded-md sm:w-72 text-white`}>		
+		<div key={deposit.id} className={`bg-web-gray/20 ${(open && deposit) ? timeToExpiry < 604800 ? 'border-red-500' : timeToExpiry < 1209600 ? 'border-yellow-500' : 'border-green' : 'border-web-gray'} border px-8 py-4 my-4 pb-4 h-min rounded-md sm:w-72 text-white`}>		
 			{showLink&&<Link href={`/bounty/${deposit.bounty.id}`}>
 				<h3 className='text-xl font-semibold leading-none underline cursor-pointer pb-2'>{title}</h3>			
 			</Link>}

@@ -70,7 +70,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 						.sort((a, b) => {
 							return (parseInt(a.receiveTime) + parseInt(a.expiration)) - (parseInt(b.receiveTime) + parseInt(b.expiration));
 						})
-						.map((deposit, index) => 	<MiniDepositCard key={index} deposit={deposit} showLink={false}/>
+						.map((deposit, index) => 	<MiniDepositCard key={index} deposit={deposit} status={bounty.status} showLink={false}/>
 						):
 						<>
 							<MiniDepositCard deposit={false} showLink={false}/>
