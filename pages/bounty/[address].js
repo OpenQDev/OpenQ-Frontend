@@ -85,9 +85,9 @@ const address = () => {
 
 		// Confetti
 		const justMinted = sessionStorage.getItem('justMinted')==='true';
-		setIsIndexing(justMinted);
 		sessionStorage.setItem('justMinted', false);
 		if (justMinted) {
+			setIsIndexing(true);
 			canvas.current.width = window.innerWidth;
 			canvas.current.height = window.innerHeight;
 
