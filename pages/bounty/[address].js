@@ -13,6 +13,7 @@ import useGetTokenValues from '../../hooks/useGetTokenValues';
 import useAuth from '../../hooks/useAuth';
 import UnexpectedError from '../../components/Utils/UnexpectedError';
 import Toggle from '../../components/Toggle/Toggle';
+import LoadingModal from '../../components/Loading/LoadingModal';
 
 const address = () => {
 	// Context
@@ -29,6 +30,8 @@ const address = () => {
 	const [, setIsLoading] = useState(true);
 	const [error, setError] = useState(false);
 	const [internalMenu, setInternalMenu] = useState();
+	const [isIndexing, setIsIndexing] = useState(false);
+	const [showIndexingModal, setShowIndexingModal] = useState(true);
 
 	// Refs
 	const canvas = useRef();
@@ -42,7 +45,15 @@ const address = () => {
 			// or is it null?
 			while (bounty === undefined || bounty === null) {
 				bounty = await appState.openQSubgraphClient.getBounty(address);
-				await sleep(500);
+				if(first){
+					if(!bounty){
+						setIsIndexing(true);
+					}
+				}
+				else{
+					setIsIndexing(false);
+				}
+				await sleep(500);				
 			}
 			const issueData = await appState.githubRepository.fetchIssueById(bounty?.bountyId);
 
@@ -116,16 +127,19 @@ const address = () => {
 		return <UnexpectedError />;
 	}
 	else return (
-		<div className="flex flex-col font-mont justify-center items-center pt-7">
-			<Toggle toggleFunc={handleToggle} toggleVal={internalMenu} names={['View', 'Fund', 'Refund', 'Claim']} />
-			{internalMenu == 'View' ? (
-				<BountyCardDetails bounty={bounty} tokenValues={tokenValues} />
-			) : null}
-			{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
-			{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
-			{internalMenu == 'Refund' && bounty ? (<RefundPage bounty={bounty} refreshBounty={refreshBounty} />) : null}
-			<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>
-		</div>
+		<>
+			<div className="flex flex-col font-mont justify-center items-center pt-7">
+				<Toggle toggleFunc={handleToggle} toggleVal={internalMenu} names={['View', 'Fund', 'Refund', 'Claim']} />
+				{internalMenu == 'View' ? (
+					<BountyCardDetails bounty={bounty} tokenValues={tokenValues} />
+				) : null}
+				{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
+				{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
+				{internalMenu == 'Refund' && bounty ? (<RefundPage bounty={bounty} refreshBounty={refreshBounty} />) : null}
+				<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>
+			</div>
+			{isIndexing && showIndexingModal && <LoadingModal updateModal={()=>setShowIndexingModal(false)} loadingText={{title: 'Indexing Bounty', message: 'Please wait while your bounty is indexed.'}}/>}
+		</>
 	);
 };
 
