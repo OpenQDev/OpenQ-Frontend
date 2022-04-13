@@ -98,7 +98,7 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 							</div>
 						) : null}
 						
-						{claimState===CHECKING_WITHDRAWAL_ELIGIBILITY &&
+						{(claimState===CHECKING_WITHDRAWAL_ELIGIBILITY || claimState === TRANSACTION_SUBMITTED) &&
 						<div className='self-center'><LoadingIcon bg="colored" /></div>
 						}
 					</div>
