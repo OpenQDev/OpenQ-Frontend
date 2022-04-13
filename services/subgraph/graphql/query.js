@@ -287,64 +287,8 @@ export const GET_ORGANIZATIONS = gql`
 query GetOrganizations {
   organizations {
     id
-		fundedTokenBalances {
-      id
-      tokenAddress
-      volume
-    }
-    deposits {
-      id
-			refunded
-			refundTime
-      tokenAddress
-      volume
-			expiration
-			receiveTime
-      bounty {
-        id
-        bountyId
-      }
-      sender {
-        id
-      }
-    }
-    payouts {
-      id
-      tokenAddress
-      payoutTime
-      volume
-    }
-		payoutTokenBalances {
-		  id
-      volume
-      tokenAddress
-		}
     bountiesCreated {
 			bountyAddress
-			bountyId
-			bountyMintTime
-			bountyClosedTime
-			claimedTransactionHash
-			status
-			deposits {
-				id
-				tokenAddress
-				volume
-				expiration
-				refunded
-				refundTime
-				sender {
-					id
-				}
-				receiveTime
-			}
-			issuer {
-				id
-			}
-			bountyTokenBalances {
-				volume
-				tokenAddress
-			}
     }
   }
 }
