@@ -67,12 +67,28 @@ const address = () => {
 		return new Promise(resolve => setTimeout(resolve, ms));
 	}
 
-	// What needs to be done here to poll until the new deposit is seen? 1 second is not enough
-	// Needs a retry mechanism like [address] has on first load
+	const refundCount = (deposits) => {
+		let refund = 0;
+		for (let deposit of deposits) {
+			if (deposit.refunded === true) { refund++; }
+		}
+		return refund;
+	};
+
+	// Fund: Change in deposits length
+	// Claim: Change in bounty.status
+	// Refund: Check that one of the deposits has been refunded
+	// No faster than 1 second so begin with a sleep so as to not spam the Graph Hosted Service
 	const refreshBounty = async () => {
 		await sleep(1000);
+		let newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
 		try {
-			let newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
+			const refundedBefore = refundCount(bounty.deposits);
+			const refundedNow = refundCount(newBounty.deposits);
+			while (newBounty.deposits.length === bounty.deposits.length && newBounty.status === bounty.status && refundedBefore === refundedNow) {
+				newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
+				await sleep(500);
+			}
 			const mergedBounty = { ...bounty, ...newBounty };
 			setBounty(mergedBounty);
 		}
