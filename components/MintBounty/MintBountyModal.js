@@ -152,7 +152,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 			await sleep(1000);
 
-
+			sessionStorage.setItem('justMinted', true);
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}?first=true`
 			);

@@ -25,7 +25,7 @@ const address = () => {
 	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
 
 	// State
-	const { address, first, } = router.query;
+	const { address } = router.query;
 	const [, setRedirectUrl] = useState('');
 	const [, setIsLoading] = useState(true);
 	const [error, setError] = useState(false);
@@ -45,12 +45,7 @@ const address = () => {
 			// or is it null?
 			while (bounty === undefined || bounty === null) {
 				bounty = await appState.openQSubgraphClient.getBounty(address);
-				if(first){
-					if(!bounty){
-						setIsIndexing(true);
-					}
-				}
-				else{
+				if(bounty){
 					setIsIndexing(false);
 				}
 				await sleep(500);				
@@ -87,16 +82,12 @@ const address = () => {
 
 	// Hooks
 	useEffect(() => {
-		if (address) {
-			const route = sessionStorage.getItem(address);
 
-			if (route !== internalMenu) {
-				setInternalMenu(route || 'View');
-			}
-			setRedirectUrl(`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${address}`);
-			populateBountyData();
-		}
-		if (first) {
+		// Confetti
+		const justMinted = sessionStorage.getItem('justMinted')==='true';
+		setIsIndexing(justMinted);
+		sessionStorage.setItem('justMinted', false);
+		if (justMinted) {
 			canvas.current.width = window.innerWidth;
 			canvas.current.height = window.innerHeight;
 
@@ -112,6 +103,16 @@ const address = () => {
 					y: 0,
 				}
 			});
+		}
+		// set route and populate
+		if (address) {
+			const route = sessionStorage.getItem(address);
+
+			if (route !== internalMenu) {
+				setInternalMenu(route || 'View');
+			}
+			setRedirectUrl(`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${address}`);
+			populateBountyData();
 		}
 	}, [address]);
 
