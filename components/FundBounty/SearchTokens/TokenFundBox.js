@@ -13,7 +13,7 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume }) => {
 						className="font-semibold text-2xl number outline-none bg-dark-mode text-tinted w-full"
 						autoComplete="off"
 						value={volume}
-						placeholder={'0'}
+						placeholder={'0.0'}
 						id="amount"
 						onChange={(event) => onVolumeChange(event.target.value)}
 					/>
