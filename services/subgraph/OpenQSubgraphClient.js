@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { GET_ORGANIZATION, GET_USER, GET_BOUNTY, GET_BOUNTY_BY_ID, GET_ALL_BOUNTIES, GET_ORGANIZATIONS, GET_PAYOUT_TRANSACTION_HASH, GET_PAGINATED_ORGANIZATION_DATA } from './graphql/query';
+import { GET_ORGANIZATION, GET_USER, GET_BOUNTY, GET_ALL_BOUNTIES, GET_ORGANIZATIONS, GET_PAYOUT_TRANSACTION_HASH, GET_PAGINATED_ORGANIZATION_DATA } from './graphql/query';
 import fetch from 'cross-fetch';
 
 class OpenQSubgraphClient {
