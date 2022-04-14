@@ -125,18 +125,20 @@ const MintBountyModal = ({ modalVisibility }) => {
 	useEffect(() => {
 		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
 		function handleClickOutside(event) {
-			if (modal.current && !modal.current.contains(event.target) && !isLoading) {
+			if (modal.current && !modal.current.contains(event.target)) {
 				modalVisibility(false);
 			}
 		}
 
 		// Bind the event listener
-		document.addEventListener('mousedown', handleClickOutside);
+		if(!isLoading){
+			document.addEventListener('mousedown', handleClickOutside);
+		}
 		return () => {
 			// Unbind the event listener on clean up
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
-	}, [modal]);
+	}, [modal, isLoading]);
 
 	// Methods
 	function sleep(ms) {

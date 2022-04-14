@@ -28,7 +28,6 @@ const ApproveTransferModal = ({
 		resetState();
 		setShowApproveTransferModal(false);
 	};
-
 	useEffect(() => {
 		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
 		function handleClickOutside(event) {
@@ -38,12 +37,14 @@ const ApproveTransferModal = ({
 		}
 
 		// Bind the event listener
-		document.addEventListener('mousedown', handleClickOutside);
+		if(approveTransferState !== APPROVING && approveTransferState !== TRANSFERRING){
+			document.addEventListener('mousedown', handleClickOutside);
+		}
 		return () => {
 			// Unbind the event listener on clean up
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
-	}, [modal]);
+	}, [modal, approveTransferState]);
 
 	let title = {
 		[CONFIRM]: 'Confirm',
