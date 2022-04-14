@@ -28,23 +28,24 @@ const OrganizationHomepage = () => {
 		} catch (error) {
 			console.log(error);
 		}
-
-		let mergedOrgs = [];
-
-		for (const organization of orgs) {
-			let orgData = {};
-
-			try {
-				orgData = await appState.githubRepository.fetchOrgOrUserById(
-					organization.id
-				);
-			} catch (error) {
-				console.log(error);
-				updateError(true);
-			}
-			const mergedOrgData = { ...organization, ...orgData };
-			mergedOrgs.push(mergedOrgData);
+		const ids = orgs.map(org=>org.id);
+		let githubOrganizations=[];		
+		try{
+			githubOrganizations = await appState.githubRepository.fetchOrgsOrUsersByIds(ids);
 		}
+		catch(err){
+			updateError(true);
+			console.log(error);
+		}
+		let mergedOrgs = orgs.map((org)=>{
+			let currentGithubOrg;
+			for(const githubOrganization of githubOrganizations){
+				if(org.id === githubOrganization.id ){
+					currentGithubOrg = githubOrganization;
+				}
+			}
+			return {...org, ...currentGithubOrg};
+		});
 
 		setOrganizations(mergedOrgs);
 		setIsLoading(false);

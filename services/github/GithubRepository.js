@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { GET_USER_BY_ID, GET_USER_BY_NAME, GET_ORG_BY_ID, GET_ORG_BY_NAME, GET_ISSUE, GET_ISSUE_BY_ID, GET_ISSUES_BY_ID, GET_ORGS_BY_ISSUES } from './graphql/query';
+import { GET_USER_BY_ID, GET_USER_BY_NAME, GET_ORG_BY_ID, GET_ORG_BY_NAME, GET_ISSUE, GET_ISSUE_BY_ID, GET_ISSUES_BY_ID, GET_ORGS_BY_ISSUES, GET_ORGS_BY_IDS, GET_USERS_BY_IDS } from './graphql/query';
 import fetch from 'cross-fetch';
 import { setContext } from '@apollo/client/link/context';
 
@@ -179,6 +179,41 @@ class GithubRepository {
 		return promise;
 	}
 
+	async fetchOrgsOrUsersByIds(ids) {
+		const promise = new Promise(async (resolve, reject) => {			
+			try {
+				const orgString = 'MDEyO';
+				const userString = 'MDQ6V';
+				const orgIds = [];
+				const userIds = [];
+				const unknownIds = [];
+				ids.forEach(id=>{
+					if(id.slice(0, 5) === orgString){
+						orgIds.push(id);
+					}
+					else if(id.slice(0, 5)===userString){
+						userIds.push(id);
+					}
+					else unknownIds.push(id);
+				});
+				const organizations = await this.fetchOrganizationsByIds(orgIds);
+				const users = await this.fetchUsersByIds(userIds);
+				const unknown = [];
+				for(const id of unknownIds){
+					const data = await this.fetchOrgOrUserById(id);
+					unknown.push(data);
+				}
+				resolve([...users, ...organizations, ...unknown]);
+			}
+			catch (e) {
+				console.log(e);
+				reject(e);
+			}
+		});
+
+		return promise;
+	}
+
 	async fetchUserById(userId) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
@@ -192,6 +227,21 @@ class GithubRepository {
 			}
 		});
 
+		return promise;
+	}
+	
+	async fetchUsersByIds(userIds) {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.query({
+					query: GET_USERS_BY_IDS, variables: { userIds },
+				});
+				resolve(result.data.nodes);
+			} catch (e) {
+				console.log(e);
+				reject(e);
+			}
+		});
 		return promise;
 	}
 
@@ -208,6 +258,21 @@ class GithubRepository {
 			}
 		});
 
+		return promise;
+	}
+
+	async fetchOrganizationsByIds(orgIds) {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.query({
+					query: GET_ORGS_BY_IDS, variables: { orgIds },
+				});
+				resolve(result.data.nodes);
+			} catch (e) {
+				console.log(e);
+				reject(e);
+			}
+		});
 		return promise;
 	}
 
