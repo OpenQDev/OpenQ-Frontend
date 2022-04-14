@@ -79,8 +79,8 @@ const ApproveTransferModal = ({
 								</div>
 							</div>
 						</div>
-						<div className="flex-auto text-md text-white text-center">
-							<span className="pb-4 text-center break-words">
+						<div className="text-md text-white text-center pb-4">
+							<span className="text-center break-words">
 								{message[approveTransferState]}
 							</span>
 							{link[approveTransferState] && 
