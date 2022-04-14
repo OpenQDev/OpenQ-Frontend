@@ -53,6 +53,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 		issueFound,
 		enableMint,
 		error,
+		isLoading
 	} = mintBountyState;
 
 	// Refs
@@ -124,7 +125,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 	useEffect(() => {
 		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
 		function handleClickOutside(event) {
-			if (modal.current && !modal.current.contains(event.target) && !transactionPending) {
+			if (modal.current && !modal.current.contains(event.target) && !isLoading) {
 				modalVisibility(false);
 			}
 		}
