@@ -50,7 +50,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 
 			const containsTag = localTagArr.reduce((accum, tag) => {
 				if (accum === false) return false;
-				return bounty.labels.some(label => label.name === tag);
+				return bounty.labels.some(label => label.name.toLowerCase() === tag.toLowerCase());
 			}, true);
 
 			const isUnclaimed = bounty.status === 'OPEN';

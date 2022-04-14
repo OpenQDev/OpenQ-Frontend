@@ -140,15 +140,14 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	}
 
 	function onVolumeChange(volume) {
-		if(!volume.includes('.')){
-			volume = parseInt(volume)||0;
+		const numberRegex = /^(\d+)?(\.)?(\d+)?$/;
+		if(numberRegex.test(volume )&& (parseFloat(volume)<1100|| volume === '' ||volume === '.')){
+			setVolume(volume.match(numberRegex)[0]);
 		}
-		if(0 <= parseInt(volume) && parseInt(volume*100) < 100000) setVolume(volume);
-		if(volume===''){setVolume(0);}
 	}
 	const onDepositPeriodChanged = (e) =>{
 		if(parseInt(e.target.value)>=0) setDepositPeriodDays(parseInt(e.target.value));
-		if(e.target.value==='')setDepositPeriodDays(0);
+		if(e.target.value==='')setDepositPeriodDays('0');
 	};
 
 	// Render

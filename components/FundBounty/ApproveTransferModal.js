@@ -10,6 +10,7 @@ import {
 	ERROR
 } from './ApproveTransferState';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
+import Link from 'next/link';
 
 const ApproveTransferModal = ({
 	approveTransferState,
@@ -28,7 +29,6 @@ const ApproveTransferModal = ({
 		resetState();
 		setShowApproveTransferModal(false);
 	};
-
 	useEffect(() => {
 		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
 		function handleClickOutside(event) {
@@ -38,12 +38,14 @@ const ApproveTransferModal = ({
 		}
 
 		// Bind the event listener
-		document.addEventListener('mousedown', handleClickOutside);
+		if(approveTransferState !== APPROVING && approveTransferState !== TRANSFERRING){
+			document.addEventListener('mousedown', handleClickOutside);
+		}
 		return () => {
 			// Unbind the event listener on clean up
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
-	}, [modal]);
+	}, [modal, approveTransferState]);
 
 	let title = {
 		[CONFIRM]: 'Confirm',
@@ -57,8 +59,12 @@ const ApproveTransferModal = ({
 		[CONFIRM]: `${confirmationMessage}`,
 		[APPROVING]: approvingMessage || 'Approving...',
 		[TRANSFERRING]: 'Transferring...',
-		[SUCCESS]: `Transaction confirmed! Transaction hash is: ${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}.`,
+		[SUCCESS]: 'Transaction confirmed! Transaction hash is: ',
 		[ERROR]: `${error.message}`,
+	};
+
+	let link = {
+		[SUCCESS]: `${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}.`,
 	};
 
 	return (
@@ -73,10 +79,18 @@ const ApproveTransferModal = ({
 								</div>
 							</div>
 						</div>
-						<div className="flex-auto">
-							<p className="text-md text-white pb-4 text-center break-words">
+						<div className="flex-auto text-md text-white text-center">
+							<span className="pb-4 text-center break-words">
 								{message[approveTransferState]}
-							</p>
+							</span>
+							{link[approveTransferState] && 
+							<span className='break-words underline'>
+								<Link href={link[approveTransferState]}>
+									<a target={'_blank'}>
+										{link[approveTransferState]}
+									</a>
+								</Link>
+							</span>}
 						</div>
 						{approveTransferState == 'CONFIRM' ? (
 							<div className="flex items-center">

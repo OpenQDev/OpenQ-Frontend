@@ -53,6 +53,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 		issueFound,
 		enableMint,
 		error,
+		isLoading
 	} = mintBountyState;
 
 	// Refs
@@ -130,12 +131,14 @@ const MintBountyModal = ({ modalVisibility }) => {
 		}
 
 		// Bind the event listener
-		document.addEventListener('mousedown', handleClickOutside);
+		if(!isLoading){
+			document.addEventListener('mousedown', handleClickOutside);
+		}
 		return () => {
 			// Unbind the event listener on clean up
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
-	}, [modal]);
+	}, [modal, isLoading]);
 
 	// Methods
 	function sleep(ms) {
