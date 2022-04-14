@@ -1,5 +1,6 @@
 // Third Party
 import React, { useRef,  useEffect } from 'react';
+import Link from 'next/link';
 
 // Custom
 import {
@@ -31,9 +32,19 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 	let message = {
 		[CONFIRM_CLAIM]: `You are about to claim the deposits on issue ${url} to the address ${ensName || account}. Is this correct ?`,
 		[CHECKING_WITHDRAWAL_ELIGIBILITY]: 'Checking that you are indeed the droid we are looking for...',
-		[WITHDRAWAL_INELIGIBLE]: `You are NOT the droid we are looking for. ${error.message}`,
-		[TRANSACTION_SUBMITTED]: 'You are indeed the droid we are looking for. Transaction pending...',
-		[TRANSACTION_CONFIRMED]: `Transaction confirmed! Transaction hash is: ${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}. All funds from this bounty will appear in your address at ${address}`,
+		[WITHDRAWAL_INELIGIBLE]: `You are NOT the droid we are looking for. ${error.message}.`,
+		[TRANSACTION_SUBMITTED]: 'You are indeed the droid we are looking for. See your pending transaction here: ',
+		[TRANSACTION_CONFIRMED]: 'Transaction confirmed! Transaction hash is: ',
+	};
+
+	let link = {
+		[TRANSACTION_CONFIRMED]: `${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`,
+		[TRANSACTION_SUBMITTED]: `${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`
+	};
+	
+	let afterLink = {
+		[TRANSACTION_CONFIRMED]: `. All funds from this bounty will appear in your address at ${address}`,
+		[TRANSACTION_SUBMITTED]: '.'
 	};
 
 	// Hooks
@@ -47,12 +58,14 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 		}
 
 		// Bind the event listener
-		document.addEventListener('mousedown', handleClickOutside);
+		if(claimState!==TRANSACTION_SUBMITTED && claimState !==CHECKING_WITHDRAWAL_ELIGIBILITY){
+			document.addEventListener('mousedown', handleClickOutside);
+		}
 		return () => {
 		// Unbind the event listener on clean up
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
-	}, [modal]);
+	}, [modal, claimState]);
 
 	return (
 		<div>
@@ -66,11 +79,25 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 								</div>
 							</div>
 						</div>
-						<div className="flex-auto">
-							<p className="text-md text-white pb-4 text-center break-words">
+						<p className="text-md text-white pb-4 text-center break-words">
+							<span>
 								{message[claimState]}
-							</p>
-						</div>
+							</span>
+							{	link[claimState] &&
+						<span>
+							<>
+								<Link href={link[claimState]}>
+									<a className="underline" target="_blank">
+										{link[claimState]}
+									</a>
+								</Link>
+							</>
+							<>
+								{afterLink[claimState]}
+							</>
+						</span>
+							}
+						</p>
 						{claimState == WITHDRAWAL_INELIGIBLE || claimState == TRANSACTION_CONFIRMED ? (
 							<div className="flex items-center justify-end p-5 text-lg rounded-b">
 								<button
