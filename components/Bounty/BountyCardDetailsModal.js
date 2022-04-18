@@ -62,7 +62,7 @@ const BountyCardDetailsModal = ({ bounty, TVL, closeModal, tokenValues}) => {
 					</div>}
 					<section className="github_markup" dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}></section>
 				</div>
-				<div className="sticky w-full bg-black overflow-hidden rounded-b-lg p-4">
+				<div className="sticky w-full bg-black overflow-hidden rounded-b-lg p-4 h-14">
 					<BountyLinks bounty={bounty}/>
 				</div>
 			</div>

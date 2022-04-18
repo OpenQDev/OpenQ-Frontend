@@ -46,7 +46,7 @@ module.exports = {
 				'button-inside-hover': '#461429',
 				'green-inside': '#293e30',
 				'green': '#22c55e',
-				'tinted': '#D1D5DB'
+				'tinted': '#b7b9bc'
 
 			},
 			fontFamily: {
