@@ -10,11 +10,12 @@ import LargeOrganizationCard from '../../components/Organization/LargeOrganizati
 import Toggle from '../../components/Toggle/Toggle';
 import About from '../../components/About/About';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
+import useAuth from '../../hooks/useAuth';
 const organization = () => {
 	// Context
 	const [appState] = useContext(StoreContext);
 	const router = useRouter();
-
+	useAuth();
 	const batch = 10;
 	// State
 	const { organization } = router.query;
