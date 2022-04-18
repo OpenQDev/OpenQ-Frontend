@@ -158,7 +158,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	} else {
 		return (
 			<div className="flex flex-1 font-mont justify-center items-center">
-				<div className="flex flex-col space-y-5 w-5/6">
+				<div className="flex flex-col space-y-5 w-5/6 max-w-xl">
 					<div className="flex text-3xl font-semibold text-white justify-center pt-16">
 						Fund Bounty
 					</div>
@@ -223,7 +223,9 @@ const FundPage = ({ bounty, refreshBounty }) => {
 								<ButtonLoadingIcon />
 							) : null}</div>
 						</button>
-					</ToolTip>
+					</ToolTip>					
+					<span className='text-tinted'>These are unaudited contracts. OpenQ Labs assumes no responsibility or liability for any transaction errors, faults or losses which occur while minting, funding, refunding or claiming a bounty.
+					</span>
 				</div>
 
 				{showApproveTransferModal && <ApproveTransferModal
