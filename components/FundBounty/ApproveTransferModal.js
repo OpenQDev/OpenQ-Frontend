@@ -11,6 +11,7 @@ import {
 } from './ApproveTransferState';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const ApproveTransferModal = ({
 	approveTransferState,
@@ -59,12 +60,12 @@ const ApproveTransferModal = ({
 		[CONFIRM]: `${confirmationMessage}`,
 		[APPROVING]: approvingMessage || 'Approving...',
 		[TRANSFERRING]: 'Transferring...',
-		[SUCCESS]: 'Transaction confirmed! Transaction hash is: ',
+		[SUCCESS]: 'Transaction confirmed! Check out your transaction here: ',
 		[ERROR]: `${error.message}`,
 	};
 
 	let link = {
-		[SUCCESS]: `${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}.`,
+		[SUCCESS]: `${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`,
 	};
 
 	return (
@@ -79,15 +80,21 @@ const ApproveTransferModal = ({
 								</div>
 							</div>
 						</div>
-						<div className="text-md text-white text-center pb-4">
+						<div className="text-md text-white pb-4">
 							<span className="text-center break-words">
 								{message[approveTransferState]}
 							</span>
 							{link[approveTransferState] && 
-							<span className='break-words underline'>
+							<span className='break-all underline'>
 								<Link href={link[approveTransferState]}>
 									<a target={'_blank'}>
 										{link[approveTransferState]}
+										<span className='px-2'>
+											<Image className='mx-4' width={'16'} height={'16'} src={'/BountyMaterial/polyscan-white.png'} />
+										</span>
+										<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 relative bottom-1 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+											<path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+										</svg>
 									</a>
 								</Link>
 							</span>}

@@ -1,6 +1,7 @@
 // Third Party
 import React, { useRef,  useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 // Custom
 import {
@@ -43,8 +44,8 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 	};
 	
 	let afterLink = {
-		[TRANSACTION_CONFIRMED]: `. All funds from this bounty will appear in your address at ${address}`,
-		[TRANSACTION_SUBMITTED]: '.'
+		[TRANSACTION_CONFIRMED]: `All funds from this bounty will appear in your address at ${address}.`,
+		[TRANSACTION_SUBMITTED]: ''
 	};
 
 	// Hooks
@@ -79,23 +80,29 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 								</div>
 							</div>
 						</div>
-						<p className="text-md text-white pb-4 text-center break-words">
+						<p className="text-md text-white pb-4 break-words">
 							<span>
 								{message[claimState]}
 							</span>
 							{	link[claimState] &&
-						<span>
+						<div>
 							<>
 								<Link href={link[claimState]}>
-									<a className="underline" target="_blank">
-										{link[claimState]}
+									<a className="underline break-all" target="_blank">
+										{link[claimState]}								
+										<span className='px-2'>
+											<Image className='mx-4' width={'16'} height={'16'} src={'/BountyMaterial/polyscan-white.png'} />
+										</span>
+										<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 relative bottom-1 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+											<path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+										</svg>
 									</a>
 								</Link>
 							</>
-							<>
+							<p>
 								{afterLink[claimState]}
-							</>
-						</span>
+							</p>
+						</div>
 							}
 						</p>
 						{claimState == WITHDRAWAL_INELIGIBLE || claimState == TRANSACTION_CONFIRMED ? (
