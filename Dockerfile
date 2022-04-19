@@ -7,4 +7,4 @@ ARG deploy_env
 ENV DEPLOY_ENV=$deploy_env
 RUN yarn
 EXPOSE 3000
-ENTRYPOINT yarn start
+ENTRYPOINT yarn start:dev

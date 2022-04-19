@@ -5,11 +5,11 @@
 	"scripts": {
 		"boot:local": "next dev -p 3005",
 		"boot:docker": "DEPLOY_ENV=docker next dev",
-		"boot:production": "DEPLOY_ENV=polygon next dev",
 		"boot:development": "DEPLOY_ENV=development next dev",
 		"json-server": "json-server --watch --port 3030 __mocks__/mock-server.json",
 		"build": "next build",
 		"start": "next build && next start",
+		"start:dev": "DEPLOY_ENV=staging next dev",
 		"lint": "next lint",
 		"test": "jest",
 		"gen": "node services/ethers/mocks/abiToJavascriptClass.js",
