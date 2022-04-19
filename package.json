@@ -9,7 +9,7 @@
 		"boot:development": "DEPLOY_ENV=development next dev",
 		"json-server": "json-server --watch --port 3030 __mocks__/mock-server.json",
 		"build": "next build",
-		"start": "next build && next start",
+		"start": "next start",
 		"lint": "next lint",
 		"test": "jest",
 		"gen": "node services/ethers/mocks/abiToJavascriptClass.js",
