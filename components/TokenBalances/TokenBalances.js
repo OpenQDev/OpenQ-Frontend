@@ -6,13 +6,8 @@ const ethers = require('ethers');
 import Skeleton from 'react-loading-skeleton';
 
 const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, showOne }) => {
-	console.log('tokenValues in token balances', tokenValues);
-	console.log('tokenBalances in token balances', tokenBalances);
-	console.log('singleCurrency', singleCurrency);
-
 	const [appState] = useContext(StoreContext);
 	const tokenBalancesArr = Array.isArray(tokenBalances) ? tokenBalances : [tokenBalances];
-	console.log('tokenBalancesArr', tokenBalancesArr);
 
 	const [displayedBalances, updateDisplayedBalances] = useState([]);
 	const { tokenMetadata } = appState;

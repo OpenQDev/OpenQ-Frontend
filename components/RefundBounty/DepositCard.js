@@ -10,8 +10,6 @@ const DepositCard = ({ deposit, refundBounty, status, isOnCorrectNetwork }) => {
 
 	// State
 	const [tokenValues] = useGetTokenValues(deposit);
-	console.log('deposit', deposit);
-	console.log('tokenValues from deposit', tokenValues);
 
 	return (
 		<div className={`flex flex-col items-start px-8 sm:px-6 pb-4 max-w-sm bg-web-gray/20 ${status === 'refundable' ? ' border-pink-300' : status === 'not-yet-refundable' ? '' : ' border-web-gray'} border rounded-md`}>
