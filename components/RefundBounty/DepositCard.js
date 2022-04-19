@@ -10,6 +10,8 @@ const DepositCard = ({ deposit, refundBounty, status, isOnCorrectNetwork }) => {
 
 	// State
 	const [tokenValues] = useGetTokenValues(deposit);
+	console.log('deposit', deposit);
+	console.log('tokenValues from deposit', tokenValues);
 
 	return (
 		<div className={`flex flex-col items-start px-8 sm:px-6 pb-4 max-w-sm bg-web-gray/20 ${status === 'refundable' ? ' border-pink-300' : status === 'not-yet-refundable' ? '' : ' border-web-gray'} border rounded-md`}>
@@ -31,17 +33,17 @@ const DepositCard = ({ deposit, refundBounty, status, isOnCorrectNetwork }) => {
 				</div>)
 			}
 			{status === 'refundable' &&
-			<ToolTip
-				outerStyles="w-full flex self-center w-1/2"
-				hideToolTip={ isOnCorrectNetwork} 
-				toolTipText={'Please switch to the correct network to refund this deposit.' } 
-				customOffsets={[0, 46]}>
-				<button	onClick={() => refundBounty(deposit.id)}
-					disabled={!isOnCorrectNetwork}
-					className={`items-left text-lg text-white self-center ${isOnCorrectNetwork ? 'sm-confirm-btn' : 'sm-confirm-btn-disabled cursor-not-allowed' }`} >
-					Refund
-				</button>
-			</ToolTip>
+				<ToolTip
+					outerStyles="w-full flex self-center w-1/2"
+					hideToolTip={isOnCorrectNetwork}
+					toolTipText={'Please switch to the correct network to refund this deposit.'}
+					customOffsets={[0, 46]}>
+					<button onClick={() => refundBounty(deposit.id)}
+						disabled={!isOnCorrectNetwork}
+						className={`items-left text-lg text-white self-center ${isOnCorrectNetwork ? 'sm-confirm-btn' : 'sm-confirm-btn-disabled cursor-not-allowed'}`} >
+						Refund
+					</button>
+				</ToolTip>
 			}
 		</div>
 

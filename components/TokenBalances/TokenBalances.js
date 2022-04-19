@@ -6,10 +6,17 @@ const ethers = require('ethers');
 import Skeleton from 'react-loading-skeleton';
 
 const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, showOne }) => {
+	console.log('tokenValues in token balances', tokenValues);
+	console.log('tokenBalances in token balances', tokenBalances);
+	console.log('singleCurrency', singleCurrency);
+
 	const [appState] = useContext(StoreContext);
 	const tokenBalancesArr = Array.isArray(tokenBalances) ? tokenBalances : [tokenBalances];
+	console.log('tokenBalancesArr', tokenBalancesArr);
+
 	const [displayedBalances, updateDisplayedBalances] = useState([]);
 	const { tokenMetadata } = appState;
+
 	useEffect(() => {
 		if (tokenBalancesArr[0] && tokenValues) {
 			let highest = 0;
@@ -31,6 +38,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 					totalValue = tokenValues.tokens[tokenValueAddress.toLowerCase()];
 				} else {
 					totalValue = formattedVolume * tokenValues.tokenPrices[tokenValueAddress.toLowerCase()];
+					console.log('totalValue for singleCurrency', totalValue);
 				}
 
 				let usdValue = appState.utils.formatter.format(
