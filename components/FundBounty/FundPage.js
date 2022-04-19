@@ -40,7 +40,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const [token, setToken] = useState(appState.tokens[0]);
 
 	const claimed = bounty.status == 'CLOSED';
-	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) == 0 || volume == '' || !account;
+	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) == 0 || volume == '' || !account || !(parseInt(depositPeriodDays)>0);
 	const disableOrEnable = `${loadingClosedOrZero || !isOnCorrectNetwork ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`;
 	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${disableOrEnable}`;
 
@@ -141,7 +141,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 	function onVolumeChange(volume) {
 		const numberRegex = /^(\d+)?(\.)?(\d+)?$/;
-		if(numberRegex.test(volume )&& (parseFloat(volume)<1100|| volume === '' ||volume === '.')){
+		if(numberRegex.test(volume )&& (parseFloat(volume)<=999|| volume === '' ||volume === '.')){
 			setVolume(volume.match(numberRegex)[0]);
 		}
 	}
@@ -191,11 +191,13 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 					<ToolTip hideToolTip={account && isOnCorrectNetwork && !loadingClosedOrZero} 
 						toolTipText={
-							account && isOnCorrectNetwork ?
-								'Please indicate the volume you\'d like to fund with.':
-								account ? 
-									'Please switch to the correct network to fund this bounty.' : 
-									'Connect your wallet to fund this bounty!' } 
+							account && isOnCorrectNetwork && !(depositPeriodDays>0)?
+								'Please indicate how many days you\'d like to fund your bounty for.':
+								account && isOnCorrectNetwork ?
+									'Please indicate the volume you\'d like to fund with.':
+									account ? 
+										'Please switch to the correct network to fund this bounty.' : 
+										'Connect your wallet to fund this bounty!' } 
 						customOffsets={
 							[0, 54] }>
 						<button
