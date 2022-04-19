@@ -5,10 +5,10 @@ import fetch from 'cross-fetch';
 class OpenQSubgraphClient {
 	constructor() { }
 
-	httpLink = new HttpLink({ uri: process.env.OPENQ_SUBGRAPH_HTTP_URL, fetch });
+	httpLink = new HttpLink({ uri: process.env.NEXT_PUBLIC_OPENQ_SUBGRAPH_HTTP_URL, fetch });
 
 	client = new ApolloClient({
-		uri: process.env.OPENQ_SUBGRAPH_HTTP_URL,
+		uri: process.env.NEXT_PUBLIC_OPENQ_SUBGRAPH_HTTP_URL,
 		link: this.httpLink,
 		cache: new InMemoryCache()
 	});
@@ -47,7 +47,6 @@ class OpenQSubgraphClient {
 	}
 
 	async getBounty(id, fetchPolicy = 'cache-first') {
-		console.log(fetchPolicy);
 		const lowerCasedAddress = id.toLowerCase();
 		const promise = new Promise(async (resolve, reject) => {
 			try {
