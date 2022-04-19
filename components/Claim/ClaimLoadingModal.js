@@ -32,7 +32,7 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 	let message = {
 		[CONFIRM_CLAIM]: `You are about to claim the deposits on issue ${url} to the address ${ensName || account}. Is this correct ?`,
 		[CHECKING_WITHDRAWAL_ELIGIBILITY]: 'Checking that you are indeed the droid we are looking for...',
-		[WITHDRAWAL_INELIGIBLE]: `You are NOT the droid we are looking for. ${error.message}.`,
+		[WITHDRAWAL_INELIGIBLE]: `You are NOT the droid we are looking for. ${error.message}`,
 		[TRANSACTION_SUBMITTED]: 'You are indeed the droid we are looking for. See your pending transaction here: ',
 		[TRANSACTION_CONFIRMED]: 'Transaction confirmed!  Check out your transaction with the link below: ',
 	};
