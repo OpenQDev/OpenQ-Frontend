@@ -1,0 +1,24 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "OpenQOnlyAccess",
+  "sourceName": "contracts/OpenQOnlyAccess/OpenQOnlyAccess.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "openQ",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
