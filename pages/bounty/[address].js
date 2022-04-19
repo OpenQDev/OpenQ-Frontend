@@ -91,6 +91,7 @@ const address = () => {
 			}
 			const mergedBounty = { ...bounty, ...newBounty };
 			setBounty(mergedBounty);
+			sessionStorage.setItem('needsReload', 'true');
 		}
 		catch (error) {
 			setError(true);
@@ -104,6 +105,7 @@ const address = () => {
 		const justMinted = sessionStorage.getItem('justMinted') === 'true';
 		sessionStorage.setItem('justMinted', false);
 		if (justMinted) {
+			sessionStorage.setItem('needsReload', true);
 			setIsIndexing(true);
 			canvas.current.width = window.innerWidth;
 			canvas.current.height = window.innerHeight;
@@ -132,6 +134,7 @@ const address = () => {
 			populateBountyData();
 		}
 	}, [address]);
+
 
 	// User Methods
 
