@@ -23,7 +23,7 @@ volume:'2000000000000000000'
 [],
 null];
 
-// Test cases for tokenValues
+// Test cases for 
 const tokenValuesCases=
 		[{tokenPrices:{'0x8f3cf7ad23cd3cadbd9735aff958023239c6a063':1,
 			'0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39':13.95,
@@ -31,36 +31,41 @@ const tokenValuesCases=
 		'tokens':{'0x8f3cf7ad23cd3cadbd9735aff958023239c6a063':3.0029999999999997,
 			'0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39':27.9,
 			'0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270':1.41},'total':32.31},  null];
-
-// other props
 const singles = [false, true];
 const showOnes = [false, true];
 const headers =['header', ''];
 const test =(tokenBalances, tokenValues, singleCurrency, header, showOne)=>{
 	
-	it('should render the balances', () => {
-		const {container}=render(<TokenBalances tokenBalances={tokenBalances} showOne={showOne} singleCurrency = {singleCurrency} tokenValues={tokenValues} header={header} />);
+	it('should render the header', () => {
+		render(<TokenBalances tokenBalances={tokenBalances} showOne={showOne} singleCurrency = {singleCurrency} tokenValues={tokenValues} header={header} />);
 		// header display if it exists
 		if(header){
 			const header = screen.getByText('header');
 			expect(header).toBeInTheDocument();
-		}
+		}			
+	});
+		
+	it('should render the tvl if that\'s all it has', () => {
+		render(<TokenBalances tokenBalances={tokenBalances} showOne={showOne} singleCurrency = {singleCurrency} tokenValues={tokenValues} header={header} />);
 		// tokenValues but empty balances
 		if( tokenBalances?.length===0 && tokenValues && !showOne ){
 			const TVL = screen.getByText( '$32.31');
 			expect(TVL).toBeInTheDocument();
 		}
+	});
+
+	it('should render the balances', () => {
+		const {container}=render(<TokenBalances tokenBalances={tokenBalances} showOne={showOne} singleCurrency = {singleCurrency} tokenValues={tokenValues} header={header} />);
 
 		// null tokenValues but some balances
 		if(!tokenValues && tokenBalances?.length >0){
 			const skeleton = container.querySelector('.react-loading-skeleton');
-			expect (skeleton).toBeInTheDocument();
+			expect (skeleton).toBeInTheDocument();		
 		}
 
 		//tokenValues and tokenBalances
 		else if(tokenBalances?.length >0 && tokenValues){
 			if(showOne){
-				
 				const balanceText = screen.getByText(
 					'2.0 LINK'
 				);
@@ -74,7 +79,8 @@ const test =(tokenBalances, tokenValues, singleCurrency, header, showOne)=>{
 				);
 				expect(balanceText).toBeInTheDocument();}
 		}
-	});};
+	});
+};
 describe('TokenBalances', ( ) => {
 	tokenBalanceCases.forEach(tokenBalances=>{
 		tokenValuesCases.forEach(tokenValues=>{
