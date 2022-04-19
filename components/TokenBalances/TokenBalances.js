@@ -33,7 +33,6 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 					totalValue = tokenValues.tokens[tokenValueAddress.toLowerCase()];
 				} else {
 					totalValue = formattedVolume * tokenValues.tokenPrices[tokenValueAddress.toLowerCase()];
-					console.log('totalValue for singleCurrency', totalValue);
 				}
 
 				let usdValue = appState.utils.formatter.format(
