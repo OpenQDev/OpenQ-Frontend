@@ -13,18 +13,26 @@ jobs:
             echo 'export DEPLOY_ENV=$(echo ${CIRCLE_TAG} | sed 's/-.*//')' >> $BASH_ENV
             source $BASH_ENV
       - run: echo $DEPLOY_ENV
+      - run: echo $PATS
       - run:
           name: Load .env based on $DEPLOY_ENV
           command: |
             if [ "$DEPLOY_ENV" = development ]; then
               echo "$development_env" | base64 --decode > $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "$PATS" >> $(pwd)/.env
             fi
             if [ "$DEPLOY_ENV" = staging ]; then
               echo "$staging_env" | base64 --decode > $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "$PATS" >> $(pwd)/.env
             fi
             if [ "$DEPLOY_ENV" = production ]; then
               echo "$production_env" | base64 --decode > $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "$PATS" >> $(pwd)/.env
             fi
+      - run: cat $(pwd)/.env
       - run: docker build -t openq/openq-frontend:$CIRCLE_TAG --build-arg deploy_env=$DEPLOY_ENV .
       - run: docker push openq/openq-frontend:$CIRCLE_TAG
 workflows:
