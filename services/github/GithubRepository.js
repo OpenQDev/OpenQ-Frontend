@@ -6,29 +6,27 @@ import { setContext } from '@apollo/client/link/context';
 class GithubRepository {
 	constructor() { }
 
-	getRandomPAT = () => {
-		let patsArray = process.env.NEXT_PUBLIC_PATS.split(' ');
-		let randomToken = patsArray[Math.floor(Math.random() * patsArray.length)];
-		return randomToken;
-	};
-
 	httpLink = new HttpLink({ uri: 'https://api.github.com/graphql', fetch });
-
-	authLink = setContext((_, { headers }) => {
-		const token = this.getRandomPAT();
-		return {
-			headers: {
-				...headers,
-				Authorization: `Bearer ${token}`,
-			},
-		};
-	});
 
 	client = new ApolloClient({
 		uri: 'https://api.github.com/graphql',
-		link: this.authLink.concat(this.httpLink),
+		link: this.httpLink,
 		cache: new InMemoryCache(),
 	});
+
+	setGraphqlHeaders = () => {
+		const authLink = setContext((_, {headers}) => {
+			let patsArray = process.env.NEXT_PUBLIC_PATS.split(' ');
+			let token = patsArray[Math.floor(Math.random() * patsArray.length)];
+			return {
+				headers: {
+					...headers,
+					Authorization: `Bearer ${token}`,
+				},
+			};
+		});
+		this.client.setLink(authLink.concat(this.httpLink));
+	}
 
 	async fetchIssueByUrl(issueUrl) {
 		const promise = new Promise(async (resolve, reject) => {
