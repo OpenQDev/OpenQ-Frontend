@@ -20,6 +20,11 @@ const StoreReducer = (state, action) => {
 			...state,
 			signer: action.payload,
 		};
+	case 'UPDATE_RELOAD':
+		return {
+			...state,
+			needsReload: action.payload,
+		};
 	default:
 		return state;
 	}

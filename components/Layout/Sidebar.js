@@ -1,12 +1,15 @@
 // Third Party
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 // Custom
+import StoreContext from '../../store/Store/StoreContext';
+
 
 const Sidebar = ({ trigger, setTrigger }) => {
+
 	let menuRef = useRef();
-	const [needsReload, setNeedsReload] = useState(false);
+	const [appState] = useContext(StoreContext);
 	useEffect(() => {
 		if (trigger) {
 			let handler = (event) => {
@@ -20,14 +23,6 @@ const Sidebar = ({ trigger, setTrigger }) => {
 			return () => {
 				window.removeEventListener('mousedown', handler);
 			};
-		}
-	});
-	
-	useEffect(()=>{
-		if(sessionStorage.getItem('needReload')){
-			console.log('re');
-			setNeedsReload(true);
-			sessionStorage.setItem('needsReload', false);
 		}
 	});
 
@@ -45,7 +40,7 @@ const Sidebar = ({ trigger, setTrigger }) => {
 				>
 					<nav className="text-white flex flex-col space-y-4 items-center pt-1 flex-grow">
 						<div className="pb-8 pt-5 cursor-pointer">
-							{ needsReload ?	
+							{ appState.needsReload ?	
 								<a href="/">
 									<Image
 										src="/openq-logo.png"
