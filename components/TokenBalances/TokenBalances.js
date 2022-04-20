@@ -8,8 +8,10 @@ import Skeleton from 'react-loading-skeleton';
 const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, showOne }) => {
 	const [appState] = useContext(StoreContext);
 	const tokenBalancesArr = Array.isArray(tokenBalances) ? tokenBalances : [tokenBalances];
+
 	const [displayedBalances, updateDisplayedBalances] = useState([]);
 	const { tokenMetadata } = appState;
+
 	useEffect(() => {
 		if (tokenBalancesArr[0] && tokenValues) {
 			let highest = 0;
