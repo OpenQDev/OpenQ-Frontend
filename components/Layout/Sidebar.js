@@ -33,7 +33,7 @@ const Sidebar = ({ trigger, setTrigger }) => {
 			absolute inset-y-0 left-0 transform -translate-x-full sm:relative sm:translate-x-0 transition duration-200 ease-in-out
 			*/
 		<div className={` ${!trigger ? 'invisible' : ''} md:visible`}>
-			<div className="flex fixed">
+			<div className="flex fixed top-0">
 				<div
 					ref={menuRef}
 					className="bg-dark-mode w-20 flex min-h-screen flex-col border-r border-web-gray"
