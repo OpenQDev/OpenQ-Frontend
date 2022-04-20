@@ -17,7 +17,7 @@ import LoadingModal from '../../components/Loading/LoadingModal';
 
 const address = () => {
 	// Context
-	const [appState] = useContext(StoreContext);
+	const [appState, dispatch] = useContext(StoreContext);
 	const router = useRouter();
 	useAuth();
 
@@ -75,6 +75,14 @@ const address = () => {
 		return refund;
 	};
 
+	const setReload=()=>{
+		const payload = {
+			type: 'UPDATE_RELOAD',
+			payload: true
+		};
+		dispatch(payload);
+	};
+
 	// Fund: Change in deposits length
 	// Claim: Change in bounty.status
 	// Refund: Check that one of the deposits has been refunded
@@ -91,6 +99,7 @@ const address = () => {
 			}
 			const mergedBounty = { ...bounty, ...newBounty };
 			setBounty(mergedBounty);
+			setReload();
 		}
 		catch (error) {
 			setError(true);
@@ -104,6 +113,7 @@ const address = () => {
 		const justMinted = sessionStorage.getItem('justMinted') === 'true';
 		sessionStorage.setItem('justMinted', false);
 		if (justMinted) {
+			setReload();
 			setIsIndexing(true);
 			canvas.current.width = window.innerWidth;
 			canvas.current.height = window.innerHeight;
@@ -132,6 +142,7 @@ const address = () => {
 			populateBountyData();
 		}
 	}, [address]);
+
 
 	// User Methods
 

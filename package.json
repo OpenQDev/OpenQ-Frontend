@@ -22,6 +22,7 @@
 		"@ethersproject/providers": "^5.1.2",
 		"@ethersproject/units": "^5.1.0",
 		"@metamask/jazzicon": "^2.0.0",
+		"@testing-library/user-event": "^14.1.1",
 		"@web3-react/core": "latest",
 		"@web3-react/injected-connector": "latest",
 		"apollo-link-http": "^1.5.17",
