@@ -43,7 +43,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) == 0 || volume == '' || !account || !(parseInt(depositPeriodDays)>0);
 	const disableOrEnable = `${loadingClosedOrZero || !isOnCorrectNetwork ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`;
 	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${disableOrEnable}`;
-
+	
 	function resetState() {
 		setApproveTransferState(RESTING);
 	}

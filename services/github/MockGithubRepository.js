@@ -3,6 +3,9 @@ import axios from 'axios';
 class MockGithubRepository {
 	constructor() { }
 
+	setGraphqlHeaders = () => {
+		return null
+	}
 	async fetchIssue(orgName, repoName, issueId) {
 		const id = 'sdfsd';
 		const promise = new Promise((resolve, reject) => {

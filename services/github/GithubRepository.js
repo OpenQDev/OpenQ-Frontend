@@ -6,29 +6,27 @@ import { setContext } from '@apollo/client/link/context';
 class GithubRepository {
 	constructor() { }
 
-	getRandomPAT = () => {
-		let patsArray = process.env.NEXT_PUBLIC_PATS.split(' ');
-		let randomToken = patsArray[Math.floor(Math.random() * patsArray.length)];
-		return randomToken;
-	};
-
 	httpLink = new HttpLink({ uri: 'https://api.github.com/graphql', fetch });
-
-	authLink = setContext((_, { headers }) => {
-		const token = this.getRandomPAT();
-		return {
-			headers: {
-				...headers,
-				Authorization: `Bearer ${token}`,
-			},
-		};
-	});
 
 	client = new ApolloClient({
 		uri: 'https://api.github.com/graphql',
-		link: this.authLink.concat(this.httpLink),
+		link: this.httpLink,
 		cache: new InMemoryCache(),
 	});
+
+	setGraphqlHeaders = () => {
+		const authLink = setContext((_, { headers }) => {
+			let patsArray = process.env.NEXT_PUBLIC_PATS.split(',');
+			let token = patsArray[Math.floor(Math.random() * patsArray.length)];
+			return {
+				headers: {
+					...headers,
+					Authorization: `Bearer ${token}`,
+				},
+			};
+		});
+		this.client.setLink(authLink.concat(this.httpLink));
+	};
 
 	async fetchIssueByUrl(issueUrl) {
 		const promise = new Promise(async (resolve, reject) => {
@@ -180,18 +178,18 @@ class GithubRepository {
 	}
 
 	async fetchOrgsOrUsersByIds(ids) {
-		const promise = new Promise(async (resolve, reject) => {			
+		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const orgString = 'MDEyO';
 				const userString = 'MDQ6V';
 				const orgIds = [];
 				const userIds = [];
 				const unknownIds = [];
-				ids.forEach(id=>{
-					if(id.slice(0, 5) === orgString){
+				ids.forEach(id => {
+					if (id.slice(0, 5) === orgString) {
 						orgIds.push(id);
 					}
-					else if(id.slice(0, 5)===userString){
+					else if (id.slice(0, 5) === userString) {
 						userIds.push(id);
 					}
 					else unknownIds.push(id);
@@ -199,7 +197,7 @@ class GithubRepository {
 				const organizations = await this.fetchOrganizationsByIds(orgIds);
 				const users = await this.fetchUsersByIds(userIds);
 				const unknown = [];
-				for(const id of unknownIds){
+				for (const id of unknownIds) {
 					const data = await this.fetchOrgOrUserById(id);
 					unknown.push(data);
 				}
@@ -229,7 +227,7 @@ class GithubRepository {
 
 		return promise;
 	}
-	
+
 	async fetchUsersByIds(userIds) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
