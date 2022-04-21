@@ -8,6 +8,8 @@ const useGetTokenValues = (tokenBalances) => {
 
 	async function getTokenValues(tokenBalances) {
 
+		appState.logger.log({ id: tokenBalance.tokenAddress, message: tokenBalance });
+
 		if (tokenBalances) {
 			let tokenVolumes = {};
 			if (Array.isArray(tokenBalances)) {
