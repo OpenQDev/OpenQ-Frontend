@@ -59,6 +59,20 @@
 					},
 					"bountyMintTime": 123,
 					"bountyClosedTime": "sdfds",
+					"deposits": {
+						"id": "abc123",
+						"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+						"value": 1000000000000000000,
+						"expiration": "2592000",
+						"receiveTime": "1646012425",
+						"bounty": {
+						  "id": "dsfsd",
+						  "bountyId": "abc123"
+						},
+						"sender": {
+						  "id": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e"
+						}
+					  },
 					"status": "OPEN",
 					"bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e",
 					"bountyTokenBalances": [

@@ -62,6 +62,53 @@ class MockGithubRepository {
 
 		return promise;
 	}
-}
+	
+	async fetchOrgOrUserById(id) {
+	
+		const promise = new Promise((resolve, reject) => {
+			axios.get(`http://localhost:3030/githubOrganizations/${id}`)
+				.then(result => {
+					resolve(result.data);
+				})
+				.catch(error => {
+					reject(error);
+				});
+		});
 
+		return promise;
+	}
+
+	fetchOrgOrUserByLogin(id) {
+	
+		const promise = new Promise((resolve, reject) => {
+			axios.get(`http://localhost:3030/githubOrganizations/${id}`)
+				.then(result => {
+					resolve(result.data);
+				})
+				.catch(error => {
+					reject(error);
+				});
+		});
+
+		return promise;
+	}
+
+	async fetchOrgsOrUsersByIds(ids){
+		const promise= new Promise((resolve, reject) => {
+		try{
+		const orgPromises = Promise.all( ids.map(async(id)=>{
+			return await this.fetchOrgOrUserById(id);
+		}))
+		resolve(orgPromises)
+	}
+		catch(err){
+			console.log(err);
+			reject(err)
+		}
+
+	})
+	return promise;
+
+}
+}
 export default MockGithubRepository;
