@@ -49,7 +49,7 @@ const test =(bounty, )=>{
 		expect(input).toHaveValue('3');
 		const button = screen.getByRole('button', {name: /Fund/i});
 		await user.click(button);
-		screen.findByText('3 Matic');
+		await screen.findByText(/3 Matic/i);
 		await user.click( screen.getByRole( 'button', {name: /Confirm/i}));
 		const modalContent = await screen.findByText(/Transfer Complete!/i);
 		await user.click( screen.getByRole('button', {name: 'Close'}));

@@ -83,16 +83,17 @@ const MintBountyModal = ({ modalVisibility }) => {
 	useEffect(() => {
 		if (mintBountyState.isValidUrl) {
 			async function fetchIssue() {
-				setIsLoadingIssueData(true);
 				try {
+					//setIsLoadingIssueData(true);
 					const data = await appState.githubRepository.fetchIssueByUrl(issueUrl);
 					setMintBountyState(
 						ISSUE_FOUND(data)
 					);
 					setIsLoadingIssueData(false);
 				} catch (error) {
-					setIsLoadingIssueData(false);
+					//setIsLoadingIssueData(true);
 					setMintBountyState(ISSUE_NOT_FOUND(error));
+					setIsLoadingIssueData(false);
 				}
 			}
 			fetchIssue();
