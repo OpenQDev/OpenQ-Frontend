@@ -81,37 +81,46 @@ const MintBountyModal = ({ modalVisibility }) => {
 	}, [issueUrl]);
 
 	useEffect(() => {
+		let didCancel = false;
 		if (mintBountyState.isValidUrl) {
 			async function fetchIssue() {
 				try {
-					//setIsLoadingIssueData(true);
+					setIsLoadingIssueData(true);
 					const data = await appState.githubRepository.fetchIssueByUrl(issueUrl);
-					setMintBountyState(
-						ISSUE_FOUND(data)
-					);
-					setIsLoadingIssueData(false);
+					if(!didCancel) {
+						setMintBountyState(
+							ISSUE_FOUND(data)
+						);
+						setIsLoadingIssueData(false);
+					}
 				} catch (error) {
-					//setIsLoadingIssueData(true);
+					setIsLoadingIssueData(true);
 					setMintBountyState(ISSUE_NOT_FOUND(error));
 					setIsLoadingIssueData(false);
 				}
 			}
 			fetchIssue();
 		}
+		return (()=>{
+			didCancel = true;
+		});
 	}, [mintBountyState.issueUrl]);
 
 	useEffect(() => {
-		if (mintBountyState.issueData) {
+		let didCancel = false;
+		if (mintBountyState.issueData )  {
 			async function alreadyExists() {
 				try {
 					let bounty = await appState.openQSubgraphClient.getBounty(
 						mintBountyState.issueData.id,
 						'no-cache'
 					);
-					if (bounty) {
-						setMintBountyState(BOUNTY_EXISTS(bounty));
-					} else {
-						setMintBountyState(BOUNTY_DOES_NOT_EXIST());
+					if(!didCancel) {
+						if (bounty) {
+							setMintBountyState(BOUNTY_EXISTS(bounty));
+						} else {
+							setMintBountyState(BOUNTY_DOES_NOT_EXIST());
+						}
 					}
 				} catch (error) {
 					setMintBountyState(ERROR(error));
@@ -121,6 +130,9 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 			alreadyExists();
 		}
+		return (()=>{
+			didCancel = true;
+		});
 	}, [mintBountyState.issueData]);
 
 	useEffect(() => {
@@ -157,10 +169,10 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 			await sleep(1000);
 
-			sessionStorage.setItem('justMinted', true);
+			sessionStorage.setItem('justMinted', true);/*
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`
-			);
+			);*/
 		} catch (error) {
 			console.log('error in mintbounty', error);
 			const { message, title } = appState.openQClient.handleError(error);
@@ -172,7 +184,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 	const closeModal = () => {
 		setShowErrorModal(false);
 		setMintBountyState(RESTING_STATE());
-		modalVisibility(false);
+		modalVisibility(false); 
 	};
 
 	// Render
