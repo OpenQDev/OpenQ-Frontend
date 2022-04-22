@@ -83,9 +83,9 @@ const MintBountyModal = ({ modalVisibility }) => {
 	useEffect(() => {
 		let didCancel = false;
 		if (mintBountyState.isValidUrl) {
+			setIsLoadingIssueData(true);
 			async function fetchIssue() {
 				try {
-					setIsLoadingIssueData(true);
 					const data = await appState.githubRepository.fetchIssueByUrl(issueUrl);
 					if(!didCancel) {
 						setMintBountyState(
@@ -94,7 +94,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 						setIsLoadingIssueData(false);
 					}
 				} catch (error) {
-					setIsLoadingIssueData(true);
 					setMintBountyState(ISSUE_NOT_FOUND(error));
 					setIsLoadingIssueData(false);
 				}
@@ -169,10 +168,10 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 			await sleep(1000);
 
-			sessionStorage.setItem('justMinted', true);/*
+			sessionStorage.setItem('justMinted', true);
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`
-			);*/
+			);
 		} catch (error) {
 			console.log('error in mintbounty', error);
 			const { message, title } = appState.openQClient.handleError(error);
@@ -184,7 +183,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 	const closeModal = () => {
 		setShowErrorModal(false);
 		setMintBountyState(RESTING_STATE());
-		modalVisibility(false); 
+		modalVisibility(false);
 	};
 
 	// Render
