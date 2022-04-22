@@ -4,11 +4,13 @@ import OpenQClient from '../../services/ethers/OpenQClient';
 import OpenQSubgraphClient from '../../services/subgraph/OpenQSubgraphClient';
 import GithubRepository from '../../services/github/GithubRepository';
 import TokenClient from '../../services/coins/TokenClient';
+import GithubBot from '../../services/github-bot/GithubBot';
 
 import MockGithubRepository from '../../services/github/MockGithubRepository';
 import MockOpenQClient from '../../services/ethers/MockOpenQClient';
 import MockOpenQSubgraphClient from '../../services/subgraph/MockOpenQSubgraphClient';
 import MockTokenClient from '../../services/coins/MockTokenClient';
+import MockGithubBot from '../../services/github-bot/MockGithubBot';
 
 // Token Metadata
 // Array of all supported tokens
@@ -31,6 +33,7 @@ case 'local':
 		githubRepository: new MockGithubRepository(),
 		openQSubgraphClient: new MockOpenQSubgraphClient(),
 		tokenClient: new MockTokenClient(),
+		githubBot: new MockGithubBot(),
 		utils: new Utils(),
 	};
 	break;
@@ -42,6 +45,7 @@ case 'docker':
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
+		githubBot: new GithubBot(),
 		utils: new Utils(),
 	};
 	break;
@@ -53,6 +57,7 @@ case 'development':
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
+		githubBot: new GithubBot(),
 		utils: new Utils(),
 	};
 	break;
@@ -64,6 +69,7 @@ case 'staging':
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
+		githubBot: new GithubBot(),
 		utils: new Utils(),
 	};
 	break;
@@ -75,6 +81,7 @@ case 'production':
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
+		githubBot: new GithubBot(),
 		utils: new Utils(),
 	};
 	break;

@@ -55,6 +55,8 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 			.refundDeposit(library, bounty.bountyId, depositId)
 			.then((txnReceipt) => {
 				setTransactionHash(txnReceipt.transactionHash);
+				const refundedDeposit = bounty.deposits.filter((deposit=>{return deposit.id = depositId}))[0];
+				await appState.githubBot.funded({ bountyId: bounty.bountyId, deposit: refundedDeposit});
 				setApproveTransferState(SUCCESS);
 				refreshBounty();
 			})

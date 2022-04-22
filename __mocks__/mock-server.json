@@ -476,5 +476,10 @@
 			"0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39": 100.32
 		},
 		"total": 24.04
+	},
+	"openq-bot": {
+		"created": "sdf",
+		"refunded": "sdf",
+		"funded": "sdf"
 	}
 }
