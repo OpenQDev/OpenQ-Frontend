@@ -2,7 +2,6 @@ class Logger {
 	enabled;
 
 	constructor(_enabled) {
-		console.log(`init logger as: ${_enabled}`);
 		this.enabled = _enabled;
 	}
 

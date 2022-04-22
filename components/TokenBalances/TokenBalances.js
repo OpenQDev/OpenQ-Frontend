@@ -13,7 +13,6 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 	const { tokenMetadata } = appState;
 
 	useEffect(() => {
-		appState.logger.log({ id: 'id', message: tokenBalancesArr });
 		if (tokenBalancesArr[0] && tokenValues) {
 			let highest = 0;
 			const totalValueBalances = tokenBalancesArr.map((tokenBalance) => {
