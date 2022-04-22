@@ -35,7 +35,7 @@ const OrganizationHomepage = () => {
 		}
 		catch(err){
 			updateError(true);
-			console.log(error);
+			console.log(err);
 		}
 		let mergedOrgs = orgs.map((org)=>{
 			let currentGithubOrg;

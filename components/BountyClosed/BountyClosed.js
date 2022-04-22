@@ -3,7 +3,6 @@ import React from 'react';
 import Link from 'next/link';
 
 const BountyClosed = ({ bounty, showTweetLink }) => {
-	console.log(bounty);
 	// Hooks
 	const tweetText = 'Just claimed a developer bounty from on OpenQ for : ';
 	const url = `${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${bounty.claimedTransactionHash}`;

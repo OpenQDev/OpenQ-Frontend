@@ -8,10 +8,12 @@ import FundPage from '../components/FundBounty/FundPage';
 import mocks from '../__mocks__/mock-server.json';
 import userEvent from '@testing-library/user-event';
  
-const bounty = mocks.bounty;
+const bounties = mocks.bounties;
+const refreshBounty = ()=>{
+	return null;
+};
 
 const test =(bounty, )=>{
-	const user = userEvent.setup();
 	it('should render the heading', () => {
 		render(<FundPage bounty={bounty} />);
 		const heading = screen.getByText('Fund Bounty');
@@ -25,14 +27,56 @@ const test =(bounty, )=>{
 	}
 	);
 	
-	it('should let user enter number', async()=>{
+	it('should let user submit and and handle too low funds', async()=>{
+		const user = userEvent.setup();
 		render(<FundPage bounty={bounty} />);
 		const input = screen.getByLabelText('amount');
 		await user.type(input, '200');
 		expect(input).toHaveValue('200');
+		const button = screen.getByRole('button', {name: /Fund/i});	await user.click(button);
+
+		await user.click( screen.getByRole( 'button', {name: /Confirm/i}));
+		const modalContent = await screen.findByText(/Too Low/i);
+		await user.click( screen.getByRole('button', {name: 'Close'}));		
+		expect(modalContent).not.toBeInTheDocument();
 	});
 
-	it('should prevent user from entering over 1000', async()=>{		
+	it('should let user submit and handle enough Matic', async()=>{
+		const user = userEvent.setup();
+		render(<FundPage bounty={bounty} refreshBounty={refreshBounty} />);
+		const input = screen.getByLabelText('amount');
+		await user.type(input, '3');
+		expect(input).toHaveValue('3');
+		const button = screen.getByRole('button', {name: /Fund/i});
+		await user.click(button);
+		await screen.findByText(/3 Matic/i);
+		await user.click( screen.getByRole( 'button', {name: /Confirm/i}));
+		const modalContent = await screen.findByText(/Transfer Complete!/i);
+		await user.click( screen.getByRole('button', {name: 'Close'}));
+		expect(modalContent).not.toBeInTheDocument();
+	});
+
+	it('should let user submit and handle enough Link', async()=>{
+		const user = userEvent.setup();
+		render(<FundPage bounty={bounty} refreshBounty={refreshBounty} />);
+		const input = screen.getByLabelText('amount');
+		await user.type(input, '0.30sdf');
+		expect(input).toHaveValue('0.30');		
+		await user.click( screen.getByText( /Matic/i));
+		await user.click( screen.getByText( /Chainlink/i));
+		const button = screen.getByRole('button', {name: /Fund/i});
+		expect(button).toBeInTheDocument();
+		await user.click(button);
+		expect(screen.findByText('3 Chainlink Token'));
+		await user.click( screen.getByRole( 'button', {name: /Confirm/i}));
+		const modalContent = await screen.findByText(/Transfer Complete!/i);
+		expect(modalContent).toBeInTheDocument();
+		await user.click( screen.getByRole('button', {name: 'Close'}));
+		expect(modalContent).not.toBeInTheDocument();
+	});
+
+	it('should prevent user from entering over 1000', async()=>{
+		const user = userEvent.setup();		
 		render(<FundPage bounty={bounty} />);
 		const input = screen.getByLabelText('amount');
 		await user.type(input, '1000');
@@ -40,6 +84,7 @@ const test =(bounty, )=>{
 	});
 
 	it('should show tooltip', async()=>{
+		const user = userEvent.setup();
 		render(<FundPage bounty={bounty} />);
 		const button = screen.getByRole('button', {name: /Fund/i});
 		await user.hover(button);
@@ -49,5 +94,5 @@ const test =(bounty, )=>{
 	
 };
 describe('FundPage', ( ) => {
-	test(bounty);
+	bounties.forEach(bounty => test(bounty));
 });
