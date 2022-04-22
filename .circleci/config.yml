@@ -31,6 +31,7 @@ jobs:
               echo "" >> $(pwd)/.env
               echo "PATS=$PATS" >> $(pwd)/.env
             fi
+      - run: cat .env
       - run: docker build -t openq/openq-frontend:$CIRCLE_TAG --build-arg deploy_env=$DEPLOY_ENV .
       - run: docker push openq/openq-frontend:$CIRCLE_TAG
 workflows:
