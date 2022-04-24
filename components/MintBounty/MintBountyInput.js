@@ -11,6 +11,7 @@ export default function MintBountyInput({ setIssueUrl, issueData, isValidUrl }) 
 				<input
 					className="w-full bg-dark-mode px-5 p-1 border-web-gray outline-none"
 					id="name"
+					aria-label="issue url"
 					placeholder="Issue URL"
 					autoComplete="off"
 					type="text"

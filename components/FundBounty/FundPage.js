@@ -40,7 +40,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const [token, setToken] = useState(appState.tokens[0]);
 
 	const claimed = bounty.status == 'CLOSED';
-	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) == 0 || volume == '' || !account || !(parseInt(depositPeriodDays)>0);
+	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) <= 0.00000001 || parseFloat(volume)>=1000 || volume == '' || !account || !(parseInt(depositPeriodDays)>0);
 	const disableOrEnable = `${loadingClosedOrZero || !isOnCorrectNetwork ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`;
 	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${disableOrEnable}`;
 	
@@ -81,7 +81,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		} catch (error) {
 			console.log(error);
 			const title = 'Error';
-			const message = 'A contract call exception occurred';
+			const message = 'Failed to cast volume. Please fund with a higher volume.';
 			setError({ message, title });
 			setButtonText('Fund');
 			setApproveTransferState(ERROR);
@@ -141,7 +141,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 	function onVolumeChange(volume) {
 		const numberRegex = /^(\d+)?(\.)?(\d+)?$/;
-		if(numberRegex.test(volume )&& (parseFloat(volume)<=999|| volume === '' ||volume === '.')){
+		if(numberRegex.test(volume )|| volume === '' ||volume === '.'){
 			setVolume(volume.match(numberRegex)[0]);
 		}
 	}
@@ -172,7 +172,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 					<div className="flex w-full flex-row justify-between items-center px-4 py-3 rounded-lg py-1 bg-dark-mode border border-web-gray text-white">
 						<div className='text-white flex items-center gap-3 w-full'>
-							<ToolTip customOffsets={[-192, -142]} outerStyles={''} styles="w-96" mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
+							<ToolTip customOffsets={[-192, -142]} outerStyles={''} mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
 								<div className='cursor-help rounded-full border-2 border-web-gray aspect-square leading-6 h-6 box-content text-center font-bold text-web-gray'>?</div>
 							</ToolTip>
 							<span>Deposit Locked Period</span>
@@ -194,7 +194,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 							account && isOnCorrectNetwork && !(depositPeriodDays>0)?
 								'Please indicate how many days you\'d like to fund your bounty for.':
 								account && isOnCorrectNetwork ?
-									'Please indicate the volume you\'d like to fund with.':
+									'Please indicate the volume you\'d like to fund with. Must be between 0.0000001 and 1000.':
 									account ? 
 										'Please switch to the correct network to fund this bounty.' : 
 										'Connect your wallet to fund this bounty!' } 

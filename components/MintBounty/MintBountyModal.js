@@ -81,36 +81,45 @@ const MintBountyModal = ({ modalVisibility }) => {
 	}, [issueUrl]);
 
 	useEffect(() => {
+		let didCancel = false;
 		if (mintBountyState.isValidUrl) {
+			setIsLoadingIssueData(true);
 			async function fetchIssue() {
-				setIsLoadingIssueData(true);
 				try {
 					const data = await appState.githubRepository.fetchIssueByUrl(issueUrl);
-					setMintBountyState(
-						ISSUE_FOUND(data)
-					);
-					setIsLoadingIssueData(false);
+					if(!didCancel) {
+						setMintBountyState(
+							ISSUE_FOUND(data)
+						);
+						setIsLoadingIssueData(false);
+					}
 				} catch (error) {
-					setIsLoadingIssueData(false);
 					setMintBountyState(ISSUE_NOT_FOUND(error));
+					setIsLoadingIssueData(false);
 				}
 			}
 			fetchIssue();
 		}
+		return (()=>{
+			didCancel = true;
+		});
 	}, [mintBountyState.issueUrl]);
 
 	useEffect(() => {
-		if (mintBountyState.issueData) {
+		let didCancel = false;
+		if (mintBountyState.issueData )  {
 			async function alreadyExists() {
 				try {
 					let bounty = await appState.openQSubgraphClient.getBounty(
 						mintBountyState.issueData.id,
 						'no-cache'
 					);
-					if (bounty) {
-						setMintBountyState(BOUNTY_EXISTS(bounty));
-					} else {
-						setMintBountyState(BOUNTY_DOES_NOT_EXIST());
+					if(!didCancel) {
+						if (bounty) {
+							setMintBountyState(BOUNTY_EXISTS(bounty));
+						} else {
+							setMintBountyState(BOUNTY_DOES_NOT_EXIST());
+						}
 					}
 				} catch (error) {
 					setMintBountyState(ERROR(error));
@@ -120,6 +129,9 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 			alreadyExists();
 		}
+		return (()=>{
+			didCancel = true;
+		});
 	}, [mintBountyState.issueData]);
 
 	useEffect(() => {
