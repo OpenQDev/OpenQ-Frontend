@@ -167,7 +167,7 @@ const address = () => {
 				{internalMenu == 'Refund' && bounty ? (<RefundPage bounty={bounty} refreshBounty={refreshBounty} />) : null}
 				<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>
 			</div>
-			{isIndexing && showIndexingModal && <LoadingModal updateModal={() => setShowIndexingModal(false)} loadingText={{ title: 'Indexing Bounty', message: 'Please wait while your bounty is indexed.' }} />}
+			{isIndexing && showIndexingModal && <LoadingModal loadingText={{ title: 'Indexing Bounty', message: 'Please wait while your bounty is indexed.' }} />}
 		</>
 	);
 };
