@@ -50,7 +50,7 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
 				{(displayTokens || appState.tokens)
 					.filter((token) => {
 						return tokenSearchTerm
-							? token.name
+							? token.name.concat(token.symbol)
 								.toLowerCase()
 								.indexOf(tokenSearchTerm.toLowerCase()) > -1
 							: token;
