@@ -1,5 +1,6 @@
 /* eslint-disable */
 // import { issueIds } from './mocks/data/issueIds';
+import jsonRpcErrors from './JsonRPCErrors';
 import axios from 'axios';
 import {ethers} from 'ethers';
 
@@ -91,8 +92,18 @@ class MockOpenQClient {
 	async approve(library, _bountyAddress, _tokenAddress, _value) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
-				resolve({});
-			} catch (error) {
+				reject({
+					
+						title: 'Something Went Wrong',
+						message: 'Internal JSON-RPC error', 
+					data: {
+						title: 'Something went awry and the transaction failed! Please reload and attempt to fund again.',
+						message: 'Something went awry and the transaction failed! Please reload and attempt to fund again.'
+					}
+				}
+					)
+				}
+			catch (error) {
 				reject(error);
 			}
 		});
@@ -120,7 +131,28 @@ class MockOpenQClient {
 		});
 
 		return promise;
-	}
+	}	
+	
+	handleError(jsonRpcError, data) {
+		console.log(jsonRpcError, data)
+		let errorString = jsonRpcError?.data?.message;
+		if (jsonRpcError.message.includes('Nonce too high.')) { errorString = 'NONCE_TO_HIGH'; }
+		if (jsonRpcError.message.includes('User denied transaction signature')) { errorString = 'USER_DENIED_TRANSACTION'; }
+		if (jsonRpcError.message.includes('MetaMask is having trouble connecting to the network')) { errorString = 'METAMASK_HAVING_TROUBLE'; }
+		if (jsonRpcError.message.includes('Internal JSON-RPC error')) { errorString = 'INTERNAL_ERROR'; }
+
+		for (const error of jsonRpcErrors) {
+			const revertString = Object.keys(error)[0];
+			if (errorString.includes(revertString)) {
+				const title = error[revertString]['title'];
+				const message = error[revertString].message(data);
+				console.log(errorString);
+				console.log(message, title);
+				return { title, message };
+			}
+		}
+		
+}
 }
 
 export default MockOpenQClient;

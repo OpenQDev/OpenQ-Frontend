@@ -102,7 +102,9 @@ const FundPage = ({ bounty, refreshBounty }) => {
 			}
 			approveSucceeded = true;
 		} catch (error) {
+			console.log(error);
 			const { message, title } = appState.openQClient.handleError(error, { bounty });
+			console.log(message, title);
 			setError({ message, title });
 			setButtonText('Fund');
 			setApproveTransferState(ERROR);
@@ -128,6 +130,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 				setButtonText('Fund');
 			} catch (error) {
 				const { message, title } = appState.openQClient.handleError(error, { bounty });
+				console.log(message, title);
 				setError({ message, title });
 				setButtonText('Fund');
 				setApproveTransferState(ERROR);

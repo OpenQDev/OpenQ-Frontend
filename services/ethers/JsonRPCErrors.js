@@ -102,6 +102,15 @@ const jsonRpcErrors =
 				}
 			}
 		},
+
+		{
+			'INTERNAL_ERROR': {
+				title: 'Something Went Wrong',
+				message: ()=>{
+					'Something went awry and the transaction failed! Please reload and attempt to fund again.';
+				} 
+			}
+		}
 	];
 
 

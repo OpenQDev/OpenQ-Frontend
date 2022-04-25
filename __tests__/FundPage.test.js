@@ -55,7 +55,7 @@ const test =(bounty, )=>{
 		await user.click( screen.getByRole('button', {name: 'Close'}));
 		expect(modalContent).not.toBeInTheDocument();
 	});
-
+	/*
 	it('should let user submit and handle enough Link', async()=>{
 		const user = userEvent.setup();
 		render(<FundPage bounty={bounty} refreshBounty={refreshBounty} />);
@@ -74,13 +74,36 @@ const test =(bounty, )=>{
 		await user.click( screen.getByRole('button', {name: 'Close'}));
 		expect(modalContent).not.toBeInTheDocument();
 	});
+*/
+	it('should handle Link errors', async()=>{
+
+		const user = userEvent.setup();
+		render(<FundPage bounty={bounty} refreshBounty={refreshBounty} />);
+		const input = screen.getByLabelText('amount');
+		await user.type(input, '0.30sdf');
+		expect(input).toHaveValue('0.30');		
+		await user.click( screen.getByText( /Matic/i));
+		await user.click( screen.getByText( /Chainlink/i));
+		const button = screen.getByRole('button', {name: /Fund/i});
+		expect(button).toBeInTheDocument();
+		await user.click(button);
+		const confirmButton = screen.getByRole('button', {name:/confirm/i});
+		await user.click(confirmButton);
+		const modalContent = await screen.findByText(/Something went wrong/i);
+		expect(modalContent).toBeInTheDocument();
+		await user.click( screen.getByRole('button', {name: 'Close'}));
+		expect(modalContent).not.toBeInTheDocument();
+	});
 
 	it('should prevent user from entering over 1000', async()=>{
 		const user = userEvent.setup();		
 		render(<FundPage bounty={bounty} />);
 		const input = screen.getByLabelText('amount');
 		await user.type(input, '1000');
-		expect(input).toHaveValue('100');
+		const button = await screen.findByRole('button', {name: /Fund/i});
+		await user.hover(button);
+		const tooltip = await screen.findByText(/Must be between/);
+		expect(tooltip).toBeInTheDocument();
 	});
 
 	it('should show tooltip', async()=>{
