@@ -31,7 +31,7 @@ const address = () => {
 	const [error, setError] = useState(false);
 	const [internalMenu, setInternalMenu] = useState();
 	const [isIndexing, setIsIndexing] = useState(false);
-	const [showIndexingModal, setShowIndexingModal] = useState(true);
+	const [showIndexingModal] = useState(true);
 
 	// Refs
 	const canvas = useRef();
