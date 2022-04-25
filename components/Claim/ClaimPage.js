@@ -19,6 +19,7 @@ import BountyClosed from '../BountyClosed/BountyClosed';
 import useEns from '../../hooks/useENS';
 import ToolTip from '../Utils/ToolTip';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
+import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 
 const ClaimPage = ({ bounty, refreshBounty }) => {
 	const { url } = bounty;
@@ -108,6 +109,10 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 								and claim an issue!
 							</div>
 						) : <div className='h-44'></div>}
+						<div className='col-span-3 px-2 text-white'>
+							<p>Don{'\''}t forget to add a closer comment for this bounty on your pull request :-).</p>
+							<p><CopyAddressToClipboard noClip={true} data = {`Closes #${bounty.number}`}/></p>
+						</div>
 						
 						<div className="col-span-3 flex gap-3 w-full">
 							<ToolTip
