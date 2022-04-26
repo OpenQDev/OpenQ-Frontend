@@ -2,7 +2,7 @@
 import React from 'react';
 import LoadingIcon from './ButtonLoadingIcon';
 
-const LoadingModal = ({  loadingText, updateModal }) => {
+const LoadingModal = ({  loadingText }) => {
 	const { title, message } = loadingText;
 
 	
