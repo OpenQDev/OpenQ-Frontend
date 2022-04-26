@@ -148,7 +148,7 @@ const BountyCard = ({ bounty, loading }) => {
 						<div className="flex flex-row space-x-1 items-center">
 							<div className="pr-2 pt-1">
 								<Image
-									src="/BountyMaterial/eth.png"
+									src="/BountyMaterial/eth-white.svg"
 									alt="avatarUrl"
 									width="12"
 									height="20"
