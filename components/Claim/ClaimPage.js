@@ -31,6 +31,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	const [justClaimed, setJustClaimed] = useState(false);
 	const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
 	const canvas = useRef();
+	
 
 	const claimed = bounty.status == 'CLOSED';
 
