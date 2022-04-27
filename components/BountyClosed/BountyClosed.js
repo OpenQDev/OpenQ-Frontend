@@ -1,11 +1,19 @@
 // Third Party
-import React from 'react';
+import React, { useContext } from 'react';
 import Link from 'next/link';
 
+import StoreContext from '../../store/Store/StoreContext';
+import useGetTokenValues from '../../hooks/useGetTokenValues';
+
 const BountyClosed = ({ bounty, showTweetLink }) => {
-	console.log(bounty);
+
+	const [appState] = useContext(StoreContext);
+	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances||[]);
+	const TVL = tokenValues != null && tokenValues != {}
+		? appState.utils.formatter.format(tokenValues.total)
+		: appState.utils.formatter.format(0);
 	// Hooks
-	const tweetText = 'Just claimed a developer bounty from on OpenQ for : ';
+	const tweetText = `💸 Just claimed a developer bounty from ${bounty.owner} on OpenQ for ${TVL} working on this issue: `;
 	const url = `${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${bounty.claimedTransactionHash}`;
 	//Render
 	return (
@@ -14,7 +22,7 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
 				<h2 className="flex text-3xl font-semibold text-white justify-center pt-16">Bounty Closed</h2>
 				<div className="bg-claimed-bounty-inside col-span-3 border border-claimed-bounty rounded-lg text-white p-4">
 					<div className='flex justify-between w-full'>
-						<p>Closing Transaction: <Link href={url}>
+						<div>Closing Transaction: <Link href={url}>
 							<span className="cursor-pointer break-all">
 								<span className="underline">{url}</span>
 								{'  '}<svg className="h-3 inline" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M448 80v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V80c0-26.51 21.49-48 48-48h352c26.51 0 48 21.49 48 48zm-88 16H248.029c-21.313 0-32.08 25.861-16.971 40.971l31.984 31.987L67.515 364.485c-4.686 4.686-4.686 12.284 0 16.971l31.029 31.029c4.687 4.686 12.285 4.686 16.971 0l195.526-195.526 31.988 31.991C358.058 263.977 384 253.425 384 231.979V120c0-13.255-10.745-24-24-24z" />
@@ -22,7 +30,7 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
 							</span>
 						</Link>
 
-						</p>
+						</div>
 						{showTweetLink && <Link
 							href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyAddress}`}
 
