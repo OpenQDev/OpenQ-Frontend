@@ -5,11 +5,13 @@ import OpenQSubgraphClient from '../../services/subgraph/OpenQSubgraphClient';
 import GithubRepository from '../../services/github/GithubRepository';
 import TokenClient from '../../services/coins/TokenClient';
 import Logger from '../../services/logger/Logger';
+import OpenQPrismaClient from '../../services/openq-api/OpenQPrismaClient';
 
 import MockGithubRepository from '../../services/github/MockGithubRepository';
 import MockOpenQClient from '../../services/ethers/MockOpenQClient';
 import MockOpenQSubgraphClient from '../../services/subgraph/MockOpenQSubgraphClient';
 import MockTokenClient from '../../services/coins/MockTokenClient';
+import MockOpenQPrismaClient from '../../services/openq-api/OpenQPrismaClient';
 
 // Token Metadata
 // Array of all supported tokens
@@ -34,6 +36,7 @@ case 'local':
 		tokenClient: new MockTokenClient(),
 		logger: new Logger(true),
 		utils: new Utils(),
+		openQPrismaClient: new MockOpenQPrismaClient(),
 	};
 	break;
 case 'docker':
@@ -46,6 +49,7 @@ case 'docker':
 		tokenClient: new TokenClient(),
 		logger: new Logger(true),
 		utils: new Utils(),
+		openQPrismaClient: new OpenQPrismaClient(),
 	};
 	break;
 case 'development':
@@ -58,6 +62,7 @@ case 'development':
 		tokenClient: new TokenClient(),
 		logger: new Logger(true),
 		utils: new Utils(),
+		openQPrismaClient: new OpenQPrismaClient(),
 	};
 	break;
 case 'staging':
@@ -70,6 +75,7 @@ case 'staging':
 		tokenClient: new TokenClient(),
 		logger: new Logger(true),
 		utils: new Utils(),
+		openQPrismaClient: new OpenQPrismaClient(),
 	};
 	break;
 case 'production':
@@ -82,6 +88,7 @@ case 'production':
 		tokenClient: new TokenClient(),
 		logger: new Logger(false),
 		utils: new Utils(),
+		openQPrismaClient: new OpenQPrismaClient(),
 	};
 	break;
 default:

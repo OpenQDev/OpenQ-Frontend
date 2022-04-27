@@ -557,5 +557,64 @@
 			"0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39": 100.32
 		},
 		"total": 24.04
+	},
+	"tvls":{
+		"data": {
+			"bountiesConnection": {
+				"bounties": [
+					{
+						"tvl": 1.67,
+						"bountyId": "I_kwDOGWnnz85GjwA1",
+						"id": "624c2d668b668220860e31e9"
+					},
+					{
+						"tvl": 1.67,
+						"bountyId": "I_kwDOGWnnz85GjwA1",
+						"id": "624c2d678b668220860e31ea"
+					},
+					{
+						"tvl": 1.67,
+						"bountyId": "I_kwDOGWnnz85GjwA1",
+						"id": "624c2d678b668220860e31eb"
+					},
+					{
+						"tvl": 1.67,
+						"bountyId": "I_kwDOGWnnz85GjwA1",
+						"id": "624c2d688b668220860e31ec"
+					},
+					{
+						"tvl": 34.7,
+						"bountyId": "I_kwDOGWnnz85AkiDt",
+						"id": "624c2d688b668220860e31ed"
+					},
+					{
+						"tvl": 1.66,
+						"bountyId": "I_kwDOGWnnz85AkiDt",
+						"id": "624c2d688b668220860e31ee"
+					},
+					{
+						"tvl": 2,
+						"bountyId": "I_kwDOGWnnz85AkiDt",
+						"id": "624c2d688b668220860e31ef"
+					},
+					{
+						"tvl": 1.67,
+						"bountyId": "I_kwDOGWnnz85GjwA1",
+						"id": "624c2d698b668220860e31f0"
+					},
+					{
+						"tvl": 1.66,
+						"bountyId": "I_kwDOGWnnz85AkiDt",
+						"id": "624c2d698b668220860e31f1"
+					},
+					{
+						"tvl": 17.35,
+						"bountyId": "I_kwDOCHE8585AYvGo",
+						"id": "624c2d698b668220860e31f2"
+					}
+				],
+				"cursor": "624c2d698b668220860e31f2"
+			}
+		}
 	}
 }
