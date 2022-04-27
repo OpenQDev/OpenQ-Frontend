@@ -1,10 +1,12 @@
 /* eslint-disable */
 // import { issueIds } from './mocks/data/issueIds';
+import jsonRpcErrors from './JsonRPCErrors';
 import axios from 'axios';
 import {ethers} from 'ethers';
 
 class MockOpenQClient {
 	shouldSleep = 0;
+	shouldError = false;
 
 	setSleep(time) {
 		this.shouldSleep = time;
@@ -17,6 +19,10 @@ class MockOpenQClient {
 			setTimeout(time),
 				resolve();
 		});
+	}
+
+	reset() {
+		this.shouldError = false;
 	}
 
 	async getENS(_callerAddress){
@@ -91,9 +97,23 @@ class MockOpenQClient {
 	async approve(library, _bountyAddress, _tokenAddress, _value) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
+				await this.sleep(1000);
+				if(this.shouldError){					
+				throw new Error();
+				}
 				resolve({});
-			} catch (error) {
-				reject(error);
+				}
+			catch (error) {
+				console.log(error)
+				reject({
+					
+					title: 'Internal JSON',
+					message: 'Internal JSON-RPC error', 
+				data: {
+					title: 'Internal JSON',
+					message: 'Internal JSON-RPC error'
+				}
+			});
 			}
 		});
 		return promise;
@@ -120,7 +140,27 @@ class MockOpenQClient {
 		});
 
 		return promise;
-	}
+	}	
+	
+	handleError(jsonRpcError, data) {
+		console.log(jsonRpcError, data)
+		let errorString = jsonRpcError?.data?.message;
+		if (jsonRpcError.message.includes('Nonce too high.')) { errorString = 'NONCE_TO_HIGH'; }
+		if (jsonRpcError.message.includes('User denied transaction signature')) { errorString = 'USER_DENIED_TRANSACTION'; }
+		if (jsonRpcError.message.includes('MetaMask is having trouble connecting to the network')) { errorString = 'METAMASK_HAVING_TROUBLE'; }
+		if (jsonRpcError.message.includes('Internal JSON-RPC error')) { errorString = 'INTERNAL_ERROR'; }
+console.log(errorString);
+		for (const error of jsonRpcErrors) {
+			const revertString = Object.keys(error)[0];
+			if (errorString.includes(revertString)) {
+				const title = error[revertString]['title'];
+				const message = error[revertString].message(data);
+				return { title, message };
+			}
+		}
+		return 'Unknown Error';
+		
+}
 }
 
 export default MockOpenQClient;

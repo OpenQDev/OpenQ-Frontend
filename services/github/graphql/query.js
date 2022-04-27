@@ -139,9 +139,10 @@ export const GET_ISSUE_BY_ID = gql`
         closed
 				title
         body
+        number
         url
 				id
-				titleHTML
+				titleHTML 
         bodyHTML
         labels(first: 10) {
           edges {

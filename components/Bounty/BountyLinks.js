@@ -7,7 +7,7 @@ import Image from 'next/image';
 // Custom
 
 const BountyLinks = ({ bounty, hideBountyLink }) => {
-	const tweetText = `Check out this bounty ${bounty?.owner && `for ${bounty?.owner}`} on OpenQ. You can claim it just by making a pull requesting that completes the issue! `;
+	const tweetText = `Check out this bounty ${bounty?.owner && `for ${bounty?.owner}`} on OpenQ. You can claim it just by making a pull request that completes the issue! `;
 	return (
 		<div className="flex flex-row font-bold text-xl space-x-4">
 			{!hideBountyLink ? bounty ? <Link

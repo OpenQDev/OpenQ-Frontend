@@ -3,7 +3,7 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen, waitFor } from '../test-utils';
+import { render, screen } from '../test-utils';
 import MintBountyButton from '../components/MintBounty/MintBountyButton';
 import userEvent from '@testing-library/user-event';
 
