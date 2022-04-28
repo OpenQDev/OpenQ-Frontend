@@ -5,23 +5,23 @@ export const GET_PAGINATED_TVLS = gql`
   bountiesConnection( orderBy: $orderBy, limit: $limit, sortOrder: $sortOrder after: String) {
     bounties {
       tvl
-      bountyId
       id
+      contractId
     }
     cursor
   }
 }`;
 
 export const CREATE_NEW_BOUNTY = gql`
-mutation CreateBounty($tvl: Float!, $bountyId: String!) {
-  createBounty(tvl: $tvl, bountyId: $bountyId) {
-    bountyId
+mutation CreateBounty($tvl: Float!, $id: String!) {
+  createBounty(tvl: $tvl, contractId: $id) {
+    contractId
   }
 }`;
 
 export const UPDATE_BOUNTY = gql`
-mutation updateBounty($tvl: Float!, $bountyId: String!, ) {
-  updateBounty(tvl: $tvl, bountyId: $bountyId) {
+mutation updateBounty($tvl: Float!, $id: String!, ) {
+  updateBounty(tvl: $tvl, contractId: $id) {
         count
   }
 }`;
