@@ -43,7 +43,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) <= 0.00000001 || parseFloat(volume)>=1000 || volume == '' || !account || !(parseInt(depositPeriodDays)>0);
 	const disableOrEnable = `${loadingClosedOrZero || !isOnCorrectNetwork ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`;
 	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${disableOrEnable}`;
-	
+
 	function resetState() {
 		setApproveTransferState(RESTING);
 	}
@@ -110,6 +110,9 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		}
 
 		if (approveSucceeded) {
+			const mergedTokenBalances = [...bounty.bountyTokenBalances, {volume: volume*(10)**token.decimals,  tokenAddress: token.address}];
+			const tokenVolume = await appState.tokenClient.parseTokenValues(mergedTokenBalances);
+			const tvl = tokenVolume.total;
 			setButtonText('Transferring');
 			setApproveTransferState(TRANSFERRING);
 			try {
@@ -125,6 +128,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
 				setSuccessMessage(
 					`Successfully funded issue ${bounty.url} with ${volume} ${token.symbol}!`
 				);
+				const id = bounty.bountyAddress;
+				await appState.openQPrismaClient.updateBounty(ethers.utils.getAddress(id), tvl);
 				refreshBounty();
 				setButtonText('Fund');
 			} catch (error) {
