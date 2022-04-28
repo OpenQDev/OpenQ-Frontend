@@ -1,14 +1,14 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { GET_PAGINATED_TVLS, CREATE_NEW_BOUNTY } from './graphql/query';
+import { GET_PAGINATED_TVLS, CREATE_NEW_BOUNTY, UPDATE_BOUNTY } from './graphql/query';
 import fetch from 'cross-fetch';
 
 class OpenQPrismaClient {
 	constructor() { }
 
-	httpLink = new HttpLink({ uri: 'https://api.github.com/graphql', fetch });
+	httpLink = new HttpLink({ uri: 'http://localhost:4000', fetch });
 
 	client = new ApolloClient({
-		uri: 'https://api.github.com/graphql',
+		uri: 'http://localhost:4000/graphql',
 		link: this.httpLink,
 		cache: new InMemoryCache(),
 	});
@@ -29,14 +29,14 @@ class OpenQPrismaClient {
 		return promise;
 	}
 
-	async createNewBounty(  bountyId) {
+	async createNewBounty(id) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.mutate({
 					mutation: CREATE_NEW_BOUNTY,
-					variables: { bountyId, tvl:0.0 }
+					variables: { id, tvl:0.0 }
 				});
-				resolve(result.data.organization);
+				resolve(result);
 			} catch (e) {
 				reject(e);
 			}
@@ -44,12 +44,12 @@ class OpenQPrismaClient {
 		return promise;
 	}
 
-	async updateBounty(bountyId, tvl ) {
+	async updateBounty(id, tvl ) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.mutate({
-					mutation: CREATE_NEW_BOUNTY,
-					variables: { bountyId, tvl }
+					mutation: UPDATE_BOUNTY,
+					variables: { id, tvl }
 				});
 				resolve(result.data.organization);
 			} catch (e) {
