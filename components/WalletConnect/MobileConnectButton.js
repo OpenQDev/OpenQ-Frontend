@@ -95,7 +95,7 @@ const MobileConnectButton = () => {
 					Use{' '}
 					{
 						chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV][
-						'networkName'
+							'networkName'
 						]
 					}{' '}
 					Network

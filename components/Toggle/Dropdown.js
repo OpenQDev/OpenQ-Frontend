@@ -42,7 +42,7 @@ const Dropdown = ({ toggleFunc, toggleVal, names, title, borderShape, width = 44
 					{names.map((name, index) => {
 						return <li className={`text-white list-none hover:bg-active-gray w-full ${toggleVal === name ? 'bg-inactive-gray visible h-max' : open ? null : 'h-0 invisible overflow-none p-0'
 
-							}`} key={index}>
+						}`} key={index}>
 							<button className="w-full text-left p-2 px-4" onClick={handleSelection} value={name}>
 								{name}
 							</button>

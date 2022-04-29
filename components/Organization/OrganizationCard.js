@@ -44,14 +44,14 @@ const OrganizationCard = ({ organization }) => {
 						{organization && `${organization?.bountiesCreated.map(
 							(bounty) => bounty.status == 'OPEN'
 						).length
-							}`}
+						}`}
 						{
 							organization ? `${organization.bountiesCreated.map(
 								(bounty) => bounty.status == 'OPEN'
 							).length < 2
 								? ' Bounty'
 								: ' Bounties'
-								}` :
+							}` :
 								<Skeleton width={'64px'} height={'16px'} baseColor={'#333'} />}
 					</div>
 				</div>

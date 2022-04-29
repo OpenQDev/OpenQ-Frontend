@@ -102,14 +102,14 @@ export default function Index() {
 							<button
 								onClick={() => setInternalMenu('org')}
 								className={`text-white rounded-xl p-2 px-4 ${internalMenu == 'org' ? 'bg-inactive-gray' : null
-									}`}
+								}`}
 							>
 								Organizations
 							</button>
 							<button
 								onClick={() => setInternalMenu('issue')}
 								className={`text-white rounded-xl p-2 px-4 ${internalMenu == 'issue' ? 'bg-inactive-gray' : null
-									}`}
+								}`}
 							>
 								Issues
 							</button>

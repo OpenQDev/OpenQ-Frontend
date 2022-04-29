@@ -104,7 +104,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 													setApproveTransferState(CONFIRM);
 													setShowApproveTransferModal(deposit.id);
 												}}
-													isOnCorrectNetwork={isOnCorrectNetwork} />
+												isOnCorrectNetwork={isOnCorrectNetwork} />
 											</div>
 										);
 									})
