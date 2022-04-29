@@ -1,5 +1,5 @@
-// Third Party
-import React, {useContext} from 'react';
+// Third party
+import React, { useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -9,15 +9,15 @@ import ProfilePicture from './ProfilePicture.js';
 import StoreContext from '../../store/Store/StoreContext.js';
 
 const MobileSidebar = () => {
-	
+
 	const [appState] = useContext(StoreContext);
 
 	return (
 		<div className="flex justify-between items-center gap-2 w-full max-h-12 md:hidden pr-5 py-2 bg-black">
-			
+
 			{/* <div className="text-white text-lg font-bold font-mont">OpenQ</div> */}
 
-			<div className="pl-5">{ appState.needsReload ?	
+			<div className="pl-5">{appState.needsReload ?
 				<a href="/">
 					<Image
 						src="/openq-logo.png"
@@ -25,7 +25,7 @@ const MobileSidebar = () => {
 						width="31"
 						height="31"
 					/>
-				</a>:
+				</a> :
 				<Link href={'/'}>
 					<a>
 						<Image

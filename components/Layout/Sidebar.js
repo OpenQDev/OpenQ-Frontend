@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React, { useEffect, useRef, useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -27,11 +27,11 @@ const Sidebar = ({ trigger, setTrigger }) => {
 	});
 
 	return (
-	/* Sidebar
-	
-			This sidebar is hidden via tailwind classes. 
-			absolute inset-y-0 left-0 transform -translate-x-full sm:relative sm:translate-x-0 transition duration-200 ease-in-out
-			*/
+		/* Sidebar
+		
+				This sidebar is hidden via tailwind classes. 
+				absolute inset-y-0 left-0 transform -translate-x-full sm:relative sm:translate-x-0 transition duration-200 ease-in-out
+				*/
 		<div className={` ${!trigger ? 'invisible' : ''} md:visible`}>
 			<div className="flex fixed top-0">
 				<div
@@ -40,7 +40,7 @@ const Sidebar = ({ trigger, setTrigger }) => {
 				>
 					<nav className="text-white flex flex-col space-y-4 items-center pt-1 flex-grow">
 						<div className="pb-8 pt-5 cursor-pointer">
-							{ appState.needsReload ?	
+							{appState.needsReload ?
 								<a href="/">
 									<Image
 										src="/openq-logo.png"
@@ -48,7 +48,7 @@ const Sidebar = ({ trigger, setTrigger }) => {
 										width="31"
 										height="31"
 									/>
-								</a>:
+								</a> :
 								<Link href={'/'}>
 									<a>
 										<Image

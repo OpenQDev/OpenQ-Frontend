@@ -1,4 +1,4 @@
-// Third Party Libraries
+// Third party Libraries
 import React from 'react';
 import { Web3ReactProvider } from '@web3-react/core';
 import { ethers } from 'ethers';
@@ -20,14 +20,14 @@ function OpenQ({ Component, pageProps }) {
 	}
 
 	return (
-		<div className="bg-dark-mode min-h-screen">			
+		<div className="bg-dark-mode min-h-screen">
 			<Head>
 				<title>OpenQ</title>
 				<meta
 					name="OpenQ Bounties"
 					content="width=device-width, initial-scale=1.0"
 				/>
-				<link rel="icon" href="/openq-logo.png"/>
+				<link rel="icon" href="/openq-logo.png" />
 			</Head>
 			<>
 				<AuthProvider>

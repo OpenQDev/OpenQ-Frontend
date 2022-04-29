@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React, { useState, useContext, useEffect } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
 import { ethers } from 'ethers';
@@ -22,7 +22,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 	const [error, setError] = useState('');
 	const [transactionHash, setTransactionHash] = useState(null);
 	const [confirmationMessage, setConfirmationMessage] = useState('');
-	const [isOnCorrectNetwork]= useIsOnCorrectNetwork();
+	const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
 	const [approveTransferState, setApproveTransferState] = useState(RESTING);
 	const [showApproveTransferModal, setShowApproveTransferModal] = useState(false);
 
@@ -37,12 +37,12 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 	useEffect(() => {
 		if (bounty) {
 			setConfirmationMessage(
-				`You are about to refund your deposits on issue ${bounty.url} to the address ${ensName||account}. Is this correct ?`
+				`You are about to refund your deposits on issue ${bounty.url} to the address ${ensName || account}. Is this correct ?`
 			);
 		}
-	}, [bounty]);	
-	
-	const resetState = () =>{
+	}, [bounty]);
+
+	const resetState = () => {
 		setShowApproveTransferModal(false);
 		setApproveTransferState(CONFIRM);
 	};
@@ -104,7 +104,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 													setApproveTransferState(CONFIRM);
 													setShowApproveTransferModal(deposit.id);
 												}}
-												isOnCorrectNetwork={isOnCorrectNetwork}/>
+												isOnCorrectNetwork={isOnCorrectNetwork} />
 											</div>
 										);
 									})
@@ -159,8 +159,8 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 						positiveOption={'Yes, Refund!'}
 						confirmMethod={refundBounty}
 						resetState={resetState}
-						approvingMessage = {'Refunding...'}
-						approvingTitle = {'Refund'}
+						approvingMessage={'Refunding...'}
+						approvingTitle={'Refund'}
 					/>}
 				</div>
 			</>

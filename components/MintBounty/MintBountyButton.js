@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React, { useState } from 'react';
 // Custom
 import MintBountyModal from './MintBountyModal';

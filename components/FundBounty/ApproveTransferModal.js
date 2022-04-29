@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React, { useRef, useEffect } from 'react';
 
 // Custom
@@ -38,7 +38,7 @@ const ApproveTransferModal = ({
 		}
 
 		// Bind the event listener
-		if(approveTransferState !== APPROVING && approveTransferState !== TRANSFERRING){
+		if (approveTransferState !== APPROVING && approveTransferState !== TRANSFERRING) {
 			document.addEventListener('mousedown', handleClickOutside);
 		}
 		return () => {
@@ -84,17 +84,17 @@ const ApproveTransferModal = ({
 							<p className="break-words">
 								{message[approveTransferState]}
 							</p>
-							{link[approveTransferState] && 
-							<p className='break-all underline'>
-								<Link href={link[approveTransferState]}>
-									<a target={'_blank'}>
-										{link[approveTransferState]}
-										<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-											<path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-										</svg>
-									</a>
-								</Link>
-							</p>}
+							{link[approveTransferState] &&
+								<p className='break-all underline'>
+									<Link href={link[approveTransferState]}>
+										<a target={'_blank'}>
+											{link[approveTransferState]}
+											<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+												<path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+											</svg>
+										</a>
+									</Link>
+								</p>}
 						</div>
 						{approveTransferState == 'CONFIRM' ? (
 							<div className="flex items-center">
@@ -120,8 +120,8 @@ const ApproveTransferModal = ({
 								</button>
 							</div>
 						) : null}
-						{(approveTransferState===TRANSFERRING || approveTransferState === APPROVING) &&
-						<div className='self-center'><LoadingIcon bg="colored" /></div>
+						{(approveTransferState === TRANSFERRING || approveTransferState === APPROVING) &&
+							<div className='self-center'><LoadingIcon bg="colored" /></div>
 						}
 					</div>
 				</div>

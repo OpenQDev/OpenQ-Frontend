@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 //Custom

@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React, { useContext } from 'react';
 import Link from 'next/link';
 
@@ -8,7 +8,7 @@ import useGetTokenValues from '../../hooks/useGetTokenValues';
 const BountyClosed = ({ bounty, showTweetLink }) => {
 
 	const [appState] = useContext(StoreContext);
-	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances||[]);
+	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances || []);
 	const TVL = tokenValues != null && tokenValues != {}
 		? appState.utils.formatter.format(tokenValues.total)
 		: appState.utils.formatter.format(0);

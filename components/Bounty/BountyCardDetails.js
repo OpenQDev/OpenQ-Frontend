@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 import TokenBalances from '../TokenBalances/TokenBalances';
@@ -29,11 +29,11 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 						<CopyBountyAddress bounty={bounty} />
 					</div>
 					<div className='lg:col-span-3'>
-						{bounty?
+						{bounty ?
 							bounty.bountyTokenBalances.length != 0 ? (
 								<>
 									<div className="text-white flex font-bold gap-2">
-										{bounty?.status == 'CLOSED' ? 
+										{bounty?.status == 'CLOSED' ?
 											<>
 												<span>Total Value Claimed</span>
 												<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -63,7 +63,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 						}
 					</div>
 					{bounty?.bountyTokenBalances.length != 0 && <div className='text-white text-center font-bold text-xl py-4 col-start-1 md:col-end-3 lg:col-end-[-1] w-full'>Deposits</div>}
-			
+
 					{bounty ? bounty.deposits
 						.filter((deposit) => {
 							return deposit.refunded == false;
@@ -71,12 +71,12 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 						.sort((a, b) => {
 							return (parseInt(a.receiveTime) + parseInt(a.expiration)) - (parseInt(b.receiveTime) + parseInt(b.expiration));
 						})
-						.map((deposit, index) => 	<MiniDepositCard key={index} deposit={deposit} status={bounty.status} showLink={false}/>
-						):
+						.map((deposit, index) => <MiniDepositCard key={index} deposit={deposit} status={bounty.status} showLink={false} />
+						) :
 						<>
-							<MiniDepositCard deposit={false} showLink={false}/>
-							<MiniDepositCard deposit={false} showLink={false}/>
-							<MiniDepositCard deposit={false} showLink={false}/>
+							<MiniDepositCard deposit={false} showLink={false} />
+							<MiniDepositCard deposit={false} showLink={false} />
+							<MiniDepositCard deposit={false} showLink={false} />
 						</>
 					}
 				</div>
@@ -85,18 +85,18 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 			<div className="flex flex-col pt-6">
 				<div className="flex flex-row justify-between">
 					<div className="font-bold text-xl text-white">Description</div>
-					<BountyLinks bounty={bounty} hideBountyLink={true}/>
-				</div>				
+					<BountyLinks bounty={bounty} hideBountyLink={true} />
+				</div>
 				<div>
 					<LabelsList bounty={bounty} />
 				</div>
-				{bounty?
-					<div 
+				{bounty ?
+					<div
 						className="github_markup text-white pt-2 w-full break-words"
 						dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}
-					></div>:
+					></div> :
 					<div className="pt-2 w-3/4">
-						<Skeleton count={4}/>
+						<Skeleton count={4} />
 					</div>}
 			</div>
 			<div className="flex flex-col pt-5">

@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React, { useContext } from 'react';
 // Custom
 import AuthContext from '../../store/AuthStore/AuthContext';
@@ -10,7 +10,7 @@ const AuthButton = ({ redirectUrl, propicUrl, styles, hideSignOut }) => {
 
 	return (
 		<>
-			{authState.isAuthenticated ? !hideSignOut? <SignOut propicUrl={propicUrl} styles={styles} /> : null : <SignIn redirectUrl={redirectUrl} styles={styles} />}
+			{authState.isAuthenticated ? !hideSignOut ? <SignOut propicUrl={propicUrl} styles={styles} /> : null : <SignIn redirectUrl={redirectUrl} styles={styles} />}
 		</>
 	);
 };
