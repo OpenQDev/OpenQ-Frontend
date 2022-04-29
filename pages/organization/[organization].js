@@ -42,7 +42,6 @@ const organization = () => {
 			);
 			const mergedOrgData = { ...org, ...orgData };
 			setOrganizationData(mergedOrgData);
-			console.log(mergedOrgData);
 		}
 		catch (err) {
 			console.log(err);
