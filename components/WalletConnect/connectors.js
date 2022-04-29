@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import { InjectedConnector } from '@web3-react/injected-connector';
 
 // web3-react fails to report ANY chainId if it is not included in the supportedChainIds array - so we add most common networks here... :-P

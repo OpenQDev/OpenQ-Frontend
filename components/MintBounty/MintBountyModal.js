@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 
@@ -87,7 +87,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 			async function fetchIssue() {
 				try {
 					const data = await appState.githubRepository.fetchIssueByUrl(issueUrl);
-					if(!didCancel) {
+					if (!didCancel) {
 						setMintBountyState(
 							ISSUE_FOUND(data)
 						);
@@ -100,21 +100,21 @@ const MintBountyModal = ({ modalVisibility }) => {
 			}
 			fetchIssue();
 		}
-		return (()=>{
+		return (() => {
 			didCancel = true;
 		});
 	}, [mintBountyState.issueUrl]);
 
 	useEffect(() => {
 		let didCancel = false;
-		if (mintBountyState.issueData )  {
+		if (mintBountyState.issueData) {
 			async function alreadyExists() {
 				try {
 					let bounty = await appState.openQSubgraphClient.getBounty(
 						mintBountyState.issueData.id,
 						'no-cache'
 					);
-					if(!didCancel) {
+					if (!didCancel) {
 						if (bounty) {
 							setMintBountyState(BOUNTY_EXISTS(bounty));
 						} else {
@@ -129,7 +129,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 			alreadyExists();
 		}
-		return (()=>{
+		return (() => {
 			didCancel = true;
 		});
 	}, [mintBountyState.issueData]);
@@ -143,7 +143,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 		}
 
 		// Bind the event listener
-		if(!isLoading){
+		if (!isLoading) {
 			document.addEventListener('mousedown', handleClickOutside);
 		}
 		return () => {

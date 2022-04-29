@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React, { useState, useContext } from 'react';
 import { ethers } from 'ethers';
 
@@ -40,10 +40,10 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const [token, setToken] = useState(appState.tokens[0]);
 
 	const claimed = bounty.status == 'CLOSED';
-	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) <= 0.00000001 || parseFloat(volume)>=1000 || volume == '' || !account || !(parseInt(depositPeriodDays)>0);
+	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) <= 0.00000001 || parseFloat(volume) >= 1000 || volume == '' || !account || !(parseInt(depositPeriodDays) > 0);
 	const disableOrEnable = `${loadingClosedOrZero || !isOnCorrectNetwork ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`;
 	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${disableOrEnable}`;
-	
+
 	function resetState() {
 		setApproveTransferState(RESTING);
 	}
@@ -65,7 +65,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 		try {
 			const callerBalance = await appState.openQClient.balanceOf(library, account, token.address);
-			if(callerBalance.noSigner){
+			if (callerBalance.noSigner) {
 				const title = 'No wallet connected.';
 				const message = 'Please connect your wallet.';
 				setError({ message, title });
@@ -143,13 +143,13 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 	function onVolumeChange(volume) {
 		const numberRegex = /^(\d+)?(\.)?(\d+)?$/;
-		if(numberRegex.test(volume )|| volume === '' ||volume === '.'){
+		if (numberRegex.test(volume) || volume === '' || volume === '.') {
 			setVolume(volume.match(numberRegex)[0]);
 		}
 	}
-	const onDepositPeriodChanged = (e) =>{
-		if(parseInt(e.target.value)>=0) setDepositPeriodDays(parseInt(e.target.value));
-		if(e.target.value==='')setDepositPeriodDays('0');
+	const onDepositPeriodChanged = (e) => {
+		if (parseInt(e.target.value) >= 0) setDepositPeriodDays(parseInt(e.target.value));
+		if (e.target.value === '') setDepositPeriodDays('0');
 	};
 
 	// Render
@@ -191,17 +191,17 @@ const FundPage = ({ bounty, refreshBounty }) => {
 						</div>
 					</div>
 
-					<ToolTip hideToolTip={account && isOnCorrectNetwork && !loadingClosedOrZero} 
+					<ToolTip hideToolTip={account && isOnCorrectNetwork && !loadingClosedOrZero}
 						toolTipText={
-							account && isOnCorrectNetwork && !(depositPeriodDays>0)?
-								'Please indicate how many days you\'d like to fund your bounty for.':
+							account && isOnCorrectNetwork && !(depositPeriodDays > 0) ?
+								'Please indicate how many days you\'d like to fund your bounty for.' :
 								account && isOnCorrectNetwork ?
-									'Please indicate the volume you\'d like to fund with. Must be between 0.0000001 and 1000.':
-									account ? 
-										'Please switch to the correct network to fund this bounty.' : 
-										'Connect your wallet to fund this bounty!' } 
+									'Please indicate the volume you\'d like to fund with. Must be between 0.0000001 and 1000.' :
+									account ?
+										'Please switch to the correct network to fund this bounty.' :
+										'Connect your wallet to fund this bounty!'}
 						customOffsets={
-							[0, 54] }>
+							[0, 54]}>
 						<button
 							className={fundButtonClasses}
 							disabled={loadingClosedOrZero || !isOnCorrectNetwork}

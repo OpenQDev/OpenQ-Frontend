@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React, { useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';

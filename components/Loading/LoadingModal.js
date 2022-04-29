@@ -1,11 +1,11 @@
-// Third Party
+// Third party
 import React from 'react';
 import LoadingIcon from './ButtonLoadingIcon';
 
-const LoadingModal = ({  loadingText }) => {
+const LoadingModal = ({ loadingText }) => {
 	const { title, message } = loadingText;
 
-	
+
 
 	return (
 		<div>

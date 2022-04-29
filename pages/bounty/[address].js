@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import confetti from 'canvas-confetti';
@@ -75,7 +75,7 @@ const address = () => {
 		return refund;
 	};
 
-	const setReload=()=>{
+	const setReload = () => {
 		const payload = {
 			type: 'UPDATE_RELOAD',
 			payload: true

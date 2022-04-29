@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 

@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React from 'react';
 import Image from 'next/image';
 import Skeleton from 'react-loading-skeleton';

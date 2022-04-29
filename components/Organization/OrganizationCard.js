@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -44,14 +44,14 @@ const OrganizationCard = ({ organization }) => {
 						{organization && `${organization?.bountiesCreated.map(
 							(bounty) => bounty.status == 'OPEN'
 						).length
-						}`}
+							}`}
 						{
 							organization ? `${organization.bountiesCreated.map(
 								(bounty) => bounty.status == 'OPEN'
 							).length < 2
 								? ' Bounty'
 								: ' Bounties'
-							}` :
+								}` :
 								<Skeleton width={'64px'} height={'16px'} baseColor={'#333'} />}
 					</div>
 				</div>

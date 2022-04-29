@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 //Custom
@@ -69,31 +69,31 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 	const orderBounties = (bounties = [], toggleTo = sortOrder) => {
 		if (toggleTo === sortOrder) { return bounties; }
 		switch (toggleTo) {
-		case 'Newest': {
-			if (complete) {
-				return bounties.sort((a, b) => {
-					return b.bountyMintTime - a.bountyMintTime;
-				});
-			}
-			else {
-				getNewData('desc');
-			}
+			case 'Newest': {
+				if (complete) {
+					return bounties.sort((a, b) => {
+						return b.bountyMintTime - a.bountyMintTime;
+					});
+				}
+				else {
+					getNewData('desc');
+				}
 
 
-		}
-			break;
-		case 'Oldest': {
-			if (complete) {
-				return bounties.sort((a, b) => {
-					return a.bountyMintTime - b.bountyMintTime;
-				});
 			}
-			else {
-				getNewData('asc');
-			}
+				break;
+			case 'Oldest': {
+				if (complete) {
+					return bounties.sort((a, b) => {
+						return a.bountyMintTime - b.bountyMintTime;
+					});
+				}
+				else {
+					getNewData('asc');
+				}
 
 
-		}
+			}
 		}
 		return bounties;
 	};

@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React from 'react';
 import ErrorModal from './ErrorModal';
 import ConfirmationModal from './ConfirmationModal';
