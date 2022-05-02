@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React from 'react';
 
 // Custom
@@ -10,10 +10,10 @@ const BountyHomepage = ({ bounties, loading, complete, getMoreData, getNewData, 
 	// Render
 	return (
 		<div className="lg:grid lg:grid-cols-extra-wide mx-8 xl:grid-cols-wide justify-center">
-			{error?
-				<UnexpectedError/>
+			{error ?
+				<UnexpectedError />
 				:
-				<BountyList bounties={bounties}  loading={loading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />
+				<BountyList bounties={bounties} loading={loading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />
 			}
 		</div>
 	);

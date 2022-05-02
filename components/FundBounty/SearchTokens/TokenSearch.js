@@ -1,19 +1,19 @@
-// Third Party
+// Third party
 import React from 'react';
 import TokenList from './TokenList';
 
 const TokenSearch = ({ setShowTokenSearch, onCurrencySelect }) => {
-	function handleOutsideClick (){
+	function handleOutsideClick() {
 		setShowTokenSearch(false);
 	}
 	return (
 		<div>
 			<div onClick={handleOutsideClick} className="justify-center font-mont items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
 				<div className="max-w-full w-72">
-					<div onClick={(e)=>e.stopPropagation()} className="flex justify-left border border-web-gray pl-8 pr-8 pt-5 pb-3 rounded-lg shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none">
+					<div onClick={(e) => e.stopPropagation()} className="flex justify-left border border-web-gray pl-8 pr-8 pt-5 pb-3 rounded-lg shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none">
 						<div className="flex items-start justify-between border-solid rounded-t">
 							<h3 className="text-1xl font-semibold text-white">
-                Select a Token
+								Select a Token
 							</h3>
 						</div>
 						<div className="pt-4">
@@ -28,7 +28,7 @@ const TokenSearch = ({ setShowTokenSearch, onCurrencySelect }) => {
 								type="button"
 								onClick={() => setShowTokenSearch(false)}
 							>
-                Close
+								Close
 							</button>
 						</div>
 					</div>

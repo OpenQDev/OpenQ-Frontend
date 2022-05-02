@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React, { useState, useContext, useEffect } from 'react';
 import StoreContext from '../store/Store/StoreContext';
 
@@ -28,14 +28,14 @@ export default function Index() {
 	async function populateBountyData() {
 		setIsLoading(true);
 
-		try{
+		try {
 			setComplete(true);
-			const newBounties = await appState.openQSubgraphClient.getAllBounties('desc',0, batch );
+			const newBounties = await appState.openQSubgraphClient.getAllBounties('desc', 0, batch);
 
 			const bountyIds = newBounties.map((bounty) => bounty.bountyId);
 			let issueData;
 			issueData = await appState.githubRepository.getIssueData(bountyIds);
-		
+
 			const fullBounties = [];
 			newBounties.forEach((bounty) => {
 				const relatedIssue = issueData.find(
@@ -45,21 +45,22 @@ export default function Index() {
 				fullBounties.push(mergedBounty);
 			});
 			setBounties(fullBounties);
-			if(batch===fullBounties.length){
+			if (batch === fullBounties.length) {
 				setComplete(false);
 			}
-			setIsLoading(false);}
-		catch(error){
+			setIsLoading(false);
+		}
+		catch (error) {
 			console.log(error);
 			setError(true);
 			return;
 		}
 	}
 
-	
-	async function getBountyData(sortOrder, currentPagination){
-		setPagination(()=>currentPagination+batch);
-		const newBounties = await appState.openQSubgraphClient.getAllBounties( sortOrder, currentPagination, batch);
+
+	async function getBountyData(sortOrder, currentPagination) {
+		setPagination(() => currentPagination + batch);
+		const newBounties = await appState.openQSubgraphClient.getAllBounties(sortOrder, currentPagination, batch);
 		const bountyIds = newBounties.map((bounty) => bounty.bountyId);
 		const issueData = await appState.githubRepository.getIssueData(bountyIds);
 		const fullBounties = [];
@@ -73,7 +74,7 @@ export default function Index() {
 		return fullBounties;
 	}
 
-	async function getNewData (order){
+	async function getNewData(order) {
 		setIsLoading(true);
 		setComplete(false);
 		const newBounties = await getBountyData(order, 0);
@@ -81,15 +82,15 @@ export default function Index() {
 		setIsLoading(false);
 	}
 
-	async function getMoreData(order){
+	async function getMoreData(order) {
 		setComplete(true);
 		const newBounties = await getBountyData(order, pagination);
-		if(newBounties.length === batch){
+		if (newBounties.length === batch) {
 			setComplete(false);
 		}
 		setBounties(bounties.concat(newBounties));
-		
-		
+
+
 	}
 
 	return (
@@ -115,7 +116,7 @@ export default function Index() {
 						</div>
 					</div>
 					<div>
-						{internalMenu == 'org' ? <OrganizationHomepage /> : <BountyHomepage  bounties={bounties}  loading={isLoading} error={error} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />}
+						{internalMenu == 'org' ? <OrganizationHomepage /> : <BountyHomepage bounties={bounties} loading={isLoading} error={error} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />}
 					</div>
 				</div>
 			</main>

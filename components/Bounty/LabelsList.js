@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 
@@ -22,15 +22,15 @@ const LabelsList = ({ bounty }) => {
 							{label.name}
 						</button>
 					);
-				})||
-				<>
-					<div className="rounded-lg text-xs py-1 px-2 font-bold border border-web-gray text-white inline-block">
-						<Skeleton width="10rem" height={'12px'} />
-					</div>
-					<div className="rounded-lg text-xs py-1 px-2 font-bold border border-web-gray text-white inline-block">
-						<Skeleton width="10rem" height={'12px'}/>
-					</div>
-				</>
+				}) ||
+					<>
+						<div className="rounded-lg text-xs py-1 px-2 font-bold border border-web-gray text-white inline-block">
+							<Skeleton width="10rem" height={'12px'} />
+						</div>
+						<div className="rounded-lg text-xs py-1 px-2 font-bold border border-web-gray text-white inline-block">
+							<Skeleton width="10rem" height={'12px'} />
+						</div>
+					</>
 				}
 			</div>
 		</div>

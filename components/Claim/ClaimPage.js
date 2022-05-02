@@ -1,4 +1,4 @@
-// Third Party Libraries
+// Third party Libraries
 import React, { useState, useRef, } from 'react';
 import axios from 'axios';
 import confetti from 'canvas-confetti';
@@ -31,16 +31,16 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	const [justClaimed, setJustClaimed] = useState(false);
 	const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
 	const canvas = useRef();
-	
+
 
 	const claimed = bounty.status == 'CLOSED';
 
 	const updateModal = () => {
 		setShowClaimLoadingModal(false);
-		if(claimState===TRANSACTION_CONFIRMED){
+		if (claimState === TRANSACTION_CONFIRMED) {
 			refreshBounty();
 		}
-		else{
+		else {
 			setClaimState(CONFIRM_CLAIM);
 		}
 	};
@@ -73,19 +73,21 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 				await library.waitForTransaction(txnHash);
 				setClaimState(TRANSACTION_CONFIRMED);
 				setJustClaimed(true);
-				
+
 				canvas.current.width = window.innerWidth;
 				canvas.current.height = window.innerHeight;
 
 				const canvasConfetti = confetti.create(canvas.current, {
-					resize:true,
+					resize: true,
 					useWorker: true
 				});
-				canvasConfetti({particleCount: 50,
+				canvasConfetti({
+					particleCount: 50,
 					spread: window.innerWidth,
 					origin: {
 						x: 1,
-						y: 0,}
+						y: 0,
+					}
 				});
 			})
 			.catch((error) => {
@@ -112,30 +114,30 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 						) : <div className='h-44'></div>}
 						<div className='col-span-3 px-2 text-white'>
 							<p>Don{'\''}t forget to add a closer comment for this bounty on your pull request :-).</p>
-							<p><CopyAddressToClipboard noClip={true} data = {`Closes #${bounty.number}`}/></p>
+							<p><CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} /></p>
 						</div>
-						
+
 						<div className="col-span-3 flex gap-3 w-full">
 							<ToolTip
 								outerStyles="w-full"
-								hideToolTip={account && isOnCorrectNetwork && authState.isAuthenticated} 
+								hideToolTip={account && isOnCorrectNetwork && authState.isAuthenticated}
 								toolTipText={
 									account && isOnCorrectNetwork && authState.isAuthenticated ?
-										'Please indicate the volume you\'d like to claim with.':
-										account && authState.isAuthenticated ? 
-											'Please switch to the correct network to claim this bounty.' : 
-											(authState.isAuthenticated)?
-												'Connect your wallet to claim this bounty!':
+										'Please indicate the volume you\'d like to claim with.' :
+										account && authState.isAuthenticated ?
+											'Please switch to the correct network to claim this bounty.' :
+											(authState.isAuthenticated) ?
+												'Connect your wallet to claim this bounty!' :
 												'Connect your GitHub account to claim this bounty!'
-								} 
+								}
 								customOffsets={[0, 50]}>
 								<button
 									type="submit"
-									className={account && isOnCorrectNetwork && authState.isAuthenticated ? 'confirm-btn cursor-pointer px-32' : 'confirm-btn-disabled cursor-not-allowed text-white px-32 py-4' }
-									disabled={!account || !isOnCorrectNetwork|| !authState.isAuthenticated}
+									className={account && isOnCorrectNetwork && authState.isAuthenticated ? 'confirm-btn cursor-pointer px-32' : 'confirm-btn-disabled cursor-not-allowed text-white px-32 py-4'}
+									disabled={!account || !isOnCorrectNetwork || !authState.isAuthenticated}
 									onClick={() => setShowClaimLoadingModal(true)}
 								>
-								Claim
+									Claim
 								</button>
 							</ToolTip>
 						</div>

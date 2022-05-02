@@ -1,5 +1,5 @@
 
-// Third Party
+// Third party
 import React, { useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
 import Skeleton from 'react-loading-skeleton';

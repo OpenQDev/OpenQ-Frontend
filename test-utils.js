@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React from 'react';
 // Cusotm
 import { render } from '@testing-library/react';
