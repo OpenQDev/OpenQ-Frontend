@@ -63,6 +63,12 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 				setError({ message, title });
 				setApproveTransferState(ERROR);
 			});
+		const deposits = bounty.deposits.filter((deposit)=>{
+			return deposit.id !== depositId;
+		});
+		const tokenVolumes = await appState.tokenClient.parseTokenValues(deposits);
+		const tvl = tokenVolumes.total;
+		await appState.openQPrismaClient.updateBounty(bounty.bountyAddress, tvl);
 	}
 
 	// Render
