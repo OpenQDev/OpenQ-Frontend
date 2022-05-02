@@ -3,16 +3,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import jazzicon from '@metamask/jazzicon';
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
-import { injected } from './connectors';
+import { injected, walletconnect } from './connectors';
 import useConnectOnLoad from '../../hooks/useConnectOnLoad';
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
 import AccountModal from './AccountModal';
+import ConnectModal from './ConnectModal';
 import useEns from '../../hooks/useENS';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 
 const ConnectButton = () => {
 	// State
 	const [isConnecting, setIsConnecting] = useState(false);
+	const [showConnectModal, setShowConnectModal] = useState(true);
 	const [isOnCorrectNetwork, ] = useIsOnCorrectNetwork();
 	const [showModal, setShowModal] = useState();
 	const iconWrapper = useRef();
@@ -50,8 +52,7 @@ const ConnectButton = () => {
 
 	// Methods
 	const onClickConnect = async () => {
-		setIsConnecting(true);
-		await activate(injected);
+		setShowConnectModal(true);
 	};
 
 	const addOrSwitchNetwork = () => {
@@ -65,10 +66,8 @@ const ConnectButton = () => {
 	};
 
 	// Render
-	if (account && isOnCorrectNetwork) {
-		const firstThree = account.slice(0, 5);
-		const lastThree = account.slice(-3);
-		return (
+	return (<div>
+		{	account && isOnCorrectNetwork ?
 			<div>
 				<button
 					ref= {buttonRef}
@@ -76,7 +75,7 @@ const ConnectButton = () => {
 					className="group flex items-center gap-x-3 h-12 font-mont whitespace-nowrap rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
 				>
 					<span className="border-2 border-inactive-accent rounded-full h-7 py-px bg-inactive-accent group-hover:bg-active-accent group-hover:border-active-accent" ref={iconWrapper}></span>
-					<span className='py'>{ensName|| `${firstThree}...${lastThree}`}</span>
+					<span className='py'>{ensName|| `${account.slice(0, 5)}...${account.slice(-3)}`}</span>
 				</button>
 				{showModal&&
 				<AccountModal
@@ -86,37 +85,37 @@ const ConnectButton = () => {
 					chainId = {chainId} 
 					deactivate={deactivate}
 					setIsConnecting={setIsConnecting}/>}
-			</div>
-		);
-	} else if (account) {
-		return (
-			<div>
-				<button
-					onClick={addOrSwitchNetwork}
-					className="flex items-center font-mont whitespace-nowrap h-12 rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2.5 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
-				>
+			</div>:
+			account?
+				<div>
+					<button
+						onClick={addOrSwitchNetwork}
+						className="flex items-center font-mont whitespace-nowrap h-12 rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2.5 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
+					>
 					Use{' '}
-					{
-						chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV][
-							'networkName'
-						]
-					}{' '}
+						{
+							chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV][
+								'networkName'
+							]
+						}{' '}
 					Network
-				</button>
-			</div>
-		);
-	} else {
-		return (
-			<div>
-				<button
-					onClick={onClickConnect}
-					className="flex items-center font-mont whitespace-nowrap h-12 rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
-				>
-					{isConnecting? 'Connecting...': 'Connect Wallet'}
-				</button>
-			</div>
-		);
-	}
+					</button>
+				</div>:
+				<div>
+					<button
+						onClick={onClickConnect}
+						className="flex items-center font-mont whitespace-nowrap h-12 rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
+					>
+						{'Connect Wallet'}
+					</button>
+				</div>
+		}
+		{
+			showConnectModal && <ConnectModal closeModal={()=>setShowConnectModal(false)} />
+		}	
+	</div>
+	);
 };
+
 
 export default ConnectButton;
