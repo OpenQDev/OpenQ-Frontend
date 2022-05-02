@@ -143,13 +143,13 @@ class MockOpenQClient {
 	}	
 	
 	handleError(jsonRpcError, data) {
-		console.log(jsonRpcError, data)
+		console.log(jsonRpcError);
+		console.log(data);
 		let errorString = jsonRpcError?.data?.message;
 		if (jsonRpcError.message.includes('Nonce too high.')) { errorString = 'NONCE_TO_HIGH'; }
 		if (jsonRpcError.message.includes('User denied transaction signature')) { errorString = 'USER_DENIED_TRANSACTION'; }
 		if (jsonRpcError.message.includes('MetaMask is having trouble connecting to the network')) { errorString = 'METAMASK_HAVING_TROUBLE'; }
 		if (jsonRpcError.message.includes('Internal JSON-RPC error')) { errorString = 'INTERNAL_ERROR'; }
-console.log(errorString);
 		for (const error of jsonRpcErrors) {
 			const revertString = Object.keys(error)[0];
 			if (errorString.includes(revertString)) {
