@@ -87,6 +87,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 						<h1 className="font-bold py-4 text-2xl border-web-gray border-b text-white">
 							Your Deposits
 						</h1>
+						<div className='text-tinted font-bold text-center'>To see your deposits, connect the wallet that funded them.</div>
 						<h2 className='text-white font-semibold'>Refundable</h2>
 						<div className='flex flex-wrap gap-8'>
 							{
@@ -113,7 +114,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 													setApproveTransferState(CONFIRM);
 													setShowApproveTransferModal(deposit.id);
 												}}
-													isOnCorrectNetwork={isOnCorrectNetwork} />
+												isOnCorrectNetwork={isOnCorrectNetwork} />
 											</div>
 										);
 									})
