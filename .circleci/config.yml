@@ -20,16 +20,22 @@ jobs:
               echo "$development_env" | base64 --decode > $(pwd)/.env
               echo "" >> $(pwd)/.env
               echo "PATS=$PATS" >> $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "OPENQ_PROXY_ADDRESS=$OPENQ_PROXY_ADDRESS_DEVELOPMENT" >> $(pwd)/.env
             fi
             if [ "$DEPLOY_ENV" = staging ]; then
               echo "$staging_env" | base64 --decode > $(pwd)/.env
               echo "" >> $(pwd)/.env
               echo "PATS=$PATS" >> $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "OPENQ_PROXY_ADDRESS=$OPENQ_PROXY_ADDRESS_STAGING" >> $(pwd)/.env
             fi
             if [ "$DEPLOY_ENV" = production ]; then
               echo "$production_env" | base64 --decode > $(pwd)/.env
               echo "" >> $(pwd)/.env
               echo "PATS=$PATS_PRODUCTION" >> $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "OPENQ_PROXY_ADDRESS=$OPENQ_PROXY_ADDRESS_PRODUCTION" >> $(pwd)/.env
             fi
       - run: cat .env
       - run: docker build -t openq/openq-frontend:$CIRCLE_TAG --build-arg deploy_env=$DEPLOY_ENV .
