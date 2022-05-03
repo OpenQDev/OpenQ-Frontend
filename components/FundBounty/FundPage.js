@@ -126,7 +126,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					`Successfully funded issue ${bounty.url} with ${volume} ${token.symbol}!`
 				);
 				refreshBounty();
-				await appState.githubBot.funded({ bountyId: bounty.bountyId, deposit: {tokenAddress: token.address, tokenVolumes: bigNumberVolumeInWei}});
+				await appState.githubBot.funded({ bountyId: bounty.bountyId, id: bounty.bountyAddress, deposit: { tokenAddress: ethers.utils.getAddress(token.address), tokenVolumes: bigNumberVolumeInWei.toString() } });
 				setButtonText('Fund');
 			} catch (error) {
 				const { message, title } = appState.openQClient.handleError(error, { bounty });
