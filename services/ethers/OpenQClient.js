@@ -196,12 +196,15 @@ class OpenQClient {
 		if (jsonRpcError.message.includes('User denied transaction signature')) { errorString = 'USER_DENIED_TRANSACTION'; }
 		if (jsonRpcError.message.includes('MetaMask is having trouble connecting to the network')) { errorString = 'METAMASK_HAVING_TROUBLE'; }
 		if (jsonRpcError.message.includes('Internal JSON-RPC error')) { errorString = 'INTERNAL_ERROR'; }
+		if (jsonRpcError.message.includes('Set a higher gas fee')){ errorString = 'UNDERPRICED_TXN';}
 		for (const error of jsonRpcErrors) {
 			const revertString = Object.keys(error)[0];
 			if (errorString.includes(revertString)) {
 				const title = error[revertString]['title'];
 				const message = error[revertString].message(data);
-				return { title, message };
+				const link = error[revertString].link;
+				const linkText = error[revertString].linkText;
+				return { title, message, link, linkText };
 			}
 		}
 		return 'Unknown Error';

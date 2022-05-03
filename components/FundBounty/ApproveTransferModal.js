@@ -66,8 +66,13 @@ const ApproveTransferModal = ({
 
 	let link = {
 		[SUCCESS]: `${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`,
+		[ERROR]: error.link
 	};
 
+	let linkText = {
+		[ERROR]: `${error.linkText}`
+	};
+	console.log(link[ERROR]);
 	return (
 		<div>
 			<div className="justify-center items-center font-mont flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -88,7 +93,7 @@ const ApproveTransferModal = ({
 								<p className='break-all underline'>
 									<Link href={link[approveTransferState]}>
 										<a target={'_blank'}>
-											{link[approveTransferState]}
+											{linkText[approveTransferState]||link[approveTransferState]}
 											<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
 												<path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
 											</svg>

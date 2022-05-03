@@ -103,8 +103,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
 			approveSucceeded = true;
 		} catch (error) {
 			console.log(error);
-			const { message, title } = appState.openQClient.handleError(error, { bounty });
-			setError({ message, title });
+			const { message, title, link, linkText } = appState.openQClient.handleError(error, { bounty });
+			setError({ message, title, link, linkText});
 			setButtonText('Fund');
 			setApproveTransferState(ERROR);
 		}
