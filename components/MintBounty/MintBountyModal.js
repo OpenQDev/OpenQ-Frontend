@@ -169,6 +169,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 			await sleep(1000);
 
 			sessionStorage.setItem('justMinted', true);
+			appState.githubBot.created({bountyId: issueData.id},);
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`
 			);
