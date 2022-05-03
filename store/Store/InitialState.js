@@ -5,6 +5,7 @@ import OpenQSubgraphClient from '../../services/subgraph/OpenQSubgraphClient';
 import GithubRepository from '../../services/github/GithubRepository';
 import TokenClient from '../../services/coins/TokenClient';
 import GithubBot from '../../services/github-bot/GithubBot';
+import Logger from '../../services/logger/Logger';
 
 import MockGithubRepository from '../../services/github/MockGithubRepository';
 import MockOpenQClient from '../../services/ethers/MockOpenQClient';
@@ -34,6 +35,7 @@ case 'local':
 		openQSubgraphClient: new MockOpenQSubgraphClient(),
 		tokenClient: new MockTokenClient(),
 		githubBot: new MockGithubBot(),
+		logger: new Logger(true),
 		utils: new Utils(),
 	};
 	break;
@@ -46,6 +48,7 @@ case 'docker':
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
 		githubBot: new GithubBot(),
+		logger: new Logger(true),
 		utils: new Utils(),
 	};
 	break;
@@ -58,6 +61,7 @@ case 'development':
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
 		githubBot: new GithubBot(),
+		logger: new Logger(true),
 		utils: new Utils(),
 	};
 	break;
@@ -70,6 +74,7 @@ case 'staging':
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
 		githubBot: new GithubBot(),
+		logger: new Logger(true),
 		utils: new Utils(),
 	};
 	break;
@@ -82,6 +87,7 @@ case 'production':
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
 		githubBot: new GithubBot(),
+		logger: new Logger(false),
 		utils: new Utils(),
 	};
 	break;

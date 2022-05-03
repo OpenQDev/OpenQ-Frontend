@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React from 'react';
 
 const Footer = () => {

@@ -102,6 +102,15 @@ const jsonRpcErrors =
 				}
 			}
 		},
+
+		{
+			'INTERNAL_ERROR': {
+				title: 'Internal RPC Error',
+				message: ()=>{
+					return 'Something went awry and the transaction failed! Please reload and try again.';
+				} 
+			}
+		}
 	];
 
 

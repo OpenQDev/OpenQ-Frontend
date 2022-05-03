@@ -1,9 +1,9 @@
-// Third Party
+// Third party
 import React, { useState } from 'react';
 
 const CopyAddressToClipboard = (props) => {
 	const [copySuccess, setCopySuccess] = useState('');
-	const [start, stop] = props.clipping||[12,32];
+	const [start, stop] = props.clipping || [12, 32];
 	const copyTextToClipboard = () => {
 		navigator.clipboard.writeText(props.data);
 		setCopySuccess('Copied!');
@@ -16,7 +16,7 @@ const CopyAddressToClipboard = (props) => {
 		<div className="relative pt-2">
 			<div
 				onClick={copyTextToClipboard}
-				className="flex flex-row space-x-1"
+				className="flex flex-row space-x-1 cursor-pointer w-fit"
 			>
 				<div className="relative flex flex-col items-center group">
 					{copySuccess ? (
@@ -61,7 +61,7 @@ const CopyAddressToClipboard = (props) => {
 				</div>
 				<div>{
 					props.noClip ?
-						props.data:
+						props.data :
 						`${props.data.substring(0, start)}
 						...
 						${props.data.substring(stop)}`

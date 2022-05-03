@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import confetti from 'canvas-confetti';
@@ -31,7 +31,7 @@ const address = () => {
 	const [error, setError] = useState(false);
 	const [internalMenu, setInternalMenu] = useState();
 	const [isIndexing, setIsIndexing] = useState(false);
-	const [showIndexingModal, setShowIndexingModal] = useState(true);
+	const [showIndexingModal] = useState(true);
 
 	// Refs
 	const canvas = useRef();
@@ -75,7 +75,7 @@ const address = () => {
 		return refund;
 	};
 
-	const setReload=()=>{
+	const setReload = () => {
 		const payload = {
 			type: 'UPDATE_RELOAD',
 			payload: true
@@ -167,7 +167,7 @@ const address = () => {
 				{internalMenu == 'Refund' && bounty ? (<RefundPage bounty={bounty} refreshBounty={refreshBounty} />) : null}
 				<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>
 			</div>
-			{isIndexing && showIndexingModal && <LoadingModal updateModal={() => setShowIndexingModal(false)} loadingText={{ title: 'Indexing Bounty', message: 'Please wait while your bounty is indexed.' }} />}
+			{isIndexing && showIndexingModal && <LoadingModal loadingText={{ title: 'Indexing Bounty', message: 'Please wait while your bounty is indexed.' }} />}
 		</>
 	);
 };

@@ -1,4 +1,4 @@
-// Third Party 
+// Third party 
 import React, { useRef, useEffect } from 'react';
 import jazzicon from '@metamask/jazzicon';
 // Custom
@@ -19,7 +19,7 @@ const AccountModal = ({ chainId, account, ensName, deactivate, setIsConnecting, 
 		}
 		catch (ex) {
 			console.log(ex);
-		}		
+		}
 		setIsConnecting(false);
 	};
 

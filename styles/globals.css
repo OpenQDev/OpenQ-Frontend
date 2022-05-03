@@ -10,6 +10,8 @@
 
 .github_markup h2{font-weight: bold;
 padding-top: 16px;}
+.github_markup a{text-decoration: underline;}
+.github_markup a:hover{color: "#b7b9bc"}
 
 pre{
   background-color:  #58585833;

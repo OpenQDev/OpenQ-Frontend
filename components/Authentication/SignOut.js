@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React, { useContext } from 'react';
 import axios from 'axios';
 // Custom

@@ -38,9 +38,9 @@ class OpenQClient {
 
 				console.log(txnReceipt);
 
-				const bountyId = txnReceipt.events[0].args.bountyId;
-				const issuerAddress = txnReceipt.events[0].args.issuerAddress;
-				const bountyAddress = txnReceipt.events[0].args.bountyAddress;
+				const bountyId = txnReceipt.events[1].args.bountyId;
+				const issuerAddress = txnReceipt.events[1].args.issuerAddress;
+				const bountyAddress = txnReceipt.events[1].args.bountyAddress;
 				resolve({ bountyId, issuerAddress, bountyAddress, txnReceipt });
 			} catch (err) {
 				reject(err);
@@ -195,6 +195,7 @@ class OpenQClient {
 		if (jsonRpcError.message.includes('Nonce too high.')) { errorString = 'NONCE_TO_HIGH'; }
 		if (jsonRpcError.message.includes('User denied transaction signature')) { errorString = 'USER_DENIED_TRANSACTION'; }
 		if (jsonRpcError.message.includes('MetaMask is having trouble connecting to the network')) { errorString = 'METAMASK_HAVING_TROUBLE'; }
+		if (jsonRpcError.message.includes('Internal JSON-RPC error')) { errorString = 'INTERNAL_ERROR'; }
 		for (const error of jsonRpcErrors) {
 			const revertString = Object.keys(error)[0];
 			if (errorString.includes(revertString)) {

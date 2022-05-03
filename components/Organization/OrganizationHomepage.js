@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React, { useEffect, useState, useContext } from 'react';
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
@@ -28,23 +28,23 @@ const OrganizationHomepage = () => {
 		} catch (error) {
 			console.log(error);
 		}
-		const ids = orgs.map(org=>org.id);
-		let githubOrganizations=[];		
-		try{
+		const ids = orgs.map(org => org.id);
+		let githubOrganizations = [];
+		try {
 			githubOrganizations = await appState.githubRepository.fetchOrgsOrUsersByIds(ids);
 		}
-		catch(err){
+		catch (err) {
 			updateError(true);
-			console.log(error);
+			console.log(err);
 		}
-		let mergedOrgs = orgs.map((org)=>{
+		let mergedOrgs = orgs.map((org) => {
 			let currentGithubOrg;
-			for(const githubOrganization of githubOrganizations){
-				if(org.id === githubOrganization.id ){
+			for (const githubOrganization of githubOrganizations) {
+				if (org.id === githubOrganization.id) {
 					currentGithubOrg = githubOrganization;
 				}
 			}
-			return {...org, ...currentGithubOrg};
+			return { ...org, ...currentGithubOrg };
 		});
 
 		setOrganizations(mergedOrgs);

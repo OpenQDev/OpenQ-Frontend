@@ -24,7 +24,7 @@ class MockOpenQSubgraphClient {
 					resolve(result.data);
 				})
 				.catch(error => {
-					reject(error);
+					resolve (null)
 				});
 		});
 

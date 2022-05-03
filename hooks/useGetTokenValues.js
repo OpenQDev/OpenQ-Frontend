@@ -7,7 +7,6 @@ const useGetTokenValues = (tokenBalances) => {
 	const [appState] = useContext(StoreContext);
 
 	async function getTokenValues(tokenBalances) {
-
 		if (tokenBalances) {
 			let tokenVolumes = {};
 			if (Array.isArray(tokenBalances)) {

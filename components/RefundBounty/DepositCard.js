@@ -1,4 +1,4 @@
-// Third Party
+// Third party
 import React, { useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
@@ -12,7 +12,7 @@ const DepositCard = ({ deposit, refundBounty, status, isOnCorrectNetwork }) => {
 	const [tokenValues] = useGetTokenValues(deposit);
 
 	return (
-		<div className={`flex flex-col items-start px-8 sm:px-6 pb-4 max-w-sm bg-web-gray/20 ${status === 'refundable' ? ' border-pink-300' : status === 'not-yet-refundable' ? '' : ' border-web-gray'} border rounded-md`}>
+		<div className={`flex flex-col items-start px-8 max-w-[90%] sm:px-6 pb-4 max-w-sm bg-web-gray/20 ${status === 'refundable' ? ' border-pink-300' : status === 'not-yet-refundable' ? '' : ' border-web-gray'} border rounded-md`}>
 			<TokenBalances
 				tokenBalances={deposit}
 				tokenValues={tokenValues}
