@@ -53,10 +53,17 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 		const depositId = showApproveTransferModal;
 		appState.openQClient
 			.refundDeposit(library, bounty.bountyId, depositId)
-			.then((txnReceipt) => {
+			.then(async (txnReceipt) => {
 				setTransactionHash(txnReceipt.transactionHash);
-				const refundedDeposit = bounty.deposits.filter((deposit=>{return deposit.id = depositId}))[0];
-				await appState.githubBot.funded({ bountyId: bounty.bountyId, deposit: refundedDeposit});
+				const refundedDeposit = bounty.deposits.find(deposit => deposit.id == depositId);
+				await appState.githubBot.refunded({
+					bountyId: bounty.bountyId,
+					id: bounty.bountyAddress,
+					deposit: {
+						tokenAddress: ethers.utils.getAddress(refundedDeposit.tokenAddress),
+						tokenVolumes: refundedDeposit.volume.toString()
+					}
+				});
 				setApproveTransferState(SUCCESS);
 				refreshBounty();
 			})
