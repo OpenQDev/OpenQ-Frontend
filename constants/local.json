@@ -39,9 +39,9 @@
 		"chainId": 80001,
 		"path": "/crypto-logos/DAI.svg"
 	},
-	"0x3813e82e6f7098b9583FC0F33a962D02018B6803": {
+	"0xc2132D05D31c914a87C6611C10748AEb04B58e8F": {
 		"name": "Tether USD",
-		"address": "0x3813e82e6f7098b9583FC0F33a962D02018B6803",
+		"address": "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
 		"symbol": "USDT",
 		"decimals": 6,
 		"chainId": 80001,
