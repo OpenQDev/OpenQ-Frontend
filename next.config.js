@@ -6,6 +6,7 @@ module.exports = () => {
 		NEXT_PUBLIC_BASE_URL: process.env.BASE_URL,
 		NEXT_PUBLIC_AUTH_URL: process.env.AUTH_URL,
 		NEXT_PUBLIC_ORACLE_URL: process.env.ORACLE_URL,
+		NEXT_PUBLIC_GITHUB_BOT_WEBHOOK: process.env.GITHUB_BOT_WEBHOOK,
 		NEXT_PUBLIC_COIN_API_URL: process.env.COIN_API_URL,
 		NEXT_PUBLIC_PATS: process.env.PATS,
 		NEXT_PUBLIC_OPENQ_ID: process.env.OPENQ_ID,
