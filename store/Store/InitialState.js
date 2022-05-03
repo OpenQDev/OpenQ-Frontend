@@ -47,7 +47,7 @@ case 'docker':
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
-		githubBot: new GithubBot(),
+		githubBot: new MockGithubBot(),
 		logger: new Logger(true),
 		utils: new Utils(),
 	};
@@ -60,7 +60,7 @@ case 'development':
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
-		githubBot: new GithubBot(),
+		githubBot: new MockGithubBot(),
 		logger: new Logger(true),
 		utils: new Utils(),
 	};

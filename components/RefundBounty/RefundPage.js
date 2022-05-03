@@ -56,14 +56,18 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 			.then(async (txnReceipt) => {
 				setTransactionHash(txnReceipt.transactionHash);
 				const refundedDeposit = bounty.deposits.find(deposit => deposit.id == depositId);
-				await appState.githubBot.refunded({
+				try{await appState.githubBot.refunded({
 					bountyId: bounty.bountyId,
 					id: bounty.bountyAddress,
 					deposit: {
 						tokenAddress: ethers.utils.getAddress(refundedDeposit.tokenAddress),
 						tokenVolumes: refundedDeposit.volume.toString()
 					}
-				});
+				});}
+				catch(e){
+					console.log('bot not responding');
+				}
+				
 				setApproveTransferState(SUCCESS);
 				refreshBounty();
 			})
@@ -87,6 +91,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 						<h1 className="font-bold py-4 text-2xl border-web-gray border-b text-white">
 							Your Deposits
 						</h1>
+						<div className='text-tinted font-bold text-center'>To see your deposits, connect the wallet that funded them.</div>
 						<h2 className='text-white font-semibold'>Refundable</h2>
 						<div className='flex flex-wrap gap-8'>
 							{
