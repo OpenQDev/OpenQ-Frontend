@@ -56,14 +56,18 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 			.then(async (txnReceipt) => {
 				setTransactionHash(txnReceipt.transactionHash);
 				const refundedDeposit = bounty.deposits.find(deposit => deposit.id == depositId);
-				await appState.githubBot.refunded({
+				try{await appState.githubBot.refunded({
 					bountyId: bounty.bountyId,
 					id: bounty.bountyAddress,
 					deposit: {
 						tokenAddress: ethers.utils.getAddress(refundedDeposit.tokenAddress),
 						tokenVolumes: refundedDeposit.volume.toString()
 					}
-				});
+				});}
+				catch(e){
+					console.log('bot not responding');
+				}
+				
 				setApproveTransferState(SUCCESS);
 				refreshBounty();
 			})
