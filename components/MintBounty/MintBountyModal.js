@@ -1,6 +1,7 @@
 // Third party
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
+import { ethers } from 'ethers';
 
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
@@ -169,7 +170,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 			await sleep(1000);
 
 			sessionStorage.setItem('justMinted', true);
-			await appState.openQPrismaClient.createNewBounty(bountyAddress);
+			await appState.openQPrismaClient.createNewBounty(ethers.utils.getAddress(bountyAddress));
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`
 			);

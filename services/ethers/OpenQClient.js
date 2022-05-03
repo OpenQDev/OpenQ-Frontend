@@ -38,9 +38,9 @@ class OpenQClient {
 
 				console.log(txnReceipt);
 
-				const bountyId = txnReceipt.events[1].args.bountyId;
-				const issuerAddress = txnReceipt.events[1].args.issuerAddress;
-				const bountyAddress = txnReceipt.events[1].args.bountyAddress;
+				const bountyId = txnReceipt.events[0].args[0];
+				const issuerAddress = txnReceipt.events[0].args[2];
+				const bountyAddress = txnReceipt.events[0].address;
 				resolve({ bountyId, issuerAddress, bountyAddress, txnReceipt });
 			} catch (err) {
 				reject(err);
