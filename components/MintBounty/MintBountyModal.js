@@ -33,7 +33,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
 	const [mintBountyState, setMintBountyState] = useContext(MintBountyContext);
-	const { library, active, account, } = useWeb3();
+	const { library, active, account } = useWeb3();
 	const router = useRouter();
 
 	// State
@@ -125,6 +125,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 					setShowErrorModal(true);
 				}
 			}
+
 			alreadyExists();
 		}
 		return (() => {
@@ -169,7 +170,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 			sessionStorage.setItem('justMinted', true);
 			try{
 				appState.githubBot.created({ bountyId: issueData.id, id: bountyAddress });
-
 			}
 			catch(e){
 				console.log('bot not responding');
@@ -211,7 +211,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 										isValidUrl={isValidUrl}
 									/>
 								</div>
-								{/* {error ? errorMessage : null} */}
 								{isValidUrl && !issueFound && isLoadingIssueData ? (
 									<div className="pt-5 self-center">
 										<LoadingIcon bg={'white'} />
