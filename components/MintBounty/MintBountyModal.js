@@ -169,11 +169,10 @@ const MintBountyModal = ({ modalVisibility }) => {
 			await sleep(1000);
 
 			sessionStorage.setItem('justMinted', true);
-			try{
+			try {
 				appState.githubBot.created({ bountyId: issueData.id, id: bountyAddress });
-
 			}
-			catch(e){
+			catch (e) {
 				console.log('bot not responding');
 			}
 			router.push(
