@@ -110,9 +110,8 @@ const MintBountyModal = ({ modalVisibility }) => {
 		if (mintBountyState.issueData) {
 			async function alreadyExists() {
 				try {
-					let bounty = await appState.openQSubgraphClient.getBounty(
+					let bounty = await appState.openQSubgraphClient.getBountyByGithubId(
 						mintBountyState.issueData.id,
-						'no-cache'
 					);
 					if (!didCancel) {
 						if (bounty) {
