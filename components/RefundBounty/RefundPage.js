@@ -51,135 +51,131 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 	async function refundBounty() {
 		setApproveTransferState(APPROVING);
 		const depositId = showApproveTransferModal;
-		appState.openQClient
-			.refundDeposit(library, bounty.bountyId, depositId)
-			.then(async (txnReceipt) => {
-				setTransactionHash(txnReceipt.transactionHash);
-				const refundedDeposit = bounty.deposits.find(deposit => deposit.id == depositId);
-				try{await appState.githubBot.refunded({
+
+		try{
+			const txnReceipt = await	appState.openQClient.refundDeposit(library, bounty.bountyId, depositId);
+			setTransactionHash(txnReceipt.transactionHash);
+			const refundedDeposit = bounty.deposits.find(deposit => deposit.id == depositId);
+
+			try{
+				await appState.githubBot.refunded({
 					bountyId: bounty.bountyId,
 					id: bounty.bountyAddress,
 					deposit: {
 						tokenAddress: ethers.utils.getAddress(refundedDeposit.tokenAddress),
 						tokenVolumes: refundedDeposit.volume.toString()
 					}
-				});}
-				catch(e){
-					console.log('bot not responding');
-				}
-				
+				});
 				setApproveTransferState(SUCCESS);
-				refreshBounty();
-			})
-			.catch((error) => {
-				const { message, title } = appState.openQClient.handleError(error, { account, bounty });
-				setError({ message, title });
-				setApproveTransferState(ERROR);
-			});
+				refreshBounty();}
+			catch(e){
+				console.log('bot not responding');
+			}}				
+		catch(error){
+			const { message, title } = appState.openQClient.handleError(error, { account, bounty });
+			setError({ message, title });
+			setApproveTransferState(ERROR);
+		}
 	}
 
 	// Render
-	if (claimed) {
-		return (
-			<BountyClosed bounty={bounty} />
-		);
-	} else {
-		return (
-			<>
-				<div className="flex justify-center items-center pl-5 pr-5 md:pl-16 md:pr-16 pt-10 pb-10 my-16 border-web-gray border rounded-lg w-5/6 max-w-6xl">
-					<div className="flex flex-col space-y-5 w-full">
-						<h1 className="font-bold py-4 text-2xl border-web-gray border-b text-white">
+
+	return (
+		<>{claimed?
+			<BountyClosed bounty={bounty}/> :
+			<div className="flex justify-center items-center pl-5 pr-5 md:pl-16 md:pr-16 pt-10 pb-10 my-16 border-web-gray border rounded-lg w-5/6 max-w-6xl">
+				<div className="flex flex-col space-y-5 w-full">
+					<h1 className="font-bold py-4 text-2xl border-web-gray border-b text-white">
 							Your Deposits
-						</h1>
-						<div className='text-tinted font-bold text-center'>To see your deposits, connect the wallet that funded them.</div>
-						<h2 className='text-white font-semibold'>Refundable</h2>
-						<div className='flex flex-wrap gap-8'>
-							{
-								bounty.deposits
-									.filter((deposit) => {
-										return (ethers.utils.getAddress(deposit.sender.id) == account);
-									})
-									.filter((deposit) => {
-										return deposit.refunded == false;
-									})
-									.filter((deposit) => {
-										return ((parseInt(deposit.receiveTime) + parseInt(deposit.expiration)) < Math.floor(Date.now() / 1000));
-									})
-									.map((deposit) => {
-										return (
-											<div key={deposit.id}>
-												<DepositCard deposit={deposit} status="refundable" bounty={bounty} refundBounty={() => {
-													setConfirmationMessage(
-														`You are about to refund the bounty at ${bounty.bountyAddress.substring(
-															0,
-															12
-														)}...${bounty.bountyAddress.substring(32)}		Are you sure you want to refund this deposit?`
-													);
-													setApproveTransferState(CONFIRM);
-													setShowApproveTransferModal(deposit.id);
-												}}
-												isOnCorrectNetwork={isOnCorrectNetwork} />
-											</div>
-										);
-									})
-							}
-						</div>
-						<h2 className='text-white font-semibold'>Not Yet Refundable</h2>
-						<div className='flex flex-wrap gap-8'>
-							{
-								bounty.deposits
-									.filter((deposit) => {
-										return (ethers.utils.getAddress(deposit.sender.id) == account);
-									})
-									.filter((deposit) => {
-										return ((parseInt(deposit.receiveTime) + parseInt(deposit.expiration)) > Math.floor(Date.now() / 1000));
-									})
-									.map((deposit) => {
-										return (
-											<div key={deposit.id}>
-												<DepositCard deposit={deposit} status="not-yet-refundable" bounty={bounty} refundBounty={refundBounty} />
-											</div>
-										);
-									})
-							}
-						</div>
-						<h2 className='text-white font-semibold'>Refunded</h2>
-						<div className='flex flex-wrap gap-8'>
-							{
-								bounty.deposits
-									.filter((deposit) => {
-										return (ethers.utils.getAddress(deposit.sender.id) == account);
-									})
-									.filter((deposit) => {
-										return (deposit.refunded == true);
-									})
-									.map((deposit) => {
-										return (
-											<div key={deposit.id}>
-												<DepositCard deposit={deposit} status="refunded" bounty={bounty} refundBounty={refundBounty} />
-											</div>
-										);
-									})
-							}
-						</div>
+					</h1>
+					<div className='text-tinted font-bold text-center'>To see your deposits, connect the wallet that funded them.</div>
+					<h2 className='text-white font-semibold'>Refundable</h2>
+					<div className='flex flex-wrap gap-8'>
+						{
+							bounty.deposits
+								.filter((deposit) => {
+									return (ethers.utils.getAddress(deposit.sender.id) == account);
+								})
+								.filter((deposit) => {
+									return deposit.refunded == false;
+								})
+								.filter((deposit) => {
+									return ((parseInt(deposit.receiveTime) + parseInt(deposit.expiration)) < Math.floor(Date.now() / 1000));
+								})
+								.map((deposit) => {
+									return (
+										<div key={deposit.id}>
+											<DepositCard deposit={deposit} status="refundable" bounty={bounty} refundBounty={() => {
+												setConfirmationMessage(
+													`You are about to refund the bounty at ${bounty.bountyAddress.substring(
+														0,
+														12
+													)}...${bounty.bountyAddress.substring(32)}		Are you sure you want to refund this deposit?`
+												);
+												setApproveTransferState(CONFIRM);
+												setShowApproveTransferModal(deposit.id);
+											}}
+											isOnCorrectNetwork={isOnCorrectNetwork} />
+										</div>
+									);
+								})
+						}
 					</div>
-					{showApproveTransferModal && <ApproveTransferModal
-						approveTransferState={approveTransferState}
-						address={account}
-						transactionHash={transactionHash}
-						confirmationMessage={confirmationMessage}
-						error={error}
-						setShowApproveTransferModal={setShowApproveTransferModal}
-						positiveOption={'Yes, Refund!'}
-						confirmMethod={refundBounty}
-						resetState={resetState}
-						approvingMessage={'Refunding...'}
-						approvingTitle={'Refund'}
-					/>}
+					<h2 className='text-white font-semibold'>Not Yet Refundable</h2>
+					<div className='flex flex-wrap gap-8'>
+						{
+							bounty.deposits
+								.filter((deposit) => {
+									return (ethers.utils.getAddress(deposit.sender.id) == account);
+								})
+								.filter((deposit) => {
+									return ((parseInt(deposit.receiveTime) + parseInt(deposit.expiration)) > Math.floor(Date.now() / 1000));
+								})
+								.map((deposit) => {
+									return (
+										<div key={deposit.id}>
+											<DepositCard deposit={deposit} status="not-yet-refundable" bounty={bounty} refundBounty={refundBounty} />
+										</div>
+									);
+								})
+						}
+					</div>
+					<h2 className='text-white font-semibold'>Refunded</h2>
+					<div className='flex flex-wrap gap-8'>
+						{
+							bounty.deposits
+								.filter((deposit) => {
+									return (ethers.utils.getAddress(deposit.sender.id) == account);
+								})
+								.filter((deposit) => {
+									return (deposit.refunded == true);
+								})
+								.map((deposit) => {
+									return (
+										<div key={deposit.id}>
+											<DepositCard deposit={deposit} status="refunded" bounty={bounty} refundBounty={refundBounty} />
+										</div>
+									);
+								})
+						}
+					</div>
 				</div>
-			</>
-		);
-	}
+				{showApproveTransferModal && <ApproveTransferModal
+					approveTransferState={approveTransferState}
+					transactionHash={transactionHash}
+					confirmationMessage={confirmationMessage}
+					error={error}
+					setShowApproveTransferModal={setShowApproveTransferModal}
+					positiveOption={'Yes, Refund!'}
+					confirmMethod={refundBounty}
+					resetState={resetState}
+					approvingMessage={'Refunding...'}
+					approvingTitle={'Refund'}
+				/>}
+			</div>
+		}</>
+	);
 };
+
 
 export default RefundPage;
