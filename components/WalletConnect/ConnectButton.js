@@ -75,27 +75,6 @@ const ConnectButton = () => {
 					className="group flex items-center gap-x-3 h-12 font-mont whitespace-nowrap rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
 				>
 					<span className="border-2 border-inactive-accent rounded-full h-7 py-px bg-inactive-accent group-hover:bg-active-accent group-hover:border-active-accent" ref={iconWrapper}></span>
-<<<<<<< HEAD
-					<span className='py'>{ensName || `${firstThree}...${lastThree}`}</span>
-				</button>
-				{showModal &&
-					<AccountModal
-						domRef={modalRef}
-						account={account}
-						ensName={ensName}
-						chainId={chainId}
-						deactivate={deactivate}
-						setIsConnecting={setIsConnecting} />}
-			</div>
-		);
-	} else if (account) {
-		return (
-			<div>
-				<button
-					onClick={addOrSwitchNetwork}
-					className="flex items-center font-mont whitespace-nowrap h-12 rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2.5 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
-				>
-=======
 					<span className='py'>{ensName|| `${account.slice(0, 5)}...${account.slice(-3)}`}</span>
 				</button>
 				{showModal&&
@@ -113,7 +92,6 @@ const ConnectButton = () => {
 						onClick={addOrSwitchNetwork}
 						className="flex items-center font-mont whitespace-nowrap h-12 rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2.5 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
 					>
->>>>>>> 92610c7cbf1f9053c02001f1b9da7fc509e7d9f9
 					Use{' '}
 						{
 							chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV][
@@ -121,23 +99,6 @@ const ConnectButton = () => {
 							]
 						}{' '}
 					Network
-<<<<<<< HEAD
-				</button>
-			</div>
-		);
-	} else {
-		return (
-			<div>
-				<button
-					onClick={onClickConnect}
-					className="flex items-center font-mont whitespace-nowrap h-12 rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
-				>
-					{isConnecting ? 'Connecting...' : 'Connect Wallet'}
-				</button>
-			</div>
-		);
-	}
-=======
 					</button>
 				</div>:
 				<div>
@@ -154,7 +115,6 @@ const ConnectButton = () => {
 		}	
 	</div>
 	);
->>>>>>> 92610c7cbf1f9053c02001f1b9da7fc509e7d9f9
 };
 
 
