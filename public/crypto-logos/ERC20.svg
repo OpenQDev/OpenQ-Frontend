@@ -1,5 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-  <ellipse style="stroke: rgb(0, 0, 0); fill: rgb(139, 45, 90); paint-order: fill; stroke-width: 0px;" cx="237.427" cy="255.915" rx="194.655" ry="194.655"/>
-  <text style="fill: rgb(255, 255, 255); font-family: Arial, sans-serif; font-size: 78px; font-weight: 700; white-space: pre;" x="104.885" y="280.29">ERC 20</text>
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100%" height="100%" viewBox="0 0 240 240" xml:space="preserve">
+<desc>Created with Fabric.js 3.6.1</desc>
+<defs>
+</defs>
+<g transform="matrix(1 0 0 1 120 120)"  >
+<g style=""   >
+		<g transform="matrix(1.08 0 0 -1.03 34.67 59.89)" id="Purple2"  >
+<path style="stroke: rgb(52,65,192); stroke-width: 2.27; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 7; fill: rgb(200,178,245); fill-rule: evenodd; opacity: 1;"  transform=" translate(-1362.55, -648.74)" d="M 1394.74 693.463 L 1330.36 604.024 L 1330.36 654.238 L 1394.74 693.463 Z" stroke-linecap="round" />
+</g>
+		<g transform="matrix(-1.08 0 0 -1.03 -34.97 59.89)" id="Yellow2"  >
+<path style="stroke: rgb(52,65,192); stroke-width: 2.27; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 7; fill: rgb(238,203,192); fill-rule: evenodd; opacity: 1;"  transform=" translate(-1362.55, -648.74)" d="M 1394.74 693.463 L 1330.36 604.024 L 1330.36 654.238 L 1394.74 693.463 Z" stroke-linecap="round" />
+</g>
+		<g transform="matrix(-1 0 0 1 -34.98 7.33)" id="Blue1"  >
+<path style="stroke: rgb(52,65,192); stroke-width: 2.4; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 7; fill: rgb(135,169,240); fill-rule: evenodd; opacity: 1;"  transform=" translate(-1363.78, -643.94)" d="M 1398.61 639.614 L 1328.95 608.641 L 1328.95 679.249 L 1398.61 639.614 Z" stroke-linecap="round" />
+</g>
+		<g transform="matrix(1 0 0 1 34.68 7.33)" id="Purple1"  >
+<path style="stroke: rgb(52,65,192); stroke-width: 2.4; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 7; fill: rgb(202,179,245); fill-rule: evenodd; opacity: 1;"  transform=" translate(-1363.78, -643.94)" d="M 1398.61 639.614 L 1328.95 608.641 L 1328.95 679.249 L 1398.61 639.614 Z" stroke-linecap="round" />
+</g>
+		<g transform="matrix(-1.08 0 0 1.03 -34.97 -51.65)" id="Yellow1"  >
+<path style="stroke: rgb(52,65,192); stroke-width: 2.27; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 7; fill: rgb(238,203,192); fill-rule: evenodd; opacity: 1;"  transform=" translate(-1362.55, -656.94)" d="M 1394.74 709.855 L 1330.36 604.024 L 1330.36 679.865 L 1394.74 709.855 Z" stroke-linecap="round" />
+</g>
+		<g transform="matrix(1.08 0 0 1.03 34.67 -51.65)" id="Green1"  >
+<path style="stroke: rgb(52,65,192); stroke-width: 2.27; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 7; fill: rgb(184,251,246); fill-rule: evenodd; opacity: 1;"  transform=" translate(-1362.55, -656.94)" d="M 1394.74 709.855 L 1330.36 604.024 L 1330.36 679.865 L 1394.74 709.855 Z" stroke-linecap="round" />
+</g>
+</g>
+</g>
+<g transform="matrix(1 0 0 1 120 200)" style=""  >
+		<text xml:space="preserve" font-family="'Open Sans', sans-serif" font-size="56" font-style="normal" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(192,56,56); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-90" y="8.8" style="fill: rgb(255,255,255); ">ERC20</tspan></text>
+</g>
 </svg>

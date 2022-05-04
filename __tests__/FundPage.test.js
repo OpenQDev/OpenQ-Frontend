@@ -121,7 +121,7 @@ describe('FundPage', ( ) => {
 			// ASSERT
 			expect(screen.findByText('3 Chainlink Token'));
 			await user.click( await screen.findByRole( 'button', {name: /Confirm/i}));
-			const modalContent = await screen.findByText(/ transaction failed! Please reload and attempt to fund again./i);
+			const modalContent = await screen.findByText(/ transaction failed! Please reload and try again/i);
 			expect(modalContent).toBeInTheDocument();
 			await user.click(await  screen.findByRole('button', {name: 'Close'}));
 			expect(modalContent).not.toBeInTheDocument();

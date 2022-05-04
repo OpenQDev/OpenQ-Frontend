@@ -33,7 +33,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
 	const [mintBountyState, setMintBountyState] = useContext(MintBountyContext);
-	const { library, active, account, } = useWeb3();
+	const { library, active, account } = useWeb3();
 	const router = useRouter();
 
 	// State
@@ -110,9 +110,8 @@ const MintBountyModal = ({ modalVisibility }) => {
 		if (mintBountyState.issueData) {
 			async function alreadyExists() {
 				try {
-					let bounty = await appState.openQSubgraphClient.getBounty(
+					let bounty = await appState.openQSubgraphClient.getBountyByGithubId(
 						mintBountyState.issueData.id,
-						'no-cache'
 					);
 					if (!didCancel) {
 						if (bounty) {
@@ -212,7 +211,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 										isValidUrl={isValidUrl}
 									/>
 								</div>
-								{/* {error ? errorMessage : null} */}
 								{isValidUrl && !issueFound && isLoadingIssueData ? (
 									<div className="pt-5 self-center">
 										<LoadingIcon bg={'white'} />

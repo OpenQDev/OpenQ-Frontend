@@ -75,16 +75,16 @@ pre{
     @apply font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer border-blue-400 text-gray-800 hover:bg-blue-400 hover:text-white;
   }
   .confirm-btn {
-    @apply font-mont rounded-lg w-full py-3 font-bold cursor-pointer text-white border border-pink-300 bg-pink-700 bg-opacity-10 hover:bg-pink-700 hover:bg-opacity-30 hover:text-white;
+    @apply font-mont rounded-lg w-full py-3 font-bold cursor-pointer text-white border border-pink-300 bg-pink-700 bg-opacity-10 hover:bg-pink-700 hover:bg-opacity-30 hover:text-white cursor-pointer;
   }
   .sm-confirm-btn{
-    @apply font-mont rounded-lg w-full py-2 font-semibold cursor-pointer text-white border border-pink-300 bg-pink-700 bg-opacity-10 hover:bg-pink-700 hover:bg-opacity-30 hover:text-white;
+    @apply font-mont rounded-lg w-full py-2 font-semibold cursor-pointer text-white border border-pink-300 bg-pink-700 bg-opacity-10 hover:bg-pink-700 hover:bg-opacity-30 hover:text-white cursor-pointer;
   }
   .sm-confirm-btn-disabled{
-    @apply font-mont rounded-lg w-full py-2 font-semibold text-white text-opacity-30 border border-pink-300 bg-pink-700 bg-opacity-10;
+    @apply font-mont rounded-lg w-full py-2 font-semibold text-white text-opacity-30 border border-pink-300 bg-pink-700 bg-opacity-10 cursor-not-allowed;
   }
   .confirm-btn-disabled {
-    @apply font-mont rounded-lg w-full py-3 font-bold text-white text-opacity-30 border border-pink-300 bg-pink-700 bg-opacity-10;
+    @apply font-mont rounded-lg w-full py-3 font-bold text-white text-opacity-30 border border-pink-300 bg-pink-700 bg-opacity-10 cursor-not-allowed;
   }
 	.text-link{
 		@apply text-purple-500;

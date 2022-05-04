@@ -5,7 +5,6 @@ const InitialState = {
 	walletConnected: false,
 	enableMint: false,
 	error: null,
-	errorMessage: '',
 	isBountyMinted: false,
 	isLoading: false,
 	isValidUrl: false,
@@ -13,10 +12,8 @@ const InitialState = {
 	issueData: '',
 	issueFound: false,
 	issueId: '',
-	issueNumber: '',
 	issueUrl: '',
 	orgId: '',
-	repoName: '',
 	transactionPending: false
 };
 

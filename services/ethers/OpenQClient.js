@@ -37,11 +37,8 @@ class OpenQClient {
 				const txnReceipt = await txnResponse.wait();
 
 				console.log(txnReceipt);
-
-				const bountyId = txnReceipt.events[1].args.bountyId;
-				const issuerAddress = txnReceipt.events[1].args.issuerAddress;
-				const bountyAddress = txnReceipt.events[1].args.bountyAddress;
-				resolve({ bountyId, issuerAddress, bountyAddress, txnReceipt });
+				const bountyAddress = txnReceipt.events[1].address;
+				resolve({  bountyAddress, });
 			} catch (err) {
 				reject(err);
 			}
@@ -197,6 +194,7 @@ class OpenQClient {
 		if (jsonRpcError.message.includes('MetaMask is having trouble connecting to the network')) { errorString = 'METAMASK_HAVING_TROUBLE'; }
 		if (jsonRpcError.message.includes('Internal JSON-RPC error')) { errorString = 'INTERNAL_ERROR'; }
 		if (jsonRpcError.message.includes('Set a higher gas fee')){ errorString = 'UNDERPRICED_TXN';}
+		if (jsonRpcError.message.includes('Transaction ran out of gas')){ errorString = 'OUT_OF_GAS';}
 		for (const error of jsonRpcErrors) {
 			const revertString = Object.keys(error)[0];
 			if (errorString.includes(revertString)) {

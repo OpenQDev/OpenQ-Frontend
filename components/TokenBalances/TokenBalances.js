@@ -76,7 +76,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 								>
 									<div className="pt-1">
 										<Image
-											src={tokenMetadata[tokenAddress].path}
+											src={tokenMetadata[tokenAddress].path ||'/crypto-logos/ERC20.svg' }
 											className="rounded-full"
 											alt="n/a"
 											width="16"
