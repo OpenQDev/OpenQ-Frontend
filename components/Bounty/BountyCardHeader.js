@@ -16,7 +16,7 @@ const BountyCardHeader = ({ bounty }) => {
 				<div className="text-xl font-bold text-white">{bounty?.title || <Skeleton width={'10rem'} />}</div>
 			</div>
 			{bounty ?
-				<div>
+				<div className='min-w-[40px]'>
 					<Image src={bounty.avatarUrl} alt="avatarUrl" width="51" height="51" />
 				</div> : null
 			}
