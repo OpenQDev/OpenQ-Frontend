@@ -60,7 +60,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 			githubRepository: new GithubRepository(),
 			openQSubgraphClient: new OpenQSubgraphClient(),
 			tokenClient: new TokenClient(),
-			githubBot: new GithubBot(),
+			githubBot: new MockGithubBot(),
 			logger: new Logger(true),
 			utils: new Utils(),
 		};
