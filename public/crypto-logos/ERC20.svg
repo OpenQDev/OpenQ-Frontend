@@ -27,6 +27,6 @@
 </g>
 </g>
 <g transform="matrix(1 0 0 1 120 200)" style=""  >
-		<text xml:space="preserve" font-family="'Open Sans', sans-serif" font-size="28" font-style="normal" font-weight="bold" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(192,56,56); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-42.01" y="8.8" style="fill: rgb(255,255,255); ">ERC20</tspan></text>
+		<text xml:space="preserve" font-family="'Open Sans', sans-serif" font-size="56" font-style="normal" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(192,56,56); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-90" y="8.8" style="fill: rgb(255,255,255); ">ERC20</tspan></text>
 </g>
 </svg>
