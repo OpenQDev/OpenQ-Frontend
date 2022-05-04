@@ -7,6 +7,8 @@ import TokenClient from '../../services/coins/TokenClient';
 import GithubBot from '../../services/github-bot/GithubBot';
 import Logger from '../../services/logger/Logger';
 
+import EmptyGithubBot from '../../services/github-bot/EmptyBot';
+
 import MockGithubRepository from '../../services/github/MockGithubRepository';
 import MockOpenQClient from '../../services/ethers/MockOpenQClient';
 import MockOpenQSubgraphClient from '../../services/subgraph/MockOpenQSubgraphClient';
@@ -47,7 +49,7 @@ case 'docker':
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
-		githubBot: new MockGithubBot(),
+		githubBot: new EmptyGithubBot(),
 		logger: new Logger(true),
 		utils: new Utils(),
 	};
@@ -60,7 +62,7 @@ case 'development':
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
-		githubBot: new MockGithubBot(),
+		githubBot: new EmptyGithubBot(),
 		logger: new Logger(true),
 		utils: new Utils(),
 	};
