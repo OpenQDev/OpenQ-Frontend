@@ -125,7 +125,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 					setShowErrorModal(true);
 				}
 			}
-
 			alreadyExists();
 		}
 		return (() => {
