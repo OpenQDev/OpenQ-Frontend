@@ -27,13 +27,14 @@ const MintBountyModal = ({ modalVisibility }) => {
 	const [isLoading, setIsLoading] = useState();
 	const [error, setError] = useState();
 	const [claimed, setClaimed] = useState();
+	const [enableMint, setEnableMint] = useState();
 	const isValidUrl = appState.utils.issurUrlRegex(url);
-	const enableMint = true;
 
 	// Refs
 	const modal = useRef();
 
 	const setIssueUrl = async(issueUrl)=>{
+		setEnableMint();
 		let didCancel = false;
 		setUrl(issueUrl);
 		let issueUrlIsValid = appState.utils.issurUrlRegex(issueUrl);
@@ -60,12 +61,11 @@ const MintBountyModal = ({ modalVisibility }) => {
 					setClaimed(bounty.status === 'CLOSED');
 					if (bounty) {
 						setBountyAddress(bounty.bountyAddress);
-					} else {
-						setBountyAddress();
 					}
 					
 				} catch (error) {
-					setError(error);
+					setEnableMint(true);
+					setBountyAddress();
 				}
 			}
 
@@ -77,7 +77,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 	const mintBounty = async() => {
 		try {
-			setIsLoading();
+			setIsLoading(true);
 			const { bountyAddress } = await appState.openQClient.mintBounty(
 				library,
 				issue.id,
@@ -98,6 +98,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 		} catch (error) {
 			console.log('error in mintbounty', error);
 			const { message, title } = appState.openQClient.handleError(error);
+			console.log(message);
 			setError({ message, title });
 		}
 		setIsLoading();
@@ -178,7 +179,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 									<div className="flex items-center justify-center p-5 rounded-b w-full">
 										<MintBountyModalButton
 											mintBounty={mintBounty}
-											enableMint={enableMint && isOnCorrectNetwork}
+											enableMint={enableMint && isOnCorrectNetwork && !isLoading}
 											transactionPending={isLoading}
 										/>
 									</div>
