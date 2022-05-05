@@ -29,7 +29,8 @@ const MintBountyModal = ({ modalVisibility }) => {
 	const [claimed, setClaimed] = useState();
 	const isValidUrl = appState.utils.issurUrlRegex(url);
 	const enableMint = true;
-
+	console.log(claimed);
+	
 	// Refs
 	const modal = useRef();
 
@@ -92,9 +93,10 @@ const MintBountyModal = ({ modalVisibility }) => {
 			catch (e) {
 				console.log('bot not responding');
 			}
+			/* 
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`
-			);
+			);istanbul ignore next */
 		} catch (error) {
 			console.log('error in mintbounty', error);
 			const { message, title } = appState.openQClient.handleError(error);

@@ -11,7 +11,7 @@ import InitialState from '../store/Store/InitialState';
  
 
 describe('FundPage', ( ) => {
-	const bounties = mocks.bounties;
+	const bounties = [mocks.bounties[0]];
 	const refreshBounty = ()=>{
 		return null;
 	};
