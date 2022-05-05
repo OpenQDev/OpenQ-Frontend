@@ -105,7 +105,7 @@ const MobileConnectButton = () => {
 	} else {
 		return (
 			<button
-				className='text-white flex items-center gap-2 text-xs border border-inactive-accent rounded-lg px-2 h-10 bg-dark-mode font-semibold'
+				className=' flex items-center gap-2 text-xs border border-inactive-accent rounded-lg px-2 h-10 bg-dark-mode font-semibold'
 				onClick={onClickConnect}>
 				<span className='font-bold'>{isConnecting ? 'Connecting...' : 'Connect '}</span>
 				<svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2">

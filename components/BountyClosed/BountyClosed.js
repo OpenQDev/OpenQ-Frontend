@@ -19,8 +19,8 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
 	return (
 		<div className="w-2/3 lg:w-1/2">
 			<div className="flex flex-col space-y-5">
-				<h2 className="flex text-3xl font-semibold text-white justify-center pt-16">Bounty Closed</h2>
-				<div className="bg-claimed-bounty-inside col-span-3 border border-claimed-bounty rounded-lg text-white p-4">
+				<h2 className="flex text-3xl font-semibold  justify-center pt-16">Bounty Closed</h2>
+				<div className="bg-claimed-bounty-inside col-span-3 border border-claimed-bounty rounded-lg  p-4">
 					<div className='flex justify-between w-full'>
 						<div>Closing Transaction: <Link href={url}>
 							<span className="cursor-pointer break-all">

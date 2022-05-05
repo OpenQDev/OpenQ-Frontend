@@ -27,7 +27,7 @@ const SignOut = ({ propicUrl, styles }) => {
 	return (
 		<button
 			onClick={() => signOut()}
-			className={`col-span-3 font-mont py-2 rounded-lg border border-web-gray px-3 text-white font-bold cursor-pointer hover:border-white ${styles}`}
+			className={`col-span-3 font-mont py-2 rounded-lg border border-web-gray px-3 font-bold cursor-pointer hover:border-white ${styles}`}
 		>
 			<div className="flex flex-row justify-center items-center space-x-3">
 				<Image

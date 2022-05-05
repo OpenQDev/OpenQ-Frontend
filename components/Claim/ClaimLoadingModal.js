@@ -74,12 +74,12 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 					<div className="border-0 rounded-lg p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none text-center">
 						<div className="flex items-center justify-center border-solid">
 							<div className="flex flex-row">
-								<div className="text-3xl text-white font-semibold pb-8">
+								<div className="text-3xl  font-semibold pb-8">
 									{title[claimState]}
 								</div>
 							</div>
 						</div>
-						<p className="text-md text-white pb-2 break-words">
+						<p className="text-md  pb-2 break-words">
 							<span>
 								{message[claimState]}
 							</span>
@@ -104,7 +104,7 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 						{claimState == WITHDRAWAL_INELIGIBLE || claimState == TRANSACTION_CONFIRMED ? (
 							<div className="flex items-center justify-end p-5 text-lg rounded-b">
 								<button
-									className="text-white confirm-btn"
+									className=" confirm-btn"
 									type="button"
 									onClick={() => updateModal()}
 								>
@@ -116,7 +116,7 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 							<div className="border-0 rounded-lg p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none">
 								<div className="flex items-center">
 									<button
-										className="text-white background-transparent confirm-btn font-bold px-6 py-2 text-lg"
+										className=" background-transparent confirm-btn font-bold px-6 py-2 text-lg"
 										type="button"
 										onClick={() => {
 											confirmMethod();

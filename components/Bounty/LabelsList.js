@@ -12,7 +12,7 @@ const LabelsList = ({ bounty }) => {
 					return (
 						<button
 							key={index}
-							className="rounded-lg text-xs mr-2 mb-px py-1 px-2 font-bold border border-purple-500 text-white truncate"
+							className="rounded-lg text-xs mr-2 mb-px py-1 px-2 font-bold border border-purple-500  truncate"
 							style={{
 								borderColor: `#${label.color}`,
 								opacity: .9,
@@ -24,10 +24,10 @@ const LabelsList = ({ bounty }) => {
 					);
 				}) ||
 					<>
-						<div className="rounded-lg text-xs py-1 px-2 font-bold border border-web-gray text-white inline-block">
+						<div className="rounded-lg text-xs py-1 px-2 font-bold border border-web-gray  inline-block">
 							<Skeleton width="10rem" height={'12px'} />
 						</div>
-						<div className="rounded-lg text-xs py-1 px-2 font-bold border border-web-gray text-white inline-block">
+						<div className="rounded-lg text-xs py-1 px-2 font-bold border border-web-gray  inline-block">
 							<Skeleton width="10rem" height={'12px'} />
 						</div>
 					</>

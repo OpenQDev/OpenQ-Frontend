@@ -12,7 +12,7 @@ const TokenSearch = ({ setShowTokenSearch, onCurrencySelect }) => {
 				<div className="max-w-full w-72">
 					<div onClick={(e) => e.stopPropagation()} className="flex justify-left border border-web-gray pl-8 pr-8 pt-5 pb-3 rounded-lg shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none">
 						<div className="flex items-start justify-between border-solid rounded-t">
-							<h3 className="text-1xl font-semibold text-white">
+							<h3 className="text-1xl font-semibold ">
 								Select a Token
 							</h3>
 						</div>
@@ -24,7 +24,7 @@ const TokenSearch = ({ setShowTokenSearch, onCurrencySelect }) => {
 						</div>
 						<div className="flex items-center justify-end p-6 border-t border-solid rounded-b">
 							<button
-								className="text-white confirm-btn font-bold px-6 py-3 text-lg text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+								className=" confirm-btn font-bold px-6 py-3 text-lg text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
 								type="button"
 								onClick={() => setShowTokenSearch(false)}
 							>

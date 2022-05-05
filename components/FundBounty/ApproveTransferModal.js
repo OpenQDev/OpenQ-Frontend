@@ -79,12 +79,12 @@ const ApproveTransferModal = ({
 					<div className="border-0 rounded-lg p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none">
 						<div className="flex items-center justify-center border-solid">
 							<div className="flex flex-row">
-								<div className="text-3xl text-white text-center font-semibold pb-8">
+								<div className="text-3xl  text-center font-semibold pb-8">
 									{title[approveTransferState]}
 								</div>
 							</div>
 						</div>
-						<div className="text-md text-white text-center pb-4">
+						<div className="text-md  text-center pb-4">
 							<p className="break-words">
 								{message[approveTransferState]}
 							</p>
@@ -103,7 +103,7 @@ const ApproveTransferModal = ({
 						{approveTransferState == 'CONFIRM' ? (
 							<div className="flex items-center">
 								<button
-									className="text-white background-transparent confirm-btn font-bold px-6 py-2 text-lg"
+									className=" background-transparent confirm-btn font-bold px-6 py-2 text-lg"
 									type="button"
 									onClick={() => {
 										confirmMethod();
@@ -116,7 +116,7 @@ const ApproveTransferModal = ({
 						{approveTransferState == ERROR || approveTransferState == SUCCESS ? (
 							<div className="flex items-center justify-end p-5 text-lg rounded-b">
 								<button
-									className="text-white confirm-btn"
+									className=" confirm-btn"
 									type="button"
 									onClick={() => updateModal()}
 								>

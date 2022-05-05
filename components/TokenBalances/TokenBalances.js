@@ -54,8 +54,8 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 
 	return (
 		<div className="flex flex-col">
-			<div className="font-semibold text-white">{header}</div>
-			<div className="font-bold text-xl text-white">
+			<div className="font-semibold ">{header}</div>
+			<div className="font-bold text-xl ">
 				{tokenBalances && !showOne
 					? tokenValues
 						? `${appState.utils.formatter.format(tokenValues.total)}` :
@@ -71,7 +71,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 
 							return (
 								<div
-									className="flex flex-row flex-wrap gap-2 text-white content-center items-center"
+									className="flex flex-row flex-wrap gap-2  content-center items-center"
 									key={symbol}
 								>
 									<div className="pt-1">
@@ -83,8 +83,8 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 											height="16"
 										/>
 									</div>
-									<div className="text-lg text-white">{usdValue}</div>{' '}
-									<div className="text-lg text-white">
+									<div className="text-lg ">{usdValue}</div>{' '}
+									<div className="text-lg ">
 										{formattedVolume}{'\xa0'}
 										{symbol.toUpperCase()}
 									</div>
@@ -94,11 +94,11 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 						})
 						:
 						<div className="flex flex-row space-x-2">
-							<div className="flex flex-row flex-wrap gap-2 text-white">
+							<div className="flex flex-row flex-wrap gap-2 ">
 								<div className="pt-1">
 									<Skeleton height={'12px'} width={'16px'} />
 								</div>
-								<div className="text-lg text-white">
+								<div className="text-lg ">
 									<Skeleton width={'8rem'} height={'12px'} />
 								</div>
 							</div>

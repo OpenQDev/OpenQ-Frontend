@@ -10,7 +10,7 @@ const Toggle =({toggleFunc, toggleVal, names})=>{
 				{names.map((name, index)=>{
 					return <button key={index}
 						onClick={()=>toggleFunc(name)}
-						className={`text-white rounded-xl p-2 px-4  ${
+						className={` rounded-xl p-2 px-4  ${
 							toggleVal===name ? 'bg-inactive-gray' : null
 						}`}
 					>

@@ -157,12 +157,12 @@ const MintBountyModal = ({ modalVisibility }) => {
 									/>
 								</div>
 								{isValidUrl && !issue &&
-									<div className="pl-10 pt-5 text-white">
+									<div className="pl-10 pt-5 ">
 										Github Issue not found
 									</div>}
 								<div className="flex flex-col justify-center space-x-1 px-8">
 									{isValidUrl && issue?.closed && !bountyAddress &&
-										<div className="pt-3 text-white">
+										<div className="pt-3 ">
 											This issue is already closed on GitHub
 										</div>}
 									{isValidUrl && bountyAddress && issue &&

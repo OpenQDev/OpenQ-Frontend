@@ -5,7 +5,7 @@ export default function MintBountyInput({ setIssueUrl, issueData, isValidUrl, ur
 	return (
 		<div className="bg-dark-mode border border-web-gray rounded-lg">
 			<div
-				className={`flex flex-row items-center p-2 rounded-lg py-1 text-base bg-dark-mode text-white ${isValidUrl && issueData ? 'pt-5' : null
+				className={`flex flex-row items-center p-2 rounded-lg py-1 text-base bg-dark-mode  ${isValidUrl && issueData ? 'pt-5' : null
 				}`}
 			>
 				<input
