@@ -345,18 +345,12 @@
 	],
 	"bounties": [
 		{
-			"id": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e",
+			"id": "abc123",
 			"bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e",
 			"bountyId": "abc123",
 			"bountyMintTime": "sdf",
 			"bountyClosedTime": "sdf",
-			"status": "OPEN",
-			"bountyTokenBalances": [
-				{
-					"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-					"volume": 10000
-				}
-			],
+			"status": "sdf",
 			"deposits": [
 				{
 					"id": "sdf",
@@ -369,12 +363,6 @@
 						"id": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e"
 					}
 				}
-			],
-			"issuer": {
-				"id": "sdf"
-			}
-		}
-		
 			],
 			"bountyTokenBalances": [
 				{

@@ -29,8 +29,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 	const [claimed, setClaimed] = useState();
 	const isValidUrl = appState.utils.issurUrlRegex(url);
 	const enableMint = true;
-	console.log(claimed);
-	
+
 	// Refs
 	const modal = useRef();
 
@@ -93,10 +92,9 @@ const MintBountyModal = ({ modalVisibility }) => {
 			catch (e) {
 				console.log('bot not responding');
 			}
-			/* 
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`
-			);istanbul ignore next */
+			);
 		} catch (error) {
 			console.log('error in mintbounty', error);
 			const { message, title } = appState.openQClient.handleError(error);
@@ -160,7 +158,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 										Github Issue not found
 									</div>}
 								<div className="flex flex-col justify-center space-x-1 px-8">
-									{isValidUrl && issue?.closed &&
+									{isValidUrl && issue?.closed && !bountyAddress &&
 										<div className="pt-3 text-white">
 											This issue is already closed on GitHub
 										</div>}
