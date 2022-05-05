@@ -127,13 +127,12 @@ const FundPage = ({ bounty, refreshBounty }) => {
 				catch(e){
 					console.log('bot not responding');
 				}
-				setButtonText('Fund');
 			} catch (error) {
 				const { message, title } = appState.openQClient.handleError(error, { bounty });
 				setError({ message, title });
-				setButtonText('Fund');
 				setApproveTransferState(ERROR);
 			}
+			setButtonText('Fund');
 		}
 	}
 
