@@ -25,7 +25,6 @@ class GithubBot {
 	// expects { bountyId, data: {deposit: {tokenAddress, tokenVolumes}} } in body.
 	async funded(body) {
 		const promise = new Promise((resolve, reject) => {
-			console.log(body);
 			axios.post(`${process.env.NEXT_PUBLIC_GITHUB_BOT_WEBHOOK}/funded`, body)
 				.then((result) => {
 					resolve(result);

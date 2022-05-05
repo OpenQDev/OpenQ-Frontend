@@ -35,7 +35,6 @@ class MockOpenQSubgraphClient {
 		const promise = new Promise((resolve, reject) => {
 			axios.get(`http://localhost:3030/bounties`)
 				.then(results => {
-					console.log(results)
 					results.data.forEach(result => {
 						if(result.id === id){resolve(result)} 
 					});
