@@ -9,7 +9,6 @@ const SignIn = ({ redirectUrl, styles }) => {
 
 	const signIn = () => {
 		const clientId = `client_id=${process.env.NEXT_PUBLIC_OPENQ_ID}`;
-		const scopes = 'scope=read:user';
 		const nonce = randomString(10);
 		window.localStorage.setItem('csrf_nonce', nonce);
 		const state = {
@@ -19,7 +18,7 @@ const SignIn = ({ redirectUrl, styles }) => {
 		};
 		const stateParams = `state=${JSON.stringify(state)}`;
 		router.push(
-			`https://github.com/login/oauth/authorize?${clientId}&${scopes}&${stateParams}`
+			`https://github.com/login/oauth/authorize?${clientId}&${stateParams}`
 		);
 	};
 
