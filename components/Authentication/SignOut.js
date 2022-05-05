@@ -31,7 +31,7 @@ const SignOut = ({ propicUrl, styles }) => {
 		>
 			<div className="flex flex-row justify-center items-center space-x-3">
 				<Image
-					src={propicUrl || '/github-logo-white.svg'}
+					src={propicUrl || '/social-icons/github-logo-white.svg'}
 					alt="Picture of the author"
 					width={24}
 					height={24}
