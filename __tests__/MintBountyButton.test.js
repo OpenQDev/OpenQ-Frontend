@@ -32,11 +32,11 @@ const test =(issue)=>{
 		const user = userEvent.setup();
 		render(<MintBountyButton />);
 		
-		const	mintBountyButton =  screen.getByRole('button', {name: /Mint Bounty/i});
+		const	mintBountyButton =  await screen.findByRole('button', {name: /Mint Bounty/i});
 		
 			
 		await user.click(mintBountyButton);
-		const input = screen.getByRole('textbox');
+		const input = await screen.findByRole('textbox');
 		await user.type(input, issue.url);
 	
 		switch(issue.status){
@@ -61,8 +61,8 @@ const test =(issue)=>{
 			break;
 		}
 		case 'not-issue': {
-			const text = screen.getByText(/Create a Bounty/i);
-			expect(text).toBeInTheDocument(); 
+			const text = await screen.findByText(/Create a Bounty/i);
+			expect(text).toBeInTheDocument();
 		}	
 		}
 	
