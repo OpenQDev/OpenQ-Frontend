@@ -22,7 +22,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 	// State
 	const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
 	const [issue, setIssue] = useState();
-	const [url, setUrl] = useState();
+	const [url, setUrl] = useState('');
 	const [bountyAddress, setBountyAddress] = useState();
 	const [isLoading, setIsLoading] = useState();
 	const [error, setError] = useState();
