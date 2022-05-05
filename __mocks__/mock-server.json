@@ -373,63 +373,8 @@
 			"issuer": {
 				"id": "sdf"
 			}
-		},
-		{
-			"id": "abc123jpeg",
-			"bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e",
-			"bountyId": "abc123",
-			"bountyMintTime": "sdf",
-			"bountyClosedTime": "sdf",
-			"status": "OPEN",
-			"deposits": [],
-			"bountyTokenBalances": [
-				{
-					"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-					"volume": 10000
-				}
-			],
-			"issuer": {
-				"id": "sdf"
-			}
-		},
-		{
-			"id": "abc123",
-			"bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e",
-			"bountyId": "abc123",
-			"bountyMintTime": "sdf",
-			"bountyClosedTime": "sdf",
-			"status": "CLOSED",
-			"deposits": [
-			],
-			"bountyTokenBalances": [
-				{
-					"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-					"volume": 10000
-				}
-			],
-			"issuer": {
-				"id": "sdf"
-			}
-		},
-		{
-			"id": "abc123",
-			"bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e",
-			"bountyId": "abc123",
-			"bountyMintTime": "sdf",
-			"bountyClosedTime": "sdf",
-			"status": "CLOSED",
-			"deposits": [
-				{
-					"id": "sdf",
-					"refunded": "sdf",
-					"tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-					"volume": 10000,
-					"expiration": "2592000",
-					"receiveTime": "1646012425",
-					"sender": {
-						"id": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e"
-					}
-				}
+		}
+		
 			],
 			"bountyTokenBalances": [
 				{
@@ -487,7 +432,7 @@
 		},
 		
 		{
-			"id": "abc123jpeg",
+			"id": "abc123",
 			"title": "hgjkhg",
 			"body": "ghjkghjk",
 			"url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/217",
