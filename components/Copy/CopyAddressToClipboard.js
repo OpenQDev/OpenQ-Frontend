@@ -13,7 +13,7 @@ const CopyAddressToClipboard = (props) => {
 	};
 
 	return (
-		<div className="relative pt-2">
+		<div className={`relative pt-2 ${props.styles}`}>
 			<div
 				onClick={copyTextToClipboard}
 				className="flex flex-row space-x-1 cursor-pointer w-fit"
