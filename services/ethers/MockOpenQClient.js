@@ -144,7 +144,6 @@ class MockOpenQClient {
 	
 	handleError(jsonRpcError, data) {
 		console.log(jsonRpcError);
-		console.log(data);
 		let errorString = jsonRpcError?.data?.message;
 		if (jsonRpcError.message.includes('Nonce too high.')) { errorString = 'NONCE_TO_HIGH'; }
 		if (jsonRpcError.message.includes('User denied transaction signature')) { errorString = 'USER_DENIED_TRANSACTION'; }

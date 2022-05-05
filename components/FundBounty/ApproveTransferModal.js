@@ -72,7 +72,6 @@ const ApproveTransferModal = ({
 	let linkText = {
 		[ERROR]: `${error.linkText}`
 	};
-	console.log(link[ERROR]);
 	return (
 		<div>
 			<div className="justify-center items-center font-mont flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">

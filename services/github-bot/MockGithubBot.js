@@ -23,7 +23,6 @@ class MockGithubBot {
 
 	async funded(body) {
 		const promise = new Promise((resolve, reject) => {
-			console.log(body);
 			axios.post(`${'http://localhost:3030'}/openq-bot/funded`, body)
 				.then((result) => {
 					resolve(result);
