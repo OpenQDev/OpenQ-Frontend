@@ -1,7 +1,7 @@
 import React from 'react';
 import IssueDetailsBubble from './IssueDetailsBubble';
 
-export default function MintBountyInput({ setIssueUrl, issueData, isValidUrl }) {
+export default function MintBountyInput({ setIssueUrl, issueData, isValidUrl, url }) {
 	return (
 		<div className="bg-dark-mode border border-web-gray rounded-lg">
 			<div
@@ -15,6 +15,7 @@ export default function MintBountyInput({ setIssueUrl, issueData, isValidUrl }) 
 					placeholder="Issue URL"
 					autoComplete="off"
 					type="text"
+					value={url}
 					onChange={(event) => {
 						setIssueUrl(event.target.value);
 					}}

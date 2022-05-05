@@ -34,45 +34,47 @@ const MintBountyModal = ({ modalVisibility }) => {
 	const modal = useRef();
 
 	const setIssueUrl = async(issueUrl)=>{
-		setEnableMint();
-		let didCancel = false;
-		setUrl(issueUrl);
-		let issueUrlIsValid = appState.utils.issurUrlRegex(issueUrl);
-		if (issueUrlIsValid && !didCancel) {
+		if(!isLoading){
+			setEnableMint();
+			let didCancel = false;
+			setUrl(issueUrl);
+			let issueUrlIsValid = appState.utils.issurUrlRegex(issueUrl);
+			if (issueUrlIsValid && !didCancel) {
 			
-			async function fetchIssue() {
-				try {
-					const data = await appState.githubRepository.fetchIssueByUrl(issueUrl);
-					if(!didCancel){
-						setIssue(data);}
-					return data;
-				} catch (error) {
-					if(!didCancel)	{
-						setIssue(false);}
-				}
-			}
-			const issueData = await fetchIssue();
-
-			if(issueData){
-				try {
-					let bounty = await appState.openQSubgraphClient.getBountyByGithubId(
-						issueData.id,
-					);
-					setClaimed(bounty.status === 'CLOSED');
-					if (bounty) {
-						setBountyAddress(bounty.bountyAddress);
+				async function fetchIssue() {
+					try {
+						const data = await appState.githubRepository.fetchIssueByUrl(issueUrl);
+						if(!didCancel){
+							setIssue(data);}
+						return data;
+					} catch (error) {
+						if(!didCancel)	{
+							setIssue(false);}
 					}
-					
-				} catch (error) {
-					setEnableMint(true);
-					setBountyAddress();
 				}
-			}
+				const issueData = await fetchIssue();
 
+				if(issueData){
+					try {
+						let bounty = await appState.openQSubgraphClient.getBountyByGithubId(
+							issueData.id,
+						);
+						setClaimed(bounty.status === 'CLOSED');
+						if (bounty) {
+							setBountyAddress(bounty.bountyAddress);
+						}
+					
+					} catch (error) {
+						setEnableMint(true);
+						setBountyAddress();
+					}
+				}
+
+			}
+			return (()=>{
+				didCancel = true;
+			});
 		}
-		return (()=>{
-			didCancel = true;
-		});
 	};
 
 	const mintBounty = async() => {
@@ -101,7 +103,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 			console.log(message);
 			setError({ message, title });
 		}
-		setIsLoading();
 	};
 
 	const closeModal = () => {
@@ -151,6 +152,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 									<MintBountyInput
 										setIssueUrl={setIssueUrl}
 										issueData={issue}
+										url={url}
 										isValidUrl={isValidUrl}
 									/>
 								</div>
@@ -168,7 +170,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 								</div>
 
 								<ToolTip
-									hideToolTip={(enableMint && isOnCorrectNetwork) || isLoading}
+									hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed) || isLoading}
 									toolTipText={
 										account && isOnCorrectNetwork ?
 											'Please choose an elgible issue.' :
@@ -179,7 +181,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 									<div className="flex items-center justify-center p-5 rounded-b w-full">
 										<MintBountyModalButton
 											mintBounty={mintBounty}
-											enableMint={enableMint && isOnCorrectNetwork && !isLoading}
+											enableMint={enableMint && isOnCorrectNetwork && !issue?.closed && !isLoading}
 											transactionPending={isLoading}
 										/>
 									</div>
