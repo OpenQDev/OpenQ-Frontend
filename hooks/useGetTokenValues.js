@@ -7,6 +7,7 @@ const useGetTokenValues = (tokenBalances) => {
 	const [appState] = useContext(StoreContext);
 
 	async function getTokenValues(tokenBalances) {
+		let didCancel = false;
 		if (tokenBalances) {
 			let tokenVolumes = {};
 			if (Array.isArray(tokenBalances)) {
@@ -25,13 +26,17 @@ const useGetTokenValues = (tokenBalances) => {
 			if (JSON.stringify(data.tokenVolumes) != '{}') {
 				try {
 					const tokenValues = await appState.tokenClient.getTokenValues(data, url);
-					setTokenValues(tokenValues);
+					if(!didCancel){
+						setTokenValues(tokenValues);
+					}
 				} catch (error) {
 					console.error(error);
+					didCancel = true;
 				}
 			} else {
 				setTokenValues(null);
 			}
+			didCancel = true;
 		}
 	}
 
