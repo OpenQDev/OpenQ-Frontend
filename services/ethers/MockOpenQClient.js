@@ -140,7 +140,21 @@ class MockOpenQClient {
 		});
 
 		return promise;
-	}	
+	}
+
+async refundDeposit(library, _bountyId, _depositId)  {
+		const promise = new Promise((resolve, reject) => {
+			axios.get('http://localhost:3030/txnResponse')
+				.then((result) => {
+					resolve(result.data);
+				})
+				.catch((error) => {
+					reject(error);
+				});
+		});
+		return promise;
+	}
+
 	
 	handleError(jsonRpcError, data) {
 		console.log(jsonRpcError);
