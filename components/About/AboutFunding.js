@@ -5,7 +5,6 @@ import React from 'react';
 import TokenBalances from '../TokenBalances/TokenBalances';
 
 const AboutFunding = ({ organizationFunding, tokenValues }) => {
-	console.log(tokenValues);
 	return (<div className="w-60 pb-8">
 		<dt>
 			<ul>

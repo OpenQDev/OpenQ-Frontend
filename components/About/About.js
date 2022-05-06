@@ -5,7 +5,6 @@ import React from 'react';
 import AboutFunding from './AboutFunding';
 
 const About = ({ organizationData, tokenValues }) => {
-	console.log(organizationData);
 	const bounties = organizationData.bountiesCreated.filter((elem) => {
 		return elem.status === 'OPEN';
 	});
