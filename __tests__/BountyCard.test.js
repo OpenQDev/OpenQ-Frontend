@@ -28,8 +28,14 @@ describe('BountyList', ( ) => {
 			render(<BountyCard bounty={bounty} complete={true}/>);
 			
 			// ASSERT
+			const orgName = screen.getByText(`${bounty.owner}/${bounty.repoName}`);
 			const bountyTitle =	screen.getByText(bounty.title.toLowerCase());
-			expect(bountyTitle).toBeInTheDocument();			
+			const bountyDescription = screen.queryByText(bounty.body);
+
+			// ACT
+			expect(orgName).toBeInTheDocument();
+			expect(bountyTitle).toBeInTheDocument();
+			expect(bountyDescription).not.toBeInTheDocument();
 		});
 
 		it('should let user open BountyCardDetailsModal', async()=>{			
@@ -40,6 +46,10 @@ describe('BountyList', ( ) => {
 			// ASSERT
 			const bountyTitle =	screen.getByText(bounty.title.toLowerCase());
 			await user.click(bountyTitle);
+			if(bounties.status==='CLOSED'){				
+				const bountyStatus =	screen.findByText('Unclaimed');
+				expect(bountyStatus).toBeInTheDocument();
+			}
 			const link = await screen.findByText(/See full/i);
 			expect(link).toBeInTheDocument();
 		});
