@@ -188,6 +188,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 							onKeyUp={handleSearchInput}
 							placeholder={'Search Issue...'}
 							searchText={searchText}
+							label={'search text'}
 							borderShape={'border-b border-l rounded-l-lg border-t w-36 sm:w-full'}
 						/> :
 
@@ -196,6 +197,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 							onKeyUp={handleTagInput}
 							placeholder={'Enter Tag...'}
 							searchText={searchText}
+							label={'search tags'}
 							borderShape={'border-b border-l rounded-l-lg border-t w-36 sm:w-full'}
 						/>
 					}
@@ -233,7 +235,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 					<BountyCard loading={true} />
 				</> :
 				searchedBounties.map((bounty, index) => {
-					return <div key={index} ref={(index === searchedBounties.length - 1) ? lastElem : null}><BountyCard bounty={bounty} /></div>;
+					return <div key={bounty.id} ref={(index === searchedBounties.length - 1) ? lastElem : null}><BountyCard bounty={bounty} /></div>;
 				})
 			}
 		</div>
