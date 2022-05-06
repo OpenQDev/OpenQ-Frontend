@@ -33,6 +33,7 @@ const useGetTokenValues = (tokenBalances) => {
 					console.error(error);
 					didCancel = true;
 				}
+				didCancel = true;
 			} else {
 				setTokenValues(null);
 			}
@@ -40,8 +41,14 @@ const useGetTokenValues = (tokenBalances) => {
 		}
 	}
 
-	useEffect(() => {
-		getTokenValues(tokenBalances);
+	useEffect(async() => {
+		let didCancel = false;
+		if(didCancel){
+			await 	getTokenValues(tokenBalances);
+		}
+		return ()=>{
+			didCancel = false;
+		};
 	}, [tokenBalances]);
 
 	return [tokenValues, setTokenValues];
