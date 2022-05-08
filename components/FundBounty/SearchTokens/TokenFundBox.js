@@ -7,7 +7,7 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume }) => {
 
 	return (
 		<div>
-			<div className="flex w-full flex-row justify-between items-center pl-14 py-3 rounded-lg py-1 bg-dark-mode border border-web-gray text-white">
+			<div className="flex w-full flex-row justify-between items-center pl-14 py-3 rounded-lg py-1 bg-dark-mode border border-web-gray ">
 				<div className={'px-4 font-bold fundBox-amount bg-dark-mode'}>
 					<input
 						aria-label="amount"
@@ -29,7 +29,7 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume }) => {
 								<Image src={token.path} className="rounded-full" alt="n/a" width="40%" height="40%" />
 							</div>
 						</div>
-						<div className="pl-3 text-white">{token.symbol}</div>
+						<div className="pl-3 ">{token.symbol}</div>
 						<div>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"

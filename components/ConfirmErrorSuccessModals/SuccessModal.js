@@ -13,10 +13,10 @@ const SuccessModal = ({ successMessage, transactionHash, setShowSuccessModal }) 
 				<div className="w-1/3 mx-auto max-w-3xl">
 					<div className="border-0 rounded-lg shadow-lg  flex flex-col w-full bg-dark-mode outline-none focus:outline-none">
 						<div className="flex items-start justify-center pt-8">
-							<div className="text-3xl font-semibold text-white">Success!</div>
+							<div className="text-3xl font-semibold ">Success!</div>
 						</div>
 						<div className="flex-auto pl-1 pr-1 justify-center">
-							<p className="pt-5 pl-4 pr-4 text-center text-white">
+							<p className="pt-5 pl-4 pr-4 text-center ">
 								{successMessage}
 							</p>
 							<div className="pt-3 text-center justify-center">
@@ -24,7 +24,7 @@ const SuccessModal = ({ successMessage, transactionHash, setShowSuccessModal }) 
 									href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`}
 								>
 									<div className="flex flex-col justify-center">
-										<div className="font-semibold pb-2 text-white">
+										<div className="font-semibold pb-2 ">
 											Polygonscan
 										</div>
 										<div>
@@ -41,7 +41,7 @@ const SuccessModal = ({ successMessage, transactionHash, setShowSuccessModal }) 
 						</div>
 						<div className="flex items-center justify-end p-5 text-lg rounded-b">
 							<button
-								className="text-white confirm-btn"
+								className=" confirm-btn"
 								type="button"
 								onClick={() => updateModal()}
 							>

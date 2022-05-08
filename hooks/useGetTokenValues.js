@@ -5,6 +5,7 @@ import { ethers } from 'ethers';
 const useGetTokenValues = (tokenBalances) => {
 	const [tokenValues, setTokenValues] = useState(null);
 	const [appState] = useContext(StoreContext);
+	let didCancel = false;
 
 	async function getTokenValues(tokenBalances) {
 		if (tokenBalances) {
@@ -25,7 +26,9 @@ const useGetTokenValues = (tokenBalances) => {
 			if (JSON.stringify(data.tokenVolumes) != '{}') {
 				try {
 					const tokenValues = await appState.tokenClient.getTokenValues(data, url);
-					setTokenValues(tokenValues);
+					console.log(didCancel);
+					if(!didCancel){
+						setTokenValues(tokenValues);}
 				} catch (error) {
 					console.error(error);
 				}
@@ -37,6 +40,7 @@ const useGetTokenValues = (tokenBalances) => {
 
 	useEffect(() => {
 		getTokenValues(tokenBalances);
+		return ()=>didCancel=true;
 	}, [tokenBalances]);
 
 	return [tokenValues, setTokenValues];

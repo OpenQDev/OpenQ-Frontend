@@ -15,7 +15,7 @@ const ToolTip = (props)=>{
 		<div className={`relative group rounded-full ${props.outerStyles}`} onMouseEnter={setToolTip}>
 			{props.children}
 			<div style={{left: x, top: y}} className={`flex justify-center absolute hidden z-10 group-hover:block justify-items-center w-full h-3 pt-0.5 ${mobileX === x ? 'w-72' : styles} min-w-[200px]`}>
-				<div className='text-white bg-dark-mode h-min border-web-gray border rounded-md p-2 z-20'>
+				<div className=' bg-dark-mode h-min border-web-gray border rounded-md p-2 z-20'>
 					<div >{toolTipText}</div>
 				</div>
 			</div>

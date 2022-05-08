@@ -22,19 +22,19 @@ const ConfirmationModal = ({
 					<div className="border-0 rounded-lg p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none">
 						<div className="flex items-center justify-center border-solid">
 							<div className="flex flex-row">
-								<div className="text-3xl text-white font-semibold pb-8">
+								<div className="text-3xl  font-semibold pb-8">
 									{confirmationTitle}
 								</div>
 							</div>
 						</div>
 						<div className="flex-auto">
-							<p className="text-md text-white pb-12 text-center">
+							<p className="text-md  pb-12 text-center">
 								{confirmationMessage}
 							</p>
 						</div>
 						<div className="flex items-center">
 							<button
-								className="text-white background-transparent confirm-btn font-bold px-6 py-2 text-lg"
+								className=" background-transparent confirm-btn font-bold px-6 py-2 text-lg"
 								type="button"
 								onClick={() => {
 									updateModal();

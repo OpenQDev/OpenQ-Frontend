@@ -85,11 +85,11 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 			<BountyClosed bounty={bounty}/> :
 			<div className="flex justify-center items-center pl-5 pr-5 md:pl-16 md:pr-16 pt-10 pb-10 my-16 border-web-gray border rounded-lg w-5/6 max-w-6xl">
 				<div className="flex flex-col space-y-5 w-full">
-					<h1 className="font-bold py-4 text-2xl border-web-gray border-b text-white">
+					<h1 className="font-bold py-4 text-2xl border-web-gray border-b ">
 							Your Deposits
 					</h1>
 					<div className='text-tinted font-bold text-center'>To see your deposits, connect the wallet that funded them.</div>
-					<h2 className='text-white font-semibold'>Refundable</h2>
+					<h2 className=' font-semibold'>Refundable</h2>
 					<div className='flex flex-wrap gap-8'>
 						{
 							bounty.deposits
@@ -121,7 +121,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 								})
 						}
 					</div>
-					<h2 className='text-white font-semibold'>Not Yet Refundable</h2>
+					<h2 className=' font-semibold'>Not Yet Refundable</h2>
 					<div className='flex flex-wrap gap-8'>
 						{
 							bounty.deposits
@@ -140,7 +140,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 								})
 						}
 					</div>
-					<h2 className='text-white font-semibold'>Refunded</h2>
+					<h2 className=' font-semibold'>Refunded</h2>
 					<div className='flex flex-wrap gap-8'>
 						{
 							bounty.deposits

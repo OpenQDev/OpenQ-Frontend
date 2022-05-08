@@ -32,7 +32,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 						{bounty ?
 							bounty.bountyTokenBalances.length != 0 ? (
 								<>
-									<div className="text-white flex font-bold gap-2">
+									<div className="flex font-bold gap-2">
 										{bounty?.status == 'CLOSED' ?
 											<>
 												<span>Total Value Claimed</span>
@@ -55,14 +55,14 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 									/>
 								</>
 							) : (
-								<div className="pt-5 pb-5 font-semibold text-white">No deposits</div>
+								<div className="pt-5 pb-5 font-semibold ">No deposits</div>
 							) :
 							<>
 								<TokenBalances />
 							</>
 						}
 					</div>
-					{bounty?.bountyTokenBalances.length != 0 && <div className='text-white text-center font-bold text-xl py-4 col-start-1 md:col-end-3 lg:col-end-[-1] w-full'>Deposits</div>}
+					{bounty?.bountyTokenBalances.length != 0 && <div className='text-center font-bold text-xl py-4 col-start-1 md:col-end-3 lg:col-end-[-1] w-full'>Deposits</div>}
 
 					{bounty ? bounty.deposits
 						.filter((deposit) => {
@@ -84,7 +84,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 
 			<div className="flex flex-col pt-6">
 				<div className="flex flex-row justify-between">
-					<div className="font-bold text-xl text-white">Description</div>
+					<div className="font-bold text-xl ">Description</div>
 					<BountyLinks bounty={bounty} hideBountyLink={true} />
 				</div>
 				<div>
@@ -92,7 +92,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 				</div>
 				{bounty ?
 					<div
-						className="github_markup text-white pt-2 w-full break-words"
+						className="github_markup pt-2 w-full break-words"
 						dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}
 					></div> :
 					<div className="pt-2 w-3/4">

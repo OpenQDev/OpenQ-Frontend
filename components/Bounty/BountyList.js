@@ -188,6 +188,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 							onKeyUp={handleSearchInput}
 							placeholder={'Search Issue...'}
 							searchText={searchText}
+							label={'search text'}
 							borderShape={'border-b border-l rounded-l-lg border-t w-36 sm:w-full'}
 						/> :
 
@@ -196,6 +197,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 							onKeyUp={handleTagInput}
 							placeholder={'Enter Tag...'}
 							searchText={searchText}
+							label={'search tags'}
 							borderShape={'border-b border-l rounded-l-lg border-t w-36 sm:w-full'}
 						/>
 					}
@@ -203,7 +205,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 				</div>
 				<MintBountyButton />
 			</div>
-			{tagArr.length > 0 && <ul className="flex flex-wrap">{tagArr.map((tag, index) => <li key={index} className="border-web-gray border text-white inline mr-2 mb-2 px-2 py-1.5 rounded-md">
+			{tagArr.length > 0 && <ul className="flex flex-wrap">{tagArr.map((tag, index) => <li key={index} className="border-web-gray border  inline mr-2 mb-2 px-2 py-1.5 rounded-md">
 				<span className="px-2">{tag}</span>
 				<button onClick={removeTag} value={tag} className="bg-inactive-gray hover:bg-active-gray hover:cursor-pointer inline-flex justify-center content-center h-6 w-6 leading-tight rounded-full">
 					×
@@ -213,16 +215,16 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 			</ul>}
 			<div className="flex md:content-start content-center flex-wrap w-full justify-items-stretch gap-4">
 				<div className="flex justify-between bg-dark-mode end rounded-md">
-					<span className="text-white p-2 border-t border-l border-b rounded-l-md border-web-gray align-self-center pr-8">Sort By</span>
+					<span className=" p-2 border-t border-l border-b rounded-l-md border-web-gray align-self-center pr-8">Sort By</span>
 					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} names={['Newest', 'Oldest']} borderShape={'rounded-r-md'} width={36} />
 				</div>
 				<div className='flex flex-wrap gap-4'>
 					<div onClick={showUnfunded} className="flex w-32 p-2 pr-4 gap-2 border rounded-md justify-between border-web-gray">
-						<label htmlFor="unfunded" className="text-white pointer-events-none">Unfunded</label>
+						<label htmlFor="unfunded" className=" pointer-events-none">Unfunded</label>
 						<input id="unfunded" onChange={showUnfunded} type="checkbox" className="checkbox" checked={unfundedVisible} />
 					</div>
 					<div onClick={showClaimed} className="flex p-2 w-32 pr-4 gap-2 border rounded-md justify-between border-web-gray">
-						<label htmlFor="claimed" className="text-white pointer-events-none" >Claimed</label>
+						<label htmlFor="claimed" className=" pointer-events-none" >Claimed</label>
 						<input id="claimed" onChange={showClaimed} type="checkbox" className="checkbox" checked={claimedVisible} />
 					</div>
 				</div>
@@ -233,7 +235,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 					<BountyCard loading={true} />
 				</> :
 				searchedBounties.map((bounty, index) => {
-					return <div key={index} ref={(index === searchedBounties.length - 1) ? lastElem : null}><BountyCard bounty={bounty} /></div>;
+					return <div key={bounty.id} ref={(index === searchedBounties.length - 1) ? lastElem : null}><BountyCard bounty={bounty} /></div>;
 				})
 			}
 		</div>

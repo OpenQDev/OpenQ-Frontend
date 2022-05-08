@@ -7,7 +7,7 @@ export default function IssueDetailsBubble({ issueData }) {
 	return (
 		<>
 			<div className="flex flex-col p-6 pt-2 pl-5">
-				<div className="flex flex-row text-white items-center space-x-2">
+				<div className="flex flex-row  items-center space-x-2">
 					<div className="">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"

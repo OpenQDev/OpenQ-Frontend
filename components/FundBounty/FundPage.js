@@ -42,7 +42,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const claimed = bounty.status == 'CLOSED';
 	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) <= 0.00000001 || parseFloat(volume) >= 1000 || volume == '' || !account || !(parseInt(depositPeriodDays) > 0);
 	const disableOrEnable = `${loadingClosedOrZero || !isOnCorrectNetwork ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`;
-	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center py-3 text-lg text-white ${disableOrEnable}`;
+	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center py-3 text-lg  ${disableOrEnable}`;
 
 	function resetState() {
 		setApproveTransferState(RESTING);
@@ -127,13 +127,12 @@ const FundPage = ({ bounty, refreshBounty }) => {
 				catch(e){
 					console.log('bot not responding');
 				}
-				setButtonText('Fund');
 			} catch (error) {
 				const { message, title } = appState.openQClient.handleError(error, { bounty });
 				setError({ message, title });
-				setButtonText('Fund');
 				setApproveTransferState(ERROR);
 			}
+			setButtonText('Fund');
 		}
 	}
 
@@ -157,7 +156,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		<BountyClosed bounty={bounty} />:
 		<div className="flex flex-1 font-mont justify-center items-center">
 			<div className="flex flex-col space-y-5 w-5/6">
-				<div className="flex text-3xl font-semibold text-white justify-center pt-16">
+				<div className="flex text-3xl font-semibold  justify-center pt-16">
 						Fund Bounty
 				</div>
 
@@ -168,8 +167,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					volume={volume}
 				/>
 
-				<div className="flex w-full flex-row justify-between items-center px-4 py-3 rounded-lg py-1 bg-dark-mode border border-web-gray text-white">
-					<div className='text-white flex items-center gap-3 w-full'>
+				<div className="flex w-full flex-row justify-between items-center px-4 py-3 rounded-lg py-1 bg-dark-mode border border-web-gray ">
+					<div className=' flex items-center gap-3 w-full'>
 						<ToolTip customOffsets={[-192, -142]} outerStyles={''} mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
 							<div className='cursor-help rounded-full border-2 border-web-gray aspect-square leading-6 h-6 box-content text-center font-bold text-web-gray'>?</div>
 						</ToolTip>
@@ -178,7 +177,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 					<div className={'px-4 font-bold fundBox-amount bg-dark-mode'}>
 						<input
-							className="font-semibold text-right text-white/60 text-2xl number outline-none bg-dark-mode w-full flex-1"
+							className="font-semibold text-right /60 text-2xl number outline-none bg-dark-mode w-full flex-1"
 							autoComplete="off"
 							value={depositPeriodDays}
 							id="deposit-period"

@@ -107,12 +107,12 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 				<div className="w-5/6 pt-16 pb-24 min-w-min">
 					<div className="grid grid-cols-3 gap-5 pt-12">
 						{!authState.isAuthenticated ? (
-							<div className="bg-claimed-bounty-inside col-span-3 border border-claimed-bounty rounded-lg text-white p-4">
+							<div className="bg-claimed-bounty-inside col-span-3 border border-claimed-bounty rounded-lg  p-4">
 								We noticed you are not signed into Github. You must sign to verify
 								and claim an issue!
 							</div>
 						) : <div className='h-44'></div>}
-						<div className='col-span-3 px-2 text-white'>
+						<div className='col-span-3 px-2 '>
 							<p>Don{'\''}t forget to add a closer comment for this bounty on your pull request :-).</p>
 							<p><CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} /></p>
 						</div>
@@ -133,7 +133,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 								customOffsets={[0, 50]}>
 								<button
 									type="submit"
-									className={account && isOnCorrectNetwork && authState.isAuthenticated ? 'confirm-btn cursor-pointer px-32' : 'confirm-btn-disabled cursor-not-allowed text-white px-32 py-4'}
+									className={account && isOnCorrectNetwork && authState.isAuthenticated ? 'confirm-btn cursor-pointer px-32' : 'confirm-btn-disabled cursor-not-allowed  px-32 py-4'}
 									disabled={!account || !isOnCorrectNetwork || !authState.isAuthenticated}
 									onClick={() => setShowClaimLoadingModal(true)}
 								>
