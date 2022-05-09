@@ -38,7 +38,7 @@ const Sidebar = ({ trigger, setTrigger }) => {
 					ref={menuRef}
 					className="bg-dark-mode w-20 flex min-h-screen flex-col border-r border-web-gray"
 				>
-					<nav className="text-white flex flex-col space-y-4 items-center pt-1 flex-grow">
+					<nav className=" flex flex-col space-y-4 items-center pt-1 flex-grow">
 						<div className="pb-8 pt-5 cursor-pointer">
 							{appState.needsReload ?
 								<a href="/">

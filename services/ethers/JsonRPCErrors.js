@@ -121,6 +121,15 @@ const jsonRpcErrors =
 				link: 'https://metamask.zendesk.com/hc/en-us/articles/360022895972',
 				linkText: 'here.'
 			}
+		},
+
+		{
+			'OUT_OF_GAS': {
+				title: 'Out of Gas',
+				message: ()=>{
+					return 'Transaction ran out of gas.';
+				}
+			}
 		}
 	];
 

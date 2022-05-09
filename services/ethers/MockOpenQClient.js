@@ -140,11 +140,24 @@ class MockOpenQClient {
 		});
 
 		return promise;
-	}	
+	}
+
+async refundDeposit(library, _bountyId, _depositId)  {
+		const promise = new Promise((resolve, reject) => {
+			axios.get('http://localhost:3030/txnResponse')
+				.then((result) => {
+					resolve(result.data);
+				})
+				.catch((error) => {
+					reject(error);
+				});
+		});
+		return promise;
+	}
+
 	
 	handleError(jsonRpcError, data) {
 		console.log(jsonRpcError);
-		console.log(data);
 		let errorString = jsonRpcError?.data?.message;
 		if (jsonRpcError.message.includes('Nonce too high.')) { errorString = 'NONCE_TO_HIGH'; }
 		if (jsonRpcError.message.includes('User denied transaction signature')) { errorString = 'USER_DENIED_TRANSACTION'; }

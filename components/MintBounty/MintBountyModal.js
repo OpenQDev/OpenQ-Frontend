@@ -5,24 +5,8 @@ import { useRouter } from 'next/router';
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
-import LoadingIcon from '../Loading/ButtonLoadingIcon';
-import MintBountyContext from './MintBountyStore/MintBountyContext';
 import BountyAlreadyMintedMessage from './BountyAlreadyMintedMessage';
 import ToolTip from '../Utils/ToolTip';
-import {
-	RESTING_STATE,
-	BOUNTY_DOES_NOT_EXIST,
-	ISSUE_FOUND,
-	VALID_URL,
-	INVALID_URL,
-	BOUNTY_EXISTS,
-	ERROR,
-	TRANSACTION_PENDING,
-	TRANSACTION_FAILURE,
-	ISSUE_NOT_FOUND,
-	WALLET_CONNECTED,
-	WALLET_DISCONNECTED
-} from './MintBountyStates';
 import MintBountyModalButton from './MintBountyModalButton';
 import MintBountyHeader from './MintBountyHeader';
 import MintBountyInput from './MintBountyInput';
@@ -32,108 +16,104 @@ import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 const MintBountyModal = ({ modalVisibility }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
-	const [mintBountyState, setMintBountyState] = useContext(MintBountyContext);
-	const { library, active, account, } = useWeb3();
+	const { library,  account } = useWeb3();
 	const router = useRouter();
 
 	// State
-	// GitHub Issue State
-	const [issueUrl, setIssueUrl] = useState('');
-	const [isLoadingIssueData, setIsLoadingIssueData] = useState('');
-	const [errorModal, setShowErrorModal] = useState(false);
 	const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
-
-	const {
-		bountyAddress,
-		claimed,
-		isValidUrl,
-		issueClosed,
-		transactionPending,
-		issueData,
-		issueFound,
-		enableMint,
-		error,
-		isLoading
-	} = mintBountyState;
+	const [issue, setIssue] = useState();
+	const [url, setUrl] = useState('');
+	const [bountyAddress, setBountyAddress] = useState();
+	const [isLoading, setIsLoading] = useState();
+	const [error, setError] = useState();
+	const [claimed, setClaimed] = useState();
+	const [enableMint, setEnableMint] = useState();
+	const isValidUrl = appState.utils.issurUrlRegex(url);
 
 	// Refs
 	const modal = useRef();
 
-	// Hooks
-	useEffect(() => {
-		if (active) {
-			setMintBountyState(WALLET_CONNECTED());
-		} else {
-			setMintBountyState(WALLET_DISCONNECTED());
-		}
-	}, [account]);
+	const setIssueUrl = async(issueUrl)=>{
+		if(!isLoading){
+			setEnableMint();
+			let didCancel = false;
+			setUrl(issueUrl);
+			let issueUrlIsValid = appState.utils.issurUrlRegex(issueUrl);
+			if (issueUrlIsValid && !didCancel) {
+			
+				async function fetchIssue() {
+					try {
+						const data = await appState.githubRepository.fetchIssueByUrl(issueUrl);
+						if(!didCancel){
+							setIssue(data);}
+						return data;
+					} catch (error) {
+						if(!didCancel)	{
+							setIssue(false);}
+					}
+				}
+				const issueData = await fetchIssue();
 
-	useEffect(async () => {
-		setMintBountyState(RESTING_STATE());
-
-		let issurUrlIsValid = appState.utils.issurUrlRegex(issueUrl);
-
-		if (issurUrlIsValid) {
-			setMintBountyState(VALID_URL(issueUrl));
-		} else {
-			setMintBountyState(INVALID_URL(issueUrl));
-		}
-	}, [issueUrl]);
-
-	useEffect(() => {
-		let didCancel = false;
-		if (mintBountyState.isValidUrl) {
-			setIsLoadingIssueData(true);
-			async function fetchIssue() {
-				try {
-					const data = await appState.githubRepository.fetchIssueByUrl(issueUrl);
-					if (!didCancel) {
-						setMintBountyState(
-							ISSUE_FOUND(data)
+				if(issueData){
+					try {
+						let bounty = await appState.openQSubgraphClient.getBountyByGithubId(
+							issueData.id,
 						);
-						setIsLoadingIssueData(false);
-					}
-				} catch (error) {
-					setMintBountyState(ISSUE_NOT_FOUND(error));
-					setIsLoadingIssueData(false);
-				}
-			}
-			fetchIssue();
-		}
-		return (() => {
-			didCancel = true;
-		});
-	}, [mintBountyState.issueUrl]);
-
-	useEffect(() => {
-		let didCancel = false;
-		if (mintBountyState.issueData) {
-			async function alreadyExists() {
-				try {
-					let bounty = await appState.openQSubgraphClient.getBounty(
-						mintBountyState.issueData.id,
-						'no-cache'
-					);
-					if (!didCancel) {
+						setClaimed(bounty.status === 'CLOSED');
 						if (bounty) {
-							setMintBountyState(BOUNTY_EXISTS(bounty));
-						} else {
-							setMintBountyState(BOUNTY_DOES_NOT_EXIST());
+							setBountyAddress(bounty.bountyAddress);
 						}
+					
+					} catch (error) {
+						setEnableMint(true);
+						setBountyAddress();
 					}
-				} catch (error) {
-					setMintBountyState(ERROR(error));
-					setShowErrorModal(true);
 				}
+
 			}
-
-			alreadyExists();
+			return (()=>{
+				didCancel = true;
+			});
 		}
-		return (() => {
-			didCancel = true;
-		});
-	}, [mintBountyState.issueData]);
+	};
 
+	const mintBounty = async() => {
+		try {
+			setIsLoading(true);
+			const { bountyAddress } = await appState.openQClient.mintBounty(
+				library,
+				issue.id,
+				issue.repository.owner.id,
+			);
+			await sleep(1000);
+
+			sessionStorage.setItem('justMinted', true);
+			try {
+				appState.githubBot.created({ bountyId: issue.id, id: bountyAddress });
+			}
+			catch (e) {
+				console.log('bot not responding');
+			}
+			router.push(
+				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`
+			);
+		} catch (error) {
+			console.log('error in mintbounty', error);
+			const { message, title } = appState.openQClient.handleError(error);
+			console.log(message);
+			setError({ message, title });
+		}
+	};
+
+	const closeModal = () => {
+		setIssue();
+		setUrl();
+		setBountyAddress();
+		setIsLoading();
+		setError();
+		modalVisibility(false);
+	};
+	
 	useEffect(() => {
 		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
 		function handleClickOutside(event) {
@@ -155,47 +135,10 @@ const MintBountyModal = ({ modalVisibility }) => {
 	// Methods
 	function sleep(ms) {
 		return new Promise(resolve => setTimeout(resolve, ms));
-	}
-
-	async function mintBounty() {
-		try {
-			setMintBountyState(TRANSACTION_PENDING());
-			const { bountyAddress } = await appState.openQClient.mintBounty(
-				library,
-				mintBountyState.issueId,
-				mintBountyState.orgId
-			);
-
-			await sleep(1000);
-
-			sessionStorage.setItem('justMinted', true);
-			try {
-				appState.githubBot.created({ bountyId: issueData.id, id: bountyAddress });
-			}
-			catch (e) {
-				console.log('bot not responding');
-			}
-			router.push(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`
-			);
-		} catch (error) {
-			console.log('error in mintbounty', error);
-			const { message, title } = appState.openQClient.handleError(error);
-			setMintBountyState(TRANSACTION_FAILURE({ message, title }));
-			setShowErrorModal(true);
-		}
-	}
-
-	const closeModal = () => {
-		setShowErrorModal(false);
-		setMintBountyState(RESTING_STATE());
-		modalVisibility(false);
-	};
-
-	// Render
+	}	// Render
 	return (
 		<div className="flex justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-5">
-			{errorModal ?
+			{error ?
 				<ErrorModal
 					setShowErrorModal={closeModal}
 					error={error}
@@ -208,34 +151,26 @@ const MintBountyModal = ({ modalVisibility }) => {
 								<div className="flex flex-col pl-6 pr-6 space-y-2">
 									<MintBountyInput
 										setIssueUrl={setIssueUrl}
-										issueData={issueData}
+										issueData={issue}
+										url={url}
 										isValidUrl={isValidUrl}
 									/>
 								</div>
-								{/* {error ? errorMessage : null} */}
-								{isValidUrl && !issueFound && isLoadingIssueData ? (
-									<div className="pt-5 self-center">
-										<LoadingIcon bg={'white'} />
-									</div>
-								) : null}
-								{isValidUrl && !issueFound && !isLoadingIssueData ? (
-									<div className="pl-10 pt-5 text-white">
+								{isValidUrl && !issue &&
+									<div className="pl-10 pt-5 ">
 										Github Issue not found
-									</div>
-								) : null}
+									</div>}
 								<div className="flex flex-col justify-center space-x-1 px-8">
-									{isValidUrl && issueClosed && issueFound ? (
-										<div className="pt-3 text-white">
+									{isValidUrl && issue?.closed && !bountyAddress &&
+										<div className="pt-3 ">
 											This issue is already closed on GitHub
-										</div>
-									) : null}
-									{isValidUrl && bountyAddress && issueFound ? (
-										<BountyAlreadyMintedMessage claimed={claimed} bountyAddress={bountyAddress} />
-									) : null}
+										</div>}
+									{isValidUrl && bountyAddress && issue &&
+										<BountyAlreadyMintedMessage claimed={claimed} bountyAddress={bountyAddress} />}
 								</div>
 
 								<ToolTip
-									hideToolTip={(enableMint && isOnCorrectNetwork) || transactionPending}
+									hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed) || isLoading}
 									toolTipText={
 										account && isOnCorrectNetwork ?
 											'Please choose an elgible issue.' :
@@ -246,8 +181,8 @@ const MintBountyModal = ({ modalVisibility }) => {
 									<div className="flex items-center justify-center p-5 rounded-b w-full">
 										<MintBountyModalButton
 											mintBounty={mintBounty}
-											enableMint={enableMint && isOnCorrectNetwork}
-											transactionPending={transactionPending}
+											enableMint={enableMint && isOnCorrectNetwork && !issue?.closed && !isLoading}
+											transactionPending={isLoading}
 										/>
 									</div>
 								</ToolTip>

@@ -6,7 +6,12 @@ class GithubBot {
 	// expects { bountyId } in body.
 	async created(body) {
 		const promise = new Promise((resolve, reject) => {
-			axios.post(`${process.env.NEXT_PUBLIC_GITHUB_BOT_WEBHOOK}/created`, body)
+			axios.post(`${process.env.NEXT_PUBLIC_GITHUB_BOT_WEBHOOK}/created`, body, {
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+					'Access-Control-Allow-Headers': '*',
+				}
+			})
 				.then((result) => {
 					resolve(result);
 				})
@@ -20,7 +25,6 @@ class GithubBot {
 	// expects { bountyId, data: {deposit: {tokenAddress, tokenVolumes}} } in body.
 	async funded(body) {
 		const promise = new Promise((resolve, reject) => {
-			console.log(body);
 			axios.post(`${process.env.NEXT_PUBLIC_GITHUB_BOT_WEBHOOK}/funded`, body)
 				.then((result) => {
 					resolve(result);

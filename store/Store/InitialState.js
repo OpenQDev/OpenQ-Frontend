@@ -36,7 +36,7 @@ case 'local':
 		githubRepository: new MockGithubRepository(),
 		openQSubgraphClient: new MockOpenQSubgraphClient(),
 		tokenClient: new MockTokenClient(),
-		githubBot: new MockGithubBot(),
+		githubBot: new EmptyGithubBot(),
 		logger: new Logger(true),
 		utils: new Utils(),
 	};
@@ -75,7 +75,7 @@ case 'staging':
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
-		githubBot: new GithubBot(),
+		githubBot: new EmptyGithubBot(),
 		logger: new Logger(true),
 		utils: new Utils(),
 	};
@@ -88,7 +88,7 @@ case 'production':
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
-		githubBot: new GithubBot(),
+		githubBot: new EmptyGithubBot(),
 		logger: new Logger(false),
 		utils: new Utils(),
 	};

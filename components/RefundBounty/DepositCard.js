@@ -18,15 +18,15 @@ const DepositCard = ({ deposit, refundBounty, status, isOnCorrectNetwork }) => {
 				tokenValues={tokenValues}
 				singleCurrency={true}
 			/>
-			<div className="text-left text-white pb-4">
+			<div className="text-left  pb-4">
 				Deposited on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime))}
 			</div>
 			{deposit.refunded ?
-				(<div className="text-left text-white pb-2">
+				(<div className="text-left  pb-2">
 					Refunded on: {appState.utils.formatUnixDate(parseInt(deposit.refundTime))}
 				</div>)
 				:
-				(<div className="text-left text-white pb-2">
+				(<div className="text-left  pb-2">
 					Refundable on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}
 				</div>)
 			}
@@ -38,7 +38,7 @@ const DepositCard = ({ deposit, refundBounty, status, isOnCorrectNetwork }) => {
 					customOffsets={[0, 46]}>
 					<button onClick={() => refundBounty(deposit.id)}
 						disabled={!isOnCorrectNetwork}
-						className={`items-left text-lg text-white self-center ${isOnCorrectNetwork ? 'sm-confirm-btn' : 'sm-confirm-btn-disabled cursor-not-allowed'}`} >
+						className={`items-left text-lg  self-center ${isOnCorrectNetwork ? 'sm-confirm-btn' : 'sm-confirm-btn-disabled cursor-not-allowed'}`} >
 						Refund
 					</button>
 				</ToolTip>

@@ -35,10 +35,10 @@ const OrganizationCard = ({ organization }) => {
 							<Skeleton baseColor="#333" borderRadius={'1rem'} height={'64px'} width="64px" />}
 
 					</div>
-					<div className="pt-5 text-center font-semibold text-white">
+					<div className="pt-5 text-center font-semibold ">
 						{orgName || <Skeleton width={'50px'} height={'16px'} baseColor={'#333'} />}
 					</div>
-					<div className="text-white rounded shadow-md text-gray-300 font-sans relative">
+					<div className=" rounded shadow-md text-gray-300 font-sans relative">
 
 
 						{organization && `${organization?.bountiesCreated.map(

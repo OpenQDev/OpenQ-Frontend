@@ -33,7 +33,7 @@ const ProfilePicture = ({ mobile }) => {
 			{showModal || !authState.isAuthenticated ?
 				<div className={`flex bg-inactive-gray border-web-gray hover:border-white border ${mobile ? 'h-10' : 'h-12'} rounded-lg w-max`}>
 					<AuthButton redirectUrl={process.env.NEXT_PUBLIC_BASE_URL + router.asPath} propicUrl={propicUrl} styles="border-none" />
-					{authState.isAuthenticated && <button onClick={() => setShowModal(false)} className='text-tinted hover:text-white pr-2 font-bold relative -top-0.5'>×</button>}
+					{authState.isAuthenticated && <button onClick={() => setShowModal(false)} className='text-tinted hover: pr-2 font-bold relative -top-0.5'>×</button>}
 				</div> :
 				<button className='flex items-center' onClick={() => setShowModal(true)}>
 					{propicUrl != null ? (
