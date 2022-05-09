@@ -130,6 +130,15 @@ const jsonRpcErrors =
 					return 'Transaction ran out of gas.';
 				}
 			}
+		},
+
+		{
+			'CALL_EXCEPTION': {
+				title: 'Polygon Call Exception',
+				message: ()=>{
+					return 'A exception occured while calling Polygon.';
+				}
+			}
 		}
 	];
 

@@ -6,7 +6,10 @@ export const injected = new InjectedConnector({ supportedChainIds: [1, 2, 3, 4, 
 const infura =process.env.NEXT_PUBLIC_INFURA_KEY;
 console.log(infura);
 export const walletconnect = new WalletConnectConnector({
-	supportedChainIds: [137],
-	rpc: {137: process.env.NEXT_PUBLIC_INFURA_KEY,},
+	supportedChainIds: [1, 137],
+	rpc: {
+		137: process.env.NEXT_PUBLIC_INFURA_KEY,
+		1: process.env.NEXT_PUBLIC_PROVIDER_URL
+	},
 	qrcode: true
 });
