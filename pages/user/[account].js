@@ -50,7 +50,7 @@ const account = () => {
 	} else {
 		return (
 
-			<div className='text-white md:grid grid-cols-wide gap-4 justify-center col-start-2 pt-12'>
+			<div className=' md:grid grid-cols-wide gap-4 justify-center col-start-2 pt-12'>
 				<section className="min-h-card rounded-lg shadow-sm col-start-2 md:border border-web-gray">
 					{user ?
 						<AboutUser user={user} account={account} /> :

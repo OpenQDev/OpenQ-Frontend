@@ -110,6 +110,35 @@ const jsonRpcErrors =
 					return 'Something went awry and the transaction failed! Please reload and try again.';
 				} 
 			}
+		},
+
+		{
+			'UNDERPRICED_TXN': {
+				title: 'Underpriced Transaction!',
+				message: ()=>{
+					return 'Set a higher gas fee to get your transaction through. See how ';
+				}, 
+				link: 'https://metamask.zendesk.com/hc/en-us/articles/360022895972',
+				linkText: 'here.'
+			}
+		},
+
+		{
+			'OUT_OF_GAS': {
+				title: 'Out of Gas',
+				message: ()=>{
+					return 'Transaction ran out of gas.';
+				}
+			}
+		},
+
+		{
+			'CALL_EXCEPTION': {
+				title: 'Polygon Call Exception',
+				message: ()=>{
+					return 'A exception occured while calling Polygon.';
+				}
+			}
 		}
 	];
 

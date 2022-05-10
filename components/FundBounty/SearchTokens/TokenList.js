@@ -37,7 +37,7 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
 				<div className="">
 					<div className="justify-start ">
 						<input
-							className="outline-none bg-transparent text-white"
+							className="outline-none bg-transparent "
 							onKeyUp={(e) => setTokenSearchTerm(e.target.value)}
 							type="text"
 							placeholder="Search name"
@@ -46,7 +46,7 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
 				</div>
 			</div>
 
-			<div className="pt-4 text-white h-96 overflow-x-auto">
+			<div className="pt-4  h-96 overflow-x-auto">
 				{(displayTokens || appState.tokens)
 					.filter((token) => {
 						return tokenSearchTerm

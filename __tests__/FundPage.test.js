@@ -11,7 +11,7 @@ import InitialState from '../store/Store/InitialState';
  
 
 describe('FundPage', ( ) => {
-	const bounties = mocks.bounties;
+	const bounties = [mocks.bounties[0]];
 	const refreshBounty = ()=>{
 		return null;
 	};
@@ -50,8 +50,10 @@ describe('FundPage', ( ) => {
 			// ACT
 			const input = screen.getByLabelText('amount');
 			await user.type(input, '200');
-			const button = screen.getByRole('button', {name: /Fund/i});	await user.click(button);
-			await user.click( screen.getByRole( 'button', {name: /Confirm/i}));
+			const button = screen.getByRole('button', {name: /Fund/i});
+			await user.click(button);
+			const confirmBtn = await screen.findByRole( 'button', {name: /Confirm/i});
+			await user.click(confirmBtn);
 			const modalContent = await screen.findByText(/Too Low/i);
 
 			// ASSERT
@@ -75,7 +77,8 @@ describe('FundPage', ( ) => {
 
 			// ASSERT
 			expect(value).toBeInTheDocument();
-			await user.click( screen.getByRole( 'button', {name: /Confirm/i}));
+			const confirmBtn = screen.getByRole( 'button', {name: /Confirm/i});
+			await user.click(confirmBtn);
 			const modalContent = await screen.findByText(/Transfer Complete!/i);
 			await user.click( screen.getByRole('button', {name: 'Close'}));
 			expect(modalContent).not.toBeInTheDocument();
@@ -94,10 +97,12 @@ describe('FundPage', ( ) => {
 			await user.click( screen.getByText( /Chainlink/i));
 			const button = screen.getByRole('button', {name: /Fund/i});
 			await user.click(button);
+			const value = await screen.findByText(/.30 Chainlink Token/i);
 
 			// ASSERT
-			expect(screen.findByText(/.30 Chainlink Token/i));
-			await user.click( screen.getByRole( 'button', {name: /Confirm/i}));
+			expect(value);
+			const confirmBtn = await screen.findByRole( 'button', {name: /Confirm/i});
+			await user.click(confirmBtn);
 			const modalContent = await screen.findByText(/Transfer Complete!/i);
 			expect(modalContent).toBeInTheDocument();
 			await user.click( screen.getByRole('button', {name: 'Close'}));
@@ -115,14 +120,15 @@ describe('FundPage', ( ) => {
 			await user.type(input, '0.30sdf');
 			await user.click( screen.getByText( /Matic/i));
 			await user.click( screen.getByText( /Chainlink/i));
-			const button = screen.getByRole('button', {name: /Fund/i});
+			const button = await screen.findByRole('button', {name: /Fund/i});
 			await user.click(button);
 
 			// ASSERT
-			expect(screen.findByText('3 Chainlink Token'));
+			expect(await screen.findByText(/0.30 Chainlink Token/));
 			await user.click( await screen.findByRole( 'button', {name: /Confirm/i}));
-			const modalContent = await screen.findByText(/ transaction failed! Please reload and attempt to fund again./i);
+			const modalContent = await screen.findByText(/ transaction failed! Please reload and try again/i);
 			expect(modalContent).toBeInTheDocument();
+		
 			await user.click(await  screen.findByRole('button', {name: 'Close'}));
 			expect(modalContent).not.toBeInTheDocument();
 		});

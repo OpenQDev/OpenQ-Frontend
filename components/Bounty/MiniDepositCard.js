@@ -34,7 +34,7 @@ const MiniDepositCard = ({ deposit, showLink, status }) => {
 
 	// render
 	return (
-		<div key={deposit.id} className={`bg-web-gray/20 ${(open && deposit) ? timeToExpiry < 604800 ? 'border-red-500' : timeToExpiry < 1209600 ? 'border-yellow-500' : 'border-green' : 'border-web-gray'} border px-4 py-4 pb-4 h-min rounded-md sm:w-64 text-white lg:col-span-2 justify-self-center`}>
+		<div key={deposit.id} className={`bg-web-gray/20 ${(open && deposit) ? timeToExpiry < 604800 ? 'border-red-500' : timeToExpiry < 1209600 ? 'border-yellow-500' : 'border-green' : 'border-web-gray'} border px-4 py-4 pb-4 h-min rounded-md sm:w-64  lg:col-span-2 justify-self-center`}>
 			{showLink && <Link href={`/bounty/${deposit.bounty.id}`}>
 				<h3 className='text-xl font-semibold leading-none underline cursor-pointer pb-2'>{title}</h3>
 			</Link>}

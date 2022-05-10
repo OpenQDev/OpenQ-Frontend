@@ -14,9 +14,6 @@ const MobileSidebar = () => {
 
 	return (
 		<div className="flex justify-between items-center gap-2 w-full max-h-12 md:hidden pr-5 py-2 bg-black">
-
-			{/* <div className="text-white text-lg font-bold font-mont">OpenQ</div> */}
-
 			<div className="pl-5">{appState.needsReload ?
 				<a href="/">
 					<Image

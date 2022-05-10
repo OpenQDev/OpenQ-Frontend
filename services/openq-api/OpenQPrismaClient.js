@@ -92,6 +92,7 @@ class OpenQPrismaClient {
 
 
 	async getBounty(contractAddress) {
+		console.log('radical');
 		const promise = new Promise(async (resolve, reject)=>{
 			try {
 				console.log(contractAddress);

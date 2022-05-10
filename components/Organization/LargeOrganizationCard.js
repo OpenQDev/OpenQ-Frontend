@@ -25,7 +25,7 @@ const LargeOrganizationCard = ({ organization }) => {
 						<Image src={organization.avatarUrl} alt="n/a" layout="fill" priority={true} /> :
 						<Skeleton baseColor="#333" borderRadius={'1rem'} height={'96px'} />}
 				</div>
-				<div className="pt-5 text-center font-semibold text-white">
+				<div className="pt-5 text-center font-semibold ">
 					{orgName ?
 						orgName :
 						<Skeleton baseColor="#333" borderRadius={'1rem'} height={'12px'} width={'96px'} />

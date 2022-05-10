@@ -55,7 +55,7 @@ const AboutUser = ({ user }) => {
 			<div className='flex-1 whitespace-nowrap'>
 				<div className='pb-2'>Bounties Collected</div>
 
-				<div className='text-white text-base leading-[32px]'>{payouts.length}</div>
+				<div className=' text-base leading-[32px]'>{payouts.length}</div>
 			</div>
 		</div>
 		<div className='px-16 py-5 pb border-b border-web-gray'>

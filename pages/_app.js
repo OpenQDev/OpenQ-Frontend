@@ -20,7 +20,7 @@ function OpenQ({ Component, pageProps }) {
 	}
 
 	return (
-		<div className="bg-dark-mode min-h-screen">
+		<div className="bg-dark-mode min-h-screen text-white">
 			<Head>
 				<title>OpenQ</title>
 				<meta

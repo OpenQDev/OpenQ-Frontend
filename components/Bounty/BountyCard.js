@@ -57,11 +57,11 @@ const BountyCard = ({ bounty, loading }) => {
 									></path>
 								</svg>
 							</div>
-							{loading ? <Skeleton width={'100px'} /> : <div className="font-mont text-2xl text-white">
+							{loading ? <Skeleton width={'100px'} /> : <div className="font-mont text-2xl ">
 								{bounty?.owner.toLowerCase()}/{bounty?.repoName.toLowerCase()}
 							</div>}
 						</div>
-						<div className="font-bold text-xl text-white pl-6">
+						<div className="font-bold text-xl pl-6">
 							{loading ?
 								<Skeleton width={'100px'} /> :
 								bounty?.title.length < 50
@@ -69,7 +69,7 @@ const BountyCard = ({ bounty, loading }) => {
 									: bountyName.slice(0, 50) + '...'}
 						</div>
 						<div className="flex flex-row items-center space-x-4 pt-1 w-full">
-							<div className="font-mont font-light pl-6 text-sm text-white w-full">
+							<div className="font-mont font-light pl-6 text-sm w-full">
 								{loading ?
 									<Skeleton width={'100%'} /> :
 
@@ -77,7 +77,7 @@ const BountyCard = ({ bounty, loading }) => {
 							</div>
 						</div>
 						<div className="flex flex-row items-center space-x-4 pt-1 w-full">
-							<div className="font-mont font-light pl-6 text-sm text-white w-full">
+							<div className="font-mont font-light pl-6 text-sm w-full">
 
 								{loading ?
 									<Skeleton width={'100%'} /> :
@@ -86,7 +86,7 @@ const BountyCard = ({ bounty, loading }) => {
 							</div>
 						</div>
 						<div className="flex flex-row items-center space-x-4 pt-1">
-							<div className="font-mont font-light pl-6 text-sm text-white">
+							<div className="font-mont font-light pl-6 text-sm ">
 								{loading ?
 									<Skeleton width={'60px'} /> :
 									bounty?.status == 'OPEN' ? 'Unclaimed' : 'Claimed'
@@ -120,7 +120,7 @@ const BountyCard = ({ bounty, loading }) => {
 													opacity: .9,
 													color: `#${label.color}`,
 												}}
-												className="font-mont rounded-lg text-xs py-1 px-2 font-bold border text-white truncate"
+												className="font-mont rounded-lg text-xs py-1 px-2 font-bold border truncate"
 											>
 												{label.name}
 											</div>
@@ -129,7 +129,7 @@ const BountyCard = ({ bounty, loading }) => {
 										return (
 											<div
 												key={index}
-												className="font-mont rounded-lg text-xs py-1 px-2 font-bold border border-green text-white"
+												className="font-mont rounded-lg text-xs py-1 px-2 font-bold border border-green "
 											>
 												more..
 											</div>
@@ -155,8 +155,8 @@ const BountyCard = ({ bounty, loading }) => {
 								/>
 							</div>
 
-							<div className="font-semibold text-white">TVL</div>
-							<div className="text-white">
+							<div className="font-semibold ">TVL</div>
+							<div className="">
 								{TVL}
 							</div>
 
