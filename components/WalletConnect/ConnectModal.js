@@ -1,18 +1,22 @@
 import React from 'react';
-import { injected, walletconnect } from './connectors';
+import { gnosisSafe, injected, walletconnect } from './connectors';
 import useWeb3 from '../../hooks/useWeb3';
 
 const ConnectModal = ({closeModal})=>{
 	const {activate} = useWeb3();
 
 	const handleMetaMask = async()=>{
-		console.log(	await activate(injected));
+		await activate(injected);
 		closeModal();
 	};
 
 	const handleWalletConnect = async()=>{
-		console.log(await activate( walletconnect));
+		await activate( walletconnect);
 		closeModal();
+	};
+
+	const handleGnosisSafe = async()=>{
+		console.log	(	await activate(gnosisSafe));
 	};
 	
 	return(
@@ -24,6 +28,9 @@ const ConnectModal = ({closeModal})=>{
 					</button>
 					<button onClick={handleWalletConnect} className='border-2 border-inactive-accent rounded-full py-2 px-4 bg-inactive-accent-inside hover:border-active-accent group-hover:border-active-accent'>
 				WalletConnect
+					</button>
+					<button onClick={handleGnosisSafe} className='border-2 border-inactive-accent rounded-full py-2 px-4 bg-inactive-accent-inside hover:border-active-accent group-hover:border-active-accent'>
+				GnosisSafe
 					</button>
 					<button onClick={closeModal} className='border-2 border-inactive-accent rounded-full py-2 px-4 bg-inactive-accent-inside group-hover:bg-active-accent hover:border-active-accent group-hover:border-active-accent'>
 					Back
