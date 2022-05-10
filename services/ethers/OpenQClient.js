@@ -22,6 +22,7 @@ class OpenQClient {
 		 * @param {Web3Provider} signer An ethers.js signer
 		 * @returns Web3Contract
 		 */
+
 	ERC20 = (tokenAddress, signer) => {
 		const contract = new ethers.Contract(tokenAddress, ERC20ABI.abi, signer);
 		return contract;
@@ -76,6 +77,7 @@ class OpenQClient {
 				} else {
 					volume = await contract.balanceOf(_callerAddress);
 				}
+				console.log(volume, library, _callerAddress, _tokenAddress);
 				resolve(volume);
 			} catch (error) {
 				console.log(error);
@@ -164,6 +166,7 @@ class OpenQClient {
 				txnReceipt = await txnResponse.wait();
 				resolve(txnReceipt);
 			} catch (error) {
+				console.log(error);
 				reject(error);
 			}
 		});
@@ -188,13 +191,21 @@ class OpenQClient {
 	handleError(jsonRpcError, data) {
 		let errorString = jsonRpcError?.data?.message;
 		console.log(errorString);
+		if(typeof jsonRpcError === 'string'){
+			if (jsonRpcError.includes('Ambire user rejected the request')) { errorString = 'USER_DENIED_TRANSACTION'; }
+			if (jsonRpcError.includes('Rejected Request')) { errorString = 'USER_DENIED_TRANSACTION'; }}
 		console.log(jsonRpcError);
-		if (jsonRpcError.message.includes('Nonce too high.')) { errorString = 'NONCE_TO_HIGH'; }
-		if (jsonRpcError.message.includes('User denied transaction signature')) { errorString = 'USER_DENIED_TRANSACTION'; }
-		if (jsonRpcError.message.includes('MetaMask is having trouble connecting to the network')) { errorString = 'METAMASK_HAVING_TROUBLE'; }
-		if (jsonRpcError.message.includes('Internal JSON-RPC error')) { errorString = 'INTERNAL_ERROR'; }
-		if (jsonRpcError.message.includes('transaction underpriced')) { errorString = 'UNDERPRICED_TXN'; }
-		if (jsonRpcError.message.includes('Transaction ran out of gas')) { errorString = 'OUT_OF_GAS'; }
+		if(jsonRpcError.message){
+		
+			if (jsonRpcError.message.includes('Nonce too high.')) { errorString = 'NONCE_TO_HIGH'; }
+			if (jsonRpcError.message.includes('User denied transaction signature')) { errorString = 'USER_DENIED_TRANSACTION'; }
+			if (jsonRpcError.message.includes('MetaMask is having trouble connecting to the network')) { errorString = 'METAMASK_HAVING_TROUBLE'; }
+			if (jsonRpcError.message.includes('Internal JSON-RPC error')) { errorString = 'INTERNAL_ERROR'; }
+			if (jsonRpcError.message.includes('Set a higher gas fee')){ errorString = 'UNDERPRICED_TXN';}
+		}	
+		if(!errorString){
+			errorString='CALL_EXCEPTION';
+		}
 		for (const error of jsonRpcErrors) {
 			const revertString = Object.keys(error)[0];
 			if (errorString.includes(revertString)) {

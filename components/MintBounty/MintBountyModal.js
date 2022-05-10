@@ -174,9 +174,10 @@ const MintBountyModal = ({ modalVisibility }) => {
 									toolTipText={
 										account && isOnCorrectNetwork ?
 											'Please choose an elgible issue.' :
-											account ?
-												'Please switch to the correct network to mint a bounty.' :
-												'Connect your wallet to mint a bounty!'}
+											isOnCorrectNetwork ?
+												'Connect your wallet to mint a bounty!':
+												'Please switch to the correct network to mint a bounty.' 
+									}
 									customOffsets={[0, 70]}>
 									<div className="flex items-center justify-center p-5 rounded-b w-full">
 										<MintBountyModalButton
