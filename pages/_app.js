@@ -28,6 +28,7 @@ function OpenQ({ Component, pageProps }) {
 					content="width=device-width, initial-scale=1.0"
 				/>
 				<link rel="icon" href="/openq-logo.png" />
+				<link rel="manifest" href="/public/manifest.json" />
 			</Head>
 			<>
 				<AuthProvider>

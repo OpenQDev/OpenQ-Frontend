@@ -1,0 +1,6 @@
+{
+	"name": "openq",
+	"iconPath": "/openq-logo.png",
+	"description": "GitHub bounties, payroll streams and accounting for web3 contributors.",
+	"providedBy": {"name": "openqlabs", "url": "http://localhost:3000"}
+}
