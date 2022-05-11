@@ -129,7 +129,7 @@ class OpenQClient {
 		let promise = new Promise(async (resolve) => {
 			let ensName;
 			try {
-				let provider = new ethers.providers.InfuraProvider('homestead', process.env.INFURA_KEY);
+				let provider = new ethers.providers.InfuraProvider('homestead', process.env.PROVIDER_URL);
 				let name = await provider.lookupAddress(_callerAddress);
 				let reverseAddress = ethers.utils.getAddress(await provider.resolveName(name));
 				// we need to check if their address is reverse registered 
