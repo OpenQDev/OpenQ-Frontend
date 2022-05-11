@@ -19,7 +19,8 @@ const MobileConnectButton = () => {
 	const buttonRef = useRef();
 	const iconWrapper = useRef();
 	// Context
-	const { chainId, account, activate, active, deactivate } = useWeb3();
+	const { chainId, account, activate, active, deactivate, safe } = useWeb3();
+	console.log(safe);
 	const [ensName] = useEns(account);
 
 	// Hooks
@@ -83,7 +84,8 @@ const MobileConnectButton = () => {
 						account={account}
 						chainId={chainId}
 						deactivate={deactivate}
-						setIsConnecting={setIsConnecting} />}
+						setIsConnecting={setIsConnecting}
+						isSafeApp={safe} />}
 			</div>
 		);
 	} else if (account && isConnecting !== true) {

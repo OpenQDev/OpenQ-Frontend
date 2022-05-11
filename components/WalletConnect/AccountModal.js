@@ -5,7 +5,7 @@ import jazzicon from '@metamask/jazzicon';
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 
-const AccountModal = ({ chainId, account, ensName, deactivate, setIsConnecting, domRef }) => {
+const AccountModal = ({ chainId, account, ensName, deactivate, setIsConnecting, domRef, isSafeApp }) => {
 	let networkName;
 	const iconWrapper = useRef();
 	for (let key in chainIdDeployEnvMap) {
@@ -39,7 +39,7 @@ const AccountModal = ({ chainId, account, ensName, deactivate, setIsConnecting, 
 				</div>
 			</div>
 			<div className='font-semibold'>{networkName}</div>
-			<button className='rounded-lg border border-web-gray w-min p-2 text-xs font-semibold /80 hover: hover:border-white/80 self-end' onClick={disconnectAccount}>Disconnect</button>
+			{!isSafeApp && <button className='rounded-lg border border-web-gray w-min p-2 text-xs font-semibold /80 hover: hover:border-white/80 self-end' onClick={disconnectAccount}>Disconnect</button>}
 		</div>
 	);
 };

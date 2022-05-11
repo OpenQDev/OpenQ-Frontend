@@ -6,10 +6,11 @@ import LabelsList from './LabelsList';
 import BountyStatus from './BountyStatus';
 import BountyLinks from './BountyLinks';
 import TokenBalances from '../TokenBalances/TokenBalances';
-
+import useWeb3 from '../../hooks/useWeb3';
 
 const BountyCardDetailsModal = ({ bounty, TVL, closeModal, tokenValues }) => {
 	const modal = useRef();
+	const { safe } = useWeb3();
 	useEffect(() => {
 		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
 		function handleClickOutside(event) {
@@ -34,7 +35,7 @@ const BountyCardDetailsModal = ({ bounty, TVL, closeModal, tokenValues }) => {
 					<BountyCardHeader bounty={bounty} />
 					<div className='py-4'>
 						<Link href={`/bounty/${bounty.bountyAddress}`} >
-							<a target='_blank' className='bg-button-inside hover:bg-button-inside-hover border-button rounded-full text-base px-3 py-1.5 border'>See Full Bounty</a>
+							<a target={safe? '_self':'_blank'} className='bg-button-inside hover:bg-button-inside-hover border-button rounded-full text-base px-3 py-1.5 border'>See Full Bounty</a>
 						</Link>
 					</div>
 				</div>
@@ -54,7 +55,7 @@ const BountyCardDetailsModal = ({ bounty, TVL, closeModal, tokenValues }) => {
 							<TokenBalances tokenBalances={bounty.bountyTokenBalances} tokenValues={tokenValues} showOne={true} />
 						</div>
 						{bounty.bountyTokenBalances?.length > 1 && <Link href={`/bounty/${bounty.bountyAddress}`}>
-							<a target={'_blank'}>
+							<a target={safe? '_self':'_blank'}>
 								<div onClick={closeModal} className="border border-web-gray px-4 pb-1.5 pt-1.5 w-max rounded-md cursor-pointer">more...
 								</div>
 							</a>
