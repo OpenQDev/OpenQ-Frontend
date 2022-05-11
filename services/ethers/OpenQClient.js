@@ -38,7 +38,7 @@ class OpenQClient {
 				const txnReceipt = await txnResponse.wait();
 
 				console.log(txnReceipt);
-				const bountyAddress = txnReceipt.events[1].args.bountyAddress;
+				const bountyAddress = txnReceipt.events[1].address;
 				resolve({ bountyAddress });
 			} catch (err) {
 				reject(err);
@@ -198,6 +198,7 @@ class OpenQClient {
 		if(jsonRpcError.message){		
 			if (jsonRpcError.message.includes('Nonce too high.')) { errorString = 'NONCE_TO_HIGH'; }
 			if (jsonRpcError.message.includes('User denied transaction signature')) { errorString = 'USER_DENIED_TRANSACTION'; }
+			if (jsonRpcError.message.includes('Transaction was rejected')) { errorString = 'USER_DENIED_TRANSACTION'; }
 			if (jsonRpcError.message.includes('MetaMask is having trouble connecting to the network')) { errorString = 'METAMASK_HAVING_TROUBLE'; }
 			if (jsonRpcError.message.includes('Internal JSON-RPC error')) { errorString = 'INTERNAL_ERROR'; }
 			if (jsonRpcError.message.includes('Set a higher gas fee')){ errorString = 'UNDERPRICED_TXN';}

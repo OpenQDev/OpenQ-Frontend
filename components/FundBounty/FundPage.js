@@ -114,7 +114,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					bigNumberVolumeInWei,
 					depositPeriodDays
 				);
-				setTransactionHash(fundTxnReceipt.transactionHash);
+				setTransactionHash(fundTxnReceipt.events[0].transactionHash);
 				setApproveTransferState(SUCCESS);
 				setVolume('');
 				setSuccessMessage(
