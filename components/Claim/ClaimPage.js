@@ -114,7 +114,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 						) : <div className='h-44'></div>}
 						<div className='col-span-3 px-2 '>
 							<p>Don{'\''}t forget to add a closer comment for this bounty on your pull request :-).</p>
-							<p><CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} /></p>
+							<div><CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} /></div>
 						</div>
 
 						<div className="col-span-3 flex gap-3 w-full">
