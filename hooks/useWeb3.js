@@ -5,8 +5,8 @@ const useWeb3 = () => {
 	if (process.env.NEXT_PUBLIC_DEPLOY_ENV == 'local') {
 		return { library: {}, account: '0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e', active: true, chainId: 31337, activate: () => { }, error: () =>{} };
 	} else {
-		const { library, account, active, activate, chainId, deactivate, error } = useWeb3React();
-		return { library, account, active, activate, chainId, deactivate, error };
+		const { library, account, active, activate, chainId, deactivate, error, connector } = useWeb3React();
+		return { library, account, active, activate, chainId, deactivate, error, safe: connector?.safe };
 	}
 };
 

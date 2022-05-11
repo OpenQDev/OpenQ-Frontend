@@ -14,7 +14,7 @@ const ConnectButton = () => {
 	// State
 	const [isConnecting, setIsConnecting] = useState(false);
 	const [showConnectModal, setShowConnectModal] = useState(false);
-	const { chainId, error, account, deactivate } = useWeb3();
+	const { chainId, error, account, deactivate, safe } = useWeb3();
 	const [isOnCorrectNetwork, ] = useIsOnCorrectNetwork( { chainId:chainId, error: error, account: account });
 	const [showModal, setShowModal] = useState();
 	const iconWrapper = useRef();
@@ -53,6 +53,17 @@ const ConnectButton = () => {
 
 	
 
+	const addOrSwitchNetwork = () => {
+		window.ethereum
+			.request({
+				method: 'wallet_addEthereumChain',
+				params:
+					chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['params'],
+			})
+			.catch((error) => console.log('Error', error.message));
+	};
+
+
 	// Render
 	return (<div>
 		{	account && isOnCorrectNetwork ?
@@ -73,7 +84,8 @@ const ConnectButton = () => {
 					ensName = {ensName}
 					chainId = {chainId} 
 					deactivate={deactivate}
-					setIsConnecting={setIsConnecting}/>}
+					setIsConnecting={setIsConnecting}
+					isSafeApp = {safe}/>}
 			</div>:
 			isOnCorrectNetwork?
 				<div>
@@ -85,7 +97,7 @@ const ConnectButton = () => {
 						{'Connect Wallet'}
 					</button>
 				</div>:
-				<div
+				<button onClick={addOrSwitchNetwork}
 					className="flex items-center font-mont whitespace-nowrap h-12 rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2.5 px-6 text-white font-semibold"
 				>
 					Use{' '}
@@ -95,7 +107,7 @@ const ConnectButton = () => {
 						]
 					}{' '}
 					Network
-				</div>
+				</button>
 		}
 		{
 			showConnectModal && <ConnectModal closeModal={()=>setShowConnectModal(false)} />

@@ -38,7 +38,7 @@ class OpenQClient {
 				const txnReceipt = await txnResponse.wait();
 
 				console.log(txnReceipt);
-				const bountyAddress = txnReceipt.events[1].args.bountyAddress;
+				const bountyAddress = txnReceipt.events[1].address;
 				resolve({ bountyAddress });
 			} catch (err) {
 				reject(err);
@@ -77,7 +77,6 @@ class OpenQClient {
 				} else {
 					volume = await contract.balanceOf(_callerAddress);
 				}
-				console.log(volume, library, _callerAddress, _tokenAddress);
 				resolve(volume);
 			} catch (error) {
 				console.log(error);
@@ -162,8 +161,8 @@ class OpenQClient {
 				} else {
 					txnResponse = await contract.fundBountyToken(_bountyId, _tokenAddress, _value, expiration);
 				}
-
 				txnReceipt = await txnResponse.wait();
+				console.log(txnReceipt);
 				resolve(txnReceipt);
 			} catch (error) {
 				console.log(error);
@@ -193,12 +192,13 @@ class OpenQClient {
 		console.log(errorString);
 		if(typeof jsonRpcError === 'string'){
 			if (jsonRpcError.includes('Ambire user rejected the request')) { errorString = 'USER_DENIED_TRANSACTION'; }
-			if (jsonRpcError.includes('Rejected Request')) { errorString = 'USER_DENIED_TRANSACTION'; }}
-		console.log(jsonRpcError);
-		if(jsonRpcError.message){
-		
+			if (jsonRpcError.includes('Rejected Request')) { errorString = 'USER_DENIED_TRANSACTION'; }
+			if (jsonRpcError.includes('Transaction was rejected')) { errorString = 'USER_DENIED_TRANSACTION'; }
+		}
+		if(jsonRpcError.message){		
 			if (jsonRpcError.message.includes('Nonce too high.')) { errorString = 'NONCE_TO_HIGH'; }
 			if (jsonRpcError.message.includes('User denied transaction signature')) { errorString = 'USER_DENIED_TRANSACTION'; }
+			if (jsonRpcError.message.includes('Transaction was rejected')) { errorString = 'USER_DENIED_TRANSACTION'; }
 			if (jsonRpcError.message.includes('MetaMask is having trouble connecting to the network')) { errorString = 'METAMASK_HAVING_TROUBLE'; }
 			if (jsonRpcError.message.includes('Internal JSON-RPC error')) { errorString = 'INTERNAL_ERROR'; }
 			if (jsonRpcError.message.includes('Set a higher gas fee')){ errorString = 'UNDERPRICED_TXN';}

@@ -1,5 +1,6 @@
 // Third party
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {SafeAppConnector} from '@gnosis.pm/safe-apps-web3-react';
 // Custom
 import ConnectButton from '../WalletConnect/ConnectButton.js';
 import ProfilePicture from './ProfilePicture.js';
@@ -7,8 +8,28 @@ import Sidebar from './Sidebar';
 import MobileSidebar from './MobileSidebar';
 import useCheckFirstLaunch from '../../hooks/useCheckFirstLaunch.js';
 import Footer from './Footer.js';
+import useWeb3 from '../../hooks/useWeb3.js';
 
 const Layout = ({ children }) => {
+	const [gnosisSafe, setGnosisSafe] = useState();
+	const [safeInfo, setSafeInfo] = useState();
+	const { account, activate,  deactivate } = useWeb3();
+	
+	
+	useEffect(async()=>{
+		const safe = new SafeAppConnector();
+		safe.getSafeInfo().then((data) => {
+			if(data){
+				setSafeInfo(data);
+				deactivate();}
+		});
+		setGnosisSafe(safe);
+	},[]);
+
+	useEffect(async()=>{
+		if(safeInfo){
+			await activate(gnosisSafe);}
+	},[account]);
 	const [sidebar, setSidebar] = useState(false);
 
 	const [isFirstLaunch] = useCheckFirstLaunch();

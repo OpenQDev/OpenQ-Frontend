@@ -54,7 +54,7 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 
 		try{
 			const txnReceipt = await	appState.openQClient.refundDeposit(library, bounty.bountyId, depositId);
-			setTransactionHash(txnReceipt.transactionHash);
+			setTransactionHash(txnReceipt.events[0].transactionHash);
 			const refundedDeposit = bounty.deposits.find(deposit => deposit.id == depositId);
 
 			try{
