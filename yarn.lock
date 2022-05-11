@@ -855,7 +855,7 @@
     "@ethersproject/properties" "^5.5.0"
     "@ethersproject/strings" "^5.5.0"
 
-"@gnosis.pm/safe-apps-provider@^0.11.0":
+"@gnosis.pm/safe-apps-provider@0.11.0", "@gnosis.pm/safe-apps-provider@^0.11.0":
   version "0.11.0"
   resolved "https://registry.npmjs.org/@gnosis.pm/safe-apps-provider/-/safe-apps-provider-0.11.0.tgz"
   integrity sha512-XTEXa5iCk0XOZQkgwHcpzP3sOmT9kYsieY5Bfmlrj7GSuApxnn8PnA7tQuzCOrrH2PbT+nspY04h4aBDDJaKrw==
@@ -870,6 +870,15 @@
   dependencies:
     "@gnosis.pm/safe-react-gateway-sdk" "^2.10.0"
     ethers "^5.4.7"
+
+"@gnosis.pm/safe-apps-web3-react@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@gnosis.pm/safe-apps-web3-react/-/safe-apps-web3-react-1.3.0.tgz#5072ce627e2bdad85b3faaa6921cf2f56648da14"
+  integrity sha512-rCe8zA3aR0kBZ6ejF43FLDNW7rcBibOGLhFeM/s3n4mQH6azE1MkCYpnhM1qh1v2cAbE6uMv544wi++S4ICmsQ==
+  dependencies:
+    "@gnosis.pm/safe-apps-provider" "0.11.0"
+    "@gnosis.pm/safe-apps-sdk" "7.3.0"
+    "@web3-react/abstract-connector" "6.0.7"
 
 "@gnosis.pm/safe-react-gateway-sdk@^2.10.0":
   version "2.10.3"
@@ -1841,7 +1850,7 @@
   dependencies:
     "@walletconnect/window-getters" "^1.0.0"
 
-"@web3-react/abstract-connector@^6.0.7":
+"@web3-react/abstract-connector@6.0.7", "@web3-react/abstract-connector@^6.0.7":
   version "6.0.7"
   resolved "https://registry.npmjs.org/@web3-react/abstract-connector/-/abstract-connector-6.0.7.tgz"
   integrity sha512-RhQasA4Ox8CxUC0OENc1AJJm8UTybu/oOCM61Zjg6y0iF7Z0sqv1Ai1VdhC33hrQpA8qSBgoXN9PaP8jKmtdqg==
