@@ -182,7 +182,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 									<div className="flex items-center justify-center p-5 rounded-b w-full">
 										<MintBountyModalButton
 											mintBounty={mintBounty}
-											enableMint={enableMint && isOnCorrectNetwork && !issue?.closed && !isLoading}
+											enableMint={enableMint && isOnCorrectNetwork && account && !issue?.closed && !isLoading}
 											transactionPending={isLoading}
 										/>
 									</div>

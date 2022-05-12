@@ -8,7 +8,7 @@ export const injected = new InjectedConnector({ supportedChainIds: [1, 2, 3, 4, 
 export const walletconnect = new WalletConnectConnector({
 	supportedChainIds: [137],
 	rpc: {
-		137: process.env.NEXT_PUBLIC_INFURA_KEY,
+		137: process.env.POLYGON_PROVIDER_URL,
 	},
 	qrcode: true
 });
