@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import confetti from 'canvas-confetti';
+import { ethers } from 'ethers';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
@@ -43,7 +44,12 @@ const address = () => {
 
 		try {
 			while (bounty === null) {
-				bounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
+				const bountyData = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
+				
+				
+				const bountyMetadata = await appState.openQPrismaClient.getBounty(ethers.utils.getAddress(address));
+				bounty= {...bountyData, ...bountyMetadata};
+			
 				if (bounty) {
 					setIsIndexing(false);
 				}

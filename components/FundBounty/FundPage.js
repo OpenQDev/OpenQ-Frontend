@@ -104,6 +104,9 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		}
 
 		if (approveSucceeded) {
+			const mergedTokenBalances = [...bounty.bountyTokenBalances, {volume: volume*(10)**token.decimals,  tokenAddress: token.address}];
+			const tokenVolume = await appState.tokenClient.parseTokenValues(mergedTokenBalances);
+			const tvl = tokenVolume.total;
 			setButtonText('Transferring');
 			setApproveTransferState(TRANSFERRING);
 			try {
@@ -120,6 +123,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
 				setSuccessMessage(
 					`Successfully funded issue ${bounty.url} with ${volume} ${token.symbol}!`
 				);
+				const id = bounty.bountyAddress;
+				await appState.openQPrismaClient.updateBounty(ethers.utils.getAddress(id), tvl);
 				refreshBounty();
 				try{
 					await appState.githubBot.funded({ bountyId: bounty.bountyId, id: bounty.bountyAddress, deposit: { tokenAddress: ethers.utils.getAddress(token.address), tokenVolumes: bigNumberVolumeInWei.toString() } });

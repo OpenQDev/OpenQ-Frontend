@@ -67,17 +67,25 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 					}
 				});
 				setApproveTransferState(SUCCESS);
-				refreshBounty();}
-			catch(e){
+				refreshBounty();
+			}
+			catch(error){
 				console.log('bot not responding');
-			}}				
+			}
+			const deposits = bounty.deposits.filter((deposit)=>{
+				return deposit.id !== depositId;
+			});
+			const tokenVolumes = await appState.tokenClient.parseTokenValues(deposits);
+			const tvl = tokenVolumes.total;
+			await appState.openQPrismaClient.updateBounty(bounty.bountyAddress, tvl);
+		}
+	
 		catch(error){
 			const { message, title } = appState.openQClient.handleError(error, { account, bounty });
 			setError({ message, title });
 			setApproveTransferState(ERROR);
 		}
 	}
-
 	// Render
 
 	return (
@@ -175,7 +183,6 @@ const RefundPage = ({ bounty, refreshBounty }) => {
 			</div>
 		}</>
 	);
+	
 };
-
-
 export default RefundPage;
