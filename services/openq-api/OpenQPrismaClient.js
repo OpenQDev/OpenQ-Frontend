@@ -62,7 +62,6 @@ class OpenQPrismaClient {
 	async watchBounty(contractAddress, userAddress ) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
-				console.log(contractAddress, userAddress);
 				const result = await this.client.mutate({
 					mutation: WATCH_BOUNTY,
 					variables: { contractAddress, userAddress }
@@ -92,10 +91,8 @@ class OpenQPrismaClient {
 
 
 	async getBounty(contractAddress) {
-		console.log('radical');
 		const promise = new Promise(async (resolve, reject)=>{
 			try {
-				console.log(contractAddress);
 				const result = await this.client.query({
 					query: GET_BOUNTY_BY_HASH,
 					variables: { contractAddress }

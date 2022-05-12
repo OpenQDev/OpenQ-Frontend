@@ -21,7 +21,6 @@ const MobileConnectButton = () => {
 	const iconWrapper = useRef();
 	// Context
 	const { chainId, account, active, deactivate, safe } = useWeb3();
-	console.log(safe);
 	const [ensName] = useEns(account);
 
 	// Hooks

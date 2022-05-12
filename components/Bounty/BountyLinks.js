@@ -7,7 +7,6 @@ import useWeb3 from '../../hooks/useWeb3';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
-import useWeb3 from '../../hooks/useWeb3';
 import {ethers} from 'ethers';
 
 const BountyLinks = ({ bounty, hideBountyLink }) => {

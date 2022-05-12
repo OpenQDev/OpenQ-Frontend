@@ -48,7 +48,6 @@ class OpenQSubgraphClient {
 
 	async getBounty(id, fetchPolicy = 'cache-first') {
 		const lowerCasedAddress = id.toLowerCase();
-		console.log(lowerCasedAddress);
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
