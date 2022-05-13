@@ -126,12 +126,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
 				const id = bounty.bountyAddress;
 				await appState.openQPrismaClient.updateBounty(ethers.utils.getAddress(id), tvl);
 				refreshBounty();
-				try{
-					await appState.githubBot.funded({ bountyId: bounty.bountyId, id: bounty.bountyAddress, deposit: { tokenAddress: ethers.utils.getAddress(token.address), tokenVolumes: bigNumberVolumeInWei.toString() } });
-				}
-				catch(e){
-					console.log('bot not responding');
-				}
 			} catch (error) {
 				const { message, title } = appState.openQClient.handleError(error, { bounty });
 				setError({ message, title });

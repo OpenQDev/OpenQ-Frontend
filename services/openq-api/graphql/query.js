@@ -25,9 +25,9 @@ export const GET_BOUNTY_BY_HASH = gql`query bounty($contractAddress: String! ) {
   }
 }`;
 
-export const GET_USER_BY_HASH = gql`query($userAddress: String!, $watchedBountiesLimit2: Int!, ) {
-  user(userAddress: $userAddress){
-    watchedBounties(limit: $watchedBountiesLimit2) {
+export const GET_USER_BY_HASH = gql`query($userAddress: String!) {
+  user(userAddress: $userAddress) {
+    watchedBounties(limit: 10) {
       bounties{
         contractAddress
       }

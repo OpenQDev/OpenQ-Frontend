@@ -13,7 +13,6 @@ class OpenQPrismaClient {
 		cache: new InMemoryCache(),
 	});
 
-
 	async getPaginatedTVLS( orderBy, limit, sortOrder, cursor) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
@@ -107,13 +106,14 @@ class OpenQPrismaClient {
 		return promise;
 	}
 	async getUser(userAddress) {
+		console.log('user address', userAddress)
 		const promise = new Promise(async (resolve, reject)=>{
 			try {
 				const result = await this.client.query({
 					query: GET_USER_BY_HASH,
 					variables: { userAddress }
 				});
-				resolve(result.data);
+				resolve(result.data.user);
 			}
 			catch(e){
 				reject(e);

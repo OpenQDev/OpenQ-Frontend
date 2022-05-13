@@ -1,6 +1,7 @@
 // Third party
 import React, { useEffect, useState, useContext } from 'react';
 import { useRouter, } from 'next/router';
+const { ethers } = require('ethers')
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
@@ -21,13 +22,24 @@ const account = () => {
 	// Methods
 	async function populateUserData() {
 		try {
-			const user = await appState.openQSubgraphClient.getUser(account.toLowerCase());
+			const userOnChainData = await appState.openQSubgraphClient.getUser(account.toLowerCase());
+			
+			console.log('userOnChainData', userOnChainData)
+			console.log('fuck')
+
+			const userOffChainData = await appState.openQPrismaClient.getUser(ethers.utils.getAddress(account));
+			
+			console.log('userOffChainData', userOffChainData)
+			
+			const user = { ...userOnChainData, ...userOffChainData }
+
+			console.log('user', user)
 			setUser(user);
 			setIsLoading(false);
 		}
 		catch (err) {
 			setError(true);
-			console.log(error);
+			console.log('error is', error);
 			return;
 		}
 	}
@@ -35,6 +47,7 @@ const account = () => {
 	// Hooks
 	useEffect(() => {
 		if (account) {
+			console.log('account', account)
 			populateUserData();
 
 		}

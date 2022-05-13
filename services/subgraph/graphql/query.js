@@ -151,7 +151,6 @@ query GetUser($id: ID!) {
       id
 			refunded
 			refundTime
-      claimed
       tokenAddress
       volume
 			expiration

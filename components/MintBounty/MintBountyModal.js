@@ -86,16 +86,11 @@ const MintBountyModal = ({ modalVisibility }) => {
 				issue.id,
 				issue.repository.owner.id,
 			);
-			await sleep(1000);
 
 			sessionStorage.setItem('justMinted', true);			
+			
 			await appState.openQPrismaClient.createNewBounty(ethers.utils.getAddress(bountyAddress));
-			try {
-				appState.githubBot.created({ bountyId: issue.id, id: bountyAddress });
-			}
-			catch (e) {
-				console.log('bot not responding');
-			}
+			
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`
 			);
