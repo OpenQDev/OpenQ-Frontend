@@ -1,6 +1,7 @@
 // Third party
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
+import { ethers } from 'ethers';
 
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
@@ -85,15 +86,11 @@ const MintBountyModal = ({ modalVisibility }) => {
 				issue.id,
 				issue.repository.owner.id,
 			);
-			await sleep(1000);
 
-			sessionStorage.setItem('justMinted', true);
-			try {
-				appState.githubBot.created({ bountyId: issue.id, id: bountyAddress });
-			}
-			catch (e) {
-				console.log('bot not responding');
-			}
+			sessionStorage.setItem('justMinted', true);			
+			
+			await appState.openQPrismaClient.createNewBounty(ethers.utils.getAddress(bountyAddress));
+			
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`
 			);
@@ -131,11 +128,8 @@ const MintBountyModal = ({ modalVisibility }) => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
 	}, [modal, isLoading]);
-
-	// Methods
-	function sleep(ms) {
-		return new Promise(resolve => setTimeout(resolve, ms));
-	}	// Render
+	
+	// Render
 	return (
 		<div className="flex justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-5">
 			{error ?

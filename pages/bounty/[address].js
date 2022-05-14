@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import confetti from 'canvas-confetti';
+import { ethers } from 'ethers';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
@@ -40,23 +41,31 @@ const address = () => {
 	async function populateBountyData() {
 		setIsLoading(true);
 		let bounty = null;
+		let bountyData = null;
+		let bountyMetadata = null;
 
 		try {
-			while (bounty === null) {
-				bounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
-				if (bounty) {
+			while (bountyData === null || bountyMetadata == null) {
+				bountyData = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
+				
+				bountyMetadata = await appState.openQPrismaClient.getBounty(ethers.utils.getAddress(address));
+
+				bounty = {...bountyData, ...bountyMetadata};
+			
+				if (bountyData != null && bountyMetadata != null) {
 					setIsIndexing(false);
 				}
+
 				await sleep(500);
 			}
-			const issueData = await appState.githubRepository.fetchIssueById(bounty?.bountyId);
+			
+			const issueData = await appState.githubRepository.fetchIssueById(bounty.bountyId);
 
 			const mergedBounty = { ...bounty, ...issueData };
 
 			setBounty({ ...mergedBounty });
 			setIsLoading(false);
-		}
-		catch (error) {
+		} catch (error) {
 			console.log(error);
 			setError(true);
 			return;

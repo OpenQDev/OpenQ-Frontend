@@ -47,6 +47,20 @@
       ]
     }
   ],
+	"user":{
+		"watchedBounties": {
+			"bounties": [
+				{"contractAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e"}
+			]
+		}
+	},
+	"prismaBounty":{
+		"watchingUsers": {
+			"users": [
+				{"userAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e"}
+			]
+		}
+	},
   "organizations": [
     {
       "id": "openqdev",

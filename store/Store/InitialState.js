@@ -4,16 +4,14 @@ import OpenQClient from '../../services/ethers/OpenQClient';
 import OpenQSubgraphClient from '../../services/subgraph/OpenQSubgraphClient';
 import GithubRepository from '../../services/github/GithubRepository';
 import TokenClient from '../../services/coins/TokenClient';
-import GithubBot from '../../services/github-bot/GithubBot';
 import Logger from '../../services/logger/Logger';
-
-import EmptyGithubBot from '../../services/github-bot/EmptyBot';
+import OpenQPrismaClient from '../../services/openq-api/OpenQPrismaClient';
 
 import MockGithubRepository from '../../services/github/MockGithubRepository';
 import MockOpenQClient from '../../services/ethers/MockOpenQClient';
 import MockOpenQSubgraphClient from '../../services/subgraph/MockOpenQSubgraphClient';
 import MockTokenClient from '../../services/coins/MockTokenClient';
-import MockGithubBot from '../../services/github-bot/MockGithubBot';
+import MockOpenQPrismaClient from '../../services/openq-api/MockOpenQPrismaClient';
 
 // Token Metadata
 // Array of all supported tokens
@@ -36,9 +34,9 @@ case 'local':
 		githubRepository: new MockGithubRepository(),
 		openQSubgraphClient: new MockOpenQSubgraphClient(),
 		tokenClient: new MockTokenClient(),
-		githubBot: new EmptyGithubBot(),
 		logger: new Logger(true),
 		utils: new Utils(),
+		openQPrismaClient: new MockOpenQPrismaClient(),
 	};
 	break;
 case 'docker':
@@ -49,9 +47,9 @@ case 'docker':
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
-		githubBot: new EmptyGithubBot(),
 		logger: new Logger(true),
 		utils: new Utils(),
+		openQPrismaClient: new OpenQPrismaClient(),
 	};
 	break;
 case 'development':
@@ -62,9 +60,9 @@ case 'development':
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
-		githubBot: new EmptyGithubBot(),
 		logger: new Logger(true),
 		utils: new Utils(),
+		openQPrismaClient: new OpenQPrismaClient(),
 	};
 	break;
 case 'staging':
@@ -75,9 +73,9 @@ case 'staging':
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
-		githubBot: new EmptyGithubBot(),
 		logger: new Logger(true),
 		utils: new Utils(),
+		openQPrismaClient: new OpenQPrismaClient(),
 	};
 	break;
 case 'production':
@@ -88,9 +86,9 @@ case 'production':
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
-		githubBot: new EmptyGithubBot(),
 		logger: new Logger(false),
 		utils: new Utils(),
+		openQPrismaClient: new OpenQPrismaClient(),
 	};
 	break;
 default:

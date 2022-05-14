@@ -13,5 +13,5 @@ default:
 		_id: null
 	};
 }
-console.log(InitialState);
+
 export default InitialState;
