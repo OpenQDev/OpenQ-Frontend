@@ -106,7 +106,7 @@ class OpenQPrismaClient {
 		return promise;
 	}
 	async getUser(userAddress) {
-		console.log('user address', userAddress)
+		console.log('user address', userAddress);
 		const promise = new Promise(async (resolve, reject)=>{
 			try {
 				const result = await this.client.query({

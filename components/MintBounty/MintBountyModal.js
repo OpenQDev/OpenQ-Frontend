@@ -128,11 +128,8 @@ const MintBountyModal = ({ modalVisibility }) => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
 	}, [modal, isLoading]);
-
-	// Methods
-	function sleep(ms) {
-		return new Promise(resolve => setTimeout(resolve, ms));
-	}	// Render
+	
+	// Render
 	return (
 		<div className="flex justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-5">
 			{error ?

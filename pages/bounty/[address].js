@@ -41,28 +41,31 @@ const address = () => {
 	async function populateBountyData() {
 		setIsLoading(true);
 		let bounty = null;
+		let bountyData = null;
+		let bountyMetadata = null;
 
 		try {
-			while (bounty === null) {
-				const bountyData = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
+			while (bountyData === null || bountyMetadata == null) {
+				bountyData = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
 				
-				
-				const bountyMetadata = await appState.openQPrismaClient.getBounty(ethers.utils.getAddress(address));
-				bounty= {...bountyData, ...bountyMetadata};
+				bountyMetadata = await appState.openQPrismaClient.getBounty(ethers.utils.getAddress(address));
+
+				bounty = {...bountyData, ...bountyMetadata};
 			
-				if (bounty) {
+				if (bountyData != null && bountyMetadata != null) {
 					setIsIndexing(false);
 				}
+
 				await sleep(500);
 			}
-			const issueData = await appState.githubRepository.fetchIssueById(bounty?.bountyId);
+			
+			const issueData = await appState.githubRepository.fetchIssueById(bounty.bountyId);
 
 			const mergedBounty = { ...bounty, ...issueData };
 
 			setBounty({ ...mergedBounty });
 			setIsLoading(false);
-		}
-		catch (error) {
+		} catch (error) {
 			console.log(error);
 			setError(true);
 			return;
