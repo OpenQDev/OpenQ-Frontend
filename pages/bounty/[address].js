@@ -11,7 +11,6 @@ import FundPage from '../../components/FundBounty/FundPage';
 import RefundPage from '../../components/RefundBounty/RefundPage';
 import ClaimPage from '../../components/Claim/ClaimPage';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
-import useAuth from '../../hooks/useAuth';
 import UnexpectedError from '../../components/Utils/UnexpectedError';
 import Toggle from '../../components/Toggle/Toggle';
 import LoadingModal from '../../components/Loading/LoadingModal';
@@ -20,7 +19,6 @@ const address = () => {
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
 	const router = useRouter();
-	useAuth();
 
 	const [bounty, setBounty] = useState(null);
 	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
@@ -49,7 +47,7 @@ const address = () => {
 				bountyData = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
 				
 				bountyMetadata = await appState.openQPrismaClient.getBounty(ethers.utils.getAddress(address));
-
+				console.log(bountyMetadata);
 				bounty = {...bountyData, ...bountyMetadata};
 			
 				if (bountyData != null && bountyMetadata != null) {
