@@ -1,38 +1,99 @@
-import React, {useCallback, useEffect, useState, useContext} from 'react';
-import {useRouter} from 'next/router';
+import React, {useCallback,   useContext, useState} from 'react';
 import { jsPDF } from 'jspdf';
+import  'jspdf-autotable';
 import StoreContext from '../../store/Store/StoreContext';
-
+import useGetTokenValues from '../../hooks/useGetTokenValues';
 const Invoice = ({bounty})=>{
-	console.log(bounty);
+	const [tokenValues] = useGetTokenValues(bounty.bountyTokenBalances);
 	const [appState] = useContext(StoreContext);
-	const tokeNames = appState.tokens.map(token=>token.name);
+	const [yourName, setYourName] = useState('');
+	const [yourAddress, setYourAddress] = useState('');
+	const [yourEmail, setYourEmail] = useState('');
+	const [clientName, setClientName] = useState('');
+	const [clientAddress, setClientAddress] = useState('');
+	const [clientEmail, setClientEmail] = useState('');
+	const [showPdf, setShowPdf] = useState();
+	
+	const [userData, updateUserData]= useState({
+		yourName:'',
+		yourAddress:'',
+		yourEmail:'',
+		clientName:'',
+		clientAddress:'',
+		clientEmail:''
+	});
+	const handleSubmit = (e)=>{
+		e.preventDefault();
+		updateUserData({
+			yourName,
+			yourAddress,
+			yourEmail,
+			clientName,
+			clientAddress,
+			clientEmail
+		});
+		setShowPdf(true);
+	};
 	const srcPdf = useCallback((iframe)=>{
-		if(iframe){
+		if(iframe && tokenValues){
+			const keys =	Object.keys(tokenValues.tokens);
+			const tableData = keys.map((key)=>tokenValues.tokens[key].toString());
+			const tableHeaders= keys.map((key)=>`${appState.tokenMetadata[key].symbol} valued in USD`);
+			const total=	Object.values(tokenValues.tokens).reduce((accum, elem)=>{
+				return accum+elem;
+			});
 			let pl=0;
 			const doc = new jsPDF();
-			console.log(doc);
 			doc.setFontSize(18);
 			doc.setTextColor('#000000');
 			doc.setFont('Montserrat', 'normal', 'bold');
-			doc.text('Christopher Stevers', 20, pl+=20);
+			doc.text(userData.yourName, 20, pl+=20);
 			doc.setFont('Montserrat', 'normal', 'normal');
-			doc.text('5/4/2022', 140, pl);
 			doc.setFontSize(12);
-			doc.text('5146 Perth line 44', 20, pl+=6);
-			doc.text('christopher.stevers1@gmail.com', 20, pl+=6);
-			doc.table(
-				20,
-				pl+=36,
-				[{Task:'Issue Nameme', USDC: '2          ','WETH': '400', 'MATIC': '200', 'WBTC':'1000', 'Total Value Claimed':'400,000' }], ['Task', 'USDC', 'WETH', 'MATIC', 'WBTC', 'Total Value Claimed'
-				],{autoSize: 'true'} );
+			doc.text(appState.utils.formatDate(Date.now(), true), 140, pl);
+			doc.text(userData.yourAddress, 20, pl+=6);
+			doc.text(userData.yourEmail, 20, pl+=6);
+			doc.text('Bill to:', 20, pl+=20);
+			doc.text(userData.clientName, 20, pl+=6);
+			doc.text(userData.clientAddress, 20, pl+=6);
+			doc.text(userData.clientEmail, 20, pl+=6);
+			doc.setTableHeaderRow({autoSize: true});
+			doc.autoTable({
+				head: [['Task', ...tableHeaders, 'Total Value Claimed'],],
+				body: [
+					[bounty.title, ...tableData, total.toString()],
+					[{styles: {lineWidth: 0}, content: ''}, ...tableData.map(()=>{return {styles: {lineWidth: 0}, content: ''};}),	total.toString()]
+					// ...
+				],
+				startY: pl+=36,
+				theme: 'grid',
+				headStyles: {
+					fillColor: '#000',
+				}
+			});
+				
 			iframe.src=	doc.output('datauristring');
 		}
-	},[]);
+	},[tokenValues, userData]);
 
-	return(<div className='flex invoice-wraooer justify-center p-8'>
-	 <iframe className='w-5/6 h-screen iframe' ref={srcPdf} />
-	</div>);
+	return(
+		<div>
+			<h1 className='text-white text-4xl text-center'>Create Invoice</h1>
+			<div className='grid xl:grid-cols-[1fr_1fr] gap-x-4 justify-center justify-items-center px-32 py-8'>
+				<form className=' h-min' >
+					<div className='grid md:grid-cols-[1fr_1fr] gap-4 align-content-start pb-4'><input onChange={(e)=>{setYourName(e.target.value);}} className='bg-dark-mode border border-web-gray text-xl p-4 h-min rounded-lg focus:outline-none' type="text" placeholder='Name'></input>
+						<input onChange={(e)=>{setYourAddress(e.target.value);}} className='bg-dark-mode border border-web-gray text-xl p-4 h-min rounded-lg focus:outline-none' type="text" placeholder='Address'></input>
+						<input onChange={(e)=>{setYourEmail(e.target.value);}} className='bg-dark-mode border border-web-gray text-xl p-4 h-min rounded-lg focus:outline-none' type="text" placeholder='Email'></input>
+					</div>
+					<div className='grid md:grid-cols-[1fr_1fr] gap-4 align-content-start py-4'>
+						<input onChange={(e)=>{setClientName(e.target.value);}} className='bg-dark-mode border border-web-gray text-xl p-4 h-min rounded-lg focus:outline-none' type="text" placeholder='Client Name'></input>
+						<input onChange={(e)=>{setClientAddress(e.target.value);}} className='bg-dark-mode border border-web-gray text-xl p-4 h-min rounded-lg focus:outline-none' type="text" placeholder='Client Address'></input>
+						<input onChange={(e)=>{setClientEmail(e.target.value);}} className='bg-dark-mode border border-web-gray text-xl p-4 h-min rounded-lg focus:outline-none' type="email" placeholder='Client Email'></input>
+					</div>
+					<button onClick={handleSubmit} className="confirm-btn col-span-2 my-4">Generate</button>
+				</form>
+				<iframe className={`h-screen flex-0 w-full ${showPdf?'visible':'sr-only' }`} ref={srcPdf} />
+			</div></div>);
 };
 
 export default Invoice;

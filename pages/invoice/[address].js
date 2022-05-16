@@ -1,10 +1,8 @@
 import React, {useState, useEffect,  useContext} from 'react';
 import {useRouter} from 'next/router';
-import { jsPDF } from 'jspdf';
 import StoreContext from '../../store/Store/StoreContext';
 
 import Invoice from '../../components/Invoicing/Invoice';
-import { add } from 'lodash';
 
 const invoice = ()=>{
 	const [appState] = useContext(StoreContext);
@@ -15,7 +13,6 @@ const invoice = ()=>{
 		let bounty = null;
 
 		try {
-			console.log(bounty);
 			bounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
 			const issueData = await appState.githubRepository.fetchIssueById(bounty?.bountyId);
 

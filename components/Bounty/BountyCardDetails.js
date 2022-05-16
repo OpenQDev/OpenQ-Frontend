@@ -1,10 +1,11 @@
 // Third party
 import React from 'react';
 import Skeleton from 'react-loading-skeleton';
-import TokenBalances from '../TokenBalances/TokenBalances';
+import Link from 'next/link';
 
 // Custom
 import BountyCardHeader from './BountyCardHeader';
+import TokenBalances from '../TokenBalances/TokenBalances';
 import BountyLinks from './BountyLinks';
 import BountyStatus from './BountyStatus';
 import CopyBountyAddress from './CopyBountyAddress';
@@ -28,7 +29,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 					<div className="lg:col-span-2  xl:col-span-3">
 						<CopyBountyAddress bounty={bounty} />
 					</div>
-					<div className='lg:col-span-3'>
+					<div className='lg:col-span-2 xl:col-span-3'>
 						{bounty ?
 							bounty.bountyTokenBalances.length != 0 ? (
 								<>
@@ -60,6 +61,16 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 							<>
 								<TokenBalances />
 							</>
+						}
+						
+						
+					</div>
+					<div className="lg:col-span-2  xl:col-span-3 font-semibold underline flex gap-2">
+						<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+							<path strokeLinecap="round" strokeLinejoin="round" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+						</svg>
+						{bounty?<Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/invoice/${bounty.bountyAddress}`}>Generate Invoice</Link>:
+							<Skeleton width={'10rem'}/>
 						}
 					</div>
 					{bounty?.bountyTokenBalances.length != 0 && <div className='text-center font-bold text-xl py-4 col-start-1 md:col-end-3 lg:col-end-[-1] w-full'>Deposits</div>}
