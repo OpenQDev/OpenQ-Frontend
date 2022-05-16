@@ -658,7 +658,7 @@
       "description": "sdfsd",
       "email": "sdfsd",
       "websiteUrl": "sdfsd",
-      "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/12523025?s=200&v=4",
       "isVerified": "sdfsd",
       "descriptionHTML": "sdfsd",
       "twitterUsername": "sdf",
@@ -775,10 +775,10 @@
   },
   "tvl": {
     "tokenPrices": {
-      "0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39": 10.66
+      "0x5FbDB2315678afecb367f032d93F642f64180aa3": 10.66
     },
     "tokens": {
-      "0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39": 100.32
+      "0x5FbDB2315678afecb367f032d93F642f64180aa3": 100.32
     },
     "total": 24.04
   },

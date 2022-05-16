@@ -54,7 +54,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 
 	return (
 		<div className="flex flex-col">
-			<div className="font-semibold ">{header}</div>
+			<div className="font-semibold">{header}</div>
 			<div className="font-bold text-xl ">
 				{tokenBalances && !showOne
 					? tokenValues

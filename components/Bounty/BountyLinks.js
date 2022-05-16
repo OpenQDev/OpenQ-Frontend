@@ -90,7 +90,7 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
 				</a>
 			</Link> :
 				<Skeleton width={'24px'} height={'24px'} />}
-			{bounty?.watchingUsers && hideBountyLink ?
+			{bounty?.watchingUsers && account ?
 			
 				<button onClick={watchBounty} disabled={watchDisabled}>
 					<div id={'bounty-link'} className="cursor-pointer">
@@ -105,6 +105,7 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
 								</svg>}
 					</div>
 				</button>:
+				hideBountyLink && account &&
 				<Skeleton width={'24px'} height={'24px'} /> }
 		</div>
 	);
