@@ -2,7 +2,7 @@
 import React from 'react';
 import LoadingIcon from './ButtonLoadingIcon';
 
-const LoadingModal = ({ loadingText }) => {
+const LoadingModal = ({ loadingText, graph }) => {
 	const { title, message } = loadingText;
 
 
@@ -21,7 +21,7 @@ const LoadingModal = ({ loadingText }) => {
 							</p>
 						</div>
 						<div className="flex items-center justify-center pb-6">
-							<LoadingIcon />
+							<LoadingIcon graph = {graph} />
 						</div>
 					</div>
 				</div>
