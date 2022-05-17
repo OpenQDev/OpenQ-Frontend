@@ -25,16 +25,33 @@ const account = () => {
 			const userOnChainData = await appState.openQSubgraphClient.getUser(account.toLowerCase());
 			
 			console.log('userOnChainData', userOnChainData);
-			console.log('fuck');
 
 			const userOffChainData = await appState.openQPrismaClient.getUser(ethers.utils.getAddress(account));
 			
 			console.log('userOffChainData', userOffChainData);
 			
-			const user = { ...userOnChainData, ...userOffChainData };
-
-			console.log('user', user);
-			setUser(user);
+			const user = (userOnChainData||userOffChainData)?{ ...userOnChainData, ...userOffChainData }: null;
+			
+			if(user){
+				setUser(user);}
+			else{
+				try{
+					ethers.utils.getAddress(account);				
+					setUser({
+						bountiesClosed:[],
+						bountiesCreated: [],
+						deposits: [],
+						fundedTokenBalances: [],
+						id: account.toLowerCase(),
+						payoutTokenBalances: [],
+						payouts: [],
+					});
+				}
+				catch(err)
+				{
+					console.log(err);
+				}
+			}
 			setIsLoading(false);
 		}
 		catch (err) {

@@ -222,6 +222,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 						) : null}</div>
 					</button>
 				</ToolTip>
+				<div className='text-web-gray text-sm'>Always fund through the interface! Never send funds directly to the address!</div>
 			</div>
 
 			{showApproveTransferModal && <ApproveTransferModal

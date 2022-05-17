@@ -30,6 +30,7 @@ const AboutUser = ({ user }) => {
 	useEffect(async () => {
 		const issueIds = bountiesClosed.map(bounty => bounty.bountyId);
 		const fetchedOrganizations = await appClient.githubRepository.parseOrgIssues(issueIds);
+		console.log(fetchedOrganizations);
 		updateOrganizations(fetchedOrganizations);
 
 
@@ -49,24 +50,26 @@ const AboutUser = ({ user }) => {
 		<div className='px-16 py-6 py-6 gap-6 border-b border-web-gray flex flex-wrap items-stretch w-full font-semibold text-gray-300 text-lg'>
 			{organizations &&
 				<div className='flex-1 mb-6'>
-					<div className='pb-2'>Organizations</div>
-					<AvatarPack avatars={organizations} />
-				</div>}
+					<div className='pb-2'>Organizations</div>					
+					{organizations.length===0 ?
+						<div className='font-normal flex-1'>User hasn{'\''}t claimed  a bounty with any organization.</div>:
+						<AvatarPack avatars={organizations} />}
+				</div> }
 			<div className='flex-1 whitespace-nowrap'>
 				<div className='pb-2'>Bounties Collected</div>
 
 				<div className=' text-base leading-[32px]'>{payouts.length}</div>
 			</div>
 		</div>
+		{fundedTokenBalances.length > 0 &&
 		<div className='px-16 py-5 pb border-b border-web-gray'>
-			{fundedTokenBalances.length > 0 &&
-				<div className='py-5 border-web-gray'>
-					<h2 className='font-bold uppercase text-gray-300 text-xl'>Total Contributions</h2>
-					<TokenBalances
-						tokenBalances={fundedTokenBalances}
-						tokenValues={fundedTokenValues} />
-				</div>}
-		</div>
+			<div className='py-5 border-web-gray'>
+				<h2 className='font-bold uppercase text-gray-300 text-xl'>Total Contributions</h2>
+				<TokenBalances
+					tokenBalances={fundedTokenBalances}
+					tokenValues={fundedTokenValues} />
+			</div>
+		</div>}
 		{payoutTokenBalances.length > 0 && <div className='px-16 py-5 pb border-b border-web-gray'>
 			<h2 className='font-bold uppercase text-gray-300 text-xl'>Total Payouts</h2>
 			<TokenBalances
@@ -102,7 +105,7 @@ const AboutUser = ({ user }) => {
 			</div>
 
 		</div>
-		<div className='px-10 py-5 pb border-b border-web-gray'>
+		<div className='px-10 py-5 pb border-web-gray'>
 			<h2 className='font-bold uppercase text-gray-300 text-xl px-6'>Deposits</h2>
 
 			{deposits.length > 0 ?
