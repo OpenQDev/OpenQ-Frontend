@@ -1,6 +1,7 @@
 import React, {  useEffect } from 'react';
 import { injected, walletconnect } from './connectors';
 import useWeb3 from '../../hooks/useWeb3';
+import Image from 'next/image';
 
 const ConnectModal = ({closeModal})=>{
 
@@ -24,15 +25,26 @@ const ConnectModal = ({closeModal})=>{
 	return(
 		<div>
 			<div className='text-white absolute top-0 left-0 right-0 h-screen flex justify-center items-center'>
-				<div className='max-w-xl w-5/6 bg-dark-mode z-40  flex flex-col gap-4 p-6 text-lg items-center rounded-lg '>
-					<button onClick={handleMetaMask} className=' border-2 border-inactive-accent w-64 rounded-full py-2 px-4 bg-inactive-accent-inside hover:border-active-accent group-hover:bg-active-accent group-hover:border-active-accent'>
-			Metamask
+				<div className='max-w-md w-5/6 bg-dark-mode z-40  flex flex-col gap-2 p-6 px-12 text-lg rounded-lg '>
+					<div>
+						<Image alt={'openq-logo'} src={'/openq-logo.png'} height={32} width={32}/>
+					</div>
+					<h2 className='text-xl font-bold'>Connect Wallet</h2>
+					<p className='text-sm'>Connect your wallet to continue with OpenQ. By connecting your wallet you agree with OpenQ{'\''}s terms of service.</p>
+					<button onClick={handleMetaMask} className='flex p-2 mt-4  my-2 w-60 gap-4 hover:bg-inactive-accent/10 rounded-md'>
+						<Image src={'/wallet-logos/metamask.png'} height={40} width={40} alt={'metamask logo'}/>
+						<div className='text-xl leading-loose'>
+							Metamask
+						</div>
 					</button>
-					<button onClick={handleWalletConnect} className='border-2 border-inactive-accent w-64 rounded-full py-2 px-4 bg-inactive-accent-inside hover:border-active-accent group-hover:border-active-accent'>
-				WalletConnect
+					<button onClick={handleWalletConnect} className='flex p-2 mb-4 w-60 gap-4 hover:bg-inactive-accent/10 rounded-md'>
+						<Image src={'/wallet-logos/wallet-connect.jpg'} className="rounded-full" height={40} width={40} alt={'wallet connect logo'}/>
+						<div className='leading-loose text-xl'>
+							WalletConnect
+						</div>
 					</button>
-					<button onClick={closeModal} className='border-2 border-inactive-accent w-32 rounded-full py-2 px-4 bg-inactive-accent-inside group-hover:bg-active-accent hover:border-active-accent group-hover:border-active-accent'>
-					Back
+					<button onClick={closeModal} className='self-center border border-inactive-accent font-semibold w-32 rounded-full py-1 px-2 bg-inactive-accent-inside group-hover:bg-active-accent hover:border-active-accent group-hover:border-active-accent'>
+							Back
 					</button>
 				</div>
 			</div>
