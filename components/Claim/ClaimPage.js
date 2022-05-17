@@ -60,12 +60,13 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 				`${process.env.NEXT_PUBLIC_ORACLE_URL}/claim`,
 				{
 					issueUrl: url,
-					payoutAddress: account,
+					payoutAddress: account
 				},
 				{ withCredentials: true }
 			)
 			.then(async (result) => {
-				const { txnHash } = result.data;
+				const { txnHash, claimantPullRequest } = result.data;
+				console.log(claimantPullRequest);
 				// Upon this return, the claimBounty transaction has been submitted
 				// We should now transition from Transaction Submitted -> Transaction Pending
 				setTransactionHash(txnHash);
