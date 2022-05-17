@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import confetti from 'canvas-confetti';
 import { ethers } from 'ethers';
+import Link from 'next/link';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
@@ -25,19 +26,17 @@ const address = () => {
 
 	// State
 	const { address } = router.query;
-	const [, setRedirectUrl] = useState('');
-	const [, setIsLoading] = useState(true);
 	const [error, setError] = useState(false);
 	const [internalMenu, setInternalMenu] = useState();
 	const [isIndexing, setIsIndexing] = useState(false);
 	const [showIndexingModal] = useState(true);
+	const [noBounty, setNoBounty] = useState();
 
 	// Refs
 	const canvas = useRef();
 
 	// Methods
 	async function populateBountyData() {
-		setIsLoading(true);
 		let bounty = null;
 		let bountyData = null;
 		let bountyMetadata = null;
@@ -45,9 +44,11 @@ const address = () => {
 		try {
 			while (bountyData === null || bountyMetadata == null) {
 				bountyData = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
-				
+				if(!bountyData && !isIndexing){
+					setNoBounty(true);
+					return;
+				}
 				bountyMetadata = await appState.openQPrismaClient.getBounty(ethers.utils.getAddress(address));
-				console.log(bountyMetadata);
 				bounty = {...bountyData, ...bountyMetadata};
 			
 				if (bountyData != null && bountyMetadata != null) {
@@ -62,7 +63,6 @@ const address = () => {
 			const mergedBounty = { ...bounty, ...issueData };
 
 			setBounty({ ...mergedBounty });
-			setIsLoading(false);
 		} catch (error) {
 			console.log(error);
 			setError(true);
@@ -145,7 +145,6 @@ const address = () => {
 			if (route !== internalMenu) {
 				setInternalMenu(route || 'View');
 			}
-			setRedirectUrl(`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${address}`);
 			populateBountyData();
 		}
 	}, [address]);
@@ -163,18 +162,27 @@ const address = () => {
 		return <UnexpectedError />;
 	}
 	else return (
-		<>
-			<div className="flex flex-col font-mont justify-center items-center pt-7">
-				<Toggle toggleFunc={handleToggle} toggleVal={internalMenu} names={['View', 'Fund', 'Refund', 'Claim']} />
-				{internalMenu == 'View' ? (
-					<BountyCardDetails bounty={bounty} tokenValues={tokenValues} />
-				) : null}
-				{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
-				{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
-				{internalMenu == 'Refund' && bounty ? (<RefundPage bounty={bounty} refreshBounty={refreshBounty} />) : null}
-				<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>
-			</div>
-			{isIndexing && showIndexingModal && <LoadingModal graph={true} loadingText={{ title: 'Indexing Bounty', message: 'Please wait while your bounty is indexed.' }} />}
+		<>{noBounty ? 
+			<div className='flex fixed inset-0 mx-20 justify-center items-center 
+	 h-screen'>
+				<div className='text-2xl'>Bounty not found. <span className="underline"><Link href={'/'}>Go home</Link>
+				</span>
+	.</div>
+			</div>: 
+			<>
+				<div className="flex flex-col font-mont justify-center items-center pt-7">
+					<Toggle toggleFunc={handleToggle} toggleVal={internalMenu} names={['View', 'Fund', 'Refund', 'Claim']} />
+					{internalMenu == 'View' ? (
+						<BountyCardDetails bounty={bounty} tokenValues={tokenValues} />
+					) : null}
+					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
+					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
+					{internalMenu == 'Refund' && bounty ? (<RefundPage bounty={bounty} refreshBounty={refreshBounty} />) : null}
+					<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>
+				</div>
+				{isIndexing && showIndexingModal && <LoadingModal graph={true} loadingText={{ title: 'Indexing Bounty', message: 'Please wait while your bounty is indexed.' }} />}
+
+			</>}
 		</>
 	);
 };
