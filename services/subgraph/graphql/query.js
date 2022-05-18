@@ -111,6 +111,7 @@ query GetBountiesByContractAddresses($contractAddresses: [ID]!) {
   bounties(where: {bountyAddress_in: $contractAddresses}) {
     bountyId
     bountyMintTime
+		bountyAddress
   }
 }`;
 

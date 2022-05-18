@@ -42,22 +42,23 @@ const address = () => {
 		let bountyMetadata = null;
 
 		try {
-			while (bountyData === null || bountyMetadata == null) {
+			while (bountyData === null) {
 				bountyData = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
-				if(!bountyData && !isIndexing){
+				if (!bountyData && !isIndexing) {
 					setNoBounty(true);
 					return;
 				}
 				bountyMetadata = await appState.openQPrismaClient.getBounty(ethers.utils.getAddress(address));
-				bounty = {...bountyData, ...bountyMetadata};
-			
+
+				bounty = { ...bountyData, ...bountyMetadata };
+
 				if (bountyData != null && bountyMetadata != null) {
 					setIsIndexing(false);
 				}
 
 				await sleep(500);
 			}
-			
+
 			const issueData = await appState.githubRepository.fetchIssueById(bounty.bountyId);
 
 			const mergedBounty = { ...bounty, ...issueData };
@@ -162,13 +163,13 @@ const address = () => {
 		return <UnexpectedError />;
 	}
 	else return (
-		<>{noBounty ? 
+		<>{noBounty ?
 			<div className='flex fixed inset-0 mx-20 justify-center items-center 
 	 h-screen'>
 				<div className='text-2xl'>Bounty not found. <span className="underline"><Link href={'/'}>Go home</Link>
 				</span>
-	.</div>
-			</div>: 
+					.</div>
+			</div> :
 			<>
 				<div className="flex flex-col font-mont justify-center items-center pt-7">
 					<Toggle toggleFunc={handleToggle} toggleVal={internalMenu} names={['View', 'Fund', 'Refund', 'Claim']} />
