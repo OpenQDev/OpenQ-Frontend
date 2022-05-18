@@ -42,16 +42,19 @@ const address = () => {
 		let bountyMetadata = null;
 
 		try {
-			while (bountyData === null || bountyMetadata == null) {
+			while (bountyData === null ) {
 				bountyData = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
 				if(!bountyData && !isIndexing){
 					setNoBounty(true);
 					return;
 				}
-				bountyMetadata = await appState.openQPrismaClient.getBounty(ethers.utils.getAddress(address));
+				try{
+					bountyMetadata = await appState.openQPrismaClient.getBounty(ethers.utils.getAddress(address));
+				}
+				catch(err){console.log(err);}
 				bounty = {...bountyData, ...bountyMetadata};
 			
-				if (bountyData != null && bountyMetadata != null) {
+				if (bountyData != null ) {
 					setIsIndexing(false);
 				}
 
