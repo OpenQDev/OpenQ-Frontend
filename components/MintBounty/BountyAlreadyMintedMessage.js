@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import useWeb3 from '../../hooks/useWeb3';
 
-export default function BountyAlreadyMintedMessage({ bountyAddress, claimed }) {
+export default function BountyAlreadyMintedMessage({ bountyAddress, bountyId, claimed }) {
 
 	const {safe} = useWeb3();
 	return (
@@ -10,7 +10,7 @@ export default function BountyAlreadyMintedMessage({ bountyAddress, claimed }) {
 			<div className="pt-4 text-white">Bounty is already {claimed? 'claimed': 'minted'}, view</div>
 			<Link
 				href={`/?address=${bountyAddress}}`}
-				as={`/bounty/${bountyAddress}`}
+				as={`/bounty/${bountyId}/${bountyAddress}`}
 			>
 				<a
 					target={safe ? '_self' : '_blank'}

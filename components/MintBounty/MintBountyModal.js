@@ -160,7 +160,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 											This issue is already closed on GitHub
 										</div>}
 									{isValidUrl && bountyAddress && issue &&
-										<BountyAlreadyMintedMessage claimed={claimed} bountyAddress={bountyAddress} />}
+										<BountyAlreadyMintedMessage claimed={claimed} bountyId={issue.id} bountyAddress={bountyAddress} />}
 								</div>
 
 								<ToolTip

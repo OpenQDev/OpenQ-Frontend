@@ -2,9 +2,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import Link from 'next/link';
 
-
 import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
+
 const MiniBountyCard = ({ bounty }) => {
 
 	// Context
@@ -21,7 +21,7 @@ const MiniBountyCard = ({ bounty }) => {
 	}, [bounty]);
 
 	return (
-		<Link href={`/bounty/${bounty.id}`}>
+		<Link href={`/bounty/${bounty.bountyId}/${bounty.id}`}>
 			<div className="border-inactive-accent hover:border-active-accent hover:bg-active-gray bg-inactive-gray border rounded-lg px-6 py-2 my-4 cursor-pointer" >
 				<div className="">{title}</div>
 

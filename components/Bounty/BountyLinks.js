@@ -38,7 +38,7 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
 	return (
 		<div className="flex flex-row font-bold text-xl space-x-4">
 			{!hideBountyLink ? bounty ? <Link
-				href={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyAddress}`}	>
+				href={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyId}/${bounty.bountyAddress}`}	>
 				<a onClick={resetScroll} target={safe ? '_self' : '_blank'}>
 					<div id={'bounty-link'} className="cursor-pointer">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="ffffff" width="24" height="24">
@@ -77,7 +77,7 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
 			</Link> :
 				<Skeleton width={'24px'} height={'24px'} />}
 			{bounty ? <Link
-				href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyAddress}`}
+				href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyId}/${bounty.bountyAddress}`}
 
 			>
 				<a target="_blank">

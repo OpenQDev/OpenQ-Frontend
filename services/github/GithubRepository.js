@@ -4,9 +4,7 @@ import fetch from 'cross-fetch';
 import { setContext } from '@apollo/client/link/context';
 
 class GithubRepository {
-	constructor() {
-		console.log('process.env.PATS', process.env.PATS)
-	 }
+	constructor() {}
 
 	httpLink = new HttpLink({ uri: 'https://api.github.com/graphql', fetch });
 
@@ -16,7 +14,7 @@ class GithubRepository {
 		return {
 			headers: {
 				...headers,
-				Authorization: `Bearer ${process.env.NEXT_}`,
+				Authorization: `Bearer ${process.env.NEXT_PUBLIC_PATS ? process.env.NEXT_PUBLIC_PATS : process.env.PATS}`,
 			},
 		};
 	});
