@@ -37,7 +37,7 @@ const Carousel = ({styles, children}) => {
 				</svg>
 
 			</button>}
-			<div ref={scroller} className='flex justify-center gap-2 lg:max-w-[100%] lg:w-[900px] overflow-x-auto pt-4 pb-4 px justify-items-center'>
+			<div ref={scroller} className='flex gap-2 lg:max-w-[100%] lg:w-[900px] overflow-x-auto pt-4 pb-4 px justify-items-center'>
 				{	isScrollable && <div className='absolute bg-gradient-to-r from-dark-mode to-black/0 w-12 sm:w-52 h-64 left-0 lg:left-10'></div>}
 				{children}
 				{	isScrollable && <div className='absolute bg-gradient-to-l from-dark-mode to-black/0 w-12 sm:w-52 h-64 right-0 lg:right-10'></div>}
