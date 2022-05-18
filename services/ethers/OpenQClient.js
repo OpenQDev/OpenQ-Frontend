@@ -31,7 +31,6 @@ class OpenQClient {
 	async mintBounty(library, issueId, organization) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
-			console.log(signer.id);
 
 			const contract = this.OpenQ(signer);
 			try {
