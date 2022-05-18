@@ -62,7 +62,7 @@ const Layout = ({ children }) => {
 					</div>
 				</div>
 				<div
-					className={`pt-18 justify-center md:pl-20 lg:pl-0 ${sidebar ? 'opacity-20' : null
+					className={`pt-18 justify-center sm:px-4 md:pl-24 ${sidebar ? 'opacity-20' : null
 					}`}
 				>
 					{children}
