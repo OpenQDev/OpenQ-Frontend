@@ -4,11 +4,12 @@ import Link from 'next/link';
 
 const CarouselBounty = ({bounty}) =>{
 	const [appState] = useContext(StoreContext);
+	console.log(bounty);
 	return(
 		
-		<div className='border-web-gray bg-dark-mode w-44 sm:w-48 p-4 pl-2 gap-2 border rounded-lg flex'>
+		<>
 			<Link target={'_blank'} href={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyAddress}`}>
-				<a>
+				<a className='border-web-gray bg-dark-mode w-44 sm:w-48 h-32 p-4 pl-2 gap-2 border rounded-lg flex'>
 					<svg
 						flex-1
 						xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +31,7 @@ const CarouselBounty = ({bounty}) =>{
 						<p className='text-xs'>Bounty Minted: {appState.utils.formatUnixDate(parseInt(bounty?.bountyMintTime), true)}</p>
 					</div>
 				</a></Link>
-		</div>
+		</>
 	);
 };
 export default CarouselBounty;
