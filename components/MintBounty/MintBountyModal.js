@@ -45,8 +45,9 @@ const MintBountyModal = ({ modalVisibility }) => {
 				async function fetchIssue() {
 					try {
 						const data = await appState.githubRepository.fetchIssueByUrl(issueUrl);
-						if(!didCancel){
-							setIssue(data);}
+						if (!didCancel) {
+							setIssue(data);
+						}
 						return data;
 					} catch (error) {
 						if(!didCancel)	{

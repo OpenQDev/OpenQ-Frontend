@@ -6,7 +6,44 @@ import StoreContext from '../store/Store/StoreContext';
 import BountyHomepage from '../components/Bounty/BountyHomepage';
 import OrganizationHomepage from '../components/Organization/OrganizationHomepage';
 
-export default function Index() {
+import GithubRepository from '../services/github/GithubRepository';
+import OpenQSubgraphClient from '../services/subgraph/OpenQSubgraphClient'
+
+export async function getServerSideProps(context) {
+	let orgs = [];
+	const githubRepository = new GithubRepository()
+	const openQSubgraphClient = new OpenQSubgraphClient()
+	
+	try {
+		orgs = await openQSubgraphClient.getOrganizations();
+	} catch (error) {
+		console.log(error);
+	}
+	
+	const ids = orgs.map(org => org.id);
+	let githubOrganizations = [];
+	
+	try {
+		githubOrganizations = await githubRepository.fetchOrgsOrUsersByIds(ids);
+	} catch (err) {
+		console.log(err);
+	}
+
+	let mergedOrgs = orgs.map((org) => {
+		let currentGithubOrg;
+		for (const githubOrganization of githubOrganizations) {
+			if (org.id === githubOrganization.id) {
+				currentGithubOrg = githubOrganization;
+			}
+		}
+		return { ...org, ...currentGithubOrg };
+	});
+
+	return { props: { organizations: mergedOrgs } }
+}
+
+export default function Index({ organizations }) {
+	console.log('organizations', organizations)
 	const [internalMenu, setInternalMenu] = useState('org');
 	const batch = 10;
 	// State
@@ -116,7 +153,7 @@ export default function Index() {
 						</div>
 					</div>
 					<div>
-						{internalMenu == 'org' ? <OrganizationHomepage /> : <BountyHomepage bounties={bounties} loading={isLoading} error={error} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />}
+						{internalMenu == 'org' ? <OrganizationHomepage organizations={organizations} /> : <BountyHomepage bounties={bounties} loading={isLoading} error={error} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />}
 					</div>
 				</div>
 			</main>

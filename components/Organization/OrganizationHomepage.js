@@ -8,7 +8,8 @@ import SearchBar from '../Search/SearchBar';
 import useAuth from '../../hooks/useAuth';
 import UnexpectedError from '../Utils/UnexpectedError';
 
-const OrganizationHomepage = () => {
+const OrganizationHomepage = ({ organizations }) => {
+	console.log(organizations)
 	// State
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -16,45 +17,8 @@ const OrganizationHomepage = () => {
 
 	// State
 	const [isLoading, setIsLoading] = useState(true);
-	const [organizations, setOrganizations] = useState(null);
 	const [organizationSearchTerm, setOrganizationSearchTerm] = useState('');
 	const [error, updateError] = useState(false);
-
-	// Methods
-	async function populateOrganizationData() {
-		let orgs = [];
-		try {
-			orgs = await appState.openQSubgraphClient.getOrganizations();
-		} catch (error) {
-			console.log(error);
-		}
-		const ids = orgs.map(org => org.id);
-		let githubOrganizations = [];
-		try {
-			githubOrganizations = await appState.githubRepository.fetchOrgsOrUsersByIds(ids);
-		}
-		catch (err) {
-			updateError(true);
-			console.log(err);
-		}
-		let mergedOrgs = orgs.map((org) => {
-			let currentGithubOrg;
-			for (const githubOrganization of githubOrganizations) {
-				if (org.id === githubOrganization.id) {
-					currentGithubOrg = githubOrganization;
-				}
-			}
-			return { ...org, ...currentGithubOrg };
-		});
-
-		setOrganizations(mergedOrgs);
-		setIsLoading(false);
-	}
-
-	// Hooks
-	useEffect(() => {
-		populateOrganizationData();
-	}, []);
 
 	// Methods
 
