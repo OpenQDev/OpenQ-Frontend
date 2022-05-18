@@ -15,7 +15,7 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
 	const { account } = useWeb3();
 	const watching = bounty?.watchingUsers?.users?.some(user=>user.userAddress === account);
 	const [watchingDisplay, setWatchingDisplay]= useState(watching);
-	ethers.utils.getAddress('0xCd77de1A4A92F2a43031af777c22B8E76277C964');
+
 	const watchBounty = async()=>{
 		setWatchDisabled(true);
 		if(watchingDisplay){
@@ -29,12 +29,15 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
 			setWatchDisabled(false);
 		}
 	};
+
 	const tweetText = `Check out this bounty ${bounty?.owner && `for ${bounty?.owner}`} on OpenQ. You can claim it just by making a pull request that completes the issue! `;
 	const { safe } = useWeb3();
+
 	const resetScroll = () =>{		
 		document.body.style.height = 'auto';
 		document.body.style.overflow = 'auto';
 	};
+	
 	return (
 		<div className="flex flex-row font-bold text-xl space-x-4">
 			{!hideBountyLink ? bounty ? <Link
@@ -105,7 +108,7 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
 								</svg>}
 					</div>
 				</button>:
-				hideBountyLink && account &&
+				hideBountyLink && account && !bounty &&
 				<Skeleton width={'24px'} height={'24px'} /> }
 		</div>
 	);
