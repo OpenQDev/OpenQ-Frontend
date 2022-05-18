@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { GET_ORGANIZATION, GET_USER, GET_BOUNTY, GET_ALL_BOUNTIES, GET_ORGANIZATIONS, GET_PAYOUT_TRANSACTION_HASH, GET_PAGINATED_ORGANIZATION_DATA, GET_BOUNTY_BY_ID } from './graphql/query';
+import { GET_ORGANIZATION, GET_USER, GET_BOUNTY, GET_ALL_BOUNTIES, GET_ORGANIZATIONS, GET_PAYOUT_TRANSACTION_HASH, GET_PAGINATED_ORGANIZATION_DATA, GET_BOUNTY_BY_ID, GET_BOUNTIES_BY_CONTRACT_ADDRESSES } from './graphql/query';
 import fetch from 'cross-fetch';
 
 class OpenQSubgraphClient {
@@ -72,6 +72,22 @@ class OpenQSubgraphClient {
 					variables: { id }
 				});
 				resolve(result.data.bounties[0] ? result.data.bounties[0] : null);
+			} catch (e) {
+				reject(e);
+			}
+		});
+
+		return promise;
+	}
+
+	async getBountiesByContractAddresses(contractAddresses) {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.query({
+					query: GET_BOUNTIES_BY_CONTRACT_ADDRESSES,
+					variables: { contractAddresses }
+				});
+				resolve(result.data.bounties);
 			} catch (e) {
 				reject(e);
 			}

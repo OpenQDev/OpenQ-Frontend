@@ -5,6 +5,7 @@ import StoreContext from '../store/Store/StoreContext';
 // Custom
 import BountyHomepage from '../components/Bounty/BountyHomepage';
 import OrganizationHomepage from '../components/Organization/OrganizationHomepage';
+import useWeb3 from '../hooks/useWeb3';
 
 export default function Index() {
 	const [internalMenu, setInternalMenu] = useState('org');
@@ -15,14 +16,32 @@ export default function Index() {
 	const [error, setError] = useState(false);
 	const [complete, setComplete] = useState(false);
 	const [pagination, setPagination] = useState(batch);
+	const [watchedBounties, setWatchedBounties] = useState([]);
 
 	// Context
 	const [appState] = useContext(StoreContext);
 
+	const {account} = useWeb3();
 	// Hooks
 	useEffect(() => {
 		populateBountyData();
 	}, []);
+
+	useEffect(async()=>{
+		if(account){
+			try{
+				const prismaBounties = await appState.openQPrismaClient.getUser(account);
+				const watchedBountyAddresses = prismaBounties.watchedBounties.bounties.map(bounty=>bounty.contractAddress.toLowerCase());
+				const subgraphBounties =  await appState.openQSubgraphClient.getBountiesByContractAddresses( watchedBountyAddresses);
+				const githubIds = subgraphBounties.map(bounty=>bounty.bountyId);
+				const githubBounties = await appState.githubRepository.getIssueData(githubIds);
+				setWatchedBounties(subgraphBounties.map((bounty, index)=>{return {...bounty, ...githubBounties[index]};}));
+			}
+			catch(err){
+				console.log('could not fetch watched bounties');
+			}
+		}
+	}	, [account]);
 
 	// Methods
 	async function populateBountyData() {
@@ -35,7 +54,6 @@ export default function Index() {
 			const bountyIds = newBounties.map((bounty) => bounty.bountyId);
 			let issueData;
 			issueData = await appState.githubRepository.getIssueData(bountyIds);
-
 			const fullBounties = [];
 			newBounties.forEach((bounty) => {
 				const relatedIssue = issueData.find(
@@ -116,7 +134,7 @@ export default function Index() {
 						</div>
 					</div>
 					<div>
-						{internalMenu == 'org' ? <OrganizationHomepage /> : <BountyHomepage bounties={bounties} loading={isLoading} error={error} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />}
+						{internalMenu == 'org' ? <OrganizationHomepage /> : <BountyHomepage bounties={bounties} watchedBounties={watchedBounties} loading={isLoading} error={error} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />}
 					</div>
 				</div>
 			</main>
