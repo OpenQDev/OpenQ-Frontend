@@ -6,9 +6,13 @@ import BountyCard from './BountyCard';
 import Dropdown from '../Toggle/Dropdown';
 import SearchBar from '../Search/SearchBar';
 import MintBountyButton from '../MintBounty/MintBountyButton';
+import Carousel from '../Utils/Carousel';
+import CarouselBounty from './CarouselBounty';
+import useWeb3 from '../../hooks/useWeb3';
 
-const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) => {
+const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData, getNewData, addCarousel }) => {
 	// Hooks
+	const {account} = useWeb3();
 	const [unfundedVisible, setUnfundedVisible] = useState(false);
 	const [claimedVisible, setClaimedVisible] = useState(false);
 	const [sortOrder, updateSortOrder] = useState('Newest');
@@ -180,7 +184,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 
 	// Render
 	return (
-		<div className="lg:col-start-2 justify-self-center space-y-3 w-full pb-8 max-w-[900px]">
+		<div className="lg:col-start-2 justify-self-center space-y-3 w-full pb-8 max-w-[800px]">
 			<div className="grid lg:grid-cols-[repeat(4,_1fr)] gap-6 w-full">
 				<div className="flex rounded-lg lg:col-span-3 col-span-4 justify-center">
 					{tagSearch === 'Search' ?
@@ -205,7 +209,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 				</div>
 				<MintBountyButton />
 			</div>
-			{tagArr.length > 0 && <ul className="flex flex-wrap">{tagArr.map((tag, index) => <li key={index} className="border-web-gray border  inline mr-2 mb-2 px-2 py-1.5 rounded-md">
+			{tagArr.length > 0 && <ul className="flex flex-wrap">{tagArr.map((tag, index) => <li key={index} className="border-web-gray border  inline mr-2 mb-2 px-2 py-1.5 rounded-lg">
 				<span className="px-2">{tag}</span>
 				<button onClick={removeTag} value={tag} className="bg-inactive-gray hover:bg-active-gray hover:cursor-pointer inline-flex justify-center content-center h-6 w-6 leading-tight rounded-full">
 					×
@@ -214,21 +218,26 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 			</li>)}
 			</ul>}
 			<div className="flex md:content-start content-center flex-wrap w-full justify-items-stretch gap-4">
-				<div className="flex justify-between bg-dark-mode end rounded-md">
-					<span className=" p-2 border-t border-l border-b rounded-l-md border-web-gray align-self-center pr-8">Sort By</span>
-					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} names={['Newest', 'Oldest']} borderShape={'rounded-r-md'} width={36} />
+				<div className="flex justify-between bg-dark-mode end rounded-lg">
+					<span className=" py-2 border-t border-l border-b rounded-l-lg border-web-gray align-self-center pl-4 pr-8">Sort By</span>
+					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} names={['Newest', 'Oldest']} borderShape={'rounded-r-lg'} width={36} />
 				</div>
 				<div className='flex flex-wrap gap-4'>
-					<div onClick={showUnfunded} className="flex w-32 p-2 pr-4 gap-2 border rounded-md justify-between border-web-gray">
+					<div onClick={showUnfunded} className="flex w-32 p-2 pr-4 gap-2 border rounded-lg justify-between border-web-gray">
 						<label htmlFor="unfunded" className=" pointer-events-none">Unfunded</label>
 						<input id="unfunded" onChange={showUnfunded} type="checkbox" className="checkbox" checked={unfundedVisible} />
 					</div>
-					<div onClick={showClaimed} className="flex p-2 w-32 pr-4 gap-2 border rounded-md justify-between border-web-gray">
+					<div onClick={showClaimed} className="flex p-2 w-32 pr-4 gap-2 border rounded-lg justify-between border-web-gray">
 						<label htmlFor="claimed" className=" pointer-events-none" >Claimed</label>
 						<input id="claimed" onChange={showClaimed} type="checkbox" className="checkbox" checked={claimedVisible} />
 					</div>
 				</div>
 			</div>
+			{addCarousel && account && watchedBounties.length ? <Carousel watchedBounties={watchedBounties} styles={'col-start-2'} >
+				
+				{	watchedBounties.map((watchedBounty, index)=><CarouselBounty key={index} bounty={watchedBounty}/>)}
+			</Carousel>:
+				null}
 			{!isProcessed || loading ?
 				<>
 					<BountyCard loading={true} />

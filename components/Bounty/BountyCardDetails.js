@@ -16,7 +16,7 @@ import MiniDepositCard from './MiniDepositCard';
 const BountyCardDetails = ({ bounty, tokenValues }) => {
 
 	return (
-		<div className="flex flex-col w-full font-mont sm:pl-5 sm:pr-5 md:px-10 pt-10 pb-10 my-16 border-web-gray sm:border rounded-lg w-5/6 max-w-6xl">
+		<div className="flex flex-col w-full font-mont sm:pl-5 sm:pr-5 md:px-10 pt-10 pb-10 my-16 w-5/6 max-w-6xl">
 			<div className="flex w-full flex-col border-b pb-6 border-solid justify-items-center items-center content-between rounded-t">
 				<	div className='self-start w-full'>
 					<BountyCardHeader bounty={bounty} />
@@ -93,7 +93,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 				</div>
 			</div>
 
-			<div className="flex flex-col pt-6">
+			<div className="flex flex-col pt-4">
 				<div className="flex flex-row justify-between">
 					<div className="font-bold text-xl ">Description</div>
 					<BountyLinks bounty={bounty} hideBountyLink={true} />

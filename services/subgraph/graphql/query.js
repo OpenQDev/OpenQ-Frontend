@@ -106,6 +106,14 @@ query GetBountyById($id: ID!) {
 }
 `;
 
+export const GET_BOUNTIES_BY_CONTRACT_ADDRESSES = gql`
+query GetBountiesByContractAddresses($contractAddresses: [ID]!) {
+  bounties(where: {bountyAddress_in: $contractAddresses}) {
+    bountyId
+    bountyMintTime
+  }
+}`;
+
 
 export const GET_USER = gql`
 query GetUser($id: ID!) {
