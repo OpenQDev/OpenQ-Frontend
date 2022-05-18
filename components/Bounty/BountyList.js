@@ -6,9 +6,13 @@ import BountyCard from './BountyCard';
 import Dropdown from '../Toggle/Dropdown';
 import SearchBar from '../Search/SearchBar';
 import MintBountyButton from '../MintBounty/MintBountyButton';
+import Carousel from '../Utils/Carousel';
+import CarouselBounty from './CarouselBounty';
+import useWeb3 from '../../hooks/useWeb3';
 
-const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) => {
+const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData, getNewData, addCarousel }) => {
 	// Hooks
+	const {account} = useWeb3();
 	const [unfundedVisible, setUnfundedVisible] = useState(false);
 	const [claimedVisible, setClaimedVisible] = useState(false);
 	const [sortOrder, updateSortOrder] = useState('Newest');
@@ -180,7 +184,7 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 
 	// Render
 	return (
-		<div className="lg:col-start-2 justify-self-center space-y-3 w-full pb-8 max-w-[900px]">
+		<div className="lg:col-start-2 justify-self-center space-y-3 w-full pb-8 max-w-[800px]">
 			<div className="grid lg:grid-cols-[repeat(4,_1fr)] gap-6 w-full">
 				<div className="flex rounded-lg lg:col-span-3 col-span-4 justify-center">
 					{tagSearch === 'Search' ?
@@ -229,6 +233,11 @@ const BountyList = ({ bounties, loading, complete, getMoreData, getNewData }) =>
 					</div>
 				</div>
 			</div>
+			{addCarousel && account && watchedBounties.length ? <Carousel watchedBounties={watchedBounties} styles={'col-start-2'} >
+				
+				{	watchedBounties.map((watchedBounty, index)=><CarouselBounty key={index} bounty={watchedBounty}/>)}
+			</Carousel>:
+				null}
 			{!isProcessed || loading ?
 				<>
 					<BountyCard loading={true} />

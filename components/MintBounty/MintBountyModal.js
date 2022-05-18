@@ -86,7 +86,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 				issue.id,
 				issue.repository.owner.id,
 			);
-
+			console.log(bountyAddress);
 			sessionStorage.setItem('justMinted', true);			
 			
 			await appState.openQPrismaClient.createNewBounty(ethers.utils.getAddress(bountyAddress));
