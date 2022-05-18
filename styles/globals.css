@@ -252,14 +252,17 @@ pre {
   position: absolute;
   z-index: 1;
 }
-::-webkit-scrollbar {
-  background-color: transparent;
-  padding: 2px;
+body::-webkit-scrollbar {
   width: 24px;
   height: 24px;
-  padding: 2px;
 }
-::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar {
+  background-color: #121212;
+  padding: 2px;
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-thumb:active {
   border: 1px solid #ec4899;
 }
 ::-webkit-scrollbar-thumb {
