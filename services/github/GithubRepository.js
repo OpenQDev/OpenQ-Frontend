@@ -4,29 +4,28 @@ import fetch from 'cross-fetch';
 import { setContext } from '@apollo/client/link/context';
 
 class GithubRepository {
-	constructor() { }
+	constructor() {
+		console.log('process.env.PATS', process.env.PATS)
+	 }
 
 	httpLink = new HttpLink({ uri: 'https://api.github.com/graphql', fetch });
 
-	client = new ApolloClient({
-		uri: 'https://api.github.com/graphql',
-		link: this.httpLink,
-		cache: new InMemoryCache(),
+	authLink = setContext((_, { headers }) => {
+		// let patsArray = process.env.PATS.split(',');
+		// let token = patsArray[Math.floor(Math.random() * patsArray.length)];
+		return {
+			headers: {
+				...headers,
+				Authorization: `Bearer ${process.env.NEXT_}`,
+			},
+		};
 	});
 
-	setGraphqlHeaders = () => {
-		const authLink = setContext((_, { headers }) => {
-			let patsArray = process.env.NEXT_PUBLIC_PATS.split(',');
-			let token = patsArray[Math.floor(Math.random() * patsArray.length)];
-			return {
-				headers: {
-					...headers,
-					Authorization: `Bearer ${token}`,
-				},
-			};
-		});
-		this.client.setLink(authLink.concat(this.httpLink));
-	};
+	client = new ApolloClient({
+		uri: 'https://api.github.com/graphql',
+		link: this.authLink.concat(this.httpLink),
+		cache: new InMemoryCache(),
+	});
 
 	async fetchIssueByUrl(issueUrl) {
 		const promise = new Promise(async (resolve, reject) => {

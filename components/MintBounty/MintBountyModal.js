@@ -92,7 +92,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 			await appState.openQPrismaClient.createNewBounty(ethers.utils.getAddress(bountyAddress));
 			
 			router.push(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`
+				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress}`
 			);
 		} catch (error) {
 			console.log('error in mintbounty', error);

@@ -6,17 +6,27 @@ import { ethers } from 'ethers';
 import Link from 'next/link';
 
 // Custom
-import StoreContext from '../../store/Store/StoreContext';
-import BountyCardDetails from '../../components/Bounty/BountyCardDetails';
-import FundPage from '../../components/FundBounty/FundPage';
-import RefundPage from '../../components/RefundBounty/RefundPage';
-import ClaimPage from '../../components/Claim/ClaimPage';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
-import UnexpectedError from '../../components/Utils/UnexpectedError';
-import Toggle from '../../components/Toggle/Toggle';
-import LoadingModal from '../../components/Loading/LoadingModal';
+import StoreContext from '../../../store/Store/StoreContext';
+import BountyCardDetails from '../../../components/Bounty/BountyCardDetails';
+import FundPage from '../../../components/FundBounty/FundPage';
+import RefundPage from '../../../components/RefundBounty/RefundPage';
+import ClaimPage from '../../../components/Claim/ClaimPage';
+import useGetTokenValues from '../../../hooks/useGetTokenValues';
+import UnexpectedError from '../../../components/Utils/UnexpectedError';
+import Toggle from '../../../components/Toggle/Toggle';
+import LoadingModal from '../../../components/Loading/LoadingModal';
 
-const address = () => {
+import GithubRepository from '../../../services/github/GithubRepository';
+
+export async function getServerSideProps(context) {
+	const githubRepository = new GithubRepository()
+	const issueData = await githubRepository.fetchIssueById(context.params.issueId);
+	return {
+		props: { issueData }
+	}
+}
+
+const address = ({ issueData }) => {
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
 	const router = useRouter();
@@ -25,7 +35,7 @@ const address = () => {
 	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
 
 	// State
-	const { address } = router.query;
+	const { address, issueId } = router.query;
 	const [error, setError] = useState(false);
 	const [internalMenu, setInternalMenu] = useState();
 	const [isIndexing, setIsIndexing] = useState(false);
@@ -44,10 +54,12 @@ const address = () => {
 		try {
 			while (bountyData === null || bountyMetadata == null) {
 				bountyData = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
-				if(!bountyData && !isIndexing){
+				
+				if (!bountyData && !isIndexing) {
 					setNoBounty(true);
 					return;
 				}
+				
 				bountyMetadata = await appState.openQPrismaClient.getBounty(ethers.utils.getAddress(address));
 				bounty = {...bountyData, ...bountyMetadata};
 			
@@ -57,8 +69,6 @@ const address = () => {
 
 				await sleep(500);
 			}
-			
-			const issueData = await appState.githubRepository.fetchIssueById(bounty.bountyId);
 
 			const mergedBounty = { ...bounty, ...issueData };
 
