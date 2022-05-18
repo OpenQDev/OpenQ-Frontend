@@ -111,7 +111,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 								We noticed you are not signed into Github. You must sign to verify
 								and claim an issue!
 							</div>
-						) : <div className='h-44'></div>}
+						) : null}
 						<div className='col-span-3 px-2 '>
 							<p>Don{'\''}t forget to add a closer comment for this bounty on your pull request :-).</p>
 							<div><CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} /></div>
