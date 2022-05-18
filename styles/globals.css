@@ -8,13 +8,19 @@
   }
 }
 
-.markdown-body ol{list-style-type: auto;}
-.markdown-body ul{list-style-type: disc;}
-.markdown-body{background-color: transparent;
-color: white;}
+.markdown-body ol {
+  list-style-type: auto;
+}
+.markdown-body ul {
+  list-style-type: disc;
+}
+.markdown-body {
+  background-color: transparent;
+  color: white;
+}
 
-pre{
-  background-color:  #58585833;
+pre {
+  background-color: #58585833;
   border-radius: 1rem;
   margin-top: 2.25rem;
   overflow-x: auto;
@@ -29,9 +35,14 @@ pre{
   left: 0;
   right: 0;
   height: 100%;
-  width:25%;
+  width: 25%;
   background-repeat: no-repeat;
-  background-image: linear-gradient( 90deg, var(--base-color), #58585833, var(--base-color) );
+  background-image: linear-gradient(
+    90deg,
+    var(--base-color),
+    #58585833,
+    var(--base-color)
+  );
   transform: translateX(-50%);
   animation-name: react-loading-skeleton;
   animation-direction: left;
@@ -39,8 +50,18 @@ pre{
   animation-iteration-count: infinite;
 }
 
-@keyframes react-loading-skeleton { 0% { transform: translateX(-100%); } 50%{transform: translateX(400%);} 100% { transform: translateX(-100%); }  }
-		
+@keyframes react-loading-skeleton {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(400%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
 .react-loading-skeleton {
   background-color: var(--base-color);
   width: 100%;
@@ -50,13 +71,15 @@ pre{
   position: relative;
   overflow: hidden;
 }
-*, ::after, ::before {
+*,
+::after,
+::before {
   box-sizing: border-box;
 }
 @layer base {
-    body{
-        @apply w-screen overflow-x-hidden bg-dark-mode;
-    }/* 
+  body {
+    @apply w-screen overflow-x-hidden bg-dark-mode;
+  } /* 
     h1{
         @apply font-mont font-black text-4xl;
     }
@@ -77,31 +100,30 @@ pre{
   .confirm-btn {
     @apply font-mont rounded-lg w-full py-3 font-bold cursor-pointer text-white border border-pink-300 bg-pink-700 bg-opacity-10 hover:bg-pink-700 hover:bg-opacity-30 hover:text-white cursor-pointer;
   }
-  .sm-confirm-btn{
+  .sm-confirm-btn {
     @apply font-mont rounded-lg w-full py-2 font-semibold cursor-pointer text-white border border-pink-300 bg-pink-700 bg-opacity-10 hover:bg-pink-700 hover:bg-opacity-30 hover:text-white cursor-pointer;
   }
-  .sm-confirm-btn-disabled{
+  .sm-confirm-btn-disabled {
     @apply font-mont rounded-lg w-full py-2 font-semibold text-white text-opacity-30 border border-pink-300 bg-pink-700 bg-opacity-10 cursor-not-allowed;
   }
   .confirm-btn-disabled {
     @apply font-mont rounded-lg w-full py-3 font-bold text-white text-opacity-30 border border-pink-300 bg-pink-700 bg-opacity-10 cursor-not-allowed;
   }
-	.text-link{
-		@apply text-purple-500;
-	}
-	.navbar-icon {
-		@apply shadow-lg flex items-center justify-center h-11 w-11 mb-2 mx-auto rounded-xl border border-menu
-	}
+  .text-link {
+    @apply text-purple-500;
+  }
+  .navbar-icon {
+    @apply shadow-lg flex items-center justify-center h-11 w-11 mb-2 mx-auto rounded-xl border border-menu;
+  }
   .checkbox {
     @apply h-6 bg-no-repeat appearance-none w-4 h-4 checked:bg-inactive-accent checked:bg-[url('/checkbox.svg')] focus:outline-none border-2 border-web-gray checked:border-inactive-accent rounded-sm m-1 bg-dark-mode accent-inactive-accent;
   }
 }
 
- .size-9 *{
+.size-9 * {
   border-radius: 50%;
   background-color: black;
 }
-
 
 @keyframes spin {
   from {
@@ -112,122 +134,135 @@ pre{
   }
 }
 
-.size-1{
+.size-1 {
   position: relative;
   height: 50px;
   width: 50px;
   border: 1px solid white;
 }
 
-
-.size-2{
+.size-2 {
   height: 65px;
   width: 65px;
-  background-image: url("/diverse/light-stone.jpg");
+  background-image: url('/diverse/light-stone.jpg');
   border: solid white;
 }
-.size-3{
-  height: 80px;
-  width: 80px;
-}
-.size-4{
+.size-4 {
   height: 95px;
   width: 95px;
 }
-.size-5{
+.size-5 {
   height: 110px;
-  width: 110px;}
-.size-6{
+  width: 110px;
+}
+.size-6 {
   height: 125px;
-  width: 125px;}
-.size-7{
+  width: 125px;
+}
+.size-7 {
   height: 140px;
-  width: 140px;}
-.size-8{
+  width: 140px;
+}
+.size-8 {
   height: 160px;
-  width: 160px;}
-.orbit{  
-	animation: spin linear infinite 15s;
+  width: 160px;
+}
+.orbit {
+  animation: spin linear infinite 15s;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  border: 1px solid #222;}
-.planet-8{
-  background-image: url("/diverse/stone.jpg");
+  border: 1px solid #222;
+}
+.planet-8 {
+  background-image: url('/diverse/stone.jpg');
   width: 6px;
-  height:6px;
+  height: 6px;
   top: 117px;
   left: 8px;
- position: absolute;
-  z-index: 1;}
-.planet-7{  
-  background-image: url("/diverse/stone.jpg");
+  position: absolute;
+  z-index: 1;
+}
+.planet-7 {
+  background-image: url('/diverse/stone.jpg');
   width: 7px;
-  height:7px;
+  height: 7px;
   top: 36px;
   left: 4px;
- position: absolute;
-  z-index: 1;}
-.planet-6{
-  background-image:url("/diverse/stone.jpg");
+  position: absolute;
+  z-index: 1;
+}
+.planet-6 {
+  background-image: url('/diverse/stone.jpg');
   width: 10px;
-  height:10px;
-  position:relative;
+  height: 10px;
+  position: relative;
   top: 1px;
-  left:2px;
-  z-index: 1;}
-.planet-wrapper{
-  background-image: url("/diverse/light-stone.jpg");
- position: absolute;
+  left: 2px;
+  z-index: 1;
+}
+.planet-wrapper {
+  background-image: url('/diverse/light-stone.jpg');
+  position: absolute;
   width: 42px;
-  height:14px;
-  top:106px;
-  left:60px;
+  height: 14px;
+  top: 106px;
+  left: 60px;
   transform: rotate(-40deg);
   border: 1px solid white;
   display: flex;
-  border-radius:10px;
-  z-index:2;
-  
+  border-radius: 10px;
+  z-index: 2;
 }
-.planet-5{
-  background-image: url("/diverse/stone.jpg");
+.planet-5 {
+  background-image: url('/diverse/stone.jpg');
   width: 8px;
-  height:8px;
+  height: 8px;
   top: 70px;
   left: 101px;
- position: absolute;
-  z-index: 1;}
-.planet-4{
-  background-image: url("/diverse/stone.jpg");;
+  position: absolute;
+  z-index: 1;
+}
+.planet-4 {
+  background-image: url('/diverse/stone.jpg');
   width: 10px;
-  height:10px;
+  height: 10px;
   top: 1px;
   left: 30px;
- position: absolute;
-  z-index: 1;}
-.planet-3{
-  background-image: url("/diverse/stone.jpg");
+  position: absolute;
+  z-index: 1;
+}
+.planet-3 {
+  background-image: url('/diverse/stone.jpg');
   width: 12px;
-  height:12px;
+  height: 12px;
   top: 8px;
   left: 86px;
   border: solid white 1px;
- position: absolute;
-  z-index: 1;}
-.planet-2{
-  background-image: url("/diverse/stone.jpg");
+  position: absolute;
+  z-index: 1;
+}
+.planet-2 {
+  background-image: url('/diverse/stone.jpg');
   width: 8px;
-  height:8px;
+  height: 8px;
   top: -2px;
   left: 82px;
- position: absolute;
-  z-index: 1;}
-.planet-1{
-  background-image: url("/diverse/stone.jpg");
-  width: 16px;
-  height:16px;
-  top: -8px;
- position: absolute;
-  z-index: 1;}
+  position: absolute;
+  z-index: 1;
+}
+::-webkit-scrollbar {
+  background-color: transparent;
+  padding: 2px;
+  width: 24px;
+  height: 24px;
+  padding: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  border: 1px solid #ec4899;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #585858;
+  border-radius: 12px;
+}
