@@ -64,7 +64,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		let approveSucceeded = false;
 
 		try {
-			const callerBalance = await appState.openQClient.balanceOf(library, account, token.address);
+			const callerBalance = await appState.openQClient.balanceOf(library, account, ethers.utils.getAddress(token.address));
 			if (callerBalance.noSigner) {
 				setError({ title: 'No wallet connected.', message:  'Please connect your wallet.'});
 				setApproveTransferState(ERROR);
