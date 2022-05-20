@@ -61,7 +61,7 @@ const ManageTokenList = ({ setCustomTokens, customTokens, setLists, lists})=>{
 	return(<div className='flex items-center flex-col justify-start gap-4 h-[30rem]'>
 		<Toggle toggleVal={displayedTab} toggleFunc={setDisplayedTab} names={['Tokens', 'Lists']}></Toggle>
 		{	displayedTab==='Lists' ?
-			<><button className='w-5/6 bg-button-inside border-button py-3 text-left px-4 border rounded-md flex items-center gap-4 justify-between'>
+			<><button className='md:w-5/6 w-full bg-button-inside border-button py-3 text-left px-4 border rounded-md flex items-center gap-4 justify-between'>
 			
 				<div className={`flex justify-center items-center h-10 w-10 rounded-full border border-button  ${lists.openq? 'bg-button-inside': 'bg-inactive-gray'}`}>
 					<Image height={24} width={24} src={'/openq-logo.png'} />
@@ -69,7 +69,7 @@ const ManageTokenList = ({ setCustomTokens, customTokens, setLists, lists})=>{
 				<span className="justify-self-start flex-1">OpenQ List</span>
 				<input onClick={setOpenQ} checked={lists.openq} type="checkbox" className='checkbox'/>
 			</button>
-			<button className='w-5/6 bg-button-inside border-button py-3 mb-4.5 text-left px-4 border rounded-md flex items-center gap-4 justify-between'>
+			<button className='md:w-5/6 w-full bg-button-inside border-button py-3 mb-4.5 text-left px-4 border rounded-md flex items-center gap-4 justify-between'>
 				<div className={`flex justify-center items-center h-10 w-10 rounded-full border border-button ${lists.polygon? 'bg-button-inside': 'bg-inactive-gray'}`}>
 					<svg version="1.1" id="Layer_1" height="24" x="0px" y="0px" fill="#8247e5"
 						viewBox="0 0 38.4 33.5"  >
@@ -82,7 +82,7 @@ const ManageTokenList = ({ setCustomTokens, customTokens, setLists, lists})=>{
 		c0.7,0.4,1.6,0.4,2.4,0l8.1-4.7c0.7-0.4,1.2-1.2,1.2-2.1V17c0-0.8-0.4-1.6-1.2-2.1L29,10.2z"/>
 						</g>
 					</svg>
-				</div><span className='justify-self-start flex-1'>Polygon.Technology List</span>
+				</div><span className='justify-self-start flex-1 truncate'>Polygon.Technology List</span>
 				<input onClick={setPolygon} type="checkbox" checked={lists.polygon} className='checkbox'/>
 
 
