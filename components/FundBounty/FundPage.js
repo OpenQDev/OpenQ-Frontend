@@ -153,7 +153,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	// Render
 	return (<>{claimed ?
 		<BountyClosed bounty={bounty} />:
-		<div className="flex flex-1 font-mont justify-center items-center">
+		<div className="flex flex-1 font-mont justify-center items-center pb-10">
 			<div className="flex flex-col space-y-5 w-5/6">
 				<div className="flex text-3xl font-semibold  justify-center pt-16">
 						Fund Bounty
