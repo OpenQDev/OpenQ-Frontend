@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import TokenSearch from './TokenSearch';
 import Image from 'next/image';
+import StoreContext from '../../../store/Store/StoreContext';
 
-const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume }) => {
+const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token,  volume }) => {
 	const [showTokenSearch, setShowTokenSearch] = useState(false);
+	const [tokens, setTokens] = useState();
+	const [appState] = useContext(StoreContext);
 
+	useEffect(async()=>{	
+		const polygonDefaultTokens = await appState.tokenClient.getTokenMetadata(0, 100);
+		setTokens(polygonDefaultTokens);
+	},[]);
+	
 	return (
 		<div>
 			<div className="flex w-full flex-row justify-between items-center pl-14 py-3 rounded-lg py-1 bg-dark-mode border border-web-gray ">
@@ -26,7 +34,7 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume }) => {
 					>
 						<div className="flex flex-row space-x-5 items-center justify-center">
 							<div className="h-1 w-6 pb-6">
-								<Image src={token.path} className="rounded-full" alt="n/a" width="40%" height="40%" />
+								<Image src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'} className="rounded-full" alt="n/a" width="40%" height="40%" />
 							</div>
 						</div>
 						<div className="pl-3 ">{token.symbol}</div>
@@ -49,6 +57,7 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume }) => {
 			</div>
 			{showTokenSearch ? (
 				<TokenSearch
+					tokens={tokens}
 					setShowTokenSearch={setShowTokenSearch}
 					onCurrencySelect={onCurrencySelect}
 				/>
