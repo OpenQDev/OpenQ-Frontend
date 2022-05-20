@@ -38,7 +38,7 @@ const Invoice = ({bounty})=>{
 		if(iframe && tokenValues){
 			const keys =	Object.keys(tokenValues.tokens);
 			const tableData = keys.map((key)=>tokenValues.tokens[key].toString());
-			const tableHeaders= keys.map((key)=>`${appState.tokenMetadata[key].symbol} valued in USD`);
+			const tableHeaders= keys.map((key)=>`${appState.tokenMetadata?.[key].symbol||'CUSTOM'} valued in USD`);
 			const total=	Object.values(tokenValues.tokens).reduce((accum, elem)=>{
 				return accum+elem;
 			});
