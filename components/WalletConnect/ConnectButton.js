@@ -67,7 +67,6 @@ const ConnectButton = () => {
 
 	const signMessage = () => {
 		const message = 'OpenQ';
-		const address = account;
 		window.ethereum
 			.request({
 				method: 'personal_sign',
@@ -75,7 +74,7 @@ const ConnectButton = () => {
 			}).then((signature) => {
 				axios.get('http://localhost:3001/verifySignature', {
 					params: {
-						signature, address
+						signature, account
 					}
 				})
 			})
