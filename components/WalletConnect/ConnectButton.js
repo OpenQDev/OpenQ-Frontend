@@ -74,12 +74,13 @@ const ConnectButton = () => {
 			}).then((signature) => {
 				axios.get('http://localhost:3001/verifySignature', {
 					params: {
-						signature, account
-					}
-				})
+						signature, account,
+					},
+					withCredentials: true,
+				});
 			})
 			.catch((error) => console.log('Error', error.message));
-	}
+	};
 
 	// Render
 	return (<div>
