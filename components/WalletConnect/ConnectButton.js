@@ -9,6 +9,7 @@ import AccountModal from './AccountModal';
 import ConnectModal from './ConnectModal';
 import useEns from '../../hooks/useENS';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
+import axios from 'axios';
 
 const ConnectButton = () => {
 	// State
@@ -64,6 +65,23 @@ const ConnectButton = () => {
 	};
 
 
+	const signMessage = () => {
+		const message = 'OpenQ';
+		window.ethereum
+			.request({
+				method: 'personal_sign',
+				params: [message, account]
+			}).then((signature) => {
+				axios.get('http://localhost:3001/verifySignature', {
+					params: {
+						signature, account,
+					},
+					withCredentials: true,
+				});
+			})
+			.catch((error) => console.log('Error', error.message));
+	};
+
 	// Render
 	return (<div>
 		{	account && isOnCorrectNetwork ?
@@ -77,6 +95,14 @@ const ConnectButton = () => {
 					<span className="border-2 border-inactive-accent rounded-full h-7 py-px bg-inactive-accent group-hover:bg-active-accent group-hover:border-active-accent" ref={iconWrapper}></span>
 					<span className='py'>{ensName|| `${account.slice(0, 5)}...${account.slice(-3)}`}</span>
 				</button>
+
+				<button
+					className="group flex items-center gap-x-3 h-12 font-mont whitespace-nowrap rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2 px-6  font-semibold cursor-pointer hover:border-active-accent"
+					onClick={signMessage}
+				>
+					Sign Message
+				</button>
+
 				{showModal&&
 				<AccountModal
 					domRef={modalRef}
