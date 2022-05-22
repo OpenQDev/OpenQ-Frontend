@@ -153,6 +153,12 @@ export const GET_ISSUE_BY_ID = gql`
           }
         }
 				createdAt
+        assignees(first: 1) {
+          nodes {
+            name
+            url
+          }
+        }
         repository {
           id
           name
