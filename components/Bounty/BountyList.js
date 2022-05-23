@@ -59,7 +59,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 
 			const isUnclaimed = bounty.status === 'OPEN';
 			const isFunded = bounty.deposits.length > 0;
-			return (containsSearch && containsTag && (localShowUnfunded || isFunded) && (localShowClaimed || isUnclaimed));
+			return (containsSearch && containsTag && (localShowUnfunded || isFunded) && (localShowClaimed || isUnclaimed) && bounty.url);
 		});
 		if (displayBounties.length === 0 && !complete) {
 			fetchPage();
