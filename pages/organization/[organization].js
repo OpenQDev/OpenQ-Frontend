@@ -106,7 +106,7 @@ const organization = () => {
 		bounties.forEach((bounty) => {
 			const relatedIssue = issueData.find(
 				(issue) => issue.id == bounty.bountyId
-			);
+			) || { id: '', title: '', body: '' };
 			const mergedBounty = { ...bounty, ...relatedIssue };
 			fullBounties.push(mergedBounty);
 		});
