@@ -48,8 +48,12 @@ const address = () => {
 					setNoBounty(true);
 					return;
 				}
-				bountyMetadata = await appState.openQPrismaClient.getBounty(ethers.utils.getAddress(address));
-
+				try{
+					bountyMetadata = await appState.openQPrismaClient.getBounty(ethers.utils.getAddress(address));
+				}
+				catch(err){
+					console.log(err);
+				}
 				bounty = { ...bountyData, ...bountyMetadata };
 
 				if (bountyData != null && bountyMetadata != null) {
@@ -66,7 +70,7 @@ const address = () => {
 			setBounty({ ...mergedBounty });
 		} catch (error) {
 			console.log(error);
-			setError(true);
+			//setError(true);
 			return;
 		}
 	}
