@@ -3,6 +3,7 @@ import {useRouter} from 'next/router';
 import StoreContext from '../../store/Store/StoreContext';
 
 import Invoice from '../../components/Invoicing/Invoice';
+import { add } from 'lodash';
 
 const invoice = ()=>{
 	const [appState] = useContext(StoreContext);
@@ -14,6 +15,7 @@ const invoice = ()=>{
 
 		try {
 			bounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
+			console.log(bounty);
 			const issueData = await appState.githubRepository.fetchIssueById(bounty?.bountyId);
 
 			const mergedBounty = { ...bounty, ...issueData };
@@ -26,7 +28,8 @@ const invoice = ()=>{
 		}
 	}
 	useEffect(()=>{
-		populateBountyData();
+		if(address){
+			populateBountyData();}
 	},[address]);
 
 	return(<div>
