@@ -9,7 +9,7 @@ import AccountModal from './AccountModal';
 import ConnectModal from './ConnectModal';
 import useEns from '../../hooks/useENS';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
-import axios from 'axios';
+// import axios from 'axios';
 
 const ConnectButton = () => {
 	// State
@@ -65,22 +65,22 @@ const ConnectButton = () => {
 	};
 
 
-	const signMessage = () => {
-		const message = 'OpenQ';
-		window.ethereum
-			.request({
-				method: 'personal_sign',
-				params: [message, account]
-			}).then((signature) => {
-				axios.get('http://localhost:3001/verifySignature', {
-					params: {
-						signature, account,
-					},
-					withCredentials: true,
-				});
-			})
-			.catch((error) => console.log('Error', error.message));
-	};
+	// const signMessage = () => {
+	// 	const message = 'OpenQ';
+	// 	window.ethereum
+	// 		.request({
+	// 			method: 'personal_sign',
+	// 			params: [message, account]
+	// 		}).then((signature) => {
+	// 			axios.get('http://localhost:3001/verifySignature', {
+	// 				params: {
+	// 					signature, account,
+	// 				},
+	// 				withCredentials: true,
+	// 			});
+	// 		})
+	// 		.catch((error) => console.log('Error', error.message));
+	// };
 
 	// Render
 	return (<div>
@@ -122,7 +122,7 @@ const ConnectButton = () => {
 					Use{' '}
 					{
 						chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV][
-						'networkName'
+							'networkName'
 						]
 					}{' '}
 					Network
