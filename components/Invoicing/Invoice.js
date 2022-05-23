@@ -3,6 +3,7 @@ import { jsPDF } from 'jspdf';
 import  'jspdf-autotable';
 import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
+import ToolTip from '../Utils/ToolTip';
 const Invoice = ({bounty})=>{
 	const [tokenValues] = useGetTokenValues(bounty.bountyTokenBalances);
 	const [appState] = useContext(StoreContext);
@@ -35,10 +36,11 @@ const Invoice = ({bounty})=>{
 		setShowPdf(true);
 	};
 	const srcPdf = useCallback((iframe)=>{
+		console.log('me');
 		if(iframe && tokenValues){
 			const keys =	Object.keys(tokenValues.tokens);
 			const tableData = keys.map((key)=>tokenValues.tokens[key].toString());
-			const tableHeaders= keys.map((key)=>`${appState.tokenMetadata?.[key].symbol||'CUSTOM'} valued in USD`);
+			const tableHeaders= keys.map((key)=>`${appState.tokenMetadata?.[key]?.symbol||'CUSTOM'} valued in USD`);
 			const total=	Object.values(tokenValues.tokens).reduce((accum, elem)=>{
 				return accum+elem;
 			});
@@ -62,7 +64,7 @@ const Invoice = ({bounty})=>{
 				head: [['Task', ...tableHeaders, 'Total Value Claimed'],],
 				body: [
 					[bounty.title, ...tableData, total.toString()],
-					[{styles: {lineWidth: 0}, content: ''}, ...tableData.map(()=>{return {styles: {lineWidth: 0}, content: ''};}),	total.toString()]
+					[{styles: {lineWidth: 0}, content: ''}, ...tableData.map(()=>{return {styles: {lineWidth: 0}, content: ''};}),	total.toFixed(2).toString()]
 					// ...
 				],
 				startY: pl+=36,
@@ -90,7 +92,8 @@ const Invoice = ({bounty})=>{
 						<input onChange={(e)=>{setClientAddress(e.target.value);}} className='bg-dark-mode border border-web-gray text-xl p-4 h-min rounded-lg focus:outline-none' type="text" placeholder='Client Address'></input>
 						<input onChange={(e)=>{setClientEmail(e.target.value);}} className='bg-dark-mode border border-web-gray text-xl p-4 h-min rounded-lg focus:outline-none' type="email" placeholder='Client Email'></input>
 					</div>
-					<button onClick={handleSubmit} className="confirm-btn col-span-2 my-4">Generate</button>
+					<ToolTip toolTipText="Cannot generate invoice if there are no deposits." hideToolTip={tokenValues} customOffsets={[0, 66]} >
+						<button onClick={handleSubmit} disabled={!tokenValues} className={`confirm-btn ${!tokenValues ? 'confirm-btn-disabled' : 'confirm-btn' } col-span-2 my-4`}>Generate</button></ToolTip>
 				</form>
 				<iframe className={`h-screen flex-0 w-full ${showPdf?'visible':'sr-only' }`} ref={srcPdf} />
 			</div></div>);
