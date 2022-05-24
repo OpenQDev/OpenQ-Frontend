@@ -7,7 +7,7 @@ import { useState } from 'react';
 const TokenSearch = ({ setShowTokenSearch, onCurrencySelect, tokens }) => {
 	const [showListManager, setShowListManager] = useState(true);
 	const [tokenSearchTerm, setTokenSearchTerm] = useState();
-	const [lists, setLists] = useState({ polygon: true, openq: false });
+	const [lists, setLists] = useState({ polygon: true, openq: true });
 	const [customTokens, setCustomTokens] = useState([]);
 	function handleOutsideClick () {
 		setShowTokenSearch(false);
