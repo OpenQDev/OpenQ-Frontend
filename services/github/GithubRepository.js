@@ -69,7 +69,8 @@ class GithubRepository {
 				const owner = elem.repository.owner.login;
 				const labels = elem.labels.edges.map(edge => edge.node);
 				const assignees = responseData.assignees.nodes;
-				return { id, assignees, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML };}
+				const languages = responseData.languages.edge;
+				return { id, assignees, title, body, url, languages, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML };}
 
 			catch(err){			
 				let id, url, repoName, owner, avatarUrl, labels, createdAt, closed, titleHTML, assignees;
