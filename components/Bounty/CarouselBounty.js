@@ -4,7 +4,6 @@ import Link from 'next/link';
 
 const CarouselBounty = ({bounty}) =>{
 	const [appState] = useContext(StoreContext);
-	console.log(bounty);
 	return(
 		
 		<>

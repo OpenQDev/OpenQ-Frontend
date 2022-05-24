@@ -61,7 +61,7 @@ class GithubRepository {
 	}
 	parseIssuesData(rawIssuesResponse) {
 		const responseData = rawIssuesResponse.data.nodes;
-		return responseData.map((elem) => {
+		return responseData.filter(event=>event.__typename==='Issue').map((elem) => {
 			try{
 				const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = elem;
 				const repoName = elem.repository.name;
@@ -69,13 +69,13 @@ class GithubRepository {
 				const owner = elem.repository.owner.login;
 				const labels = elem.labels.edges.map(edge => edge.node);
 				const assignees = elem.nodes;
-				const languages = elem.repository.languages.edge;
+				const languages = elem.repository.languages.edges.map(languages=>languages.node);
 				return { id, assignees, title, body, url, languages, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML };}
 
 			catch(err){		
 				console.log(err);	
 				let id, url, repoName, owner, avatarUrl, labels, createdAt, closed, titleHTML, assignees;
-				return { id, assignees, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML: '', titleHTML };}
+				return { id, assignees, url, repoName, owner, avatarUrl, labels, createdAt, closed, titleHTML, bodyHTML: '',  };}
 		}
 		);
 	}
