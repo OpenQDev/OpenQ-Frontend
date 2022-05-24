@@ -43,21 +43,23 @@ class GithubRepository {
 		return promise;
 	}
 
-	parseIssueData(rawIssueResponse) {try{
-		const responseData = rawIssueResponse.data.node;
-		const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = responseData;
-		const repoName = responseData.repository.name;
-		const avatarUrl = responseData.repository.owner.avatarUrl;
-		const owner = responseData.repository.owner.login;
-		const twitterUsername = responseData.repository.owner.twitterUsername;
-		const labels = responseData.labels.edges.map(edge => edge.node);
-		const number = responseData.number;
-		return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number };
-	}
-	catch(err){			
-		let id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number;
-		return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number };
-	}
+	parseIssueData(rawIssueResponse) {
+		try{
+			const responseData = rawIssueResponse.data.node;
+			const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = responseData;
+			const repoName = responseData.repository.name;
+			const avatarUrl = responseData.repository.owner.avatarUrl;
+			const owner = responseData.repository.owner.login;
+			const twitterUsername = responseData.repository.owner.twitterUsername;
+			const labels = responseData.labels.edges.map(edge => edge.node);
+			const number = responseData.number;
+			const assignees = responseData.assignees.nodes;
+			return { id, title, assignees, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number };
+		}
+		catch(err){
+			let id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number;
+			return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number };
+		}
 	}
 	parseIssuesData(rawIssuesResponse) {
 		const responseData = rawIssuesResponse.data.nodes;
@@ -68,9 +70,8 @@ class GithubRepository {
 				const avatarUrl = elem.repository.owner.avatarUrl;
 				const owner = elem.repository.owner.login;
 				const labels = elem.labels.edges.map(edge => edge.node);
-				const assignees = elem.nodes;
 				const languages = elem.repository.languages.edges.map(languages=>languages.node);
-				return { id, assignees, title, body, url, languages, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML };}
+				return { id, title, body, url, languages, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML };}
 
 			catch(err){		
 				console.log(err);	
