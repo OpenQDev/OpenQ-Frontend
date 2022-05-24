@@ -55,7 +55,10 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 									/>
 								</>
 							) : (
-								<div className="pt-5 pb-5 font-semibold ">No deposits</div>
+								<div className='py-5'>
+									<h3 className="font-semibold ">No deposits</h3>
+									<p className='text-tinted'>It may take up to one minute for new depsits to show up here.</p>
+								</div>
 							) :
 							<>
 								<TokenBalances />
