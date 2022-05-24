@@ -11,11 +11,14 @@ const CopyBountyAssigneeLink = ({ bounty }) => {
 		<div className="flex flex-col ">
 			<div className="font-bold">Assignee</div>
 			<div className="flex flex-row items-center space-x-2 cursor-pointer">
-				{assignee ? (
-					<CopyAssigneeToClipboard name={assignee?.name} url={assignee?.url} /> 
-				) : (
-					<Skeleton height={'28px'} width={'15rem'} />
-				)}
+				{bounty ? 
+					assignee?
+						(
+							<CopyAssigneeToClipboard name={assignee?.name} url={assignee?.url} /> 
+						):<span>Unassigned</span>
+					: (
+						<Skeleton height={'28px'} width={'15rem'} />
+					)}
 			</div>
 		</div>
 	);
