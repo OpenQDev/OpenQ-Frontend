@@ -43,7 +43,7 @@ class GithubRepository {
 		return promise;
 	}
 
-	parseIssueData(rawIssueResponse) {
+	parseIssueData(rawIssueResponse) {try{
 		const responseData = rawIssueResponse.data.node;
 		const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = responseData;
 		const repoName = responseData.repository.name;
@@ -54,17 +54,26 @@ class GithubRepository {
 		const number = responseData.number;
 		return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number };
 	}
+	catch(err){			
+		let id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number;
+		return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number };
+	}
+	}
 	parseIssuesData(rawIssuesResponse) {
 		const responseData = rawIssuesResponse.data.nodes;
 		return responseData.map((elem) => {
-
-			const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = elem;
-			const repoName = elem.repository.name;
-			const avatarUrl = elem.repository.owner.avatarUrl;
-			const owner = elem.repository.owner.login;
-			const labels = elem.labels.edges.map(edge => edge.node);
-			return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML };
-		});
+			try{
+				const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = elem;
+				const repoName = elem.repository.name;
+				const avatarUrl = elem.repository.owner.avatarUrl;
+				const owner = elem.repository.owner.login;
+				const labels = elem.labels.edges.map(edge => edge.node);
+				return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML };}
+			catch(err){			
+				let id, url, repoName, owner, avatarUrl, labels, createdAt, closed, titleHTML;
+				return { id, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML: '', titleHTML };}
+		}
+		);
 	}
 
 	async fetchIssueById(issueId) {
@@ -86,7 +95,7 @@ class GithubRepository {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
-					query: GET_ISSUES_BY_ID, variables: { issueIds },
+					query: GET_ISSUES_BY_ID, variables: { issueIds }, errorPolicy:  'all'
 				});
 				resolve(this.parseIssuesData(result));
 			} catch (e) {

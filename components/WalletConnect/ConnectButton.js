@@ -9,13 +9,14 @@ import AccountModal from './AccountModal';
 import ConnectModal from './ConnectModal';
 import useEns from '../../hooks/useENS';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
+// import axios from 'axios';
 
 const ConnectButton = () => {
 	// State
 	const [isConnecting, setIsConnecting] = useState(false);
 	const [showConnectModal, setShowConnectModal] = useState(false);
 	const { chainId, error, account, deactivate, safe } = useWeb3();
-	const [isOnCorrectNetwork, ] = useIsOnCorrectNetwork( { chainId:chainId, error: error, account: account });
+	const [isOnCorrectNetwork,] = useIsOnCorrectNetwork({ chainId: chainId, error: error, account: account });
 	const [showModal, setShowModal] = useState();
 	const iconWrapper = useRef();
 	const modalRef = useRef();
@@ -51,7 +52,7 @@ const ConnectButton = () => {
 		setShowConnectModal(true);
 	};
 
-	
+
 
 	const addOrSwitchNetwork = () => {
 		window.ethereum
@@ -64,9 +65,26 @@ const ConnectButton = () => {
 	};
 
 
+	// const signMessage = () => {
+	// 	const message = 'OpenQ';
+	// 	window.ethereum
+	// 		.request({
+	// 			method: 'personal_sign',
+	// 			params: [message, account]
+	// 		}).then((signature) => {
+	// 			axios.get('http://localhost:3001/verifySignature', {
+	// 				params: {
+	// 					signature, account,
+	// 				},
+	// 				withCredentials: true,
+	// 			});
+	// 		})
+	// 		.catch((error) => console.log('Error', error.message));
+	// };
+
 	// Render
 	return (<div>
-		{	account && isOnCorrectNetwork ?
+		{account && isOnCorrectNetwork ?
 			<div>
 				<button
 					disabled={isConnecting}
@@ -75,19 +93,20 @@ const ConnectButton = () => {
 					className="group flex items-center gap-x-3 h-12 font-mont whitespace-nowrap rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2 px-6  font-semibold cursor-pointer hover:border-active-accent"
 				>
 					<span className="border-2 border-inactive-accent rounded-full h-7 py-px bg-inactive-accent group-hover:bg-active-accent group-hover:border-active-accent" ref={iconWrapper}></span>
-					<span className='py'>{ensName|| `${account.slice(0, 5)}...${account.slice(-3)}`}</span>
+					<span className='py'>{ensName || `${account.slice(0, 5)}...${account.slice(-3)}`}</span>
 				</button>
-				{showModal&&
-				<AccountModal
-					domRef={modalRef}
-					account = {account}
-					ensName = {ensName}
-					chainId = {chainId} 
-					deactivate={deactivate}
-					setIsConnecting={setIsConnecting}
-					isSafeApp = {safe}/>}
-			</div>:
-			isOnCorrectNetwork?
+
+				{showModal &&
+					<AccountModal
+						domRef={modalRef}
+						account={account}
+						ensName={ensName}
+						chainId={chainId}
+						deactivate={deactivate}
+						setIsConnecting={setIsConnecting}
+						isSafeApp={safe} />}
+			</div> :
+			isOnCorrectNetwork ?
 				<div>
 					<button
 						onClick={onClickConnect}
@@ -96,7 +115,7 @@ const ConnectButton = () => {
 					>
 						{'Connect Wallet'}
 					</button>
-				</div>:
+				</div> :
 				<button onClick={addOrSwitchNetwork}
 					className="flex items-center font-mont whitespace-nowrap h-12 rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2.5 px-6 text-white font-semibold"
 				>
@@ -110,8 +129,8 @@ const ConnectButton = () => {
 				</button>
 		}
 		{
-			showConnectModal && <ConnectModal closeModal={()=>setShowConnectModal(false)} />
-		}	
+			showConnectModal && <ConnectModal closeModal={() => setShowConnectModal(false)} />
+		}
 	</div>
 	);
 };

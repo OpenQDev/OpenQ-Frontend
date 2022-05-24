@@ -14,7 +14,6 @@ import MiniDepositCard from './MiniDepositCard';
 
 
 const BountyCardDetails = ({ bounty, tokenValues }) => {
-	console.log(bounty);
 
 	return (
 		<div className="flex flex-col w-full font-mont sm:pl-5 sm:pr-5 md:px-10 pt-10 pb-10 my-16 w-5/6 max-w-6xl">

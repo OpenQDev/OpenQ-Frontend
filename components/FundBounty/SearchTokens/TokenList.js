@@ -1,29 +1,59 @@
-import React, { useContext, useState, useEffect } from 'react';
+// Third Party
+import React, { useContext, useState, useCallback , useRef} from 'react';
+
+// Custom
 import StoreContext from '../../../store/Store/StoreContext';
-import Image from 'next/image';
-import useWeb3 from '../../../hooks/useWeb3';
+import TokenDisplay from  '../../TokenBalances/TokenDisplay';
 
-const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
+const TokenList = ({ onCurrencySelect, setShowTokenSearch,  tokenSearchTerm, customTokens,  pageTokens, lists }) => {
 	const [appState] = useContext(StoreContext);
-	const [tokenSearchTerm, setTokenSearchTerm] = useState(null);
-	const [displayTokens, updateDisplayTokens] = useState();
-	const { library, account } = useWeb3();
+	const [polygonTokens, setPolygonTokens] = useState(pageTokens);
+	const [isComplete, setIsComplete] = useState(false);
+	const batch = 100;
+	const [cursor, setCursor] = useState(batch);
+	
+	let displayTokens=[appState.tokens[0], ...customTokens];
+	
+	if(lists.openq){
+		const openqTokens = appState.tokens.slice(1).filter((token)=>!displayTokens.some((displayToken)=>displayToken.address===token.address.toLowerCase()));
+		displayTokens=displayTokens.concat(openqTokens);
+	}
 
-	useEffect(async () => {
-		try {
-			const ownedTokens = await appState.openQClient.userOwnedTokenBalances(library, account, appState.tokens);
-			const tokens = appState.tokens
-				.filter((elem, index) => {
-					return ownedTokens[index];
-				}).concat(appState.tokens.filter((elem, index) => {
-					return !ownedTokens[index];
-				}));
-			updateDisplayTokens(tokens);
+	if(lists.polygon){
+		const openqTokens = polygonTokens.filter((token)=>!displayTokens.some((displayToken)=>displayToken.address.toLowerCase()===token.address));
+		displayTokens=displayTokens.concat(openqTokens);
+	}
+
+	const getMoreData = async()=>{
+		setIsComplete(true);
+		const newPolygonTokens = await appState.tokenClient.getTokenMetadata(cursor, batch);
+		setCursor(batch+cursor);
+		setPolygonTokens([...polygonTokens, ...newPolygonTokens]);
+		if(newPolygonTokens.length===100){
+			setIsComplete(false);
+
 		}
-		catch (err) {
-			console.log(err);
+	};
+
+	const observer = useRef();
+
+	const lastElem = useCallback((node)=>{
+		if (observer.current) { observer.current.disconnect(); }
+		if (node) {
+			let options = {
+				rootMargin: '100px',
+				threshold: .1
+			};
+			const callback = (entries) => {
+				if (entries[0].isIntersecting  && !isComplete) {
+					getMoreData();
+				}
+
+			};
+			observer.current = new IntersectionObserver(callback, options);
+			observer.current.observe(node);
 		}
-	}, []);
+	});
 
 	function onSelect(token) {
 		onCurrencySelect(token);
@@ -31,56 +61,26 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch }) => {
 	}
 
 	return (
-		<div>
+		<>
 			{/* <div style={{ padding: '25px', margin: '10px', outline: '2px solid pink', borderRadius: '20px' }} > */}
-			<div className="pt-3 pb-3 pl-4 bg-dark-mode border border-web-gray rounded-lg overflow-hidden mb-2">
-				<div className="">
-					<div className="justify-start ">
-						<input
-							className="outline-none bg-transparent "
-							onKeyUp={(e) => setTokenSearchTerm(e.target.value)}
-							type="text"
-							placeholder="Search name"
-						></input>
-					</div>
-				</div>
-			</div>
 
-			<div className="pt-4  h-96 overflow-x-auto">
-				{(displayTokens || appState.tokens)
-					.filter((token) => {
+			<div className="pt-4 ">
+				{
+					displayTokens.filter((token) => {
 						return tokenSearchTerm
-							? token.name.concat(token.symbol)
+							? token.name.concat(token.symbol).concat(token.address)
 								.toLowerCase()
 								.indexOf(tokenSearchTerm.toLowerCase()) > -1
 							: token;
-					})
-					.map((token) => {
-						return (
-							<div className="justify-left items-center" key={token.address}>
-								<div
-									className="flex flex-row cursor-pointer space-x-4 pb-3"
-									onClick={() => onSelect(token)}
-								>
-									<div className="pt-2">
-										<Image
-											src={token.path}
-											className="rounded-full"
-											alt="n/a"
-											width="25%"
-											height="25%"
-										/>
-									</div>
-									<div className="flex flex-col">
-										<div className="font-bold">{token.symbol}</div>
-										<div className="text-sm text-gray-200">{token.name}</div>
-									</div>
-								</div>
+					}).map((token, index, array) => {
+						return (						
+							<div  ref={(index === array.length - 1) ? lastElem : null} className="justify-left items-center" key={token.address} >
+								<TokenDisplay showCursor={true} onSelect={onSelect} token={token}/>
 							</div>
 						);
 					})}
 			</div>
-		</div>
+		</>
 	);
 };
 
