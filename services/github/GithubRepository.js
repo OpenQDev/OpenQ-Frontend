@@ -43,38 +43,40 @@ class GithubRepository {
 		return promise;
 	}
 
-	parseIssueData(rawIssueResponse) {try{
-		const responseData = rawIssueResponse.data.node;
-		const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = responseData;
-		const repoName = responseData.repository.name;
-		const avatarUrl = responseData.repository.owner.avatarUrl;
-		const owner = responseData.repository.owner.login;
-		const twitterUsername = responseData.repository.owner.twitterUsername;
-		const labels = responseData.labels.edges.map(edge => edge.node);
-		const number = responseData.number;
-		return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number };
-	}
-	catch(err){			
-		let id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number;
-		return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number };
-	}
+	parseIssueData(rawIssueResponse) {
+		try{
+			const responseData = rawIssueResponse.data.node;
+			const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = responseData;
+			const repoName = responseData.repository.name;
+			const avatarUrl = responseData.repository.owner.avatarUrl;
+			const owner = responseData.repository.owner.login;
+			const twitterUsername = responseData.repository.owner.twitterUsername;
+			const labels = responseData.labels.edges.map(edge => edge.node);
+			const number = responseData.number;
+			const assignees = responseData.assignees.nodes;
+			return { id, title, assignees, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number };
+		}
+		catch(err){
+			let id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number;
+			return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number };
+		}
 	}
 	parseIssuesData(rawIssuesResponse) {
 		const responseData = rawIssuesResponse.data.nodes;
-		return responseData.map((elem) => {
+		return responseData.filter(event=>event.__typename==='Issue').map((elem) => {
 			try{
 				const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = elem;
 				const repoName = elem.repository.name;
 				const avatarUrl = elem.repository.owner.avatarUrl;
 				const owner = elem.repository.owner.login;
-				const languages = elem.repository.languages.edges.map(edge=>edge.node);
 				const labels = elem.labels.edges.map(edge => edge.node);
-				const assignees = responseData.assignees.nodes;
-				return { id, assignees, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML };}
+				const languages = elem.repository.languages.edges.map(languages=>languages.node);
+				return { id, title, body, url, languages, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML };}
 
-			catch(err){			
+			catch(err){		
+				console.log(err);	
 				let id, url, repoName, owner, avatarUrl, labels, createdAt, closed, titleHTML, assignees;
-				return { id, assignees, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML: '', titleHTML };}
+				return { id, assignees, url, repoName, owner, avatarUrl, labels, createdAt, closed, titleHTML, bodyHTML: '',  };}
 		}
 		);
 	}

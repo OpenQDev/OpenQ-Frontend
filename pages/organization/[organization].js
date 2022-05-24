@@ -102,6 +102,7 @@ const organization = () => {
 		const bounties = organizationData.bountiesCreated;
 		const bountyIds = bounties.map((bounty) => bounty.bountyId);
 		const issueData = await appState.githubRepository.getIssueData(bountyIds);
+		console.log(issueData);
 		const fullBounties = [];
 		bounties.forEach((bounty) => {
 			const relatedIssue = issueData.find(
@@ -110,7 +111,7 @@ const organization = () => {
 			const mergedBounty = { ...bounty, ...relatedIssue };
 			fullBounties.push(mergedBounty);
 		});
-		if (fullBounties.length === batch) {
+		if (fullBounties.length !==0) {
 			setComplete(false);
 		}
 		setBounties(fullBounties);

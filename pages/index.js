@@ -63,7 +63,7 @@ export default function Index() {
 				fullBounties.push(mergedBounty);
 			});
 			setBounties(fullBounties);
-			if (batch === fullBounties.length) {
+			if (0 !== fullBounties.length) {
 				setComplete(false);
 			}
 			setIsLoading(false);
