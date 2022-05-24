@@ -8,6 +8,7 @@ import TokenBalances from '../TokenBalances/TokenBalances';
 import BountyLinks from './BountyLinks';
 import BountyStatus from './BountyStatus';
 import CopyBountyAddress from './CopyBountyAddress';
+import CopyBountyAssigneeLink from './CopyBountyAssigneeLink';
 import LabelsList from './LabelsList';
 import MiniDepositCard from './MiniDepositCard';
 
@@ -27,6 +28,11 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 					</div>
 					<div className="lg:col-span-2  xl:col-span-3">
 						<CopyBountyAddress bounty={bounty} />
+						{bounty && bounty?.assignees && (
+							<div className="mt-2">
+								<CopyBountyAssigneeLink bounty={bounty} />
+							</div>
+						)}
 					</div>
 					<div className='lg:col-span-2 xl:col-span-3'>
 						{bounty ?
