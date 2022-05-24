@@ -67,8 +67,9 @@ class GithubRepository {
 				const repoName = elem.repository.name;
 				const avatarUrl = elem.repository.owner.avatarUrl;
 				const owner = elem.repository.owner.login;
+				const languages = elem.repository.languages.edges.map(edge=>edge.node);
 				const labels = elem.labels.edges.map(edge => edge.node);
-				return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML };}
+				return { id, title, body, url, repoName, owner, avatarUrl, labels, languages, createdAt, closed, bodyHTML, titleHTML };}
 			catch(err){			
 				let id, url, repoName, owner, avatarUrl, labels, createdAt, closed, titleHTML;
 				return { id, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML: '', titleHTML };}
