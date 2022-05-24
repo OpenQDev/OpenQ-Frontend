@@ -23,17 +23,17 @@ const Footer = () => {
 				<div className='flex flex-wrap justify-content-end w-max text-right'>
 					<div className='min-w-[100px] flex gap-4'>
 						<Link href={'https://twitter.com/openqlabs'}>
-							<a target={'_blank'}>
+							<a target={'_blank'} rel="noopener noreferrer">
 								<Image src={'/social-icons/twitter.svg'} width={iW} height={iH} />
 							</a>
 						</Link>
 						<Link href={'https://github.com/OpenQDev/'}>
-							<a target={'_blank'}>
+							<a target={'_blank'} rel="noopener noreferrer">
 								<Image src={'/social-icons/github-logo-white.svg'}  width={iW} height={iH}/>
 							</a>
 						</Link>
 						<Link href={'https://discord.gg/puQVqEvVXn'}>
-							<a target={'_blank'}>
+							<a target={'_blank'} rel="noopener noreferrer">
 								<Image src={'/social-icons/discord.svg'}  width={iW} height={iH}/>
 							</a>
 						</Link>

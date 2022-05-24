@@ -34,14 +34,13 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		}
 	};
 
-
+	// NOTE tag search doesn't turn off regular search, it just manages it a little differently.
 	const filter = (bounties, options = {}) => {
 		const localTagArr = options.tagArr || tagArr;
 		const localSearchText = options.searchText === undefined ? searchText : options.searchText;
 		const localShowClaimed = options.showClaimed === undefined ? claimedVisible : options.showClaimed;
 		const localShowUnfunded = options.showUnfunded === undefined ? unfundedVisible : options.showUnfunded;
 		const displayBounties = bounties.filter(bounty => {
-
 			const containsSearch = ((bounty.title + bounty.description)
 				.toLowerCase()
 				.indexOf(localSearchText.toLowerCase()) > -1) ||
@@ -50,13 +49,16 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 					return (label.name.toLowerCase()
 						.indexOf(localSearchText.toLowerCase()) > -1);
 				}, false) ||
+				bounty.languages.reduce((accum, language) => {
+					if (accum) return true;
+					return (language.name.toLowerCase()
+						.indexOf(localSearchText.toLowerCase()) > -1);
+				}, false) ||
 				localSearchText.length === 0;
-
 			const containsTag = localTagArr.reduce((accum, tag) => {
 				if (accum === false) return false;
-				return bounty.labels.some(label => label.name.toLowerCase() === tag.toLowerCase());
+				return bounty.labels.some(label => label.name.toLowerCase() === tag.toLowerCase()) || bounty.languages.some((language)=>language.name.toLowerCase()===tag);
 			}, true);
-
 			const isUnclaimed = bounty.status === 'OPEN';
 			const isFunded = bounty.deposits.length > 0;
 			return (containsSearch && containsTag && (localShowUnfunded || isFunded) && (localShowClaimed || isUnclaimed) && bounty.url);
@@ -141,7 +143,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			if (toggleVal === 'Search') {
 				setTagSearch('Search');
 			}
-			else setTagSearch('Search Tags');
+			else setTagSearch('Search by Tags');
 		}
 	};
 
@@ -205,7 +207,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 							borderShape={'border-b border-l rounded-l-lg border-t w-36 sm:w-full'}
 						/>
 					}
-					<Dropdown toggleFunc={toggleTagSearch} title={tagSearch} width={36} names={['Search', 'Search Tags']} borderShape={'rounded-r-lg'} />
+					<Dropdown toggleFunc={toggleTagSearch} title={tagSearch} width={44} names={['Search', 'Search by Tags']} borderShape={'rounded-r-lg'} />
 				</div>
 				<MintBountyButton />
 			</div>

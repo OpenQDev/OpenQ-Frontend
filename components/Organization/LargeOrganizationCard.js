@@ -22,7 +22,7 @@ const LargeOrganizationCard = ({ organization }) => {
 			>
 				<div className="w-24 h-24 relative">
 					{organization?.avatarUrl ?
-						<Image src={organization.avatarUrl} alt="n/a" layout="fill" priority={true} /> :
+						<Image className='rounded-full' src={organization.avatarUrl} alt="n/a" layout="fill" priority={true} /> :
 						<Skeleton baseColor="#333" borderRadius={'1rem'} height={'96px'} />}
 				</div>
 				<div className="pt-5 text-center font-semibold ">

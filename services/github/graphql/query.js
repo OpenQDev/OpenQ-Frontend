@@ -198,6 +198,13 @@ query($issueIds: [ID!]!) {
       repository {
         id
         name
+				languages(first:10){
+					edges{
+						node{
+							name
+						}
+					}
+				}
         owner {
           login
           avatarUrl

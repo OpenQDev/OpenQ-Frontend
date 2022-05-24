@@ -9,7 +9,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import TokenDisplay from '../TokenBalances/TokenDisplay';
 
 const ManageTokenList = ({ setCustomTokens, customTokens, setLists, lists})=>{
-	const [displayedTab, setDisplayedTab] = useState('Tokens');
+	const [displayedTab, setDisplayedTab] = useState('Lists');
 	const [tokenInput, setTokenInput] = useState('');
 	const [error, setError] = useState();
 	const [appState] = useContext(StoreContext);
@@ -59,7 +59,7 @@ const ManageTokenList = ({ setCustomTokens, customTokens, setLists, lists})=>{
 	};
 
 	return(<div className='flex items-center flex-col justify-start gap-4 h-[30rem]'>
-		<Toggle toggleVal={displayedTab} toggleFunc={setDisplayedTab} names={['Tokens', 'Lists']}></Toggle>
+		<Toggle toggleVal={displayedTab} toggleFunc={setDisplayedTab} names={['Lists', 'Tokens']}></Toggle>
 		{	displayedTab==='Lists' ?
 			<><button className='md:w-5/6 w-full bg-button-inside border-button py-3 text-left px-4 border rounded-md flex items-center gap-4 justify-between'>
 			

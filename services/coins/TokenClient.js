@@ -78,14 +78,7 @@ class CoinClient {
 			const url = `${process.env.NEXT_PUBLIC_COIN_API_URL}/tokenMetadata`;
 			axios(url, {params: {cursor, limit}})
 				.then((result) => {
-					
-					const withPath = result.data.map((token)=>{
-						if((!token.path && !token.logoURI) || token.path?.match(/github.com/) || token.path?.match(/drive.google/) || token.logoURI?.match(/github.com/) || token.logoURI?.match(/drive.google/)){
-							return {...token, path:'/crypto-logos/ERC20.svg', logoURI: '/crypto-logos/ERC20.svg' };
-						}
-						return token;
-					});
-					resolve(withPath);
+					resolve(result.data);
 				})
 				.catch((error) => {
 					reject(error);
