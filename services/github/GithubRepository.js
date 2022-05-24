@@ -68,10 +68,12 @@ class GithubRepository {
 				const avatarUrl = elem.repository.owner.avatarUrl;
 				const owner = elem.repository.owner.login;
 				const labels = elem.labels.edges.map(edge => edge.node);
-				return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML };}
+				const assignees = responseData.assignees.nodes;
+				return { id, assignees, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML };}
+
 			catch(err){			
-				let id, url, repoName, owner, avatarUrl, labels, createdAt, closed, titleHTML;
-				return { id, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML: '', titleHTML };}
+				let id, url, repoName, owner, avatarUrl, labels, createdAt, closed, titleHTML, assignees;
+				return { id, assignees, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML: '', titleHTML };}
 		}
 		);
 	}
