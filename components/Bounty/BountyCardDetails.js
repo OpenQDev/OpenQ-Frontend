@@ -28,9 +28,11 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 					</div>
 					<div className="lg:col-span-2  xl:col-span-3">
 						<CopyBountyAddress bounty={bounty} />
-						<div className="mt-2">
-							<CopyBountyAssigneeLink bounty={bounty} />
-						</div>
+						{bounty && bounty?.assignees && (
+							<div className="mt-2">
+								<CopyBountyAssigneeLink bounty={bounty} />
+							</div>
+						)}
 					</div>
 					<div className='lg:col-span-2 xl:col-span-3'>
 						{bounty ?
