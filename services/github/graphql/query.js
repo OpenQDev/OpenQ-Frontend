@@ -185,7 +185,13 @@ query($issueIds: [ID!]!) {
       url
       id
       titleHTML
-      bodyHTML
+      bodyHTML				
+       assignees(first: 1) {
+         nodes {
+           name
+           url
+         }
+       }
       labels(first: 10) {
         edges {
           node {

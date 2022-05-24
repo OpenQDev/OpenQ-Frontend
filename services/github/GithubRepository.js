@@ -68,11 +68,12 @@ class GithubRepository {
 				const avatarUrl = elem.repository.owner.avatarUrl;
 				const owner = elem.repository.owner.login;
 				const labels = elem.labels.edges.map(edge => edge.node);
-				const assignees = responseData.assignees.nodes;
-				const languages = responseData.languages.edge;
+				const assignees = elem.nodes;
+				const languages = elem.repository.languages.edge;
 				return { id, assignees, title, body, url, languages, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML };}
 
-			catch(err){			
+			catch(err){		
+				console.log(err);	
 				let id, url, repoName, owner, avatarUrl, labels, createdAt, closed, titleHTML, assignees;
 				return { id, assignees, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML: '', titleHTML };}
 		}
@@ -100,6 +101,7 @@ class GithubRepository {
 				const result = await this.client.query({
 					query: GET_ISSUES_BY_ID, variables: { issueIds }, errorPolicy:  'all'
 				});
+				console.log(result);
 				resolve(this.parseIssuesData(result));
 			} catch (e) {
 				reject(e);
