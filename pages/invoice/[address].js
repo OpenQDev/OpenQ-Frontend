@@ -1,40 +1,28 @@
-import React, {useState, useEffect,  useContext} from 'react';
-import {useRouter} from 'next/router';
-import StoreContext from '../../store/Store/StoreContext';
+import React from 'react';
 
+
+import WrappedGithubClient from '../../services/github/WrappedGithubClient';
+import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
 import Invoice from '../../components/Invoicing/Invoice';
-import { add } from 'lodash';
 
-const invoice = ()=>{
-	const [appState] = useContext(StoreContext);
-	const [bounty, setBounty] = useState();
-	const router = useRouter();
-	const {address} = router.query;
-	async function populateBountyData() {
-		let bounty = null;
+const invoice = ({bounty})=>{
 
-		try {
-			bounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
-			console.log(bounty);
-			const issueData = await appState.githubRepository.fetchIssueById(bounty?.bountyId);
+	return <Invoice bounty={bounty} />;
+	
+};
 
-			const mergedBounty = { ...bounty, ...issueData };
+export const getServerSideProps =async(context)=>{
+	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
+	const githubClient = new WrappedGithubClient();
+	githubClient.instance.setGraphqlHeaders();
+	const {id, address} = context.query;
+	
+	const issueData = await githubClient.instance.fetchIssueById(id);
+	const bounty  = await openQSubgraphClient.instance.getBounty(address, 'no-cache');
+	const mergedBounty = {...issueData, ...bounty};
+	
 
-			setBounty({ ...mergedBounty });
-		}
-		catch (error) {
-			console.log(error);
-			return;
-		}
-	}
-	useEffect(()=>{
-		if(address){
-			populateBountyData();}
-	},[address]);
-
-	return(<div>
-		{bounty && <Invoice bounty={bounty} />}
-	</div>);
+	return {props: {id, address, issueData, bounty: mergedBounty}};
 };
 
 export default invoice;
