@@ -38,7 +38,7 @@ export default function Index() {
 				setWatchedBounties(subgraphBounties.map((bounty, index)=>{return {...bounty, ...githubBounties[index]};}));
 			}
 			catch(err){
-				console.log('could not fetch watched bounties');
+				console.log(err);
 			}
 		}
 	}	, [account]);
