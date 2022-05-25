@@ -64,25 +64,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		let approveSucceeded = false;
 
 		try {
-			const callerBalance = await appState.openQClient.balanceOf(library, account, ethers.utils.getAddress(token.address));
-			if (callerBalance.noSigner) {
-				setError({ title: 'No wallet connected.', message: 'Please connect your wallet.' });
-				setApproveTransferState(ERROR);
-				return;
-			} else if (callerBalance.lt(bigNumberVolumeInWei)) {
-				setError({ title: 'Funds Too Low', message: 'You do not have sufficient funds for this deposit' });
-				setApproveTransferState(ERROR);
-				return;
-			}
-		} catch (error) {
-			console.log(error);
-			setError({ title: 'Call Revert Exception', message: 'A contract call exception occurred. Please try again.' });
-			setButtonText('Fund');
-			setApproveTransferState(ERROR);
-			return;
-		}
-
-		try {
 			const isWhitelisted = await appState.openQClient.isWhitelisted(library, token.address);
 
 			// Only check bounty token address limit for non-whitelisted tokens
@@ -93,6 +74,25 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					setApproveTransferState(ERROR);
 					return;
 				}
+			}
+		} catch (error) {
+			console.log(error);
+			setError({ title: 'Call Revert Exception', message: 'A contract call exception occurred. Please try again.' });
+			setButtonText('Fund');
+			setApproveTransferState(ERROR);
+			return;
+		}
+
+		try {
+			const callerBalance = await appState.openQClient.balanceOf(library, account, ethers.utils.getAddress(token.address));
+			if (callerBalance.noSigner) {
+				setError({ title: 'No wallet connected.', message: 'Please connect your wallet.' });
+				setApproveTransferState(ERROR);
+				return;
+			} else if (callerBalance.lt(bigNumberVolumeInWei)) {
+				setError({ title: 'Funds Too Low', message: 'You do not have sufficient funds for this deposit' });
+				setApproveTransferState(ERROR);
+				return;
 			}
 		} catch (error) {
 			console.log(error);
