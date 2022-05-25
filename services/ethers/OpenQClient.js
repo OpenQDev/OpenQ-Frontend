@@ -188,6 +188,34 @@ class OpenQClient {
 		return promise;
 	}
 
+	async tokenAddressLimitReached(library, _bountyId) {
+		const promise = new Promise(async (resolve, reject) => {
+			const signer = library.getSigner();
+			const contract = this.OpenQ(signer);
+			try {
+				const tokenAddressLimitReached = await contract.tokenAddressLimitReached(_bountyId);
+				resolve(tokenAddressLimitReached);
+			} catch (err) {
+				reject(err);
+			}
+		});
+		return promise;
+	}
+
+	async isWhitelisted(library, tokenAddress) {
+		const promise = new Promise(async (resolve, reject) => {
+			const signer = library.getSigner();
+			const contract = this.OpenQ(signer);
+			try {
+				const isWhitelisted = await contract.isWhitelisted(tokenAddress);
+				resolve(isWhitelisted);
+			} catch (err) {
+				reject(err);
+			}
+		});
+		return promise;
+	}
+
 	handleError(jsonRpcError, data) {
 		let errorString = jsonRpcError?.data?.message;
 		console.log(errorString);
