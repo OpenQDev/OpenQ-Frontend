@@ -44,7 +44,7 @@ class GithubRepository {
 	}
 
 	parseIssueData(rawIssueResponse) {
-		try{
+		try {
 			const responseData = rawIssueResponse.data.node;
 			const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = responseData;
 			const repoName = responseData.repository.name;
@@ -56,27 +56,30 @@ class GithubRepository {
 			const assignees = responseData.assignees.nodes;
 			return { id, title, assignees, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number };
 		}
-		catch(err){
+		catch (err) {
 			let id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number;
 			return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number };
 		}
 	}
+
 	parseIssuesData(rawIssuesResponse) {
 		const responseData = rawIssuesResponse.data.nodes;
-		return responseData.filter(event=>event.__typename==='Issue').map((elem) => {
-			try{
+		return responseData.filter(event => event.__typename === 'Issue').map((elem) => {
+			try {
 				const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = elem;
 				const repoName = elem.repository.name;
 				const avatarUrl = elem.repository.owner.avatarUrl;
 				const owner = elem.repository.owner.login;
 				const labels = elem.labels.edges.map(edge => edge.node);
-				const languages = elem.repository.languages.edges.map(languages=>languages.node);
-				return { id, title, body, url, languages, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML };}
+				const languages = elem.repository.languages.edges.map(languages => languages.node);
+				return { id, title, body, url, languages, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML };
+			}
 
-			catch(err){		
-				console.log(err);	
+			catch (err) {
+				console.log(err);
 				let id, url, repoName, owner, avatarUrl, labels, createdAt, closed, titleHTML, assignees;
-				return { id, assignees, url, repoName, owner, avatarUrl, labels, createdAt, closed, titleHTML, bodyHTML: '',  };}
+				return { id, assignees, url, repoName, owner, avatarUrl, labels, createdAt, closed, titleHTML, bodyHTML: '', };
+			}
 		}
 		);
 	}
@@ -100,7 +103,7 @@ class GithubRepository {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
-					query: GET_ISSUES_BY_ID, variables: { issueIds }, errorPolicy:  'all'
+					query: GET_ISSUES_BY_ID, variables: { issueIds }, errorPolicy: 'all'
 				});
 				resolve(this.parseIssuesData(result));
 			} catch (e) {
