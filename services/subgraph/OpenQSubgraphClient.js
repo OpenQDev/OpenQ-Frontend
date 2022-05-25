@@ -5,10 +5,11 @@ import fetch from 'cross-fetch';
 class OpenQSubgraphClient {
 	constructor() { }
 
-	httpLink = new HttpLink({ uri: process.env.NEXT_PUBLIC_OPENQ_SUBGRAPH_HTTP_URL, fetch });
+	uri = process.env.OPENQ_SUBGRAPH_SSR_HTTP_URL ? process.env.OPENQ_SUBGRAPH_SSR_HTTP_URL: process.env.NEXT_PUBLIC_OPENQ_SUBGRAPH_HTTP_URL
+	httpLink = new HttpLink({ uri: this.uri, fetch });
 
 	client = new ApolloClient({
-		uri: process.env.NEXT_PUBLIC_OPENQ_SUBGRAPH_HTTP_URL,
+		uri: this.uri,
 		link: this.httpLink,
 		cache: new InMemoryCache()
 	});

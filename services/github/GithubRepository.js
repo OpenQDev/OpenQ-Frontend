@@ -4,7 +4,8 @@ import fetch from 'cross-fetch';
 import { setContext } from '@apollo/client/link/context';
 
 class GithubRepository {
-	constructor() { }
+	constructor() {
+	}
 
 	httpLink = new HttpLink({ uri: 'https://api.github.com/graphql', fetch });
 
@@ -14,10 +15,10 @@ class GithubRepository {
 		cache: new InMemoryCache(),
 	});
 
+			patsArray = process.env.NEXT_PUBLIC_PATS ? process.env.NEXT_PUBLIC_PATS.split(',') : process.env.PATS.split(',');
 	setGraphqlHeaders = () => {
+		const	token = this.patsArray[Math.floor(Math.random() * this.patsArray.length)];
 		const authLink = setContext((_, { headers }) => {
-			let patsArray = process.env.NEXT_PUBLIC_PATS.split(',');
-			let token = patsArray[Math.floor(Math.random() * patsArray.length)];
 			return {
 				headers: {
 					...headers,
