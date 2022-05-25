@@ -191,25 +191,44 @@ class OpenQClient {
 	handleError(jsonRpcError, data) {
 		let errorString = jsonRpcError?.data?.message;
 		console.log(errorString);
+
+		// Data messages - more specific than jsonRpcError.message
+		if (errorString) {
+			for (const error of jsonRpcErrors) {
+				const revertString = Object.keys(error)[0];
+				if (errorString.includes(revertString)) {
+					const title = error[revertString]['title'];
+					const message = error[revertString].message(data);
+					const link = error[revertString].link;
+					const linkText = error[revertString].linkText;
+					return { title, message, link, linkText };
+				}
+			}
+		}
+
+		let miscError;
 		if (typeof jsonRpcError === 'string') {
-			if (jsonRpcError.includes('Ambire user rejected the request')) { errorString = 'USER_DENIED_TRANSACTION'; }
-			if (jsonRpcError.includes('Rejected Request')) { errorString = 'USER_DENIED_TRANSACTION'; }
-			if (jsonRpcError.includes('Transaction was rejected')) { errorString = 'USER_DENIED_TRANSACTION'; }
+			if (jsonRpcError.includes('Ambire user rejected the request')) { miscError = 'USER_DENIED_TRANSACTION'; }
+			if (jsonRpcError.includes('Rejected Request')) { miscError = 'USER_DENIED_TRANSACTION'; }
+			if (jsonRpcError.includes('Transaction was rejected')) { miscError = 'USER_DENIED_TRANSACTION'; }
 		}
+
 		if (jsonRpcError.message) {
-			if (jsonRpcError.message.includes('Nonce too high.')) { errorString = 'NONCE_TO_HIGH'; }
-			if (jsonRpcError.message.includes('User denied transaction signature')) { errorString = 'USER_DENIED_TRANSACTION'; }
-			if (jsonRpcError.message.includes('Transaction was rejected')) { errorString = 'USER_DENIED_TRANSACTION'; }
-			if (jsonRpcError.message.includes('MetaMask is having trouble connecting to the network')) { errorString = 'METAMASK_HAVING_TROUBLE'; }
-			if (jsonRpcError.message.includes('Internal JSON-RPC error')) { errorString = 'INTERNAL_ERROR'; }
-			if (jsonRpcError.message.includes('Set a higher gas fee')) { errorString = 'UNDERPRICED_TXN'; }
+			if (jsonRpcError.message.includes('Nonce too high.')) { miscError = 'NONCE_TO_HIGH'; }
+			if (jsonRpcError.message.includes('User denied transaction signature')) { miscError = 'USER_DENIED_TRANSACTION'; }
+			if (jsonRpcError.message.includes('Transaction was rejected')) { miscError = 'USER_DENIED_TRANSACTION'; }
+			if (jsonRpcError.message.includes('MetaMask is having trouble connecting to the network')) { miscError = 'METAMASK_HAVING_TROUBLE'; }
+			if (jsonRpcError.message.includes('Internal JSON-RPC error')) { miscError = 'INTERNAL_ERROR'; }
+			if (jsonRpcError.message.includes('Set a higher gas fee')) { miscError = 'UNDERPRICED_TXN'; }
 		}
-		if (!errorString) {
+
+		if (!miscError) {
 			errorString = 'CALL_EXCEPTION';
 		}
+
 		for (const error of jsonRpcErrors) {
 			const revertString = Object.keys(error)[0];
-			if (errorString.includes(revertString)) {
+			if (miscError.includes(revertString)) {
 				const title = error[revertString]['title'];
 				const message = error[revertString].message(data);
 				const link = error[revertString].link;
@@ -217,6 +236,7 @@ class OpenQClient {
 				return { title, message, link, linkText };
 			}
 		}
+
 		return 'Unknown Error';
 	}
 
