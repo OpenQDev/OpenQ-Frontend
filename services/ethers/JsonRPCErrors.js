@@ -32,6 +32,14 @@ const jsonRpcErrors =
 			}
 		},
 		{
+			'TOO_MANY_TOKEN_ADDRESSES': {
+				title: 'Too Many Token Addresses',
+				message: () => {
+					return 'This bounty already has the maximum number of token funded addresses. You can still fund with USDC. If you would like to get whitelisted, please contact info@openq.dev';
+				}
+			}
+		},
+		{
 			'ERC20: transfer amount exceeds balance': {
 				title: 'Transfer amount exceeds balance',
 				message: () => {
@@ -87,7 +95,7 @@ const jsonRpcErrors =
 		// CONNECTION
 		{
 			'METAMASK_HAVING_TROUBLE': {
-				title: 'Cannot Connect to network.',				
+				title: 'Cannot Connect to network.',
 				message: () => {
 					return 'Please check your wallet settings.';
 				}
@@ -106,18 +114,18 @@ const jsonRpcErrors =
 		{
 			'INTERNAL_ERROR': {
 				title: 'Internal RPC Error',
-				message: ()=>{
+				message: () => {
 					return 'Something went awry and the transaction failed! Please reload and try again.';
-				} 
+				}
 			}
 		},
 
 		{
 			'UNDERPRICED_TXN': {
 				title: 'Underpriced Transaction!',
-				message: ()=>{
+				message: () => {
 					return 'Set a higher gas fee to get your transaction through. See how ';
-				}, 
+				},
 				link: 'https://metamask.zendesk.com/hc/en-us/articles/360022895972',
 				linkText: 'here.'
 			}
@@ -126,7 +134,7 @@ const jsonRpcErrors =
 		{
 			'OUT_OF_GAS': {
 				title: 'Out of Gas',
-				message: ()=>{
+				message: () => {
 					return 'Transaction ran out of gas.';
 				}
 			}
@@ -135,7 +143,7 @@ const jsonRpcErrors =
 		{
 			'CALL_EXCEPTION': {
 				title: 'Polygon Call Exception',
-				message: ()=>{
+				message: () => {
 					return 'A exception occured while calling Polygon.';
 				}
 			}

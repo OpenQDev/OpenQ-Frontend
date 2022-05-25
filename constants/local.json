@@ -23,6 +23,14 @@
 		"chainId": 80001,
 		"path": "/crypto-logos/DAI.svg"
 	},
+	"0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0": {
+		"name": "Dummy ERC20 (Blacklisted)",
+		"address": "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
+		"symbol": "BDERC20",
+		"decimals": 18,
+		"chainId": 80001,
+		"path": "/crypto-logos/DAI.svg"
+	},
 	"0xd0A1E359811322d97991E03f863a0C30C2cF029C": {
 		"name": "Wrapped Matic",
 		"address": "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
