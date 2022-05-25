@@ -1,15 +1,14 @@
-import React, {useState, useEffect,  useContext} from 'react';
-import {useRouter} from 'next/router';
+import React, { useState, useEffect, useContext } from 'react';
+import { useRouter } from 'next/router';
 import StoreContext from '../../store/Store/StoreContext';
 
 import Invoice from '../../components/Invoicing/Invoice';
-import { add } from 'lodash';
 
-const invoice = ()=>{
+const invoice = () => {
 	const [appState] = useContext(StoreContext);
 	const [bounty, setBounty] = useState();
 	const router = useRouter();
-	const {address} = router.query;
+	const { address } = router.query;
 	async function populateBountyData() {
 		let bounty = null;
 
@@ -27,12 +26,13 @@ const invoice = ()=>{
 			return;
 		}
 	}
-	useEffect(()=>{
-		if(address){
-			populateBountyData();}
-	},[address]);
+	useEffect(() => {
+		if (address) {
+			populateBountyData();
+		}
+	}, [address]);
 
-	return(<div>
+	return (<div>
 		{bounty && <Invoice bounty={bounty} />}
 	</div>);
 };
