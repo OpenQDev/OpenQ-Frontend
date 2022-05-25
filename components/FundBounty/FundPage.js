@@ -64,9 +64,29 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		let approveSucceeded = false;
 
 		try {
+			const isWhitelisted = await appState.openQClient.isWhitelisted(library, token.address);
+
+			// Only check bounty token address limit for non-whitelisted tokens
+			if (!isWhitelisted) {
+				const tokenAddressLimitReached = await appState.openQClient.tokenAddressLimitReached(library, bounty.bountyId);
+				if (tokenAddressLimitReached) {
+					setError({ title: 'Token Address Limit Is Reached!', message: 'Contact info@openq.dev' });
+					setApproveTransferState(ERROR);
+					return;
+				}
+			}
+		} catch (error) {
+			console.log(error);
+			setError({ title: 'Call Revert Exception', message: 'A contract call exception occurred. Please try again.' });
+			setButtonText('Fund');
+			setApproveTransferState(ERROR);
+			return;
+		}
+
+		try {
 			const callerBalance = await appState.openQClient.balanceOf(library, account, ethers.utils.getAddress(token.address));
 			if (callerBalance.noSigner) {
-				setError({ title: 'No wallet connected.', message:  'Please connect your wallet.'});
+				setError({ title: 'No wallet connected.', message: 'Please connect your wallet.' });
 				setApproveTransferState(ERROR);
 				return;
 			} else if (callerBalance.lt(bigNumberVolumeInWei)) {
@@ -76,7 +96,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 			}
 		} catch (error) {
 			console.log(error);
-			setError({ title:'Call Revert Exception', message: 'A contract call exception occurred. Please try again.'});
+			setError({ title: 'Call Revert Exception', message: 'A contract call exception occurred. Please try again.' });
 			setButtonText('Fund');
 			setApproveTransferState(ERROR);
 			return;
@@ -98,13 +118,13 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		} catch (error) {
 			console.log(error);
 			const { message, title, link, linkText } = appState.openQClient.handleError(error, { bounty });
-			setError({ message, title, link, linkText});
+			setError({ message, title, link, linkText });
 			setButtonText('Fund');
 			setApproveTransferState(ERROR);
 		}
 
 		if (approveSucceeded) {
-			const mergedTokenBalances = [...bounty.bountyTokenBalances, {volume: volume*(10)**token.decimals,  tokenAddress: token.address}];
+			const mergedTokenBalances = [...bounty.bountyTokenBalances, { volume: volume * (10) ** token.decimals, tokenAddress: token.address }];
 			const tokenVolume = await appState.tokenClient.parseTokenValues(mergedTokenBalances);
 			const tvl = tokenVolume.total;
 			setButtonText('Transferring');
@@ -152,11 +172,11 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 	// Render
 	return (<>{claimed ?
-		<BountyClosed bounty={bounty} />:
+		<BountyClosed bounty={bounty} /> :
 		<div className="flex flex-1 font-mont justify-center items-center pb-10">
 			<div className="flex flex-col space-y-5 w-5/6">
 				<div className="flex text-3xl font-semibold  justify-center pt-16">
-						Fund Bounty
+					Fund Bounty
 				</div>
 
 				<TokenFundBox
