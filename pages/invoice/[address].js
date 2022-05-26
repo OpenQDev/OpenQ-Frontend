@@ -21,7 +21,7 @@ export const getServerSideProps =async(context)=>{
 	githubClient.instance.setGraphqlHeaders();
 	const {id, address} = context.query;
 	let issueData = {};
-	let renderError = null;
+	let renderError = '';
 	try{
 		issueData = await githubClient.instance.fetchIssueById(id);
 	}

@@ -25,7 +25,7 @@ const account = ({account, user, organizations, renderError}) => {
 export const getServerSideProps = async(context)=>{
 	
 	const account = context.params.account;
-	let renderError;
+	let renderError = '';
 	try{
 		ethers.utils.getAddress(account);
 	}
