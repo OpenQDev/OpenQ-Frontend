@@ -9,14 +9,14 @@ import WrappedGithubClient from '../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
 
-const account = ({account, user, organizations}) => {
+const account = ({account, user, organizations, renderError}) => {
 	return (
 
 		<div className=' md:grid grid-cols-wide gap-4 justify-center col-start-2 pt-12'>
 			<section className="min-h-card rounded-lg shadow-sm col-start-2 md:border border-web-gray">
 				{user ?
 					<AboutUser user={user} account={account} organizations={organizations}/> :
-					<UnexpectedError />}
+					<UnexpectedError error={renderError} />}
 			</section>
 		</div>
 	);	
@@ -25,7 +25,13 @@ const account = ({account, user, organizations}) => {
 export const getServerSideProps = async(context)=>{
 	
 	const account = context.params.account;
-	ethers.utils.getAddress(account);
+	let renderError;
+	try{
+		ethers.utils.getAddress(account);
+	}
+	catch{
+		return {props: {renderError: `${account} is not a valid address.`}};
+	}
 	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
 	const openQPrismaClient = new WrappedOpenQPrismaClient();
 	const githubRepository = new WrappedGithubClient();
@@ -50,8 +56,9 @@ export const getServerSideProps = async(context)=>{
 		id: account.toLowerCase(),
 		payoutTokenBalances: [],
 		payouts: [],
+		renderError
 	};
-	return { props: {account, user, userOffChainData, organizations}};
+	return { props: {account, user, userOffChainData, organizations, renderError}};
 };
 
 export default account;

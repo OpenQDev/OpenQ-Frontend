@@ -120,16 +120,18 @@ export const getServerSideProps = async()=>{
 	const githubRepository = new WrappedGithubClient();
 	githubRepository.instance.setGraphqlHeaders();
 	let orgs = [];
+	const batch = 10;
+	let renderError = '';
 	try {
 		orgs = await openQSubgraphClient.instance.getOrganizations();
 	} catch (error) {
-		console.log(error);
+		renderError = 'OpenQ is having trouble loading data.';
 	}
 	const ids = orgs.map(org => org.id);
 	let githubOrganizations = [];
 	try {
 		githubOrganizations = await githubRepository.instance.fetchOrgsOrUsersByIds(ids);
-		console.log(githubOrganizations);
+		renderError = 'OpenQ is unable to connect with Github.';
 	}
 	catch (err) {
 		console.log(err);
@@ -143,11 +145,34 @@ export const getServerSideProps = async()=>{
 		}
 		return { ...org, ...currentGithubOrg };
 	});
+
+
+	// Fetch Bounties
 	const fullBounties = [];
+
+	// Fetch from Subgraph
+	let newBounties=[];	
 	try {
-		const newBounties = await openQSubgraphClient.instance.getAllBounties('desc', 0, batch);
-		const bountyIds = newBounties.map((bounty) => bounty.bountyId);
-		let issueData;
+		newBounties = await openQSubgraphClient.instance.getAllBounties('desc', 0, batch);
+	}
+	catch (err) {
+		if(err.message.includes('Wait for it to ingest a few blocks before querying it')){
+			console.log('graph empty');
+			return {props: {
+				orgs: [],
+				fullBounties: []
+			}};
+		}
+		else{
+			console.log(err);
+			renderError = 'OpenQ is unable to display bounties.';
+		}
+	}
+	const bountyIds = newBounties.map((bounty) => bounty.bountyId);
+	
+	// Fetch from Github
+	let issueData = [];
+	try{
 		issueData = await githubRepository.instance.getIssueData(bountyIds);
 		newBounties.forEach((bounty) => {
 			const relatedIssue = issueData.find(
@@ -157,21 +182,14 @@ export const getServerSideProps = async()=>{
 			fullBounties.push(mergedBounty);
 		});
 	}
-	catch (error) {
-		if(error.message.includes('Wait for it to ingest a few blocks before querying it')){
-			console.log('graph empty');
-		}
-		else{
-			console.log(error);
-		}
-		return {props: {
-			orgs: [],
-			fullBounties: []
-		}};
+	catch(err){
+		renderError = 'OpenQ is unable to connect with Github.';
 	}
+	
 
 	return {props: {
 		orgs: mergedOrgs,
-		fullBounties
+		fullBounties, 
+		renderError
 	}};
 };

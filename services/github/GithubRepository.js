@@ -137,10 +137,13 @@ class GithubRepository {
 				const organizationResult = await this.fetchOrganizationByLogin(login);
 				resolve(organizationResult);
 			} catch (e) {
-				const userResult = await this.fetchUserByLogin(login);
-				resolve(userResult);
-				console.log(e);
-				reject(e);
+				try{
+					const userResult = await this.fetchUserByLogin(login);
+					resolve(userResult);
+				}
+				catch(e){
+					console.log(e);
+					reject(e);}
 			}
 		});
 

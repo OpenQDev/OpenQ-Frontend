@@ -166,7 +166,7 @@ export const getServerSideProps = async(context)=>{
 	}
 	catch(err){
 		console.log(err);
-		renderError = 'OpenQ could not find the issue for this bounty on Github.';
+		renderError = 'OpenQ could not find the issue connected to bounty on Github.';
 	}
 	try{
 		bounty  = await openQSubgraphClient.instance.getBounty(address, 'no-cache');

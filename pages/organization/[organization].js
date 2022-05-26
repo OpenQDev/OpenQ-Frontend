@@ -11,7 +11,7 @@ import About from '../../components/About/About';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedGithubClient from '../../services/github/WrappedGithubClient';
-const organization = ({ organizationData, fullBounties, completed, batch}) => {
+const organization = ({ organizationData, fullBounties, completed, batch, renderError}) => {
 	// Context
 	const [appState] = useContext(StoreContext);
 	// State
@@ -19,7 +19,7 @@ const organization = ({ organizationData, fullBounties, completed, batch}) => {
 	const [bounties, setBounties] = useState(fullBounties);
 	const [showAbout, setShowAbout] = useState('Bounties');
 	const [pagination, setPagination] = useState(batch);
-	const [error, setError] = useState(false);
+	const [error, setError] = useState(renderError);
 
 	const [tokenValues] = useGetTokenValues(organizationData?.fundedTokenBalances);
 	const [complete, setComplete] = useState(completed);
@@ -77,7 +77,7 @@ const organization = ({ organizationData, fullBounties, completed, batch}) => {
 	return (
 		<>
 			{error ?
-				<UnexpectedError />
+				<UnexpectedError error = {error} />
 				:
 				<div className="bg-dark-mode pt-10">
 					<Toggle toggleFunc={setShowAbout} toggleVal={showAbout} names={['Bounties', 'About']} />
@@ -107,20 +107,24 @@ export const getServerSideProps = async(context) =>{
 		orgData = await githubRepository.instance.fetchOrgOrUserByLogin(
 			organization
 		);
-
-		const org = await openQSubgraphClient.instance.getOrganization(
-			orgData.id, batch
-		);
-		mergedOrgData = { ...org, ...orgData };
 	}
 	catch (err) {
+		return{props:{renderError:`Could not find ${organization}, does an organization with this name exists on Github?`}};
+	}
+
+	const org = await openQSubgraphClient.instance.getOrganization(
+		orgData.id, batch
+	);
+	mergedOrgData = { ...org, ...orgData };	
+	const bounties = mergedOrgData.bountiesCreated||[];
+	const bountyIds = bounties.map((bounty) => bounty.bountyId);
+	let issueData;
+	try{
+		issueData = await githubRepository.instance.getIssueData(bountyIds);
+	}
+	catch(err){
 		console.log(err);
 	}
-	
-	const bounties = mergedOrgData.bountiesCreated;
-	const bountyIds = bounties.map((bounty) => bounty.bountyId);
-	const issueData = await githubRepository.instance.getIssueData(bountyIds);
-	console.log(issueData);
 	const fullBounties = [];
 	bounties.forEach((bounty) => {
 		const relatedIssue = issueData.find(
