@@ -4,11 +4,11 @@ import fetch from 'cross-fetch';
 
 class OpenQPrismaClient {
 	constructor() { }
-
-	httpLink = new HttpLink({ uri: process.env.NEXT_PUBLIC_OPENQ_API_URL, fetch });
+	uri = process.env.OPENQ_API_SSR_URL ? process.env.OPENQ_API_SSR_URL : process.env.NEXT_PUBLIC_OPENQ_API_URL
+	httpLink = new HttpLink({ uri: this.uri, fetch });
 
 	client = new ApolloClient({
-		uri: process.env.NEXT_PUBLIC_OPENQ_API_URL + '/graphql',
+		uri: this.uri + '/graphql',
 		link: this.httpLink,
 		cache: new InMemoryCache(),
 	});

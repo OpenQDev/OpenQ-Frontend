@@ -6,14 +6,14 @@ import StoreContext from '../store/Store/StoreContext';
 import BountyHomepage from '../components/Bounty/BountyHomepage';
 import OrganizationHomepage from '../components/Organization/OrganizationHomepage';
 import useWeb3 from '../hooks/useWeb3';
+import WrappedGithubClient from '../services/github/WrappedGithubClient';
+import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgraphClient';
 
-export default function Index() {
+export default function Index({orgs, fullBounties, batch}) {
 	const [internalMenu, setInternalMenu] = useState('org');
-	const batch = 10;
 	// State
-	const [bounties, setBounties] = useState([]);
-	const [isLoading, setIsLoading] = useState(true);
-	const [error, setError] = useState(false);
+	const [bounties, setBounties] = useState(fullBounties);
+	const [isLoading, setIsLoading] = useState(false);
 	const [complete, setComplete] = useState(false);
 	const [pagination, setPagination] = useState(batch);
 	const [watchedBounties, setWatchedBounties] = useState([]);
@@ -23,9 +23,6 @@ export default function Index() {
 
 	const {account} = useWeb3();
 	// Hooks
-	useEffect(() => {
-		populateBountyData();
-	}, []);
 
 	useEffect(async()=>{
 		if(account){
@@ -38,47 +35,23 @@ export default function Index() {
 				setWatchedBounties(subgraphBounties.map((bounty, index)=>{return {...bounty, ...githubBounties[index]};}));
 			}
 			catch(err){
-				console.log(err);
+				console.log('could not fetch watched bounties');
 			}
 		}
 	}	, [account]);
 
 	// Methods
-	async function populateBountyData() {
-		setIsLoading(true);
-
-		try {
-			setComplete(true);
-			const newBounties = await appState.openQSubgraphClient.getAllBounties('desc', 0, batch);
-
-			const bountyIds = newBounties.map((bounty) => bounty.bountyId);
-			let issueData;
-			issueData = await appState.githubRepository.getIssueData(bountyIds);
-			const fullBounties = [];
-			newBounties.forEach((bounty) => {
-				const relatedIssue = issueData.find(
-					(issue) => issue.id == bounty.bountyId
-				) || { id: '', title: '', body: '' };
-				const mergedBounty = { ...bounty, ...relatedIssue };
-				fullBounties.push(mergedBounty);
-			});
-			setBounties(fullBounties);
-			if (0 !== fullBounties.length) {
-				setComplete(false);
-			}
-			setIsLoading(false);
-		}
-		catch (error) {
-			console.log(error);
-			setError(true);
-			return;
-		}
-	}
 
 
 	async function getBountyData(sortOrder, currentPagination) {
 		setPagination(() => currentPagination + batch);
-		const newBounties = await appState.openQSubgraphClient.getAllBounties(sortOrder, currentPagination, batch);
+		let newBounties = [];
+		try{
+			newBounties = await appState.openQSubgraphClient.getAllBounties(sortOrder, currentPagination, batch);
+		}
+		catch(err){
+			console.log('no bounties');
+		}
 		const bountyIds = newBounties.map((bounty) => bounty.bountyId);
 		const issueData = await appState.githubRepository.getIssueData(bountyIds);
 		const fullBounties = [];
@@ -134,10 +107,89 @@ export default function Index() {
 						</div>
 					</div>
 					<div>
-						{internalMenu == 'org' ? <OrganizationHomepage /> : <BountyHomepage bounties={bounties} watchedBounties={watchedBounties} loading={isLoading} error={error} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />}
+						{internalMenu == 'org' ? <OrganizationHomepage orgs={orgs} /> : <BountyHomepage bounties={bounties} watchedBounties={watchedBounties} loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />}
 					</div>
 				</div>
 			</main>
 		</div>
 	);
 }
+
+export const getServerSideProps = async()=>{
+	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
+	const githubRepository = new WrappedGithubClient();
+	githubRepository.instance.setGraphqlHeaders();
+	let orgs = [];
+	const batch = 10;
+	let renderError = '';
+	try {
+		orgs = await openQSubgraphClient.instance.getOrganizations();
+	} catch (error) {
+		renderError = 'OpenQ is having trouble loading data.';
+	}
+	const ids = orgs.map(org => org.id);
+	let githubOrganizations = [];
+	try {
+		githubOrganizations = await githubRepository.instance.fetchOrgsOrUsersByIds(ids);
+		renderError = 'OpenQ is unable to connect with Github.';
+	}
+	catch (err) {
+		console.log(err);
+	}
+	let mergedOrgs = orgs.map((org) => {
+		let currentGithubOrg;
+		for (const githubOrganization of githubOrganizations) {
+			if (org.id === githubOrganization.id) {
+				currentGithubOrg = githubOrganization;
+			}
+		}
+		return { ...org, ...currentGithubOrg };
+	});
+
+
+	// Fetch Bounties
+	const fullBounties = [];
+
+	// Fetch from Subgraph
+	let newBounties=[];	
+	try {
+		newBounties = await openQSubgraphClient.instance.getAllBounties('desc', 0, batch);
+	}
+	catch (err) {
+		if(err.message.includes('Wait for it to ingest a few blocks before querying it')){
+			console.log('graph empty');
+			return {props: {
+				orgs: [],
+				fullBounties: []
+			}};
+		}
+		else{
+			console.log(err);
+			renderError = 'OpenQ is unable to display bounties.';
+		}
+	}
+	const bountyIds = newBounties.map((bounty) => bounty.bountyId);
+	
+	// Fetch from Github
+	let issueData = [];
+	try{
+		issueData = await githubRepository.instance.getIssueData(bountyIds);
+		newBounties.forEach((bounty) => {
+			const relatedIssue = issueData.find(
+				(issue) => issue.id == bounty.bountyId
+			) || { id: '', title: '', body: '' };
+			const mergedBounty = { ...bounty, ...relatedIssue };
+			fullBounties.push(mergedBounty);
+		});
+	}
+	catch(err){
+		renderError = 'OpenQ is unable to connect with Github.';
+	}
+	
+
+	return {props: {
+		orgs: mergedOrgs,
+		fullBounties, 
+		renderError
+	}};
+};

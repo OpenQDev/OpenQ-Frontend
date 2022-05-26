@@ -31,7 +31,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 				let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
 				let totalValue;
 				if (!singleCurrency) {
-					totalValue = tokenValues?.tokens[tokenValueAddress.toLowerCase()]|| 0;
+					totalValue = tokenValues?.tokens[tokenValueAddress.toLowerCase()] || 0;
 				} else {
 					totalValue = formattedVolume * tokenValues?.tokenPrices[tokenValueAddress.toLowerCase()];
 				}
@@ -41,17 +41,20 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 				);
 				if (totalValue > highest) highest = totalValue;
 				const path = currentToken.path||currentToken.logoURI||tokenMetadata?.[tokenAddress].path;
-				return { ...tokenBalance, tokenAddress, totalValue, usdValue, symbol, path, formattedVolume };
+				if(tokenValues){
+					return { ...tokenBalance, tokenAddress, totalValue, usdValue, symbol, path, formattedVolume };
+				}
 			});
 			const settledTotalValueBalances = await Promise.all(totalValueBalances);
-			updateDisplayedBalances(settledTotalValueBalances.filter((balance) => {
-				if (!showOne) { return true; }
-				// So we don't end up with a tie.
-				if (balance.totalValue >= highest) {
-					highest >= 0.01;
-					return true;
-				}
-			}));
+			if(settledTotalValueBalances[0]){
+				updateDisplayedBalances(settledTotalValueBalances.filter((balance) => {
+					if (!showOne) { return true; }
+					// So we don't end up with a tie.
+					if (balance.totalValue >= highest) {
+						highest >= 0.01;
+						return true;
+					}
+				}));}
 		}
 	}, [tokenBalances, tokenValues]);
 
@@ -68,7 +71,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 			</div>
 			<div className="flex flex-row space-x-2 pt-1">
 				<div>
-					{tokenBalances && (( displayedBalances.length > 0) || tokenBalances.length === 0)
+					{tokenBalances && displayedBalances[0] && (( displayedBalances.length > 0) || tokenBalances.length === 0)
 						? displayedBalances.map((tokenBalance) => {
 							const { symbol, usdValue, formattedVolume, path } = tokenBalance;
 

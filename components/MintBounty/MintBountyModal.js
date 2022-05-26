@@ -87,18 +87,18 @@ const MintBountyModal = ({ modalVisibility }) => {
 				issue.repository.owner.id,
 			);
 			console.log(bountyAddress);
-			sessionStorage.setItem('justMinted', true);			
-			
-			await appState.openQPrismaClient.createNewBounty(ethers.utils.getAddress(bountyAddress));
-			
+			sessionStorage.setItem('justMinted', true);	
+			await appState.openQPrismaClient.createNewBounty(ethers.utils.getAddress(bountyAddress));	
+		
 			router.push(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`
+				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}?id=${issue.id}`
 			);
 		} catch (error) {
 			console.log('error in mintbounty', error);
 			const { message, title } = appState.openQClient.handleError(error);
 			console.log(message);
 			setError({ message, title });
+		
 		}
 	};
 
@@ -160,7 +160,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 											This issue is already closed on GitHub
 										</div>}
 									{isValidUrl && bountyAddress && issue &&
-										<BountyAlreadyMintedMessage claimed={claimed} bountyAddress={bountyAddress} />}
+										<BountyAlreadyMintedMessage claimed={claimed} id={issue.id} bountyAddress={bountyAddress} />}
 								</div>
 
 								<ToolTip

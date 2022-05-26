@@ -67,7 +67,7 @@ const ManageTokenList = ({ setCustomTokens, customTokens, setLists, lists})=>{
 					<Image height={24} width={24} src={'/openq-logo.png'} />
 				</div>
 				<span className="justify-self-start flex-1">OpenQ List</span>
-				<input onClick={setOpenQ} checked={lists.openq} type="checkbox" className='checkbox'/>
+				<input onChange={setOpenQ} checked={lists.openq} type="checkbox" className='checkbox'/>
 			</button>
 			<button className='md:w-5/6 w-full bg-button-inside border-button py-3 mb-4.5 text-left px-4 border rounded-md flex items-center gap-4 justify-between'>
 				<div className={`flex justify-center items-center h-10 w-10 rounded-full border border-button ${lists.polygon? 'bg-button-inside': 'bg-inactive-gray'}`}>
@@ -83,7 +83,7 @@ const ManageTokenList = ({ setCustomTokens, customTokens, setLists, lists})=>{
 						</g>
 					</svg>
 				</div><span className='justify-self-start flex-1 truncate'>Polygon.Technology List</span>
-				<input onClick={setPolygon} type="checkbox" checked={lists.polygon} className='checkbox'/>
+				<input onChange={setPolygon} type="checkbox" checked={lists.polygon} className='checkbox'/>
 
 
 			</button>

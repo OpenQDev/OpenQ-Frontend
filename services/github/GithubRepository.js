@@ -4,7 +4,8 @@ import fetch from 'cross-fetch';
 import { setContext } from '@apollo/client/link/context';
 
 class GithubRepository {
-	constructor() { }
+	constructor() {
+	}
 
 	httpLink = new HttpLink({ uri: 'https://api.github.com/graphql', fetch });
 
@@ -14,10 +15,10 @@ class GithubRepository {
 		cache: new InMemoryCache(),
 	});
 
+			patsArray = process.env.NEXT_PUBLIC_PATS ? process.env.NEXT_PUBLIC_PATS.split(',') : process.env.PATS.split(',');
 	setGraphqlHeaders = () => {
+		const	token = this.patsArray[Math.floor(Math.random() * this.patsArray.length)];
 		const authLink = setContext((_, { headers }) => {
-			let patsArray = process.env.NEXT_PUBLIC_PATS.split(',');
-			let token = patsArray[Math.floor(Math.random() * patsArray.length)];
 			return {
 				headers: {
 					...headers,
@@ -50,7 +51,7 @@ class GithubRepository {
 			const repoName = responseData.repository.name;
 			const avatarUrl = responseData.repository.owner.avatarUrl;
 			const owner = responseData.repository.owner.login;
-			const twitterUsername = responseData.repository.owner.twitterUsername;
+			const twitterUsername = responseData.repository.owner.twitterUsername||null;
 			const labels = responseData.labels.edges.map(edge => edge.node);
 			const number = responseData.number;
 			const assignees = responseData.assignees.nodes;
@@ -136,10 +137,13 @@ class GithubRepository {
 				const organizationResult = await this.fetchOrganizationByLogin(login);
 				resolve(organizationResult);
 			} catch (e) {
-				const userResult = await this.fetchUserByLogin(login);
-				resolve(userResult);
-				console.log(e);
-				reject(e);
+				try{
+					const userResult = await this.fetchUserByLogin(login);
+					resolve(userResult);
+				}
+				catch(e){
+					console.log(e);
+					reject(e);}
 			}
 		});
 
