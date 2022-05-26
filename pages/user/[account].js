@@ -12,12 +12,11 @@ import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrism
 const account = ({account, user, organizations, renderError}) => {
 	return (
 
-		<div className=' md:grid grid-cols-wide gap-4 justify-center col-start-2 pt-12'>
+		<div className=' md:grid grid-cols-wide gap-4 justify-center col-start-2 pt-12'>{user ?
 			<section className="min-h-card rounded-lg shadow-sm col-start-2 md:border border-web-gray">
-				{user ?
-					<AboutUser user={user} account={account} organizations={organizations}/> :
-					<UnexpectedError error={renderError} />}
-			</section>
+				<AboutUser user={user} account={account} organizations={organizations}/> 
+			</section>:
+			<UnexpectedError error={renderError} />}
 		</div>
 	);	
 };
@@ -36,19 +35,7 @@ export const getServerSideProps = async(context)=>{
 	const openQPrismaClient = new WrappedOpenQPrismaClient();
 	const githubRepository = new WrappedGithubClient();
 	githubRepository.instance.setGraphqlHeaders();
-	const userOnChainData = await openQSubgraphClient.instance.getUser(account.toLowerCase());	
-	const userOffChainData = await openQPrismaClient.instance.getUser(ethers.utils.getAddress(account));
-	
-	const issueIds = userOnChainData.bountiesClosed.map(bounty => bounty.bountyId);
-	let organizations = [];
-	try{
-		organizations = await githubRepository.instance.parseOrgIssues(issueIds);
-	}
-	catch(err){
-		console.log(err);
-	}
-	
-	const user = (userOnChainData||userOffChainData)?{ ...userOnChainData, ...userOffChainData }: {
+	let user = {
 		bountiesClosed:[],
 		bountiesCreated: [],
 		deposits: [],
@@ -58,7 +45,27 @@ export const getServerSideProps = async(context)=>{
 		payouts: [],
 		renderError
 	};
-	return { props: {account, user, userOffChainData, organizations, renderError}};
+	let organizations = [];
+	try{
+		const	userOnChainData = await openQSubgraphClient.instance.getUser(account.toLowerCase());
+		const userOffChainData = await openQPrismaClient.instance.getUser(ethers.utils.getAddress(account));
+	
+		const issueIds = userOnChainData.bountiesClosed.map(bounty => bounty.bountyId);
+		try{
+			organizations = await githubRepository.instance.parseOrgIssues(issueIds);
+		}
+		catch(err){
+			console.log(err);
+		}
+		user = {...user, ...userOffChainData, ...userOnChainData};
+	}
+	catch(err){
+		
+		console.log(err);
+	}
+	
+	
+	return { props: {account, user,  organizations, renderError}};
 };
 
 export default account;
