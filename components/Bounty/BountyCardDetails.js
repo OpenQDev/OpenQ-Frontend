@@ -29,7 +29,7 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 					<div className="lg:col-span-2  xl:col-span-3">
 						<CopyBountyAddress bounty={bounty} />
 					</div>
-					<div className='lg:col-span-2 xl:col-span-3'>
+					<div className='lg:col-span-2 xl:col-span-3 pt-2'>
 						{bounty.bountyTokenBalances ?
 							bounty.bountyTokenBalances.length != 0 ? (
 								<>
@@ -56,9 +56,9 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 									/>
 								</>
 							) : (
-								<div className='py-5'>
+								<div className='py-2'>
 									<h3 className="font-semibold ">No deposits</h3>
-									<p className='text-tinted'>It may take up to one minute for new depsits to show up here.</p>
+									<p >It may take up to one minute for new depsits to show up here.</p>
 								</div>
 							) :
 							<>
