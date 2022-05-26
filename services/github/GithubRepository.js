@@ -51,7 +51,7 @@ class GithubRepository {
 			const repoName = responseData.repository.name;
 			const avatarUrl = responseData.repository.owner.avatarUrl;
 			const owner = responseData.repository.owner.login;
-			const twitterUsername = responseData.repository.owner.twitterUsername;
+			const twitterUsername = responseData.repository.owner.twitterUsername||null;
 			const labels = responseData.labels.edges.map(edge => edge.node);
 			const number = responseData.number;
 			const assignees = responseData.assignees.nodes;

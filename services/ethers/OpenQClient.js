@@ -36,9 +36,8 @@ class OpenQClient {
 			try {
 				const txnResponse = await contract.mintBounty(issueId, organization);
 				const txnReceipt = await txnResponse.wait();
-
 				console.log(txnReceipt);
-				const bountyAddress = txnReceipt.events[0].address;
+				const bountyAddress = txnReceipt.events.find(eventObj=>eventObj.event==='BountyCreated').args.bountyAddress;
 				resolve({ bountyAddress });
 			} catch (err) {
 				console.log(err);
@@ -148,6 +147,7 @@ class OpenQClient {
 
 	async fundBounty(library, _bountyId, _tokenAddress, _value, _depositPeriodDays) {
 		const promise = new Promise(async (resolve, reject) => {
+			console.log(_tokenAddress);
 			const signer = library.getSigner();
 
 			const contract = this.OpenQ(signer);
