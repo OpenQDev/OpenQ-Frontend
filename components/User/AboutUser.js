@@ -1,5 +1,5 @@
 // Third party
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useEffect, useRef } from 'react';
 import jazzicon from '@metamask/jazzicon';
 // Custom
 import MiniBountyCard from '../Bounty/MiniBountyCard';
@@ -8,32 +8,22 @@ import useGetTokenValues from '../../hooks/useGetTokenValues';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import MiniDepositCard from '../Bounty/MiniDepositCard';
 import AvatarPack from '../Utils/AvatarPack';
-import StoreContext from '../../store/Store/StoreContext';
 import useEns from '../../hooks/useENS';
 
-const AboutUser = ({ user }) => {
+const AboutUser = ({ user, organizations }) => {
 	const { fundedTokenBalances, bountiesCreated, bountiesClosed, deposits, payoutTokenBalances, payouts } = user;
 	const account = user.id;
 	const [ensName] = useEns(account);
 	// Context
-	const [appClient] = useContext(StoreContext);
 
 	// State
 	const [payoutTokenValues] = useGetTokenValues(payoutTokenBalances);
 	const [fundedTokenValues] = useGetTokenValues(fundedTokenBalances);
 
-	const [organizations, updateOrganizations] = useState([]);
-
 
 	const iconWrapper = useRef(null);
 
 	useEffect(async () => {
-		const issueIds = bountiesClosed.map(bounty => bounty.bountyId);
-		const fetchedOrganizations = await appClient.githubRepository.parseOrgIssues(issueIds);
-		console.log(fetchedOrganizations);
-		updateOrganizations(fetchedOrganizations);
-
-
 		if (account && iconWrapper.current) {
 			iconWrapper.current.innerHTML = '';
 			iconWrapper.current.appendChild(jazzicon(32, parseInt(account.slice(2, 10), 16)));

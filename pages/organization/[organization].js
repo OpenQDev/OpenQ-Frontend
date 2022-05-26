@@ -1,6 +1,5 @@
 // Third party
-import React, { useEffect, useState, useContext } from 'react';
-import { useRouter } from 'next/router';
+import React, { useState, useContext } from 'react';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
@@ -10,45 +9,21 @@ import LargeOrganizationCard from '../../components/Organization/LargeOrganizati
 import Toggle from '../../components/Toggle/Toggle';
 import About from '../../components/About/About';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
-import useAuth from '../../hooks/useAuth';
-const organization = () => {
+import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
+import WrappedGithubClient from '../../services/github/WrappedGithubClient';
+const organization = ({ organizationData, fullBounties, completed, batch}) => {
 	// Context
 	const [appState] = useContext(StoreContext);
-	const router = useRouter();
-	useAuth();
-	const batch = 10;
 	// State
-	const { organization } = router.query;
-	const [isLoading, setIsLoading] = useState(true);
-	const [organizationData, setOrganizationData] = useState(null);
-	const [bounties, setBounties] = useState();
+	const [isLoading, setIsLoading] = useState(false);
+	const [bounties, setBounties] = useState(fullBounties);
 	const [showAbout, setShowAbout] = useState('Bounties');
 	const [pagination, setPagination] = useState(batch);
 	const [error, setError] = useState(false);
 
 	const [tokenValues] = useGetTokenValues(organizationData?.fundedTokenBalances);
-	const [complete, setComplete] = useState(false);
+	const [complete, setComplete] = useState(completed);
 	// Methods
-	async function populateOrganizationData() {
-		setIsLoading(true);
-		let orgData;
-		try {
-			orgData = await appState.githubRepository.fetchOrgOrUserByLogin(
-				organization
-			);
-
-			const org = await appState.openQSubgraphClient.getOrganization(
-				orgData.id, batch
-			);
-			const mergedOrgData = { ...org, ...orgData };
-			setOrganizationData(mergedOrgData);
-		}
-		catch (err) {
-			console.log(err);
-			setError(true);
-		}
-
-	}
 
 	async function getBountyData(order, currentPagination) {
 		setPagination(() => currentPagination + batch);
@@ -97,39 +72,6 @@ const organization = () => {
 		}
 		setBounties(bounties.concat(newBounties));
 	}
-	async function populateBountyData() {
-		setComplete(true);
-		const bounties = organizationData.bountiesCreated;
-		const bountyIds = bounties.map((bounty) => bounty.bountyId);
-		const issueData = await appState.githubRepository.getIssueData(bountyIds);
-		console.log(issueData);
-		const fullBounties = [];
-		bounties.forEach((bounty) => {
-			const relatedIssue = issueData.find(
-				(issue) => issue.id == bounty.bountyId
-			) || { id: '', title: '', body: '' };
-			const mergedBounty = { ...bounty, ...relatedIssue };
-			fullBounties.push(mergedBounty);
-		});
-		if (fullBounties.length !==0) {
-			setComplete(false);
-		}
-		setBounties(fullBounties);
-		setIsLoading(false);
-	}
-
-	// Hooks
-	useEffect(() => {
-		if (organizationData) {
-			populateBountyData();
-		}
-	}, [organizationData]);
-
-	useEffect(() => {
-		if (organization) {
-			populateOrganizationData();
-		}
-	}, [organization]);
 
 	// Render
 	return (
@@ -150,6 +92,46 @@ const organization = () => {
 		</>
 	);
 
+};
+
+export const getServerSideProps = async(context) =>{
+	const batch=10;
+	const {organization} = context.params;
+	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
+	const githubRepository = new WrappedGithubClient();
+	githubRepository.instance.setGraphqlHeaders();
+	
+	let orgData;
+	let mergedOrgData;
+	try {
+		orgData = await githubRepository.instance.fetchOrgOrUserByLogin(
+			organization
+		);
+
+		const org = await openQSubgraphClient.instance.getOrganization(
+			orgData.id, batch
+		);
+		mergedOrgData = { ...org, ...orgData };
+	}
+	catch (err) {
+		console.log(err);
+	}
+	
+	const bounties = mergedOrgData.bountiesCreated;
+	const bountyIds = bounties.map((bounty) => bounty.bountyId);
+	const issueData = await githubRepository.instance.getIssueData(bountyIds);
+	console.log(issueData);
+	const fullBounties = [];
+	bounties.forEach((bounty) => {
+		const relatedIssue = issueData.find(
+			(issue) => issue.id == bounty.bountyId
+		) || { id: '', title: '', body: '' };
+		const mergedBounty = { ...bounty, ...relatedIssue };
+		fullBounties.push(mergedBounty);
+	});
+
+
+	return  {props: {organization,  organizationData: mergedOrgData, fullBounties, completed: bounties.length<10, batch}};
 };
 
 export default organization;

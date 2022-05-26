@@ -28,12 +28,14 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 					</div>
 					<div className="lg:col-span-2  xl:col-span-3">
 						<CopyBountyAddress bounty={bounty} />
-						<div className="mt-2">
-							<CopyBountyAssigneeLink bounty={bounty} />
-						</div>
+						{bounty && bounty?.assignees && (
+							<div className="mt-2">
+								<CopyBountyAssigneeLink bounty={bounty} />
+							</div>
+						)}
 					</div>
 					<div className='lg:col-span-2 xl:col-span-3'>
-						{bounty ?
+						{bounty.bountyTokenBalances ?
 							bounty.bountyTokenBalances.length != 0 ? (
 								<>
 									<div className="flex font-bold gap-2">
@@ -79,9 +81,9 @@ const BountyCardDetails = ({ bounty, tokenValues }) => {
 							<Skeleton width={'10rem'}/>
 						}
 					</div> */}
-					{bounty?.bountyTokenBalances.length != 0 && <div className='text-center font-bold text-xl py-4 col-start-1 md:col-end-3 lg:col-end-[-1] w-full'>Deposits</div>}
+					{bounty.bountyTokenBalances?.length != 0 && <div className='text-center font-bold text-xl py-4 col-start-1 md:col-end-3 lg:col-end-[-1] w-full'>Deposits</div>}
 
-					{bounty ? bounty.deposits
+					{bounty.deposits ? bounty.deposits
 						.filter((deposit) => {
 							return deposit.refunded == false;
 						})

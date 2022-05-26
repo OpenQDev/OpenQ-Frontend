@@ -34,7 +34,7 @@ const BountyCardDetailsModal = ({ bounty, TVL, closeModal, tokenValues }) => {
 				<div className="px-8 py-2">
 					<BountyCardHeader bounty={bounty} />
 					<div className='py-4'>
-						<Link href={`/bounty/${bounty.bountyAddress}`} >
+						<Link href={`/bounty/${bounty.bountyAddress}?id=${bounty.id}`} >
 							<a onClick={closeModal} target={safe? '_self':'_blank'} rel="noopener noreferrer" className='bg-button-inside hover:bg-button-inside-hover border-button rounded-full text-base px-3 py-1.5 border'>See Full Bounty</a>
 						</Link>
 					</div>
@@ -54,7 +54,7 @@ const BountyCardDetailsModal = ({ bounty, TVL, closeModal, tokenValues }) => {
 						<div className="border border-web-gray px-4 pb-1 w-max rounded-md">
 							<TokenBalances tokenBalances={bounty.bountyTokenBalances} tokenValues={tokenValues} showOne={true} />
 						</div>
-						{bounty.bountyTokenBalances?.length > 1 && <Link href={`/bounty/${bounty.bountyAddress}`}>
+						{bounty.bountyTokenBalances?.length > 1 && <Link href={`/bounty/${bounty.bountyAddress}?id=${bounty.id}`}>
 							<a onClick={closeModal} target={safe? '_self':'_blank'} rel="noopener noreferrer">
 								<div onClick={closeModal} className="border border-web-gray px-4 pb-1.5 pt-1.5 w-max rounded-md cursor-pointer">more...
 								</div>

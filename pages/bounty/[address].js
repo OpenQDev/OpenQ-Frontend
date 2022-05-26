@@ -1,6 +1,5 @@
 // Third party
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import { useRouter } from 'next/router';
 import confetti from 'canvas-confetti';
 import { ethers } from 'ethers';
 import Link from 'next/link';
@@ -14,67 +13,24 @@ import ClaimPage from '../../components/Claim/ClaimPage';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import UnexpectedError from '../../components/Utils/UnexpectedError';
 import Toggle from '../../components/Toggle/Toggle';
-import LoadingModal from '../../components/Loading/LoadingModal';
+import WrappedGithubClient from '../../services/github/WrappedGithubClient';
+import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
+import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
 
-const address = () => {
+const address = ({  address, mergedBounty, renderError}) => {
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
-	const router = useRouter();
-
-	const [bounty, setBounty] = useState(null);
+	const [bounty, setBounty] = useState(mergedBounty);
 	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
 
 	// State
-	const { address } = router.query;
-	const [error, setError] = useState(false);
+	const [error, setError] = useState(renderError);
 	const [internalMenu, setInternalMenu] = useState();
-	const [isIndexing, setIsIndexing] = useState(false);
-	const [showIndexingModal] = useState(true);
-	const [noBounty, setNoBounty] = useState();
 
 	// Refs
 	const canvas = useRef();
 
 	// Methods
-	async function populateBountyData() {
-		let bounty = null;
-		let bountyData = null;
-		let bountyMetadata = null;
-
-		try {
-			while (bountyData === null) {
-				bountyData = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
-				if (!bountyData && !isIndexing) {
-					setNoBounty(true);
-					return;
-				}
-				try{
-					bountyMetadata = await appState.openQPrismaClient.getBounty(ethers.utils.getAddress(address));
-				}
-				catch(err){
-					console.log(err);
-				}
-				bounty = { ...bountyData, ...bountyMetadata };
-
-				if (bountyData != null && bountyMetadata != null) {
-					setIsIndexing(false);
-				}
-
-				await sleep(500);
-			}
-
-			const issueData = await appState.githubRepository.fetchIssueById(bounty.bountyId);
-
-			const mergedBounty = { ...bounty, ...issueData };
-
-			setBounty({ ...mergedBounty });
-		} catch (error) {
-			console.log(error);
-			//setError(true);
-			return;
-		}
-	}
-
 	function sleep(ms) {
 		return new Promise(resolve => setTimeout(resolve, ms));
 	}
@@ -126,7 +82,6 @@ const address = () => {
 		sessionStorage.setItem('justMinted', false);
 		if (justMinted) {
 			setReload();
-			setIsIndexing(true);
 			canvas.current.width = window.innerWidth;
 			canvas.current.height = window.innerHeight;
 
@@ -150,7 +105,6 @@ const address = () => {
 			if (route !== internalMenu) {
 				setInternalMenu(route || 'View');
 			}
-			populateBountyData();
 		}
 	}, [address]);
 
@@ -164,10 +118,10 @@ const address = () => {
 
 	// Render
 	if (error) {
-		return <UnexpectedError />;
+		return <UnexpectedError error = {error}/>;
 	}
 	else return (
-		<>{noBounty ?
+		<>{!mergedBounty ?
 			<div className='flex fixed inset-0 mx-20 justify-center items-center 
 	 h-screen'>
 				<div className='text-2xl'>Bounty not found. <span className="underline"><Link href={'/'}>Go home</Link>
@@ -178,19 +132,55 @@ const address = () => {
 				<div className="flex flex-col font-mont justify-center items-center pt-7">
 					<Toggle toggleFunc={handleToggle} toggleVal={internalMenu} names={['View', 'Fund', 'Refund', 'Claim']} />
 					{internalMenu == 'View' ? (
-						<BountyCardDetails bounty={bounty} tokenValues={tokenValues} />
+						<BountyCardDetails  bounty={bounty} address={address} tokenValues={tokenValues} />
 					) : null}
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Refund' && bounty ? (<RefundPage bounty={bounty} refreshBounty={refreshBounty} />) : null}
 					<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>
 				</div>
-				{isIndexing && showIndexingModal && <LoadingModal graph={true} loadingText={{ title: 'Indexing Bounty', message: 'Please wait while your bounty is indexed.' }} />}
-
 			</>}
 		</>
 	);
 };
 
+export const getServerSideProps = async(context)=>{
+	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
+	const githubRepository = new WrappedGithubClient();
+	const openQPrismaClient = new WrappedOpenQPrismaClient();
+	githubRepository.instance.setGraphqlHeaders();
+	const {id, address} = context.query;
+	let bountyMetadata={};
+	let renderError = '';
+	try{	
+		bountyMetadata = await openQPrismaClient.instance.getBounty(ethers.utils.getAddress(address));
+	}
+	catch(err){
+		console.log(err);
+	}
+	let mergedBounty = null;
+	let issueData = {};
+	let bounty = {};
+	try{		
+		issueData = await githubRepository.instance.fetchIssueById(id);
+	}
+	catch(err){
+		console.log(err);
+		renderError = 'OpenQ could not find the issue for this bounty on Github.';
+	}
+	try{
+		bounty  = await openQSubgraphClient.instance.getBounty(address, 'no-cache');
+		if(!bounty){
+			renderError =`OpenQ could not find a bounty with address: ${address}.`;
+		}
+		mergedBounty = {...issueData, ...bountyMetadata, ...bounty, bountyAddress: address};
+	}
+	catch(err){
+		renderError =`OpenQ could not find a bounty with address: ${address}.`;
+	}
+	
+
+	return {props: {id, address,  mergedBounty, renderError}};
+};
 
 export default address;

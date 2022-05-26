@@ -87,18 +87,18 @@ const MintBountyModal = ({ modalVisibility }) => {
 				issue.repository.owner.id,
 			);
 			console.log(bountyAddress);
-			sessionStorage.setItem('justMinted', true);			
-			
-			await appState.openQPrismaClient.createNewBounty(ethers.utils.getAddress(bountyAddress));
-			
-			router.push(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}`
-			);
+			sessionStorage.setItem('justMinted', true);	
+			await appState.openQPrismaClient.createNewBounty(ethers.utils.getAddress(bountyAddress));	
+		
+			//router.push(
+		//		`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}?id=${issue.id}`
+		//	);
 		} catch (error) {
 			console.log('error in mintbounty', error);
 			const { message, title } = appState.openQClient.handleError(error);
 			console.log(message);
 			setError({ message, title });
+		
 		}
 	};
 
