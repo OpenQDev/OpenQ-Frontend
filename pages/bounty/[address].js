@@ -79,8 +79,7 @@ const address = ({  address, mergedBounty, renderError}) => {
 
 		// Confetti
 		const justMinted = sessionStorage.getItem('justMinted') === 'true';
-		sessionStorage.setItem('justMinted', false);
-		if (justMinted) {
+		if (justMinted && canvas.current) {
 			setReload();
 			canvas.current.width = window.innerWidth;
 			canvas.current.height = window.innerHeight;
@@ -97,6 +96,7 @@ const address = ({  address, mergedBounty, renderError}) => {
 					y: 0,
 				}
 			});
+			sessionStorage.setItem('justMinted', false);
 		}
 		// set route and populate
 		if (address) {
@@ -106,7 +106,7 @@ const address = ({  address, mergedBounty, renderError}) => {
 				setInternalMenu(route || 'View');
 			}
 		}
-	}, [address]);
+	}, []);
 
 
 	// User Methods
