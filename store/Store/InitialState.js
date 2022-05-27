@@ -13,23 +13,10 @@ import MockOpenQSubgraphClient from '../../services/subgraph/MockOpenQSubgraphCl
 import MockTokenClient from '../../services/coins/MockTokenClient';
 import MockOpenQPrismaClient from '../../services/openq-api/MockOpenQPrismaClient';
 
-// Token Metadata
-// Array of all supported tokens
-import polygonMainnetTokens from '../../constants/polygon-mainnet-tokens.json';
-import mumbaiTokens from '../../constants/polygon-mumbai-tokens.json';
-import localTokens from '../../constants/local-tokens.json';
-
-// Mapping of tokens with token metadata for token address lookup
-import polygonMainnetTokenMetadata from '../../constants/polygon-mainnet.json';
-import mumbaiTokenMetadata from '../../constants/polygon-mumbai.json';
-import localTokenMetadata from '../../constants/local.json';
-
 let InitialState = {};
 switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 case 'local':
 	InitialState = {
-		tokenMetadata: localTokenMetadata,
-		tokens: localTokens,
 		openQClient: new MockOpenQClient(),
 		githubRepository: new MockGithubRepository(),
 		openQSubgraphClient: new MockOpenQSubgraphClient(),
@@ -41,8 +28,6 @@ case 'local':
 	break;
 case 'docker':
 	InitialState = {
-		tokenMetadata: localTokenMetadata,
-		tokens: localTokens,
 		openQClient: new OpenQClient(),
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
@@ -54,8 +39,6 @@ case 'docker':
 	break;
 case 'development':
 	InitialState = {
-		tokenMetadata: mumbaiTokenMetadata,
-		tokens: mumbaiTokens,
 		openQClient: new OpenQClient(),
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
@@ -67,8 +50,6 @@ case 'development':
 	break;
 case 'staging':
 	InitialState = {
-		tokenMetadata: polygonMainnetTokenMetadata,
-		tokens: polygonMainnetTokens,
 		openQClient: new OpenQClient(),
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
@@ -80,8 +61,6 @@ case 'staging':
 	break;
 case 'production':
 	InitialState = {
-		tokenMetadata: polygonMainnetTokenMetadata,
-		tokens: polygonMainnetTokens,
 		openQClient: new OpenQClient(),
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
