@@ -31,20 +31,20 @@ const ConnectModal = ({closeModal})=>{
 					</div>
 					<h2 className='text-xl font-bold'>Connect Wallet</h2>
 					<p className='text-sm'>Connect your wallet to continue with OpenQ. By connecting your wallet you agree with OpenQ{'\''}s terms of service.</p>
-					<button onClick={handleMetaMask} className='flex p-2 mt-4  my-2 w-60 gap-4 hover:bg-inactive-accent/10 rounded-md'>
+					<button onClick={handleMetaMask} className='flex p-2 mt-4  my-2 w-full gap-4 hover:bg-inactive-accent/10 rounded-md hover:border-web-gray border border-transparent justify-center'>
 						<Image src={'/wallet-logos/metamask.png'} height={40} width={40} alt={'metamask logo'}/>
 						<div className='text-xl leading-loose'>
 							Metamask
 						</div>
 					</button>
-					<button onClick={handleWalletConnect} className='flex p-2 mb-4 w-60 gap-4 hover:bg-inactive-accent/10 rounded-md'>
+					<button onClick={handleWalletConnect} className='flex p-2 mb-4 w-full gap-4 hover:bg-inactive-accent/10 rounded-md hover:border-web-gray border border-transparent justify-center'>
 						<Image src={'/wallet-logos/wallet-connect.jpg'} className="rounded-full" height={40} width={40} alt={'wallet connect logo'}/>
 						<div className='leading-loose text-xl'>
 							WalletConnect
 						</div>
 					</button>
 					<button onClick={closeModal} className='self-center border border-inactive-accent font-semibold w-32 rounded-full py-1 px-2 bg-inactive-accent-inside group-hover:bg-active-accent hover:border-active-accent group-hover:border-active-accent'>
-							Back
+							Close
 					</button>
 				</div>
 			</div>
