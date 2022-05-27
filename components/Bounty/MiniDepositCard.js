@@ -8,7 +8,7 @@ import Skeleton from 'react-loading-skeleton';
 import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import TokenBalances from '../TokenBalances/TokenBalances';
-const MiniDepositCard = ({ deposit, showLink, status }) => {
+const MiniDepositCard = ({ deposit, showLink }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
 
@@ -28,9 +28,8 @@ const MiniDepositCard = ({ deposit, showLink, status }) => {
 			}
 		}
 	});
-
 	const timeToExpiry = parseInt(deposit.receiveTime) + parseInt(deposit.expiration) - Date.now() * 0.001;
-	const open = !deposit.refunded && status === 'OPEN';
+	const open = !deposit.refunded && deposit.bounty.status === 'OPEN';
 
 	// render
 	return (
