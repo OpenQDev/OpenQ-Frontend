@@ -23,7 +23,7 @@ class MockCoinClient {
 			let tokenVolumes = {};
 			if (Array.isArray(tokenBalances)) {
 				tokenBalances.map((tokenBalance) => {
-					const tokenAddress = this.tokenMetadata[ethers.utils.getAddress(tokenBalance.tokenAddress)].address;
+					const tokenAddress = this.getTokenValues(ethers.utils.getAddress(tokenBalance.tokenAddress)).address;
 					if(tokenVolumes[tokenAddress]){
 						tokenVolumes[tokenAddress] = parseInt(tokenVolumes[tokenAddress]) + parseInt(tokenBalance.volume);
 					}

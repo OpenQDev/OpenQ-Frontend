@@ -23,16 +23,26 @@ class CoinClient {
 					const tokenMetadata = await this.getToken(tokenBalances[i].tokenAddress);
 					const tokenAddress = tokenMetadata.address;
 					if(tokenVolumes[tokenAddress]){
-						tokenVolumes[tokenAddress] = parseInt(tokenVolumes[tokenAddress]) + parseInt(tokenBalances[i].volume);
+						tokenVolumes[tokenAddress] = {
+							volume: parseInt(tokenVolumes[tokenAddress]) + parseInt(tokenBalances[i].volume),
+							decimals: tokenMetadata.decimals
+						};
 					}
 					else{
-						tokenVolumes[tokenAddress] = tokenBalances[i].volume;
+						tokenVolumes[tokenAddress] ={ 
+							volume: tokenBalances[i].volume,
+							decimals: tokenMetadata.decimals
+						};
 					}
 				}
 			}
 			else {
 				const tokenMetadata = await this.getToken(tokenBalances.tokenAddress);
-				tokenVolumes[tokenMetadata.address] = tokenBalances.volume;
+				tokenVolumes[tokenMetadata.address] =
+				{
+					volume: tokenBalances.volume,
+					decimals: tokenMetadata.decimals
+				};
 			}
 			const data = { tokenVolumes, network: 'polygon-pos' };
 			const url = process.env.NEXT_PUBLIC_COIN_API_URL + '/tvl';
@@ -71,6 +81,7 @@ class CoinClient {
 			const url = `${process.env.NEXT_PUBLIC_COIN_API_URL}/tokenMetadata/${address}`;
 			axios(url)
 				.then((result) => {		
+					console.log(result.data[ethers.utils.getAddress(address)]);
 					resolve(result.data[ethers.utils.getAddress(address)]);
 				})
 				.catch((error) => {

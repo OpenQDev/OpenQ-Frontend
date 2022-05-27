@@ -406,7 +406,9 @@
       "bountyId": "abc123",
       "bountyMintTime": "sdf",
       "bountyClosedTime": "sdf",
-      "status": "OPEN",
+      "status": "OPEN",			
+      "url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/218",
+			
       "deposits": [
         {
           "id": "sdf",
@@ -438,6 +440,7 @@
       "bountyClosedTime": "sdf",
       "status": "OPEN",
       "deposits": [],
+      "url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/218",
       "bountyTokenBalances": [
         {
           "tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
@@ -455,6 +458,7 @@
       "bountyMintTime": "sdf",
       "bountyClosedTime": "sdf",
       "status": "CLOSED",
+      "url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/218",
       "deposits": [
         {
           "id": "sdf",
@@ -484,11 +488,11 @@
       "id": "abc123",
       "title": "sdfsdf",
       "body": "sdf",
-      "url": "",
       "repoName": "sdf",
       "owner": "alo9507",
       "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
       "createdAt": "sdf",
+      "url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/218",
       "labels": [
         {
           "name": "sdf",
@@ -502,8 +506,8 @@
     {
       "id": "def123",
       "title": "sdfsdf",
-      "body": "sdf",
-      "url": "",
+      "body": "sdf",      
+      "url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/218",
       "repoName": "sdf",
       "owner": "alo9507",
       "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
@@ -540,8 +544,8 @@
     {
       "id": "jkl123",
       "title": "sdfsdf",
-      "body": "sdf",
-      "url": "",
+      "body": "sdf",     
+      "url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/218",
       "repoName": "sdf",
       "owner": "alo9507",
       "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
@@ -670,7 +674,7 @@
       "id": "abc123",
       "title": "High",
       "body": "sdf456",
-      "url": "",
+      "url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/218",
       "repoName": "openqdev",
       "owner": "alo9507",
       "avatarUrl": "https://avatars.githubusercontent.com/u/12523025?s=200&v=4",
@@ -787,6 +791,7 @@
     "refunded": false,
     "funded": "sdf"
   },
+"tokenMetadata":	{ "name": "Chainlink Token", "address": "0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39", "symbol": "LINK", "decimals": 18, "chainId": 80001, "path": "/crypto-logos/LINK.svg" },
   "txnResponse": {
     "to": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
     "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
@@ -796,7 +801,7 @@
       "_hex": "0x07baa5",
       "_isBigNumber": true
     },
-    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080001008000000100000000000000000004000800000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000800080000000000000080000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000040000000000000020000000800000000000000000000000000000000400000000000000001001000004000180000000000000",
+    "logsBloom": "0x000000000000000000000000000000000000000000000000000000000containsSearch && containsTag && (localShowUnfunded || isFunded) && (localShowClaimed || isUnclaimed) && bounty.url)bou00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080001008000000100000000000000000004000800000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000800080000000000000080000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000040000000000000020000000800000000000000000000000000000000400000000000000001001000004000180000000000000",
     "blockHash": "0x212935bbb943ce9c0f60efe80c28af593dcbafcb312dc331c44960c58de454b2",
     "transactionHash": "0x6bede2b3aa1ab6939a84521dd3daf123501392f3ece8f26a5e8c15b556fd6a1d",
     "logs": [
