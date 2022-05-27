@@ -1,6 +1,7 @@
 import React, {useCallback,   useContext, useState} from 'react';
 import { jsPDF } from 'jspdf';
 import  'jspdf-autotable';
+import { ethers } from 'ethers';
 import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import ToolTip from '../Utils/ToolTip';
@@ -35,12 +36,15 @@ const Invoice = ({bounty})=>{
 		});
 		setShowPdf(true);
 	};
-	const srcPdf = useCallback((iframe)=>{
-		console.log('me');
+	const srcPdf = useCallback(async(iframe)=>{
 		if(iframe && tokenValues){
 			const keys =	Object.keys(tokenValues.tokens);
 			const tableData = keys.map((key)=>tokenValues.tokens[key].toString());
-			const tableHeaders= keys.map((key)=>`${appState.tokenMetadata?.[key]?.symbol||'CUSTOM'} valued in USD`);
+			const tableHeaders = await	Promise.all(keys.map(async(token)=>{
+				const checksummedAddress=ethers.utils.getAddress(token);
+				const tokenMetadata =  await appState.tokenClient.getToken(token);
+				return `${tokenMetadata[checksummedAddress].symboll||'CUSTOM'} valued in USD`;
+			}));
 			const total=	Object.values(tokenValues.tokens).reduce((accum, elem)=>{
 				return accum+elem;
 			});

@@ -8,26 +8,24 @@ import Skeleton from 'react-loading-skeleton';
 const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, showOne }) => {
 
 	const [appState] = useContext(StoreContext);
-	const {tokenMetadata}=appState;
 	const tokenBalancesArr = Array.isArray(tokenBalances) ? tokenBalances : [tokenBalances];
 
 	const [displayedBalances, updateDisplayedBalances] = useState([]);
 	useEffect(async() => {
+		let didCancel;
 		if (tokenBalancesArr[0] ) {
 			let highest = 0;
 			const totalValueBalances = tokenBalancesArr.map(async(tokenBalance) => {
 				const tokenAddress = ethers.utils.getAddress(
 					tokenBalance.tokenAddress
 				);
-				const metadataObj = await appState.tokenClient.getToken(tokenAddress.toLowerCase());
-				const currentToken = metadataObj[tokenAddress.toLowerCase()]||tokenMetadata;
-				const tokenValueAddress =  tokenMetadata?.[tokenAddress].address||ethers.utils.getAddress(tokenAddress);
-				const symbol = tokenMetadata?.[tokenAddress].symbol || currentToken.symbol ||`${tokenAddress.slice(0, 4)}...${tokenAddress.slice(36)}`;
+				const tokenMetadata = await appState.tokenClient.getToken(tokenAddress);
+				const tokenValueAddress = tokenMetadata.address;
+				const symbol =  tokenMetadata.symbol ||`${tokenAddress.slice(0, 4)}...${tokenAddress.slice(36)}`;
 				const { volume } = tokenBalance;
 
 				let bigNumberVolume = ethers.BigNumber.from(volume.toString());
-				let decimals = parseInt(currentToken.decimals)||parseInt(tokenMetadata?.[tokenAddress].decimals||18);
-				
+				let decimals = parseInt(tokenMetadata.decimals)||18;
 				let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
 				let totalValue;
 				if (!singleCurrency) {
@@ -40,13 +38,13 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 					totalValue
 				);
 				if (totalValue > highest) highest = totalValue;
-				const path = currentToken.path||currentToken.logoURI||tokenMetadata?.[tokenAddress].path;
+				const path = tokenMetadata.path||tokenMetadata.logoURI;
 				if(tokenValues){
 					return { ...tokenBalance, tokenAddress, totalValue, usdValue, symbol, path, formattedVolume };
 				}
 			});
 			const settledTotalValueBalances = await Promise.all(totalValueBalances);
-			if(settledTotalValueBalances[0]){
+			if(settledTotalValueBalances[0] && !didCancel){
 				updateDisplayedBalances(settledTotalValueBalances.filter((balance) => {
 					if (!showOne) { return true; }
 					// So we don't end up with a tie.
@@ -56,6 +54,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 					}
 				}));}
 		}
+		return ()=>{didCancel = true;};
 	}, [tokenBalances, tokenValues]);
 
 	return (

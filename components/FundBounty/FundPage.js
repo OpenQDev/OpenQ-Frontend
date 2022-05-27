@@ -31,13 +31,20 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const [showApproveTransferModal, setShowApproveTransferModal] = useState(false);
 	const [approveTransferState, setApproveTransferState] = useState(RESTING);
 	const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
-
+	const zeroAddressMetadata = {
+		name: 'Matic',
+		address: '0x0000000000000000000000000000000000000000',
+		symbol: 'MATIC',
+		decimals: 18,
+		chainId: 80001,
+		path: '/crypto-logos/MATIC.svg'
+	};
 	// Context
 	const [appState] = useContext(StoreContext);
 	const { library, account, } = useWeb3();
 
 	// State
-	const [token, setToken] = useState(appState.tokens[0]);
+	const [token, setToken] = useState(zeroAddressMetadata);
 
 	const claimed = bounty.status == 'CLOSED';
 	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) <= 0.00000001 || parseFloat(volume) >= 1000 || volume == '' || !account || !(parseInt(depositPeriodDays) > 0);
@@ -156,7 +163,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	}
 
 	function onCurrencySelect(token) {
-		setToken(token);
+		setToken({...token, address: ethers.utils.getAddress(token.address)});
 	}
 
 	function onVolumeChange(volume) {

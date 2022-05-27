@@ -29,7 +29,7 @@ const ManageTokenList = ({ setCustomTokens, customTokens, setLists, lists})=>{
 
 	const enterValue = async(e) =>{
 		if(e.key==='Enter' && getAddressErrors(tokenInput)===''){
-			const token = await appState.tokenClient.getToken(tokenInput.toLowerCase());
+			const token = await appState.tokenClient.getToken(tokenInput);
 			const fullToken = {
 				address: tokenInput,
 				symbol: token.symbol||`${tokenInput.slice(0, 4)}...${tokenInput.slice(35)}`,

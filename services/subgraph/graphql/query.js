@@ -167,6 +167,7 @@ query GetUser($id: ID!) {
       bounty {
         id
 				bountyId
+				status
       }
     }
     fundedTokenBalances {

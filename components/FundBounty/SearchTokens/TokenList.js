@@ -1,35 +1,41 @@
 // Third Party
-import React, { useContext, useState, useCallback , useRef} from 'react';
+import React, { useContext, useState, useCallback , useRef, useEffect} from 'react';
 
 // Custom
 import StoreContext from '../../../store/Store/StoreContext';
 import TokenDisplay from  '../../TokenBalances/TokenDisplay';
 
-const TokenList = ({ onCurrencySelect, setShowTokenSearch,  tokenSearchTerm, customTokens,  pageTokens, lists }) => {
+const TokenList = ({ onCurrencySelect, setShowTokenSearch,  tokenSearchTerm, customTokens, polygonDefaultTokens, openqDefaultTokens,  currentCursor, lists }) => {
 	const [appState] = useContext(StoreContext);
-	const [polygonTokens, setPolygonTokens] = useState(pageTokens);
+	const [polygonTokens, setPolygonTokens] = useState(polygonDefaultTokens);
 	const [isComplete, setIsComplete] = useState(false);
-	const batch = 100;
-	const [cursor, setCursor] = useState(batch);
+	const batch = 50;
+	const [cursor, setCursor] = useState(currentCursor);
 	
-	let displayTokens=[appState.tokens[0], ...customTokens];
-	
+	let fetchedTokens=customTokens;
 	if(lists.openq){
-		const openqTokens = appState.tokens.slice(1).filter((token)=>!displayTokens.some((displayToken)=>displayToken.address===token.address.toLowerCase()));
-		displayTokens=displayTokens.concat(openqTokens);
+		const openqTokens = openqDefaultTokens.filter((token)=>!fetchedTokens.some((displayToken)=>displayToken.address.toLowerCase()===token.address.toLowerCase()));
+		fetchedTokens=fetchedTokens.concat(openqTokens);
+	}
+	if(lists.polygon){
+		fetchedTokens=fetchedTokens.concat(polygonTokens.filter((token)=>!fetchedTokens.some((displayToken)=>displayToken.address.toLowerCase()===token.address)));
+	
 	}
 
-	if(lists.polygon){
-		const openqTokens = polygonTokens.filter((token)=>!displayTokens.some((displayToken)=>displayToken.address.toLowerCase()===token.address));
-		displayTokens=displayTokens.concat(openqTokens);
-	}
+	const displayTokens = fetchedTokens.filter((token) => {
+		return tokenSearchTerm
+			? token.name.concat(token.symbol).concat(token.address)
+				.toLowerCase()
+				.indexOf(tokenSearchTerm.toLowerCase()) > -1
+			: token;
+	});
 
 	const getMoreData = async()=>{
 		setIsComplete(true);
-		const newPolygonTokens = await appState.tokenClient.getTokenMetadata(cursor, batch);
+		const newPolygonTokens = await appState.tokenClient.getTokenMetadata(cursor, batch, 'polygon');
 		setCursor(batch+cursor);
 		setPolygonTokens([...polygonTokens, ...newPolygonTokens]);
-		if(newPolygonTokens.length===100){
+		if(newPolygonTokens.length===batch){
 			setIsComplete(false);
 
 		}
@@ -41,11 +47,11 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch,  tokenSearchTerm, cus
 		if (observer.current) { observer.current.disconnect(); }
 		if (node) {
 			let options = {
-				rootMargin: '100px',
+				rootMargin: '1200px',
 				threshold: .1
 			};
 			const callback = (entries) => {
-				if (entries[0].isIntersecting  && !isComplete) {
+				if (entries[0].isIntersecting  && !isComplete && lists.polygon) {
 					getMoreData();
 				}
 
@@ -53,7 +59,14 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch,  tokenSearchTerm, cus
 			observer.current = new IntersectionObserver(callback, options);
 			observer.current.observe(node);
 		}
-	});
+	}
+	);
+
+	useEffect(()=>{
+		if(displayTokens.length===0 && !isComplete && lists.polygon){
+			getMoreData();
+		}
+	}, [tokenSearchTerm]);
 
 	function onSelect(token) {
 		onCurrencySelect(token);
@@ -66,13 +79,7 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch,  tokenSearchTerm, cus
 
 			<div className="pt-4 ">
 				{
-					displayTokens.filter((token) => {
-						return tokenSearchTerm
-							? token.name.concat(token.symbol).concat(token.address)
-								.toLowerCase()
-								.indexOf(tokenSearchTerm.toLowerCase()) > -1
-							: token;
-					}).map((token, index, array) => {
+					displayTokens.map((token, index, array) => {
 						return (						
 							<div  ref={(index === array.length - 1) ? lastElem : null} className="justify-left items-center" key={token.address} >
 								<TokenDisplay showCursor={true} onSelect={onSelect} token={token}/>

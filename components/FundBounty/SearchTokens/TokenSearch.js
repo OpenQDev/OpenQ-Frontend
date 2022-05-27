@@ -4,7 +4,7 @@ import TokenList from './TokenList';
 import ManageTokenList from '../ManageTokenList';
 import { useState } from 'react';
 
-const TokenSearch = ({ setShowTokenSearch, onCurrencySelect, tokens }) => {
+const TokenSearch = ({ setShowTokenSearch, onCurrencySelect, polygonTokens, openQTokens, currentCursor }) => {
 	const [showListManager, setShowListManager] = useState(true);
 	const [tokenSearchTerm, setTokenSearchTerm] = useState();
 	const [lists, setLists] = useState({ polygon: true, openq: true });
@@ -50,11 +50,13 @@ const TokenSearch = ({ setShowTokenSearch, onCurrencySelect, tokens }) => {
 									</div>
 								</div>
 								<div className='pt-4 overflow-auto h-72'>
-									{tokens && (
+									{polygonTokens && openQTokens && (
 										<TokenList
 											customTokens={customTokens}
+											currentCursor={currentCursor}
 											lists={lists}
-											pageTokens={tokens}
+											polygonDefaultTokens = {polygonTokens}
+											openqDefaultTokens = {openQTokens}
 											tokenSearchTerm={tokenSearchTerm}
 											onCurrencySelect={onCurrencySelect}
 											setShowTokenSearch={setShowTokenSearch}
@@ -83,7 +85,7 @@ const TokenSearch = ({ setShowTokenSearch, onCurrencySelect, tokens }) => {
 					</div>
 				</div>
 			</div>
-			<div className='fixed inset-0 left-24  bg-overlay'></div>
+			<div className='fixed inset-0 bg-overlay'></div>
 		</div>
 	);
 };

@@ -1,30 +1,8 @@
 import axios from 'axios';
-import polygonMainnetTokenMetadata from '../../constants/polygon-mainnet.json';
-import mumbaiTokenMetadata from '../../constants/polygon-mumbai.json';
-import localTokenMetadata from '../../constants/local.json';
 import { ethers } from 'ethers';
 
 class MockCoinClient {
 
-	constructor() {
-		switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
-		case 'local':
-			this.tokenMetadata = localTokenMetadata;
-			break;
-		case 'docker':
-			this.tokenMetadata = localTokenMetadata;
-			break;
-		case 'development':
-			this.tokenMetadata = mumbaiTokenMetadata;
-			break;
-		case 'staging':
-			this.tokenMetadata = polygonMainnetTokenMetadata;
-			break;
-		case 'production':
-			this.tokenMetadata = polygonMainnetTokenMetadata;
-			break;
-		}	
-	}	
 	async getTokenValues() {
 		const promise = new Promise((resolve, reject) => {
 			axios.get('http://localhost:3030/tvl')

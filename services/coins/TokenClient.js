@@ -1,28 +1,6 @@
 import axios from 'axios';
-import polygonMainnetTokenMetadata from '../../constants/polygon-mainnet.json';
-import mumbaiTokenMetadata from '../../constants/polygon-mumbai.json';
-import localTokenMetadata from '../../constants/local.json';
 import { ethers } from 'ethers';
 class CoinClient {
-	constructor() {
-		switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
-		case 'local':
-			this.tokenMetadata = localTokenMetadata;
-			break;
-		case 'docker':
-			this.tokenMetadata = localTokenMetadata;
-			break;
-		case 'development':
-			this.tokenMetadata = mumbaiTokenMetadata;
-			break;
-		case 'staging':
-			this.tokenMetadata = polygonMainnetTokenMetadata;
-			break;
-		case 'production':
-			this.tokenMetadata = polygonMainnetTokenMetadata;
-			break;
-		}	
-	}	
 
 	async getTokenValues(tokenVolumes, url) {
 		const promise = new Promise((resolve, reject) => {
@@ -41,19 +19,20 @@ class CoinClient {
 		if (tokenBalances) {
 			let tokenVolumes = {};
 			if (Array.isArray(tokenBalances)) {
-				tokenBalances.map((tokenBalance) => {
-					const tokenAddress = this.tokenMetadata[ethers.utils.getAddress(tokenBalance.tokenAddress)].address;
+				for (let i = 0; i<tokenBalances.length; i++){
+					const tokenMetadata = await this.getToken(tokenBalances[i].tokenAddress);
+					const tokenAddress = tokenMetadata.address;
 					if(tokenVolumes[tokenAddress]){
-						tokenVolumes[tokenAddress] = parseInt(tokenVolumes[tokenAddress]) + parseInt(tokenBalance.volume);
+						tokenVolumes[tokenAddress] = parseInt(tokenVolumes[tokenAddress]) + parseInt(tokenBalances[i].volume);
 					}
 					else{
-						tokenVolumes[tokenAddress] = tokenBalance.volume;
+						tokenVolumes[tokenAddress] = tokenBalances[i].volume;
 					}
-				});
+				}
 			}
 			else {
-				const tokenAddress = this.tokenMetadata[ethers.utils.getAddress(tokenBalances.tokenAddress)].address;
-				tokenVolumes[tokenAddress] = tokenBalances.volume;
+				const tokenMetadata = await this.getToken(tokenBalances.tokenAddress);
+				tokenVolumes[tokenMetadata.address] = tokenBalances.volume;
 			}
 			const data = { tokenVolumes, network: 'polygon-pos' };
 			const url = process.env.NEXT_PUBLIC_COIN_API_URL + '/tvl';
@@ -72,11 +51,11 @@ class CoinClient {
 	}
 
 	
-	async getTokenMetadata(cursor, limit) {
+	async getTokenMetadata(cursor, limit, list) {
 		const promise = new Promise((resolve, reject) => {
 			
 			const url = `${process.env.NEXT_PUBLIC_COIN_API_URL}/tokenMetadata`;
-			axios(url, {params: {cursor, limit}})
+			axios(url, {params: {cursor, limit, list}})
 				.then((result) => {
 					resolve(result.data);
 				})
@@ -91,8 +70,8 @@ class CoinClient {
 			
 			const url = `${process.env.NEXT_PUBLIC_COIN_API_URL}/tokenMetadata/${address}`;
 			axios(url)
-				.then((result) => {					
-					resolve(result.data);
+				.then((result) => {		
+					resolve(result.data[ethers.utils.getAddress(address)]);
 				})
 				.catch((error) => {
 					reject(error);

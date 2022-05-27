@@ -28,9 +28,8 @@ const MiniDepositCard = ({ deposit, showLink, status }) => {
 			}
 		}
 	});
-
 	const timeToExpiry = parseInt(deposit.receiveTime) + parseInt(deposit.expiration) - Date.now() * 0.001;
-	const open = !deposit.refunded && status === 'OPEN';
+	const open = !deposit.refunded && (status === 'OPEN' || deposit.bounty?.status === 'OPEN');
 
 	// render
 	return (
