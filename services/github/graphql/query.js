@@ -186,7 +186,7 @@ query($issueIds: [ID!]!) {
       id
       titleHTML
       bodyHTML				
-       assignees(first: 1) {
+      assignees(first: 1) {
          nodes {
            name
            url

@@ -15,6 +15,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 	const {account} = useWeb3();
 	const [unfundedVisible, setUnfundedVisible] = useState(false);
 	const [claimedVisible, setClaimedVisible] = useState(false);
+	const [assignedVisible, setAssignedVisible] = useState(false);
 	const [sortOrder, updateSortOrder] = useState('Newest');
 	const [searchText, updateSearchText] = useState('');
 	const [tagArr, updateTagArr] = useState([]);
@@ -40,6 +41,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		const localSearchText = options.searchText === undefined ? searchText : options.searchText;
 		const localShowClaimed = options.showClaimed === undefined ? claimedVisible : options.showClaimed;
 		const localShowUnfunded = options.showUnfunded === undefined ? unfundedVisible : options.showUnfunded;
+		const localShowAssigned = options.showAssigned === undefined ? assignedVisible : options.showAssigned;
 		const displayBounties = bounties.filter(bounty => {
 			const containsSearch = ((bounty.title + bounty.description)
 				.toLowerCase()
@@ -61,7 +63,8 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			}, true);
 			const isUnclaimed = bounty.status === 'OPEN';
 			const isFunded = bounty.deposits.length > 0;
-			return (containsSearch && containsTag && (localShowUnfunded || isFunded) && (localShowClaimed || isUnclaimed) && bounty.url);
+			const isAssigned = bounty.assignees.nodes.length >0;
+			return (containsSearch && containsTag && (localShowUnfunded || isFunded) && (localShowClaimed || isUnclaimed) && (localShowAssigned || isAssigned ) && bounty.url);
 		});
 		if (displayBounties.length === 0 && !complete) {
 			fetchPage();
@@ -157,6 +160,11 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		updateSearchedBounties(orderBounties(filter(bounties, { showClaimed: !claimedVisible })));
 	};
 
+	const showAssigned = () => {
+		setAssignedVisible(!assignedVisible);
+		updateSearchedBounties(orderBounties(filter(bounties, { showAssigned: !assignedVisible })));
+	}; 
+
 	const removeTag = (e) => {
 		const newTagArr = tagArr.filter(tag => tag !== e.target.value);
 		updateTagArr(newTagArr);
@@ -232,6 +240,10 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 					<div onClick={showClaimed} className="flex p-2 w-32 pr-4 gap-2 border rounded-lg justify-between border-web-gray">
 						<label htmlFor="claimed" className=" pointer-events-none" >Claimed</label>
 						<input id="claimed" onChange={showClaimed} type="checkbox" className="checkbox" checked={claimedVisible} />
+					</div>					
+					<div onClick={showAssigned} className="flex p-2 w-32 pr-4 gap-2 border rounded-lg justify-between border-web-gray">
+						<label htmlFor="claimed" className=" pointer-events-none" >Assigned</label>
+						<input id="claimed" onChange={showAssigned} type="checkbox" className="checkbox" checked={assignedVisible} />
 					</div>
 				</div>
 			</div>
