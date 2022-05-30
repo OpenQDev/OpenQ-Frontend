@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { ethers } from 'ethers';
+import { setup } from 'axios-cache-adapter';
+
 class CoinClient {
 
 	async getTokenValues(tokenVolumes, url) {
@@ -14,6 +16,10 @@ class CoinClient {
 		});
 		return promise;
 	}
+
+cachingClient = setup({
+	cache: { maxAge: 6 * 1000  } // 3s
+});
 	
 	parseTokenValues = async(tokenBalances) => {
 		if (tokenBalances) {
@@ -79,7 +85,7 @@ class CoinClient {
 		const promise = new Promise((resolve, reject) => {
 			
 			const url = `${process.env.NEXT_PUBLIC_COIN_API_URL}/tokenMetadata/${address}`;
-			axios(url)
+			this.cachingClient(url)
 				.then((result) => {		
 					console.log(result.data[ethers.utils.getAddress(address)]);
 					resolve(result.data[ethers.utils.getAddress(address)]);
