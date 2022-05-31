@@ -18,7 +18,6 @@ import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubg
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
 
 const address = ({  address, mergedBounty, renderError}) => {
-	console.log(mergedBounty);
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
 	const [bounty, setBounty] = useState(mergedBounty);

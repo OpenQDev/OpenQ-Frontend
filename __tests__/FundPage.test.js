@@ -126,7 +126,6 @@ describe('FundPage', ( ) => {
 			// ACT
 			const input = screen.getByLabelText('amount');
 			await user.type(input, '0.30sdf');
-			console.log(screen.findByText('MATIC'));
 			await user.click( await screen.findByText( /MATIC/i));
 			await user.click( screen.getAllByText( /Chainlink/i)[0]);
 			const button = await screen.findByRole('button', {name: /Fund/i});

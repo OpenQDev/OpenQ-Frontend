@@ -27,7 +27,6 @@ const issues= [
 
 const test =(issue)=>{
 	
-	console.log(issue);
 	it('should render the modal', async() => {
 		const user = userEvent.setup();
 		render(<MintBountyButton />);
