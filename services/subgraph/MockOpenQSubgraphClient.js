@@ -19,11 +19,12 @@ class MockOpenQSubgraphClient {
 
 	async getBounty(id) {
 		const promise = new Promise((resolve, reject) => {
-			axios.get(`http://localhost:3030/bounty/${id}`)
+			axios.get(`http://localhost:3030/bounty`)
 				.then(result => {
 					resolve(result.data);
 				})
 				.catch(error => {
+				console.log(error)
 					resolve (null)
 				});
 		});

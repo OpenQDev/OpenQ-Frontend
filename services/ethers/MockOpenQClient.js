@@ -73,7 +73,7 @@ class MockOpenQClient {
 	async mintBounty(library, issueId, organization) {
 		const promise = new Promise(async (resolve, reject) => {
 			await this.sleep(1500);
-			resolve({ "bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", "txnReceipt": {} });
+			resolve({ "bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", "txnReceipt": {events: [transactionHash]} });
 		});
 		return promise;
 	}
@@ -82,7 +82,7 @@ class MockOpenQClient {
 		const promise = new Promise(async (resolve, reject) => {
 			await this.sleep(4500);
 
-				resolve(({ "bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", "txnReceipt": {} }));
+				resolve( {events: [{transactionHash:"0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e" }]} );
 		});
 		return promise;
 	}
@@ -139,6 +139,28 @@ class MockOpenQClient {
 
 		});
 
+		return promise;
+	}
+
+	async isWhitelisted(library, tokenAddress) {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				resolve();
+			} catch (err) {
+				reject(err);
+			}
+		});
+		return promise;
+	}
+
+	async tokenAddressLimitReached(library, tokenAddress) {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				resolve();
+			} catch (err) {
+				reject(err);
+			}
+		});
 		return promise;
 	}
 

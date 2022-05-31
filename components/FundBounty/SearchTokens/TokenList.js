@@ -81,7 +81,7 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch,  tokenSearchTerm, cus
 				{
 					displayTokens.map((token, index, array) => {
 						return (						
-							<div  ref={(index === array.length - 1) ? lastElem : null} className="justify-left items-center" key={token.address} >
+							<div  ref={(index === array.length - 1) ? lastElem : null} className="justify-left items-center" key={index} >
 								<TokenDisplay showCursor={true} onSelect={onSelect} token={token}/>
 							</div>
 						);

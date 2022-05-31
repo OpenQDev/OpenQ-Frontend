@@ -86,7 +86,6 @@ class OpenQPrismaClient {
 		const promise = new Promise(async (resolve, reject)=>{
 			axios.get(`http://localhost:3030/user`)
 				.then(result => {
-					console.log(result)
 					resolve(result.data);
 				})
 				.catch(error => {

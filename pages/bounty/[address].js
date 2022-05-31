@@ -131,9 +131,7 @@ const address = ({  address, mergedBounty, renderError}) => {
 			<>
 				<div className="flex flex-col font-mont justify-center items-center pt-7">
 					<Toggle toggleFunc={handleToggle} toggleVal={internalMenu} names={['View', 'Fund', 'Refund', 'Claim']} />
-					{internalMenu == 'View' ? (
-						<BountyCardDetails  bounty={bounty} address={address} tokenValues={tokenValues} />
-					) : null}
+					<BountyCardDetails  bounty={bounty} address={address} tokenValues={tokenValues} internalMenu={internalMenu}/>
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Refund' && bounty ? (<RefundPage bounty={bounty} refreshBounty={refreshBounty} />) : null}

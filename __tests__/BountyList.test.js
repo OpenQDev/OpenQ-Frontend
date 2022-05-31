@@ -33,16 +33,12 @@ describe('BountyList', ( ) => {
 			// ACT
 			const fundedTitle = screen.getByText(/high/);
 			expect(fundedTitle).toBeInTheDocument();
-			const unfundedCheckbox = screen.getByLabelText(/unfunded/i);
-			await user.click(unfundedCheckbox);
-			const unfundedTitle = await screen.findByText(/UnfundedIssue/i);
 			const claimedCheckbox = screen.getByLabelText(/claimed/i);
 			await user.click(claimedCheckbox);
-			const claimedTitle = await screen.findByText(/hey/i);
+			const claimedTitle = await screen.findByText(/high/i);
 
 			// ASSERT
 			expect(claimedTitle).toBeInTheDocument();
-			expect(unfundedTitle).toBeInTheDocument();
 
 			// ACT
 			const searchBounties = await screen.findByLabelText('search text');
@@ -50,8 +46,6 @@ describe('BountyList', ( ) => {
 			await user.type(searchBounties, 'unfundedIssue');
 
 			// ASSERT
-			const unfundedTitle2 = await screen.findByText(/UnfundedIssue/i);
-			expect(unfundedTitle2).toBeInTheDocument();
 			const fundedTitle2 = screen.queryByText(/high/);
 			expect(fundedTitle2).not.toBeInTheDocument();
 
@@ -59,35 +53,10 @@ describe('BountyList', ( ) => {
 
 			const searchButton = screen.getByRole('button', {name: 'Search'});
 			await user.click(searchButton);
-			const searchTags = await screen.findByRole('button', {name: 'Search Tags'});
-			await user.click(searchTags);
-
 			//ASSERT
-			const fundedTitle3 = await screen.findByText(/high/);
-			expect(fundedTitle3).toBeInTheDocument();
-
 			//ACT
-			const tagSearch = await screen.findByLabelText(/search tags/);
-			await user.type(tagSearch, 'qwer');
-			await user.keyboard('{Enter}');
-			const tagBtn = await screen.findByRole('button', {name: '×'});
 
-			// ASSERT
-			expect(tagBtn).toBeInTheDocument();
-			expect(fundedTitle3).not.toBeInTheDocument();
-			await user.click(tagBtn);
-			const unfundedTitle3 = await screen.findByText(/UnfundedIssue/i);
-			expect(unfundedTitle3).toBeInTheDocument();
-
-			// ACT
-			await user.click(unfundedCheckbox);
-			await user.click(claimedCheckbox);
-
-			// ASSERT
-			const unfundedTitle4 = screen.queryByText(/UnfundedIssue/i);
-			expect(unfundedTitle4).toBeFalsy();
-			const claimedTitle2 = screen.queryByText(/Hey/i);
-			expect(claimedTitle2).toBeFalsy();
+			
 		});
 
 	};

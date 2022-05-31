@@ -15,7 +15,8 @@ const useAuth = () => {
 					console.error(error);
 				});
 		}
-		checkAuth();
+		if(process.env.NEXT_PUBLIC_DEPLOY_ENV !== 'local'){
+			checkAuth();}
 	}, []);
 
 	return [authState, setAuthState];
