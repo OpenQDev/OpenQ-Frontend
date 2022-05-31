@@ -10,7 +10,6 @@ const useGetTokenValues = (tokenBalances) => {
 		if(JSON.stringify(tokenValues) !== '{}' && !didCancel){
 			if(!didCancel){
 				const value =	await	appState.tokenClient.parseTokenValues(tokenBalances);
-				console.log(didCancel);
 				setTokenValues(value);
 			}
 		}

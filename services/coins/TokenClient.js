@@ -61,7 +61,7 @@ cachingClient = setup({
 					console.error(error);
 				}
 			} else {
-				return 0;
+				return null;
 			}
 		}
 	}
@@ -70,7 +70,7 @@ cachingClient = setup({
 	async getTokenMetadata(cursor, limit, list) {
 		const promise = new Promise((resolve, reject) => {
 			
-			const url = `${process.env.NEXT_PUBLIC_COIN_API_URL}/metadata`;
+			const url = `${process.env.NEXT_PUBLIC_COIN_API_URL}/tokenMetadata`;
 			axios(url, {params: {cursor, limit, list}})
 				.then((result) => {
 					resolve(result.data);
@@ -85,7 +85,7 @@ cachingClient = setup({
 	async getToken(address){
 		const promise = new Promise((resolve, reject) => {
 			
-			const url = `${process.env.NEXT_PUBLIC_COIN_API_URL}/tokenmetadata/${address}`;
+			const url = `${process.env.NEXT_PUBLIC_COIN_API_URL}/tokenMetadata/${address}`;
 			this.cachingClient(url)
 				.then((result) => {
 					resolve(result.data[ethers.utils.getAddress(address)]);
