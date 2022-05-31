@@ -13,7 +13,6 @@ const useGetTokenValues = (tokenBalances) => {
 				console.log(didCancel);
 				setTokenValues(value);
 			}
-			didCancel = true;
 		}
 		return () => didCancel = true;
 	}, [tokenBalances]);
