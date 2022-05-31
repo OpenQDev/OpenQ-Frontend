@@ -8,7 +8,7 @@ const OrganizationCard = ({ organization }) => {
 
 	// Context
 	let orgName;
-	if (organization?.__typename === 'Organization') {
+	if (organization.name) {
 		orgName = organization?.name.charAt(0).toUpperCase() + organization?.name.slice(1);
 	} else {
 		orgName = organization?.login.charAt(0).toUpperCase() + organization?.login.slice(1);
