@@ -61,11 +61,11 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 		<div className="flex flex-col">
 			<div className="font-semibold">{header}</div>
 			<div className="font-bold text-xl ">
-				{tokenBalances? !showOne && tokenValues	?
+				{tokenBalances && !showOne ? tokenValues	?
 					`${appState.utils.formatter.format(tokenValues.total)}` :
-					tokenBalances.length === 0
+					tokenBalances.length === 0  
 						? `${appState.utils.formatter.format(0)}`:
-						null
+						<Skeleton/>
 					:null}
 			</div>
 			<div className="flex flex-row space-x-2 pt-1">
