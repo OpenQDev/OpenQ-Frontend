@@ -17,7 +17,7 @@ const issues= [
 	},
 	{
 		status: 'minted',
-		url: 'https://github.com/OpenQDev/OpenQ-Frontend/issues/217'
+		url: 'https://github.com/OpenQDev/OpenQ-Frontend/issues/218'
 	},
 	{
 		status: 'unknown',
@@ -27,7 +27,7 @@ const issues= [
 
 const test =(issue)=>{
 	
-	
+	console.log(issue);
 	it('should render the modal', async() => {
 		const user = userEvent.setup();
 		render(<MintBountyButton />);

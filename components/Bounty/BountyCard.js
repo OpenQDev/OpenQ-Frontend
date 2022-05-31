@@ -94,8 +94,8 @@ const BountyCard = ({ bounty, loading }) => {
 							</div>
 						</div>
 						<div className="flex flex-row items-center space-x-4 pt-1">
-							<div className={`font-mont  ${bounty?.assignees.nodes[0]? 'font-bold' : 'font-light'} pl-6 text-sm `}>
-								{bounty?.assignees.nodes[0] ? `Assigned to ${bounty.assignees.nodes[0]?.name}` : 'Unassigned'		}					 				
+							<div className={`font-mont  ${bounty?.assignees?.nodes[0]? 'font-bold' : 'font-light'} pl-6 text-sm `}>
+								{bounty?.assignees?.nodes[0] ? `Assigned to ${bounty?.assignees?.nodes[0]?.name}` : 'Unassigned'		}					 				
 							</div>
 						</div>
 					</div>

@@ -16,6 +16,14 @@ describe('FundPage', ( ) => {
 		return null;
 	};
 	beforeEach(()=>{
+		const observe = jest.fn();
+		const disconnect = jest.fn();
+
+		window.IntersectionObserver = jest.fn(() => ({
+			observe,
+			disconnect,
+		}));
+	
 		InitialState.openQClient.reset();
 	});
 	const test =(bounty, )=>{
@@ -77,7 +85,7 @@ describe('FundPage', ( ) => {
 
 			// ASSERT
 			expect(value).toBeInTheDocument();
-			const confirmBtn = screen.getByRole( 'button', {name: /Confirm/i});
+			const confirmBtn = await screen.findByRole( 'button', {name: /Confirm/i});
 			await user.click(confirmBtn);
 			const modalContent = await screen.findByText(/Transfer Complete!/i);
 			await user.click( screen.getByRole('button', {name: 'Close'}));
@@ -94,7 +102,7 @@ describe('FundPage', ( ) => {
 			const input = screen.getByLabelText('amount');
 			await user.type(input, '0.30sdf');
 			await user.click( screen.getByText( /Matic/i));
-			await user.click( screen.getByText( /Chainlink/i));
+			await user.click( screen.getAllByText( /Chainlink/i)[0]);
 			const button = screen.getByRole('button', {name: /Fund/i});
 			await user.click(button);
 			const value = await screen.findByText(/.30 Chainlink Token/i);
@@ -118,15 +126,16 @@ describe('FundPage', ( ) => {
 			// ACT
 			const input = screen.getByLabelText('amount');
 			await user.type(input, '0.30sdf');
-			await user.click( screen.getByText( /Matic/i));
-			await user.click( screen.getByText( /Chainlink/i));
+			console.log(screen.findByText('MATIC'));
+			await user.click( await screen.findByText( /MATIC/i));
+			await user.click( screen.getAllByText( /Chainlink/i)[0]);
 			const button = await screen.findByRole('button', {name: /Fund/i});
 			await user.click(button);
 
 			// ASSERT
 			expect(await screen.findByText(/0.30 Chainlink Token/));
 			await user.click( await screen.findByRole( 'button', {name: /Confirm/i}));
-			const modalContent = await screen.findByText(/ transaction failed! Please reload and try again/i);
+			const modalContent = await screen.findByText(/try again./i);
 			expect(modalContent).toBeInTheDocument();
 		
 			await user.click(await  screen.findByRole('button', {name: 'Close'}));

@@ -95,7 +95,39 @@
               "volume": 1000000000000000000
             }
           ]
+        },
+				 {
+          "id": "sdfds",
+          "bountyId": "abc123",
+          "issuer": {
+            "id": "sfsd"
+          },
+          "bountyMintTime": 123,
+          "bountyClosedTime": "sdfds",
+          "deposits": {
+            "id": "abc123",
+            "tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+            "value": 1000000000000000000,
+            "expiration": "2592000",
+            "receiveTime": "1646012425",
+            "bounty": {
+              "id": "dsfsd",
+              "bountyId": "abc123"
+            },
+            "sender": {
+              "id": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e"
+            }
+          },
+          "status": "OPEN",
+          "bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e",
+          "bountyTokenBalances": [
+            {
+              "tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+              "volume": 1000000000000000000
+            }
+          ]
         }
+				
       ],
       "fundedTokenBalances": [
         {
@@ -126,6 +158,15 @@
           "payoutTime": "dsfsd",
           "payoutAddress": {
             "id": "sdfds"
+          },
+          "value": 1000000000000000000
+        },
+				{
+          "id": "sdfsd",
+          "tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+          "payoutTime": "dsfsd",
+          "payoutAddress": {
+            "id": "sdsdffs"
           },
           "value": 1000000000000000000
         }
@@ -367,9 +408,9 @@
       ]
     }
   ],
-  "bounty": [
-    {
-      "id": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e",
+  "bounty": 
+   { 
+      "id": "I_kwDOCUCQzM5H50v0",
       "bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e",
       "bountyId": "abc123",
       "bountyMintTime": "sdf",
@@ -378,7 +419,7 @@
       "bountyTokenBalances": [
         {
           "tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-          "volume": 10000
+          "volume": 10000000
         }
       ],
       "deposits": [
@@ -397,17 +438,18 @@
       "issuer": {
         "id": "sdf"
       }
-    }
-  ],
+    },
+  
   "bounties": [
     {
-      "id": "abc123",
+      "id": "I_kwDOC0x8daf17a20c9dba35f005b6324f493785d239719dUCQzM5H50v0",
       "bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e",
-      "bountyId": "abc123",
+      "bountyId": "I_kwDOCUCQzM5H50v0",
       "bountyMintTime": "sdf",
       "bountyClosedTime": "sdf",
-      "status": "OPEN",			
+      "status": "OPEN",
       "url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/218",
+			
 			
       "deposits": [
         {
@@ -433,7 +475,7 @@
       }
     },
     {
-      "id": "def123",
+      "id": "I_kwDOCUCQzM5H50v1",
       "bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e",
       "bountyId": "def123",
       "bountyMintTime": "sdf",
@@ -444,7 +486,7 @@
       "bountyTokenBalances": [
         {
           "tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-          "volume": 10000
+          "volume": 100000000000000000000
         }
       ],
       "issuer": {
@@ -452,9 +494,9 @@
       }
     },
     {
-      "id": "ghi123",
+      "id": "I_kwDOCUCQzM5H50v2",
       "bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e",
-      "bountyId": "ghi123",
+      "bountyId": "I_kwDOCUCQzM5H50v1",
       "bountyMintTime": "sdf",
       "bountyClosedTime": "sdf",
       "status": "CLOSED",
@@ -464,7 +506,7 @@
           "id": "sdf",
           "refunded": false,
           "tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-          "volume": 10000,
+          "volume": 100000000000000000000,
           "expiration": "2592000",
           "receiveTime": "1646012425",
           "sender": {
@@ -475,61 +517,68 @@
       "bountyTokenBalances": [
         {
           "tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-          "volume": 10000
+          "volume": 100000000000000000000
         }
       ],
       "issuer": {
         "id": "sdf"
       }
-    }
-  ],
+    }],
   "fetchIssueById": [
     {
-      "id": "abc123",
+      "id": "I_kwDOCUCQzM5H50v0",
       "title": "sdfsdf",
       "body": "sdf",
       "repoName": "sdf",
       "owner": "alo9507",
+			"assignees": {"nodes": []},  
+		"languages": ["javascript", "java", "clojure", "HTML"],
+		
       "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
       "createdAt": "sdf",
-      "url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/218",
-      "labels": [
-        {
+      "url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/217",
+      "labels": 
+       [ {
           "name": "sdf",
           "color": "yellow"
-        }
-      ],
+        }]
+      ,
       "closed": false,
       "titleHTML": "sdf",
       "bodyHTML": "<p dir=\"auto\">Descripription</p>\n<p dir=\"auto\">There is a problem with the test for the telephone validator. They pass validators which do not check for proper spacing or dashing. (i. e. my validator will return true for 55 55-55-555-5).<br>\nThis is the my code which passed the test, but really shouldn't have:</p>\n<div class=\"highlight highlight-source-js position-relative overflow-auto\" data-snippet-clipboard-copy-content=\"\n let firstReg=new RegExp(&quot;^\\-&quot;);\n  if(firstReg.test(str)){return false;}\n  let regEx= new RegExp(&quot;-&quot;,&quot;g&quot;);\n  console.log(firstReg);\n  let newStr=str.replace(regEx,&quot;&quot;);\n  let newRegEx= new RegExp(&quot; &quot;,&quot;g&quot;)\n  newStr=newStr.replace( newRegEx,&quot;&quot;);\n  console.log(newStr);\n  let regExArr=[/^\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d$/, /^[(]\\d\\d\\d[)]\\d\\d\\d\\d\\d\\d\\d$/, /^1[(]\\d\\d\\d[)]\\d\\d\\d\\d\\d\\d\\d$/, /^1\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d$/];\n  for(let i=0; i&lt;regExArr.length; i++){\n    if(regExArr[i].test(newStr)){\n      console.log(i);\n      return regExArr[i].test(newStr);\n    }```\"><pre> <span class=\"pl-k\">let</span> <span class=\"pl-s1\">firstReg</span><span class=\"pl-c1\">=</span><span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\"^\\-\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">if</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">firstReg</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">str</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span><span class=\"pl-k\">return</span> <span class=\"pl-c1\">false</span><span class=\"pl-kos\">;</span><span class=\"pl-kos\">}</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">regEx</span><span class=\"pl-c1\">=</span> <span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\"-\"</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"g\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">firstReg</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">newStr</span><span class=\"pl-c1\">=</span><span class=\"pl-s1\">str</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">replace</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">regEx</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">newRegEx</span><span class=\"pl-c1\">=</span> <span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\" \"</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"g\"</span><span class=\"pl-kos\">)</span>\n  <span class=\"pl-s1\">newStr</span><span class=\"pl-c1\">=</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">replace</span><span class=\"pl-kos\">(</span> <span class=\"pl-s1\">newRegEx</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">regExArr</span><span class=\"pl-c1\">=</span><span class=\"pl-kos\">[</span><span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span><span class=\"pl-kos\">[</span>(<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-kos\">[</span>)<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span>1<span class=\"pl-kos\">[</span>(<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-kos\">[</span>)<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span>1<span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">for</span><span class=\"pl-kos\">(</span><span class=\"pl-k\">let</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">=</span><span class=\"pl-c1\">0</span><span class=\"pl-kos\">;</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">&lt;</span><span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">.</span><span class=\"pl-c1\">length</span><span class=\"pl-kos\">;</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">++</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span>\n    <span class=\"pl-k\">if</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">[</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span>\n      <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n      <span class=\"pl-k\">return</span> <span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">[</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n    <span class=\"pl-kos\">}</span><span class=\"pl-s\">``</span>`</pre></div>"
     },
     {
-      "id": "def123",
-      "title": "sdfsdf",
-      "body": "sdf",      
-      "url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/218",
-      "repoName": "sdf",
-      "owner": "alo9507",
-      "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
-      "createdAt": "sdf",
-      "labels": [
-        {
-          "name": "sdf",
-          "color": "yellow"
-        }
-      ],
-      "closed": false,
-      "titleHTML": "sdf",
-      "bodyHTML": "<p dir=\"auto\">Descripription</p>\n<p dir=\"auto\">There is a problem with the test for the telephone validator. They pass validators which do not check for proper spacing or dashing. (i. e. my validator will return true for 55 55-55-555-5).<br>\nThis is the my code which passed the test, but really shouldn't have:</p>\n<div class=\"highlight highlight-source-js position-relative overflow-auto\" data-snippet-clipboard-copy-content=\"\n let firstReg=new RegExp(&quot;^\\-&quot;);\n  if(firstReg.test(str)){return false;}\n  let regEx= new RegExp(&quot;-&quot;,&quot;g&quot;);\n  console.log(firstReg);\n  let newStr=str.replace(regEx,&quot;&quot;);\n  let newRegEx= new RegExp(&quot; &quot;,&quot;g&quot;)\n  newStr=newStr.replace( newRegEx,&quot;&quot;);\n  console.log(newStr);\n  let regExArr=[/^\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d$/, /^[(]\\d\\d\\d[)]\\d\\d\\d\\d\\d\\d\\d$/, /^1[(]\\d\\d\\d[)]\\d\\d\\d\\d\\d\\d\\d$/, /^1\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d$/];\n  for(let i=0; i&lt;regExArr.length; i++){\n    if(regExArr[i].test(newStr)){\n      console.log(i);\n      return regExArr[i].test(newStr);\n    }```\"><pre> <span class=\"pl-k\">let</span> <span class=\"pl-s1\">firstReg</span><span class=\"pl-c1\">=</span><span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\"^\\-\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">if</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">firstReg</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">str</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span><span class=\"pl-k\">return</span> <span class=\"pl-c1\">false</span><span class=\"pl-kos\">;</span><span class=\"pl-kos\">}</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">regEx</span><span class=\"pl-c1\">=</span> <span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\"-\"</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"g\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">firstReg</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">newStr</span><span class=\"pl-c1\">=</span><span class=\"pl-s1\">str</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">replace</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">regEx</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">newRegEx</span><span class=\"pl-c1\">=</span> <span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\" \"</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"g\"</span><span class=\"pl-kos\">)</span>\n  <span class=\"pl-s1\">newStr</span><span class=\"pl-c1\">=</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">replace</span><span class=\"pl-kos\">(</span> <span class=\"pl-s1\">newRegEx</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">regExArr</span><span class=\"pl-c1\">=</span><span class=\"pl-kos\">[</span><span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span><span class=\"pl-kos\">[</span>(<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-kos\">[</span>)<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span>1<span class=\"pl-kos\">[</span>(<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-kos\">[</span>)<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span>1<span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">for</span><span class=\"pl-kos\">(</span><span class=\"pl-k\">let</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">=</span><span class=\"pl-c1\">0</span><span class=\"pl-kos\">;</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">&lt;</span><span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">.</span><span class=\"pl-c1\">length</span><span class=\"pl-kos\">;</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">++</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span>\n    <span class=\"pl-k\">if</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">[</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span>\n      <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n      <span class=\"pl-k\">return</span> <span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">[</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n    <span class=\"pl-kos\">}</span><span class=\"pl-s\">``</span>`</pre></div>"
-    },
-    {
-      "id": "ghi123",
+      "id": "I_kwDOCUCQzM5H50v1",
       "title": "sdfsdf",
       "body": "sdf",
-      "url": "",
+			"assignees": {"nodes": []},  
+		"languages": ["javascript", "java", "clojure", "HTML"],
+      "url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/218",
       "repoName": "sdf",
       "owner": "alo9507",
       "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
+      "createdAt": "sdf",
+      "labels": [
+        {
+          "name": "sdf",
+          "color": "yellow"
+        }
+
+      ],
+      "closed": false,
+      "titleHTML": "sdf",
+      "bodyHTML": "<p dir=\"auto\">Descripription</p>\n<p dir=\"auto\">There is a problem with the test for the telephone validator. They pass validators which do not check for proper spacing or dashing. (i. e. my validator will return true for 55 55-55-555-5).<br>\nThis is the my code which passed the test, but really shouldn't have:</p>\n<div class=\"highlight highlight-source-js position-relative overflow-auto\" data-snippet-clipboard-copy-content=\"\n let firstReg=new RegExp(&quot;^\\-&quot;);\n  if(firstReg.test(str)){return false;}\n  let regEx= new RegExp(&quot;-&quot;,&quot;g&quot;);\n  console.log(firstReg);\n  let newStr=str.replace(regEx,&quot;&quot;);\n  let newRegEx= new RegExp(&quot; &quot;,&quot;g&quot;)\n  newStr=newStr.replace( newRegEx,&quot;&quot;);\n  console.log(newStr);\n  let regExArr=[/^\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d$/, /^[(]\\d\\d\\d[)]\\d\\d\\d\\d\\d\\d\\d$/, /^1[(]\\d\\d\\d[)]\\d\\d\\d\\d\\d\\d\\d$/, /^1\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d$/];\n  for(let i=0; i&lt;regExArr.length; i++){\n    if(regExArr[i].test(newStr)){\n      console.log(i);\n      return regExArr[i].test(newStr);\n    }```\"><pre> <span class=\"pl-k\">let</span> <span class=\"pl-s1\">firstReg</span><span class=\"pl-c1\">=</span><span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\"^\\-\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">if</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">firstReg</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">str</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span><span class=\"pl-k\">return</span> <span class=\"pl-c1\">false</span><span class=\"pl-kos\">;</span><span class=\"pl-kos\">}</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">regEx</span><span class=\"pl-c1\">=</span> <span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\"-\"</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"g\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">firstReg</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">newStr</span><span class=\"pl-c1\">=</span><span class=\"pl-s1\">str</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">replace</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">regEx</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">newRegEx</span><span class=\"pl-c1\">=</span> <span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\" \"</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"g\"</span><span class=\"pl-kos\">)</span>\n  <span class=\"pl-s1\">newStr</span><span class=\"pl-c1\">=</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">replace</span><span class=\"pl-kos\">(</span> <span class=\"pl-s1\">newRegEx</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">regExArr</span><span class=\"pl-c1\">=</span><span class=\"pl-kos\">[</span><span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span><span class=\"pl-kos\">[</span>(<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-kos\">[</span>)<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span>1<span class=\"pl-kos\">[</span>(<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-kos\">[</span>)<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span>1<span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">for</span><span class=\"pl-kos\">(</span><span class=\"pl-k\">let</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">=</span><span class=\"pl-c1\">0</span><span class=\"pl-kos\">;</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">&lt;</span><span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">.</span><span class=\"pl-c1\">length</span><span class=\"pl-kos\">;</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">++</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span>\n    <span class=\"pl-k\">if</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">[</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span>\n      <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n      <span class=\"pl-k\">return</span> <span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">[</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n    <span class=\"pl-kos\">}</span><span class=\"pl-s\">``</span>`</pre></div>"
+    },
+    {
+      "id": "I_kwDOCUCQzM5H50v2",
+      "title": "sdfsdf",
+      "body": "sdf",
+      "url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/219",
+      "repoName": "sdf",
+      "owner": "alo9507",
+			"assignees": {"nodes": [{"name": "Bill French"}]}, 
+			
+		"languages": ["javascript", "java", "clojure", "HTML"],
       "createdAt": "sdf",
       "labels": [
         {
@@ -542,11 +591,14 @@
       "bodyHTML": "<p dir=\"auto\">Descripription</p>\n<p dir=\"auto\">There is a problem with the test for the telephone validator. They pass validators which do not check for proper spacing or dashing. (i. e. my validator will return true for 55 55-55-555-5).<br>\nThis is the my code which passed the test, but really shouldn't have:</p>\n<div class=\"highlight highlight-source-js position-relative overflow-auto\" data-snippet-clipboard-copy-content=\"\n let firstReg=new RegExp(&quot;^\\-&quot;);\n  if(firstReg.test(str)){return false;}\n  let regEx= new RegExp(&quot;-&quot;,&quot;g&quot;);\n  console.log(firstReg);\n  let newStr=str.replace(regEx,&quot;&quot;);\n  let newRegEx= new RegExp(&quot; &quot;,&quot;g&quot;)\n  newStr=newStr.replace( newRegEx,&quot;&quot;);\n  console.log(newStr);\n  let regExArr=[/^\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d$/, /^[(]\\d\\d\\d[)]\\d\\d\\d\\d\\d\\d\\d$/, /^1[(]\\d\\d\\d[)]\\d\\d\\d\\d\\d\\d\\d$/, /^1\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d$/];\n  for(let i=0; i&lt;regExArr.length; i++){\n    if(regExArr[i].test(newStr)){\n      console.log(i);\n      return regExArr[i].test(newStr);\n    }```\"><pre> <span class=\"pl-k\">let</span> <span class=\"pl-s1\">firstReg</span><span class=\"pl-c1\">=</span><span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\"^\\-\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">if</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">firstReg</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">str</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span><span class=\"pl-k\">return</span> <span class=\"pl-c1\">false</span><span class=\"pl-kos\">;</span><span class=\"pl-kos\">}</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">regEx</span><span class=\"pl-c1\">=</span> <span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\"-\"</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"g\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">firstReg</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">newStr</span><span class=\"pl-c1\">=</span><span class=\"pl-s1\">str</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">replace</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">regEx</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">newRegEx</span><span class=\"pl-c1\">=</span> <span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\" \"</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"g\"</span><span class=\"pl-kos\">)</span>\n  <span class=\"pl-s1\">newStr</span><span class=\"pl-c1\">=</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">replace</span><span class=\"pl-kos\">(</span> <span class=\"pl-s1\">newRegEx</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">regExArr</span><span class=\"pl-c1\">=</span><span class=\"pl-kos\">[</span><span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span><span class=\"pl-kos\">[</span>(<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-kos\">[</span>)<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span>1<span class=\"pl-kos\">[</span>(<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-kos\">[</span>)<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span>1<span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">for</span><span class=\"pl-kos\">(</span><span class=\"pl-k\">let</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">=</span><span class=\"pl-c1\">0</span><span class=\"pl-kos\">;</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">&lt;</span><span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">.</span><span class=\"pl-c1\">length</span><span class=\"pl-kos\">;</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">++</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span>\n    <span class=\"pl-k\">if</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">[</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span>\n      <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n      <span class=\"pl-k\">return</span> <span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">[</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n    <span class=\"pl-kos\">}</span><span class=\"pl-s\">``</span>`</pre></div>"
     },
     {
-      "id": "jkl123",
+      "id": "I_kwDOCUCQzM5H50v3",
       "title": "sdfsdf",
       "body": "sdf",     
-      "url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/218",
+      "url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/220",
       "repoName": "sdf",
+			"assignees": {"nodes": []},  
+			
+		"languages": ["javascript", "java", "clojure", "HTML"],
       "owner": "alo9507",
       "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
       "createdAt": "sdf",
@@ -560,10 +612,10 @@
       "titleHTML": "sdf",
       "bodyHTML": "<p dir=\"auto\">Descripription</p>\n<p dir=\"auto\">There is a problem with the test for the telephone validator. They pass validators which do not check for proper spacing or dashing. (i. e. my validator will return true for 55 55-55-555-5).<br>\nThis is the my code which passed the test, but really shouldn't have:</p>\n<div class=\"highlight highlight-source-js position-relative overflow-auto\" data-snippet-clipboard-copy-content=\"\n let firstReg=new RegExp(&quot;^\\-&quot;);\n  if(firstReg.test(str)){return false;}\n  let regEx= new RegExp(&quot;-&quot;,&quot;g&quot;);\n  console.log(firstReg);\n  let newStr=str.replace(regEx,&quot;&quot;);\n  let newRegEx= new RegExp(&quot; &quot;,&quot;g&quot;)\n  newStr=newStr.replace( newRegEx,&quot;&quot;);\n  console.log(newStr);\n  let regExArr=[/^\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d$/, /^[(]\\d\\d\\d[)]\\d\\d\\d\\d\\d\\d\\d$/, /^1[(]\\d\\d\\d[)]\\d\\d\\d\\d\\d\\d\\d$/, /^1\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d$/];\n  for(let i=0; i&lt;regExArr.length; i++){\n    if(regExArr[i].test(newStr)){\n      console.log(i);\n      return regExArr[i].test(newStr);\n    }```\"><pre> <span class=\"pl-k\">let</span> <span class=\"pl-s1\">firstReg</span><span class=\"pl-c1\">=</span><span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\"^\\-\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">if</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">firstReg</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">str</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span><span class=\"pl-k\">return</span> <span class=\"pl-c1\">false</span><span class=\"pl-kos\">;</span><span class=\"pl-kos\">}</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">regEx</span><span class=\"pl-c1\">=</span> <span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\"-\"</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"g\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">firstReg</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">newStr</span><span class=\"pl-c1\">=</span><span class=\"pl-s1\">str</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">replace</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">regEx</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">newRegEx</span><span class=\"pl-c1\">=</span> <span class=\"pl-k\">new</span> <span class=\"pl-v\">RegExp</span><span class=\"pl-kos\">(</span><span class=\"pl-s\">\" \"</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"g\"</span><span class=\"pl-kos\">)</span>\n  <span class=\"pl-s1\">newStr</span><span class=\"pl-c1\">=</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">replace</span><span class=\"pl-kos\">(</span> <span class=\"pl-s1\">newRegEx</span><span class=\"pl-kos\">,</span><span class=\"pl-s\">\"\"</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">let</span> <span class=\"pl-s1\">regExArr</span><span class=\"pl-c1\">=</span><span class=\"pl-kos\">[</span><span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span><span class=\"pl-kos\">[</span>(<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-kos\">[</span>)<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span>1<span class=\"pl-kos\">[</span>(<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-kos\">[</span>)<span class=\"pl-kos\">]</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">,</span> <span class=\"pl-pds\"><span class=\"pl-c1\">/</span><span class=\"pl-cce\">^</span>1<span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">\\d</span><span class=\"pl-cce\">$</span><span class=\"pl-c1\">/</span></span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">;</span>\n  <span class=\"pl-k\">for</span><span class=\"pl-kos\">(</span><span class=\"pl-k\">let</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">=</span><span class=\"pl-c1\">0</span><span class=\"pl-kos\">;</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">&lt;</span><span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">.</span><span class=\"pl-c1\">length</span><span class=\"pl-kos\">;</span> <span class=\"pl-s1\">i</span><span class=\"pl-c1\">++</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span>\n    <span class=\"pl-k\">if</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">[</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">{</span>\n      <span class=\"pl-smi\">console</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">log</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n      <span class=\"pl-k\">return</span> <span class=\"pl-s1\">regExArr</span><span class=\"pl-kos\">[</span><span class=\"pl-s1\">i</span><span class=\"pl-kos\">]</span><span class=\"pl-kos\">.</span><span class=\"pl-en\">test</span><span class=\"pl-kos\">(</span><span class=\"pl-s1\">newStr</span><span class=\"pl-kos\">)</span><span class=\"pl-kos\">;</span>\n    <span class=\"pl-kos\">}</span><span class=\"pl-s\">``</span>`</pre></div>"
     }
-  ],
+     ],
   "fetchIssueByUrl": [
     {
-      "id": "0x1abcD810374b2C0fCDD11cFA280Df9dasdfsadfa4e",
+      "id": "I_kwDOCUCQzM5H50v0",
       "title": "sdfsdf",
       "body": "sdf",
       "url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/218",
@@ -671,8 +723,10 @@
   ],
   "githubIssues": [
     {
-      "id": "abc123",
+      "id": "I_kwDOCUCQzM5H50v0",
+			"assignees": {"nodes": [{"name": "Bill French"}]},
       "title": "High",
+				"languages":[{"name": "javascript"}],
       "body": "sdf456",
       "url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/218",
       "repoName": "openqdev",
@@ -695,9 +749,10 @@
       }
     },
     {
-      "id": "def123",
+      "id": "I_kwDOCUCQzM5H50v1",
       "title": "UnfundedIssue",
       "body": "fgh456",
+		"languages": ["javascript", "java", "clojure", "HTML"],
       "url": "",
       "repoName": "openqdev",
       "owner": "alo9507",
@@ -719,8 +774,10 @@
       }
     },
     {
-      "id": "ghi123",
+      "id": "I_kwDOCUCQzM5H50v2",
       "title": "Hey",
+				"languages":[{"name": "javascript"}],
+			"assignees": {"nodes": [{"name": "Bill French"}]},
       "body": "sdf456",
       "url": "",
       "repoName": "openqdev",
@@ -743,8 +800,10 @@
       }
     },
     {
-      "id": "jkl123",
+      "id": "I_kwDOCUCQzM5H50v3",
+		"languages": ["javascript", "java", "clojure", "HTML"],
       "title": "hgjkhg",
+			"assignees": {"nodes": [{"name": "Bill French"}]},
       "body": "ghjkghjk456",
       "url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/217",
       "repoName": "englebert",
@@ -777,20 +836,89 @@
       "isAuthenticated": true
     }
   },
-  "tvl": {
-    "tokenPrices": {
-      "0x5FbDB2315678afecb367f032d93F642f64180aa3": 10.66
-    },
-    "tokens": {
-      "0x5FbDB2315678afecb367f032d93F642f64180aa3": 100.32
-    },
-    "total": 24.04
-  },
+  "tvl": {"tokenPrices":{"0x5fbdb2315678afecb367f032d93f642f64180aa3":10.66},"tokens":{"0x5fbdb2315678afecb367f032d93f642f64180aa3":100.32},"total":24.04},
   "openq-bot": {
     "created": "sdf",
     "refunded": false,
     "funded": "sdf"
   },
+	
+"getToken":	{
+		"name": "Matic",
+		"address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+		"symbol": "MATIC",
+		"decimals": 14,
+		"chainId": 80001,
+		"path": "/crypto-logos/MATIC.svg"
+	},
+
+"metadata":
+[
+	{
+		"name": "Matic",
+		"address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+		"symbol": "MATIC",
+		"decimals": 18,
+		"chainId": 80001,
+		"path": "/crypto-logos/MATIC.svg"
+	},
+	{
+		"name": "Chainlink Token",
+		"address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+		"symbol": "LINK",
+		"decimals": 18,
+		"chainId": 80001,
+		"path": "/crypto-logos/LINK.svg"
+	},
+	{
+		"name": "Dummy ERC20",
+		"address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+		"symbol": "DERC20",
+		"decimals": 18,
+		"chainId": 80001,
+		"path": "/crypto-logos/DAI.svg"
+	},
+	{
+		"name": "Dummy ERC20 (Blacklisted)",
+		"address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+		"symbol": "BDERC20",
+		"decimals": 18,
+		"chainId": 80001,
+		"path": "/crypto-logos/DAI.svg"
+	},
+	{
+		"name": "Wrapped Matic",
+		"address": "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
+		"symbol": "WMATIC",
+		"decimals": 18,
+		"chainId": 80001,
+		"path": "/crypto-logos/MATIC.svg"
+	},
+	{
+		"name": "Dai Stablecoin",
+		"address": "0xcB1e72786A6eb3b44C2a2429e317c8a2462CFeb1",
+		"symbol": "DAI",
+		"decimals": 18,
+		"chainId": 80001,
+		"path": "/crypto-logos/DAI.svg"
+	},
+	{
+		"name": "Tether USD",
+		"address": "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
+		"symbol": "USDT",
+		"decimals": 6,
+		"chainId": 80001,
+		"path": "/crypto-logos/USDT.svg"
+	},
+	{
+		"name": "Wrapped Ether",
+		"address": "0x714550C2C1Ea08688607D86ed8EeF4f5E4F22323",
+		"symbol": "WETH",
+		"decimals": 18,
+		"chainId": 80001,
+		"path": "/crypto-logos/ETH.svg"
+	}
+],
 "tokenMetadata":	{ "name": "Chainlink Token", "address": "0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39", "symbol": "LINK", "decimals": 18, "chainId": 80001, "path": "/crypto-logos/LINK.svg" },
   "txnResponse": {
     "to": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",

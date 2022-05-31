@@ -6,9 +6,16 @@ const useGetTokenValues = (tokenBalances) => {
 	const [appState] = useContext(StoreContext);
 
 	useEffect(async() => {
-		if(JSON.stringify(tokenValues) !== '{}'){
-			const value =	await	appState.tokenClient.parseTokenValues(tokenBalances);
-			setTokenValues(value);}
+		let didCancel;
+		if(JSON.stringify(tokenValues) !== '{}' && !didCancel){
+			if(!didCancel){
+				const value =	await	appState.tokenClient.parseTokenValues(tokenBalances);
+				console.log(didCancel);
+				setTokenValues(value);
+			}
+			didCancel = true;
+		}
+		return () => didCancel = true;
 	}, [tokenBalances]);
 
 	return [tokenValues, setTokenValues];

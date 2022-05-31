@@ -6,14 +6,13 @@ const ethers = require('ethers');
 import Skeleton from 'react-loading-skeleton';
  
 const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, showOne }) => {
-
 	const [appState] = useContext(StoreContext);
 	const tokenBalancesArr = Array.isArray(tokenBalances) ? tokenBalances : [tokenBalances];
 
 	const [displayedBalances, updateDisplayedBalances] = useState([]);
 	useEffect(async() => {
 		let didCancel;
-		if (tokenBalancesArr[0] ) {
+		if (tokenBalancesArr[0] && !didCancel) {
 			let highest = 0;
 			const totalValueBalances = tokenBalancesArr.map(async(tokenBalance) => {
 				const tokenAddress = ethers.utils.getAddress(
@@ -44,15 +43,16 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 				}
 			});
 			const settledTotalValueBalances = await Promise.all(totalValueBalances);
-			if(settledTotalValueBalances[0] && !didCancel){
-				updateDisplayedBalances(settledTotalValueBalances.filter((balance) => {
-					if (!showOne) { return true; }
-					// So we don't end up with a tie.
-					if (balance.totalValue >= highest) {
-						highest >= 0.01;
-						return true;
-					}
-				}));}
+			const filteredTokenBalances = settledTotalValueBalances.filter((balance) => {
+				if (!showOne) { return true; }
+				// So we don't end up with a tie.
+				if (balance?.totalValue >= highest) {
+					highest >= 0.01;
+					return true;
+				}
+			});
+			if(filteredTokenBalances[0] && !didCancel){
+				updateDisplayedBalances(filteredTokenBalances);}
 		}
 		return ()=>{didCancel = true;};
 	}, [tokenBalances, tokenValues]);

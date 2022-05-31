@@ -24,8 +24,6 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 	const [tagSearch, setTagSearch] = useState('Search');
 	let observer = useRef();
 	// Utilities
-
-
 	const fetchPage = () => {
 		if (sortOrder === 'Oldest') {
 			getMoreData('asc');
@@ -55,7 +53,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 					if (accum) return true;
 					return (language.name.toLowerCase()
 						.indexOf(localSearchText.toLowerCase()) > -1);
-				}, false) ||
+				}, '') ||
 				localSearchText.length === 0;
 			const containsTag = localTagArr.reduce((accum, tag) => {
 				if (accum === false) return false;
@@ -63,7 +61,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			}, true);
 			const isUnclaimed = bounty.status === 'OPEN';
 			const isFunded = bounty.deposits.length > 0;
-			const isAssigned = bounty.assignees.nodes.length >0;
+			const isAssigned = bounty.assignees?.nodes.length > 0;
 			return (containsSearch && containsTag && (localShowUnfunded || isFunded) && (localShowClaimed || isUnclaimed) && (localShowAssigned || isAssigned ) && bounty.url);
 		});
 		if (displayBounties.length === 0 && !complete) {

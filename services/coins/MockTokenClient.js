@@ -17,24 +17,34 @@ class MockCoinClient {
 	}
 
 	
-	
-	parseTokenValues = async(tokenBalances) => {
+parseTokenValues = async(tokenBalances) => {
 		if (tokenBalances) {
 			let tokenVolumes = {};
 			if (Array.isArray(tokenBalances)) {
-				tokenBalances.map((tokenBalance) => {
-					const tokenAddress = this.getTokenValues(ethers.utils.getAddress(tokenBalance.tokenAddress)).address;
+				for (let i = 0; i<tokenBalances.length; i++){
+					const tokenMetadata = await this.getToken(tokenBalances[i].tokenAddress);
+					const tokenAddress = tokenMetadata.address;
 					if(tokenVolumes[tokenAddress]){
-						tokenVolumes[tokenAddress] = parseInt(tokenVolumes[tokenAddress]) + parseInt(tokenBalance.volume);
+						tokenVolumes[tokenAddress] = {
+							volume: parseInt(tokenVolumes[tokenAddress]) + parseInt(tokenBalances[i].volume),
+							decimals: tokenMetadata.decimals
+						};
 					}
 					else{
-						tokenVolumes[tokenAddress] = tokenBalance.volume;
+						tokenVolumes[tokenAddress] ={ 
+							volume: tokenBalances[i].volume,
+							decimals: tokenMetadata.decimals
+						};
 					}
-				});
+				}
 			}
 			else {
-				const tokenAddress = this.tokenMetadata[ethers.utils.getAddress(tokenBalances.tokenAddress)].address;
-				tokenVolumes[tokenAddress] = tokenBalances.volume;
+				const tokenMetadata = await this.getToken(tokenBalances.tokenAddress);
+				tokenVolumes[tokenMetadata.address] =
+				{
+					volume: tokenBalances.volume,
+					decimals: tokenMetadata.decimals
+				};
 			}
 			const data = { tokenVolumes, network: 'polygon-pos' };
 			const url = process.env.NEXT_PUBLIC_COIN_API_URL + '/tvl';
@@ -47,10 +57,39 @@ class MockCoinClient {
 					console.error(error);
 				}
 			} else {
-				return null;
+				return {total: 0};
 			}
 		}
 	}
+	
+	async getTokenMetadata(cursor, limit, list) {
+		const promise = new Promise((resolve, reject) => {
+			
+			
+			axios.get('http://localhost:3030/metadata/')
+				.then((result) => {
+					resolve(result.data);
+				})
+				.catch((error) => {
+					reject()
+		});
+		});
+		return promise;
+	}
+	
+	async getToken(address){
+		const promise = new Promise((resolve, reject) => {
+			
+			axios.get('http://localhost:3030/getToken')
+				.then((result) => {
+					resolve( result.data);
+				})
+				.catch((error) => {
+					reject()
+		});
+	})
+		return promise;
+}
 }
 
 export default MockCoinClient;

@@ -3,7 +3,8 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen } from '../test-utils';
+import { render, screen, } from '../test-utils';
+import { waitFor} from '@testing-library/react';
 import RefundPage from '../components/RefundBounty/RefundPage';
 import mocks from '../__mocks__/mock-server.json';
 import InitialState from '../store/Store/InitialState';
@@ -16,21 +17,23 @@ describe('RefundPage', ( ) => {
 		InitialState.openQClient.reset();
 	});
 	const test =(bounty )=>{
-		it('should render the heading', async() => {
-		// ARRANGE
+		it('should render the heading', async() => {		
+			// ARRANGE
 			const user = userEvent.setup();		
 			render(<RefundPage bounty={bounty} />);
-
+			let heading;
 			// ACT
-			const heading = screen.getByText('Your Deposits');
-			const refundBtn = screen.getByText('Refund');
-			await user.click(refundBtn);
-			const confirmBtn = await screen.findByText('Yes, Refund!');
-			await user.click(confirmBtn);
-			// ASSERT
-			expect(heading).toBeInTheDocument();
-		});
+			await waitFor( async()=>{
+				heading = await screen.findByText('Your Deposits');
+				const refundBtn = await screen.findByText('Refund');
+				await user.click(refundBtn);
+				const confirmBtn = await screen.findByText('Yes, Refund!');
+				await user.click(confirmBtn);
+				// ASSERT
+				expect(heading).toBeInTheDocument();
+			});
 	
+		});
 	};
 
 	test(bounties[0]);
