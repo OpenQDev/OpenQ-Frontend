@@ -134,7 +134,7 @@ const address = ({  address, mergedBounty, renderError}) => {
 					<BountyCardDetails  bounty={bounty} address={address} tokenValues={tokenValues} internalMenu={internalMenu}/>
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
-					{internalMenu == 'Refund' && bounty ? (<RefundPage bounty={bounty} refreshBounty={refreshBounty} />) : null}
+					{bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
 					<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>
 				</div>
 			</>}

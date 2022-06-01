@@ -3,6 +3,8 @@ import { ethers } from 'ethers';
 import { setup } from 'axios-cache-adapter';
 
 class CoinClient {
+	enumerableTokens = [];
+	indexableTokens = {};
 
 	async getTokenValues(tokenVolumes, url) {
 		const promise = new Promise((resolve, reject) => {
@@ -17,25 +19,25 @@ class CoinClient {
 		return promise;
 	}
 
-cachingClient = setup({
-	cache: { maxAge: 6 * 1000  } // 3s
-});
-	
-	parseTokenValues = async(tokenBalances) => {
+	cachingClient = setup({
+		cache: { maxAge: 6 * 1000 } // 3s
+	});
+
+	parseTokenValues = async (tokenBalances) => {
 		if (tokenBalances) {
 			let tokenVolumes = {};
 			if (Array.isArray(tokenBalances)) {
-				for (let i = 0; i<tokenBalances.length; i++){
+				for (let i = 0; i < tokenBalances.length; i++) {
 					const tokenMetadata = await this.getToken(tokenBalances[i].tokenAddress);
 					const tokenAddress = tokenMetadata.address;
-					if(tokenVolumes[tokenAddress]){
+					if (tokenVolumes[tokenAddress]) {
 						tokenVolumes[tokenAddress] = {
 							volume: parseInt(tokenVolumes[tokenAddress]) + parseInt(tokenBalances[i].volume),
 							decimals: tokenMetadata.decimals
 						};
 					}
-					else{
-						tokenVolumes[tokenAddress] ={ 
+					else {
+						tokenVolumes[tokenAddress] = {
 							volume: tokenBalances[i].volume,
 							decimals: tokenMetadata.decimals
 						};
@@ -61,17 +63,19 @@ cachingClient = setup({
 					console.error(error);
 				}
 			} else {
-				return 0;
+				return null;
 			}
 		}
-	}
+	};
 
-	
+
 	async getTokenMetadata(cursor, limit, list) {
 		const promise = new Promise((resolve, reject) => {
-			
-			const url = `${process.env.NEXT_PUBLIC_COIN_API_URL}/metadata`;
-			axios(url, {params: {cursor, limit, list}})
+			if(this.enumerableTokens.length){
+				resolve(this.enumerableTokens.slice(cursor, cursor+limit));
+			}
+			const url = `${process.env.NEXT_PUBLIC_COIN_API_URL}/tokenMetadata`;
+			axios(url, { params: { cursor, limit, list } })
 				.then((result) => {
 					resolve(result.data);
 				})
@@ -82,10 +86,12 @@ cachingClient = setup({
 		return promise;
 	}
 
-	async getToken(address){
+	async getToken(address) {
 		const promise = new Promise((resolve, reject) => {
-			
-			const url = `${process.env.NEXT_PUBLIC_COIN_API_URL}/tokenmetadata/${address}`;
+			if(this.indexableTokens[address]){
+				resolve(  this.indexableTokens[address]);}
+
+			const url = `${process.env.NEXT_PUBLIC_COIN_API_URL}/tokenMetadata/${address}`;
 			this.cachingClient(url)
 				.then((result) => {
 					resolve(result.data[ethers.utils.getAddress(address)]);

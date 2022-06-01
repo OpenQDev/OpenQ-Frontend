@@ -174,6 +174,7 @@ export const getServerSideProps = async()=>{
 	let issueData = [];
 	try{
 		issueData = await githubRepository.instance.getIssueData(bountyIds);
+		console.log(issueData);
 		newBounties.forEach((bounty) => {
 			const relatedIssue = issueData.find(
 				(issue) => issue.id == bounty.bountyId

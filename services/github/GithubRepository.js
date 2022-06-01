@@ -65,7 +65,7 @@ class GithubRepository {
 
 	parseIssuesData(rawIssuesResponse) {
 		const responseData = rawIssuesResponse.data.nodes;
-		return responseData.filter(event => event.__typename === 'Issue').map((elem) => {
+		return responseData.filter(event => event?.__typename === 'Issue').map((elem) => {
 			try {
 				const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = elem;
 				const repoName = elem.repository.name;
