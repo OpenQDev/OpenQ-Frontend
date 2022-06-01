@@ -6,6 +6,8 @@ class CoinClient {
 	enumerableTokens = [];
 	indexableTokens = {};
 	firstTenPrices = {}
+	openqEnumerableTokens = [];
+	openqIndexableTokens = {}
 
 	async getTokenValues(tokenVolumes, url) {
 		const promise = new Promise((resolve, reject) => {
@@ -80,7 +82,6 @@ class CoinClient {
 				}
 				try {
 					const tokenValues = await this.getTokenValues(data, url);
-					console.log(tokenValues);
 					return tokenValues;
 				} catch (error) {
 					console.error(error);
@@ -94,8 +95,11 @@ class CoinClient {
 
 	async getTokenMetadata(cursor, limit, list) {
 		const promise = new Promise((resolve, reject) => {
-			if(this.enumerableTokens.length){
+			if(this.enumerableTokens.length && list === 'polygon'){
 				resolve(this.enumerableTokens.slice(cursor, cursor+limit));
+			}
+			if(this.openqEnumerableTokens.length && list === 'constants'){
+				resolve(this.openqEnumerableTokens);
 			}
 			const url = `${process.env.NEXT_PUBLIC_COIN_API_URL}/tokenMetadata`;
 			axios(url, { params: { cursor, limit, list } })
@@ -113,7 +117,8 @@ class CoinClient {
 		const promise = new Promise((resolve, reject) => {
 			if(this.indexableTokens[address]){
 				resolve(  this.indexableTokens[address]);}
-
+			if(this.openqIndexableTokens[address]){
+				resolve(this.openqIndexableTokens[address]);}
 			const url = `${process.env.NEXT_PUBLIC_COIN_API_URL}/tokenMetadata/${address}`;
 			this.cachingClient(url)
 				.then((result) => {
