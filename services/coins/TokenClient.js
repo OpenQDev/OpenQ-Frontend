@@ -61,13 +61,11 @@ class CoinClient {
 				if(!fetchValues){
 					const tokenValues = {tokenPrices:{}, tokens: {}, total: 0};
 					let total = 0;
-					console.log(tokenVolumes);
 					for(let key in tokenVolumes){
 						const lowercaseKey = key.toLowerCase();
 						if(this.firstTenPrices[lowercaseKey] && !fetchValues){
 							tokenVolumes[lowercaseKey];
 							const multiplier = tokenVolumes[key].volume / Math.pow(10, tokenVolumes[key].decimals);
-							console.log(multiplier);
 							const value = this.firstTenPrices[lowercaseKey].usd;
 							tokenValues.tokens[lowercaseKey] = value * multiplier;
 							tokenValues.tokenPrices[lowercaseKey] =  Math.round(parseFloat(value) * 100) / 100;
@@ -78,7 +76,6 @@ class CoinClient {
 						}
 					}
 					tokenValues.total = Math.round(parseFloat(total) * 100) / 100;
-					console.log(tokenValues);
 					return tokenValues;
 				}
 				try {
