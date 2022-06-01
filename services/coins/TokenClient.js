@@ -5,6 +5,7 @@ import { setup } from 'axios-cache-adapter';
 class CoinClient {
 	enumerableTokens = [];
 	indexableTokens = {};
+	firstTenPrices = {}
 
 	async getTokenValues(tokenVolumes, url) {
 		const promise = new Promise((resolve, reject) => {
@@ -28,7 +29,7 @@ class CoinClient {
 			let tokenVolumes = {};
 			if (Array.isArray(tokenBalances)) {
 				for (let i = 0; i < tokenBalances.length; i++) {
-					const tokenMetadata = await this.getToken(tokenBalances[i].tokenAddress);
+					const tokenMetadata = this.enumerableTokens[tokenAddress] || await this.getToken(tokenBalances[i].tokenAddress);
 					const tokenAddress = tokenMetadata.address;
 					if (tokenVolumes[tokenAddress]) {
 						tokenVolumes[tokenAddress] = {
@@ -55,9 +56,34 @@ class CoinClient {
 			const data = { tokenVolumes, network: 'polygon-pos' };
 			const url = process.env.NEXT_PUBLIC_COIN_API_URL + '/tvl';
 			//only query tvl for bounties that have deposits
+			let fetchValues = false;
 			if (JSON.stringify(data.tokenVolumes) != '{}') {
+				if(!fetchValues){
+					const tokenValues = {tokenPrices:{}, tokens: {}, total: 0};
+					let total = 0;
+					console.log(tokenVolumes);
+					for(let key in tokenVolumes){
+						const lowercaseKey = key.toLowerCase();
+						if(this.firstTenPrices[lowercaseKey] && !fetchValues){
+							tokenVolumes[lowercaseKey];
+							const multiplier = tokenVolumes[key].volume / Math.pow(10, tokenVolumes[key].decimals);
+							console.log(multiplier);
+							const value = this.firstTenPrices[lowercaseKey].usd;
+							tokenValues.tokens[lowercaseKey] = value * multiplier;
+							tokenValues.tokenPrices[lowercaseKey] =  Math.round(parseFloat(value) * 100) / 100;
+							total = tokenValues.total + value*multiplier;	
+						}
+						else {
+							fetchValues = true;
+						}
+					}
+					tokenValues.total = Math.round(parseFloat(total) * 100) / 100;
+					console.log(tokenValues);
+					return tokenValues;
+				}
 				try {
 					const tokenValues = await this.getTokenValues(data, url);
+					console.log(tokenValues);
 					return tokenValues;
 				} catch (error) {
 					console.error(error);
