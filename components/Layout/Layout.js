@@ -1,7 +1,9 @@
 // Third party
-import React, { useState, useEffect } from 'react';
-import {SafeAppConnector} from '@gnosis.pm/safe-apps-web3-react';
+import React, { useState, useEffect, useContext } from 'react';
+import { SafeAppConnector } from '@gnosis.pm/safe-apps-web3-react';
+import axios from 'axios';
 // Custom
+import StoreContext from '../../store/Store/StoreContext.js';
 import ConnectButton from '../WalletConnect/ConnectButton.js';
 import ProfilePicture from './ProfilePicture.js';
 import Sidebar from './Sidebar';
@@ -15,23 +17,30 @@ const Layout = ({ children }) => {
 	const [gnosisSafe, setGnosisSafe] = useState();
 	const [safeInfo, setSafeInfo] = useState();
 	const { account, activate,  deactivate } = useWeb3();
+	const [appState] = useContext(StoreContext);
 	useAuth();
 	
-	
-	useEffect(async()=>{
+	useEffect(async () => {
 		const safe = new SafeAppConnector();
 		safe.getSafeInfo().then((data) => {
-			if(data){
+			if (data) {
 				setSafeInfo(data);
-				deactivate();}
+				deactivate();
+			}
 		});
 		setGnosisSafe(safe);
-	},[]);
 
-	useEffect(async()=>{
-		if(safeInfo){
-			await activate(gnosisSafe);}
-	},[account]);
+		const enumberableTokenData = await axios(`${process.env.NEXT_PUBLIC_COIN_API_URL}/staticMetadata/enumerable`);
+		const indexableTokenData = await axios(`${process.env.NEXT_PUBLIC_COIN_API_URL}/staticMetadata/indexable`);
+		appState.tokenClient.indexableTokens = indexableTokenData.data;
+		appState.tokenClient.enumberableTokens = enumberableTokenData.data;
+	}, []);
+
+	useEffect(async () => {
+		if (safeInfo) {
+			await activate(gnosisSafe);
+		}
+	}, [account]);
 	const [sidebar, setSidebar] = useState(false);
 
 	const [isFirstLaunch] = useCheckFirstLaunch();
@@ -43,6 +52,7 @@ const Layout = ({ children }) => {
 				<div className='col-start-2 col-end-3 text-center min-w-[300px]'>Welcome to <span className='font-bold text-tinted'>OpenQ!</span> Since it{'\''}s your first time with us, check out our <a className='underline font-bold text-tinted' href="https://vimeo.com/677467068" target="_blank" rel="noopener noreferrer">demo</a>.</div>
 				<button onClick={() => updateShowBanner(false)} className='w-6 h-6 justify-self-end  cursor-pointer font-bold bg-inactive-accent hover:bg-active-accent rounded-md text-center'>{'\×'}</button>
 			</div> : null}
+
 		<div className="flex flex-row pb-56">
 			<Sidebar trigger={sidebar} setTrigger={setSidebar} />
 
