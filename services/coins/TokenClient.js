@@ -60,8 +60,6 @@ async getTokenValues(tokenVolumes, url) {
 			if (Array.isArray(tokenBalances)) {
 				for (let i = 0; i < tokenBalances.length; i++) {
 					const tokenMetadata =  this.getToken(tokenBalances[i].tokenAddress);
-					console.log(tokenBalances[i].tokenAddress);
-					console.log(tokenMetadata);
 					const tokenAddress = tokenMetadata.address;
 					if (tokenVolumes[tokenAddress]) {
 						tokenVolumes[tokenAddress] = {
@@ -110,7 +108,6 @@ async getTokenValues(tokenVolumes, url) {
 					}
 					tokenValues.total = Math.round(parseFloat(total) * 100) / 100;
 					if(JSON.stringify(tokenValues) !== '{"tokenPrices":{},"tokens":{},"total":0}' && !fetchValues){
-						console.log(1, tokenValues);
 						return tokenValues;
 					}
 				}

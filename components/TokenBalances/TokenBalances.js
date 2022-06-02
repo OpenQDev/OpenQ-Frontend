@@ -13,7 +13,6 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 	useEffect(() => {
 		let didCancel;
 		if (tokenBalancesArr[0] && tokenValues) {
-			console.log('exec');
 			let highest = 0;
 			const totalValueBalances = tokenBalancesArr.map((tokenBalance) => {
 				const tokenAddress = ethers.utils.getAddress(
