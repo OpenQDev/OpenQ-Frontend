@@ -9,17 +9,17 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 	const [appState] = useContext(StoreContext);
 	const tokenBalancesArr = Array.isArray(tokenBalances) ? tokenBalances : [tokenBalances];
 
-	const [displayedBalances, updateDisplayedBalances] = useState([]);
-	useEffect(async() => {
+	const [displayedBalances, updateDisplayedBalances] = useState();
+	useEffect(() => {
 		let didCancel;
-		if (tokenBalancesArr[0] && !didCancel) {
+		if (tokenBalancesArr[0] && tokenValues) {
 			let highest = 0;
-			const totalValueBalances = tokenBalancesArr.map(async(tokenBalance) => {
+			const totalValueBalances = tokenBalancesArr.map((tokenBalance) => {
 				const tokenAddress = ethers.utils.getAddress(
 					tokenBalance.tokenAddress
 				);
-				const tokenMetadata = await appState.tokenClient.getToken(tokenAddress);
-				const tokenValueAddress = tokenMetadata.address;
+				const tokenMetadata = appState.tokenClient.getToken(tokenAddress);
+				const tokenValueAddress = tokenMetadata.address.toLowerCase();
 				const symbol =  tokenMetadata.symbol ||`${tokenAddress.slice(0, 4)}...${tokenAddress.slice(36)}`;
 				const { volume } = tokenBalance;
 
@@ -28,9 +28,9 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 				let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
 				let totalValue;
 				if (!singleCurrency) {
-					totalValue = tokenValues?.tokens[tokenValueAddress.toLowerCase()] || 0;
+					totalValue = tokenValues?.tokens[tokenValueAddress];
 				} else {
-					totalValue = formattedVolume * tokenValues?.tokenPrices[tokenValueAddress.toLowerCase()];
+					totalValue = formattedVolume * tokenValues?.tokenPrices[tokenValueAddress];
 				}
 
 				let usdValue = appState.utils.formatter.format(
@@ -42,8 +42,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 					return { ...tokenBalance, tokenAddress, totalValue, usdValue, symbol, path, formattedVolume };
 				}
 			});
-			const settledTotalValueBalances = await Promise.all(totalValueBalances);
-			const filteredTokenBalances = settledTotalValueBalances.filter((balance) => {
+			const filteredTokenBalances = totalValueBalances.filter((balance) => {
 				if (!showOne) { return true; }
 				// So we don't end up with a tie.
 				if (balance?.totalValue >= highest) {
@@ -56,9 +55,11 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 		}
 		return ()=>{didCancel = true;};
 	}, [tokenBalances, tokenValues]);
-
+	/*console.log(displayedBalances?.[0]?.usdValue);
+	console.log(tokenBalances);
+	console.log(tokenValues);*/
 	return (
-		<div className="flex flex-col">
+		<div className="flex flex-col">{displayedBalances?.[0]?.usdValue}
 			<div className="font-semibold">{header}</div>
 			<div className="font-bold text-xl ">
 				{tokenBalances && !showOne ? tokenValues	?
@@ -70,7 +71,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 			</div>
 			<div className="flex flex-row space-x-2 pt-1">
 				<div>
-					{tokenBalances && displayedBalances[0] && (( displayedBalances.length > 0) || tokenBalances.length === 0)
+					{tokenBalances && displayedBalances && (( displayedBalances.length > 0) || tokenBalances.length === 0)
 						? displayedBalances.map((tokenBalance) => {
 							const { symbol, usdValue, formattedVolume, path } = tokenBalance;
 

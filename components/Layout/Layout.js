@@ -12,6 +12,7 @@ import useCheckFirstLaunch from '../../hooks/useCheckFirstLaunch.js';
 import Footer from './Footer.js';
 import useWeb3 from '../../hooks/useWeb3.js';
 import useAuth from '../../hooks/useAuth.js';
+import enumerableMetadata from '../../constants/polygon-mainnet-enumerable.json';
 
 const Layout = ({ children }) => {
 	const [gnosisSafe, setGnosisSafe] = useState();
@@ -30,16 +31,8 @@ const Layout = ({ children }) => {
 		});
 		setGnosisSafe(safe);
 
-		const enumerableTokenData = await axios(`${process.env.NEXT_PUBLIC_COIN_API_URL}/staticMetadata/enumerable/polygon`);
-		const indexableTokenData = await axios(`${process.env.NEXT_PUBLIC_COIN_API_URL}/staticMetadata/indexable/polygon`);
-		const openqEnumerableTokenData = await axios(`${process.env.NEXT_PUBLIC_COIN_API_URL}/staticMetadata/enumerable/openq`);
-		const openqIndexableTokenData = await axios(`${process.env.NEXT_PUBLIC_COIN_API_URL}/staticMetadata/indexable/openq`);
-		appState.tokenClient.openqIndexableTokens = openqIndexableTokenData.data;
-		appState.tokenClient.openqEnumerableTokens = openqEnumerableTokenData.data;
-		appState.tokenClient.indexableTokens = indexableTokenData.data;
-		appState.tokenClient.enumerableTokens = enumerableTokenData.data;
 		// First tokens + matic
-		const firstTen = enumerableTokenData.data.tokens.slice( 0, 11).map(elem=>elem.address).concat('0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270');
+		const firstTen = enumerableMetadata.tokens.slice( 0, 11).map(elem=>elem.address).concat('0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270');
 		const network = 'polygon-pos';
 		const stringifiedTokens = firstTen.join(',');
 		const firstTenPrices = 	await axios.get(`https://api.coingecko.com/api/v3/simple/token_price/${network}?contract_addresses=${stringifiedTokens}&vs_currencies=usd`);
