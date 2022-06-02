@@ -41,7 +41,7 @@ const Invoice = ({bounty})=>{
 			const keys =	Object.keys(tokenValues.tokens);
 			const tableData = keys.map((key)=>tokenValues.tokens[key].toString());
 			const tableHeaders = await	Promise.all(bounty.bountyTokenBalances.map(async(token)=>{
-				const tokenMetadata =  appState.tokenClient.getToken(ethers.utils.getAddress(token.tokenAddress.toLowerCase()));
+				const tokenMetadata =  appState.tokenClient.getToken(ethers.utils.getAddress(token.tokenAddress));
 				return `${tokenMetadata.symbol||'CUSTOM'} valued in USD`;
 			}));
 			const total=	Object.values(tokenValues.tokens).reduce((accum, elem)=>{
