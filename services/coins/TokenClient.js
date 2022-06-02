@@ -90,17 +90,16 @@ async getTokenValues(tokenVolumes, url) {
 			//only query tvl for bounties that have deposits
 			let fetchValues = false;
 			if (JSON.stringify(data.tokenVolumes) != '{}') {
+				await 	new Promise(resolve => setTimeout(resolve, 200));
+	
 				while(!fetchValues){
 					const tokenValues = {tokenPrices:{}, tokens: {}, total: 0};
 					let total = 0;
 					for(let key in tokenVolumes){
 						const lowercaseKey = key.toLowerCase();
-						const checkSummedKey = ethers.utils.getAddress(key);
 						if(this.firstTenPrices[lowercaseKey] && !fetchValues){
-							console.log(tokenVolumes[key]);
 							const multiplier = parseInt(tokenVolumes[key].volume) / Math.pow(10, tokenVolumes[key].decimals);
 							const value = this.firstTenPrices[lowercaseKey].usd;
-							console.log(tokenVolumes[key].volume);
 							tokenValues.tokens[lowercaseKey] = value * multiplier;
 							tokenValues.tokenPrices[lowercaseKey] =  Math.round(parseFloat(value) * 100) / 100;
 							total = tokenValues.total + value*multiplier;
@@ -115,10 +114,9 @@ async getTokenValues(tokenVolumes, url) {
 						return tokenValues;
 					}
 				}
+				
 				try {
-					console.log(data);
 					const tokenValues = await this.getTokenValues(data, url);
-					console.log(tokenValues);
 					return tokenValues;
 				} catch (error) {
 					console.error(error);
