@@ -1,0 +1,66 @@
+[
+	{
+		"name": "Matic",
+		"address": "0x0000000000000000000000000000000000000000",
+		"symbol": "MATIC",
+		"decimals": 18,
+		"chainId": 80001,
+		"path": "/crypto-logos/MATIC.svg"
+	},
+	{
+		"name": "Chainlink Token",
+		"address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+		"symbol": "LINK",
+		"decimals": 18,
+		"chainId": 80001,
+		"path": "/crypto-logos/LINK.svg"
+	},
+	{
+		"name": "Dummy ERC20",
+		"address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+		"symbol": "DERC20",
+		"decimals": 18,
+		"chainId": 80001,
+		"path": "/crypto-logos/DAI.svg"
+	},
+	{
+		"name": "Dummy ERC20 (Blacklisted)",
+		"address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+		"symbol": "BDERC20",
+		"decimals": 18,
+		"chainId": 80001,
+		"path": "/crypto-logos/DAI.svg"
+	},
+	{
+		"name": "Wrapped Matic",
+		"address": "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
+		"symbol": "WMATIC",
+		"decimals": 18,
+		"chainId": 80001,
+		"path": "/crypto-logos/MATIC.svg"
+	},
+	{
+		"name": "Dai Stablecoin",
+		"address": "0xcB1e72786A6eb3b44C2a2429e317c8a2462CFeb1",
+		"symbol": "DAI",
+		"decimals": 18,
+		"chainId": 80001,
+		"path": "/crypto-logos/DAI.svg"
+	},
+	{
+		"name": "Tether USD",
+		"address": "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
+		"symbol": "USDT",
+		"decimals": 6,
+		"chainId": 80001,
+		"path": "/crypto-logos/USDT.svg"
+	},
+	{
+		"name": "Wrapped Ether",
+		"address": "0x714550C2C1Ea08688607D86ed8EeF4f5E4F22323",
+		"symbol": "WETH",
+		"decimals": 18,
+		"chainId": 80001,
+		"path": "/crypto-logos/ETH.svg"
+	}
+]
