@@ -100,7 +100,7 @@ async getTokenValues(tokenVolumes, url) {
 							const value = this.firstTenPrices[lowercaseKey].usd;
 							tokenValues.tokens[lowercaseKey] = value * multiplier;
 							tokenValues.tokenPrices[lowercaseKey] =  Math.round(parseFloat(value) * 100) / 100;
-							total = tokenValues.total + value*multiplier;
+							total = total + value*multiplier;
 						}
 						else {
 							fetchValues = true;
