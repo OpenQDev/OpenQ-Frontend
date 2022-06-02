@@ -97,9 +97,10 @@ async getTokenValues(tokenVolumes, url) {
 						const lowercaseKey = key.toLowerCase();
 						const checkSummedKey = ethers.utils.getAddress(key);
 						if(this.firstTenPrices[lowercaseKey] && !fetchValues){
-							tokenVolumes[lowercaseKey]={};
-							const multiplier = tokenVolumes[lowercaseKey].volume / Math.pow(10, tokenVolumes[key].decimals);
+							console.log(tokenVolumes[key]);
+							const multiplier = parseInt(tokenVolumes[key].volume) / Math.pow(10, tokenVolumes[key].decimals);
 							const value = this.firstTenPrices[lowercaseKey].usd;
+							console.log(tokenVolumes[key].volume);
 							tokenValues.tokens[lowercaseKey] = value * multiplier;
 							tokenValues.tokenPrices[lowercaseKey] =  Math.round(parseFloat(value) * 100) / 100;
 							total = tokenValues.total + value*multiplier;
@@ -110,12 +111,14 @@ async getTokenValues(tokenVolumes, url) {
 					}
 					tokenValues.total = Math.round(parseFloat(total) * 100) / 100;
 					if(JSON.stringify(tokenValues) !== '{"tokenPrices":{},"tokens":{},"total":0}' && !fetchValues){
+						console.log(1, tokenValues);
 						return tokenValues;
 					}
 				}
 				try {
 					console.log(data);
 					const tokenValues = await this.getTokenValues(data, url);
+					console.log(tokenValues);
 					return tokenValues;
 				} catch (error) {
 					console.error(error);

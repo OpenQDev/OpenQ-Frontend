@@ -13,6 +13,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 	useEffect(() => {
 		let didCancel;
 		if (tokenBalancesArr[0] && tokenValues) {
+			console.log('exec');
 			let highest = 0;
 			const totalValueBalances = tokenBalancesArr.map((tokenBalance) => {
 				const tokenAddress = ethers.utils.getAddress(
@@ -55,11 +56,8 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 		}
 		return ()=>{didCancel = true;};
 	}, [tokenBalances, tokenValues]);
-	/*console.log(displayedBalances?.[0]?.usdValue);
-	console.log(tokenBalances);
-	console.log(tokenValues);*/
 	return (
-		<div className="flex flex-col">{displayedBalances?.[0]?.usdValue}
+		<div className="flex flex-col">
 			<div className="font-semibold">{header}</div>
 			<div className="font-bold text-xl ">
 				{tokenBalances && !showOne ? tokenValues	?
