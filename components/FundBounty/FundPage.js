@@ -9,7 +9,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import ButtonLoadingIcon from '../Loading/ButtonLoadingIcon';
 import ToolTip from '../Utils/ToolTip';
 import BountyClosed from '../BountyClosed/BountyClosed';
-import ApproveTransferModal from './ApproveTransferModal';
+import ApproveFundModal from './ApproveFundModal';
 import {
 	RESTING,
 	CONFIRM,
@@ -131,10 +131,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		}
 
 		if (approveSucceeded) {
-			const mergedTokenBalances = [...bounty.bountyTokenBalances, { volume: volume * (10) ** token.decimals, tokenAddress: token.address }];
-			const tokenVolume = await appState.tokenClient.parseTokenValues(mergedTokenBalances);
-			const tvl = tokenVolume.total;
-			setButtonText('Transferring');
 			setApproveTransferState(TRANSFERRING);
 			try {
 				const fundTxnReceipt = await appState.openQClient.fundBounty(
@@ -146,14 +142,12 @@ const FundPage = ({ bounty, refreshBounty }) => {
 				);
 				setTransactionHash(fundTxnReceipt.events[0].transactionHash);
 				setApproveTransferState(SUCCESS);
-				setVolume('');
 				setSuccessMessage(
 					`Successfully funded issue ${bounty.url} with ${volume} ${token.symbol}!`
 				);
-				const id = bounty.bountyAddress;
-				await appState.openQPrismaClient.updateBounty(ethers.utils.getAddress(id), tvl);
 				refreshBounty();
 			} catch (error) {
+				console.log(error);
 				const { message, title } = appState.openQClient.handleError(error, { bounty });
 				setError({ message, title });
 				setApproveTransferState(ERROR);
@@ -252,16 +246,19 @@ const FundPage = ({ bounty, refreshBounty }) => {
 				<div className='text-web-gray text-sm'>Always fund through the interface! Never send funds directly to the address!</div>
 			</div>
 
-			{showApproveTransferModal && <ApproveTransferModal
+			{showApproveTransferModal && <ApproveFundModal
 				approveTransferState={approveTransferState}
 				address={account}
 				transactionHash={transactionHash}
 				confirmationMessage={confirmationMessage}
 				error={error}
 				setShowApproveTransferModal={setShowApproveTransferModal}
-				positiveOption={'Confirm'}
 				confirmMethod={fundBounty}
 				resetState={resetState}
+				token={token}
+				volume={volume}
+				bountyAddress={bounty.bountyAddress}
+				bounty = {bounty}
 			/>}
 		</div>}</>
 	);
