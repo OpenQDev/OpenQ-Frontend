@@ -126,8 +126,9 @@ async getTokenValues(tokenVolumes, url) {
 
 
 	async getTokenMetadata(cursor, limit, list) {
-		if(enumerable.length && list === 'polygon'){
-			return this.enumerableTokens.slice(cursor, cursor+limit);
+		if(list === 'polygon'){
+			console.log(enumerable);
+			return enumerable.tokens.slice(cursor, cursor+limit);
 		}
 		if(this.openqEnumerableTokens.length && list === 'constants'){
 			return this.openqEnumerableTokens;
