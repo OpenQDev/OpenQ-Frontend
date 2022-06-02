@@ -37,13 +37,12 @@ const Invoice = ({bounty})=>{
 		setShowPdf(true);
 	};
 	const srcPdf = useCallback(async(iframe)=>{
-		if(iframe && tokenValues){
+		if(iframe && tokenValues && appState.tokenClient){
 			const keys =	Object.keys(tokenValues.tokens);
 			const tableData = keys.map((key)=>tokenValues.tokens[key].toString());
-			const tableHeaders = await	Promise.all(keys.map(async(token)=>{
-				const checksummedAddress=ethers.utils.getAddress(token);
-				const tokenMetadata =  await appState.tokenClient.getToken(token);
-				return `${tokenMetadata[checksummedAddress].symboll||'CUSTOM'} valued in USD`;
+			const tableHeaders = await	Promise.all(bounty.bountyTokenBalances.map(async(token)=>{
+				const tokenMetadata =  appState.tokenClient.getToken(ethers.utils.getAddress(token.tokenAddress.toLowerCase()));
+				return `${tokenMetadata.symbol||'CUSTOM'} valued in USD`;
 			}));
 			const total=	Object.values(tokenValues.tokens).reduce((accum, elem)=>{
 				return accum+elem;
