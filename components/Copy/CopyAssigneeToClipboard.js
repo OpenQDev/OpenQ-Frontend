@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-const CopyAssigneeToClipboard = (props) => {
+const CopyAssigneeToClipboard = ({name, url, styles, }) => {
 	const [copySuccess, setCopySuccess] = useState('');
 	const copyTextToClipboard = () => {
-		navigator.clipboard.writeText(props.url);
+		navigator.clipboard.writeText(url);
 		setCopySuccess('Copied!');
 		setTimeout(function () {
 			setCopySuccess('');
@@ -11,7 +11,7 @@ const CopyAssigneeToClipboard = (props) => {
 	};
 
 	return (
-		<div className={`relative pt-2 ${props.styles}`}>
+		<div className={`relative pt-2 ${styles}`}>
 			<div
 				onClick={copyTextToClipboard}
 				className="flex flex-row space-x-1 cursor-pointer w-fit"
@@ -57,7 +57,7 @@ const CopyAssigneeToClipboard = (props) => {
 						</div>
 					)}
 				</div>
-				<div>{props.name}</div>
+				<div>{name}</div>
 			</div>
 		</div>
 	);
