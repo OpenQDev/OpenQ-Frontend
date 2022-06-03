@@ -111,7 +111,6 @@ export const getServerSideProps = async(context) =>{
 	catch (err) {
 		return{props:{renderError:`Could not find ${organization}, does an organization with this name exists on Github?`}};
 	}
-
 	const org = await openQSubgraphClient.instance.getOrganization(
 		orgData.id, batch
 	);

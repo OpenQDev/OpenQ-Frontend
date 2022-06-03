@@ -5,10 +5,11 @@ import Skeleton from 'react-loading-skeleton';
 // Custom
 
 const LabelsList = ({ bounty }) => {
+	console.log(bounty.labels);
 	return (
 		<div className="flex flex-row space-x-2">
 			<ul>
-				{bounty?.labels.map((label, index) => {
+				{bounty.labels && bounty.labels.map((label, index) => {
 					return (
 						<li
 							key={index}

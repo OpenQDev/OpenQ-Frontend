@@ -1,11 +1,11 @@
 // Third party
 import React, { useState } from 'react';
 
-const CopyAddressToClipboard = (props) => {
+const CopyAddressToClipboard = ({clipping, data, styles, noClip, }) => {
 	const [copySuccess, setCopySuccess] = useState('');
-	const [start, stop] = props.clipping || [12, 32];
+	const [start, stop] = clipping || [12, 32];
 	const copyTextToClipboard = () => {
-		navigator.clipboard.writeText(props.data);
+		navigator.clipboard.writeText(data);
 		setCopySuccess('Copied!');
 		setTimeout(function () {
 			setCopySuccess('');
@@ -13,7 +13,7 @@ const CopyAddressToClipboard = (props) => {
 	};
 
 	return (
-		<div className={`relative pt-2 ${props.styles}`}>
+		<div className={`relative pt-2 ${styles}`}>
 			<div
 				onClick={copyTextToClipboard}
 				className="flex flex-row space-x-1 cursor-pointer w-fit"
@@ -60,11 +60,11 @@ const CopyAddressToClipboard = (props) => {
 					)}
 				</div>
 				<div>{
-					props.noClip ?
-						props.data :
-						`${props.data.substring(0, start)}
+					noClip ?
+						data :
+						`${data.substring(0, start)}
 						...
-						${props.data.substring(stop)}`
+						${data.substring(stop)}`
 				}
 				</div>
 			</div>

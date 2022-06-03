@@ -33,7 +33,7 @@ const BountyStatus = ({ bounty }) => {
 			</div>
 			<div>
 				{bounty ? <div className=''>Issue created on {appState.utils.formatDate(bounty.createdAt, true)}</div> : <Skeleton width={'10rem'} />}
-				{bounty ? <div className=''>Bounty minted on on {appState.utils.formatUnixDate(bounty.bountyMintTime, true)}</div> : <Skeleton width={'10rem'} />}
+				{bounty ? <div className=''>Bounty minted on on {appState.utils.formatUnixDate(bounty.bountyMintTime || Date.now()/1000, true)}</div> : <Skeleton width={'10rem'} />}
 			</div>
 		</>
 	);

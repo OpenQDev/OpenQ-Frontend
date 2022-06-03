@@ -13,15 +13,15 @@ const issues= [
 	},
 	{
 		status: 'mintable',
-		url: 'https://github.com/OpenQDev/OpenQ-Frontend/issues/218'
+		url: 'https://github.com/OpenQDev/OpenQ-Frontend/issues/21'
 	},
 	{
 		status: 'minted',
-		url: 'https://github.com/OpenQDev/OpenQ-Frontend/issues/218'
+		url: 'https://github.com/OpenQDev/OpenQ-TestRepo/issues/221'
 	},
 	{
 		status: 'unknown',
-		url: 'https://github.com/OpenQDev/OpenQ-Frontend/issues/219'
+		url: 'https://github.com/OpenQDev/OpenQ-Frontend/issues/2190'
 	},
 ];
 

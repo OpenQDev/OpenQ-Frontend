@@ -1,10 +1,9 @@
 import React from 'react';
 
-const LoadingIcon = (props) => {
-	const color = props.bg;
+const LoadingIcon = ({bg, graph, className}) => {
 	return (
-		<div className={props.className}>
-			{props.graph?
+		<div className={className}>
+			{graph?
 				<div className='graph-anim-wrapper'>
 					<div className="size-9"><div className="orbit size-8">
 						<div className="planet-8"></div>
@@ -32,7 +31,7 @@ const LoadingIcon = (props) => {
 					</div>
 				</div>:
 			
-				color == 'white' ? (
+				bg == 'white' ? (
 					<div>
 						<svg
 							className="h-5 w-5 mr-3 animate-spin
