@@ -104,7 +104,6 @@ export const getServerSideProps = async(context) =>{
 	let orgData;
 	let mergedOrgData;
 	try {
-		console.log(organization);
 		orgData = await githubRepository.instance.fetchOrgOrUserByLogin(
 			organization
 		);

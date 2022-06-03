@@ -4,14 +4,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Skeleton from 'react-loading-skeleton';
 
-const OrganizationCard = ({ organization }) => {
-
+const OrganizationCard = ({ organization,  }) => {
 	// Context
 	let orgName;
 	if (organization.name) {
-		orgName = organization?.name.charAt(0).toUpperCase() + organization?.name.slice(1);
-	} else {
-		orgName = organization?.login.charAt(0).toUpperCase() + organization?.login.slice(1);
+		orgName = organization?.name?.charAt(0).toUpperCase() + organization?.name.slice(1);
+	} else if (organization.login) {
+		orgName = organization?.login?.charAt(0).toUpperCase() + organization?.login.slice(1);
 	}
 
 	if (orgName?.length > 10) {

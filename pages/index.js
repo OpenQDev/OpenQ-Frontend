@@ -9,7 +9,7 @@ import useWeb3 from '../hooks/useWeb3';
 import WrappedGithubClient from '../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgraphClient';
 
-export default function Index({orgs, fullBounties, batch}) {
+export default function Index({orgs, fullBounties, batch }) {
 	const [internalMenu, setInternalMenu] = useState('org');
 	// State
 	const [bounties, setBounties] = useState(fullBounties);
@@ -174,7 +174,6 @@ export const getServerSideProps = async()=>{
 	let issueData = [];
 	try{
 		issueData = await githubRepository.instance.getIssueData(bountyIds);
-		console.log(issueData);
 		newBounties.forEach((bounty) => {
 			const relatedIssue = issueData.find(
 				(issue) => issue.id == bounty.bountyId
@@ -186,8 +185,6 @@ export const getServerSideProps = async()=>{
 	catch(err){
 		renderError = 'OpenQ is unable to connect with Github.';
 	}
-	
-
 	return {props: {
 		orgs: mergedOrgs,
 		fullBounties, 

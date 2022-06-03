@@ -113,8 +113,7 @@ class MockGithubRepository {
 		const promise = new Promise((resolve, reject) => {
 			axios.get('http://localhost:3030/githubIssues')
 				.then(result => {
-				console.log(this.parseIssuesData(result))
-				resolve(this.parseIssuesData(result).filter((issue)=>issueIds.includes(issue.id)));
+				resolve(this.parseIssuesData(result.data).filter((issue)=>issueIds.includes(issue.id)));
 				})
 				.catch(error => {
 					reject(error);
@@ -126,9 +125,9 @@ class MockGithubRepository {
 	
 	async fetchOrgOrUserById(id) {
 		const promise = new Promise((resolve, reject) => {
-			axios.get(`http://localhost:3030/githubOrganizations/?organization=${organization}`)
+			axios.get(`http://localhost:3030/githubOrganizations?id=${id}`)
 				.then(result => {
-					resolve(result.data);
+					resolve(result.data[0]);
 				})
 				.catch(error => {
 					reject(error);
@@ -149,17 +148,16 @@ class MockGithubRepository {
 					reject(error);
 				});
 		});
-
-		return promise;
+return promise
 	}
 
 	async fetchOrgsOrUsersByIds(ids){
-		const promise= new Promise((resolve, reject) => {
+		const promise= await new Promise(async(resolve, reject) => {
 		try{
-		const orgPromises = Promise.all( ids.map(async(id)=>{
+		const organizations = await Promise.all( ids.map(async(id, index)=>{
 			return await this.fetchOrgOrUserById(id);
 		}))
-		resolve(orgPromises)
+		resolve(organizations)
 	}
 		catch(err){
 			console.log(err);

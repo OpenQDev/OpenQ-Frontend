@@ -77,7 +77,6 @@ class MockOpenQSubgraphClient {
 	}
 
 	async getOrganization(id) {
-	console.log(id)
 		const promise = new Promise((resolve, reject) => {
 			axios.get(`http://localhost:3030/organizations/${id}`)
 				.then(result => {
