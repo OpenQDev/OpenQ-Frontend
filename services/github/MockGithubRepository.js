@@ -7,11 +7,10 @@ class MockGithubRepository {
 		return null
 	}
 	async fetchIssue(orgName, repoName, issueId) {
-		const id = 'sdfsd';
 		const promise = new Promise((resolve, reject) => {
-			axios.get(`http://localhost:3030/githubIssues/abc123`)
+			axios.get(`http://localhost:3030/githubIssues?id=${issueId}`)
 				.then(result => {
-					resolve(result.data);
+					resolve(parseIssueData(result.data));
 				})
 				.catch(error => {
 					reject(error);
@@ -37,9 +36,9 @@ class MockGithubRepository {
 
 	async fetchIssueById(issueId) {
 		const promise = new Promise((resolve, reject) => {
-			axios.get(`http://localhost:3030/fetchIssueById/${issueId}`)
+			axios.get(`http://localhost:3030/githubIssues?id=${issueId}`)
 				.then(result => {
-					resolve(result.data);
+					resolve(this.parseIssueData(result.data[0]));
 				})
 				.catch(error => {
 					reject(error);
@@ -51,13 +50,10 @@ class MockGithubRepository {
 
 	async fetchIssueByUrl(issueUrl) {
 		const promise = new Promise((resolve, reject) => {
-			axios.get(`http://localhost:3030/fetchIssueByUrl`)
+			axios.get(`http://localhost:3030/githubIssues?url=${issueUrl}`)
 				.then(result => {
-					const issue = result.data.filter((issue)=>{
-						return issue.url === issueUrl;
-
-					})[0];
-					resolve(issue);
+					
+					resolve(result.data[0])
 				})
 				.catch(error => {
 					reject(error);
@@ -67,18 +63,17 @@ class MockGithubRepository {
 		return promise;
 	}
 
-		parseIssueData(rawIssueResponse) {
+	parseIssueData(rawIssueResponse) {
 		try {
-			const responseData = rawIssueResponse.data.node;
+			const responseData = rawIssueResponse;
 			const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = responseData;
 			const repoName = responseData.repository.name;
 			const avatarUrl = responseData.repository.owner.avatarUrl;
 			const owner = responseData.repository.owner.login;
 			const twitterUsername = responseData.repository.owner.twitterUsername||null;
 			const labels = responseData.labels.edges.map(edge => edge.node);
-			const number = responseData.number;
 			const assignees = responseData.assignees.nodes;
-			return { id, title, assignees, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number };
+			return { id, title, assignees, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername,  };
 		}
 		catch (err) {
 			let id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number;
@@ -87,7 +82,7 @@ class MockGithubRepository {
 	}
 
 	parseIssuesData(rawIssuesResponse) {
-		const responseData = rawIssuesResponse.data.nodes;
+		const responseData = rawIssuesResponse;
 		return responseData.filter(event => event?.__typename === 'Issue').map((elem) => {
 			try {
 				const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = elem;

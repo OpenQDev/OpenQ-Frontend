@@ -92,7 +92,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 					<h2 className=' font-semibold'>Refundable</h2>
 					<div className='flex flex-wrap gap-8'>
 						{
-							bounty.deposits
+							bounty.deposits &&	bounty.deposits
 								.filter((deposit) => {
 									return (ethers.utils.getAddress(deposit.sender.id) == account);
 								})
@@ -124,7 +124,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 					<h2 className=' font-semibold'>Not Yet Refundable</h2>
 					<div className='flex flex-wrap gap-8'>
 						{
-							bounty.deposits
+							bounty.deposits &&		bounty.deposits
 								.filter((deposit) => {
 									return (ethers.utils.getAddress(deposit.sender.id) == account);
 								})
@@ -143,7 +143,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 					<h2 className=' font-semibold'>Refunded</h2>
 					<div className='flex flex-wrap gap-8'>
 						{
-							bounty.deposits
+							bounty.deposits &&		bounty.deposits
 								.filter((deposit) => {
 									return (ethers.utils.getAddress(deposit.sender.id) == account);
 								})

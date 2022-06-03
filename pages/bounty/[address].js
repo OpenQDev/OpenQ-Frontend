@@ -169,9 +169,9 @@ export const getServerSideProps = async(context)=>{
 	try{
 		bounty  = await openQSubgraphClient.instance.getBounty(address, 'no-cache');
 		if(!bounty){
-			renderError =`OpenQ could not find a bounty with address: ${address}.`;
+			console.log('could not find bounty on graph');
 		}
-		mergedBounty = {...issueData, ...bountyMetadata, ...bounty, bountyAddress: address};
+		mergedBounty = {...issueData, ...bountyMetadata, ...bounty,  bountyAddress: address};
 	}
 	catch(err){
 		renderError =`OpenQ could not find a bounty with address: ${address}.`;

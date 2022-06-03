@@ -1,6 +1,5 @@
 // Third party
 import React from 'react';
-import Skeleton from 'react-loading-skeleton';
 
 // Custom
 import BountyCardHeader from './BountyCardHeader';
@@ -13,8 +12,7 @@ import LabelsList from './LabelsList';
 import MiniDepositCard from './MiniDepositCard';
 
 
-const BountyCardDetails = ({ bounty, tokenValues, internalMenu }) => {
-
+const BountyCardDetails = ({ bounty, address,  tokenValues, internalMenu }) => {
 	return (
 		<div className={`flex flex-col w-full font-mont sm:pl-5 sm:pr-5 md:px-10 pt-10 pb-10 my-16 w-5/6 max-w-6xl ${internalMenu !== 'View'? 'hidden': null}`}>
 			<div className="flex w-full flex-col border-b pb-6 border-solid justify-items-center items-center content-between rounded-t">
@@ -27,10 +25,10 @@ const BountyCardDetails = ({ bounty, tokenValues, internalMenu }) => {
 						<BountyStatus bounty={bounty} />
 					</div>
 					<div className="lg:col-span-2  xl:col-span-3">
-						<CopyBountyAddress bounty={bounty} />
+						<CopyBountyAddress address={address} />
 					</div>
 					<div className='lg:col-span-2 xl:col-span-3 pt-2'>
-						{bounty.bountyTokenBalances ?
+						{bounty.bountyTokenBalances &&
 							bounty.bountyTokenBalances.length != 0 ? (
 								<>
 									<div className="flex font-bold gap-2">
@@ -49,21 +47,18 @@ const BountyCardDetails = ({ bounty, tokenValues, internalMenu }) => {
 											</>
 										}
 									</div>
-									<TokenBalances
-										tokenBalances={bounty?.bountyTokenBalances}
+									{bounty.bountyTokenBalance && <TokenBalances
+										tokenBalances={bounty.bountyTokenBalances}
 										tokenValues={tokenValues}
 										singleCurrency={false}
-									/>
+									/>}
 								</>
 							) : (
 								<div className='py-2'>
 									<h3 className="font-semibold ">No deposits</h3>
-									<p >It may take up to one minute for new depsits to show up here.</p>
+									<p >It may take up to one minute for new deposits to show up here.</p>
 								</div>
-							) :
-							<>
-								<TokenBalances />
-							</>
+							) 
 						}
 
 
@@ -89,7 +84,7 @@ const BountyCardDetails = ({ bounty, tokenValues, internalMenu }) => {
 					</div>}
 					
 
-					{bounty.deposits ? bounty.deposits
+					{bounty.deposits && bounty.deposits
 						.filter((deposit) => {
 							return deposit.refunded == false;
 						})
@@ -97,12 +92,7 @@ const BountyCardDetails = ({ bounty, tokenValues, internalMenu }) => {
 							return (parseInt(a.receiveTime) + parseInt(a.expiration)) - (parseInt(b.receiveTime) + parseInt(b.expiration));
 						})
 						.map((deposit, index) => <MiniDepositCard key={index} deposit={deposit} status={bounty.status} showLink={false} />
-						) :
-						<>
-							<MiniDepositCard deposit={false} showLink={false} />
-							<MiniDepositCard deposit={false} showLink={false} />
-							<MiniDepositCard deposit={false} showLink={false} />
-						</>
+						) 
 					}
 				</div>
 			</div>
@@ -110,19 +100,11 @@ const BountyCardDetails = ({ bounty, tokenValues, internalMenu }) => {
 			<div className="flex flex-col pt-4">
 				<div className="flex flex-row justify-between">
 					<div className="font-bold text-xl ">Description</div>
-					<BountyLinks bounty={bounty} hideBountyLink={true} />
+					<BountyLinks bounty={bounty} address={address} hideBountyLink={true} />
 				</div>
 				<div>
 					<LabelsList bounty={bounty} />
 				</div>
-				{bounty ?
-					<div
-						className="markdown-body pt-2 w-full break-words"
-						dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}
-					></div> :
-					<div className="pt-2 w-3/4">
-						<Skeleton count={4} />
-					</div>}
 			</div>
 			<div className="flex flex-col pt-5">
 				<div className="flex flex-row justify-between">

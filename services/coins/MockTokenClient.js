@@ -1,6 +1,11 @@
 import axios from 'axios';
 import { ethers } from 'ethers';
 
+import enumerable from'../../constants/polygon-mainnet-enumerable.json';
+import indexable from'../../constants/openq-local-indexable.json';
+import openqEnumerableTokens from '../../constants/openq-local-enumerable.json';
+import openqIndexableTokens from '../../constants/openq-local-indexable.json';
+
 class MockCoinClient {
 
 	async getTokenValues() {
@@ -62,34 +67,33 @@ parseTokenValues = async(tokenBalances) => {
 		}
 	}
 	
-	async getTokenMetadata(cursor, limit, list) {
-		const promise = new Promise((resolve, reject) => {
-			
-			
-			axios.get('http://localhost:3030/metadata/')
-				.then((result) => {
-					resolve(result.data);
-				})
-				.catch((error) => {
-					reject()
-		});
-		});
-		return promise;
+	getTokenMetadata(cursor, limit, list) {
+		if(list === 'polygon'){
+			return enumerable.tokens.slice(cursor, cursor+limit);
+		}
+		if(openqEnumerableTokens.length && list === 'constants'){
+			return openqEnumerableTokens;
+		}
+		else return [];
 	}
-	
-	async getToken(address){
-		const promise = new Promise((resolve, reject) => {
-			
-			axios.get('http://localhost:3030/getToken')
-				.then((result) => {
-					resolve( result.data);
-				})
-				.catch((error) => {
-					reject()
-		});
-	})
-		return promise;
-}
+
+	getToken(address) {
+		const checkSummedAddress = ethers.utils.getAddress(address);
+		if(indexable[address.toLowerCase()]){		
+			return indexable[address.toLowerCase()];
+		}
+		if(openqIndexableTokens[checkSummedAddress]){
+			return openqIndexableTokens[checkSummedAddress];
+		}
+		return {
+			chainId: 137,
+			name: 'Custom Token',
+			symbol: 'CUSTOM',
+			decimals: 18,
+			address: checkSummedAddress,
+			path: '/crypto-logos/ERC20.svg'
+		};
+	}
 }
 
 export default MockCoinClient;
