@@ -21,7 +21,7 @@ class OpenQSubgraphClient {
 					query: GET_ALL_BOUNTIES,
 					variables: { skip: startAt, sortOrder, quantity }
 				});
-				resolve(result.data.bounties.filter(bounty=>bounty.bountyId.slice(0, 1)==='I'));
+				resolve(result.data.bounties.filter(bounty=>bounty.bountyId.slice(0, 1)==='I'||bounty.bountyId.slice(0, 1)==='M'));
 			} catch (e) {
 				reject(e);
 			}
