@@ -3,7 +3,7 @@ import React from 'react';
 const LoadingIcon = (props) => {
 	const color = props.bg;
 	return (
-		<div>
+		<div className={props.className}>
 			{props.graph?
 				<div className='graph-anim-wrapper'>
 					<div className="size-9"><div className="orbit size-8">

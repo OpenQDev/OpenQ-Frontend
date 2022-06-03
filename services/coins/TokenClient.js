@@ -100,7 +100,7 @@ async getTokenValues(tokenVolumes, url) {
 							const value = this.firstTenPrices[lowercaseKey].usd;
 							tokenValues.tokens[lowercaseKey] = value * multiplier;
 							tokenValues.tokenPrices[lowercaseKey] =  Math.round(parseFloat(value) * 100) / 100;
-							total = tokenValues.total + value*multiplier;
+							total = total + value*multiplier;
 						}
 						else {
 							fetchValues = true;
@@ -138,10 +138,12 @@ async getTokenValues(tokenVolumes, url) {
 
 	getToken(address) {
 		const checkSummedAddress = ethers.utils.getAddress(address);
-		if(indexable[address.toLowerCase()]){
-			return ( indexable[address.toLowerCase()]);}
+		if(indexable[address.toLowerCase()]){		
+			return indexable[address.toLowerCase()];
+		}
 		if(this.openqIndexableTokens[checkSummedAddress]){
-			return (this.openqIndexableTokens[checkSummedAddress]);}
+			return this.openqIndexableTokens[checkSummedAddress];
+		}
 		return {
 			chainId: 137,
 			name: 'Custom Token',
@@ -150,7 +152,6 @@ async getTokenValues(tokenVolumes, url) {
 			address: checkSummedAddress,
 			path: '/crypto-logos/ERC20.svg'
 		};
-		
 	}
 
 }
