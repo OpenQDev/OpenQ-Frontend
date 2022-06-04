@@ -4,13 +4,13 @@ import useWeb3 from '../../hooks/useWeb3';
 
 export default function BountyAlreadyMintedMessage({ bountyAddress, claimed, id }) {
 
-	const {safe} = useWeb3();
+	const { safe } = useWeb3();
 	return (
 		<div className="flex flex-row items-center space-x-1">
-			<div className="pt-4 text-white">Bounty is already {claimed? 'claimed': 'minted'}, view</div>
+			<div className="pt-4 text-white">Bounty is already {claimed ? 'claimed' : 'minted'}, view</div>
 			<Link
-				href={`/?address=${bountyAddress}}?id=${id}`}
-				as={`/bounty/${bountyAddress}?id=${id}`}
+				href={`/?address=${id}/${bountyAddress}}`}
+				as={`/bounty/${id}/${bountyAddress}`}
 			>
 				<a
 					target={safe ? '_self' : '_blank'}

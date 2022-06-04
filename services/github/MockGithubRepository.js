@@ -4,8 +4,8 @@ class MockGithubRepository {
 	constructor() { }
 
 	setGraphqlHeaders = () => {
-		return null
-	}
+		return null;
+	};
 	async fetchIssue(orgName, repoName, issueId) {
 		const promise = new Promise((resolve, reject) => {
 			axios.get(`http://localhost:3030/githubIssues?id=${issueId}`)
@@ -52,8 +52,8 @@ class MockGithubRepository {
 		const promise = new Promise((resolve, reject) => {
 			axios.get(`http://localhost:3030/githubIssues?url=${issueUrl}`)
 				.then(result => {
-					
-					resolve(result.data[0])
+
+					resolve(result.data[0]);
 				})
 				.catch(error => {
 					reject(error);
@@ -70,10 +70,10 @@ class MockGithubRepository {
 			const repoName = responseData.repository.name;
 			const avatarUrl = responseData.repository.owner.avatarUrl;
 			const owner = responseData.repository.owner.login;
-			const twitterUsername = responseData.repository.owner.twitterUsername||null;
+			const twitterUsername = responseData.repository.owner.twitterUsername || null;
 			const labels = responseData.labels.edges.map(edge => edge.node);
 			const assignees = responseData.assignees.nodes;
-			return { id, title, assignees, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername,  };
+			return { id, title, assignees, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, };
 		}
 		catch (err) {
 			let id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number;
@@ -108,7 +108,7 @@ class MockGithubRepository {
 		const promise = new Promise((resolve, reject) => {
 			axios.get('http://localhost:3030/githubIssues')
 				.then(result => {
-				resolve(this.parseIssuesData(result.data).filter((issue)=>issueIds.includes(issue.id)));
+					resolve(this.parseIssuesData(result.data).filter((issue) => issueIds.includes(issue.id)));
 				})
 				.catch(error => {
 					reject(error);
@@ -117,7 +117,7 @@ class MockGithubRepository {
 
 		return promise;
 	}
-	
+
 	async fetchOrgOrUserById(id) {
 		const promise = new Promise((resolve, reject) => {
 			axios.get(`http://localhost:3030/githubOrganizations?id=${id}`)
@@ -133,7 +133,7 @@ class MockGithubRepository {
 	}
 
 	fetchOrgOrUserByLogin(organization) {
-	
+
 		const promise = new Promise((resolve, reject) => {
 			axios.get(`http://localhost:3030/githubOrganizations?login=${organization}`)
 				.then(result => {
@@ -143,25 +143,25 @@ class MockGithubRepository {
 					reject(error);
 				});
 		});
-return promise
+		return promise;
 	}
 
-	async fetchOrgsOrUsersByIds(ids){
-		const promise= await new Promise(async(resolve, reject) => {
-		try{
-		const organizations = await Promise.all( ids.map(async(id, index)=>{
-			return await this.fetchOrgOrUserById(id);
-		}))
-		resolve(organizations)
+	async fetchOrgsOrUsersByIds(ids) {
+		const promise = await new Promise(async (resolve, reject) => {
+			try {
+				const organizations = await Promise.all(ids.map(async (id, index) => {
+					return await this.fetchOrgOrUserById(id);
+				}));
+				resolve(organizations);
+			}
+			catch (err) {
+				console.log(err);
+				reject(err);
+			}
+
+		});
+		return promise;
+
 	}
-		catch(err){
-			console.log(err);
-			reject(err)
-		}
-
-	})
-	return promise;
-
-}
 }
 export default MockGithubRepository;

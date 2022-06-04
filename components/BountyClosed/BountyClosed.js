@@ -32,7 +32,7 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
 
 						</div>
 						{showTweetLink && <Link
-							href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyAddress}?id=${bounty.bountyId}`}
+							href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyId}/${bounty.bountyAddress}`}
 
 						>
 							<a className="hover:scale-105 animate-single-bounce duration-100 mr-2" target="_blank" rel="noopener noreferrer">

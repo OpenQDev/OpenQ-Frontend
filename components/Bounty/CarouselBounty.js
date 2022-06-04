@@ -1,18 +1,18 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import Link from 'next/link';
 
-const CarouselBounty = ({bounty}) =>{
+const CarouselBounty = ({ bounty }) => {
 	const [appState] = useContext(StoreContext);
-	return(
-		
+	return (
+
 		<>
-			<Link target={'_blank'} rel="noopener noreferrer" href={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyAddress}?id=${bounty.bountyId}`}>
+			<Link target={'_blank'} rel="noopener noreferrer" href={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyId}/${bounty.bountyAddress}`}>
 				<a className='border-web-gray bg-dark-mode w-44 sm:w-48 h-32 p-4 pl-2 gap-2 border rounded-lg flex'>
 					<svg
 						flex-1
 						xmlns="http://www.w3.org/2000/svg"
-						fill={ bounty?.closed ? '#F0431D' : '#15FB31'}
+						fill={bounty?.closed ? '#F0431D' : '#15FB31'}
 						viewBox="0 0 16 16"
 						width="19"
 						height="19"

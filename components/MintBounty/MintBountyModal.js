@@ -17,7 +17,7 @@ import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 const MintBountyModal = ({ modalVisibility }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
-	const { library,  account } = useWeb3();
+	const { library, account } = useWeb3();
 	const router = useRouter();
 
 	// State
@@ -34,28 +34,30 @@ const MintBountyModal = ({ modalVisibility }) => {
 	// Refs
 	const modal = useRef();
 
-	const setIssueUrl = async(issueUrl)=>{
-		if(!isLoading){
+	const setIssueUrl = async (issueUrl) => {
+		if (!isLoading) {
 			setEnableMint();
 			let didCancel = false;
 			setUrl(issueUrl);
 			let issueUrlIsValid = appState.utils.issurUrlRegex(issueUrl);
 			if (issueUrlIsValid && !didCancel) {
-			
+
 				async function fetchIssue() {
 					try {
 						const data = await appState.githubRepository.fetchIssueByUrl(issueUrl);
-						if(!didCancel){
-							setIssue(data);}
+						if (!didCancel) {
+							setIssue(data);
+						}
 						return data;
 					} catch (error) {
-						if(!didCancel)	{
-							setIssue(false);}
+						if (!didCancel) {
+							setIssue(false);
+						}
 					}
 				}
 				const issueData = await fetchIssue();
 
-				if(issueData){
+				if (issueData) {
 					try {
 						let bounty = await appState.openQSubgraphClient.getBountyByGithubId(
 							issueData.id,
@@ -64,7 +66,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 						if (bounty) {
 							setBountyAddress(bounty.bountyAddress);
 						}
-					
+
 					} catch (error) {
 						setEnableMint(true);
 						setBountyAddress();
@@ -72,13 +74,13 @@ const MintBountyModal = ({ modalVisibility }) => {
 				}
 
 			}
-			return (()=>{
+			return (() => {
 				didCancel = true;
 			});
 		}
 	};
 
-	const mintBounty = async() => {
+	const mintBounty = async () => {
 		try {
 			setIsLoading(true);
 			const { bountyAddress } = await appState.openQClient.mintBounty(
@@ -86,18 +88,18 @@ const MintBountyModal = ({ modalVisibility }) => {
 				issue.id,
 				issue.repository.owner.id,
 			);
-			sessionStorage.setItem('justMinted', true);	
-			await appState.openQPrismaClient.createNewBounty(ethers.utils.getAddress(bountyAddress));	
-		
+			sessionStorage.setItem('justMinted', true);
+			await appState.openQPrismaClient.createNewBounty(ethers.utils.getAddress(bountyAddress));
+
 			router.push(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bountyAddress}?id=${issue.id}`
+				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress}`
 			);
 		} catch (error) {
 			console.log('error in mintbounty', error);
 			const { message, title } = appState.openQClient.handleError(error);
 			console.log(message);
 			setError({ message, title });
-		
+
 		}
 	};
 
@@ -109,7 +111,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 		setError();
 		modalVisibility(false);
 	};
-	
+
 	useEffect(() => {
 		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
 		function handleClickOutside(event) {
@@ -127,7 +129,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
 	}, [modal, isLoading]);
-	
+
 	// Render
 	return (
 		<div className="flex justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-5">
@@ -168,8 +170,8 @@ const MintBountyModal = ({ modalVisibility }) => {
 										account && isOnCorrectNetwork ?
 											'Please choose an elgible issue.' :
 											isOnCorrectNetwork ?
-												'Connect your wallet to mint a bounty!':
-												'Please switch to the correct network to mint a bounty.' 
+												'Connect your wallet to mint a bounty!' :
+												'Please switch to the correct network to mint a bounty.'
 									}
 									customOffsets={[0, 70]}>
 									<div className="flex items-center justify-center p-5 rounded-b w-full">

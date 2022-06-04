@@ -13,10 +13,10 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
 	const [appState] = useContext(StoreContext);
 	const [watchDisabled, setWatchDisabled] = useState();
 	const { account } = useWeb3();
-	const watching = bounty?.watchingUsers?.users?.some(user=>user.userAddress === account);
-	const [watchingDisplay, setWatchingDisplay]= useState(watching);
+	const watching = bounty?.watchingUsers?.users?.some(user => user.userAddress === account);
+	const [watchingDisplay, setWatchingDisplay] = useState(watching);
 
-	const watchBounty = async()=>{
+	const watchBounty = async () => {
 		setWatchDisabled(true);
 		if (watchingDisplay) {
 			await appState.openQPrismaClient.unWatchBounty(ethers.utils.getAddress(bounty.bountyAddress), account);
@@ -33,15 +33,15 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
 	const tweetText = `Check out this bounty ${bounty?.owner && `for ${bounty?.owner}`} on OpenQ. You can claim it just by making a pull request that completes the issue! `;
 	const { safe } = useWeb3();
 
-	const resetScroll = () =>{		
+	const resetScroll = () => {
 		document.body.style.height = 'auto';
 		document.body.style.overflow = 'auto';
 	};
-	
+
 	return (
 		<div className="flex flex-row font-bold text-xl space-x-4">
 			{!hideBountyLink ? bounty ? <Link
-				href={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyAddress}?id=${bounty.id}`}	>
+				href={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.id}/${bounty.bountyAddress}`}	>
 				<a onClick={resetScroll} target={safe ? '_self' : '_blank'} rel="noopener noreferrer" >
 					<div id={'bounty-link'} className="cursor-pointer">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="ffffff" width="24" height="24">
@@ -80,7 +80,7 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
 			</Link> :
 				<Skeleton width={'24px'} height={'24px'} />}
 			{bounty ? <Link
-				href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyAddress}?id=${bounty.id}`}
+				href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.id}/${bounty.bountyAddress}`}
 
 			>
 				<a target="_blank" rel="noopener noreferrer" >
@@ -107,9 +107,9 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
 									<path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
 								</svg>}
 					</div>
-				</button>:
+				</button> :
 				hideBountyLink && account && !bounty &&
-				<Skeleton width={'24px'} height={'24px'} /> }
+				<Skeleton width={'24px'} height={'24px'} />}
 		</div>
 	);
 };

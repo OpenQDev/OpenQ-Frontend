@@ -5,19 +5,19 @@ import { ethers } from 'ethers';
 import Link from 'next/link';
 
 // Custom
-import StoreContext from '../../store/Store/StoreContext';
-import BountyCardDetails from '../../components/Bounty/BountyCardDetails';
-import FundPage from '../../components/FundBounty/FundPage';
-import RefundPage from '../../components/RefundBounty/RefundPage';
-import ClaimPage from '../../components/Claim/ClaimPage';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
-import UnexpectedError from '../../components/Utils/UnexpectedError';
-import Toggle from '../../components/Toggle/Toggle';
-import WrappedGithubClient from '../../services/github/WrappedGithubClient';
-import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
-import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
+import StoreContext from '../../../store/Store/StoreContext';
+import BountyCardDetails from '../../../components/Bounty/BountyCardDetails';
+import FundPage from '../../../components/FundBounty/FundPage';
+import RefundPage from '../../../components/RefundBounty/RefundPage';
+import ClaimPage from '../../../components/Claim/ClaimPage';
+import useGetTokenValues from '../../../hooks/useGetTokenValues';
+import UnexpectedError from '../../../components/Utils/UnexpectedError';
+import Toggle from '../../../components/Toggle/Toggle';
+import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
+import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
+import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
 
-const address = ({  address, mergedBounty, renderError}) => {
+const address = ({ address, mergedBounty, renderError }) => {
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
 	const [bounty, setBounty] = useState(mergedBounty);
@@ -118,7 +118,7 @@ const address = ({  address, mergedBounty, renderError}) => {
 
 	// Render
 	if (error) {
-		return <UnexpectedError error = {error}/>;
+		return <UnexpectedError error={error} />;
 	}
 	else return (
 		<>{!mergedBounty ?
@@ -131,7 +131,7 @@ const address = ({  address, mergedBounty, renderError}) => {
 			<>
 				<div className="flex flex-col font-mont justify-center items-center pt-7">
 					<Toggle toggleFunc={handleToggle} toggleVal={internalMenu} names={['View', 'Fund', 'Refund', 'Claim']} />
-					<BountyCardDetails  bounty={bounty} address={address} tokenValues={tokenValues} internalMenu={internalMenu}/>
+					<BountyCardDetails bounty={bounty} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
@@ -142,43 +142,43 @@ const address = ({  address, mergedBounty, renderError}) => {
 	);
 };
 
-export const getServerSideProps = async(context)=>{
+export const getServerSideProps = async (context) => {
 	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
 	const githubRepository = new WrappedGithubClient();
 	const openQPrismaClient = new WrappedOpenQPrismaClient();
 	githubRepository.instance.setGraphqlHeaders();
-	const {id, address} = context.query;
-	let bountyMetadata={};
+	const { id, address } = context.query;
+	let bountyMetadata = {};
 	let renderError = '';
-	try{	
+	try {
 		bountyMetadata = await openQPrismaClient.instance.getBounty(ethers.utils.getAddress(address));
 	}
-	catch(err){
+	catch (err) {
 		console.log(err);
 	}
 	let mergedBounty = null;
 	let issueData = {};
 	let bounty = {};
-	try{		
+	try {
 		issueData = await githubRepository.instance.fetchIssueById(id);
 	}
-	catch(err){
+	catch (err) {
 		console.log(err);
 		renderError = 'OpenQ could not find the issue connected this to bounty on Github.';
 	}
-	try{
-		bounty  = await openQSubgraphClient.instance.getBounty(address, 'no-cache');
-		if(!bounty){
+	try {
+		bounty = await openQSubgraphClient.instance.getBounty(address, 'no-cache');
+		if (!bounty) {
 			console.log('could not find bounty on graph');
 		}
-		mergedBounty = {...issueData, ...bountyMetadata, ...bounty,  bountyAddress: address};
+		mergedBounty = { ...issueData, ...bountyMetadata, ...bounty, bountyAddress: address };
 	}
-	catch(err){
-		renderError =`OpenQ could not find a bounty with address: ${address}.`;
+	catch (err) {
+		renderError = `OpenQ could not find a bounty with address: ${address}.`;
 	}
-	
 
-	return {props: {id, address,  mergedBounty, renderError}};
+
+	return { props: { id, address, mergedBounty, renderError } };
 };
 
 export default address;
