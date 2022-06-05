@@ -30,11 +30,8 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
 								</svg>
 							</span>
 						</Link>
-
 						</div>
-						<div>
-							Closing Pull Request: <Link href={claimantPullRequestURL}></Link>
-						</div>
+						{claimantPullRequestURL !== null ? <div>Closing Pull Request: <Link href={claimantPullRequestURL}>{claimantPullRequestURL}</Link></div> : null}
 						{showTweetLink && <Link
 							href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyId}/${bounty.bountyAddress}`}
 

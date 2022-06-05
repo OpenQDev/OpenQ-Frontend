@@ -35,6 +35,12 @@
           "internalType": "uint256",
           "name": "bountyClosedTime",
           "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "closerData",
+          "type": "string"
         }
       ],
       "name": "BountyClosed",
