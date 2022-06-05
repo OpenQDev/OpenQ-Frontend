@@ -4,7 +4,7 @@ import fetch from 'cross-fetch';
 
 class OpenQPrismaClient {
 	constructor() { }
-	uri = process.env.OPENQ_API_SSR_URL ? process.env.OPENQ_API_SSR_URL : process.env.NEXT_PUBLIC_OPENQ_API_URL
+	uri = process.env.OPENQ_API_SSR_URL ? process.env.OPENQ_API_SSR_URL : process.env.NEXT_PUBLIC_OPENQ_API_URL;
 	httpLink = new HttpLink({ uri: this.uri, fetch });
 
 	client = new ApolloClient({
@@ -13,7 +13,7 @@ class OpenQPrismaClient {
 		cache: new InMemoryCache(),
 	});
 
-	async getPaginatedTVLS( orderBy, limit, sortOrder, cursor) {
+	async getPaginatedTVLS(orderBy, limit, sortOrder, cursor) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
@@ -33,7 +33,7 @@ class OpenQPrismaClient {
 			try {
 				const result = await this.client.mutate({
 					mutation: CREATE_NEW_BOUNTY,
-					variables: { id, tvl:0.0 }
+					variables: { id, tvl: 0.0 }
 				});
 				resolve(result);
 			} catch (e) {
@@ -43,7 +43,7 @@ class OpenQPrismaClient {
 		return promise;
 	}
 
-	async updateBounty(id, tvl ) {
+	async updateBounty(id, tvl) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.mutate({
@@ -58,7 +58,7 @@ class OpenQPrismaClient {
 		return promise;
 	}
 
-	async watchBounty(contractAddress, userAddress ) {
+	async watchBounty(contractAddress, userAddress) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.mutate({
@@ -73,7 +73,7 @@ class OpenQPrismaClient {
 		return promise;
 	}
 
-	async unWatchBounty(contractAddress, userAddress ) {
+	async unWatchBounty(contractAddress, userAddress) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.mutate({
@@ -90,7 +90,7 @@ class OpenQPrismaClient {
 
 
 	async getBounty(contractAddress) {
-		const promise = new Promise(async (resolve, reject)=>{
+		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
 					query: GET_BOUNTY_BY_HASH,
@@ -98,7 +98,7 @@ class OpenQPrismaClient {
 				});
 				resolve(result.data.bounty);
 			}
-			catch(e){
+			catch (e) {
 				reject(e);
 			}
 		}
@@ -106,8 +106,7 @@ class OpenQPrismaClient {
 		return promise;
 	}
 	async getUser(userAddress) {
-		console.log('user address', userAddress);
-		const promise = new Promise(async (resolve, reject)=>{
+		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
 					query: GET_USER_BY_HASH,
@@ -115,7 +114,7 @@ class OpenQPrismaClient {
 				});
 				resolve(result.data.user);
 			}
-			catch(e){
+			catch (e) {
 				reject(e);
 			}
 		}

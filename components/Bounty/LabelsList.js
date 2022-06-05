@@ -5,7 +5,6 @@ import Skeleton from 'react-loading-skeleton';
 // Custom
 
 const LabelsList = ({ bounty }) => {
-	console.log(bounty.labels);
 	return (
 		<div className="flex flex-row space-x-2">
 			<ul>

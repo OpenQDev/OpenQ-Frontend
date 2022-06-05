@@ -66,7 +66,6 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 			)
 			.then(async (result) => {
 				const { txnHash, claimantPullRequest } = result.data;
-				console.log(claimantPullRequest);
 				// Upon this return, the claimBounty transaction has been submitted
 				// We should now transition from Transaction Submitted -> Transaction Pending
 				setTransactionHash(txnHash);
