@@ -15,6 +15,7 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
 	// Hooks
 	const tweetText = `💸 Just claimed a developer bounty from ${bounty.owner} on OpenQ for ${TVL} working on this issue: `;
 	const url = `${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${bounty.claimedTransactionHash}`;
+	const claimantPullRequestURL = bounty.closerData;
 	//Render
 	return (
 		<div className="w-2/3 lg:w-1/2">
@@ -30,6 +31,9 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
 							</span>
 						</Link>
 
+						</div>
+						<div>
+							Closing Pull Request: <Link href={claimantPullRequestURL}></Link>
 						</div>
 						{showTweetLink && <Link
 							href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyId}/${bounty.bountyAddress}`}
