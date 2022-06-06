@@ -1,7 +1,9 @@
 import React from 'react';
 import Link from 'next//link';
+import useAuth from '../hooks/useAuth';
 
 const PageNotFound = () =>{
+	useAuth();
 
 
 	return <div className='flex fixed inset-0 justify-center items-center 

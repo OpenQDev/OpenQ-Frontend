@@ -8,8 +8,11 @@ import OrganizationHomepage from '../components/Organization/OrganizationHomepag
 import useWeb3 from '../hooks/useWeb3';
 import WrappedGithubClient from '../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgraphClient';
+import useAuth from '../hooks/useAuth';
 
 export default function Index({orgs, fullBounties, batch }) {
+	useAuth();
+	
 	const [internalMenu, setInternalMenu] = useState('org');
 	// State
 	const [bounties, setBounties] = useState(fullBounties);

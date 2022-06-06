@@ -11,7 +11,10 @@ import About from '../../components/About/About';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedGithubClient from '../../services/github/WrappedGithubClient';
+import useAuth from '../../hooks/useAuth';
+
 const organization = ({ organizationData, fullBounties, completed, batch, renderError}) => {
+	useAuth();
 	// Context
 	const [appState] = useContext(StoreContext);
 	// State
