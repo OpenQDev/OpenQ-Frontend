@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ethers } from 'ethers';
 import { setup } from 'axios-cache-adapter';
 import enumerable from'../../constants/polygon-mainnet-enumerable.json';
-import indexable from'../../constants/openq-local-indexable.json';
+import indexable from'../../constants/polygon-mainnet-indexable.json';
 import localEnumerable from '../../constants/openq-local-enumerable.json';
 import localIndexable from '../../constants/openq-local-indexable.json';
 import mumbaiEnumerable from '../../constants/openq-polygon-mumbai-enumerable.json';
@@ -127,7 +127,6 @@ async getTokenValues(tokenVolumes, url) {
 
 	async getTokenMetadata(cursor, limit, list) {
 		if(list === 'polygon'){
-			console.log(enumerable);
 			return enumerable.tokens.slice(cursor, cursor+limit);
 		}
 		if(this.openqEnumerableTokens.length && list === 'constants'){
