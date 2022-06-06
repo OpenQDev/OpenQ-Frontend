@@ -8,10 +8,16 @@ import openqIndexableTokens from '../../constants/openq-local-indexable.json';
 
 class MockCoinClient {
 
+	 	async sleep(time) {
+		return new Promise(async (resolve, ) => {
+			return setTimeout(resolve, time)
+		});
+		}
+
 	async getTokenValues(data) {
 		const promise = new Promise((resolve, reject) => {
 			axios.get('http://localhost:3030/tokenPrice')
-				.then((result) => {
+				.then(async(result) => {
 		const price =  parseFloat(result.data["0x5FbDB2315678afecb367f032d93F642f64180aa"]);
 					const tokenValues = {tokenPrices:{}, tokens: {}, total: 0};
 					let total = 0;
@@ -25,6 +31,7 @@ class MockCoinClient {
 					
 					}
 					tokenValues.total = Math.round(parseFloat(total) * 100) / 100;
+					await this.sleep(200)
 					resolve(tokenValues);
 				
 				})

@@ -45,7 +45,7 @@ const BountyCard = ({ bounty, loading }) => {
 							<div className="invisible md:visible">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
-									fill={loading ? '#333' : bounty?.closed ? '#F0431D' : '#15FB31'}
+									fill={loading ? '#333' : bounty.status === 'CLOSED' ? '#F0431D' : '#15FB31'}
 									viewBox="0 0 16 16"
 									width="19"
 									height="19"
