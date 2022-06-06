@@ -35,7 +35,7 @@ const organization = ({ organizationData, fullBounties, completed, batch, render
 		newBounties.bountiesCreated.forEach((bounty) => {
 			const relatedIssue = issueData.find(
 				(issue) => issue.id == bounty.bountyId
-			);
+			)|| { id: '', title: '', body: '' };
 			const mergedBounty = { ...bounty, ...relatedIssue };
 			fullBounties.push(mergedBounty);
 		});

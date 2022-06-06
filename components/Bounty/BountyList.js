@@ -40,7 +40,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		const localShowClaimed = options.showClaimed === undefined ? claimedVisible : options.showClaimed;
 		const localShowUnfunded = options.showUnfunded === undefined ? unfundedVisible : options.showUnfunded;
 		const localShowAssigned = options.showAssigned === undefined ? assignedVisible : options.showAssigned;
-		const displayBounties = bounties.filter(bounty => {
+		const displayBounties = bounties.filter((bounty) => {
 			const containsSearch = ((bounty.title + bounty.description)
 				.toLowerCase()
 				.indexOf(localSearchText.toLowerCase()) > -1) ||
