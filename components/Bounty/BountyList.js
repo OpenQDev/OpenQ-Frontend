@@ -12,6 +12,7 @@ import useWeb3 from '../../hooks/useWeb3';
 
 const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData, getNewData, addCarousel }) => {
 	// Hooks
+	console.log(bounties);
 	const {account} = useWeb3();
 	const [unfundedVisible, setUnfundedVisible] = useState(false);
 	const [claimedVisible, setClaimedVisible] = useState(false);
@@ -41,7 +42,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		const localShowUnfunded = options.showUnfunded === undefined ? unfundedVisible : options.showUnfunded;
 		const localShowAssigned = options.showAssigned === undefined ? assignedVisible : options.showAssigned;
 		const displayBounties = bounties.filter((bounty) => {
-			const containsSearch = ((bounty.title + bounty.description)
+			const containsSearch = ((bounty.title + bounty.body)
 				.toLowerCase()
 				.indexOf(localSearchText.toLowerCase()) > -1) ||
 				bounty.labels.reduce((accum, label) => {

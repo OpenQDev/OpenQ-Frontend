@@ -191,6 +191,7 @@ export const getServerSideProps = async()=>{
 	return {props: {
 		orgs: mergedOrgs,
 		fullBounties, 
-		renderError
+		renderError,
+		batch
 	}};
 };
