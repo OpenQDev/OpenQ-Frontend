@@ -47,7 +47,7 @@ const BountyCardDetails = ({ bounty, address,  tokenValues, internalMenu }) => {
 											</>
 										}
 									</div>
-									{bounty.bountyTokenBalance && <TokenBalances
+									{bounty.bountyTokenBalances && <TokenBalances
 										tokenBalances={bounty.bountyTokenBalances}
 										tokenValues={tokenValues}
 										singleCurrency={false}
