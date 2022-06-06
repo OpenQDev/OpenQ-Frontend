@@ -14,12 +14,11 @@ class MockOpenQClient {
 
 	constructor() { }
 
-	async sleep(time) {
-		return new Promise(async (resolve, reject) => {
-			setTimeout(time),
-				resolve();
+	 	async sleep(time) {
+		return new Promise(async (resolve, ) => {
+			return setTimeout(resolve, time)
 		});
-	}
+		}
 
 	reset() {
 		this.shouldError = false;
@@ -80,10 +79,8 @@ class MockOpenQClient {
 
 	async fundBounty(library, _bountyId, _tokenAddress, _value, _depositPeriodDays) {
 		const promise = new Promise(async (resolve, reject) => {
-			await this.sleep(4500);
-
-				resolve( {events: [{transactionHash:"0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e" }]} );
-		});
+			await this.sleep(1500);
+			resolve( {events: [{transactionHash:"0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e" }]})});
 		return promise;
 	}
 
@@ -167,7 +164,8 @@ class MockOpenQClient {
 async refundDeposit(library, _bountyId, _depositId)  {
 		const promise = new Promise((resolve, reject) => {
 			axios.get('http://localhost:3030/txnResponse')
-				.then((result) => {
+				.then(async(result) => {
+				await this.sleep(1500)
 					resolve(result.data);
 				})
 				.catch((error) => {
