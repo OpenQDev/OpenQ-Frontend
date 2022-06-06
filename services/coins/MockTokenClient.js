@@ -12,22 +12,19 @@ class MockCoinClient {
 		const promise = new Promise((resolve, reject) => {
 			axios.get('http://localhost:3030/tokenPrice')
 				.then((result) => {
-		const price =  parseFloat(result.data["0x5FbDB2315678afecb367f032d93F642f64180aa"])
-		console.log(data)
+		const price =  parseFloat(result.data["0x5FbDB2315678afecb367f032d93F642f64180aa"]);
 					const tokenValues = {tokenPrices:{}, tokens: {}, total: 0};
 					let total = 0;
 					for(let key in data.tokenVolumes){
 						const lowercaseKey = key.toLowerCase();
 							const multiplier = parseInt(data.tokenVolumes[key].volume) / Math.pow(10, data.tokenVolumes[key].decimals);
 							const value = price;
-							console.log(value)
 							tokenValues.tokens[lowercaseKey] = value * multiplier;
 							tokenValues.tokenPrices[lowercaseKey] =  Math.round(parseFloat(value) * 100) / 100;
 							total = total + value*multiplier;
 					
 					}
 					tokenValues.total = Math.round(parseFloat(total) * 100) / 100;
-					console.log(tokenValues)
 					resolve(tokenValues);
 				
 				})
