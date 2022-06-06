@@ -11,7 +11,6 @@ import MobileSidebar from './MobileSidebar';
 import useCheckFirstLaunch from '../../hooks/useCheckFirstLaunch.js';
 import Footer from './Footer.js';
 import useWeb3 from '../../hooks/useWeb3.js';
-import useAuth from '../../hooks/useAuth.js';
 import enumerableMetadata from '../../constants/polygon-mainnet-enumerable.json';
 
 const Layout = ({ children }) => {
@@ -19,7 +18,6 @@ const Layout = ({ children }) => {
 	const [safeInfo, setSafeInfo] = useState();
 	const { account, activate,  deactivate } = useWeb3();
 	const [appState] = useContext(StoreContext);
-	useAuth();
 	
 	useEffect(async () => {
 		const safe = new SafeAppConnector();
