@@ -40,6 +40,20 @@ class Utils {
 		style: 'currency',
 		currency: 'USD',
 	});
+
+	combineBounties  = (subgraphBounties, githubIssues)=>{
+		const fullBounties = [];
+		subgraphBounties.forEach((bounty) => {
+			const relatedIssue = githubIssues.find(
+				(issue) => issue.id == bounty.bountyId
+			);
+			if(relatedIssue){
+				const mergedBounty = { ...bounty, ...relatedIssue };
+				fullBounties.push(mergedBounty);}
+		
+		}	);
+		return fullBounties;
+	}
 }
 
 export default Utils;

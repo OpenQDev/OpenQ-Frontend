@@ -12,6 +12,7 @@ import useGetTokenValues from '../../hooks/useGetTokenValues';
 import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedGithubClient from '../../services/github/WrappedGithubClient';
 import useAuth from '../../hooks/useAuth';
+import Utils from '../../services/utils/Utils';
 
 const organization = ({ organizationData, fullBounties, completed, batch, renderError}) => {
 	useAuth();
@@ -33,17 +34,12 @@ const organization = ({ organizationData, fullBounties, completed, batch, render
 		const newBounties = await appState.openQSubgraphClient.getPaginatedOrganizationBounties(organizationData.id, currentPagination, order, batch);
 		const bountyIds = newBounties.bountiesCreated.map((bounty) => bounty.bountyId);
 		let issueData;
-		issueData = await appState.githubRepository.getIssueData(bountyIds);
-		const fullBounties = [];
-		newBounties.bountiesCreated.forEach((bounty) => {
-			const relatedIssue = issueData.find(
-				(issue) => issue.id == bounty.bountyId
-			);
-			if(relatedIssue){
-				const mergedBounty = { ...bounty, ...relatedIssue };
-				fullBounties.push(mergedBounty);}
-		
-		}	);
+		try{
+			issueData = await appState.githubRepository.getIssueData(bountyIds);}
+		catch(err){
+			console.log(err);
+		}
+		const fullBounties = appState.utils.combineBounties(newBounties, issueData);
 		return fullBounties;
 	}
 
@@ -105,6 +101,7 @@ export const getServerSideProps = async(context) =>{
 	const {organization} = context.params;
 	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
 	const githubRepository = new WrappedGithubClient();
+	const utils = new Utils();
 	githubRepository.instance.setGraphqlHeaders();
 	
 	let orgData;
@@ -130,16 +127,7 @@ export const getServerSideProps = async(context) =>{
 	catch(err){
 		console.log(err);
 	}
-	const fullBounties = [];
-	bounties.forEach((bounty) => {
-		const relatedIssue = issueData.find(
-			(issue) => issue.id == bounty.bountyId
-		);
-		if(relatedIssue){
-			const mergedBounty = { ...bounty, ...relatedIssue };
-			fullBounties.push(mergedBounty);
-		}
-	});
+	const fullBounties = utils.combineBounties(bounties, issueData);
 
 
 	return  {props: {organization,  organizationData: mergedOrgData, fullBounties, completed: bounties.length<10, batch}};

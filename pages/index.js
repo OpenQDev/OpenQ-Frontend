@@ -9,10 +9,10 @@ import useWeb3 from '../hooks/useWeb3';
 import WrappedGithubClient from '../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgraphClient';
 import useAuth from '../hooks/useAuth';
+import Utils from '../services/utils/Utils';
 
 export default function Index({orgs, fullBounties, batch }) {
 	useAuth();
-	
 	const [internalMenu, setInternalMenu] = useState('org');
 	// State
 	const [bounties, setBounties] = useState(fullBounties);
@@ -57,16 +57,7 @@ export default function Index({orgs, fullBounties, batch }) {
 		}
 		const bountyIds = newBounties.map((bounty) => bounty.bountyId);
 		const issueData = await appState.githubRepository.getIssueData(bountyIds);
-		const fullBounties = [];
-		newBounties.forEach((bounty) => {
-			const relatedIssue = issueData.find(
-				(issue) => issue.id == bounty.bountyId
-			); 
-			if(relatedIssue){
-				const mergedBounty = { ...bounty, ...relatedIssue };
-				fullBounties.push(mergedBounty);
-			}
-		});
+		const fullBounties = appState.utils.combineBounties(newBounties, issueData);
 		return fullBounties;
 	}
 
@@ -123,6 +114,7 @@ export default function Index({orgs, fullBounties, batch }) {
 export const getServerSideProps = async()=>{
 	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
 	const githubRepository = new WrappedGithubClient();
+	const utils = new Utils();
 	githubRepository.instance.setGraphqlHeaders();
 	let orgs = [];
 	const batch = 10;
@@ -153,7 +145,6 @@ export const getServerSideProps = async()=>{
 
 
 	// Fetch Bounties
-	const fullBounties = [];
 
 	// Fetch from Subgraph
 	let newBounties=[];	
@@ -179,22 +170,17 @@ export const getServerSideProps = async()=>{
 	let issueData = [];
 	try{
 		issueData = await githubRepository.instance.getIssueData(bountyIds);
-		newBounties.forEach((bounty) => {
-			const relatedIssue = issueData.find(
-				(issue) => issue.id == bounty.bountyId
-			);
-			if(relatedIssue){
-				const mergedBounty = { ...bounty, ...relatedIssue };
-				fullBounties.push(mergedBounty);
-			}
-		});
 	}
 	catch(err){
 		renderError = 'OpenQ is unable to connect with Github.';
 	}
+	const fullBounties = utils.combineBounties(newBounties, issueData);
+
 	return {props: {
 		orgs: mergedOrgs,
-		fullBounties, 
+		fullBounties,
+		newBounties,
+		issueData,
 		renderError,
 		batch
 	}};
