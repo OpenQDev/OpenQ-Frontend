@@ -3,11 +3,11 @@ import axios from 'axios';
 class MockOpenQSubgraphClient {
 	constructor() { }
 
-	async getAllBounties() {
+	async getAllBounties(sortOrder, startAt, quantity) {
 		const promise = new Promise((resolve, reject) => {
 			axios.get('http://localhost:3030/bounties')
 				.then(result => {
-					resolve(result.data);
+					resolve(result.data.slice(startAt, quantity));
 				})
 				.catch(error => {
 					reject(error);
