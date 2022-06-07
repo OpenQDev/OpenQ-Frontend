@@ -38,10 +38,12 @@ const organization = ({ organizationData, fullBounties, completed, batch, render
 		newBounties.bountiesCreated.forEach((bounty) => {
 			const relatedIssue = issueData.find(
 				(issue) => issue.id == bounty.bountyId
-			)|| { id: '', title: '', body: '' };
-			const mergedBounty = { ...bounty, ...relatedIssue };
-			fullBounties.push(mergedBounty);
-		});
+			);
+			if(relatedIssue){
+				const mergedBounty = { ...bounty, ...relatedIssue };
+				fullBounties.push(mergedBounty);}
+		
+		}	);
 		return fullBounties;
 	}
 
@@ -53,6 +55,7 @@ const organization = ({ organizationData, fullBounties, completed, batch, render
 			newBounties = await getBountyData(order, 0);
 		}
 		catch (err) {
+			console.log(err);
 			setError(true);
 			return;
 		}
@@ -70,7 +73,7 @@ const organization = ({ organizationData, fullBounties, completed, batch, render
 			setError(true);
 			return;
 		}
-		if (newBounties.length === batch) {
+		if (newBounties.length !== 0) {
 			setComplete(false);
 		}
 		setBounties(bounties.concat(newBounties));
@@ -131,9 +134,11 @@ export const getServerSideProps = async(context) =>{
 	bounties.forEach((bounty) => {
 		const relatedIssue = issueData.find(
 			(issue) => issue.id == bounty.bountyId
-		) || { id: '', title: '', body: '' };
-		const mergedBounty = { ...bounty, ...relatedIssue };
-		fullBounties.push(mergedBounty);
+		);
+		if(relatedIssue){
+			const mergedBounty = { ...bounty, ...relatedIssue };
+			fullBounties.push(mergedBounty);
+		}
 	});
 
 
