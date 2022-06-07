@@ -5,6 +5,7 @@
 import React from 'react';
 import { render, screen } from '../test-utils';
 import TokenBalances from '../components/TokenBalances/TokenBalances';
+import mocks from '../__mocks__/mock-server.json';
 
 // Test cases for full balances, empty balances, and undefined balances.
 const tokenBalanceCases = 
@@ -24,13 +25,7 @@ volume:'2000000000000000000'
 null];
 
 // Test cases for 
-const tokenValuesCases=
-		[{tokenPrices:{'0x8f3cf7ad23cd3cadbd9735aff958023239c6a063':1,
-			'0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39':13.95,
-			'0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270':1.41},
-		'tokens':{'0x8f3cf7ad23cd3cadbd9735aff958023239c6a063':3.0029999999999997,
-			'0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39':27.9,
-			'0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270':1.41},'total':32.31},  null];
+const tokenValuesCases=mocks.tokenPrice;
 const singles = [false, true];
 const showOnes = [false, true];
 const headers =['header', ''];
@@ -45,14 +40,6 @@ const test =(tokenBalances, tokenValues, singleCurrency, header, showOne)=>{
 		}			
 	});
 		
-	it('should render the tvl if that\'s all it has', () => {
-		render(<TokenBalances tokenBalances={tokenBalances} showOne={showOne} singleCurrency = {singleCurrency} tokenValues={tokenValues} header={header} />);
-		// tokenValues but empty balances
-		if( tokenBalances?.length===0 && tokenValues && !showOne ){
-			const TVL = screen.getByText( '$32.31');
-			expect(TVL).toBeInTheDocument();
-		}
-	});
 
 	it('should render the balances', async() => {
 		const {container}=render(<TokenBalances tokenBalances={tokenBalances} showOne={showOne} singleCurrency = {singleCurrency} tokenValues={tokenValues} header={header} />);

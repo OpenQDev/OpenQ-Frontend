@@ -13,7 +13,7 @@ const issues= [
 	},
 	{
 		status: 'mintable',
-		url: 'https://github.com/OpenQDev/OpenQ-Frontend/issues/21'
+		url: 'https://github.com/OpenQDev/OpenQ-TestRepo/issues/21'
 	},
 	{
 		status: 'minted',
@@ -41,7 +41,7 @@ const test =(issue)=>{
 		switch(issue.status){
 		case 'mintable': {
 			
-			const text = await screen.findByText(/sdfsdf/i);
+			const text = await screen.findByText(/mintable/i);
 			const mintBountyArr = await screen.findAllByText(/Mint Bounty/i);
 			await user.click(mintBountyArr[2]);
 			expect(text).toBeInTheDocument();

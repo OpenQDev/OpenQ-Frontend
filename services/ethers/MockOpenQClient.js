@@ -15,7 +15,7 @@ class MockOpenQClient {
 	constructor() { }
 
 	 	async sleep(time) {
-		return new Promise(async (resolve, ) => {
+		return new Promise(async (resolve ) => {
 			return setTimeout(resolve, time)
 		});
 		}
@@ -79,7 +79,7 @@ class MockOpenQClient {
 
 	async fundBounty(library, _bountyId, _tokenAddress, _value, _depositPeriodDays) {
 		const promise = new Promise(async (resolve, reject) => {
-			await this.sleep(1500);
+			await this.sleep(1000);
 			resolve( {events: [{transactionHash:"0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e" }]})});
 		return promise;
 	}
