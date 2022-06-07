@@ -61,9 +61,11 @@ export default function Index({orgs, fullBounties, batch }) {
 		newBounties.forEach((bounty) => {
 			const relatedIssue = issueData.find(
 				(issue) => issue.id == bounty.bountyId
-			) || { id: '', title: '', body: '' };
-			const mergedBounty = { ...bounty, ...relatedIssue };
-			fullBounties.push(mergedBounty);
+			); 
+			if(relatedIssue){
+				const mergedBounty = { ...bounty, ...relatedIssue };
+				fullBounties.push(mergedBounty);
+			}
 		});
 		return fullBounties;
 	}
@@ -79,7 +81,7 @@ export default function Index({orgs, fullBounties, batch }) {
 	async function getMoreData(order) {
 		setComplete(true);
 		const newBounties = await getBountyData(order, pagination);
-		if (newBounties.length === batch) {
+		if (newBounties.length !==0) {
 			setComplete(false);
 		}
 		setBounties(bounties.concat(newBounties));
@@ -180,9 +182,11 @@ export const getServerSideProps = async()=>{
 		newBounties.forEach((bounty) => {
 			const relatedIssue = issueData.find(
 				(issue) => issue.id == bounty.bountyId
-			) || { id: '', title: '', body: '' };
-			const mergedBounty = { ...bounty, ...relatedIssue };
-			fullBounties.push(mergedBounty);
+			);
+			if(relatedIssue){
+				const mergedBounty = { ...bounty, ...relatedIssue };
+				fullBounties.push(mergedBounty);
+			}
 		});
 	}
 	catch(err){
