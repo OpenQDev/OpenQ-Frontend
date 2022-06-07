@@ -6,6 +6,7 @@ import React from 'react';
 import { render, screen } from '../test-utils';
 import MintBountyButton from '../components/MintBounty/MintBountyButton';
 import userEvent from '@testing-library/user-event';
+import InitialState from '../store/Store/InitialState';
 
 const issues= [
 	{status: 'not-issue',
@@ -25,6 +26,7 @@ const issues= [
 	},
 ];
 
+InitialState.openQClient.shouldSleep = 200;
 const test =(issue)=>{
 	
 	it('should render the modal', async() => {
@@ -42,9 +44,9 @@ const test =(issue)=>{
 		case 'mintable': {
 			
 			const text = await screen.findByText(/mintable/i);
+			expect(text).toBeInTheDocument();
 			const mintBountyArr = await screen.findAllByText(/Mint Bounty/i);
 			await user.click(mintBountyArr[2]);
-			expect(text).toBeInTheDocument();
 		}
 			break;
 		case 'minted': {

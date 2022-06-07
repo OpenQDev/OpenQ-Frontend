@@ -41,7 +41,8 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		const localShowUnfunded = options.showUnfunded === undefined ? unfundedVisible : options.showUnfunded;
 		const localShowAssigned = options.showAssigned === undefined ? assignedVisible : options.showAssigned;
 		const displayBounties = bounties.filter((bounty) => {
-			const containsSearch = ((bounty.title + bounty.body)
+			let containsSearch = true;
+			try{containsSearch = ((bounty.title + bounty.body)
 				.toLowerCase()
 				.indexOf(localSearchText.toLowerCase()) > -1) ||
 				bounty.labels.reduce((accum, label) => {
@@ -63,6 +64,11 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			const isFunded = bounty.deposits.length > 0;
 			const isAssigned = bounty.assignees?.nodes.length > 0;
 			return (containsSearch && containsTag && (localShowUnfunded || isFunded) && (localShowClaimed || isUnclaimed) && (localShowAssigned || !isAssigned ) && bounty.url);
+			}
+			catch(err){
+				console.log(err);
+				console.log(bounty);}
+		
 		});
 		if (displayBounties.length === 0 && !complete) {
 			fetchPage();

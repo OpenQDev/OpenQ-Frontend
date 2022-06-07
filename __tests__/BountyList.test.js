@@ -5,13 +5,25 @@
 import React from 'react';
 import { render, screen } from '../test-utils';
 import BountyList from '../components/Bounty/BountyList';
+import InitialState from '../store/Store/InitialState';
 import mocks from '../__mocks__/mock-server.json';
-import userEvent from '@testing-library/user-event';
  
 
 describe('BountyList', ( ) => {
-	const bounties = mocks.bounties.map((bounty, index)=>{
-		return	Object.assign(bounty, mocks.githubIssues[index] );});
+	const newBounties = mocks.bounties;
+	const fullBounties = [];
+	
+	const	issueData = InitialState.githubRepository.parseIssuesData(mocks.githubIssues);
+	newBounties.forEach((bounty) => {
+
+		const relatedIssue = issueData.find(
+			(issue) => issue.id == bounty.bountyId
+		);
+		if(relatedIssue){
+			const mergedBounty = { ...bounty, ...relatedIssue };
+			fullBounties.push(mergedBounty);
+		}
+	});
 
 	beforeEach(()=>{
 		const observe = jest.fn();
@@ -27,39 +39,15 @@ describe('BountyList', ( ) => {
 		it('should allow user to search unfunded', async()=>{
 
 			// ARRANGE
-			const user = userEvent.setup();		
 			render(<BountyList bounties={bounties} complete={true}/>);
 
 			// ACT
-			const fundedTitle = screen.getByText(/high/);
-			expect(fundedTitle).toBeInTheDocument();
-			const claimedCheckbox = screen.getByLabelText(/claimed/i);
-			await user.click(claimedCheckbox);
-			const claimedTitle = await screen.findByText(/high/i);
-
-			// ASSERT
-			expect(claimedTitle).toBeInTheDocument();
-
-			// ACT
-			const searchBounties = await screen.findByLabelText('search text');
-			expect(searchBounties).toBeInTheDocument();
-			await user.type(searchBounties, 'unfundedIssue');
-
-			// ASSERT
-			const fundedTitle2 = screen.queryByText(/high/);
-			expect(fundedTitle2).not.toBeInTheDocument();
-
-			// ACT 
-
-			const searchButton = screen.getByRole('button', {name: 'Search'});
-			await user.click(searchButton);
-			//ASSERT
-			//ACT
-
+			const unfunded = screen.getByText('Unfunded');
+			expect(unfunded).toBeInTheDocument();
 			
 		});
 
 	};
 
-	test(bounties);
+	test(fullBounties);
 });

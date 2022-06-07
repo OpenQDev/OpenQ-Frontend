@@ -25,6 +25,7 @@ describe('FundPage', ( ) => {
 		}));
 	
 		InitialState.openQClient.reset();
+		InitialState.shouldSleep = 200;
 	});
 	const test =(bounty, )=>{
 		it('should render the heading', () => {
@@ -60,8 +61,8 @@ describe('FundPage', ( ) => {
 			await user.type(input, '200');
 			const button = screen.getByRole('button', {name: /Fund/i});
 			await user.click(button);
-			const confirmBtn = await screen.findByRole( 'button', {name: /Fund/i});
-			await user.click(confirmBtn);
+			const confirmBtn = await screen.findAllByRole( 'button', {name: /Fund/i});
+			await user.click(confirmBtn[1]);
 			const modalContent = await screen.findByText(/Too Low/i);
 
 			// ASSERT
@@ -85,8 +86,8 @@ describe('FundPage', ( ) => {
 
 			// ASSERT
 			expect(value).toBeInTheDocument();
-			const confirmBtn = await screen.findByRole( 'button', {name: /Fund/i});
-			await user.click(confirmBtn);
+			const confirmBtn = await screen.findAllByRole( 'button', {name: /Fund/i});
+			await user.click(confirmBtn[1]);
 			const modalContent = await screen.findByText(/Transfer Complete/i);
 			await user.click( screen.getByRole('button', {name: 'Close'}));
 			expect(modalContent).not.toBeInTheDocument();
@@ -114,7 +115,7 @@ describe('FundPage', ( ) => {
 			const funding = await screen.findByText('Funding');
 			expect(funding).toBeInTheDocument();
 			const close = await screen.findByText(/close/i, undefined, {
-				timeout: 2000
+				timeout: 4000
 			});
 			await user.click( close);
 			expect(close).not.toBeInTheDocument();

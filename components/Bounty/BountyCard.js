@@ -10,10 +10,11 @@ import StoreContext from '../../store/Store/StoreContext';
 
 const BountyCard = ({ bounty, loading }) => {
 	// State
+	
 	const bountyName = bounty?.title.toLowerCase() || '';
 	const [appState] = useContext(StoreContext);
 	const [isModal, setIsModal] = useState();
-
+	console.log(bounty?.labels);
 	// Hooks
 	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances || []);
 	const TVL = tokenValues != null && tokenValues != {}
@@ -58,7 +59,7 @@ const BountyCard = ({ bounty, loading }) => {
 								</svg>
 							</div>
 							{loading ? <Skeleton width={'100px'} /> : <div className="font-mont text-2xl ">
-								{	bounty && `${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`}
+								{	bounty.owner && `${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`}
 							</div>}
 						</div>
 						<div className="font-bold text-xl pl-6">
