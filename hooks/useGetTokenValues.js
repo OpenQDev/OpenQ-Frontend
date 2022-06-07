@@ -8,12 +8,12 @@ const useGetTokenValues = (tokenBalances) => {
 	useEffect(async() => {
 		let didCancel;
 		if(JSON.stringify(tokenValues) !== '{}' && !didCancel){
+			const value =	await	appState.tokenClient.parseTokenValues(tokenBalances);
 			if(!didCancel){
-				const value =	await	appState.tokenClient.parseTokenValues(tokenBalances);
 				setTokenValues(value);
 			}
 		}
-		return () => didCancel = true;
+		return () =>{ didCancel = true;};
 	}, [tokenBalances]);
 
 	return [tokenValues, setTokenValues];

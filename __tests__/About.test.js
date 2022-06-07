@@ -18,7 +18,7 @@ describe('About', ( ) => {
 		
 		it('should render generic About', async()=>{	
 			// ARRANGE;
-			render(<About tokenValues = {tokenValues} organizationData={organizationData} tokenValues={mocks.tvl}/>);
+			render(<About tokenValues = {tokenValues} organizationData={organizationData}/>);
 			const title = screen.getByText(organizationData.login);
 			const heading1= screen.getByText('Bounties');
 			const heading2= screen.getByText('Contributors');

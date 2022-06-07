@@ -66,7 +66,6 @@ const test =(issue)=>{
 			expect(text).toBeInTheDocument();
 		}	
 		}
-	
 	}		
 	);
 	

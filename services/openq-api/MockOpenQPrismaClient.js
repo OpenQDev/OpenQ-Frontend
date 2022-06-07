@@ -18,7 +18,7 @@ class OpenQPrismaClient {
 
 	async createNewBounty(id) {
 		const promise = new Promise(async (resolve, reject) => {
-			axios.get(`http://localhost:3030/tvl`)
+			axios.get(`http://localhost:3030/tokenPrice`)
 				.then(result => {
 					resolve(result.data);
 				})

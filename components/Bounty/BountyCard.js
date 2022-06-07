@@ -14,7 +14,6 @@ const BountyCard = ({ bounty, loading }) => {
 	const bountyName = bounty?.title.toLowerCase() || '';
 	const [appState] = useContext(StoreContext);
 	const [isModal, setIsModal] = useState();
-	console.log(bounty?.labels);
 	// Hooks
 	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances || []);
 	const TVL = tokenValues != null && tokenValues != {}

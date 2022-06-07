@@ -72,7 +72,7 @@ class MockOpenQClient {
 	async mintBounty(library, issueId, organization) {
 		const promise = new Promise(async (resolve, reject) => {
 			await this.sleep();
-			resolve({ "bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", "txnReceipt": {events: [transactionHash]} });
+			resolve({ "bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", "txnReceipt": {events: ["0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e"]} });
 		});
 		return promise;
 	}

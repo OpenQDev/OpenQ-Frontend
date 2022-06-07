@@ -23,11 +23,15 @@ const test =(tokenBalances, tokenValues, singleCurrency, header, showOne)=>{
 		
 
 	it('should render the balances', async() => {
-		const {container}=render(<TokenBalances tokenBalances={tokenBalances} showOne={showOne} singleCurrency = {singleCurrency} tokenValues={tokenValues} header={header} />);
+		render(<TokenBalances tokenBalances={tokenBalances} singleCurrency = {singleCurrency} tokenValues={tokenValues} header={header} />);
+		const tokenVolume = await screen.findByText(/12.0/);
+		expect(tokenVolume).toBeInTheDocument();	
+	});
 
-		// null tokenValues but some balances
-		
-	
+	it('should render the header', async()=>{
+		render(<TokenBalances tokenBalances={tokenBalances} showOne={true} singleCurrency = {singleCurrency} tokenValues={tokenValues} header={'daww'} />);
+		const tokenVolume = await screen.findByText('daww');
+		expect(tokenVolume).toBeInTheDocument();	
 	});
 };
 describe('TokenBalances', ( ) => {

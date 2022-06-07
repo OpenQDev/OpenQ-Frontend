@@ -66,8 +66,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			return (containsSearch && containsTag && (localShowUnfunded || isFunded) && (localShowClaimed || isUnclaimed) && (localShowAssigned || !isAssigned ) && bounty.url);
 			}
 			catch(err){
-				console.log(err);
-				console.log(bounty);}
+				console.log(err);}
 		
 		});
 		if (displayBounties.length === 0 && !complete) {
