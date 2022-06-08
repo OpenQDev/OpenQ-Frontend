@@ -3,15 +3,14 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import userEvent from '@testing-library/user-event';
 
 import { render, screen } from '../test-utils';
-import BountyList from '../components/Bounty/BountyList';
-import InitialState from '../store/Store/InitialState';
+import CopyBountyAddress from '../components/Bounty/CopyBountyAddress';
 import mocks from '../__mocks__/mock-server.json';
+import InitialState from '../store/Store/InitialState';
  
 
-describe('BountyList', ( ) => {
+describe('CopyBountyAddress', ( ) => {
 	const newBounties = mocks.bounties;	
 	const	issueData = InitialState.githubRepository.parseIssuesData(mocks.githubIssues);
 	const fullBounties = InitialState.utils.combineBounties(newBounties, issueData);
@@ -25,31 +24,28 @@ describe('BountyList', ( ) => {
 			disconnect,
 		}));
 	});
-	const test =(bounties)=>{
-		
-		it('should allow user to open BountyCardDetailsModal', async()=>{
-			const user = userEvent.setup();
-			// ARRANGE
-			render(<BountyList bounties={bounties} complete={true}/>);
 
-			// ACT
-			const title = screen.getByText(/good first Issue/i);
-			expect(title).toBeInTheDocument();
-			await user.click(title);
-			const titles =await screen.findAllByText(/good first issue/i);
-			const link = await screen.findByText(/See Full Bounty/i);
+	const test =(bounty)=>{
+		
+		it('should render CopyBountyAddress', ()=>{
+
+			// ARRANGE
+			render(<CopyBountyAddress address={bounty.bountyAddress} />);
+			const addressRegex = new RegExp(bounty.bountyAddress.slice(0, 3));
 
 			// ASSERT
-			expect(titles[1]).toBeInTheDocument();
-			expect(link).toBeInTheDocument();
+			expect(screen.getByText(addressRegex));		
 			
 			// should not have null or undefined values
 			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
 			expect(nullish).toHaveLength(0);
+
 			
 		});
 
+	
+
 	};
 
-	test(fullBounties);
+	fullBounties.forEach(bounty=>test({...bounty, watchingUsers: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'}));
 });

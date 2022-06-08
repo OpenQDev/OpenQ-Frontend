@@ -6,6 +6,7 @@ import React from 'react';
 import { render, screen } from '../test-utils';
 import MintBountyButton from '../components/MintBounty/MintBountyButton';
 import userEvent from '@testing-library/user-event';
+import InitialState from '../store/Store/InitialState';
 
 const issues= [
 	{status: 'not-issue',
@@ -13,7 +14,7 @@ const issues= [
 	},
 	{
 		status: 'mintable',
-		url: 'https://github.com/OpenQDev/OpenQ-Frontend/issues/21'
+		url: 'https://github.com/OpenQDev/OpenQ-TestRepo/issues/21'
 	},
 	{
 		status: 'minted',
@@ -25,46 +26,49 @@ const issues= [
 	},
 ];
 
+InitialState.openQClient.shouldSleep = 200;
 const test =(issue)=>{
 	
 	it('should render the modal', async() => {
+		// ARRANGE
 		const user = userEvent.setup();
 		render(<MintBountyButton />);
-		
-		const	mintBountyButton =  await screen.findByRole('button', {name: /Mint Bounty/i});
-		
-			
+
+		// ACT		
+		const	mintBountyButton =  await screen.findByRole('button', {name: /Mint Bounty/i});			
 		await user.click(mintBountyButton);
 		const input = await screen.findByRole('textbox');
 		await user.type(input, issue.url);
 	
+
+		// ASSERT
 		switch(issue.status){
 		case 'mintable': {
-			
-			const text = await screen.findByText(/sdfsdf/i);
+			expect(await screen.findByText(/mintable/i)).toBeInTheDocument();
 			const mintBountyArr = await screen.findAllByText(/Mint Bounty/i);
 			await user.click(mintBountyArr[2]);
-			expect(text).toBeInTheDocument();
 		}
 			break;
+
 		case 'minted': {
-			const text = await screen.findByText(/already minted/i);
-			const link = await screen.findByText(/here./);
-			expect(text).toBeInTheDocument();
-			expect(link).toBeInTheDocument();
+			expect(await screen.findByText(/already minted/i)).toBeInTheDocument();
+			expect( await screen.findByText(/here./)).toBeInTheDocument();
 		}
-			break; 
-		case 'unknown': {
-			const text = await screen.findByText(/not found/i);
-			expect(text).toBeInTheDocument(); 
 			break;
+
+		case 'unknown': {
+			expect(await screen.findByText(/not found/i)).toBeInTheDocument(); 
 		}
+			break;
+
 		case 'not-issue': {
-			const text = await screen.findByText(/Create a Bounty/i);
-			expect(text).toBeInTheDocument();
+			expect( await screen.findByText(/Create a Bounty/i)).toBeInTheDocument();
 		}	
 		}
-	
+			
+		// should not have null or undefined values
+		const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
+		expect(nullish).toHaveLength(0);
 	}		
 	);
 	

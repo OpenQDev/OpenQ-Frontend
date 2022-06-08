@@ -83,7 +83,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 	const mintBounty = async () => {
 		try {
 			setIsLoading(true);
-			const { bountyAddress } = await appState.openQClient.mintBounty(
+			const {bountyAddress}= await appState.openQClient.mintBounty(
 				library,
 				issue.id,
 				issue.repository.owner.id,

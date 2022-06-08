@@ -5,7 +5,7 @@ import axios from 'axios';
 import {ethers} from 'ethers';
 
 class MockOpenQClient {
-	shouldSleep = 0;
+	shouldSleep = 1000;
 	shouldError = false;
 
 	setSleep(time) {
@@ -14,8 +14,8 @@ class MockOpenQClient {
 
 	constructor() { }
 
-	 	async sleep(time) {
-		return new Promise(async (resolve, ) => {
+	 	async sleep(time=this.shouldSleep) {
+		return new Promise(async (resolve ) => {
 			return setTimeout(resolve, time)
 		});
 		}
@@ -26,7 +26,7 @@ class MockOpenQClient {
 
 	async getENS(_callerAddress){
 		let promise = new Promise (async (resolve) =>{
-			await this.sleep(1500);
+			await this.sleep();
 			resolve("sample.eth");
 			
 		})
@@ -71,15 +71,15 @@ class MockOpenQClient {
 
 	async mintBounty(library, issueId, organization) {
 		const promise = new Promise(async (resolve, reject) => {
-			await this.sleep(1500);
-			resolve({ "bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", "txnReceipt": {events: [transactionHash]} });
+			await this.sleep();
+			resolve({ "bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", "txnReceipt": {events: ["0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e"]} });
 		});
 		return promise;
 	}
 
 	async fundBounty(library, _bountyId, _tokenAddress, _value, _depositPeriodDays) {
 		const promise = new Promise(async (resolve, reject) => {
-			await this.sleep(1500);
+			await this.sleep();
 			resolve( {events: [{transactionHash:"0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e" }]})});
 		return promise;
 	}
@@ -94,7 +94,7 @@ class MockOpenQClient {
 	async approve(library, _bountyAddress, _tokenAddress, _value) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
-				await this.sleep(1000);
+				await this.sleep();
 				if(this.shouldError){					
 				throw new Error();
 				}
@@ -131,7 +131,7 @@ class MockOpenQClient {
 
 	async userBalanceForToken(library, token, _callerAddress) {
 		let promise = new Promise(async (resolve) => {
-				this.sleep(1500);
+				this.sleep();
 				resolve(true);
 
 		});
@@ -165,7 +165,7 @@ async refundDeposit(library, _bountyId, _depositId)  {
 		const promise = new Promise((resolve, reject) => {
 			axios.get('http://localhost:3030/txnResponse')
 				.then(async(result) => {
-				await this.sleep(1500)
+				await this.sleep()
 					resolve(result.data);
 				})
 				.catch((error) => {

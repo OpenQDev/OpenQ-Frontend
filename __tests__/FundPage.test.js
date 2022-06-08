@@ -25,6 +25,7 @@ describe('FundPage', ( ) => {
 		}));
 	
 		InitialState.openQClient.reset();
+		InitialState.shouldSleep = 200;
 	});
 	const test =(bounty, )=>{
 		it('should render the heading', () => {
@@ -35,6 +36,10 @@ describe('FundPage', ( ) => {
 			const heading = screen.getByText('Fund Bounty');
 			// ASSERT
 			expect(heading).toBeInTheDocument();
+			
+			// should not have null or undefined values
+			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
+			expect(nullish).toHaveLength(0);
 		});
 
 		it('should render list items', () => {
@@ -60,8 +65,8 @@ describe('FundPage', ( ) => {
 			await user.type(input, '200');
 			const button = screen.getByRole('button', {name: /Fund/i});
 			await user.click(button);
-			const confirmBtn = await screen.findByRole( 'button', {name: /Confirm/i});
-			await user.click(confirmBtn);
+			const confirmBtn = await screen.findAllByRole( 'button', {name: /Fund/i});
+			await user.click(confirmBtn[1]);
 			const modalContent = await screen.findByText(/Too Low/i);
 
 			// ASSERT
@@ -85,9 +90,9 @@ describe('FundPage', ( ) => {
 
 			// ASSERT
 			expect(value).toBeInTheDocument();
-			const confirmBtn = await screen.findByRole( 'button', {name: /Confirm/i});
-			await user.click(confirmBtn);
-			const modalContent = await screen.findByText(/Transfer Complete!/i);
+			const confirmBtn = await screen.findAllByRole( 'button', {name: /Fund/i});
+			await user.click(confirmBtn[1]);
+			const modalContent = await screen.findByText(/Transfer Complete/i);
 			await user.click( screen.getByRole('button', {name: 'Close'}));
 			expect(modalContent).not.toBeInTheDocument();
 		});
@@ -102,19 +107,22 @@ describe('FundPage', ( ) => {
 			const input = screen.getByLabelText('amount');
 			await user.type(input, '0.30sdf');
 			await user.click( screen.getByText( /Matic/i));
-			await user.click( screen.getAllByText( /Chainlink/i)[0]);
+			await user.click( screen.getAllByText( /link/i)[0]);
 			const button = screen.getByRole('button', {name: /Fund/i});
 			await user.click(button);
-			const value = await screen.findByText(/.30 Chainlink Token/i);
+			const value = await screen.findByText(/.30 link/i);
 
 			// ASSERT
 			expect(value);
-			const confirmBtn = await screen.findByRole( 'button', {name: /Confirm/i});
+			const confirmBtn = await screen.findByRole( 'button', {name: /Approv/i});
 			await user.click(confirmBtn);
-			const modalContent = await screen.findByText(/Transfer Complete!/i);
-			expect(modalContent).toBeInTheDocument();
-			await user.click( screen.getByRole('button', {name: 'Close'}));
-			expect(modalContent).not.toBeInTheDocument();
+			const funding = await screen.findByText('Funding');
+			expect(funding).toBeInTheDocument();
+			const close = await screen.findByText(/close/i, undefined, {
+				timeout: 4000
+			});
+			await user.click( close);
+			expect(close).not.toBeInTheDocument();
 		});
 
 		it('should handle approval errors', async()=>{
@@ -132,8 +140,8 @@ describe('FundPage', ( ) => {
 			await user.click(button);
 
 			// ASSERT
-			expect(await screen.findByText(/0.30 Chainlink Token/));
-			await user.click( await screen.findByRole( 'button', {name: /Confirm/i}));
+			expect(await screen.findByText(/0.30 LINK/));
+			await user.click( await screen.findByRole( 'button', {name: /Approv/i}));
 			const modalContent = await screen.findByText(/try again./i);
 			expect(modalContent).toBeInTheDocument();
 		

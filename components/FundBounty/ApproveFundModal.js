@@ -129,7 +129,7 @@ const ApproveFundModal = ({
 										<span>To</span>
 										<CopyAddressToClipboard data={bountyAddress} clipping={[5, 39]} />
 										<span>For</span>
-										<Link href={bounty.url}><a target="_blank" rel="noopener noreferrer" className='underline'>{bounty.title}</a></Link>
+										{bounty.url && <Link href={bounty.url}><a target="_blank" rel="noopener noreferrer" className='underline'>{bounty.title}</a></Link>}
 										<span>Transaction</span>
 										<Link href={link[approveTransferState]}>
 											<a target={'_blank'} className="underline" rel="noopener noreferrer">
@@ -149,7 +149,7 @@ const ApproveFundModal = ({
 										<span>To</span>
 										<CopyAddressToClipboard data={bountyAddress} clipping={[5, 39]} />
 										<span>For</span>
-										<Link href={bounty.url}><a target="_blank" rel="noopener noreferrer" className='underline'>{bounty.title}</a></Link>
+										{ bounty.url &&		<Link href={bounty.url}><a target="_blank" rel="noopener noreferrer" className='underline'>{bounty.title}</a></Link>}
 
 									</div>
 									{token.address !== '0x0000000000000000000000000000000000000000' ?

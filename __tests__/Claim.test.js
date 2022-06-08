@@ -24,8 +24,14 @@ describe('ClaimPage', ( ) => {
 			// ACT
 			const claimBtn = screen.getByText('Claim');
 			await user.click(claimBtn);
+
+			// ASSERT
 			const confirmBtn = await screen.findByText('Yes! Claim!');
 			expect(confirmBtn).toBeInTheDocument();
+			
+			// should not have null or undefined values
+			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
+			expect(nullish).toHaveLength(0);
 		});
 	
 	};

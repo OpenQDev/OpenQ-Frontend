@@ -30,6 +30,8 @@ const test =(approveTransferState, error)=>{
 	it('should render the modal', () => {
 		render(<ApprovalTranferModal approveTransferState={approveTransferState} error={error} />);
 		// header display if it exists
+
+		// ASSERT
 		let text;
 		switch(approveTransferState){
 		case CONFIRM:
@@ -48,7 +50,11 @@ const test =(approveTransferState, error)=>{
 			text = screen.getByText('User Denied Transaction');
 			break;
 		}
-		expect(text).toBeInTheDocument();
+		expect(text).toBeInTheDocument();		
+			
+		// should not have null or undefined values
+		const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
+		expect(nullish).toHaveLength(0);
 	}			
 	);
 	

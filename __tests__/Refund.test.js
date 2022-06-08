@@ -12,10 +12,12 @@ import userEvent from '@testing-library/user-event';
  
 
 describe('RefundPage', ( ) => {
+
 	const bounties = mocks.bounties;
 	beforeEach(()=>{
 		InitialState.openQClient.reset();
 	});
+
 	const test =(bounty )=>{
 		it('should render the heading', async() => {		
 			// ARRANGE
@@ -29,10 +31,14 @@ describe('RefundPage', ( ) => {
 				await user.click(refundBtn);
 				const confirmBtn = await screen.findByText('Yes, Refund!');
 				await user.click(confirmBtn);
+				
 				// ASSERT
 				expect(heading).toBeInTheDocument();
-			});
-	
+			});	
+			
+			// ASSERT
+			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
+			expect(nullish).toHaveLength(0);
 		});
 	};
 

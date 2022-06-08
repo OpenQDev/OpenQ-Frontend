@@ -3,15 +3,14 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import userEvent from '@testing-library/user-event';
 
 import { render, screen } from '../test-utils';
-import BountyList from '../components/Bounty/BountyList';
-import InitialState from '../store/Store/InitialState';
+import BountyHomepage from '../components/Bounty/BountyHomepage';
 import mocks from '../__mocks__/mock-server.json';
+import InitialState from '../store/Store/InitialState';
  
 
-describe('BountyList', ( ) => {
+describe('BountyHomepage', ( ) => {
 	const newBounties = mocks.bounties;	
 	const	issueData = InitialState.githubRepository.parseIssuesData(mocks.githubIssues);
 	const fullBounties = InitialState.utils.combineBounties(newBounties, issueData);
@@ -25,27 +24,23 @@ describe('BountyList', ( ) => {
 			disconnect,
 		}));
 	});
+
 	const test =(bounties)=>{
 		
-		it('should allow user to open BountyCardDetailsModal', async()=>{
-			const user = userEvent.setup();
+		it('should render Bounty homepage', async()=>{
 			// ARRANGE
-			render(<BountyList bounties={bounties} complete={true}/>);
-
-			// ACT
-			const title = screen.getByText(/good first Issue/i);
-			expect(title).toBeInTheDocument();
-			await user.click(title);
-			const titles =await screen.findAllByText(/good first issue/i);
-			const link = await screen.findByText(/See Full Bounty/i);
+			render(<BountyHomepage bounties={bounties} watchedBounties={[]}/>);
 
 			// ASSERT
-			expect(titles[1]).toBeInTheDocument();
-			expect(link).toBeInTheDocument();
+			const title1 = screen.getByText(/good first issue/i);
+			expect(title1).toBeInTheDocument();
+			const title2 = screen.getByText(/学習プログラムの再現性を確保する方法について/i);
+			expect(title2).toBeInTheDocument();
 			
 			// should not have null or undefined values
 			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
 			expect(nullish).toHaveLength(0);
+
 			
 		});
 

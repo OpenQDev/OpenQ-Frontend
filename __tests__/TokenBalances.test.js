@@ -5,75 +5,26 @@
 import React from 'react';
 import { render, screen } from '../test-utils';
 import TokenBalances from '../components/TokenBalances/TokenBalances';
-
 // Test cases for full balances, empty balances, and undefined balances.
-const tokenBalanceCases = 
-[[{tokenAddress:'0x0000000000000000000000000000000000000000',
-	volume:'1000000000000000000',
-	'__typename':'BountyFundedTokenBalance'
-},
-{tokenAddress:
-'0x5fbdb2315678afecb367f032d93f642f64180aa3',
-volume:'2000000000000000000'
-,__typename:'BountyFundedTokenBalance'
-},{tokenAddress:'0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
-	volume:'3000000000000000000',
-	__typename:'BountyFundedTokenBalance'
-}], 
-[],
-null];
+const tokenValues = {'tokenPrices':{'0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39':0.67},'tokens':{'0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39':8.040000000000001},'total':8.04};
+const tokenBalances = [{'__typename':'BountyFundedTokenBalance','volume':'12000000000000000000','tokenAddress':'0x5fbdb2315678afecb367f032d93f642f64180aa3'}];
 
 // Test cases for 
-const tokenValuesCases=
-		[{tokenPrices:{'0x8f3cf7ad23cd3cadbd9735aff958023239c6a063':1,
-			'0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39':13.95,
-			'0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270':1.41},
-		'tokens':{'0x8f3cf7ad23cd3cadbd9735aff958023239c6a063':3.0029999999999997,
-			'0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39':27.9,
-			'0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270':1.41},'total':32.31},  null];
-const singles = [false, true];
-const showOnes = [false, true];
-const headers =['header', ''];
-const test =(tokenBalances, tokenValues, singleCurrency, header, showOne)=>{
+const test =(tokenBalances, tokenValues, singleCurrency)=>{	
 	
-	it('should render the header', () => {
-		render(<TokenBalances tokenBalances={tokenBalances} showOne={showOne} singleCurrency = {singleCurrency} tokenValues={tokenValues} header={header} />);
-		// header display if it exists
-		if(header){
-			const header = screen.getByText('header');
-			expect(header).toBeInTheDocument();
-		}			
-	});
+	it('should render the header and balances', async()=>{
+	// ARRANGE
+		render(<TokenBalances tokenBalances={tokenBalances} showOne={true} singleCurrency = {singleCurrency} tokenValues={tokenValues} header={'daww'} />);
 		
-	it('should render the tvl if that\'s all it has', () => {
-		render(<TokenBalances tokenBalances={tokenBalances} showOne={showOne} singleCurrency = {singleCurrency} tokenValues={tokenValues} header={header} />);
-		// tokenValues but empty balances
-		if( tokenBalances?.length===0 && tokenValues && !showOne ){
-			const TVL = screen.getByText( '$32.31');
-			expect(TVL).toBeInTheDocument();
-		}
-	});
-
-	it('should render the balances', async() => {
-		const {container}=render(<TokenBalances tokenBalances={tokenBalances} showOne={showOne} singleCurrency = {singleCurrency} tokenValues={tokenValues} header={header} />);
-
-		// null tokenValues but some balances
-		const skeleton = container.querySelector('.react-loading-skeleton');
-		expect (skeleton).toBeInTheDocument();		
-		
-	
+		// ASSERT
+		expect( await screen.findByText('daww')).toBeInTheDocument();
+		expect(await screen.findByText(/12.0/)).toBeInTheDocument();
+		expect(await screen.findByText(/8.04/)).toBeInTheDocument();
+		const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
+		expect(nullish).toHaveLength(0);
 	});
 };
+
 describe('TokenBalances', ( ) => {
-	tokenBalanceCases.forEach(tokenBalances=>{
-		tokenValuesCases.forEach(tokenValues=>{
-			singles.forEach(single=>{
-				headers.forEach((header)=>{ 
-					showOnes.forEach(showOne=>{
-						test(tokenBalances, tokenValues, single, header, showOne);
-					});
-				}	);
-			});
-		});
-	});
+	test(tokenBalances, tokenValues,);
 });

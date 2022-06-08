@@ -5,13 +5,26 @@
 import React from 'react';
 import { render, screen } from '../test-utils';
 import BountyCard from '../components/Bounty/BountyCard';
-import mocks from '../__mocks__/mock-server.json';
 import userEvent from '@testing-library/user-event';
+import InitialState from '../store/Store/InitialState';
+import mocks from '../__mocks__/mock-server.json';
  
 
-describe('BountyList', ( ) => {
-	const bounties = mocks.bounties.map((bounty, index)=>{
-		return	Object.assign(bounty, mocks.githubIssues[index] );});
+describe('BountyCard', ( ) => {
+	const newBounties = mocks.bounties;
+	const fullBounties = [];
+	
+	const	issueData = InitialState.githubRepository.parseIssuesData(mocks.githubIssues);
+	newBounties.forEach((bounty) => {
+
+		const relatedIssue = issueData.find(
+			(issue) => issue.id == bounty.bountyId
+		);
+		if(relatedIssue){
+			const mergedBounty = { ...bounty, ...relatedIssue };
+			fullBounties.push(mergedBounty);
+		}
+	});
 
 	beforeEach(()=>{
 		const observe = jest.fn();
@@ -24,18 +37,14 @@ describe('BountyList', ( ) => {
 	});
 	const test =(bounty)=>{
 		it('should render BountyCard', async()=>{
+		
 			// ARRANGE
 			render(<BountyCard bounty={bounty} complete={true}/>);
 			
 			// ASSERT
-			const orgName = screen.getByText(`${bounty.owner}/${bounty.repoName}`);
-			const bountyTitle =	screen.getByText(bounty.title.toLowerCase());
-			const bountyDescription = screen.queryByText(bounty.body);
-
+			const orgName = screen.getByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
 			// ACT
 			expect(orgName).toBeInTheDocument();
-			expect(bountyTitle).toBeInTheDocument();
-			expect(bountyDescription).not.toBeInTheDocument();
 		});
 
 		it('should let user open BountyCardDetailsModal', async()=>{			
@@ -44,17 +53,21 @@ describe('BountyList', ( ) => {
 			render(<BountyCard bounty={bounty} complete={true}/>);
 			
 			// ASSERT
-			const bountyTitle =	screen.getByText(bounty.title.toLowerCase());
-			await user.click(bountyTitle);
-			if(bounties.status==='CLOSED'){				
-				const bountyStatus =	screen.findByText('Unclaimed');
-				expect(bountyStatus).toBeInTheDocument();
+			const orgName = screen.getByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
+			await user.click(orgName);
+			if(bounty.status==='CLOSED'){				
+				const bountyStatus = await	screen.findAllByText(/Claimed/i);
+				expect(bountyStatus[0]).toBeInTheDocument();
 			}
-			const link = await screen.findByText(/See full/i);
-			expect(link).toBeInTheDocument();
+			const link = await screen.findAllByRole('link', {name:/See full/i});
+			expect(link[0]).toBeInTheDocument();
+			
+			// should not have null or undefined values
+			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
+			expect(nullish).toHaveLength(0);
 		});
 	};
 
 		
-	bounties.forEach(bounty =>test(bounty));
+	fullBounties.forEach(bounty =>test(bounty));
 });

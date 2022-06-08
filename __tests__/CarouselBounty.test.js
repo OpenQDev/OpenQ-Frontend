@@ -3,15 +3,14 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import userEvent from '@testing-library/user-event';
 
 import { render, screen } from '../test-utils';
-import BountyList from '../components/Bounty/BountyList';
-import InitialState from '../store/Store/InitialState';
+import CarouselBounty from '../components/Bounty/CarouselBounty';
 import mocks from '../__mocks__/mock-server.json';
+import InitialState from '../store/Store/InitialState';
  
 
-describe('BountyList', ( ) => {
+describe('CarouselBounty', ( ) => {
 	const newBounties = mocks.bounties;	
 	const	issueData = InitialState.githubRepository.parseIssuesData(mocks.githubIssues);
 	const fullBounties = InitialState.utils.combineBounties(newBounties, issueData);
@@ -25,31 +24,33 @@ describe('BountyList', ( ) => {
 			disconnect,
 		}));
 	});
-	const test =(bounties)=>{
+
+	const test =(bounty)=>{
 		
-		it('should allow user to open BountyCardDetailsModal', async()=>{
-			const user = userEvent.setup();
+		it('should render CarouselBounty', ()=>{
 			// ARRANGE
-			render(<BountyList bounties={bounties} complete={true}/>);
+			render(<CarouselBounty bounty={bounty} />);
 
 			// ACT
-			const title = screen.getByText(/good first Issue/i);
-			expect(title).toBeInTheDocument();
-			await user.click(title);
-			const titles =await screen.findAllByText(/good first issue/i);
-			const link = await screen.findByText(/See Full Bounty/i);
-
+			const repo = screen.getByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
+			expect(repo).toBeInTheDocument();
+			
 			// ASSERT
-			expect(titles[1]).toBeInTheDocument();
-			expect(link).toBeInTheDocument();
+			// can't do entire title, because emojis confuse jest.
+			const titleRegex = new RegExp(bounty.title.slice(0, 5), 'i');
+			const title = screen.getAllByText(titleRegex);
+			expect(title[0]).toBeInTheDocument();		
 			
 			// should not have null or undefined values
 			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
 			expect(nullish).toHaveLength(0);
+
 			
 		});
 
+	
+
 	};
 
-	test(fullBounties);
+	fullBounties.forEach(bounty=>test({...bounty, watchingUsers: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'}));
 });
