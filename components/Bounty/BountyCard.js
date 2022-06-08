@@ -22,11 +22,11 @@ const BountyCard = ({ bounty, loading }) => {
 	const closeModal = () => {
 		setIsModal(false);
 		document.body.style.height = 'auto';
-		document.body.style.overflow = 'auto';
+		document.body.style.overflowY = 'auto';
 	};
 	const openModal = () => {
-		document.body.style.overflow = 'hidden';
 		document.body.style.height = '100vh';
+		document.body.style.overflowY = 'hidden';
 		setIsModal(true);
 	};
 	// Render
