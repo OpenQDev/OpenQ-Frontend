@@ -44,7 +44,7 @@ class OpenQPrismaClient {
 
 	async watchBounty(contractAddress, userAddress ) {
 		const promise = new Promise(async (resolve, reject) => {
-			axios.get(`http://localhost:3030/tvl`)
+			axios.get(`http://localhost:3030/tokenPrice`)
 				.then(result => {
 					resolve(result.data);
 				})
@@ -57,7 +57,7 @@ class OpenQPrismaClient {
 
 	async unWatchBounty(contractAddress, userAddress ) {
 		const promise = new Promise(async (resolve, reject) => {
-			axios.get(`http://localhost:3030/tvl`)
+			axios.get(`http://localhost:3030/tokenPrice`)
 				.then(result => {
 					resolve(result.data);
 				})

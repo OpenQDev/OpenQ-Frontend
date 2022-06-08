@@ -37,6 +37,7 @@ describe('BountyCard', ( ) => {
 	});
 	const test =(bounty)=>{
 		it('should render BountyCard', async()=>{
+		
 			// ARRANGE
 			render(<BountyCard bounty={bounty} complete={true}/>);
 			
@@ -58,8 +59,12 @@ describe('BountyCard', ( ) => {
 				const bountyStatus = await	screen.findAllByText(/Claimed/i);
 				expect(bountyStatus[0]).toBeInTheDocument();
 			}
-			const link = await screen.findByText(/See full/i);
-			expect(link).toBeInTheDocument();
+			const link = await screen.findAllByRole('link', {name:/See full/i});
+			expect(link[0]).toBeInTheDocument();
+			
+			// should not have null or undefined values
+			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
+			expect(nullish).toHaveLength(0);
 		});
 	};
 

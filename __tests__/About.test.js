@@ -16,16 +16,22 @@ describe('About', ( ) => {
 
 	const test =(organizationData)=>{
 		
-		it('should render generic About', async()=>{	
+		it('should render generic About', async()=>{
+
 			// ARRANGE;
 			render(<About tokenValues = {tokenValues} organizationData={organizationData}/>);
 			const title = screen.getByText(organizationData.login);
 			const heading1= screen.getByText('Bounties');
 			const heading2= screen.getByText('Contributors');
-			// ACT
+
+			// ASSERT
 			expect(heading1).toBeInTheDocument();
 			expect(title).toBeInTheDocument();
 			expect(heading2).toBeInTheDocument();
+			
+			// should not have null or undefined values
+			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
+			expect(nullish).toHaveLength(0);
 		});
 	};
 

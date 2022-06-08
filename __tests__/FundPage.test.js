@@ -36,6 +36,10 @@ describe('FundPage', ( ) => {
 			const heading = screen.getByText('Fund Bounty');
 			// ASSERT
 			expect(heading).toBeInTheDocument();
+			
+			// should not have null or undefined values
+			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
+			expect(nullish).toHaveLength(0);
 		});
 
 		it('should render list items', () => {
