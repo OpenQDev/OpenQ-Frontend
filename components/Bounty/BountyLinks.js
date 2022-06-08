@@ -10,11 +10,12 @@ import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 
 const BountyLinks = ({ bounty, hideBountyLink }) => {
-	const [appState] = useContext(StoreContext);
+	const [appState, dispatch] = useContext(StoreContext);
 	const [watchDisabled, setWatchDisabled] = useState();
 	const { account } = useWeb3();
 	const watching = bounty?.watchingUsers?.users?.some(user => user.userAddress === account);
 	const [watchingDisplay, setWatchingDisplay] = useState(watching);
+
 
 	const watchBounty = async () => {
 		setWatchDisabled(true);
@@ -27,7 +28,14 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
 			await appState.openQPrismaClient.watchBounty(ethers.utils.getAddress(bounty.bountyAddress), account);
 			setWatchingDisplay(true);
 			setWatchDisabled(false);
-		}
+		}		
+
+		const payload = {
+			type: 'UPDATE_RELOAD',
+			payload: true
+		};
+		dispatch(payload);
+	
 	};
 
 	const tweetText = `Check out this bounty ${bounty?.owner && `for ${bounty?.owner}`} on OpenQ. You can claim it just by making a pull request that completes the issue! `;
