@@ -255,11 +255,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 				{	watchedBounties.map((watchedBounty, index)=><CarouselBounty key={index} bounty={watchedBounty}/>)}
 			</Carousel>:
 				null}
-			{!isProcessed || loading ?
-				<>
-					<BountyCard loading={true} />
-					<BountyCard loading={true} />
-				</> :
+			{isProcessed && !loading &&
 				searchedBounties.map((bounty, index) => {
 					return <div key={bounty.id} ref={(index === searchedBounties.length - 1) ? lastElem : null}><BountyCard bounty={bounty} /></div>;
 				})
