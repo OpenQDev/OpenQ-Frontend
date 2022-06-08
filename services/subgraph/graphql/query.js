@@ -304,6 +304,11 @@ query GetOrganizations {
     id
     bountiesCreated {
 			bountyAddress
+			bountyId
+			bountyTokenBalances{
+			id
+			}
+			status
     }
   }
 }
