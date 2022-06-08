@@ -28,9 +28,10 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 				let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
 				let totalValue;
 				if (!singleCurrency) {
-					totalValue = tokenValues?.tokens[tokenValueAddress];
+					const unCutValue=tokenValues?.tokens[tokenValueAddress]||0;
+					totalValue = unCutValue.toFixed(2);
 				} else {
-					totalValue = formattedVolume * tokenValues?.tokenPrices[tokenValueAddress];
+					totalValue = (formattedVolume * tokenValues?.tokenPrices[tokenValueAddress]).toFixed(2);
 				}
 
 				let usdValue = appState.utils.formatter.format(
