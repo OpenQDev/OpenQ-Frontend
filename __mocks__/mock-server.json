@@ -1228,7 +1228,15 @@
 			},
 			"labels": {
 				"__typename": "LabelConnection",
-				"edges": []
+				"edges": [
+					{
+						"__typename": "LabelEdge",
+						"node": {
+							"__typename": "Label",
+							"name": "L2E",
+							"color": "fbca04"
+						}
+					}]
 			},
 			"createdAt": "2022-05-03T11:05:14Z",
 			"repository": {
