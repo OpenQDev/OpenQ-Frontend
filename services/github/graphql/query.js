@@ -170,6 +170,21 @@ export const GET_ISSUE_BY_ID = gql`
 						}
           }
         }
+      timelineItems(first: 100, itemTypes: CROSS_REFERENCED_EVENT) {
+        edges {
+          node {
+            ... on CrossReferencedEvent {
+              source {
+                ... on PullRequest {
+                  url
+									merged
+									title
+                }
+              }
+            }
+          }
+        }
+      }
       }
     }
   }

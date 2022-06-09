@@ -177,7 +177,7 @@ export const getServerSideProps = async (context) => {
 	catch (err) {
 		renderError = `OpenQ could not find a bounty with address: ${address}.`;
 	}
-
+	console.log(mergedBounty);
 
 	return { props: { id, address, mergedBounty, renderError } };
 };

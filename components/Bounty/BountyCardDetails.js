@@ -1,5 +1,6 @@
 // Third party
 import React from 'react';
+import Link from 'next/link';
 
 // Custom
 import BountyCardHeader from './BountyCardHeader';
@@ -19,14 +20,38 @@ const BountyCardDetails = ({ bounty, address,  tokenValues, internalMenu }) => {
 				<	div className='self-start w-full'>
 					<BountyCardHeader bounty={bounty} />
 				</div>
-				<div
-					className="grid w-full lg:grid-cols-[repeat(auto-fill,_minmax(max(102px,_100%/4-16px),_1fr))] xl:grid-cols-[repeat(auto-fill,_minmax(max(102px,_100%/6-32px),_1fr))] justify-center lg:justify-items-start pt-5 mx-auto md:mx-2 gap-4">
+				<div className="grid w-full lg:grid-cols-[repeat(auto-fill,_minmax(max(102px,_100%/4-16px),_1fr))] xl:grid-cols-[repeat(auto-fill,_minmax(max(102px,_100%/6-32px),_1fr))] justify-center lg:justify-items-start pt-5 mx-auto md:mx-2 gap-4">
 					<div className="xl:col-span-3 lg:col-span-2">
 						<BountyStatus bounty={bounty} />
 					</div>
 					<div className="lg:col-span-2  xl:col-span-3">
 						<CopyBountyAddress address={address} />
 					</div>
+				
+					<div className='lg:col-span-2 xl:col-span-3 pt-2'>
+						<h3 className='font-bold'>Linked Pull Requests</h3>
+						<ul>
+							{bounty.prUrls.map((prUrl, index)=><li className={`${prUrl.source.merged ? 'text-claimed-bounty':null}`} key ={index}>
+								<Link href ={prUrl.source.url}><a target="_blank" className={'underline'}>{prUrl.source.title}</a></Link><span> {prUrl.source.merged ? '(merged)' : '(not merged)'}</span>
+							</li>)}			
+						</ul>	
+					</div>
+
+					<div className="lg:col-span-2  xl:col-span-3">
+						{bounty && bounty?.assignees && (
+							<div className="mt-2">
+								<CopyBountyAssigneeLink bounty={bounty} />
+							</div>
+						)}
+					</div>
+					{/* <div className="lg:col-span-2  xl:col-span-3 font-semibold underline flex gap-2">
+						<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+							<path strokeLinecap="round" strokeLinejoin="round" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+						</svg>
+						{bounty?<Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/invoice/${bounty.bountyAddress}`}>Generate Invoice</Link>:
+							<Skeleton width={'10rem'}/>
+						}
+					</div> */}
 					<div className='lg:col-span-2 xl:col-span-3 pt-2'>
 						{bounty.bountyTokenBalances &&
 							bounty.bountyTokenBalances.length != 0 ? (
@@ -63,21 +88,6 @@ const BountyCardDetails = ({ bounty, address,  tokenValues, internalMenu }) => {
 
 
 					</div>
-					<div className="lg:col-span-2  xl:col-span-3">
-						{bounty && bounty?.assignees && (
-							<div className="mt-2">
-								<CopyBountyAssigneeLink bounty={bounty} />
-							</div>
-						)}
-					</div>
-					{/* <div className="lg:col-span-2  xl:col-span-3 font-semibold underline flex gap-2">
-						<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-							<path strokeLinecap="round" strokeLinejoin="round" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-						</svg>
-						{bounty?<Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/invoice/${bounty.bountyAddress}`}>Generate Invoice</Link>:
-							<Skeleton width={'10rem'}/>
-						}
-					</div> */}
 					{bounty.bountyTokenBalances?.length != 0 && <div className='col-start-1 md:col-end-3 lg:col-end-[-1] w-full pt-4'>
 						<h3 className='text-center font-bold text-xl'>Deposits</h3>
 						<p className='text-tinted col-start-1 md:col-end-3 lg:col-end-[-1] w-full'>It may take up to one minute for new deposits to show up here.</p>
