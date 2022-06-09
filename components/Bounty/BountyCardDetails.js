@@ -30,11 +30,11 @@ const BountyCardDetails = ({ bounty, address,  tokenValues, internalMenu }) => {
 				
 					<div className='lg:col-span-2 xl:col-span-3 pt-2'>
 						<h3 className='font-bold'>Linked Pull Requests</h3>
-						<ul>
-							{bounty.prUrls.map((prUrl, index)=><li className={`${prUrl.source.merged ? 'text-claimed-bounty':null}`} key ={index}>
-								<Link href ={prUrl.source.url}><a target="_blank" className={'underline'}>{prUrl.source.title}</a></Link><span> {prUrl.source.merged ? '(merged)' : '(not merged)'}</span>
+						{bounty.prs.length>0 ?<ul>
+							{bounty.prs.map((pr, index)=><li className={`${pr.source.merged ? 'text-claimed-bounty':null}`} key ={index}>
+								<Link href ={pr.source.url}><a target="_blank" className={'underline'}>{pr.source.title}</a></Link><span> {pr.source.merged ? '(merged)' : '(not merged)'}</span>
 							</li>)}			
-						</ul>	
+						</ul> :<span>No linked pull requests</span>	}
 					</div>
 
 					<div className="lg:col-span-2  xl:col-span-3">

@@ -47,8 +47,7 @@ class GithubRepository {
 	parseIssueData(rawIssueResponse) {
 		try {
 			const responseData = rawIssueResponse.data.node;
-			const prUrls= responseData.timelineItems.edges.map(edge=>edge.node);
-			console.log(prUrls);
+			const prs= responseData.timelineItems.edges.map(edge=>edge.node);
 			const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = responseData;
 			console.log(responseData);
 			const repoName = responseData.repository.name;
@@ -58,12 +57,12 @@ class GithubRepository {
 			const labels = responseData.labels.edges.map(edge => edge.node);
 			const number = responseData.number;
 			const assignees = responseData.assignees.nodes;
-			return { id, title, assignees, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number, prUrls };
+			return { id, title, assignees, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number, prs };
 		}
 		catch (err) {
 			console.log(err);
-			let id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number, prUrls;
-			return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number, prUrls };
+			let id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number, prs;
+			return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number, prs };
 		}
 	}
 

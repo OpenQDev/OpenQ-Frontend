@@ -24,10 +24,10 @@ describe('BountyCardDetails', ( ) => {
 		
 		it('should render BountyDetails', async()=>{
 
-			// ASSERT
+			// Arrange
 			render(<BountyCardDetails bounty={bounty} address={bounty.bountyAddress} tokenValues={tokenValues} />);
 
-			// ACT
+			// ASSERT
 			const repo = screen.getByText(`${bounty.owner}/${bounty.repoName}`);
 			expect(repo).toBeInTheDocument();
 			expect (screen.getAllByText(/Claimed/i)[0]).toBeInTheDocument();
@@ -40,6 +40,12 @@ describe('BountyCardDetails', ( ) => {
 			}
 			else{
 				expect(screen.getByText(/No Deposits/i)).toBeInTheDocument();
+			}
+			if(bounty.id ==='I_kwDOGWnnz85LAu6g'){
+				expect(screen.getByText(/Update README/i)).toBeInTheDocument();
+			}
+			else{
+				expect (screen.getByText(/No linked/i)).toBeInTheDocument();
 			}
 			expect(screen.getByText(/It may take up to one minute for new deposits to show up here/i));
 			expect(screen.getByText(/0x/)).toBeInTheDocument();
