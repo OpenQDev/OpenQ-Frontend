@@ -84,9 +84,9 @@ class OpenQPrismaClient {
 	}
 	async getUser(userAddress) {
 		const promise = new Promise(async (resolve, reject)=>{
-			axios.get(`http://localhost:3030/user`)
+			axios.get(`http://localhost:3030/watchedBounties`)
 				.then(result => {
-					resolve(result.data);
+					resolve({watchedBounties: result.data});
 				})
 				.catch(error => {
 					reject(error);
