@@ -22,12 +22,10 @@ const OrganizationCard = ({ organization,  }) => {
 
 	useEffect(async()=>{
 		const bountyIds = organization.bountiesCreated.map(bounty=>bounty.bountyId);
-		console.log(bountyIds);
+		
 		try{
 			const issuesData = await appState.githubRepository.getIssueData(bountyIds);
-			console.log(organization.bountiesCreated, issuesData);
 			const filteredBounties = appState.utils.combineBounties( organization.bountiesCreated, issuesData).filter(bounty=>{
-				console.log(bounty);
 				return !bounty.assignees.nodes[0] && bounty.status === 'OPEN' && bounty.bountyTokenBalances.length > 0;
 			});
 			setOrgBounties(filteredBounties);
