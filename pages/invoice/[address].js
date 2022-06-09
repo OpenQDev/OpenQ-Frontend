@@ -5,10 +5,8 @@ import WrappedGithubClient from '../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
 import Invoice from '../../components/Invoicing/Invoice';
 import UnexpectedError from '../../components/Utils/UnexpectedError';
-import useAuth from '../../hooks/useAuth';
 
 const invoice = ({bounty, renderError})=>{
-	useAuth();
 	return <>
 		{renderError? 
 			<UnexpectedError error={renderError}/>:
