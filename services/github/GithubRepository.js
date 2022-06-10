@@ -49,7 +49,6 @@ class GithubRepository {
 			const responseData = rawIssueResponse.data.node;
 			const prs= responseData.timelineItems.edges.map(edge=>edge.node);
 			const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = responseData;
-			console.log(responseData);
 			const repoName = responseData.repository.name;
 			const avatarUrl = responseData.repository.owner.avatarUrl;
 			const owner = responseData.repository.owner.login;

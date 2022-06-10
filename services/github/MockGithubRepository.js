@@ -183,7 +183,7 @@ class MockGithubRepository {
 	async fetchOrgsWithIssues(issueIds) {
 
 		const promise = new Promise(async (resolve, reject) => {
-			axios.get(`http://localhost:3030/githubOrganizations`)
+			axios.get(`http://localhost:3030/githubIssues`)
 				.then(result => {
 					resolve(result.data);
 				})
@@ -191,6 +191,18 @@ class MockGithubRepository {
 					reject(error);
 				});
 		});
+		return promise
+	}
+
+	async parseOrgIssues(issueIds) {
+		const nodes = await this.fetchOrgsWithIssues(issueIds);
+		const organizations = [];
+		nodes.forEach((node) => {
+			if (!organizations.some((organization => organization.login === node.repository.owner.login))) {
+				organizations.push(node.repository.owner);
+			}
+		});
+		return organizations;
 	}
 
 }

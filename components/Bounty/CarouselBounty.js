@@ -8,7 +8,7 @@ const CarouselBounty = ({ bounty }) => {
 
 		<>
 			<Link target={'_blank'} rel="noopener noreferrer" href={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyId}/${bounty.bountyAddress}`}>
-				<a className='border-web-gray bg-dark-mode w-44 sm:w-48 h-32 p-4 pl-2 gap-2 border rounded-lg flex'>
+				<a className='border-web-gray bg-dark-mode w-44 sm:w-48 h-36 p-4 pl-2 gap-2 border rounded-lg flex'>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill={bounty?.STATUS === 'CLOSED' ? '#F0431D' : '#15FB31'}
@@ -23,7 +23,7 @@ const CarouselBounty = ({ bounty }) => {
 						></path>
 					</svg>
 					<div className='flex-1 w-36'>
-						<p className='text-normal leading-tight truncate'>{bounty.owner.toLowerCase()}/{bounty.repoName.toLowerCase()}</p>
+						<p className='text-normal truncate'>{bounty.owner.toLowerCase()}/{bounty.repoName.toLowerCase()}</p>
 						<h4 className='text-normal font-semibold truncate leading-tight mb-1'>{bounty.title.toLowerCase()}</h4>
 						<p className='text-xs'>Issue opened: {appState.utils.formatDate(bounty?.createdAt, true)}</p>
 						<p className='text-xs'>Bounty Minted: {appState.utils.formatUnixDate(parseInt(bounty?.bountyMintTime), true)}</p>

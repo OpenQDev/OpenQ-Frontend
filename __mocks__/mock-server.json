@@ -1209,7 +1209,8 @@
 				"owner": {
 					"__typename": "Organization",
 					"login": "OpenQDev",
-					"avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4"
+					"avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
+					"url": "https://github.com/OpenQDev"
 				}
 			},
 			"timelineItems": {
@@ -1253,7 +1254,8 @@
 				"owner": {
 					"__typename": "Organization",
 					"login": "OpenQDev",
-					"avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4"
+					"avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
+					"url": "https://github.com/OpenQDev"
 				}
 			},
 			"timelineItems": {
@@ -1378,7 +1380,8 @@
 				"owner": {
 					"__typename": "Organization",
 					"login": "vercel",
-					"avatarUrl": "https://avatars.githubusercontent.com/u/14985020?v=4"
+					"avatarUrl": "https://avatars.githubusercontent.com/u/14985020?v=4",
+					"url":	"https://github.com/vercel"
 				}
 			},
 			"timelineItems": {
@@ -1443,7 +1446,8 @@
 				"owner": {
 					"__typename": "User",
 					"login": "yoheikikuta",
-					"avatarUrl": "https://avatars.githubusercontent.com/u/14804123?u=4c57866c2d77f3ca1ec555cd1b0d9470ea9e4bf8&v=4"
+					"avatarUrl": "https://avatars.githubusercontent.com/u/14804123?u=4c57866c2d77f3ca1ec555cd1b0d9470ea9e4bf8&v=4",
+					"url": "https://github.com/yoheikikuta"
 				}
 			},
 			"timelineItems": {
@@ -1487,7 +1491,8 @@
 				"owner": {
 					"__typename": "User",
 					"login": "lexfridman",
-					"avatarUrl": "https://avatars.githubusercontent.com/u/536621?u=d6a4396dac858671993163b112eae5eaaa2f8e87&v=4"
+					"avatarUrl": "https://avatars.githubusercontent.com/u/536621?u=d6a4396dac858671993163b112eae5eaaa2f8e87&v=4",
+					"url": "https://github.com/lexfridman"
 				}
 			},
 			"timelineItems": {
@@ -1523,7 +1528,8 @@
 				"owner": {
 					"__typename": "Organization",
 					"login": "OpenQDev",
-					"avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4"
+					"avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
+					"url": "https://github.com/OpenQDev"
 				}
 			},
 			"timelineItems": {
@@ -1565,7 +1571,8 @@
 				"owner": {
 					"__typename": "Organization",
 					"login": "OpenQDev",
-					"avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4"
+					"avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
+					"url": "https://github.com/OpenQDev"
 				}
 			},
 			"timelineItems": {
@@ -1601,7 +1608,8 @@
 				"owner": {
 					"__typename": "Organization",
 					"login": "OpenQDev",
-					"avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4"
+					"avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
+					"url": "https://github.com/OpenQDev"
 				}
 			},
 			"timelineItems": {
@@ -1643,7 +1651,8 @@
 				"owner": {
 					"__typename": "Organization",
 					"login": "OpenQDev",
-					"avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4"
+					"avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
+					"url": "https://github.com/OpenQDev"
 				}
 			},
 			"timelineItems": {
