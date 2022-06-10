@@ -121,7 +121,9 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		updateIsProcessed(false);
 		if (!bounties) updateIsProcessed(true);
 		else {
-			updateSearchedBounties(filter(bounties));
+			updateSearchedBounties(filter(bounties).sort((a, b) => {
+				return b.bountyMintTime - a.bountyMintTime;
+			}));
 			updateIsProcessed(true);
 		}
 	}, [bounties]);
@@ -235,7 +237,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			</div>
 			{tagArr.length > 0 && <ul className="flex flex-wrap">{tagArr.map((tag, index) => <li key={index} className="border-web-gray border  inline mr-2 mb-2 px-2 py-1.5 rounded-lg">
 				<span className="px-2">{tag}</span>
-				<button onClick={removeTag} value={tag} className="bg-inactive-gray hover:bg-active-gray hover:cursor-pointer inline-flex justify-center content-center h-6 w-6 leading-tight rounded-full">
+				<button aria-label={`remove ${tag} filter`} onClick={removeTag} value={tag} className="bg-inactive-gray hover:bg-active-gray hover:cursor-pointer inline-flex justify-center content-center h-6 w-6 leading-tight rounded-full">
 					×
 				</button>
 
@@ -256,8 +258,8 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 						<input id="claimed" onChange={showClaimed} type="checkbox" className="checkbox" checked={unclaimedOnly} />
 					</div>
 					<div onClick={showAssigned} className="flex p-2 w-40 px-4 gap-2 border rounded-lg justify-between border-web-gray">
-						<label htmlFor="claimed" className=" pointer-events-none" >Unassigned</label>
-						<input id="claimed" onChange={showAssigned} type="checkbox" className="checkbox" checked={unassignedOnly} />
+						<label htmlFor="assigned" className=" pointer-events-none" >Unassigned</label>
+						<input id="assigned" onChange={showAssigned} type="checkbox" className="checkbox" checked={unassignedOnly} />
 					</div>
 					<div onClick={filterByL2e} className="flex p-2 w-36 px-4 gap-2 border rounded-lg justify-between border-web-gray">
 						<label htmlFor="L2E" className="pointer-events-none" >L 2 E</label>

@@ -57,7 +57,7 @@ const BountyCard = ({ bounty, loading }) => {
 									></path>
 								</svg>
 							</div>
-							{loading ? <Skeleton width={'100px'} /> : <div className="font-mont text-2xl ">
+							{loading ? <Skeleton width={'100px'} /> : <div data-testid="title" className="font-mont text-2xl ">
 								{	bounty.owner && `${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`}
 							</div>}
 						</div>
