@@ -1,5 +1,5 @@
 // Third party
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 import Skeleton from 'react-loading-skeleton';
 import Image from 'next/image';
@@ -13,8 +13,12 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
 	const [appState, dispatch] = useContext(StoreContext);
 	const [watchDisabled, setWatchDisabled] = useState();
 	const { account } = useWeb3();
-	const watching = bounty?.watchingUsers?.users?.some(user => user.userAddress === account);
-	const [watchingDisplay, setWatchingDisplay] = useState(watching);
+	const [watchingDisplay, setWatchingDisplay] = useState();
+	
+	useEffect(()=>{
+		const watching = bounty?.watchingUserIds?.some(user => user === account);
+		setWatchingDisplay(watching);
+	},[account]);
 
 
 	const watchBounty = async () => {

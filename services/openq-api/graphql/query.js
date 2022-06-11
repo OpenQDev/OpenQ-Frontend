@@ -5,46 +5,44 @@ export const GET_PAGINATED_TVLS = gql`
   bountiesConnection( orderBy: $orderBy, limit: $limit, sortOrder: $sortOrder after: String) {
     bounties {
       tvl
-      id
-      contractAddress
+       address
     }
     cursor
   }
 }`;
 
 export const GET_BOUNTY_BY_HASH = gql`query bounty($contractAddress: String! ) {
-  bounty(contractAddress: $contractAddress) {
+  bounty(address: $contractAddress) {
     tvl
-    id
     watchingUserIds
     watchingUsers(limit: 10) {
       users {
-        userAddress
+        address
       }
     }
   }
 }`;
 
 export const GET_USER_BY_HASH = gql`query($userAddress: String!) {
-  user(userAddress: $userAddress) {
+  user(address: $userAddress) {
     watchedBounties(limit: 10) {
       bounties{
-        contractAddress
+        address
       }
     }
   }
 }`;
 
 export const CREATE_NEW_BOUNTY = gql`
-mutation CreateBounty($tvl: Float!, $id: String!) {
-  createBounty(tvl: $tvl, contractAddress: $id) {
-    tvl
+mutation CreateBounty( $id: String!) {
+  createBounty(address: $id) {
+    address
   }
 }`;
 
 export const UPDATE_BOUNTY = gql`
 mutation updateBounty($tvl: Float!, $id: String!, ) {
-  updateBounty(tvl: $tvl, contractAddress: $id) {
+  updateBounty(tvl: $tvl, address: $id) {
         count
   }
 }`;
@@ -52,14 +50,14 @@ mutation updateBounty($tvl: Float!, $id: String!, ) {
 export const WATCH_BOUNTY = gql`
 mutation AddUser ($contractAddress: String, $userAddress: String ){
   watchBounty(contractAddress: $contractAddress, userAddress:$userAddress) {
-    id
+    address
   }
 }`;
 
 export const UNWATCH_BOUNTY = gql`
 mutation unWatchBounty ($contractAddress: String, $userAddress: String ){
   unWatchBounty(contractAddress: $contractAddress, userAddress:$userAddress) {
-    id
+    address
   }
 }`;
 

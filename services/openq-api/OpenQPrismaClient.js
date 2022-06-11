@@ -1,6 +1,7 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 import { GET_PAGINATED_TVLS, CREATE_NEW_BOUNTY, UPDATE_BOUNTY, WATCH_BOUNTY, UNWATCH_BOUNTY, GET_BOUNTY_BY_HASH, GET_USER_BY_HASH } from './graphql/query';
 import fetch from 'cross-fetch';
+import {ethers} from 'ethers';
 
 class OpenQPrismaClient {
 	constructor() { }
@@ -94,7 +95,7 @@ class OpenQPrismaClient {
 			try {
 				const result = await this.client.query({
 					query: GET_BOUNTY_BY_HASH,
-					variables: { contractAddress }
+					variables: { contractAddress: ethers.utils.getAddress(contractAddress) }
 				});
 				resolve(result.data.bounty);
 			}
@@ -110,7 +111,7 @@ class OpenQPrismaClient {
 			try {
 				const result = await this.client.query({
 					query: GET_USER_BY_HASH,
-					variables: { userAddress }
+					variables: { userAddress: ethers.utils.getAddress(userAddress) }
 				});
 				resolve(result.data.user);
 			}

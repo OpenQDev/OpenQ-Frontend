@@ -76,8 +76,8 @@ const address = ({ address, mergedBounty, renderError }) => {
 	};
 
 	// Hooks
-	useEffect(() => {
-
+	useEffect(async() => {
+	
 		// Confetti
 		const justMinted = sessionStorage.getItem('justMinted') === 'true';
 		if (justMinted && canvas.current) {
@@ -177,7 +177,6 @@ export const getServerSideProps = async (context) => {
 	catch (err) {
 		renderError = `OpenQ could not find a bounty with address: ${address}.`;
 	}
-	console.log(mergedBounty);
 
 	return { props: { id, address, mergedBounty, renderError } };
 };
