@@ -11,12 +11,12 @@ import useEns from '../../hooks/useENS';
 import CarouselBounty from '../Bounty/CarouselBounty';
 import Carousel from '../Utils/Carousel';
 
-const AboutUser = ({ user, organizations }) => {
+const AboutUser = ({ user, organizations, watchedBounties }) => {
 	const { bountiesClosed, payoutTokenBalances, payouts } = user;
 	const account = user.id;
 	const [ensName] = useEns(account);
 	// Context
-
+	console.log(watchedBounties);
 	// State
 	const [payoutTokenValues] = useGetTokenValues(payoutTokenBalances);
 
@@ -37,12 +37,12 @@ const AboutUser = ({ user, organizations }) => {
 			</span>
 		</h1>
 	
-		{user.watchedBounties.length>0 &&
+		{watchedBounties.length>0 &&
 		<div className='px-16 py-6 py-6 border-b border-web-gray flex flex-wrap items-stretch w-full font-semibold text-gray-300 text-lg'>
 			<h3>Watched Bounties</h3>
 			<Carousel>
 
-				{ user.watchedBounties.map((watchedBounty, index)=><CarouselBounty key={index} bounty={watchedBounty}/>)}
+				{ watchedBounties.map((watchedBounty, index)=><CarouselBounty key={index} bounty={watchedBounty}/>)}
 			
 			
 			</Carousel>
