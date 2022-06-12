@@ -1,11 +1,14 @@
 // Third party
-import React from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Skeleton from 'react-loading-skeleton';
+import StoreContext from '../../store/Store/StoreContext';
 
 const OrganizationCard = ({ organization,  }) => {
 	// Context
+	const [appState] = useContext(StoreContext);
+	const [orgBounties, setOrgBounties] = useState();
 	let orgName;
 	if (organization.name) {
 		orgName = organization?.name?.charAt(0).toUpperCase() + organization?.name.slice(1);
@@ -16,6 +19,21 @@ const OrganizationCard = ({ organization,  }) => {
 	if (orgName?.length > 10) {
 		orgName = orgName.slice(0, 9).concat('...');
 	}
+
+	useEffect(async()=>{
+		const bountyIds = organization.bountiesCreated.map(bounty=>bounty.bountyId);
+		
+		try{
+			const issuesData = await appState.githubRepository.getIssueData(bountyIds);
+			const filteredBounties = appState.utils.combineBounties( organization.bountiesCreated, issuesData).filter(bounty=>{
+				return !bounty.assignees.nodes[0] && bounty.status === 'OPEN' && bounty.bountyTokenBalances.length > 0;
+			});
+			setOrgBounties(filteredBounties);
+		}
+		catch(err){
+			console.log('error');
+		}
+	}, organization.bountiesCreated);
 
 	// Methods
 
@@ -40,14 +58,10 @@ const OrganizationCard = ({ organization,  }) => {
 					<div className=" rounded shadow-md text-gray-300 font-sans relative">
 
 
-						{organization && `${organization?.bountiesCreated.map(
-							(bounty) => bounty.status == 'OPEN'
-						).length
+						{orgBounties && `${orgBounties.length
 						}`}
 						{
-							organization ? `${organization.bountiesCreated.map(
-								(bounty) => bounty.status == 'OPEN'
-							).length < 2
+							orgBounties ? `${orgBounties.length === 1
 								? ' Bounty'
 								: ' Bounties'
 							}` :

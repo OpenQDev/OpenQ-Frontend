@@ -1,5 +1,5 @@
 // Third party
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 import Skeleton from 'react-loading-skeleton';
 import Image from 'next/image';
@@ -10,11 +10,16 @@ import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 
 const BountyLinks = ({ bounty, hideBountyLink }) => {
-	const [appState] = useContext(StoreContext);
+	const [appState, dispatch] = useContext(StoreContext);
 	const [watchDisabled, setWatchDisabled] = useState();
 	const { account } = useWeb3();
-	const watching = bounty?.watchingUsers?.users?.some(user => user.userAddress === account);
-	const [watchingDisplay, setWatchingDisplay] = useState(watching);
+	const [watchingDisplay, setWatchingDisplay] = useState();
+	
+	useEffect(()=>{
+		const watching = bounty?.watchingUserIds?.some(user => user === account);
+		setWatchingDisplay(watching);
+	},[account]);
+
 
 	const watchBounty = async () => {
 		setWatchDisabled(true);
@@ -27,7 +32,14 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
 			await appState.openQPrismaClient.watchBounty(ethers.utils.getAddress(bounty.bountyAddress), account);
 			setWatchingDisplay(true);
 			setWatchDisabled(false);
-		}
+		}		
+
+		const payload = {
+			type: 'UPDATE_RELOAD',
+			payload: true
+		};
+		dispatch(payload);
+	
 	};
 
 	const tweetText = `Check out this bounty ${bounty?.owner && `for ${bounty?.owner}`} on OpenQ. You can claim it just by making a pull request that completes the issue! `;

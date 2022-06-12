@@ -66,18 +66,21 @@ class MockGithubRepository {
 	parseIssueData(rawIssueResponse) {
 		try {
 			const responseData = rawIssueResponse;
+			const prs= responseData.timelineItems.edges.map(edge=>edge.node);
 			const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = responseData;
+			console.log(responseData);
 			const repoName = responseData.repository.name;
 			const avatarUrl = responseData.repository.owner.avatarUrl;
 			const owner = responseData.repository.owner.login;
-			const twitterUsername = responseData.repository.owner.twitterUsername || null;
+			const twitterUsername = responseData.repository.owner.twitterUsername||null;
 			const labels = responseData.labels.edges.map(edge => edge.node);
 			const assignees = responseData.assignees.nodes;
-			return { id, title, assignees, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, };
+			return { id, title, assignees, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, prs};
 		}
 		catch (err) {
-			let id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number;
-			return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number };
+			console.log(err);
+			let id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number, prs;
+			return { id, title, body, url, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, twitterUsername, number, prs };
 		}
 	}
 
@@ -85,6 +88,7 @@ class MockGithubRepository {
 		const responseData = rawIssuesResponse;
 		return responseData.filter(event => event?.__typename === 'Issue').map((elem) => {
 			try {
+				const prs= elem.timelineItems.edges.map(edge=>edge.node);
 				const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = elem;
 				const repoName = elem.repository.name;
 				const avatarUrl = elem.repository.owner.avatarUrl;
@@ -92,7 +96,7 @@ class MockGithubRepository {
 				const assignees = elem.assignees;
 				const labels = elem.labels.edges.map(edge => edge.node);
 				const languages = elem.repository.languages.edges.map(languages => languages.node);
-				return { id, title, body, url, languages, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, assignees };
+				return { id, title, body, url, languages, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, assignees, prs };
 			}
 
 			catch (err) {
@@ -179,7 +183,7 @@ class MockGithubRepository {
 	async fetchOrgsWithIssues(issueIds) {
 
 		const promise = new Promise(async (resolve, reject) => {
-			axios.get(`http://localhost:3030/githubOrganizations`)
+			axios.get(`http://localhost:3030/githubIssues`)
 				.then(result => {
 					resolve(result.data);
 				})
@@ -187,6 +191,18 @@ class MockGithubRepository {
 					reject(error);
 				});
 		});
+		return promise
+	}
+
+	async parseOrgIssues(issueIds) {
+		const nodes = await this.fetchOrgsWithIssues(issueIds);
+		const organizations = [];
+		nodes.forEach((node) => {
+			if (!organizations.some((organization => organization.login === node.repository.owner.login))) {
+				organizations.push(node.repository.owner);
+			}
+		});
+		return organizations;
 	}
 
 }

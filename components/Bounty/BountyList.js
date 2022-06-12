@@ -13,9 +13,10 @@ import useWeb3 from '../../hooks/useWeb3';
 const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData, getNewData, addCarousel }) => {
 	// Hooks
 	const {account} = useWeb3();
-	const [unfundedVisible, setUnfundedVisible] = useState(false);
-	const [claimedVisible, setClaimedVisible] = useState(false);
-	const [assignedVisible, setAssignedVisible] = useState(false);
+	const [fundedOnly, setFundedOnly] = useState(true);
+	const [unclaimedOnly, setUnclaimedOnly] = useState(true);
+	const [unassignedOnly, setUnassignedOnly] = useState(true);
+	const [l2eOnly, setL2eOnly] = useState(false);
 	const [sortOrder, updateSortOrder] = useState('Newest');
 	const [searchText, updateSearchText] = useState('');
 	const [tagArr, updateTagArr] = useState([]);
@@ -37,9 +38,10 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 	const filter = (bounties, options = {}) => {
 		const localTagArr = options.tagArr || tagArr;
 		const localSearchText = options.searchText === undefined ? searchText : options.searchText;
-		const localShowClaimed = options.showClaimed === undefined ? claimedVisible : options.showClaimed;
-		const localShowUnfunded = options.showUnfunded === undefined ? unfundedVisible : options.showUnfunded;
-		const localShowAssigned = options.showAssigned === undefined ? assignedVisible : options.showAssigned;
+		const localUnclaimedOnly = options.unclaimedOnly === undefined ? unclaimedOnly : options.unclaimedOnly;
+		const localFundedOnly = options.fundedOnly === undefined ? fundedOnly : options.fundedOnly;
+		const localUnassignedOnly = options.unassignedOnly === undefined ? unassignedOnly : options.unassignedOnly;
+		const localL2eOnly = options.l2eOnly === undefined ? l2eOnly: options.l2eOnly;
 		const displayBounties = bounties.filter((bounty) => {
 			let containsSearch = true;
 			try{containsSearch = ((bounty.title + bounty.body)
@@ -61,9 +63,13 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 				return bounty.labels.some(label => label.name.toLowerCase() === tag.toLowerCase()) || bounty.languages.some((language)=>language.name.toLowerCase()===tag);
 			}, true);
 			const isUnclaimed = bounty.status === 'OPEN';
+			const isL2e = bounty.labels.reduce((accum, label) => {
+				if (accum) return true;
+				return label.name.toLowerCase() === 'l2e';
+			}, false);
 			const isFunded = bounty.deposits.length > 0;
 			const isAssigned = bounty.assignees?.nodes.length > 0;
-			return (containsSearch && containsTag && (localShowUnfunded || isFunded) && (localShowClaimed || isUnclaimed) && (localShowAssigned || !isAssigned ) && bounty.url);
+			return (containsSearch && containsTag && (!localFundedOnly || isFunded) && (!localUnclaimedOnly || isUnclaimed) && (!localUnassignedOnly || !isAssigned ) && (!localL2eOnly || isL2e) && bounty.url);
 			}
 			catch(err){
 				console.log(err);}
@@ -115,7 +121,9 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		updateIsProcessed(false);
 		if (!bounties) updateIsProcessed(true);
 		else {
-			updateSearchedBounties(filter(bounties));
+			updateSearchedBounties(filter(bounties).sort((a, b) => {
+				return b.bountyMintTime - a.bountyMintTime;
+			}));
 			updateIsProcessed(true);
 		}
 	}, [bounties]);
@@ -154,19 +162,24 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 	};
 
 	const showUnfunded = () => {
-		setUnfundedVisible(!unfundedVisible);
-		updateSearchedBounties(orderBounties(filter(bounties, { showUnfunded: !unfundedVisible })));
+		setFundedOnly(!fundedOnly);
+		updateSearchedBounties(orderBounties(filter(bounties, { fundedOnly: !fundedOnly })));
 	};
 
 	const showClaimed = () => {
-		setClaimedVisible(!claimedVisible);
-		updateSearchedBounties(orderBounties(filter(bounties, { showClaimed: !claimedVisible })));
+		setUnclaimedOnly(!unclaimedOnly);
+		updateSearchedBounties(orderBounties(filter(bounties, { unclaimedOnly: !unclaimedOnly })));
 	};
 
 	const showAssigned = () => {
-		setAssignedVisible(!assignedVisible);
-		updateSearchedBounties(orderBounties(filter(bounties, { showAssigned: !assignedVisible })));
-	}; 
+		setUnassignedOnly(!unassignedOnly);
+		updateSearchedBounties(orderBounties(filter(bounties, { unassignedOnly: !unassignedOnly })));
+	};
+	
+	const filterByL2e = ()=>{
+		setL2eOnly(!l2eOnly);		
+		updateSearchedBounties(orderBounties(filter(bounties, { l2eOnly: !l2eOnly })));
+	};
 
 	const removeTag = (e) => {
 		const newTagArr = tagArr.filter(tag => tag !== e.target.value);
@@ -197,7 +210,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 
 	// Render
 	return (
-		<div className="lg:col-start-2 justify-self-center space-y-3 w-full pb-8 max-w-[800px]">
+		<div className="lg:col-start-2 justify-self-center space-y-3 w-full pb-8 max-w-[850px]">
 			<div className="grid lg:grid-cols-[repeat(4,_1fr)] gap-6 w-full">
 				<div className="flex rounded-lg lg:col-span-3 col-span-4 justify-center">
 					{tagSearch === 'Search' ?
@@ -224,7 +237,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			</div>
 			{tagArr.length > 0 && <ul className="flex flex-wrap">{tagArr.map((tag, index) => <li key={index} className="border-web-gray border  inline mr-2 mb-2 px-2 py-1.5 rounded-lg">
 				<span className="px-2">{tag}</span>
-				<button onClick={removeTag} value={tag} className="bg-inactive-gray hover:bg-active-gray hover:cursor-pointer inline-flex justify-center content-center h-6 w-6 leading-tight rounded-full">
+				<button aria-label={`remove ${tag} filter`} onClick={removeTag} value={tag} className="bg-inactive-gray hover:bg-active-gray hover:cursor-pointer inline-flex justify-center content-center h-6 w-6 leading-tight rounded-full">
 					×
 				</button>
 
@@ -236,17 +249,21 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} names={['Newest', 'Oldest']} borderShape={'rounded-r-lg'} width={36} />
 				</div>
 				<div className='flex flex-wrap gap-4'>
-					<div onClick={showUnfunded} className="flex w-32 p-2 pr-4 gap-2 border rounded-lg justify-between border-web-gray">
-						<label htmlFor="unfunded" className=" pointer-events-none">Unfunded</label>
-						<input id="unfunded" onChange={showUnfunded} type="checkbox" className="checkbox" checked={unfundedVisible} />
+					<div onClick={showUnfunded} className="flex w-36 p-2 px-4 gap-2 border rounded-lg justify-between border-web-gray">
+						<label htmlFor="unfunded" className="pointer-events-none">Funded</label>
+						<input id="unfunded" onChange={showUnfunded} type="checkbox" className="checkbox" checked={fundedOnly} />
 					</div>
-					<div onClick={showClaimed} className="flex p-2 w-32 pr-4 gap-2 border rounded-lg justify-between border-web-gray">
-						<label htmlFor="claimed" className=" pointer-events-none" >Claimed</label>
-						<input id="claimed" onChange={showClaimed} type="checkbox" className="checkbox" checked={claimedVisible} />
-					</div>					
-					<div onClick={showAssigned} className="flex p-2 w-32 pr-4 gap-2 border rounded-lg justify-between border-web-gray">
-						<label htmlFor="claimed" className=" pointer-events-none" >Assigned</label>
-						<input id="claimed" onChange={showAssigned} type="checkbox" className="checkbox" checked={assignedVisible} />
+					<div onClick={showClaimed} className="flex p-2 w-36 px-4 gap-2 border rounded-lg justify-between border-web-gray">
+						<label htmlFor="claimed" className=" pointer-events-none" >Unclaimed</label>
+						<input id="claimed" onChange={showClaimed} type="checkbox" className="checkbox" checked={unclaimedOnly} />
+					</div>
+					<div onClick={showAssigned} className="flex p-2 w-40 px-4 gap-2 border rounded-lg justify-between border-web-gray">
+						<label htmlFor="assigned" className=" pointer-events-none" >Unassigned</label>
+						<input id="assigned" onChange={showAssigned} type="checkbox" className="checkbox" checked={unassignedOnly} />
+					</div>
+					<div onClick={filterByL2e} className="flex p-2 w-36 px-4 gap-2 border rounded-lg justify-between border-web-gray">
+						<label htmlFor="L2E" className="pointer-events-none" >L 2 E</label>
+						<input id="L2E" onChange={filterByL2e} type="checkbox" className="checkbox" checked={l2eOnly} />
 					</div>
 				</div>
 			</div>
@@ -255,11 +272,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 				{	watchedBounties.map((watchedBounty, index)=><CarouselBounty key={index} bounty={watchedBounty}/>)}
 			</Carousel>:
 				null}
-			{!isProcessed || loading ?
-				<>
-					<BountyCard loading={true} />
-					<BountyCard loading={true} />
-				</> :
+			{isProcessed && !loading &&
 				searchedBounties.map((bounty, index) => {
 					return <div key={bounty.id} ref={(index === searchedBounties.length - 1) ? lastElem : null}><BountyCard bounty={bounty} /></div>;
 				})

@@ -34,12 +34,12 @@ describe('MiniDepositCard', ( ) => {
 		
 		it('should render MiniDepositCard OPEN', async()=>{
 			// ARRANGE
-			
+
 			render(<MiniDepositCard status={'OPEN'} deposit={deposit} />);
 		
 			// ASSERT
 			expect(await screen.findByText(/\$\d+.\d+/));
-			expect(await screen.findByText(/Locked until/i)).toBeInTheDocument();
+			expect(await screen.findByText(/Lock/i)).toBeInTheDocument();
 			// should not have null or undefined values
 			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
 			expect(nullish).toHaveLength(0);

@@ -22,11 +22,11 @@ const BountyCard = ({ bounty, loading }) => {
 	const closeModal = () => {
 		setIsModal(false);
 		document.body.style.height = 'auto';
-		document.body.style.overflow = 'auto';
+		document.body.style.overflowY = 'auto';
 	};
 	const openModal = () => {
-		document.body.style.overflow = 'hidden';
 		document.body.style.height = '100vh';
+		document.body.style.overflowY = 'hidden';
 		setIsModal(true);
 	};
 	// Render
@@ -57,7 +57,7 @@ const BountyCard = ({ bounty, loading }) => {
 									></path>
 								</svg>
 							</div>
-							{loading ? <Skeleton width={'100px'} /> : <div className="font-mont text-2xl ">
+							{loading ? <Skeleton width={'100px'} /> : <div data-testid="title" className="font-mont text-2xl ">
 								{	bounty.owner && `${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`}
 							</div>}
 						</div>

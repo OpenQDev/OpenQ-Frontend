@@ -16,10 +16,9 @@ import Toggle from '../../../components/Toggle/Toggle';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
-import useAuth from '../../../hooks/useAuth';
 
 const address = ({ address, mergedBounty, renderError }) => {
-	useAuth();
+
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
 	const [bounty, setBounty] = useState(mergedBounty);
@@ -77,8 +76,8 @@ const address = ({ address, mergedBounty, renderError }) => {
 	};
 
 	// Hooks
-	useEffect(() => {
-
+	useEffect(async() => {
+	
 		// Confetti
 		const justMinted = sessionStorage.getItem('justMinted') === 'true';
 		if (justMinted && canvas.current) {
@@ -178,7 +177,6 @@ export const getServerSideProps = async (context) => {
 	catch (err) {
 		renderError = `OpenQ could not find a bounty with address: ${address}.`;
 	}
-
 
 	return { props: { id, address, mergedBounty, renderError } };
 };

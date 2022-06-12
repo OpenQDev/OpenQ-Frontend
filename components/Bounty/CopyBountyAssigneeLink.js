@@ -10,7 +10,7 @@ const CopyBountyAssigneeLink = ({ bounty }) => {
 	return (
 		<div className="flex flex-col ">
 			<div className="font-bold">Assignee</div>
-			<div className="flex flex-row items-center space-x-2 cursor-pointer">
+			<div className={`flex flex-row items-center space-x-2 ${assignee ? 'cursor-pointer': null}`}>
 				{bounty ? 
 					assignee?
 						(
