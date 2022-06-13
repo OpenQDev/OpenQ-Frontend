@@ -267,10 +267,16 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 					</div>
 				</div>
 			</div>
-			{addCarousel && account && watchedBounties.length ? <Carousel watchedBounties={watchedBounties} styles={'col-start-2'} >
-				
-				{	watchedBounties.map((watchedBounty, index)=><CarouselBounty key={index} bounty={watchedBounty}/>)}
-			</Carousel>:
+			{addCarousel && account && watchedBounties.length ?
+				<>
+					<div className="flex w-fit p-2 px-4 font-mont font-semibold border rounded-lg border-web-gray">
+						<label htmlFor="watched bounties" className=" pointer-events-none">Watched Bounties</label>
+					</div>
+					<Carousel watchedBounties={watchedBounties} styles={'col-start-2'} >
+						{watchedBounties.map((watchedBounty, index) => <CarouselBounty key={index} bounty={watchedBounty} />)}
+					</Carousel>
+				</>
+				:
 				null}
 			{isProcessed && !loading &&
 				searchedBounties.map((bounty, index) => {
