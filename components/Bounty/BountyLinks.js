@@ -46,8 +46,10 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
 	const { safe } = useWeb3();
 
 	const resetScroll = () => {
-		document.body.style.height = 'auto';
-		document.body.style.overflow = 'auto';
+		if(safe){
+			document.body.style.height = 'auto';
+			document.body.style.overflowY = 'auto';
+		}
 	};
 
 	return (
