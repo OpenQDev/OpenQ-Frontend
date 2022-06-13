@@ -324,7 +324,7 @@
 		"watchedBounties": {
 			"bounties": [
 				{
-					"contractAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e"
+					"address": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e"
 				}
 			]
 		}
@@ -333,7 +333,7 @@
 		"watchingUsers": {
 			"users": [
 				{
-					"userAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e"
+					"address": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e"
 				}
 			]
 		}
@@ -1663,26 +1663,26 @@
 	"watchedBounties": {
 		"bounties": [
 			{
-				"contractAddress": "0xcdf0e532ab8eb9a12da5cae3b6ae5370faacd028",
+				"address": "0xcdf0e532ab8eb9a12da5cae3b6ae5370faacd028",
 				"bountyId": "MDU6SXNzdWU5ODU5NDM2NjQ=",
 				"__typename": "Bounty"
 			},
 			{
 				"__typename": "Bounty",
-				"contractAddress": "0x1f191c4166865882b26551fb8618668b7a67d0fb",
+				"address": "0x1f191c4166865882b26551fb8618668b7a67d0fb",
 				"bountyId": "I_kwDOBC3Cis5Kk2OD"
 			},
 			{
 			"__typename": "Bounty",
-			"contractAddress": "0x8daf17a20c9dba35f005b6324f493785d239719d",
+			"address": "0x8daf17a20c9dba35f005b6324f493785d239719d",
 			"bountyId": "I_kwDOGWnnz85JAion"},
 			
 			{"__typename": "Bounty",
-			"contractAddress": "0x3ca8f9c04c7e3e1624ac2008f92f6f366a869444",
+			"address": "0x3ca8f9c04c7e3e1624ac2008f92f6f366a869444",
 			"bountyId": "I_kwDOGWnnz85LBZmQ"},
 			{
 			"__typename": "Bounty",
-			"contractAddress": "0x35dd738e306d32f2709824b6f744f188da01d3c5",
+			"address": "0x35dd738e306d32f2709824b6f744f188da01d3c5",
 			"bountyId": "I_kwDOGWnnz85LAu6g"}
 			
 		],
