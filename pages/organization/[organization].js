@@ -37,7 +37,7 @@ const organization = ({ organizationData, fullBounties, completed, batch, render
 		catch(err){
 			console.log(err);
 		}
-		const fullBounties = appState.utils.combineBounties(newBounties, issueData);
+		const fullBounties = appState.utils.combineBounties(newBounties.bountiesCreated, issueData);
 		return fullBounties;
 	}
 
@@ -50,7 +50,7 @@ const organization = ({ organizationData, fullBounties, completed, batch, render
 		}
 		catch (err) {
 			console.log(err);
-			setError(true);
+			setError(err);
 			return;
 		}
 		setBounties(newBounties);
@@ -64,7 +64,7 @@ const organization = ({ organizationData, fullBounties, completed, batch, render
 			newBounties = await getBountyData(order, pagination);
 		}
 		catch (err) {
-			setError(true);
+			setError(err);
 			return;
 		}
 		if (newBounties.length !== 0) {
