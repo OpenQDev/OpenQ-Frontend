@@ -156,6 +156,7 @@ export const GET_ISSUE_BY_ID = gql`
         assignees(first: 1) {
           nodes {
             name
+						login
             url
           }
         }
@@ -204,6 +205,7 @@ query($issueIds: [ID!]!) {
       assignees(first: 1) {
          nodes {
            name
+					 login
            url
          }
        }

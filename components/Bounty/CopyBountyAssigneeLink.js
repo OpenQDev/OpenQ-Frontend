@@ -14,7 +14,7 @@ const CopyBountyAssigneeLink = ({ bounty }) => {
 				{bounty ? 
 					assignee?
 						(
-							<CopyAssigneeToClipboard name={assignee?.name} url={assignee?.url} /> 
+							<CopyAssigneeToClipboard name={assignee.name|| assignee.login} url={assignee?.url} /> 
 						):<span>Unassigned</span>
 					: (
 						<Skeleton height={'28px'} width={'15rem'} />
