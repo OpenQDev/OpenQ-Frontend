@@ -23,7 +23,7 @@ case 'local':
 		tokenClient: new MockTokenClient(),
 		logger: new Logger(true),
 		utils: new Utils(),
-		openQPrismaClient: new MockOpenQPrismaClient(),
+		openQPrismaClient: new MockOpenQPrismaClient()
 	};
 	break;
 case 'docker':
