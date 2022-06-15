@@ -49,11 +49,9 @@ export default function Index({orgs, fullBounties, batch }) {
 		if(orderBy === 'tvl'){
 			try{
 				const prismaBounties = await appState.openQPrismaClient.getBountyPage(cursor, batch, 'tvl', sortOrder);
-				console.log(prismaBounties);
 				const addresses = prismaBounties.bountiesConnection.bounties.map(bounty=>bounty.address.toLowerCase());
 				setOffChainCursor(prismaBounties.bountiesConnection.cursor);
 				const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(addresses);
-				console.log(prismaBounties.bountiesConnection.bounties);
 				newBounties = prismaBounties.bountiesConnection.bounties.map((bounty)=>{return {...bounty, ...subgraphBounties.find((subgraphBounty)=>subgraphBounty.bountyAddress === bounty.address.toLowerCase())};});		
 			}
 			catch(err){
@@ -132,7 +130,7 @@ export const getServerSideProps = async()=>{
 	const utils = new Utils();
 	githubRepository.instance.setGraphqlHeaders();
 	let orgs = [];
-	const batch = 2;
+	const batch = 10;
 	let renderError = '';
 	try {
 		orgs = await openQSubgraphClient.instance.getOrganizations();

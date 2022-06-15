@@ -126,24 +126,14 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		}
 			break;
 		case 'Highest': {
-			if (complete) {
-				return bounties.sort((a, b) => {
-					console.log(a);
-					return b.tvl - a.tvl;
-				});
-			}
 			getNewData('desc', 'tvl');
 		}
 			break;
-		case 'Lowest': {
-			if (complete) {
-				return bounties.sort((a, b) => {
-					return a.tvl - b.tvl;
-				});
-			}
+		case 'Lowest': {			
 			getNewData('asc', 'tvl');
 			
 		}
+			break;
 		}
 		return bounties;
 	};

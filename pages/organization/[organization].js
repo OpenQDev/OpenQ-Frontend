@@ -119,7 +119,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError}) => 
 };
 
 export const getServerSideProps = async(context) =>{
-	const batch=2;
+	const batch=10;
 	const {organization} = context.params;
 	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
 	const githubRepository = new WrappedGithubClient();
