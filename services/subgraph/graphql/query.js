@@ -112,10 +112,32 @@ query GetBountyById($id: ID!) {
 export const GET_BOUNTIES_BY_CONTRACT_ADDRESSES = gql`
 query GetBountiesByContractAddresses($contractAddresses: [ID]!) {
   bounties(where: {bountyAddress_in: $contractAddresses}) {
+       bountyAddress
     bountyId
-		closerData
     bountyMintTime
-		bountyAddress
+    bountyClosedTime
+    status
+		closerData
+		claimedTransactionHash
+		deposits {
+    		id
+			refunded
+			refundTime
+			expiration
+      tokenAddress
+      volume
+      sender {
+        id
+      }
+      receiveTime
+    }
+    issuer {
+      id
+    }
+    bountyTokenBalances {
+      volume
+      tokenAddress
+    }
   }
 }`;
 

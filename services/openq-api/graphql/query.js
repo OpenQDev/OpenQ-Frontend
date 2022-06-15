@@ -61,3 +61,14 @@ mutation unWatchBounty ($contractAddress: String, $userAddress: String ){
   }
 }`;
 
+export const GET_BOUNTY_PAGE = gql`
+query BountiesConnection($after: ID, $limit: Int!, $orderBy: String, $sortOrder: String) {
+  bountiesConnection(after: $after, limit: $limit, orderBy: $orderBy, sortOrder: $sortOrder) {
+    bounties {
+      tvl
+			address
+    }
+		cursor
+  }
+}
+`;

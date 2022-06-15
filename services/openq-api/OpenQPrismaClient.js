@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { GET_PAGINATED_TVLS, CREATE_NEW_BOUNTY, UPDATE_BOUNTY, WATCH_BOUNTY, UNWATCH_BOUNTY, GET_BOUNTY_BY_HASH, GET_USER_BY_HASH } from './graphql/query';
+import { GET_PAGINATED_TVLS, CREATE_NEW_BOUNTY, UPDATE_BOUNTY, WATCH_BOUNTY, UNWATCH_BOUNTY, GET_BOUNTY_BY_HASH, GET_USER_BY_HASH, GET_BOUNTY_PAGE } from './graphql/query';
 import fetch from 'cross-fetch';
 import {ethers} from 'ethers';
 
@@ -13,21 +13,6 @@ class OpenQPrismaClient {
 		link: this.httpLink,
 		cache: new InMemoryCache(),
 	});
-
-	async getPaginatedTVLS(orderBy, limit, sortOrder, cursor) {
-		const promise = new Promise(async (resolve, reject) => {
-			try {
-				const result = await this.client.query({
-					query: GET_PAGINATED_TVLS,
-					variables: { orderBy, limit, sortOrder, cursor }
-				});
-				resolve(result.data.organization);
-			} catch (e) {
-				reject(e);
-			}
-		});
-		return promise;
-	}
 
 	async createNewBounty(id) {
 		const promise = new Promise(async (resolve, reject) => {
@@ -122,6 +107,27 @@ class OpenQPrismaClient {
 		);
 		return promise;
 	}
+
+	async getBountyPage(after, limit, orderBy, sortOrder){
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.query({
+					query: GET_BOUNTY_PAGE,
+					variables: {after, limit, orderBy, sortOrder},
+					fetchPolicy: 'no-cache'
+				});
+				resolve(result.data);
+			}
+			catch (e) {
+				reject(e);
+			}
+		}
+		);
+		return promise;
+	
+	}
+
+
 }
 
 export default OpenQPrismaClient;
