@@ -11,20 +11,19 @@ import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgrap
 import Utils from '../services/utils/Utils';
 
 export default function Index({orgs, fullBounties, batch }) {
-	const [internalMenu, setInternalMenu] = useState('org');
+	const [internalMenu, setInternalMenu] = useState('issue');
 	// State
 	const [bounties, setBounties] = useState(fullBounties);
 	const [isLoading, setIsLoading] = useState(false);
 	const [complete, setComplete] = useState(false);
 	const [pagination, setPagination] = useState(batch);
+	const [offChainCursor, setOffChainCursor] = useState();
 	const [watchedBounties, setWatchedBounties] = useState([]);
-
 	// Context
 	const [appState] = useContext(StoreContext);
 
 	const {account} = useWeb3();
 	// Hooks
-
 	useEffect(async()=>{
 		if(account){
 			try{
@@ -42,16 +41,31 @@ export default function Index({orgs, fullBounties, batch }) {
 	}	, [account]);
 
 	// Methods
-
-
-	async function getBountyData(sortOrder, currentPagination) {
+	async function getBountyData(sortOrder, currentPagination, orderBy, cursor) {
 		setPagination(() => currentPagination + batch);
 		let newBounties = [];
-		try{
-			newBounties = await appState.openQSubgraphClient.getAllBounties(sortOrder, currentPagination, batch);
+
+		// handle sort by tvl
+		if(orderBy === 'tvl'){
+			try{
+				const prismaBounties = await appState.openQPrismaClient.getBountyPage(cursor, batch, 'tvl', sortOrder);
+				const addresses = prismaBounties.bountiesConnection.bounties.map(bounty=>bounty.address.toLowerCase());
+				setOffChainCursor(prismaBounties.bountiesConnection.cursor);
+				const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(addresses);
+				newBounties = prismaBounties.bountiesConnection.bounties.map((bounty)=>{return {...bounty, ...subgraphBounties.find((subgraphBounty)=>subgraphBounty.bountyAddress === bounty.address.toLowerCase())};});		
+			}
+			catch(err){
+				console.log('complete');
+			}
+			
 		}
-		catch(err){
-			console.log('no bounties');
+		else{
+			try{
+				newBounties = await appState.openQSubgraphClient.getAllBounties(sortOrder, currentPagination, batch);
+			}
+			catch(err){
+				console.log('no bounties');
+			}
 		}
 		const bountyIds = newBounties.map((bounty) => bounty.bountyId);
 		const issueData = await appState.githubRepository.getIssueData(bountyIds);
@@ -59,17 +73,18 @@ export default function Index({orgs, fullBounties, batch }) {
 		return fullBounties;
 	}
 
-	async function getNewData(order) {
+	async function getNewData(order, orderBy) {
 		setIsLoading(true);
 		setComplete(false);
-		const newBounties = await getBountyData(order, 0);
+		let newBounties = [];
+		newBounties = await getBountyData(order, 0, orderBy);
 		setBounties(newBounties);
 		setIsLoading(false);
 	}
 
-	async function getMoreData(order) {
+	async function getMoreData(order, orderBy) {
 		setComplete(true);
-		const newBounties = await getBountyData(order, pagination);
+		const newBounties = await getBountyData(order, pagination, orderBy, offChainCursor);
 		if (newBounties.length !==0) {
 			setComplete(false);
 		}

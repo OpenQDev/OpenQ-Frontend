@@ -118,6 +118,10 @@ const BountyCardDetails = ({ bounty, address,  tokenValues, internalMenu }) => {
 			</div>
 			<div className="flex flex-col pt-5">
 				<div className="flex flex-row justify-between">
+					<div
+						className="markdown-body pt-2 w-full break-words"
+						dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}
+					></div> 
 				</div>
 			</div>
 		</div>

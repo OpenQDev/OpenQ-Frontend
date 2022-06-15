@@ -81,7 +81,7 @@ const BountyCard = ({ bounty, loading }) => {
 
 								{loading ?
 									<Skeleton width={'100%'} /> :
-									`Bounty Minted: ${appState.utils.formatUnixDate(parseInt(bounty?.bountyMintTime), true)}`
+									`Bounty Minted: ${appState.utils.formatUnixDate(parseInt(bounty?.bountyMintTime))}`
 								}
 							</div>
 						</div>
@@ -95,7 +95,7 @@ const BountyCard = ({ bounty, loading }) => {
 						</div>
 						<div className="flex flex-row items-center space-x-4 pt-1">
 							<div className={`font-mont  ${bounty?.assignees?.nodes[0]? 'font-bold' : 'font-light'} pl-6 text-sm `}>
-								{bounty?.assignees?.nodes[0] ? `Assigned to ${bounty?.assignees?.nodes[0]?.name}` : 'Unassigned'		}					 				
+								{bounty?.assignees?.nodes[0] ? `Assigned to ${bounty?.assignees?.nodes[0]?.name || bounty?.assignees.nodes[0]?.login}` : 'Unassigned'		}					 				
 							</div>
 						</div>
 					</div>

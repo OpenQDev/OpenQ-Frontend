@@ -11,6 +11,7 @@ import CarouselBounty from './CarouselBounty';
 import useWeb3 from '../../hooks/useWeb3';
 
 const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData, getNewData, addCarousel }) => {
+	console.log(bounties);
 	// Hooks
 	const {account} = useWeb3();
 	const [fundedOnly, setFundedOnly] = useState(true);
@@ -26,11 +27,22 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 	let observer = useRef();
 	// Utilities
 	const fetchPage = () => {
-		if (sortOrder === 'Oldest') {
-			getMoreData('asc');
-		}
-		else if (sortOrder === 'Newest') {
-			getMoreData('desc');
+
+		switch(sortOrder){
+		case 'Newest':
+			{	getMoreData('desc');}
+			break;
+		case 'Oldest':
+			{getMoreData('asc');}
+			break;
+		case 'Highest':
+			{	getMoreData('desc', 'tvl');}
+			break;
+		case 'Lowest':
+			{	getMoreData('asc', 'tvl');}
+			break;
+
+	
 		}
 	};
 
@@ -85,9 +97,11 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 
 	// Orders bounties	
 	const orderBounties = (bounties = [], toggleTo = sortOrder) => {
+		console.log(toggleTo);
 		if (toggleTo === sortOrder) { return bounties; }
 		switch (toggleTo) {
 		case 'Newest': {
+			console.log('exec');
 			if (complete) {
 				return bounties.sort((a, b) => {
 					return b.bountyMintTime - a.bountyMintTime;
@@ -109,9 +123,17 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			else {
 				getNewData('asc');
 			}
-
-
 		}
+			break;
+		case 'Highest': {
+			getNewData('desc', 'tvl');
+		}
+			break;
+		case 'Lowest': {			
+			getNewData('asc', 'tvl');
+			
+		}
+			break;
 		}
 		return bounties;
 	};
@@ -121,9 +143,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		updateIsProcessed(false);
 		if (!bounties) updateIsProcessed(true);
 		else {
-			updateSearchedBounties(filter(bounties).sort((a, b) => {
-				return b.bountyMintTime - a.bountyMintTime;
-			}));
+			updateSearchedBounties(orderBounties(filter(bounties)));
 			updateIsProcessed(true);
 		}
 	}, [bounties]);
@@ -197,6 +217,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 				threshold: .1
 			};
 			const callback = (entries) => {
+				console.log(entries[0].isIntersecting && isProcessed && !loading );
 				if (entries[0].isIntersecting && isProcessed && !complete && !loading) {
 					fetchPage();
 				}
@@ -246,7 +267,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			<div className="flex md:content-start content-center flex-wrap w-full justify-items-stretch gap-4">
 				<div className="flex justify-between bg-dark-mode end rounded-lg">
 					<span className=" py-2 border-t border-l border-b rounded-l-lg border-web-gray align-self-center pl-4 pr-8">Sort By</span>
-					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} names={['Newest', 'Oldest']} borderShape={'rounded-r-lg'} width={36} />
+					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} names={['Newest', 'Oldest', 'Highest', 'Lowest']} borderShape={'rounded-r-lg'} width={36} />
 				</div>
 				<div className='flex flex-wrap gap-4'>
 					<div onClick={showUnfunded} className="flex w-36 p-2 px-4 gap-2 border rounded-lg justify-between border-web-gray">
