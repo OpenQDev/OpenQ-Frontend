@@ -227,6 +227,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 				threshold: .1
 			};
 			const callback = (entries) => {
+				console.log(entries[0].isIntersecting && isProcessed && !loading );
 				if (entries[0].isIntersecting && isProcessed && !complete && !loading) {
 					fetchPage();
 				}
