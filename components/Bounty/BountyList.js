@@ -14,7 +14,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 	console.log(bounties);
 	// Hooks
 	const {account} = useWeb3();
-	const [fundedOnly, setFundedOnly] = useState(false);
+	const [fundedOnly, setFundedOnly] = useState(true);
 	const [unclaimedOnly, setUnclaimedOnly] = useState(true);
 	const [unassignedOnly, setUnassignedOnly] = useState(true);
 	const [l2eOnly, setL2eOnly] = useState(false);
