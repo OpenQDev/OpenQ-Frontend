@@ -16,7 +16,6 @@ const AboutUser = ({ user, organizations, watchedBounties }) => {
 	const account = user.id;
 	const [ensName] = useEns(account);
 	// Context
-	console.log(watchedBounties);
 	// State
 	const [payoutTokenValues] = useGetTokenValues(payoutTokenBalances);
 

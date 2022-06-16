@@ -11,10 +11,9 @@ import CarouselBounty from './CarouselBounty';
 import useWeb3 from '../../hooks/useWeb3';
 
 const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData, getNewData, addCarousel }) => {
-	console.log(bounties);
 	// Hooks
 	const {account} = useWeb3();
-	const [fundedOnly, setFundedOnly] = useState(false);
+	const [fundedOnly, setFundedOnly] = useState(true);
 	const [unclaimedOnly, setUnclaimedOnly] = useState(true);
 	const [unassignedOnly, setUnassignedOnly] = useState(true);
 	const [l2eOnly, setL2eOnly] = useState(false);
@@ -97,11 +96,9 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 
 	// Orders bounties	
 	const orderBounties = (bounties = [], toggleTo = sortOrder) => {
-		console.log(toggleTo);
 		if (toggleTo === sortOrder) { return bounties; }
 		switch (toggleTo) {
 		case 'Newest': {
-			console.log('exec');
 			if (complete) {
 				return bounties.sort((a, b) => {
 					return b.bountyMintTime - a.bountyMintTime;
@@ -126,24 +123,14 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		}
 			break;
 		case 'Highest': {
-			if (complete) {
-				return bounties.sort((a, b) => {
-					console.log(a);
-					return b.tvl - a.tvl;
-				});
-			}
 			getNewData('desc', 'tvl');
 		}
 			break;
-		case 'Lowest': {
-			if (complete) {
-				return bounties.sort((a, b) => {
-					return a.tvl - b.tvl;
-				});
-			}
+		case 'Lowest': {			
 			getNewData('asc', 'tvl');
 			
 		}
+			break;
 		}
 		return bounties;
 	};
@@ -227,7 +214,6 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 				threshold: .1
 			};
 			const callback = (entries) => {
-				console.log(entries[0].isIntersecting && isProcessed && !loading );
 				if (entries[0].isIntersecting && isProcessed && !complete && !loading) {
 					fetchPage();
 				}
@@ -298,10 +284,16 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 					</div>
 				</div>
 			</div>
-			{addCarousel && account && watchedBounties.length ? <Carousel watchedBounties={watchedBounties} styles={'col-start-2'} >
-				
-				{	watchedBounties.map((watchedBounty, index)=><CarouselBounty key={index} bounty={watchedBounty}/>)}
-			</Carousel>:
+			{addCarousel && account && watchedBounties.length ?
+				<>
+					<div className="flex w-fit p-2 px-4 font-mont font-semibold border rounded-lg border-web-gray">
+						<label htmlFor="watched bounties" className=" pointer-events-none">Watched Bounties</label>
+					</div>
+					<Carousel watchedBounties={watchedBounties} styles={'col-start-2'} >
+						{watchedBounties.map((watchedBounty, index) => <CarouselBounty key={index} bounty={watchedBounty} />)}
+					</Carousel>
+				</>
+				:
 				null}
 			{isProcessed && !loading &&
 				searchedBounties.map((bounty, index) => {

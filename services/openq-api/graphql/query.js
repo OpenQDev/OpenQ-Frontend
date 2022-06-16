@@ -34,8 +34,8 @@ export const GET_USER_BY_HASH = gql`query($userAddress: String!) {
 }`;
 
 export const CREATE_NEW_BOUNTY = gql`
-mutation CreateBounty( $id: String!) {
-  createBounty(address: $id) {
+mutation CreateBounty( $id: String!, $organizationId: String!) {
+  createBounty(address: $id, organizationId: $organizationId) {
     address
   }
 }`;

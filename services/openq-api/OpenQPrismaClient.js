@@ -14,12 +14,12 @@ class OpenQPrismaClient {
 		cache: new InMemoryCache(),
 	});
 
-	async createNewBounty(id) {
+	async createNewBounty(id, organizationId) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.mutate({
 					mutation: CREATE_NEW_BOUNTY,
-					variables: { id, tvl: 0.0 }
+					variables: { id, tvl: 0.0, organizationId }
 				});
 				resolve(result);
 			} catch (e) {

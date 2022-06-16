@@ -90,7 +90,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 			);
 			sessionStorage.setItem('justMinted', true);
 			try{
-				await appState.openQPrismaClient.createNewBounty(ethers.utils.getAddress(bountyAddress));
+				await appState.openQPrismaClient.createNewBounty(ethers.utils.getAddress(bountyAddress, issue.repository.owner.id));
 			}
 			catch(err){
 				console.log('error in prisma',err);}

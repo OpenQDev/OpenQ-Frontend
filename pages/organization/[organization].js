@@ -28,17 +28,14 @@ const organization = ({ organizationData, fullBounties, batch, renderError}) => 
 	const [complete, setComplete] = useState(fullBounties.length === 0);
 	
 	// Methods
-	console.log(complete);
 	async function getBountyData(sortOrder, currentPagination, orderBy,cursor) {
 		setPagination(() => currentPagination + batch);
 		let newBounties = [];
 		if(orderBy === 'tvl'){
-			console.log(orderBy);
 			try{
 				const prismaBounties = await appState.openQPrismaClient.getBountyPage(cursor, batch, 'tvl', sortOrder, organizationData.id);
 				const addresses = prismaBounties.bountiesConnection.bounties.map(bounty=>bounty.address.toLowerCase());
 				setOffChainCursor(prismaBounties.bountiesConnection.cursor);
-				console.log(addresses);
 				const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(addresses);
 				newBounties = prismaBounties.bountiesConnection.bounties.map((bounty)=>{return {...bounty, ...subgraphBounties.find((subgraphBounty)=>subgraphBounty.bountyAddress === bounty.address.toLowerCase())};});
 				
@@ -63,7 +60,6 @@ const organization = ({ organizationData, fullBounties, batch, renderError}) => 
 	}
 
 	async function getNewData(order, orderBy) {
-		console.log(orderBy);
 		setIsLoading(true);
 		setComplete(false);
 		let newBounties;
@@ -80,7 +76,6 @@ const organization = ({ organizationData, fullBounties, batch, renderError}) => 
 	}
 
 	async function getMoreData(order, orderBy) {
-		console.log('gettin more');
 		setComplete(true);
 		let newBounties;
 		try {
@@ -90,7 +85,6 @@ const organization = ({ organizationData, fullBounties, batch, renderError}) => 
 			setError(err);
 			return;
 		}
-		console.log(newBounties.length);
 		if (newBounties.length !== 0) {
 			setComplete(false);
 		}
@@ -119,7 +113,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError}) => 
 };
 
 export const getServerSideProps = async(context) =>{
-	const batch=2;
+	const batch=10;
 	const {organization} = context.params;
 	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
 	const githubRepository = new WrappedGithubClient();
