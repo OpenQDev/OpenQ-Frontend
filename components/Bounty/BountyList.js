@@ -96,6 +96,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 
 	// Orders bounties	
 	const orderBounties = (bounties = [], toggleTo = sortOrder, firstLoad) => {
+		console.log(toggleTo, sortOrder);
 		if (toggleTo === sortOrder && !firstLoad) { return bounties; }
 		switch (toggleTo) {
 		case 'Newest': {
@@ -123,11 +124,14 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		}
 			break;
 		case 'Highest': {
-			getNewData('desc', 'tvl');
+			if( sortOrder !== toggleTo)	{
+				getNewData('desc', 'tvl');}
 		}
 			break;
-		case 'Lowest': {			
-			getNewData('asc', 'tvl');
+		case 'Lowest': {	
+			if( sortOrder !== toggleTo)	{	
+				getNewData('asc', 'tvl');
+			}
 			
 		}
 			break;
