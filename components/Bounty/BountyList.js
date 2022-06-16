@@ -11,7 +11,6 @@ import CarouselBounty from './CarouselBounty';
 import useWeb3 from '../../hooks/useWeb3';
 
 const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData, getNewData, addCarousel }) => {
-	console.log(bounties);
 	// Hooks
 	const {account} = useWeb3();
 	const [fundedOnly, setFundedOnly] = useState(true);
@@ -97,11 +96,9 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 
 	// Orders bounties	
 	const orderBounties = (bounties = [], toggleTo = sortOrder) => {
-		console.log(toggleTo);
 		if (toggleTo === sortOrder) { return bounties; }
 		switch (toggleTo) {
 		case 'Newest': {
-			console.log('exec');
 			if (complete) {
 				return bounties.sort((a, b) => {
 					return b.bountyMintTime - a.bountyMintTime;
@@ -217,7 +214,6 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 				threshold: .1
 			};
 			const callback = (entries) => {
-				console.log(entries[0].isIntersecting && isProcessed && !loading );
 				if (entries[0].isIntersecting && isProcessed && !complete && !loading) {
 					fetchPage();
 				}
