@@ -95,11 +95,11 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 	};
 
 	// Orders bounties	
-	const orderBounties = (bounties = [], toggleTo = sortOrder) => {
-		if (toggleTo === sortOrder) { return bounties; }
+	const orderBounties = (bounties = [], toggleTo = sortOrder, firstLoad) => {
+		if (toggleTo === sortOrder && !firstLoad) { return bounties; }
 		switch (toggleTo) {
 		case 'Newest': {
-			if (complete) {
+			if (complete || firstLoad) {
 				return bounties.sort((a, b) => {
 					return b.bountyMintTime - a.bountyMintTime;
 				});
@@ -139,8 +139,8 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 	useEffect(async () => {
 		updateIsProcessed(false);
 		if (!bounties) updateIsProcessed(true);
-		else {
-			updateSearchedBounties(orderBounties(filter(bounties)));
+		else	 {
+			updateSearchedBounties(orderBounties(filter(bounties), sortOrder, true));
 			updateIsProcessed(true);
 		}
 	}, [bounties]);

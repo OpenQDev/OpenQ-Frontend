@@ -40,14 +40,22 @@ const Layout = ({ children }) => {
   			
 			}
 		}`};
+		let tokenPrices;
 
-		const response = await axios({
-			url: process.env.NEXT_PUBLIC_OPENQ_API_URL,
-			method: 'post',
-			headers: {'content-type':'application/json'},
-			data: GET_PRICES
-		});
-		const tokenPrices = response.data.data.prices[0].priceObj;
+		if(process.env.NEXT_PUBLIC_DEPLOY_ENV==='local'){
+			const response = await axios.get(`${process.env.NEXT_PUBLIC_OPENQ_API_URL}/prices`);
+			console.log(response);
+		}
+		else{
+			const response = await axios({
+				url: process.env.NEXT_PUBLIC_OPENQ_API_URL,
+				method: 'post',
+				headers: {'content-type':'application/json'},
+				data: GET_PRICES
+			});
+			tokenPrices = response.data.data.prices[0].priceObj;
+		}
+		
 		appState.tokenClient.firstTenPrices = tokenPrices;
 	}, []);
 
