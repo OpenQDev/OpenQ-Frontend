@@ -56,7 +56,7 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 					{expanded ?
 						<div className="w-full flex space-x-3 self-center">
 							<ToolTip
-								outerStyles="w-full flex self-center w-1/2"
+								outerStyles="w-full flex self-center"
 								hideToolTip={isOnCorrectNetwork && (depositPeriodDays > 0)}
 								toolTipText={!isOnCorrectNetwork?
 									'Please switch to the correct network to extend this bounty.' :
