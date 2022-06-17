@@ -172,6 +172,23 @@ class OpenQClient {
 		return promise;
 	}
 
+	async extendDeposit(_bountyId, _depositId, seconds) {
+		const promise = new Promise(async (resolve, reject) => {
+			const signer = library.getSigner();
+			const contract = this.OpenQ(signer);
+			try {
+				seconds = _depositPeriodDays * 24 * 60 * 60;
+				const txnResponse = await contract.extendDeposit(_bountyId, _depositId, seconds);
+				const txnReceipt = await txnResponse.wait();
+				resolve(txnReceipt);
+			} catch (err) {
+				reject(err);
+			}
+		});
+		return promise;
+	}
+
+
 	async refundDeposit(library, _bountyId, _depositId) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();

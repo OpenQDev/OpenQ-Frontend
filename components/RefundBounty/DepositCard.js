@@ -4,15 +4,12 @@ import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import TokenBalances from '../TokenBalances/TokenBalances';
 import ToolTip from '../Utils/ToolTip';
-const DepositCard = ({ deposit, refundBounty, status, isOnCorrectNetwork }) => {
+const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectNetwork }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
 
 	// State
 	const [tokenValues] = useGetTokenValues(deposit);
-
-	status = 'refundable';
-	isOnCorrectNetwork = true;
 
 	const onDepositPeriodChanged = (e) => {
 		if (parseInt(e.target.value) >= 0) setDepositPeriodDays(parseInt(e.target.value));
@@ -60,17 +57,22 @@ const DepositCard = ({ deposit, refundBounty, status, isOnCorrectNetwork }) => {
 						<div className="w-full flex space-x-3 self-center">
 							<ToolTip
 								outerStyles="w-full flex self-center w-1/2"
-								hideToolTip={isOnCorrectNetwork}
-								toolTipText={'Please switch to the correct network to refund this deposit.'}
+								hideToolTip={isOnCorrectNetwork && (depositPeriodDays > 0)}
+								toolTipText={!isOnCorrectNetwork?
+									'Please switch to the correct network to extend this bounty.' :
+									!(depositPeriodDays > 0) ?
+									'Please indicate how many days you\'d like to extend your bounty for.' :
+										null
+											}
 								customOffsets={[0, 46]}>
-								<button onClick={() => setExpanded(!expanded)}
-									disabled={!isOnCorrectNetwork}
+								<button onClick={() => extendBounty(deposit.id)}
+									disabled={!isOnCorrectNetwork || !(depositPeriodDays > 0)}
 									className={`items-left text-lg  self-center ${isOnCorrectNetwork ?
 										(!expanded ?
 											'sm-confirm-btn' :
 											(depositPeriodDays > 0 ?
 												'font-mont rounded-lg w-full py-2 font-semibold border border-green bg-green bg-opacity-10 hover:bg-green hover:bg-opacity-30 cursor-pointer'
-												: 'sm-confirm-btn'
+												: 'sm-confirm-btn-disabled cursor-not-allowed'
 
 											)
 										)
@@ -81,7 +83,7 @@ const DepositCard = ({ deposit, refundBounty, status, isOnCorrectNetwork }) => {
 							</ToolTip>
 							<div className="flex w-full flex-row justify-between items-center px-4 py-2 rounded-lg bg-dark-mode border border-web-gray ">
 								<div className=' flex items-center gap-3 w-full'>
-									<ToolTip customOffsets={[-192, -142]} outerStyles={''} mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
+									<ToolTip customOffsets={[0, 36]} outerStyles={''} mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
 										<div className='cursor-help rounded-full border-2 border-web-gray aspect-square leading-6 h-6 box-content text-center font-bold text-web-gray'>?</div>
 									</ToolTip>
 								</div>

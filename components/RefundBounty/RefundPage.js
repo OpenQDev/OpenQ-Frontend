@@ -25,6 +25,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 	const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
 	const [approveTransferState, setApproveTransferState] = useState(RESTING);
 	const [showApproveTransferModal, setShowApproveTransferModal] = useState(false);
+	const [extend, setExtend] = useState(false);
 
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -54,6 +55,37 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 
 		try{
 			const txnReceipt = await	appState.openQClient.refundDeposit(library, bounty.bountyId, depositId);
+			setTransactionHash(txnReceipt.events[0].transactionHash);
+
+			try{
+				setApproveTransferState(SUCCESS);
+				refreshBounty();
+			}
+			catch(error){
+				console.log(error);
+			}
+			
+			const deposits = bounty.deposits.filter((deposit)=>{
+				return deposit.id !== depositId;
+			});
+			const tokenVolumes = await appState.tokenClient.parseTokenValues(deposits);
+			const tvl = tokenVolumes.total;
+			await appState.openQPrismaClient.updateBounty(bounty.bountyAddress, tvl);
+		}
+	
+		catch(error){
+			const { message, title } = appState.openQClient.handleError(error, { account, bounty });
+			setError({ message, title });
+			setApproveTransferState(ERROR);
+		}
+	}
+
+	async function extendBounty() {
+		setApproveTransferState(APPROVING);
+		const depositId = showApproveTransferModal;
+
+		try{
+			const txnReceipt = await	appState.openQClient.extendDeposit(library, bounty.bountyId, depositId);
 			setTransactionHash(txnReceipt.events[0].transactionHash);
 
 			try{
@@ -112,6 +144,19 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 														12
 													)}...${bounty.bountyAddress.substring(32)}		Are you sure you want to refund this deposit?`
 												);
+												setExtend(false);
+												setApproveTransferState(CONFIRM);
+												setShowApproveTransferModal(deposit.id);
+											}}
+											
+											extendBounty={() => {
+												setConfirmationMessage(
+													`You are about to extend the bounty at ${bounty.bountyAddress.substring(
+														0,
+														12
+													)}...${bounty.bountyAddress.substring(32)}	by 	Are you sure you want to extend this deposit?`
+												);
+												setExtend(true);
 												setApproveTransferState(CONFIRM);
 												setShowApproveTransferModal(deposit.id);
 											}}
@@ -160,7 +205,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 						}
 					</div>
 				</div>
-				{showApproveTransferModal && <ApproveTransferModal
+				{showApproveTransferModal && (!extend ? <ApproveTransferModal
 					approveTransferState={approveTransferState}
 					transactionHash={transactionHash}
 					confirmationMessage={confirmationMessage}
@@ -171,7 +216,20 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 					resetState={resetState}
 					approvingMessage={'Refunding...'}
 					approvingTitle={'Refund'}
-				/>}
+					/>
+					: <ApproveTransferModal
+					approveTransferState={approveTransferState}
+					transactionHash={transactionHash}
+					confirmationMessage={confirmationMessage}
+					error={error}
+					setShowApproveTransferModal={setShowApproveTransferModal}
+					positiveOption={'Yes, Extend!'}
+					confirmMethod={refundBounty}
+					resetState={resetState}
+					approvingMessage={'Extending...'}
+					approvingTitle={'Extend'}
+					
+				/>)}
 			</div>
 		}</>
 	);
