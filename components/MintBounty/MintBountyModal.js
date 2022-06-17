@@ -16,7 +16,7 @@ import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 
 const MintBountyModal = ({ modalVisibility }) => {
 	// Context
-	const [appState] = useContext(StoreContext);
+	const [appState, dispatch] = useContext(StoreContext);
 	const { library, account } = useWeb3();
 	const router = useRouter();
 
@@ -58,7 +58,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 				const issueData = await fetchIssue();
 
 				if (issueData) {
-					console.log(issueData);
+
 					try {
 						let bounty = await appState.openQSubgraphClient.getBountyByGithubId(
 							issueData.id,
@@ -108,6 +108,14 @@ const MintBountyModal = ({ modalVisibility }) => {
 		}
 	};
 
+	const connectWallet = ()=>{
+		const payload = {
+			type: 'CONNECT_WALLET',
+			payload: true
+		};
+		dispatch(payload);
+	};
+
 	const closeModal = () => {
 		setIssue();
 		setUrl();
@@ -116,11 +124,11 @@ const MintBountyModal = ({ modalVisibility }) => {
 		setError();
 		modalVisibility(false);
 	};
-
+	
 	useEffect(() => {
 		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
 		function handleClickOutside(event) {
-			if (modal.current && !modal.current.contains(event.target)) {
+			if (modal.current && !modal.current.contains(event.target) && !appState.walletConnectModal && event.target.innerText !== 'Close') {
 				modalVisibility(false);
 			}
 		}
@@ -137,14 +145,14 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 	// Render
 	return (
-		<div className="flex justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-5">
+		<div className={`justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-5 ${appState.walletConnectModal ? 'hidden' : 'flex'}`}>
 			{error ?
 				<ErrorModal
 					setShowErrorModal={closeModal}
 					error={error}
 				/> :
 				<>
-					<div ref={modal} className="md:w-1/2 lg:w-1/3 xl:w-1/4 space-y-5 z-50">
+					<div ref={modal} className="md:w-1/2 lg:w-1/3 xl:w-1/4 space-y-5 z-50 ">
 						<div className="w-full">
 							<div className="border-0 rounded-xl shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none z-11">
 								<MintBountyHeader />
@@ -170,7 +178,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 								</div>
 
 								<ToolTip
-									hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed) || isLoading}
+									hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading }
 									toolTipText={
 										account && isOnCorrectNetwork ?
 											'Please choose an elgible issue.' :
@@ -181,8 +189,9 @@ const MintBountyModal = ({ modalVisibility }) => {
 									customOffsets={[0, 70]}>
 									<div className="flex items-center justify-center p-5 rounded-b w-full">
 										<MintBountyModalButton
-											mintBounty={mintBounty}
-											enableMint={enableMint && isOnCorrectNetwork && account && !issue?.closed && !isLoading}
+											mintBounty={(account)? mintBounty : connectWallet}
+											account={account}
+											enableMint={(enableMint && isOnCorrectNetwork && !issue?.closed && !isLoading)|| !account}
 											transactionPending={isLoading}
 										/>
 									</div>
