@@ -11,7 +11,7 @@ import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgrap
 import Utils from '../services/utils/Utils';
 
 export default function Index({orgs, fullBounties, batch }) {
-	const [internalMenu, setInternalMenu] = useState('issue');
+	const [internalMenu, setInternalMenu] = useState('org');
 	// State
 	const [bounties, setBounties] = useState(fullBounties);
 	const [isLoading, setIsLoading] = useState(false);

@@ -1714,23 +1714,30 @@
   "tokenPrice": {
     "0x5FbDB2315678afecb367f032d93F642f64180aa": "0.67"
   },
-  "prices": {
-    
-	"data": {
-		"user": {
-			"watchedBounties": {
-				"bounties": [
-					{
-						"address": "0x3Ca8f9C04c7e3E1624Ac2008F92f6F366A869444",
-						"__typename": "Bounty"
+		"prices": [
+			{
+				"timestamp": 1655474503098,
+				"priceObj": {
+					"0xc2132d05d31c914a87c6611c10748aeb04b58e8f": {
+						"usd": 0.99851
+					},
+					"0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270": {
+						"usd": 0.403013
 					}
-				],
-				"__typename": "BountyConnection"
+				}
 			},
-			"__typename": "User"
-		}
-  }
-	},
+			{
+				"timestamp": 1655474077745,
+				"priceObj": {
+					"0xc2132d05d31c914a87c6611c10748aeb04b58e8f": {
+						"usd": 0.998741
+					},
+					"0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270": {
+						"usd": 0.402576
+					}
+				}
+			}
+		],
   "openq-bot": {
     "created": "sdf",
     "refunded": false,

@@ -151,7 +151,7 @@ class OpenQSubgraphClient {
 					query: GET_PAGINATED_ORGANIZATION_DATA,
 					variables: { id, skip: startAt, order, first, contractAddresses }
 				});
-				resolve(result.data.organization);
+				resolve(result.data.organization.bountiesCreated);
 			} catch (e) {
 				reject(e);
 			}

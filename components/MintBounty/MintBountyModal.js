@@ -58,6 +58,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 				const issueData = await fetchIssue();
 
 				if (issueData) {
+					console.log(issueData);
 					try {
 						let bounty = await appState.openQSubgraphClient.getBountyByGithubId(
 							issueData.id,

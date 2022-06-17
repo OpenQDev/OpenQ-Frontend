@@ -96,7 +96,6 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 
 	// Orders bounties	
 	const orderBounties = (bounties = [], toggleTo = sortOrder, firstLoad) => {
-		console.log(toggleTo, sortOrder);
 		if (toggleTo === sortOrder && !firstLoad) { return bounties; }
 		switch (toggleTo) {
 		case 'Newest': {
