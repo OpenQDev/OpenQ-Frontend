@@ -15,6 +15,7 @@ class OpenQPrismaClient {
 	});
 
 	async createNewBounty(id, organizationId) {
+		console.log(organizationId);
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.mutate({

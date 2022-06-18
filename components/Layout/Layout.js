@@ -54,6 +54,7 @@ const Layout = ({ children }) => {
 				headers: {'content-type':'application/json'},
 				data: GET_PRICES
 			});
+			console.log(response);
 			tokenPrices = response.data.data.prices[0].priceObj;
 		}
 		
