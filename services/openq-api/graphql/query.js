@@ -5,7 +5,8 @@ export const GET_PAGINATED_TVLS = gql`
   bountiesConnection( orderBy: $orderBy, limit: $limit, sortOrder: $sortOrder after: String) {
     bounties {
       tvl
-       address
+      address
+			bountyId
     }
     cursor
   }
@@ -14,6 +15,7 @@ export const GET_PAGINATED_TVLS = gql`
 export const GET_BOUNTY_BY_HASH = gql`query bounty($contractAddress: String! ) {
   bounty(address: $contractAddress) {
     tvl
+		bountyId
     watchingUserIds
     watchingUsers(limit: 10) {
       users {
@@ -26,17 +28,20 @@ export const GET_BOUNTY_BY_HASH = gql`query bounty($contractAddress: String! ) {
 export const GET_USER_BY_HASH = gql`query($userAddress: String!) {
   user(address: $userAddress) {
     watchedBounties(limit: 10) {
-      bounties{
+      bounties {
         address
+				bountyId
       }
     }
   }
 }`;
 
 export const CREATE_NEW_BOUNTY = gql`
-mutation CreateBounty( $id: String!, $organizationId: String!) {
-  createBounty(address: $id, organizationId: $organizationId) {
+mutation CreateBounty( $address: String!, $organizationId: String!, $bountyId: String!) {
+  createBounty(address: $address, organizationId: $organizationId, bountyId: $bountyId) {
     address
+		bountyId
+		organizationId
   }
 }`;
 
@@ -68,6 +73,7 @@ query BountiesConnection($after: ID, $limit: Int!, $orderBy: String, $sortOrder:
       tvl
 			address
 			organizationId
+			bountyId
     }
 		cursor
   }

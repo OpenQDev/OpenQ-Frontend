@@ -15,9 +15,9 @@ class GithubRepository {
 		cache: new InMemoryCache(),
 	});
 
-			patsArray = process.env.NEXT_PUBLIC_PATS ? process.env.NEXT_PUBLIC_PATS.split(',') : process.env.PATS.split(',');
+	patsArray = process.env.NEXT_PUBLIC_PATS ? process.env.NEXT_PUBLIC_PATS.split(',') : process.env.PATS.split(',');
 	setGraphqlHeaders = () => {
-		const	token = this.patsArray[Math.floor(Math.random() * this.patsArray.length)];
+		const token = this.patsArray[Math.floor(Math.random() * this.patsArray.length)];
 		const authLink = setContext((_, { headers }) => {
 			return {
 				headers: {
@@ -47,12 +47,12 @@ class GithubRepository {
 	parseIssueData(rawIssueResponse) {
 		try {
 			const responseData = rawIssueResponse.data.node;
-			const prs= responseData.timelineItems.edges.map(edge=>edge.node);
+			const prs = responseData.timelineItems.edges.map(edge => edge.node);
 			const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = responseData;
 			const repoName = responseData.repository.name;
 			const avatarUrl = responseData.repository.owner.avatarUrl;
 			const owner = responseData.repository.owner.login;
-			const twitterUsername = responseData.repository.owner.twitterUsername||null;
+			const twitterUsername = responseData.repository.owner.twitterUsername || null;
 			const labels = responseData.labels.edges.map(edge => edge.node);
 			const number = responseData.number;
 			const assignees = responseData.assignees.nodes;
@@ -66,6 +66,7 @@ class GithubRepository {
 	}
 
 	parseIssuesData(rawIssuesResponse) {
+		console.log(rawIssuesResponse);
 		const responseData = rawIssuesResponse.data.nodes;
 		return responseData.filter(event => event?.__typename === 'Issue').map((elem) => {
 			try {
@@ -105,6 +106,7 @@ class GithubRepository {
 
 	async getIssueData(issueIds) {
 		const promise = new Promise(async (resolve, reject) => {
+			console.log('issueIds', issueIds);
 			try {
 				const result = await this.client.query({
 					query: GET_ISSUES_BY_ID, variables: { issueIds }, errorPolicy: 'all'
@@ -140,13 +142,14 @@ class GithubRepository {
 				const organizationResult = await this.fetchOrganizationByLogin(login);
 				resolve(organizationResult);
 			} catch (e) {
-				try{
+				try {
 					const userResult = await this.fetchUserByLogin(login);
 					resolve(userResult);
 				}
-				catch(e){
+				catch (e) {
 					console.log(e);
-					reject(e);}
+					reject(e);
+				}
 			}
 		});
 
