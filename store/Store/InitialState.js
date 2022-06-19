@@ -6,6 +6,7 @@ import GithubRepository from '../../services/github/GithubRepository';
 import TokenClient from '../../services/coins/TokenClient';
 import Logger from '../../services/logger/Logger';
 import OpenQPrismaClient from '../../services/openq-api/OpenQPrismaClient';
+import SuperFluidClient from '../../services/SuperFluidClient/SuperFluidClient';
 
 import MockGithubRepository from '../../services/github/MockGithubRepository';
 import MockOpenQClient from '../../services/ethers/MockOpenQClient';
@@ -23,7 +24,8 @@ case 'local':
 		tokenClient: new MockTokenClient(),
 		logger: new Logger(true),
 		utils: new Utils(),
-		openQPrismaClient: new MockOpenQPrismaClient()
+		openQPrismaClient: new MockOpenQPrismaClient(),
+		SuperFluidClient: new SuperFluidClient(),
 	};
 	break;
 case 'docker':
@@ -35,17 +37,19 @@ case 'docker':
 		logger: new Logger(true),
 		utils: new Utils(),
 		openQPrismaClient: new OpenQPrismaClient(),
+		SuperFluidClient: new SuperFluidClient(),
 	};
 	break;
 case 'development':
 	InitialState = {
 		openQClient: new OpenQClient(),
-		githubRepository: new GithubRepository(),
-		openQSubgraphClient: new OpenQSubgraphClient(),
+		githubRepository: new MockGithubRepository(),
+		openQSubgraphClient: new MockOpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
 		logger: new Logger(true),
 		utils: new Utils(),
-		openQPrismaClient: new OpenQPrismaClient(),
+		openQPrismaClient: new MockOpenQPrismaClient(),
+		SuperFluidClient: new SuperFluidClient(),
 	};
 	break;
 case 'staging':
@@ -57,6 +61,7 @@ case 'staging':
 		logger: new Logger(true),
 		utils: new Utils(),
 		openQPrismaClient: new OpenQPrismaClient(),
+		SuperFluidClient: new SuperFluidClient(),
 	};
 	break;
 case 'production':
@@ -68,6 +73,7 @@ case 'production':
 		logger: new Logger(false),
 		utils: new Utils(),
 		openQPrismaClient: new OpenQPrismaClient(),
+		SuperFluidClient: new SuperFluidClient(),
 	};
 	break;
 default:
