@@ -4,19 +4,12 @@ import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import TokenBalances from '../TokenBalances/TokenBalances';
 import ToolTip from '../Utils/ToolTip';
-const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectNetwork }) => {
+const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectNetwork, onDepositPeriodChanged, depositPeriodDays }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
 
 	// State
 	const [tokenValues] = useGetTokenValues(deposit);
-
-	const onDepositPeriodChanged = (e) => {
-		if (parseInt(e.target.value) >= 0) setDepositPeriodDays(parseInt(e.target.value));
-		if (e.target.value === '') setDepositPeriodDays('0');
-	};
-
-	const [depositPeriodDays, setDepositPeriodDays] = useState(0);
 
 	const [expanded, setExpanded] = useState(false);
 

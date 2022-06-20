@@ -34,6 +34,13 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 
 	const claimed = bounty.status == 'CLOSED';
 
+	const [depositPeriodDays, setDepositPeriodDays] = useState(0);
+
+	const onDepositPeriodChanged = (e) => {
+		if (parseInt(e.target.value) >= 0) setDepositPeriodDays(parseInt(e.target.value));
+		if (e.target.value === '') setDepositPeriodDays('0');
+	};
+
 	// Side Effects
 	useEffect(() => {
 		if (bounty) {
@@ -85,7 +92,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 		const depositId = showApproveTransferModal;
 
 		try{
-			const txnReceipt = await	appState.openQClient.extendDeposit(library, bounty.bountyId, depositId);
+			const txnReceipt = await	appState.openQClient.extendDeposit(library, bounty.bountyId, depositId, depositPeriodDays);
 			setTransactionHash(txnReceipt.events[0].transactionHash);
 
 			try{
@@ -137,12 +144,14 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 								.map((deposit) => {
 									return (
 										<div key={deposit.id}>
-											<DepositCard deposit={deposit} status="refundable" bounty={bounty} refundBounty={() => {
+											<DepositCard deposit={deposit} status="refundable" bounty={bounty} 
+											onDepositPeriodChanged={onDepositPeriodChanged} depositPeriodDays={depositPeriodDays}
+											refundBounty={() => {
 												setConfirmationMessage(
 													`You are about to refund the bounty at ${bounty.bountyAddress.substring(
 														0,
 														12
-													)}...${bounty.bountyAddress.substring(32)}		Are you sure you want to refund this deposit?`
+													)}...${bounty.bountyAddress.substring(32)}	Are you sure you want to refund this deposit?`
 												);
 												setExtend(false);
 												setApproveTransferState(CONFIRM);
@@ -154,7 +163,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 													`You are about to extend the bounty at ${bounty.bountyAddress.substring(
 														0,
 														12
-													)}...${bounty.bountyAddress.substring(32)} 	Are you sure you want to extend this deposit?`
+													)}...${bounty.bountyAddress.substring(32)} by ${depositPeriodDays} ${depositPeriodDays == 1 ? 'day' : 'days'}.	Are you sure you want to extend this deposit?`
 												);
 												setExtend(true);
 												setApproveTransferState(CONFIRM);
