@@ -26,6 +26,12 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 	const [approveTransferState, setApproveTransferState] = useState(RESTING);
 	const [showApproveTransferModal, setShowApproveTransferModal] = useState(false);
 	const [extend, setExtend] = useState(false);
+	const [depositPeriodDays, setDepositPeriodDays] = useState(0);
+
+	const onDepositPeriodChanged = (e) => {
+		if (parseInt(e.target.value) >= 0) setDepositPeriodDays(parseInt(e.target.value));
+		if (e.target.value === '') setDepositPeriodDays('0');
+	};
 
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -33,13 +39,6 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 	const [ensName] = useEns(account);
 
 	const claimed = bounty.status == 'CLOSED';
-
-	const [depositPeriodDays, setDepositPeriodDays] = useState(0);
-
-	const onDepositPeriodChanged = (e) => {
-		if (parseInt(e.target.value) >= 0) setDepositPeriodDays(parseInt(e.target.value));
-		if (e.target.value === '') setDepositPeriodDays('0');
-	};
 
 	// Side Effects
 	useEffect(() => {
