@@ -172,7 +172,7 @@ class OpenQClient {
 		return promise;
 	}
 
-	async extendDeposit(_bountyId, _depositId, seconds) {
+	async extendDeposit(library, _bountyId, _depositId, _depositPeriodDays) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
 			const contract = this.OpenQ(signer);

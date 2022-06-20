@@ -154,7 +154,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 													`You are about to extend the bounty at ${bounty.bountyAddress.substring(
 														0,
 														12
-													)}...${bounty.bountyAddress.substring(32)}	by 	Are you sure you want to extend this deposit?`
+													)}...${bounty.bountyAddress.substring(32)} 	Are you sure you want to extend this deposit?`
 												);
 												setExtend(true);
 												setApproveTransferState(CONFIRM);
@@ -205,31 +205,18 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 						}
 					</div>
 				</div>
-				{showApproveTransferModal && (!extend ? <ApproveTransferModal
+				{showApproveTransferModal && <ApproveTransferModal
 					approveTransferState={approveTransferState}
 					transactionHash={transactionHash}
 					confirmationMessage={confirmationMessage}
 					error={error}
 					setShowApproveTransferModal={setShowApproveTransferModal}
-					positiveOption={'Yes, Refund!'}
-					confirmMethod={refundBounty}
+					positiveOption={!extend? 'Yes, Refund!' : 'Yes, Extend!'}
+					confirmMethod={!extend? refundBounty : extendBounty}
 					resetState={resetState}
-					approvingMessage={'Refunding...'}
-					approvingTitle={'Refund'}
-					/>
-					: <ApproveTransferModal
-					approveTransferState={approveTransferState}
-					transactionHash={transactionHash}
-					confirmationMessage={confirmationMessage}
-					error={error}
-					setShowApproveTransferModal={setShowApproveTransferModal}
-					positiveOption={'Yes, Extend!'}
-					confirmMethod={refundBounty}
-					resetState={resetState}
-					approvingMessage={'Extending...'}
-					approvingTitle={'Extend'}
-					
-				/>)}
+					approvingMessage={!extend? 'Refunding...' : 'Extending...'}
+					approvingTitle={!extend? 'Refund' : 'Extend'}
+					/>}
 			</div>
 		}</>
 	);
