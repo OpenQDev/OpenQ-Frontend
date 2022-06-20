@@ -177,7 +177,7 @@ class OpenQClient {
 			const signer = library.getSigner();
 			const contract = this.OpenQ(signer);
 			try {
-				seconds = _depositPeriodDays * 24 * 60 * 60;
+				const seconds = _depositPeriodDays * 24 * 60 * 60;
 				const txnResponse = await contract.extendDeposit(_bountyId, _depositId, seconds);
 				const txnReceipt = await txnResponse.wait();
 				resolve(txnReceipt);
