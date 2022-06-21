@@ -137,18 +137,18 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 										'Please indicate the volume you\'d like to claim with.' :
 										account && authState.isAuthenticated ?
 											'Please switch to the correct network to claim this bounty.' :
-											(authState.isAuthenticated) ?
+											(!account) ?
 												'Connect your wallet to claim this bounty!' :
 												'Connect your GitHub account to claim this bounty!'
 								}
 								customOffsets={[0, 50]}>
 								<button
 									type="submit"
-									className={isOnCorrectNetwork && authState.isAuthenticated ? 'confirm-btn cursor-pointer px-32' : 'confirm-btn-disabled cursor-not-allowed  px-32'}
-									disabled={!isOnCorrectNetwork || !authState.isAuthenticated}
+									className={(isOnCorrectNetwork && authState.isAuthenticated) || !account ? 'confirm-btn cursor-pointer px-32' : 'confirm-btn-disabled cursor-not-allowed  px-32'}
+									disabled={(!isOnCorrectNetwork || !authState.isAuthenticated) && account}
 									onClick={account ? () => setShowClaimLoadingModal(true) : connectWallet}
 								>
-									Claim
+									{account ? 'Claim' : 'Connect Wallet'}
 								</button>
 							</ToolTip>
 						</div>

@@ -42,6 +42,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
 	const { library, account, } = useWeb3();
+	console.log(account);
 
 	// State
 	const [token, setToken] = useState(zeroAddressMetadata);
@@ -58,6 +59,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	// Methods
 
 	const openFund = ()=>{
+		console.log(account);
 		setConfirmationMessage(
 			`You are about to fund this bounty at address ${bounty.bountyAddress.substring(
 				0,
@@ -74,6 +76,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	};
 
 	const connectWallet = () =>{		
+		console.log('exec');
 		const payload = {
 			type: 'CONNECT_WALLET',
 			payload: true
@@ -244,7 +247,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 						[0, 54]}>
 					<button
 						className={fundButtonClasses}
-						disabled={(loadingClosedOrZero || !isOnCorrectNetwork) }
+						disabled={(loadingClosedOrZero || !isOnCorrectNetwork) && account }
 						type="button"
 						onClick={account ? openFund : connectWallet}
 					>

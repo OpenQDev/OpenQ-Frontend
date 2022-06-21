@@ -55,7 +55,7 @@ const Layout = ({ children }) => {
 				data: GET_PRICES
 			});
 			console.log(response);
-			tokenPrices = response.data.data.prices[0].priceObj;
+			tokenPrices = response.data.data.prices[0]?.priceObj;
 		}
 		
 		appState.tokenClient.firstTenPrices = tokenPrices;
