@@ -46,7 +46,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError}) => 
 		}
 		else{
 			const subgraphBounties = await appState.openQSubgraphClient.getPaginatedOrganizationBounties(organizationData.id, currentPagination, sortOrder, batch, []);
-			newBounties = subgraphBounties.bountiesCreated;
+			newBounties = subgraphBounties;
 		}
 		const bountyIds = newBounties.map((bounty) => bounty.bountyId);
 		let issueData;

@@ -45,6 +45,7 @@ const Layout = ({ children }) => {
 		if(process.env.NEXT_PUBLIC_DEPLOY_ENV==='local'){
 			const response = await axios.get(`${process.env.NEXT_PUBLIC_OPENQ_API_URL}/prices`);
 			console.log(response);
+			tokenPrices = response.data[0].priceObj;
 		}
 		else{
 			const response = await axios({
@@ -53,7 +54,8 @@ const Layout = ({ children }) => {
 				headers: {'content-type':'application/json'},
 				data: GET_PRICES
 			});
-			tokenPrices = response.data.data.prices[0].priceObj;
+			console.log(response);
+			tokenPrices = response.data.data.prices[0]?.priceObj;
 		}
 		
 		appState.tokenClient.firstTenPrices = tokenPrices;

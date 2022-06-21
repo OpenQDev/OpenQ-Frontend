@@ -17,11 +17,6 @@ export const GET_BOUNTY_BY_HASH = gql`query bounty($contractAddress: String! ) {
     tvl
 		bountyId
     watchingUserIds
-    watchingUsers(limit: 10) {
-      users {
-        address
-      }
-    }
   }
 }`;
 

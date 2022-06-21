@@ -11,7 +11,7 @@ import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgrap
 import Utils from '../services/utils/Utils';
 
 export default function Index({orgs, fullBounties, batch }) {
-	const [internalMenu, setInternalMenu] = useState('issue');
+	const [internalMenu, setInternalMenu] = useState('org');
 	// State
 	const [bounties, setBounties] = useState(fullBounties);
 	const [isLoading, setIsLoading] = useState(false);
@@ -28,13 +28,14 @@ export default function Index({orgs, fullBounties, batch }) {
 		if(account){
 			try{
 				const prismaBounties = await appState.openQPrismaClient.getUser(account);
-				const watchedBountyAddresses = prismaBounties.watchedBounties.bounties.map(bounty=>bounty.address.toLowerCase());
+				const watchedBountyAddresses = prismaBounties.watchedBountyIds.map(address=>address.toLowerCase());
 				const subgraphBounties =  await appState.openQSubgraphClient.getBountiesByContractAddresses( watchedBountyAddresses);
 				const githubIds = subgraphBounties.map(bounty=>bounty.bountyId);
 				const githubBounties = await appState.githubRepository.getIssueData(githubIds);
 				setWatchedBounties(subgraphBounties.map((bounty, index)=>{return {...bounty, ...githubBounties[index]};}));
 			}
 			catch(err){
+				console.log(err);
 				console.log('could not fetch watched bounties');
 			}
 		}

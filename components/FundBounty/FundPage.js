@@ -40,15 +40,16 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		path: '/crypto-logos/MATIC.svg'
 	};
 	// Context
-	const [appState] = useContext(StoreContext);
+	const [appState, dispatch] = useContext(StoreContext);
 	const { library, account, } = useWeb3();
+	console.log(account);
 
 	// State
 	const [token, setToken] = useState(zeroAddressMetadata);
 
 	const claimed = bounty.status == 'CLOSED';
-	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) <= 0.00000001 || parseFloat(volume) >= 1000 || volume == '' || !account || !(parseInt(depositPeriodDays) > 0);
-	const disableOrEnable = `${loadingClosedOrZero || !isOnCorrectNetwork ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`;
+	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) <= 0.00000001 || parseFloat(volume) >= 1000 || volume == ''  || !(parseInt(depositPeriodDays) > 0);
+	const disableOrEnable = `${(loadingClosedOrZero || !isOnCorrectNetwork) && account ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`;
 	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center py-3 text-lg  ${disableOrEnable}`;
 
 	function resetState() {
@@ -56,6 +57,33 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	}
 
 	// Methods
+
+	const openFund = ()=>{
+		console.log(account);
+		setConfirmationMessage(
+			`You are about to fund this bounty at address ${bounty.bountyAddress.substring(
+				0,
+				12
+			)}...${bounty.bountyAddress.substring(32)} with ${volume} ${token.name
+			}.
+									
+									This will be refundable after ${depositPeriodDays} ${depositPeriodDays == 1 ? 'day' : 'days'}.
+									
+									Is this correct?`
+		);
+		setApproveTransferState(CONFIRM);
+		setShowApproveTransferModal(true);
+	};
+
+	const connectWallet = () =>{		
+		console.log('exec');
+		const payload = {
+			type: 'CONNECT_WALLET',
+			payload: true
+		};
+		dispatch(payload);
+	};
+
 	async function fundBounty() {
 		const volumeInWei = volume * 10 ** token.decimals;
 
@@ -138,7 +166,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					bounty.bountyId,
 					token.address,
 					bigNumberVolumeInWei,
-					depositPeriodDays
+					depositPeriodDays/(24*60*60)
 				);
 				setTransactionHash(fundTxnReceipt.events[0].transactionHash);
 				setApproveTransferState(SUCCESS);
@@ -219,25 +247,11 @@ const FundPage = ({ bounty, refreshBounty }) => {
 						[0, 54]}>
 					<button
 						className={fundButtonClasses}
-						disabled={loadingClosedOrZero || !isOnCorrectNetwork}
+						disabled={(loadingClosedOrZero || !isOnCorrectNetwork) && account }
 						type="button"
-						onClick={() => {
-							setConfirmationMessage(
-								`You are about to fund this bounty at address ${bounty.bountyAddress.substring(
-									0,
-									12
-								)}...${bounty.bountyAddress.substring(32)} with ${volume} ${token.name
-								}.
-									
-									This will be refundable after ${depositPeriodDays} ${depositPeriodDays == 1 ? 'day' : 'days'}.
-									
-									Is this correct?`
-							);
-							setApproveTransferState(CONFIRM);
-							setShowApproveTransferModal(true);
-						}}
+						onClick={account ? openFund : connectWallet}
 					>
-						<div>{buttonText}</div>
+						<div>{account ? buttonText : 'Connect Wallet'}</div>
 						<div>{approveTransferState != RESTING && approveTransferState != SUCCESS && approveTransferState != ERROR ? (
 							<ButtonLoadingIcon />
 						) : null}</div>

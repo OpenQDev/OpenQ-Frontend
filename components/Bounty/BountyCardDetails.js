@@ -30,10 +30,12 @@ const BountyCardDetails = ({ bounty, address,  tokenValues, internalMenu }) => {
 				
 					<div className='lg:col-span-2 xl:col-span-3 pt-2'>
 						<h3 className='font-bold'>Linked Pull Requests</h3>
-						{bounty.prs.length>0 ?<ul>
-							{bounty.prs.map((pr, index)=><li className={`${pr.source.merged ? 'text-claimed-bounty':null}`} key ={index}>
+						{bounty?.prs?.some(pr=>pr.source__typeName==="Pull Request"&& pr.source.url)>0 ?<ul>
+							{bounty.prs.filter((pr, index)=>{
+							return pr.source__typeName==="Pull Request"&& pr.source.url}).map((pr, index)=>{
+							if(pr.source__typeName==="Pull Request"&& pr.source.url) return <li className={`${pr.source.merged ? 'text-claimed-bounty':null}`} key ={index}>
 								<Link href ={pr.source.url}><a target="_blank" className={'underline'}>{pr.source.title}</a></Link><span> {pr.source.merged ? '(merged)' : '(not merged)'}</span>
-							</li>)}			
+							</li>})}			
 						</ul> :<span>No linked pull requests</span>	}
 					</div>
 
