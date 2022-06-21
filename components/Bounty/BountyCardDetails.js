@@ -112,7 +112,7 @@ const BountyCardDetails = ({ bounty, address,  tokenValues, internalMenu }) => {
 			<div className="flex flex-col pt-4">
 				<div className="flex flex-row justify-between">
 					<div className="font-bold text-xl ">Description</div>
-					{false&&	<BountyLinks bounty={bounty} address={address} hideBountyLink={true} />}
+					<BountyLinks bounty={bounty} address={address} hideBountyLink={true} />
 				</div>
 				<div>
 					<LabelsList bounty={bounty} />
