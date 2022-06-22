@@ -143,7 +143,12 @@ const stream = () => {
 
 	function CreateButton({ isLoading, children, ...props }) {
 		return (
-			<button variant="success" className="button" disabled={isButtonLoading} {...props} >
+			<button
+				variant="success"
+				className="mb-5 text-lg rounded-full inline-flex items-center justify-center px-3 py-2 border-2 border-secondary-900 bg-secondary-900"
+				disabled={isButtonLoading}
+				{...props}
+			>
 				{children}
 			</button>
 		);
@@ -167,149 +172,163 @@ const stream = () => {
 	};
 
 	return (
-		<div>
-			<h2 className="mb-3">
-				Approve Tokens
-			</h2>
-			<form>
-				<div className="mb-3 text-black">
-					<input
-						type="text"
-						name="recipient"
-						value={amount}
-						onChange={handleAmountChange}
-						placeholder="amount of tokens"
-					/>
-				</div>
-				<CreateButton
-					onClick={(e) => {
-						e.preventDefault();
-						setIsButtonLoading(true);
-						approveToken(amount, () => {
-							setIsButtonLoading(false);
-							setAmount('');
-						});
-					}}
-				>
-					Approve the contract to move your tokens
-				</CreateButton>
-			</form>
-			<h2 className="mb-3">
-				Create a Flow
-			</h2>
-			<form>
-				<div className="mb-3 text-black">
-					<input
-						type="text"
-						name="recipient"
-						value={recipient}
-						onChange={handleRecipientChange}
-						placeholder="Enter the receiver Ethereum address"
-					/>
-				</div>
-				<div className="mb-3 text-black">
-					<input
-						type="text"
-						name="flowRate"
-						value={flowRate}
-						onChange={handleFlowRateChange}
-						placeholder="Enter a flowRate in wei/second"
-					/>
-				</div>
-				<CreateButton
-					onClick={(e) => {
-						e.preventDefault();
-						setIsButtonLoading(true);
-						createNewFlowAndUpgrade(recipient, () => {
-							setIsButtonLoading(false);
-							setRecipient('');
-							setFlowRate('');
-							setFlowRateDisplay('');
-						});
-					}}
-				>
-					Click to Create Your Stream
-				</CreateButton>
-				<div className="description">
-					<div className="calculation">
-						<p>Your flow will be equal to:</p>
-						<p>
-							<b>${flowRateDisplay !== " " ? flowRateDisplay : 0}</b> DAIx/month
-						</p>
+		<div className="flex flex-col items-center w-full">
+			<div className="ml-12">
+				<h2 className="mb-5 text-2xl">
+					Approve Tokens
+				</h2>
+				<form>
+					<div className="mb-5 text-black">
+						<input
+							type="text"
+							name="recipient"
+							value={amount}
+							onChange={handleAmountChange}
+							placeholder="amount of tokens"
+							className="w-full h-8"
+						/>
 					</div>
-				</div>
-			</form>
-			<h2 className="mb-3">
-				Update a Flow
-			</h2>
-			<form>
-				<div className="mb-3 text-black">
-					<input
-						type="text"
-						name="recipient"
-						value={recipient}
-						onChange={handleRecipientChange}
-						placeholder="Enter the receiver Ethereum address"
-					/>
-				</div>
-				<div className="mb-3 text-black">
-					<input
-						type="text"
-						name="flowRate"
-						value={flowRate}
-						onChange={handleFlowRateChange}
-						placeholder="Enter a flowRate in wei/second"
-					/>
-				</div>
-				<CreateButton
-					onClick={(e) => {
-						e.preventDefault();
-						setIsButtonLoading(true);
-						updateFlow(recipient, () => {
-							setIsButtonLoading(false);
-							setRecipient('');
-							setFlowRate('');
-							setFlowRateDisplay('');
-						});
-					}}
-				>
-					Click to Update Your Stream
-				</CreateButton>
-				<div className="description">
-					<div className="calculation">
-						<p>Your flow will be equal to:</p>
-						<p>
-							<b>${flowRateDisplay !== " " ? flowRateDisplay : 0}</b> DAIx/month
-						</p>
+					<CreateButton
+						onClick={(e) => {
+							e.preventDefault();
+							setIsButtonLoading(true);
+							approveToken(amount, () => {
+								setIsButtonLoading(false);
+								setAmount('');
+							});
+						}}
+					>
+						Approve the contract to move your tokens
+					</CreateButton>
+				</form>
+			</div>
+			<div>
+				<h2 className="mb-3 text-2xl">
+					Create a Flow
+				</h2>
+				<form>
+					<div className="mb-3 text-black">
+						<input
+							type="text"
+							name="recipient"
+							value={recipient}
+							onChange={handleRecipientChange}
+							placeholder="Enter the receiver Ethereum address"
+							className="w-full h-8"
+						/>
 					</div>
-				</div>
-			</form>
-			<h2 className="mb-3">
-				Delete a Flow
-			</h2>
-			<form>
-				<div className="mb-3 text-black">
-					<input
-						type="text"
-						name="recipient"
-						value={recipient}
-						onChange={handleRecipientChange}
-						placeholder="Enter the receiver Ethereum address"
-					/>
-				</div>
-				<CreateButton
-					onClick={(e) => {
-						e.preventDefault();
-						setIsButtonLoading(true);
-						deleteFlow(recipient, () => {
-							setIsButtonLoading(false);
-							setRecipient('');
-						});
-					}}
-				>
-					Click to Delete Your Stream
-				</CreateButton>
-			</form>
+					<div className="mb-3 text-black">
+						<input
+							type="text"
+							name="flowRate"
+							value={flowRate}
+							onChange={handleFlowRateChange}
+							placeholder="Enter a flowRate in wei/second"
+							className="w-full h-8"
+						/>
+					</div>
+					<CreateButton
+						onClick={(e) => {
+							e.preventDefault();
+							setIsButtonLoading(true);
+							createNewFlowAndUpgrade(recipient, () => {
+								setIsButtonLoading(false);
+								setRecipient('');
+								setFlowRate('');
+								setFlowRateDisplay('');
+							});
+						}}
+					>
+						Click to Create Your Stream
+					</CreateButton>
+					<div className="mb-3">
+						<div>
+							<p>Your flow will be equal to:</p>
+							<p>
+								<b>${flowRateDisplay !== " " ? flowRateDisplay : 0}</b> DAIx/month
+							</p>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div>
+				<h2 className="mb-3 text-2xl">
+					Update a Flow
+				</h2>
+				<form>
+					<div className="mb-3 text-black">
+						<input
+							type="text"
+							name="recipient"
+							value={recipient}
+							onChange={handleRecipientChange}
+							placeholder="Enter the receiver Ethereum address"
+							className="w-full h-8"
+						/>
+					</div>
+					<div className="mb-3 text-black">
+						<input
+							type="text"
+							name="flowRate"
+							value={flowRate}
+							onChange={handleFlowRateChange}
+							placeholder="Enter a flowRate in wei/second"
+							className="w-full h-8"
+						/>
+					</div>
+					<CreateButton
+						onClick={(e) => {
+							e.preventDefault();
+							setIsButtonLoading(true);
+							updateFlow(recipient, () => {
+								setIsButtonLoading(false);
+								setRecipient('');
+								setFlowRate('');
+								setFlowRateDisplay('');
+							});
+						}}
+					>
+						Click to Update Your Stream
+					</CreateButton>
+					<div className="mb-3">
+						<div>
+							<p>Your flow will be equal to:</p>
+							<p>
+								<b>${flowRateDisplay !== " " ? flowRateDisplay : 0}</b> DAIx/month
+							</p>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div>
+				<h2 className="mb-3 text-2xl">
+					Delete a Flow
+				</h2>
+				<form>
+					<div className="mb-3 text-black">
+						<input
+							type="text"
+							name="recipient"
+							value={recipient}
+							onChange={handleRecipientChange}
+							placeholder="Enter the receiver Ethereum address"
+							className="w-full h-8"
+						/>
+					</div>
+					<CreateButton
+						onClick={(e) => {
+							e.preventDefault();
+							setIsButtonLoading(true);
+							deleteFlow(recipient, () => {
+								setIsButtonLoading(false);
+								setRecipient('');
+							});
+						}}
+					>
+						Click to Delete Your Stream
+					</CreateButton>
+				</form>
+			</div>
 		</div>
 	);
 };
