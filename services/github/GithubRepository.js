@@ -66,7 +66,6 @@ class GithubRepository {
 	}
 
 	parseIssuesData(rawIssuesResponse) {
-		console.log(rawIssuesResponse);
 		const responseData = rawIssuesResponse.data.nodes;
 		return responseData.filter(event => event?.__typename === 'Issue').map((elem) => {
 			try {
@@ -106,7 +105,6 @@ class GithubRepository {
 
 	async getIssueData(issueIds) {
 		const promise = new Promise(async (resolve, reject) => {
-			console.log('issueIds', issueIds);
 			try {
 				const result = await this.client.query({
 					query: GET_ISSUES_BY_ID, variables: { issueIds }, errorPolicy: 'all'
