@@ -1,7 +1,7 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import {  CREATE_NEW_BOUNTY, UPDATE_BOUNTY, WATCH_BOUNTY, UNWATCH_BOUNTY, GET_BOUNTY_BY_HASH, GET_USER_BY_HASH, GET_BOUNTY_PAGE } from './graphql/query';
+import { CREATE_NEW_BOUNTY, UPDATE_BOUNTY, WATCH_BOUNTY, UNWATCH_BOUNTY, GET_BOUNTY_BY_HASH, GET_USER_BY_HASH, GET_BOUNTY_PAGE } from './graphql/query';
 import fetch from 'cross-fetch';
-import {ethers} from 'ethers';
+import { ethers } from 'ethers';
 
 class OpenQPrismaClient {
 	constructor() { }
@@ -14,12 +14,12 @@ class OpenQPrismaClient {
 		cache: new InMemoryCache(),
 	});
 
-	async createNewBounty(id) {
+	async createNewBounty(address, organizationId, bountyId) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.mutate({
 					mutation: CREATE_NEW_BOUNTY,
-					variables: { id, tvl: 0.0 }
+					variables: { address, tvl: 0.0, organizationId, bountyId }
 				});
 				resolve(result);
 			} catch (e) {
@@ -108,13 +108,13 @@ class OpenQPrismaClient {
 		return promise;
 	}
 
-	async getBountyPage(after, limit, orderBy, sortOrder, organizationId){
-	
+	async getBountyPage(after, limit, orderBy, sortOrder, organizationId) {
+
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
 					query: GET_BOUNTY_PAGE,
-					variables: {after, limit, orderBy, sortOrder, organizationId},
+					variables: { after, limit, orderBy, sortOrder, organizationId },
 					fetchPolicy: 'no-cache'
 				});
 				resolve(result.data);
@@ -125,7 +125,7 @@ class OpenQPrismaClient {
 		}
 		);
 		return promise;
-	
+
 	}
 
 

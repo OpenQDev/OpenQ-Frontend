@@ -1,5 +1,5 @@
 // Third party Libraries
-import React, { useState, useRef, } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import axios from 'axios';
 import confetti from 'canvas-confetti';
 
@@ -20,6 +20,7 @@ import useEns from '../../hooks/useENS';
 import ToolTip from '../Utils/ToolTip';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
+import StoreContext from '../../store/Store/StoreContext';
 
 const ClaimPage = ({ bounty, refreshBounty }) => {
 	const { url } = bounty;
@@ -31,6 +32,8 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	const [justClaimed, setJustClaimed] = useState(false);
 	const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
 	const canvas = useRef();
+	
+	const [, dispatch] = useContext(StoreContext);
 
 
 	const claimed = bounty.status == 'CLOSED';
@@ -53,6 +56,14 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	const [authState] = useAuth();
 
 	// Methods
+	const connectWallet = ()=>{
+		const payload = {
+			type: 'CONNECT_WALLET',
+			payload: true
+		};
+		dispatch(payload);
+	};
+
 	const claimBounty = async () => {
 		setClaimState(CHECKING_WITHDRAWAL_ELIGIBILITY);
 		axios
@@ -126,18 +137,18 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 										'Please indicate the volume you\'d like to claim with.' :
 										account && authState.isAuthenticated ?
 											'Please switch to the correct network to claim this bounty.' :
-											(authState.isAuthenticated) ?
+											(!account) ?
 												'Connect your wallet to claim this bounty!' :
 												'Connect your GitHub account to claim this bounty!'
 								}
 								customOffsets={[0, 50]}>
 								<button
 									type="submit"
-									className={account && isOnCorrectNetwork && authState.isAuthenticated ? 'confirm-btn cursor-pointer px-32' : 'confirm-btn-disabled cursor-not-allowed  px-32 py-4'}
-									disabled={!account || !isOnCorrectNetwork || !authState.isAuthenticated}
-									onClick={() => setShowClaimLoadingModal(true)}
+									className={(isOnCorrectNetwork && authState.isAuthenticated) || !account ? 'confirm-btn cursor-pointer px-32' : 'confirm-btn-disabled cursor-not-allowed  px-32'}
+									disabled={(!isOnCorrectNetwork || !authState.isAuthenticated) && account}
+									onClick={account ? () => setShowClaimLoadingModal(true) : connectWallet}
 								>
-									Claim
+									{account ? 'Claim' : 'Connect Wallet'}
 								</button>
 							</ToolTip>
 						</div>

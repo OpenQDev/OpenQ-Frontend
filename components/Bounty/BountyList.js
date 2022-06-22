@@ -11,7 +11,6 @@ import CarouselBounty from './CarouselBounty';
 import useWeb3 from '../../hooks/useWeb3';
 
 const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData, getNewData, addCarousel }) => {
-	console.log(bounties);
 	// Hooks
 	const {account} = useWeb3();
 	const [fundedOnly, setFundedOnly] = useState(true);
@@ -96,13 +95,11 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 	};
 
 	// Orders bounties	
-	const orderBounties = (bounties = [], toggleTo = sortOrder) => {
-		console.log(toggleTo);
-		if (toggleTo === sortOrder) { return bounties; }
+	const orderBounties = (bounties = [], toggleTo = sortOrder, firstLoad) => {
+		if (toggleTo === sortOrder && !firstLoad) { return bounties; }
 		switch (toggleTo) {
 		case 'Newest': {
-			console.log('exec');
-			if (complete) {
+			if (complete || firstLoad) {
 				return bounties.sort((a, b) => {
 					return b.bountyMintTime - a.bountyMintTime;
 				});
@@ -126,11 +123,14 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		}
 			break;
 		case 'Highest': {
-			getNewData('desc', 'tvl');
+			if( sortOrder !== toggleTo)	{
+				getNewData('desc', 'tvl');}
 		}
 			break;
-		case 'Lowest': {			
-			getNewData('asc', 'tvl');
+		case 'Lowest': {	
+			if( sortOrder !== toggleTo)	{	
+				getNewData('asc', 'tvl');
+			}
 			
 		}
 			break;
@@ -142,8 +142,8 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 	useEffect(async () => {
 		updateIsProcessed(false);
 		if (!bounties) updateIsProcessed(true);
-		else {
-			updateSearchedBounties(orderBounties(filter(bounties)));
+		else	 {
+			updateSearchedBounties(orderBounties(filter(bounties), sortOrder, true));
 			updateIsProcessed(true);
 		}
 	}, [bounties]);
@@ -217,7 +217,6 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 				threshold: .1
 			};
 			const callback = (entries) => {
-				console.log(entries[0].isIntersecting && isProcessed && !loading );
 				if (entries[0].isIntersecting && isProcessed && !complete && !loading) {
 					fetchPage();
 				}

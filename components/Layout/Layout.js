@@ -12,7 +12,6 @@ import useCheckFirstLaunch from '../../hooks/useCheckFirstLaunch.js';
 import Footer from './Footer.js';
 import useWeb3 from '../../hooks/useWeb3.js';
 import useAuth from '../../hooks/useAuth.js';
-import enumerableMetadata from '../../constants/polygon-mainnet-enumerable.json';
 
 const Layout = ({ children }) => {
 	const [gnosisSafe, setGnosisSafe] = useState();
@@ -22,6 +21,7 @@ const Layout = ({ children }) => {
 	
 	useAuth();
 	useEffect(async () => {
+		//const openQPrismaClient = new WrappedOpenQPrismaClient();
 		const safe = new SafeAppConnector();
 		safe.getSafeInfo().then((data) => {
 			if (data) {
@@ -32,11 +32,37 @@ const Layout = ({ children }) => {
 		setGnosisSafe(safe);
 
 		// First tokens + matic
-		const firstTen = enumerableMetadata.tokens.slice(0, 11).map(elem => elem.address).concat('0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270');
-		const network = 'polygon-pos';
-		const stringifiedTokens = firstTen.join(',');
-		const firstTenPrices = await axios.get(`https://api.coingecko.com/api/v3/simple/token_price/${network}?contract_addresses=${stringifiedTokens}&vs_currencies=usd`);
-		appState.tokenClient.firstTenPrices = firstTenPrices.data;
+		const GET_PRICES = {
+			'query': `{
+			prices {
+    				timestamp
+    				priceObj
+  			
+			}
+		}`};
+		let tokenPrices = {};
+
+		try{
+		if(process.env.NEXT_PUBLIC_DEPLOY_ENV==='local'){
+			const response = await axios.get(`${process.env.NEXT_PUBLIC_OPENQ_API_URL}/prices`);
+			tokenPrices = response.data[0].priceObj;
+		}
+		else{
+			const response = await axios({
+				url: process.env.NEXT_PUBLIC_OPENQ_API_URL,
+				method: 'post',
+				headers: {'content-type':'application/json'},
+				data: GET_PRICES
+			});
+			tokenPrices = response?.data?.data.prices[0]?.priceObj ||{};
+		}
+		}
+			catch(err){
+			console.log("could not fetch initial prices", err)
+			}
+		
+		
+		appState.tokenClient.firstTenPrices = tokenPrices;
 	}, []);
 
 

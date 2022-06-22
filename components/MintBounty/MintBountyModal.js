@@ -16,7 +16,7 @@ import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 
 const MintBountyModal = ({ modalVisibility }) => {
 	// Context
-	const [appState] = useContext(StoreContext);
+	const [appState, dispatch] = useContext(StoreContext);
 	const { library, account } = useWeb3();
 	const router = useRouter();
 
@@ -58,6 +58,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 				const issueData = await fetchIssue();
 
 				if (issueData) {
+
 					try {
 						let bounty = await appState.openQSubgraphClient.getBountyByGithubId(
 							issueData.id,
@@ -83,17 +84,18 @@ const MintBountyModal = ({ modalVisibility }) => {
 	const mintBounty = async () => {
 		try {
 			setIsLoading(true);
-			const {bountyAddress}= await appState.openQClient.mintBounty(
+			const { bountyAddress } = await appState.openQClient.mintBounty(
 				library,
 				issue.id,
 				issue.repository.owner.id,
 			);
 			sessionStorage.setItem('justMinted', true);
-			try{
-				await appState.openQPrismaClient.createNewBounty(ethers.utils.getAddress(bountyAddress));
+			try {
+				await appState.openQPrismaClient.createNewBounty(ethers.utils.getAddress(bountyAddress), issue.repository.owner.id, issue.id);
 			}
-			catch(err){
-				console.log('error in prisma',err);}
+			catch (err) {
+				console.log('error in prisma', err);
+			}
 
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress}`
@@ -107,6 +109,14 @@ const MintBountyModal = ({ modalVisibility }) => {
 		}
 	};
 
+	const connectWallet = ()=>{
+		const payload = {
+			type: 'CONNECT_WALLET',
+			payload: true
+		};
+		dispatch(payload);
+	};
+
 	const closeModal = () => {
 		setIssue();
 		setUrl();
@@ -115,11 +125,11 @@ const MintBountyModal = ({ modalVisibility }) => {
 		setError();
 		modalVisibility(false);
 	};
-
+	
 	useEffect(() => {
 		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
 		function handleClickOutside(event) {
-			if (modal.current && !modal.current.contains(event.target)) {
+			if (modal.current && !modal.current.contains(event.target) && !appState.walletConnectModal && !document.getElementById("connect-modal")?.contains(event.target)) {
 				modalVisibility(false);
 			}
 		}
@@ -136,14 +146,14 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 	// Render
 	return (
-		<div className="flex justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-5">
+		<div className={`justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 left-20 outline-none z-50 focus:outline-none p-5 ${appState.walletConnectModal ? 'hidden' : 'flex'}`}>
 			{error ?
 				<ErrorModal
 					setShowErrorModal={closeModal}
 					error={error}
 				/> :
 				<>
-					<div ref={modal} className="md:w-1/2 lg:w-1/3 xl:w-1/4 space-y-5 z-50">
+					<div ref={modal} className="md:w-1/2 lg:w-1/3 xl:w-1/4 space-y-5 z-50 ">
 						<div className="w-full">
 							<div className="border-0 rounded-xl shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none z-11">
 								<MintBountyHeader />
@@ -169,7 +179,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 								</div>
 
 								<ToolTip
-									hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed) || isLoading}
+									hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading }
 									toolTipText={
 										account && isOnCorrectNetwork ?
 											'Please choose an elgible issue.' :
@@ -180,8 +190,9 @@ const MintBountyModal = ({ modalVisibility }) => {
 									customOffsets={[0, 70]}>
 									<div className="flex items-center justify-center p-5 rounded-b w-full">
 										<MintBountyModalButton
-											mintBounty={mintBounty}
-											enableMint={enableMint && isOnCorrectNetwork && account && !issue?.closed && !isLoading}
+											mintBounty={(account)? mintBounty : connectWallet}
+											account={account}
+											enableMint={(enableMint && isOnCorrectNetwork && !issue?.closed && !isLoading)|| !account}
 											transactionPending={isLoading}
 										/>
 									</div>

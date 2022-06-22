@@ -93,7 +93,7 @@ const ApproveFundModal = ({
 		[ERROR]: `${error.linkText}`
 	};
 
-	volume = Number(volume).toFixed(10);
+	volume =Math.round(volume*Math.pow(10, 10))/Math.pow(10, 10);
 
 	return (
 		<div>

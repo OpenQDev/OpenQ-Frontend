@@ -15,7 +15,7 @@ describe('BountyList', ( ) => {
 	const newBounties = mocks.bounties;	
 	const	issueData = InitialState.githubRepository.parseIssuesData(mocks.githubIssues);
 	const fullBounties = InitialState.utils.combineBounties(newBounties, issueData);
-	const contractAddresses = mocks.watchedBounties.bounties.map(bounty=>bounty.contractAddress.toLowerCase());
+	const contractAddresses = mocks.watchedBounties.bounties.map(bounty=>bounty.address.toLowerCase());
 	const subgraphBounties =  newBounties.filter(bounty=>contractAddresses.includes(bounty.bountyAddress));
 	const githubIds = subgraphBounties.map(bounty=>bounty.bountyId);
 	const githubBounties =InitialState.githubRepository.parseIssuesData( mocks.githubIssues).filter(issue=>githubIds.includes(issue.id));
