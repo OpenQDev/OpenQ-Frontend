@@ -24,7 +24,7 @@ const ConnectModal = ({closeModal})=>{
 	,[account];
 	return(
 		<div>
-			<div className='text-white absolute top-0 left-20 right-0 h-screen flex justify-center items-center'>
+			<div id="connect-modal" className='text-white absolute top-0 left-20 right-0 h-screen flex justify-center items-center'>
 				<div className='max-w-md w-5/6 bg-dark-mode z-[60] flex flex-col gap-2 p-6 px-12 text-lg rounded-lg '>
 					<div>
 						<Image alt={'openq-logo'} src={'/openq-logo.png'} height={32} width={32}/>

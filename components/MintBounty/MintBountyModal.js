@@ -129,7 +129,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 	useEffect(() => {
 		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
 		function handleClickOutside(event) {
-			if (modal.current && !modal.current.contains(event.target) && !appState.walletConnectModal && event.target.innerText !== 'Close') {
+			if (modal.current && !modal.current.contains(event.target) && !appState.walletConnectModal && !document.getElementById("connect-modal")?.contains(event.target)) {
 				modalVisibility(false);
 			}
 		}
@@ -146,7 +146,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 	// Render
 	return (
-		<div className={`justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-5 ${appState.walletConnectModal ? 'hidden' : 'flex'}`}>
+		<div className={`justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 left-20 outline-none z-50 focus:outline-none p-5 ${appState.walletConnectModal ? 'hidden' : 'flex'}`}>
 			{error ?
 				<ErrorModal
 					setShowErrorModal={closeModal}
