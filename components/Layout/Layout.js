@@ -51,13 +51,12 @@ const Layout = ({ children }) => {
 					headers: {'content-type':'application/json'},
 					data: GET_PRICES
 				});
-				tokenPrices = response?.data?.data.prices[0]?.priceObj ||{};
+				tokenPrices = response?.data.data.prices?.priceObj ||{};
 			}
 		}
 		catch(err){
 			console.log('could not fetch initial prices', err);
 		}
-		
 		
 		appState.tokenClient.firstTenPrices = tokenPrices;
 	}, []);
