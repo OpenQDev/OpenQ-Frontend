@@ -78,7 +78,9 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 				if (accum) return true;
 				return label.name.toLowerCase() === 'l2e';
 			}, false);
-			const isFunded = bounty.deposits.length > 0;
+			const isFunded = bounty.deposits.some(deposit=>{
+				return !deposit.refunded
+			});
 			const isAssigned = bounty.assignees?.nodes.length > 0;
 			return (containsSearch && containsTag && (!localFundedOnly || isFunded) && (!localUnclaimedOnly || isUnclaimed) && (!localUnassignedOnly || !isAssigned ) && (!localL2eOnly || isL2e) && bounty.url);
 			}

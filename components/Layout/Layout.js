@@ -11,15 +11,12 @@ import MobileSidebar from './MobileSidebar';
 import useCheckFirstLaunch from '../../hooks/useCheckFirstLaunch.js';
 import Footer from './Footer.js';
 import useWeb3 from '../../hooks/useWeb3.js';
-import useAuth from '../../hooks/useAuth.js';
 
 const Layout = ({ children }) => {
 	const [gnosisSafe, setGnosisSafe] = useState();
 	const [safeInfo, setSafeInfo] = useState();
 	const { account, activate, deactivate } = useWeb3();
 	const [appState] = useContext(StoreContext);
-	
-	useAuth();
 	useEffect(async () => {
 		//const openQPrismaClient = new WrappedOpenQPrismaClient();
 		const safe = new SafeAppConnector();
@@ -54,7 +51,8 @@ const Layout = ({ children }) => {
 				headers: {'content-type':'application/json'},
 				data: GET_PRICES
 			});
-			tokenPrices = response?.data?.data.prices[0]?.priceObj ||{};
+			
+			tokenPrices = response?.data?.data.prices?.priceObj ||{};
 		}
 		}
 			catch(err){

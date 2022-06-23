@@ -8,8 +8,10 @@ import UnexpectedError from '../../components/Utils/UnexpectedError';
 import WrappedGithubClient from '../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
+import useAuth from '../../hooks/useAuth';
 
 const account = ({account, user, organizations, renderError}) => {
+useAuth()
 	return (
 
 		<div className=' md:grid grid-cols-wide gap-4 justify-center col-start-2 pt-12'>{user ?
