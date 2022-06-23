@@ -51,7 +51,7 @@ const Layout = ({ children }) => {
 					headers: {'content-type':'application/json'},
 					data: GET_PRICES
 				});
-				tokenPrices = response?.data.data.prices?.priceObj ||{};
+				tokenPrices = response?.data?.data?.prices?.priceObj ||{};
 			}
 		}
 		catch(err){
