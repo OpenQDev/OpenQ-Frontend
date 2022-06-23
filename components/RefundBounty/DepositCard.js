@@ -47,9 +47,9 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 					</ToolTip>
 
 					{expanded ?
-						<div className="w-full flex space-x-3 self-center">
+					<div className="w-full flex flex-wrap md:flex-nowrap md:space-x-3 space-y-2 md:space-y-0 self-center">
 							<ToolTip
-								outerStyles="w-full flex self-center"
+								outerStyles="w-full flex space-x-2"
 								hideToolTip={isOnCorrectNetwork && (depositPeriodDays > 0)}
 								toolTipText={!isOnCorrectNetwork?
 									'Please switch to the correct network to extend this bounty.' :
@@ -73,8 +73,8 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 										}`} >
 									Extend By
 								</button>
-							</ToolTip>
-							<div className="flex w-full flex-row justify-between items-center px-4 py-2 rounded-lg bg-dark-mode border border-web-gray ">
+								</ToolTip>
+							<div className="flex w-full flex-row justify-between items-center px-4 py-2 rounded-lg bg-dark-mode border border-web-gray">
 								<div className=' flex items-center gap-3 w-full'>
 									<ToolTip customOffsets={[0, 36]} outerStyles={''} mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
 										<div className='cursor-help rounded-full border-2 border-web-gray aspect-square leading-6 h-6 box-content text-center font-bold text-web-gray'>?</div>
@@ -91,7 +91,7 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 									/>
 								</div>
 							</div>
-						</div>
+							</div>
 						:
 						<ToolTip
 							outerStyles="w-full flex self-center w-1/2"
@@ -105,7 +105,8 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 									}`} >
 								Extend
 							</button>
-						</ToolTip>}
+						</ToolTip>
+					}
 
 
 
