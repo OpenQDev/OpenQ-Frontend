@@ -90,13 +90,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 				issue.repository.owner.id,
 			);
 			sessionStorage.setItem('justMinted', true);
-			try {
-				await appState.openQPrismaClient.createNewBounty(ethers.utils.getAddress(bountyAddress), issue.repository.owner.id, issue.id);
-			}
-			catch (err) {
-				console.log('error in prisma', err);
-			}
-
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress}`
 			);
