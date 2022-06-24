@@ -6,11 +6,13 @@ import StoreContext from '../store/Store/StoreContext';
 import BountyHomepage from '../components/Bounty/BountyHomepage';
 import OrganizationHomepage from '../components/Organization/OrganizationHomepage';
 import useWeb3 from '../hooks/useWeb3';
+import useAuth from '../hooks/useAuth';
 import WrappedGithubClient from '../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgraphClient';
 import Utils from '../services/utils/Utils';
 
 export default function Index({orgs, fullBounties, batch }) {
+	useAuth();
 	const [internalMenu, setInternalMenu] = useState('org');
 	// State
 	const [bounties, setBounties] = useState(fullBounties);
