@@ -42,13 +42,12 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
 	const { library, account, } = useWeb3();
-	console.log(account);
 
 	// State
 	const [token, setToken] = useState(zeroAddressMetadata);
 
 	const claimed = bounty.status == 'CLOSED';
-	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) <= 0.00000001 || parseFloat(volume) >= 1000 || volume == ''  || !(parseInt(depositPeriodDays) > 0);
+	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) <= 0.00000001 || parseFloat(volume) >= 1000 || volume == '' || !(parseInt(depositPeriodDays) > 0);
 	const disableOrEnable = `${(loadingClosedOrZero || !isOnCorrectNetwork) && account ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`;
 	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center py-3 text-lg  ${disableOrEnable}`;
 
@@ -58,8 +57,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 	// Methods
 
-	const openFund = ()=>{
-		console.log(account);
+	const openFund = () => {
 		setConfirmationMessage(
 			`You are about to fund this bounty at address ${bounty.bountyAddress.substring(
 				0,
@@ -75,8 +73,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		setShowApproveTransferModal(true);
 	};
 
-	const connectWallet = () =>{		
-		console.log('exec');
+	const connectWallet = () => {
 		const payload = {
 			type: 'CONNECT_WALLET',
 			payload: true
@@ -111,7 +108,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 				}
 			}
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			setError({ title: 'Call Revert Exception', message: 'A contract call exception occurred. Please try again.' });
 			setButtonText('Fund');
 			setApproveTransferState(ERROR);
@@ -166,7 +163,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					bounty.bountyId,
 					token.address,
 					bigNumberVolumeInWei,
-					depositPeriodDays/(24*60*60)
+					depositPeriodDays
 				);
 				setTransactionHash(fundTxnReceipt.events[0].transactionHash);
 				setApproveTransferState(SUCCESS);
@@ -185,7 +182,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	}
 
 	function onCurrencySelect(token) {
-		setToken({...token, address: ethers.utils.getAddress(token.address)});
+		setToken({ ...token, address: ethers.utils.getAddress(token.address) });
 	}
 
 	function onVolumeChange(volume) {
@@ -247,7 +244,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 						[0, 54]}>
 					<button
 						className={fundButtonClasses}
-						disabled={(loadingClosedOrZero || !isOnCorrectNetwork) && account }
+						disabled={(loadingClosedOrZero || !isOnCorrectNetwork) && account}
 						type="button"
 						onClick={account ? openFund : connectWallet}
 					>
@@ -272,7 +269,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 				token={token}
 				volume={volume}
 				bountyAddress={bounty.bountyAddress}
-				bounty = {bounty}
+				bounty={bounty}
 			/>}
 		</div>}</>
 	);
