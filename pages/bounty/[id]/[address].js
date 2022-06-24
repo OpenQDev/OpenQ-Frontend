@@ -20,7 +20,7 @@ import useAuth from '../../../hooks/useAuth';
 
 const address = ({ address, mergedBounty, renderError }) => {
 
-	useAuth()
+	useAuth();
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
 	const [bounty, setBounty] = useState(mergedBounty);
