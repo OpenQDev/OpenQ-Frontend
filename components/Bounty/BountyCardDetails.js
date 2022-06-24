@@ -13,9 +13,9 @@ import LabelsList from './LabelsList';
 import MiniDepositCard from './MiniDepositCard';
 
 
-const BountyCardDetails = ({ bounty, address,  tokenValues, internalMenu }) => {
+const BountyCardDetails = ({ bounty, address, tokenValues, internalMenu }) => {
 	return (
-		<div className={`flex flex-col w-full font-mont sm:pl-5 sm:pr-5 md:px-10 pt-10 pb-10 my-16 w-5/6 max-w-6xl ${internalMenu !== 'View'? 'hidden': null}`}>
+		<div className={`flex flex-col w-full font-mont sm:pl-5 sm:pr-5 md:px-10 pt-10 pb-10 my-16 w-5/6 max-w-6xl ${internalMenu !== 'View' ? 'hidden' : null}`}>
 			<div className="flex w-full flex-col border-b pb-6 border-solid justify-items-center items-center content-between rounded-t">
 				<	div className='self-start w-full'>
 					<BountyCardHeader bounty={bounty} />
@@ -27,16 +27,18 @@ const BountyCardDetails = ({ bounty, address,  tokenValues, internalMenu }) => {
 					<div className="lg:col-span-2  xl:col-span-3">
 						<CopyBountyAddress address={address} />
 					</div>
-				
+
 					<div className='lg:col-span-2 xl:col-span-3 pt-2'>
 						<h3 className='font-bold'>Linked Pull Requests</h3>
-						{bounty?.prs?.some(pr=>pr.source__typeName==="Pull Request"&& pr.source.url)>0 ?<ul>
-							{bounty.prs.filter((pr, index)=>{
-							return pr.source__typeName==="Pull Request"&& pr.source.url}).map((pr, index)=>{
-							if(pr.source__typeName==="Pull Request"&& pr.source.url) return <li className={`${pr.source.merged ? 'text-claimed-bounty':null}`} key ={index}>
-								<Link href ={pr.source.url}><a target="_blank" className={'underline'}>{pr.source.title}</a></Link><span> {pr.source.merged ? '(merged)' : '(not merged)'}</span>
-							</li>})}			
-						</ul> :<span>No linked pull requests</span>	}
+						{bounty?.prs?.some(pr => pr.source__typeName === 'Pull Request' && pr.source.url) > 0 ? <ul>
+							{bounty.prs.filter((pr) => {
+								return pr.source__typeName === 'Pull Request' && pr.source.url;
+							}).map((pr, index) => {
+								if (pr.source__typeName === 'Pull Request' && pr.source.url) return <li className={`${pr.source.merged ? 'text-claimed-bounty' : null}`} key={index}>
+									<Link href={pr.source.url}><a target="_blank" className={'underline'}>{pr.source.title}</a></Link><span> {pr.source.merged ? '(merged)' : '(not merged)'}</span>
+								</li>;
+							})}
+						</ul> : <span>No linked pull requests</span>}
 					</div>
 
 					<div className="lg:col-span-2  xl:col-span-3">
@@ -85,7 +87,7 @@ const BountyCardDetails = ({ bounty, address,  tokenValues, internalMenu }) => {
 									<h3 className="font-semibold ">No deposits</h3>
 									<p >It may take up to one minute for new deposits to show up here.</p>
 								</div>
-							) 
+							)
 						}
 
 
@@ -94,7 +96,7 @@ const BountyCardDetails = ({ bounty, address,  tokenValues, internalMenu }) => {
 						<h3 className='text-center font-bold text-xl'>Deposits</h3>
 						<p className='text-tinted col-start-1 md:col-end-3 lg:col-end-[-1] w-full'>It may take up to one minute for new deposits to show up here.</p>
 					</div>}
-					
+
 
 					{bounty.deposits && bounty.deposits
 						.filter((deposit) => {
@@ -104,7 +106,7 @@ const BountyCardDetails = ({ bounty, address,  tokenValues, internalMenu }) => {
 							return (parseInt(a.receiveTime) + parseInt(a.expiration)) - (parseInt(b.receiveTime) + parseInt(b.expiration));
 						})
 						.map((deposit, index) => <MiniDepositCard key={index} deposit={deposit} status={bounty.status} showLink={false} />
-						) 
+						)
 					}
 				</div>
 			</div>
@@ -123,7 +125,7 @@ const BountyCardDetails = ({ bounty, address,  tokenValues, internalMenu }) => {
 					<div
 						className="markdown-body pt-2 w-full break-words"
 						dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}
-					></div> 
+					></div>
 				</div>
 			</div>
 		</div>

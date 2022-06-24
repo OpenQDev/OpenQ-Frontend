@@ -16,7 +16,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 	const [fundedOnly, setFundedOnly] = useState(true);
 	const [unclaimedOnly, setUnclaimedOnly] = useState(true);
 	const [unassignedOnly, setUnassignedOnly] = useState(true);
-	const [l2eOnly, setL2eOnly] = useState(false);
+	/* const [l2eOnly, setL2eOnly] = useState(false); */
 	const [sortOrder, updateSortOrder] = useState('Newest');
 	const [searchText, updateSearchText] = useState('');
 	const [tagArr, updateTagArr] = useState([]);
@@ -52,7 +52,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		const localUnclaimedOnly = options.unclaimedOnly === undefined ? unclaimedOnly : options.unclaimedOnly;
 		const localFundedOnly = options.fundedOnly === undefined ? fundedOnly : options.fundedOnly;
 		const localUnassignedOnly = options.unassignedOnly === undefined ? unassignedOnly : options.unassignedOnly;
-		const localL2eOnly = options.l2eOnly === undefined ? l2eOnly: options.l2eOnly;
+		/* const localL2eOnly = options.l2eOnly === undefined ? l2eOnly: options.l2eOnly; */
 		const displayBounties = bounties.filter((bounty) => {
 			let containsSearch = true;
 			try{containsSearch = ((bounty.title + bounty.body)
@@ -74,13 +74,13 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 				return bounty.labels.some(label => label.name.toLowerCase() === tag.toLowerCase()) || bounty.languages.some((language)=>language.name.toLowerCase()===tag);
 			}, true);
 			const isUnclaimed = bounty.status === 'OPEN';
-			const isL2e = bounty.labels.reduce((accum, label) => {
+			/* const isL2e = bounty.labels.reduce((accum, label) => {
 				if (accum) return true;
 				return label.name.toLowerCase() === 'l2e';
-			}, false);
+			}, false); */
 			const isFunded = bounty.deposits.length > 0;
 			const isAssigned = bounty.assignees?.nodes.length > 0;
-			return (containsSearch && containsTag && (!localFundedOnly || isFunded) && (!localUnclaimedOnly || isUnclaimed) && (!localUnassignedOnly || !isAssigned ) && (!localL2eOnly || isL2e) && bounty.url);
+			return (containsSearch && containsTag && (!localFundedOnly || isFunded) && (!localUnclaimedOnly || isUnclaimed) && (!localUnassignedOnly || !isAssigned ) /* && (!localL2eOnly || isL2e) */ && bounty.url);
 			}
 			catch(err){
 				console.log(err);}
@@ -196,10 +196,10 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		updateSearchedBounties(orderBounties(filter(bounties, { unassignedOnly: !unassignedOnly })));
 	};
 	
-	const filterByL2e = ()=>{
+	/* const filterByL2e = ()=>{
 		setL2eOnly(!l2eOnly);		
 		updateSearchedBounties(orderBounties(filter(bounties, { l2eOnly: !l2eOnly })));
-	};
+	}; */
 
 	const removeTag = (e) => {
 		const newTagArr = tagArr.filter(tag => tag !== e.target.value);
@@ -281,10 +281,10 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 						<label htmlFor="assigned" className=" pointer-events-none" >Unassigned</label>
 						<input id="assigned" onChange={showAssigned} type="checkbox" className="checkbox" checked={unassignedOnly} />
 					</div>
-					<div onClick={filterByL2e} className="flex p-2 w-36 px-4 gap-2 border rounded-lg justify-between border-web-gray">
+					{/* <div onClick={filterByL2e} className="flex p-2 w-36 px-4 gap-2 border rounded-lg justify-between border-web-gray">
 						<label htmlFor="L2E" className="pointer-events-none" >L 2 E</label>
 						<input id="L2E" onChange={filterByL2e} type="checkbox" className="checkbox" checked={l2eOnly} />
-					</div>
+					</div> */}
 				</div>
 			</div>
 			{addCarousel && account && watchedBounties.length ?

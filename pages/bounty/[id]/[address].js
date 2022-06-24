@@ -153,7 +153,7 @@ export const getServerSideProps = async (context) => {
 	let renderError = '';
 	try {
 		bountyMetadata = await openQPrismaClient.instance.getBounty(ethers.utils.getAddress(address));
-		}
+	}
 	catch (err) {
 		console.log(err);
 	}
