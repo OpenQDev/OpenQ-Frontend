@@ -11,7 +11,7 @@ import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrism
 import useAuth from '../../hooks/useAuth';
 
 const account = ({account, user, organizations, renderError}) => {
-useAuth()
+	useAuth();
 	return (
 
 		<div className=' md:grid grid-cols-wide gap-4 justify-center col-start-2 pt-12'>{user ?

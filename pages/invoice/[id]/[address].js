@@ -8,7 +8,7 @@ import UnexpectedError from '../../../components/Utils/UnexpectedError';
 import useAuth from '../../../hooks/useAuth';
 
 const invoice = ({bounty, renderError})=>{
-useAuth()
+	useAuth();
 	return <>
 		{renderError? 
 			<UnexpectedError error={renderError}/>:

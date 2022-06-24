@@ -35,8 +35,8 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 				}
 
 				formattedVolume = Number.isInteger(Number(formattedVolume * 10)) ?
-          Number(formattedVolume).toFixed(2)
-          : parseFloat(Number(formattedVolume).toFixed(10));
+					Number(formattedVolume).toFixed(2)
+					: parseFloat(Number(formattedVolume).toFixed(10));
 
 				let usdValue = appState.utils.formatter.format(
 					totalValue

@@ -1,52 +1,47 @@
 // Third party
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Skeleton from 'react-loading-skeleton';
 import Image from 'next/image';
 import useWeb3 from '../../hooks/useWeb3';
 
-// Custom
-import StoreContext from '../../store/Store/StoreContext';
-import { ethers } from 'ethers';
-
 const BountyLinks = ({ bounty, hideBountyLink }) => {
-	const [appState, dispatch] = useContext(StoreContext);
-	const [watchDisabled, setWatchDisabled] = useState();
-	const { account } = useWeb3();
-	const [watchingDisplay, setWatchingDisplay] = useState();
-	
-	useEffect(()=>{
-		const watching = bounty?.watchingUserIds?.some(user => user === account);
-		setWatchingDisplay(watching);
-	},[account]);
+	// const { account } = useWeb3();
+	// const [watchDisabled, setWatchDisabled] = useState();
+	// const [watchingDisplay, setWatchingDisplay] = useState();
+
+	// useEffect(() => {
+	// 	const watching = bounty?.watchingUserIds?.some(user => user === account);
+	// 	setWatchingDisplay(watching);
+	// }, [account]);
 
 
-	const watchBounty = async () => {
-		setWatchDisabled(true);
-		if (watchingDisplay) {
-			await appState.openQPrismaClient.unWatchBounty(ethers.utils.getAddress(bounty.bountyAddress), account);
-			setWatchingDisplay(false);
-			setWatchDisabled(false);
-		}
-		else {
-			await appState.openQPrismaClient.watchBounty(ethers.utils.getAddress(bounty.bountyAddress), account);
-			setWatchingDisplay(true);
-			setWatchDisabled(false);
-		}		
+	// const watchBounty = async () => {
+	// 	setWatchDisabled(true);
+	// 	if (watchingDisplay) {
+	// 		await appState.openQPrismaClient.unWatchBounty(ethers.utils.getAddress(bounty.bountyAddress), account);
+	// 		setWatchingDisplay(false);
+	// 		setWatchDisabled(false);
+	// 	}
+	// 	else {
+	// 		await appState.openQPrismaClient.watchBounty(ethers.utils.getAddress(bounty.bountyAddress), account);
+	// 		setWatchingDisplay(true);
+	// 		setWatchDisabled(false);
+	// 	}
 
-		const payload = {
-			type: 'UPDATE_RELOAD',
-			payload: true
-		};
-		dispatch(payload);
-	
-	};
+	// 	const payload = {
+	// 		type: 'UPDATE_RELOAD',
+	// 		payload: true
+	// 	};
+	// 	dispatch(payload);
+
+	// };
 
 	const tweetText = `Check out this bounty ${bounty?.owner && `for ${bounty?.owner}`} on OpenQ. You can claim it just by making a pull request that completes the issue! `;
 	const { safe } = useWeb3();
 
 	const resetScroll = () => {
-		if(safe){
+		if (safe) {
 			document.body.style.height = 'auto';
 			document.body.style.overflowY = 'auto';
 		}
