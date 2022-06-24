@@ -34,7 +34,9 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 					totalValue = (formattedVolume * tokenValues?.tokenPrices[tokenValueAddress]).toFixed(2);
 				}
 
-				formattedVolume = parseFloat(Number(formattedVolume).toFixed(10)).toFixed(2);
+				formattedVolume = Number.isInteger(Number(formattedVolume * 10)) ?
+          Number(formattedVolume).toFixed(2)
+          : parseFloat(Number(formattedVolume).toFixed(10));
 
 				let usdValue = appState.utils.formatter.format(
 					totalValue
