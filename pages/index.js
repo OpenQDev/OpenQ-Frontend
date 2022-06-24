@@ -30,7 +30,7 @@ export default function Index({orgs, fullBounties, batch }) {
 	useEffect(async()=>{
 		if(account){
 			try{
-				const prismaBounties = await appState.openQPrismaClient.getUser(account);
+				const prismaBounties =[];// await appState.openQPrismaClient.getUser(account);
 				const watchedBountyAddresses = prismaBounties.watchedBountyIds.map(address=>address.toLowerCase());
 				const subgraphBounties =  await appState.openQSubgraphClient.getBountiesByContractAddresses( watchedBountyAddresses);
 				const githubIds = subgraphBounties.map(bounty=>bounty.bountyId);
