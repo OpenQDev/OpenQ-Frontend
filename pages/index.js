@@ -4,6 +4,7 @@ import StoreContext from '../store/Store/StoreContext';
 
 // Custom
 import BountyHomepage from '../components/Bounty/BountyHomepage';
+import EthNYCHomepage from '../components/Bounty/EthNYCHomepage';
 import OrganizationHomepage from '../components/Organization/OrganizationHomepage';
 import useWeb3 from '../hooks/useWeb3';
 import useAuth from '../hooks/useAuth';
@@ -116,10 +117,18 @@ export default function Index({orgs, fullBounties, batch }) {
 							>
 								Issues
 							</button>
+							
+							<button
+								onClick={() => setInternalMenu('EthNYC')}
+								className={` rounded-xl p-2 px-4 ${internalMenu == 'EthNYC' ? 'bg-inactive-gray' : null
+								}`}
+							>
+								EthNYC
+							</button>
 						</div>
 					</div>
 					<div>
-						{internalMenu == 'org' ? <OrganizationHomepage orgs={orgs} /> : <BountyHomepage bounties={bounties} watchedBounties={watchedBounties} loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />}
+						{internalMenu == 'org' ? <OrganizationHomepage orgs={orgs} /> : internalMenu === 'EthNYC' ? <EthNYCHomepage label={'EthNYC'} bounties={bounties} watchedBounties={watchedBounties} loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} /> : <BountyHomepage bounties={bounties} watchedBounties={watchedBounties} loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />  }
 					</div>
 				</div>
 			</main>

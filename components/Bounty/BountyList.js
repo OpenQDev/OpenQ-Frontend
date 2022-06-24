@@ -10,7 +10,7 @@ import Carousel from '../Utils/Carousel';
 import CarouselBounty from './CarouselBounty';
 import useWeb3 from '../../hooks/useWeb3';
 
-const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData, getNewData, addCarousel }) => {
+const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData, getNewData, addCarousel, labelProp }) => {
 	// Hooks
 	const {account} = useWeb3();
 	const [fundedOnly, setFundedOnly] = useState(true);
@@ -53,7 +53,13 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		const localFundedOnly = options.fundedOnly === undefined ? fundedOnly : options.fundedOnly;
 		const localUnassignedOnly = options.unassignedOnly === undefined ? unassignedOnly : options.unassignedOnly;
 		/* const localL2eOnly = options.l2eOnly === undefined ? l2eOnly: options.l2eOnly; */
+
 		const displayBounties = bounties.filter((bounty) => {
+			const hasLabel = !labelProp || bounty.labels.reduce((accum, label) => {
+				if (accum) return true;
+				return (label.name.toLowerCase() === labelProp.toLowerCase());
+			}, false);
+
 			let containsSearch = true;
 			try{containsSearch = ((bounty.title + bounty.body)
 				.toLowerCase()
@@ -75,14 +81,15 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			}, true);
 			const isUnclaimed = bounty.status === 'OPEN';
 			const isFunded = bounty.deposits.some(deposit=>{
-				return !deposit.refunded
+				return !deposit.refunded;
 			});const isAssigned = bounty.assignees?.nodes.length > 0;
-			return (containsSearch && containsTag && (!localFundedOnly || isFunded) && (!localUnclaimedOnly || isUnclaimed) && (!localUnassignedOnly || !isAssigned ) /* && (!localL2eOnly || isL2e) */ && bounty.url);
+			return (containsSearch && containsTag && (!localFundedOnly || isFunded) && (!localUnclaimedOnly || isUnclaimed) && (!localUnassignedOnly || !isAssigned )  && hasLabel && bounty.url);
 			}
 			catch(err){
 				console.log(err);}
 		
 		});
+
 		if (displayBounties.length === 0 && !complete) {
 			fetchPage();
 			return [];
