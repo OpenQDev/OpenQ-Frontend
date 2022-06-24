@@ -96,12 +96,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 				console.log(error);
 			}
 			
-			const deposits = bounty.deposits.filter((deposit)=>{
-				return deposit.id !== depositId;
-			});
-			const tokenVolumes = await appState.tokenClient.parseTokenValues(deposits);
-			const tvl = tokenVolumes.total;
-			await appState.openQPrismaClient.updateBounty(bounty.bountyAddress, tvl);
+	
 		}
 	
 		catch(error){
