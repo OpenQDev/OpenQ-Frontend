@@ -3,8 +3,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import Link from 'next/link';
 
 
-import StoreContext from '../../store/Store/StoreContext';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
+import StoreContext from '../../../store/Store/StoreContext';
+import useGetTokenValues from '../../../hooks/useGetTokenValues';
 const MiniBountyCard = ({ bounty }) => {
 
 	// Context
