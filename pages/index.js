@@ -4,17 +4,17 @@ import StoreContext from '../store/Store/StoreContext';
 
 // Custom
 import BountyHomepage from '../components/Bounty/BountyHomepage';
-import EthNYCHomepage from '../components/Bounty/EthNYCHomepage';
 import OrganizationHomepage from '../components/Organization/OrganizationHomepage';
 import useWeb3 from '../hooks/useWeb3';
 import useAuth from '../hooks/useAuth';
 import WrappedGithubClient from '../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgraphClient';
 import Utils from '../services/utils/Utils';
+import Toggle from '../components/Utils/Toggle';
 
 export default function Index({orgs, fullBounties, batch }) {
 	useAuth();
-	const [internalMenu, setInternalMenu] = useState('org');
+	const [internalMenu, setInternalMenu] = useState('Organizations');
 	// State
 	const [bounties, setBounties] = useState(fullBounties);
 	const [isLoading, setIsLoading] = useState(false);
@@ -102,33 +102,10 @@ export default function Index({orgs, fullBounties, batch }) {
 			<main>
 				<div className="bg-dark-mode pt-10 flex-col">
 					<div className="flex justify-center pb-8">
-						<div className="flex flex-row justify-center space-x-2 border border-web-gray p-1 rounded-xl w-fit">
-							<button
-								onClick={() => setInternalMenu('org')}
-								className={` rounded-xl p-2 px-4 ${internalMenu == 'org' ? 'bg-inactive-gray' : null
-								}`}
-							>
-								Organizations
-							</button>
-							<button
-								onClick={() => setInternalMenu('issue')}
-								className={` rounded-xl p-2 px-4 ${internalMenu == 'issue' ? 'bg-inactive-gray' : null
-								}`}
-							>
-								Issues
-							</button>
-							
-							<button
-								onClick={() => setInternalMenu('EthNYC')}
-								className={` rounded-xl p-2 px-4 ${internalMenu == 'EthNYC' ? 'bg-inactive-gray' : null
-								}`}
-							>
-								EthNYC
-							</button>
-						</div>
+						<Toggle names ={['Organizations', 'Issues']} toggleFunc={setInternalMenu} toggleVal={internalMenu}/>
 					</div>
 					<div>
-						{internalMenu == 'org' ? <OrganizationHomepage orgs={orgs} /> : internalMenu === 'EthNYC' ? <EthNYCHomepage label={'EthNYC'} bounties={bounties} watchedBounties={watchedBounties} loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} /> : <BountyHomepage bounties={bounties} watchedBounties={watchedBounties} loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />  }
+						{internalMenu == 'Organizations' ? <OrganizationHomepage orgs={orgs} /> :  <BountyHomepage bounties={bounties} watchedBounties={watchedBounties} loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />  }
 					</div>
 				</div>
 			</main>

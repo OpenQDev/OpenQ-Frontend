@@ -12,7 +12,7 @@ import RefundPage from '../../../components/RefundBounty/RefundPage';
 import ClaimPage from '../../../components/Claim/ClaimPage';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
 import UnexpectedError from '../../../components/Utils/UnexpectedError';
-import Toggle from '../../../components/Toggle/Toggle';
+import Toggle from '../../../components/Utils/Toggle';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';

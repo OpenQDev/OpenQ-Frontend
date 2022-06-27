@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 //Custom
 import BountyCard from '../Bounty/BountyCard';
-import Dropdown from '../Toggle/Dropdown';
+import Dropdown from '../Utils/Dropdown';
 import SearchBar from '../Search/SearchBar';
 import MintBountyButton from '../MintBounty/MintBountyButton';
 import Carousel from '../Utils/Carousel';
