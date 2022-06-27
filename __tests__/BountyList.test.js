@@ -78,8 +78,8 @@ describe('BountyList', ( ) => {
 			await user.keyboard('{Enter}'); 
 			expect(filteredIssue2).not.toBeInTheDocument();
 
-			await user.click(await screen.findByLabelText(/remove l2e filter/i));
-			expect(await screen.findByText(/Yoheikikuta\/bert-japanese/i)).toBeInTheDocument();		
+			//		await user.click(await screen.findByLabelText(/remove l2e filter/i));
+			//		expect(await screen.findByText(/Yoheikikuta\/bert-japanese/i)).toBeInTheDocument();		
 		});
 
 		it('should allow the user to show unfunded', async()=>{
@@ -118,7 +118,9 @@ describe('BountyList', ( ) => {
 			expect(await screen.findByText(/sdf/)).toBeInTheDocument();
 
 		
-		});	
+		});
+		
+		/*
 		it('should allow the user to only show L2E', async()=>{
 		
 			const user = userEvent.setup();
@@ -130,6 +132,7 @@ describe('BountyList', ( ) => {
 			await user.click(screen.getByLabelText('L 2 E'));
 			expect(screen.queryByText(/Yoheikikuta\/bert-japanese/i)).not.toBeInTheDocument();		
 		});
+*/
 
 		it('should allow the user to sort by age', async()=>{
 		
