@@ -6,7 +6,7 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 
 import { render, screen } from '../test-utils';
-import BountyList from '../components/Bounty/BountyList';
+import BountyList from '../components/BountyList/BountyList';
 import InitialState from '../store/Store/InitialState';
 import mocks from '../__mocks__/mock-server.json';
  

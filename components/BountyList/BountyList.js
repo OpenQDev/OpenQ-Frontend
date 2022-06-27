@@ -2,13 +2,16 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 //Custom
-import BountyCard from './BountyCard';
+import BountyCard from '../Bounty/BountyCard';
 import Dropdown from '../Toggle/Dropdown';
 import SearchBar from '../Search/SearchBar';
 import MintBountyButton from '../MintBounty/MintBountyButton';
 import Carousel from '../Utils/Carousel';
-import CarouselBounty from './CarouselBounty';
+import CarouselBounty from '../Bounty/CarouselBounty';
 import useWeb3 from '../../hooks/useWeb3';
+import searchFoundInText	from './SearchHelpers/searchFoundInText';
+import searchFoundInLabels from './SearchHelpers/searchFoundInLabels';
+import searchTagInBounty from './SearchHelpers/searchTagInBounty';
 
 const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData, getNewData, addCarousel, labelProp }) => {
 	// Hooks
@@ -61,29 +64,28 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			}, false);
 
 			let containsSearch = true;
-			try{containsSearch = ((bounty.title + bounty.body)
-				.toLowerCase()
-				.indexOf(localSearchText.toLowerCase()) > -1) ||
-				bounty.labels.reduce((accum, label) => {
-					if (accum) return true;
-					return (label.name.toLowerCase()
-						.indexOf(localSearchText.toLowerCase()) > -1);
-				}, false) ||
-				bounty.languages.reduce((accum, language) => {
-					if (accum) return true;
-					return (language.name.toLowerCase()
-						.indexOf(localSearchText.toLowerCase()) > -1);
-				}, '') ||
-				localSearchText.length === 0;
-			const containsTag = localTagArr.reduce((accum, tag) => {
-				if (accum === false) return false;
-				return bounty.labels.some(label => label.name.toLowerCase() === tag.toLowerCase()) || bounty.languages.some((language)=>language.name.toLowerCase()===tag);
-			}, true);
-			const isUnclaimed = bounty.status === 'OPEN';
-			const isFunded = bounty.deposits.some(deposit=>{
-				return !deposit.refunded;
-			});const isAssigned = bounty.assignees?.nodes.length > 0;
-			return (containsSearch && containsTag && (!localFundedOnly || isFunded) && (!localUnclaimedOnly || isUnclaimed) && (!localUnassignedOnly || !isAssigned )  && hasLabel && bounty.url);
+
+			try{
+
+				// Simple search
+				const lowerCaseSearch = localSearchText.toLowerCase();
+				const isFoundInText = searchFoundInText(bounty.title, bounty.body, lowerCaseSearch);
+				const isFoundInLabels = searchFoundInLabels(bounty, lowerCaseSearch);
+				const emptySearchText = localSearchText.length === 0;
+				containsSearch = isFoundInText ||	isFoundInLabels || emptySearchText;
+
+				// Tags
+				const containsTag = searchTagInBounty(bounty, localTagArr);
+
+				// Check based filters
+				const isUnclaimed = bounty.status === 'OPEN';
+				const isFunded = bounty.deposits.some(deposit=>{
+					return !deposit.refunded;
+				});			
+				const isAssigned = bounty.assignees?.nodes.length > 0;
+
+				// Combine
+				return (containsSearch && containsTag && (!localFundedOnly || isFunded) && (!localUnclaimedOnly || isUnclaimed) && (!localUnassignedOnly || !isAssigned )  && hasLabel && bounty.url);
 			}
 			catch(err){
 				console.log(err);}
