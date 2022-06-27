@@ -1,7 +1,6 @@
 // Third party
 import React, { useEffect, useRef } from 'react';
 import jazzicon from '@metamask/jazzicon';
-
 // Custom
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import useEns from '../../hooks/useENS';
@@ -10,7 +9,7 @@ import MiniBountyList from './AboutModules/MiniBountyList';
 import Balances from './AboutModules/Balances';
 import AboutTitle from './AboutModules/AboutTitle';
 
-const AboutFunder = ({ user,  }) => {
+const AboutFunder = ({ user }) => {
 	const { fundedTokenBalances, bountiesCreated, bountiesClosed, deposits } = user;
 	const account = user.id;
 	const [ensName] = useEns(account);

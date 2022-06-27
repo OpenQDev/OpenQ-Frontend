@@ -53,17 +53,26 @@ export const getServerSideProps = async(context)=>{
 		const	userOnChainData = await openQSubgraphClient.instance.getUser(account.toLowerCase());
 		const userOffChainData = await openQPrismaClient.instance.getUser(ethers.utils.getAddress(account));
 	
-		const watchedBountyAddresses = userOffChainData.watchedBounties.bounties.map(bounty=>bounty.address.toLowerCase());
-		const subgraphBounties =  await  openQSubgraphClient.instance.getBountiesByContractAddresses( watchedBountyAddresses);
-		const githubIds = subgraphBounties.map(bounty=>bounty.bountyId);
-		const githubBounties = await githubRepository.instance.getIssueData(githubIds);
-		watchedBounties = subgraphBounties.map((bounty, index)=>{return {...bounty, ...githubBounties[index]};});
-		const issueIds = userOnChainData.bountiesClosed.map(bounty => bounty.bountyId);
+
+		// fetch issues freelancer is watching.
 		try{
+			const watchedBountyAddresses = userOffChainData.watchedBounties.bounties.map(bounty=>bounty.address.toLowerCase());
+			const subgraphBounties =  await  openQSubgraphClient.instance.getBountiesByContractAddresses( watchedBountyAddresses);
+			const githubIds = subgraphBounties.map(bounty=>bounty.bountyId);
+			const githubBounties = await githubRepository.instance.getIssueData(githubIds);
+			watchedBounties = subgraphBounties.map((bounty, index)=>{return {...bounty, ...githubBounties[index]};});
+		}
+		catch(err){
+			console.error('Could not fetch watched bounties.');
+		}
+
+		// fetch orgs freelancer has worked for.
+		try{
+			const issueIds = userOnChainData.bountiesClosed.map(bounty => bounty.bountyId);		
 			organizations = await githubRepository.instance.parseOrgIssues(issueIds);
 		}
 		catch(err){
-			console.log(err);
+			console.error('could not fetch organizations');
 		}
 		user = {...user, ...userOffChainData, ...userOnChainData, watchedBounties};
 	}
