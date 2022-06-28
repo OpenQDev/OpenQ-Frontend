@@ -36,7 +36,6 @@ const BountyLinks = ({ bounty, hideBountyLink, bountyAddress }) => {
 			signature = await signMessage();
 			sessionStorage.setItem('signature', signature);
 		}
-		console.log(signature);
 		setWatchDisabled(true);
 		if (watchingDisplay) {
 			await appState.openQPrismaClient.unWatchBounty(ethers.utils.getAddress(bountyAddress), account, signature);
