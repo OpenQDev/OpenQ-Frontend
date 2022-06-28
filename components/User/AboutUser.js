@@ -1,111 +1,33 @@
 // Third party
-import React, { useEffect, useRef } from 'react';
-import jazzicon from '@metamask/jazzicon';
+import React from 'react';
 // Custom
-import MiniBountyCard from '../Bounty/MiniBountyCard';
-import TokenBalances from '../TokenBalances/TokenBalances';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
-import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
-import MiniDepositCard from '../Bounty/MiniDepositCard';
-import AvatarPack from '../Utils/AvatarPack';
+import UserHistory from './AboutModules/UserHistory';
+import MiniBountyList from './AboutModules/MiniBountyList';
+import MiniDepositList from './AboutModules/MiniDepositList';
+import Balances from './AboutModules/Balances';
 import useEns from '../../hooks/useENS';
+import AboutTitle from './AboutModules/AboutTitle';
 
 const AboutUser = ({ user, organizations }) => {
 	const { fundedTokenBalances, bountiesCreated, bountiesClosed, deposits, payoutTokenBalances, payouts } = user;
 	const account = user.id;
 	const [ensName] = useEns(account);
+	console.log(deposits);
 	// Context
 
 	// State
 	const [payoutTokenValues] = useGetTokenValues(payoutTokenBalances);
 	const [fundedTokenValues] = useGetTokenValues(fundedTokenBalances);
 
-
-	const iconWrapper = useRef(null);
-
-	useEffect(async () => {
-		if (account && iconWrapper.current) {
-			iconWrapper.current.innerHTML = '';
-			iconWrapper.current.appendChild(jazzicon(32, parseInt(account.slice(2, 10), 16)));
-		}
-	}, [bountiesClosed]);
 	return (<>
-		<h1 className='font-semibold p-4 text-2xl border-web-gray border-b flex gap-2'>
-			<span className='pt-2' ref={iconWrapper}></span>
-			<span className='leading-none'>
-				<span>{ensName}</span>
-				<CopyAddressToClipboard data={account} noClip={ensName < 15} clipping={[5, 39]} />
-			</span>
-		</h1>
-		<div className='px-16 py-6 py-6 gap-6 border-b border-web-gray flex flex-wrap items-stretch w-full font-semibold text-gray-300 text-lg'>
-			{organizations &&
-				<div className='flex-1 mb-6'>
-					<div className='pb-2'>Organizations</div>					
-					{organizations.length===0 ?
-						<div className='font-normal flex-1'>User hasn{'\''}t claimed  a bounty with any organization.</div>:
-						<AvatarPack avatars={organizations} />}
-				</div> }
-			<div className='flex-1 whitespace-nowrap'>
-				<div className='pb-2'>Bounties Collected</div>
-
-				<div className=' text-base leading-[32px]'>{payouts.length}</div>
-			</div>
-		</div>
-		{fundedTokenBalances.length > 0 &&
-		<div className='px-16 py-5 pb border-b border-web-gray'>
-			<div className='py-5 border-web-gray'>
-				<h2 className='font-bold uppercase text-gray-300 text-xl'>Total Contributions</h2>
-				<TokenBalances
-					tokenBalances={fundedTokenBalances}
-					tokenValues={fundedTokenValues} />
-			</div>
-		</div>}
-		{payoutTokenBalances.length > 0 && <div className='px-16 py-5 pb border-b border-web-gray'>
-			<h2 className='font-bold uppercase text-gray-300 text-xl'>Total Payouts</h2>
-			<TokenBalances
-				tokenBalances={payoutTokenBalances}
-				tokenValues={payoutTokenValues} />
-		</div>}
-		<div className='px-10 py-10 pb border-b border-web-gray'>
-			<h2 className='font-bold uppercase text-gray-300 text-xl px-6'>Bounties Claimed</h2>
-			<div>
-				{bountiesClosed.length != 0 ?
-					<ul>{bountiesClosed.map((bounty, index) => {
-
-						return (
-							<MiniBountyCard key={index} bounty={bounty} />
-						);
-					})
-					}</ul> :
-					<span className='px-6 pt-2'>No Bounties Claimed</span>}
-			</div>
-		</div>
-		<div className='p-10 pb border-b border-web-gray'>
-			<h2 className='font-bold uppercase text-gray-300 text-xl px-6'>Bounties Minted</h2>
-			<div className="pt-2">
-				{bountiesCreated.length != 0 ?
-					<ul>{bountiesCreated.map((bounty, index) => {
-
-						return (
-							<MiniBountyCard key={index} bounty={bounty} />
-						);
-					})
-					}</ul> :
-					<span className='px-6 pt-2'>No Bounties Created</span>}
-			</div>
-
-		</div>
-		<div className='px-10 py-5 pb border-web-gray'>
-			<h2 className='font-bold uppercase text-gray-300 text-xl px-6'>Deposits</h2>
-
-			{deposits.length > 0 ?
-				<ul className="flex flex-wrap justify-between gap-5 pt-2">{deposits.map((deposit) =>
-					<MiniDepositCard key={deposit.id} showLink={true} deposit={deposit} />
-				)}</ul> :
-
-				<div className='px-6 pt-2'>No Deposits</div>}
-
-		</div>
+		<AboutTitle ensName= {ensName} account = {account}/>
+		<UserHistory organizations = {organizations} payouts ={payouts} />
+		<Balances tokenBalances={fundedTokenBalances} tokenValues = {fundedTokenValues} type="Total Contributions" />
+		<Balances tokenBalances={payoutTokenBalances} tokenValues = {payoutTokenValues} type="Total Payouts"  />
+		<MiniBountyList bounties = {bountiesClosed} type ={'Claimed'}/>
+		<MiniBountyList bounties={bountiesCreated} type ={'Minted'} />
+		<MiniDepositList deposits = {deposits} />
 
 	</>
 	);
