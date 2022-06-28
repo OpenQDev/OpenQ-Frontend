@@ -31,8 +31,11 @@ const BountyLinks = ({ bounty, hideBountyLink, bountyAddress }) => {
 	};
 
 	const watchBounty = async () => {
-
-		const signature = await signMessage();
+		let signature = sessionStorage.getItem('signature');
+		if(!signature){
+			signature = await signMessage();
+			sessionStorage.setItem('signature', signature);
+		}
 		console.log(signature);
 		setWatchDisabled(true);
 		if (watchingDisplay) {
