@@ -82,22 +82,6 @@ const ConnectButton = () => {
 	};
 
 
-	// const signMessage = () => {
-	// 	const message = 'OpenQ';
-	// 	window.ethereum
-	// 		.request({
-	// 			method: 'personal_sign',
-	// 			params: [message, account]
-	// 		}).then((signature) => {
-	// 			axios.get('http://localhost:3001/verifySignature', {
-	// 				params: {
-	// 					signature, account,
-	// 				},
-	// 				withCredentials: true,
-	// 			});
-	// 		})
-	// 		.catch((error) => console.log('Error', error.message));
-	// };
 
 	// Render
 	return (<div>
