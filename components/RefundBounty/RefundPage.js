@@ -28,10 +28,10 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 	const [extend, setExtend] = useState(false);
 	const [depositPeriodDays, setDepositPeriodDays] = useState(0);
 
-	const onDepositPeriodChanged = (e) => {
-		if (parseInt(e.target.value) >= 0) setDepositPeriodDays(parseInt(e.target.value));
-		if (e.target.value === '') setDepositPeriodDays('0');
-	};
+	const onFinDepositPeriodChanged = (days) => {
+		setDepositPeriodDays(days);
+		alert(`Getting days: ${days}`)
+	}
 
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -133,7 +133,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 									return (
 										<div key={deposit.id}>
 											<DepositCard deposit={deposit} status="refundable" bounty={bounty} 
-											onDepositPeriodChanged={onDepositPeriodChanged} depositPeriodDays={depositPeriodDays}
+											onFinDepositPeriodChanged={onFinDepositPeriodChanged}
 											refundBounty={() => {
 												setConfirmationMessage(
 													`You are about to refund the bounty at ${bounty.bountyAddress.substring(
