@@ -22,25 +22,20 @@ export const GET_BOUNTY_BY_HASH = gql`query bounty($contractAddress: String! ) {
 
 export const GET_USER_BY_HASH = gql`query($userAddress: String!) {
   user(address: $userAddress) {
-    watchedBounties(limit: 10) {
-      bounties {
-        address
-				bountyId
-      }
-    }
+    watchedBountyIds
   }
 }`;
 
 export const WATCH_BOUNTY = gql`
-mutation AddUser ($contractAddress: String, $userAddress: String ){
-  watchBounty(contractAddress: $contractAddress, userAddress:$userAddress) {
+mutation AddUser ($contractAddress: String, $userAddress: String, $signature: String  ){
+  watchBounty(contractAddress: $contractAddress, userAddress:$userAddress, signature: $signature) {
     address
   }
 }`;
 
 export const UNWATCH_BOUNTY = gql`
-mutation unWatchBounty ($contractAddress: String, $userAddress: String ){
-  unWatchBounty(contractAddress: $contractAddress, userAddress:$userAddress) {
+mutation unWatchBounty ($contractAddress: String, $userAddress: String, $signature: String ){
+  unWatchBounty(contractAddress: $contractAddress, userAddress:$userAddress, signature: $signature) {
     address
   }
 }`;

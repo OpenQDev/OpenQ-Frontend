@@ -14,12 +14,12 @@ class OpenQPrismaClient {
 		cache: new InMemoryCache(),
 	});
 
-	async watchBounty(contractAddress, userAddress) {
+	async watchBounty(contractAddress, userAddress, signature) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.mutate({
 					mutation: WATCH_BOUNTY,
-					variables: { contractAddress, userAddress }
+					variables: { contractAddress, userAddress, signature }
 				});
 				resolve(result.data.organization);
 			} catch (e) {
@@ -29,12 +29,12 @@ class OpenQPrismaClient {
 		return promise;
 	}
 
-	async unWatchBounty(contractAddress, userAddress) {
+	async unWatchBounty(contractAddress, userAddress, signature) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.mutate({
 					mutation: UNWATCH_BOUNTY,
-					variables: { contractAddress, userAddress }
+					variables: { contractAddress, userAddress, signature }
 				});
 				resolve(result.data.organization);
 			} catch (e) {
