@@ -47,7 +47,7 @@ const BountyLinks = ({ bounty, hideBountyLink, bountyAddress }) => {
 		}
 		setWatchDisabled(true);
 		if (watchingDisplay) {
-			await appState.openQPrismaClient.unWatchBounty(ethers.utils.getAddress(bountyAddress), account, signature);
+			await appState.openQPrismaClient.unWatchBounty(ethers.utils.getAddress(bountyAddress), account);
 			setWatchingDisplay(false);
 			setWatchDisabled(false);
 		}
