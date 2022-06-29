@@ -180,6 +180,7 @@ class OpenQClient {
 				const seconds = _depositPeriodDays * 24 * 60 * 60;
 				const txnResponse = await contract.extendDeposit(_bountyId, _depositId, seconds);
 				const txnReceipt = await txnResponse.wait();
+				console.log(txnReceipt);
 				resolve(txnReceipt);
 			} catch (err) {
 				reject(err);
@@ -196,6 +197,7 @@ class OpenQClient {
 			try {
 				const txnResponse = await contract.refundDeposit(_bountyId, _depositId);
 				const txnReceipt = await txnResponse.wait();
+				console.log(txnReceipt);
 				resolve(txnReceipt);
 			} catch (err) {
 				reject(err);
