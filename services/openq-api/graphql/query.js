@@ -26,22 +26,6 @@ export const GET_USER_BY_HASH = gql`query($userAddress: String!) {
   }
 }`;
 
-export const CREATE_NEW_BOUNTY = gql`
-mutation CreateBounty( $address: String!, $organizationId: String!, $bountyId: String!) {
-  createBounty(address: $address, organizationId: $organizationId, bountyId: $bountyId) {
-    address
-		bountyId
-		organizationId
-  }
-}`;
-
-export const UPDATE_BOUNTY = gql`
-mutation updateBounty($tvl: Float!, $id: String!, ) {
-  updateBounty(tvl: $tvl, address: $id) {
-        count
-  }
-}`;
-
 export const WATCH_BOUNTY = gql`
 mutation AddUser ($contractAddress: String, $userAddress: String, $signature: String  ){
   watchBounty(contractAddress: $contractAddress, userAddress:$userAddress, signature: $signature) {
