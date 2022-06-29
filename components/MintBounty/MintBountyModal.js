@@ -1,7 +1,6 @@
 // Third party
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
-import { ethers } from 'ethers';
 
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
@@ -90,13 +89,6 @@ const MintBountyModal = ({ modalVisibility }) => {
 				issue.repository.owner.id,
 			);
 			sessionStorage.setItem('justMinted', true);
-			try {
-				await appState.openQPrismaClient.createNewBounty(ethers.utils.getAddress(bountyAddress), issue.repository.owner.id, issue.id);
-			}
-			catch (err) {
-				console.log('error in prisma', err);
-			}
-
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress}`
 			);
@@ -109,7 +101,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 		}
 	};
 
-	const connectWallet = ()=>{
+	const connectWallet = () => {
 		const payload = {
 			type: 'CONNECT_WALLET',
 			payload: true
@@ -125,7 +117,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 		setError();
 		modalVisibility(false);
 	};
-	
+
 	useEffect(() => {
 		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
 		function handleClickOutside(event) {
@@ -179,7 +171,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 								</div>
 
 								<ToolTip
-									hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading }
+									hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
 									toolTipText={
 										account && isOnCorrectNetwork ?
 											'Please choose an elgible issue.' :
@@ -190,9 +182,9 @@ const MintBountyModal = ({ modalVisibility }) => {
 									customOffsets={[0, 70]}>
 									<div className="flex items-center justify-center p-5 rounded-b w-full">
 										<MintBountyModalButton
-											mintBounty={(account)? mintBounty : connectWallet}
+											mintBounty={(account) ? mintBounty : connectWallet}
 											account={account}
-											enableMint={(enableMint && isOnCorrectNetwork && !issue?.closed && !isLoading)|| !account}
+											enableMint={(enableMint && isOnCorrectNetwork && !issue?.closed && !isLoading) || !account}
 											transactionPending={isLoading}
 										/>
 									</div>

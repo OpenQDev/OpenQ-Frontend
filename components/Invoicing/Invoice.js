@@ -39,7 +39,7 @@ const Invoice = ({bounty})=>{
 	const srcPdf = useCallback(async(iframe)=>{
 		if(iframe && tokenValues && appState.tokenClient){
 			const keys =	Object.keys(tokenValues.tokens);
-			const tableData = keys.map((key)=>tokenValues.tokens[key].toString());
+			const tableData = keys.map((key)=>tokenValues.tokens[key].toFixed(2).toString());
 			const tableHeaders = await	Promise.all(bounty.bountyTokenBalances.map(async(token)=>{
 				const tokenMetadata =  appState.tokenClient.getToken(ethers.utils.getAddress(token.tokenAddress));
 				return `${tokenMetadata.symbol||'CUSTOM'} valued in USD`;
@@ -66,7 +66,7 @@ const Invoice = ({bounty})=>{
 			doc.autoTable({
 				head: [['Task', ...tableHeaders, 'Total Value Claimed'],],
 				body: [
-					[bounty.title, ...tableData, total.toString()],
+					[bounty.title, ...tableData, total.toFixed(2).toString()],
 					[{styles: {lineWidth: 0}, content: ''}, ...tableData.map(()=>{return {styles: {lineWidth: 0}, content: ''};}),	total.toFixed(2).toString()]
 					// ...
 				],
@@ -95,6 +95,7 @@ const Invoice = ({bounty})=>{
 						<input onChange={(e)=>{setClientAddress(e.target.value);}} className='bg-dark-mode border border-web-gray text-xl p-4 h-min rounded-lg focus:outline-none' type="text" placeholder='Client Address'></input>
 						<input onChange={(e)=>{setClientEmail(e.target.value);}} className='bg-dark-mode border border-web-gray text-xl p-4 h-min rounded-lg focus:outline-none' type="email" placeholder='Client Email'></input>
 					</div>
+					
 					<ToolTip toolTipText="Cannot generate invoice if there are no deposits." hideToolTip={tokenValues} customOffsets={[0, 66]} >
 						<button onClick={handleSubmit} disabled={!tokenValues} className={`confirm-btn ${!tokenValues ? 'confirm-btn-disabled' : 'confirm-btn' } col-span-2 my-4`}>Generate</button></ToolTip>
 				</form>

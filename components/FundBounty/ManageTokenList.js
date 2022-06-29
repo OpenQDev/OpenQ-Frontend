@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import Image from 'next/image';
 
 // Custom Hooks
-import Toggle from '../Toggle/Toggle';
+import Toggle from '../Utils/Toggle';
 import { ethers } from 'ethers';
 import StoreContext from '../../store/Store/StoreContext';
 import TokenDisplay from '../TokenBalances/TokenDisplay';

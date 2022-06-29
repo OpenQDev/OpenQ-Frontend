@@ -4,9 +4,9 @@ import React, { useState, useContext } from 'react';
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
 import UnexpectedError from '../../components/Utils/UnexpectedError';
-import BountyList from '../../components/Bounty/BountyList';
+import BountyList from '../../components/BountyList/BountyList';
 import LargeOrganizationCard from '../../components/Organization/LargeOrganizationCard';
-import Toggle from '../../components/Toggle/Toggle';
+import Toggle from '../../components/Utils/Toggle';
 import About from '../../components/About/About';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';

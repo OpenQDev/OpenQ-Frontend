@@ -14,36 +14,6 @@ class OpenQPrismaClient {
 		cache: new InMemoryCache(),
 	});
 
-	async createNewBounty(address, organizationId, bountyId) {
-		const promise = new Promise(async (resolve, reject) => {
-			try {
-				const result = await this.client.mutate({
-					mutation: CREATE_NEW_BOUNTY,
-					variables: { address, tvl: 0.0, organizationId, bountyId }
-				});
-				resolve(result);
-			} catch (e) {
-				reject(e);
-			}
-		});
-		return promise;
-	}
-
-	async updateBounty(id, tvl) {
-		const promise = new Promise(async (resolve, reject) => {
-			try {
-				const result = await this.client.mutate({
-					mutation: UPDATE_BOUNTY,
-					variables: { id, tvl }
-				});
-				resolve(result.data.organization);
-			} catch (e) {
-				reject(e);
-			}
-		});
-		return promise;
-	}
-
 	async watchBounty(contractAddress, userAddress) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
@@ -74,7 +44,6 @@ class OpenQPrismaClient {
 		return promise;
 	}
 
-
 	async getBounty(contractAddress) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
@@ -91,6 +60,7 @@ class OpenQPrismaClient {
 		);
 		return promise;
 	}
+
 	async getUser(userAddress) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
@@ -109,7 +79,6 @@ class OpenQPrismaClient {
 	}
 
 	async getBountyPage(after, limit, orderBy, sortOrder, organizationId) {
-
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
@@ -125,10 +94,7 @@ class OpenQPrismaClient {
 		}
 		);
 		return promise;
-
 	}
-
-
 }
 
 export default OpenQPrismaClient;
