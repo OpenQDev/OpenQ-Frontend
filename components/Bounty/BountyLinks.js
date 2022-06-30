@@ -35,7 +35,7 @@ const BountyLinks = ({ bounty, hideBountyLink, bountyAddress }) => {
 		try {
 			const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature?address=${account}`, { withCredentials: true });
 			if (response.data.status===false) {
-				const 	signature = await signMessage();
+				const signature = await signMessage();
 				const result = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/verifySignature`,
 					{
 						signature,
