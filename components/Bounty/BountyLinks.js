@@ -32,12 +32,12 @@ const BountyLinks = ({ bounty, hideBountyLink, bountyAddress }) => {
 	};
 
 	const watchBounty = async () => {
-
 		try {
 			const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature?address=${account}`, { withCredentials: true });
 
+			let signature;
 			if (response.data.status === false) {
-				const signature = await signMessage();
+				signature = await signMessage();
 				const result = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/verifySignature`,
 					{
 						signature,
@@ -45,27 +45,28 @@ const BountyLinks = ({ bounty, hideBountyLink, bountyAddress }) => {
 					}, { withCredentials: true }
 				);
 				console.log(result);
-			} else {
-				setWatchDisabled(true);
-
-				if (watchingDisplay) {
-					await appState.openQPrismaClient.unWatchBounty(ethers.utils.getAddress(bountyAddress), account);
-					setWatchingDisplay(false);
-					setWatchDisabled(false);
-				}
-				else {
-					await appState.openQPrismaClient.watchBounty(ethers.utils.getAddress(bountyAddress), account, signature);
-					setWatchingDisplay(true);
-					setWatchDisabled(false);
-				}
-
-				const payload = {
-					type: 'UPDATE_RELOAD',
-					payload: true
-				};
-
-				dispatch(payload);
 			}
+
+			console.log('here');
+
+			setWatchDisabled(true);
+
+			if (watchingDisplay) {
+				await appState.openQPrismaClient.unWatchBounty(ethers.utils.getAddress(bountyAddress), account);
+				setWatchingDisplay(false);
+				setWatchDisabled(false);
+			} else {
+				await appState.openQPrismaClient.watchBounty(ethers.utils.getAddress(bountyAddress), account, signature);
+				setWatchingDisplay(true);
+				setWatchDisabled(false);
+			}
+
+			const payload = {
+				type: 'UPDATE_RELOAD',
+				payload: true
+			};
+
+			dispatch(payload);
 		} catch (error) {
 			console.error(error);
 		}
