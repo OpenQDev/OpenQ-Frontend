@@ -14,9 +14,9 @@ import MiniDepositCard from './MiniDepositCard';
 
 
 const BountyCardDetails = ({ bounty, address, tokenValues, internalMenu }) => {
-	return (
+	return (		
 		<div className={`flex flex-col w-full font-mont sm:pl-5 sm:pr-5 md:px-10 pt-10 pb-10 my-16 w-5/6 max-w-6xl ${internalMenu !== 'View' ? 'hidden' : null}`}>
-			<div className="flex w-full flex-col border-b pb-6 border-solid justify-items-center items-center content-between rounded-t">
+		<div className="flex w-full flex-col border-b pb-6 border-solid justify-items-center items-center content-between rounded-t">
 				<	div className='self-start w-full'>
 					<BountyCardHeader bounty={bounty} />
 				</div>
@@ -30,11 +30,11 @@ const BountyCardDetails = ({ bounty, address, tokenValues, internalMenu }) => {
 
 					<div className='lg:col-span-2 xl:col-span-3 pt-2'>
 						<h3 className='font-bold'>Linked Pull Requests</h3>
-						{bounty?.prs?.some(pr => pr.source__typeName === 'Pull Request' && pr.source.url) > 0 ? <ul>
+						{bounty?.prs?.some(pr => pr.source['__typename'] === 'PullRequest' && pr.source.url) > 0 ? <ul>
 							{bounty.prs.filter((pr) => {
-								return pr.source__typeName === 'Pull Request' && pr.source.url;
+								return pr.source['__typename'] === 'PullRequest' && pr.source.url;
 							}).map((pr, index) => {
-								if (pr.source__typeName === 'Pull Request' && pr.source.url) return <li className={`${pr.source.merged ? 'text-claimed-bounty' : null}`} key={index}>
+								if (pr.source['__typename'] === 'PullRequest' && pr.source.url) return <li className={`${pr.source.merged ? 'text-claimed-bounty' : null}`} key={index}>
 									<Link href={pr.source.url}><a target="_blank" className={'underline'}>{pr.source.title}</a></Link><span> {pr.source.merged ? '(merged)' : '(not merged)'}</span>
 								</li>;
 							})}
@@ -87,7 +87,7 @@ const BountyCardDetails = ({ bounty, address, tokenValues, internalMenu }) => {
 					
 					<div className="lg:col-span-2  xl:col-span-3 font-semibold underline flex gap-2">
 						
-						{bounty && <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/invoice/${bounty.bountyAddress}`}>
+						{bounty && <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/invoice/${bounty.id}/${bounty.bountyAddress}`}>
 							<a className='flex gap-2'>
 								<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
 									<path strokeLinecap="round" strokeLinejoin="round" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -119,7 +119,7 @@ const BountyCardDetails = ({ bounty, address, tokenValues, internalMenu }) => {
 			<div className="flex flex-col pt-4">
 				<div className="flex flex-row justify-between">
 					<div className="font-bold text-xl ">Description</div>
-					<BountyLinks bounty={bounty} address={address} hideBountyLink={true} />
+					<BountyLinks bountyAddress={address} bounty={bounty} address={address} hideBountyLink={true} />
 				</div>
 				<div>
 					<LabelsList bounty={bounty} />
