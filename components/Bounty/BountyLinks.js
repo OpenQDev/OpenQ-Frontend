@@ -34,10 +34,9 @@ const BountyLinks = ({ bounty, hideBountyLink, bountyAddress }) => {
 	const watchBounty = async () => {
 		try {
 			const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature?address=${account}`, { withCredentials: true });
-
-			let signature;
-			if (response.data.status === false) {
-				signature = await signMessage();
+			
+			if (response.data.status===false) {
+				const	signature = await signMessage();
 				const result = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/verifySignature`,
 					{
 						signature,
@@ -47,7 +46,6 @@ const BountyLinks = ({ bounty, hideBountyLink, bountyAddress }) => {
 				console.log(result);
 			}
 
-			console.log('here');
 
 			setWatchDisabled(true);
 
@@ -56,7 +54,7 @@ const BountyLinks = ({ bounty, hideBountyLink, bountyAddress }) => {
 				setWatchingDisplay(false);
 				setWatchDisabled(false);
 			} else {
-				await appState.openQPrismaClient.watchBounty(ethers.utils.getAddress(bountyAddress), account, signature);
+				await appState.openQPrismaClient.watchBounty(ethers.utils.getAddress(bountyAddress), account);
 				setWatchingDisplay(true);
 				setWatchDisabled(false);
 			}
