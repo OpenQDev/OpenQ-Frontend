@@ -1,5 +1,5 @@
 // Third party
-import React, {useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import axios from 'axios';
 
@@ -21,9 +21,9 @@ const BountyLinks = ({ bounty, hideBountyLink, bountyAddress }) => {
 		setWatchingDisplay(watching);
 	}, [account]);
 
-	const signMessage = async() => {
+	const signMessage = async () => {
 		const message = 'OpenQ';
-		const signature = await 	window.ethereum
+		const signature = await window.ethereum
 			.request({
 				method: 'personal_sign',
 				params: [message, account]
@@ -32,36 +32,43 @@ const BountyLinks = ({ bounty, hideBountyLink, bountyAddress }) => {
 	};
 
 	const watchBounty = async () => {
-	
-		const {data} = await 	axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature`);
-		
-		if(!data.signature){
-			const	signature = await signMessage();			
-			await		axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/verifySignature`,
-				{
-					signature,
-					address: account
+
+		try {
+			const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature?address=${account}`, { withCredentials: true });
+
+			if (response.data.status === false) {
+				const signature = await signMessage();
+				const result = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/verifySignature`,
+					{
+						signature,
+						address: account
+					}, { withCredentials: true }
+				);
+				console.log(result);
+			} else {
+				setWatchDisabled(true);
+
+				if (watchingDisplay) {
+					await appState.openQPrismaClient.unWatchBounty(ethers.utils.getAddress(bountyAddress), account);
+					setWatchingDisplay(false);
+					setWatchDisabled(false);
 				}
-			);
+				else {
+					await appState.openQPrismaClient.watchBounty(ethers.utils.getAddress(bountyAddress), account, signature);
+					setWatchingDisplay(true);
+					setWatchDisabled(false);
+				}
 
-		}
-		setWatchDisabled(true);
-		if (watchingDisplay) {
-			await appState.openQPrismaClient.unWatchBounty(ethers.utils.getAddress(bountyAddress), account);
-			setWatchingDisplay(false);
-			setWatchDisabled(false);
-		}
-		else {
-			await appState.openQPrismaClient.watchBounty(ethers.utils.getAddress(bountyAddress), account, signature);
-			setWatchingDisplay(true);
-			setWatchDisabled(false);
-		}
-		const payload = {
-			type: 'UPDATE_RELOAD',
-			payload: true
-		};
-		dispatch(payload);
+				const payload = {
+					type: 'UPDATE_RELOAD',
+					payload: true
+				};
 
+				dispatch(payload);
+			}
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const tweetText = `Check out this bounty ${bounty?.owner && `for ${bounty?.owner}`} on OpenQ. You can claim it just by making a pull request that completes the issue! `;
