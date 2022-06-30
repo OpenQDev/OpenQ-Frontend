@@ -1,6 +1,7 @@
 // Third party
 import React, {useContext, useEffect, useState } from 'react';
 import { ethers } from 'ethers';
+import axios from 'axios';
 
 // Custom 
 import Link from 'next/link';
@@ -31,15 +32,22 @@ const BountyLinks = ({ bounty, hideBountyLink, bountyAddress }) => {
 	};
 
 	const watchBounty = async () => {
-		let signature = sessionStorage.getItem('signature');
-		if(!signature){
-			signature = await signMessage();
-			sessionStorage.setItem('signature', signature);
+	
+		const {data} = await 	axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature`);
+		
+		if(!data.signature){
+			const	signature = await signMessage();			
+			await		axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/verifySignature`,
+				{
+					signature,
+					address: account
+				}
+			);
+
 		}
-		console.log(signature);
 		setWatchDisabled(true);
 		if (watchingDisplay) {
-			await appState.openQPrismaClient.unWatchBounty(ethers.utils.getAddress(bountyAddress), account, signature);
+			await appState.openQPrismaClient.unWatchBounty(ethers.utils.getAddress(bountyAddress), account);
 			setWatchingDisplay(false);
 			setWatchDisabled(false);
 		}
