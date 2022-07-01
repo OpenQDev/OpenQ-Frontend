@@ -191,6 +191,53 @@ export const GET_ISSUE_BY_ID = gql`
   }
 `;
 
+export const GET_PRS_BY_ISSUES = gql`
+query getPrs($bountyIds: [ID!]!) {
+  nodes(ids: $bountyIds) {
+    id
+    ... on Issue {
+      id
+      timelineItems(first: 100) {
+        edges {
+          node {
+            ... on CrossReferencedEvent {
+              id
+              source {
+                ... on PullRequest {
+                  id
+                  bodyText
+                  title
+									url
+                  repository{owner{avatarUrl}}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+
+export const GET_PR_BY_ID = gql`
+query getPr($id: ID!){
+ node(id: $id) {
+    ... on PullRequest {
+      id
+      bodyHTML
+			url
+      title
+			author{
+				login
+        avatarUrl
+      	url
+			}
+      }
+    }
+  }
+`;
+
 export const GET_ISSUES_BY_ID = gql`
 query($issueIds: [ID!]!) {
   nodes(ids: $issueIds) {
