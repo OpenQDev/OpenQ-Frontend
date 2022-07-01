@@ -118,7 +118,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		}
 			break;
 		case 'Oldest': {
-			if (complete) {
+			if (complete || firstLoad) {
 				return bounties.sort((a, b) => {
 					return a.bountyMintTime - b.bountyMintTime;
 				});
