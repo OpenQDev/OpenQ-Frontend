@@ -6,7 +6,7 @@ import Link from 'next/link';
 const PrCard = ({pr})=>{
 
 
-	return(<>
+	return(
 		<Link href={`/showcase/${pr.id}/${pr.address}`}>
 			<a className='cursor-pointer' >
 				<div className='w-60 h-72 border-web-gray border rounded-lg p-6 flex flex-col align-center'>
@@ -16,7 +16,7 @@ const PrCard = ({pr})=>{
 				</div>
 			</a>
 		</Link>
-	</>);
+	);
 };
 
 export default PrCard;
