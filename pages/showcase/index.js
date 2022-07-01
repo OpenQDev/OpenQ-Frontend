@@ -24,22 +24,20 @@ const showcase = () => {
 
 
 	return (
-		<>
 						
-			<div className="lg:grid lg:grid-cols-extra-wide mx-4 pt-8 sm:mx-8 xl:grid-cols-wide justify-center">
-				<h1 className='lg:col-start-2 justify-between justify-self-center py-16 text-4xl font-bold text-tinted'>Submissions</h1>
-				<div className="lg:col-start-2 justify-between justify-self-center space-y-3 w-full pb-8 max-w-[850px]">
-					<SearchBar onKeyUp={filterBySubmission} searchText={submissionSearchTerm} placeholder="Search Submissions..." borderShape={'border rounded-full w-full'}  />
-					<div className="grid grid-cols-[repeat(_auto-fill,_240px)] gap-y-16 pt-6 justify-center lg:justify-between mx-auto">
-						{prs.filter(pr=>{
-							const searchable = pr.bodyText.toLowerCase() + pr.title.toLowerCase();
-							return searchable.includes(submissionSearchTerm.toLowerCase()) || submissionSearchTerm==='';
-						}).map((pr, index)=><PrCard key={index} pr={pr} />)}
+		<div className="lg:grid lg:grid-cols-extra-wide mx-4 pt-8 sm:mx-8 xl:grid-cols-wide justify-center">
+			<h1 className='lg:col-start-2 justify-between justify-self-center py-16 text-4xl font-bold text-tinted'>Submissions</h1>
+			<div className="lg:col-start-2 justify-between justify-self-center space-y-3 w-full pb-8 max-w-[850px]">
+				<SearchBar onKeyUp={filterBySubmission} searchText={submissionSearchTerm} placeholder="Search Submissions..." borderShape={'border rounded-full w-full'}  />
+				<div className="grid grid-cols-[repeat(_auto-fill,_240px)] gap-y-16 pt-6 justify-center lg:justify-between mx-auto">
+					{prs.filter(pr=>{
+						const searchable = pr.bodyText.toLowerCase() + pr.title.toLowerCase();
+						return searchable.includes(submissionSearchTerm.toLowerCase()) || submissionSearchTerm==='';
+					}).map((pr, index)=><PrCard key={index} pr={pr} />)}
 
-					</div>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 
 };

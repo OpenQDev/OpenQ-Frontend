@@ -270,14 +270,12 @@ class GithubRepository {
 	}
 
 	async fetchPRsByIssues(bountyIds) {
-		console.log(bountyIds);
 
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
 					query: GET_PRS_BY_ISSUES, variables: { bountyIds },
 				});
-				console.log(result);
 				resolve(result);
 			} catch (e) {
 				console.log(e);
