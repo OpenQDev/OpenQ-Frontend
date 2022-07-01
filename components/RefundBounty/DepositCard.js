@@ -90,6 +90,7 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 										name={deposit.id}
 										id="deposit-period"
 										onChange={onDepositPeriodChanged}
+										placeholder="0"
 									/>
 								</div>
 							</div>
