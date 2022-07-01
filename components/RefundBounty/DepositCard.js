@@ -4,18 +4,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import TokenBalances from '../TokenBalances/TokenBalances';
 import ToolTip from '../Utils/ToolTip';
-const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectNetwork, onFinDepositPeriodChanged }) => {
-	const [depositPeriodDays, setDepositPeriodDays] = useState(0);
-
-	const onDepositPeriodChanged = (e) => {
-		if (parseInt(e.target.value) >= 0) setDepositPeriodDays(parseInt(e.target.value));
-		if (e.target.value === '') setDepositPeriodDays('0');
-	};
-
-	const passDepositPeriodDays = () => {
-		onFinDepositPeriodChanged(depositPeriodDays);
-		extendBounty(deposit.id, depositPeriodDays);
-	}
+const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectNetwork, onDepositPeriodChanged, depositPeriodDays }) => {
 	
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -70,7 +59,7 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 										null
 											}
 								customOffsets={[0, 46]}>
-								<button onClick={() => passDepositPeriodDays()}
+								<button onClick={() => extendBounty(deposit.id)}
 									disabled={!isOnCorrectNetwork || !(depositPeriodDays > 0)}
 									className={`items-left text-lg  self-center ${isOnCorrectNetwork ?
 										(!expanded ?
@@ -98,6 +87,7 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 										className="font-semibold text-right /60 text-2xl number outline-none bg-dark-mode w-full flex-1"
 										autoComplete="off"
 										value={depositPeriodDays}
+										name={deposit.id}
 										id="deposit-period"
 										onChange={onDepositPeriodChanged}
 									/>
