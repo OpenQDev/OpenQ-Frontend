@@ -27,15 +27,15 @@ export const GET_USER_BY_HASH = gql`query($userAddress: String!) {
 }`;
 
 export const WATCH_BOUNTY = gql`
-mutation AddUser ($contractAddress: String, $userAddress: String, $signature: String  ){
-  watchBounty(contractAddress: $contractAddress, userAddress:$userAddress, signature: $signature) {
+mutation AddUser ($contractAddress: String, $userAddress: String){
+  watchBounty(contractAddress: $contractAddress, userAddress:$userAddress) {
     address
   }
 }`;
 
 export const UNWATCH_BOUNTY = gql`
-mutation unWatchBounty ($contractAddress: String, $userAddress: String, $signature: String ){
-  unWatchBounty(contractAddress: $contractAddress, userAddress:$userAddress, signature: $signature) {
+mutation unWatchBounty ($contractAddress: String, $userAddress: String){
+  unWatchBounty(contractAddress: $contractAddress, userAddress:$userAddress) {
     address
   }
 }`;
