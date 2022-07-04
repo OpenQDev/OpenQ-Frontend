@@ -13,27 +13,30 @@ const MobileSidebar = () => {
 	const [appState] = useContext(StoreContext);
 
 	return (
-		<div className="flex justify-between items-center gap-2 w-full max-h-12 md:hidden pr-4 py-2 bg-black">
-			<div className="pl-5">{appState.needsReload ?
+		<div className="flex justify-between items-center gap-2 w-full max-h-12 md:hidden pr-4 py-8 bg-black">
+			{appState.needsReload ?
 				<a href="/">
-					<Image
-						src="/openq-logo.png"
-						alt="OpenQ"
-						width="31"
-						height="31"
-					/>
-				</a> :
-				<Link href={'/'}>
-					<a>
+					<div className="flex pl-5">
 						<Image
 							src="/openq-logo.png"
 							alt="OpenQ"
-							width="31"
-							height="31"
+							width="32"
+							height="32"
 						/>
+						</div>
+				</a> :
+				<Link href={'/'}>
+					<a>
+						<div className="flex pl-5">
+							<Image
+								src="/openq-logo.png"
+								alt="OpenQ"
+								width="32"
+								height="32"
+							/>
+						</div>
 					</a>
 				</Link>}
-			</div>
 
 			<div className="flex flex-row space-x-4 items-center">
 				<MobileConnectButton />
