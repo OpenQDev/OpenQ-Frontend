@@ -6,6 +6,7 @@ import GithubRepository from '../../services/github/GithubRepository';
 import TokenClient from '../../services/coins/TokenClient';
 import Logger from '../../services/logger/Logger';
 import OpenQPrismaClient from '../../services/openq-api/OpenQPrismaClient';
+import SuperFluidClient from '../../services/SuperFluidClient/SuperFluidClient';
 
 import MockGithubRepository from '../../services/github/MockGithubRepository';
 import MockOpenQClient from '../../services/ethers/MockOpenQClient';
