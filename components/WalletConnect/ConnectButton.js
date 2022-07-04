@@ -1,5 +1,5 @@
 // Third party
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import jazzicon from '@metamask/jazzicon';
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
@@ -9,21 +9,25 @@ import AccountModal from './AccountModal';
 import ConnectModal from './ConnectModal';
 import useEns from '../../hooks/useENS';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
+import StoreContext from '../../store/Store/StoreContext';
 // import axios from 'axios';
 
 const ConnectButton = () => {
+
+	// Context
+	const { chainId, error, account, deactivate, safe } = useWeb3();
+	const [ensName] = useEns(account);
+	const [appState, dispatch] = useContext(StoreContext);
+	const { walletConnectModal } = appState;
+
 	// State
 	const [isConnecting, setIsConnecting] = useState(false);
-	const [showConnectModal, setShowConnectModal] = useState(false);
-	const { chainId, error, account, deactivate, safe } = useWeb3();
 	const [isOnCorrectNetwork,] = useIsOnCorrectNetwork({ chainId: chainId, error: error, account: account });
 	const [showModal, setShowModal] = useState();
 	const iconWrapper = useRef();
 	const modalRef = useRef();
 	const buttonRef = useRef();
 
-	// Context
-	const [ensName] = useEns(account);
 	// Hooks
 	useConnectOnLoad()(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
 
@@ -48,8 +52,21 @@ const ConnectButton = () => {
 	});
 
 	// Methods
-	const onClickConnect = async () => {
-		setShowConnectModal(true);
+	const openConnectModal = async () => {
+		const payload = {
+			type: 'CONNECT_WALLET',
+			payload: true
+		};
+		dispatch(payload);
+	};
+
+
+	const closeModal = ()=>{
+		const payload = {
+			type: 'CONNECT_WALLET',
+			payload: false
+		};
+		dispatch(payload);
 	};
 
 
@@ -65,22 +82,6 @@ const ConnectButton = () => {
 	};
 
 
-	// const signMessage = () => {
-	// 	const message = 'OpenQ';
-	// 	window.ethereum
-	// 		.request({
-	// 			method: 'personal_sign',
-	// 			params: [message, account]
-	// 		}).then((signature) => {
-	// 			axios.get('http://localhost:3001/verifySignature', {
-	// 				params: {
-	// 					signature, account,
-	// 				},
-	// 				withCredentials: true,
-	// 			});
-	// 		})
-	// 		.catch((error) => console.log('Error', error.message));
-	// };
 
 	// Render
 	return (<div>
@@ -109,7 +110,7 @@ const ConnectButton = () => {
 			isOnCorrectNetwork ?
 				<div>
 					<button
-						onClick={onClickConnect}
+						onClick={openConnectModal}
 						className="flex items-center font-mont whitespace-nowrap h-12 rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
 						disabled={isConnecting}
 					>
@@ -129,7 +130,7 @@ const ConnectButton = () => {
 				</button>
 		}
 		{
-			showConnectModal && <ConnectModal closeModal={() => setShowConnectModal(false)} />
+			walletConnectModal && <ConnectModal closeModal={closeModal} />
 		}
 	</div>
 	);

@@ -2,21 +2,24 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 //Custom
-import BountyCard from './BountyCard';
-import Dropdown from '../Toggle/Dropdown';
+import BountyCard from '../Bounty/BountyCard';
+import Dropdown from '../Utils/Dropdown';
 import SearchBar from '../Search/SearchBar';
 import MintBountyButton from '../MintBounty/MintBountyButton';
 import Carousel from '../Utils/Carousel';
-import CarouselBounty from './CarouselBounty';
+import CarouselBounty from '../Bounty/CarouselBounty';
 import useWeb3 from '../../hooks/useWeb3';
+import searchFoundInText	from './SearchHelpers/searchFoundInText';
+import searchFoundInLabels from './SearchHelpers/searchFoundInLabels';
+import searchTagInBounty from './SearchHelpers/searchTagInBounty';
 
-const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData, getNewData, addCarousel }) => {
+const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData, getNewData, addCarousel, labelProp }) => {
 	// Hooks
 	const {account} = useWeb3();
 	const [fundedOnly, setFundedOnly] = useState(true);
 	const [unclaimedOnly, setUnclaimedOnly] = useState(true);
 	const [unassignedOnly, setUnassignedOnly] = useState(true);
-	const [l2eOnly, setL2eOnly] = useState(false);
+	/* const [l2eOnly, setL2eOnly] = useState(false); */
 	const [sortOrder, updateSortOrder] = useState('Newest');
 	const [searchText, updateSearchText] = useState('');
 	const [tagArr, updateTagArr] = useState([]);
@@ -26,11 +29,22 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 	let observer = useRef();
 	// Utilities
 	const fetchPage = () => {
-		if (sortOrder === 'Oldest') {
-			getMoreData('asc');
-		}
-		else if (sortOrder === 'Newest') {
-			getMoreData('desc');
+
+		switch(sortOrder){
+		case 'Newest':
+			{	getMoreData('desc');}
+			break;
+		case 'Oldest':
+			{getMoreData('asc');}
+			break;
+		case 'Highest':
+			{	getMoreData('desc', 'tvl');}
+			break;
+		case 'Lowest':
+			{	getMoreData('asc', 'tvl');}
+			break;
+
+	
 		}
 	};
 
@@ -41,40 +55,43 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		const localUnclaimedOnly = options.unclaimedOnly === undefined ? unclaimedOnly : options.unclaimedOnly;
 		const localFundedOnly = options.fundedOnly === undefined ? fundedOnly : options.fundedOnly;
 		const localUnassignedOnly = options.unassignedOnly === undefined ? unassignedOnly : options.unassignedOnly;
-		const localL2eOnly = options.l2eOnly === undefined ? l2eOnly: options.l2eOnly;
+		/* const localL2eOnly = options.l2eOnly === undefined ? l2eOnly: options.l2eOnly; */
+
 		const displayBounties = bounties.filter((bounty) => {
-			let containsSearch = true;
-			try{containsSearch = ((bounty.title + bounty.body)
-				.toLowerCase()
-				.indexOf(localSearchText.toLowerCase()) > -1) ||
-				bounty.labels.reduce((accum, label) => {
-					if (accum) return true;
-					return (label.name.toLowerCase()
-						.indexOf(localSearchText.toLowerCase()) > -1);
-				}, false) ||
-				bounty.languages.reduce((accum, language) => {
-					if (accum) return true;
-					return (language.name.toLowerCase()
-						.indexOf(localSearchText.toLowerCase()) > -1);
-				}, '') ||
-				localSearchText.length === 0;
-			const containsTag = localTagArr.reduce((accum, tag) => {
-				if (accum === false) return false;
-				return bounty.labels.some(label => label.name.toLowerCase() === tag.toLowerCase()) || bounty.languages.some((language)=>language.name.toLowerCase()===tag);
-			}, true);
-			const isUnclaimed = bounty.status === 'OPEN';
-			const isL2e = bounty.labels.reduce((accum, label) => {
+			const hasLabel = !labelProp || bounty.labels.reduce((accum, label) => {
 				if (accum) return true;
-				return label.name.toLowerCase() === 'l2e';
+				return (label.name.toLowerCase() === labelProp.toLowerCase());
 			}, false);
-			const isFunded = bounty.deposits.length > 0;
-			const isAssigned = bounty.assignees?.nodes.length > 0;
-			return (containsSearch && containsTag && (!localFundedOnly || isFunded) && (!localUnclaimedOnly || isUnclaimed) && (!localUnassignedOnly || !isAssigned ) && (!localL2eOnly || isL2e) && bounty.url);
+
+			let containsSearch = true;
+
+			try{
+
+				// Simple search
+				const lowerCaseSearch = localSearchText.toLowerCase();
+				const isFoundInText = searchFoundInText(bounty.title, bounty.body, lowerCaseSearch);
+				const isFoundInLabels = searchFoundInLabels(bounty, lowerCaseSearch);
+				const emptySearchText = localSearchText.length === 0;
+				containsSearch = isFoundInText ||	isFoundInLabels || emptySearchText;
+
+				// Tags
+				const containsTag = searchTagInBounty(bounty, localTagArr);
+
+				// Check based filters
+				const isUnclaimed = bounty.status === 'OPEN';
+				const isFunded = bounty.deposits.some(deposit=>{
+					return !deposit.refunded;
+				});			
+				const isAssigned = bounty.assignees?.nodes.length > 0;
+
+				// Combine
+				return (containsSearch && containsTag && (!localFundedOnly || isFunded) && (!localUnclaimedOnly || isUnclaimed) && (!localUnassignedOnly || !isAssigned )  && hasLabel && bounty.url);
 			}
 			catch(err){
 				console.log(err);}
 		
 		});
+
 		if (displayBounties.length === 0 && !complete) {
 			fetchPage();
 			return [];
@@ -84,11 +101,11 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 	};
 
 	// Orders bounties	
-	const orderBounties = (bounties = [], toggleTo = sortOrder) => {
-		if (toggleTo === sortOrder) { return bounties; }
+	const orderBounties = (bounties = [], toggleTo = sortOrder, firstLoad) => {
+		if (toggleTo === sortOrder && !firstLoad) { return bounties; }
 		switch (toggleTo) {
 		case 'Newest': {
-			if (complete) {
+			if (complete || firstLoad) {
 				return bounties.sort((a, b) => {
 					return b.bountyMintTime - a.bountyMintTime;
 				});
@@ -101,7 +118,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		}
 			break;
 		case 'Oldest': {
-			if (complete) {
+			if (complete || firstLoad) {
 				return bounties.sort((a, b) => {
 					return a.bountyMintTime - b.bountyMintTime;
 				});
@@ -109,9 +126,20 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			else {
 				getNewData('asc');
 			}
-
-
 		}
+			break;
+		case 'Highest': {
+			if( sortOrder !== toggleTo)	{
+				getNewData('desc', 'tvl');}
+		}
+			break;
+		case 'Lowest': {	
+			if( sortOrder !== toggleTo)	{	
+				getNewData('asc', 'tvl');
+			}
+			
+		}
+			break;
 		}
 		return bounties;
 	};
@@ -120,10 +148,8 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 	useEffect(async () => {
 		updateIsProcessed(false);
 		if (!bounties) updateIsProcessed(true);
-		else {
-			updateSearchedBounties(filter(bounties).sort((a, b) => {
-				return b.bountyMintTime - a.bountyMintTime;
-			}));
+		else	 {
+			updateSearchedBounties(orderBounties(filter(bounties), sortOrder, true));
 			updateIsProcessed(true);
 		}
 	}, [bounties]);
@@ -176,10 +202,10 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		updateSearchedBounties(orderBounties(filter(bounties, { unassignedOnly: !unassignedOnly })));
 	};
 	
-	const filterByL2e = ()=>{
+	/* const filterByL2e = ()=>{
 		setL2eOnly(!l2eOnly);		
 		updateSearchedBounties(orderBounties(filter(bounties, { l2eOnly: !l2eOnly })));
-	};
+	}; */
 
 	const removeTag = (e) => {
 		const newTagArr = tagArr.filter(tag => tag !== e.target.value);
@@ -246,7 +272,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			<div className="flex md:content-start content-center flex-wrap w-full justify-items-stretch gap-4">
 				<div className="flex justify-between bg-dark-mode end rounded-lg">
 					<span className=" py-2 border-t border-l border-b rounded-l-lg border-web-gray align-self-center pl-4 pr-8">Sort By</span>
-					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} names={['Newest', 'Oldest']} borderShape={'rounded-r-lg'} width={36} />
+					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} names={['Newest', 'Oldest', 'Highest', 'Lowest']} borderShape={'rounded-r-lg'} width={36} />
 				</div>
 				<div className='flex flex-wrap gap-4'>
 					<div onClick={showUnfunded} className="flex w-36 p-2 px-4 gap-2 border rounded-lg justify-between border-web-gray">
@@ -261,10 +287,10 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 						<label htmlFor="assigned" className=" pointer-events-none" >Unassigned</label>
 						<input id="assigned" onChange={showAssigned} type="checkbox" className="checkbox" checked={unassignedOnly} />
 					</div>
-					<div onClick={filterByL2e} className="flex p-2 w-36 px-4 gap-2 border rounded-lg justify-between border-web-gray">
+					{/* <div onClick={filterByL2e} className="flex p-2 w-36 px-4 gap-2 border rounded-lg justify-between border-web-gray">
 						<label htmlFor="L2E" className="pointer-events-none" >L 2 E</label>
 						<input id="L2E" onChange={filterByL2e} type="checkbox" className="checkbox" checked={l2eOnly} />
-					</div>
+					</div> */}
 				</div>
 			</div>
 			{addCarousel && account && watchedBounties.length ?

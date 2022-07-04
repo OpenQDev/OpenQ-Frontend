@@ -92,6 +92,9 @@ const ApproveFundModal = ({
 	let linkText = {
 		[ERROR]: `${error.linkText}`
 	};
+
+	volume =Math.round(volume*Math.pow(10, 10))/Math.pow(10, 10);
+
 	return (
 		<div>
 			<div className="justify-center items-center font-mont flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 pl-20 outline-none focus:outline-none">
@@ -145,7 +148,7 @@ const ApproveFundModal = ({
 								<>
 									<div className="text-md gap-4 py-6 px-4 grid grid-cols-[1fr_1fr] w-full justify-between">
 										<div className='w-4'>Funding</div>
-										<div className='flex flex-wrap justify-between w-[120px] gap-2'><Image width={24} className="inline" height={24} src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'} /><span className='truncate'>{volume} {token.symbol}</span></div>
+										<div className='flex flex-wrap justify-between w-[120px] gap-2'><Image width={24} className="inline" height={24} src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'} /><span>{volume} {token.symbol}</span></div>
 										<span>To</span>
 										<CopyAddressToClipboard data={bountyAddress} clipping={[5, 39]} />
 										<span>For</span>
