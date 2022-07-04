@@ -97,7 +97,7 @@ const ApproveFundModal = ({
 
 	return (
 		<div>
-			<div className="justify-center items-center font-mont flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 pl-20 outline-none focus:outline-none">
+			<div className="justify-center items-center font-mont flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 md:pl-20 outline-none focus:outline-none">
 				<div ref={modal} className="w-1/4 min-w-[320px]">
 					<div className="border rounded-lg p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none border-web-gray border">
 						<div className="flex items-center border-solid">
