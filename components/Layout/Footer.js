@@ -32,7 +32,7 @@ const Footer = () => {
 							</a>
 						</Link>
 					</div>
-					<CopyAddressToClipboard data={'0x06b306C85E5F33b1b2D971822ce0eD42FB7aB9a1'} styles="pt-0 w-64" />
+					<CopyAddressToClipboard data={'0x81406e43478106B33e2cfdaD0ae7548CcDf733DA'} styles="pt-0 w-64" />
 				</div>
 			</div>
 		</div>);
