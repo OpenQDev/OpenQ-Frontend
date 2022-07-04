@@ -13,30 +13,30 @@ import polygonMainnetIndexable from '../../constants/openq-polygon-mainnet-index
 class CoinClient {
 	constructor() {
 		switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
-			case 'local':
-				this.openqIndexableTokens = localIndexable;
-				this.openqEnumerableTokens = localEnumerable;
-				break;
-			case 'docker':
-				this.openqIndexableTokens = localIndexable;
-				this.openqEnumerableTokens = localEnumerable;
-				break;
-			case 'development':
-				this.openqIndexableTokens = mumbaiIndexable;
-				this.openqEnumerableTokens = mumbaiEnumerable;
-				break;
-			case 'staging':
-				this.openqIndexableTokens = polygonMainnetIndexable;
-				this.openqEnumerableTokens = polygonMainnetEnumerable;
-				break;
-			case 'production':
-				this.openqIndexableTokens = polygonMainnetIndexable;
-				this.openqEnumerableTokens = polygonMainnetEnumerable;
-				break;
-			case 'bcnhack':
-				this.openqIndexableTokens = polygonMainnetIndexable;
-				this.openqEnumerableTokens = polygonMainnetEnumerable;
-				break;
+		case 'local':
+			this.openqIndexableTokens = localIndexable;
+			this.openqEnumerableTokens = localEnumerable;
+			break;
+		case 'docker':
+			this.openqIndexableTokens = localIndexable;
+			this.openqEnumerableTokens = localEnumerable;
+			break;
+		case 'development':
+			this.openqIndexableTokens = mumbaiIndexable;
+			this.openqEnumerableTokens = mumbaiEnumerable;
+			break;
+		case 'staging':
+			this.openqIndexableTokens = polygonMainnetIndexable;
+			this.openqEnumerableTokens = polygonMainnetEnumerable;
+			break;
+		case 'production':
+			this.openqIndexableTokens = polygonMainnetIndexable;
+			this.openqEnumerableTokens = polygonMainnetEnumerable;
+			break;
+		case 'bcnhack':
+			this.openqIndexableTokens = polygonMainnetIndexable;
+			this.openqEnumerableTokens = polygonMainnetEnumerable;
+			break;
 		}
 	}
 	firstTenPrices = {};
