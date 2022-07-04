@@ -19,7 +19,7 @@ class WrappedOpenQSubgraphClient {
 			case 'production':
 				this.instance = new OpenQSubgraphClient();
 				break;
-			case 'ethbarcelona':
+			case 'bcnhack':
 				this.instance = new OpenQSubgraphClient();
 				break;
 			default:

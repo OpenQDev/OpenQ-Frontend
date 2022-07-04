@@ -33,7 +33,7 @@ class CoinClient {
 				this.openqIndexableTokens = polygonMainnetIndexable;
 				this.openqEnumerableTokens = polygonMainnetEnumerable;
 				break;
-			case 'ethbarcelona':
+			case 'bcnhack':
 				this.openqIndexableTokens = polygonMainnetIndexable;
 				this.openqEnumerableTokens = polygonMainnetEnumerable;
 				break;

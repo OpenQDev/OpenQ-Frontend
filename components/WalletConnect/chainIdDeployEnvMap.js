@@ -75,7 +75,7 @@ const chainIdDeployEnvMap = {
 			blockExplorerUrls: ['https://polygonscan.com/']
 		}]
 	},
-	'ethbarcelona': {
+	'bcnhack': {
 		chainId: 137,
 		networkName: 'Polygon',
 		params: [{

@@ -70,7 +70,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 			openQPrismaClient: new OpenQPrismaClient(),
 		};
 		break;
-	case 'ethbarcelona':
+	case 'bcnhack':
 		InitialState = {
 			openQClient: new OpenQClient(),
 			githubRepository: new GithubRepository(),

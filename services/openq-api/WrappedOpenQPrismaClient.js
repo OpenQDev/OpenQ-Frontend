@@ -19,7 +19,7 @@ class WrappedOpenQPrismaClient {
 			case 'production':
 				this.instance = new OpenQPrismaClient();
 				break;
-			case 'ethbarcelona':
+			case 'bcnhack':
 				this.instance = new OpenQPrismaClient();
 				break;
 			default:

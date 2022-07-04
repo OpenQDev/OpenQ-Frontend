@@ -19,7 +19,7 @@ class WrappedGithubClient {
 			case 'production':
 				this.instance = new GithubRepository();
 				break;
-			case 'ethbarcelona':
+			case 'bcnhack':
 				this.instance = new GithubRepository();
 				break;
 			default:
