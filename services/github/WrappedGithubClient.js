@@ -2,21 +2,24 @@ import GithubRepository from './GithubRepository';
 import MockGithubRepository from './MockGithubRepository';
 
 class WrappedGithubClient {
-	constructor(){
-		switch(process.env.DEPLOY_ENV){
+	constructor() {
+		switch (process.env.DEPLOY_ENV) {
 		case 'local':
 			this.instance = new MockGithubRepository();
 			break;
 		case 'docker':
-			this.instance = new GithubRepository();			
-			break;
-		case 'development':		
 			this.instance = new GithubRepository();
 			break;
-		case 'staging':			
+		case 'development':
 			this.instance = new GithubRepository();
 			break;
-		case 'production':		
+		case 'staging':
+			this.instance = new GithubRepository();
+			break;
+		case 'production':
+			this.instance = new GithubRepository();
+			break;
+		case 'bcnhack':
 			this.instance = new GithubRepository();
 			break;
 		default:
