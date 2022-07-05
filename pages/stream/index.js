@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import useWeb3 from '../../hooks/useWeb3';
 import { ethers } from "ethers";
@@ -15,9 +15,17 @@ const stream = () => {
 	const [flowRateDisplay, setFlowRateDisplay] = useState("");
 	const [amount, setAmount] = useState("");
 
+	useEffect(() => {
+		async function init() {
+			await appState.superFluidClient.createInstance(library);
+			console.log("ran init");
+		}
+		init();
+	}, [library]);
+
 	async function approveToken(amount, callback) {
 		const amountInWei = ethers.utils.parseEther(amount);
-		const superToken = await appState.SuperFluidClient.loadSuperToken(
+		const superToken = await appState.superFluidClient.loadSuperToken(
 			library,
 			xDai,
 		);
@@ -36,7 +44,7 @@ const stream = () => {
 
 	async function createNewFlowAndUpgrade(recipient, callback) {
 		try {
-			const tx = await appState.SuperFluidClient.upgradeAndCreateFlowBacth(
+			const tx = await appState.superFluidClient.upgradeAndCreateFlowBacth(
 				library,
 				xDai,
 				flowRate,
@@ -67,7 +75,7 @@ const stream = () => {
 
 	async function updateFlow(recipient, callback) {
 		try {
-			const tx = await appState.SuperFluidClient.updateFlow(
+			const tx = await appState.superFluidClient.updateFlow(
 				library,
 				account,
 				recipient,
@@ -98,7 +106,7 @@ const stream = () => {
 
 	async function deleteFlow(recipient, callback) {
 		try {
-			const tx = await appState.SuperFluidClient.deleteFlow(
+			const tx = await appState.superFluidClient.deleteFlow(
 				library,
 				account,
 				recipient,
@@ -125,7 +133,7 @@ const stream = () => {
 			callback();
 		}
 	}
-	
+
 	function calculateFlowRate(amount) {
 		if (typeof Number(amount) !== "number" || isNaN(Number(amount)) === true) {
 			alert("You can only calculate a flowRate based on a number");

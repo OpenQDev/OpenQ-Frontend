@@ -24,7 +24,8 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 			tokenClient: new MockTokenClient(),
 			logger: new Logger(true),
 			utils: new Utils(),
-			openQPrismaClient: new MockOpenQPrismaClient()
+			openQPrismaClient: new MockOpenQPrismaClient(),
+			superFluidClient: new SuperFluidClient()
 		};
 		break;
 	case 'docker':
@@ -36,6 +37,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 			logger: new Logger(true),
 			utils: new Utils(),
 			openQPrismaClient: new OpenQPrismaClient(),
+			superFluidClient: new SuperFluidClient()
 		};
 		break;
 	case 'development':
@@ -47,6 +49,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 			logger: new Logger(true),
 			utils: new Utils(),
 			openQPrismaClient: new OpenQPrismaClient(),
+			superFluidClient: new SuperFluidClient()
 		};
 		break;
 	case 'staging':
@@ -58,6 +61,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 			logger: new Logger(true),
 			utils: new Utils(),
 			openQPrismaClient: new OpenQPrismaClient(),
+			superFluidClient: new SuperFluidClient()
 		};
 		break;
 	case 'production':
@@ -69,6 +73,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 			logger: new Logger(false),
 			utils: new Utils(),
 			openQPrismaClient: new OpenQPrismaClient(),
+			superFluidClient: new SuperFluidClient()
 		};
 		break;
 	case 'ethbarcelona':
@@ -80,6 +85,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 			logger: new Logger(false),
 			utils: new Utils(),
 			openQPrismaClient: new OpenQPrismaClient(),
+			superFluidClient: new SuperFluidClient()
 		};
 		break;
 	default:
