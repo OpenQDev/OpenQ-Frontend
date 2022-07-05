@@ -9,9 +9,9 @@ import { ethers } from "ethers";
 	and send transactions
 */
 
-class SuperFluidClient {
+class SuperfluidClient {
 
-	constructor() {}
+	constructor() { }
 
 	async createInstance(library) {
 		try {
@@ -19,7 +19,7 @@ class SuperFluidClient {
 				const tempInstance = await Framework.create({
 					//networkName: "matic",
 					chainId: 80001,
-			 		provider: library,
+					provider: library,
 				});
 				this.instance = tempInstance;
 				return tempInstance;
@@ -51,7 +51,7 @@ class SuperFluidClient {
 		const calculatedFlowRate = monthlyAmount.div(
 			ethers.utils.formatUnits(60 * 60 * 24 * 30, 0)
 		);
-      	return calculatedFlowRate.toString();
+		return calculatedFlowRate.toString();
 	}
 
 	async superTokenCreateFlow(library, adddress, sender, receiver, flowRate) {
@@ -68,7 +68,7 @@ class SuperFluidClient {
 		const superToken = await this.loadSuperToken(library, adddress);
 		const upgradeOp = superToken.upgrade({
 			amount: amount.toString(),
-		})
+		});
 		return upgradeOp;
 	}
 
@@ -80,6 +80,11 @@ class SuperFluidClient {
 			adddress,
 			ethers.utils.parseEther(amount.toString())
 		);
+		console.log(library);
+		console.log(address);
+		console.log(sender);
+		console.log(receiver);
+		console.log(this.calculateFlowRate(amount));
 		const createFlowOp = await this.superTokenCreateFlow(
 			library,
 			adddress,
@@ -98,10 +103,10 @@ class SuperFluidClient {
 		const instance = await this.createInstance(library);
 		const signer = await this.createSigner(library);
 		const updateFlowOp = instance.cfaV1.updateFlow({
-		  superToken: address,
-		  sender,
-		  receiver,
-		  flowRate: this.calculateFlowRate(flowRate),
+			superToken: address,
+			sender,
+			receiver,
+			flowRate: this.calculateFlowRate(flowRate),
 		});
 		return await updateFlowOp.exec(signer);
 	}
@@ -109,9 +114,9 @@ class SuperFluidClient {
 		const instance = await this.createInstance(library);
 		const signer = await this.createSigner(library);
 		const deleteFlowOp = instance.cfaV1.deleteFlow({
-		  superToken: address,
-		  sender,
-		  receiver,
+			superToken: address,
+			sender,
+			receiver,
 		});
 		return await deleteFlowOp.exec(signer);
 	}
@@ -120,37 +125,37 @@ class SuperFluidClient {
 		const superToken = this.loadSuperToken(library, adddress);
 		const upgradeOp = superToken.downgrade({
 			amount: amount.toString(),
-		})
+		});
 		return await upgradeOp.exec(signer);
 	}
 
 	async getFlow(library, sender, receiver, address) {
 		const instance = await this.createInstance(library);
 		return instance.cfaV1.getFlow({
-		  superToken: address,
-		  sender,
-		  receiver,
+			superToken: address,
+			sender,
+			receiver,
 		});
 	}
 
 	async getAccountFlowInfo(library, account, address) {
 		const instance = await this.createInstance(library);
 		return instance.cfaV1.getAccountFlowInfo({
-		  superToken: address,
-		  account,
+			superToken: address,
+			account,
 		});
 	}
 	async getNetFlow(library, account, address) {
 		const instance = await this.createInstance(library);
 		return instance.cfaV1.getNetFlow({
-		  superToken: address,
-		  account,
+			superToken: address,
+			account,
 		});
 	}
 
 	async balanceOf(library, account, address) {
 		const superToken = this.loadSuperToken(library, adddress);
-		return await superToken.balanceOf({ account })
+		return await superToken.balanceOf({ account });
 	}
 
 	async allowance(library, account, spender, adddress) {
@@ -158,7 +163,7 @@ class SuperFluidClient {
 		return await superToken.allowance({
 			account,
 			spender,
-		})
+		});
 	}
 
 	async realtimeBalanceOf(library, account, timestamp, adddress) {
@@ -166,8 +171,8 @@ class SuperFluidClient {
 		return await superToken.realtimeBalanceOf({
 			account,
 			timestamp,
-		})
+		});
 	}
 }
 
-export default SuperFluidClient;
+export default SuperfluidClient;

@@ -6,7 +6,7 @@ import GithubRepository from '../../services/github/GithubRepository';
 import TokenClient from '../../services/coins/TokenClient';
 import Logger from '../../services/logger/Logger';
 import OpenQPrismaClient from '../../services/openq-api/OpenQPrismaClient';
-import SuperFluidClient from '../../services/SuperFluidClient/SuperFluidClient';
+import SuperfluidClient from '../../services/SuperfluidClient/SuperfluidClient';
 
 import MockGithubRepository from '../../services/github/MockGithubRepository';
 import MockOpenQClient from '../../services/ethers/MockOpenQClient';
@@ -25,7 +25,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 			logger: new Logger(true),
 			utils: new Utils(),
 			openQPrismaClient: new MockOpenQPrismaClient(),
-			superFluidClient: new SuperFluidClient()
+			superfluidClient: new SuperfluidClient()
 		};
 		break;
 	case 'docker':
@@ -37,7 +37,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 			logger: new Logger(true),
 			utils: new Utils(),
 			openQPrismaClient: new OpenQPrismaClient(),
-			superFluidClient: new SuperFluidClient()
+			superfluidClient: new SuperfluidClient()
 		};
 		break;
 	case 'development':
@@ -49,7 +49,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 			logger: new Logger(true),
 			utils: new Utils(),
 			openQPrismaClient: new OpenQPrismaClient(),
-			superFluidClient: new SuperFluidClient()
+			superfluidClient: new SuperfluidClient()
 		};
 		break;
 	case 'staging':
@@ -61,7 +61,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 			logger: new Logger(true),
 			utils: new Utils(),
 			openQPrismaClient: new OpenQPrismaClient(),
-			superFluidClient: new SuperFluidClient()
+			superfluidClient: new SuperfluidClient()
 		};
 		break;
 	case 'production':
@@ -73,7 +73,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 			logger: new Logger(false),
 			utils: new Utils(),
 			openQPrismaClient: new OpenQPrismaClient(),
-			superFluidClient: new SuperFluidClient()
+			superfluidClient: new SuperfluidClient()
 		};
 		break;
 	case 'ethbarcelona':
@@ -85,7 +85,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 			logger: new Logger(false),
 			utils: new Utils(),
 			openQPrismaClient: new OpenQPrismaClient(),
-			superFluidClient: new SuperFluidClient()
+			superfluidClient: new SuperfluidClient()
 		};
 		break;
 	default:

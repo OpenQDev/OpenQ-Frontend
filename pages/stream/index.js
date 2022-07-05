@@ -8,7 +8,7 @@ const stream = () => {
 	const [appState] = useContext(StoreContext);
 	const { activate, account, library } = useWeb3();
 	//	this is the address in Mumbai testnet
-	const xDai = "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f";
+	const maticX = "0x96B82B65ACF7072eFEb00502F45757F254c2a0D4";
 	const [recipient, setRecipient] = useState("");
 	const [isButtonLoading, setIsButtonLoading] = useState(false);
 	const [flowRate, setFlowRate] = useState("");
@@ -17,22 +17,26 @@ const stream = () => {
 
 	useEffect(() => {
 		async function init() {
-			await appState.superFluidClient.createInstance(library);
-			console.log("ran init");
+			if (library) {
+				await appState.superfluidClient.createInstance(library);
+			}
 		}
 		init();
 	}, [library]);
 
 	async function approveToken(amount, callback) {
 		const amountInWei = ethers.utils.parseEther(amount);
-		const superToken = await appState.superFluidClient.loadSuperToken(
+		const superToken = await appState.superfluidClient.loadSuperToken(
 			library,
-			xDai,
+			maticX
 		);
-		const unwrappedToken = superToken.underlyingToken.contract.connect(library.getSigner());
-		console.log(unwrappedToken);
+		console.log('superToken', superToken);
+		// const unwrappedToken = superToken.underlyingToken.contract.connect(library.getSigner());
+		// console.log(unwrappedToken);
 		try {
-			const tx = await unwrappedToken.approve(xDai, amountInWei);
+
+			const approveOperation = await superToken.approve({ receiver: maticX, amount: amountInWei },);
+			const tx = await approveOperation.exec(library.getSigner());
 			console.log(tx);
 			await tx.wait();
 			callback();
@@ -44,9 +48,9 @@ const stream = () => {
 
 	async function createNewFlowAndUpgrade(recipient, callback) {
 		try {
-			const tx = await appState.superFluidClient.upgradeAndCreateFlowBacth(
+			const tx = await appState.superfluidClient.upgradeAndCreateFlowBacth(
 				library,
-				xDai,
+				maticX,
 				flowRate,
 				account,
 				recipient
@@ -75,12 +79,12 @@ const stream = () => {
 
 	async function updateFlow(recipient, callback) {
 		try {
-			const tx = await appState.superFluidClient.updateFlow(
+			const tx = await appState.superfluidClient.updateFlow(
 				library,
 				account,
 				recipient,
 				flowRate,
-				xDai,
+				maticX,
 			);
 			console.log("Updating your stream...");
 			await tx.wait();
@@ -106,11 +110,11 @@ const stream = () => {
 
 	async function deleteFlow(recipient, callback) {
 		try {
-			const tx = await appState.superFluidClient.deleteFlow(
+			const tx = await appState.superfluidClient.deleteFlow(
 				library,
 				account,
 				recipient,
-				xDai,
+				maticX,
 			);
 			console.log("Deleting your stream...");
 			await tx.wait();
