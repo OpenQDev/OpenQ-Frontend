@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { SafeAppConnector } from '@gnosis.pm/safe-apps-web3-react';
 import axios from 'axios';
+import Image from 'next/image';
 // Custom
 import StoreContext from '../../store/Store/StoreContext.js';
 import ConnectButton from '../WalletConnect/ConnectButton.js';
@@ -79,8 +80,11 @@ const Layout = ({ children }) => {
 					{/*  Mobile navbar triggered by tailwind */}
 					<MobileSidebar trigger={setSidebar} />
 
-					<div className="flex justify-end invisible md:visible">
+					<div className="flex justify-between pl-28 invisible md:visible">
 						{/* 	Profile and login components */}
+						<div className='relative bottom-[2px]'>
+							<Image height={48} width={40} src={'/bcn.png'}/>
+						</div>
 						<div className="flex flex-row items-center pr-12">
 							<div className="pr-5">
 								<ConnectButton />
