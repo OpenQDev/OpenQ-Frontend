@@ -1,26 +1,18 @@
 // Third party
-import React, { useEffect, useContext, useState } from 'react';
-import StoreContext from '../../store/Store/StoreContext';
+import React, { useState } from 'react';
 import SearchBar from '../../components/Search/SearchBar';
 import PrCard from '../../components/ShowCase/PrCard';
+import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
+import WrappedGithubClient from '../../services/github/WrappedGithubClient';
 
-const showcase = () => {
+const showcase = ({prs}) => {
 
-	const [appState] = useContext(StoreContext);
-	const [prs, setPrs] = useState([]);
 	const [ submissionSearchTerm, setSubmissionSearchTerm ] = useState('');
 	// Render
 	const filterBySubmission = (e)=>{
 		setSubmissionSearchTerm(e.target.value);
 		console.log(e.target.value);
 	};
-	useEffect(async()=>{
-		const batch = 100;
-		const newBounties = await appState.openQSubgraphClient.getAllBounties('desc', 0, batch);
-		const parsePrs = (responseData)=>{return responseData.data.nodes.map(node=>node.timelineItems.edges.map(edge=>{return {...edge.node.source, issueId: node.id, address: newBounties.find(bounty=>bounty.bountyId===node.id).bountyAddress};})).flat().filter(elem=>elem.id);};
-		const result =	await appState.githubRepository.fetchPRsByIssues(newBounties.map(bounty=>bounty.bountyId));
-		setPrs(parsePrs(result));
-	},[]);
 
 
 	return (
@@ -41,6 +33,19 @@ const showcase = () => {
 	);
 
 };
-
-
 export default showcase;
+
+export async function getServerSideProps() {
+	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
+	const githubRepository = new WrappedGithubClient();
+	githubRepository.instance.setGraphqlHeaders();
+	const batch = 100;
+	const newBounties = await openQSubgraphClient.instance.getAllBounties('desc', 0, batch);
+	const parsePrs = (responseData)=>{return responseData.data.nodes.map(node=>node.timelineItems.edges.map(edge=>{return {...edge.node.source, issueId: node.id, address: newBounties.find(bounty=>bounty.bountyId===node.id).bountyAddress};})).flat().filter(elem=>elem.id);};
+	const result =	await githubRepository.instance.fetchPRsByIssues(newBounties.map(bounty=>bounty.bountyId));
+	const prs = parsePrs(result);
+	
+	return {
+		props: {prs}, // will be passed to the page component as props
+	};
+}

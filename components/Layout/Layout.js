@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { SafeAppConnector } from '@gnosis.pm/safe-apps-web3-react';
 import axios from 'axios';
-import Image from 'next/image';
 // Custom
 import StoreContext from '../../store/Store/StoreContext.js';
 import ConnectButton from '../WalletConnect/ConnectButton.js';

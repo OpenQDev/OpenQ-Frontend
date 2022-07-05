@@ -1,24 +1,10 @@
 // Third party
-import React, { useEffect, useContext, useState } from 'react';
-import { useRouter } from 'next/router';
-import StoreContext from '../../../store/Store/StoreContext';
+import React from 'react';
 import ShowCasePage from '../../../components/ShowCase/ShowCasePage';
+import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
+import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 
-const showcasePR = () => {
-	const router = useRouter();
-	const {id, address} = router.query;
-	const [appState] = useContext(StoreContext);
-	const [pr, setPr] = useState();
-	// Render
-	const [bounty, setBounty]= useState();
-	useEffect(async()=>{
-		if(id){	
-			const fetchedPr =	await appState.githubRepository.getPrById(id);
-			const bounty = await appState.openQSubgraphClient.getBounty(address);
-			setBounty(bounty);
-			setPr(fetchedPr);
-		}}
-	,[id]	);
+const showcasePR = ({bounty, pr}) => {
 
 	return (<>
 		{
@@ -31,3 +17,20 @@ const showcasePR = () => {
 
 
 export default showcasePR;
+
+
+
+export const getServerSideProps = async(context)=>{
+	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
+	const githubRepository = new WrappedGithubClient();
+	githubRepository.instance.setGraphqlHeaders();
+	const {id, address} = context.query;
+	githubRepository.instance.setGraphqlHeaders();
+	const pr =	await githubRepository.instance.getPrById(id);
+	const bounty = await openQSubgraphClient.instance.getBounty(address);
+
+	return {props: {
+		bounty,
+		pr
+	}};
+};
