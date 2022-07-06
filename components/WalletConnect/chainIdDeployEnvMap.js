@@ -75,21 +75,6 @@ const chainIdDeployEnvMap = {
 			blockExplorerUrls: ['https://polygonscan.com/']
 		}]
 	},
-	'bcnhack': {
-		chainId: 137,
-		networkName: 'Polygon',
-		params: [{
-			chainId: '0x89',
-			chainName: 'Polygon Mainnet',
-			nativeCurrency: {
-				name: 'MATIC',
-				symbol: 'MATIC',
-				decimals: 18
-			},
-			rpcUrls: ['https://rpc-mainnet.maticvigil.com/v1/258e87c299409a354a268f96a06f9e6ae7ab8cea'],
-			blockExplorerUrls: ['https://polygonscan.com/']
-		}]
-	},
 };
 
 export default chainIdDeployEnvMap;
