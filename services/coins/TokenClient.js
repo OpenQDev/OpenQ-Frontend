@@ -107,7 +107,6 @@ class CoinClient {
 							total = total + value * multiplier;
 						}
 						else {
-							console.log(lowercaseKey, this.firstTenPrices);
 							fetchValues = true;
 						}
 					}

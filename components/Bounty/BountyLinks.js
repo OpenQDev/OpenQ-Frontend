@@ -42,7 +42,6 @@ const BountyLinks = ({ bounty, hideBountyLink, bountyAddress }) => {
 						address: account
 					}, { withCredentials: true }
 				);
-				console.log(result);
 			}
 
 
