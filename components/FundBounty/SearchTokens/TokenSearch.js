@@ -17,7 +17,7 @@ const TokenSearch = ({ setShowTokenSearch, onCurrencySelect, polygonTokens, open
 		<div>
 			<div
 				onClick={handleOutsideClick}
-				className='justify-center font-mont items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 left-20 z-50 outline-none focus:outline-none'
+				className='justify-center font-mont items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 md:left-20 z-50 outline-none focus:outline-none'
 			>
 				<div className='w-5/6 max-w-md'>
 					{' '}

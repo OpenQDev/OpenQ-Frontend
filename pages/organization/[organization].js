@@ -12,8 +12,10 @@ import useGetTokenValues from '../../hooks/useGetTokenValues';
 import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedGithubClient from '../../services/github/WrappedGithubClient';
 import Utils from '../../services/utils/Utils';
+import useAuth from '../../hooks/useAuth';
 
-const organization = ({ organizationData, fullBounties, batch, renderError}) => {
+const organization = ({ organizationData, fullBounties, batch, renderError }) => {
+	useAuth();
 	// Context
 	const [appState] = useContext(StoreContext);
 	// State
@@ -26,33 +28,34 @@ const organization = ({ organizationData, fullBounties, batch, renderError}) => 
 
 	const [tokenValues] = useGetTokenValues(organizationData?.fundedTokenBalances);
 	const [complete, setComplete] = useState(fullBounties.length === 0);
-	
+
 	// Methods
-	async function getBountyData(sortOrder, currentPagination, orderBy,cursor) {
+	async function getBountyData(sortOrder, currentPagination, orderBy, cursor) {
 		setPagination(() => currentPagination + batch);
 		let newBounties = [];
-		if(orderBy === 'tvl'){
-			try{
+		if (orderBy === 'tvl') {
+			try {
 				const prismaBounties = await appState.openQPrismaClient.getBountyPage(cursor, batch, 'tvl', sortOrder, organizationData.id);
-				const addresses = prismaBounties.bountiesConnection.bounties.map(bounty=>bounty.address.toLowerCase());
+				const addresses = prismaBounties.bountiesConnection.bounties.map(bounty => bounty.address.toLowerCase());
 				setOffChainCursor(prismaBounties.bountiesConnection.cursor);
 				const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(addresses);
-				newBounties = prismaBounties.bountiesConnection.bounties.map((bounty)=>{return {...bounty, ...subgraphBounties.find((subgraphBounty)=>subgraphBounty.bountyAddress === bounty.address.toLowerCase())};});
-				
+				newBounties = prismaBounties.bountiesConnection.bounties.map((bounty) => { return { ...bounty, ...subgraphBounties.find((subgraphBounty) => subgraphBounty.bountyAddress === bounty.address.toLowerCase()) }; });
+
 			}
-			catch(err){
+			catch (err) {
 				console.log(err);
 			}
 		}
-		else{
+		else {
 			const subgraphBounties = await appState.openQSubgraphClient.getPaginatedOrganizationBounties(organizationData.id, currentPagination, sortOrder, batch, []);
 			newBounties = subgraphBounties;
 		}
 		const bountyIds = newBounties.map((bounty) => bounty.bountyId);
 		let issueData;
-		try{
-			issueData = await appState.githubRepository.getIssueData(bountyIds);}
-		catch(err){
+		try {
+			issueData = await appState.githubRepository.getIssueData(bountyIds);
+		}
+		catch (err) {
 			console.log(err);
 		}
 		const fullBounties = appState.utils.combineBounties(newBounties, issueData);
@@ -95,7 +98,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError}) => 
 	return (
 		<>
 			{error ?
-				<UnexpectedError error = {error} />
+				<UnexpectedError error={error} />
 				:
 				<div className="bg-dark-mode pt-10">
 					<Toggle toggleFunc={setShowAbout} toggleVal={showAbout} names={['Bounties', 'About']} />
@@ -112,14 +115,14 @@ const organization = ({ organizationData, fullBounties, batch, renderError}) => 
 
 };
 
-export const getServerSideProps = async(context) =>{
-	const batch=10;
-	const {organization} = context.params;
+export const getServerSideProps = async (context) => {
+	const batch = 10;
+	const { organization } = context.params;
 	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
 	const githubRepository = new WrappedGithubClient();
 	const utils = new Utils();
 	githubRepository.instance.setGraphqlHeaders();
-	
+
 	let orgData;
 	let mergedOrgData;
 	try {
@@ -128,25 +131,25 @@ export const getServerSideProps = async(context) =>{
 		);
 	}
 	catch (err) {
-		return{props:{renderError:`Could not find ${organization}, does an organization with this name exists on Github?`}};
+		return { props: { renderError: `Could not find ${organization}, does an organization with this name exists on Github?` } };
 	}
 	const org = await openQSubgraphClient.instance.getOrganization(
 		orgData.id, batch
 	);
-	mergedOrgData = { ...org, ...orgData };	
-	const bounties = mergedOrgData.bountiesCreated||[];
+	mergedOrgData = { ...org, ...orgData };
+	const bounties = mergedOrgData.bountiesCreated || [];
 	const bountyIds = bounties.map((bounty) => bounty.bountyId);
 	let issueData;
-	try{
+	try {
 		issueData = await githubRepository.instance.getIssueData(bountyIds);
 	}
-	catch(err){
+	catch (err) {
 		console.log(err);
 	}
 	const fullBounties = utils.combineBounties(bounties, issueData);
 
 
-	return  {props: {organization,  organizationData: mergedOrgData, fullBounties, completed: bounties.length<10, batch}};
+	return { props: { organization, organizationData: mergedOrgData, fullBounties, completed: bounties.length < 10, batch } };
 };
 
 export default organization;

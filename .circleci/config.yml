@@ -37,6 +37,13 @@ jobs:
               echo "" >> $(pwd)/.env
               echo "OPENQ_PROXY_ADDRESS=$OPENQ_PROXY_ADDRESS_PRODUCTION" >> $(pwd)/.env
             fi
+            if [ "$DEPLOY_ENV" = bcnhack ]; then
+              echo "$bcnhack_env" | base64 --decode > $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "PATS=$PATS_BCNHACK" >> $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "OPENQ_PROXY_ADDRESS=$OPENQ_PROXY_ADDRESS_BCNHACK" >> $(pwd)/.env
+            fi
       - run: cat .env
       - run: docker build -t openq/openq-frontend:$CIRCLE_TAG --build-arg deploy_env=$DEPLOY_ENV .
       - run: docker push openq/openq-frontend:$CIRCLE_TAG
@@ -54,3 +61,4 @@ workflows:
                 - /^development.*/
                 - /^staging.*/
                 - /^production.*/
+                - /^bcnhack.*/

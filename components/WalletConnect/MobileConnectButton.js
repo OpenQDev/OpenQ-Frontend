@@ -1,8 +1,9 @@
 // Third party
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import jazzicon from '@metamask/jazzicon';
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
+import StoreContext from '../../store/Store/StoreContext';
 import ConnectModal from './ConnectModal';
 import useConnectOnLoad from '../../hooks/useConnectOnLoad';
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
@@ -13,12 +14,13 @@ import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 const MobileConnectButton = () => {
 	// State
 	const [isConnecting, setIsConnecting] = useState(false);
-	const [showConnectModal, setShowConnectModal] = useState(false);
 	const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
 	const [showModal, setShowModal] = useState();
 	const modalRef = useRef();
 	const buttonRef = useRef();
 	const iconWrapper = useRef();
+	const [appState, dispatch] = useContext(StoreContext);
+	const { walletConnectModal } = appState;
 	// Context
 	const { chainId, account, active, deactivate, safe } = useWeb3();
 	const [ensName] = useEns(account);
@@ -50,10 +52,25 @@ const MobileConnectButton = () => {
 		};
 	});
 
-	// Methods	
-	const onClickConnect = async () => {
-		setShowConnectModal(true);
+	// Methods
+	
+	const openConnectModal = async () => {
+		const payload = {
+			type: 'CONNECT_WALLET',
+			payload: true
+		};
+		dispatch(payload);
 	};
+
+
+	const closeModal = ()=>{
+		const payload = {
+			type: 'CONNECT_WALLET',
+			payload: false
+		};
+		dispatch(payload);
+	};
+
 
 
 	const addOrSwitchNetwork = () => {
@@ -101,7 +118,7 @@ const MobileConnectButton = () => {
 				</div>:
 				<button
 					className=' flex items-center gap-2 text-xs border border-inactive-accent rounded-lg px-2 h-10 bg-dark-mode font-semibold'
-					onClick={onClickConnect}>
+					onClick={openConnectModal}>
 					<span className='font-bold'>{isConnecting ? 'Connecting...' : 'Connect '}</span>
 					<svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2">
 						<path d="M14 5.5V2.5C14 2.23478 13.8946 1.98043 13.7071 1.79289C13.5196 1.60536 13.2652 1.5 13 1.5H3C2.46957 1.5 1.96086 1.71071 1.58579 2.08579C1.21071 2.46086 1 2.96957 1 3.5M1 3.5C1 4.03043 1.21071 4.53914 1.58579 4.91421C1.96086 5.28929 2.46957 5.5 3 5.5H15C15.2652 5.5 15.5196 5.60536 15.7071 5.79289C15.8946 5.98043 16 6.23478 16 6.5V9.5M1 3.5V15.5C1 16.0304 1.21071 16.5391 1.58579 16.9142C1.96086 17.2893 2.46957 17.5 3 17.5H15C15.2652 17.5 15.5196 17.3946 15.7071 17.2071C15.8946 17.0196 16 16.7652 16 16.5V13.5" stroke="url(#wallet_gradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -125,7 +142,7 @@ const MobileConnectButton = () => {
 				</button>}
 					
 		{
-			showConnectModal && <ConnectModal closeModal={()=>setShowConnectModal(false)} />
+			walletConnectModal && <ConnectModal closeModal={closeModal} />
 		}</>
 	);
 	

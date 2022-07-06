@@ -5,7 +5,7 @@
 		"symbol": "MATIC",
 		"decimals": 18,
 		"chainId": 80001,
-		"path": "/crypto-logos/MATIC.svg"
+		"path": "https://wallet-asset.matic.network/img/tokens/matic.svg"
 	},
 	{
 		"name": "Chainlink Token",
@@ -13,7 +13,7 @@
 		"symbol": "LINK",
 		"decimals": 18,
 		"chainId": 80001,
-		"path": "/crypto-logos/LINK.svg"
+		"path": "https://wallet-asset.matic.network/img/tokens/link.svg"
 	},
 	{
 		"name": "Dummy ERC20",
@@ -21,7 +21,7 @@
 		"symbol": "DERC20",
 		"decimals": 18,
 		"chainId": 80001,
-		"path": "/crypto-logos/DAI.svg"
+		"path": "https://wallet-asset.matic.network/img/tokens/dai.svg"
 	},
 	{
 		"name": "Wrapped Matic",
@@ -29,7 +29,7 @@
 		"symbol": "WMATIC",
 		"decimals": 18,
 		"chainId": 80001,
-		"path": "/crypto-logos/MATIC.svg"
+		"path": "https://wallet-asset.matic.network/img/tokens/matic.svg"
 	},
 	{
 		"name": "Dai Stablecoin",
@@ -37,7 +37,7 @@
 		"symbol": "DAI",
 		"decimals": 18,
 		"chainId": 80001,
-		"path": "/crypto-logos/DAI.svg"
+		"path": "https://wallet-asset.matic.network/img/tokens/dai.svg"
 	},
 	{
 		"name": "Tether USD",
@@ -45,7 +45,7 @@
 		"symbol": "USDT",
 		"decimals": 6,
 		"chainId": 80001,
-		"path": "/crypto-logos/USDT.svg"
+		"path": "https://wallet-asset.matic.network/img/tokens/usdt.svg"
 	},
 	{
 		"name": "Wrapped Ether",
@@ -53,6 +53,6 @@
 		"symbol": "WETH",
 		"decimals": 18,
 		"chainId": 80001,
-		"path": "/crypto-logos/ETH.svg"
+		"path": "https://wallet-asset.matic.network/img/tokens/eth.svg"
 	}
 ]

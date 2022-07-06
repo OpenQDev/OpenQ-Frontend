@@ -1766,7 +1766,7 @@
       "symbol": "LINK",
       "decimals": 18,
       "chainId": 80001,
-      "path": "/crypto-logos/LINK.svg"
+      "path": "https://wallet-asset.matic.network/img/tokens/link.svg"
     },
     {
       "name": "Dummy ERC20",
@@ -1806,7 +1806,7 @@
       "symbol": "USDT",
       "decimals": 6,
       "chainId": 80001,
-      "path": "/crypto-logos/USDT.svg"
+      "path": "https://wallet-asset.matic.network/img/tokens/usdt.svg"
     },
     {
       "name": "Wrapped Ether",
@@ -1823,7 +1823,7 @@
     "symbol": "LINK",
     "decimals": 18,
     "chainId": 80001,
-    "path": "/crypto-logos/LINK.svg"
+    "path": "https://wallet-asset.matic.network/img/tokens/link.svg"
   },
   "txnResponse": {
     "to": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",

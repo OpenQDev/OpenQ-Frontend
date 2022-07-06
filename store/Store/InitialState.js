@@ -70,6 +70,17 @@ case 'production':
 		openQPrismaClient: new OpenQPrismaClient(),
 	};
 	break;
+case 'bcnhack':
+	InitialState = {
+		openQClient: new OpenQClient(),
+		githubRepository: new GithubRepository(),
+		openQSubgraphClient: new OpenQSubgraphClient(),
+		tokenClient: new TokenClient(),
+		logger: new Logger(false),
+		utils: new Utils(),
+		openQPrismaClient: new OpenQPrismaClient(),
+	};
+	break;
 default:
 	throw Error('ENVIRONMENT NOT CONFIGURED CORRECTLY. Set an environment with DEPLOY_ENV');
 }

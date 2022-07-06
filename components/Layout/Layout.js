@@ -79,8 +79,9 @@ const Layout = ({ children }) => {
 					{/*  Mobile navbar triggered by tailwind */}
 					<MobileSidebar trigger={setSidebar} />
 
-					<div className="flex justify-end invisible md:visible">
+					<div className="flex justify-end pl-28 invisible md:visible">
 						{/* 	Profile and login components */}
+						
 						<div className="flex flex-row items-center pr-12">
 							<div className="pr-5">
 								<ConnectButton />
