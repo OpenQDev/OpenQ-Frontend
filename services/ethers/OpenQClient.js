@@ -63,6 +63,22 @@ class OpenQClient {
 		return promise;
 	}
 
+	async allowance(library, _tokenAddress){
+		const promise = new Promise(async (resolve) => {
+			try{
+				const signer = library.getSigner();
+				const contract = this.ERC20(_tokenAddress, signer);
+				const allowance =	await contract.allowance('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266', '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707');
+				resolve(allowance);
+			}
+			catch(err){
+				resolve({ _hex: '0x00', _isBigNumber: true });
+			
+			}
+		}
+		);
+		return promise;}
+
 	async balanceOf(library, _callerAddress, _tokenAddress) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library?.getSigner();
@@ -158,7 +174,7 @@ class OpenQClient {
 
 				if (_tokenAddress == ethers.constants.AddressZero) {
 					txnResponse = await contract.fundBountyToken(_bountyId, _tokenAddress, _value, expiration, { value: _value });
-				} else {
+				} else {				
 					txnResponse = await contract.fundBountyToken(_bountyId, _tokenAddress, _value, expiration);
 				}
 				txnReceipt = await txnResponse.wait();
