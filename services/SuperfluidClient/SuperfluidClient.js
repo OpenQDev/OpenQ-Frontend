@@ -13,6 +13,10 @@ class SuperfluidClient {
 
 	constructor() { }
 
+	/**
+	 * We do not have the Web3 library available on the construction of SuperfluidClient in InitialState, so we must create it
+	 * via a setter
+	 */
 	async createInstance(library) {
 		try {
 			if (!this.instance) {
@@ -40,18 +44,13 @@ class SuperfluidClient {
 		return this.signer;
 	}
 
-	async loadSuperToken(library, address) {
-		const instance = await this.createInstance(library);
-		const token = await instance.loadSuperToken(address);
-		return token;
-	}
-
-	calculateFlowRate(amount) {
-		const monthlyAmount = ethers.utils.parseEther(amount.toString());
-		const calculatedFlowRate = monthlyAmount.div(
-			ethers.utils.formatUnits(60 * 60 * 24 * 30, 0)
-		);
-		return calculatedFlowRate.toString();
+	// UPGRADE + CREATE STREAM
+	async upgradeToken(library, adddress, amount) {
+		const superToken = await this.loadSuperToken(library, adddress);
+		const upgradeOp = superToken.upgrade({
+			amount: amount.toString(),
+		});
+		return upgradeOp;
 	}
 
 	async superTokenCreateFlow(library, adddress, sender, receiver, flowRate) {
@@ -64,14 +63,6 @@ class SuperfluidClient {
 		return createFlowOp;
 	}
 
-	async upgradeToken(library, adddress, amount) {
-		const superToken = await this.loadSuperToken(library, adddress);
-		const upgradeOp = superToken.upgrade({
-			amount: amount.toString(),
-		});
-		return upgradeOp;
-	}
-
 	async upgradeAndCreateFlowBacth(library, adddress, amount, sender, receiver) {
 		const instance = await this.createInstance(library);
 		const signer = await this.createSigner(library);
@@ -80,11 +71,6 @@ class SuperfluidClient {
 			adddress,
 			ethers.utils.parseEther(amount.toString())
 		);
-		console.log(library);
-		console.log(address);
-		console.log(sender);
-		console.log(receiver);
-		console.log(this.calculateFlowRate(amount));
 		const createFlowOp = await this.superTokenCreateFlow(
 			library,
 			adddress,
@@ -110,6 +96,23 @@ class SuperfluidClient {
 		});
 		return await updateFlowOp.exec(signer);
 	}
+
+	/**
+	 * 
+	 * @param {Web3 Provider} library 
+	 * @param {*} amount 
+	 * @param {*} address 
+	 * @returns 
+	 * @description Downgrading is essentially the equivalent of withdrawing from the stream
+	 */
+	async downgradeToken(library, amount, address) {
+		const superToken = this.loadSuperToken(library, adddress);
+		const upgradeOp = superToken.downgrade({
+			amount: amount.toString(),
+		});
+		return await upgradeOp.exec(signer);
+	}
+
 	async deleteFlow(library, sender, receiver, address) {
 		const instance = await this.createInstance(library);
 		const signer = await this.createSigner(library);
@@ -121,12 +124,11 @@ class SuperfluidClient {
 		return await deleteFlowOp.exec(signer);
 	}
 
-	async downgradeToken(library, amount, address) {
-		const superToken = this.loadSuperToken(library, adddress);
-		const upgradeOp = superToken.downgrade({
-			amount: amount.toString(),
-		});
-		return await upgradeOp.exec(signer);
+	// UTILS
+	async loadSuperToken(library, address) {
+		const instance = await this.createInstance(library);
+		const token = await instance.loadSuperToken(address);
+		return token;
 	}
 
 	async getFlow(library, sender, receiver, address) {
@@ -172,6 +174,14 @@ class SuperfluidClient {
 			account,
 			timestamp,
 		});
+	}
+
+	calculateFlowRate(amount) {
+		const monthlyAmount = ethers.utils.parseEther(amount.toString());
+		const calculatedFlowRate = monthlyAmount.div(
+			ethers.utils.formatUnits(60 * 60 * 24 * 30, 0)
+		);
+		return calculatedFlowRate.toString();
 	}
 }
 

@@ -5,16 +5,21 @@ import { ethers } from "ethers";
 import { Framework } from "@superfluid-finance/sdk-core";
 
 const stream = () => {
+	// CONTEXT
 	const [appState] = useContext(StoreContext);
 	const { activate, account, library } = useWeb3();
-	//	this is the address in Mumbai testnet
-	const maticX = "0x96B82B65ACF7072eFEb00502F45757F254c2a0D4";
+
+	// STATE
 	const [recipient, setRecipient] = useState("");
 	const [isButtonLoading, setIsButtonLoading] = useState(false);
 	const [flowRate, setFlowRate] = useState("");
 	const [flowRateDisplay, setFlowRateDisplay] = useState("");
 	const [amount, setAmount] = useState("");
 
+	const fDaiXAddress = "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f";
+	const fDaiAddress = "0x15F0Ca26781C3852f8166eD2ebce5D18265cceb7";
+
+	// HOOKS
 	useEffect(() => {
 		async function init() {
 			if (library) {
@@ -28,15 +33,11 @@ const stream = () => {
 		const amountInWei = ethers.utils.parseEther(amount);
 		const superToken = await appState.superfluidClient.loadSuperToken(
 			library,
-			maticX
+			fDaiXAddress,
 		);
-		console.log('superToken', superToken);
-		// const unwrappedToken = superToken.underlyingToken.contract.connect(library.getSigner());
-		// console.log(unwrappedToken);
+		const unwrappedToken = superToken.underlyingToken.contract.connect(library.getSigner());
 		try {
-
-			const approveOperation = await superToken.approve({ receiver: maticX, amount: amountInWei },);
-			const tx = await approveOperation.exec(library.getSigner());
+			const tx = await unwrappedToken.approve(fDaiXAddress, amountInWei);
 			console.log(tx);
 			await tx.wait();
 			callback();
@@ -50,7 +51,7 @@ const stream = () => {
 		try {
 			const tx = await appState.superfluidClient.upgradeAndCreateFlowBacth(
 				library,
-				maticX,
+				fDaiXAddress,
 				flowRate,
 				account,
 				recipient
@@ -62,7 +63,7 @@ const stream = () => {
 				`Congrats - you've just created a money stream!
 				View Your Stream At: https://app.superfluid.finance/dashboard/${recipient}
 				Network: Mumbai
-				Super Token: DAIx
+				Super Token: fDAIx
 				Sender: 0xDCB45e4f6762C3D7C61a00e96Fb94ADb7Cf27721
 				Receiver: ${recipient},
 				FlowRate: ${flowRateDisplay}`
@@ -84,7 +85,7 @@ const stream = () => {
 				account,
 				recipient,
 				flowRate,
-				maticX,
+				fDaiXAddress,
 			);
 			console.log("Updating your stream...");
 			await tx.wait();
@@ -114,7 +115,7 @@ const stream = () => {
 				library,
 				account,
 				recipient,
-				maticX,
+				fDaiXAddress,
 			);
 			console.log("Deleting your stream...");
 			await tx.wait();
