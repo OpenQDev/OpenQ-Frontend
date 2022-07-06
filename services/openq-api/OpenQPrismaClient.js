@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { WATCH_BOUNTY, UNWATCH_BOUNTY, GET_BOUNTY_BY_HASH, GET_USER_BY_HASH, GET_BOUNTY_PAGE } from './graphql/query';
+import { WATCH_BOUNTY, UNWATCH_BOUNTY, GET_BOUNTY_BY_HASH, GET_USER_BY_HASH, GET_BOUNTY_PAGE, GET_PR_BY_ID, CREATE_PR, ADD_CONTRIBUTOR, REMOVE_CONTRIBUTOR } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
 
@@ -60,6 +60,77 @@ class OpenQPrismaClient {
 		}
 		);
 		return promise;
+	}
+
+	async getPr(prId) {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.query({
+					query: GET_PR_BY_ID,
+					variables: { prId },					
+					fetchPolicy: 'no-cache'
+				});
+				resolve(result.data);
+			}
+			catch (e) {
+				reject(e);
+			}
+		}
+		);
+		return promise;
+	
+	}
+	createPr(prId, bountyAddress, thumbnail){
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.mutate({
+					mutation: CREATE_PR,
+					variables: { prId, bountyAddress, thumbnail }
+				});
+				resolve(result.data);
+			}
+			catch (e) {
+				reject(e);
+			}
+		}
+		);
+		return promise;	
+	}
+
+	addContributor(prId, userId, address){
+	
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.mutate({
+					mutation: ADD_CONTRIBUTOR,
+					variables: { prId, userId, address }
+				});
+				resolve(result.data);
+			}
+			catch (e) {
+				reject(e);
+			}
+		}
+		);
+		return promise;	
+	}
+
+	removeContributor(prId, userId, address){
+	
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.mutate({
+					mutation: REMOVE_CONTRIBUTOR,
+					variables: { prId, userId, address }
+				});
+				resolve(result.data);
+			}
+			catch (e) {
+				reject(e);
+			}
+		}
+		);
+		return promise;	
 	}
 
 	async getUser(userAddress) {

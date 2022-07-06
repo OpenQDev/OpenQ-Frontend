@@ -11,7 +11,6 @@ const showcase = ({prs}) => {
 	// Render
 	const filterBySubmission = (e)=>{
 		setSubmissionSearchTerm(e.target.value);
-		console.log(e.target.value);
 	};
 
 

@@ -36,6 +36,11 @@ class Utils {
 		return pattern.test(issueUrl);
 	};
 
+	userUrlRegex = (userUrl) => {
+		const pattern = /https?:\/\/github\.com\/[\w-\d]+/;
+		return pattern.test(userUrl);
+	}
+
 	formatter = new Intl.NumberFormat('en-US', {
 		style: 'currency',
 		currency: 'USD',

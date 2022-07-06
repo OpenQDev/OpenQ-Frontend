@@ -20,6 +20,40 @@ export const GET_BOUNTY_BY_HASH = gql`query bounty($contractAddress: String! ) {
   }
 }`;
 
+export const GET_PR_BY_ID = gql`query pr($prId: String!){
+  pr(prId:$prId){
+    prId
+    bountyAddress
+    contributorIds
+		contributors{
+      userId
+			address
+    }
+  }
+}
+
+
+`;
+
+export const CREATE_PR = gql`mutation createPr($prId: String! $bountyAddress: String!, $thumbnail: String){
+createPr(prId: $prId, bountyAddress: $bountyAddress, thumbnail: $thumbnail){
+	prId
+}
+
+}`;
+
+export const ADD_CONTRIBUTOR=gql`mutation addContributor($prId: String, $userId: String, $address: String){
+  addContributor(prId:$prId, userId: $userId, address: $address){
+    thumbnail
+  }
+}`;
+
+export const REMOVE_CONTRIBUTOR=gql`mutation remove($prId: String, $userId: String, $address: String){
+  removeContributor(prId:$prId, userId: $userId, address: $address){
+    thumbnail
+  }
+}`;
+
 export const GET_USER_BY_HASH = gql`query($userAddress: String!) {
   user(address: $userAddress) {
     watchedBountyIds
