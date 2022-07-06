@@ -115,13 +115,13 @@ class OpenQPrismaClient {
 		return promise;	
 	}
 
-	removeContributor(prId, userId, address){
+	removeContributor(prId, userId){
 	
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.mutate({
 					mutation: REMOVE_CONTRIBUTOR,
-					variables: { prId, userId, address }
+					variables: { prId, userId }
 				});
 				resolve(result.data);
 			}

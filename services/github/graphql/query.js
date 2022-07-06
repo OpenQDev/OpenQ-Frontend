@@ -234,6 +234,10 @@ query getPr($id: ID!){
 				login
         avatarUrl
       	url
+        ... on User {
+          id
+					twitterUsername
+				}
 			}
       }
     }

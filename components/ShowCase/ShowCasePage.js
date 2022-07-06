@@ -4,8 +4,11 @@ import {ethers} from 'ethers';
 import Image from 'next/image';
 import Link from 'next/link';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
+import useAuth from '../../hooks/useAuth';
 
 const ShowCasePage = ({pr, bounty}) => {
+	const [authState] = useAuth();
+	const {avatarUrl} = authState;
 	const {isAddress} = ethers.utils;
 	const [showForm, setShowForm ] = useState();
 	const [contributorData, setContributorData] = useState([]);
@@ -23,15 +26,14 @@ const ShowCasePage = ({pr, bounty}) => {
 			const userResult = await appState.githubRepository.fetchUsersByIds(result.pr.contributorIds);
 			const contributors= userResult.map(githubData=>{
 				const address = result.pr.contributors.find(contributor=>contributor.userId===githubData.id);
-				return {...githubData,address };
+				return {...githubData, address };
 			});
 			setContributorData(contributors);
 		}
 		else{
-			await appState.openQPrismaClient.createPr(pr.id, bounty.bountyAddress, pr.author.avatarUrl);
-
-			
+			await appState.openQPrismaClient.createPr(pr.id, bounty.bountyAddress, pr.author.avatarUrl);			
 		}};
+
 	useEffect(async()=>{
 		try{
 			await getOffChainData();
@@ -41,9 +43,6 @@ const ShowCasePage = ({pr, bounty}) => {
 			
 		}
 	},[]);
-
-
-
 	const fetchGithub = async(e)=>{
 	
 		const url = e.target.value;
@@ -55,7 +54,7 @@ const ShowCasePage = ({pr, bounty}) => {
 		
 			try{                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 				const result = await appState.githubRepository.fetchUserByUrl(url);
-				const isNew = !contributorData.some(datum=>datum.id===result);
+				const isNew = !contributorData.some(datum=>datum.id===result)&& pr.author.id!==result;
 				if(isNew){
 					setUserId(result);		
 				}
@@ -93,6 +92,20 @@ const ShowCasePage = ({pr, bounty}) => {
 		}
 	};
 
+
+	const removeContributor = async(e)=>{
+		const result =	await 	appState.openQPrismaClient.removeContributor(pr.id, e.currentTarget.value);
+		if(result.removeContributor){
+			try{			
+				await getOffChainData();
+			}
+			catch(err){
+				console.log(err);
+			}
+			
+		}
+	};
+
 	const handleAddress = (e)=>{
 		setAddress(e.target.value);
 		if(isAddress(e)&&error==='Invalid Address')setError();
@@ -108,65 +121,88 @@ const ShowCasePage = ({pr, bounty}) => {
 				</a>
 			</Link>
 			<div className='pt-8 text-lg'>	<div className='markdown-body' dangerouslySetInnerHTML={{__html: pr.bodyHTML}}></div>
-				<div className='pt-16 '>Created by</div>
-				<div className='flex gap-2 h-6'>
-					<div>{pr.author.login}</div>
+				
+				{bounty.closer?.id?.length===42 && <>Payed to <CopyAddressToClipboard clipping={[5, 39]} data={bounty.closer.id}/></>}
+			
+			</div>
+			
+			
+			<h3 className='flex gap-2 items-center'><span className='py-1 text-xl font-bold text-tinted'>Contributors</span> {	!showForm && avatarUrl?.includes(pr.author.avatarUrl.slice(0,48)) ?
+				<button onClick={openContributorForm}>
+					<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mt-2  stroke-web-gray hover:stroke-white" fill="none" viewBox="0 0 24 24" strokeWidth="2">
+						<path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+					</svg>
+				</button>:null}</h3>{showForm && 
+			<div className='my-2'>
+				<div className='flex content-center items-center gap-4'>
+					<input onChange={fetchGithub} className='bg-dark-mode border border-web-gray p-2 rounded-full' placeholder='https://github.com/contributor-name'/>
+					<input onChange={handleAddress} className='bg-dark-mode border border-web-gray p-2 rounded-full' placeholder={'polygon address'}value={address}/>
+		
+					<button onClick={saveContributor}>			
+						<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 stroke-web-gray hover:stroke-white" fill="none" viewBox="0 0 24 24"  strokeWidth="2">
+							<path strokeLinecap="round" strokeLinejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+						</svg>				
+					</button>
+					<button onClick={()=>{setShowForm(false);}}>
+						<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 stroke-web-gray hover:stroke-white" fill="none" viewBox="0 0 24 24" strokeWidth="2">
+							<path strokeLinecap="round" strokeLinejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+						</svg>
+					</button>
+				</div>	
+				<span className='text-sm'>{error &&	<div>{error}</div>}</span>
+			</div>
+			
+			
+			
+			}
+			<div className='py-2'>
+
+				<div className='flex gap-2 h-6 text-tinted'>
 					<Link href={pr.author.url}>
 						<a>
 						
 							<Image className='rounded-lg' src={pr.author.avatarUrl} height={'32px'} width={'32'} />
 						</a>
 					</Link>
-				</div>{bounty.closer?.id?.length===42 && <CopyAddressToClipboard clipping={[5, 39]} data={bounty.closer.id}/>}
-			
+					<div className='text-xl font-bold'>{pr.author.login}</div>
+					<Link href={'https://twitter.com/${pr.author.twitterUsername}'}>
+						<a>
+							<Image width={32} height={32} src={'/social-icons/twitter.svg'}/>
+						</a>
+					</Link>
+				</div>
 			</div>
-			{showForm && 
-			<div>
-				<div className='flex content-center items-center mt-4 gap-4'>
-					<input onChange={fetchGithub} className='bg-dark-mode border border-web-gray p-2 rounded-full' placeholder='https://github.com/contributor-name'/>
-					<input onChange={handleAddress} className='bg-dark-mode border border-web-gray p-2 rounded-full' placeholder={'polygon address'}value={address}/>
-		
-					<button onClick={saveContributor}>
-			
-						<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-							<path strokeLinecap="round" strokeLinejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-						</svg>
-				
-					</button>
-					<button onClick={()=>{setShowForm(false);}}>
-						<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-							<path strokeLinecap="round" strokeLinejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-						</svg> </button>
-				</div>	{error &&	<div>{error}</div>}
-			</div>
-			
-			
-			
-			}
-			{	!showForm ?
-				<button onClick={openContributorForm} className=''>
-					<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mt-2" fill="hover:black" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-						<path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-					</svg>
-				</button>:null}
-			<h3>Contributors</h3>
 			{contributorData.map((contributor, index)=>{
 
-				return 		<div className='py-2' key={index}>
+				return 		<div className='py-2 text-tinted' key={index}>
 
 					<div className='flex gap-2 h-6'>
-						<div>{contributor.login}</div>
 						<Link href={contributor.url}>
 							<a>
 						
 								<Image className='rounded-lg' src={contributor.avatarUrl} height={'32px'} width={'32'} />
 							</a>
 						</Link>
+						
+						<div className='text-xl font-bold'>{contributor.login}</div>
+						{contributor.twitterUsername&&
+						<Link href={`https://twitter.com/${contributor.twitterUsername}`}>
+							<a>
+								<Image width={32} height={32} src={'/social-icons/twitter.svg'}/>
+							</a>
+						</Link>}
+						
+						{avatarUrl?.includes(pr.author.avatarUrl.slice(0,48)) &&
+					<button className='mt-1' value={contributor.id} onClick={removeContributor}>
+						<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 stroke-web-gray hover:stroke-white" fill="none" viewBox="0 0 24 24" strokeWidth="2">
+							<path strokeLinecap="round" strokeLinejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+						</svg> </button>}
 					</div>{bounty.closer?.id?.length===42 && <CopyAddressToClipboard clipping={[5, 39]} data={bounty.closer.id}/>}
 				</div>;
 
 
 			})}
+			
 
 		</div>);
 };

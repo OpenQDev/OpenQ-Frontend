@@ -48,8 +48,8 @@ export const ADD_CONTRIBUTOR=gql`mutation addContributor($prId: String, $userId:
   }
 }`;
 
-export const REMOVE_CONTRIBUTOR=gql`mutation remove($prId: String, $userId: String, $address: String){
-  removeContributor(prId:$prId, userId: $userId, address: $address){
+export const REMOVE_CONTRIBUTOR=gql`mutation remove($prId: String, $userId: String){
+  removeContributor(prId:$prId, userId: $userId){
     thumbnail
   }
 }`;
