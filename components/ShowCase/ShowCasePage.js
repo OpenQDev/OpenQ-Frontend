@@ -124,14 +124,15 @@ const ShowCasePage = ({pr, bounty}) => {
 			</div>
 			
 			
-			<h3 className='flex gap-2 items-center'><span className='py-1 text-xl font-bold text-tinted'>Contributors</span> {	!showForm && isAuthor ?
-				<button onClick={openContributorForm}>
-					<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mt-2  stroke-web-gray hover:stroke-white" fill="none" viewBox="0 0 24 24" strokeWidth="2">
-						<path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-					</svg>
-				</button>:null}</h3>{showForm && 
+			<h3 className='flex gap-2 items-center'><span className='py-1 text-xl font-bold text-tinted'>Contributors</span> {
+				!showForm && isAuthor ?
+					<button onClick={openContributorForm}>
+						<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mt-2  stroke-web-gray hover:stroke-white" fill="none" viewBox="0 0 24 24" strokeWidth="2">
+							<path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+						</svg>
+					</button>:null}</h3>{showForm && 
 			<div className='my-2'>
-				<div className='flex content-center items-center gap-4'>
+				<div className='flex content-center flex-wrap items-center gap-4'>
 					<input onChange={fetchGithub} className='bg-dark-mode border border-web-gray p-2 rounded-full' placeholder='https://github.com/contributor-name'/>
 					<input onChange={handleAddress} className='bg-dark-mode border border-web-gray p-2 rounded-full' placeholder={'polygon address'}value={address}/>
 		
