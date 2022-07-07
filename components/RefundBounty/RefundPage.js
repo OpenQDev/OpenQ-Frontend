@@ -25,6 +25,13 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 	const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
 	const [approveTransferState, setApproveTransferState] = useState(RESTING);
 	const [showApproveTransferModal, setShowApproveTransferModal] = useState(false);
+	const [extend, setExtend] = useState(false);
+	const [depositPeriodDays, setDepositPeriodDays] = useState({});
+
+	const onDepositPeriodChanged = (e) => {
+		if (parseInt(e.target.value) >= 0) setDepositPeriodDays({...depositPeriodDays, [e.target.name]: parseInt(e.target.value)});
+		if (e.target.value === '') setDepositPeriodDays({...depositPeriodDays, [e.target.name]:'0'});
+	};
 
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -72,6 +79,32 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 			setApproveTransferState(ERROR);
 		}
 	}
+
+	async function extendBounty() {
+		setApproveTransferState(APPROVING);
+		const depositId = showApproveTransferModal;
+
+		try{
+			const txnReceipt = await	appState.openQClient.extendDeposit(library, bounty.bountyId, depositId, depositPeriodDays[depositId]);
+			setTransactionHash(txnReceipt.events[0].transactionHash);
+
+			try{
+				setApproveTransferState(SUCCESS);
+				refreshBounty();
+			}
+			catch(error){
+				console.log(error);
+			}
+			
+	
+		}
+	
+		catch(error){
+			const { message, title } = appState.openQClient.handleError(error, { account, bounty });
+			setError({ message, title });
+			setApproveTransferState(ERROR);
+		}
+	}
 	// Render
 
 	return (
@@ -99,13 +132,28 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 								.map((deposit) => {
 									return (
 										<div key={deposit.id}>
-											<DepositCard deposit={deposit} status="refundable" bounty={bounty} refundBounty={() => {
+											<DepositCard deposit={deposit} status="refundable" bounty={bounty} 
+											onDepositPeriodChanged={onDepositPeriodChanged} depositPeriodDays={depositPeriodDays[deposit.id]}
+											refundBounty={() => {
 												setConfirmationMessage(
 													`You are about to refund the bounty at ${bounty.bountyAddress.substring(
 														0,
 														12
-													)}...${bounty.bountyAddress.substring(32)}		Are you sure you want to refund this deposit?`
+													)}...${bounty.bountyAddress.substring(32)}	Are you sure you want to refund this deposit?`
 												);
+												setExtend(false);
+												setApproveTransferState(CONFIRM);
+												setShowApproveTransferModal(deposit.id);
+											}}
+											
+											extendBounty={() => {
+												setConfirmationMessage(
+													`You are about to extend the bounty at ${bounty.bountyAddress.substring(
+														0,
+														12
+													)}...${bounty.bountyAddress.substring(32)} by ${depositPeriodDays[deposit.id]} ${depositPeriodDays[deposit.id] == 1 ? 'day' : 'days'}.	Are you sure you want to extend this deposit?`
+												);
+												setExtend(true);
 												setApproveTransferState(CONFIRM);
 												setShowApproveTransferModal(deposit.id);
 											}}
@@ -160,12 +208,12 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 					confirmationMessage={confirmationMessage}
 					error={error}
 					setShowApproveTransferModal={setShowApproveTransferModal}
-					positiveOption={'Yes, Refund!'}
-					confirmMethod={refundBounty}
+					positiveOption={!extend? 'Yes, Refund!' : 'Yes, Extend!'}
+					confirmMethod={!extend? refundBounty : extendBounty}
 					resetState={resetState}
-					approvingMessage={'Refunding...'}
-					approvingTitle={'Refund'}
-				/>}
+					approvingMessage={!extend? 'Refunding...' : 'Extending...'}
+					approvingTitle={!extend? 'Refund' : 'Extend'}
+					/>}
 			</div>
 		}</>
 	);

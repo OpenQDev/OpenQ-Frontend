@@ -86,11 +86,11 @@ const MobileConnectButton = () => {
 	// Render
 	return (<>
 		{	account && isOnCorrectNetwork ?
-			<div>
+			<div className='flex'>
 				<button ref={buttonRef}
 					onClick={() => setShowModal(() => !showModal)}>
 
-					<div ref={iconWrapper}></div>
+					<div className='flex' ref={iconWrapper}></div>
 				</button>
 				{(showModal) &&
 					<AccountModal
