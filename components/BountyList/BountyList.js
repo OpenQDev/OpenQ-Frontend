@@ -237,7 +237,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 	// Render
 	return (
 		<div className="lg:col-start-2 justify-self-center space-y-3 w-full pb-8 max-w-[850px]">
-			<div className="grid lg:grid-cols-[repeat(4,_1fr)] gap-6 w-full">
+			<div className="grid lg:grid-cols-[repeat(4,_1fr)] gap-6">
 				<div className="flex rounded-lg lg:col-span-3 col-span-4 justify-center">
 					{tagSearch === 'Search' ?
 						<SearchBar
@@ -245,7 +245,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 							placeholder={'Search Issue...'}
 							searchText={searchText}
 							label={'search text'}
-							borderShape={'border-b border-l rounded-l-lg border-t w-36 sm:w-full'}
+							borderShape={'border-b border-l rounded-l-lg border-t w-20 sm:w-full'}
 						/> :
 
 						<SearchBar
@@ -254,7 +254,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 							placeholder={'Enter Tag...'}
 							searchText={searchText}
 							label={'search tags'}
-							borderShape={'border-b border-l rounded-l-lg border-t w-36 sm:w-full'}
+							borderShape={'border-b border-l rounded-l-lg border-t w-320 sm:w-full'}
 						/>
 					}
 					<Dropdown toggleFunc={toggleTagSearch} title={tagSearch} width={44} names={['Search', 'Search by Tags']} borderShape={'rounded-r-lg'} />
