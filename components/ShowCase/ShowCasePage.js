@@ -88,7 +88,7 @@ const ShowCasePage = ({pr, bounty}) => {
 			}
 		}
 	};
-	const isAuthor = true;//avatarUrl?.includes(pr.author.avatarUrl.slice(0,48));
+	const isAuthor = avatarUrl?.includes(pr.author.avatarUrl.slice(0,48));
 
 	const removeContributor = async(e)=>{
 		const result =	await 	appState.openQPrismaClient.removeContributor(pr.id, e.currentTarget.value);
