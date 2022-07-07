@@ -29,9 +29,6 @@ const ShowCasePage = ({pr, bounty}) => {
 				return {...githubData, address };
 			});
 			setContributorData(contributors);
-		}
-		else{
-			await appState.openQPrismaClient.createPr(pr.id, bounty.bountyAddress, pr.author.avatarUrl);			
 		}};
 
 	useEffect(async()=>{
@@ -91,7 +88,7 @@ const ShowCasePage = ({pr, bounty}) => {
 			}
 		}
 	};
-
+	const isAuthor = true;//avatarUrl?.includes(pr.author.avatarUrl.slice(0,48));
 
 	const removeContributor = async(e)=>{
 		const result =	await 	appState.openQPrismaClient.removeContributor(pr.id, e.currentTarget.value);
@@ -127,7 +124,7 @@ const ShowCasePage = ({pr, bounty}) => {
 			</div>
 			
 			
-			<h3 className='flex gap-2 items-center'><span className='py-1 text-xl font-bold text-tinted'>Contributors</span> {	!showForm && avatarUrl?.includes(pr.author.avatarUrl.slice(0,48)) ?
+			<h3 className='flex gap-2 items-center'><span className='py-1 text-xl font-bold text-tinted'>Contributors</span> {	!showForm && isAuthor ?
 				<button onClick={openContributorForm}>
 					<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mt-2  stroke-web-gray hover:stroke-white" fill="none" viewBox="0 0 24 24" strokeWidth="2">
 						<path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -192,7 +189,7 @@ const ShowCasePage = ({pr, bounty}) => {
 							</a>
 						</Link>}
 						
-						{avatarUrl?.includes(pr.author.avatarUrl.slice(0,48)) &&
+						{isAuthor &&
 					<button className='mt-1' value={contributor.id} onClick={removeContributor}>
 						<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 stroke-web-gray hover:stroke-white" fill="none" viewBox="0 0 24 24" strokeWidth="2">
 							<path strokeLinecap="round" strokeLinejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
