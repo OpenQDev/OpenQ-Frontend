@@ -23,7 +23,7 @@ const MobileSidebar = () => {
 							width="32"
 							height="32"
 						/>
-						</div>
+					</div>
 				</a> :
 				<Link href={'/'}>
 					<a>

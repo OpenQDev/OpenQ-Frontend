@@ -3,8 +3,10 @@ import React from 'react';
 import ShowCasePage from '../../../components/ShowCase/ShowCasePage';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
+import useAuth from '../../../hooks/useAuth';
 
 const showcasePR = ({bounty, pr}) => {
+	useAuth();
 
 	return (<>
 		{

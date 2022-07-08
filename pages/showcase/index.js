@@ -4,14 +4,15 @@ import SearchBar from '../../components/Search/SearchBar';
 import PrCard from '../../components/ShowCase/PrCard';
 import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedGithubClient from '../../services/github/WrappedGithubClient';
+import useAuth from '../../hooks/useAuth';
 
 const showcase = ({prs}) => {
+	useAuth();
 
 	const [ submissionSearchTerm, setSubmissionSearchTerm ] = useState('');
 	// Render
 	const filterBySubmission = (e)=>{
 		setSubmissionSearchTerm(e.target.value);
-		console.log(e.target.value);
 	};
 
 

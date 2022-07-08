@@ -63,6 +63,7 @@ query GetUser($userId: ID!) {
       name
       login
       id
+			url
       avatarUrl
     }
   }
@@ -77,6 +78,7 @@ nodes(ids: $userIds) {
     name
     login
     id
+		url
     avatarUrl
   }
 }
@@ -232,11 +234,27 @@ query getPr($id: ID!){
 				login
         avatarUrl
       	url
+        ... on User {
+          id
+					twitterUsername
+				}
 			}
       }
     }
   }
 `;
+
+export const GET_USER_BY_URL = gql`
+	query($url:URI!) {resource(url: $url) {
+    ... on User {
+      id
+      email
+      twitterUsername
+			avatarUrl
+			login
+    }
+  
+	}}`;
 
 export const GET_ISSUES_BY_ID = gql`
 query($issueIds: [ID!]!) {

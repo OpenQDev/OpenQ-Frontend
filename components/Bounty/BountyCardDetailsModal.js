@@ -39,7 +39,7 @@ const BountyCardDetailsModal = ({ bounty, TVL, closeModal, tokenValues }) => {
 						</Link>
 					</div>
 				</div>
-				<div className="px-8 py-4 max-h-[60vh] overflow-y-auto">
+				<div className="px-8 py-4 max-h-[40vh] overflow-y-auto">
 					<div className="text-base">
 						<BountyStatus bounty={bounty} />
 					</div>

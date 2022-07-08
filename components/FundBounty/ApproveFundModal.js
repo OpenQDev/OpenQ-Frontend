@@ -130,7 +130,7 @@ const ApproveFundModal = ({
 										<div className='w-4'>Deposited</div>
 										<div className='flex flex-wrap justify-between w-[120px] gap-2'><Image width={24} className="inline" height={24} src={token.path || token.logoURI||'/crypto-logs/ERC20.svg'} /><span>{volume} {token.symbol}</span></div>
 										<span>To</span>
-										<CopyAddressToClipboard data={bountyAddress} clipping={[5, 39]} />
+										<CopyAddressToClipboard data={bountyAddress} clipping={[5, 38]} />
 										<span>For</span>
 										{bounty.url && <Link href={bounty.url}><a target="_blank" rel="noopener noreferrer" className='underline'>{bounty.title}</a></Link>}
 										<span>Transaction</span>
@@ -150,7 +150,7 @@ const ApproveFundModal = ({
 										<div className='w-4'>Funding</div>
 										<div className='flex flex-wrap justify-between w-[120px] gap-2'><Image width={24} className="inline" height={24} src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'} /><span>{volume} {token.symbol}</span></div>
 										<span>To</span>
-										<CopyAddressToClipboard data={bountyAddress} clipping={[5, 39]} />
+										<CopyAddressToClipboard data={bountyAddress} clipping={[5, 38]} />
 										<span>For</span>
 										{ bounty.url &&		<Link href={bounty.url}><a target="_blank" rel="noopener noreferrer" className='underline'>{bounty.title}</a></Link>}
 
