@@ -30,6 +30,8 @@ module.exports = {
 			},
 			colors: {
 				'dark-mode': '#121212',
+				'nav-bg': '#161B22',
+        'menu-bg': '#0D1117',
 				'overlay': '#000000dd',
 				'button-pink': '#FF006A',
 				'web-gray': '#585858',
