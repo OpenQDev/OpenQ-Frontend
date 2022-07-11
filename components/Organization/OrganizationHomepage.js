@@ -17,7 +17,7 @@ const OrganizationHomepage = ({ orgs }) => {
   return (
     <div className="lg:grid lg:grid-cols-extra-wide xl:grid-cols-wide justify-center">
       <div className="lg:col-start-2 justify-between justify-self-center space-y-2 w-full pb-8">
-        <div className="grid gap-6 lg:grid-cols-[repeat(4,_1fr)] w-full mb-6">
+        <div className="grid gap-6 lg:grid-cols-[repeat(4,_1fr)] w-full">
           <SearchBar
             onKeyUp={filterByOrg}
             searchText={organizationSearchTerm}
@@ -26,7 +26,7 @@ const OrganizationHomepage = ({ orgs }) => {
           />
           <MintBountyButton />
         </div>
-        <div className="grid grid-cols-[repeat(3,_192px)] justify-center lg:justify-between">
+        <div className="grid grid-cols-[repeat(3,_300px)] justify-center lg:justify-between">
           {orgs
             .filter((organization) => {
               return organizationSearchTerm
