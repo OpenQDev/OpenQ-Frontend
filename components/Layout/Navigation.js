@@ -71,22 +71,51 @@ const Navigation = ({}) => {
   const [sidebar, setSidebar] = useState(false);
 
   return (
-    <div className="bg-gray-900">
+    <div className="bg-nav-bg border-b border-gray-700">
       <FirstTimeBanner />
       <div className="flex flex-row">
         {/* <Sidebar trigger={sidebar} setTrigger={setSidebar} /> */}
 
-        <div className="flex w-full flex-col md:py-2 justify-center">
+        <div className="flex w-full flex-col md:py-1 justify-center">
           {/*  Mobile navbar triggered by tailwind */}
           {/* <MobileSidebar trigger={setSidebar} /> */}
 
-          <div className="flex justify-between invisible md:visible px-12">
-            <div className="flex flex-row space-x-3 items-center">
-              <Image src="/openq-logo.png" alt="OpenQ" width="31" height="31" />
+          <div className="flex justify-between invisible md:visible px-7">
+            <div className="flex flex-row space-x-5 items-center">
+              <Image
+                src="/openq-logo-white-2.png"
+                alt="OpenQ"
+                width="31"
+                height="31"
+              />
+              {/* <div className="flex justify-between space-x-28 items-center input-field">
+                <div>Search or jump to...</div>
+                <div className="border border-gray-700 text-gray-400 rounded-sm px-2">
+                  /
+                </div>
+              </div> */}
+              <input
+                className="flex justify-between pr-24 items-center input-field"
+                onKeyUp={(e) => setQuickSearch(e.target.value)}
+                type="text"
+                placeholder="Search OpenQ"
+              ></input>
+              <div className="text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer">
+                Atomic contracts
+              </div>
+              <div className="text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer">
+                Contests
+              </div>
+              <div className="text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer">
+                Communities
+              </div>
+              <div className="text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer">
+                Explore
+              </div>
             </div>
             {/* 	Profile and login components */}
             <div className="flex flex-row items-center">
-              <div className="pr-5">
+              <div>
                 <ConnectButton />
               </div>
               <div>

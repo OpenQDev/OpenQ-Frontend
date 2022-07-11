@@ -10,7 +10,7 @@ import useAuth from "../hooks/useAuth";
 import WrappedGithubClient from "../services/github/WrappedGithubClient";
 import WrappedOpenQSubgraphClient from "../services/subgraph/WrappedOpenQSubgraphClient";
 import Utils from "../services/utils/Utils";
-import Toggle from "../components/Utils/Toggle";
+import SubMenu from "../components/Utils/SubMenu";
 
 export default function Index({ orgs, fullBounties, batch }) {
   useAuth();
@@ -135,9 +135,9 @@ export default function Index({ orgs, fullBounties, batch }) {
   return (
     <div>
       <main>
-        <div className="bg-dark-mode pt-10 flex-col">
+        <div className="bg-dark-mode flex-col">
           <div className="flex justify-center pb-8">
-            <Toggle
+            <SubMenu
               names={["Organizations", "Issues"]}
               toggleFunc={setInternalMenu}
               toggleVal={internalMenu}

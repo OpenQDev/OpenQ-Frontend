@@ -79,21 +79,27 @@ pre {
 @layer base {
   body {
     @apply w-screen overflow-x-hidden bg-dark-mode;
-  } /* 
-    h1{
-        @apply font-mont font-black text-4xl;
-    }
-    h2{
-        @apply font-mont font-normal text-lg text-gray-700;
-    }
-}
-@layer components {
-    .btn {
-        @apply font-mont rounded-md border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer;
-    }*/
+  }, 
+	@font-face {
+		font-family: Collegiate;
+		src: url(/fonts/Collegiate.ttf) format("​truetype​") or ttf;
+	}
+  
 }
 
 @layer components {
+
+	/* GitHub Styles */
+
+	.input-field {
+		@apply py-[4px] px-3 text-[0.8rem] tracking-wider placeholder-input-gray outline-none rounded-sm border border-border-gray bg-menu-bg
+	}
+	.input-field-big {
+		@apply py-[4px] px-3 text-[0.9rem] tracking-wider placeholder-input-gray outline-none rounded-sm border border-border-gray bg-menu-bg
+	}
+	.create-new-button {
+		@apply bg-violet-600 font-bold rounded-sm py-[0.5rem]
+	}
   .layer-button {
     @apply font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer border-blue-400 text-gray-800 hover:bg-blue-400 hover:text-white;
   }
