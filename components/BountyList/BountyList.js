@@ -43,6 +43,9 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		case 'Lowest':
 			{	getMoreData('asc', 'tvl');}
 			break;
+		case 'Popular':
+			{ getMoreData('desc', 'views');}
+			break;
 
 	
 		}
@@ -136,6 +139,13 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		case 'Lowest': {	
 			if( sortOrder !== toggleTo)	{	
 				getNewData('asc', 'tvl');
+			}
+			
+		}
+			break;
+		case 'Popular': {	
+			if( sortOrder !== toggleTo)	{	
+				getNewData('desc', 'views');
 			}
 			
 		}
@@ -272,7 +282,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			<div className="flex md:content-start content-center flex-wrap w-full justify-items-stretch gap-4">
 				<div className="flex justify-between bg-dark-mode end rounded-lg">
 					<span className=" py-2 border-t border-l border-b rounded-l-lg border-web-gray align-self-center pl-4 pr-8">Sort By</span>
-					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} names={['Newest', 'Oldest', 'Highest', 'Lowest']} borderShape={'rounded-r-lg'} width={36} />
+					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} names={['Newest', 'Oldest', 'Highest', 'Lowest', 'Popular']} borderShape={'rounded-r-lg'} width={36} />
 				</div>
 				<div className='flex flex-wrap gap-4'>
 					<div onClick={showUnfunded} className="flex w-36 p-2 px-4 gap-2 border rounded-lg justify-between border-web-gray">

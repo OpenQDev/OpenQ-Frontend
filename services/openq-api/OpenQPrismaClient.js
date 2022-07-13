@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { WATCH_BOUNTY, UNWATCH_BOUNTY, GET_BOUNTY_BY_HASH, GET_USER_BY_HASH, GET_BOUNTY_PAGE, GET_PR_BY_ID, CREATE_PR, ADD_CONTRIBUTOR, REMOVE_CONTRIBUTOR } from './graphql/query';
+import { WATCH_BOUNTY, UNWATCH_BOUNTY, GET_BOUNTY_BY_HASH, GET_USER_BY_HASH, GET_BOUNTY_PAGE, GET_PR_BY_ID, CREATE_PR, ADD_CONTRIBUTOR, REMOVE_CONTRIBUTOR, ADD_VIEW } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
 
@@ -95,6 +95,23 @@ class OpenQPrismaClient {
 		}
 		);
 		return promise;	
+	}
+
+	addView(address){	
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.mutate({
+					mutation: ADD_VIEW,
+					variables: { address }
+				});
+				resolve(result.data);
+			}
+			catch (e) {
+				reject(e);
+			}
+		}
+		);
+		return promise;		
 	}
 
 	addContributor(prId, userId, address){

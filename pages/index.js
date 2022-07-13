@@ -50,7 +50,7 @@ export default function Index({orgs, fullBounties, batch }) {
 		let newBounties = [];
 
 		// handle sort by tvl
-		if(orderBy === 'tvl'){
+		if(orderBy){
 			try{
 				const prismaBounties = await appState.openQPrismaClient.getBountyPage(cursor, batch, 'tvl', sortOrder);
 				const addresses = prismaBounties.bountiesConnection.bounties.map(bounty=>bounty.address.toLowerCase());

@@ -53,10 +53,10 @@ const address = ({ address, mergedBounty, renderError }) => {
 			if (deposit.expiration !== newDeposits[i].expiration) { 
 				i++;
 				return false;
-			 }
+			}
 		}
 		return true;
-	}
+	};
 
 	const setReload = () => {
 		const payload = {
@@ -81,7 +81,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 				&& expirationComp(bounty.deposits, newBounty.deposits)
 				// or simpler, just using: && newBounty.deposits === bounty.deposits
 				// in which case we could also be removing the 'newBounty.deposits.length === bounty.deposits.length' logic and simplify
-				) {
+			) {
 				newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
 				await sleep(500);
 			}
@@ -96,7 +96,6 @@ const address = ({ address, mergedBounty, renderError }) => {
 
 	// Hooks
 	useEffect(async() => {
-	
 		// Confetti
 		const justMinted = sessionStorage.getItem('justMinted') === 'true';
 		if (justMinted && canvas.current) {
@@ -196,7 +195,12 @@ export const getServerSideProps = async (context) => {
 	catch (err) {
 		renderError = `OpenQ could not find a bounty with address: ${address}.`;
 	}
-
+	try{
+		await openQPrismaClient.instance.addView(ethers.utils.getAddress(address));
+	}
+	catch(err){
+		console.log(err);
+	}
 	return { props: { id, address, mergedBounty, renderError } };
 };
 

@@ -54,6 +54,12 @@ export const REMOVE_CONTRIBUTOR=gql`mutation remove($prId: String, $userId: Stri
   }
 }`;
 
+export const ADD_VIEW = gql`mutation addView($address: String){
+	addView(address: $address){
+	address
+}
+}`;
+
 export const GET_USER_BY_HASH = gql`query($userAddress: String!) {
   user(address: $userAddress) {
     watchedBountyIds
