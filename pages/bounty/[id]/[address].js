@@ -195,12 +195,20 @@ export const getServerSideProps = async (context) => {
 	catch (err) {
 		renderError = `OpenQ could not find a bounty with address: ${address}.`;
 	}
-	try{
-		await openQPrismaClient.instance.addView(ethers.utils.getAddress(address));
+	const cookies = context.req.headers.cookie;
+	const viewedRegex = /viewed=[^\s;]+/;
+	const viewed = cookies.match(viewedRegex)[0].slice(7);
+	if(!viewed){	
+		try{
+			await openQPrismaClient.instance.addView(ethers.utils.getAddress(address));
+		}
+		catch(err){
+			console.log(err);
+		}	
 	}
-	catch(err){
-		console.log(err);
-	}
+
+	// set the cookies
+	context.res.setHeader('Set-Cookie', ` viewed=true;expires=${new Date(Date.now() + 600000)}; HttpOnly`);
 	return { props: { id, address, mergedBounty, renderError } };
 };
 
