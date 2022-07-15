@@ -109,6 +109,7 @@ class GithubRepository {
 				const result = await this.client.query({
 					query: GET_ISSUES_BY_ID, variables: { issueIds }, errorPolicy: 'all'
 				});
+				console.log(result);
 				resolve(this.parseIssuesData(result));
 			} catch (e) {
 				reject(e);

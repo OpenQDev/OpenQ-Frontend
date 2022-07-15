@@ -1,5 +1,5 @@
 // Third party
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 
 // Custom
@@ -15,6 +15,8 @@ import ToolTip from '../Utils/ToolTip';
 
 
 const BountyCardDetails = ({ bounty, address, tokenValues, internalMenu }) => {
+	useEffect(()=>{
+		console.log(bounty);});
 	return (		
 		<div className={`flex flex-col w-full font-mont sm:pl-5 sm:pr-5 md:px-10 pt-10 pb-10 my-16 w-5/6 max-w-6xl ${internalMenu !== 'View' ? 'hidden' : null}`}>
 			<div className="flex w-full flex-col border-b pb-6 border-solid justify-items-center items-center content-between rounded-t">

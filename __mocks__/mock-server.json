@@ -1538,6 +1538,7 @@
           {
             "node": {
               "source": {
+								"__typename":"PullRequest",
                 "url": "https://github.com/OpenQDev/OpenQ-TestRepo/pull/301",
                 "merged": true,
                 "title": "Update README.md"

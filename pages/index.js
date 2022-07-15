@@ -140,7 +140,7 @@ export const getServerSideProps = async()=>{
 	let mergedOrgs = await Promise.all(orgs.map(async(org) => {
 		let currentGithubOrg;
 		const orgMetadata = await openQPrismaClient.instance.getOrgMetadata(org.id);
-		const blacklisted = orgMetadata?.organization.blacklisted;
+		const blacklisted = orgMetadata?.organization?.blacklisted || false;
 		for (const githubOrganization of githubOrganizations) {
 			if (org.id === githubOrganization.id) {
 				currentGithubOrg = githubOrganization;
