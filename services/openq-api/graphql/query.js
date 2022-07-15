@@ -54,17 +54,28 @@ export const REMOVE_CONTRIBUTOR=gql`mutation remove($prId: String, $userId: Stri
   }
 }`;
 
-export const ADD_VIEW = gql`mutation addView($address: String){
-	addView(address: $address){
-	address
-}
-}`;
-
 export const GET_USER_BY_HASH = gql`query($userAddress: String!) {
   user(address: $userAddress) {
     watchedBountyIds
   }
 }`;
+
+export const GET_IS_BLACKLISTED=gql`
+query($address: String!){
+  bounty(address:$address){
+    blacklisted
+		tvl
+    address
+  }
+}`;
+
+export const GET_ORG = gql`
+query getOrg($organizationId: String!){
+  organization(organizationId: $organizationId){
+    blacklisted
+  }
+}
+`;
 
 export const WATCH_BOUNTY = gql`
 mutation AddUser ($contractAddress: String, $userAddress: String){

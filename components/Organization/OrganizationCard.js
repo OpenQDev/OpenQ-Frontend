@@ -22,11 +22,13 @@ const OrganizationCard = ({ organization,  }) => {
 
 	useEffect(async()=>{
 		const bountyIds = organization.bountiesCreated.map(bounty=>bounty.bountyId);
-		
+		const bountyAddresses = organization.bountiesCreated.map(bounty=> bounty.bountyAddress);
+		const metadata = await appState.openQPrismaClient.getBlackListed(bountyAddresses);
 		try{
 			const issuesData = await appState.githubRepository.getIssueData(bountyIds);
-			const filteredBounties = appState.utils.combineBounties( organization.bountiesCreated, issuesData).filter(bounty=>{
-				return !bounty.assignees.nodes[0] && bounty.status === 'OPEN' && bounty.bountyTokenBalances.length > 0;
+			const filteredBounties = appState.utils.combineBounties( organization.bountiesCreated, issuesData, metadata).filter(bounty=>{
+				
+				return !bounty.assignees.nodes[0] && bounty.status === 'OPEN' && bounty.bountyTokenBalances.length > 0 && !bounty.blacklisted;
 			});
 			setOrgBounties(filteredBounties);
 		}

@@ -11,6 +11,7 @@ import WrappedGithubClient from '../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgraphClient';
 import Utils from '../services/utils/Utils';
 import Toggle from '../components/Utils/Toggle';
+import WrappedOpenQPrismaClient from '../services/openq-api/WrappedOpenQPrismaClient';
 
 export default function Index({orgs, fullBounties, batch }) {
 	useAuth();
@@ -38,7 +39,6 @@ export default function Index({orgs, fullBounties, batch }) {
 				setWatchedBounties(subgraphBounties.map((bounty, index)=>{return {...bounty, ...githubBounties[index]};}));
 			}
 			catch(err){
-				console.log(err);
 				console.log('could not fetch watched bounties');
 			}
 		}
@@ -116,6 +116,7 @@ export default function Index({orgs, fullBounties, batch }) {
 export const getServerSideProps = async()=>{
 	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
 	const githubRepository = new WrappedGithubClient();
+	const openQPrismaClient = new WrappedOpenQPrismaClient;
 	const utils = new Utils();
 	githubRepository.instance.setGraphqlHeaders();
 	let orgs = [];
@@ -135,15 +136,18 @@ export const getServerSideProps = async()=>{
 	catch (err) {
 		console.log(err);
 	}
-	let mergedOrgs = orgs.map((org) => {
+	
+	let mergedOrgs = await Promise.all(orgs.map(async(org) => {
 		let currentGithubOrg;
+		const orgMetadata = await openQPrismaClient.instance.getOrgMetadata(org.id);
+		const blacklisted = orgMetadata?.organization.blacklisted;
 		for (const githubOrganization of githubOrganizations) {
 			if (org.id === githubOrganization.id) {
 				currentGithubOrg = githubOrganization;
 			}
 		}
-		return { ...org, ...currentGithubOrg };
-	});
+		return { ...org, ...currentGithubOrg, blacklisted };
+	}));
 
 
 	// Fetch Bounties
@@ -167,17 +171,19 @@ export const getServerSideProps = async()=>{
 		}
 	}
 	const bountyIds = newBounties.map((bounty) => bounty.bountyId);
+	const bountyAddresses = newBounties.map((bounty)=>bounty.bountyAddress);
 	
 	// Fetch from Github
 	let issueData = [];
+	let metaData = [];
 	try{
 		issueData = await githubRepository.instance.getIssueData(bountyIds);
+		metaData = await openQPrismaClient.instance.getBlackListed(bountyAddresses);
 	}
 	catch(err){
 		renderError = 'OpenQ is unable to connect with Github.';
 	}
-	const fullBounties = utils.combineBounties(newBounties, issueData);
-
+	const fullBounties = utils.combineBounties(newBounties, issueData, metaData);
 	return {props: {
 		orgs: mergedOrgs,
 		fullBounties,

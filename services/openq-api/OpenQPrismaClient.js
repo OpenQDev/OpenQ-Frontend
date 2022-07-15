@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { WATCH_BOUNTY, UNWATCH_BOUNTY, GET_BOUNTY_BY_HASH, GET_USER_BY_HASH, GET_BOUNTY_PAGE, GET_PR_BY_ID, CREATE_PR, ADD_CONTRIBUTOR, REMOVE_CONTRIBUTOR, ADD_VIEW } from './graphql/query';
+import { WATCH_BOUNTY, UNWATCH_BOUNTY, GET_BOUNTY_BY_HASH, GET_USER_BY_HASH, GET_BOUNTY_PAGE, GET_PR_BY_ID, CREATE_PR, ADD_CONTRIBUTOR, REMOVE_CONTRIBUTOR, GET_IS_BLACKLISTED, GET_ORG } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
 
@@ -97,12 +97,38 @@ class OpenQPrismaClient {
 		return promise;	
 	}
 
-	addView(address){	
+	getBlackListed(addresses){
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const results = [];
+				for(let i=0; i<addresses.length; i++){
+				
+					const address = ethers.utils.getAddress(addresses[i]);
+					const result = await this.client.query({
+						query: GET_IS_BLACKLISTED,
+						variables: { address }
+					});
+					results.push(result.data.bounty);
+				
+				}
+				resolve(results);
+			}
+			catch (e) {
+				reject(e);
+			}
+		}
+		);
+		return promise;		
+	
+	}
+
+	getOrgMetadata(organizationId){
+	
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.mutate({
-					mutation: ADD_VIEW,
-					variables: { address }
+					mutation: GET_ORG,
+					variables: { organizationId }
 				});
 				resolve(result.data);
 			}
@@ -111,7 +137,8 @@ class OpenQPrismaClient {
 			}
 		}
 		);
-		return promise;		
+		return promise;	
+	
 	}
 
 	addContributor(prId, userId, address){

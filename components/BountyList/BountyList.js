@@ -88,7 +88,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 				const isAssigned = bounty.assignees?.nodes.length > 0;
 
 				// Combine
-				return (containsSearch && containsTag && (!localFundedOnly || isFunded) && (!localUnclaimedOnly || isUnclaimed) && (!localUnassignedOnly || !isAssigned )  && hasLabel && bounty.url);
+				return (containsSearch && containsTag && (!localFundedOnly || isFunded) && (!localUnclaimedOnly || isUnclaimed) && (!localUnassignedOnly || !isAssigned )  && hasLabel && bounty.url && !bounty.blacklisted);
 			}
 			catch(err){
 				console.log(err);}

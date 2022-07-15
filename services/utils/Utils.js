@@ -46,15 +46,21 @@ class Utils {
 		currency: 'USD',
 	});
 
-	combineBounties  = (subgraphBounties, githubIssues)=>{
+	combineBounties  = (subgraphBounties, githubIssues, metadata = [])=>{
 		const fullBounties = [];
 		subgraphBounties.forEach((bounty) => {
 			const relatedIssue = githubIssues.find(
 				(issue) => issue.id == bounty.bountyId
 			);
-			if(relatedIssue){
-				const mergedBounty = { ...bounty, ...relatedIssue };
+			
+
+			const relatedMetadata = metadata.find((metadataBounty)=>{
+				return 	metadataBounty.address.toLowerCase()===bounty.bountyAddress;
+			}) || {};
+			if(relatedIssue && relatedMetadata){
+				let mergedBounty = { ...bounty, ...relatedIssue, ...relatedMetadata };
 				fullBounties.push(mergedBounty);}
+
 		
 		}	);
 		return fullBounties;

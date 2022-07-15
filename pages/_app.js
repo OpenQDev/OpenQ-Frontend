@@ -27,9 +27,11 @@ function OpenQ({ Component, pageProps }) {
 	useEffect(() => {
 
 		const pageview = (url) => {
-			window.gtag('config', process.env.NEXT_PUBLIC_GA_TRACKING_ID, {
-				page_path: url,
-			});
+			if(window.gtag){
+				window.gtag('config', process.env.NEXT_PUBLIC_GA_TRACKING_ID, {
+					page_path: url,
+				});
+			}
 		};
 
 		const handleRouteChange = (url) => {
@@ -44,6 +46,22 @@ function OpenQ({ Component, pageProps }) {
 
 	return (
 		<div className="bg-dark-mode min-h-screen text-white">
+			{/* Global Site Tag (gtag.js) - Google Analytics */}
+			<Script
+				strategy="lazyOnload"
+				src={`https://www.googletagmanager.com/gtag/js?id=G-${process.env.NEXT_PUBLIC_GA_TRACKING_ID}`}
+			/>
+
+			<Script strategy="lazyOnload">
+				{`
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-${process.env.NEXT_PUBLIC_GA_TRACKING_ID}', {
+        page_path: window.location.pathname,
+      });
+  `}
+			</Script>
 			<Head>
 				<title>OpenQ</title>
 				<meta
@@ -54,24 +72,6 @@ function OpenQ({ Component, pageProps }) {
 				<link rel="manifest" href="/manifest.json" />
 			</Head>
 			<>
-				<Script
-					strategy="afterInteractive"
-					src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TRACKING_ID}`}
-				/>
-				<Script
-					id="gtag-init"
-					strategy="afterInteractive"
-					dangerouslySetInnerHTML={{
-						__html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${process.env.NEXT_PUBLIC_GA_TRACKING_ID}', {
-              page_path: window.location.pathname,
-            });
-          `,
-					}}
-				/>
 
 				<AuthProvider>
 					<StoreProvider>
