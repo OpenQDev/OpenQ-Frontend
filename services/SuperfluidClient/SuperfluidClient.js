@@ -75,10 +75,11 @@ class SuperfluidClient {
 			address
 		);
 		const unwrappedToken = superToken.underlyingToken.contract.connect(library.getSigner());
+		console.log('unwrappedToken', unwrappedToken);
 		try {
 			const tx = await unwrappedToken.approve(address, amountInWei);
-			console.log(tx);
 			await tx.wait();
+			console.log(tx);
 		} catch (error) {
 			throw new Error(error);
 		}
@@ -106,11 +107,15 @@ class SuperfluidClient {
 	async upgradeAndCreateFlowBacth(library, address, amount, sender, receiver) {
 		const instance = await this.createInstance(library);
 		const signer = await this.createSigner(library);
+
+		const allowance = await this.allowance(library, sender, address, address);
+
 		const upgradeOp = await this.upgradeToken(
 			library,
 			address,
 			ethers.utils.parseEther(amount.toString())
 		);
+
 		const createFlowOp = await this.superTokenCreateFlow(
 			library,
 			address,
@@ -187,6 +192,7 @@ class SuperfluidClient {
 			account,
 		});
 	}
+
 	async getNetFlow(library, account, address) {
 		const instance = await this.createInstance(library);
 		return instance.cfaV1.getNetFlow({
@@ -201,11 +207,10 @@ class SuperfluidClient {
 	}
 
 	async allowance(library, account, spender, address) {
-		const superToken = this.loadSuperToken(library, address);
-		return await superToken.allowance({
-			account,
-			spender,
-		});
+		const superToken = await this.loadSuperToken(library, address);
+		const unwrappedToken = superToken.underlyingToken.contract.connect(library.getSigner());
+		const allowanceBigNumber = await unwrappedToken.allowance(account, spender);
+		return allowanceBigNumber.toString();
 	}
 
 	async realtimeBalanceOf(library, account, timestamp, address) {

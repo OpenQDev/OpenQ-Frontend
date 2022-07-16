@@ -17,10 +17,9 @@ const stream = () => {
 	const [amount, setAmount] = useState("");
 
 	const [fDaiAddress, setFDaiAddress] = useState("");
-	const [fDaiXAddress, setFDaiXAddress] = useState("");
+	const [fDaiXAddress, setFDaiXAddress] = useState(process.env.NEXT_PUBLIC_FDAIX_ADDRESS);
 
 	async function approveToken(amount, callback) {
-		console.log('fDaiXAddress', fDaiXAddress);
 		try {
 			await appState.superfluidClient.approve(library, fDaiXAddress, amount);
 			callback();
