@@ -1,17 +1,38 @@
 import { Framework } from "@superfluid-finance/sdk-core";
 import { ethers } from "ethers";
+import tokensIndexable from "./tokens-indexable.json";
+import tokensEnumerable from "./tokens-enumerable.json";
 
 /* Note:
 	const usdc = usdcx.underlyingToken.contract.connet(library.getSigner());
 	const totalSupply = await usdc.totalSupply();
-
+	
 	this way you can access the underlaying token of some superToken
 	and send transactions
 */
 
 class SuperfluidClient {
 
-	constructor() { }
+	constructor() {
+		switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
+			case 'local':
+				this.openqIndexableTokens = tokensIndexable;
+				this.openqEnumerableTokens = tokensEnumerable;
+				break;
+			case 'docker':
+				this.openqIndexableTokens = tokensIndexable;
+				this.openqEnumerableTokens = tokensEnumerable;
+				break;
+			case 'staging':
+				this.openqIndexableTokens = tokensIndexable;
+				this.openqEnumerableTokens = tokensEnumerable;
+				break;
+			case 'production':
+				this.openqIndexableTokens = tokensIndexable;
+				this.openqEnumerableTokens = tokensEnumerable;
+				break;
+		}
+	}
 
 	/**
 	 * We do not have the Web3 library available on the construction of SuperfluidClient in InitialState, so we must create it
@@ -21,9 +42,10 @@ class SuperfluidClient {
 		try {
 			if (!this.instance) {
 				const tempInstance = await Framework.create({
-					//networkName: "matic",
-					chainId: 80001,
+					chainId: 31337,
 					provider: library,
+					dataMode: 'WEB3_ONLY',
+					resolverAddress: process.env.NEXT_PUBLIC_SUPERFLUID_RESOLVER_ADDRESS
 				});
 				this.instance = tempInstance;
 				return tempInstance;
@@ -183,6 +205,6 @@ class SuperfluidClient {
 		);
 		return calculatedFlowRate.toString();
 	}
-}
+};
 
 export default SuperfluidClient;

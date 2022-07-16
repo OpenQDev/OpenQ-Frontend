@@ -16,8 +16,8 @@ const stream = () => {
 	const [flowRateDisplay, setFlowRateDisplay] = useState("");
 	const [amount, setAmount] = useState("");
 
-	const fDaiXAddress = "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f";
-	const fDaiAddress = "0x15F0Ca26781C3852f8166eD2ebce5D18265cceb7";
+	const [fDaiAddress, setFDaiAddress] = useState("");
+	const [fDaiXAddress, setFDaiXAddress] = useState("");
 
 	// HOOKS
 	useEffect(() => {
@@ -184,8 +184,50 @@ const stream = () => {
 		setAmount(e.target.value);
 	};
 
+	const handleAddressChange = (e) => {
+		setFDaiAddress(e.target.value);
+	};
+
+	const handleAddressChangefDaix = (e) => {
+		setFDaiXAddress(e.target.value);
+	};
+
 	return (
 		<div className="flex flex-col items-center w-full">
+			<div className="ml-12">
+				<h2 className="mb-5 text-2xl">
+					FDAI Address
+				</h2>
+				<form>
+					<div className="mb-5 text-black">
+						<input
+							type="text"
+							name="fDaiAddress"
+							value={fDaiAddress}
+							onChange={handleAddressChange}
+							placeholder="fDai Address"
+							className="w-full h-8"
+						/>
+					</div>
+				</form>
+			</div>
+			<div className="ml-12">
+				<h2 className="mb-5 text-2xl">
+					FDAIX Address
+				</h2>
+				<form>
+					<div className="mb-5 text-black">
+						<input
+							type="text"
+							name="fDaiXAddress"
+							value={fDaiXAddress}
+							onChange={handleAddressChangefDaix}
+							placeholder="fDaiX Address"
+							className="w-full h-8"
+						/>
+					</div>
+				</form>
+			</div>
 			<div className="ml-12">
 				<h2 className="mb-5 text-2xl">
 					Approve Tokens

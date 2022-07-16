@@ -33,10 +33,6 @@ class CoinClient {
 				this.openqIndexableTokens = polygonMainnetIndexable;
 				this.openqEnumerableTokens = polygonMainnetEnumerable;
 				break;
-			case 'ethbarcelona':
-				this.openqIndexableTokens = polygonMainnetIndexable;
-				this.openqEnumerableTokens = polygonMainnetEnumerable;
-				break;
 		}
 	}
 	firstTenPrices = {};

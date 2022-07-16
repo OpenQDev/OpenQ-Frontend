@@ -3,33 +3,31 @@
  */
 const chainIdDeployEnvMap = {
 	'local': {
-		chainId: 80001,
-		networkName: 'Mumbai',
+		chainId: 31337,
+		networkName: 'Localhost:8545',
 		params: [{
-			chainId: '0x13881',
-			chainName: 'Mumbai Testnet',
+			chainId: '0x7A69',
+			chainName: 'Localhost 8545',
 			nativeCurrency: {
-				name: 'MATIC',
-				symbol: 'MATIC',
+				name: 'ETH',
+				symbol: 'ETH',
 				decimals: 18
 			},
-			rpcUrls: ['https://rpc-mumbai.maticvigil.com/v1/258e87c299409a354a268f96a06f9e6ae7ab8cea'],
-			blockExplorerUrls: ['https://mumbai.polygonscan.com/']
+			rpcUrls: ['https://localhost:8545'],
 		}]
 	},
 	'docker': {
-		chainId: 80001,
-		networkName: 'Mumbai',
+		chainId: 31337,
+		networkName: 'Localhost:8545',
 		params: [{
-			chainId: '0x13881',
-			chainName: 'Mumbai Testnet',
+			chainId: '0x7A69',
+			chainName: 'Localhost 8545',
 			nativeCurrency: {
-				name: 'MATIC',
-				symbol: 'MATIC',
+				name: 'ETH',
+				symbol: 'ETH',
 				decimals: 18
 			},
-			rpcUrls: ['https://rpc-mumbai.maticvigil.com/v1/258e87c299409a354a268f96a06f9e6ae7ab8cea'],
-			blockExplorerUrls: ['https://mumbai.polygonscan.com/']
+			rpcUrls: ['https://localhost:8545'],
 		}]
 	},
 	'development': {
