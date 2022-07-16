@@ -104,24 +104,27 @@ class SuperfluidClient {
 		return createFlowOp;
 	}
 
-	async upgradeAndCreateFlowBacth(library, address, amount, sender, receiver) {
+	async upgradeAndCreateFlowBacth(library, address, amountPerDay, sender, receiver) {
 		const instance = await this.createInstance(library);
 		const signer = await this.createSigner(library);
 
-		const allowance = await this.allowance(library, sender, address, address);
+		const allowance = await this.allowance(library, sender, address);
+		console.log('allowance', allowance);
 
 		const upgradeOp = await this.upgradeToken(
 			library,
 			address,
-			ethers.utils.parseEther(amount.toString())
+			ethers.utils.parseEther(amountPerDay.toString())
 		);
+
+		console.log('ethers.utils.parseEther(amountPerDay.toString())', ethers.utils.parseEther(amountPerDay.toString()).toString());
 
 		const createFlowOp = await this.superTokenCreateFlow(
 			library,
 			address,
 			sender,
 			receiver,
-			this.calculateFlowRate(amount),
+			this.calculateFlowRateInWeiPerSecond(amountPerDay),
 		);
 
 		return await instance.batchCall([
@@ -130,14 +133,18 @@ class SuperfluidClient {
 		]).exec(signer);
 	}
 
-	async updateFlow(library, sender, receiver, flowRate, address) {
+	async updateFlow(library, sender, receiver, amountPerDay, address) {
 		const instance = await this.createInstance(library);
 		const signer = await this.createSigner(library);
+
+		const allowance = await this.allowance(library, sender, address);
+		console.log('allowance', allowance);
+
 		const updateFlowOp = instance.cfaV1.updateFlow({
 			superToken: address,
 			sender,
 			receiver,
-			flowRate: this.calculateFlowRate(flowRate),
+			flowRate: this.calculateFlowRateInWeiPerSecond(amountPerDay),
 		});
 		return await updateFlowOp.exec(signer);
 	}
@@ -206,10 +213,10 @@ class SuperfluidClient {
 		return await superToken.balanceOf({ account });
 	}
 
-	async allowance(library, account, spender, address) {
-		const superToken = await this.loadSuperToken(library, address);
+	async allowance(library, account, superTokenAddress) {
+		const superToken = await this.loadSuperToken(library, superTokenAddress);
 		const unwrappedToken = superToken.underlyingToken.contract.connect(library.getSigner());
-		const allowanceBigNumber = await unwrappedToken.allowance(account, spender);
+		const allowanceBigNumber = await unwrappedToken.allowance(account, superTokenAddress);
 		return allowanceBigNumber.toString();
 	}
 
@@ -221,12 +228,13 @@ class SuperfluidClient {
 		});
 	}
 
-	calculateFlowRate(amount) {
-		const monthlyAmount = ethers.utils.parseEther(amount.toString());
-		const calculatedFlowRate = monthlyAmount.div(
-			ethers.utils.formatUnits(60 * 60 * 24 * 30, 0)
+	calculateFlowRateInWeiPerSecond(amountPerDay) {
+		const parsedAmountPerDayInWei = ethers.utils.parseEther(amountPerDay.toString());
+		console.log('parsedAmountPerDayInWei', parsedAmountPerDayInWei.toString());
+		const flowRateInWeiPerSecond = parsedAmountPerDayInWei.div(
+			ethers.utils.formatUnits(60 * 60 * 24, 0)
 		);
-		return calculatedFlowRate.toString();
+		return flowRateInWeiPerSecond.toString();
 	}
 };
 

@@ -30,6 +30,7 @@ const stream = () => {
 	}
 
 	async function createNewFlowAndUpgrade(recipient, callback) {
+		console.log('flowRate', flowRate);
 		try {
 			const tx = await appState.superfluidClient.upgradeAndCreateFlowBacth(
 				library,
@@ -121,21 +122,6 @@ const stream = () => {
 		}
 	}
 
-	function calculateFlowRate(amount) {
-		if (typeof Number(amount) !== "number" || isNaN(Number(amount)) === true) {
-			alert("You can only calculate a flowRate based on a number");
-			return;
-		} else if (typeof Number(amount) === "number") {
-			if (Number(amount) === 0) {
-				return 0;
-			}
-			const amountInWei = ethers.BigNumber.from(amount);
-			const monthlyAmount = ethers.utils.formatEther(amountInWei.toString());
-			const calculatedFlowRate = monthlyAmount * 3600 * 24 * 30;
-			return calculatedFlowRate;
-		}
-	}
-
 	function CreateButton({ isLoading, children, ...props }) {
 		return (
 			<button
@@ -154,12 +140,7 @@ const stream = () => {
 	};
 
 	const handleFlowRateChange = (e) => {
-		setFlowRate(() => ([e.target.name] = e.target.value));
-		// if (typeof Number(flowRate) === "number") {
-		let newFlowRateDisplay = calculateFlowRate(e.target.value);
-		setFlowRateDisplay(newFlowRateDisplay.toString());
-		// setFlowRateDisplay(() => calculateFlowRate(e.target.value));
-		// }
+		setFlowRate(e.target.value);
 	};
 
 	const handleAmountChange = (e) => {
@@ -260,7 +241,7 @@ const stream = () => {
 							name="flowRate"
 							value={flowRate}
 							onChange={handleFlowRateChange}
-							placeholder="Enter a flowRate in wei/second"
+							placeholder="Enter a flowRate in units/day"
 							className="w-full h-8"
 						/>
 					</div>
@@ -282,7 +263,7 @@ const stream = () => {
 						<div>
 							<p>Your flow will be equal to:</p>
 							<p>
-								<b>${flowRateDisplay !== " " ? flowRateDisplay : 0}</b> DAIx/month
+								<b>${flowRateDisplay !== " " ? flowRateDisplay : 0}</b> DAIx/day
 							</p>
 						</div>
 					</div>
@@ -309,7 +290,7 @@ const stream = () => {
 							name="flowRate"
 							value={flowRate}
 							onChange={handleFlowRateChange}
-							placeholder="Enter a flowRate in wei/second"
+							placeholder="Enter a flowRate in units/day"
 							className="w-full h-8"
 						/>
 					</div>
@@ -331,7 +312,7 @@ const stream = () => {
 						<div>
 							<p>Your flow will be equal to:</p>
 							<p>
-								<b>${flowRateDisplay !== " " ? flowRateDisplay : 0}</b> DAIx/month
+								<b>${flowRateDisplay !== " " ? flowRateDisplay : 0}</b> DAIx/day
 							</p>
 						</div>
 					</div>
