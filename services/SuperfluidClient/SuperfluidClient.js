@@ -45,7 +45,8 @@ class SuperfluidClient {
 					chainId: 31337,
 					provider: library,
 					dataMode: 'WEB3_ONLY',
-					resolverAddress: process.env.NEXT_PUBLIC_SUPERFLUID_RESOLVER_ADDRESS
+					resolverAddress: process.env.NEXT_PUBLIC_SUPERFLUID_RESOLVER_ADDRESS,
+					protocolReleaseVersion: "test"
 				});
 				this.instance = tempInstance;
 				return tempInstance;
@@ -67,16 +68,33 @@ class SuperfluidClient {
 	}
 
 	// UPGRADE + CREATE STREAM
-	async upgradeToken(library, adddress, amount) {
-		const superToken = await this.loadSuperToken(library, adddress);
+	async approve(library, address, amount) {
+		const amountInWei = ethers.utils.parseEther(amount);
+		const superToken = await this.loadSuperToken(
+			library,
+			address
+		);
+		const unwrappedToken = superToken.underlyingToken.contract.connect(library.getSigner());
+		try {
+			const tx = await unwrappedToken.approve(address, amountInWei);
+			console.log(tx);
+			await tx.wait();
+		} catch (error) {
+			throw new Error(error);
+		}
+	}
+
+	// UPGRADE + CREATE STREAM
+	async upgradeToken(library, address, amount) {
+		const superToken = await this.loadSuperToken(library, address);
 		const upgradeOp = superToken.upgrade({
 			amount: amount.toString(),
 		});
 		return upgradeOp;
 	}
 
-	async superTokenCreateFlow(library, adddress, sender, receiver, flowRate) {
-		const superToken = await this.loadSuperToken(library, adddress);
+	async superTokenCreateFlow(library, address, sender, receiver, flowRate) {
+		const superToken = await this.loadSuperToken(library, address);
 		const createFlowOp = superToken.createFlow({
 			sender,
 			receiver,
@@ -85,17 +103,17 @@ class SuperfluidClient {
 		return createFlowOp;
 	}
 
-	async upgradeAndCreateFlowBacth(library, adddress, amount, sender, receiver) {
+	async upgradeAndCreateFlowBacth(library, address, amount, sender, receiver) {
 		const instance = await this.createInstance(library);
 		const signer = await this.createSigner(library);
 		const upgradeOp = await this.upgradeToken(
 			library,
-			adddress,
+			address,
 			ethers.utils.parseEther(amount.toString())
 		);
 		const createFlowOp = await this.superTokenCreateFlow(
 			library,
-			adddress,
+			address,
 			sender,
 			receiver,
 			this.calculateFlowRate(amount),
@@ -128,7 +146,7 @@ class SuperfluidClient {
 	 * @description Downgrading is essentially the equivalent of withdrawing from the stream
 	 */
 	async downgradeToken(library, amount, address) {
-		const superToken = this.loadSuperToken(library, adddress);
+		const superToken = this.loadSuperToken(library, address);
 		const upgradeOp = superToken.downgrade({
 			amount: amount.toString(),
 		});
@@ -178,20 +196,20 @@ class SuperfluidClient {
 	}
 
 	async balanceOf(library, account, address) {
-		const superToken = this.loadSuperToken(library, adddress);
+		const superToken = this.loadSuperToken(library, address);
 		return await superToken.balanceOf({ account });
 	}
 
-	async allowance(library, account, spender, adddress) {
-		const superToken = this.loadSuperToken(library, adddress);
+	async allowance(library, account, spender, address) {
+		const superToken = this.loadSuperToken(library, address);
 		return await superToken.allowance({
 			account,
 			spender,
 		});
 	}
 
-	async realtimeBalanceOf(library, account, timestamp, adddress) {
-		const superToken = this.loadSuperToken(library, adddress);
+	async realtimeBalanceOf(library, account, timestamp, address) {
+		const superToken = this.loadSuperToken(library, address);
 		return await superToken.realtimeBalanceOf({
 			account,
 			timestamp,

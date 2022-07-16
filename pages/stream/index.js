@@ -19,27 +19,10 @@ const stream = () => {
 	const [fDaiAddress, setFDaiAddress] = useState("");
 	const [fDaiXAddress, setFDaiXAddress] = useState("");
 
-	// HOOKS
-	useEffect(() => {
-		async function init() {
-			if (library) {
-				await appState.superfluidClient.createInstance(library);
-			}
-		}
-		init();
-	}, [library]);
-
 	async function approveToken(amount, callback) {
-		const amountInWei = ethers.utils.parseEther(amount);
-		const superToken = await appState.superfluidClient.loadSuperToken(
-			library,
-			fDaiXAddress,
-		);
-		const unwrappedToken = superToken.underlyingToken.contract.connect(library.getSigner());
+		console.log('fDaiXAddress', fDaiXAddress);
 		try {
-			const tx = await unwrappedToken.approve(fDaiXAddress, amountInWei);
-			console.log(tx);
-			await tx.wait();
+			await appState.superfluidClient.approve(library, fDaiXAddress, amount);
 			callback();
 		} catch (error) {
 			console.log(error);
