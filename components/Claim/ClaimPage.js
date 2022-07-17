@@ -114,7 +114,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 		);
 	} else {
 		return (
-			<div className="flex flex-1 font-mont justify-center">
+			<div className="flex flex-1 justify-center">
 				<div className="w-5/6 pt-16 pb-24 min-w-min">
 					<div className="grid grid-cols-3 gap-5 pt-12">
 						{!authState.isAuthenticated ? (

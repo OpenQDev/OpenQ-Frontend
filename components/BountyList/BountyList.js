@@ -295,7 +295,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			</div>
 			{addCarousel && account && watchedBounties.length ?
 				<>
-					<div className="flex w-fit p-2 px-4 font-mont font-semibold border rounded-lg border-web-gray">
+					<div className="flex w-fit p-2 px-4 font-semibold border rounded-lg border-web-gray">
 						<label htmlFor="watched bounties" className=" pointer-events-none">Watched Bounties</label>
 					</div>
 					<Carousel watchedBounties={watchedBounties} styles={'col-start-2'} >

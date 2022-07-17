@@ -97,7 +97,7 @@ const ConnectButton = () => {
             onClick={() => {
               setShowModal(!showModal);
             }}
-            className="group flex items-center gap-x-1 h-12 font-mont whitespace-nowrap  py-1 px-3  font-semibold cursor-pointer hover:border-active-accent"
+            className="group flex items-center gap-x-1 h-12 whitespace-nowrap  py-1 px-3  font-semibold cursor-pointer hover:border-active-accent"
           >
             <span
               className="border-2 border-inactive-accent rounded-full h-7 py-pxt group-hover:bg-active-accent group-hover:border-active-accent"
@@ -137,7 +137,7 @@ const ConnectButton = () => {
         <div>
           <button
             onClick={openConnectModal}
-            className="flex items-center font-mont whitespace-nowrap h-12 rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
+            className="flex items-center whitespace-nowrap h-12 rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
             disabled={isConnecting}
           >
             {"Connect Wallet"}
@@ -146,7 +146,7 @@ const ConnectButton = () => {
       ) : (
         <button
           onClick={addOrSwitchNetwork}
-          className="flex items-center font-mont whitespace-nowrap h-12 rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2.5 px-6 text-white font-semibold"
+          className="flex items-center whitespace-nowrap h-12 rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2.5 px-6 text-white font-semibold"
         >
           Use{" "}
           {

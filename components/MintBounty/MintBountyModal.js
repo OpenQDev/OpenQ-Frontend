@@ -138,7 +138,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 	// Render
 	return (
-		<div className={`justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 left-20 outline-none z-50 focus:outline-none p-5 ${appState.walletConnectModal ? 'hidden' : 'flex'}`}>
+		<div className={`justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 left-20 outline-none z-50 focus:outline-none p-5 ${appState.walletConnectModal ? 'hidden' : 'flex'}`}>
 			{error ?
 				<ErrorModal
 					setShowErrorModal={closeModal}

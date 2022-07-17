@@ -132,7 +132,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 					.</div>
 			</div> :
 			<>
-				<div className="flex flex-col font-mont justify-center items-center pt-7">
+				<div className="flex flex-col justify-center items-center pt-7">
 					<Toggle toggleFunc={handleToggle} toggleVal={internalMenu} names={['View', 'Fund', 'Refund', 'Claim']} />
 					<BountyCardDetails bounty={bounty} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}

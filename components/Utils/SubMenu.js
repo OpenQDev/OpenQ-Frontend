@@ -4,7 +4,7 @@ import React from "react";
 const SubMenu = ({ toggleFunc, toggleVal, names }) => {
   return (
     <div className="flex justify-center">
-      <div className="flex flex-row space-x-2 bg-menu-bg text-gray-500 p-2 px-4">
+      <div className="flex flex-row space-x-2 bg-menu-bg text-gray-400 p-2 px-4 font-semibold">
         {names.map((name, index) => {
           return (
             <button

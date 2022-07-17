@@ -71,7 +71,7 @@ const Navigation = ({}) => {
   const [sidebar, setSidebar] = useState(false);
 
   return (
-    <div className="bg-nav-bg border-b border-gray-700">
+    <div className="bg-nav-bg py-1">
       <FirstTimeBanner />
       <div className="flex flex-row">
         {/* <Sidebar trigger={sidebar} setTrigger={setSidebar} /> */}
