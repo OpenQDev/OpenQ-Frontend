@@ -3,14 +3,6 @@ import { ethers } from "ethers";
 import tokensIndexable from "./tokens-indexable.json";
 import tokensEnumerable from "./tokens-enumerable.json";
 
-/* Note:
-	const usdc = usdcx.underlyingToken.contract.connet(library.getSigner());
-	const totalSupply = await usdc.totalSupply();
-	
-	this way you can access the underlaying token of some superToken
-	and send transactions
-*/
-
 class SuperfluidClient {
 
 	constructor() {
@@ -18,18 +10,36 @@ class SuperfluidClient {
 			case 'local':
 				this.openqIndexableTokens = tokensIndexable;
 				this.openqEnumerableTokens = tokensEnumerable;
+				this.options = {
+					chainId: 31337,
+					dataMode: 'WEB3_ONLY',
+					resolverAddress: process.env.NEXT_PUBLIC_SUPERFLUID_RESOLVER_ADDRESS,
+					protocolReleaseVersion: "test"
+				};
 				break;
 			case 'docker':
 				this.openqIndexableTokens = tokensIndexable;
 				this.openqEnumerableTokens = tokensEnumerable;
+				this.options = {
+					chainId: 31337,
+					dataMode: 'WEB3_ONLY',
+					resolverAddress: process.env.NEXT_PUBLIC_SUPERFLUID_RESOLVER_ADDRESS,
+					protocolReleaseVersion: "test"
+				};
 				break;
 			case 'staging':
 				this.openqIndexableTokens = tokensIndexable;
 				this.openqEnumerableTokens = tokensEnumerable;
+				this.options = {
+					chainId: 137
+				};
 				break;
 			case 'production':
 				this.openqIndexableTokens = tokensIndexable;
 				this.openqEnumerableTokens = tokensEnumerable;
+				this.options = {
+					chainId: 137
+				};
 				break;
 		}
 	}
@@ -41,13 +51,7 @@ class SuperfluidClient {
 	async createInstance(library) {
 		try {
 			if (!this.instance) {
-				const tempInstance = await Framework.create({
-					chainId: 31337,
-					provider: library,
-					dataMode: 'WEB3_ONLY',
-					resolverAddress: process.env.NEXT_PUBLIC_SUPERFLUID_RESOLVER_ADDRESS,
-					protocolReleaseVersion: "test"
-				});
+				const tempInstance = await Framework.create({ ...this.options, provider: library });
 				this.instance = tempInstance;
 				return tempInstance;
 			}
