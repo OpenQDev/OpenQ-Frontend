@@ -51,7 +51,7 @@ const Dropdown = ({ toggleFunc, toggleVal, names, title, borderShape, width = 44
 					})}
 				</div></div>
 			<button onClick={() => updateOpen(() => !open)} className=" align-self-start px-2 h-10 bg-inactive-gray w-12 rounded-lg">
-				<Image className="z-10" width="20" height="40" src="/chevron-down.svg" />
+				<Image className="z-10" width="20" height="40" src="/arrow-drop-down.svg" />
 			</button>
 		</div>);
 };
