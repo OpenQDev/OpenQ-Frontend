@@ -71,7 +71,6 @@ class SuperfluidClient {
 		return this.signer;
 	}
 
-	// UPGRADE + CREATE STREAM
 	async approve(library, address, amount) {
 		const amountInWei = ethers.utils.parseEther(amount);
 		const superToken = await this.loadSuperToken(
@@ -110,15 +109,12 @@ class SuperfluidClient {
 	async upgradeAndCreateFlowBacth(library, address, amountPerDay, sender, receiver) {
 		const instance = await this.createInstance(library);
 		const signer = await this.createSigner(library);
-
 		const allowance = await this.allowance(library, sender, address);
-
 		const upgradeOp = await this.upgradeToken(
 			library,
 			address,
 			ethers.utils.parseEther(amountPerDay.toString())
 		);
-
 		const createFlowOp = await this.superTokenCreateFlow(
 			library,
 			address,
@@ -126,7 +122,6 @@ class SuperfluidClient {
 			receiver,
 			this.calculateFlowRateInWeiPerSecond(amountPerDay),
 		);
-
 		return await instance.batchCall([
 			upgradeOp,
 			createFlowOp
@@ -136,9 +131,7 @@ class SuperfluidClient {
 	async updateFlow(library, sender, receiver, amountPerDay, address) {
 		const instance = await this.createInstance(library);
 		const signer = await this.createSigner(library);
-
 		const allowance = await this.allowance(library, sender, address);
-
 		const updateFlowOp = instance.cfaV1.updateFlow({
 			superToken: address,
 			sender,
@@ -161,7 +154,6 @@ class SuperfluidClient {
 		const instance = await this.createInstance(library);
 		const signer = await this.createSigner(library);
 		const superToken = await this.loadSuperToken(library, address);
-		console.log(superToken);
 		const downgradeOp = superToken.downgrade({
 			amount: amountInWei.toString(),
 		});
