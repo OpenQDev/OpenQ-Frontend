@@ -60,6 +60,23 @@ export const GET_USER_BY_HASH = gql`query($userAddress: String!) {
   }
 }`;
 
+export const GET_IS_BLACKLISTED=gql`
+query($address: String!){
+  bounty(address:$address){
+    blacklisted
+		tvl
+    address
+  }
+}`;
+
+export const GET_ORG = gql`
+query getOrg($organizationId: String!){
+  organization(organizationId: $organizationId){
+    blacklisted
+  }
+}
+`;
+
 export const WATCH_BOUNTY = gql`
 mutation AddUser ($contractAddress: String, $userAddress: String){
   watchBounty(contractAddress: $contractAddress, userAddress:$userAddress) {

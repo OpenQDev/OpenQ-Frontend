@@ -1,4 +1,5 @@
 import axios from "axios";
+import { reject } from "lodash";
 class OpenQPrismaClient {
 	constructor() { }
 
@@ -29,7 +30,7 @@ class OpenQPrismaClient {
 		return promise;
 	}
 
-	async updateBounty(id, tvl ) {
+	async updateBounty(id, tvl) {
 		const promise = new Promise(async (resolve, reject) => {
 			axios.get(`http://localhost:3030/tvl`)
 				.then(result => {
@@ -42,7 +43,21 @@ class OpenQPrismaClient {
 		return promise;
 	}
 
-	async watchBounty(contractAddress, userAddress ) {
+	getOrgMetadata() {
+		const promise = new Promise(async (resolve,) => {
+			resolve({});
+		});
+		return promise;
+	}
+
+	getBlackListed(addresses){
+		const promise = new Promise(async (resolve,) => {
+			resolve(addresses.map(address=>{return {address}}));
+		});
+		return promise
+	}
+
+	async watchBounty(contractAddress, userAddress) {
 		const promise = new Promise(async (resolve, reject) => {
 			axios.get(`http://localhost:3030/tokenPrice`)
 				.then(result => {
@@ -55,7 +70,7 @@ class OpenQPrismaClient {
 		return promise;
 	}
 
-	async unWatchBounty(contractAddress, userAddress ) {
+	async unWatchBounty(contractAddress, userAddress) {
 		const promise = new Promise(async (resolve, reject) => {
 			axios.get(`http://localhost:3030/tokenPrice`)
 				.then(result => {
@@ -70,7 +85,7 @@ class OpenQPrismaClient {
 
 
 	async getBounty(contractAddress) {
-		const promise = new Promise(async (resolve, reject)=>{
+		const promise = new Promise(async (resolve, reject) => {
 			axios.get(`http://localhost:3030/prismaBounty`)
 				.then(result => {
 					resolve(result.data);
@@ -83,10 +98,10 @@ class OpenQPrismaClient {
 		return promise;
 	}
 	async getUser(userAddress) {
-		const promise = new Promise(async (resolve, reject)=>{
+		const promise = new Promise(async (resolve, reject) => {
 			axios.get(`http://localhost:3030/watchedBounties`)
 				.then(result => {
-					resolve({watchedBounties: result.data});
+					resolve({ watchedBounties: result.data });
 				})
 				.catch(error => {
 					reject(error);

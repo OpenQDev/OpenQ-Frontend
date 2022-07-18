@@ -13,6 +13,7 @@ import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubg
 import WrappedGithubClient from '../../services/github/WrappedGithubClient';
 import Utils from '../../services/utils/Utils';
 import useAuth from '../../hooks/useAuth';
+import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
 
 const organization = ({ organizationData, fullBounties, batch, renderError }) => {
 	useAuth();
@@ -43,7 +44,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError }) =>
 
 			}
 			catch (err) {
-				console.log(err);
+				console.log('could not fetch watched bounties');
 			}
 		}
 		else {
@@ -120,6 +121,7 @@ export const getServerSideProps = async (context) => {
 	const { organization } = context.params;
 	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
 	const githubRepository = new WrappedGithubClient();
+	const openQPrismaClient = new WrappedOpenQPrismaClient;
 	const utils = new Utils();
 	githubRepository.instance.setGraphqlHeaders();
 
@@ -139,14 +141,17 @@ export const getServerSideProps = async (context) => {
 	mergedOrgData = { ...org, ...orgData };
 	const bounties = mergedOrgData.bountiesCreated || [];
 	const bountyIds = bounties.map((bounty) => bounty.bountyId);
+	const bountyAddresses = bounties.map((bounty)=>bounty.bountyAddress);
 	let issueData;
+	let metaData;
 	try {
 		issueData = await githubRepository.instance.getIssueData(bountyIds);
+		metaData = await openQPrismaClient.instance.getBlackListed(bountyAddresses);
 	}
 	catch (err) {
 		console.log(err);
 	}
-	const fullBounties = utils.combineBounties(bounties, issueData);
+	const fullBounties = utils.combineBounties(bounties, issueData, metaData);
 
 
 	return { props: { organization, organizationData: mergedOrgData, fullBounties, completed: bounties.length < 10, batch } };

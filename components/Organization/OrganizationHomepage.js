@@ -24,11 +24,11 @@ const OrganizationHomepage = ({orgs}) => {
 				<div className="grid grid-cols-[repeat(_auto-fill,_192px)] gap-4 justify-center lg:justify-between mx-auto">
 					{orgs
 						.filter((organization) => {
-							return organizationSearchTerm
+							return(!organization?.blacklisted) && (organizationSearchTerm
 								? organization.name
 									.toLowerCase()
 									.indexOf(organizationSearchTerm.toLowerCase()) > -1
-								: organization;
+								: organization);
 						})
 						.map((organization) => {
 							return (
