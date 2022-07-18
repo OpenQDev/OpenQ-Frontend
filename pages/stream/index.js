@@ -50,8 +50,17 @@ const stream = () => {
 		console.log(value);
 		setApproveTransferState(TRANSFERRING);
 	};
-	const stream = async(recipient,  flowRate)=>{
+	const stream = async(recipient,  flowRate, type)=>{
+		console.log(recipient)
+switch(type){
+
+	case "create":
 		await	createNewFlowAndUpgrade(recipient,  flowRate);
+		break;
+		case "update":
+		await updateFlow(recipient, flowRate)
+		break;
+}
 		setApproveTransferState(SUCCESS);
 	};
 
@@ -86,7 +95,7 @@ const stream = () => {
 		}
 	}
 
-	async function updateFlow(recipient, callback) {
+	async function updateFlow(recipient, flowRate) {
 		try {
 			const tx = await appState.superfluidClient.updateFlow(
 				library,
@@ -107,13 +116,11 @@ const stream = () => {
 				Receiver: ${recipient},
 				FlowRate: ${flowRateDisplay}`
 			);
-			callback();
 		} catch (error) {
 			console.log(
 				'Hmmm, your transaction threw an error. Make sure that this stream does exist, and that you\'ve entered a valid Ethereum address!'
 			);
 			console.error(error);
-			callback();
 		}
 	}
 
@@ -198,7 +205,7 @@ const stream = () => {
 			/>
 
 			{showModal&&<ApproveFundModal resetState={()=>setShowModal(false)} 
-				stream = {stream} transactionHash={''} setShowApproveTransferModal={setShowModal} confirmMethod={approve} approveTransferState={approveTransferState} error={{}} const token ={token} bountyAddress={'asdfas2dsa'}/>}
+				stream = {stream} transactionHash={''} setShowApproveTransferModal={setShowModal} confirmMethod={approve} approveTransferState={approveTransferState} error={{}} const token ={token}/>}
 			<button className={(!volume  ) ? 'confirm-btn-disabled': 'confirm-btn'} disabled={!volume } onClick={()=>setShowModal(true)}>Show modal</button>
 			<div className="ml-12">
 				<h2 className="mb-5 text-2xl">

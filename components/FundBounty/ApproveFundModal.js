@@ -34,8 +34,6 @@ const ApproveFundModal = ({
 	console.log((stream)? true: false);
 	const modal = useRef();
 	const [recipient, setRecipient] = useState('');
-	const [finalizedRecipient, setFinalizedRecipient] = useState();
-	const [finalizedFlowRate, setFinalizedFlowRate] = useState();
 	const [flowRate, setFlowRate] = useState('');
 	const updateModal = () => {
 		resetState();
@@ -63,7 +61,7 @@ const ApproveFundModal = ({
 		[CONFIRM]: 'Confirm Deposit',
 		[APPROVING]: approvingTitle || 'Approve',
 		[TRANSFERRING]: 'Transfer',
-		[SUCCESS]: 'Transfer Complete!',
+		[SUCCESS]: 'Transfer Complete!', 
 		[ERROR]: `${error.title}`,
 	};
 	let approveStyles = {
@@ -110,7 +108,6 @@ const ApproveFundModal = ({
 	const handleFlowRateChange = (e) => {
 		setFlowRate(e.target.value);
 	};
-
 	volume =Math.round(volume*Math.pow(10, 10))/Math.pow(10, 10);
 
 	return (
@@ -149,7 +146,7 @@ const ApproveFundModal = ({
 										<div className='flex flex-wrap justify-between w-[120px] gap-2'><Image width={24} className="inline" height={24} src={token.path || token.logoURI||'/crypto-logs/ERC20.svg'} /><span>{!stream && volume} {token.symbol}</span></div>
 										<span>To</span>
 										
-										<CopyAddressToClipboard data={bountyAddress} clipping={[5, 38]} />
+										 <CopyAddressToClipboard data={bountyAddress || recipient} clipping={[5, 38]} /> 
 										
 										{bounty?.url &&<><span>For</span> <Link href={bounty.url}><a target="_blank" rel="noopener noreferrer" className='underline'>{bounty.title}</a></Link></>}
 										<span>Transaction</span>
@@ -169,8 +166,8 @@ const ApproveFundModal = ({
 										<div className='w-4'>Funding</div>
 										<div className='flex flex-wrap justify-between w-[120px] gap-2'><Image width={24} className="inline" height={24} src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'} /><span>{!stream && volume} {token.symbol}</span></div>
 										<span className='py-2'>To</span>
-										<div className={`flex ${ !finalizedRecipient && 'border border-web-gray rounded-lg py-px'} pl-2 `}>
-											{stream && !finalizedRecipient ?
+										<div className={`flex 'border border-web-gray rounded-lg py-px' pl-2 `}>
+											{stream && 
 												<>
 													<input className='bg-transparent py-px outline-none'
 														type="text"
@@ -179,18 +176,7 @@ const ApproveFundModal = ({
 														onChange={handleRecipientChange}
 														placeholder="Enter recipient wallet address"
 													/>
-													<button onClick={()=>setFinalizedRecipient(recipient)}>										
-														<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-10 px-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-															<path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-														</svg>
-													</button>
-												</> :
-												<>
-													<CopyAddressToClipboard data={bountyAddress || finalizedRecipient} clipping={[5, 38]} />
-													<button onClick={()=>setFinalizedRecipient()}><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-10 px-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-														<path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-													</svg>
-													</button>										
+																					
 												</> }
 											
 										</div>
@@ -199,8 +185,8 @@ const ApproveFundModal = ({
 											<span>For</span><Link href={bounty.url}><a target="_blank" rel="noopener noreferrer" className='underline'>{bounty.title}</a></Link>
 										</>}
 										{stream && <span className='py-2'>Flow Rate</span>}
-										<div className={`flex ${ !finalizedFlowRate && 'border border-web-gray rounded-lg py-px'} pl-2 `}>
-											{stream && !finalizedFlowRate ?
+										<div className={`flex 'border border-web-gray rounded-lg py-px' pl-2 `}>
+											{stream && 
 												<>
 													<input className='bg-transparent py-px outline-none'
 														type="text"
@@ -208,19 +194,7 @@ const ApproveFundModal = ({
 														value={flowRate}
 														onChange={handleFlowRateChange}
 														placeholder="Enter a flowRate in tokens/day"
-													/>
-													<button onClick={()=>setFinalizedFlowRate(flowRate)}>										
-														<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-10 px-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-															<path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-														</svg>
-													</button>
-												</> :
-												<>
-													<CopyAddressToClipboard data={bountyAddress || finalizedRecipient} clipping={[5, 38]} />
-													<button onClick={()=>setFinalizedFlowRate()}><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-10 px-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-														<path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-													</svg>
-													</button>										
+													/>								
 												</> }
 											
 										</div>
@@ -235,9 +209,14 @@ const ApproveFundModal = ({
 											</button>
 
 											{stream ?
-												<button onClick={()=>stream(finalizedRecipient, flowRate)} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg`}>
+											<>
+												<button onClick={()=>stream(recipient, flowRate, "create")} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg`}>
 													<span>Create Stream</span>
 												</button>
+												<button onClick={()=>stream(recipient, flowRate, "update")} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg`}>
+													<span>Update Stream</span>
+												</button>
+												</>
 												:<div className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg`}>
 													<span>{approveTransferState === TRANSFERRING ? 'Funding' : 'Fund'}</span>
 													{approveTransferState === TRANSFERRING &&  <LoadingIcon className={'inline pt-1'} />}
