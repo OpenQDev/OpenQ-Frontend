@@ -75,7 +75,6 @@ class SuperfluidClient {
 			address
 		);
 		const unwrappedToken = superToken.underlyingToken.contract.connect(library.getSigner());
-		console.log('unwrappedToken', unwrappedToken);
 		try {
 			const tx = await unwrappedToken.approve(address, amountInWei);
 			await tx.wait();
@@ -106,18 +105,16 @@ class SuperfluidClient {
 
 	async upgradeAndCreateFlowBacth(library, address, amountPerDay, sender, receiver) {
 		const instance = await this.createInstance(library);
+		console.log(instance);
 		const signer = await this.createSigner(library);
 
 		const allowance = await this.allowance(library, sender, address);
-		console.log('allowance', allowance);
 
 		const upgradeOp = await this.upgradeToken(
 			library,
 			address,
 			ethers.utils.parseEther(amountPerDay.toString())
 		);
-
-		console.log('ethers.utils.parseEther(amountPerDay.toString())', ethers.utils.parseEther(amountPerDay.toString()).toString());
 
 		const createFlowOp = await this.superTokenCreateFlow(
 			library,
@@ -138,7 +135,6 @@ class SuperfluidClient {
 		const signer = await this.createSigner(library);
 
 		const allowance = await this.allowance(library, sender, address);
-		console.log('allowance', allowance);
 
 		const updateFlowOp = instance.cfaV1.updateFlow({
 			superToken: address,
@@ -230,7 +226,6 @@ class SuperfluidClient {
 
 	calculateFlowRateInWeiPerSecond(amountPerDay) {
 		const parsedAmountPerDayInWei = ethers.utils.parseEther(amountPerDay.toString());
-		console.log('parsedAmountPerDayInWei', parsedAmountPerDayInWei.toString());
 		const flowRateInWeiPerSecond = parsedAmountPerDayInWei.div(
 			ethers.utils.formatUnits(60 * 60 * 24, 0)
 		);
