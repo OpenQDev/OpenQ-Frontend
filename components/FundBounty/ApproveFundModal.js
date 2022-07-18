@@ -59,9 +59,9 @@ const ApproveFundModal = ({
 	}, [modal, approveTransferState]);
 
 	let title = {
-		[CONFIRM]: 'Confirm Deposit',
+		[CONFIRM]: stream ? 'Approve Stream' : 'Confirm Deposit',
 		[APPROVING]: approvingTitle || 'Approve',
-		[TRANSFERRING]: 'Transfer',
+		[TRANSFERRING]:  stream ? 'Create/Update Stream' : 'Transfer',
 		[SUCCESS]: 'Transfer Complete!', 
 		[ERROR]: `${error.title}`,
 	};
@@ -149,7 +149,7 @@ const ApproveFundModal = ({
 										<div className='flex flex-wrap justify-between w-[120px] gap-2'><Image width={24} className="inline" height={24} src={token.path || token.logoURI||'/crypto-logs/ERC20.svg'} /><span>{!stream && volume} {token.symbol}</span></div>
 										<span>To</span>
 										
-										 <CopyAddressToClipboard data={bountyAddress || recipient} clipping={[5, 38]} /> 
+										<CopyAddressToClipboard data={bountyAddress || recipient} clipping={[5, 38]} /> 
 										
 										{bounty?.url &&<><span>For</span> <Link href={bounty.url}><a target="_blank" rel="noopener noreferrer" className='underline'>{bounty.title}</a></Link></>}
 										<span>Transaction</span>
@@ -165,11 +165,11 @@ const ApproveFundModal = ({
 									</div>
 								</> :
 								<>
-									<div className="text-md gap-4 py-6 px-4 grid grid-cols-[1fr_1fr] w-full justify-between">
+									<div className="text-md gap-4 py-6 px-2 grid grid-cols-[1fr_1fr] w-full justify-between">
 										<div className='w-4'>Funding</div>
 										<div className='flex flex-wrap justify-between w-[120px] gap-2'><Image width={24} className="inline" height={24} src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'} /><span>{!stream && volume} {token.symbol}</span></div>
 										<span className='py-2'>To</span>
-										<div className={`flex 'border border-web-gray rounded-lg py-px' pl-2 `}>
+										<div className={'flex border border-web-gray rounded-lg py-px pl-2 '}>
 											{stream && 
 												<>
 													<input className='bg-transparent py-px outline-none'
@@ -177,7 +177,7 @@ const ApproveFundModal = ({
 														name="flowRate"
 														value={recipient}
 														onChange={handleRecipientChange}
-														placeholder="Enter recipient wallet address"
+														placeholder="recipient address"
 													/>
 																					
 												</> }
@@ -188,7 +188,7 @@ const ApproveFundModal = ({
 											<span>For</span><Link href={bounty.url}><a target="_blank" rel="noopener noreferrer" className='underline'>{bounty.title}</a></Link>
 										</>}
 										{stream && <span className='py-2'>Flow Rate</span>}
-										<div className={`flex 'border border-web-gray rounded-lg py-px' pl-2 `}>
+										<div className={'flex border border-web-gray rounded-lg py-px pl-2 '}>
 											{stream && 
 												<>
 													<input className='bg-transparent py-px outline-none'
@@ -196,7 +196,7 @@ const ApproveFundModal = ({
 														name="flowRate"
 														value={flowRate}
 														onChange={handleFlowRateChange}
-														placeholder="Enter a flowRate in tokens/day"
+														placeholder="flow rate in tokens/day"
 													/>								
 												</> }
 											
@@ -204,7 +204,7 @@ const ApproveFundModal = ({
 
 									</div>
 									{token.address !== '0x0000000000000000000000000000000000000000' ?
-										<div className='flex w-71 justify-evenly px-1.5 gap-2 border-web-gray border rounded-lg py-1.5 self-center'>
+										<div className='flex w-full justify-evenly px-1.5 gap-2 border-web-gray border rounded-lg py-1.5 self-center'>
 											<button onClick={confirmMethod} disabled={approveTransferState !== CONFIRM} className={`text-center border px-2 flex  gap-2 py-1.5 ${approveTransferState === CONFIRM ? 'cursor-pointer' : null} ${approveStyles[approveTransferState]} rounded-lg`}>
 												<span>{approveTransferState === CONFIRM ? 'Approve' : approveTransferState === APPROVING ? 'Approving' : 'Approved'}
 												</span>
@@ -212,13 +212,13 @@ const ApproveFundModal = ({
 											</button>
 
 											{stream ?
-											<>
-												<button disabled={isCreateDisabled} onClick={()=>stream(recipient, flowRate, "create")} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg ${isCreateDisabled ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`}>
-													<span>Create Stream</span>
-												</button>
-												<button onClick={()=>stream(recipient, flowRate, "update")} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg`}>
-													<span>Update Stream</span>
-												</button>
+												<>
+													<button disabled={false} onClick={()=>stream(recipient, flowRate, 'create')} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg ${isCreateDisabled ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`}>
+														<span>Create Stream</span>
+													</button>
+													<button disabled={isCreateDisabled} onClick={()=>stream(recipient, flowRate, 'update')} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg ${isCreateDisabled ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`}>
+														<span>Update Stream</span>
+													</button>
 												</>
 												:<div className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg`}>
 													<span>{approveTransferState === TRANSFERRING ? 'Funding' : 'Fund'}</span>

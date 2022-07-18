@@ -141,6 +141,24 @@ const jsonRpcErrors =
 		},
 
 		{
+			'CFA_EXISTS' : {
+				title: 'Stream Already Created',
+				message: () => {
+					return 'Stream already created. If you\'d like to change the terms of your stream, please use the update button';
+				}
+			},
+
+		},
+		{'CFA_DOES_NOT_EXIST':
+		{
+			title: 'No Stream to this Address',
+			message: () => {
+				return 'Stream hasn\'t been created to this address. If you\'d like to create a new stream please choose the Create Stream option';}
+		
+		},
+		},
+
+		{
 			'CALL_EXCEPTION': {
 				title: 'Polygon Call Exception',
 				message: () => {

@@ -282,10 +282,14 @@ class OpenQClient {
 			if (jsonRpcError.message.includes('MetaMask is having trouble connecting to the network')) { miscError = 'METAMASK_HAVING_TROUBLE'; }
 			if (jsonRpcError.message.includes('Internal JSON-RPC error')) { miscError = 'INTERNAL_ERROR'; }
 			if (jsonRpcError.message.includes('Set a higher gas fee')) { miscError = 'UNDERPRICED_TXN'; }
+			if (jsonRpcError.message.includes('CFA: flow does not exist')) { miscError = 'CFA_DOES_NOT_EXIST'; }
+			if (jsonRpcError.message.includes('CFA: flow already exist')) { miscError = 'CFA_EXISTS'; }
+		
 		}
 
 		if (!miscError) {
 			errorString = 'CALL_EXCEPTION';
+			miscError = 'CALL_EXCEPTION';
 		}
 
 		for (const error of jsonRpcErrors) {

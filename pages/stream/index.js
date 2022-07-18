@@ -1,16 +1,17 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import useWeb3 from '../../hooks/useWeb3';
 import { ethers } from 'ethers';
-import { Framework } from '@superfluid-finance/sdk-core';
 import ApproveFundModal from '../../components/FundBounty/ApproveFundModal';
-import { APPROVING, SUCCESS, TRANSFERRING } from '../../components/FundBounty/ApproveTransferState';
+import { APPROVING, ERROR, SUCCESS, TRANSFERRING } from '../../components/FundBounty/ApproveTransferState';
 import TokenFundBox from '../../components/FundBounty/SearchTokens/TokenFundBox';
 
 const stream = () => {
 	// CONTEXT
 	const [appState] = useContext(StoreContext);
-	const { activate, account, library } = useWeb3();
+	const [txnHash, setTxnHash] = useState('');
+	const [error, setError] = useState({});
+	const { account, library } = useWeb3();
 
 	// STATE
 	const [isButtonLoading, setIsButtonLoading] = useState(false);
@@ -42,12 +43,16 @@ const stream = () => {
 
 	const approve = async()=>{
 		setApproveTransferState(APPROVING);
-		const value =await	approveToken(volume, () => {
-			setIsButtonLoading(false);
-			setVolume('');
-		});
-		console.log(value);
-		setApproveTransferState(TRANSFERRING);
+		try{
+			await	approveToken(volume, () => {
+				setIsButtonLoading(false);
+				setVolume('');
+			});
+			setApproveTransferState(TRANSFERRING);}
+		catch(err){
+			const { message, title } = appState.openQClient.handleError(err);
+			setError({message, title});
+		}
 	};
 	const stream = async(recipient,  flowRate, type)=>{
 		console.log(recipient);
@@ -60,7 +65,6 @@ const stream = () => {
 			await updateFlow(recipient, flowRate);
 			break;
 		}
-		setApproveTransferState(SUCCESS);
 	};
 
 	async function createNewFlowAndUpgrade(recipient, flowRate) {
@@ -75,6 +79,7 @@ const stream = () => {
 			console.log('Creating your stream...');
 			await tx.wait();
 			console.log(tx);
+			setTxnHash(tx.hash);
 			console.log(
 				`Congrats - you've just created a money stream!
 				View Your Stream At: https://app.superfluid.finance/dashboard/${recipient}
@@ -84,11 +89,17 @@ const stream = () => {
 				Receiver: ${recipient}`
 
 			);
+			
+			setApproveTransferState(SUCCESS);
 		} catch (error) {
+			const { message, title } = appState.openQClient.handleError(error);
+			setError({message, title});
 			console.log(
 				'Hmmm, your transaction threw an error. Make sure that this stream does not already exist, and that you\'ve entered a valid Ethereum address!'
 			);
 			console.error(error);
+			setApproveTransferState(ERROR);
+
 		}
 	}
 
@@ -104,6 +115,7 @@ const stream = () => {
 			console.log('Updating your stream...');
 			await tx.wait();
 			console.log(tx);
+			setTxnHash(tx.hash);
 			console.log(
 				`Congrats - you've just updated a money stream!
 				View Your Stream At: https://app.superfluid.finance/dashboard/${recipient}
@@ -112,11 +124,17 @@ const stream = () => {
 				Sender: 0xDCB45e4f6762C3D7C61a00e96Fb94ADb7Cf27721
 				Receiver: ${recipient}`
 			);
+			
+			setApproveTransferState(SUCCESS);
 		} catch (error) {
+			const { message, title } = appState.openQClient.handleError(error);
+			setError({message, title});
 			console.log(
 				'Hmmm, your transaction threw an error. Make sure that this stream does exist, and that you\'ve entered a valid Ethereum address!'
 			);
 			console.error(error);
+			
+			setApproveTransferState(ERROR);
 		}
 	}
 
@@ -149,7 +167,7 @@ const stream = () => {
 		}
 	}
 
-	function CreateButton({ isLoading, children, ...props }) {
+	function CreateButton({ children, ...props }) {
 		return (
 			<button
 				variant="success"
@@ -199,8 +217,9 @@ const stream = () => {
 				volume={volume}
 			/>
 
-			{showModal&&<ApproveFundModal resetState={()=>setShowModal(false)} 
-				stream = {stream} transactionHash={''} setShowApproveTransferModal={setShowModal} confirmMethod={approve} approveTransferState={approveTransferState} error={{}} const token ={token}/>}
+			{showModal&&<ApproveFundModal resetState={()=>{setShowModal(false); setApproveTransferState('CONFIRM');}} 
+				transactionHash={txnHash}
+				stream = {stream} setShowApproveTransferModal={setShowModal} confirmMethod={approve} approveTransferState={approveTransferState} error={error} const token ={token}/>}
 			<button className={(!volume  ) ? 'confirm-btn-disabled': 'confirm-btn'} disabled={!volume } onClick={()=>setShowModal(true)}>Show modal</button>
 			<div className="ml-12">
 				<h2 className="mb-5 text-2xl">
