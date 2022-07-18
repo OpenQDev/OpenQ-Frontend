@@ -1,6 +1,7 @@
 // Third party
 import React, { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { ethers } from 'ethers';
 
 // Custom
 import {
@@ -105,10 +106,8 @@ const ApproveFundModal = ({
 		setRecipient(e.target.value);
 	};
 
-	const isCreateDisabled = (address, volume )=>{
-		ethers.utils.isAddress(address) && 
-	}
-
+	const isCreateDisabled = !recipient || !flowRate || !ethers.utils.isAddress(recipient) || isNaN(flowRate);
+	
 	const handleFlowRateChange = (e) => {
 		setFlowRate(e.target.value);
 	};
@@ -214,7 +213,7 @@ const ApproveFundModal = ({
 
 											{stream ?
 											<>
-												<button disabled={false} onClick={()=>stream(recipient, flowRate, "create")} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg`}>
+												<button disabled={isCreateDisabled} onClick={()=>stream(recipient, flowRate, "create")} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg ${isCreateDisabled ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`}>
 													<span>Create Stream</span>
 												</button>
 												<button onClick={()=>stream(recipient, flowRate, "update")} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg`}>
