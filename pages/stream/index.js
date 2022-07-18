@@ -1,8 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import useWeb3 from '../../hooks/useWeb3';
-import { ethers } from "ethers";
-import { Framework } from "@superfluid-finance/sdk-core";
+import { ethers } from 'ethers';
+import { Framework } from '@superfluid-finance/sdk-core';
+import ApproveFundModal from '../../components/FundBounty/ApproveFundModal';
+import { APPROVING, SUCCESS, TRANSFERRING } from '../../components/FundBounty/ApproveTransferState';
+import TokenFundBox from '../../components/FundBounty/SearchTokens/TokenFundBox';
 
 const stream = () => {
 	// CONTEXT
@@ -10,26 +13,49 @@ const stream = () => {
 	const { activate, account, library } = useWeb3();
 
 	// STATE
-	const [recipient, setRecipient] = useState("");
 	const [isButtonLoading, setIsButtonLoading] = useState(false);
-	const [flowRate, setFlowRate] = useState("");
-	const [flowRateDisplay, setFlowRateDisplay] = useState("");
-	const [amount, setAmount] = useState("");
+	const [flowRateDisplay, setFlowRateDisplay] = useState('');
+	const [showModal, setShowModal] = useState();
+	const [approveTransferState, setApproveTransferState] = useState('CONFIRM');
+	const [volume, setVolume] = useState('');
 
-	const [fDaiAddress, setFDaiAddress] = useState("");
+	const [fDaiAddress, setFDaiAddress] = useState('');
 	const [fDaiXAddress, setFDaiXAddress] = useState(process.env.NEXT_PUBLIC_FDAIX_ADDRESS);
+	
+	const zeroAddressMetadata = {
+		name: 'fDaiX',
+		address: '0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f',
+		symbol: 'FDAIX',
+		decimals: 18,
+		chainId: 80001,
+		path: '/crypto-logos/FDAIX.svg'
+	};
+	const [token, setToken] = useState(zeroAddressMetadata);
 
-	async function approveToken(amount, callback) {
+	async function approveToken(volume, callback) {
 		try {
-			await appState.superfluidClient.approve(library, fDaiXAddress, amount);
-			callback();
+			return	await appState.superfluidClient.approve(library, fDaiXAddress, volume);
 		} catch (error) {
 			console.log(error);
 			callback();
 		}
 	}
 
-	async function createNewFlowAndUpgrade(recipient, callback) {
+	const approve = async()=>{
+		setApproveTransferState(APPROVING);
+		const value =await	approveToken(volume, () => {
+			setIsButtonLoading(false);
+			setVolume('');
+		});
+		console.log(value);
+		setApproveTransferState(TRANSFERRING);
+	};
+	const stream = async(recipient,  flowRate)=>{
+		await	createNewFlowAndUpgrade(recipient,  flowRate);
+		setApproveTransferState(SUCCESS);
+	};
+
+	async function createNewFlowAndUpgrade(recipient, flowRate) {
 		console.log('flowRate', flowRate);
 		try {
 			const tx = await appState.superfluidClient.upgradeAndCreateFlowBacth(
@@ -39,7 +65,7 @@ const stream = () => {
 				account,
 				recipient
 			);
-			console.log("Creating your stream...");
+			console.log('Creating your stream...');
 			await tx.wait();
 			console.log(tx);
 			console.log(
@@ -49,15 +75,14 @@ const stream = () => {
 				Super Token: fDAIx
 				Sender: 0xDCB45e4f6762C3D7C61a00e96Fb94ADb7Cf27721
 				Receiver: ${recipient},
+
 				FlowRate: ${flowRateDisplay}`
 			);
-			callback();
 		} catch (error) {
 			console.log(
-				"Hmmm, your transaction threw an error. Make sure that this stream does not already exist, and that you've entered a valid Ethereum address!"
+				'Hmmm, your transaction threw an error. Make sure that this stream does not already exist, and that you\'ve entered a valid Ethereum address!'
 			);
 			console.error(error);
-			callback();
 		}
 	}
 
@@ -70,7 +95,7 @@ const stream = () => {
 				flowRate,
 				fDaiXAddress,
 			);
-			console.log("Updating your stream...");
+			console.log('Updating your stream...');
 			await tx.wait();
 			console.log(tx);
 			console.log(
@@ -85,7 +110,7 @@ const stream = () => {
 			callback();
 		} catch (error) {
 			console.log(
-				"Hmmm, your transaction threw an error. Make sure that this stream does exist, and that you've entered a valid Ethereum address!"
+				'Hmmm, your transaction threw an error. Make sure that this stream does exist, and that you\'ve entered a valid Ethereum address!'
 			);
 			console.error(error);
 			callback();
@@ -100,7 +125,7 @@ const stream = () => {
 				recipient,
 				fDaiXAddress,
 			);
-			console.log("Deleting your stream...");
+			console.log('Deleting your stream...');
 			await tx.wait();
 			console.log(tx);
 			console.log(
@@ -115,7 +140,7 @@ const stream = () => {
 			callback();
 		} catch (error) {
 			console.log(
-				"Hmmm, your transaction threw an error. Make sure that this stream  exist, and that you've entered a valid Ethereum address!"
+				'Hmmm, your transaction threw an error. Make sure that this stream  exist, and that you\'ve entered a valid Ethereum address!'
 			);
 			console.error(error);
 			callback();
@@ -135,16 +160,9 @@ const stream = () => {
 		);
 	}
 
-	const handleRecipientChange = (e) => {
-		setRecipient(() => ([e.target.name] = e.target.value));
-	};
 
-	const handleFlowRateChange = (e) => {
-		setFlowRate(e.target.value);
-	};
-
-	const handleAmountChange = (e) => {
-		setAmount(e.target.value);
+	const handleVolumeChange = (e) => {
+		setVolume(e.target.value);
 	};
 
 	const handleAddressChange = (e) => {
@@ -154,9 +172,34 @@ const stream = () => {
 	const handleAddressChangefDaix = (e) => {
 		setFDaiXAddress(e.target.value);
 	};
+	
+
+	function onCurrencySelect(token) {
+		setToken({ ...token, address: ethers.utils.getAddress(token.address) });
+	}
+	
+
+	function onVolumeChange(volume) {
+		const numberRegex = /^(\d+)?(\.)?(\d+)?$/;
+		if (numberRegex.test(volume) || volume === '' || volume === '.') {
+			setVolume(volume.match(numberRegex)[0]);
+		}
+	}
 
 	return (
 		<div className="flex flex-col items-center w-full">
+		
+
+			<TokenFundBox
+				onCurrencySelect={onCurrencySelect}
+				onVolumeChange={onVolumeChange}
+				token={token}
+				volume={volume}
+			/>
+
+			{showModal&&<ApproveFundModal resetState={()=>setShowModal(false)} 
+				stream = {stream} transactionHash={''} setShowApproveTransferModal={setShowModal} confirmMethod={approve} approveTransferState={approveTransferState} error={{}} const token ={token} bountyAddress={'asdfas2dsa'}/>}
+			<button className={(!volume  ) ? 'confirm-btn-disabled': 'confirm-btn'} disabled={!volume } onClick={()=>setShowModal(true)}>Show modal</button>
 			<div className="ml-12">
 				<h2 className="mb-5 text-2xl">
 					FDAI Address
@@ -196,23 +239,13 @@ const stream = () => {
 					Approve Tokens
 				</h2>
 				<form>
-					<div className="mb-5 text-black">
-						<input
-							type="text"
-							name="recipient"
-							value={amount}
-							onChange={handleAmountChange}
-							placeholder="amount of tokens"
-							className="w-full h-8"
-						/>
-					</div>
 					<CreateButton
 						onClick={(e) => {
 							e.preventDefault();
 							setIsButtonLoading(true);
-							approveToken(amount, () => {
+							approveToken(volume, () => {
 								setIsButtonLoading(false);
-								setAmount('');
+								setVolume('');
 							});
 						}}
 					>
@@ -225,45 +258,12 @@ const stream = () => {
 					Create a Flow
 				</h2>
 				<form>
-					<div className="mb-3 text-black">
-						<input
-							type="text"
-							name="recipient"
-							value={recipient}
-							onChange={handleRecipientChange}
-							placeholder="Enter the receiver Ethereum address"
-							className="w-full h-8"
-						/>
-					</div>
-					<div className="mb-3 text-black">
-						<input
-							type="text"
-							name="flowRate"
-							value={flowRate}
-							onChange={handleFlowRateChange}
-							placeholder="Enter a flowRate in units/day"
-							className="w-full h-8"
-						/>
-					</div>
-					<CreateButton
-						onClick={(e) => {
-							e.preventDefault();
-							setIsButtonLoading(true);
-							createNewFlowAndUpgrade(recipient, () => {
-								setIsButtonLoading(false);
-								setRecipient('');
-								setFlowRate('');
-								setFlowRateDisplay('');
-							});
-						}}
-					>
-						Click to Create Your Stream
-					</CreateButton>
+					
 					<div className="mb-3">
 						<div>
 							<p>Your flow will be equal to:</p>
 							<p>
-								<b>${flowRateDisplay !== " " ? flowRateDisplay : 0}</b> DAIx/day
+								<b>${flowRateDisplay !== ' ' ? flowRateDisplay : 0}</b> DAIx/day
 							</p>
 						</div>
 					</div>
@@ -274,45 +274,12 @@ const stream = () => {
 					Update a Flow
 				</h2>
 				<form>
-					<div className="mb-3 text-black">
-						<input
-							type="text"
-							name="recipient"
-							value={recipient}
-							onChange={handleRecipientChange}
-							placeholder="Enter the receiver Ethereum address"
-							className="w-full h-8"
-						/>
-					</div>
-					<div className="mb-3 text-black">
-						<input
-							type="text"
-							name="flowRate"
-							value={flowRate}
-							onChange={handleFlowRateChange}
-							placeholder="Enter a flowRate in units/day"
-							className="w-full h-8"
-						/>
-					</div>
-					<CreateButton
-						onClick={(e) => {
-							e.preventDefault();
-							setIsButtonLoading(true);
-							updateFlow(recipient, () => {
-								setIsButtonLoading(false);
-								setRecipient('');
-								setFlowRate('');
-								setFlowRateDisplay('');
-							});
-						}}
-					>
-						Click to Update Your Stream
-					</CreateButton>
+					
 					<div className="mb-3">
 						<div>
 							<p>Your flow will be equal to:</p>
 							<p>
-								<b>${flowRateDisplay !== " " ? flowRateDisplay : 0}</b> DAIx/day
+								<b>${flowRateDisplay !== ' ' ? flowRateDisplay : 0}</b> DAIx/day
 							</p>
 						</div>
 					</div>
@@ -323,28 +290,7 @@ const stream = () => {
 					Delete a Flow
 				</h2>
 				<form>
-					<div className="mb-3 text-black">
-						<input
-							type="text"
-							name="recipient"
-							value={recipient}
-							onChange={handleRecipientChange}
-							placeholder="Enter the receiver Ethereum address"
-							className="w-full h-8"
-						/>
-					</div>
-					<CreateButton
-						onClick={(e) => {
-							e.preventDefault();
-							setIsButtonLoading(true);
-							deleteFlow(recipient, () => {
-								setIsButtonLoading(false);
-								setRecipient('');
-							});
-						}}
-					>
-						Click to Delete Your Stream
-					</CreateButton>
+					
 				</form>
 			</div>
 		</div>
