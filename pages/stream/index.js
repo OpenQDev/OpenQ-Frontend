@@ -18,6 +18,7 @@ const stream = () => {
 
 	const [fDaiAddress, setFDaiAddress] = useState("");
 	const [fDaiXAddress, setFDaiXAddress] = useState(process.env.NEXT_PUBLIC_FDAIX_ADDRESS);
+	const [downgradeAmount, setDowngradeAmount] = useState("");
 
 	async function approveToken(amount, callback) {
 		try {
@@ -29,8 +30,19 @@ const stream = () => {
 		}
 	}
 
+	async function downgrade(address, amount) {
+		try {
+			const tx = await appState.superfluidClient.downgradeToken(library, address, amount);
+			console.log("Downgrading token...");
+			await tx.wait();
+			console.log(tx);
+			console.log(`Congrats - you've just downgraded back to ERC20!`);
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
 	async function createNewFlowAndUpgrade(recipient, callback) {
-		console.log('flowRate', flowRate);
 		try {
 			const tx = await appState.superfluidClient.upgradeAndCreateFlowBacth(
 				library,
@@ -141,6 +153,10 @@ const stream = () => {
 
 	const handleFlowRateChange = (e) => {
 		setFlowRate(e.target.value);
+	};
+
+	const handleDowngradeAmount = (e) => {
+		setDowngradeAmount(e.target.value);
 	};
 
 	const handleAmountChange = (e) => {
@@ -269,6 +285,25 @@ const stream = () => {
 					</div>
 				</form>
 			</div>
+			<div className="mb-3 text-black">
+				<input
+					type="text"
+					name="downgradeAmount"
+					value={downgradeAmount}
+					onChange={handleDowngradeAmount}
+					placeholder="Enter an amount to downgrade"
+					className="w-full h-8"
+				/>
+			</div>
+			<CreateButton
+				onClick={(e) => {
+					e.preventDefault();
+					setIsButtonLoading(true);
+					downgrade(fDaiXAddress, downgradeAmount);
+				}}
+			>
+				Click to Downgrade Your Token
+			</CreateButton>
 			<div>
 				<h2 className="mb-3 text-2xl">
 					Update a Flow
@@ -351,4 +386,4 @@ const stream = () => {
 	);
 };
 
-export default stream;
+export default stream;;;

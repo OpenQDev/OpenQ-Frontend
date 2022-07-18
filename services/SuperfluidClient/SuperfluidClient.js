@@ -105,7 +105,6 @@ class SuperfluidClient {
 
 	async upgradeAndCreateFlowBacth(library, address, amountPerDay, sender, receiver) {
 		const instance = await this.createInstance(library);
-		console.log(instance);
 		const signer = await this.createSigner(library);
 
 		const allowance = await this.allowance(library, sender, address);
@@ -153,12 +152,16 @@ class SuperfluidClient {
 	 * @returns 
 	 * @description Downgrading is essentially the equivalent of withdrawing from the stream
 	 */
-	async downgradeToken(library, amount, address) {
-		const superToken = this.loadSuperToken(library, address);
-		const upgradeOp = superToken.downgrade({
-			amount: amount.toString(),
+	async downgradeToken(library, address, amount) {
+		const amountInWei = ethers.utils.parseEther(amount);
+		const instance = await this.createInstance(library);
+		const signer = await this.createSigner(library);
+		const superToken = await this.loadSuperToken(library, address);
+		console.log(superToken);
+		const downgradeOp = superToken.downgrade({
+			amount: amountInWei.toString(),
 		});
-		return await upgradeOp.exec(signer);
+		return await downgradeOp.exec(signer);
 	}
 
 	async deleteFlow(library, sender, receiver, address) {
