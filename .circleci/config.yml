@@ -37,13 +37,6 @@ jobs:
               echo "" >> $(pwd)/.env
               echo "OPENQ_PROXY_ADDRESS=$OPENQ_PROXY_ADDRESS_PRODUCTION" >> $(pwd)/.env
             fi
-            if [ "$DEPLOY_ENV" = ethbarcelona ]; then
-              echo "$ethbarcelona_env" | base64 --decode > $(pwd)/.env
-              echo "" >> $(pwd)/.env
-              echo "PATS=$PATS_ETHBARCELONA" >> $(pwd)/.env
-              echo "" >> $(pwd)/.env
-              echo "OPENQ_PROXY_ADDRESS=$OPENQ_PROXY_ADDRESS_ETHBARCELONA" >> $(pwd)/.env
-            fi
       - run: cat .env
       - run: docker build -t openq/openq-frontend:$CIRCLE_TAG --build-arg deploy_env=$DEPLOY_ENV .
       - run: docker push openq/openq-frontend:$CIRCLE_TAG

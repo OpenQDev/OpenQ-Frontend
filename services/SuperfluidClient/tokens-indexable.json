@@ -1,18 +1,10 @@
 {
-	"0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f": {
-		"name": "fDaiX",
-		"address": "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f",
-		"symbol": "FDAIX",
+	"0xc6A3cE73483Eb37B0ed46a63cF6c0705cE74c8B9": {
+		"name": "Dai",
+		"address": "0xc6A3cE73483Eb37B0ed46a63cF6c0705cE74c8B9",
+		"symbol": "DAI",
 		"decimals": 18,
-		"chainId": 80001,
-		"path": "/crypto-logos/FDAIX.svg"
-	},
-	"0x15F0Ca26781C3852f8166eD2ebce5D18265cceb7": {
-		"name": "fDai",
-		"address": "0x15F0Ca26781C3852f8166eD2ebce5D18265cceb7",
-		"symbol": "FDAI",
-		"decimals": 18,
-		"chainId": 80001,
-		"path": "/crypto-logos/FDAI.svg"
+		"chainId": 31337,
+		"path": "/crypto-logos/DAI.svg"
 	}
 }
