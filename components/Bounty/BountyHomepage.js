@@ -16,7 +16,12 @@ const BountyHomepage = ({
 }) => {
   // Render
   return (
-    <div className="lg:grid lg:grid-cols-extra-wide mx-4 sm:mx-8 xl:grid-cols-wide justify-center">
+		<div>
+			<div className="text-center bg-[#161B22] py-14">
+					<div className="text-2xl font-bold">Explore Issues</div>
+					<div className="text-gray-500 text-md">GitHub issues backed by OpenQ escrows.</div>
+				</div>
+    	<div className="lg:grid lg:grid-cols-extra-wide mx-4 sm:mx-8 xl:grid-cols-wide justify-center">
       {error ? (
         <UnexpectedError />
       ) : (
@@ -31,6 +36,7 @@ const BountyHomepage = ({
         />
       )}
     </div>
+		</div>
   );
 };
 

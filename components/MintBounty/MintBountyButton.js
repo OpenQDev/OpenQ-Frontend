@@ -10,7 +10,7 @@ const MintBountyButton = () => {
     <>
       <button
         onClick={() => setShowModal(true)}
-        className="lg:col-start-4 col-span-4 lg:col-span-1 whitespace-nowrap create-new-button"
+        className="lg:col-start-4 col-span-4 lg:col-span-1 whitespace-nowrap btn-primary"
       >
         <div className="flex flex-row space-x-3 items-center justify-center">
           <div>
@@ -29,7 +29,7 @@ const MintBountyButton = () => {
               />
             </svg>
           </div>
-          <div>Deploy Contract</div>
+          <div>New Contract</div>
         </div>
       </button>
       {showModal && <MintBountyModal modalVisibility={setShowModal} />}

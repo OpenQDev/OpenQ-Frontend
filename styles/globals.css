@@ -97,8 +97,8 @@ pre {
 	.input-field-big {
 		@apply py-[4px] px-3 text-[0.9rem] tracking-wider placeholder-input-gray outline-none rounded-sm border border-border-gray bg-menu-bg
 	}
-	.create-new-button {
-		@apply bg-violet-600 font-bold rounded-sm py-[0.5rem]
+	.btn-primary{
+		@apply bg-[#26a641] font-bold rounded-sm py-[0.5rem] hover:bg-[#39d353]
 	}
   .layer-button {
     @apply rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer border-blue-400 text-gray-800 hover:bg-blue-400 hover:text-white;
