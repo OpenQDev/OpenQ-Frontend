@@ -238,7 +238,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 	return (
 		<div className="lg:col-start-2 justify-self-center space-y-3 w-full pb-8 max-w-[850px] pt-10">
 			<div className="grid lg:grid-cols-[repeat(4,_1fr)] gap-6 w-full">
-				<div className="flex rounded-lg lg:col-span-3 col-span-4 justify-center">
+				<div className="flex rounded-lg lg:col-span-3 col-span-4 gap-4 justify-center">
 					{tagSearch === 'Search' ?
 						<SearchBar
 							onKeyUp={handleSearchInput}
@@ -257,7 +257,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 							borderShape={'border-b border-l rounded-l-lg border-t w-36 sm:w-full'}
 						/>
 					}
-					<Dropdown toggleFunc={toggleTagSearch} title={tagSearch} width={44} names={['Search', 'Search by Tags']} borderShape={'rounded-r-lg'} />
+					<Dropdown toggleFunc={toggleTagSearch} title={tagSearch} width={44} names={['Search', 'Search by Tags']} borderShape={'rounded-sm'} />
 				</div>
 				<MintBountyButton />
 			</div>
