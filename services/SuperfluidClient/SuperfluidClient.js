@@ -1,46 +1,46 @@
-import { Framework } from "@superfluid-finance/sdk-core";
-import { ethers } from "ethers";
-import tokensIndexable from "./tokens-indexable.json";
-import tokensEnumerable from "./tokens-enumerable.json";
+import { Framework } from '@superfluid-finance/sdk-core';
+import { ethers } from 'ethers';
+import tokensIndexable from './tokens-indexable.json';
+import tokensEnumerable from './tokens-enumerable.json';
 
 class SuperfluidClient {
 
 	constructor() {
 		switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
-			case 'local':
-				this.openqIndexableTokens = tokensIndexable;
-				this.openqEnumerableTokens = tokensEnumerable;
-				this.options = {
-					chainId: 31337,
-					dataMode: 'WEB3_ONLY',
-					resolverAddress: process.env.NEXT_PUBLIC_SUPERFLUID_RESOLVER_ADDRESS,
-					protocolReleaseVersion: "test"
-				};
-				break;
-			case 'docker':
-				this.openqIndexableTokens = tokensIndexable;
-				this.openqEnumerableTokens = tokensEnumerable;
-				this.options = {
-					chainId: 31337,
-					dataMode: 'WEB3_ONLY',
-					resolverAddress: process.env.NEXT_PUBLIC_SUPERFLUID_RESOLVER_ADDRESS,
-					protocolReleaseVersion: "test"
-				};
-				break;
-			case 'staging':
-				this.openqIndexableTokens = tokensIndexable;
-				this.openqEnumerableTokens = tokensEnumerable;
-				this.options = {
-					chainId: 137
-				};
-				break;
-			case 'production':
-				this.openqIndexableTokens = tokensIndexable;
-				this.openqEnumerableTokens = tokensEnumerable;
-				this.options = {
-					chainId: 137
-				};
-				break;
+		case 'local':
+			this.openqIndexableTokens = tokensIndexable;
+			this.openqEnumerableTokens = tokensEnumerable;
+			this.options = {
+				chainId: 31337,
+				dataMode: 'WEB3_ONLY',
+				resolverAddress: process.env.NEXT_PUBLIC_SUPERFLUID_RESOLVER_ADDRESS,
+				protocolReleaseVersion: 'test'
+			};
+			break;
+		case 'docker':
+			this.openqIndexableTokens = tokensIndexable;
+			this.openqEnumerableTokens = tokensEnumerable;
+			this.options = {
+				chainId: 31337,
+				dataMode: 'WEB3_ONLY',
+				resolverAddress: process.env.NEXT_PUBLIC_SUPERFLUID_RESOLVER_ADDRESS,
+				protocolReleaseVersion: 'test'
+			};
+			break;
+		case 'staging':
+			this.openqIndexableTokens = tokensIndexable;
+			this.openqEnumerableTokens = tokensEnumerable;
+			this.options = {
+				chainId: 137
+			};
+			break;
+		case 'production':
+			this.openqIndexableTokens = tokensIndexable;
+			this.openqEnumerableTokens = tokensEnumerable;
+			this.options = {
+				chainId: 137
+			};
+			break;
 		}
 	}
 
@@ -109,7 +109,7 @@ class SuperfluidClient {
 	async upgradeAndCreateFlowBacth(library, address, amountPerDay, sender, receiver) {
 		const instance = await this.createInstance(library);
 		const signer = await this.createSigner(library);
-		const allowance = await this.allowance(library, sender, address);
+		// const allowance = await this.allowance(library, sender, address);
 		const upgradeOp = await this.upgradeToken(
 			library,
 			address,
@@ -131,7 +131,7 @@ class SuperfluidClient {
 	async updateFlow(library, sender, receiver, amountPerDay, address) {
 		const instance = await this.createInstance(library);
 		const signer = await this.createSigner(library);
-		const allowance = await this.allowance(library, sender, address);
+		// const allowance = await this.allowance(library, sender, address);
 		const updateFlowOp = instance.cfaV1.updateFlow({
 			superToken: address,
 			sender,
@@ -151,7 +151,6 @@ class SuperfluidClient {
 	 */
 	async downgradeToken(library, address, amount) {
 		const amountInWei = ethers.utils.parseEther(amount);
-		const instance = await this.createInstance(library);
 		const signer = await this.createSigner(library);
 		const superToken = await this.loadSuperToken(library, address);
 		const downgradeOp = superToken.downgrade({
@@ -230,6 +229,6 @@ class SuperfluidClient {
 		);
 		return flowRateInWeiPerSecond.toString();
 	}
-};
+}
 
 export default SuperfluidClient;

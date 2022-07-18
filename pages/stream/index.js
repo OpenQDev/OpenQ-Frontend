@@ -1,24 +1,22 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import useWeb3 from '../../hooks/useWeb3';
-import { ethers } from "ethers";
-import { Framework } from "@superfluid-finance/sdk-core";
 
 const stream = () => {
 	// CONTEXT
 	const [appState] = useContext(StoreContext);
-	const { activate, account, library } = useWeb3();
+	const { account, library } = useWeb3();
 
 	// STATE
-	const [recipient, setRecipient] = useState("");
+	const [recipient, setRecipient] = useState('');
 	const [isButtonLoading, setIsButtonLoading] = useState(false);
-	const [flowRate, setFlowRate] = useState("");
-	const [flowRateDisplay, setFlowRateDisplay] = useState("");
-	const [amount, setAmount] = useState("");
+	const [flowRate, setFlowRate] = useState('');
+	const [flowRateDisplay, setFlowRateDisplay] = useState('');
+	const [amount, setAmount] = useState('');
 
-	const [fDaiAddress, setFDaiAddress] = useState("");
+	const [fDaiAddress, setFDaiAddress] = useState('');
 	const [fDaiXAddress, setFDaiXAddress] = useState(process.env.NEXT_PUBLIC_FDAIX_ADDRESS);
-	const [downgradeAmount, setDowngradeAmount] = useState("");
+	const [downgradeAmount, setDowngradeAmount] = useState('');
 
 	async function approveToken(amount, callback) {
 		try {
@@ -33,10 +31,10 @@ const stream = () => {
 	async function downgrade(address, amount) {
 		try {
 			const tx = await appState.superfluidClient.downgradeToken(library, address, amount);
-			console.log("Downgrading token...");
+			console.log('Downgrading token...');
 			await tx.wait();
 			console.log(tx);
-			console.log(`Congrats - you've just downgraded back to ERC20!`);
+			console.log('Congrats - you\'ve just downgraded back to ERC20!');
 		} catch (error) {
 			console.log(error);
 		}
@@ -51,7 +49,7 @@ const stream = () => {
 				account,
 				recipient
 			);
-			console.log("Creating your stream...");
+			console.log('Creating your stream...');
 			await tx.wait();
 			console.log(tx);
 			console.log(
@@ -66,7 +64,7 @@ const stream = () => {
 			callback();
 		} catch (error) {
 			console.log(
-				"Hmmm, your transaction threw an error. Make sure that this stream does not already exist, and that you've entered a valid Ethereum address!"
+				'Hmmm, your transaction threw an error. Make sure that this stream does not already exist, and that you\'ve entered a valid Ethereum address!'
 			);
 			console.error(error);
 			callback();
@@ -82,7 +80,7 @@ const stream = () => {
 				flowRate,
 				fDaiXAddress,
 			);
-			console.log("Updating your stream...");
+			console.log('Updating your stream...');
 			await tx.wait();
 			console.log(tx);
 			console.log(
@@ -97,7 +95,7 @@ const stream = () => {
 			callback();
 		} catch (error) {
 			console.log(
-				"Hmmm, your transaction threw an error. Make sure that this stream does exist, and that you've entered a valid Ethereum address!"
+				'Hmmm, your transaction threw an error. Make sure that this stream does exist, and that you\'ve entered a valid Ethereum address!'
 			);
 			console.error(error);
 			callback();
@@ -112,7 +110,7 @@ const stream = () => {
 				recipient,
 				fDaiXAddress,
 			);
-			console.log("Deleting your stream...");
+			console.log('Deleting your stream...');
 			await tx.wait();
 			console.log(tx);
 			console.log(
@@ -127,14 +125,14 @@ const stream = () => {
 			callback();
 		} catch (error) {
 			console.log(
-				"Hmmm, your transaction threw an error. Make sure that this stream  exist, and that you've entered a valid Ethereum address!"
+				'Hmmm, your transaction threw an error. Make sure that this stream  exist, and that you\'ve entered a valid Ethereum address!'
 			);
 			console.error(error);
 			callback();
 		}
 	}
 
-	function CreateButton({ isLoading, children, ...props }) {
+	function CreateButton({ children, ...props }) {
 		return (
 			<button
 				variant="success"
@@ -279,7 +277,7 @@ const stream = () => {
 						<div>
 							<p>Your flow will be equal to:</p>
 							<p>
-								<b>${flowRateDisplay !== " " ? flowRateDisplay : 0}</b> DAIx/day
+								<b>${flowRateDisplay !== ' ' ? flowRateDisplay : 0}</b> DAIx/day
 							</p>
 						</div>
 					</div>
@@ -347,7 +345,7 @@ const stream = () => {
 						<div>
 							<p>Your flow will be equal to:</p>
 							<p>
-								<b>${flowRateDisplay !== " " ? flowRateDisplay : 0}</b> DAIx/day
+								<b>${flowRateDisplay !== ' ' ? flowRateDisplay : 0}</b> DAIx/day
 							</p>
 						</div>
 					</div>
@@ -386,4 +384,4 @@ const stream = () => {
 	);
 };
 
-export default stream;;;
+export default stream;
