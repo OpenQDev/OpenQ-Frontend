@@ -208,109 +208,21 @@ const stream = () => {
 
 	return (
 		<div className="flex flex-col items-center w-full">
-		
+			<div className='w-1/4 flex flex-col gap-4'>
 
-			<TokenFundBox
-				onCurrencySelect={onCurrencySelect}
-				onVolumeChange={onVolumeChange}
-				token={token}
-				volume={volume}
-			/>
+				<TokenFundBox
+					onCurrencySelect={onCurrencySelect}
+					onVolumeChange={onVolumeChange}
+					token={token}
+					volume={volume}
+				/>
 
-			{showModal&&<ApproveFundModal resetState={()=>{setShowModal(false); setApproveTransferState('CONFIRM');}} 
-				transactionHash={txnHash}
-				stream = {stream} setShowApproveTransferModal={setShowModal} confirmMethod={approve} approveTransferState={approveTransferState} error={error} const token ={token}/>}
-			<button className={(!volume  ) ? 'confirm-btn-disabled': 'confirm-btn'} disabled={!volume } onClick={()=>setShowModal(true)}>Show modal</button>
-			<div className="ml-12">
-				<h2 className="mb-5 text-2xl">
-					FDAI Address
-				</h2>
-				<form>
-					<div className="mb-5 text-black">
-						<input
-							type="text"
-							name="fDaiAddress"
-							value={fDaiAddress}
-							onChange={handleAddressChange}
-							placeholder="fDai Address"
-							className="w-full h-8"
-						/>
-					</div>
-				</form>
-			</div>
-			<div className="ml-12">
-				<h2 className="mb-5 text-2xl">
-					FDAIX Address
-				</h2>
-				<form>
-					<div className="mb-5 text-black">
-						<input
-							type="text"
-							name="fDaiXAddress"
-							value={fDaiXAddress}
-							onChange={handleAddressChangefDaix}
-							placeholder="fDaiX Address"
-							className="w-full h-8"
-						/>
-					</div>
-				</form>
-			</div>
-			<div className="ml-12">
-				<h2 className="mb-5 text-2xl">
-					Approve Tokens
-				</h2>
-				<form>
-					<CreateButton
-						onClick={(e) => {
-							e.preventDefault();
-							setIsButtonLoading(true);
-							approveToken(volume, () => {
-								setIsButtonLoading(false);
-								setVolume('');
-							});
-						}}
-					>
-						Approve the contract to move your tokens
-					</CreateButton>
-				</form>
-			</div>
-			<div>
-				<h2 className="mb-3 text-2xl">
-					Create a Flow
-				</h2>
-				<form>
-					
-					<div className="mb-3">
-						<div>
-							<p>Your flow will be equal to:</p>
-						</div>
-					</div>
-				</form>
-			</div>
-			<div>
-				<h2 className="mb-3 text-2xl">
-					Update a Flow
-				</h2>
-				<form>
-					
-					<div className="mb-3">
-						<div>
-							<p>Your flow will be equal to:</p>
-							<p> DAIx/day
-							</p>
-						</div>
-					</div>
-				</form>
-			</div>
-			<div>
-				<h2 className="mb-3 text-2xl">
-					Delete a Flow
-				</h2>
-				<form>
-					
-				</form>
-			</div>
-		</div>
+				{showModal&&<ApproveFundModal resetState={()=>{setShowModal(false); setApproveTransferState('CONFIRM');}} 
+					transactionHash={txnHash}
+					stream = {stream} setShowApproveTransferModal={setShowModal} confirmMethod={approve} approveTransferState={approveTransferState} error={error} const token ={token}/>}
+				<button className={(!volume  ) ? 'confirm-btn-disabled': 'confirm-btn'} disabled={!volume } onClick={()=>setShowModal(true)}>Show modal</button>
+	
+			</div></div>
 	);
 };
 
