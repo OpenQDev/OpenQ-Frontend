@@ -45,8 +45,8 @@ const MiniDepositCard = ({ deposit, showLink, status }) => {
 			{deposit ?
 				(deposit.refunded) ? <div>Refunded</div> : (!open) ?
 					<div>Claimed</div>
-					: (timeToExpiry > 0)? <div key={deposit.id}>Locked until: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}</div>:
-						<div key={deposit.id}>Locked expired. This deposit can be refunded at any time.</div>
+					: (timeToExpiry > 0) ? <div key={deposit.id}>Locked until: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}</div> :
+						<div key={deposit.id}>Deposit lock has expired. This deposit can be refunded at any time.</div>
 				: <Skeleton count={2} />
 			}
 		</div>
