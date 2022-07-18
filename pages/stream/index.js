@@ -14,7 +14,6 @@ const stream = () => {
 
 	// STATE
 	const [isButtonLoading, setIsButtonLoading] = useState(false);
-	const [flowRateDisplay, setFlowRateDisplay] = useState('');
 	const [showModal, setShowModal] = useState();
 	const [approveTransferState, setApproveTransferState] = useState('CONFIRM');
 	const [volume, setVolume] = useState('');
@@ -51,21 +50,20 @@ const stream = () => {
 		setApproveTransferState(TRANSFERRING);
 	};
 	const stream = async(recipient,  flowRate, type)=>{
-		console.log(recipient)
-switch(type){
+		console.log(recipient);
+		switch(type){
 
-	case "create":
-		await	createNewFlowAndUpgrade(recipient,  flowRate);
-		break;
-		case "update":
-		await updateFlow(recipient, flowRate)
-		break;
-}
+		case 'create':
+			await	createNewFlowAndUpgrade(recipient,  flowRate);
+			break;
+		case 'update':
+			await updateFlow(recipient, flowRate);
+			break;
+		}
 		setApproveTransferState(SUCCESS);
 	};
 
 	async function createNewFlowAndUpgrade(recipient, flowRate) {
-		console.log('flowRate', flowRate);
 		try {
 			const tx = await appState.superfluidClient.upgradeAndCreateFlowBacth(
 				library,
@@ -83,9 +81,8 @@ switch(type){
 				Network: Mumbai
 				Super Token: fDAIx
 				Sender: 0xDCB45e4f6762C3D7C61a00e96Fb94ADb7Cf27721
-				Receiver: ${recipient},
+				Receiver: ${recipient}`
 
-				FlowRate: ${flowRateDisplay}`
 			);
 		} catch (error) {
 			console.log(
@@ -113,8 +110,7 @@ switch(type){
 				Network: Mumbai
 				Super Token: DAIx
 				Sender: 0xDCB45e4f6762C3D7C61a00e96Fb94ADb7Cf27721
-				Receiver: ${recipient},
-				FlowRate: ${flowRateDisplay}`
+				Receiver: ${recipient}`
 			);
 		} catch (error) {
 			console.log(
@@ -141,8 +137,7 @@ switch(type){
 				Network: Mumbai
 				Super Token: DAIx
 				Sender: 0xDCB45e4f6762C3D7C61a00e96Fb94ADb7Cf27721
-				Receiver: ${recipient},
-				FlowRate: ${flowRateDisplay}`
+				Receiver: ${recipient},`
 			);
 			callback();
 		} catch (error) {
@@ -269,9 +264,6 @@ switch(type){
 					<div className="mb-3">
 						<div>
 							<p>Your flow will be equal to:</p>
-							<p>
-								<b>${flowRateDisplay !== ' ' ? flowRateDisplay : 0}</b> DAIx/day
-							</p>
 						</div>
 					</div>
 				</form>
@@ -285,8 +277,7 @@ switch(type){
 					<div className="mb-3">
 						<div>
 							<p>Your flow will be equal to:</p>
-							<p>
-								<b>${flowRateDisplay !== ' ' ? flowRateDisplay : 0}</b> DAIx/day
+							<p> DAIx/day
 							</p>
 						</div>
 					</div>

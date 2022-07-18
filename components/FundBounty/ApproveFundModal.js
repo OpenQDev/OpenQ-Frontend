@@ -105,6 +105,10 @@ const ApproveFundModal = ({
 		setRecipient(e.target.value);
 	};
 
+	const isCreateDisabled = (address, volume )=>{
+		ethers.utils.isAddress(address) && 
+	}
+
 	const handleFlowRateChange = (e) => {
 		setFlowRate(e.target.value);
 	};
@@ -210,7 +214,7 @@ const ApproveFundModal = ({
 
 											{stream ?
 											<>
-												<button onClick={()=>stream(recipient, flowRate, "create")} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg`}>
+												<button disabled={false} onClick={()=>stream(recipient, flowRate, "create")} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg`}>
 													<span>Create Stream</span>
 												</button>
 												<button onClick={()=>stream(recipient, flowRate, "update")} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg`}>
