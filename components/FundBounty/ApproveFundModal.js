@@ -31,8 +31,6 @@ const ApproveFundModal = ({
 	bounty,
 	stream,
 }) => {
-	console.log(approveTransferState);
-	console.log((stream)? true: false);
 	const modal = useRef();
 	const [recipient, setRecipient] = useState('');
 	const [flowRate, setFlowRate] = useState('');
