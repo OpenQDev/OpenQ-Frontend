@@ -52,17 +52,17 @@ const CreateStream = () => {
 				setIsButtonLoading(false);
 				setVolume('');
 			});
-			setApproveTransferState(TRANSFERRING);
 			await stream(recipient, flowRate, type);
+			setApproveTransferState(TRANSFERRING);
 		}
 		catch(err){
+			console.log(err)
 			const { message, title } = appState.openQClient.handleError(err);
 			setError({message, title});
 		}
 	};
 
 	const stream = async(recipient,  flowRate, type)=>{
-		console.log(recipient);
 		switch(type){
 
 		case 'create':
@@ -99,6 +99,7 @@ const CreateStream = () => {
 			
 			setApproveTransferState(SUCCESS);
 		} catch (error) {
+			console.log(error)
 			const { message, title } = appState.openQClient.handleError(error);
 			setError({message, title});
 			console.log(
@@ -219,16 +220,18 @@ const CreateStream = () => {
 			<div className='bg-inactive-gray text-center w-80 p-4 rounded-lg'>
 				<h1 className='font-bold text-xl pb-6'>Fund Stream</h1>
 				<p className='pb-10'>Top up your stream with more tokens.</p>
-				<button onClick={()=>setShowModal('delete')} className='sm-confirm-btn'>Delete Stream</button>
+				<button onClick={()=>setShowModal('fund')} className='sm-confirm-btn'>Fund Stream</button>
 			</div>
 			<div className='w-2/4 flex flex-col gap-4 pt-16'>
 
 
-				{showModal&&<ApproveStreamModal resetState={()=>{setShowModal(false); setApproveTransferState('CONFIRM');}} 
+				{showModal === "fund" ?
+				<div></div>: showModal &&
+				<ApproveStreamModal resetState={()=>{setShowModal(false); setApproveTransferState('CONFIRM');}} 
 					transactionHash={txnHash}
 					stream={stream}
 					showModal={showModal} setShowApproveTransferModal={setShowModal} confirmMethod={approve} approveTransferState={approveTransferState} error={error} const token ={token}/>}
-				<button className={(!volume  ) ? 'confirm-btn-disabled': 'confirm-btn'} disabled={!volume } onClick={()=>setShowModal(true)}>Show modal</button>
+				
 	
 			</div></div>
 	);

@@ -1,5 +1,5 @@
 // Third party
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import Link from 'next/link';
 import { ethers } from 'ethers';
 
@@ -15,6 +15,7 @@ import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Image from 'next/image';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
+import StoreContext from '../../store/Store/StoreContext';
 
 const ApproveStreamModal = ({
 	transactionHash,
@@ -33,9 +34,11 @@ const ApproveStreamModal = ({
 	stream,
 	showModal
 }) => {
+	console.log(approveTransferState)
 	const modal = useRef();
 	const [recipient, setRecipient] = useState('');
 	const [flowRate, setFlowRate] = useState('');
+	const [appState] = useContext(StoreContext)
 	const [localToken, setLocalToken] = useState({name: 'fDaiX',
 		address: '0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f',
 		symbol: 'FDAIX',
@@ -65,10 +68,10 @@ const ApproveStreamModal = ({
 	}, [modal, approveTransferState]);
 
 	let title = {
-		[CONFIRM]: `${showModal} Stream`,
+		[CONFIRM]: `${appState.utils.capitalize(showModal)} Stream`,
 		[APPROVING]: approvingTitle || 'Approve',
-		[TRANSFERRING]: 'Create/Update Stream',
-		[SUCCESS]: 'Transfer Complete!', 
+		[TRANSFERRING]: `${appState.utils.capitalize(showModal)} Stream`,
+		[SUCCESS]: 'Transaction Complete!', 
 		[ERROR]: `${error.title}`,
 	};
 	let approveStyles = {
@@ -184,7 +187,7 @@ const ApproveStreamModal = ({
 
 									</div>
 								</> :
-								<div className="text-md gap-4 py-6 px-2 grid grid-cols-[1fr_1fr] w-full justify-between">
+								<div className="text-md gap-4 gap-x-12 py-6 px-2 grid grid-cols-[1fr_1fr] w-full justify-between">
 										
 									{showModal !== 'delete'&&<>
 										<div className='w-4'>Funding</div>
@@ -193,7 +196,7 @@ const ApproveStreamModal = ({
 											token={localToken}
 											onCurrencySelect={onCurrencySelect}/>
 										<span className='py-2'>Flow Rate</span>
-										<div className={'flex border border-web-gray rounded-lg py-px pl-2 '}>
+										<div className={'flex border border-web-gray rounded-lg py-px pl-2 h-10'}>
 											<input className='bg-transparent py-px outline-none'
 												type="text"
 												name="flowRate"
@@ -220,26 +223,32 @@ const ApproveStreamModal = ({
 
 								</div>
 						}
-						{token.address !== '0x0000000000000000000000000000000000000000' ?
+						{token.address !== '0x0000000000000000000000000000000000000000' ? 
 							<div className='flex w-full justify-evenly px-1.5 gap-2 border-web-gray border rounded-lg py-1.5 self-center'>
-								{showModal !== 'delete' && <button onClick={()=>confirmMethod(recipient, flowRate, showModal)} disabled={approveTransferState !== CONFIRM} className={`text-center border px-1.5 flex  gap-2 py-1.5 ${approveTransferState === CONFIRM ? 'cursor-pointer' : null} ${approveStyles[approveTransferState]} rounded-lg`}>
-									<span>{approveTransferState === CONFIRM ? 'Approve' : approveTransferState === APPROVING ? 'Approving' : 'Approved'}
+							
+								{showModal !== 'delete' && approveTransferState !==ERROR && <button onClick={()=>confirmMethod(recipient, flowRate, showModal)} disabled={approveTransferState !== CONFIRM} className={`text-center border px-1.5 flex  gap-2 py-1.5 ${approveTransferState === CONFIRM ? 'cursor-pointer' : null} ${approveStyles[approveTransferState]} rounded-lg`}>
+									<span>{approveTransferState === CONFIRM ? 'Approve' : approveTransferState === APPROVING ? 'Approving' : 'Approved, waiting for you to confirm stream creation or update'}
 									</span>
-									{approveTransferState === APPROVING && <LoadingIcon className={'inline pt-1'} />}
+									{console.log(approveTransferState)}
+									{(approveTransferState === APPROVING || approveTransferState === TRANSFERRING) && <LoadingIcon className={'inline pt-1'} />}
 								</button>}
 
-								{showModal === 'create' ?<div disabled={isDisabled} onClick={()=>stream(recipient, flowRate, 'create')} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg ${isDisabled ? '' : ' cursor-pointer'}`}>
-									<span>Create Stream</span>
+								{
+								approveTransferState === SUCCESS || approveTransferState === ERROR ?
+								null:
+								
+								showModal === 'create' ?<div disabled={isDisabled} onClick={()=>stream(recipient, flowRate, 'create')} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg ${isDisabled ? '' : ' cursor-pointer'}`}>
+									<span>{appState.utils.capitalize(showModal)} Stream</span>
 								</div> :
 									showModal === 'update' ?
 										<button disabled={isDisabled} onClick={()=>stream(recipient, flowRate, 'update')} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg ${isDisabled ? '' : 'confirm-btn cursor-pointer'}`}>
-											<span>Update Stream</span>
+											<span>{appState.utils.capitalize(showModal)} Stream</span>
 										</button>:
 													
 										showModal === 'delete' ?
 											<button disabled={isDisabled} onClick={()=>stream(recipient, flowRate, showModal)} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg ${isDisabled ? '' : 'confirm-btn cursor-pointer'}`}>
-												<span>{showModal} Steam</span>
-											</button>: <div>{showModal}</div>
+												<span>{appState.utils.capitalize(showModal)} Stream</span>
+											</button>: null
 								}
 												
 							</div> :
