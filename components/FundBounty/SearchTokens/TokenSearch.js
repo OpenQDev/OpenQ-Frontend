@@ -8,7 +8,7 @@ import Image from 'next/image';
 const TokenSearch = ({  token, onCurrencySelect, stream }) => {
 	const [showListManager, setShowListManager] = useState(true);
 	const [tokenSearchTerm, setTokenSearchTerm] = useState();
-	const [lists, setLists] = useState({ polygon: true, openq: true });
+	const [lists, setLists] = useState({ polygon: !stream, openq: !stream, superTokens: stream});
 	const [customTokens, setCustomTokens] = useState([]);
 	const [polygonTokens, setPolygonTokens] = useState([]);
 	const [openQTokens, setOpenQTokens] = useState([]);
@@ -33,8 +33,8 @@ const TokenSearch = ({  token, onCurrencySelect, stream }) => {
 	},[]);
 
 	return (
-		<div>
-			<div className="pr-5">
+		<div className='justify-self-end'>
+			<div>
 				<button
 					className="flex flex-row items-center space-x-1 py-2 drop-shadow-lg border border-web-gray rounded-lg p-2 pr-2"
 					onClick={() => setShowTokenSearch(true)}
@@ -113,6 +113,7 @@ const TokenSearch = ({  token, onCurrencySelect, stream }) => {
 							</div>
 						) : (
 							<ManageTokenList
+								stream={stream}
 								setLists={setLists}
 								setCustomTokens={setCustomTokens}
 								customTokens={customTokens}
@@ -131,7 +132,7 @@ const TokenSearch = ({  token, onCurrencySelect, stream }) => {
 					</div>
 				</div>
 			</div>}
-			{!stream && <div className='fixed inset-0 bg-overlay'></div>}
+			{!stream && <div className='fixed inset-0 bg-overlay'></div> }
 		</div>
 	);
 };

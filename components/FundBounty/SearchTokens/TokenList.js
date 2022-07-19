@@ -4,6 +4,7 @@ import React, { useContext, useState, useCallback , useRef, useEffect} from 'rea
 // Custom
 import StoreContext from '../../../store/Store/StoreContext';
 import TokenDisplay from  '../../TokenBalances/TokenDisplay';
+import superTokens from '../../../constants/superfluid-local-enumerable.json';
 
 const TokenList = ({ onCurrencySelect, setShowTokenSearch,  tokenSearchTerm, customTokens, polygonDefaultTokens, openqDefaultTokens,  currentCursor, lists }) => {
 	const [appState] = useContext(StoreContext);
@@ -17,9 +18,11 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch,  tokenSearchTerm, cus
 		const openqTokens = openqDefaultTokens.filter((token)=>!fetchedTokens.some((displayToken)=>displayToken.address.toLowerCase()===token.address.toLowerCase()));
 		fetchedTokens=fetchedTokens.concat(openqTokens);
 	}
+	if(lists.superTokens){
+		fetchedTokens = fetchedTokens.concat(superTokens);
+	}
 	if(lists.polygon){
 		fetchedTokens=fetchedTokens.concat(polygonTokens.filter((token)=>!fetchedTokens.some((displayToken)=>displayToken.address.toLowerCase()===token.address)));
-	
 	}
 
 	const displayTokens = fetchedTokens.filter((token) => {

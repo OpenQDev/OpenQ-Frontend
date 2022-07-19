@@ -143,17 +143,17 @@ const jsonRpcErrors =
 		{
 			'CFA_EXISTS' : {
 				title: 'Stream Already Created',
-				message: () => {
-					return 'Stream already created. If you\'d like to change the terms of your stream, please use the update button';
+				message: (recipient) => {
+					return `Stream already created from your address to ${recipient.slice(0, 4)}...${recipient.slice(38)}. If you\'d like to change the terms of your stream, please use the update button`;
 				}
 			},
 
 		},
 		{'CFA_DOES_NOT_EXIST':
 		{
-			title: 'No Stream to this Address',
-			message: () => {
-				return 'Stream hasn\'t been created to this address. If you\'d like to create a new stream please choose the Create Stream option';}
+			title: 'Stream does not exist',
+			message: (recipient) => {
+				return `No stream exists from your address to ${recipient.slice(0, 4)}...${recipient.slice(38)}.`;}
 		
 		},
 		},

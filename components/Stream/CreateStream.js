@@ -33,31 +33,30 @@ const CreateStream = () => {
 	};
 	const [token, setToken] = useState(zeroAddressMetadata);
 
-	async function approveToken(volume, callback) {
-		console.log(fDaiXAddress, volume);
+	async function approveToken(volume,  recipient, flowRate, type) {
 		try {
-			return	await appState.superfluidClient.approve(library, fDaiXAddress, volume);
+			 await appState.superfluidClient.approve(library, fDaiXAddress, volume);
+			
+			
+			setApproveTransferState(TRANSFERRING);
+			await stream(recipient, flowRate, type);
 		} catch (error) {
-			console.log(error);
-			callback();
+			setApproveTransferState(ERROR);
+			const { message, title } = appState.openQClient.handleError(error);
+			setError({message, title});
 		}
 	}
 
 	const approve = async(recipient, flowRate, type)=>{
-		console.log(flowRate);
 		const volume = (flowRate * 30).toString();
 		setApproveTransferState(APPROVING);
 		try{
-			await	approveToken(volume, () => {
-				setIsButtonLoading(false);
-				setVolume('');
-			});
-			await stream(recipient, flowRate, type);
-			setApproveTransferState(TRANSFERRING);
+			await	approveToken(volume, recipient, flowRate, type);
 		}
 		catch(err){
-			console.log(err)
+			setApproveTransferState(ERROR);
 			const { message, title } = appState.openQClient.handleError(err);
+			console.log(message, title);
 			setError({message, title});
 		}
 	};
@@ -70,6 +69,9 @@ const CreateStream = () => {
 			break;
 		case 'update':
 			await updateFlow(recipient, flowRate);
+			break;			
+		case 'delete':
+			await deleteFlow(recipient);
 			break;
 		}
 	};
@@ -83,28 +85,14 @@ const CreateStream = () => {
 				account,
 				recipient
 			);
-			console.log('Creating your stream...');
 			await tx.wait();
 			console.log(tx);
 			setTxnHash(tx.hash);
-			console.log(
-				`Congrats - you've just created a money stream!
-				View Your Stream At: https://app.superfluid.finance/dashboard/${recipient}
-				Network: Mumbai
-				Super Token: fDAIx
-				Sender: 0xDCB45e4f6762C3D7C61a00e96Fb94ADb7Cf27721
-				Receiver: ${recipient}`
-
-			);
 			
 			setApproveTransferState(SUCCESS);
 		} catch (error) {
-			console.log(error)
-			const { message, title } = appState.openQClient.handleError(error);
+			const { message, title } = appState.openQClient.handleError(error, recipient);
 			setError({message, title});
-			console.log(
-				'Hmmm, your transaction threw an error. Make sure that this stream does not already exist, and that you\'ve entered a valid Ethereum address!'
-			);
 			console.error(error);
 			setApproveTransferState(ERROR);
 
@@ -135,7 +123,7 @@ const CreateStream = () => {
 			
 			setApproveTransferState(SUCCESS);
 		} catch (error) {
-			const { message, title } = appState.openQClient.handleError(error);
+			const { message, title } = appState.openQClient.handleError(error, recipient);
 			setError({message, title});
 			console.log(
 				'Hmmm, your transaction threw an error. Make sure that this stream does exist, and that you\'ve entered a valid Ethereum address!'
@@ -146,7 +134,8 @@ const CreateStream = () => {
 		}
 	}
 
-	async function deleteFlow(recipient, ) {
+	async function deleteFlow(recipient) {
+		setApproveTransferState(TRANSFERRING);
 		try {
 			const tx = await appState.superfluidClient.deleteFlow(
 				library,
@@ -157,19 +146,12 @@ const CreateStream = () => {
 			console.log('Deleting your stream...');
 			await tx.wait();
 			console.log(tx);
-			console.log(
-				`Congrats - you've just deleted a money stream!
-				check it at: https://app.superfluid.finance/dashboard/${recipient}
-				Network: Mumbai
-				Super Token: DAIx
-				Sender: 0xDCB45e4f6762C3D7C61a00e96Fb94ADb7Cf27721
-				Receiver: ${recipient},`
-			);
-		} catch (error) {
-			console.log(
-				'Hmmm, your transaction threw an error. Make sure that this stream  exist, and that you\'ve entered a valid Ethereum address!'
-			);
+			setApproveTransferState(SUCCESS);
+		} catch (error) {			
+			const { message, title } = appState.openQClient.handleError(error, recipient);
 			console.error(error);
+			setError({message, title});
+			setApproveTransferState(ERROR);
 		}
 	}
 
@@ -213,7 +195,7 @@ const CreateStream = () => {
 			</div>
 			<div className='bg-inactive-gray text-center w-80 p-4 rounded-lg'>
 				<h1 className='font-bold text-xl pb-6'>Delete Stream</h1>
-				<p className='pb-10'>Cancel flow of an existing Stream.</p>
+				<p className='pb-10'>Cancel an existing stream.</p>
 				<button onClick={()=>setShowModal('delete')} className='sm-confirm-btn'>Delete Stream</button>
 			</div>
 			
@@ -225,11 +207,11 @@ const CreateStream = () => {
 			<div className='w-2/4 flex flex-col gap-4 pt-16'>
 
 
-				{showModal === "fund" ?
-				<div></div>: showModal &&
+				{showModal === 'fund' ?
+					<div></div>: showModal &&
 				<ApproveStreamModal resetState={()=>{setShowModal(false); setApproveTransferState('CONFIRM');}} 
 					transactionHash={txnHash}
-					stream={stream}
+					deleteFlow={deleteFlow}
 					showModal={showModal} setShowApproveTransferModal={setShowModal} confirmMethod={approve} approveTransferState={approveTransferState} error={error} const token ={token}/>}
 				
 	

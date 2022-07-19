@@ -8,7 +8,7 @@ import { ethers } from 'ethers';
 import StoreContext from '../../store/Store/StoreContext';
 import TokenDisplay from '../TokenBalances/TokenDisplay';
 
-const ManageTokenList = ({ setCustomTokens, customTokens, setLists, lists})=>{
+const ManageTokenList = ({ setCustomTokens, customTokens, setLists, lists, stream})=>{
 	const [displayedTab, setDisplayedTab] = useState('Lists');
 	const [tokenInput, setTokenInput] = useState('');
 	const [error, setError] = useState();
@@ -50,11 +50,11 @@ const ManageTokenList = ({ setCustomTokens, customTokens, setLists, lists})=>{
 	
 
 	const setPolygon = ()=>{
-		setLists({...lists, polygon: !lists.polygon});
+		if (!stream) setLists({...lists, polygon: !lists.polygon});
 	};
 
 	const setOpenQ = ()=>{
-		setLists({...lists, openq: !lists.openq});
+		if (!stream) setLists({...lists, openq: !lists.openq});
 
 	};
 

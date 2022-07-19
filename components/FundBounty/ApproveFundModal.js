@@ -252,7 +252,7 @@ const ApproveFundModal = ({
 											
 											}
 										</div> :
-										<button onClick={confirmMethod} disabled={approveTransferState !== CONFIRM} className={`text-center px-2 gap-2 py-1.5 text-center flex justify-center gap-4 ${fundStyles[approveTransferState]} rounded-lg`}>
+										<button onClick={()=>stream(recipient)} disabled={approveTransferState !== CONFIRM} className={`text-center px-2 gap-2 py-1.5 text-center flex justify-center gap-4 ${fundStyles[approveTransferState]} rounded-lg`}>
 											<span>{approveTransferState === TRANSFERRING && !stream ? 'Funding' : 'Fund'}</span>
 										</button>
 									}

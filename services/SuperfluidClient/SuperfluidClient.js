@@ -81,19 +81,23 @@ class SuperfluidClient {
 
 	// UPGRADE + CREATE STREAM
 	async approve(library, address, amount) {
-		const amountInWei = ethers.utils.parseEther(amount);
-		const superToken = await this.loadSuperToken(
-			library,
-			address
-		);
-		const unwrappedToken = superToken.underlyingToken.contract.connect(library.getSigner());
-		try {
-			const tx = await unwrappedToken.approve(address, amountInWei);
-			await tx.wait();
-			console.log(tx);
-		} catch (error) {
-			throw new Error(error);
-		}
+	
+		const promise = new Promise(async (resolve, reject) => {
+			const amountInWei = ethers.utils.parseEther(amount);
+			const superToken = await this.loadSuperToken(
+				library,
+				address
+			);
+			const unwrappedToken = superToken.underlyingToken.contract.connect(library.getSigner());
+			try {
+				const tx = await unwrappedToken.approve(address, amountInWei);
+				const txnReceipt =	await tx.wait();
+				resolve(txnReceipt);
+			} catch (error) {
+				reject(error);
+			}
+		});
+		return promise;
 	}
 
 	// UPGRADE + CREATE STREAM
@@ -250,6 +254,7 @@ class SuperfluidClient {
 			try{
 				const result = await this.client.query({
 					query: GET_STREAMS_BY_ACCOUNT, 
+					variables: {account}
 				});
 				resolve(result);
 			}

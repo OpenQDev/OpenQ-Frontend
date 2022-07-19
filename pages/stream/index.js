@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState } from 'react';
 import Toggle from '../../components/Utils/Toggle';
 import CreateStream from '../../components/Stream/CreateStream';
 import ViewStream from '../../components/Stream/ViewStream';

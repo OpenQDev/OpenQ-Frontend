@@ -269,6 +269,7 @@ class OpenQClient {
 		}
 
 		let miscError;
+		console.log(jsonRpcError);
 		if (typeof jsonRpcError === 'string') {
 			if (jsonRpcError.includes('Ambire user rejected the request')) { miscError = 'USER_DENIED_TRANSACTION'; }
 			if (jsonRpcError.includes('Rejected Request')) { miscError = 'USER_DENIED_TRANSACTION'; }
