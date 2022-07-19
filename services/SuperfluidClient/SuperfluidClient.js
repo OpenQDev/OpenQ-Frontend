@@ -2,6 +2,7 @@ import { Framework } from '@superfluid-finance/sdk-core';
 import { ethers } from 'ethers';
 import tokensIndexable from './tokens-indexable.json';
 import tokensEnumerable from './tokens-enumerable.json';
+import {GET_STREAMS_BY_ACCOUNT} from './graphql/query';
 
 /* Note:
 	const usdc = usdcx.underlyingToken.contract.connet(library.getSigner());
