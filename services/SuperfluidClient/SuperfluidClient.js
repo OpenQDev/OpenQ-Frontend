@@ -3,6 +3,7 @@ import { ethers } from 'ethers';
 import tokensIndexable from './tokens-indexable.json';
 import tokensEnumerable from './tokens-enumerable.json';
 import {GET_STREAMS_BY_ACCOUNT} from './graphql/query';
+import { HttpLink, ApolloClient, InMemoryCache} from '@apollo/client';
 
 /* Note:
 	const usdc = usdcx.underlyingToken.contract.connet(library.getSigner());
@@ -14,6 +15,16 @@ import {GET_STREAMS_BY_ACCOUNT} from './graphql/query';
 
 class SuperfluidClient {
 
+
+
+	httpLink = new HttpLink({ uri: 'https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-mumbai', fetch });
+
+	client = new ApolloClient({
+		uri: 'https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-mumbai',
+
+		link: this.httpLink,
+		cache: new InMemoryCache(),
+	});
 	constructor() {
 		switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 		case 'local':

@@ -1,7 +1,7 @@
 
 import React, {useRef, useEffect, useContext} from 'react';
 import jazzicon from '@metamask/jazzicon';
-import CopyAddressToClipboard from '../../components/Copy/CopyAddressToClipboard';
+import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import StoreContext from '../../store/Store/StoreContext';
 import Image from 'next/image';
 

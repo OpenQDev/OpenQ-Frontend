@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
 import Toggle from '../../components/Utils/Toggle';
-import CreateStream from './CreateStream';
-import ViewStream from './ViewStream';
+import CreateStream from '../../components/Stream/CreateStream';
+import ViewStream from '../../components/Stream/ViewStream';
 
 
 const stream = () => {
-	const [internalMenu, setInternalMenu] = useState('View');
+	const [internalMenu, setInternalMenu] = useState('Stream');
 
 	const handleToggle = (e) => {
 		setInternalMenu(e);

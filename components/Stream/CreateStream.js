@@ -2,9 +2,10 @@ import React, { useState, useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import useWeb3 from '../../hooks/useWeb3';
 import { ethers } from 'ethers';
-import ApproveFundModal from '../../components/FundBounty/ApproveFundModal';
-import { APPROVING, ERROR, SUCCESS, TRANSFERRING } from '../../components/FundBounty/ApproveTransferState';
-import TokenFundBox from '../../components/FundBounty/SearchTokens/TokenFundBox';
+import ApproveStreamModal from './ApproveStreamModal';
+import { APPROVING, ERROR, SUCCESS, TRANSFERRING } from '../FundBounty/ApproveTransferState';
+import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
+import { flow } from 'lodash';
 
 const CreateStream = () => {
 	// CONTEXT
@@ -15,7 +16,7 @@ const CreateStream = () => {
 
 	// STATE
 	const [isButtonLoading, setIsButtonLoading] = useState(false);
-	const [showModal, setShowModal] = useState();
+	const [showModal, setShowModal] = useState('');
 	const [approveTransferState, setApproveTransferState] = useState('CONFIRM');
 	const [volume, setVolume] = useState('');
 
@@ -33,6 +34,7 @@ const CreateStream = () => {
 	const [token, setToken] = useState(zeroAddressMetadata);
 
 	async function approveToken(volume, callback) {
+		console.log(fDaiXAddress, volume);
 		try {
 			return	await appState.superfluidClient.approve(library, fDaiXAddress, volume);
 		} catch (error) {
@@ -41,19 +43,24 @@ const CreateStream = () => {
 		}
 	}
 
-	const approve = async()=>{
+	const approve = async(recipient, flowRate, type)=>{
+		console.log(flowRate);
+		const volume = (flowRate * 30).toString();
 		setApproveTransferState(APPROVING);
 		try{
 			await	approveToken(volume, () => {
 				setIsButtonLoading(false);
 				setVolume('');
 			});
-			setApproveTransferState(TRANSFERRING);}
+			setApproveTransferState(TRANSFERRING);
+			await stream(recipient, flowRate, type);
+		}
 		catch(err){
 			const { message, title } = appState.openQClient.handleError(err);
 			setError({message, title});
 		}
 	};
+
 	const stream = async(recipient,  flowRate, type)=>{
 		console.log(recipient);
 		switch(type){
@@ -138,7 +145,7 @@ const CreateStream = () => {
 		}
 	}
 
-	async function deleteFlow(recipient, callback) {
+	async function deleteFlow(recipient, ) {
 		try {
 			const tx = await appState.superfluidClient.deleteFlow(
 				library,
@@ -157,13 +164,11 @@ const CreateStream = () => {
 				Sender: 0xDCB45e4f6762C3D7C61a00e96Fb94ADb7Cf27721
 				Receiver: ${recipient},`
 			);
-			callback();
 		} catch (error) {
 			console.log(
 				'Hmmm, your transaction threw an error. Make sure that this stream  exist, and that you\'ve entered a valid Ethereum address!'
 			);
 			console.error(error);
-			callback();
 		}
 	}
 
@@ -192,34 +197,37 @@ const CreateStream = () => {
 	const handleAddressChangefDaix = (e) => {
 		setFDaiXAddress(e.target.value);
 	};
-	
-
-	function onCurrencySelect(token) {
-		setToken({ ...token, address: ethers.utils.getAddress(token.address) });
-	}
-	
-
-	function onVolumeChange(volume) {
-		const numberRegex = /^(\d+)?(\.)?(\d+)?$/;
-		if (numberRegex.test(volume) || volume === '' || volume === '.') {
-			setVolume(volume.match(numberRegex)[0]);
-		}
-	}
 
 	return (
-		<div className="flex flex-col items-center w-full">
+		<div className="grid grid-cols-[1fr_1fr_1fr] gap-8 w-full rounded-lg pt-8">
+			<div className='bg-inactive-gray text-center w-80 p-4 rounded-lg'>
+				<h1 className='font-bold text-xl pb-6'>Stream Monthly</h1>
+				<p className='pb-4'>Stream tokens every month to any Polygon address.</p>
+				<button onClick={()=>setShowModal('create')} className='sm-confirm-btn'>Create Stream</button>
+			</div>
+			<div className='bg-inactive-gray text-center w-80 p-4 rounded-lg'>
+				<h1 className='font-bold text-xl pb-6'>Update Stream</h1>
+				<p className='pb-4'>Change the flow rate of an existing stream.</p>
+				<button onClick={()=>setShowModal('update')} className='sm-confirm-btn'>Update Stream</button>
+			</div>
+			<div className='bg-inactive-gray text-center w-80 p-4 rounded-lg'>
+				<h1 className='font-bold text-xl pb-6'>Delete Stream</h1>
+				<p className='pb-10'>Cancel flow of an existing Stream.</p>
+				<button onClick={()=>setShowModal('delete')} className='sm-confirm-btn'>Delete Stream</button>
+			</div>
+			
+			<div className='bg-inactive-gray text-center w-80 p-4 rounded-lg'>
+				<h1 className='font-bold text-xl pb-6'>Fund Stream</h1>
+				<p className='pb-10'>Top up your stream with more tokens.</p>
+				<button onClick={()=>setShowModal('delete')} className='sm-confirm-btn'>Delete Stream</button>
+			</div>
 			<div className='w-2/4 flex flex-col gap-4 pt-16'>
 
-				<TokenFundBox
-					onCurrencySelect={onCurrencySelect}
-					onVolumeChange={onVolumeChange}
-					token={token}
-					volume={volume}
-				/>
 
-				{showModal&&<ApproveFundModal resetState={()=>{setShowModal(false); setApproveTransferState('CONFIRM');}} 
+				{showModal&&<ApproveStreamModal resetState={()=>{setShowModal(false); setApproveTransferState('CONFIRM');}} 
 					transactionHash={txnHash}
-					stream = {stream} setShowApproveTransferModal={setShowModal} confirmMethod={approve} approveTransferState={approveTransferState} error={error} const token ={token}/>}
+					stream={stream}
+					showModal={showModal} setShowApproveTransferModal={setShowModal} confirmMethod={approve} approveTransferState={approveTransferState} error={error} const token ={token}/>}
 				<button className={(!volume  ) ? 'confirm-btn-disabled': 'confirm-btn'} disabled={!volume } onClick={()=>setShowModal(true)}>Show modal</button>
 	
 			</div></div>
