@@ -1,7 +1,7 @@
-import { Framework } from "@superfluid-finance/sdk-core";
-import { ethers } from "ethers";
-import tokensIndexable from "./tokens-indexable.json";
-import tokensEnumerable from "./tokens-enumerable.json";
+import { Framework } from '@superfluid-finance/sdk-core';
+import { ethers } from 'ethers';
+import tokensIndexable from './tokens-indexable.json';
+import tokensEnumerable from './tokens-enumerable.json';
 
 /* Note:
 	const usdc = usdcx.underlyingToken.contract.connet(library.getSigner());
@@ -15,22 +15,22 @@ class SuperfluidClient {
 
 	constructor() {
 		switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
-			case 'local':
-				this.openqIndexableTokens = tokensIndexable;
-				this.openqEnumerableTokens = tokensEnumerable;
-				break;
-			case 'docker':
-				this.openqIndexableTokens = tokensIndexable;
-				this.openqEnumerableTokens = tokensEnumerable;
-				break;
-			case 'staging':
-				this.openqIndexableTokens = tokensIndexable;
-				this.openqEnumerableTokens = tokensEnumerable;
-				break;
-			case 'production':
-				this.openqIndexableTokens = tokensIndexable;
-				this.openqEnumerableTokens = tokensEnumerable;
-				break;
+		case 'local':
+			this.openqIndexableTokens = tokensIndexable;
+			this.openqEnumerableTokens = tokensEnumerable;
+			break;
+		case 'docker':
+			this.openqIndexableTokens = tokensIndexable;
+			this.openqEnumerableTokens = tokensEnumerable;
+			break;
+		case 'staging':
+			this.openqIndexableTokens = tokensIndexable;
+			this.openqEnumerableTokens = tokensEnumerable;
+			break;
+		case 'production':
+			this.openqIndexableTokens = tokensIndexable;
+			this.openqEnumerableTokens = tokensEnumerable;
+			break;
 		}
 	}
 
@@ -46,7 +46,7 @@ class SuperfluidClient {
 					provider: library,
 					dataMode: 'WEB3_ONLY',
 					resolverAddress: process.env.NEXT_PUBLIC_SUPERFLUID_RESOLVER_ADDRESS,
-					protocolReleaseVersion: "test"
+					protocolReleaseVersion: 'test'
 				});
 				this.instance = tempInstance;
 				return tempInstance;
@@ -231,6 +231,22 @@ class SuperfluidClient {
 		);
 		return flowRateInWeiPerSecond.toString();
 	}
-};
+	
+
+	viewAccount(account){
+		const promise = new Promise(async(resolve, reject)=>{
+			try{
+				const result = await this.client.query({
+					query: GET_STREAMS_BY_ACCOUNT, 
+				});
+				resolve(result);
+			}
+			catch(err){
+				reject(err);
+			}
+		});
+		return promise;
+	}
+}
 
 export default SuperfluidClient;
