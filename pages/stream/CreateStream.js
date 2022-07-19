@@ -208,7 +208,7 @@ const CreateStream = () => {
 
 	return (
 		<div className="flex flex-col items-center w-full">
-			<div className='w-1/4 flex flex-col gap-4 pt-16'>
+			<div className='w-2/4 flex flex-col gap-4 pt-16'>
 
 				<TokenFundBox
 					onCurrencySelect={onCurrencySelect}
