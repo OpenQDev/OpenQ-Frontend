@@ -211,7 +211,7 @@ const ApproveFundModal = ({
 
 											{stream ?
 												<>
-													<button disabled={false} onClick={()=>stream(recipient, flowRate, 'create')} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg ${isCreateDisabled ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`}>
+													<button disabled={isCreateDisabled} onClick={()=>stream(recipient, flowRate, 'create')} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg ${isCreateDisabled ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`}>
 														<span>Create Stream</span>
 													</button>
 													<button disabled={isCreateDisabled} onClick={()=>stream(recipient, flowRate, 'update')} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg ${isCreateDisabled ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`}>
