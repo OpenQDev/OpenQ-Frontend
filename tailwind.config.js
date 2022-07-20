@@ -36,6 +36,7 @@ module.exports = {
 				'border-gray' : '#30363D',
 				'input-gray' : '#C2C3C5',
 				'overlay': '#000000dd',
+				'link-colour' : '#39A6FF',
 				'button-pink': '#FF006A',
 				'web-gray': '#585858',
 				'inactive-gray': '#232528',

@@ -8,7 +8,7 @@ import BountyCardDetailsModal from './BountyCardDetailsModal';
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
 
-const BountyCard = ({ bounty, loading }) => {
+const BountyCardLean = ({ bounty, loading }) => {
 	// State
 	
 	const bountyName = bounty?.title.toLowerCase() || '';
@@ -28,19 +28,21 @@ const BountyCard = ({ bounty, loading }) => {
 		document.body.style.height = '100vh';
 		document.body.style.overflowY = 'hidden';		
 		setIsModal(true);
-	};
+	}; 
+
+	console.log("bounty: ", bounty);
 	// Render
 	return (
 		<div className={loading ? 'pointer-events-none cursor-normal' : undefined}>
 			{isModal && bounty && <BountyCardDetailsModal TVL={TVL} bounty={bounty} closeModal={closeModal} tokenValues={tokenValues} />}
 			<div onClick={openModal}
 				className={
-					'flex flex-col md:p-6 shadow-sm border-b border-web-gray cursor-pointer md:pr-10 md:pl-10 md:border md:rounded-xl'
+					'flex flex-col border-b md:p-4 border-web-gray cursor-pointer'
 				}
 			>
-				<div className="flex flex-row justify-between pt-5 sm:pt-0">
-					<div className="w-3/4">
-						<div className="flex flex-grow flex-row items-center space-x-2 pb-2 sm:pb-0 w-full">
+				<div className="flex flex-row justify-between sm:pt-0">
+					<div className="w-3/4 pt-1">
+						<div className="flex flex-grow flex-row items-center space-x-2 sm:pb-0 w-full">
 							<div className="invisible md:visible">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -56,47 +58,31 @@ const BountyCard = ({ bounty, loading }) => {
 									></path>
 								</svg>
 							</div>
-							{loading ? <Skeleton width={'100px'} /> : <div data-testid="title" className="text-2xl ">
+							{loading ? <Skeleton width={'100px'} /> : <div data-testid="title" className="text-xl text-link-colour pb-1">
 								{	bounty.owner && `${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`}
 							</div>}
 						</div>
-						<div className="font-bold text-xl pl-6">
+						<div className="font-bold text-lg">
 							{loading ?
 								<Skeleton width={'100px'} /> :
 								bounty?.title.length < 50
 									? bounty?.title.toLowerCase()
 									: bountyName.slice(0, 50) + '...'}
 						</div>
+						
 						<div className="flex flex-row items-center space-x-4 pt-1 w-full">
-							<div className="font-light pl-6 text-sm w-full">
-								{loading ?
-									<Skeleton width={'100%'} /> :
-
-									`Issue Opened: ${appState.utils.formatDate(bounty?.createdAt, true)}`}
-							</div>
-						</div>
-						<div className="flex flex-row items-center space-x-4 pt-1 w-full">
-							<div className="font-light pl-6 text-sm w-full">
+							<div className="font-light text-sm w-full">
 
 								{loading ?
 									<Skeleton width={'100%'} /> :
-									`Bounty Minted: ${appState.utils.formatUnixDate(parseInt(bounty?.bountyMintTime))}`
+									`Deployed: ${appState.utils.formatUnixDate(parseInt(bounty?.bountyMintTime))}`
 								}
 							</div>
 						</div>
 						<div className="flex flex-row items-center space-x-4 pt-1">
-							<div className="font-light pl-6 text-sm ">
-								{loading ?
-									<Skeleton width={'60px'} /> :
-									bounty?.status == 'OPEN' ? 'Unclaimed' : 'Claimed'
-								}
-							</div>
+							
 						</div>
-						<div className="flex flex-row items-center space-x-4 pt-1">
-							<div className={` ${bounty?.assignees?.nodes[0]? 'font-bold' : 'font-light'} pl-6 text-sm `}>
-								{bounty?.assignees?.nodes[0] ? `Assigned to ${bounty?.assignees?.nodes[0]?.name || bounty?.assignees.nodes[0]?.login}` : 'Unassigned'		}					 				
-							</div>
-						</div>
+						
 					</div>
 					{bounty?.avatarUrl ?
 						<div className="flex flex-col invisible sm:visible">
@@ -110,7 +96,7 @@ const BountyCard = ({ bounty, loading }) => {
 						<Skeleton width={51} height={51} />
 					}
 				</div>
-				<div className="flex flex-row pt-3 pl-6 pr-3  items-center justify-between xs:pb-5 pb-5 md:pb-0">
+				<div className="flex flex-row pt-2 items-center justify-between">
 					<div>
 						{bounty?.labels ? (
 							<div className="flex flex-row flex-wrap justify-between gap-2">
@@ -171,4 +157,4 @@ const BountyCard = ({ bounty, loading }) => {
 	);
 };
 
-export default BountyCard;
+export default BountyCardLean;

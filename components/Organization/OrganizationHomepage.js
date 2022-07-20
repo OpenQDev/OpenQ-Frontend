@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import OrganizationCard from "../Organization/OrganizationCard";
 import MintBountyButton from "../MintBounty/MintBountyButton";
 import SearchBar from "../Search/SearchBar";
+import Carousel from "../Utils/Carousel";
 
 const OrganizationHomepage = ({ orgs }) => {
   // State
@@ -33,6 +34,7 @@ const OrganizationHomepage = ({ orgs }) => {
           />
           <MintBountyButton />
         </div>
+				<Carousel/>
         <div className="grid grid-cols-[repeat(3,_300px)] justify-center lg:justify-between">
           {orgs
             .filter((organization) => {

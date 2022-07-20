@@ -1614,6 +1614,11 @@
   resolved "https://registry.npmjs.org/@pedrouid/environment/-/environment-1.0.1.tgz"
   integrity sha512-HaW78NszGzRZd9SeoI3JD11JqY+lubnaOx7Pewj5pfjqWXOEATpeKIFb9Z4t2WBUK2iryiXX3lzWwmYWgUL0Ug==
 
+"@primer/octicons-react@^17.3.0":
+  version "17.3.0"
+  resolved "https://registry.yarnpkg.com/@primer/octicons-react/-/octicons-react-17.3.0.tgz#a9b868db9520e48114fd402e56600e99bcb7e8b7"
+  integrity sha512-72K4SeDj3WmehiQqVeOS+icvcO5+JHXK12ee3AqbZGqNqgCKdU4zJRKeC7EGMV4lQhoJXbj8OEdppBLa3qFDhw==
+
 "@react-pdf/font@^2.1.1":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@react-pdf/font/-/font-2.1.1.tgz#18bf4de35d9a72082e5fa08dfeaf0869107c5ad6"
