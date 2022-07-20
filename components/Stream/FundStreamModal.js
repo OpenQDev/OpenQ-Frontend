@@ -1,5 +1,5 @@
 // Third party
-import React, { useRef, useEffect, useState, useContext } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ethers } from 'ethers';
 
@@ -13,11 +13,9 @@ import {
 } from '../FundBounty/ApproveTransferState';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Image from 'next/image';
-import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
-import StoreContext from '../../store/Store/StoreContext';
 import ToolTip from '../Utils/ToolTip';
-import { isCompositeType } from 'graphql';
+import useWeb3 from '../../hooks/useWeb3';
 
 const FundStreamModal = ({
 	transactionHash,
@@ -28,21 +26,18 @@ const FundStreamModal = ({
 	confirmationMessage,
 	fund,
 	approvingMessage,
-	approvingTitle,
-	token,
 	showModal
 }) => {
-	console.log(approveTransferState);
 	const modal = useRef();
 	const [volume, setVolume] = useState('');
-	const [appState] = useContext(StoreContext);
+	const {account} = useWeb3();
 	const [localToken, setLocalToken] = useState({
-		name: 'fDaiX',
-		address: '0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f',
-		symbol: 'FDAIX',
+		name: 'Dai',
+		address: '0xc6A3cE73483Eb37B0ed46a63cF6c0705cE74c8B9',
+		symbol: 'Dai',
 		decimals: 18,
 		chainId: 80001,
-		path: '/crypto-logos/FDAIX.svg'
+		path: '/crypto-logos/DAI.svg'
 	});
 	const updateModal = () => {
 		resetState();
@@ -80,11 +75,6 @@ const FundStreamModal = ({
 		[APPROVING]: 'bg-button-inside border-button border',
 	};
 
-
-	let fundStyles = {
-		[CONFIRM]: 'px-8 border-transparent',
-		[APPROVING]: 'px-8 border-transparent',
-	};
 
 	let message = {
 		[CONFIRM]: `${confirmationMessage}`,
@@ -131,12 +121,11 @@ const FundStreamModal = ({
 								</div>
 							</div>
 						</div>
-						{approveTransferState === CONFIRM || approveTransferState === APPROVING &&
+					
 						<>
-							<p>Topping up one stream in Dai will top up all accounts.</p>
-							<p>{'You don\'t need to top up streams for each account.'}</p>
+							<p>{approveTransferState ===CONFIRM || approveTransferState === APPROVING && `You don't need to top up streams for each stream. Adding funds from this account will keep all your streams from the account ${account.slice(0, 4)}...${account.slice(38)} solvent.`}</p>
+							
 						</>
-						}
 						{approveTransferState === ERROR ?
 							<div className="text-md pb-4">
 								<p className="break-words">
@@ -157,8 +146,8 @@ const FundStreamModal = ({
 							approveTransferState === SUCCESS ?
 								<div className="text-md gap-4 py-6 px-4 grid grid-cols-[1fr_1fr] w-full justify-between">
 									<div className='w-4'>Funding</div>
-									<div className='flex flex-wrap justify-between w-[120px] gap-2'><Image width={24} className="inline" height={24} src={token.path || token.logoURI || '/crypto-logs/ERC20.svg'} />
-										<span> {token.symbol}</span></div>
+									<div className='flex flex-wrap justify-between w-[120px] gap-2'><Image width={24} className="inline" height={24} src={localToken.path || localToken.logoURI || '/crypto-logs/ERC20.svg'} />
+										<span> {localToken.symbol}</span></div>
 
 									<span>Transaction</span>
 									<Link href={link[approveTransferState]}>
@@ -191,7 +180,7 @@ const FundStreamModal = ({
 										</div>
 									</div>
 									<>
-										<p className='pb-2'>{(approveTransferState === CONFIRM || approveTransferState === APPROVING) && showModal !== 'delete' ? '' : approveTransferState === TRANSFERRING && showModal !== 'delete' && `Now you can ${showModal} the stream.`}</p>
+										
 
 										<div className='flex w-full justify-evenly px-1.5 gap-2 rounded-lg py-1.5 self-center'>
 
@@ -211,7 +200,6 @@ const FundStreamModal = ({
 							<div className="flex items-center justify-center text-lg rounded-b">
 								<button onClick={() => updateModal()} className='text-center bg-button-inside hover:bg-button-inside-hover border border-button px-6 gap-2 py-1.5 text-center flex justify-center gap-4 cursor-pointer rounded-lg'>
 									<span>Close</span>
-									{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
 								</button>
 							</div>
 						) : null}

@@ -17,7 +17,6 @@ import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
 import StoreContext from '../../store/Store/StoreContext';
 import ToolTip from '../Utils/ToolTip';
-import { isCompositeType } from 'graphql';
 
 const ApproveStreamModal = ({
 	transactionHash,
@@ -30,7 +29,6 @@ const ApproveStreamModal = ({
 	approvingMessage,
 	approvingTitle,
 	token,
-	volume,
 	bountyAddress,
 	bounty,
 	deleteFlow,
@@ -41,12 +39,12 @@ const ApproveStreamModal = ({
 	const [recipient, setRecipient] = useState('');
 	const [flowRate, setFlowRate] = useState('');
 	const [appState] = useContext(StoreContext);
-	const [localToken, setLocalToken] = useState({name: 'fDaiX',
+	const [localToken, setLocalToken] = useState({name: 'Daix',
 		address: '0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f',
-		symbol: 'FDAIX',
+		symbol: 'DAI',
 		decimals: 18,
 		chainId: 80001,
-		path: '/crypto-logos/FDAIX.svg'});
+		path: '/crypto-logos/DAI.svg'});
 	const updateModal = () => {
 		resetState();
 		setShowApproveTransferModal(false);
@@ -137,7 +135,6 @@ const ApproveStreamModal = ({
 			setFlowRate(parseFloat(volume.match(numberRegex)[0]));
 		}
 	}
-	volume =Math.round(volume*Math.pow(10, 10))/Math.pow(10, 10);
 	
 	return (
 		<div>
@@ -191,7 +188,7 @@ const ApproveStreamModal = ({
 										</Link>
 
 									</div>
-								 :
+								:
 								<>
 									<div className="text-md gap-4 gap-x-12 py-6 px-2 grid grid-cols-[1fr_1fr] w-full justify-between">
 										

@@ -1,10 +1,8 @@
 import React, { useState, useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import useWeb3 from '../../hooks/useWeb3';
-import { ethers } from 'ethers';
 import ApproveStreamModal from './ApproveStreamModal';
 import { APPROVING, ERROR, SUCCESS, TRANSFERRING } from '../FundBounty/ApproveTransferState';
-import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import FundStreamModal from './FundStreamModal';
 
 const CreateStream = () => {
@@ -15,30 +13,24 @@ const CreateStream = () => {
 	const { account, library } = useWeb3();
 
 	// STATE
-	const [isButtonLoading, setIsButtonLoading] = useState(false);
 	const [showModal, setShowModal] = useState('');
 	const [approveTransferState, setApproveTransferState] = useState('CONFIRM');
-	const [volume, setVolume] = useState('');
 
-	const [fDaiAddress, setFDaiAddress] = useState('');
-	const [fDaiXAddress, setFDaiXAddress] = useState(process.env.NEXT_PUBLIC_FDAIX_ADDRESS);
-	
-	const zeroAddressMetadata = {
-		name: 'fDaiX',
-		address: '0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f',
-		symbol: 'FDAIX',
+	const token =  {
+		name: 'Dai',
+		address: '0xc6A3cE73483Eb37B0ed46a63cF6c0705cE74c8B9',
+		symbol: 'DAI',
 		decimals: 18,
 		chainId: 80001,
-		path: '/crypto-logos/FDAIX.svg'
+		path: '/crypto-logos/DAI.svg'
 	};
-	const [token, setToken] = useState(zeroAddressMetadata);
 
 
-	async function fund(volume, tokenAddress){
-		console.log(volume);
+	async function fund(volume, token){
 		try{
 			setApproveTransferState(APPROVING);
-			const tx = await appState.superfluidClient.approve(library, fDaiXAddress, (volume).toString());
+			const tx = await appState.superfluidClient.approve(library,  token.address, (volume).toString());
+			await appState.superfluidClient.upgradeToken(library, token.address, (volume).toString()); 
 			setTxnHash(tx.hash);
 			setApproveTransferState(SUCCESS);
 		}catch (error) {
@@ -51,7 +43,7 @@ const CreateStream = () => {
 	}
 	async function approveToken(volume,  recipient, flowRate, type) {
 		try {
-			 await appState.superfluidClient.approve(library, fDaiXAddress, volume);
+			await appState.superfluidClient.approve(library, token.address, volume);
 			
 			
 			setApproveTransferState(TRANSFERRING);
@@ -97,7 +89,7 @@ const CreateStream = () => {
 		try {
 			const tx = await appState.superfluidClient.upgradeAndCreateFlowBacth(
 				library,
-				fDaiXAddress,
+				token.address,
 				flowRate,
 				account,
 				recipient
@@ -123,21 +115,12 @@ const CreateStream = () => {
 				account,
 				recipient,
 				flowRate,
-				fDaiXAddress,
+				token.address,
 			);
 			console.log('Updating your stream...');
 			await tx.wait();
 			console.log(tx);
 			setTxnHash(tx.hash);
-			console.log(
-				`Congrats - you've just updated a money stream!
-				View Your Stream At: https://app.superfluid.finance/dashboard/${recipient}
-				Network: Mumbai
-				Super Token: DAIx
-				Sender: 0xDCB45e4f6762C3D7C61a00e96Fb94ADb7Cf27721
-				Receiver: ${recipient}`
-			);
-			
 			setApproveTransferState(SUCCESS);
 		} catch (error) {
 			const { message, title } = appState.openQClient.handleError(error, recipient);
@@ -158,7 +141,7 @@ const CreateStream = () => {
 				library,
 				account,
 				recipient,
-				fDaiXAddress,
+				token.address,
 			);
 			console.log('Deleting your stream...');
 			await tx.wait();
@@ -171,32 +154,6 @@ const CreateStream = () => {
 			setApproveTransferState(ERROR);
 		}
 	}
-
-	function CreateButton({ children, ...props }) {
-		return (
-			<button
-				variant="success"
-				className="mb-5 text-lg rounded-full inline-flex items-center justify-center px-3 py-2 border-2 border-secondary-900 bg-secondary-900"
-				disabled={isButtonLoading}
-				{...props}
-			>
-				{children}
-			</button>
-		);
-	}
-
-
-	const handleVolumeChange = (e) => {
-		setVolume(e.target.value);
-	};
-
-	const handleAddressChange = (e) => {
-		setFDaiAddress(e.target.value);
-	};
-
-	const handleAddressChangefDaix = (e) => {
-		setFDaiXAddress(e.target.value);
-	};
 
 	return (
 		<div className="grid grid-cols-[1fr_1fr_1fr] gap-8 w-full rounded-lg justify-center justify-items-center pt-8">
@@ -231,12 +188,18 @@ const CreateStream = () => {
 						setShowApproveTransferModal={setShowModal} 
 						fund={fund} 
 						approveTransferState={approveTransferState} 
-						error={error} token={token} />
-					: showModal &&
-                    <ApproveStreamModal resetState={() => { setShowModal(false); setApproveTransferState('CONFIRM'); }}
-                    	transactionHash={txnHash}
-                    	deleteFlow={deleteFlow}
-                    	showModal={showModal} setShowApproveTransferModal={setShowModal} confirmMethod={approve} approveTransferState={approveTransferState} error={error} const token={token} />
+						error={error}  />
+					: showModal && 
+					<ApproveStreamModal
+						resetState={() => { setShowModal(false); setApproveTransferState('CONFIRM'); }}
+						transactionHash={txnHash}
+						deleteFlow={deleteFlow}
+						showModal={showModal}
+						setShowApproveTransferModal={setShowModal}
+						confirmMethod={approve}
+						approveTransferState={approveTransferState}
+						error={error}
+						token={token} />
 				}
 	
 			</div></div>

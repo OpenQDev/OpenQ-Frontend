@@ -15,7 +15,6 @@ import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Image from 'next/image';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import TokenSearch from './SearchTokens/TokenSearch';
-import TokenFundBox from './SearchTokens/TokenFundBox';
 
 const ApproveFundModal = ({
 	transactionHash,
@@ -37,12 +36,12 @@ const ApproveFundModal = ({
 	const modal = useRef();
 	const [recipient, setRecipient] = useState('');
 	const [flowRate, setFlowRate] = useState('');
-	const [localToken, setLocalToken] = useState({name: 'fDaiX',
+	const [localToken, setLocalToken] = useState({name: 'Dai',
 		address: '0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f',
-		symbol: 'FDAIX',
+		symbol: 'DAI',
 		decimals: 18,
 		chainId: 80001,
-		path: '/crypto-logos/FDAIX.svg'});
+		path: '/crypto-logos/DAI.svg'});
 	const updateModal = () => {
 		resetState();
 		setShowApproveTransferModal(false);
@@ -204,7 +203,7 @@ const ApproveFundModal = ({
 																					
 												</>:
 												<CopyAddressToClipboard data={bountyAddress} clipping={[5, 38]} />
-												 }
+											}
 											
 										</div>
 										{ bounty?.url &&		

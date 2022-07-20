@@ -1,8 +1,8 @@
 [{
 		"name": "Dai",
-		"address": "0xc6A3cE73483Eb37B0ed46a63cF6c0705cE74c8B9",
+		"address": "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
 		"symbol": "DAI",
 		"decimals": 18,
-		"chainId": 80001,
+		"chainId": 137,
 		"path": "/crypto-logos/DAI.svg"
 	}]

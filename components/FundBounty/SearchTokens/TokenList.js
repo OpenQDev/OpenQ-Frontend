@@ -4,10 +4,10 @@ import React, { useContext, useState, useCallback , useRef, useEffect} from 'rea
 // Custom
 import StoreContext from '../../../store/Store/StoreContext';
 import TokenDisplay from  '../../TokenBalances/TokenDisplay';
-import superTokens from '../../../constants/superfluid-local-enumerable.json';
 
 const TokenList = ({ onCurrencySelect, setShowTokenSearch,  tokenSearchTerm, customTokens, polygonDefaultTokens, openqDefaultTokens,  currentCursor, lists }) => {
 	const [appState] = useContext(StoreContext);
+	const superTokens = appState.tokenClient.superfluidEnumerable;
 	const [polygonTokens, setPolygonTokens] = useState(polygonDefaultTokens);
 	const [isComplete, setIsComplete] = useState(false);
 	const batch = 50;

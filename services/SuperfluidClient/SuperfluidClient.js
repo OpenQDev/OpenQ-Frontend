@@ -13,10 +13,10 @@ class SuperfluidClient {
 
 
 
-	httpLink = new HttpLink({ uri: 'http://localhost:8000/subgraphs/name/superfluid-test', fetch });
+	httpLink = new HttpLink({ uri: process.env.SUPERFLUID_SUBGRAPH_URL, fetch });
 
 	client = new ApolloClient({
-		uri: 'http://localhost:8000/subgraphs/name/superfluid-test',
+		uri: process.env.SUPERFLUID_SUBGRAPH_URL,
 
 		link: this.httpLink,
 		cache: new InMemoryCache(),
@@ -90,7 +90,7 @@ class SuperfluidClient {
 	async approve(library, superTokenAddress, amount) {
 	
 		const promise = new Promise(async(resolve, reject)=>{
-			const address = this.tokensEnumerable[0].address;
+			const address = superTokenAddress;
 			const amountInWei = ethers.utils.parseEther(amount);
 			const superToken = await this.loadSuperToken(
 				library,
@@ -110,7 +110,7 @@ class SuperfluidClient {
 
 	// UPGRADE + CREATE STREAM
 	async upgradeToken(library, superTokenAddress, amount) {
-		const address = this.tokensEnumerable[0].address;
+		const address = superTokenAddress;
 		const superToken = await this.loadSuperToken(library, address);
 		const upgradeOp = superToken.upgrade({
 			amount: amount.toString(),
@@ -119,7 +119,7 @@ class SuperfluidClient {
 	}
 
 	async superTokenCreateFlow(library, superTokenAddress, sender, receiver, flowRate) {
-		const address = this.tokensEnumerable[0].address;
+		const address = superTokenAddress;
 		const superToken = await this.loadSuperToken(library, address);
 		const createFlowOp = superToken.createFlow({
 			sender,
@@ -130,7 +130,7 @@ class SuperfluidClient {
 	}
 
 	async upgradeAndCreateFlowBacth(library, superTokenAddress, amountPerDay, sender, receiver) {
-		const address = this.tokensEnumerable[0].address;
+		const address = superTokenAddress;
 		const instance = await this.createInstance(library);
 		const signer = await this.createSigner(library);
 		// const allowance = await this.allowance(library, sender, address);
