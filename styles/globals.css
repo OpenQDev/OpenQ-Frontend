@@ -79,35 +79,44 @@ pre {
 @layer base {
   body {
     @apply w-screen overflow-x-hidden bg-dark-mode;
-  } /* 
-    h1{
-        @apply font-mont font-black text-4xl;
-    }
-    h2{
-        @apply font-mont font-normal text-lg text-gray-700;
-    }
-}
-@layer components {
-    .btn {
-        @apply font-mont rounded-md border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer;
-    }*/
+  }, 
+	@font-face {
+		font-family: Collegiate;
+		src: url(/fonts/Collegiate.ttf) format("​truetype​") or ttf;
+	}
+  
 }
 
 @layer components {
+
+	/* GitHub Styles */
+
+	.input-field {
+		@apply py-[4px] px-3 text-[0.8rem] tracking-wider placeholder-input-gray outline-none rounded-sm border border-border-gray bg-menu-bg
+	}
+	.input-field-big {
+		@apply py-[4px] px-3 text-[0.9rem] tracking-wider placeholder-input-gray outline-none rounded-sm border border-border-gray bg-menu-bg
+	}
+	.btn-primary{
+		@apply bg-[#26a641] font-bold rounded-sm py-[0.5rem] hover:bg-[#39d353]
+	}
+	.btn-default{
+		@apply font-bold rounded-sm px-3 p-1 bg-[#21262d] hover:bg-[#161B22] border border-gray-700 
+	}
   .layer-button {
-    @apply font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer border-blue-400 text-gray-800 hover:bg-blue-400 hover:text-white;
+    @apply rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer border-blue-400 text-gray-800 hover:bg-blue-400 hover:text-white;
   }
   .confirm-btn {
-    @apply font-mont rounded-lg w-full py-3 font-bold cursor-pointer text-white border border-pink-300 bg-pink-700 bg-opacity-10 hover:bg-pink-700 hover:bg-opacity-30 hover:text-white cursor-pointer;
+    @apply rounded-lg w-full py-3 font-bold cursor-pointer text-white border border-pink-300 bg-pink-700 bg-opacity-10 hover:bg-pink-700 hover:bg-opacity-30 hover:text-white cursor-pointer;
   }
   .sm-confirm-btn {
-    @apply font-mont rounded-lg w-full py-2 font-semibold cursor-pointer text-white border border-pink-300 bg-pink-700 bg-opacity-10 hover:bg-pink-700 hover:bg-opacity-30 hover:text-white cursor-pointer;
+    @apply rounded-lg w-full py-2 font-semibold cursor-pointer text-white border border-pink-300 bg-pink-700 bg-opacity-10 hover:bg-pink-700 hover:bg-opacity-30 hover:text-white cursor-pointer;
   }
   .sm-confirm-btn-disabled {
-    @apply font-mont rounded-lg w-full py-2 font-semibold text-white text-opacity-30 border border-pink-300 bg-pink-700 bg-opacity-10 cursor-not-allowed;
+    @apply rounded-lg w-full py-2 font-semibold text-white text-opacity-30 border border-pink-300 bg-pink-700 bg-opacity-10 cursor-not-allowed;
   }
   .confirm-btn-disabled {
-    @apply font-mont rounded-lg w-full py-3 font-bold text-white text-opacity-30 border border-pink-300 bg-pink-700 bg-opacity-10 cursor-not-allowed;
+    @apply rounded-lg w-full py-3 font-bold text-white text-opacity-30 border border-pink-300 bg-pink-700 bg-opacity-10 cursor-not-allowed;
   }
   .text-link {
     @apply text-purple-500;

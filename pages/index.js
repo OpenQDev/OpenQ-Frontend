@@ -10,10 +10,9 @@ import useAuth from '../hooks/useAuth';
 import WrappedGithubClient from '../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgraphClient';
 import Utils from '../services/utils/Utils';
-import Toggle from '../components/Utils/Toggle';
-import WrappedOpenQPrismaClient from '../services/openq-api/WrappedOpenQPrismaClient';
+import SubMenu from '../components/Utils/SubMenu';
 
-export default function Index({orgs, fullBounties, batch }) {
+export default function Index({ orgs, fullBounties, batch }) {
 	useAuth();
 	const [internalMenu, setInternalMenu] = useState('Organizations');
 	// State
@@ -26,23 +25,36 @@ export default function Index({orgs, fullBounties, batch }) {
 	// Context
 	const [appState] = useContext(StoreContext);
 
-	const {account} = useWeb3();
+	const { account } = useWeb3();
 	// Hooks
-	useEffect(async()=>{
-		if(account){
-			try{
-				const prismaBounties = await appState.openQPrismaClient.getUser(account);
-				const watchedBountyAddresses = prismaBounties.watchedBountyIds.map(address=>address.toLowerCase());
-				const subgraphBounties =  await appState.openQSubgraphClient.getBountiesByContractAddresses( watchedBountyAddresses);
-				const githubIds = subgraphBounties.map(bounty=>bounty.bountyId);
-				const githubBounties = await appState.githubRepository.getIssueData(githubIds);
-				setWatchedBounties(subgraphBounties.map((bounty, index)=>{return {...bounty, ...githubBounties[index]};}));
-			}
-			catch(err){
+	useEffect(async () => {
+		if (account) {
+			try {
+				const prismaBounties = await appState.openQPrismaClient.getUser(
+					account
+				);
+				const watchedBountyAddresses = prismaBounties.watchedBountyIds.map(
+					(address) => address.toLowerCase()
+				);
+				const subgraphBounties =
+          await appState.openQSubgraphClient.getBountiesByContractAddresses(
+          	watchedBountyAddresses
+          );
+				const githubIds = subgraphBounties.map((bounty) => bounty.bountyId);
+				const githubBounties = await appState.githubRepository.getIssueData(
+					githubIds
+				);
+				setWatchedBounties(
+					subgraphBounties.map((bounty, index) => {
+						return { ...bounty, ...githubBounties[index] };
+					})
+				);
+			} catch (err) {
+				console.log(err);
 				console.log('could not fetch watched bounties');
 			}
 		}
-	}	, [account]);
+	}, [account]);
 
 	// Methods
 	async function getBountyData(sortOrder, currentPagination, orderBy, cursor) {
@@ -50,24 +62,44 @@ export default function Index({orgs, fullBounties, batch }) {
 		let newBounties = [];
 
 		// handle sort by tvl
-		if(orderBy){
-			try{
-				const prismaBounties = await appState.openQPrismaClient.getBountyPage(cursor, batch, 'tvl', sortOrder);
-				const addresses = prismaBounties.bountiesConnection.bounties.map(bounty=>bounty.address.toLowerCase());
+		if (orderBy === 'tvl') {
+			try {
+				const prismaBounties = await appState.openQPrismaClient.getBountyPage(
+					cursor,
+					batch,
+					'tvl',
+					sortOrder
+				);
+				const addresses = prismaBounties.bountiesConnection.bounties.map(
+					(bounty) => bounty.address.toLowerCase()
+				);
 				setOffChainCursor(prismaBounties.bountiesConnection.cursor);
-				const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(addresses);
-				newBounties = prismaBounties.bountiesConnection.bounties.map((bounty)=>{return {...bounty, ...subgraphBounties.find((subgraphBounty)=>subgraphBounty.bountyAddress === bounty.address.toLowerCase())};});		
-			}
-			catch(err){
+				const subgraphBounties =
+          await appState.openQSubgraphClient.getBountiesByContractAddresses(
+          	addresses
+          );
+				newBounties = prismaBounties.bountiesConnection.bounties.map(
+					(bounty) => {
+						return {
+							...bounty,
+							...subgraphBounties.find(
+								(subgraphBounty) =>
+									subgraphBounty.bountyAddress === bounty.address.toLowerCase()
+							),
+						};
+					}
+				);
+			} catch (err) {
 				console.log('complete');
 			}
-			
-		}
-		else{
-			try{
-				newBounties = await appState.openQSubgraphClient.getAllBounties(sortOrder, currentPagination, batch);
-			}
-			catch(err){
+		} else {
+			try {
+				newBounties = await appState.openQSubgraphClient.getAllBounties(
+					sortOrder,
+					currentPagination,
+					batch
+				);
+			} catch (err) {
 				console.log('no bounties');
 			}
 		}
@@ -88,24 +120,42 @@ export default function Index({orgs, fullBounties, batch }) {
 
 	async function getMoreData(order, orderBy) {
 		setComplete(true);
-		const newBounties = await getBountyData(order, pagination, orderBy, offChainCursor);
-		if (newBounties.length !==0) {
+		const newBounties = await getBountyData(
+			order,
+			pagination,
+			orderBy,
+			offChainCursor
+		);
+		if (newBounties.length !== 0) {
 			setComplete(false);
 		}
 		setBounties(bounties.concat(newBounties));
-
-
 	}
 
 	return (
 		<div>
 			<main>
-				<div className="bg-dark-mode pt-10 flex-col">
-					<div className="flex justify-center pb-8">
-						<Toggle names ={['Organizations', 'Issues']} toggleFunc={setInternalMenu} toggleVal={internalMenu}/>
+				<div className="bg-dark-mode flex-col">
+					<div className="flex justify-center">
+						<SubMenu
+							names={['Organizations', 'Issues']}
+							toggleFunc={setInternalMenu}
+							toggleVal={internalMenu}
+						/>
 					</div>
 					<div>
-						{internalMenu == 'Organizations' ? <OrganizationHomepage orgs={orgs} /> :  <BountyHomepage bounties={bounties} watchedBounties={watchedBounties} loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />  }
+						{internalMenu == 'Organizations' ? (
+							<OrganizationHomepage orgs={orgs} />
+						) : (
+							<BountyHomepage
+								bounties={bounties}
+								watchedBounties={watchedBounties}
+								loading={isLoading}
+								getMoreData={getMoreData}
+								complete={complete}
+								getNewData={getNewData}
+							/>
+						)}
 					</div>
 				</div>
 			</main>
@@ -113,10 +163,9 @@ export default function Index({orgs, fullBounties, batch }) {
 	);
 }
 
-export const getServerSideProps = async()=>{
+export const getServerSideProps = async () => {
 	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
 	const githubRepository = new WrappedGithubClient();
-	const openQPrismaClient = new WrappedOpenQPrismaClient;
 	const utils = new Utils();
 	githubRepository.instance.setGraphqlHeaders();
 	let orgs = [];
@@ -127,69 +176,73 @@ export const getServerSideProps = async()=>{
 	} catch (error) {
 		renderError = 'OpenQ is having trouble loading data.';
 	}
-	const ids = orgs.map(org => org.id);
+	const ids = orgs.map((org) => org.id);
 	let githubOrganizations = [];
 	try {
-		githubOrganizations = await githubRepository.instance.fetchOrgsOrUsersByIds(ids);
+		githubOrganizations = await githubRepository.instance.fetchOrgsOrUsersByIds(
+			ids
+		);
 		renderError = 'OpenQ is unable to connect with Github.';
-	}
-	catch (err) {
+	} catch (err) {
 		console.log(err);
 	}
-	
-	let mergedOrgs = await Promise.all(orgs.map(async(org) => {
+	let mergedOrgs = orgs.map((org) => {
 		let currentGithubOrg;
-		const orgMetadata = await openQPrismaClient.instance.getOrgMetadata(org.id);
-		const blacklisted = orgMetadata?.organization?.blacklisted || false;
 		for (const githubOrganization of githubOrganizations) {
 			if (org.id === githubOrganization.id) {
 				currentGithubOrg = githubOrganization;
 			}
 		}
-		return { ...org, ...currentGithubOrg, blacklisted };
-	}));
-
+		return { ...org, ...currentGithubOrg };
+	});
 
 	// Fetch Bounties
 
 	// Fetch from Subgraph
-	let newBounties=[];	
+	let newBounties = [];
 	try {
-		newBounties = await openQSubgraphClient.instance.getAllBounties('desc', 0, batch);
-	}
-	catch (err) {
-		if(err.message.includes('Wait for it to ingest a few blocks before querying it')){
+		newBounties = await openQSubgraphClient.instance.getAllBounties(
+			'desc',
+			0,
+			batch
+		);
+	} catch (err) {
+		if (
+			err.message.includes(
+				'Wait for it to ingest a few blocks before querying it'
+			)
+		) {
 			console.log('graph empty');
-			return {props: {
-				orgs: [],
-				fullBounties: []
-			}};
-		}
-		else{
+			return {
+				props: {
+					orgs: [],
+					fullBounties: [],
+				},
+			};
+		} else {
 			console.log(err);
 			renderError = 'OpenQ is unable to display bounties.';
 		}
 	}
 	const bountyIds = newBounties.map((bounty) => bounty.bountyId);
-	const bountyAddresses = newBounties.map((bounty)=>bounty.bountyAddress);
-	
+
 	// Fetch from Github
 	let issueData = [];
-	let metaData = [];
-	try{
+	try {
 		issueData = await githubRepository.instance.getIssueData(bountyIds);
-		metaData = await openQPrismaClient.instance.getBlackListed(bountyAddresses);
-	}
-	catch(err){
+	} catch (err) {
 		renderError = 'OpenQ is unable to connect with Github.';
 	}
-	const fullBounties = utils.combineBounties(newBounties, issueData, metaData);
-	return {props: {
-		orgs: mergedOrgs,
-		fullBounties,
-		newBounties,
-		issueData,
-		renderError,
-		batch
-	}};
+	const fullBounties = utils.combineBounties(newBounties, issueData);
+
+	return {
+		props: {
+			orgs: mergedOrgs,
+			fullBounties,
+			newBounties,
+			issueData,
+			renderError,
+			batch,
+		},
+	};
 };

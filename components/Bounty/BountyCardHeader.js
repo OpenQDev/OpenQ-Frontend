@@ -9,8 +9,8 @@ const BountyCardHeader = ({ bounty }) => {
 
 	return (
 		<div className="flex flex-row space-x-20 justify-between">
-			<div className="flex flex-col">
-				<div className="text-xl ">
+			<div className="flex flex-col ">
+				<div className="text-xl text-link-colour">
 					{bounty ? `${bounty.owner}/${bounty.repoName}` : <Skeleton width={'10rem'} />}
 				</div>
 				<div className="text-xl font-bold ">{bounty?.title || <Skeleton width={'10rem'} />}</div>

@@ -8,9 +8,9 @@ module.exports = {
 	theme: {
 		borderRadius: {
 			none: '0',
-			sm: '0.125rem',
+			sm: '0.4rem',
 			DEFAULT: '4px',
-			md: '0.375rem',
+			md: '0.9rem',
 			lg: '1.7rem',
 			xl: '2.5rem',
 			full: '9999px',
@@ -29,8 +29,14 @@ module.exports = {
 				inner: 'inset 0 -2px 3px 0 rgba(0, 0, 0, 0.06)',
 			},
 			colors: {
-				'dark-mode': '#121212',
+				'dark-mode': '#0D1117',
+				'nav-bg': '#161B22',
+				'nav-text' : '#f0f6fc',
+        'menu-bg': '#0D1117',
+				'border-gray' : '#30363D',
+				'input-gray' : '#C2C3C5',
 				'overlay': '#000000dd',
+				'link-colour' : '#39A6FF',
 				'button-pink': '#FF006A',
 				'web-gray': '#585858',
 				'inactive-gray': '#232528',
@@ -51,6 +57,9 @@ module.exports = {
 			},
 			fontFamily: {
 				mont: '\'Montserrat\', sans-serif;',
+				collegiate: ['Collegiate'],
+				roboto: '\' Roboto\', sans-serif;',
+				segoe: ['"Segoe UI"']
 			},
 			width: {
 				'1/7': '14.2857143%',

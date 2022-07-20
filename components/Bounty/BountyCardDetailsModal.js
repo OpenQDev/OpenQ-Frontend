@@ -7,6 +7,7 @@ import BountyStatus from './BountyStatus';
 import BountyLinks from './BountyLinks';
 import TokenBalances from '../TokenBalances/TokenBalances';
 import useWeb3 from '../../hooks/useWeb3';
+import {StackIcon, LogIcon} from '@primer/octicons-react';
 
 const BountyCardDetailsModal = ({ bounty, TVL, closeModal, tokenValues }) => {
 	const modal = useRef();
@@ -30,16 +31,16 @@ const BountyCardDetailsModal = ({ bounty, TVL, closeModal, tokenValues }) => {
 
 	return (
 		<div className='flex justify-center items-center bg-overlay inset-0 fixed  py-4 overflow-hidden z-30'>
-			<div ref={modal} className="bg-dark-mode w-5/6 h-min rounded-lg lg:w-2/3 max-w-3xl text-lg relative overflow-hidden">
+			<div ref={modal} className="bg-dark-mode w-5/6 h-min rounded-sm lg:w-2/3 max-w-3xl text-lg relative overflow-hidden">
 				<div className="px-8 pb-2 pt-6">
 					<BountyCardHeader bounty={bounty} />
+				</div>
+				<div className="px-8 py-4 max-h-[60vh] overflow-y-auto">
 					<div className='py-4'>
 						<Link href={`/bounty/${bounty.id}/${bounty.bountyAddress}`} >
-							<a onClick={closeModal} target={safe ? '_self' : '_blank'} rel="noopener noreferrer" className='bg-button-inside hover:bg-button-inside-hover border-button rounded-full text-base px-3 py-1.5 border'>See Full Bounty</a>
+							<a onClick={closeModal} target={safe ? '_self' : '_blank'} rel="noopener noreferrer" ><div className='flex flex-row space-x-2 -mt-6 btn-default w-fit items-center text-sm'><StackIcon size={24} /><div>Full Bounty</div></div></a>
 						</Link>
 					</div>
-				</div>
-				<div className="px-8 py-4 max-h-[40vh] overflow-y-auto">
 					<div className="text-base">
 						<BountyStatus bounty={bounty} />
 					</div>
@@ -62,6 +63,11 @@ const BountyCardDetailsModal = ({ bounty, TVL, closeModal, tokenValues }) => {
 						</Link>}
 					</div>}
 					<section className="markdown-body" dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}></section>
+					<div className='py-4'>
+						<Link href={`/bounty/${bounty.id}/${bounty.bountyAddress}`} >
+							<a onClick={closeModal} target={safe ? '_self' : '_blank'} rel="noopener noreferrer" ><div className='flex flex-row space-x-2 btn-default w-fit items-center'><LogIcon size={16}/><div>Read more</div></div></a>
+						</Link>
+					</div>
 				</div>
 				<div className="sticky w-full bg-black overflow-hidden rounded-b-lg p-4 h-14">
 					<BountyLinks bounty={bounty} />

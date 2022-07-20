@@ -35,11 +35,10 @@ const BountyCard = ({ bounty, loading }) => {
 			{isModal && bounty && <BountyCardDetailsModal TVL={TVL} bounty={bounty} closeModal={closeModal} tokenValues={tokenValues} />}
 			<div onClick={openModal}
 				className={
-					'flex flex-col md:p-6 font-mont shadow-sm border-b border-web-gray cursor-pointer md:pr-10 md:pl-10 md:border md:rounded-xl'
+					'flex flex-col md:p-6 shadow-sm border-b border-web-gray cursor-pointer md:pr-10 md:pl-10 md:border md:rounded-xl'
 				}
 			>
 				<div className="flex flex-row justify-between pt-5 sm:pt-0">
-
 					<div className="w-3/4">
 						<div className="flex flex-grow flex-row items-center space-x-2 pb-2 sm:pb-0 w-full">
 							<div className="invisible md:visible">
@@ -57,7 +56,7 @@ const BountyCard = ({ bounty, loading }) => {
 									></path>
 								</svg>
 							</div>
-							{loading ? <Skeleton width={'100px'} /> : <div data-testid="title" className="font-mont text-2xl ">
+							{loading ? <Skeleton width={'100px'} /> : <div data-testid="title" className="text-2xl ">
 								{	bounty.owner && `${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`}
 							</div>}
 						</div>
@@ -69,7 +68,7 @@ const BountyCard = ({ bounty, loading }) => {
 									: bountyName.slice(0, 50) + '...'}
 						</div>
 						<div className="flex flex-row items-center space-x-4 pt-1 w-full">
-							<div className="font-mont font-light pl-6 text-sm w-full">
+							<div className="font-light pl-6 text-sm w-full">
 								{loading ?
 									<Skeleton width={'100%'} /> :
 
@@ -77,7 +76,7 @@ const BountyCard = ({ bounty, loading }) => {
 							</div>
 						</div>
 						<div className="flex flex-row items-center space-x-4 pt-1 w-full">
-							<div className="font-mont font-light pl-6 text-sm w-full">
+							<div className="font-light pl-6 text-sm w-full">
 
 								{loading ?
 									<Skeleton width={'100%'} /> :
@@ -86,7 +85,7 @@ const BountyCard = ({ bounty, loading }) => {
 							</div>
 						</div>
 						<div className="flex flex-row items-center space-x-4 pt-1">
-							<div className="font-mont font-light pl-6 text-sm ">
+							<div className="font-light pl-6 text-sm ">
 								{loading ?
 									<Skeleton width={'60px'} /> :
 									bounty?.status == 'OPEN' ? 'Unclaimed' : 'Claimed'
@@ -94,7 +93,7 @@ const BountyCard = ({ bounty, loading }) => {
 							</div>
 						</div>
 						<div className="flex flex-row items-center space-x-4 pt-1">
-							<div className={`font-mont  ${bounty?.assignees?.nodes[0]? 'font-bold' : 'font-light'} pl-6 text-sm `}>
+							<div className={` ${bounty?.assignees?.nodes[0]? 'font-bold' : 'font-light'} pl-6 text-sm `}>
 								{bounty?.assignees?.nodes[0] ? `Assigned to ${bounty?.assignees?.nodes[0]?.name || bounty?.assignees.nodes[0]?.login}` : 'Unassigned'		}					 				
 							</div>
 						</div>
@@ -125,7 +124,7 @@ const BountyCard = ({ bounty, loading }) => {
 													opacity: .9,
 													color: `#${label.color}`,
 												}}
-												className="font-mont rounded-lg text-xs py-1 px-2 font-bold border truncate"
+												className="rounded-lg text-xs py-1 px-2 font-bold border truncate"
 											>
 												{label.name}
 											</div>
@@ -134,7 +133,7 @@ const BountyCard = ({ bounty, loading }) => {
 										return (
 											<div
 												key={index}
-												className="font-mont rounded-lg text-xs py-1 px-2 font-bold border border-green "
+												className="rounded-lg text-xs py-1 px-2 font-bold border border-green "
 											>
 												more..
 											</div>
