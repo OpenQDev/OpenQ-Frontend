@@ -5,7 +5,7 @@ import { ethers } from 'ethers';
 import ApproveStreamModal from './ApproveStreamModal';
 import { APPROVING, ERROR, SUCCESS, TRANSFERRING } from '../FundBounty/ApproveTransferState';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
-import { flow } from 'lodash';
+import FundStreamModal from './FundStreamModal';
 
 const CreateStream = () => {
 	// CONTEXT
@@ -41,6 +41,7 @@ const CreateStream = () => {
 			setApproveTransferState(TRANSFERRING);
 			await stream(recipient, flowRate, type);
 		} catch (error) {
+			console.log(error);
 			setApproveTransferState(ERROR);
 			const { message, title } = appState.openQClient.handleError(error);
 			setError({message, title});
@@ -213,7 +214,19 @@ const CreateStream = () => {
 					transactionHash={txnHash}
 					deleteFlow={deleteFlow}
 					showModal={showModal} setShowApproveTransferModal={setShowModal} confirmMethod={approve} approveTransferState={approveTransferState} error={error} const token ={token}/>}
-				
+				{showModal === 'fund' ?
+					<FundStreamModal resetState={() => { setShowModal(false); setApproveTransferState('CONFIRM'); }}
+						transactionHash={txnHash}
+						showModal={showModal} 
+						setShowApproveTransferModal={setShowModal} 
+						confirmMethod={approve} 
+						approveTransferState={approveTransferState} 
+						error={error} token={token} />
+					: showModal &&
+                    <ApproveStreamModal resetState={() => { setShowModal(false); setApproveTransferState('CONFIRM'); }}
+                    	transactionHash={txnHash}
+                    	deleteFlow={deleteFlow}
+                    	showModal={showModal} setShowApproveTransferModal={setShowModal} confirmMethod={approve} approveTransferState={approveTransferState} error={error} const token={token} />}
 	
 			</div></div>
 	);
