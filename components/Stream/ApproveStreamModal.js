@@ -19,26 +19,21 @@ import StoreContext from '../../store/Store/StoreContext';
 import ToolTip from '../Utils/ToolTip';
 
 const ApproveStreamModal = ({
+	resetState,
 	transactionHash,
+	deleteFlow,
 	setShowApproveTransferModal,
 	approveTransferState,
-	resetState,
-	error,
-	confirmationMessage,
 	confirmMethod,
-	approvingMessage,
-	approvingTitle,
+	error,
 	token,
-	bountyAddress,
-	bounty,
-	deleteFlow,
 	showModal
 }) => {
-	console.log(approveTransferState);
 	const modal = useRef();
 	const [recipient, setRecipient] = useState('');
 	const [flowRate, setFlowRate] = useState('');
 	const [appState] = useContext(StoreContext);
+	const {capitalize, toIng} = appState.utils;
 	const [localToken, setLocalToken] = useState({name: 'Daix',
 		address: '0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f',
 		symbol: 'DAI',
@@ -71,9 +66,9 @@ const ApproveStreamModal = ({
 	console.log(isDisabled);
 	
 	let title = {
-		[CONFIRM]: `${appState.utils.capitalize(showModal)} Stream`,
-		[APPROVING]: approvingTitle || 'Approve',
-		[TRANSFERRING]: `${appState.utils.capitalize(showModal)} Stream`,
+		[CONFIRM]: `${capitalize(showModal)} Stream`,
+		[APPROVING]:  'Approve',
+		[TRANSFERRING]: `${capitalize(showModal)} Stream`,
 		[SUCCESS]: showModal === 'delete' ? 'Stream deleted' : 'Transaction Complete!', 
 		[ERROR]: `${error.title}`,
 	};
@@ -94,8 +89,8 @@ const ApproveStreamModal = ({
 	}
 
 	let message = {
-		[CONFIRM]: `${confirmationMessage}`,
-		[APPROVING]: approvingMessage || 'Approving...',
+		[CONFIRM]: '',
+		[APPROVING]: 'Approving...',
 		[TRANSFERRING]: 'Transferring...',
 		[SUCCESS]: `Transaction confirmed! Check out your transaction with the link below:\n
 		`,
@@ -123,10 +118,6 @@ const ApproveStreamModal = ({
 	function onCurrencySelect(token) {
 		setLocalToken({ ...token, address: ethers.utils.getAddress(token.address) });
 	}
-	
-	const toIng = (word, bool)=>{
-		if(bool)		return word.slice(0, length-1)+ 'ing';
-		return word;};
 
 	function handleFlowRateChange(e) {
 		const volume = e.target.value;
@@ -141,13 +132,11 @@ const ApproveStreamModal = ({
 			<div className="justify-center items-center font-mont flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 md:pl-20 outline-none focus:outline-none">
 				<div ref={modal} className="w-1/3 min-w-[320px]">
 					<div className="border rounded-lg p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none border-web-gray border">
-						<div className="flex items-center border-solid">
-							<div className="flex flex-row">
-								<div className="text-2xl font-semibold pb-2">
-									{title[approveTransferState]}
-								</div>
-							</div>
+						<div className="flex items-center border-solid font-semibold pb-2 text-2xl">
+							{title[approveTransferState]}
 						</div>
+
+
 						{approveTransferState ===ERROR ?
 							<div className="text-md pb-4">
 								<p className="break-words">
@@ -165,6 +154,8 @@ const ApproveStreamModal = ({
 										</Link>
 									</p>}
 							</div> :
+
+
 							approveTransferState === SUCCESS ?
 								showModal === 'delete' ?
 									<div className='pb-4'>Stream of {token.symbol} to {recipient.slice(0, 4)}...{recipient.slice(38)} deleted.</div>:
@@ -174,9 +165,8 @@ const ApproveStreamModal = ({
 											<span> {token.symbol}</span></div>
 										<span className='pt-2'>To</span>
 										
-										<CopyAddressToClipboard data={bountyAddress || recipient} clipping={[5, 38]} /> 
+										<CopyAddressToClipboard data={ recipient} clipping={[5, 38]} /> 
 										
-										{bounty?.url &&<><span>For</span> <Link href={bounty.url}><a target="_blank" rel="noopener noreferrer" className='underline'>{bounty.title}</a></Link></>}
 										<span>Transaction</span>
 										<Link href={link[approveTransferState]}>
 											<a target={'_blank'} className="underline" rel="noopener noreferrer">
@@ -186,7 +176,6 @@ const ApproveStreamModal = ({
 												</svg>
 											</a>
 										</Link>
-
 									</div>
 								:
 								<>
@@ -219,49 +208,32 @@ const ApproveStreamModal = ({
 												placeholder="recipient address"
 											/>
 										</div>
-										{ bounty?.url &&		
-										<>
-											<span>For</span><Link href={bounty.url}><a target="_blank" rel="noopener noreferrer" className='underline'>{bounty.title}</a></Link>
-										</>}
 
 									</div>
-									<>
-										<p className='pb-2'>{(approveTransferState === CONFIRM || approveTransferState === APPROVING ) && showModal !== 'delete' ? 'First you\'ll need to let openq access the streaming amount for the first month.' : approveTransferState === TRANSFERRING && showModal !== 'delete'&& `Now you can ${showModal} the stream.`}</p>
-								
-										{showModal !== 'delete' ? 
-											<div className='flex w-full justify-evenly px-1.5 gap-2 border-web-gray border rounded-lg py-1.5 self-center'>
-							
-												{showModal !== 'delete' && approveTransferState !==ERROR && <button onClick={()=>confirmMethod(recipient, flowRate, showModal)} disabled={approveTransferState !== CONFIRM || isDisabled} className={`text-center border px-1.5 flex  gap-2 py-1.5 ${approveTransferState === CONFIRM && !isDisabled? 'cursor-pointer' : null} ${approveStyles[approveTransferState]} rounded-lg`}>
-													<ToolTip hideToolTip={!isDisabled} customOffsets={[-60, 30]} toolTipText="Please add the target address and the stream rate you'd like to approve.">	<span>{approveTransferState === CONFIRM ? 'Approve' : approveTransferState === APPROVING ? 'Approving' : 'Approved'}
-													</span></ToolTip>
-													{approveTransferState === APPROVING  && <LoadingIcon className={'inline pt-1'} />}
-												</button>}
-
-												{
-													approveTransferState === SUCCESS || approveTransferState === ERROR ?
-														null:
-								
-														
-														<button onClick={()=>deleteFlow(recipient)} className={`text-center px-2 flex gap-2 py-1.5 border ${fundStyles[approveTransferState]} rounded-lg`}>
-															<span>{appState.utils.capitalize(toIng(showModal, approveTransferState === TRANSFERRING))} Stream</span>
-															{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline'} />}
-														</button>
-												}
-												
-											</div> :
-											<button onClick={()=>deleteFlow(recipient)} disabled={approveTransferState !== CONFIRM} className={'text-center px-2 gap-2 py-1.5 text-center flex justify-center gap-4 bg-button-inside border-button border rounded-lg'}>
-												<span>{appState.utils.capitalize(toIng(showModal, approveTransferState === TRANSFERRING))}</span>
+									<p className='pb-2'>{(approveTransferState === CONFIRM || approveTransferState === APPROVING ) && showModal !== 'delete' ? 'First you\'ll need to let openq access the streaming amount for the first month.' : approveTransferState === TRANSFERRING && showModal !== 'delete'&& `Now you can ${showModal} the stream.`}</p>
+									{showModal !== 'delete'&& approveTransferState !==ERROR  ? 
+										<div className='flex w-full justify-evenly px-1.5 gap-2 border-web-gray border rounded-lg py-1.5 self-center'>
+											<button onClick={()=>confirmMethod(recipient, flowRate, showModal)} disabled={approveTransferState !== CONFIRM || isDisabled} className={`text-center border px-1.5 flex  gap-2 py-1.5 ${approveTransferState === CONFIRM && !isDisabled? 'cursor-pointer' : null} ${approveStyles[approveTransferState]} rounded-lg`}>
+												<ToolTip hideToolTip={!isDisabled} customOffsets={[-60, 30]} toolTipText="Please add the target address and the stream rate you'd like to approve.">	<span>{approveTransferState === CONFIRM ? 'Approve' : approveTransferState === APPROVING ? 'Approving' : 'Approved'}
+												</span></ToolTip>
+												{approveTransferState === APPROVING  && <LoadingIcon className={'inline pt-1'} />}
+											</button>
+											<button onClick={()=>deleteFlow(recipient)} className={`text-center px-2 flex gap-2 py-1.5 border ${fundStyles[approveTransferState]} rounded-lg`}>
+												<span>{capitalize(toIng(showModal, approveTransferState === TRANSFERRING))} Stream</span>
 												{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline'} />}
 											</button>
-										}
-									</>
+										</div> :
+										<button onClick={()=>deleteFlow(recipient)} disabled={approveTransferState !== CONFIRM} className={'text-center px-2 gap-2 py-1.5 text-center flex justify-center gap-4 bg-button-inside border-button border rounded-lg'}>
+											<span>{capitalize(toIng(showModal, approveTransferState === TRANSFERRING))}</span>
+											{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline'} />}
+										</button>
+									}
 								</>}
 								
 						{approveTransferState == ERROR || approveTransferState == SUCCESS ? (
 							<div className="flex items-center justify-center text-lg rounded-b">
 								<button onClick={() => updateModal()} className='text-center bg-button-inside hover:bg-button-inside-hover border border-button px-6 gap-2 py-1.5 text-center flex justify-center gap-4 cursor-pointer rounded-lg'>
 									<span>Close</span>
-									{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
 								</button>
 							</div>
 						) : null}

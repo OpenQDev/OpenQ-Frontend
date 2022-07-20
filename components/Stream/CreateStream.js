@@ -196,8 +196,8 @@ const CreateStream = () => {
 						deleteFlow={deleteFlow}
 						showModal={showModal}
 						setShowApproveTransferModal={setShowModal}
-						confirmMethod={approve}
 						approveTransferState={approveTransferState}
+						confirmMethod={approve}
 						error={error}
 						token={token} />
 				}

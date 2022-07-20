@@ -79,6 +79,11 @@ pageview = (url) => {
 }
 
 
+	toIng = (word, bool)=>{
+		if(bool)		return word.slice(0, length-1)+ 'ing';
+		return word;};
+
+
 }
 
 export default Utils;
