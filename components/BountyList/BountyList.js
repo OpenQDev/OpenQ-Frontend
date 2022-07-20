@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 //Custom
-import BountyCard from '../Bounty/BountyCard';
+import BountyCardLean from '../Bounty/BountyCardLean';
 import Dropdown from '../Utils/Dropdown';
 import SearchBar from '../Search/SearchBar';
 import MintBountyButton from '../MintBounty/MintBountyButton';
@@ -236,16 +236,16 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 
 	// Render
 	return (
-		<div className="lg:col-start-2 justify-self-center space-y-3 w-full pb-8 max-w-[850px]">
+		<div className="lg:col-start-2 justify-self-center space-y-3 w-full pb-8 max-w-[950px] pt-10">
 			<div className="grid lg:grid-cols-[repeat(4,_1fr)] gap-6 w-full">
-				<div className="flex rounded-lg lg:col-span-3 col-span-4 justify-center">
+				<div className="flex rounded-lg lg:col-span-3 col-span-4 gap-4 justify-left">
 					{tagSearch === 'Search' ?
 						<SearchBar
 							onKeyUp={handleSearchInput}
 							placeholder={'Search Issue...'}
 							searchText={searchText}
 							label={'search text'}
-							borderShape={'border-b border-l rounded-l-lg border-t w-36 sm:w-full'}
+							borderShape={'border-b rounded-l-lg sm:w-full w-full'}
 						/> :
 
 						<SearchBar
@@ -254,10 +254,10 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 							placeholder={'Enter Tag...'}
 							searchText={searchText}
 							label={'search tags'}
-							borderShape={'border-b border-l rounded-l-lg border-t w-36 sm:w-full'}
+							borderShape={'border-b rounded-l-lg sm:w-full w-full'}
 						/>
 					}
-					<Dropdown toggleFunc={toggleTagSearch} title={tagSearch} width={44} names={['Search', 'Search by Tags']} borderShape={'rounded-r-lg'} />
+					<Dropdown toggleFunc={toggleTagSearch} title={tagSearch} width={44} names={['Search', 'Search by Tags']} borderShape={'rounded-sm'} />
 				</div>
 				<MintBountyButton />
 			</div>
@@ -295,7 +295,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			</div>
 			{addCarousel && account && watchedBounties.length ?
 				<>
-					<div className="flex w-fit p-2 px-4 font-mont font-semibold border rounded-lg border-web-gray">
+					<div className="flex w-fit p-2 px-4 font-semibold border rounded-lg border-web-gray">
 						<label htmlFor="watched bounties" className=" pointer-events-none">Watched Bounties</label>
 					</div>
 					<Carousel watchedBounties={watchedBounties} styles={'col-start-2'} >
@@ -304,11 +304,13 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 				</>
 				:
 				null}
+			<div className="border border-web-gray">
 			{isProcessed && !loading &&
 				searchedBounties.map((bounty, index) => {
-					return <div key={bounty.id} ref={(index === searchedBounties.length - 1) ? lastElem : null}><BountyCard bounty={bounty} /></div>;
-				})
-			}
+					return <div key={bounty.id} ref={(index === searchedBounties.length - 1) ? lastElem : null}><BountyCardLean bounty={bounty} /></div>;
+				})}
+			</div>
+			
 		</div>
 	);
 };
