@@ -5,19 +5,26 @@ import ManageTokenList from '../ManageTokenList';
 import { useState, useEffect } from 'react';
 import StoreContext from '../../../store/Store/StoreContext';
 import Image from 'next/image';
-const TokenSearch = ({  token, onCurrencySelect, stream }) => {
+const TokenSearch = ({  token, onCurrencySelect, stream, setShowTokenSearch }) => {
 	const [showListManager, setShowListManager] = useState(true);
 	const [tokenSearchTerm, setTokenSearchTerm] = useState();
 	const [lists, setLists] = useState({ polygon: !stream, openq: !stream, superTokens: stream});
 	const [customTokens, setCustomTokens] = useState([]);
 	const [polygonTokens, setPolygonTokens] = useState([]);
 	const [openQTokens, setOpenQTokens] = useState([]);
-	const [showTokenSearch, setShowTokenSearch] = useState();
-	
+	const [showStreamTokenSearch,  setShowStreamTokenSearch] = useState(!stream);
+	const handleShowSearch = (bool)=>{
+		if(stream){
+			setShowStreamTokenSearch(bool);
+		}
+		else{
+			setShowTokenSearch(bool);
+		}
+	};
 	const batch = 100;
 	const [appState] = useContext(StoreContext);
 	function handleOutsideClick () {
-		setShowTokenSearch(false);
+		handleShowSearch(false);
 	}
 	
 	useEffect(async()=>{
@@ -37,7 +44,7 @@ const TokenSearch = ({  token, onCurrencySelect, stream }) => {
 			<div>
 				<button
 					className="flex flex-row items-center space-x-1 py-2 drop-shadow-lg border border-web-gray rounded-lg p-2 pr-2"
-					onClick={() => setShowTokenSearch(true)}
+					onClick={()=>handleShowSearch(true)}
 				>
 					<div className="flex flex-row space-x-5 items-center justify-center">
 						<div className="h-1 w-6 pb-6">
@@ -61,7 +68,7 @@ const TokenSearch = ({  token, onCurrencySelect, stream }) => {
 					</div>
 				</button>
 			</div>
-			{showTokenSearch&& <div
+			{(!stream || showStreamTokenSearch) && <div
 				onClick={handleOutsideClick}
 				className='justify-center font-mont items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 md:left-20 z-50 outline-none focus:outline-none'
 			>
@@ -77,7 +84,8 @@ const TokenSearch = ({  token, onCurrencySelect, stream }) => {
 									<h3 className='text-1xl font-semibold'>Select a Token</h3>
 									<button
 										className='text-3xl hover:text-tinted'
-										onClick={() => setShowTokenSearch(false)}
+										onClick={() => 
+											handleShowSearch(false)}
 									>
                     ×
 									</button>
@@ -105,7 +113,8 @@ const TokenSearch = ({  token, onCurrencySelect, stream }) => {
 											openqDefaultTokens = {openQTokens}
 											tokenSearchTerm={tokenSearchTerm}
 											onCurrencySelect={onCurrencySelect}
-											setShowTokenSearch={setShowTokenSearch}
+											setShowTokenSearch={
+												handleShowSearch}
 										/>
 									)}
 								</div>
@@ -120,19 +129,20 @@ const TokenSearch = ({  token, onCurrencySelect, stream }) => {
 								lists={lists}
 							/>
 						)}
-						<button
-							className='confirm-btn'
-							onClick={e => {
-								setShowListManager(() => !showListManager);
-								e.stopPropagation();
-							}}
-						>
-							{showListManager ? 'Manage token lists' : 'Back'}
-						</button>
+						{
+							!stream && <button
+								className='confirm-btn'
+								onClick={e => {
+									setShowListManager(() => !showListManager);
+									e.stopPropagation();
+								}}
+							>
+								{showListManager ? 'Manage token lists' : 'Back'}
+							</button>}
 					</div>
 				</div>
 			</div>}
-			{!stream && <div className='fixed inset-0 bg-overlay'></div> }
+			{!stream && <div className='fixed inset-0 z-10 bg-overlay'></div> }
 		</div>
 	);
 };
