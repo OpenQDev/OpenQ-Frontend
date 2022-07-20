@@ -26,14 +26,15 @@ const FundStreamModal = ({
 	resetState,
 	error,
 	confirmationMessage,
-	confirmMethod,
+	fund,
 	approvingMessage,
 	approvingTitle,
 	token,
 	showModal
 }) => {
+	console.log(approveTransferState);
 	const modal = useRef();
-	const [volume, setvolume] = useState('');
+	const [volume, setVolume] = useState('');
 	const [appState] = useContext(StoreContext);
 	const [localToken, setLocalToken] = useState({
 		name: 'fDaiX',
@@ -69,32 +70,25 @@ const FundStreamModal = ({
 	console.log(isDisabled);
 
 	let title = {
-		[CONFIRM]: `${appState.utils.capitalize(showModal)} Stream`,
-		[APPROVING]: approvingTitle || 'Approve',
-		[TRANSFERRING]: `${appState.utils.capitalize(showModal)} Stream`,
-		[SUCCESS]: showModal === 'delete' ? 'Stream deleted' : 'Transaction Complete!',
+		[CONFIRM]: 'Fund Stream',
+		[APPROVING]: 'Approve',
+		[SUCCESS]: 'Stream Funded',
 		[ERROR]: `${error.title}`,
 	};
 	let approveStyles = {
 		[CONFIRM]: `bg-button-inside border-button ${isDisabled ? 'cursor-not-allowed' : 'hover:bg-button-inside-hover'} border`,
 		[APPROVING]: 'bg-button-inside border-button border',
-		[TRANSFERRING]: 'border-transparent',
 	};
 
 
 	let fundStyles = {
 		[CONFIRM]: 'px-8 border-transparent',
 		[APPROVING]: 'px-8 border-transparent',
-		[TRANSFERRING]: 'bg-button-inside border-button border'
 	};
-	if ('0x0000000000000000000000000000000000000000' === token.address) {
-		fundStyles = { ...approveStyles };
-	}
 
 	let message = {
 		[CONFIRM]: `${confirmationMessage}`,
 		[APPROVING]: approvingMessage || 'Approving...',
-		[TRANSFERRING]: 'Transferring...',
 		[SUCCESS]: `Transaction confirmed! Check out your transaction with the link below:\n
 		`,
 		[ERROR]: `${error.message}`,
@@ -111,27 +105,16 @@ const FundStreamModal = ({
 
 
 
-	const handleRecipientChange = (e) => {
-		setRecipient(e.target.value);
-	};
-
-
-
 
 	function onCurrencySelect(token) {
 		setLocalToken({ ...token, address: ethers.utils.getAddress(token.address) });
 	}
 
-	const toIng = (word, bool) => {
-		if (bool) return word.slice(0, length - 1) + 'ing';
-		return word;
-	};
-
 	function handleVolumeChange(e) {
 		const volume = e.target.value;
 		const numberRegex = /^(\d+)?(\.)?(\d+)?$/;
 		if (numberRegex.test(volume) || volume === '' || volume === '.') {
-			setFlowRate(parseFloat(volume.match(numberRegex)[0]));
+			setVolume(parseFloat(volume.match(numberRegex)[0]));
 		}
 	}
 	//volume = Math.round(volume * Math.pow(10, 10)) / Math.pow(10, 10);
@@ -148,6 +131,12 @@ const FundStreamModal = ({
 								</div>
 							</div>
 						</div>
+						{approveTransferState === CONFIRM || approveTransferState === APPROVING &&
+						<>
+							<p>Topping up one stream in Dai will top up all accounts.</p>
+							<p>{'You don\'t need to top up streams for each account.'}</p>
+						</>
+						}
 						{approveTransferState === ERROR ?
 							<div className="text-md pb-4">
 								<p className="break-words">
@@ -204,22 +193,15 @@ const FundStreamModal = ({
 									<>
 										<p className='pb-2'>{(approveTransferState === CONFIRM || approveTransferState === APPROVING) && showModal !== 'delete' ? '' : approveTransferState === TRANSFERRING && showModal !== 'delete' && `Now you can ${showModal} the stream.`}</p>
 
-										<div className='flex w-full justify-evenly px-1.5 gap-2 border-web-gray border rounded-lg py-1.5 self-center'>
+										<div className='flex w-full justify-evenly px-1.5 gap-2 rounded-lg py-1.5 self-center'>
 
-											{showModal !== 'delete' && approveTransferState !== ERROR && <button onClick={() => confirmMethod(recipient, flowRate, showModal)} disabled={approveTransferState !== CONFIRM || isDisabled} className={`text-center border px-1.5 flex  gap-2 py-1.5 ${approveTransferState === CONFIRM && !isDisabled ? 'cursor-pointer' : null} ${approveStyles[approveTransferState]} rounded-lg`}>
+											{showModal !== 'delete' && approveTransferState !== ERROR && <button onClick={() => fund(volume, localToken)} disabled={approveTransferState !== CONFIRM || isDisabled} className={`text-center border px-2 flex  gap-2 py-1.5 ${approveTransferState === CONFIRM && !isDisabled ? 'cursor-pointer' : null} ${approveStyles[approveTransferState]} rounded-lg`}>
 												<ToolTip hideToolTip={!isDisabled} customOffsets={[-60, 30]} toolTipText="Please add the target address and the stream rate you'd like to approve.">	<span>{approveTransferState === CONFIRM ? 'Approve' : approveTransferState === APPROVING ? 'Approving' : 'Approved'}
 												</span></ToolTip>
 												{approveTransferState === APPROVING && <LoadingIcon className={'inline pt-1'} />}
 											</button>}
 
-											{
-												approveTransferState === SUCCESS || approveTransferState === ERROR ?
-													null :
-													<button onClick={() => deleteFlow(recipient)} className={`text-center px-2 flex gap-2 py-1.5 border ${fundStyles[approveTransferState]} rounded-lg`}>
-														<span>{appState.utils.capitalize(toIng(showModal, approveTransferState === TRANSFERRING))} Stream</span>
-														{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline'} />}
-													</button>
-											}
+											
 
 										</div>
 									</>

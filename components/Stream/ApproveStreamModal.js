@@ -36,6 +36,7 @@ const ApproveStreamModal = ({
 	deleteFlow,
 	showModal
 }) => {
+	console.log(approveTransferState);
 	const modal = useRef();
 	const [recipient, setRecipient] = useState('');
 	const [flowRate, setFlowRate] = useState('');

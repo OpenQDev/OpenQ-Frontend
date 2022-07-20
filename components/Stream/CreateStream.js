@@ -33,6 +33,22 @@ const CreateStream = () => {
 	};
 	const [token, setToken] = useState(zeroAddressMetadata);
 
+
+	async function fund(volume, tokenAddress){
+		console.log(volume);
+		try{
+			setApproveTransferState(APPROVING);
+			const tx = await appState.superfluidClient.approve(library, fDaiXAddress, (volume).toString());
+			setTxnHash(tx.hash);
+			setApproveTransferState(SUCCESS);
+		}catch (error) {
+			console.log(error);
+			setApproveTransferState(ERROR);
+			const { message, title } = appState.openQClient.handleError(error);
+			setError({message, title});
+		}
+
+	}
 	async function approveToken(volume,  recipient, flowRate, type) {
 		try {
 			 await appState.superfluidClient.approve(library, fDaiXAddress, volume);
@@ -183,7 +199,7 @@ const CreateStream = () => {
 	};
 
 	return (
-		<div className="grid grid-cols-[1fr_1fr_1fr] gap-8 w-full rounded-lg pt-8">
+		<div className="grid grid-cols-[1fr_1fr_1fr] gap-8 w-full rounded-lg justify-center justify-items-center pt-8">
 			<div className='bg-inactive-gray text-center w-80 p-4 rounded-lg'>
 				<h1 className='font-bold text-xl pb-6'>Stream Monthly</h1>
 				<p className='pb-4'>Stream tokens every month to any Polygon address.</p>
@@ -209,24 +225,19 @@ const CreateStream = () => {
 
 
 				{showModal === 'fund' ?
-					<div></div>: showModal &&
-				<ApproveStreamModal resetState={()=>{setShowModal(false); setApproveTransferState('CONFIRM');}} 
-					transactionHash={txnHash}
-					deleteFlow={deleteFlow}
-					showModal={showModal} setShowApproveTransferModal={setShowModal} confirmMethod={approve} approveTransferState={approveTransferState} error={error} const token ={token}/>}
-				{showModal === 'fund' ?
 					<FundStreamModal resetState={() => { setShowModal(false); setApproveTransferState('CONFIRM'); }}
 						transactionHash={txnHash}
 						showModal={showModal} 
 						setShowApproveTransferModal={setShowModal} 
-						confirmMethod={approve} 
+						fund={fund} 
 						approveTransferState={approveTransferState} 
 						error={error} token={token} />
 					: showModal &&
                     <ApproveStreamModal resetState={() => { setShowModal(false); setApproveTransferState('CONFIRM'); }}
                     	transactionHash={txnHash}
                     	deleteFlow={deleteFlow}
-                    	showModal={showModal} setShowApproveTransferModal={setShowModal} confirmMethod={approve} approveTransferState={approveTransferState} error={error} const token={token} />}
+                    	showModal={showModal} setShowApproveTransferModal={setShowModal} confirmMethod={approve} approveTransferState={approveTransferState} error={error} const token={token} />
+				}
 	
 			</div></div>
 	);
