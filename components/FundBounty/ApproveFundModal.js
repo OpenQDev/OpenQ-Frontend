@@ -1,7 +1,6 @@
 // Third party
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { ethers } from 'ethers';
 
 // Custom
 import {
@@ -14,7 +13,6 @@ import {
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Image from 'next/image';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
-import TokenSearch from './SearchTokens/TokenSearch';
 
 const ApproveFundModal = ({
 	transactionHash,
@@ -29,19 +27,9 @@ const ApproveFundModal = ({
 	token,
 	volume,
 	bountyAddress,
-	bounty,
-	stream,
-	showModal
+	bounty
 }) => {
 	const modal = useRef();
-	const [recipient, setRecipient] = useState('');
-	const [flowRate, setFlowRate] = useState('');
-	const [localToken, setLocalToken] = useState({name: 'Dai',
-		address: '0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f',
-		symbol: 'DAI',
-		decimals: 18,
-		chainId: 80001,
-		path: '/crypto-logos/DAI.svg'});
 	const updateModal = () => {
 		resetState();
 		setShowApproveTransferModal(false);
@@ -65,10 +53,10 @@ const ApproveFundModal = ({
 	}, [modal, approveTransferState]);
 
 	let title = {
-		[CONFIRM]: stream ? 'Approve Stream' : 'Confirm Deposit',
+		[CONFIRM]: 'Confirm Deposit',
 		[APPROVING]: approvingTitle || 'Approve',
-		[TRANSFERRING]:  stream ? 'Create/Update Stream' : 'Transfer',
-		[SUCCESS]: 'Transfer Complete!', 
+		[TRANSFERRING]: 'Transfer',
+		[SUCCESS]: 'Transfer Complete!',
 		[ERROR]: `${error.title}`,
 	};
 	let approveStyles = {
@@ -105,32 +93,11 @@ const ApproveFundModal = ({
 		[ERROR]: `${error.linkText}`
 	};
 
-
-
-	const handleRecipientChange = (e) => {
-		console.log(recipient);
-		setRecipient(e.target.value);
-	};
-
-
-	
-
-	function onCurrencySelect(token) {
-		setLocalToken({ ...token, address: ethers.utils.getAddress(token.address) });
-	}
-	
-
-
-	const isDisabled = !recipient || !flowRate || !ethers.utils.isAddress(recipient) || isNaN(flowRate);
-	
-	const handleFlowRateChange = (e) => {
-		setFlowRate(e.target.value);
-	};
 	volume =Math.round(volume*Math.pow(10, 10))/Math.pow(10, 10);
-	console.log(stream);
+
 	return (
 		<div>
-			<div className="justify-center items-center font-mont flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 md:pl-20 outline-none focus:outline-none">
+			<div className="justify-center items-center font-mont flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 pl-20 outline-none focus:outline-none">
 				<div ref={modal} className="w-1/4 min-w-[320px]">
 					<div className="border rounded-lg p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none border-web-gray border">
 						<div className="flex items-center border-solid">
@@ -161,12 +128,11 @@ const ApproveFundModal = ({
 								<>
 									<div className="text-md gap-4 py-6 px-4 grid grid-cols-[1fr_1fr] w-full justify-between">
 										<div className='w-4'>Deposited</div>
-										<div className='flex flex-wrap justify-between w-[120px] gap-2'><Image width={24} className="inline" height={24} src={token.path || token.logoURI||'/crypto-logs/ERC20.svg'} /><span>{!stream && volume} {token.symbol}</span></div>
+										<div className='flex flex-wrap justify-between w-[120px] gap-2'><Image width={24} className="inline" height={24} src={token.path || token.logoURI||'/crypto-logs/ERC20.svg'} /><span>{volume} {token.symbol}</span></div>
 										<span>To</span>
-										
-										<CopyAddressToClipboard data={bountyAddress || recipient} clipping={[5, 38]} /> 
-										
-										{bounty?.url &&<><span>For</span> <Link href={bounty.url}><a target="_blank" rel="noopener noreferrer" className='underline'>{bounty.title}</a></Link></>}
+										<CopyAddressToClipboard data={bountyAddress} clipping={[5, 39]} />
+										<span>For</span>
+										{bounty.url && <Link href={bounty.url}><a target="_blank" rel="noopener noreferrer" className='underline'>{bounty.title}</a></Link>}
 										<span>Transaction</span>
 										<Link href={link[approveTransferState]}>
 											<a target={'_blank'} className="underline" rel="noopener noreferrer">
@@ -180,79 +146,31 @@ const ApproveFundModal = ({
 									</div>
 								</> :
 								<>
-									<div className="text-md gap-4 py-6 px-2 grid grid-cols-[1fr_1fr] w-full justify-between">
-										
-										<div className='w-4'>Funding</div>{ stream ?
-											
-											<TokenSearch
-												stream={stream}
-												token={localToken}
-												onCurrencySelect={onCurrencySelect}/>:
-											<div className='flex flex-wrap justify-between w-[120px] gap-2'><Image width={24} className="inline" height={24} src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'} /><span>{!stream && volume} {token.symbol}</span></div>
-										}<span className='py-2'>To</span>
-										<div className={`flex ${stream && 'border border-web-gray'} rounded-lg py-px pl-2 `}>
-											{stream ?
-												<>
-													<input className='bg-transparent py-px outline-none'
-														type="text"
-														name="flowRate"
-														value={recipient}
-														onChange={handleRecipientChange}
-														placeholder="recipient address"
-													/>
-																					
-												</>:
-												<CopyAddressToClipboard data={bountyAddress} clipping={[5, 38]} />
-											}
-											
-										</div>
-										{ bounty?.url &&		
-										<>
-											<span>For</span><Link href={bounty.url}><a target="_blank" rel="noopener noreferrer" className='underline'>{bounty.title}</a></Link>
-										</>}
-										{stream && <span className='py-2'>Flow Rate</span>}
-										<div className={'flex border border-web-gray rounded-lg py-px pl-2 '}>
-											{stream && 
-												<>
-													<input className='bg-transparent py-px outline-none'
-														type="text"
-														name="flowRate"
-														value={flowRate}
-														onChange={handleFlowRateChange}
-														placeholder="flow rate in tokens/day"
-													/>								
-												</> }
-											
-										</div>
+									<div className="text-md gap-4 py-6 px-4 grid grid-cols-[1fr_1fr] w-full justify-between">
+										<div className='w-4'>Funding</div>
+										<div className='flex flex-wrap justify-between w-[120px] gap-2'><Image width={24} className="inline" height={24} src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'} /><span>{volume} {token.symbol}</span></div>
+										<span>To</span>
+										<CopyAddressToClipboard data={bountyAddress} clipping={[5, 39]} />
+										<span>For</span>
+										{ bounty.url &&		<Link href={bounty.url}><a target="_blank" rel="noopener noreferrer" className='underline'>{bounty.title}</a></Link>}
 
 									</div>
 									{token.address !== '0x0000000000000000000000000000000000000000' ?
-										<div className='flex w-full justify-evenly px-1.5 gap-2 border-web-gray border rounded-lg py-1.5 self-center'>
+										<div className='flex w-71 justify-evenly px-1.5 gap-2 border-web-gray border rounded-lg py-1.5 self-center'>
 											<button onClick={confirmMethod} disabled={approveTransferState !== CONFIRM} className={`text-center border px-2 flex  gap-2 py-1.5 ${approveTransferState === CONFIRM ? 'cursor-pointer' : null} ${approveStyles[approveTransferState]} rounded-lg`}>
 												<span>{approveTransferState === CONFIRM ? 'Approve' : approveTransferState === APPROVING ? 'Approving' : 'Approved'}
 												</span>
 												{approveTransferState === APPROVING && <LoadingIcon className={'inline pt-1'} />}
 											</button>
 
-											{stream ?
-												<>
-													{showModal === 'create' ?<button disabled={isDisabled} onClick={()=>stream(recipient, flowRate, 'create')} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg ${isDisabled ? '' : ' cursor-pointer'}`}>
-														<span>Create Stream</span>
-													</button> :
-														showModal === 'update' &&
-													<button disabled={isDisabled} onClick={()=>stream(recipient, flowRate, 'update')} className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg ${isDisabled ? '' : 'confirm-btn cursor-pointer'}`}>
-														<span>Update Stream</span>
-													</button>}
-												</>
-												:<div className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg`}>
-													<span>{approveTransferState === TRANSFERRING ? 'Funding' : 'Fund'}</span>
-													{approveTransferState === TRANSFERRING &&  <LoadingIcon className={'inline pt-1'} />}
-												</div>
-											
-											}
+											<div className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg`}>
+												<span>{approveTransferState === TRANSFERRING ? 'Funding' : 'Fund'}</span>
+												{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
+											</div>
 										</div> :
-										<button onClick={()=>stream(recipient)} disabled={approveTransferState !== CONFIRM} className={`text-center px-2 gap-2 py-1.5 text-center flex justify-center gap-4 ${fundStyles[approveTransferState]} rounded-lg`}>
-											<span>{approveTransferState === TRANSFERRING && !stream ? 'Funding' : 'Fund'}</span>
+										<button onClick={confirmMethod} disabled={approveTransferState !== CONFIRM} className={`text-center px-2 gap-2 py-1.5 text-center flex justify-center gap-4 ${fundStyles[approveTransferState]} rounded-lg`}>
+											<span>{approveTransferState === TRANSFERRING ? 'Funding' : 'Fund'}</span>
+											{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
 										</button>
 									}
 								</>}
