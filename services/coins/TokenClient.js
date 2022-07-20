@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { ethers } from 'ethers';
 import { setup } from 'axios-cache-adapter';
+import localSuperfluidIndexable from '../../constants/superfluid-local-indexable.json';
 import enumerable from '../../constants/polygon-mainnet-enumerable.json';
 import indexable from '../../constants/polygon-mainnet-indexable.json';
 import localEnumerable from '../../constants/openq-local-enumerable.json';
@@ -143,6 +144,8 @@ class CoinClient {
 		if (this.openqIndexableTokens[checkSummedAddress]) {
 			return this.openqIndexableTokens[checkSummedAddress];
 		}
+		if(localSuperfluidIndexable[address.toLowerCase()]){
+			return localSuperfluidIndexable[address.toLowerCase()];}
 		return {
 			chainId: 137,
 			name: 'Custom Token',
