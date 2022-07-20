@@ -14,5 +14,15 @@
 		"decimals": 18,
 		"chainId": 80001,
 		"path": "/crypto-logos/FDAI.svg"
+	},
+
+	"0xc6a3ce73483eb37b0ed46a63cf6c0705ce74c8b9":{
+		"name": "fDaiX",
+		"address": "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f",
+		"symbol": "FDAIX",
+		"decimals": 18,
+		"chainId": 80001,
+		"path": "/crypto-logos/FDAIX.svg"
 	}
+	
 	}

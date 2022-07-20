@@ -13,10 +13,10 @@ class SuperfluidClient {
 
 
 
-	httpLink = new HttpLink({ uri: 'https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-mumbai', fetch });
+	httpLink = new HttpLink({ uri: 'http://localhost:8000/subgraphs/name/superfluid-test', fetch });
 
 	client = new ApolloClient({
-		uri: 'https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-mumbai',
+		uri: 'http://localhost:8000/subgraphs/name/superfluid-test',
 
 		link: this.httpLink,
 		cache: new InMemoryCache(),
@@ -266,7 +266,7 @@ class SuperfluidClient {
 			try{
 				const result = await this.client.query({
 					query: GET_STREAMS_BY_ACCOUNT, 
-					variables: {account}
+					variables: {account: account.toLowerCase()}
 				});
 				resolve(result);
 			}
