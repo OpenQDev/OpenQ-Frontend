@@ -66,6 +66,10 @@ class Utils {
 		return fullBounties;
 	}
 
+	capitalize = (word) =>{
+		return word[0].toUpperCase() + word.substring(1);
+	}
+
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
 pageview = (url) => {

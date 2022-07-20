@@ -6,6 +6,7 @@ import GithubRepository from '../../services/github/GithubRepository';
 import TokenClient from '../../services/coins/TokenClient';
 import Logger from '../../services/logger/Logger';
 import OpenQPrismaClient from '../../services/openq-api/OpenQPrismaClient';
+import SuperfluidClient from '../../services/SuperfluidClient/SuperfluidClient';
 
 import MockGithubRepository from '../../services/github/MockGithubRepository';
 import MockOpenQClient from '../../services/ethers/MockOpenQClient';
@@ -23,7 +24,8 @@ case 'local':
 		tokenClient: new MockTokenClient(),
 		logger: new Logger(true),
 		utils: new Utils(),
-		openQPrismaClient: new MockOpenQPrismaClient()
+		openQPrismaClient: new MockOpenQPrismaClient(),
+		superfluidClient: new SuperfluidClient()
 	};
 	break;
 case 'docker':
@@ -35,6 +37,7 @@ case 'docker':
 		logger: new Logger(true),
 		utils: new Utils(),
 		openQPrismaClient: new OpenQPrismaClient(),
+		superfluidClient: new SuperfluidClient()
 	};
 	break;
 case 'development':
@@ -46,6 +49,7 @@ case 'development':
 		logger: new Logger(true),
 		utils: new Utils(),
 		openQPrismaClient: new OpenQPrismaClient(),
+		superfluidClient: new SuperfluidClient()
 	};
 	break;
 case 'staging':
@@ -57,6 +61,7 @@ case 'staging':
 		logger: new Logger(true),
 		utils: new Utils(),
 		openQPrismaClient: new OpenQPrismaClient(),
+		superfluidClient: new SuperfluidClient()
 	};
 	break;
 case 'production':
@@ -68,6 +73,19 @@ case 'production':
 		logger: new Logger(false),
 		utils: new Utils(),
 		openQPrismaClient: new OpenQPrismaClient(),
+		superfluidClient: new SuperfluidClient()
+	};
+	break;
+case 'ethbarcelona':
+	InitialState = {
+		openQClient: new OpenQClient(),
+		githubRepository: new GithubRepository(),
+		openQSubgraphClient: new OpenQSubgraphClient(),
+		tokenClient: new TokenClient(),
+		logger: new Logger(false),
+		utils: new Utils(),
+		openQPrismaClient: new OpenQPrismaClient(),
+		superfluidClient: new SuperfluidClient()
 	};
 	break;
 default:

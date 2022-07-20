@@ -4,8 +4,7 @@ import fetch from 'cross-fetch';
 import { setContext } from '@apollo/client/link/context';
 
 class GithubRepository {
-	constructor() {
-	}
+	constructor() { }
 
 	httpLink = new HttpLink({ uri: 'https://api.github.com/graphql', fetch });
 
