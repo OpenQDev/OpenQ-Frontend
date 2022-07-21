@@ -48,16 +48,16 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 					</ToolTip>
 
 					{expanded ?
-					<div className="w-full flex flex-wrap md:flex-nowrap md:space-x-3 space-y-3 md:space-y-0 self-center">
+						<div className="w-full flex flex-wrap md:flex-nowrap md:space-x-3 space-y-3 md:space-y-0 self-center">
 							<ToolTip
 								outerStyles="w-full flex space-x-2"
 								hideToolTip={isOnCorrectNetwork && (depositPeriodDays > 0)}
 								toolTipText={!isOnCorrectNetwork?
 									'Please switch to the correct network to extend this bounty.' :
 									!(depositPeriodDays > 0) ?
-									'Please indicate how many days you\'d like to extend your bounty for.' :
+										'Please indicate how many days you\'d like to extend your bounty for.' :
 										null
-											}
+								}
 								customOffsets={[0, 46]}>
 								<button onClick={() => extendBounty(deposit.id)}
 									disabled={!isOnCorrectNetwork || !(depositPeriodDays > 0)}
@@ -71,10 +71,10 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 											)
 										)
 										: 'sm-confirm-btn-disabled cursor-not-allowed'
-										}`} >
+									}`} >
 									Extend By
 								</button>
-								</ToolTip>
+							</ToolTip>
 							<div className="flex w-full flex-row justify-between items-center h-12 px-4 py-2 rounded-lg bg-dark-mode border border-web-gray">
 								<div className=' flex items-center gap-3 w-full'>
 									<ToolTip customOffsets={[0, 36]} outerStyles={''} mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
@@ -94,7 +94,7 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 									/>
 								</div>
 							</div>
-							</div>
+						</div>
 						:
 						<ToolTip
 							outerStyles="w-full flex self-center w-1/2"
@@ -105,7 +105,7 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 								disabled={!isOnCorrectNetwork}
 								className={`items-left text-lg  self-center ${isOnCorrectNetwork ? 'sm-confirm-btn'
 									: 'sm-confirm-btn-disabled cursor-not-allowed'
-									}`} >
+								}`} >
 								Extend
 							</button>
 						</ToolTip>
