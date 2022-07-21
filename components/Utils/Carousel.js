@@ -2,7 +2,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 
 
-const Carousel = ({styles, children}) => {
+const Carousel = ({styles, children, height}) => {
 	const scroller = useRef();
 	const [isScrollable, setIsScrollable] = useState();
 	const [isScrolling, setIsScrolling] = useState();
@@ -38,9 +38,9 @@ const Carousel = ({styles, children}) => {
 
 			</button>}
 			<div ref={scroller} data-testid="carousel" className='flex gap-2 lg:max-w-[100%] lg:w-[950px] pb-3 overflow-x-auto justify-items-center'>
-				{	isScrollable && <div className='pointer-events-none absolute bg-gradient-to-r from-dark-mode to-black/0 w-12 sm:w-52 h-36 left-0 lg:left-10'></div>}
+				{	isScrollable && <div className={`pointer-events-none absolute bg-gradient-to-r from-dark-mode to-black/0 w-12 sm:w-52 h-${height||36} left-0 lg:left-10`}></div>}
 				{children}
-				{	isScrollable && <div className='absolute pointer-events-none bg-gradient-to-l from-dark-mode to-black/0 w-12 sm:w-52 h-36 right-0 lg:right-10'></div>}
+				{	isScrollable && <div className={`absolute pointer-events-none bg-gradient-to-l from-dark-mode to-black/0 w-12 sm:w-52 h-${height||36} right-0 lg:right-10`}></div>}
 			</div>
 			{isScrollable&& <button className='sr-only lg:not-sr-only' data-testid="scroll carousel right" onMouseDown={()=>setIsScrolling('right')} >
 				<svg className='hover:fill-web-gray fill-dark-mode stroke-web-gray active:stroke-pink-500'  width="44" height="36" viewBox="0 0 44 66" xmlns="http://www.w3.org/2000/svg">
