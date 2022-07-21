@@ -1,5 +1,5 @@
 // Third party
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 // Custom
 import OrganizationCard from '../Organization/OrganizationCard';
 import MintBountyButton from '../MintBounty/MintBountyButton';
@@ -23,11 +23,11 @@ const OrganizationHomepage = ({ orgs }) => {
 				<div className="text-2xl font-bold">Organizations</div>
 				<div className="text-gray-500 text-md">GitHub organizations outsourcing to OpenQ</div>
 			</div>
-			<div className="lg:grid lg:grid-cols-extra-wide xl:grid-cols-wide justify-center">
+			<div className="lg:grid lg:grid-cols-extra-wide xl:grid-cols-wide justify-center md:pr-3">
 				
 				<div className="lg:col-start-2 justify-between justify-self-center space-y-2 w-full pb-8 max-w-[1024px] px-4 mx-auto">
 			
-					<div className="flex gap-4 w-full pt-10">
+					<div className="flex flex-wrap gap-4 w-full pt-10">
 						<SearchBar
 							onKeyUp={filterByOrg}
 							searchText={organizationSearchTerm}
@@ -36,7 +36,7 @@ const OrganizationHomepage = ({ orgs }) => {
 						/>
 						<MintBountyButton />
 					</div>
-					<Carousel height={'72'}>
+					<Carousel height={'80'}>
 						{orgs.filter(organization=> organization.starringUserIds && organization.starringUserIds.some(user=>user === account))
 							.map((org, index)=><OrganizationCard key={index} organization={org}/>)}</Carousel>
 					<div className="grid grid-cols-[repeat(3,_300px)] justify-center lg:justify-between">

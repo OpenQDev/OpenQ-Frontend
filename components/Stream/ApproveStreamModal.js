@@ -31,6 +31,7 @@ const ApproveStreamModal = ({
 }) => {
 	const modal = useRef();
 	const [recipient, setRecipient] = useState('');
+	const [displayVolume, setDisplayVolume] = useState('');
 	const [flowRate, setFlowRate] = useState('');
 	const [appState] = useContext(StoreContext);
 	const {capitalize, toIng} = appState.utils;
@@ -62,8 +63,7 @@ const ApproveStreamModal = ({
 		};
 	}, [modal, approveTransferState]);
 
-	const isDisabled = (!recipient || !flowRate || !ethers.utils.isAddress(recipient) || isNaN(flowRate)) && showModal !== 'delete';
-	console.log(isDisabled);
+	const isDisabled = (!recipient || !flowRate || !ethers.utils.isAddress(recipient) || isNaN(parseFloat(flowRate))) && showModal !== 'delete';
 	
 	let title = {
 		[CONFIRM]: `${capitalize(showModal)} Stream`,
@@ -124,6 +124,7 @@ const ApproveStreamModal = ({
 		const numberRegex = /^(\d+)?(\.)?(\d+)?$/;
 		if (numberRegex.test(volume) || volume === '' || volume === '.') {
 			setFlowRate(parseFloat(volume.match(numberRegex)[0]));
+			setDisplayVolume(volume.match(numberRegex)[0]);
 		}
 	}
 	
@@ -192,15 +193,15 @@ const ApproveStreamModal = ({
 												<input className='bg-transparent py-px outline-none'
 													type="text"
 													name="flowRate"
-													value={flowRate}
+													value={displayVolume}
 													onChange={handleFlowRateChange}
 													placeholder="flow rate in tokens/day"
 												/>
 											</div>
 										</>}
 										<span className='py-2'>To</span>
-										<div className={'flex stream border border-web-gray rounded-lg py-px pl-2 '}>
-											<input className='bg-transparent py-px pr-3 outline-none'
+										<div className={'flex stream border border-web-gray rounded-lg '}>
+											<input className='bg-transparent py-px w-5/6 mx-auto outline-none'
 												type="text"
 												name="recipient"
 												value={recipient}
@@ -214,8 +215,13 @@ const ApproveStreamModal = ({
 									{showModal !== 'delete'&& approveTransferState !==ERROR  ? 
 										<div className='flex w-full justify-evenly px-1.5 gap-2 border-web-gray border rounded-lg py-1.5 self-center'>
 											<button onClick={()=>confirmMethod(recipient, flowRate, showModal)} disabled={approveTransferState !== CONFIRM || isDisabled} className={`text-center border px-1.5 flex  gap-2 py-1.5 ${approveTransferState === CONFIRM && !isDisabled? 'cursor-pointer' : null} ${approveStyles[approveTransferState]} rounded-lg`}>
-												<ToolTip hideToolTip={!isDisabled} customOffsets={[-60, 30]} toolTipText="Please add the target address and the stream rate you'd like to approve.">	<span>{approveTransferState === CONFIRM ? 'Approve' : approveTransferState === APPROVING ? 'Approving' : 'Approved'}
-												</span></ToolTip>
+												<ToolTip hideToolTip={!isDisabled} customOffsets={[-60, 30]} toolTipText={
+												
+													isNaN(parseFloat(flowRate))?
+														'Please add a flow rate.':
+														'Please input a valid ethereum address'
+												}>	<span>{approveTransferState === CONFIRM ? 'Approve' : approveTransferState === APPROVING ? 'Approving' : 'Approved'}
+													</span></ToolTip>
 												{approveTransferState === APPROVING  && <LoadingIcon className={'inline pt-1'} />}
 											</button>
 											<button onClick={()=>deleteFlow(recipient)} className={`text-center px-2 flex gap-2 py-1.5 border ${fundStyles[approveTransferState]} rounded-lg`}>

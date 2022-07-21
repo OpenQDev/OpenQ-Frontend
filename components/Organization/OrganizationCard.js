@@ -83,7 +83,7 @@ const OrganizationCard = ({ organization }) => {
 	// Render
 	return (
 		<div 
-			className={`w-[300px] ${!starred && 'hidden'}`}
+			className={`min-w-[300px] w-60 ${!starred ? 'hidden':null}`}
 		>
 			<Link href={organization ? `/organization/${organization.login}` : '/'}>
 				<div
