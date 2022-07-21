@@ -137,7 +137,7 @@ const ConnectButton = () => {
         <div>
           <button
             onClick={openConnectModal}
-            className="flex items-center btn-default whitespace-nowrap px-3 py-2 mr-2 hover:border-[#8b949e] hover:bg-[#30363d]"
+            className="flex items-center btn-default px-3 py-2 mr-2 hover:border-[#8b949e] hover:bg-[#30363d]"
             disabled={isConnecting}
           >
             {"Connect Wallet"}
@@ -146,7 +146,7 @@ const ConnectButton = () => {
       ) : (
         <button
           onClick={addOrSwitchNetwork}
-          className="flex items-center btn-default whitespace-nowrap px-3 py-2 mr-2 hover:border-[#8b949e] hover:bg-[#30363d]"
+          className="flex items-center btn-default px-3 py-2 mr-2 hover:border-[#8b949e] hover:bg-[#30363d]"
         >
           Use{" "}
           {
