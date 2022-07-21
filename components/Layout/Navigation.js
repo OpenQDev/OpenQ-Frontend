@@ -105,9 +105,13 @@ const Navigation = ({}) => {
                 type="text"
                 placeholder="Search OpenQ"
               ></input>
-              <div className="text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer">
-                Atomic contracts
-              </div>
+							<Link href={'/'}>
+								<a className="flex items-center">
+									<div className="text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer">
+										Atomic contracts
+									</div>
+								</a>
+							</Link>
               <div className="text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer">
                 Contests
               </div>
