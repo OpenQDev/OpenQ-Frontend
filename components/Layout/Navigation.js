@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { SafeAppConnector } from "@gnosis.pm/safe-apps-web3-react";
 import axios from "axios";
+import Link from 'next/link';
 // Custom
 import StoreContext from "../../store/Store/StoreContext.js";
 import ConnectButton from "../WalletConnect/ConnectButton.js";
@@ -82,12 +83,16 @@ const Navigation = ({}) => {
 
           <div className="flex justify-between invisible md:visible px-7">
             <div className="flex flex-row space-x-5 items-center">
-              <Image
-                src="/openq-logo-white-2.png"
-                alt="OpenQ"
-                width="31"
-                height="31"
-              />
+						<Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/`}>
+							<a className="flex items-center">
+              	<Image
+									src="/openq-logo-white-2.png"
+									alt="OpenQ"
+									width="31"
+									height="31"
+								/>
+							</a>
+							</Link>
               {/* <div className="flex justify-between space-x-28 items-center input-field">
                 <div>Search or jump to...</div>
                 <div className="border border-gray-700 text-gray-400 rounded-sm px-2">
