@@ -83,7 +83,7 @@ const Navigation = ({}) => {
 
           <div className="flex justify-between invisible md:visible px-7">
             <div className="flex flex-row space-x-5 items-center">
-						<Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/`}>
+						<Link href={'/'}>
 							<a className="flex items-center">
               	<Image
 									src="/openq-logo-white-2.png"
