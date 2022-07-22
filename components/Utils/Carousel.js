@@ -38,7 +38,7 @@ const Carousel = (props) => {
 				</svg>
 
 			</button>}
-			<div ref={scroller} data-testid="carousel" className='flex gap-2 xl:max-w-[100%] xl:w-[980px] pb-3 overflow-x-auto justify-items-center'>
+			<div ref={scroller} data-testid="carousel" className={`flex gap-2 xl:max-w-[100%] xl:w-[980px] ${isScrollable && 'pb-3'} overflow-x-auto justify-items-center`}>
 				{	isScrollable && <div className={`pointer-events-none absolute bg-gradient-to-r from-dark-mode to-black/0 w-12 sm:w-52 h-${height||36} left-0 xl:left-10`}></div>}
 				{children}
 				{	isScrollable && <div className={`absolute pointer-events-none bg-gradient-to-l from-dark-mode to-black/0 w-12 sm:w-52 h-${height||36} right-0 xl:right-10`}></div>}

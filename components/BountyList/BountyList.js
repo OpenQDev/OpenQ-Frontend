@@ -12,20 +12,22 @@ import useWeb3 from '../../hooks/useWeb3';
 import searchFoundInText	from './SearchHelpers/searchFoundInText';
 import searchFoundInLabels from './SearchHelpers/searchFoundInLabels';
 import searchTagInBounty from './SearchHelpers/searchTagInBounty';
+import Toggle from '../Utils/Toggle';
 
 const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData, getNewData, addCarousel, labelProp }) => {
 	// Hooks
 	const {account} = useWeb3();
-	const [fundedOnly, setFundedOnly] = useState(true);
-	const [unclaimedOnly, setUnclaimedOnly] = useState(true);
-	const [unassignedOnly, setUnassignedOnly] = useState(true);
+	const [fundedOnly, setFundedOnly] = useState(false);
+	const [unclaimedOnly, setUnclaimedOnly] = useState(false);
+	const [unassignedOnly, setUnassignedOnly] = useState(false);
 	/* const [l2eOnly, setL2eOnly] = useState(false); */
 	const [sortOrder, updateSortOrder] = useState('Newest');
 	const [searchText, updateSearchText] = useState('');
 	const [tagArr, updateTagArr] = useState([]);
 	const [searchedBounties, updateSearchedBounties] = useState([]);
 	const [isProcessed, updateIsProcessed] = useState(false);
-	const [tagSearch, setTagSearch] = useState('Search');
+	const [tagSearch, setTagSearch] = useState('Search by Text');
+	const [isReady, setIsReady] = useState('Ready for work');
 	let observer = useRef();
 	// Utilities
 	const fetchPage = () => {
@@ -190,8 +192,8 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			updateSearchText('');
 			updateTagArr([]);
 			updateSearchedBounties(orderBounties(filter(bounties, { tagArr: [], searchText: '', tagSearch: toggleVal })));
-			if (toggleVal === 'Search') {
-				setTagSearch('Search');
+			if (toggleVal === 'Search by Text') {
+				setTagSearch('Search by Text');
 			}
 			else setTagSearch('Search by Tags');
 		}
@@ -246,30 +248,28 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 
 	// Render
 	return (
-		<div className="lg:col-start-2 justify-self-center space-y-3 w-full pb-8 max-w-[950px] pt-10">
-			<div className="grid lg:grid-cols-[repeat(4,_1fr)] gap-6 w-full">
-				<div className="flex rounded-lg lg:col-span-3 col-span-4 gap-4 justify-left">
-					{tagSearch === 'Search' ?
-						<SearchBar
-							onKeyUp={handleSearchInput}
-							placeholder={'Search Issue...'}
-							searchText={searchText}
-							label={'search text'}
-							borderShape={'border-b rounded-l-lg sm:w-full w-full'}
-						/> :
-
-						<SearchBar
-							onEnter={addTag}
-							onKeyUp={handleTagInput}
-							placeholder={'Enter Tag...'}
-							searchText={searchText}
-							label={'search tags'}
-							borderShape={'border-b rounded-l-lg sm:w-full w-full'}
-						/>
-					}
-					<Dropdown toggleFunc={toggleTagSearch} title={tagSearch} width={44} names={['Search', 'Search by Tags']} borderShape={'rounded-sm'} />
-				</div>
+		<div className="lg:col-start-2 justify-between justify-self-center space-y-2 w-full pb-8 max-w-[1024px] px-4 mx-auto">
+			<div className="flex flex-wrap gap-4 w-full pt-10">
+				<SearchBar
+					onKeyUp={handleSearchInput}
+					placeholder={'Search Issue...'}
+					searchText={searchText}
+					label={'search text'}
+					styles={'rounded-sm'}
+				/> 
+				
 				<MintBountyButton />
+			</div>
+			<div className='w-full rounded-sm'>
+				<div className='flex flex-wrap gap-4 p-2 sm:p-4 border-web-gray border rounded-sm bg-subtle'>
+				
+					<Toggle names={['Ready for work', 'All issues']} toggleVal={isReady} toggleFunc={setIsReady} />
+
+					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} styles="whitespace-nowrap" width="44"  title={`Sort Order: ${sortOrder}`} names={['Newest', 'Oldest', 'Highest', 'Lowest', 'Popular']} borderShape={'rounded-r-lg'} />
+					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} styles="whitespace-nowrap" width="24" title="Labels" names={['Newest', 'Oldest', 'Highest', 'Lowest', 'Popular']} borderShape={'rounded-r-lg'} />
+
+				</div>
+			
 			</div>
 			{tagArr.length > 0 && <ul className="flex flex-wrap">{tagArr.map((tag, index) => <li key={index} className="border-web-gray border  inline mr-2 mb-2 px-2 py-1.5 rounded-lg">
 				<span className="px-2">{tag}</span>
@@ -279,45 +279,20 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 
 			</li>)}
 			</ul>}
-			<div className="flex md:content-start content-center flex-wrap w-full justify-items-stretch gap-4">
-				<div className="flex justify-between bg-dark-mode end rounded-lg">
-					<span className=" py-2 border-t border-l border-b rounded-l-lg border-web-gray align-self-center pl-4 pr-8">Sort By</span>
-					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} names={['Newest', 'Oldest', 'Highest', 'Lowest', 'Popular']} borderShape={'rounded-r-lg'} width={36} />
-				</div>
-				<div className='flex flex-wrap gap-4'>
-					<div onClick={showUnfunded} className="flex w-36 p-2 px-4 gap-2 border rounded-lg justify-between border-web-gray">
-						<label htmlFor="unfunded" className="pointer-events-none">Funded</label>
-						<input id="unfunded" onChange={showUnfunded} type="checkbox" className="checkbox" checked={fundedOnly} />
-					</div>
-					<div onClick={showClaimed} className="flex p-2 w-36 px-4 gap-2 border rounded-lg justify-between border-web-gray">
-						<label htmlFor="claimed" className=" pointer-events-none" >Unclaimed</label>
-						<input id="claimed" onChange={showClaimed} type="checkbox" className="checkbox" checked={unclaimedOnly} />
-					</div>
-					<div onClick={showAssigned} className="flex p-2 w-40 px-4 gap-2 border rounded-lg justify-between border-web-gray">
-						<label htmlFor="assigned" className=" pointer-events-none" >Unassigned</label>
-						<input id="assigned" onChange={showAssigned} type="checkbox" className="checkbox" checked={unassignedOnly} />
-					</div>
-					{/* <div onClick={filterByL2e} className="flex p-2 w-36 px-4 gap-2 border rounded-lg justify-between border-web-gray">
-						<label htmlFor="L2E" className="pointer-events-none" >L 2 E</label>
-						<input id="L2E" onChange={filterByL2e} type="checkbox" className="checkbox" checked={l2eOnly} />
-					</div> */}
-				</div>
-			</div>
+			
 			{addCarousel && account && watchedBounties.length ?
-				<>
-					<div className="flex w-fit p-2 px-4 font-semibold border rounded-lg border-web-gray">
-						<label htmlFor="watched bounties" className=" pointer-events-none">Watched Bounties</label>
-					</div>
-					<Carousel watchedBounties={watchedBounties} styles={'col-start-2'} >
-						{watchedBounties.map((watchedBounty, index) => <CarouselBounty key={index} bounty={watchedBounty} />)}
-					</Carousel>
-				</>
+			
+				<Carousel watchedBounties={watchedBounties} styles={'col-start-2'} >
+					{watchedBounties.map((watchedBounty, index) => <CarouselBounty key={index} bounty={watchedBounty} />)}
+				</Carousel>
 				:
 				null}
-			<div className="border border-web-gray">
+			<div className="md:border border-web-gray rounded-sm">
 				{isProcessed && !loading &&
 				searchedBounties.map((bounty, index) => {
-					return <div key={bounty.id} ref={(index === searchedBounties.length - 1) ? lastElem : null}><BountyCardLean bounty={bounty} /></div>;
+					return <div key={bounty.id} ref={(index === searchedBounties.length - 1) ? lastElem : null}>
+						<BountyCardLean index={index} length={searchedBounties.length }bounty={bounty} />
+					</div>;
 				})}
 			</div>
 			
