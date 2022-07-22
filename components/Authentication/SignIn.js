@@ -31,7 +31,7 @@ const SignIn = ({ redirectUrl, styles }) => {
 	return (
 		<button
 			onClick={() => signIn()}
-			className={`col-span-3 rounded-lg border border-web-gray py-2 px-3 font-bold cursor-pointer hover:border-white ${styles}`}
+			className="flex items-center btn-default px-3 py-2 mr-2 hover:border-[#8b949e] hover:bg-[#30363d]"
 		>
 			<div className="flex flex-row items-center justify-center space-x-3">
 				<Image
