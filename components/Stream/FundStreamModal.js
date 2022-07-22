@@ -35,7 +35,7 @@ const FundStreamModal = ({
 	const [localToken, setLocalToken] = useState({
 		name: 'Dai',
 		address: '0xc6A3cE73483Eb37B0ed46a63cF6c0705cE74c8B9',
-		symbol: 'Dai',
+		symbol: 'DAI',
 		decimals: 18,
 		chainId: 80001,
 		path: '/crypto-logos/DAI.svg'
@@ -182,7 +182,7 @@ const FundStreamModal = ({
 
 											{showModal !== 'delete' && approveTransferState !== ERROR && <button onClick={() => fund(volume, localToken)} disabled={approveTransferState !== CONFIRM || isDisabled} className={`text-center border px-2 flex  gap-2 py-1.5 ${approveTransferState === CONFIRM && !isDisabled ? 'cursor-pointer' : null} ${approveStyles[approveTransferState]} rounded-lg`}>
 												<ToolTip hideToolTip={!isDisabled} customOffsets={[-60, 30]} toolTipText=
-													'Please add a flow rate between 0.00000001 and 1000'>	<span>{approveTransferState === CONFIRM ? 'Approve' : approveTransferState === APPROVING ? 'Approving' : 'Approved'}
+													'Please add an amount between 0.00000001 and 1000'>	<span>{approveTransferState === CONFIRM ? 'Approve' : approveTransferState === APPROVING ? 'Approving' : 'Approved'}
 													</span></ToolTip>
 												{approveTransferState === APPROVING && <LoadingIcon className={'inline pt-1'} />}
 											</button>}

@@ -4,6 +4,7 @@ import useWeb3 from '../../hooks/useWeb3';
 import ApproveStreamModal from './ApproveStreamModal';
 import { APPROVING, ERROR, SUCCESS, TRANSFERRING } from '../FundBounty/ApproveTransferState';
 import FundStreamModal from './FundStreamModal';
+import { ethers } from 'ethers';
 
 const CreateStream = () => {
 	// CONTEXT
@@ -42,6 +43,14 @@ const CreateStream = () => {
 
 	}
 	async function approveToken(volume,  recipient, flowRate, type) {
+		const volumeInWei = volume * 10 ** token.decimals;
+		const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
+		const callerBalance = await appState.openQClient.balanceOf(library, account, ethers.utils.getAddress(token.address));
+		if (callerBalance.lt(bigNumberVolumeInWei)) {
+			setError({ title: 'Funds Too Low', message: 'You do not have sufficient funds for this stream.' });
+			setApproveTransferState(ERROR);
+			return;
+		}
 		try {
 			await appState.superfluidClient.approve(library, token.address, volume);
 			
