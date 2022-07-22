@@ -1,5 +1,5 @@
 // Third party
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import Link from 'next/link';
 import { ethers } from 'ethers';
 
@@ -16,6 +16,7 @@ import Image from 'next/image';
 import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
 import ToolTip from '../Utils/ToolTip';
 import useWeb3 from '../../hooks/useWeb3';
+import StoreContext from '../../store/Store/StoreContext';
 
 const FundStreamModal = ({
 	transactionHash,
@@ -39,6 +40,7 @@ const FundStreamModal = ({
 		chainId: 80001,
 		path: '/crypto-logos/DAI.svg'
 	});
+	const [appState] = useContext(StoreContext);
 	const updateModal = () => {
 		resetState();
 		setShowApproveTransferModal(false);
@@ -61,8 +63,7 @@ const FundStreamModal = ({
 		};
 	}, [modal, approveTransferState]);
 
-	const isDisabled = (!volume || isNaN(volume)) && showModal !== 'delete';
-	console.log(isDisabled);
+	const isDisabled = (!volume || isNaN(volume)) && showModal !== 'delete'||isNaN(parseFloat(volume))||parseFloat(volume) <= 0.00000001 || parseFloat(volume) >= 1000;
 
 	let title = {
 		[CONFIRM]: 'Fund Stream',
@@ -101,13 +102,8 @@ const FundStreamModal = ({
 	}
 
 	function handleVolumeChange(e) {
-		const volume = e.target.value;
-		const numberRegex = /^(\d+)?(\.)?(\d+)?$/;
-		if (numberRegex.test(volume) || volume === '' || volume === '.') {
-			setVolume(parseFloat(volume.match(numberRegex)[0]));
-		}
+		appState.utils.updateVolume(e.target.value, setVolume);
 	}
-	//volume = Math.round(volume * Math.pow(10, 10)) / Math.pow(10, 10);
 
 	return (
 		<div>
@@ -185,8 +181,9 @@ const FundStreamModal = ({
 										<div className='flex w-full justify-evenly px-1.5 gap-2 rounded-lg py-1.5 self-center'>
 
 											{showModal !== 'delete' && approveTransferState !== ERROR && <button onClick={() => fund(volume, localToken)} disabled={approveTransferState !== CONFIRM || isDisabled} className={`text-center border px-2 flex  gap-2 py-1.5 ${approveTransferState === CONFIRM && !isDisabled ? 'cursor-pointer' : null} ${approveStyles[approveTransferState]} rounded-lg`}>
-												<ToolTip hideToolTip={!isDisabled} customOffsets={[-60, 30]} toolTipText="Please add the target address and the stream rate you'd like to approve.">	<span>{approveTransferState === CONFIRM ? 'Approve' : approveTransferState === APPROVING ? 'Approving' : 'Approved'}
-												</span></ToolTip>
+												<ToolTip hideToolTip={!isDisabled} customOffsets={[-60, 30]} toolTipText=
+													'Please add a flow rate between 0.00000001 and 1000'>	<span>{approveTransferState === CONFIRM ? 'Approve' : approveTransferState === APPROVING ? 'Approving' : 'Approved'}
+													</span></ToolTip>
 												{approveTransferState === APPROVING && <LoadingIcon className={'inline pt-1'} />}
 											</button>}
 

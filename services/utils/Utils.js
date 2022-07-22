@@ -67,6 +67,13 @@ class Utils {
 		const pattern = /https?:\/\/github\.com\/[\w-\d]+/;
 		return pattern.test(userUrl);
 	}
+	
+	updateVolume(volume, updater) {
+		const numberRegex = /^(\d+)?(\.)?(\d+)?$/;
+		if (numberRegex.test(volume) || volume === '' || volume === '.') {
+			updater(volume.match(numberRegex)[0]);
+		}
+	}
 
 	formatter = new Intl.NumberFormat('en-US', {
 		style: 'currency',

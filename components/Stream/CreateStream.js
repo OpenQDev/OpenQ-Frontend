@@ -57,7 +57,7 @@ const CreateStream = () => {
 	}
 
 	const approve = async(recipient, flowRate, type)=>{
-		const volume = (flowRate * 30).toString();
+		const volume = (parseFloat(flowRate) * 30).toString();
 		setApproveTransferState(APPROVING);
 		try{
 			await	approveToken(volume, recipient, flowRate, type);
