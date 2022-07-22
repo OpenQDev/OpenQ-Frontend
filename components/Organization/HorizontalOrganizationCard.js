@@ -40,7 +40,7 @@ const HorizontalOrganizationCard = ({ organization }) => {
 						</a>
 					</Link>
 				</h2>
-				<div className='mt-1 text text-sm leading-normal text-muted truncate'>{organization.starringUserIds.length|| 0} star{organization.starringUserIds.length!==1&&'s'}</div>
+				<div className='mt-1 text text-sm leading-normal text-muted truncate'>{organization.starringUserIds?.length|| 0} star{organization.starringUserIds?.length!==1&&'s'}</div>
 			</div>
 			<button onClick={handleStar} disabled={starredDisabled} className='flex items-center text-xs bg-inactive-gray leading-5 h-7 px-3 py-[3px] hover:bg-active-gray rounded-sm border hover:border-border-active border-border-gray'>
 		
