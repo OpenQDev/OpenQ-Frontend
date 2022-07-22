@@ -32,7 +32,7 @@ const OrganizationHomepage = ({ orgs }) => {
 							onKeyUp={filterByOrg}
 							searchText={organizationSearchTerm}
 							placeholder="Search Organization..."
-							className="mb-200"
+							styles={'rounded-sm'}
 						/>
 						<MintBountyButton />
 					</div>
