@@ -74,7 +74,6 @@ class SuperfluidClient {
 			return this.instance;
 		} catch (err) {
 			console.log(err);
-			console.log(library);
 		}
 	}
 
@@ -91,7 +90,7 @@ class SuperfluidClient {
 	
 		const promise = new Promise(async(resolve, reject)=>{
 			const address = superTokenAddress;
-			const amountInWei = parseFloat(ethers.utils.parseEther(amount));
+			const amountInWei = ethers.utils.parseEther(amount);
 			const superToken = await this.loadSuperToken(
 				library,
 				address
@@ -107,7 +106,6 @@ class SuperfluidClient {
 		});
 		return promise;
 	}
-
 	// UPGRADE + CREATE STREAM
 	async upgradeToken(library, superTokenAddress, amount) {
 		const address = superTokenAddress;
