@@ -145,7 +145,7 @@ export default function Index({ orgs, fullBounties, batch }) {
           </div>
           <div>
             {internalMenu == "Organizations" ? (
-              <OrganizationHomepage orgs={orgs} />
+              <OrganizationHomepage orgs={orgs} fullBounties={fullBounties}/>
             ) : (
               <BountyHomepage
                 bounties={bounties}
