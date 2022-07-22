@@ -127,6 +127,9 @@ pre {
   .checkbox {
     @apply h-6 bg-no-repeat appearance-none w-4 h-4 checked:bg-inactive-accent checked:bg-[url('/checkbox.svg')] focus:outline-none border-2 border-web-gray checked:border-inactive-accent rounded-sm m-1 bg-dark-mode accent-inactive-accent;
   }
+	.tooltip {
+		@apply text-xs font-semibold whitespace-nowrap px-0.5 py-0.5 bg-[#6e7781] border border-solid border-4 border-transparent text-center rounded-sm
+	}
 }
 
 .size-9 * {
