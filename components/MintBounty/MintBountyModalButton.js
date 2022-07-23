@@ -10,7 +10,7 @@ export default function MintBountyModalButton({ enableMint, transactionPending, 
 			onClick={() => mintBounty()}
 			disabled={!enableMint}
 		>
-			{transactionPending ? <LoadingIcon bg="colored" /> : account ? 'Mint Bounty': 'Connect Wallet'}
+			{transactionPending ? <LoadingIcon bg="colored" /> : account ? 'Deploy Contract': 'Connect Wallet'}
 		</button>
 	);
 }
