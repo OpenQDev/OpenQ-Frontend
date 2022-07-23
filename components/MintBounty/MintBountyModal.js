@@ -145,11 +145,11 @@ const MintBountyModal = ({ modalVisibility }) => {
 					error={error}
 				/> :
 				<>
-					<div ref={modal} className="md:w-1/2 lg:w-1/3 xl:w-1/4 space-y-5 z-50 ">
+					<div ref={modal} className="md:w-1/2 lg:w-2/3 xl:w-3/5 space-y-5 z-50 ">
 						<div className="w-full">
-							<div className="border-0 rounded-xl shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none z-11">
+							<div className="border-0 rounded-sm shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none z-11">
 								<MintBountyHeader />
-								<div className="flex flex-col pl-6 pr-6 space-y-2">
+								<div className="flex flex-col items-center pl-6 pr-6 space-y-2">
 									<MintBountyInput
 										setIssueUrl={setIssueUrl}
 										issueData={issue}
@@ -158,10 +158,10 @@ const MintBountyModal = ({ modalVisibility }) => {
 									/>
 								</div>
 								{isValidUrl && !issue &&
-									<div className="pl-10 pt-5 ">
+									<div className="flex flex-col items-center pt-5 ">
 										Github Issue not found
 									</div>}
-								<div className="flex flex-col justify-center space-x-1 px-8">
+								<div className="flex flex-col items-center space-x-1 px-8">
 									{isValidUrl && issue?.closed && !bountyAddress &&
 										<div className="pt-3 ">
 											This issue is already closed on GitHub

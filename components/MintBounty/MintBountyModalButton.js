@@ -2,7 +2,7 @@ import React from 'react';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 
 export default function MintBountyModalButton({ enableMint, transactionPending, mintBounty, account }) {
-	const classes = `flex flex-row space-x-2 justify-center ${enableMint ? 'confirm-btn' : 'confirm-btn-disabled'}`;
+	const classes = `flex flex-row w-1/3 space-x-2 justify-center ${enableMint ? 'btn-default cursor-pointer' : 'btn-default cursor-not-allowed'}`;
 	return (
 		<button
 			className={classes}
