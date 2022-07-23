@@ -32,9 +32,7 @@ const MintBountyButton = () => {
           <div>New Contract</div>
         </div>
       </button>
-			<div className="flex items-center">
       {showModal && <MintBountyModal modalVisibility={setShowModal} />}
-			</div>
     </>
   );
 };

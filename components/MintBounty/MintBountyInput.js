@@ -3,7 +3,7 @@ import IssueDetailsBubble from './IssueDetailsBubble';
 
 export default function MintBountyInput({ setIssueUrl, issueData, isValidUrl, url }) {
 	return (
-		<div className="flex flex-col sm:w-full md:w-2/3">
+		<div className="flex flex-col w-4/5 md:w-2/3">
 			<div
 				className={`flex flex-row w-full items-center p-2 rounded-lg py-1 text-base bg-dark-mode  ${isValidUrl && issueData ? 'pt-5' : null
 				}`}
