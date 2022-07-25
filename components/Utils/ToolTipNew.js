@@ -6,9 +6,9 @@ const ToolTip = (props) => {
 	const { toolTipText} = props;
 	if (props.hideToolTip) return props.children;
 	return (
-		<div className={`relative bg-white m-0 group`}>
+		<div className={` w-full m-0 group`}>
 			{props.children}
-			<div className={`flex justify-center relative hidden z-10 group-hover:block   `}>
+			<div className={`flex justify-center w-full relative hidden z-10 group-hover:block  ${props.outerStyles} `}>
 				<div class="flex flex-col items-center inline-block">
 					<div class="flex mt-1 tooltip-triangle absolute"></div>
 					<div class="flex tooltip absolute">

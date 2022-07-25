@@ -2,15 +2,16 @@ import React from 'react';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 
 export default function MintBountyModalButton({ enableMint, transactionPending, mintBounty, account }) {
-	const classes = `flex flex-row w-1/3 space-x-2 justify-center ${enableMint ? 'btn-default cursor-pointer' : 'btn-default cursor-not-allowed'}`;
 	return (
-		<button
-			className={classes}
-			type="button"
-			onClick={() => mintBounty()}
-			disabled={!enableMint}
-		>
-			{transactionPending ? <LoadingIcon bg="colored" /> : account ? 'Deploy Contract': 'Connect Wallet'}
-		</button>
+		<div className='flex flex-row w-full justify-center'>
+			<button
+				className={`flex w-2/3 items-center justify-center ${enableMint ? 'btn-default cursor-pointer' : 'btn-default cursor-not-allowed'}`}
+				type="button"
+				onClick={() => mintBounty()}
+				disabled={!enableMint}
+			>
+				{transactionPending ? <LoadingIcon bg="colored" /> : account ? 'Deploy Contract' : 'Connect Wallet'}
+			</button>
+		</div>
 	);
 }

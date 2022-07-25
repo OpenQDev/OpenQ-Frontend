@@ -170,24 +170,27 @@ const MintBountyModal = ({ modalVisibility }) => {
 										<BountyAlreadyMintedMessage claimed={claimed} id={issue.id} bountyAddress={bountyAddress} />}
 								</div>
 
-								<ToolTipNew
-									hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
-									toolTipText={
-										account && isOnCorrectNetwork ?
-											'Please choose an elgible issue.' :
-											isOnCorrectNetwork ?
-												'Connect your wallet to mint a bounty!' :
-												'Please switch to the correct network to mint a bounty.'
-									}>
-									<div className="flex items-center justify-center p-5 w-full">
+								<div className="p-5 w-full">
+									<ToolTipNew
+										outerStyles={''}
+										hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
+										toolTipText={
+											account && isOnCorrectNetwork ?
+												'Please choose an elgible issue.' :
+												isOnCorrectNetwork ?
+													'Connect your wallet to mint a bounty!' :
+													'Please switch to the correct network to mint a bounty.'
+										}>
+
 										<MintBountyModalButton
 											mintBounty={(account) ? mintBounty : connectWallet}
 											account={account}
 											enableMint={(enableMint && isOnCorrectNetwork && !issue?.closed && !isLoading) || !account}
 											transactionPending={isLoading}
 										/>
-									</div>
-								</ToolTipNew>
+
+									</ToolTipNew>
+								</div>
 							</div>
 						</div>
 					</div>
