@@ -14,38 +14,37 @@ import searchFoundInLabels from './SearchHelpers/searchFoundInLabels';
 import searchTagInBounty from './SearchHelpers/searchTagInBounty';
 import Toggle from '../Utils/Toggle';
 
-const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData, getNewData, addCarousel, labelProp }) => {
+const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData, getNewData, addCarousel }) => {
 	// Hooks
 	const {account} = useWeb3();
-	const [fundedOnly, setFundedOnly] = useState(false);
-	const [unclaimedOnly, setUnclaimedOnly] = useState(false);
-	const [unassignedOnly, setUnassignedOnly] = useState(false);
 	/* const [l2eOnly, setL2eOnly] = useState(false); */
-	const [sortOrder, updateSortOrder] = useState('Newest');
-	const [searchText, updateSearchText] = useState('');
+	const [searchText, updateSearchText] = useState(' order:newest');
 	const [tagArr, updateTagArr] = useState([]);
 	const [searchedBounties, updateSearchedBounties] = useState([]);
 	const [isProcessed, updateIsProcessed] = useState(false);
-	const [tagSearch, setTagSearch] = useState('Search by Text');
 	const [isReady, setIsReady] = useState('Ready for work');
+	const [labels, setLabels] = useState([]);
+	
+	const searchRegex = /\label:(\w+)/gi;
+	const orderRegex= /\order:(\w+)/gi;
 	let observer = useRef();
 	// Utilities
 	const fetchPage = () => {
-
+		const sortOrder = searchText.match(orderRegex)?.[0]?.slice(6)||'';
 		switch(sortOrder){
-		case 'Newest':
+		case 'newest':
 			{	getMoreData('desc');}
 			break;
-		case 'Oldest':
+		case 'oldest':
 			{getMoreData('asc');}
 			break;
-		case 'Highest':
+		case 'highest':
 			{	getMoreData('desc', 'tvl');}
 			break;
-		case 'Lowest':
+		case 'lowest':
 			{	getMoreData('asc', 'tvl');}
 			break;
-		case 'Popular':
+		case 'popular':
 			{ getMoreData('desc', 'views');}
 			break;
 
@@ -53,27 +52,42 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		}
 	};
 
+	useEffect(()=>{
+		if(bounties){
+			const labels = bounties?.reduce((accum, bounty)=>{
+				const bountyLabels = bounty.labels.filter(label=>{
+					const accumFilter = 	accum.some((accumLabel)=>{
+				
+						return (label.name.toLowerCase() === accumLabel.name.toLowerCase());
+					});
+					return !accumFilter;
+				});
+				return [...accum, ...bountyLabels];
+			},[]).map(label=>label.name)||[];
+
+			setLabels(labels);
+
+		}
+	}, bounties);
 	// NOTE tag search doesn't turn off regular search, it just manages it a little differently.
 	const filter = (bounties, options = {}) => {
 		const localTagArr = options.tagArr || tagArr;
 		const localSearchText = options.searchText === undefined ? searchText : options.searchText;
-		const localUnclaimedOnly = options.unclaimedOnly === undefined ? unclaimedOnly : options.unclaimedOnly;
-		const localFundedOnly = options.fundedOnly === undefined ? fundedOnly : options.fundedOnly;
-		const localUnassignedOnly = options.unassignedOnly === undefined ? unassignedOnly : options.unassignedOnly;
+		const localIsReady = options.isReady === undefined ? isReady : options.isReady;
 		/* const localL2eOnly = options.l2eOnly === undefined ? l2eOnly: options.l2eOnly; */
-
+		
+		const searchedLabelsWrapped = localSearchText.match(searchRegex)||[];
+		const searchedLabels = searchedLabelsWrapped.map(elem=>elem.slice(6));
 		const displayBounties = bounties.filter((bounty) => {
-			const hasLabel = !labelProp || bounty.labels.reduce((accum, label) => {
-				if (accum) return true;
-				return (label.name.toLowerCase() === labelProp.toLowerCase());
-			}, false);
+			const hasLabels = searchedLabels.some((searchedLabel)=> bounty.labels.some(bountyLabel=>bountyLabel.name === searchedLabel))||searchedLabels.length === 0;
+		
 
 			let containsSearch = true;
 
 			try{
 
 				// Simple search
-				const lowerCaseSearch = localSearchText.toLowerCase();
+				let lowerCaseSearch = localSearchText.replace(searchRegex, '').toLowerCase().replace(orderRegex, '').trim();
 				const isFoundInText = searchFoundInText(bounty.title, bounty.body, lowerCaseSearch);
 				const isFoundInLabels = searchFoundInLabels(bounty, lowerCaseSearch);
 				const emptySearchText = localSearchText.length === 0;
@@ -90,7 +104,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 				const isAssigned = bounty.assignees?.nodes.length > 0;
 
 				// Combine
-				return (containsSearch && containsTag && (!localFundedOnly || isFunded) && (!localUnclaimedOnly || isUnclaimed) && (!localUnassignedOnly || !isAssigned )  && hasLabel && bounty.url && !bounty.blacklisted);
+				return (containsSearch && containsTag && ((( isFunded) && (isUnclaimed) && ( !isAssigned ) )|| localIsReady === 'All issues') && hasLabels && bounty.url && !bounty.blacklisted);
 			}
 			catch(err){
 				console.log(err);}
@@ -106,10 +120,13 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 	};
 
 	// Orders bounties	
-	const orderBounties = (bounties = [], toggleTo = sortOrder, firstLoad) => {
-		if (toggleTo === sortOrder && !firstLoad) { return bounties; }
+	const orderBounties = (bounties = [], firstLoad, changed, newOrder) => {
+		if(!changed){
+			return bounties;
+		}
+		const toggleTo = newOrder||searchText.match(orderRegex)?.[0]?.slice(6)||'';
 		switch (toggleTo) {
-		case 'Newest': {
+		case 'newest': {
 			if (complete || firstLoad) {
 				return bounties.sort((a, b) => {
 					return b.bountyMintTime - a.bountyMintTime;
@@ -122,7 +139,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 
 		}
 			break;
-		case 'Oldest': {
+		case 'oldest': {
 			if (complete || firstLoad) {
 				return bounties.sort((a, b) => {
 					return a.bountyMintTime - b.bountyMintTime;
@@ -133,22 +150,18 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			}
 		}
 			break;
-		case 'Highest': {
-			if( sortOrder !== toggleTo)	{
-				getNewData('desc', 'tvl');}
-		}
+		case 'highest': {
+			getNewData('desc', 'tvl');}
 			break;
-		case 'Lowest': {	
-			if( sortOrder !== toggleTo)	{	
-				getNewData('asc', 'tvl');
-			}
+		case 'lowest': {
+			getNewData('asc', 'tvl');
+			
 			
 		}
 			break;
-		case 'Popular': {	
-			if( sortOrder !== toggleTo)	{	
-				getNewData('desc', 'views');
-			}
+		case 'popular': {	
+			getNewData('desc', 'views');
+			
 			
 		}
 			break;
@@ -161,57 +174,30 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		updateIsProcessed(false);
 		if (!bounties) updateIsProcessed(true);
 		else	 {
-			updateSearchedBounties(orderBounties(filter(bounties), sortOrder, true));
+			updateSearchedBounties(orderBounties(filter(bounties),  true));
 			updateIsProcessed(true);
 		}
 	}, [bounties]);
 
 	// User Methods
 	const handleSortBounties = (toggleTo) => {
-		updateSortOrder(toggleTo);
-		updateSearchedBounties(orderBounties(searchedBounties, toggleTo));
+		updateSearchText(`${searchText.replace(orderRegex, '')} order:${toggleTo}`.replace(/\s+/g, ' '));
+		updateSearchedBounties(orderBounties(filter(searchedBounties,{}), false, true, toggleTo));
 	};
 
 	const handleSearchInput = (e) => {
 		updateSearchText(e.target.value);
 		updateSearchedBounties(orderBounties(filter(bounties, { searchText: e.target.value })));
 	};
+	const addLabel = (label)=>{
+		updateSearchText(`${searchText} label:${label}`);
+		updateSearchedBounties(orderBounties(filter(bounties, { searchText: `${searchText} label:${label}` })));
 
-	const handleTagInput = (e) => {
-		updateSearchText(e.target.value);
 	};
-	const addTag = () => {
-		if (!tagArr.includes(searchText)) {
-			updateTagArr([...tagArr, searchText]);
-			updateSearchedBounties(orderBounties(filter(bounties, { tagArr: [...tagArr, searchText] })));
-		}
-		updateSearchText('');
-	};
-	const toggleTagSearch = (toggleVal) => {
-		if (toggleVal !== tagSearch) {
-			updateSearchText('');
-			updateTagArr([]);
-			updateSearchedBounties(orderBounties(filter(bounties, { tagArr: [], searchText: '', tagSearch: toggleVal })));
-			if (toggleVal === 'Search by Text') {
-				setTagSearch('Search by Text');
-			}
-			else setTagSearch('Search by Tags');
-		}
-	};
-
-	const showUnfunded = () => {
-		setFundedOnly(!fundedOnly);
-		updateSearchedBounties(orderBounties(filter(bounties, { fundedOnly: !fundedOnly })));
-	};
-
-	const showClaimed = () => {
-		setUnclaimedOnly(!unclaimedOnly);
-		updateSearchedBounties(orderBounties(filter(bounties, { unclaimedOnly: !unclaimedOnly })));
-	};
-
-	const showAssigned = () => {
-		setUnassignedOnly(!unassignedOnly);
-		updateSearchedBounties(orderBounties(filter(bounties, { unassignedOnly: !unassignedOnly })));
+	
+	const showUnready = (toggleVal) => {
+		setIsReady(toggleVal );
+		updateSearchedBounties(orderBounties(filter(bounties, { isReady: toggleVal })));
 	};
 	
 	/* const filterByL2e = ()=>{
@@ -263,10 +249,10 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			<div className='w-full rounded-sm'>
 				<div className='flex flex-wrap gap-4 p-2 sm:p-4 border-web-gray border rounded-sm bg-subtle'>
 				
-					<Toggle names={['Ready for work', 'All issues']} toggleVal={isReady} toggleFunc={setIsReady} />
+					<Toggle names={['Ready for work', 'All issues']} toggleVal={(isReady ===  'Ready for work')? 'Ready for work': 'All issues'}  toggleFunc={showUnready} />
 
-					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} styles="whitespace-nowrap" width="44"  title={`Sort Order: ${sortOrder}`} names={['Newest', 'Oldest', 'Highest', 'Lowest', 'Popular']} borderShape={'rounded-r-lg'} />
-					<Dropdown toggleFunc={handleSortBounties} toggleVal={sortOrder} styles="whitespace-nowrap" width="24" title="Labels" names={['Newest', 'Oldest', 'Highest', 'Lowest', 'Popular']} borderShape={'rounded-r-lg'} />
+					<Dropdown toggleFunc={handleSortBounties} toggleVal={''} styles="whitespace-nowrap" width="32"  title={'Sort Order'} names={['newest', 'oldest', 'highest', 'lowest', 'popular']} borderShape={'rounded-r-lg'} />
+					<Dropdown toggleFunc={addLabel} toggleVal={''} styles="whitespace-nowrap" width="24" title="Labels" names={labels} borderShape={'rounded-r-lg'} />
 
 				</div>
 			
@@ -287,15 +273,15 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 				</Carousel>
 				:
 				null}
+			{isProcessed && !loading && searchedBounties.length>0 &&
 			<div className="md:border border-web-gray rounded-sm">
-				{isProcessed && !loading &&
-				searchedBounties.map((bounty, index) => {
+				{searchedBounties.map((bounty, index) => {
 					return <div key={bounty.id} ref={(index === searchedBounties.length - 1) ? lastElem : null}>
 						<BountyCardLean index={index} length={searchedBounties.length }bounty={bounty} />
 					</div>;
 				})}
 			</div>
-			
+			}
 		</div>
 	);
 };

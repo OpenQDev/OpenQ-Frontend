@@ -32,7 +32,7 @@ const BountyCardLean = ({ bounty, loading, index, length }) => {
 
 	// Render
 	return (
-		<div className={loading ? 'pointer-events-none cursor-normal' : undefined}>
+		<div className={loading ? 'pointer-events-none cursor-normal relative' : undefined}>
 			{isModal && bounty && <BountyCardDetailsModal TVL={TVL} bounty={bounty} closeModal={closeModal} tokenValues={tokenValues} />}
 			<div onClick={openModal}
 				className={

@@ -2,7 +2,6 @@
 import React from 'react';
 
 const Toggle =({toggleFunc, toggleVal, names})=>{
-
 	return(
 		<div className="flex text-sm rounded-sm overflow-hidden w-fit text-primary ">
 				

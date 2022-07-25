@@ -39,7 +39,7 @@ module.exports = {
 				'input-gray' : '#C2C3C5',
 				'overlay': '#000000dd',
 				'link-colour' : '#39A6FF',
-				
+				'dropdown-hover': 'rgba(110, 118, 129, 0.1)',
 				'primary': 'rgb(201, 209, 217)',
 				'muted': 'rgb(139, 148, 158)',
 				'border-default': 'rgba(144, 153, 162, 0.706)',
