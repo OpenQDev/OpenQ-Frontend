@@ -10,7 +10,7 @@ const ToolTip = (props) => {
 			{props.children}
 			<div className={`flex justify-center w-full relative hidden z-10 group-hover:block  ${props.outerStyles} `}>
 				<div class="flex flex-col items-center inline-block">
-					<div class="flex mt-1 tooltip-triangle absolute"></div>
+					<div class="flex mt-0.5 md:mt-1 tooltip-triangle absolute"></div>
 					<div class="flex tooltip absolute">
 						<div>{toolTipText}</div>
 					</div>
