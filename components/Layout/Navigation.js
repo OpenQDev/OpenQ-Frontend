@@ -72,7 +72,6 @@ const Navigation = ({ }) => {
 			await activate(gnosisSafe);
 		}
 	}, [account]);
-	const [sidebar, setSidebar] = useState(false);
 
 	return (
 		<div className="bg-nav-bg py-1 ">
@@ -134,9 +133,6 @@ const Navigation = ({ }) => {
 							</div>
 						</div>
 					</div>
-					<div
-						className={`pt-18 justify-center${sidebar ? "opacity-20" : null}`}
-					></div>
 				</div>
 			</div>
 
@@ -207,9 +203,6 @@ const Navigation = ({ }) => {
 							</div>
 						</div>
 					</div>
-					<div
-						className={`pt-18 justify-center${sidebar ? "opacity-20" : null}`}
-					></div>
 				</div>
 			</div>
 			{/*   <Footer /> */}
