@@ -82,7 +82,7 @@ const Navigation = ({ }) => {
 					{/*  Mobile navbar triggered by tailwind */}
 					{/* <MobileSidebar trigger={setSidebar} /> */}
 
-					<div className="flex justify-between invisible md:visible px-7">
+					<div className="flex justify-between px-7">
 						<div className="flex flex-row space-x-5 items-center">
 							<Link href={'/'}>
 								<a className="flex items-center">
