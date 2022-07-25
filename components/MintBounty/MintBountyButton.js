@@ -10,11 +10,11 @@ const MintBountyButton = () => {
 		<>
 			<button
 				onClick={() => setShowModal(true)}
-				className="lg:col-start-4 col-span-4 lg:col-span-1 whitespace-nowrap btn-primary flex flex-row space-x-3 items-center justify-center w-full sm:w-min px-3"
+				className="lg:col-start-4 col-span-4 lg:col-span-1 whitespace-nowrap btn-primary flex flex-row space-x-3 items-center justify-center leading-tight h-min w-full sm:w-min px-3"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
-					className="h-6 w-6"
+					className="h-5 w-5"
 					fill="none"
 					viewBox="0 0 24 24"
 					stroke="currentColor"
