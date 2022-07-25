@@ -5,7 +5,7 @@ export default function MintBountyModalButton({ enableMint, transactionPending, 
 	return (
 		<div className='flex flex-row w-full justify-center'>
 			<button
-				className={`flex w-1/3 items-center justify-center ${enableMint ? 'btn-default cursor-pointer' : 'btn-default cursor-not-allowed'}`}
+				className={`flex w-1/3 items-center justify-center ${enableMint ? 'btn-primary cursor-pointer' : 'btn-primary cursor-not-allowed'}`}
 				type="button"
 				onClick={() => mintBounty()}
 				disabled={!enableMint}
