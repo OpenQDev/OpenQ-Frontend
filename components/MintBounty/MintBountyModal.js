@@ -179,7 +179,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 												'Connect your wallet to mint a bounty!' :
 												'Please switch to the correct network to mint a bounty.'
 									}
-									customOffsets={[220, 70]}>
+									customOffsets={[160, 50]}>
 									<div className="flex items-center justify-center p-5 rounded-b w-full">
 										<MintBountyModalButton
 											mintBounty={(account) ? mintBounty : connectWallet}
