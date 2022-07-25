@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import BountyAlreadyMintedMessage from './BountyAlreadyMintedMessage';
-import ToolTip from '../Utils/ToolTip';
+import ToolTipNew from '../Utils/ToolTipNew';
 import MintBountyModalButton from './MintBountyModalButton';
 import MintBountyHeader from './MintBountyHeader';
 import MintBountyInput from './MintBountyInput';
@@ -170,7 +170,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 										<BountyAlreadyMintedMessage claimed={claimed} id={issue.id} bountyAddress={bountyAddress} />}
 								</div>
 
-								<ToolTip
+								<ToolTipNew
 									hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
 									toolTipText={
 										account && isOnCorrectNetwork ?
@@ -179,7 +179,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 												'Connect your wallet to mint a bounty!' :
 												'Please switch to the correct network to mint a bounty.'
 									}
-									customOffsets={[0, 70]}>
+									customOffsets={[220, 70]}>
 									<div className="flex items-center justify-center p-5 rounded-b w-full">
 										<MintBountyModalButton
 											mintBounty={(account) ? mintBounty : connectWallet}
@@ -188,7 +188,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 											transactionPending={isLoading}
 										/>
 									</div>
-								</ToolTip>
+								</ToolTipNew>
 							</div>
 						</div>
 					</div>
