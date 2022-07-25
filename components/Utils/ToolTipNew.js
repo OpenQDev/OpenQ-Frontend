@@ -1,23 +1,17 @@
-// Thrid Party
+// Third Party
 
 import React, { useState } from 'react';
 
 const ToolTip = (props) => {
-	const { toolTipText, customOffsets, styles, mobileX } = props;
-	const [x, updateX] = useState(customOffsets[0]);
-	const [, y] = customOffsets;
-	const setToolTip = () => {
-		if (window.innerWidth < 750 && mobileX) updateX(mobileX);
-		else updateX(customOffsets[0]);
-	};
+	const { toolTipText} = props;
 	if (props.hideToolTip) return props.children;
 	return (
-		<div className={`relative group rounded-full ${props.outerStyles}`} onMouseEnter={setToolTip}>
+		<div className={`relative bg-white m-0 group`}>
 			{props.children}
-			<div style={{ left: x, top: y }} className={`flex justify-center absolute hidden z-10 group-hover:block  ${mobileX === x ? 'w-72' : styles} `}>
+			<div className={`flex justify-center relative hidden z-10 group-hover:block   `}>
 				<div class="flex flex-col items-center inline-block">
-					<div class="flex mt-1 tooltip-triangle"></div>
-					<div class="flex tooltip">
+					<div class="flex mt-1 tooltip-triangle absolute"></div>
+					<div class="flex tooltip absolute">
 						<div>{toolTipText}</div>
 					</div>
 				</div>

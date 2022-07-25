@@ -113,17 +113,17 @@ const Navigation = ({ }) => {
 									</div>
 								</a>
 							</Link>
-							<ToolTipNew customOffsets={[-25, 25]} outerStyles={''} mobileX={10} toolTipText={'Coming soon'} >
+							<ToolTipNew toolTipText={'Coming soon'} >
 								<div className="text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer opacity-20">
 									Contests
 								</div>
 							</ToolTipNew>
-							<ToolTipNew customOffsets={[-25, 25]} outerStyles={''} mobileX={10} toolTipText={'Coming soon'} >
+							<ToolTipNew toolTipText={'Coming soon'} >
 								<div className="text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer opacity-20">
 									Communities
 								</div>
 							</ToolTipNew>
-							<ToolTipNew customOffsets={[-25, 25]} outerStyles={''} mobileX={10} toolTipText={'Coming soon'} >
+							<ToolTipNew toolTipText={'Coming soon'} >
 								<div className="text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer opacity-20">
 									Explore
 								</div>
