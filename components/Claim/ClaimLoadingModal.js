@@ -74,7 +74,7 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 					<div className="border-0 rounded-sm p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none text-center">
 						<div className="flex items-center justify-center border-solid">
 							<div className="flex flex-row">
-								<div className="text-3xl  font-semibold pb-8">
+								<div className="text-3xl font-semibold pb-8">
 									{title[claimState]}
 								</div>
 							</div>

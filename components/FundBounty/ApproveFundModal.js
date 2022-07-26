@@ -60,16 +60,16 @@ const ApproveFundModal = ({
 		[ERROR]: `${error.title}`,
 	};
 	let approveStyles = {
-		[CONFIRM]: 'bg-button-inside border-button hover:bg-button-inside-hover border',
-		[APPROVING]: 'bg-button-inside border-button border',
-		[TRANSFERRING]: 'border-transparent',
+		[CONFIRM]: 'btn-primary',
+		[APPROVING]: 'btn-primary',
+		[TRANSFERRING]: 'btn-default',
 	};
 
 
 	let fundStyles = {
 		[CONFIRM]: 'px-8 border-transparent',
 		[APPROVING]: 'px-8 border-transparent',
-		[TRANSFERRING]: 'bg-button-inside border-button border'
+		[TRANSFERRING]: 'btn-primary'
 	};
 	if ('0x0000000000000000000000000000000000000000' === token.address) {
 		fundStyles = { ...approveStyles };
@@ -99,10 +99,10 @@ const ApproveFundModal = ({
 		<div>
 			<div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 pl-20 outline-none focus:outline-none">
 				<div ref={modal} className="w-1/4 min-w-[320px]">
-					<div className="border rounded-lg p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none border-web-gray border">
-						<div className="flex items-center border-solid">
+					<div className="rounded-sm p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none">
+						<div className="flex items-center justify-center border-solid">
 							<div className="flex flex-row">
-								<div className="text-2xl font-semibold pb-2">
+								<div className="text-3xl font-semibold pb-8">
 									{title[approveTransferState]}
 								</div>
 							</div>
@@ -156,19 +156,19 @@ const ApproveFundModal = ({
 
 									</div>
 									{token.address !== '0x0000000000000000000000000000000000000000' ?
-										<div className='flex w-71 justify-evenly px-1.5 gap-2 border-web-gray border rounded-lg py-1.5 self-center'>
-											<button onClick={confirmMethod} disabled={approveTransferState !== CONFIRM} className={`text-center border px-2 flex  gap-2 py-1.5 ${approveTransferState === CONFIRM ? 'cursor-pointer' : null} ${approveStyles[approveTransferState]} rounded-lg`}>
+										<div className='flex px-1.5 gap-2 border-gray-700 border rounded-sm py-1.5 self-center'>
+											<button onClick={confirmMethod} disabled={approveTransferState !== CONFIRM} className={`flex btn-primary p-2 gap-2 ${approveTransferState === CONFIRM ? 'cursor-pointer' : null} ${approveStyles[approveTransferState]}`}>
 												<span>{approveTransferState === CONFIRM ? 'Approve' : approveTransferState === APPROVING ? 'Approving' : 'Approved'}
 												</span>
 												{approveTransferState === APPROVING && <LoadingIcon className={'inline pt-1'} />}
 											</button>
 
-											<div className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]} rounded-lg`}>
+											<div className={`text-center px-2 flex gap-2 py-1.5 border ${approveTransferState === TRANSFERRING ? 'cursor-pointer' : null} ${fundStyles[approveTransferState]}`}>
 												<span>{approveTransferState === TRANSFERRING ? 'Funding' : 'Fund'}</span>
 												{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
 											</div>
 										</div> :
-										<button onClick={confirmMethod} disabled={approveTransferState !== CONFIRM} className={`text-center px-2 gap-2 py-1.5 text-center flex justify-center gap-4 ${fundStyles[approveTransferState]} rounded-lg`}>
+										<button onClick={confirmMethod} disabled={approveTransferState !== CONFIRM} className={`py-1.5 flex justify-center gap-4 ${fundStyles[approveTransferState]}`}>
 											<span>{approveTransferState === TRANSFERRING ? 'Funding' : 'Fund'}</span>
 											{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
 										</button>
@@ -176,7 +176,7 @@ const ApproveFundModal = ({
 								</>}
 						{approveTransferState == ERROR || approveTransferState == SUCCESS ? (
 							<div className="flex items-center justify-center text-lg rounded-b">
-								<button onClick={() => updateModal()} className='text-center bg-button-inside hover:bg-button-inside-hover border border-button px-6 gap-2 py-1.5 text-center flex justify-center gap-4 cursor-pointer rounded-lg'>
+								<button onClick={() => updateModal()} className='btn-default py-1.5 text-center flex justify-center cursor-pointer w-full'>
 									<span>Close</span>
 									{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
 								</button>
