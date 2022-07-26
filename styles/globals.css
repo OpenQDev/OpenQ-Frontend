@@ -275,9 +275,9 @@ body::-webkit-scrollbar {
   height: 12px;
 }
 ::-webkit-scrollbar-thumb:active {
-  border: 1px solid #ec4899;
+  background-color: #374151;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: #585858;
-  border-radius: 12px;
+  background-color: #343a42;
+  border-radius: 2px;
 }
