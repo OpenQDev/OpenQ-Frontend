@@ -125,7 +125,7 @@ pre {
     @apply shadow-lg flex items-center justify-center h-11 w-11 mb-2 mx-auto rounded-xl border border-menu;
   }
   .checkbox {
-    @apply h-6 bg-no-repeat appearance-none w-4 h-4 checked:bg-inactive-accent checked:bg-[url('/checkbox.svg')] focus:outline-none border-2 border-web-gray checked:border-inactive-accent rounded-sm m-1 bg-dark-mode accent-inactive-accent;
+    @apply h-6 bg-zinc-700 appearance-none w-4 h-4 checked:bg-blue-300 checked:bg-[url('/checkbox.svg')] checked:hover:bg-blue-200 focus:outline-none border border-zinc-400 hover:border-zinc-300 checked:border-none rounded m-1;
   }
 	.tooltip {
 		@apply text-xs font-semibold whitespace-nowrap px-0.5 py-0.5 bg-[#6e7781] border border-solid border-4 border-transparent text-center rounded-sm

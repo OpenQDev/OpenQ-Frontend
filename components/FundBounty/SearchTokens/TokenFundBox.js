@@ -23,7 +23,7 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token,  volume }) => {
 	
 	return (
 		<div>
-			<div className="flex w-full flex-row justify-between items-center pl-14 py-3 rounded-lg py-1 bg-dark-mode border border-web-gray ">
+			<div className="flex w-full flex-row justify-between items-center pl-14 py-3 py-1 input-field-big">
 				<div className={'px-4 font-bold fundBox-amount bg-dark-mode'}>
 					<input
 						aria-label="amount"
@@ -37,7 +37,7 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token,  volume }) => {
 				</div>
 				<div className="pr-5">
 					<button
-						className="flex flex-row items-center space-x-1 py-2 drop-shadow-lg border border-web-gray rounded-lg p-2 pr-2"
+						className="flex flex-row items-center space-x-1 py-2 drop-shadow-lg btn-default p-2 pr-2"
 						onClick={() => setShowTokenSearch(true)}
 					>
 						<div className="flex flex-row space-x-5 items-center justify-center">

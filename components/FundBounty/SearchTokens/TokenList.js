@@ -77,7 +77,7 @@ const TokenList = ({ onCurrencySelect, setShowTokenSearch,  tokenSearchTerm, cus
 		<>
 			{/* <div style={{ padding: '25px', margin: '10px', outline: '2px solid pink', borderRadius: '20px' }} > */}
 
-			<div className="pt-4 ">
+			<div>
 				{
 					displayTokens.map((token, index, array) => {
 						return (						
