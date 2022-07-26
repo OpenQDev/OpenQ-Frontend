@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-const ToolTip = (props) => {
+const ToolTipNew = (props) => {
 	const { toolTipText} = props;
 	if (props.hideToolTip) return props.children;
 	return (
@@ -20,4 +20,4 @@ const ToolTip = (props) => {
 	);
 };
 
-export default ToolTip;
+export default ToolTipNew;
