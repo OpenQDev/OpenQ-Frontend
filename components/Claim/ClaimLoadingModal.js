@@ -113,7 +113,7 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 							</div>
 						) : null}
 						{claimState == CONFIRM_CLAIM ? (
-							<div className="border-0 rounded-lg p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none">
+							<div className=" p-7 flex flex-col w-full outline-none focus:outline-none">
 								<div className="flex items-center">
 									<button
 										className="btn-primary w-full"
