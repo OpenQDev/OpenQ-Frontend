@@ -12,7 +12,7 @@ const DepositCard = ({ deposit, refundBounty, status, isOnCorrectNetwork }) => {
 	const [tokenValues] = useGetTokenValues(deposit);
 
 	return (
-		<div className={`pt-3 flex flex-col items-start px-8 max-w-[90%] sm:px-6 pb-4 max-w-sm ${status === 'refundable' ? ' border-gray-700' : status === 'not-yet-refundable' ? 'border-border-gray' : ' border-border-gray'} border rounded-sm`}>
+		<div className={`pt-3 flex flex-col items-start px-8 max-w-[90%] sm:px-6 pb-4 max-w-sm hover:bg-[#21262d] ${status === 'refundable' ? ' border-gray-700' : status === 'not-yet-refundable' ? 'border-border-gray' : ' border-border-gray'} border rounded-sm`}>
 			<TokenBalances
 				tokenBalances={deposit}
 				tokenValues={tokenValues}
@@ -38,7 +38,7 @@ const DepositCard = ({ deposit, refundBounty, status, isOnCorrectNetwork }) => {
 					customOffsets={[0, 46]}>
 					<button onClick={() => refundBounty(deposit.id)}
 						disabled={!isOnCorrectNetwork}
-						className={`my-2 items-left w-full  self-center ${isOnCorrectNetwork ? 'btn-default' : 'btn-default cursor-not-allowed'}`} >
+						className={`my-2 items-left w-full  self-center ${isOnCorrectNetwork ? 'btn-primary' : 'btn-default cursor-not-allowed'}`} >
 						Refund
 					</button>
 				</ToolTipNew>

@@ -163,7 +163,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					bounty.bountyId,
 					token.address,
 					bigNumberVolumeInWei,
-					depositPeriodDays / (24*60*60)
+					depositPeriodDays
 				);
 				setTransactionHash(fundTxnReceipt.events[0].transactionHash);
 				setApproveTransferState(SUCCESS);
