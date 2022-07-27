@@ -47,6 +47,7 @@ module.exports = {
 				'secondary-button':'rgb(31, 111, 235)',
 				'important-button': 'rgb(35, 134, 54)',
 				'rust':"#f78166",
+				'closed': "rgb(137, 87, 229)",
 				'dropdown': "rgb(48, 54, 61)",
 				'web-gray': '#30363d',
 				'inactive-gray': 'rgb(33, 38, 45)',
