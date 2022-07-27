@@ -19,9 +19,6 @@ class WrappedGithubClient {
 		case 'production':
 			this.instance = new GithubRepository();
 			break;
-		case 'ethbarcelona':
-			this.instance = new GithubRepository();
-			break;
 		default:
 			throw Error('ENVIRONMENT NOT CONFIGURED CORRECTLY. Set an environment with DEPLOY_ENV');
 		}

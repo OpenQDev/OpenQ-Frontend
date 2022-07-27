@@ -63,6 +63,22 @@ class OpenQClient {
 		return promise;
 	}
 
+	async allowance(library, _tokenAddress){
+		const promise = new Promise(async (resolve) => {
+			try{
+				const signer = library.getSigner();
+				const contract = this.ERC20(_tokenAddress, signer);
+				const allowance =	await contract.allowance('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266', '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707');
+				resolve(allowance);
+			}
+			catch(err){
+				resolve({ _hex: '0x00', _isBigNumber: true });
+			
+			}
+		}
+		);
+		return promise;}
+
 	async balanceOf(library, _callerAddress, _tokenAddress) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library?.getSigner();
@@ -158,7 +174,7 @@ class OpenQClient {
 
 				if (_tokenAddress == ethers.constants.AddressZero) {
 					txnResponse = await contract.fundBountyToken(_bountyId, _tokenAddress, _value, expiration, { value: _value });
-				} else {
+				} else {				
 					txnResponse = await contract.fundBountyToken(_bountyId, _tokenAddress, _value, expiration);
 				}
 				txnReceipt = await txnResponse.wait();
@@ -172,6 +188,24 @@ class OpenQClient {
 		return promise;
 	}
 
+	async extendDeposit(library, _bountyId, _depositId, _depositPeriodDays) {
+		const promise = new Promise(async (resolve, reject) => {
+			const signer = library.getSigner();
+			const contract = this.OpenQ(signer);
+			try {
+				const seconds = _depositPeriodDays * 24 * 60 * 60;
+				const txnResponse = await contract.extendDeposit(_bountyId, _depositId, seconds);
+				const txnReceipt = await txnResponse.wait();
+				console.log(txnReceipt);
+				resolve(txnReceipt);
+			} catch (err) {
+				reject(err);
+			}
+		});
+		return promise;
+	}
+
+
 	async refundDeposit(library, _bountyId, _depositId) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
@@ -179,6 +213,7 @@ class OpenQClient {
 			try {
 				const txnResponse = await contract.refundDeposit(_bountyId, _depositId);
 				const txnReceipt = await txnResponse.wait();
+				console.log(txnReceipt);
 				resolve(txnReceipt);
 			} catch (err) {
 				reject(err);
@@ -234,6 +269,7 @@ class OpenQClient {
 		}
 
 		let miscError;
+		console.log(jsonRpcError);
 		if (typeof jsonRpcError === 'string') {
 			if (jsonRpcError.includes('Ambire user rejected the request')) { miscError = 'USER_DENIED_TRANSACTION'; }
 			if (jsonRpcError.includes('Rejected Request')) { miscError = 'USER_DENIED_TRANSACTION'; }
@@ -247,10 +283,14 @@ class OpenQClient {
 			if (jsonRpcError.message.includes('MetaMask is having trouble connecting to the network')) { miscError = 'METAMASK_HAVING_TROUBLE'; }
 			if (jsonRpcError.message.includes('Internal JSON-RPC error')) { miscError = 'INTERNAL_ERROR'; }
 			if (jsonRpcError.message.includes('Set a higher gas fee')) { miscError = 'UNDERPRICED_TXN'; }
+			if (jsonRpcError.message.includes('CFA: flow does not exist')) { miscError = 'CFA_DOES_NOT_EXIST'; }
+			if (jsonRpcError.message.includes('CFA: flow already exist')) { miscError = 'CFA_EXISTS'; }
+		
 		}
 
 		if (!miscError) {
 			errorString = 'CALL_EXCEPTION';
+			miscError = 'CALL_EXCEPTION';
 		}
 
 		for (const error of jsonRpcErrors) {

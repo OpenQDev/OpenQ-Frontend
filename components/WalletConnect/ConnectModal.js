@@ -24,21 +24,25 @@ const ConnectModal = ({closeModal})=>{
 	,[account];
 	return(
 		<div>
-			<div id="connect-modal" className='text-white absolute top-0 left-20 right-0 h-screen flex justify-center items-center'>
+			<div id="connect-modal" className='text-white absolute top-0 left-0 md:left-20 right-0 h-screen flex justify-center items-center'>
 				<div className='max-w-md w-5/6 bg-dark-mode z-[60] flex flex-col gap-2 p-6 px-12 text-lg rounded-lg '>
 					<div>
 						<Image alt={'openq-logo'} src={'/openq-logo.png'} height={32} width={32}/>
 					</div>
 					<h2 className='text-xl font-bold'>Connect Wallet</h2>
 					<p className='text-sm'>Connect your wallet to continue with OpenQ. By connecting your wallet you agree with OpenQ{'\''}s terms of service.</p>
-					<button onClick={handleMetaMask} className='flex p-2 mt-4  my-2 w-full gap-4 hover:bg-inactive-accent/10 rounded-md hover:border-web-gray border border-transparent justify-center'>
-						<Image src={'/wallet-logos/metamask.png'} height={40} width={40} alt={'metamask logo'}/>
+					<button onClick={handleMetaMask} className='flex p-2 mt-4  my-2 w-full gap-4 hover:bg-inactive-accent/10 rounded-md border-web-gray hover:border-web-gray border sm:border-transparent justify-center'>
+						<div className="hidden sm:block">
+							<Image src={'/wallet-logos/metamask.png'} height={40} width={40} alt={'metamask logo'}/>
+						</div>
 						<div className='text-xl leading-loose'>
 							Metamask
 						</div>
 					</button>
-					<button onClick={handleWalletConnect} className='flex p-2 mb-4 w-full gap-4 hover:bg-inactive-accent/10 rounded-md hover:border-web-gray border border-transparent justify-center'>
-						<Image src={'/wallet-logos/wallet-connect.jpg'} className="rounded-full" height={40} width={40} alt={'wallet connect logo'}/>
+					<button onClick={handleWalletConnect} className='flex p-2 mb-4 w-full gap-4 hover:bg-inactive-accent/10 rounded-md border-web-gray hover:border-web-gray border sm:border-transparent justify-center'>
+						<div className="hidden sm:block">
+							<Image src={'/wallet-logos/wallet-connect.jpg'} className="rounded-full" height={40} width={40} alt={'wallet connect logo'}/>
+						</div>
 						<div className='leading-loose text-xl'>
 							WalletConnect
 						</div>

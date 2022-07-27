@@ -7,7 +7,7 @@ import BountyStatus from './BountyStatus';
 import BountyLinks from './BountyLinks';
 import TokenBalances from '../TokenBalances/TokenBalances';
 import useWeb3 from '../../hooks/useWeb3';
-import {StackIcon, LogIcon} from '@primer/octicons-react'
+import {StackIcon, LogIcon} from '@primer/octicons-react';
 
 const BountyCardDetailsModal = ({ bounty, TVL, closeModal, tokenValues }) => {
 	const modal = useRef();
@@ -36,7 +36,7 @@ const BountyCardDetailsModal = ({ bounty, TVL, closeModal, tokenValues }) => {
 					<BountyCardHeader bounty={bounty} />
 				</div>
 				<div className="px-8 py-4 max-h-[60vh] overflow-y-auto">
-				<div className='py-4'>
+					<div className='py-4'>
 						<Link href={`/bounty/${bounty.id}/${bounty.bountyAddress}`} >
 							<a onClick={closeModal} target={safe ? '_self' : '_blank'} rel="noopener noreferrer" ><div className='flex flex-row space-x-2 -mt-6 btn-default w-fit items-center text-sm'><StackIcon size={24} /><div>Full Bounty</div></div></a>
 						</Link>

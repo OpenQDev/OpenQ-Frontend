@@ -1,18 +1,17 @@
 // Third party
-import React, { useState } from "react";
+import React, { useState } from 'react';
 // Custom
-import OrganizationCard from "../Organization/OrganizationCard";
-import BountyCardLean from "../../components/Bounty/BountyCardLean";
-import MintBountyButton from "../MintBounty/MintBountyButton";
-import SearchBar from "../Search/SearchBar";
-import Carousel from "../Utils/Carousel";
+import OrganizationCard from '../Organization/OrganizationCard';
+import MintBountyButton from '../MintBounty/MintBountyButton';
+import SearchBar from '../Search/SearchBar';
+import Carousel from '../Utils/Carousel';
 
-const OrganizationHomepage = ({ orgs, fullBounties }) => {
+const OrganizationHomepage = ({ orgs }) => {
 	// State
-	const [searchTerm, setSearchTerm] = useState("");
+	const [organizationSearchTerm, setOrganizationSearchTerm] = useState('');
 
 	const filterByOrg = (e) => {
-		setSearchTerm(e.target.value);
+		setOrganizationSearchTerm(e.target.value);
 	};
 
 	// Render
@@ -25,26 +24,26 @@ const OrganizationHomepage = ({ orgs, fullBounties }) => {
 				<div className="text-gray-500 text-md">GitHub organizations outsourcing to OpenQ</div>
 			</div>
 			<div className="lg:grid lg:grid-cols-extra-wide xl:grid-cols-wide justify-center">
-
+				
 				<div className="lg:col-start-2 justify-between justify-self-center space-y-2 w-full pb-8">
-
+			
 					<div className="grid gap-5 lg:grid-cols-[repeat(4,_1fr)] w-full pt-10">
 						<SearchBar
 							onKeyUp={filterByOrg}
-							searchText={searchTerm}
-							placeholder="Search Organization or Issue..."
+							searchText={organizationSearchTerm}
+							placeholder="Search Organization..."
 							className="mb-200"
 						/>
 						<MintBountyButton />
 					</div>
-					<Carousel />
+					<Carousel/>
 					<div className="grid grid-cols-[repeat(3,_300px)] justify-center lg:justify-between">
 						{orgs
 							.filter((organization) => {
-								return searchTerm
+								return organizationSearchTerm
 									? organization.name
 										.toLowerCase()
-										.indexOf(searchTerm.toLowerCase()) > -1
+										.indexOf(organizationSearchTerm.toLowerCase()) > -1
 									: organization;
 							})
 							.map((organization) => {
@@ -58,28 +57,6 @@ const OrganizationHomepage = ({ orgs, fullBounties }) => {
 								);
 							})}
 					</div>
-					{searchTerm ?
-						<>
-							{fullBounties
-								.filter((bounty) => {
-									return bounty.title.concat(bounty.body)
-										.toLowerCase()
-										.indexOf(searchTerm.toLowerCase()) > -1;
-								})
-								.map((bounty) => {
-									return (
-										<div className="border border-web-gray pt-0" key={bounty.id}>
-											<BountyCardLean
-												bounty={bounty}
-												key={bounty.id}
-											/>
-										</div>
-									);
-								})}
-						</>
-						:
-						null
-					}
 				</div>
 			</div>
 		</div>

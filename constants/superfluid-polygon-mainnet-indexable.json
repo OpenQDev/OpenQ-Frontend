@@ -1,0 +1,18 @@
+{
+	"0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063":{
+		"name": "DAI",
+		"address": "0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2",
+		"symbol": "DAI",
+		"decimals": 18,
+		"chainId": 137,
+		"path": "/crypto-logos/DAI.svg"
+	},
+	"0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2":{
+		"name": "DAI",
+		"address": "0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2",
+		"symbol": "DAI",
+		"decimals": 18,
+		"chainId": 137,
+		"path": "/crypto-logos/DAI.svg"
+	}
+	}

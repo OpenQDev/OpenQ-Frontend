@@ -37,7 +37,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		symbol: 'MATIC',
 		decimals: 18,
 		chainId: 80001,
-		path: '/crypto-logos/MATIC.svg'
+		path: 'https://wallet-asset.matic.network/img/tokens/matic.svg'
 	};
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
@@ -80,7 +80,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		};
 		dispatch(payload);
 	};
-
 	async function fundBounty() {
 		const volumeInWei = volume * 10 ** token.decimals;
 
