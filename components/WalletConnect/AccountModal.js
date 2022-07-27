@@ -33,8 +33,10 @@ const AccountModal = ({ chainId, account, ensName, deactivate, setIsConnecting, 
 
 	return (
 		<div class="flex flex-col items-center inline-block">
-			<div class="flex mt-0.5 md:mt-1 border-b-gray-700 tooltip-triangle absolute"></div>
-			<div ref={domRef} className='flex absolute flex-col z-40 gap-2 bg-[#161B22] w-64 md:w-48 tooltip right-10 border-gray-700 border rounded-sm p-4'>
+			<div class="flex mt-0.5 md:mt-0.5 border-b-gray-700 tooltip-triangle absolute"></div>
+			<div class="flex z-40 mt-1 border-b-[#161B22] tooltip-triangle absolute"></div>
+
+			<div ref={domRef} className='flex absolute flex-col z-30 gap-2 bg-[#161B22] w-64 md:w-48 tooltip right-10 border-gray-700 border rounded-sm p-4'>
 				<div className="flex gap-4 items-center">{/* <div ref={iconWrapper} className="border-4 rounded-full border-pink-500 w-min h-10"></div> */}
 					<div>
 						<span>{ensName}</span>
