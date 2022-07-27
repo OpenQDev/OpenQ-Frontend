@@ -6,7 +6,7 @@ import MintBountyButton from '../MintBounty/MintBountyButton';
 const BountyHeading = ({bounty}) =>{
 
 	return (
-		<div className='sm:px-8 px-4 w-full pb-4'>
+		<div className='sm:px-8 px-4 w-full max-w-[1200px] pb-4'>
 			<div className='pt-6 pb-2 w-full flex flex-wrap'>
 				<h1 className='text-[32px] flex-1 leading-tight'><span className='text-primary'>{bounty.title}</span><span className='text-muted text font-light'> #{bounty.number}</span></h1>
 				<MintBountyButton styles={'h-8 self-center'}/>
