@@ -13,7 +13,7 @@ const CopyAddressToClipboard = ({clipping, data, styles, noClip, }) => {
 	};
 
 	return (
-		<div className={`relative pt-2 ${styles}`}>
+		<div className={`relative pt-2 md:p-0 ${styles}`}>
 			<div
 				onClick={copyTextToClipboard}
 				className="flex flex-row space-x-1 cursor-pointer w-fit"
@@ -59,7 +59,7 @@ const CopyAddressToClipboard = ({clipping, data, styles, noClip, }) => {
 						</div>
 					)}
 				</div>
-				<div>{
+				<div className='md:p-1'>{
 					noClip ?
 						data :
 						`${data.substring(0, start)}
