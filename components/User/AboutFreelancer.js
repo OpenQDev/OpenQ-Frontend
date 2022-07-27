@@ -35,7 +35,7 @@ const AboutFreelancer = ({ user, organizations, watchedBounties }) => {
 
 		<div className="flex justify-center border-b border-border-gray">
 			<SubMenu
-				names={[["Overview", <div ><BookIcon size={16} className='mr-1'/> Overview</div>], ["Stars", <div><StarIcon size={16} className='mr-1'/> Stars</div>], ["Watching", <div><EyeIcon size={16} className='mr-1'/> Watching</div>]]}
+				names={[["Overview", <div ><BookIcon size={16} className='mr-1' /> Overview</div>], ["Stars", <div><StarIcon size={16} className='mr-1' /> Stars</div>], ["Watching", <div><EyeIcon size={16} className='mr-1' /> Watching</div>]]}
 				toggleFunc={setInternalMenu}
 				toggleVal={internalMenu}
 			/>
@@ -59,7 +59,16 @@ const AboutFreelancer = ({ user, organizations, watchedBounties }) => {
 				<Balances tokenBalances={payoutTokenBalances} tokenValues={payoutTokenValues} type="Total Payouts" />
 				<MiniBountyList bounties={bountiesClosed} />
 			</>)
-			: null
+			: internalMenu == "Stars" ?
+				(<>
+					Followed organizations
+					</>)
+				:
+				(<>
+					Issues the user follows
+					<br/>
+					Filtering to check which issued are closed or open
+					</>)
 		}
 
 
