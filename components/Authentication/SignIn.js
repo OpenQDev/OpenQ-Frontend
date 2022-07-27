@@ -33,14 +33,16 @@ const SignIn = ({ redirectUrl }) => {
 			onClick={() => signIn()}
 			className={`flex justify-center btn-default px-3 py-2 mr-2 hover:border-[#8b949e] hover:bg-[#30363d] w-full`}
 		>
-			<div className="flex space-x-3">
-				<Image
-					src="/social-icons/github-logo-white.svg"
-					alt="Picture of the author"
-					width={20}
-					height={20}
-				/>
-				<div className="flex">Sign In</div>
+			<div className="flex flex-row items-center justify-center space-x-3">
+				<div className="h-12 w-12 md:h-6 md:w-6 relative">
+					<Image
+						src="/social-icons/github-logo-white.svg"
+						alt="Picture of the author"
+						layout="fill"
+						objectFit="cover"
+					/>
+				</div>
+				<div className='text-[1.8rem] md:text-[1rem]'>Sign In</div>
 			</div>
 		</button>
 	);
