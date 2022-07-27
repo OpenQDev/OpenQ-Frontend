@@ -43,7 +43,7 @@ const BountyMetadata = ({bounty, setInternalMenu, price})=>{
 						return pr.source['__typename'] === 'PullRequest' && pr.source.url;
 					}).map((pr, index) => {
 						if (pr.source['__typename'] === 'PullRequest' && pr.source.url) {
-							return <li className={`text-sm ${pr.source.merged ? 'text-claimed-bounty' : null}`} key={index}>
+							return <li className='text-sm text-primary' key={index}>
 								<Link href={pr.source.url}>
 									<a target="_blank" className={'underline'}>
 										{pr.source.title}
