@@ -53,7 +53,7 @@ const BountyMetadata = ({bounty, setInternalMenu, price})=>{
 									{pr.source.merged ? ' (merged)' : ' (not merged)'}</span>
 							</li>;}
 					})}
-				</ul> : <span>No linked pull requests</span>}
+				</ul> : <span className='text-xs font-semnibold text-muted'>No linked pull requests</span>}
 			</li>
 			
 		</ul>
