@@ -274,6 +274,7 @@ query($issueIds: [ID!]!) {
            name
 					 login
            url
+					 avatarUrl
          }
        }
       labels(first: 10) {
