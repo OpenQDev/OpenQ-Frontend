@@ -17,8 +17,6 @@ const OrganizationHomepage = ({ orgs }) => {
 	// Render
 	return (
 		<div>
-			{console.log(fullBounties)}
-			{console.log(orgs)}
 			<div className="text-center bg-[#161B22] py-14">
 				<div className="text-2xl font-bold">Organizations</div>
 				<div className="text-gray-500 text-md">GitHub organizations outsourcing to OpenQ</div>
