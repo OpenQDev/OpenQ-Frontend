@@ -15,7 +15,7 @@ const account = ({account, user, organizations, renderError, watchedBounties}) =
 	return (
 
 		<div className=' lg:grid grid-cols-wide gap-4 justify-center col-start-2 pt-12'>{user ?
-			<section className="min-h-card rounded-lg shadow-sm col-start-2 md:border border-web-gray">
+			<section className="min-h-card col-start-2">
 				<AboutFreelancer watchedBounties={watchedBounties} user={user} account={account} organizations={organizations}/> 
 			</section>:
 			<UnexpectedError error={renderError} />}

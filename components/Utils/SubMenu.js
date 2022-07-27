@@ -9,14 +9,14 @@ const SubMenu = ({ toggleFunc, toggleVal, names }) => {
           return (
             <button
               key={index}
-              onClick={() => toggleFunc(name)}
+              onClick={() => toggleFunc(Array.isArray(names[0]) ? name[0] : name)}
               className={`p-2 py-4 px-4 text-[0.8rem] tracking-wider ${
-                toggleVal === name
+                toggleVal === (Array.isArray(names[0]) ? name[0] : name)
                   ? "py-3 border-b-2 border-blue-600 text-gray-200 font-bold"
                   : null
               }`}
             >
-              {name}
+              {Array.isArray(names[0]) ? name[1] : name}
             </button>
           );
         })}
