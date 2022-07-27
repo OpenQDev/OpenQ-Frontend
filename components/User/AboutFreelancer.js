@@ -35,7 +35,7 @@ const AboutFreelancer = ({ user, organizations, watchedBounties }) => {
 
 		<div className="flex justify-center border-b border-border-gray">
 			<SubMenu
-				names={[["Overview", <div><BookIcon size={16} /> Overview</div>], ["Stars", <div><StarIcon size={16} /> Stars</div>], ["Watching", <div><EyeIcon size={16} /> Watching</div>]]}
+				names={[["Overview", <div ><BookIcon size={16} className='mr-1'/> Overview</div>], ["Stars", <div><StarIcon size={16} className='mr-1'/> Stars</div>], ["Watching", <div><EyeIcon size={16} className='mr-1'/> Watching</div>]]}
 				toggleFunc={setInternalMenu}
 				toggleVal={internalMenu}
 			/>
