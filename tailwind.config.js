@@ -45,6 +45,8 @@ module.exports = {
 				'border-default': 'rgba(144, 153, 162, 0.706)',
 				'button-pink': '#FF006A',
 				'secondary-button':'rgb(31, 111, 235)',
+				'important-button': 'rgb(35, 134, 54)',
+				'rust':"#f78166",
 				'dropdown': "rgb(48, 54, 61)",
 				'web-gray': '#30363d',
 				'inactive-gray': 'rgb(33, 38, 45)',

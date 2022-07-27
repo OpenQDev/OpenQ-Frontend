@@ -160,6 +160,7 @@ export const GET_ISSUE_BY_ID = gql`
             name
 						login
             url
+						avatarUrl
           }
         }
         repository {

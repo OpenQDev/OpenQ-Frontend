@@ -11,7 +11,7 @@ const ToolTip = ({toolTipText, customOffsets, styles, mobileX, hideToolTip, chil
 	};
 	if(hideToolTip) return children;
 	return (
-		<div className={`relative group rounded-full ${outerStyles}`} onMouseEnter={setToolTip}>
+		<div className={`relative group rounded-full h-min ${outerStyles}`} onMouseEnter={setToolTip}>
 			{children}
 			<div style={{left: x, top: y}} className={`flex justify-center absolute hidden z-10 group-hover:block justify-items-center w-full h-3 pt-0.5 ${mobileX === x ? 'w-72' : styles} min-w-[200px]`}>
 				<div className=' bg-dark-mode h-min border-web-gray border rounded-md p-2 z-20'>

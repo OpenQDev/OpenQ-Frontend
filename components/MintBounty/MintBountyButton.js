@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 // Custom
 import MintBountyModal from './MintBountyModal';
 
-const MintBountyButton = () => {
+const MintBountyButton = ({styles}) => {
 	const [showModal, setShowModal] = useState(false);
 
 	return (
 		<>
 			<button
 				onClick={() => setShowModal(true)}
-				className="lg:col-start-4 col-span-4 lg:col-span-1 whitespace-nowrap btn-primary flex flex-row space-x-3 items-center justify-center leading-tight h-min w-full sm:w-min px-3"
+				className={`lg:col-start-4 col-span-4 lg:col-span-1 whitespace-nowrap btn-primary flex flex-row space-x-3 items-center justify-center leading-tight h-min w-fit sm:w-min px-3 ${styles}`}
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
