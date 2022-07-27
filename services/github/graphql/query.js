@@ -266,6 +266,7 @@ query($issueIds: [ID!]!) {
       body
       url
       id
+			number
       titleHTML
       bodyHTML				
       assignees(first: 1) {

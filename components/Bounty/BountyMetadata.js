@@ -10,7 +10,7 @@ const BountyMetadata = ({bounty, setInternalMenu, price})=>{
 
 	return( 
 
-		<ul className='md:max-w-[300px] w-full pl-4 pt-4'>
+		<ul className='md:max-w-[300px] w-full md:pl-4'>
 			<li className='border-b border-web-gray py-3'>
 				<div className='text-xs font-semibold text-muted'>TVL</div>
 				<button className='text-xs font-semibold text-primary' onClick={()=>setInternalMenu('Fund')}>${price||'0.00'}</button>
