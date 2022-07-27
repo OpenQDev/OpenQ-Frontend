@@ -131,7 +131,7 @@ pre {
 		@apply text-[1.6rem] md:text-xs font-semibold whitespace-nowrap m-2 px-0.5 py-0.5 bg-[#6e7781] border border-solid border-4 border-transparent text-center rounded-sm
 	}
 	.tooltip-triangle {
-		@apply content-none block w-0 h-0 absolute border-x-8 md:border-x-8 border-x-transparent border-b-8 md:border-b-8 border-b-[#6e7781] 
+		@apply content-none block w-0 h-0 absolute border-x-[24px] border-x-transparent border-b-[24px] border-b-[#6e7781] 
 	}
 }
 
