@@ -61,16 +61,16 @@ const ManageTokenList = ({ setCustomTokens, customTokens, setLists, lists})=>{
 	return(<div className='flex items-center flex-col justify-start gap-4 h-[30rem]'>
 		<Toggle toggleVal={displayedTab} toggleFunc={setDisplayedTab} names={['Lists', 'Tokens']}></Toggle>
 		{	displayedTab==='Lists' ?
-			<><button className='md:w-5/6 w-full bg-button-inside border-button py-3 text-left px-4 border rounded-md flex items-center gap-4 justify-between'>
+			<><div className='md:w-5/6 w-full  py-3 text-left px-4 border border-gray-700 rounded-sm flex items-center gap-4 justify-between'>
 			
-				<div className={`flex justify-center items-center h-10 w-10 rounded-full border border-button  ${lists.openq? 'bg-button-inside': 'bg-inactive-gray'}`}>
-					<Image height={24} width={24} src={'/openq-logo.png'} />
+				<div className={`flex justify-center items-center h-10 w-10 rounded-full`}>
+					<Image height={31} width={31} src={'/openq-logo-white-2.png'} />
 				</div>
 				<span className="justify-self-start flex-1">OpenQ List</span>
-				<input onChange={setOpenQ} checked={lists.openq} type="checkbox" className='checkbox'/>
-			</button>
-			<button className='md:w-5/6 w-full bg-button-inside border-button py-3 mb-4.5 text-left px-4 border rounded-md flex items-center gap-4 justify-between'>
-				<div className={`flex justify-center items-center h-10 w-10 rounded-full border border-button ${lists.polygon? 'bg-button-inside': 'bg-inactive-gray'}`}>
+				<input onChange={setOpenQ} checked={lists.openq} type="checkbox" className='checkbox cursor-pointer'/>
+			</div>
+			<div className='md:w-5/6 w-full  py-3 mb-4.5 text-left px-4 border border-gray-700 rounded-sm flex items-center gap-4 justify-between'>
+				<div className={`flex justify-center items-center h-10 w-10`}>
 					<svg version="1.1" id="Layer_1" height="24" x="0px" y="0px" fill="#8247e5"
 						viewBox="0 0 38.4 33.5"  >
 						<g>
@@ -83,17 +83,17 @@ const ManageTokenList = ({ setCustomTokens, customTokens, setLists, lists})=>{
 						</g>
 					</svg>
 				</div><span className='justify-self-start flex-1 truncate'>Polygon.Technology List</span>
-				<input onChange={setPolygon} type="checkbox" checked={lists.polygon} className='checkbox'/>
+				<input onChange={setPolygon} type="checkbox" checked={lists.polygon} className='checkbox cursor-pointer'/>
 
 
-			</button>
+			</div>
 			</>:
 			<div className='w-full flex flex-col gap-2 content-start'>
-				<input onChange={handleTokenInput} onKeyDown={enterValue} value={tokenInput} className='w-full text-lg bg-transparent rounded-lg border-web-gray border p-2 text-tinted' placeholder='0x . . .'></input>
+				<input onChange={handleTokenInput} onKeyDown={enterValue} value={tokenInput} className='w-full text-lg input-field-big mt-2 text-tinted' placeholder='0 x . . .'></input>
 				<p className='self-start text-tinted h-5'>{error}</p>
 				<h4 className='self-start font-semibold pt-2 text-tinted'>Custom tokens</h4>
-				<ul className='self-start h-16 mb-3 space-y-2 overflow-auto h-64 w-full border-b border-web-gray'>
-					{customTokens.map((token)=><li key={token.address} className="border-web-gray border pt-2 pl-4 rounded-lg w-min">
+				<ul className='self-start h-16 mb-3 space-y-2 overflow-auto h-64 w-full border-b border-border-gray'>
+					{customTokens.map((token)=><li key={token.address} className="border-border-gray border pt-2 pl-4 rounded-sm w-min">
 						<TokenDisplay token={token} onSelect={()=>{}} />
 					</li>)}
 				</ul>

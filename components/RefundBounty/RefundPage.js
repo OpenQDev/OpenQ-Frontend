@@ -77,9 +77,9 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 	return (
 		<>{claimed?
 			<>{internalMenu === 'Refund' && <BountyClosed bounty={bounty}/>}</> :
-			<div className={`flex justify-center items-center pl-5 pr-5 md:pl-16 md:pr-16 pt-10 pb-10 my-16 border-web-gray border rounded-lg w-5/6 max-w-6xl ${internalMenu !== 'Refund'? 'hidden': null}`}>
+			<div className={`flex justify-center items-center pl-5 pr-5 md:pl-16 md:pr-16 pt-10 pb-10 my-16 w-5/6 max-w-6xl ${internalMenu !== 'Refund'? 'hidden': null}`}>
 				<div className="flex flex-col space-y-5 w-full">
-					<h1 className="font-bold py-4 text-2xl border-web-gray border-b ">
+					<h1 className="font-bold py-4 text-2xl border-gray-700 border-b ">
 							Your Deposits
 					</h1>
 					<div className='text-tinted font-bold text-center'>To see your deposits, connect the wallet that funded them.</div>

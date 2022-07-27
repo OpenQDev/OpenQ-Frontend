@@ -3,6 +3,7 @@ import React from 'react';
 import TokenList from './TokenList';
 import ManageTokenList from '../ManageTokenList';
 import { useState } from 'react';
+import { XIcon } from '@primer/octicons-react';
 
 const TokenSearch = ({ setShowTokenSearch, onCurrencySelect, polygonTokens, openQTokens, currentCursor }) => {
 	const [showListManager, setShowListManager] = useState(true);
@@ -23,21 +24,20 @@ const TokenSearch = ({ setShowTokenSearch, onCurrencySelect, polygonTokens, open
 					{' '}
 					<div
 						onClick={e => e.stopPropagation()}
-						className='flex justify-left border border-web-gray pl-8 pr-8 pt-5 pb-3 rounded-lg shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none'
+						className='flex justify-left border border-border-gray pl-8 pr-8 pt-5 pb-3 rounded-sm shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none'
 					>
 						{showListManager ? (
 							<div className='h-[30rem]'>
-								<div className='flex items-center justify-between border-solid rounded-t pt-2 pb-4'>
-									<h3 className='text-1xl font-semibold'>Select a Token</h3>
+								<div className='flex flex-row items-center justify-between rounded-t pt-2 pb-4'>
+									<h3 className='flex text-1xl font-semibold'>Select a Token</h3>
 									<button
-										className='text-3xl hover:text-tinted'
+										className='flex text-3xl hover:text-tinted'
 										onClick={() => setShowTokenSearch(false)}
-									>
-                    ×
+									><XIcon size={16} />
 									</button>
 								</div>
 
-								<div className='pt-3 pb-3 pl-4 bg-dark-mode border border-web-gray rounded-lg overflow-hidden mb-2'>
+								<div className='pt-3 pb-3 pl-4 input-field-big overflow-hidden mb-2'>
 									<div className=''>
 										<div className='justify-start '>
 											<input
@@ -49,7 +49,7 @@ const TokenSearch = ({ setShowTokenSearch, onCurrencySelect, polygonTokens, open
 										</div>
 									</div>
 								</div>
-								<div className='pt-4 overflow-auto h-72'>
+								<div className='mt-8 overflow-auto h-72'>
 									{polygonTokens && openQTokens && (
 										<TokenList
 											customTokens={customTokens}
@@ -63,7 +63,7 @@ const TokenSearch = ({ setShowTokenSearch, onCurrencySelect, polygonTokens, open
 										/>
 									)}
 								</div>
-								<div className='flex flex-col justify-items-center gap-2 justify-end p-6 border-t border-solid rounded-b'></div>
+								<div className='flex flex-col justify-items-center  justify-end border-t border-gray-700 '></div>
 							</div>
 						) : (
 							<ManageTokenList
@@ -74,13 +74,13 @@ const TokenSearch = ({ setShowTokenSearch, onCurrencySelect, polygonTokens, open
 							/>
 						)}
 						<button
-							className='confirm-btn'
+							className='btn-default p-2 m-2'
 							onClick={e => {
 								setShowListManager(() => !showListManager);
 								e.stopPropagation();
 							}}
 						>
-							{showListManager ? 'Manage token lists' : 'Back'}
+							{showListManager ? 'Manage Token Lists' : 'Back'}
 						</button>
 					</div>
 				</div>

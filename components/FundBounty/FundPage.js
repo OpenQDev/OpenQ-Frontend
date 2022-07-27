@@ -7,7 +7,7 @@ import useWeb3 from '../../hooks/useWeb3';
 import TokenFundBox from './SearchTokens/TokenFundBox';
 import StoreContext from '../../store/Store/StoreContext';
 import ButtonLoadingIcon from '../Loading/ButtonLoadingIcon';
-import ToolTip from '../Utils/ToolTip';
+import ToolTipNew from '../Utils/ToolTipNew';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import ApproveFundModal from './ApproveFundModal';
 import {
@@ -48,7 +48,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 	const claimed = bounty.status == 'CLOSED';
 	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) <= 0.00000001 || parseFloat(volume) >= 1000 || volume == '' || !(parseInt(depositPeriodDays) > 0);
-	const disableOrEnable = `${(loadingClosedOrZero || !isOnCorrectNetwork) && account ? 'confirm-btn-disabled cursor-not-allowed' : 'confirm-btn cursor-pointer'}`;
+	const disableOrEnable = `${(loadingClosedOrZero || !isOnCorrectNetwork) && account ? 'btn-default w-full cursor-not-allowed' : 'btn-primary cursor-pointer'}`;
 	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center py-3 text-lg  ${disableOrEnable}`;
 
 	function resetState() {
@@ -202,7 +202,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		<div className="flex flex-1 justify-center items-center pb-10">
 			<div className="flex flex-col space-y-5 w-5/6">
 				<div className="flex text-3xl font-semibold  justify-center pt-16">
-					Fund Bounty
+					Escrow Funds in Atomic Contract
 				</div>
 
 				<TokenFundBox
@@ -212,11 +212,11 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					volume={volume}
 				/>
 
-				<div className="flex w-full flex-row justify-between items-center px-4 py-3 rounded-lg py-1 bg-dark-mode border border-web-gray ">
+				<div className="flex w-full px-4 py-3 py-1 input-field-big ">
 					<div className=' flex items-center gap-3 w-full'>
-						<ToolTip customOffsets={[-192, -142]} outerStyles={''} mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
+						<ToolTipNew customOffsets={[-192, -142]} outerStyles={''} mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
 							<div className='cursor-help rounded-full border-2 border-web-gray aspect-square leading-6 h-6 box-content text-center font-bold text-web-gray'>?</div>
-						</ToolTip>
+						</ToolTipNew>
 						<span>Deposit Locked Period</span>
 					</div>
 
@@ -231,7 +231,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					</div>
 				</div>
 
-				<ToolTip hideToolTip={account && isOnCorrectNetwork && !loadingClosedOrZero}
+				<ToolTipNew hideToolTip={account && isOnCorrectNetwork && !loadingClosedOrZero}
 					toolTipText={
 						account && isOnCorrectNetwork && !(depositPeriodDays > 0) ?
 							'Please indicate how many days you\'d like to fund your bounty for.' :
@@ -253,7 +253,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 							<ButtonLoadingIcon />
 						) : null}</div>
 					</button>
-				</ToolTip>
+				</ToolTipNew>
 				<div className='text-web-gray text-sm'>Always fund through the interface! Never send funds directly to the address!</div>
 			</div>
 
