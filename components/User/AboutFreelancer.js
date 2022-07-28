@@ -13,6 +13,7 @@ import Carousel from '../Utils/Carousel';
 import MiniBountyList from './AboutModules/MiniBountyList';
 import SubMenu from '../Utils/SubMenu';
 import { BookIcon, EyeIcon, StarIcon } from '@primer/octicons-react';
+import ProfilePicture from '../Layout/ProfilePicture';
 
 const AboutFreelancer = ({ user, organizations, watchedBounties }) => {
 	const { bountiesClosed, payoutTokenBalances, payouts } = user;
@@ -32,47 +33,53 @@ const AboutFreelancer = ({ user, organizations, watchedBounties }) => {
 		}
 	}, [bountiesClosed]);
 	return (<>
-			<SubMenu
-				names={[["Overview", <div ><BookIcon size={16} className='mr-1' /> Overview</div>], ["Stars", <div><StarIcon size={16} className='mr-1' /> Stars</div>], ["Watching", <div><EyeIcon size={16} className='mr-1' /> Watching</div>]]}
-				toggleFunc={setInternalMenu}
-				toggleVal={internalMenu}
-				contributor={true}
-			/>
-			<div className=' lg:grid grid-cols-wide gap-4 justify-center col-start-2 pt-12'>
-			<section className="min-h-card col-start-2">
-		{internalMenu == "Overview" ?
-			(<>
-				<AboutTitle ensName={ensName} account={account} />
 
-				{watchedBounties.length > 0 &&
-					<div className='px-16 py-6 py-6 border-b border-web-gray flex flex-wrap items-stretch w-full font-semibold text-gray-300 text-lg'>
-						<h3>Watched Bounties</h3>
-						<Carousel>
+		<div className='px-4 sm:px-8 text-primary border-border-gray border-b w-full flex h-12 gap-x-8 relative'>
+			<div className="flex">
+				<ProfilePicture contributor={true} styles={'pt-40'} />
+			</div>
+			<div className='flex flex-col'>
+				<SubMenu
+					names={[["Overview", <div ><BookIcon size={16} className='mr-1' /> Overview</div>], ["Stars", <div><StarIcon size={16} className='mr-1' /> Stars</div>], ["Watching", <div><EyeIcon size={16} className='mr-1' /> Watching</div>]]}
+					toggleFunc={setInternalMenu}
+					toggleVal={internalMenu}
+					contributor={true}
+				/>
+				<div className='flex flex-col pt-8 px-4'>
+					{internalMenu == "Overview" ?
+						(<>
+							<AboutTitle ensName={ensName} account={account} />
 
-							{watchedBounties.map((watchedBounty, index) => <CarouselBounty key={index} bounty={watchedBounty} />)}
+							{watchedBounties.length > 0 &&
+								<div className='px-16 py-6 py-6 border-b border-web-gray flex flex-wrap items-stretch w-full font-semibold text-gray-300 text-lg'>
+									<h3>Watched Bounties</h3>
+									<Carousel>
+
+										{watchedBounties.map((watchedBounty, index) => <CarouselBounty key={index} bounty={watchedBounty} />)}
 
 
-						</Carousel>
-					</div>
-				}
-				<UserHistory organizations={organizations} payouts={payouts} />
-				<Balances tokenBalances={payoutTokenBalances} tokenValues={payoutTokenValues} type="Total Payouts" />
-				<MiniBountyList bounties={bountiesClosed} />
-			</>)
-			: internalMenu == "Stars" ?
-				(<>
-					Followed organizations
-					</>)
-				:
-				(<>
-					Issues the user follows
-					<br/>
-					Filtering to check which issued are closed or open
-					</>)
-		}
-		</section>
+									</Carousel>
+								</div>
+							}
+							<UserHistory organizations={organizations} payouts={payouts} />
+							<Balances tokenBalances={payoutTokenBalances} tokenValues={payoutTokenValues} type="Total Payouts" />
+							<MiniBountyList bounties={bountiesClosed} />
+						</>)
+						: internalMenu == "Stars" ?
+							(<>
+								Followed organizations
+							</>)
+							:
+							(<>
+								Issues the user follows
+								<br />
+								Filtering to check which issued are closed or open
+							</>)
+					}
+
+				</div>
+			</div>
 		</div>
-
 	</>
 	);
 };

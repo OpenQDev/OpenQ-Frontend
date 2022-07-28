@@ -5,13 +5,8 @@ import ProfilePicture from "../Layout/ProfilePicture";
 const SubMenu = ({ toggleFunc, toggleVal, names, contributor }) => {
   return (
 		<>
-    <div className={`${contributor ? 'px-4 sm:px-8 text-primary border-border-gray border-b w-full flex h-12 items-center gap-x-4 relative' : 'flex justify-center'}`}>
-		{contributor ?
-			<div className="flex">
-				<ProfilePicture contributor={true } styles={'pt-64'} />
-			</div>
-		: null
-	}
+    <div className={`${contributor ? 'px-4 sm:px-8 text-primary w-full flex h-12 items-center gap-x-4 relative' : 'flex justify-center'}`}>
+		
 		
 		<div className={`${contributor ? '' : 'flex flex-row space-x-2 bg-menu-bg text-gray-400 px-4 font-semibold'}`}>
 			
