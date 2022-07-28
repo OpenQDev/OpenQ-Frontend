@@ -266,6 +266,7 @@ query($issueIds: [ID!]!) {
       body
       url
       id
+			number
       titleHTML
       bodyHTML				
       assignees(first: 1) {
@@ -273,6 +274,7 @@ query($issueIds: [ID!]!) {
            name
 					 login
            url
+					 avatarUrl
          }
        }
       labels(first: 10) {

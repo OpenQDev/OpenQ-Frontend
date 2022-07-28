@@ -290,7 +290,15 @@ export const getServerSideProps = async () => {
 		}
 	}
 	const bountyIds = newBounties.map((bounty) => bounty.bountyId);
-
+	const bountyAddresses = newBounties.map((bounty)=>bounty.bountyAddress);
+	
+	let bountyMetadata = [];
+	try{
+		bountyMetadata = await openQPrismaClient.instance.getBlackListed(bountyAddresses);
+	}
+	catch(err){	
+		console.log(err);}
+		
 	// Fetch from Github
 	let issueData = [];
 	try {
@@ -298,7 +306,7 @@ export const getServerSideProps = async () => {
 	} catch (err) {
 		renderError = 'OpenQ is unable to connect with Github.';
 	}
-	const fullBounties = utils.combineBounties(newBounties, issueData);
+	const fullBounties = utils.combineBounties(newBounties, issueData, bountyMetadata);
 
 	return {
 		props: {

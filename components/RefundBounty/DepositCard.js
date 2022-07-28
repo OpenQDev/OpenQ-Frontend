@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import TokenBalances from '../TokenBalances/TokenBalances';
-import ToolTip from '../Utils/ToolTip';
+import ToolTipNew from '../Utils/ToolTipNew';
 const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectNetwork, onDepositPeriodChanged, depositPeriodDays }) => {
 	
 	// Context
@@ -15,7 +15,7 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 	const [expanded, setExpanded] = useState(false);
 
 	return (
-		<div className={`flex flex-col items-start py-4 px-8 max-w-[90%] sm:px-6 pb-4 max-w-sm bg-web-gray/20 ${status === 'refundable' ? ' border-pink-300' : status === 'not-yet-refundable' ? '' : ' border-web-gray'} border rounded-md`}>
+		<div className={`flex flex-col items-start py-4 px-8 max-w-[90%] sm:px-6 pb-4 max-w-sm bg-web-gray/20 ${status === 'refundable' ? ' border-pink-300' : status === 'not-yet-refundable' ? '' : ' border-web-gray'} border rounded-sm`}>
 			<TokenBalances
 				tokenBalances={deposit}
 				tokenValues={tokenValues}
@@ -35,7 +35,7 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 			}
 			{status === 'refundable' &&
 				<div className="w-full md:w-80 flex flex-col space-y-3">
-					<ToolTip
+					<ToolTipNew
 						outerStyles="w-full flex self-center w-1/2"
 						hideToolTip={isOnCorrectNetwork}
 						toolTipText={'Please switch to the correct network to refund this deposit.'}
@@ -45,19 +45,19 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 							className={`items-left text-lg  self-center ${isOnCorrectNetwork ? 'sm-confirm-btn' : 'sm-confirm-btn-disabled cursor-not-allowed'}`} >
 							Refund
 						</button>
-					</ToolTip>
+					</ToolTipNew>
 
 					{expanded ?
-					<div className="w-full flex flex-wrap md:flex-nowrap md:space-x-3 space-y-3 md:space-y-0 self-center">
-							<ToolTip
+						<div className="w-full flex flex-wrap md:flex-nowrap md:space-x-3 space-y-3 md:space-y-0 self-center">
+							<ToolTipNew
 								outerStyles="w-full flex space-x-2"
 								hideToolTip={isOnCorrectNetwork && (depositPeriodDays > 0)}
 								toolTipText={!isOnCorrectNetwork?
 									'Please switch to the correct network to extend this bounty.' :
 									!(depositPeriodDays > 0) ?
-									'Please indicate how many days you\'d like to extend your bounty for.' :
+										'Please indicate how many days you\'d like to extend your bounty for.' :
 										null
-											}
+								}
 								customOffsets={[0, 46]}>
 								<button onClick={() => extendBounty(deposit.id)}
 									disabled={!isOnCorrectNetwork || !(depositPeriodDays > 0)}
@@ -71,15 +71,15 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 											)
 										)
 										: 'sm-confirm-btn-disabled cursor-not-allowed'
-										}`} >
+									}`} >
 									Extend By
 								</button>
-								</ToolTip>
+							</ToolTipNew>
 							<div className="flex w-full flex-row justify-between items-center h-12 px-4 py-2 rounded-lg bg-dark-mode border border-web-gray">
 								<div className=' flex items-center gap-3 w-full'>
-									<ToolTip customOffsets={[0, 36]} outerStyles={''} mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
+									<ToolTipNew customOffsets={[0, 36]} outerStyles={''} mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
 										<div className='cursor-help rounded-full border-2 border-web-gray aspect-square leading-6 h-6 box-content text-center font-bold text-web-gray'>?</div>
-									</ToolTip>
+									</ToolTipNew>
 								</div>
 
 								<div className={'px-4 font-bold fundBox-amount bg-dark-mode'}>
@@ -94,10 +94,10 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 									/>
 								</div>
 							</div>
-							</div>
+						</div>
 						:
-						<ToolTip
-							outerStyles="w-full flex self-center w-1/2"
+						<ToolTipNew
+							outerStyles="w-full flex self-center"
 							hideToolTip={isOnCorrectNetwork}
 							toolTipText={'Please switch to the correct network to refund this deposit.'}
 							customOffsets={[0, 46]}>
@@ -105,10 +105,10 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 								disabled={!isOnCorrectNetwork}
 								className={`items-left text-lg  self-center ${isOnCorrectNetwork ? 'sm-confirm-btn'
 									: 'sm-confirm-btn-disabled cursor-not-allowed'
-									}`} >
+								}`} >
 								Extend
 							</button>
-						</ToolTip>
+						</ToolTipNew>
 					}
 
 

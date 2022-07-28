@@ -73,10 +73,11 @@ const RepoTitle = ({bounty})=>{
 			<div data-testid="title" className="text-xl">
 				{	bounty.owner && 
 				<span>
-					<Link href={'https://github.com/'.concat(bounty.owner)}>
+					<Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/organization/${bounty.owner}`}>
 						<a className='text-link-colour hover:underline'>
 							{bounty.owner}
-						</a></Link>
+						</a>
+					</Link>
 					<span className='text-muted'> / {bounty.repoName}
 					</span>
 				

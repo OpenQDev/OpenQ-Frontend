@@ -65,6 +65,7 @@ query getBounties($addresses: [String]!){
   bounties(addresses:$addresses){
     blacklisted
 		tvl
+		watchingUserIds
     address
   }
 }`;
