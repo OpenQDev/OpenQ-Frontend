@@ -184,11 +184,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		setToken({ ...token, address: ethers.utils.getAddress(token.address) });
 	}
 
-	function onVolumeChange(volume) {
-		const numberRegex = /^(\d+)?(\.)?(\d+)?$/;
-		if (numberRegex.test(volume) || volume === '' || volume === '.') {
-			setVolume(volume.match(numberRegex)[0]);
-		}
+	function onVolumeChange(volume) {	
+		appState.utils.updateVolume(volume, setVolume);
 	}
 	const onDepositPeriodChanged = (e) => {
 		if (parseInt(e.target.value) >= 0) setDepositPeriodDays(parseInt(e.target.value));

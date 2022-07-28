@@ -1,7 +1,7 @@
 // Thrid Party
 import React from 'react';
 
-const Toggle =({toggleFunc, toggleVal, names})=>{
+const BountyInternalMenu =({toggleFunc, toggleVal, names})=>{
 	return(
 		<div className="flex text-sm rounded-sm overflow-hidden w-fit text-primary ">
 				
@@ -17,4 +17,4 @@ const Toggle =({toggleFunc, toggleVal, names})=>{
 
 			})}
 		</div>);};
-export default Toggle;
+export default BountyInternalMenu;

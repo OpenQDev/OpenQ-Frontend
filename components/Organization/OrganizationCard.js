@@ -3,12 +3,33 @@ import React, { useEffect, useContext, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Skeleton from 'react-loading-skeleton';
+
+// Custom
 import StoreContext from '../../store/Store/StoreContext';
+import useWeb3 from '../../hooks/useWeb3';
+import starOrganization from './starOrganization';
 
 const OrganizationCard = ({ organization }) => {
 	// Context
-	const [appState] = useContext(StoreContext);
+	const context = useContext(StoreContext);
+	const [appState] = context;
 	const [orgBounties, setOrgBounties] = useState();
+	const [starred, setStarred] = useState();
+	const [starredDisabled, setStarredDisabled] = useState(true);
+	const {account } = useWeb3();
+
+	useEffect(()=>{
+		if(organization.starringUserIds && organization.starringUserIds.some(user=>user === account)){
+			setStarred(true);
+		}
+		setStarredDisabled(false);
+	},[account]	);
+
+	const handleStar = (e) => {
+		e.stopPropagation();
+		starOrganization(account, organization.id, starred, setStarred, setStarredDisabled, context);
+	};
+
 	let orgName;
 	if (organization.name) {
 		orgName =
@@ -24,26 +45,36 @@ const OrganizationCard = ({ organization }) => {
 	}
 
 	useEffect(async () => {
-		const bountyIds = organization.bountiesCreated.map(
-			(bounty) => bounty.bountyId
-		);
-
-		try {
-			const issuesData = await appState.githubRepository.getIssueData(
-				bountyIds
+		if(organization){
+			const bountyIds = organization.bountiesCreated.map(
+				(bounty) => bounty.bountyId
 			);
-			const filteredBounties = appState.utils
-				.combineBounties(organization.bountiesCreated, issuesData)
-				.filter((bounty) => {
-					return (
-						!bounty.assignees.nodes[0] &&
+			const bountyAddresses = organization.bountiesCreated.map(bounty=>bounty.bountyAddress);
+			let metaData = [];
+			try{
+				metaData = await appState.openQPrismaClient.getBlackListed(bountyAddresses);
+			}
+			catch(err){
+				console.log(err);
+			}
+			try {
+				const issuesData = await appState.githubRepository.getIssueData(
+					bountyIds
+				);
+				const filteredBounties = appState.utils
+					.combineBounties(organization.bountiesCreated, issuesData, metaData)
+					.filter((bounty) => {
+						return (
+							!bounty.assignees.nodes[0] &&
             bounty.status === 'OPEN' &&
             bounty.bountyTokenBalances.length > 0
-					);
-				});
-			setOrgBounties(filteredBounties);
-		} catch (err) {
-			console.log('error');
+						&& !bounty.blacklisted
+						);
+					});
+				setOrgBounties(filteredBounties);
+			} catch (err) {
+				console.log('error');
+			}
 		}
 	}, organization.bountiesCreated);
 
@@ -51,10 +82,8 @@ const OrganizationCard = ({ organization }) => {
 
 	// Render
 	return (
-		<div
-			className={
-				!organization ? 'pointer-events-none cursor-normal' : undefined
-			}
+		<div 
+			className={`min-w-[300px] w-60 ${!starred ? 'hidden':null}`}
 		>
 			<Link href={organization ? `/organization/${organization.login}` : '/'}>
 				<div
@@ -62,21 +91,14 @@ const OrganizationCard = ({ organization }) => {
 						'flex flex-col p-6 items-center cursor-pointer text-[0.8rem] tracking-wider placeholder-input-gray outline-none rounded-sm border border-border-gray bg-menu-bg w-full'
 					}
 				>
-					<div className="flex justify-end w-full items-center -mt-2">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="h-6 w-6"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="#4C535B"
-							strokeWidth="2"
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
-							/>
-						</svg>
+					<div className="flex justify-end w-full items-center -mt-2 relative">
+						{starred && 
+						<button onClick={handleStar} disabled={starredDisabled}>
+							<svg xmlns="http://www.w3.org/2000/svg" className='fill-muted' viewBox="0 0 24 24" width="24" height="24">
+								<path fillRule="evenodd" d="M12.672.668a.75.75 0 00-1.345 0L8.27 6.865l-6.838.994a.75.75 0 00-.416 1.279l4.948 4.823-1.168 6.811a.75.75 0 001.088.791L12 18.347l6.117 3.216a.75.75 0 001.088-.79l-1.168-6.812 4.948-4.823a.75.75 0 00-.416-1.28l-6.838-.993L12.672.668z">
+								</path>
+							</svg>
+						</button>}
 					</div>
 					<div className="w-16 h-16 relative">
 						{organization?.avatarUrl ? (

@@ -8,7 +8,7 @@ const CarouselBounty = ({ bounty }) => {
 
 		<>
 			<Link target={'_blank'} rel="noopener noreferrer" href={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyId}/${bounty.bountyAddress}`}>
-				<a className='border-web-gray bg-dark-mode w-44 sm:w-48 h-36 p-4 pl-2 gap-2 border rounded-lg flex'>
+				<a className='border-web-gray bg-dark-mode w-44 sm:w-48 h-36 p-4 pl-2 gap-2 border rounded-sm flex'>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill={bounty?.STATUS === 'CLOSED' ? '#F0431D' : '#15FB31'}

@@ -74,7 +74,6 @@ class SuperfluidClient {
 			return this.instance;
 		} catch (err) {
 			console.log(err);
-			console.log(library);
 		}
 	}
 
@@ -107,13 +106,12 @@ class SuperfluidClient {
 		});
 		return promise;
 	}
-
 	// UPGRADE + CREATE STREAM
 	async upgradeToken(library, superTokenAddress, amount) {
 		const address = superTokenAddress;
 		const superToken = await this.loadSuperToken(library, address);
 		const upgradeOp = superToken.upgrade({
-			amount: amount.toString(),
+			amount: amount,
 		});
 		return upgradeOp;
 	}
@@ -137,7 +135,7 @@ class SuperfluidClient {
 		const upgradeOp = await this.upgradeToken(
 			library,
 			address,
-			ethers.utils.parseEther(amountPerDay.toString())
+			ethers.utils.parseEther(amountPerDay)
 		);
 		const createFlowOp = await this.superTokenCreateFlow(
 			library,

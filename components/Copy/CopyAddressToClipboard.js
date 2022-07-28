@@ -59,7 +59,7 @@ const CopyAddressToClipboard = ({clipping, data, styles, noClip, }) => {
 						</div>
 					)}
 				</div>
-				<div>{
+				<div className='text-sm'>{
 					noClip ?
 						data :
 						`${data.substring(0, start)}

@@ -67,6 +67,29 @@ class Utils {
 		const pattern = /https?:\/\/github\.com\/[\w-\d]+/;
 		return pattern.test(userUrl);
 	}
+	
+	updateVolume(volume, updater) {
+		const numberRegex = /^(\d+)?(\.)?(\d+)?$/;
+		if (numberRegex.test(volume) || volume === '' || volume === '.') {
+			updater(volume.match(numberRegex)[0]);
+		}
+	}
+	// Thanks rmwxiong https://gist.github.com/rmwxiong/ad6e922dcc739a599640/02854508d14e737e38293c5467d75c45843830c8
+	avgcolor(color1,color2){
+		var avg  = function(a,b){ return (a+b)/2; },
+			t16  = function(c){ return parseInt((''+c),16); },
+			hex  = function(c){ var t = (c>>0).toString(16);
+				return t.length == 2 ? t : '0' + t; },
+			hex1 = t16(color1),
+			hex2 = t16(color2),
+			r    = function(hex){ return hex >> 16 & 0xFF;},
+			g    = function(hex){ return hex >> 8 & 0xFF;},
+			b    = function(hex){ return hex & 0xFF;},
+			res  =  hex(avg(r(hex1),r(hex2))) 
+                   + hex(avg(g(hex1),g(hex2))) 
+                   + hex(avg(b(hex1),b(hex2)));
+		return res;
+	}
 
 	formatter = new Intl.NumberFormat('en-US', {
 		style: 'currency',

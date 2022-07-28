@@ -9,12 +9,14 @@ import useWeb3 from '../hooks/useWeb3';
 import useAuth from '../hooks/useAuth';
 import WrappedGithubClient from '../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgraphClient';
+import WrappedOpenQPrismaClient from '../services/openq-api/WrappedOpenQPrismaClient';
 import Utils from '../services/utils/Utils';
 import SubMenu from '../components/Utils/SubMenu';
 
 export default function Index({ orgs, fullBounties, batch }) {
 	useAuth();
 	const [internalMenu, setInternalMenu] = useState('Organizations');
+	const [controlledOrgs, setControlledOrgs] = useState(orgs);
 	// State
 	const [bounties, setBounties] = useState(fullBounties);
 	const [isLoading, setIsLoading] = useState(false);
@@ -24,8 +26,60 @@ export default function Index({ orgs, fullBounties, batch }) {
 	const [watchedBounties, setWatchedBounties] = useState([]);
 	// Context
 	const [appState] = useContext(StoreContext);
+	const {reloadNow} = appState;
 
 	const { account } = useWeb3();
+
+	useEffect(async()=>{
+		if(reloadNow){let orgs = [];
+			try {
+				orgs = await appState.openQSubgraphClient.getOrganizations();
+			} catch (error) {
+				console.log(error);
+			}
+			const ids = orgs.map((org) => org.id);
+			let githubOrganizations = [];
+			let orgMetadata = [];
+			try{	
+				orgMetadata = await appState.openQPrismaClient.getOrgsMetadata(ids);
+				console.log(orgMetadata);
+			}
+
+			catch(error){
+				console.log(error);
+			}
+			try {
+				githubOrganizations = await appState.githubRepository.fetchOrgsOrUsersByIds(
+					ids
+				);
+			} catch (error) {
+				console.log(error);
+			}
+			const mergedOrgs = orgs.map((org) => {
+				let currentGithubOrg;
+				let currentMetadatum={};
+				for (const orgMetadatum of orgMetadata) {
+					if (org.id === orgMetadatum.id) {
+						currentMetadatum = orgMetadatum;
+					}
+				}
+				for (const githubOrganization of githubOrganizations) {
+					if (org.id === githubOrganization.id) {
+						currentGithubOrg = githubOrganization;
+					}
+				}
+				return { ...currentMetadatum, ...org, ...currentGithubOrg };
+			}).filter((org)=>{
+	
+				return !org.blacklisted;
+			});
+
+
+
+			setControlledOrgs(mergedOrgs);
+
+		}
+	},[reloadNow]);
 	// Hooks
 	useEffect(async () => {
 		if (account) {
@@ -37,9 +91,7 @@ export default function Index({ orgs, fullBounties, batch }) {
 					(address) => address.toLowerCase()
 				);
 				const subgraphBounties =
-          await appState.openQSubgraphClient.getBountiesByContractAddresses(
-          	watchedBountyAddresses
-          );
+          await appState.openQSubgraphClient.getBountiesByContractAddresses(watchedBountyAddresses);
 				const githubIds = subgraphBounties.map((bounty) => bounty.bountyId);
 				const githubBounties = await appState.githubRepository.getIssueData(
 					githubIds
@@ -75,9 +127,8 @@ export default function Index({ orgs, fullBounties, batch }) {
 				);
 				setOffChainCursor(prismaBounties.bountiesConnection.cursor);
 				const subgraphBounties =
-          await appState.openQSubgraphClient.getBountiesByContractAddresses(
-          	addresses
-          );
+          await appState.openQSubgraphClient.getBountiesByContractAddresses(addresses);
+        
 				newBounties = prismaBounties.bountiesConnection.bounties.map(
 					(bounty) => {
 						return {
@@ -133,39 +184,36 @@ export default function Index({ orgs, fullBounties, batch }) {
 	}
 
 	return (
-		<div>
-			<main>
-				<div className="bg-dark-mode flex-col">
-					<div className="flex justify-center">
-						<SubMenu
-							names={['Organizations', 'Issues']}
-							toggleFunc={setInternalMenu}
-							toggleVal={internalMenu}
-						/>
-					</div>
-					<div>
-						{internalMenu == 'Organizations' ? (
-							<OrganizationHomepage orgs={orgs} />
-						) : (
-							<BountyHomepage
-								bounties={bounties}
-								watchedBounties={watchedBounties}
-								loading={isLoading}
-								getMoreData={getMoreData}
-								complete={complete}
-								getNewData={getNewData}
-							/>
-						)}
-					</div>
-				</div>
-			</main>
-		</div>
+		<main className="bg-dark-mode flex-col">
+			<div className="flex justify-center">
+				<SubMenu
+					names={['Organizations', 'Issues']}
+					toggleFunc={setInternalMenu}
+					toggleVal={internalMenu}
+				/>
+			</div>
+			<div>
+				{internalMenu == 'Organizations' ? (
+					<OrganizationHomepage orgs={controlledOrgs} />
+				) : (
+					<BountyHomepage
+						bounties={bounties}
+						watchedBounties={watchedBounties}
+						loading={isLoading}
+						getMoreData={getMoreData}
+						complete={complete}
+						getNewData={getNewData}
+					/>
+				)}
+			</div>
+		</main>
 	);
 }
 
 export const getServerSideProps = async () => {
 	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
 	const githubRepository = new WrappedGithubClient();
+	const openQPrismaClient = new WrappedOpenQPrismaClient();
 	const utils = new Utils();
 	githubRepository.instance.setGraphqlHeaders();
 	let orgs = [];
@@ -178,6 +226,14 @@ export const getServerSideProps = async () => {
 	}
 	const ids = orgs.map((org) => org.id);
 	let githubOrganizations = [];
+	let orgMetadata = [];
+	try{	
+		orgMetadata = await openQPrismaClient.instance.getOrgsMetadata(ids);
+	}
+
+	catch(err){
+		console.log( err);
+	}
 	try {
 		githubOrganizations = await githubRepository.instance.fetchOrgsOrUsersByIds(
 			ids
@@ -188,12 +244,21 @@ export const getServerSideProps = async () => {
 	}
 	let mergedOrgs = orgs.map((org) => {
 		let currentGithubOrg;
+		let currentMetadatum={};
+		for (const orgMetadatum of orgMetadata) {
+			if (org.id === orgMetadatum.id) {
+				currentMetadatum = orgMetadatum;
+			}
+		}
 		for (const githubOrganization of githubOrganizations) {
 			if (org.id === githubOrganization.id) {
 				currentGithubOrg = githubOrganization;
 			}
 		}
-		return { ...org, ...currentGithubOrg };
+		return { ...currentMetadatum, ...org, ...currentGithubOrg };
+	}).filter((org)=>{
+	
+		return !org.blacklisted;
 	});
 
 	// Fetch Bounties
