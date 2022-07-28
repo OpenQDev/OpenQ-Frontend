@@ -21,7 +21,7 @@ function OpenQ({ Component, pageProps }) {
   }
 
   return (
-    <div className="bg-dark-mode font-segoe min-h-screen text-white">
+    <div className="bg-dark-mode font-segoe min-h-screen text-white min-w-fit">
       <Head>
         <title>OpenQ | Tempo Engineering, scale better with Atomic Contracts</title>
         <meta

@@ -2,12 +2,11 @@
 import React, { useState } from "react";
 // Custom
 import OrganizationCard from "../Organization/OrganizationCard";
-import BountyCardLean from "../../components/Bounty/BountyCardLean";
 import MintBountyButton from "../MintBounty/MintBountyButton";
 import SearchBar from "../Search/SearchBar";
 import Carousel from "../Utils/Carousel";
 
-const OrganizationHomepage = ({ orgs, fullBounties }) => {
+const OrganizationHomepage = ({ orgs }) => {
 	// State
 	const [searchTerm, setSearchTerm] = useState("");
 
@@ -18,8 +17,6 @@ const OrganizationHomepage = ({ orgs, fullBounties }) => {
 	// Render
 	return (
 		<div>
-			{console.log(fullBounties)}
-			{console.log(orgs)}
 			<div className="text-center bg-[#161B22] py-14">
 				<div className="text-2xl font-bold">Organizations</div>
 				<div className="text-gray-500 text-md">GitHub organizations outsourcing to OpenQ</div>
@@ -32,7 +29,7 @@ const OrganizationHomepage = ({ orgs, fullBounties }) => {
 						<SearchBar
 							onKeyUp={filterByOrg}
 							searchText={searchTerm}
-							placeholder="Search Organization or Issue..."
+							placeholder="Search Organization..."
 							className="mb-200"
 						/>
 						<MintBountyButton />
@@ -58,28 +55,6 @@ const OrganizationHomepage = ({ orgs, fullBounties }) => {
 								);
 							})}
 					</div>
-					{searchTerm ?
-						<>
-							{fullBounties
-								.filter((bounty) => {
-									return bounty.title.concat(bounty.body)
-										.toLowerCase()
-										.indexOf(searchTerm.toLowerCase()) > -1;
-								})
-								.map((bounty) => {
-									return (
-										<div className="border border-web-gray pt-0" key={bounty.id}>
-											<BountyCardLean
-												bounty={bounty}
-												key={bounty.id}
-											/>
-										</div>
-									);
-								})}
-						</>
-						:
-						null
-					}
 				</div>
 			</div>
 		</div>

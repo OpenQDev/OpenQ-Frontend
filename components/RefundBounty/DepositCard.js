@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import TokenBalances from '../TokenBalances/TokenBalances';
-import ToolTip from '../Utils/ToolTip';
+import ToolTipNew from '../Utils/ToolTipNew';
 const DepositCard = ({ deposit, refundBounty, status, isOnCorrectNetwork }) => {
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -12,7 +12,7 @@ const DepositCard = ({ deposit, refundBounty, status, isOnCorrectNetwork }) => {
 	const [tokenValues] = useGetTokenValues(deposit);
 
 	return (
-		<div className={`flex flex-col items-start px-8 max-w-[90%] sm:px-6 pb-4 max-w-sm bg-web-gray/20 ${status === 'refundable' ? ' border-pink-300' : status === 'not-yet-refundable' ? '' : ' border-web-gray'} border rounded-md`}>
+		<div className={`pt-3 flex flex-col items-start px-8 max-w-[90%] sm:px-6 pb-4 max-w-sm hover:bg-[#21262d] ${status === 'refundable' ? ' border-gray-700' : status === 'not-yet-refundable' ? 'border-border-gray' : ' border-border-gray'} border rounded-sm`}>
 			<TokenBalances
 				tokenBalances={deposit}
 				tokenValues={tokenValues}
@@ -31,17 +31,17 @@ const DepositCard = ({ deposit, refundBounty, status, isOnCorrectNetwork }) => {
 				</div>)
 			}
 			{status === 'refundable' &&
-				<ToolTip
-					outerStyles="w-full flex self-center w-1/2"
+				<ToolTipNew
+					outerStyles="w-full flex self-center"
 					hideToolTip={isOnCorrectNetwork}
 					toolTipText={'Please switch to the correct network to refund this deposit.'}
 					customOffsets={[0, 46]}>
 					<button onClick={() => refundBounty(deposit.id)}
 						disabled={!isOnCorrectNetwork}
-						className={`items-left text-lg  self-center ${isOnCorrectNetwork ? 'sm-confirm-btn' : 'sm-confirm-btn-disabled cursor-not-allowed'}`} >
+						className={`my-2 items-left w-full  self-center ${isOnCorrectNetwork ? 'btn-primary' : 'btn-default cursor-not-allowed'}`} >
 						Refund
 					</button>
-				</ToolTip>
+				</ToolTipNew>
 			}
 		</div>
 

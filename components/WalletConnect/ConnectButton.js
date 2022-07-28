@@ -12,7 +12,7 @@ import useIsOnCorrectNetwork from "../../hooks/useIsOnCorrectNetwork";
 import StoreContext from "../../store/Store/StoreContext";
 // import axios from 'axios';
 
-const ConnectButton = () => {
+const ConnectButton = ({mobile}) => {
   // Context
   const { chainId, error, account, deactivate, safe } = useWeb3();
   const [ensName] = useEns(account);
@@ -38,7 +38,7 @@ const ConnectButton = () => {
     if (account && iconWrapper.current) {
       iconWrapper.current.innerHTML = "";
       iconWrapper.current.appendChild(
-        jazzicon(24, parseInt(account.slice(2, 10), 16))
+        jazzicon(mobile? 52 : 24, parseInt(account.slice(2, 10), 16))
       );
     }
   }, [account, isOnCorrectNetwork]);
@@ -97,16 +97,16 @@ const ConnectButton = () => {
             onClick={() => {
               setShowModal(!showModal);
             }}
-            className="group flex items-center gap-x-1 h-12 whitespace-nowrap  py-1 px-3  font-semibold cursor-pointer hover:border-active-accent"
+            className="group flex items-center gap-x-1 h-24 md:h-12 whitespace-nowrap  py-1 px-3  font-semibold cursor-pointer hover:border-active-accent"
           >
             <span
-              className="border-2 border-inactive-accent rounded-full h-7 py-pxt group-hover:bg-active-accent group-hover:border-active-accent"
+              className="border-2 border-inactive-accent rounded-full h-14 md:h-7 py-pxt group-hover:bg-active-accent group-hover:border-active-accent"
               ref={iconWrapper}
             ></span>
             <span className="py">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-3 w-3"
+                class="h-6 w-6 md:h-3 md:w-3"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="white"
@@ -137,7 +137,7 @@ const ConnectButton = () => {
         <div>
           <button
             onClick={openConnectModal}
-            className="flex items-center btn-default px-3 py-2 mr-2 hover:border-[#8b949e] hover:bg-[#30363d]"
+            className="flex text-[1.8rem] md:text-[1rem] items-center btn-default px-3 py-2 mr-2 hover:border-[#8b949e] hover:bg-[#30363d]"
             disabled={isConnecting}
           >
             {"Connect Wallet"}
@@ -146,7 +146,7 @@ const ConnectButton = () => {
       ) : (
         <button
           onClick={addOrSwitchNetwork}
-          className="flex items-center btn-default px-3 py-2 mr-2 hover:border-[#8b949e] hover:bg-[#30363d]"
+          className="flex text-[1.8rem] md:text-[1rem] items-center btn-default px-3 py-2 mr-2 hover:border-[#8b949e] hover:bg-[#30363d]"
         >
           Use{" "}
           {
