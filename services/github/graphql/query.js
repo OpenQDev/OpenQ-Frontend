@@ -98,6 +98,7 @@ query GetOrg($login: String!) {
     avatarUrl
     isVerified
 		descriptionHTML
+		location
     twitterUsername
     url
     membersWithRole(first: 100) {
