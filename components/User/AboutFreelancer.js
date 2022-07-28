@@ -52,7 +52,7 @@ const AboutFreelancer = ({ user, organizations, watchedBounties }) => {
 
 							{watchedBounties.length > 0 &&
 								<div className='px-16 py-6 border-t border-border-gray flex flex-wrap items-stretch w-full font-semibold text-lg'>
-									<h3>Watched Bounties</h3>
+									<h3>Watched Issues</h3>
 									<Carousel>
 
 										{watchedBounties.map((watchedBounty, index) => <CarouselBounty key={index} bounty={watchedBounty} />)}
@@ -71,7 +71,17 @@ const AboutFreelancer = ({ user, organizations, watchedBounties }) => {
 							</>)
 							:
 							(<>
-								Issues the user follows
+								{watchedBounties.length > 0 &&
+									<div className='px-16 py-6 border-b border-border-gray flex flex-wrap items-stretch w-full font-semibold text-lg'>
+										<h3>Watched Issues</h3>
+										<Carousel>
+	
+											{watchedBounties.map((watchedBounty, index) => <CarouselBounty key={index} bounty={watchedBounty} />)}
+	
+	
+										</Carousel>
+									</div>
+								}
 								<br />
 								Filtering to check which issued are closed or open
 							</>)
