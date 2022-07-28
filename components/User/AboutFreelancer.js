@@ -38,7 +38,7 @@ const AboutFreelancer = ({ user, organizations, watchedBounties }) => {
 			<div className="flex">
 				<ProfilePicture contributor={true} styles={'pt-40'} />
 			</div>
-			<div className='flex flex-col'>
+			<div className='flex flex-col w-5/7'>
 				<SubMenu
 					names={[["Overview", <div ><BookIcon size={16} className='mr-1' /> Overview</div>], ["Stars", <div><StarIcon size={16} className='mr-1' /> Stars</div>], ["Watching", <div><EyeIcon size={16} className='mr-1' /> Watching</div>]]}
 					toggleFunc={setInternalMenu}

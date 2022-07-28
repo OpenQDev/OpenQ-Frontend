@@ -40,8 +40,8 @@ const ProfilePicture = ({ mobile, contributor, styles }) => {
 					{propicUrl != null ? (
 						<Image
 							src={propicUrl}
-							width={mobile ? 31 : contributor? 310 : 31}
-							height={mobile ? 31 : contributor? 310 : 31}
+							width={mobile ? 31 : contributor? 350 : 31}
+							height={mobile ? 31 : contributor? 350 : 31}
 							alt={'profile pic'}
 							className="rounded-full"
 
