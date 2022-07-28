@@ -1,27 +1,42 @@
 // Thrid Party
 import React from "react";
+import ProfilePicture from "../Layout/ProfilePicture";
 
-const SubMenu = ({ toggleFunc, toggleVal, names }) => {
+const SubMenu = ({ toggleFunc, toggleVal, names, contributor }) => {
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-row space-x-2 bg-menu-bg text-gray-400 px-4 font-semibold">
+		<>
+    <div className={`${contributor ? 'px-4 sm:px-8 text-primary border-border-gray border-b w-full flex h-12 items-center gap-x-4 relative' : 'flex justify-center'}`}>
+		{contributor ?
+			<div className="flex">
+				<ProfilePicture contributor={true } styles={'pt-64'} />
+			</div>
+		: null
+	}
+		
+		<div className={`${contributor ? '' : 'flex flex-row space-x-2 bg-menu-bg text-gray-400 px-4 font-semibold'}`}>
+			
         {names.map((name, index) => {
           return (
             <button
               key={index}
-              onClick={() => toggleFunc(Array.isArray(names[0]) ? name[0] : name)}
+              onClick={() => toggleFunc(contributor ? name[0] : name)}
               className={`p-2 py-4 px-4 text-[0.8rem] tracking-wider ${
-                toggleVal === (Array.isArray(names[0]) ? name[0] : name)
-                  ? "py-3 border-b-2 border-blue-600 text-gray-200 font-bold"
+                toggleVal === (contributor ? name[0] : name)
+                  ? (contributor ?
+										" py-3 border-b-4 border-rust text-gray-200 font-bold"
+										: "py-3 border-b-2 border-blue-600 text-gray-200 font-bold"
+									)
                   : null
               }`}
             >
-              {Array.isArray(names[0]) ? name[1] : name}
+              {contributor ? name[1] : name}
             </button>
           );
         })}
       </div>
     </div>
+		</>
   );
 };
 export default SubMenu;
+

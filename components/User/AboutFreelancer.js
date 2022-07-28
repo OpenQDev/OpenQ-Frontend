@@ -32,14 +32,14 @@ const AboutFreelancer = ({ user, organizations, watchedBounties }) => {
 		}
 	}, [bountiesClosed]);
 	return (<>
-
-		<div className="flex justify-center border-b border-border-gray">
 			<SubMenu
 				names={[["Overview", <div ><BookIcon size={16} className='mr-1' /> Overview</div>], ["Stars", <div><StarIcon size={16} className='mr-1' /> Stars</div>], ["Watching", <div><EyeIcon size={16} className='mr-1' /> Watching</div>]]}
 				toggleFunc={setInternalMenu}
 				toggleVal={internalMenu}
+				contributor={true}
 			/>
-		</div>
+			<div className=' lg:grid grid-cols-wide gap-4 justify-center col-start-2 pt-12'>
+			<section className="min-h-card col-start-2">
 		{internalMenu == "Overview" ?
 			(<>
 				<AboutTitle ensName={ensName} account={account} />
@@ -70,7 +70,8 @@ const AboutFreelancer = ({ user, organizations, watchedBounties }) => {
 					Filtering to check which issued are closed or open
 					</>)
 		}
-
+		</section>
+		</div>
 
 	</>
 	);

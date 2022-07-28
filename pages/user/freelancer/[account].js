@@ -14,11 +14,9 @@ const account = ({account, user, organizations, renderError, watchedBounties}) =
 	useAuth();
 	return (
 
-		<div className=' lg:grid grid-cols-wide gap-4 justify-center col-start-2 pt-12'>{user ?
-			<section className="min-h-card col-start-2">
+		<div className=' gap-4 justify-center pt-12'>{user ?
 				<AboutFreelancer watchedBounties={watchedBounties} user={user} account={account} organizations={organizations}/> 
-			</section>:
-			<UnexpectedError error={renderError} />}
+			:	<UnexpectedError error={renderError} />}
 		</div>
 	);	
 };
