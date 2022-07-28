@@ -51,7 +51,7 @@ const AboutFreelancer = ({ user, organizations, watchedBounties }) => {
 							<AboutTitle ensName={ensName} account={account} />
 
 							{watchedBounties.length > 0 &&
-								<div className='px-16 py-6 py-6 border-b border-web-gray flex flex-wrap items-stretch w-full font-semibold text-gray-300 text-lg'>
+								<div className='px-16 py-6 border-t border-border-gray flex flex-wrap items-stretch w-full font-semibold text-lg'>
 									<h3>Watched Bounties</h3>
 									<Carousel>
 

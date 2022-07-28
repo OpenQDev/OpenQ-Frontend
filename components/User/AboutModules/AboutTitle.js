@@ -15,7 +15,7 @@ const AboutTitle = ({ensName, account}) =>{
 		}
 	}, [account]);
 	
-	return (<h1 className='flex items-center font-semibold p-8 flex gap-4'>
+	return (<h1 className='flex items-center font-semibold p-8 pl-16 flex gap-4'>
 		<span className='flex' ref={iconWrapper}></span>
 		<span className='flex leading-none'>
 			<span className='flex'>{ensName}</span>
