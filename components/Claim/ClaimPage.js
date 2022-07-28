@@ -17,7 +17,7 @@ import useWeb3 from '../../hooks/useWeb3';
 import ClaimLoadingModal from './ClaimLoadingModal';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import useEns from '../../hooks/useENS';
-import ToolTip from '../Utils/ToolTip';
+import ToolTipNew from '../Utils/ToolTipNew';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import StoreContext from '../../store/Store/StoreContext';
@@ -115,21 +115,21 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	} else {
 		return (
 			<div className="flex flex-1 justify-center">
-				<div className="w-5/6 pt-16 pb-24 min-w-min">
-					<div className="grid grid-cols-3 gap-5 pt-12">
+				<div className="w-5/6 pt-8 pb-24 min-w-min">
+					<div className=" grid grid-cols-3 gap-5 pt-12">
 						{!authState.isAuthenticated ? (
-							<div className="bg-claimed-bounty-inside col-span-3 border border-claimed-bounty rounded-lg  p-4">
+							<div className=" col-span-3 border border-gray-700 bg-[#21262d] rounded-sm p-4">
 								We noticed you are not signed into Github. You must sign to verify
 								and claim an issue!
 							</div>
 						) : null}
-						<div className='col-span-3 px-2 '>
+						<div className='col-span-3 p-4 my-4 '>
 							<p>Don{'\''}t forget to add a closer comment for this bounty on your pull request :-).</p>
 							<div><CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} /></div>
 						</div>
 
 						<div className="col-span-3 flex gap-3 w-full">
-							<ToolTip
+							<ToolTipNew
 								outerStyles="w-full"
 								hideToolTip={account && isOnCorrectNetwork && authState.isAuthenticated}
 								toolTipText={
@@ -144,18 +144,20 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 								customOffsets={[0, 50]}>
 								<button
 									type="submit"
-									className={(isOnCorrectNetwork && authState.isAuthenticated) || !account ? 'confirm-btn cursor-pointer px-32' : 'confirm-btn-disabled cursor-not-allowed  px-32'}
+									className={(isOnCorrectNetwork && authState.isAuthenticated) || !account ? 'btn-primary cursor-pointer w-full p-2' : 'btn-default cursor-not-allowed w-full p-2'}
 									disabled={(!isOnCorrectNetwork || !authState.isAuthenticated) && account}
 									onClick={account ? () => setShowClaimLoadingModal(true) : connectWallet}
 								>
 									{account ? 'Claim' : 'Connect Wallet'}
 								</button>
-							</ToolTip>
+							</ToolTipNew>
 						</div>
+						<div className="flex items-center col-span-3">
 						<AuthButton
 							hideSignOut={true}
 							redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyId}/${bounty.bountyAddress}`}
 						/>
+						</div>
 						{showClaimLoadingModal && <ClaimLoadingModal confirmMethod={claimBounty} url={url} ensName={ensName} account={account} error={error} claimState={claimState} login={'FlacoJones'} address={account} transactionHash={transactionHash} setShowClaimLoadingModal={updateModal} />}
 					</div>
 				</div>

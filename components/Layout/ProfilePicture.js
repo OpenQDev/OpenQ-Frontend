@@ -33,15 +33,15 @@ const ProfilePicture = ({ mobile }) => {
 		{console.log(showModal)}
 			{showModal || !authState.isAuthenticated ?
 				<div className={`flex w-max`}>
-					<AuthButton redirectUrl={process.env.NEXT_PUBLIC_BASE_URL + router.asPath} propicUrl={propicUrl} styles="border-none" />
+					<AuthButton redirectUrl={process.env.NEXT_PUBLIC_BASE_URL + router.asPath} propicUrl={propicUrl} />
 					{authState.isAuthenticated && <button onClick={() => setShowModal(false)}> </button>}
 				</div> :
 				<button className='flex items-center' onClick={() => setShowModal(true)}>
 					{propicUrl != null ? (
 						<Image
 							src={propicUrl}
-							width={mobile ? 31 : 31}
-							height={mobile ? 31 : 31}
+							width={mobile ? 62 : 31}
+							height={mobile ? 62 : 31}
 							alt={'profile pic'}
 							className="rounded-full"
 

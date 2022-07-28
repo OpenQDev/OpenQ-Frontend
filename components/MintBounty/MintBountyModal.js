@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import BountyAlreadyMintedMessage from './BountyAlreadyMintedMessage';
-import ToolTip from '../Utils/ToolTip';
+import ToolTipNew from '../Utils/ToolTipNew';
 import MintBountyModalButton from './MintBountyModalButton';
 import MintBountyHeader from './MintBountyHeader';
 import MintBountyInput from './MintBountyInput';
@@ -138,18 +138,18 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 	// Render
 	return (
-		<div className={`justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 left-20 outline-none z-50 focus:outline-none p-5 ${appState.walletConnectModal ? 'hidden' : 'flex'}`}>
+		<div className={`justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-10 ${appState.walletConnectModal ? 'hidden' : 'flex'}`}>
 			{error ?
 				<ErrorModal
 					setShowErrorModal={closeModal}
 					error={error}
 				/> :
 				<>
-					<div ref={modal} className="md:w-1/2 lg:w-1/3 xl:w-1/4 space-y-5 z-50 ">
+					<div ref={modal} className="md:w-2/3 lg:w-2/3 xl:w-3/5 space-y-5 z-50 ">
 						<div className="w-full">
-							<div className="border-0 rounded-xl shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none z-11">
+							<div className="border-0 rounded-sm shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none z-11">
 								<MintBountyHeader />
-								<div className="flex flex-col pl-6 pr-6 space-y-2">
+								<div className="flex flex-col items-center pl-6 pr-6 space-y-2">
 									<MintBountyInput
 										setIssueUrl={setIssueUrl}
 										issueData={issue}
@@ -158,10 +158,10 @@ const MintBountyModal = ({ modalVisibility }) => {
 									/>
 								</div>
 								{isValidUrl && !issue &&
-									<div className="pl-10 pt-5 ">
+									<div className="flex flex-col items-center pt-5 ">
 										Github Issue not found
 									</div>}
-								<div className="flex flex-col justify-center space-x-1 px-8">
+								<div className="flex flex-col items-center space-x-1 px-8">
 									{isValidUrl && issue?.closed && !bountyAddress &&
 										<div className="pt-3 ">
 											This issue is already closed on GitHub
@@ -170,25 +170,27 @@ const MintBountyModal = ({ modalVisibility }) => {
 										<BountyAlreadyMintedMessage claimed={claimed} id={issue.id} bountyAddress={bountyAddress} />}
 								</div>
 
-								<ToolTip
-									hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
-									toolTipText={
-										account && isOnCorrectNetwork ?
-											'Please choose an elgible issue.' :
-											isOnCorrectNetwork ?
-												'Connect your wallet to mint a bounty!' :
-												'Please switch to the correct network to mint a bounty.'
-									}
-									customOffsets={[0, 70]}>
-									<div className="flex items-center justify-center p-5 rounded-b w-full">
+								<div className="p-5 w-full">
+									<ToolTipNew
+										outerStyles={''}
+										hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
+										toolTipText={
+											account && isOnCorrectNetwork ?
+												'Please choose an elgible issue.' :
+												isOnCorrectNetwork ?
+													'Connect your wallet to mint a bounty!' :
+													'Please switch to the correct network to mint a bounty.'
+										}>
+
 										<MintBountyModalButton
 											mintBounty={(account) ? mintBounty : connectWallet}
 											account={account}
 											enableMint={(enableMint && isOnCorrectNetwork && !issue?.closed && !isLoading) || !account}
 											transactionPending={isLoading}
 										/>
-									</div>
-								</ToolTip>
+
+									</ToolTipNew>
+								</div>
 							</div>
 						</div>
 					</div>
