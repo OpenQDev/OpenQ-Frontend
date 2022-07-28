@@ -13,7 +13,6 @@ const AboutUser = ({ user, organizations }) => {
 	const { fundedTokenBalances, bountiesCreated, bountiesClosed, deposits, payoutTokenBalances, payouts } = user;
 	const account = user.id;
 	const [ensName] = useEns(account);
-	console.log(deposits);
 	// Context
 
 	// State

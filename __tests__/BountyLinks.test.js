@@ -46,7 +46,7 @@ describe('BountyLinks', ( ) => {
 		it('should have a watched button', async()=>{
 			// ARRANGE
 			const user = userEvent.setup();	
-			render(<BountyLinks bounty={bounty} watchedBounties={bounty}/>);
+			render(<BountyLinks bounty={bounty} watchedBounties={bounty} bountyAddress={bounty.bountyAddress}/>);
 
 			// ASSERT
 			const watchedButton = screen.getByRole('button');

@@ -6,17 +6,18 @@ import Link from 'next/link';
 
 // Custom
 import StoreContext from '../../../store/Store/StoreContext';
-import BountyCardDetails from '../../../components/Bounty/BountyCardDetails';
+import NewBountyCardDetails from '../../../components/Bounty/NewBountyCardDetails';
 import FundPage from '../../../components/FundBounty/FundPage';
 import RefundPage from '../../../components/RefundBounty/RefundPage';
 import ClaimPage from '../../../components/Claim/ClaimPage';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
 import UnexpectedError from '../../../components/Utils/UnexpectedError';
-import Toggle from '../../../components/Utils/Toggle';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
 import useAuth from '../../../hooks/useAuth';
+import RepoTitle from '../../../components/Bounty/RepoTitle';
+import BountyMenu from '../../../components/Bounty/BountyMenu';
 
 const address = ({ address, mergedBounty, renderError }) => {
 
@@ -46,6 +47,18 @@ const address = ({ address, mergedBounty, renderError }) => {
 		return refund;
 	};
 
+	// option 1 - more complex solution
+	const expirationComp = (deposits, newDeposits) => {
+		for (let deposit of deposits) {
+			let i = 0;
+			if (deposit.expiration !== newDeposits[i].expiration) { 
+				i++;
+				return false;
+			}
+		}
+		return true;
+	};
+
 	const setReload = () => {
 		const payload = {
 			type: 'UPDATE_RELOAD',
@@ -57,6 +70,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 	// Fund: Change in deposits length
 	// Claim: Change in bounty.status
 	// Refund: Check that one of the deposits has been refunded
+	// Extend Deposit: Change in deposit expiration 
 	// No faster than 1 second so begin with a sleep so as to not spam the Graph Hosted Service
 	const refreshBounty = async () => {
 		await sleep(1000);
@@ -64,7 +78,11 @@ const address = ({ address, mergedBounty, renderError }) => {
 		try {
 			const refundedBefore = refundCount(bounty.deposits);
 			const refundedNow = refundCount(newBounty.deposits);
-			while (newBounty.deposits.length === bounty.deposits.length && newBounty.status === bounty.status && refundedBefore === refundedNow) {
+			while (newBounty.deposits.length === bounty.deposits.length && newBounty.status === bounty.status && refundedBefore === refundedNow
+				&& expirationComp(bounty.deposits, newBounty.deposits)
+				// or simpler, just using: && newBounty.deposits === bounty.deposits
+				// in which case we could also be removing the 'newBounty.deposits.length === bounty.deposits.length' logic and simplify
+			) {
 				newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
 				await sleep(500);
 			}
@@ -79,7 +97,6 @@ const address = ({ address, mergedBounty, renderError }) => {
 
 	// Hooks
 	useEffect(async() => {
-	
 		// Confetti
 		const justMinted = sessionStorage.getItem('justMinted') === 'true';
 		if (justMinted && canvas.current) {
@@ -114,11 +131,6 @@ const address = ({ address, mergedBounty, renderError }) => {
 
 	// User Methods
 
-	const handleToggle = (e) => {
-		setInternalMenu(e);
-		sessionStorage.setItem(address, e);
-	};
-
 	// Render
 	if (error) {
 		return <UnexpectedError error={error} />;
@@ -132,9 +144,11 @@ const address = ({ address, mergedBounty, renderError }) => {
 					.</div>
 			</div> :
 			<>
-				<div className="flex flex-col justify-center items-center pt-7">
-					<Toggle toggleFunc={handleToggle} toggleVal={internalMenu} names={['View', 'Fund', 'Refund', 'Claim']} />
-					<BountyCardDetails bounty={bounty} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />
+				<div className="flex flex-col justify-center items-center pt-4">
+				
+					<RepoTitle bounty={bounty} />
+					<BountyMenu internalMenu={internalMenu} updatePage={setInternalMenu}/>
+					<NewBountyCardDetails bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
@@ -179,7 +193,6 @@ export const getServerSideProps = async (context) => {
 	catch (err) {
 		renderError = `OpenQ could not find a bounty with address: ${address}.`;
 	}
-
 	return { props: { id, address, mergedBounty, renderError } };
 };
 

@@ -92,13 +92,13 @@ pre {
 	/* GitHub Styles */
 
 	.input-field {
-		@apply py-[4px] px-3 text-[0.8rem] tracking-wider placeholder-input-gray outline-none rounded-sm border border-border-gray bg-menu-bg
+		@apply py-[4px] px-3 text-[0.75rem] tracking-wider placeholder-input-gray outline-none rounded-sm border border-border-gray bg-menu-bg
 	}
 	.input-field-big {
-		@apply py-[4px] px-3 text-[0.9rem] tracking-wider placeholder-input-gray outline-none rounded-sm border border-border-gray bg-menu-bg
+		@apply py-[5px] pl-8 pr-3 text-[0.75rem] tracking-wider leading-[20px] h-min placeholder-input-gray outline-none border border-border-default bg-menu-bg
 	}
 	.btn-primary{
-		@apply bg-[#26a641] font-bold rounded-sm py-[0.5rem] hover:bg-[#39d353]
+		@apply bg-[#26a641] font-bold rounded-sm py-1.5 hover:bg-[#39d353]
 	}
 	.btn-default{
 		@apply font-bold rounded-sm px-3 p-1 bg-[#21262d] hover:bg-[#161B22] border border-gray-700

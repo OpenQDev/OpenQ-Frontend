@@ -1,25 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import TokenSearch from './TokenSearch';
 import Image from 'next/image';
-import StoreContext from '../../../store/Store/StoreContext';
 
 const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token,  volume }) => {
 	const [showTokenSearch, setShowTokenSearch] = useState(false);
-	const [polygonTokens, setPolygonTokens] = useState([]);
-	const [openQTokens, setOpenQTokens] = useState([]);
-	const [appState] = useContext(StoreContext);
-	const batch = 100;
-	useEffect(async()=>{
-		let didCancel;
-		const polygonDefaultTokens = await appState.tokenClient.getTokenMetadata(0, batch, 'polygon');
-		const constantTokens = await appState.tokenClient.getTokenMetadata(0, 100, 'constants');
-		
-		if(!didCancel)			setOpenQTokens(constantTokens);
-		
-		if(!didCancel)	setPolygonTokens(polygonDefaultTokens);
-
-		return ()=>didCancel = true;
-	},[]);
+	
 	
 	return (
 		<div>
@@ -62,16 +47,14 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token,  volume }) => {
 						</div>
 					</button>
 				</div>
+				{showTokenSearch ? 
+					<TokenSearch
+						token={token}
+						setShowTokenSearch={setShowTokenSearch}
+						onCurrencySelect={onCurrencySelect}
+					/>
+					: null}
 			</div>
-			{showTokenSearch ? (
-				<TokenSearch
-					polygonTokens={polygonTokens}
-					openQTokens = {openQTokens}
-					currentCursor ={batch}
-					setShowTokenSearch={setShowTokenSearch}
-					onCurrencySelect={onCurrencySelect}
-				/>
-			) : null}
 		</div>
 	);
 };

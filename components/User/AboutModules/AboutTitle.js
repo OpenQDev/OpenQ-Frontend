@@ -19,7 +19,7 @@ const AboutTitle = ({ensName, account}) =>{
 		<span className='pt-2' ref={iconWrapper}></span>
 		<span className='leading-none'>
 			<span>{ensName}</span>
-			<CopyAddressToClipboard data={account} noClip={ensName < 15} clipping={[5, 39]} />
+			<CopyAddressToClipboard data={account} clipping={[5, 38]} />
 		</span>
 	</h1>);
 };

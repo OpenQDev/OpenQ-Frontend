@@ -37,7 +37,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		symbol: 'MATIC',
 		decimals: 18,
 		chainId: 80001,
-		path: '/crypto-logos/MATIC.svg'
+		path: 'https://wallet-asset.matic.network/img/tokens/matic.svg'
 	};
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
@@ -80,7 +80,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		};
 		dispatch(payload);
 	};
-
 	async function fundBounty() {
 		const volumeInWei = volume * 10 ** token.decimals;
 
@@ -185,11 +184,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		setToken({ ...token, address: ethers.utils.getAddress(token.address) });
 	}
 
-	function onVolumeChange(volume) {
-		const numberRegex = /^(\d+)?(\.)?(\d+)?$/;
-		if (numberRegex.test(volume) || volume === '' || volume === '.') {
-			setVolume(volume.match(numberRegex)[0]);
-		}
+	function onVolumeChange(volume) {	
+		appState.utils.updateVolume(volume, setVolume);
 	}
 	const onDepositPeriodChanged = (e) => {
 		if (parseInt(e.target.value) >= 0) setDepositPeriodDays(parseInt(e.target.value));

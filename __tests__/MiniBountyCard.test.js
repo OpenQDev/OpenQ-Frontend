@@ -5,7 +5,7 @@
 import React from 'react';
 
 import { render, screen } from '../test-utils';
-import MiniBountyCard from '../components/Bounty/MiniBountyCard';
+import MiniBountyCard from '../components/User/AboutModules/MiniBountyCard';
 import mocks from '../__mocks__/mock-server.json';
 import InitialState from '../store/Store/InitialState';
  

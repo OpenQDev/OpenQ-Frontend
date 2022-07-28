@@ -52,6 +52,9 @@ query GetBounty($id: ID!) {
 		claimedTransactionHash
     payoutAddress
     status
+		closer{
+		id
+		}
 		deposits {
       id
 			refunded

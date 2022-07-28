@@ -1,17 +1,19 @@
 // Third party
-import React, { useState } from "react";
+import React, { useState } from 'react';
 // Custom
-import OrganizationCard from "../Organization/OrganizationCard";
-import MintBountyButton from "../MintBounty/MintBountyButton";
-import SearchBar from "../Search/SearchBar";
-import Carousel from "../Utils/Carousel";
+import OrganizationCard from '../Organization/OrganizationCard';
+import MintBountyButton from '../MintBounty/MintBountyButton';
+import SearchBar from '../Search/SearchBar';
+import Carousel from '../Utils/Carousel';
+import HorizontalOrganizationCard from './HorizontalOrganizationCard';
+import useWeb3 from '../../hooks/useWeb3';
 
 const OrganizationHomepage = ({ orgs }) => {
 	// State
-	const [searchTerm, setSearchTerm] = useState("");
-
+	const [organizationSearchTerm, setOrganizationSearchTerm] = useState('');
+	const {account } = useWeb3();
 	const filterByOrg = (e) => {
-		setSearchTerm(e.target.value);
+		setOrganizationSearchTerm(e.target.value);
 	};
 
 	// Render
@@ -21,39 +23,33 @@ const OrganizationHomepage = ({ orgs }) => {
 				<div className="text-2xl font-bold">Organizations</div>
 				<div className="text-gray-500 text-md">GitHub organizations outsourcing to OpenQ</div>
 			</div>
-			<div className="lg:grid lg:grid-cols-extra-wide xl:grid-cols-wide justify-center">
-
-				<div className="lg:col-start-2 justify-between justify-self-center space-y-2 w-full pb-8">
-
-					<div className="grid gap-5 lg:grid-cols-[repeat(4,_1fr)] w-full pt-10">
+			<div className="lg:grid lg:grid-cols-extra-wide xl:grid-cols-wide justify-center md:pr-3">
+				
+				<div className="lg:col-start-2 justify-between justify-self-center space-y-2 w-full pb-8 max-w-[1024px] px-4 mx-auto">
+			
+					<div className="flex flex-wrap gap-4 w-full pt-10">
 						<SearchBar
 							onKeyUp={filterByOrg}
-							searchText={searchTerm}
+							searchText={organizationSearchTerm}
 							placeholder="Search Organization..."
-							className="mb-200"
+							styles={'rounded-sm'}
 						/>
 						<MintBountyButton />
 					</div>
-					<Carousel />
+					<Carousel height={'80'}>
+						{orgs.filter(organization=> organization.starringUserIds && organization.starringUserIds.some(user=>user === account))
+							.map((org, index)=><OrganizationCard key={index} organization={org}/>)}</Carousel>
 					<div className="grid grid-cols-[repeat(3,_300px)] justify-center lg:justify-between">
+						
+					</div><div className=''>
 						{orgs
 							.filter((organization) => {
-								return searchTerm
+								return organizationSearchTerm
 									? organization.name
 										.toLowerCase()
-										.indexOf(searchTerm.toLowerCase()) > -1
+										.indexOf(organizationSearchTerm.toLowerCase()) > -1
 									: organization;
-							})
-							.map((organization) => {
-								return (
-									<div className="pt-5" key={organization.id}>
-										<OrganizationCard
-											organization={organization}
-											key={organization.id}
-										/>
-									</div>
-								);
-							})}
+							}).map((elem, index)=>	<HorizontalOrganizationCard key={index} organization={elem}/>)}
 					</div>
 				</div>
 			</div>

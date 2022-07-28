@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { ethers } from 'ethers';
 import { setup } from 'axios-cache-adapter';
+import localSuperfluidIndexable from '../../constants/superfluid-local-indexable.json';
 import enumerable from '../../constants/polygon-mainnet-enumerable.json';
 import indexable from '../../constants/polygon-mainnet-indexable.json';
 import localEnumerable from '../../constants/openq-local-enumerable.json';
@@ -9,31 +10,41 @@ import mumbaiEnumerable from '../../constants/openq-polygon-mumbai-enumerable.js
 import mumbaiIndexable from '../../constants/openq-polygon-mumbai-indexable.json';
 import polygonMainnetEnumerable from '../../constants/openq-polygon-mainnet-enumerable.json';
 import polygonMainnetIndexable from '../../constants/openq-polygon-mainnet-indexable.json';
+import superFluidPolygonIndexable from '../../constants/superfluid-polygon-mainnet-indexable.json';
+import superFluidPolygonEnumerable from '../../constants/superfluid-polygon-mainnet-enumerable.json';
+import superFluidLocalIndexable from '../../constants/superfluid-local-indexable.json';
+import superFluidLocalEnumberable from '../../constants/superfluid-local-enumerable.json';
 
 class CoinClient {
 	constructor() {
 		switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 		case 'local':
+			this.superFluidLocalIndexable = superFluidLocalIndexable;
+			this.superfluidEnumerable = superFluidLocalEnumberable;
 			this.openqIndexableTokens = localIndexable;
 			this.openqEnumerableTokens = localEnumerable;
 			break;
 		case 'docker':
+			this.superFluidLocalIndexable = superFluidLocalIndexable;
+			this.superfluidEnumerable = superFluidLocalEnumberable;
 			this.openqIndexableTokens = localIndexable;
 			this.openqEnumerableTokens = localEnumerable;
 			break;
 		case 'development':
+			this.superFluidLocalIndexable = superFluidPolygonIndexable;
+			this.superfluidEnumerable = superFluidPolygonEnumerable;
 			this.openqIndexableTokens = mumbaiIndexable;
 			this.openqEnumerableTokens = mumbaiEnumerable;
 			break;
 		case 'staging':
+			this.superFluidLocalIndexable = superFluidPolygonIndexable;
+			this.superfluidEnumerable = superFluidPolygonEnumerable;
 			this.openqIndexableTokens = polygonMainnetIndexable;
 			this.openqEnumerableTokens = polygonMainnetEnumerable;
 			break;
 		case 'production':
-			this.openqIndexableTokens = polygonMainnetIndexable;
-			this.openqEnumerableTokens = polygonMainnetEnumerable;
-			break;
-		case 'ethbarcelona':
+			this.superFluidLocalIndexable = superFluidPolygonIndexable;
+			this.superfluidEnumerable = superFluidPolygonEnumerable;
 			this.openqIndexableTokens = polygonMainnetIndexable;
 			this.openqEnumerableTokens = polygonMainnetEnumerable;
 			break;
@@ -107,7 +118,6 @@ class CoinClient {
 							total = total + value * multiplier;
 						}
 						else {
-							console.log(lowercaseKey, this.firstTenPrices);
 							fetchValues = true;
 						}
 					}
@@ -148,6 +158,8 @@ class CoinClient {
 		if (this.openqIndexableTokens[checkSummedAddress]) {
 			return this.openqIndexableTokens[checkSummedAddress];
 		}
+		if(localSuperfluidIndexable[address.toLowerCase()]){
+			return localSuperfluidIndexable[address.toLowerCase()];}
 		return {
 			chainId: 137,
 			name: 'Custom Token',

@@ -19,9 +19,6 @@ class WrappedOpenQPrismaClient {
 		case 'production':
 			this.instance = new OpenQPrismaClient();
 			break;
-		case 'ethbarcelona':
-			this.instance = new OpenQPrismaClient();
-			break;
 		default:
 			throw Error('ENVIRONMENT NOT CONFIGURED CORRECTLY. Set an environment with DEPLOY_ENV');
 		}

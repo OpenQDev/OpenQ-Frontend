@@ -19,9 +19,6 @@ class WrappedOpenQSubgraphClient {
 		case 'production':
 			this.instance = new OpenQSubgraphClient();
 			break;
-		case 'ethbarcelona':
-			this.instance = new OpenQSubgraphClient();
-			break;
 		default:
 			throw Error('ENVIRONMENT NOT CONFIGURED CORRECTLY. Set an environment with DEPLOY_ENV');
 		}

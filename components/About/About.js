@@ -21,12 +21,12 @@ const About = ({ organizationData, tokenValues }) => {
 	return (
 		<div className='lg:grid lg:grid-cols-extra-wide xl:grid-cols-wide justify-center justify-items-center md:mx-16 md:pt-12'>
 			<section className="min-h-card rounded-lg shadow-sm col-start-2 md:border border-web-gray w-full max-w-[850px]">
-				<h1 className='font-semibold md:p-4 p-12 text-3xl border-web-gray md:border-b'>{organizationData.login}</h1>
-				<dl className="md:p-10 pl-12  pb-0">
+				<h1 className='font-semibold md:p-4 p-12 text-3xl border-web-gray md:border-b col-start-1 col-end-3'>{organizationData.login}</h1>
+				<dl className="md:p-10 pl-12  grid grid-cols-[50%_50%] pb-0">
 					<dt className='font-semibold text-gray-300 text-lg pb-2'>Bounties</dt>
-					<dd className='font-semibold pb-8'>{numBounties}</dd>
-					<dt className='font-semibold text-gray-300 text-lg pb-2'>Contributors</dt>
-					<dd className='font-semibold pb-8'>{users.length}</dd>
+					<dd className='font-semibold pb-8 col-start-1'>{numBounties}</dd>
+					<dt className='font-semibold text-gray-300 text-lg pb-2 col-start-2 row-start-1'>Contributors</dt>
+					<dd className='font-semibold pb-8 col-start-2'>{users.length}</dd>
 					<AboutFunding organizationFunding={organizationData.fundedTokenBalances} tokenValues={tokenValues} />
 				</dl>
 			</section>

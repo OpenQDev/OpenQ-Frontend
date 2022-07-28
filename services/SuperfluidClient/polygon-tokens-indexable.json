@@ -1,0 +1,10 @@
+{
+	"0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2": {
+		"name": "Dai",
+		"address": "0x1305F6B6Df9Dc47159D12Eb7aC2804d4A33173c2",
+		"symbol": "DAI",
+		"decimals": 18,
+		"chainId": 137,
+		"path": "/crypto-logos/DAI.svg"
+	}
+}

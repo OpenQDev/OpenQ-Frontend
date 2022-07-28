@@ -63,6 +63,7 @@ query GetUser($userId: ID!) {
       name
       login
       id
+			url
       avatarUrl
     }
   }
@@ -77,6 +78,7 @@ nodes(ids: $userIds) {
     name
     login
     id
+		url
     avatarUrl
   }
 }
@@ -158,6 +160,7 @@ export const GET_ISSUE_BY_ID = gql`
             name
 						login
             url
+						avatarUrl
           }
         }
         repository {
@@ -191,6 +194,69 @@ export const GET_ISSUE_BY_ID = gql`
   }
 `;
 
+export const GET_PRS_BY_ISSUES = gql`
+query getPrs($bountyIds: [ID!]!) {
+  nodes(ids: $bountyIds) {
+    id
+    ... on Issue {
+      id
+      timelineItems(first: 100) {
+        edges {
+          node {
+            ... on CrossReferencedEvent {
+              id
+              source {
+                ... on PullRequest {
+                  id
+                  bodyText
+                  title
+									url
+                  repository{owner{avatarUrl}}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+
+export const GET_PR_BY_ID = gql`
+query getPr($id: ID!){
+ node(id: $id) {
+    ... on PullRequest {
+      id
+      bodyHTML
+			url
+      title
+			author{
+				login
+        avatarUrl
+      	url
+        ... on User {
+          id
+					twitterUsername
+				}
+			}
+      }
+    }
+  }
+`;
+
+export const GET_USER_BY_URL = gql`
+	query($url:URI!) {resource(url: $url) {
+    ... on User {
+      id
+      email
+      twitterUsername
+			avatarUrl
+			login
+    }
+  
+	}}`;
+
 export const GET_ISSUES_BY_ID = gql`
 query($issueIds: [ID!]!) {
   nodes(ids: $issueIds) {
@@ -200,6 +266,7 @@ query($issueIds: [ID!]!) {
       body
       url
       id
+			number
       titleHTML
       bodyHTML				
       assignees(first: 1) {
@@ -207,6 +274,7 @@ query($issueIds: [ID!]!) {
            name
 					 login
            url
+					 avatarUrl
          }
        }
       labels(first: 10) {
