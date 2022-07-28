@@ -40,12 +40,12 @@ const AboutFreelancer = ({ user, organizations, watchedBounties }) => {
 			</div>
 			<div className='flex flex-col w-5/7'>
 				<SubMenu
-					names={[["Overview", <div ><BookIcon size={16} className='mr-1' /> Overview</div>], ["Stars", <div><StarIcon size={16} className='mr-1' /> Stars</div>], ["Watching", <div><EyeIcon size={16} className='mr-1' /> Watching</div>]]}
+					names={[["Overview", <div className='p-1'><BookIcon size={16} className='mr-1' /> Overview</div>], ["Stars", <div className='p-1'><StarIcon size={16} className='mr-1' /> Stars</div>], ["Watching", <div className='p-1'><EyeIcon size={16} className='mr-1' /> Watching</div>]]}
 					toggleFunc={setInternalMenu}
 					toggleVal={internalMenu}
 					contributor={true}
 				/>
-				<div className='flex flex-col pt-8 px-4'>
+				<div className='flex flex-col pt-4 px-4'>
 					{internalMenu == "Overview" ?
 						(<>
 							<AboutTitle ensName={ensName} account={account} />
