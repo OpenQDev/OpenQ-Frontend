@@ -70,13 +70,15 @@ class GithubRepository {
 			try {
 				const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = elem;
 				const repoName = elem.repository.name;
+				const prs = elem.timelineItems.edges.map(edge => edge.node);
 				const avatarUrl = elem.repository.owner.avatarUrl;
 				const owner = elem.repository.owner.login;
+				const repoDescription = elem.repository.description;
 				const assignees = elem.assignees;
 				const number = elem.number;
 				const labels = elem.labels.edges.map(edge => edge.node);
 				const languages = elem.repository.languages.edges.map(languages => languages.node);
-				return { id, title, body, url, languages, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, assignees, number };
+				return { id, title, body, url, languages, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, assignees, number, repoDescription, prs };
 			}
 
 			catch (err) {

@@ -12,7 +12,7 @@ import useWeb3 from '../../hooks/useWeb3';
 import searchFoundInText	from './SearchHelpers/searchFoundInText';
 import searchFoundInLabels from './SearchHelpers/searchFoundInLabels';
 import searchTagInBounty from './SearchHelpers/searchTagInBounty';
-import Toggle from '../Utils/Toggle';
+import SmallToggle from '../Utils/SmallToggle';
 
 const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData, getNewData, addCarousel }) => {
 	// Hooks
@@ -234,8 +234,8 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 
 	// Render
 	return (
-		<div className="lg:col-start-2 justify-between justify-self-center space-y-2 w-full pb-8 max-w-[1024px] px-4 mx-auto">
-			<div className="flex flex-wrap gap-4 w-full pt-10">
+		<div className="lg:col-start-2 justify-between justify-self-center space-y-2 w-full pb-8 max-w-[960px] mx-auto">
+			<div className="flex flex-wrap gap-4 w-full">
 				<SearchBar
 					onKeyUp={handleSearchInput}
 					placeholder={'Search Issue...'}
@@ -249,7 +249,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			<div className='w-full rounded-sm'>
 				<div className='flex flex-wrap gap-4 p-2 sm:p-4 border-web-gray border rounded-sm bg-subtle'>
 				
-					<Toggle names={['Ready for work', 'All issues']} toggleVal={(isReady ===  'Ready for work')? 'Ready for work': 'All issues'}  toggleFunc={showUnready} />
+					<SmallToggle names={['Ready for work', 'All issues']} toggleVal={(isReady ===  'Ready for work')? 'Ready for work': 'All issues'}  toggleFunc={showUnready} />
 
 					<Dropdown toggleFunc={handleSortBounties} toggleVal={''} styles="whitespace-nowrap" width="32"  title={'Sort Order'} names={['newest', 'oldest', 'highest', 'lowest', 'popular']} borderShape={'rounded-r-lg'} />
 					<Dropdown toggleFunc={addLabel} toggleVal={''} styles="whitespace-nowrap" width="24" title="Labels" names={labels} borderShape={'rounded-r-lg'} />

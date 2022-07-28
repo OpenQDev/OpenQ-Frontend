@@ -187,6 +187,7 @@ export default function Index({ orgs, fullBounties, batch }) {
 		<main className="bg-dark-mode flex-col">
 			<div className="flex justify-center">
 				<SubMenu
+					styles={'justify-center'}
 					names={['Organizations', 'Issues']}
 					toggleFunc={setInternalMenu}
 					toggleVal={internalMenu}

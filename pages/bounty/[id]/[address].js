@@ -19,6 +19,12 @@ import useAuth from '../../../hooks/useAuth';
 import RepoTitle from '../../../components/Bounty/RepoTitle';
 import BountyMenu from '../../../components/Bounty/BountyMenu';
 
+import Add from '../../../components/svg/add';
+import Subtract from '../../../components/svg/subtract';
+import Fire from '../../../components/svg/fire';
+import Telescope from '../../../components/svg/telescope';
+
+
 const address = ({ address, mergedBounty, renderError }) => {
 
 	useAuth();
@@ -94,7 +100,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 			setError(true);
 		}
 	};
-
+	console.log(internalMenu);
 	// Hooks
 	useEffect(async() => {
 		// Confetti
@@ -147,8 +153,8 @@ const address = ({ address, mergedBounty, renderError }) => {
 				<div className="flex flex-col justify-center items-center pt-4">
 				
 					<RepoTitle bounty={bounty} />
-					<BountyMenu internalMenu={internalMenu} updatePage={setInternalMenu}/>
-					<NewBountyCardDetails bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />
+					<BountyMenu  items={[{name: 'View', Svg: Telescope },{name: 'Fund', Svg: Add },{name: 'Refund', Svg: Subtract },{name: 'Claim', Svg: Fire },]} internalMenu={internalMenu} updatePage={setInternalMenu}/>
+					{internalMenu == 'View' && <NewBountyCardDetails bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
