@@ -9,8 +9,8 @@ const BountyStatus = ({ bounty }) => {
 	const [appState] = useContext(StoreContext);
 
 	return (
-		<div>
-			<div className="font-semibold text-primary text-base my-3">Status</div>
+		<div className='w-full'>
+			<div className="font-semibold text-primary text-base my-3 pr-3">Status</div>
 			<div className="flex flex-row space-x-2 text-primary text-base">
 				<div className="pt-1.5">
 					<svg xmlns="http://www.w3.org/2000/svg" 

@@ -100,6 +100,11 @@ query GetOrg($login: String!) {
 		descriptionHTML
     twitterUsername
     url
+    membersWithRole(first: 100) {
+      nodes {
+        avatarUrl
+      }
+    }
   }
 }
 `;
@@ -128,6 +133,7 @@ query ($issueIds: [ID!]!) {
           url
           avatarUrl
           login
+					twitterUsername
         }
       }
     }
@@ -268,7 +274,25 @@ query($issueIds: [ID!]!) {
       id
 			number
       titleHTML
-      bodyHTML				
+      bodyHTML
+			timelineItems(first: 100) {
+        edges {
+          node {
+            ... on CrossReferencedEvent {
+              id
+              source {
+                ... on PullRequest {
+                  id
+                  bodyText
+                  title
+									url
+                  repository{owner{avatarUrl}}
+                }
+              }
+            }
+          }
+        }
+      }		
       assignees(first: 1) {
          nodes {
            name
@@ -288,11 +312,13 @@ query($issueIds: [ID!]!) {
       createdAt
       repository {
         id
+				description
         name
 				languages(first:10){
 					edges{
 						node{
 							name
+							color
 						}
 					}
 				}
