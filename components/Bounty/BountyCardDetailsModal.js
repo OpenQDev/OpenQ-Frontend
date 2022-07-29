@@ -7,8 +7,9 @@ import BountyLinks from './BountyLinks';
 import useWeb3 from '../../hooks/useWeb3';
 import BountyModalHeading from './BountyModalHeading';
 import { LogIcon } from '@primer/octicons-react';
-import BountyMetadata from './BountyMetadata';
 import TotalValue from './TotalValue';
+import LabelsList from './LabelsList';
+import CopyBountyAddress from './CopyBountyAddress';
 
 const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues }) => {
 	const modal = useRef();
@@ -35,17 +36,50 @@ const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues }) => {
 
 
 	return (
-		<div className='flex justify-center items-start bg-overlay inset-0 fixed py-8 md:py-8 overflow-y-scroll z-30'>
+		<div className='flex justify-center items-start bg-overlay inset-0 fixed pt-10 overflow-y-scroll z-30'>
 			<div ref={modal} className="bg-dark-mode pt-2 w-5/6 rounded-sm lg:w-2/3 max-w-3xl text-lg relative overflow-hidden">
 				<BountyModalHeading  closeModal={closeModal} bounty={bounty}/>
 				
-				<div className='flex w-full justify-between px-8'>
-					<BountyStatus  bounty={bounty} />
-					
+				<div className=' w-full px-8 gap-4 flex'>
+					<div className='w-full'><TotalValue bounty={bounty} tokenValues={tokenValues}/></div>
+					<div className='w-full mb-6'>
+						<div className="font-semibold text-primary text-base w-full">{!bounty?.prs?.some(pr => pr.source?.__typename === 'PullRequest' && pr.source?.url) && 'No '}Linked Pull Requests</div>
+						{bounty?.prs?.length && <ul>
+						
+							{bounty.prs.filter((pr) => {
+								return pr.source?.['__typename'] === 'PullRequest' && pr.source?.url;
+							}).map((pr, index) => {
+								if (pr.source?.['__typename'] === 'PullRequest' && pr.source?.url) {
+									return <li className='text-sm text-primary' key={index}>
+										<Link href={pr.source.url}>
+											<a target="_blank" className={'underline'}>
+												{pr.source.title}
+											</a>
+										</Link>
+										<span> 
+											{pr.source.merged ? ' (merged)' : ' (not merged)'}</span>
+									</li>;}
+							})}
+						</ul>}
+					</div>
 				</div>
-				<TotalValue bounty={bounty} tokenValues={tokenValues}/>
+				<div className=' w-full px-8 gap-4 flex'>
+					<BountyStatus  bounty={bounty} />
+					<div className='w-full'>
+						<div className="font-semibold text-primary text-base my-3">Smart Contract</div>
+						<div className="flex flex-row space-x-2 text-primary text-base">
+							<div className="-mt-0.5">
+								<CopyBountyAddress address={bounty.bountyAddress}/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div className=' w-full px-8'>
+					<div className='pb-1'>
+						<LabelsList bounty={bounty} /></div>
+				</div>
 				
-				<div className="font-semibold text-primary text-base my-3 mx-4 sm:mx-8">Deposits</div>
+				<div className="font-semibold text-primary text-base my-3 mx-4 sm:mx-8">{!tokenValues && 'No '}Deposits</div>
 				{tokenValues && <div className="flex flex-wrap gap-4 pb-6 items-end mx-4 sm:mx-8">
 					{bounty.deposits && bounty.deposits
 						.filter((deposit) => {
@@ -63,8 +97,9 @@ const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues }) => {
 							</div>
 						</a>
 					</Link>}
-				</div>}
-				<div className='flex flex-wrap mx-4 sm:mx-8 pb-4 text-primary' >
+				</div>
+				}
+				{bounty.bodyHTML && <div className='flex flex-wrap mx-4 sm:mx-8 pb-4 text-primary' >
 					<div className=" flex-1 w-full py-4 border-web-gray border px-2 rounded-sm">
 						
 						<section className="markdown-body" dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}></section>
@@ -79,8 +114,7 @@ const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues }) => {
 							</Link>
 						</div>
 					</div>
-					<BountyMetadata bounty={bounty} price={0}/>
-				</div>
+				</div>}
 				<div className="sticky w-full bg-black overflow-hidden rounded-b-sm p-4">
 					<BountyLinks bounty={bounty} />
 				</div>
