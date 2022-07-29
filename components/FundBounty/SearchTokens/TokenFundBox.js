@@ -8,11 +8,11 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token,  volume }) => {
 	
 	return (
 		<div>
-			<div className="flex w-full flex-row justify-between items-center pl-14 py-3 py-1 input-field-big">
+			<div className="flex w-full flex-row justify-between items-center pl-14 py-3 input-field">
 				<div className={'px-4 font-bold fundBox-amount bg-dark-mode'}>
 					<input
 						aria-label="amount"
-						className="font-semibold text-2xl number outline-none bg-dark-mode text-tinted w-full"
+						className="font-semibold text-lg number outline-none bg-dark-mode text-primary w-full"
 						autoComplete="off"
 						value={volume}
 						placeholder={'0.0'}
@@ -22,19 +22,19 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token,  volume }) => {
 				</div>
 				<div className="pr-5">
 					<button
-						className="flex flex-row items-center space-x-1 py-2 drop-shadow-lg btn-default p-2 pr-2"
+						className="flex flex-row items-center drop-shadow-lg btn-default"
 						onClick={() => setShowTokenSearch(true)}
 					>
-						<div className="flex flex-row space-x-5 items-center justify-center">
-							<div className="h-1 w-6 pb-6">
+						<div className="flex flex-row items-center justify-center">
+							<div className="h-1 w-4 pb-4">
 								<Image src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'} className="rounded-full" alt="n/a" width="40%" height="40%" />
 							</div>
 						</div>
-						<div className="pl-3 ">{token.symbol}</div>
+						<div className="pl-3 pr-1 text-primary">{token.symbol}</div>
 						<div>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
-								className="h-5 w-5"
+								className="h-4 w-4"
 								viewBox="0 0 20 20"
 								fill="white"
 							>

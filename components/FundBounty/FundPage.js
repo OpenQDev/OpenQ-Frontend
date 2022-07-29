@@ -49,7 +49,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const claimed = bounty.status == 'CLOSED';
 	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) <= 0.00000001 || parseFloat(volume) >= 1000 || volume == '' || !(parseInt(depositPeriodDays) > 0);
 	const disableOrEnable = `${(loadingClosedOrZero || !isOnCorrectNetwork) && account ? 'btn-default w-full cursor-not-allowed' : 'btn-primary cursor-pointer'}`;
-	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center py-3 text-lg  ${disableOrEnable}`;
+	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center  ${disableOrEnable}`;
 
 	function resetState() {
 		setApproveTransferState(RESTING);
@@ -197,7 +197,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		<BountyClosed bounty={bounty} /> :
 		<div className="flex flex-1 justify-center items-center pb-10">
 			<div className="flex flex-col space-y-5 w-5/6">
-				<div className="flex text-3xl font-semibold  justify-center pt-16">
+				<div className="flex text-2xl font-bold text-primary  justify-center pt-16">
 					Escrow Funds in Atomic Contract
 				</div>
 
@@ -208,17 +208,17 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					volume={volume}
 				/>
 
-				<div className="flex w-full px-4 py-3 py-1 input-field-big ">
-					<div className=' flex items-center gap-3 w-full'>
+				<div className="flex w-full input-field ">
+					<div className=' flex items-center gap-3 w-full text-primary whitespace-nowrap'>
 						<ToolTipNew customOffsets={[-192, -142]} outerStyles={''} mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
-							<div className='cursor-help rounded-full border-2 border-web-gray aspect-square leading-6 h-6 box-content text-center font-bold text-web-gray'>?</div>
+							<div className='cursor-help rounded-full border border-gray-700 aspect-square leading-4 h-4 box-content text-center font-bold text-gray-700'>?</div>
 						</ToolTipNew>
 						<span>Deposit Locked Period</span>
 					</div>
 
-					<div className={'px-4 font-bold fundBox-amount bg-dark-mode'}>
+					<div className={'flex px-4 font-bold fundBox-amount bg-dark-mode'}>
 						<input
-							className="font-semibold text-right /60 text-2xl number outline-none bg-dark-mode w-full flex-1"
+							className="text-primary text-right /60 number outline-none bg-dark-mode w-full flex-1"
 							autoComplete="off"
 							value={depositPeriodDays}
 							id="deposit-period"
@@ -250,7 +250,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 						) : null}</div>
 					</button>
 				</ToolTipNew>
-				<div className='text-web-gray text-sm'>Always fund through the interface! Never send funds directly to the address!</div>
+				<div className='text-primary text-sm'>Always fund through the interface! Never send funds directly to the address!</div>
 			</div>
 
 			{showApproveTransferModal && <ApproveFundModal
