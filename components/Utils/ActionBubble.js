@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import StoreContext from '../../store/Store/StoreContext';
 import Jazzicon from './Jazzicon';
