@@ -1,6 +1,6 @@
 
 
-import React, {useEffect, useState} from 'react'; 
+import React, { useState} from 'react'; 
 import Image from 'next/image';
 import OrganizationHeader from './OrganizationHeader';
 import BountyMenu from '../Bounty/BountyMenu';
@@ -22,20 +22,11 @@ const Organization = ({bounties, isLoading, getMoreData, complete, getNewData, o
 	
 	},[]);
 	const languages = repositories.reduce((languages, repository)=>{
-		console.log(repository);
 		const newLanguages = repository.languages.filter(currentLanguage=>!languages.some(language=>currentLanguage.name ===language.name));
 	
 		return [...languages, ...newLanguages];
 	},[]);
-	useEffect(()=>{
-		console.log(organizationData);});
-	const bounty= {
-		assignees: [
-			{avatarUrl: 'https://avatars.githubusercontent.com/u/72156679?s=52&v=4'},
-			{avatarUrl: 'https://avatars.githubusercontent.com/u/72156679?s=52&v=4'},
-		]
 	
-	};
 	return (
 		<div className='w-full mx-auto text-primary mt-1 px-4 md:px-16 max-w-[1420px] '>
 			<OrganizationHeader organizationData={organizationData} />
@@ -59,11 +50,10 @@ const Organization = ({bounties, isLoading, getMoreData, complete, getNewData, o
 							{organizationData.membersWithRole.nodes.map((member, index)=>{return <Image key={index} className='rounded-lg' height={36} width={36} src={member.avatarUrl}/>;
 						
 							})}</div>
-					</li>}	{bounty.assignees.length >0 && <li className='border-b border-web-gray pb-8'>
+					</li>}	{languages.length >0 && <li className='border-b border-web-gray pb-8'>
 					
 						<div className='text-normal text-primary py-4 flex'>Top Languages</div>
 						<div className='flex flex-wrap gap-2 w-60'>	{languages.map(language=>{
-							console.log(language);
 							return <>
 						
 								<div className='w-fit inline' >	<div style={{backgroundColor: language.color}} className='w-3 h-3 rounded-lg inline-block'></div> <span className='text-sm'>{language.name}</span></div>

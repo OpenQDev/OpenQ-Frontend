@@ -42,7 +42,6 @@ export default function Index({ orgs, fullBounties, batch }) {
 			let orgMetadata = [];
 			try{	
 				orgMetadata = await appState.openQPrismaClient.getOrgsMetadata(ids);
-				console.log(orgMetadata);
 			}
 
 			catch(error){

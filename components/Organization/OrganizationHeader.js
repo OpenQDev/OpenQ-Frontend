@@ -1,6 +1,5 @@
 import React from 'react';
 import Image from 'next/image';
-import organization from '../../pages/organization/[organization]';
 
 const OrganizationHeader = ({organizationData})=>{
 

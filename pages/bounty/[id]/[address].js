@@ -100,7 +100,6 @@ const address = ({ address, mergedBounty, renderError }) => {
 			setError(true);
 		}
 	};
-	console.log(internalMenu);
 	// Hooks
 	useEffect(async() => {
 		// Confetti

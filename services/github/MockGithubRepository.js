@@ -38,7 +38,6 @@ class MockGithubRepository {
 		const promise = new Promise((resolve, reject) => {
 			axios.get(`http://localhost:3030/githubIssues?id=${issueId}`)
 				.then(result => {
-				console.log(result.data[0])
 					resolve(this.parseIssueData(result.data[0]));
 				})
 				.catch(error => {
