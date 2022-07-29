@@ -42,7 +42,7 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 						customOffsets={[0, 46]}>
 						<button onClick={() => refundBounty(deposit.id)}
 							disabled={!isOnCorrectNetwork}
-							className={`items-left text-lg  self-center ${isOnCorrectNetwork ? 'sm-confirm-btn' : 'sm-confirm-btn-disabled cursor-not-allowed'}`} >
+							className={`my-2 items-left w-full self-center ${isOnCorrectNetwork ? 'btn-default' : 'btn-default cursor-not-allowed'}`} >
 							Refund
 						</button>
 					</ToolTipNew>
