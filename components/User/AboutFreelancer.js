@@ -66,24 +66,25 @@ const AboutFreelancer = ({ user, organizations, watchedBounties }) => {
 							<MiniBountyList bounties={bountiesClosed} />
 						</>)
 						: internalMenu == "Stars" ?
-							(<>
+							(<div className="px-16 py-6 pb border-b border-web-gray">
 								Followed organizations
-							</>)
+							</div>)
 							:
 							(<>
 								{watchedBounties.length > 0 &&
 									<div className='px-16 py-6 border-b border-border-gray flex flex-wrap items-stretch w-full font-semibold text-lg'>
 										<h3>Watched Issues</h3>
 										<Carousel>
-	
+
 											{watchedBounties.map((watchedBounty, index) => <CarouselBounty key={index} bounty={watchedBounty} />)}
-	
-	
+
+
 										</Carousel>
 									</div>
 								}
-								<br />
-								Filtering to check which issued are closed or open
+								<div className="px-16 py-6 pb border-b border-web-gray">
+									Filtering to check which issued are closed or open
+								</div>
 							</>)
 					}
 
