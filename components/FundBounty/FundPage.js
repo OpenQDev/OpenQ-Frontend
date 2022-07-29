@@ -235,9 +235,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 								'Please indicate the volume you\'d like to fund with. Must be between 0.0000001 and 1000.' :
 								account ?
 									'Please switch to the correct network to fund this bounty.' :
-									'Connect your wallet to fund this bounty!'}
-					customOffsets={
-						[0, 54]}>
+									'Connect your wallet to fund this bounty!'}>
 					<button
 						className={fundButtonClasses}
 						disabled={(loadingClosedOrZero || !isOnCorrectNetwork) && account}

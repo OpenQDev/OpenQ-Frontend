@@ -116,7 +116,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 		return (
 			<div className="flex flex-1 justify-center">
 				<div className="w-5/6 pt-8 pb-24 min-w-min">
-					<div className=" grid grid-cols-3 gap-5 pt-12">
+					<div className="flex flex-col gap-5 pt-12">
 						{!authState.isAuthenticated ? (
 							<div className=" col-span-3 border border-gray-700 bg-[#21262d] rounded-sm p-4">
 								We noticed you are not signed into Github. You must sign to verify
@@ -128,7 +128,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 							<div><CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} /></div>
 						</div>
 
-						<div className="col-span-3 flex gap-3 w-full ">
+						<div className="flex flex-col space-y-5">
 							<ToolTipNew
 								outerStyles="flex w-full items-center"
 								hideToolTip={account && isOnCorrectNetwork && authState.isAuthenticated}
