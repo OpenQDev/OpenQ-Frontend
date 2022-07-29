@@ -14,7 +14,7 @@ const SubMenu = ({ toggleFunc, styles, toggleVal, names, borderColour, contribut
             <button
               key={index}
               onClick={() => toggleFunc(contributor ? name[0] : name)}
-              className={`p-2 py-4 px-4 text-[0.8rem] tracking-wider ${
+              className={`p-2 px-4 text-[0.8rem] tracking-wider ${
                 toggleVal === (contributor ? name[0] : name)
                   ? (contributor ?
 										" border-b-4 border-rust text-gray-200 font-bold"
