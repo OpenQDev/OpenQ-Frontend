@@ -128,7 +128,7 @@ pre {
     @apply h-6 bg-zinc-700 appearance-none w-4 h-4 checked:bg-blue-300 checked:bg-[url('/checkbox.svg')] checked:hover:bg-blue-200 focus:outline-none border border-zinc-400 hover:border-zinc-300 checked:border-none rounded m-1;
   }
 	.tooltip {
-		@apply text-[1.6rem] md:text-xs font-semibold whitespace-nowrap m-2 px-0.5 py-0.5 bg-[#6e7781] border border-solid border-4 border-transparent text-center rounded-sm
+		@apply text-xs font-semibold whitespace-nowrap m-2 px-0.5 py-0.5 bg-[#6e7781] border border-solid border-4 border-transparent text-center rounded-sm
 	}
 	.tooltip-triangle {
 		@apply content-none block w-0 h-0 absolute border-x-[18px] border-x-transparent border-b-[18px] border-b-[#6e7781] 
