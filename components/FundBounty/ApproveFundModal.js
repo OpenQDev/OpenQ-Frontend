@@ -99,7 +99,7 @@ const ApproveFundModal = ({
 		<div>
 			<div className="justify-center items-center flex overflow-x-hidden text-primary overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
 				<div ref={modal} className="min-w-[320px]">
-					<div className="rounded-sm p-7 shadow-lg flex flex-col w-full bg-[#21262d] outline-none focus:outline-none">
+					<div className="rounded-sm p-7 shadow-lg flex flex-col w-full bg-[#161B22] outline-none focus:outline-none">
 						<div className="flex items-center justify-center border-solid">
 							<div className="flex flex-row">
 								<div className="text-2xl font-semibold pb-8">

@@ -71,7 +71,7 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 		<div>
 			<div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
 				<div ref={modal} className="w-1/2 lg:w-1/3 min-w-[320px]">
-					<div className="border-0 rounded-sm p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none text-center">
+					<div className="border-0 rounded-sm p-7 shadow-lg flex flex-col w-full bg-[#161B22] outline-none focus:outline-none text-center">
 						<div className="flex items-center justify-center border-solid">
 							<div className="flex flex-row">
 								<div className="text-3xl font-semibold pb-8">
