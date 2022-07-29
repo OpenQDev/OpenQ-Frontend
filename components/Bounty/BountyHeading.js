@@ -3,12 +3,10 @@ import React, { useContext } from 'react';
 import Link from 'next/link';
 // Custom
 import MintBountyButton from '../MintBounty/MintBountyButton';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
 import StoreContext from '../../store/Store/StoreContext';
-const BountyHeading = ({bounty}) =>{
+const BountyHeading = ({bounty, price}) =>{
 
 	const [appState] = useContext(StoreContext);
-	const {total} = useGetTokenValues(bounty.bountyTokenBalances);
 	return (
 		<div className='sm:px-8 px-4 w-full max-w-[1200px] pb-4'>
 			<div className='pt-6 pb-2 w-full flex flex-wrap'>
@@ -35,7 +33,7 @@ const BountyHeading = ({bounty}) =>{
 				
 					}
 					Total Value {bounty.status === 'OPEN' ? 'Locked': 'Claimed'} { appState.utils.formatter.format(
-						total||0
+						price||0
 					)}</span>
 			</div>
 		</div>);

@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import { render, screen } from '../test-utils';
-import BountyCard from '../components/Bounty/BountyCard';
+import BountyCardLean from '../components/Bounty/BountyCardLean';
 import userEvent from '@testing-library/user-event';
 import InitialState from '../store/Store/InitialState';
 import mocks from '../__mocks__/mock-server.json';
@@ -39,7 +39,7 @@ describe('BountyCard', ( ) => {
 		it('should render BountyCard', async()=>{
 		
 			// ARRANGE
-			render(<BountyCard bounty={bounty} complete={true}/>);
+			render(<BountyCardLean bounty={bounty} complete={true}/>);
 			
 			// ASSERT
 			const orgName = screen.getByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
@@ -50,7 +50,7 @@ describe('BountyCard', ( ) => {
 		it('should let user open BountyCardDetailsModal', async()=>{			
 			// ARRANGE
 			const user = userEvent.setup();		
-			render(<BountyCard bounty={bounty} complete={true}/>);
+			render(<BountyCardLean bounty={bounty} complete={true}/>);
 			
 			// ASSERT
 			const orgName = screen.getByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
@@ -59,7 +59,7 @@ describe('BountyCard', ( ) => {
 				const bountyStatus = await	screen.findAllByText(/Claimed/i);
 				expect(bountyStatus[0]).toBeInTheDocument();
 			}
-			const link = await screen.findAllByRole('link', {name:/See full/i});
+			const link = await screen.findAllByRole('link', {name:/Full Contract/i});
 			expect(link[0]).toBeInTheDocument();
 			
 			// should not have null or undefined values

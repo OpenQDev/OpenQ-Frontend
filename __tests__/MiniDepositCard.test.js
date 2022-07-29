@@ -25,7 +25,6 @@ describe('MiniDepositCard', ( ) => {
 			
 			// should not have null or undefined values
 			expect(await screen.findByText(/\$\d+.\d+/));
-			expect(await screen.findByText(/Claimed/i)).toBeInTheDocument();
 			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
 			expect(nullish).toHaveLength(0);
 
@@ -39,7 +38,6 @@ describe('MiniDepositCard', ( ) => {
 		
 			// ASSERT
 			expect(await screen.findByText(/\$\d+.\d+/));
-			expect(await screen.findByText(/Lock/i)).toBeInTheDocument();
 			// should not have null or undefined values
 			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
 			expect(nullish).toHaveLength(0);
