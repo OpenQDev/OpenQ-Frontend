@@ -145,9 +145,9 @@ const MintBountyModal = ({ modalVisibility }) => {
 					error={error}
 				/> :
 				<>
-					<div ref={modal} className="md:w-2/3 lg:w-2/3 xl:w-3/5 space-y-5 z-50 ">
+					<div ref={modal} className="min-w-[320px] space-y-5 z-50 ">
 						<div className="w-full">
-							<div className="border-0 rounded-sm shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none z-11">
+							<div className="border-0 rounded-sm shadow-lg flex flex-col bg-[#161B22] outline-none focus:outline-none z-11">
 								<MintBountyHeader />
 								<div className="flex flex-col items-center pl-6 pr-6 space-y-2">
 									<MintBountyInput

@@ -77,7 +77,7 @@ const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch }) =>
 					{' '}
 					<div
 						onClick={e => e.stopPropagation()}
-						className='flex justify-left border border-border-gray pl-8 pr-8 pt-5 pb-3 rounded-sm shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none'
+						className='flex justify-left border border-border-gray pl-8 pr-8 pt-5 pb-3 rounded-sm shadow-lg flex-col w-full bg-dark-mode outline-none focus:outline-none'
 					>
 						{showListManager ? (
 							<div className='h-[30rem]'>
@@ -90,7 +90,7 @@ const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch }) =>
 									</button>
 								</div>
 
-								<div className='pt-3 pb-3 pl-4 input-field-big overflow-hidden mb-2'>
+								<div className='pt-3 pb-3 pl-4 input-field overflow-hidden mb-2'>
 									<div className=''>
 										<div className='justify-start '>
 											<input
@@ -102,7 +102,7 @@ const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch }) =>
 										</div>
 									</div>
 								</div>
-								<div className='mt-8 overflow-auto h-72'>
+								<div className='mt-8 overflow-auto h-72 text-primary'>
 									{polygonTokens && openQTokens && (
 										<TokenList
 											customTokens={customTokens}

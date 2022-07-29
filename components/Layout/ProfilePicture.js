@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import AuthContext from '../../store/AuthStore/AuthContext';
 import AuthButton from '../../components/Authentication/AuthButton';
 
-const ProfilePicture = ({ mobile }) => {
+const ProfilePicture = ({ mobile, contributor, styles }) => {
 
 	// Context
 	const [authState] = useContext(AuthContext);
@@ -29,7 +29,7 @@ const ProfilePicture = ({ mobile }) => {
 	}, [authState]);
 
 	return (
-		<div className='flex items-center h-12 content-center'>
+		<div className={`flex items-center h-12 content-center ${styles}`}>
 		{console.log(showModal)}
 			{showModal || !authState.isAuthenticated ?
 				<div className={`flex w-max`}>
@@ -40,8 +40,8 @@ const ProfilePicture = ({ mobile }) => {
 					{propicUrl != null ? (
 						<Image
 							src={propicUrl}
-							width={mobile ? 62 : 31}
-							height={mobile ? 62 : 31}
+							width={mobile ? 62 : contributor? 350 : 31}
+							height={mobile ? 62 : contributor? 350 : 31}
 							alt={'profile pic'}
 							className="rounded-full"
 
