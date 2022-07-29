@@ -92,16 +92,16 @@ pre {
 	/* GitHub Styles */
 
 	.input-field {
-		@apply py-[4px] px-3 text-[0.75rem] tracking-wider placeholder-input-gray outline-none rounded-sm border border-border-gray bg-menu-bg
+		@apply py-[4px] px-3 text-[0.75rem] tracking-wider placeholder-input-gray outline-none rounded-sm border border-border-gray bg-menu-bg focus-within:border-blue-400
 	}
 	.input-field-big {
-		@apply py-[5px] pl-8 pr-3 text-[0.75rem] tracking-wider leading-[20px] h-min placeholder-input-gray outline-none border border-border-default bg-menu-bg
+		@apply py-[5px] pl-8 pr-3 text-[0.75rem] tracking-wider leading-[20px] h-min placeholder-input-gray rounded-sm outline-none border border-border-gray bg-menu-bg focus-within:border-blue-400
 	}
 	.btn-primary{
-		@apply bg-[#26a641] font-bold rounded-sm py-1.5 hover:bg-[#39d353]
+		@apply bg-[#238636] font-bold rounded-sm py-1.5 hover:bg-[#2ea043] text-white
 	}
 	.btn-default{
-		@apply font-bold rounded-sm px-3 p-1 bg-[#21262d] hover:bg-[#161B22] border border-gray-700
+		@apply font-bold rounded-sm px-3 p-1 bg-[#21262d] hover:bg-[#30363d] border border-gray-700 hover:border-[#8b949e]
 	}
   .layer-button {
     @apply rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer border-blue-400 text-gray-800 hover:bg-blue-400 hover:text-white;

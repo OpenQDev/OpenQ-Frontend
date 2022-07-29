@@ -15,10 +15,10 @@ const AboutTitle = ({ensName, account}) =>{
 		}
 	}, [account]);
 	
-	return (<h1 className='font-semibold p-4 text-2xl flex gap-2'>
-		<span className='pt-2' ref={iconWrapper}></span>
-		<span className='leading-none'>
-			<span>{ensName}</span>
+	return (<h1 className='flex items-center font-semibold p-8 pl-16 flex gap-4'>
+		<span className='flex' ref={iconWrapper}></span>
+		<span className='flex leading-none'>
+			<span className='flex'>{ensName}</span>
 			<CopyAddressToClipboard data={account} clipping={[5, 38]} />
 		</span>
 	</h1>);

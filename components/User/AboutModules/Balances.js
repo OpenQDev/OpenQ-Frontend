@@ -8,8 +8,8 @@ const Balances = ({tokenBalances, tokenValues, type}) => {
 
 	return (
 		<>
-			{tokenBalances.length > 0 && <div className='px-16 py-5 pb border-t border-web-gray'>
-				<h2 className='font-bold uppercase text-gray-300 text-xl'>{type}</h2>
+			{tokenBalances.length > 0 && <div className='px-16 py-6 pb border-t border-web-gray'>
+				<h2 className='font-semibold text-lg'>{type}</h2>
 				<TokenBalances
 					tokenBalances={tokenBalances}
 					tokenValues={tokenValues} />
