@@ -208,7 +208,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					volume={volume}
 				/>
 
-				<div className="flex w-full input-field ">
+				<div className="flex w-full input-field-big ">
 					<div className=' flex items-center gap-3 w-full text-primary whitespace-nowrap'>
 						<ToolTipNew customOffsets={[-192, -142]} outerStyles={''} mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
 							<div className='cursor-help rounded-full border border-gray-700 aspect-square leading-4 h-4 box-content text-center font-bold text-gray-700'>?</div>
@@ -216,7 +216,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 						<span>Deposit Locked Period</span>
 					</div>
 
-					<div className={'flex px-4 font-bold fundBox-amount bg-dark-mode'}>
+					<div className={'flex px-4 font-bold bg-dark-mode'}>
 						<input
 							className="text-primary text-right /60 number outline-none bg-dark-mode w-full flex-1"
 							autoComplete="off"
