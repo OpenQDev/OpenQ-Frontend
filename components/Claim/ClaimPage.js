@@ -128,9 +128,9 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 							<div><CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} /></div>
 						</div>
 
-						<div className="col-span-3 flex gap-3 w-full">
+						<div className="col-span-3 flex gap-3 w-full ">
 							<ToolTipNew
-								outerStyles="w-full"
+								outerStyles="flex w-full items-center"
 								hideToolTip={account && isOnCorrectNetwork && authState.isAuthenticated}
 								toolTipText={
 									account && isOnCorrectNetwork && authState.isAuthenticated ?
@@ -140,8 +140,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 											(!account) ?
 												'Connect your wallet to claim this bounty!' :
 												'Connect your GitHub account to claim this bounty!'
-								}
-								customOffsets={[0, 50]}>
+								}>
 								<button
 									type="submit"
 									className={(isOnCorrectNetwork && authState.isAuthenticated) || !account ? 'btn-primary cursor-pointer w-full p-2' : 'btn-default cursor-not-allowed w-full p-2'}
