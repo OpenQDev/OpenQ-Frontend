@@ -35,7 +35,7 @@ const test =(issue)=>{
 		render(<MintBountyButton />);
 
 		// ACT		
-		const	mintBountyButton =  await screen.findByRole('button', {name: /Mint Bounty/i});			
+		const	mintBountyButton =  await screen.findByRole('button', {name: /New Contract/i});			
 		await user.click(mintBountyButton);
 		const input = await screen.findByRole('textbox');
 		await user.type(input, issue.url);
@@ -45,7 +45,7 @@ const test =(issue)=>{
 		switch(issue.status){
 		case 'mintable': {
 			expect(await screen.findByText(/mintable/i)).toBeInTheDocument();
-			const mintBountyArr = await screen.findAllByText(/Mint Bounty/i);
+			const mintBountyArr = await screen.findAllByText(/Deploy Contract/i);
 			await user.click(mintBountyArr[2]);
 		}
 			break;
@@ -62,7 +62,7 @@ const test =(issue)=>{
 			break;
 
 		case 'not-issue': {
-			expect( await screen.findByText(/Create a Bounty/i)).toBeInTheDocument();
+			expect( await screen.findByText(/Create an atomic contract/i)).toBeInTheDocument();
 		}	
 		}
 			

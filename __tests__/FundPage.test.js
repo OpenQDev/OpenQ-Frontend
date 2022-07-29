@@ -33,7 +33,7 @@ describe('FundPage', ( ) => {
 			render(<FundPage bounty={bounty} />);
 
 			// ACT
-			const heading = screen.getByText('Fund Bounty');
+			const heading = screen.getByText('Fund');
 			// ASSERT
 			expect(heading).toBeInTheDocument();
 			

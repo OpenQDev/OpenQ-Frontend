@@ -1,17 +1,16 @@
 // Third Party
 
-import React, { useState } from 'react';
+import React from 'react';
 
-const ToolTipNew = (props) => {
-	const { toolTipText} = props;
-	if (props.hideToolTip) return props.children;
+const ToolTipNew = ({toolTipText, children, hideToolTip, outerStyles}) => {
+	if (hideToolTip) return children;
 	return (
 		<div className={'group'}>
-			{props.children}
-			<div className={`flex justify-center w-full relative hidden z-10 group-hover:block  ${props.outerStyles} `}>
-				<div class="flex flex-col items-center inline-block">
-					<div class="flex mt-0.5 md:mt-1 tooltip-triangle absolute"></div>
-					<div class="flex tooltip absolute">
+			{children}
+			<div className={`flex justify-center w-full relative hidden z-10 group-hover:block  ${outerStyles} `}>
+				<div className="flex flex-col items-center inline-block">
+					<div className="flex mt-0.5 md:mt-1 tooltip-triangle absolute"></div>
+					<div className="flex tooltip absolute">
 						<div>{toolTipText}</div>
 					</div>
 				</div>

@@ -21,12 +21,12 @@ const BountyCardDetails = ({ bounty, setInternalMenu }) => {
 	},[bounty.issuer.id]);
 	
 	return (<>
-		<BountyHeading  bounty={bounty} />
+		<BountyHeading price={tokenValues?.total}  bounty={bounty} />
 		<div className='flex w-full px-2 sm:px-8 flex-wrap max-w-[1200px] mx-auto'>
 			<div className='flex-1 pr-4 min-w-[260px]'>
 				{bounty.deposits.reverse().map((deposit, index)=><ActionBubble key={index} address={deposit.sender.id} deposit={deposit} title={`${(bounty.issuer.id).slice(0, 4)}...${(bounty.issuer.id).slice(38)} funded 3 Matic ($200 USD)`}/> )}
 		
-				<ActionBubble addresses={addresses} address={bounty.issuer.id}  title = {`${(bounty.issuer.id).slice(0, 4)}...${(bounty.issuer.id).slice(38)} minted this contract ${appState.utils.formatUnixDate(bounty.bountyMintTime)}.`} bodyHTML={bounty.bodyHTML}/>
+				<ActionBubble addresses={addresses} address={bounty.issuer.id} price={tokenValues?.total}  title = {`${(bounty.issuer.id).slice(0, 4)}...${(bounty.issuer.id).slice(38)} minted this contract ${appState.utils.formatUnixDate(bounty.bountyMintTime)}.`} bodyHTML={bounty.bodyHTML}/>
 			</div>
 			<BountyMetadata bounty={bounty} setInternalMenu={setInternalMenu} price={tokenValues?.total}/>
 		</div>

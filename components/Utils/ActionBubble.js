@@ -6,7 +6,7 @@ import Jazzicon from './Jazzicon';
 
 const ActionBubble = ({address, addresses, title, bodyHTML, body, deposit})=>{
 	let currentTitle = title;
-	const [tokenValues] = useGetTokenValues(deposit||[]);
+	const [tokenValues] = useGetTokenValues(deposit);
 	
 	const [appState] = useContext(StoreContext);
 	if(deposit)

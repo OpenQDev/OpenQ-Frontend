@@ -34,7 +34,7 @@ const HorizontalOrganizationCard = ({ organization }) => {
 			</div>
 			<div>
 				<h2 className='text-xl mt-1 leading-tight text-primary hover:text-link-colour'>
-					<Link href={`https://github.com/${organization.login}`}>
+					<Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/organization/${organization.login}`}>
 						<a>
 							{organization.name|| organization.login}
 						</a>
