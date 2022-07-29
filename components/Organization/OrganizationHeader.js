@@ -12,7 +12,7 @@ const OrganizationHeader = ({organizationData})=>{
 				<h1 className='text-2xl leading-condensed font-semibold'>{organizationData.name || organizationData.login}</h1>
 				<p className='text-sm text-muted leading-[21px]'><span>{organizationData?.description|| ''}</span></p>
 				<ul className='inline-block text-sm mt-2'>
-					<li className='inline-block'>
+					{organizationData.location && <li className='inline-block'>
 						<div className='flex gap-1 mx-1'>
 
 							<svg aria-hidden="true" height="16" viewBox="0 0 16 16" className="fill-primary" version="1.1" width="16" data-view-component="true">
@@ -21,7 +21,7 @@ const OrganizationHeader = ({organizationData})=>{
 							<span  className='text-xs'>{organizationData.location}</span>
                 
 						</div>
-					</li>
+					</li>}
 						
 					<li className='inline-block'>
 						<div className='flex gap-1 mx-1'>

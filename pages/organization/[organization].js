@@ -9,7 +9,12 @@ import WrappedGithubClient from '../../services/github/WrappedGithubClient';
 import Utils from '../../services/utils/Utils';
 import useAuth from '../../hooks/useAuth';
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
-import Organization from '../../components/Organization/MainPage.js';
+import OrganizationHeader from '../../components/Organization/OrganizationHeader';
+import BountyMenu from '../../components/Bounty/BountyMenu';
+import Home from '../../components/svg/home';
+import OrganizationMetadata from '../../components/Organization/OrganizationMetadata';
+import OrganizationContent from '../../components/Organization/OrganizationContent';
+
 
 const organization = ({ organizationData, fullBounties, batch, renderError }) => {
 	useAuth();
@@ -21,7 +26,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError }) =>
 	const [pagination, setPagination] = useState(batch);
 	const [error, setError] = useState(renderError);
 	const [offChainCursor, setOffChainCursor] = useState();
-
+	const [toggleVal, setToggleVal] = useState('Overview');
 	const [complete, setComplete] = useState(fullBounties?.length === 0);
 
 	// Methods
@@ -88,15 +93,30 @@ const organization = ({ organizationData, fullBounties, batch, renderError }) =>
 		}
 		setBounties(bounties.concat(newBounties));
 	}
-
+	const handleToggle = (toggleVal)=>{
+		setToggleVal(toggleVal);
+	};
+	const repositories = bounties.reduce((repositories, bounty)=>{
+		if (repositories.some(repo=>repo.name===bounty.repoName)){
+			return repositories;
+		}
+		return [...repositories, {name: bounty.repoName, languages: bounty.languages, description: bounty.repoDescription}];
+	
+	},[]);
 	// Render
 	return (
 		<>
 			{error ?
 				<UnexpectedError error={error} />
 				:
-				<Organization organizationData={organizationData} bounties={bounties} loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />
-			}
+				<div className='w-full mx-auto text-primary mt-1 px-4 md:px-16 max-w-[1420px] '>
+					<OrganizationHeader organizationData={organizationData} />
+					<BountyMenu  items={[{name: 'Overview', Svg: Home },/*{name: 'About', Svg: Question }*/]} internalMenu={toggleVal} updatePage={handleToggle}/>
+					{toggleVal === 'Overview' && <div className='px-4 py-3 gap-6 w-full flex flex-wrap md:flex-nowrap'>
+						<OrganizationContent  bounties={bounties} loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} repositories={repositories}/>
+						<OrganizationMetadata organizationData={organizationData} repositories={repositories}/>
+					</div>}
+				</div>}
 		</>
 	);
 
