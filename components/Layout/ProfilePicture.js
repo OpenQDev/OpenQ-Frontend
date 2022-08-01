@@ -36,7 +36,7 @@ const ProfilePicture = ({ mobile, contributor, styles }) => {
 					<AuthButton redirectUrl={process.env.NEXT_PUBLIC_BASE_URL + router.asPath} propicUrl={propicUrl} />
 					{authState.isAuthenticated && <button onClick={() => setShowModal(false)}> </button>}
 				</div> :
-				<button className='flex items-center border border-gray-700 rounded-full' onClick={() => setShowModal(true)}>
+				<button className='flex items-center border border-gray-700 hover:border-opacity-70 rounded-full' onClick={() => setShowModal(true)}>
 					{propicUrl != null ? (
 						<Image
 							src={propicUrl}
