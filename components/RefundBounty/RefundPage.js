@@ -17,6 +17,7 @@ import {
 	ERROR
 } from '../FundBounty/ApproveTransferState';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
+import BountyHeading from '../Bounty/BountyHeading';
 
 const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 	const [error, setError] = useState('');
@@ -108,7 +109,9 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 	// Render
 
 	return (
-		<>{claimed?
+		<>
+		<BountyHeading  bounty={bounty} />
+		{claimed?
 			<>{internalMenu === 'Refund' && <BountyClosed bounty={bounty}/>}</> :
 			<div className={`flex justify-center items-center pl-5 pr-5 md:pl-16 md:pr-16 pt-10 pb-10 my-16 w-5/6 max-w-6xl ${internalMenu !== 'Refund'? 'hidden': null}`}>
 				<div className="flex flex-col space-y-5 w-full">

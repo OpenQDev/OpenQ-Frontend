@@ -21,6 +21,7 @@ import ToolTipNew from '../Utils/ToolTipNew';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import StoreContext from '../../store/Store/StoreContext';
+import BountyHeading from '../Bounty/BountyHeading';
 
 const ClaimPage = ({ bounty, refreshBounty }) => {
 	const { url } = bounty;
@@ -114,6 +115,8 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 		);
 	} else {
 		return (
+			<>
+			<BountyHeading  bounty={bounty} />
 			<div className="flex flex-1 justify-center">
 				<div className="w-5/6 pt-8 pb-24 min-w-min">
 					<div className="flex flex-col gap-5 pt-12">
@@ -162,6 +165,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 				</div>
 				<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>
 			</div>
+			</>
 		);
 	}
 };
