@@ -129,7 +129,7 @@ const Navigation = ({ }) => {
 							</ToolTipNew>
 						</div>
 					</div>
-					<div className="flex items-center">
+					<div className="flex items-center text-[0.8rem] md:text-[1rem]">
 						<div>
 							<ConnectButton />
 						</div>
