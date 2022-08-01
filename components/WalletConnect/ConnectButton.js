@@ -97,13 +97,13 @@ const ConnectButton = ({mobile}) => {
             onClick={() => {
               setShowModal(!showModal);
             }}
-            className="group flex items-center gap-x-1 h-12 whitespace-nowrap  py-1 px-3  font-semibold cursor-pointer hover:border-active-accent"
+            className="group flex items-center gap-x-1 h-12 whitespace-nowrap py-1 px-3 font-semibold cursor-pointer hover:border-active-accent"
           >
             <span
               className="border-2 border-inactive-accent rounded-full h-7 py-pxt group-hover:bg-active-accent group-hover:border-active-accent"
               ref={iconWrapper}
             ></span>
-            <span className="py">
+            <span className="py md:hover:opacity-70">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-3 w-3"

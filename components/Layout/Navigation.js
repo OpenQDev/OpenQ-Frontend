@@ -85,7 +85,7 @@ const Navigation = ({ }) => {
 
 					<div className="flex space-x-5 items-center">
 						<Link href={'/'}>
-							<a className="flex items-center">
+							<a className="flex items-center md:hover:opacity-70">
 								<Image
 									src="/openq-logo-white-2.png"
 									alt="OpenQ"
@@ -107,23 +107,23 @@ const Navigation = ({ }) => {
 							></input>
 							<Link href={'/'}>
 								<a className="items-center">
-									<div className="mx-2 text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer">
+									<div className="mx-2 text-[0.8rem] tracking-wider text-nav-text md:hover:opacity-70 font-bold hover:cursor-pointer">
 										Atomic contracts
 									</div>
 								</a>
 							</Link>
 							<ToolTipNew toolTipText={'Coming soon'} >
-								<div className="mx-2 text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer opacity-20">
+								<div className="mx-2 text-[0.8rem] tracking-wider text-nav-text md:hover:opacity-70 font-bold hover:cursor-pointer opacity-20">
 									Contests
 								</div>
 							</ToolTipNew>
 							<ToolTipNew toolTipText={'Coming soon'} >
-								<div className="mx-2 text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer opacity-20">
+								<div className="mx-2 text-[0.8rem] tracking-wider text-nav-text md:hover:opacity-70 font-bold hover:cursor-pointer opacity-20">
 									Communities
 								</div>
 							</ToolTipNew>
 							<ToolTipNew toolTipText={'Coming soon'} >
-								<div className="mx-2 text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer opacity-20">
+								<div className="mx-2 text-[0.8rem] tracking-wider text-nav-text md:hover:opacity-70 font-bold hover:cursor-pointer opacity-20">
 									Explore
 								</div>
 							</ToolTipNew>
