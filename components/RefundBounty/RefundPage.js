@@ -17,7 +17,6 @@ import {
 	ERROR
 } from '../FundBounty/ApproveTransferState';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
-import BountyHeading from '../Bounty/BountyHeading';
 
 const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 	const [error, setError] = useState('');

@@ -19,7 +19,6 @@ import {
 	ERROR
 } from './ApproveTransferState';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
-import BountyHeading from '../Bounty/BountyHeading';
 
 const FundPage = ({ bounty, refreshBounty }) => {
 	const [volume, setVolume] = useState('');
@@ -195,7 +194,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 	// Render
 	return (<>
-		<BountyHeading  bounty={bounty} />
 		{claimed ?
 		<BountyClosed bounty={bounty} /> :
 		<div className="flex flex-1 justify-center items-center pb-10">
