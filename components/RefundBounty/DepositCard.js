@@ -48,8 +48,8 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 					</ToolTipNew>
 
 					{expanded ?
-						<div className="w-full text-primary flex flex-wrap md:flex-nowrap md:space-x-3 space-y-3 md:space-y-0 items-center">
-							<ToolTipNew
+						<div className="w-full flex flex-wrap md:flex-nowrap md:space-x-3 space-y-3 md:space-y-0 self-center">
+							<ToolTip
 								outerStyles="w-full flex space-x-2"
 								hideToolTip={isOnCorrectNetwork && (depositPeriodDays > 0)}
 								toolTipText={!isOnCorrectNetwork ?
@@ -57,7 +57,8 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 									!(depositPeriodDays > 0) ?
 										'Please indicate how many days you\'d like to extend your bounty for.' :
 										null
-								}>
+								}
+								customOffsets={[0, 46]}>
 								<button onClick={() => extendBounty(deposit.id)}
 									disabled={!isOnCorrectNetwork || !(depositPeriodDays > 0)}
 									className={`my-2 px-2 whitespace-nowrap ${isOnCorrectNetwork ?
@@ -69,28 +70,29 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 
 											)
 										)
-										: 'btn-default cursor-not-allowed'
-										}`} >
+										: 'sm-confirm-btn-disabled cursor-not-allowed'
+									}`} >
 									Extend By
 								</button>
-							</ToolTipNew>
-							<div className="flex w-full input-field-big">
-								<div className=' flex items-center gap-3 w-full text-primary'>
-									<ToolTipNew mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
-										<div className='cursor-help rounded-full border border-gray-700 aspect-square leading-4 h-4 box-content text-center font-bold text-gray-700'>?</div>
-									</ToolTipNew>
+							</ToolTip>
+							<div className="flex w-full flex-row justify-between items-center h-12 px-4 py-2 rounded-lg bg-dark-mode border border-web-gray">
+								<div className=' flex items-center gap-3 w-full'>
+									<ToolTip customOffsets={[0, 36]} outerStyles={''} mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
+										<div className='cursor-help rounded-full border-2 border-web-gray aspect-square leading-6 h-6 box-content text-center font-bold text-web-gray'>?</div>
+									</ToolTip>
 								</div>
 
-								<input
-									className="text-primary text-right number outline-none bg-dark-mode w-full px-4 p-0.5"
-									autoComplete="off"
-									value={depositPeriodDays}
-									name={deposit.id}
-									id="deposit-period"
-									onChange={onDepositPeriodChanged}
-									placeholder="0"
-								/>
-
+								<div className={'px-4 font-bold fundBox-amount bg-dark-mode'}>
+									<input
+										className="font-semibold text-right /60 text-2xl number outline-none bg-dark-mode w-full flex-1"
+										autoComplete="off"
+										value={depositPeriodDays}
+										name={deposit.id}
+										id="deposit-period"
+										onChange={onDepositPeriodChanged}
+										placeholder="0"
+									/>
+								</div>
 							</div>
 						</div>
 						:
@@ -101,9 +103,9 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 							customOffsets={[0, 46]}>
 							<button onClick={() => setExpanded(!expanded)}
 								disabled={!isOnCorrectNetwork}
-								className={`${isOnCorrectNetwork ? 'btn-default'
-									: 'btn-default cursor-not-allowed'
-									}`} >
+								className={`items-left text-lg  self-center ${isOnCorrectNetwork ? 'sm-confirm-btn'
+									: 'sm-confirm-btn-disabled cursor-not-allowed'
+								}`} >
 								Extend
 							</button>
 						</ToolTipNew>

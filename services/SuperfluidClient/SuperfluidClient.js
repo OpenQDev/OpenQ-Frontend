@@ -6,18 +6,14 @@ import localTokensEnumerable from './tokens-enumerable.json';
 
 import polygonTokensIndexable from './polygon-tokens-indexable.json';
 import polygonTokensEnumerable from './polygon-tokens-enumerable.json';
-import {GET_STREAMS_BY_ACCOUNT} from './graphql/query';
-import { HttpLink, ApolloClient, InMemoryCache} from '@apollo/client';
-import fetch from 'cross-fetch';
+import { GET_STREAMS_BY_ACCOUNT } from './graphql/query';
+import { HttpLink, ApolloClient, InMemoryCache } from '@apollo/client';
 
 class SuperfluidClient {
-
-
-
-	httpLink = new HttpLink({ uri: process.env.SUPERFLUID_SUBGRAPH_URL, fetch });
+	httpLink = new HttpLink({ uri: process.env.NEXT_PUBLIC_SUPERFLUID_SUBGRAPH_HTTP_URL, fetch });
 
 	client = new ApolloClient({
-		uri: process.env.SUPERFLUID_SUBGRAPH_URL,
+		uri: process.env.NEXT_PUBLIC_SUPERFLUID_SUBGRAPH_HTTP_URL,
 
 		link: this.httpLink,
 		cache: new InMemoryCache(),
@@ -88,8 +84,8 @@ class SuperfluidClient {
 	}
 
 	async approve(library, superTokenAddress, amount) {
-	
-		const promise = new Promise(async(resolve, reject)=>{
+
+		const promise = new Promise(async (resolve, reject) => {
 			const address = superTokenAddress;
 			const amountInWei = ethers.utils.parseEther(amount);
 			const superToken = await this.loadSuperToken(
@@ -152,6 +148,7 @@ class SuperfluidClient {
 	}
 
 	async updateFlow(library, sender, receiver, amountPerDay, superTokenAddress) {
+		console.log(superTokenAddress);
 		const address = this.tokensEnumerable[0].address;
 		const instance = await this.createInstance(library);
 		const signer = await this.createSigner(library);
@@ -174,6 +171,7 @@ class SuperfluidClient {
 	 * @description Downgrading is essentially the equivalent of withdrawing from the stream
 	 */
 	async downgradeToken(library, superTokenAddress, amount) {
+		console.log(superTokenAddress);
 		const address = this.tokensEnumerable[0].address;
 		const amountInWei = ethers.utils.parseEther(amount);
 		const signer = await this.createSigner(library);
@@ -185,6 +183,7 @@ class SuperfluidClient {
 	}
 
 	async deleteFlow(library, sender, receiver, superTokenAddress) {
+		console.log(superTokenAddress);
 		const address = this.tokensEnumerable[0].address;
 		const instance = await this.createInstance(library);
 		const signer = await this.createSigner(library);
@@ -198,6 +197,7 @@ class SuperfluidClient {
 
 	// UTILS
 	async loadSuperToken(library, superTokenAddress) {
+		console.log(superTokenAddress);
 		const address = this.tokensEnumerable[0].address;
 		const instance = await this.createInstance(library);
 		const token = await instance.loadSuperToken(address);
@@ -205,6 +205,7 @@ class SuperfluidClient {
 	}
 
 	async getFlow(library, sender, receiver, superTokenAddress) {
+		console.log(superTokenAddress);
 		const address = this.tokensEnumerable[0].address;
 		const instance = await this.createInstance(library);
 		return instance.cfaV1.getFlow({
@@ -215,6 +216,7 @@ class SuperfluidClient {
 	}
 
 	async getAccountFlowInfo(library, account, superTokenAddress) {
+		console.log(superTokenAddress);
 		const address = this.tokensEnumerable[0].address;
 		const instance = await this.createInstance(library);
 		return instance.cfaV1.getAccountFlowInfo({
@@ -224,6 +226,7 @@ class SuperfluidClient {
 	}
 
 	async getNetFlow(library, account, superTokenAddress) {
+		console.log(superTokenAddress);
 		const address = this.tokensEnumerable[0].address;
 		const instance = await this.createInstance(library);
 		return instance.cfaV1.getNetFlow({
@@ -233,12 +236,14 @@ class SuperfluidClient {
 	}
 
 	async balanceOf(library, account, superTokenAddress) {
+		console.log(superTokenAddress);
 		const address = this.tokensEnumerable[0].address;
 		const superToken = this.loadSuperToken(library, address);
 		return await superToken.balanceOf({ account });
 	}
 
 	async allowance(library, account, superTokenAddress) {
+		console.log(superTokenAddress);
 		const address = this.tokensEnumerable[0].address;
 		const superToken = await this.loadSuperToken(library, address);
 		const unwrappedToken = superToken.underlyingToken.contract.connect(library.getSigner());
@@ -247,6 +252,7 @@ class SuperfluidClient {
 	}
 
 	async realtimeBalanceOf(library, account, timestamp, superTokenAddress) {
+		console.log(superTokenAddress);
 		const address = this.tokensEnumerable[0].address;
 		const superToken = this.loadSuperToken(library, address);
 		return await superToken.realtimeBalanceOf({
@@ -262,18 +268,18 @@ class SuperfluidClient {
 		);
 		return flowRateInWeiPerSecond.toString();
 	}
-	
 
-	viewAccount(account){
-		const promise = new Promise(async(resolve, reject)=>{
-			try{
+
+	viewAccount(account) {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
 				const result = await this.client.query({
-					query: GET_STREAMS_BY_ACCOUNT, 
-					variables: {account: account.toLowerCase()}
+					query: GET_STREAMS_BY_ACCOUNT,
+					variables: { account: account.toLowerCase() }
 				});
 				resolve(result);
 			}
-			catch(err){
+			catch (err) {
 				reject(err);
 			}
 		});
