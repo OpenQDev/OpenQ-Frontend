@@ -16,7 +16,7 @@ const CopyAddressToClipboard = ({clipping, data, styles, noClip, }) => {
 		<div className={`relative ${styles}`}>
 			<div
 				onClick={copyTextToClipboard}
-				className="flex flex-row space-x-4 md:space-x-1 cursor-pointer w-fit"			>
+				className="flex flex-row items-center space-x-4 md:space-x-1 cursor-pointer w-fit"			>
 				<div className="relative flex flex-col items-center group">
 					{copySuccess ? (
 						<svg
