@@ -144,12 +144,12 @@ class OpenQSubgraphClient {
 		return promise;
 	}
 
-	async getPaginatedOrganizationBounties(id, startAt, order, first, contractAddresses) {
+	async getPaginatedOrganizationBounties(id, startAt, order, first) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
 					query: GET_PAGINATED_ORGANIZATION_DATA,
-					variables: { id, skip: startAt, order, first, contractAddresses }
+					variables: { id, skip: startAt, order, first }
 				});
 				resolve(result.data.organization.bountiesCreated);
 			} catch (e) {

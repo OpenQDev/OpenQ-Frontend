@@ -104,6 +104,8 @@ query GetOrg($login: String!) {
     membersWithRole(first: 100) {
       nodes {
         avatarUrl
+				name
+				url
       }
     }
   }

@@ -10,7 +10,6 @@ const ViewStreams = () => {
 	useEffect(async()=>{
 		if(account){
 			const value = await appState.superfluidClient.viewAccount(account);
-			console.log(value);
 			setSuperfluidData(value.data.account);
 		}
 	},[account]);

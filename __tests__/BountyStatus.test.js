@@ -34,8 +34,7 @@ describe('BountyStatus', ( ) => {
 
 			// ASSERT
 			expect(screen.getByText(/Claimed/i)).toBeInTheDocument();
-			expect(screen.getByText(/Issue Created/i)).toBeInTheDocument();
-			expect(screen.getByText(/Bounty Minted/i)).toBeInTheDocument();
+			expect(screen.getByText(/Smart Contract Deployed/i)).toBeInTheDocument();
 			
 			// should not have null or undefined values
 			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		

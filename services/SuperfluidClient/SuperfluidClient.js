@@ -8,6 +8,7 @@ import polygonTokensIndexable from './polygon-tokens-indexable.json';
 import polygonTokensEnumerable from './polygon-tokens-enumerable.json';
 import {GET_STREAMS_BY_ACCOUNT} from './graphql/query';
 import { HttpLink, ApolloClient, InMemoryCache} from '@apollo/client';
+import fetch from 'cross-fetch';
 
 class SuperfluidClient {
 

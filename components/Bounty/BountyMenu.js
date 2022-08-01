@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BountyMenu = ({updatePage, internalMenu, items, })=>{
+const BountyMenu = ({updatePage, internalMenu, items })=>{
 
 	const handleClick = (e)=>{
 		console.log(e);

@@ -41,7 +41,7 @@ describe('BountyList', ( ) => {
 			expect(title).toBeInTheDocument();
 			await user.click(title);
 			const titles =await screen.findAllByText(/good first issue/i);
-			const link = await screen.findByText(/See Full Bounty/i);
+			const link = await screen.findByText(/Full contract/i);
 
 			// ASSERT
 			expect(titles[1]).toBeInTheDocument();
@@ -68,15 +68,6 @@ describe('BountyList', ( ) => {
 			await user.type(search, 'Good first issue');
 			expect(unFilteredIssue).toBeInTheDocument();
 			expect(filteredIssue1).not.toBeInTheDocument();
-			const dropDown = screen.getByRole('button', {name: 'Search'});
-			await user.click(dropDown);
-			await user.click(await screen.findByRole('button', {name: 'Search by Tags'}));
-			const filteredIssue2 = await screen.findByText(/Yoheikikuta\/bert-japanese/i);
-			expect(filteredIssue2).toBeInTheDocument();
-			const tagSearch = screen.getByLabelText(/search tags/i);
-			await user.type(tagSearch, 'L2E');
-			await user.keyboard('{Enter}'); 
-			expect(filteredIssue2).not.toBeInTheDocument();
 
 			//		await user.click(await screen.findByLabelText(/remove l2e filter/i));
 			//		expect(await screen.findByText(/Yoheikikuta\/bert-japanese/i)).toBeInTheDocument();		
@@ -90,7 +81,7 @@ describe('BountyList', ( ) => {
 
 			// ACT
 			expect(screen.queryByText(/way to disable hmr/)).not.toBeInTheDocument();
-			await user.click(screen.getByLabelText('Funded'));
+			await user.click(screen.getByText(/All Issues/i));
 			expect(await screen.findByText(/way to disable hmr/)).toBeInTheDocument();		
 		});
 
@@ -102,7 +93,7 @@ describe('BountyList', ( ) => {
 
 			// ACT
 			expect(screen.queryByText(/bot test/)).not.toBeInTheDocument();
-			await user.click(screen.getByLabelText('Unclaimed'));
+			await user.click(screen.getByText(/All Issues/i));
 			expect(await screen.findByText(/bot test/)).toBeInTheDocument();		
 		});
 
@@ -114,8 +105,9 @@ describe('BountyList', ( ) => {
 
 			// ACT
 			expect(screen.queryByText(/sdf/)).not.toBeInTheDocument();
-			await user.click(screen.getByLabelText('Unassigned'));
-			expect(await screen.findByText(/sdf/)).toBeInTheDocument();
+			await user.click(screen.getByText(/All Issues/i));
+			const elements = await screen.findAllByText(/sdf/);
+			expect(elements[0]).toBeInTheDocument();
 
 		
 		});
@@ -140,11 +132,12 @@ describe('BountyList', ( ) => {
 			// ARRANGE
 			render(<BountyList bounties={bounties} complete={true}/>);
 
-			// ASSERT		
+			// ASSERT
+			await user.click(screen.getByText(/Sort Order/));
+			await user.click(screen.getByRole('button', {name: /newest/i}));
 			expect( screen.getAllByTestId('title')[0].textContent).toBe('yoheikikuta\/bert-japanese');
 			expect( screen.getAllByTestId('title')[1].textContent).toBe('openqdev/openq-testrepo');
-			await user.click(screen.getByRole('button', {name: /Newest/}));
-			await user.click(screen.getByRole('button', {name: /Oldest/}));
+			await user.click(screen.getByRole('button', {name: /oldest/i}));
 			expect( screen.getAllByTestId('title')[0].textContent).toBe('openqdev/openq-testrepo');								
 			expect( screen.getAllByTestId('title')[1].textContent).toBe('yoheikikuta\/bert-japanese');			
 			expect(screen.getAllByText(/Yoheikikuta\/bert-japanese/i)[0]).toBeInTheDocument();		

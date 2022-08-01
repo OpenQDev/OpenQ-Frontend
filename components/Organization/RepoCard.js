@@ -2,7 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 
 const RepoCard = ({repository})=>{
-	console.log(repository);
 	return (
 		<div className='w-full rounded-sm border border-web-gray p-4'>
 			<svg xmlns="http://www.w3.org/2000/svg" className="fill-muted inline" viewBox="0 0 16 16" width="16" height="16">
