@@ -107,7 +107,7 @@ const FundStreamModal = ({
 	console.log(approveTransferState);
 	return (
 		<div>
-			<div className="justify-center items-center font-mont flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 md:pl-20 outline-none focus:outline-none">
+			<div className="justify-center items-center font-mont flex overflow-x-hidden overflow-y-auto min-w-[320px] fixed inset-0 z-50 md:pl-20 outline-none focus:outline-none">
 				<div ref={modal} className="w-1/3 min-w-[320px]">
 					<div className=" rounded-sm p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none border-web-gray border">
 						<div className="flex items-center ">
@@ -158,7 +158,7 @@ const FundStreamModal = ({
 								</div>
 								:
 								<>
-									<div className="text-md gap-4 gap-x-12 py-6 px-2 grid grid-cols-[1fr_1fr] w-full justify-between">
+									<div className="text-md gap-4 gap-x-12 py-6 grid grid-cols-[1fr_1fr] w-full justify-between">
 										<div className='w-4'>Token</div>
 										<TokenSearch
 											stream={true}

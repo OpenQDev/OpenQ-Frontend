@@ -171,7 +171,7 @@ const ApproveStreamModal = ({
 									</div>
 								:
 								<>
-									<div className="text-md gap-4 gap-x-12 py-6 px-2 grid grid-cols-[1fr_1fr] w-full justify-between">
+									<div className="text-md gap-4 gap-x-12 py-6 grid grid-cols-[1fr_1fr] w-full justify-between">
 										
 										{showModal !== 'delete' && approveTransferState !==ERROR &&<>
 											<div className='w-4'>Funding</div>
