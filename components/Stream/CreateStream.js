@@ -46,6 +46,7 @@ const CreateStream = () => {
 		const volumeInWei = volume * 10 ** token.decimals;
 		const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
 		const callerBalance = await appState.openQClient.balanceOf(library, account, ethers.utils.getAddress(token.address));
+		console.log(callerBalance);
 		if (callerBalance.lt(bigNumberVolumeInWei)) {
 			setError({ title: 'Funds Too Low', message: 'You do not have sufficient funds for this stream.' });
 			setApproveTransferState(ERROR);
@@ -165,28 +166,30 @@ const CreateStream = () => {
 	}
 
 	return (
-		<div className="grid grid-cols-[1fr_1fr_1fr] gap-8 w-full rounded-lg justify-center justify-items-center pt-8">
-			<div className='bg-inactive-gray text-center w-80 p-4 rounded-lg'>
-				<h1 className='font-bold text-xl pb-6'>Stream Monthly</h1>
-				<p className='pb-4'>Stream tokens every month to any Polygon address.</p>
-				<button onClick={()=>setShowModal('create')} className='sm-confirm-btn'>Create Stream</button>
+		<div className="grid grid-cols-[repeat(auto-fit,_minmax(224px,_1fr))] max-w-[1200px] px-16 gap-3 w-full justify-center justify-items-center pt-8 h-min">
+
+			<div className='justify-self-stretch py-4 px-6 rounded-sm border-web-gray border'>
+				<h2 className='font-semibold leading-normal text-sm text-primary pb-5'>Stream Monthly</h2>
+				<p className='pb-5 text-xs text-muted leading-normal'>Stream tokens every month to any Polygon address.</p>
+				<button onClick={()=>setShowModal('create')} className='btn-card w-full'>Create Stream</button>
 			</div>
-			<div className='bg-inactive-gray text-center w-80 p-4 rounded-lg'>
-				<h1 className='font-bold text-xl pb-6'>Update Stream</h1>
-				<p className='pb-4'>Change the flow rate of an existing stream.</p>
-				<button onClick={()=>setShowModal('update')} className='sm-confirm-btn'>Update Stream</button>
+			<div className='justify-self-stretch py-4 px-6 rounded-sm border-web-gray border h-min'>
+				<h2 className='font-semibold leading-normal text-sm text-primary pb-5'>Update Stream</h2>
+				<p className='pb-5 text-xs text-muted leading-normal'>Change the flow rate of an existing stream.</p>
+				<button onClick={()=>setShowModal('update')} className='btn-card w-full'>Update Stream</button>
 			</div>
-			<div className='bg-inactive-gray text-center w-80 p-4 rounded-lg'>
-				<h1 className='font-bold text-xl pb-6'>Delete Stream</h1>
-				<p className='pb-10'>Cancel an existing stream.</p>
-				<button onClick={()=>setShowModal('delete')} className='sm-confirm-btn'>Delete Stream</button>
+			<div className='justify-self-stretch py-4 px-6 rounded-sm border-web-gray border h-min'>
+				<h2 className='font-semibold leading-normal text-sm text-primary pb-5'>Delete Stream</h2>
+				<p className='pb-9 text-xs text-muted leading-normal'>Cancel an existing stream.</p>
+				<button onClick={()=>setShowModal('delete')} className='btn-card w-full mt-0.5'>Delete Stream</button>
 			</div>
 			
-			<div className='bg-inactive-gray text-center w-80 p-4 rounded-lg'>
-				<h1 className='font-bold text-xl pb-6'>Fund Stream</h1>
-				<p className='pb-10'>Top up your stream with more tokens.</p>
-				<button onClick={()=>setShowModal('fund')} className='sm-confirm-btn'>Fund Stream</button>
+			<div className='justify-self-stretch py-4 px-6 rounded-sm border-web-gray border h-min'>
+				<h2 className='font-semibold leading-normal text-sm text-primary pb-5'>Fund Stream</h2>
+				<p className='pb-9 text-xs text-muted leading-normal'>Top up your stream with more tokens.</p>
+				<button onClick={()=>setShowModal('fund')} className='btn-card w-full mt-0.5'>Fund Stream</button>
 			</div>
+			
 			<div className='w-2/4 flex flex-col gap-4 pt-16'>
 
 

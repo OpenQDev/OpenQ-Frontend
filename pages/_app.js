@@ -42,7 +42,7 @@ function OpenQ({ Component, pageProps }) {
 		};
 	}, [router.events]);
 	return (
-		<div className="bg-dark-mode font-segoe text-white">
+		<div className="bg-dark-mode font-segoe text-primary">
      
 			{/* Global Site Tag (gtag.js) - Google Analytics */}
 			<Script

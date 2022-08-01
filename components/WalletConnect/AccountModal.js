@@ -1,6 +1,5 @@
 // Third party 
-import React, { useRef, useEffect } from 'react';
-import jazzicon from '@metamask/jazzicon';
+import React from 'react';
 import Link from 'next/link';
 // Custom
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
@@ -9,7 +8,6 @@ import { PersonIcon, SignOutIcon } from '@primer/octicons-react';
 
 const AccountModal = ({ chainId, account, ensName, deactivate, setIsConnecting, domRef, isSafeApp }) => {
 	let networkName;
-	const iconWrapper = useRef();
 	for (let key in chainIdDeployEnvMap) {
 		if (chainIdDeployEnvMap[key].chainId === chainId) {
 			networkName = chainIdDeployEnvMap[key].networkName;

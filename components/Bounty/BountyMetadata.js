@@ -25,14 +25,16 @@ const BountyMetadata = ({bounty, setInternalMenu, price})=>{
 			</li>}
 			<li className='border-b border-web-gray py-3'>
 				<div className='text-xs font-semibold text-muted'>Labels</div>
-				<LabelsList bounty={bounty} />
+				{bounty.labels.length>0 ? <LabelsList bounty={bounty} />:
+					<span className='text-sm'>No labels</span>
+				}
 			</li>
 			<li className='border-b border-web-gray py-3 text sm'><Link href={`https://polygonscan.com/address/${bounty.bountyAddress}`}>
-				<div className='text-xs font-semibold text-link-colour underline cursor-pointer'>Polygonscan</div>
+				<div className='text-xs font-semibold  cursor-pointer text-muted'>Polygonscan</div>
 			</Link>	
 			{bounty.bountyAddress&&
 					
-						<CopyBountyAddress address={bounty.bountyAddress} />
+						<CopyBountyAddress styles="text-sm pt-2" address={bounty.bountyAddress} />
 			}
 			</li>
 			<li className='border-b border-web-gray py-3'>

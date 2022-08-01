@@ -1,38 +1,38 @@
 // Third party
-import React, { useState, useEffect, useRef, useContext } from "react";
-import jazzicon from "@metamask/jazzicon";
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import jazzicon from '@metamask/jazzicon';
 // Custom
-import useWeb3 from "../../hooks/useWeb3";
-import useConnectOnLoad from "../../hooks/useConnectOnLoad";
-import chainIdDeployEnvMap from "./chainIdDeployEnvMap";
-import AccountModal from "./AccountModal";
-import ConnectModal from "./ConnectModal";
-import useEns from "../../hooks/useENS";
-import useIsOnCorrectNetwork from "../../hooks/useIsOnCorrectNetwork";
-import StoreContext from "../../store/Store/StoreContext";
+import useWeb3 from '../../hooks/useWeb3';
+import useConnectOnLoad from '../../hooks/useConnectOnLoad';
+import chainIdDeployEnvMap from './chainIdDeployEnvMap';
+import AccountModal from './AccountModal';
+import ConnectModal from './ConnectModal';
+import useEns from '../../hooks/useENS';
+import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
+import StoreContext from '../../store/Store/StoreContext';
 // import axios from 'axios';
 
 const ConnectButton = ({mobile}) => {
-  // Context
-  const { chainId, error, account, deactivate, safe } = useWeb3();
-  const [ensName] = useEns(account);
-  const [appState, dispatch] = useContext(StoreContext);
-  const { walletConnectModal } = appState;
+	// Context
+	const { chainId, error, account, deactivate, safe } = useWeb3();
+	const [ensName] = useEns(account);
+	const [appState, dispatch] = useContext(StoreContext);
+	const { walletConnectModal } = appState;
 
-  // State
-  const [isConnecting, setIsConnecting] = useState(false);
-  const [isOnCorrectNetwork] = useIsOnCorrectNetwork({
-    chainId: chainId,
-    error: error,
-    account: account,
-  });
-  const [showModal, setShowModal] = useState();
-  const iconWrapper = useRef();
-  const modalRef = useRef();
-  const buttonRef = useRef();
+	// State
+	const [isConnecting, setIsConnecting] = useState(false);
+	const [isOnCorrectNetwork] = useIsOnCorrectNetwork({
+		chainId: chainId,
+		error: error,
+		account: account,
+	});
+	const [showModal, setShowModal] = useState();
+	const iconWrapper = useRef();
+	const modalRef = useRef();
+	const buttonRef = useRef();
 
-  // Hooks
-  useConnectOnLoad()(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
+	// Hooks
+	useConnectOnLoad()(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
 
   useEffect(async () => {
     if (account && iconWrapper.current) {
@@ -43,48 +43,48 @@ const ConnectButton = ({mobile}) => {
     }
   }, [account, isOnCorrectNetwork]);
 
-  useEffect(() => {
-    let handler = (event) => {
-      if (
-        !modalRef.current?.contains(event.target) &&
+	useEffect(() => {
+		let handler = (event) => {
+			if (
+				!modalRef.current?.contains(event.target) &&
         !buttonRef.current?.contains(event.target)
-      ) {
-        setShowModal(false);
-      }
-    };
-    window.addEventListener("mousedown", handler);
+			) {
+				setShowModal(false);
+			}
+		};
+		window.addEventListener('mousedown', handler);
 
-    return () => {
-      window.removeEventListener("mousedown", handler);
-    };
-  });
+		return () => {
+			window.removeEventListener('mousedown', handler);
+		};
+	});
 
-  // Methods
-  const openConnectModal = async () => {
-    const payload = {
-      type: "CONNECT_WALLET",
-      payload: true,
-    };
-    dispatch(payload);
-  };
+	// Methods
+	const openConnectModal = async () => {
+		const payload = {
+			type: 'CONNECT_WALLET',
+			payload: true,
+		};
+		dispatch(payload);
+	};
 
-  const closeModal = () => {
-    const payload = {
-      type: "CONNECT_WALLET",
-      payload: false,
-    };
-    dispatch(payload);
-  };
+	const closeModal = () => {
+		const payload = {
+			type: 'CONNECT_WALLET',
+			payload: false,
+		};
+		dispatch(payload);
+	};
 
-  const addOrSwitchNetwork = () => {
-    window.ethereum
-      .request({
-        method: "wallet_addEthereumChain",
-        params:
-          chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]["params"],
-      })
-      .catch((error) => console.log("Error", error.message));
-  };
+	const addOrSwitchNetwork = () => {
+		window.ethereum
+			.request({
+				method: 'wallet_addEthereumChain',
+				params:
+          chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['params'],
+			})
+			.catch((error) => console.log('Error', error.message));
+	};
 
   // Render
   return (
@@ -155,11 +155,11 @@ const ConnectButton = ({mobile}) => {
             ]
           }{" "}
           Network
-        </button>
-      )}
-      {walletConnectModal && <ConnectModal closeModal={closeModal} />}
-    </div>
-  );
+				</button>
+			)}
+			{walletConnectModal && <ConnectModal closeModal={closeModal} />}
+		</div>
+	);
 };
 
 export default ConnectButton;

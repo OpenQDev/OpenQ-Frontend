@@ -109,125 +109,114 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 	// Render
 
 	return (
-		<>
-
-			{claimed ?
-				<>{internalMenu === 'Refund' && <BountyClosed bounty={bounty} />}</> :
-				<>{ internalMenu === 'Refund' ?
-				<>
-				<BountyHeading  bounty={bounty} />
-					<div className={`flex justify-center items-center pl-5 pr-5 md:pl-16 md:pr-16 pt-10 pb-10 my-16 w-5/6 max-w-6xl`}>
-
-						<div className="flex flex-col space-y-5 w-full">
-							<h1 className="font-bold py-4 text-2xl border-gray-700 border-b ">
-								Your Deposits
-							</h1>
-							<div className='text-tinted font-bold text-center'>To see your deposits, connect the wallet that funded them.</div>
-							<h2 className=' font-semibold'>Refundable</h2>
-							<div className='flex flex-wrap gap-8'>
-								{
-									bounty.deposits && bounty.deposits
-										.filter((deposit) => {
-											return (ethers.utils.getAddress(deposit.sender.id) == account);
-										})
-										.filter((deposit) => {
-											return deposit.refunded == false;
-										})
-										.filter((deposit) => {
-											return ((parseInt(deposit.receiveTime) + parseInt(deposit.expiration)) < Math.floor(Date.now() / 1000));
-										})
-										.map((deposit) => {
-											return (
-												<div key={deposit.id}>
-													<DepositCard deposit={deposit} status="refundable" bounty={bounty}
-														onDepositPeriodChanged={onDepositPeriodChanged} depositPeriodDays={depositPeriodDays[deposit.id]}
-														refundBounty={() => {
-															setConfirmationMessage(
-																`You are about to refund the bounty at ${bounty.bountyAddress.substring(
-																	0,
-																	12
-																)}...${bounty.bountyAddress.substring(32)}	Are you sure you want to refund this deposit?`
-															);
-															setExtend(false);
-															setApproveTransferState(CONFIRM);
-															setShowApproveTransferModal(deposit.id);
-														}}
-
-														extendBounty={() => {
-															setConfirmationMessage(
-																`You are about to extend the bounty at ${bounty.bountyAddress.substring(
-																	0,
-																	12
-																)}...${bounty.bountyAddress.substring(32)} by ${depositPeriodDays[deposit.id]} ${depositPeriodDays[deposit.id] == 1 ? 'day' : 'days'}.	Are you sure you want to extend this deposit?`
-															);
-															setExtend(true);
-															setApproveTransferState(CONFIRM);
-															setShowApproveTransferModal(deposit.id);
-														}}
-														isOnCorrectNetwork={isOnCorrectNetwork} />
-												</div>
-											);
-										})
-								}
-							</div>
-							<h2 className=' font-semibold'>Not Yet Refundable</h2>
-							<div className='flex flex-wrap gap-8'>
-								{
-									bounty.deposits && bounty.deposits
-										.filter((deposit) => {
-											return (ethers.utils.getAddress(deposit.sender.id) == account);
-										})
-										.filter((deposit) => {
-											return ((parseInt(deposit.receiveTime) + parseInt(deposit.expiration)) > Math.floor(Date.now() / 1000));
-										})
-										.map((deposit) => {
-											return (
-												<div key={deposit.id}>
-													<DepositCard deposit={deposit} status="not-yet-refundable" bounty={bounty} refundBounty={refundBounty} />
-												</div>
-											);
-										})
-								}
-							</div>
-							<h2 className=' font-semibold'>Refunded</h2>
-							<div className='flex flex-wrap gap-8'>
-								{
-									bounty.deposits && bounty.deposits
-										.filter((deposit) => {
-											return (ethers.utils.getAddress(deposit.sender.id) == account);
-										})
-										.filter((deposit) => {
-											return (deposit.refunded == true);
-										})
-										.map((deposit) => {
-											return (
-												<div key={deposit.id}>
-													<DepositCard deposit={deposit} status="refunded" bounty={bounty} refundBounty={refundBounty} />
-												</div>
-											);
-										})
-								}
-							</div>
-						</div>
-						{showApproveTransferModal && <ApproveTransferModal
-							approveTransferState={approveTransferState}
-							transactionHash={transactionHash}
-							confirmationMessage={confirmationMessage}
-							error={error}
-							setShowApproveTransferModal={setShowApproveTransferModal}
-							positiveOption={!extend ? 'Yes, Refund!' : 'Yes, Extend!'}
-							confirmMethod={!extend ? refundBounty : extendBounty}
-							resetState={resetState}
-							approvingMessage={!extend ? 'Refunding...' : 'Extending...'}
-							approvingTitle={!extend ? 'Refund' : 'Extend'}
-						/>}
+		<>{claimed?
+			<>{internalMenu === 'Refund' && <BountyClosed bounty={bounty}/>}</> :
+			<div className={`flex justify-center items-center pl-5 pr-5 md:pl-16 md:pr-16 w-5/6 max-w-6xl ${internalMenu !== 'Refund'? 'hidden': null}`}>
+				<div className="flex flex-col space-y-5 w-full">
+					<h1 className="font-bold py-4 text-2xl border-gray-700 border-b ">
+							Your Deposits
+					</h1>
+					<div className='text-tinted font-bold text-center'>To see your deposits, connect the wallet that funded them.</div>
+					<h2 className=' font-semibold'>Refundable</h2>
+					<div className='flex flex-wrap gap-8'>
+						{
+							bounty.deposits &&	bounty.deposits
+								.filter((deposit) => {
+									return (ethers.utils.getAddress(deposit.sender.id) == account);
+								})
+								.filter((deposit) => {
+									return deposit.refunded == false;
+								})
+								.filter((deposit) => {
+									return ((parseInt(deposit.receiveTime) + parseInt(deposit.expiration)) < Math.floor(Date.now() / 1000));
+								})
+								.map((deposit) => {
+									return (
+										<div key={deposit.id}>
+											<DepositCard deposit={deposit} status="refundable" bounty={bounty} 
+												onDepositPeriodChanged={onDepositPeriodChanged} depositPeriodDays={depositPeriodDays[deposit.id]}
+												refundBounty={() => {
+													setConfirmationMessage(
+														`You are about to refund the bounty at ${bounty.bountyAddress.substring(
+															0,
+															12
+														)}...${bounty.bountyAddress.substring(32)}	Are you sure you want to refund this deposit?`
+													);
+													setExtend(false);
+													setApproveTransferState(CONFIRM);
+													setShowApproveTransferModal(deposit.id);
+												}}
+											
+												extendBounty={() => {
+													setConfirmationMessage(
+														`You are about to extend the bounty at ${bounty.bountyAddress.substring(
+															0,
+															12
+														)}...${bounty.bountyAddress.substring(32)} by ${depositPeriodDays[deposit.id]} ${depositPeriodDays[deposit.id] == 1 ? 'day' : 'days'}.	Are you sure you want to extend this deposit?`
+													);
+													setExtend(true);
+													setApproveTransferState(CONFIRM);
+													setShowApproveTransferModal(deposit.id);
+												}}
+												isOnCorrectNetwork={isOnCorrectNetwork} />
+										</div>
+									);
+								})
+						}
 					</div>
-					</>
-					:
-					null
-			}</>
-				
-			}</>
+					<h2 className=' font-semibold'>Not Yet Refundable</h2>
+					<div className='flex flex-wrap gap-8'>
+						{
+							bounty.deposits &&		bounty.deposits
+								.filter((deposit) => {
+									return (ethers.utils.getAddress(deposit.sender.id) == account);
+								})
+								.filter((deposit) => {
+									return ((parseInt(deposit.receiveTime) + parseInt(deposit.expiration)) > Math.floor(Date.now() / 1000));
+								})
+								.map((deposit) => {
+									return (
+										<div key={deposit.id}>
+											<DepositCard deposit={deposit} status="not-yet-refundable" bounty={bounty} refundBounty={refundBounty} />
+										</div>
+									);
+								})
+						}
+					</div>
+					<h2 className=' font-semibold'>Refunded</h2>
+					<div className='flex flex-wrap gap-8'>
+						{
+							bounty.deposits &&		bounty.deposits
+								.filter((deposit) => {
+									return (ethers.utils.getAddress(deposit.sender.id) == account);
+								})
+								.filter((deposit) => {
+									return (deposit.refunded == true);
+								})
+								.map((deposit) => {
+									return (
+										<div key={deposit.id}>
+											<DepositCard deposit={deposit} status="refunded" bounty={bounty} refundBounty={refundBounty} />
+										</div>
+									);
+								})
+						}
+					</div>
+				</div>
+				{showApproveTransferModal && <ApproveTransferModal
+					approveTransferState={approveTransferState}
+					transactionHash={transactionHash}
+					confirmationMessage={confirmationMessage}
+					error={error}
+					setShowApproveTransferModal={setShowApproveTransferModal}
+					positiveOption={!extend? 'Yes, Refund!' : 'Yes, Extend!'}
+					confirmMethod={!extend? refundBounty : extendBounty}
+					resetState={resetState}
+					approvingMessage={!extend? 'Refunding...' : 'Extending...'}
+					approvingTitle={!extend? 'Refund' : 'Extend'}
+				/>}
+			</div>
+		}</>
 	);
 
 };
