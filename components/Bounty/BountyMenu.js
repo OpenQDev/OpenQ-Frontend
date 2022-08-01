@@ -4,7 +4,6 @@ const BountyMenu = ({updatePage, internalMenu, items, styles, colour })=>{
 
 
 	const handleClick = (e)=>{
-		console.log(e);
 		updatePage(e.currentTarget.innerText);
 
 	};

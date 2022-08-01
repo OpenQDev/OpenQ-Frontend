@@ -110,7 +110,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 	return (
 		<>{claimed?
 			<>{internalMenu === 'Refund' && <BountyClosed bounty={bounty}/>}</> :
-			<div className={`flex justify-center items-center pl-5 pr-5 md:pl-16 md:pr-16 pt-10 pb-10 my-16 w-5/6 max-w-6xl ${internalMenu !== 'Refund'? 'hidden': null}`}>
+			<div className={`flex justify-center items-center pl-5 pr-5 md:pl-16 md:pr-16 w-5/6 max-w-6xl ${internalMenu !== 'Refund'? 'hidden': null}`}>
 				<div className="flex flex-col space-y-5 w-full">
 					<h1 className="font-bold py-4 text-2xl border-gray-700 border-b ">
 							Your Deposits
@@ -133,31 +133,31 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 									return (
 										<div key={deposit.id}>
 											<DepositCard deposit={deposit} status="refundable" bounty={bounty} 
-											onDepositPeriodChanged={onDepositPeriodChanged} depositPeriodDays={depositPeriodDays[deposit.id]}
-											refundBounty={() => {
-												setConfirmationMessage(
-													`You are about to refund the bounty at ${bounty.bountyAddress.substring(
-														0,
-														12
-													)}...${bounty.bountyAddress.substring(32)}	Are you sure you want to refund this deposit?`
-												);
-												setExtend(false);
-												setApproveTransferState(CONFIRM);
-												setShowApproveTransferModal(deposit.id);
-											}}
+												onDepositPeriodChanged={onDepositPeriodChanged} depositPeriodDays={depositPeriodDays[deposit.id]}
+												refundBounty={() => {
+													setConfirmationMessage(
+														`You are about to refund the bounty at ${bounty.bountyAddress.substring(
+															0,
+															12
+														)}...${bounty.bountyAddress.substring(32)}	Are you sure you want to refund this deposit?`
+													);
+													setExtend(false);
+													setApproveTransferState(CONFIRM);
+													setShowApproveTransferModal(deposit.id);
+												}}
 											
-											extendBounty={() => {
-												setConfirmationMessage(
-													`You are about to extend the bounty at ${bounty.bountyAddress.substring(
-														0,
-														12
-													)}...${bounty.bountyAddress.substring(32)} by ${depositPeriodDays[deposit.id]} ${depositPeriodDays[deposit.id] == 1 ? 'day' : 'days'}.	Are you sure you want to extend this deposit?`
-												);
-												setExtend(true);
-												setApproveTransferState(CONFIRM);
-												setShowApproveTransferModal(deposit.id);
-											}}
-											isOnCorrectNetwork={isOnCorrectNetwork} />
+												extendBounty={() => {
+													setConfirmationMessage(
+														`You are about to extend the bounty at ${bounty.bountyAddress.substring(
+															0,
+															12
+														)}...${bounty.bountyAddress.substring(32)} by ${depositPeriodDays[deposit.id]} ${depositPeriodDays[deposit.id] == 1 ? 'day' : 'days'}.	Are you sure you want to extend this deposit?`
+													);
+													setExtend(true);
+													setApproveTransferState(CONFIRM);
+													setShowApproveTransferModal(deposit.id);
+												}}
+												isOnCorrectNetwork={isOnCorrectNetwork} />
 										</div>
 									);
 								})
@@ -213,7 +213,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 					resetState={resetState}
 					approvingMessage={!extend? 'Refunding...' : 'Extending...'}
 					approvingTitle={!extend? 'Refund' : 'Extend'}
-					/>}
+				/>}
 			</div>
 		}</>
 	);

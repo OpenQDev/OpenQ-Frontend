@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 // Custom
 import StoreContext from '../../../store/Store/StoreContext';
-import NewBountyCardDetails from '../../../components/Bounty/NewBountyCardDetails';
+import NewBountyCardDetails from '../../../components/Bounty/BountyCardDetails';
 import FundPage from '../../../components/FundBounty/FundPage';
 import RefundPage from '../../../components/RefundBounty/RefundPage';
 import ClaimPage from '../../../components/Claim/ClaimPage';
@@ -18,6 +18,7 @@ import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPr
 import useAuth from '../../../hooks/useAuth';
 import RepoTitle from '../../../components/Bounty/RepoTitle';
 import BountyMenu from '../../../components/Bounty/BountyMenu';
+import BountyHeading from '../../../components/Bounty/BountyHeading';
 
 import Add from '../../../components/svg/add';
 import Subtract from '../../../components/svg/subtract';
@@ -153,6 +154,8 @@ const address = ({ address, mergedBounty, renderError }) => {
 				
 					<RepoTitle bounty={bounty} />
 					<BountyMenu colour="rust" items={[{name: 'View', Svg: Telescope },{name: 'Fund', Svg: Add },{name: 'Refund', Svg: Subtract },{name: 'Claim', Svg: Fire },]} internalMenu={internalMenu} updatePage={setInternalMenu}/>
+					
+					<BountyHeading price={tokenValues?.total}  bounty={bounty} />
 					{internalMenu == 'View' && <NewBountyCardDetails bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
