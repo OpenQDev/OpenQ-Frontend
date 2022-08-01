@@ -97,16 +97,16 @@ const ConnectButton = ({mobile}) => {
             onClick={() => {
               setShowModal(!showModal);
             }}
-            className="group flex items-center gap-x-1 h-24 md:h-12 whitespace-nowrap  py-1 px-3  font-semibold cursor-pointer hover:border-active-accent"
+            className="group flex items-center gap-x-1 h-12 whitespace-nowrap  py-1 px-3  font-semibold cursor-pointer hover:border-active-accent"
           >
             <span
-              className="border-2 border-inactive-accent rounded-full h-14 md:h-7 py-pxt group-hover:bg-active-accent group-hover:border-active-accent"
+              className="border-2 border-inactive-accent rounded-full h-7 py-pxt group-hover:bg-active-accent group-hover:border-active-accent"
               ref={iconWrapper}
             ></span>
             <span className="py">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6 md:h-3 md:w-3"
+                class="h-3 w-3"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="white"
@@ -137,7 +137,7 @@ const ConnectButton = ({mobile}) => {
         <div>
           <button
             onClick={openConnectModal}
-            className="flex text-[1.8rem] md:text-[1rem] items-center btn-default px-3 py-2 mr-2 hover:border-[#8b949e] hover:bg-[#30363d]"
+            className="flex items-center btn-default px-3 py-2 mr-2 hover:border-[#8b949e] hover:bg-[#30363d]"
             disabled={isConnecting}
           >
             {"Connect Wallet"}
@@ -146,7 +146,7 @@ const ConnectButton = ({mobile}) => {
       ) : (
         <button
           onClick={addOrSwitchNetwork}
-          className="flex text-[1.8rem] md:text-[1rem] items-center btn-default px-3 py-2 mr-2 hover:border-[#8b949e] hover:bg-[#30363d]"
+          className="flex items-center btn-default px-3 py-2 mr-2 hover:border-[#8b949e] hover:bg-[#30363d]"
         >
           Use{" "}
           {

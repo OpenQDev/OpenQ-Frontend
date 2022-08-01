@@ -34,7 +34,7 @@ const SignIn = ({ redirectUrl }) => {
 			className={`flex justify-center btn-default px-3 py-2 mr-2 hover:border-[#8b949e] hover:bg-[#30363d] w-full`}
 		>
 			<div className="flex flex-row items-center justify-center space-x-3">
-				<div className="h-12 w-12 md:h-6 md:w-6 relative">
+				<div className="h-6 w-6 relative">
 					<Image
 						src="/social-icons/github-logo-white.svg"
 						alt="Picture of the author"
@@ -42,7 +42,7 @@ const SignIn = ({ redirectUrl }) => {
 						objectFit="cover"
 					/>
 				</div>
-				<div className='text-[1.8rem] md:text-[1rem]'>Sign In</div>
+				<div>Sign In</div>
 			</div>
 		</button>
 	);

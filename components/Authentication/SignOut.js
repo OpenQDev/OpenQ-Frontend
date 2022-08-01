@@ -30,7 +30,7 @@ const SignOut = ({ propicUrl }) => {
 			className={`flex justify-center btn-default px-3 py-2 mr-2 hover:border-[#8b949e] hover:bg-[#30363d] w-full`}
 		>
 			<div className="flex flex-row justify-center items-center space-x-3">
-				<div className="h-10 w-10 md:h-6 md:w-6 relative">
+				<div className="h-6 w-6 relative">
 					<Image
 						src={propicUrl || '/social-icons/github-logo-white.svg'}
 						alt="Picture of the author"
@@ -39,7 +39,7 @@ const SignOut = ({ propicUrl }) => {
 						className={'rounded-full'}
 					/>
 				</div>
-				<div className='text-[1.8rem] md:text-[1rem]'>Sign Out</div>
+				<div>Sign Out</div>
 			</div>
 		</button>
 	);
