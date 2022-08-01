@@ -29,14 +29,14 @@ const ProfilePicture = ({ mobile, contributor, styles }) => {
 	}, [authState]);
 
 	return (
-		<div className={`flex items-center h-12 content-center ${styles}`}>
+		<div className={`flex items-center h-12 content-center  ${styles}`}>
 		{console.log(showModal)}
 			{showModal || !authState.isAuthenticated ?
 				<div className={`flex w-max`}>
 					<AuthButton redirectUrl={process.env.NEXT_PUBLIC_BASE_URL + router.asPath} propicUrl={propicUrl} />
 					{authState.isAuthenticated && <button onClick={() => setShowModal(false)}> </button>}
 				</div> :
-				<button className='flex items-center' onClick={() => setShowModal(true)}>
+				<button className='flex items-center border border-gray-700 rounded-full' onClick={() => setShowModal(true)}>
 					{propicUrl != null ? (
 						<Image
 							src={propicUrl}
