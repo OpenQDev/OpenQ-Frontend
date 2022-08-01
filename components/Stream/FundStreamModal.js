@@ -72,8 +72,8 @@ const FundStreamModal = ({
 		[ERROR]: `${error.title}`,
 	};
 	let approveStyles = {
-		[CONFIRM]: `bg-button-inside border-button ${isDisabled ? 'cursor-not-allowed' : 'hover:bg-button-inside-hover'} border`,
-		[APPROVING]: 'bg-button-inside border-button border',
+		[CONFIRM]: `btn-primary border-button ${isDisabled ? 'cursor-not-allowed' : ''} `,
+		[APPROVING]: 'btn-primary',
 	};
 
 
@@ -104,22 +104,22 @@ const FundStreamModal = ({
 	function handleVolumeChange(e) {
 		appState.utils.updateVolume(e.target.value, setVolume);
 	}
-
+	console.log(approveTransferState);
 	return (
 		<div>
 			<div className="justify-center items-center font-mont flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 md:pl-20 outline-none focus:outline-none">
 				<div ref={modal} className="w-1/3 min-w-[320px]">
-					<div className="border rounded-lg p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none border-web-gray border">
-						<div className="flex items-center border-solid">
+					<div className=" rounded-sm p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none border-web-gray border">
+						<div className="flex items-center ">
 							<div className="flex flex-row">
-								<div className="text-2xl font-semibold pb-2">
+								<h3 className="flex items-center border-solid text-primary pb-2 text-xl loose">
 									{title[approveTransferState]}
-								</div>
+								</h3>
 							</div>
 						</div>
 					
 						<>
-							<p>{approveTransferState ===CONFIRM || approveTransferState === APPROVING && `You don't need to top up streams for each stream. Adding funds from this account will keep all your streams from the account ${account.slice(0, 4)}...${account.slice(38)} solvent.`}</p>
+							<p>{(approveTransferState === CONFIRM || approveTransferState === APPROVING) && `You don't need to top up streams for each stream. Adding funds from this account will keep all your streams from the account ${account.slice(0, 4)}...${account.slice(38)} solvent.`}</p>
 							
 						</>
 						{approveTransferState === ERROR ?
@@ -165,7 +165,7 @@ const FundStreamModal = ({
 											token={localToken}
 											onCurrencySelect={onCurrencySelect} />
 										<span className='py-2'>Amount</span>
-										<div className={'flex border border-web-gray rounded-lg py-px pl-2 h-10'}>
+										<div className={'flex border border-web-gray rounded-sm py-px pl-2 h-10'}>
 											<input className='bg-transparent py-px outline-none'
 												type="text"
 												name="volume"
@@ -178,9 +178,9 @@ const FundStreamModal = ({
 									<>
 										
 
-										<div className='flex w-full justify-evenly px-1.5 gap-2 rounded-lg py-1.5 self-center'>
+										<div className='flex w-full justify-evenly px-1.5 gap-2 rounded-sm py-1.5 self-center'>
 
-											{showModal !== 'delete' && approveTransferState !== ERROR && <button onClick={() => fund(volume, localToken)} disabled={approveTransferState !== CONFIRM || isDisabled} className={`text-center border px-2 flex  gap-2 py-1.5 ${approveTransferState === CONFIRM && !isDisabled ? 'cursor-pointer' : null} ${approveStyles[approveTransferState]} rounded-lg`}>
+											{showModal !== 'delete' && approveTransferState !== ERROR && <button onClick={() => fund(volume, localToken)} disabled={approveTransferState !== CONFIRM || isDisabled} className={`text-center px-2 flex  gap-2 py-1.5 ${approveTransferState === CONFIRM && !isDisabled ? 'cursor-pointer' : null} ${approveStyles[approveTransferState]} rounded-sm`}>
 												<ToolTip hideToolTip={!isDisabled} customOffsets={[-60, 30]} toolTipText=
 													'Please add an amount between 0.00000001 and 1000'>	<span>{approveTransferState === CONFIRM ? 'Approve' : approveTransferState === APPROVING ? 'Approving' : 'Approved'}
 													</span></ToolTip>
@@ -195,7 +195,7 @@ const FundStreamModal = ({
 
 						{approveTransferState == ERROR || approveTransferState == SUCCESS ? (
 							<div className="flex items-center justify-center text-lg rounded-b">
-								<button onClick={() => updateModal()} className='text-center bg-button-inside hover:bg-button-inside-hover border border-button px-6 gap-2 py-1.5 text-center flex justify-center gap-4 cursor-pointer rounded-lg'>
+								<button onClick={() => updateModal()} className='text-center btn-primary px-6 gap-2 py-1.5 text-center flex justify-center gap-4 cursor-pointer rounded-sm'>
 									<span>Close</span>
 								</button>
 							</div>

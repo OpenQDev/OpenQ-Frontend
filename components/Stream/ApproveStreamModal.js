@@ -72,16 +72,16 @@ const ApproveStreamModal = ({
 		[ERROR]: `${error.title}`,
 	};
 	let approveStyles = {
-		[CONFIRM]: `bg-button-inside border-button ${isDisabled ? 'cursor-not-allowed' : 'hover:bg-button-inside-hover'} border`,
-		[APPROVING]: 'bg-button-inside border-button border',
+		[CONFIRM]: `btn-primary ${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}`,
+		[APPROVING]: 'btn-primary',
 		[TRANSFERRING]: 'border-transparent',
 	};
 
 
 	let fundStyles = {
 		[CONFIRM]: 'px-8 border-transparent',
-		[APPROVING]: 'px-8 border-transparent',
-		[TRANSFERRING]: 'bg-button-inside border-button border'
+		[APPROVING]: 'px-8 border-transparent hover:cursor-default',
+		[TRANSFERRING]: 'btn-primary border-button hover:cursor-default'
 	};
 	if ('0x0000000000000000000000000000000000000000' === token.address) {
 		fundStyles = { ...approveStyles };
@@ -125,10 +125,10 @@ const ApproveStreamModal = ({
 		<div>
 			<div className="justify-center items-center font-mont flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 md:pl-20 outline-none focus:outline-none">
 				<div ref={modal} className="w-1/3 min-w-[320px]">
-					<div className="border rounded-lg p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none border-web-gray border">
-						<div className="flex items-center border-solid font-semibold pb-2 text-2xl">
+					<div className="border rounded-sm p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none border-web-gray border">
+						<h3 className="flex items-center border-solid text-primary pb-2 text-xl loose">
 							{title[approveTransferState]}
-						</div>
+						</h3>
 						{approveTransferState ===ERROR ?
 							<div className="text-md pb-4">
 								<p className="break-words">
@@ -180,7 +180,7 @@ const ApproveStreamModal = ({
 												token={localToken}
 												onCurrencySelect={onCurrencySelect}/>
 											<span className='py-2'>Flow Rate</span>
-											<div className={'flex border border-web-gray rounded-lg py-px pl-2 h-10'}>
+											<div className={'flex border border-web-gray rounded-sm py-px pl-2 h-10'}>
 												<input className='bg-transparent py-px outline-none'
 													type="text"
 													name="flowRate"
@@ -191,7 +191,7 @@ const ApproveStreamModal = ({
 											</div>
 										</>}
 										<span className='py-2'>To</span>
-										<div className={'flex stream border border-web-gray rounded-lg '}>
+										<div className={'flex stream border border-web-gray rounded-sm '}>
 											<input className='bg-transparent py-px w-5/6 mx-auto outline-none'
 												type="text"
 												name="recipient"
@@ -204,8 +204,8 @@ const ApproveStreamModal = ({
 									</div>
 									<p className='pb-2'>{(approveTransferState === CONFIRM || approveTransferState === APPROVING ) && showModal !== 'delete' ? 'First you\'ll need to let openq access the streaming amount for the first month.' : approveTransferState === TRANSFERRING && showModal !== 'delete'&& `Now you can ${showModal} the stream.`}</p>
 									{showModal !== 'delete'&& approveTransferState !==ERROR  ? 
-										<div className='flex w-full justify-evenly px-1.5 gap-2 border-web-gray border rounded-lg py-1.5 self-center'>
-											<button onClick={()=>confirmMethod(recipient, flowRate, showModal)} disabled={approveTransferState !== CONFIRM || isDisabled} className={`text-center border px-1.5 flex  gap-2 py-1.5 ${approveTransferState === CONFIRM && !isDisabled? 'cursor-pointer' : null} ${approveStyles[approveTransferState]} rounded-lg`}>
+										<div className='flex w-full justify-evenly px-1.5 gap-2 border-web-gray border rounded-sm py-1.5 self-center'>
+											<button onClick={()=>confirmMethod(recipient, flowRate, showModal)} disabled={approveTransferState !== CONFIRM || isDisabled} className={`text-center px-1.5 flex  gap-2 py-1.5 ${approveTransferState === CONFIRM && !isDisabled? 'cursor-pointer' : null} ${approveStyles[approveTransferState]}`}>
 												<ToolTip hideToolTip={!isDisabled} customOffsets={[-60, 30]} toolTipText={
 												
 													isNaN(parseFloat(flowRate))||parseFloat(flowRate) <= 0.00000001 || parseFloat(flowRate) >= 1000?
@@ -213,23 +213,23 @@ const ApproveStreamModal = ({
 														'Please input a valid ethereum address'
 												}>	<span>{approveTransferState === CONFIRM ? 'Approve' : approveTransferState === APPROVING ? 'Approving' : 'Approved'}
 													</span></ToolTip>
-												{approveTransferState === APPROVING  && <LoadingIcon className={'inline pt-1'} />}
+												{approveTransferState === APPROVING  && <LoadingIcon className={'inline mt-0.5'} />}
 											</button>
-											<button onClick={()=>deleteFlow(recipient)} className={`text-center px-2 flex gap-2 py-1.5 border ${fundStyles[approveTransferState]} rounded-lg`}>
+											<button onClick={()=>deleteFlow(recipient)} className={`text-center px-2 flex gap-2 py-1.5 ${fundStyles[approveTransferState]} rounded-sm`}>
 												<span>{capitalize(toIng(showModal, approveTransferState === TRANSFERRING))} Stream</span>
-												{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline'} />}
+												{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline mt-0.5'} />}
 											</button>
 										</div> :
-										<button onClick={()=>deleteFlow(recipient)} disabled={approveTransferState !== CONFIRM} className={'text-center px-2 gap-2 py-1.5 text-center flex justify-center gap-4 bg-button-inside border-button border rounded-lg'}>
+										<button onClick={()=>deleteFlow(recipient)} disabled={approveTransferState !== CONFIRM} className={'btn-primary text-center px-2 gap-2 py-1.5 text-center flex justify-center gap-4 rounded-sm'}>
 											<span>{capitalize(toIng(showModal, approveTransferState === TRANSFERRING))}</span>
-											{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline'} />}
+											{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline mt-0.5'} />}
 										</button>
 									}
 								</>}
 								
 						{approveTransferState == ERROR || approveTransferState == SUCCESS ? (
 							<div className="flex items-center justify-center text-lg rounded-b">
-								<button onClick={() => updateModal()} className='text-center bg-button-inside hover:bg-button-inside-hover border border-button px-6 gap-2 py-1.5 text-center flex justify-center gap-4 cursor-pointer rounded-lg'>
+								<button onClick={() => updateModal()} className='text-center btn-default px-6 gap-2 py-1.5 text-center flex justify-center gap-4 cursor-pointer rounded-sm'>
 									<span>Close</span>
 								</button>
 							</div>
