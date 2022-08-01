@@ -97,42 +97,7 @@ const Navigation = ({ }) => {
 						<button className="flex md:hidden" onClick={() => setOpenMenu(!openMenu)}>
 							<ThreeBarsIcon size={24} />
 						</button>
-						{openMenu ?
-							<div className="flex absolute md:hidden">
-								<div className="flex flex-col mt-12 p-12 space-x-2 space-y-4 absolute bg-dark-mode">
-									<input
-										className="flex justify-between pr-24 items-center input-field "
-										onKeyUp={(e) => setQuickSearch(e.target.value)}
-										type="text"
-										placeholder="Search OpenQ"
-									></input>
-									<Link href={'/'} className="flex">
-										<a className="flex items-center">
-											<div className="text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer">
-												Atomic contracts
-											</div>
-										</a>
-									</Link>
-									<ToolTipNew toolTipText={'Coming soon'} >
-										<div className="flex text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer opacity-20">
-											Contests
-										</div>
-									</ToolTipNew>
-									<ToolTipNew toolTipText={'Coming soon'} >
-										<div className="flex text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer opacity-20">
-											Communities
-										</div>
-									</ToolTipNew>
-									<ToolTipNew toolTipText={'Coming soon'} >
-										<div className="flex text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer opacity-20">
-											Explore
-										</div>
-									</ToolTipNew>
-								</div>
-							</div>
-							:
-							null
-						}
+
 						<div className="md:flex hidden items-center">
 							<input
 								className="md:flex hidden pr-24 mr-2 items-center input-field"
@@ -174,8 +139,42 @@ const Navigation = ({ }) => {
 					</div>
 				</div>
 			</div>
-
-
+			{openMenu ?
+				<div className="flex md:hidden w-full">
+					<div className="flex flex-col p-4 space-x-1 space-y-2 w-full">
+						<input
+							className="flex mb-2 justify-between w-full items-center input-field "
+							onKeyUp={(e) => setQuickSearch(e.target.value)}
+							type="text"
+							placeholder="Search OpenQ"
+						></input>
+						<Link href={'/'}>
+							<a className="flex items-center pt-1 border-t border-gray-700">
+								<div className="text-[0.8rem] tracking-wider text-nav-text font-bold">
+									Atomic contracts
+								</div>
+							</a>
+						</Link>
+						<ToolTipNew toolTipText={'Coming soon'} >
+							<div className="flex text-[0.8rem] pt-1 border-t border-gray-700 tracking-wider text-nav-text font-bold text-opacity-20">
+								Contests
+							</div>
+						</ToolTipNew>
+						<ToolTipNew toolTipText={'Coming soon'} >
+							<div className="flex text-[0.8rem] pt-1 border-t border-gray-700 tracking-wider text-nav-text font-bold text-opacity-20">
+								Communities
+							</div>
+						</ToolTipNew>
+						<ToolTipNew toolTipText={'Coming soon'} >
+							<div className="flex text-[0.8rem] pt-1 border-t border-gray-700 tracking-wider text-nav-text font-bold text-opacity-20">
+								Explore
+							</div>
+						</ToolTipNew>
+					</div>
+				</div>
+				:
+				null
+			}
 			{/*   <Footer /> */}
 		</div>
 	);
