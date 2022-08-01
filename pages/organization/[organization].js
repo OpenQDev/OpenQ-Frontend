@@ -110,7 +110,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError }) =>
 				<UnexpectedError error={error} />
 				:
 				<div className='w-full mx-auto text-primary mt-1 px-4 md:px-16 max-w-[1420px] '>
-					<OrganizationHeader organizationData={organizationData} />
+					<OrganizationHeader colour="rust"  organizationData={organizationData} />
 					<BountyMenu  items={[{name: 'Overview', Svg: Home },/*{name: 'About', Svg: Question }*/]} internalMenu={toggleVal} updatePage={handleToggle}/>
 					{toggleVal === 'Overview' && <div className='px-4 py-3 gap-6 w-full flex flex-wrap md:flex-nowrap'>
 						<OrganizationContent  bounties={bounties} loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} repositories={repositories}/>
