@@ -21,7 +21,7 @@ const CopyAddressToClipboard = ({clipping, data, styles, noClip, }) => {
 					{copySuccess ? (
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							className="h-12 w-12 md:h-6 md:w-6"
+							className="h-6 w-6"
 							fill="none"
 							viewBox="0 0 24 24"
 							stroke="currentColor"
@@ -36,7 +36,7 @@ const CopyAddressToClipboard = ({clipping, data, styles, noClip, }) => {
 					) : (
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							className="h-12 w-12 md:h-6 md:w-6"
+							className="h-6 w-6"
 							fill="none"
 							viewBox="0 0 24 24"
 							stroke="currentColor"
@@ -50,7 +50,7 @@ const CopyAddressToClipboard = ({clipping, data, styles, noClip, }) => {
 						</svg>
 					)}
 					{!copySuccess ? null : (
-						<div className="absolute bottom-0 flex flex-col items-center hidden mb-12 md:mb-6 ml-4 group-hover:flex">
+						<div className="absolute bottom-0 flex flex-col items-center hidden mb-6 ml-4 group-hover:flex">
 							<span className="relative z-10 p-2 rounded-sm leading-none text-dark-mode whitespace-no-wrap bg-tinted shadow-lg">
 								Copied!
 							</span>
