@@ -11,7 +11,7 @@ import WrappedGithubClient from '../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../services/openq-api/WrappedOpenQPrismaClient';
 import Utils from '../services/utils/Utils';
-import SubMenu from '../components/Utils/SubMenu';
+import BountyMenu from '../components/Bounty/BountyMenu';
 
 export default function Index({ orgs, fullBounties, batch }) {
 	useAuth();
@@ -185,12 +185,10 @@ export default function Index({ orgs, fullBounties, batch }) {
 	return (
 		<main className="bg-dark-mode flex-col">
 			<div className="flex justify-center">
-				<SubMenu
+				<BountyMenu updatePage={setInternalMenu} internalMenu={internalMenu} 
 					styles={'justify-center'}
-					names={['Organizations', 'Issues']}
-					toggleFunc={setInternalMenu}
-					toggleVal={internalMenu}
-				/>
+					items={[{name: 'Organizations'}, {name: 'Issues'}]}/>
+				
 			</div>
 			<div>
 				{internalMenu == 'Organizations' ? (

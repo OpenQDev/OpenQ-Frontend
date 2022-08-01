@@ -11,13 +11,13 @@ import Balances from './AboutModules/Balances';
 import CarouselBounty from '../Bounty/CarouselBounty';
 import Carousel from '../Utils/Carousel';
 import MiniBountyList from './AboutModules/MiniBountyList';
-import SubMenu from '../Utils/SubMenu';
 import { BookIcon, EyeIcon, StarIcon } from '@primer/octicons-react';
 import ProfilePicture from '../Layout/ProfilePicture';
+import BountyMenu from '../Bounty/BountyMenu';
 
 const AboutFreelancer = ({ user, organizations, watchedBounties }) => {
 	const { bountiesClosed, payoutTokenBalances, payouts } = user;
-	const [internalMenu, setInternalMenu] = useState("Overview");
+	const [internalMenu, setInternalMenu] = useState('Overview');
 	const account = user.id;
 	const [ensName] = useEns(account);
 	// Context
@@ -39,14 +39,10 @@ const AboutFreelancer = ({ user, organizations, watchedBounties }) => {
 				<ProfilePicture contributor={true} styles={'pt-40'} />
 			</div>
 			<div className='flex flex-col w-5/7'>
-				<SubMenu
-					names={[["Overview", <div className='p-1'><BookIcon size={16} className='mr-1' /> Overview</div>], ["Stars", <div className='p-1'><StarIcon size={16} className='mr-1' /> Stars</div>], ["Watching", <div className='p-1'><EyeIcon size={16} className='mr-1' /> Watching</div>]]}
-					toggleFunc={setInternalMenu}
-					toggleVal={internalMenu}
-					contributor={true}
-				/>
+				
+				<BountyMenu internalMenu={internalMenu} updatePage={setInternalMenu} styles="border-transparent" colour="rust"  items={[{name: 'Overview', Svg: BookIcon}, {name: 'Stars', Svg: StarIcon}, {name:'Watching', Svg: EyeIcon}]}/>
 				<div className='flex flex-col pt-4 px-4'>
-					{internalMenu == "Overview" ?
+					{internalMenu == 'Overview' ?
 						(<>
 							<AboutTitle ensName={ensName} account={account} />
 
@@ -65,7 +61,7 @@ const AboutFreelancer = ({ user, organizations, watchedBounties }) => {
 							<Balances tokenBalances={payoutTokenBalances} tokenValues={payoutTokenValues} type="Total Payouts" />
 							<MiniBountyList bounties={bountiesClosed} />
 						</>)
-						: internalMenu == "Stars" ?
+						: internalMenu == 'Stars' ?
 							(<div className="px-16 py-6 pb border-b border-web-gray">
 								Followed organizations
 							</div>)

@@ -44,12 +44,12 @@ const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch }) =>
 		<div className='justify-self-end'>
 			<div>
 				<button
-					className="flex flex-row items-center space-x-1 py-2 drop-shadow-lg border border-web-gray rounded-lg p-2 pr-2"
+					className="flex flex-row items-center space-x-1 py-2 drop-shadow-lg border border-web-gray rounded-sm p-2 pr-2"
 					onClick={()=>handleShowSearch(true)}
 				>
 					<div className="flex flex-row space-x-5 items-center justify-center">
 						<div className="h-1 w-6 pb-6">
-							<Image src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'} className="rounded-full" alt="n/a" width="40%" height="40%" />
+							<Image src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'} className="rounded-sm" alt="n/a" width="40%" height="40%" />
 						</div>
 					</div>
 					<div className="pl-3 ">{token.symbol}</div>

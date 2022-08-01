@@ -1,6 +1,5 @@
 // Third party 
-import React, { useRef, useEffect } from 'react';
-import jazzicon from '@metamask/jazzicon';
+import React from 'react';
 import Link from 'next/link';
 // Custom
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
@@ -9,7 +8,6 @@ import { PersonIcon, SignOutIcon } from '@primer/octicons-react';
 
 const AccountModal = ({ chainId, account, ensName, deactivate, setIsConnecting, domRef, isSafeApp }) => {
 	let networkName;
-	const iconWrapper = useRef();
 	for (let key in chainIdDeployEnvMap) {
 		if (chainIdDeployEnvMap[key].chainId === chainId) {
 			networkName = chainIdDeployEnvMap[key].networkName;
@@ -33,9 +31,9 @@ const AccountModal = ({ chainId, account, ensName, deactivate, setIsConnecting, 
 	}, [account]); */}
 
 	return (
-		<div class="flex flex-col items-center inline-block">
-			<div class="flex -mt-2.5 md:-mt-0.5 border-b-gray-700 tooltip-triangle absolute"></div>
-			<div class="flex z-40 -mt-2 md:mt-0 border-b-[#161B22] tooltip-triangle absolute"></div>
+		<div className="flex flex-col items-center inline-block">
+			<div className="flex -mt-2.5 md:-mt-0.5 border-b-gray-700 tooltip-triangle absolute"></div>
+			<div className="flex z-40 -mt-2 md:mt-0 border-b-[#161B22] tooltip-triangle absolute"></div>
 
 			<div ref={domRef} className='flex absolute flex-col z-30 bg-[#161B22] w-80 md:w-40 tooltip border-gray-700 border rounded-sm p-0'>
 				<div className='flex text-[#c9d1d9] items-center w-full h-8 p-2 mt-8 md:mt-2 md:ml-2 m-4 md:m-0'>{networkName}</div>
