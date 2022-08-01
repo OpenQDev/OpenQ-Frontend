@@ -49,7 +49,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const claimed = bounty.status == 'CLOSED';
 	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) <= 0.00000001 || parseFloat(volume) >= 1000 || volume == '' || !(parseInt(depositPeriodDays) > 0);
 	const disableOrEnable = `${(loadingClosedOrZero || !isOnCorrectNetwork) && account ? 'btn-default w-full cursor-not-allowed' : 'btn-primary cursor-pointer'}`;
-	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center  ${disableOrEnable}`;
+	const fundButtonClasses = `flex flex-row w-full justify-center space-x-5 items-center  ${disableOrEnable}`;
 
 	function resetState() {
 		setApproveTransferState(RESTING);
