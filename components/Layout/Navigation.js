@@ -79,132 +79,102 @@ const Navigation = ({ }) => {
 
 			{/* Desktop view */}
 
-			<div className="flex flex-row invisible absolute md:visible md:relative">
+			<div className="flex visible relative">
 
-				<div className="flex w-full flex-col md:py-1 justify-center">
+				<div className="flex w-full md:py-1 justify-between mx-4">
 
-					<div className="flex justify-between px-7">
-						<div className="flex flex-row space-x-5 items-center">
-							<Link href={'/'}>
-								<a className="flex items-center">
-									<Image
-										src="/openq-logo-white-2.png"
-										alt="OpenQ"
-										width="31"
-										height="31"
-									/>
-								</a>
-							</Link>
+					<div className="flex space-x-5 items-center">
+						<Link href={'/'}>
+							<a className="flex items-center md:hover:opacity-70">
+								<Image
+									src="/openq-logo-white-2.png"
+									alt="OpenQ"
+									width="31"
+									height="31"
+								/>
+							</a>
+						</Link>
+						<button className="flex md:hidden" onClick={() => setOpenMenu(!openMenu)}>
+							<ThreeBarsIcon size={24} />
+						</button>
+
+						<div className="md:flex hidden items-center">
 							<input
-								className="flex justify-between pr-24 items-center input-field"
+								className="md:flex hidden pr-24 mr-2 items-center input-field"
 								onKeyUp={(e) => setQuickSearch(e.target.value)}
 								type="text"
 								placeholder="Search OpenQ"
 							></input>
 							<Link href={'/'}>
-								<a className="flex items-center">
-									<div className="text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer">
+								<a className="items-center">
+									<div className="mx-2 text-[0.8rem] tracking-wider text-nav-text md:hover:opacity-70 font-bold hover:cursor-pointer">
 										Atomic contracts
 									</div>
 								</a>
 							</Link>
 							<ToolTipNew toolTipText={'Coming soon'} >
-								<div className="text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer opacity-20">
+								<div className="mx-2 text-[0.8rem] tracking-wider text-nav-text md:hover:opacity-70 font-bold hover:cursor-pointer opacity-20">
 									Contests
 								</div>
 							</ToolTipNew>
 							<ToolTipNew toolTipText={'Coming soon'} >
-								<div className="text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer opacity-20">
+								<div className="mx-2 text-[0.8rem] tracking-wider text-nav-text md:hover:opacity-70 font-bold hover:cursor-pointer opacity-20">
 									Communities
 								</div>
 							</ToolTipNew>
 							<ToolTipNew toolTipText={'Coming soon'} >
-								<div className="text-[0.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer opacity-20">
+								<div className="mx-2 text-[0.8rem] tracking-wider text-nav-text md:hover:opacity-70 font-bold hover:cursor-pointer opacity-20">
 									Explore
 								</div>
 							</ToolTipNew>
 						</div>
-						<div className="flex flex-row items-center">
-							<div>
-								<ConnectButton />
-							</div>
-							<div>
-								<ProfilePicture />
-							</div>
+					</div>
+					<div className="flex items-center text-[0.8rem] md:text-[1rem]">
+						<div>
+							<ConnectButton />
+						</div>
+						<div>
+							<ProfilePicture />
 						</div>
 					</div>
 				</div>
 			</div>
-
-			{/* Mobile view */}
-
-			<div className="flex flex-row visible relative md:invisible md:absolute">
-				<div className="flex w-full flex-col md:py-1 justify-center ">
-
-					<div className="flex justify-between px-7">
-						<div className="flex flex-row space-x-5 items-center">
-							<Link href={'/'}>
-								<a className="flex items-center p-4">
-									<Image
-										src="/openq-logo-white-2.png"
-										alt="OpenQ"
-										width="62"
-										height="62"
-									/>
-								</a>
-							</Link>
-							<button onClick={() => setOpenMenu(!openMenu)}>
-								<ThreeBarsIcon size={44} />
-							</button>
-							{openMenu ?
-								<div className="flex absolute">
-									<div className="flex flex-col mt-12 p-12 space-x-2 space-y-4 absolute bg-dark-mode">
-										<input
-											className="flex justify-between pr-24 items-center input-field text-[1.8rem]"
-											onKeyUp={(e) => setQuickSearch(e.target.value)}
-											type="text"
-											placeholder="Search OpenQ"
-										></input>
-										<Link href={'/'} className="flex">
-											<a className="flex items-center">
-												<div className="text-[1.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer">
-													Atomic contracts
-												</div>
-											</a>
-										</Link>
-										<ToolTipNew toolTipText={'Coming soon'} >
-											<div className="flex text-[1.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer opacity-20">
-												Contests
-											</div>
-										</ToolTipNew>
-										<ToolTipNew toolTipText={'Coming soon'} >
-											<div className="flex text-[1.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer opacity-20">
-												Communities
-											</div>
-										</ToolTipNew>
-										<ToolTipNew toolTipText={'Coming soon'} >
-											<div className="flex text-[1.8rem] tracking-wider text-nav-text font-bold hover:text-gray-500 hover:cursor-pointer opacity-20">
-												Explore
-											</div>
-										</ToolTipNew>
-									</div>
+			{openMenu ?
+				<div className="flex md:hidden w-full">
+					<div className="flex flex-col p-4 space-x-1 space-y-2 w-full">
+						<input
+							className="flex mb-2 justify-between w-full items-center input-field "
+							onKeyUp={(e) => setQuickSearch(e.target.value)}
+							type="text"
+							placeholder="Search OpenQ"
+						></input>
+						<Link href={'/'}>
+							<a className="flex items-center pt-1 border-t border-gray-700">
+								<div className="text-[0.8rem] tracking-wider text-nav-text font-bold">
+									Atomic contracts
 								</div>
-								:
-								null
-							}
-
-						</div>
-						<div className="flex flex-row items-center pr-6 ">
-							<div  className="pr-5">
-								<ConnectButton mobile={true}/>
+							</a>
+						</Link>
+						<ToolTipNew toolTipText={'Coming soon'} >
+							<div className="flex text-[0.8rem] pt-1 border-t border-gray-700 tracking-wider text-nav-text font-bold text-opacity-20">
+								Contests
 							</div>
-							<div>
-								<ProfilePicture mobile={true}/>
+						</ToolTipNew>
+						<ToolTipNew toolTipText={'Coming soon'} >
+							<div className="flex text-[0.8rem] pt-1 border-t border-gray-700 tracking-wider text-nav-text font-bold text-opacity-20">
+								Communities
 							</div>
-						</div>
+						</ToolTipNew>
+						<ToolTipNew toolTipText={'Coming soon'} >
+							<div className="flex text-[0.8rem] pt-1 border-t border-gray-700 tracking-wider text-nav-text font-bold text-opacity-20">
+								Explore
+							</div>
+						</ToolTipNew>
 					</div>
 				</div>
-			</div>
+				:
+				null
+			}
 			{/*   <Footer /> */}
 		</div>
 	);

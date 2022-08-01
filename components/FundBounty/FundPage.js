@@ -49,7 +49,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const claimed = bounty.status == 'CLOSED';
 	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) <= 0.00000001 || parseFloat(volume) >= 1000 || volume == '' || !(parseInt(depositPeriodDays) > 0);
 	const disableOrEnable = `${(loadingClosedOrZero || !isOnCorrectNetwork) && account ? 'btn-default w-full cursor-not-allowed' : 'btn-primary cursor-pointer'}`;
-	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center  ${disableOrEnable}`;
+	const fundButtonClasses = `flex flex-row w-full justify-center space-x-5 items-center  ${disableOrEnable}`;
 
 	function resetState() {
 		setApproveTransferState(RESTING);
@@ -193,7 +193,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	};
 
 	// Render
-	return (<>{claimed ?
+	return (<>
+		{claimed ?
 		<BountyClosed bounty={bounty} /> :
 		<div className="flex flex-1 justify-center items-center pb-10">
 			<div className="flex flex-col space-y-5 w-5/6">
@@ -211,7 +212,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 				<div className="flex w-full input-field-big ">
 					<div className=' flex items-center gap-3 w-full text-primary whitespace-nowrap'>
 						<ToolTipNew mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
-							<div className='cursor-help rounded-full border border-gray-700 aspect-square leading-4 h-4 box-content text-center font-bold text-gray-700'>?</div>
+							<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
 						</ToolTipNew>
 						<span>Deposit Locked Period</span>
 					</div>

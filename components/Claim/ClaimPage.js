@@ -114,6 +114,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 		);
 	} else {
 		return (
+			<>
 			<div className="flex flex-1 justify-center">
 				<div className="w-5/6 pt-8 pb-24 min-w-min">
 					<div className="flex flex-col gap-5 pt-12">
@@ -162,6 +163,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 				</div>
 				<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>
 			</div>
+			</>
 		);
 	}
 };

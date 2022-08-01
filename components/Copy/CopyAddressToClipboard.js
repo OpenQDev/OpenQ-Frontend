@@ -16,12 +16,12 @@ const CopyAddressToClipboard = ({clipping, data, styles, noClip, }) => {
 		<div className={`relative ${styles}`}>
 			<div
 				onClick={copyTextToClipboard}
-				className="flex flex-row space-x-4 md:space-x-1 cursor-pointer w-fit"			>
+				className="flex flex-row items-center space-x-4 md:space-x-1 cursor-pointer w-fit"			>
 				<div className="relative flex flex-col items-center group">
 					{copySuccess ? (
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							className="h-12 w-12 md:h-6 md:w-6"
+							className="h-6 w-6"
 							fill="none"
 							viewBox="0 0 24 24"
 							stroke="currentColor"
@@ -36,7 +36,7 @@ const CopyAddressToClipboard = ({clipping, data, styles, noClip, }) => {
 					) : (
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							className="h-12 w-12 md:h-6 md:w-6"
+							className="h-6 w-6"
 							fill="none"
 							viewBox="0 0 24 24"
 							stroke="currentColor"
@@ -50,7 +50,7 @@ const CopyAddressToClipboard = ({clipping, data, styles, noClip, }) => {
 						</svg>
 					)}
 					{!copySuccess ? null : (
-						<div className="absolute bottom-0 flex flex-col items-center hidden mb-12 md:mb-6 ml-4 group-hover:flex">
+						<div className="absolute bottom-0 flex flex-col items-center hidden mb-6 ml-4 group-hover:flex">
 							<span className="relative z-10 p-2 rounded-sm leading-none text-dark-mode whitespace-no-wrap bg-tinted shadow-lg">
 								Copied!
 							</span>

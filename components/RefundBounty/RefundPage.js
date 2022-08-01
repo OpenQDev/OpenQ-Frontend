@@ -29,8 +29,8 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 	const [depositPeriodDays, setDepositPeriodDays] = useState({});
 
 	const onDepositPeriodChanged = (e) => {
-		if (parseInt(e.target.value) >= 0) setDepositPeriodDays({...depositPeriodDays, [e.target.name]: parseInt(e.target.value)});
-		if (e.target.value === '') setDepositPeriodDays({...depositPeriodDays, [e.target.name]:'0'});
+		if (parseInt(e.target.value) >= 0) setDepositPeriodDays({ ...depositPeriodDays, [e.target.name]: parseInt(e.target.value) });
+		if (e.target.value === '') setDepositPeriodDays({ ...depositPeriodDays, [e.target.name]: '0' });
 	};
 
 	// Context
@@ -59,21 +59,21 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 		setApproveTransferState(APPROVING);
 		const depositId = showApproveTransferModal;
 
-		try{
-			const txnReceipt = await	appState.openQClient.refundDeposit(library, bounty.bountyId, depositId);
+		try {
+			const txnReceipt = await appState.openQClient.refundDeposit(library, bounty.bountyId, depositId);
 			setTransactionHash(txnReceipt.events[0].transactionHash);
 
-			try{
+			try {
 				setApproveTransferState(SUCCESS);
 				refreshBounty();
 			}
-			catch(error){
+			catch (error) {
 				console.log(error);
 			}
-			
+
 		}
-	
-		catch(error){
+
+		catch (error) {
 			const { message, title } = appState.openQClient.handleError(error, { account, bounty });
 			setError({ message, title });
 			setApproveTransferState(ERROR);
@@ -84,22 +84,22 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 		setApproveTransferState(APPROVING);
 		const depositId = showApproveTransferModal;
 
-		try{
-			const txnReceipt = await	appState.openQClient.extendDeposit(library, bounty.bountyId, depositId, depositPeriodDays[depositId]);
+		try {
+			const txnReceipt = await appState.openQClient.extendDeposit(library, bounty.bountyId, depositId, depositPeriodDays[depositId]);
 			setTransactionHash(txnReceipt.events[0].transactionHash);
 
-			try{
+			try {
 				setApproveTransferState(SUCCESS);
 				refreshBounty();
 			}
-			catch(error){
+			catch (error) {
 				console.log(error);
 			}
-			
-	
+
+
 		}
-	
-		catch(error){
+
+		catch (error) {
 			const { message, title } = appState.openQClient.handleError(error, { account, bounty });
 			setError({ message, title });
 			setApproveTransferState(ERROR);
@@ -217,6 +217,6 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 			</div>
 		}</>
 	);
-	
+
 };
 export default RefundPage;

@@ -162,7 +162,9 @@ class CoinClient {
 			return localSuperfluidIndexable[address.toLowerCase()];}
 		return {
 			chainId: 137,
-			name: 'Custom Token',
+			name: `${address.substring(0, 5)}
+			...
+			${address.substring(39)}`,
 			symbol: 'CUSTOM',
 			decimals: 18,
 			address: checkSummedAddress,
