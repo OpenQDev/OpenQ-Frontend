@@ -115,7 +115,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 
 			<div className={`flex flex-1 px-12 pt-4 pb-8 w-full max-w-[1200px] justify-center ${internalMenu !== 'Refund' ? 'hidden' : null}`}>
 				<div className="flex flex-col space-y-2 items-center w-full md:border rounded-sm border-gray-700 text-primary">
-					<h1 className="flex w-full text-3xl justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700">
+					<h1 className="flex w-full text-3xl justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm">
 						Your Deposits
 					</h1>
 					<div className="flex flex-col space-y-5 w-full px-8 pt-2">

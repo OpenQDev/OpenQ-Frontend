@@ -18,23 +18,23 @@ const OrganizationHomepage = ({ orgs }) => {
 
 	// Render
 	return (
-		<div className='px-4'>
+		<div>
 			<div className="text-center bg-[#161B22] py-14">
 				<div className="text-2xl font-bold">Organizations</div>
 				<div className="text-gray-500 text-md">GitHub organizations outsourcing to OpenQ</div>
 			</div>
-			<div className="lg:grid lg:grid-cols-extra-wide xl:grid-cols-wide justify-center md:pr-3  ">
+			<div className="lg:grid lg:grid-cols-extra-wide xl:grid-cols-wide justify-center md:pr-3 mx-4 sm:mx-8 ">
 				
 				<div className="lg:col-start-2 justify-between justify-self-center space-y-2 w-full pb-8 max-w-[966px] mx-auto">
 			
-					<div className="flex flex-wrap gap-4 w-full pt-10">
+					<div className="flex flex-wrap items-center justify-center gap-4 w-full pt-10">
 						<SearchBar
 							onKeyUp={filterByOrg}
 							searchText={organizationSearchTerm}
 							placeholder="Search Organization..."
-							styles={'rounded-sm'}
+							styles={'rounded-sm w-full'}
 						/>
-						<MintBountyButton />
+						<MintBountyButton styles={'w-full'}/>
 					</div>
 					<Carousel height={'80'}>
 						{orgs.filter(organization=> organization.starringUserIds && organization.starringUserIds.some(user=>user === account))
