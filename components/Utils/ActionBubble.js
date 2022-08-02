@@ -13,7 +13,8 @@ const ActionBubble = ({address, addresses, title, bodyHTML, body, deposit})=>{
 	{
 		const metadata = appState.tokenClient.getToken(deposit.tokenAddress);
 		const readableVolume = deposit.volume*(10**(-1*metadata.decimals));
-		currentTitle = `Funded ${readableVolume} ${metadata.name} ($${tokenValues?.total || ''} USD) on ${appState.utils.formatUnixDate(deposit.receiveTime)}.`;
+		currentTitle = `Funded ${readableVolume} ${metadata.name} (${ appState.utils.formatter.format(
+			tokenValues?.total)}) on ${appState.utils.formatUnixDate(deposit.receiveTime)}.`;
 	}
 	return (
 		<div className='w-full pt-4 flex relative'>
@@ -29,7 +30,7 @@ const ActionBubble = ({address, addresses, title, bodyHTML, body, deposit})=>{
 					})}
 				</div>
 			}
-			<div className='w-full flex-0 rounded-sm overflow-hidden ml-4 border-web-gray border-b  before:w-2 before:h-2 before:bg-nav-bg before:absolute before:absolute before:left-12 before:top-[32px] before:border-b  before:border-l before:border-web-gray before:top-10 before:rotate-45  border'>
+			<div className='w-full flex-0 rounded-sm overflow-hidden ml-4 border-web-gray border-b  before:w-2 before:h-2 before:bg-nav-bg before:absolute before:absolute before:left-12 before:top-[35px] before:border-b  before:border-l before:border-web-gray before:top-10 before:rotate-45  border'>
 				<div className={`bg-nav-bg w-full py-2 pl-3 ${(body || bodyHTML) && 'border-web-gray border-b'} `}>
 					{currentTitle}
 				</div>
