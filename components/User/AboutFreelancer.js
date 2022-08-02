@@ -14,16 +14,20 @@ import MiniBountyList from './AboutModules/MiniBountyList';
 import { BookIcon, EyeIcon, StarIcon } from '@primer/octicons-react';
 import ProfilePicture from '../Layout/ProfilePicture';
 import BountyMenu from '../Bounty/BountyMenu';
+import BountyCardLean from '../Bounty/BountyCardLean';
+import OrganizationCard from '../Organization/OrganizationCard';
 
-const AboutFreelancer = ({ user, organizations, watchedBounties }) => {
+const AboutFreelancer = ({ user, organizations, watchedBounties, starredOrganizations }) => {
 	const { bountiesClosed, payoutTokenBalances, payouts } = user;
+	console.log(starredOrganizations);
 	const [internalMenu, setInternalMenu] = useState('Overview');
 	const account = user.id;
 	const [ensName] = useEns(account);
 	// Context
 	// State
 	const [payoutTokenValues] = useGetTokenValues(payoutTokenBalances);
-
+	useEffect(()=>{
+		console.log(starredOrganizations);});
 	const iconWrapper = useRef(null);
 
 	useEffect(async () => {
@@ -43,11 +47,11 @@ const AboutFreelancer = ({ user, organizations, watchedBounties }) => {
 				<BountyMenu internalMenu={internalMenu} updatePage={setInternalMenu} styles="border-transparent" colour="rust"  items={[{name: 'Overview', Svg: BookIcon}, {name: 'Stars', Svg: StarIcon}, {name:'Watching', Svg: EyeIcon}]}/>
 				<div className='flex flex-col pt-4 px-4'>
 					{internalMenu == 'Overview' ?
-						(<>
+						(<div className='w-full'>
 							<AboutTitle ensName={ensName} account={account} />
 
 							{watchedBounties.length > 0 &&
-								<div className='px-16 py-6 border-t border-border-gray flex flex-wrap items-stretch w-full font-semibold text-lg'>
+								<div className=' py-6 border-t border-border-gray flex flex-wrap items-stretch w-full font-semibold text-lg'>
 									<h3>Watched Issues</h3>
 									<Carousel>
 
@@ -60,28 +64,25 @@ const AboutFreelancer = ({ user, organizations, watchedBounties }) => {
 							<UserHistory organizations={organizations} payouts={payouts} />
 							<Balances tokenBalances={payoutTokenBalances} tokenValues={payoutTokenValues} type="Total Payouts" />
 							<MiniBountyList bounties={bountiesClosed} />
-						</>)
+						</div>)
 						: internalMenu == 'Stars' ?
-							(<div className="px-16 py-6 pb border-b border-web-gray">
-								Followed organizations
-							</div>)
-							:
-							(<>
+							(<div className='w-full'>
 								{watchedBounties.length > 0 &&
-									<div className='px-16 py-6 border-b border-border-gray flex flex-wrap items-stretch w-full font-semibold text-lg'>
-										<h3>Watched Issues</h3>
-										<Carousel>
-
-											{watchedBounties.map((watchedBounty, index) => <CarouselBounty key={index} bounty={watchedBounty} />)}
-
-
-										</Carousel>
+									<div className='py-6 border-border-gray flex flex-wrap items-stretch w-full font-semibold text-lg'>
+										{starredOrganizations.map((bounty, index)=>
+											<OrganizationCard key={index} organization={bounty}/>)}
 									</div>
 								}
-								<div className="px-16 py-6 pb border-b border-web-gray">
-									Filtering to check which issued are closed or open
-								</div>
-							</>)
+							</div>)
+							:
+							(<div className='w-full'>
+								{watchedBounties.length > 0 &&
+									<div className='py-6 border-border-gray flex flex-wrap items-stretch w-full font-semibold text-lg'>
+										{watchedBounties.map((bounty, index)=>
+											<BountyCardLean key={index} bounty={bounty}/>)}
+									</div>
+								}
+							</div>)
 					}
 
 				</div>

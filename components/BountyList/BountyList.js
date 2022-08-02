@@ -276,6 +276,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			{isProcessed && !loading && searchedBounties.length>0 &&
 			<div className="md:border border-web-gray rounded-sm">
 				{searchedBounties.map((bounty, index) => {
+				
 					return <div key={bounty.id} ref={(index === searchedBounties.length - 1) ? lastElem : null}>
 						<BountyCardLean index={index} length={searchedBounties.length }bounty={bounty} />
 					</div>;

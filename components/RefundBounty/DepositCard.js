@@ -16,16 +16,16 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 
 	return (
 		<div className='flex flex-col items-center w-full md:border rounded-sm border-gray-700 text-primary'>
-		<div className="flex justify-center w-full md:bg-[#161b22] md:border-b border-gray-700 pb-1">	
-			<TokenBalances
-				lean={true}
-				tokenBalances={deposit}
-				tokenValues={tokenValues}
-				singleCurrency={true}
-			/>
+			<div className="flex justify-center w-full md:bg-[#161b22] md:border-b border-gray-700 pb-1">	
+				<TokenBalances
+					lean={true}
+					tokenBalances={deposit}
+					tokenValues={tokenValues}
+					singleCurrency={true}
+				/>
 			</div>
 
-			<div className={`pt-3 flex flex-col md:flex-row w-full items-center justify-between px-8 sm:px-6 pb-4 hover:bg-[#21262d]`}>
+			<div className={'pt-3 flex flex-col md:flex-row w-full items-center justify-between px-8 sm:px-6 pb-4 hover:bg-[#21262d]'}>
 				<div className='flex flex-col space-y-2'>
 
 					<div className="text-left  py-2">
@@ -90,7 +90,7 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 										className={`flex mt-3 md:mt-0 text-center w-full px-3  ${isOnCorrectNetwork && (depositPeriodDays > 0) ?
 											'btn-primary cursor-pointer p-1'
 											: 'btn-default cursor-not-allowed'
-											}`} >
+										}`} >
 										Extend
 									</button>
 								</ToolTipNew>
@@ -105,7 +105,7 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 									disabled={!isOnCorrectNetwork}
 									className={`${isOnCorrectNetwork ? 'btn-default w-full'
 										: 'btn-default cursor-not-allowed w-full'
-										}`} >
+									}`} >
 									Extend
 								</button>
 							</ToolTipNew>

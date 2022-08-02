@@ -5,13 +5,13 @@
 import React from 'react';
 
 import { render, screen } from '../test-utils';
-import BountyCardDetails from '../components/Bounty/BountyCardDetails';
+import RepoTitle from '../components/Bounty/RepoTitle';
 import mocks from '../__mocks__/mock-server.json';
 import InitialState from '../store/Store/InitialState';
  
 // WARNING If you change the mock data for issues you may need to change some
 // of this test's getByText invocations to getAllByText.
-describe('BountyCardDetails', ( ) => {
+describe('RepoTitle', ( ) => {
 
 	const newBounties = mocks.bounties;	
 	const	issueData = InitialState.githubRepository.parseIssuesData(mocks.githubIssues);
@@ -25,20 +25,13 @@ describe('BountyCardDetails', ( ) => {
 		it('should render BountyDetails', async()=>{
 
 			// Arrange
-			render(<BountyCardDetails bounty={bounty} address={bounty.bountyAddress} tokenValues={tokenValues} />);
+			render(<RepoTitle bounty={bounty} address={bounty.bountyAddress} tokenValues={tokenValues} />);
 
 			// ASSERT
-			if(bounty.deposits.length>0){				
-				const usdValue = await screen.findAllByText(/(15.41||16.08||13.4)/i);
-				expect(usdValue[0]).toBeInTheDocument();				
-			}
-			if(bounty.id ==='I_kwDOGWnnz85LAu6g'){
-				expect(screen.getByText(/Update README/i)).toBeInTheDocument();
-			}
-			else{
-				expect (screen.getByText(/No linked/i)).toBeInTheDocument();
-			}
-
+			
+			const repoRegex = new RegExp(bounty.repoName, 'i');
+			const repo = screen.getByText(repoRegex);
+			expect(repo).toBeInTheDocument();
 			
 		});
 
