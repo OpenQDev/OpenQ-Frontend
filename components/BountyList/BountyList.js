@@ -234,17 +234,17 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 
 	// Render
 	return (
-		<div className="lg:col-start-2 justify-between justify-self-center space-y-2 w-full pb-8 max-w-[960px] mx-auto">
-			<div className="flex flex-wrap gap-4 w-full">
+		<div className="lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto">
+			<div className="flex flex-wrap gap-4 w-full items-center">
 				<SearchBar
 					onKeyUp={handleSearchInput}
 					placeholder={'Search Issue...'}
 					searchText={searchText}
 					label={'search text'}
-					styles={'rounded-sm'}
+					styles={'rounded-sm w-full'}
 				/> 
 				
-				<MintBountyButton />
+				<MintBountyButton styles={'w-full'} />
 			</div>
 			<div className='w-full rounded-sm'>
 				<div className='flex flex-wrap gap-4 p-2 sm:p-4 border-web-gray border rounded-sm bg-subtle'>

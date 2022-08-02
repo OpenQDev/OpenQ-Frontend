@@ -27,14 +27,14 @@ const OrganizationHomepage = ({ orgs }) => {
 				
 				<div className="lg:col-start-2 justify-between justify-self-center space-y-2 w-full pb-8 max-w-[966px] mx-auto">
 			
-					<div className="flex flex-wrap gap-4 w-full pt-10">
+					<div className="flex flex-wrap items-center justify-center gap-4 w-full pt-10">
 						<SearchBar
 							onKeyUp={filterByOrg}
 							searchText={organizationSearchTerm}
 							placeholder="Search Organization..."
-							styles={'rounded-sm'}
+							styles={'rounded-sm w-full'}
 						/>
-						<MintBountyButton />
+						<MintBountyButton styles={'w-full'}/>
 					</div>
 					<Carousel height={'80'}>
 						{orgs.filter(organization=> organization.starringUserIds && organization.starringUserIds.some(user=>user === account))
