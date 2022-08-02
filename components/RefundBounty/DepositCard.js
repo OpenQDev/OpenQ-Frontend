@@ -39,13 +39,13 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 			{status === 'refundable' &&
 				<div className="flex flex-col space-y-3 w-44 text-primary">
 					<ToolTipNew
-						outerStyles="flex self-center"
+						outerStyles="flex"
 						hideToolTip={isOnCorrectNetwork}
 						toolTipText={'Please switch to the correct network to refund this deposit.'}
 						customOffsets={[0, 46]}>
 						<button onClick={() => refundBounty(deposit.id)}
 							disabled={!isOnCorrectNetwork}
-							className={`${isOnCorrectNetwork ? 'btn-default' : 'btn-default cursor-not-allowed'}`} >
+							className={`${isOnCorrectNetwork ? 'btn-default w-full' : 'btn-default cursor-not-allowed w-full'}`} >
 							Refund
 						</button>
 					</ToolTipNew>
@@ -72,8 +72,7 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 
 							</div>
 							<ToolTipNew
-								outerStyles={"flex w-full items-center"}
-								innerStyles={"flex w-full"}
+								outerStyles="flex w-full items-center"
 								hideToolTip={isOnCorrectNetwork && (depositPeriodDays > 0)}
 								toolTipText={!isOnCorrectNetwork ?
 									'Please switch to the correct network to extend this bounty.' :
@@ -83,9 +82,9 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 								}>
 								<button onClick={() => extendBounty(deposit.id)}
 									disabled={!isOnCorrectNetwork || !(depositPeriodDays > 0)}
-									className={`flex mt-3 md:mt-0 text-center w-full px-2 ${isOnCorrectNetwork && depositPeriodDays > 0 ?
-											'btn-primary cursor-pointer py-1'
-											: 'btn-default cursor-not-allowed py-1'
+									className={`flex mt-3 md:mt-0 text-center w-full px-2 ${isOnCorrectNetwork && (depositPeriodDays > 0) ?
+										'btn-primary cursor-pointer px-3 p-1'
+										: 'btn-default cursor-not-allowed px-3'
 										}`} >
 									Extend
 								</button>
@@ -93,14 +92,14 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 						</div>
 						:
 						<ToolTipNew
-							outerStyles=" flex self-center"
+							outerStyles="flex self-center"
 							hideToolTip={isOnCorrectNetwork}
 							toolTipText={'Please switch to the correct network to refund this deposit.'}
 							customOffsets={[0, 46]}>
 							<button onClick={() => setExpanded(!expanded)}
 								disabled={!isOnCorrectNetwork}
-								className={`${isOnCorrectNetwork ? 'btn-default'
-									: 'btn-default cursor-not-allowed'
+								className={`${isOnCorrectNetwork ? 'btn-default w-full'
+									: 'btn-default cursor-not-allowed w-full'
 									}`} >
 								Extend
 							</button>
