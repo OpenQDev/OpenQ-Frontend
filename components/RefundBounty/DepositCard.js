@@ -83,9 +83,9 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 								}>
 								<button onClick={() => extendBounty(deposit.id)}
 									disabled={!isOnCorrectNetwork || !(depositPeriodDays > 0)}
-									className={`flex text-center w-80 px-2 ${isOnCorrectNetwork && depositPeriodDays > 0 ?
-											'btn-primary cursor-pointer w-full py-1'
-											: 'btn-default cursor-not-allowed w-full py-1'
+									className={`flex mt-3 md:mt-0 text-center w-full px-2 ${isOnCorrectNetwork && depositPeriodDays > 0 ?
+											'btn-primary cursor-pointer py-1'
+											: 'btn-default cursor-not-allowed py-1'
 										}`} >
 									Extend
 								</button>
