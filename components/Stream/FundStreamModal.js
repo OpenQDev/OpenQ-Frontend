@@ -104,7 +104,7 @@ const FundStreamModal = ({
 	function handleVolumeChange(e) {
 		appState.utils.updateVolume(e.target.value, setVolume);
 	}
-	console.log(approveTransferState);
+	
 	return (
 		<div>
 			<div className="justify-center items-center font-mont flex overflow-x-hidden overflow-y-auto min-w-[320px] fixed inset-0 z-50 md:pl-20 outline-none focus:outline-none">

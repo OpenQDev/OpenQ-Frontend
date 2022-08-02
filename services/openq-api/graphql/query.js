@@ -57,6 +57,7 @@ export const REMOVE_CONTRIBUTOR=gql`mutation remove($prId: String, $userId: Stri
 export const GET_USER_BY_HASH = gql`query($userAddress: String!) {
   user(address: $userAddress) {
     watchedBountyIds
+		starredOrganizationIds
   }
 }`;
 

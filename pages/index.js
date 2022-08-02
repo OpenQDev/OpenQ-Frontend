@@ -226,7 +226,7 @@ export const getServerSideProps = async () => {
 	let githubOrganizations = [];
 	let orgMetadata = [];
 	try{	
-		orgMetadata = await openQPrismaClient.instance.getOrgsMetadata(ids);
+		orgMetadata = await openQPrismaClient.instance.getOrgMetadata(ids);
 	}
 
 	catch(err){
