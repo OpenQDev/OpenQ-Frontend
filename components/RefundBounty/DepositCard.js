@@ -15,29 +15,31 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 	const [expanded, setExpanded] = useState(false);
 
 	return (
-		<div className={`pt-3 flex flex-col items-start px-8 sm:px-6 pb-4 hover:bg-[#21262d] ${status === 'refundable' ? ' border-gray-700' : status === 'not-yet-refundable' ? 'border-border-gray' : ' border-border-gray'} border rounded-sm`}>
-			<TokenBalances
-				lean={true}
-				tokenBalances={deposit}
-				tokenValues={tokenValues}
-				singleCurrency={true}
-			/>
-			<div className="text-left  py-4">
-				Deposited on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime))}
+		<div className={`pt-3 flex flex-col md:flex-row justify-between px-8 sm:px-6 pb-4 hover:bg-[#21262d] ${status === 'refundable' ? ' border-gray-700' : status === 'not-yet-refundable' ? 'border-border-gray' : ' border-border-gray'} border rounded-sm`}>
+			<div className='flex flex-col'>
+				<TokenBalances
+					lean={true}
+					tokenBalances={deposit}
+					tokenValues={tokenValues}
+					singleCurrency={true}
+				/>
+				<div className="text-left  py-4">
+					Deposited on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime))}
+				</div>
+				{deposit.refunded ?
+					(<div className="text-left  pb-2">
+						Refunded on: {appState.utils.formatUnixDate(parseInt(deposit.refundTime))}
+					</div>)
+					:
+					(<div className="text-left  pb-2">
+						Refundable on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}
+					</div>)
+				}
 			</div>
-			{deposit.refunded ?
-				(<div className="text-left  pb-2">
-					Refunded on: {appState.utils.formatUnixDate(parseInt(deposit.refundTime))}
-				</div>)
-				:
-				(<div className="text-left  pb-2">
-					Refundable on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}
-				</div>)
-			}
 			{status === 'refundable' &&
-				<div className="w-full md:w-80 flex flex-col space-y-3 text-primary">
+				<div className="flex flex-col space-y-3 text-primary">
 					<ToolTipNew
-						outerStyles="w-full flex self-center w-1/2"
+						outerStyles="flex self-center w-1/2"
 						hideToolTip={isOnCorrectNetwork}
 						toolTipText={'Please switch to the correct network to refund this deposit.'}
 						customOffsets={[0, 46]}>
@@ -49,41 +51,17 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 					</ToolTipNew>
 
 					{expanded ?
-						<div className="w-full text-primary flex flex-wrap md:flex-nowrap md:space-x-3 space-y-3 md:space-y-0 items-center">
-							<ToolTipNew
-								outerStyles="w-full flex space-x-2"
-								hideToolTip={isOnCorrectNetwork && (depositPeriodDays > 0)}
-								toolTipText={!isOnCorrectNetwork ?
-									'Please switch to the correct network to extend this bounty.' :
-									!(depositPeriodDays > 0) ?
-										'Please indicate how many days you\'d like to extend your bounty for.' :
-										null
-								}>
-								<button onClick={() => extendBounty(deposit.id)}
-									disabled={!isOnCorrectNetwork || !(depositPeriodDays > 0)}
-									className={`my-2 px-2 whitespace-nowrap ${isOnCorrectNetwork ?
-										(!expanded ?
-											'btn-default' :
-											(depositPeriodDays > 0 ?
-												'btn-primary cursor-pointer'
-												: 'btn-default cursor-not-allowed'
-
-											)
-										)
-										: 'btn-default cursor-not-allowed'
-										}`} >
-									Extend By
-								</button>
-							</ToolTipNew>
-							<div className="flex w-full input-field-big">
-								<div className=' flex items-center gap-3 w-full text-primary'>
+						<div className=" text-primary flex flex-col items-center">
+							
+							<div className="flex input-field-big">
+								<div className=' flex items-center gap-3  text-primary'>
 									<ToolTipNew mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
 										<div className='cursor-help rounded-full border border-gray-700 aspect-square leading-4 h-4 box-content text-center font-bold text-gray-700'>?</div>
 									</ToolTipNew>
 								</div>
 
 								<input
-									className="text-primary text-right number outline-none bg-dark-mode w-full px-4 p-0.5"
+									className="text-primary text-right number outline-none bg-dark-mode p-0.5"
 									autoComplete="off"
 									value={depositPeriodDays}
 									name={deposit.id}
@@ -93,10 +71,35 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 								/>
 
 							</div>
+							<ToolTipNew
+								outerStyles="flex w-full items-center"
+								hideToolTip={isOnCorrectNetwork && (depositPeriodDays > 0)}
+								toolTipText={!isOnCorrectNetwork ?
+									'Please switch to the correct network to extend this bounty.' :
+									!(depositPeriodDays > 0) ?
+										'Please indicate how many days you\'d like to extend your bounty for.' :
+										null
+								}>
+								<button onClick={() => extendBounty(deposit.id)}
+									disabled={!isOnCorrectNetwork || !(depositPeriodDays > 0)}
+									className={`w-full my-4 px-2 whitespace-nowrap ${isOnCorrectNetwork ?
+										(!expanded ?
+											'btn-default cursor-pointer w-full' :
+											(depositPeriodDays > 0 ?
+												'btn-primary cursor-pointer w-full'
+												: 'btn-default cursor-not-allowed w-full'
+
+											)
+										)
+										: 'btn-default cursor-not-allowed w-full'
+										}`} >
+									Extend By
+								</button>
+							</ToolTipNew>
 						</div>
 						:
 						<ToolTipNew
-							outerStyles="w-full flex self-center"
+							outerStyles=" flex self-center"
 							hideToolTip={isOnCorrectNetwork}
 							toolTipText={'Please switch to the correct network to refund this deposit.'}
 							customOffsets={[0, 46]}>
