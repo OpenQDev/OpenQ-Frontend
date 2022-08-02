@@ -7,8 +7,8 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token,  volume }) => {
 	
 	
 	return (
-		<div className='flex space-x-2'>
-			<div className="flex w-full flex-row justify-between items-center pl-14 input-field-big">
+		<div className='flex space-x-4'>
+			<div className="flex w-full flex-row justify-between items-center px-4 input-field-big">
 				<div className={'px-4 bg-dark-mode'}>
 					<input
 						aria-label="amount"

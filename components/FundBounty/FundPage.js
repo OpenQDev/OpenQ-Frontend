@@ -49,7 +49,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const claimed = bounty.status == 'CLOSED';
 	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) <= 0.00000001 || parseFloat(volume) >= 1000 || volume == '' || !(parseInt(depositPeriodDays) > 0);
 	const disableOrEnable = `${(loadingClosedOrZero || !isOnCorrectNetwork) && account ? 'btn-default w-full cursor-not-allowed' : 'btn-primary cursor-pointer'}`;
-	const fundButtonClasses = `flex flex-row justify-center space-x-5 items-center  ${disableOrEnable}`;
+	const fundButtonClasses = `flex flex-row w-full justify-center space-x-5 items-center  ${disableOrEnable}`;
 
 	function resetState() {
 		setApproveTransferState(RESTING);
@@ -162,7 +162,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					bounty.bountyId,
 					token.address,
 					bigNumberVolumeInWei,
-					depositPeriodDays / (24*60*60)
+					depositPeriodDays / (24 * 60 * 60)
 				);
 				setTransactionHash(fundTxnReceipt.events[0].transactionHash);
 				setApproveTransferState(SUCCESS);
@@ -184,7 +184,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		setToken({ ...token, address: ethers.utils.getAddress(token.address) });
 	}
 
-	function onVolumeChange(volume) {	
+	function onVolumeChange(volume) {
 		appState.utils.updateVolume(volume, setVolume);
 	}
 	const onDepositPeriodChanged = (e) => {
@@ -193,79 +193,81 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	};
 
 	// Render
-	return (<>{claimed ?
-		<BountyClosed bounty={bounty} /> :
-		<div className="flex flex-1 justify-center items-center pb-10">
-			<div className="flex flex-col space-y-5 w-5/6">
-				<div className="flex text-2xl font-bold text-primary  justify-center pt-16">
-					Escrow Funds in Atomic Contract
+	return (<>
+		{claimed ?
+			<BountyClosed bounty={bounty} /> :
+			<div className="flex flex-1 px-12 pt-4 pb-8 w-full max-w-[1200px] justify-center">
+				<div className="flex flex-col space-y-5 pb-4 items-center md:border rounded-sm border-gray-700">
+					<div className="flex text-3xl text-primary justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700">
+						Escrow Funds in Atomic Contract
+					</div>
+					<div className="flex flex-col space-y-5 w-5/6 pt-2">
+						<TokenFundBox
+							onCurrencySelect={onCurrencySelect}
+							onVolumeChange={onVolumeChange}
+							token={token}
+							volume={volume}
+						/>
+
+						<div className="flex w-full input-field-big">
+							<div className=' flex items-center gap-3 w-full text-primary md:whitespace-nowrap'>
+								<ToolTipNew mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
+									<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+								</ToolTipNew>
+								<span>Deposit Locked Period</span>
+							</div>
+
+							<div className={'flex px-4 font-bold bg-dark-mode'}>
+								<input
+									className="text-primary text-right number outline-none bg-dark-mode w-full flex-1"
+									autoComplete="off"
+									value={depositPeriodDays}
+									id="deposit-period"
+									onChange={onDepositPeriodChanged}
+								/>
+							</div>
+						</div>
+
+						<ToolTipNew hideToolTip={account && isOnCorrectNetwork && !loadingClosedOrZero}
+							toolTipText={
+								account && isOnCorrectNetwork && !(depositPeriodDays > 0) ?
+									'Please indicate how many days you\'d like to fund your bounty for.' :
+									account && isOnCorrectNetwork ?
+										'Please indicate the volume you\'d like to fund with. Must be between 0.0000001 and 1000.' :
+										account ?
+											'Please switch to the correct network to fund this bounty.' :
+											'Connect your wallet to fund this bounty!'}>
+							<button
+								className={fundButtonClasses}
+								disabled={(loadingClosedOrZero || !isOnCorrectNetwork) && account}
+								type="button"
+								onClick={account ? openFund : connectWallet}
+							>
+								<div>{account ? buttonText : 'Connect Wallet'}</div>
+								<div>{approveTransferState != RESTING && approveTransferState != SUCCESS && approveTransferState != ERROR ? (
+									<ButtonLoadingIcon />
+								) : null}</div>
+							</button>
+						</ToolTipNew>
+						<div className='text-primary text-[0.8rem]'>Always fund through the interface! Never send funds directly to the address!</div>
+					</div>
 				</div>
 
-				<TokenFundBox
-					onCurrencySelect={onCurrencySelect}
-					onVolumeChange={onVolumeChange}
+				{showApproveTransferModal && <ApproveFundModal
+					approveTransferState={approveTransferState}
+					address={account}
+					transactionHash={transactionHash}
+					confirmationMessage={confirmationMessage}
+					error={error}
+					setShowApproveTransferModal={setShowApproveTransferModal}
+					confirmMethod={fundBounty}
+					resetState={resetState}
 					token={token}
 					volume={volume}
-				/>
-
-				<div className="flex w-full input-field-big ">
-					<div className=' flex items-center gap-3 w-full text-primary whitespace-nowrap'>
-						<ToolTipNew mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
-							<div className='cursor-help rounded-full border border-gray-700 aspect-square leading-4 h-4 box-content text-center font-bold text-gray-700'>?</div>
-						</ToolTipNew>
-						<span>Deposit Locked Period</span>
-					</div>
-
-					<div className={'flex px-4 font-bold bg-dark-mode'}>
-						<input
-							className="text-primary text-right /60 number outline-none bg-dark-mode w-full flex-1"
-							autoComplete="off"
-							value={depositPeriodDays}
-							id="deposit-period"
-							onChange={onDepositPeriodChanged}
-						/>
-					</div>
-				</div>
-
-				<ToolTipNew hideToolTip={account && isOnCorrectNetwork && !loadingClosedOrZero}
-					toolTipText={
-						account && isOnCorrectNetwork && !(depositPeriodDays > 0) ?
-							'Please indicate how many days you\'d like to fund your bounty for.' :
-							account && isOnCorrectNetwork ?
-								'Please indicate the volume you\'d like to fund with. Must be between 0.0000001 and 1000.' :
-								account ?
-									'Please switch to the correct network to fund this bounty.' :
-									'Connect your wallet to fund this bounty!'}>
-					<button
-						className={fundButtonClasses}
-						disabled={(loadingClosedOrZero || !isOnCorrectNetwork) && account}
-						type="button"
-						onClick={account ? openFund : connectWallet}
-					>
-						<div>{account ? buttonText : 'Connect Wallet'}</div>
-						<div>{approveTransferState != RESTING && approveTransferState != SUCCESS && approveTransferState != ERROR ? (
-							<ButtonLoadingIcon />
-						) : null}</div>
-					</button>
-				</ToolTipNew>
-				<div className='text-primary text-sm'>Always fund through the interface! Never send funds directly to the address!</div>
-			</div>
-
-			{showApproveTransferModal && <ApproveFundModal
-				approveTransferState={approveTransferState}
-				address={account}
-				transactionHash={transactionHash}
-				confirmationMessage={confirmationMessage}
-				error={error}
-				setShowApproveTransferModal={setShowApproveTransferModal}
-				confirmMethod={fundBounty}
-				resetState={resetState}
-				token={token}
-				volume={volume}
-				bountyAddress={bounty.bountyAddress}
-				bounty={bounty}
-			/>}
-		</div>}</>
+					bountyAddress={bounty.bountyAddress}
+					bounty={bounty}
+				/>}
+			</div>}</>
 	);
 };
 

@@ -32,7 +32,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	const [justClaimed, setJustClaimed] = useState(false);
 	const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
 	const canvas = useRef();
-	
+
 	const [, dispatch] = useContext(StoreContext);
 
 
@@ -56,7 +56,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	const [authState] = useAuth();
 
 	// Methods
-	const connectWallet = ()=>{
+	const connectWallet = () => {
 		const payload = {
 			type: 'CONNECT_WALLET',
 			payload: true
@@ -114,54 +114,63 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 		);
 	} else {
 		return (
-			<div className="flex flex-1 justify-center">
-				<div className="w-5/6 pt-8 pb-24 min-w-min">
-					<div className="flex flex-col gap-5 pt-12">
-						{!authState.isAuthenticated ? (
-							<div className=" col-span-3 border border-gray-700 bg-[#21262d] rounded-sm p-4">
-								We noticed you are not signed into Github. You must sign to verify
-								and claim an issue!
-							</div>
-						) : null}
-						<div className='col-span-3 p-4 my-4 '>
-							<p>Don{'\''}t forget to add a closer comment for this bounty on your pull request :-).</p>
-							<div><CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} /></div>
+			<>
+				<div className="flex flex-1 px-12 pt-4 pb-8 w-full max-w-[1200px] justify-center">
+					<div className="flex flex-col space-y-2 items-center md:border rounded-sm border-gray-700">
+						<div className="flex w-full text-3xl text-primary justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700">
+							Claim Your Rewards
 						</div>
+						<div className="flex flex-1 justify-center">
+							<div className="w-5/6 pb-4 min-w-min">
+								<div className="flex flex-col gap-4 pt-4">
+									{!authState.isAuthenticated ? (
+										<div className=" col-span-3 border border-gray-700 bg-[#21262d] rounded-sm p-4">
+											We noticed you are not signed into Github. You must sign to verify
+											and claim an issue!
+										</div>
+									) : null}
+									<div className='col-span-3 space-y-4 p-4'>
+										<p>Don{'\''}t forget to add a closer comment for this bounty on your pull request :-).</p>
+										<div><CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} /></div>
+									</div>
 
-						<div className="flex flex-col space-y-5">
-							<ToolTipNew
-								outerStyles="flex w-full items-center"
-								hideToolTip={account && isOnCorrectNetwork && authState.isAuthenticated}
-								toolTipText={
-									account && isOnCorrectNetwork && authState.isAuthenticated ?
-										'Please indicate the volume you\'d like to claim with.' :
-										account && authState.isAuthenticated ?
-											'Please switch to the correct network to claim this bounty.' :
-											(!account) ?
-												'Connect your wallet to claim this bounty!' :
-												'Connect your GitHub account to claim this bounty!'
-								}>
-								<button
-									type="submit"
-									className={(isOnCorrectNetwork && authState.isAuthenticated) || !account ? 'btn-primary cursor-pointer w-full p-2' : 'btn-default cursor-not-allowed w-full p-2'}
-									disabled={(!isOnCorrectNetwork || !authState.isAuthenticated) && account}
-									onClick={account ? () => setShowClaimLoadingModal(true) : connectWallet}
-								>
-									{account ? 'Claim' : 'Connect Wallet'}
-								</button>
-							</ToolTipNew>
+									<div className="flex flex-col space-y-5">
+										<ToolTipNew
+											outerStyles="flex w-full items-center"
+											hideToolTip={account && isOnCorrectNetwork && authState.isAuthenticated}
+											toolTipText={
+												account && isOnCorrectNetwork && authState.isAuthenticated ?
+													'Please indicate the volume you\'d like to claim with.' :
+													account && authState.isAuthenticated ?
+														'Please switch to the correct network to claim this bounty.' :
+														(!account) ?
+															'Connect your wallet to claim this bounty!' :
+															'Connect your GitHub account to claim this bounty!'
+											}>
+											<button
+												type="submit"
+												className={(isOnCorrectNetwork && authState.isAuthenticated) || !account ? 'btn-primary cursor-pointer w-full' : 'btn-default cursor-not-allowed w-full'}
+												disabled={(!isOnCorrectNetwork || !authState.isAuthenticated) && account}
+												onClick={account ? () => setShowClaimLoadingModal(true) : connectWallet}
+											>
+												{account ? 'Claim' : 'Connect Wallet'}
+											</button>
+										</ToolTipNew>
+									</div>
+									<div className="flex items-center col-span-3">
+										<AuthButton
+											hideSignOut={true}
+											redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyId}/${bounty.bountyAddress}`}
+										/>
+									</div>
+									{showClaimLoadingModal && <ClaimLoadingModal confirmMethod={claimBounty} url={url} ensName={ensName} account={account} error={error} claimState={claimState} login={'FlacoJones'} address={account} transactionHash={transactionHash} setShowClaimLoadingModal={updateModal} />}
+								</div>
+							</div>
+							<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>
 						</div>
-						<div className="flex items-center col-span-3">
-						<AuthButton
-							hideSignOut={true}
-							redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyId}/${bounty.bountyAddress}`}
-						/>
-						</div>
-						{showClaimLoadingModal && <ClaimLoadingModal confirmMethod={claimBounty} url={url} ensName={ensName} account={account} error={error} claimState={claimState} login={'FlacoJones'} address={account} transactionHash={transactionHash} setShowClaimLoadingModal={updateModal} />}
 					</div>
 				</div>
-				<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>
-			</div>
+			</>
 		);
 	}
 };
