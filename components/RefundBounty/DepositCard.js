@@ -15,13 +15,14 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 	const [expanded, setExpanded] = useState(false);
 
 	return (
-		<div className={`pt-3 flex flex-col items-start px-8 sm:px-6 pb-4 max-w-sm hover:bg-[#21262d] ${status === 'refundable' ? ' border-gray-700' : status === 'not-yet-refundable' ? 'border-border-gray' : ' border-border-gray'} border rounded-sm`}>
+		<div className={`pt-3 flex flex-col items-start px-8 sm:px-6 pb-4 hover:bg-[#21262d] ${status === 'refundable' ? ' border-gray-700' : status === 'not-yet-refundable' ? 'border-border-gray' : ' border-border-gray'} border rounded-sm`}>
 			<TokenBalances
+				lean={true}
 				tokenBalances={deposit}
 				tokenValues={tokenValues}
 				singleCurrency={true}
 			/>
-			<div className="text-left  pb-4">
+			<div className="text-left  py-4">
 				Deposited on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime))}
 			</div>
 			{deposit.refunded ?
