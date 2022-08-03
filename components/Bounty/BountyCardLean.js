@@ -105,7 +105,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 
 					{loading ?
 						<Skeleton width={60} /> :
-						<div className='flex flex-col justify-between items-end leading-tight'>
+						<div className='flex flex-col justify-between items-end leading-tight '>
 							{bounty?.avatarUrl ?
 								<Image className='rounded-full'
 									src={bounty?.avatarUrl}
@@ -116,7 +116,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 								<Skeleton width={51} height={51} />
 							}
 							<div className="flex flex-row space-x-1 items-center">
-								<div className="pr-2 pt-1">
+								<div className="pr-2 pt-1 invisible md:visible">
 									<Image
 										src="/crypto-logos/ETH.svg"
 										alt="avatarUrl"
