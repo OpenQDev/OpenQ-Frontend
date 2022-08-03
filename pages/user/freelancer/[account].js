@@ -66,11 +66,10 @@ export const getServerSideProps = async(context)=>{
 			console.error('Could not fetch watched bounties.');
 		}
 		//get starred organizations.
-		try{console.log(userOffChainData.starredOrganizationIds);
+		try{
 			const subgraphOrgs =  await  openQSubgraphClient.instance.getOrganizationsByIds( userOffChainData.starredOrganizationIds);
 			const githubOrgIds = subgraphOrgs.map(bounty=>bounty.id);
 			const githubOrganizations = await githubRepository.instance.fetchOrgsOrUsersByIds(githubOrgIds);
-			console.log(githubOrganizations, 'git');
 			starredOrganizations = githubOrganizations.map((organization)=>{
 				const subgraphOrg = subgraphOrgs.find((org)=>{
 					return org.id === organization.id;

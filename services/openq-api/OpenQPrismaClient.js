@@ -223,13 +223,11 @@ class OpenQPrismaClient {
 
 	async getUser(userAddress) {
 		const promise = new Promise(async (resolve, reject) => {
-			console.log(userAddress);
 			try {
 				const result = await this.client.query({
 					query: GET_USER_BY_HASH,
 					variables: { userAddress: ethers.utils.getAddress(userAddress) }
 				});
-				console.log(result);
 				resolve(result.data.user);
 			}
 			catch (e) {
