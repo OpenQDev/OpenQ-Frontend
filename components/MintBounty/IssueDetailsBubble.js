@@ -23,7 +23,7 @@ export default function IssueDetailsBubble({ issueData }) {
 							></path>
 						</svg>
 					</div>
-					<div className="text-sm"> {issueData.title}</div>
+					<div className="break-word text-sm"> {issueData.title}</div>
 				</div>
 				<div className="text-xs pt-3 pl-6 text-gray-200">
 					{' '}
