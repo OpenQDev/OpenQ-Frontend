@@ -30,9 +30,8 @@ const ProfilePicture = ({ mobile, contributor, styles }) => {
 
 	return (
 		<div className={`flex items-center h-12 content-center  ${styles}`}>
-		{console.log(showModal)}
 			{showModal || !authState.isAuthenticated ?
-				<div className={`flex w-max`}>
+				<div className={'flex w-max'}>
 					<AuthButton redirectUrl={process.env.NEXT_PUBLIC_BASE_URL + router.asPath} propicUrl={propicUrl} />
 					{authState.isAuthenticated && <button onClick={() => setShowModal(false)}> </button>}
 				</div> :

@@ -1,35 +1,23 @@
-// Thrid Party
 import React from 'react';
 
-const SubMenu = ({ toggleFunc, styles, toggleVal, names, borderColour, contributor }) => {
+const SubMenu = ({updatePage, internalMenu, items, styles, colour })=>{
+
+
+	const handleClick = (e)=>{
+		updatePage(e.currentTarget.innerText);
+
+	};
 	return (
-		<>
-			<div className={`${contributor ? 'px-4 sm:px-8 text-primary w-full flex h-12 items-center gap-x-4 relative' : `flex ${styles}`}`}>
-		
-				<div className={`${contributor ? '' : 'flex flex-row space-x-2 bg-menu-bg text-gray-400 px-4 font-semibold'}`}>
+	
+	
+		<div className={`px-4 sm:px-8 text-primary border-web-gray border-b w-full flex h-12 items-center gap-x-4 relative ${styles}`}>
+			{items.map((item, index)=><button key={index} onClick={handleClick} className={`px-2 flex gap-2 items-center text-sm hover:bg-inactive-gray leading-5 px-3 py-1 hover:bg-active-gray rounded-sm justify-center w-fit ${internalMenu === item.name && `${colour==='rust'? 'after:border-rust':'after:border-link-colour' } after:border-2 after:-bottom-[1px] after:w-20 after:absolute after:border-b`}`}>
+				{item.Svg && <item.Svg/>}
+				<span>{item.name}</span>
+			</button>)}
 			
-					{names.map((name, index) => {
-						return (
-							<button
-								key={index}
-								onClick={() => toggleFunc(contributor ? name[0] : name)}
-								className={`p-2 px-4 text-[0.8rem] tracking-wider ${
-									toggleVal === (contributor ? name[0] : name)
-										? (contributor ?
-											' border-b-4 border-rust text-gray-200 font-bold'
-											: `py-3 border-b-2 ${borderColour ? borderColour :'border-blue-600'   } text-gray-200 font-bold`
-										)
-										: null
-								}`}
-							>
-								{contributor ? <div className=" hover:bg-active-gray rounded-sm">{name[1]}</div> : name}
-							</button>
-						);
-					})}
-				</div>
-			</div>
-		</>
+		</div>
 	);
 };
-export default SubMenu;
 
+export default SubMenu;

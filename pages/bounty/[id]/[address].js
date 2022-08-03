@@ -17,7 +17,7 @@ import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQS
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
 import useAuth from '../../../hooks/useAuth';
 import RepoTitle from '../../../components/Bounty/RepoTitle';
-import BountyMenu from '../../../components/Bounty/BountyMenu';
+import SubMenu from '../../../components/Utils/SubMenu';
 import BountyHeading from '../../../components/Bounty/BountyHeading';
 
 import Add from '../../../components/svg/add';
@@ -153,7 +153,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 				<div className="flex flex-col justify-center items-center pt-4">
 				
 					<RepoTitle bounty={bounty} />
-					<BountyMenu colour="rust" items={[{name: 'View', Svg: Telescope },{name: 'Fund', Svg: Add },{name: 'Refund', Svg: Subtract },{name: 'Claim', Svg: Fire },]} internalMenu={internalMenu} updatePage={setInternalMenu}/>
+					<SubMenu colour="rust" items={[{name: 'View', Svg: Telescope },{name: 'Fund', Svg: Add },{name: 'Refund', Svg: Subtract },{name: 'Claim', Svg: Fire },]} internalMenu={internalMenu} updatePage={setInternalMenu}/>
 					
 					<BountyHeading price={tokenValues?.total}  bounty={bounty} />
 					{internalMenu == 'View' && <BountyCardDetails bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}

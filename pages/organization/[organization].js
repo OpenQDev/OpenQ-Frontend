@@ -10,7 +10,7 @@ import Utils from '../../services/utils/Utils';
 import useAuth from '../../hooks/useAuth';
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
 import OrganizationHeader from '../../components/Organization/OrganizationHeader';
-import BountyMenu from '../../components/Bounty/BountyMenu';
+import SubMenu from '../../components/Utils/SubMenu';
 import Home from '../../components/svg/home';
 import OrganizationMetadata from '../../components/Organization/OrganizationMetadata';
 import OrganizationContent from '../../components/Organization/OrganizationContent';
@@ -28,6 +28,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError }) =>
 	const [offChainCursor, setOffChainCursor] = useState();
 	const [toggleVal, setToggleVal] = useState('Overview');
 	const [complete, setComplete] = useState(fullBounties?.length === 0);
+	
 
 	// Methods
 	async function getBountyData(sortOrder, currentPagination, orderBy, cursor) {
@@ -111,7 +112,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError }) =>
 				:
 				<div className='w-full mx-auto text-primary mt-1 px-4 md:px-16 max-w-[1420px] '>
 					<OrganizationHeader colour="rust"  organizationData={organizationData} />
-					<BountyMenu  items={[{name: 'Overview', Svg: Home },/*{name: 'About', Svg: Question }*/]} internalMenu={toggleVal} updatePage={handleToggle}/>
+					<SubMenu  items={[{name: 'Overview', Svg: Home },/*{name: 'About', Svg: Question }*/]} internalMenu={toggleVal} updatePage={handleToggle}/>
 					{toggleVal === 'Overview' && <div className='px-4 py-3 gap-6 w-full flex flex-wrap md:flex-nowrap'>
 						<OrganizationContent  bounties={bounties} loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} repositories={repositories}/>
 						<OrganizationMetadata organizationData={organizationData} repositories={repositories}/>

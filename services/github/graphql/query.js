@@ -135,8 +135,8 @@ query ($issueIds: [ID!]!) {
         owner {
           url
           avatarUrl
-          login
-					twitterUsername
+					 login
+				
         }
       }
     }

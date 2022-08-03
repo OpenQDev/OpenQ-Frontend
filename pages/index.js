@@ -11,7 +11,7 @@ import WrappedGithubClient from '../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../services/openq-api/WrappedOpenQPrismaClient';
 import Utils from '../services/utils/Utils';
-import BountyMenu from '../components/Bounty/BountyMenu';
+import SubMenu from '../components/Utils/SubMenu';
 
 export default function Index({ orgs, fullBounties, batch }) {
 	useAuth();
@@ -185,7 +185,7 @@ export default function Index({ orgs, fullBounties, batch }) {
 	return (
 		<main className="bg-dark-mode flex-col">
 			<div className="flex justify-center">
-				<BountyMenu updatePage={setInternalMenu} internalMenu={internalMenu} 
+				<SubMenu updatePage={setInternalMenu} internalMenu={internalMenu} 
 					styles={'justify-center'}
 					items={[{name: 'Organizations'}, {name: 'Issues'}]}/>
 				
@@ -226,7 +226,7 @@ export const getServerSideProps = async () => {
 	let githubOrganizations = [];
 	let orgMetadata = [];
 	try{	
-		orgMetadata = await openQPrismaClient.instance.getOrgMetadata(ids);
+		orgMetadata = await openQPrismaClient.instance.getOrgsMetadata(ids);
 	}
 
 	catch(err){
