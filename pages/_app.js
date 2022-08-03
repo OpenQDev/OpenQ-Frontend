@@ -74,7 +74,7 @@ function OpenQ({ Component, pageProps }) {
 					<StoreProvider>
 						<Web3ReactProvider getLibrary={getLibrary}>
 							<Navigation />
-							<Component {...pageProps} />
+							<Component key={router.asPath} {...pageProps} />
 						</Web3ReactProvider>
 					</StoreProvider>
 				</AuthProvider>
