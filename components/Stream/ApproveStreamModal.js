@@ -124,7 +124,7 @@ const ApproveStreamModal = ({
 	return (
 		<div>
 			<div className="justify-center items-center font-mont flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 md:pl-20 outline-none focus:outline-none">
-				<div ref={modal} className="w-1/3 min-w-[320px]">
+				<div ref={modal} className="w-1/3 min-w-[320px]  max-w-[620px]">
 					<div className="border rounded-sm p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none border-web-gray border">
 						<h3 className="flex items-center border-solid text-primary pb-2 text-xl loose">
 							{title[approveTransferState]}

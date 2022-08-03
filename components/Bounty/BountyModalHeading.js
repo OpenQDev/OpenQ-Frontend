@@ -86,11 +86,11 @@ const BountyModalHeading = ({bounty, closeModal, unWatchable})=>{
 					</span>
 				
 				</span>
-				<h2 className='text-xl flex-1 leading-tight min-w-[240px]'><span className='text-primary'>{bounty.title} </span>
+				<h2 className='text-xl flex-1 leading-tight w-96 truncate'><span className='text-primary'>{bounty.title} </span>
 					<Link href={bounty.url} className='text-muted text font-light'><a className='text-link-colour hover:underline'>#{bounty.number}</a></Link>
 				</h2>
 			</div>
-			<div className='min-w-[40px] flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-2'>
+			<div className='min-w-[40px]  flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-2'>
 				<Link href={`/bounty/${bounty.id}/${bounty.bountyAddress}`} >
 					<a onClick={closeModal} target={safe ? '_self' : '_blank'} rel="noopener noreferrer" >
 						<div className='flex gap-3 items-center text-xs text-primary bg-inactive-gray leading-5 h-7 whitespace-nowrap px-3 py-[3px] w-fit hover:bg-active-gray rounded-sm border hover:border-border-active border-border-gray'><StackIcon size={24} />
