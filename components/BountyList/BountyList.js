@@ -68,7 +68,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 			setLabels(labels);
 
 		}
-	}, bounties);
+	}, [bounties]);
 	// NOTE tag search doesn't turn off regular search, it just manages it a little differently.
 	const filter = (bounties, options = {}) => {
 		const localTagArr = options.tagArr || tagArr;

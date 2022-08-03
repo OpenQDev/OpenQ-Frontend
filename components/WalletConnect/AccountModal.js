@@ -31,9 +31,9 @@ const AccountModal = ({ chainId, account, ensName, deactivate, setIsConnecting, 
 	}, [account]); */}
 
 	return (
-		<div class="flex mr-4 flex-col items-center">
-			<div class="flex -mt-2 md:-mt-2 border-b-gray-700 tooltip-triangle absolute"></div>
-			<div class="flex z-40 -mt-1.5 md:-mt-1.5 border-b-[#161B22] tooltip-triangle absolute"></div>
+		<div className="flex mr-4 flex-col items-center">
+			<div className="flex -mt-2 md:-mt-2 border-b-gray-700 tooltip-triangle absolute"></div>
+			<div className="flex z-40 -mt-1.5 md:-mt-1.5 border-b-[#161B22] tooltip-triangle absolute"></div>
 
 			<div ref={domRef} className='flex absolute flex-col mt-0 z-30 bg-[#161B22] w-40 tooltip border-gray-700 border rounded-sm p-0'>
 				<div className='flex text-[#c9d1d9] items-center w-full h-8 p-2 mt-2 ml-2 m-0'>{networkName}</div>
@@ -50,8 +50,8 @@ const AccountModal = ({ chainId, account, ensName, deactivate, setIsConnecting, 
 						<SignOutIcon className='w-4 h-4 ml-2 ' />
 						<span>Disconnect</span>
 					</button>
-					<Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/user/${account}`} onClick={disconnectAccount}>
-						<a className='flex md:hover:bg-[#1f6feb] h-8 items-center w-full hover:text-white text-[#c9d1d9] self-start gap-4 p-2 mb-2'>
+					<Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/user/${account}`}>
+						<a onClick={disconnectAccount} className='flex md:hover:bg-[#1f6feb] h-8 items-center w-full hover:text-white text-[#c9d1d9] self-start gap-4 p-2 mb-2'>
 							<PersonIcon className='w-4 h-4 ml-2' />
 							<span>Profile</span>
 						</a>
