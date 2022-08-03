@@ -9,7 +9,7 @@ import BountyCardDetailsModal from './BountyCardDetailsModal';
 import StoreContext from '../../store/Store/StoreContext';
 import LabelsList from './LabelsList';
 
-const BountyCardLean = ({ bounty, loading, index, length }) => {
+const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 	// State
 	const bountyName = bounty?.title.toLowerCase() || '';
 	const [appState] = useContext(StoreContext);
@@ -33,7 +33,7 @@ const BountyCardLean = ({ bounty, loading, index, length }) => {
 	// Render
 	return (
 		<div className={loading ? 'pointer-events-none cursor-normal relative w-full' : 'w-full'}>
-			{isModal && bounty && <BountyCardDetailsModal TVL={TVL} bounty={bounty} closeModal={closeModal} tokenValues={tokenValues} />}
+			<BountyCardDetailsModal unWatchable={unWatchable} TVL={TVL} bounty={bounty} closeModal={closeModal} showModal={isModal && bounty} tokenValues={tokenValues} />
 			<div onClick={openModal}
 				className={
 					`flex flex-col  md:px-4 py-4 border-web-gray cursor-pointer ${index!==length-1 && 'border-b'}`

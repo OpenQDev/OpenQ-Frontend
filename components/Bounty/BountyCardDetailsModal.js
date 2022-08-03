@@ -11,7 +11,7 @@ import TotalValue from './TotalValue';
 import LabelsList from './LabelsList';
 import CopyBountyAddress from './CopyBountyAddress';
 
-const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues }) => {
+const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues, showModal, unWatchable }) => {
 	const modal = useRef();
 	const { safe } = useWeb3();
 	useEffect(() => {
@@ -36,9 +36,10 @@ const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues }) => {
 
 
 	return (
-		<div className='flex justify-center items-start bg-overlay inset-0 fixed pt-10 overflow-y-scroll z-30'>
+		
+		<div className={showModal ? 'flex justify-center items-start bg-overlay inset-0 fixed pt-10 overflow-y-scroll z-30' : 'hidden'}>
 			<div ref={modal} className="bg-dark-mode pt-2 w-5/6 rounded-sm lg:w-2/3 max-w-3xl text-lg relative overflow-hidden">
-				<BountyModalHeading  closeModal={closeModal} bounty={bounty}/>
+				<BountyModalHeading unWatchable={unWatchable} closeModal={closeModal} bounty={bounty}/>
 				
 				<div className=' w-full px-8 gap-4 flex'>
 					<div className='w-full'><TotalValue bounty={bounty} tokenValues={tokenValues}/></div>
@@ -120,6 +121,7 @@ const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues }) => {
 				</div>
 			</div>
 		</div>
+		
 	);
 };
 
