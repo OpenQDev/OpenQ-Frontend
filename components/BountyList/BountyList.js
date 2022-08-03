@@ -25,7 +25,7 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 	const [isReady, setIsReady] = useState('Ready for work');
 	const [labels, setLabels] = useState([]);
 	
-	const searchRegex = /\label:(\w+)/gi;
+	const searchRegex = /label:"[^"]+"/gi;
 	const orderRegex= /\order:(\w+)/gi;
 	let observer = useRef();
 	// Utilities
@@ -77,7 +77,8 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		/* const localL2eOnly = options.l2eOnly === undefined ? l2eOnly: options.l2eOnly; */
 		
 		const searchedLabelsWrapped = localSearchText.match(searchRegex)||[];
-		const searchedLabels = searchedLabelsWrapped.map(elem=>elem.slice(6));
+		const searchedLabels = searchedLabelsWrapped.map(elem=>elem.slice(7, -1));
+		console.log(searchedLabels);
 		const displayBounties = bounties.filter((bounty) => {
 			const hasLabels = searchedLabels.some((searchedLabel)=> bounty.labels.some(bountyLabel=>bountyLabel.name === searchedLabel))||searchedLabels.length === 0;
 		
@@ -190,8 +191,8 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		updateSearchedBounties(orderBounties(filter(bounties, { searchText: e.target.value })));
 	};
 	const addLabel = (label)=>{
-		updateSearchText(`${searchText} label:${label}`);
-		updateSearchedBounties(orderBounties(filter(bounties, { searchText: `${searchText} label:${label}` })));
+		updateSearchText(`${searchText} label:"${label}"`);
+		updateSearchedBounties(orderBounties(filter(bounties, { searchText: `${searchText} label:"${label}"` })));
 
 	};
 	
