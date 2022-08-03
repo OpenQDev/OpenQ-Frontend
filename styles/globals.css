@@ -136,6 +136,9 @@ pre {
 	.tooltip-triangle {
 		@apply content-none block w-0 h-0 absolute border-x-[18px] border-x-transparent border-b-[18px] border-b-[#6e7781] 
 	}
+	.break-word{
+		word-break: break-word;
+	}
 }
 
 .size-9 * {

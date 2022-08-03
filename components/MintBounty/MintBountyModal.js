@@ -138,7 +138,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 
 	// Render
 	return (
-		<div className={`justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-10 ${appState.walletConnectModal ? 'hidden' : 'flex'}`}>
+		<div className={`justify-center items-center mx-4 overflow-x-hidden overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-10 ${appState.walletConnectModal ? 'hidden' : 'flex'}`}>
 			{error ?
 				<ErrorModal
 					setShowErrorModal={closeModal}
@@ -163,7 +163,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 									</div>}
 								<div className="flex flex-col items-center space-x-1 px-8">
 									{isValidUrl && issue?.closed && !bountyAddress &&
-										<div className="pt-3 ">
+										<div className="text-center pt-3 ">
 											This issue is already closed on GitHub
 										</div>}
 									{isValidUrl && bountyAddress && issue &&
