@@ -29,17 +29,17 @@ const ConnectModal = ({closeModal})=>{
 					<div>
 						<Image alt={'openq-logo'} src={'/openq-logo-white-2.png'} height={32} width={32}/>
 					</div>
-					<h2 className='text-xl font-bold'>Connect Wallet</h2>
+					<h2 className='text-3xl'>Connect Wallet</h2>
 					<p className='text-sm'>Connect your wallet to continue with OpenQ. By connecting your wallet you agree with OpenQ{'\''}s terms of service.</p>
-					<button onClick={handleMetaMask} className='flex p-4 mt-4 my-2 w-full gap-4 hover:bg-[#21262d] hover:text-white rounded-sm hover:border-gray-700 border border-transparent justify-center'>
+					<button onClick={handleMetaMask} className='flex flex-wrap sm:flew-row sm:py-4 mt-4 my-2 w-full gap-4 hover:bg-[#21262d] hover:text-white rounded-sm hover:border-gray-700 border border-transparent justify-center'>
 						<Image src={'/wallet-logos/metamask.png'} height={40} width={40} alt={'metamask logo'}/>
-						<div className='text-xl leading-loose'>
+						<div className='text-lg leading-loose'>
 							Metamask
 						</div>
 					</button>
-					<button onClick={handleWalletConnect} className='flex p-4 mb-4 w-full gap-4 hover:bg-[#21262d] hover:text-white rounded-sm hover:border-gray-700 border border-transparent justify-center'>
+					<button onClick={handleWalletConnect} className='flex flex-wrap sm:flew-row sm:py-4 mb-4 w-full gap-4 hover:bg-[#21262d] hover:text-white rounded-sm hover:border-gray-700 border border-transparent justify-center'>
 						<Image src={'/wallet-logos/wallet-connect.jpg'} className="rounded-full" height={40} width={40} alt={'wallet connect logo'}/>
-						<div className='leading-loose text-xl'>
+						<div className='leading-loose text-lg'>
 							WalletConnect
 						</div>
 					</button>
