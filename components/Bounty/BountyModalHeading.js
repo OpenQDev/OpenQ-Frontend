@@ -31,6 +31,14 @@ const BountyModalHeading = ({bounty, closeModal, unWatchable})=>{
 	};
 
 	const watchBounty = async () => {
+		
+		if(!account){const payload = {
+			type: 'CONNECT_WALLET',
+			payload: true
+		};
+		dispatch(payload);
+		return; 
+		}
 		try {
 			const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature?address=${account}`, { withCredentials: true });
 			if (response.data.status===false) {
@@ -90,7 +98,7 @@ const BountyModalHeading = ({bounty, closeModal, unWatchable})=>{
 						</div>
 					</a>
 				</Link>
-				{!unWatchable &&
+				{!unWatchable && account &&
 				<button onClick={watchBounty} disabled={watchDisabled} className='flex items-center text-xs text-primary bg-inactive-gray leading-5 h-7 px-3 py-[3px] hover:bg-active-gray rounded-sm border hover:border-border-active border-border-gray'>
 					{watchingDisplay  ?
 						<svg xmlns="http://www.w3.org/2000/svg" 
