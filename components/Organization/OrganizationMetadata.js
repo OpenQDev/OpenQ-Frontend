@@ -20,7 +20,7 @@ const OrganizationMetadata = ({organizationData, repositories})=>{
 			{organizationData?.membersWithRole?.nodes?.length >0 && <li className='border-b border-web-gray pt-3 pb-6'>
 				<div className='text-normal text-primary pb-3'>People</div>
 				<div className='flex gap-2 flex-wrap'>
-					{organizationData.membersWithRole.nodes.map((member, index)=>{return <ToolTip key={index} toolTipText={member.name}>
+					{organizationData.membersWithRole.nodes.map((member, index)=>{return <ToolTip key={index} toolTipText={member.name|| member.login}>
 						<Link href={member.url}>
 							<Image key={index} className='rounded-lg cursor-pointer' height={36} width={36} src={member.avatarUrl}/>
 						</Link>						

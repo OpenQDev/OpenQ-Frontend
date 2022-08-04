@@ -3,10 +3,12 @@
  * @jest-environment jsdom
  */
 import React from 'react';
+import userEvent from '@testing-library/user-event';
 
 import { render, screen } from '../../test-utils';
 import OrganizationContent from '../../components/Organization/OrganizationContent';
 import mocks from '../../__mocks__/mock-server.json';
+import InitialState from '../../store/Store/InitialState';
  
 
 describe('OrganizationContent', ( ) => {
@@ -19,6 +21,16 @@ describe('OrganizationContent', ( ) => {
 		}
 		return { ...org, ...currentGithubOrg };
 	});
+	
+	beforeEach(()=>{
+		const observe = jest.fn();
+		const disconnect = jest.fn();
+
+		window.IntersectionObserver = jest.fn(() => ({
+			observe,
+			disconnect,
+		}));
+	});
 
 	const test =(org)=>{
 		const githubIds = org.bountiesCreated.map(bounty=>bounty.bountyId);
@@ -29,21 +41,22 @@ describe('OrganizationContent', ( ) => {
 			if (repositories.some(repo=>repo.name===bounty.repoName)){
 				return repositories;
 			}
-			return [...repositories, {name: bounty.repoName, languages: bounty.languages, description: bounty.repoDescription, url: bounty.repoUrl}];
+			return [...repositories, {name: bounty.repoName, languages: bounty.languagues, description: bounty.repoDescription, url: bounty.repoUrl}];
 	
 		},[]);
-		
-		it('should render Horizontal Org card', async()=>{
+		it(`should render Org content card for ${org.login}`, async()=>{
 			// ARRANGE
-			render(<OrganizationContent repositories={ repositories} organization={org} />);
+			const user  = userEvent.setup();
+			render(<OrganizationContent bounties={bounties} repositories={ repositories} complete={true} organization={org} />);
 			const name = org.name || org.login;
 			// ASSERT
+
+			await user.click(screen.getByText(/all Issues/i));
 			const nameRegex = new RegExp(name.slice(0, 3), 'i');
-			const title = screen.getAllByText(nameRegex);
+			const title = await screen.findAllByText(nameRegex);
 			expect(title[0]).toBeInTheDocument();
-			expect(screen.getByText('Star')).toBeInTheDocument();
 			const images = screen.getAllByRole('img');
-			expect(images).toHaveLength(1);
+			expect(images).toHaveLength(bounties.length* 4);
 			
 			// should not have null or undefined values
 			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		

@@ -43,8 +43,9 @@ describe('OrganizationMetadata', ( ) => {
 			if(organization.login==='OpenQDev'){
 				const language = screen.getByText(/JavaScript/i);
 				expect(language).toBeInTheDocument();}
-			const images = screen.queryAllByRole('img');
-			expect(images).toHaveLength(organization.membersWithRole.nodes.length);
+			if(organization.membersWithRole)	{
+				const images = screen.queryAllByRole('img');
+				expect(images).toHaveLength(organization.membersWithRole.nodes.length);}
 			
 			// should not have null or undefined values
 			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		

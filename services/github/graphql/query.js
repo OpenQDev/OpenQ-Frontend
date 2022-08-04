@@ -1,5 +1,18 @@
 import { gql } from '@apollo/client';
 
+export const GET_LEAN_ISSUES_BY_ID = gql`
+query($issueIds: [ID!]!) {
+  nodes(ids: $issueIds) {
+    ... on Issue {
+      title
+			url
+      id
+		}
+	}
+}`;
+
+
+
 export const GET_ISSUE = gql`
   query GetIssue($issueUrl: URI!) {
     resource(url: $issueUrl) {
@@ -39,6 +52,27 @@ query GetOrg($orgId: ID!) {
   }
 }
 `;
+
+export const GET_ORGS_OR_USERS_BY_IDS = gql`
+query GetOrgs($ids: [ID!]!) {
+  nodes(ids: $ids) {
+		__typename
+    ...on Organization {
+      name
+      login
+      id
+      url
+    }
+    ...on User {
+      name
+      login
+      id
+			url
+    }
+  }
+}
+`;
+
 
 export const GET_ORGS_BY_IDS = gql`
 query GetOrgs($orgIds: [ID!]!) {
@@ -105,6 +139,7 @@ query GetOrg($login: String!) {
       nodes {
         avatarUrl
 				name
+				login
 				url
       }
     }
