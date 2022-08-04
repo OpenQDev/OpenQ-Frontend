@@ -39,10 +39,10 @@ const AboutFreelancer = ({ user, organizations, watchedBounties, starredOrganiza
 			</div>
 			<div className='flex flex-col w-full'>
 				
-				<SubMenu internalMenu={internalMenu} updatePage={setInternalMenu} styles="sm:mx-auto sm:w-3/4 border-none justify-center sm:justify-start" colour="rust"  items={[{name: 'Overview', Svg: BookIcon}, {name: 'Stars', Svg: StarIcon}, {name:'Watching', Svg: EyeIcon}]}/>
+				<SubMenu internalMenu={internalMenu} updatePage={setInternalMenu} styles="sm:mx-auto sm:w-3/4 max-w-[960px] border-none justify-center sm:justify-start" colour="rust"  items={[{name: 'Overview', Svg: BookIcon}, {name: 'Stars', Svg: StarIcon}, {name:'Watching', Svg: EyeIcon}]}/>
 				<div className='flex flex-col sm:px-20 px-4 border-t border-web-gray'>
 					{internalMenu == 'Overview' ?
-						(<div className='w-full'>
+						(<div className='w-full  max-w-[1240px] mx-auto'>
 							<AboutTitle ensName={ensName} account={account} />
 
 							<UserHistory organizations={organizations} payouts={payouts} />
