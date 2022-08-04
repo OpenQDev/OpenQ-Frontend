@@ -40,6 +40,14 @@ query GetPayoutTransactionHash($bountyAddress: ID!) {
   }
 }
 `;
+export const GET_LEAN_ORGANIZATIONS = gql`query GetOrganization {
+organizations  {id}
+}`;
+
+export const GET_LEAN_BOUNTIES = gql`
+query getBounty {  
+  bounties{id, bountyId}
+}`;
 
 export const GET_BOUNTY = gql`
 query GetBounty($id: ID!) {

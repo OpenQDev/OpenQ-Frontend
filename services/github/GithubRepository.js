@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { GET_USER_BY_ID, GET_USER_BY_NAME, GET_ORG_BY_ID, GET_ORG_BY_NAME, GET_ISSUE, GET_ISSUE_BY_ID, GET_ISSUES_BY_ID, GET_ORGS_BY_ISSUES, GET_ORGS_BY_IDS,  GET_PRS_BY_ISSUES, GET_PR_BY_ID, GET_USER_BY_URL, GET_USERS_BY_IDS } from './graphql/query';
+import { GET_USER_BY_ID, GET_USER_BY_NAME, GET_ORG_BY_ID, GET_ORG_BY_NAME, GET_ISSUE, GET_ISSUE_BY_ID, GET_ISSUES_BY_ID, GET_ORGS_BY_ISSUES, GET_ORGS_BY_IDS,  GET_PRS_BY_ISSUES, GET_PR_BY_ID, GET_USER_BY_URL, GET_USERS_BY_IDS, GET_ORGS_OR_USERS_BY_IDS, GET_LEAN_ISSUES_BY_ID } from './graphql/query';
 import fetch from 'cross-fetch';
 import { setContext } from '@apollo/client/link/context';
 
@@ -120,7 +120,20 @@ class GithubRepository {
 
 		return promise;
 	}
+	async getLeanIssueData(issueIds) {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.query({
+					query: GET_LEAN_ISSUES_BY_ID, variables: { issueIds }, errorPolicy: 'all'
+				});
+				resolve(result.data.nodes);
+			} catch (e) {
+				reject(e);
+			}
+		});
 
+		return promise;
+	}
 	async fetchOrgsWithIssues(issueIds) {
 
 		const promise = new Promise(async (resolve, reject) => {
@@ -136,7 +149,21 @@ class GithubRepository {
 
 		return promise;
 	}
+	async searchOrgOrUser(ids) {
+		console.log(ids);
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.query({
+					query: GET_ORGS_OR_USERS_BY_IDS, variables: { ids },
+				});
+				resolve(result.data.nodes);
+			} catch (e) {
+				reject(e);
+			}
+		});
 
+		return promise;
+	}
 	async fetchOrgOrUserByLogin(login) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {

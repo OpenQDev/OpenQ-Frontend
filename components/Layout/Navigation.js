@@ -1,29 +1,64 @@
 // Third party
-import React, { useState, useEffect, useContext } from "react";
-import { SafeAppConnector } from "@gnosis.pm/safe-apps-web3-react";
-import axios from "axios";
+import React, { useState, useEffect, useContext } from 'react';
+import { SafeAppConnector } from '@gnosis.pm/safe-apps-web3-react';
+import axios from 'axios';
 import Link from 'next/link';
 // Custom
-import StoreContext from "../../store/Store/StoreContext.js";
-import ConnectButton from "../WalletConnect/ConnectButton.js";
-import ProfilePicture from "./ProfilePicture.js";
-import Image from "next/image";
-import FirstTimeBanner from "./FirstTimeBanner";
-import Footer from "./Footer.js";
-import useWeb3 from "../../hooks/useWeb3.js";
-import ToolTipNew from "../Utils/ToolTipNew.js";
-import { ThreeBarsIcon } from "@primer/octicons-react";
+import StoreContext from '../../store/Store/StoreContext.js';
+import ConnectButton from '../WalletConnect/ConnectButton.js';
+import ProfilePicture from './ProfilePicture.js';
+import Image from 'next/image';
+import FirstTimeBanner from './FirstTimeBanner';
+import useWeb3 from '../../hooks/useWeb3.js';
+import ToolTipNew from '../Utils/ToolTipNew.js';
+import { ThreeBarsIcon } from '@primer/octicons-react';
+import LinkDropdown from '../Utils/LinkDropdown.js';
+import { useRouter } from 'next/router.js';
 
-const Navigation = ({ }) => {
+const Navigation = () => {
 
 	const [gnosisSafe, setGnosisSafe] = useState();
 	const [safeInfo, setSafeInfo] = useState();
 	const { account, activate, deactivate } = useWeb3();
 	const [appState] = useContext(StoreContext);
 	const [openMenu, setOpenMenu] = useState(false);
+	const [quickSearch, setQuickSearch] = useState();
+	const [items, setItems] = useState([]);
+	const [searchable, setSearchable] = useState();
+
+
+	const router = useRouter();
+	
+	useEffect(() => {
+		setQuickSearch('');
+	}, [router.asPath]);
+
+	useEffect(async()=>{
+	},[]);
 
 	useEffect(async () => {
-		//const openQPrismaClient = new WrappedOpenQPrismaClient();
+	// set up searchable
+		const subgraphOrganizations = await appState.openQSubgraphClient.getOrganizationIds();
+	
+		const subgraphBounties = await appState.openQSubgraphClient.getBountyIds();
+		const githubOrganizations = await appState.githubRepository.searchOrgOrUser(subgraphOrganizations.organizations.map(organization=>organization.id));
+		const prismaOrganizations = await appState.openQPrismaClient.getOrgsMetadata(subgraphOrganizations.organizations.map(organization=>organization.id));
+		const githubIssues = await appState.githubRepository.getLeanIssueData(subgraphBounties.map(bounty=>bounty.bountyId));
+		const prismaBounties = await appState.openQPrismaClient.getBlackListed(subgraphBounties.map(bounty=>bounty.id));
+		const fullOrgs = githubOrganizations.map((organization)=>{
+			const prismaOrg = prismaOrganizations.some((prismaOrganization)=>prismaOrganization.id === organization.id);
+			return {...organization, ...prismaOrg};
+		});
+		const fullBounties = appState.utils.combineBounties(subgraphBounties, githubIssues, prismaBounties);
+		const searchable = [...fullBounties, ...fullOrgs].map(searchableItem=>{
+			const url = searchableItem.title? `${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${searchableItem.bountyId}/${searchableItem.id}`: `${process.env.NEXT_PUBLIC_BASE_URL}/organization/${searchableItem.login}`;
+			const name = searchableItem.name ||searchableItem.title|| searchableItem.login;
+		
+			return {name: name.toLowerCase(), url, isIssue: searchableItem.title};
+		});
+		
+		setSearchable(searchable);
+		// set up gnosis safe
 		const safe = new SafeAppConnector();
 		safe.getSafeInfo().then((data) => {
 			if (data) {
@@ -33,7 +68,7 @@ const Navigation = ({ }) => {
 		});
 		setGnosisSafe(safe);
 
-		// First tokens + matic
+		// set up tokens
 		const GET_PRICES = {
 			query: `{
 			prices {
@@ -46,7 +81,7 @@ const Navigation = ({ }) => {
 		let tokenPrices = {};
 
 		try {
-			if (process.env.NEXT_PUBLIC_DEPLOY_ENV === "local") {
+			if (process.env.NEXT_PUBLIC_DEPLOY_ENV === 'local') {
 				const response = await axios.get(
 					`${process.env.NEXT_PUBLIC_OPENQ_API_URL}/prices`
 				);
@@ -54,14 +89,14 @@ const Navigation = ({ }) => {
 			} else {
 				const response = await axios({
 					url: process.env.NEXT_PUBLIC_OPENQ_API_URL,
-					method: "post",
-					headers: { "content-type": "application/json" },
+					method: 'post',
+					headers: { 'content-type': 'application/json' },
 					data: GET_PRICES,
 				});
 				tokenPrices = response?.data?.data?.prices?.priceObj || {};
 			}
 		} catch (err) {
-			console.log("could not fetch initial prices", err);
+			console.log('could not fetch initial prices', err);
 		}
 
 		appState.tokenClient.firstTenPrices = tokenPrices;
@@ -72,6 +107,16 @@ const Navigation = ({ }) => {
 			await activate(gnosisSafe);
 		}
 	}, [account]);
+	
+	const handleSearch = (e)=>{
+		setQuickSearch(e.target.value);
+
+		const names = searchable.filter(searchableItem=>{
+			return	searchableItem.name.includes(e.target.value.toLowerCase());
+		}).map(searchableItem=>searchableItem);
+		setItems(e.target.value? names : []);
+	};
+	
 
 	return (
 		<div className="bg-nav-bg py-1 ">
@@ -98,13 +143,16 @@ const Navigation = ({ }) => {
 							<ThreeBarsIcon size={24} />
 						</button>
 
-						<div className="md:flex hidden items-center">
-							<input
-								className="md:flex hidden pr-24 mr-2 items-center input-field"
-								onKeyUp={(e) => setQuickSearch(e.target.value)}
-								type="text"
-								placeholder="Search OpenQ"
-							></input>
+						<div className="md:flex hidden items-start">
+							<div className='flex-col mr-2 h-7  group'>
+								<input
+									className="md:flex hidden pr-24 items-center input-field"
+									onChange={handleSearch}
+									value={quickSearch}
+									type="text"
+									placeholder="Search OpenQ"
+								></input>
+								{quickSearch && <LinkDropdown toggleFunc={()=>setSearchable('')} items= {items}/>}</div>
 							<Link href={'/'}>
 								<a className="items-center">
 									<div className="mx-2 text-[0.8rem] tracking-wider text-nav-text md:hover:opacity-70 font-bold hover:cursor-pointer">
@@ -144,8 +192,9 @@ const Navigation = ({ }) => {
 					<div className="flex flex-col p-4 space-x-1 space-y-2 w-full">
 						<input
 							className="flex mb-2 justify-between w-full items-center input-field "
-							onKeyUp={(e) => setQuickSearch(e.target.value)}
+							onChange={handleSearch}
 							type="text"
+							value={quickSearch}
 							placeholder="Search OpenQ"
 						></input>
 						<Link href={'/'}>

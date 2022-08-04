@@ -105,10 +105,10 @@ class Utils {
 			
 
 			const relatedMetadata = metadata.find((metadataBounty)=>{
-				return 	metadataBounty.address.toLowerCase()===bounty.bountyAddress;
+				return 	metadataBounty.address?.toLowerCase()===bounty.bountyAddress;
 			}) || {};
 			if(relatedIssue && relatedMetadata){
-				let mergedBounty = { ...bounty, ...relatedIssue, ...relatedMetadata };
+				let mergedBounty = {  ...relatedIssue, ...bounty, ...relatedMetadata };
 				fullBounties.push(mergedBounty);}
 
 		
