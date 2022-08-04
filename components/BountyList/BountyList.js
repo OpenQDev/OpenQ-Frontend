@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 //Custom
-import BountyCardLean from '../Bounty/BountyCardLean';
+import BountyCardLean from '../BountyCard/BountyCardLean';
 import Dropdown from '../Utils/Dropdown';
 import SearchBar from '../Search/SearchBar';
 import MintBountyButton from '../MintBounty/MintBountyButton';

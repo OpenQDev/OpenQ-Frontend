@@ -8,12 +8,13 @@ import polygonTokensIndexable from './polygon-tokens-indexable.json';
 import polygonTokensEnumerable from './polygon-tokens-enumerable.json';
 import { GET_STREAMS_BY_ACCOUNT } from './graphql/query';
 import { HttpLink, ApolloClient, InMemoryCache } from '@apollo/client';
+import fetch from 'cross-fetch';
 
 class SuperfluidClient {
-	httpLink = new HttpLink({ uri: 'http://localhost:8020/subgraphs/name/superfluid-test/graphql', fetch });
+	httpLink = new HttpLink({ uri: process.env.SUPERFLUID_SUBGRAPH_URL ||'http://localhost:8000/subgraphs/name/superfluid-test', fetch });
 
 	client = new ApolloClient({
-		uri:'http://localhost:8020/subgraphs/name/superfluid-test/graphql',
+		uri: process.env.SUPERFLUID_SUBGRAPH_URL||'http://localhost:8000/subgraphs/name/superfluid-test',
 
 		link: this.httpLink,
 		cache: new InMemoryCache(),
@@ -272,6 +273,7 @@ class SuperfluidClient {
 
 	viewAccount(account) {
 		const promise = new Promise(async (resolve, reject) => {
+			console.log(process.env.SUPERFLUID_SUBGRAPH_URL);
 			try {
 				const result = await this.client.query({
 					query: GET_STREAMS_BY_ACCOUNT,

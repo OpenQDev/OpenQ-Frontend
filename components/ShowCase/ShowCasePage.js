@@ -192,7 +192,7 @@ const ShowCasePage = ({pr, bounty}) => {
 						
 						{isAuthor &&
 					<button className='mt-1' value={contributor.id} onClick={removeContributor}>
-						<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 stroke-web-gray hover:stroke-white" fill="none" viewBox="0 0 24 24" strokeWidth="2">
+						<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 stroke-muted hover:stroke-primary" fill="none" viewBox="0 0 24 24" strokeWidth="2">
 							<path strokeLinecap="round" strokeLinejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
 						</svg> </button>}
 					</div>{bounty.closer?.id?.length===42 && <CopyAddressToClipboard clipping={[5, 38]} data={bounty.closer.id}/>}
