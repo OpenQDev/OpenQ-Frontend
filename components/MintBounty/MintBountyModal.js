@@ -13,7 +13,7 @@ import MintBountyInput from './MintBountyInput';
 import ErrorModal from '../ConfirmErrorSuccessModals/ErrorModal';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 
-const MintBountyModal = ({ modalVisibility }) => {
+const MintBountyModal = ({ modalVisibility, type }) => {
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
 	const { library, account } = useWeb3();
@@ -148,7 +148,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 					<div ref={modal} className="min-w-[320px] space-y-5 z-50 ">
 						<div className="w-full">
 							<div className="border-0 rounded-sm shadow-lg flex flex-col bg-[#161B22] outline-none focus:outline-none z-11">
-								<MintBountyHeader />
+								<MintBountyHeader type={type}/>
 								<div className="flex flex-col items-center pl-6 pr-6 space-y-2">
 									<MintBountyInput
 										setIssueUrl={setIssueUrl}
