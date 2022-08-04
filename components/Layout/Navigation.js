@@ -44,14 +44,14 @@ const Navigation = () => {
 		const githubOrganizations = await appState.githubRepository.searchOrgOrUser(subgraphOrganizations.organizations.map(organization=>organization.id));
 		const prismaOrganizations = await appState.openQPrismaClient.getOrgsMetadata(subgraphOrganizations.organizations.map(organization=>organization.id));
 		const githubIssues = await appState.githubRepository.getLeanIssueData(subgraphBounties.map(bounty=>bounty.bountyId));
-		const prismaBounties = await appState.openQPrismaClient.getBlackListed(subgraphBounties.map(bounty=>bounty.id));
+		const prismaBounties = await appState.openQPrismaClient.getBlackListed(subgraphBounties.map(bounty=>bounty.bountyAddress));
 		const fullOrgs = githubOrganizations.map((organization)=>{
-			const prismaOrg = prismaOrganizations.some((prismaOrganization)=>prismaOrganization.id === organization.id);
+			const prismaOrg = prismaOrganizations.some((prismaOrganization)=>prismaOrganization.id === organization.bountyAddress);
 			return {...organization, ...prismaOrg};
-		});
+		}).filter(bounty=>!bounty.blacklisted);
 		const fullBounties = appState.utils.combineBounties(subgraphBounties, githubIssues, prismaBounties);
 		const searchable = [...fullBounties, ...fullOrgs].map(searchableItem=>{
-			const url = searchableItem.title? `${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${searchableItem.bountyId}/${searchableItem.id}`: `${process.env.NEXT_PUBLIC_BASE_URL}/organization/${searchableItem.login}`;
+			const url = searchableItem.title? `${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${searchableItem.bountyId}/${searchableItem.bountyAddress}`: `${process.env.NEXT_PUBLIC_BASE_URL}/organization/${searchableItem.login}`;
 			const name = searchableItem.name ||searchableItem.title|| searchableItem.login;
 		
 			return {name: name.toLowerCase(), url, isIssue: searchableItem.title};

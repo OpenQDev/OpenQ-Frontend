@@ -335,7 +335,6 @@ class GithubRepository {
 				const result = await this.client.query({
 					query: GET_USER_BY_URL, variables: { url },
 				});
-				console.log(result);
 				resolve(result.data.resource.id);
 			} catch (e) {
 				reject(e);

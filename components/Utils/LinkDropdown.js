@@ -32,7 +32,8 @@ const LinkDropdown = ({  items, styles }) => {
 												</path>
 											</svg>
 									}
-									{item.name}
+									<span className='max-w-[100px] truncate '>
+										{item.name}</span>
 								</a>
 							</Link>
 						</li>
