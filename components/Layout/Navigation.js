@@ -31,6 +31,7 @@ const Navigation = () => {
 	
 	useEffect(() => {
 		setQuickSearch('');
+		setOpenMenu(false);
 	}, [router.asPath]);
 
 	useEffect(async()=>{
@@ -116,7 +117,7 @@ const Navigation = () => {
 		}).map(searchableItem=>searchableItem);
 		setItems(e.target.value? names.slice(0, 5) : []);
 	};
-	
+
 
 	return (
 		<div className="bg-nav-bg py-1 ">
@@ -143,8 +144,8 @@ const Navigation = () => {
 							<ThreeBarsIcon size={24} />
 						</button>
 
-						<div className="md:flex hidden items-start">
-							<div className='flex-col mr-2 h-7  group'>
+						<div className="md:flex hidden  content-center  items-center">
+							<div className='flex-col justify-center mr-2 h-7  group'>
 								<input
 									className="md:flex hidden pr-24 items-center input-field"
 									onChange={handleSearch}
@@ -152,9 +153,9 @@ const Navigation = () => {
 									type="text"
 									placeholder="Search OpenQ"
 								></input>
-								{quickSearch && <LinkDropdown toggleFunc={()=>setSearchable('')} items= {items}/>}</div>
+								{quickSearch && <LinkDropdown  items= {items}/>}</div>
 							<Link href={'/'}>
-								<a className="items-center">
+								<a >
 									<div className="mx-2 text-[0.8rem] tracking-wider text-nav-text md:hover:opacity-70 font-bold hover:cursor-pointer">
 										Atomic contracts
 									</div>
@@ -190,13 +191,15 @@ const Navigation = () => {
 			{openMenu ?
 				<div className="flex md:hidden w-full">
 					<div className="flex flex-col p-4 space-x-1 space-y-2 w-full">
-						<input
-							className="flex mb-2 justify-between w-full items-center input-field "
-							onChange={handleSearch}
-							type="text"
-							value={quickSearch}
-							placeholder="Search OpenQ"
-						></input>
+						<div className='flex-col mr-2 h-7  group'>
+							<input
+								className="flex pr-24 items-center input-field"
+								onChange={handleSearch}
+								value={quickSearch}
+								type="text"
+								placeholder="Search OpenQ"
+							></input>
+							{quickSearch && <LinkDropdown  items= {items}/>}</div>
 						<Link href={'/'}>
 							<a className="flex items-center pt-1 border-t border-gray-700">
 								<div className="text-[0.8rem] tracking-wider text-nav-text font-bold">
