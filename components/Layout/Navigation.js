@@ -114,7 +114,7 @@ const Navigation = () => {
 		const names = searchable.filter(searchableItem=>{
 			return	searchableItem.name.includes(e.target.value.toLowerCase());
 		}).map(searchableItem=>searchableItem);
-		setItems(e.target.value? names : []);
+		setItems(e.target.value? names.slice(0, 5) : []);
 	};
 	
 
