@@ -13,6 +13,7 @@ import MintBountyInput from './MintBountyInput';
 import ErrorModal from '../ConfirmErrorSuccessModals/ErrorModal';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import SmallToggle from '../Utils/SmallToggle';
+import TierInput from './TierInput';
 
 const MintBountyModal = ({ modalVisibility, type }) => {
 	// Context
@@ -31,6 +32,8 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 	const [enableMint, setEnableMint] = useState();
 	const isValidUrl = appState.utils.issurUrlRegex(url);
 	const [invoice, setInvoice] = useState(false);
+	const [tier, setTier] = useState(0);
+	const [tierArr, setTierArr] = useState([]);
 
 	// Refs
 	const modal = useRef();
@@ -138,6 +141,14 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 		};
 	}, [modal, isLoading]);
 
+	// Methods
+
+	function onTierChange(e) {
+		setTier(e.target.value);
+		setTierArr(Array.from({length: e.target.value}, (_, i) => i + 1));
+		console.log(tierArr);
+	};
+
 	// Render
 	return (
 		<div className={`justify-center items-center mx-4 overflow-x-hidden overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-10 ${appState.walletConnectModal ? 'hidden' : 'flex'}`}>
@@ -217,31 +228,70 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 										</div>
 									</>
 									:
-									type === 'Ongoing' ? 
-									<>
-										<div className="flex flex-col items-center pl-6 pr-6 pb-2">
-											<div className="flex flex-col w-4/5 md:w-2/3">
-												<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
-													<div className='flex items-center gap-2'>Reward Split?
-														<ToolTipNew mobileX={10} toolTipText={'How much will each successful submitter earn?'} >
-															<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
-														</ToolTipNew>
-													</div>
-													<div className='flex-1 w-full mt-2 ml-4'>
-														<input
-															className={`flex-1 input-field w-full`}
-															id="name"
-															placeholder="150 DAI"
-															autoComplete="off"
-															type="text"
-														/>
+									type === 'Ongoing' ?
+										<>
+											<div className="flex flex-col items-center pl-6 pr-6 pb-2">
+												<div className="flex flex-col w-4/5 md:w-2/3">
+													<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
+														<div className='flex items-center gap-2'>Reward Split?
+															<ToolTipNew mobileX={10} toolTipText={'How much will each successful submitter earn?'} >
+																<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+															</ToolTipNew>
+														</div>
+														<div className='flex-1 w-full mt-2 ml-4'>
+															<input
+																className={`flex-1 input-field w-full`}
+																id="name"
+																placeholder="150 DAI"
+																autoComplete="off"
+																type="text"
+															/>
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									</>
-									:
-									null
+										</>
+										:
+										type === 'Tiered' ?
+											<>
+												<div className="flex flex-col items-center pl-6 pr-6 pb-2">
+													<div className="flex flex-col w-4/5 md:w-2/3">
+														<div className='flex flex-col w-full items-start p-2 py-1 text-base'>
+															<div className='flex items-center gap-2'>How many Tiers?
+																<ToolTipNew mobileX={10} toolTipText={'How many people will be able to claim a prize?'} >
+																	<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+																</ToolTipNew>
+															</div>
+															<div className='flex-1 w-full mt-2 ml-4'>
+																<input
+																	className={`flex-1 input-field w-full`}
+																	id="name"
+																	placeholder="0"
+																	autoComplete="off"
+																	type="text"
+																	value={tier}
+																	onChange={(e) => onTierChange(e)}
+																/>
+															</div>
+														</div>
+														{tier > 0 ?
+															<>
+															<div className='flex flex-col w-full items-start p-2 py-1 text-base'>
+															<div className='flex items-center gap-2'>Weight per Tier
+																<ToolTipNew mobileX={10} toolTipText={'How much will each winner earn?'} >
+																	<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+																</ToolTipNew>
+															</div>
+															{tierArr.map(t => <TierInput tier={t}/>)}
+														</div>
+															</>
+															: null
+														}
+													</div>
+												</div>
+											</>
+											:
+											null
 								}
 
 								<div className="p-5 w-full">
