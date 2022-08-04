@@ -86,7 +86,7 @@ const BountyModalHeading = ({bounty, closeModal, unWatchable})=>{
 					</span>
 				
 				</span>
-				<h2 className='text-xl flex-1 leading-tight w-96 truncate'><span className='text-primary'>{bounty.title} </span>
+				<h2 className='text-xl flex-1 leading-tight md:w-96'><span className='flex text-primary break-word'>{bounty.title} </span>
 					<Link href={bounty.url} className='text-muted text font-light'><a className='text-link-colour hover:underline'>#{bounty.number}</a></Link>
 				</h2>
 			</div>
