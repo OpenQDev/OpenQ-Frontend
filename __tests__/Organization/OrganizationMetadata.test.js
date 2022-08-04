@@ -35,7 +35,6 @@ describe('OrganizationMetadata', ( ) => {
 			return [...repositories, {name: bounty.repoName, languages: bounty.languages, description: bounty.repoDescription, url: bounty.repoUrl}];
 	
 		},[]);
-		console.log(repositories);
 		it('should render Org homepage', async()=>{
 			// ARRANGE
 			render(<OrganizationMetadata organizationData={organization} repositories={repositories} complete={true}/>);

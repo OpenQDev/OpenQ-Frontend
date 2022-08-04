@@ -12,7 +12,6 @@ import useAuth from '../../hooks/useAuth';
 
 const account = ({account, user, organizations, renderError, watchedBounties, starredOrganizations}) => {
 	useAuth();
-	console.log(starredOrganizations);
 	return (
 
 		<div className=' gap-4 justify-center pt-12'>{user ?
@@ -52,7 +51,6 @@ export const getServerSideProps = async(context)=>{
 	try{
 		const	userOnChainData = await openQSubgraphClient.instance.getUser(account.toLowerCase());
 		const userOffChainData = await openQPrismaClient.instance.getUser(ethers.utils.getAddress(account));
-		console.log(userOffChainData);
 		// fetch issues freelancer is watching.
 		
 		const watchedBountyIdsLowerCase = userOffChainData.watchedBountyIds.map(contract=>contract.toLowerCase());

@@ -1,5 +1,5 @@
 // Third Party
-import React, { useEffect } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -7,10 +7,6 @@ import Link from 'next/link';
 import ToolTip from '../Utils/ToolTipNew';
 
 const OrganizationMetadata = ({organizationData, repositories})=>{
-	useEffect(()=>{
-		console.log(JSON.stringify(organizationData));
-	});
-
 	const languages = repositories.reduce((languages, repository)=>{
 		const newLanguages = repository.languages.filter(currentLanguage=>!languages.some(language=>currentLanguage.name ===language.name));
 	

@@ -78,7 +78,6 @@ const BountyList = ({ bounties, watchedBounties,  loading, complete, getMoreData
 		
 		const searchedLabelsWrapped = localSearchText.match(searchRegex)||[];
 		const searchedLabels = searchedLabelsWrapped.map(elem=>elem.slice(7, -1));
-		console.log(searchedLabels);
 		const displayBounties = bounties.filter((bounty) => {
 			const hasLabels = searchedLabels.some((searchedLabel)=> bounty.labels.some(bountyLabel=>bountyLabel.name === searchedLabel))||searchedLabels.length === 0;
 		
