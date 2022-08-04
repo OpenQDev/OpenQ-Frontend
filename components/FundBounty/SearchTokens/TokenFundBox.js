@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 import TokenSearch from './TokenSearch';
 import Image from 'next/image';
 
-const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token,  volume }) => {
+const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token,  volume, placeholder }) => {
 	const [showTokenSearch, setShowTokenSearch] = useState(false);
 	
 	
 	return (
 		<div className='flex space-x-4'>
 			<div className="flex w-full flex-row justify-between items-center px-4 input-field-big">
-				<div className={'px-4 bg-dark-mode'}>
+				<div className={' bg-dark-mode'}>
 					<input
 						aria-label="amount"
 						className="font-semibold number outline-none bg-dark-mode text-primary w-full"
 						autoComplete="off"
 						value={volume}
-						placeholder={'0.0'}
+						placeholder={placeholder || '0.0'}
 						id="amount"
 						onChange={(event) => onVolumeChange(event.target.value)}
 					/>
