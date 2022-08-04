@@ -173,7 +173,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 
 	// Render
 	return (
-		<div className={`justify-center items-center mx-4 overflow-x-hidden overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-10 ${appState.walletConnectModal ? 'hidden' : 'flex'}`}>
+		<div className={`justify-center items-start sm:items-center mx-4 overflow-x-hidden overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-10 ${appState.walletConnectModal ? 'hidden' : 'flex'}`}>
 			{error ?
 				<ErrorModal
 					setShowErrorModal={closeModal}
@@ -181,7 +181,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 				/> :
 				<>
 					<div ref={modal} className="w-3/5 min-w-[320px] z-50 ">
-						<div className="w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-2">
+						<div className="w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-1">
 							<MintBountyHeader type={type} />
 							<div className="flex flex-col items-center pl-6 pr-6">
 								<MintBountyInput
@@ -273,7 +273,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 													</div>
 													{tier > 0 ?
 														<>
-															<div className='flex flex-col w-full items-start p-2 py-1 text-base'>
+															<div className='flex flex-col w-full items-start p-2 py-1 pb-0 text-base'>
 																<div className='flex items-center gap-2 pb-2'>Weight per Tier
 																	<ToolTipNew mobileX={10} toolTipText={'How much will each winner earn?'} >
 																		<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
@@ -293,7 +293,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 										null
 							}
 
-							<div className="p-5 w-full">
+							<div className="p-5 pt-2 w-full">
 								<ToolTipNew
 									outerStyles={''}
 									hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
