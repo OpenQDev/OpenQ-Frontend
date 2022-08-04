@@ -16,7 +16,7 @@ const TierInput = ({tier}) => {
 	}, [])
 
 	return (
-		<div className='flex-1 w-full mt-2 ml-4'>
+		<div className='flex-1 w-11/12 mb-2 ml-4'>
 			<input
 				className={`flex-1 input-field w-full`}
 				id={tier}

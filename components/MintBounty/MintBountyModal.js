@@ -145,7 +145,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 
 	function onTierChange(e) {
 		setTier(e.target.value);
-		setTierArr(Array.from({length: e.target.value}, (_, i) => i + 1));
+		setTierArr(Array.from({ length: e.target.value }, (_, i) => i + 1));
 		console.log(tierArr);
 	};
 
@@ -158,9 +158,8 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 					error={error}
 				/> :
 				<>
-					<div ref={modal} className="min-w-[320px] z-50 ">
-						<div className="w-full">
-							<div className="rounded-sm flex flex-col bg-[#161B22] z-11 space-y-2">
+					<div ref={modal} className="w-3/5 min-w-[320px] z-50 ">
+							<div className="w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-2">
 								<MintBountyHeader type={type} />
 								<div className="flex flex-col items-center pl-6 pr-6">
 									<MintBountyInput
@@ -256,7 +255,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 											<>
 												<div className="flex flex-col items-center pl-6 pr-6 pb-2">
 													<div className="flex flex-col w-4/5 md:w-2/3">
-														<div className='flex flex-col w-full items-start p-2 py-1 text-base'>
+														<div className='flex flex-col w-full items-start p-2 py-1 text-base pb-4'>
 															<div className='flex items-center gap-2'>How many Tiers?
 																<ToolTipNew mobileX={10} toolTipText={'How many people will be able to claim a prize?'} >
 																	<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
@@ -276,14 +275,16 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 														</div>
 														{tier > 0 ?
 															<>
-															<div className='flex flex-col w-full items-start p-2 py-1 text-base'>
-															<div className='flex items-center gap-2'>Weight per Tier
-																<ToolTipNew mobileX={10} toolTipText={'How much will each winner earn?'} >
-																	<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
-																</ToolTipNew>
-															</div>
-															{tierArr.map(t => <TierInput tier={t}/>)}
-														</div>
+																<div className='flex flex-col w-full items-start p-2 py-1 text-base'>
+																	<div className='flex items-center gap-2 pb-2'>Weight per Tier
+																		<ToolTipNew mobileX={10} toolTipText={'How much will each winner earn?'} >
+																			<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+																		</ToolTipNew>
+																	</div>
+																	<div className='max-h-40 w-full overflow-y-auto overflow-x-hidden'>
+																	{tierArr.map(t => <TierInput tier={t} />)}
+																	</div>
+																</div>
 															</>
 															: null
 														}
@@ -316,7 +317,6 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 									</ToolTipNew>
 								</div>
 							</div>
-						</div>
 					</div>
 					<div className="bg-overlay fixed inset-0 z-10"></div>
 				</>}
