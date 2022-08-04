@@ -25,7 +25,6 @@ import Subtract from '../../../components/svg/subtract';
 import Fire from '../../../components/svg/fire';
 import Telescope from '../../../components/svg/telescope';
 
-
 const address = ({ address, mergedBounty, renderError }) => {
 
 	useAuth();
@@ -101,6 +100,17 @@ const address = ({ address, mergedBounty, renderError }) => {
 			setError(true);
 		}
 	};
+
+	useEffect(() => {
+		const handleResize= ()=>{
+			if(canvas.current){
+				canvas.current.width = window.innerWidth;
+				canvas.current.height = window.innerHeight;}
+		};
+		window.addEventListener('resize', handleResize, false);
+		return ()=>window.removeEventListener('resize', handleResize);
+	}, []);
+
 	// Hooks
 	useEffect(async() => {
 		// Confetti
@@ -160,7 +170,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
-					<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>
+					<canvas className="absolute w-full top-0 z-40 bottom-0 pointer-events-none" ref={canvas}></canvas>
 				</div>
 			</>}
 		</>
