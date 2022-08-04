@@ -121,7 +121,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 					<div className="flex flex-col space-y-5 w-full px-8 pt-2">
 						<div className=' text-center'>To see your deposits, connect the wallet that funded them.</div>
 						<h2 className='text-2xl border-b border-gray-700 pb-4'>Refundable</h2>
-						<div className='grid lg:grid-cols-[1fr_1fr] gap-4 pb-5'>
+						<div className='lg:grid lg:grid-cols-[1fr_1fr] gap-4 pb-5'>
 							{
 								bounty.deposits && bounty.deposits
 									.filter((deposit) => {
