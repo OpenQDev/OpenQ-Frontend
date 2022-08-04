@@ -8,7 +8,7 @@ const SmallToggle =({toggleFunc, toggleVal, names})=>{
 			{names.map((name, index)=>{
 				return <button key={index}
 					onClick={()=>toggleFunc(name)}
-					className={`w-fit min-w-[100px] py-[5px] px-4 ${index ?'rounded-r-sm':'rounded-l-sm'} border whitespace-nowrap ${
+					className={`w-fit min-w-[80px] py-[5px] px-4 ${index ?'rounded-r-sm':'rounded-l-sm'} border whitespace-nowrap ${
 						toggleVal===name ? 'bg-secondary-button border-secondary-button' : ' border-web-gray'
 					}`}
 				>
