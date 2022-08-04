@@ -12,6 +12,7 @@ import MintBountyHeader from './MintBountyHeader';
 import MintBountyInput from './MintBountyInput';
 import ErrorModal from '../ConfirmErrorSuccessModals/ErrorModal';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
+import SmallToggle from '../Utils/SmallToggle';
 
 const MintBountyModal = ({ modalVisibility, type }) => {
 	// Context
@@ -29,6 +30,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 	const [claimed, setClaimed] = useState();
 	const [enableMint, setEnableMint] = useState();
 	const isValidUrl = appState.utils.issurUrlRegex(url);
+	const [invoice, setInvoice] = useState(false);
 
 	// Refs
 	const modal = useRef();
@@ -148,7 +150,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 					<div ref={modal} className="min-w-[320px] space-y-5 z-50 ">
 						<div className="w-full">
 							<div className="border-0 rounded-sm shadow-lg flex flex-col bg-[#161B22] outline-none focus:outline-none z-11">
-								<MintBountyHeader type={type}/>
+								<MintBountyHeader type={type} />
 								<div className="flex flex-col items-center pl-6 pr-6 space-y-2">
 									<MintBountyInput
 										setIssueUrl={setIssueUrl}
@@ -169,6 +171,27 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 									{isValidUrl && bountyAddress && issue &&
 										<BountyAlreadyMintedMessage claimed={claimed} id={issue.id} bountyAddress={bountyAddress} />}
 								</div>
+
+								{type ?
+									<>
+										<div className="flex flex-col items-center pl-6 pr-6 space-y-2">
+											<div className="flex flex-col w-4/5 md:w-2/3">
+												<div className='flex flex-col w-full items-start p-2 rounded-lg py-1 text-base bg-[#161B22]'>
+													<div className='flex items-center gap-2'>Is this Contract invoiceable?
+														<ToolTipNew mobileX={10} toolTipText={'Do you want an invoice for this contract?'} >
+															<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+														</ToolTipNew>
+													</div>
+													<div className='flex-1 w-full mt-2 ml-4'>
+														<SmallToggle names={['Yes', 'No']} toggleVal={invoice ? 'Yes' : 'No'} toggleFunc={() => setInvoice(!invoice)} />
+													</div>
+												</div>
+											</div>
+										</div>
+									</>
+									:
+									null
+								}
 
 								<div className="p-5 w-full">
 									<ToolTipNew

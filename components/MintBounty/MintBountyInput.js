@@ -6,7 +6,7 @@ export default function MintBountyInput({ setIssueUrl, issueData, isValidUrl, ur
 	return (
 		<div className="flex flex-col w-4/5 md:w-2/3">
 			<div
-				className={`flex flex-col w-full items-start p-2rounded-lg py-1 text-base bg-[#161B22]  ${isValidUrl && issueData ? 'pt-5' : null
+				className={`flex flex-col w-full items-start p-2 rounded-lg py-1 text-base bg-[#161B22]  ${isValidUrl && issueData ? 'pt-5' : null
 					}`}
 			>
 				<div className='flex items-center gap-2'>Enter GitHub Issue URL
