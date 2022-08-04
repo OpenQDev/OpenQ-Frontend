@@ -151,7 +151,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 						<div className="w-full">
 							<div className="rounded-sm flex flex-col bg-[#161B22] z-11 space-y-2">
 								<MintBountyHeader type={type} />
-								<div className="flex flex-col items-center pl-6 pr-6 space-y-2">
+								<div className="flex flex-col items-center pl-6 pr-6">
 									<MintBountyInput
 										setIssueUrl={setIssueUrl}
 										issueData={issue}
@@ -174,9 +174,9 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 
 								{type ?
 									<>
-										<div className="flex flex-col items-center pl-6 pr-6 space-y-2">
+										<div className="flex flex-col items-center pl-6 pr-6 pb-2">
 											<div className="flex flex-col w-4/5 md:w-2/3">
-												<div className='flex flex-col w-full items-start p-2 rounded-lg py-1 text-base bg-[#161B22]'>
+												<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
 													<div className='flex items-center gap-2'>Is this Contract invoiceable?
 														<ToolTipNew mobileX={10} toolTipText={'Do you want an invoice for this contract?'} >
 															<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
@@ -184,6 +184,33 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 													</div>
 													<div className='flex-1 w-full mt-2 ml-4'>
 														<SmallToggle names={['Yes', 'No']} toggleVal={invoice ? 'Yes' : 'No'} toggleFunc={() => setInvoice(!invoice)} />
+													</div>
+												</div>
+											</div>
+										</div>
+									</>
+									:
+									null
+								}
+
+								{type === 'Atomic' ?
+									<>
+										<div className="flex flex-col items-center pl-6 pr-6 pb-2">
+											<div className="flex flex-col w-4/5 md:w-2/3">
+												<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
+													<div className='flex items-center gap-2'>Funding Goal
+														<ToolTipNew mobileX={10} toolTipText={'Amount of funds you would like to escrow on this issue.'} >
+															<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+														</ToolTipNew>
+													</div>
+													<div className='flex-1 w-full mt-2 ml-4'>
+														<input
+															className={`flex-1 input-field w-full`}
+															id="name"
+															placeholder="1500 USD"
+															autoComplete="off"
+															type="text"
+														/>
 													</div>
 												</div>
 											</div>
