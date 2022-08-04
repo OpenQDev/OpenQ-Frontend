@@ -315,6 +315,7 @@ query($issueIds: [ID!]!) {
       createdAt
       repository {
         id
+				url
 				description
         name
 				languages(first:10){

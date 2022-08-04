@@ -7,8 +7,6 @@ import Link from 'next/link';
 import ToolTip from '../Utils/ToolTipNew';
 
 const OrganizationMetadata = ({organizationData, repositories})=>{
-
-
 	const languages = repositories.reduce((languages, repository)=>{
 		const newLanguages = repository.languages.filter(currentLanguage=>!languages.some(language=>currentLanguage.name ===language.name));
 	

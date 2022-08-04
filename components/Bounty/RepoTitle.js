@@ -30,6 +30,13 @@ const RepoTitle = ({bounty})=>{
 		return signature;
 	};
 	const watchBounty = async () => {
+		if(!account){const payload = {
+			type: 'CONNECT_WALLET',
+			payload: true
+		};
+		dispatch(payload);
+		return; 
+		}
 		try {
 			const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature?address=${account}`, { withCredentials: true });
 			if (response.data.status===false) {

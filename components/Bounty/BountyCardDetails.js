@@ -20,7 +20,7 @@ const BountyCardDetails = ({ bounty, setInternalMenu }) => {
 	},[bounty.issuer.id]);
 	
 	return (
-		<div className='flex w-full px-2 sm:px-8 flex-wrap max-w-[1200px] mx-auto'>
+		<div className='flex w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
 			<div className='flex-1 pr-4 min-w-[260px]'>
 				{bounty.deposits.reverse().map((deposit, index)=><ActionBubble key={index} address={deposit.sender.id} deposit={deposit} title={`${(bounty.issuer.id).slice(0, 4)}...${(bounty.issuer.id).slice(38)} funded 3 Matic ($200 USD)`}/> )}
 		

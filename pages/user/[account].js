@@ -3,22 +3,20 @@ import React from 'react';
 import { ethers } from 'ethers';
 
 // Custom
-import AboutUser from '../../components/User/AboutUser';
+import AboutFreelancer from '../../components/User/AboutFreelancer';
 import UnexpectedError from '../../components/Utils/UnexpectedError';
 import WrappedGithubClient from '../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
 import useAuth from '../../hooks/useAuth';
 
-const account = ({account, user, organizations, renderError}) => {
+const account = ({account, user, organizations, renderError, watchedBounties, starredOrganizations}) => {
 	useAuth();
 	return (
 
-		<div className=' md:grid grid-cols-wide gap-4 justify-center col-start-2 pt-12'>{user ?
-			<section className="min-h-card rounded-lg shadow-sm col-start-2 md:border border-web-gray">
-				<AboutUser user={user} account={account} organizations={organizations}/> 
-			</section>:
-			<UnexpectedError error={renderError} />}
+		<div className=' gap-4 justify-center pt-12'>{user ?
+			<AboutFreelancer starredOrganizations={starredOrganizations} watchedBounties={watchedBounties} user={user} account={account} organizations={organizations}/> 
+			:	<UnexpectedError error={renderError} />}
 		</div>
 	);	
 };
@@ -48,18 +46,49 @@ export const getServerSideProps = async(context)=>{
 		renderError
 	};
 	let organizations = [];
+	let watchedBounties = [];
+	let starredOrganizations=[];
 	try{
 		const	userOnChainData = await openQSubgraphClient.instance.getUser(account.toLowerCase());
 		const userOffChainData = await openQPrismaClient.instance.getUser(ethers.utils.getAddress(account));
-	
-		const issueIds = userOnChainData.bountiesClosed.map(bounty => bounty.bountyId);
+		// fetch issues freelancer is watching.
+		
+		const watchedBountyIdsLowerCase = userOffChainData.watchedBountyIds.map(contract=>contract.toLowerCase());
 		try{
-			organizations = await githubRepository.instance.parseOrgIssues(issueIds);
+			const subgraphBounties =  await  openQSubgraphClient.instance.getBountiesByContractAddresses( watchedBountyIdsLowerCase);
+			const githubIds = subgraphBounties.map(bounty=>bounty.bountyId);
+			const githubBounties = await githubRepository.instance.getIssueData(githubIds);
+			watchedBounties = subgraphBounties.map((bounty, index)=>{return {...bounty, ...githubBounties[index]};});
+		}
+		catch(err){
+			console.error('Could not fetch watched bounties.');
+		}
+		//get starred organizations.
+		try{
+			const subgraphOrgs =  await  openQSubgraphClient.instance.getOrganizationsByIds( userOffChainData.starredOrganizationIds);
+			const githubOrgIds = subgraphOrgs.map(bounty=>bounty.id);
+			const githubOrganizations = await githubRepository.instance.fetchOrgsOrUsersByIds(githubOrgIds);
+			starredOrganizations = githubOrganizations.map((organization)=>{
+				const subgraphOrg = subgraphOrgs.find((org)=>{
+					return org.id === organization.id;
+				});
+
+				return {...organization, ...subgraphOrg, starred: true};
+			});
 		}
 		catch(err){
 			console.log(err);
 		}
-		user = {...user, ...userOffChainData, ...userOnChainData};
+
+		// fetch orgs freelancer has worked for.
+		try{
+			const issueIds = userOnChainData.bountiesClosed.map(bounty => bounty.bountyId);		
+			organizations = await githubRepository.instance.parseOrgIssues(issueIds);
+		}
+		catch(err){
+			console.error('could not fetch organizations');
+		}
+		user = {...user, ...userOffChainData, ...userOnChainData, watchedBounties};
 	}
 	catch(err){
 		
@@ -67,7 +96,7 @@ export const getServerSideProps = async(context)=>{
 	}
 	
 	
-	return { props: {account, user,  organizations, renderError}};
+	return { props: {account, user,  organizations, renderError, watchedBounties, starredOrganizations}};
 };
 
 export default account;

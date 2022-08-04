@@ -2,10 +2,10 @@
 import React from 'react';
 
 // Custom
-import BountyCardLean from '../../Bounty/BountyCardLean';
+import BountyCardLean from '../../BountyCard/BountyCardLean';
 
 const Watching = ({watchedBounties, }) => {
-	return (<div className='w-3/4 mx-auto'>
+	return (<div className='sm:w-3/4  max-w-[960px] mx-4 sm:mx-auto'>
 		{watchedBounties.length &&
 									<div className='py-6 border-border-gray flex flex-wrap items-stretch w-full font-semibold text-lg'>
 										{watchedBounties.map((bounty, index)=>

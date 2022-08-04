@@ -69,10 +69,8 @@ export default function Index({ orgs, fullBounties, batch }) {
 				}
 				return { ...currentMetadatum, ...org, ...currentGithubOrg };
 			}).filter((org)=>{
-	
 				return !org.blacklisted;
 			});
-
 
 
 			setControlledOrgs(mergedOrgs);
@@ -255,7 +253,6 @@ export const getServerSideProps = async () => {
 		}
 		return { ...currentMetadatum, ...org, ...currentGithubOrg };
 	}).filter((org)=>{
-	
 		return !org.blacklisted;
 	});
 

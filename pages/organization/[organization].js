@@ -101,7 +101,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError }) =>
 		if (repositories.some(repo=>repo.name===bounty.repoName)){
 			return repositories;
 		}
-		return [...repositories, {name: bounty.repoName, languages: bounty.languages, description: bounty.repoDescription}];
+		return [...repositories, {name: bounty.repoName, languages: bounty.languages, description: bounty.repoDescription, url: bounty.repoUrl}];
 	
 	},[]);
 	// Render
