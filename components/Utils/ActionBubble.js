@@ -30,7 +30,7 @@ const ActionBubble = ({address, addresses, title, bodyHTML, body, deposit})=>{
 					})}
 				</div>
 			}
-			<div className='w-full flex-0 rounded-sm overflow-hidden ml-4 border-web-gray border-b  before:w-2 before:h-2 before:bg-nav-bg before:absolute before:absolute before:left-12 before:top-[33px] before:border-b  before:border-l before:border-web-gray before:top-10 before:rotate-45  border'>
+			<div className='w-full flex-0 rounded-sm overflow-hidden ml-4 border-web-gray border-b before:w-2 before:h-2 before:bg-nav-bg before:absolute before:absolute before:left-12 before:top-[35px] before:border-b  before:border-l before:border-web-gray before:top-10 before:rotate-45  border'>
 				<div className={`bg-nav-bg w-full py-2 pl-3 ${(body || bodyHTML) && 'border-web-gray border-b'} `}>
 					{currentTitle}
 				</div>

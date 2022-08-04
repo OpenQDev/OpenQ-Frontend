@@ -13,14 +13,13 @@ const BountyCardDetails = ({ bounty, setInternalMenu }) => {
 	const [appState] = useContext(StoreContext);
 	const {account} = useWeb3();
 	const sender = bounty?.sender?.id || account;
-
 	const [tokenValues] = useGetTokenValues(bounty.bountyTokenBalances||[]);
-	const deposits = bounty.deposit ||[];
+	const deposits = bounty.deposits ||[];
 	const addresses = deposits.reduce((accum, elem)=>{
 		if(accum.includes(elem.sender.id)){
 			return accum;}
 		return [...accum, elem.sender.id];
-	},[sender]);
+	},[sender?.toLowerCase()]);
 	
 	return (
 		<div className='flex w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
