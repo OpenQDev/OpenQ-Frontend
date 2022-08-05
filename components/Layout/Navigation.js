@@ -146,9 +146,9 @@ const Navigation = () => {
 						</button>
 
 						<div className="md:flex hidden  content-center  items-center">
-							<div className='flex-col justify-center mr-2 h-7  group'>
+							<div className='flex-col justify-center mr-2 h-7 group '>
 								<input
-									className="md:flex hidden pr-24 items-center input-field"
+									className={`md:flex hidden pr-24 items-center focus:w-80 w-60  left-0 input-field transition-all  ease-in-out duration-700 ${quickSearch && 'focus:w-96'}`}
 									onChange={handleSearch}
 									value={quickSearch}
 									type="text"
