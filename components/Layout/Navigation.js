@@ -22,7 +22,7 @@ const Navigation = () => {
 	const { account, activate, deactivate } = useWeb3();
 	const [appState] = useContext(StoreContext);
 	const [openMenu, setOpenMenu] = useState(false);
-	const [quickSearch, setQuickSearch] = useState();
+	const [quickSearch, setQuickSearch] = useState('');
 	const [items, setItems] = useState([]);
 	const [searchable, setSearchable] = useState();
 
