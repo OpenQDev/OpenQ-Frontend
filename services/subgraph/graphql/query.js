@@ -62,17 +62,21 @@ query GetBounty($id: ID!) {
 		closer{
 		id
 		}
-		deposits {
+		deposits(orderBy: "receiveTime", orderDirection: "desc") {
       id
 			refunded
-			refundTime
+			receiveTime
       tokenAddress
 			expiration
       volume
       sender {
         id
       }
-      receiveTime
+    }
+		refunds(orderBy: "refundTime", orderDirection: "desc") {
+			refundTime
+      tokenAddress
+      volume
     }
 		bountyTokenBalances {
 		  tokenAddress
