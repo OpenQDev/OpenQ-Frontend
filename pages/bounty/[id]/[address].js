@@ -36,6 +36,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 	// State
 	const [error, setError] = useState(renderError);
 	const [internalMenu, setInternalMenu] = useState();
+	const [justMinted, setJustMinted] = useState();
 
 	// Refs
 	const canvas = useRef();
@@ -117,6 +118,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 		// Confetti
 		const justMinted = sessionStorage.getItem('justMinted') === 'true';
 		if (justMinted && canvas.current) {
+			setJustMinted(true);
 			setReload();
 			canvas.current.width = window.innerWidth;
 			canvas.current.height = window.innerHeight;
@@ -168,8 +170,8 @@ const address = ({ address, mergedBounty, renderError }) => {
 					<RepoTitle bounty={bounty} />
 					<SubMenu colour="rust" items={[{name: 'View', Svg: Telescope },{name: 'Fund', Svg: Add },{name: 'Refund', Svg: Subtract },{name: 'Claim', Svg: Fire },]} internalMenu={internalMenu} updatePage={setInternalMenu}/>
 					
-					<BountyHeading price={tokenValues?.total} justMinted={!bounty.issuer} bounty={bounty} />
-					{internalMenu == 'View' && <BountyCardDetails bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}
+					<BountyHeading price={tokenValues?.total} bounty={bounty} />
+					{internalMenu == 'View' && <BountyCardDetails justMinted={justMinted} bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
