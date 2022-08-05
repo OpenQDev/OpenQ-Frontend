@@ -46,7 +46,6 @@ const CreateStream = () => {
 		const volumeInWei = volume * 10 ** token.decimals;
 		const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
 		const callerBalance = await appState.openQClient.balanceOf(library, account, ethers.utils.getAddress(token.address));
-		console.log(callerBalance);
 		if (callerBalance.lt(bigNumberVolumeInWei)) {
 			setError({ title: 'Funds Too Low', message: 'You do not have sufficient funds for this stream.' });
 			setApproveTransferState(ERROR);

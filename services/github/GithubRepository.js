@@ -150,7 +150,6 @@ class GithubRepository {
 		return promise;
 	}
 	async searchOrgOrUser(ids) {
-		console.log(ids);
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
