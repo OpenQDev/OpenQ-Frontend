@@ -8,18 +8,18 @@ export default function BountyAlreadyMintedMessage({ bountyAddress, claimed, id 
 	return (
 		<div className="flex flex-row items-center space-x-1 pt-4 mx-4">
 			<div className="text-white text-center">Bounty is already {claimed ? 'claimed' : 'minted'}, view 
-			<Link
-				href={`/?address=${id}/${bountyAddress}}`}
-				as={`/bounty/${id}/${bountyAddress}`}
-			>
-				<a
-					target={safe ? '_self' : '_blank'}
-					rel="noreferrer"
-					className="cursor-pointer text-link"
+				<Link
+					href={`/?address=${id}/${bountyAddress}}`}
+					as={`/bounty/${id}/${bountyAddress}`}
 				>
+					<a
+						target={safe ? '_self' : '_blank'}
+						rel="noreferrer"
+						className="cursor-pointer text-link"
+					>
 				&nbsp;here.
-				</a>
-			</Link>
+					</a>
+				</Link>
 			</div>
 		</div>
 	);

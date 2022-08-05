@@ -37,9 +37,7 @@ export default function Index({ orgs, fullBounties, batch }) {
 					(address) => address.toLowerCase()
 				);
 				const subgraphBounties =
-          await appState.openQSubgraphClient.getBountiesByContractAddresses(
-          	watchedBountyAddresses
-          );
+          await appState.openQSubgraphClient.getBountiesByContractAddresses(watchedBountyAddresses);
 				const githubIds = subgraphBounties.map((bounty) => bounty.bountyId);
 				const githubBounties = await appState.githubRepository.getIssueData(
 					githubIds
@@ -75,9 +73,7 @@ export default function Index({ orgs, fullBounties, batch }) {
 				);
 				setOffChainCursor(prismaBounties.bountiesConnection.cursor);
 				const subgraphBounties =
-          await appState.openQSubgraphClient.getBountiesByContractAddresses(
-          	addresses
-          );
+          await appState.openQSubgraphClient.getBountiesByContractAddresses(addresses);
 				newBounties = prismaBounties.bountiesConnection.bounties.map(
 					(bounty) => {
 						return {

@@ -9,7 +9,7 @@ export default function MintBountyInput({ setIssueUrl, issueData, isValidUrl, ur
 				}`}
 			>
 				<input
-					className={`flex-1 input-field`}
+					className={'flex-1 input-field'}
 					id="name"
 					aria-label="issue url"
 					placeholder="Issue URL"
