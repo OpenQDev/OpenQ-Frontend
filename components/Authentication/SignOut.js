@@ -27,7 +27,7 @@ const SignOut = ({ propicUrl }) => {
 	return (
 		<button
 			onClick={() => signOut()}
-			className={`flex justify-center btn-default hover:border-[#8b949e] hover:bg-[#30363d] w-full`}
+			className={'flex justify-center btn-default hover:border-[#8b949e] hover:bg-[#30363d] w-full'}
 		>
 			<div className="flex flex-row justify-center items-center space-x-3">
 				<div className="h-4 w-4 md:h-6 md:w-6 relative">

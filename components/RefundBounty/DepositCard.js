@@ -16,13 +16,13 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 
 	return (
 		<div className='flex flex-col items-center w-full md:border rounded-sm border-gray-700 text-primary'>
-		<div className="flex justify-center w-full md:bg-[#161b22] md:border-b border-gray-700 pb-1 rounded-t-sm">	
-			<TokenBalances
-				lean={true}
-				tokenBalances={deposit}
-				tokenValues={tokenValues}
-				singleCurrency={true}
-			/>
+			<div className="flex justify-center w-full md:bg-[#161b22] md:border-b border-gray-700 pb-1 rounded-t-sm">	
+				<TokenBalances
+					lean={true}
+					tokenBalances={deposit}
+					tokenValues={tokenValues}
+					singleCurrency={true}
+				/>
 			</div>
 
 			<div className={'pt-3 flex flex-col md:flex-row w-full items-center justify-between px-8 sm:px-6 pb-4 hover:bg-[#21262d]'}>

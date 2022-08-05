@@ -34,14 +34,14 @@ const ConnectButton = ({mobile}) => {
 	// Hooks
 	useConnectOnLoad()(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
 
-  useEffect(async () => {
-    if (account && iconWrapper.current) {
-      iconWrapper.current.innerHTML = "";
-      iconWrapper.current.appendChild(
-        jazzicon(mobile? 52 : 26, parseInt(account.slice(2, 10), 16))
-      );
-    }
-  }, [account, isOnCorrectNetwork]);
+	useEffect(async () => {
+		if (account && iconWrapper.current) {
+			iconWrapper.current.innerHTML = '';
+			iconWrapper.current.appendChild(
+				jazzicon(mobile? 52 : 26, parseInt(account.slice(2, 10), 16))
+			);
+		}
+	}, [account, isOnCorrectNetwork]);
 
 	useEffect(() => {
 		let handler = (event) => {
@@ -86,74 +86,74 @@ const ConnectButton = ({mobile}) => {
 			.catch((error) => console.log('Error', error.message));
 	};
 
-  // Render
-  return (
-    <div>
-      {account && isOnCorrectNetwork ? (
-        <div>
-          <button
-            disabled={isConnecting}
-            ref={buttonRef}
-            onClick={() => {
-              setShowModal(!showModal);
-            }}
-            className="group flex items-center gap-x-1 h-12 whitespace-nowrap py-1 px-3 font-semibold cursor-pointer"
-          >
-            <span
-              className="border border-[#8b949e] rounded-full h-7 py-pxt group-hover:border-opacity-70"
-              ref={iconWrapper}
-            ></span>
-            <span className="md:group-hover:opacity-70">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-3 w-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="white"
-                strokeWidth="3"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </span>
-          </button>
+	// Render
+	return (
+		<div>
+			{account && isOnCorrectNetwork ? (
+				<div>
+					<button
+						disabled={isConnecting}
+						ref={buttonRef}
+						onClick={() => {
+							setShowModal(!showModal);
+						}}
+						className="group flex items-center gap-x-1 h-12 whitespace-nowrap py-1 px-3 font-semibold cursor-pointer"
+					>
+						<span
+							className="border border-[#8b949e] rounded-full h-7 py-pxt group-hover:border-opacity-70"
+							ref={iconWrapper}
+						></span>
+						<span className="md:group-hover:opacity-70">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								className="h-3 w-3"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="white"
+								strokeWidth="3"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M19 9l-7 7-7-7"
+								/>
+							</svg>
+						</span>
+					</button>
 
-          {showModal && (
-            <AccountModal
-              domRef={modalRef}
-              account={account}
-              ensName={ensName}
-              chainId={chainId}
-              deactivate={deactivate}
-              setIsConnecting={setIsConnecting}
-              isSafeApp={safe}
-            />
-          )}
-        </div>
-      ) : isOnCorrectNetwork ? (
-        <div>
-          <button
-            onClick={openConnectModal}
-            className="flex items-center btn-default mr-4 hover:border-[#8b949e] hover:bg-[#30363d]"
-            disabled={isConnecting}
-          >
-            {"Connect Wallet"}
-          </button>
-        </div>
-      ) : (
-        <button
-          onClick={addOrSwitchNetwork}
-          className="flex items-center btn-default mr-4 hover:border-[#8b949e] hover:bg-[#30363d]"
-        >
-          Use{" "}
-          {
-            chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV][
-              "networkName"
-            ]
-          }{" "}
+					{showModal && (
+						<AccountModal
+							domRef={modalRef}
+							account={account}
+							ensName={ensName}
+							chainId={chainId}
+							deactivate={deactivate}
+							setIsConnecting={setIsConnecting}
+							isSafeApp={safe}
+						/>
+					)}
+				</div>
+			) : isOnCorrectNetwork ? (
+				<div>
+					<button
+						onClick={openConnectModal}
+						className="flex items-center btn-default mr-4 hover:border-[#8b949e] hover:bg-[#30363d]"
+						disabled={isConnecting}
+					>
+						{'Connect Wallet'}
+					</button>
+				</div>
+			) : (
+				<button
+					onClick={addOrSwitchNetwork}
+					className="flex items-center btn-default mr-4 hover:border-[#8b949e] hover:bg-[#30363d]"
+				>
+          Use{' '}
+					{
+						chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV][
+							'networkName'
+						]
+					}{' '}
           Network
 				</button>
 			)}
