@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { GET_USER_BY_ID, GET_USER_BY_NAME, GET_ORG_BY_ID, GET_ORG_BY_NAME, GET_ISSUE, GET_ISSUE_BY_ID, GET_ISSUES_BY_ID, GET_ORGS_BY_ISSUES, GET_ORGS_BY_IDS,  GET_PRS_BY_ISSUES, GET_PR_BY_ID, GET_USER_BY_URL, GET_USERS_BY_IDS } from './graphql/query';
+import { GET_USER_BY_ID, GET_USER_BY_NAME, GET_ORG_BY_ID, GET_ORG_BY_NAME, GET_ISSUE, GET_ISSUE_BY_ID, GET_ISSUES_BY_ID, GET_ORGS_BY_ISSUES, GET_ORGS_BY_IDS,  GET_PRS_BY_ISSUES, GET_PR_BY_ID, GET_USER_BY_URL, GET_USERS_BY_IDS, GET_ORGS_OR_USERS_BY_IDS, GET_LEAN_ISSUES_BY_ID } from './graphql/query';
 import fetch from 'cross-fetch';
 import { setContext } from '@apollo/client/link/context';
 
@@ -70,12 +70,16 @@ class GithubRepository {
 			try {
 				const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = elem;
 				const repoName = elem.repository.name;
+				const prs = elem.timelineItems.edges.map(edge => edge.node);
 				const avatarUrl = elem.repository.owner.avatarUrl;
 				const owner = elem.repository.owner.login;
+				const repoDescription = elem.repository.description;
+				const repoUrl = elem.repository.url;
 				const assignees = elem.assignees;
+				const number = elem.number;
 				const labels = elem.labels.edges.map(edge => edge.node);
 				const languages = elem.repository.languages.edges.map(languages => languages.node);
-				return { id, title, body, url, languages, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, assignees };
+				return { id, title, body, url, languages, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, assignees, number, repoUrl, repoDescription, prs };
 			}
 
 			catch (err) {
@@ -108,7 +112,6 @@ class GithubRepository {
 				const result = await this.client.query({
 					query: GET_ISSUES_BY_ID, variables: { issueIds }, errorPolicy: 'all'
 				});
-				console.log(result);
 				resolve(this.parseIssuesData(result));
 			} catch (e) {
 				reject(e);
@@ -117,7 +120,20 @@ class GithubRepository {
 
 		return promise;
 	}
+	async getLeanIssueData(issueIds) {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.query({
+					query: GET_LEAN_ISSUES_BY_ID, variables: { issueIds }, errorPolicy: 'all'
+				});
+				resolve(result.data.nodes);
+			} catch (e) {
+				reject(e);
+			}
+		});
 
+		return promise;
+	}
 	async fetchOrgsWithIssues(issueIds) {
 
 		const promise = new Promise(async (resolve, reject) => {
@@ -133,7 +149,21 @@ class GithubRepository {
 
 		return promise;
 	}
+	async searchOrgOrUser(ids) {
+		console.log(ids);
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.query({
+					query: GET_ORGS_OR_USERS_BY_IDS, variables: { ids },
+				});
+				resolve(result.data.nodes);
+			} catch (e) {
+				reject(e);
+			}
+		});
 
+		return promise;
+	}
 	async fetchOrgOrUserByLogin(login) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
@@ -305,7 +335,6 @@ class GithubRepository {
 				const result = await this.client.query({
 					query: GET_USER_BY_URL, variables: { url },
 				});
-				console.log(result);
 				resolve(result.data.resource.id);
 			} catch (e) {
 				reject(e);

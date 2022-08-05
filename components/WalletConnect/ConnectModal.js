@@ -24,30 +24,26 @@ const ConnectModal = ({closeModal})=>{
 	,[account];
 	return(
 		<div>
-			<div id="connect-modal" className='text-white absolute top-0 left-0 md:left-20 right-0 h-screen flex justify-center items-center'>
-				<div className='max-w-md w-5/6 bg-dark-mode z-[60] flex flex-col gap-2 p-6 px-12 text-lg rounded-lg '>
+			<div id="connect-modal" className='text-[#c9d1d9] absolute top-0 left-0 right-0 h-screen flex justify-center items-center'>
+				<div className='max-w-md w-5/6 bg-dark-mode z-[60] flex flex-col gap-2 p-6 px-12 rounded-sm '>
 					<div>
-						<Image alt={'openq-logo'} src={'/openq-logo.png'} height={32} width={32}/>
+						<Image alt={'openq-logo'} src={'/openq-logo-white-2.png'} height={32} width={32}/>
 					</div>
-					<h2 className='text-xl font-bold'>Connect Wallet</h2>
+					<h2 className='text-3xl'>Connect Wallet</h2>
 					<p className='text-sm'>Connect your wallet to continue with OpenQ. By connecting your wallet you agree with OpenQ{'\''}s terms of service.</p>
-					<button onClick={handleMetaMask} className='flex p-2 mt-4  my-2 w-full gap-4 hover:bg-inactive-accent/10 rounded-md border-web-gray hover:border-web-gray border sm:border-transparent justify-center'>
-						<div className="hidden sm:block">
-							<Image src={'/wallet-logos/metamask.png'} height={40} width={40} alt={'metamask logo'}/>
-						</div>
-						<div className='text-xl leading-loose'>
+					<button onClick={handleMetaMask} className='flex flex-wrap sm:flew-row sm:py-4 mt-4 my-2 w-full gap-4 hover:bg-[#21262d] hover:text-white rounded-sm hover:border-gray-700 border border-transparent justify-center'>
+						<Image src={'/wallet-logos/metamask.png'} height={40} width={40} alt={'metamask logo'}/>
+						<div className='text-lg leading-loose'>
 							Metamask
 						</div>
 					</button>
-					<button onClick={handleWalletConnect} className='flex p-2 mb-4 w-full gap-4 hover:bg-inactive-accent/10 rounded-md border-web-gray hover:border-web-gray border sm:border-transparent justify-center'>
-						<div className="hidden sm:block">
-							<Image src={'/wallet-logos/wallet-connect.jpg'} className="rounded-full" height={40} width={40} alt={'wallet connect logo'}/>
-						</div>
-						<div className='leading-loose text-xl'>
+					<button onClick={handleWalletConnect} className='flex flex-wrap sm:flew-row sm:py-4 mb-4 w-full gap-4 hover:bg-[#21262d] hover:text-white rounded-sm hover:border-gray-700 border border-transparent justify-center'>
+						<Image src={'/wallet-logos/wallet-connect.jpg'} className="rounded-full" height={40} width={40} alt={'wallet connect logo'}/>
+						<div className='leading-loose text-lg'>
 							WalletConnect
 						</div>
 					</button>
-					<button onClick={closeModal} className='self-center border border-inactive-accent font-semibold w-32 rounded-full py-1 px-2 bg-inactive-accent-inside group-hover:bg-active-accent hover:border-active-accent group-hover:border-active-accent'>
+					<button onClick={closeModal} className='btn-default w-full'>
 							Close
 					</button>
 				</div>

@@ -9,10 +9,8 @@ const Stream = ({stream, direction})=>{
 	const [appState] = useContext(StoreContext);
 	const iconWrapper = useRef();
 	const otherAccount = stream?.receiver || stream?.sender;
-	console.log(stream.token.id);
 	const readableTime = appState.utils.formatDate(parseInt(stream.createdAtTimestamp)*1000);
 	const token = appState.tokenClient.getToken(stream.token.id);
-	console.log(token);
 	const {name, path}=token;
 	useEffect(() => {
 		if (otherAccount?.id && iconWrapper.current) {

@@ -8,12 +8,13 @@ import polygonTokensIndexable from './polygon-tokens-indexable.json';
 import polygonTokensEnumerable from './polygon-tokens-enumerable.json';
 import { GET_STREAMS_BY_ACCOUNT } from './graphql/query';
 import { HttpLink, ApolloClient, InMemoryCache } from '@apollo/client';
+import fetch from 'cross-fetch';
 
 class SuperfluidClient {
-	httpLink = new HttpLink({ uri: process.env.NEXT_PUBLIC_SUPERFLUID_SUBGRAPH_HTTP_URL, fetch });
+	httpLink = new HttpLink({ uri:'http://localhost:8020/subgraphs/name/superfluid-test/graphql', fetch });
 
 	client = new ApolloClient({
-		uri: process.env.NEXT_PUBLIC_SUPERFLUID_SUBGRAPH_HTTP_URL,
+		uri: 'http://localhost:8020/subgraphs/name/superfluid-test/graphql',
 
 		link: this.httpLink,
 		cache: new InMemoryCache(),
@@ -71,7 +72,6 @@ class SuperfluidClient {
 			return this.instance;
 		} catch (err) {
 			console.log(err);
-			console.log(library);
 		}
 	}
 
@@ -104,13 +104,12 @@ class SuperfluidClient {
 		});
 		return promise;
 	}
-
 	// UPGRADE + CREATE STREAM
 	async upgradeToken(library, superTokenAddress, amount) {
 		const address = superTokenAddress;
 		const superToken = await this.loadSuperToken(library, address);
 		const upgradeOp = superToken.upgrade({
-			amount: amount.toString(),
+			amount: amount,
 		});
 		return upgradeOp;
 	}
@@ -134,7 +133,7 @@ class SuperfluidClient {
 		const upgradeOp = await this.upgradeToken(
 			library,
 			address,
-			ethers.utils.parseEther(amountPerDay.toString())
+			ethers.utils.parseEther(amountPerDay)
 		);
 		const createFlowOp = await this.superTokenCreateFlow(
 			library,

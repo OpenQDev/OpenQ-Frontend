@@ -12,11 +12,18 @@ import RefundPage from '../../../components/RefundBounty/RefundPage';
 import ClaimPage from '../../../components/Claim/ClaimPage';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
 import UnexpectedError from '../../../components/Utils/UnexpectedError';
-import Toggle from '../../../components/Utils/Toggle';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
 import useAuth from '../../../hooks/useAuth';
+import RepoTitle from '../../../components/Bounty/RepoTitle';
+import SubMenu from '../../../components/Utils/SubMenu';
+import BountyHeading from '../../../components/Bounty/BountyHeading';
+
+import Add from '../../../components/svg/add';
+import Subtract from '../../../components/svg/subtract';
+import Fire from '../../../components/svg/fire';
+import Telescope from '../../../components/svg/telescope';
 
 const address = ({ address, mergedBounty, renderError }) => {
 
@@ -94,6 +101,16 @@ const address = ({ address, mergedBounty, renderError }) => {
 		}
 	};
 
+	useEffect(() => {
+		const handleResize= ()=>{
+			if(canvas.current){
+				canvas.current.width = window.innerWidth;
+				canvas.current.height = window.innerHeight;}
+		};
+		window.addEventListener('resize', handleResize, false);
+		return ()=>window.removeEventListener('resize', handleResize);
+	}, []);
+
 	// Hooks
 	useEffect(async() => {
 		// Confetti
@@ -130,11 +147,6 @@ const address = ({ address, mergedBounty, renderError }) => {
 
 	// User Methods
 
-	const handleToggle = (e) => {
-		setInternalMenu(e);
-		sessionStorage.setItem(address, e);
-	};
-
 	// Render
 	if (error) {
 		return <UnexpectedError error={error} />;
@@ -148,13 +160,17 @@ const address = ({ address, mergedBounty, renderError }) => {
 					.</div>
 			</div> :
 			<>
-				<div className="flex flex-col font-mont justify-center items-center pt-7">
-					<Toggle toggleFunc={handleToggle} toggleVal={internalMenu} names={['View', 'Fund', 'Refund', 'Claim']} />
-					<BountyCardDetails bounty={bounty} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />
+				<div className="flex flex-col justify-center items-center pt-4">
+				
+					<RepoTitle bounty={bounty} />
+					<SubMenu colour="rust" items={[{name: 'View', Svg: Telescope },{name: 'Fund', Svg: Add },{name: 'Refund', Svg: Subtract },{name: 'Claim', Svg: Fire },]} internalMenu={internalMenu} updatePage={setInternalMenu}/>
+					
+					<BountyHeading price={tokenValues?.total}  bounty={bounty} />
+					{internalMenu == 'View' && <BountyCardDetails bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
-					<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>
+					<canvas className="absolute w-full top-0 z-40 bottom-0 pointer-events-none" ref={canvas}></canvas>
 				</div>
 			</>}
 		</>

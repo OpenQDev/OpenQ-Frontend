@@ -4,16 +4,17 @@ import React, { useState, useContext } from 'react';
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
 import UnexpectedError from '../../components/Utils/UnexpectedError';
-import BountyList from '../../components/BountyList/BountyList';
-import LargeOrganizationCard from '../../components/Organization/LargeOrganizationCard';
-import Toggle from '../../components/Utils/Toggle';
-import About from '../../components/About/About';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
 import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedGithubClient from '../../services/github/WrappedGithubClient';
 import Utils from '../../services/utils/Utils';
 import useAuth from '../../hooks/useAuth';
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
+import OrganizationHeader from '../../components/Organization/OrganizationHeader';
+import SubMenu from '../../components/Utils/SubMenu';
+import Home from '../../components/svg/home';
+import OrganizationMetadata from '../../components/Organization/OrganizationMetadata';
+import OrganizationContent from '../../components/Organization/OrganizationContent';
+
 
 const organization = ({ organizationData, fullBounties, batch, renderError }) => {
 	useAuth();
@@ -22,13 +23,12 @@ const organization = ({ organizationData, fullBounties, batch, renderError }) =>
 	// State
 	const [isLoading, setIsLoading] = useState(false);
 	const [bounties, setBounties] = useState(fullBounties);
-	const [showAbout, setShowAbout] = useState('Bounties');
 	const [pagination, setPagination] = useState(batch);
 	const [error, setError] = useState(renderError);
 	const [offChainCursor, setOffChainCursor] = useState();
-
-	const [tokenValues] = useGetTokenValues(organizationData?.fundedTokenBalances);
-	const [complete, setComplete] = useState(fullBounties.length === 0);
+	const [toggleVal, setToggleVal] = useState('Overview');
+	const [complete, setComplete] = useState(fullBounties?.length === 0);
+	
 
 	// Methods
 	async function getBountyData(sortOrder, currentPagination, orderBy, cursor) {
@@ -94,23 +94,30 @@ const organization = ({ organizationData, fullBounties, batch, renderError }) =>
 		}
 		setBounties(bounties.concat(newBounties));
 	}
-
+	const handleToggle = (toggleVal)=>{
+		setToggleVal(toggleVal);
+	};
+	const repositories = bounties.reduce((repositories, bounty)=>{
+		if (repositories.some(repo=>repo.name===bounty.repoName)){
+			return repositories;
+		}
+		return [...repositories, {name: bounty.repoName, languages: bounty.languages, description: bounty.repoDescription, url: bounty.repoUrl}];
+	
+	},[]);
 	// Render
 	return (
 		<>
 			{error ?
 				<UnexpectedError error={error} />
 				:
-				<div className="bg-dark-mode pt-10">
-					<Toggle toggleFunc={setShowAbout} toggleVal={showAbout} names={['Bounties', 'About']} />
-					{(showAbout === 'About') ?
-						<About organizationData={organizationData} tokenValues={tokenValues} /> :
-						<div className="lg:grid lg:grid-cols-extra-wide mx-4 sm:mx-8 xl:grid-cols-wide justify-center pt-8">
-							<LargeOrganizationCard organization={organizationData} />
-							<BountyList bounties={bounties} loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} />
-						</div>}
-				</div>
-			}
+				<div className='w-full mx-auto text-primary mt-1 px-4 md:px-16 max-w-[1420px] '>
+					<OrganizationHeader colour="rust"  organizationData={organizationData} />
+					<SubMenu  items={[{name: 'Overview', Svg: Home },/*{name: 'About', Svg: Question }*/]} internalMenu={toggleVal} updatePage={handleToggle}/>
+					{toggleVal === 'Overview' && <div className='px-4 py-3 gap-6 w-full flex flex-wrap md:flex-nowrap'>
+						<OrganizationContent  bounties={bounties} loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} repositories={repositories}/>
+						<OrganizationMetadata organizationData={organizationData} repositories={repositories}/>
+					</div>}
+				</div>}
 		</>
 	);
 
@@ -152,7 +159,6 @@ export const getServerSideProps = async (context) => {
 		console.log(err);
 	}
 	const fullBounties = utils.combineBounties(bounties, issueData, metaData);
-
 
 	return { props: { organization, organizationData: mergedOrgData, fullBounties, completed: bounties.length < 10, batch } };
 };

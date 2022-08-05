@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 // Custom
 import Image from 'next/image';
 
-const SignIn = ({ redirectUrl, styles }) => {
+const SignIn = ({ redirectUrl }) => {
 	const router = useRouter();
 
 	const signIn = () => {
@@ -31,15 +31,17 @@ const SignIn = ({ redirectUrl, styles }) => {
 	return (
 		<button
 			onClick={() => signIn()}
-			className={`col-span-3 font-mont rounded-lg border border-web-gray py-2 px-3 font-bold cursor-pointer hover:border-white ${styles}`}
+			className={`flex justify-center btn-default hover:border-[#8b949e] hover:bg-[#30363d] w-full`}
 		>
 			<div className="flex flex-row items-center justify-center space-x-3">
-				<Image
-					src="/social-icons/github-logo-white.svg"
-					alt="Picture of the author"
-					width={20}
-					height={20}
-				/>
+				<div className="h-4 w-4 md:h-6 md:w-6 relative">
+					<Image
+						src="/social-icons/github-logo-white.svg"
+						alt="Picture of the author"
+						layout="fill"
+						objectFit="cover"
+					/>
+				</div>
 				<div>Sign In</div>
 			</div>
 		</button>

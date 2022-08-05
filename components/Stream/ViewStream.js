@@ -10,7 +10,6 @@ const ViewStreams = () => {
 	useEffect(async()=>{
 		if(account){
 			const value = await appState.superfluidClient.viewAccount(account);
-			console.log(value);
 			setSuperfluidData(value.data.account);
 		}
 	},[account]);
@@ -19,12 +18,12 @@ const ViewStreams = () => {
 		<div className="mt-8">
 			
 			<section>
-				<h2 className='text-center font-bold text-tinted text-3xl'>Your Inflows</h2>
+				<h2 className='text-center font-bold text-tinted text-3xl'>{superfluidData?.length ? 'Your': 'No'} Inflows</h2>
 				<div className='my-8'>	{superfluidData&&superfluidData.inflows.map((elem, index)=><Stream key={index}  direction={'in'} stream ={elem}/>)}</div>
 			</section>
 
 			<section>
-				<h2 className='text-center font-bold text-tinted text-3xl'>Your Outflows</h2>
+				<h2 className='text-center font-bold text-tinted text-3xl'>{superfluidData?.length ? 'Your': 'No'} Outflows</h2>
 				<div className='my-8 grid grid-cols-[1fr_1fr_1fr] w-full flex-wrap gap-8 justify-center'>	{superfluidData&&superfluidData.outflows.map((elem, index)=><Stream key={index} direction={'out'} stream ={elem}/>)}</div>
 			</section>
 		

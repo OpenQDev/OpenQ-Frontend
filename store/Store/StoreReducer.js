@@ -25,6 +25,11 @@ const StoreReducer = (state, action) => {
 			...state,
 			needsReload: action.payload,
 		};
+	case 'RELOAD_NOW':
+		return {
+			...state,
+			reloadNow: action.payload,
+		};
 	case 'CONNECT_WALLET': {
 		return {
 			...state,

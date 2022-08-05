@@ -33,8 +33,8 @@ const LoadingIcon = ({bg, graph, className}) => {
 			
 				bg == 'white' ? (
 					<div>
-						<svg
-							className="h-5 w-5 mr-3 animate-spin
+						<svg data-testid="loading"
+							className="h-5 w-5 animate-spin
 		rounded-full
 		h-6
 		w-6
@@ -44,8 +44,8 @@ const LoadingIcon = ({bg, graph, className}) => {
 					</div>
 				) : (
 					<div>
-						<svg
-							className="h-5 w-5 mr-3 animate-spin
+						<svg data-testid="loading"
+							className="h-5 w-5 animate-spin
 				rounded-full
 				h-6
 				w-6

@@ -40,7 +40,14 @@ query GetPayoutTransactionHash($bountyAddress: ID!) {
   }
 }
 `;
+export const GET_LEAN_ORGANIZATIONS = gql`query GetOrganization {
+organizations  {id}
+}`;
 
+export const GET_LEAN_BOUNTIES = gql`
+query getBounty {  
+  bounties{bountyAddress, bountyId}
+}`;
 export const GET_BOUNTY = gql`
 query GetBounty($id: ID!) {
   bounty(id: $id) {
@@ -359,6 +366,21 @@ query GetOrganization($id: ID!, $quantity: Int!) {
   }
 }
 `;
+
+export const GET_ORGANIZATIONS_BY_IDS = gql`
+query getOrgs($organizationIds: [ID!]!) {
+  organizations(where: {id_in: $organizationIds}) {
+    id
+    bountiesCreated {
+      bountyAddress
+      bountyId
+      bountyTokenBalances {
+        id
+      }
+      status
+    }
+  }
+}`;
 
 export const GET_ORGANIZATIONS = gql`
 query GetOrganizations {

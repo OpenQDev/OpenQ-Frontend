@@ -1,11 +1,12 @@
 // Third party
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect} from 'react';
 import TokenList from './TokenList';
 import ManageTokenList from '../ManageTokenList';
-import { useState, useEffect } from 'react';
+import { XIcon } from '@primer/octicons-react';
 import StoreContext from '../../../store/Store/StoreContext';
 import Image from 'next/image';
-const TokenSearch = ({  token, onCurrencySelect, stream, setShowTokenSearch }) => {
+
+const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch }) => {
 	const [showListManager, setShowListManager] = useState(true);
 	const [tokenSearchTerm, setTokenSearchTerm] = useState();
 	const [lists, setLists] = useState({ polygon: !stream, openq: !stream, superTokens: stream});
@@ -43,12 +44,12 @@ const TokenSearch = ({  token, onCurrencySelect, stream, setShowTokenSearch }) =
 		<div className='justify-self-end'>
 			<div>
 				<button
-					className="flex flex-row items-center space-x-1 py-2 drop-shadow-lg border border-web-gray rounded-lg p-2 pr-2"
+					className="flex flex-row items-center space-x-1 py-2 drop-shadow-lg border border-web-gray rounded-sm p-2 pr-2"
 					onClick={()=>handleShowSearch(true)}
 				>
 					<div className="flex flex-row space-x-5 items-center justify-center">
 						<div className="h-1 w-6 pb-6">
-							<Image src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'} className="rounded-full" alt="n/a" width="40%" height="40%" />
+							<Image src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'} className="rounded-sm" alt="n/a" width="40%" height="40%" />
 						</div>
 					</div>
 					<div className="pl-3 ">{token.symbol}</div>
@@ -70,28 +71,26 @@ const TokenSearch = ({  token, onCurrencySelect, stream, setShowTokenSearch }) =
 			</div>
 			{(!stream || showStreamTokenSearch) && <div
 				onClick={handleOutsideClick}
-				className='justify-center font-mont items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 md:left-20 z-50 outline-none focus:outline-none'
+				className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 left-20 z-50 outline-none focus:outline-none'
 			>
 				<div className='w-5/6 max-w-md'>
 					{' '}
 					<div
 						onClick={e => e.stopPropagation()}
-						className='flex justify-left border border-web-gray pl-8 pr-8 pt-5 pb-3 rounded-lg shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none'
+						className='flex justify-left border border-border-gray pl-8 pr-8 pt-5 pb-3 rounded-sm shadow-lg flex-col w-full bg-dark-mode outline-none focus:outline-none'
 					>
 						{showListManager ? (
 							<div className='h-[30rem]'>
-								<div className='flex items-center justify-between border-solid rounded-t pt-2 pb-4'>
-									<h3 className='text-1xl font-semibold'>Select a Token</h3>
+								<div className='flex flex-row items-center justify-between rounded-t pt-2 pb-4'>
+									<h3 className='flex text-1xl font-semibold'>Select a Token</h3>
 									<button
-										className='text-3xl hover:text-tinted'
-										onClick={() => 
-											handleShowSearch(false)}
-									>
-                    ×
+										className='flex text-3xl hover:text-tinted'
+										onClick={() => handleShowSearch(false)}
+									><XIcon size={16} />
 									</button>
 								</div>
 
-								<div className='pt-3 pb-3 pl-4 bg-dark-mode border border-web-gray rounded-lg overflow-hidden mb-2'>
+								<div className='pt-3 pb-3 pl-4 input-field overflow-hidden mb-2'>
 									<div className=''>
 										<div className='justify-start '>
 											<input
@@ -103,7 +102,7 @@ const TokenSearch = ({  token, onCurrencySelect, stream, setShowTokenSearch }) =
 										</div>
 									</div>
 								</div>
-								<div className='pt-4 overflow-auto h-72'>
+								<div className='mt-8 overflow-auto h-72 text-primary'>
 									{polygonTokens && openQTokens && (
 										<TokenList
 											customTokens={customTokens}
@@ -118,7 +117,7 @@ const TokenSearch = ({  token, onCurrencySelect, stream, setShowTokenSearch }) =
 										/>
 									)}
 								</div>
-								<div className='flex flex-col justify-items-center gap-2 justify-end p-6 border-t border-solid rounded-b'></div>
+								<div className='flex flex-col justify-items-center  justify-end border-t border-gray-700 '></div>
 							</div>
 						) : (
 							<ManageTokenList
@@ -131,13 +130,13 @@ const TokenSearch = ({  token, onCurrencySelect, stream, setShowTokenSearch }) =
 						)}
 						{
 							!stream && <button
-								className='confirm-btn'
+								className='btn-default p-2 m-2'
 								onClick={e => {
 									setShowListManager(() => !showListManager);
 									e.stopPropagation();
 								}}
 							>
-								{showListManager ? 'Manage token lists' : 'Back'}
+								{showListManager ? 'Manage Token Lists' : 'Back'}
 							</button>}
 					</div>
 				</div>

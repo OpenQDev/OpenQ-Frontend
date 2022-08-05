@@ -38,7 +38,6 @@ class MockGithubRepository {
 		const promise = new Promise((resolve, reject) => {
 			axios.get(`http://localhost:3030/githubIssues?id=${issueId}`)
 				.then(result => {
-				console.log(result.data[0])
 					resolve(this.parseIssueData(result.data[0]));
 				})
 				.catch(error => {
@@ -122,6 +121,20 @@ class MockGithubRepository {
 		return promise;
 	}
 
+	getLeanIssueData () {
+		const promise = new Promise((resolve, reject) => {
+			axios.get('http://localhost:3030/githubIssues')
+				.then(result => {
+					resolve(result.data);
+				})
+				.catch(error => {
+					reject(error);
+				});
+		});
+
+		return promise;
+	}
+
 	async fetchOrgOrUserById(id) {
 		const promise = new Promise((resolve, reject) => {
 			axios.get(`http://localhost:3030/githubOrganizations?id=${id}`)
@@ -167,7 +180,26 @@ class MockGithubRepository {
 		return promise;
 
 	}
-		async parseOrgIssues(issueIds) {
+
+	async searchOrgOrUser (ids) {
+		const promise = await new Promise(async (resolve, reject) => {
+			try {
+				const organizations = await Promise.all(ids.map(async (id, index) => {
+					return await this.fetchOrgOrUserById(id);
+				}));
+				resolve(organizations);
+			}
+			catch (err) {
+				console.log(err);
+				reject(err);
+			}
+
+		});
+		return promise;
+
+	}
+
+	async parseOrgIssues(issueIds) {
 		const nodes = await this.fetchOrgsWithIssues(issueIds);
 		const organizations = [];
 		nodes.forEach((node) => {

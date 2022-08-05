@@ -17,5 +17,8 @@
 	// the values you've explicitly set, above.
 	"editor.detectIndentation": false,
 	"editor.defaultFormatter": "vscode.typescript-language-features",
-	"editor.formatOnSave": false
+	"editor.formatOnSave": false,
+	"[javascript]": {
+		"editor.defaultFormatter": "vscode.typescript-language-features"
+	}
 }

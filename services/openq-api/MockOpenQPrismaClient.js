@@ -50,6 +50,21 @@ class OpenQPrismaClient {
 		return promise;
 	}
 
+
+
+	getOrgsMetadata() {
+		const promise = new Promise(async (resolve,) => {
+			axios.get(`http://localhost:3030/prismaOrgs`)
+				.then(result => {
+					resolve(result.data);
+				})
+				.catch(error => {
+					reject(error);
+				});
+		});
+		return promise;
+	}
+
 	getBlackListed(addresses){
 		const promise = new Promise(async (resolve,) => {
 			resolve(addresses.map(address=>{return {address}}));

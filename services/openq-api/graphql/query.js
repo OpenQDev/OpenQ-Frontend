@@ -57,14 +57,16 @@ export const REMOVE_CONTRIBUTOR=gql`mutation remove($prId: String, $userId: Stri
 export const GET_USER_BY_HASH = gql`query($userAddress: String!) {
   user(address: $userAddress) {
     watchedBountyIds
+		starredOrganizationIds
   }
 }`;
 
 export const GET_IS_BLACKLISTED=gql`
-query($address: String!){
-  bounty(address:$address){
+query getBounties($addresses: [String]!){
+  bounties(addresses:$addresses){
     blacklisted
 		tvl
+		watchingUserIds
     address
   }
 }`;
@@ -73,6 +75,18 @@ export const GET_ORG = gql`
 query getOrg($organizationId: String!){
   organization(organizationId: $organizationId){
     blacklisted
+  }
+}
+`;
+
+
+
+export const GET_ORGS = gql`
+query getOrg($organizationIds: [String]!){
+  organizations(organizationIds: $organizationIds){
+    blacklisted
+		starringUserIds
+		id
   }
 }
 `;
@@ -90,6 +104,24 @@ mutation unWatchBounty ($contractAddress: String, $userAddress: String){
     address
   }
 }`;
+
+export const STAR_ORG = gql`
+mutation starOrg ($id: String!, $address: String!){
+  starOrg(id: $id, address: $address) {
+    id
+    starringUserIds
+  }
+}`;
+
+export const UN_STAR_ORG = gql`
+mutation unStarOrg ($id: String!, $address: String!){
+  unStarOrg(id: $id, address: $address) {
+    id
+    starringUserIds
+  }
+}`;
+
+
 
 export const GET_BOUNTY_PAGE = gql`
 query BountiesConnection($after: ID, $limit: Int!, $orderBy: String, $sortOrder: String, $organizationId: String) {

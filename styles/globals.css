@@ -79,35 +79,47 @@ pre {
 @layer base {
   body {
     @apply w-screen overflow-x-hidden bg-dark-mode;
-  } /* 
-    h1{
-        @apply font-mont font-black text-4xl;
-    }
-    h2{
-        @apply font-mont font-normal text-lg text-gray-700;
-    }
-}
-@layer components {
-    .btn {
-        @apply font-mont rounded-md border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer;
-    }*/
+  }, 
+	@font-face {
+		font-family: Collegiate;
+		src: url(/fonts/Collegiate.ttf) format("​truetype​") or ttf;
+	}
+  
 }
 
 @layer components {
+
+	/* GitHub Styles */
+
+	.input-field {
+		@apply py-[4px] px-3 text-[0.75rem] tracking-wider placeholder-input-gray outline-none rounded-sm border border-border-gray bg-menu-bg focus-within:border-blue-400
+	}
+	.input-field-big {
+		@apply py-[5px] pl-8 pr-3 text-[0.75rem] tracking-wider leading-[20px] h-min placeholder-input-gray rounded-sm outline-none border border-border-gray bg-menu-bg focus-within:border-blue-400
+	}
+	.btn-primary{
+		@apply bg-[#238636] border border-[#238636] rounded-sm py-1.5 hover:bg-[#2ea043] text-white
+	}
+	.btn-default{
+		@apply rounded-sm px-3 p-1 bg-[#21262d] hover:bg-[#30363d] border border-gray-700 hover:border-[#8b949e]
+	}
+	.btn-card{
+		@apply bg-inactive-gray py-1 px-2 border-web-gray border rounded-sm text-xs text-primary
+	}
   .layer-button {
-    @apply font-mont rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer border-blue-400 text-gray-800 hover:bg-blue-400 hover:text-white;
+    @apply rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer border-blue-400 text-gray-800 hover:bg-blue-400 hover:text-white;
   }
   .confirm-btn {
-    @apply font-mont rounded-lg w-full py-3 font-bold cursor-pointer text-white border border-pink-300 bg-pink-700 bg-opacity-10 hover:bg-pink-700 hover:bg-opacity-30 hover:text-white cursor-pointer;
+    @apply rounded-lg w-full py-3 font-bold cursor-pointer text-white border border-pink-300 bg-pink-700 bg-opacity-10 hover:bg-pink-700 hover:bg-opacity-30 hover:text-white cursor-pointer;
   }
   .sm-confirm-btn {
-    @apply font-mont rounded-lg w-full py-2 font-semibold cursor-pointer text-white border border-pink-300 bg-pink-700 bg-opacity-10 hover:bg-pink-700 hover:bg-opacity-30 hover:text-white cursor-pointer;
+    @apply rounded-lg w-full py-2 font-semibold cursor-pointer text-white border border-pink-300 bg-pink-700 bg-opacity-10 hover:bg-pink-700 hover:bg-opacity-30 hover:text-white cursor-pointer;
   }
   .sm-confirm-btn-disabled {
-    @apply font-mont rounded-lg w-full py-2 font-semibold text-white text-opacity-30 border border-pink-300 bg-pink-700 bg-opacity-10 cursor-not-allowed;
+    @apply rounded-lg w-full py-2 font-semibold text-white text-opacity-30 border border-pink-300 bg-pink-700 bg-opacity-10 cursor-not-allowed;
   }
   .confirm-btn-disabled {
-    @apply font-mont rounded-lg w-full py-3 font-bold text-white text-opacity-30 border border-pink-300 bg-pink-700 bg-opacity-10 cursor-not-allowed;
+    @apply rounded-lg w-full py-3 font-bold text-white text-opacity-30 border border-pink-300 bg-pink-700 bg-opacity-10 cursor-not-allowed;
   }
   .text-link {
     @apply text-purple-500;
@@ -116,8 +128,17 @@ pre {
     @apply shadow-lg flex items-center justify-center h-11 w-11 mb-2 mx-auto rounded-xl border border-menu;
   }
   .checkbox {
-    @apply h-6 bg-no-repeat appearance-none w-4 h-4 checked:bg-inactive-accent checked:bg-[url('/checkbox.svg')] focus:outline-none border-2 border-web-gray checked:border-inactive-accent rounded-sm m-1 bg-dark-mode accent-inactive-accent;
+    @apply h-6 bg-zinc-700 appearance-none w-4 h-4 checked:bg-blue-300 checked:bg-[url('/checkbox.svg')] checked:hover:bg-blue-200 focus:outline-none border border-zinc-400 hover:border-zinc-300 checked:border-none rounded m-1;
   }
+	.tooltip {
+		@apply text-xs font-semibold whitespace-nowrap m-2 px-0.5 py-0.5 bg-[#6e7781] border border-solid border-4 border-transparent text-center rounded-sm
+	}
+	.tooltip-triangle {
+		@apply content-none block w-0 h-0 absolute border-x-[18px] border-x-transparent border-b-[18px] border-b-[#6e7781] 
+	}
+	.break-word{
+		word-break: break-word;
+	}
 }
 
 .size-9 * {
@@ -263,9 +284,9 @@ body::-webkit-scrollbar {
   height: 12px;
 }
 ::-webkit-scrollbar-thumb:active {
-  border: 1px solid #ec4899;
+  background-color: #374151;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: #585858;
-  border-radius: 12px;
+  background-color: #343a42;
+  border-radius: 2px;
 }
