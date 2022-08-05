@@ -70,7 +70,7 @@ module.exports = {
 				mont: '\'Montserrat\', sans-serif;',
 				collegiate: ['Collegiate'],
 				roboto: '\' Roboto\', sans-serif;',
-				segoe: ['"Segoe UI"']
+				segoe: ['Segoe UI,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";']
 			},
 			width: {
 				'1/7': '14.2857143%',
