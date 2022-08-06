@@ -34,7 +34,7 @@ const OrganizationHomepage = ({ orgs }) => {
 							placeholder="Search Organization..."
 							styles={'rounded-sm w-full'}
 						/>
-						<MintBountyButton styles={'w-full'}/>
+						<MintBountyButton styles={'w-full'} type={'Tiered'}/>
 					</div>
 					<Carousel height={'80'}>
 						{orgs.filter(organization=> organization.starringUserIds && organization.starringUserIds.some(user=>user === account))

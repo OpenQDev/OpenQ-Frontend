@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 // Custom
 import MintBountyModal from './MintBountyModal';
 
-const MintBountyButton = ({styles}) => {
+const MintBountyButton = ({styles, type}) => {
 	const [showModal, setShowModal] = useState(false);
 
 	return (
@@ -28,7 +28,7 @@ const MintBountyButton = ({styles}) => {
 				</svg>
 				<div>New Contract</div>
 			</button>
-			{showModal && <MintBountyModal modalVisibility={setShowModal} />}
+			{showModal && <MintBountyModal type={type} modalVisibility={setShowModal} />}
 		</>
 	);
 };
