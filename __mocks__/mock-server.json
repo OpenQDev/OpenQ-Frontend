@@ -1193,6 +1193,28 @@
 			"id": "MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4",
 			"createdAt": "2021-01-13T16:10:08Z",
 			"description": "Free, open-source work platform tailored for software development",
+			
+			"membersWithRole": {
+				"__typename": "OrganizationMemberConnection",
+				"nodes": [
+					{
+						"__typename": "User",
+						"avatarUrl": "https://avatars.githubusercontent.com/u/13041?u=048e83e6757dab8a264a3adaf6db1b5130f2f9f1&v=4",
+						"name": "Guillermo Rauch",
+						"url": "https://github.com/rauchg"
+					},
+					{
+						"__typename": "User",
+						"avatarUrl": "https://avatars.githubusercontent.com/u/20542?u=2d5b4512b81ab00c9e57f42780bd9ebd2c914e9f&v=4",
+						"name": "Nathan Hammond",
+						"url": "https://github.com/nathanhammond"
+					},
+					{
+						"__typename": "User",
+						"avatarUrl": "https://avatars.githubusercontent.com/u/25966?u=fd866ec42bdc141a9fe09e9039388f98bf80aa9c&v=4",
+						"name": "Francis Gulotta",
+						"url": "https://github.com/reconbot"
+					}]},
 			"email": "info@openq.dev",
 			"websiteUrl": "https://openq.dev",
 			"avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
@@ -1646,7 +1668,21 @@
 			"title": "Mintable issue",
 			"body": "This is a good first issue",
 			"url": "https://github.com/OpenQDev/OpenQ-TestRepo/issues/21",
-			"number": "21",
+			"number": "21",			
+				"languages": {
+					"__typename": "LanguageConnection",
+					"edges": [
+						{
+							"__typename": "LanguageEdge",
+							"node": {
+								"__typename": "Language",
+								"name": "JavaScript",
+								
+								"color": "yellow"
+							}
+						}
+					]
+				},
 			"id": "I_kwDOGWnnz85I9Agl",
 			"titleHTML": "Good Mintable issue",
 			"bodyHTML": "<p dir=\"auto\">This is a good mintabvle issue</p>",
@@ -1710,9 +1746,19 @@
 				"__typename": "Repository",
 				"id": "R_kgDOGWnnzw",
 				"name": "OpenQ-TestRepo",
+					
 				"languages": {
 					"__typename": "LanguageConnection",
-					"edges": []
+					"edges": [
+						{
+							"__typename": "LanguageEdge",
+							"node": {
+								"__typename": "Language",
+								"name": "JavaScript",
+								"color": "yellow"
+							}
+						}
+					]
 				},
 				"owner": {
 					"__typename": "Organization",
@@ -1780,63 +1826,72 @@
 							"__typename": "LanguageEdge",
 							"node": {
 								"__typename": "Language",
-								"name": "JavaScript"
+								"name": "JavaScript",
+								"color": "yellow"
 							}
 						},
 						{
 							"__typename": "LanguageEdge",
 							"node": {
 								"__typename": "Language",
-								"name": "CSS"
+								"name": "CSS",
+								"color": "purple"
 							}
 						},
 						{
 							"__typename": "LanguageEdge",
 							"node": {
 								"__typename": "Language",
-								"name": "TypeScript"
+								"name": "TypeScript",
+								"color": "steelblue"
 							}
 						},
 						{
 							"__typename": "LanguageEdge",
 							"node": {
 								"__typename": "Language",
-								"name": "Shell"
+								"name": "Shell",
+								"color": "lightgreen"
 							}
 						},
 						{
 							"__typename": "LanguageEdge",
 							"node": {
 								"__typename": "Language",
-								"name": "Dockerfile"
+								"name": "Dockerfile",
+								"color": "gray"
 							}
 						},
 						{
 							"__typename": "LanguageEdge",
 							"node": {
 								"__typename": "Language",
-								"name": "SCSS"
+								"name": "SCSS",
+								"color": "#7700a4"
 							}
 						},
 						{
 							"__typename": "LanguageEdge",
 							"node": {
 								"__typename": "Language",
-								"name": "Sass"
+								"name": "Sass",
+								"color": "red"
 							}
 						},
 						{
 							"__typename": "LanguageEdge",
 							"node": {
 								"__typename": "Language",
-								"name": "Rust"
+								"name": "Rust",
+								"color": "#bf0077"
 							}
 						},
 						{
 							"__typename": "LanguageEdge",
 							"node": {
 								"__typename": "Language",
-								"name": "Batchfile"
+								"name": "Batchfile",
+								"color": "#0034bf"
 							}
 						}
 					]
@@ -2056,7 +2111,20 @@
 			},
 			"timelineItems": {
 				"edges": []
-			}
+			},
+				
+				"languages": {
+					"__typename": "LanguageConnection",
+					"edges": [
+						{
+							"__typename": "LanguageEdge",
+							"node": {
+								"__typename": "Language",
+								"name": "JavaScript"
+							}
+						}
+					]
+				}
 		},
 		{
 			"__typename": "Issue",
@@ -2091,7 +2159,19 @@
 					"avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
 					"url": "https://github.com/OpenQDev"
 				}
-			},
+			},	
+				"languages": {
+					"__typename": "LanguageConnection",
+					"edges": [
+						{
+							"__typename": "LanguageEdge",
+							"node": {
+								"__typename": "Language",
+								"name": "JavaScript"
+							}
+						}
+					]
+				},
 			"timelineItems": {
 				"edges": []
 			}
@@ -2125,9 +2205,19 @@
 				"__typename": "Repository",
 				"id": "R_kgDOGWnnzw",
 				"name": "OpenQ-TestRepo",
+						
 				"languages": {
 					"__typename": "LanguageConnection",
-					"edges": []
+					"edges": [
+						{
+							"__typename": "LanguageEdge",
+							"node": {
+								"__typename": "Language",
+								"name": "JavaScript",
+								"color": "yellow"
+							}
+						}
+					]
 				},
 				"owner": {
 					"__typename": "Organization",

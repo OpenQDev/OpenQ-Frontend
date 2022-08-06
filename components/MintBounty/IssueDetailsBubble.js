@@ -27,7 +27,7 @@ export default function IssueDetailsBubble({ issueData }) {
 				</div>
 				<div className="text-xs pt-3 pl-6 text-gray-200">
 					{' '}
-											created at {appState.utils.formatDate(issueData.createdAt)} { issueData.author && `by ${issueData.author.login}`}
+											Created on {appState.utils.formatDate(issueData.createdAt)} { issueData.author && `by ${issueData.author.login}`}
 				</div>
 			</div>
 		</>

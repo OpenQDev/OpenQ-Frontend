@@ -1,7 +1,14 @@
 import axios from 'axios';
  
 const starOrganization = async (account, id, starred, setStarred, setStarredDisabled, context) => {
-	const [appState, dispatch] = context;
+	const [appState, dispatch] = context;	
+	if(!account){const payload = {
+		type: 'CONNECT_WALLET',
+		payload: true
+	};
+	dispatch(payload);
+	return; 
+	}
 	const signMessage = async () => {
 		const message = 'OpenQ';
 		const signature = await window.ethereum

@@ -31,7 +31,7 @@ const SignIn = ({ redirectUrl }) => {
 	return (
 		<button
 			onClick={() => signIn()}
-			className={`flex justify-center btn-default hover:border-[#8b949e] hover:bg-[#30363d] w-full`}
+			className={'flex justify-center btn-default hover:border-[#8b949e] hover:bg-[#30363d] w-full'}
 		>
 			<div className="flex flex-row items-center justify-center space-x-3">
 				<div className="h-4 w-4 md:h-6 md:w-6 relative">
