@@ -18,7 +18,7 @@ const Stream = ({stream, direction})=>{
 			iconWrapper.current.appendChild(jazzicon(32, parseInt(otherAccount?.id?.slice(2, 10), 16)));
 		}
 	}, [stream?.receiver?.id]);
-	return (<div className='p-4 w-fit border border-web-gray rounded-lg'><div className='flex gap-8 space-between w-full'>
+	return (<div className='p-4 w-fit border border-web-gray rounded-sm'><div className='flex gap-8 space-between w-full'>
 		<div className='flex gap-2'><Image height={32} width={32} src={path}/><div className="pt-2">{name}</div></div>
 		<span className='pt-2'>{direction==='in'? 'From' : 'To'}</span>
 		<div className='flex gap-2'>
@@ -26,7 +26,7 @@ const Stream = ({stream, direction})=>{
 	</div>
 	<div>Flow Rate: {parseInt(stream.currentFlowRate)*10**(- 1 * stream.token.decimals)*24*60*60}/day</div>
 	<div>Total deposit: {parseInt(stream.deposit)*10**(- 1 * stream.token.decimals)}</div>
-	<div>Created at {readableTime}</div>
+	<div>Created on {readableTime}.</div>
 	</div>);
 };
 export default Stream;

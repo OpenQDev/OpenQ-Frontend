@@ -81,7 +81,7 @@ const ApproveStreamModal = ({
 	let fundStyles = {
 		[CONFIRM]: 'px-8 border-transparent',
 		[APPROVING]: 'px-8 border-transparent hover:cursor-default',
-		[TRANSFERRING]: 'btn-primary border-button hover:cursor-default'
+		[TRANSFERRING]: 'btn-primary hover:cursor-default'
 	};
 	if ('0x0000000000000000000000000000000000000000' === token.address) {
 		fundStyles = { ...approveStyles };

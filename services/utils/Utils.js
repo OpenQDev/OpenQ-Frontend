@@ -12,18 +12,19 @@ class Utils {
 		var month = this.monthNames[date.getMonth()];
 		var year = date.getFullYear();
 
-		// // Hours part from the timestamp
-		// var hours = date.getHours();
-		// // Minutes part from the timestamp
-		// var minutes = '0' + date.getMinutes();
-		// // Seconds part from the timestamp
-		// var seconds = '0' + date.getSeconds();
+		// Hours part from the timestamp
+		var hours = date.getHours();
+		// Minutes part from the timestamp
+		var minutes =  date.getMinutes();
+		const displayMinutes =`${minutes.length===1 ? '0': ''}${minutes}`;
+		// Seconds part from the timestamp
+		//var seconds = '0' + date.getSeconds();
 
 		// Will display time in 10:30:23 format
 		if (hideDate) {
 			return `${month} ${day}, ${year}`;
 		}
-		var formattedTime = `${month} ${day}, ${year}`;
+		var formattedTime = `${month} ${day}, ${year} at ${hours}:${displayMinutes}`;
 		return formattedTime;
 	};
 
@@ -55,7 +56,7 @@ class Utils {
 	};
 
 	formatDate = (createdAt, hideDate) => {
-		return this.formatUnixDate(new Date(createdAt), hideDate);
+		return this.formatUnixDate(new Date(createdAt)/1000, hideDate);
 	};
 
 	issurUrlRegex = (issueUrl) => {
@@ -119,7 +120,31 @@ class Utils {
 		return fullBounties;
 	};
 
-	capitalize = (word) => {
+		mergeOrdered = (left, right, lProperty, rProperty)=>{
+			const mergedArr = [];		
+			let il= 0, ir =0, i =0;
+			while(il<left.length && ir <right.length ){
+				if(left[il][lProperty]> right[ir][rProperty]){
+					mergedArr[i++] = left[il++];
+				}
+				else{
+					mergedArr[i++] = right[ir++];
+				}
+			}
+			if(left[ir]){
+				while(il<left.length){
+					mergedArr[i++] = left[il++];
+				}
+			}
+			if(right[ir]){
+				while( right[ir][rProperty]){
+					mergedArr[i++] = right[ir++];		
+				}
+			}
+			return mergedArr;
+		};
+
+	capitalize = (word) =>{
 		return word[0].toUpperCase() + word.substring(1);
 	};
 
