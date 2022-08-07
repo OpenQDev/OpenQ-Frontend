@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
@@ -36,7 +36,7 @@ const TierInput = ({ tier }) => {
 
 	useEffect(() => {
 		handleSuffix(tier);
-	}, [])
+	}, []);
 
 	return (
 		<div className='flex-1 w-11/12 mb-2 ml-4'>
@@ -48,7 +48,7 @@ const TierInput = ({ tier }) => {
 				placeholder={`${suffix} winner`}
 			/>
 		</div>
-	)
-}
+	);
+};
 
-export default TierInput
+export default TierInput;
