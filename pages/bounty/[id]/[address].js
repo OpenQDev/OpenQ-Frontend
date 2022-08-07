@@ -10,6 +10,7 @@ import BountyCardDetails from '../../../components/Bounty/BountyCardDetails';
 import FundPage from '../../../components/FundBounty/FundPage';
 import RefundPage from '../../../components/RefundBounty/RefundPage';
 import ClaimPage from '../../../components/Claim/ClaimPage';
+import AdminPage from '../../../components/Admin/AdminPage';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
 import UnexpectedError from '../../../components/Utils/UnexpectedError';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
@@ -58,7 +59,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 	const expirationComp = (deposits, newDeposits) => {
 		for (let deposit of deposits) {
 			let i = 0;
-			if (deposit.expiration !== newDeposits[i].expiration) { 
+			if (deposit.expiration !== newDeposits[i].expiration) {
 				i++;
 				return false;
 			}
@@ -103,16 +104,18 @@ const address = ({ address, mergedBounty, renderError }) => {
 	};
 
 	useEffect(() => {
-		if(internalMenu){
-			sessionStorage.setItem(address, internalMenu);}
+		if (internalMenu) {
+			sessionStorage.setItem(address, internalMenu);
+		}
 	}, [internalMenu]);
 
 	// Hooks
-	useEffect(async() => {
-		const handleResize= ()=>{
-			if(canvas.current){
+	useEffect(async () => {
+		const handleResize = () => {
+			if (canvas.current) {
 				canvas.current.width = window.innerWidth;
-				canvas.current.height = window.innerHeight;}
+				canvas.current.height = window.innerHeight;
+			}
 		};
 		window.addEventListener('resize', handleResize, false);
 		// Confetti
@@ -145,8 +148,8 @@ const address = ({ address, mergedBounty, renderError }) => {
 				setInternalMenu(route || 'View');
 			}
 		}
-		
-		return ()=>window.removeEventListener('resize', handleResize);
+
+		return () => window.removeEventListener('resize', handleResize);
 	}, []);
 
 
@@ -166,14 +169,15 @@ const address = ({ address, mergedBounty, renderError }) => {
 			</div> :
 			<>
 				<div className="flex flex-col justify-center items-center pt-4">
-				
+
 					<RepoTitle bounty={bounty} />
-					<SubMenu colour="rust" items={[{name: 'View', Svg: Telescope },{name: 'Fund', Svg: Add },{name: 'Refund', Svg: Subtract },{name: 'Claim', Svg: Fire },]} internalMenu={internalMenu} updatePage={setInternalMenu}/>
-					
+					<SubMenu colour="rust" items={[{ name: 'View', Svg: Telescope }, { name: 'Fund', Svg: Add }, { name: 'Refund', Svg: Subtract }, { name: 'Claim', Svg: Fire }, { name: 'Admin', Svg: Telescope }]} internalMenu={internalMenu} updatePage={setInternalMenu} />
+
 					<BountyHeading price={tokenValues?.total} bounty={bounty} />
 					{internalMenu == 'View' && <BountyCardDetails justMinted={justMinted} bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
+					{internalMenu == 'Admin' && bounty ? <AdminPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
 					<canvas className="absolute w-full top-0 z-40 bottom-0 pointer-events-none" ref={canvas}></canvas>
 				</div>

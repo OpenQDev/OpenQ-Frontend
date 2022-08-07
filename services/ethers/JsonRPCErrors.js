@@ -87,7 +87,13 @@ const jsonRpcErrors =
 		},
 		// CLAIM
 		{
-			'CLAIMING_CLOSED_BOUNTY': {
+			'COMPETITION_ALREADY_CLOSED': {
+				title: 'This competition is already closed, you cannot close it again',
+				message: () => 'You are attempting to close a closed competition'
+			}
+		},
+		{
+			'COMPETITION': {
 				title: 'Cannot claim a closed bounty',
 				message: () => 'You are attempting to claim a closed bounty'
 			}
@@ -141,7 +147,7 @@ const jsonRpcErrors =
 		},
 
 		{
-			'CFA_EXISTS' : {
+			'CFA_EXISTS': {
 				title: 'Stream Already Created',
 				message: (recipient) => {
 					return `Stream already created from your address to ${recipient.slice(0, 4)}...${recipient.slice(38)}. If you\'d like to change the terms of your stream, please use the update button`;
@@ -149,13 +155,15 @@ const jsonRpcErrors =
 			},
 
 		},
-		{'CFA_DOES_NOT_EXIST':
 		{
-			title: 'Stream does not exist',
-			message: (recipient) => {
-				return `No stream exists from your address to ${recipient.slice(0, 4)}...${recipient.slice(38)}.`;}
-		
-		},
+			'CFA_DOES_NOT_EXIST':
+			{
+				title: 'Stream does not exist',
+				message: (recipient) => {
+					return `No stream exists from your address to ${recipient.slice(0, 4)}...${recipient.slice(38)}.`;
+				}
+
+			},
 		},
 
 		{

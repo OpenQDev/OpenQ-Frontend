@@ -36,14 +36,22 @@ class OpenQClient {
 			let abiCoder = new ethers.utils.AbiCoder;
 			switch (type) {
 				case 'Atomic':
-					console.log('data.fundingTokenAddress.address', data.fundingTokenAddress.address);
-					console.log('data.fundingTokenVolume', data.fundingTokenVolume);
-					const fundingGoalBountyParams = abiCoder.encode(["address", "uint256"], [data.fundingTokenAddress.address, data.fundingTokenVolume]);
-					bountyInitOperation = [3, fundingGoalBountyParams];
+					{
+						console.log('data.fundingTokenAddress.address', data.fundingTokenAddress.address);
+						console.log('data.fundingTokenVolume', data.fundingTokenVolume);
+						const volumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
+						const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
+						console.log('bigNumberVolumeInWei', bigNumberVolumeInWei);
+						const fundingGoalBountyParams = abiCoder.encode(["address", "uint256"], [data.fundingTokenAddress.address, bigNumberVolumeInWei]);
+						bountyInitOperation = [3, fundingGoalBountyParams];
+					}
 					break;
 				case 'Ongoing':
 					console.log('data.fundingTokenAddress.address', data.fundingTokenAddress.address);
-					const ongoingAbiEncodedParams = abiCoder.encode(["address", "uint256"], [data.fundingTokenAddress.address, data.fundingTokenVolume]);
+					const volumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
+					const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
+					console.log('bigNumberVolumeInWei', bigNumberVolumeInWei);
+					const ongoingAbiEncodedParams = abiCoder.encode(["address", "uint256"], [data.fundingTokenAddress.address, bigNumberVolumeInWei]);
 					bountyInitOperation = [1, ongoingAbiEncodedParams];
 					break;
 				case 'Tiered':
@@ -216,6 +224,24 @@ class OpenQClient {
 		return promise;
 	}
 
+	async closeCompetition(library, _bountyId) {
+		const promise = new Promise(async (resolve, reject) => {
+			const signer = library.getSigner();
+
+			const contract = this.OpenQ(signer);
+			try {
+				let txnResponse = await contract.closeCompetition(_bountyId);
+				let txnReceipt = await txnResponse.wait();
+				console.log(txnReceipt);
+				resolve(txnReceipt);
+			} catch (error) {
+				console.log(error);
+				reject(error);
+			}
+		});
+		return promise;
+	}
+
 	async extendDeposit(library, _bountyId, _depositId, _depositPeriodDays) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
@@ -313,6 +339,7 @@ class OpenQClient {
 			if (jsonRpcError.message.includes('Set a higher gas fee')) { miscError = 'UNDERPRICED_TXN'; }
 			if (jsonRpcError.message.includes('CFA: flow does not exist')) { miscError = 'CFA_DOES_NOT_EXIST'; }
 			if (jsonRpcError.message.includes('CFA: flow already exist')) { miscError = 'CFA_EXISTS'; }
+			if (jsonRpcError.message.includes('COMPETITION_ALREADY_CLOSED')) { miscError = 'COMPETITION_ALREADY_CLOSED'; }
 
 		}
 
