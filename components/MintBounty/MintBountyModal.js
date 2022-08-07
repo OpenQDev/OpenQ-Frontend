@@ -199,7 +199,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 				<>
 					<div ref={modal} className="m-auto w-3/5 min-w-[320px] z-50 ">
 						<div className="w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-1">
-							<MintBountyHeader type={'Tiered'} />
+							<MintBountyHeader type={'Ongoing'} />
 							<div className="flex flex-col items-center pl-6 pr-6">
 								<MintBountyInput
 									setIssueUrl={setIssueUrl}

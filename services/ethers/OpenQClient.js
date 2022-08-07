@@ -242,6 +242,24 @@ class OpenQClient {
 		return promise;
 	}
 
+	async closeOngoing(library, _bountyId) {
+		const promise = new Promise(async (resolve, reject) => {
+			const signer = library.getSigner();
+
+			const contract = this.OpenQ(signer);
+			try {
+				let txnResponse = await contract.closeOngoing(_bountyId);
+				let txnReceipt = await txnResponse.wait();
+				console.log(txnReceipt);
+				resolve(txnReceipt);
+			} catch (error) {
+				console.log(error);
+				reject(error);
+			}
+		});
+		return promise;
+	}
+
 	async extendDeposit(library, _bountyId, _depositId, _depositPeriodDays) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
@@ -340,6 +358,7 @@ class OpenQClient {
 			if (jsonRpcError.message.includes('CFA: flow does not exist')) { miscError = 'CFA_DOES_NOT_EXIST'; }
 			if (jsonRpcError.message.includes('CFA: flow already exist')) { miscError = 'CFA_EXISTS'; }
 			if (jsonRpcError.message.includes('COMPETITION_ALREADY_CLOSED')) { miscError = 'COMPETITION_ALREADY_CLOSED'; }
+			if (jsonRpcError.message.includes('ONGOING_BOUNTY_ALREADY_CLOSED')) { miscError = 'ONGOING_BOUNTY_ALREADY_CLOSED'; }
 
 		}
 

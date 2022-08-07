@@ -246,7 +246,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 					styles={'rounded-sm w-full'}
 				/>
 
-				<MintBountyButton styles={'w-full'} type={'Tiered'} />
+				<MintBountyButton styles={'w-full'} type={'Ongoing'} />
 			</div>
 			<div className='w-full rounded-sm'>
 				<div className='flex flex-wrap gap-4 p-2 sm:p-4 border-web-gray border rounded-sm bg-subtle'>

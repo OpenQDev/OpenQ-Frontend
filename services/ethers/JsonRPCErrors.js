@@ -93,7 +93,13 @@ const jsonRpcErrors =
 			}
 		},
 		{
-			'COMPETITION': {
+			'ONGOING_BOUNTY_ALREADY_CLOSED': {
+				title: 'This ongoing bounty is already closed, you cannot close it again',
+				message: () => 'You are attempting to close a closed ongoing bounty'
+			}
+		},
+		{
+			'CLAIMING_CLOSED_BOUNTY': {
 				title: 'Cannot claim a closed bounty',
 				message: () => 'You are attempting to claim a closed bounty'
 			}
