@@ -16,7 +16,7 @@ import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import SmallToggle from '../Utils/SmallToggle';
 import TierInput from './TierInput';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
-import Toggle from '../Utils/Toggle';
+import SubMenu from '../Utils/SubMenu';
 
 const MintBountyModal = ({ modalVisibility, type }) => {
 	// Context
@@ -201,7 +201,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 				<>
 					<div ref={modal} className="m-auto w-3/5 min-w-[320px] z-50 ">
 						<div className="w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-1">
-							<Toggle names={['Single', 'Atomic', 'Ongoing', 'Tiered']} toggleVal={toggleType} toggleFunc={setToggleType} />
+						<SubMenu  items={[{name: 'Single' },{name: 'Atomic'},{name: 'Ongoing'},{name: 'Tiered'}]} internalMenu={toggleType} updatePage={setToggleType}/>
 							<MintBountyHeader type={toggleType} />
 							<div className="flex flex-col items-center pl-6 pr-6">
 								<MintBountyInput
