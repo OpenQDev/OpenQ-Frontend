@@ -16,6 +16,7 @@ import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import SmallToggle from '../Utils/SmallToggle';
 import TierInput from './TierInput';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
+import SubMenu from '../Utils/SubMenu';
 
 const MintBountyModal = ({ modalVisibility, type }) => {
 	// Context
@@ -46,6 +47,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 	const [tierArr, setTierArr] = useState([]);
 	const [volume, setVolume] = useState('');
 	const [token, setToken] = useState(zeroAddressMetadata);
+	const [toggleType, setToggleType] = useState(type);
 
 	// Refs
 	const modal = useRef();
@@ -101,7 +103,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 		try {
 			setIsLoading(true);
 			let data;
-			switch (type) {
+			switch (toggleType) {
 				case 'Atomic':
 					data = { fundingTokenVolume: volume, fundingTokenAddress: token };
 					break;
@@ -112,14 +114,14 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 					data = { tiers: tierArr };
 					break;
 				default:
-					throw new Error(`No type: ${type}`);
+					throw new Error(`No type: ${toggleType}`);
 			}
 
 			const { bountyAddress } = await appState.openQClient.mintBounty(
 				library,
 				issue.id,
 				issue.repository.owner.id,
-				type,
+				toggleType,
 				data
 			);
 			sessionStorage.setItem('justMinted', true);
@@ -199,7 +201,8 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 				<>
 					<div ref={modal} className="m-auto w-3/5 min-w-[320px] z-50 ">
 						<div className="w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-1">
-							<MintBountyHeader type={'Ongoing'} />
+						<SubMenu  items={[{name: 'Single' },{name: 'Atomic'},{name: 'Ongoing'},{name: 'Tiered'}]} internalMenu={toggleType} updatePage={setToggleType}/>
+							<MintBountyHeader type={toggleType} />
 							<div className="flex flex-col items-center pl-6 pr-6">
 								<MintBountyInput
 									setIssueUrl={setIssueUrl}
@@ -221,7 +224,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 									<BountyAlreadyMintedMessage claimed={claimed} id={issue.id} bountyAddress={bountyAddress} />}
 							</div>
 
-							{type ?
+							{toggleType ?
 								<>
 									<div className="flex flex-col items-center pl-6 pr-6 pb-2">
 										<div className="flex flex-col w-4/5 md:w-2/3">
@@ -242,13 +245,13 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 								null
 							}
 
-							{type === 'Atomic' || type === 'Ongoing' ?
+							{toggleType === 'Atomic' || toggleType === 'Ongoing' ?
 								<>
 									<div className="flex flex-col items-center pl-6 pr-6 pb-2">
 										<div className="flex flex-col w-4/5 md:w-2/3">
 											<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
-												<div className='flex items-center gap-2'>{type === 'Atomic' ? 'Funding Goal' : 'Reward Split?'}
-													<ToolTipNew mobileX={10} toolTipText={type === 'Atomic' ? 'Amount of funds you would like to escrow on this issue.' : 'How much will each successful submitter earn?'} >
+												<div className='flex items-center gap-2'>{toggleType === 'Atomic' ? 'Funding Goal' : 'Reward Split?'}
+													<ToolTipNew mobileX={10} toolTipText={toggleType === 'Atomic' ? 'Amount of funds you would like to escrow on this issue.' : 'How much will each successful submitter earn?'} >
 														<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
 													</ToolTipNew>
 												</div>
@@ -264,7 +267,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 										</div>
 									</div>
 								</>
-								: type === 'Tiered' ?
+								: toggleType === 'Tiered' ?
 									<>
 										<div className="flex flex-col items-center pl-6 pr-6 pb-2">
 											<div className="flex flex-col w-4/5 md:w-2/3">
