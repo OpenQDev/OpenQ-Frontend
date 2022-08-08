@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { WATCH_BOUNTY, UNWATCH_BOUNTY, GET_BOUNTY_BY_HASH, GET_USER_BY_HASH, GET_BOUNTY_PAGE, GET_PR_BY_ID, CREATE_PR, ADD_CONTRIBUTOR, REMOVE_CONTRIBUTOR, GET_IS_BLACKLISTED, GET_ORG, GET_ORGS, STAR_ORG, UN_STAR_ORG } from './graphql/query';
+import { WATCH_BOUNTY, UNWATCH_BOUNTY, GET_BOUNTY_BY_HASH, GET_USER_BY_HASH, GET_BOUNTY_PAGE, GET_PR_BY_ID, CREATE_PR, ADD_CONTRIBUTOR, REMOVE_CONTRIBUTOR, GET_IS_BLACKLISTED, GET_ORG, GET_ORGS, STAR_ORG, UN_STAR_ORG, UPDATE_USER } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
 
@@ -175,6 +175,26 @@ class OpenQPrismaClient {
 					variables: { organizationIds }
 				});
 				resolve(result.data.organizations);
+			}
+			catch (e) {
+				reject(e);
+			}
+		}
+		);
+		return promise;	
+	
+	}
+
+	setFunderValues(values){
+	
+	
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.mutate({
+					mutation: UPDATE_USER,
+					variables: values
+				});
+				resolve(result.data);
 			}
 			catch (e) {
 				reject(e);
