@@ -21,14 +21,12 @@ const BountyCardDetails = ({ bounty, setInternalMenu, justMinted }) => {
 	
 	
 	const deposits = bounty.deposits ||[];
-	const refunds = bounty.refunds || [];
-	const title = sender|| justMinted ? `${senderEnsName ||`${(sender||account).slice(0, 4)}...${(sender||account).slice(38)}`} minted this contract on ${sender ? ' '.concat(appState.utils.formatUnixDate(bounty.bountyMintTime)): ''}.`: 'Waiting for graph to index contract data.';
-	let claimedEvent = [];
+	const refunds = bounty.refunds || [];let claimedEvent = [];
 	let closedEvents = [];
 	if(bounty.bountyClosedTime && bounty.status){
 		closedEvents = [{time:bounty.bountyClosedTime }];
 	}
-	if(bounty.claims.length){
+	if(bounty.claims?.length){
 	
 		claimedEvent=bounty.claims;
 		
@@ -55,7 +53,7 @@ const BountyCardDetails = ({ bounty, setInternalMenu, justMinted }) => {
 	return (
 		<div className='flex w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
 			<div className='flex-1 pr-4 min-w-[260px]'>
-				<ActionBubble  addresses={addresses} address={sender} price={tokenValues?.total} bounty={bounty}  title = {title} bodyHTML={bounty.bodyHTML}/>
+				<ActionBubble  addresses={addresses} address={sender} price={tokenValues?.total} bounty={bounty} bodyHTML={bounty.bodyHTML}/>
 				{allActions.map((action, index)=><ActionBubble address={action.sender?.id ||action.claimant?.id||sender } key={index} bounty={bounty} action={action} /> )}
 		
 			</div>

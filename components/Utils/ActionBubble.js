@@ -1,32 +1,47 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import StoreContext from '../../store/Store/StoreContext';
 import useEns from '../../hooks/useENS';
 import { ethers } from 'ethers';
 import Jazzicon from './Jazzicon';
+import useWeb3 from '../../hooks/useWeb3';
 
 
-const ActionBubble = ({ addresses,    bounty, action,})=>{
+const ActionBubble = ({ addresses, bounty, action,})=>{
 	
 	const [appState] = useContext(StoreContext);
-
+	const [justMinted, setJustMinted] = useState(false);
 	const {body, bodyHTML} = bounty;
 	const [senderEnsName] = useEns(action?.sender?.id);
 	const [minterEnsName] = useEns(bounty?.issuer?.id);
 	const [claimantEnsName] = useEns( action?.claimant?.id);
 	const [tokenValues ] = useGetTokenValues((action?.receiveTime || action?.refundTime) && action);
+	const {account } = useWeb3();
+	
+	useEffect(()=>{
+		const justMinted = sessionStorage.getItem('justMinted');
+		if(justMinted){setJustMinted(true);}
+	},[]);
+
 	const shortenAddress = (address)=>{
 		if(!address){
 			return '';}
 		return `${address.slice(0, 4)}...${address.slice(38)}`;
 	};
-	const minter = minterEnsName ||shortenAddress(bounty.issuer.id);
+	const minter = minterEnsName ||(bounty.issuer && shortenAddress(bounty.issuer.id));
 
 	
 	let	title = `${minter} minted this contract on ${appState.utils.formatUnixDate(bounty.bountyMintTime)}.`;
-	let address = bounty.issuer.id;
-	
+	let address = bounty.issuer?.id;
+	if(!action && !minter){
+		if(justMinted){
+		
+			title=`${account} minted this contract on ${appState.utils.formatUnixDate(Date.now()/1000)}.`;
+		}
+		else{
+			title='Waiting for this contract to be indexed by the Graph.';}
+	}
 	
 	if(action?.claimTime){
 		const claimant = claimantEnsName ||shortenAddress(action.claimant.id);
@@ -80,9 +95,8 @@ const ActionBubble = ({ addresses,    bounty, action,})=>{
 					<span className='py-2'>{tokenValues || (!action?.receiveTime && !action?.refundTime) ? title : <Skeleton width="34" />}</span>
 					{action?.refunded && <span className='border rounded-full border-web-gray px-2 py-px m-1'> Refunded</span>}
 				</div>
-				{bodyHTML&&<div className='w-full p-4 markdown-body' dangerouslySetInnerHTML={{__html: bodyHTML }}></div>
+				{bodyHTML&&<div className='w-full p-8 p-4 markdown-body' dangerouslySetInnerHTML={{__html: bodyHTML }}></div>
 				}
-				{body&& <div>{body}</div>}
 			</div>
 			
 		</div>);
