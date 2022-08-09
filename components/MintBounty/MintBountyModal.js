@@ -199,140 +199,142 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 					error={error}
 				/> :
 				<>
-					<div ref={modal} className="m-auto w-3/5 min-w-[320px] z-50 ">
+					<div ref={modal} className="m-auto w-3/5 min-w-[320px] z-50 fixed top-10">
 						<div className="w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-1">
-						<SubMenu  items={[{name: 'Single' },{name: 'Atomic'},{name: 'Ongoing'},{name: 'Tiered'}]} internalMenu={toggleType} updatePage={setToggleType}/>
-							<MintBountyHeader type={toggleType} />
-							<div className="flex flex-col items-center pl-6 pr-6">
-								<MintBountyInput
-									setIssueUrl={setIssueUrl}
-									issueData={issue}
-									url={url}
-									isValidUrl={isValidUrl}
-								/>
-							</div>
-							{isValidUrl && !issue &&
-								<div className="flex flex-col items-center pt-5 ">
-									Github Issue not found
-								</div>}
-							<div className="flex flex-col items-center space-x-1 px-8">
-								{isValidUrl && issue?.closed && !bountyAddress &&
-									<div className="text-center pt-3 ">
-										This issue is already closed on GitHub
+							<SubMenu items={[{ name: 'Single' }, { name: 'Atomic' }, { name: 'Ongoing' }, { name: 'Tiered' }]} internalMenu={toggleType} updatePage={setToggleType} styles={'justify-center'}/>
+							<div className='max-h-[80vh] w-full overflow-y-auto'>
+								<MintBountyHeader type={toggleType} />
+								<div className="flex flex-col items-center pl-6 pr-6">
+									<MintBountyInput
+										setIssueUrl={setIssueUrl}
+										issueData={issue}
+										url={url}
+										isValidUrl={isValidUrl}
+									/>
+								</div>
+								{isValidUrl && !issue &&
+									<div className="flex flex-col items-center pt-5 ">
+										Github Issue not found
 									</div>}
-								{isValidUrl && bountyAddress && issue &&
-									<BountyAlreadyMintedMessage claimed={claimed} id={issue.id} bountyAddress={bountyAddress} />}
-							</div>
+								<div className="flex flex-col items-center space-x-1 px-8">
+									{isValidUrl && issue?.closed && !bountyAddress &&
+										<div className="text-center pt-3 ">
+											This issue is already closed on GitHub
+										</div>}
+									{isValidUrl && bountyAddress && issue &&
+										<BountyAlreadyMintedMessage claimed={claimed} id={issue.id} bountyAddress={bountyAddress} />}
+								</div>
 
-							{toggleType ?
-								<>
-									<div className="flex flex-col items-center pl-6 pr-6 pb-2">
-										<div className="flex flex-col w-4/5 md:w-2/3">
-											<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
-												<div className='flex items-center gap-2'>Is this Contract invoiceable?
-													<ToolTipNew mobileX={10} toolTipText={'Do you want an invoice for this contract?'} >
-														<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
-													</ToolTipNew>
-												</div>
-												<div className='flex-1 w-full mt-2 ml-4'>
-													<SmallToggle names={['Yes', 'No']} toggleVal={invoice ? 'Yes' : 'No'} toggleFunc={() => setInvoice(!invoice)} />
-												</div>
-											</div>
-										</div>
-									</div>
-								</>
-								:
-								null
-							}
-
-							{toggleType === 'Atomic' || toggleType === 'Ongoing' ?
-								<>
-									<div className="flex flex-col items-center pl-6 pr-6 pb-2">
-										<div className="flex flex-col w-4/5 md:w-2/3">
-											<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
-												<div className='flex items-center gap-2'>{toggleType === 'Atomic' ? 'Funding Goal' : 'Reward Split?'}
-													<ToolTipNew mobileX={10} toolTipText={toggleType === 'Atomic' ? 'Amount of funds you would like to escrow on this issue.' : 'How much will each successful submitter earn?'} >
-														<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
-													</ToolTipNew>
-												</div>
-												<div className='flex-1 w-full mt-2 ml-4'>
-													<TokenFundBox
-														onCurrencySelect={onCurrencySelect}
-														onVolumeChange={onVolumeChange}
-														token={token}
-														volume={volume}
-													/>
-												</div>
-											</div>
-										</div>
-									</div>
-								</>
-								: toggleType === 'Tiered' ?
+								{toggleType ?
 									<>
 										<div className="flex flex-col items-center pl-6 pr-6 pb-2">
 											<div className="flex flex-col w-4/5 md:w-2/3">
-												<div className='flex flex-col w-full items-start p-2 py-1 text-base pb-4'>
-													<div className='flex items-center gap-2'>How many Tiers?
-														<ToolTipNew mobileX={10} toolTipText={'How many people will be able to claim a prize? Don\'t exceed 100.'} >
+												<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
+													<div className='flex items-center gap-2'>Is this Contract invoiceable?
+														<ToolTipNew mobileX={10} toolTipText={'Do you want an invoice for this contract?'} >
 															<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
 														</ToolTipNew>
 													</div>
 													<div className='flex-1 w-full mt-2 ml-4'>
-														<input
-															className={`flex-1 input-field w-full`}
-															id="name"
-															placeholder="0"
-															autoComplete="off"
-															type="text"
-															min="0"
-															max="100"
-															value={tier}
-															onChange={(e) => onTierChange(e)}
-														/>
+														<SmallToggle names={['Yes', 'No']} toggleVal={invoice ? 'Yes' : 'No'} toggleFunc={() => setInvoice(!invoice)} />
 													</div>
 												</div>
-												{tier > 0 ?
-													<>
-														<div className='flex flex-col w-full items-start p-2 py-1 pb-0 text-base'>
-															<div className='flex items-center gap-2 pb-2'>Weight per Tier
-																<ToolTipNew mobileX={10} toolTipText={'How much will each winner earn?'} >
-																	<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
-																</ToolTipNew>
-															</div>
-															<div className='max-h-40 w-full overflow-y-auto overflow-x-hidden'>
-																{tierArr.map(t => <TierInput key={t} tier={t} />)}
-															</div>
-														</div>
-													</>
-													: null
-												}
 											</div>
 										</div>
 									</>
 									:
 									null
-							}
+								}
 
-							<div className="p-5 pt-2 w-full">
-								<ToolTipNew
-									outerStyles={''}
-									hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
-									toolTipText={
-										account && isOnCorrectNetwork ?
-											'Please choose an elgible issue.' :
-											isOnCorrectNetwork ?
-												'Connect your wallet to mint a bounty!' :
-												'Please switch to the correct network to mint a bounty.'
-									}>
+								{toggleType === 'Atomic' || toggleType === 'Ongoing' ?
+									<>
+										<div className="flex flex-col items-center pl-6 pr-6 pb-2">
+											<div className="flex flex-col w-4/5 md:w-2/3">
+												<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
+													<div className='flex items-center gap-2'>{toggleType === 'Atomic' ? 'Funding Goal' : 'Reward Split?'}
+														<ToolTipNew mobileX={10} toolTipText={toggleType === 'Atomic' ? 'Amount of funds you would like to escrow on this issue.' : 'How much will each successful submitter earn?'} >
+															<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+														</ToolTipNew>
+													</div>
+													<div className='flex-1 w-full mt-2 ml-4'>
+														<TokenFundBox
+															onCurrencySelect={onCurrencySelect}
+															onVolumeChange={onVolumeChange}
+															token={token}
+															volume={volume}
+														/>
+													</div>
+												</div>
+											</div>
+										</div>
+									</>
+									: toggleType === 'Tiered' ?
+										<>
+											<div className="flex flex-col items-center pl-6 pr-6 pb-2">
+												<div className="flex flex-col w-4/5 md:w-2/3">
+													<div className='flex flex-col w-full items-start p-2 py-1 text-base pb-4'>
+														<div className='flex items-center gap-2'>How many Tiers?
+															<ToolTipNew mobileX={10} toolTipText={'How many people will be able to claim a prize? Don\'t exceed 100.'} >
+																<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+															</ToolTipNew>
+														</div>
+														<div className='flex-1 w-full mt-2 ml-4'>
+															<input
+																className={`flex-1 input-field w-full`}
+																id="name"
+																placeholder="0"
+																autoComplete="off"
+																type="text"
+																min="0"
+																max="100"
+																value={tier}
+																onChange={(e) => onTierChange(e)}
+															/>
+														</div>
+													</div>
+													{tier > 0 ?
+														<>
+															<div className='flex flex-col w-full items-start p-2 py-1 pb-0 text-base'>
+																<div className='flex items-center gap-2 pb-2'>Weight per Tier
+																	<ToolTipNew mobileX={10} toolTipText={'How much will each winner earn?'} >
+																		<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+																	</ToolTipNew>
+																</div>
+																<div className='max-h-40 w-full overflow-y-auto overflow-x-hidden'>
+																	{tierArr.map(t => <TierInput key={t} tier={t} />)}
+																</div>
+															</div>
+														</>
+														: null
+													}
+												</div>
+											</div>
+										</>
+										:
+										null
+								}
 
-									<MintBountyModalButton
-										mintBounty={(account) ? mintBounty : connectWallet}
-										account={account}
-										enableMint={(enableMint && isOnCorrectNetwork && !issue?.closed && !isLoading) || !account}
-										transactionPending={isLoading}
-									/>
+								<div className="p-5 pt-2 w-full">
+									<ToolTipNew
+										outerStyles={''}
+										hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
+										toolTipText={
+											account && isOnCorrectNetwork ?
+												'Please choose an elgible issue.' :
+												isOnCorrectNetwork ?
+													'Connect your wallet to mint a bounty!' :
+													'Please switch to the correct network to mint a bounty.'
+										}>
 
-								</ToolTipNew>
+										<MintBountyModalButton
+											mintBounty={(account) ? mintBounty : connectWallet}
+											account={account}
+											enableMint={(enableMint && isOnCorrectNetwork && !issue?.closed && !isLoading) || !account}
+											transactionPending={isLoading}
+										/>
+
+									</ToolTipNew>
+								</div>
 							</div>
 						</div>
 					</div>

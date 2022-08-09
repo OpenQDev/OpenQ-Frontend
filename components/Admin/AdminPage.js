@@ -3,6 +3,7 @@ import React, { useState, useRef, useContext } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
 import axios from 'axios';
 import StoreContext from '../../store/Store/StoreContext';
+import { ethers } from 'ethers';
 
 const AdminPage = ({ bounty, refreshBounty }) => {
 
@@ -44,15 +45,18 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 				>Close Competition</button>
 			</>
 		);
-	} else if (bounty.bountyType == '1') {
-		return (
+	} else if (bounty.bountyType == '1' && (ethers.utils.getAddress(bounty.issuer.id) == account)) {
+		return ( 
 			<>
 				<button
+					className="btn-default"
 					type="button"
 					onClick={closeOngoing}
 				>Close Ongoing Bounty</button>
 			</>
 		);
+	} else {
+		return null;
 	}
 };
 
