@@ -45,9 +45,10 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 	// State
 	const [token, setToken] = useState(zeroAddressMetadata);
+	const bountyName = (bounty.bountyType == 0 || bounty.bountyType == 3) ? 'Atomic Contract' : bounty.bountyType == 1? 'Repeatable Contract' : 'Contest' ;
 
-	const claimed = bounty.status == 'CLOSED';
-	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || claimed || parseFloat(volume) <= 0.00000001 || parseFloat(volume) >= 1000 || volume == '' || !(parseInt(depositPeriodDays) > 0);
+	const closed = bounty.bountyClosedTime;
+	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || closed || parseFloat(volume) <= 0.00000001 || parseFloat(volume) >= 1000 || volume == '' || !(parseInt(depositPeriodDays) > 0);
 	const disableOrEnable = `${(loadingClosedOrZero || !isOnCorrectNetwork) && account ? 'btn-default w-full cursor-not-allowed' : 'btn-primary cursor-pointer'}`;
 	const fundButtonClasses = `flex flex-row w-full justify-center space-x-5 items-center  ${disableOrEnable}`;
 
@@ -194,13 +195,16 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 	// Render
 	return (<>
-		{claimed ?
-			<BountyClosed bounty={bounty} /> :
+		{closed ?
+			<>
+				<h1 className='text-3xl'>Cannot Fund a Closed {bountyName}!</h1>
+				<BountyClosed bounty={bounty} />
+			</>
+			:
 			<div className="flex flex-1 sm:px-12 px-4 pt-4 pb-8 w-full max-w-[1200px] justify-center">
 				<div className="flex flex-col space-y-5 pb-4 items-center md:border rounded-sm border-gray-700">
 					<div className="flex text-3xl text-primary justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm">
-						Escrow Funds in Atomic Contract
-						{console.log(bounty)}
+						Escrow Funds in {bountyName}
 					</div>
 					<div className="flex flex-col space-y-5 w-5/6 pt-2">
 						<TokenFundBox
@@ -212,7 +216,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 						<div className="flex w-full input-field-big">
 							<div className=' flex items-center gap-3 w-full text-primary md:whitespace-nowrap'>
-								<ToolTipNew mobileX={10} toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, you\'re deposit will be fully refundable if the bounty has still not been claimed.'} >
+								<ToolTipNew toolTipText={'This is the number of days that your deposit will be in escrow. After this many days, your deposit will be fully refundable if the bounty has still not been claimed.'} >
 									<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
 								</ToolTipNew>
 								<span>Deposit Locked Period</span>
