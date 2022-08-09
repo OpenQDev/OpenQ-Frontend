@@ -90,6 +90,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 			const refundedNow = refundCount(newBounty.deposits);
 			while (newBounty.deposits.length === bounty.deposits.length && newBounty.status === bounty.status && refundedBefore === refundedNow
 				&& expirationComp(bounty.deposits, newBounty.deposits)
+				&& newBounty.bountyClosedTime === bounty.bountyClosedTime
 				// or simpler, just using: && newBounty.deposits === bounty.deposits
 				// in which case we could also be removing the 'newBounty.deposits.length === bounty.deposits.length' logic and simplify
 			) {
