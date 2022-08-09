@@ -200,6 +200,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 				<div className="flex flex-col space-y-5 pb-4 items-center md:border rounded-sm border-gray-700">
 					<div className="flex text-3xl text-primary justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm">
 						Escrow Funds in Atomic Contract
+						{console.log(bounty)}
 					</div>
 					<div className="flex flex-col space-y-5 w-5/6 pt-2">
 						<TokenFundBox

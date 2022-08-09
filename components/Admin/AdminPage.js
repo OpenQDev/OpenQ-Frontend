@@ -35,18 +35,19 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 			console.log({ message, title });
 		}
 	}
-
-	if (bounty.bountyType == '2') {
+	
+	if (bounty.bountyType == '2' && (ethers.utils.getAddress(bounty.issuer.id) == account)) {
 		return (
 			<>
 				<button
+					className="btn-default"
 					type="button"
 					onClick={closeCompetition}
 				>Close Competition</button>
 			</>
 		);
 	} else if (bounty.bountyType == '1' && (ethers.utils.getAddress(bounty.issuer.id) == account)) {
-		return ( 
+		return (
 			<>
 				<button
 					className="btn-default"
