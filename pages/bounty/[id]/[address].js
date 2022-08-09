@@ -119,7 +119,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 	// Hooks
 	useEffect(async () => {
 		const handleResize = () => {
-			if (canvas.current) {
+			if (canvas.current?.width) {
 				canvas.current.width = window.innerWidth;
 				canvas.current.height = window.innerHeight;
 			}
