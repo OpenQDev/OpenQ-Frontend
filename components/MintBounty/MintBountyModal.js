@@ -48,6 +48,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 	const [volume, setVolume] = useState('');
 	const [token, setToken] = useState(zeroAddressMetadata);
 	const [toggleType, setToggleType] = useState(type);
+	const [goalVolume, setGoalVolume] = useState('');
 
 	// Refs
 	const modal = useRef();
@@ -98,7 +99,9 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 			});
 		}
 	};
-
+	const handleGoalChange = (goalVolume)=>{
+		setGoalVolume(goalVolume);
+	};
 	const mintBounty = async () => {
 		try {
 			setIsLoading(true);
@@ -246,13 +249,33 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 									null
 								}
 
-								{toggleType === 'Atomic' || toggleType === 'Ongoing' ?
+								<div className="flex flex-col items-center pl-6 pr-6 pb-2">
+									<div className="flex flex-col w-4/5 md:w-2/3">
+										<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
+											<div className='flex items-center gap-2'>Funding Goal
+												<ToolTipNew mobileX={10} toolTipText={toggleType === 'Atomic' ? 'Amount of funds you would like to escrow on this issue.' : 'How much will each successful submitter earn?'} >
+													<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+												</ToolTipNew>
+											</div>
+											<div className='flex-1 w-full mt-2 ml-4'>
+												<TokenFundBox
+													onCurrencySelect={handleGoalChange}
+													onVolumeChange={handleGoalChange}
+													volume={goalVolume}
+													token={token}
+												/>
+											</div>
+										</div>
+									</div>
+								</div>
+									
+								{toggleType === 'Ongoing' ?
 									<>
 										<div className="flex flex-col items-center pl-6 pr-6 pb-2">
 											<div className="flex flex-col w-4/5 md:w-2/3">
 												<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
-													<div className='flex items-center gap-2'>{toggleType === 'Atomic' ? 'Funding Goal' : 'Reward Split?'}
-														<ToolTipNew mobileX={10} toolTipText={toggleType === 'Atomic' ? 'Amount of funds you would like to escrow on this issue.' : 'How much will each successful submitter earn?'} >
+													<div className='flex items-center gap-2'> Reward Split?
+														<ToolTipNew mobileX={10} toolTipText={'How much will each successful submitter earn?'} >
 															<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
 														</ToolTipNew>
 													</div>
