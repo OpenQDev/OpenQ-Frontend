@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { ethers } from 'ethers';
+import useWeb3 from '../../../hooks/useWeb3';
 import Link from 'next/link';
 
 // Custom
@@ -33,6 +34,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 	const [appState, dispatch] = useContext(StoreContext);
 	const [bounty, setBounty] = useState(mergedBounty);
 	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
+	const {account, } = useWeb3();
 
 	// State
 	const [error, setError] = useState(renderError);
@@ -109,6 +111,11 @@ const address = ({ address, mergedBounty, renderError }) => {
 		}
 	}, [internalMenu]);
 
+	useEffect(()=> {
+		setInternalMenu('View')
+		console.log("account changes: ", account)
+	}, [account]);
+
 	// Hooks
 	useEffect(async () => {
 		const handleResize = () => {
@@ -169,15 +176,14 @@ const address = ({ address, mergedBounty, renderError }) => {
 			</div> :
 			<>
 				<div className="flex flex-col justify-center items-center pt-4">
-
 					<RepoTitle bounty={bounty} />
-					<SubMenu colour="rust" items={[{ name: 'View', Svg: Telescope }, { name: 'Fund', Svg: Add }, { name: 'Refund', Svg: Subtract }, { name: 'Claim', Svg: Fire }, { name: 'Admin', Svg: Telescope }]} internalMenu={internalMenu} updatePage={setInternalMenu} />
+					<SubMenu colour="rust" items={[{ name: 'View', Svg: Telescope }, { name: 'Fund', Svg: Add }, { name: 'Refund', Svg: Subtract }, { name: 'Claim', Svg: Fire }, { name: (ethers.utils.getAddress(bounty.issuer.id) == account) ? 'Admin' : null, Svg: (ethers.utils.getAddress(bounty.issuer.id) == account) ? Telescope : null }]} internalMenu={internalMenu} updatePage={setInternalMenu} />
 
 					<BountyHeading price={tokenValues?.total} bounty={bounty} />
 					{internalMenu == 'View' && <BountyCardDetails justMinted={justMinted} bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
-					{internalMenu == 'Admin' && bounty ? <AdminPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
+					{internalMenu == 'Admin' && bounty && (ethers.utils.getAddress(bounty.issuer.id) == account) ? <AdminPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
 					<canvas className="absolute w-full top-0 z-40 bottom-0 pointer-events-none" ref={canvas}></canvas>
 				</div>
