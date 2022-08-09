@@ -48,9 +48,13 @@ workflows:
           context: OpenQ
           filters:
             branches:
-              only: staging
+              ignore: /.*/
             tags:
               only:
                 - /^development.*/
-                - /^staging.*/
                 - /^production.*/
+      - deploy-staging:
+          context: OpenQ
+          filters:
+            branches:
+              only: staging-newcontracts
