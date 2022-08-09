@@ -47,8 +47,9 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 	const [tierArr, setTierArr] = useState([]);
 	const [volume, setVolume] = useState('');
 	const [token, setToken] = useState(zeroAddressMetadata);
-	const [toggleType, setToggleType] = useState(type);
+	const [toggleType, setToggleType] = useState(type || 'Atomic');
 	const [goalVolume, setGoalVolume] = useState('');
+	const [goalToken, setGoalToken] = useState(zeroAddressMetadata);
 
 	// Refs
 	const modal = useRef();
@@ -182,12 +183,15 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 		if (parseInt(e.target.value) > 100) { setTier('0'); }
 		if (e.target.value === '') setTier('0');
 		setTierArr(Array.from({ length: e.target.value }, (_, i) => i + 1));
-		console.log(tierArr);
 	}
 
 	function onCurrencySelect(token) {
 		setToken({ ...token, address: ethers.utils.getAddress(token.address) });
 	}
+
+	const onGoalCurrencySelect = (token)=>{	
+		setGoalToken({ ...token, address: ethers.utils.getAddress(token.address) });
+	};
 
 	function onVolumeChange(volume) {
 		appState.utils.updateVolume(volume, setVolume);
@@ -204,7 +208,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 				<>
 					<div ref={modal} className="m-auto w-3/5 min-w-[320px] z-50 fixed top-10">
 						<div className="w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-1">
-							<SubMenu items={[{ name: 'Single' }, { name: 'Atomic' }, { name: 'Ongoing' }, { name: 'Tiered' }]} internalMenu={toggleType} updatePage={setToggleType} styles={'justify-center'}/>
+							<SubMenu items={[ { name: 'Atomic' }, { name: 'Ongoing' }, { name: 'Tiered' }]} internalMenu={toggleType} updatePage={setToggleType} styles={'justify-center'}/>
 							<div className='max-h-[80vh] w-full overflow-y-auto'>
 								<MintBountyHeader type={toggleType} />
 								<div className="flex flex-col items-center pl-6 pr-6">
@@ -255,14 +259,17 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 											<div className='flex items-center gap-2'>Funding Goal
 												<ToolTipNew mobileX={10} toolTipText={toggleType === 'Atomic' ? 'Amount of funds you would like to escrow on this issue.' : 'How much will each successful submitter earn?'} >
 													<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+													
 												</ToolTipNew>
+												<span className='text-sm'>You don{'\''}t have to deposit now! The budget is just what you intend to pay.</span>
+											
 											</div>
 											<div className='flex-1 w-full mt-2 ml-4'>
 												<TokenFundBox
-													onCurrencySelect={handleGoalChange}
+													onCurrencySelect={onGoalCurrencySelect}
 													onVolumeChange={handleGoalChange}
 													volume={goalVolume}
-													token={token}
+													token={goalToken}
 												/>
 											</div>
 										</div>
@@ -337,7 +344,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 										null
 								}
 
-								<div className="p-5 pt-2 w-full">
+								<div className="p-5 pt-2 py-10 w-full">
 									<ToolTipNew
 										outerStyles={''}
 										hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
