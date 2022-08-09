@@ -113,7 +113,6 @@ const address = ({ address, mergedBounty, renderError }) => {
 
 	useEffect(()=> {
 		setInternalMenu('View')
-		console.log("account changes: ", account)
 	}, [account]);
 
 	// Hooks

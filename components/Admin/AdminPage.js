@@ -1,7 +1,6 @@
 // Third party Libraries
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
-import axios from 'axios';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 
@@ -13,10 +12,13 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 
 	// State
 	const [error, setError] = useState('');
+	const [showButton, setShowButton] = useState(ethers.utils.getAddress(bounty.issuer.id) == account && !bounty.bountyClosedTime)
 
 	async function closeCompetition() {
 		try {
 			await appState.openQClient.closeCompetition(library, bounty.bountyId);
+			setShowButton(false);
+			refreshBounty();
 		} catch (error) {
 			console.log(error);
 			const { message, title } = appState.openQClient.handleError(error, { bounty });
@@ -28,6 +30,8 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 	async function closeOngoing() {
 		try {
 			await appState.openQClient.closeOngoing(library, bounty.bountyId);
+			setShowButton(false);
+			refreshBounty();
 		} catch (error) {
 			console.log(error);
 			const { message, title } = appState.openQClient.handleError(error, { bounty });
@@ -35,30 +39,35 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 			console.log({ message, title });
 		}
 	}
-	
-	if (bounty.bountyType == '2' && (ethers.utils.getAddress(bounty.issuer.id) == account)) {
-		return (
-			<>
-				<button
-					className="btn-default"
-					type="button"
-					onClick={closeCompetition}
-				>Close Competition</button>
-			</>
-		);
-	} else if (bounty.bountyType == '1' && (ethers.utils.getAddress(bounty.issuer.id) == account)) {
-		return (
-			<>
-				<button
-					className="btn-default"
-					type="button"
-					onClick={closeOngoing}
-				>Close Ongoing Bounty</button>
-			</>
-		);
+
+	if (showButton) {
+		if (bounty.bountyType == '2') {
+			return (
+				<>
+					<button
+						className="btn-default"
+						type="button"
+						onClick={closeCompetition}
+					>Close Competition</button>
+				</>
+			);
+		} else if (bounty.bountyType == '1') {
+			return (
+				<>
+					<button
+						className="btn-default"
+						type="button"
+						onClick={closeOngoing}
+					>Close Ongoing Bounty</button>
+				</>
+			);
+		} else {
+			return null;
+		}
 	} else {
 		return null;
 	}
+
 };
 
 export default AdminPage;
