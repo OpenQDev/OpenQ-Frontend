@@ -45,7 +45,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 			</>
 		);
 	} else if (bounty.bountyType == '1') {
-		return (
+		return ( (ethers.utils.getAddress(bounty.issuer.id) == account) &&
 			<>
 				<button
 					type="button"
