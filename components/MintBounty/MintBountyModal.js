@@ -104,17 +104,17 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 			setIsLoading(true);
 			let data;
 			switch (toggleType) {
-				case 'Atomic':
-					data = { fundingTokenVolume: volume, fundingTokenAddress: token };
-					break;
-				case 'Ongoing':
-					data = { fundingTokenVolume: volume, fundingTokenAddress: token };
-					break;
-				case 'Tiered':
-					data = { tiers: tierArr };
-					break;
-				default:
-					throw new Error(`No type: ${toggleType}`);
+			case 'Atomic':
+				data = { fundingTokenVolume: volume, fundingTokenAddress: token };
+				break;
+			case 'Ongoing':
+				data = { fundingTokenVolume: volume, fundingTokenAddress: token };
+				break;
+			case 'Tiered':
+				data = { tiers: tierArr };
+				break;
+			default:
+				throw new Error(`No type: ${toggleType}`);
 			}
 
 			const { bountyAddress } = await appState.openQClient.mintBounty(
@@ -175,12 +175,12 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 	// Methods
 
 	function onTierChange(e) {
-		if (parseInt(e.target.value) >= 0) { setTier(parseInt(e.target.value)); };
-		if (parseInt(e.target.value) > 100) { setTier('0'); };
+		if (parseInt(e.target.value) >= 0) { setTier(parseInt(e.target.value)); }
+		if (parseInt(e.target.value) > 100) { setTier('0'); }
 		if (e.target.value === '') setTier('0');
 		setTierArr(Array.from({ length: e.target.value }, (_, i) => i + 1));
 		console.log(tierArr);
-	};
+	}
 
 	function onCurrencySelect(token) {
 		setToken({ ...token, address: ethers.utils.getAddress(token.address) });
@@ -201,7 +201,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 				<>
 					<div ref={modal} className="m-auto w-3/5 min-w-[320px] z-50 ">
 						<div className="w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-1">
-						<SubMenu  items={[{name: 'Single' },{name: 'Atomic'},{name: 'Ongoing'},{name: 'Tiered'}]} internalMenu={toggleType} updatePage={setToggleType}/>
+							<SubMenu  items={[{name: 'Single' },{name: 'Atomic'},{name: 'Ongoing'},{name: 'Tiered'}]} internalMenu={toggleType} updatePage={setToggleType}/>
 							<MintBountyHeader type={toggleType} />
 							<div className="flex flex-col items-center pl-6 pr-6">
 								<MintBountyInput
@@ -244,73 +244,67 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 								:
 								null
 							}
-
-							{toggleType === 'Atomic' || toggleType === 'Ongoing' ?
+							<div className="flex flex-col items-center pl-6 pr-6 pb-2">
+								<div className="flex flex-col w-4/5 md:w-2/3">
+									<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
+										<div className='flex items-center gap-2'>{toggleType === 'Atomic' ? 'Funding Goal' : 'Reward Split?'}
+											<ToolTipNew mobileX={10} toolTipText={toggleType === 'Atomic' ? 'Amount of funds you would like to escrow on this issue.' : 'How much will each successful submitter earn?'} >
+												<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+											</ToolTipNew>
+										</div>
+										<div className='flex-1 w-full mt-2 ml-4'>
+											<TokenFundBox
+												onCurrencySelect={onCurrencySelect}
+												onVolumeChange={onVolumeChange}
+												token={token}
+												volume={volume}
+											/>
+										</div>
+									</div>
+								</div>
+							</div>
+							{ toggleType === 'Tiered' &&
 								<>
 									<div className="flex flex-col items-center pl-6 pr-6 pb-2">
 										<div className="flex flex-col w-4/5 md:w-2/3">
-											<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
-												<div className='flex items-center gap-2'>{toggleType === 'Atomic' ? 'Funding Goal' : 'Reward Split?'}
-													<ToolTipNew mobileX={10} toolTipText={toggleType === 'Atomic' ? 'Amount of funds you would like to escrow on this issue.' : 'How much will each successful submitter earn?'} >
+											<div className='flex flex-col w-full items-start p-2 py-1 text-base pb-4'>
+												<div className='flex items-center gap-2'>How many Tiers?
+													<ToolTipNew mobileX={10} toolTipText={'How many people will be able to claim a prize? Don\'t exceed 100.'} >
 														<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
 													</ToolTipNew>
 												</div>
 												<div className='flex-1 w-full mt-2 ml-4'>
-													<TokenFundBox
-														onCurrencySelect={onCurrencySelect}
-														onVolumeChange={onVolumeChange}
-														token={token}
-														volume={volume}
+													<input
+														className={'flex-1 input-field w-full'}
+														id="name"
+														placeholder="0"
+														autoComplete="off"
+														type="text"
+														min="0"
+														max="100"
+														value={tier}
+														onChange={(e) => onTierChange(e)}
 													/>
 												</div>
 											</div>
+											{tier > 0 ?
+												<>
+													<div className='flex flex-col w-full items-start p-2 py-1 pb-0 text-base'>
+														<div className='flex items-center gap-2 pb-2'>Weight per Tier
+															<ToolTipNew mobileX={10} toolTipText={'How much will each winner earn?'} >
+																<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+															</ToolTipNew>
+														</div>
+														<div className='max-h-40 w-full overflow-y-auto overflow-x-hidden'>
+															{tierArr.map(t => <TierInput key={t} tier={t} />)}
+														</div>
+													</div>
+												</>
+												: null
+											}
 										</div>
 									</div>
 								</>
-								: toggleType === 'Tiered' ?
-									<>
-										<div className="flex flex-col items-center pl-6 pr-6 pb-2">
-											<div className="flex flex-col w-4/5 md:w-2/3">
-												<div className='flex flex-col w-full items-start p-2 py-1 text-base pb-4'>
-													<div className='flex items-center gap-2'>How many Tiers?
-														<ToolTipNew mobileX={10} toolTipText={'How many people will be able to claim a prize? Don\'t exceed 100.'} >
-															<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
-														</ToolTipNew>
-													</div>
-													<div className='flex-1 w-full mt-2 ml-4'>
-														<input
-															className={`flex-1 input-field w-full`}
-															id="name"
-															placeholder="0"
-															autoComplete="off"
-															type="text"
-															min="0"
-															max="100"
-															value={tier}
-															onChange={(e) => onTierChange(e)}
-														/>
-													</div>
-												</div>
-												{tier > 0 ?
-													<>
-														<div className='flex flex-col w-full items-start p-2 py-1 pb-0 text-base'>
-															<div className='flex items-center gap-2 pb-2'>Weight per Tier
-																<ToolTipNew mobileX={10} toolTipText={'How much will each winner earn?'} >
-																	<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
-																</ToolTipNew>
-															</div>
-															<div className='max-h-40 w-full overflow-y-auto overflow-x-hidden'>
-																{tierArr.map(t => <TierInput key={t} tier={t} />)}
-															</div>
-														</div>
-													</>
-													: null
-												}
-											</div>
-										</div>
-									</>
-									:
-									null
 							}
 
 							<div className="p-5 pt-2 w-full">
