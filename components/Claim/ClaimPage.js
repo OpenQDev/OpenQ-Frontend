@@ -85,6 +85,13 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 				setClaimState(TRANSACTION_CONFIRMED);
 				setJustClaimed(true);
 
+				const payload = {
+					type: 'UPDATE_RELOAD',
+					payload: true
+				};
+
+				dispatch(payload);
+
 				canvas.current.width = window.innerWidth;
 				canvas.current.height = window.innerHeight;
 
