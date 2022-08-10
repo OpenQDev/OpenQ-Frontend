@@ -14,7 +14,7 @@ import searchFoundInLabels from './SearchHelpers/searchFoundInLabels';
 import searchTagInBounty from './SearchHelpers/searchTagInBounty';
 import SmallToggle from '../Utils/SmallToggle';
 
-const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData, getNewData, addCarousel }) => {
+const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData, getNewData, addCarousel, contractToggle }) => {
 	// Hooks
 	const { account } = useWeb3();
 	/* const [l2eOnly, setL2eOnly] = useState(false); */
@@ -26,6 +26,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 	const [labels, setLabels] = useState([]);
 
 	const searchRegex = /label:"[^"]+"/gi;
+	const contractTypeRegex = /type:"[^"]+"/gi;
 	const orderRegex = /\order:(\w+)/gi;
 	let observer = useRef();
 	// Utilities
@@ -74,20 +75,38 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 		const localTagArr = options.tagArr || tagArr;
 		const localSearchText = options.searchText === undefined ? searchText : options.searchText;
 		const localIsReady = options.isReady === undefined ? isReady : options.isReady;
-		/* const localL2eOnly = options.l2eOnly === undefined ? l2eOnly: options.l2eOnly; */
 
 		const searchedLabelsWrapped = localSearchText.match(searchRegex) || [];
+		const contractsTypesWrapped = localSearchText.match(contractTypeRegex)||[];
 		const searchedLabels = searchedLabelsWrapped.map(elem => elem.slice(7, -1));
+		const contractType = contractsTypesWrapped.map(elem => elem.slice(6, -1))[0];
+		
+		let types =['1', '2','3'];
+
+		switch(contractType){
+		case 'Atomic Contracts':
+			types=['3'];
+			break;
+		case 'Contests':
+			types=['2'];
+			break;
+		case 'Repeatable Contracts':
+			types=['1'];
+			break;
+		}
+
+
 		const displayBounties = bounties.filter((bounty) => {
 			const hasLabels = searchedLabels.some((searchedLabel) => bounty.labels.some(bountyLabel => bountyLabel.name === searchedLabel)) || searchedLabels.length === 0;
 
+			const isType = types.some(type=>type===bounty.bountyType);
 
 			let containsSearch = true;
 
 			try {
 
 				// Simple search
-				let lowerCaseSearch = localSearchText.replace(searchRegex, '').toLowerCase().replace(orderRegex, '').trim();
+				let lowerCaseSearch = localSearchText.replace(searchRegex, '').toLowerCase().replace(orderRegex, '').replace(contractTypeRegex, '').trim();
 				const isFoundInText = searchFoundInText(bounty.title, bounty.body, lowerCaseSearch);
 				const isFoundInLabels = searchFoundInLabels(bounty, lowerCaseSearch);
 				const emptySearchText = localSearchText.length === 0;
@@ -103,7 +122,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 				const isAssigned = bounty.assignees?.nodes.length > 0;
 
 				// Combine
-				return (containsSearch && containsTag && (((isFunded) && (isUnclaimed) && (!isAssigned)) || localIsReady === 'All issues') && hasLabels && bounty.url && !bounty.blacklisted);
+				return (containsSearch && containsTag && (((isFunded) && (isUnclaimed) && (!isAssigned)) || localIsReady === 'All issues') && hasLabels && bounty.url && !bounty.blacklisted && isType);
 			}
 			catch (err) {
 				console.log(err);
@@ -195,6 +214,11 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 		updateSearchedBounties(orderBounties(filter(bounties, { searchText: `${searchText} label:"${label}"` })));
 
 	};
+	
+	const setContractType = (type)=>{
+		updateSearchText(`${searchText.replace(contractTypeRegex, '')} type:"${type}"`.replace(/\s+/g, ' '));
+		updateSearchedBounties(orderBounties(filter(bounties, { searchText:`${searchText.replace(contractTypeRegex, '')} type:"${type}"` })));
+	};
 
 	const showUnready = (toggleVal) => {
 		setIsReady(toggleVal);
@@ -254,6 +278,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 
 					<Dropdown toggleFunc={handleSortBounties} toggleVal={''} styles="whitespace-nowrap" width="32" title={'Sort Order'} names={['newest', 'oldest', 'highest', 'lowest', 'popular']} borderShape={'rounded-r-lg'} />
 					<Dropdown toggleFunc={addLabel} toggleVal={''} styles="whitespace-nowrap" width="24" title="Labels" names={labels} borderShape={'rounded-r-lg'} />
+					{contractToggle && <Dropdown toggleFunc={setContractType} toggleVal={''} styles="whitespace-nowrap" width="36" title="Contract Type" names={['Atomic Contracts', 'Repeatable Contracts', 'Contests', 'All']} borderShape={'rounded-r-lg'} />}
 
 				</div>
 
