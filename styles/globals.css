@@ -103,6 +103,9 @@ pre {
 	.btn-default{
 		@apply rounded-sm px-3 p-1 bg-[#21262d] hover:bg-[#30363d] border border-gray-700 hover:border-[#8b949e]
 	}
+	.btn-danger{
+		@apply text-[#f85149] hover:text-white rounded-sm px-3 p-1 bg-[#21262d] hover:bg-[#da3633] active:bg-[#b62324] border border-[rgba(240,246,252,0.1)] hover:border-[#f85149] active:border-[#ff7b72]
+	}
 	.btn-card{
 		@apply bg-inactive-gray py-1 px-2 border-web-gray border rounded-sm text-xs text-primary
 	}
