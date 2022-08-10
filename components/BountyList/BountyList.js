@@ -32,21 +32,21 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 	const fetchPage = () => {
 		const sortOrder = searchText.match(orderRegex)?.[0]?.slice(6) || '';
 		switch (sortOrder) {
-			case 'newest':
-				{ getMoreData('desc'); }
-				break;
-			case 'oldest':
-				{ getMoreData('asc'); }
-				break;
-			case 'highest':
-				{ getMoreData('desc', 'tvl'); }
-				break;
-			case 'lowest':
-				{ getMoreData('asc', 'tvl'); }
-				break;
-			case 'popular':
-				{ getMoreData('desc', 'views'); }
-				break;
+		case 'newest':
+			{ getMoreData('desc'); }
+			break;
+		case 'oldest':
+			{ getMoreData('asc'); }
+			break;
+		case 'highest':
+			{ getMoreData('desc', 'tvl'); }
+			break;
+		case 'lowest':
+			{ getMoreData('asc', 'tvl'); }
+			break;
+		case 'popular':
+			{ getMoreData('desc', 'views'); }
+			break;
 
 
 		}
@@ -95,9 +95,8 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 
 				// Tags
 				const containsTag = searchTagInBounty(bounty, localTagArr);
-
 				// Check based filters
-				const isUnclaimed = bounty.status === 'OPEN';
+				const isUnclaimed = bounty.status === '0';
 				const isFunded = bounty.deposits.some(deposit => {
 					return !deposit.refunded;
 				});
@@ -127,46 +126,46 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 		}
 		const toggleTo = newOrder || searchText.match(orderRegex)?.[0]?.slice(6) || '';
 		switch (toggleTo) {
-			case 'newest': {
-				if (complete || firstLoad) {
-					return bounties.sort((a, b) => {
-						return b.bountyMintTime - a.bountyMintTime;
-					});
-				}
-				else {
-					getNewData('desc');
-				}
-
-
+		case 'newest': {
+			if (complete || firstLoad) {
+				return bounties.sort((a, b) => {
+					return b.bountyMintTime - a.bountyMintTime;
+				});
 			}
-				break;
-			case 'oldest': {
-				if (complete || firstLoad) {
-					return bounties.sort((a, b) => {
-						return a.bountyMintTime - b.bountyMintTime;
-					});
-				}
-				else {
-					getNewData('asc');
-				}
+			else {
+				getNewData('desc');
 			}
-				break;
-			case 'highest': {
-				getNewData('desc', 'tvl');
-			}
-				break;
-			case 'lowest': {
-				getNewData('asc', 'tvl');
 
 
+		}
+			break;
+		case 'oldest': {
+			if (complete || firstLoad) {
+				return bounties.sort((a, b) => {
+					return a.bountyMintTime - b.bountyMintTime;
+				});
 			}
-				break;
-			case 'popular': {
-				getNewData('desc', 'views');
+			else {
+				getNewData('asc');
+			}
+		}
+			break;
+		case 'highest': {
+			getNewData('desc', 'tvl');
+		}
+			break;
+		case 'lowest': {
+			getNewData('asc', 'tvl');
 
 
-			}
-				break;
+		}
+			break;
+		case 'popular': {
+			getNewData('desc', 'views');
+
+
+		}
+			break;
 		}
 		return bounties;
 	};

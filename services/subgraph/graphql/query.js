@@ -56,7 +56,20 @@ query GetBounty($id: ID!) {
     bountyId
 		closerData
     bountyMintTime
-    bountyClosedTime
+		bountyClosedTime
+     claims{
+		 	claimTime 
+		 	claimantAsset 
+			claimant {
+    		id
+ 			 }
+		}
+		
+    payouts{
+      tokenAddress
+      volume
+      
+    }
 		claimedTransactionHash
     payoutAddress
     status
