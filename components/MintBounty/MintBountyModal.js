@@ -206,10 +206,10 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 					error={error}
 				/> :
 				<>
-					<div ref={modal} className="m-auto w-3/5 min-w-[320px] z-50 fixed top-10">
+					<div ref={modal} className="m-auto w-3/5 min-w-[320px] z-50 fixed top-28">
 						<div className="w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-1">
 							<SubMenu items={[ { name: 'Atomic' }, { name: 'Ongoing' }, { name: 'Tiered' }]} internalMenu={toggleType} updatePage={setToggleType} styles={'justify-center'}/>
-							<div className='max-h-[80vh] w-full overflow-y-auto'>
+							<div className='max-h-[70vh] w-full overflow-y-auto'>
 								<MintBountyHeader type={toggleType} />
 								<div className="flex flex-col items-center pl-6 pr-6">
 									<MintBountyInput
