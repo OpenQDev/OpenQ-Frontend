@@ -55,7 +55,7 @@ export default function Index({ orgs, fullBounties, batch, types }) {
 					(address) => address.toLowerCase()
 				);
 				const subgraphBounties =
-          await appState.openQSubgraphClient.getBountiesByContractAddresses(watchedBountyAddresses);
+          await appState.openQSubgraphClient.getBountiesByContractAddresses(watchedBountyAddresses, types);
 				const githubIds = subgraphBounties.map((bounty) => bounty.bountyId);
 				const githubBounties = await appState.githubRepository.getIssueData(
 					githubIds
@@ -85,7 +85,7 @@ export default function Index({ orgs, fullBounties, batch, types }) {
 		// Bounty type needs to be created / updated in api
 		// needs to be necessary
 		// handle sort by tvl
-		if (orderBy === 'tvl') {
+		if (orderBy) {
 			try {
 				const prismaBounties = await appState.openQPrismaClient.getBountyPage(
 					cursor,
@@ -213,7 +213,7 @@ export const getServerSideProps = async (ctx) => {
 	const openQPrismaClient = new WrappedOpenQPrismaClient();
 	const utils = new Utils();
 	githubRepository.instance.setGraphqlHeaders();
-	const batch = 3;
+	const batch = 10;
 	
 	let [mergedOrgs, renderError] =await utils.fetchOrganizations({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance}, types);
 	const [fullBounties] = await utils.fetchBounties({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance}, types, batch);

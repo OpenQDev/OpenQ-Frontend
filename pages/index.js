@@ -38,7 +38,7 @@ export default function Index({  fullBounties, batch, types }) {
 					(address) => address.toLowerCase()
 				);
 				const subgraphBounties =
-          await appState.openQSubgraphClient.getBountiesByContractAddresses(watchedBountyAddresses);
+          await appState.openQSubgraphClient.getBountiesByContractAddresses(watchedBountyAddresses, types);
 				const githubIds = subgraphBounties.map((bounty) => bounty.bountyId);
 				const githubBounties = await appState.githubRepository.getIssueData(
 					githubIds
@@ -60,19 +60,14 @@ export default function Index({  fullBounties, batch, types }) {
 		setPagination(() => currentPagination + batch);
 		let newBounties = [];
 		let complete = false;
-		// WHAT ABOUT POPULAR?
-		// tvl needs to sort by bounty type. Bounty type needs to be exposed in API.
-		// Bounty type needs to be created / updated in api
-		// needs to be necessary
-		// handle sort by tvl
-		console.log(orderBy);
 		if (orderBy) {
 			try {
 				const prismaBounties = await appState.openQPrismaClient.getBountyPage(
 					cursor,
 					batch,
 					orderBy,
-					sortOrder
+					sortOrder,
+					types
 				);
 				const addresses = prismaBounties.bountiesConnection.bounties.map(
 					(bounty) => bounty.address.toLowerCase()
@@ -162,7 +157,7 @@ export const getServerSideProps = async () => {
 	const openQPrismaClient = new WrappedOpenQPrismaClient();
 	const utils = new Utils();
 	githubRepository.instance.setGraphqlHeaders();
-	const batch = 3;
+	const batch = 10;
 	const types=['1','2','3'];
 	
 	const [fullBounties, renderError] = await utils.fetchBounties({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance}, types, batch);
