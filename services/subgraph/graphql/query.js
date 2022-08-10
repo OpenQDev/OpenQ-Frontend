@@ -9,6 +9,7 @@ query GetAllIssues($skip: Int! $sortOrder: String!, $quantity: Int!) {
     bountyClosedTime
     status
 		closerData
+		bountyType
 		claimedTransactionHash
 		deposits {
     		id
@@ -55,10 +56,24 @@ query GetBounty($id: ID!) {
     bountyId
 		closerData
     bountyMintTime
-    bountyClosedTime
+		bountyClosedTime
+     claims{
+		 	claimTime 
+		 	claimantAsset 
+			claimant {
+    		id
+ 			 }
+		}
+		
+    payouts{
+      tokenAddress
+      volume
+      
+    }
 		claimedTransactionHash
     payoutAddress
     status
+		bountyType
 		closer{
 		id
 		}
@@ -100,6 +115,7 @@ query GetBountyById($id: ID!) {
     bountyClosedTime
 		claimedTransactionHash
     status
+		bountyType
 		deposits {
       id
 			refunded
@@ -132,6 +148,7 @@ query GetBountiesByContractAddresses($contractAddresses: [ID]!) {
     bountyClosedTime
     status
 		closerData
+		bountyType
 		claimedTransactionHash
 		deposits {
     		id
@@ -309,6 +326,7 @@ query GetOrganization($id: ID!, $quantity: Int!) {
 		id
     bountiesCreated(orderBy: bountyMintTime, orderDirection: desc, first: $quantity) {
 			bountyAddress
+			bountyType
 			bountyId
 			bountyMintTime
 			bountyClosedTime

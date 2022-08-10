@@ -36,7 +36,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	const [, dispatch] = useContext(StoreContext);
 
 
-	const claimed = bounty.status == 'CLOSED';
+	const claimable = (bounty.bountyType == 0 || bounty.bountyType == 1 || bounty.bountyType == 3) ? bounty.bountyClosedTime : !bounty.bountyClosedTime ;
 
 	const updateModal = () => {
 		setShowClaimLoadingModal(false);
@@ -85,6 +85,13 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 				setClaimState(TRANSACTION_CONFIRMED);
 				setJustClaimed(true);
 
+				const payload = {
+					type: 'UPDATE_RELOAD',
+					payload: true
+				};
+
+				dispatch(payload);
+
 				canvas.current.width = window.innerWidth;
 				canvas.current.height = window.innerHeight;
 
@@ -108,11 +115,18 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 			});
 	};
 
-	if (claimed) {
+	if (claimable) {
 		return (
+			
+			bounty.bountyClosedTime ? 
+			// case where bounty is not claimable anymore (Atomic Contract and Repeatable Contract closed)
 			<BountyClosed bounty={bounty} showTweetLink={justClaimed} />
+			:
+			// case where bounty not claimable yet (contest not closed yet) 
+			<div className='text-lg'>Contest must be closed in order to be able to claime your rewards.</div>
 		);
 	} else {
+		// rewards are claimable
 		return (
 			<>
 				<div className="flex flex-1 px-12 pt-4 pb-8 w-full max-w-[1200px] justify-center">

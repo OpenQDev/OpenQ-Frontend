@@ -6,11 +6,27 @@ import LabelsList from './LabelsList';
 import CopyBountyAddress from './CopyBountyAddress';
 
 const BountyMetadata = ({bounty, setInternalMenu, price})=>{
+	let type= 'Atomic Contract';
 
+	switch(bounty.bountyType){
+	case '1':
+		type='Ongoing Contract';
+		break;
+	case '2':
+		type='Tiered Contract';
+		break;
+	case '3':
+		type='Atomic Contract';
+		break;
 
+	}
 	return( 
 
 		<ul className='md:max-w-[300px] w-full md:pl-4'>
+			<li className='border-b border-web-gray py-3'>
+				<div className='text-xs font-semibold text-muted'>Type</div>
+				<div className='text-xs font-semibold text-primary leading-loose' >{type}</div>
+			</li>
 			<li className='border-b border-web-gray py-3'>
 				<div className='text-xs font-semibold text-muted'>TVL</div>
 				<button className='text-xs font-semibold text-primary' onClick={()=>setInternalMenu('Fund')}>${price||'0.00'}</button>

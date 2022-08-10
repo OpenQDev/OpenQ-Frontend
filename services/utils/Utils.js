@@ -16,7 +16,7 @@ class Utils {
 		var hours = date.getHours();
 		// Minutes part from the timestamp
 		var minutes =  date.getMinutes();
-		const displayMinutes =`${minutes.length===1 ? '0': ''}${minutes}`;
+		const displayMinutes =`${minutes.toString().length===1 ? '0': ''}${minutes}`;
 		// Seconds part from the timestamp
 		//var seconds = '0' + date.getSeconds();
 
@@ -137,7 +137,7 @@ class Utils {
 				}
 			}
 			if(right[ir]){
-				while( right[ir][rProperty]){
+				while( right[ir]?.[rProperty]){
 					mergedArr[i++] = right[ir++];		
 				}
 			}

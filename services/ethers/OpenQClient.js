@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import OpenQABI from '../../artifacts/contracts/OpenQ/Implementations/OpenQV0.sol/OpenQV0.json';
+import OpenQABI from '../../artifacts/contracts/OpenQ/Implementations/OpenQV1.sol/OpenQV1.json';
 import ERC20ABI from '../../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json';
 import jsonRpcErrors from './JsonRPCErrors';
 
@@ -28,19 +28,51 @@ class OpenQClient {
 		return contract;
 	};
 
-	async mintBounty(library, issueId, organization) {
+	async mintBounty(library, issueId, organization, type, data) {
+		console.log({ issueId, organization, type, data });
 		const promise = new Promise(async (resolve, reject) => {
+			console.log('type', type);
+			let bountyInitOperation;
+			let abiCoder = new ethers.utils.AbiCoder;
+			switch (type) {
+				case 'Atomic':
+					{
+						const volumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
+						const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
+						const fundingGoalBountyParams = abiCoder.encode(["bool", "address", "uint256"], [true, data.fundingTokenAddress.address, bigNumberVolumeInWei]);
+						bountyInitOperation = [0, fundingGoalBountyParams];
+					}
+					break;
+				case 'Ongoing':
+					console.log('data.fundingTokenAddress.address', data.fundingTokenAddress.address);
+					const volumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
+					const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
+					console.log('bigNumberVolumeInWei', bigNumberVolumeInWei);
+					const ongoingAbiEncodedParams = abiCoder.encode(["address", "uint256", "bool", "address", "uint256"], [data.fundingTokenAddress.address, bigNumberVolumeInWei, true, data.fundingTokenAddress.address, bigNumberVolumeInWei]);
+					bountyInitOperation = [1, ongoingAbiEncodedParams];
+					break;
+				case 'Tiered':
+					console.log(data.tiers);
+					const tieredAbiEncodedParams = abiCoder.encode(["uint256[]", "bool", "address", "uint256"], [[80, 20], true, data.fundingTokenAddress.address, bigNumberVolumeInWei]);
+					bountyInitOperation = [2, tieredAbiEncodedParams];
+					break;
+				default:
+					throw new Error('Unknown Bounty Type');
+			}
+
+			console.log('bountyInitOperation', bountyInitOperation);
+
 			const signer = library.getSigner();
 
 			const contract = this.OpenQ(signer);
 			try {
-				const txnResponse = await contract.mintBounty(issueId, organization);
+				const txnResponse = await contract.mintBounty(issueId, organization, bountyInitOperation);
 				const txnReceipt = await txnResponse.wait();
 				console.log(txnReceipt);
-				const bountyAddress = txnReceipt.events.find(eventObj=>eventObj.event==='BountyCreated').args.bountyAddress;
+				const bountyAddress = txnReceipt.events.find(eventObj => eventObj.event === 'BountyCreated').args.bountyAddress;
 				resolve({ bountyAddress });
 			} catch (err) {
-				console.log(err);
+				console.log('err', err);
 				reject(err);
 			}
 		});
@@ -63,21 +95,22 @@ class OpenQClient {
 		return promise;
 	}
 
-	async allowance(library, _tokenAddress){
+	async allowance(library, _tokenAddress) {
 		const promise = new Promise(async (resolve) => {
-			try{
+			try {
 				const signer = library.getSigner();
 				const contract = this.ERC20(_tokenAddress, signer);
-				const allowance =	await contract.allowance('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266', '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707');
+				const allowance = await contract.allowance('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266', '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707');
 				resolve(allowance);
 			}
-			catch(err){
+			catch (err) {
 				resolve({ _hex: '0x00', _isBigNumber: true });
-			
+
 			}
 		}
 		);
-		return promise;}
+		return promise;
+	}
 
 	async balanceOf(library, _callerAddress, _tokenAddress) {
 		const promise = new Promise(async (resolve, reject) => {
@@ -174,10 +207,46 @@ class OpenQClient {
 
 				if (_tokenAddress == ethers.constants.AddressZero) {
 					txnResponse = await contract.fundBountyToken(_bountyId, _tokenAddress, _value, expiration, { value: _value });
-				} else {				
+				} else {
 					txnResponse = await contract.fundBountyToken(_bountyId, _tokenAddress, _value, expiration);
 				}
 				txnReceipt = await txnResponse.wait();
+				console.log(txnReceipt);
+				resolve(txnReceipt);
+			} catch (error) {
+				console.log(error);
+				reject(error);
+			}
+		});
+		return promise;
+	}
+
+	async closeCompetition(library, _bountyId) {
+		const promise = new Promise(async (resolve, reject) => {
+			const signer = library.getSigner();
+
+			const contract = this.OpenQ(signer);
+			try {
+				let txnResponse = await contract.closeCompetition(_bountyId);
+				let txnReceipt = await txnResponse.wait();
+				console.log(txnReceipt);
+				resolve(txnReceipt);
+			} catch (error) {
+				console.log(error);
+				reject(error);
+			}
+		});
+		return promise;
+	}
+
+	async closeOngoing(library, _bountyId) {
+		const promise = new Promise(async (resolve, reject) => {
+			const signer = library.getSigner();
+
+			const contract = this.OpenQ(signer);
+			try {
+				let txnResponse = await contract.closeOngoing(_bountyId);
+				let txnReceipt = await txnResponse.wait();
 				console.log(txnReceipt);
 				resolve(txnReceipt);
 			} catch (error) {
@@ -285,7 +354,9 @@ class OpenQClient {
 			if (jsonRpcError.message.includes('Set a higher gas fee')) { miscError = 'UNDERPRICED_TXN'; }
 			if (jsonRpcError.message.includes('CFA: flow does not exist')) { miscError = 'CFA_DOES_NOT_EXIST'; }
 			if (jsonRpcError.message.includes('CFA: flow already exist')) { miscError = 'CFA_EXISTS'; }
-		
+			if (jsonRpcError.message.includes('COMPETITION_ALREADY_CLOSED')) { miscError = 'COMPETITION_ALREADY_CLOSED'; }
+			if (jsonRpcError.message.includes('ONGOING_BOUNTY_ALREADY_CLOSED')) { miscError = 'ONGOING_BOUNTY_ALREADY_CLOSED'; }
+
 		}
 
 		if (!miscError) {
