@@ -5,7 +5,7 @@ import AvatarPack from '../../Utils/AvatarPack';
 
 const UserHistory = ({organizations, payouts})=>{
 
-	return(<div className='px-16 py-6 py-6 gap-6 border-t border-web-gray flex flex-wrap items-stretch w-full font-semibold text-gray-300 text-lg'>
+	return(<div className='px-16 py-6 gap-6 border-t border-web-gray flex flex-wrap items-stretch w-full font-semibold text-lg'>
 		{organizations &&
 				<div className='flex-1 mb-6'>
 					<div className='pb-2'>Organizations</div>					

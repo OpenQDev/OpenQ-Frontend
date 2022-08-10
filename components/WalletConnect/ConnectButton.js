@@ -12,8 +12,7 @@ import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import StoreContext from '../../store/Store/StoreContext';
 // import axios from 'axios';
 
-const ConnectButton = () => {
-
+const ConnectButton = ({mobile}) => {
 	// Context
 	const { chainId, error, account, deactivate, safe } = useWeb3();
 	const [ensName] = useEns(account);
@@ -22,7 +21,11 @@ const ConnectButton = () => {
 
 	// State
 	const [isConnecting, setIsConnecting] = useState(false);
-	const [isOnCorrectNetwork,] = useIsOnCorrectNetwork({ chainId: chainId, error: error, account: account });
+	const [isOnCorrectNetwork] = useIsOnCorrectNetwork({
+		chainId: chainId,
+		error: error,
+		account: account,
+	});
 	const [showModal, setShowModal] = useState();
 	const iconWrapper = useRef();
 	const modalRef = useRef();
@@ -34,13 +37,18 @@ const ConnectButton = () => {
 	useEffect(async () => {
 		if (account && iconWrapper.current) {
 			iconWrapper.current.innerHTML = '';
-			iconWrapper.current.appendChild(jazzicon(24, parseInt(account.slice(2, 10), 16)));
+			iconWrapper.current.appendChild(
+				jazzicon(mobile? 52 : 26, parseInt(account.slice(2, 10), 16))
+			);
 		}
 	}, [account, isOnCorrectNetwork]);
 
 	useEffect(() => {
 		let handler = (event) => {
-			if (!modalRef.current?.contains(event.target) && !buttonRef.current?.contains(event.target)) {
+			if (
+				!modalRef.current?.contains(event.target) &&
+        !buttonRef.current?.contains(event.target)
+			) {
 				setShowModal(false);
 			}
 		};
@@ -55,86 +63,103 @@ const ConnectButton = () => {
 	const openConnectModal = async () => {
 		const payload = {
 			type: 'CONNECT_WALLET',
-			payload: true
+			payload: true,
 		};
 		dispatch(payload);
 	};
 
-
-	const closeModal = ()=>{
+	const closeModal = () => {
 		const payload = {
 			type: 'CONNECT_WALLET',
-			payload: false
+			payload: false,
 		};
 		dispatch(payload);
 	};
-
-
 
 	const addOrSwitchNetwork = () => {
 		window.ethereum
 			.request({
 				method: 'wallet_addEthereumChain',
 				params:
-					chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['params'],
+          chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['params'],
 			})
 			.catch((error) => console.log('Error', error.message));
 	};
 
-
-
 	// Render
-	return (<div>
-		{account && isOnCorrectNetwork ?
-			<div>
-				<button
-					disabled={isConnecting}
-					ref={buttonRef}
-					onClick={() => { setShowModal(!showModal); }}
-					className="group flex items-center gap-x-3 h-12 font-mont whitespace-nowrap rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2 px-6  font-semibold cursor-pointer hover:border-active-accent"
-				>
-					<span className="border-2 border-inactive-accent rounded-full h-7 py-px bg-inactive-accent group-hover:bg-active-accent group-hover:border-active-accent" ref={iconWrapper}></span>
-					<span className='py'>{ensName || `${account.slice(0, 5)}...${account.slice(-3)}`}</span>
-				</button>
+	return (
+		<div>
+			{account && isOnCorrectNetwork ? (
+				<div>
+					<button
+						disabled={isConnecting}
+						ref={buttonRef}
+						onClick={() => {
+							setShowModal(!showModal);
+						}}
+						className="group flex items-center gap-x-1 h-12 whitespace-nowrap py-1 px-3 font-semibold cursor-pointer"
+					>
+						<span
+							className="border border-[#8b949e] rounded-full h-7 py-pxt group-hover:border-opacity-70"
+							ref={iconWrapper}
+						></span>
+						<span className="md:group-hover:opacity-70">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								className="h-3 w-3"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="white"
+								strokeWidth="3"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M19 9l-7 7-7-7"
+								/>
+							</svg>
+						</span>
+					</button>
 
-				{showModal &&
-					<AccountModal
-						domRef={modalRef}
-						account={account}
-						ensName={ensName}
-						chainId={chainId}
-						deactivate={deactivate}
-						setIsConnecting={setIsConnecting}
-						isSafeApp={safe} />}
-			</div> :
-			isOnCorrectNetwork ?
+					{showModal && (
+						<AccountModal
+							domRef={modalRef}
+							account={account}
+							ensName={ensName}
+							chainId={chainId}
+							deactivate={deactivate}
+							setIsConnecting={setIsConnecting}
+							isSafeApp={safe}
+						/>
+					)}
+				</div>
+			) : isOnCorrectNetwork ? (
 				<div>
 					<button
 						onClick={openConnectModal}
-						className="flex items-center font-mont whitespace-nowrap h-12 rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2 px-6 text-white font-semibold cursor-pointer hover:border-active-accent"
+						className="flex items-center btn-default mr-4 hover:border-[#8b949e] hover:bg-[#30363d]"
 						disabled={isConnecting}
 					>
 						{'Connect Wallet'}
 					</button>
-				</div> :
-				<button onClick={addOrSwitchNetwork}
-					className="flex items-center font-mont whitespace-nowrap h-12 rounded-lg border border-inactive-accent bg-inactive-accent-inside py-2.5 px-6 text-white font-semibold"
+				</div>
+			) : (
+				<button
+					onClick={addOrSwitchNetwork}
+					className="flex items-center btn-default mr-4 hover:border-[#8b949e] hover:bg-[#30363d]"
 				>
-					Use{' '}
+          Use{' '}
 					{
 						chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV][
 							'networkName'
 						]
 					}{' '}
-					Network
+          Network
 				</button>
-		}
-		{
-			walletConnectModal && <ConnectModal closeModal={closeModal} />
-		}
-	</div>
+			)}
+			{walletConnectModal && <ConnectModal closeModal={closeModal} />}
+		</div>
 	);
 };
-
 
 export default ConnectButton;

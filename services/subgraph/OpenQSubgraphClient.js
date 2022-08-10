@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { GET_ORGANIZATION, GET_USER, GET_BOUNTY, GET_ALL_BOUNTIES, GET_ORGANIZATIONS, GET_PAYOUT_TRANSACTION_HASH, GET_PAGINATED_ORGANIZATION_DATA, GET_BOUNTY_BY_ID, GET_BOUNTIES_BY_CONTRACT_ADDRESSES } from './graphql/query';
+import { GET_ORGANIZATION, GET_USER, GET_BOUNTY, GET_ALL_BOUNTIES, GET_ORGANIZATIONS, GET_PAYOUT_TRANSACTION_HASH, GET_PAGINATED_ORGANIZATION_DATA, GET_BOUNTY_BY_ID, GET_BOUNTIES_BY_CONTRACT_ADDRESSES, GET_ORGANIZATIONS_BY_IDS,  GET_LEAN_ORGANIZATIONS, GET_LEAN_BOUNTIES } from './graphql/query';
 import fetch from 'cross-fetch';
 
 class OpenQSubgraphClient {
@@ -128,6 +128,23 @@ class OpenQSubgraphClient {
 		return promise;
 	}
 
+	async getOrganizationsByIds(organizationIds) {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.query({
+					query: GET_ORGANIZATIONS_BY_IDS,
+					variables: {organizationIds}
+				});
+				resolve(result.data.organizations);
+			} catch (e) {
+				reject(e);
+			}
+		});
+
+		return promise;
+	
+	}
+
 	async getOrganization(id, quantity) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
@@ -144,12 +161,12 @@ class OpenQSubgraphClient {
 		return promise;
 	}
 
-	async getPaginatedOrganizationBounties(id, startAt, order, first, contractAddresses) {
+	async getPaginatedOrganizationBounties(id, startAt, order, first) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
 					query: GET_PAGINATED_ORGANIZATION_DATA,
-					variables: { id, skip: startAt, order, first, contractAddresses }
+					variables: { id, skip: startAt, order, first }
 				});
 				resolve(result.data.organization.bountiesCreated);
 			} catch (e) {
@@ -158,6 +175,36 @@ class OpenQSubgraphClient {
 		});
 		return promise;
 	}
+
+	async getBountyIds() {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.query({
+					query: GET_LEAN_BOUNTIES,
+				});
+				resolve(result.data.bounties);
+			} catch (e) {
+				reject(e);
+			}
+		});
+		return promise;
+	}
+
+	async getOrganizationIds() {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.query({
+					query: GET_LEAN_ORGANIZATIONS,
+				});
+				resolve(result.data);
+			} catch (e) {
+				reject(e);
+			}
+		});
+		return promise;
+	}
+
 }
+
 
 export default OpenQSubgraphClient;

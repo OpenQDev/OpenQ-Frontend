@@ -9,6 +9,7 @@ query GetAllIssues($skip: Int! $sortOrder: String!, $quantity: Int!) {
     bountyClosedTime
     status
 		closerData
+		bountyType
 		claimedTransactionHash
 		deposits {
     		id
@@ -40,7 +41,14 @@ query GetPayoutTransactionHash($bountyAddress: ID!) {
   }
 }
 `;
+export const GET_LEAN_ORGANIZATIONS = gql`query GetOrganization {
+organizations  {id}
+}`;
 
+export const GET_LEAN_BOUNTIES = gql`
+query getBounty {  
+  bounties{bountyAddress, bountyId}
+}`;
 export const GET_BOUNTY = gql`
 query GetBounty($id: ID!) {
   bounty(id: $id) {
@@ -48,21 +56,42 @@ query GetBounty($id: ID!) {
     bountyId
 		closerData
     bountyMintTime
-    bountyClosedTime
+		bountyClosedTime
+     claims{
+		 	claimTime 
+		 	claimantAsset 
+			claimant {
+    		id
+ 			 }
+		}
+		
+    payouts{
+      tokenAddress
+      volume
+      
+    }
 		claimedTransactionHash
     payoutAddress
     status
-		deposits {
+		bountyType
+		closer{
+		id
+		}
+		deposits(orderBy: "receiveTime", orderDirection: "desc") {
       id
 			refunded
-			refundTime
+			receiveTime
       tokenAddress
 			expiration
       volume
       sender {
         id
       }
-      receiveTime
+    }
+		refunds(orderBy: "refundTime", orderDirection: "desc") {
+			refundTime
+      tokenAddress
+      volume
     }
 		bountyTokenBalances {
 		  tokenAddress
@@ -86,6 +115,7 @@ query GetBountyById($id: ID!) {
     bountyClosedTime
 		claimedTransactionHash
     status
+		bountyType
 		deposits {
       id
 			refunded
@@ -118,6 +148,7 @@ query GetBountiesByContractAddresses($contractAddresses: [ID]!) {
     bountyClosedTime
     status
 		closerData
+		bountyType
 		claimedTransactionHash
 		deposits {
     		id
@@ -295,6 +326,7 @@ query GetOrganization($id: ID!, $quantity: Int!) {
 		id
     bountiesCreated(orderBy: bountyMintTime, orderDirection: desc, first: $quantity) {
 			bountyAddress
+			bountyType
 			bountyId
 			bountyMintTime
 			bountyClosedTime
@@ -356,6 +388,21 @@ query GetOrganization($id: ID!, $quantity: Int!) {
   }
 }
 `;
+
+export const GET_ORGANIZATIONS_BY_IDS = gql`
+query getOrgs($organizationIds: [ID!]!) {
+  organizations(where: {id_in: $organizationIds}) {
+    id
+    bountiesCreated {
+      bountyAddress
+      bountyId
+      bountyTokenBalances {
+        id
+      }
+      status
+    }
+  }
+}`;
 
 export const GET_ORGANIZATIONS = gql`
 query GetOrganizations {

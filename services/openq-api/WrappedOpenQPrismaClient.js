@@ -2,21 +2,21 @@ import OpenQPrismaClient from './OpenQPrismaClient';
 import MockOpenQPrismaClient from './MockOpenQPrismaClient';
 
 class WrappedOpenQPrismaClient {
-	constructor(){
-		switch(process.env.DEPLOY_ENV){
+	constructor() {
+		switch (process.env.DEPLOY_ENV) {
 		case 'local':
 			this.instance = new MockOpenQPrismaClient();
 			break;
 		case 'docker':
-			this.instance = new OpenQPrismaClient();			
-			break;
-		case 'development':		
 			this.instance = new OpenQPrismaClient();
 			break;
-		case 'staging':			
+		case 'development':
 			this.instance = new OpenQPrismaClient();
 			break;
-		case 'production':		
+		case 'staging':
+			this.instance = new OpenQPrismaClient();
+			break;
+		case 'production':
 			this.instance = new OpenQPrismaClient();
 			break;
 		default:

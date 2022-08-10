@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { ethers } from 'ethers';
+import useWeb3 from '../../../hooks/useWeb3';
 import Link from 'next/link';
 
 // Custom
@@ -10,13 +11,21 @@ import BountyCardDetails from '../../../components/Bounty/BountyCardDetails';
 import FundPage from '../../../components/FundBounty/FundPage';
 import RefundPage from '../../../components/RefundBounty/RefundPage';
 import ClaimPage from '../../../components/Claim/ClaimPage';
+import AdminPage from '../../../components/Admin/AdminPage';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
 import UnexpectedError from '../../../components/Utils/UnexpectedError';
-import Toggle from '../../../components/Utils/Toggle';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
 import useAuth from '../../../hooks/useAuth';
+import RepoTitle from '../../../components/Bounty/RepoTitle';
+import SubMenu from '../../../components/Utils/SubMenu';
+import BountyHeading from '../../../components/Bounty/BountyHeading';
+
+import Add from '../../../components/svg/add';
+import Subtract from '../../../components/svg/subtract';
+import Fire from '../../../components/svg/fire';
+import Telescope from '../../../components/svg/telescope';
 
 const address = ({ address, mergedBounty, renderError }) => {
 
@@ -25,10 +34,12 @@ const address = ({ address, mergedBounty, renderError }) => {
 	const [appState, dispatch] = useContext(StoreContext);
 	const [bounty, setBounty] = useState(mergedBounty);
 	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
+	const {account, } = useWeb3();
 
 	// State
 	const [error, setError] = useState(renderError);
 	const [internalMenu, setInternalMenu] = useState();
+	const [justMinted, setJustMinted] = useState();
 
 	// Refs
 	const canvas = useRef();
@@ -37,7 +48,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 	function sleep(ms) {
 		return new Promise(resolve => setTimeout(resolve, ms));
 	}
-
+  
 	const setReload = () => {
 		const payload = {
 			type: 'UPDATE_RELOAD',
@@ -56,7 +67,9 @@ const address = ({ address, mergedBounty, renderError }) => {
 		await sleep(1000);
 		let newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
 		try {
-			while (newBounty.status === bounty.status	&& JSON.stringify(newBounty.deposits) === JSON.stringify(bounty.deposits)) {
+			while (newBounty.status === bounty.status	
+      && JSON.stringify(newBounty.deposits) === JSON.stringify(bounty.deposits)
+      && newBounty.bountyClosedTime === bounty.bountyClosedTime) {
 				newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
 				await sleep(500);
 			}
@@ -69,12 +82,29 @@ const address = ({ address, mergedBounty, renderError }) => {
 		}
 	};
 
+	useEffect(() => {
+		if (internalMenu) {
+			sessionStorage.setItem(address, internalMenu);
+		}
+	}, [internalMenu]);
+
+	useEffect(()=> {
+		setInternalMenu('View')
+	}, [account]);
+
 	// Hooks
-	useEffect(async() => {
-	
+	useEffect(async () => {
+		const handleResize = () => {
+			if (canvas.current?.width) {
+				canvas.current.width = window.innerWidth;
+				canvas.current.height = window.innerHeight;
+			}
+		};
+		window.addEventListener('resize', handleResize, false);
 		// Confetti
 		const justMinted = sessionStorage.getItem('justMinted') === 'true';
 		if (justMinted && canvas.current) {
+			setJustMinted(true);
 			setReload();
 			canvas.current.width = window.innerWidth;
 			canvas.current.height = window.innerHeight;
@@ -101,15 +131,12 @@ const address = ({ address, mergedBounty, renderError }) => {
 				setInternalMenu(route || 'View');
 			}
 		}
+
+		return () => window.removeEventListener('resize', handleResize);
 	}, []);
 
 
 	// User Methods
-
-	const handleToggle = (e) => {
-		setInternalMenu(e);
-		sessionStorage.setItem(address, e);
-	};
 
 	// Render
 	if (error) {
@@ -124,13 +151,17 @@ const address = ({ address, mergedBounty, renderError }) => {
 					.</div>
 			</div> :
 			<>
-				<div className="flex flex-col font-mont justify-center items-center pt-7">
-					<Toggle toggleFunc={handleToggle} toggleVal={internalMenu} names={['View', 'Fund', 'Refund', 'Claim']} />
-					<BountyCardDetails bounty={bounty} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />
+				<div className="flex flex-col justify-center items-center pt-4">
+					<RepoTitle bounty={bounty} />
+					<SubMenu colour="rust" items={[{ name: 'View', Svg: Telescope }, { name: 'Fund', Svg: Add }, { name: 'Refund', Svg: Subtract }, { name: 'Claim', Svg: Fire }, { name: (bounty.issuer && ethers.utils.getAddress(bounty?.issuer?.id) == account) ? 'Admin' : null, Svg: (bounty.issuer && ethers.utils.getAddress(bounty.issuer.id) == account) ? Telescope : null }]} internalMenu={internalMenu} updatePage={setInternalMenu} />
+
+					<BountyHeading price={tokenValues?.total} bounty={bounty} />
+					{internalMenu == 'View' && <BountyCardDetails justMinted={justMinted} bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
+					{internalMenu == 'Admin' && bounty && (ethers.utils.getAddress(bounty.issuer.id) == account) ? <AdminPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
-					<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>
+					<canvas className="absolute w-full top-0 z-40 bottom-0 pointer-events-none" ref={canvas}></canvas>
 				</div>
 			</>}
 		</>
@@ -171,7 +202,6 @@ export const getServerSideProps = async (context) => {
 	catch (err) {
 		renderError = `OpenQ could not find a bounty with address: ${address}.`;
 	}
-
 	return { props: { id, address, mergedBounty, renderError } };
 };
 

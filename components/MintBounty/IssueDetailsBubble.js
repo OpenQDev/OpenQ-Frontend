@@ -6,7 +6,7 @@ export default function IssueDetailsBubble({ issueData }) {
 
 	return (
 		<>
-			<div className="flex flex-col p-6 pt-2 pl-5">
+			<div className="flex flex-col p-6 pt-2 pl-5 w-full items-center">
 				<div className="flex flex-row  items-center space-x-2">
 					<div className="">
 						<svg
@@ -23,11 +23,11 @@ export default function IssueDetailsBubble({ issueData }) {
 							></path>
 						</svg>
 					</div>
-					<div className="text-sm"> {issueData.title}</div>
+					<div className="break-word text-sm"> {issueData.title}</div>
 				</div>
 				<div className="text-xs pt-3 pl-6 text-gray-200">
 					{' '}
-											created at {appState.utils.formatDate(issueData.createdAt)} { issueData.author && `by ${issueData.author.login}`}
+											Created on {appState.utils.formatDate(issueData.createdAt)} { issueData.author && `by ${issueData.author.login}`}
 				</div>
 			</div>
 		</>

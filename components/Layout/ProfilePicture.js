@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import AuthContext from '../../store/AuthStore/AuthContext';
 import AuthButton from '../../components/Authentication/AuthButton';
 
-const ProfilePicture = ({ mobile }) => {
+const ProfilePicture = ({ mobile, contributor, styles }) => {
 
 	// Context
 	const [authState] = useContext(AuthContext);
@@ -29,18 +29,18 @@ const ProfilePicture = ({ mobile }) => {
 	}, [authState]);
 
 	return (
-		<div className='flex items-center h-12 content-center'>
+		<div className={`flex items-center h-12 content-center  ${styles}`}>
 			{showModal || !authState.isAuthenticated ?
-				<div className={`flex bg-inactive-gray border-web-gray hover:border-white border ${mobile ? 'h-10' : 'h-12'} rounded-lg w-max`}>
-					<AuthButton redirectUrl={process.env.NEXT_PUBLIC_BASE_URL + router.asPath} propicUrl={propicUrl} styles="border-none" />
-					{authState.isAuthenticated && <button onClick={() => setShowModal(false)} className='text-tinted hover: pr-2 font-bold relative -top-0.5'>×</button>}
+				<div className={'flex w-max'}>
+					<AuthButton redirectUrl={process.env.NEXT_PUBLIC_BASE_URL + router.asPath} propicUrl={propicUrl} />
+					{authState.isAuthenticated && <button onClick={() => setShowModal(false)}> </button>}
 				</div> :
-				<button className='flex items-center' onClick={() => setShowModal(true)}>
+				<button className='flex items-center border border-gray-700 hover:border-opacity-70 rounded-full' onClick={() => setShowModal(true)}>
 					{propicUrl != null ? (
 						<Image
 							src={propicUrl}
-							width={mobile ? 32 : 46}
-							height={mobile ? 32 : 46}
+							width={mobile ? 62 : contributor? 350 : 31}
+							height={mobile ? 62 : contributor? 350 : 31}
 							alt={'profile pic'}
 							className="rounded-full"
 

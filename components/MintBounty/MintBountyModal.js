@@ -1,23 +1,36 @@
 // Third party
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
+import { ethers } from 'ethers';
 
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import BountyAlreadyMintedMessage from './BountyAlreadyMintedMessage';
-import ToolTip from '../Utils/ToolTip';
+import ToolTipNew from '../Utils/ToolTipNew';
 import MintBountyModalButton from './MintBountyModalButton';
 import MintBountyHeader from './MintBountyHeader';
 import MintBountyInput from './MintBountyInput';
 import ErrorModal from '../ConfirmErrorSuccessModals/ErrorModal';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
+import SmallToggle from '../Utils/SmallToggle';
+import TierInput from './TierInput';
+import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
+import SubMenu from '../Utils/SubMenu';
 
-const MintBountyModal = ({ modalVisibility }) => {
+const MintBountyModal = ({ modalVisibility, type }) => {
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
 	const { library, account } = useWeb3();
 	const router = useRouter();
+	const zeroAddressMetadata = {
+		name: 'Matic',
+		address: '0x0000000000000000000000000000000000000000',
+		symbol: 'MATIC',
+		decimals: 18,
+		chainId: 80001,
+		path: 'https://wallet-asset.matic.network/img/tokens/matic.svg'
+	};
 
 	// State
 	const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
@@ -29,6 +42,14 @@ const MintBountyModal = ({ modalVisibility }) => {
 	const [claimed, setClaimed] = useState();
 	const [enableMint, setEnableMint] = useState();
 	const isValidUrl = appState.utils.issurUrlRegex(url);
+	const [invoice, setInvoice] = useState(false);
+	const [tier, setTier] = useState(0);
+	const [tierArr, setTierArr] = useState([]);
+	const [volume, setVolume] = useState('');
+	const [token, setToken] = useState(zeroAddressMetadata);
+	const [toggleType, setToggleType] = useState(type || 'Atomic');
+	const [goalVolume, setGoalVolume] = useState('');
+	const [goalToken, setGoalToken] = useState(zeroAddressMetadata);
 
 	// Refs
 	const modal = useRef();
@@ -79,14 +100,33 @@ const MintBountyModal = ({ modalVisibility }) => {
 			});
 		}
 	};
-
+	const handleGoalChange = (goalVolume)=>{
+		setGoalVolume(goalVolume);
+	};
 	const mintBounty = async () => {
 		try {
 			setIsLoading(true);
+			let data;
+			switch (toggleType) {
+			case 'Atomic':
+				data = { fundingTokenVolume: volume, fundingTokenAddress: token };
+				break;
+			case 'Ongoing':
+				data = { fundingTokenVolume: volume, fundingTokenAddress: token };
+				break;
+			case 'Tiered':
+				data = { tiers: tierArr };
+				break;
+			default:
+				throw new Error(`No type: ${toggleType}`);
+			}
+
 			const { bountyAddress } = await appState.openQClient.mintBounty(
 				library,
 				issue.id,
 				issue.repository.owner.id,
+				toggleType,
+				data
 			);
 			sessionStorage.setItem('justMinted', true);
 			router.push(
@@ -136,20 +176,42 @@ const MintBountyModal = ({ modalVisibility }) => {
 		};
 	}, [modal, isLoading]);
 
+	// Methods
+
+	function onTierChange(e) {
+		if (parseInt(e.target.value) >= 0) { setTier(parseInt(e.target.value)); }
+		if (parseInt(e.target.value) > 100) { setTier('0'); }
+		if (e.target.value === '') setTier('0');
+		setTierArr(Array.from({ length: e.target.value }, (_, i) => i + 1));
+	}
+
+	function onCurrencySelect(token) {
+		setToken({ ...token, address: ethers.utils.getAddress(token.address) });
+	}
+
+	const onGoalCurrencySelect = (token)=>{	
+		setGoalToken({ ...token, address: ethers.utils.getAddress(token.address) });
+	};
+
+	function onVolumeChange(volume) {
+		appState.utils.updateVolume(volume, setVolume);
+	}
+
 	// Render
 	return (
-		<div className={`justify-center items-center font-mont overflow-x-hidden overflow-y-auto fixed inset-0 left-20 outline-none z-50 focus:outline-none p-5 ${appState.walletConnectModal ? 'hidden' : 'flex'}`}>
+		<div className={`justify-center items-start sm:items-center mx-4 overflow-x-hidden overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-10 ${appState.walletConnectModal ? 'hidden' : 'flex'}`}>
 			{error ?
 				<ErrorModal
 					setShowErrorModal={closeModal}
 					error={error}
 				/> :
 				<>
-					<div ref={modal} className="md:w-1/2 lg:w-1/3 xl:w-1/4 space-y-5 z-50 ">
-						<div className="w-full">
-							<div className="border-0 rounded-xl shadow-lg flex flex-col bg-dark-mode outline-none focus:outline-none z-11">
-								<MintBountyHeader />
-								<div className="flex flex-col pl-6 pr-6 space-y-2">
+					<div ref={modal} className="m-auto w-3/5 min-w-[320px] z-50 fixed top-28">
+						<div className="w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-1">
+							<SubMenu items={[ { name: 'Atomic' }, { name: 'Ongoing' }, { name: 'Tiered' }]} internalMenu={toggleType} updatePage={setToggleType} styles={'justify-center'}/>
+							<div className='max-h-[70vh] w-full overflow-y-auto'>
+								<MintBountyHeader type={toggleType} />
+								<div className="flex flex-col items-center pl-6 pr-6">
 									<MintBountyInput
 										setIssueUrl={setIssueUrl}
 										issueData={issue}
@@ -158,37 +220,151 @@ const MintBountyModal = ({ modalVisibility }) => {
 									/>
 								</div>
 								{isValidUrl && !issue &&
-									<div className="pl-10 pt-5 ">
+									<div className="flex flex-col items-center pt-5 ">
 										Github Issue not found
 									</div>}
-								<div className="flex flex-col justify-center space-x-1 px-8">
+								<div className="flex flex-col items-center space-x-1 px-8">
 									{isValidUrl && issue?.closed && !bountyAddress &&
-										<div className="pt-3 ">
+										<div className="text-center pt-3 ">
 											This issue is already closed on GitHub
 										</div>}
 									{isValidUrl && bountyAddress && issue &&
 										<BountyAlreadyMintedMessage claimed={claimed} id={issue.id} bountyAddress={bountyAddress} />}
 								</div>
 
-								<ToolTip
-									hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
-									toolTipText={
-										account && isOnCorrectNetwork ?
-											'Please choose an elgible issue.' :
-											isOnCorrectNetwork ?
-												'Connect your wallet to mint a bounty!' :
-												'Please switch to the correct network to mint a bounty.'
-									}
-									customOffsets={[0, 70]}>
-									<div className="flex items-center justify-center p-5 rounded-b w-full">
+								{toggleType ?
+									<>
+										<div className="flex flex-col items-center pl-6 pr-6 pb-2">
+											<div className="flex flex-col w-4/5 md:w-2/3">
+												<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
+													<div className='flex items-center gap-2'>Is this Contract invoiceable?
+														<ToolTipNew mobileX={10} toolTipText={'Do you want an invoice for this contract?'} >
+															<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+														</ToolTipNew>
+													</div>
+													<div className='flex-1 w-full mt-2 ml-4'>
+														<SmallToggle names={['Yes', 'No']} toggleVal={invoice ? 'Yes' : 'No'} toggleFunc={() => setInvoice(!invoice)} />
+													</div>
+												</div>
+											</div>
+										</div>
+									</>
+									:
+									null
+								}
+
+								<div className="flex flex-col items-center pl-6 pr-6 pb-2">
+									<div className="flex flex-col w-4/5 md:w-2/3">
+										<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
+											<div className='flex items-center gap-2'>Funding Goal
+												<ToolTipNew mobileX={10} toolTipText={toggleType === 'Atomic' ? 'Amount of funds you would like to escrow on this issue.' : 'How much will each successful submitter earn?'} >
+													<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+													
+												</ToolTipNew>
+												<span className='text-sm'>You don{'\''}t have to deposit now! The budget is just what you intend to pay.</span>
+											
+											</div>
+											<div className='flex-1 w-full mt-2 ml-4'>
+												<TokenFundBox
+													onCurrencySelect={onGoalCurrencySelect}
+													onVolumeChange={handleGoalChange}
+													volume={goalVolume}
+													token={goalToken}
+												/>
+											</div>
+										</div>
+									</div>
+								</div>
+									
+								{toggleType === 'Ongoing' ?
+									<>
+										<div className="flex flex-col items-center pl-6 pr-6 pb-2">
+											<div className="flex flex-col w-4/5 md:w-2/3">
+												<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
+													<div className='flex items-center gap-2'> Reward Split?
+														<ToolTipNew mobileX={10} toolTipText={'How much will each successful submitter earn?'} >
+															<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+														</ToolTipNew>
+													</div>
+													<div className='flex-1 w-full mt-2 ml-4'>
+														<TokenFundBox
+															onCurrencySelect={onCurrencySelect}
+															onVolumeChange={onVolumeChange}
+															token={token}
+															volume={volume}
+														/>
+													</div>
+												</div>
+											</div>
+										</div>
+									</>
+									: toggleType === 'Tiered' ?
+										<>
+											<div className="flex flex-col items-center pl-6 pr-6 pb-2">
+												<div className="flex flex-col w-4/5 md:w-2/3">
+													<div className='flex flex-col w-full items-start p-2 py-1 text-base pb-4'>
+														<div className='flex items-center gap-2'>How many Tiers?
+															<ToolTipNew mobileX={10} toolTipText={'How many people will be able to claim a prize? Don\'t exceed 100.'} >
+																<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+															</ToolTipNew>
+														</div>
+														<div className='flex-1 w-full mt-2 ml-4'>
+															<input
+																className={'flex-1 input-field w-full'}
+																id="name"
+																placeholder="0"
+																autoComplete="off"
+																type="text"
+																min="0"
+																max="100"
+																value={tier}
+																onChange={(e) => onTierChange(e)}
+															/>
+														</div>
+													</div>
+													{tier > 0 ?
+														<>
+															<div className='flex flex-col w-full items-start p-2 py-1 pb-0 text-base'>
+																<div className='flex items-center gap-2 pb-2'>Weight per Tier
+																	<ToolTipNew mobileX={10} toolTipText={'How much will each winner earn?'} >
+																		<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+																	</ToolTipNew>
+																</div>
+																<div className='max-h-40 w-full overflow-y-auto overflow-x-hidden'>
+																	{tierArr.map(t => <TierInput key={t} tier={t} />)}
+																</div>
+															</div>
+														</>
+														: null
+													}
+												</div>
+											</div>
+										</>
+										:
+										null
+								}
+
+								<div className="p-5 pt-2 py-10 w-full">
+									<ToolTipNew
+										outerStyles={''}
+										hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
+										toolTipText={
+											account && isOnCorrectNetwork ?
+												'Please choose an elgible issue.' :
+												isOnCorrectNetwork ?
+													'Connect your wallet to mint a bounty!' :
+													'Please switch to the correct network to mint a bounty.'
+										}>
+
 										<MintBountyModalButton
 											mintBounty={(account) ? mintBounty : connectWallet}
 											account={account}
 											enableMint={(enableMint && isOnCorrectNetwork && !issue?.closed && !isLoading) || !account}
 											transactionPending={isLoading}
 										/>
-									</div>
-								</ToolTip>
+
+									</ToolTipNew>
+								</div>
 							</div>
 						</div>
 					</div>

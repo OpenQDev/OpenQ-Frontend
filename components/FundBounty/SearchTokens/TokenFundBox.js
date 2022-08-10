@@ -1,77 +1,59 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import TokenSearch from './TokenSearch';
 import Image from 'next/image';
-import StoreContext from '../../../store/Store/StoreContext';
 
-const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token,  volume }) => {
+const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token,  volume, placeholder }) => {
 	const [showTokenSearch, setShowTokenSearch] = useState(false);
-	const [polygonTokens, setPolygonTokens] = useState([]);
-	const [openQTokens, setOpenQTokens] = useState([]);
-	const [appState] = useContext(StoreContext);
-	const batch = 100;
-	useEffect(async()=>{
-		let didCancel;
-		const polygonDefaultTokens = await appState.tokenClient.getTokenMetadata(0, batch, 'polygon');
-		const constantTokens = await appState.tokenClient.getTokenMetadata(0, 100, 'constants');
-		
-		if(!didCancel)			setOpenQTokens(constantTokens);
-		
-		if(!didCancel)	setPolygonTokens(polygonDefaultTokens);
-
-		return ()=>didCancel = true;
-	},[]);
+	
 	
 	return (
-		<div>
-			<div className="flex w-full flex-row justify-between items-center pl-14 py-3 rounded-lg py-1 bg-dark-mode border border-web-gray ">
-				<div className={'px-4 font-bold fundBox-amount bg-dark-mode'}>
+		<div className='flex space-x-4'>
+			<div className="flex w-full flex-row justify-between items-center px-4 input-field-big">
+				<div className={' bg-dark-mode'}>
 					<input
 						aria-label="amount"
-						className="font-semibold text-2xl number outline-none bg-dark-mode text-tinted w-full"
+						className="font-semibold number outline-none bg-dark-mode text-primary w-full"
 						autoComplete="off"
 						value={volume}
-						placeholder={'0.0'}
+						placeholder={placeholder || '0.0'}
 						id="amount"
 						onChange={(event) => onVolumeChange(event.target.value)}
 					/>
 				</div>
-				<div className="pr-5">
-					<button
-						className="flex flex-row items-center space-x-1 py-2 drop-shadow-lg border border-web-gray rounded-lg p-2 pr-2"
-						onClick={() => setShowTokenSearch(true)}
-					>
-						<div className="flex flex-row space-x-5 items-center justify-center">
-							<div className="h-1 w-6 pb-6">
-								<Image src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'} className="rounded-full" alt="n/a" width="40%" height="40%" />
-							</div>
-						</div>
-						<div className="pl-3 ">{token.symbol}</div>
-						<div>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-5 w-5"
-								viewBox="0 0 20 20"
-								fill="white"
-							>
-								<path
-									fillRule="evenodd"
-									d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-									clipRule="evenodd"
-								/>
-							</svg>
-						</div>
-					</button>
-				</div>
+				
 			</div>
-			{showTokenSearch ? (
+			<div className="flex">
+				<button
+					className="flex flex-row items-center btn-default p-0.5 px-2"
+					onClick={() => setShowTokenSearch(true)}
+				>
+					<div className="flex h-4 w-4 items-center justify-center">
+						<Image src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'} className="rounded-full" alt="n/a" width="40%" height="40%" />
+					</div>
+					<div className="flex pl-2 pr-1 text-primary">{token.symbol}</div>
+					<div className="flex">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							className="h-4 w-4"
+							viewBox="0 0 20 20"
+							fill="white"
+						>
+							<path
+								fillRule="evenodd"
+								d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+								clipRule="evenodd"
+							/>
+						</svg>
+					</div>
+				</button>
+			</div>
+			{showTokenSearch ? 
 				<TokenSearch
-					polygonTokens={polygonTokens}
-					openQTokens = {openQTokens}
-					currentCursor ={batch}
+					token={token}
 					setShowTokenSearch={setShowTokenSearch}
 					onCurrencySelect={onCurrencySelect}
 				/>
-			) : null}
+				: null}
 		</div>
 	);
 };

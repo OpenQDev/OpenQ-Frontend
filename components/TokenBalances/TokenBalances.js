@@ -5,7 +5,7 @@ import StoreContext from '../../store/Store/StoreContext';
 const ethers = require('ethers');
 import Skeleton from 'react-loading-skeleton';
  
-const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, showOne }) => {
+const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, showOne, lean }) => {
 	const [appState] = useContext(StoreContext);
 	const tokenBalancesArr = Array.isArray(tokenBalances) ? tokenBalances : [tokenBalances];
 
@@ -48,7 +48,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 				}
 			});
 			const filteredTokenBalances = totalValueBalances.filter((balance) => {
-				if (!showOne) { return true; }
+				if (!showOne ) { return true; }
 				// So we don't end up with a tie.
 				if (balance?.totalValue >= highest) {
 					highest >= 0.01;
@@ -63,8 +63,8 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 	return (
 		<div className="flex flex-col">
 			<div className="font-semibold">{header}</div>
-			<div className="font-bold text-xl ">
-				{tokenBalances && !showOne ? tokenValues	?
+			<div className=" text-primary ">
+				{tokenBalances && !showOne && !lean ? tokenValues	?
 					`${appState.utils.formatter.format(tokenValues.total)}` :
 					tokenBalances.length === 0  
 						? `${appState.utils.formatter.format(0)}`:
@@ -91,8 +91,8 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 											height="16"
 										/>
 									</div>
-									<div className="text-lg ">{usdValue}</div>{' '}
-									<div className="text-lg ">
+									<div className="text-base text-primary ">{usdValue}</div>{' '}
+									<div className="text-base text-primary ">
 										{formattedVolume}{'\xa0'}
 										{symbol.toUpperCase()}
 									</div>
