@@ -14,12 +14,12 @@ class OpenQSubgraphClient {
 		cache: new InMemoryCache()
 	});
 
-	async getAllBounties(sortOrder, startAt, quantity) {
+	async getAllBounties(sortOrder, startAt, quantity, types) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
 					query: GET_ALL_BOUNTIES,
-					variables: { skip: startAt, sortOrder, quantity }
+					variables: { skip: startAt, sortOrder, quantity, types }
 				});
 				resolve(result.data.bounties.filter(bounty=>bounty.bountyId.slice(0, 1)==='I'||bounty.bountyId.slice(0, 1)==='M'));
 			} catch (e) {
@@ -113,12 +113,15 @@ class OpenQSubgraphClient {
 		return promise;
 	}
 
-	async getOrganizations() {
+	async getOrganizations(types) {
+		console.log(types);
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
 					query: GET_ORGANIZATIONS,
-				});
+					variables: {types}
+				},
+				);
 				resolve(result.data.organizations);
 			} catch (e) {
 				reject(e);
