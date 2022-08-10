@@ -19,8 +19,9 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
 	//Render
 	return (
 		<div className="w-2/3 lg:w-1/2 pb-20">
+		{console.log(bounty)}
 			<div className="flex flex-col space-y-5">
-				<h2 className="flex text-3xl font-semibold  justify-center pt-16">Bounty Closed</h2>
+				<h2 className="flex text-3xl justify-center pt-16">Bounty Closed</h2>
 				<div className="flex justify-center rounded-sm px-6 py-4 pb-4 cursor-pointer" >			
 					<div className="my-2">Closing Transaction: <Link href={url}>
 						<a target={'_blank'} rel="noopener norefferer"  className="cursor-pointer break-all">
