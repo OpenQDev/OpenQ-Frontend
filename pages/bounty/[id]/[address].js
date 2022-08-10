@@ -119,7 +119,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 	// Hooks
 	useEffect(async () => {
 		const handleResize = () => {
-			if (canvas.current) {
+			if (canvas.current?.width) {
 				canvas.current.width = window.innerWidth;
 				canvas.current.height = window.innerHeight;
 			}
@@ -177,7 +177,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 			<>
 				<div className="flex flex-col justify-center items-center pt-4">
 					<RepoTitle bounty={bounty} />
-					<SubMenu colour="rust" items={[{ name: 'View', Svg: Telescope }, { name: 'Fund', Svg: Add }, { name: 'Refund', Svg: Subtract }, { name: 'Claim', Svg: Fire }, { name: (ethers.utils.getAddress(bounty.issuer.id) == account) ? 'Admin' : null, Svg: (ethers.utils.getAddress(bounty.issuer.id) == account) ? Telescope : null }]} internalMenu={internalMenu} updatePage={setInternalMenu} />
+					<SubMenu colour="rust" items={[{ name: 'View', Svg: Telescope }, { name: 'Fund', Svg: Add }, { name: 'Refund', Svg: Subtract }, { name: 'Claim', Svg: Fire }, { name: (bounty.issuer && ethers.utils.getAddress(bounty?.issuer?.id) == account) ? 'Admin' : null, Svg: (bounty.issuer && ethers.utils.getAddress(bounty.issuer.id) == account) ? Telescope : null }]} internalMenu={internalMenu} updatePage={setInternalMenu} />
 
 					<BountyHeading price={tokenValues?.total} bounty={bounty} />
 					{internalMenu == 'View' && <BountyCardDetails justMinted={justMinted} bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}

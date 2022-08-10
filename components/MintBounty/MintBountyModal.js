@@ -47,7 +47,9 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 	const [tierArr, setTierArr] = useState([]);
 	const [volume, setVolume] = useState('');
 	const [token, setToken] = useState(zeroAddressMetadata);
-	const [toggleType, setToggleType] = useState(type);
+	const [toggleType, setToggleType] = useState(type || 'Atomic');
+	const [goalVolume, setGoalVolume] = useState('');
+	const [goalToken, setGoalToken] = useState(zeroAddressMetadata);
 
 	// Refs
 	const modal = useRef();
@@ -98,23 +100,25 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 			});
 		}
 	};
-
+	const handleGoalChange = (goalVolume)=>{
+		setGoalVolume(goalVolume);
+	};
 	const mintBounty = async () => {
 		try {
 			setIsLoading(true);
 			let data;
 			switch (toggleType) {
-				case 'Atomic':
-					data = { fundingTokenVolume: volume, fundingTokenAddress: token };
-					break;
-				case 'Ongoing':
-					data = { fundingTokenVolume: volume, fundingTokenAddress: token };
-					break;
-				case 'Tiered':
-					data = { tiers: tierArr };
-					break;
-				default:
-					throw new Error(`No type: ${toggleType}`);
+			case 'Atomic':
+				data = { fundingTokenVolume: volume, fundingTokenAddress: token };
+				break;
+			case 'Ongoing':
+				data = { fundingTokenVolume: volume, fundingTokenAddress: token };
+				break;
+			case 'Tiered':
+				data = { tiers: tierArr };
+				break;
+			default:
+				throw new Error(`No type: ${toggleType}`);
 			}
 
 			const { bountyAddress } = await appState.openQClient.mintBounty(
@@ -175,16 +179,19 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 	// Methods
 
 	function onTierChange(e) {
-		if (parseInt(e.target.value) >= 0) { setTier(parseInt(e.target.value)); };
-		if (parseInt(e.target.value) > 100) { setTier('0'); };
+		if (parseInt(e.target.value) >= 0) { setTier(parseInt(e.target.value)); }
+		if (parseInt(e.target.value) > 100) { setTier('0'); }
 		if (e.target.value === '') setTier('0');
 		setTierArr(Array.from({ length: e.target.value }, (_, i) => i + 1));
-		console.log(tierArr);
-	};
+	}
 
 	function onCurrencySelect(token) {
 		setToken({ ...token, address: ethers.utils.getAddress(token.address) });
 	}
+
+	const onGoalCurrencySelect = (token)=>{	
+		setGoalToken({ ...token, address: ethers.utils.getAddress(token.address) });
+	};
 
 	function onVolumeChange(volume) {
 		appState.utils.updateVolume(volume, setVolume);
@@ -201,7 +208,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 				<>
 					<div ref={modal} className="m-auto w-3/5 min-w-[320px] z-50 fixed top-28">
 						<div className="w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-1">
-							<SubMenu items={[{ name: 'Single' }, { name: 'Atomic' }, { name: 'Ongoing' }, { name: 'Tiered' }]} internalMenu={toggleType} updatePage={setToggleType} styles={'justify-center'}/>
+							<SubMenu items={[ { name: 'Atomic' }, { name: 'Ongoing' }, { name: 'Tiered' }]} internalMenu={toggleType} updatePage={setToggleType} styles={'justify-center'}/>
 							<div className='max-h-[70vh] w-full overflow-y-auto'>
 								<MintBountyHeader type={toggleType} />
 								<div className="flex flex-col items-center pl-6 pr-6">
@@ -246,13 +253,36 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 									null
 								}
 
-								{toggleType === 'Atomic' || toggleType === 'Ongoing' ?
+								<div className="flex flex-col items-center pl-6 pr-6 pb-2">
+									<div className="flex flex-col w-4/5 md:w-2/3">
+										<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
+											<div className='flex items-center gap-2'>Funding Goal
+												<ToolTipNew mobileX={10} toolTipText={toggleType === 'Atomic' ? 'Amount of funds you would like to escrow on this issue.' : 'How much will each successful submitter earn?'} >
+													<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+													
+												</ToolTipNew>
+												<span className='text-sm'>You don{'\''}t have to deposit now! The budget is just what you intend to pay.</span>
+											
+											</div>
+											<div className='flex-1 w-full mt-2 ml-4'>
+												<TokenFundBox
+													onCurrencySelect={onGoalCurrencySelect}
+													onVolumeChange={handleGoalChange}
+													volume={goalVolume}
+													token={goalToken}
+												/>
+											</div>
+										</div>
+									</div>
+								</div>
+									
+								{toggleType === 'Ongoing' ?
 									<>
 										<div className="flex flex-col items-center pl-6 pr-6 pb-2">
 											<div className="flex flex-col w-4/5 md:w-2/3">
 												<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
-													<div className='flex items-center gap-2'>{toggleType === 'Atomic' ? 'Funding Goal' : 'Reward Split?'}
-														<ToolTipNew mobileX={10} toolTipText={toggleType === 'Atomic' ? 'Amount of funds you would like to escrow on this issue.' : 'How much will each successful submitter earn?'} >
+													<div className='flex items-center gap-2'> Reward Split?
+														<ToolTipNew mobileX={10} toolTipText={'How much will each successful submitter earn?'} >
 															<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
 														</ToolTipNew>
 													</div>
@@ -280,7 +310,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 														</div>
 														<div className='flex-1 w-full mt-2 ml-4'>
 															<input
-																className={`flex-1 input-field w-full`}
+																className={'flex-1 input-field w-full'}
 																id="name"
 																placeholder="0"
 																autoComplete="off"
@@ -314,7 +344,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 										null
 								}
 
-								<div className="p-5 pt-2 w-full">
+								<div className="p-5 pt-2 py-10 w-full">
 									<ToolTipNew
 										outerStyles={''}
 										hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
