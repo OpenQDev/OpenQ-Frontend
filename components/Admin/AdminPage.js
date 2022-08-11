@@ -22,8 +22,13 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 	// State
 	const [error, setError] = useState('');
 	const [showButton, setShowButton] = useState(ethers.utils.getAddress(bounty.issuer.id) == account && !bounty.bountyClosedTime)
-	const [volume, setVolume] = useState('');
+		// funding goal volume and token
+	const [volume, setVolume] = useState(''); 
 	const [token, setToken] = useState(zeroAddressMetadata);
+		// payout volume and token
+	const [payoutVolume, setPayoutVolume] = useState('');
+	const [payoutToken, setPayoutToken] = useState(zeroAddressMetadata);
+	
 
 	async function closeCompetition() {
 		try {
@@ -51,6 +56,8 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 		}
 	}
 
+	// handle change in Funding Goal
+
 	function onCurrencySelect(token) {
 		setToken({ ...token, address: ethers.utils.getAddress(token.address) });
 	}
@@ -59,8 +66,42 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 		appState.utils.updateVolume(volume, setVolume);
 	}
 
-	function setBudget() {
-		alert('please set this function to actually change Budget for this issue')
+	// handle change in Payout
+
+	function onPayoutTokenSelect(payoutToken) {
+		setPayoutToken({ ...payoutToken, address: ethers.utils.getAddress(payoutToken.address) });
+	}
+
+	function onPayoutVolumeChange(payoutVolume) {
+		appState.utils.updateVolume(payoutVolume, setPayoutVolume)
+	}
+
+	// trigger smart contracts
+
+	async function setBudget() {
+		try {
+			await appState.openQClient.setFundingGoal(library, bounty.bountyId, token, volume);
+			refreshBounty();
+			setVolume('');
+		} catch (error) {
+			console.log(error);
+			const { message, title } = appState.openQClient.handleError(error, { bounty });
+			setError({ message, title });
+			console.log({ message, title });
+		}
+	}
+
+	async function setPayout() {
+		try {
+			await appState.openQClient.setPayout(library, bounty.bountyId, payoutToken, payoutVolume);
+			refreshBounty();
+			setPayoutVolume('');
+		} catch (error) {
+			console.log(error);
+			const { message, title } = appState.openQClient.handleError(error, { bounty });
+			setError({ message, title });
+			console.log({ message, title });
+		}
 	}
 
 	if (showButton) {
@@ -74,6 +115,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 						<div className="flex flex-col space-y-5 w-full px-8 pt-2">
 							<h2 className='text-2xl border-b border-gray-700 pb-4'>Modifications</h2>
 							<div className='flex items-center gap-2'>Set a New Budget for this Contract</div>
+							{console.log(bounty)}
 							<div className='flex-1 items-center w-full mt-2'>
 								<TokenFundBox
 									onCurrencySelect={onCurrencySelect}
@@ -87,6 +129,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 								type="button"
 								onClick={setBudget}
 							>Set New Budget</button>
+
 							{bounty.bountyType == '2' ?
 								<>
 									<h2 className='text-2xl text-[#f85149] border-b border-gray-700 pb-4'>Close Contract</h2>
@@ -102,6 +145,22 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 								:
 								bounty.bountyType == '1' ?
 									<>
+										<div className='flex items-center gap-2'>Set Payout for Each Submitter</div>
+										{console.log(bounty)}
+										<div className='flex-1 items-center w-full mt-2'>
+											<TokenFundBox
+												onCurrencySelect={onPayoutTokenSelect}
+												onVolumeChange={onPayoutVolumeChange}
+												token={payoutToken}
+												volume={payoutVolume}
+											/>
+										</div>
+										<button
+											className="btn-default"
+											type="button"
+											onClick={setPayout}
+										>Set Payout</button>
+
 										<h2 className='text-2xl text-[#f85149] border-b border-gray-700 pb-4'>Close Repeatable Contract</h2>
 										<div className='flex justify-between items-center gap-2'>Once you close this repeatable contract, there is no going back. Please be certain.
 										</div>

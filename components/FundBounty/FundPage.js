@@ -45,7 +45,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 	// State
 	const [token, setToken] = useState(zeroAddressMetadata);
-	const bountyName = (bounty.bountyType == 0 || bounty.bountyType == 3) ? 'Atomic Contract' : bounty.bountyType == 1? 'Repeatable Contract' : 'Contest' ;
+	const bountyName = bounty.bountyType == 0 ? 'Atomic Contract' : bounty.bountyType == 1? 'Repeatable Contract' : bounty.bountyType == 2? 'Contest' : 'Type Unknown' ;
 
 	const closed = bounty.bountyClosedTime;
 	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || closed || parseFloat(volume) <= 0.00000001 || parseFloat(volume) >= 1000 || volume == '' || !(parseInt(depositPeriodDays) > 0);
@@ -206,6 +206,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					<div className="flex text-3xl text-primary justify-center px-16 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm">
 						Escrow Funds in {bountyName}
 					</div>
+					{console.log('bounty data', bounty)}
 					<div className="flex flex-col space-y-5 w-5/6 pt-2">
 						<TokenFundBox
 							onCurrencySelect={onCurrencySelect}

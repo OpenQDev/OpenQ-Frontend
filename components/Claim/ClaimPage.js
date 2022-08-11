@@ -36,7 +36,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	const [, dispatch] = useContext(StoreContext);
 
 
-	const claimable = (bounty.bountyType == 0 || bounty.bountyType == 1 || bounty.bountyType == 3) ? bounty.bountyClosedTime : !bounty.bountyClosedTime ;
+	const claimable = (bounty.bountyType == 0 || bounty.bountyType == 1) ? bounty.bountyClosedTime : !bounty.bountyClosedTime ;
 
 	const updateModal = () => {
 		setShowClaimLoadingModal(false);
