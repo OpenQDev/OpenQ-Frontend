@@ -24,6 +24,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 	const [showButton, setShowButton] = useState(ethers.utils.getAddress(bounty.issuer.id) == account && !bounty.bountyClosedTime)
 	const [volume, setVolume] = useState('');
 	const [token, setToken] = useState(zeroAddressMetadata);
+	
 
 	async function closeCompetition() {
 		try {
@@ -72,6 +73,19 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 		}
 	}
 
+	async function setPayout() {
+		try {
+			await appState.openQClient.setPayout(library, bounty.bountyId, token, volume);
+			refreshBounty();
+			setVolume('');
+		} catch (error) {
+			console.log(error);
+			const { message, title } = appState.openQClient.handleError(error, { bounty });
+			setError({ message, title });
+			console.log({ message, title });
+		}
+	}
+
 	if (showButton) {
 		return (
 			<>
@@ -97,6 +111,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 								type="button"
 								onClick={setBudget}
 							>Set New Budget</button>
+
 							{bounty.bountyType == '2' ?
 								<>
 									<h2 className='text-2xl text-[#f85149] border-b border-gray-700 pb-4'>Close Contract</h2>
@@ -112,6 +127,22 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 								:
 								bounty.bountyType == '1' ?
 									<>
+										<div className='flex items-center gap-2'>Set Payout for Each Submitter</div>
+										{console.log(bounty)}
+										<div className='flex-1 items-center w-full mt-2'>
+											<TokenFundBox
+												onCurrencySelect={onCurrencySelect}
+												onVolumeChange={onVolumeChange}
+												token={token}
+												volume={volume}
+											/>
+										</div>
+										<button
+											className="btn-default"
+											type="button"
+											onClick={setPayout}
+										>Set Payout</button>
+
 										<h2 className='text-2xl text-[#f85149] border-b border-gray-700 pb-4'>Close Repeatable Contract</h2>
 										<div className='flex justify-between items-center gap-2'>Once you close this repeatable contract, there is no going back. Please be certain.
 										</div>
