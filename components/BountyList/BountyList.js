@@ -13,12 +13,14 @@ import searchFoundInText from './SearchHelpers/searchFoundInText';
 import searchFoundInLabels from './SearchHelpers/searchFoundInLabels';
 import searchTagInBounty from './SearchHelpers/searchTagInBounty';
 import SmallToggle from '../Utils/SmallToggle';
+import { useRouter } from 'next/router';
 
 const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData, getNewData, addCarousel, contractToggle }) => {
 	// Hooks
 	const { account } = useWeb3();
 	/* const [l2eOnly, setL2eOnly] = useState(false); */
-	const [searchText, updateSearchText] = useState(' order:newest');
+	const router = useRouter();
+	const [searchText, updateSearchText] = useState(`order:newest ${router.query.type ? `type:"${router.query.type}"`: ''}`);
 	const [tagArr, updateTagArr] = useState([]);
 	const [searchedBounties, updateSearchedBounties] = useState([]);
 	const [isProcessed, updateIsProcessed] = useState(false);
@@ -27,7 +29,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 
 	const searchRegex = /label:"[^"]+"/gi;
 	const contractTypeRegex = /type:"[^"]+"/gi;
-	const orderRegex = /\order:(\w+)/gi;
+	const orderRegex = /order:(\w+)/gi;
 	let observer = useRef();
 	// Utilities
 	const fetchPage = () => {
@@ -55,6 +57,11 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 
 	useEffect(() => {
 		if (bounties) {
+		
+			updateIsProcessed(false);
+			updateSearchedBounties(orderBounties(filter(bounties), true));
+			updateIsProcessed(true);
+		
 			const labels = bounties?.reduce((accum, bounty) => {
 				const bountyLabels = bounty.labels.filter(label => {
 					const accumFilter = accum.some((accumLabel) => {
@@ -69,6 +76,8 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 			setLabels(labels);
 
 		}
+		else{updateIsProcessed(true);
+		}
 	}, [bounties]);
 	// NOTE tag search doesn't turn off regular search, it just manages it a little differently.
 	const filter = (bounties, options = {}) => {
@@ -81,11 +90,11 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 		const searchedLabels = searchedLabelsWrapped.map(elem => elem.slice(7, -1));
 		const contractType = contractsTypesWrapped.map(elem => elem.slice(6, -1))[0];
 		
-		let types =['1', '2','3'];
+		let types =['0', '1','2'];
 
 		switch(contractType){
 		case 'Atomic Contracts':
-			types=['3'];
+			types=['0'];
 			break;
 		case 'Contests':
 			types=['2'];
@@ -100,6 +109,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 			const hasLabels = searchedLabels.some((searchedLabel) => bounty.labels.some(bountyLabel => bountyLabel.name === searchedLabel)) || searchedLabels.length === 0;
 
 			const isType = types.some(type=>type===bounty.bountyType);
+			console.log(isType);
 
 			let containsSearch = true;
 
@@ -190,18 +200,14 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 	};
 
 
-	useEffect(async () => {
-		updateIsProcessed(false);
-		if (!bounties) updateIsProcessed(true);
-		else {
-			updateSearchedBounties(orderBounties(filter(bounties), true));
-			updateIsProcessed(true);
-		}
-	}, [bounties]);
 
 	// User Methods
 	const handleSortBounties = (toggleTo) => {
-		updateSearchText(`${searchText.replace(orderRegex, '')} order:${toggleTo}`.replace(/\s+/g, ' '));
+		let newSearch = `${searchText.replace(orderRegex, `order:${toggleTo}`)}`.replace(/\s+/g, ' ');
+		if(!orderRegex.test(newSearch)){
+			newSearch = `${searchText} ${`order:${toggleTo}`}`;
+		}
+		updateSearchText(newSearch);
 		updateSearchedBounties(orderBounties(filter(searchedBounties, {}), false, true, toggleTo));
 	};
 
@@ -216,7 +222,11 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 	};
 	
 	const setContractType = (type)=>{
-		updateSearchText(`${searchText.replace(contractTypeRegex, '')} type:"${type}"`.replace(/\s+/g, ' '));
+		let newSearch = `${searchText.replace(contractTypeRegex, `type:"${type}"`)}`.replace(/\s+/g, ' ');
+		if(!contractTypeRegex.test(newSearch)){
+			newSearch = `${searchText} ${`type:"${type}"`}`;
+		}
+		updateSearchText(newSearch);
 		updateSearchedBounties(orderBounties(filter(bounties, { searchText:`${searchText.replace(contractTypeRegex, '')} type:"${type}"` })));
 	};
 

@@ -15,7 +15,7 @@ const BountyHomepage = ({
 	error,
 	type
 }) => {
-	const title = type[0] === '3'? 'Repeatable Contracts': type[0]==='2'? 'Contests' : 'Atomic Contracts';
+	const title = type[0] === '1'? 'Repeatable Contracts': type[0]==='2'? 'Contests' : 'Atomic Contracts';
 	// Render
 	return (
 		<div>
