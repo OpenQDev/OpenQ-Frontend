@@ -59,8 +59,17 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 		appState.utils.updateVolume(volume, setVolume);
 	}
 
-	function setBudget() {
-		alert('please set this function to actually change Budget for this issue')
+	async function setBudget() {
+		try {
+			await appState.openQClient.setFundingGoal(library, bounty.bountyId, token, volume);
+			refreshBounty();
+			setVolume('');
+		} catch (error) {
+			console.log(error);
+			const { message, title } = appState.openQClient.handleError(error, { bounty });
+			setError({ message, title });
+			console.log({ message, title });
+		}
 	}
 
 	if (showButton) {
@@ -74,6 +83,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 						<div className="flex flex-col space-y-5 w-full px-8 pt-2">
 							<h2 className='text-2xl border-b border-gray-700 pb-4'>Modifications</h2>
 							<div className='flex items-center gap-2'>Set a New Budget for this Contract</div>
+							{console.log(bounty)}
 							<div className='flex-1 items-center w-full mt-2'>
 								<TokenFundBox
 									onCurrencySelect={onCurrencySelect}
