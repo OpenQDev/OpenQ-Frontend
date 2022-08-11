@@ -45,11 +45,11 @@ class OpenQClient {
 					break;
 				case 'Ongoing':
 					{
-						console.log('data.fundingTokenAddress.address', data.fundingTokenAddress.address);
-						const volumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
-						const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
-						console.log('bigNumberVolumeInWei', bigNumberVolumeInWei);
-						const ongoingAbiEncodedParams = abiCoder.encode(["address", "uint256", "bool", "address", "uint256"], [data.fundingTokenAddress.address, bigNumberVolumeInWei, true, data.fundingTokenAddress.address, bigNumberVolumeInWei]);
+						const fundVolumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
+						const fundBigNumberVolumeInWei = ethers.BigNumber.from(fundVolumeInWei.toString());
+						const payoutVolumeInWei = data.payoutVolume * 10 ** data.payoutToken.decimals;
+						const payoutBigNumberVolumeInWei = ethers.BigNumber.from(payoutVolumeInWei.toString());
+						const ongoingAbiEncodedParams = abiCoder.encode(["address", "uint256", "bool", "address", "uint256"], [data.payoutToken.address, payoutBigNumberVolumeInWei, true, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]);
 						bountyInitOperation = [1, ongoingAbiEncodedParams];
 					}
 					break;
