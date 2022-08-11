@@ -34,19 +34,17 @@ class OpenQClient {
 			console.log('type', type);
 			let bountyInitOperation;
 			let abiCoder = new ethers.utils.AbiCoder;
+			const volumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
+			const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
 			switch (type) {
 			case 'Atomic':
 				{
-					const volumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
-					const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
 					const fundingGoalBountyParams = abiCoder.encode(['bool', 'address', 'uint256'], [true, data.fundingTokenAddress.address, bigNumberVolumeInWei]);
 					bountyInitOperation = [0, fundingGoalBountyParams];
 				}
 				break;
 			case 'Ongoing':
 				console.log('data.fundingTokenAddress.address', data.fundingTokenAddress.address);
-				const volumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
-				const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
 				console.log('bigNumberVolumeInWei', bigNumberVolumeInWei);
 				const ongoingAbiEncodedParams = abiCoder.encode(['address', 'uint256', 'bool', 'address', 'uint256'], [data.fundingTokenAddress.address, bigNumberVolumeInWei, true, data.fundingTokenAddress.address, bigNumberVolumeInWei]);
 				bountyInitOperation = [1, ongoingAbiEncodedParams];
@@ -201,7 +199,7 @@ class OpenQClient {
 
 			const contract = this.OpenQ(signer);
 			try {
-				const expiration = _depositPeriodDays * 24 * 60 * 60;
+				const expiration = _depositPeriodDays; //* 24 * 60 * 60;
 
 				let txnResponse;
 				let txnReceipt;

@@ -101,21 +101,22 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 		}
 	};
 	const handleGoalChange = (goalVolume)=>{
-		setGoalVolume(goalVolume);
+		appState.utils.updateVolume(goalVolume, setGoalVolume);
 	};
 	const mintBounty = async () => {
+		console.log;
 		try {
 			setIsLoading(true);
 			let data;
 			switch (toggleType) {
 			case 'Atomic':
-				data = { fundingTokenVolume: volume, fundingTokenAddress: token };
+				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: token };
 				break;
 			case 'Ongoing':
-				data = { fundingTokenVolume: volume, fundingTokenAddress: token };
+				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: token };
 				break;
 			case 'Tiered':
-				data = { tiers: tierArr };
+				data = { tiers: tierArr, fundingTokenVolume: goalVolume, fundingTokenAddress: token };
 				break;
 			default:
 				throw new Error(`No type: ${toggleType}`);
