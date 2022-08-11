@@ -243,7 +243,7 @@ class OpenQClient {
 
 			const contract = this.OpenQ(signer);
 			try {
-				const expiration = _depositPeriodDays; //* 24 * 60 * 60;
+				const expiration = _depositPeriodDays * 24 * 60 * 60;
 
 				let txnResponse;
 				let txnReceipt;

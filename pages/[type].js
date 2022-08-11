@@ -53,9 +53,9 @@ export default function Index({ orgs, fullBounties, batch, types, renderError })
 				const prismaBounties = await appState.openQPrismaClient.getUser(
 					account
 				);
-				const watchedBountyAddresses = prismaBounties.watchedBountyIds.map(
+				const watchedBountyAddresses = prismaBounties?.watchedBountyIds.map(
 					(address) => address.toLowerCase()
-				);
+				)||[];
 				const subgraphBounties =
           await appState.openQSubgraphClient.getBountiesByContractAddresses(watchedBountyAddresses, types);
 				const githubIds = subgraphBounties.map((bounty) => bounty.bountyId);
