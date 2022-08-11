@@ -141,8 +141,8 @@ query GetBountyById($id: ID!) {
 `;
 
 export const GET_BOUNTIES_BY_CONTRACT_ADDRESSES = gql`
-query GetBountiesByContractAddresses($contractAddresses: [ID]!) {
-  bounties(where: {bountyAddress_in: $contractAddresses}) {
+query GetBountiesByContractAddresses($contractAddresses: [ID]!, $types: [String]) {
+  bounties(where: {bountyAddress_in: $contractAddresses, bountyType_in: $types}) {
     bountyAddress
     bountyId
     bountyMintTime
@@ -262,6 +262,7 @@ query GetOrganization($id: ID!, $skip: Int, $order: String, $first: Int, ) {
 		bountyClosedTime
 		claimedTransactionHash
 		status
+		bountyType
 		deposits {
 			id
 			refunded
