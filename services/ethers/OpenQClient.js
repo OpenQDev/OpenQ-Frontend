@@ -77,6 +77,50 @@ class OpenQClient {
 		return promise;
 	}
 
+	// setFunding inspired by fundBounty
+	async setFundingGoal(library, _bountyId, _fundingGoalToken, _fundingGoalVolume) {
+		const promise = new Promise(async (resolve, reject) => {
+			const volumeInWei = _fundingGoalVolume * 10 ** _fundingGoalToken.decimals;
+			const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
+			const signer = library.getSigner();
+			const contract = this.OpenQ(signer);
+			try {
+				let txnResponse;
+				let txnReceipt;
+				txnResponse = await contract.setFundingGoal(_bountyId, _fundingGoalToken.address, bigNumberVolumeInWei);
+				txnReceipt = await txnResponse.wait();
+				console.log(txnReceipt);
+				resolve(txnReceipt);
+			} catch (error) {
+				console.log(error);
+				reject(error);
+			}
+		});
+		return promise;
+	}
+
+	async setPayout(library, _bountyId, _payoutToken, _payoutVolume) {
+		const promise = new Promise(async (resolve, reject) => {
+			const volumeInWei = _payoutVolume * 10 ** _payoutToken.decimals;
+			const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
+			const signer = library.getSigner();
+			const contract = this.OpenQ(signer);
+			try {
+				let txnResponse;
+				let txnReceipt;
+				txnResponse = await contract.setPayout(_bountyId, _payoutToken.address, bigNumberVolumeInWei);
+				txnReceipt = await txnResponse.wait();
+				console.log(txnReceipt);
+				resolve(txnReceipt);
+			} catch (error) {
+				console.log(error);
+				reject(error);
+			}
+		});
+		return promise;
+	}
+
+
 	async approve(library, _bountyAddress, _tokenAddress, _value) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();

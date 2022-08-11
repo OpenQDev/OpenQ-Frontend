@@ -45,8 +45,8 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 	const [invoice, setInvoice] = useState(false);
 	const [tier, setTier] = useState(0);
 	const [tierArr, setTierArr] = useState([]);
-	const [volume, setVolume] = useState('');
-	const [token, setToken] = useState(zeroAddressMetadata);
+	const [rewardSplit, setRewardSplit] = useState('');
+	const [splitToken, setSplitToken] = useState(zeroAddressMetadata);
 	const [toggleType, setToggleType] = useState(type || 'Atomic');
 	const [goalVolume, setGoalVolume] = useState('');
 	const [goalToken, setGoalToken] = useState(zeroAddressMetadata);
@@ -100,9 +100,6 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 			});
 		}
 	};
-	const handleGoalChange = (goalVolume)=>{
-		appState.utils.updateVolume(goalVolume, setGoalVolume);
-	};
 	const mintBounty = async () => {
 		console.log;
 		try {
@@ -110,13 +107,13 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 			let data;
 			switch (toggleType) {
 			case 'Atomic':
-				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: token };
+				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
 				break;
 			case 'Ongoing':
-				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: token };
+				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
 				break;
 			case 'Tiered':
-				data = { tiers: tierArr, fundingTokenVolume: goalVolume, fundingTokenAddress: token };
+				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken, tiers: tierArr };
 				break;
 			default:
 				throw new Error(`No type: ${toggleType}`);
@@ -129,6 +126,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 				toggleType,
 				data
 			);
+			console.log('Mint bounty data:', data);
 			sessionStorage.setItem('justMinted', true);
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress.toLowerCase()}`
@@ -186,16 +184,20 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 		setTierArr(Array.from({ length: e.target.value }, (_, i) => i + 1));
 	}
 
-	function onCurrencySelect(token) {
-		setToken({ ...token, address: ethers.utils.getAddress(token.address) });
-	}
-
-	const onGoalCurrencySelect = (token)=>{	
-		setGoalToken({ ...token, address: ethers.utils.getAddress(token.address) });
+	const handleGoalChange = (goalVolume)=>{
+		appState.utils.updateVolume(goalVolume, setGoalVolume);
 	};
 
-	function onVolumeChange(volume) {
-		appState.utils.updateVolume(volume, setVolume);
+	function onGoalCurrencySelect (token) {	
+		setGoalToken({ ...token, address: ethers.utils.getAddress(token.address) });
+	}
+
+	function onCurrencySelect(splitToken) {
+		setSplitToken({ ...splitToken, address: ethers.utils.getAddress(splitToken.address) });
+	}
+
+	function onVolumeChange(rewardSplit) {
+		appState.utils.updateVolume(rewardSplit, setRewardSplit);
 	}
 
 	// Render
@@ -291,8 +293,8 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 														<TokenFundBox
 															onCurrencySelect={onCurrencySelect}
 															onVolumeChange={onVolumeChange}
-															token={token}
-															volume={volume}
+															token={splitToken}
+															volume={rewardSplit}
 														/>
 													</div>
 												</div>

@@ -48,27 +48,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 	function sleep(ms) {
 		return new Promise(resolve => setTimeout(resolve, ms));
 	}
-
-	const refundCount = (deposits) => {
-		let refund = 0;
-		for (let deposit of deposits) {
-			if (deposit.refunded === true) { refund++; }
-		}
-		return refund;
-	};
-
-	// option 1 - more complex solution
-	const expirationComp = (deposits, newDeposits) => {
-		for (let deposit of deposits) {
-			let i = 0;
-			if (deposit.expiration !== newDeposits[i].expiration) {
-				i++;
-				return false;
-			}
-		}
-		return true;
-	};
-
+  
 	const setReload = () => {
 		const payload = {
 			type: 'UPDATE_RELOAD',
@@ -77,8 +57,9 @@ const address = ({ address, mergedBounty, renderError }) => {
 		dispatch(payload);
 	};
 
-	// Fund: Change in deposits length
 	// Claim: Change in bounty.status
+	// Group Fund/Refund/Extend Deposit in "JSON.stringify(newBounty.deposits) === JSON.stringify(bounty.deposits)" comparison 
+	// Fund: Change in deposits length
 	// Refund: Check that one of the deposits has been refunded
 	// Extend Deposit: Change in deposit expiration 
 	// No faster than 1 second so begin with a sleep so as to not spam the Graph Hosted Service
@@ -86,14 +67,9 @@ const address = ({ address, mergedBounty, renderError }) => {
 		await sleep(1000);
 		let newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
 		try {
-			const refundedBefore = refundCount(bounty.deposits);
-			const refundedNow = refundCount(newBounty.deposits);
-			while (newBounty.deposits.length === bounty.deposits.length && newBounty.status === bounty.status && refundedBefore === refundedNow
-				&& expirationComp(bounty.deposits, newBounty.deposits)
-				&& newBounty.bountyClosedTime === bounty.bountyClosedTime
-				// or simpler, just using: && newBounty.deposits === bounty.deposits
-				// in which case we could also be removing the 'newBounty.deposits.length === bounty.deposits.length' logic and simplify
-			) {
+			while (newBounty.status === bounty.status	
+      && JSON.stringify(newBounty.deposits) === JSON.stringify(bounty.deposits)
+      && newBounty.bountyClosedTime === bounty.bountyClosedTime) {
 				newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
 				await sleep(500);
 			}

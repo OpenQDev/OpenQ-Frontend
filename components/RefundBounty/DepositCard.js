@@ -68,7 +68,7 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 									<input
 										className="flex w-full md:w-12 text-primary text-right number outline-none bg-dark-mode"
 										autoComplete="off"
-										value={depositPeriodDays}
+										value={depositPeriodDays || 0}
 										name={deposit.id}
 										id="deposit-period"
 										onChange={onDepositPeriodChanged}
