@@ -53,9 +53,9 @@ const BountyCardDetails = ({ bounty, setInternalMenu, justMinted }) => {
 	return (
 		<div className='flex w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
 			<div className='flex-1 pr-4 min-w-[260px]'>
-				<ActionBubble  addresses={addresses} address={sender} price={tokenValues?.total} bounty={bounty} bodyHTML={bounty.bodyHTML}/>
 				{allActions.map((action, index)=><ActionBubble address={action.sender?.id ||action.claimant?.id||sender } key={index} bounty={bounty} action={action} /> )}
-		
+				<ActionBubble  addresses={addresses} address={sender} price={tokenValues?.total} bounty={bounty} bodyHTML={bounty.bodyHTML}/>
+				
 			</div>
 			<BountyMetadata bounty={bounty} setInternalMenu={setInternalMenu} price={tokenValues?.total}/>
 		</div>
