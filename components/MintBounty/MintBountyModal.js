@@ -115,7 +115,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 				data = { fundingTokenVolume: volume, fundingTokenAddress: token };
 				break;
 			case 'Tiered':
-				data = { tiers: tierArr };
+				data = { fundingTokenVolume: volume, fundingTokenAddress: token, tiers: tierArr };
 				break;
 			default:
 				throw new Error(`No type: ${toggleType}`);
