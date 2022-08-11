@@ -5,12 +5,14 @@ import Link from 'next/link';
 import StoreContext from '../../store/Store/StoreContext';
 import starOrganization from './starOrganization';
 import useWeb3 from '../../hooks/useWeb3';
+import { useRouter } from 'next/router';
 
 const HorizontalOrganizationCard = ({ organization }) => {
 	const [starred, setStarred] = useState();
 	const [starredDisabled, setStarredDisabled] = useState(true);
 	const context = useContext(StoreContext);
 	const {account } = useWeb3();
+	const router = useRouter();
 
 	useEffect(()=>{
 		setStarredDisabled(true);
@@ -34,7 +36,7 @@ const HorizontalOrganizationCard = ({ organization }) => {
 			</div>
 			<div>
 				<h2 className='text-xl mt-1 leading-tight text-primary hover:text-link-colour'>
-					<Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/organization/${organization.login}`}>
+					<Link href={organization ? router?.query.type ? `/organization/${organization.login}${`?type=${router.query.type}`}`: `/organization/${organization.login}` : '/'}>
 						<a>
 							{organization.name|| organization.login}
 						</a>
