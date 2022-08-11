@@ -12,11 +12,13 @@ import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgrap
 import WrappedOpenQPrismaClient from '../services/openq-api/WrappedOpenQPrismaClient';
 import Utils from '../services/utils/Utils';
 import SubMenu from '../components/Utils/SubMenu';
+import UnexpectedError from '../components/Utils/UnexpectedError';
 
-export default function Index({ orgs, fullBounties, batch, types }) {
+export default function Index({ orgs, fullBounties, batch, types, renderError }) {
 	useAuth();
 
-	// State
+	// State	
+	const [error, setError] = useState(renderError);
 	const [internalMenu, setInternalMenu] = useState('Issues');
 	const [controlledOrgs, setControlledOrgs] = useState(orgs);
 	const [bounties, setBounties] = useState(fullBounties);
@@ -66,8 +68,7 @@ export default function Index({ orgs, fullBounties, batch, types }) {
 					})
 				);
 			} catch (err) {
-				console.log(err);
-				console.log('could not fetch watched bounties');
+				setError('OpenQ could not fetch watched bounties.');
 			}
 		}
 	}, [account]);
@@ -79,12 +80,6 @@ export default function Index({ orgs, fullBounties, batch, types }) {
 		setPagination(() => currentPagination + batch);
 		let newBounties = [];
 		let complete = false;
-		console.log(orderBy);
-		// WHAT ABOUT POPULAR?
-		// tvl needs to sort by bounty type. Bounty type needs to be exposed in API.
-		// Bounty type needs to be created / updated in api
-		// needs to be necessary
-		// handle sort by tvl
 		if (orderBy) {
 			try {
 				const prismaBounties = await appState.openQPrismaClient.getBountyPage(
@@ -116,6 +111,7 @@ export default function Index({ orgs, fullBounties, batch, types }) {
 					}
 				);
 			} catch (err) {
+				console.log(err);
 				console.log('complete');
 			}
 		} else {
@@ -173,30 +169,35 @@ export default function Index({ orgs, fullBounties, batch, types }) {
 				
 			</div>
 			<div>
-				{internalMenu == 'Organizations' ? (
-					<OrganizationHomepage orgs={controlledOrgs} />
-				) : (
-					<BountyHomepage
-						type={types}
-						bounties={bounties}
-						watchedBounties={watchedBounties}
-						loading={isLoading}
-						getMoreData={getMoreData}
-						complete={complete}
-						getNewData={getNewData}
-					/>
-				)}
+				{
+				
+					error?
+						<UnexpectedError error={error}/>:
+
+						internalMenu == 'Organizations' ? (
+							<OrganizationHomepage orgs={controlledOrgs} />
+						) : (
+							<BountyHomepage
+								type={types}
+								bounties={bounties}
+								watchedBounties={watchedBounties}
+								loading={isLoading}
+								getMoreData={getMoreData}
+								complete={complete}
+								getNewData={getNewData}
+							/>
+						)}
 			</div>
 		</main>
 	);
 }
 
 export const getServerSideProps = async (ctx) => {
-	let types =['1', '2','3'];
+	let types =['0','1', '2'];
 
 	switch(ctx?.query?.type){
 	case 'atomic-contracts':
-		types=['3'];
+		types=['0'];
 		break;
 	case 'contests':
 		types=['2'];
@@ -215,9 +216,9 @@ export const getServerSideProps = async (ctx) => {
 	githubRepository.instance.setGraphqlHeaders();
 	const batch = 10;
 	
-	let [mergedOrgs, renderError] =await utils.fetchOrganizations({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance}, types);
-	const [fullBounties] = await utils.fetchBounties({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance}, types, batch);
-	
+	const [mergedOrgs, orgRenderError] =await utils.fetchOrganizations({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance}, types);
+	const [fullBounties, bountyRenderError] = await utils.fetchBounties({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance}, types, batch);
+	const renderError = bountyRenderError||orgRenderError;
 	return {
 		props: {
 			orgs: mergedOrgs,

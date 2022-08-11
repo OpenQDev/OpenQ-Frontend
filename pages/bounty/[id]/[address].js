@@ -113,7 +113,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 	}, [internalMenu]);
 
 	useEffect(()=> {
-		setInternalMenu('View')
+		setInternalMenu('View');
 	}, [account]);
 
 	// Hooks
@@ -214,7 +214,7 @@ export const getServerSideProps = async (context) => {
 	}
 	catch (err) {
 		console.log(err);
-		renderError = 'OpenQ could not find the issue connected this to bounty on Github.';
+		renderError = 'OpenQ could not find the issue connected to this to contract on Github.';
 	}
 	try {
 		bounty = await openQSubgraphClient.instance.getBounty(address, 'no-cache');
@@ -224,7 +224,7 @@ export const getServerSideProps = async (context) => {
 		mergedBounty = { ...issueData, ...bountyMetadata, ...bounty, bountyAddress: address };
 	}
 	catch (err) {
-		renderError = `OpenQ could not find a bounty with address: ${address}.`;
+		renderError = `OpenQ could not find a contract with address: ${address}.`;
 	}
 	return { props: { id, address, mergedBounty, renderError } };
 };

@@ -120,7 +120,7 @@ class Utils {
 		return fullBounties;
 	};
 
-	fetchOrganizations = async({openQSubgraphClient, githubRepository, openQPrismaClient},  types=['1', '2','3'])=>{
+	fetchOrganizations = async({openQSubgraphClient, githubRepository, openQPrismaClient},  types=['0', '1', '2'])=>{
 
 		let orgs = [];
 		let renderError = '';
@@ -136,16 +136,19 @@ class Utils {
 			orgMetadata = await openQPrismaClient.getOrgsMetadata(ids);
 		}
 
-		catch(err){
-			console.log( err);
+		catch(err){		
+			if(!renderError){	
+				renderError = 'OpenQ cannot fetch organization metadata.';
+			}
 		}
 		try {
 			githubOrganizations = await githubRepository.fetchOrgsOrUsersByIds(
 				ids
 			);
-			renderError = 'OpenQ is unable to connect with Github.';
 		} catch (err) {
-			console.log(err);
+			if(!renderError){
+				renderError = 'OpenQ is unable to connect with Github.';
+			}
 		}
 		const mergedOrgs = orgs.map((org) => {
 			let currentGithubOrg;
@@ -168,8 +171,8 @@ class Utils {
 		return [mergedOrgs, renderError];
 	};
 
-	fetchBounties = async({openQSubgraphClient, githubRepository, openQPrismaClient},  types=['1', '2','3'], batch)=>{
-		let renderError='';
+	fetchBounties = async({openQSubgraphClient, githubRepository, openQPrismaClient},  types=['0','1', '2',], batch)=>{
+		let subgraphError='';
 		let newBounties = [];
 		try {
 			newBounties = await openQSubgraphClient.getAllBounties(
@@ -191,13 +194,12 @@ class Utils {
 					},
 				};
 			} else {
-				console.log(err);
-				renderError = 'OpenQ is unable to display bounties.';
+				subgraphError = 'OpenQ is unable to display contracts.';
 			}
 		}
 		
 		const [fullBounties, fetchingError] = await  this.fillBountiesFromBountyAddresses(newBounties, openQPrismaClient, githubRepository);
-		renderError = fetchingError;
+		const renderError = subgraphError || fetchingError;
 		return [fullBounties, renderError];
 	};
 

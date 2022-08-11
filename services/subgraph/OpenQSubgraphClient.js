@@ -81,12 +81,12 @@ class OpenQSubgraphClient {
 		return promise;
 	}
 
-	async getBountiesByContractAddresses(contractAddresses) {
+	async getBountiesByContractAddresses(contractAddresses, types=['0','1','2']) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
 					query: GET_BOUNTIES_BY_CONTRACT_ADDRESSES,
-					variables: { contractAddresses }
+					variables: { contractAddresses, types }
 				});
 				resolve(result.data.bounties);
 			} catch (e) {

@@ -262,6 +262,7 @@ query GetOrganization($id: ID!, $skip: Int, $order: String, $first: Int, ) {
 		bountyClosedTime
 		claimedTransactionHash
 		status
+		bountyType
 		deposits {
 			id
 			refunded
