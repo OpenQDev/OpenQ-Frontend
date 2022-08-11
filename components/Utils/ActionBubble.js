@@ -62,7 +62,7 @@ const ActionBubble = ({ addresses, bounty, action,})=>{
 	
 	if(action?.receiveTime||action?.refundTime){
 		const funder = senderEnsName ||shortenAddress(bounty.issuer.id);
-		address = bounty.issuer.id;
+		address = action.sender.id;
 		const { volume } = action;
 		const tokenMetadata = appState.tokenClient.getToken(action.tokenAddress);
 		let bigNumberVolume = ethers.BigNumber.from(volume.toString());

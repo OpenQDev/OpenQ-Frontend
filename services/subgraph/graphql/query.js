@@ -1,8 +1,9 @@
 import { gql } from '@apollo/client';
 
 export const GET_ALL_BOUNTIES = gql`
-query GetAllIssues($skip: Int! $sortOrder: String!, $quantity: Int!) {
-  bounties(orderBy: bountyMintTime, orderDirection: $sortOrder, first: $quantity, skip: $skip) {
+query GetAllIssues($skip: Int! $sortOrder: String!, $quantity: Int! $types: [String]!) {
+  bounties(orderBy: bountyMintTime, orderDirection: $sortOrder, first: $quantity, skip: $skip, 
+    where: {bountyType_in: $types}) {
     bountyAddress
     bountyId
     bountyMintTime
@@ -142,7 +143,7 @@ query GetBountyById($id: ID!) {
 export const GET_BOUNTIES_BY_CONTRACT_ADDRESSES = gql`
 query GetBountiesByContractAddresses($contractAddresses: [ID]!) {
   bounties(where: {bountyAddress_in: $contractAddresses}) {
-       bountyAddress
+    bountyAddress
     bountyId
     bountyMintTime
     bountyClosedTime
@@ -405,8 +406,8 @@ query getOrgs($organizationIds: [ID!]!) {
 }`;
 
 export const GET_ORGANIZATIONS = gql`
-query GetOrganizations {
-  organizations {
+query GetOrganizations($types: [String!]!) {
+  organizations(where: {bountiesCreated_: {bountyType_in: $types}}) {
     id
     bountiesCreated {
 			bountyAddress

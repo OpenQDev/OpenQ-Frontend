@@ -238,12 +238,12 @@ class OpenQPrismaClient {
 		return promise;
 	}
 
-	async getBountyPage(after, limit, orderBy, sortOrder, organizationId) {
+	async getBountyPage(after, limit, orderBy, sortOrder, types, organizationId) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
 					query: GET_BOUNTY_PAGE,
-					variables: { after, limit, orderBy, sortOrder, organizationId },
+					variables: { after, limit, orderBy, sortOrder, organizationId, types },
 					fetchPolicy: 'no-cache'
 				});
 				resolve(result.data);

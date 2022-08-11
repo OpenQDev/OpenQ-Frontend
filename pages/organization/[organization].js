@@ -17,6 +17,7 @@ import OrganizationContent from '../../components/Organization/OrganizationConte
 
 
 const organization = ({ organizationData, fullBounties, batch, renderError }) => {
+	const types =['1', '2','3'];
 	useAuth();
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -36,7 +37,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError }) =>
 		let newBounties = [];
 		if (orderBy === 'tvl') {
 			try {
-				const prismaBounties = await appState.openQPrismaClient.getBountyPage(cursor, batch, 'tvl', sortOrder, organizationData.id);
+				const prismaBounties = await appState.openQPrismaClient.getBountyPage(cursor, batch, 'tvl', sortOrder,types, organizationData.id);
 				const addresses = prismaBounties.bountiesConnection.bounties.map(bounty => bounty.address.toLowerCase());
 				setOffChainCursor(prismaBounties.bountiesConnection.cursor);
 				const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(addresses);
