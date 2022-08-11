@@ -44,17 +44,23 @@ class OpenQClient {
 					}
 					break;
 				case 'Ongoing':
-					console.log('data.fundingTokenAddress.address', data.fundingTokenAddress.address);
-					const volumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
-					const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
-					console.log('bigNumberVolumeInWei', bigNumberVolumeInWei);
-					const ongoingAbiEncodedParams = abiCoder.encode(["address", "uint256", "bool", "address", "uint256"], [data.fundingTokenAddress.address, bigNumberVolumeInWei, true, data.fundingTokenAddress.address, bigNumberVolumeInWei]);
-					bountyInitOperation = [1, ongoingAbiEncodedParams];
+					{
+						console.log('data.fundingTokenAddress.address', data.fundingTokenAddress.address);
+						const volumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
+						const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
+						console.log('bigNumberVolumeInWei', bigNumberVolumeInWei);
+						const ongoingAbiEncodedParams = abiCoder.encode(["address", "uint256", "bool", "address", "uint256"], [data.fundingTokenAddress.address, bigNumberVolumeInWei, true, data.fundingTokenAddress.address, bigNumberVolumeInWei]);
+						bountyInitOperation = [1, ongoingAbiEncodedParams];
+					}
 					break;
 				case 'Tiered':
-					console.log(data.tiers);
-					const tieredAbiEncodedParams = abiCoder.encode(["uint256[]", "bool", "address", "uint256"], [[80, 20], true, data.fundingTokenAddress.address, bigNumberVolumeInWei]);
-					bountyInitOperation = [2, tieredAbiEncodedParams];
+					{
+						console.log(data.tiers);
+						const volumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
+						const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
+						const tieredAbiEncodedParams = abiCoder.encode(["uint256[]", "bool", "address", "uint256"], [[80, 20], true, data.fundingTokenAddress.address, bigNumberVolumeInWei]);
+						bountyInitOperation = [2, tieredAbiEncodedParams];
+					}
 					break;
 				default:
 					throw new Error('Unknown Bounty Type');
