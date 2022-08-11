@@ -22,8 +22,12 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 	// State
 	const [error, setError] = useState('');
 	const [showButton, setShowButton] = useState(ethers.utils.getAddress(bounty.issuer.id) == account && !bounty.bountyClosedTime)
-	const [volume, setVolume] = useState('');
+		// funding goal volume and token
+	const [volume, setVolume] = useState(''); 
 	const [token, setToken] = useState(zeroAddressMetadata);
+		// payout volume and token
+	const [payoutVolume, setPayoutVolume] = useState('');
+	const [payoutToken, setPayoutToken] = useState(zeroAddressMetadata);
 	
 
 	async function closeCompetition() {
@@ -52,6 +56,8 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 		}
 	}
 
+	// handle change in Funding Goal
+
 	function onCurrencySelect(token) {
 		setToken({ ...token, address: ethers.utils.getAddress(token.address) });
 	}
@@ -59,6 +65,18 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 	function onVolumeChange(volume) {
 		appState.utils.updateVolume(volume, setVolume);
 	}
+
+	// handle change in Payout
+
+	function onPayoutTokenSelect(payoutToken) {
+		setPayoutToken({ ...payoutToken, address: ethers.utils.getAddress(payoutToken.address) });
+	}
+
+	function onPayoutVolumeChange(payoutVolume) {
+		appState.utils.updateVolume(payoutVolume, setPayoutVolume)
+	}
+
+	// trigger smart contracts
 
 	async function setBudget() {
 		try {
@@ -75,9 +93,9 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 
 	async function setPayout() {
 		try {
-			await appState.openQClient.setPayout(library, bounty.bountyId, token, volume);
+			await appState.openQClient.setPayout(library, bounty.bountyId, payoutToken, payoutVolume);
 			refreshBounty();
-			setVolume('');
+			setPayoutVolume('');
 		} catch (error) {
 			console.log(error);
 			const { message, title } = appState.openQClient.handleError(error, { bounty });
@@ -131,10 +149,10 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 										{console.log(bounty)}
 										<div className='flex-1 items-center w-full mt-2'>
 											<TokenFundBox
-												onCurrencySelect={onCurrencySelect}
-												onVolumeChange={onVolumeChange}
-												token={token}
-												volume={volume}
+												onCurrencySelect={onPayoutTokenSelect}
+												onVolumeChange={onPayoutVolumeChange}
+												token={payoutToken}
+												volume={payoutVolume}
 											/>
 										</div>
 										<button
