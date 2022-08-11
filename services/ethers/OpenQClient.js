@@ -35,29 +35,29 @@ class OpenQClient {
 			let bountyInitOperation;
 			let abiCoder = new ethers.utils.AbiCoder;
 			switch (type) {
-				case 'Atomic':
-					{
-						const volumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
-						const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
-						const fundingGoalBountyParams = abiCoder.encode(["bool", "address", "uint256"], [true, data.fundingTokenAddress.address, bigNumberVolumeInWei]);
-						bountyInitOperation = [0, fundingGoalBountyParams];
-					}
-					break;
-				case 'Ongoing':
-					console.log('data.fundingTokenAddress.address', data.fundingTokenAddress.address);
+			case 'Atomic':
+				{
 					const volumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
 					const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
-					console.log('bigNumberVolumeInWei', bigNumberVolumeInWei);
-					const ongoingAbiEncodedParams = abiCoder.encode(["address", "uint256", "bool", "address", "uint256"], [data.fundingTokenAddress.address, bigNumberVolumeInWei, true, data.fundingTokenAddress.address, bigNumberVolumeInWei]);
-					bountyInitOperation = [1, ongoingAbiEncodedParams];
-					break;
-				case 'Tiered':
-					console.log(data.tiers);
-					const tieredAbiEncodedParams = abiCoder.encode(["uint256[]", "bool", "address", "uint256"], [[80, 20], true, data.fundingTokenAddress.address, bigNumberVolumeInWei]);
-					bountyInitOperation = [2, tieredAbiEncodedParams];
-					break;
-				default:
-					throw new Error('Unknown Bounty Type');
+					const fundingGoalBountyParams = abiCoder.encode(['bool', 'address', 'uint256'], [true, data.fundingTokenAddress.address, bigNumberVolumeInWei]);
+					bountyInitOperation = [0, fundingGoalBountyParams];
+				}
+				break;
+			case 'Ongoing':
+				console.log('data.fundingTokenAddress.address', data.fundingTokenAddress.address);
+				const volumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
+				const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
+				console.log('bigNumberVolumeInWei', bigNumberVolumeInWei);
+				const ongoingAbiEncodedParams = abiCoder.encode(['address', 'uint256', 'bool', 'address', 'uint256'], [data.fundingTokenAddress.address, bigNumberVolumeInWei, true, data.fundingTokenAddress.address, bigNumberVolumeInWei]);
+				bountyInitOperation = [1, ongoingAbiEncodedParams];
+				break;
+			case 'Tiered':
+				console.log(data.tiers);
+				const tieredAbiEncodedParams = abiCoder.encode(['uint256[]', 'bool', 'address', 'uint256'], [[80, 20], true, data.fundingTokenAddress.address, bigNumberVolumeInWei]);
+				bountyInitOperation = [2, tieredAbiEncodedParams];
+				break;
+			default:
+				throw new Error('Unknown Bounty Type');
 			}
 
 			console.log('bountyInitOperation', bountyInitOperation);
@@ -96,6 +96,7 @@ class OpenQClient {
 	}
 
 	async allowance(library, _tokenAddress) {
+		console.log(library, this.allowance);
 		const promise = new Promise(async (resolve) => {
 			try {
 				const signer = library.getSigner();

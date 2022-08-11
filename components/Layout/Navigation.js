@@ -155,28 +155,41 @@ const Navigation = () => {
 									placeholder="Search OpenQ"
 								></input>
 								{quickSearch && <LinkDropdown  items= {items}/>}</div>
-							<Link href={'/'}>
+							<Link href={'/atomic-contracts'}>
 								<a >
-									<div className="mx-2 text-[0.8rem] tracking-wider text-nav-text md:hover:opacity-70 font-bold hover:cursor-pointer">
+									<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath ==='/atomic-contracts' && 'text-white'}`}>
 										Atomic contracts
 									</div>
 								</a>
 							</Link>
-							<ToolTipNew toolTipText={'Coming soon'} >
-								<div className="mx-2 text-[0.8rem] tracking-wider text-nav-text md:hover:opacity-70 font-bold hover:cursor-pointer opacity-20">
+							<Link href={'/contests'}>
+								<a >
+									<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath ==='/contests' && 'text-white'}`}>
 									Contests
-								</div>
-							</ToolTipNew>
-							<ToolTipNew toolTipText={'Coming soon'} >
-								<div className="mx-2 text-[0.8rem] tracking-wider text-nav-text md:hover:opacity-70 font-bold hover:cursor-pointer opacity-20">
-									Communities
-								</div>
-							</ToolTipNew>
-							<ToolTipNew toolTipText={'Coming soon'} >
-								<div className="mx-2 text-[0.8rem] tracking-wider text-nav-text md:hover:opacity-70 font-bold hover:cursor-pointer opacity-20">
+									</div>
+								</a>
+							</Link>
+							<Link href={'/repeatable'}>
+								<a >
+									<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath ==='/repeatable' && 'text-white'}`}>
+									Repeatable
+									</div>
+								</a>
+							</Link>
+							<Link href={'/organizations'}>
+								<a >
+									<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath ==='/organizations' && 'text-white'}`}>
+									Organizations
+									</div>
+								</a>
+							</Link>
+							<Link href={'/'}>
+								<a >
+									<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath ==='/' && 'text-white'}`}>
 									Explore
-								</div>
-							</ToolTipNew>
+									</div>
+								</a>
+							</Link>
 						</div>
 					</div>
 					<div className="flex items-center text-[0.8rem] md:text-[1rem]">
@@ -215,7 +228,12 @@ const Navigation = () => {
 						</ToolTipNew>
 						<ToolTipNew toolTipText={'Coming soon'} >
 							<div className="flex text-[0.8rem] pt-1 border-t border-gray-700 tracking-wider text-nav-text font-bold text-opacity-20">
-								Communities
+								Repeatable
+							</div>
+						</ToolTipNew>
+						<ToolTipNew toolTipText={'Coming soon'} >
+							<div className="flex text-[0.8rem] pt-1 border-t border-gray-700 tracking-wider text-nav-text font-bold text-opacity-20">
+								Organizations
 							</div>
 						</ToolTipNew>
 						<ToolTipNew toolTipText={'Coming soon'} >

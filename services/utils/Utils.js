@@ -110,7 +110,7 @@ class Utils {
 			const relatedMetadata = metadata.find((metadataBounty) => {
 				return metadataBounty.address?.toLowerCase() === bounty.bountyAddress;
 			}) || {};
-			if (relatedIssue && relatedMetadata) {
+			if (relatedIssue && relatedMetadata && !relatedMetadata.blacklisted) {
 				let mergedBounty = { ...relatedIssue, ...bounty, ...relatedMetadata };
 				fullBounties.push(mergedBounty);
 			}
@@ -120,29 +120,132 @@ class Utils {
 		return fullBounties;
 	};
 
-		mergeOrdered = (left, right, lProperty, rProperty)=>{
-			const mergedArr = [];		
-			let il= 0, ir =0, i =0;
-			while(il<left.length && ir <right.length ){
-				if(left[il][lProperty]> right[ir][rProperty]){
-					mergedArr[i++] = left[il++];
-				}
-				else{
-					mergedArr[i++] = right[ir++];
+	fetchOrganizations = async({openQSubgraphClient, githubRepository, openQPrismaClient},  types=['1', '2','3'])=>{
+
+		let orgs = [];
+		let renderError = '';
+		try {
+			orgs = await openQSubgraphClient.getOrganizations(types);
+		} catch (error) {
+			renderError = 'OpenQ is having trouble loading data.';
+		}
+		const ids = orgs.map((org) => org.id);
+		let githubOrganizations = [];
+		let orgMetadata = [];
+		try{	
+			orgMetadata = await openQPrismaClient.getOrgsMetadata(ids);
+		}
+
+		catch(err){
+			console.log( err);
+		}
+		try {
+			githubOrganizations = await githubRepository.fetchOrgsOrUsersByIds(
+				ids
+			);
+			renderError = 'OpenQ is unable to connect with Github.';
+		} catch (err) {
+			console.log(err);
+		}
+		const mergedOrgs = orgs.map((org) => {
+			let currentGithubOrg;
+			let currentMetadatum={};
+			for (const orgMetadatum of orgMetadata) {
+				if (org.id === orgMetadatum.id) {
+					currentMetadatum = orgMetadatum;
 				}
 			}
-			if(left[ir]){
-				while(il<left.length){
-					mergedArr[i++] = left[il++];
+			for (const githubOrganization of githubOrganizations) {
+				if (org.id === githubOrganization.id) {
+					currentGithubOrg = githubOrganization;
 				}
 			}
-			if(right[ir]){
-				while( right[ir]?.[rProperty]){
-					mergedArr[i++] = right[ir++];		
-				}
+			return { ...currentMetadatum, ...org, ...currentGithubOrg };
+		}).filter((org)=>{
+			return !org.blacklisted;
+		});
+
+		return [mergedOrgs, renderError];
+	};
+
+	fetchBounties = async({openQSubgraphClient, githubRepository, openQPrismaClient},  types=['1', '2','3'], batch)=>{
+		let renderError='';
+		let newBounties = [];
+		try {
+			newBounties = await openQSubgraphClient.getAllBounties(
+				'desc',
+				0,
+				batch, types
+			);
+		} catch (err) {
+			if (
+				err.message.includes(
+					'Wait for it to ingest a few blocks before querying it'
+				)
+			) {
+				console.log('graph empty');
+				return {
+					props: {
+						orgs: [],
+						fullBounties: [],
+					},
+				};
+			} else {
+				console.log(err);
+				renderError = 'OpenQ is unable to display bounties.';
 			}
-			return mergedArr;
-		};
+		}
+		
+		const [fullBounties, fetchingError] = await  this.fillBountiesFromBountyAddresses(newBounties, openQPrismaClient, githubRepository);
+		renderError = fetchingError;
+		return [fullBounties, renderError];
+	};
+
+	fillBountiesFromBountyAddresses = async(newBounties, openQPrismaClient, githubRepository )=>{
+		let renderError='';
+		const bountyIds = newBounties.map((bounty) => bounty.bountyId);
+		const bountyAddresses = newBounties.map((bounty)=>bounty.bountyAddress);
+		let bountyMetadata = [];
+		try{
+			bountyMetadata = await openQPrismaClient.getBlackListed(bountyAddresses);
+		}
+		catch(err){
+			console.log(err);}
+		
+		// Fetch from Github
+		let issueData = [];
+		try {
+			issueData = await githubRepository.getIssueData(bountyIds);
+		} catch (err) {
+			renderError = 'OpenQ is unable to connect with Github.';
+		}
+		return  [this.combineBounties(newBounties, issueData, bountyMetadata), renderError];
+
+	};
+
+	mergeOrdered = (left, right, lProperty, rProperty)=>{
+		const mergedArr = [];		
+		let il= 0, ir =0, i =0;
+		while(il<left.length && ir <right.length ){
+			if(left[il][lProperty]> right[ir][rProperty]){
+				mergedArr[i++] = left[il++];
+			}
+			else{
+				mergedArr[i++] = right[ir++];
+			}
+		}
+		if(left[ir]){
+			while(il<left.length){
+				mergedArr[i++] = left[il++];
+			}
+		}
+		if(right[ir]){
+			while( right[ir]?.[rProperty]){
+				mergedArr[i++] = right[ir++];		
+			}
+		}
+		return mergedArr;
+	};
 
 	capitalize = (word) =>{
 		return word[0].toUpperCase() + word.substring(1);
