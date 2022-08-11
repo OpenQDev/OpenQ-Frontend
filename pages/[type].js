@@ -4,17 +4,21 @@ import StoreContext from '../store/Store/StoreContext';
 
 // Custom
 import BountyHomepage from '../components/Bounty/BountyHomepage';
+import OrganizationHomepage from '../components/Organization/OrganizationHomepage';
 import useWeb3 from '../hooks/useWeb3';
 import useAuth from '../hooks/useAuth';
 import WrappedGithubClient from '../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../services/openq-api/WrappedOpenQPrismaClient';
 import Utils from '../services/utils/Utils';
+import SubMenu from '../components/Utils/SubMenu';
 
-export default function Index({  fullBounties, batch, types }) {
+export default function Index({ orgs, fullBounties, batch, types }) {
 	useAuth();
 
 	// State
+	const [internalMenu, setInternalMenu] = useState('Issues');
+	const [controlledOrgs, setControlledOrgs] = useState(orgs);
 	const [bounties, setBounties] = useState(fullBounties);
 	const [isLoading, setIsLoading] = useState(false);
 	const [complete, setComplete] = useState(false);
@@ -24,12 +28,25 @@ export default function Index({  fullBounties, batch, types }) {
 
 	// Context
 	const [appState] = useContext(StoreContext);
+	const {reloadNow} = appState;
 	const { account } = useWeb3();
 
+
+
 	// Hooks
+	useEffect(async()=>{
+
+		// handle org reload events (caused by user starring org.)
+		if(reloadNow){		
+			const [mergedOrgs] = await appState.utils.fetchOrganizations(appState, types);
+			setControlledOrgs(mergedOrgs);
+		}
+
+	},[reloadNow]);
+
 	useEffect(async () => {
-		if (account) {
 		// get watched bounties as soon as we know what the account is.
+		if (account) {
 			try {
 				const prismaBounties = await appState.openQPrismaClient.getUser(
 					account
@@ -49,31 +66,37 @@ export default function Index({  fullBounties, batch, types }) {
 					})
 				);
 			} catch (err) {
+				console.log(err);
 				console.log('could not fetch watched bounties');
 			}
 		}
 	}, [account]);
 
 	// Methods
+
 	// General method for getting bounty data, used by pagination and handlers.
 	async function getBountyData(sortOrder, currentPagination, orderBy, cursor) {
 		setPagination(() => currentPagination + batch);
 		let newBounties = [];
 		let complete = false;
+		console.log(orderBy);
 		// WHAT ABOUT POPULAR?
 		// tvl needs to sort by bounty type. Bounty type needs to be exposed in API.
 		// Bounty type needs to be created / updated in api
 		// needs to be necessary
 		// handle sort by tvl
-		console.log(orderBy);
-		if (orderBy) {
+		if (orderBy === 'tvl') {
 			try {
 				const prismaBounties = await appState.openQPrismaClient.getBountyPage(
 					cursor,
 					batch,
-					orderBy,
-					sortOrder
+					'tvl',
+					sortOrder,
+					types
 				);
+				if(prismaBounties.length===0){
+					complete = true;
+				}
 				const addresses = prismaBounties.bountiesConnection.bounties.map(
 					(bounty) => bounty.address.toLowerCase()
 				);
@@ -96,17 +119,19 @@ export default function Index({  fullBounties, batch, types }) {
 				console.log('complete');
 			}
 		} else {
+		// handle un sort by tvl
 			try {
 				newBounties = await appState.openQSubgraphClient.getAllBounties(
 					sortOrder,
 					currentPagination,
-					batch, types
+					batch,
+					types
 				);
 			} catch (err) {
 				console.log('no bounties');
 			}
 		}
-		
+		console.log(newBounties.length);
 		if(newBounties?.length===0){
 			complete = true;}
 		const [fullBounties] = await  appState.utils.fillBountiesFromBountyAddresses(newBounties, appState.openQPrismaClient, appState.githubRepository);
@@ -141,34 +166,61 @@ export default function Index({  fullBounties, batch, types }) {
 
 	return (
 		<main className="bg-dark-mode flex-col">
-		
-			<BountyHomepage
-				type={types}
-				bounties={bounties}
-				watchedBounties={watchedBounties}
-				loading={isLoading}
-				getMoreData={getMoreData}
-				complete={complete}
-				getNewData={getNewData}
-			/>
+			<div className="flex justify-center">
+				<SubMenu updatePage={setInternalMenu} internalMenu={internalMenu} 
+					styles={'justify-center'}
+					items={[ {name: 'Issues'},{name: 'Organizations'}]}/>
 				
+			</div>
+			<div>
+				{internalMenu == 'Organizations' ? (
+					<OrganizationHomepage orgs={controlledOrgs} />
+				) : (
+					<BountyHomepage
+						type={types}
+						bounties={bounties}
+						watchedBounties={watchedBounties}
+						loading={isLoading}
+						getMoreData={getMoreData}
+						complete={complete}
+						getNewData={getNewData}
+					/>
+				)}
+			</div>
 		</main>
 	);
 }
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async (ctx) => {
+	let types =['1', '2','3'];
+
+	switch(ctx?.query?.type){
+	case 'atomic-contracts':
+		types=['3'];
+		break;
+	case 'contests':
+		types=['2'];
+		break;
+	case 'repeatable':
+		types=['1'];
+		break;
+
+
+	}
+
 	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
 	const githubRepository = new WrappedGithubClient();
 	const openQPrismaClient = new WrappedOpenQPrismaClient();
 	const utils = new Utils();
 	githubRepository.instance.setGraphqlHeaders();
 	const batch = 3;
-	const types=['1','2','3'];
 	
-	const [fullBounties, renderError] = await utils.fetchBounties({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance}, types, batch);
+	let [mergedOrgs, renderError] =await utils.fetchOrganizations({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance}, types);
+	const [fullBounties] = await utils.fetchBounties({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance}, types, batch);
 	
 	return {
 		props: {
+			orgs: mergedOrgs,
 			fullBounties,
 			renderError,
 			batch,

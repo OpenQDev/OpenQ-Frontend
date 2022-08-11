@@ -128,7 +128,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 			console.log('Mint bounty data:', data)
 			sessionStorage.setItem('justMinted', true);
 			router.push(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress}`
+				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress.toLowerCase()}`
 			);
 		} catch (error) {
 			console.log('error in mintbounty', error);

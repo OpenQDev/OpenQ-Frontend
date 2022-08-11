@@ -13,13 +13,15 @@ const BountyHomepage = ({
 	getMoreData,
 	getNewData,
 	error,
+	type
 }) => {
+	const title = type[0] === '3'? 'Repeatable Contracts': type[0]==='2'? 'Contests' : 'Atomic Contracts';
 	// Render
 	return (
 		<div>
 			<div className="text-center bg-[#161B22] py-14 ">
 				<div className="text-2xl font-bold">Explore Issues</div>
-				<div className="text-gray-500 text-md">GitHub issues backed by OpenQ escrows.</div>
+				<div className="text-gray-500 text-md">GitHub issues backed by OpenQ {title||'escrows'}.</div>
 			</div>
 			<div className="lg:grid lg:grid-cols-extra-wide mx-4 sm:mx-8 xl:grid-cols-wide justify-center md:pr-3 pt-10">
 				{error ? (
