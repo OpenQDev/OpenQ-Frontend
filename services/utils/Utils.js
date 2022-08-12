@@ -166,7 +166,7 @@ class Utils {
 			return { ...currentMetadatum, ...org, ...currentGithubOrg };
 		}).filter((org)=>{
 			return !org.blacklisted;
-		});
+		})||[];
 
 		return [mergedOrgs, renderError];
 	};
@@ -224,6 +224,34 @@ class Utils {
 		return  [this.combineBounties(newBounties, issueData, bountyMetadata), renderError];
 
 	};
+
+	fetchWatchedBounties = async({openQSubgraphClient, githubRepository, openQPrismaClient}, account,  types=['0', '1', '2'],)=>{
+		let subgraphBounties=[];
+		let githubBounties=[];
+		try {
+			const prismaBounties = await openQPrismaClient.getUser(
+				account
+			);
+			console.log(prismaBounties);
+			const watchedBountyAddresses = prismaBounties?.watchedBountyIds.map(
+				(address) => address.toLowerCase()
+			);
+			subgraphBounties =
+          await openQSubgraphClient.getBountiesByContractAddresses(watchedBountyAddresses, types);
+			const githubIds = subgraphBounties.map((bounty) => bounty.bountyId);
+			githubBounties = await githubRepository.getIssueData(
+				githubIds
+			);
+		
+		} catch (err) {
+			return [];
+		}
+		const watchedBounties =  	subgraphBounties.map((bounty, index) => {
+			return { ...bounty, ...githubBounties[index] };
+		});
+		return [watchedBounties];
+	}
+
 
 	mergeOrdered = (left, right, lProperty, rProperty)=>{
 		const mergedArr = [];		
