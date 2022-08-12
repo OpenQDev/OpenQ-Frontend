@@ -1,7 +1,5 @@
 // Third Party
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
-import {ethers} from 'ethers';
 import Link from 'next/link';
 
 // Custom
@@ -15,62 +13,24 @@ const RepoTitle = ({bounty})=>{
 	const [appState, dispatch] = useContext(StoreContext);
 	const {account} = useWeb3();
 
-	useEffect(() => {
-		const watching = bounty?.watchingUserIds?.some(user => user === account);
-		setWatchingDisplay(watching);
+	useEffect(async() => {		
+		if(account){
+			const user = await appState.openQPrismaClient.getUser(account);
+			if(user){
+
+				const watching = user.watchedBountyIds?.some(bountyAddress => bountyAddress === bounty.address);
+				setWatchingDisplay(watching);
+			}
+		}
 	}, [account]);
 
-	const signMessage = async () => {
-		const message = 'OpenQ';
-		const signature = await window.ethereum
-			.request({
-				method: 'personal_sign',
-				params: [message, account]
-			});
-		return signature;
+
+	const watchBounty = async()=>{
+		setWatchDisabled(true);
+		await appState.utils.watchBounty([appState, dispatch], account, bounty, watchingDisplay, setWatchingDisplay, watchDisabled);
+		setWatchDisabled(false);
 	};
-	const watchBounty = async () => {
-		if(!account){const payload = {
-			type: 'CONNECT_WALLET',
-			payload: true
-		};
-		dispatch(payload);
-		return; 
-		}
-		try {
-			const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature?address=${account}`, { withCredentials: true });
-			if (response.data.status===false) {
-				const signature = await signMessage();
-				await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/verifySignature`,
-					{
-						signature,
-						address: account
-					}, { withCredentials: true }
-				);
-			}
 
-
-			setWatchDisabled(true);
-			if (watchingDisplay) {
-				await appState.openQPrismaClient.unWatchBounty(ethers.utils.getAddress(bounty.bountyAddress), account);
-				setWatchingDisplay(false);
-				setWatchDisabled(false);
-			} else {
-				await appState.openQPrismaClient.watchBounty(ethers.utils.getAddress(bounty.bountyAddress), account);
-				setWatchingDisplay(true);
-				setWatchDisabled(false);
-			}
-
-			const payload = {
-				type: 'UPDATE_RELOAD',
-				payload: true
-			};
-
-			dispatch(payload);
-		} catch (error) {
-			console.error(error);
-		}
-	};
 	return (<div className="flex items-center justify-between pb-5 w-full px-2 sm:px-8">
 		<div className='flex items-center gap-2'>
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" className='fill-muted'>

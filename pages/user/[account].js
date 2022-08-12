@@ -10,12 +10,13 @@ import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubg
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
 import useAuth from '../../hooks/useAuth';
 
-const account = ({account, user, organizations, renderError, watchedBounties, starredOrganizations}) => {
-	useAuth();
+const account = ({account, user, organizations, renderError,  starredOrganizations}) => {
+	const [authState]=useAuth();
+	const {signedAccount} = authState;
 	return (
 
 		<div className=' gap-4 justify-center pt-12'>{user ?
-			<AboutFreelancer starredOrganizations={starredOrganizations} watchedBounties={watchedBounties} user={user} account={account} organizations={organizations}/> 
+			<AboutFreelancer showWatched={account===signedAccount} starredOrganizations={starredOrganizations} user={user} account={account} organizations={organizations}/> 
 			:	<UnexpectedError error={renderError} />}
 		</div>
 	);	
@@ -46,23 +47,11 @@ export const getServerSideProps = async(context)=>{
 		renderError
 	};
 	let organizations = [];
-	let watchedBounties = [];
 	let starredOrganizations=[];
 	try{
 		const	userOnChainData = await openQSubgraphClient.instance.getUser(account.toLowerCase());
 		const userOffChainData = await openQPrismaClient.instance.getUser(ethers.utils.getAddress(account));
-		// fetch issues freelancer is watching.
 		
-		const watchedBountyIdsLowerCase = userOffChainData.watchedBountyIds.map(contract=>contract.toLowerCase());
-		try{
-			const subgraphBounties =  await  openQSubgraphClient.instance.getBountiesByContractAddresses( watchedBountyIdsLowerCase);
-			const githubIds = subgraphBounties.map(bounty=>bounty.bountyId);
-			const githubBounties = await githubRepository.instance.getIssueData(githubIds);
-			watchedBounties = subgraphBounties.map((bounty, index)=>{return {...bounty, ...githubBounties[index]};});
-		}
-		catch(err){
-			console.error('Could not fetch watched bounties.');
-		}
 		//get starred organizations.
 		try{
 			const subgraphOrgs =  await  openQSubgraphClient.instance.getOrganizationsByIds( userOffChainData.starredOrganizationIds);
@@ -88,7 +77,7 @@ export const getServerSideProps = async(context)=>{
 		catch(err){
 			console.error('could not fetch organizations');
 		}
-		user = {...user, ...userOffChainData, ...userOnChainData, watchedBounties};
+		user = {...user, ...userOffChainData, ...userOnChainData};
 	}
 	catch(err){
 		
@@ -96,7 +85,7 @@ export const getServerSideProps = async(context)=>{
 	}
 	
 	
-	return { props: {account, user,  organizations, renderError, watchedBounties, starredOrganizations}};
+	return { props: {account, user,  organizations, renderError, starredOrganizations}};
 };
 
 export default account;

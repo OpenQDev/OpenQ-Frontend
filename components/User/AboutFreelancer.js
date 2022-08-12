@@ -16,7 +16,7 @@ import Watching from './AboutModules/Watching';
 import Starred from './AboutModules/Starred';
 import StoreContext from '../../store/Store/StoreContext';
 
-const AboutFreelancer = ({ user, organizations, starredOrganizations }) => {
+const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatched }) => {
 	const { bountiesClosed, payoutTokenBalances, payouts } = user;
 	const [internalMenu, setInternalMenu] = useState('Overview');
 	const [appState] = useContext(StoreContext);
@@ -30,7 +30,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations }) => {
 
 	
 	useEffect(async () => {
-		if (account) {
+		if (account && showWatched) {
 			// get watched bounties as soon as we know what the account is.
 			try {
 				const prismaBounties = await appState.openQPrismaClient.getUser(
@@ -53,7 +53,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations }) => {
 				console.log(err);
 			}
 		}
-	}, [account]);
+	}, [account, showWatched]);
 
 	useEffect(async () => {
 		if (account && iconWrapper.current) {
@@ -69,7 +69,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations }) => {
 			</div>
 			<div className='flex flex-col w-full'>
 				
-				<SubMenu internalMenu={internalMenu} updatePage={setInternalMenu} styles="sm:mx-auto sm:w-3/4 max-w-[960px] border-none justify-center sm:justify-start" colour="rust"  items={[{name: 'Overview', Svg: BookIcon}, {name: 'Stars', Svg: StarIcon}, {name:'Watching', Svg: EyeIcon}]}/>
+				<SubMenu internalMenu={internalMenu} updatePage={setInternalMenu} styles="sm:mx-auto sm:w-3/4 max-w-[960px] border-none justify-center sm:justify-start" colour="rust"  items={[{name: 'Overview', Svg: BookIcon}, {name: 'Stars', Svg: StarIcon}, ...[showWatched && {name:'Watching', Svg: EyeIcon}]]}/>
 				<div className='flex flex-col sm:px-20 px-4 border-t border-web-gray'>
 					{internalMenu == 'Overview' ?
 						(<div className='w-full  max-w-[1240px] mx-auto'>
@@ -82,7 +82,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations }) => {
 						: internalMenu == 'Stars' ?
 							<Starred starredOrganizations={starredOrganizations} />
 							:
-							watchedBounties &&	<Watching watchedBounties={watchedBounties} />
+							watchedBounties && showWatched &&	<Watching watchedBounties={watchedBounties} />
 					}
 
 				</div>

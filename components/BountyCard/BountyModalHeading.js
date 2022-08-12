@@ -1,8 +1,6 @@
 // Third party
 import Link from 'next/link';
 import React, { useState, useContext, useEffect } from 'react';
-import axios from 'axios';
-import {ethers} from 'ethers';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import {StackIcon} from '@primer/octicons-react';
@@ -26,65 +24,11 @@ const BountyModalHeading = ({bounty, closeModal, unWatchable})=>{
 		}
 	}, [account]);
 
-	const signMessage = async () => {
-		const message = 'OpenQ';
-		const signature = await window.ethereum
-			.request({
-				method: 'personal_sign',
-				params: [message, account]
-			});
-		return signature;
-	};
-
-	const watchBounty = async () => {
-		
-		if(!account){const payload = {
-			type: 'CONNECT_WALLET',
-			payload: true
-		};
-		dispatch(payload);
-		return; 
-		}
-		try {
-			const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature?address=${account}`, { withCredentials: true });
-			if (response.data.status===false) {
-				const signature = await signMessage();
-				await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/verifySignature`,
-					{
-						signature,
-						address: account
-					}, { withCredentials: true }
-				);
-			}
-
-
-			const payload = {
-				type: 'RELOAD_NOW',
-				payload: Date.now()
-			};
-			setWatchDisabled(true);
-			if (watchingDisplay) {
-				console.log('exec');
-				const result = await appState.openQPrismaClient.unWatchBounty(ethers.utils.getAddress(bounty.bountyAddress), account);
-				console.log(result);
-				setWatchingDisplay(false);
-				if(result){
-					dispatch(payload);
-				}
-				setWatchDisabled(false);
-			} else {
-				console.log('exic');
-				const result = await appState.openQPrismaClient.watchBounty(ethers.utils.getAddress(bounty.bountyAddress), account);
-				if(result){
-					dispatch(payload);
-				}
-				setWatchingDisplay(true);
-				setWatchDisabled(false);
-			}
-
-		} catch (error) {
-			console.error(error);
-		}
+	const watchBounty = async()=>{
+		setWatchDisabled(true);
+		console.log(account);
+		await appState.utils.watchBounty([appState, dispatch], account, bounty, watchingDisplay, setWatchingDisplay, watchDisabled);
+		setWatchDisabled(false);
 	};
 	return (
 		<div className="flex flex-col sm:flex-row justify-between px-8 mb-2">

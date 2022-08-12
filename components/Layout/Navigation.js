@@ -34,20 +34,6 @@ const Navigation = () => {
 		setOpenMenu(false);
 	}, [router.asPath]);
 
-	useEffect(async()=>{	
-		if(account){
-			const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature?address=${account}`, { withCredentials: true });
-			if (response.data.status===false) {
-				await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/verifySignature`,
-					{
-						signature: '',
-						address: account
-					}, { withCredentials: true }
-				);
-			}	
-		}
-	},[account]);
-
 	useEffect(async () => {
 	// set up searchable
 		try{
