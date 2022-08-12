@@ -104,7 +104,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 	};
 	const mintBounty = async () => {
 		console.log('tierVolume object:', tierVolume);
-		console.log('finalTierVolume object:', finalTierVolume);
+		console.log('finalTierVolume object in MintBounty:', finalTierVolume);
 		try {
 			setIsLoading(true);
 			let data;
@@ -206,10 +206,11 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 	function onTierVolumeChange(e) {
 		if (e.target.value >= 0) setTierVolume({ ...tierVolume, [e.target.name]: e.target.value });
 		if (e.target.value === '') setTierVolume({ ...tierVolume, [e.target.name]: '0' });
-		setFinalTierVolume(Object.values(tierVolume));
-		console.log(tierVolume);
-		console.log('finalTierVolume object:', finalTierVolume);
 	}
+
+	useEffect(() => {
+		setFinalTierVolume(Object.values(tierVolume));
+	}, [tierVolume]);
 
 	// Render
 	return (
