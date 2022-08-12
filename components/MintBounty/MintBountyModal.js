@@ -45,8 +45,8 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 	const [invoice, setInvoice] = useState(false);
 	const [tier, setTier] = useState(0);
 	const [tierArr, setTierArr] = useState([]);
-	const [rewardSplit, setRewardSplit] = useState('');
-	const [splitToken, setSplitToken] = useState(zeroAddressMetadata);
+	const [payoutVolume, setPayoutVolume] = useState('');
+	const [payoutToken, setPayoutToken] = useState(zeroAddressMetadata);
 	const [toggleType, setToggleType] = useState(type || 'Atomic');
 	const [goalVolume, setGoalVolume] = useState('');
 	const [goalToken, setGoalToken] = useState(zeroAddressMetadata);
@@ -110,7 +110,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
 				break;
 			case 'Ongoing':
-				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
+				data = { payoutVolume: payoutVolume, payoutToken: payoutToken, fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
 				break;
 			case 'Tiered':
 				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken, tiers: tierArr };
@@ -192,12 +192,12 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 		setGoalToken({ ...token, address: ethers.utils.getAddress(token.address) });
 	}
 
-	function onCurrencySelect(splitToken) {
-		setSplitToken({ ...splitToken, address: ethers.utils.getAddress(splitToken.address) });
+	function onCurrencySelect(payoutToken) {
+		setPayoutToken({ ...payoutToken, address: ethers.utils.getAddress(payoutToken.address) });
 	}
 
-	function onVolumeChange(rewardSplit) {
-		appState.utils.updateVolume(rewardSplit, setRewardSplit);
+	function onVolumeChange(payoutVolume) {
+		appState.utils.updateVolume(payoutVolume, setPayoutVolume);
 	}
 
 	// Render
@@ -293,8 +293,8 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 														<TokenFundBox
 															onCurrencySelect={onCurrencySelect}
 															onVolumeChange={onVolumeChange}
-															token={splitToken}
-															volume={rewardSplit}
+															token={payoutToken}
+															volume={payoutVolume}
 														/>
 													</div>
 												</div>
