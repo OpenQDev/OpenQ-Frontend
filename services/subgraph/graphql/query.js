@@ -207,6 +207,11 @@ query GetUser($id: ID!) {
 			}
     }
     bountiesClosed {
+		bountyType
+      claims {
+        claimantAsset
+        externalUserId
+      }
       bountyId
       bountyTokenBalances{
         volume

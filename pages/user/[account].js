@@ -15,7 +15,7 @@ const account = ({account, user, organizations, renderError,  starredOrganizatio
 	const {signedAccount} = authState;
 	return (
 
-		<div className=' gap-4 justify-center pt-12'>{user ?
+		<div className=' gap-4 justify-center pt-6'>{user ?
 			<AboutFreelancer showWatched={account===signedAccount} starredOrganizations={starredOrganizations} user={user} account={account} organizations={organizations}/> 
 			:	<UnexpectedError error={renderError} />}
 		</div>
