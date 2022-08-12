@@ -10,11 +10,13 @@ import WrappedGithubClient from '../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../services/openq-api/WrappedOpenQPrismaClient';
 import Utils from '../services/utils/Utils';
+import UnexpectedError from '../components/Utils/UnexpectedError';
 
-export default function Index({  fullBounties, batch, types }) {
+export default function Index({  fullBounties, batch, types, renderError }) {
 	useAuth();
-
 	// State
+	
+	const [error, setError] = useState(renderError);
 	const [bounties, setBounties] = useState(fullBounties);
 	const [isLoading, setIsLoading] = useState(false);
 	const [complete, setComplete] = useState(false);
@@ -34,11 +36,10 @@ export default function Index({  fullBounties, batch, types }) {
 				const prismaBounties = await appState.openQPrismaClient.getUser(
 					account
 				);
-				const watchedBountyAddresses = prismaBounties.watchedBountyIds.map(
+				const watchedBountyAddresses = prismaBounties?.watchedBountyIds.map(
 					(address) => address.toLowerCase()
-				);
-				const subgraphBounties =
-          await appState.openQSubgraphClient.getBountiesByContractAddresses(watchedBountyAddresses);
+				)||[];
+				const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(watchedBountyAddresses, types);
 				const githubIds = subgraphBounties.map((bounty) => bounty.bountyId);
 				const githubBounties = await appState.githubRepository.getIssueData(
 					githubIds
@@ -49,7 +50,7 @@ export default function Index({  fullBounties, batch, types }) {
 					})
 				);
 			} catch (err) {
-				console.log('could not fetch watched bounties');
+				setError('OpenQ could not fetch watched bounties.');
 			}
 		}
 	}, [account]);
@@ -60,19 +61,14 @@ export default function Index({  fullBounties, batch, types }) {
 		setPagination(() => currentPagination + batch);
 		let newBounties = [];
 		let complete = false;
-		// WHAT ABOUT POPULAR?
-		// tvl needs to sort by bounty type. Bounty type needs to be exposed in API.
-		// Bounty type needs to be created / updated in api
-		// needs to be necessary
-		// handle sort by tvl
-		console.log(orderBy);
 		if (orderBy) {
 			try {
 				const prismaBounties = await appState.openQPrismaClient.getBountyPage(
 					cursor,
 					batch,
 					orderBy,
-					sortOrder
+					sortOrder,
+					types
 				);
 				const addresses = prismaBounties.bountiesConnection.bounties.map(
 					(bounty) => bounty.address.toLowerCase()
@@ -141,16 +137,18 @@ export default function Index({  fullBounties, batch, types }) {
 
 	return (
 		<main className="bg-dark-mode flex-col">
-		
-			<BountyHomepage
-				type={types}
-				bounties={bounties}
-				watchedBounties={watchedBounties}
-				loading={isLoading}
-				getMoreData={getMoreData}
-				complete={complete}
-				getNewData={getNewData}
-			/>
+			{error ?
+				<UnexpectedError error={error}/>
+				:
+				<BountyHomepage
+					type={types}
+					bounties={bounties}
+					watchedBounties={watchedBounties}
+					loading={isLoading}
+					getMoreData={getMoreData}
+					complete={complete}
+					getNewData={getNewData}
+				/>}
 				
 		</main>
 	);
@@ -162,11 +160,10 @@ export const getServerSideProps = async () => {
 	const openQPrismaClient = new WrappedOpenQPrismaClient();
 	const utils = new Utils();
 	githubRepository.instance.setGraphqlHeaders();
-	const batch = 3;
-	const types=['1','2','3'];
+	const batch = 10;
+	const types=['0','1','2'];
 	
 	const [fullBounties, renderError] = await utils.fetchBounties({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance}, types, batch);
-	
 	return {
 		props: {
 			fullBounties,

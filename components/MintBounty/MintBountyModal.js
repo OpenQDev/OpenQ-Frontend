@@ -101,6 +101,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 		}
 	};
 	const mintBounty = async () => {
+		console.log;
 		try {
 			setIsLoading(true);
 			let data;
@@ -125,7 +126,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 				toggleType,
 				data
 			);
-			console.log('Mint bounty data:', data)
+			console.log('Mint bounty data:', data);
 			sessionStorage.setItem('justMinted', true);
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress.toLowerCase()}`
@@ -183,13 +184,13 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 		setTierArr(Array.from({ length: e.target.value }, (_, i) => i + 1));
 	}
 
-	function handleGoalChange (goalVolume) {
-		setGoalVolume(goalVolume);
+	const handleGoalChange = (goalVolume)=>{
+		appState.utils.updateVolume(goalVolume, setGoalVolume);
 	};
 
 	function onGoalCurrencySelect (token) {	
 		setGoalToken({ ...token, address: ethers.utils.getAddress(token.address) });
-	};
+	}
 
 	function onCurrencySelect(payoutToken) {
 		setPayoutToken({ ...payoutToken, address: ethers.utils.getAddress(payoutToken.address) });

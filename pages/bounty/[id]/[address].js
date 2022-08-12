@@ -59,9 +59,9 @@ const address = ({ address, mergedBounty, renderError }) => {
 
 	// Claim: Change in bounty.status
 	// Group Fund/Refund/Extend Deposit in "JSON.stringify(newBounty.deposits) === JSON.stringify(bounty.deposits)" comparison 
-		// Fund: Change in deposits length
-		// Refund: Check that one of the deposits has been refunded
-		// Extend Deposit: Change in deposit expiration 
+	// Fund: Change in deposits length
+	// Refund: Check that one of the deposits has been refunded
+	// Extend Deposit: Change in deposit expiration 
 	// No faster than 1 second so begin with a sleep so as to not spam the Graph Hosted Service
 	const refreshBounty = async () => {
 		await sleep(1000);
@@ -89,7 +89,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 	}, [internalMenu]);
 
 	useEffect(()=> {
-		setInternalMenu('View')
+		setInternalMenu('View');
 	}, [account]);
 
 	// Hooks
@@ -190,7 +190,7 @@ export const getServerSideProps = async (context) => {
 	}
 	catch (err) {
 		console.log(err);
-		renderError = 'OpenQ could not find the issue connected this to bounty on Github.';
+		renderError = 'OpenQ could not find the issue connected to this to contract on Github.';
 	}
 	try {
 		bounty = await openQSubgraphClient.instance.getBounty(address, 'no-cache');
@@ -200,7 +200,7 @@ export const getServerSideProps = async (context) => {
 		mergedBounty = { ...issueData, ...bountyMetadata, ...bounty, bountyAddress: address };
 	}
 	catch (err) {
-		renderError = `OpenQ could not find a bounty with address: ${address}.`;
+		renderError = `OpenQ could not find a contract with address: ${address}.`;
 	}
 	return { props: { id, address, mergedBounty, renderError } };
 };

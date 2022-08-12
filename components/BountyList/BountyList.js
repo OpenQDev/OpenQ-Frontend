@@ -13,12 +13,14 @@ import searchFoundInText from './SearchHelpers/searchFoundInText';
 import searchFoundInLabels from './SearchHelpers/searchFoundInLabels';
 import searchTagInBounty from './SearchHelpers/searchTagInBounty';
 import SmallToggle from '../Utils/SmallToggle';
+import { useRouter } from 'next/router';
 
-const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData, getNewData, addCarousel }) => {
+const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData, getNewData, addCarousel, contractToggle }) => {
 	// Hooks
 	const { account } = useWeb3();
 	/* const [l2eOnly, setL2eOnly] = useState(false); */
-	const [searchText, updateSearchText] = useState(' order:newest');
+	const router = useRouter();
+	const [searchText, updateSearchText] = useState(`order:newest ${router.query.type ? `type:"${router.query.type}"`: ''}`);
 	const [tagArr, updateTagArr] = useState([]);
 	const [searchedBounties, updateSearchedBounties] = useState([]);
 	const [isProcessed, updateIsProcessed] = useState(false);
@@ -26,7 +28,8 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 	const [labels, setLabels] = useState([]);
 
 	const searchRegex = /label:"[^"]+"/gi;
-	const orderRegex = /\order:(\w+)/gi;
+	const contractTypeRegex = /type:"[^"]+"/gi;
+	const orderRegex = /order:(\w+)/gi;
 	let observer = useRef();
 	// Utilities
 	const fetchPage = () => {
@@ -54,6 +57,11 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 
 	useEffect(() => {
 		if (bounties) {
+		
+			updateIsProcessed(false);
+			updateSearchedBounties(orderBounties(filter(bounties), true));
+			updateIsProcessed(true);
+		
 			const labels = bounties?.reduce((accum, bounty) => {
 				const bountyLabels = bounty.labels.filter(label => {
 					const accumFilter = accum.some((accumLabel) => {
@@ -68,26 +76,47 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 			setLabels(labels);
 
 		}
+		else{updateIsProcessed(true);
+		}
 	}, [bounties]);
 	// NOTE tag search doesn't turn off regular search, it just manages it a little differently.
 	const filter = (bounties, options = {}) => {
 		const localTagArr = options.tagArr || tagArr;
 		const localSearchText = options.searchText === undefined ? searchText : options.searchText;
 		const localIsReady = options.isReady === undefined ? isReady : options.isReady;
-		/* const localL2eOnly = options.l2eOnly === undefined ? l2eOnly: options.l2eOnly; */
 
 		const searchedLabelsWrapped = localSearchText.match(searchRegex) || [];
+		const contractsTypesWrapped = localSearchText.match(contractTypeRegex)||[];
 		const searchedLabels = searchedLabelsWrapped.map(elem => elem.slice(7, -1));
+		const contractType = contractsTypesWrapped.map(elem => elem.slice(6, -1))[0];
+		
+		let types =['0', '1','2'];
+
+		switch(contractType){
+		case 'Atomic Contracts':
+			types=['0'];
+			break;
+		case 'Contests':
+			types=['2'];
+			break;
+		case 'Repeatable Contracts':
+			types=['1'];
+			break;
+		}
+
+
 		const displayBounties = bounties.filter((bounty) => {
 			const hasLabels = searchedLabels.some((searchedLabel) => bounty.labels.some(bountyLabel => bountyLabel.name === searchedLabel)) || searchedLabels.length === 0;
 
+			const isType = types.some(type=>type===bounty.bountyType);
+			console.log(isType);
 
 			let containsSearch = true;
 
 			try {
 
 				// Simple search
-				let lowerCaseSearch = localSearchText.replace(searchRegex, '').toLowerCase().replace(orderRegex, '').trim();
+				let lowerCaseSearch = localSearchText.replace(searchRegex, '').toLowerCase().replace(orderRegex, '').replace(contractTypeRegex, '').trim();
 				const isFoundInText = searchFoundInText(bounty.title, bounty.body, lowerCaseSearch);
 				const isFoundInLabels = searchFoundInLabels(bounty, lowerCaseSearch);
 				const emptySearchText = localSearchText.length === 0;
@@ -103,7 +132,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 				const isAssigned = bounty.assignees?.nodes.length > 0;
 
 				// Combine
-				return (containsSearch && containsTag && (((isFunded) && (isUnclaimed) && (!isAssigned)) || localIsReady === 'All issues') && hasLabels && bounty.url && !bounty.blacklisted);
+				return (containsSearch && containsTag && (((isFunded) && (isUnclaimed) && (!isAssigned)) || localIsReady === 'All issues') && hasLabels && bounty.url && !bounty.blacklisted && isType);
 			}
 			catch (err) {
 				console.log(err);
@@ -171,18 +200,14 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 	};
 
 
-	useEffect(async () => {
-		updateIsProcessed(false);
-		if (!bounties) updateIsProcessed(true);
-		else {
-			updateSearchedBounties(orderBounties(filter(bounties), true));
-			updateIsProcessed(true);
-		}
-	}, [bounties]);
 
 	// User Methods
 	const handleSortBounties = (toggleTo) => {
-		updateSearchText(`${searchText.replace(orderRegex, '')} order:${toggleTo}`.replace(/\s+/g, ' '));
+		let newSearch = `${searchText.replace(orderRegex, `order:${toggleTo}`)}`.replace(/\s+/g, ' ');
+		if(!orderRegex.test(newSearch)){
+			newSearch = `${searchText} ${`order:${toggleTo}`}`;
+		}
+		updateSearchText(newSearch);
 		updateSearchedBounties(orderBounties(filter(searchedBounties, {}), false, true, toggleTo));
 	};
 
@@ -194,6 +219,15 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 		updateSearchText(`${searchText} label:"${label}"`);
 		updateSearchedBounties(orderBounties(filter(bounties, { searchText: `${searchText} label:"${label}"` })));
 
+	};
+	
+	const setContractType = (type)=>{
+		let newSearch = `${searchText.replace(contractTypeRegex, `type:"${type}"`)}`.replace(/\s+/g, ' ');
+		if(!contractTypeRegex.test(newSearch)){
+			newSearch = `${searchText} ${`type:"${type}"`}`;
+		}
+		updateSearchText(newSearch);
+		updateSearchedBounties(orderBounties(filter(bounties, { searchText:`${searchText.replace(contractTypeRegex, '')} type:"${type}"` })));
 	};
 
 	const showUnready = (toggleVal) => {
@@ -254,6 +288,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 
 					<Dropdown toggleFunc={handleSortBounties} toggleVal={''} styles="whitespace-nowrap" width="32" title={'Sort Order'} names={['newest', 'oldest', 'highest', 'lowest', 'popular']} borderShape={'rounded-r-lg'} />
 					<Dropdown toggleFunc={addLabel} toggleVal={''} styles="whitespace-nowrap" width="24" title="Labels" names={labels} borderShape={'rounded-r-lg'} />
+					{contractToggle && <Dropdown toggleFunc={setContractType} toggleVal={''} styles="whitespace-nowrap" width="36" title="Contract Type" names={['Atomic Contracts', 'Repeatable Contracts', 'Contests', 'All']} borderShape={'rounded-r-lg'} />}
 
 				</div>
 

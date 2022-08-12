@@ -9,23 +9,24 @@ import WrappedGithubClient from '../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../services/openq-api/WrappedOpenQPrismaClient';
 import Utils from '../services/utils/Utils';
+import UnexpectedError from '../components/Utils/UnexpectedError';
 
 
-
-export default function Index({ orgs }) {
+export default function Index({ orgs, renderError }) {
 	useAuth();
 	const [controlledOrgs, setControlledOrgs] = useState(orgs);
 	// State
 	// Context
 	const [appState] = useContext(StoreContext);
 	const {reloadNow} = appState;
-
+	console.log('renderError:',renderError);
 
 
 
 
 
 	useEffect(async()=>{
+		console.log(renderError);
 		if(reloadNow){
 			const [mergedOrgs] = await appState.utils.fetchOrganizations(appState);
 
@@ -40,24 +41,26 @@ export default function Index({ orgs }) {
 
 	return (
 		<main className="bg-dark-mode flex-col">
-			<OrganizationHomepage orgs={controlledOrgs} />
+			{renderError?
+				<UnexpectedError error={renderError} />:
+				<OrganizationHomepage orgs={controlledOrgs} />}
 				
 		</main>
 	);
 }
 
 export const getServerSideProps = async (ctx) => {
-	let type =['1', '2','3'];
+	let types =['0','1', '2'];
 
 	switch(ctx?.query?.type){
 	case 'atomic-contracts':
-		type=['3'];
+		types=['0'];
 		break;
 	case 'contests':
-		type=['2'];
+		types=['2'];
 		break;
 	case 'repeatable':
-		type=['1'];
+		types=['1'];
 		break;
 
 
@@ -75,7 +78,7 @@ export const getServerSideProps = async (ctx) => {
 		props: {
 			orgs: mergedOrgs,
 			renderError,
-			type
+			types
 		},
 	};
 };
