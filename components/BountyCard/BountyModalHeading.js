@@ -15,9 +15,15 @@ const BountyModalHeading = ({bounty, closeModal, unWatchable})=>{
 	const [watchingDisplay, setWatchingDisplay] = useState();
 	const { safe } = useWeb3();
 	
-	useEffect(() => {
-		const watching = bounty?.watchingUserIds?.some(user => user === account);
-		setWatchingDisplay(watching);
+	useEffect(async() => {
+		if(account){
+			const user = await appState.openQPrismaClient.getUser(account);
+			if(user){
+
+				const watching = user.watchedBountyIds?.some(bountyAddress => bountyAddress === bounty.address);
+				setWatchingDisplay(watching);
+			}
+		}
 	}, [account]);
 
 	const signMessage = async () => {
@@ -52,23 +58,30 @@ const BountyModalHeading = ({bounty, closeModal, unWatchable})=>{
 			}
 
 
+			const payload = {
+				type: 'RELOAD_NOW',
+				payload: Date.now()
+			};
 			setWatchDisabled(true);
 			if (watchingDisplay) {
-				await appState.openQPrismaClient.unWatchBounty(ethers.utils.getAddress(bounty.bountyAddress), account);
+				console.log('exec');
+				const result = await appState.openQPrismaClient.unWatchBounty(ethers.utils.getAddress(bounty.bountyAddress), account);
+				console.log(result);
 				setWatchingDisplay(false);
+				if(result){
+					dispatch(payload);
+				}
 				setWatchDisabled(false);
 			} else {
-				await appState.openQPrismaClient.watchBounty(ethers.utils.getAddress(bounty.bountyAddress), account);
+				console.log('exic');
+				const result = await appState.openQPrismaClient.watchBounty(ethers.utils.getAddress(bounty.bountyAddress), account);
+				if(result){
+					dispatch(payload);
+				}
 				setWatchingDisplay(true);
 				setWatchDisabled(false);
 			}
 
-			const payload = {
-				type: 'UPDATE_RELOAD',
-				payload: true
-			};
-
-			dispatch(payload);
 		} catch (error) {
 			console.error(error);
 		}

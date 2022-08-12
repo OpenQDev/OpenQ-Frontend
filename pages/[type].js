@@ -17,8 +17,7 @@ import UnexpectedError from '../components/Utils/UnexpectedError';
 export default function Index({ orgs, fullBounties, batch, types, renderError }) {
 	useAuth();
 
-	// State	
-	const [error, setError] = useState(renderError);
+	// State
 	const [internalMenu, setInternalMenu] = useState('Issues');
 	const [controlledOrgs, setControlledOrgs] = useState(orgs);
 	const [bounties, setBounties] = useState(fullBounties);
@@ -29,7 +28,7 @@ export default function Index({ orgs, fullBounties, batch, types, renderError })
 	const [watchedBounties, setWatchedBounties] = useState([]);
 
 	// Context
-	const [appState] = useContext(StoreContext);
+	const [appState,] = useContext(StoreContext);
 	const {reloadNow} = appState;
 	const { account } = useWeb3();
 
@@ -37,11 +36,15 @@ export default function Index({ orgs, fullBounties, batch, types, renderError })
 
 	// Hooks
 	useEffect(async()=>{
-
 		// handle org reload events (caused by user starring org.)
 		if(reloadNow){		
 			const [mergedOrgs] = await appState.utils.fetchOrganizations(appState, types);
 			setControlledOrgs(mergedOrgs);
+			// get watched bounties when reload action is triggered.
+			if (account) {
+				const [watchedBounties ]= await appState.utils.fetchWatchedBounties(appState, account, types);
+				setWatchedBounties(watchedBounties);
+			}
 		}
 
 	},[reloadNow]);
@@ -49,29 +52,11 @@ export default function Index({ orgs, fullBounties, batch, types, renderError })
 	useEffect(async () => {
 		// get watched bounties as soon as we know what the account is.
 		if (account) {
-			try {
-				const prismaBounties = await appState.openQPrismaClient.getUser(
-					account
-				);
-				const watchedBountyAddresses = prismaBounties?.watchedBountyIds.map(
-					(address) => address.toLowerCase()
-				)||[];
-				const subgraphBounties =
-          await appState.openQSubgraphClient.getBountiesByContractAddresses(watchedBountyAddresses, types);
-				const githubIds = subgraphBounties.map((bounty) => bounty.bountyId);
-				const githubBounties = await appState.githubRepository.getIssueData(
-					githubIds
-				);
-				setWatchedBounties(
-					subgraphBounties.map((bounty, index) => {
-						return { ...bounty, ...githubBounties[index] };
-					})
-				);
-			} catch (err) {
-				setError('OpenQ could not fetch watched bounties.');
-			}
+			const [watchedBounties ]= await appState.utils.fetchWatchedBounties(appState,account, types);
+			setWatchedBounties(watchedBounties);
 		}
-	}, [account]);
+
+	}, [account, reloadNow]);
 
 	// Methods
 
@@ -112,7 +97,6 @@ export default function Index({ orgs, fullBounties, batch, types, renderError })
 				);
 			} catch (err) {
 				console.log(err);
-				console.log('complete');
 			}
 		} else {
 		// handle un sort by tvl
@@ -171,8 +155,8 @@ export default function Index({ orgs, fullBounties, batch, types, renderError })
 			<div>
 				{
 				
-					error?
-						<UnexpectedError error={error}/>:
+					renderError?
+						<UnexpectedError error={renderError}/>:
 
 						internalMenu == 'Organizations' ? (
 							<OrganizationHomepage orgs={controlledOrgs} />

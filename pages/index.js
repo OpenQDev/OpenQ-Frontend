@@ -16,7 +16,6 @@ export default function Index({  fullBounties, batch, types, renderError }) {
 	useAuth();
 	// State
 	
-	const [error, setError] = useState(renderError);
 	const [bounties, setBounties] = useState(fullBounties);
 	const [isLoading, setIsLoading] = useState(false);
 	const [complete, setComplete] = useState(false);
@@ -26,34 +25,29 @@ export default function Index({  fullBounties, batch, types, renderError }) {
 
 	// Context
 	const [appState] = useContext(StoreContext);
+	const {reloadNow} = appState;
 	const { account } = useWeb3();
 
 	// Hooks
-	useEffect(async () => {
-		if (account) {
-		// get watched bounties as soon as we know what the account is.
-			try {
-				const prismaBounties = await appState.openQPrismaClient.getUser(
-					account
-				);
-				const watchedBountyAddresses = prismaBounties?.watchedBountyIds.map(
-					(address) => address.toLowerCase()
-				)||[];
-				const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(watchedBountyAddresses, types);
-				const githubIds = subgraphBounties.map((bounty) => bounty.bountyId);
-				const githubBounties = await appState.githubRepository.getIssueData(
-					githubIds
-				);
-				setWatchedBounties(
-					subgraphBounties.map((bounty, index) => {
-						return { ...bounty, ...githubBounties[index] };
-					})
-				);
-			} catch (err) {
-				setError('OpenQ could not fetch watched bounties.');
+	useEffect(async()=>{
+		if(reloadNow){		
+			// get watched bounties when reload action is triggered.
+			if (account) {
+				const [watchedBounties ]= await appState.utils.fetchWatchedBounties(appState,account, types);
+				setWatchedBounties(watchedBounties);
 			}
 		}
-	}, [account]);
+
+	},[reloadNow]);
+
+	useEffect(async () => {
+		// get watched bounties as soon as we know what the account is.
+		if (account) {
+			const [watchedBounties ]= await appState.utils.fetchWatchedBounties(appState,account, types);
+			setWatchedBounties(watchedBounties);
+		}
+
+	}, [account, reloadNow]);
 
 	// Methods
 	// General method for getting bounty data, used by pagination and handlers.
@@ -137,8 +131,8 @@ export default function Index({  fullBounties, batch, types, renderError }) {
 
 	return (
 		<main className="bg-dark-mode flex-col">
-			{error ?
-				<UnexpectedError error={error}/>
+			{renderError ?
+				<UnexpectedError error={renderError}/>
 				:
 				<BountyHomepage
 					type={types}
