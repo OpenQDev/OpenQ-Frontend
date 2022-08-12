@@ -20,9 +20,10 @@ class OpenQPrismaClient {
 			try {
 				const result = await this.client.mutate({
 					mutation: WATCH_BOUNTY,
-					variables: { contractAddress, userAddress }
+					variables: { contractAddress, userAddress },
+					fetchPolicy: 'no-cache'
 				});
-				resolve(result.data.organization);
+				resolve(result.data);
 			} catch (e) {
 				reject(e);
 			}
@@ -35,9 +36,10 @@ class OpenQPrismaClient {
 			try {
 				const result = await this.client.mutate({
 					mutation: UNWATCH_BOUNTY,
-					variables: { contractAddress, userAddress }
+					variables: { contractAddress, userAddress },
+					fetchPolicy: 'no-cache'
 				});
-				resolve(result.data.organization);
+				resolve(result.data);
 			} catch (e) {
 				reject(e);
 			}
@@ -224,8 +226,8 @@ class OpenQPrismaClient {
 	async getUser(userAddress) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
-				const result = await this.client.query({
-					query: GET_USER_BY_HASH,
+				const result = await this.client.mutate({
+					mutation: GET_USER_BY_HASH,
 					variables: { userAddress: ethers.utils.getAddress(userAddress) }
 				});
 				resolve(result.data.user);

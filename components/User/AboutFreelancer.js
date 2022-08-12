@@ -1,5 +1,5 @@
 // Third party
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import jazzicon from '@metamask/jazzicon';
 
 // Custom
@@ -14,16 +14,46 @@ import ProfilePicture from '../Layout/ProfilePicture';
 import SubMenu from '../Utils/SubMenu';
 import Watching from './AboutModules/Watching';
 import Starred from './AboutModules/Starred';
+import StoreContext from '../../store/Store/StoreContext';
 
-const AboutFreelancer = ({ user, organizations, watchedBounties, starredOrganizations }) => {
+const AboutFreelancer = ({ user, organizations, starredOrganizations }) => {
 	const { bountiesClosed, payoutTokenBalances, payouts } = user;
 	const [internalMenu, setInternalMenu] = useState('Overview');
+	const [appState] = useContext(StoreContext);
+	const[watchedBounties, setWatchedBounties] = useState([]);
 	const account = user.id;
 	const [ensName] = useEns(account);
 	// Context
 	// State
 	const [payoutTokenValues] = useGetTokenValues(payoutTokenBalances);
 	const iconWrapper = useRef(null);
+
+	
+	useEffect(async () => {
+		if (account) {
+			// get watched bounties as soon as we know what the account is.
+			try {
+				const prismaBounties = await appState.openQPrismaClient.getUser(
+					account
+				);
+				const watchedBountyAddresses = prismaBounties?.watchedBountyIds.map(
+					(address) => address.toLowerCase()
+				)||[];
+				const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(watchedBountyAddresses, ['0', '1','2']);
+				const githubIds = subgraphBounties.map((bounty) => bounty.bountyId);
+				const githubBounties = await appState.githubRepository.getIssueData(
+					githubIds
+				);
+				setWatchedBounties(
+					subgraphBounties.map((bounty, index) => {
+						return { ...bounty, ...githubBounties[index] };
+					})
+				);
+			} catch (err) {
+				console.log(err);
+			}
+		}
+	}, [account]);
 
 	useEffect(async () => {
 		if (account && iconWrapper.current) {
