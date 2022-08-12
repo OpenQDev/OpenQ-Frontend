@@ -41,10 +41,7 @@ export default function Index({ orgs, fullBounties, batch, types, renderError })
 			const [mergedOrgs] = await appState.utils.fetchOrganizations(appState, types);
 			setControlledOrgs(mergedOrgs);
 			// get watched bounties when reload action is triggered.
-			if (account) {
-				const [watchedBounties ]= await appState.utils.fetchWatchedBounties(appState, account, types);
-				setWatchedBounties(watchedBounties);
-			}
+		
 		}
 
 	},[reloadNow]);
@@ -53,7 +50,7 @@ export default function Index({ orgs, fullBounties, batch, types, renderError })
 		// get watched bounties as soon as we know what the account is.
 		if (account) {
 			const [watchedBounties ]= await appState.utils.fetchWatchedBounties(appState,account, types);
-			setWatchedBounties(watchedBounties);
+			setWatchedBounties(watchedBounties||[]);
 		}
 
 	}, [account, reloadNow]);

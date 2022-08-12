@@ -29,22 +29,12 @@ export default function Index({  fullBounties, batch, types, renderError }) {
 	const { account } = useWeb3();
 
 	// Hooks
-	useEffect(async()=>{
-		if(reloadNow){		
-			// get watched bounties when reload action is triggered.
-			if (account) {
-				const [watchedBounties ]= await appState.utils.fetchWatchedBounties(appState,account, types);
-				setWatchedBounties(watchedBounties);
-			}
-		}
-
-	},[reloadNow]);
 
 	useEffect(async () => {
 		// get watched bounties as soon as we know what the account is.
 		if (account) {
 			const [watchedBounties ]= await appState.utils.fetchWatchedBounties(appState,account, types);
-			setWatchedBounties(watchedBounties);
+			setWatchedBounties(watchedBounties||[]);
 		}
 
 	}, [account, reloadNow]);
