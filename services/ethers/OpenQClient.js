@@ -36,10 +36,12 @@ class OpenQClient {
 			let abiCoder = new ethers.utils.AbiCoder;
 			const fundVolumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
 			const fundBigNumberVolumeInWei = ethers.BigNumber.from(fundVolumeInWei.toString());
+			const hasFundingGoal = fundVolumeInWei > 0;
+			console.log(hasFundingGoal);
 			switch (type) {
 				case 'Atomic':
 					{
-						const fundingGoalBountyParams = abiCoder.encode(["bool", "address", "uint256"], [true, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]);
+						const fundingGoalBountyParams = abiCoder.encode(["bool", "address", "uint256"], [hasFundingGoal, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]);
 						bountyInitOperation = [0, fundingGoalBountyParams];
 					}
 					break;
@@ -47,14 +49,14 @@ class OpenQClient {
 					{
 						const payoutVolumeInWei = data.payoutVolume * 10 ** data.payoutToken.decimals;
 						const payoutBigNumberVolumeInWei = ethers.BigNumber.from(payoutVolumeInWei.toString());
-						const ongoingAbiEncodedParams = abiCoder.encode(["address", "uint256", "bool", "address", "uint256"], [data.payoutToken.address, payoutBigNumberVolumeInWei, true, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]);
+						const ongoingAbiEncodedParams = abiCoder.encode(["address", "uint256", "bool", "address", "uint256"], [data.payoutToken.address, payoutBigNumberVolumeInWei, hasFundingGoal, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]);
 						bountyInitOperation = [1, ongoingAbiEncodedParams];
 					}
 					break;
 				case 'Tiered':
 					{
 						console.log(data.tiers);
-						const tieredAbiEncodedParams = abiCoder.encode(["uint256[]", "bool", "address", "uint256"], [[80, 20], true, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]);
+						const tieredAbiEncodedParams = abiCoder.encode(["uint256[]", "bool", "address", "uint256"], [[80, 20], hasFundingGoal, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]);
 						bountyInitOperation = [2, tieredAbiEncodedParams];
 					}
 					break;
