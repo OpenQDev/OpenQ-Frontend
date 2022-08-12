@@ -45,6 +45,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 	const [invoice, setInvoice] = useState(false);
 	const [tier, setTier] = useState(0);
 	const [tierArr, setTierArr] = useState([]);
+	const [tierVolume, setTierVolume] = useState({});
 	const [payoutVolume, setPayoutVolume] = useState('');
 	const [payoutToken, setPayoutToken] = useState(zeroAddressMetadata);
 	const [toggleType, setToggleType] = useState(type || 'Atomic');
@@ -101,6 +102,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 		}
 	};
 	const mintBounty = async () => {
+		console.log('tierVolume object:', tierVolume)
 		try {
 			setIsLoading(true);
 			let data;
@@ -197,6 +199,11 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 
 	function onVolumeChange(payoutVolume) {
 		appState.utils.updateVolume(payoutVolume, setPayoutVolume);
+	}
+
+	function onTierVolumeChange(e) {
+		if (e.target.value >= 0) setTierVolume({ ...tierVolume, [e.target.name]: e.target.value });
+		if (e.target.value === '') setTierVolume({ ...tierVolume, [e.target.name]: '0' });
 	}
 
 	// Render
@@ -333,7 +340,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 																	</ToolTipNew>
 																</div>
 																<div className='max-h-40 w-full overflow-y-auto overflow-x-hidden'>
-																	{tierArr.map(t => <TierInput key={t} tier={t} />)}
+																	{tierArr.map(t => <TierInput key={t} tier={t} volume={tierVolume[t]} onTierVolumeChange={onTierVolumeChange} />)}
 																</div>
 															</div>
 														</>
