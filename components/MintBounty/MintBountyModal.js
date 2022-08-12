@@ -46,6 +46,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 	const [tier, setTier] = useState(0);
 	const [tierArr, setTierArr] = useState([]);
 	const [tierVolume, setTierVolume] = useState({});
+	const [finalTierVolume, setFinalTierVolume] = useState([]);
 	const [payoutVolume, setPayoutVolume] = useState('');
 	const [payoutToken, setPayoutToken] = useState(zeroAddressMetadata);
 	const [toggleType, setToggleType] = useState(type || 'Atomic');
@@ -102,7 +103,8 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 		}
 	};
 	const mintBounty = async () => {
-		console.log('tierVolume object:', tierVolume)
+		console.log('tierVolume object:', tierVolume);
+		console.log('finalTierVolume object:', finalTierVolume);
 		try {
 			setIsLoading(true);
 			let data;
@@ -114,7 +116,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 				data = { payoutVolume: payoutVolume, payoutToken: payoutToken, fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
 				break;
 			case 'Tiered':
-				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken, tiers: tierArr };
+				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken, tiers: finalTierVolume };
 				break;
 			default:
 				throw new Error(`No type: ${toggleType}`);
@@ -183,6 +185,8 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 		if (parseInt(e.target.value) > 100) { setTier('0'); }
 		if (e.target.value === '') setTier('0');
 		setTierArr(Array.from({ length: e.target.value }, (_, i) => i + 1));
+		/* if (tierVolume) {setFinalTierVolume(Array.from({ length: e.target.value }, i => 0));} 
+		else {setFinalTierVolume(Array.from(tierVolume, i => tierVolume[i+1]));}; */
 	}
 
 	function handleGoalChange (goalVolume) {
@@ -204,6 +208,9 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 	function onTierVolumeChange(e) {
 		if (e.target.value >= 0) setTierVolume({ ...tierVolume, [e.target.name]: e.target.value });
 		if (e.target.value === '') setTierVolume({ ...tierVolume, [e.target.name]: '0' });
+		setFinalTierVolume(Object.values(tierVolume));
+		console.log(tierVolume);
+		console.log('finalTierVolume object:', finalTierVolume);
 	}
 
 	// Render
