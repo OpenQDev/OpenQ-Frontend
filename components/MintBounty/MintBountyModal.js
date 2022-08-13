@@ -204,8 +204,9 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 	}
 
 	function onTierVolumeChange(e) {
-		if (e.target.value >= 0) setTierVolume({ ...tierVolume, [e.target.name]: e.target.value });
-		if (e.target.value === '') setTierVolume({ ...tierVolume, [e.target.name]: '0' });
+		if (parseFloat(e.target.value) >= 0) setTierVolume({ ...tierVolume, [e.target.name]: parseFloat(e.target.value) });
+		if (parseFloat(e.target.value) === '') setTierVolume({ ...tierVolume, [e.target.name]: '0' });
+		console.log(tier, tierArr, tierVolume);
 	}
 
 	useEffect(() => {
@@ -346,7 +347,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 																	</ToolTipNew>
 																</div>
 																<div className='max-h-40 w-full overflow-y-auto overflow-x-hidden'>
-																	{tierArr.map(t => <TierInput key={t} tier={t} volume={tierVolume[t]} onTierVolumeChange={onTierVolumeChange} />)}
+																	{tierArr.map(t => <TierInput key={t} tier={t} tierVolume={tierVolume[t]} onTierVolumeChange={onTierVolumeChange} />)}
 																</div>
 															</div>
 														</>

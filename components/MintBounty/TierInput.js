@@ -29,7 +29,7 @@ const TierInput = ({ tier, tierVolume, onTierVolumeChange }) => {
 				placeholder={`${suffix} winner`}
 				value={tierVolume}
 				onChange={onTierVolumeChange}
-				className='input-field w-full' />
+				className='input-field w-full number' />
 		</div>
 	);
 };
