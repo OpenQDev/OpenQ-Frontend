@@ -109,17 +109,17 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 			setIsLoading(true);
 			let data;
 			switch (toggleType) {
-			case 'Atomic':
-				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
-				break;
-			case 'Ongoing':
-				data = { payoutVolume: payoutVolume, payoutToken: payoutToken, fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
-				break;
-			case 'Tiered':
-				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken, tiers: finalTierVolume };
-				break;
-			default:
-				throw new Error(`No type: ${toggleType}`);
+				case 'Atomic':
+					data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
+					break;
+				case 'Ongoing':
+					data = { payoutVolume: payoutVolume, payoutToken: payoutToken, fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
+					break;
+				case 'Tiered':
+					data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken, tiers: finalTierVolume };
+					break;
+				default:
+					throw new Error(`No type: ${toggleType}`);
 			}
 
 			const { bountyAddress } = await appState.openQClient.mintBounty(
@@ -187,11 +187,11 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 		setTierArr(Array.from({ length: e.target.value }, (_, i) => i + 1));
 	}
 
-	const handleGoalChange = (goalVolume)=>{
+	const handleGoalChange = (goalVolume) => {
 		appState.utils.updateVolume(goalVolume, setGoalVolume);
 	};
 
-	function onGoalCurrencySelect (token) {	
+	function onGoalCurrencySelect(token) {
 		setGoalToken({ ...token, address: ethers.utils.getAddress(token.address) });
 	}
 
@@ -224,7 +224,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 				<>
 					<div ref={modal} className="m-auto w-3/5 min-w-[320px] z-50 fixed top-28">
 						<div className="w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-1">
-							<SubMenu items={[ { name: 'Atomic' }, { name: 'Ongoing' }, { name: 'Tiered' }]} internalMenu={toggleType} updatePage={setToggleType} styles={'justify-center'}/>
+							<SubMenu items={[{ name: 'Atomic' }, { name: 'Ongoing' }, { name: 'Tiered' }]} internalMenu={toggleType} updatePage={setToggleType} styles={'justify-center'} />
 							<div className='max-h-[70vh] w-full overflow-y-auto'>
 								<MintBountyHeader type={toggleType} />
 								<div className="flex flex-col items-center pl-6 pr-6">
@@ -275,10 +275,10 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 											<div className='flex items-center gap-2'>Funding Goal
 												<ToolTipNew mobileX={10} toolTipText={toggleType === 'Atomic' ? 'Amount of funds you would like to escrow on this issue.' : 'How much will each successful submitter earn?'} >
 													<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
-													
+
 												</ToolTipNew>
 												<span className='text-sm'>You don{'\''}t have to deposit now! The budget is just what you intend to pay.</span>
-											
+
 											</div>
 											<div className='flex-1 w-full mt-2 ml-4'>
 												<TokenFundBox
@@ -291,7 +291,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 										</div>
 									</div>
 								</div>
-									
+
 								{toggleType === 'Ongoing' ?
 									<>
 										<div className="flex flex-col items-center pl-6 pr-6 pb-2">
@@ -347,7 +347,13 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 																	</ToolTipNew>
 																</div>
 																<div className='max-h-40 w-full overflow-y-auto overflow-x-hidden'>
-																	{tierArr.map((t) => {return (<TierInput key={t} tier={t} tierVolume={tierVolume[t]} onTierVolumeChange={onTierVolumeChange} />)})}
+																	{tierArr.map((t) => {
+																		return (
+																			<div key={t}>
+																				<TierInput tier={t} tierVolume={tierVolume[t]} onTierVolumeChange={onTierVolumeChange} />
+																			</div>
+																		)
+																	})}
 																</div>
 															</div>
 														</>
