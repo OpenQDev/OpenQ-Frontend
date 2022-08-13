@@ -347,7 +347,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 																	</ToolTipNew>
 																</div>
 																<div className='max-h-40 w-full overflow-y-auto overflow-x-hidden'>
-																	{tierArr.map(t => <TierInput key={t} tier={t} tierVolume={tierVolume[t]} onTierVolumeChange={onTierVolumeChange} />)}
+																	{tierArr.map((t) => {return (<TierInput key={t} tier={t} tierVolume={tierVolume[t]} onTierVolumeChange={onTierVolumeChange} />)})}
 																</div>
 															</div>
 														</>
