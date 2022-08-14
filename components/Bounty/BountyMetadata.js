@@ -10,7 +10,7 @@ const BountyMetadata = ({bounty, setInternalMenu, price})=>{
 
 	switch(bounty.bountyType){
 	case '1':
-		type='Ongoing Contract';
+		type='Repeating Contract';
 		break;
 	case '2':
 		type='Contest Contract';

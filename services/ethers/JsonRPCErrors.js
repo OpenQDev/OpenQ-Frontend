@@ -94,8 +94,8 @@ const jsonRpcErrors =
 		},
 		{
 			'ONGOING_BOUNTY_ALREADY_CLOSED': {
-				title: 'This ongoing bounty is already closed, you cannot close it again',
-				message: () => 'You are attempting to close a closed ongoing bounty'
+				title: 'This repeating bounty is already closed, you cannot close it again',
+				message: () => 'You are attempting to close a closed repeating bounty'
 			}
 		},
 		{

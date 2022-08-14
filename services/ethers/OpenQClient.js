@@ -45,7 +45,7 @@ class OpenQClient {
 						bountyInitOperation = [0, fundingGoalBountyParams];
 					}
 					break;
-				case 'Ongoing':
+				case 'Repeating':
 					{
 						const payoutVolumeInWei = data.payoutVolume * 10 ** data.payoutToken.decimals;
 						const payoutBigNumberVolumeInWei = ethers.BigNumber.from(payoutVolumeInWei.toString());
