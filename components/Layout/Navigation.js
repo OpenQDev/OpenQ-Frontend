@@ -214,7 +214,7 @@ const Navigation = () => {
 									Contract Wizard
 								</div>
 							</button>
-							{showWizard && <ContractWizard modalVisibility={setShowWizard} />}
+							{showWizard && <ContractWizard wizardVisibility={setShowWizard} />}
 						</div>
 					</div>
 					<div className="flex items-center text-[0.8rem] md:text-[1rem]">
@@ -271,7 +271,7 @@ const Navigation = () => {
 								Contract Wizard
 							</div>
 						</button>
-						{showWizard && <ContractWizard modalVisibility={setShowWizard} />}
+						{showWizard && <ContractWizard wizardVisibility={setShowWizard} />}
 					</div>
 				</div>
 				:

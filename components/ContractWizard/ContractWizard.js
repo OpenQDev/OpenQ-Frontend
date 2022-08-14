@@ -3,7 +3,7 @@ import MintBountyModal from '../MintBounty/MintBountyModal';
 import ToolTipNew from '../Utils/ToolTipNew';
 import GetSupportModal from './GetSupportModal';
 
-const ContractWizard = ({ modalVisibility }) => {
+const ContractWizard = ({ wizardVisibility }) => {
 	const [type, setType] = useState(0);
 	const [mintModal, setMintModal] = useState(false);
 	const [supportModal, setSupportModal] = useState(false);
@@ -15,7 +15,7 @@ const ContractWizard = ({ modalVisibility }) => {
 		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
 		function handleClickOutside(event) {
 			if (modal.current && !modal.current.contains(event.target)) {
-				modalVisibility(false);
+				wizardVisibility(false);
 			}
 		}
 		// Bind the event listener
@@ -33,7 +33,6 @@ const ContractWizard = ({ modalVisibility }) => {
 			setSupportModal(true);
 		}
 	}, [type]);
-
 
 	return (
 		<>
@@ -94,8 +93,10 @@ const ContractWizard = ({ modalVisibility }) => {
 					</div>
 					:
 					<GetSupportModal modalVisibility={setSupportModal} />
-				:
-				<MintBountyModal modalVisibility={setMintModal} type={type == 0 ? 'Atomic' : type == 1 ? 'Repeating' : type == 2 ? 'Contest' : null} hideSubmenu={true} />}
+				: <>
+					{mintModal && <MintBountyModal modalVisibility={setMintModal} type={type == 0 ? 'Atomic' : type == 1 ? 'Repeating' : type == 2 ? 'Contest' : null} hideSubmenu={true} />}
+				</>
+			}
 		</>
 	)
 }
