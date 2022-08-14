@@ -18,7 +18,7 @@ import TierInput from './TierInput';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import SubMenu from '../Utils/SubMenu';
 
-const MintBountyModal = ({ modalVisibility, type }) => {
+const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
 	const { library, account } = useWeb3();
@@ -224,7 +224,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 				<>
 					<div ref={modal} className="m-auto w-3/5 min-w-[320px] z-50 fixed top-24">
 						<div className="w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-1">
-							<SubMenu items={[{ name: 'Atomic' }, { name: 'Repeating' }, { name: 'Contest' }]} internalMenu={toggleType} updatePage={setToggleType} styles={'justify-center'} />
+							{!hideSubmenu && <SubMenu items={[{ name: 'Atomic' }, { name: 'Repeating' }, { name: 'Contest' }]} internalMenu={toggleType} updatePage={setToggleType} styles={'justify-center'} />}
 							<div className='max-h-[70vh] w-full overflow-y-auto'>
 								<MintBountyHeader type={toggleType} />
 								<div className="flex flex-col items-center pl-6 pr-6">
