@@ -26,7 +26,7 @@ const ContractWizard = ({ modalVisibility }) => {
 			// Unbind the event listener on clean up
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
-	}, [modal]);
+	}, [modal, mintModal, supportModal]);
 
 	useEffect(() => {
 		if (type > 2) {
