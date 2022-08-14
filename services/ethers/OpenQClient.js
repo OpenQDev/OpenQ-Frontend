@@ -53,7 +53,7 @@ class OpenQClient {
 						bountyInitOperation = [1, ongoingAbiEncodedParams];
 					}
 					break;
-				case 'Tiered':
+				case 'Contest':
 					{
 						console.log('data.tiers', data.tiers);
 						const tieredAbiEncodedParams = abiCoder.encode(['uint256[]', 'bool', 'address', 'uint256'], [data.tiers, hasFundingGoal, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]);

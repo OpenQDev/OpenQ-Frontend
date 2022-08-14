@@ -13,7 +13,7 @@ const BountyMetadata = ({bounty, setInternalMenu, price})=>{
 		type='Ongoing Contract';
 		break;
 	case '2':
-		type='Tiered Contract';
+		type='Contest Contract';
 		break;
 	case '3':
 		type='Atomic Contract';

@@ -123,7 +123,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 			<BountyClosed bounty={bounty} showTweetLink={justClaimed} />
 			:
 			// case where bounty not claimable yet (contest not closed yet) 
-			<div className='text-lg'>Contest must be closed in order to be able to claime your rewards.</div>
+			<div className='text-lg'>Contest must be closed in order to be able to claim your rewards.</div>
 		);
 	} else {
 		// rewards are claimable
