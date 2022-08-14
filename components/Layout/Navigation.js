@@ -210,7 +210,7 @@ const Navigation = () => {
 								</a>
 							</Link>
 							<button onClick={() => setShowWizard(true)}>
-								<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath === '/' && 'text-white'}`}>
+								<div className="mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer">
 									Contract Wizard
 								</div>
 							</button>
@@ -266,6 +266,12 @@ const Navigation = () => {
 								Explore
 							</div>
 						</ToolTipNew>
+						<button onClick={() => setShowWizard(true)}>
+							<div className="flex text-[0.8rem] pt-1 border-t border-gray-700 tracking-wider text-nav-text font-bold">
+								Contract Wizard
+							</div>
+						</button>
+						{showWizard && <ContractWizard modalVisibility={setShowWizard} />}
 					</div>
 				</div>
 				:
