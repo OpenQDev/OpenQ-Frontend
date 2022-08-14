@@ -3,8 +3,6 @@ import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react'
 
 const GetSupportModal = ({ modalVisibility }) => {
-	const [type, setType] = useState(0);
-	const [mintModal, setMintModal] = useState(false);
 
 	// Refs
 	const modal = useRef();

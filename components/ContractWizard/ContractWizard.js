@@ -6,9 +6,18 @@ import GetSupportModal from './GetSupportModal';
 const ContractWizard = ({ modalVisibility }) => {
 	const [type, setType] = useState(0);
 	const [mintModal, setMintModal] = useState(false);
+	const [supportModal, setSupportModal] = useState(false);
 
 	// Refs
 	const modal = useRef();
+
+	// Methods
+	function handleNo() {
+		setType(type+1);
+		if(type > 2) {
+			setSupportModal(true);
+		};
+	};
 
 	useEffect(() => {
 		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
@@ -70,7 +79,7 @@ const ContractWizard = ({ modalVisibility }) => {
 															Yes
 														</button>
 														<button
-															onClick={() => setType(type + 1)}
+															onClick={handleNo}
 															className="w-fit min-w-[80px] py-[5px] px-4 border-l-0 rounded-r-sm border whitespace-nowrap hover:bg-secondary-button hover:border-secondary-button border-web-gray"
 														>
 															No
@@ -86,7 +95,7 @@ const ContractWizard = ({ modalVisibility }) => {
 						<div className="bg-overlay fixed inset-0 z-10"></div>
 					</div>
 					:
-					<GetSupportModal />
+					<GetSupportModal modalVisibility={setSupportModal}/>
 				:
 				<MintBountyModal modalVisibility={setMintModal} type={type == 0 ? 'Atomic' : type == 1 ? 'Repeating' : type == 2 ? 'Contest' : null} hideSubmenu={true} />}
 		</>
