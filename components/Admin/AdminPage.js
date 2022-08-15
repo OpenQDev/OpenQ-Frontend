@@ -35,9 +35,10 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 	async function closeCompetition() {
 		try {
 			const transaction = 	await appState.openQClient.closeCompetition(library, bounty.bountyId);
-			setModal({transaction, type: 'Closed Competition'});
+			setModal({transaction, type: 'Closed Contest'});
 			setShowButton(false);
 			refreshBounty();
+		//	dispatch(payload);
 		} catch (error) {
 			console.log(error);
 			const { message, title } = appState.openQClient.handleError(error, { bounty });
@@ -47,7 +48,8 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 
 	async function closeOngoing() {
 		try {
-			const transaction = await appState.openQClient.closeOngoing(library, bounty.bountyId);setModal({transaction, type: 'Closed'});
+			const transaction = await appState.openQClient.closeOngoing(library, bounty.bountyId);
+			setModal({transaction, type: 'Closed Repeatable'});
 			setShowButton(false);
 			refreshBounty();
 		} catch (error) {

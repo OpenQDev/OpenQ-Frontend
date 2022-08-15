@@ -38,16 +38,16 @@ const AdminModal = ({setModal, modal})=>{
 		setModal(false);
 	};
 	const title={
-		['Closed Competition']: 'Competition Closed!',
-		['Closed']: 'Competition Closed!',
+		['Closed Contest']: 'Contest Closed!',
+		['Closed Repeatable']: 'Repeatable Contract Closed!',
 		Budget:'Budget Updated!',
 		Payout: 'Payout Updated!',
 		Error: modal.title
 
 	};
 	const content = {
-		['Closed']: 'Repeatable contract closed, no further claims will be available through this contract. Check out the closing transaction with the link below:',
-		['Closed Competition']: 'Competition closed, now contestants can cash out. Check out the closing transaction with the link below:',
+		['Closed Repeatable']: 'Repeatable contract closed, no further claims will be available through this contract. Check out the closing transaction with the link below:',
+		['Closed Contest']: 'Contest closed, now contestants can cash out. Check out the closing transaction with the link below:',
 		Budget: 'Budget has been updated. Check out your transaction with the link below:',
 		Error: modal.message
 	};
@@ -80,7 +80,7 @@ const AdminModal = ({setModal, modal})=>{
 				</>					
 					}
 					
-					{modal.type.includes('Closed')||modal.type==='Error'&&
+					{(modal.type.includes('Closed')||modal.type==='Error')&&
 				<>
 					<h2 className='text-2xl font-semibold pb-6 self-center'>{title[modal.type]}</h2>
 					<p>{content[modal.type]}</p>

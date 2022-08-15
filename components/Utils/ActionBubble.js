@@ -42,6 +42,11 @@ const ActionBubble = ({ addresses, bounty, action,})=>{
 		else{
 			title='Waiting for this contract to be indexed by the Graph.';}
 	}
+
+	if(action?.closingTime){
+		title = `${minter} closed this contract on ${appState.utils.formatUnixDate(action.closingTime)}.`;
+	
+	}
 	
 	if(action?.claimTime){
 		const claimant = claimantEnsName ||shortenAddress(action.claimant.id);
@@ -52,11 +57,6 @@ const ActionBubble = ({ addresses, bounty, action,})=>{
 		if(bounty.bountyType==='1'){
 			title = `${claimant} made a claim on this contract on ${appState.utils.formatUnixDate(action.claimTime)}.`;
 		}
-	}
-
-	if(action?.closingTime){
-		title = `${minter} closed this contract on ${appState.utils.formatUnixDate(action.closingTime)}.`;
-	
 	}
 	
 	
