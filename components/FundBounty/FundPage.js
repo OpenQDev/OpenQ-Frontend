@@ -45,7 +45,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 	// State
 	const [token, setToken] = useState(zeroAddressMetadata);
-	const bountyName = bounty.bountyType == 0 ? 'Atomic Contract' : bounty.bountyType == 1? 'Repeatable Contract' : bounty.bountyType == 2? 'Contest' : 'Type Unknown' ;
+	const bountyName = bounty.bountyType == 0 ? 'Atomic Contract' : bounty.bountyType == 1 ? 'Repeatable Contract' : bounty.bountyType == 2 ? 'Contest' : 'Type Unknown';
 
 	const closed = bounty.bountyClosedTime;
 	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || closed || parseFloat(volume) <= 0.00000001 || parseFloat(volume) >= 1000 || volume == '' || !(parseInt(depositPeriodDays) > 0);
@@ -100,7 +100,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 			// Only check bounty token address limit for non-whitelisted tokens
 			if (!isWhitelisted) {
-				const tokenAddressLimitReached = await appState.openQClient.tokenAddressLimitReached(library, bounty.bountyId);
+				const tokenAddressLimitReached = await appState.openQClient.tokenAddressLimitReached(library, bounty.bountyAddress);
 				if (tokenAddressLimitReached) {
 					setError({ title: 'Token Address Limit Is Reached!', message: 'Contact info@openq.dev' });
 					setApproveTransferState(ERROR);
@@ -160,7 +160,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 			try {
 				const fundTxnReceipt = await appState.openQClient.fundBounty(
 					library,
-					bounty.bountyId,
+					bounty.bountyAddress,
 					token.address,
 					bigNumberVolumeInWei,
 					depositPeriodDays
