@@ -36,7 +36,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	const [, dispatch] = useContext(StoreContext);
 
 
-	const claimable = (bounty.bountyType == 0 || bounty.bountyType == 1) ? bounty.bountyClosedTime : !bounty.bountyClosedTime ;
+	const claimable = (bounty.bountyType == 0 || bounty.bountyType == 1) ? bounty.bountyClosedTime : !bounty.bountyClosedTime;
 
 	const updateModal = () => {
 		setShowClaimLoadingModal(false);
@@ -117,13 +117,15 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 
 	if (claimable) {
 		return (
-			
-			bounty.bountyClosedTime ? 
-			// case where bounty is not claimable anymore (Atomic Contract and Repeatable Contract closed)
-			<BountyClosed bounty={bounty} showTweetLink={justClaimed} />
-			:
-			// case where bounty not claimable yet (contest not closed yet) 
-			<div className='text-lg'>Contest must be closed in order to be able to claime your rewards.</div>
+			bounty.bountyType ?
+				bounty.bountyClosedTime ?
+					// case where bounty is not claimable anymore (Atomic Contract and Repeatable Contract closed)
+					<BountyClosed bounty={bounty} showTweetLink={justClaimed} />
+					:
+					// case where bounty not claimable yet (contest not closed yet) 
+					<div className='text-lg'>Contest must be closed in order to be able to claim your rewards.</div>
+				:
+				<div className='text-lg'>Bounty type unknown. Please refresh your window.</div>
 		);
 	} else {
 		// rewards are claimable

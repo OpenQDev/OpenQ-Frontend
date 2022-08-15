@@ -11,9 +11,10 @@ import Image from 'next/image';
 import FirstTimeBanner from './FirstTimeBanner';
 import useWeb3 from '../../hooks/useWeb3.js';
 import { ThreeBarsIcon } from '@primer/octicons-react';
-import LinkDropdown from '../Utils/LinkDropdown.js';
-import { useRouter } from 'next/router.js';
-import NavLinks from './NavLinks.js';
+import LinkDropdown from '../Utils/LinkDropdown';
+import { useRouter } from 'next/router';
+import NavLinks from './NavLinks';
+import ContractWizard from '../ContractWizard/ContractWizard';
 
 const Navigation = () => {
 
@@ -25,6 +26,7 @@ const Navigation = () => {
 	const [quickSearch, setQuickSearch] = useState('');
 	const [items, setItems] = useState([]);
 	const [searchable, setSearchable] = useState();
+	const [showWizard, setShowWizard] = useState(false);
 
 
 	const router = useRouter();
@@ -33,6 +35,20 @@ const Navigation = () => {
 		setQuickSearch('');
 		setOpenMenu(false);
 	}, [router.asPath]);
+	
+	useEffect(async () => {
+		if (account) {
+			const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature?address=${account}`, { withCredentials: true });
+			if (response.data.status === false) {
+				await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/verifySignature`,
+					{
+						signature: '',
+						address: account
+					}, { withCredentials: true }
+				);
+			}
+		}
+	}, [account]);
 
 	useEffect(async () => {
 		// set up searchable
@@ -159,6 +175,12 @@ const Navigation = () => {
 								></input>
 								{quickSearch && <LinkDropdown items={items} />}</div>
 							<NavLinks />
+							<button onClick={() => setShowWizard(true)}>
+								<div className="mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer">
+									Contract Wizard
+								</div>
+							</button>
+							{showWizard && <ContractWizard wizardVisibility={setShowWizard} />}
 						</div>
 					</div>
 					<div className="flex items-center text-[0.8rem] lg:text-[1rem]">
@@ -186,6 +208,12 @@ const Navigation = () => {
 							
 						<NavLinks />
 						
+						<button onClick={() => setShowWizard(true)}>
+							<div className="flex text-[0.8rem] pt-1 border-t border-gray-700 tracking-wider text-nav-text font-bold">
+								Contract Wizard
+							</div>
+						</button>
+						{showWizard && <ContractWizard wizardVisibility={setShowWizard} />}
 					</div>
 				</div>
 				:

@@ -45,7 +45,7 @@ class OpenQClient {
 						bountyInitOperation = [0, fundingGoalBountyParams];
 					}
 					break;
-				case 'Ongoing':
+				case 'Repeating':
 					{
 						const payoutVolumeInWei = data.payoutVolume * 10 ** data.payoutToken.decimals;
 						const payoutBigNumberVolumeInWei = ethers.BigNumber.from(payoutVolumeInWei.toString());
@@ -53,10 +53,10 @@ class OpenQClient {
 						bountyInitOperation = [1, ongoingAbiEncodedParams];
 					}
 					break;
-				case 'Tiered':
+				case 'Contest':
 					{
-						console.log(data.tiers);
-						const tieredAbiEncodedParams = abiCoder.encode(['uint256[]', 'bool', 'address', 'uint256'], [[80, 20], hasFundingGoal, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]);
+						console.log('data.tiers', data.tiers);
+						const tieredAbiEncodedParams = abiCoder.encode(['uint256[]', 'bool', 'address', 'uint256'], [data.tiers, hasFundingGoal, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]);
 						bountyInitOperation = [2, tieredAbiEncodedParams];
 					}
 					break;
