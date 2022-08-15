@@ -139,7 +139,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 										className="btn-danger"
 										type="button"
 										onClick={closeCompetition}
-									>Close Competition</button>
+									>Close Contest</button>
 								</>
 
 								:

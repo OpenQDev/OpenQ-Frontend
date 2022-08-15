@@ -14,6 +14,7 @@ import ToolTipNew from '../Utils/ToolTipNew.js';
 import { ThreeBarsIcon } from '@primer/octicons-react';
 import LinkDropdown from '../Utils/LinkDropdown.js';
 import { useRouter } from 'next/router.js';
+import ContractWizard from '../ContractWizard/ContractWizard.js';
 
 const Navigation = () => {
 
@@ -25,54 +26,57 @@ const Navigation = () => {
 	const [quickSearch, setQuickSearch] = useState('');
 	const [items, setItems] = useState([]);
 	const [searchable, setSearchable] = useState();
+	const [showWizard, setShowWizard] = useState(false);
 
 
 	const router = useRouter();
-	
+
 	useEffect(() => {
 		setQuickSearch('');
 		setOpenMenu(false);
 	}, [router.asPath]);
 
-	useEffect(async()=>{	
-		if(account){
+	useEffect(async () => {
+		if (account) {
 			const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature?address=${account}`, { withCredentials: true });
-			if (response.data.status===false) {
+			if (response.data.status === false) {
 				await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/verifySignature`,
 					{
 						signature: '',
 						address: account
 					}, { withCredentials: true }
 				);
-			}	
+			}
 		}
-	},[account]);
+	}, [account]);
 
 	useEffect(async () => {
-	// set up searchable
-		try{
+		// set up searchable
+		try {
 			const subgraphOrganizations = await appState.openQSubgraphClient.getOrganizationIds();
-	
+
 			const subgraphBounties = await appState.openQSubgraphClient.getBountyIds();
-			const githubOrganizations = await appState.githubRepository.searchOrgOrUser(subgraphOrganizations.organizations.map(organization=>organization.id));
-			const prismaOrganizations = await appState.openQPrismaClient.getOrgsMetadata(subgraphOrganizations.organizations.map(organization=>organization.id));
-			const githubIssues = await appState.githubRepository.getLeanIssueData(subgraphBounties.map(bounty=>bounty.bountyId));
-			const prismaBounties = await appState.openQPrismaClient.getBlackListed(subgraphBounties.map(bounty=>bounty.bountyAddress));
-			const fullOrgs = githubOrganizations.map((organization)=>{
-				const prismaOrg = prismaOrganizations.find((prismaOrganization)=>{
-					return prismaOrganization.id === organization.id;});
-				return {...organization, ...prismaOrg};
-			}).filter(org=>!org.blacklisted);
-			const fullBounties = appState.utils.combineBounties(subgraphBounties, githubIssues, prismaBounties).filter(bounty=>!bounty.blacklisted);
-			const searchable = [...fullBounties, ...fullOrgs].map(searchableItem=>{
-				const url = searchableItem.title? `${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${searchableItem.bountyId}/${searchableItem.bountyAddress}`: `${process.env.NEXT_PUBLIC_BASE_URL}/organization/${searchableItem.login}`;
-				const name = searchableItem.name ||searchableItem.title|| searchableItem.login;
-		
-				return {name: name.toLowerCase(), url, isIssue: searchableItem.title};
+			const githubOrganizations = await appState.githubRepository.searchOrgOrUser(subgraphOrganizations.organizations.map(organization => organization.id));
+			const prismaOrganizations = await appState.openQPrismaClient.getOrgsMetadata(subgraphOrganizations.organizations.map(organization => organization.id));
+			const githubIssues = await appState.githubRepository.getLeanIssueData(subgraphBounties.map(bounty => bounty.bountyId));
+			const prismaBounties = await appState.openQPrismaClient.getBlackListed(subgraphBounties.map(bounty => bounty.bountyAddress));
+			const fullOrgs = githubOrganizations.map((organization) => {
+				const prismaOrg = prismaOrganizations.find((prismaOrganization) => {
+					return prismaOrganization.id === organization.id;
+				});
+				return { ...organization, ...prismaOrg };
+			}).filter(org => !org.blacklisted);
+			const fullBounties = appState.utils.combineBounties(subgraphBounties, githubIssues, prismaBounties).filter(bounty => !bounty.blacklisted);
+			const searchable = [...fullBounties, ...fullOrgs].map(searchableItem => {
+				const url = searchableItem.title ? `${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${searchableItem.bountyId}/${searchableItem.bountyAddress}` : `${process.env.NEXT_PUBLIC_BASE_URL}/organization/${searchableItem.login}`;
+				const name = searchableItem.name || searchableItem.title || searchableItem.login;
+
+				return { name: name.toLowerCase(), url, isIssue: searchableItem.title };
 			});
-		
-			setSearchable(searchable);}
-		catch(err){
+
+			setSearchable(searchable);
+		}
+		catch (err) {
 			console.log(err);
 		}
 		// set up gnosis safe
@@ -124,14 +128,14 @@ const Navigation = () => {
 			await activate(gnosisSafe);
 		}
 	}, [account]);
-	
-	const handleSearch = (e)=>{
+
+	const handleSearch = (e) => {
 		setQuickSearch(e.target.value);
 
-		const names = searchable.filter(searchableItem=>{
-			return	searchableItem.name.includes(e.target.value.toLowerCase());
-		}).map(searchableItem=>searchableItem);
-		setItems(e.target.value? names.slice(0, 5) : []);
+		const names = searchable.filter(searchableItem => {
+			return searchableItem.name.includes(e.target.value.toLowerCase());
+		}).map(searchableItem => searchableItem);
+		setItems(e.target.value ? names.slice(0, 5) : []);
 	};
 
 
@@ -169,42 +173,48 @@ const Navigation = () => {
 									type="text"
 									placeholder="Search OpenQ"
 								></input>
-								{quickSearch && <LinkDropdown  items= {items}/>}</div>
+								{quickSearch && <LinkDropdown items={items} />}</div>
 							<Link href={'/atomic-contracts'}>
 								<a >
-									<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath ==='/atomic-contracts' && 'text-white'}`}>
+									<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath === '/atomic-contracts' && 'text-white'}`}>
 										Atomic contracts
 									</div>
 								</a>
 							</Link>
 							<Link href={'/contests'}>
 								<a >
-									<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath ==='/contests' && 'text-white'}`}>
-									Contests
+									<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath === '/contests' && 'text-white'}`}>
+										Contests
 									</div>
 								</a>
 							</Link>
 							<Link href={'/repeatable'}>
 								<a >
-									<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath ==='/repeatable' && 'text-white'}`}>
-									Repeatable
+									<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath === '/repeatable' && 'text-white'}`}>
+										Repeatable
 									</div>
 								</a>
 							</Link>
 							<Link href={'/organizations'}>
 								<a >
-									<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath ==='/organizations' && 'text-white'}`}>
-									Organizations
+									<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath === '/organizations' && 'text-white'}`}>
+										Organizations
 									</div>
 								</a>
 							</Link>
 							<Link href={'/'}>
 								<a >
-									<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath ==='/' && 'text-white'}`}>
-									Explore
+									<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath === '/' && 'text-white'}`}>
+										Explore
 									</div>
 								</a>
 							</Link>
+							<button onClick={() => setShowWizard(true)}>
+								<div className="mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer">
+									Contract Wizard
+								</div>
+							</button>
+							{showWizard && <ContractWizard wizardVisibility={setShowWizard} />}
 						</div>
 					</div>
 					<div className="flex items-center text-[0.8rem] md:text-[1rem]">
@@ -228,7 +238,7 @@ const Navigation = () => {
 								type="text"
 								placeholder="Search OpenQ"
 							></input>
-							{quickSearch && <LinkDropdown  items= {items}/>}</div>
+							{quickSearch && <LinkDropdown items={items} />}</div>
 						<Link href={'/'}>
 							<a className="flex items-center pt-1 border-t border-gray-700">
 								<div className="text-[0.8rem] tracking-wider text-nav-text font-bold">
@@ -256,6 +266,12 @@ const Navigation = () => {
 								Explore
 							</div>
 						</ToolTipNew>
+						<button onClick={() => setShowWizard(true)}>
+							<div className="flex text-[0.8rem] pt-1 border-t border-gray-700 tracking-wider text-nav-text font-bold">
+								Contract Wizard
+							</div>
+						</button>
+						{showWizard && <ContractWizard wizardVisibility={setShowWizard} />}
 					</div>
 				</div>
 				:
