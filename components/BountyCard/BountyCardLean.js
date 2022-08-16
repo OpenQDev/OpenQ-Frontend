@@ -11,7 +11,6 @@ import LabelsList from '../Bounty/LabelsList';
 
 const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 	// State
-	console.log(bounty);
 	const bountyName = bounty?.title.toLowerCase() || '';
 	const [appState] = useContext(StoreContext);
 	const [isModal, setIsModal] = useState();
