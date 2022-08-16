@@ -4,8 +4,39 @@ import Link from 'next/link';
 // Custom
 import MintBountyButton from '../MintBounty/MintBountyButton';
 import StoreContext from '../../store/Store/StoreContext';
+import useAuth from '../../hooks/useAuth';
 const BountyHeading = ({bounty, price}) =>{
 
+	const [authState] = useAuth();
+	const getBountyMarker = ()=>{
+	
+		if(bounty.bountyType==='0'){
+			if(bounty.closer){
+				return {status: 'Claimed', colour: 'bg-danger' };
+			}
+			if(!bounty.closer && bounty?.prs?.some(pr =>pr.source.merged)){
+				{
+					if(bounty?.prs?.some(pr =>pr.source.author.login===authState.login)){
+			
+						return { status: 'Claim Available', colour: 'bg-closed'};			
+					}
+					return{status: 'Closed', colour: 'bg-danger'};			
+				}
+			}
+			if(bounty.assignees[0]){
+				return {status:'In Progress', colour: 'bg-yellow-500 text-black fill-black'};}
+			else{
+				return {status: 'Ready for Work', colour: 'bg-green'};
+			}
+		}
+		else if (bounty.closed){
+			return{status: 'Closed', colour: 'bg-closed'};
+		}
+		else{return {status: 'Open', colour: 'bg-green'}; }
+
+	};
+	const	 marker = getBountyMarker();
+	
 	const [appState] = useContext(StoreContext);
 	return (
 		<div className='sm:px-8 px-4 w-full max-w-[1200px] pb-4'>
@@ -20,13 +51,13 @@ const BountyHeading = ({bounty, price}) =>{
 				<MintBountyButton types={['0', '1','2']} styles={'h-8 self-center'}/>
 			</div>
 			<div className='w-full flex flex-wrap justify-between w-full pb-4 border-b border-web-gray'>
-				<div className={`${bounty.status === 'CLOSED' ? 'bg-closed':'bg-important-button'} py-2 font-light rounded-full px-4 flex gap-1  w-fit`}>
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" className='fill-white'>
+				<div className={`${marker.colour} py-2 font-light rounded-full px-4 flex gap-1  w-fit`}>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" className={`fill-white ${marker.colour}`}>
 						<path d="M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path><path fillRule="evenodd" d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z">
 						</path></svg>
 		
 					<span className='leading-none'>
-						{bounty.status === 'CLOSED' ?'Claimed' : 'Open' }</span>
+						{marker.status}</span>
 				</div>
 
 				{(price|| price ===0) && <span className='leading-loose text-lg font-semibold text-primary'>
