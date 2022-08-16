@@ -34,6 +34,12 @@ const address = ({ address, mergedBounty, renderError }) => {
 	const [appState, dispatch] = useContext(StoreContext);
 	const [bounty, setBounty] = useState(mergedBounty);
 	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
+	const [payoutValues] = useGetTokenValues(bounty.payouts);
+	const [refundValues] = useGetTokenValues(bounty.refunds);
+	const tokenTotal = tokenValues?.total;
+	const payoutTotal = payoutValues?.total;
+	const refundTotal = refundValues?.total;
+	const TVL=tokenTotal - payoutTotal - refundTotal;
 	const {account, } = useWeb3();
 
 	// State
@@ -155,8 +161,8 @@ const address = ({ address, mergedBounty, renderError }) => {
 					<RepoTitle bounty={bounty} />
 					<SubMenu colour="rust" items={[{ name: 'View', Svg: Telescope }, { name: 'Fund', Svg: Add }, { name: 'Refund', Svg: Subtract }, { name: 'Claim', Svg: Fire }, { name: (bounty.issuer && ethers.utils.getAddress(bounty?.issuer?.id) == account) ? 'Admin' : null, Svg: (bounty.issuer && ethers.utils.getAddress(bounty.issuer.id) == account) ? Telescope : null }]} internalMenu={internalMenu} updatePage={setInternalMenu} />
 
-					<BountyHeading price={tokenValues?.total} bounty={bounty} />
-					{internalMenu == 'View' && <BountyCardDetails justMinted={justMinted} bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}
+					<BountyHeading price={TVL} bounty={bounty} />
+					{internalMenu == 'View' && <BountyCardDetails justMinted={justMinted} price={TVL} bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Admin' && bounty && (ethers.utils.getAddress(bounty.issuer.id) == account) ? <AdminPage bounty={bounty} refreshBounty={refreshBounty} /> : null}

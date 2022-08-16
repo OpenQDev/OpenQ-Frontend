@@ -11,14 +11,22 @@ import LabelsList from '../Bounty/LabelsList';
 
 const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 	// State
+	console.log(bounty);
 	const bountyName = bounty?.title.toLowerCase() || '';
 	const [appState] = useContext(StoreContext);
 	const [isModal, setIsModal] = useState();
+	const [payoutValues] = useGetTokenValues(bounty.payouts);
+	const [refundValues] = useGetTokenValues(bounty.refunds);
+	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances );
+	const tokenTotal = tokenValues?.total;
+	const payoutTotal = payoutValues?.total;
+	const refundTotal = refundValues?.total;
+	const price=tokenTotal - payoutTotal - refundTotal;
 	// Hooks
-	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances || []);
-	const TVL = tokenValues != null && tokenValues != {}
-		? appState.utils.formatter.format(tokenValues.total)
-		: appState.utils.formatter.format(0);
+	
+	const TVL = price || price === 0
+		? appState.utils.formatter.format(price)
+		: '';
 	const closeModal = () => {
 		setIsModal(false);
 		document.body.style.height = 'auto';
@@ -33,7 +41,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 	// Render
 	return (
 		<div className={loading ? 'pointer-events-none cursor-normal relative w-full' : 'w-full'}>
-			<BountyCardDetailsModal unWatchable={unWatchable} TVL={TVL} bounty={bounty} closeModal={closeModal} showModal={isModal && bounty} tokenValues={tokenValues} />
+			<BountyCardDetailsModal unWatchable={unWatchable} TVL={TVL} bounty={bounty} closeModal={closeModal} showModal={isModal && bounty} price={price} />
 			<div onClick={openModal}
 				className={
 					`flex flex-col  md:px-4 py-4 border-web-gray cursor-pointer ${index!==length-1 && 'border-b'}`
@@ -115,7 +123,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 								/> :
 								<Skeleton width={51} height={51} />
 							}
-							<div className="flex flex-row space-x-1 items-center">
+							{TVL &&<div className="flex flex-row space-x-1 items-center">
 								<div className="pr-2 pt-1 invisible md:visible">
 									<Image
 										src="/crypto-logos/ETH.svg"
@@ -125,13 +133,15 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 									/>
 								</div>
 
-								<div className="font-semibold ">TVL</div>
-								<div className="">
-									{TVL}
-								</div>
+								<>
+									<div className="font-semibold ">TVL</div>
+									<div className="">
+										{TVL}
+									</div>
+								</>
 
 							
-							</div>
+							</div>}
 						</div>}
 				</div>
 			</div>

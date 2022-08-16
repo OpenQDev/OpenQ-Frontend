@@ -29,11 +29,11 @@ const BountyHeading = ({bounty, price}) =>{
 						{bounty.status === 'CLOSED' ?'Claimed' : 'Open' }</span>
 				</div>
 
-				<span className='leading-loose text-lg font-semibold text-primary'>
+				{(price|| price ===0) && <span className='leading-loose text-lg font-semibold text-primary'>
 					
-					Total Value {bounty.status === 'CLOSED'  ? 'Claimed': 'Locked' } { appState.utils.formatter.format(
-						price||0
-					)}</span>
+					Total Value Locked { appState.utils.formatter.format(
+						price
+					)}</span>}
 			</div>
 		</div>);
 };

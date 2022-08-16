@@ -12,6 +12,14 @@ query GetAllIssues($skip: Int! $sortOrder: String!, $quantity: Int! $types: [Str
 		closerData
 		bountyType
 		claimedTransactionHash
+		refunds{
+			tokenAddress
+			volume
+		}
+		payouts{
+			tokenAddress
+			volume
+		}
 		deposits {
     		id
 			refunded
@@ -163,6 +171,14 @@ query GetBountiesByContractAddresses($contractAddresses: [ID]!, $types: [String]
       }
       receiveTime
     }
+		refunds{
+			tokenAddress
+			volume
+		}
+		payouts{
+			tokenAddress
+			volume
+		}
     issuer {
       id
     }
@@ -287,6 +303,14 @@ query GetOrganization($id: ID!, $skip: Int, $order: String, $first: Int, ) {
 		bountyTokenBalances {
 			volume
 			tokenAddress
+		}		
+		refunds{
+			tokenAddress
+			volume
+		}
+		payouts{
+			tokenAddress
+			volume
 		}
 	}}
 }`;
@@ -302,6 +326,14 @@ query GetOrganization($id: ID!, $skip: Int, $order: String, $first: Int, $contra
 		bountyClosedTime
 		claimedTransactionHash
 		status
+		refunds{
+			tokenAddress
+			volume
+		}
+		payouts{
+			tokenAddress
+			volume
+		}
 		deposits {
 			id
 			refunded
@@ -359,6 +391,14 @@ query GetOrganization($id: ID!, $quantity: Int!) {
 				volume
 				tokenAddress
 			}
+			refunds{
+					volume
+				tokenAddress
+			}
+			payouts{
+			volume
+			tokenAddress
+			}
     }
     fundedTokenBalances(orderBy: volume, orderDirection: desc) {
       id
@@ -381,6 +421,10 @@ query GetOrganization($id: ID!, $quantity: Int!) {
         id
       }
     }
+		refunds{
+			tokenAddress
+			volume
+		}
     payouts {
       id
       tokenAddress
