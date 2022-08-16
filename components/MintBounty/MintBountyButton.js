@@ -1,9 +1,10 @@
 // Third party
 import React, { useState } from 'react';
+import ContractWizard from '../ContractWizard/ContractWizard';
 // Custom
 import MintBountyModal from './MintBountyModal';
 
-const MintBountyButton = ({styles, type}) => {
+const MintBountyButton = ({styles, type, wizard}) => {
 	const [showModal, setShowModal] = useState(false);
 
 	return (
@@ -28,7 +29,10 @@ const MintBountyButton = ({styles, type}) => {
 				</svg>
 				<div>New Contract</div>
 			</button>
-			{showModal && <MintBountyModal type={type} modalVisibility={setShowModal} />}
+			{ wizard?  
+				showModal && <ContractWizard wizardVisibility={setShowModal} />
+				:
+				showModal && <MintBountyModal type={type} modalVisibility={setShowModal} />}
 		</>
 	);
 };
