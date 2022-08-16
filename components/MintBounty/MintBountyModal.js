@@ -103,8 +103,6 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 		}
 	};
 	const mintBounty = async () => {
-		console.log('tierVolume object:', tierVolume);
-		console.log('finalTierVolume object in MintBounty:', finalTierVolume);
 		try {
 			setIsLoading(true);
 			let data;
@@ -129,7 +127,6 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 				toggleType,
 				data
 			);
-			console.log('Mint bounty data:', data);
 			sessionStorage.setItem('justMinted', true);
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress.toLowerCase()}`
@@ -207,7 +204,6 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 	function onTierVolumeChange(e) {
 		if (parseFloat(e.target.value) >= 0) setTierVolume({ ...tierVolume, [e.target.name]: parseFloat(e.target.value) });
 		if (parseFloat(e.target.value) === '') setTierVolume({ ...tierVolume, [e.target.name]: '0' });
-		console.log(tier, tierArr, tierVolume);
 	}
 
 	useEffect(() => {
