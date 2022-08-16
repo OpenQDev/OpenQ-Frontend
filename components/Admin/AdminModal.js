@@ -1,11 +1,12 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import Image from 'next/image';
 import StoreContext from '../../store/Store/StoreContext';
+import { ethers } from 'ethers';
 
 
 const AdminModal = ({setModal, modal})=>{
 	const [token, setToken] = useState();
-	const volume = 3;
+	const [volume, setVolume] = useState();
 	const [appState ] = useContext(StoreContext);
 
 	useEffect(()=>{
@@ -13,7 +14,13 @@ const AdminModal = ({setModal, modal})=>{
 		if(modal.transaction){
 			const tokenAddress = modal.transaction.events[0].args[1];
 			const token = appState.tokenClient.getToken(tokenAddress);
-			setToken(token);}
+			setToken(token);
+			const volume =  modal.transaction.events[0].args[2];
+			let bigNumberVolume = ethers.BigNumber.from(volume.toString());
+			let decimals = parseInt(token.decimals)||18;
+			let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
+			setVolume(formattedVolume);			
+		}
 	},[]);
 
 	const modalRef = useRef();
