@@ -52,6 +52,7 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 	const [toggleType, setToggleType] = useState(type || 'Atomic');
 	const [goalVolume, setGoalVolume] = useState('');
 	const [goalToken, setGoalToken] = useState(zeroAddressMetadata);
+	const [sum, setSum] = useState(0);
 
 	// Refs
 	const modal = useRef();
@@ -202,13 +203,20 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 	}
 
 	function onTierVolumeChange(e) {
-		if (parseFloat(e.target.value) >= 0) setTierVolume({ ...tierVolume, [e.target.name]: parseFloat(e.target.value) });
-		if (parseFloat(e.target.value) === '' || !Number(e.target.value)) setTierVolume({ ...tierVolume, [e.target.name]: '' });
+		if (parseInt(e.target.value) >= 0) setTierVolume({ ...tierVolume, [e.target.name]: parseInt(e.target.value) });
+		if (parseInt(e.target.value) === '' || !Number(e.target.value) || parseInt(e.target.value) > 100)
+			setTierVolume({ ...tierVolume, [e.target.name]: '' });
 	}
 
 	useEffect(() => {
 		setFinalTierVolume(Object.values(tierVolume));
 	}, [tierVolume]);
+
+	useEffect(() => {
+		if (finalTierVolume.length) {
+			setSum(finalTierVolume.reduce((a, b) => a + b));
+		}
+	}, [finalTierVolume]);
 
 	// Render
 	return (
@@ -337,11 +345,16 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 													{tier > 0 ?
 														<>
 															<div className='flex flex-col w-full items-start p-2 py-1 pb-0 text-base'>
-																<div className='flex items-center gap-2 pb-2'>Weight per Tier (%)
+																<div className='flex items-center gap-2 '>Weight per Tier (%)
 																	<ToolTipNew mobileX={10} toolTipText={'How much % of the total will each winner earn?'} >
 																		<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
 																	</ToolTipNew>
 																</div>
+																{sum > 100 ?
+																	<span className='text-sm my-2 pb-2 text-[#f85149]'>The sum can not be more than 100%!</span>
+																	:
+																	<span className='text-sm my-2 pb-2'>For the sum to add up to 100, you still need to allocate: {100 - sum} %</span>
+																}
 																<div className='max-h-40 w-full overflow-y-auto overflow-x-hidden'>
 																	{tierArr.map((t) => {
 																		return (
