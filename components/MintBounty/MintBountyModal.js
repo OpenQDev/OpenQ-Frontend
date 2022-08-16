@@ -337,8 +337,8 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 													{tier > 0 ?
 														<>
 															<div className='flex flex-col w-full items-start p-2 py-1 pb-0 text-base'>
-																<div className='flex items-center gap-2 pb-2'>Weight per Tier
-																	<ToolTipNew mobileX={10} toolTipText={'How much will each winner earn?'} >
+																<div className='flex items-center gap-2 pb-2'>Weight per Tier (%)
+																	<ToolTipNew mobileX={10} toolTipText={'How much % of the total will each winner earn?'} >
 																		<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
 																	</ToolTipNew>
 																</div>
