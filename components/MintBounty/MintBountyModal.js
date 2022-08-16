@@ -203,7 +203,7 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 
 	function onTierVolumeChange(e) {
 		if (parseFloat(e.target.value) >= 0) setTierVolume({ ...tierVolume, [e.target.name]: parseFloat(e.target.value) });
-		if (parseFloat(e.target.value) === '') setTierVolume({ ...tierVolume, [e.target.name]: '0' });
+		if (parseFloat(e.target.value) === '' || !Number(e.target.value)) setTierVolume({ ...tierVolume, [e.target.name]: '0' });
 	}
 
 	useEffect(() => {
