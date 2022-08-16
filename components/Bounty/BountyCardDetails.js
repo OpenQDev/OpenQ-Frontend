@@ -21,7 +21,8 @@ const BountyCardDetails = ({ bounty, setInternalMenu, justMinted, price }) => {
 	
 	
 	const deposits = bounty.deposits ||[];
-	const refunds = bounty.refunds || [];let claimedEvent = [];
+	const refunds = bounty.refunds || [];
+	let claimedEvent = [];
 	let closedEvents = [];
 	if(bounty.bountyClosedTime && bounty.status){
 		closedEvents = [{time:bounty.bountyClosedTime }];
@@ -31,11 +32,13 @@ const BountyCardDetails = ({ bounty, setInternalMenu, justMinted, price }) => {
 		claimedEvent=bounty.claims;
 		
 	}
+
 	const depositsAndRefunds = appState.utils.mergeOrdered( deposits, refunds, 'receiveTime', 'refundTime');
 	const normalizedDepositsAndRefunds = depositsAndRefunds.map((action)=>{
 		const time = action.receiveTime || action.refundTime;
 		return {...action, time};
 	});
+
 	const claimsAndCloses = appState.utils.mergeOrdered( closedEvents, claimedEvent,  'time', 'claimTime');
 	const normalizedClaimsAndCloses = claimsAndCloses.map((action)=>{
 		const closingTime = action.claimTime || action.time;

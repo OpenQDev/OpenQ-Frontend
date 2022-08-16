@@ -66,7 +66,7 @@ query GetBounty($id: ID!) {
 		closerData
     bountyMintTime
 		bountyClosedTime
-     claims{
+     claims(orderBy: "claimTime", orderDirection: "desc"){
 		 	claimTime 
 		 	claimantAsset 
 			claimant {
