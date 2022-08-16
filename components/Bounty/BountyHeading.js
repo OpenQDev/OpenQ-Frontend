@@ -17,7 +17,7 @@ const BountyHeading = ({bounty, price}) =>{
 						</a>
 					</Link>
 				</h1>
-				<MintBountyButton styles={'h-8 self-center'}/>
+				<MintBountyButton types={['0', '1','2']} styles={'h-8 self-center'}/>
 			</div>
 			<div className='w-full flex flex-wrap justify-between w-full pb-4 border-b border-web-gray'>
 				<div className={`${bounty.status === 'CLOSED' ? 'bg-closed':'bg-important-button'} py-2 font-light rounded-full px-4 flex gap-1  w-fit`}>
