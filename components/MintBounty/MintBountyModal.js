@@ -49,7 +49,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 	const [finalTierVolume, setFinalTierVolume] = useState([]);
 	const [payoutVolume, setPayoutVolume] = useState('');
 	const [payoutToken, setPayoutToken] = useState(zeroAddressMetadata);
-	const initialType =  types[0]==='1' ? 'Repeatable' : types[0] ==='2'? 'Contest': 'Atomic';
+	const initialType =  types[0]==='1' ? 'Repeating' : types[0] ==='2'? 'Contest': 'Atomic';
 	const [toggleType, setToggleType] = useState(initialType);
 	const [goalVolume, setGoalVolume] = useState('');
 	const [goalToken, setGoalToken] = useState(zeroAddressMetadata);
