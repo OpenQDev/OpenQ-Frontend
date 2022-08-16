@@ -10,11 +10,11 @@ import ProfilePicture from './ProfilePicture.js';
 import Image from 'next/image';
 import FirstTimeBanner from './FirstTimeBanner';
 import useWeb3 from '../../hooks/useWeb3.js';
-import ToolTipNew from '../Utils/ToolTipNew.js';
 import { ThreeBarsIcon } from '@primer/octicons-react';
-import LinkDropdown from '../Utils/LinkDropdown.js';
-import { useRouter } from 'next/router.js';
-import ContractWizard from '../ContractWizard/ContractWizard.js';
+import LinkDropdown from '../Utils/LinkDropdown';
+import { useRouter } from 'next/router';
+import NavLinks from './NavLinks';
+import ContractWizard from '../ContractWizard/ContractWizard';
 
 const Navigation = () => {
 
@@ -35,7 +35,7 @@ const Navigation = () => {
 		setQuickSearch('');
 		setOpenMenu(false);
 	}, [router.asPath]);
-
+	
 	useEffect(async () => {
 		if (account) {
 			const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature?address=${account}`, { withCredentials: true });
@@ -147,11 +147,11 @@ const Navigation = () => {
 
 			<div className="flex visible relative">
 
-				<div className="flex w-full md:py-1 justify-between mx-4">
+				<div className="flex w-full lg:py-1 justify-between mx-4">
 
 					<div className="flex space-x-5 items-center">
 						<Link href={'/'}>
-							<a className="flex items-center md:hover:opacity-70">
+							<a className="flex items-center lg:hover:opacity-70">
 								<Image
 									src="/openq-logo-white-2.png"
 									alt="OpenQ"
@@ -160,55 +160,21 @@ const Navigation = () => {
 								/>
 							</a>
 						</Link>
-						<button className="flex md:hidden" onClick={() => setOpenMenu(!openMenu)}>
+						<button className="flex lg:hidden" onClick={() => setOpenMenu(!openMenu)}>
 							<ThreeBarsIcon size={24} />
 						</button>
 
-						<div className="md:flex hidden  content-center  items-center">
+						<div className="lg:flex hidden  content-center  items-center">
 							<div className='flex-col justify-center mr-2 h-7 group '>
 								<input
-									className={`md:flex hidden pr-24 items-center focus:w-80 w-60  left-0 input-field transition-all  ease-in-out duration-700 ${quickSearch && 'focus:w-96'}`}
+									className={`lg:flex hidden pr-24 items-center focus:w-80 w-60  left-0 input-field transition-all  ease-in-out duration-700 ${quickSearch && 'focus:w-96'}`}
 									onChange={handleSearch}
 									value={quickSearch}
 									type="text"
 									placeholder="Search OpenQ"
 								></input>
 								{quickSearch && <LinkDropdown items={items} />}</div>
-							<Link href={'/atomic-contracts'}>
-								<a >
-									<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath === '/atomic-contracts' && 'text-white'}`}>
-										Atomic contracts
-									</div>
-								</a>
-							</Link>
-							<Link href={'/contests'}>
-								<a >
-									<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath === '/contests' && 'text-white'}`}>
-										Contests
-									</div>
-								</a>
-							</Link>
-							<Link href={'/repeatable'}>
-								<a >
-									<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath === '/repeatable' && 'text-white'}`}>
-										Repeatable
-									</div>
-								</a>
-							</Link>
-							<Link href={'/organizations'}>
-								<a >
-									<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath === '/organizations' && 'text-white'}`}>
-										Organizations
-									</div>
-								</a>
-							</Link>
-							<Link href={'/'}>
-								<a >
-									<div className={`mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer ${router.asPath === '/' && 'text-white'}`}>
-										Explore
-									</div>
-								</a>
-							</Link>
+							<NavLinks />
 							<button onClick={() => setShowWizard(true)}>
 								<div className="mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer">
 									Contract Wizard
@@ -217,7 +183,7 @@ const Navigation = () => {
 							{showWizard && <ContractWizard wizardVisibility={setShowWizard} />}
 						</div>
 					</div>
-					<div className="flex items-center text-[0.8rem] md:text-[1rem]">
+					<div className="flex items-center text-[0.8rem] lg:text-[1rem]">
 						<div>
 							<ConnectButton />
 						</div>
@@ -228,7 +194,7 @@ const Navigation = () => {
 				</div>
 			</div>
 			{openMenu ?
-				<div className="flex md:hidden w-full">
+				<div className="flex lg:hidden w-full">
 					<div className="flex flex-col p-4 space-x-1 space-y-2 w-full">
 						<div className='flex-col mr-2 h-7  group'>
 							<input
@@ -239,33 +205,9 @@ const Navigation = () => {
 								placeholder="Search OpenQ"
 							></input>
 							{quickSearch && <LinkDropdown items={items} />}</div>
-						<Link href={'/'}>
-							<a className="flex items-center pt-1 border-t border-gray-700">
-								<div className="text-[0.8rem] tracking-wider text-nav-text font-bold">
-									Atomic contracts
-								</div>
-							</a>
-						</Link>
-						<ToolTipNew toolTipText={'Coming soon'} >
-							<div className="flex text-[0.8rem] pt-1 border-t border-gray-700 tracking-wider text-nav-text font-bold text-opacity-20">
-								Contests
-							</div>
-						</ToolTipNew>
-						<ToolTipNew toolTipText={'Coming soon'} >
-							<div className="flex text-[0.8rem] pt-1 border-t border-gray-700 tracking-wider text-nav-text font-bold text-opacity-20">
-								Repeatable
-							</div>
-						</ToolTipNew>
-						<ToolTipNew toolTipText={'Coming soon'} >
-							<div className="flex text-[0.8rem] pt-1 border-t border-gray-700 tracking-wider text-nav-text font-bold text-opacity-20">
-								Organizations
-							</div>
-						</ToolTipNew>
-						<ToolTipNew toolTipText={'Coming soon'} >
-							<div className="flex text-[0.8rem] pt-1 border-t border-gray-700 tracking-wider text-nav-text font-bold text-opacity-20">
-								Explore
-							</div>
-						</ToolTipNew>
+							
+						<NavLinks />
+						
 						<button onClick={() => setShowWizard(true)}>
 							<div className="flex text-[0.8rem] pt-1 border-t border-gray-700 tracking-wider text-nav-text font-bold">
 								Contract Wizard

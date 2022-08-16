@@ -42,6 +42,11 @@ const ActionBubble = ({ addresses, bounty, action,})=>{
 		else{
 			title='Waiting for this contract to be indexed by the Graph.';}
 	}
+
+	if(action?.closingTime){
+		title = `${minter} closed this contract on ${appState.utils.formatUnixDate(action.closingTime)}.`;
+	
+	}
 	
 	if(action?.claimTime){
 		const claimant = claimantEnsName ||shortenAddress(action.claimant.id);
@@ -52,11 +57,6 @@ const ActionBubble = ({ addresses, bounty, action,})=>{
 		if(bounty.bountyType==='1'){
 			title = `${claimant} made a claim on this contract on ${appState.utils.formatUnixDate(action.claimTime)}.`;
 		}
-	}
-
-	if(action?.closingTime){
-		title = `${minter} closed this contract on ${appState.utils.formatUnixDate(action.closingTime)}.`;
-	
 	}
 	
 	
@@ -91,11 +91,11 @@ const ActionBubble = ({ addresses, bounty, action,})=>{
 			}
 			<div className='w-full flex-0 rounded-sm overflow-hidden ml-4 border-web-gray border-b before:w-2 before:h-2 before:bg-nav-bg before:absolute before:absolute before:left-12 before:top-[35px] before:border-b  before:border-l before:border-web-gray before:top-10 before:rotate-45  border'>
 				
-				<div className={`bg-nav-bg w-full pl-3 ${(!action) && 'border-web-gray border-b'} flex justify-between`}>
+				<div className={`bg-nav-bg w-full pl-3 ${(!action) && 'border-web-gray'} flex justify-between`}>
 					<span className='py-2'>{tokenValues || (!action?.receiveTime && !action?.refundTime) ? title : <Skeleton width="34" />}</span>
 					{action?.refunded && <span className='border rounded-full border-web-gray px-2 py-px m-1'> Refunded</span>}
 				</div>
-				{!action&&<div className='w-full p-8 p-4 markdown-body' dangerouslySetInnerHTML={{__html: bodyHTML }}></div>
+				{!action  && bodyHTML && <div className='w-full p-8 p-4 border-web-gray border-t markdown-body' dangerouslySetInnerHTML={{__html: bodyHTML }}></div>
 				}
 			</div>
 			

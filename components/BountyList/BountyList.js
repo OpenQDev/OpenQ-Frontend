@@ -20,7 +20,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 	const { account } = useWeb3();
 	/* const [l2eOnly, setL2eOnly] = useState(false); */
 	const router = useRouter();
-	const [searchText, updateSearchText] = useState(`order:newest ${router.query.type ? `type:"${router.query.type}"`: ''}`);
+	const [searchText, updateSearchText] = useState(`order:newest ${router.query.type && router.route === '/organization/[organization]' ? `type:"${router.query.type}"`: ''}`);
 	const [tagArr, updateTagArr] = useState([]);
 	const [searchedBounties, updateSearchedBounties] = useState([]);
 	const [isProcessed, updateIsProcessed] = useState(false);
@@ -109,7 +109,6 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 			const hasLabels = searchedLabels.some((searchedLabel) => bounty.labels.some(bountyLabel => bountyLabel.name === searchedLabel)) || searchedLabels.length === 0;
 
 			const isType = types.some(type=>type===bounty.bountyType);
-			console.log(isType);
 
 			let containsSearch = true;
 

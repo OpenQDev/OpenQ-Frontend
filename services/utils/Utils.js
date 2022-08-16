@@ -202,7 +202,7 @@ class Utils {
 		const renderError = subgraphError || fetchingError;
 		return [fullBounties, renderError];
 	};
-
+	
 	fillBountiesFromBountyAddresses = async(newBounties, openQPrismaClient, githubRepository )=>{
 		let renderError='';
 		const bountyIds = newBounties.map((bounty) => bounty.bountyId);

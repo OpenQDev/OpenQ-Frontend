@@ -1,78 +1,14 @@
 // Third party
-import React, { useContext, useEffect, useState } from 'react';
-import { ethers } from 'ethers';
-import axios from 'axios';
+import React from 'react';
 
 // Custom 
 import Link from 'next/link';
 import Skeleton from 'react-loading-skeleton';
 import Image from 'next/image';
 import useWeb3 from '../../hooks/useWeb3';
-import StoreContext from '../../store/Store/StoreContext';
 
-const BountyLinks = ({ bounty, hideBountyLink, bountyAddress }) => {
-	const { account } = useWeb3();
-	const [watchDisabled, setWatchDisabled] = useState();
-	const [watchingDisplay, setWatchingDisplay] = useState();
-	const [appState, dispatch] = useContext(StoreContext);
+const BountyLinks = ({ bounty, hideBountyLink }) => {
 
-	useEffect(() => {
-		const watching = bounty?.watchingUserIds?.some(user => user === account);
-		setWatchingDisplay(watching);
-	}, [account]);
-
-	const signMessage = async () => {
-		const message = 'OpenQ';
-		const signature = await window.ethereum
-			.request({
-				method: 'personal_sign',
-				params: [message, account]
-			});
-		return signature;
-	};
-
-	const watchBounty = async () => {
-		if(!account){const payload = {
-			type: 'CONNECT_WALLET',
-			payload: true
-		};
-		dispatch(payload);
-		return; 
-		}
-		try {
-			const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature?address=${account}`, { withCredentials: true });
-			if (response.data.status===false) {
-				const signature = await signMessage();
-				await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/verifySignature`,
-					{
-						signature,
-						address: account
-					}, { withCredentials: true }
-				);
-			}
-
-
-			setWatchDisabled(true);
-			if (watchingDisplay) {
-				await appState.openQPrismaClient.unWatchBounty(ethers.utils.getAddress(bountyAddress), account);
-				setWatchingDisplay(false);
-				setWatchDisabled(false);
-			} else {
-				await appState.openQPrismaClient.watchBounty(ethers.utils.getAddress(bountyAddress), account);
-				setWatchingDisplay(true);
-				setWatchDisabled(false);
-			}
-
-			const payload = {
-				type: 'UPDATE_RELOAD',
-				payload: true
-			};
-
-			dispatch(payload);
-		} catch (error) {
-			console.error(error);
-		}
-	};
 
 	const tweetText = `Check out this bounty ${bounty?.owner && `for ${bounty?.owner}`} on OpenQ. You can claim it just by making a pull request that completes the issue! `;
 	const { safe } = useWeb3();
@@ -138,23 +74,6 @@ const BountyLinks = ({ bounty, hideBountyLink, bountyAddress }) => {
 					</div>
 				</a>
 			</Link> :
-				<Skeleton width={'24px'} height={'24px'} />}
-			{bountyAddress && account ?
-
-				<button onClick={watchBounty} disabled={watchDisabled}>
-					<div id={'bounty-link'} className="cursor-pointer">
-						{
-							watchingDisplay ?
-								<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth={2}>
-									<path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-								</svg> :
-								<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth="2">
-									<path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-									<path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-								</svg>}
-					</div>
-				</button> :
-				hideBountyLink && account && !bounty &&
 				<Skeleton width={'24px'} height={'24px'} />}
 		</div>
 	);
