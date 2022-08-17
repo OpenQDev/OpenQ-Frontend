@@ -5,39 +5,13 @@ import Link from 'next/link';
 import MintBountyButton from '../MintBounty/MintBountyButton';
 import StoreContext from '../../store/Store/StoreContext';
 import useAuth from '../../hooks/useAuth';
+
 const BountyHeading = ({bounty, price}) =>{
 
-	const [authState] = useAuth();
-	const getBountyMarker = ()=>{
-	
-		if(bounty.bountyType==='0'){
-			if(bounty.closer){
-				return {status: 'Claimed', colour: 'bg-danger' };
-			}
-			if(!bounty.closer && bounty?.prs?.some(pr =>pr.source.merged)){
-				{
-					if(bounty?.prs?.some(pr =>pr.source.author.login===authState.login)){
-			
-						return { status: 'Claim Available', colour: 'bg-closed'};			
-					}
-					return{status: 'Closed', colour: 'bg-danger'};			
-				}
-			}
-			if(bounty.assignees[0]){
-				return {status:'In Progress', colour: 'bg-yellow-500 text-black fill-black'};}
-			else{
-				return {status: 'Ready for Work', colour: 'bg-green'};
-			}
-		}
-		else if (bounty.closed){
-			return{status: 'Closed', colour: 'bg-closed'};
-		}
-		else{return {status: 'Open', colour: 'bg-green'}; }
-
-	};
-	const	 marker = getBountyMarker();
-	
 	const [appState] = useContext(StoreContext);
+	const [authState] = useAuth();
+	const	marker = appState.utils.getBountyMarker(bounty, authState.login);
+	
 	return (
 		<div className='sm:px-8 px-4 w-full max-w-[1200px] pb-4'>
 			<div className='pt-6 pb-2 w-full flex flex-wrap'>

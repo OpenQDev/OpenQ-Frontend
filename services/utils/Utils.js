@@ -120,6 +120,33 @@ class Utils {
 		return fullBounties;
 	};
 
+	getBountyMarker = (bounty, login)=>{
+		if(bounty.bountyType==='0'){
+			if(bounty.closed){
+				return {status: 'Claimed', colour: 'bg-danger', fill: 'fill-danger'};
+			}
+			if(!bounty.closed && bounty?.prs?.some(pr =>pr.source.merged)){
+				{
+					if(bounty?.prs?.some(pr =>pr.source.author.login===login)){
+			
+						return { status: 'Claim Available', colour: 'bg-closed', fill: 'fill-closed'};			
+					}
+					return{status: 'Closed', colour: 'bg-danger', fill: 'fill-danger'};			
+				}
+			}
+			if(bounty.assignees[0]){
+				return {status:'In Progress', colour: 'bg-yellow-500 text-black fill-black', fill: 'fill-yellow-500'};}
+			else{
+				return {status: 'Ready for Work', colour: 'bg-green', fill: 'fill-green'};
+			}
+		}
+		else if (bounty.closed){
+			return{status: 'Closed', colour: 'bg-closed', fill: 'fill-closed'};
+		}
+		else{return {status: 'Open', colour: 'bg-green', fill: 'fill-green'}; }
+
+	};
+	
 	fetchOrganizations = async({openQSubgraphClient, githubRepository, openQPrismaClient},  types=['0', '1', '2'])=>{
 
 		let orgs = [];
@@ -232,7 +259,6 @@ class Utils {
 			const prismaBounties = await openQPrismaClient.getUser(
 				account
 			);
-			console.log(prismaBounties);
 			const watchedBountyAddresses = prismaBounties?.watchedBountyIds.map(
 				(address) => address.toLowerCase()
 			);

@@ -8,8 +8,10 @@ import BountyCardDetailsModal from './BountyCardDetailsModal';
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
 import LabelsList from '../Bounty/LabelsList';
+import useAuth from '../../hooks/useAuth';
 
 const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
+
 	// State
 	const bountyName = bounty?.title.toLowerCase() || '';
 	const [appState] = useContext(StoreContext);
@@ -22,7 +24,10 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 	const refundTotal = refundValues?.total;
 	const price=tokenTotal - payoutTotal - refundTotal;
 	// Hooks
-	
+
+	const [authState] = useAuth();
+	const	marker = appState.utils.getBountyMarker(bounty, authState.login);
+
 	const TVL = price || price === 0
 		? appState.utils.formatter.format(price)
 		: '';
@@ -35,7 +40,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 		document.body.style.height = '100vh';
 		document.body.style.overflowY = 'hidden';		
 		setIsModal(true);
-	}; 
+	};
 
 	// Render
 	return (
@@ -52,7 +57,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 							<div className="hidden md:block">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
-									fill={loading ? '#333' : bounty.status === 'CLOSED' ? '#F0431D' : '#15FB31'}
+									className={loading ? '#333' : marker.fill}
 									viewBox="0 0 16 16"
 									width="19"
 									height="19"
@@ -101,8 +106,8 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 							</span></span>
 							
 
-							<span>Assigned to {bounty.assignees.nodes[0]?.name|| 'no one.'}</span>
-							{bounty.assignees.nodes[0]?.avatarUrl &&	<Image height={24} width={24} className='rounded-full pt-1' src={bounty.assignees.nodes[0]?.avatarUrl}/>}
+							<span>Assigned to {bounty.assignees[0]?.name|| 'no one.'}</span>
+							{bounty.assignees[0]?.avatarUrl &&	<Image height={24} width={24} className='rounded-full pt-1' src={bounty.assignees[0]?.avatarUrl}/>}
 						</div>
 						
 					</div>
