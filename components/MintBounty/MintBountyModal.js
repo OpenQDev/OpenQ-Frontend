@@ -18,7 +18,7 @@ import TierInput from './TierInput';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import SubMenu from '../Utils/SubMenu';
 
-const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
+const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
 	const { library, account } = useWeb3();
@@ -49,7 +49,8 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 	const [finalTierVolume, setFinalTierVolume] = useState([]);
 	const [payoutVolume, setPayoutVolume] = useState('');
 	const [payoutToken, setPayoutToken] = useState(zeroAddressMetadata);
-	const [toggleType, setToggleType] = useState(type || 'Atomic');
+	const initialType =  types[0]==='1' ? 'Repeating' : types[0] ==='2'? 'Contest': 'Atomic';
+	const [toggleType, setToggleType] = useState(initialType);
 	const [goalVolume, setGoalVolume] = useState('');
 	const [goalToken, setGoalToken] = useState(zeroAddressMetadata);
 
@@ -109,17 +110,17 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 			setIsLoading(true);
 			let data;
 			switch (toggleType) {
-				case 'Atomic':
-					data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
-					break;
-				case 'Repeating':
-					data = { payoutVolume: payoutVolume, payoutToken: payoutToken, fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
-					break;
-				case 'Contest':
-					data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken, tiers: finalTierVolume };
-					break;
-				default:
-					throw new Error(`No type: ${toggleType}`);
+			case 'Atomic':
+				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
+				break;
+			case 'Repeating':
+				data = { payoutVolume: payoutVolume, payoutToken: payoutToken, fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
+				break;
+			case 'Contest':
+				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken, tiers: finalTierVolume };
+				break;
+			default:
+				throw new Error(`No type: ${toggleType}`);
 			}
 
 			const { bountyAddress } = await appState.openQClient.mintBounty(
@@ -352,7 +353,7 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 																			<div key={t}>
 																				<TierInput tier={t} tierVolume={tierVolume[t]} onTierVolumeChange={onTierVolumeChange} />
 																			</div>
-																		)
+																		);
 																	})}
 																</div>
 															</div>

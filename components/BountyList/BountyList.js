@@ -15,7 +15,7 @@ import searchTagInBounty from './SearchHelpers/searchTagInBounty';
 import SmallToggle from '../Utils/SmallToggle';
 import { useRouter } from 'next/router';
 
-const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData, getNewData, addCarousel, contractToggle }) => {
+const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData, getNewData, addCarousel, contractToggle, types }) => {
 	// Hooks
 	const { account } = useWeb3();
 	/* const [l2eOnly, setL2eOnly] = useState(false); */
@@ -26,7 +26,6 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 	const [isProcessed, updateIsProcessed] = useState(false);
 	const [isReady, setIsReady] = useState('Ready for work');
 	const [labels, setLabels] = useState([]);
-
 	const searchRegex = /label:"[^"]+"/gi;
 	const contractTypeRegex = /type:"[^"]+"/gi;
 	const orderRegex = /order:(\w+)/gi;
@@ -278,7 +277,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 					styles={'rounded-sm w-full'}
 				/>
 
-				<MintBountyButton styles={'w-full'} type={'Repeating'} />
+				<MintBountyButton styles={'w-full'} types={types} />
 			</div>
 			<div className='w-full rounded-sm'>
 				<div className='flex flex-wrap gap-4 p-2 sm:p-4 border-web-gray border rounded-sm bg-subtle'>
