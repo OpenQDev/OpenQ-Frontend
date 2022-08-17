@@ -61,8 +61,11 @@ query getBounty {
 export const GET_BOUNTY = gql`
 query GetBounty($id: ID!) {
   bounty(id: $id) {
-	fundingGoalTokenAddress,
-	fundingGoalVolume
+		fundingGoalTokenAddress
+		fundingGoalVolume
+		payoutTokenAddress
+		payoutTokenVolume
+		payoutSchedule
     bountyAddress
     bountyId
 		closerData
