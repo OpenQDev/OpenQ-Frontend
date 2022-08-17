@@ -7,6 +7,7 @@ import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import AdminModal from './AdminModal.js';
 import ToolTipNew from '../Utils/ToolTipNew';
 import TierInput from '../MintBounty/TierInput';
+import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 
 const AdminPage = ({ bounty, refreshBounty }) => {
 
@@ -23,6 +24,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 	};
 
 	// State
+	const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
 	const [modal, setModal] = useState();
 	const [error, setError] = useState('');
 	const [showButton, setShowButton] = useState(ethers.utils.getAddress(bounty.issuer.id) == account && !bounty.bountyClosedTime);
@@ -39,35 +41,9 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 	const [finalTierVolume, setFinalTierVolume] = useState([]);
 	const [sum, setSum] = useState(0);
 	const [enableContest, setEnableContest] = useState(false);
+	const [isLoading, setIsLoading] = useState();
 	const tierConditions = sum == 100
 
-
-	async function closeCompetition() {
-		try {
-			const transaction = await appState.openQClient.closeCompetition(library, bounty.bountyId);
-			setModal({ transaction, type: 'Closed Contest' });
-			setShowButton(false);
-			refreshBounty();
-			//	dispatch(payload);
-		} catch (error) {
-			console.log(error);
-			const { message, title } = appState.openQClient.handleError(error, { bounty });
-			setError({ message, title });
-		}
-	}
-
-	async function closeOngoing() {
-		try {
-			const transaction = await appState.openQClient.closeOngoing(library, bounty.bountyId);
-			setModal({ transaction, type: 'Closed Repeatable' });
-			setShowButton(false);
-			refreshBounty();
-		} catch (error) {
-			console.log(error);
-			const { message, title } = appState.openQClient.handleError(error, { bounty });
-			setError({ message, title });
-		}
-	}
 	// handle change in Funding Goal
 
 	function onCurrencySelect(token) {
@@ -123,6 +99,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 
 	async function setBudget() {
 		try {
+			setIsLoading(true);
 			const transaction = await appState.openQClient.setFundingGoal(library, bounty.bountyId, token, volume);
 			refreshBounty();
 			setVolume('');
@@ -136,6 +113,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 
 	async function setPayout() {
 		try {
+			setIsLoading(true);
 			const transaction = await appState.openQClient.setPayout(library, bounty.bountyId, payoutToken, payoutVolume);
 			refreshBounty();
 			setPayoutVolume('');
@@ -149,11 +127,41 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 
 	async function setContestPayout() {
 		try {
+			setIsLoading(true);
 			// change this
 			const transaction = await appState.openQClient.setPayout(library, bounty.bountyId, payoutToken, payoutVolume);
 			refreshBounty();
 			setPayoutVolume('');
 			setModal({ transaction, type: 'Payout' });
+		} catch (error) {
+			console.log(error);
+			const { message, title } = appState.openQClient.handleError(error, { bounty });
+			setError({ message, title });
+		}
+	}
+
+	async function closeCompetition() {
+		try {
+			setIsLoading(true);
+			const transaction = await appState.openQClient.closeCompetition(library, bounty.bountyId);
+			setModal({ transaction, type: 'Closed Contest' });
+			setShowButton(false);
+			refreshBounty();
+			//	dispatch(payload);
+		} catch (error) {
+			console.log(error);
+			const { message, title } = appState.openQClient.handleError(error, { bounty });
+			setError({ message, title });
+		}
+	}
+
+	async function closeOngoing() {
+		try {
+			setIsLoading(true);
+			const transaction = await appState.openQClient.closeOngoing(library, bounty.bountyId);
+			setModal({ transaction, type: 'Closed Repeatable' });
+			setShowButton(false);
+			refreshBounty();
 		} catch (error) {
 			console.log(error);
 			const { message, title } = appState.openQClient.handleError(error, { bounty });
@@ -187,61 +195,72 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 
 						{bounty.bountyType == '2' ?
 							<>
-							<div className="flex flex-col items-center pb-2">
-							<div className="flex flex-col w-full md:w-full">
-								<div className='flex flex-col w-full items-start p-2 py-1 text-base pb-4'>
-									<div className='flex items-center gap-2'>How many Tiers?
-										<ToolTipNew mobileX={10} toolTipText={'How many people will be able to claim a prize? Don\'t exceed 100.'} >
-											<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
-										</ToolTipNew>
-									</div>
-									<div className='flex-1 w-full mt-2'>
-										<input
-											className={'flex-1 input-field w-full'}
-											id="name"
-											placeholder="0"
-											autoComplete="off"
-											type="text"
-											min="0"
-											max="100"
-											value={tier}
-											onChange={(e) => onTierChange(e)}
-										/>
-									</div>
-								</div>
-								{tier > 0 ?
-									<>
-										<div className='flex flex-col w-full items-start p-2 py-1 pb-0 text-base'>
-											<div className='flex items-center gap-2 '>Weight per Tier (%)
-												<ToolTipNew mobileX={10} toolTipText={'How much % of the total will each winner earn?'} >
+								<div className="flex flex-col items-center pb-2">
+									<div className="flex flex-col w-full md:w-full">
+										<div className='flex flex-col w-full items-start p-2 py-1 text-base pb-4'>
+											<div className='flex items-center gap-2'>How many Tiers?
+												<ToolTipNew mobileX={10} toolTipText={'How many people will be able to claim a prize? Don\'t exceed 100.'} >
 													<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
 												</ToolTipNew>
 											</div>
-											{sum > 100 ?
-												<span className='text-sm my-2 pb-2 text-[#f85149]'>The sum can not be more than 100%!</span>
-												:
-												<span className='text-sm my-2 pb-2'>For the sum to add up to 100, you still need to allocate: {100 - sum} %</span>
-											}
-											<div className='max-h-40 w-full overflow-y-auto overflow-x-hidden'>
-												{tierArr.map((t) => {
-													return (
-														<div key={t}>
-															<TierInput tier={t} tierVolume={tierVolume[t]} onTierVolumeChange={onTierVolumeChange} style={'ml-0'}/>
-														</div>
-													)
-												})}
+											<div className='flex-1 w-full mt-2'>
+												<input
+													className={'flex-1 input-field w-full'}
+													id="name"
+													placeholder="0"
+													autoComplete="off"
+													type="text"
+													min="0"
+													max="100"
+													value={tier}
+													onChange={(e) => onTierChange(e)}
+												/>
 											</div>
 										</div>
-									</>
-									: null
-								}
-							</div>
-						</div>
-						<button
-							className="btn-default"
-							type="button"
-							onClick={setContestPayout}
-						>Set New Payout</button>
+										{tier > 0 ?
+											<>
+												<div className='flex flex-col w-full items-start p-2 py-1 pb-0 text-base'>
+													<div className='flex items-center gap-2 '>Weight per Tier (%)
+														<ToolTipNew mobileX={10} toolTipText={'How much % of the total will each winner earn?'} >
+															<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+														</ToolTipNew>
+													</div>
+													{sum > 100 ?
+														<span className='text-sm my-2 pb-2 text-[#f85149]'>The sum can not be more than 100%!</span>
+														:
+														<span className='text-sm my-2 pb-2'>For the sum to add up to 100, you still need to allocate: {100 - sum} %</span>
+													}
+													<div className='max-h-40 w-full overflow-y-auto overflow-x-hidden'>
+														{tierArr.map((t) => {
+															return (
+																<div key={t}>
+																	<TierInput tier={t} tierVolume={tierVolume[t]} onTierVolumeChange={onTierVolumeChange} style={'ml-0'} />
+																</div>
+															)
+														})}
+													</div>
+												</div>
+											</>
+											: null
+										}
+									</div>
+								</div>
+								<ToolTipNew
+									hideToolTip={(enableContest && isOnCorrectNetwork && account) || isLoading}
+									toolTipText={
+										account && isOnCorrectNetwork && !enableContest ?
+												'Please make sure the sum of tier percentages adds up to 100.' :
+												isOnCorrectNetwork ?
+													'Connect your wallet to mint a bounty!' :
+													'Please switch to the correct network to mint a bounty.'
+									}>
+									<button
+										className={`w-full btn-default ${enableContest ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+										type="button"
+										onClick={setContestPayout}
+										disabled={!enableContest}
+									>Set New Payout</button>
+								</ToolTipNew>
 
 								<h2 className='text-2xl text-[#f85149] border-b border-gray-700 pb-4'>Close Contract</h2>
 								<div className='flex items-center gap-2'>Once you close the contract for this contest, there is no going back. Please be certain.
