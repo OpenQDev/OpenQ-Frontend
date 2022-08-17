@@ -6,7 +6,7 @@ import LabelsList from './LabelsList';
 import CopyBountyAddress from './CopyBountyAddress';
 import StoreContext from '../../store/Store/StoreContext';
 
-const BountyMetadata = ({bounty, setInternalMenu, price})=>{
+const BountyMetadata = ({bounty, setInternalMenu, price, budget})=>{
 	const [appState] = useContext(StoreContext);
 	let type= 'Atomic Contract';
 
@@ -38,6 +38,15 @@ const BountyMetadata = ({bounty, setInternalMenu, price})=>{
 					)}</button>
 				</>}
 			</li>
+			{budget&& <li className='border-b border-web-gray py-3'>
+				{(budget || budget === 0 )&&
+				<>
+					<div className='text-xs font-semibold text-muted'>Budget</div>
+					<button className='text-xs font-semibold text-primary' onClick={()=>setInternalMenu('Fund')}>{ appState.utils.formatter.format(
+						budget
+					)}</button>
+				</>}
+			</li>}
 			{bounty.assignees.length >0 && <li className='border-b border-web-gray py-3'>
 				<div className='text-xs font-semibold text-muted'>Assignees</div>
 					

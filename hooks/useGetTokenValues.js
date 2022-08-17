@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import StoreContext from '../store/Store/StoreContext';
 
 const useGetTokenValues = (tokenBalances) => {
+	console.log(tokenBalances);
 	const [tokenValues, setTokenValues] = useState(null);
 	const [appState] = useContext(StoreContext);
 

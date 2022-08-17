@@ -8,7 +8,9 @@ query GetAllIssues($skip: Int! $sortOrder: String!, $quantity: Int! $types: [Str
     bountyId
     bountyMintTime
     bountyClosedTime
-    status
+    status		
+		fundingGoalTokenAddress
+		fundingGoalVolume
 		closerData
 		bountyType
 		claimedTransactionHash
@@ -61,13 +63,13 @@ query getBounty {
 export const GET_BOUNTY = gql`
 query GetBounty($id: ID!) {
   bounty(id: $id) {
-	fundingGoalTokenAddress,
-	fundingGoalVolume
     bountyAddress
     bountyId
 		closerData
     bountyMintTime
 		bountyClosedTime
+		fundingGoalVolume
+		fundingGoalTokenAddress
      claims(orderBy: "claimTime", orderDirection: "desc"){
 		 	claimTime 
 		 	claimantAsset 
@@ -158,6 +160,8 @@ query GetBountiesByContractAddresses($contractAddresses: [ID]!, $types: [String]
     bountyMintTime
     bountyClosedTime
     status
+		fundingGoalTokenAddress
+		fundingGoalVolume
 		closerData
 		bountyType
 		claimedTransactionHash
