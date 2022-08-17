@@ -29,16 +29,14 @@ class OpenQClient {
 	};
 
 	async mintBounty(library, issueId, organization, type, data) {
-		console.log({ issueId, organization, type, data });
 		const promise = new Promise(async (resolve, reject) => {
-			console.log('type', type);
 			let bountyInitOperation;
 			let abiCoder = new ethers.utils.AbiCoder;
 			const fundVolumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
 			const fundBigNumberVolumeInWei = ethers.BigNumber.from(fundVolumeInWei.toString());
 			const hasFundingGoal = fundVolumeInWei > 0;
-			console.log(hasFundingGoal);
 			switch (type) {
+
 			case 'Atomic':
 				{
 					const fundingGoalBountyParams = abiCoder.encode(['bool', 'address', 'uint256'], [hasFundingGoal, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]);
@@ -55,7 +53,6 @@ class OpenQClient {
 				break;
 			case 'Contest':
 				{
-					console.log('data.tiers', data.tiers);
 					const tieredAbiEncodedParams = abiCoder.encode(['uint256[]', 'bool', 'address', 'uint256'], [data.tiers, hasFundingGoal, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]);
 					bountyInitOperation = [2, tieredAbiEncodedParams];
 				}
@@ -63,8 +60,6 @@ class OpenQClient {
 			default:
 				throw new Error('Unknown Bounty Type');
 			}
-
-			console.log('bountyInitOperation', bountyInitOperation);
 
 			const signer = library.getSigner();
 

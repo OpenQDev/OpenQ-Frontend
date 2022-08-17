@@ -13,7 +13,7 @@ const BountyHomepage = ({
 	getMoreData,
 	getNewData,
 	error,
-	types
+	wizard
 }) => {
 	const title = types[0] === '1'? 'Repeatable Contracts': types[0]==='2'? 'Contests' : 'Atomic Contracts';
 	// Render
@@ -35,6 +35,7 @@ const BountyHomepage = ({
 						getMoreData={getMoreData}
 						complete={complete}
 						getNewData={getNewData}
+						wizard={wizard}
 						types={types}
 					/>
 				)}

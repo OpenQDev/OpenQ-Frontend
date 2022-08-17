@@ -15,7 +15,7 @@ import searchTagInBounty from './SearchHelpers/searchTagInBounty';
 import SmallToggle from '../Utils/SmallToggle';
 import { useRouter } from 'next/router';
 
-const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData, getNewData, addCarousel, contractToggle, types }) => {
+const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData, getNewData, addCarousel, contractToggle, wizard, types }) => {
 	// Hooks
 	const { account } = useWeb3();
 	/* const [l2eOnly, setL2eOnly] = useState(false); */
@@ -277,7 +277,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 					styles={'rounded-sm w-full'}
 				/>
 
-				<MintBountyButton styles={'w-full'} types={types} />
+				<MintBountyButton styles={'w-full'} types={types} wizard={wizard}/>
 			</div>
 			<div className='w-full rounded-sm'>
 				<div className='flex flex-wrap gap-4 p-2 sm:p-4 border-web-gray border rounded-sm bg-subtle'>
