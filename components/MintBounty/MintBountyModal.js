@@ -54,6 +54,7 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 	const [goalToken, setGoalToken] = useState(zeroAddressMetadata);
 	const [sum, setSum] = useState(0);
 	const [enableContest, setEnableContest] = useState(false);
+	const [budgetInput, setBudgetInput] = useState(false);
 	const tierConditions = sum == 100
 
 	// logic if smart contract adjusted: const tierConditions = tier == 0 || (tier > 0 && sum == 100) || tier == '' || tier == undefined
@@ -285,18 +286,19 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 									:
 									null
 								}
-
 								<div className="flex flex-col items-center pl-6 pr-6 pb-2">
 									<div className="flex flex-col w-4/5 md:w-2/3">
 										<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
-											<div className='flex items-center gap-2'>Budget
+											<div className='flex items-center gap-2'>Set a Budget
+											<input type="checkbox" className="checkbox" onChange={() => setBudgetInput(!budgetInput)}></input>
 												<ToolTipNew mobileX={10} toolTipText={toggleType === 'Atomic' ? 'Amount of funds you would like to escrow on this issue.' : 'How much will each successful submitter earn?'} >
 													<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
 
 												</ToolTipNew>
 											</div>
 											<span className='text-sm my-2'>You don{'\''}t have to deposit now! The budget is just what you intend to pay.</span>
-											<div className='flex-1 w-full mt-2 ml-4'>
+											{ budgetInput?
+												<div className='flex-1 w-full mt-2 ml-4'>
 												<TokenFundBox
 													onCurrencySelect={onGoalCurrencySelect}
 													onVolumeChange={handleGoalChange}
@@ -304,6 +306,8 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 													token={goalToken}
 												/>
 											</div>
+											: null
+											}
 										</div>
 									</div>
 								</div>
