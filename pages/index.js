@@ -136,6 +136,7 @@ export default function Index({  fullBounties, batch, types, renderError }) {
 					getMoreData={getMoreData}
 					complete={complete}
 					getNewData={getNewData}
+					wizard={true}
 				/>}
 				
 		</main>
