@@ -227,6 +227,9 @@ export const GET_ISSUE_BY_ID = gql`
                   url
 									merged
 									title
+									author{									
+										login
+									}
                 }
               }
             }

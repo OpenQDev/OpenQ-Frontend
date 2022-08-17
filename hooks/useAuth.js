@@ -12,7 +12,7 @@ const useAuth = () => {
 		async function checkAuth() {
 			axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/checkAuth`, { withCredentials: true })
 				.then((res) => {
-					setAuthState({ type: 'UPDATE_IS_AUTHENTICATED', payload: { isAuthenticated: res.data.isAuthenticated, avatarUrl: res.data.avatarUrl } });
+					setAuthState({ type: 'UPDATE_IS_AUTHENTICATED', payload: { isAuthenticated: res.data.isAuthenticated, avatarUrl: res.data.avatarUrl, login: res.data.login } });
 				})
 				.catch((error) => {
 					console.error(error);
@@ -29,7 +29,6 @@ const useAuth = () => {
 		async function checkAccount() {
 			const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature?address=${account}`, { withCredentials: true });
 			if(response.data.status){
-				console.log(response);
 				setAuthState({ type: 'UPDATE_SIGNED_ACCOUNT', payload: { addressRecovered: response.data.addressRecovered} });
 			}
 		}

@@ -12,6 +12,11 @@ const useGetTokenValues = (tokenBalances) => {
 			if(!didCancel){
 				setTokenValues(value);
 			}
+			
+		}
+		if(tokenBalances?.length === 0){
+			setTokenValues({total:0});
+			return () =>{ didCancel = true;};
 		}
 		return () =>{ didCancel = true;};
 	}, [tokenBalances]);
