@@ -54,7 +54,10 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 	const [goalToken, setGoalToken] = useState(zeroAddressMetadata);
 	const [sum, setSum] = useState(0);
 	const [enableContest, setEnableContest] = useState(false);
-	const tierConditions = tier == 0 || (tier > 0 && sum == 100) || tier == '' || tier == undefined
+	const tierConditions = sum == 100
+
+	// logic if smart contract adjusted: const tierConditions = tier == 0 || (tier > 0 && sum == 100) || tier == '' || tier == undefined
+	// and tooltip text: 'Please make sure the number of tiers is set to 0 OR the sum of percentages adds up to 100.'
 
 	// Refs
 	const modal = useRef();
@@ -389,13 +392,13 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 										outerStyles={''}
 										hideToolTip={(enableContest && enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
 										toolTipText={
-											account && isOnCorrectNetwork ?
+											account && isOnCorrectNetwork && !enableMint?
+												'Please choose an elgible issue.' :
 												!enableContest ?
-													'Please make sure the number of tiers is set to 0 OR the sum of percentages adds up to 100.' :
-													'Please choose an elgible issue.' :
-												isOnCorrectNetwork ?
-													'Connect your wallet to mint a bounty!' :
-													'Please switch to the correct network to mint a bounty.'
+													'Please make sure the sum of tier percentages adds up to 100.' :
+													isOnCorrectNetwork ?
+														'Connect your wallet to mint a bounty!' :
+														'Please switch to the correct network to mint a bounty.'
 										}>
 
 										<MintBountyModalButton
