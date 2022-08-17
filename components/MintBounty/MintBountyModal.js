@@ -54,6 +54,7 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 	const [goalToken, setGoalToken] = useState(zeroAddressMetadata);
 	const [sum, setSum] = useState(0);
 	const [enableContest, setEnableContest] = useState(false);
+	const tierConditions = tier == 0 || (tier > 0 && sum == 100) || tier == '' || tier == undefined
 
 	// Refs
 	const modal = useRef();
@@ -61,7 +62,6 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 	const setIssueUrl = async (issueUrl) => {
 		if (!isLoading) {
 			setEnableMint();
-			if (toggleType != 'Contest') {setEnableContest(true)};
 			let didCancel = false;
 			setUrl(issueUrl);
 			let issueUrlIsValid = appState.utils.issurUrlRegex(issueUrl);
@@ -215,18 +215,17 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 	}, [tierVolume]);
 
 	useEffect(() => {
-		if(tier == '') {setEnableContest(true)};
-		if(tier > 0 && sum != 100) {setEnableContest(false)};
-		console.log(tier, sum);
-		console.log('enablecontest', enableContest) 
-	}, [tier, tierVolume, sum]);
-
-	useEffect(() => {
 		if (finalTierVolume.length) {
 			setSum(finalTierVolume.reduce((a, b) => a + b));
 		}
 		if(sum == 100) {setEnableContest(true)};
 	}, [finalTierVolume]);
+
+	useEffect(() => {
+		console.log('tierConditions', tierConditions);
+		if (toggleType == 'Contest' && !tierConditions) {setEnableContest(false)}
+		else { setEnableContest(true)};
+	}, [toggleType, tier, sum])
 
 	// Render
 	return (
@@ -400,7 +399,7 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 										<MintBountyModalButton
 											mintBounty={(account) ? mintBounty : connectWallet}
 											account={account}
-											enableMint={enableContest && ((enableMint && isOnCorrectNetwork && !issue?.closed && !isLoading) || !account)}
+											enableMint={(enableContest && enableMint && isOnCorrectNetwork && !issue?.closed && !isLoading) || !account}
 											transactionPending={isLoading}
 										/>
 
