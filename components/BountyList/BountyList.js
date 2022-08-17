@@ -15,18 +15,17 @@ import searchTagInBounty from './SearchHelpers/searchTagInBounty';
 import SmallToggle from '../Utils/SmallToggle';
 import { useRouter } from 'next/router';
 
-const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData, getNewData, addCarousel, contractToggle }) => {
+const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData, getNewData, addCarousel, contractToggle, wizard, types }) => {
 	// Hooks
 	const { account } = useWeb3();
 	/* const [l2eOnly, setL2eOnly] = useState(false); */
 	const router = useRouter();
-	const [searchText, updateSearchText] = useState(`order:newest ${router.query.type ? `type:"${router.query.type}"`: ''}`);
+	const [searchText, updateSearchText] = useState(`order:newest ${router.query.type && router.route === '/organization/[organization]' ? `type:"${router.query.type}"`: ''}`);
 	const [tagArr, updateTagArr] = useState([]);
 	const [searchedBounties, updateSearchedBounties] = useState([]);
 	const [isProcessed, updateIsProcessed] = useState(false);
 	const [isReady, setIsReady] = useState('Ready for work');
 	const [labels, setLabels] = useState([]);
-
 	const searchRegex = /label:"[^"]+"/gi;
 	const contractTypeRegex = /type:"[^"]+"/gi;
 	const orderRegex = /order:(\w+)/gi;
@@ -109,7 +108,6 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 			const hasLabels = searchedLabels.some((searchedLabel) => bounty.labels.some(bountyLabel => bountyLabel.name === searchedLabel)) || searchedLabels.length === 0;
 
 			const isType = types.some(type=>type===bounty.bountyType);
-			console.log(isType);
 
 			let containsSearch = true;
 
@@ -279,7 +277,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 					styles={'rounded-sm w-full'}
 				/>
 
-				<MintBountyButton styles={'w-full'} type={'Ongoing'} />
+				<MintBountyButton styles={'w-full'} types={types} wizard={wizard}/>
 			</div>
 			<div className='w-full rounded-sm'>
 				<div className='flex flex-wrap gap-4 p-2 sm:p-4 border-web-gray border rounded-sm bg-subtle'>

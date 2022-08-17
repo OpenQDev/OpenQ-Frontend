@@ -8,7 +8,7 @@ import Carousel from '../Utils/Carousel';
 import HorizontalOrganizationCard from './HorizontalOrganizationCard';
 import useWeb3 from '../../hooks/useWeb3';
 
-const OrganizationHomepage = ({ orgs }) => {
+const OrganizationHomepage = ({ orgs, types }) => {
 	// State
 	const [organizationSearchTerm, setOrganizationSearchTerm] = useState('');
 	const { account } = useWeb3();
@@ -34,7 +34,7 @@ const OrganizationHomepage = ({ orgs }) => {
 							placeholder="Search Organization..."
 							styles={'rounded-sm w-full'}
 						/>
-						<MintBountyButton styles={'w-full'} type={'Ongoing'} />
+						<MintBountyButton styles={'w-full'} types={types} />
 					</div>
 					<Carousel height={'80'}>
 						{orgs.filter(organization => organization.starringUserIds && organization.starringUserIds.some(user => user === account))

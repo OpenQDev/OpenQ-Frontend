@@ -33,7 +33,9 @@ export default function Index({ orgs, fullBounties, batch, types, renderError })
 	const { account } = useWeb3();
 
 
-
+	const [authState] = useAuth();
+	const {signedAccount} = authState;
+	
 	// Hooks
 	useEffect(async()=>{
 		// handle org reload events (caused by user starring org.)
@@ -48,12 +50,15 @@ export default function Index({ orgs, fullBounties, batch, types, renderError })
 
 	useEffect(async () => {
 		// get watched bounties as soon as we know what the account is.
-		if (account) {
-			const [watchedBounties ]= await appState.utils.fetchWatchedBounties(appState,account, types);
+		if (account == signedAccount) {
+			const [watchedBounties ]= await appState.utils.fetchWatchedBounties(appState, account, types);
 			setWatchedBounties(watchedBounties||[]);
 		}
+		else{
+			setWatchedBounties([]);
+		}
 
-	}, [account, reloadNow]);
+	}, [account, reloadNow, signedAccount]);
 
 	// Methods
 
@@ -156,10 +161,10 @@ export default function Index({ orgs, fullBounties, batch, types, renderError })
 						<UnexpectedError error={renderError}/>:
 
 						internalMenu == 'Organizations' ? (
-							<OrganizationHomepage orgs={controlledOrgs} />
+							<OrganizationHomepage orgs={controlledOrgs} types={types}/>
 						) : (
 							<BountyHomepage
-								type={types}
+								types={types}
 								bounties={bounties}
 								watchedBounties={watchedBounties}
 								loading={isLoading}

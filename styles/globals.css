@@ -97,14 +97,17 @@ pre {
 	.input-field-big {
 		@apply py-[5px] pl-8 pr-3 text-[0.75rem] tracking-wider leading-[20px] h-min placeholder-input-gray rounded-sm outline-none border border-border-gray bg-menu-bg focus-within:border-blue-400
 	}
+	.nav-link{
+	@apply flex text-[0.8rem] lg:mx-2 hover:text-primary text-muted font-bold hover:cursor-pointer pt-1 lg:pt-0 lg:border-none border-t border-web-gray
+	}
 	.btn-primary{
-		@apply bg-[#238636] border border-[#238636] rounded-sm py-1.5 hover:bg-[#2ea043] text-white
+		@apply bg-green border border-[#238636] rounded-sm py-1.5 hover:bg-[#2ea043] text-white
 	}
 	.btn-default{
 		@apply rounded-sm px-3 p-1 bg-[#21262d] hover:bg-[#30363d] border border-gray-700 hover:border-[#8b949e]
 	}
 	.btn-danger{
-		@apply text-[#f85149] hover:text-white rounded-sm px-3 p-1 bg-[#21262d] hover:bg-[#da3633] active:bg-[#b62324] border border-[rgba(240,246,252,0.1)] hover:border-[#f85149] active:border-[#ff7b72]
+		@apply text-[#f85149] hover:text-white rounded-sm px-3 p-1 bg-danger hover:bg-[#da3633] active:bg-[#b62324] border border-[rgba(240,246,252,0.1)] hover:border-[#f85149] active:border-[#ff7b72]
 	}
 	.btn-card{
 		@apply bg-inactive-gray py-1 px-2 border-web-gray border rounded-sm text-xs text-primary

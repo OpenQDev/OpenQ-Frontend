@@ -13,7 +13,7 @@ import Utils from '../services/utils/Utils';
 import UnexpectedError from '../components/Utils/UnexpectedError';
 
 export default function Index({  fullBounties, batch, types, renderError }) {
-	useAuth();
+	
 	// State
 	
 	const [bounties, setBounties] = useState(fullBounties);
@@ -27,17 +27,21 @@ export default function Index({  fullBounties, batch, types, renderError }) {
 	const [appState] = useContext(StoreContext);
 	const {reloadNow} = appState;
 	const { account } = useWeb3();
-
+	const [authState] = useAuth();
+	const {signedAccount} = authState;
 	// Hooks
 
 	useEffect(async () => {
 		// get watched bounties as soon as we know what the account is.
-		if (account) {
-			const [watchedBounties ]= await appState.utils.fetchWatchedBounties(appState,account, types);
+		if (account == signedAccount) {
+			const [watchedBounties ]= await appState.utils.fetchWatchedBounties(appState, account, types);
 			setWatchedBounties(watchedBounties||[]);
 		}
+		else{
+			setWatchedBounties([]);
+		}
 
-	}, [account, reloadNow]);
+	}, [account, reloadNow, signedAccount]);
 
 	// Methods
 	// General method for getting bounty data, used by pagination and handlers.
@@ -125,13 +129,14 @@ export default function Index({  fullBounties, batch, types, renderError }) {
 				<UnexpectedError error={renderError}/>
 				:
 				<BountyHomepage
-					type={types}
+					types={types}
 					bounties={bounties}
 					watchedBounties={watchedBounties}
 					loading={isLoading}
 					getMoreData={getMoreData}
 					complete={complete}
 					getNewData={getNewData}
+					wizard={true}
 				/>}
 				
 		</main>

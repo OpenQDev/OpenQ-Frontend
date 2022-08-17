@@ -18,7 +18,7 @@ import TierInput from './TierInput';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import SubMenu from '../Utils/SubMenu';
 
-const MintBountyModal = ({ modalVisibility, type }) => {
+const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
 	const { library, account } = useWeb3();
@@ -45,11 +45,21 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 	const [invoice, setInvoice] = useState(false);
 	const [tier, setTier] = useState(0);
 	const [tierArr, setTierArr] = useState([]);
+	const [tierVolume, setTierVolume] = useState({});
+	const [finalTierVolume, setFinalTierVolume] = useState([]);
 	const [payoutVolume, setPayoutVolume] = useState('');
 	const [payoutToken, setPayoutToken] = useState(zeroAddressMetadata);
-	const [toggleType, setToggleType] = useState(type || 'Atomic');
+	const initialType =  types[0]==='1' ? 'Repeating' : types[0] ==='2'? 'Contest': 'Atomic';
+	const [toggleType, setToggleType] = useState(initialType);
 	const [goalVolume, setGoalVolume] = useState('');
 	const [goalToken, setGoalToken] = useState(zeroAddressMetadata);
+	const [sum, setSum] = useState(0);
+	const [enableContest, setEnableContest] = useState(false);
+	const [budgetInput, setBudgetInput] = useState(false);
+	const tierConditions = sum == 100
+
+	// logic if smart contract adjusted: const tierConditions = tier == 0 || (tier > 0 && sum == 100) || tier == '' || tier == undefined
+	// and tooltip text: 'Please make sure the number of tiers is set to 0 OR the sum of percentages adds up to 100.'
 
 	// Refs
 	const modal = useRef();
@@ -101,7 +111,6 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 		}
 	};
 	const mintBounty = async () => {
-		console.log;
 		try {
 			setIsLoading(true);
 			let data;
@@ -109,11 +118,11 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 			case 'Atomic':
 				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
 				break;
-			case 'Ongoing':
+			case 'Repeating':
 				data = { payoutVolume: payoutVolume, payoutToken: payoutToken, fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
 				break;
-			case 'Tiered':
-				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken, tiers: tierArr };
+			case 'Contest':
+				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken, tiers: finalTierVolume };
 				break;
 			default:
 				throw new Error(`No type: ${toggleType}`);
@@ -126,7 +135,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 				toggleType,
 				data
 			);
-			console.log('Mint bounty data:', data);
+			modalVisibility(false);
 			sessionStorage.setItem('justMinted', true);
 			router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress.toLowerCase()}`
@@ -184,11 +193,11 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 		setTierArr(Array.from({ length: e.target.value }, (_, i) => i + 1));
 	}
 
-	const handleGoalChange = (goalVolume)=>{
+	const handleGoalChange = (goalVolume) => {
 		appState.utils.updateVolume(goalVolume, setGoalVolume);
 	};
 
-	function onGoalCurrencySelect (token) {	
+	function onGoalCurrencySelect(token) {
 		setGoalToken({ ...token, address: ethers.utils.getAddress(token.address) });
 	}
 
@@ -200,6 +209,28 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 		appState.utils.updateVolume(payoutVolume, setPayoutVolume);
 	}
 
+	function onTierVolumeChange(e) {
+		if (parseInt(e.target.value) >= 0) setTierVolume({ ...tierVolume, [e.target.name]: parseInt(e.target.value) });
+		if (parseInt(e.target.value) === '' || !Number(e.target.value) || parseInt(e.target.value) > 100)
+			setTierVolume({ ...tierVolume, [e.target.name]: '' });
+	}
+
+	useEffect(() => {
+		setFinalTierVolume(Object.values(tierVolume));
+	}, [tierVolume]);
+
+	useEffect(() => {
+		if (finalTierVolume.length) {
+			setSum(finalTierVolume.reduce((a, b) => a + b));
+		}
+		if (sum == 100) { setEnableContest(true) };
+	}, [finalTierVolume]);
+
+	useEffect(() => {
+		if (toggleType == 'Contest' && !tierConditions) { setEnableContest(false) }
+		else { setEnableContest(true) };
+	}, [toggleType, tier, sum])
+
 	// Render
 	return (
 		<div className={`justify-center items-start sm:items-center mx-4 overflow-x-hidden overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-10 ${appState.walletConnectModal ? 'hidden' : 'flex'}`}>
@@ -209,9 +240,9 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 					error={error}
 				/> :
 				<>
-					<div ref={modal} className="m-auto w-3/5 min-w-[320px] z-50 fixed top-28">
+					<div ref={modal} className="m-auto w-3/5 min-w-[320px] z-50 fixed top-24">
 						<div className="w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-1">
-							<SubMenu items={[ { name: 'Atomic' }, { name: 'Ongoing' }, { name: 'Tiered' }]} internalMenu={toggleType} updatePage={setToggleType} styles={'justify-center'}/>
+							{!hideSubmenu && <SubMenu items={[{ name: 'Atomic' }, { name: 'Repeating' }, { name: 'Contest' }]} internalMenu={toggleType} updatePage={setToggleType} styles={'justify-center'} />}
 							<div className='max-h-[70vh] w-full overflow-y-auto'>
 								<MintBountyHeader type={toggleType} />
 								<div className="flex flex-col items-center pl-6 pr-6">
@@ -255,19 +286,19 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 									:
 									null
 								}
-
 								<div className="flex flex-col items-center pl-6 pr-6 pb-2">
 									<div className="flex flex-col w-4/5 md:w-2/3">
 										<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
-											<div className='flex items-center gap-2'>Funding Goal
+											<div className='flex items-center gap-2'>Set a Budget
+											<input type="checkbox" className="checkbox" onChange={() => setBudgetInput(!budgetInput)}></input>
 												<ToolTipNew mobileX={10} toolTipText={toggleType === 'Atomic' ? 'Amount of funds you would like to escrow on this issue.' : 'How much will each successful submitter earn?'} >
 													<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
-													
+
 												</ToolTipNew>
-												<span className='text-sm'>You don{'\''}t have to deposit now! The budget is just what you intend to pay.</span>
-											
 											</div>
-											<div className='flex-1 w-full mt-2 ml-4'>
+											<span className='text-sm my-2'>You don{'\''}t have to deposit now! The budget is just what you intend to pay.</span>
+											{ budgetInput?
+												<div className='flex-1 w-full mt-2 ml-4'>
 												<TokenFundBox
 													onCurrencySelect={onGoalCurrencySelect}
 													onVolumeChange={handleGoalChange}
@@ -275,11 +306,13 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 													token={goalToken}
 												/>
 											</div>
+											: null
+											}
 										</div>
 									</div>
 								</div>
-									
-								{toggleType === 'Ongoing' ?
+
+								{toggleType === 'Repeating' ?
 									<>
 										<div className="flex flex-col items-center pl-6 pr-6 pb-2">
 											<div className="flex flex-col w-4/5 md:w-2/3">
@@ -301,7 +334,7 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 											</div>
 										</div>
 									</>
-									: toggleType === 'Tiered' ?
+									: toggleType === 'Contest' ?
 										<>
 											<div className="flex flex-col items-center pl-6 pr-6 pb-2">
 												<div className="flex flex-col w-4/5 md:w-2/3">
@@ -328,13 +361,24 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 													{tier > 0 ?
 														<>
 															<div className='flex flex-col w-full items-start p-2 py-1 pb-0 text-base'>
-																<div className='flex items-center gap-2 pb-2'>Weight per Tier
-																	<ToolTipNew mobileX={10} toolTipText={'How much will each winner earn?'} >
+																<div className='flex items-center gap-2 '>Weight per Tier (%)
+																	<ToolTipNew mobileX={10} toolTipText={'How much % of the total will each winner earn?'} >
 																		<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
 																	</ToolTipNew>
 																</div>
+																{sum > 100 ?
+																	<span className='text-sm my-2 pb-2 text-[#f85149]'>The sum can not be more than 100%!</span>
+																	:
+																	<span className='text-sm my-2 pb-2'>For the sum to add up to 100, you still need to allocate: {100 - sum} %</span>
+																}
 																<div className='max-h-40 w-full overflow-y-auto overflow-x-hidden'>
-																	{tierArr.map(t => <TierInput key={t} tier={t} />)}
+																	{tierArr.map((t) => {
+																		return (
+																			<div key={t}>
+																				<TierInput tier={t} tierVolume={tierVolume[t]} onTierVolumeChange={onTierVolumeChange} />
+																			</div>
+																		);
+																	})}
 																</div>
 															</div>
 														</>
@@ -350,19 +394,21 @@ const MintBountyModal = ({ modalVisibility, type }) => {
 								<div className="p-5 pt-2 py-10 w-full">
 									<ToolTipNew
 										outerStyles={''}
-										hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
+										hideToolTip={(enableContest && enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
 										toolTipText={
-											account && isOnCorrectNetwork ?
+											account && isOnCorrectNetwork && !enableMint?
 												'Please choose an elgible issue.' :
-												isOnCorrectNetwork ?
-													'Connect your wallet to mint a bounty!' :
-													'Please switch to the correct network to mint a bounty.'
+												!enableContest ?
+													'Please make sure the sum of tier percentages adds up to 100.' :
+													isOnCorrectNetwork ?
+														'Connect your wallet to mint a bounty!' :
+														'Please switch to the correct network to mint a bounty.'
 										}>
 
 										<MintBountyModalButton
 											mintBounty={(account) ? mintBounty : connectWallet}
 											account={account}
-											enableMint={(enableMint && isOnCorrectNetwork && !issue?.closed && !isLoading) || !account}
+											enableMint={(enableContest && enableMint && isOnCorrectNetwork && !issue?.closed && !isLoading) || !account}
 											transactionPending={isLoading}
 										/>
 

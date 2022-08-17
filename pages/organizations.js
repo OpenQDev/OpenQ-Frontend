@@ -43,7 +43,7 @@ export default function Index({ orgs, renderError }) {
 		<main className="bg-dark-mode flex-col">
 			{renderError?
 				<UnexpectedError error={renderError} />:
-				<OrganizationHomepage orgs={controlledOrgs} />}
+				<OrganizationHomepage types={['0', '1', '2']} orgs={controlledOrgs} />}
 				
 		</main>
 	);
