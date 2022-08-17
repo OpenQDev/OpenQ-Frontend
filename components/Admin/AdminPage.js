@@ -363,7 +363,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 								<div className='flex flex-col '>
 									{['50', '25', '25'].map((t, index) => {
 										return (
-											<div className='flex items-center gap-4 text-primary'>
+											<div key={index} className='flex items-center gap-4 text-primary'>
 												<div className='text-xs font-semibold leading-loose'>{`${handleSuffix(index+1)} winner`}</div>
 												<div className='text-xs font-semibold' >{t}{console.log(bounty)} %</div>
 											</div>
