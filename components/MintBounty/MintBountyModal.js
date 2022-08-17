@@ -226,7 +226,6 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 	}, [finalTierVolume]);
 
 	useEffect(() => {
-		console.log('tierConditions', tierConditions);
 		if (toggleType == 'Contest' && !tierConditions) { setEnableContest(false) }
 		else { setEnableContest(true) };
 	}, [toggleType, tier, sum])

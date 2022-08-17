@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 
-const TierInput = ({ tier, tierVolume, onTierVolumeChange }) => {
+const TierInput = ({ tier, tierVolume, onTierVolumeChange, style }) => {
 
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -21,7 +21,7 @@ const TierInput = ({ tier, tierVolume, onTierVolumeChange }) => {
 	}, []);
 
 	return (
-		<div className='flex-1 w-11/12 mb-1  ml-4'>
+		<div className={`flex-1 w-11/12 mb-1  ml-4 ${style}`}>
 			<input
 				name={tier}
 				id="tier-volume"
