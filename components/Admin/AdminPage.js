@@ -287,7 +287,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 											type="button"
 											onClick={setContestPayout}
 											disabled={!enableContest}
-										>Set New Payout</button>
+										>Set New Payout Schedule</button>
 									</ToolTipNew>
 
 									<h2 className='text-2xl text-[#f85149] border-b border-gray-700 pb-4'>Close Contract</h2>
@@ -358,14 +358,14 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 								<div className='text-xs font-semibold text-muted'>Current Payout Schedule</div>
 								<div className='flex items-center gap-4 pt-2 text-primary'>
 									<div className='text-xs font-semibold leading-loose'>Number of tiers: </div>
-									<div className='text-xs font-semibold'>{tier}{console.log(bounty)}</div>
+									<div className='text-xs font-semibold'>{bounty.payoutSchedule.length}</div>
 								</div>
 								<div className='flex flex-col '>
-									{['50', '25', '25'].map((t, index) => {
+									{bounty.payoutSchedule.map((t, index) => {
 										return (
 											<div key={index} className='flex items-center gap-4 text-primary'>
-												<div className='text-xs font-semibold leading-loose'>{`${handleSuffix(index+1)} winner`}</div>
-												<div className='text-xs font-semibold' >{t}{console.log(bounty)} %</div>
+												<div className='text-xs font-semibold leading-loose'>{`${handleSuffix(index+1)} winner:`}</div>
+												<div className='text-xs font-semibold' >{t} %</div>
 											</div>
 										)
 									})
