@@ -3,7 +3,7 @@
 /*CHECK DOC ABOUT extensio parameters vs theem*/
 module.exports = {
 	mode: 'jit',
-	purge: ['./components/**/*.js', './pages/**/*.js'],
+	content: ['./components/**/*.js', './pages/**/*.js'],
 	darkMode: false, // or 'media' or 'class'
 	theme: {
 		borderRadius: {
@@ -48,6 +48,7 @@ module.exports = {
 				'important-button': 'rgb(35, 134, 54)',
 				'rust': "#f78166",
 				'closed': "rgb(137, 87, 229)",
+				'danger': "#da3633",
 				'dropdown': "rgb(48, 54, 61)",
 				'web-gray': '#30363d',
 				'inactive-gray': 'rgb(33, 38, 45)',
@@ -62,7 +63,7 @@ module.exports = {
 				'button-inside': '#241219',
 				'button-inside-hover': '#461429',
 				'green-inside': '#293e30',
-				'green': '#22c55e',
+				'green': '#238636',
 				'tinted': '#b7b9bc'
 
 			},

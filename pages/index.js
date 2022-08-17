@@ -129,13 +129,14 @@ export default function Index({  fullBounties, batch, types, renderError }) {
 				<UnexpectedError error={renderError}/>
 				:
 				<BountyHomepage
-					type={types}
+					types={types}
 					bounties={bounties}
 					watchedBounties={watchedBounties}
 					loading={isLoading}
 					getMoreData={getMoreData}
 					complete={complete}
 					getNewData={getNewData}
+					wizard={true}
 				/>}
 				
 		</main>

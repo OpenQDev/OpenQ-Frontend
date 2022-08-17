@@ -149,7 +149,7 @@ describe('FundPage', ( ) => {
 			expect(modalContent).not.toBeInTheDocument();
 		});
 
-		it('should prevent user from submitting over 1000', async()=>{
+		it('should prevent user from submitting over 10000', async()=>{
 
 			// ARRANGE
 			const user = userEvent.setup();		
@@ -157,7 +157,7 @@ describe('FundPage', ( ) => {
 
 			// ACT
 			const input = screen.getByLabelText('amount');
-			await user.type(input, '1000');
+			await user.type(input, '10000');
 			const button = await screen.findByRole('button', {name: /Fund/i});
 
 			// ASSERT

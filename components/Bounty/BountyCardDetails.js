@@ -10,7 +10,7 @@ import useWeb3 from '../../hooks/useWeb3';
 import useEns from '../../hooks/useENS';
 
 
-const BountyCardDetails = ({ bounty, setInternalMenu, justMinted }) => {
+const BountyCardDetails = ({ bounty, setInternalMenu, justMinted, price }) => {
 
 
 	const [appState] = useContext(StoreContext);
@@ -21,7 +21,8 @@ const BountyCardDetails = ({ bounty, setInternalMenu, justMinted }) => {
 	
 	
 	const deposits = bounty.deposits ||[];
-	const refunds = bounty.refunds || [];let claimedEvent = [];
+	const refunds = bounty.refunds || [];
+	let claimedEvent = [];
 	let closedEvents = [];
 	if(bounty.bountyClosedTime && bounty.status){
 		closedEvents = [{time:bounty.bountyClosedTime }];
@@ -31,11 +32,13 @@ const BountyCardDetails = ({ bounty, setInternalMenu, justMinted }) => {
 		claimedEvent=bounty.claims;
 		
 	}
+
 	const depositsAndRefunds = appState.utils.mergeOrdered( deposits, refunds, 'receiveTime', 'refundTime');
 	const normalizedDepositsAndRefunds = depositsAndRefunds.map((action)=>{
 		const time = action.receiveTime || action.refundTime;
 		return {...action, time};
 	});
+
 	const claimsAndCloses = appState.utils.mergeOrdered( closedEvents, claimedEvent,  'time', 'claimTime');
 	const normalizedClaimsAndCloses = claimsAndCloses.map((action)=>{
 		const closingTime = action.claimTime || action.time;
@@ -57,7 +60,7 @@ const BountyCardDetails = ({ bounty, setInternalMenu, justMinted }) => {
 				<ActionBubble  addresses={addresses} address={sender} price={tokenValues?.total} bounty={bounty} bodyHTML={bounty.bodyHTML}/>
 				
 			</div>
-			<BountyMetadata bounty={bounty} setInternalMenu={setInternalMenu} price={tokenValues?.total}/>
+			<BountyMetadata bounty={bounty} setInternalMenu={setInternalMenu} price={price}/>
 		</div>
 
 	);

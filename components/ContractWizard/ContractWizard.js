@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
 import MintBountyModal from '../MintBounty/MintBountyModal';
 import ToolTipNew from '../Utils/ToolTipNew';
 import GetSupportModal from './GetSupportModal';
@@ -7,9 +7,16 @@ const ContractWizard = ({ wizardVisibility }) => {
 	const [type, setType] = useState(0);
 	const [mintModal, setMintModal] = useState(false);
 	const [supportModal, setSupportModal] = useState(false);
+	const [mintActivated, setMintActivated] = useState(false);
 
 	// Refs
 	const modal = useRef();
+
+	// Methods 
+	function handleYes() {
+		setMintModal(true);
+		setMintActivated(true);
+	}
 
 	useEffect(() => {
 		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
@@ -33,6 +40,12 @@ const ContractWizard = ({ wizardVisibility }) => {
 			setSupportModal(true);
 		}
 	}, [type]);
+
+	useEffect(() => {
+		if (mintActivated && !mintModal) {
+			wizardVisibility(false);
+		}
+	}, [mintModal]);
 
 	return (
 		<>
@@ -70,7 +83,7 @@ const ContractWizard = ({ wizardVisibility }) => {
 												<div className='flex-1 w-full mt-4 ml-4 mb-4'>
 													<div className="flex text-sm rounded-sm overflow-hidden w-fit text-primary ">
 														<button
-															onClick={() => setMintModal(true)}
+															onClick={handleYes}
 															className="w-fit min-w-[80px] py-[5px] px-4 rounded-l-sm border whitespace-nowrap hover:bg-secondary-button hover:border-secondary-button border-web-gray"
 														>
 															Yes
@@ -94,11 +107,11 @@ const ContractWizard = ({ wizardVisibility }) => {
 					:
 					<GetSupportModal modalVisibility={setSupportModal} />
 				: <>
-					{mintModal && <MintBountyModal modalVisibility={setMintModal} type={type == 0 ? 'Atomic' : type == 1 ? 'Repeating' : type == 2 ? 'Contest' : null} hideSubmenu={true} />}
+					{mintModal && <MintBountyModal modalVisibility={setMintModal} types={[type.toString()]} hideSubmenu={true} />}
 				</>
 			}
 		</>
-	)
-}
+	);
+};
 
-export default ContractWizard
+export default ContractWizard;
