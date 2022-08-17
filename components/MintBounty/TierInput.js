@@ -3,9 +3,6 @@ import StoreContext from '../../store/Store/StoreContext';
 
 const TierInput = ({ tier, tierVolume, onTierVolumeChange, style }) => {
 
-	// Context
-	const [appState] = useContext(StoreContext);
-
 	// State
 	const [suffix, setSuffix] = useState();
 
