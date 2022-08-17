@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
 import LabelsList from './LabelsList';
 import CopyBountyAddress from './CopyBountyAddress';
+import StoreContext from '../../store/Store/StoreContext';
 
 const BountyMetadata = ({bounty, setInternalMenu, price})=>{
+	const [appState] = useContext(StoreContext);
 	let type= 'Atomic Contract';
 
 	switch(bounty.bountyType){
@@ -28,8 +30,13 @@ const BountyMetadata = ({bounty, setInternalMenu, price})=>{
 				<div className='text-xs font-semibold text-primary leading-loose' >{type}</div>
 			</li>
 			<li className='border-b border-web-gray py-3'>
-				<div className='text-xs font-semibold text-muted'>TVL</div>
-				<button className='text-xs font-semibold text-primary' onClick={()=>setInternalMenu('Fund')}>${price||'0.00'}</button>
+				{(price || price === 0 )&&
+				<>
+					<div className='text-xs font-semibold text-muted'>TVL</div>
+					<button className='text-xs font-semibold text-primary' onClick={()=>setInternalMenu('Fund')}>{ appState.utils.formatter.format(
+						price
+					)}</button>
+				</>}
 			</li>
 			{bounty.assignees.length >0 && <li className='border-b border-web-gray py-3'>
 				<div className='text-xs font-semibold text-muted'>Assignees</div>

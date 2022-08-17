@@ -4,7 +4,8 @@ import ContractWizard from '../ContractWizard/ContractWizard';
 // Custom
 import MintBountyModal from './MintBountyModal';
 
-const MintBountyButton = ({styles, type, wizard}) => {
+
+const MintBountyButton = ({styles, types, wizard}) => {
 	const [showModal, setShowModal] = useState(false);
 
 	return (
@@ -32,7 +33,7 @@ const MintBountyButton = ({styles, type, wizard}) => {
 			{ wizard?  
 				showModal && <ContractWizard wizardVisibility={setShowModal} />
 				:
-				showModal && <MintBountyModal type={type} modalVisibility={setShowModal} />}
+				showModal && <MintBountyModal hideSubmenu={types.length===1} types={types} modalVisibility={setShowModal} />}
 		</>
 	);
 };

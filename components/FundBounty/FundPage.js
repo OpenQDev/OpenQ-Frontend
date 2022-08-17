@@ -48,7 +48,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const bountyName = bounty.bountyType == 0 ? 'Atomic Contract' : bounty.bountyType == 1? 'Repeatable Contract' : bounty.bountyType == 2? 'Contest' : 'Type Unknown' ;
 
 	const closed = bounty.bountyClosedTime;
-	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || closed || parseFloat(volume) <= 0.00000001 || parseFloat(volume) >= 1000 || volume == '' || !(parseInt(depositPeriodDays) > 0);
+	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || closed || parseFloat(volume) <= 0.00000001 || parseFloat(volume) > 1000000 || volume == '' || !(parseInt(depositPeriodDays) > 0);
 	const disableOrEnable = `${(loadingClosedOrZero || !isOnCorrectNetwork) && account ? 'btn-default w-full cursor-not-allowed' : 'btn-primary cursor-pointer'}`;
 	const fundButtonClasses = `flex flex-row w-full justify-center space-x-5 items-center  ${disableOrEnable}`;
 
@@ -83,7 +83,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	};
 	async function fundBounty() {
 		const volumeInWei = volume * 10 ** token.decimals;
-
+		console.log(volumeInWei);
 		if (volumeInWei == 0) {
 			setError({ title: 'Zero Volume Sent', message: 'Must send a greater than 0 volume of tokens.' });
 			setApproveTransferState(ERROR);
@@ -91,7 +91,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 			return;
 		}
 
-		const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
+		const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', {useGrouping:false}));
 
 		let approveSucceeded = false;
 
@@ -206,7 +206,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					<div className="flex text-3xl text-primary justify-center px-16 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm">
 						Escrow Funds in {bountyName}
 					</div>
-					{console.log('bounty data', bounty)}
 					<div className="flex flex-col space-y-5 w-5/6 pt-2">
 						<TokenFundBox
 							onCurrencySelect={onCurrencySelect}
@@ -239,7 +238,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 								account && isOnCorrectNetwork && !(depositPeriodDays > 0) ?
 									'Please indicate how many days you\'d like to fund your bounty for.' :
 									account && isOnCorrectNetwork ?
-										'Please indicate the volume you\'d like to fund with. Must be between 0.0000001 and 1000.' :
+										'Please indicate the volume you\'d like to fund with. Must be between 0.0000001 and 1,000,000.' :
 										account ?
 											'Please switch to the correct network to fund this bounty.' :
 											'Connect your wallet to fund this bounty!'}>
