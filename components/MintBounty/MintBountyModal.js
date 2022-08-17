@@ -218,13 +218,13 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 		if (finalTierVolume.length) {
 			setSum(finalTierVolume.reduce((a, b) => a + b));
 		}
-		if(sum == 100) {setEnableContest(true)};
+		if (sum == 100) { setEnableContest(true) };
 	}, [finalTierVolume]);
 
 	useEffect(() => {
 		console.log('tierConditions', tierConditions);
-		if (toggleType == 'Contest' && !tierConditions) {setEnableContest(false)}
-		else { setEnableContest(true)};
+		if (toggleType == 'Contest' && !tierConditions) { setEnableContest(false) }
+		else { setEnableContest(true) };
 	}, [toggleType, tier, sum])
 
 	// Render
@@ -387,10 +387,12 @@ const MintBountyModal = ({ modalVisibility, type, hideSubmenu }) => {
 								<div className="p-5 pt-2 py-10 w-full">
 									<ToolTipNew
 										outerStyles={''}
-										hideToolTip={(enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
+										hideToolTip={(enableContest && enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
 										toolTipText={
 											account && isOnCorrectNetwork ?
-												'Please choose an elgible issue.' :
+												!enableContest ?
+													'Please make sure the number of tiers is set to 0 OR the sum of percentages adds up to 100.' :
+													'Please choose an elgible issue.' :
 												isOnCorrectNetwork ?
 													'Connect your wallet to mint a bounty!' :
 													'Please switch to the correct network to mint a bounty.'
