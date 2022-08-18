@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import StoreContext from '../store/Store/StoreContext';
 
-const useGetTokenValues = (tokenBalances) => {
+const useGetTokenValues = (tokenBalances, bounty) => {
 	const [tokenValues, setTokenValues] = useState(null);
 	const [appState] = useContext(StoreContext);
 
@@ -19,7 +19,7 @@ const useGetTokenValues = (tokenBalances) => {
 			return () =>{ didCancel = true;};
 		}
 		return () =>{ didCancel = true;};
-	}, [tokenBalances]);
+	}, [bounty? bounty : tokenBalances]);
 
 	return [tokenValues, setTokenValues];
 };

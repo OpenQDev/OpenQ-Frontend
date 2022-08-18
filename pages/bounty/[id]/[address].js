@@ -75,7 +75,9 @@ const address = ({ address, mergedBounty, renderError }) => {
 		try {
 			while (newBounty.status === bounty.status	
       && JSON.stringify(newBounty.deposits) === JSON.stringify(bounty.deposits)
-      && newBounty.bountyClosedTime === bounty.bountyClosedTime) {
+      && newBounty.bountyClosedTime === bounty.bountyClosedTime
+			&& newBounty.fundingGoalVolume === bounty.fundingGoalVolume
+			&& newBounty.payoutTokenVolume === bounty.payoutTokenVolume) {
 				newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
 				await sleep(500);
 			}

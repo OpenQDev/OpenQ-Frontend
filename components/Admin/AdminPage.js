@@ -43,7 +43,11 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 	const [modal, setModal] = useState();
 	const [error, setError] = useState('');
 	const [showButton, setShowButton] = useState(ethers.utils.getAddress(bounty.issuer.id) == account && !bounty.bountyClosedTime);
-	const [tokenValues] = useGetTokenValues(bounty.bountyTokenBalances);
+	const [tokenValues] = useGetTokenValues(bounty.bountyTokenBalances, bounty);
+	const budgetBalances = [{"tokenAddress": bounty.fundingGoalTokenAddress, "volume": bounty.fundingGoalVolume}]
+	const [budgetValues] = useGetTokenValues(budgetBalances, bounty);
+	const splitBalances = [{"tokenAddress": bounty.payoutTokenAddress, "volume": bounty.payoutTokenVolume}]
+	const [splitValues] = useGetTokenValues(splitBalances, bounty);
 
 	// funding goal volume and token
 	const [volume, setVolume] = useState('');
@@ -345,12 +349,12 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 					</li>
 					<li className='border-b border-web-gray py-3'>
 						<div className='text-xs font-semibold text-muted'>Current Target Budget</div>
-						<div className='text-xs font-semibold text-primary pt-2' >${'0.00'}</div>
+						<div className='text-xs font-semibold text-primary pt-2' >${budgetValues?.total || '0.0'}</div>
 					</li>
 					{bounty.bountyType == 1 ?
 						<li className='border-b border-web-gray py-3'>
 							<div className='text-xs font-semibold text-muted'>Current Reward Split</div>
-							<div className='text-xs font-semibold text-primary pt-2' >${'0.00'}</div>
+							<div className='text-xs font-semibold text-primary pt-2' >${splitValues?.total || '0.0'}</div> 
 						</li>
 						:
 						bounty.bountyType == 2 ?
