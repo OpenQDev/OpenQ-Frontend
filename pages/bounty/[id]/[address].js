@@ -1,5 +1,5 @@
 // Third party
-import React, { useEffect, useState, useContext, useRef } from 'react';
+import React, { useEffect, useState, useContext, useRef, useMemo } from 'react';
 import confetti from 'canvas-confetti';
 import { ethers } from 'ethers';
 import useWeb3 from '../../../hooks/useWeb3';
@@ -28,19 +28,29 @@ import Fire from '../../../components/svg/fire';
 import Telescope from '../../../components/svg/telescope';
 
 const address = ({ address, mergedBounty, renderError }) => {
-
 	useAuth();
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
 	const [bounty, setBounty] = useState(mergedBounty);
 	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
-	const [payoutValues] = useGetTokenValues(bounty.payouts);
-	const [refundValues] = useGetTokenValues(bounty.refunds);
+	const [payoutValues] = useGetTokenValues(bounty?.payouts);
+	const [refundValues] = useGetTokenValues(bounty?.refunds);
+
+	
+	const createBudget = (bounty)=>{
+		return  bounty.fundingGoalTokenAddress ? {tokenAddress: bounty.fundingGoalTokenAddress, volume: bounty.fundingGoalVolume}: null;
+	};
+	const budgetObj = useMemo(() => createBudget(bounty), [
+		bounty
+	]);
+	const [budgetValue] = useGetTokenValues(budgetObj);
+	const budget = budgetValue?.total;
 	const tokenTotal = tokenValues?.total;
 	const payoutTotal = payoutValues?.total;
 	const refundTotal = refundValues?.total;
 	const TVL=tokenTotal - payoutTotal - refundTotal;
 	const {account, } = useWeb3();
+	console.log(bounty);
 
 	// State
 	const [error, setError] = useState(renderError);
@@ -163,8 +173,8 @@ const address = ({ address, mergedBounty, renderError }) => {
 					<RepoTitle bounty={bounty} />
 					<SubMenu colour="rust" items={[{ name: 'View', Svg: Telescope }, { name: 'Fund', Svg: Add }, { name: 'Refund', Svg: Subtract }, { name: 'Claim', Svg: Fire }, { name: (bounty.issuer && ethers.utils.getAddress(bounty?.issuer?.id) == account) ? 'Admin' : null, Svg: (bounty.issuer && ethers.utils.getAddress(bounty.issuer.id) == account) ? Telescope : null }]} internalMenu={internalMenu} updatePage={setInternalMenu} />
 
-					<BountyHeading price={TVL} bounty={bounty} />
-					{internalMenu == 'View' && <BountyCardDetails justMinted={justMinted} price={TVL} bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}
+					<BountyHeading price={TVL} budget={budget} bounty={bounty} />
+					{internalMenu == 'View' && <BountyCardDetails justMinted={justMinted} price={TVL} budget={budget} bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Admin' && bounty && (ethers.utils.getAddress(bounty.issuer.id) == account) ? <AdminPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
@@ -202,12 +212,15 @@ export const getServerSideProps = async (context) => {
 	}
 	try {
 		bounty = await openQSubgraphClient.instance.getBounty(address, 'no-cache');
+		console.log(bounty);
 		if (!bounty) {
 			console.log('could not find bounty on graph');
 		}
 		mergedBounty = { ...issueData, ...bountyMetadata, ...bounty, bountyAddress: address };
 	}
 	catch (err) {
+		console.log(err);
+	
 		renderError = `OpenQ could not find a contract with address: ${address}.`;
 	}
 	return { props: { id, address, mergedBounty, renderError } };

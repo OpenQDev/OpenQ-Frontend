@@ -8,7 +8,9 @@ query GetAllIssues($skip: Int! $sortOrder: String!, $quantity: Int! $types: [Str
     bountyId
     bountyMintTime
     bountyClosedTime
-    status
+    status		
+		fundingGoalTokenAddress
+		fundingGoalVolume
 		closerData
 		bountyType
 		claimedTransactionHash
@@ -71,6 +73,8 @@ query GetBounty($id: ID!) {
 		closerData
     bountyMintTime
 		bountyClosedTime
+		fundingGoalVolume
+		fundingGoalTokenAddress
      claims(orderBy: "claimTime", orderDirection: "desc"){
 		 	claimTime 
 		 	claimantAsset 
@@ -161,6 +165,8 @@ query GetBountiesByContractAddresses($contractAddresses: [ID]!, $types: [String]
     bountyMintTime
     bountyClosedTime
     status
+		fundingGoalTokenAddress
+		fundingGoalVolume
 		closerData
 		bountyType
 		claimedTransactionHash

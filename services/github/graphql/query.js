@@ -316,24 +316,24 @@ query($issueIds: [ID!]!) {
 			number
       titleHTML
       bodyHTML
-			timelineItems(first: 100) {
+			timelineItems(first: 100, itemTypes: CROSS_REFERENCED_EVENT) {
         edges {
           node {
             ... on CrossReferencedEvent {
-              id
               source {
                 ... on PullRequest {
-                  id
-                  bodyText
-                  title
-									url
-                  repository{owner{avatarUrl}}
+                  url
+									merged
+									title
+									author{									
+										login
+									}
                 }
               }
             }
           }
         }
-      }		
+      }
       assignees(first: 1) {
          nodes {
            name

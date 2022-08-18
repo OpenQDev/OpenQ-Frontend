@@ -82,7 +82,7 @@ class OpenQClient {
 	async setFundingGoal(library, _bountyId, _fundingGoalToken, _fundingGoalVolume) {
 		const promise = new Promise(async (resolve, reject) => {
 			const volumeInWei = _fundingGoalVolume * 10 ** _fundingGoalToken.decimals;
-			const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', {useGrouping:false}));
+			const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
 			const signer = library.getSigner();
 			const contract = this.OpenQ(signer);
 			try {

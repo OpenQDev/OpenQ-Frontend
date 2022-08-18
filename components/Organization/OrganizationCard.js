@@ -66,7 +66,7 @@ const OrganizationCard = ({ organization }) => {
 					.combineBounties(organization.bountiesCreated, issuesData, metaData)
 					.filter((bounty) => {
 						return (
-							!bounty.assignees.nodes[0] &&
+							!bounty.assignees[0] &&
             bounty.status === 'OPEN' &&
             bounty.bountyTokenBalances.length > 0
 						&& !bounty.blacklisted
