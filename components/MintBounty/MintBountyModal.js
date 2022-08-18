@@ -56,7 +56,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 	const [sum, setSum] = useState(0);
 	const [enableContest, setEnableContest] = useState(false);
 	const [budgetInput, setBudgetInput] = useState(false);
-	const tierConditions = sum == 100
+	const tierConditions = sum == 100;
 
 	// logic if smart contract adjusted: const tierConditions = tier == 0 || (tier > 0 && sum == 100) || tier == '' || tier == undefined
 	// and tooltip text: 'Please make sure the number of tiers is set to 0 OR the sum of percentages adds up to 100.'
@@ -223,13 +223,13 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 		if (finalTierVolume.length) {
 			setSum(finalTierVolume.reduce((a, b) => a + b));
 		}
-		if (sum == 100) { setEnableContest(true) };
+		if (sum == 100) { setEnableContest(true); }
 	}, [finalTierVolume]);
 
 	useEffect(() => {
-		if (toggleType == 'Contest' && !tierConditions) { setEnableContest(false) }
-		else { setEnableContest(true) };
-	}, [toggleType, tier, sum])
+		if (toggleType == 'Contest' && !tierConditions) { setEnableContest(false); }
+		else { setEnableContest(true); }
+	}, [toggleType, tier, sum]);
 
 	// Render
 	return (
@@ -290,7 +290,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 									<div className="flex flex-col w-4/5 md:w-2/3">
 										<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
 											<div className='flex items-center gap-2'>Set a Budget
-											<input type="checkbox" className="checkbox" onChange={() => setBudgetInput(!budgetInput)}></input>
+												<input type="checkbox" className="checkbox" onChange={() => setBudgetInput(!budgetInput)}></input>
 												<ToolTipNew mobileX={10} toolTipText={toggleType === 'Atomic' ? 'Amount of funds you would like to escrow on this issue.' : 'How much will each successful submitter earn?'} >
 													<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
 
@@ -299,14 +299,14 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 											<span className='text-sm my-2'>You don{'\''}t have to deposit now! The budget is just what you intend to pay.</span>
 											{ budgetInput?
 												<div className='flex-1 w-full mt-2 ml-4'>
-												<TokenFundBox
-													onCurrencySelect={onGoalCurrencySelect}
-													onVolumeChange={handleGoalChange}
-													volume={goalVolume}
-													token={goalToken}
-												/>
-											</div>
-											: null
+													<TokenFundBox
+														onCurrencySelect={onGoalCurrencySelect}
+														onVolumeChange={handleGoalChange}
+														volume={goalVolume}
+														token={goalToken}
+													/>
+												</div>
+												: null
 											}
 										</div>
 									</div>

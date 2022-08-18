@@ -92,7 +92,7 @@ class MockGithubRepository {
 				const repoName = elem.repository.name;
 				const avatarUrl = elem.repository.owner.avatarUrl;
 				const owner = elem.repository.owner.login;
-				const assignees = elem.assignees;
+				const assignees = elem.assignees.nodes;
 				const labels = elem.labels.edges.map(edge => edge.node);
 				const languages = elem.repository.languages.edges.map(languages => languages.node);
 				return { id, title, body, url, languages, repoName, owner, avatarUrl, labels, createdAt, closed, bodyHTML, titleHTML, assignees, prs };

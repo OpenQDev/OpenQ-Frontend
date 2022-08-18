@@ -75,7 +75,7 @@ class GithubRepository {
 				const owner = elem.repository.owner.login;
 				const repoDescription = elem.repository.description;
 				const repoUrl = elem.repository.url;
-				const assignees = elem.assignees;
+				const assignees = elem.assignees.nodes;
 				const number = elem.number;
 				const labels = elem.labels.edges.map(edge => edge.node);
 				const languages = elem.repository.languages.edges.map(languages => languages.node);

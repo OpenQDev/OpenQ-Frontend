@@ -3,7 +3,7 @@
 /*CHECK DOC ABOUT extensio parameters vs theem*/
 module.exports = {
 	mode: 'jit',
-	content: ['./components/**/*.js', './pages/**/*.js'],
+	content: ['./components/**/*.js', './pages/**/*.js', "./services/utils/Utils.js"],
 	darkMode: false, // or 'media' or 'class'
 	theme: {
 		borderRadius: {

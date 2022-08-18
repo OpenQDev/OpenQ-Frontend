@@ -1,15 +1,19 @@
 // Third party
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useMemo } from 'react';
 import Image from 'next/image';
 import Skeleton from 'react-loading-skeleton';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import BountyCardDetailsModal from './BountyCardDetailsModal';
+import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
+
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
 import LabelsList from '../Bounty/LabelsList';
+import useAuth from '../../hooks/useAuth';
 
 const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
+
 	// State
 	const bountyName = bounty?.title.toLowerCase() || '';
 	const [appState] = useContext(StoreContext);
@@ -17,12 +21,27 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 	const [payoutValues] = useGetTokenValues(bounty.payouts);
 	const [refundValues] = useGetTokenValues(bounty.refunds);
 	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances );
+	
+	
+	const createBudget = (bounty)=>{
+		return  bounty.fundingGoalTokenAddress ? {tokenAddress: bounty.fundingGoalTokenAddress, volume: bounty.fundingGoalVolume}: null;
+	};
+	const budgetObj = useMemo(() => createBudget(bounty), [
+		bounty
+	]);
+	console.log(budgetObj);
+	const [budgetValue] = useGetTokenValues(budgetObj);
+	const budget = budgetValue?.total;
+	console.log(budgetValue);
 	const tokenTotal = tokenValues?.total;
 	const payoutTotal = payoutValues?.total;
 	const refundTotal = refundValues?.total;
 	const price=tokenTotal - payoutTotal - refundTotal;
 	// Hooks
-	
+
+	const [authState] = useAuth();
+	const	marker = appState.utils.getBountyMarker(bounty, authState.login);
+
 	const TVL = price || price === 0
 		? appState.utils.formatter.format(price)
 		: '';
@@ -35,7 +54,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 		document.body.style.height = '100vh';
 		document.body.style.overflowY = 'hidden';		
 		setIsModal(true);
-	}; 
+	};
 
 	// Render
 	return (
@@ -46,13 +65,13 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 					`flex flex-col  md:px-4 py-4 border-web-gray cursor-pointer ${index!==length-1 && 'border-b'}`
 				}
 			>
-				<div className="flex flex-row justify-between sm:pt-0 text-primary">
+				<div className="flex flex-row flex-wrap sm:flex-nowrap justify-between sm:pt-0 text-primary">
 					<div className="w-3/4">
 						<div className="flex flex-grow flex-row items-center md:space-x-2 sm:pb-0 w-full">
 							<div className="hidden md:block">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
-									fill={loading ? '#333' : bounty.status === 'CLOSED' ? '#F0431D' : '#15FB31'}
+									className={loading ? '#333' : marker.fill}
 									viewBox="0 0 16 16"
 									width="19"
 									height="19"
@@ -101,8 +120,8 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 							</span></span>
 							
 
-							<span>Assigned to {bounty.assignees.nodes[0]?.name|| 'no one.'}</span>
-							{bounty.assignees.nodes[0]?.avatarUrl &&	<Image height={24} width={24} className='rounded-full pt-1' src={bounty.assignees.nodes[0]?.avatarUrl}/>}
+							<span>Assigned to {bounty.assignees[0]?.name|| 'no one.'}</span>
+							{bounty.assignees[0]?.avatarUrl &&	<Image height={24} width={24} className='rounded-full pt-1' src={bounty.assignees[0]?.avatarUrl}/>}
 						</div>
 						
 					</div>
@@ -113,8 +132,8 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 					{loading ?
 						<Skeleton width={60} /> :
 						<div className='flex flex-col justify-between items-end leading-tight '>
-							{bounty?.avatarUrl ?
-								<Image className='rounded-full'
+							<div className='sm:block hidden'>	{bounty?.avatarUrl ?
+								<Image className='rounded-full '
 									src={bounty?.avatarUrl}
 									alt="avatarUrl"
 									width="51"
@@ -122,25 +141,59 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 								/> :
 								<Skeleton width={51} height={51} />
 							}
-							{TVL &&<div className="flex flex-row space-x-1 items-center">
-								<div className="pr-2 pt-1 invisible md:visible">
-									<Image
-										src="/crypto-logos/ETH.svg"
-										alt="avatarUrl"
-										width="12"
-										height="20"
-									/>
-								</div>
+							</div>
+							<div className='flex gap-4 content-center items-center sm:w-60'>
+								{bounty.bountyType=== '0' ?<span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
+									<div className='whitespace-nowrap'>Single</div><PersonIcon />
+								</span>:
+									bounty.bountyType === '1' ?
+								
+										<div>	<div className='whitespace-nowrap'>Multi</div><PersonAddIcon /></div>:
+									
+										bounty.bountyType === '2' &&
+								<div>	<div className='whitespace-nowrap'>Weighted</div><PeopleIcon /></div>
 
-								<>
-									<div className="font-semibold ">TVL</div>
-									<div className="">
-										{TVL}
+								}
+
+								{price > budget ? <div className="flex flex-row space-x-1 items-center">
+									<div className="pr-2 pt-1">
+										<Image
+											src="/crypto-logos/ETH-COLORED.png"
+											alt="avatarUrl"
+											width="12"
+											height="20"
+										/>
 									</div>
-								</>
+
+									<>
+										<div className="font-semibold ">TVL</div>
+										<div className="">
+											{appState.utils.formatter.format(price)}
+										</div>
+									</>
 
 							
-							</div>}
+								</div>:
+									budget>0 &&<div className="flex flex-row space-x-1 items-center">
+										<div className="pr-2 pt-1">
+											<Image
+												src="/crypto-logos/ETH.svg"
+												alt="avatarUrl"
+												width="12"
+												height="20"
+											/>
+										</div>
+
+										<>
+											<div className="font-semibold ">Budget</div>
+											<div className="">
+												{appState.utils.formatter.format(budget)}
+											</div>
+										</>
+
+							
+									</div>}
+							</div>
 						</div>}
 				</div>
 			</div>
