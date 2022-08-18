@@ -157,18 +157,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 	}
 
 	async function setContestPayout() {
-		try {
-			setIsLoading(true);
-			// change this
-			const transaction = await appState.openQClient.setPayout(library, bounty.bountyId, payoutToken, payoutVolume);
-			refreshBounty();
-			setPayoutVolume('');
-			setModal({ transaction, type: 'Payout' });
-		} catch (error) {
-			console.log(error);
-			const { message, title } = appState.openQClient.handleError(error, { bounty });
-			setError({ message, title });
-		}
+		alert('link this to smart contract when available')
 	}
 
 	async function closeCompetition() {
