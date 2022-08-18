@@ -363,7 +363,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 									<div className='text-xs font-semibold leading-loose'>Number of tiers: </div>
 									<div className='text-xs font-semibold'>{bounty.payoutSchedule.length}</div>
 								</div>
-								<div className='flex flex-col '>
+								<div className='flex flex-col max-h-80 w-full overflow-y-auto overflow-x-hidden'>
 									{bounty.payoutSchedule.map((t, index) => {
 										return (
 											<div key={index} className='flex items-center gap-4 text-primary'>

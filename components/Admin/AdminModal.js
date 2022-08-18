@@ -113,7 +113,7 @@ const AdminModal = ({ setModal, modal }) => {
 										<div className='text-xs font-semibold leading-loose'>Number of tiers: </div>
 										<div className='text-xs font-semibold'>{modal.finalTierVolume.length}</div>
 									</div>
-									<div className='flex flex-col '>
+									<div className='flex flex-col max-h-40 w-full overflow-y-auto overflow-x-hidden'>
 										{modal.finalTierVolume.map((t, index) => {
 											return (
 												<div key={index} className='flex items-center gap-4 text-primary'>
