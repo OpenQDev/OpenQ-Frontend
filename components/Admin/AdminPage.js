@@ -156,8 +156,18 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 		}
 	}
 
-	async function setContestPayout() {
-		alert('link this to smart contract when available')
+	async function setPayoutSchedule() {
+		try {
+			setIsLoading(true);
+			const transaction = await appState.openQClient.setPayoutSchedule(library, bounty.bountyId, finalTierVolume);
+			refreshBounty();
+			// setPayoutVolume(''); // ?
+			setModal({ transaction, type: 'Payout' });
+		} catch (error) {
+			console.log(error);
+			const { message, title } = appState.openQClient.handleError(error, { bounty });
+			setError({ message, title });
+		}
 	}
 
 	async function closeCompetition() {
@@ -278,7 +288,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 										<button
 											className={`w-full btn-default ${enableContest ? 'cursor-pointer' : 'cursor-not-allowed'}`}
 											type="button"
-											onClick={setContestPayout}
+											onClick={setPayoutSchedule}
 											disabled={!enableContest}
 										>Set New Payout Schedule</button>
 									</ToolTipNew>

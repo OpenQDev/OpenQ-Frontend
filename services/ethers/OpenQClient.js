@@ -132,6 +132,25 @@ class OpenQClient {
 		return promise;
 	}
 
+	async setPayoutSchedule(library, _bountyId, _payoutSchedule) {
+		const promise = new Promise(async (resolve, reject) => {
+			const signer = library.getSigner();
+			const contract = this.OpenQ(signer);
+			try {
+				let txnResponse;
+				let txnReceipt;
+				txnResponse = await contract.setPayoutSchedule(_bountyId, _payoutSchedule);
+				txnReceipt = await txnResponse.wait();
+				console.log(txnReceipt);
+				resolve(txnReceipt);
+			} catch (error) {
+				console.log(error);
+				reject(error);
+			}
+		});
+		return promise;
+	}
+
 	async approve(library, _bountyAddress, _tokenAddress, _value) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
