@@ -60,7 +60,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 		const depositId = showApproveTransferModal;
 
 		try {
-			const txnReceipt = await appState.openQClient.refundDeposit(library, bounty.bountyId, depositId);
+			const txnReceipt = await appState.openQClient.refundDeposit(library, bounty.bountyAddress, depositId);
 			setTransactionHash(txnReceipt.events[0].transactionHash);
 
 			try {
@@ -85,7 +85,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 		const depositId = showApproveTransferModal;
 
 		try {
-			const txnReceipt = await appState.openQClient.extendDeposit(library, bounty.bountyId, depositId, depositPeriodDays[depositId]);
+			const txnReceipt = await appState.openQClient.extendDeposit(library, bounty.bountyAddress, depositId, depositPeriodDays[depositId]);
 			setTransactionHash(txnReceipt.events[0].transactionHash);
 
 			try {

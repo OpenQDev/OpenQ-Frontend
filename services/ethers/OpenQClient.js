@@ -1,5 +1,6 @@
 import { ethers } from 'ethers';
 import OpenQABI from '../../artifacts/contracts/OpenQ/Implementations/OpenQV1.sol/OpenQV1.json';
+import DepositManagerABI from '../../artifacts/contracts/DepositManager/DepositManager.sol/DepositManager.json';
 import ERC20ABI from '../../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json';
 import jsonRpcErrors from './JsonRPCErrors';
 
@@ -13,6 +14,16 @@ class OpenQClient {
 		 */
 	OpenQ = (signer) => {
 		const contract = new ethers.Contract(process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS, OpenQABI.abi, signer);
+		return contract;
+	};
+
+	/**
+	 * 
+	 * @param {Web3Provider} signer An ethers.js signer
+	 * @returns Web3Contract
+	 */
+	DepositManager = (signer) => {
+		const contract = new ethers.Contract(process.env.NEXT_PUBLIC_DEPOSIT_MANAGER_PROXY_ADDRESS, DepositManagerABI.abi, signer);
 		return contract;
 	};
 
@@ -120,7 +131,6 @@ class OpenQClient {
 		});
 		return promise;
 	}
-
 
 	async approve(library, _bountyAddress, _tokenAddress, _value) {
 		const promise = new Promise(async (resolve, reject) => {
@@ -238,11 +248,11 @@ class OpenQClient {
 		return promise;
 	}
 
-	async fundBounty(library, _bountyId, _tokenAddress, _value, _depositPeriodDays) {
+	async fundBounty(library, _bountyAddress, _tokenAddress, _value, _depositPeriodDays) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
 
-			const contract = this.OpenQ(signer);
+			const contract = this.DepositManager(signer);
 			try {
 				const expiration = _depositPeriodDays * 24 * 60 * 60;
 
@@ -250,9 +260,9 @@ class OpenQClient {
 				let txnReceipt;
 
 				if (_tokenAddress == ethers.constants.AddressZero) {
-					txnResponse = await contract.fundBountyToken(_bountyId, _tokenAddress, _value, expiration, { value: _value });
+					txnResponse = await contract.fundBountyToken(_bountyAddress, _tokenAddress, _value, expiration, { value: _value });
 				} else {
-					txnResponse = await contract.fundBountyToken(_bountyId, _tokenAddress, _value, expiration);
+					txnResponse = await contract.fundBountyToken(_bountyAddress, _tokenAddress, _value, expiration);
 				}
 				txnReceipt = await txnResponse.wait();
 				console.log(txnReceipt);
@@ -301,13 +311,13 @@ class OpenQClient {
 		return promise;
 	}
 
-	async extendDeposit(library, _bountyId, _depositId, _depositPeriodDays) {
+	async extendDeposit(library, _bountyAddress, _depositId, _depositPeriodDays) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
-			const contract = this.OpenQ(signer);
+			const contract = this.DepositManager(signer);
 			try {
 				const seconds = _depositPeriodDays * 24 * 60 * 60;
-				const txnResponse = await contract.extendDeposit(_bountyId, _depositId, seconds);
+				const txnResponse = await contract.extendDeposit(_bountyAddress, _depositId, seconds);
 				const txnReceipt = await txnResponse.wait();
 				console.log(txnReceipt);
 				resolve(txnReceipt);
@@ -319,12 +329,12 @@ class OpenQClient {
 	}
 
 
-	async refundDeposit(library, _bountyId, _depositId) {
+	async refundDeposit(library, _bountyAddress, _depositId) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
-			const contract = this.OpenQ(signer);
+			const contract = this.DepositManager(signer);
 			try {
-				const txnResponse = await contract.refundDeposit(_bountyId, _depositId);
+				const txnResponse = await contract.refundDeposit(_bountyAddress, _depositId);
 				const txnReceipt = await txnResponse.wait();
 				console.log(txnReceipt);
 				resolve(txnReceipt);
@@ -335,12 +345,12 @@ class OpenQClient {
 		return promise;
 	}
 
-	async tokenAddressLimitReached(library, _bountyId) {
+	async tokenAddressLimitReached(library, _bountyAddress) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
-			const contract = this.OpenQ(signer);
+			const contract = this.DepositManager(signer);
 			try {
-				const tokenAddressLimitReached = await contract.tokenAddressLimitReached(_bountyId);
+				const tokenAddressLimitReached = await contract.tokenAddressLimitReached(_bountyAddress);
 				resolve(tokenAddressLimitReached);
 			} catch (err) {
 				reject(err);
@@ -352,7 +362,7 @@ class OpenQClient {
 	async isWhitelisted(library, tokenAddress) {
 		const promise = new Promise(async (resolve, reject) => {
 			const signer = library.getSigner();
-			const contract = this.OpenQ(signer);
+			const contract = this.DepositManager(signer);
 			try {
 				const isWhitelisted = await contract.isWhitelisted(tokenAddress);
 				resolve(isWhitelisted);
