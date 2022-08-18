@@ -122,15 +122,17 @@ mutation unStarOrg ($id: String!, $address: String!){
 
 
 
-export const GET_BOUNTY_PAGE = gql`
-query BountiesConnection($after: ID, $limit: Int!, $orderBy: String, $sortOrder: String, $types: [String], $organizationId: String) {
-  bountiesConnection(after: $after,  limit: $limit, orderBy: $orderBy, sortOrder: $sortOrder, types:$types, organizationId: $organizationId) {
+export const GET_CONTRACT_PAGE = gql`
+query BountiesConnection($after: ID, $limit: Int!, $orderBy: String, $sortOrder: String, $types: [String], $organizationId: String, $category: String) {
+  bountiesConnection(after: $after,  limit: $limit, orderBy: $orderBy, sortOrder: $sortOrder, types:$types, organizationId: $organizationId, category: $category) {
     bounties {
       tvl
 			address
 			organizationId
 			bountyId
       type
+			category
+			watchingCount
     }
 		cursor
   }

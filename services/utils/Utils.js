@@ -99,7 +99,7 @@ class Utils {
 		currency: 'USD',
 	});
 
-	combineBounties = (subgraphBounties, githubIssues, metadata = []) => {
+	combineBounties = (subgraphBounties, githubIssues, metadata) => {
 		const fullBounties = [];
 		subgraphBounties.forEach((bounty) => {
 			const relatedIssue = githubIssues.find(
@@ -198,35 +198,31 @@ class Utils {
 		return [mergedOrgs, renderError];
 	};
 
-	fetchBounties = async({openQSubgraphClient, githubRepository, openQPrismaClient},  types=['0','1', '2',], batch)=>{
-		let subgraphError='';
+	fetchBounties = async({openQSubgraphClient, githubRepository, openQPrismaClient},  types=['0','1', '2',], batch, category)=>{
+		let renderError='';
 		let newBounties = [];
-		try {
-			newBounties = await openQSubgraphClient.getAllBounties(
+		let prismaContracts;
+		try{
+			const prismaContractsResult = await openQPrismaClient.getContractPage(
+				null,
+				batch,
+				null,
 				'desc',
-				0,
-				batch, types
-			);
-		} catch (err) {
-			if (
-				err.message.includes(
-					'Wait for it to ingest a few blocks before querying it'
-				)
-			) {
-				console.log('graph empty');
-				return {
-					props: {
-						orgs: [],
-						fullBounties: [],
-					},
-				};
-			} else {
-				subgraphError = 'OpenQ is unable to display contracts.';
-			}
+				types,
+				category);
+			prismaContracts = prismaContractsResult.bountiesConnection.bounties;
 		}
+		catch(err){		
+			console.log(err);
+		}
+		const bountyAddresses = prismaContracts.map(bounty=>bounty.address.toLowerCase());
+		const bountyIds = prismaContracts.map(contract=>contract.bountyId);
+		const subgraphContracts = await openQSubgraphClient.getBountiesByContractAddresses(bountyAddresses);
 		
-		const [fullBounties, fetchingError] = await  this.fillBountiesFromBountyAddresses(newBounties, openQPrismaClient, githubRepository);
-		const renderError = subgraphError || fetchingError;
+		const		githubIssues = await githubRepository.getIssueData(bountyIds);
+		console.log(prismaContracts);
+		const fullBounties = this.combineBounties(subgraphContracts, githubIssues, prismaContracts);
+		console.log(fullBounties);
 		return [fullBounties, renderError];
 	};
 	
@@ -246,6 +242,7 @@ class Utils {
 		try {
 			issueData = await githubRepository.getIssueData(bountyIds);
 		} catch (err) {
+			console.log(err);
 			renderError = 'OpenQ is unable to connect with Github.';
 		}
 		return  [this.combineBounties(newBounties, issueData, bountyMetadata), renderError];

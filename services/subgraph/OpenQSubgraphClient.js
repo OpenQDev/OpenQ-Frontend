@@ -114,7 +114,6 @@ class OpenQSubgraphClient {
 	}
 
 	async getOrganizations(types) {
-		console.log(types);
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({

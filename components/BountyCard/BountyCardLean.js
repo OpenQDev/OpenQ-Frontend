@@ -29,10 +29,8 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 	const budgetObj = useMemo(() => createBudget(bounty), [
 		bounty
 	]);
-	console.log(budgetObj);
 	const [budgetValue] = useGetTokenValues(budgetObj);
 	const budget = budgetValue?.total;
-	console.log(budgetValue);
 	const tokenTotal = tokenValues?.total;
 	const payoutTotal = payoutValues?.total;
 	const refundTotal = refundValues?.total;

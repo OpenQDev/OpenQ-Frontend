@@ -14,12 +14,10 @@ const WatchButton = ({unWatchable, bounty})=>{
 	useEffect(async() => {
 		if(account){
 			const user = await appState.openQPrismaClient.getUser(account);
-			console.log(user);
+		
 			if(user){
-				console.log(bounty.address);
 				const watching = user.watchedBountyIds?.some(bountyAddress => {
 					return	bountyAddress.toLowerCase() === bounty.bountyAddress.toLowerCase();});
-				console.log(watching);
 				setWatchingDisplay(watching);
 			}
 		}

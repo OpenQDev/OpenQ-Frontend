@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { WATCH_BOUNTY, UNWATCH_BOUNTY, GET_BOUNTY_BY_HASH, GET_USER_BY_HASH, GET_BOUNTY_PAGE, GET_PR_BY_ID, CREATE_PR, ADD_CONTRIBUTOR, REMOVE_CONTRIBUTOR, GET_IS_BLACKLISTED, GET_ORG, GET_ORGS, STAR_ORG, UN_STAR_ORG } from './graphql/query';
+import { WATCH_BOUNTY, UNWATCH_BOUNTY, GET_BOUNTY_BY_HASH, GET_USER_BY_HASH, GET_CONTRACT_PAGE, GET_PR_BY_ID, CREATE_PR, ADD_CONTRIBUTOR, REMOVE_CONTRIBUTOR, GET_IS_BLACKLISTED, GET_ORG, GET_ORGS, STAR_ORG, UN_STAR_ORG } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
 
@@ -240,18 +240,21 @@ class OpenQPrismaClient {
 		return promise;
 	}
 
-	async getBountyPage(after, limit, orderBy, sortOrder, types, organizationId) {
+	async getContractPage(after, limit, orderBy, sortOrder, types, category, organizationId ) {
+		console.log('heyc', after, limit, orderBy, sortOrder, types, category, organizationId);
+		console.log(category, types);
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
-					query: GET_BOUNTY_PAGE,
-					variables: { after, limit, orderBy, sortOrder, organizationId, types },
+					query: GET_CONTRACT_PAGE,
+					variables: { after, limit, orderBy, sortOrder, organizationId, types, category },
 					fetchPolicy: 'no-cache'
 				});
 				resolve(result.data);
 			}
 			catch (e) {
 				reject(e);
+				console.log(e);
 			}
 		}
 		);
