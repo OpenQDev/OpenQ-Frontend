@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from 'react';
 import StoreContext from '../store/Store/StoreContext';
 
 const useGetTokenValues = (tokenBalances, bounty) => {
-const useGetTokenValues = (tokenBalances) => {
 	const [tokenValues, setTokenValues] = useState(null);
 	const [appState] = useContext(StoreContext);
 
