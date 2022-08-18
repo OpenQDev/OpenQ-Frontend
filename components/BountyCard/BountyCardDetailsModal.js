@@ -31,7 +31,6 @@ const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues, showModal, u
 		};
 	}, [modal]);
 
-
 	
 
 

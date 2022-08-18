@@ -14,10 +14,13 @@ const WatchButton = ({unWatchable, bounty})=>{
 	useEffect(async() => {
 		if(account){
 			const user = await appState.openQPrismaClient.getUser(account);
+			console.log(user);
 			if(user){
+				console.log(bounty.address);
 				const watching = user.watchedBountyIds?.some(bountyAddress => {
-					bountyAddress.toLowerCase() === bounty.address;});
-				setWatchingDisplay(!watching);
+					return	bountyAddress.toLowerCase() === bounty.bountyAddress.toLowerCase();});
+				console.log(watching);
+				setWatchingDisplay(watching);
 			}
 		}
 	}, [account]);
@@ -32,7 +35,7 @@ const WatchButton = ({unWatchable, bounty})=>{
 	return (
 		<div>
 			{!unWatchable && account &&
-				<button onClick={handleWatch} disabled={watchDisabled} className='flex group hover:btn-danger w-28 items-center text-xs bg-inactive-gray leading-5 h-7 px-3 py-[3px] hover:bg-active-gray rounded-sm border hover:border-border-active border-border-gray'>
+				<button onClick={handleWatch} disabled={watchDisabled} className={`flex group ${watchingDisplay && 'hover:btn-danger'} w-24 items-center text-xs bg-inactive-gray leading-5 h-7 px-3 py-[3px] hover:bg-active-gray rounded-sm border hover:border-border-active border-border-gray`}>
 					{watchingDisplay  ?
 						<>
 						

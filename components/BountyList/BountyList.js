@@ -127,7 +127,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 				const isFunded = bounty.deposits.some(deposit => {
 					return !deposit.refunded;
 				});
-				const isAssigned = bounty.assignees?.nodes.length > 0;
+				const isAssigned = bounty.assignees?.length > 0;
 
 				// Combine
 				return (containsSearch && containsTag && (((isFunded) && (isUnclaimed) && (!isAssigned)) || localIsReady === 'All issues') && hasLabels && bounty.url && !bounty.blacklisted && isType);
