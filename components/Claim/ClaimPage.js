@@ -119,7 +119,6 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 		return (
 			bounty.bountyType ?
 				bounty.bountyClosedTime ? <>
-					{console.log(justClaimed)}
 					<BountyClosed bounty={bounty} showTweetLink={justClaimed} />
 					</>
 					:
