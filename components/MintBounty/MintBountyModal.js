@@ -277,18 +277,19 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 													</ToolTipNew>
 												</div>
 												<div className='flex-1 w-full mt-2 ml-4'>
-													<div className="flex text-sm rounded-sm overflow-hidden w-fit text-primary ">
-														<ToolTipNew toolTipText={'Invoicing feature coming soon'}>
+													<div className="flex text-sm rounded-sm text-primary ">
+														<ToolTipNew innerStyles={'flex'} toolTipText={'Invoicing feature coming soon'}>
 															<button
+																disabled={true}
 																onClick={() => setInvoice(true)}
-																className="w-fit min-w-[80px] py-[5px] px-4 rounded-l-sm border whitespace-nowrap ${invoice? 'bg-secondary-button border-secondary-button' : null} hover:bg-secondary-button hover:border-secondary-button border-web-gray"
+																className={`cursor-not-allowed w-fit min-w-[80px] py-[5px] px-4 rounded-l-sm border whitespace-nowrap ${invoice? 'bg-secondary-button border-secondary-button' : ''}  border-web-gray`}
 															>
 																Yes
 															</button>
 														</ToolTipNew>
 														<button
 															onClick={() => setInvoice(false)}
-															className={`w-fit min-w-[80px] py-[5px] px-4 border-l-0 rounded-r-sm border whitespace-nowrap ${!invoice? 'bg-secondary-button border-secondary-button' : null} hover:bg-secondary-button hover:border-secondary-button border-web-gray`}
+															className={`w-fit min-w-[80px] py-[5px] px-4 border-l-0 rounded-r-sm border whitespace-nowrap ${!invoice? 'bg-secondary-button border-secondary-button' : 'hover:bg-secondary-button hover:border-secondary-button border-web-gray'} `}
 														>
 															No
 														</button>
