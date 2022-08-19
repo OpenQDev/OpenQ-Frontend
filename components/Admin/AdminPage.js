@@ -46,7 +46,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 	const [tokenValues] = useGetTokenValues(bounty.bountyTokenBalances, bounty);
 	const budgetBalances = [{"tokenAddress": bounty.fundingGoalTokenAddress, "volume": bounty.fundingGoalVolume}]
 	const [budgetValues] = useGetTokenValues(budgetBalances, bounty);
-	const splitBalances = [{"tokenAddress": bounty.payoutTokenAddress, "volume": bounty.payoutTokenVolume}]
+	const splitBalances = bounty.bountyType == 1? [{"tokenAddress": bounty.payoutTokenAddress, "volume": bounty.payoutTokenVolume}] : null;
 	const [splitValues] = useGetTokenValues(splitBalances, bounty);
 
 	// funding goal volume and token
