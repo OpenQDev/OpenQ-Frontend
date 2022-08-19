@@ -144,15 +144,23 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 							}
 							</div>
 							<div className='flex gap-4 content-center items-center justify-between sm:w-60'>
-								{bounty.bountyType === '0' ? <span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
-									<div className='whitespace-nowrap'>Single</div><PersonIcon />
-								</span> :
+								{bounty.bountyType === '0' ?
+									<span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
+										<div className='whitespace-nowrap'>Single</div>
+										<PersonIcon />
+									</span> :
 									bounty.bountyType === '1' ?
 
-										<div>	<div className='whitespace-nowrap'>Multi</div><PersonAddIcon /></div> :
+										<span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
+											<div className='whitespace-nowrap'>Multi</div>
+											<PersonAddIcon />
+										</span> :
 
 										bounty.bountyType === '2' &&
-										<div>	<div className='whitespace-nowrap'>Weighted</div><PeopleIcon /></div>
+										<span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
+											<div className='whitespace-nowrap'>Weighted</div>
+											<PeopleIcon />
+										</span>
 
 								}
 
