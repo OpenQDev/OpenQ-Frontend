@@ -23,19 +23,24 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
 				<h2 className="flex text-3xl border-b border-gray-700 pb-4">This contract is closed.</h2>
 				<h3 className="flex text-2xl">You cannot initiate actions on a closed contract.</h3>
 				<div className="flex rounded-sm py-2 cursor-pointer" >
-					<div>Closing Transaction: <Link href={url}>
+					<div>You can see the closing transaction <Link href={url}>
 						<a target={'_blank'} rel="noopener norefferer" className="cursor-pointer break-all">
-							<span className="underline">{url}</span>
+							<span className="underline">here</span>
 							{'  '}<svg className="h-3 inline" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M448 80v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V80c0-26.51 21.49-48 48-48h352c26.51 0 48 21.49 48 48zm-88 16H248.029c-21.313 0-32.08 25.861-16.971 40.971l31.984 31.987L67.515 364.485c-4.686 4.686-4.686 12.284 0 16.971l31.029 31.029c4.687 4.686 12.285 4.686 16.971 0l195.526-195.526 31.988 31.991C358.058 263.977 384 253.425 384 231.979V120c0-13.255-10.745-24-24-24z" />
 							</svg>
 						</a>
 					</Link>
+					{console.log(claimantPullRequestURL)}
 						{claimantPullRequestURL !== null ?
-							<div className='py-4'>Closing Pull Request: <Link href={claimantPullRequestURL}>
-								<a target="_blank" rel="noopener noreferrer" className='underline'>{claimantPullRequestURL}
+							<div className='py-4'>You can see the closing pull request <Link href={claimantPullRequestURL}>
+								<a target="_blank" rel="noopener noreferrer" className='cursor-pointer break-all'>
+									<span className="underline">here</span>
 									{'  '}<svg className="h-3 inline" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M448 80v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V80c0-26.51 21.49-48 48-48h352c26.51 0 48 21.49 48 48zm-88 16H248.029c-21.313 0-32.08 25.861-16.971 40.971l31.984 31.987L67.515 364.485c-4.686 4.686-4.686 12.284 0 16.971l31.029 31.029c4.687 4.686 12.285 4.686 16.971 0l195.526-195.526 31.988 31.991C358.058 263.977 384 253.425 384 231.979V120c0-13.255-10.745-24-24-24z" />
 									</svg></a></Link>
-							</div> : null}
+							</div>
+							:
+							null
+						}
 					</div>
 					{showTweetLink && <Link
 						href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyId}/${bounty.bountyAddress}`}
