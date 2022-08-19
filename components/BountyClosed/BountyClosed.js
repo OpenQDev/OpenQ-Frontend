@@ -1,6 +1,7 @@
 // Third party
 import React, { useContext } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
@@ -23,24 +24,61 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
 				<h2 className="flex text-3xl border-b border-gray-700 pb-4">This contract is closed.</h2>
 				<h3 className="flex text-2xl">You cannot initiate actions on a closed contract.</h3>
 				<div className="flex rounded-sm py-2 cursor-pointer" >
-					<div>You can see the closing transaction <Link href={url}>
-						<a target={'_blank'} rel="noopener norefferer" className="cursor-pointer break-all">
-							<span className="underline">here</span>
-							{'  '}<svg className="h-3 inline" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M448 80v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V80c0-26.51 21.49-48 48-48h352c26.51 0 48 21.49 48 48zm-88 16H248.029c-21.313 0-32.08 25.861-16.971 40.971l31.984 31.987L67.515 364.485c-4.686 4.686-4.686 12.284 0 16.971l31.029 31.029c4.687 4.686 12.285 4.686 16.971 0l195.526-195.526 31.988 31.991C358.058 263.977 384 253.425 384 231.979V120c0-13.255-10.745-24-24-24z" />
-							</svg>
-						</a>
-					</Link>
-					{console.log(claimantPullRequestURL)}
-						{claimantPullRequestURL !== null ?
-							<div className='py-4'>You can see the closing pull request <Link href={claimantPullRequestURL}>
-								<a target="_blank" rel="noopener noreferrer" className='cursor-pointer break-all'>
+					<div className="flex flex-col items-start">
+						<div className='flex flex-row items-center gap-1'>You can see the closing transaction
+							<Link href={url}>
+								<a target={'_blank'} rel="noopener norefferer" className="flex cursor-pointer break-all">
 									<span className="underline">here</span>
-									{'  '}<svg className="h-3 inline" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M448 80v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V80c0-26.51 21.49-48 48-48h352c26.51 0 48 21.49 48 48zm-88 16H248.029c-21.313 0-32.08 25.861-16.971 40.971l31.984 31.987L67.515 364.485c-4.686 4.686-4.686 12.284 0 16.971l31.029 31.029c4.687 4.686 12.285 4.686 16.971 0l195.526-195.526 31.988 31.991C358.058 263.977 384 253.425 384 231.979V120c0-13.255-10.745-24-24-24z" />
-									</svg></a></Link>
+									{'  '}
+									<div id={'bounty-link'} className="flex pl-1 cursor-pointer items-center">
+										<Image src="/BountyMaterial/polyscan-white.png" width={18} height={18} />
+									</div>
+								</a>
+							</Link>
+						</div>
+
+						{console.log(claimantPullRequestURL)}
+						{console.log(bounty.closerData)}
+						{claimantPullRequestURL !== null ?
+							<div className='flex py-4'>You can see the closing pull request <Link href={claimantPullRequestURL}>
+								<a target="_blank" rel="noopener noreferrer" className='flex items-center gap-1 cursor-pointer break-all'>
+									<span className="pl-1 underline">here</span>
+									{'  '}<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="18"
+										height="18"
+										viewBox="0 0 24 24"
+										fill="white"
+									>
+										<path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+									</svg>
+								</a>
+							</Link>
 							</div>
 							:
 							null
 						}
+						<li className='border-b border-web-gray py-3'>
+							{bounty?.prs?.some(pr => pr.source['__typename'] === 'PullRequest' && pr.source.url) > 0 ? <ul>
+
+								<div className='text-xs font-semibold text-muted'>Linked Pull Requests</div>
+								{bounty.prs.filter((pr) => {
+									return pr.source['__typename'] === 'PullRequest' && pr.source.url;
+								}).map((pr, index) => {
+									if (pr.source['__typename'] === 'PullRequest' && pr.source.url) {
+										return <li className='text-sm text-primary' key={index}>
+											<Link href={pr.source.url}>
+												<a target="_blank" className={'underline'}>
+													{pr.source.title}
+												</a>
+											</Link>
+											<span>
+												{pr.source.merged ? ' (merged)' : ' (not merged)'}</span>
+										</li>;
+									}
+								})}
+							</ul> : <span className='text-xs font-semnibold text-muted'>No linked pull requests</span>}
+						</li>
 					</div>
 					{showTweetLink && <Link
 						href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyId}/${bounty.bountyAddress}`}
