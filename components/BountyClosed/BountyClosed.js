@@ -18,25 +18,24 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
 	const claimantPullRequestURL = bounty.closerData;
 	//Render
 	return (
-		<div className="w-2/3 lg:w-1/2 pb-20">
-		{console.log(bounty)}
-			<div className="flex flex-col space-y-5">
-				<h2 className="flex text-3xl pt-8 border-b border-gray-700 pb-4">This contract is closed.</h2>
-				<h3 className="flex text-2xl pt-2">You cannot initiate actions on a closed contract.</h3>
-				<div className="flex rounded-sm py-4 pb-4 cursor-pointer" >			
-					<div className="my-2">Closing Transaction: <Link href={url}>
-						<a target={'_blank'} rel="noopener norefferer"  className="cursor-pointer break-all">
+		<div className='flex w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
+			<div className='flex-1 pr-4 min-w-[260px] space-y-4 pt-2'>
+				<h2 className="flex text-3xl border-b border-gray-700 pb-4">This contract is closed.</h2>
+				<h3 className="flex text-2xl">You cannot initiate actions on a closed contract.</h3>
+				<div className="flex rounded-sm py-2 cursor-pointer" >
+					<div>Closing Transaction: <Link href={url}>
+						<a target={'_blank'} rel="noopener norefferer" className="cursor-pointer break-all">
 							<span className="underline">{url}</span>
 							{'  '}<svg className="h-3 inline" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M448 80v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V80c0-26.51 21.49-48 48-48h352c26.51 0 48 21.49 48 48zm-88 16H248.029c-21.313 0-32.08 25.861-16.971 40.971l31.984 31.987L67.515 364.485c-4.686 4.686-4.686 12.284 0 16.971l31.029 31.029c4.687 4.686 12.285 4.686 16.971 0l195.526-195.526 31.988 31.991C358.058 263.977 384 253.425 384 231.979V120c0-13.255-10.745-24-24-24z" />
 							</svg>
 						</a>
 					</Link>
-					{claimantPullRequestURL !== null ?
-						<div className='py-4'>Closing Pull Request: <Link href={claimantPullRequestURL}>
-							<a target="_blank" rel="noopener noreferrer" className='underline'>{claimantPullRequestURL}	
-								{'  '}<svg className="h-3 inline" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M448 80v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V80c0-26.51 21.49-48 48-48h352c26.51 0 48 21.49 48 48zm-88 16H248.029c-21.313 0-32.08 25.861-16.971 40.971l31.984 31.987L67.515 364.485c-4.686 4.686-4.686 12.284 0 16.971l31.029 31.029c4.687 4.686 12.285 4.686 16.971 0l195.526-195.526 31.988 31.991C358.058 263.977 384 253.425 384 231.979V120c0-13.255-10.745-24-24-24z" />
-								</svg></a></Link>
-						</div> : null}
+						{claimantPullRequestURL !== null ?
+							<div className='py-4'>Closing Pull Request: <Link href={claimantPullRequestURL}>
+								<a target="_blank" rel="noopener noreferrer" className='underline'>{claimantPullRequestURL}
+									{'  '}<svg className="h-3 inline" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M448 80v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V80c0-26.51 21.49-48 48-48h352c26.51 0 48 21.49 48 48zm-88 16H248.029c-21.313 0-32.08 25.861-16.971 40.971l31.984 31.987L67.515 364.485c-4.686 4.686-4.686 12.284 0 16.971l31.029 31.029c4.687 4.686 12.285 4.686 16.971 0l195.526-195.526 31.988 31.991C358.058 263.977 384 253.425 384 231.979V120c0-13.255-10.745-24-24-24z" />
+									</svg></a></Link>
+							</div> : null}
 					</div>
 					{showTweetLink && <Link
 						href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyId}/${bounty.bountyAddress}`}
