@@ -16,19 +16,14 @@ jobs:
       - run:
           name: Load .env based on $DEPLOY_ENV
           command: |
-            if [ "$DEPLOY_ENV" = development ]; then
-              echo "$development_env" | base64 --decode > $(pwd)/.env
-              echo "" >> $(pwd)/.env
-              echo "PATS=$PATS" >> $(pwd)/.env
-              echo "" >> $(pwd)/.env
-              echo "OPENQ_PROXY_ADDRESS=$OPENQ_PROXY_ADDRESS_DEVELOPMENT" >> $(pwd)/.env
-            fi
             if [ "$DEPLOY_ENV" = staging ]; then
               echo "$staging_env" | base64 --decode > $(pwd)/.env
               echo "" >> $(pwd)/.env
               echo "PATS=$PATS" >> $(pwd)/.env
               echo "" >> $(pwd)/.env
               echo "OPENQ_PROXY_ADDRESS=$OPENQ_PROXY_ADDRESS_STAGING" >> $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "DEPOSIT_MANAGER_PROXY_ADDRESS=$DEPOSIT_MANAGER_PROXY_ADDRESS_STAGING" >> $(pwd)/.env
             fi
             if [ "$DEPLOY_ENV" = production ]; then
               echo "$production_env" | base64 --decode > $(pwd)/.env
@@ -36,35 +31,12 @@ jobs:
               echo "PATS=$PATS_PRODUCTION" >> $(pwd)/.env
               echo "" >> $(pwd)/.env
               echo "OPENQ_PROXY_ADDRESS=$OPENQ_PROXY_ADDRESS_PRODUCTION" >> $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "DEPOSIT_MANAGER_PROXY_ADDRESS=$DEPOSIT_MANAGER_PROXY_ADDRESS_PRODUCTION" >> $(pwd)/.env
             fi
       - run: cat .env
       - run: docker build -t openq/openq-frontend:$CIRCLE_TAG --build-arg deploy_env=$DEPLOY_ENV .
       - run: docker push openq/openq-frontend:$CIRCLE_TAG
-  build-staging:
-    machine: true
-    steps:
-      - checkout
-      - run: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USER --password-stdin
-      - run:
-          name: Update DEPLOY_ENV environment variable using staging
-          command: |
-            echo 'export DEPLOY_ENV=$(echo staging | sed 's/-.*//')' >> $BASH_ENV
-            source $BASH_ENV
-      - run: echo $DEPLOY_ENV
-      - run:
-          name: Load .env based on $DEPLOY_ENV
-          command: |
-            if [ "$DEPLOY_ENV" = staging ]; then
-              echo "$staging_env" | base64 --decode > $(pwd)/.env
-              echo "" >> $(pwd)/.env
-              echo "PATS=$PATS" >> $(pwd)/.env
-              echo "" >> $(pwd)/.env
-              echo "OPENQ_PROXY_ADDRESS=$OPENQ_PROXY_ADDRESS_STAGING" >> $(pwd)/.env
-              echo "DEPOSIT_MANAGER_PROXY_ADDRESS=$DEPOSIT_MANAGER_PROXY_ADDRESS_STAGING" >> $(pwd)/.env
-            fi
-      - run: cat .env
-      - run: docker build -t openq/openq-frontend:staging --build-arg deploy_env=staging .
-      - run: docker push openq/openq-frontend:staging
 workflows:
   version: 2
   build-and-deploy:
