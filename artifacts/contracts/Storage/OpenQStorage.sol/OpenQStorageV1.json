@@ -39,19 +39,13 @@
       "anonymous": false,
       "inputs": [
         {
-          "indexed": true,
-          "internalType": "address",
-          "name": "previousOracle",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "newOracle",
-          "type": "address"
+          "indexed": false,
+          "internalType": "uint8",
+          "name": "version",
+          "type": "uint8"
         }
       ],
-      "name": "OracleTransferred",
+      "name": "Initialized",
       "type": "event"
     },
     {
@@ -88,6 +82,19 @@
     },
     {
       "inputs": [],
+      "name": "VERSION_1",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "bountyFactory",
       "outputs": [
         {
@@ -120,36 +127,10 @@
     },
     {
       "inputs": [],
-      "name": "foo",
+      "name": "claimManager",
       "outputs": [
         {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "newStorageVar",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "openQTokenWhitelist",
-      "outputs": [
-        {
-          "internalType": "contract OpenQTokenWhitelist",
+          "internalType": "address",
           "name": "",
           "type": "address"
         }
@@ -159,7 +140,7 @@
     },
     {
       "inputs": [],
-      "name": "oracle",
+      "name": "depositManager",
       "outputs": [
         {
           "internalType": "address",
@@ -199,19 +180,6 @@
     {
       "inputs": [],
       "name": "renounceOwnership",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_foo",
-          "type": "uint256"
-        }
-      ],
-      "name": "setFoo",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

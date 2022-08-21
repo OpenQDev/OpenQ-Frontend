@@ -60,6 +60,7 @@ jobs:
               echo "PATS=$PATS" >> $(pwd)/.env
               echo "" >> $(pwd)/.env
               echo "OPENQ_PROXY_ADDRESS=$OPENQ_PROXY_ADDRESS_STAGING" >> $(pwd)/.env
+              echo "DEPOSIT_MANAGER_PROXY_ADDRESS=$DEPOSIT_MANAGER_PROXY_ADDRESS_STAGING" >> $(pwd)/.env
             fi
       - run: cat .env
       - run: docker build -t openq/openq-frontend:staging --build-arg deploy_env=staging .
