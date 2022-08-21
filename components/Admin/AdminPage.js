@@ -46,7 +46,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 	const [tokenValues] = useGetTokenValues(bounty.bountyTokenBalances, bounty);
 	const budgetBalances = [{"tokenAddress": bounty.fundingGoalTokenAddress, "volume": bounty.fundingGoalVolume}]
 	const [budgetValues] = useGetTokenValues(budgetBalances, bounty);
-	const splitBalances = [{"tokenAddress": bounty.payoutTokenAddress, "volume": bounty.payoutTokenVolume}]
+	const splitBalances = bounty.bountyType == 1? [{"tokenAddress": bounty.payoutTokenAddress, "volume": bounty.payoutTokenVolume}] : null;
 	const [splitValues] = useGetTokenValues(splitBalances, bounty);
 
 	// funding goal volume and token
@@ -156,8 +156,18 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 		}
 	}
 
-	async function setContestPayout() {
-		alert('link this to smart contract when available')
+	async function setPayoutSchedule() {
+		try {
+			setIsLoading(true);
+			const transaction = await appState.openQClient.setPayoutSchedule(library, bounty.bountyId, finalTierVolume);
+			refreshBounty();
+			// setPayoutVolume(''); // ?
+			setModal({ transaction, type: 'PayoutSchedule', finalTierVolume: finalTierVolume });
+		} catch (error) {
+			console.log(error);
+			const { message, title } = appState.openQClient.handleError(error, { bounty });
+			setError({ message, title });
+		}
 	}
 
 	async function closeCompetition() {
@@ -278,7 +288,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 										<button
 											className={`w-full btn-default ${enableContest ? 'cursor-pointer' : 'cursor-not-allowed'}`}
 											type="button"
-											onClick={setContestPayout}
+											onClick={setPayoutSchedule}
 											disabled={!enableContest}
 										>Set New Payout Schedule</button>
 									</ToolTipNew>
@@ -353,7 +363,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 									<div className='text-xs font-semibold leading-loose'>Number of tiers: </div>
 									<div className='text-xs font-semibold'>{bounty.payoutSchedule.length}</div>
 								</div>
-								<div className='flex flex-col '>
+								<div className='flex flex-col max-h-80 w-full overflow-y-auto overflow-x-hidden'>
 									{bounty.payoutSchedule.map((t, index) => {
 										return (
 											<div key={index} className='flex items-center gap-4 text-primary'>

@@ -38,7 +38,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 	const { library, account, } = useWeb3();
 	const [ensName] = useEns(account);
 
-	const claimed = bounty.status == 'CLOSED';
+	const closed = bounty.bountyClosedTime;
 
 	// Side Effects
 	useEffect(() => {
@@ -108,7 +108,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 	// Render
 
 	return (
-		<>{claimed ?
+		<>{closed ?
 			<>{internalMenu === 'Refund' && <BountyClosed bounty={bounty} />}</> :
 
 

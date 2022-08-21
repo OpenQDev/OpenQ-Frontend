@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Skeleton from 'react-loading-skeleton';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import BountyCardDetailsModal from './BountyCardDetailsModal';
+import ToolTipNew from '../Utils/ToolTipNew';
 import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
 
 
@@ -20,11 +21,11 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 	const [isModal, setIsModal] = useState();
 	const [payoutValues] = useGetTokenValues(bounty.payouts);
 	const [refundValues] = useGetTokenValues(bounty.refunds);
-	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances );
-	
-	
-	const createBudget = (bounty)=>{
-		return  bounty.fundingGoalTokenAddress ? {tokenAddress: bounty.fundingGoalTokenAddress, volume: bounty.fundingGoalVolume}: null;
+	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
+
+
+	const createBudget = (bounty) => {
+		return bounty.fundingGoalTokenAddress ? { tokenAddress: bounty.fundingGoalTokenAddress, volume: bounty.fundingGoalVolume } : null;
 	};
 	const budgetObj = useMemo(() => createBudget(bounty), [
 		bounty
@@ -36,11 +37,11 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 	const tokenTotal = tokenValues?.total;
 	const payoutTotal = payoutValues?.total;
 	const refundTotal = refundValues?.total;
-	const price=tokenTotal - payoutTotal - refundTotal;
+	const price = tokenTotal - payoutTotal - refundTotal;
 	// Hooks
 
 	const [authState] = useAuth();
-	const	marker = appState.utils.getBountyMarker(bounty, authState.login);
+	const marker = appState.utils.getBountyMarker(bounty, authState.login);
 
 	const TVL = price || price === 0
 		? appState.utils.formatter.format(price)
@@ -48,11 +49,11 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 	const closeModal = () => {
 		setIsModal(false);
 		document.body.style.height = 'auto';
-		document.body.style.overflowY = 'auto';		
+		document.body.style.overflowY = 'auto';
 	};
 	const openModal = () => {
 		document.body.style.height = '100vh';
-		document.body.style.overflowY = 'hidden';		
+		document.body.style.overflowY = 'hidden';
 		setIsModal(true);
 	};
 
@@ -62,7 +63,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 			<BountyCardDetailsModal unWatchable={unWatchable} TVL={TVL} bounty={bounty} closeModal={closeModal} showModal={isModal && bounty} price={price} />
 			<div onClick={openModal}
 				className={
-					`flex flex-col  md:px-4 py-4 border-web-gray cursor-pointer ${index!==length-1 && 'border-b'}`
+					`flex flex-col  md:px-4 py-4 border-web-gray cursor-pointer ${index !== length - 1 && 'border-b'}`
 				}
 			>
 				<div className="flex flex-row flex-wrap sm:flex-nowrap justify-between sm:pt-0 text-primary">
@@ -85,7 +86,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 							</div>
 							<div data-testid="title" className="break-word text-xl text-link-colour inline gap-1 pb-1">
 								<span>
-									{	bounty.owner && `${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`}
+									{bounty.owner && `${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`}
 								</span>
 								<span >
 								</span>
@@ -98,7 +99,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 									? bounty?.title.toLowerCase()
 									: bountyName.slice(0, 50) + '...'}
 						</div>
-						
+
 						<div className="flex flex-row items-center space-x-4 w-full">
 							<div className="font-light text-sm w-full">
 
@@ -107,27 +108,27 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 									`Deployed: ${appState.utils.formatUnixDate(parseInt(bounty?.bountyMintTime))}`
 								}
 							</div>
-							
-							
+
+
 						</div>
-						<LabelsList bounty={bounty}/>
+						<LabelsList bounty={bounty} />
 						<div className="flex flex-row items-center gap-4 text-muted font-semibold">
-							<span><svg xmlns="http://www.w3.org/2000/svg" 
+							<span><svg xmlns="http://www.w3.org/2000/svg"
 								className={'stroke-muted inline-block mr-1 -mt-1 fill-muted'} viewBox="0 0 16 16" width="16" height="16"><path d="M1.679 7.932c.412-.621 1.242-1.75 2.366-2.717C5.175 4.242 6.527 3.5 8 3.5c1.473 0 2.824.742 3.955 1.715 1.124.967 1.954 2.096 2.366 2.717a.119.119 0 010 .136c-.412.621-1.242 1.75-2.366 2.717C10.825 11.758 9.473 12.5 8 12.5c-1.473 0-2.824-.742-3.955-1.715C2.92 9.818 2.09 8.69 1.679 8.068a.119.119 0 010-.136zM8 2c-1.981 0-3.67.992-4.933 2.078C1.797 5.169.88 6.423.43 7.1a1.619 1.619 0 000 1.798c.45.678 1.367 1.932 2.637 3.024C4.329 13.008 6.019 14 8 14c1.981 0 3.67-.992 4.933-2.078 1.27-1.091 2.187-2.345 2.637-3.023a1.619 1.619 0 000-1.798c-.45-.678-1.367-1.932-2.637-3.023C11.671 2.992 9.981 2 8 2zm0 8a2 2 0 100-4 2 2 0 000 4z">
 								</path>
-							</svg>	
-							<span>{0}
-							</span></span>
-							
+							</svg>
+								<span>{0}
+								</span></span>
 
-							<span>Assigned to {bounty.assignees[0]?.name|| 'no one.'}</span>
-							{bounty.assignees[0]?.avatarUrl &&	<Image height={24} width={24} className='rounded-full pt-1' src={bounty.assignees[0]?.avatarUrl}/>}
+
+							<span>Assigned to {bounty.assignees[0]?.name || 'no one.'}</span>
+							{bounty.assignees[0]?.avatarUrl && <Image height={24} width={24} className='rounded-full pt-1' src={bounty.assignees[0]?.avatarUrl} />}
 						</div>
-						
+
 					</div>
-			
-			
-				
+
+
+
 
 					{loading ?
 						<Skeleton width={60} /> :
@@ -142,16 +143,24 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 								<Skeleton width={51} height={51} />
 							}
 							</div>
-							<div className='flex gap-4 content-center items-center sm:w-60'>
-								{bounty.bountyType=== '0' ?<span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
-									<div className='whitespace-nowrap'>Single</div><PersonIcon />
-								</span>:
+							<div className='flex gap-4 content-center items-center justify-between sm:w-60'>
+								{bounty.bountyType === '0' ?
+									<span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
+										<div className='whitespace-nowrap'>Single</div>
+										<PersonIcon />
+									</span> :
 									bounty.bountyType === '1' ?
-								
-										<div>	<div className='whitespace-nowrap'>Multi</div><PersonAddIcon /></div>:
-									
+
+										<span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
+											<div className='whitespace-nowrap'>Multi</div>
+											<PersonAddIcon />
+										</span> :
+
 										bounty.bountyType === '2' &&
-								<div>	<div className='whitespace-nowrap'>Weighted</div><PeopleIcon /></div>
+										<span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
+											<div className='whitespace-nowrap'>Weighted</div>
+											<PeopleIcon />
+										</span>
 
 								}
 
@@ -172,32 +181,57 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 										</div>
 									</>
 
-							
-								</div>:
-									budget>0 &&<div className="flex flex-row space-x-1 items-center">
-										<div className="pr-2 pt-1">
-											<Image
-												src="/crypto-logos/ETH.svg"
-												alt="avatarUrl"
-												width="12"
-												height="20"
-											/>
-										</div>
-
+								</div> :
+									budget > 0 ?
 										<>
-											<div className="font-semibold ">Budget</div>
-											<div className="">
-												{appState.utils.formatter.format(budget)}
+											<div className="flex flex-row space-x-1 items-center">
+												<div className="pr-2 pt-1">
+													<Image
+														src="/crypto-logos/ETH.svg"
+														alt="avatarUrl"
+														width="12"
+														height="20"
+													/>
+												</div>
+
+												<>
+													<div className="font-semibold ">Budget</div>
+													<div className="">
+														{appState.utils.formatter.format(budget)}
+													</div>
+												</>
 											</div>
 										</>
+										:
+										<div className="flex gap-2">
+											<div className="flex flex-row space-x-1 items-center">
+												<div className="pr-2 pt-1">
+													<Image
+														src="/crypto-logos/ETH.svg"
+														alt="avatarUrl"
+														width="12"
+														height="20"
+													/>
+												</div>
 
-							
-									</div>}
+												<>
+													<div className="font-semibold ">Budget</div>
+												</>
+											</div>
+											<div className="flex flex-row space-x-1 items-center">
+												<ToolTipNew
+													innerStyles={'whitespace-normal w-60'}
+													toolTipText={'No budget has been set for this contract'} >
+													<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+												</ToolTipNew>
+											</div>
+										</ div>
+								}
 							</div>
 						</div>}
 				</div>
 			</div>
-		</div>
+		</div >
 	);
 };
 

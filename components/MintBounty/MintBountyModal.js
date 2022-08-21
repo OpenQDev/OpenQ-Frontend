@@ -49,7 +49,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 	const [finalTierVolume, setFinalTierVolume] = useState([]);
 	const [payoutVolume, setPayoutVolume] = useState('');
 	const [payoutToken, setPayoutToken] = useState(zeroAddressMetadata);
-	const initialType =  types[0]==='1' ? 'Repeating' : types[0] ==='2'? 'Contest': 'Atomic';
+	const initialType = types[0] === '1' ? 'Repeating' : types[0] === '2' ? 'Contest' : 'Atomic';
 	const [toggleType, setToggleType] = useState(initialType);
 	const [goalVolume, setGoalVolume] = useState('');
 	const [goalToken, setGoalToken] = useState(zeroAddressMetadata);
@@ -115,17 +115,17 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 			setIsLoading(true);
 			let data;
 			switch (toggleType) {
-			case 'Atomic':
-				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
-				break;
-			case 'Repeating':
-				data = { payoutVolume: payoutVolume, payoutToken: payoutToken, fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
-				break;
-			case 'Contest':
-				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken, tiers: finalTierVolume };
-				break;
-			default:
-				throw new Error(`No type: ${toggleType}`);
+				case 'Atomic':
+					data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
+					break;
+				case 'Repeating':
+					data = { payoutVolume: payoutVolume, payoutToken: payoutToken, fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
+					break;
+				case 'Contest':
+					data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken, tiers: finalTierVolume };
+					break;
+				default:
+					throw new Error(`No type: ${toggleType}`);
 			}
 
 			const { bountyAddress } = await appState.openQClient.mintBounty(
@@ -266,26 +266,41 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 										<BountyAlreadyMintedMessage claimed={claimed} id={issue.id} bountyAddress={bountyAddress} />}
 								</div>
 
-								{toggleType ?
-									<>
-										<div className="flex flex-col items-center pl-6 pr-6 pb-2">
-											<div className="flex flex-col w-4/5 md:w-2/3">
-												<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
-													<div className='flex items-center gap-2'>Is this Contract invoiceable?
-														<ToolTipNew mobileX={10} toolTipText={'Do you want an invoice for this contract?'} >
-															<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+
+								<>
+									<div className="flex flex-col items-center pl-6 pr-6 pb-2">
+										<div className="flex flex-col w-4/5 md:w-2/3">
+											<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
+												<div className='flex items-center gap-2'>Is this Contract invoiceable?
+													<ToolTipNew mobileX={10} toolTipText={'Do you want an invoice for this contract?'} >
+														<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+													</ToolTipNew>
+												</div>
+												<div className='flex-1 w-full mt-2 ml-4'>
+													<div className="flex text-sm rounded-sm text-primary ">
+														<ToolTipNew innerStyles={'flex'} toolTipText={'Invoicing feature coming soon'}>
+															<button
+																disabled={true}
+																onClick={() => setInvoice(true)}
+																className={`cursor-not-allowed w-fit min-w-[80px] py-[5px] px-4 rounded-l-sm border whitespace-nowrap ${invoice? 'bg-secondary-button border-secondary-button' : ''}  border-web-gray`}
+															>
+																Yes
+															</button>
 														</ToolTipNew>
-													</div>
-													<div className='flex-1 w-full mt-2 ml-4'>
-														<SmallToggle names={['Yes', 'No']} toggleVal={invoice ? 'Yes' : 'No'} toggleFunc={() => setInvoice(!invoice)} />
+														<button
+															onClick={() => setInvoice(false)}
+															className={`w-fit min-w-[80px] py-[5px] px-4 border-l-0 rounded-r-sm border whitespace-nowrap ${!invoice? 'bg-secondary-button border-secondary-button' : 'hover:bg-secondary-button hover:border-secondary-button border-web-gray'} `}
+														>
+															No
+														</button>
+
 													</div>
 												</div>
 											</div>
 										</div>
-									</>
-									:
-									null
-								}
+									</div>
+								</>
+
 								<div className="flex flex-col items-center pl-6 pr-6 pb-2">
 									<div className="flex flex-col w-4/5 md:w-2/3">
 										<div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
@@ -297,7 +312,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 												</ToolTipNew>
 											</div>
 											<span className='text-sm my-2'>You don{'\''}t have to deposit now! The budget is just what you intend to pay.</span>
-											{ budgetInput?
+											{budgetInput ?
 												<div className='flex-1 w-full mt-2 ml-4'>
 													<TokenFundBox
 														onCurrencySelect={onGoalCurrencySelect}
@@ -396,7 +411,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 										outerStyles={''}
 										hideToolTip={(enableContest && enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
 										toolTipText={
-											account && isOnCorrectNetwork && !enableMint?
+											account && isOnCorrectNetwork && !enableMint ?
 												'Please choose an elgible issue.' :
 												!enableContest ?
 													'Please make sure the sum of tier percentages adds up to 100.' :

@@ -44,7 +44,7 @@ class OpenQClient {
 			let bountyInitOperation;
 			let abiCoder = new ethers.utils.AbiCoder;
 			const fundVolumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
-			const fundBigNumberVolumeInWei = ethers.BigNumber.from(fundVolumeInWei.toString());
+			const fundBigNumberVolumeInWei = ethers.BigNumber.from(fundVolumeInWei.toLocaleString('fullwide', {useGrouping:false}));
 			const hasFundingGoal = fundVolumeInWei > 0;
 			switch (type) {
 
@@ -57,7 +57,7 @@ class OpenQClient {
 			case 'Repeating':
 				{
 					const payoutVolumeInWei = data.payoutVolume * 10 ** data.payoutToken.decimals;
-					const payoutBigNumberVolumeInWei = ethers.BigNumber.from(payoutVolumeInWei.toString());
+					const payoutBigNumberVolumeInWei = ethers.BigNumber.from(payoutVolumeInWei.toLocaleString('fullwide', {useGrouping:false}));
 					const ongoingAbiEncodedParams = abiCoder.encode(['address', 'uint256', 'bool', 'address', 'uint256'], [data.payoutToken.address, payoutBigNumberVolumeInWei, hasFundingGoal, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]);
 					bountyInitOperation = [1, ongoingAbiEncodedParams];
 				}
@@ -93,7 +93,7 @@ class OpenQClient {
 	async setFundingGoal(library, _bountyId, _fundingGoalToken, _fundingGoalVolume) {
 		const promise = new Promise(async (resolve, reject) => {
 			const volumeInWei = _fundingGoalVolume * 10 ** _fundingGoalToken.decimals;
-			const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toString());
+			const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', {useGrouping:false}));
 			const signer = library.getSigner();
 			const contract = this.OpenQ(signer);
 			try {
@@ -121,6 +121,25 @@ class OpenQClient {
 				let txnResponse;
 				let txnReceipt;
 				txnResponse = await contract.setPayout(_bountyId, _payoutToken.address, bigNumberVolumeInWei);
+				txnReceipt = await txnResponse.wait();
+				console.log(txnReceipt);
+				resolve(txnReceipt);
+			} catch (error) {
+				console.log(error);
+				reject(error);
+			}
+		});
+		return promise;
+	}
+
+	async setPayoutSchedule(library, _bountyId, _payoutSchedule) {
+		const promise = new Promise(async (resolve, reject) => {
+			const signer = library.getSigner();
+			const contract = this.OpenQ(signer);
+			try {
+				let txnResponse;
+				let txnReceipt;
+				txnResponse = await contract.setPayoutSchedule(_bountyId, _payoutSchedule);
 				txnReceipt = await txnResponse.wait();
 				console.log(txnReceipt);
 				resolve(txnReceipt);
