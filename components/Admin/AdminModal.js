@@ -23,7 +23,7 @@ const AdminModal = ({ setModal, modal }) => {
 		}
 
 		if (modal.transaction && (modal.type === 'PayoutSchedule')) {
-
+			// do something?
 		}
 
 	}, []);
@@ -120,7 +120,7 @@ const AdminModal = ({ setModal, modal }) => {
 													<div className='text-xs font-semibold leading-loose'>{`${handleSuffix(index + 1)} winner:`}</div>
 													<div className='text-xs font-semibold' >{t} %</div>
 												</div>
-											)
+											);
 										})
 
 										}

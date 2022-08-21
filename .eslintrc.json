@@ -37,6 +37,7 @@
 		"no-inner-declarations": "off",
 		"no-useless-catch": "off",
 		"no-useless-escape": "off",
+		"react/no-unescaped-entities": "off",
 		"react/prop-types": 0,
 		"indent": [
 			"error",

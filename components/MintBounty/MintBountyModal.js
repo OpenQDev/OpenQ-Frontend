@@ -13,7 +13,6 @@ import MintBountyHeader from './MintBountyHeader';
 import MintBountyInput from './MintBountyInput';
 import ErrorModal from '../ConfirmErrorSuccessModals/ErrorModal';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
-import SmallToggle from '../Utils/SmallToggle';
 import TierInput from './TierInput';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import SubMenu from '../Utils/SubMenu';
@@ -115,17 +114,17 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 			setIsLoading(true);
 			let data;
 			switch (toggleType) {
-				case 'Atomic':
-					data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
-					break;
-				case 'Repeating':
-					data = { payoutVolume: payoutVolume, payoutToken: payoutToken, fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
-					break;
-				case 'Contest':
-					data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken, tiers: finalTierVolume };
-					break;
-				default:
-					throw new Error(`No type: ${toggleType}`);
+			case 'Atomic':
+				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
+				break;
+			case 'Repeating':
+				data = { payoutVolume: payoutVolume, payoutToken: payoutToken, fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
+				break;
+			case 'Contest':
+				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken, tiers: finalTierVolume };
+				break;
+			default:
+				throw new Error(`No type: ${toggleType}`);
 			}
 
 			const { bountyAddress } = await appState.openQClient.mintBounty(
@@ -282,14 +281,14 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 															<button
 																disabled={true}
 																onClick={() => setInvoice(true)}
-																className={`cursor-not-allowed w-fit min-w-[80px] py-[5px] px-4 rounded-l-sm border whitespace-nowrap ${invoice? 'bg-secondary-button border-secondary-button' : ''}  border-web-gray`}
+																className={`cursor-not-allowed w-fit min-w-[80px] py-[5px] px-4 rounded-l-sm border whitespace-nowrap ${invoice ? 'bg-secondary-button border-secondary-button' : ''}  border-web-gray`}
 															>
 																Yes
 															</button>
 														</ToolTipNew>
 														<button
 															onClick={() => setInvoice(false)}
-															className={`w-fit min-w-[80px] py-[5px] px-4 border-l-0 rounded-r-sm border whitespace-nowrap ${!invoice? 'bg-secondary-button border-secondary-button' : 'hover:bg-secondary-button hover:border-secondary-button border-web-gray'} `}
+															className={`w-fit min-w-[80px] py-[5px] px-4 border-l-0 rounded-r-sm border whitespace-nowrap ${!invoice ? 'bg-secondary-button border-secondary-button' : 'hover:bg-secondary-button hover:border-secondary-button border-web-gray'} `}
 														>
 															No
 														</button>
