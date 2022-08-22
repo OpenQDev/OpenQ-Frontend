@@ -48,7 +48,7 @@ const ConnectModal = ({closeModal})=>{
 					</button>
 				</div>
 			</div>
-			<div onClick={closeModal} className='bg-overlay z-30 top-0 left-0 right-0 h-screen absolute'></div>
+			<div onClick={closeModal} className='bg-overlay z-40 top-0 left-0 right-0 h-screen absolute'></div>
 		</div>
 
 	);
