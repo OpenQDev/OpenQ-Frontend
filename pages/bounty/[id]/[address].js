@@ -51,6 +51,15 @@ const address = ({ address, mergedBounty, renderError }) => {
 	const TVL = tokenTotal - payoutTotal - refundTotal;
 	const {account, } = useWeb3();
 
+	const createRewardSplit = (bounty)=>{
+		return  bounty.payoutTokenVolume ? {tokenAddress: bounty.payoutTokenAddress, volume: bounty.payoutTokenVolume}: null;
+	};
+	const splitObj = useMemo(() => createRewardSplit(bounty), [
+		bounty
+	]);
+	const [splitValue] = useGetTokenValues(splitObj);
+	const split = splitValue?.total;
+
 	// State
 	const [error, setError] = useState(renderError);
 	const [internalMenu, setInternalMenu] = useState();
@@ -174,10 +183,10 @@ const address = ({ address, mergedBounty, renderError }) => {
 					<SubMenu colour="rust" items={[{ name: 'View', Svg: Telescope }, { name: 'Fund', Svg: Add }, { name: 'Refund', Svg: Subtract }, { name: 'Claim', Svg: Fire }, { name: (bounty.issuer && ethers.utils.getAddress(bounty?.issuer?.id) == account) ? 'Admin' : null, Svg: (bounty.issuer && ethers.utils.getAddress(bounty.issuer.id) == account) ? Telescope : null }]} internalMenu={internalMenu} updatePage={setInternalMenu} />
 
 					<BountyHeading price={TVL} budget={budget} bounty={bounty} />
-					{internalMenu == 'View' && <BountyCardDetails justMinted={justMinted} price={TVL} budget={budget} bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}
+					{internalMenu == 'View' && <BountyCardDetails justMinted={justMinted} split={split} price={TVL} budget={budget} bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
-					{internalMenu == 'Admin' && bounty && (ethers.utils.getAddress(bounty.issuer.id) == account) ? <AdminPage bounty={bounty} refreshBounty={refreshBounty} price={TVL} budget={budget}/> : null}
+					{internalMenu == 'Admin' && bounty && (ethers.utils.getAddress(bounty.issuer.id) == account) ? <AdminPage bounty={bounty} refreshBounty={refreshBounty} price={TVL} budget={budget} split={split}/> : null}
 					{bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
 					<canvas className="absolute w-full top-0 z-40 bottom-0 pointer-events-none" ref={canvas}></canvas>
 				</div>

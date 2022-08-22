@@ -10,7 +10,7 @@ import TierInput from '../MintBounty/TierInput';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 
-const AdminPage = ({ bounty, refreshBounty, price, budget }) => {
+const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
 
 	let type = 'Atomic Contract';
 
@@ -43,8 +43,6 @@ const AdminPage = ({ bounty, refreshBounty, price, budget }) => {
 	const [modal, setModal] = useState();
 	const [error, setError] = useState('');
 	const [showButton, setShowButton] = useState(ethers.utils.getAddress(bounty.issuer.id) == account && !bounty.bountyClosedTime);
-	const splitBalances = bounty.bountyType == 1? [{ 'tokenAddress': bounty.payoutTokenAddress, 'volume': bounty.payoutTokenVolume }] : null;
-	const [splitValues] = useGetTokenValues(splitBalances, bounty);
 
 	// funding goal volume and token
 	const [volume, setVolume] = useState('');
@@ -350,7 +348,7 @@ const AdminPage = ({ bounty, refreshBounty, price, budget }) => {
 					{bounty.bountyType == 1 ?
 						<li className='border-b border-web-gray py-3'>
 							<div className='text-xs font-semibold text-muted'>Current Reward Split</div>
-							<div className='text-xs font-semibold text-primary pt-2' >${splitValues?.total || '0.0'}</div>
+							<div className='text-xs font-semibold text-primary pt-2' >${split || '0.0'}</div>
 						</li>
 						:
 						bounty.bountyType == 2 ?

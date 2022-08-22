@@ -6,7 +6,7 @@ import LabelsList from './LabelsList';
 import CopyBountyAddress from './CopyBountyAddress';
 import StoreContext from '../../store/Store/StoreContext';
 
-const BountyMetadata = ({bounty, setInternalMenu, price, budget})=>{
+const BountyMetadata = ({bounty, setInternalMenu, price, budget, split})=>{
 	const [appState] = useContext(StoreContext);
 	let type= 'Atomic Contract';
 
