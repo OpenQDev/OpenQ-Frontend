@@ -123,7 +123,7 @@ class Utils {
 	getBountyMarker = (bounty, login)=>{
 		if(bounty.bountyType==='0'){
 			if(bounty.closed){
-				if(bounty.claims.length && bounty?.prs?.some(pr =>pr.source.author.login===login)){
+				if(bounty.claims?.length && bounty?.prs?.some(pr =>pr.source.author.login===login)){
 					return {status: 'Claimed', colour: 'bg-danger', fill: 'fill-danger'};
 				}
 				return {status: 'Closed', colour: 'bg-danger', fill: 'fill-danger'};
