@@ -177,7 +177,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 					{internalMenu == 'View' && <BountyCardDetails justMinted={justMinted} price={TVL} budget={budget} bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
-					{internalMenu == 'Admin' && bounty && (ethers.utils.getAddress(bounty.issuer.id) == account) ? <AdminPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
+					{internalMenu == 'Admin' && bounty && (ethers.utils.getAddress(bounty.issuer.id) == account) ? <AdminPage bounty={bounty} refreshBounty={refreshBounty} price={TVL} budget={budget}/> : null}
 					{bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
 					<canvas className="absolute w-full top-0 z-40 bottom-0 pointer-events-none" ref={canvas}></canvas>
 				</div>
