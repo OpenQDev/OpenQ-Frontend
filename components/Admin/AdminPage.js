@@ -45,7 +45,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 	const [showButton, setShowButton] = useState(ethers.utils.getAddress(bounty.issuer.id) == account && !bounty.bountyClosedTime);
 	const budgetBalances = [{ 'tokenAddress': bounty.fundingGoalTokenAddress, 'volume': bounty.fundingGoalVolume }];
 	const [budgetValues] = useGetTokenValues(budgetBalances, bounty);
-	const splitBalances = bounty.bountyType == 1 ? [{ 'tokenAddress': bounty.payoutTokenAddress, 'volume': bounty.payoutTokenVolume }] : null;
+	const splitBalances = bounty.bountyType == 1 && bounty.payoutTokenVolume? [{ 'tokenAddress': bounty.payoutTokenAddress, 'volume': bounty.payoutTokenVolume }] : null;
 	const [splitValues] = useGetTokenValues(splitBalances, bounty);
 
 	// funding goal volume and token
