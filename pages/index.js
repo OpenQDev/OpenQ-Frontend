@@ -105,7 +105,7 @@ export default function Index({  fullBounties, batch, types, renderError, firstC
 				<>
 					<SubMenu styles={'justify-center'} items={[{ name: 'Organizations'}, { name: 'Issues'}]} internalMenu={internalMenu} updatePage={setInternalMenu} />
 
-					{internalMenu==='Organizations' ?	<OrganizationHomepage types={['0', '1', '2']} orgs={controlledOrgs} />:
+					{internalMenu==='Organizations' ?	<OrganizationHomepage types={['0', '1', '2']} wizard="true" orgs={controlledOrgs} />:
 				
 						<BountyHomepage
 							types={types}
