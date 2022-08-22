@@ -42,6 +42,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split, tokenVa
 							tokenBalances={tokenBalances}
 							tokenValues={tokenValues}
 							singleCurrency={true}
+							small={true}
 						/></button>
 					</>}
 			</li>
