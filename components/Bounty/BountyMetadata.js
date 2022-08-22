@@ -32,20 +32,21 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split, tokenVa
 				<div className='text-xs font-semibold text-muted'>Type</div>
 				<div className='text-xs font-semibold text-primary leading-loose' >{type}</div>
 			</li>
-			<li className='border-b border-web-gray py-3'>
-				{(split || split === 0) &&
+			{(split || split === 0) &&
+				<li className='border-b border-web-gray py-3'>
 					<>
 						<div className='text-xs font-semibold text-muted'>Payout Amount</div>
 						<button className='text-xs font-semibold text-primary' onClick={() => setInternalMenu('Claim')}>
-						<TokenBalances
-							lean={true}
-							tokenBalances={tokenBalances}
-							tokenValues={tokenValues}
-							singleCurrency={true}
-							small={true}
-						/></button>
-					</>}
-			</li>
+							<TokenBalances
+								lean={true}
+								tokenBalances={tokenBalances}
+								tokenValues={tokenValues}
+								singleCurrency={true}
+								small={true}
+							/></button>
+					</>
+				</li>
+			}
 			<li className='border-b border-web-gray py-3'>
 				{(price || price === 0) &&
 					<>
@@ -55,15 +56,17 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split, tokenVa
 						)}</button>
 					</>}
 			</li>
-			{(budget !== 0) && <li className='border-b border-web-gray py-3'>
-				{(budget || budget === 0) &&
-					<>
-						<div className='text-xs font-semibold text-muted'>Budget</div>
-						<button className='text-xs font-semibold text-primary' onClick={() => setInternalMenu('Fund')}>{appState.utils.formatter.format(
-							budget
-						)}</button>
-					</>}
-			</li>}
+			{(budget !== 0) &&
+				<li className='border-b border-web-gray py-3'>
+					{(budget || budget === 0) &&
+						<>
+							<div className='text-xs font-semibold text-muted'>Budget</div>
+							<button className='text-xs font-semibold text-primary' onClick={() => setInternalMenu('Fund')}>{appState.utils.formatter.format(
+								budget
+							)}</button>
+						</>}
+				</li>
+			}
 			{bounty.assignees.length > 0 && <li className='border-b border-web-gray py-3'>
 				<div className='text-xs font-semibold text-muted'>Assignees</div>
 
