@@ -13,7 +13,6 @@ import { useRouter } from 'next/router';
 const OrganizationCard = ({ organization }) => {
 	// Context
 	const context = useContext(StoreContext);
-	const [appState] = context;
 	const [orgBounties, setOrgBounties] = useState();
 	const [starred, setStarred] = useState();
 	const [starredDisabled, setStarredDisabled] = useState(true);
@@ -47,35 +46,8 @@ const OrganizationCard = ({ organization }) => {
 
 	useEffect(async () => {
 		if(organization){
-			const bountyIds = organization.bountiesCreated.map(
-				(bounty) => bounty.bountyId
-			);
-			const bountyAddresses = organization.bountiesCreated.map(bounty=>bounty.bountyAddress);
-			let metaData = [];
-			try{
-				metaData = await appState.openQPrismaClient.getBlackListed(bountyAddresses);
-			}
-			catch(err){
-				console.log(err);
-			}
-			try {
-				const issuesData = await appState.githubRepository.getIssueData(
-					bountyIds
-				);
-				const filteredBounties = appState.utils
-					.combineBounties(organization.bountiesCreated, issuesData, metaData)
-					.filter((bounty) => {
-						return (
-							!bounty.assignees[0] &&
-            bounty.status === 'OPEN' &&
-            bounty.bountyTokenBalances.length > 0
-						&& !bounty.blacklisted
-						);
-					});
-				setOrgBounties(filteredBounties);
-			} catch (err) {
-				console.log('error');
-			}
+			const filteredBounties = organization.bounties.nodes.filter(contract=>!contract.blacklisted);			
+			setOrgBounties(filteredBounties);
 		}
 	}, [organization.bountiesCreated]);
 

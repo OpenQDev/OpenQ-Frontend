@@ -24,7 +24,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 	const [tagArr, updateTagArr] = useState([]);
 	const [searchedBounties, updateSearchedBounties] = useState([]);
 	const [isProcessed, updateIsProcessed] = useState(false);
-	const [isReady, setIsReady] = useState('Ready for work');
+	const [isReady, setIsReady] = useState('All issues');
 	const [labels, setLabels] = useState([]);
 	const searchRegex = /label:"[^"]+"/gi;
 	const contractTypeRegex = /type:"[^"]+"/gi;
@@ -133,7 +133,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 				return (containsSearch && containsTag && (((isFunded) && (isUnclaimed) && (!isAssigned)) || localIsReady === 'All issues') && hasLabels && bounty.url && !bounty.blacklisted && isType);
 			}
 			catch (err) {
-				console.log(err);
+				console.err(err);
 			}
 
 		});

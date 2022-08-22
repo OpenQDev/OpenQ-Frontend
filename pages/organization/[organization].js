@@ -17,7 +17,6 @@ import UnexpectedError from '../../components/Utils/UnexpectedError';
 
 
 const organization = ({ organizationData, fullBounties, batch, renderError }) => {
-	const types =['0', '1','2'];
 	useAuth();
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -33,29 +32,14 @@ const organization = ({ organizationData, fullBounties, batch, renderError }) =>
 	// Methods
 	async function getBountyData(sortOrder, currentPagination, orderBy, cursor) {
 		setPagination(() => currentPagination + batch);
-		let newBounties = [];
 		let complete = false;
-		if (orderBy) {
-			try {
-				const prismaBounties = await appState.openQPrismaClient.getBountyPage(cursor, batch, orderBy, sortOrder,types, organizationData.id);
-				const addresses = prismaBounties.bountiesConnection.bounties.map(bounty => bounty.address.toLowerCase());
-				setOffChainCursor(prismaBounties.bountiesConnection.cursor);
-				const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(addresses);
-				newBounties = prismaBounties.bountiesConnection.bounties.map((bounty) => { return { ...bounty, ...subgraphBounties.find((subgraphBounty) => subgraphBounty.bountyAddress === bounty.address.toLowerCase()) }; });
+		const [fullBounties, newCursor] = await appState.utils.fetchBounties(appState, batch, null, orderBy, sortOrder, cursor, organization);
+		setOffChainCursor(newCursor);
 
-			}
-			catch (err) {
-				console.log('could not fetch watched bounties');
-			}
+
+		if(fullBounties?.length===0){
+			complete = true;
 		}
-		else {
-			const subgraphBounties = await appState.openQSubgraphClient.getPaginatedOrganizationBounties(organizationData.id, currentPagination, sortOrder, batch );
-			newBounties = subgraphBounties;
-		}
-		
-		if(newBounties?.length===0){
-			complete = true;}
-		const [fullBounties] = await appState.utils.fillBountiesFromBountyAddresses(newBounties, appState.openQPrismaClient, appState.githubRepository);
 		return [fullBounties, complete];
 	}
 
@@ -116,11 +100,12 @@ export const getServerSideProps = async (context) => {
 	const { organization } = context.params;
 	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
 	const githubRepository = new WrappedGithubClient();
-	const openQPrismaClient = new WrappedOpenQPrismaClient;
+	const openQPrismaClient = new WrappedOpenQPrismaClient();
 	const utils = new Utils();
 	githubRepository.instance.setGraphqlHeaders();
 
 	let orgData;
+	let orgMetadata={};
 	let mergedOrgData;
 	try {
 		orgData = await githubRepository.instance.fetchOrgOrUserByLogin(
@@ -134,29 +119,36 @@ export const getServerSideProps = async (context) => {
 	try{
 		org = await openQSubgraphClient.instance.getOrganization(
 			orgData.id, batch
-		);}
+		);
+	}
 	catch(err){
+		console.log(err);
 		renderError = 'OpenQ can not display organization data.';
+	}
+	try{
+		orgMetadata = await openQPrismaClient.instance.getOrganization(orgData.id);
+		if(orgMetadata.blacklisted==='true'){
+			renderError= 'Organization blacklisted.';		
+		}
+	}
+	catch(err){
+		console.log('cannot fetch org metadata');
 	}
 	mergedOrgData = { ...org, ...orgData };
 	const bounties = mergedOrgData.bountiesCreated || [];
 	const bountyIds = bounties.map((bounty) => bounty.bountyId);
-	const bountyAddresses = bounties.map((bounty)=>bounty.bountyAddress);
 	let issueData;
-	let metaData;
+
 	try {
 		issueData = await githubRepository.instance.getIssueData(bountyIds);
 	}
 	catch (err) {
 		renderError = 'OpenQ cannot fetch organization data from Github.';
-	}
-	try{
-		metaData = await openQPrismaClient.instance.getBlackListed(bountyAddresses);
-	}
-	catch(err){
-		renderError = 'OpenQ cannot fetch organization metadata.';
-	}
-	const fullBounties = utils.combineBounties(bounties, issueData, metaData);
+	}	
+	
+	const prismaContracts = orgMetadata.organization.bounties.bountyConnection.nodes.filter(node=>!node.blacklisted);
+
+	const fullBounties = utils.combineBounties(bounties, issueData, prismaContracts);
 
 	return { props: { organization, organizationData: mergedOrgData, fullBounties, completed: bounties.length < 10, batch, renderError } };
 };

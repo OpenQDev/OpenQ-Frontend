@@ -4,6 +4,7 @@ import StoreContext from '../store/Store/StoreContext';
 
 // Custom
 import BountyHomepage from '../components/Bounty/BountyHomepage';
+import OrganizationHomepage from '../components/Organization/OrganizationHomepage';
 import useWeb3 from '../hooks/useWeb3';
 import useAuth from '../hooks/useAuth';
 import WrappedGithubClient from '../services/github/WrappedGithubClient';
@@ -11,8 +12,9 @@ import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgrap
 import WrappedOpenQPrismaClient from '../services/openq-api/WrappedOpenQPrismaClient';
 import Utils from '../services/utils/Utils';
 import UnexpectedError from '../components/Utils/UnexpectedError';
+import SubMenu from '../components/Utils/SubMenu';
 
-export default function Index({  fullBounties, batch, types, renderError }) {
+export default function Index({  fullBounties, batch, types, renderError, firstCursor, category, mergedOrgs }) {
 	
 	// State
 	
@@ -20,7 +22,7 @@ export default function Index({  fullBounties, batch, types, renderError }) {
 	const [isLoading, setIsLoading] = useState(false);
 	const [complete, setComplete] = useState(false);
 	const [pagination, setPagination] = useState(batch);
-	const [offChainCursor, setOffChainCursor] = useState();
+	const [offChainCursor, setOffChainCursor] = useState(firstCursor);
 	const [watchedBounties, setWatchedBounties] = useState([]);
 
 	// Context
@@ -29,12 +31,14 @@ export default function Index({  fullBounties, batch, types, renderError }) {
 	const { account } = useWeb3();
 	const [authState] = useAuth();
 	const {signedAccount} = authState;
+	const [controlledOrgs, setControlledOrgs] = useState(mergedOrgs);
+	const [internalMenu, setInternalMenu] = useState('Organizations');
 	// Hooks
 
 	useEffect(async () => {
 		// get watched bounties as soon as we know what the account is.
-		if (account == signedAccount) {
-			const [watchedBounties ]= await appState.utils.fetchWatchedBounties(appState, account, types);
+		if (account == signedAccount && account) {
+			const [watchedBounties ]= await appState.utils.fetchWatchedBounties(appState, account, category, types);
 			setWatchedBounties(watchedBounties||[]);
 		}
 		else{
@@ -43,58 +47,28 @@ export default function Index({  fullBounties, batch, types, renderError }) {
 
 	}, [account, reloadNow, signedAccount]);
 
+	
+	useEffect(async()=>{
+		if(reloadNow){
+			const [mergedOrgs] = await appState.utils.fetchOrganizations(appState);
+
+			setControlledOrgs(mergedOrgs);
+
+		}
+	},[reloadNow]);
+
 	// Methods
 	// General method for getting bounty data, used by pagination and handlers.
 	async function getBountyData(sortOrder, currentPagination, orderBy, cursor) {
 		setPagination(() => currentPagination + batch);
-		let newBounties = [];
 		let complete = false;
-		if (orderBy) {
-			try {
-				const prismaBounties = await appState.openQPrismaClient.getBountyPage(
-					cursor,
-					batch,
-					orderBy,
-					sortOrder,
-					types
-				);
-				const addresses = prismaBounties.bountiesConnection.bounties.map(
-					(bounty) => bounty.address.toLowerCase()
-				);
-				setOffChainCursor(prismaBounties.bountiesConnection.cursor);
-				const subgraphBounties =
-          await appState.openQSubgraphClient.getBountiesByContractAddresses(addresses);
-        
-				newBounties = prismaBounties.bountiesConnection.bounties.map(
-					(bounty) => {
-						return {
-							...bounty,
-							...subgraphBounties.find(
-								(subgraphBounty) =>
-									subgraphBounty.bountyAddress === bounty.address.toLowerCase()
-							),
-						};
-					}
-				);
-			} catch (err) {
-				console.log('complete');
-			}
-		} else {
-			try {
-				newBounties = await appState.openQSubgraphClient.getAllBounties(
-					sortOrder,
-					currentPagination,
-					batch, types
-				);
-			} catch (err) {
-				console.log('no bounties');
-			}
+		const [fullBounties, newCursor] = await appState.utils.fetchBounties(appState, batch, category, orderBy, sortOrder, cursor);
+		setOffChainCursor(newCursor);
+
+
+		if(fullBounties?.length===0){
+			complete = true;
 		}
-		
-		if(newBounties?.length===0){
-			complete = true;}
-		const [fullBounties] = await  appState.utils.fillBountiesFromBountyAddresses(newBounties, appState.openQPrismaClient, appState.githubRepository);
-		
 		return [fullBounties, complete];
 	}
 
@@ -128,16 +102,23 @@ export default function Index({  fullBounties, batch, types, renderError }) {
 			{renderError ?
 				<UnexpectedError error={renderError}/>
 				:
-				<BountyHomepage
-					types={types}
-					bounties={bounties}
-					watchedBounties={watchedBounties}
-					loading={isLoading}
-					getMoreData={getMoreData}
-					complete={complete}
-					getNewData={getNewData}
-					wizard={true}
-				/>}
+				<>
+					<SubMenu styles={'justify-center'} items={[{ name: 'Organizations'}, { name: 'Issues'}]} internalMenu={internalMenu} updatePage={setInternalMenu} />
+
+					{internalMenu==='Organizations' ?	<OrganizationHomepage types={['0', '1', '2']} orgs={controlledOrgs} />:
+				
+						<BountyHomepage
+							types={types}
+							bounties={bounties}
+							watchedBounties={watchedBounties}
+							loading={isLoading}
+							getMoreData={getMoreData}
+							complete={complete}
+							getNewData={getNewData}
+							wizard={true}
+						/>}
+				</>
+			}
 				
 		</main>
 	);
@@ -149,16 +130,19 @@ export const getServerSideProps = async () => {
 	const openQPrismaClient = new WrappedOpenQPrismaClient();
 	const utils = new Utils();
 	githubRepository.instance.setGraphqlHeaders();
-	const batch = 10;
+	const batch = 1;
 	const types=['0','1','2'];
 	
-	const [fullBounties, renderError] = await utils.fetchBounties({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance}, types, batch);
+	const [fullBounties, firstCursor] = await utils.fetchBounties({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance}, batch);
+	const [mergedOrgs] =await utils.fetchOrganizations({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance},null, types);
+	
 	return {
 		props: {
 			fullBounties,
-			renderError,
+			firstCursor,
 			batch,
-			types
+			types,
+			mergedOrgs
 		},
 	};
 };

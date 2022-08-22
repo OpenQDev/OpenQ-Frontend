@@ -34,6 +34,16 @@ export const GET_PR_BY_ID = gql`query pr($prId: String!){
 
 `;
 
+export const GET_ALL_CONTRACTS = gql`query getAllContracts($after: ID, $orderBy: String, $sortOrder: String, $organizationId: String, $category: String) {
+  bounties(after: $after,  limit: 10, orderBy: $orderBy, sortOrder: $sortOrder, organizationId: $organizationId, category: $category) {
+  nodes{
+    address
+    blacklisted
+  }
+  }
+}
+`;
+
 export const CREATE_PR = gql`mutation createPr($prId: String! $bountyAddress: String!, $thumbnail: String){
 createPr(prId: $prId, bountyAddress: $bountyAddress, thumbnail: $thumbnail){
 	prId
@@ -41,54 +51,80 @@ createPr(prId: $prId, bountyAddress: $bountyAddress, thumbnail: $thumbnail){
 
 }`;
 
-export const ADD_CONTRIBUTOR=gql`mutation addContributor($prId: String, $userId: String, $address: String){
+export const ADD_CONTRIBUTOR = gql`mutation addContributor($prId: String, $userId: String, $address: String){
   addContributor(prId:$prId, userId: $userId, address: $address){
     thumbnail
   }
 }`;
 
-export const REMOVE_CONTRIBUTOR=gql`mutation remove($prId: String, $userId: String){
+export const REMOVE_CONTRIBUTOR = gql`mutation remove($prId: String, $userId: String){
   removeContributor(prId:$prId, userId: $userId){
     thumbnail
   }
 }`;
-
-export const GET_USER_BY_HASH = gql`query($userAddress: String!) {
-  user(address: $userAddress) {
-    watchedBountyIds
+// good to go
+export const GET_USER_BY_HASH = gql`query($userAddress: String! $category: String) {
+  	user(address: $userAddress) { 
+			watchedBountyIds
+			watchedBounties(limit: 100, category: $category){   
+			nodes{
+				tvl
+				address
+				bountyId
+			}
+		}
 		starredOrganizationIds
   }
 }`;
 
-export const GET_IS_BLACKLISTED=gql`
-query getBounties($addresses: [String]!){
-  bounties(addresses:$addresses){
+
+export const GET_ORGANIZATION =gql`
+query {
+  organization(organizationId: "MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4"){
     blacklisted
-		tvl
-		
-    address
+    bounties(limit:10){
+        bountyConnection{
+          nodes{
+          tvl
+          bountyId
+          address
+          blacklisted
+          category
+        }
+      cursor
+    }
+		}      
+    }
+  }
+`;
+
+
+export const GET_ORGANIZATIONS = gql`
+query( $category: String $batch: Int!) {
+  organizations( category: $category){
+    blacklisted
+		id
+		starringUserIds
+    bounties(limit:$batch, category: $category){
+        nodes{
+          tvl
+          bountyId
+          address
+          blacklisted
+          category
+        }
+      
+      
+    }
   }
 }`;
 
-export const GET_ORG = gql`
-query getOrg($organizationId: String!){
-  organization(organizationId: $organizationId){
-    blacklisted
-  }
-}
-`;
+export const GET_LEAN_ORGANIZATIONS = gql`query getLeanOrganizations {
+organizations  {id
+blacklisted}
+}`;
 
 
-
-export const GET_ORGS = gql`
-query getOrg($organizationIds: [String]!){
-  organizations(organizationIds: $organizationIds){
-    blacklisted
-		starringUserIds
-		id
-  }
-}
-`;
 
 export const WATCH_BOUNTY = gql`
 mutation AddUser ($contractAddress: String, $userAddress: String){
@@ -121,18 +157,23 @@ mutation unStarOrg ($id: String!, $address: String!){
 }`;
 
 
+// good to go
+export const GET_CONTRACT_PAGE = gql`
 
-export const GET_BOUNTY_PAGE = gql`
-query BountiesConnection($after: ID, $limit: Int!, $orderBy: String, $sortOrder: String, $types: [String], $organizationId: String) {
-  bountiesConnection(after: $after,  limit: $limit, orderBy: $orderBy, sortOrder: $sortOrder, types:$types, organizationId: $organizationId) {
-    bounties {
+query BountiesConnection($after: ID, $orderBy: String, $sortOrder: String, $organizationId: String, $category: String) {
+  bounties(after: $after,  limit: 10, orderBy: $orderBy, sortOrder: $sortOrder, organizationId: $organizationId, category: $category) {
+  bountyConnection{
+    nodes {
       tvl
 			address
 			organizationId
 			bountyId
       type
+			category
+			watchingCount
     }
 		cursor
+  }
   }
 }
 `;

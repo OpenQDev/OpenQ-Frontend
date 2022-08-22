@@ -30,7 +30,6 @@ export default function Index({ orgs, renderError }) {
 		if(reloadNow){
 			const [mergedOrgs] = await appState.utils.fetchOrganizations(appState);
 
-			console.log(mergedOrgs);
 			setControlledOrgs(mergedOrgs);
 
 		}

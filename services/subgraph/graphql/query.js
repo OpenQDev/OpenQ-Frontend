@@ -62,7 +62,7 @@ query getBounty {
 }`;
 export const GET_BOUNTY = gql`
 query GetBounty($id: ID!) {
-  bounty(id: $id) {		
+  bounty(id: $id) {
     bountyAddress
     bountyId
 		closerData
@@ -70,9 +70,6 @@ query GetBounty($id: ID!) {
 		bountyClosedTime
 		fundingGoalVolume
 		fundingGoalTokenAddress
-		payoutTokenAddress
-		payoutTokenVolume
-		payoutSchedule
      claims(orderBy: "claimTime", orderDirection: "desc"){
 		 	claimTime 
 		 	claimantAsset 

@@ -14,7 +14,7 @@ import Utils from '../services/utils/Utils';
 import SubMenu from '../components/Utils/SubMenu';
 import UnexpectedError from '../components/Utils/UnexpectedError';
 
-export default function Index({ orgs, fullBounties, batch, types, renderError }) {
+export default function Index({ orgs, fullBounties, batch, types, category, renderError, firstCursor }) {
 	useAuth();
 
 	// State
@@ -24,7 +24,7 @@ export default function Index({ orgs, fullBounties, batch, types, renderError })
 	const [isLoading, setIsLoading] = useState(false);
 	const [complete, setComplete] = useState(false);
 	const [pagination, setPagination] = useState(batch);
-	const [offChainCursor, setOffChainCursor] = useState();
+	const [offChainCursor, setOffChainCursor] = useState(firstCursor);
 	const [watchedBounties, setWatchedBounties] = useState([]);
 
 	// Context
@@ -40,7 +40,7 @@ export default function Index({ orgs, fullBounties, batch, types, renderError })
 	useEffect(async()=>{
 		// handle org reload events (caused by user starring org.)
 		if(reloadNow){		
-			const [mergedOrgs] = await appState.utils.fetchOrganizations(appState, types);
+			const [mergedOrgs] = await appState.utils.fetchOrganizations(appState,  category);
 			setControlledOrgs(mergedOrgs);
 			// get watched bounties when reload action is triggered.
 		
@@ -50,8 +50,8 @@ export default function Index({ orgs, fullBounties, batch, types, renderError })
 
 	useEffect(async () => {
 		// get watched bounties as soon as we know what the account is.
-		if (account == signedAccount) {
-			const [watchedBounties ]= await appState.utils.fetchWatchedBounties(appState, account, types);
+		if (account == signedAccount && account) {
+			const [watchedBounties ]= await appState.utils.fetchWatchedBounties(appState, account, category, types);
 			setWatchedBounties(watchedBounties||[]);
 		}
 		else{
@@ -65,59 +65,12 @@ export default function Index({ orgs, fullBounties, batch, types, renderError })
 	// General method for getting bounty data, used by pagination and handlers.
 	async function getBountyData(sortOrder, currentPagination, orderBy, cursor) {
 		setPagination(() => currentPagination + batch);
-		let newBounties = [];
 		let complete = false;
-		if (orderBy) {
-			try {
-				const prismaBounties = await appState.openQPrismaClient.getBountyPage(
-					cursor,
-					batch,
-					'tvl',
-					sortOrder,
-					types
-				);
-				if(prismaBounties.length===0){
-					complete = true;
-				}
-				const addresses = prismaBounties.bountiesConnection.bounties.map(
-					(bounty) => bounty.address.toLowerCase()
-				);
-				setOffChainCursor(prismaBounties.bountiesConnection.cursor);
-				const subgraphBounties =
-          await appState.openQSubgraphClient.getBountiesByContractAddresses(addresses);
-        
-				newBounties = prismaBounties.bountiesConnection.bounties.map(
-					(bounty) => {
-						return {
-							...bounty,
-							...subgraphBounties.find(
-								(subgraphBounty) =>
-									subgraphBounty.bountyAddress === bounty.address.toLowerCase()
-							),
-						};
-					}
-				);
-			} catch (err) {
-				console.log(err);
-			}
-		} else {
-		// handle un sort by tvl
-			try {
-				newBounties = await appState.openQSubgraphClient.getAllBounties(
-					sortOrder,
-					currentPagination,
-					batch,
-					types
-				);
-			} catch (err) {
-				console.log('no bounties');
-			}
+		const [fullBounties, newCursor] = await appState.utils.fetchBounties(appState, batch, category, orderBy, sortOrder, cursor);
+		setOffChainCursor(newCursor);
+		if(fullBounties?.length===0){
+			complete = true;
 		}
-		console.log(newBounties.length);
-		if(newBounties?.length===0){
-			complete = true;}
-		const [fullBounties] = await  appState.utils.fillBountiesFromBountyAddresses(newBounties, appState.openQPrismaClient, appState.githubRepository);
-		
 		return [fullBounties, complete];
 	}
 
@@ -161,10 +114,10 @@ export default function Index({ orgs, fullBounties, batch, types, renderError })
 						<UnexpectedError error={renderError}/>:
 
 						internalMenu == 'Organizations' ? (
-							<OrganizationHomepage orgs={controlledOrgs} types={types}/>
+							<OrganizationHomepage orgs={controlledOrgs} types={types} category={category}/>
 						) : (
 							<BountyHomepage
-								types={types}
+								category={category}
 								bounties={bounties}
 								watchedBounties={watchedBounties}
 								loading={isLoading}
@@ -180,19 +133,21 @@ export default function Index({ orgs, fullBounties, batch, types, renderError })
 
 export const getServerSideProps = async (ctx) => {
 	let types =['0','1', '2'];
-
+	let category = null;
 	switch(ctx?.query?.type){
 	case 'atomic-contracts':
 		types=['0'];
+		category='prime';
 		break;
 	case 'contests':
 		types=['2'];
+		category='contests';
 		break;
 	case 'repeatable':
+		category='learn2earn';
+
 		types=['1'];
 		break;
-
-
 	}
 
 	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
@@ -201,9 +156,9 @@ export const getServerSideProps = async (ctx) => {
 	const utils = new Utils();
 	githubRepository.instance.setGraphqlHeaders();
 	const batch = 10;
-	
-	const [mergedOrgs, orgRenderError] =await utils.fetchOrganizations({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance}, types);
-	const [fullBounties, bountyRenderError] = await utils.fetchBounties({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance}, types, batch);
+	const sortOrder = 'desc';
+	const [mergedOrgs, orgRenderError] =await utils.fetchOrganizations({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance},category,  category, sortOrder);
+	const [fullBounties, firstCursor, bountyRenderError] = await utils.fetchBounties({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance}, batch, category);
 	const renderError = bountyRenderError||orgRenderError;
 	return {
 		props: {
@@ -211,7 +166,9 @@ export const getServerSideProps = async (ctx) => {
 			fullBounties,
 			renderError,
 			batch,
-			types
+			types,
+			category,
+			firstCursor
 		},
 	};
 };
