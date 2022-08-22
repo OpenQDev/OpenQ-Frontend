@@ -48,9 +48,8 @@ const address = ({ address, mergedBounty, renderError }) => {
 	const tokenTotal = tokenValues?.total;
 	const payoutTotal = payoutValues?.total;
 	const refundTotal = refundValues?.total;
-	const TVL=tokenTotal - payoutTotal - refundTotal;
+	const TVL = tokenTotal - payoutTotal - refundTotal;
 	const {account, } = useWeb3();
-	console.log(bounty);
 
 	// State
 	const [error, setError] = useState(renderError);
@@ -212,7 +211,6 @@ export const getServerSideProps = async (context) => {
 	}
 	try {
 		bounty = await openQSubgraphClient.instance.getBounty(address, 'no-cache');
-		console.log(bounty);
 		if (!bounty) {
 			console.log('could not find bounty on graph');
 		}

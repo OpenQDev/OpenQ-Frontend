@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { WATCH_BOUNTY, UNWATCH_BOUNTY, GET_BOUNTY_BY_HASH, GET_USER_BY_HASH, GET_CONTRACT_PAGE, GET_PR_BY_ID, CREATE_PR, ADD_CONTRIBUTOR, REMOVE_CONTRIBUTOR, GET_IS_BLACKLISTED, GET_ORG, GET_ORGS, STAR_ORG, UN_STAR_ORG } from './graphql/query';
+import { WATCH_BOUNTY, UNWATCH_BOUNTY, GET_BOUNTY_BY_HASH, GET_USER_BY_HASH, GET_CONTRACT_PAGE, GET_LEAN_ORGANIZATIONS, GET_ALL_CONTRACTS, GET_PR_BY_ID, CREATE_PR, ADD_CONTRIBUTOR, REMOVE_CONTRIBUTOR, GET_ORGANIZATIONS,  STAR_ORG, UN_STAR_ORG, GET_ORGANIZATION } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
 
@@ -129,16 +129,13 @@ class OpenQPrismaClient {
 		return promise;	
 	}
 
-	getBlackListed(lowerCaseAddresses){
+	getAllContracts(){
 		const promise = new Promise(async (resolve, reject) => {
 			try {
-				
-				const addresses = lowerCaseAddresses.map(address=>ethers.utils.getAddress(address));
 				const result = await this.client.query({
-					query: GET_IS_BLACKLISTED,
-					variables: { addresses }
+					query: GET_ALL_CONTRACTS
 				});
-				resolve(result.data.bounties);
+				resolve(result.data.bounties.nodes);
 			}
 			catch (e) {
 				reject(e);
@@ -149,13 +146,13 @@ class OpenQPrismaClient {
 	
 	}
 
-	getOrgMetadata(organizationId){
-	
+	getOrganizations(category, batch){
+		console.log(category);
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.mutate({
-					mutation: GET_ORG,
-					variables: { organizationId }
+					mutation: GET_ORGANIZATIONS,
+					variables: { category, batch }
 				});
 				resolve(result.data);
 			}
@@ -168,12 +165,29 @@ class OpenQPrismaClient {
 	
 	}
 
-	getOrgsMetadata(organizationIds){
+	getOrganization(id){
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				const result = await this.client.mutate({
+					mutation: GET_ORGANIZATION,
+					variables: { id }
+				});
+				resolve(result.data);
+			}
+			catch (e) {
+				reject(e);
+			}
+		}
+		);
+		return promise;	
+	}
+	// Good to go.
+	getLeanOrganizations(organizationIds){
 	
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.mutate({
-					mutation: GET_ORGS,
+					mutation: GET_LEAN_ORGANIZATIONS,
 					variables: { organizationIds }
 				});
 				resolve(result.data.organizations);
@@ -223,16 +237,18 @@ class OpenQPrismaClient {
 		return promise;	
 	}
 
-	async getUser(userAddress) {
+	async getUser(userAddress, category) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.mutate({
 					mutation: GET_USER_BY_HASH,
-					variables: { userAddress: ethers.utils.getAddress(userAddress) }
+					variables: { userAddress: ethers.utils.getAddress(userAddress), category }
 				});
+				console.log(result);
 				resolve(result.data.user);
 			}
 			catch (e) {
+				console.log(e);
 				reject(e);
 			}
 		}
@@ -240,17 +256,16 @@ class OpenQPrismaClient {
 		return promise;
 	}
 
-	async getContractPage(after, limit, orderBy, sortOrder, types, category, organizationId ) {
-		console.log('heyc', after, limit, orderBy, sortOrder, types, category, organizationId);
-		console.log(category, types);
+	async getContractPage(after, limit, sortOrder, orderBy,   category, organizationId ) {
+		
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
 					query: GET_CONTRACT_PAGE,
-					variables: { after, limit, orderBy, sortOrder, organizationId, types, category },
+					variables: { after, limit, orderBy, sortOrder, organizationId, category },
 					fetchPolicy: 'no-cache'
 				});
-				resolve(result.data);
+				resolve(result.data.bounties.bountyConnection);
 			}
 			catch (e) {
 				reject(e);
