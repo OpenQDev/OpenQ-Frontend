@@ -42,7 +42,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 	const [enableMint, setEnableMint] = useState();
 	const isValidUrl = appState.utils.issurUrlRegex(url);
 	const [invoice, setInvoice] = useState(false);
-	const [tier, setTier] = useState(0);
+	const [tier, setTier] = useState();
 	const [tierArr, setTierArr] = useState([]);
 	const [tierVolume, setTierVolume] = useState({});
 	const [finalTierVolume, setFinalTierVolume] = useState([]);
@@ -367,7 +367,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 																type="text"
 																min="0"
 																max="100"
-																value={tier}
+																value={tier || ''}
 																onChange={(e) => onTierChange(e)}
 															/>
 														</div>
