@@ -15,15 +15,15 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 	let type = 'Atomic Contract';
 
 	switch (bounty.bountyType) {
-		case '1':
-			type = 'Repeating Contract';
-			break;
-		case '2':
-			type = 'Contest Contract';
-			break;
-		case '3':
-			type = 'Atomic Contract';
-			break;
+	case '1':
+		type = 'Repeating Contract';
+		break;
+	case '2':
+		type = 'Contest Contract';
+		break;
+	case '3':
+		type = 'Atomic Contract';
+		break;
 	}
 
 	// Context
@@ -43,10 +43,9 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 	const [modal, setModal] = useState();
 	const [error, setError] = useState('');
 	const [showButton, setShowButton] = useState(ethers.utils.getAddress(bounty.issuer.id) == account && !bounty.bountyClosedTime);
-	const [tokenValues] = useGetTokenValues(bounty.bountyTokenBalances, bounty);
-	const budgetBalances = [{"tokenAddress": bounty.fundingGoalTokenAddress, "volume": bounty.fundingGoalVolume}]
+	const budgetBalances = [{ 'tokenAddress': bounty.fundingGoalTokenAddress, 'volume': bounty.fundingGoalVolume }];
 	const [budgetValues] = useGetTokenValues(budgetBalances, bounty);
-	const splitBalances = [{"tokenAddress": bounty.payoutTokenAddress, "volume": bounty.payoutTokenVolume}]
+	const splitBalances = bounty.bountyType == 1 ? [{ 'tokenAddress': bounty.payoutTokenAddress, 'volume': bounty.payoutTokenVolume }] : null;
 	const [splitValues] = useGetTokenValues(splitBalances, bounty);
 
 	// funding goal volume and token
@@ -65,7 +64,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 	const [sum, setSum] = useState(0);
 	const [enableContest, setEnableContest] = useState(false);
 	const [isLoading, setIsLoading] = useState();
-	const tierConditions = sum == 100
+	const tierConditions = sum == 100;
 
 	// handle change in Funding Goal
 
@@ -118,13 +117,13 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 		if (finalTierVolume.length) {
 			setSum(finalTierVolume.reduce((a, b) => a + b));
 		}
-		if (sum == 100) { setEnableContest(true) };
+		if (sum == 100) { setEnableContest(true); }
 	}, [finalTierVolume]);
 
 	useEffect(() => {
-		if (!tierConditions) { setEnableContest(false) }
-		else { setEnableContest(true) };
-	}, [tier, sum])
+		if (!tierConditions) { setEnableContest(false); }
+		else { setEnableContest(true); }
+	}, [tier, sum]);
 
 	// trigger smart contracts
 
@@ -156,8 +155,18 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 		}
 	}
 
-	async function setContestPayout() {
-		alert('link this to smart contract when available')
+	async function setPayoutSchedule() {
+		try {
+			setIsLoading(true);
+			const transaction = await appState.openQClient.setPayoutSchedule(library, bounty.bountyId, finalTierVolume);
+			refreshBounty();
+			// setPayoutVolume(''); // ?
+			setModal({ transaction, type: 'PayoutSchedule', finalTierVolume: finalTierVolume });
+		} catch (error) {
+			console.log(error);
+			const { message, title } = appState.openQClient.handleError(error, { bounty });
+			setError({ message, title });
+		}
 	}
 
 	async function closeCompetition() {
@@ -257,7 +266,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 																	<div key={t}>
 																		<TierInput tier={t} tierVolume={tierVolume[t]} onTierVolumeChange={onTierVolumeChange} style={'ml-0'} />
 																	</div>
-																)
+																);
 															})}
 														</div>
 													</div>
@@ -278,7 +287,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 										<button
 											className={`w-full btn-default ${enableContest ? 'cursor-pointer' : 'cursor-not-allowed'}`}
 											type="button"
-											onClick={setContestPayout}
+											onClick={setPayoutSchedule}
 											disabled={!enableContest}
 										>Set New Payout Schedule</button>
 									</ToolTipNew>
@@ -334,7 +343,6 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 					</li>
 					<li className='border-b border-web-gray py-3'>
 						<div className='text-xs font-semibold text-muted'>TVL</div>
-						<button className='text-xs font-semibold text-primary' onClick={() => setInternalMenu('Fund')}>${tokenValues?.total || '0.00'}</button>
 					</li>
 					<li className='border-b border-web-gray py-3'>
 						<div className='text-xs font-semibold text-muted'>Current Target Budget</div>
@@ -343,7 +351,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 					{bounty.bountyType == 1 ?
 						<li className='border-b border-web-gray py-3'>
 							<div className='text-xs font-semibold text-muted'>Current Reward Split</div>
-							<div className='text-xs font-semibold text-primary pt-2' >${splitValues?.total || '0.0'}</div> 
+							<div className='text-xs font-semibold text-primary pt-2' >${splitValues?.total || '0.0'}</div>
 						</li>
 						:
 						bounty.bountyType == 2 ?
@@ -353,14 +361,14 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 									<div className='text-xs font-semibold leading-loose'>Number of tiers: </div>
 									<div className='text-xs font-semibold'>{bounty.payoutSchedule.length}</div>
 								</div>
-								<div className='flex flex-col '>
+								<div className='flex flex-col max-h-80 w-full overflow-y-auto overflow-x-hidden'>
 									{bounty.payoutSchedule.map((t, index) => {
 										return (
 											<div key={index} className='flex items-center gap-4 text-primary'>
-												<div className='text-xs font-semibold leading-loose'>{`${handleSuffix(index+1)} winner:`}</div>
+												<div className='text-xs font-semibold leading-loose'>{`${handleSuffix(index + 1)} winner:`}</div>
 												<div className='text-xs font-semibold' >{t} %</div>
 											</div>
-										)
+										);
 									})
 
 									}

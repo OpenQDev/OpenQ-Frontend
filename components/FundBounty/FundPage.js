@@ -197,7 +197,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	return (<>
 		{closed ?
 			<>
-				<h1 className='text-3xl'>Cannot Fund a Closed {bountyName}!</h1>
 				<BountyClosed bounty={bounty} />
 			</>
 			:
