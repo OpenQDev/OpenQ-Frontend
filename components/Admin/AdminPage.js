@@ -110,7 +110,7 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
 	}, [tierVolume]);
 
 	useEffect(() => {
-		if (finalTierVolume.length) {
+		if (finalTierVolume?.length) {
 			setSum(finalTierVolume.reduce((a, b) => a + b));
 		}
 		if (sum == 100) { setEnableContest(true); }
@@ -257,7 +257,7 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
 															<span className='text-sm my-2 pb-2'>For the sum to add up to 100, you still need to allocate: {100 - sum} %</span>
 														}
 														<div className='max-h-40 w-full overflow-y-auto overflow-x-hidden'>
-															{tierArr.map((t) => {
+															{tierArr?.map((t) => {
 																return (
 																	<div key={t}>
 																		<TierInput tier={t} tierVolume={tierVolume[t]} onTierVolumeChange={onTierVolumeChange} style={'ml-0'} />
@@ -356,10 +356,10 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
 								<div className='text-xs font-semibold text-muted'>Current Payout Schedule</div>
 								<div className='flex items-center gap-4 pt-2 text-primary'>
 									<div className='text-xs font-semibold leading-loose'>Number of tiers: </div>
-									<div className='text-xs font-semibold'>{bounty.payoutSchedule.length}</div>
+									<div className='text-xs font-semibold'>{bounty.payoutSchedule?.length}</div>
 								</div>
 								<div className='flex flex-col max-h-80 w-full overflow-y-auto overflow-x-hidden'>
-									{bounty.payoutSchedule.map((t, index) => {
+									{bounty.payoutSchedule?.map((t, index) => {
 										return (
 											<div key={index} className='flex items-center gap-4 text-primary'>
 												<div className='text-xs font-semibold leading-loose'>{`${handleSuffix(index + 1)} winner:`}</div>
