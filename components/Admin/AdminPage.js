@@ -7,7 +7,6 @@ import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import AdminModal from './AdminModal.js';
 import ToolTipNew from '../Utils/ToolTipNew';
 import TierInput from '../MintBounty/TierInput';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 
 const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {

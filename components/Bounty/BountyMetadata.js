@@ -16,15 +16,15 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split}) => {
 	let type = 'Atomic Contract';
 
 	switch (bounty.bountyType) {
-		case '1':
-			type = 'Repeating Contract';
-			break;
-		case '2':
-			type = 'Contest Contract';
-			break;
-		case '3':
-			type = 'Atomic Contract';
-			break;
+	case '1':
+		type = 'Repeating Contract';
+		break;
+	case '2':
+		type = 'Contest Contract';
+		break;
+	case '3':
+		type = 'Atomic Contract';
+		break;
 
 	}
 	return (
@@ -89,10 +89,10 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split}) => {
 			<li className='border-b border-web-gray py-3 text sm'><Link href={`https://polygonscan.com/address/${bounty.bountyAddress}`}>
 				<div className='text-xs font-semibold  cursor-pointer text-muted'>Polygonscan</div>
 			</Link>
-				{bounty.bountyAddress &&
+			{bounty.bountyAddress &&
 
 					<CopyBountyAddress styles="text-sm pt-2" address={bounty.bountyAddress} />
-				}
+			}
 			</li>
 			<li className='border-b border-web-gray py-3'>
 				{bounty?.prs?.some(pr => pr.source['__typename'] === 'PullRequest' && pr.source.url) > 0 ? <ul>
