@@ -157,7 +157,6 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
 			const transaction = await appState.openQClient.setPayoutSchedule(library, bounty.bountyId, finalTierVolume);
 			refreshBounty();
 			setModal({ transaction, type: 'PayoutSchedule', finalTierVolume: finalTierVolume });
-			console.log('bounty: ', bounty);
 		} catch (error) {
 			console.log(error);
 			const { message, title } = appState.openQClient.handleError(error, { bounty });

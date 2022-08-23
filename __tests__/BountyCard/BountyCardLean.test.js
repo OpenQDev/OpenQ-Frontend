@@ -55,7 +55,7 @@ describe('BountyCard', ( ) => {
 			// ASSERT
 			const orgName = screen.getByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
 			await user.click(orgName);
-			if(bounty.status==='CLOSED'){				
+			if(bounty.status==1){				
 				const bountyStatus = await	screen.findAllByText(/Claimed/i);
 				expect(bountyStatus[0]).toBeInTheDocument();
 			}
