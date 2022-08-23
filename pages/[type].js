@@ -142,7 +142,7 @@ export const getServerSideProps = async (ctx) => {
 		break;
 	case 'contests':
 		types=['2', '3'];
-		category='contests';
+		category='contest';
 		break;
 	case 'learn2earn':
 		category='learn2earn';
