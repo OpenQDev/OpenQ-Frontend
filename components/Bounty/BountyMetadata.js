@@ -10,7 +10,7 @@ import useGetTokenValues from '../../hooks/useGetTokenValues';
 
 const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split}) => {
 	const [appState] = useContext(StoreContext);
-	const tokenBalances = { tokenAddress: bounty.payoutTokenAddress, volume: bounty.payoutTokenVolume };
+	const tokenBalances = bounty.payoutTokenVolume ? { tokenAddress: bounty.payoutTokenAddress, volume: bounty.payoutTokenVolume } : null;
 	const [tokenValues] = useGetTokenValues(tokenBalances);
 
 	let type = 'Atomic Contract';
