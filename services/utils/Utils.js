@@ -190,7 +190,7 @@ class Utils {
 			prismaContracts = prismaContractsResult.nodes.filter(contract=>!contract.blacklisted);
 
 			newCursor = prismaContractsResult.cursor;
-			
+
 		}
 		catch(err){		
 			console.log(err);
@@ -213,8 +213,8 @@ class Utils {
 			const prismaResult = await openQPrismaClient.getUser(
 				account, category
 			);
-			prismaContracts = prismaResult.watchedBounties.nodes;
-			const watchedBountyAddresses= prismaResult.watchedBountyIds.map(address=>address.toLowerCase());
+			prismaContracts = prismaResult?.watchedBounties.nodes||[];
+			const watchedBountyAddresses= prismaResult?.watchedBountyIds.map(address=>address.toLowerCase())||[];
 			const watchedBountyIds = prismaContracts.map(
 				(contract) =>contract.bountyId
 			);
