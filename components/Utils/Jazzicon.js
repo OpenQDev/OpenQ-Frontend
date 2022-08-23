@@ -16,9 +16,11 @@ const Jazzicon = ({ address, size, styles }) => {
 	}, [address]);
 	return (
 		<Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/user/${address}`}>
-			<div ref={iconWrapper} className="cursor-pointer">
+			<div className="cursor-pointer">
 				<ToolTip toolTipText={address} styles={styles} customOffsets={[38, -6]}>
-					{address}
+					<div ref={iconWrapper}>
+						{address}
+					</div>
 				</ToolTip>
 			</div>
 		</Link>);
