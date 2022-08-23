@@ -18,7 +18,6 @@ import { useRouter } from 'next/router';
 const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData, getNewData, addCarousel, contractToggle, wizard, types }) => {
 	// Hooks
 	const { account } = useWeb3();
-	/* const [l2eOnly, setL2eOnly] = useState(false); */
 	const router = useRouter();
 	const [searchText, updateSearchText] = useState(`order:newest ${router.query.type && router.route === '/organization/[organization]' ? `type:"${router.query.type}"`: ''}`);
 	const [tagArr, updateTagArr] = useState([]);
@@ -31,6 +30,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 	const orderRegex = /order:(\w+)/gi;
 	let observer = useRef();
 	// Utilities
+	
 	const fetchPage = () => {
 		const sortOrder = searchText.match(orderRegex)?.[0]?.slice(6) || '';
 		switch (sortOrder) {
@@ -89,26 +89,24 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 		const searchedLabels = searchedLabelsWrapped.map(elem => elem.slice(7, -1));
 		const contractType = contractsTypesWrapped.map(elem => elem.slice(6, -1))[0];
 		
-		let types =['0', '1','2'];
+		let types =['0', '1','2', '3'];
 
 		switch(contractType){
 		case 'Atomic Contracts':
 			types=['0'];
 			break;
 		case 'Contests':
-			types=['2'];
+			types=['2', '3'];
 			break;
 		case 'Repeatable Contracts':
 			types=['1'];
 			break;
 		}
 
-
 		const displayBounties = bounties.filter((bounty) => {
 			const hasLabels = searchedLabels.some((searchedLabel) => bounty.labels.some(bountyLabel => bountyLabel.name === searchedLabel)) || searchedLabels.length === 0;
 
 			const isType = types.some(type=>type===bounty.bountyType);
-
 			let containsSearch = true;
 
 			try {
@@ -124,7 +122,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 				const containsTag = searchTagInBounty(bounty, localTagArr);
 				// Check based filters
 				const isUnclaimed = bounty.status === '0';
-				const isFunded = bounty.deposits.some(deposit => {
+				const isFunded = bounty?.deposits?.some(deposit => {
 					return !deposit.refunded;
 				});
 				const isAssigned = bounty.assignees?.length > 0;
@@ -137,7 +135,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 			}
 
 		});
-
+		
 		if (displayBounties.length === 0 && !complete) {
 			fetchPage();
 			return [];
@@ -156,7 +154,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 		case 'newest': {
 			if (complete || firstLoad) {
 				return bounties.sort((a, b) => {
-					return b.bountyMintTime - a.bountyMintTime;
+					return b.createdAt - a.createdAt;
 				});
 			}
 			else {
@@ -169,7 +167,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 		case 'oldest': {
 			if (complete || firstLoad) {
 				return bounties.sort((a, b) => {
-					return a.bountyMintTime - b.bountyMintTime;
+					return a.createdAt - b.createdAt;
 				});
 			}
 			else {

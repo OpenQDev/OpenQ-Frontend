@@ -14,7 +14,7 @@ const OrganizationContent = ({bounties,isLoading,getMoreData,complete,getNewData
 		</div>
 
 		<h2 className="text-primary w-full mb-2">Smart Contracts</h2>
-		<BountyList contractToggle={true} bounties={bounties} loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} types={['0','1','2']} />
+		<BountyList contractToggle={true} bounties={bounties} loading={isLoading} getMoreData={getMoreData} complete={complete} getNewData={getNewData} types={['0','1','2', '3']} />
 	</div>);
 };
 
