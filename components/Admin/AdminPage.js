@@ -337,16 +337,16 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
 					</li>
 					<li className='border-b border-web-gray py-3'>
 						<div className='text-xs font-semibold text-muted'>TVL</div>
-						<div className='text-xs font-semibold text-primary pt-2' >${price || '0.0'}</div>
+						<div className='text-xs font-semibold text-primary pt-2' >{appState.utils.formatter.format(price) || '$0.00'}</div>
 					</li>
 					<li className='border-b border-web-gray py-3'>
 						<div className='text-xs font-semibold text-muted'>Current Target Budget</div>
-						<div className='text-xs font-semibold text-primary pt-2' >${budget || '0.0'}</div>
+						<div className='text-xs font-semibold text-primary pt-2' >{appState.utils.formatter.format(budget) || '$0.00'}</div>
 					</li>
 					{bounty.bountyType == 1 ?
 						<li className='border-b border-web-gray py-3'>
 							<div className='text-xs font-semibold text-muted'>Current Reward Split</div>
-							<div className='text-xs font-semibold text-primary pt-2' >${split || '0.0'}</div>
+							<div className='text-xs font-semibold text-primary pt-2' >{appState.utils.formatter.format(split) || '$0.00'}</div>
 						</li>
 						:
 						bounty.bountyType == 2 ?
