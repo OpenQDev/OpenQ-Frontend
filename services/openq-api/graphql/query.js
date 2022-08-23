@@ -35,10 +35,14 @@ export const GET_PR_BY_ID = gql`query pr($prId: String!){
 `;
 
 export const GET_ALL_CONTRACTS = gql`query getAllContracts($after: ID, $orderBy: String, $sortOrder: String, $organizationId: String, $category: String) {
-  bounties(after: $after,  limit: 10, orderBy: $orderBy, sortOrder: $sortOrder, organizationId: $organizationId, category: $category) {
+  bounties(after: $after,  limit: 200, orderBy: $orderBy, sortOrder: $sortOrder, organizationId: $organizationId, category: $category) {
   nodes{
     address
+		bountyId
     blacklisted
+		organization{
+			blacklisted
+		}
   }
   }
 }
@@ -79,8 +83,8 @@ export const GET_USER_BY_HASH = gql`query($userAddress: String! $category: Strin
 
 
 export const GET_ORGANIZATION =gql`
-query {
-  organization(organizationId: "MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4"){
+query getOrganization($organizationId: String!){
+  organization(organizationId: $organizationId){
     blacklisted
     bounties(limit:10){
         bountyConnection{
@@ -172,6 +176,10 @@ query BountiesConnection($after: ID, $orderBy: String, $sortOrder: String, $orga
 			category
 			watchingCount
 			createdAt
+			blacklisted
+      organization{
+        blacklisted
+      }
     }
 		cursor
   }

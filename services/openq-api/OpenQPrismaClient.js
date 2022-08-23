@@ -169,7 +169,7 @@ class OpenQPrismaClient {
 			try {
 				const result = await this.client.mutate({
 					mutation: GET_ORGANIZATION,
-					variables: { id }
+					variables: { organizationId: id }
 				});
 				resolve(result.data);
 			}
