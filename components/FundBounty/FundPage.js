@@ -47,7 +47,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const [token, setToken] = useState(zeroAddressMetadata);
 	const bountyName = bounty.bountyType == 0 ? 'Atomic Contract' : bounty.bountyType == 1 ? 'Repeatable Contract' : bounty.bountyType == 2 ? 'Contest' : 'Type Unknown';
 
-	const closed = bounty.bountyClosedTime;
+	const closed = bounty.status == '1';
 	const loadingClosedOrZero = approveTransferState == CONFIRM || approveTransferState == APPROVING || approveTransferState == TRANSFERRING || closed || parseFloat(volume) <= 0.00000001 || parseFloat(volume) > 1000000 || volume == '' || !(parseInt(depositPeriodDays) > 0);
 	const disableOrEnable = `${(loadingClosedOrZero || !isOnCorrectNetwork) && account ? 'btn-default w-full cursor-not-allowed' : 'btn-primary cursor-pointer'}`;
 	const fundButtonClasses = `flex flex-row w-full justify-center space-x-5 items-center  ${disableOrEnable}`;
@@ -195,6 +195,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 	// Render
 	return (<>
+		{console.log(bounty)}
 		{closed ?
 			<>
 				<BountyClosed bounty={bounty} />

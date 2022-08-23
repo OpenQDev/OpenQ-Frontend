@@ -38,7 +38,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 	const { library, account, } = useWeb3();
 	const [ensName] = useEns(account);
 
-	const closed = bounty.bountyClosedTime;
+	const closed = bounty.status == '1';
 
 	// Side Effects
 	useEffect(() => {
