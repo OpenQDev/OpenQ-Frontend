@@ -133,7 +133,7 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
 }
 
 export const getServerSideProps = async (ctx) => {
-	let types =['0','1', '2'];
+	let types =['0','1', '2', '3'];
 	let category = null;
 	switch(ctx?.query?.type){
 	case 'prime':
@@ -141,7 +141,7 @@ export const getServerSideProps = async (ctx) => {
 		category='prime';
 		break;
 	case 'contests':
-		types=['2'];
+		types=['2', '3'];
 		category='contests';
 		break;
 	case 'learn2earn':
