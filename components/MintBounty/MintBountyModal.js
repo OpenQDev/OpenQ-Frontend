@@ -92,8 +92,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 						let bounty = await appState.openQSubgraphClient.getBountyByGithubId(
 							issueData.id,
 						);
-						{console.log('bounty:', bounty)}
-						setClosed(bounty.bountyClosedTime);
+						setClosed(bounty.status == '1');
 						if (bounty) {
 							setBountyAddress(bounty.bountyAddress);
 						}
