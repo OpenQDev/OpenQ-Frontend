@@ -133,7 +133,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 				return (containsSearch && containsTag && (((isFunded) && (isUnclaimed) && (!isAssigned)) || localIsReady === 'All issues') && hasLabels && bounty.url && !bounty.blacklisted && isType);
 			}
 			catch (err) {
-				console.err(err);
+				console.error(err);
 			}
 
 		});

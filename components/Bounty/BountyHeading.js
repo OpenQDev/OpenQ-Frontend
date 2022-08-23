@@ -16,11 +16,17 @@ const BountyHeading = ({bounty, price, budget}) =>{
 		<div className='sm:px-8 px-4 w-full max-w-[1200px] pb-4'>
 			<div className='pt-6 pb-2 w-full flex flex-wrap'>
 				<h1 className='text-[32px] flex-1 leading-tight min-w-[240px]'><span className='text-primary'>{bounty.title} </span>
-					<Link href={bounty.url} className='text-muted text font-light'>
-						<a className='text-link-colour hover:underline' rel="noopener norefferer" target="_blank">
+					{bounty.url?
+					
+						<Link href={bounty.url} className='text-muted text font-light'>
+							<a className='text-link-colour hover:underline' rel="noopener norefferer" target="_blank">
 						#{bounty.number}
-						</a>
-					</Link>
+							</a>
+						</Link>:
+						<div>
+						#{bounty.number}
+						</div>
+					}
 				</h1>
 				<MintBountyButton types={['0', '1','2']} styles={'h-8 self-center'} wizard={true}/>
 			</div>
@@ -34,8 +40,8 @@ const BountyHeading = ({bounty, price, budget}) =>{
 						{marker.status}</span>
 				</div>
 				<>
-					{price  > budget ?
-						(price|| price ===0) && <span className='leading-loose text-lg font-semibold text-primary'>
+					{price  > budget || (price ===0 && bounty) ?
+						<span className='leading-loose text-lg font-semibold text-primary'>
 					
 					Total Value Locked { appState.utils.formatter.format(
 								price

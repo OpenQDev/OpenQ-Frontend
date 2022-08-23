@@ -28,12 +28,11 @@ const organization = ({ organizationData, fullBounties, batch, renderError }) =>
 	const [toggleVal, setToggleVal] = useState('Overview');
 	const [complete, setComplete] = useState(fullBounties?.length === 0);
 	
-
 	// Methods
 	async function getBountyData(sortOrder, currentPagination, orderBy, cursor) {
 		setPagination(() => currentPagination + batch);
 		let complete = false;
-		const [fullBounties, newCursor] = await appState.utils.fetchBounties(appState, batch, null, orderBy, sortOrder, cursor, organization);
+		const [fullBounties, newCursor] = await appState.utils.fetchBounties(appState, batch, null, orderBy, sortOrder, cursor, organizationData.id);
 		setOffChainCursor(newCursor);
 
 

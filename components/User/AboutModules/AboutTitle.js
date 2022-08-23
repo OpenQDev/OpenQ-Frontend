@@ -12,7 +12,7 @@ const AboutTitle = ({ensName, account, githubUser}) =>{
 	useEffect(async () => {
 		if (account && iconWrapper.current) {
 			iconWrapper.current.innerHTML = '';
-			iconWrapper.current.appendChild(jazzicon(32, parseInt(account.slice(2, 10), 16)));
+			iconWrapper.current.appendChild(jazzicon(36, parseInt(account.slice(2, 10), 16)));
 		}
 	}, [account]);
 	
@@ -26,8 +26,8 @@ const AboutTitle = ({ensName, account, githubUser}) =>{
 				</span>
 			</a>}
 			<h1 className='flex gap-4 flex-1 pb-8'>
-				<span className='flex' ref={iconWrapper}></span>
-				<span className='flex leading-none'>
+				<span className='flex lg:hidden' ref={iconWrapper}></span>
+				<span className='flex flex-col leading-none'>
 					<span className='flex'>{ensName}</span>
 					<CopyAddressToClipboard data={account} clipping={[5, 38]} />
 				</span>

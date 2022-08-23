@@ -134,11 +134,11 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 				toggleType,
 				data
 			);
-			modalVisibility(false);
 			sessionStorage.setItem('justMinted', true);
-			router.push(
+			await router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress.toLowerCase()}`
 			);
+			modalVisibility(false);
 		} catch (error) {
 			console.log('error in mintbounty', error);
 			const { message, title } = appState.openQClient.handleError(error);

@@ -23,9 +23,19 @@ const account = ({account, user, organizations, renderError,  starredOrganizatio
 };
 
 export const getServerSideProps = async(context)=>{
-	
-	const account = context.params.account;
+	let account = context.params.account;
 	let renderError = '';
+
+	try {
+		let provider = new ethers.providers.InfuraProvider('homestead', process.env.INFURA_PROJECT_ID);
+	
+		account = await provider.resolveName(account);
+		// we need to check if their address is reverse registered 
+			
+	}
+	catch(err){
+		console.log('ens account not found');
+	}
 	try{
 		ethers.utils.getAddress(account);
 	}
@@ -54,16 +64,19 @@ export const getServerSideProps = async(context)=>{
 		
 		//get starred organizations.
 		try{
-			const subgraphOrgs =  await  openQSubgraphClient.instance.getOrganizationsByIds( userOffChainData.starredOrganizationIds);
-			const githubOrgIds = subgraphOrgs.map(bounty=>bounty.id);
-			const githubOrganizations = await githubRepository.instance.fetchOrgsOrUsersByIds(githubOrgIds);
-			starredOrganizations = githubOrganizations.map((organization)=>{
-				const subgraphOrg = subgraphOrgs.find((org)=>{
-					return org.id === organization.id;
-				});
+			if(userOffChainData){
+				const subgraphOrgs =  await  openQSubgraphClient.instance.getOrganizationsByIds( userOffChainData.starredOrganizationIds);
+				const githubOrgIds = subgraphOrgs.map(bounty=>bounty.id);
+				const githubOrganizations = await githubRepository.instance.fetchOrgsOrUsersByIds(githubOrgIds);
+				starredOrganizations = githubOrganizations.map((organization)=>{
+					const subgraphOrg = subgraphOrgs.find((org)=>{
+						return org.id === organization.id;
+					});
 
-				return {...organization, ...subgraphOrg, starred: true};
-			});
+					return {...organization, ...subgraphOrg, starred: true};
+				});
+			}
+			else starredOrganizations=[];
 		}
 		catch(err){
 			console.log(err);

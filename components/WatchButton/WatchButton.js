@@ -24,9 +24,9 @@ const WatchButton = ({unWatchable, bounty})=>{
 			}
 			catch(err){
 				if((JSON.stringify(err)).includes('AuthenticationError')){
-					console.err('Cannot get watched bounties because user is not signed in with ethereum.');
+					console.error('Cannot get watched bounties because user is not signed in with ethereum.');
 				}
-				else console.err(err);
+				else console.error(err);
 			}
 		}
 	}, [account]);
