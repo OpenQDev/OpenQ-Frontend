@@ -147,7 +147,6 @@ class OpenQPrismaClient {
 	}
 
 	getOrganizations(category, batch){
-		console.log(category);
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.mutate({
@@ -244,7 +243,6 @@ class OpenQPrismaClient {
 					mutation: GET_USER_BY_HASH,
 					variables: { userAddress: ethers.utils.getAddress(userAddress), category }
 				});
-				console.log(result);
 				resolve(result.data.user);
 			}
 			catch (e) {

@@ -163,7 +163,7 @@ class Utils {
 			);
 		} catch (err) {
 			if(!renderError){
-				console.err(err);
+				console.error(err);
 				renderError = 'OpenQ is unable to connect with Github.';
 			}
 		}
@@ -179,7 +179,6 @@ class Utils {
 		}).filter((org)=>{
 			return !org.blacklisted;
 		})||[];
-		console.log(mergedOrgs);
 		return [mergedOrgs, renderError];
 	};
 
@@ -216,7 +215,6 @@ class Utils {
 		let subgraphContracts=[];
 		let githubIssues=[];
 		let prismaContracts = [];
-		console.log(account);
 		try {
 			const prismaResult = await openQPrismaClient.getUser(
 				account, category
@@ -234,7 +232,6 @@ class Utils {
 		} catch (err) {
 			console.log(err);
 		}
-		console.log(subgraphContracts);
 		const watchedBounties =this.combineBounties(subgraphContracts, githubIssues, prismaContracts, );
 		
 		return [watchedBounties];

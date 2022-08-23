@@ -124,6 +124,7 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
 								getMoreData={getMoreData}
 								complete={complete}
 								getNewData={getNewData}
+								types={types}
 							/>
 						)}
 			</div>
@@ -135,7 +136,7 @@ export const getServerSideProps = async (ctx) => {
 	let types =['0','1', '2'];
 	let category = null;
 	switch(ctx?.query?.type){
-	case 'atomic-contracts':
+	case 'prime':
 		types=['0'];
 		category='prime';
 		break;
@@ -143,7 +144,7 @@ export const getServerSideProps = async (ctx) => {
 		types=['2'];
 		category='contests';
 		break;
-	case 'repeatable':
+	case 'learn2earn':
 		category='learn2earn';
 
 		types=['1'];

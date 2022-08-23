@@ -29,7 +29,7 @@ const BountyMetadata = ({bounty, setInternalMenu, price, budget})=>{
 				<div className='text-xs font-semibold text-muted'>Type</div>
 				<div className='text-xs font-semibold text-primary leading-loose' >{type}</div>
 			</li>
-			<li className='border-b border-web-gray py-3'>
+			{price || (price===0 && bounty) ? <li className='border-b border-web-gray py-3'>
 				{(price || price === 0 )&&
 				<>
 					<div className='text-xs font-semibold text-muted'>TVL</div>
@@ -37,17 +37,21 @@ const BountyMetadata = ({bounty, setInternalMenu, price, budget})=>{
 						price
 					)}</button>
 				</>}
-			</li>
-			{(budget!==0)&& <li className='border-b border-web-gray py-3'>
+			</li>:
+				null
+			}
+			{budget ||(budget===0 && bounty) ? <li className='border-b border-web-gray py-3'>
 				{(budget || budget === 0 )&&
 				<>
-					<div className='text-xs font-semibold text-muted'>Budget</div>
+					<div className='text-xs font-semibold text-muted'>Current target budget</div>
 					<button className='text-xs font-semibold text-primary' onClick={()=>setInternalMenu('Fund')}>{ appState.utils.formatter.format(
 						budget
 					)}</button>
 				</>}
-			</li>}
-			{bounty.assignees.length >0 && <li className='border-b border-web-gray py-3'>
+			</li>:
+				null
+			}
+			{ bounty.assignees && bounty.assignees.length >0 && <li className='border-b border-web-gray py-3'>
 				<div className='text-xs font-semibold text-muted'>Assignees</div>
 					
 				{bounty.assignees.map((assignee, index)=>{return 						<div key={index} className='flex gap-2 py-3'><Image className='rounded-lg inline-block py-4' height={24} width={24} src={assignee.avatarUrl}/>
@@ -55,12 +59,13 @@ const BountyMetadata = ({bounty, setInternalMenu, price, budget})=>{
 							
 				</div>;})}
 			</li>}
+			{bounty.labels &&
 			<li className='border-b border-web-gray py-3'>
 				<div className='text-xs font-semibold text-muted'>Labels</div>
 				{bounty.labels.length>0 ? <LabelsList bounty={bounty} />:
 					<span className='text-sm'>No labels</span>
 				}
-			</li>
+			</li>}
 			<li className='border-b border-web-gray py-3 text sm'><Link href={`https://polygonscan.com/address/${bounty.bountyAddress}`}>
 				<div className='text-xs font-semibold  cursor-pointer text-muted'>Polygonscan</div>
 			</Link>	

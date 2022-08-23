@@ -113,10 +113,14 @@ const address = ({ address, mergedBounty, renderError }) => {
 	// Hooks
 	useEffect(async () => {
 		const handleResize = () => {
-			if (canvas.current?.width) {
-				canvas.current.width = window.innerWidth;
-				canvas.current.height = window.innerHeight;
+			try{
+				if (canvas.current?.width) {
+					canvas.current.width = window.innerWidth;
+					canvas.current.height = window.innerHeight;
+				}
 			}
+			catch(err){
+				console.log(err);}
 		};
 		window.addEventListener('resize', handleResize, false);
 		// Confetti
@@ -173,7 +177,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 					<RepoTitle bounty={bounty} />
 					<SubMenu colour="rust" items={[{ name: 'View', Svg: Telescope }, { name: 'Fund', Svg: Add }, { name: 'Refund', Svg: Subtract }, { name: 'Claim', Svg: Fire }, { name: (bounty.issuer && ethers.utils.getAddress(bounty?.issuer?.id) == account) ? 'Admin' : null, Svg: (bounty.issuer && ethers.utils.getAddress(bounty.issuer.id) == account) ? Telescope : null }]} internalMenu={internalMenu} updatePage={setInternalMenu} />
 
-					<BountyHeading price={TVL} budget={budget} bounty={bounty} />
+					<BountyHeading price={!justMinted ? TVL : 0} budget={budget} bounty={bounty} />
 					{internalMenu == 'View' && <BountyCardDetails justMinted={justMinted} price={TVL} budget={budget} bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
