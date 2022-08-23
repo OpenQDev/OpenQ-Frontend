@@ -171,6 +171,7 @@ query BountiesConnection($after: ID, $orderBy: String, $sortOrder: String, $orga
       type
 			category
 			watchingCount
+			createdAt
     }
 		cursor
   }

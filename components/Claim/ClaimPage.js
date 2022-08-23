@@ -36,7 +36,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	const [, dispatch] = useContext(StoreContext);
 
 
-	const claimable = (bounty.bountyType == 0 || bounty.bountyType == 1) ? bounty.bountyClosedTime : !bounty.bountyClosedTime;
+	const claimable = (bounty.bountyType == 0 || bounty.bountyType == 1) ? bounty.status == '1' : bounty.status == '0';
 
 	const updateModal = () => {
 		setShowClaimLoadingModal(false);
@@ -118,7 +118,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	if (claimable) {
 		return (
 			bounty.bountyType ?
-				bounty.bountyClosedTime ? <>
+				bounty.status == '1' ? <>
 					<BountyClosed bounty={bounty} showTweetLink={justClaimed} />
 				</>
 					:

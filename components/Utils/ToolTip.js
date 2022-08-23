@@ -14,7 +14,7 @@ const ToolTip = ({toolTipText, customOffsets, styles, mobileX, hideToolTip, chil
 		<div className={`relative group rounded-full h-min ${outerStyles}`} onMouseEnter={setToolTip}>
 			{children}
 			<div style={{left: x, top: y}} className={`flex justify-center absolute hidden z-10 group-hover:block justify-items-center w-full h-3 pt-0.5 ${mobileX === x ? 'w-72' : styles} min-w-[200px]`}>
-				<div className=' bg-dark-mode h-min border-web-gray border rounded-md p-2 z-20'>
+				<div className=' bg-dark-mode h-min border-web-gray border rounded-sm p-2 z-20'>
 					<div >{toolTipText}</div>
 					{link &&	<a className='underline' href={link}>{link}</a>}
 				</div>

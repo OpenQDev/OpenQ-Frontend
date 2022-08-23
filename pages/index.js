@@ -105,7 +105,7 @@ export default function Index({  fullBounties, batch, types, renderError, firstC
 				<>
 					<SubMenu styles={'justify-center'} items={[{ name: 'Organizations'}, { name: 'Issues'}]} internalMenu={internalMenu} updatePage={setInternalMenu} />
 
-					{internalMenu==='Organizations' ?	<OrganizationHomepage types={['0', '1', '2']} wizard="true" orgs={controlledOrgs} />:
+					{internalMenu==='Organizations' ?	<OrganizationHomepage types={['0', '1', '2', '3']} wizard="true" orgs={controlledOrgs} />:
 				
 						<BountyHomepage
 							types={types}
@@ -131,7 +131,7 @@ export const getServerSideProps = async () => {
 	const utils = new Utils();
 	githubRepository.instance.setGraphqlHeaders();
 	const batch = 1;
-	const types=['0','1','2'];
+	const types=['0','1','2', '3'];
 	
 	const [fullBounties, firstCursor] = await utils.fetchBounties({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance}, batch);
 	const [mergedOrgs] =await utils.fetchOrganizations({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance},null, types);
