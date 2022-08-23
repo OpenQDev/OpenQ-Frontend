@@ -43,7 +43,7 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 	};
 
 	let afterLink = {
-		[TRANSACTION_CONFIRMED]: `All funds from this bounty will appear in your address at ${address}.`,
+		[TRANSACTION_CONFIRMED]: `Funds from this payout will appear in your address at ${address}.`,
 		[TRANSACTION_SUBMITTED]: ''
 	};
 
