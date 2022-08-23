@@ -14,7 +14,8 @@ const BountyHomepage = ({
 	getNewData,
 	error,
 	wizard,
-	category
+	category,
+	types
 }) => { 
 	const title = category === 'learn2earn'? 'Repeatable Contracts': category=== 'contests'? 'Contests' : 'Atomic Contracts';
 	// Render
@@ -38,6 +39,7 @@ const BountyHomepage = ({
 						getNewData={getNewData}
 						wizard={wizard}
 						category={category}
+						types={types}
 					/>
 				)}
 			</div>

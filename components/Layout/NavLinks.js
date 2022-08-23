@@ -4,9 +4,9 @@ import { useRouter } from 'next/router';
 const NavLinks = ()=>{
 	const router = useRouter();
 	return ( <>
-		<Link href={'/atomic-contracts'}>
-			<a className={`nav-link $ ${router.asPath === '/atomic-contracts' && 'text-white'}`}>
-								Atomic contracts
+		<Link href={'/prime'}>
+			<a className={`nav-link $ ${router.asPath === '/prime' && 'text-white'}`}>
+								Prime
 			</a>
 		</Link>
 						
@@ -16,17 +16,10 @@ const NavLinks = ()=>{
 			</a>
 		</Link>
 
-		<Link href={'/repeatable'}>
-			<a className={`nav-link $ ${router.asPath === '/repeatable' && 'text-white'}`}>
+		<Link href={'/learn2earn'}>
+			<a className={`nav-link $ ${router.asPath === '/learn2earn' && 'text-white'}`}>
 
-							Repeatable
-			</a>
-		</Link>
-						
-		<Link href={'/organizations'}>
-			<a className={`nav-link $ ${router.asPath === '/organizations' && 'text-white'}`}>
-
-							Organizations
+							Learn2Earn
 			</a>
 		</Link>
 						
