@@ -4,8 +4,8 @@ import Image from 'next/image';
 import StoreContext from '../../store/Store/StoreContext';
 const ethers = require('ethers');
 import Skeleton from 'react-loading-skeleton';
- 
-const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, showOne, lean }) => {
+
+const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, showOne, lean, small }) => {
 	const [appState] = useContext(StoreContext);
 	const tokenBalancesArr = Array.isArray(tokenBalances) ? tokenBalances : [tokenBalances];
 
@@ -20,15 +20,15 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 				);
 				const tokenMetadata = appState.tokenClient.getToken(tokenAddress);
 				const tokenValueAddress = tokenMetadata.address.toLowerCase();
-				const symbol =  tokenMetadata.symbol ||`${tokenAddress.slice(0, 4)}...${tokenAddress.slice(36)}`;
+				const symbol = tokenMetadata.symbol || `${tokenAddress.slice(0, 4)}...${tokenAddress.slice(36)}`;
 				const { volume } = tokenBalance;
 
 				let bigNumberVolume = ethers.BigNumber.from(volume.toString());
-				let decimals = parseInt(tokenMetadata.decimals)||18;
+				let decimals = parseInt(tokenMetadata.decimals) || 18;
 				let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
 				let totalValue;
 				if (!singleCurrency) {
-					const unCutValue=tokenValues?.tokens[tokenValueAddress]||0;
+					const unCutValue = tokenValues?.tokens[tokenValueAddress] || 0;
 					totalValue = unCutValue.toFixed(2);
 				} else {
 					totalValue = (formattedVolume * tokenValues?.tokenPrices[tokenValueAddress]).toFixed(2);
@@ -42,38 +42,42 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 					totalValue
 				);
 				if (totalValue > highest) highest = totalValue;
-				const path = tokenMetadata.path||tokenMetadata.logoURI;
-				if(tokenValues){
+				const path = tokenMetadata.path || tokenMetadata.logoURI;
+				if (tokenValues) {
 					return { ...tokenBalance, tokenAddress, totalValue, usdValue, symbol, path, formattedVolume };
 				}
 			});
 			const filteredTokenBalances = totalValueBalances.filter((balance) => {
-				if (!showOne ) { return true; }
+				if (!showOne) { return true; }
 				// So we don't end up with a tie.
 				if (balance?.totalValue >= highest) {
 					highest >= 0.01;
 					return true;
 				}
 			});
-			if(filteredTokenBalances[0] && !didCancel){
-				updateDisplayedBalances(filteredTokenBalances);}
+			if (filteredTokenBalances[0] && !didCancel) {
+				updateDisplayedBalances(filteredTokenBalances);
+			}
 		}
-		return ()=>{didCancel = true;};
+		return () => { didCancel = true; };
 	}, [tokenBalances, tokenValues]);
 	return (
 		<div className="flex flex-col">
-			<div className="font-semibold">{header}</div>
-			<div className=" text-primary ">
-				{tokenBalances && !showOne && !lean ? tokenValues	?
-					`${appState.utils.formatter.format(tokenValues.total)}` :
-					tokenBalances.length === 0  
-						? `${appState.utils.formatter.format(0)}`:
-						<Skeleton/>
-					:null}
-			</div>
+			{!small && <>
+				<div className="font-semibold">{header}</div>
+				<div className=" text-primary ">
+					{tokenBalances && !showOne && !lean ? tokenValues ?
+						`${appState.utils.formatter.format(tokenValues.total)}` :
+						tokenBalances.length === 0
+							? `${appState.utils.formatter.format(0)}` :
+							<Skeleton />
+						: null}
+				</div>
+			</>
+			}
 			<div className="flex flex-row space-x-2 pt-1">
 				<div>
-					{tokenBalances && displayedBalances && (( displayedBalances.length > 0) || tokenBalances.length === 0)
+					{tokenBalances && displayedBalances && ((displayedBalances.length > 0) || tokenBalances.length === 0)
 						? displayedBalances.map((tokenBalance) => {
 							const { symbol, usdValue, formattedVolume, path } = tokenBalance;
 
@@ -84,15 +88,15 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
 								>
 									<div className="pt-1">
 										<Image
-											src={path ||'/crypto-logos/ERC20.svg' }
+											src={path || '/crypto-logos/ERC20.svg'}
 											className="rounded-full"
 											alt="n/a"
 											width="16"
 											height="16"
 										/>
 									</div>
-									<div className="text-base text-primary ">{usdValue}</div>{' '}
-									<div className="text-base text-primary ">
+									<div className={`${small? 'text-xs' : 'text-base'} text-primary`}>{usdValue}</div>{' '}
+									<div className={`${small? 'text-xs' : 'text-base'} text-primary`}>
 										{formattedVolume}{'\xa0'}
 										{symbol.toUpperCase()}
 									</div>
