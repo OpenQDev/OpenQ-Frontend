@@ -60,7 +60,7 @@ const BountyCardDetails = ({ bounty, setInternalMenu, justMinted, price, budget,
 				<ActionBubble  addresses={addresses} address={sender} price={tokenValues?.total} bounty={bounty} bodyHTML={bounty.bodyHTML}/>
 				
 			</div>
-			<BountyMetadata bounty={bounty} setInternalMenu={setInternalMenu} price={price} budget={budget} split={split} tokenValues={tokenValues}/>
+			<BountyMetadata bounty={bounty} setInternalMenu={setInternalMenu} price={price} budget={budget} split={split}/>
 		</div>
 
 	);

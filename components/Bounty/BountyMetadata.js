@@ -6,10 +6,12 @@ import LabelsList from './LabelsList';
 import CopyBountyAddress from './CopyBountyAddress';
 import StoreContext from '../../store/Store/StoreContext';
 import TokenBalances from '../TokenBalances/TokenBalances';
+import useGetTokenValues from '../../hooks/useGetTokenValues';
 
-const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split, tokenValues }) => {
+const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split}) => {
 	const [appState] = useContext(StoreContext);
 	const tokenBalances = { tokenAddress: bounty.payoutTokenAddress, volume: bounty.payoutTokenVolume };
+	const [tokenValues] = useGetTokenValues(tokenBalances);
 
 	let type = 'Atomic Contract';
 
