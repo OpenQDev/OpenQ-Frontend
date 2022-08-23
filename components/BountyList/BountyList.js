@@ -156,7 +156,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 		case 'newest': {
 			if (complete || firstLoad) {
 				return bounties.sort((a, b) => {
-					return b.bountyMintTime - a.bountyMintTime;
+					return b.createdAt - a.createdAt;
 				});
 			}
 			else {
@@ -169,7 +169,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 		case 'oldest': {
 			if (complete || firstLoad) {
 				return bounties.sort((a, b) => {
-					return a.bountyMintTime - b.bountyMintTime;
+					return a.createdAt - b.createdAt;
 				});
 			}
 			else {

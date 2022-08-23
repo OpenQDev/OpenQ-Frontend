@@ -101,21 +101,18 @@ class Utils {
 
 	combineBounties = (subgraphBounties, githubIssues, metadata) => {
 		const fullBounties = [];
-		subgraphBounties.forEach((bounty) => {
+		metadata.forEach(contract=>{
 			const relatedIssue = githubIssues.find(
-				(issue) => issue.id == bounty.bountyId
+				(issue) => issue.id == contract.bountyId
 			);
-
-
-			const relatedMetadata = metadata.find((metadataBounty) => {
-				return metadataBounty.address?.toLowerCase() === bounty.bountyAddress;
-			}) || {};
-			if (relatedIssue && relatedMetadata && !relatedMetadata.blacklisted) {
-				let mergedBounty = { ...relatedIssue, ...bounty, ...relatedMetadata };
+			const subgraphBounty = subgraphBounties.find((bounty) => {
+				return contract.address?.toLowerCase() === bounty.bountyAddress;
+			});
+			
+			if (relatedIssue && contract && !contract.blacklisted) {
+				let mergedBounty = { ...relatedIssue, ...subgraphBounty, ...contract };
 				fullBounties.push(mergedBounty);
 			}
-
-
 		});
 		return fullBounties;
 	};
