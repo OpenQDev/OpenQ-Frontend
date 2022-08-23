@@ -38,7 +38,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 	const [bountyAddress, setBountyAddress] = useState();
 	const [isLoading, setIsLoading] = useState();
 	const [error, setError] = useState();
-	const [claimed, setClaimed] = useState();
+	const [closed, setClosed] = useState();
 	const [enableMint, setEnableMint] = useState();
 	const isValidUrl = appState.utils.issurUrlRegex(url);
 	const [invoice, setInvoice] = useState(false);
@@ -92,7 +92,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 						let bounty = await appState.openQSubgraphClient.getBountyByGithubId(
 							issueData.id,
 						);
-						setClaimed(bounty.status === 'CLOSED');
+						setClosed(bounty.status == '1');
 						if (bounty) {
 							setBountyAddress(bounty.bountyAddress);
 						}
@@ -262,7 +262,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 											This issue is already closed on GitHub
 										</div>}
 									{isValidUrl && bountyAddress && issue &&
-										<BountyAlreadyMintedMessage claimed={claimed} id={issue.id} bountyAddress={bountyAddress} />}
+										<BountyAlreadyMintedMessage closed={closed} id={issue.id} bountyAddress={bountyAddress} />}
 								</div>
 
 

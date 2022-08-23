@@ -41,7 +41,7 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
 	const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
 	const [modal, setModal] = useState();
 	const [error, setError] = useState('');
-	const [showButton, setShowButton] = useState(ethers.utils.getAddress(bounty.issuer.id) == account && !bounty.bountyClosedTime);
+	const [showButton, setShowButton] = useState(ethers.utils.getAddress(bounty.issuer.id) == account && bounty.status == '0');
 
 	// funding goal volume and token
 	const [volume, setVolume] = useState('');
