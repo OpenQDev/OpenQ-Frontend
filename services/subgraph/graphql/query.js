@@ -13,6 +13,7 @@ query GetAllIssues($skip: Int! $sortOrder: String!, $quantity: Int! $types: [Str
 		fundingGoalVolume
 		payoutTokenVolume
     payoutTokenAddress
+		payoutSchedule
 		closerData
 		bountyType
 		claimedTransactionHash
@@ -74,6 +75,7 @@ query GetBounty($id: ID!) {
 		fundingGoalTokenAddress
 		payoutTokenVolume
     payoutTokenAddress
+		payoutSchedule
      claims(orderBy: "claimTime", orderDirection: "desc"){
 		 	claimTime 
 		 	claimantAsset 
@@ -168,6 +170,7 @@ query GetBountiesByContractAddresses($contractAddresses: [ID]!, $types: [String]
 		fundingGoalVolume
 		payoutTokenVolume
     payoutTokenAddress
+		payoutSchedule
 		closerData
 		bountyType
 		claimedTransactionHash
