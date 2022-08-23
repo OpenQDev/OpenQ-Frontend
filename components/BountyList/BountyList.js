@@ -17,9 +17,7 @@ import { useRouter } from 'next/router';
 
 const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData, getNewData, addCarousel, contractToggle, wizard, types }) => {
 	// Hooks
-	console.log(bounties.length);
 	const { account } = useWeb3();
-	/* const [l2eOnly, setL2eOnly] = useState(false); */
 	const router = useRouter();
 	const [searchText, updateSearchText] = useState(`order:newest ${router.query.type && router.route === '/organization/[organization]' ? `type:"${router.query.type}"`: ''}`);
 	const [tagArr, updateTagArr] = useState([]);
@@ -32,7 +30,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 	const orderRegex = /order:(\w+)/gi;
 	let observer = useRef();
 	// Utilities
-	console.log('searched',searchedBounties.length);
+	
 	const fetchPage = () => {
 		const sortOrder = searchText.match(orderRegex)?.[0]?.slice(6) || '';
 		switch (sortOrder) {
@@ -137,7 +135,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 			}
 
 		});
-		console.log(displayBounties.length);
+		
 		if (displayBounties.length === 0 && !complete) {
 			fetchPage();
 			return [];
