@@ -143,7 +143,7 @@ class Utils {
 				return {status: 'Ready for Work', colour: 'bg-green', fill: 'fill-green'};
 			}
 		}
-		else if (bounty.bountyClosedTime){
+		else if (bounty.status == '1'){
 			return{status: 'Closed', colour: 'bg-closed', fill: 'fill-closed'};
 		}
 		else{return {status: 'Open', colour: 'bg-green', fill: 'fill-green'}; }
