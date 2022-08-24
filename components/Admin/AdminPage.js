@@ -352,14 +352,13 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split, setInternalMen
 							{(split || split === 0) &&
 					<>
 						<div className='text-xs font-semibold text-muted'>Current Reward Split</div>
-						<button className='text-xs font-semibold text-primary' onClick={() => setInternalMenu('Claim')}>
-							<TokenBalances
-								lean={true}
-								tokenBalances={payoutBalances}
-								tokenValues={payoutValues}
-								singleCurrency={true}
-								small={true}
-							/></button>
+						<TokenBalances
+							lean={true}
+							tokenBalances={payoutBalances}
+							tokenValues={payoutValues}
+							singleCurrency={true}
+							small={true}
+						/>
 					</>
 							}</li>
 						:
