@@ -232,41 +232,6 @@ class GithubRepository {
 		return promise;
 	}
 
-	async fetchOrgsOrUsersByIds(ids) {
-		const promise = new Promise(async (resolve, reject) => {
-			try {
-				const orgString = 'MDEyO';
-				const userString = 'MDQ6V';
-				const orgIds = [];
-				const userIds = [];
-				const unknownIds = [];
-				ids.forEach(id => {
-					if (id.slice(0, 5) === orgString) {
-						orgIds.push(id);
-					}
-					else if (id.slice(0, 5) === userString) {
-						userIds.push(id);
-					}
-					else unknownIds.push(id);
-				});
-				const organizations = await this.fetchOrganizationsByIds(orgIds);
-				const users = await this.fetchUsersByIds(userIds);
-				const unknown = [];
-				for (const id of unknownIds) {
-					const data = await this.fetchOrgOrUserById(id);
-					unknown.push(data);
-				}
-				resolve([...users, ...organizations, ...unknown]);
-			}
-			catch (e) {
-				console.log(e);
-				reject(e);
-			}
-		});
-
-		return promise;
-	}
-
 	async fetchUserById(userId) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {

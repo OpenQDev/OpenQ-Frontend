@@ -105,10 +105,8 @@ const OrganizationCard = ({ organization }) => {
 							<Skeleton width={'64px'} height={'16px'} baseColor={'#333'} />
 						)}
 					</div>
-					<div className="text-center pt-2 text-gray-400">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the  standard dummy text
-            ever since the 1500s.
+					<div className="text-center pt-2 text-gray-400 h-20">
+						{organization.description || organization.bio}
 					</div>
 				</div>
 			</Link>
