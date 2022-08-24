@@ -142,25 +142,25 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 							}
 							</div>
 							<div className='flex gap-4 content-center items-center justify-between sm:w-60'>
-								{bounty.bountyType === '0' ?
-									<span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
-										<div className='whitespace-nowrap'>Single</div>
-										<PersonIcon />
-									</span> :
-									bounty.bountyType === '1' ?
-
+							{bounty.bountyType === '0' ?
 										<span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
-											<div className='whitespace-nowrap'>Multi</div>
-											<PersonAddIcon />
+											<PersonIcon />
+											<div className='whitespace-nowrap'>Single</div>
 										</span> :
+										bounty.bountyType === '1' ?
 
-										(bounty.bountyType === '2' || bounty.bountyType === '3') &&
-										<span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
-											<div className='whitespace-nowrap'>Weighted</div>
-											<PeopleIcon />
-										</span>
+											<span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
+												<PersonAddIcon />
+												<div className='whitespace-nowrap'>Multi</div>
+											</span> :
 
-								}
+											(bounty.bountyType === '2' || bounty.bountyType === '3') &&
+											<span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
+												<PeopleIcon />
+												<div className='whitespace-nowrap'>Weighted</div>
+											</span>
+
+									}
 
 								{price > budget ? <div className="flex flex-row space-x-1 items-center">
 									<div className="pr-2 pt-1">
