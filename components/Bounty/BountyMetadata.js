@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -10,9 +10,13 @@ import useGetTokenValues from '../../hooks/useGetTokenValues';
 
 const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split}) => {
 	const [appState] = useContext(StoreContext);
-	const tokenBalances = bounty.payoutTokenVolume ? { tokenAddress: bounty.payoutTokenAddress, volume: bounty.payoutTokenVolume } : null;
-	const [tokenValues] = useGetTokenValues(tokenBalances);
-
+	const createPayout = (bounty)=>{
+		return  bounty.payoutTokenVolume ? { tokenAddress: bounty.payoutTokenAddress, volume: bounty.payoutTokenVolume } : null;
+	};
+	const payoutBalances = useMemo(() => createPayout(bounty), [
+		bounty
+	]);
+	const [payoutValues] = useGetTokenValues(payoutBalances);
 	let type = 'Atomic Contract';
 
 	switch (bounty.bountyType) {
@@ -34,21 +38,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split}) => {
 				<div className='text-xs font-semibold text-muted'>Type</div>
 				<div className='text-xs font-semibold text-primary leading-loose' >{type}</div>
 			</li>
-			{(split || split === 0) &&
-				<li className='border-b border-web-gray py-3'>
-					<>
-						<div className='text-xs font-semibold text-muted'>Payout Amount</div>
-						<button className='text-xs font-semibold text-primary' onClick={() => setInternalMenu('Claim')}>
-							<TokenBalances
-								lean={true}
-								tokenBalances={tokenBalances}
-								tokenValues={tokenValues}
-								singleCurrency={true}
-								small={true}
-							/></button>
-					</>
-				</li>
-			}
+			
 			{price || (price === 0 && bounty) ? <li className='border-b border-web-gray py-3'>
 				{(price || price === 0) &&
 					<>
@@ -60,15 +50,10 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split}) => {
 			</li> :
 				null
 			}
-			{(budget !== 0) && <li className='border-b border-web-gray py-3'>
-				{(budget || budget === 0) &&
-					<>
-						<div className='text-xs font-semibold text-muted'>Current target budget</div>
-						<button className='text-xs font-semibold text-primary' onClick={() => setInternalMenu('Fund')}>{appState.utils.formatter.format(
-							budget
-						)}</button>
-					</>}
-			</li>}
+			<li className='border-b border-web-gray py-3'>
+				<div className='text-xs font-semibold text-muted'>Current Target Budget</div>
+				<div className='text-xs font-semibold text-primary pt-2' >{appState.utils.formatter.format(budget) || '$0.00'}</div>
+			</li>
 			{bounty.assignees.length > 0 && <li className='border-b border-web-gray py-3'>
 				<div className='text-xs font-semibold text-muted'>Assignees</div>
 
@@ -79,6 +64,47 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split}) => {
 					</div>;
 				})}
 			</li>}
+			{bounty.bountyType == 1 ?
+				<li className='border-b border-web-gray py-3'>
+					
+					{(split || split === 0) &&
+					<>
+						<div className='text-xs font-semibold text-muted'>Current Reward Split</div>
+						<button className='text-xs font-semibold text-primary' onClick={() => setInternalMenu('Claim')}>
+							<TokenBalances
+								lean={true}
+								tokenBalances={payoutBalances}
+								tokenValues={payoutValues}
+								singleCurrency={true}
+								small={true}
+							/></button>
+					</>
+					}
+				</li>
+				:
+				bounty.bountyType == 2 ?
+					<li className='border-b border-web-gray py-3'>
+						<div className='text-xs font-semibold text-muted'>Current Payout Schedule</div>
+						<div className='flex items-center gap-4 pt-2 text-primary'>
+							<div className='text-xs font-semibold leading-loose'>Number of tiers: </div>
+							<div className='text-xs font-semibold'>{bounty.payoutSchedule?.length}</div>
+						</div>
+						<div className='flex flex-col max-h-80 w-full overflow-y-auto overflow-x-hidden'>
+							{bounty.payoutSchedule?.map((t, index) => {
+								return (
+									<div key={index} className='flex items-center gap-4 text-primary'>
+										<div className='text-xs font-semibold leading-loose'>{`${appState.utils.handleSuffix(index + 1)} winner:`}</div>
+										<div className='text-xs font-semibold' >{t} %</div>
+									</div>
+								);
+							})
+
+							}
+
+						</div>
+					</li>
+					: null
+			}
 			{bounty.labels &&
 				<li className='border-b border-web-gray py-3'>
 					<div className='text-xs font-semibold text-muted'>Labels</div>

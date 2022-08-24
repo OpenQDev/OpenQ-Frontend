@@ -1,5 +1,5 @@
 // Third party Libraries
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useMemo } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
@@ -8,9 +8,19 @@ import AdminModal from './AdminModal.js';
 import ToolTipNew from '../Utils/ToolTipNew';
 import TierInput from '../MintBounty/TierInput';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
+import TokenBalances from '../TokenBalances/TokenBalances';
+import useGetTokenValues from '../../hooks/useGetTokenValues';
 
-const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
+const AdminPage = ({ bounty, refreshBounty, price, budget, split, setInternalMenu }) => {
 
+
+	const createPayout = (bounty)=>{
+		return  bounty.payoutTokenVolume ? { tokenAddress: bounty.payoutTokenAddress, volume: bounty.payoutTokenVolume } : null;
+	};
+	const payoutBalances = useMemo(() => createPayout(bounty), [
+		bounty
+	]);
+	const [payoutValues] = useGetTokenValues(payoutBalances);
 	let type = 'Atomic Contract';
 
 	switch (bounty.bountyType) {
@@ -94,12 +104,6 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
 		if (parseInt(e.target.value) >= 0) setTierVolume({ ...tierVolume, [e.target.name]: parseInt(e.target.value) });
 		if (parseInt(e.target.value) === '' || !Number(e.target.value) || parseInt(e.target.value) > 100)
 			setTierVolume({ ...tierVolume, [e.target.name]: '' });
-	}
-
-	function handleSuffix(t) {
-		const s = ['th', 'st', 'nd', 'rd'];
-		const v = t % 100;
-		return (t + (s[(v - 20) % 10] || s[v] || s[0]));
 	}
 
 	// useEffect
@@ -194,7 +198,7 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
 
 	return (<>
 		{showButton &&
-			<div className='flex w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
+			<div className='flex justify-between  w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
 				<div className="flex flex-1 flex-col space-y-8 sm:px-12 px-4 pt-4 pb-8 w-full max-w-[800px] justify-center">
 					<div className="flex flex-col space-y-2 items-center w-full md:border rounded-sm border-gray-700 text-primary pb-8">
 						<h1 className="flex w-full text-3xl justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm">
@@ -345,9 +349,19 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
 					</li>
 					{bounty.bountyType == 1 ?
 						<li className='border-b border-web-gray py-3'>
-							<div className='text-xs font-semibold text-muted'>Current Reward Split</div>
-							<div className='text-xs font-semibold text-primary pt-2' >{appState.utils.formatter.format(split) || '$0.00'}</div>
-						</li>
+							{(split || split === 0) &&
+					<>
+						<div className='text-xs font-semibold text-muted'>Current Reward Split</div>
+						<button className='text-xs font-semibold text-primary' onClick={() => setInternalMenu('Claim')}>
+							<TokenBalances
+								lean={true}
+								tokenBalances={payoutBalances}
+								tokenValues={payoutValues}
+								singleCurrency={true}
+								small={true}
+							/></button>
+					</>
+							}</li>
 						:
 						bounty.bountyType == 2 ?
 							<li className='border-b border-web-gray py-3'>
@@ -360,7 +374,7 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
 									{bounty.payoutSchedule?.map((t, index) => {
 										return (
 											<div key={index} className='flex items-center gap-4 text-primary'>
-												<div className='text-xs font-semibold leading-loose'>{`${handleSuffix(index + 1)} winner:`}</div>
+												<div className='text-xs font-semibold leading-loose'>{`${appState.utils.handleSuffix(index + 1)} winner:`}</div>
 												<div className='text-xs font-semibold' >{t} %</div>
 											</div>
 										);
