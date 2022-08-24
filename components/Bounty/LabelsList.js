@@ -7,11 +7,13 @@ import StoreContext from '../../store/Store/StoreContext';
 
 const LabelsList = ({ bounty, isLimited }) => {
 	const [appState] = useContext(StoreContext);
+	const length = bounty.labels.length;
 
 	const maxLabel = 3;
 
 	return (
 		<ul className='flex flex-wrap w-full flex-row gap-1 py-px'>
+			{length < 1 ? <div className="pt-5"></div> : null}
 			{!isLimited ? bounty.labels && bounty.labels.map((label, index) => {
 				return (
 					<li
