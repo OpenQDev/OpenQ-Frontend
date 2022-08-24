@@ -8,7 +8,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import TokenBalances from '../TokenBalances/TokenBalances';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 
-const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split}) => {
+const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
 	const [appState] = useContext(StoreContext);
 	const tokenBalances = bounty.payoutTokenVolume ? { tokenAddress: bounty.payoutTokenAddress, volume: bounty.payoutTokenVolume } : null;
 	const [tokenValues] = useGetTokenValues(tokenBalances);
@@ -16,17 +16,20 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split}) => {
 	let type = 'Atomic Contract';
 
 	switch (bounty.bountyType) {
-	case '1':
-		type = 'Repeating Contract';
-		break;
-	case '2':
-		type = 'Contest Contract';
-		break;
-	case '3':
-		type = 'Atomic Contract';
-		break;
-
+		case '0':
+			type = 'Atomic Contract';
+			break;
+		case '1':
+			type = 'Repeating Contract';
+			break;
+		case '2':
+			type = 'Contest Contract';
+			break;
+		case '3':
+			type = 'Contest Contract';
+			break;
 	}
+
 	return (
 
 		<ul className='md:max-w-[300px] w-full md:pl-4'>
@@ -89,10 +92,10 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split}) => {
 			<li className='border-b border-web-gray py-3 text sm'><Link href={`https://polygonscan.com/address/${bounty.bountyAddress}`}>
 				<div className='text-xs font-semibold  cursor-pointer text-muted'>Polygonscan</div>
 			</Link>
-			{bounty.bountyAddress &&
+				{bounty.bountyAddress &&
 
 					<CopyBountyAddress styles="text-sm pt-2" address={bounty.bountyAddress} />
-			}
+				}
 			</li>
 			<li className='border-b border-web-gray py-3'>
 				{bounty?.prs?.some(pr => pr.source['__typename'] === 'PullRequest' && pr.source.url) > 0 ? <ul>

@@ -14,15 +14,18 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
 	let type = 'Atomic Contract';
 
 	switch (bounty.bountyType) {
-	case '1':
-		type = 'Repeating Contract';
-		break;
-	case '2':
-		type = 'Contest Contract';
-		break;
-	case '3':
-		type = 'Atomic Contract';
-		break;
+		case '0':
+			type = 'Atomic Contract';
+			break;
+		case '1':
+			type = 'Repeating Contract';
+			break;
+		case '2':
+			type = 'Contest Contract';
+			break;
+		case '3':
+			type = 'Contest Contract';
+			break;
 	}
 
 	// Context
