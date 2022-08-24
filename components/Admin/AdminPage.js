@@ -11,7 +11,7 @@ import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import TokenBalances from '../TokenBalances/TokenBalances';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 
-const AdminPage = ({ bounty, refreshBounty, price, budget, split, setInternalMenu }) => {
+const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
 
 
 	const createPayout = (bounty)=>{
@@ -24,6 +24,9 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split, setInternalMen
 	let type = 'Atomic Contract';
 
 	switch (bounty.bountyType) {
+	case '0':
+		type = 'Atomic Contract';
+		break;
 	case '1':
 		type = 'Repeating Contract';
 		break;
@@ -31,7 +34,7 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split, setInternalMen
 		type = 'Contest Contract';
 		break;
 	case '3':
-		type = 'Atomic Contract';
+		type = 'Contest Contract';
 		break;
 	}
 

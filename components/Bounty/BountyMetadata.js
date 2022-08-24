@@ -8,7 +8,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import TokenBalances from '../TokenBalances/TokenBalances';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 
-const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split}) => {
+const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
 	const [appState] = useContext(StoreContext);
 	const createPayout = (bounty)=>{
 		return  bounty.payoutTokenVolume ? { tokenAddress: bounty.payoutTokenAddress, volume: bounty.payoutTokenVolume } : null;
@@ -20,6 +20,9 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split}) => {
 	let type = 'Atomic Contract';
 
 	switch (bounty.bountyType) {
+	case '0':
+		type = 'Atomic Contract';
+		break;
 	case '1':
 		type = 'Repeating Contract';
 		break;
@@ -27,10 +30,10 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split}) => {
 		type = 'Contest Contract';
 		break;
 	case '3':
-		type = 'Atomic Contract';
+		type = 'Contest Contract';
 		break;
-
 	}
+
 	return (
 
 		<ul className='md:max-w-[300px] w-full md:pl-4'>
@@ -107,7 +110,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split}) => {
 			}
 			{bounty.labels &&
 				<li className='border-b border-web-gray py-3'>
-					<div className='text-xs font-semibold text-muted'>Labels</div>
+					<div className='text-xs font-semibold text-muted pb-2'>Labels</div>
 					{bounty.labels.length > 0 ? <LabelsList bounty={bounty} /> :
 						<span className='text-sm'>No labels</span>
 					}

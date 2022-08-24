@@ -195,7 +195,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 	// Render
 	return (<>
-		{console.log(bounty)}
 		{closed ?
 			<>
 				<BountyClosed bounty={bounty} />

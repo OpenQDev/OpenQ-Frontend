@@ -62,6 +62,8 @@ query GetOrgs($ids: [ID!]!) {
       login
       id
       url
+			description
+			descriptionHTML
     }
     ...on User {
       name
@@ -91,6 +93,8 @@ query GetOrgs($orgIds: [ID!]!) {
 			bio
       id
       avatarUrl
+			description
+			descriptionHTML
     }
   }
 }
@@ -179,7 +183,8 @@ query ($issueIds: [ID!]!) {
           url
           avatarUrl
 					 login
-				
+					 descriptionHTML
+					 description
         }
       }
     }

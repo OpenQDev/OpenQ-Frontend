@@ -10,7 +10,7 @@ const BountyModalHeading = ({bounty, closeModal, unWatchable, watchingState})=>{
 	const { safe } = useWeb3();
 
 	return (
-		<div className="flex flex-col sm:flex-row justify-between px-8 mb-2">
+		<div className="flex flex-col pr-10 sm:flex-row justify-between px-8 mb-2 p-3">
 			<div className="flex basis-1/4 flex-col mb-2">
 				<span>
 					<Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/organization/${bounty.owner}`}>
@@ -26,7 +26,7 @@ const BountyModalHeading = ({bounty, closeModal, unWatchable, watchingState})=>{
 					<Link href={bounty.url} className='text-muted text font-light'><a target="_blank" className='text-link-colour hover:underline'>#{bounty.number}</a></Link>
 				</h2>
 			</div>
-			<div className='min-w-[40px] basis-72  flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-2'>
+			<div className='min-w-[40px] basis-72 flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-2'>
 				<Link href={`/bounty/${bounty.id}/${bounty.bountyAddress}`} >
 					<a onClick={closeModal} target={safe ? '_self' : '_blank'} rel="noopener noreferrer" >
 						<div className='flex gap-3 items-center text-xs text-primary bg-inactive-gray leading-5 h-7 whitespace-nowrap px-3 py-[3px] w-fit hover:bg-active-gray rounded-sm border hover:border-border-active border-border-gray'><StackIcon size={24} />

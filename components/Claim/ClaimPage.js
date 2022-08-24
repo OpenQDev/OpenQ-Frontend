@@ -179,7 +179,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 											redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyId}/${bounty.bountyAddress}`}
 										/>
 									</div>
-									{showClaimLoadingModal && <ClaimLoadingModal confirmMethod={claimBounty} url={url} ensName={ensName} account={account} error={error} claimState={claimState} login={'FlacoJones'} address={account} transactionHash={transactionHash} setShowClaimLoadingModal={updateModal} />}
+									{showClaimLoadingModal && <ClaimLoadingModal confirmMethod={claimBounty} url={url} ensName={ensName} account={account} error={error} claimState={claimState} address={account} transactionHash={transactionHash} setShowClaimLoadingModal={updateModal} />}
 								</div>
 							</div>
 							<canvas className="absolute inset-0 pointer-events-none" ref={canvas}></canvas>

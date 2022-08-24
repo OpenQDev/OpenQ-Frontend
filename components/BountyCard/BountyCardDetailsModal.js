@@ -63,7 +63,7 @@ const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues, showModal, u
 						</ul>}
 					</div>
 				</div>
-				<div className=' w-full px-8 gap-4 flex flex-col sm:flex-row'>
+				<div className='w-full px-8 gap-4 -mt-4 flex flex-col sm:flex-row'>
 					<BountyStatus  bounty={bounty} />
 					<div className='w-full'>
 						<div className="font-semibold text-primary text-base my-3">Smart Contract</div>
