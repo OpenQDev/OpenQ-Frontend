@@ -61,10 +61,10 @@ const OrganizationCard = ({ organization }) => {
 			<Link href={organization ? router?.query.type ? `/organization/${organization.login}${`?type=${router.query.type}`}` : `/organization/${organization.login}` : '/'}>
 				<div
 					className={
-						'flex flex-col p-6 items-center cursor-pointer text-[0.8rem] tracking-wider placeholder-input-gray outline-none rounded-sm border border-border-gray bg-menu-bg w-full'
+						'flex flex-col p-6 items-center cursor-pointer text-[0.8rem] tracking-wider placeholder-input-gray outline-none rounded-sm border border-border-gray bg-menu-bg w-full h-72 mb-1'
 					}
 				>
-					<div className="flex justify-end w-full items-center -mt-2 relative">
+					<div className="flex justify-end w-full items-center -mt-2 relative pt-2">
 						{starred &&
 							<button onClick={handleStar} disabled={starredDisabled}>
 								<svg xmlns="http://www.w3.org/2000/svg" className='fill-muted' viewBox="0 0 24 24" width="24" height="24">
@@ -73,25 +73,27 @@ const OrganizationCard = ({ organization }) => {
 								</svg>
 							</button>}
 					</div>
-					<div className="w-16 h-16 relative">
-						{organization?.avatarUrl ? (
-							<Image
-								className="rounded-full"
-								src={organization.avatarUrl}
-								placeholder={'blur'}
-								blurDataURL={'/diverse/placeholder-px.png'}
-								alt="n/a"
-								layout="fill"
-								priority={true}
-							/>
-						) : (
-							<Skeleton
-								baseColor="#333"
-								borderRadius={'1rem'}
-								height={'64px'}
-								width="64px"
-							/>
-						)}
+					<div className="pt-2">
+						<div className="w-16 h-16 relative">
+							{organization?.avatarUrl ? (
+								<Image
+									className="rounded-full"
+									src={organization.avatarUrl}
+									placeholder={'blur'}
+									blurDataURL={'/diverse/placeholder-px.png'}
+									alt="n/a"
+									layout="fill"
+									priority={true}
+								/>
+							) : (
+								<Skeleton
+									baseColor="#333"
+									borderRadius={'1rem'}
+									height={'64px'}
+									width="64px"
+								/>
+							)}
+						</div>
 					</div>
 					<div className="pt-5 text-center w-full font-medium text-xl ">
 						{orgName || (
