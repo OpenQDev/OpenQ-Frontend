@@ -190,7 +190,7 @@ class Utils {
 				orderBy,
 				sortOrder,
 				category, organization);
-			prismaContracts = prismaContractsResult.nodes.filter(contract=>!contract.blacklisted);
+			prismaContracts = prismaContractsResult.nodes.filter(contract=>!contract.blacklisted&&!contract.organization.blacklisted);
 
 			newCursor = prismaContractsResult.cursor;
 

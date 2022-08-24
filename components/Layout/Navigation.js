@@ -69,14 +69,13 @@ const Navigation = () => {
 				});
 				return { ...organization, ...prismaOrg };
 			}).filter(org => !org.blacklisted);
-			const fullBounties = appState.utils.combineBounties(subgraphBounties, githubIssues, prismaContracts).filter(bounty => !bounty.blacklisted);
+			const fullBounties = appState.utils.combineBounties(subgraphBounties, githubIssues, prismaContracts).filter(bounty => !bounty.blacklisted&&!bounty.organization.blacklisted);
 			const searchable = [...fullBounties, ...fullOrgs].map(searchableItem => {
 				const url = searchableItem.title ? `${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${searchableItem.bountyId}/${searchableItem.bountyAddress}` : `${process.env.NEXT_PUBLIC_BASE_URL}/organization/${searchableItem.login}`;
 				const name = searchableItem.name || searchableItem.title || searchableItem.login;
 
 				return { name: name.toLowerCase(), url, isIssue: searchableItem.title };
 			});
-
 			setSearchable(searchable);
 		}
 		catch (err) {
