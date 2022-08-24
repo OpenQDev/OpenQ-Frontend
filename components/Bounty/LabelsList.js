@@ -39,7 +39,7 @@ const LabelsList = ({ bounty, isLimited }) => {
 						</li>
 					</>
 			: 
-			bounty.labels && bounty.labels.slice(0,3).map((label, index) => {
+			bounty.labels && bounty.labels.slice(0,2).map((label, index) => {
 				return (
 					<li
 						key={index}
