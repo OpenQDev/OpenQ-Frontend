@@ -51,10 +51,9 @@ const ActionBubble = ({ addresses, bounty, action,})=>{
 	if(action?.claimTime){
 		const claimant = claimantEnsName ||shortenAddress(action.claimant.id);
 		address = action.claimant.id;
-		if(bounty.bountyType==='3'){
+		if(bounty.bountyType==='0'){
 			title = `${claimant} claimed this contract on ${appState.utils.formatUnixDate(action.claimTime)}.`;
-		}
-		if(bounty.bountyType==='1'){
+		} else {
 			title = `${claimant} made a claim on this contract on ${appState.utils.formatUnixDate(action.claimTime)}.`;
 		}
 	}
