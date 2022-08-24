@@ -154,7 +154,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 											<PersonAddIcon />
 										</span> :
 
-										bounty.bountyType === '2' &&
+										(bounty.bountyType === '2' || bounty.bountyType === '3') &&
 										<span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
 											<div className='whitespace-nowrap'>Weighted</div>
 											<PeopleIcon />
