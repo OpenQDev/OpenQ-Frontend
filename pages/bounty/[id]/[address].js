@@ -26,6 +26,7 @@ import Add from '../../../components/svg/add';
 import Subtract from '../../../components/svg/subtract';
 import Fire from '../../../components/svg/fire';
 import Telescope from '../../../components/svg/telescope';
+import Gear from '../../../components/svg/gear';
 
 const address = ({ address, mergedBounty, renderError }) => {
 	useAuth();
@@ -183,7 +184,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 			<>
 				<div className="flex flex-col justify-center items-center pt-4">
 					<RepoTitle bounty={bounty} />
-					<SubMenu colour="rust" items={[{ name: 'View', Svg: Telescope }, { name: 'Fund', Svg: Add }, { name: 'Refund', Svg: Subtract }, { name: 'Claim', Svg: Fire }, { name: (bounty.issuer && ethers.utils.getAddress(bounty?.issuer?.id) == account) ? 'Admin' : null, Svg: (bounty.issuer && ethers.utils.getAddress(bounty.issuer.id) == account) ? Telescope : null }]} internalMenu={internalMenu} updatePage={setInternalMenu} />
+					<SubMenu colour="rust" items={[{ name: 'View', Svg: Telescope }, { name: 'Fund', Svg: Add }, { name: 'Refund', Svg: Subtract }, { name: 'Claim', Svg: Fire }, { name: (bounty.issuer && ethers.utils.getAddress(bounty?.issuer?.id) == account) ? 'Admin' : null, Svg: (bounty.issuer && ethers.utils.getAddress(bounty.issuer.id) == account) ? Gear : null }]} internalMenu={internalMenu} updatePage={setInternalMenu} />
 
 					<BountyHeading price={!justMinted ? TVL : 0} budget={budget} bounty={bounty} />
 					{internalMenu == 'View' && <BountyCardDetails justMinted={justMinted} price={TVL} budget={budget} split={split} bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}
