@@ -4,6 +4,13 @@ import { useRouter } from 'next/router';
 const NavLinks = ()=>{
 	const router = useRouter();
 	return ( <>
+	
+		<Link href={'/'}>
+			<a className={`nav-link $ ${router.asPath === '/' && 'text-white'}`}>
+							Explore
+			</a>
+		</Link>
+
 		<Link href={'/prime'}>
 			<a className={`nav-link $ ${router.asPath === '/prime' && 'text-white'}`}>
 								Prime
@@ -23,11 +30,6 @@ const NavLinks = ()=>{
 			</a>
 		</Link>
 						
-		<Link href={'/'}>
-			<a className={`nav-link $ ${router.asPath === '/' && 'text-white'}`}>
-							Explore
-			</a>
-		</Link>
 	</>
 	);
 };
