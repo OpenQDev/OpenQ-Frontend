@@ -36,7 +36,6 @@ const ActionBubble = ({ addresses, bounty, action,})=>{
 	let address = bounty.issuer?.id;
 	if(!action && !minter){
 		if(justMinted){
-		
 			title=`${account} minted this contract on ${appState.utils.formatUnixDate(Date.now()/1000)}.`;
 		}
 		else{
@@ -61,7 +60,7 @@ const ActionBubble = ({ addresses, bounty, action,})=>{
 	
 	if(action?.receiveTime||action?.refundTime){
 		const funder = senderEnsName ||shortenAddress(bounty.issuer.id);
-		address = action.sender?.id;
+		address = action.sender?.id || bounty.issuer.id;
 		const { volume } = action;
 		const tokenMetadata = appState.tokenClient.getToken(action.tokenAddress);
 		let bigNumberVolume = ethers.BigNumber.from(volume.toString());
