@@ -152,7 +152,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 											{bounty.bountyType === '2' || bounty.bountyType === '3' 
 												? 
 												bounty.payoutSchedule.map((elem, index)=>{
-													return 	<CopyAddressToClipboard key={index} noClip={true} data={`Closes #${bounty.number} OpenQ-Tier-${index}-Winner`} />;
+													return 	<CopyAddressToClipboard key={index} noClip={true} data={`Closes #${bounty.number} OpenQ-Tier-${index+1}-Winner`} />;
 										
 												})
 												:										
