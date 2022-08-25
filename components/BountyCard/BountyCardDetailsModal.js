@@ -63,7 +63,7 @@ const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues, showModal, u
 						</ul>}
 					</div>
 				</div>
-				<div className=' w-full px-8 gap-4 flex flex-col sm:flex-row'>
+				<div className='w-full px-8 gap-4 -mt-4 flex flex-col sm:flex-row'>
 					<BountyStatus  bounty={bounty} />
 					<div className='w-full'>
 						<div className="font-semibold text-primary text-base my-3">Smart Contract</div>
@@ -79,7 +79,7 @@ const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues, showModal, u
 						<LabelsList bounty={bounty} /></div>
 				</div>
 				
-				<div className="font-semibold text-primary text-base my-3 mx-4 sm:mx-8">{!tokenValues && 'No '}Deposits</div>
+				<div className="font-semibold text-primary text-base my-3 mx-4 sm:mx-8 pb-3 ">{!tokenValues && 'No '}Deposits</div>
 				{tokenValues && <div className="flex flex-wrap gap-4 pb-6 items-end mx-4 sm:mx-8">
 					{bounty.deposits && bounty.deposits
 						.filter((deposit) => {

@@ -42,7 +42,7 @@ const DepositCard = ({ deposit, refundBounty, extendBounty, status, isOnCorrectN
 					}
 				</div>
 				{status === 'refundable' &&
-					<div className="flex flex-col space-y-3 w-44 text-primary">
+					<div className="flex flex-col space-y-3 w-44 pl-3 text-primary">
 						<ToolTipNew
 							outerStyles="flex"
 							hideToolTip={isOnCorrectNetwork}

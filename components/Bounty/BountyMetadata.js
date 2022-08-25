@@ -84,7 +84,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
 			</li>}
 			{bounty.labels &&
 				<li className='border-b border-web-gray py-3'>
-					<div className='text-xs font-semibold text-muted'>Labels</div>
+					<div className='text-xs font-semibold text-muted pb-2'>Labels</div>
 					{bounty.labels.length > 0 ? <LabelsList bounty={bounty} /> :
 						<span className='text-sm'>No labels</span>
 					}

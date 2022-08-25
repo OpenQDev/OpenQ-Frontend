@@ -109,7 +109,9 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 
 
 						</div>
-						<LabelsList bounty={bounty} />
+						<div className="pt-1">
+							<LabelsList bounty={bounty} />
+						</div>
 						<div className="flex flex-row items-center gap-4 text-muted font-semibold">
 							<span><svg xmlns="http://www.w3.org/2000/svg"
 								className={'stroke-muted inline-block mr-1 -mt-1 fill-muted'} viewBox="0 0 16 16" width="16" height="16"><path d="M1.679 7.932c.412-.621 1.242-1.75 2.366-2.717C5.175 4.242 6.527 3.5 8 3.5c1.473 0 2.824.742 3.955 1.715 1.124.967 1.954 2.096 2.366 2.717a.119.119 0 010 .136c-.412.621-1.242 1.75-2.366 2.717C10.825 11.758 9.473 12.5 8 12.5c-1.473 0-2.824-.742-3.955-1.715C2.92 9.818 2.09 8.69 1.679 8.068a.119.119 0 010-.136zM8 2c-1.981 0-3.67.992-4.933 2.078C1.797 5.169.88 6.423.43 7.1a1.619 1.619 0 000 1.798c.45.678 1.367 1.932 2.637 3.024C4.329 13.008 6.019 14 8 14c1.981 0 3.67-.992 4.933-2.078 1.27-1.091 2.187-2.345 2.637-3.023a1.619 1.619 0 000-1.798c-.45-.678-1.367-1.932-2.637-3.023C11.671 2.992 9.981 2 8 2zm0 8a2 2 0 100-4 2 2 0 000 4z">
@@ -142,25 +144,25 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 							}
 							</div>
 							<div className='flex gap-4 content-center items-center justify-between sm:w-60'>
-								{bounty.bountyType === '0' ?
-									<span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
-										<div className='whitespace-nowrap'>Single</div>
-										<PersonIcon />
-									</span> :
-									bounty.bountyType === '1' ?
-
+							{bounty.bountyType === '0' ?
 										<span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
-											<div className='whitespace-nowrap'>Multi</div>
-											<PersonAddIcon />
+											<PersonIcon />
+											<div className='whitespace-nowrap'>Single</div>
 										</span> :
+										bounty.bountyType === '1' ?
 
-										(bounty.bountyType === '2' || bounty.bountyType === '3') &&
-										<span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
-											<div className='whitespace-nowrap'>Weighted</div>
-											<PeopleIcon />
-										</span>
+											<span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
+												<PersonAddIcon />
+												<div className='whitespace-nowrap'>Multi</div>
+											</span> :
 
-								}
+											(bounty.bountyType === '2' || bounty.bountyType === '3') &&
+											<span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
+												<PeopleIcon />
+												<div className='whitespace-nowrap'>Weighted</div>
+											</span>
+
+									}
 
 								{price > budget ? <div className="flex flex-row space-x-1 items-center">
 									<div className="pr-2 pt-1">
