@@ -21,16 +21,16 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
 
 	switch (bounty.bountyType) {
 	case '0':
-		type = 'Atomic Contract';
+		type = 'Single';
 		break;
 	case '1':
-		type = 'Repeating Contract';
+		type = 'Multi';
 		break;
 	case '2':
-		type = 'Contest Contract';
+		type = 'Weighted';
 		break;
 	case '3':
-		type = 'Contest Contract';
+		type = 'Weighted';
 		break;
 	}
 
