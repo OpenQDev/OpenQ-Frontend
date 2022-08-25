@@ -283,7 +283,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 
 					<SmallToggle names={['Ready for work', 'All issues']} toggleVal={(isReady === 'Ready for work') ? 'Ready for work' : 'All issues'} toggleFunc={showUnready} />
 
-					<Dropdown toggleFunc={handleSortBounties} toggleVal={''} styles="whitespace-nowrap" width="32" title={'Sort Order'} names={['newest', 'oldest', 'highest', 'lowest', 'popular']} borderShape={'rounded-r-lg'} />
+					<Dropdown toggleFunc={handleSortBounties} toggleVal={''} styles="whitespace-nowrap" width="32" title={'Sort Order'} names={['newest', 'oldest', 'highest', 'lowest']} borderShape={'rounded-r-lg'} />
 					<Dropdown toggleFunc={addLabel} toggleVal={''} styles="whitespace-nowrap" width="24" title="Labels" names={labels} borderShape={'rounded-r-lg'} />
 					{contractToggle && <Dropdown toggleFunc={setContractType} toggleVal={''} styles="whitespace-nowrap" width="36" title="Contract Type" names={['Atomic Contracts', 'Repeatable Contracts', 'Contests', 'All']} borderShape={'rounded-r-lg'} />}
 
