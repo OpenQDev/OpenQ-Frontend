@@ -114,19 +114,19 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types, loadingBar }) =>
 			setIsLoading(true);
 			let data;
 			switch (toggleType) {
-			case 'Atomic':
-				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
-				break;
-			case 'Repeating':
-				data = { payoutVolume: payoutVolume, payoutToken: payoutToken, fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
-				break;
-			case 'Contest':
-				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken, tiers: finalTierVolume };
-				break;
-			default:
-				throw new Error(`No type: ${toggleType}`);
+				case 'Atomic':
+					data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
+					break;
+				case 'Repeating':
+					data = { payoutVolume: payoutVolume, payoutToken: payoutToken, fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
+					break;
+				case 'Contest':
+					data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken, tiers: finalTierVolume };
+					break;
+				default:
+					throw new Error(`No type: ${toggleType}`);
 			}
-
+			triggerLoading();
 			const { bountyAddress } = await appState.openQClient.mintBounty(
 				library,
 				issue.id,
@@ -139,7 +139,6 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types, loadingBar }) =>
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress.toLowerCase()}`
 			);
 			modalVisibility(false);
-			loadingBar(true);
 		} catch (error) {
 			console.log('error in mintbounty', error);
 			const { message, title } = appState.openQClient.handleError(error);
@@ -185,6 +184,14 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types, loadingBar }) =>
 	}, [modal, isLoading]);
 
 	// Methods
+
+	function triggerLoading() {
+		console.log('triggered')
+		setTimeout(function () {
+			loadingBar(false);
+		}, 300000); // 5 minutes
+		loadingBar(true);
+	}
 
 	function onTierChange(e) {
 		if (parseInt(e.target.value) >= 0) { setTier(parseInt(e.target.value)); }

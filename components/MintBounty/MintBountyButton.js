@@ -8,7 +8,7 @@ import LoadingBar from '../Loading/LoadingBar';
 
 const MintBountyButton = ({styles, types, wizard}) => {
 	const [showModal, setShowModal] = useState(false);
-	const [loadingBar, setLoadingBar] = useState(true);
+	const [loadingBar, setLoadingBar] = useState(false);
 
 	return (
 		<>
@@ -35,8 +35,7 @@ const MintBountyButton = ({styles, types, wizard}) => {
 			{ wizard?  
 				showModal && <ContractWizard wizardVisibility={setShowModal} />
 				:
-				showModal && <MintBountyModal loadingBar={setLoadingBar} hideSubmenu={types.length===1} types={types} modalVisibility={setShowModal} />}
-				{console.log(loadingBar)}
+				showModal && <MintBountyModal hideSubmenu={types.length===1} types={types} modalVisibility={setShowModal} loadingBar={setLoadingBar} />}
 				{loadingBar && <LoadingBar loadingBar={setLoadingBar}/>}
 		</>
 	);
