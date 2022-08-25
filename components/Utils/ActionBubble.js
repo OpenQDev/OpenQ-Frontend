@@ -61,7 +61,7 @@ const ActionBubble = ({ addresses, bounty, action,})=>{
 	
 	if(action?.receiveTime||action?.refundTime){
 		const funder = senderEnsName ||shortenAddress(bounty.issuer.id);
-		address = action.sender.id;
+		address = action.sender?.id;
 		const { volume } = action;
 		const tokenMetadata = appState.tokenClient.getToken(action.tokenAddress);
 		let bigNumberVolume = ethers.BigNumber.from(volume.toString());
@@ -76,6 +76,7 @@ const ActionBubble = ({ addresses, bounty, action,})=>{
 	}
 	return (
 		<div className='w-full pt-4 flex relative'>
+		{console.log(action)}
 			{action  ? 
 				<Jazzicon styles={'w-fit'} size={36} address={address} /> :
 				<div className='relative w-9'>
@@ -92,7 +93,7 @@ const ActionBubble = ({ addresses, bounty, action,})=>{
 				
 				<div className={`bg-nav-bg w-full pl-3 ${(!action) && 'border-web-gray'} flex justify-between`}>
 					<span className='py-2'>{tokenValues || (!action?.receiveTime && !action?.refundTime) ? title : <Skeleton width="34" />}</span>
-					{action?.refunded && <span className='border rounded-full border-web-gray px-2 py-px m-1'> Refunded</span>}
+					{action?.refunded && <span className='flex items-center border rounded-sm border-web-gray px-2 py-px m-1'> Refunded</span>}
 				</div>
 				{!action  && bodyHTML && <div className='w-full p-8 p-4 border-web-gray border-t markdown-body' dangerouslySetInnerHTML={{__html: bodyHTML }}></div>
 				}
