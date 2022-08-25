@@ -9,12 +9,14 @@ const AuthReducer = (state, action) => {
 	case 'UPDATE_IS_AUTHENTICATED':
 		return {
 			...state,
+			login: action.payload.login,
 			isAuthenticated: action.payload.isAuthenticated,
 			avatarUrl: action.payload.avatarUrl,
 		};
 	case 'LOGOUT':
 		return {
 			...state,
+			login: null,
 			isAuthenticated: action.payload,
 			avatarUrl: null,
 		};

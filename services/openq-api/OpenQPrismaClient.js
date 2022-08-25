@@ -255,12 +255,18 @@ class OpenQPrismaClient {
 	}
 
 	async getContractPage(after, limit, sortOrder, orderBy,   category, organizationId ) {
-		
+		const variables = { after, limit,  sortOrder, organizationId };
+		if(category){
+			variables.category=category;
+		}
+		if(sortOrder){
+			variables.sortOrder = sortOrder;
+		}
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				const result = await this.client.query({
 					query: GET_CONTRACT_PAGE,
-					variables: { after, limit, orderBy, sortOrder, organizationId, category },
+					variables,
 					fetchPolicy: 'no-cache'
 				});
 				resolve(result.data.bounties.bountyConnection);

@@ -16,7 +16,7 @@ import OrganizationContent from '../../components/Organization/OrganizationConte
 import UnexpectedError from '../../components/Utils/UnexpectedError';
 
 
-const organization = ({ organizationData, fullBounties, batch, renderError }) => {
+const organization = ({ organizationData, fullBounties, batch, renderError, firstCursor }) => {
 	useAuth();
 	// Context
 	const [appState] = useContext(StoreContext);
@@ -24,18 +24,16 @@ const organization = ({ organizationData, fullBounties, batch, renderError }) =>
 	const [isLoading, setIsLoading] = useState(false);
 	const [bounties, setBounties] = useState(fullBounties);
 	const [pagination, setPagination] = useState(batch);
-	const [offChainCursor, setOffChainCursor] = useState();
+	const [offChainCursor, setOffChainCursor] = useState(firstCursor);
 	const [toggleVal, setToggleVal] = useState('Overview');
-	const [complete, setComplete] = useState(fullBounties?.length === 0);
-	
+	const [complete, setComplete] = useState();
 	// Methods
 	async function getBountyData(sortOrder, currentPagination, orderBy, cursor) {
 		setPagination(() => currentPagination + batch);
 		let complete = false;
-		const [fullBounties, newCursor] = await appState.utils.fetchBounties(appState, batch, null, orderBy, sortOrder, cursor, organizationData.id);
+		const [fullBounties, newCursor] = await appState.utils.fetchBounties(appState, batch, null, sortOrder, orderBy, cursor, organizationData.id);
+		
 		setOffChainCursor(newCursor);
-
-
 		if(fullBounties?.length===0){
 			complete = true;
 		}
@@ -149,7 +147,7 @@ export const getServerSideProps = async (context) => {
 
 	const fullBounties = utils.combineBounties(bounties, issueData, prismaContracts);
 
-	return { props: { organization, organizationData: mergedOrgData, fullBounties, completed: bounties.length < 10, batch, renderError } };
+	return { props: { organization, organizationData: mergedOrgData, fullBounties, batch, renderError, firstCursor: orgMetadata.organization.bounties.bountyConnection.cursor } };
 };
 
 export default organization;
