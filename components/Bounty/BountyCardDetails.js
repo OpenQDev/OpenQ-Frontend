@@ -10,7 +10,7 @@ import useWeb3 from '../../hooks/useWeb3';
 import useEns from '../../hooks/useENS';
 
 
-const BountyCardDetails = ({ bounty, setInternalMenu, justMinted, price, budget, split }) => {
+const BountyCardDetails = ({ bounty, setInternalMenu, justMinted, budget, split }) => {
 
 
 	const [appState] = useContext(StoreContext);
@@ -60,7 +60,7 @@ const BountyCardDetails = ({ bounty, setInternalMenu, justMinted, price, budget,
 				<ActionBubble  addresses={addresses} address={sender} price={tokenValues?.total} bounty={bounty} bodyHTML={bounty.bodyHTML}/>
 				
 			</div>
-			<BountyMetadata bounty={bounty} setInternalMenu={setInternalMenu} price={price} budget={budget} split={split}/>
+			<BountyMetadata bounty={bounty} setInternalMenu={setInternalMenu} price={tokenValues?.total} budget={budget} split={split}/>
 		</div>
 
 	);

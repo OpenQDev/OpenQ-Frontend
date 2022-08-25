@@ -11,7 +11,7 @@ import TotalValue from '../Bounty/TotalValue';
 import LabelsList from '../Bounty/LabelsList';
 import CopyBountyAddress from '../Bounty/CopyBountyAddress';
 
-const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues, showModal, unWatchable , price, watchingState }) => {
+const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues, showModal, unWatchable, watchingState }) => {
 	const modal = useRef();
 	const { safe } = useWeb3();
 	useEffect(() => {
@@ -41,7 +41,7 @@ const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues, showModal, u
 				<BountyModalHeading watchingState={watchingState} unWatchable={unWatchable} closeModal={closeModal} bounty={bounty}/>
 				
 				<div className=' w-full px-8 gap-4 flex'>
-					<div className='w-full'><TotalValue bounty={bounty} price={price}/></div>
+					<div className='w-full'><TotalValue bounty={bounty} price={tokenValues?.total}/></div>
 					<div className='w-full mb-6'>
 						<div className="font-semibold text-primary text-base w-full">{!bounty?.prs?.some(pr => pr.source?.__typename === 'PullRequest' && pr.source?.url) && 'No '}Linked Pull Requests</div>
 						{bounty?.prs?.length > 0 && <ul>

@@ -17,7 +17,7 @@ import TierInput from './TierInput';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import SubMenu from '../Utils/SubMenu';
 
-const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
+const MintBountyModal = ({ modalVisibility, hideSubmenu, types, loadingBar }) => {
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
 	const { library, account } = useWeb3();
@@ -114,19 +114,19 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 			setIsLoading(true);
 			let data;
 			switch (toggleType) {
-			case 'Atomic':
-				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
-				break;
-			case 'Repeating':
-				data = { payoutVolume: payoutVolume, payoutToken: payoutToken, fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
-				break;
-			case 'Contest':
-				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken, tiers: finalTierVolume };
-				break;
-			default:
-				throw new Error(`No type: ${toggleType}`);
+				case 'Atomic':
+					data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
+					break;
+				case 'Repeating':
+					data = { payoutVolume: payoutVolume, payoutToken: payoutToken, fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
+					break;
+				case 'Contest':
+					data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken, tiers: finalTierVolume };
+					break;
+				default:
+					throw new Error(`No type: ${toggleType}`);
 			}
-
+			triggerLoading();
 			const { bountyAddress } = await appState.openQClient.mintBounty(
 				library,
 				issue.id,
@@ -184,6 +184,14 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 	}, [modal, isLoading]);
 
 	// Methods
+
+	function triggerLoading() {
+		// fix the "loadingBar is not a function" error to de-comment the below code
+		/* setTimeout(function () {
+			loadingBar(false);
+		}, 300000); // 5 minutes
+		loadingBar(true); */
+	}
 
 	function onTierChange(e) {
 		if (parseInt(e.target.value) >= 0) { setTier(parseInt(e.target.value)); }
