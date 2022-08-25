@@ -75,7 +75,6 @@ const ActionBubble = ({ addresses, bounty, action,})=>{
 	}
 	return (
 		<div className='w-full pt-4 flex relative'>
-		{console.log(action)}
 			{action  ? 
 				<Jazzicon styles={'w-fit'} size={36} address={address} /> :
 				<div className='relative w-9'>
