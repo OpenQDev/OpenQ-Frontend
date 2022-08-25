@@ -13,6 +13,7 @@ import StoreProvider from '../store/Store/StoreProvider';
 import AuthProvider from '../store/AuthStore/AuthProvider';
 import Navigation from '../components/Layout/Navigation';
 import Head from 'next/head';
+import Footer from '../components/Layout/Footer';
 
 function OpenQ({ Component, pageProps }) {
 	function getLibrary(provider) {
@@ -75,6 +76,7 @@ function OpenQ({ Component, pageProps }) {
 						<Web3ReactProvider getLibrary={getLibrary}>
 							<Navigation />
 							<Component key={router.asPath} {...pageProps} />
+							<Footer />
 						</Web3ReactProvider>
 					</StoreProvider>
 				</AuthProvider>
