@@ -17,7 +17,8 @@ import TierInput from './TierInput';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import SubMenu from '../Utils/SubMenu';
 
-const MintBountyModal = ({ modalVisibility, hideSubmenu, types, loadingBar }) => {
+// TODO: re-add loadingBar in props when ready
+const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
 	const { library, account } = useWeb3();
@@ -114,17 +115,17 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types, loadingBar }) =>
 			setIsLoading(true);
 			let data;
 			switch (toggleType) {
-				case 'Atomic':
-					data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
-					break;
-				case 'Repeating':
-					data = { payoutVolume: payoutVolume, payoutToken: payoutToken, fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
-					break;
-				case 'Contest':
-					data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken, tiers: finalTierVolume };
-					break;
-				default:
-					throw new Error(`No type: ${toggleType}`);
+			case 'Atomic':
+				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
+				break;
+			case 'Repeating':
+				data = { payoutVolume: payoutVolume, payoutToken: payoutToken, fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken };
+				break;
+			case 'Contest':
+				data = { fundingTokenVolume: goalVolume, fundingTokenAddress: goalToken, tiers: finalTierVolume };
+				break;
+			default:
+				throw new Error(`No type: ${toggleType}`);
 			}
 			triggerLoading();
 			const { bountyAddress } = await appState.openQClient.mintBounty(
@@ -419,7 +420,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types, loadingBar }) =>
 										hideToolTip={(enableContest && enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
 										toolTipText={
 											issue?.closed ?
-												'Issue closed':
+												'Issue closed' :
 												account && isOnCorrectNetwork && !enableMint ?
 													'Please choose an elgible issue.' :
 													!enableContest ?

@@ -36,7 +36,8 @@ const MintBountyButton = ({styles, types, wizard}) => {
 				showModal && <ContractWizard wizardVisibility={setShowModal} />
 				:
 				showModal && <MintBountyModal hideSubmenu={types.length<3} types={types} modalVisibility={setShowModal} loadingBar={setLoadingBar} />}
-				{loadingBar && <LoadingBar loadingBar={setLoadingBar}/>}
+			{loadingBar && <LoadingBar loadingBar={setLoadingBar}/>}
+
 		</>
 	);
 };

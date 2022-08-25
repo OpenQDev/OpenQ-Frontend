@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import Alert from '../../components/svg/alert';
 import Cross from '../../components/svg/cross';
 
@@ -14,7 +14,7 @@ const LoadingBar = ({loadingBar}) => {
 				<Cross />
 			</button>
 		</div>
-	)
-}
+	);
+};
 
-export default LoadingBar
+export default LoadingBar;
