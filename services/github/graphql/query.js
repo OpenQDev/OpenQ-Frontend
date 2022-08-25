@@ -68,6 +68,7 @@ query GetOrgs($ids: [ID!]!) {
     ...on User {
       name
       login
+			bio
       id
 			url
     }
@@ -83,7 +84,7 @@ query GetOrgs($orgIds: [ID!]!) {
     ...on Organization {
       name
       login
-		description
+			description
       id
       avatarUrl
     }
@@ -93,8 +94,6 @@ query GetOrgs($orgIds: [ID!]!) {
 			bio
       id
       avatarUrl
-			description
-			descriptionHTML
     }
   }
 }
@@ -108,6 +107,7 @@ query GetUser($userId: ID!) {
     ...on User {
       name
       login
+			bio
       id
 			url
       avatarUrl
@@ -123,6 +123,7 @@ nodes(ids: $userIds) {
   ...on User {
     name
     login
+		bio
     id
 		url
     avatarUrl
@@ -167,6 +168,7 @@ query GetUser($login: String!) {
     id
     createdAt
     websiteUrl
+		bio
     avatarUrl
     twitterUsername
     url
@@ -298,6 +300,7 @@ query getPr($id: ID!){
         ... on User {
           id
 					twitterUsername
+					bio
 				}
 			}
       }
@@ -311,6 +314,7 @@ export const GET_USER_BY_URL = gql`
       id
       email
       twitterUsername
+			bio
 			avatarUrl
 			login
     }
