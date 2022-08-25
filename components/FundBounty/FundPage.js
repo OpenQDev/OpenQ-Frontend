@@ -163,7 +163,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					bounty.bountyAddress,
 					token.address,
 					bigNumberVolumeInWei,
-					depositPeriodDays
+					depositPeriodDays /(60*24*60)
 				);
 				setTransactionHash(fundTxnReceipt.events[0].transactionHash);
 				setApproveTransferState(SUCCESS);
@@ -195,6 +195,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
 	// Render
 	return (<>
+		{console.log(bounty)}
 		{closed ?
 			<>
 				<BountyClosed bounty={bounty} />
