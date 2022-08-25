@@ -83,6 +83,14 @@ query GetOrgs($orgIds: [ID!]!) {
     ...on Organization {
       name
       login
+		description
+      id
+      avatarUrl
+    }
+		...on User {
+      name
+      login
+			bio
       id
       avatarUrl
 			description

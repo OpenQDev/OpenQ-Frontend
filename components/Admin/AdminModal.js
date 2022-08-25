@@ -67,12 +67,6 @@ const AdminModal = ({ setModal, modal }) => {
 		Error: modal.message
 	};
 
-	function handleSuffix(t) {
-		const s = ['th', 'st', 'nd', 'rd'];
-		const v = t % 100;
-		return (t + (s[(v - 20) % 10] || s[v] || s[0]));
-	}
-
 	return (
 		<div>
 			<div className="justify-center bg-overlay items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -117,7 +111,7 @@ const AdminModal = ({ setModal, modal }) => {
 										{modal.finalTierVolume.map((t, index) => {
 											return (
 												<div key={index} className='flex items-center gap-4 text-primary'>
-													<div className='text-xs font-semibold leading-loose'>{`${handleSuffix(index + 1)} winner:`}</div>
+													<div className='text-xs font-semibold leading-loose'>{`${appState.utils.handleSuffix(index + 1)} winner:`}</div>
 													<div className='text-xs font-semibold' >{t} %</div>
 												</div>
 											);

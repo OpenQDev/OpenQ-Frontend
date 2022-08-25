@@ -12,7 +12,6 @@ import { useRouter } from 'next/router';
 
 const OrganizationCard = ({ organization }) => {
 	// Context
-	console.log('organization', organization);
 	const context = useContext(StoreContext);
 	const [orgBounties, setOrgBounties] = useState();
 	const [starred, setStarred] = useState();
@@ -108,8 +107,8 @@ const OrganizationCard = ({ organization }) => {
 							<Skeleton width={'64px'} height={'16px'} baseColor={'#333'} />
 						)}
 					</div>
-					<div className="text-center pt-2 text-gray-400">
-						{organization.description}
+					<div className="text-center pt-2 text-gray-400 h-20">
+						{organization.description || organization.bio}
 					</div>
 				</div>
 			</Link>

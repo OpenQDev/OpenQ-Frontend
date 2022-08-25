@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import StoreContext from '../../store/Store/StoreContext';
 
 const TierInput = ({ tier, tierVolume, onTierVolumeChange, style }) => {
 
 	// State
 	const [suffix, setSuffix] = useState();
-
-	// Methods
-	function handleSuffix(tier) {
-		const s = ['th', 'st', 'nd', 'rd'];
-		const v = tier % 100;
-		setSuffix(tier + (s[(v - 20) % 10] || s[v] || s[0]));
-	}
+	const [appState] = useContext(StoreContext);
 
 	useEffect(() => {
-		handleSuffix(tier);
+		setSuffix(appState.utils.handleSuffix(tier));
 	}, []);
 
 	return (

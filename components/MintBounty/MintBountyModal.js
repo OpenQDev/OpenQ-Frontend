@@ -410,13 +410,15 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 										outerStyles={''}
 										hideToolTip={(enableContest && enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
 										toolTipText={
-											account && isOnCorrectNetwork && !enableMint ?
-												'Please choose an elgible issue.' :
-												!enableContest ?
-													'Please make sure the sum of tier percentages adds up to 100.' :
-													isOnCorrectNetwork ?
-														'Connect your wallet to mint a bounty!' :
-														'Please switch to the correct network to mint a bounty.'
+											issue?.closed ?
+												'Issue closed':
+												account && isOnCorrectNetwork && !enableMint ?
+													'Please choose an elgible issue.' :
+													!enableContest ?
+														'Please make sure the sum of tier percentages adds up to 100.' :
+														isOnCorrectNetwork ?
+															'Connect your wallet to mint a bounty!' :
+															'Please switch to the correct network to mint a bounty.'
 										}>
 
 										<MintBountyModalButton
