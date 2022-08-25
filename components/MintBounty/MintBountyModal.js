@@ -186,11 +186,11 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types, loadingBar }) =>
 	// Methods
 
 	function triggerLoading() {
-		console.log('triggered')
-		setTimeout(function () {
+		// fix the "loadingBar is not a function" error to de-comment the below code
+		/* setTimeout(function () {
 			loadingBar(false);
 		}, 300000); // 5 minutes
-		loadingBar(true);
+		loadingBar(true); */
 	}
 
 	function onTierChange(e) {
