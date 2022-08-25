@@ -10,7 +10,7 @@ import useWeb3 from '../../hooks/useWeb3';
 import useEns from '../../hooks/useENS';
 
 
-const BountyCardDetails = ({ bounty, setInternalMenu, justMinted, price, budget, split }) => {
+const BountyCardDetails = ({ bounty, setInternalMenu, justMinted, budget, split }) => {
 
 
 	const [appState] = useContext(StoreContext);
