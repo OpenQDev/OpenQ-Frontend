@@ -294,8 +294,11 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
 									</ToolTipNew>
 
 									<h2 className='text-2xl text-[#f85149] border-b border-gray-700 pb-4'>Close Contract</h2>
-									<div className='flex items-center gap-2'>Once you close the contract for this contest, there is no going back. Please be certain.
-									</div>
+									<p className='flex items-center gap-2'>Once you close the contract for this contest, there is no going back. Please be certain.
+									</p>
+									<p>
+									To allow contestants to claim their winnings, please also make sure their pr is commented as needed before merging.
+									</p>
 									<button
 										className="btn-danger"
 										type="button"
