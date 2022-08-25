@@ -11,7 +11,7 @@ import TotalValue from '../Bounty/TotalValue';
 import LabelsList from '../Bounty/LabelsList';
 import CopyBountyAddress from '../Bounty/CopyBountyAddress';
 
-const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues, showModal, unWatchable , price }) => {
+const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues, showModal, unWatchable , price, watchingState }) => {
 	const modal = useRef();
 	const { safe } = useWeb3();
 	useEffect(() => {
@@ -38,13 +38,13 @@ const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues, showModal, u
 		
 		<div className={showModal ? 'flex justify-center items-start bg-overlay inset-0 fixed pt-10 overflow-y-scroll z-30' : 'hidden'}>
 			<div ref={modal} className="bg-dark-mode pt-2 w-5/6 rounded-sm lg:w-2/3 max-w-3xl text-lg relative overflow-hidden">
-				<BountyModalHeading unWatchable={unWatchable} closeModal={closeModal} bounty={bounty}/>
+				<BountyModalHeading watchingState={watchingState} unWatchable={unWatchable} closeModal={closeModal} bounty={bounty}/>
 				
 				<div className=' w-full px-8 gap-4 flex'>
 					<div className='w-full'><TotalValue bounty={bounty} price={price}/></div>
 					<div className='w-full mb-6'>
 						<div className="font-semibold text-primary text-base w-full">{!bounty?.prs?.some(pr => pr.source?.__typename === 'PullRequest' && pr.source?.url) && 'No '}Linked Pull Requests</div>
-						{bounty?.prs?.length && <ul>
+						{bounty?.prs?.length > 0 && <ul>
 						
 							{bounty.prs.filter((pr) => {
 								return pr.source?.['__typename'] === 'PullRequest' && pr.source?.url;
@@ -79,7 +79,7 @@ const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues, showModal, u
 						<LabelsList bounty={bounty} /></div>
 				</div>
 				
-				<div className="font-semibold text-primary text-base my-3 mx-4 sm:mx-8 pb-3 ">{!tokenValues && 'No '}Deposits</div>
+				<div className="font-semibold text-primary text-base my-3 mx-4 sm:mx-8">{!tokenValues?.total && 'No '}Deposits</div>
 				{tokenValues && <div className="flex flex-wrap gap-4 pb-6 items-end mx-4 sm:mx-8">
 					{bounty.deposits && bounty.deposits
 						.filter((deposit) => {

@@ -99,6 +99,14 @@ class Utils {
 		currency: 'USD',
 	});
 
+	
+	handleSuffix(t) {
+		const s = ['th', 'st', 'nd', 'rd'];
+		const v = t % 100;
+		return (t + (s[(v - 20) % 10] || s[v] || s[0]));
+	}
+
+
 	combineBounties = (subgraphBounties, githubIssues, metadata) => {
 		const fullBounties = [];
 		metadata.forEach(contract=>{
@@ -136,12 +144,14 @@ class Utils {
 			}
 			if(bounty.assignees[0]){
 				return {status:'In Progress', colour: 'bg-yellow-500 text-black fill-black', fill: 'fill-yellow-500'};}
+			if(bounty.closed)
+				return{status: 'Closed', colour: 'bg-danger', fill: 'fill-danger'};
 			else{
 				return {status: 'Ready for Work', colour: 'bg-green', fill: 'fill-green'};
 			}
 		}
 		else if (bounty.status == '1'){
-			return{status: 'Closed', colour: 'bg-closed', fill: 'fill-closed'};
+			return{status: 'Closed', colour: 'bg-danger', fill: 'fill-danger'};
 		}
 		else{return {status: 'Open', colour: 'bg-green', fill: 'fill-green'}; }
 
@@ -155,7 +165,7 @@ class Utils {
 		const filteredOrgs=orgData.organizations.filter(data=>!data.blacklisted);
 		const orgIds=filteredOrgs.map(org=>org.id);
 		try {
-			githubOrganizations = await githubRepository.fetchOrgsOrUsersByIds(
+			githubOrganizations = await githubRepository.fetchOrganizationsByIds(
 				orgIds
 			);
 		} catch (err) {

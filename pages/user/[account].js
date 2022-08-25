@@ -67,7 +67,7 @@ export const getServerSideProps = async(context)=>{
 			if(userOffChainData){
 				const subgraphOrgs =  await  openQSubgraphClient.instance.getOrganizationsByIds( userOffChainData.starredOrganizationIds);
 				const githubOrgIds = subgraphOrgs.map(bounty=>bounty.id);
-				const githubOrganizations = await githubRepository.instance.fetchOrgsOrUsersByIds(githubOrgIds);
+				const githubOrganizations = await githubRepository.instance.fetchOrganizationsByIds(githubOrgIds);
 				starredOrganizations = githubOrganizations.map((organization)=>{
 					const subgraphOrg = subgraphOrgs.find((org)=>{
 						return org.id === organization.id;

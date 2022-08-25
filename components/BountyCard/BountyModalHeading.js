@@ -6,7 +6,7 @@ import {StackIcon} from '@primer/octicons-react';
 import Image from 'next/image';
 import WatchButton from '../WatchButton/WatchButton';
 
-const BountyModalHeading = ({bounty, closeModal, unWatchable})=>{
+const BountyModalHeading = ({bounty, closeModal, unWatchable, watchingState})=>{
 	const { safe } = useWeb3();
 
 	return (
@@ -34,7 +34,7 @@ const BountyModalHeading = ({bounty, closeModal, unWatchable})=>{
 						</div>
 					</a>
 				</Link>
-				<WatchButton unwatchable={unWatchable} bounty={bounty}/>
+				<WatchButton watchingState={watchingState} unwatchable={unWatchable} bounty={bounty}/>
 				<div className='hidden lg:block'>
 					<Image src={bounty.avatarUrl} className='rounded-full' alt="avatarUrl" width="51" height="51" />
 				</div>

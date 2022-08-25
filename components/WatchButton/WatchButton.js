@@ -4,7 +4,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import watchBounty from './watchBounty';
 
 
-const WatchButton = ({unWatchable, bounty})=>{
+const WatchButton = ({unWatchable, watchingState, bounty})=>{
 
 	const {account} = useWeb3();
 	const [appState, dispatch] = useContext(StoreContext);
@@ -32,6 +32,15 @@ const WatchButton = ({unWatchable, bounty})=>{
 	}, [account]);
 
 	const handleWatch = async()=>{
+		if(watchingState){
+			const [watchingUsers, setWatchingUsers ] = watchingState;
+			if(watchingDisplay){
+				setWatchingUsers(watchingUsers-1);
+			}
+			else{
+				setWatchingUsers(watchingUsers+1);
+			}
+		}
 		setWatchDisabled(true);
 		await watchBounty([appState, dispatch], account, bounty, watchingDisplay, setWatchingDisplay, watchDisabled);
 		setWatchDisabled(false);

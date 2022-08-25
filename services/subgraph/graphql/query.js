@@ -385,6 +385,8 @@ query GetOrganization($id: ID!, $quantity: Int!) {
 			bountyMintTime
 			bountyClosedTime
 			claimedTransactionHash
+			fundingGoalTokenAddress
+			fundingGoalVolume
 			status
 			deposits {
 				id

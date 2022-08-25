@@ -1,7 +1,7 @@
 // Third Party
 import React, { useContext } from 'react';
 import Link from 'next/link';
-import Image from 'next/image'
+import Image from 'next/image';
 // Custom
 import MintBountyButton from '../MintBounty/MintBountyButton';
 import StoreContext from '../../store/Store/StoreContext';
@@ -34,13 +34,13 @@ const BountyHeading = ({bounty, price, budget}) =>{
 						<Link href={bounty.url}>
 							<a target="_blank">
 								<Image
-										src="/social-icons/github-logo-white.svg"
-										className="cursor-pointer"
-										alt="Picture of the author"
-										width={30}
-										height={30}
-									/>		
-								</a>
+									src="/social-icons/github-logo-white.svg"
+									className="cursor-pointer"
+									alt="Picture of the author"
+									width={30}
+									height={30}
+								/>		
+							</a>
 						</Link>
 					</div>
 					<MintBountyButton types={['0', '1','2', '3']} styles={'h-8 self-center'} wizard={true}/>
