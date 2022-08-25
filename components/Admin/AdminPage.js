@@ -297,7 +297,7 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
 									<p className='flex items-center gap-2'>Once you close the contract for this contest, there is no going back. Please be certain.
 									</p>
 									<p>
-									To allow contestants to claim their winnings, please also make sure their pr is commented as needed before merging.
+									To allow contestants to claim their winnings, please also make sure their pull requests are commented as needed before merging.
 									</p>
 									<button
 										className="btn-danger"
