@@ -19,8 +19,6 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 	const bountyName = bounty?.title.toLowerCase() || '';
 	const [appState] = useContext(StoreContext);
 	const [isModal, setIsModal] = useState();
-	const [payoutValues] = useGetTokenValues(bounty.payouts);
-	const [refundValues] = useGetTokenValues(bounty.refunds);
 	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
 
 
@@ -32,10 +30,6 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 	]);
 	const [budgetValue] = useGetTokenValues(budgetObj);
 	const budget = budgetValue?.total;
-	const tokenTotal = tokenValues?.total;
-	const payoutTotal = payoutValues?.total;
-	const refundTotal = refundValues?.total;
-	const price = tokenTotal - payoutTotal - refundTotal;
 	const watchingState = useState(bounty.watchingCount);
 	const [watchingUsers] = watchingState;
 	// Hooks
@@ -43,9 +37,6 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 	const [authState] = useAuth();
 	const marker = appState.utils.getBountyMarker(bounty, authState.login);
 
-	const TVL = price || price === 0
-		? appState.utils.formatter.format(price)
-		: '';
 	const closeModal = () => {
 		setIsModal(false);
 		document.body.style.height = 'auto';
@@ -60,7 +51,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 	// Render
 	return (
 		<div className={loading ? 'pointer-events-none cursor-normal relative w-full' : 'w-full'}>
-			<BountyCardDetailsModal unWatchable={unWatchable} TVL={TVL} bounty={bounty} watchingState={watchingState} closeModal={closeModal} showModal={isModal && bounty} tokenValues={tokenValues} price={price} />
+			<BountyCardDetailsModal unWatchable={unWatchable} bounty={bounty} watchingState={watchingState} closeModal={closeModal} showModal={isModal && bounty} tokenValues={tokenValues} />
 			<div onClick={openModal}
 				className={
 					`flex flex-col  md:px-4 py-4 border-web-gray cursor-pointer ${index !== length - 1 && 'border-b'}`
@@ -166,7 +157,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 
 								}
 
-								{price > budget ? <div className="flex flex-row space-x-1 items-center">
+								{tokenValues?.total > budget ? <div className="flex flex-row space-x-1 items-center">
 									<div className="pr-2 pt-1">
 										<Image
 											src="/crypto-logos/ETH-COLORED.png"
@@ -179,7 +170,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 									<>
 										<div className="font-semibold ">TVL</div>
 										<div className="">
-											{appState.utils.formatter.format(price)}
+											{appState.utils.formatter.format(tokenValues?.total)}
 										</div>
 									</>
 
