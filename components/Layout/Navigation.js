@@ -30,17 +30,38 @@ const Navigation = () => {
 	const [searchable, setSearchable] = useState();
 	const [showWizard, setShowWizard] = useState(false);
 	const [loadingBar, setLoadingBar] = useState(false);
-
+	const [subgraphBounties, setSubgraphBounties] = useState();
 
 	const router = useRouter();
+
+	function sleep(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms));
+	}
+
+	const refreshBounties = async () => {
+		await sleep(1000);
+		let newBounties = await appState.openQSubgraphClient.getBountyIds();
+		try {
+			while (newBounties.length === subgraphBounties.length) {
+				newBounties = await appState.openQSubgraphClient.getBountyIds();
+				await sleep(500);
+			}
+			const mergedBounties = { ...subgraphBounties, ...newBounties };
+			setSubgraphBounties(mergedBounties);
+			setReload();
+		}
+		catch (error) {
+			setError(true);
+		}
+	};
 
 	useEffect(() => {
 		setTimeout(function () {
 			setLoadingBar(false);
 		}, 10000); // 300 000 = 5 minutes
 		setLoadingBar(true);
-	}, [searchable?.length])
-	console.log(searchable?.length) // only updates on reload for the new bounty / length
+	}, [subgraphBounties])
+	console.log(subgraphBounties) // only updates on reload for the new bounty / length
 
 	useEffect(() => {
 		setQuickSearch('');
@@ -88,6 +109,7 @@ const Navigation = () => {
 				return { name: name.toLowerCase(), url, isIssue: searchableItem.title };
 			});
 			setSearchable(searchable);
+			setSubgraphBounties(subgraphBounties);
 		}
 		catch (err) {
 			console.log(err);
@@ -193,7 +215,7 @@ const Navigation = () => {
 									Contract Wizard
 								</div>
 							</button>
-							{showWizard && <ContractWizard wizardVisibility={setShowWizard} />}
+							{showWizard && <ContractWizard wizardVisibility={setShowWizard} refreshBounties={refreshBounties}/>}
 						</div>
 					</div>
 					<div className="flex items-center text-[0.8rem] lg:text-[1rem]">
@@ -226,7 +248,8 @@ const Navigation = () => {
 								Contract Wizard
 							</div>
 						</button>
-						{showWizard && <ContractWizard wizardVisibility={setShowWizard} />}
+						{showWizard && <ContractWizard wizardVisibility={setShowWizard} refreshBounties={refreshBounties}/>}
+						{console.log(refreshBounties)}
 					</div>
 				</div>
 				:

@@ -17,7 +17,7 @@ import TierInput from './TierInput';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import SubMenu from '../Utils/SubMenu';
 
-const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
+const MintBountyModal = ({ modalVisibility, hideSubmenu, types, refreshBounties }) => {
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
 	const { library, account } = useWeb3();
@@ -138,6 +138,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress.toLowerCase()}`
 			);
 			modalVisibility(false);
+			refreshBounties();
 		} catch (error) {
 			console.log('error in mintbounty', error);
 			const { message, title } = appState.openQClient.handleError(error);
