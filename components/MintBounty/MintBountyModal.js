@@ -17,7 +17,7 @@ import TierInput from './TierInput';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import SubMenu from '../Utils/SubMenu';
 
-const MintBountyModal = ({ modalVisibility, hideSubmenu, types, refreshBounties }) => {
+const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
 	const { library, account } = useWeb3();
@@ -62,6 +62,40 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types, refreshBounties 
 
 	// Refs
 	const modal = useRef();
+
+	function sleep(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms));
+	}
+  
+	const setReload = () => {
+		const payload = {
+			type: 'UPDATE_RELOAD',
+			payload: true
+		};
+		dispatch(payload);
+	};
+
+	const refreshBounty = async (address) => {
+		await sleep(1000);
+		console.log('refreshBounty');
+		const payload = {type: 'BOUNTY_MINTED', payload: address};
+		console.log('payload', payload);
+		dispatch(payload);
+		let newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
+		console.log('newBounty', newBounty)
+		try {
+			while (!newBounty) {
+				newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
+				await sleep(500);
+			}
+			const payload = {type: 'BOUNTY_MINTED', payload: ''};
+			dispatch(payload);
+			setReload();
+		}
+		catch (error) {
+			setError(true);
+		}
+	};
 
 	const setIssueUrl = async (issueUrl) => {
 		if (!isLoading) {
@@ -134,11 +168,11 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types, refreshBounties 
 				data
 			);
 			sessionStorage.setItem('justMinted', true);
+			refreshBounty(bountyAddress);
 			await router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress.toLowerCase()}`
 			);
 			modalVisibility(false);
-			refreshBounties();
 		} catch (error) {
 			console.log('error in mintbounty', error);
 			const { message, title } = appState.openQClient.handleError(error);
