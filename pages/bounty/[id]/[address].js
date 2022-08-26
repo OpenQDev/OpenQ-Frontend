@@ -180,7 +180,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 					<RepoTitle bounty={bounty} />
 					<SubMenu colour="rust" items={[{ name: 'View', Svg: Telescope }, { name: 'Fund', Svg: Add }, { name: 'Refund', Svg: Subtract }, { name: 'Claim', Svg: Fire }, { name: (bounty.issuer && ethers.utils.getAddress(bounty?.issuer?.id) == account) ? 'Admin' : null, Svg: (bounty.issuer && ethers.utils.getAddress(bounty.issuer.id) == account) ? Gear : null }]} internalMenu={internalMenu} updatePage={setInternalMenu} />
 
-					<BountyHeading price={!justMinted ? tokenValues?.total : 0} budget={budget} bounty={bounty} />
+					<BountyHeading price={!justMinted ? tokenValues?.total : tokenValues?.total||0} budget={budget} bounty={bounty} />
 					{internalMenu == 'View' && <BountyCardDetails justMinted={justMinted} price={tokenValues?.total} budget={budget} split={split} bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
