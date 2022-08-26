@@ -33,11 +33,11 @@ const Navigation = () => {
 	const [changeText, setChangeText] = useState(false);
 
 	const router = useRouter();
-
 	useEffect(() => {
 		if(appState.bountyMinted) {
 			setLoadingBar(true);
-		} else {
+		} 
+		if(loadingBar && !appState.bountyMinted) {
 			setChangeText(true);
 		}
 	}, [appState.bountyMinted])

@@ -77,17 +77,15 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 
 	const refreshBounty = async (address) => {
 		await sleep(1000);
-		console.log('refreshBounty');
 		const payload = {type: 'BOUNTY_MINTED', payload: address};
-		console.log('payload', payload);
 		dispatch(payload);
 		let newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
-		console.log('newBounty', newBounty)
 		try {
 			while (!newBounty) {
 				newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
 				await sleep(500);
 			}
+			await sleep(10000);
 			const payload = {type: 'BOUNTY_MINTED', payload: ''};
 			dispatch(payload);
 			setReload();
