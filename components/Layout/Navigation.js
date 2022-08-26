@@ -16,6 +16,7 @@ import { useRouter } from 'next/router';
 import NavLinks from './NavLinks';
 import ContractWizard from '../ContractWizard/ContractWizard';
 import OpenQSocials from './OpenQSocials';
+import LoadingBar from '../Loading/LoadingBar.js';
 
 const Navigation = () => {
 
@@ -35,10 +36,11 @@ const Navigation = () => {
 
 	useEffect(() => {
 		setTimeout(function () {
-			loadingBar(false);
-		}, 300000); // 5 minutes
-		loadingBar(true);
-	}, [])
+			setLoadingBar(false);
+		}, 10000); // 300 000 = 5 minutes
+		setLoadingBar(true);
+	}, [searchable?.length])
+	console.log(searchable?.length) // only updates on reload for the new bounty / length
 
 	useEffect(() => {
 		setQuickSearch('');
