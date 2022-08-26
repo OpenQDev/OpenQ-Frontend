@@ -74,7 +74,7 @@ function OpenQ({ Component, pageProps }) {
 				<AuthProvider>
 					<StoreProvider>
 						<Web3ReactProvider getLibrary={getLibrary}>
-							<div className='h-min-[100vh] flex flex-col justify-between'>
+							<div className='min-h-screen flex flex-col justify-between'>
 								<div>
 									<Navigation />
 									<Component key={router.asPath} {...pageProps} />
