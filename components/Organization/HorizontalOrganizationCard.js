@@ -1,5 +1,5 @@
 // Third party
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import StoreContext from '../../store/Store/StoreContext';
@@ -10,43 +10,44 @@ const HorizontalOrganizationCard = ({ organization }) => {
 	const [starred, setStarred] = useState();
 	const [starredDisabled, setStarredDisabled] = useState(true);
 	const context = useContext(StoreContext);
-	const {account } = useWeb3();
+	const { account } = useWeb3();
 
-	useEffect(()=>{
+	useEffect(() => {
 		setStarredDisabled(true);
-		if(organization.starringUserIds && organization.starringUserIds.some(user=>user === account)){
+		if (organization.starringUserIds && organization.starringUserIds.some(user => user === account)) {
 			setStarred(true);
 		}
-		else{
-			setStarred(false);}
+		else {
+			setStarred(false);
+		}
 		setStarredDisabled(false);
-	},[account, organization.starringUserIds]	);
+	}, [account, organization.starringUserIds]);
 	const handleStar = () => {
 		starOrganization(account, organization.id, starred, setStarred, setStarredDisabled, context);
 	};
 
 	// Render
 	return (
-		
+
 		<div className='grid grid-cols-[64px_1fr_73px] gap-x-4 h-[118px] content-center mt-0 border-b border-web-gray py-6'>
 			<div className='rounded-sm self-center overflow-hidden h-16'>
 				<Image src={organization.avatarUrl} width="64" height="64" />
 			</div>
 			<div>
 				<h2 className='text-xl mt-1 leading-tight text-primary hover:text-link-colour'>
-					<Link href={ `/organization/${organization.login}` }>
+					<Link href={`/organization/${organization.login}`}>
 						<a>
-							{organization.name|| organization.login}
+							{organization.name || organization.login}
 						</a>
 					</Link>
 				</h2>
-				<div className='mt-1 text text-sm leading-normal text-muted truncate'>{organization.starringUserIds?.length|| 0} star{organization.starringUserIds?.length!==1&&'s'}</div>
+				<div className='mt-1 text text-sm leading-normal text-muted truncate'>{organization.starringUserIds?.length || 0} star{organization.starringUserIds?.length !== 1 && 's'}</div>
 			</div>
 			<button onClick={handleStar} disabled={starredDisabled} className='flex items-center text-xs bg-inactive-gray leading-5 h-7 px-3 py-[3px] hover:bg-active-gray rounded-sm border hover:border-border-active border-border-gray'>
-		
+
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
-					className={`stroke-muted inline-block mr-2 ${starred ? 'fill-muted': 'fill-transparent'}`}
+					className={`stroke-muted inline-block mr-2 ${starred ? 'fill-muted' : 'fill-transparent'}`}
 					height="16"
 					viewBox="0 0 24 24"
 					stroke="#4C535B"
@@ -60,7 +61,7 @@ const HorizontalOrganizationCard = ({ organization }) => {
 				</svg>
 				<span className=''>Star</span>
 			</button>
-		
+
 		</div>
 	);
 };
