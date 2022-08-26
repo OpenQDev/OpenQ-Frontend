@@ -1,3 +1,4 @@
+
 class Utils {
 	constructor() { }
 
@@ -197,8 +198,8 @@ class Utils {
 			const prismaContractsResult = await openQPrismaClient.getContractPage(
 				cursor,
 				batch,
-				orderBy,
 				sortOrder,
+				orderBy,
 				category, organization);
 			prismaContracts = prismaContractsResult.nodes.filter(contract=>!contract.blacklisted&&!contract.organization.blacklisted);
 

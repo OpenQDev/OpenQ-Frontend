@@ -9,10 +9,8 @@ import useGetTokenValues from '../../hooks/useGetTokenValues';
 const BountyClosed = ({ bounty, showTweetLink }) => {
 
 	const [appState] = useContext(StoreContext);
-	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances || []);
-	const TVL = tokenValues != null && tokenValues != {}
-		? appState.utils.formatter.format(tokenValues.total)
-		: appState.utils.formatter.format(0);
+	const [tokenValues] = useGetTokenValues(bounty?.payouts);
+	const TVL = appState.utils.formatter.format(tokenValues?.total);
 	// Hooks
 	const tweetText = `💸 Just claimed a developer bounty from ${bounty.owner} on OpenQ for ${TVL} working on this issue: `;
 	const url = `${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${bounty.claimedTransactionHash}`;

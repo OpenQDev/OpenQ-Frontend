@@ -32,7 +32,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 	const [justClaimed, setJustClaimed] = useState(false);
 	const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
 	const canvas = useRef();
-
+	
 	const [, dispatch] = useContext(StoreContext);
 
 
@@ -146,8 +146,18 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
 										</div>
 									) : null}
 									<div className='col-span-3 space-y-4 p-4'>
-										<p>Don{'\''}t forget to add a closer comment for this bounty on your pull request :-).</p>
-										<div><CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} /></div>
+										<p>{bounty.bountyType === '2' || bounty.bountyType === '3' ?'Decide the winner by commenting OpenQ-Tier-[1,2,3]-Winner on the winning pull request:': 'Don\'t forget to add a closer comment for this bounty on your pull request :-).'}</p>
+										<div>
+										
+											{bounty.bountyType === '2' || bounty.bountyType === '3' 
+												? 
+												bounty.payoutSchedule.map((elem, index)=>{
+													return 	<CopyAddressToClipboard key={index} noClip={true} data={`Closes #${bounty.number} OpenQ-Tier-${index+1}-Winner`} />;
+										
+												})
+												:										
+												<CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} />
+											}</div>
 									</div>
 
 									<div className="flex flex-col space-y-5">

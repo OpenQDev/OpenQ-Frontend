@@ -66,7 +66,7 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
 	async function getBountyData(sortOrder, currentPagination, orderBy, cursor) {
 		setPagination(() => currentPagination + batch);
 		let complete = false;
-		const [fullBounties, newCursor] = await appState.utils.fetchBounties(appState, batch, category, orderBy, sortOrder, cursor);
+		const [fullBounties, newCursor] = await appState.utils.fetchBounties(appState, batch, category,sortOrder, orderBy,  cursor);
 		setOffChainCursor(newCursor);
 		if(fullBounties?.length===0){
 			complete = true;

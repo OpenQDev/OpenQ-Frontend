@@ -8,7 +8,6 @@ import Skeleton from 'react-loading-skeleton';
 import StoreContext from '../../store/Store/StoreContext';
 import useWeb3 from '../../hooks/useWeb3';
 import starOrganization from './starOrganization';
-import { useRouter } from 'next/router';
 
 const OrganizationCard = ({ organization }) => {
 	// Context
@@ -17,7 +16,7 @@ const OrganizationCard = ({ organization }) => {
 	const [starred, setStarred] = useState();
 	const [starredDisabled, setStarredDisabled] = useState(true);
 	const { account } = useWeb3();
-	const router = useRouter();
+
 	useEffect(() => {
 		if ((organization.starringUserIds && organization.starringUserIds.some(user => user === account)) || organization.starred) {
 			setStarred(true);
@@ -57,7 +56,7 @@ const OrganizationCard = ({ organization }) => {
 		<div
 			className={`min-w-[300px] w-60 ${!starred ? 'hidden' : null}`}
 		>
-			<Link href={organization ? router?.query.type ? `/organization/${organization.login}${`?type=${router.query.type}`}` : `/organization/${organization.login}` : '/'}>
+			<Link href={`/organization/${organization.login}`}>
 				<div
 					className={
 						'flex flex-col p-6 items-center cursor-pointer text-[0.8rem] tracking-wider placeholder-input-gray outline-none rounded-sm border border-border-gray bg-menu-bg w-full h-72 mb-1'

@@ -1,6 +1,6 @@
 // Third party
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import Link from 'next/link'
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
 
@@ -18,6 +18,7 @@ import TierInput from './TierInput';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import SubMenu from '../Utils/SubMenu';
 
+// TODO: re-add loadingBar in props when ready
 const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
@@ -127,7 +128,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 			default:
 				throw new Error(`No type: ${toggleType}`);
 			}
-
+			triggerLoading();
 			const { bountyAddress } = await appState.openQClient.mintBounty(
 				library,
 				issue.id,
@@ -185,6 +186,14 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 	}, [modal, isLoading]);
 
 	// Methods
+
+	function triggerLoading() {
+		// fix the "loadingBar is not a function" error to de-comment the below code
+		/* setTimeout(function () {
+			loadingBar(false);
+		}, 300000); // 5 minutes
+		loadingBar(true); */
+	}
 
 	function onTierChange(e) {
 		if (parseInt(e.target.value) >= 0) { setTier(parseInt(e.target.value)); }
@@ -325,13 +334,13 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 											}
 											<div className="flex flex-row space-x-3 items-center text-md pt-3">
 												<div>Make sure you 
-													{" "}
+													{' '}
 													<Link href="https://docs.openq.dev/welcome/master">
-													<a target="_blank" className="text-blue-600 cursor-pointer">
+														<a target="_blank" className="text-blue-600 cursor-pointer">
 														label your Github issue correctly 
-													</a> 
+														</a> 
 													</Link>
-													{" "}
+													{' '}
 													so that users can find it easily.
 												</div>
 												<ToolTipNew mobileX={10} toolTipText="Our main categories are Prime, Learn2Earn and Contest. Label your issue with those and you will be able to find them on our pages." >
@@ -428,7 +437,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 										hideToolTip={(enableContest && enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
 										toolTipText={
 											issue?.closed ?
-												'Issue closed':
+												'Issue closed' :
 												account && isOnCorrectNetwork && !enableMint ?
 													'Please choose an elgible issue.' :
 													!enableContest ?
