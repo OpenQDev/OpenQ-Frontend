@@ -7,7 +7,7 @@ import MintBountyButton from '../MintBounty/MintBountyButton';
 import StoreContext from '../../store/Store/StoreContext';
 import useAuth from '../../hooks/useAuth';
 
-const BountyHeading = ({bounty, price, budget}) =>{
+const BountyHeading = ({bounty, price}) =>{
 
 	const [appState] = useContext(StoreContext);
 	const [authState] = useAuth();
@@ -56,17 +56,12 @@ const BountyHeading = ({bounty, price, budget}) =>{
 						{marker.status}</span>
 				</div>
 				<>
-					{price  > budget || (price ===0 && bounty) ?
+					{price || price===0 ?
 						<span className='leading-loose text-lg font-semibold text-primary'>
 					
 					Total Value Locked { appState.utils.formatter.format(
 								price
-							)}</span>:
-						(budget|| budget === 0) && <span className='leading-loose text-lg font-semibold text-primary'>
-					
-					Budget { appState.utils.formatter.format(
-								budget
-							)}</span>
+							)}</span>:null
 					}</>
 				
 				
