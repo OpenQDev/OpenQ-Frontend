@@ -28,9 +28,17 @@ const Navigation = () => {
 	const [items, setItems] = useState([]);
 	const [searchable, setSearchable] = useState();
 	const [showWizard, setShowWizard] = useState(false);
+	const [loadingBar, setLoadingBar] = useState(false);
 
 
 	const router = useRouter();
+
+	useEffect(() => {
+		setTimeout(function () {
+			loadingBar(false);
+		}, 300000); // 5 minutes
+		loadingBar(true);
+	}, [])
 
 	useEffect(() => {
 		setQuickSearch('');
@@ -223,6 +231,7 @@ const Navigation = () => {
 				null
 			}
 			<OpenQSocials />
+			{loadingBar && <LoadingBar loadingBar={setLoadingBar}/>}
 		</div>
 	);
 };
