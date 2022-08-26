@@ -85,7 +85,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 				newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
 				await sleep(500);
 			}
-			await sleep(10000);
+			await sleep(180000); // forcing 3 min waiting time since the new bounty still not visible in list
 			const payload = {type: 'BOUNTY_MINTED', payload: ''};
 			dispatch(payload);
 			setReload();
