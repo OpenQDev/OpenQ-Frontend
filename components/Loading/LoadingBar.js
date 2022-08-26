@@ -10,7 +10,7 @@ const LoadingBar = ({loadingBar, changeText}) => {
 				<div>{ !changeText?
 					'It will take a couple of minutes until your contract will be visible in our explorer'
 					: 'Please reload the page to see your new contract in our explorer'
-			}</div>
+				}</div>
 
 			</div>
 			<button className='pl-4 pr-0' onClick={() => loadingBar(false)}>

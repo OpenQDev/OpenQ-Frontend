@@ -1,6 +1,6 @@
 // Third Party
 import React, { useState } from 'react';
-import Cross from '../../components/svg/cross'
+import Cross from '../../components/svg/cross';
 
 // Custom
 import useCheckFirstLaunch from '../../hooks/useCheckFirstLaunch';

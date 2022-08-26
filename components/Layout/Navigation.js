@@ -40,7 +40,7 @@ const Navigation = () => {
 		if(loadingBar && !appState.bountyMinted) {
 			setChangeText(true);
 		}
-	}, [appState.bountyMinted])
+	}, [appState.bountyMinted]);
 
 	useEffect(() => {
 		setQuickSearch('');

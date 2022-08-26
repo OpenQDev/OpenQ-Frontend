@@ -5,14 +5,12 @@ import Link from 'next/link';
 import StoreContext from '../../store/Store/StoreContext';
 import starOrganization from './starOrganization';
 import useWeb3 from '../../hooks/useWeb3';
-import { useRouter } from 'next/router';
 
 const HorizontalOrganizationCard = ({ organization }) => {
 	const [starred, setStarred] = useState();
 	const [starredDisabled, setStarredDisabled] = useState(true);
 	const context = useContext(StoreContext);
 	const {account } = useWeb3();
-	const router = useRouter();
 
 	useEffect(()=>{
 		setStarredDisabled(true);
