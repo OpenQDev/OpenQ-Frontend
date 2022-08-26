@@ -95,9 +95,9 @@ const ClaimLoadingModal = ({ confirmMethod, url, ensName, account, claimState, a
 											</a>
 										</Link>
 									</>
-									<p>
+									<div>
 										{afterLink[claimState]}
-									</p>
+									</div>
 								</div>
 							}
 						</p>

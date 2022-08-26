@@ -164,8 +164,8 @@ mutation unStarOrg ($id: String!, $address: String!){
 // good to go
 export const GET_CONTRACT_PAGE = gql`
 
-query BountiesConnection($after: ID, $orderBy: String, $sortOrder: String, $organizationId: String, $category: String) {
-  bounties(after: $after,  limit: 10, orderBy: $orderBy, sortOrder: $sortOrder, organizationId: $organizationId, category: $category) {
+query BountiesConnection($after: ID, $orderBy: String, $sortOrder: String, $organizationId: String, $category: String, $limit: Int!) {
+  bounties(after: $after,  limit: $limit, orderBy: $orderBy, sortOrder: $sortOrder, organizationId: $organizationId, category: $category) {
   bountyConnection{
     nodes {
       tvl

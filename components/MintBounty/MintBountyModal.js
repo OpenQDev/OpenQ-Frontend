@@ -18,6 +18,7 @@ import TierInput from './TierInput';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import SubMenu from '../Utils/SubMenu';
 
+// TODO: re-add loadingBar in props when ready
 const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
@@ -127,7 +128,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 			default:
 				throw new Error(`No type: ${toggleType}`);
 			}
-
+			triggerLoading();
 			const { bountyAddress } = await appState.openQClient.mintBounty(
 				library,
 				issue.id,
@@ -185,6 +186,14 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 	}, [modal, isLoading]);
 
 	// Methods
+
+	function triggerLoading() {
+		// fix the "loadingBar is not a function" error to de-comment the below code
+		/* setTimeout(function () {
+			loadingBar(false);
+		}, 300000); // 5 minutes
+		loadingBar(true); */
+	}
 
 	function onTierChange(e) {
 		if (parseInt(e.target.value) >= 0) { setTier(parseInt(e.target.value)); }
@@ -428,7 +437,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 										hideToolTip={(enableContest && enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading}
 										toolTipText={
 											issue?.closed ?
-												'Issue closed':
+												'Issue closed' :
 												account && isOnCorrectNetwork && !enableMint ?
 													'Please choose an elgible issue.' :
 													!enableContest ?

@@ -13,6 +13,7 @@ import StoreProvider from '../store/Store/StoreProvider';
 import AuthProvider from '../store/AuthStore/AuthProvider';
 import Navigation from '../components/Layout/Navigation';
 import Head from 'next/head';
+import Footer from '../components/Layout/Footer';
 
 function OpenQ({ Component, pageProps }) {
 	function getLibrary(provider) {
@@ -73,8 +74,13 @@ function OpenQ({ Component, pageProps }) {
 				<AuthProvider>
 					<StoreProvider>
 						<Web3ReactProvider getLibrary={getLibrary}>
-							<Navigation />
-							<Component key={router.asPath} {...pageProps} />
+							<div className='min-h-screen flex flex-col justify-between'>
+								<div>
+									<Navigation />
+									<Component key={router.asPath} {...pageProps} />
+								</div>
+								<Footer />
+							</div>
 						</Web3ReactProvider>
 					</StoreProvider>
 				</AuthProvider>

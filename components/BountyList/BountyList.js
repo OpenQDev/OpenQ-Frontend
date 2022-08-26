@@ -92,13 +92,13 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 		let types =['0', '1','2', '3'];
 
 		switch(contractType){
-		case 'Atomic Contracts':
+		case 'Single':
 			types=['0'];
 			break;
-		case 'Contests':
+		case 'Weighted':
 			types=['2', '3'];
 			break;
-		case 'Repeatable Contracts':
+		case 'Multi':
 			types=['1'];
 			break;
 		}
@@ -285,7 +285,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 
 					<Dropdown toggleFunc={handleSortBounties} toggleVal={''} styles="whitespace-nowrap" width="32" title={'Sort Order'} names={['newest', 'oldest', 'highest', 'lowest']} borderShape={'rounded-r-lg'} />
 					<Dropdown toggleFunc={addLabel} toggleVal={''} styles="whitespace-nowrap" width="24" title="Labels" names={labels} borderShape={'rounded-r-lg'} />
-					{contractToggle && <Dropdown toggleFunc={setContractType} toggleVal={''} styles="whitespace-nowrap" width="36" title="Contract Type" names={['Atomic Contracts', 'Repeatable Contracts', 'Contests', 'All']} borderShape={'rounded-r-lg'} />}
+					{contractToggle && <Dropdown toggleFunc={setContractType} toggleVal={''} styles="whitespace-nowrap" width="36" title="Contract Type" names={['Single', 'Multi', 'Weighted', 'All']} borderShape={'rounded-r-lg'} />}
 
 				</div>
 

@@ -294,8 +294,11 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
 									</ToolTipNew>
 
 									<h2 className='text-2xl text-[#f85149] border-b border-gray-700 pb-4'>Close Contract</h2>
-									<div className='flex items-center gap-2'>Once you close the contract for this contest, there is no going back. Please be certain.
-									</div>
+									<p className='flex items-center gap-2'>Once you close the contract for this contest, there is no going back. Please be certain.
+									</p>
+									<p>
+									To allow contestants to claim their winnings, please also make sure their pull requests are commented as needed before merging.
+									</p>
 									<button
 										className="btn-danger"
 										type="button"
@@ -348,7 +351,7 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
 					</li>
 					<li className='border-b border-web-gray py-3'>
 						<div className='text-xs font-semibold text-muted'>Current Target Budget</div>
-						<div className='text-xs font-semibold text-primary pt-2' >{appState.utils.formatter.format(budget) || '$0.00'}</div>
+						<div className='text-xs font-semibold text-primary pt-2' >{(budget && appState.utils.formatter.format(budget)) || '$0.00'}</div>
 					</li>
 					{bounty.bountyType == 1 ?
 						<li className='border-b border-web-gray py-3'>
