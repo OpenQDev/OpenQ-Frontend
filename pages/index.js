@@ -116,6 +116,7 @@ export default function Index({  fullBounties, batch, types, renderError, firstC
 							complete={complete}
 							getNewData={getNewData}
 							wizard={true}
+							contractToggle={true}
 						/>}
 				</>
 			}
@@ -130,7 +131,7 @@ export const getServerSideProps = async () => {
 	const openQPrismaClient = new WrappedOpenQPrismaClient();
 	const utils = new Utils();
 	githubRepository.instance.setGraphqlHeaders();
-	const batch = 1;
+	const batch = 10;
 	const types=['0','1','2', '3'];
 	
 	const [fullBounties, firstCursor] = await utils.fetchBounties({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance}, batch);

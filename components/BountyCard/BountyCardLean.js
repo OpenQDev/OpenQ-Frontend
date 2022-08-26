@@ -51,10 +51,10 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 	// Render
 	return (
 		<div className={loading ? 'pointer-events-none cursor-normal relative w-full' : 'w-full'}>
-			<BountyCardDetailsModal unWatchable={unWatchable} bounty={bounty} watchingState={watchingState} closeModal={closeModal} showModal={isModal && bounty} tokenValues={tokenValues} />
+			<BountyCardDetailsModal unWatchable={unWatchable} bounty={bounty} watchingState={watchingState} closeModal={closeModal} showModal={ bounty && isModal} tokenValues={tokenValues} />
 			<div onClick={openModal}
 				className={
-					`flex flex-col  md:px-4 py-4 border-web-gray cursor-pointer ${index !== length - 1 && 'border-b'}`
+					`flex flex-col md:px-4 py-4 border-web-gray cursor-pointer ${index !== length - 1 && 'border-b'}`
 				}
 			>
 				<div className="flex flex-row flex-wrap sm:flex-nowrap justify-between sm:pt-0 text-primary">

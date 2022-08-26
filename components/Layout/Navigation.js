@@ -15,6 +15,7 @@ import LinkDropdown from '../Utils/LinkDropdown';
 import { useRouter } from 'next/router';
 import NavLinks from './NavLinks';
 import ContractWizard from '../ContractWizard/ContractWizard';
+import OpenQSocials from './OpenQSocials';
 
 const Navigation = () => {
 
@@ -149,7 +150,7 @@ const Navigation = () => {
 
 			<div className="flex visible relative">
 
-				<div className="flex w-full lg:py-1 justify-between mx-4">
+				<div className="flex w-full lg:py-1 justify-between mx-8">
 
 					<div className="flex space-x-5 items-center">
 						<Link href={'/'}>
@@ -221,7 +222,7 @@ const Navigation = () => {
 				:
 				null
 			}
-			{/*   <Footer /> */}
+			<OpenQSocials />
 		</div>
 	);
 };

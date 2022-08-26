@@ -13,13 +13,14 @@ import CopyBountyAddress from '../Bounty/CopyBountyAddress';
 
 const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues, showModal, unWatchable, watchingState }) => {
 	const modal = useRef();
+	
 	const { safe } = useWeb3();
 	useEffect(() => {
+		let didCancel;
 		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
 		function handleClickOutside(event) {
-			if (modal.current && !modal.current.contains(event.target)) {
+			if (modal.current && !modal.current.contains(event.target) && showModal && !didCancel) {				
 				closeModal();
-
 			}
 		}
 
@@ -27,16 +28,17 @@ const BountyCardDetailsModal = ({ bounty,  closeModal, tokenValues, showModal, u
 		document.addEventListener('mousedown', handleClickOutside);
 		return () => {
 			// Unbind the event listener on clean up
+			didCancel=true;
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
-	}, [modal]);
+	}, [modal, showModal]);
 
 	
 
 
 	return (
 		
-		<div className={showModal ? 'flex justify-center items-start bg-overlay inset-0 fixed pt-10 overflow-y-scroll z-30' : 'hidden'}>
+		<div className={showModal ? 'flex justify-center items-start bg-overlay inset-0 fixed pt-10 overflow-auto z-30' : 'hidden'}>
 			<div ref={modal} className="bg-dark-mode pt-2 w-5/6 rounded-sm lg:w-2/3 max-w-3xl text-lg relative overflow-hidden">
 				<BountyModalHeading watchingState={watchingState} unWatchable={unWatchable} closeModal={closeModal} bounty={bounty}/>
 				

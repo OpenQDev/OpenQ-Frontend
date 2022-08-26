@@ -36,7 +36,7 @@ const HorizontalOrganizationCard = ({ organization }) => {
 			</div>
 			<div>
 				<h2 className='text-xl mt-1 leading-tight text-primary hover:text-link-colour'>
-					<Link href={organization ? router?.query.type ? `/organization/${organization.login}${`?type=${router.query.type}`}`: `/organization/${organization.login}` : '/'}>
+					<Link href={ `/organization/${organization.login}` }>
 						<a>
 							{organization.name|| organization.login}
 						</a>
