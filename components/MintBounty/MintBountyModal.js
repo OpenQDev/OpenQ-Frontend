@@ -343,7 +343,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 													{' '}
 													so that users can find it easily.
 												</div>
-												<ToolTipNew mobileX={10} toolTipText="Our main categories are Prime, Learn2Earn and Contest. Label your issue with those and you will be able to find them on our pages." >
+												<ToolTipNew mobileX={10} innerStyles={'whitespace-normal w-40'} toolTipText="Our main categories are Learn2Earn and Contest. Label your issue with those and you will be able to find them on our pages." >
 													<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
 
 												</ToolTipNew> 
