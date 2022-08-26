@@ -9,6 +9,8 @@ import { render, screen } from '../../test-utils';
 import OrganizationContent from '../../components/Organization/OrganizationContent';
 import mocks from '../../__mocks__/mock-server.json';
 import InitialState from '../../store/Store/InitialState';
+
+import nextRouter from 'next/router';
  
 
 describe('OrganizationContent', ( ) => {
@@ -25,6 +27,10 @@ describe('OrganizationContent', ( ) => {
 	beforeEach(()=>{
 		const observe = jest.fn();
 		const disconnect = jest.fn();
+		
+
+		nextRouter.useRouter = jest.fn();
+		nextRouter.useRouter.mockImplementation(() => ({ query: {type: null} }));
 
 		window.IntersectionObserver = jest.fn(() => ({
 			observe,
@@ -47,7 +53,10 @@ describe('OrganizationContent', ( ) => {
 		it(`should render Org content card for ${org.login}`, async()=>{
 			// ARRANGE
 			const user  = userEvent.setup();
-			render(<OrganizationContent bounties={bounties} repositories={ repositories} complete={true} organization={org} />);
+			render(
+			
+				<OrganizationContent bounties={bounties} repositories={ repositories} complete={true} organization={org} />
+			);
 			const name = org.name || org.login;
 			// ASSERT
 

@@ -8,7 +8,6 @@ import Skeleton from 'react-loading-skeleton';
 import StoreContext from '../../store/Store/StoreContext';
 import useWeb3 from '../../hooks/useWeb3';
 import starOrganization from './starOrganization';
-import { useRouter } from 'next/router';
 
 const OrganizationCard = ({ organization }) => {
 	// Context
@@ -17,7 +16,6 @@ const OrganizationCard = ({ organization }) => {
 	const [starred, setStarred] = useState();
 	const [starredDisabled, setStarredDisabled] = useState(true);
 	const { account } = useWeb3();
-	const router = useRouter();
 	useEffect(() => {
 		if ((organization.starringUserIds && organization.starringUserIds.some(user => user === account)) || organization.starred) {
 			setStarred(true);
