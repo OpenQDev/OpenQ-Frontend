@@ -55,7 +55,7 @@ const OrganizationCard = ({ organization }) => {
 		<div
 			className={`min-w-[300px] w-60 ${!starred ? 'hidden' : null}`}
 		>
-			<Link href={ `/organization/${organization.login}`}>
+			<Link href={`/organization/${organization.login}`}>
 				<div
 					className={
 						'flex flex-col p-6 items-center cursor-pointer text-[0.8rem] tracking-wider placeholder-input-gray outline-none rounded-sm border border-border-gray bg-menu-bg w-full h-72 mb-1'
