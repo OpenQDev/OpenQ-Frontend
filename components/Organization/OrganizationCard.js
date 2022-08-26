@@ -16,7 +16,6 @@ const OrganizationCard = ({ organization }) => {
 	const [starred, setStarred] = useState();
 	const [starredDisabled, setStarredDisabled] = useState(true);
 	const { account } = useWeb3();
-
 	useEffect(() => {
 		if ((organization.starringUserIds && organization.starringUserIds.some(user => user === account)) || organization.starred) {
 			setStarred(true);
