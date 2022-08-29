@@ -18,7 +18,6 @@ import TierInput from './TierInput';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import SubMenu from '../Utils/SubMenu';
 
-// TODO: re-add loadingBar in props when ready
 const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
@@ -64,6 +63,38 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 
 	// Refs
 	const modal = useRef();
+
+	function sleep(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms));
+	}
+  
+	const setReload = () => {
+		const payload = {
+			type: 'UPDATE_RELOAD',
+			payload: true
+		};
+		dispatch(payload);
+	};
+
+	const refreshBounty = async (address) => {
+		await sleep(1000);
+		const payload = {type: 'BOUNTY_MINTED', payload: address};
+		dispatch(payload);
+		let newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
+		try {
+			while (!newBounty) {
+				newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
+				await sleep(500);
+			}
+			await sleep(180000); // forcing 3 min waiting time since the new bounty still not visible in list
+			const payload = {type: 'BOUNTY_MINTED', payload: ''};
+			dispatch(payload);
+			setReload();
+		}
+		catch (error) {
+			setError(true);
+		}
+	};
 
 	const setIssueUrl = async (issueUrl) => {
 		if (!isLoading) {
@@ -128,7 +159,6 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 			default:
 				throw new Error(`No type: ${toggleType}`);
 			}
-			triggerLoading();
 			const { bountyAddress } = await appState.openQClient.mintBounty(
 				library,
 				issue.id,
@@ -137,6 +167,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 				data
 			);
 			sessionStorage.setItem('justMinted', true);
+			refreshBounty(bountyAddress);
 			await router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress.toLowerCase()}`
 			);
@@ -186,14 +217,6 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 	}, [modal, isLoading]);
 
 	// Methods
-
-	function triggerLoading() {
-		// fix the "loadingBar is not a function" error to de-comment the below code
-		/* setTimeout(function () {
-			loadingBar(false);
-		}, 300000); // 5 minutes
-		loadingBar(true); */
-	}
 
 	function onTierChange(e) {
 		if (parseInt(e.target.value) >= 0) { setTier(parseInt(e.target.value)); }
