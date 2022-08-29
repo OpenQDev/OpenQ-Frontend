@@ -5,14 +5,12 @@
 import React from 'react';
 
 import { render, screen } from '../../test-utils';
-import InitialState from '../../store/Store/InitialState';
 import RepoCard from '../../components/Organization/RepoCard';
-import mocks from '../../__mocks__/mock-server.json';
- 
 
-describe('OrganizationMetadata', ( ) => {
-	
-	
+
+describe('OrganizationMetadata', () => {
+
+
 	const repositoryData = {
 		'name': 'curl',
 		'languages': [
@@ -72,20 +70,20 @@ describe('OrganizationMetadata', ( ) => {
 	};
 
 
-	it('should render Repo card', async()=>{
+	it('should render Repo card', async () => {
 		// ARRANGE
-		render(<RepoCard repository={repositoryData} complete={true}/>);
+		render(<RepoCard repository={repositoryData} complete={true} />);
 
 		// ASSERT
-		expect(screen.getByRole('link', {name: 'curl'})).toBeInTheDocument();
+		expect(screen.getByRole('link', { name: 'curl' })).toBeInTheDocument();
 		expect(screen.getByText('A command line tool and library for transferring data with URL syntax, supporting DICT, FILE, FTP, FTPS, GOPHER, GOPHERS, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, MQTT, POP3, POP3S, RTMP, RTMPS, RTSP, SCP, SFTP, SMB, SMBS, SMTP, SMTPS, TELNET and TFTP. libcurl offers a myriad of powerful features')).toBeInTheDocument();
 		expect(screen.getByText('C')).toBeInTheDocument();
-			
+
 		// should not have null or undefined values
-		const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
+		const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
 		expect(nullish).toHaveLength(0);
 
-			
+
 	});
 
 });

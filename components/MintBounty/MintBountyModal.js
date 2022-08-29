@@ -1,5 +1,6 @@
 // Third party
 import React, { useEffect, useState, useContext, useRef } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
 
@@ -250,7 +251,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 				<>
 					<div ref={modal} className="m-auto w-3/5 min-w-[320px] z-50 fixed top-24">
 						<div className="w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-1">
-							{!hideSubmenu && <SubMenu items={[{ name: 'Atomic' }, { name: 'Repeating' }, { name: 'Contest' }]} internalMenu={toggleType} updatePage={setToggleType} styles={'justify-center'} />}
+							{!hideSubmenu && <SubMenu items={[{ name: 'Single' }, { name: 'Multi' }, { name: 'Weighted' }]} internalMenu={toggleType} updatePage={setToggleType} styles={'justify-center'} />}
 							<div className='max-h-[70vh] w-full overflow-y-auto'>
 								<MintBountyHeader type={toggleType} />
 								<div className="flex flex-col items-center pl-6 pr-6">
@@ -331,6 +332,22 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 												</div>
 												: null
 											}
+											<div className="flex flex-row space-x-3 items-center text-md pt-3">
+												<div>Make sure you 
+													{' '}
+													<Link href="https://docs.openq.dev/welcome/master">
+														<a target="_blank" className="text-blue-600 cursor-pointer">
+														label your Github issue correctly 
+														</a> 
+													</Link>
+													{' '}
+													so that users can find it easily.
+												</div>
+												<ToolTipNew mobileX={10} toolTipText="Our main categories are Prime, Learn2Earn and Contest. Label your issue with those and you will be able to find them on our pages." >
+													<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
+
+												</ToolTipNew> 
+											</div>
 										</div>
 									</div>
 								</div>
