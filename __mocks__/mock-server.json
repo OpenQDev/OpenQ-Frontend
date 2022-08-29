@@ -1,6 +1,8 @@
 {
-	"prismaOrgs": [
+	"prismaOrgs": {
+		"organizations":[
 		{
+			"bounties":{ "nodes": []},
 			"blacklisted": false,
 			"starringUserIds": [
 				"0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
@@ -8,6 +10,7 @@
 			"id": "MDQ6VXNlcjUzNjYyMQ=="
 		},
 		{
+			"bounties":{ "nodes": []},
 			"blacklisted": false,
 			"starringUserIds": [
 				"0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
@@ -15,6 +18,7 @@
 			"id": "MDQ6VXNlcjE0ODA0MTIz"
 		},
 		{
+			"bounties":{ "nodes": []},
 			"blacklisted": true,
 			"starringUserIds": [
 				"0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
@@ -22,41 +26,64 @@
 			"id": "MDEyOk9yZ2FuaXphdGlvbjE0OTg1MDIw"
 		},
 		{
+			"bounties":{ "nodes": []},
 			"blacklisted": false,
 			"starringUserIds": [
 				"0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
 			],
 			"id": "MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4"
 		}
-	],
-	"prismaBounties": [
+	]},
+	"prismaBounties": {
+		"bounties": {
+			"bountyConnection": {
+			"nodes":	[
 		{
 			"address": "0x13f7816057de7256daf5028eaf8e79775d3a27a3",
+			 "bountyId": "I_kwDOGWnnz85I9Ahl",
+			"organization":{ "bounties": []}	,
 			"blacklisted": true
 		},
 		{
-			"address": "0x1f191c4166865882b26551fb8618668b7a67d0fb"
+			"address": "0x1f191c4166865882b26551fb8618668b7a67d0fb",
+			"bountyId": "I_kwDOBC3Cis5Kk2OD",
+			"organization":{ "bounties": []}		},
+		{
+			"address": "0xcdf0e532ab8eb9a12da5cae3b6ae5370faacd028",
+			"bountyId": "MDU6SXNzdWU5ODU5NDM2NjQ=",
+			"organization":{ "bounties": []}	
 		},
 		{
-			"address": "0xcdf0e532ab8eb9a12da5cae3b6ae5370faacd028"
+			"address": "0xd316991a0b2014dcf954bb02150df6261661be2e",
+			"bountyId": "MDU6SXNzdWU4MjQwMjMyMTk=",
+			"organization":{ "bounties": []}	
 		},
 		{
-			"address": "0xd316991a0b2014dcf954bb02150df6261661be2e"
+			"address": "0x35dd738e306d32f2709824b6f744f188da01d3c5",
+			"bountyId": "I_kwDOGWnnz85LAu6g",
+			"organization":{ "bounties": []}	
 		},
 		{
-			"address": "0x35dd738e306d32f2709824b6f744f188da01d3c5"
+			"address": "0x7e2d5fcc5e02cbf2b9f860052c0226104e23f9c7",
+			"bountyId": "I_kwDOGWnnz85JAh1-",
+			"organization":{ "bounties": []}	
 		},
 		{
-			"address": "0x7e2d5fcc5e02cbf2b9f860052c0226104e23f9c7"
-		},
-		{
-			"address": "0x3ca8f9c04c7e3e1624ac2008f92f6f366a869444"
+			"address": "0x3ca8f9c04c7e3e1624ac2008f92f6f366a869444",
+			"organization":{ "bounties": []},
+			"bountyId": "I_kwDOGWnnz85LBZmQ"
 		},
 		{
 			"address": "0x8daf17a20c9dba35f005b6324f493785d239719d",
+			"bountyId": "I_kwDOGWnnz85JAion",
+			"organization":{ "bounties": []}	,
 			"blacklisted": true
 		}
 	],
+"cursor": "0x8daf17a20c9dba35f005b6324f493785d239719d"
+}
+}
+},
 	"users": [
 		{
 			"id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
@@ -800,6 +827,7 @@
 			"bountyId": "I_kwDOGWnnz85I9Ahl",
 			"bountyMintTime": "1654041044",
 			"bountyClosedTime": null,
+			"bountyType": "2",
 			"status": "OPEN",
 			"claimedTransactionHash": null,
 			"deposits": [
@@ -837,6 +865,7 @@
 			"bountyMintTime": "1654260766",
 			"bountyClosedTime": null,
 			"status": "OPEN",
+			"bountyType": 2,
 			"claimedTransactionHash": null,
 			"deposits": [],
 			"issuer": {
@@ -852,6 +881,7 @@
 			"bountyMintTime": "1654260724",
 			"bountyClosedTime": null,
 			"status": "OPEN",
+			"bountyType": "1",
 			"claimedTransactionHash": null,
 			"deposits": [
 				{
@@ -888,6 +918,7 @@
 			"bountyMintTime": "1654260628",
 			"bountyClosedTime": null,
 			"status": "OPEN",
+			"bountyType": "1",
 			"claimedTransactionHash": null,
 			"deposits": [],
 			"issuer": {
@@ -901,6 +932,8 @@
 			"bountyAddress": "0x35dd738e306d32f2709824b6f744f188da01d3c5",
 			"bountyId": "I_kwDOGWnnz85LAu6g",
 			"bountyMintTime": "1654260571",
+			
+			"bountyType": "3",
 			"bountyClosedTime": "1654260841",
 			"status": "CLOSED",
 			"claimedTransactionHash": "0xe7eeb3a9f51e4c3d977d329b3c90e9ea06b9ab9e74b37fdc52d5093a9e327284",
@@ -915,7 +948,8 @@
 			"__typename": "Bounty",
 			"bountyAddress": "0x7e2d5fcc5e02cbf2b9f860052c0226104e23f9c7",
 			"bountyId": "I_kwDOGWnnz85JAh1-",
-			"bountyMintTime": "1654260379",
+			"bountyMintTime": "1654260379",			
+			"bountyType": "3",
 			"bountyClosedTime": null,
 			"status": "OPEN",
 			"claimedTransactionHash": null,
@@ -1084,8 +1118,9 @@
 			"owner": "alo9507",
 			"assignees": {
 				"nodes": [
-					{
-						"name": "Bill French"
+					{"url":"https://github.com/FlacoJones",
+					"avatarUrl": "https://avatars.githubusercontent.com/u/93455288?s=64&v=4",
+											"name": "Flaco jones"
 					}
 				]
 			},
@@ -2085,7 +2120,8 @@
 					{
 						"__typename": "User",
 						"name": "Christopher Stevers",
-						"url": "https://github.com/Christopher-Stevers"
+						"url": "https://github.com/Christopher-Stevers",
+						"avatarUrl": "https://avatars.githubusercontent.com/u/72156679?s=64&v=4"
 					}
 				]
 			},
@@ -2192,7 +2228,8 @@
 					{
 						"__typename": "User",
 						"name": "Christopher Stevers",
-						"url": "https://github.com/Christopher-Stevers"
+						"url": "https://github.com/Christopher-Stevers",
+						"avatarUrl":"https://avatars.githubusercontent.com/u/72156679?s=64&v=4"
 					}
 				]
 			},
@@ -2264,6 +2301,11 @@
 	"checkAuth": {
 		"data": {
 			"isAuthenticated": true
+		}
+	},
+	"hasSignature":{
+		"data": {
+			"status": false
 		}
 	},
 	"logout": {

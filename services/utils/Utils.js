@@ -215,7 +215,6 @@ class Utils {
 		
 		const		githubIssues = await githubRepository.getIssueData(bountyIds);
 		const fullBounties = this.combineBounties(subgraphContracts, githubIssues, prismaContracts);
-		
 		return [fullBounties, newCursor, renderError];
 	};
 	

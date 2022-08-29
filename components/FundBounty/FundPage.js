@@ -83,7 +83,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	};
 	async function fundBounty() {
 		const volumeInWei = volume * 10 ** token.decimals;
-		console.log(volumeInWei);
 		if (volumeInWei == 0) {
 			setError({ title: 'Zero Volume Sent', message: 'Must send a greater than 0 volume of tokens.' });
 			setApproveTransferState(ERROR);
