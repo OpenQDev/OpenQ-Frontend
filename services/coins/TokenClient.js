@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { ethers } from 'ethers';
-import { setup } from 'axios-cache-adapter';
 import localSuperfluidIndexable from '../../constants/superfluid-local-indexable.json';
 import enumerable from '../../constants/polygon-mainnet-enumerable.json';
 import indexable from '../../constants/polygon-mainnet-indexable.json';
@@ -65,9 +64,6 @@ class CoinClient {
 		return promise;
 	}
 
-	cachingClient = setup({
-		cache: { maxAge: 6 * 1000 } // 3s
-	});
 
 	parseTokenValues = async (tokenBalances) => {
 		if (tokenBalances) {
