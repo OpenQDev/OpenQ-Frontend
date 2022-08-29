@@ -14,7 +14,8 @@ import mocks from '../../__mocks__/mock-server.json';
 describe('BountyList', ( ) => {
 	const newBounties = mocks.bounties;	
 	const	issueData = InitialState.githubRepository.parseIssuesData(mocks.githubIssues);
-	const fullBounties = InitialState.utils.combineBounties(newBounties, issueData);
+	const prismaContracts = mocks.prismaBounties;
+	const fullBounties = InitialState.utils.combineBounties(newBounties, issueData, prismaContracts.bounties.bountyConnection.node);
 	const contractAddresses = mocks.watchedBounties.bounties.map(bounty=>bounty.address.toLowerCase());
 	const subgraphBounties =  newBounties.filter(bounty=>contractAddresses.includes(bounty.bountyAddress));
 	const githubIds = subgraphBounties.map(bounty=>bounty.bountyId);

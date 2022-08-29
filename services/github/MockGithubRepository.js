@@ -163,7 +163,7 @@ class MockGithubRepository {
 		return promise;
 	}
 
-	async fetchOrgsOrUsersByIds(ids) {
+	async fetchOrganizationsByIds(ids) {
 		const promise = await new Promise(async (resolve, reject) => {
 			try {
 				const organizations = await Promise.all(ids.map(async (id, index) => {
