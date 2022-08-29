@@ -278,6 +278,10 @@ query GetUser($id: ID!) {
       tokenAddress
       volume
       payoutTime
+			bounty {
+				id
+				bountyId
+			}
       organization {
         id
       }
