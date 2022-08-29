@@ -11,10 +11,43 @@ import InitialState from '../../store/Store/InitialState';
  
 
 describe('MiniBountyCard', ( ) => {
-	const newBounties = mocks.bounties;	
-	const	issueData = mocks.githubIssues.map(issue=>InitialState.githubRepository.parseIssueData(issue));
-	const fullBounties = InitialState.utils.combineBounties(newBounties, issueData);
-
+	
+	const subgraphBounty = {
+		'__typename': 'Bounty',
+		'bountyAddress': '0x13f7816057de7256daf5028eaf8e79775d3a27a3',
+		'bountyId': 'I_kwDOGWnnz85I9Ahl',
+		'bountyMintTime': '1654041044',
+		'bountyClosedTime': null,
+		'status': 'OPEN',
+		'claimedTransactionHash': null,
+		'deposits': [
+			{
+				'__typename': 'Deposit',
+				'id': '0xd024e550ba670d71f23f336c63ed0aacda946c6836f416028ffa0888b1a4b691',
+				'refunded': false,
+				'refundTime': null,
+				'expiration': '2592000',
+				'tokenAddress': '0x5fbdb2315678afecb367f032d93f642f64180aa3',
+				'volume': '12000000000000000000',
+				'sender': {
+					'__typename': 'User',
+					'id': '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'
+				},
+				'receiveTime': '1642021044'
+			}
+		],
+		'issuer': {
+			'__typename': 'User',
+			'id': '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'
+		},
+		'bountyTokenBalances': [
+			{
+				'__typename': 'BountyFundedTokenBalance',
+				'volume': '12000000000000000000',
+				'tokenAddress': '0x5fbdb2315678afecb367f032d93f642f64180aa3'
+			}
+		]
+	};
 	beforeEach(()=>{
 		const observe = jest.fn();
 		const disconnect = jest.fn();
@@ -25,23 +58,21 @@ describe('MiniBountyCard', ( ) => {
 		}));
 	});
 
-	const test =(bounty)=>{
 		
-		it('should render MiniBountyCard with link', ()=>{
-			// ARRANGE
-			render(<MiniBountyCard bounty={bounty} />);
+	it('should render MiniBountyCard with link', ()=>{
+		// ARRANGE
+		render(<MiniBountyCard bounty={subgraphBounty} />);
 
-			// ASSERT
-			expect(screen.getByRole('link')).toBeInTheDocument();
+		// ASSERT
+		expect(screen.getByRole('link')).toBeInTheDocument();
 			
-			// should not have null or undefined values
-			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
-			expect(nullish).toHaveLength(0);
+		// should not have null or undefined values
+		const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
+		expect(nullish).toHaveLength(0);
 
 			
-		});
-	};
+	});
+	
 
-	fullBounties.forEach(bounty=>test({...bounty, watchingUsers: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'}));
 });
 	
