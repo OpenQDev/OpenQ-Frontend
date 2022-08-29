@@ -1,6 +1,6 @@
 // Third party
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import Link from 'next/link'
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
 
@@ -357,13 +357,13 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 											}
 											<div className="flex flex-row space-x-3 items-center text-md pt-3">
 												<div>Make sure you 
-													{" "}
+													{' '}
 													<Link href="https://docs.openq.dev/welcome/master">
-													<a target="_blank" className="text-blue-600 cursor-pointer">
+														<a target="_blank" className="text-blue-600 cursor-pointer">
 														label your Github issue correctly 
-													</a> 
+														</a> 
 													</Link>
-													{" "}
+													{' '}
 													so that users can find it easily.
 												</div>
 												<ToolTipNew mobileX={10} toolTipText="Our main categories are Prime, Learn2Earn and Contest. Label your issue with those and you will be able to find them on our pages." >
