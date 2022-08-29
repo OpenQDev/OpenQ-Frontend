@@ -87,6 +87,7 @@ query GetOrgs($orgIds: [ID!]!) {
 			description
       id
       avatarUrl
+			url
     }
 		...on User {
       name
@@ -94,6 +95,7 @@ query GetOrgs($orgIds: [ID!]!) {
 			bio
       id
       avatarUrl
+			url
     }
   }
 }
