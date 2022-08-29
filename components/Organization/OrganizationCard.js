@@ -43,9 +43,12 @@ const OrganizationCard = ({ organization }) => {
 	}
 
 	useEffect(async () => {
-		if (organization) {
+		if (organization?.bounties) {
 			const filteredBounties = organization.bounties.nodes.filter(contract => !contract.blacklisted);
 			setOrgBounties(filteredBounties);
+		}
+		else if (organization){
+			setOrgBounties(organization.bountiesCreated);
 		}
 	}, [organization.bountiesCreated]);
 
