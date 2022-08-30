@@ -16,7 +16,7 @@ describe('BountyCard', ( ) => {
 	const fullBounties = [];
 	
 	jest.mock('axios');
-	
+
 	axios.get.mockResolvedValueOnce({status: true});
 	axios.post.mockResolvedValueOnce({status: true});
 	const	issueData = InitialState.githubRepository.parseIssuesData(mocks.githubIssues);
@@ -61,7 +61,7 @@ describe('BountyCard', ( ) => {
 			const orgName = screen.getByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
 			await user.click(orgName);
 			if(bounty.status==1){				
-				const bountyStatus = await	screen.findAllByText(/Claimed/i);
+				const bountyStatus = await	screen.findAllByText(/Closed/i);
 				expect(bountyStatus[0]).toBeInTheDocument();
 			}
 			const link = await screen.findAllByText(/Full Contract/i);			

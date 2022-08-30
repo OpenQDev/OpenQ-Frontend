@@ -34,7 +34,11 @@ describe('BountyStatus', ( ) => {
 			render(<BountyStatus bounty={bounty} />);
 
 			// ASSERT
-			expect(screen.getByText(/Claimed/i)).toBeInTheDocument();
+			if(bounty.status==='1'){
+				expect(screen.getByText(/Closed/i)).toBeInTheDocument();}
+			if(bounty.status==='0'){
+				
+				expect(screen.getByText(/Open/i)).toBeInTheDocument();}
 			expect(screen.getByText(/Smart Contract Deployed/i)).toBeInTheDocument();
 			
 			// should not have null or undefined values
