@@ -19,7 +19,7 @@ const starOrganization = async (account, id, starred, setStarred, setStarredDisa
 		return signature;
 	};
 	try {
-		const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature?address=${account}`, { withCredentials: true });
+		const response = await appState.authService.hasSignature(account);
 		if (response.data.status===false) {
 			const signature = await signMessage();
 			await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/verifySignature`,
