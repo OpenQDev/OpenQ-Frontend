@@ -42,12 +42,7 @@ const Navigation = () => {
 			try {
 				const response = await appState.authService.hasSignature(account);
 				if (response.data.status === false) {
-					await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/verifySignature`,
-						{
-							signature: '',
-							address: account
-						}, { withCredentials: true }
-					);
+					await appState.authService.verifySignature(account);
 				}
 			} catch (error) {
 				console.error(error);
