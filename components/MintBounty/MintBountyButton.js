@@ -3,12 +3,10 @@ import React, { useState } from 'react';
 import ContractWizard from '../ContractWizard/ContractWizard';
 // Custom
 import MintBountyModal from './MintBountyModal';
-import LoadingBar from '../Loading/LoadingBar';
 
 
 const MintBountyButton = ({styles, types, wizard}) => {
 	const [showModal, setShowModal] = useState(false);
-	const [loadingBar, setLoadingBar] = useState(false);
 
 	return (
 		<>
@@ -35,8 +33,7 @@ const MintBountyButton = ({styles, types, wizard}) => {
 			{ wizard?  
 				showModal && <ContractWizard wizardVisibility={setShowModal} />
 				:
-				showModal && <MintBountyModal hideSubmenu={types.length<3} types={types} modalVisibility={setShowModal} loadingBar={setLoadingBar} />}
-			{loadingBar && <LoadingBar loadingBar={setLoadingBar}/>}
+				showModal && <MintBountyModal hideSubmenu={types.length<3} types={types} modalVisibility={setShowModal} />}
 
 		</>
 	);

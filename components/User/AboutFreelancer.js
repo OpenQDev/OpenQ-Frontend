@@ -18,7 +18,7 @@ import StoreContext from '../../store/Store/StoreContext';
 
 const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatched, watchedBounties }) => {
 
-	const { bountiesClosed, payoutTokenBalances, payouts } = user;
+	const { payoutTokenBalances, payouts } = user;
 	const [internalMenu, setInternalMenu] = useState('Overview');
 	const [appState] = useContext(StoreContext);
 	const[watchedFullBounties, setWatchedFullBounties] = useState([]);
@@ -121,7 +121,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
 
 							<UserHistory organizations={organizations} payouts={payouts} />
 							<Balances tokenBalances={payoutTokenBalances} tokenValues={payoutTokenValues} type="Total Payouts" />
-							<MiniBountyList bounties={bountiesClosed} />
+							<MiniBountyList payouts={payouts}/>
 						</div>)
 						: internalMenu == 'Stars' ?
 							<Starred starredOrganizations={starredOrganizations} />
