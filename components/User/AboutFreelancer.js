@@ -16,8 +16,7 @@ import Watching from './AboutModules/Watching';
 import Starred from './AboutModules/Starred';
 import StoreContext from '../../store/Store/StoreContext';
 
-const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatched, watchedBounties }) => {
-
+const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatched }) => {
 	const { payoutTokenBalances, payouts } = user;
 	const [internalMenu, setInternalMenu] = useState('Overview');
 	const [appState] = useContext(StoreContext);
@@ -43,7 +42,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
 		if (account && showWatched) {
 			// get watched bounties as soon as we know what the account is.
 			try {
-				const watchedBountyAddresses = watchedBounties.map(
+				const watchedBountyAddresses = watchedFullBounties.map(
 					(bounty) => bounty.address.toLowerCase()
 				)||[];
 				const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(watchedBountyAddresses, ['0', '1','2']);
@@ -126,7 +125,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
 						: internalMenu == 'Stars' ?
 							<Starred starredOrganizations={starredOrganizations} />
 							:
-							watchedBounties && showWatched &&	<Watching watchedBounties={watchedFullBounties} />
+							watchedFullBounties.length>0 && showWatched &&	<Watching watchedBounties={watchedFullBounties} />
 					}
 				</div>
 

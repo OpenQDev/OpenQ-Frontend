@@ -22,12 +22,7 @@ const starOrganization = async (account, id, starred, setStarred, setStarredDisa
 		const response = await appState.authService.hasSignature(account);
 		if (response.data.status===false) {
 			const signature = await signMessage();
-			await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/verifySignature`,
-				{
-					signature,
-					address: account
-				}, { withCredentials: true }
-			);
+			await appState.authService.verifySignature(account, signature);
 		}
 
 

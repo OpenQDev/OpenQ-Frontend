@@ -5,16 +5,15 @@
 import React from 'react';
 
 import { render, screen } from '../../test-utils';
-import BountyLinks from '../../components/BountyCard/BountyLinks';
+import BountyHomepage from '../../components/Bounty/BountyHomepage';
 import mocks from '../../__mocks__/mock-server.json';
 import InitialState from '../../store/Store/InitialState';
  
 
-describe('BountyLinks', ( ) => {
+describe('BountyHomepage', ( ) => {
 	const newBounties = mocks.bounties;	
 	const	issueData = InitialState.githubRepository.parseIssuesData(mocks.githubIssues);
-	const prismaContracts = mocks.prismaBounties;
-	const fullBounties = InitialState.utils.combineBounties(newBounties, issueData, prismaContracts.bounties.bountyConnection.nodes);
+	const fullBounties = InitialState.utils.combineBounties(newBounties, issueData);
 
 	beforeEach(()=>{
 		const observe = jest.fn();
@@ -26,15 +25,17 @@ describe('BountyLinks', ( ) => {
 		}));
 	});
 
-	const test =(bounty)=>{
+	const test =(bounties)=>{
 		
-		it('should render Bounty Links', ()=>{
+		it('should render Bounty homepage', async()=>{
 			// ARRANGE
-			render(<BountyLinks bounty={bounty} watchedBounties={[]}/>);
+			render(<BountyHomepage bounties={bounties} watchedBounties={[]}/>);
 
 			// ASSERT
-			const Images =  screen.getAllByRole('link');
-			expect(Images).toHaveLength(4);
+			const title1 = screen.getAllByText(/good first issue/i);
+			expect(title1[0]).toBeInTheDocument();
+			const title2 = screen.getAllByText(/学習プログラムの再現性を確保する方法について/i);
+			expect(title2[0]).toBeInTheDocument();
 			
 			// should not have null or undefined values
 			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
@@ -45,5 +46,5 @@ describe('BountyLinks', ( ) => {
 
 	};
 
-	fullBounties.forEach(bounty=>test({...bounty, watchingUsers: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'}));
+	test(fullBounties);
 });
