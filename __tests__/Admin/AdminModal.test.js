@@ -13,11 +13,16 @@ const types = [
 	'Closed Contest',
 	'Closed Repeatable'
 ]
+const error = ['random error message']
 
-const test = (setModal, modal) => {
+const test = (modal) => {
+
+	if (modal.type == 'Error') {
+		modal.title == error;
+	}
 
 	it('should render the modal', () => {
-		render(<AdminModal setModal={setModal} modal={modal} />);
+		render(<AdminModal modal={modal} />);
 		// header display if it exists
 
 		// ASSERT
@@ -27,30 +32,34 @@ const test = (setModal, modal) => {
 				text = screen.getByText('Payout Schedule Updated!');
 				break;
 			case 'Budget':
-				text = screen.getByText('Approving...');
+				text = screen.getByText('Budget Updated!');
 				break;
 			case 'Payout':
-				text = screen.getByText('Transferring...');
+				text = screen.getByText('Payout Updated!');
 				break;
 			case 'Error':
-				text = screen.getByText('Transaction confirmed! Check out your transaction with the link below:');
+				text = screen.getByText('random error message');
 				break;
 			case 'Closed Contest':
-				text = screen.getByText('User Denied Transaction');
+				text = screen.getByText('Contest Closed!');
 				break;
 			case 'Closed Repeatable':
-				text = screen.getByText('User Denied Transaction');
+				text = screen.getByText('Repeatable Contract Closed!');
 				break;
 		}
 		expect(text).toBeInTheDocument();
 
-		// should not have null or undefined values
+		/* // should not have null or undefined values
 		const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-		expect(nullish).toHaveLength(0);
+		expect(nullish).toHaveLength(0); */
 	}
 	);
 
 };
 describe('AdminModal', () => {
-	errors.forEach(error => approveTransferStates.forEach((state) => test(state, error)));
+	types.forEach(type => {
+		const modal = {};
+		modal.type = type;
+		test(modal)
+	});
 });
