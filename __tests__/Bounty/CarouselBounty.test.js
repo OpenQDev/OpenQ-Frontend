@@ -1,4 +1,4 @@
-// test/components/FundPage/ApprovalTransferModal.js
+
 /**
  * @jest-environment jsdom
  */
