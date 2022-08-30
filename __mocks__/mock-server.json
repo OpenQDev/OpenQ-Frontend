@@ -2305,7 +2305,7 @@
 	},
 	"hasSignature":{
 		"data": {
-			"status": false
+			"status": true
 		}
 	},
 	"logout": {

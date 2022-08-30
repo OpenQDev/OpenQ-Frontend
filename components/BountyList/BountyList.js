@@ -128,6 +128,7 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 				const hasBudget = bounty.fundingGoalVolume > 0;
 				const isAssigned = bounty.assignees?.length > 0;
 
+				// some auto generated bounties show up as funded but don't display anything, that's because they are funded at really low values.
 				// Combine
 				return (containsSearch && containsTag && (((hasBudget || isFunded) && (isUnclaimed) && (!isAssigned)) || localIsReady === 'All issues') && hasLabels && bounty.url && !bounty.blacklisted && isType);
 			}

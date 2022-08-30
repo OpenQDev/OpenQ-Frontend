@@ -16,11 +16,12 @@ import Watching from './AboutModules/Watching';
 import Starred from './AboutModules/Starred';
 import StoreContext from '../../store/Store/StoreContext';
 
-const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatched }) => {
+const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatched, watchedBounties }) => {
+
 	const { bountiesClosed, payoutTokenBalances, payouts } = user;
 	const [internalMenu, setInternalMenu] = useState('Overview');
 	const [appState] = useContext(StoreContext);
-	const[watchedBounties, setWatchedBounties] = useState([]);
+	const[watchedFullBounties, setWatchedFullBounties] = useState([]);
 	const [githubUser, setGithubUser] = useState();
 	const account = user.id;
 	const [ensName] = useEns(account);
@@ -42,20 +43,17 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
 		if (account && showWatched) {
 			// get watched bounties as soon as we know what the account is.
 			try {
-				const prismaBounties = await appState.openQPrismaClient.getUser(
-					account
-				);
-				const watchedBountyAddresses = prismaBounties?.watchedBountyIds.map(
-					(address) => address.toLowerCase()
+				const watchedBountyAddresses = watchedBounties.map(
+					(bounty) => bounty.address.toLowerCase()
 				)||[];
 				const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(watchedBountyAddresses, ['0', '1','2']);
 				const githubIds = subgraphBounties.map((bounty) => bounty.bountyId);
 				const githubBounties = await appState.githubRepository.getIssueData(
 					githubIds
 				);
-				setWatchedBounties(
+				setWatchedFullBounties(
 					subgraphBounties.map((bounty, index) => {
-						return { ...bounty, ...githubBounties[index] };
+						return { ...bounty,  ...githubBounties[index] };
 					})
 				);
 			} catch (err) {
@@ -128,7 +126,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
 						: internalMenu == 'Stars' ?
 							<Starred starredOrganizations={starredOrganizations} />
 							:
-							watchedBounties && showWatched &&	<Watching watchedBounties={watchedBounties} />
+							watchedBounties && showWatched &&	<Watching watchedBounties={watchedFullBounties} />
 					}
 				</div>
 
