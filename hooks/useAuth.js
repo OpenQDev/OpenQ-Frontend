@@ -27,7 +27,7 @@ const useAuth = () => {
 	useEffect(() => {
 	// updates signed account if recieves true.
 		async function checkAccount() {
-			const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature?address=${account}`, { withCredentials: true });
+			const response = await appState.authService.hasSignature(account);
 			if(response.data.status){
 				setAuthState({ type: 'UPDATE_SIGNED_ACCOUNT', payload: { addressRecovered: response.data.addressRecovered} });
 			}

@@ -14,13 +14,13 @@ class AuthService {
 			}
 		});
 	}
-
-	async verifySignature(account) {
+	
+	async verifySignature(account, signature) {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const response = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/verifySignature`,
 				{
-					signature: '',
+					signature: signature,
 					address: account
 				}, { withCredentials: true }
 			);

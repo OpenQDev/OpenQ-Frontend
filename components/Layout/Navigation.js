@@ -52,7 +52,7 @@ const Navigation = () => {
 			try {
 				const response = await appState.authService.hasSignature(account);
 				if (response.data.status === false) {
-					await appState.authService.verifySignature(account);
+					await appState.authService.verifySignature(account, '');
 				}
 			} catch (error) {
 				console.error(error);
