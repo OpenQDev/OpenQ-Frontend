@@ -2322,6 +2322,7 @@
 			"status": true
 		}
 	},
+	"verifySignature":{},
 	"logout": {
 		"data": {
 			"isAuthenticated": true

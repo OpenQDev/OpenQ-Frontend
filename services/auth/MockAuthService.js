@@ -15,6 +15,29 @@ class MockAuthService {
 				console.error(error);
 			});
 	}
+	async checkAuth(account) {
+		await sleep();
+
+		return axios.get(`http://localhost:3030/checkAuth`)
+			.then(result => {
+				return result.data;
+			})
+			.catch(error => {
+				console.error(error);
+			});
+	}
+
+	async verifySignature(account) {
+		await sleep();
+
+		return axios.get(`http://localhost:3030/verifySignature`)
+			.then(result => {
+				return result.data;
+			})
+			.catch(error => {
+				console.error(error);
+			});
+	}
 
 }
 

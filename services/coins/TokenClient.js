@@ -66,6 +66,7 @@ class CoinClient {
 
 
 	parseTokenValues = async (tokenBalances) => {
+		console.log(tokenBalances);
 		if (tokenBalances) {
 			let tokenVolumes = {};
 			if (Array.isArray(tokenBalances)) {
