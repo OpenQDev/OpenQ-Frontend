@@ -61,9 +61,9 @@ const CopyAddressToClipboard = ({clipping, data, styles, noClip, }) => {
 				<div className='px-1'>{
 					noClip ?
 						data :
-						`${data.substring(0, start)}
+						`${data?.substring(0, start)}
 						...
-						${data.substring(stop)}`
+						${data?.substring(stop)}`
 				}
 				</div>
 			</div>

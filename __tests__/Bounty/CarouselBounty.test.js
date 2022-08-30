@@ -13,7 +13,9 @@ import InitialState from '../../store/Store/InitialState';
 describe('CarouselBounty', ( ) => {
 	const newBounties = mocks.bounties;	
 	const	issueData = InitialState.githubRepository.parseIssuesData(mocks.githubIssues);
-	const fullBounties = InitialState.utils.combineBounties(newBounties, issueData);
+	const prismaContracts = mocks.prismaBounties;
+	
+	const fullBounties = InitialState.utils.combineBounties(newBounties, issueData, prismaContracts.bounties.bountyConnection.nodes);
 
 	beforeEach(()=>{
 		const observe = jest.fn();
