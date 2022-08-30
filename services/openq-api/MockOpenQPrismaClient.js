@@ -75,7 +75,23 @@ class OpenQPrismaClient {
 				});
 		});
 		return promise;
+
 	}
+
+	
+	getOrganization(id){
+		const promise = new Promise(async (resolve, reject) => {
+			console.log(id)
+			axios.get(`http://localhost:3030/prismaOrgs/`)
+				.then(result => {
+					resolve({organization: result.data.organizations.filter(org=>org.id===id)[0]})
+				})
+				.catch(error => {
+					reject(error);
+				});
+		})
+		return promise;
+	};
 	
 	async getContractPage(after, limit, sortOrder, orderBy,   category, organizationId ) {
 		const promise = new Promise(async (resolve, reject) => {

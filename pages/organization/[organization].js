@@ -142,7 +142,7 @@ export const getServerSideProps = async (context) => {
 	catch (err) {
 		renderError = 'OpenQ cannot fetch organization data from Github.';
 	}	
-	
+	console.log(orgMetadata.organizations);
 	const prismaContracts = orgMetadata.organization.bounties.bountyConnection.nodes.filter(node=>!node.blacklisted);
 
 	const fullBounties = utils.combineBounties(bounties, issueData, prismaContracts);
