@@ -4,8 +4,13 @@ class MockAuthService {
 	
 	constructor() { }
 
+	async sleep(time) {
+		return new Promise(async (resolve,) => {
+			return setTimeout(resolve, time);
+		});
+	}
 	async hasSignature(library) {
-		await sleep();
+		await this.sleep();
 
 		return axios.get(`http://localhost:3030/hasSignature`)
 			.then(result => {
@@ -16,7 +21,7 @@ class MockAuthService {
 			});
 	}
 	async checkAuth(account) {
-		await sleep();
+		await this.sleep();
 
 		return axios.get(`http://localhost:3030/checkAuth`)
 			.then(result => {
@@ -28,7 +33,7 @@ class MockAuthService {
 	}
 
 	async verifySignature(account) {
-		await sleep();
+		await this.sleep();
 
 		return axios.get(`http://localhost:3030/verifySignature`)
 			.then(result => {

@@ -14,7 +14,6 @@ import LabelsList from '../Bounty/LabelsList';
 import useAuth from '../../hooks/useAuth';
 
 const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
-
 	// State
 	const bountyName = bounty?.title.toLowerCase() || '';
 	const [appState] = useContext(StoreContext);
