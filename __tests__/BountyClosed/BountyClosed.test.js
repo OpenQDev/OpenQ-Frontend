@@ -29,13 +29,14 @@ describe('BountyClosed', () => {
 		it('should render no link or links to prs', () => {
 			// ARRANGE
 			render(<BountyClosed bounty={bounty} />);
-			// ACT
-			const pr = screen.getByText('No linked pull requests');
-			if(bounty.prs?.some(pr => pr.source[_typename] == 'PullRequest') ) {
-				const pr = screen.getByText('Linked Pull Requests');
-			}
 			// ASSERT
-			expect(pr).toBeInTheDocument();
+			if(bounty?.prs?.some(pr => pr.source['__typename'] === 'PullRequest' && pr.source.url) > 0) {
+				const pr = screen.getByText('Linked Pull Requests');
+				expect(pr).toBeInTheDocument();
+			} else {
+				const pr = screen.getByText('No linked pull requests');
+				expect(pr).toBeInTheDocument();
+			}
 		});
 
 	};
