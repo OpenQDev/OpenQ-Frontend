@@ -67,7 +67,7 @@
 					"bountyId": "I_kwDOGWnnz85I9Ahl",
 					"bountyMintTime": "1654041044",
 					"bountyClosedTime": null,
-					"status": "OPEN",
+					"status": "0",
 					"claimedTransactionHash": null,
 					"deposits": [
 						{
@@ -103,7 +103,7 @@
 					"bountyId": "I_kwDOBC3Cis5Kk2OD",
 					"bountyMintTime": "1654260766",
 					"bountyClosedTime": null,
-					"status": "OPEN",
+					"status": "0",
 					"claimedTransactionHash": null,
 					"deposits": [],
 					"issuer": {
@@ -118,7 +118,7 @@
 					"bountyId": "MDU6SXNzdWU5ODU5NDM2NjQ=",
 					"bountyMintTime": "1654260724",
 					"bountyClosedTime": null,
-					"status": "OPEN",
+					"status": "0",
 					"claimedTransactionHash": null,
 					"deposits": [
 						{
@@ -154,7 +154,7 @@
 					"bountyId": "MDU6SXNzdWU4MjQwMjMyMTk=",
 					"bountyMintTime": "1654260628",
 					"bountyClosedTime": null,
-					"status": "OPEN",
+					"status": "0",
 					"claimedTransactionHash": null,
 					"deposits": [],
 					"issuer": {
@@ -169,7 +169,7 @@
 					"bountyId": "I_kwDOGWnnz85LAu6g",
 					"bountyMintTime": "1654260571",
 					"bountyClosedTime": "1654260841",
-					"status": "CLOSED",
+					"status": "1",
 					"claimedTransactionHash": "0xe7eeb3a9f51e4c3d977d329b3c90e9ea06b9ab9e74b37fdc52d5093a9e327284",
 					"deposits": [],
 					"issuer": {
@@ -184,7 +184,7 @@
 					"bountyId": "I_kwDOGWnnz85JAh1-",
 					"bountyMintTime": "1654260379",
 					"bountyClosedTime": null,
-					"status": "OPEN",
+					"status": "0",
 					"claimedTransactionHash": null,
 					"deposits": [
 						{
@@ -220,7 +220,7 @@
 					"bountyId": "I_kwDOGWnnz85LBZmQ",
 					"bountyMintTime": "1654260353",
 					"bountyClosedTime": "1654260979",
-					"status": "CLOSED",
+					"status": "1",
 					"claimedTransactionHash": "0x63e127d64b05acdb8d00a07d2313645abc4f4af6ae779c1f8a9be7b4dee11b87",
 					"deposits": [
 						{
@@ -275,7 +275,7 @@
 					"bountyId": "I_kwDOGWnnz85JAion",
 					"bountyMintTime": "1654260333",
 					"bountyClosedTime": null,
-					"status": "OPEN",
+					"status": "0",
 					"claimedTransactionHash": null,
 					"deposits": [],
 					"issuer": {
@@ -292,7 +292,7 @@
 					"bountyId": "I_kwDOGWnnz85LAu6g",
 					"bountyMintTime": "1654260571",
 					"bountyClosedTime": "1654260841",
-					"status": "CLOSED",
+					"status": "1",
 					"claimedTransactionHash": "0xe7eeb3a9f51e4c3d977d329b3c90e9ea06b9ab9e74b37fdc52d5093a9e327284",
 					"deposits": [],
 					"issuer": {
@@ -307,7 +307,7 @@
 					"bountyId": "I_kwDOGWnnz85LBZmQ",
 					"bountyMintTime": "1654260353",
 					"bountyClosedTime": "1654260979",
-					"status": "CLOSED",
+					"status": "1",
 					"claimedTransactionHash": "0x63e127d64b05acdb8d00a07d2313645abc4f4af6ae779c1f8a9be7b4dee11b87",
 					"deposits": [
 						{
@@ -408,7 +408,7 @@
 					"bountyMintTime": "1654041044",
 					"bountyClosedTime": null,
 					"claimedTransactionHash": null,
-					"status": "OPEN",
+					"status": "0",
 					"deposits": [
 						{
 							"__typename": "Deposit",
@@ -444,7 +444,7 @@
 					"bountyMintTime": "1654260571",
 					"bountyClosedTime": "1654260841",
 					"claimedTransactionHash": "0xe7eeb3a9f51e4c3d977d329b3c90e9ea06b9ab9e74b37fdc52d5093a9e327284",
-					"status": "CLOSED",
+					"status": "1",
 					"deposits": [],
 					"issuer": {
 						"__typename": "User",
@@ -459,7 +459,7 @@
 					"bountyMintTime": "1654260379",
 					"bountyClosedTime": null,
 					"claimedTransactionHash": null,
-					"status": "OPEN",
+					"status": "0",
 					"deposits": [
 						{
 							"__typename": "Deposit",
@@ -495,7 +495,7 @@
 					"bountyMintTime": "1654260353",
 					"bountyClosedTime": "1654260979",
 					"claimedTransactionHash": "0x63e127d64b05acdb8d00a07d2313645abc4f4af6ae779c1f8a9be7b4dee11b87",
-					"status": "CLOSED",
+					"status": "1",
 					"deposits": [
 						{
 							"__typename": "Deposit",
@@ -550,7 +550,7 @@
 					"bountyMintTime": "1654260333",
 					"bountyClosedTime": null,
 					"claimedTransactionHash": null,
-					"status": "OPEN",
+					"status": "0",
 					"deposits": [],
 					"issuer": {
 						"__typename": "User",
@@ -680,7 +680,7 @@
 					"bountyMintTime": "1654260766",
 					"bountyClosedTime": null,
 					"claimedTransactionHash": null,
-					"status": "OPEN",
+					"status": "0",
 					"deposits": [],
 					"issuer": {
 						"__typename": "User",
@@ -705,7 +705,7 @@
 					"bountyMintTime": "1654260628",
 					"bountyClosedTime": null,
 					"claimedTransactionHash": null,
-					"status": "OPEN",
+					"status": "0",
 					"deposits": [],
 					"issuer": {
 						"__typename": "User",
@@ -730,7 +730,7 @@
 					"bountyMintTime": "1654260724",
 					"bountyClosedTime": null,
 					"claimedTransactionHash": null,
-					"status": "OPEN",
+					"status": "0",
 					"deposits": [
 						{
 							"__typename": "Deposit",
@@ -800,7 +800,7 @@
 			"bountyId": "I_kwDOGWnnz85I9Ahl",
 			"bountyMintTime": "1654041044",
 			"bountyClosedTime": null,
-			"status": "OPEN",
+			"status": "0",
 			"claimedTransactionHash": null,
 			"deposits": [
 				{
@@ -836,7 +836,7 @@
 			"bountyId": "I_kwDOBC3Cis5Kk2OD",
 			"bountyMintTime": "1654260766",
 			"bountyClosedTime": null,
-			"status": "OPEN",
+			"status": "0",
 			"claimedTransactionHash": null,
 			"deposits": [],
 			"issuer": {
@@ -851,7 +851,7 @@
 			"bountyId": "MDU6SXNzdWU5ODU5NDM2NjQ=",
 			"bountyMintTime": "1654260724",
 			"bountyClosedTime": null,
-			"status": "OPEN",
+			"status": "0",
 			"claimedTransactionHash": null,
 			"deposits": [
 				{
@@ -887,7 +887,7 @@
 			"bountyId": "MDU6SXNzdWU4MjQwMjMyMTk=",
 			"bountyMintTime": "1654260628",
 			"bountyClosedTime": null,
-			"status": "OPEN",
+			"status": "0",
 			"claimedTransactionHash": null,
 			"deposits": [],
 			"issuer": {
@@ -902,7 +902,7 @@
 			"bountyId": "I_kwDOGWnnz85LAu6g",
 			"bountyMintTime": "1654260571",
 			"bountyClosedTime": "1654260841",
-			"status": "CLOSED",
+			"status": "1",
 			"claimedTransactionHash": "0xe7eeb3a9f51e4c3d977d329b3c90e9ea06b9ab9e74b37fdc52d5093a9e327284",
 			"deposits": [],
 			"issuer": {
@@ -917,7 +917,7 @@
 			"bountyId": "I_kwDOGWnnz85JAh1-",
 			"bountyMintTime": "1654260379",
 			"bountyClosedTime": null,
-			"status": "OPEN",
+			"status": "0",
 			"claimedTransactionHash": null,
 			"deposits": [
 				{
@@ -953,7 +953,7 @@
 			"bountyId": "I_kwDOGWnnz85LBZmQ",
 			"bountyMintTime": "1654260353",
 			"bountyClosedTime": "1654260979",
-			"status": "CLOSED",
+			"status": "1",
 			"claimedTransactionHash": "0x63e127d64b05acdb8d00a07d2313645abc4f4af6ae779c1f8a9be7b4dee11b87",
 			"deposits": [
 				{
@@ -1008,7 +1008,7 @@
 			"bountyId": "I_kwDOGWnnz85JAion",
 			"bountyMintTime": "1654260333",
 			"bountyClosedTime": null,
-			"status": "OPEN",
+			"status": "0",
 			"claimedTransactionHash": null,
 			"deposits": [],
 			"issuer": {

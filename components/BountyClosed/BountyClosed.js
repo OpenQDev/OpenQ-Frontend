@@ -18,6 +18,7 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
 	//Render
 	return (
 		<div className='flex w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
+		{console.log(bounty)}
 			<div className='flex-1 pr-4 min-w-[260px] space-y-4 pt-2'>
 				<h2 className="flex text-3xl">This contract is closed.</h2>
 				<h3 className="flex text-2xl border-b border-gray-700 pb-4">You cannot initiate actions on a closed contract.</h3>
