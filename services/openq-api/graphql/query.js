@@ -121,6 +121,7 @@ query( $category: String $batch: Int!) {
       
     }
   }
+<<<<<<< HEAD
 }`;
 
 export const GET_LEAN_ORGANIZATIONS = gql`query getLeanOrganizations {
@@ -129,6 +130,16 @@ blacklisted}
 }`;
 
 
+=======
+}
+`;
+export const UPDATE_USER = gql`
+mutation updateUser($address: String!, $company: String, $email: String,  $city: String, $streetAddress: String, $country: String, $province: String ){
+  updateUser(address: $address, company: $company, email: $email, city: $city, streetAddress: $streetAddress, country: $country, province: $province) {
+    address
+  }
+}`;
+>>>>>>> 5a672b611eeea73c70b8569061ec70659c864e38
 
 export const WATCH_BOUNTY = gql`
 mutation AddUser ($contractAddress: String, $userAddress: String){
