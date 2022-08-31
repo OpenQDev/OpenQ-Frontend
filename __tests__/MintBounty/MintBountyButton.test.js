@@ -1,4 +1,4 @@
-// test/components/FundPage/ApprovalTransferModal.js
+
 /**
  * @jest-environment jsdom
  */
@@ -32,13 +32,14 @@ const test =(issue)=>{
 	it('should render the modal', async() => {
 		// ARRANGE
 		const user = userEvent.setup();
-		render(<MintBountyButton />);
+		render(<MintBountyButton types={['1', '2', '3']}/>);
 
 		// ACT		
 		const	mintBountyButton =  await screen.findByRole('button', {name: /New Contract/i});			
 		await user.click(mintBountyButton);
-		const input = await screen.findByRole('textbox');
-		await user.type(input, issue.url);
+		const inputs = await screen.findAllByRole('textbox');
+		console.log(inputs);
+		await user.type(inputs[0], issue.url);
 	
 
 		// ASSERT
@@ -62,7 +63,7 @@ const test =(issue)=>{
 			break;
 
 		case 'not-issue': {
-			expect( await screen.findByText(/Create an atomic contract/i)).toBeInTheDocument();
+			expect( await screen.findByText(/ as many times as you like/i)).toBeInTheDocument();
 		}	
 		}
 			

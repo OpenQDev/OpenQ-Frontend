@@ -21,15 +21,10 @@ const watchBounty = async (context, account, bounty, watchingDisplay, setWatchin
 	return; 
 	}
 	try {
-		const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature?address=${account}`, { withCredentials: true });
+		const response = await appState.authService.hasSignature(account);
 		if (response.data.status===false) {
 			const signature = await signMessage(account);
-			await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/verifySignature`,
-				{
-					signature,
-					address: account
-				}, { withCredentials: true }
-			);
+			await appState.authService.verifySignature(account, signature);
 		}
 
 

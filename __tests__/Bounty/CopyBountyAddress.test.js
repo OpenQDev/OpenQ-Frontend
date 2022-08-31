@@ -1,4 +1,4 @@
-// test/components/FundPage/ApprovalTransferModal.js
+
 /**
  * @jest-environment jsdom
  */
@@ -11,9 +11,10 @@ import InitialState from '../../store/Store/InitialState';
  
 
 describe('CopyBountyAddress', ( ) => {
-	const newBounties = mocks.bounties;	
-	const	issueData = InitialState.githubRepository.parseIssuesData(mocks.githubIssues);
-	const fullBounties = InitialState.utils.combineBounties(newBounties, issueData);
+	const bounty={
+		'__typename': 'Bounty',
+		'bountyAddress': '0x1f191c4166865882b26551fb8618668b7a67d0fb',
+	};
 
 	beforeEach(()=>{
 		const observe = jest.fn();
@@ -24,28 +25,24 @@ describe('CopyBountyAddress', ( ) => {
 			disconnect,
 		}));
 	});
-
-	const test =(bounty)=>{
 		
-		it('should render CopyBountyAddress', ()=>{
+	it('should render CopyBountyAddress', ()=>{
 
-			// ARRANGE
-			render(<CopyBountyAddress address={bounty.bountyAddress} />);
-			const addressRegex = new RegExp(bounty.bountyAddress.slice(0, 3));
+		// ARRANGE
+		render(<CopyBountyAddress address={bounty.bountyAddress} />);
+		const addressRegex = new RegExp(bounty.bountyAddress.slice(0, 3));
 
-			// ASSERT
-			expect(screen.getByText(addressRegex));		
+		// ASSERT
+		expect(screen.getByText(addressRegex));		
 			
-			// should not have null or undefined values
-			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
-			expect(nullish).toHaveLength(0);
+		// should not have null or undefined values
+		const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
+		expect(nullish).toHaveLength(0);
 
 			
-		});
+	});
 
 	
 
-	};
-
-	fullBounties.forEach(bounty=>test({...bounty, watchingUsers: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'}));
+	
 });

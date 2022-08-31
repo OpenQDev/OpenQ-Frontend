@@ -1,4 +1,4 @@
-// test/components/FundPage/ApprovalTransferModal.js
+
 /**
  * @jest-environment jsdom
  */
@@ -9,7 +9,7 @@ import mocks from '../../__mocks__/mock-server.json';
 import BountyCardDetailsModal from '../../components/BountyCard/BountyCardDetailsModal';
  
 
-describe('BountyCard', ( ) => {
+describe('BountyCardDetailsModal', ( ) => {
 	const newBounties = mocks.bounties;
 	const fullBounties = [];
 	
@@ -51,7 +51,7 @@ describe('BountyCard', ( ) => {
 			if(bounty.labels[0]){
 				expect(screen.getByText(bounty.labels[0].name)).toBeInTheDocument();
 			}
-			const link = await screen.findAllByRole('link', {name:/Full Contract/i});
+			const link = await screen.findAllByText(/Full Contract/i);
 			expect(link[0]).toBeInTheDocument();
 			expect(screen.getAllByText(/Smart Contract/)).toHaveLength(2);
 			

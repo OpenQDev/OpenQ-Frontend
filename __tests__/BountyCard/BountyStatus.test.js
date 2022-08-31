@@ -1,4 +1,4 @@
-// test/components/FundPage/ApprovalTransferModal.js
+
 /**
  * @jest-environment jsdom
  */
@@ -13,7 +13,8 @@ import InitialState from '../../store/Store/InitialState';
 describe('BountyStatus', ( ) => {
 	const newBounties = mocks.bounties;	
 	const	issueData = InitialState.githubRepository.parseIssuesData(mocks.githubIssues);
-	const fullBounties = InitialState.utils.combineBounties(newBounties, issueData);
+	const prismaContracts = mocks.prismaBounties;	
+	const fullBounties = InitialState.utils.combineBounties(newBounties, issueData, prismaContracts.bounties.bountyConnection.nodes);
 
 	beforeEach(()=>{
 		const observe = jest.fn();
@@ -33,7 +34,11 @@ describe('BountyStatus', ( ) => {
 			render(<BountyStatus bounty={bounty} />);
 
 			// ASSERT
-			expect(screen.getByText(/Claimed/i)).toBeInTheDocument();
+			if(bounty.status==='1'){
+				expect(screen.getByText(/Closed/i)).toBeInTheDocument();}
+			if(bounty.status==='0'){
+				
+				expect(screen.getByText(/Open/i)).toBeInTheDocument();}
 			expect(screen.getByText(/Smart Contract Deployed/i)).toBeInTheDocument();
 			
 			// should not have null or undefined values

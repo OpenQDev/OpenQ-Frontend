@@ -1,4 +1,4 @@
-// test/components/FundPage/ApprovalTransferModal.js
+
 /**
  * @jest-environment jsdom
  */
@@ -8,13 +8,13 @@ import { render, screen } from '../../test-utils';
 import BountyLinks from '../../components/BountyCard/BountyLinks';
 import mocks from '../../__mocks__/mock-server.json';
 import InitialState from '../../store/Store/InitialState';
-import userEvent from '@testing-library/user-event';
  
 
 describe('BountyLinks', ( ) => {
 	const newBounties = mocks.bounties;	
 	const	issueData = InitialState.githubRepository.parseIssuesData(mocks.githubIssues);
-	const fullBounties = InitialState.utils.combineBounties(newBounties, issueData);
+	const prismaContracts = mocks.prismaBounties;
+	const fullBounties = InitialState.utils.combineBounties(newBounties, issueData, prismaContracts.bounties.bountyConnection.nodes);
 
 	beforeEach(()=>{
 		const observe = jest.fn();
@@ -41,18 +41,6 @@ describe('BountyLinks', ( ) => {
 			expect(nullish).toHaveLength(0);
 
 			
-		});
-
-		it('should have a watched button', async()=>{
-			// ARRANGE
-			const user = userEvent.setup();	
-			render(<BountyLinks bounty={bounty} watchedBounties={bounty} bountyAddress={bounty.bountyAddress}/>);
-
-			// ASSERT
-			const watchedButton = screen.getByRole('button');
-			expect(watchedButton).toBeInTheDocument();
-			await	user.click(watchedButton);
-			expect(watchedButton).toBeInTheDocument();
 		});
 
 	};

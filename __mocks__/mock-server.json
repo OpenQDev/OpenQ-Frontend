@@ -1,6 +1,13 @@
 {
-	"prismaOrgs": [
+	"prismaOrgs": {
+		"organizations":[
 		{
+			"bounties": {
+			"bountyConnection": {
+				"cursor": null,
+				"nodes": []}
+			
+		},
 			"blacklisted": false,
 			"starringUserIds": [
 				"0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
@@ -8,6 +15,10 @@
 			"id": "MDQ6VXNlcjUzNjYyMQ=="
 		},
 		{
+			"bounties": {
+			"bountyConnection": { "nodes": [],
+			"cursor": null}
+		},
 			"blacklisted": false,
 			"starringUserIds": [
 				"0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
@@ -15,6 +26,10 @@
 			"id": "MDQ6VXNlcjE0ODA0MTIz"
 		},
 		{
+			"bounties": {
+			"bountyConnection": { "nodes": [],
+			"cursor": null}
+		},
 			"blacklisted": true,
 			"starringUserIds": [
 				"0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
@@ -22,41 +37,67 @@
 			"id": "MDEyOk9yZ2FuaXphdGlvbjE0OTg1MDIw"
 		},
 		{
+			"bounties": {
+			"bountyConnection": { "nodes": [],
+			"cursor": null}
+		},
 			"blacklisted": false,
 			"starringUserIds": [
 				"0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
 			],
 			"id": "MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4"
 		}
-	],
-	"prismaBounties": [
+	]},
+	"prismaBounties": {
+		"bounties": {
+			"bountyConnection": {
+			"nodes":	[
 		{
 			"address": "0x13f7816057de7256daf5028eaf8e79775d3a27a3",
+			 "bountyId": "I_kwDOGWnnz85I9Ahl",
+			"organization":{ "bounties": []}	,
 			"blacklisted": true
 		},
 		{
-			"address": "0x1f191c4166865882b26551fb8618668b7a67d0fb"
+			"address": "0x1f191c4166865882b26551fb8618668b7a67d0fb",
+			"bountyId": "I_kwDOBC3Cis5Kk2OD",
+			"organization":{ "bounties": []}		},
+		{
+			"address": "0xcdf0e532ab8eb9a12da5cae3b6ae5370faacd028",
+			"bountyId": "MDU6SXNzdWU5ODU5NDM2NjQ=",
+			"organization":{ "bounties": []}	
 		},
 		{
-			"address": "0xcdf0e532ab8eb9a12da5cae3b6ae5370faacd028"
+			"address": "0xd316991a0b2014dcf954bb02150df6261661be2e",
+			"bountyId": "MDU6SXNzdWU4MjQwMjMyMTk=",
+			"organization":{ "bounties": []}	
 		},
 		{
-			"address": "0xd316991a0b2014dcf954bb02150df6261661be2e"
+			"address": "0x35dd738e306d32f2709824b6f744f188da01d3c5",
+			"bountyId": "I_kwDOGWnnz85LAu6g",
+			"organization":{ "bounties": []}	
 		},
 		{
-			"address": "0x35dd738e306d32f2709824b6f744f188da01d3c5"
+			"address": "0x7e2d5fcc5e02cbf2b9f860052c0226104e23f9c7",
+			"bountyId": "I_kwDOGWnnz85JAh1-",
+			"organization":{ "bounties": []}	
 		},
 		{
-			"address": "0x7e2d5fcc5e02cbf2b9f860052c0226104e23f9c7"
-		},
-		{
-			"address": "0x3ca8f9c04c7e3e1624ac2008f92f6f366a869444"
+			"address": "0x3ca8f9c04c7e3e1624ac2008f92f6f366a869444",
+			"organization":{ "bounties": []},
+			"bountyId": "I_kwDOGWnnz85LBZmQ"
 		},
 		{
 			"address": "0x8daf17a20c9dba35f005b6324f493785d239719d",
+			"bountyId": "I_kwDOGWnnz85JAion",
+			"organization":{ "bounties": []}	,
 			"blacklisted": true
 		}
 	],
+"cursor": "0x8daf17a20c9dba35f005b6324f493785d239719d"
+}
+}
+},
 	"users": [
 		{
 			"id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
@@ -67,7 +108,7 @@
 					"bountyId": "I_kwDOGWnnz85I9Ahl",
 					"bountyMintTime": "1654041044",
 					"bountyClosedTime": null,
-					"status": "OPEN",
+					"status": "0",
 					"claimedTransactionHash": null,
 					"deposits": [
 						{
@@ -103,7 +144,7 @@
 					"bountyId": "I_kwDOBC3Cis5Kk2OD",
 					"bountyMintTime": "1654260766",
 					"bountyClosedTime": null,
-					"status": "OPEN",
+					"status": "0",
 					"claimedTransactionHash": null,
 					"deposits": [],
 					"issuer": {
@@ -118,7 +159,7 @@
 					"bountyId": "MDU6SXNzdWU5ODU5NDM2NjQ=",
 					"bountyMintTime": "1654260724",
 					"bountyClosedTime": null,
-					"status": "OPEN",
+					"status": "0",
 					"claimedTransactionHash": null,
 					"deposits": [
 						{
@@ -154,7 +195,7 @@
 					"bountyId": "MDU6SXNzdWU4MjQwMjMyMTk=",
 					"bountyMintTime": "1654260628",
 					"bountyClosedTime": null,
-					"status": "OPEN",
+					"status": "0",
 					"claimedTransactionHash": null,
 					"deposits": [],
 					"issuer": {
@@ -169,7 +210,7 @@
 					"bountyId": "I_kwDOGWnnz85LAu6g",
 					"bountyMintTime": "1654260571",
 					"bountyClosedTime": "1654260841",
-					"status": "CLOSED",
+					"status": "1",
 					"claimedTransactionHash": "0xe7eeb3a9f51e4c3d977d329b3c90e9ea06b9ab9e74b37fdc52d5093a9e327284",
 					"deposits": [],
 					"issuer": {
@@ -184,7 +225,7 @@
 					"bountyId": "I_kwDOGWnnz85JAh1-",
 					"bountyMintTime": "1654260379",
 					"bountyClosedTime": null,
-					"status": "OPEN",
+					"status": "0",
 					"claimedTransactionHash": null,
 					"deposits": [
 						{
@@ -220,7 +261,7 @@
 					"bountyId": "I_kwDOGWnnz85LBZmQ",
 					"bountyMintTime": "1654260353",
 					"bountyClosedTime": "1654260979",
-					"status": "CLOSED",
+					"status": "1",
 					"claimedTransactionHash": "0x63e127d64b05acdb8d00a07d2313645abc4f4af6ae779c1f8a9be7b4dee11b87",
 					"deposits": [
 						{
@@ -275,7 +316,7 @@
 					"bountyId": "I_kwDOGWnnz85JAion",
 					"bountyMintTime": "1654260333",
 					"bountyClosedTime": null,
-					"status": "OPEN",
+					"status": "0",
 					"claimedTransactionHash": null,
 					"deposits": [],
 					"issuer": {
@@ -292,7 +333,7 @@
 					"bountyId": "I_kwDOGWnnz85LAu6g",
 					"bountyMintTime": "1654260571",
 					"bountyClosedTime": "1654260841",
-					"status": "CLOSED",
+					"status": "1",
 					"claimedTransactionHash": "0xe7eeb3a9f51e4c3d977d329b3c90e9ea06b9ab9e74b37fdc52d5093a9e327284",
 					"deposits": [],
 					"issuer": {
@@ -307,7 +348,7 @@
 					"bountyId": "I_kwDOGWnnz85LBZmQ",
 					"bountyMintTime": "1654260353",
 					"bountyClosedTime": "1654260979",
-					"status": "CLOSED",
+					"status": "1",
 					"claimedTransactionHash": "0x63e127d64b05acdb8d00a07d2313645abc4f4af6ae779c1f8a9be7b4dee11b87",
 					"deposits": [
 						{
@@ -408,7 +449,7 @@
 					"bountyMintTime": "1654041044",
 					"bountyClosedTime": null,
 					"claimedTransactionHash": null,
-					"status": "OPEN",
+					"status": "0",
 					"deposits": [
 						{
 							"__typename": "Deposit",
@@ -444,7 +485,7 @@
 					"bountyMintTime": "1654260571",
 					"bountyClosedTime": "1654260841",
 					"claimedTransactionHash": "0xe7eeb3a9f51e4c3d977d329b3c90e9ea06b9ab9e74b37fdc52d5093a9e327284",
-					"status": "CLOSED",
+					"status": "1",
 					"deposits": [],
 					"issuer": {
 						"__typename": "User",
@@ -459,7 +500,7 @@
 					"bountyMintTime": "1654260379",
 					"bountyClosedTime": null,
 					"claimedTransactionHash": null,
-					"status": "OPEN",
+					"status": "0",
 					"deposits": [
 						{
 							"__typename": "Deposit",
@@ -495,7 +536,7 @@
 					"bountyMintTime": "1654260353",
 					"bountyClosedTime": "1654260979",
 					"claimedTransactionHash": "0x63e127d64b05acdb8d00a07d2313645abc4f4af6ae779c1f8a9be7b4dee11b87",
-					"status": "CLOSED",
+					"status": "1",
 					"deposits": [
 						{
 							"__typename": "Deposit",
@@ -550,7 +591,7 @@
 					"bountyMintTime": "1654260333",
 					"bountyClosedTime": null,
 					"claimedTransactionHash": null,
-					"status": "OPEN",
+					"status": "0",
 					"deposits": [],
 					"issuer": {
 						"__typename": "User",
@@ -680,7 +721,7 @@
 					"bountyMintTime": "1654260766",
 					"bountyClosedTime": null,
 					"claimedTransactionHash": null,
-					"status": "OPEN",
+					"status": "0",
 					"deposits": [],
 					"issuer": {
 						"__typename": "User",
@@ -705,7 +746,7 @@
 					"bountyMintTime": "1654260628",
 					"bountyClosedTime": null,
 					"claimedTransactionHash": null,
-					"status": "OPEN",
+					"status": "0",
 					"deposits": [],
 					"issuer": {
 						"__typename": "User",
@@ -730,7 +771,7 @@
 					"bountyMintTime": "1654260724",
 					"bountyClosedTime": null,
 					"claimedTransactionHash": null,
-					"status": "OPEN",
+					"status": "0",
 					"deposits": [
 						{
 							"__typename": "Deposit",
@@ -795,12 +836,104 @@
 	],
 	"bounties": [
 		{
+      "id": "I_kwDOHlavZM5Qx8Cn",
+      "title": "Simple single contract",
+      "assignees": [],
+      "body": "",
+      "url": "https://github.com/ArcAnya/OpenQ-TestRepo/issues/129",
+      "repoName": "OpenQ-TestRepo",
+      "owner": "ArcAnya",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/75732239?u=285a48b76fb74f9487a3f595002bdbd69522a151&v=4",
+      "labels": [],
+      "createdAt": "2022-08-30T07:01:04Z",
+      "closed": true,
+      "bodyHTML": "",
+      "titleHTML": "Simple single contract",
+      "twitterUsername": null,
+      "number": 129,
+      "prs": [
+        {
+          "__typename": "CrossReferencedEvent",
+          "source": {
+            "__typename": "PullRequest",
+            "url": "https://github.com/ArcAnya/OpenQ-TestRepo/pull/130",
+            "merged": true,
+            "title": "Update README.md",
+            "author": {
+              "__typename": "User",
+              "login": "ArcAnya"
+            }
+          }
+        }
+      ],
+      "__typename": "Bounty",
+      "tvl": 0,
+      "bountyId": "I_kwDOHlavZM5Qx8Cn",
+      "bountyAddress": "0x066efd87027a4cc4a21c57467f224ef98241d774",
+      "closerData": "0x000000000000000000000000066efd87027a4cc4a21c57467f224ef98241d7740000000000000000000000000000000000000000000000000000000000000080000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb9226600000000000000000000000000000000000000000000000000000000000000c00000000000000000000000000000000000000000000000000000000000000007417263416e796100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003268747470733a2f2f6769746875622e636f6d2f417263416e79612f4f70656e512d546573745265706f2f70756c6c2f3133300000000000000000000000000000",
+      "bountyMintTime": "1661842952",
+      "bountyClosedTime": "1661843031",
+      "fundingGoalVolume": "1000000000000000000000",
+      "fundingGoalTokenAddress": "0x0000000000000000000000000000000000000000",
+      "payoutTokenVolume": null,
+      "payoutTokenAddress": null,
+      "payoutSchedule": null,
+      "claims": [
+        {
+          "claimTime": "1661843031",
+          "claimantAsset": "https://github.com/ArcAnya/OpenQ-TestRepo/pull/130",
+          "claimant": {
+            "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+            "__typename": "User"
+          },
+          "__typename": "Claim"
+        }
+      ],
+      "payouts": [
+        {
+          "tokenAddress": "0x0000000000000000000000000000000000000000",
+          "volume": "500000000000000000000",
+          "__typename": "Payout"
+        }
+      ],
+      "claimedTransactionHash": "0xfa52d02c5f5666af56b48f73da570380c80a3f76cee1570c2af37035983b1d18",
+      "payoutAddress": null,
+      "status": "1",
+      "bountyType": "0",
+      "closer": {
+        "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+        "__typename": "User"
+      },
+      "deposits": [
+        {
+          "id": "0x52a6bcdea9bae42f55444923a7162e854edce3664a4b71fcc671427a1c40c079",
+          "refunded": false,
+          "receiveTime": "1661842973",
+          "tokenAddress": "0x0000000000000000000000000000000000000000",
+          "expiration": "2592000",
+          "volume": "500000000000000000000",
+          "sender": {
+            "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+            "__typename": "User"
+          },
+          "__typename": "Deposit"
+        }
+      ],
+      "refunds": [],
+      "bountyTokenBalances": [],
+      "issuer": {
+        "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+        "__typename": "User"
+      }
+    },
+		{
 			"__typename": "Bounty",
 			"bountyAddress": "0x13f7816057de7256daf5028eaf8e79775d3a27a3",
 			"bountyId": "I_kwDOGWnnz85I9Ahl",
 			"bountyMintTime": "1654041044",
 			"bountyClosedTime": null,
-			"status": "OPEN",
+			"bountyType": "2",
+			"status": "0",
 			"claimedTransactionHash": null,
 			"deposits": [
 				{
@@ -836,7 +969,8 @@
 			"bountyId": "I_kwDOBC3Cis5Kk2OD",
 			"bountyMintTime": "1654260766",
 			"bountyClosedTime": null,
-			"status": "OPEN",
+			"status": "0",
+			"bountyType": 2,
 			"claimedTransactionHash": null,
 			"deposits": [],
 			"issuer": {
@@ -851,7 +985,8 @@
 			"bountyId": "MDU6SXNzdWU5ODU5NDM2NjQ=",
 			"bountyMintTime": "1654260724",
 			"bountyClosedTime": null,
-			"status": "OPEN",
+			"status": "0",
+			"bountyType": "1",
 			"claimedTransactionHash": null,
 			"deposits": [
 				{
@@ -887,7 +1022,8 @@
 			"bountyId": "MDU6SXNzdWU4MjQwMjMyMTk=",
 			"bountyMintTime": "1654260628",
 			"bountyClosedTime": null,
-			"status": "OPEN",
+			"status": "0",
+			"bountyType": "1",
 			"claimedTransactionHash": null,
 			"deposits": [],
 			"issuer": {
@@ -901,8 +1037,10 @@
 			"bountyAddress": "0x35dd738e306d32f2709824b6f744f188da01d3c5",
 			"bountyId": "I_kwDOGWnnz85LAu6g",
 			"bountyMintTime": "1654260571",
+			
+			"bountyType": "3",
 			"bountyClosedTime": "1654260841",
-			"status": "CLOSED",
+			"status": "1",
 			"claimedTransactionHash": "0xe7eeb3a9f51e4c3d977d329b3c90e9ea06b9ab9e74b37fdc52d5093a9e327284",
 			"deposits": [],
 			"issuer": {
@@ -915,9 +1053,10 @@
 			"__typename": "Bounty",
 			"bountyAddress": "0x7e2d5fcc5e02cbf2b9f860052c0226104e23f9c7",
 			"bountyId": "I_kwDOGWnnz85JAh1-",
-			"bountyMintTime": "1654260379",
+			"bountyMintTime": "1654260379",			
+			"bountyType": "3",
 			"bountyClosedTime": null,
-			"status": "OPEN",
+			"status": "0",
 			"claimedTransactionHash": null,
 			"deposits": [
 				{
@@ -953,7 +1092,7 @@
 			"bountyId": "I_kwDOGWnnz85LBZmQ",
 			"bountyMintTime": "1654260353",
 			"bountyClosedTime": "1654260979",
-			"status": "CLOSED",
+			"status": "1",
 			"claimedTransactionHash": "0x63e127d64b05acdb8d00a07d2313645abc4f4af6ae779c1f8a9be7b4dee11b87",
 			"deposits": [
 				{
@@ -1008,7 +1147,7 @@
 			"bountyId": "I_kwDOGWnnz85JAion",
 			"bountyMintTime": "1654260333",
 			"bountyClosedTime": null,
-			"status": "OPEN",
+			"status": "0",
 			"claimedTransactionHash": null,
 			"deposits": [],
 			"issuer": {
@@ -1084,8 +1223,9 @@
 			"owner": "alo9507",
 			"assignees": {
 				"nodes": [
-					{
-						"name": "Bill French"
+					{"url":"https://github.com/FlacoJones",
+					"avatarUrl": "https://avatars.githubusercontent.com/u/93455288?s=64&v=4",
+											"name": "Flaco jones"
 					}
 				]
 			},
@@ -2085,7 +2225,8 @@
 					{
 						"__typename": "User",
 						"name": "Christopher Stevers",
-						"url": "https://github.com/Christopher-Stevers"
+						"url": "https://github.com/Christopher-Stevers",
+						"avatarUrl": "https://avatars.githubusercontent.com/u/72156679?s=64&v=4"
 					}
 				]
 			},
@@ -2192,7 +2333,8 @@
 					{
 						"__typename": "User",
 						"name": "Christopher Stevers",
-						"url": "https://github.com/Christopher-Stevers"
+						"url": "https://github.com/Christopher-Stevers",
+						"avatarUrl":"https://avatars.githubusercontent.com/u/72156679?s=64&v=4"
 					}
 				]
 			},
@@ -2266,6 +2408,12 @@
 			"isAuthenticated": true
 		}
 	},
+	"hasSignature":{
+		"data": {
+			"status": true
+		}
+	},
+	"verifySignature":{},
 	"logout": {
 		"data": {
 			"isAuthenticated": true

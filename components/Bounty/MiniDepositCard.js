@@ -15,7 +15,7 @@ const MiniDepositCard = ({ deposit, showLink }) => {
 	// State
 	const [title, updateTitle] = useState('');
 	const [tokenValues] = useGetTokenValues(deposit);
-
+	
 	// Hooks
 	useEffect(async () => {
 		if (showLink) {

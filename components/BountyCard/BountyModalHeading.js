@@ -28,11 +28,11 @@ const BountyModalHeading = ({bounty, closeModal, unWatchable, watchingState})=>{
 			</div>
 			<div className='min-w-[40px] basis-72 flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-2'>
 				<Link href={`/bounty/${bounty.id}/${bounty.bountyAddress}`} >
-					<a onClick={closeModal} target={safe ? '_self' : '_blank'} rel="noopener noreferrer" >
+					<div onClick={closeModal} target={safe ? '_self' : '_blank'} rel="noopener noreferrer" >
 						<div className='flex gap-3 items-center text-xs text-primary bg-inactive-gray leading-5 h-7 whitespace-nowrap px-3 py-[3px] w-fit hover:bg-active-gray rounded-sm border hover:border-border-active border-border-gray'><StackIcon size={24} />
-							<div> Full Contract Details</div>
+							<a> Full Contract Details</a>
 						</div>
-					</a>
+					</div>
 				</Link>
 				<WatchButton watchingState={watchingState} unwatchable={unWatchable} bounty={bounty}/>
 				<div className='hidden lg:block'>

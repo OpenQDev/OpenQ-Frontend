@@ -2,6 +2,7 @@ import Utils from '../../services/utils/Utils';
 
 import OpenQClient from '../../services/ethers/OpenQClient';
 import OpenQSubgraphClient from '../../services/subgraph/OpenQSubgraphClient';
+import AuthService from '../../services/auth/AuthService';
 import GithubRepository from '../../services/github/GithubRepository';
 import TokenClient from '../../services/coins/TokenClient';
 import Logger from '../../services/logger/Logger';
@@ -13,12 +14,14 @@ import MockOpenQClient from '../../services/ethers/MockOpenQClient';
 import MockOpenQSubgraphClient from '../../services/subgraph/MockOpenQSubgraphClient';
 import MockTokenClient from '../../services/coins/MockTokenClient';
 import MockOpenQPrismaClient from '../../services/openq-api/MockOpenQPrismaClient';
+import MockAuthService from '../../services/auth/MockAuthService.js';
 
 let InitialState = {};
 switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
 case 'local':
 	InitialState = {
 		openQClient: new MockOpenQClient(),
+		authService: new MockAuthService(),
 		githubRepository: new MockGithubRepository(),
 		openQSubgraphClient: new MockOpenQSubgraphClient(),
 		tokenClient: new MockTokenClient(),
@@ -31,6 +34,7 @@ case 'local':
 case 'docker':
 	InitialState = {
 		openQClient: new OpenQClient(),
+		authService: new AuthService(),
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
@@ -43,6 +47,7 @@ case 'docker':
 case 'development':
 	InitialState = {
 		openQClient: new OpenQClient(),
+		authService: new AuthService(),
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
@@ -55,6 +60,7 @@ case 'development':
 case 'staging':
 	InitialState = {
 		openQClient: new OpenQClient(),
+		authService: new AuthService(),
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
@@ -67,6 +73,7 @@ case 'staging':
 case 'production':
 	InitialState = {
 		openQClient: new OpenQClient(),
+		authService: new AuthService(),
 		githubRepository: new GithubRepository(),
 		openQSubgraphClient: new OpenQSubgraphClient(),
 		tokenClient: new TokenClient(),
