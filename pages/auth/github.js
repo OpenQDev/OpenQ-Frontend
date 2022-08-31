@@ -1,11 +1,13 @@
 // Third party
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
-import axios from 'axios';
+import StoreContext from '../../store/Store/StoreContext.js';
 
 function GitHubAuth() {
 	const router = useRouter();
 	const [, setAuthCode] = useState('NO AUTH CODE');
+
+	const [appState] = useContext(StoreContext);
 
 	useEffect(() => {
 		const params = new URLSearchParams(window.location.search);
@@ -14,8 +16,7 @@ function GitHubAuth() {
 	}, []);
 
 	const exchangeAuthCodeForAccessToken = (authCode) => {
-		const url = `${process.env.NEXT_PUBLIC_AUTH_URL}/?app=openq&code=${authCode}`;
-		axios.get(url, { withCredentials: true })
+		appState.authService.getAccessToken(authCode)
 			.then(() => {
 				// Retrieve csrf_nonce from local storage
 				const nonce = window.localStorage.getItem('csrf_nonce');
