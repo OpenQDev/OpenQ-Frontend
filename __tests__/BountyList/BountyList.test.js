@@ -16,7 +16,6 @@ describe('BountyList', () => {
 	beforeEach(() => {
 		const observe = jest.fn();
 		const disconnect = jest.fn();
-		jest.mock('axios');
 		window.IntersectionObserver = jest.fn(() => ({
 			observe,
 			disconnect,
@@ -31,16 +30,27 @@ describe('BountyList', () => {
 
 	});
 
+		
+	const getMoreData= ()=>{
+		return null;
+	};
+
+	const getNewData = ()=>{
+		return null;
+	};
 	it('should allow user to open BountyCardDetailsModal', async () => {
 		const user = userEvent.setup();
 		// ARRANGE
-		render(<BountyList types={['0', '1', '2', '3']} bounties={bounties} complete={true} addCarousel={false} category={undefined} contractToggle={false} watchedBounties={[]} />);
+		render(<BountyList types={['0', '1', '2', '3']} getMoreData={getMoreData} getNewData={getNewData} bounties={bounties} complete={true} addCarousel={false} category={undefined} contractToggle={false} watchedBounties={[]} />);
 
 		// ACT
 		
 		expect(screen.queryByText('ongoing bounty')).not.toBeInTheDocument();
-		await user.click(screen.getByText(/All Issues/i));
+		const allButtons = screen.getAllByRole('button');
+		await user.click(allButtons[2]);
+		
 		expect(screen.queryByText('ongoing bounty')).toBeInTheDocument();
+		
 
 		// should not have null or undefined values
 		const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
@@ -52,7 +62,7 @@ describe('BountyList', () => {
 	it('should allow user to search by text and tags', async () => {
 		const user = userEvent.setup();
 		// ARRANGE
-		render(<BountyList types={['0', '1', '2', '3']} bounties={bounties} complete={true} addCarousel={false} category={undefined} contractToggle={false} watchedBounties={[]} />);
+		render(<BountyList types={['0', '1', '2', '3']} bounties={bounties} complete={true}  getMoreData={getMoreData} getNewData={getNewData}  addCarousel={false} category={undefined} contractToggle={false} watchedBounties={[]} />);
 
 		// ASSERT
 		const filteredIssue1 = screen.getAllByText(/do great things with gfc/i);
@@ -66,31 +76,5 @@ describe('BountyList', () => {
 		expect(unFilteredIssue[0]).toBeInTheDocument();
 		expect(filteredIssue1[0]).not.toBeInTheDocument();
 	});
-	/* es
-	it('should allow the user to sort by age', async () => {
-
-		const user = userEvent.setup();
-		// ARRANGE
-		render(<BountyList types={['0', '1', '2', '3']} bounties={bounties} complete={true} addCarousel={false} category={undefined} contractToggle={false} watchedBounties={[]} />);
-
-		// ASSERT
-		await user.click(screen.getByText(/Sort Order/));
-		await user.click(screen.getByRole('button', { name: 'All issues' }));
-		await user.click(screen.getByRole('button', { name: /oldest/i }));
-		const repos = await screen.findAllByTestId('repo');
-		expect(repos[0].textContent).toBe('openqdev/openq-frontend');
-		expect(repos[1].textContent).toBe('nomicfoundation/hardhat');
-		expect(screen.findAllByText(/test2/i)[0]).toBeInTheDocument();
-	});*/
-	/*
-	it('should render watched bounties', () => {
-		// ARRANGE
-		render(<BountyList types={['0', '1', '2', '3']} bounties={bounties} complete={true} addCarousel={false} category={undefined} contractToggle={false} watchedBounties={[]} />);
-
-		// ASSERT
-		const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-		expect(nullish).toHaveLength(0);
-	});
-	*/
-
+	
 });

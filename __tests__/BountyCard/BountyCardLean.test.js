@@ -26,7 +26,7 @@ describe('BountyCard', ( ) => {
 		render(<BountyCardLean bounty={bounty} complete={true}/>);
 			
 		// ASSERT
-		const orgName = screen.getByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
+		const orgName = await screen.findByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
 		// ACT
 		expect(orgName).toBeInTheDocument();
 	});
@@ -37,7 +37,7 @@ describe('BountyCard', ( ) => {
 		render(<BountyCardLean bounty={bounty} complete={true}/>);
 			
 		// ASSERT
-		const orgName = screen.getByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
+		const orgName =await  screen.findByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
 		await user.click(orgName);
 		if(bounty.status==1){				
 			const bountyStatus = await	screen.findAllByText(/Closed/i);
