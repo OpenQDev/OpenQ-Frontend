@@ -22,10 +22,11 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 
 
 	const createBudget = (bounty) => {
+		console.log('exec');
 		return bounty.fundingGoalTokenAddress ? { tokenAddress: bounty.fundingGoalTokenAddress, volume: bounty.fundingGoalVolume } : null;
 	};
 	const budgetObj = useMemo(() => createBudget(bounty), [
-		bounty
+		bounty.fundingGoalTokenAddress, bounty.fundingGoalVolume
 	]);
 	const [budgetValue] = useGetTokenValues(budgetObj);
 	const budget = budgetValue?.total;

@@ -17,8 +17,7 @@ class MockCoinClient {
 	async getTokenValues(data) {
 		const promise = new Promise(async (resolve, reject) => {
 
-			await axios.get('http://localhost:3030/tokenPrice');
-			axios.get('http://localhost:3030/tokenPrice')
+		await	axios.get('http://localhost:3030/tokenPrice')
 				.then(async (result) => {
 					const price = parseFloat(result.data["0x5FbDB2315678afecb367f032d93F642f64180aa"]);
 					const tokenValues = { tokenPrices: {}, tokens: {}, total: 0 };
@@ -93,8 +92,9 @@ class MockCoinClient {
 				};
 			}
 			const data = { tokenVolumes, network: 'polygon-pos' };
-			const url = process.env.NEXT_PUBLIC_COIN_API_URL + '/tvl';
+			const url = process.env.NEXT_PUBLIC_COIN_API_URL+ '/tvl';
 			//only query tvl for bounties that have deposits
+			
 			if (JSON.stringify(data.tokenVolumes) != '{}') {
 				try {
 					const tokenValues = await this.getTokenValues(data, url);

@@ -6,6 +6,7 @@ import React from 'react';
 
 import { render, screen } from '../../test-utils';
 import BountyCardDetails from '../../components/Bounty/BountyCardDetails';
+import { waitFor} from '@testing-library/react';
 import mocks from '../../__mocks__/mock-server.json';
 import InitialState from '../../store/Store/InitialState';
  
@@ -29,16 +30,20 @@ describe('BountyCardDetails', ( ) => {
 			render(<BountyCardDetails bounty={bounty} address={bounty.bountyAddress} tokenValues={tokenValues} />);
 
 			// ASSERT
-			if(bounty.deposits.length>0){				
-				const usdValue = await screen.findAllByText(/(15.41||16.08||13.4)/i);
+			await waitFor(()=>{
+
+				const usdValue = screen.queryAllByText(/\$\d+.\d+/);
 				expect(usdValue[0]).toBeInTheDocument();				
-			}
-			if(bounty.id ==='I_kwDOGWnnz85LAu6g'){
-				expect(screen.getByText(/Update README/i)).toBeInTheDocument();
-			}
-			else{
-				expect (screen.getByText(/No linked/i)).toBeInTheDocument();
-			}
+			
+				if(bounty.id ==='I_kwDOGWnnz85LAu6g'){
+					expect(screen.getByText(/Update README/i)).toBeInTheDocument();
+				}
+				else{
+					expect (screen.getByText(/No linked/i)).toBeInTheDocument();
+				}
+
+
+			});
 
 			
 		});

@@ -16,7 +16,7 @@ import superFluidLocalEnumberable from '../../constants/superfluid-local-enumera
 
 class CoinClient {
 	constructor() {
-		switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
+		switch (process.env.NEXT_PUBLIC_DEPLOY_ENV || process.env.DEPLOY_ENV) {
 		case 'local':
 			this.superFluidLocalIndexable = superFluidLocalIndexable;
 			this.superfluidEnumerable = superFluidLocalEnumberable;
@@ -51,6 +51,7 @@ class CoinClient {
 	}
 	firstTenPrices = {};
 
+	url = process.env.COIN_API_URL ? process.env.COIN_API_URL : process.env.NEXT_PUBLIC_COIN_API_URL;
 	async getTokenValues(tokenVolumes, url) {
 		const promise = new Promise((resolve, reject) => {
 			axios.post(url, tokenVolumes)
@@ -66,7 +67,6 @@ class CoinClient {
 
 
 	parseTokenValues = async (tokenBalances) => {
-		console.log(tokenBalances);
 		if (tokenBalances) {
 			let tokenVolumes = {};
 			if (Array.isArray(tokenBalances)) {
@@ -96,7 +96,7 @@ class CoinClient {
 				};
 			}
 			const data = { tokenVolumes, network: 'polygon-pos' };
-			const url = process.env.NEXT_PUBLIC_COIN_API_URL + '/tvl';
+			const url = this.url + '/tvl';
 			//only query tvl for bounties that have deposits
 			let fetchValues = false;
 			if (JSON.stringify(data.tokenVolumes) != '{}') {
