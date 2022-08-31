@@ -1,17 +1,17 @@
 import { useState, useEffect, useContext } from 'react';
 import StoreContext from '../store/Store/StoreContext';
-function useAsync(asyncFn, onSuccess, dep) {
+function useAsync(asyncFn, onSuccess, deps) {
 	useEffect(() => {
 		let isActive = true;
 		asyncFn().then(data => {
-			if (isActive) onSuccess(data);
+			if (isActive) {onSuccess(data);}
 		});
 		return () => {
 			isActive = false;
 		};
-	}, [asyncFn, onSuccess, dep]);
+	}, [onSuccess, deps]);
 }
-const useGetTokenValues = (tokenBalances, bounty) => {
+const useGetTokenValues = (tokenBalances) => {
 	const [tokenValues, setTokenValues] = useState(null);
 	const [appState] = useContext(StoreContext);
 
@@ -24,7 +24,7 @@ const useGetTokenValues = (tokenBalances, bounty) => {
 			return {total:0};
 		}
 	};
-	useAsync(getParsedTokenValues, setTokenValues, bounty);
+	useAsync(getParsedTokenValues, setTokenValues, tokenBalances);
 
 	return [tokenValues, setTokenValues];
 };

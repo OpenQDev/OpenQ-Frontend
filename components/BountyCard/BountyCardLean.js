@@ -18,7 +18,14 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 	const bountyName = bounty?.title.toLowerCase() || '';
 	const [appState] = useContext(StoreContext);
 	const [isModal, setIsModal] = useState();
-	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
+	
+	const createTokenBalances = (bounty) => {
+		return bounty?.bountyTokenBalances;
+	};
+	const tokenBalances = useMemo(() => createTokenBalances(bounty), [
+		bounty.tokenBalances
+	]);
+	const [tokenValues] = useGetTokenValues(tokenBalances);
 
 
 	const createBudget = (bounty) => {

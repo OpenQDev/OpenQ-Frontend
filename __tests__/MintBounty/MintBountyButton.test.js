@@ -38,7 +38,6 @@ const test =(issue)=>{
 		const	mintBountyButton =  await screen.findByRole('button', {name: /New Contract/i});			
 		await user.click(mintBountyButton);
 		const inputs = await screen.findAllByRole('textbox');
-		console.log(inputs);
 		await user.type(inputs[0], issue.url);
 	
 
@@ -66,7 +65,8 @@ const test =(issue)=>{
 			expect( await screen.findByText(/ as many times as you like/i)).toBeInTheDocument();
 		}	
 		}
-			
+		const deploy = await screen.findAllByText(/deploy/i);
+		expect(deploy[0]).toBeInTheDocument();
 		// should not have null or undefined values
 		const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
 		expect(nullish).toHaveLength(0);
