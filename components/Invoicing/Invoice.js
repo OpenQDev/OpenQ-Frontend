@@ -4,7 +4,7 @@ import  'jspdf-autotable';
 import { ethers } from 'ethers';
 import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
-import ToolTip from '../Utils/ToolTip';
+import ToolTipNew from '../Utils/ToolTipNew';
 const Invoice = ({bounty})=>{
 	const [tokenValues] = useGetTokenValues(bounty.bountyTokenBalances);
 	const [appState] = useContext(StoreContext);
@@ -96,8 +96,8 @@ const Invoice = ({bounty})=>{
 						<input onChange={(e)=>{setClientEmail(e.target.value);}} className='bg-dark-mode border border-web-gray text-xl p-4 h-min rounded-lg focus:outline-none' type="email" placeholder='Client Email'></input>
 					</div>
 					
-					<ToolTip toolTipText="Cannot generate invoice if there are no deposits." hideToolTip={tokenValues} customOffsets={[0, 66]} >
-						<button onClick={handleSubmit} disabled={!tokenValues} className={`confirm-btn ${!tokenValues ? 'confirm-btn-disabled' : 'confirm-btn' } col-span-2 my-4`}>Generate</button></ToolTip>
+					<ToolTipNew toolTipText="Cannot generate invoice if there are no deposits." hideToolTip={tokenValues} customOffsets={[0, 66]} >
+						<button onClick={handleSubmit} disabled={!tokenValues} className={`confirm-btn ${!tokenValues ? 'confirm-btn-disabled' : 'confirm-btn' } col-span-2 my-4`}>Generate</button></ToolTipNew>
 				</form>
 				<iframe className={`h-screen flex-0 w-full ${showPdf?'visible':'sr-only' }`} ref={srcPdf} />
 			</div></div>);

@@ -14,7 +14,7 @@ import {
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Image from 'next/image';
 import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
-import ToolTip from '../Utils/ToolTip';
+import ToolTipNew from '../Utils/ToolTipNew';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 
@@ -181,9 +181,9 @@ const FundStreamModal = ({
 									<div className='flex w-full justify-evenly px-1.5 gap-2 rounded-sm py-1.5 self-center'>
 
 										{showModal !== 'delete' && approveTransferState !== ERROR && <button onClick={() => fund(volume, localToken)} disabled={approveTransferState !== CONFIRM || isDisabled} className={`text-center px-2 flex  gap-2 py-1.5 ${approveTransferState === CONFIRM && !isDisabled ? 'cursor-pointer' : null} ${approveStyles[approveTransferState]} rounded-sm`}>
-											<ToolTip hideToolTip={!isDisabled} customOffsets={[-60, 30]} toolTipText=
+											<ToolTipNew hideToolTip={!isDisabled} customOffsets={[-60, 30]} toolTipText=
 												'Please add an amount between 0.00000001 and 1000'>	<span>{approveTransferState === CONFIRM ? 'Approve' : approveTransferState === APPROVING ? 'Approving' : 'Approved'}
-												</span></ToolTip>
+												</span></ToolTipNew>
 											{approveTransferState === APPROVING && <LoadingIcon className={'inline pt-1'} />}
 										</button>}
 
