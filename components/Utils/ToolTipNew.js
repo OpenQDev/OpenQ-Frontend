@@ -7,7 +7,7 @@ const ToolTipNew = ({toolTipText, children, hideToolTip, outerStyles, innerStyle
 	return (
 		<div className={'group'}>
 			{children}
-			<div className={`justify-center w-full relative hidden z-10 group-hover:block  ${outerStyles} `}>
+			<div className={`justify-center w-full relative hidden z-50 group-hover:block  ${outerStyles} `}>
 				<div className="flex flex-col items-center">
 					<div className="flex mt-0.5 md:mt-1 tooltip-triangle absolute"></div>
 					<div className="flex tooltip absolute">
