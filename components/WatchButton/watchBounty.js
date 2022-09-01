@@ -1,14 +1,6 @@
 import { ethers } from 'ethers';
 
-const	signMessage = async (account) => {
-	const message = 'OpenQ';
-	const signature = await window.ethereum
-		.request({
-			method: 'personal_sign',
-			params: [message, account]
-		});
-	return signature;
-};
+	
 
 const watchBounty = async (context, account, bounty, watchingDisplay, setWatchingDisplay) => {
 	const [appState, dispatch]= context;
@@ -22,7 +14,7 @@ const watchBounty = async (context, account, bounty, watchingDisplay, setWatchin
 	try {
 		const response = await appState.authService.hasSignature(account);
 		if (response.data.status===false) {
-			const signature = await signMessage(account);
+			const signature = await appState.openQClient.signMessage(account);
 			await appState.authService.verifySignature(account, signature);
 		}
 
