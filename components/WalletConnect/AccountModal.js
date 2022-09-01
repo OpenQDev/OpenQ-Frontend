@@ -38,9 +38,9 @@ const AccountModal = ({ chainId, account, ensName, deactivate, setIsConnecting, 
 			<div ref={domRef} className='flex absolute flex-col mt-0 z-30 bg-[#161B22] w-40 tooltip border-gray-700 border rounded-sm p-0'>
 				<div className='flex text-[#c9d1d9] items-center w-full h-8 p-2 mt-2 ml-2 m-0'>{networkName}</div>
 
-				<div className="flex md:hover:bg-[#1f6feb] w-full h-8 gap-4 items-center hover:text-white text-[#c9d1d9]">
-					<div className='flex w-full p-2 ml-2'>
-						<span>{ensName}</span>
+				<div className="flex md:hover:bg-[#1f6feb] w-full gap-4 items-center hover:text-white text-[#c9d1d9]">
+					<div className='flex flex-col w-full p-2 ml-2'>
+						<span className='text-left'>{ensName}</span>
 						<CopyAddressToClipboard data={account} clipping={[5, 38]} />
 					</div>
 				</div>
