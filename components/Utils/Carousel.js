@@ -2,9 +2,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 
 
-const Carousel = (props) => {
+const Carousel = ({styles, children, height}) => {
 	const scroller = useRef();
-	const {styles, children, height} = props;
 	const [isScrollable, setIsScrollable] = useState();
 	const [isScrolling, setIsScrolling] = useState();
 
