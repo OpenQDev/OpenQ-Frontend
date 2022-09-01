@@ -1,5 +1,4 @@
 import { ethers } from 'ethers';
-import axios from 'axios';
 
 const	signMessage = async (account) => {
 	const message = 'OpenQ';

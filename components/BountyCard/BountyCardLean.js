@@ -2,8 +2,8 @@
 import React, { useState, useContext, useMemo } from 'react';
 import Image from 'next/image';
 import Skeleton from 'react-loading-skeleton';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
 import BountyCardDetailsModal from './BountyCardDetailsModal';
+import useGetTokenValues from '../../hooks/useGetTokenValues';
 import ToolTipNew from '../Utils/ToolTipNew';
 import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
 
@@ -18,14 +18,21 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 	const bountyName = bounty?.title.toLowerCase() || '';
 	const [appState] = useContext(StoreContext);
 	const [isModal, setIsModal] = useState();
-	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
+	
+	const createTokenBalances = (bounty) => {
+		return bounty?.bountyTokenBalances;
+	};
+	const tokenBalances = useMemo(() => createTokenBalances(bounty), [
+		bounty.tokenBalances
+	]);
+	const [tokenValues] = useGetTokenValues(tokenBalances);
 
 
 	const createBudget = (bounty) => {
 		return bounty.fundingGoalTokenAddress ? { tokenAddress: bounty.fundingGoalTokenAddress, volume: bounty.fundingGoalVolume } : null;
 	};
 	const budgetObj = useMemo(() => createBudget(bounty), [
-		bounty
+		bounty.fundingGoalTokenAddress, bounty.fundingGoalVolume
 	]);
 	const [budgetValue] = useGetTokenValues(budgetObj);
 	const budget = budgetValue?.total;

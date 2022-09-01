@@ -29,12 +29,12 @@ describe('CarouselBounty', ( ) => {
 
 	const test =(bounty)=>{
 		
-		it('should render CarouselBounty', ()=>{
+		it('should render CarouselBounty', async()=>{
 			// ARRANGE
 			render(<CarouselBounty bounty={bounty} />);
 
 			// ACT
-			const repo = screen.getByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
+			const repo = await screen.findByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
 			expect(repo).toBeInTheDocument();
 			
 			// ASSERT

@@ -3,6 +3,7 @@
  * @jest-environment jsdom
  */
 import React from 'react';
+import {waitFor} from '@testing-library/react';
 
 import { render, screen } from '../../test-utils';
 import InitialState from '../../store/Store/InitialState';
@@ -40,18 +41,19 @@ describe('OrganizationMetadata', ( ) => {
 			render(<OrganizationMetadata organizationData={organization} repositories={repositories} complete={true}/>);
 
 			// ASSERT
-			if(organization.login==='OpenQDev'){
-				const language = screen.getByText(/JavaScript/i);
-				expect(language).toBeInTheDocument();}
-			if(organization.membersWithRole)	{
-				const images = screen.queryAllByRole('img');
-				expect(images).toHaveLength(organization.membersWithRole.nodes.length);}
+			await	waitFor(()=>{
+				if(organization.login==='OpenQDev'){
+					const language = screen.getByText(/JavaScript/i);
+					expect(language).toBeInTheDocument();}
+				if(organization.membersWithRole)	{
+					const images = screen.queryAllByRole('img');
+					expect(images).toHaveLength(organization.membersWithRole.nodes.length);}
 			
-			// should not have null or undefined values
-			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
-			expect(nullish).toHaveLength(0);
+				// should not have null or undefined values
+				const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
+				expect(nullish).toHaveLength(0);
 
-			
+			});
 		});
 
 	};

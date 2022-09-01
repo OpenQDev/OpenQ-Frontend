@@ -35,15 +35,14 @@ const address = ({ address, mergedBounty, renderError }) => {
 	const [bounty, setBounty] = useState(mergedBounty);
 	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
 
-	
 	const createBudget = (bounty)=>{
 		return  bounty.fundingGoalTokenAddress ? {tokenAddress: bounty.fundingGoalTokenAddress, volume: bounty.fundingGoalVolume}: null;
 	};
 	const budgetObj = useMemo(() => createBudget(bounty), [
 		bounty
 	]);
-	const [budgetValue] = useGetTokenValues(budgetObj);
-	const budget = budgetValue?.total;
+	const [budgetValues] = useGetTokenValues(budgetObj);
+	const budget = budgetValues?.total;
 	const {account, } = useWeb3();
 
 	const createRewardSplit = (bounty)=>{
@@ -180,8 +179,8 @@ const address = ({ address, mergedBounty, renderError }) => {
 					<RepoTitle bounty={bounty} />
 					<SubMenu colour="rust" items={[{ name: 'View', Svg: Telescope }, { name: 'Fund', Svg: Add }, { name: 'Refund', Svg: Subtract }, { name: 'Claim', Svg: Fire }, { name: (bounty.issuer && ethers.utils.getAddress(bounty?.issuer?.id) == account) ? 'Admin' : null, Svg: (bounty.issuer && ethers.utils.getAddress(bounty.issuer.id) == account) ? Gear : null }]} internalMenu={internalMenu} updatePage={setInternalMenu} />
 
-					<BountyHeading price={!justMinted ? tokenValues?.total : tokenValues?.total||0} budget={budget} bounty={bounty} />
-					{internalMenu == 'View' && <BountyCardDetails justMinted={justMinted} price={tokenValues?.total} budget={budget} split={split} bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}
+					<BountyHeading tokenValues={tokenValues} budgetValues={budgetValues} bounty={bounty} />
+					{internalMenu == 'View' && <BountyCardDetails justMinted={justMinted} budgetValues={budgetValues} split={split} bounty={bounty} setInternalMenu={setInternalMenu} address={address} tokenValues={tokenValues} internalMenu={internalMenu} />}
 					{internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
 					{internalMenu == 'Admin' && bounty && (ethers.utils.getAddress(bounty.issuer.id) == account) ? <AdminPage bounty={bounty} refreshBounty={refreshBounty} price={tokenValues?.total} budget={budget} split={split}/> : null}

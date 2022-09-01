@@ -16,7 +16,6 @@ describe('BountyList', () => {
 	beforeEach(() => {
 		const observe = jest.fn();
 		const disconnect = jest.fn();
-		jest.mock('axios');
 		window.IntersectionObserver = jest.fn(() => ({
 			observe,
 			disconnect,
@@ -47,7 +46,6 @@ describe('BountyList', () => {
 		expect(nullish).toHaveLength(0);
 
 	});
-
 	
 	it('should allow user to search by text and tags', async () => {
 		const user = userEvent.setup();
@@ -66,7 +64,7 @@ describe('BountyList', () => {
 		expect(unFilteredIssue[0]).toBeInTheDocument();
 		expect(filteredIssue1[0]).not.toBeInTheDocument();
 	});
-	/* es
+	
 	it('should allow the user to sort by age', async () => {
 
 		const user = userEvent.setup();
@@ -80,9 +78,11 @@ describe('BountyList', () => {
 		const repos = await screen.findAllByTestId('repo');
 		expect(repos[0].textContent).toBe('openqdev/openq-frontend');
 		expect(repos[1].textContent).toBe('nomicfoundation/hardhat');
-		expect(screen.findAllByText(/test2/i)[0]).toBeInTheDocument();
-	});*/
+		const test2=await screen.findAllByText(/test2/i);
+		expect(test2[0]).toBeInTheDocument();
+	});
 	/*
+	
 	it('should render watched bounties', () => {
 		// ARRANGE
 		render(<BountyList types={['0', '1', '2', '3']} bounties={bounties} complete={true} addCarousel={false} category={undefined} contractToggle={false} watchedBounties={[]} />);
@@ -91,6 +91,6 @@ describe('BountyList', () => {
 		const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
 		expect(nullish).toHaveLength(0);
 	});
-	*/
-
+	
+*/
 });

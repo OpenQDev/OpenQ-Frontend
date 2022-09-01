@@ -23,6 +23,8 @@ describe('MiniBountyCard', ( ) => {
 	beforeEach(()=>{
 		const observe = jest.fn();
 		const disconnect = jest.fn();
+		process.env.NEXT_PUBLIC_COIN_API_URL='http://localhost:3030';
+		process.env.COIN_API_SSR_URL='http://localhost:3030';
 
 		window.IntersectionObserver = jest.fn(() => ({
 			observe,

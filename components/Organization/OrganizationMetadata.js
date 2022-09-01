@@ -36,7 +36,7 @@ const OrganizationMetadata = ({organizationData, repositories})=>{
 				<div className='flex flex-wrap gap-2 w-60'>	{languages.map(language=>{
 					return <>
 						
-						<div className='w-fit inline' >	<div style={{backgroundColor: language.color}} className='w-3 h-3 rounded-lg inline-block'></div> <span className='text-sm'>{language.name}</span></div>
+						<div className='w-fit inline' key={language.name} >	<div style={{backgroundColor: language.color}} className='w-3 h-3 rounded-lg inline-block'></div> <span className='text-sm'>{language.name}</span></div>
 							
 					</>;})}	</div>
 			</li>

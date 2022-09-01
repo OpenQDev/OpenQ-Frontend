@@ -131,8 +131,10 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 						}
 
 					} catch (error) {
-						setEnableMint(true);
-						setBountyAddress();
+						if(!didCancel&&issue) {
+							setEnableMint(true);
+							setBountyAddress();
+						}
 					}
 				}
 
