@@ -1,59 +1,73 @@
-// test/components/FundPage/ApprovalTransferModal.js
+
 /**
  * @jest-environment jsdom
  */
 import React from 'react';
 import userEvent from '@testing-library/user-event';
+import {waitFor} from '@testing-library/react';
 
 import { render, screen } from '../../test-utils';
 import OrganizationContent from '../../components/Organization/OrganizationContent';
-import mocks from '../../__mocks__/mock-server.json';
-import InitialState from '../../store/Store/InitialState';
 
 import nextRouter from 'next/router';
-const orgBounties = [{'id':'I_kwDOBC3Cis5Kk2OD','title':'No way to disable HMR (hot-module-reload)','body':'### Verify canary release\r\n\r\n- [X] I verified that the issue exists in Next.js canary release\r\n\r\n### Provide environment information\r\n\r\nHot-module-reload is extremely unreliable for me. It doesn\'t work maybe 10% of the time, and this causes serious problems when I expect it to work and it doesn\'t.\r\n\r\nFor me, at least in this specific project I\'m working on (not in Next.js in general), any tool that is unreliable like this needs to get tossed. The fact that we cannot do this in Next.js is absurd.\r\n\r\nPlease reopen https://github.com/vercel/next.js/issues/1109\r\n\r\n### What browser are you using? (if relevant)\r\n\r\n_No response_\r\n\r\n### How are you deploying your application? (if relevant)\r\n\r\n_No response_\r\n\r\n### Describe the Bug\r\n\r\nsee above text\r\n\r\n### Expected Behavior\r\n\r\nsee above text\r\n\r\n### To Reproduce\r\n\r\nsee above text','url':'https://github.com/vercel/next.js/issues/37252','languages':[{'__typename':'Language','name':'JavaScript','color':'yellow'},{'__typename':'Language','name':'CSS','color':'purple'},{'__typename':'Language','name':'TypeScript','color':'steelblue'},{'__typename':'Language','name':'Shell','color':'lightgreen'},{'__typename':'Language','name':'Dockerfile','color':'gray'},{'__typename':'Language','name':'SCSS','color':'#7700a4'},{'__typename':'Language','name':'Sass','color':'red'},{'__typename':'Language','name':'Rust','color':'#bf0077'},{'__typename':'Language','name':'Batchfile','color':'#0034bf'}],'repoName':'next.js','owner':'vercel','avatarUrl':'https://avatars.githubusercontent.com/u/14985020?v=4','labels':[{'__typename':'Label','name':'please add a complete reproduction','color':'fbca04'},{'__typename':'Label','name':'template: bug','color':'fddf99'},{'__typename':'Label','name':'area: Developer Experience','color':'658CEB'}],'createdAt':'2022-05-27T19:13:07Z','closed':false,'bodyHTML':'<h3 dir="auto">Verify canary release</h3>\n<ul class="contains-task-list">\n<li class="task-list-item"><input type="checkbox" id="" disabled="" class="task-list-item-checkbox" checked=""> I verified that the issue exists in Next.js canary release</li>\n</ul>\n<h3 dir="auto">Provide environment information</h3>\n<p dir="auto">Hot-module-reload is extremely unreliable for me. It doesn\'t work maybe 10% of the time, and this causes serious problems when I expect it to work and it doesn\'t.</p>\n<p dir="auto">For me, at least in this specific project I\'m working on (not in Next.js in general), any tool that is unreliable like this needs to get tossed. The fact that we cannot do this in Next.js is absurd.</p>\n<p dir="auto">Please reopen <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="207308648" data-permission-text="Title is private" data-url="https://github.com/vercel/next.js/issues/1109" data-hovercard-type="issue" data-hovercard-url="/vercel/next.js/issues/1109/hovercard" href="https://github.com/vercel/next.js/issues/1109">#1109</a></p>\n<h3 dir="auto">What browser are you using? (if relevant)</h3>\n<p dir="auto"><em>No response</em></p>\n<h3 dir="auto">How are you deploying your application? (if relevant)</h3>\n<p dir="auto"><em>No response</em></p>\n<h3 dir="auto">Describe the Bug</h3>\n<p dir="auto">see above text</p>\n<h3 dir="auto">Expected Behavior</h3>\n<p dir="auto">see above text</p>\n<h3 dir="auto">To Reproduce</h3>\n<p dir="auto">see above text</p>','titleHTML':'No way to disable HMR (hot-module-reload)','assignees':[],'prs':[],'__typename':'Bounty','bountyAddress':'0x1f191c4166865882b26551fb8618668b7a67d0fb','bountyId':'I_kwDOBC3Cis5Kk2OD','bountyMintTime':'1654260766','bountyClosedTime':null,'status':'0','bountyType':2,'claimedTransactionHash':null,'deposits':[],'issuer':{'__typename':'User','id':'0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'},'bountyTokenBalances':[],'address':'0x1f191c4166865882b26551fb8618668b7a67d0fb','organization':{'bounties':[]}},{'id':'MDU6SXNzdWU5ODU5NDM2NjQ=','title':'学習プログラムの再現性を確保する方法について','body':'プログラムやドキュメント等を共有いただきありがとうございます。\r\nfinetune-to-livedoor-corpus.ipynbでsrc/run_classifier.pyを実行する箇所で学習の再現性を確保したいです。\r\n例えばシード値の固定など、再現性確保のために書き換える必要があるプログラムと処理を教えていただけると幸いです。\r\n\r\n現状、以下のプログラムで呼び出しているモジュールに対してシード値を固定していますが、再現性を確保できていない状況です。\r\n- run_classifier.py\r\n  - tensorflow\r\n- tokenization_sentencepiece.py\r\n  - tensorflow\r\n- modeling.py\r\n  - numpy\r\n  - tensorflow\r\n- optimization.py\r\n  - tensorflow\r\n\r\nnumpy,tensorslowのシード値は以下の方法で固定しています。\r\n```\r\ndef fix_seed(seed):\r\n    # Numpy\r\n    np.random.seed(seed)\r\n    # Tensorflow\r\n    tf.compat.v1.set_random_seed(seed)\r\n\r\nSEED = 42\r\nfix_seed(SEED)\r\n```\r\n\r\n上記のコードは全て、例えば以下のように最初のimportが終わった個所に書いています。\r\nhttps://github.com/yoheikikuta/bert-japanese/blob/master/src/run_classifier.py#L20\r\n\r\n上記以外にシード値固定などの学習の再現性確保に必要なプログラムやモジュールがあればご教示いただけますと幸いです。\r\nまた、他にも学習の再現性確保をするための補足事項もあればご教示いただけると幸いです。','url':'https://github.com/yoheikikuta/bert-japanese/issues/27','languages':[{'__typename':'Language','name':'Dockerfile'},{'__typename':'Language','name':'Python'},{'__typename':'Language','name':'Shell'},{'__typename':'Language','name':'Jupyter Notebook'}],'repoName':'bert-japanese','owner':'yoheikikuta','avatarUrl':'https://avatars.githubusercontent.com/u/14804123?u=4c57866c2d77f3ca1ec555cd1b0d9470ea9e4bf8&v=4','labels':[],'createdAt':'2021-09-02T01:28:38Z','closed':false,'bodyHTML':'<p dir="auto">プログラムやドキュメント等を共有いただきありがとうございます。<br>\nfinetune-to-livedoor-corpus.ipynbでsrc/run_classifier.pyを実行する箇所で学習の再現性を確保したいです。<br>\n例えばシード値の固定など、再現性確保のために書き換える必要があるプログラムと処理を教えていただけると幸いです。</p>\n<p dir="auto">現状、以下のプログラムで呼び出しているモジュールに対してシード値を固定していますが、再現性を確保できていない状況です。</p>\n<ul dir="auto">\n<li>run_classifier.py\n<ul dir="auto">\n<li>tensorflow</li>\n</ul>\n</li>\n<li>tokenization_sentencepiece.py\n<ul dir="auto">\n<li>tensorflow</li>\n</ul>\n</li>\n<li>modeling.py\n<ul dir="auto">\n<li>numpy</li>\n<li>tensorflow</li>\n</ul>\n</li>\n<li>optimization.py\n<ul dir="auto">\n<li>tensorflow</li>\n</ul>\n</li>\n</ul>\n<p dir="auto">numpy,tensorslowのシード値は以下の方法で固定しています。</p>\n<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="def fix_seed(seed):\n    # Numpy\n    np.random.seed(seed)\n    # Tensorflow\n    tf.compat.v1.set_random_seed(seed)\n\nSEED = 42\nfix_seed(SEED)"><pre class="notranslate"><code>def fix_seed(seed):\n    # Numpy\n    np.random.seed(seed)\n    # Tensorflow\n    tf.compat.v1.set_random_seed(seed)\n\nSEED = 42\nfix_seed(SEED)\n</code></pre></div>\n<p dir="auto">上記のコードは全て、例えば以下のように最初のimportが終わった個所に書いています。<br>\n<a href="https://github.com/yoheikikuta/bert-japanese/blob/master/src/run_classifier.py#L20">https://github.com/yoheikikuta/bert-japanese/blob/master/src/run_classifier.py#L20</a></p>\n<p dir="auto">上記以外にシード値固定などの学習の再現性確保に必要なプログラムやモジュールがあればご教示いただけますと幸いです。<br>\nまた、他にも学習の再現性確保をするための補足事項もあればご教示いただけると幸いです。</p>','titleHTML':'学習プログラムの再現性を確保する方法について','assignees':[],'prs':[],'__typename':'Bounty','bountyAddress':'0xcdf0e532ab8eb9a12da5cae3b6ae5370faacd028','bountyId':'MDU6SXNzdWU5ODU5NDM2NjQ=','bountyMintTime':'1654260724','bountyClosedTime':null,'status':'0','bountyType':'1','claimedTransactionHash':null,'deposits':[{'__typename':'Deposit','id':'0x7ee8fd2ee7dfa772cdb59e0d7eedec94a51af7fb711e9b80979aa93b9b0722a6','refunded':false,'refundTime':null,'expiration':'2592000','tokenAddress':'0x0000000000000000000000000000000000000000','volume':'20000000000000000000','sender':{'__typename':'User','id':'0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'},'receiveTime':'1654271484'}],'issuer':{'__typename':'User','id':'0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'},'bountyTokenBalances':[{'__typename':'BountyFundedTokenBalance','volume':'20000000000000000000','tokenAddress':'0x0000000000000000000000000000000000000000'}],'address':'0xcdf0e532ab8eb9a12da5cae3b6ae5370faacd028','organization':{'bounties':[]}},{'id':'MDU6SXNzdWU4MjQwMjMyMTk=','title':'Learning 📕 ','body':'','url':'https://github.com/lexfridman/mit-deep-learning/issues/26','languages':[{'__typename':'Language','name':'Jupyter Notebook'}],'repoName':'mit-deep-learning','owner':'lexfridman','avatarUrl':'https://avatars.githubusercontent.com/u/536621?u=d6a4396dac858671993163b112eae5eaaa2f8e87&v=4','labels':[],'createdAt':'2021-03-07T21:19:21Z','closed':false,'bodyHTML':'','titleHTML':'Learning <g-emoji class="g-emoji" alias="closed_book" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d5.png">📕</g-emoji> ','assignees':[],'prs':[],'__typename':'Bounty','bountyAddress':'0xd316991a0b2014dcf954bb02150df6261661be2e','bountyId':'MDU6SXNzdWU4MjQwMjMyMTk=','bountyMintTime':'1654260628','bountyClosedTime':null,'status':'0','bountyType':'1','claimedTransactionHash':null,'deposits':[],'issuer':{'__typename':'User','id':'0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'},'bountyTokenBalances':[],'address':'0xd316991a0b2014dcf954bb02150df6261661be2e','organization':{'bounties':[]}},{'id':'I_kwDOGWnnz85LAu6g','title':'sdf','body':'','url':'https://github.com/OpenQDev/OpenQ-TestRepo/issues/290','languages':[],'repoName':'OpenQ-TestRepo','owner':'OpenQDev','avatarUrl':'https://avatars.githubusercontent.com/u/77402538?v=4','labels':[],'createdAt':'2022-06-02T17:30:13Z','closed':true,'bodyHTML':'','titleHTML':'sdf','assignees':[],'prs':[{'source':{'__typename':'PullRequest','url':'https://github.com/OpenQDev/OpenQ-TestRepo/pull/301','merged':true,'title':'Update README.md'}}],'__typename':'Bounty','bountyAddress':'0x35dd738e306d32f2709824b6f744f188da01d3c5','bountyId':'I_kwDOGWnnz85LAu6g','bountyMintTime':'1654260571','bountyType':'3','bountyClosedTime':'1654260841','status':'1','claimedTransactionHash':'0xe7eeb3a9f51e4c3d977d329b3c90e9ea06b9ab9e74b37fdc52d5093a9e327284','deposits':[],'issuer':{'__typename':'User','id':'0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'},'bountyTokenBalances':[],'address':'0x35dd738e306d32f2709824b6f744f188da01d3c5','organization':{'bounties':[]}},{'id':'I_kwDOGWnnz85JAh1-','title':'sdf','body':'','url':'https://github.com/OpenQDev/OpenQ-TestRepo/issues/224','languages':[],'repoName':'OpenQ-TestRepo','owner':'OpenQDev','avatarUrl':'https://avatars.githubusercontent.com/u/77402538?v=4','labels':[],'createdAt':'2022-05-04T03:01:31Z','closed':false,'bodyHTML':'','titleHTML':'sdf','assignees':[{'__typename':'User','name':'Christopher Stevers','url':'https://github.com/Christopher-Stevers','avatarUrl':'https://avatars.githubusercontent.com/u/72156679?s=64&v=4'}],'prs':[],'__typename':'Bounty','bountyAddress':'0x7e2d5fcc5e02cbf2b9f860052c0226104e23f9c7','bountyId':'I_kwDOGWnnz85JAh1-','bountyMintTime':'1654260379','bountyType':'3','bountyClosedTime':null,'status':'0','claimedTransactionHash':null,'deposits':[{'__typename':'Deposit','id':'0xf4468608784619a03df77b35476dacf71d8b4b79b02a077092b51a7331924d13','refunded':false,'refundTime':null,'expiration':'2592000','tokenAddress':'0x0000000000000000000000000000000000000000','volume':'23000000000000000000','sender':{'__typename':'User','id':'0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'},'receiveTime':'1654261019'}],'issuer':{'__typename':'User','id':'0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'},'bountyTokenBalances':[{'__typename':'BountyFundedTokenBalance','volume':'23000000000000000000','tokenAddress':'0x0000000000000000000000000000000000000000'}],'address':'0x7e2d5fcc5e02cbf2b9f860052c0226104e23f9c7','organization':{'bounties':[]}},{'id':'I_kwDOGWnnz85LBZmQ','title':'Bot test','body':'','url':'https://github.com/OpenQDev/OpenQ-TestRepo/issues/292','languages':[],'repoName':'OpenQ-TestRepo','owner':'OpenQDev','avatarUrl':'https://avatars.githubusercontent.com/u/77402538?v=4','labels':[],'createdAt':'2022-06-02T20:07:48Z','closed':true,'bodyHTML':'','titleHTML':'Bot test','assignees':[],'prs':[],'__typename':'Bounty','bountyAddress':'0x3ca8f9c04c7e3e1624ac2008f92f6f366a869444','bountyId':'I_kwDOGWnnz85LBZmQ','bountyMintTime':'1654260353','bountyClosedTime':'1654260979','status':'1','claimedTransactionHash':'0x63e127d64b05acdb8d00a07d2313645abc4f4af6ae779c1f8a9be7b4dee11b87','deposits':[{'__typename':'Deposit','id':'0xdd9e09885524a2f2c9a906d7c19c9243d8176d355e5e2bf4d87e8cdd2f85dc89','refunded':false,'refundTime':null,'expiration':'2592000','tokenAddress':'0x5fbdb2315678afecb367f032d93f642f64180aa3','volume':'12000000000000000000','sender':{'__typename':'User','id':'0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'},'receiveTime':'1654260907'},{'__typename':'Deposit','id':'0xdf51f125ba48ca6ffba4cbbe797e434b792cc6f47c900108a82cd97736619126','refunded':false,'refundTime':null,'expiration':'2592000','tokenAddress':'0x0000000000000000000000000000000000000000','volume':'12000000000000000000','sender':{'__typename':'User','id':'0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'},'receiveTime':'1654260893'}],'issuer':{'__typename':'User','id':'0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'},'bountyTokenBalances':[{'__typename':'BountyFundedTokenBalance','volume':'12000000000000000000','tokenAddress':'0x0000000000000000000000000000000000000000'},{'__typename':'BountyFundedTokenBalance','volume':'12000000000000000000','tokenAddress':'0x5fbdb2315678afecb367f032d93f642f64180aa3'}],'address':'0x3ca8f9c04c7e3e1624ac2008f92f6f366a869444','organization':{'bounties':[]}}];
-const repositories = [{'name':'bert-japanese','languages':[{'__typename':'Language','name':'Dockerfile'},{'__typename':'Language','name':'Python'},{'__typename':'Language','name':'Shell'},{'__typename':'Language','name':'Jupyter Notebook'}]}];
-describe('OrganizationContent', ( ) => {
-	beforeEach(()=>{
+
+
+const orgBounties = [{ 'id': 'I_kwDOCHE8585AYvGo', 'title': 'How to estimate transaction fees for cancelling orders on opensea?', 'body': 'I am a little confused on how to find out how much it would cost to cancel a bid using the SDK. Current gwei price is arround 80 and opensea gives me a 30 USD transaction fee on medium when trying to cancel from their website.\r\n\r\nHow do they calculate these fees? Any way to calculate the cost using their SDK before sending the orders in?', 'url': 'https://github.com/ProjectOpenSea/opensea-js/issues/286', 'languages': [{ '__typename': 'Language', 'name': 'TypeScript', 'color': '#3178c6' }, { '__typename': 'Language', 'name': 'Shell', 'color': '#89e051' }, { '__typename': 'Language', 'name': 'JavaScript', 'color': '#f1e05a' }], 'repoName': 'opensea-js', 'owner': 'ProjectOpenSea', 'avatarUrl': 'https://avatars.githubusercontent.com/u/34966464?v=4', 'labels': [{ '__typename': 'Label', 'name': 'dev-documentation', 'color': 'c2e0c6' }, { '__typename': 'Label', 'name': 'dev-sdk-bug', 'color': '598E75' }], 'createdAt': '2021-12-14T20:52:29Z', 'closed': false, 'bodyHTML': '<p dir="auto">I am a little confused on how to find out how much it would cost to cancel a bid using the SDK. Current gwei price is arround 80 and opensea gives me a 30 USD transaction fee on medium when trying to cancel from their website.</p>\n<p dir="auto">How do they calculate these fees? Any way to calculate the cost using their SDK before sending the orders in?</p>', 'titleHTML': 'How to estimate transaction fees for cancelling orders on opensea?', 'assignees': [], 'number': 286, 'repoUrl': 'https://github.com/ProjectOpenSea/opensea-js', 'repoDescription': 'JavaScript SDK for the OpenSea marketplace. Let your users buy or sell cryptogoods on your own site!', 'prs': [], '__typename': 'Bounty', 'bountyAddress': '0x033488800ae672726c34620d4bd817e1590d4cdc', 'bountyType': '0', 'bountyId': 'I_kwDOCHE8585AYvGo', 'bountyMintTime': '1661767968', 'bountyClosedTime': null, 'claimedTransactionHash': null, 'fundingGoalTokenAddress': '0x0000000000000000000000000000000000000000', 'fundingGoalVolume': '0', 'status': '0', 'deposits': [], 'issuer': { '__typename': 'User', 'id': '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266' }, 'bountyTokenBalances': [], 'refunds': [], 'payouts': [], 'tvl': 0, 'address': '0x033488800Ae672726c34620D4Bd817E1590d4cDc', 'blacklisted': false, 'category': 'prime' }];
+
+const repositories = [{ 'name': 'bert-japanese', 'languages': [{ '__typename': 'Language', 'name': 'Dockerfile' }, { '__typename': 'Language', 'name': 'Python' }, { '__typename': 'Language', 'name': 'Shell' }, { '__typename': 'Language', 'name': 'Jupyter Notebook' }] }];
+
+describe('OrganizationContent', () => {
+	beforeEach(() => {
 		const observe = jest.fn();
 		const disconnect = jest.fn();
-		
+
 
 		nextRouter.useRouter = jest.fn();
-		nextRouter.useRouter.mockImplementation(() => ({ query: {type: null},
-		
-			prefetch: jest.fn(() => { return { catch: jest.fn }; }) }));
+		nextRouter.useRouter.mockImplementation(() => ({
+			query: { type: null },
+
+			prefetch: jest.fn(() => { return { catch: jest.fn }; })
+		}));
 
 		window.IntersectionObserver = jest.fn(() => ({
 			observe,
 			disconnect,
 		}));
 	});
+	const getMoreData = () => {
+		return null;
+	};
+	const getNewData = () => {
+		return null;
+	};
 
-	
-	it('should render Org content card for yoheikikuta', async()=>{
+	it('should render Org content card for yoheikikuta', async () => {
 		// ARRANGE
-		const user  = userEvent.setup();
-		console.log(orgBounties);
+		const user = userEvent.setup();
 		render(
-			
-			<OrganizationContent bounties={orgBounties} repositories={ repositories} complete={true}  />
+
+			<OrganizationContent getMoreData={getMoreData} getNewData={getNewData} bounties={orgBounties} repositories={repositories} complete={true} />
 		);
-		const name ='yoheikikuta';
-		// ASSERT
+		await waitFor(async() => {
 
-		await user.click(screen.getByText(/all Issues/i));
-		const nameRegex = new RegExp(name.slice(0, 3), 'i');
-		const title = await screen.findAllByText(nameRegex);
-		expect(title[0]).toBeInTheDocument();
-		const images = screen.getAllByRole('img');
-		expect(images).toHaveLength(orgBounties.length* 4);
-			
-		// should not have null or undefined values
-		const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
-		expect(nullish).toHaveLength(0);
 
-			
+			const name = 'opensea';
+			// ASSERT
+
+			await user.click(screen.getByText(/all Issues/i));
+			const nameRegex = new RegExp(name.slice(0, 3), 'i');
+			const title = await screen.findAllByText(nameRegex);
+			expect(title[0]).toBeInTheDocument();
+			const images = screen.getAllByRole('img');
+			expect(images).toHaveLength(orgBounties.length * 3 + 1);
+
+			// should not have null or undefined values
+			const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+			expect(nullish).toHaveLength(0);
+
+		});
+
+
 	});
 
 

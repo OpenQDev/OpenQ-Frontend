@@ -4,20 +4,21 @@ import React, { useContext } from 'react';
 
 import  ActionBubble from '../Utils/ActionBubble';
 import StoreContext from '../../store/Store/StoreContext';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
 import BountyMetadata from './BountyMetadata.js';
 import useWeb3 from '../../hooks/useWeb3';
 import useEns from '../../hooks/useENS';
 
 
-const BountyCardDetails = ({ bounty, setInternalMenu, justMinted, budget, split, price }) => {
+const BountyCardDetails = ({ bounty, setInternalMenu, justMinted, tokenValues, budgetValues, split }) => {
 
 
 	const [appState] = useContext(StoreContext);
 	const {account} = useWeb3();
 	const [senderEnsName] = useEns(bounty?.issuer?.id);
 	const sender = senderEnsName ||bounty?.issuer?.id;
-	const [tokenValues] = useGetTokenValues(bounty.bountyTokenBalances);
+	
+	const price = tokenValues?.total;
+	const budget = budgetValues?.total;
 	
 	
 	const deposits = bounty.deposits ||[];

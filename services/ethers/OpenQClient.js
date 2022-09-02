@@ -39,6 +39,16 @@ class OpenQClient {
 		return contract;
 	};
 
+	signMessage = async (account) => {
+		const message = 'OpenQ';
+		const signature = await window.ethereum
+			.request({
+				method: 'personal_sign',
+				params: [message, account]
+			});
+		return signature;
+	};
+
 	async mintBounty(library, issueId, organization, type, data) {
 		const promise = new Promise(async (resolve, reject) => {
 			let bountyInitOperation;

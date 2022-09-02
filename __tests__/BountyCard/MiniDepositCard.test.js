@@ -1,4 +1,4 @@
-// test/components/FundPage/ApprovalTransferModal.js
+
 /**
  * @jest-environment jsdom
  */
@@ -52,7 +52,7 @@ describe('MiniDepositCard', ( ) => {
 			// ARRANGE
 			render(<MiniDepositCard status={'CLOSED'} deposit={deposit} />);
 		
-			
+			expect (await screen.findByText(/12.00 LINK/)).toBeInTheDocument();
 			// should not have null or undefined values
 			expect(await screen.findByText(/\$\d+.\d+/));
 			const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
@@ -66,6 +66,7 @@ describe('MiniDepositCard', ( ) => {
 
 			render(<MiniDepositCard status={'OPEN'} deposit={deposit} />);
 		
+			expect (await screen.findByText(/12.00 LINK/)).toBeInTheDocument();
 			// ASSERT
 			expect(await screen.findByText(/\$\d+.\d+/));
 			// should not have null or undefined values

@@ -1,4 +1,4 @@
-// test/components/FundPage/ApprovalTransferModal.js
+
 /**
  * @jest-environment jsdom
  */
@@ -6,8 +6,6 @@ import React from 'react';
 
 import { render, screen } from '../../test-utils';
 import TotalValue from '../../components/Bounty/TotalValue';
-import mocks from '../../__mocks__/mock-server.json';
-import InitialState from '../../store/Store/InitialState';
  
 
 describe('TotalValue', ( ) => {
@@ -29,7 +27,7 @@ describe('TotalValue', ( ) => {
 			render(<TotalValue bounty={{}} setInternalMenu={()=>null} price={price}/>);
 
 			// ASSERT
-			const usdPrice = screen.getByText('Total Value Locked $0.00');
+			const usdPrice = screen.getByText(/0.00/);
 			expect(usdPrice).toBeInTheDocument();
 			
 			// should not have null or undefined values
@@ -41,10 +39,10 @@ describe('TotalValue', ( ) => {
 		
 		it('should render >0 in TotalValue', async()=>{
 			// ARRANGE
-			render(<TotalValue bounty={{}} tokenValues={{total: 90}}/>);
+			render(<TotalValue bounty={{}} price={90}/>);
 
 			// ASSERT
-			const usdPrice = screen.getByText('Total Value Locked $90.00');
+			const usdPrice = screen.getByText(/90.00/i);
 			expect(usdPrice).toBeInTheDocument();
 			
 			// should not have null or undefined values

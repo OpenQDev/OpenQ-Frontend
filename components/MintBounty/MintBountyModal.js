@@ -18,7 +18,6 @@ import TierInput from './TierInput';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import SubMenu from '../Utils/SubMenu';
 
-// TODO: re-add loadingBar in props when ready
 const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 	// Context
 	const [appState, dispatch] = useContext(StoreContext);
@@ -65,6 +64,38 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 	// Refs
 	const modal = useRef();
 
+	function sleep(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms));
+	}
+  
+	const setReload = () => {
+		const payload = {
+			type: 'UPDATE_RELOAD',
+			payload: true
+		};
+		dispatch(payload);
+	};
+
+	const refreshBounty = async (address) => {
+		await sleep(1000);
+		const payload = {type: 'BOUNTY_MINTED', payload: address};
+		dispatch(payload);
+		let newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
+		try {
+			while (!newBounty) {
+				newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
+				await sleep(500);
+			}
+			await sleep(180000); // forcing 3 min waiting time since the new bounty still not visible in list
+			const payload = {type: 'BOUNTY_MINTED', payload: ''};
+			dispatch(payload);
+			setReload();
+		}
+		catch (error) {
+			setError(true);
+		}
+	};
+
 	const setIssueUrl = async (issueUrl) => {
 		if (!isLoading) {
 			setEnableMint();
@@ -100,8 +131,10 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 						}
 
 					} catch (error) {
-						setEnableMint(true);
-						setBountyAddress();
+						if(!didCancel&&issue) {
+							setEnableMint(true);
+							setBountyAddress();
+						}
 					}
 				}
 
@@ -128,7 +161,6 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 			default:
 				throw new Error(`No type: ${toggleType}`);
 			}
-			triggerLoading();
 			const { bountyAddress } = await appState.openQClient.mintBounty(
 				library,
 				issue.id,
@@ -137,6 +169,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 				data
 			);
 			sessionStorage.setItem('justMinted', true);
+			refreshBounty(bountyAddress);
 			await router.push(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress.toLowerCase()}`
 			);
@@ -186,14 +219,6 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 	}, [modal, isLoading]);
 
 	// Methods
-
-	function triggerLoading() {
-		// fix the "loadingBar is not a function" error to de-comment the below code
-		/* setTimeout(function () {
-			loadingBar(false);
-		}, 300000); // 5 minutes
-		loadingBar(true); */
-	}
 
 	function onTierChange(e) {
 		if (parseInt(e.target.value) >= 0) { setTier(parseInt(e.target.value)); }
@@ -343,7 +368,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 													{' '}
 													so that users can find it easily.
 												</div>
-												<ToolTipNew mobileX={10} toolTipText="Our main categories are Prime, Learn2Earn and Contest. Label your issue with those and you will be able to find them on our pages." >
+												<ToolTipNew mobileX={10} innerStyles={'whitespace-normal w-40'} toolTipText="Our main categories are Learn2Earn and Contest. Label your issue with those and you will be able to find them on our pages." >
 													<div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>?</div>
 
 												</ToolTipNew> 

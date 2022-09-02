@@ -1,4 +1,4 @@
-// test/components/FundPage/ApprovalTransferModal.js
+
 /**
  * @jest-environment jsdom
  */
@@ -33,7 +33,7 @@ describe('BountyHeading', ( ) => {
 			render(<BountyHeading bounty={bounty} price={price}/>);
 
 			// ASSERT
-			const title = screen.getByText(/Good first issue/);
+			const title = screen.getByText(/No way to disable HMR/i);
 			expect(title).toBeInTheDocument();
 			
 			const mintBountyButton = screen.getByText(/Contract/);

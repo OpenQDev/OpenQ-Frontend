@@ -69,6 +69,13 @@ class MockOpenQClient {
 			});
 	}
 
+	signMessage = async () => {
+		const promise = new Promise(async (resolve, reject) => {
+			resolve({ });
+		});
+		return promise;
+	};
+
 	async mintBounty(library, issueId, organization) {
 		const promise = new Promise(async (resolve, reject) => {
 			await this.sleep();
@@ -101,7 +108,6 @@ class MockOpenQClient {
 				resolve({});
 				}
 			catch (error) {
-				console.log(error)
 				reject({
 					
 					title: 'Internal JSON',
@@ -178,11 +184,10 @@ async refundDeposit(library, _bountyId, _depositId)  {
 	
 	handleError(jsonRpcError, data) {
 		let errorString = jsonRpcError?.data?.message;
-		console.log(errorString);
 		if(typeof jsonRpcError === 'string'){
 			if (jsonRpcError.includes('Ambire user rejected the request')) { errorString = 'USER_DENIED_TRANSACTION'; }
 			if (jsonRpcError.includes('Rejected Request')) { errorString = 'USER_DENIED_TRANSACTION'; }}
-		console.log(jsonRpcError);
+		
 		if(jsonRpcError.message){
 		
 			if (jsonRpcError.message.includes('Nonce too high.')) { errorString = 'NONCE_TO_HIGH'; }

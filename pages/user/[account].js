@@ -19,7 +19,7 @@ const account = ({account, user, organizations, renderError}) => {
 	useEffect(async()=>{
 		const userOffChainData = await appState.openQPrismaClient.getUser(ethers.utils.getAddress(account));
 		let starredOrganizations=[];
-		setwatchedBounties(userOffChainData.watchedBounties.nodes);
+		setwatchedBounties(userOffChainData?.watchedBounties.nodes);
 		//get starred organizations.
 		try{
 			if(userOffChainData){

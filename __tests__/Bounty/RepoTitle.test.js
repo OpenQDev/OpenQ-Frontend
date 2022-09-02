@@ -1,4 +1,4 @@
-// test/components/FundPage/ApprovalTransferModal.js
+
 /**
  * @jest-environment jsdom
  */
@@ -42,6 +42,8 @@ describe('RepoTitle', ( ) => {
 			]
 		},
 		'createdAt': '2022-05-03T11:05:14Z',
+		'repoName': 'OpenQ-TestRepo',
+		'owner': 'OpenQDev',
 		'repository': {
 			'__typename': 'Repository',
 			'id': 'R_kgDOGWnnzw',
@@ -72,7 +74,6 @@ describe('RepoTitle', ( ) => {
 		}
 	};
 
-		
 	it('should render BountyDetails', async()=>{
 
 		// Arrange
@@ -83,6 +84,9 @@ describe('RepoTitle', ( ) => {
 		const repoRegex = new RegExp(bounty.repoName, 'i');
 		const repo = screen.getByText(repoRegex);
 		expect(repo).toBeInTheDocument();
+		const ownerRegex = new RegExp(bounty.owner, 'i');
+		const owner = screen.getByText(ownerRegex);
+		expect(owner).toBeInTheDocument();
 			
 	});
 
