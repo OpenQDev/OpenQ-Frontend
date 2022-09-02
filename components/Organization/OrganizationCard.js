@@ -46,14 +46,13 @@ const OrganizationCard = ({ organization }) => {
 
 	useEffect(async () => {
 		if (organization?.bounties) {
-			console.log(organization);
-
 			const filteredBounties = organization.bounties.nodes.filter(contract => !contract.blacklisted&&!closed);
 			const bountyAddresses = filteredBounties.map(bounty=>bounty.address.toLowerCase());
-			const bountyIds = filteredBounties.map(bounty=>bounty.bountyId)
+			const bountyIds = filteredBounties.map(bounty=>bounty.bountyId);
 			const githubIssues = await appState.githubRepository.getLeanIssueData(bountyIds);
 			const subgraphBounties = await 	appState.openQSubgraphClient.getBountiesByContractAddresses(bountyAddresses);
-			const budgetedOrFundedBounties = subgraphBounties.filter(bounty=>(bounty.fundingGoalVolume&& bounty.fundingGoalVolume!=='0')||bounty.bountyTokenBalances.length );
+			const combinedBounties = await appState.utils.combineBounties(subgraphBounties, githubIssues, filteredBounties);
+			const budgetedOrFundedBounties = combinedBounties.filter(bounty=>((bounty.fundingGoalVolume&& bounty.fundingGoalVolume!=='0')||bounty.bountyTokenBalances.length) && !bounty.closed);
 			setOrgBounties(budgetedOrFundedBounties);
 		}
 		else if (organization){
