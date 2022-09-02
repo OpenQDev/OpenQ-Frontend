@@ -131,7 +131,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 						}
 
 					} catch (error) {
-						if(!didCancel&&issue) {
+						if(!didCancel) {
 							setEnableMint(true);
 							setBountyAddress();
 						}
