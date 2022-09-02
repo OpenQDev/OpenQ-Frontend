@@ -1,5 +1,5 @@
 // Third party
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // Custom
 import OrganizationCard from '../Organization/OrganizationCard';
 import MintBountyButton from '../MintBounty/MintBountyButton';
@@ -15,7 +15,10 @@ const OrganizationHomepage = ({ orgs, types, wizard }) => {
 	const filterByOrg = (e) => {
 		setOrganizationSearchTerm(e.target.value);
 	};
-
+	useEffect(()=>{
+		console.log(orgs.map(org=>org.starringUserIds));
+		console.log();
+	},[orgs]);
 	// Render
 	return (
 		<div>
@@ -38,7 +41,9 @@ const OrganizationHomepage = ({ orgs, types, wizard }) => {
 					</div>
 					<Carousel height={'80'}>
 						{orgs.filter(organization => organization.starringUserIds && organization.starringUserIds.some(user => user === account))
-							.map((org, index) => <OrganizationCard key={index} organization={org} />)}</Carousel>
+							.map((org, index) => {
+								console.log(index);
+								return <OrganizationCard key={index} index={index} organization={org} />;})}</Carousel>
 					<div className="grid grid-cols-[repeat(3,_300px)] justify-center lg:justify-between">
 
 					</div><div className=''>

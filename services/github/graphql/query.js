@@ -6,6 +6,7 @@ query($issueIds: [ID!]!) {
     ... on Issue {
       title
 			url
+			closed
       id
 		}
 	}
