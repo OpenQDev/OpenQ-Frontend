@@ -30,7 +30,7 @@ const BountyModalHeading = ({bounty, closeModal, unWatchable, watchingState})=>{
 				<Link href={`/bounty/${bounty.id}/${bounty.bountyAddress}`} >
 					<div onClick={closeModal} target={safe ? '_self' : '_blank'} rel="noopener noreferrer" >
 						<div className='flex gap-3 items-center text-xs text-primary bg-inactive-gray leading-5 h-7 whitespace-nowrap px-3 py-[3px] w-fit hover:bg-active-gray rounded-sm border hover:border-border-active border-border-gray'><StackIcon size={24} />
-							<a> Full Contract Details</a>
+							<a className='cursor-pointer'> Full Contract Details</a>
 						</div>
 					</div>
 				</Link>

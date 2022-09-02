@@ -30,7 +30,7 @@ const ApproveFundModal = ({
 	volume,
 	bountyAddress,
 	bounty,
-	openInvoicingModal
+	/*openInvoicingModal*/
 }) => {
 	const [appState] = useContext(StoreContext);
 	const modal = useRef();
@@ -39,7 +39,7 @@ const ApproveFundModal = ({
 		setShowApproveTransferModal(false);
 	};
 	const {account} = useWeb3();
-	const [invoicingData, setInvoicingData] =useState();
+	const [, setInvoicingData] =useState();
 	useEffect(async()=>{
 		try{
 			const invoicingData = await appState.openQPrismaClgetInvoicingData(account);
@@ -204,10 +204,10 @@ const ApproveFundModal = ({
 								<span>Close</span>
 								{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
 							</button>
-							<button onClick={openInvoicingModal} className='btn-primary py-1.5 text-center flex justify-center cursor-pointer w-full'>
+							{/*<button onClick={openInvoicingModal} className='btn-primary py-1.5 text-center flex justify-center cursor-pointer w-full'>
 								<span>{invoicingData && 'Add'} Invoicing Details</span>
 								{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
-							</button>
+							</button>*/}
 						</div>		
 						}
 					</div>
