@@ -8,7 +8,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import TokenBalances from '../TokenBalances/TokenBalances';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 
-const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
+const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split, pricesOnly }) => {
 	const [appState] = useContext(StoreContext);
 	const createPayout = (bounty)=>{
 		return  bounty.payoutTokenVolume ? { tokenAddress: bounty.payoutTokenAddress, volume: bounty.payoutTokenVolume } : null;
@@ -51,16 +51,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
 				<div className='text-xs font-semibold text-muted'>Current Target Budget</div>
 				<div className='text-xs font-semibold text-primary pt-2' >{(budget && appState.utils.formatter.format(budget)) || '$0.00'}</div>
 			</li>
-			{bounty.assignees.length > 0 && <li className='border-b border-web-gray py-3'>
-				<div className='text-xs font-semibold text-muted'>Assignees</div>
 
-				{bounty.assignees.map((assignee, index) => {
-					return <div key={index} className='flex gap-2 py-3'><Image className='rounded-lg inline-block py-4' height={24} width={24} src={assignee.avatarUrl} />
-						<div className='inline-block text-xs pt-1 font-semibold'>{assignee.name}</div>
-
-					</div>;
-				})}
-			</li>}
 			{bounty.bountyType == 1 ?
 				<li className='border-b border-web-gray py-3'>
 					
@@ -102,6 +93,17 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
 					</li>
 					: null
 			}
+			{!pricesOnly && <>{bounty.assignees.length > 0 && <li className='border-b border-web-gray py-3'>
+				<div className='text-xs font-semibold text-muted'>Assignees</div>
+
+				{bounty.assignees.map((assignee, index) => {
+					return <div key={index} className='flex gap-2 py-3'><Image className='rounded-lg inline-block py-4' height={24} width={24} src={assignee.avatarUrl} />
+						<div className='inline-block text-xs pt-1 font-semibold'>{assignee.name}</div>
+
+					</div>;
+				})}
+			</li>}
+			
 			{bounty.labels &&
 				<li className='border-b border-web-gray py-3'>
 					<div className='text-xs font-semibold text-muted pb-2'>Labels</div>
@@ -136,9 +138,9 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
 							</li>;
 						}
 					})}
-				</ul> : <span className='text-xs font-semnibold text-muted'>No linked pull requests</span>}
+				</ul> : <span className='text-xs font-semibold text-muted'>No linked pull requests</span>}
 			</li>
-
+			</>}
 		</ul>
 	);
 };
