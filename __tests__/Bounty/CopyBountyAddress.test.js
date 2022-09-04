@@ -6,8 +6,6 @@ import React from 'react';
 
 import { render, screen } from '../../test-utils';
 import CopyBountyAddress from '../../components/Bounty/CopyBountyAddress';
-import mocks from '../../__mocks__/mock-server.json';
-import InitialState from '../../store/Store/InitialState';
  
 
 describe('CopyBountyAddress', ( ) => {

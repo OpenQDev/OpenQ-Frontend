@@ -65,6 +65,32 @@ class CoinClient {
 		return promise;
 	}
 
+	async getPrices() {
+		const promise = new Promise(async (resolve) => {
+			const GET_PRICES = {
+				query: `{
+			prices {
+    				timestamp
+    				priceObj
+  			
+			}
+		}`,
+			};
+			try {
+				const response = await axios({
+					url: process.env.NEXT_PUBLIC_OPENQ_API_URL,
+					method: 'post',
+					headers: { 'content-type': 'application/json' },
+					data: GET_PRICES,
+				});
+				resolve(response?.data?.data?.prices?.priceObj);
+			}
+			catch (err) {
+				console.error(err);
+			}
+		});
+		return promise;
+	}
 
 	parseTokenValues = async (tokenBalances) => {
 		if (tokenBalances) {
@@ -155,8 +181,9 @@ class CoinClient {
 		if (this.openqIndexableTokens[checkSummedAddress]) {
 			return this.openqIndexableTokens[checkSummedAddress];
 		}
-		if(localSuperfluidIndexable[address.toLowerCase()]){
-			return localSuperfluidIndexable[address.toLowerCase()];}
+		if (localSuperfluidIndexable[address.toLowerCase()]) {
+			return localSuperfluidIndexable[address.toLowerCase()];
+		}
 		return {
 			chainId: 137,
 			name: `${address.substring(0, 5)}

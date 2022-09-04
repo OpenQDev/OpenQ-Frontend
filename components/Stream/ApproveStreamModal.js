@@ -16,7 +16,7 @@ import Image from 'next/image';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
 import StoreContext from '../../store/Store/StoreContext';
-import ToolTip from '../Utils/ToolTip';
+import ToolTipNew from '../Utils/ToolTipNew';
 
 const ApproveStreamModal = ({
 	resetState,
@@ -206,13 +206,13 @@ const ApproveStreamModal = ({
 									{showModal !== 'delete'&& approveTransferState !==ERROR  ? 
 										<div className='flex w-full justify-evenly px-1.5 gap-2 border-web-gray border rounded-sm py-1.5 self-center'>
 											<button onClick={()=>confirmMethod(recipient, flowRate, showModal)} disabled={approveTransferState !== CONFIRM || isDisabled} className={`text-center px-1.5 flex  gap-2 py-1.5 ${approveTransferState === CONFIRM && !isDisabled? 'cursor-pointer' : null} ${approveStyles[approveTransferState]}`}>
-												<ToolTip hideToolTip={!isDisabled} customOffsets={[-60, 30]} toolTipText={
+												<ToolTipNew hideToolTip={!isDisabled} customOffsets={[-60, 30]} toolTipText={
 												
 													isNaN(parseFloat(flowRate))||parseFloat(flowRate) <= 0.00000001 || parseFloat(flowRate) >= 1000?
 														'Please add a flow rate between 0.00000001 and 1000':
 														'Please input a valid ethereum address'
 												}>	<span>{approveTransferState === CONFIRM ? 'Approve' : approveTransferState === APPROVING ? 'Approving' : 'Approved'}
-													</span></ToolTip>
+													</span></ToolTipNew>
 												{approveTransferState === APPROVING  && <LoadingIcon className={'inline mt-0.5'} />}
 											</button>
 											<button onClick={()=>deleteFlow(recipient)} className={`text-center px-2 flex gap-2 py-1.5 ${fundStyles[approveTransferState]} rounded-sm`}>

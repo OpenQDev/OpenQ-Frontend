@@ -43,26 +43,8 @@ class MockCoinClient {
 		return promise;
 	}
 
-
-
-
-	getPrices(cursor, limit, list) {
-		return Promise(async (resolve, reject) => {
-			try {
-				const response = await axios.get(
-					`${process.env.NEXT_PUBLIC_OPENQ_API_URL}/prices`
-				);
-				resolve(response.data[0].priceObj);
-			}
-			catch (err) {
-				console.log(err);
-			}
-
-		});
-
-	}
-
-	parseTokenValues = async (tokenBalances) => {
+	
+parseTokenValues = async(tokenBalances) => {
 		if (tokenBalances) {
 			let tokenVolumes = {};
 			if (Array.isArray(tokenBalances)) {
@@ -106,8 +88,8 @@ class MockCoinClient {
 				return { total: 0 };
 			}
 		}
-	};
-
+	}
+	
 	getTokenMetadata(cursor, limit, list) {
 		if (list === 'polygon') {
 			return enumerable.tokens.slice(cursor, cursor + limit);

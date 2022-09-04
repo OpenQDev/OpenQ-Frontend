@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 // Custom
-import ToolTip from '../Utils/ToolTipNew';
+import ToolTipNew from '../Utils/ToolTipNew';
 
 const OrganizationMetadata = ({organizationData, repositories})=>{
 	const languages = repositories.reduce((languages, repository)=>{
@@ -20,25 +20,23 @@ const OrganizationMetadata = ({organizationData, repositories})=>{
 			{organizationData?.membersWithRole?.nodes?.length >0 && <li key="members" className='border-b border-web-gray pt-3 pb-6'>
 				<div className='text-normal text-primary pb-3'>People</div>
 				<div className='flex gap-2 flex-wrap'>
-					{organizationData.membersWithRole.nodes.map((member, index)=>{return <div key={index}><ToolTip key={member.url} toolTipText={member.name|| member.login}>
+					{organizationData.membersWithRole.nodes.map((member, index)=>{return <div key={index}><ToolTipNew key={member.url} toolTipText={member.name|| member.login}>
 						<Link href={member.url}>
 							<a target={'_blank'} rel="noopener noreffer">
 								<Image className='rounded-lg cursor-pointer' height={36} width={36} src={member.avatarUrl}/>
 							</a>		
 						</Link>			
-					</ToolTip>
+					</ToolTipNew>
 					</div>;
 						
 					})}</div>
 			</li>}	{languages.length >0 && <li className='border-b border-web-gray pb-8'  key="languages">
 					
 				<div className='text-normal text-primary py-4 flex'>Top Languages</div>
-				<div className='flex flex-wrap gap-2 w-60'>	{languages.map(language=>{
-					return <>
-						
-						<div className='w-fit inline' key={language.name} >	<div style={{backgroundColor: language.color}} className='w-3 h-3 rounded-lg inline-block'></div> <span className='text-sm'>{language.name}</span></div>
+				<div className='flex flex-wrap gap-2 w-60'>	{languages.map((language, index)=>{
+					return	<div className='w-fit inline' key={index} >	<div style={{backgroundColor: language.color}} className='w-3 h-3 rounded-lg inline-block'></div> <span className='text-sm'>{language.name}</span></div>
 							
-					</>;})}	</div>
+					;})}	</div>
 			</li>
 			}
 			

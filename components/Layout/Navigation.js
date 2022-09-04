@@ -1,7 +1,6 @@
 // Third party
 import React, { useState, useEffect, useContext } from 'react';
 import { SafeAppConnector } from '@gnosis.pm/safe-apps-web3-react';
-import axios from 'axios';
 import Link from 'next/link';
 // Custom
 import StoreContext from '../../store/Store/StoreContext.js';
@@ -102,32 +101,11 @@ const Navigation = () => {
 		setGnosisSafe(safe);
 
 		// set up tokens
-		const GET_PRICES = {
-			query: `{
-			prices {
-    				timestamp
-    				priceObj
-  			
-			}
-		}`,
-		};
 		let tokenPrices = {};
 
 		try {
-			if (process.env.NEXT_PUBLIC_DEPLOY_ENV === 'local') {
-				const response = await axios.get(
-					`${process.env.NEXT_PUBLIC_OPENQ_API_URL}/prices`
-				);
-				tokenPrices = response.data[0].priceObj;
-			} else {
-				const response = await axios({
-					url: process.env.NEXT_PUBLIC_OPENQ_API_URL,
-					method: 'post',
-					headers: { 'content-type': 'application/json' },
-					data: GET_PRICES,
-				});
-				tokenPrices = response?.data?.data?.prices?.priceObj || {};
-			}
+			tokenPrices = await appState.tokenClient.getPrices()||{};
+				
 		} catch (err) {
 			console.log('could not fetch initial prices', err);
 		}

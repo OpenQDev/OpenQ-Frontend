@@ -16,12 +16,14 @@ const OrganizationCard = ({ organization }) => {
 	const [starred, setStarred] = useState();
 	const [starredDisabled, setStarredDisabled] = useState(true);
 	const { account } = useWeb3();
+	const [appState] = context;
+	const description = organization.description || organization.bio;
 	useEffect(() => {
 		if ((organization.starringUserIds && organization.starringUserIds.some(user => user === account)) || organization.starred) {
 			setStarred(true);
 		}
 		setStarredDisabled(false);
-	}, [account]);
+	}, [account, organization]);
 
 	const handleStar = (e) => {
 		e.stopPropagation();
@@ -44,8 +46,14 @@ const OrganizationCard = ({ organization }) => {
 
 	useEffect(async () => {
 		if (organization?.bounties) {
-			const filteredBounties = organization.bounties.nodes.filter(contract => !contract.blacklisted);
-			setOrgBounties(filteredBounties);
+			const filteredBounties = organization.bounties.nodes.filter(contract => !contract.blacklisted&&!closed);
+			const bountyAddresses = filteredBounties.map(bounty=>bounty.address.toLowerCase());
+			const bountyIds = filteredBounties.map(bounty=>bounty.bountyId);
+			const githubIssues = await appState.githubRepository.getLeanIssueData(bountyIds);
+			const subgraphBounties = await 	appState.openQSubgraphClient.getBountiesByContractAddresses(bountyAddresses);
+			const combinedBounties = await appState.utils.combineBounties(subgraphBounties, githubIssues, filteredBounties);
+			const budgetedOrFundedBounties = combinedBounties.filter(bounty=>((bounty.fundingGoalVolume&& bounty.fundingGoalVolume!=='0')||bounty.bountyTokenBalances.length) && !bounty.closed);
+			setOrgBounties(budgetedOrFundedBounties);
 		}
 		else if (organization){
 			setOrgBounties(organization.bountiesCreated);
@@ -108,8 +116,8 @@ const OrganizationCard = ({ organization }) => {
 							<Skeleton width={'64px'} height={'16px'} baseColor={'#333'} />
 						)}
 					</div>
-					<div className="text-center pt-2 text-gray-400 h-20">
-						{organization.description || organization.bio}
+					<div className="text-center pt-2 text-gray-400 w-full">
+						{description ? description.length<102 ? description : `${description.slice(0, 100)}...`: ''}
 					</div>
 				</div>
 			</Link>

@@ -124,13 +124,14 @@ const BountyList = ({ bounties, watchedBounties, loading, complete, getMoreData,
 				const isUnclaimed = bounty.status === '0';
 				const isFunded = bounty?.deposits?.some(deposit => {
 					return !deposit.refunded;
-				});		
+				});
+				const isOpenOnGithub = !bounty.closed;
 				const hasBudget = bounty.fundingGoalVolume > 0;
 				const isAssigned = bounty.assignees?.length > 0;
 
 				// some auto generated bounties show up as funded but don't display anything, that's because they are funded at really low values.
 				// Combine
-				return (containsSearch && containsTag && (((hasBudget || isFunded) && (isUnclaimed) && (!isAssigned)) || localIsReady === 'All issues') && hasLabels && bounty.url && !bounty.blacklisted && isType);
+				return (containsSearch && containsTag && (((hasBudget || isFunded) && (isUnclaimed) && (!isAssigned)&& isOpenOnGithub) || localIsReady === 'All issues') && hasLabels && bounty.url && !bounty.blacklisted && isType);
 			}
 			catch (err) {
 				console.error(err);

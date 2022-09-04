@@ -2,7 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 
 const UnexpectedError = ({error}) => {
-	console.log(error);
 	return (<div className="absolute inset-0 flex text-lg  justify-center content-center items-center sm:bg-overlay bg-dark-mode">
 		<div className="w-full p-4 max-w-md rounded-lg bg-dark-mode w-full space-y-2">
 			<h1 className="text-3xl mb-4">Oops, something wrong.</h1>

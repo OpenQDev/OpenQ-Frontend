@@ -8,7 +8,7 @@ import GithubAuth from '../../pages/auth/github';
 import { render } from '../../test-utils';
 import nextRouter from 'next/router';
  
- describe('GithubAuth', () => {
+describe('GithubAuth', () => {
 	beforeEach(() => {
 		const observe = jest.fn();
 		const disconnect = jest.fn();
@@ -28,7 +28,7 @@ import nextRouter from 'next/router';
 	});
 
 	it('should allow user to open BountyCardDetailsModal', async () => {
-		render(<GithubAuth />)
+		render(<GithubAuth />);
 	});
 
 });

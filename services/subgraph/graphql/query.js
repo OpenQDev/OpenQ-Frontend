@@ -291,49 +291,6 @@ query GetUser($id: ID!) {
 `;
 
 
-export const GET_PAGINATED_ORGANIZATION_DATA = gql`
-query GetOrganization($id: ID!, $skip: Int, $order: String, $first: Int, ) {
-  organization(id: $id, subgraphError: allow) {
-	id
-    bountiesCreated( orderBy: bountyMintTime, orderDirection: $order, skip: $skip, first: $first) {
-		bountyAddress
-		bountyId
-		bountyMintTime
-		bountyClosedTime
-		claimedTransactionHash
-		status
-		bountyType
-		deposits {
-			id
-			refunded
-			refundTime
-			tokenAddress
-			volume
-			expiration
-			receiveTime
-			sender {
-				id
-			}
-			receiveTime
-		}
-		issuer {
-			id
-		}
-		bountyTokenBalances {
-			volume
-			tokenAddress
-		}		
-		refunds{
-			tokenAddress
-			volume
-		}
-		payouts{
-			tokenAddress
-			volume
-		}
-	}}
-}`;
-
 export const GET_ORGANIZATION_BOUNTIES_BY_ADDRESS = gql`
 query GetOrganization($id: ID!, $skip: Int, $order: String, $first: Int, $contractAddresses: [ID]!) {
   organization(id: $id, subgraphError: allow) {
