@@ -16,6 +16,7 @@ const MiniBountyCard = ({ payout }) => {
   useEffect(async () => {
     let didCancel;
     const fetchedTitle = await appState.githubRepository.fetchIssueById(payout.bounty.bountyId);
+
     if (!didCancel) {
       updateTitle(fetchedTitle.title);
     }

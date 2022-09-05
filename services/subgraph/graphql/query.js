@@ -115,6 +115,7 @@ export const GET_BOUNTY = gql`
         tokenAddress
         expiration
         volume
+        refundTime
         sender {
           id
         }

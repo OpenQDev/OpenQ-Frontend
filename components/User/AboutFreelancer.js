@@ -79,7 +79,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
           items={[
             { name: 'Overview', Svg: BookIcon },
             { name: 'Stars', Svg: StarIcon },
-            ...[showWatched && { name: 'Watching', Svg: EyeIcon }],
+            ...[showWatched ? { name: 'Watching', Svg: EyeIcon } : {}],
           ]}
         />
         <div className='w-full border-b h-px border-web-gray'></div>
@@ -134,7 +134,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
                 <AboutTitle ensName={ensName} account={account} githubUser={githubUser} />
 
                 <UserHistory organizations={organizations} payouts={payouts} />
-                <Balances tokenBalances={payoutTokenBalances} tokenValues={payoutTokenValues} type='Total Payouts' />
+                <Balances tokenBalances={payoutTokenBalances} tokenValues={payoutTokenValues} title='Total Payouts' />
                 <MiniBountyList payouts={payouts} />
               </div>
             ) : internalMenu == 'Stars' ? (

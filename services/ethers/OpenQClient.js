@@ -206,7 +206,6 @@ class OpenQClient {
   }
 
   async allowance(library, _tokenAddress) {
-    console.log(library, this.allowance);
     const promise = new Promise(async (resolve) => {
       try {
         const signer = library.getSigner();
