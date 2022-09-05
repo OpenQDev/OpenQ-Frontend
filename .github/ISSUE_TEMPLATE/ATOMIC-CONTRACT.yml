@@ -1,60 +1,81 @@
 name: Atomic Contract
-description: Contributor's can only give you what you need if you can accurately describe what you want!
-title: "[CONTRACT]: "
-labels: ["bounty", "contract", "paid"]
+description: Contributors can only give you what you need if you can accurately describe what you want!
+title: "[ATOMIC CONTRACT]: "
+labels: ["paid"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report!
+        Give your contributors what they need to succeed - a great description of what you need completed.
   - type: textarea
     id: description
     attributes:
-      label: Contact Details
+      label: 📃 Description
       description: What do you want to do? Why do you want to do it?
-      placeholder: ex. Build a Connect Wallet button
+      placeholder: |
+        e.g. build a Connect Wallet button for users to connect their Ethereum account
+        e.g. integrate a MATIC Testnet Faucet
+        e.g. change the color of this text
     validations:
       required: true
   - type: textarea
-    id: what-happened
+    id: acceptance-criteria
     attributes:
-      label: What happened?
-      description: Also tell us, what did you expect to happen?
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
+      label: 👨‍⚖️ Acceptance Criteria
+      description: What conditions must be met for you to consider this work finished?
+      placeholder: |
+        e.g. UI of completed feature match the attached screenshots
+        e.g. Code passes test suite located at [file link]
+        e.g. Must take <1 second to open modal
     validations:
       required: true
-  - type: dropdown
-    id: version
-    attributes:
-      label: Version
-      description: What version of our software are you running?
-      options:
-        - 1.0.2 (Default)
-        - 1.0.3 (Edge)
-    validations:
-      required: true
-  - type: dropdown
-    id: browsers
-    attributes:
-      label: What browsers are you seeing the problem on?
-      multiple: true
-      options:
-        - Firefox
-        - Chrome
-        - Safari
-        - Microsoft Edge
   - type: textarea
-    id: commands
+    id: screenshots
     attributes:
-      label: Any helpful startup commands?
-      description: yarn start
-      render: shell
-  - type: checkboxes
-    id: terms
+      label: 🖼 Screenshots + Mock Ups
+      description: Are there any visual guides to aid in development?
+    validations:
+      required: false
+  - type: textarea
+    id: where-to-start
     attributes:
-      label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
-      options:
-        - label: I agree to follow this project's Code of Conduct
-          required: true
+      label: 🎬 Where to Start
+      description: Can you link your contributor to some helpful starting files or example code?
+      placeholder: |
+        This new component is similar to this one: https://github.com/OpenQDev/OpenQ-Frontend/blob/production/components/BountyClosed/BountyClosed.js
+    validations:
+      required: false
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: 📵 What's Out of Scope
+      description: What DOES NOT need to be done for this contract?
+      placeholder: |
+        e.g. You do not need to make the UI pretty, we only care about the functionality
+        e.g. You do not need to accomodate any other ERC20 tokens besides DAI
+    validations:
+      required: false
+  - type: textarea
+    id: user-story
+    attributes:
+      label: 👩‍💻 User Story
+      description: What will this look like from the outside looking in? Give the step by step of how the user will experience this new feature.
+      placeholder: |
+        1. WHEN the ADMIN goes to the /admin/{id} page
+        2. THEN they can top up their wallet with Test MATIC
+        3. SO THAT they can then interact with the rest of the platform
+    validations:
+      required: false
+  - type: textarea
+    id: tools-to-user
+    attributes:
+      label: 🛠 Tools to Use
+      description: Are you opinionated about the tools the contributor will use to create this, e.g. packages, scripts or languages?
+      placeholder: |
+        e.g. Use React Context for injecting the newly created service
+        e.g. Place the new page under the Next.js /pages directory
+  - type: textarea
+    id: resources
+    attributes:
+      label: 🖇 Resources
+      description: Are there any helpful resources like documentation, tutorials, or blogs to get your contributor started?
