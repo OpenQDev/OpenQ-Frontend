@@ -58,12 +58,23 @@ body:
   - type: textarea
     id: user-story
     attributes:
-      label: 👩‍💻 User Story
+      label: 🤳 User Story
       description: What will this look like from the outside looking in? Give the step by step of how the user will experience this new feature.
       placeholder: |
         1. WHEN the ADMIN goes to the /admin/{id} page
         2. THEN they can top up their wallet with Test MATIC
         3. SO THAT they can then interact with the rest of the platform
+    validations:
+      required: false
+  - type: textarea
+    id: developer-story
+    attributes:
+      label: 👩‍💻 Developer Story
+      description: What will this look like from the perspective of other developers building on top of the contributed code?
+      placeholder: |
+        1. WHEN the DEVELOPER needs to access the service
+        2. THEN they can import it from shared React Context
+        3. SO THAT they can call the appropriate methods in the component
     validations:
       required: false
   - type: textarea
