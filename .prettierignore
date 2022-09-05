@@ -1,2 +1,6 @@
 # Ignore files
 tailwind.config.js
+node_modules/**
+
+# Ignore all JS files:
+**/*.js
