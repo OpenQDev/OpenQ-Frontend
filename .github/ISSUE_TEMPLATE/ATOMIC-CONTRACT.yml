@@ -29,6 +29,14 @@ body:
         e.g. Must take <1 second to open modal
     validations:
       required: true
+  - type: input
+    id: budget
+    attributes:
+      label: 💰 Budget
+      description: How much do you intend to pay for successful completion of this contract?
+      placeholder: 500 USDC
+    validations:
+      required: false
   - type: textarea
     id: screenshots
     attributes:

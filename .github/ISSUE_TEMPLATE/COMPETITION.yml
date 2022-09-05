@@ -1,0 +1,33 @@
+name: Competition
+description: Create an online hackathon with tiered payouts
+title: "[COMPETITION]: "
+labels: ["competition"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Setup a competition for your contributor community
+  - type: textarea
+    id: description
+    attributes:
+      label: 📃 Description
+      description: What do you want to do? Why do you want to do it?
+      placeholder: |
+        e.g. Design a new app for 
+        e.g. integrate a MATIC Testnet Faucet
+        e.g. change the color of this text
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: 🏅 Awards
+      description: How much will each winner get?
+      placeholder: |
+        Place | Payout from Pool
+        -- | --
+        First Place | 70%
+        Second Place | 20%
+        Third Place | 10%
+    validations:
+      required: true
