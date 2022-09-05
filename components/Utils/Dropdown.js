@@ -5,7 +5,7 @@ const Dropdown = ({ toggleFunc, toggleVal, names, title, styles, width }) => {
 
 	// Hooks
 	const [open, updateOpen] = useState(false);
-	const ref = useRef();
+	const ref =    useRef();
 
 	useEffect(() => {
 		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
