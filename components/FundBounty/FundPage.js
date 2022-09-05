@@ -11,7 +11,7 @@ import ToolTipNew from '../Utils/ToolTipNew';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import ApproveFundModal from './ApproveFundModal';
 import InvoicingModal from './InvoicingModal';
-import { RESTING, CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveTransferState';
+import { RESTING, CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveFundState';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 
 const FundPage = ({ bounty, refreshBounty }) => {

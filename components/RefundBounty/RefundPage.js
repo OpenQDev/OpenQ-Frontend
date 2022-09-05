@@ -8,8 +8,8 @@ import StoreContext from '../../store/Store/StoreContext';
 import DepositCard from './DepositCard';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import useEns from '../../hooks/useENS';
-import ApproveTransferModal from '../FundBounty/ApproveTransferModal';
-import { RESTING, CONFIRM, APPROVING, SUCCESS, ERROR } from '../FundBounty/ApproveTransferState';
+import ApproveTransferModal from './ApproveTransferModal';
+import { RESTING, CONFIRM, APPROVING, SUCCESS, ERROR } from './ApproveTransferState';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 
 const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
