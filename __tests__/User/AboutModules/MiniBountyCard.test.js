@@ -3,8 +3,8 @@
  */
 import React from 'react';
 
-import { render, screen } from '../../test-utils';
-import MiniBountyCard from '../../components/User/AboutModules/MiniBountyCard';
+import { render, screen } from '../../../test-utils';
+import MiniBountyCard from '../../../components/User/AboutModules/MiniBountyCard';
 
 describe('MiniBountyCard', () => {
   const payout = {

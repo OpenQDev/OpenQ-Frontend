@@ -3,8 +3,8 @@
  */
 import React from 'react';
 import { render, screen } from '../../test-utils';
-import ApprovalTranferModal from '../../components/FundBounty/ApproveTransferModal';
-import { CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from '../../components/FundBounty/ApproveTransferState';
+import ApprovalTranferModal from '../../components/RefundBounty/ApproveTransferModal';
+import { CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from '../../components/RefundBounty/ApproveTransferState';
 
 const approveTransferStates = [CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR];
 const errors = [

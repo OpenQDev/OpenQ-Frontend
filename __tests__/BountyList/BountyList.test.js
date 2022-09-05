@@ -778,6 +778,7 @@ describe('BountyList', () => {
         watchedBounties={[]}
       />
     );
+    await user.click(screen.getByText(/All Issues/i));
 
     // ASSERT
     const filteredIssue1 = screen.getAllByText(/do great things with gfc/i);
