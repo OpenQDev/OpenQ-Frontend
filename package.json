@@ -96,5 +96,5 @@
       "eslint --fix",
       "git add"
     ]
-  },
+  }
 }
