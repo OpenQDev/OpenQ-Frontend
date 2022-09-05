@@ -30,9 +30,7 @@ const Dropdown = ({ toggleFunc, toggleVal, names, title, styles, width }) => {
 	};
 
 
-	const handleToggle = (e) => {
-		e.preventDefault();
-		updateOpen(!open);
+	const handleToggle = (e) => {		e.preventDefault();		updateOpen(!open);
 	};
 
 	// Render
