@@ -1,25 +1,30 @@
 import { useState, useEffect, useContext } from 'react';
 import StoreContext from '../store/Store/StoreContext';
-
-const useGetTokenValues = (tokenBalances, bounty) => {
+function useAsync(asyncFn, onSuccess, deps) {
+	useEffect(() => {
+		let isActive = true;
+		asyncFn().then(data => {
+			if (isActive) {onSuccess(data);}
+		});
+		return () => {
+			isActive = false;
+		};
+	}, [onSuccess, deps]);
+}
+const useGetTokenValues = (tokenBalances) => {
 	const [tokenValues, setTokenValues] = useState(null);
 	const [appState] = useContext(StoreContext);
 
-	useEffect(async() => {
-		let didCancel;
-		if(JSON.stringify(tokenValues) !== '{}' && !didCancel && tokenBalances){
+	const getParsedTokenValues = async()=>{
+		if(JSON.stringify(tokenValues) !== '{}' && tokenBalances){
 			const value =	await	appState.tokenClient.parseTokenValues(tokenBalances);
-			if(!didCancel){
-				setTokenValues(value);
-			}
-			
+			return value;
 		}
 		if(tokenBalances?.length === 0){
-			setTokenValues({total:0});
-			return () =>{ didCancel = true;};
+			return {total:0};
 		}
-		return () =>{ didCancel = true;};
-	}, [bounty? bounty : tokenBalances]);
+	};
+	useAsync(getParsedTokenValues, setTokenValues, tokenBalances);
 
 	return [tokenValues, setTokenValues];
 };

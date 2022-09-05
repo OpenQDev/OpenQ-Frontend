@@ -1,5 +1,10 @@
 const StoreReducer = (state, action) => {
 	switch (action.type) {
+	case 'BOUNTY_MINTED':
+		return {
+			...state,
+			bountyMinted: action.payload,
+		};
 	case 'UPDATE_IS_AUTHENTICATED':
 		return {
 			...state,

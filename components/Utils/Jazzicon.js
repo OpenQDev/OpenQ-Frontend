@@ -1,10 +1,10 @@
 
 import React, { useRef, useEffect } from 'react';
 import jazzicon from '@metamask/jazzicon';
-import ToolTip from './ToolTip';
+import ToolTipNew from './ToolTipNew';
 import Link from 'next/link';
 
-const Jazzicon = ({ address, size, styles }) => {
+const Jazzicon = ({ address, size, tooltipPosition }) => {
 	const iconWrapper = useRef();
 	useEffect(async () => {
 		if (address && iconWrapper.current) {
@@ -16,13 +16,13 @@ const Jazzicon = ({ address, size, styles }) => {
 	}, [address]);
 	return (
 		<Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/user/${address}`}>
-			<div className="cursor-pointer">
-				<ToolTip toolTipText={address} styles={styles} customOffsets={[38, -6]}>
+			<a className="cursor-pointer">
+				<ToolTipNew toolTipText={address} outerStyles={'relative bottom-2'} relativePosition={tooltipPosition}>
 					<div ref={iconWrapper}>
 						{address}
 					</div>
-				</ToolTip>
-			</div>
+				</ToolTipNew>
+			</a>
 		</Link>);
 };
 export default Jazzicon;

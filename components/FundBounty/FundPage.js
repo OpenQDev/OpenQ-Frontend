@@ -10,6 +10,7 @@ import ButtonLoadingIcon from '../Loading/ButtonLoadingIcon';
 import ToolTipNew from '../Utils/ToolTipNew';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import ApproveFundModal from './ApproveFundModal';
+import InvoicingModal from './InvoicingModal';
 import {
 	RESTING,
 	CONFIRM,
@@ -30,6 +31,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 	const [confirmationMessage, setConfirmationMessage] = useState('Please enter a volume greater than 0.');
 	const [showApproveTransferModal, setShowApproveTransferModal] = useState(false);
 	const [approveTransferState, setApproveTransferState] = useState(RESTING);
+	const [invoicingModal, setInvoicingModal] = useState();
 	const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
 	const zeroAddressMetadata = {
 		name: 'Matic',
@@ -81,9 +83,13 @@ const FundPage = ({ bounty, refreshBounty }) => {
 		};
 		dispatch(payload);
 	};
+
+	const openInvoicingModal = ()=>{
+		setShowApproveTransferModal(false);
+		setInvoicingModal(true);
+	};
 	async function fundBounty() {
 		const volumeInWei = volume * 10 ** token.decimals;
-		console.log(volumeInWei);
 		if (volumeInWei == 0) {
 			setError({ title: 'Zero Volume Sent', message: 'Must send a greater than 0 volume of tokens.' });
 			setApproveTransferState(ERROR);
@@ -148,7 +154,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
 			}
 			approveSucceeded = true;
 		} catch (error) {
-			console.log(error);
 			const { message, title, link, linkText } = appState.openQClient.handleError(error, { bounty });
 			setError({ message, title, link, linkText });
 			setButtonText('Fund');
@@ -256,7 +261,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 						<div className='text-primary text-[0.8rem]'>Always fund through the interface! Never send funds directly to the address!</div>
 					</div>
 				</div>
-
+				{invoicingModal && <InvoicingModal closeModal={()=>setInvoicingModal(false)}/>}
 				{showApproveTransferModal && <ApproveFundModal
 					approveTransferState={approveTransferState}
 					address={account}
@@ -267,6 +272,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 					confirmMethod={fundBounty}
 					resetState={resetState}
 					token={token}
+					openInvoicingModal={openInvoicingModal}
 					volume={volume}
 					bountyAddress={bounty.bountyAddress}
 					bounty={bounty}

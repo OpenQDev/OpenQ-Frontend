@@ -76,12 +76,12 @@ const ActionBubble = ({ addresses, bounty, action,})=>{
 	return (
 		<div className='w-full pt-4 flex relative'>
 			{action  ? 
-				<Jazzicon styles={'w-fit'} size={36} address={address} /> :
+				<Jazzicon styles={'w-fit'} size={36} address={address} tooltipPosition={'-left-2'} /> :
 				<div className='relative w-9'>
 					{addresses.reverse().map((address, index)=>{						
 						return 	<div key={index} className={`h-4 w-10 z-${30-index*10} bg-transparent cursor-pointer relative hover:z-40`}>
 							
-							<div className='border-2 bg-dark-mode border-dark-mode hover:border-pink-500 rounded-lg h-10 w-10'><Jazzicon styles={'w-min'}  key={index} size={36} address={address} />
+							<div className='border-2 bg-dark-mode border-dark-mode hover:border-pink-500 rounded-lg h-10 w-10'><Jazzicon  tooltipPosition={'-left-2'}  key={index} size={36} address={address} />
 							</div>
 						</div>;
 					})}

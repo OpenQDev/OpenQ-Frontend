@@ -20,8 +20,8 @@ const CarouselBounty = ({ bounty }) => {
 	const [budgetValue] = useGetTokenValues(budgetObj);
 	const budget = budgetValue?.total;
 
-	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
-	const price = tokenValues?.total;
+	//	const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
+	const price = 10;//tokenValues?.total;
 
 	return (
 

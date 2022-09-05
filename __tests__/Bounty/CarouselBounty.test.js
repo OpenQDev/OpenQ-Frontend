@@ -1,4 +1,4 @@
-// test/components/FundPage/ApprovalTransferModal.js
+
 /**
  * @jest-environment jsdom
  */
@@ -13,7 +13,9 @@ import InitialState from '../../store/Store/InitialState';
 describe('CarouselBounty', ( ) => {
 	const newBounties = mocks.bounties;	
 	const	issueData = InitialState.githubRepository.parseIssuesData(mocks.githubIssues);
-	const fullBounties = InitialState.utils.combineBounties(newBounties, issueData);
+	const prismaContracts = mocks.prismaBounties;
+	
+	const fullBounties = InitialState.utils.combineBounties(newBounties, issueData, prismaContracts.bounties.bountyConnection.nodes);
 
 	beforeEach(()=>{
 		const observe = jest.fn();
@@ -27,12 +29,12 @@ describe('CarouselBounty', ( ) => {
 
 	const test =(bounty)=>{
 		
-		it('should render CarouselBounty', ()=>{
+		it('should render CarouselBounty', async()=>{
 			// ARRANGE
 			render(<CarouselBounty bounty={bounty} />);
 
 			// ACT
-			const repo = screen.getByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
+			const repo = await screen.findByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
 			expect(repo).toBeInTheDocument();
 			
 			// ASSERT

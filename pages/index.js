@@ -51,7 +51,6 @@ export default function Index({  fullBounties, batch, types, renderError, firstC
 	useEffect(async()=>{
 		if(reloadNow){
 			const [mergedOrgs] = await appState.utils.fetchOrganizations(appState);
-
 			setControlledOrgs(mergedOrgs);
 
 		}
@@ -135,7 +134,7 @@ export const getServerSideProps = async () => {
 	const types=['0','1','2', '3'];
 	
 	const [fullBounties, firstCursor] = await utils.fetchBounties({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance}, batch);
-	const [mergedOrgs] =await utils.fetchOrganizations({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance},null, types);
+	const [mergedOrgs] =await utils.fetchOrganizations({openQSubgraphClient: openQSubgraphClient.instance, githubRepository: githubRepository.instance, openQPrismaClient: openQPrismaClient.instance});
 	
 	return {
 		props: {

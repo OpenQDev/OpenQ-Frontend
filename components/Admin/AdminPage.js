@@ -1,5 +1,5 @@
 // Third party Libraries
-import React, { useState, useContext, useEffect, useMemo } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
@@ -8,35 +8,9 @@ import AdminModal from './AdminModal.js';
 import ToolTipNew from '../Utils/ToolTipNew';
 import TierInput from '../MintBounty/TierInput';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
-import TokenBalances from '../TokenBalances/TokenBalances';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
+import BountyMetadata from '../Bounty/BountyMetadata';
 
 const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
-
-
-	const createPayout = (bounty)=>{
-		return  bounty.payoutTokenVolume ? { tokenAddress: bounty.payoutTokenAddress, volume: bounty.payoutTokenVolume } : null;
-	};
-	const payoutBalances = useMemo(() => createPayout(bounty), [
-		bounty
-	]);
-	const [payoutValues] = useGetTokenValues(payoutBalances);
-	let type = 'Atomic Contract';
-
-	switch (bounty.bountyType) {
-	case '0':
-		type = 'Atomic Contract';
-		break;
-	case '1':
-		type = 'Repeating Contract';
-		break;
-	case '2':
-		type = 'Contest Contract';
-		break;
-	case '3':
-		type = 'Contest Contract';
-		break;
-	}
 
 	// Context
 	const { library, account, } = useWeb3();
@@ -340,58 +314,8 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
 						</div>
 					</div>
 				</div>
-				<ul className='md:max-w-[300px] w-full md:pl-4'>
-					<li className='border-b border-web-gray py-3'>
-						<div className='text-xs font-semibold text-muted'>Type</div>
-						<div className='text-xs font-semibold text-primary leading-loose' >{type}</div>
-					</li>
-					<li className='border-b border-web-gray py-3'>
-						<div className='text-xs font-semibold text-muted'>TVL</div>
-						<div className='text-xs font-semibold text-primary pt-2' >{appState.utils.formatter.format(price) || '$0.00'}</div>
-					</li>
-					<li className='border-b border-web-gray py-3'>
-						<div className='text-xs font-semibold text-muted'>Current Target Budget</div>
-						<div className='text-xs font-semibold text-primary pt-2' >{(budget && appState.utils.formatter.format(budget)) || '$0.00'}</div>
-					</li>
-					{bounty.bountyType == 1 ?
-						<li className='border-b border-web-gray py-3'>
-							{(split || split === 0) &&
-					<>
-						<div className='text-xs font-semibold text-muted'>Current Reward Split</div>
-						<TokenBalances
-							lean={true}
-							tokenBalances={payoutBalances}
-							tokenValues={payoutValues}
-							singleCurrency={true}
-							small={true}
-						/>
-					</>
-							}</li>
-						:
-						bounty.bountyType == 2 ?
-							<li className='border-b border-web-gray py-3'>
-								<div className='text-xs font-semibold text-muted'>Current Payout Schedule</div>
-								<div className='flex items-center gap-4 pt-2 text-primary'>
-									<div className='text-xs font-semibold leading-loose'>Number of tiers: </div>
-									<div className='text-xs font-semibold'>{bounty.payoutSchedule?.length}</div>
-								</div>
-								<div className='flex flex-col max-h-80 w-full overflow-y-auto overflow-x-hidden'>
-									{bounty.payoutSchedule?.map((t, index) => {
-										return (
-											<div key={index} className='flex items-center gap-4 text-primary'>
-												<div className='text-xs font-semibold leading-loose'>{`${appState.utils.handleSuffix(index + 1)} winner:`}</div>
-												<div className='text-xs font-semibold' >{t} %</div>
-											</div>
-										);
-									})
-
-									}
-
-								</div>
-							</li>
-							: null
-					}
-				</ul>
+				<BountyMetadata bounty={bounty} pricesOnly={true} setInternalMenu={()=>null} price={price} budget={budget} split={split}/>
+		
 			</div>
 		}
 		{modal && <AdminModal setModal={setModal} modal={modal} />}

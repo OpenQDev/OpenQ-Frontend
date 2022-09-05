@@ -9,7 +9,7 @@ const TotalValue = ({price})=>{
 			
 			<div>Total Value Locked</div>
 			<div className='text-sm font-normal'>	{ appState.utils.formatter.format(
-				price
+				price||0
 			)}</div>
 		</div>
 	);

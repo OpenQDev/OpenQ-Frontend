@@ -35,7 +35,6 @@ class MockOpenQSubgraphClient {
 		const promise = new Promise((resolve, reject) => {
 		axios.get(`http://localhost:3030/bounties`)
 				.then(result => {
-				console.log(result)
 					resolve(result.data.filter(bounty=>contractAddresses.includes(bounty.bountyAddress)));
 				})
 				.catch(error => {
@@ -117,20 +116,6 @@ class MockOpenQSubgraphClient {
 		return promise;
 	}
 
-		async getPaginatedOrganizationBounties(id, startAt, order, first, contractAddresses) {
-		
-		const promise = new Promise((resolve, reject) => {
-			axios.get(`http://localhost:3030/organizations/${id}/`)
-				.then(result => {
-					resolve(result.data.bountiesCreated.slice(startAt, first));
-				})
-				.catch(error => {
-					reject(error);
-				});
-		});
-
-		return promise;
-	}
 		async getBountyIds(sortOrder, startAt=0, quantity=4) {
 		const promise = new Promise((resolve, reject) => {
 			axios.get('http://localhost:3030/bounties')

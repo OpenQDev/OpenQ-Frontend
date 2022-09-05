@@ -51,8 +51,7 @@ class OpenQPrismaClient {
 	}
 
 
-
-	getOrgsMetadata() {
+	getOrganizations() {
 		const promise = new Promise(async (resolve,) => {
 			axios.get(`http://localhost:3030/prismaOrgs`)
 				.then(result => {
@@ -64,6 +63,62 @@ class OpenQPrismaClient {
 		});
 		return promise;
 	}
+
+	getLeanOrganizations() {
+		const promise = new Promise(async (resolve,) => {
+			axios.get(`http://localhost:3030/prismaOrgs`)
+				.then(result => {
+					resolve(result.data);
+				})
+				.catch(error => {
+					reject(error);
+				});
+		});
+		return promise;
+
+	}
+
+	
+	getOrganization(id){
+		const promise = new Promise(async (resolve, reject) => {
+			console.log(id)
+			axios.get(`http://localhost:3030/prismaOrgs/`)
+				.then(result => {
+					resolve({organization: result.data.organizations.filter(org=>org.id===id)[0]})
+				})
+				.catch(error => {
+					reject(error);
+				});
+		})
+		return promise;
+	};
+	
+	async getContractPage(after, limit, sortOrder, orderBy,   category, organizationId ) {
+		const promise = new Promise(async (resolve, reject) => {
+		axios.get(`http://localhost:3030/prismaBounties`)
+			.then(result => {
+					resolve(result.data.bounties.bountyConnection)
+			})
+			.catch(error => {
+				reject(error);
+			});
+		})
+		return promise
+	}
+
+	async getAllContracts(after, limit, sortOrder, orderBy,   category, organizationId ) {
+		const promise = new Promise(async (resolve, reject) => {
+		axios.get(`http://localhost:3030/prismaBounties`)
+			.then(result => {
+					resolve(result.data.bounties.bountyConnection)
+			})
+			.catch(error => {
+				reject(error);
+			});
+		})
+		return promise
+	}
+
 
 	getBlackListed(addresses){
 		const promise = new Promise(async (resolve,) => {

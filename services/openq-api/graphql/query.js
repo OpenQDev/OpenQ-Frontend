@@ -130,6 +130,13 @@ blacklisted}
 
 
 
+export const UPDATE_USER = gql`
+mutation updateUser($address: String!, $company: String, $email: String,  $city: String, $streetAddress: String, $country: String, $province: String ){
+  updateUser(address: $address, company: $company, email: $email, city: $city, streetAddress: $streetAddress, country: $country, province: $province) {
+    address
+  }
+}`;
+
 export const WATCH_BOUNTY = gql`
 mutation AddUser ($contractAddress: String, $userAddress: String){
   watchBounty(contractAddress: $contractAddress, userAddress:$userAddress) {

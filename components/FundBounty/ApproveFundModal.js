@@ -1,5 +1,5 @@
 // Third party
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import Link from 'next/link';
 
 // Custom
@@ -13,6 +13,8 @@ import {
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Image from 'next/image';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
+import useWeb3 from '../../hooks/useWeb3';
+import StoreContext from '../../store/Store/StoreContext';
 
 const ApproveFundModal = ({
 	transactionHash,
@@ -27,13 +29,28 @@ const ApproveFundModal = ({
 	token,
 	volume,
 	bountyAddress,
-	bounty
+	bounty,
+	/*openInvoicingModal*/
 }) => {
+	const [appState] = useContext(StoreContext);
 	const modal = useRef();
 	const updateModal = () => {
 		resetState();
 		setShowApproveTransferModal(false);
 	};
+	const {account} = useWeb3();
+	const [, setInvoicingData] =useState();
+	useEffect(async()=>{
+		try{
+			const invoicingData = await appState.openQPrismaClgetInvoicingData(account);
+			setInvoicingData(invoicingData);
+		}
+		catch(err){
+			console.log(err);
+		}
+
+	}
+	, []);
 	useEffect(() => {
 		// Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
 		function handleClickOutside(event) {
@@ -174,14 +191,25 @@ const ApproveFundModal = ({
 										</button>
 									}
 								</>}
-						{approveTransferState == ERROR || approveTransferState == SUCCESS ? (
+						{approveTransferState == ERROR  ? (
 							<div className="flex items-center justify-center text-lg rounded-b">
 								<button onClick={() => updateModal()} className='btn-default py-1.5 text-center flex justify-center cursor-pointer w-full'>
 									<span>Close</span>
 									{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
 								</button>
 							</div>
-						) : null}
+						) : approveTransferState == SUCCESS &&
+						<div className="flex items-center justify-between gap-8 text-lg rounded-b">
+							<button onClick={() => updateModal()} className='btn-default py-1.5 text-center flex justify-center cursor-pointer w-full'>
+								<span>Close</span>
+								{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
+							</button>
+							{/*<button onClick={openInvoicingModal} className='btn-primary py-1.5 text-center flex justify-center cursor-pointer w-full'>
+								<span>{invoicingData && 'Add'} Invoicing Details</span>
+								{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
+							</button>*/}
+						</div>		
+						}
 					</div>
 				</div>
 			</div>

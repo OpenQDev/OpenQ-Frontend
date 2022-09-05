@@ -1,4 +1,4 @@
-// test/components/FundPage/ApprovalTransferModal.js
+
 /**
  * @jest-environment jsdom
  */
@@ -13,7 +13,8 @@ import InitialState from '../../store/Store/InitialState';
 describe('BountyHeading', ( ) => {
 	const newBounties = mocks.bounties;	
 	const	issueData = InitialState.githubRepository.parseIssuesData(mocks.githubIssues);
-	const fullBounties = InitialState.utils.combineBounties(newBounties, issueData);
+	const prismaContracts = mocks.prismaBounties;	
+	const fullBounties = InitialState.utils.combineBounties(newBounties, issueData, prismaContracts.bounties.bountyConnection.nodes);
 
 	beforeEach(()=>{
 		const observe = jest.fn();
@@ -32,7 +33,7 @@ describe('BountyHeading', ( ) => {
 			render(<BountyHeading bounty={bounty} price={price}/>);
 
 			// ASSERT
-			const title = screen.getByText(/Good first issue/);
+			const title = screen.getByText(/No way to disable HMR/i);
 			expect(title).toBeInTheDocument();
 			
 			const mintBountyButton = screen.getByText(/Contract/);

@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { ethers } from 'ethers';
-import { setup } from 'axios-cache-adapter';
 import localSuperfluidIndexable from '../../constants/superfluid-local-indexable.json';
 import enumerable from '../../constants/polygon-mainnet-enumerable.json';
 import indexable from '../../constants/polygon-mainnet-indexable.json';
@@ -17,7 +16,7 @@ import superFluidLocalEnumberable from '../../constants/superfluid-local-enumera
 
 class CoinClient {
 	constructor() {
-		switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
+		switch (process.env.NEXT_PUBLIC_DEPLOY_ENV || process.env.DEPLOY_ENV) {
 		case 'local':
 			this.superFluidLocalIndexable = superFluidLocalIndexable;
 			this.superfluidEnumerable = superFluidLocalEnumberable;
@@ -52,6 +51,7 @@ class CoinClient {
 	}
 	firstTenPrices = {};
 
+	url = process.env.COIN_API_URL ? process.env.COIN_API_URL : process.env.NEXT_PUBLIC_COIN_API_URL;
 	async getTokenValues(tokenVolumes, url) {
 		const promise = new Promise((resolve, reject) => {
 			axios.post(url, tokenVolumes)
@@ -65,9 +65,32 @@ class CoinClient {
 		return promise;
 	}
 
-	cachingClient = setup({
-		cache: { maxAge: 6 * 1000 } // 3s
-	});
+	async getPrices() {
+		const promise = new Promise(async (resolve) => {
+			const GET_PRICES = {
+				query: `{
+			prices {
+    				timestamp
+    				priceObj
+  			
+			}
+		}`,
+			};
+			try {
+				const response = await axios({
+					url: process.env.NEXT_PUBLIC_OPENQ_API_URL,
+					method: 'post',
+					headers: { 'content-type': 'application/json' },
+					data: GET_PRICES,
+				});
+				resolve(response?.data?.data?.prices?.priceObj);
+			}
+			catch (err) {
+				console.error(err);
+			}
+		});
+		return promise;
+	}
 
 	parseTokenValues = async (tokenBalances) => {
 		if (tokenBalances) {
@@ -99,7 +122,7 @@ class CoinClient {
 				};
 			}
 			const data = { tokenVolumes, network: 'polygon-pos' };
-			const url = process.env.NEXT_PUBLIC_COIN_API_URL + '/tvl';
+			const url = this.url + '/tvl';
 			//only query tvl for bounties that have deposits
 			let fetchValues = false;
 			if (JSON.stringify(data.tokenVolumes) != '{}') {
@@ -158,8 +181,9 @@ class CoinClient {
 		if (this.openqIndexableTokens[checkSummedAddress]) {
 			return this.openqIndexableTokens[checkSummedAddress];
 		}
-		if(localSuperfluidIndexable[address.toLowerCase()]){
-			return localSuperfluidIndexable[address.toLowerCase()];}
+		if (localSuperfluidIndexable[address.toLowerCase()]) {
+			return localSuperfluidIndexable[address.toLowerCase()];
+		}
 		return {
 			chainId: 137,
 			name: `${address.substring(0, 5)}
