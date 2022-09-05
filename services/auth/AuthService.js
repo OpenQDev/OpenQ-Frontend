@@ -16,6 +16,18 @@ class AuthService {
     });
   }
 
+  async getAccessToken(authCode) {
+    const url = `${process.env.NEXT_PUBLIC_AUTH_URL}/?app=openq&code=${authCode}`;
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await axios.get(url, { withCredentials: true });
+        resolve(response);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
   async verifySignature(account, signature) {
     return new Promise(async (resolve, reject) => {
       try {
@@ -39,10 +51,7 @@ class AuthService {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/checkAuth`, { withCredentials: true });
         const { isAuthenticated, avatarUrl, login } = response;
-        resolve({
-          type: 'UPDATE_IS_AUTHENTICATED',
-          payload: { isAuthenticated, avatarUrl, login },
-        });
+        resolve({ type: 'UPDATE_IS_AUTHENTICATED', payload: { isAuthenticated, avatarUrl, login } });
       } catch (error) {
         reject(error);
       }

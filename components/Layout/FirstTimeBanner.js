@@ -16,7 +16,7 @@ const FirstTimeBanner = () => {
             Welcome to <span className='font-bold'>OpenQ!</span> Since it{"'"}s your first time with us, check out our{' '}
             <a
               className='text-blue-400 hover:underline'
-              href='https://vimeo.com/718131976'
+              href='https://www.youtube.com/watch?v=HixkRY2v_pA&amp;ab_channel=OpenQ'
               target='_blank'
               rel='noopener noreferrer'
             >

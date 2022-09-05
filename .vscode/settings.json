@@ -1,25 +1,2 @@
 {
-	"search.exclude": {
-			"**/.next": true,
-			"**/artifacts/build-info": true,
-			"**/cache": true,
-			"**/yarn.lock": true
-	},
-	"search.useIgnoreFiles": false,
-	// Insert spaces when pressing Tab. This setting is overriden
-	// based on the file contents when `editor.detectIndentation` is true.
-	"editor.insertSpaces": true,
-	// When opening a file, `editor.tabSize` and `editor.insertSpaces`
-	// will be detected based on the file contents. Set to false to keep
-	// the values you've explicitly set, above.
-	"editor.detectIndentation": false,	
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-  },
 }
