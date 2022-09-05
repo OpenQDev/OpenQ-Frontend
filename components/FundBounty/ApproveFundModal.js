@@ -1,14 +1,12 @@
 // Third party
-import React, { useRef, useEffect, useState, useContext } from 'react';
+import React, { useRef, useEffect } from 'react';
 import Link from 'next/link';
 
 // Custom
-import { CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveTransferState';
+import { CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveFundState';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Image from 'next/image';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
-import useWeb3 from '../../hooks/useWeb3';
-import StoreContext from '../../store/Store/StoreContext';
 
 const ApproveFundModal = ({
   transactionHash,
@@ -26,18 +24,17 @@ const ApproveFundModal = ({
   bounty,
   /*openInvoicingModal*/
 }) => {
-  const [appState] = useContext(StoreContext);
   const modal = useRef();
   const updateModal = () => {
     resetState();
     setShowApproveTransferModal(false);
   };
-  const { account } = useWeb3();
-  const [, setInvoicingData] = useState();
   useEffect(async () => {
     try {
-      const invoicingData = await appState.openQPrismaClgetInvoicingData(account);
+      /*
+      const invoicingData = await appState.openQPrismaClient.getInvoicingData(account);
       setInvoicingData(invoicingData);
+      */
     } catch (err) {
       console.log(err);
     }
