@@ -24,13 +24,13 @@ const Dropdown = ({ toggleFunc, toggleVal, names, title, styles, width }) => {
 	}, [ref]);
 
 	// Methods
-	const handleSelection = (e) => {
-		toggleFunc(e.target.value);
-		updateOpen(() => !open);
+	const handleSelection = (e) => {		toggleFunc(e.target.value);		updateOpen(() => !open);
 	};
 
 
-	const handleToggle = (e) => {		e.preventDefault();		updateOpen(!open);
+	const handleToggle = (e) => {
+		e.preventDefault();
+		updateOpen(!open);
 	};
 
 	// Render
