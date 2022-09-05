@@ -9,7 +9,6 @@ const SearchBar = ({
 	label,
 	styles
 }) => {
-	const value=a;
 	return (
 		<input
 			className={`flex-1 lg:col-span-3 col-span-4 input-field-big ${styles}`}
