@@ -9,11 +9,11 @@ import AuthProvider from './store/AuthStore/AuthProvider';
 // test-utils.js
 // (ReduxProvider, ThemeProvider, etc)
 const Providers = ({ children }) => {
-	return <AuthProvider>
-		<StoreProvider>
-			{children}
-		</StoreProvider>
-	</AuthProvider>;
+  return (
+    <AuthProvider>
+      <StoreProvider>{children}</StoreProvider>
+    </AuthProvider>
+  );
 };
 
 const customRender = (ui, options = {}) => render(ui, { wrapper: Providers, ...options });

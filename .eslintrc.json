@@ -12,7 +12,8 @@
 	},
 	"extends": [
 		"eslint:recommended",
-		"plugin:react/recommended"
+		"plugin:react/recommended",
+    "prettier"
 	],
 	"parser": "@babel/eslint-parser",
 	"parserOptions": {
@@ -30,7 +31,8 @@
 	},
 	"plugins": [
 		"react",
-		"unused-imports"
+		"unused-imports",
+    "prettier"
 	],
 	"rules": {
 		"no-async-promise-executor": "off",
@@ -39,18 +41,15 @@
 		"no-useless-escape": "off",
 		"react/no-unescaped-entities": "off",
 		"react/prop-types": 0,
-		"indent": [
-			"error",
-			"tab"
-		],
 		"linebreak-style": 0,
-		"quotes": [
-			"error",
-			"single"
-		],
 		"semi": [
 			"error",
 			"always"
-		]
-	}
+		],
+  "prettier/prettier": 
+    "error"
+    
+  
+
+	}  
 }
