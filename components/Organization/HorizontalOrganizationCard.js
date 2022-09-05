@@ -7,8 +7,7 @@ import starOrganization from './starOrganization';
 import useWeb3 from '../../hooks/useWeb3';
 
 const HorizontalOrganizationCard = ({ organization }) => {
-	const [starred, setStarred] = useState();	const [starredDisabled, setStarredDisabled] = useState(true);const context = useContext(StoreContext);
-	const { account } = useWeb3();
+	const [starred, setStarred] = useState();	const [starredDisabled, setStarredDisabled] = useState(true);const context = useContext(StoreContext);const { account } = useWeb3();
 
 	useEffect(() => {
 		setStarredDisabled(true);
