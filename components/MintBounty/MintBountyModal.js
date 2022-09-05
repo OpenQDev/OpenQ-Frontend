@@ -49,8 +49,8 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
   const [finalTierVolume, setFinalTierVolume] = useState([]);
   const [payoutVolume, setPayoutVolume] = useState('');
   const [payoutToken, setPayoutToken] = useState(zeroAddressMetadata);
-  const initialType = types[0] === '1' ? 'Repeating' : types[0] === '2' ? 'Contest' : 'Atomic';
-  const [toggleType, setToggleType] = useState(initialType);
+  const initialCategory = types[0] === '1' ? 'Repeating' : types[0] === '2' ? 'Contest' : 'Atomic';
+  const [category, setCategory] = useState(initialCategory);
   const [goalVolume, setGoalVolume] = useState('');
   const [goalToken, setGoalToken] = useState(zeroAddressMetadata);
   const [sum, setSum] = useState(0);
@@ -141,7 +141,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
     try {
       setIsLoading(true);
       let data;
-      switch (toggleType) {
+      switch (category) {
         case 'Atomic':
           data = {
             fundingTokenVolume: goalVolume,
@@ -164,13 +164,13 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
           };
           break;
         default:
-          throw new Error(`No type: ${toggleType}`);
+          throw new Error(`No type: ${category}`);
       }
       const { bountyAddress } = await appState.openQClient.mintBounty(
         library,
         issue.id,
         issue.repository.owner.id,
-        toggleType,
+        category,
         data
       );
       sessionStorage.setItem('justMinted', true);
@@ -281,12 +281,12 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
   }, [finalTierVolume]);
 
   useEffect(() => {
-    if (toggleType == 'Contest' && !tierConditions) {
+    if (category == 'Contest' && !tierConditions) {
       setEnableContest(false);
     } else {
       setEnableContest(true);
     }
-  }, [toggleType, tier, sum]);
+  }, [category, tier, sum]);
 
   // Render
   return (
@@ -304,13 +304,13 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
               {!hideSubmenu && (
                 <SubMenu
                   items={[{ name: 'Single' }, { name: 'Multi' }, { name: 'Weighted' }]}
-                  internalMenu={toggleType}
-                  updatePage={setToggleType}
+                  internalMenu={category}
+                  updatePage={setCategory}
                   styles={'justify-center'}
                 />
               )}
               <div className='max-h-[70vh] w-full overflow-y-auto'>
-                <MintBountyHeader type={toggleType} />
+                <MintBountyHeader category={category} />
                 <div className='flex flex-col items-center pl-6 pr-6'>
                   <MintBountyInput setIssueUrl={setIssueUrl} issueData={issue} url={url} isValidUrl={isValidUrl} />
                 </div>
@@ -379,7 +379,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                         <ToolTipNew
                           mobileX={10}
                           toolTipText={
-                            toggleType === 'Atomic'
+                            category === 'Atomic'
                               ? 'Amount of funds you would like to escrow on this issue.'
                               : 'How much will each successful submitter earn?'
                           }
@@ -426,7 +426,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                   </div>
                 </div>
 
-                {toggleType === 'Repeating' ? (
+                {category === 'Repeating' ? (
                   <>
                     <div className='flex flex-col items-center pl-6 pr-6 pb-2'>
                       <div className='flex flex-col w-4/5 md:w-2/3'>
@@ -452,7 +452,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                       </div>
                     </div>
                   </>
-                ) : toggleType === 'Contest' ? (
+                ) : category === 'Contest' ? (
                   <>
                     <div className='flex flex-col items-center pl-6 pr-6 pb-2'>
                       <div className='flex flex-col w-4/5 md:w-2/3'>
