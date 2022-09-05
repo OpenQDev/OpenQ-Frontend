@@ -1,6 +1,6 @@
 name: Atomic Contract
 description: Contributors can only give you what you need if you can accurately describe what you want!
-title: "[CONTRACT]: "
+title: "[ATOMIC CONTRACT]: "
 labels: ["paid"]
 body:
   - type: markdown
