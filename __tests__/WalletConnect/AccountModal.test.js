@@ -16,60 +16,80 @@ const setIsConnecting = jest.fn();
 const deactivate = jest.fn();
 
 describe('AccountModal', () => {
-	// Test cases for 
+  // Test cases for
 
-	const push = jest.fn(() => { return { catch: jest.fn }; });
-	beforeEach(() => {
-		const observe = jest.fn();
-		const disconnect = jest.fn();
-		window.IntersectionObserver = jest.fn(() => ({
-			observe,
-			disconnect,
-		}));
+  const push = jest.fn(() => {
+    return { catch: jest.fn };
+  });
+  beforeEach(() => {
+    const observe = jest.fn();
+    const disconnect = jest.fn();
+    window.IntersectionObserver = jest.fn(() => ({
+      observe,
+      disconnect,
+    }));
 
-		nextRouter.useRouter = jest.fn();
-		nextRouter.useRouter.mockImplementation(() => ({
-			query: { type: null },
-			prefetch: jest.fn(() => { return { catch: jest.fn }; }),
-			push
-		}));
+    nextRouter.useRouter = jest.fn();
+    nextRouter.useRouter.mockImplementation(() => ({
+      query: { type: null },
+      prefetch: jest.fn(() => {
+        return { catch: jest.fn };
+      }),
+      push,
+    }));
+  });
 
-	});
+  it('should render account modal', async () => {
+    // ARRANGE
+    render(
+      <AccountModal
+        chainId={chainId}
+        ensName={ensName}
+        deactivate={deactivate}
+        account={account}
+        setIsConnecting={setIsConnecting}
+      />
+    );
 
-	it('should render account modal', async () => {
-		// ARRANGE
-		render(<AccountModal chainId={chainId} ensName={ensName} deactivate={deactivate} account={account} setIsConnecting={setIsConnecting} />
-		);
+    // ASSERT
+    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(nullish).toHaveLength(0);
+  });
 
-		// ASSERT
-		const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-		expect(nullish).toHaveLength(0);
-	});
+  it('should link to profile.', async () => {
+    // ARRANGE
+    const user = userEvent.setup();
+    render(
+      <AccountModal
+        chainId={chainId}
+        ensName={ensName}
+        deactivate={deactivate}
+        account={account}
+        setIsConnecting={setIsConnecting}
+      />
+    );
 
+    // ASSERT
 
-	it('should link to profile.', async () => {
-		// ARRANGE
-		const user = userEvent.setup();
-		render(<AccountModal chainId={chainId} ensName={ensName} deactivate={deactivate} account={account} setIsConnecting={setIsConnecting} />
-		);
+    await user.click(await screen.findByRole('link'));
+    expect(push).toHaveBeenCalledTimes(1);
+  });
 
-		// ASSERT
+  it('should be able to deactivate.', async () => {
+    // ARRANGE
+    const user = userEvent.setup();
+    render(
+      <AccountModal
+        chainId={chainId}
+        ensName={ensName}
+        deactivate={deactivate}
+        account={account}
+        setIsConnecting={setIsConnecting}
+      />
+    );
 
-		await user.click(await screen.findByRole('link'));
-		expect(push).toHaveBeenCalledTimes(1);
-
-	});
-
-	it('should be able to deactivate.', async () => {
-		// ARRANGE
-		const user = userEvent.setup();
-		render(<AccountModal chainId={chainId} ensName={ensName} deactivate={deactivate} account={account} setIsConnecting={setIsConnecting} />
-		);
-
-		// ASSERT
-		await user.click(await screen.findByText(/disconnect/i));
-		expect(deactivate).toHaveBeenCalledTimes(1);
-
-	});
-
+    // ASSERT
+    await user.click(await screen.findByText(/disconnect/i));
+    expect(deactivate).toHaveBeenCalledTimes(1);
+  });
 });

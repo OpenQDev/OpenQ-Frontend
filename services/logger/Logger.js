@@ -1,19 +1,18 @@
 class Logger {
-	enabled;
+  enabled;
 
-	constructor(_enabled) {
-		this.enabled = _enabled;
-	}
+  constructor(_enabled) {
+    this.enabled = _enabled;
+  }
 
-	log(data) {
-		console.log(data);
-		const { id, message } = data;
+  log(data) {
+    console.log(data);
+    const { id, message } = data;
 
-		if (this.enabled) {
-			console.log(`id: ${id}, message: ${message}`);
-		}
-	}
-
+    if (this.enabled) {
+      console.log(`id: ${id}, message: ${message}`);
+    }
+  }
 }
 
 export default Logger;

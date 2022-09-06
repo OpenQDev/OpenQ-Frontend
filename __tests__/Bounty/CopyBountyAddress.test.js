@@ -1,4 +1,3 @@
-
 /**
  * @jest-environment jsdom
  */
@@ -6,41 +5,33 @@ import React from 'react';
 
 import { render, screen } from '../../test-utils';
 import CopyBountyAddress from '../../components/Bounty/CopyBountyAddress';
- 
 
-describe('CopyBountyAddress', ( ) => {
-	const bounty={
-		'__typename': 'Bounty',
-		'bountyAddress': '0x1f191c4166865882b26551fb8618668b7a67d0fb',
-	};
+describe('CopyBountyAddress', () => {
+  const bounty = {
+    __typename: 'Bounty',
+    bountyAddress: '0x1f191c4166865882b26551fb8618668b7a67d0fb',
+  };
 
-	beforeEach(()=>{
-		const observe = jest.fn();
-		const disconnect = jest.fn();
+  beforeEach(() => {
+    const observe = jest.fn();
+    const disconnect = jest.fn();
 
-		window.IntersectionObserver = jest.fn(() => ({
-			observe,
-			disconnect,
-		}));
-	});
-		
-	it('should render CopyBountyAddress', ()=>{
+    window.IntersectionObserver = jest.fn(() => ({
+      observe,
+      disconnect,
+    }));
+  });
 
-		// ARRANGE
-		render(<CopyBountyAddress address={bounty.bountyAddress} />);
-		const addressRegex = new RegExp(bounty.bountyAddress.slice(0, 3));
+  it('should render CopyBountyAddress', () => {
+    // ARRANGE
+    render(<CopyBountyAddress address={bounty.bountyAddress} />);
+    const addressRegex = new RegExp(bounty.bountyAddress.slice(0, 3));
 
-		// ASSERT
-		expect(screen.getByText(addressRegex));		
-			
-		// should not have null or undefined values
-		const nullish =  [...screen.queryAllByRole(/null/),	...screen.queryAllByRole(/undefined/)];		
-		expect(nullish).toHaveLength(0);
+    // ASSERT
+    expect(screen.getByText(addressRegex));
 
-			
-	});
-
-	
-
-	
+    // should not have null or undefined values
+    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(nullish).toHaveLength(0);
+  });
 });

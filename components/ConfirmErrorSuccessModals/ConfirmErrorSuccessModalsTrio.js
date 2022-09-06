@@ -5,50 +5,44 @@ import ConfirmationModal from './ConfirmationModal';
 import SuccessModal from './SuccessModal';
 
 const ConfirmErrorSuccessModalsTrio = ({
-	showSuccessModal,
-	setShowSuccessModal,
-	successMessage,
-	transactionHash,
+  showSuccessModal,
+  setShowSuccessModal,
+  successMessage,
+  transactionHash,
 
-	showErrorModal,
-	setShowErrorModal,
-	error,
+  showErrorModal,
+  setShowErrorModal,
+  error,
 
-	showConfirmationModal,
-	confirmMethod,
-	confirmationMessage,
-	confirmationTitle,
-	setShowConfirmationModal,
-	positiveOption,
+  showConfirmationModal,
+  confirmMethod,
+  confirmationMessage,
+  confirmationTitle,
+  setShowConfirmationModal,
+  positiveOption,
 }) => {
-
-	// Render
-	return (
-		<>
-			{showErrorModal && (
-				<ErrorModal
-					setShowErrorModal={setShowErrorModal}
-					error={error}
-				/>
-			)}
-			{showConfirmationModal && (
-				<ConfirmationModal
-					setShowConfirmationModal={setShowConfirmationModal}
-					confirmationMessage={confirmationMessage}
-					confirmationTitle={confirmationTitle}
-					positiveOption={positiveOption}
-					confirmMethod={confirmMethod}
-				/>
-			)}
-			{showSuccessModal && (
-				<SuccessModal
-					setShowSuccessModal={setShowSuccessModal}
-					successMessage={successMessage}
-					transactionHash={transactionHash}
-				/>
-			)}
-		</>
-	);
+  // Render
+  return (
+    <>
+      {showErrorModal && <ErrorModal setShowErrorModal={setShowErrorModal} error={error} />}
+      {showConfirmationModal && (
+        <ConfirmationModal
+          setShowConfirmationModal={setShowConfirmationModal}
+          confirmationMessage={confirmationMessage}
+          confirmationTitle={confirmationTitle}
+          positiveOption={positiveOption}
+          confirmMethod={confirmMethod}
+        />
+      )}
+      {showSuccessModal && (
+        <SuccessModal
+          setShowSuccessModal={setShowSuccessModal}
+          successMessage={successMessage}
+          transactionHash={transactionHash}
+        />
+      )}
+    </>
+  );
 };
 
 export default ConfirmErrorSuccessModalsTrio;

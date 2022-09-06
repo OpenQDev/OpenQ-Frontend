@@ -5,462 +5,512 @@ import ERC20ABI from '../../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.
 import jsonRpcErrors from './JsonRPCErrors';
 
 class OpenQClient {
-	constructor() { }
+  constructor() {}
 
-	/**
-		 * 
-		 * @param {Web3Provider} signer An ethers.js signer
-		 * @returns Web3Contract
-		 */
-	OpenQ = (signer) => {
-		const contract = new ethers.Contract(process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS, OpenQABI.abi, signer);
-		return contract;
-	};
+  /**
+   *
+   * @param {Web3Provider} signer An ethers.js signer
+   * @returns Web3Contract
+   */
+  OpenQ = (signer) => {
+    const contract = new ethers.Contract(process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS, OpenQABI.abi, signer);
+    return contract;
+  };
 
-	/**
-	 * 
-	 * @param {Web3Provider} signer An ethers.js signer
-	 * @returns Web3Contract
-	 */
-	DepositManager = (signer) => {
-		const contract = new ethers.Contract(process.env.NEXT_PUBLIC_DEPOSIT_MANAGER_PROXY_ADDRESS, DepositManagerABI.abi, signer);
-		return contract;
-	};
+  /**
+   *
+   * @param {Web3Provider} signer An ethers.js signer
+   * @returns Web3Contract
+   */
+  DepositManager = (signer) => {
+    const contract = new ethers.Contract(
+      process.env.NEXT_PUBLIC_DEPOSIT_MANAGER_PROXY_ADDRESS,
+      DepositManagerABI.abi,
+      signer
+    );
+    return contract;
+  };
 
-	/**
-		 * 
-		 * @param {string} tokenAddress Contract address of an ERC20 token
-		 * @param {Web3Provider} signer An ethers.js signer
-		 * @returns Web3Contract
-		 */
+  /**
+   *
+   * @param {string} tokenAddress Contract address of an ERC20 token
+   * @param {Web3Provider} signer An ethers.js signer
+   * @returns Web3Contract
+   */
 
-	ERC20 = (tokenAddress, signer) => {
-		const contract = new ethers.Contract(tokenAddress, ERC20ABI.abi, signer);
-		return contract;
-	};
+  ERC20 = (tokenAddress, signer) => {
+    const contract = new ethers.Contract(tokenAddress, ERC20ABI.abi, signer);
+    return contract;
+  };
 
-	signMessage = async (account) => {
-		const message = 'OpenQ';
-		const signature = await window.ethereum
-			.request({
-				method: 'personal_sign',
-				params: [message, account]
-			});
-		return signature;
-	};
+  signMessage = async (account) => {
+    const message = 'OpenQ';
+    const signature = await window.ethereum.request({
+      method: 'personal_sign',
+      params: [message, account],
+    });
+    return signature;
+  };
 
-	async mintBounty(library, issueId, organization, type, data) {
-		const promise = new Promise(async (resolve, reject) => {
-			let bountyInitOperation;
-			let abiCoder = new ethers.utils.AbiCoder;
-			const fundVolumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
-			const fundBigNumberVolumeInWei = ethers.BigNumber.from(fundVolumeInWei.toLocaleString('fullwide', {useGrouping:false}));
-			const hasFundingGoal = fundVolumeInWei > 0;
-			switch (type) {
+  async mintBounty(library, issueId, organization, type, data) {
+    const promise = new Promise(async (resolve, reject) => {
+      let bountyInitOperation;
+      let abiCoder = new ethers.utils.AbiCoder();
+      const fundVolumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
+      const fundBigNumberVolumeInWei = ethers.BigNumber.from(
+        fundVolumeInWei.toLocaleString('fullwide', { useGrouping: false })
+      );
+      const hasFundingGoal = fundVolumeInWei > 0;
+      switch (type) {
+        case 'Atomic':
+          {
+            const fundingGoalBountyParams = abiCoder.encode(
+              ['bool', 'address', 'uint256'],
+              [hasFundingGoal, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]
+            );
+            bountyInitOperation = [0, fundingGoalBountyParams];
+          }
+          break;
+        case 'Repeating':
+          {
+            const payoutVolumeInWei = data.payoutVolume * 10 ** data.payoutToken.decimals;
+            const payoutBigNumberVolumeInWei = ethers.BigNumber.from(
+              payoutVolumeInWei.toLocaleString('fullwide', {
+                useGrouping: false,
+              })
+            );
+            const ongoingAbiEncodedParams = abiCoder.encode(
+              ['address', 'uint256', 'bool', 'address', 'uint256'],
+              [
+                data.payoutToken.address,
+                payoutBigNumberVolumeInWei,
+                hasFundingGoal,
+                data.fundingTokenAddress.address,
+                fundBigNumberVolumeInWei,
+              ]
+            );
+            bountyInitOperation = [1, ongoingAbiEncodedParams];
+          }
+          break;
+        case 'Contest':
+          {
+            const tieredAbiEncodedParams = abiCoder.encode(
+              ['uint256[]', 'bool', 'address', 'uint256'],
+              [data.tiers, hasFundingGoal, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]
+            );
+            bountyInitOperation = [2, tieredAbiEncodedParams];
+          }
+          break;
+        default:
+          throw new Error('Unknown Bounty Type');
+      }
 
-			case 'Atomic':
-				{
-					const fundingGoalBountyParams = abiCoder.encode(['bool', 'address', 'uint256'], [hasFundingGoal, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]);
-					bountyInitOperation = [0, fundingGoalBountyParams];
-				}
-				break;
-			case 'Repeating':
-				{
-					const payoutVolumeInWei = data.payoutVolume * 10 ** data.payoutToken.decimals;
-					const payoutBigNumberVolumeInWei = ethers.BigNumber.from(payoutVolumeInWei.toLocaleString('fullwide', {useGrouping:false}));
-					const ongoingAbiEncodedParams = abiCoder.encode(['address', 'uint256', 'bool', 'address', 'uint256'], [data.payoutToken.address, payoutBigNumberVolumeInWei, hasFundingGoal, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]);
-					bountyInitOperation = [1, ongoingAbiEncodedParams];
-				}
-				break;
-			case 'Contest':
-				{
-					const tieredAbiEncodedParams = abiCoder.encode(['uint256[]', 'bool', 'address', 'uint256'], [data.tiers, hasFundingGoal, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]);
-					bountyInitOperation = [2, tieredAbiEncodedParams];
-				}
-				break;
-			default:
-				throw new Error('Unknown Bounty Type');
-			}
+      const signer = library.getSigner();
 
-			const signer = library.getSigner();
+      const contract = this.OpenQ(signer);
+      try {
+        const txnResponse = await contract.mintBounty(issueId, organization, bountyInitOperation);
+        const txnReceipt = await txnResponse.wait();
+        console.log(txnReceipt);
+        const bountyAddress = txnReceipt.events.find((eventObj) => eventObj.event === 'BountyCreated').args
+          .bountyAddress;
+        resolve({ bountyAddress });
+      } catch (err) {
+        console.log('err', err);
+        reject(err);
+      }
+    });
+    return promise;
+  }
 
-			const contract = this.OpenQ(signer);
-			try {
-				const txnResponse = await contract.mintBounty(issueId, organization, bountyInitOperation);
-				const txnReceipt = await txnResponse.wait();
-				console.log(txnReceipt);
-				const bountyAddress = txnReceipt.events.find(eventObj => eventObj.event === 'BountyCreated').args.bountyAddress;
-				resolve({ bountyAddress });
-			} catch (err) {
-				console.log('err', err);
-				reject(err);
-			}
-		});
-		return promise;
-	}
+  // setFunding inspired by fundBounty
+  async setFundingGoal(library, _bountyId, _fundingGoalToken, _fundingGoalVolume) {
+    const promise = new Promise(async (resolve, reject) => {
+      const volumeInWei = _fundingGoalVolume * 10 ** _fundingGoalToken.decimals;
+      const bigNumberVolumeInWei = ethers.BigNumber.from(
+        volumeInWei.toLocaleString('fullwide', { useGrouping: false })
+      );
+      const signer = library.getSigner();
+      const contract = this.OpenQ(signer);
+      try {
+        let txnResponse;
+        let txnReceipt;
+        txnResponse = await contract.setFundingGoal(_bountyId, _fundingGoalToken.address, bigNumberVolumeInWei);
+        txnReceipt = await txnResponse.wait();
+        console.log(txnReceipt);
+        resolve(txnReceipt);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    });
+    return promise;
+  }
 
-	// setFunding inspired by fundBounty
-	async setFundingGoal(library, _bountyId, _fundingGoalToken, _fundingGoalVolume) {
-		const promise = new Promise(async (resolve, reject) => {
-			const volumeInWei = _fundingGoalVolume * 10 ** _fundingGoalToken.decimals;
-			const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', {useGrouping:false}));
-			const signer = library.getSigner();
-			const contract = this.OpenQ(signer);
-			try {
-				let txnResponse;
-				let txnReceipt;
-				txnResponse = await contract.setFundingGoal(_bountyId, _fundingGoalToken.address, bigNumberVolumeInWei);
-				txnReceipt = await txnResponse.wait();
-				console.log(txnReceipt);
-				resolve(txnReceipt);
-			} catch (error) {
-				console.log(error);
-				reject(error);
-			}
-		});
-		return promise;
-	}
+  async setPayout(library, _bountyId, _payoutToken, _payoutVolume) {
+    const promise = new Promise(async (resolve, reject) => {
+      const volumeInWei = _payoutVolume * 10 ** _payoutToken.decimals;
+      const bigNumberVolumeInWei = ethers.BigNumber.from(
+        volumeInWei.toLocaleString('fullwide', { useGrouping: false })
+      );
+      const signer = library.getSigner();
+      const contract = this.OpenQ(signer);
+      try {
+        let txnResponse;
+        let txnReceipt;
+        txnResponse = await contract.setPayout(_bountyId, _payoutToken.address, bigNumberVolumeInWei);
+        txnReceipt = await txnResponse.wait();
+        console.log(txnReceipt);
+        resolve(txnReceipt);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    });
+    return promise;
+  }
 
-	async setPayout(library, _bountyId, _payoutToken, _payoutVolume) {
-		const promise = new Promise(async (resolve, reject) => {
-			const volumeInWei = _payoutVolume * 10 ** _payoutToken.decimals;
-			const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', {useGrouping:false}));
-			const signer = library.getSigner();
-			const contract = this.OpenQ(signer);
-			try {
-				let txnResponse;
-				let txnReceipt;
-				txnResponse = await contract.setPayout(_bountyId, _payoutToken.address, bigNumberVolumeInWei);
-				txnReceipt = await txnResponse.wait();
-				console.log(txnReceipt);
-				resolve(txnReceipt);
-			} catch (error) {
-				console.log(error);
-				reject(error);
-			}
-		});
-		return promise;
-	}
+  async setPayoutSchedule(library, _bountyId, _payoutSchedule) {
+    const promise = new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.OpenQ(signer);
+      try {
+        let txnResponse;
+        let txnReceipt;
+        txnResponse = await contract.setPayoutSchedule(_bountyId, _payoutSchedule);
+        txnReceipt = await txnResponse.wait();
+        console.log(txnReceipt);
+        resolve(txnReceipt);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    });
+    return promise;
+  }
 
-	async setPayoutSchedule(library, _bountyId, _payoutSchedule) {
-		const promise = new Promise(async (resolve, reject) => {
-			const signer = library.getSigner();
-			const contract = this.OpenQ(signer);
-			try {
-				let txnResponse;
-				let txnReceipt;
-				txnResponse = await contract.setPayoutSchedule(_bountyId, _payoutSchedule);
-				txnReceipt = await txnResponse.wait();
-				console.log(txnReceipt);
-				resolve(txnReceipt);
-			} catch (error) {
-				console.log(error);
-				reject(error);
-			}
-		});
-		return promise;
-	}
+  async approve(library, _bountyAddress, _tokenAddress, _value) {
+    const promise = new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
 
-	async approve(library, _bountyAddress, _tokenAddress, _value) {
-		const promise = new Promise(async (resolve, reject) => {
-			const signer = library.getSigner();
+      const contract = this.ERC20(_tokenAddress, signer);
+      try {
+        const txnResponse = await contract.approve(_bountyAddress, _value);
+        const txnReceipt = await txnResponse.wait();
+        resolve(txnReceipt);
+      } catch (error) {
+        reject(error);
+      }
+    });
+    return promise;
+  }
 
-			const contract = this.ERC20(_tokenAddress, signer);
-			try {
-				const txnResponse = await contract.approve(_bountyAddress, _value);
-				const txnReceipt = await txnResponse.wait();
-				resolve(txnReceipt);
-			} catch (error) {
-				reject(error);
-			}
-		});
-		return promise;
-	}
+  async allowance(library, _tokenAddress) {
+    const promise = new Promise(async (resolve) => {
+      try {
+        const signer = library.getSigner();
+        const contract = this.ERC20(_tokenAddress, signer);
+        const allowance = await contract.allowance(
+          '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+          '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707'
+        );
+        resolve(allowance);
+      } catch (err) {
+        resolve({ _hex: '0x00', _isBigNumber: true });
+      }
+    });
+    return promise;
+  }
 
-	async allowance(library, _tokenAddress) {
-		console.log(library, this.allowance);
-		const promise = new Promise(async (resolve) => {
-			try {
-				const signer = library.getSigner();
-				const contract = this.ERC20(_tokenAddress, signer);
-				const allowance = await contract.allowance('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266', '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707');
-				resolve(allowance);
-			}
-			catch (err) {
-				resolve({ _hex: '0x00', _isBigNumber: true });
+  async balanceOf(library, _callerAddress, _tokenAddress) {
+    const promise = new Promise(async (resolve, reject) => {
+      const signer = library?.getSigner();
+      if (!signer) {
+        resolve({ noSigner: true });
+      }
+      const contract = this.ERC20(_tokenAddress, signer);
+      try {
+        let volume;
+        if (_tokenAddress == ethers.constants.AddressZero) {
+          volume = await library.getBalance(_callerAddress);
+        } else {
+          volume = await contract.balanceOf(_callerAddress);
+        }
+        resolve(volume);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    });
+    return promise;
+  }
 
-			}
-		}
-		);
-		return promise;
-	}
+  async userOwnedTokenBalances(library, _callerAddress, tokens) {
+    const promise = new Promise(async (resolve) => {
+      const tokensInWallet = [];
+      tokens.forEach(async (token) => {
+        tokensInWallet.push(this.userBalanceForToken(library, token, _callerAddress));
+      });
+      resolve(Promise.all(tokensInWallet));
+    });
 
-	async balanceOf(library, _callerAddress, _tokenAddress) {
-		const promise = new Promise(async (resolve, reject) => {
-			const signer = library?.getSigner();
-			if (!signer) {
-				resolve({ noSigner: true });
-			}
-			const contract = this.ERC20(_tokenAddress, signer);
-			try {
-				let volume;
-				if (_tokenAddress == ethers.constants.AddressZero) {
-					volume = await library.getBalance(_callerAddress);
-				} else {
-					volume = await contract.balanceOf(_callerAddress);
-				}
-				resolve(volume);
-			} catch (error) {
-				console.log(error);
-				reject(error);
-			}
-		});
-		return promise;
-	}
+    return promise;
+  }
 
-	async userOwnedTokenBalances(library, _callerAddress, tokens) {
-		const promise = new Promise(async (resolve) => {
-			const tokensInWallet = [];
-			tokens.forEach(async (token) => {
-				tokensInWallet.push(this.userBalanceForToken(library, token, _callerAddress));
-			});
-			resolve(Promise.all(tokensInWallet));
-		});
+  async userBalanceForToken(library, token, _callerAddress) {
+    const signer = library.getSigner();
+    const zero = ethers.BigNumber.from(0);
 
-		return promise;
-	}
+    let promise = new Promise(async (resolve) => {
+      let bigNumber;
+      let balance;
 
-	async userBalanceForToken(library, token, _callerAddress) {
-		const signer = library.getSigner();
-		const zero = ethers.BigNumber.from(0);
+      try {
+        if (token.address == ethers.constants.AddressZero) {
+          balance = await library.getBalance(_callerAddress);
+        } else {
+          const contract = this.ERC20(token.address, signer);
+          balance = await contract.balanceOf(_callerAddress);
+        }
 
-		let promise = new Promise(async (resolve) => {
-			let bigNumber;
-			let balance;
+        bigNumber = ethers.BigNumber.from(balance);
+        resolve(!bigNumber.eq(zero));
+      } catch (error) {
+        resolve(false);
+      }
+    });
 
-			try {
-				if (token.address == ethers.constants.AddressZero) {
-					balance = await library.getBalance(_callerAddress);
-				} else {
-					const contract = this.ERC20(token.address, signer);
-					balance = await contract.balanceOf(_callerAddress);
-				}
+    return promise;
+  }
 
-				bigNumber = ethers.BigNumber.from(balance);
-				resolve(!bigNumber.eq(zero));
-			} catch (error) {
-				resolve(false);
-			}
+  async getENS(_callerAddress) {
+    let promise = new Promise(async (resolve) => {
+      let ensName;
+      try {
+        let provider = new ethers.providers.InfuraProvider('homestead', process.env.NEXT_PUBLIC_INFURA_PROJECT_ID);
+        let name = await provider.lookupAddress(_callerAddress);
+        let reverseAddress = ethers.utils.getAddress(await provider.resolveName(name));
+        // we need to check if their address is reverse registered
+        if (ethers.utils.getAddress(_callerAddress) === reverseAddress) {
+          ensName = name;
+        }
+        resolve(ensName);
+      } catch (error) {
+        resolve(false);
+      }
+    });
+    return promise;
+  }
 
-		});
+  async fundBounty(library, _bountyAddress, _tokenAddress, _value, _depositPeriodDays) {
+    const promise = new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
 
-		return promise;
-	}
+      const contract = this.DepositManager(signer);
+      try {
+        const expiration = _depositPeriodDays * 24 * 60 * 60;
 
-	async getENS(_callerAddress) {
-		let promise = new Promise(async (resolve) => {
-			let ensName;
-			try {
-				let provider = new ethers.providers.InfuraProvider('homestead', process.env.NEXT_PUBLIC_INFURA_PROJECT_ID);
-				let name = await provider.lookupAddress(_callerAddress);
-				let reverseAddress = ethers.utils.getAddress(await provider.resolveName(name));
-				// we need to check if their address is reverse registered 
-				if (ethers.utils.getAddress(_callerAddress) === reverseAddress) {
-					ensName = name;
-				}
-				resolve(ensName);
-			}
-			catch (error) {
-				resolve(false);
-			}
-		});
-		return promise;
-	}
+        let txnResponse;
+        let txnReceipt;
 
-	async fundBounty(library, _bountyAddress, _tokenAddress, _value, _depositPeriodDays) {
-		const promise = new Promise(async (resolve, reject) => {
-			const signer = library.getSigner();
+        if (_tokenAddress == ethers.constants.AddressZero) {
+          txnResponse = await contract.fundBountyToken(_bountyAddress, _tokenAddress, _value, expiration, {
+            value: _value,
+          });
+        } else {
+          txnResponse = await contract.fundBountyToken(_bountyAddress, _tokenAddress, _value, expiration);
+        }
+        txnReceipt = await txnResponse.wait();
+        console.log(txnReceipt);
+        resolve(txnReceipt);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    });
+    return promise;
+  }
 
-			const contract = this.DepositManager(signer);
-			try {
-				const expiration = _depositPeriodDays * 24 * 60 * 60;
+  async closeCompetition(library, _bountyId) {
+    const promise = new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
 
-				let txnResponse;
-				let txnReceipt;
+      const contract = this.OpenQ(signer);
+      try {
+        let txnResponse = await contract.closeCompetition(_bountyId);
+        let txnReceipt = await txnResponse.wait();
+        console.log(txnReceipt);
+        resolve(txnReceipt);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    });
+    return promise;
+  }
 
-				if (_tokenAddress == ethers.constants.AddressZero) {
-					txnResponse = await contract.fundBountyToken(_bountyAddress, _tokenAddress, _value, expiration, { value: _value });
-				} else {
-					txnResponse = await contract.fundBountyToken(_bountyAddress, _tokenAddress, _value, expiration);
-				}
-				txnReceipt = await txnResponse.wait();
-				console.log(txnReceipt);
-				resolve(txnReceipt);
-			} catch (error) {
-				console.log(error);
-				reject(error);
-			}
-		});
-		return promise;
-	}
+  async closeOngoing(library, _bountyId) {
+    const promise = new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
 
-	async closeCompetition(library, _bountyId) {
-		const promise = new Promise(async (resolve, reject) => {
-			const signer = library.getSigner();
+      const contract = this.OpenQ(signer);
+      try {
+        let txnResponse = await contract.closeOngoing(_bountyId);
+        let txnReceipt = await txnResponse.wait();
+        console.log(txnReceipt);
+        resolve(txnReceipt);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    });
+    return promise;
+  }
 
-			const contract = this.OpenQ(signer);
-			try {
-				let txnResponse = await contract.closeCompetition(_bountyId);
-				let txnReceipt = await txnResponse.wait();
-				console.log(txnReceipt);
-				resolve(txnReceipt);
-			} catch (error) {
-				console.log(error);
-				reject(error);
-			}
-		});
-		return promise;
-	}
+  async extendDeposit(library, _bountyAddress, _depositId, _depositPeriodDays) {
+    const promise = new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.DepositManager(signer);
+      try {
+        const seconds = _depositPeriodDays * 24 * 60 * 60;
+        const txnResponse = await contract.extendDeposit(_bountyAddress, _depositId, seconds);
+        const txnReceipt = await txnResponse.wait();
+        console.log(txnReceipt);
+        resolve(txnReceipt);
+      } catch (err) {
+        reject(err);
+      }
+    });
+    return promise;
+  }
 
-	async closeOngoing(library, _bountyId) {
-		const promise = new Promise(async (resolve, reject) => {
-			const signer = library.getSigner();
+  async refundDeposit(library, _bountyAddress, _depositId) {
+    const promise = new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.DepositManager(signer);
+      try {
+        const txnResponse = await contract.refundDeposit(_bountyAddress, _depositId);
+        const txnReceipt = await txnResponse.wait();
+        console.log(txnReceipt);
+        resolve(txnReceipt);
+      } catch (err) {
+        reject(err);
+      }
+    });
+    return promise;
+  }
 
-			const contract = this.OpenQ(signer);
-			try {
-				let txnResponse = await contract.closeOngoing(_bountyId);
-				let txnReceipt = await txnResponse.wait();
-				console.log(txnReceipt);
-				resolve(txnReceipt);
-			} catch (error) {
-				console.log(error);
-				reject(error);
-			}
-		});
-		return promise;
-	}
+  async tokenAddressLimitReached(library, _bountyAddress) {
+    const promise = new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.DepositManager(signer);
+      try {
+        const tokenAddressLimitReached = await contract.tokenAddressLimitReached(_bountyAddress);
+        resolve(tokenAddressLimitReached);
+      } catch (err) {
+        reject(err);
+      }
+    });
+    return promise;
+  }
 
-	async extendDeposit(library, _bountyAddress, _depositId, _depositPeriodDays) {
-		const promise = new Promise(async (resolve, reject) => {
-			const signer = library.getSigner();
-			const contract = this.DepositManager(signer);
-			try {
-				const seconds = _depositPeriodDays * 24 * 60 * 60;
-				const txnResponse = await contract.extendDeposit(_bountyAddress, _depositId, seconds);
-				const txnReceipt = await txnResponse.wait();
-				console.log(txnReceipt);
-				resolve(txnReceipt);
-			} catch (err) {
-				reject(err);
-			}
-		});
-		return promise;
-	}
+  async isWhitelisted(library, tokenAddress) {
+    const promise = new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.DepositManager(signer);
+      try {
+        const isWhitelisted = await contract.isWhitelisted(tokenAddress);
+        resolve(isWhitelisted);
+      } catch (err) {
+        reject(err);
+      }
+    });
+    return promise;
+  }
 
+  handleError(jsonRpcError, data) {
+    let errorString = jsonRpcError?.data?.message;
+    console.log(errorString);
 
-	async refundDeposit(library, _bountyAddress, _depositId) {
-		const promise = new Promise(async (resolve, reject) => {
-			const signer = library.getSigner();
-			const contract = this.DepositManager(signer);
-			try {
-				const txnResponse = await contract.refundDeposit(_bountyAddress, _depositId);
-				const txnReceipt = await txnResponse.wait();
-				console.log(txnReceipt);
-				resolve(txnReceipt);
-			} catch (err) {
-				reject(err);
-			}
-		});
-		return promise;
-	}
+    // Data messages - more specific than jsonRpcError.message
+    if (errorString) {
+      for (const error of jsonRpcErrors) {
+        const revertString = Object.keys(error)[0];
+        if (errorString.includes(revertString)) {
+          const title = error[revertString]['title'];
+          const message = error[revertString].message(data);
+          const link = error[revertString].link;
+          const linkText = error[revertString].linkText;
+          return { title, message, link, linkText };
+        }
+      }
+    }
 
-	async tokenAddressLimitReached(library, _bountyAddress) {
-		const promise = new Promise(async (resolve, reject) => {
-			const signer = library.getSigner();
-			const contract = this.DepositManager(signer);
-			try {
-				const tokenAddressLimitReached = await contract.tokenAddressLimitReached(_bountyAddress);
-				resolve(tokenAddressLimitReached);
-			} catch (err) {
-				reject(err);
-			}
-		});
-		return promise;
-	}
+    let miscError;
+    console.log(jsonRpcError);
+    if (typeof jsonRpcError === 'string') {
+      if (jsonRpcError.includes('Ambire user rejected the request')) {
+        miscError = 'USER_DENIED_TRANSACTION';
+      }
+      if (jsonRpcError.includes('Rejected Request')) {
+        miscError = 'USER_DENIED_TRANSACTION';
+      }
+      if (jsonRpcError.includes('Transaction was rejected')) {
+        miscError = 'USER_DENIED_TRANSACTION';
+      }
+    }
 
-	async isWhitelisted(library, tokenAddress) {
-		const promise = new Promise(async (resolve, reject) => {
-			const signer = library.getSigner();
-			const contract = this.DepositManager(signer);
-			try {
-				const isWhitelisted = await contract.isWhitelisted(tokenAddress);
-				resolve(isWhitelisted);
-			} catch (err) {
-				reject(err);
-			}
-		});
-		return promise;
-	}
+    if (jsonRpcError.message) {
+      if (jsonRpcError.message.includes('Nonce too high.')) {
+        miscError = 'NONCE_TO_HIGH';
+      }
+      if (jsonRpcError.message.includes('User denied transaction signature')) {
+        miscError = 'USER_DENIED_TRANSACTION';
+      }
+      if (jsonRpcError.message.includes('Transaction was rejected')) {
+        miscError = 'USER_DENIED_TRANSACTION';
+      }
+      if (jsonRpcError.message.includes('MetaMask is having trouble connecting to the network')) {
+        miscError = 'METAMASK_HAVING_TROUBLE';
+      }
+      if (jsonRpcError.message.includes('Internal JSON-RPC error')) {
+        miscError = 'INTERNAL_ERROR';
+      }
+      if (jsonRpcError.message.includes('Set a higher gas fee')) {
+        miscError = 'UNDERPRICED_TXN';
+      }
+      if (jsonRpcError.message.includes('CFA: flow does not exist')) {
+        miscError = 'CFA_DOES_NOT_EXIST';
+      }
+      if (jsonRpcError.message.includes('CFA: flow already exist')) {
+        miscError = 'CFA_EXISTS';
+      }
+      if (jsonRpcError.message.includes('COMPETITION_ALREADY_CLOSED')) {
+        miscError = 'COMPETITION_ALREADY_CLOSED';
+      }
+      if (jsonRpcError.message.includes('ONGOING_BOUNTY_ALREADY_CLOSED')) {
+        miscError = 'ONGOING_BOUNTY_ALREADY_CLOSED';
+      }
+    }
 
-	handleError(jsonRpcError, data) {
-		let errorString = jsonRpcError?.data?.message;
-		console.log(errorString);
+    if (!miscError) {
+      errorString = 'CALL_EXCEPTION';
+      miscError = 'CALL_EXCEPTION';
+    }
 
-		// Data messages - more specific than jsonRpcError.message
-		if (errorString) {
-			for (const error of jsonRpcErrors) {
-				const revertString = Object.keys(error)[0];
-				if (errorString.includes(revertString)) {
-					const title = error[revertString]['title'];
-					const message = error[revertString].message(data);
-					const link = error[revertString].link;
-					const linkText = error[revertString].linkText;
-					return { title, message, link, linkText };
-				}
-			}
-		}
+    for (const error of jsonRpcErrors) {
+      const revertString = Object.keys(error)[0];
+      if (miscError.includes(revertString)) {
+        const title = error[revertString]['title'];
+        const message = error[revertString].message(data);
+        const link = error[revertString].link;
+        const linkText = error[revertString].linkText;
+        return { title, message, link, linkText };
+      }
+    }
 
-		let miscError;
-		console.log(jsonRpcError);
-		if (typeof jsonRpcError === 'string') {
-			if (jsonRpcError.includes('Ambire user rejected the request')) { miscError = 'USER_DENIED_TRANSACTION'; }
-			if (jsonRpcError.includes('Rejected Request')) { miscError = 'USER_DENIED_TRANSACTION'; }
-			if (jsonRpcError.includes('Transaction was rejected')) { miscError = 'USER_DENIED_TRANSACTION'; }
-		}
-
-		if (jsonRpcError.message) {
-			if (jsonRpcError.message.includes('Nonce too high.')) { miscError = 'NONCE_TO_HIGH'; }
-			if (jsonRpcError.message.includes('User denied transaction signature')) { miscError = 'USER_DENIED_TRANSACTION'; }
-			if (jsonRpcError.message.includes('Transaction was rejected')) { miscError = 'USER_DENIED_TRANSACTION'; }
-			if (jsonRpcError.message.includes('MetaMask is having trouble connecting to the network')) { miscError = 'METAMASK_HAVING_TROUBLE'; }
-			if (jsonRpcError.message.includes('Internal JSON-RPC error')) { miscError = 'INTERNAL_ERROR'; }
-			if (jsonRpcError.message.includes('Set a higher gas fee')) { miscError = 'UNDERPRICED_TXN'; }
-			if (jsonRpcError.message.includes('CFA: flow does not exist')) { miscError = 'CFA_DOES_NOT_EXIST'; }
-			if (jsonRpcError.message.includes('CFA: flow already exist')) { miscError = 'CFA_EXISTS'; }
-			if (jsonRpcError.message.includes('COMPETITION_ALREADY_CLOSED')) { miscError = 'COMPETITION_ALREADY_CLOSED'; }
-			if (jsonRpcError.message.includes('ONGOING_BOUNTY_ALREADY_CLOSED')) { miscError = 'ONGOING_BOUNTY_ALREADY_CLOSED'; }
-
-		}
-
-		if (!miscError) {
-			errorString = 'CALL_EXCEPTION';
-			miscError = 'CALL_EXCEPTION';
-		}
-
-		for (const error of jsonRpcErrors) {
-			const revertString = Object.keys(error)[0];
-			if (miscError.includes(revertString)) {
-				const title = error[revertString]['title'];
-				const message = error[revertString].message(data);
-				const link = error[revertString].link;
-				const linkText = error[revertString].linkText;
-				return { title, message, link, linkText };
-			}
-		}
-
-		return 'Unknown Error';
-	}
-
+    return 'Unknown Error';
+  }
 }
 
 export default OpenQClient;

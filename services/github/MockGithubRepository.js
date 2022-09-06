@@ -48,6 +48,20 @@ class MockGithubRepository {
 		return promise;
 	}
 
+  async fetchUserByLogin(login) {
+		const promise = new Promise((resolve, reject) => {
+			axios.get(`http://localhost:3030/githubOrganizations?login=${login}`)
+				.then(result => {
+					resolve(result.data[0]);
+				})
+				.catch(error => {
+					reject(error);
+				});
+		});
+
+		return promise;
+  }	
+
 	async fetchIssueByUrl(issueUrl) {
 		const promise = new Promise((resolve, reject) => {
 			axios.get(`http://localhost:3030/githubIssues?url=${issueUrl}`)
