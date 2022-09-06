@@ -10,10 +10,13 @@ const TierInput = ({ tier, tierVolume, onTierVolumeChange, style }) => {
     setSuffix(appState.utils.handleSuffix(tier));
   }, []);
 
+  const label = `tier ${tier}`;
+
   return (
     <div className={`flex-1 w-11/12 mb-1  ml-4 ${style}`}>
       <input
         name={tier}
+        aria-label={label}
         id='tier-volume'
         autoComplete='off'
         placeholder={`${suffix} winner`}
