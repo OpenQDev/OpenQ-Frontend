@@ -275,29 +275,49 @@ class Utils {
     return [watchedBounties];
   };
 
-  mergeOrdered = (left, right, lProperty, rProperty) => {
-    const mergedArr = [];
-    let il = 0,
-      ir = 0,
-      i = 0;
-    while (il < left.length && ir < right.length) {
-      if (left[il][lProperty] > right[ir][rProperty]) {
-        mergedArr[i++] = left[il++];
-      } else {
-        mergedArr[i++] = right[ir++];
+  mergeOrdered = (inputArr) => {
+    // tracks what index need to be refered to in each object in the input arr
+    const progressTracker = {};
+    inputArr.forEach((_, index) => {
+      progressTracker[index] = 0;
+    });
+
+    // holds results
+    const returnArr = [];
+
+    // tracks index algorthim is on in the return arr
+    let returnArrIndex = 0;
+
+    const expectedLength = inputArr.map((input) => input.arr).flat().length;
+    while (returnArrIndex < expectedLength) {
+      // holds highest value which hasn't been added to return arr
+      let highest = { sortValue: 0 };
+
+      // iterates through input arr and sets current highest to correct values;
+      inputArr.forEach((currentObject, i) => {
+        // where are we in the arr that this object holds.
+        const currentObjectProgress = progressTracker[i];
+        let currentObjectArr = currentObject.arr;
+
+        // only continue if the tracked index has a value
+        if (currentObjectProgress < currentObjectArr.length) {
+          // the prop we are sorting based on
+          let currentPropValue = currentObject.prop;
+          const sortValue = currentObjectArr[currentObjectProgress][currentPropValue];
+          if (sortValue > highest.sortValue) {
+            highest.sortValue = sortValue;
+            highest.index = i;
+            highest.obj = currentObjectArr[currentObjectProgress];
+          }
+        }
+      });
+      if (highest.sortValue) {
+        returnArr[returnArrIndex] = highest;
+        progressTracker[highest.index]++;
       }
+      returnArrIndex++;
     }
-    if (left[ir]) {
-      while (il < left.length) {
-        mergedArr[i++] = left[il++];
-      }
-    }
-    if (right[ir]) {
-      while (right[ir]?.[rProperty]) {
-        mergedArr[i++] = right[ir++];
-      }
-    }
-    return mergedArr;
+    return returnArr.map((elem) => elem.obj);
   };
 
   capitalize = (word) => {
