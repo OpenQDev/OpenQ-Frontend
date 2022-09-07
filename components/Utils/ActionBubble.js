@@ -1,4 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import Skeleton from 'react-loading-skeleton';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import StoreContext from '../../store/Store/StoreContext';
@@ -6,6 +8,7 @@ import useEns from '../../hooks/useENS';
 import { ethers } from 'ethers';
 import Jazzicon from './Jazzicon';
 import useWeb3 from '../../hooks/useWeb3';
+import ToolTipNew from './ToolTipNew';
 
 const ActionBubble = ({ addresses, bounty, action }) => {
   const [appState] = useContext(StoreContext);
@@ -32,28 +35,57 @@ const ActionBubble = ({ addresses, bounty, action }) => {
   };
   const minter = minterEnsName || (bounty.issuer && shortenAddress(bounty.issuer.id));
 
-  let title = `${minter} minted this contract on ${appState.utils.formatUnixDate(bounty.bountyMintTime)}.`;
+  let titlePartOne = `${minter} minted this contract on ${appState.utils.formatUnixDate(bounty.bountyMintTime)}.`;
+  let titlePartTwo = '';
+  let avatarUrl, url, name;
   let address = bounty.issuer?.id;
   if (!action && !minter) {
     if (justMinted) {
-      title = `${account} minted this contract on ${appState.utils.formatUnixDate(Date.now() / 1000)}.`;
+      titlePartOne = `${account} minted this contract on ${appState.utils.formatUnixDate(Date.now() / 1000)}.`;
     } else {
-      title = 'Waiting for this contract to be indexed by the Graph.';
+      titlePartOne = 'Waiting for this contract to be indexed by the Graph.';
     }
   }
 
   if (action?.closingTime) {
-    title = `${minter} closed this contract on ${appState.utils.formatUnixDate(action.closingTime)}.`;
+    titlePartOne = `${minter} closed this contract on ${appState.utils.formatUnixDate(action.closingTime)}.`;
   }
 
   if (action?.claimTime) {
     const claimant = claimantEnsName || shortenAddress(action.claimant.id);
     address = action.claimant.id;
     if (bounty.bountyType === '0') {
-      title = `${claimant} claimed this contract on ${appState.utils.formatUnixDate(action.claimTime)}.`;
+      titlePartOne = `${claimant} claimed this contract on ${appState.utils.formatUnixDate(action.claimTime)}.`;
     } else {
-      title = `${claimant} made a claim on this contract on ${appState.utils.formatUnixDate(action.claimTime)}.`;
+      titlePartOne = `${claimant} made a claim on this contract on ${appState.utils.formatUnixDate(action.claimTime)}.`;
     }
+  }
+  if (action?.referencedTime) {
+    if (action.mergedTime) {
+      console.log(action.mergeCommit);
+      const author = action.mergeCommit.author;
+      avatarUrl = author.avatarUrl;
+      name = author.user.login;
+      url = author.user.url;
+      address = name;
+      titlePartOne = `${name} merged linked pull request: `;
+      titlePartTwo = ` on ${appState.utils.formatUnixDate(action.referencedTime)}.`;
+    } else {
+      avatarUrl = action.author.avatarUrl;
+      name = action.author.login;
+      url = action.author.url;
+      address = name;
+      titlePartOne = `${name} linked `;
+      titlePartTwo = ` to this issue on ${appState.utils.formatUnixDate(action.referencedTime)}.`;
+    }
+  }
+
+  if (action?.issueClosedTime) {
+    avatarUrl = action.actor.avatarUrl;
+    name = action.actor.login;
+    url = action.actor.url;
+    address = name;
+    titlePartOne = `${name} closed this issue on ${appState.utils.formatUnixDate(action.issueClosedTime)}.`;
   }
 
   if (action?.receiveTime || action?.refundTime) {
@@ -65,14 +97,13 @@ const ActionBubble = ({ addresses, bounty, action }) => {
     let decimals = parseInt(tokenMetadata.decimals) || 18;
     let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
     if (action.receiveTime) {
-      title = `${funder} funded this contract with ${formattedVolume} ${
+      titlePartOne = `${funder} funded this contract with ${formattedVolume} ${
         tokenMetadata.symbol
       } (${appState.utils.formatter.format(tokenValues?.total)}) on ${appState.utils.formatUnixDate(
         action.receiveTime
       )}.`;
-    }
-    if (action.refundTime) {
-      title = `${funder} refunded a deposit of ${formattedVolume} ${
+    } else if (action.refundTime) {
+      titlePartOne = `${funder} refunded a deposit of ${formattedVolume} ${
         tokenMetadata.symbol
       } (${appState.utils.formatter.format(tokenValues?.total)}) on ${appState.utils.formatUnixDate(
         action.refundTime
@@ -82,7 +113,17 @@ const ActionBubble = ({ addresses, bounty, action }) => {
   return (
     <div className='w-full pt-4 flex relative'>
       {action ? (
-        <Jazzicon styles={'w-fit'} size={36} address={address} tooltipPosition={'-left-2'} />
+        avatarUrl ? (
+          <Link href={url}>
+            <a className='w-9 h-9 flex-none'>
+              <ToolTipNew toolTipText={name} relativePosition={'-left-2'} outerStyles={'relative bottom-2'}>
+                <Image className='rounded-full' height={36} width={36} src={avatarUrl} />
+              </ToolTipNew>
+            </a>
+          </Link>
+        ) : (
+          <Jazzicon tooltipPosition={'-left-2'} size={36} address={address} />
+        )
       ) : (
         <div className='relative w-9'>
           {addresses.reverse().map((address, index) => {
@@ -91,18 +132,24 @@ const ActionBubble = ({ addresses, bounty, action }) => {
                 key={index}
                 className={`h-4 w-10 z-${30 - index * 10} bg-transparent cursor-pointer relative hover:z-40`}
               >
-                <div className='border-2 bg-dark-mode border-dark-mode hover:border-pink-500 rounded-lg h-10 w-10'>
-                  <Jazzicon tooltipPosition={'-left-2'} key={index} size={36} address={address} />
-                </div>
+                <Jazzicon tooltipPosition={'-left-2'} key={index} size={36} address={address} />
               </div>
             );
           })}
         </div>
       )}
-      <div className='w-full flex-0 rounded-sm overflow-hidden ml-4 border-web-gray border-b before:w-2 before:h-2 before:bg-nav-bg before:absolute before:absolute before:left-12 before:top-[35px] before:border-b  before:border-l before:border-web-gray before:top-10 before:rotate-45  border'>
+      <div className='w-full flex-0 rounded-sm overflow-hidden ml-4 border-web-gray border-b before:w-2 before:h-2 before:bg-nav-bg before:absolute before:absolute before:left-12 before:top-[34px] before:border-b  before:border-l before:border-web-gray before:top-10 before:rotate-45  border'>
         <div className={`bg-nav-bg w-full pl-3 ${!action && 'border-web-gray'} flex justify-between`}>
           <span className='py-2'>
-            {tokenValues || (!action?.receiveTime && !action?.refundTime) ? title : <Skeleton width='34' />}
+            <span data-testid='actionTitle'>
+              {tokenValues || (!action?.receiveTime && !action?.refundTime) ? titlePartOne : <Skeleton width='34' />}
+            </span>
+            {action?.url && (
+              <a className='inline underline' href={action.url}>
+                {action.title}
+              </a>
+            )}
+            <span>{titlePartTwo}</span>
           </span>
           {action?.refunded && (
             <span className='flex items-center border rounded-sm border-web-gray px-2 py-px m-1'> Refunded</span>
