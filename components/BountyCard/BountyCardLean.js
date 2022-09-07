@@ -152,7 +152,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                 {bounty.bountyType === '0' ? (
                   <span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
                     <PersonIcon />
-                    <div className='whitespace-nowrap'>Single</div>
+                    <div className='whitespace-nowrap'>Fixed Price</div>
                   </span>
                 ) : bounty.bountyType === '1' ? (
                   <span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
@@ -163,7 +163,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                   (bounty.bountyType === '2' || bounty.bountyType === '3') && (
                     <span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
                       <PeopleIcon />
-                      <div className='whitespace-nowrap'>Weighted</div>
+                      <div className='whitespace-nowrap'>Contest</div>
                     </span>
                   )
                 )}

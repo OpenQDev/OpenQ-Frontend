@@ -185,11 +185,11 @@ class Utils {
     }
   };
 
-  fetchOrganizations = async ({ githubRepository, openQPrismaClient }, category) => {
+  fetchOrganizations = async ({ githubRepository, openQPrismaClient }, types) => {
     let githubOrganizations = [];
     let renderError = '';
     const batch = 100;
-    const orgData = await openQPrismaClient.getOrganizations(category, batch);
+    const orgData = await openQPrismaClient.getOrganizations(types, batch);
     const filteredOrgs = orgData.organizations.filter((data) => !data.blacklisted);
     const orgIds = filteredOrgs.map((org) => org.id);
     try {
@@ -256,12 +256,12 @@ class Utils {
     return [fullBounties, newCursor, renderError];
   };
 
-  fetchWatchedBounties = async ({ openQSubgraphClient, githubRepository, openQPrismaClient }, account, category) => {
+  fetchWatchedBounties = async ({ openQSubgraphClient, githubRepository, openQPrismaClient }, account, types) => {
     let subgraphContracts = [];
     let githubIssues = [];
     let prismaContracts = [];
     try {
-      const prismaResult = await openQPrismaClient.getUser(account, category);
+      const prismaResult = await openQPrismaClient.getUser(account, types);
       prismaContracts = prismaResult?.watchedBounties.nodes || [];
       const watchedBountyAddresses = prismaResult?.watchedBountyIds.map((address) => address.toLowerCase()) || [];
       const watchedBountyIds = prismaContracts.map((contract) => contract.bountyId);

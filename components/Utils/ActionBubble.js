@@ -62,7 +62,6 @@ const ActionBubble = ({ addresses, bounty, action }) => {
   }
   if (action?.referencedTime) {
     if (action.mergedTime) {
-      console.log(action.mergeCommit);
       const author = action.mergeCommit.author;
       avatarUrl = author.avatarUrl;
       name = author.user.login;

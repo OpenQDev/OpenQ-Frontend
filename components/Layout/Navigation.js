@@ -163,7 +163,7 @@ const Navigation = () => {
               <div className='flex-col justify-center mr-2 h-7 group '>
                 <input
                   className={`lg:flex hidden pr-24 items-center focus:w-80 w-60  left-0 input-field transition-all  ease-in-out duration-700 ${
-                    quickSearch && 'focus:w-96'
+                    quickSearch && 'focus:w-80'
                   }`}
                   onChange={handleSearch}
                   value={quickSearch}

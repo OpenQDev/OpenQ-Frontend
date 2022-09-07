@@ -306,7 +306,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
             <div className='w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-1'>
               {!hideSubmenu && (
                 <SubMenu
-                  items={[{ name: 'Single' }, { name: 'Multi' }, { name: 'Weighted' }]}
+                  items={[{ name: 'Fixed Price' }, { name: 'Contest' }]}
                   internalMenu={category}
                   updatePage={setCategory}
                   styles={'justify-center'}

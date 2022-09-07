@@ -42,7 +42,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
   const [token, setToken] = useState(zeroAddressMetadata);
   const bountyName =
     bounty.bountyType == 0
-      ? 'Atomic Contract'
+      ? 'Fixed Price'
       : bounty.bountyType == 1
       ? 'Repeatable Contract'
       : bounty.bountyType == 2
