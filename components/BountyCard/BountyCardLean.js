@@ -17,7 +17,8 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
   const bountyName = bounty?.title.toLowerCase() || '';
   const [appState] = useContext(StoreContext);
   const [isModal, setIsModal] = useState();
-
+  const currentDate = Date.now();
+  const relativeDeployDay = parseInt((currentDate - bounty?.bountyMintTime * 1000) / 86400000);
   const createTokenBalances = (bounty) => {
     return bounty?.bountyTokenBalances;
   };
@@ -108,7 +109,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                 {loading ? (
                   <Skeleton width={'100%'} />
                 ) : (
-                  `Deployed: ${appState.utils.formatUnixDate(parseInt(bounty?.bountyMintTime))}`
+                  `Deployed: ${relativeDeployDay} day${relativeDeployDay === 1 ? '' : 's'} ago.`
                 )}
               </div>
             </div>
