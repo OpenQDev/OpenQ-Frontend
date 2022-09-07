@@ -47,13 +47,13 @@ const DepositCard = ({
             </div>
           )}
         </div>
-        {status === 'refundable' && (
+        
           <div className='flex flex-col space-y-3 w-44 pl-3 text-primary'>
+          {status === 'refundable' && (
             <ToolTipNew
               outerStyles='flex'
               hideToolTip={isOnCorrectNetwork}
               toolTipText={'Please switch to the correct network to refund this deposit.'}
-              customOffsets={[0, 46]}
             >
               <button
                 onClick={() => refundBounty(deposit.id)}
@@ -63,7 +63,7 @@ const DepositCard = ({
                 Refund
               </button>
             </ToolTipNew>
-
+          )}
             {expanded ? (
               <div className=' text-primary flex flex-col md:flex-row md:space-x-2 items-center'>
                 <div className='flex w-full input-field-big pl-4 justify-between'>
@@ -119,7 +119,6 @@ const DepositCard = ({
                 outerStyles='flex self-center'
                 hideToolTip={isOnCorrectNetwork}
                 toolTipText={'Please switch to the correct network to refund this deposit.'}
-                customOffsets={[0, 46]}
               >
                 <button
                   onClick={() => setExpanded(!expanded)}
@@ -131,7 +130,7 @@ const DepositCard = ({
               </ToolTipNew>
             )}
           </div>
-        )}
+        
       </div>
     </div>
   );
