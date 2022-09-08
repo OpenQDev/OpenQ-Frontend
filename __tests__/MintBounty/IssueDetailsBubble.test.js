@@ -116,7 +116,7 @@ describe('IssueDetailsBubble', () => {
     // ARRANGE
     render(<IssueDetailsBubble issueData={mintableIssue} />);
 
-    expect(screen.getByText('Created on May 3, 2022 at 7:05')).toBeInTheDocument();
+    expect(screen.getByText('Created on May 3, 2022 at 11:05')).toBeInTheDocument();
     expect(screen.getByText(/Mintable Issue/i)).toBeInTheDocument();
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
@@ -127,7 +127,7 @@ describe('IssueDetailsBubble', () => {
     // ARRANGE
     render(<IssueDetailsBubble issueData={unmintableIssue} />);
 
-    expect(screen.getByText('Created on May 3, 2022 at 7:05')).toBeInTheDocument();
+    expect(screen.getByText('Created on May 3, 2022 at 11:05')).toBeInTheDocument();
     expect(screen.getByText(/Mintable Issue/i)).toBeInTheDocument();
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];

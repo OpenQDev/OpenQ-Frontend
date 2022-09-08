@@ -53,13 +53,13 @@ describe('MiniDepositList', () => {
     render(<MiniDepositList deposits={deposits} />);
 
     // ASSERT
-    expect(screen.getByText(/Deposited on: June 3, 2022 at 8:54/)).toBeInTheDocument();
+    expect(screen.getByText(/Deposited on: June 3, 2022 at 12:54/)).toBeInTheDocument();
   });
   it('should render Bounty heading', async () => {
     // ARRANGE
     render(<MiniDepositList deposits={deposits} />);
 
     // ASSERT
-    expect(screen.getByText(/Refundable on: July 3, 2022 at 8:55/)).toBeInTheDocument();
+    expect(screen.getByText(/Refundable on: July 3, 2022 at 12:55/)).toBeInTheDocument();
   });
 });

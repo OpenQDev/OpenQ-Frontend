@@ -180,7 +180,7 @@ describe('ActionBubble', () => {
 
     render(<ActionBubble bounty={bounty} addresses={addresses} />);
     // ASSERT
-    expect(await screen.findByText('sample.eth minted this contract on August 29, 2022 at 6:12.'));
+    expect(await screen.findByText('sample.eth minted this contract on August 29, 2022 at 10:12.'));
     expect(screen.getByText(/body of test2/i)).toBeInTheDocument();
   });
 
@@ -208,7 +208,7 @@ describe('ActionBubble', () => {
 
     // ASSERT
     expect(
-      await screen.findByText('0xf3...2266 funded this contract with 10.0 MATIC ($6.70) on January 3, 1970 at 2:33.')
+      await screen.findByText('0xf3...2266 funded this contract with 10.0 MATIC ($6.70) on January 3, 1970 at 7:33.')
     );
   });
 
@@ -223,7 +223,7 @@ describe('ActionBubble', () => {
     render(<ActionBubble action={{ ...action }} bounty={bounty} addresses={addresses} />);
 
     // ASSERT
-    expect(await screen.findByText('0xf3...2266 refunded a deposit of 10.0 MATIC ($6.70) on January 3, 1970 at 2:33.'));
+    expect(await screen.findByText('0xf3...2266 refunded a deposit of 10.0 MATIC ($6.70) on January 3, 1970 at 7:33.'));
   });
 
   it('should display multi claimed action message', async () => {
@@ -238,7 +238,7 @@ describe('ActionBubble', () => {
     render(<ActionBubble action={action} bounty={bounty} addresses={addresses} />);
 
     // ASSERT
-    expect(await screen.findByText('sample.eth made a claim on this contract on January 3, 1970 at 2:33.'));
+    expect(await screen.findByText('sample.eth made a claim on this contract on January 3, 1970 at 7:33.'));
   });
   it('should display single claimed action message', async () => {
     // ARRANGE
@@ -252,7 +252,7 @@ describe('ActionBubble', () => {
     render(<ActionBubble action={action} bounty={{ ...bounty, bountyType: '0' }} addresses={addresses} />);
 
     // ASSERT
-    expect(await screen.findByText('sample.eth claimed this contract on January 3, 1970 at 2:33.'));
+    expect(await screen.findByText('sample.eth claimed this contract on January 3, 1970 at 7:33.'));
   });
   it('should display closed action message', async () => {
     // ARRANGE
@@ -266,7 +266,7 @@ describe('ActionBubble', () => {
     render(<ActionBubble action={action} bounty={{ ...bounty, bountyType: '0' }} addresses={addresses} />);
 
     // ASSERT
-    expect(await screen.findByText('sample.eth closed this contract on January 3, 1970 at 2:33.'));
+    expect(await screen.findByText('sample.eth closed this contract on January 3, 1970 at 7:33.'));
   });
   it('should display pull request linked action message', async () => {
     // ARRANGE

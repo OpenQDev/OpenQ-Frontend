@@ -203,12 +203,12 @@ describe('RefundPage', () => {
       render(<RefundPage bounty={bounty} />);
       let heading = await screen.findByText('Your Deposits');
       const refundBtn = await screen.findByRole('button', { name: /Refund/i });
-      const extendBtn = await screen.findByRole('button', { name: /Extend/i });
+      const extendBtn = await screen.findAllByRole('button', { name: /Extend/i });
 
       // ASSERT
       expect(heading).toBeInTheDocument();
       expect(refundBtn).toBeInTheDocument();
-      expect(extendBtn).toBeInTheDocument();
+      expect(extendBtn).toHaveLength(3);
 
       // ASSERT
       const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
@@ -221,7 +221,7 @@ describe('RefundPage', () => {
       const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
       // ASSERT
       expect(nullish).toHaveLength(0);
-      expect(screen.getAllByText(/Refundable on: September 5, 2022 at 12:44/)).toHaveLength(3);
+      expect(screen.getAllByText(/Refundable on: September 5, 2022 at 16:44/)).toHaveLength(3);
     });
 
     it('should render refunded', async () => {
@@ -232,7 +232,7 @@ describe('RefundPage', () => {
       // ASSERT
       expect(heading).toBeInTheDocument();
       // ASSERT
-      expect(screen.getAllByText(/Refunded on: September 5, 2022 at 12:44/)).toHaveLength(1);
+      expect(screen.getAllByText(/Refunded on: September 5, 2022 at 16:44/)).toHaveLength(1);
       const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
       expect(nullish).toHaveLength(0);
     });
