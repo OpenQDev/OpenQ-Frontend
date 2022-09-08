@@ -64,6 +64,7 @@ const DepositCard = ({
               </button>
             </ToolTipNew>
           )}
+          {status !== 'refunded' && <>
             {expanded ? (
               <div className=' text-primary flex flex-col md:flex-row md:space-x-2 items-center'>
                 <div className='flex w-full input-field-big pl-4 justify-between'>
@@ -128,7 +129,8 @@ const DepositCard = ({
                   Extend
                 </button>
               </ToolTipNew>
-            )}
+            )} </>
+            }
           </div>
         
       </div>
