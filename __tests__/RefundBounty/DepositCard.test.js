@@ -48,29 +48,7 @@
         refundTime: '1662407371',
         sender: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
         __typename: 'Deposit',
-      },
-      {
-        id: '0x8f5c1c912b8ffca325a22eadb33d6d54fa8e85b3752f2392eb54ecc6dd24b1e1',
-        refunded: false,
-        receiveTime: '1662395948',
-        tokenAddress: '0x0000000000000000000000000000000000000000',
-        expiration: '2592000',
-        volume: '23000000000000000000',
-        refundTime: null,
-        sender: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
-        __typename: 'Deposit',
-      },
-      {
-        id: '0x9c5e530511dff239da2c1c1205649aaa24fe2cc797d583a162744f26d623726a',
-        refunded: false,
-        receiveTime: '1662395897',
-        tokenAddress: '0x0000000000000000000000000000000000000000',
-        expiration: '2592000',
-        volume: '23000000000000000000',
-        refundTime: null,
-        sender: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
-        __typename: 'Deposit',
-      },
+      }
      ];
    const isoDate = 1662396272728;
    const RealDate = Date;
@@ -86,7 +64,7 @@
    });
  
    const test = (deposit) => {
-     it('should render the heading', async () => {
+     it('should render the volume and name of token', async () => {
        // ARRANGE
        render(<DepositCard deposit={deposit} />);
        let heading = await screen.findByText(/23.00 MATIC/i);
@@ -95,7 +73,7 @@
        expect(heading).toBeInTheDocument();
      });
  
-     it('should render refundable', async () => {
+     it('should render refund and extend button when refundable', async () => {
        // ARRANGE
        render(<DepositCard deposit={deposit} status={'refundable'} />);
        const refundBtn = await screen.findByRole('button', { name: /Refund/i });
@@ -109,22 +87,32 @@
        const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
        expect(nullish).toHaveLength(0);
      });
-     it('should render times, including not yet refundable times', async () => {
+     it('should render times whether refundable or not', async () => {
        // ARRANGE
        render(<DepositCard deposit={deposit} />);
  
        const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
        // ASSERT
        expect(nullish).toHaveLength(0);
-       expect(screen.getByText(/Refundable on: September 5, 2022 at 16:44/)).toBeInTheDocument();
+       if(deposit.refunded) {
+        expect(screen.getByText(/Refunded on: September 5, 2022 at 16:44/)).toBeInTheDocument();
+       } else {
+        expect(screen.getByText(/Refundable on: September 5, 2022 at 16:44/)).toBeInTheDocument();
+       }
      });
  
-     it('should render refunded', async () => {
+     it('should render extend button when not refunded yet', async () => {
        // ARRANGE
-       render(<DepositCard deposit={deposits[3]} />);
+       render(<DepositCard deposit={deposit} />);
+       const extendBtn = await screen.findByRole('button', { name: /Extend/i });
  
        // ASSERT
-       expect(screen.getAllByText(/Refunded on: September 5, 2022 at 16:44/)).toHaveLength(1);
+       if(deposit.status !== 'refunded') {
+        expect(extendBtn).toBeInTheDocument();
+       } else {
+        expect(extendBtn).toHaveLength(0);
+       }
+       
        const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
        expect(nullish).toHaveLength(0);
      });
