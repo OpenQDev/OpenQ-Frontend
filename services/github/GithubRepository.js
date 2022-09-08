@@ -68,7 +68,10 @@ class GithubRepository {
   parseIssueData(rawIssueResponse) {
     try {
       const responseData = rawIssueResponse.data.node;
-      const prs = responseData.timelineItems.edges.map((edge) => edge.node);
+      const timelineItems = responseData.timelineItems.nodes;
+      const prs = timelineItems.filter((event) => event?.source?.__typename === 'PullRequest');
+      const closedEvents = timelineItems.filter((event) => event?.__typename === 'ClosedEvent');
+      const closedAt = responseData.closedAt;
       const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = responseData;
       const repoName = responseData.repository.name;
       const avatarUrl = responseData.repository.owner.avatarUrl;
@@ -84,6 +87,7 @@ class GithubRepository {
         body,
         url,
         repoName,
+        closedAt,
         owner,
         avatarUrl,
         labels,
@@ -94,30 +98,17 @@ class GithubRepository {
         twitterUsername,
         number,
         prs,
+        closedEvents,
       };
     } catch (err) {
       console.log(err);
       let id,
         title,
+        assignees,
         body,
         url,
         repoName,
-        owner,
-        avatarUrl,
-        labels,
-        createdAt,
-        closed,
-        bodyHTML,
-        titleHTML,
-        twitterUsername,
-        number,
-        prs;
-      return {
-        id,
-        title,
-        body,
-        url,
-        repoName,
+        closedAt,
         owner,
         avatarUrl,
         labels,
@@ -128,6 +119,26 @@ class GithubRepository {
         twitterUsername,
         number,
         prs,
+        closedEvents;
+      return {
+        id,
+        title,
+        assignees,
+        body,
+        url,
+        repoName,
+        owner,
+        avatarUrl,
+        labels,
+        createdAt,
+        closedAt,
+        closed,
+        bodyHTML,
+        titleHTML,
+        twitterUsername,
+        number,
+        prs,
+        closedEvents,
       };
     }
   }

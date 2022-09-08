@@ -45,7 +45,6 @@ const useAuth = () => {
     async function checkAccount() {
       const response = await appState.authService.hasSignature(account);
       if (response.data.status && !didCancel) {
-        console.log(didCancel, response);
         setAuthState({
           type: 'UPDATE_SIGNED_ACCOUNT',
           payload: { addressRecovered: response.data.addressRecovered },

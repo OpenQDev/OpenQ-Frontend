@@ -115,10 +115,10 @@ const BountyList = ({
     let types = ['0', '1', '2', '3'];
 
     switch (contractType) {
-      case 'Single':
+      case 'Fixed Price':
         types = ['0'];
         break;
-      case 'Weighted':
+      case 'Contest':
         types = ['2', '3'];
         break;
       case 'Multi':
@@ -346,7 +346,7 @@ const BountyList = ({
               styles='whitespace-nowrap'
               width='36'
               title='Contract Type'
-              names={['Single', 'Multi', 'Weighted', 'All']}
+              names={['Fixed Price', 'Contest', 'All']}
               borderShape={'rounded-r-lg'}
             />
           )}

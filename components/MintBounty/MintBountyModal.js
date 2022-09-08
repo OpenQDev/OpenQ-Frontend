@@ -31,7 +31,6 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
     chainId: 80001,
     path: 'https://wallet-asset.matic.network/img/tokens/matic.svg',
   };
-
   // State
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const [issue, setIssue] = useState();
@@ -49,7 +48,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
   const [finalTierVolume, setFinalTierVolume] = useState([]);
   const [payoutVolume, setPayoutVolume] = useState('');
   const [payoutToken, setPayoutToken] = useState(zeroAddressMetadata);
-  const initialCategory = types[0] === '1' ? 'Repeating' : types[0] === '2' ? 'Contest' : 'Atomic';
+  const initialCategory = types[0] === '1' ? 'Repeating' : types[0] === '2' || types[0] === '3' ? 'Contest' : 'Atomic';
   const [category, setCategory] = useState(initialCategory);
   const [goalVolume, setGoalVolume] = useState('');
   const [goalToken, setGoalToken] = useState(zeroAddressMetadata);
@@ -120,15 +119,19 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
         if (issueData) {
           try {
             let bounty = await appState.openQSubgraphClient.getBountyByGithubId(issueData.id);
-            setClosed(bounty.status == '1');
+            if (!didCancel) {
+              setClosed(bounty?.status == '1');
+            }
             if (bounty) {
               setBountyAddress(bounty.bountyAddress);
+            } else {
+              if (!didCancel) {
+                setEnableMint(true);
+                setBountyAddress();
+              }
             }
           } catch (error) {
-            if (!didCancel) {
-              setEnableMint(true);
-              setBountyAddress();
-            }
+            console.error(error);
           }
         }
       }
@@ -303,7 +306,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
             <div className='w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-1'>
               {!hideSubmenu && (
                 <SubMenu
-                  items={[{ name: 'Single' }, { name: 'Multi' }, { name: 'Weighted' }]}
+                  items={[{ name: 'Fixed Price' }, { name: 'Contest' }]}
                   internalMenu={category}
                   updatePage={setCategory}
                   styles={'justify-center'}
@@ -395,6 +398,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                       {budgetInput ? (
                         <div className='flex-1 w-full mt-2 ml-4'>
                           <TokenFundBox
+                            label='budget'
                             onCurrencySelect={onGoalCurrencySelect}
                             onVolumeChange={handleGoalChange}
                             volume={goalVolume}
@@ -442,6 +446,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                           </div>
                           <div className='flex-1 w-full mt-2 ml-4'>
                             <TokenFundBox
+                              label='split'
                               onCurrencySelect={onCurrencySelect}
                               onVolumeChange={onVolumeChange}
                               token={payoutToken}
@@ -472,6 +477,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                             <input
                               className={'flex-1 input-field w-full'}
                               id='name'
+                              aria-label='tiers'
                               placeholder='0'
                               autoComplete='off'
                               type='text'

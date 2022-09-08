@@ -268,4 +268,23 @@ describe('ActionBubble', () => {
     // ASSERT
     expect(await screen.findByText('sample.eth closed this contract on January 3, 1970 at 2:33.'));
   });
+  it('should display pull request linked action message', async () => {
+    // ARRANGE
+    const url = 'https://github.com/OpenQDev/OpenQ-Frontend/pull/720';
+    const action = {
+      linkingTime: 200000,
+      author: {
+        login: 'Christopher-Stevers',
+        avatarUrl:
+          'http://localhost:3000/_next/image?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F72156679%3Fv%3D4&w=32&q=75',
+      },
+      title: 'update readme.md',
+      url,
+    };
+    render(<ActionBubble action={action} bounty={{ ...bounty, bountyType: '0' }} addresses={addresses} />);
+
+    // ASSERT
+    expect(await screen.findByText(/Christopher-Stevers linked/));
+    expect(screen.getAllByRole('link')[1].href).toBe(url);
+  });
 });

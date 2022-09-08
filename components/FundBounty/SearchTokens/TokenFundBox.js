@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import TokenSearch from './TokenSearch';
 import Image from 'next/image';
 
-const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume, placeholder }) => {
+const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume, placeholder, label }) => {
   const [showTokenSearch, setShowTokenSearch] = useState(false);
 
   return (
@@ -10,7 +10,7 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume, placeho
       <div className='flex w-full flex-row justify-between items-center px-4 input-field-big'>
         <div className={' bg-dark-mode'}>
           <input
-            aria-label='amount'
+            aria-label={label || 'amount'}
             className='font-semibold number outline-none bg-dark-mode text-primary w-full'
             autoComplete='off'
             value={volume}

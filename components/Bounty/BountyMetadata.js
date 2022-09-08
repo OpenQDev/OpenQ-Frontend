@@ -24,16 +24,16 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split, pricesO
 
   switch (bounty.bountyType) {
     case '0':
-      type = 'Single';
+      type = 'Fixed Price';
       break;
     case '1':
       type = 'Multi';
       break;
     case '2':
-      type = 'Weighted';
+      type = 'Contest';
       break;
     case '3':
-      type = 'Weighted';
+      type = 'Contest';
       break;
   }
 
