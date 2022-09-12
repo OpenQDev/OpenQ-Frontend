@@ -54,10 +54,18 @@ const ActionBubble = ({ addresses, bounty, action }) => {
   if (action?.claimTime) {
     const claimant = claimantEnsName || shortenAddress(action.claimant.id);
     address = action.claimant.id;
+    const [tokenValues] = useGetTokenValues(
+      bounty?.payouts?.filter((payout) => payout.closer.id == address && payout.payoutTime == action.claimTime)
+    );
+    const TVL = appState.utils.formatter.format(tokenValues?.total);
     if (bounty.bountyType === '0') {
-      titlePartOne = `${claimant} claimed this contract on ${appState.utils.formatUnixDate(action.claimTime)}.`;
+      titlePartOne = `${claimant} claimed ${TVL} on this contract on ${appState.utils.formatUnixDate(
+        action.claimTime
+      )}.`;
     } else {
-      titlePartOne = `${claimant} made a claim on this contract on ${appState.utils.formatUnixDate(action.claimTime)}.`;
+      titlePartOne = `${claimant} made a claim of ${TVL} on this contract on ${appState.utils.formatUnixDate(
+        action.claimTime
+      )}.`;
     }
   }
   if (action?.referencedTime) {
