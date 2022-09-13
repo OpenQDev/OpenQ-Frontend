@@ -85,22 +85,22 @@ const ClaimOverview = ({ bounty }) => {
       <table>
         <thead>
           <tr>
-            <th className='p-2'></th>
+            <th className='px-2 pb-2'></th>
             {tokenAddresses.map((token) => (
-              <th key={token} className='p-2'>
+              <th key={token} className='px-2 pb-2'>
                 {appState.tokenClient.getToken(token).symbol}
-                <div className='flex justify-between p-2'>
-                  <th className='p-2'>Vol</th>
-                  <th className='p-2'>%</th>
-                  <th className='p-2'>$</th>
+                <div className='flex justify-between px-2 pb-2'>
+                  <th className='px-2 pb-2'>Vol</th>
+                  <th className='px-2 pb-2'>%</th>
+                  <th className='px-2 pb-2'>$</th>
                 </div>
               </th>
             ))}
-            <th className='p-2'>
+            <th className='px-2 pb-2'>
               TOTAL
-              <div className='flex justify-between p-2'>
-                <th className='p-2'>%</th>
-                <th className='p-2'>$</th>
+              <div className='flex justify-between px-2 pb-2'>
+                <th className='px-2 pb-2'>%</th>
+                <th className='px-2 pb-2'>$</th>
               </div>
             </th>
           </tr>
@@ -109,27 +109,27 @@ const ClaimOverview = ({ bounty }) => {
           {claimants.map((claimant, index) => (
             <>
               <tr key={claimant}>
-                <td className='flex gap-4 items-center p-2' key={claimant}>
+                <td className='flex gap-4 items-center px-2 pb-2' key={claimant}>
                   <Jazzicon tooltipPosition={'-left-2'} size={36} address={claimant} />
                   <span>{claimantsShort[index]}</span>
                 </td>
                 {tokenAddresses.map((tokenAddress) => (
-                  <td key={tokenAddress} className='p-2 text-center'>
-                    <td className='p-2 text-center' key={tokenAddress + 1}>
+                  <td key={tokenAddress} className='px-2 pb-2 text-center'>
+                    <td className='px-2 pb-2 text-center' key={tokenAddress + 1}>
                       {bounty.payouts?.some((payout) => payout.closer.id == claimant) ? (
                         <>{claimantVolume(claimant, tokenAddress)}</>
                       ) : (
                         '0.0'
                       )}
                     </td>
-                    <td className='p-2 text-center' key={tokenAddress + 2}>
+                    <td className='px-2 pb-2 text-center' key={tokenAddress + 2}>
                       {bounty.payouts?.some((payout) => payout.closer.id == claimant) ? (
                         <>{claimantPercent(claimant, tokenAddress)} %</>
                       ) : (
                         '0.0'
                       )}
                     </td>
-                    <td className='p-2 text-center' key={tokenAddress + 3}>
+                    <td className='px-2 pb-2 text-center' key={tokenAddress + 3}>
                       {bounty.payouts?.some((payout) => payout.closer.id == claimant) ? (
                         <>{appState.utils.formatter.format(claimantBalances(claimant, tokenAddress))}</>
                       ) : (
@@ -138,41 +138,41 @@ const ClaimOverview = ({ bounty }) => {
                     </td>
                   </td>
                 ))}
-                <td className='flex justify-between p-2 text-center'>
-                  <td className='p-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
-                  <td className='p-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
+                <td className='flex justify-between px-2 pb-2 text-center'>
+                  <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
+                  <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
                 </td>
               </tr>
             </>
           ))}
           <tr className='font-bold items-center border-t border-gray-700'>
-            <td className='p-2'>SubTotal</td>
+            <td className='px-2 pb-2'>SubTotal</td>
             {tokenAddresses.map((tokenAddress) => (
-              <td key={tokenAddress} className='p-2 text-center'>
-                <td className='p-2 text-center' key={tokenAddress + 1}>
+              <td key={tokenAddress} className='px-2 pb-2 text-center'>
+                <td className='px-2 pb-2 text-center' key={tokenAddress + 1}>
                   {bounty.payouts ? <>{claimedVolume(tokenAddress)}</> : '0.0'}
                 </td>
-                <td className='p-2 text-center' key={tokenAddress + 2}>
+                <td className='px-2 pb-2 text-center' key={tokenAddress + 2}>
                   {bounty.payouts ? <>{(claimedVolume(tokenAddress) / totalDeposit(tokenAddress)) * 100} %</> : '0.0'}
                 </td>
-                <td className='p-2 text-center' key={tokenAddress + 3}>
+                <td className='px-2 pb-2 text-center' key={tokenAddress + 3}>
                   {bounty.payouts ? <>{claimedBalances(tokenAddress)}</> : '0.0'}
                 </td>
               </td>
             ))}
-            <td className='p-2 text-center'>
-              <td className='p-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
-              <td className='p-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
+            <td className='px-2 pb-2 text-center'>
+              <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
+              <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
             </td>
           </tr>
           <tr>
-            <td className='p-2'>Still Claimable</td>
+            <td className='px-2'>Still Claimable</td>
             {tokenAddresses.map((tokenAddress) => (
-              <td key={tokenAddress} className='p-2 text-center'>
-                <td className='p-2 text-center' key={tokenAddress + 1}>
+              <td key={tokenAddress} className='px-2 text-center'>
+                <td className='px-2 text-center' key={tokenAddress + 1}>
                   {parseFloat(totalDeposit(tokenAddress) - claimedVolume(tokenAddress)).toFixed(1)}
                 </td>
-                <td className='p-2 text-center' key={tokenAddress + 2}>
+                <td className='px-2 text-center' key={tokenAddress + 2}>
                   {(
                     parseFloat(
                       (totalDeposit(tokenAddress) - claimedVolume(tokenAddress)) / totalDeposit(tokenAddress)
@@ -180,54 +180,54 @@ const ClaimOverview = ({ bounty }) => {
                   ).toFixed(1)}{' '}
                   %
                 </td>
-                <td className='p-2 text-center' key={tokenAddress + 3}>
+                <td className='px-2 text-center' key={tokenAddress + 3}>
                   3
                 </td>
               </td>
             ))}
-            <td className='p-2 text-center'>
-              <td className='p-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
-              <td className='p-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
+            <td className='px-2 text-center'>
+              <td className='px-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
+              <td className='px-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
             </td>
           </tr>
           <tr className='italic'>
-            <td className='p-2'>of which currently refundable</td>
+            <td className='px-2 pb-2'>of which currently refundable</td>
             {tokenAddresses.map((tokenAddress) => (
-              <td key={tokenAddress} className='p-2 text-center'>
-                <td className='p-2 text-center' key={tokenAddress + 1}>
+              <td key={tokenAddress} className='px-2 pb-2 text-center'>
+                <td className='px-2 pb-2 text-center' key={tokenAddress + 1}>
                   1
                 </td>
-                <td className='p-2 text-center' key={tokenAddress + 2}>
+                <td className='px-2 pb-2 text-center' key={tokenAddress + 2}>
                   2
                 </td>
-                <td className='p-2 text-center' key={tokenAddress + 3}>
+                <td className='px-2 pb-2 text-center' key={tokenAddress + 3}>
                   3
                 </td>
               </td>
             ))}
-            <td className='p-2 text-center'>
-              <td className='p-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
-              <td className='p-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
+            <td className='px-2 pb-2 text-center'>
+              <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
+              <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
             </td>
           </tr>
           <tr className='font-bold items-center border-t border-gray-700'>
-            <td className='p-2'>Total Deposit</td>
+            <td className='px-2 pb-2'>Total Deposit</td>
             {tokenAddresses.map((tokenAddress) => (
-              <td key={tokenAddress} className='p-2 text-center'>
-                <td className='p-2 text-center' key={tokenAddress + 1}>
+              <td key={tokenAddress} className='px-2 pb-2 text-center'>
+                <td className='px-2 pb-2 text-center' key={tokenAddress + 1}>
                   {totalDeposit(tokenAddress)}
                 </td>
-                <td className='p-2 text-center' key={tokenAddress + 2}>
+                <td className='px-2 pb-2 text-center' key={tokenAddress + 2}>
                   100 %
                 </td>
-                <td className='p-2 text-center' key={tokenAddress + 3}>
+                <td className='px-2 pb-2 text-center' key={tokenAddress + 3}>
                   3
                 </td>
               </td>
             ))}
-            <td className='p-2 text-center'>
-              <td className='p-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
-              <td className='p-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
+            <td className='px-2 pb-2 text-center'>
+              <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
+              <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
             </td>
           </tr>
         </tbody>
