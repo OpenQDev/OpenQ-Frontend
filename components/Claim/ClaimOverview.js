@@ -21,7 +21,7 @@ const ClaimOverview = ({ bounty }) => {
     }
     return `${address.slice(0, 4)}...${address.slice(38)}`;
   };
-  const tokenAdresses = bounty.deposits
+  const tokenAddresses = bounty.deposits
     .map((deposit) => deposit.tokenAddress)
     .filter((itm, pos, self) => {
       return self.indexOf(itm) == pos;
@@ -42,10 +42,14 @@ const ClaimOverview = ({ bounty }) => {
         ? bounty.payouts.filter((payout) => payout.closer.id == claimant && payout.tokenAddress == tokenAddress)
         : null;
     };
-    const balanceObj = useMemo(() => getBalances(), [claimant]);
+    const balanceObj = useMemo(() => getBalances(), [tokenAddress]);
     const [balanceValues] = useGetTokenValues(balanceObj);
-    const claimantTotal = appState.utils.formatter.format(balanceValues?.total);
-    return claimantTotal;
+    return balanceValues?.total;
+  };
+
+  const claimedBalances = (tokenAddress) => {
+    const claimed = claimants.map((claimant) => claimantBalances(claimant, tokenAddress)).reduce((a, b) => a + b);
+    return appState.utils.formatter.format(claimed);
   };
 
   const claimantVolume = (claimant, tokenAddress) => {
@@ -54,6 +58,17 @@ const ClaimOverview = ({ bounty }) => {
       (payout) => payout.closer.id == claimant && payout.tokenAddress == tokenAddress
     )[0].volume;
     let bigNumberVolume = ethers.BigNumber.from(volume.toString());
+    let decimals = parseInt(tokenMetadata.decimals) || 18;
+    return ethers.utils.formatUnits(bigNumberVolume, decimals);
+  };
+
+  const claimedVolume = (tokenAddress) => {
+    const tokenMetadata = appState.tokenClient.getToken(tokenAddress);
+    const volume = bounty.payouts
+      ?.filter((payout) => payout.tokenAddress == tokenAddress)
+      .map((payout) => payout.volume)
+      .reduce((a, b) => parseInt(a) + parseInt(b));
+    let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
     let decimals = parseInt(tokenMetadata.decimals) || 18;
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
@@ -79,7 +94,7 @@ const ClaimOverview = ({ bounty }) => {
         <thead>
           <tr>
             <th className='p-2'></th>
-            {tokenAdresses.map((token) => (
+            {tokenAddresses.map((token) => (
               <th key={token} className='p-2'>
                 {appState.tokenClient.getToken(token).symbol}
                 <div className='flex justify-between p-2'>
@@ -100,7 +115,7 @@ const ClaimOverview = ({ bounty }) => {
                   <Jazzicon tooltipPosition={'-left-2'} size={36} address={claimant} />
                   <span>{claimantsShort[index]}</span>
                 </td>
-                {tokenAdresses.map((tokenAddress) => (
+                {tokenAddresses.map((tokenAddress) => (
                   <td key={tokenAddress} className='p-2 text-center'>
                     <td className='p-2 text-center' key={tokenAddress + 1}>
                       {bounty.payouts?.some((payout) => payout.closer.id == claimant) ? (
@@ -118,7 +133,7 @@ const ClaimOverview = ({ bounty }) => {
                     </td>
                     <td className='p-2 text-center' key={tokenAddress + 3}>
                       {bounty.payouts?.some((payout) => payout.closer.id == claimant) ? (
-                        <>{claimantBalances(claimant, tokenAddress)}</>
+                        <>{appState.utils.formatter.format(claimantBalances(claimant, tokenAddress))}</>
                       ) : (
                         '0.0'
                       )}
@@ -129,7 +144,23 @@ const ClaimOverview = ({ bounty }) => {
               </tr>
             </>
           ))}
-          <tr>SubTotal</tr>
+          <tr className='font-bold items-center border-t border-gray-700'>
+            <td className='p-2'>SubTotal</td>
+            {tokenAddresses.map((tokenAddress) => (
+              <td key={tokenAddress} className='p-2 text-center'>
+                <td className='p-2 text-center' key={tokenAddress + 1}>
+                  {bounty.payouts ? <>{claimedVolume(tokenAddress)}</> : '0.0'}
+                </td>
+                <td className='p-2 text-center' key={tokenAddress + 2}>
+                  {bounty.payouts ? <>{(claimedVolume(tokenAddress) / totalDeposit(tokenAddress)) * 100} %</> : '0.0'}
+                </td>
+                <td className='p-2 text-center' key={tokenAddress + 3}>
+                  {bounty.payouts ? <>{claimedBalances(tokenAddress)}</> : '0.0'}
+                </td>
+              </td>
+            ))}
+            <td className='p-2'>Total</td>
+          </tr>
           <tr>Still Claimable</tr>
           <tr className='italic'>of which currently refundable (plus link)</tr>
           <tr>Total Deposited</tr>
