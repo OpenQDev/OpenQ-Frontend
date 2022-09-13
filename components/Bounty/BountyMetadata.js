@@ -51,12 +51,14 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split, pricesO
         </button>
       </li>
 
-      <li className='border-b border-web-gray py-3'>
-        <div className='text-xs font-semibold text-muted'>Current Target Budget</div>
-        <div className='text-xs font-semibold text-primary pt-2'>
-          {(budget && appState.utils.formatter.format(budget)) || '$0.00'}
-        </div>
-      </li>
+      {bounty.fundingTokenBalance && (
+        <li className='border-b border-web-gray py-3'>
+          <div className='text-xs font-semibold text-muted'>Current Target Budget</div>
+          <div className='text-xs font-semibold text-primary pt-2'>
+            {(budget && appState.utils.formatter.format(budget)) || '$0.00'}
+          </div>
+        </li>
+      )}
 
       {bounty.bountyType == 1 ? (
         <li className='border-b border-web-gray py-3'>
