@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import useWeb3 from '../../hooks/useWeb3';
 import ApproveStreamModal from './ApproveStreamModal';
-import { APPROVING, ERROR, SUCCESS, TRANSFERRING } from '../FundBounty/ApproveTransferState';
+import { APPROVING, ERROR, SUCCESS, TRANSFERRING } from './ApproveTransferState';
 import FundStreamModal from './FundStreamModal';
 import { ethers } from 'ethers';
 
@@ -19,7 +19,7 @@ const CreateStream = () => {
 
   const token = {
     name: 'Dai',
-    address: '0xc6A3cE73483Eb37B0ed46a63cF6c0705cE74c8B9',
+    address: '0xB221D2E203F9e71E3a5cE0a745A6A9e890d8ED50',
     symbol: 'DAI',
     decimals: 18,
     chainId: 80001,
@@ -48,6 +48,7 @@ const CreateStream = () => {
       account,
       ethers.utils.getAddress(token.address)
     );
+    console.log(callerBalance);
     if (callerBalance.lt(bigNumberVolumeInWei)) {
       setError({
         title: 'Funds Too Low',

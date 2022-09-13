@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ethers } from 'ethers';
 
 // Custom
-import { CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from '../FundBounty/ApproveTransferState';
+import { CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveTransferState';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Image from 'next/image';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
@@ -267,13 +267,12 @@ const ApproveStreamModal = ({
                       </ToolTipNew>
                       {approveTransferState === APPROVING && <LoadingIcon className={'inline mt-0.5'} />}
                     </button>
-                    <button
-                      onClick={() => deleteFlow(recipient)}
+                    <div
                       className={`text-center px-2 flex gap-2 py-1.5 ${fundStyles[approveTransferState]} rounded-sm`}
                     >
-                      <span>{capitalize(toIng(showModal, approveTransferState === TRANSFERRING))} Stream</span>
+                      <span>{capitalize(toIng(showModal, approveTransferState === TRANSFERRING))} limit</span>
                       {approveTransferState === TRANSFERRING && <LoadingIcon className={'inline mt-0.5'} />}
-                    </button>
+                    </div>
                   </div>
                 ) : (
                   <button
