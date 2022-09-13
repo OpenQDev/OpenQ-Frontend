@@ -136,7 +136,6 @@ const Navigation = () => {
 
     const names = searchable
       .filter((searchableItem) => {
-        console.log(searchableItem.searchUrl.toLowerCase(), e.target.value.toLowerCase());
         return (
           searchableItem.name.includes(e.target.value.toLowerCase()) ||
           searchableItem.searchUrl.toLowerCase().includes(e.target.value.toLowerCase())
