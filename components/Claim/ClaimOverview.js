@@ -161,9 +161,57 @@ const ClaimOverview = ({ bounty }) => {
             ))}
             <td className='p-2'>Total</td>
           </tr>
-          <tr>Still Claimable</tr>
-          <tr className='italic'>of which currently refundable (plus link)</tr>
-          <tr>Total Deposited</tr>
+          <tr>
+            <td className='p-2'>Still Claimable</td>
+            {tokenAddresses.map((tokenAddress) => (
+              <td key={tokenAddress} className='p-2 text-center'>
+                <td className='p-2 text-center' key={tokenAddress + 1}>
+                  1
+                </td>
+                <td className='p-2 text-center' key={tokenAddress + 2}>
+                  2
+                </td>
+                <td className='p-2 text-center' key={tokenAddress + 3}>
+                  3
+                </td>
+              </td>
+            ))}
+            <td className='p-2'>Total</td>
+          </tr>
+          <tr className='italic'>
+            <td className='p-2'>of which currently refundable (tooltip and link for refund)</td>
+            {tokenAddresses.map((tokenAddress) => (
+              <td key={tokenAddress} className='p-2 text-center'>
+                <td className='p-2 text-center' key={tokenAddress + 1}>
+                  1
+                </td>
+                <td className='p-2 text-center' key={tokenAddress + 2}>
+                  2
+                </td>
+                <td className='p-2 text-center' key={tokenAddress + 3}>
+                  3
+                </td>
+              </td>
+            ))}
+            <td className='p-2'>Total</td>
+          </tr>
+          <tr className='font-bold items-center border-t border-gray-700'>
+            <td className='p-2'>Total Deposit</td>
+            {tokenAddresses.map((tokenAddress) => (
+              <td key={tokenAddress} className='p-2 text-center'>
+                <td className='p-2 text-center' key={tokenAddress + 1}>
+                  1
+                </td>
+                <td className='p-2 text-center' key={tokenAddress + 2}>
+                  2
+                </td>
+                <td className='p-2 text-center' key={tokenAddress + 3}>
+                  3
+                </td>
+              </td>
+            ))}
+            <td className='p-2'>Total</td>
+          </tr>
         </tbody>
       </table>
     </div>
