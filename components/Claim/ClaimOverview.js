@@ -170,10 +170,15 @@ const ClaimOverview = ({ bounty }) => {
             {tokenAddresses.map((tokenAddress) => (
               <td key={tokenAddress} className='p-2 text-center'>
                 <td className='p-2 text-center' key={tokenAddress + 1}>
-                  1
+                  {parseFloat(totalDeposit(tokenAddress) - claimedVolume(tokenAddress)).toFixed(1)}
                 </td>
                 <td className='p-2 text-center' key={tokenAddress + 2}>
-                  2
+                  {(
+                    parseFloat(
+                      (totalDeposit(tokenAddress) - claimedVolume(tokenAddress)) / totalDeposit(tokenAddress)
+                    ) * 100
+                  ).toFixed(1)}{' '}
+                  %
                 </td>
                 <td className='p-2 text-center' key={tokenAddress + 3}>
                   3
@@ -210,10 +215,10 @@ const ClaimOverview = ({ bounty }) => {
             {tokenAddresses.map((tokenAddress) => (
               <td key={tokenAddress} className='p-2 text-center'>
                 <td className='p-2 text-center' key={tokenAddress + 1}>
-                  1
+                  {totalDeposit(tokenAddress)}
                 </td>
                 <td className='p-2 text-center' key={tokenAddress + 2}>
-                  2
+                  100 %
                 </td>
                 <td className='p-2 text-center' key={tokenAddress + 3}>
                   3
