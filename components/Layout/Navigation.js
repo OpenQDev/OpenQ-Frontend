@@ -91,9 +91,10 @@ const Navigation = () => {
           ? `${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${searchableItem.bountyId}/${searchableItem.bountyAddress}`
           : `${process.env.NEXT_PUBLIC_BASE_URL}/organization/${searchableItem.login}`;
         const name = searchableItem.name || searchableItem.title || searchableItem.login;
-
+        const searchItemUrl = searchableItem.url;
         return {
           name: name.toLowerCase(),
+          searchUrl: searchItemUrl,
           url,
           isIssue: searchableItem.title,
         };
@@ -135,7 +136,11 @@ const Navigation = () => {
 
     const names = searchable
       .filter((searchableItem) => {
-        return searchableItem.name.includes(e.target.value.toLowerCase());
+        console.log(searchableItem.searchUrl.toLowerCase(), e.target.value.toLowerCase());
+        return (
+          searchableItem.name.includes(e.target.value.toLowerCase()) ||
+          searchableItem.searchUrl.toLowerCase().includes(e.target.value.toLowerCase())
+        );
       })
       .map((searchableItem) => searchableItem);
     setItems(e.target.value ? names.slice(0, 5) : []);
@@ -162,7 +167,7 @@ const Navigation = () => {
             <div className='lg:flex hidden  content-center  items-center'>
               <div className='flex-col justify-center mr-2 h-7 group '>
                 <input
-                  className={`lg:flex hidden pr-24 items-center focus:w-80 w-60  left-0 input-field transition-all  ease-in-out duration-700 ${
+                  className={`lg:flex hidden pr-4 items-center focus:w-80 w-60  left-0 input-field transition-all  ease-in-out duration-700 ${
                     quickSearch && 'focus:w-80'
                   }`}
                   onChange={handleSearch}
@@ -196,7 +201,7 @@ const Navigation = () => {
           <div className='flex flex-col p-4 space-x-1 space-y-2 w-full'>
             <div className='flex-col mr-2 h-7  group'>
               <input
-                className='flex pr-24 items-center input-field'
+                className='flex pr-4 items-center input-field'
                 onChange={handleSearch}
                 value={quickSearch}
                 type='text'
