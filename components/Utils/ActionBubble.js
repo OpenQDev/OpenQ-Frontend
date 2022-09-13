@@ -52,6 +52,12 @@ const ActionBubble = ({ addresses, bounty, action }) => {
   }
 
   if (action?.claimTime) {
+    console.log(
+      'action: ',
+      bounty,
+      bounty?.payouts?.filter((payout) => payout.closer.id == address && payout.payoutTime == action.claimTime)
+    );
+
     const claimant = claimantEnsName || shortenAddress(action.claimant.id);
     address = action.claimant.id;
     const [tokenValues] = useGetTokenValues(
