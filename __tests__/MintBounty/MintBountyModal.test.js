@@ -6,7 +6,7 @@ import { render, screen } from '../../test-utils';
 import userEvent from '@testing-library/user-event';
 import InitialState from '../../store/Store/InitialState';
 import MintBountyModal from '../../components/MintBounty/MintBountyModal';
-import { waitFor } from '../../test-utils';
+import { waitFor } from '@testing-library/react';
 
 const issues = [
   { status: 'not-issue', url: 'asdfsadf' },
@@ -72,6 +72,18 @@ const test = (issue, type) => {
       expect(nullish).toHaveLength(0);
     });
   });
+
+  it(`should contain link to .sol code`, async () => {
+    // ARRANGE
+    render(<MintBountyModal types={type} />);
+    //ASSERT
+    await waitFor(() => {
+      expect(screen.getByRole('link').href).toEqual(
+        'https://github.com/OpenQDev/OpenQ-Contracts/blob/production/contracts/Bounty/Implementations/BountyV1.sol'
+      );
+    });
+  });
+
   it(`should handle extra data for type ${type[0]}`, async () => {
     // ARRANGE
     const user = userEvent.setup();
