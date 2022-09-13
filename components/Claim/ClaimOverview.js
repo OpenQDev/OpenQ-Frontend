@@ -5,14 +5,6 @@ import useEns from '../../hooks/useENS';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import { ethers } from 'ethers';
 
-// get bounty info
-// cols => bounty.deposits => list of token addresses (3 subcolumns => vol / % / $ value)
-// end of cols => sum col value in $ total
-// rows => bounty.payouts.closer.id (with jazzicon like AB) => payouts.volume per tokenAddress (and % total deposit & $ value)
-// subsum row
-// "rest" row => still available for claim
-// "total" value deposited
-
 const ClaimOverview = ({ bounty }) => {
   const [appState] = useContext(StoreContext);
   const shortenAddress = (address) => {
@@ -104,7 +96,13 @@ const ClaimOverview = ({ bounty }) => {
                 </div>
               </th>
             ))}
-            <th className='p-2'>Total</th>
+            <th className='p-2'>
+              TOTAL
+              <div className='flex justify-between p-2'>
+                <th className='p-2'>%</th>
+                <th className='p-2'>$</th>
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -140,7 +138,10 @@ const ClaimOverview = ({ bounty }) => {
                     </td>
                   </td>
                 ))}
-                <td className='p-2'>Total</td>
+                <td className='flex justify-between p-2 text-center'>
+                  <td className='p-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
+                  <td className='p-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
+                </td>
               </tr>
             </>
           ))}
@@ -159,11 +160,71 @@ const ClaimOverview = ({ bounty }) => {
                 </td>
               </td>
             ))}
-            <td className='p-2'>Total</td>
+            <td className='p-2 text-center'>
+              <td className='p-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
+              <td className='p-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
+            </td>
           </tr>
-          <tr>Still Claimable</tr>
-          <tr className='italic'>of which currently refundable (plus link)</tr>
-          <tr>Total Deposited</tr>
+          <tr>
+            <td className='p-2'>Still Claimable</td>
+            {tokenAddresses.map((tokenAddress) => (
+              <td key={tokenAddress} className='p-2 text-center'>
+                <td className='p-2 text-center' key={tokenAddress + 1}>
+                  1
+                </td>
+                <td className='p-2 text-center' key={tokenAddress + 2}>
+                  2
+                </td>
+                <td className='p-2 text-center' key={tokenAddress + 3}>
+                  3
+                </td>
+              </td>
+            ))}
+            <td className='p-2 text-center'>
+              <td className='p-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
+              <td className='p-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
+            </td>
+          </tr>
+          <tr className='italic'>
+            <td className='p-2'>of which currently refundable</td>
+            {tokenAddresses.map((tokenAddress) => (
+              <td key={tokenAddress} className='p-2 text-center'>
+                <td className='p-2 text-center' key={tokenAddress + 1}>
+                  1
+                </td>
+                <td className='p-2 text-center' key={tokenAddress + 2}>
+                  2
+                </td>
+                <td className='p-2 text-center' key={tokenAddress + 3}>
+                  3
+                </td>
+              </td>
+            ))}
+            <td className='p-2 text-center'>
+              <td className='p-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
+              <td className='p-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
+            </td>
+          </tr>
+          <tr className='font-bold items-center border-t border-gray-700'>
+            <td className='p-2'>Total Deposit</td>
+            {tokenAddresses.map((tokenAddress) => (
+              <td key={tokenAddress} className='p-2 text-center'>
+                <td className='p-2 text-center' key={tokenAddress + 1}>
+                  1
+                </td>
+                <td className='p-2 text-center' key={tokenAddress + 2}>
+                  2
+                </td>
+                <td className='p-2 text-center' key={tokenAddress + 3}>
+                  3
+                </td>
+              </td>
+            ))}
+            <td className='p-2 text-center'>
+              <td className='p-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
+              <td className='p-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
