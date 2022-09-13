@@ -73,7 +73,7 @@ const ApproveStreamModal = ({
   };
   let approveStyles = {
     [CONFIRM]: `btn-primary ${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}`,
-    [APPROVING]: 'btn-primary',
+    [APPROVING]: 'btn-primary hover:bg-[#238636]',
     [TRANSFERRING]: 'border-transparent',
   };
 
@@ -242,12 +242,14 @@ const ApproveStreamModal = ({
                       onClick={() => confirmMethod(recipient, flowRate, showModal)}
                       disabled={approveTransferState !== CONFIRM || isDisabled}
                       className={`text-center px-1.5 flex  gap-2 py-1.5 ${
-                        approveTransferState === CONFIRM && !isDisabled ? 'cursor-pointer' : null
+                        approveTransferState === CONFIRM && !isDisabled ? 'cursor-pointer ' : ' hover:bg-[#238636]'
                       } ${approveStyles[approveTransferState]}`}
                     >
                       <ToolTipNew
                         hideToolTip={!isDisabled}
                         customOffsets={[-60, 30]}
+                        outerStyles={'top-0.5'}
+                        relativePosition={'-left-4 w-40 whitespace-normal'}
                         toolTipText={
                           isNaN(parseFloat(flowRate)) ||
                           parseFloat(flowRate) <= 0.00000001 ||
@@ -257,7 +259,7 @@ const ApproveStreamModal = ({
                         }
                       >
                         {' '}
-                        <span>
+                        <span className='flex self-center content-center'>
                           {approveTransferState === CONFIRM
                             ? 'Approve'
                             : approveTransferState === APPROVING
@@ -265,26 +267,32 @@ const ApproveStreamModal = ({
                             : 'Approved'}
                         </span>
                       </ToolTipNew>
-                      {approveTransferState === APPROVING && <LoadingIcon className={'inline mt-0.5'} />}
+                      {approveTransferState === APPROVING && <LoadingIcon className={'self-center mt-0.5'} />}
                     </button>
                     <div
                       className={`text-center px-2 flex gap-2 py-1.5 ${fundStyles[approveTransferState]} rounded-sm`}
                     >
-                      <span>{capitalize(toIng(showModal, approveTransferState === TRANSFERRING))} limit</span>
+                      <span>{capitalize(toIng(showModal, approveTransferState === TRANSFERRING))} Stream</span>
                       {approveTransferState === TRANSFERRING && <LoadingIcon className={'inline mt-0.5'} />}
                     </div>
                   </div>
                 ) : (
-                  <button
-                    onClick={() => deleteFlow(recipient)}
-                    disabled={approveTransferState !== CONFIRM}
-                    className={
-                      'btn-primary text-center px-2 gap-2 py-1.5 text-center flex justify-center gap-4 rounded-sm'
-                    }
+                  <ToolTipNew
+                    hideToolTip={recipient || showModal !== 'delete'}
+                    toolTipText='You must identify the recipient of the stream being deleted.'
+                    relativePosition={'w-52 whitespace-normal'}
                   >
-                    <span>{capitalize(toIng(showModal, approveTransferState === TRANSFERRING))}</span>
-                    {approveTransferState === TRANSFERRING && <LoadingIcon className={'inline mt-0.5'} />}
-                  </button>
+                    <button
+                      onClick={() => deleteFlow(recipient)}
+                      disabled={approveTransferState !== CONFIRM || !recipient}
+                      className={`btn-primary text-center px-2 w-full gap-2 py-1.5 text-center flex justify-center gap-4 rounded-sm ${
+                        !recipient && 'hover:bg-[#238636] cursor-not-allowed'
+                      }`}
+                    >
+                      <span>{capitalize(toIng(showModal, approveTransferState === TRANSFERRING))}</span>
+                      {approveTransferState === TRANSFERRING && <LoadingIcon className={'inline mt-0.5'} />}
+                    </button>
+                  </ToolTipNew>
                 )}
               </>
             )}

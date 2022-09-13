@@ -28,7 +28,7 @@ const FundStreamModal = ({
   const { account } = useWeb3();
   const [localToken, setLocalToken] = useState({
     name: 'Dai',
-    address: '0xC9a43158891282A2B1475592D5719c001986Aaec9',
+    address: '0xB221D2E203F9e71E3a5cE0a745A6A9e890d8ED50',
     symbol: 'DAI',
     decimals: 18,
     chainId: 80001,

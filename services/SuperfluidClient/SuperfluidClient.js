@@ -66,8 +66,6 @@ class SuperfluidClient {
    * via a setter
    */
   async createInstance(library) {
-    console.log(process.env.NEXT_PUBLIC_SUPERFLUID_RESOLVER_ADDRESS);
-
     try {
       if (!this.instance) {
         const tempInstance = await Framework.create({
@@ -196,17 +194,14 @@ class SuperfluidClient {
   }
 
   // UTILS
-  async loadSuperToken(library, superTokenAddress) {
-    console.log(library, superTokenAddress);
+  async loadSuperToken(library) {
     const address = this.tokensEnumerable[0].address;
     const instance = await this.createInstance(library);
-    console.log(instance);
     const token = await instance.loadSuperToken(address);
     return token;
   }
 
-  async getFlow(library, sender, receiver, superTokenAddress) {
-    console.log(superTokenAddress);
+  async getFlow(library, sender, receiver) {
     const address = this.tokensEnumerable[0].address;
     const instance = await this.createInstance(library);
     return instance.cfaV1.getFlow({
