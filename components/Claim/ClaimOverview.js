@@ -80,6 +80,26 @@ const ClaimOverview = ({ bounty }) => {
     return (claimantVolume(claimant, tokenAddress) / totalDeposit(tokenAddress)) * 100;
   };
 
+  const stillClaimable = (tokenAddress) => {
+    const getBalances = () => {
+      return bounty.bountyTokenBalances
+        ? bounty.bountyTokenBalances.filter((balances) => balances.tokenAddress == tokenAddress)
+        : null;
+    };
+    const balanceObj = useMemo(() => getBalances(), [tokenAddress]);
+    const [balanceValues] = useGetTokenValues(balanceObj);
+    return balanceValues?.total;
+  };
+
+  const totalDepositBalance = (tokenAddress) => {
+    const getBalances = () => {
+      return bounty.payouts ? bounty.payouts.filter((payout) => payout.tokenAddress == tokenAddress) : null;
+    };
+    const balanceObj = useMemo(() => getBalances(tokenAddress), [tokenAddress]);
+    const [balanceValues] = useGetTokenValues(balanceObj);
+    return balanceValues?.total + stillClaimable(tokenAddress);
+  };
+
   return (
     <div>
       <table>
@@ -138,7 +158,7 @@ const ClaimOverview = ({ bounty }) => {
                     </td>
                   </td>
                 ))}
-                <td className='flex justify-between px-2 pb-2 text-center'>
+                <td className='px-2 pb-2 text-center'>
                   <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
                   <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
                 </td>
@@ -150,13 +170,13 @@ const ClaimOverview = ({ bounty }) => {
             {tokenAddresses.map((tokenAddress) => (
               <td key={tokenAddress} className='px-2 pb-2 text-center'>
                 <td className='px-2 pb-2 text-center' key={tokenAddress + 1}>
-                  {bounty.payouts ? <>{claimedVolume(tokenAddress)}</> : '0.0'}
+                  {claimedVolume(tokenAddress)}
                 </td>
                 <td className='px-2 pb-2 text-center' key={tokenAddress + 2}>
-                  {bounty.payouts ? <>{(claimedVolume(tokenAddress) / totalDeposit(tokenAddress)) * 100} %</> : '0.0'}
+                  {(claimedVolume(tokenAddress) / totalDeposit(tokenAddress)) * 100} %
                 </td>
                 <td className='px-2 pb-2 text-center' key={tokenAddress + 3}>
-                  {bounty.payouts ? <>{claimedBalances(tokenAddress)}</> : '0.0'}
+                  {claimedBalances(tokenAddress)}
                 </td>
               </td>
             ))}
@@ -181,7 +201,7 @@ const ClaimOverview = ({ bounty }) => {
                   %
                 </td>
                 <td className='px-2 text-center' key={tokenAddress + 3}>
-                  3
+                  {appState.utils.formatter.format(stillClaimable(tokenAddress))}
                 </td>
               </td>
             ))}
@@ -221,7 +241,7 @@ const ClaimOverview = ({ bounty }) => {
                   100 %
                 </td>
                 <td className='px-2 pb-2 text-center' key={tokenAddress + 3}>
-                  3
+                  {appState.utils.formatter.format(totalDepositBalance(tokenAddress))}
                 </td>
               </td>
             ))}
