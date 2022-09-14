@@ -21,7 +21,6 @@ import ToolTipNew from '../Utils/ToolTipNew';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import StoreContext from '../../store/Store/StoreContext';
-import ClaimOverview from './ClaimOverview';
 
 const ClaimPage = ({ bounty, refreshBounty }) => {
   const { url } = bounty;
@@ -131,7 +130,6 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
     // rewards are claimable
     return (
       <>
-        <ClaimOverview bounty={bounty} />
         <div className='flex flex-1 px-12 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
           <div className='flex flex-col space-y-2 items-center md:border rounded-sm border-gray-700'>
             <div className='flex w-full text-3xl text-primary justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>

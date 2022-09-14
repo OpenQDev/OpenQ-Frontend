@@ -27,6 +27,8 @@ import Subtract from '../../../components/svg/subtract';
 import Fire from '../../../components/svg/fire';
 import Telescope from '../../../components/svg/telescope';
 import Gear from '../../../components/svg/gear';
+import ClaimOverview from '../../../components/Claim/ClaimOverview';
+import Log from '../../../components/svg/log';
 
 const address = ({ address, mergedBounty, renderError }) => {
   useAuth();
@@ -198,6 +200,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                   { name: 'Fund', Svg: Add },
                   { name: 'Refund', Svg: Subtract },
                   { name: 'Claim', Svg: Fire },
+                  { name: 'Claims Overview', Svg: Log },
                   {
                     name: bounty.issuer && ethers.utils.getAddress(bounty?.issuer?.id) == account ? 'Admin' : null,
                     Svg: bounty.issuer && ethers.utils.getAddress(bounty.issuer.id) == account ? Gear : null,
@@ -222,6 +225,7 @@ const address = ({ address, mergedBounty, renderError }) => {
               )}
               {internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
               {internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
+              {internalMenu == 'Claims Overview' && bounty ? <ClaimOverview bounty={bounty} /> : null}
               {internalMenu == 'Admin' && bounty && ethers.utils.getAddress(bounty.issuer.id) == account ? (
                 <AdminPage
                   bounty={bounty}
