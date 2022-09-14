@@ -4,6 +4,7 @@ import Jazzicon from '../Utils/Jazzicon';
 import useEns from '../../hooks/useENS';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import ClaimPerToken from './ClaimPerToken';
+import ClaimTotals from './ClaimTotals';
 
 const ClaimOverview = ({ bounty }) => {
   const [appState] = useContext(StoreContext);
@@ -80,9 +81,8 @@ const ClaimOverview = ({ bounty }) => {
                     <ClaimPerToken bounty={bounty} claimant={claimant} tokenAddress={tokenAddress} />
                   </td>
                 ))}
-                <td className='px-2 pb-2 text-center'>
-                  <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
-                  <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
+                <td key={claimant + 1}>
+                  <ClaimTotals bounty={bounty} claimant={claimant} />
                 </td>
               </tr>
             </>
@@ -95,9 +95,8 @@ const ClaimOverview = ({ bounty }) => {
                   <ClaimPerToken bounty={bounty} claimants={claimants} tokenAddress={tokenAddress} />
                 </td>
               ))}
-            <td className='px-2 pb-2 text-center'>
-              <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
-              <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
+            <td>
+              <ClaimTotals bounty={bounty} claimants={claimants} />
             </td>
           </tr>
           <tr>
@@ -107,17 +106,8 @@ const ClaimOverview = ({ bounty }) => {
                 <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} stillClaim={true} />
               </td>
             ))}
-            <td className='px-2 text-center'>
-              <td className='px-2 text-center'>
-                {bounty.payouts ? (
-                  <div>{parseFloat((stillClaimableValue / totalDepositValue) * 100).toFixed(1)} %</div>
-                ) : (
-                  '0.0'
-                )}
-              </td>
-              <td className='px-2 text-center'>
-                {bounty.payouts ? <div>{appState.utils.formatter.format(stillClaimableValue)}</div> : '0.0'}
-              </td>
+            <td>
+              <ClaimTotals bounty={bounty} stillClaim={true} />
             </td>
           </tr>
           <tr className='italic'>
@@ -135,9 +125,8 @@ const ClaimOverview = ({ bounty }) => {
                 </td>
               </td>
             ))}
-            <td className='px-2 pb-2 text-center'>
-              <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
-              <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
+            <td>
+              <ClaimTotals bounty={bounty} refundable={true} />
             </td>
           </tr>
           <tr className='font-bold items-center border-t border-gray-700'>
@@ -147,11 +136,8 @@ const ClaimOverview = ({ bounty }) => {
                 <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} />
               </td>
             ))}
-            <td className='px-2 pb-2 text-center'>
-              <td className='px-2 pb-2 text-center'>{bounty.deposits ? <div>100%</div> : '0.0'}</td>
-              <td className='px-2 pb-2 text-center'>
-                {bounty.deposits ? <div>{appState.utils.formatter.format(totalDepositValue)}</div> : '0.0'}
-              </td>
+            <td>
+              <ClaimTotals bounty={bounty} />
             </td>
           </tr>
         </tbody>
