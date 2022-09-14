@@ -127,12 +127,7 @@ const ClaimOverview = ({ bounty }) => {
                 </td>
                 {tokenAddresses.map((tokenAddress) => (
                   <td key={tokenAddress}>
-                    <ClaimPerToken
-                      bounty={bounty}
-                      claimant={claimant}
-                      tokenAddress={tokenAddress}
-                      totalDepositVolume={totalDepositVolume}
-                    />
+                    <ClaimPerToken bounty={bounty} claimant={claimant} tokenAddress={tokenAddress} />
                   </td>
                 ))}
                 <td className='px-2 pb-2 text-center'>
@@ -149,12 +144,7 @@ const ClaimOverview = ({ bounty }) => {
             {bounty.payouts &&
               tokenAddresses.map((tokenAddress) => (
                 <td key={tokenAddress}>
-                  <ClaimPerToken
-                    bounty={bounty}
-                    claimants={claimants}
-                    tokenAddress={tokenAddress}
-                    totalDepositVolume={totalDepositVolume}
-                  />
+                  <ClaimPerToken bounty={bounty} claimants={claimants} tokenAddress={tokenAddress} />
                 </td>
               ))}
             <td className='px-2 pb-2 text-center'>
@@ -165,22 +155,8 @@ const ClaimOverview = ({ bounty }) => {
           <tr>
             <td className='px-2'>Still Claimable</td>
             {tokenAddresses.map((tokenAddress) => (
-              <td key={tokenAddress} className='px-2 text-center'>
-                <td className='px-2 text-center' key={tokenAddress + 1}>
-                  {parseFloat(totalDepositVolume(tokenAddress) - claimedVolume(tokenAddress)).toFixed(1)}
-                </td>
-                <td className='px-2 text-center' key={tokenAddress + 2}>
-                  {(
-                    parseFloat(
-                      (totalDepositVolume(tokenAddress) - claimedVolume(tokenAddress)) /
-                        totalDepositVolume(tokenAddress)
-                    ) * 100
-                  ).toFixed(1)}{' '}
-                  %
-                </td>
-                <td className='px-2 text-center' key={tokenAddress + 3}>
-                  {appState.utils.formatter.format(stillClaimable(tokenAddress))}
-                </td>
+              <td key={tokenAddress}>
+                <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} stillClaim={true} />
               </td>
             ))}
             <td className='px-2 text-center'>
@@ -219,16 +195,8 @@ const ClaimOverview = ({ bounty }) => {
           <tr className='font-bold items-center border-t border-gray-700'>
             <td className='px-2 pb-2'>Total Deposited (tooltip: excl. refunded)</td>
             {tokenAddresses.map((tokenAddress) => (
-              <td key={tokenAddress} className='px-2 pb-2 text-center'>
-                <td className='px-2 pb-2 text-center' key={tokenAddress + 1}>
-                  {totalDepositVolume(tokenAddress)}
-                </td>
-                <td className='px-2 pb-2 text-center' key={tokenAddress + 2}>
-                  100 %
-                </td>
-                <td className='px-2 pb-2 text-center' key={tokenAddress + 3}>
-                  {appState.utils.formatter.format(totalDepositBalance(tokenAddress))}
-                </td>
+              <td key={tokenAddress}>
+                <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} />
               </td>
             ))}
             <td className='px-2 pb-2 text-center'>

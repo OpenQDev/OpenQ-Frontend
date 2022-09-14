@@ -3,7 +3,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import { ethers } from 'ethers';
 
-const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants }) => {
+const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim }) => {
   const [appState] = useContext(StoreContext);
 
   const claimantVolume = () => {
@@ -54,6 +54,17 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants }) => {
     return claims.reduce((a, b) => a + b);
   };
 
+  const stillClaimable = () => {
+    const getBalances = () => {
+      return bounty.bountyTokenBalances
+        ? bounty.bountyTokenBalances.filter((balances) => balances.tokenAddress == tokenAddress)
+        : null;
+    };
+    const balanceObj = useMemo(() => getBalances(), [tokenAddress]);
+    const [balanceValues] = useGetTokenValues(balanceObj);
+    return balanceValues?.total;
+  };
+
   const totalDepositVolume = () => {
     const tokenMetadata = appState.tokenClient.getToken(tokenAddress);
     const volume = bounty.deposits
@@ -65,18 +76,49 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants }) => {
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
 
+  const totalDepositBalance = () => {
+    const getBalances = () => {
+      return bounty.payouts ? bounty.payouts.filter((payout) => payout.tokenAddress == tokenAddress) : null;
+    };
+    const balanceObj = useMemo(() => getBalances(tokenAddress), [tokenAddress]);
+    const [balanceValues] = useGetTokenValues(balanceObj);
+    return balanceValues?.total + stillClaimable(tokenAddress);
+  };
+
   return (
     <div className='border flex justify-end'>
       <td className='px-2 pb-2 text-center'>
-        <td className='px-2 pb-2 text-center'>{claimant ? <>{claimantVolume()}</> : <>{claimedVolume()}</>}</td>
         <td className='px-2 pb-2 text-center'>
-          {claimant ? <>{claimantPercent()} %</> : <>{(claimedVolume() / totalDepositVolume()) * 100} %</>}
+          {claimant ? (
+            <>{claimantVolume()}</>
+          ) : claimants ? (
+            <>{claimedVolume()}</>
+          ) : stillClaim ? (
+            <>{parseFloat(totalDepositVolume() - claimedVolume()).toFixed(1)}</>
+          ) : (
+            <>{totalDepositVolume()}</>
+          )}
+        </td>
+        <td className='px-2 pb-2 text-center'>
+          {claimant ? (
+            <>{claimantPercent()} %</>
+          ) : claimants ? (
+            <>{(claimedVolume() / totalDepositVolume()) * 100} %</>
+          ) : stillClaim ? (
+            <>{(parseFloat((totalDepositVolume() - claimedVolume()) / totalDepositVolume()) * 100).toFixed(1)} %</>
+          ) : (
+            <div>100 %</div>
+          )}
         </td>
         <td className='px-2 pb-2 text-center'>
           {claimant ? (
             <>{appState.utils.formatter.format(claimantBalances())}</>
-          ) : (
+          ) : claimants ? (
             <>{appState.utils.formatter.format(claimedBalances())}</>
+          ) : stillClaim ? (
+            <>{appState.utils.formatter.format(stillClaimable())}</>
+          ) : (
+            <>{appState.utils.formatter.format(totalDepositBalance())}</>
           )}
         </td>
       </td>
