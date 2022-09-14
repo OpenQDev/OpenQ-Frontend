@@ -4,6 +4,7 @@ import Jazzicon from '../Utils/Jazzicon';
 import useEns from '../../hooks/useENS';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import { ethers } from 'ethers';
+import ClaimPerToken from './ClaimPerToken';
 
 const ClaimOverview = ({ bounty }) => {
   const [appState] = useContext(StoreContext);
@@ -28,30 +29,11 @@ const ClaimOverview = ({ bounty }) => {
     return claimantEnsName || shortenAddress(claimant);
   });
 
-  const claimantBalances = (claimant, tokenAddress) => {
-    const getBalances = () => {
-      return claimant
-        ? bounty.payouts.filter((payout) => payout.closer.id == claimant && payout.tokenAddress == tokenAddress)
-        : null;
-    };
-    const balanceObj = useMemo(() => getBalances(), [tokenAddress]);
-    const [balanceValues] = useGetTokenValues(balanceObj);
-    return balanceValues?.total;
-  };
-
-  const claimedBalances = (tokenAddress) => {
-    const claimed = claimants.map((claimant) => claimantBalances(claimant, tokenAddress)).reduce((a, b) => a + b);
-    return appState.utils.formatter.format(claimed);
-  };
-
-  const claimantVolume = (claimant, tokenAddress) => {
-    const tokenMetadata = appState.tokenClient.getToken(tokenAddress);
-    const volume = bounty.payouts.filter(
-      (payout) => payout.closer.id == claimant && payout.tokenAddress == tokenAddress
-    )[0].volume;
-    let bigNumberVolume = ethers.BigNumber.from(volume.toString());
-    let decimals = parseInt(tokenMetadata.decimals) || 18;
-    return ethers.utils.formatUnits(bigNumberVolume, decimals);
+  const claimantTotalValue = (claimant) => {
+    /* const claimed = tokenAddresses.map((tokenAddress) =>
+      claimantBalances(claimant, tokenAddress).reduce((a, b) => a + b)
+    ); */
+    return 0; // appState.utils.formatter.format(claimed);
   };
 
   const claimedVolume = (tokenAddress) => {
@@ -65,7 +47,7 @@ const ClaimOverview = ({ bounty }) => {
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
 
-  const totalDeposit = (tokenAddress) => {
+  const totalDepositVolume = (tokenAddress) => {
     const tokenMetadata = appState.tokenClient.getToken(tokenAddress);
     const volume = bounty.deposits
       .filter((deposit) => deposit.tokenAddress == tokenAddress)
@@ -74,10 +56,6 @@ const ClaimOverview = ({ bounty }) => {
     let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
     let decimals = parseInt(tokenMetadata.decimals) || 18;
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
-  };
-
-  const claimantPercent = (claimant, tokenAddress) => {
-    return (claimantVolume(claimant, tokenAddress) / totalDeposit(tokenAddress)) * 100;
   };
 
   const stillClaimable = (tokenAddress) => {
@@ -99,6 +77,20 @@ const ClaimOverview = ({ bounty }) => {
     const [balanceValues] = useGetTokenValues(balanceObj);
     return balanceValues?.total + stillClaimable(tokenAddress);
   };
+
+  const getBalancesStillClaimable = () => {
+    return bounty.bountyTokenBalances ? bounty.bountyTokenBalances : null;
+  };
+  const balanceObjStillClaimable = useMemo(() => getBalancesStillClaimable(), [bounty]);
+  const [balanceValuesStillClaimable] = useGetTokenValues(balanceObjStillClaimable);
+  const stillClaimableValue = balanceValuesStillClaimable?.total;
+
+  const getBalancesDeposits = () => {
+    return bounty.deposits ? bounty.deposits : null;
+  };
+  const balanceObjDeposits = useMemo(() => getBalancesDeposits(), [bounty]);
+  const [balanceValuesDeposits] = useGetTokenValues(balanceObjDeposits);
+  const totalDepositValue = balanceValuesDeposits?.total + stillClaimableValue;
 
   return (
     <div>
@@ -134,52 +126,37 @@ const ClaimOverview = ({ bounty }) => {
                   <span>{claimantsShort[index]}</span>
                 </td>
                 {tokenAddresses.map((tokenAddress) => (
-                  <td key={tokenAddress} className='px-2 pb-2 text-center'>
-                    <td className='px-2 pb-2 text-center' key={tokenAddress + 1}>
-                      {bounty.payouts?.some((payout) => payout.closer.id == claimant) ? (
-                        <>{claimantVolume(claimant, tokenAddress)}</>
-                      ) : (
-                        '0.0'
-                      )}
-                    </td>
-                    <td className='px-2 pb-2 text-center' key={tokenAddress + 2}>
-                      {bounty.payouts?.some((payout) => payout.closer.id == claimant) ? (
-                        <>{claimantPercent(claimant, tokenAddress)} %</>
-                      ) : (
-                        '0.0'
-                      )}
-                    </td>
-                    <td className='px-2 pb-2 text-center' key={tokenAddress + 3}>
-                      {bounty.payouts?.some((payout) => payout.closer.id == claimant) ? (
-                        <>{appState.utils.formatter.format(claimantBalances(claimant, tokenAddress))}</>
-                      ) : (
-                        '0.0'
-                      )}
-                    </td>
+                  <td key={tokenAddress}>
+                    <ClaimPerToken
+                      bounty={bounty}
+                      claimant={claimant}
+                      tokenAddress={tokenAddress}
+                      totalDepositVolume={totalDepositVolume}
+                    />
                   </td>
                 ))}
                 <td className='px-2 pb-2 text-center'>
                   <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
-                  <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
+                  <td className='px-2 pb-2 text-center'>
+                    {bounty.payouts ? <div>{claimantTotalValue(claimant)}</div> : '0.0'}
+                  </td>
                 </td>
               </tr>
             </>
           ))}
           <tr className='font-bold items-center border-t border-gray-700'>
             <td className='px-2 pb-2'>SubTotal</td>
-            {tokenAddresses.map((tokenAddress) => (
-              <td key={tokenAddress} className='px-2 pb-2 text-center'>
-                <td className='px-2 pb-2 text-center' key={tokenAddress + 1}>
-                  {claimedVolume(tokenAddress)}
+            {bounty.payouts &&
+              tokenAddresses.map((tokenAddress) => (
+                <td key={tokenAddress}>
+                  <ClaimPerToken
+                    bounty={bounty}
+                    claimants={claimants}
+                    tokenAddress={tokenAddress}
+                    totalDepositVolume={totalDepositVolume}
+                  />
                 </td>
-                <td className='px-2 pb-2 text-center' key={tokenAddress + 2}>
-                  {(claimedVolume(tokenAddress) / totalDeposit(tokenAddress)) * 100} %
-                </td>
-                <td className='px-2 pb-2 text-center' key={tokenAddress + 3}>
-                  {claimedBalances(tokenAddress)}
-                </td>
-              </td>
-            ))}
+              ))}
             <td className='px-2 pb-2 text-center'>
               <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
               <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
@@ -190,12 +167,13 @@ const ClaimOverview = ({ bounty }) => {
             {tokenAddresses.map((tokenAddress) => (
               <td key={tokenAddress} className='px-2 text-center'>
                 <td className='px-2 text-center' key={tokenAddress + 1}>
-                  {parseFloat(totalDeposit(tokenAddress) - claimedVolume(tokenAddress)).toFixed(1)}
+                  {parseFloat(totalDepositVolume(tokenAddress) - claimedVolume(tokenAddress)).toFixed(1)}
                 </td>
                 <td className='px-2 text-center' key={tokenAddress + 2}>
                   {(
                     parseFloat(
-                      (totalDeposit(tokenAddress) - claimedVolume(tokenAddress)) / totalDeposit(tokenAddress)
+                      (totalDepositVolume(tokenAddress) - claimedVolume(tokenAddress)) /
+                        totalDepositVolume(tokenAddress)
                     ) * 100
                   ).toFixed(1)}{' '}
                   %
@@ -206,8 +184,16 @@ const ClaimOverview = ({ bounty }) => {
               </td>
             ))}
             <td className='px-2 text-center'>
-              <td className='px-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
-              <td className='px-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
+              <td className='px-2 text-center'>
+                {bounty.payouts ? (
+                  <div>{parseFloat((stillClaimableValue / totalDepositValue) * 100).toFixed(1)} %</div>
+                ) : (
+                  '0.0'
+                )}
+              </td>
+              <td className='px-2 text-center'>
+                {bounty.payouts ? <div>{appState.utils.formatter.format(stillClaimableValue)}</div> : '0.0'}
+              </td>
             </td>
           </tr>
           <tr className='italic'>
@@ -231,11 +217,11 @@ const ClaimOverview = ({ bounty }) => {
             </td>
           </tr>
           <tr className='font-bold items-center border-t border-gray-700'>
-            <td className='px-2 pb-2'>Total Deposit</td>
+            <td className='px-2 pb-2'>Total Deposited (tooltip: excl. refunded)</td>
             {tokenAddresses.map((tokenAddress) => (
               <td key={tokenAddress} className='px-2 pb-2 text-center'>
                 <td className='px-2 pb-2 text-center' key={tokenAddress + 1}>
-                  {totalDeposit(tokenAddress)}
+                  {totalDepositVolume(tokenAddress)}
                 </td>
                 <td className='px-2 pb-2 text-center' key={tokenAddress + 2}>
                   100 %
@@ -246,8 +232,10 @@ const ClaimOverview = ({ bounty }) => {
               </td>
             ))}
             <td className='px-2 pb-2 text-center'>
-              <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
-              <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
+              <td className='px-2 pb-2 text-center'>{bounty.deposits ? <div>100%</div> : '0.0'}</td>
+              <td className='px-2 pb-2 text-center'>
+                {bounty.deposits ? <div>{appState.utils.formatter.format(totalDepositValue)}</div> : '0.0'}
+              </td>
             </td>
           </tr>
         </tbody>
