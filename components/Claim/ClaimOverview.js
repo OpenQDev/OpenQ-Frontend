@@ -1,8 +1,7 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import Jazzicon from '../Utils/Jazzicon';
 import useEns from '../../hooks/useENS';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
 import ClaimPerToken from './ClaimPerToken';
 import ClaimTotals from './ClaimTotals';
 
@@ -28,20 +27,6 @@ const ClaimOverview = ({ bounty }) => {
     const [claimantEnsName] = useEns(claimant);
     return claimantEnsName || shortenAddress(claimant);
   });
-
-  const getBalancesStillClaimable = () => {
-    return bounty.bountyTokenBalances ? bounty.bountyTokenBalances : null;
-  };
-  const balanceObjStillClaimable = useMemo(() => getBalancesStillClaimable(), [bounty]);
-  const [balanceValuesStillClaimable] = useGetTokenValues(balanceObjStillClaimable);
-  const stillClaimableValue = balanceValuesStillClaimable?.total;
-
-  const getBalancesDeposits = () => {
-    return bounty.deposits ? bounty.deposits : null;
-  };
-  const balanceObjDeposits = useMemo(() => getBalancesDeposits(), [bounty]);
-  const [balanceValuesDeposits] = useGetTokenValues(balanceObjDeposits);
-  const totalDepositValue = balanceValuesDeposits?.total + stillClaimableValue;
 
   return (
     <div className='pb-8'>
