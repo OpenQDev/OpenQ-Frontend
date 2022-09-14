@@ -3,7 +3,6 @@ import StoreContext from '../../store/Store/StoreContext';
 import Jazzicon from '../Utils/Jazzicon';
 import useEns from '../../hooks/useENS';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
-import { ethers } from 'ethers';
 import ClaimPerToken from './ClaimPerToken';
 
 const ClaimOverview = ({ bounty }) => {
@@ -29,55 +28,6 @@ const ClaimOverview = ({ bounty }) => {
     return claimantEnsName || shortenAddress(claimant);
   });
 
-  const claimantTotalValue = (claimant) => {
-    /* const claimed = tokenAddresses.map((tokenAddress) =>
-      claimantBalances(claimant, tokenAddress).reduce((a, b) => a + b)
-    ); */
-    return 0; // appState.utils.formatter.format(claimed);
-  };
-
-  const claimedVolume = (tokenAddress) => {
-    const tokenMetadata = appState.tokenClient.getToken(tokenAddress);
-    const volume = bounty.payouts
-      ?.filter((payout) => payout.tokenAddress == tokenAddress)
-      .map((payout) => payout.volume)
-      .reduce((a, b) => parseInt(a) + parseInt(b));
-    let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
-    let decimals = parseInt(tokenMetadata.decimals) || 18;
-    return ethers.utils.formatUnits(bigNumberVolume, decimals);
-  };
-
-  const totalDepositVolume = (tokenAddress) => {
-    const tokenMetadata = appState.tokenClient.getToken(tokenAddress);
-    const volume = bounty.deposits
-      .filter((deposit) => deposit.tokenAddress == tokenAddress)
-      .map((deposit) => deposit.volume)
-      .reduce((a, b) => parseInt(a) + parseInt(b));
-    let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
-    let decimals = parseInt(tokenMetadata.decimals) || 18;
-    return ethers.utils.formatUnits(bigNumberVolume, decimals);
-  };
-
-  const stillClaimable = (tokenAddress) => {
-    const getBalances = () => {
-      return bounty.bountyTokenBalances
-        ? bounty.bountyTokenBalances.filter((balances) => balances.tokenAddress == tokenAddress)
-        : null;
-    };
-    const balanceObj = useMemo(() => getBalances(), [tokenAddress]);
-    const [balanceValues] = useGetTokenValues(balanceObj);
-    return balanceValues?.total;
-  };
-
-  const totalDepositBalance = (tokenAddress) => {
-    const getBalances = () => {
-      return bounty.payouts ? bounty.payouts.filter((payout) => payout.tokenAddress == tokenAddress) : null;
-    };
-    const balanceObj = useMemo(() => getBalances(tokenAddress), [tokenAddress]);
-    const [balanceValues] = useGetTokenValues(balanceObj);
-    return balanceValues?.total + stillClaimable(tokenAddress);
-  };
-
   const getBalancesStillClaimable = () => {
     return bounty.bountyTokenBalances ? bounty.bountyTokenBalances : null;
   };
@@ -93,7 +43,7 @@ const ClaimOverview = ({ bounty }) => {
   const totalDepositValue = balanceValuesDeposits?.total + stillClaimableValue;
 
   return (
-    <div>
+    <div className='pb-8'>
       <table>
         <thead>
           <tr>
@@ -132,9 +82,7 @@ const ClaimOverview = ({ bounty }) => {
                 ))}
                 <td className='px-2 pb-2 text-center'>
                   <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
-                  <td className='px-2 pb-2 text-center'>
-                    {bounty.payouts ? <div>{claimantTotalValue(claimant)}</div> : '0.0'}
-                  </td>
+                  <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
                 </td>
               </tr>
             </>
