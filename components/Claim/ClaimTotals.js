@@ -19,50 +19,38 @@ const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable }) =>
   const [balanceValuesDeposits] = useGetTokenValues(balanceObjDeposits);
   const totalDepositValue = balanceValuesDeposits?.total + stillClaimableValue;
 
-  const claimantTotalValue = () => {
-    const getBalances = () => {
-      return claimant ? bounty.payouts.filter((payout) => payout.closer.id == claimant) : null;
-    };
-    const balanceObj = useMemo(() => getBalances(), [claimant]);
-    const [balanceValues] = useGetTokenValues(balanceObj);
-    return balanceValues?.total;
+  const getClaimantTotalValueBalances = () => {
+    return claimant ? bounty.payouts.filter((payout) => payout.closer.id == claimant) : null;
   };
+  const claimantTotalValueObj = useMemo(() => getClaimantTotalValueBalances(), [claimant]);
+  const [claimantTotalValues] = useGetTokenValues(claimantTotalValueObj);
+  const claimantTotalValue = claimantTotalValues?.total;
 
-  const claimantsTotalValue = () => {
-    const payouts = bounty.payouts ? bounty.payouts : null;
-    const claims = bounty.payouts ? [] : 0;
-    let i;
-    for (i = 0; i < payouts?.length; i++) {
-      const balanceObj = useMemo(() => payouts[i], [bounty]);
-      const [balanceValues] = useGetTokenValues(balanceObj);
-      claims.push(balanceValues?.total);
-    }
-    const final = claims ? claims.reduce((a, b) => a + b) : 0;
-    return final;
-  };
+  const payouts = bounty.payouts ? bounty.payouts : null;
+  const claims = bounty.payouts ? [] : 0;
+  let i;
+  for (i = 0; i < payouts?.length; i++) {
+    const claimantsTotalObj = useMemo(() => payouts[i], [bounty]);
+    const [claimantsTotalValues] = useGetTokenValues(claimantsTotalObj);
+    claims.push(claimantsTotalValues?.total);
+  }
+  const claimantsTotalValue = claims ? claims.reduce((a, b) => a + b) : 0;
 
-  const unlockedDepositValue = () => {
-    const deposits = bounty.deposits
-      ?.filter((deposit) => !deposit.refunded)
-      .filter((deposit) => {
-        return parseInt(deposit.receiveTime) + parseInt(deposit.expiration) < Math.floor(Date.now() / 1000);
-      });
-    const depValues = bounty.deposits ? [] : 0;
-    let i;
-    for (i = 0; i < deposits?.length; i++) {
-      const balanceObj = useMemo(() => deposits[i], [bounty]);
-      const [balanceValues] = useGetTokenValues(balanceObj);
-      depValues.push(balanceValues?.total);
-    }
-    const final = depValues ? depValues.reduce((a, b) => a + b) : 0;
-    return final;
-  };
+  const unlockedDeposits = bounty.deposits
+    ?.filter((deposit) => !deposit.refunded)
+    .filter((deposit) => {
+      return parseInt(deposit.receiveTime) + parseInt(deposit.expiration) < Math.floor(Date.now() / 1000);
+    });
+  const depValues = bounty.deposits ? [] : 0;
+  let j;
+  for (j = 0; j < unlockedDeposits?.length; j++) {
+    const unlockedDepositsObj = useMemo(() => unlockedDeposits[j], [bounty]);
+    const [unlockedDepositsValues] = useGetTokenValues(unlockedDepositsObj);
+    depValues.push(unlockedDepositsValues?.total);
+  }
+  const unlockedDepositValue = depValues ? depValues.reduce((a, b) => a + b) : 0;
 
-  const refundableValue = () => {
-    const refundable =
-      claimantsTotalValue() > unlockedDepositValue() ? 0 : unlockedDepositValue() - claimantsTotalValue();
-    return refundable;
-  };
+  const refundableValue = claimantsTotalValue > unlockedDepositValue ? 0 : unlockedDepositValue - claimantsTotalValue;
 
   const divPercent = 'flex justify-end w-16';
   const divValue = 'flex justify-end';
@@ -71,9 +59,9 @@ const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable }) =>
     <td className='flex gap-2 px-2 pb-2 w-full'>
       <td className='px-2 pb-2'>
         {claimant ? (
-          <div className={divPercent}>{parseFloat((claimantTotalValue() / totalDepositValue) * 100).toFixed(1)} %</div>
+          <div className={divPercent}>{parseFloat((claimantTotalValue / totalDepositValue) * 100).toFixed(1)} %</div>
         ) : claimants ? (
-          <div className={divPercent}>{parseFloat((claimantsTotalValue() / totalDepositValue) * 100).toFixed(1)} %</div>
+          <div className={divPercent}>{parseFloat((claimantsTotalValue / totalDepositValue) * 100).toFixed(1)} %</div>
         ) : stillClaim ? (
           <div className={divPercent}>
             {bounty.payouts ? (
@@ -83,22 +71,22 @@ const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable }) =>
             )}
           </div>
         ) : refundable ? (
-          <div className={divPercent}>{parseFloat((refundableValue() / totalDepositValue) * 100).toFixed(1)} %</div>
+          <div className={divPercent}>{parseFloat((refundableValue / totalDepositValue) * 100).toFixed(1)} %</div>
         ) : (
           <div className={divPercent}>100 %</div>
         )}
       </td>
       <td className='px-2 pb-2 w-full'>
         {claimant ? (
-          <div className={divValue}>{appState.utils.formatter.format(claimantTotalValue())}</div>
+          <div className={divValue}>{appState.utils.formatter.format(claimantTotalValue)}</div>
         ) : claimants ? (
-          <div className={divValue}>{appState.utils.formatter.format(claimantsTotalValue())}</div>
+          <div className={divValue}>{appState.utils.formatter.format(claimantsTotalValue)}</div>
         ) : stillClaim ? (
           <div className={divValue}>
             {bounty.payouts ? <>{appState.utils.formatter.format(stillClaimableValue)}</> : '0.0'}
           </div>
         ) : refundable ? (
-          <div className={divValue}>{appState.utils.formatter.format(refundableValue())}</div>
+          <div className={divValue}>{appState.utils.formatter.format(refundableValue)}</div>
         ) : (
           <div className={divValue}>
             {bounty.deposits ? <>{appState.utils.formatter.format(totalDepositValue)}</> : '0.0'}
