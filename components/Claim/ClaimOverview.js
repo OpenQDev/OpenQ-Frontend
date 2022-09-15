@@ -37,20 +37,9 @@ const ClaimOverview = ({ bounty }) => {
             {tokenAddresses.map((token) => (
               <th key={token} className='px-2 pb-2'>
                 {appState.tokenClient.getToken(token).symbol}
-                <div className='flex justify-between px-2 pb-2'>
-                  <th className='px-2 pb-2'>Vol</th>
-                  <th className='px-2 pb-2'>%</th>
-                  <th className='px-2 pb-2'>$</th>
-                </div>
               </th>
             ))}
-            <th className='px-2 pb-2'>
-              TOTAL
-              <div className='flex justify-between px-2 pb-2'>
-                <th className='px-2 pb-2'>%</th>
-                <th className='px-2 pb-2'>$</th>
-              </div>
-            </th>
+            <th className='px-2 pb-2'>TOTAL</th>
           </tr>
         </thead>
         <tbody>

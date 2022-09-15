@@ -43,15 +43,16 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim }
   };
 
   const claimedBalances = () => {
-    const payouts = claimants ? bounty.payouts.filter((payout) => payout.tokenAddress == tokenAddress) : null;
-    const claims = [];
+    const payouts = bounty.payouts ? bounty.payouts.filter((payout) => payout.tokenAddress == tokenAddress) : null;
+    const claims = bounty.payouts ? [] : 0;
     let i;
     for (i = 0; i < payouts?.length; i++) {
       const balanceObj = useMemo(() => payouts[i], [bounty]);
       const [balanceValues] = useGetTokenValues(balanceObj);
       claims.push(balanceValues?.total);
     }
-    return claims.reduce((a, b) => a + b);
+    const final = claims ? claims.reduce((a, b) => a + b) : 0;
+    return final;
   };
 
   const stillClaimable = () => {
@@ -74,15 +75,6 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim }
     let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
     let decimals = parseInt(tokenMetadata.decimals) || 18;
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
-  };
-
-  const totalDepositBalance = () => {
-    const getBalances = () => {
-      return bounty.payouts ? bounty.payouts.filter((payout) => payout.tokenAddress == tokenAddress) : null;
-    };
-    const balanceObj = useMemo(() => getBalances(tokenAddress), [tokenAddress]);
-    const [balanceValues] = useGetTokenValues(balanceObj);
-    return balanceValues?.total + stillClaimable(tokenAddress);
   };
 
   return (
@@ -118,7 +110,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim }
           ) : stillClaim ? (
             <>{appState.utils.formatter.format(stillClaimable())}</>
           ) : (
-            <>{appState.utils.formatter.format(totalDepositBalance())}</>
+            <>{appState.utils.formatter.format(stillClaimable() + claimedBalances())}</>
           )}
         </td>
       </td>
