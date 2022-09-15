@@ -42,6 +42,25 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
 
+  const unlockedDepositVolume = () => {
+    const tokenMetadata = appState.tokenClient.getToken(tokenAddress);
+    const volume = bounty.deposits
+      ?.filter((deposit) => deposit.tokenAddress == tokenAddress && !deposit.refunded)
+      .filter((deposit) => {
+        return parseInt(deposit.receiveTime) + parseInt(deposit.expiration) < Math.floor(Date.now() / 1000);
+      })
+      .map((deposit) => deposit.volume)
+      .reduce((a, b) => parseInt(a) + parseInt(b));
+    let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
+    let decimals = parseInt(tokenMetadata.decimals) || 18;
+    return ethers.utils.formatUnits(bigNumberVolume, decimals);
+  };
+
+  const refundableVolume = () => {
+    const refundable = claimedVolume() > unlockedDepositVolume() ? 0 : unlockedDepositVolume() - claimedVolume();
+    return refundable.toFixed(1);
+  };
+
   const claimedBalances = () => {
     const payouts = bounty.payouts ? bounty.payouts.filter((payout) => payout.tokenAddress == tokenAddress) : null;
     const claims = bounty.payouts ? [] : 0;
@@ -53,6 +72,28 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
     }
     const final = claims ? claims.reduce((a, b) => a + b) : 0;
     return final;
+  };
+
+  const unlockedDepositValue = () => {
+    const deposits = bounty.deposits
+      ?.filter((deposit) => deposit.tokenAddress == tokenAddress && !deposit.refunded)
+      .filter((deposit) => {
+        return parseInt(deposit.receiveTime) + parseInt(deposit.expiration) < Math.floor(Date.now() / 1000);
+      });
+    const depValues = bounty.deposits ? [] : 0;
+    let i;
+    for (i = 0; i < deposits?.length; i++) {
+      const balanceObj = useMemo(() => deposits[i], [bounty]);
+      const [balanceValues] = useGetTokenValues(balanceObj);
+      depValues.push(balanceValues?.total);
+    }
+    const final = depValues ? depValues.reduce((a, b) => a + b) : 0;
+    return final;
+  };
+
+  const refundableValue = () => {
+    const refundable = claimedBalances() > unlockedDepositValue() ? 0 : unlockedDepositValue() - claimedBalances();
+    return refundable;
   };
 
   const stillClaimable = () => {
@@ -85,6 +126,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
 
   return (
     <td className='flex px-2 pb-2 w-full'>
+      {console.log(unlockedDepositVolume())}
       <td className='px-2 pb-2'>
         {claimant ? (
           <div className={divVolume}>{claimantVolume()}</div>
@@ -94,7 +136,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
           <div className={divVolume}>{parseFloat(totalDepositVolume() - claimedVolume()).toFixed(1)}</div>
         ) : refundable ? (
           <div className={divVolume}>
-            <div>Refund</div>
+            <div>{refundableVolume()}</div>
           </div>
         ) : (
           <div className={divVolume}>{totalDepositVolume()}</div>
@@ -111,7 +153,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
           </div>
         ) : refundable ? (
           <div className={divPercent}>
-            <div>Refund</div>
+            <div>{(parseFloat(refundableVolume() / totalDepositVolume()) * 100).toFixed(1)} %</div>
           </div>
         ) : (
           <div className={divPercent}>100 %</div>
@@ -126,7 +168,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
           <div className={divValue}>{appState.utils.formatter.format(stillClaimable())}</div>
         ) : refundable ? (
           <div className={divValue}>
-            <div>Refund</div>
+            <div>{appState.utils.formatter.format(refundableValue())}</div>
           </div>
         ) : (
           <div className={divValue}>{appState.utils.formatter.format(stillClaimable() + claimedBalances())}</div>
