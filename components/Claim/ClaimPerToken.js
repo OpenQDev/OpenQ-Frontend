@@ -122,11 +122,8 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
   const divPercent = 'flex justify-end w-12';
   const divValue = 'flex justify-end text-right w-20';
 
-  // refundable = stillclaimable BUT not locked (expiration date passed)
-
   return (
     <td className='flex px-2 pb-2 w-full'>
-      {console.log(unlockedDepositVolume())}
       <td className='px-2 pb-2'>
         {claimant ? (
           <div className={divVolume}>{claimantVolume()}</div>
