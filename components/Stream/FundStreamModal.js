@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ethers } from 'ethers';
 
 // Custom
-import { CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from '../FundBounty/ApproveTransferState';
+import { CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveTransferState';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Image from 'next/image';
 import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
@@ -28,7 +28,7 @@ const FundStreamModal = ({
   const { account } = useWeb3();
   const [localToken, setLocalToken] = useState({
     name: 'Dai',
-    address: '0xc6A3cE73483Eb37B0ed46a63cF6c0705cE74c8B9',
+    address: '0xB221D2E203F9e71E3a5cE0a745A6A9e890d8ED50',
     symbol: 'DAI',
     decimals: 18,
     chainId: 80001,

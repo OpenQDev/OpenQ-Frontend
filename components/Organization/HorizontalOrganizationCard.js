@@ -9,8 +9,10 @@ import useWeb3 from '../../hooks/useWeb3';
 const HorizontalOrganizationCard = ({ organization }) => {
   const [starred, setStarred] = useState();
   const [starredDisabled, setStarredDisabled] = useState(true);
+  const [orgBounties, setOrgBounties] = useState([]);
   const context = useContext(StoreContext);
   const { account } = useWeb3();
+  const [appState] = context;
 
   useEffect(() => {
     setStarredDisabled(true);
@@ -21,6 +23,25 @@ const HorizontalOrganizationCard = ({ organization }) => {
     }
     setStarredDisabled(false);
   }, [account, organization.starringUserIds]);
+
+  useEffect(async () => {
+    if (organization?.bounties) {
+      const filteredBounties = organization.bounties.nodes.filter((contract) => !contract.blacklisted && !closed);
+      const bountyAddresses = filteredBounties.map((bounty) => bounty.address.toLowerCase());
+      const bountyIds = filteredBounties.map((bounty) => bounty.bountyId);
+      const githubIssues = await appState.githubRepository.getLeanIssueData(bountyIds);
+      const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(bountyAddresses);
+      const combinedBounties = await appState.utils.combineBounties(subgraphBounties, githubIssues, filteredBounties);
+      const budgetedOrFundedBounties = combinedBounties.filter(
+        (bounty) =>
+          ((bounty.fundingGoalVolume && bounty.fundingGoalVolume !== '0') || bounty.bountyTokenBalances.length) &&
+          !bounty.closed
+      );
+      setOrgBounties(budgetedOrFundedBounties);
+    } else if (organization) {
+      setOrgBounties(organization.bountiesCreated);
+    }
+  }, [organization.bountiesCreated]);
   const handleStar = () => {
     starOrganization(account, organization.id, starred, setStarred, setStarredDisabled, context);
   };
@@ -37,9 +58,14 @@ const HorizontalOrganizationCard = ({ organization }) => {
             <a>{organization.name || organization.login}</a>
           </Link>
         </h2>
-        <div className='mt-1 text text-sm leading-normal text-muted truncate'>
-          {organization.starringUserIds?.length || 0} star
-          {organization.starringUserIds?.length !== 1 && 's'}
+        <div className='flex gap-4'>
+          <div className='mt-1 text text-sm leading-normal text-muted truncate'>
+            {organization.starringUserIds?.length || 0} star
+            {organization.starringUserIds?.length !== 1 && 's'}
+          </div>
+          <div className='mt-1 text text-sm leading-normal text-muted truncate'>
+            {orgBounties.length} {orgBounties.length !== 1 ? 'bounties' : 'bounty'}
+          </div>
         </div>
       </div>
       <button

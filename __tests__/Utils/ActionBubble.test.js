@@ -272,12 +272,15 @@ describe('ActionBubble', () => {
     // ARRANGE
     const url = 'https://github.com/OpenQDev/OpenQ-Frontend/pull/720';
     const action = {
-      linkingTime: 200000,
+      referencedTime: 200000,
+
       author: {
         login: 'Christopher-Stevers',
+        url: 'https://github.com/Christopher-Stevers',
         avatarUrl:
           'http://localhost:3000/_next/image?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F72156679%3Fv%3D4&w=32&q=75',
       },
+
       title: 'update readme.md',
       url,
     };
