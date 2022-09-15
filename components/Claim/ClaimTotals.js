@@ -40,17 +40,18 @@ const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable }) =>
     return claims.reduce((a, b) => a + b);
   };
 
-  const divStyle = 'flex justify-end w-16';
+  const divPercent = 'flex justify-end w-16';
+  const divValue = 'flex justify-end';
 
   return (
     <td className='flex gap-2 px-2 pb-2 w-full'>
       <td className='px-2 pb-2'>
         {claimant ? (
-          <div className={divStyle}>{parseFloat((claimantTotalValue() / totalDepositValue) * 100).toFixed(1)} %</div>
+          <div className={divPercent}>{parseFloat((claimantTotalValue() / totalDepositValue) * 100).toFixed(1)} %</div>
         ) : claimants ? (
-          <div className={divStyle}>{parseFloat((claimantsTotalValue() / totalDepositValue) * 100).toFixed(1)} %</div>
+          <div className={divPercent}>{parseFloat((claimantsTotalValue() / totalDepositValue) * 100).toFixed(1)} %</div>
         ) : stillClaim ? (
-          <div className={divStyle}>
+          <div className={divPercent}>
             {bounty.payouts ? (
               <div>{parseFloat((stillClaimableValue / totalDepositValue) * 100).toFixed(1)} %</div>
             ) : (
@@ -58,24 +59,24 @@ const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable }) =>
             )}
           </div>
         ) : refundable ? (
-          <div className={divStyle}>Refund</div>
+          <div className={divPercent}>Refund</div>
         ) : (
-          <div className={divStyle}>100 %</div>
+          <div className={divPercent}>100 %</div>
         )}
       </td>
       <td className='px-2 pb-2 w-full'>
         {claimant ? (
-          <div className={divStyle}>{appState.utils.formatter.format(claimantTotalValue())}</div>
+          <div className={divValue}>{appState.utils.formatter.format(claimantTotalValue())}</div>
         ) : claimants ? (
-          <div className={divStyle}>{appState.utils.formatter.format(claimantsTotalValue())}</div>
+          <div className={divValue}>{appState.utils.formatter.format(claimantsTotalValue())}</div>
         ) : stillClaim ? (
-          <div className={divStyle}>
+          <div className={divValue}>
             {bounty.payouts ? <>{appState.utils.formatter.format(stillClaimableValue)}</> : '0.0'}
           </div>
         ) : refundable ? (
-          <div className={divStyle}>Refund</div>
+          <div className={divValue}>Refund</div>
         ) : (
-          <div className={divStyle}>
+          <div className={divValue}>
             {bounty.deposits ? <>{appState.utils.formatter.format(totalDepositValue)}</> : '0.0'}
           </div>
         )}

@@ -3,7 +3,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import { ethers } from 'ethers';
 
-const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim }) => {
+const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, refundable }) => {
   const [appState] = useContext(StoreContext);
 
   const claimantVolume = () => {
@@ -77,44 +77,62 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim }
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
 
+  const divVolume = 'flex justify-end w-12';
+  const divPercent = 'flex justify-end w-12';
+  const divValue = 'flex justify-end text-right w-20';
+
+  // refundable = stillclaimable BUT not locked (expiration date passed)
+
   return (
-    <div className='border flex justify-end'>
-      <td className='px-2 pb-2 text-center'>
-        <td className='px-2 pb-2 text-center'>
-          {claimant ? (
-            <>{claimantVolume()}</>
-          ) : claimants ? (
-            <>{claimedVolume()}</>
-          ) : stillClaim ? (
-            <>{parseFloat(totalDepositVolume() - claimedVolume()).toFixed(1)}</>
-          ) : (
-            <>{totalDepositVolume()}</>
-          )}
-        </td>
-        <td className='px-2 pb-2 text-center'>
-          {claimant ? (
-            <>{claimantPercent()} %</>
-          ) : claimants ? (
-            <>{(claimedVolume() / totalDepositVolume()) * 100} %</>
-          ) : stillClaim ? (
-            <>{(parseFloat((totalDepositVolume() - claimedVolume()) / totalDepositVolume()) * 100).toFixed(1)} %</>
-          ) : (
-            <div>100 %</div>
-          )}
-        </td>
-        <td className='px-2 pb-2 text-center'>
-          {claimant ? (
-            <>{appState.utils.formatter.format(claimantBalances())}</>
-          ) : claimants ? (
-            <>{appState.utils.formatter.format(claimedBalances())}</>
-          ) : stillClaim ? (
-            <>{appState.utils.formatter.format(stillClaimable())}</>
-          ) : (
-            <>{appState.utils.formatter.format(stillClaimable() + claimedBalances())}</>
-          )}
-        </td>
+    <td className='flex px-2 pb-2 w-full'>
+      <td className='px-2 pb-2'>
+        {claimant ? (
+          <div className={divVolume}>{claimantVolume()}</div>
+        ) : claimants ? (
+          <div className={divVolume}>{claimedVolume()}</div>
+        ) : stillClaim ? (
+          <div className={divVolume}>{parseFloat(totalDepositVolume() - claimedVolume()).toFixed(1)}</div>
+        ) : refundable ? (
+          <div className={divVolume}>
+            <div>Refund</div>
+          </div>
+        ) : (
+          <div className={divVolume}>{totalDepositVolume()}</div>
+        )}
       </td>
-    </div>
+      <td className='px-2 pb-2'>
+        {claimant ? (
+          <div className={divPercent}>{claimantPercent()} %</div>
+        ) : claimants ? (
+          <div className={divPercent}>{(claimedVolume() / totalDepositVolume()) * 100} %</div>
+        ) : stillClaim ? (
+          <div className={divPercent}>
+            {(parseFloat((totalDepositVolume() - claimedVolume()) / totalDepositVolume()) * 100).toFixed(1)} %
+          </div>
+        ) : refundable ? (
+          <div className={divPercent}>
+            <div>Refund</div>
+          </div>
+        ) : (
+          <div className={divPercent}>100 %</div>
+        )}
+      </td>
+      <td className='px-2 pb-2'>
+        {claimant ? (
+          <div className={divValue}>{appState.utils.formatter.format(claimantBalances())}</div>
+        ) : claimants ? (
+          <div className={divValue}>{appState.utils.formatter.format(claimedBalances())}</div>
+        ) : stillClaim ? (
+          <div className={divValue}>{appState.utils.formatter.format(stillClaimable())}</div>
+        ) : refundable ? (
+          <div className={divValue}>
+            <div>Refund</div>
+          </div>
+        ) : (
+          <div className={divValue}>{appState.utils.formatter.format(stillClaimable() + claimedBalances())}</div>
+        )}
+      </td>
+    </td>
   );
 };
 

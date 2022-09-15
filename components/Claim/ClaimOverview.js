@@ -61,7 +61,7 @@ const ClaimOverview = ({ bounty }) => {
               </tr>
             </>
           ))}
-          <tr className='font-bold items-center border-t border-gray-700'>
+          <tr className='font-bold border-t border-gray-700'>
             <td className='px-2 pb-2'>SubTotal</td>
             {bounty.payouts &&
               tokenAddresses.map((tokenAddress) => (
@@ -87,23 +87,15 @@ const ClaimOverview = ({ bounty }) => {
           <tr className='italic'>
             <td className='px-2 pb-2'>of which currently refundable</td>
             {tokenAddresses.map((tokenAddress) => (
-              <td key={tokenAddress} className='px-2 pb-2 text-center'>
-                <td className='px-2 pb-2 text-center' key={tokenAddress + 1}>
-                  1
-                </td>
-                <td className='px-2 pb-2 text-center' key={tokenAddress + 2}>
-                  2
-                </td>
-                <td className='px-2 pb-2 text-center' key={tokenAddress + 3}>
-                  3
-                </td>
+              <td key={tokenAddress}>
+                <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} refundable={true} />
               </td>
             ))}
             <td>
               <ClaimTotals bounty={bounty} refundable={true} />
             </td>
           </tr>
-          <tr className='font-bold items-center border-t border-gray-700'>
+          <tr className='font-bold border-t border-gray-700'>
             <td className='px-2 pb-2'>Total Deposited (tooltip: excl. refunded)</td>
             {tokenAddresses.map((tokenAddress) => (
               <td key={tokenAddress}>
