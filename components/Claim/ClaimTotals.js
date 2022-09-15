@@ -29,15 +29,16 @@ const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable }) =>
   };
 
   const claimantsTotalValue = () => {
-    const payouts = claimants ? bounty.payouts : null;
-    const claims = [];
+    const payouts = claimants && bounty.payouts ? bounty.payouts : null;
+    const claims = claimants && bounty.payouts ? [] : 0;
     let i;
     for (i = 0; i < payouts?.length; i++) {
       const balanceObj = useMemo(() => payouts[i], [bounty]);
       const [balanceValues] = useGetTokenValues(balanceObj);
       claims.push(balanceValues?.total);
     }
-    return claims.reduce((a, b) => a + b);
+    const final = claims ? claims.reduce((a, b) => a + b) : 0;
+    return final;
   };
 
   const divPercent = 'flex justify-end w-16';

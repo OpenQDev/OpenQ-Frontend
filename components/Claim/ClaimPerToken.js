@@ -8,7 +8,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
 
   const claimantVolume = () => {
     const tokenMetadata = appState.tokenClient.getToken(tokenAddress);
-    const volume = bounty.payouts.filter(
+    const volume = bounty.payouts?.filter(
       (payout) => payout.closer.id == claimant && payout.tokenAddress == tokenAddress
     )[0].volume;
     let bigNumberVolume = ethers.BigNumber.from(volume.toString());
