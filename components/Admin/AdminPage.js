@@ -8,9 +8,9 @@ import AdminModal from './AdminModal.js';
 import ToolTipNew from '../Utils/ToolTipNew';
 import TierInput from '../MintBounty/TierInput';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
-import BountyMetadata from '../Bounty/BountyMetadata';
+import ClaimText from './ClaimText';
 
-const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
+const AdminPage = ({ bounty, refreshBounty }) => {
   // Context
   const { library, account } = useWeb3();
   const [appState] = useContext(StoreContext);
@@ -246,11 +246,11 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
 
   return (
     <>
-      {showButton && (
-        <div className='flex justify-between  w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
-          <div className='flex flex-1 flex-col space-y-8 sm:px-12 px-4 pt-4 pb-8 w-full max-w-[800px] justify-center'>
+      {showButton ? (
+        <>
+          <div className='flex flex-1 flex-col space-y-8 pt-4 pb-8 w-full max-w-[800px] justify-center'>
             <div className='flex flex-col space-y-2 items-center w-full md:border rounded-sm border-gray-700 text-primary pb-8'>
-              <h1 className='flex w-full text-3xl justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
+              <h1 className='flex w-full text-2xl justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
                 Settings
               </h1>
               <div className='flex flex-col space-y-5 w-full px-8 pt-2'>
@@ -397,16 +397,11 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
               </div>
             </div>
           </div>
-          <BountyMetadata
-            bounty={bounty}
-            pricesOnly={true}
-            setInternalMenu={() => null}
-            price={price}
-            budget={budget}
-            split={split}
-          />
-        </div>
+        </>
+      ) : (
+        <ClaimText bounty={bounty} />
       )}
+
       {modal && <AdminModal setModal={setModal} modal={modal} />}
       {error && (
         <AdminModal

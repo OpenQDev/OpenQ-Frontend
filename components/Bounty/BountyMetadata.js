@@ -8,7 +8,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import TokenBalances from '../TokenBalances/TokenBalances';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 
-const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split, pricesOnly }) => {
+const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
   const [appState] = useContext(StoreContext);
   const createPayout = (bounty) => {
     return bounty.payoutTokenVolume
@@ -98,7 +98,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split, pricesO
           </div>
         </li>
       ) : null}
-      {!pricesOnly && (
+      {bounty.assignees && (
         <>
           {bounty.assignees.length > 0 && (
             <li className='border-b border-web-gray py-3'>

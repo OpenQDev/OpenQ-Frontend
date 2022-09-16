@@ -1,20 +1,17 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 
 // Custom
 
 import ActionBubble from '../Utils/ActionBubble';
 import StoreContext from '../../store/Store/StoreContext';
-import BountyMetadata from './BountyMetadata.js';
 import useWeb3 from '../../hooks/useWeb3';
 import useEns from '../../hooks/useENS';
 
-const BountyCardDetails = ({ bounty, setInternalMenu, justMinted, tokenValues, budgetValues, split }) => {
+const BountyCardDetails = ({ bounty, justMinted, tokenValues }) => {
   const [appState] = useContext(StoreContext);
   const { account } = useWeb3();
   const [senderEnsName] = useEns(bounty?.issuer?.id);
   const sender = senderEnsName || bounty?.issuer?.id;
-  const price = tokenValues?.total;
-  const budget = budgetValues?.total;
   const prs = bounty.prs.map((pr) => {
     const referencedTime = new Date(pr.referencedAt).getTime() / 1000;
 
@@ -27,15 +24,11 @@ const BountyCardDetails = ({ bounty, setInternalMenu, justMinted, tokenValues, b
 
       return { ...pr, mergedTime };
     });
-  useEffect(() => {
-    console.log(bounty);
-  });
   const issueClosedEvents = bounty.closedEvents.map((event) => {
     const issueClosedTime = new Date(bounty.closedAt).getTime() / 1000;
 
     return { ...event, issueClosedTime };
   });
-  console.log(issueClosedEvents);
   const deposits = bounty.deposits || [];
   const refunds = bounty.refunds || [];
   let claimedEvent = [];
@@ -79,25 +72,22 @@ const BountyCardDetails = ({ bounty, setInternalMenu, justMinted, tokenValues, b
   );
 
   return (
-    <div className='flex w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
-      <div className='flex-1 pr-4 min-w-[260px]'>
-        {allActions.map((action, index) => (
-          <ActionBubble
-            address={action.sender?.id || action.claimant?.id || sender}
-            key={index}
-            bounty={bounty}
-            action={action}
-          />
-        ))}
+    <div className='flex-1 pr-4 min-w-[260px]'>
+      {allActions.map((action, index) => (
         <ActionBubble
-          addresses={addresses}
-          address={sender}
-          price={tokenValues?.total}
+          address={action.sender?.id || action.claimant?.id || sender}
+          key={index}
           bounty={bounty}
-          bodyHTML={bounty.bodyHTML}
+          action={action}
         />
-      </div>
-      <BountyMetadata bounty={bounty} setInternalMenu={setInternalMenu} price={price} budget={budget} split={split} />
+      ))}
+      <ActionBubble
+        addresses={addresses}
+        address={sender}
+        price={tokenValues?.total}
+        bounty={bounty}
+        bodyHTML={bounty.bodyHTML}
+      />
     </div>
   );
 };
