@@ -16,6 +16,7 @@ import MintBountyInput from './MintBountyInput';
 import ErrorModal from '../ConfirmErrorSuccessModals/ErrorModal';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import TierInput from './TierInput';
+import TierResult from './TierResult.js';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import SubMenu from '../Utils/SubMenu';
 
@@ -43,10 +44,11 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
   const [enableMint, setEnableMint] = useState();
   const isValidUrl = appState.utils.issurUrlRegex(url);
   const [invoice, setInvoice] = useState(false);
-  const [tier, setTier] = useState();
-  const [tierArr, setTierArr] = useState([]);
-  const [tierVolume, setTierVolume] = useState({});
-  const [finalTierVolume, setFinalTierVolume] = useState([]);
+  const [tier, setTier] = useState(3);
+  const [tierArr, setTierArr] = useState(['1', '2', '3']);
+  const [tierVolumes, setTierVolumes] = useState({ 1: 1, 2: 1, 3: 1 });
+
+  const [finalTierVolumes, setFinalTierVolumes] = useState([1, 1, 1]);
   const [payoutVolume, setPayoutVolume] = useState('');
   const [payoutToken, setPayoutToken] = useState(zeroAddressMetadata);
   const initialCategory = types[0] === '1' ? 'Repeating' : types[0] === '2' || types[0] === '3' ? 'Contest' : 'Atomic';
@@ -164,7 +166,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
           data = {
             fundingTokenVolume: goalVolume,
             fundingTokenAddress: goalToken,
-            tiers: finalTierVolume,
+            tiers: finalTierVolumes,
           };
           break;
         default:
@@ -238,8 +240,17 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
     if (parseInt(e.target.value) > 100) {
       setTier('0');
     }
-    if (e.target.value === '') setTier('0');
-    setTierArr(Array.from({ length: e.target.value }, (_, i) => i + 1));
+    if (e.target.value === '') {
+      return;
+    }
+    const newTierArr = Array.from({ length: e.target.value }, (_, i) => i + 1);
+    setTierArr(newTierArr);
+    const newTierVolumes = {};
+    newTierArr.forEach((tier) => {
+      newTierVolumes[tier] = tierVolumes[tier] || 1;
+    });
+
+    setTierVolumes(newTierVolumes);
   }
 
   const handleGoalChange = (goalVolume) => {
@@ -261,28 +272,32 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
     appState.utils.updateVolume(payoutVolume, setPayoutVolume);
   }
 
-  function onTierVolumeChange(e) {
-    if (parseInt(e.target.value) >= 0)
-      setTierVolume({
-        ...tierVolume,
-        [e.target.name]: parseInt(e.target.value),
+  function onTierVolumeChange(e, localTierVolumes) {
+    if (parseInt(e.target.value) >= 0) {
+      setTierVolumes({
+        ...localTierVolumes,
+        [e.name]: parseInt(e.target.value),
       });
-    if (parseInt(e.target.value) === '' || !Number(e.target.value) || parseInt(e.target.value) > 100)
-      setTierVolume({ ...tierVolume, [e.target.name]: '' });
+    }
+    if (parseInt(e.target.value) === '' || !Number(e.target.value) || parseInt(e.target.value) > 100) {
+      setTierVolumes({
+        ...localTierVolumes,
+        [e.name]: parseInt(e.target.value),
+      });
+    }
   }
 
   useEffect(() => {
-    setFinalTierVolume(Object.values(tierVolume));
-  }, [tierVolume]);
-
+    setFinalTierVolumes(Object.values(tierVolumes));
+  }, [tierVolumes]);
   useEffect(() => {
-    if (finalTierVolume.length) {
-      setSum(finalTierVolume.reduce((a, b) => a + b));
+    if (finalTierVolumes.length) {
+      setSum(finalTierVolumes.reduce((a, b) => a + b));
     }
     if (sum == 100) {
       setEnableContest(true);
     }
-  }, [finalTierVolume]);
+  }, [finalTierVolumes]);
 
   useEffect(() => {
     if (category == 'Contest' && !tierConditions) {
@@ -461,10 +476,10 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                               aria-label='tiers'
                               placeholder='0'
                               autoComplete='off'
+                              defaultValue={3}
                               type='text'
                               min='0'
                               max='100'
-                              value={tier || ''}
                               onChange={(e) => onTierChange(e)}
                             />
                           </div>
@@ -484,24 +499,27 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                                 <span className='text-sm my-2 pb-2 text-[#f85149]'>
                                   The sum can not be more than 100%!
                                 </span>
+                              ) : sum === 100 ? (
+                                <span className='text-sm my-2 pb-2'>Sum is 100, now you can mint.</span>
                               ) : (
                                 <span className='text-sm my-2 pb-2'>
                                   For the sum to add up to 100, you still need to allocate: {100 - sum} %
                                 </span>
                               )}
-                              <div className='max-h-40 w-full overflow-y-auto overflow-x-hidden'>
+                              <div className=' w-full mx-h-60 overflow-y-auto overflow-x-hidden'>
                                 {tierArr.map((t) => {
                                   return (
                                     <div key={t}>
                                       <TierInput
                                         tier={t}
-                                        tierVolume={tierVolume[t]}
+                                        tierVolumes={tierVolumes}
                                         onTierVolumeChange={onTierVolumeChange}
                                       />
                                     </div>
                                   );
                                 })}
                               </div>
+                              <TierResult sum={sum} finalTierVolumes={finalTierVolumes} />
                             </div>
                           </>
                         ) : null}
