@@ -20,7 +20,6 @@ describe('MintBountyButton', () => {
     await user.click(mintBountyButton);
     await user.click(screen.getByText('No'));
     await user.click(screen.getByText('No'));
-    await user.click(screen.getByText('No'));
     expect(await screen.findByText(/we didn't find a suitable contract/i)).toBeInTheDocument();
     expect(screen.getByRole('link').href).toBe('https://discord.gg/puQVqEvVXn');
   });
@@ -34,24 +33,9 @@ describe('MintBountyButton', () => {
     const mintBountyButton = await screen.findByRole('button', { name: /New Contract/i });
     await user.click(mintBountyButton);
     await user.click(screen.getByText('No'));
-    await user.click(screen.getByText('No'));
     await user.click(screen.getByText('Yes'));
     expect(screen.getByText(/Create a Contest Contract to send funds to any GitHub issue/i));
     expect(screen.getByText(/How many tiers/i));
-  });
-
-  it('should open wizard and direct to repating contract', async () => {
-    // ARRANGE
-    const user = userEvent.setup();
-    render(<MintBountyButton types={['1', '2', '3']} wizard={true} />);
-
-    // ACT
-    const mintBountyButton = await screen.findByRole('button', { name: /New Contract/i });
-    await user.click(mintBountyButton);
-    await user.click(screen.getByText('No'));
-    await user.click(screen.getByText('Yes'));
-    expect(screen.getByText(/Pay out a fixed amount to any contributors who submit work to this bounty/i));
-    expect(screen.getByText(/reward split/i));
   });
 
   it('should open wizard and direct to atomic contract server', async () => {
