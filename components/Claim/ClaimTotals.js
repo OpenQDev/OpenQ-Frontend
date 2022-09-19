@@ -43,11 +43,9 @@ const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable, refu
   }
   const claimantsTotalValue = claims ? claims.reduce((a, b) => a + b) : 0;
 
-  const unlockedDeposits = bounty.deposits
-    ?.filter((deposit) => !deposit.refunded)
-    .filter((deposit) => {
-      return parseInt(deposit.receiveTime) + parseInt(deposit.expiration) < Math.floor(Date.now() / 1000);
-    });
+  const unlockedDeposits = bounty.deposits?.filter((deposit) => {
+    return parseInt(deposit.receiveTime) + parseInt(deposit.expiration) < Math.floor(Date.now() / 1000);
+  });
   const depValues = bounty.deposits ? [] : 0;
   let j;
   for (j = 0; j < unlockedDeposits?.length; j++) {
@@ -57,7 +55,11 @@ const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable, refu
   }
   const unlockedDepositValue = depValues ? depValues.reduce((a, b) => a + b) : 0;
 
-  const refundableValue = claimantsTotalValue > unlockedDepositValue ? 0 : unlockedDepositValue - claimantsTotalValue;
+  // need to check for token if deposit 0 already then DONT take away claimantsTotalValue
+  const refundableValue =
+    unlockedDepositValue - claimantsTotalValue - refundValue < 0
+      ? 0
+      : unlockedDepositValue - claimantsTotalValue - refundValue;
 
   const divPercent = 'flex justify-end w-16';
   const divValue = 'flex justify-end';
