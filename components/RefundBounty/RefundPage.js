@@ -153,8 +153,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                     })
                     .filter((deposit) => {
                       return (
-                        parseInt(deposit.receiveTime) + 10000000 + parseInt(deposit.expiration) <
-                        Math.floor(Date.now() / 1000)
+                        parseInt(deposit.receiveTime) + parseInt(deposit.expiration) < Math.floor(Date.now() / 1000)
                       );
                     })
                     .map((deposit) => {
@@ -206,8 +205,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                     })
                     .filter((deposit) => {
                       return (
-                        parseInt(deposit.receiveTime) + 1000000000 + parseInt(deposit.expiration) >
-                        Math.floor(Date.now() / 1000)
+                        parseInt(deposit.receiveTime) + parseInt(deposit.expiration) > Math.floor(Date.now() / 1000)
                       );
                     })
                     .map((deposit) => {
