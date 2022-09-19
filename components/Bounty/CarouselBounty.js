@@ -69,7 +69,7 @@ const CarouselBounty = ({ bounty }) => {
                 ) : bounty.bountyType === '1' ? (
                   <span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
                     <PersonAddIcon />
-                    <div className='whitespace-nowrap'>Multi</div>
+                    <div className='whitespace-nowrap'>Split Price</div>
                   </span>
                 ) : (
                   (bounty.bountyType === '2' || bounty.bountyType === '3') && (
