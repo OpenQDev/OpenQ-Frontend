@@ -8,10 +8,16 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
   const tokenMetadata = appState.tokenClient.getToken(tokenAddress);
 
   const claimantVolume = () => {
-    const volume = bounty.payouts?.filter(
+    const volumeArr = bounty.payouts?.filter(
       (payout) => payout.closer.id == claimant && payout.tokenAddress == tokenAddress
-    )[0].volume;
-    let bigNumberVolume = ethers.BigNumber.from(volume.toString());
+    );
+    let i;
+    let transitArr = volumeArr ? [] : 0;
+    for (i = 0; i < volumeArr.length; i++) {
+      transitArr.push(volumeArr[i].volume);
+    }
+    const finVolume = transitArr == 0 ? 0 : transitArr.reduce((a, b) => parseInt(a) + parseInt(b));
+    let bigNumberVolume = ethers.BigNumber.from(finVolume.toString());
     let decimals = parseInt(tokenMetadata.decimals) || 18;
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
