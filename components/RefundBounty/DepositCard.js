@@ -7,6 +7,7 @@ import ToolTipNew from '../Utils/ToolTipNew';
 const DepositCard = ({
   deposit,
   refundBounty,
+  closed,
   extendBounty,
   status,
   isOnCorrectNetwork,
@@ -64,7 +65,7 @@ const DepositCard = ({
               </button>
             </ToolTipNew>
           )}
-          {status !== 'refunded' && (
+          {status !== 'refunded' && !closed && (
             <>
               {expanded ? (
                 <div className=' text-primary flex flex-col md:flex-row md:space-x-2 items-center'>
