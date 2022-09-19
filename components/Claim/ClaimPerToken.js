@@ -27,9 +27,13 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
   };
 
   const getClaimantBalances = () => {
-    return claimant
-      ? bounty.payouts.filter((payout) => payout.closer.id == claimant && payout.tokenAddress == tokenAddress)
+    const claimArr = claimant
+      ? bounty.payouts
+          .filter((payout) => payout.closer.id == claimant && payout.tokenAddress == tokenAddress)
+          .map((claim) => claim.volume)
       : null;
+    const vol = claimArr == null ? 0 : claimArr.reduce((a, b) => parseInt(a) + parseInt(b));
+    return vol == 0 ? 0 : { tokenAddress: tokenAddress, volume: vol };
   };
   const claimantBalancesObj = useMemo(() => getClaimantBalances(), [claimant, tokenAddress]);
   const [claimantBalancesValues] = useGetTokenValues(claimantBalancesObj);
