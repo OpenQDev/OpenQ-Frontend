@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 
-const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable }) => {
+const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable, refunded }) => {
   const [appState] = useContext(StoreContext);
 
   const getBalancesStillClaimable = () => {
@@ -72,6 +72,8 @@ const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable }) =>
           </div>
         ) : refundable ? (
           <div className={divPercent}>{parseFloat((refundableValue / totalDepositValue) * 100).toFixed(1)} %</div>
+        ) : refunded ? (
+          <div className={divPercent}>{parseFloat((refundableValue / totalDepositValue) * 100).toFixed(1)} %</div>
         ) : (
           <div className={divPercent}>100 %</div>
         )}
@@ -86,6 +88,8 @@ const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable }) =>
             {bounty.payouts ? <>{appState.utils.formatter.format(stillClaimableValue)}</> : '0.0'}
           </div>
         ) : refundable ? (
+          <div className={divValue}>{appState.utils.formatter.format(refundableValue)}</div>
+        ) : refunded ? (
           <div className={divValue}>{appState.utils.formatter.format(refundableValue)}</div>
         ) : (
           <div className={divValue}>

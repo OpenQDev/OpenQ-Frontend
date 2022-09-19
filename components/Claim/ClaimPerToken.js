@@ -3,7 +3,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import { ethers } from 'ethers';
 
-const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, refundable }) => {
+const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, refundable, refunded }) => {
   const [appState] = useContext(StoreContext);
   const tokenMetadata = appState.tokenClient.getToken(tokenAddress);
 
@@ -17,7 +17,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
   };
 
   const claimantPercent = () => {
-    return (claimantVolume(claimant, tokenAddress) / totalDepositVolume(tokenAddress)) * 100;
+    return parseFloat((claimantVolume() / totalDepositVolume()) * 100).toFixed(1);
   };
 
   const getClaimantBalances = () => {
@@ -99,7 +99,24 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
   };
   const stillClaimableObj = useMemo(() => getStillClaimableBalances(), [tokenAddress]);
   const [stillClaimableValues] = useGetTokenValues(stillClaimableObj);
-  const stillClaimable = stillClaimableValues?.total;
+  const stillClaimable = stillClaimableValues?.total ? stillClaimableValues?.total : 0;
+
+  const refundVolume = () => {
+    const volumeArr = bounty.refunds
+      ? bounty.refunds?.filter((refund) => refund.tokenAddress == tokenAddress)?.map((refund) => refund.volume)
+      : 0;
+    const volume = volumeArr == 0 ? 0 : volumeArr.reduce((a, b) => parseInt(a) + parseInt(b));
+    let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
+    let decimals = parseInt(tokenMetadata.decimals) || 18;
+    return ethers.utils.formatUnits(bigNumberVolume, decimals);
+  };
+
+  const getRefundedBalances = () => {
+    return bounty.refunds ? bounty.refunds.filter((refund) => refund.tokenAddress == tokenAddress) : null;
+  };
+  const refundedObj = useMemo(() => getRefundedBalances(), [tokenAddress]);
+  const [refundedValues] = useGetTokenValues(refundedObj);
+  const refundedValue = refundedValues?.total ? refundedValues?.total : 0;
 
   const totalDepositVolume = () => {
     const volume = bounty.deposits
@@ -110,6 +127,8 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
     let decimals = parseInt(tokenMetadata.decimals) || 18;
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
+
+  const currentDepositVolume = totalDepositVolume() - refundVolume();
 
   const divVolume = 'flex justify-end w-12';
   const divPercent = 'flex justify-end w-12';
@@ -123,10 +142,14 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
         ) : claimants ? (
           <div className={divVolume}>{claimedVolume()}</div>
         ) : stillClaim ? (
-          <div className={divVolume}>{parseFloat(totalDepositVolume() - claimedVolume()).toFixed(1)}</div>
+          <div className={divVolume}>{parseFloat(currentDepositVolume - claimedVolume()).toFixed(1)}</div>
         ) : refundable ? (
           <div className={divVolume}>
             <div>{refundableVolume()}</div>
+          </div>
+        ) : refunded ? (
+          <div className={divVolume}>
+            <div>{refundVolume()}</div>
           </div>
         ) : (
           <div className={divVolume}>{totalDepositVolume()}</div>
@@ -139,11 +162,15 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
           <div className={divPercent}>{(claimedVolume() / totalDepositVolume()) * 100} %</div>
         ) : stillClaim ? (
           <div className={divPercent}>
-            {(parseFloat((totalDepositVolume() - claimedVolume()) / totalDepositVolume()) * 100).toFixed(1)} %
+            {(parseFloat((currentDepositVolume - claimedVolume()) / totalDepositVolume()) * 100).toFixed(1)} %
           </div>
         ) : refundable ? (
           <div className={divPercent}>
             <div>{(parseFloat(refundableVolume() / totalDepositVolume()) * 100).toFixed(1)} %</div>
+          </div>
+        ) : refunded ? (
+          <div className={divPercent}>
+            <div>{(parseFloat(refundVolume() / totalDepositVolume()) * 100).toFixed(1)} %</div>
           </div>
         ) : (
           <div className={divPercent}>100 %</div>
@@ -159,6 +186,10 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
         ) : refundable ? (
           <div className={divValue}>
             <div>{appState.utils.formatter.format(refundableValue())}</div>
+          </div>
+        ) : refunded ? (
+          <div className={divValue}>
+            <div>{appState.utils.formatter.format(refundedValue)}</div>
           </div>
         ) : (
           <div className={divValue}>{appState.utils.formatter.format(stillClaimable + claimedBalances)}</div>

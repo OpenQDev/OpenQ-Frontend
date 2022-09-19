@@ -94,8 +94,19 @@ const ClaimOverview = ({ bounty }) => {
                 <ClaimTotals bounty={bounty} refundable={true} />
               </td>
             </tr>
+            <tr>
+              <td className='px-2'>Refunded</td>
+              {tokenAddresses.map((tokenAddress) => (
+                <td key={tokenAddress}>
+                  <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} refunded={true} />
+                </td>
+              ))}
+              <td>
+                <ClaimTotals bounty={bounty} stillClaim={true} />
+              </td>
+            </tr>
             <tr className='font-bold border-t border-gray-700'>
-              <td className='px-2 pb-2'>Total Deposited (tooltip: excl. refunded)</td>
+              <td className='px-2 pb-2'>Total Deposited (tooltip: incl. refunded)</td>
               {tokenAddresses.map((tokenAddress) => (
                 <td key={tokenAddress}>
                   <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} />
