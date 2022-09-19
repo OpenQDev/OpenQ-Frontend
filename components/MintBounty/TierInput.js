@@ -13,7 +13,6 @@ const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
   const widthParent = useRef();
   const edgeOfScale = useRef();
   const tierIndex = parseInt(tier);
-
   const saturation = tierIndex % 2 ? 84 - tierIndex : 84 - tierIndex + 1;
   const lightness = !(tierIndex % 2) ? 48 + tierIndex : 48 + tierIndex - 1;
   const hue = 400 - tierIndex * 67;
@@ -22,7 +21,7 @@ const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
   }, [reactScale]);
   useEffect(() => {
     if (edgeOfScale.current) {
-      setSuffix(appState.utils.handleSuffix(tier));
+      setSuffix(appState.utils.handleSuffix(parseInt(tier) + 1));
       let drag = false;
       let ogWidth = 0;
       let scale = 0;
@@ -36,8 +35,8 @@ const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
             setReactScale(scale);
           } else if (newScale > 1) {
             setReactScale(1);
-          } else if (newScale < 0) {
-            setReactScale(0);
+          } else if (newScale <= 1) {
+            setReactScale(0.01);
           }
         }
       };
@@ -78,7 +77,7 @@ const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
     <>
       <div>{suffix} place winner</div>
       <div className={`flex w-11/12 text-sm content-center items-center gap-2 mb-1 ${style}`}>
-        <div className='w-9 flex none'>{tierVolumes[tier]}%</div>
+        <div className='w-9 flex none w-full'>{tierVolumes[tier]}%</div>
         <div ref={widthParent} className='w-full rounded-full overflow-hidden border border-transparent h-4'>
           <div
             style={{

@@ -16,7 +16,7 @@ const TierResult = ({ finalTierVolumes, sum }) => {
           {finalTierVolumes.map((volume, index) => {
             const saturation = index % 2 ? 84 - index : 84 - index + 1;
             const lightness = !(index % 2) ? 48 + index : 48 + index - 1;
-            const hue = 400 - (index + 1) * 67;
+            const hue = 400 - index * 67;
             return (
               <div
                 key={index}

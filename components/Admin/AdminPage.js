@@ -1,12 +1,12 @@
 // Third party Libraries
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useMemo } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import AdminModal from './AdminModal.js';
 import ToolTipNew from '../Utils/ToolTipNew';
-import TierInput from '../MintBounty/TierInput';
+import SetTierValues from '../MintBounty/SetTierValues';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import ClaimText from './ClaimText';
 
@@ -14,6 +14,21 @@ const AdminPage = ({ bounty, refreshBounty }) => {
   // Context
   const { library, account } = useWeb3();
   const [appState] = useContext(StoreContext);
+  let category = '';
+
+  switch (bounty.bountyType) {
+    case '0':
+      break;
+    case '1':
+      category = 'Repeating';
+      break;
+    case '2':
+      category = 'Contest';
+      break;
+    case '3':
+      category = 'Fixed Contest';
+  }
+
   const zeroAddressMetadata = {
     name: 'Matic',
     address: '0x0000000000000000000000000000000000000000',
@@ -40,10 +55,17 @@ const AdminPage = ({ bounty, refreshBounty }) => {
   const [payoutToken, setPayoutToken] = useState(zeroAddressMetadata);
 
   // contest state
+  const initialTierArr = useMemo(() => {
+    if (bounty.payoutSchedule) {
+      return bounty.payoutSchedule.map((elem, index) => {
+        return index.toString();
+      });
+    } else return [];
+  }, [bounty]);
   const [tier, setTier] = useState(0);
-  const [tierArr, setTierArr] = useState([]);
-  const [tierVolume, setTierVolume] = useState({});
-  const [finalTierVolume, setFinalTierVolume] = useState([]);
+  const [tierArr, setTierArr] = useState(initialTierArr);
+  const [finalTierVolumes, setFinalTierVolumes] = useState(bounty.payoutSchedule || []);
+
   const [sum, setSum] = useState(0);
   const [enableContest, setEnableContest] = useState(false);
   const [isLoading, setIsLoading] = useState();
@@ -95,33 +117,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
     );
   }
 
-  function onTierVolumeChange(e) {
-    if (parseInt(e.target.value) >= 0)
-      setTierVolume({
-        ...tierVolume,
-        [e.target.name]: parseInt(e.target.value),
-      });
-    if (parseInt(e.target.value) === '' || !Number(e.target.value) || parseInt(e.target.value) > 100)
-      setTierVolume({
-        ...tierVolume,
-        [e.target.name]: '',
-      });
-  }
-
   // useEffect
-
-  useEffect(() => {
-    setFinalTierVolume(Object.values(tierVolume));
-  }, [tierVolume]);
-
-  useEffect(() => {
-    if (finalTierVolume?.length) {
-      setSum(finalTierVolume.reduce((a, b) => a + b));
-    }
-    if (sum == 100) {
-      setEnableContest(true);
-    }
-  }, [finalTierVolume]);
 
   useEffect(() => {
     if (!tierConditions) {
@@ -176,16 +172,16 @@ const AdminPage = ({ bounty, refreshBounty }) => {
       });
     }
   }
-
+  console.log(finalTierVolumes);
   async function setPayoutSchedule() {
     try {
       setIsLoading(true);
-      const transaction = await appState.openQClient.setPayoutSchedule(library, bounty.bountyId, finalTierVolume);
+      const transaction = await appState.openQClient.setPayoutSchedule(library, bounty.bountyId, finalTierVolumes);
       refreshBounty();
       setModal({
         transaction,
         type: 'PayoutSchedule',
-        finalTierVolume: finalTierVolume,
+        finalTierVolume: finalTierVolumes,
       });
     } catch (error) {
       console.log(error);
@@ -298,43 +294,16 @@ const AdminPage = ({ bounty, refreshBounty }) => {
                             />
                           </div>
                         </div>
-                        {tier > 0 ? (
-                          <>
-                            <div className='flex flex-col w-full items-start p-2 py-1 pb-0 text-base'>
-                              <div className='flex items-center gap-2 '>
-                                Weight per Tier (%)
-                                <ToolTipNew mobileX={10} toolTipText={'How much % of the total will each winner earn?'}>
-                                  <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                                    ?
-                                  </div>
-                                </ToolTipNew>
-                              </div>
-                              {sum > 100 ? (
-                                <span className='text-sm my-2 pb-2 text-[#f85149]'>
-                                  The sum can not be more than 100%!
-                                </span>
-                              ) : (
-                                <span className='text-sm my-2 pb-2'>
-                                  For the sum to add up to 100, you still need to allocate: {100 - sum} %
-                                </span>
-                              )}
-                              <div className='max-h-40 w-full overflow-y-auto overflow-x-hidden'>
-                                {tierArr?.map((t) => {
-                                  return (
-                                    <div key={t}>
-                                      <TierInput
-                                        tier={t}
-                                        tierVolume={tierVolume[t]}
-                                        onTierVolumeChange={onTierVolumeChange}
-                                        style={'ml-0'}
-                                      />
-                                    </div>
-                                  );
-                                })}
-                              </div>
-                            </div>
-                          </>
-                        ) : null}
+                        <SetTierValues
+                          category={category}
+                          sum={sum}
+                          initialVolumes={bounty.payoutSchedule || []}
+                          finalTierVolumes={finalTierVolumes}
+                          setFinalTierVolumes={setFinalTierVolumes}
+                          setSum={setSum}
+                          tierArr={tierArr}
+                          setEnableContest={setEnableContest}
+                        />
                       </div>
                     </div>
                     <ToolTipNew
