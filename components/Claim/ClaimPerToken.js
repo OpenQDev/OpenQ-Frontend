@@ -57,8 +57,9 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
   };
 
   const refundableVolume = () => {
-    const refundable = claimedVolume() > unlockedDepositVolume() ? 0 : unlockedDepositVolume() - claimedVolume();
-    return refundable.toFixed(1);
+    const refundable =
+      parseFloat(claimedVolume()) > parseFloat(unlockedDepositVolume()) ? 0 : unlockedDepositVolume() - claimedVolume();
+    return parseFloat(refundable).toFixed(1);
   };
 
   const payoutsClaimedBalances = bounty.payouts

@@ -13,11 +13,18 @@ const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable, refu
   const stillClaimableValue = balanceValuesStillClaimable?.total;
 
   const getBalancesDeposits = () => {
-    return bounty.deposits ? bounty.deposits.filter((deposit) => !deposit.refunded) : null;
+    return bounty.deposits ? bounty.deposits : null;
   };
   const balanceObjDeposits = useMemo(() => getBalancesDeposits(), [bounty]);
   const [balanceValuesDeposits] = useGetTokenValues(balanceObjDeposits);
-  const totalDepositValue = balanceValuesDeposits?.total + stillClaimableValue;
+  const totalDepositValue = balanceValuesDeposits?.total;
+
+  const getBalancesRefunds = () => {
+    return bounty.refunds ? bounty.refunds : null;
+  };
+  const balanceObjRefunds = useMemo(() => getBalancesRefunds(), [bounty]);
+  const [balanceValuesRefunds] = useGetTokenValues(balanceObjRefunds);
+  const refundValue = balanceValuesRefunds?.total;
 
   const getClaimantTotalValueBalances = () => {
     return claimant ? bounty.payouts.filter((payout) => payout.closer.id == claimant) : null;
@@ -73,7 +80,7 @@ const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable, refu
         ) : refundable ? (
           <div className={divPercent}>{parseFloat((refundableValue / totalDepositValue) * 100).toFixed(1)} %</div>
         ) : refunded ? (
-          <div className={divPercent}>{parseFloat((refundableValue / totalDepositValue) * 100).toFixed(1)} %</div>
+          <div className={divPercent}>{parseFloat((refundValue / totalDepositValue) * 100).toFixed(1)} %</div>
         ) : (
           <div className={divPercent}>100 %</div>
         )}
@@ -90,7 +97,7 @@ const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable, refu
         ) : refundable ? (
           <div className={divValue}>{appState.utils.formatter.format(refundableValue)}</div>
         ) : refunded ? (
-          <div className={divValue}>{appState.utils.formatter.format(refundableValue)}</div>
+          <div className={divValue}>{appState.utils.formatter.format(refundValue)}</div>
         ) : (
           <div className={divValue}>
             {bounty.deposits ? <>{appState.utils.formatter.format(totalDepositValue)}</> : '0.0'}

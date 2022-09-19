@@ -102,7 +102,7 @@ const ClaimOverview = ({ bounty }) => {
                 </td>
               ))}
               <td>
-                <ClaimTotals bounty={bounty} stillClaim={true} />
+                <ClaimTotals bounty={bounty} refunded={true} />
               </td>
             </tr>
             <tr className='font-bold border-t border-gray-700'>
