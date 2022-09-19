@@ -847,6 +847,7 @@
       "labels": [],
       "createdAt": "2022-08-30T07:01:04Z",
       "closed": true,
+	  "closedEvents":[],
       "bodyHTML": "",
       "titleHTML": "Simple single contract",
       "twitterUsername": null,
@@ -934,6 +935,7 @@
 			"bountyClosedTime": null,
 			"bountyType": "2",
 			"status": "0",
+	  "closedEvents":[],
 			"claimedTransactionHash": null,
 			"deposits": [
 				{
@@ -970,6 +972,7 @@
 			"bountyMintTime": "1654260766",
 			"bountyClosedTime": null,
 			"status": "0",
+	  "closedEvents":[],
 			"bountyType": 2,
 			"claimedTransactionHash": null,
 			"deposits": [],
@@ -985,6 +988,7 @@
 			"bountyId": "MDU6SXNzdWU5ODU5NDM2NjQ=",
 			"bountyMintTime": "1654260724",
 			"bountyClosedTime": null,
+	  "closedEvents":[],
 			"status": "0",
 			"bountyType": "1",
 			"claimedTransactionHash": null,
@@ -1023,6 +1027,7 @@
 			"bountyMintTime": "1654260628",
 			"bountyClosedTime": null,
 			"status": "0",
+	  "closedEvents":[],
 			"bountyType": "1",
 			"claimedTransactionHash": null,
 			"deposits": [],
@@ -1038,6 +1043,7 @@
 			"bountyId": "I_kwDOGWnnz85LAu6g",
 			"bountyMintTime": "1654260571",
 			
+	  "closedEvents":[],
 			"bountyType": "3",
 			"bountyClosedTime": "1654260841",
 			"status": "1",
@@ -1055,6 +1061,8 @@
 			"bountyId": "I_kwDOGWnnz85JAh1-",
 			"bountyMintTime": "1654260379",			
 			"bountyType": "3",
+			
+	  "closedEvents":[],
 			"bountyClosedTime": null,
 			"status": "0",
 			"claimedTransactionHash": null,
@@ -1091,6 +1099,8 @@
 			"bountyAddress": "0x3ca8f9c04c7e3e1624ac2008f92f6f366a869444",
 			"bountyId": "I_kwDOGWnnz85LBZmQ",
 			"bountyMintTime": "1654260353",
+			
+	  "closedEvents":[],
 			"bountyClosedTime": "1654260979",
 			"status": "1",
 			"claimedTransactionHash": "0x63e127d64b05acdb8d00a07d2313645abc4f4af6ae779c1f8a9be7b4dee11b87",
@@ -1147,6 +1157,8 @@
 			"bountyId": "I_kwDOGWnnz85JAion",
 			"bountyMintTime": "1654260333",
 			"bountyClosedTime": null,
+			
+	  "closedEvents":[],
 			"status": "0",
 			"claimedTransactionHash": null,
 			"deposits": [],
@@ -1204,6 +1216,8 @@
 			"owner": "alo9507",
 			"avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
 			"createdAt": "sdf",
+			
+	  "closedEvents":[],
 			"labels": [
 				{
 					"name": "sdf",
@@ -1217,6 +1231,8 @@
 		{
 			"id": "I_kwDOCUCQzM5H50v2",
 			"title": "sdfsdf",
+			
+	  "closedEvents":[],
 			"body": "sdf",
 			"url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/219",
 			"repoName": "sdf",
@@ -1250,6 +1266,8 @@
 			"id": "I_kwDOCUCQzM5H50v3",
 			"title": "sdfsdf",
 			"body": "sdf",
+			
+	  "closedEvents":[],
 			"url": "https://github.com/OpenQDev/OpenQ-Frontend/issues/220",
 			"repoName": "sdf",
 			"assignees": {

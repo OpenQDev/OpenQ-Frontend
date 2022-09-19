@@ -1,8 +1,9 @@
 // Third party
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
+import Link from 'next/link';
+import Image from 'next/image';
 
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
@@ -31,7 +32,6 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
     chainId: 80001,
     path: 'https://wallet-asset.matic.network/img/tokens/matic.svg',
   };
-
   // State
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const [issue, setIssue] = useState();
@@ -49,7 +49,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
   const [finalTierVolume, setFinalTierVolume] = useState([]);
   const [payoutVolume, setPayoutVolume] = useState('');
   const [payoutToken, setPayoutToken] = useState(zeroAddressMetadata);
-  const initialCategory = types[0] === '1' ? 'Repeating' : types[0] === '2' ? 'Contest' : 'Atomic';
+  const initialCategory = types[0] === '1' ? 'Repeating' : types[0] === '2' || types[0] === '3' ? 'Contest' : 'Atomic';
   const [category, setCategory] = useState(initialCategory);
   const [goalVolume, setGoalVolume] = useState('');
   const [goalToken, setGoalToken] = useState(zeroAddressMetadata);
@@ -120,15 +120,19 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
         if (issueData) {
           try {
             let bounty = await appState.openQSubgraphClient.getBountyByGithubId(issueData.id);
-            setClosed(bounty.status == '1');
+            if (!didCancel) {
+              setClosed(bounty?.status == '1');
+            }
             if (bounty) {
               setBountyAddress(bounty.bountyAddress);
+            } else {
+              if (!didCancel) {
+                setEnableMint(true);
+                setBountyAddress();
+              }
             }
           } catch (error) {
-            if (!didCancel) {
-              setEnableMint(true);
-              setBountyAddress();
-            }
+            console.error(error);
           }
         }
       }
@@ -299,11 +303,11 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
         <ErrorModal setShowErrorModal={closeModal} error={error} />
       ) : (
         <>
-          <div ref={modal} className='m-auto w-3/5 min-w-[320px] z-50 fixed top-24'>
+          <div ref={modal} className='m-auto w-5/6 md:w-2/3 lg:w-1/3 min-w-[320px] z-50 fixed top-24'>
             <div className='w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-1'>
               {!hideSubmenu && (
                 <SubMenu
-                  items={[{ name: 'Single' }, { name: 'Multi' }, { name: 'Weighted' }]}
+                  items={[{ name: 'Fixed Price' }, { name: 'Contest' }]}
                   internalMenu={category}
                   updatePage={setCategory}
                   styles={'justify-center'}
@@ -326,7 +330,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 
                 <>
                   <div className='flex flex-col items-center pl-6 pr-6 pb-2'>
-                    <div className='flex flex-col w-4/5 md:w-2/3'>
+                    <div className='flex flex-col w-full'>
                       <div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
                         <div className='flex items-center gap-2'>
                           Is this Contract invoiceable?
@@ -367,7 +371,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                 </>
 
                 <div className='flex flex-col items-center pl-6 pr-6 pb-2'>
-                  <div className='flex flex-col w-4/5 md:w-2/3'>
+                  <div className='flex flex-col w-full'>
                     <div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
                       <div className='flex items-center gap-2'>
                         Set a Budget
@@ -389,12 +393,13 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                           </div>
                         </ToolTipNew>
                       </div>
-                      <span className='text-sm my-2'>
+                      <span className='text-sm mt-2'>
                         You don{"'"}t have to deposit now! The budget is just what you intend to pay.
                       </span>
                       {budgetInput ? (
                         <div className='flex-1 w-full mt-2 ml-4'>
                           <TokenFundBox
+                            label='budget'
                             onCurrencySelect={onGoalCurrencySelect}
                             onVolumeChange={handleGoalChange}
                             volume={goalVolume}
@@ -402,26 +407,6 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                           />
                         </div>
                       ) : null}
-                      <div className='flex flex-row space-x-3 items-center text-md pt-3'>
-                        <div>
-                          Make sure you{' '}
-                          <Link href='https://docs.openq.dev/welcome/master'>
-                            <a target='_blank' className='text-blue-600 cursor-pointer'>
-                              label your Github issue correctly
-                            </a>
-                          </Link>{' '}
-                          so that users can find it easily.
-                        </div>
-                        <ToolTipNew
-                          mobileX={10}
-                          innerStyles={'whitespace-normal w-40'}
-                          toolTipText='Our main categories are Learn2Earn and Contest. Label your issue with those and you will be able to find them on our pages.'
-                        >
-                          <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                            ?
-                          </div>
-                        </ToolTipNew>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -429,7 +414,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                 {category === 'Repeating' ? (
                   <>
                     <div className='flex flex-col items-center pl-6 pr-6 pb-2'>
-                      <div className='flex flex-col w-4/5 md:w-2/3'>
+                      <div className='flex flex-col w-full'>
                         <div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
                           <div className='flex items-center gap-2'>
                             {' '}
@@ -442,6 +427,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                           </div>
                           <div className='flex-1 w-full mt-2 ml-4'>
                             <TokenFundBox
+                              label='split'
                               onCurrencySelect={onCurrencySelect}
                               onVolumeChange={onVolumeChange}
                               token={payoutToken}
@@ -455,7 +441,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                 ) : category === 'Contest' ? (
                   <>
                     <div className='flex flex-col items-center pl-6 pr-6 pb-2'>
-                      <div className='flex flex-col w-4/5 md:w-2/3'>
+                      <div className='flex flex-col w-full'>
                         <div className='flex flex-col w-full items-start p-2 py-1 text-base pb-4'>
                           <div className='flex items-center gap-2'>
                             How many Tiers?
@@ -472,6 +458,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                             <input
                               className={'flex-1 input-field w-full'}
                               id='name'
+                              aria-label='tiers'
                               placeholder='0'
                               autoComplete='off'
                               type='text'
@@ -523,7 +510,17 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                   </>
                 ) : null}
 
-                <div className='p-5 pt-2 py-10 w-full'>
+                <Link
+                  href={
+                    'https://github.com/OpenQDev/OpenQ-Contracts/blob/production/contracts/Bounty/Implementations/BountyV1.sol'
+                  }
+                >
+                  <a className='flex content-center gap-2 underline px-8'>
+                    <Image src={'/social-icons/github-logo-white.svg'} width={24} height={24} />
+                    Contract source code
+                  </a>
+                </Link>
+                <div className='pb-10 pt-6 px-8 w-full'>
                   <ToolTipNew
                     outerStyles={''}
                     hideToolTip={

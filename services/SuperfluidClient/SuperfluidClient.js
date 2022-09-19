@@ -12,12 +12,12 @@ import fetch from 'cross-fetch';
 
 class SuperfluidClient {
   httpLink = new HttpLink({
-    uri: process.env.NEXT_PUBLIC_SUPERFLUID_SUBGRAPH_HTTP_URL,
+    uri: process.env.NEXT_PUBLIC_SUPERFLUID_SUBGRAPH_URL,
     fetch,
   });
 
   client = new ApolloClient({
-    uri: process.env.SUPERFLUID_SUBGRAPH_URL,
+    uri: process.env.NEXT_PUBLIC_SUPERFLUID_SUBGRAPH_URL,
 
     link: this.httpLink,
     cache: new InMemoryCache(),
@@ -192,16 +192,14 @@ class SuperfluidClient {
   }
 
   // UTILS
-  async loadSuperToken(library, superTokenAddress) {
-    console.log(superTokenAddress);
+  async loadSuperToken(library) {
     const address = this.tokensEnumerable[0].address;
     const instance = await this.createInstance(library);
     const token = await instance.loadSuperToken(address);
     return token;
   }
 
-  async getFlow(library, sender, receiver, superTokenAddress) {
-    console.log(superTokenAddress);
+  async getFlow(library, sender, receiver) {
     const address = this.tokensEnumerable[0].address;
     const instance = await this.createInstance(library);
     return instance.cfaV1.getFlow({

@@ -17,7 +17,8 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
   const bountyName = bounty?.title.toLowerCase() || '';
   const [appState] = useContext(StoreContext);
   const [isModal, setIsModal] = useState();
-
+  const currentDate = Date.now();
+  const relativeDeployDay = parseInt((currentDate - bounty?.bountyMintTime * 1000) / 86400000);
   const createTokenBalances = (bounty) => {
     return bounty?.bountyTokenBalances;
   };
@@ -108,7 +109,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                 {loading ? (
                   <Skeleton width={'100%'} />
                 ) : (
-                  `Deployed: ${appState.utils.formatUnixDate(parseInt(bounty?.bountyMintTime))}`
+                  `Deployed: ${relativeDeployDay} day${relativeDeployDay === 1 ? '' : 's'} ago.`
                 )}
               </div>
             </div>
@@ -152,7 +153,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                 {bounty.bountyType === '0' ? (
                   <span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
                     <PersonIcon />
-                    <div className='whitespace-nowrap'>Single</div>
+                    <div className='whitespace-nowrap'>Fixed Price</div>
                   </span>
                 ) : bounty.bountyType === '1' ? (
                   <span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
@@ -163,7 +164,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                   (bounty.bountyType === '2' || bounty.bountyType === '3') && (
                     <span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
                       <PeopleIcon />
-                      <div className='whitespace-nowrap'>Weighted</div>
+                      <div className='whitespace-nowrap'>Contest</div>
                     </span>
                   )
                 )}

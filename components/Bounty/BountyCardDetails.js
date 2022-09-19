@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 // Custom
 
@@ -13,21 +13,40 @@ const BountyCardDetails = ({ bounty, setInternalMenu, justMinted, tokenValues, b
   const { account } = useWeb3();
   const [senderEnsName] = useEns(bounty?.issuer?.id);
   const sender = senderEnsName || bounty?.issuer?.id;
-
   const price = tokenValues?.total;
   const budget = budgetValues?.total;
+  const prs = bounty.prs.map((pr) => {
+    const referencedTime = new Date(pr.referencedAt).getTime() / 1000;
 
+    return { ...pr.source, referencedTime };
+  });
+  const mergedPrs = prs
+    .filter((pr) => pr.mergedAt)
+    .map((pr) => {
+      const mergedTime = new Date(pr.mergedAt).getTime() / 1000;
+
+      return { ...pr, mergedTime };
+    });
+  useEffect(() => {
+    console.log(bounty);
+  });
+  const issueClosedEvents = bounty.closedEvents.map((event) => {
+    const issueClosedTime = new Date(bounty.closedAt).getTime() / 1000;
+
+    return { ...event, issueClosedTime };
+  });
+  console.log(issueClosedEvents);
   const deposits = bounty.deposits || [];
   const refunds = bounty.refunds || [];
   let claimedEvent = [];
   let closedEvents = [];
-  if (bounty.bountyClosedTime && bounty.status) {
-    closedEvents = [{ time: bounty.bountyClosedTime }];
+  if (bounty.bountyClosedTime && bounty.bountyType !== '0') {
+    closedEvents = [{ closingTime: bounty.bountyClosedTime }];
   }
   if (bounty.claims?.length) {
     claimedEvent = bounty.claims;
   }
-
+  /*
   const depositsAndRefunds = appState.utils.mergeOrdered(deposits, refunds, 'receiveTime', 'refundTime');
   const normalizedDepositsAndRefunds = depositsAndRefunds.map((action) => {
     const time = action.receiveTime || action.refundTime;
@@ -38,13 +57,16 @@ const BountyCardDetails = ({ bounty, setInternalMenu, justMinted, tokenValues, b
   const normalizedClaimsAndCloses = claimsAndCloses.map((action) => {
     const closingTime = action.claimTime || action.time;
     return { ...action, closingTime };
-  });
-  const allActions = appState.utils.mergeOrdered(
-    normalizedClaimsAndCloses,
-    normalizedDepositsAndRefunds,
-    'closingTime',
-    'time'
-  );
+  });*/
+  const allActions = appState.utils.mergeOrdered([
+    { arr: deposits, prop: 'receiveTime' },
+    { arr: refunds, prop: 'refundTime' },
+    { arr: closedEvents, prop: 'closingTime' },
+    { arr: claimedEvent, prop: 'claimTime' },
+    { arr: prs, prop: 'referencedTime' },
+    { arr: mergedPrs, prop: 'mergedTime' },
+    { arr: issueClosedEvents, prop: 'issueClosedTime' },
+  ]);
 
   const addresses = deposits.reduce(
     (accum, elem) => {

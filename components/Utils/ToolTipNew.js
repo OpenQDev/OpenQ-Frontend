@@ -1,5 +1,3 @@
-// Third Party
-
 import React from 'react';
 
 const ToolTipNew = ({ toolTipText, children, hideToolTip, outerStyles, innerStyles, relativePosition }) => {

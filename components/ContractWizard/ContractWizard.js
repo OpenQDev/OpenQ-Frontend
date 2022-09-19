@@ -78,7 +78,7 @@ const ContractWizard = ({ wizardVisibility, refreshBounties }) => {
                             innerStyles={'whitespace-normal w-60'}
                             toolTipText={
                               type == 0
-                                ? 'Deploy an Atomic Contract to fund a single issue to be payed out to one submitter.'
+                                ? 'Deploy an Fixed Price Contract to fund a single issue to be payed out to one submitter.'
                                 : type == 1
                                 ? 'Deploy a Repeating Contract, where several people can submit and claim the funds for the same issue.'
                                 : 'Do you want to create a contest and allow several people to earn money on this task? In this case you can set different weights and choose multiple winners.'
@@ -98,7 +98,7 @@ const ContractWizard = ({ wizardVisibility, refreshBounties }) => {
                               Yes
                             </button>
                             <button
-                              onClick={() => setType(type + 1)}
+                              onClick={() => setType(type + 2)}
                               className='w-fit min-w-[80px] py-[5px] px-4 border-l-0 rounded-r-sm border whitespace-nowrap hover:bg-secondary-button hover:border-secondary-button border-web-gray'
                             >
                               No

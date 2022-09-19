@@ -39,7 +39,7 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
   useEffect(async () => {
     // handle org reload events (caused by user starring org.)
     if (reloadNow) {
-      const [mergedOrgs] = await appState.utils.fetchOrganizations(appState, category);
+      const [mergedOrgs] = await appState.utils.fetchOrganizations(appState, types);
       setControlledOrgs(mergedOrgs);
       // get watched bounties when reload action is triggered.
     }
@@ -48,7 +48,7 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
   useEffect(async () => {
     // get watched bounties as soon as we know what the account is.
     if (account == signedAccount && account) {
-      const [watchedBounties] = await appState.utils.fetchWatchedBounties(appState, account, category, types);
+      const [watchedBounties] = await appState.utils.fetchWatchedBounties(appState, account, types);
       setWatchedBounties(watchedBounties || []);
     } else {
       setWatchedBounties([]);
@@ -64,7 +64,7 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
     const [fullBounties, newCursor] = await appState.utils.fetchBounties(
       appState,
       batch,
-      category,
+      types,
       sortOrder,
       orderBy,
       cursor
@@ -132,9 +132,9 @@ export const getServerSideProps = async (ctx) => {
   let types = ['0', '1', '2', '3'];
   let category = null;
   switch (ctx?.query?.type) {
-    case 'prime':
+    case 'fixed-price':
       types = ['0'];
-      category = 'prime';
+      category = 'fixed-price';
       break;
     case 'contests':
       types = ['2', '3'];
@@ -153,16 +153,12 @@ export const getServerSideProps = async (ctx) => {
   const utils = new Utils();
   githubRepository.instance.setGraphqlHeaders();
   const batch = 10;
-  const sortOrder = 'desc';
   const [mergedOrgs, orgRenderError] = await utils.fetchOrganizations(
     {
-      openQSubgraphClient: openQSubgraphClient.instance,
       githubRepository: githubRepository.instance,
       openQPrismaClient: openQPrismaClient.instance,
     },
-    category,
-    category,
-    sortOrder
+    types
   );
   const [fullBounties, firstCursor, bountyRenderError] = await utils.fetchBounties(
     {
@@ -171,7 +167,7 @@ export const getServerSideProps = async (ctx) => {
       openQPrismaClient: openQPrismaClient.instance,
     },
     batch,
-    category
+    types
   );
   const renderError = bountyRenderError || orgRenderError;
   return {

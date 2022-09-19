@@ -37,15 +37,8 @@ export const GET_PR_BY_ID = gql`
 `;
 
 export const GET_ALL_CONTRACTS = gql`
-  query getAllContracts($after: ID, $orderBy: String, $sortOrder: String, $organizationId: String, $category: String) {
-    bounties(
-      after: $after
-      limit: 200
-      orderBy: $orderBy
-      sortOrder: $sortOrder
-      organizationId: $organizationId
-      category: $category
-    ) {
+  query getAllContracts {
+    bounties(limit: 200) {
       nodes {
         address
         bountyId
@@ -83,10 +76,10 @@ export const REMOVE_CONTRIBUTOR = gql`
 `;
 // good to go
 export const GET_USER_BY_HASH = gql`
-  query ($userAddress: String!, $category: String) {
+  query ($userAddress: String!, $types: [String]) {
     user(address: $userAddress) {
       watchedBountyIds
-      watchedBounties(limit: 100, category: $category) {
+      watchedBounties(limit: 100, types: $types) {
         nodes {
           tvl
           address
@@ -119,12 +112,12 @@ export const GET_ORGANIZATION = gql`
 `;
 
 export const GET_ORGANIZATIONS = gql`
-  query ($category: String, $batch: Int!) {
-    organizations(category: $category) {
+  query ($types: [String], $batch: Int!) {
+    organizations(types: $types) {
       blacklisted
       id
       starringUserIds
-      bounties(limit: $batch, category: $category) {
+      bounties(limit: $batch, types: $types) {
         nodes {
           tvl
           bountyId
@@ -211,7 +204,7 @@ export const GET_CONTRACT_PAGE = gql`
     $orderBy: String
     $sortOrder: String
     $organizationId: String
-    $category: String
+    $types: [String]
     $limit: Int!
   ) {
     bounties(
@@ -220,7 +213,7 @@ export const GET_CONTRACT_PAGE = gql`
       orderBy: $orderBy
       sortOrder: $sortOrder
       organizationId: $organizationId
-      category: $category
+      types: $types
     ) {
       bountyConnection {
         nodes {

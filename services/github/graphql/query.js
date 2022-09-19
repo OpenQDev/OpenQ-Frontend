@@ -200,6 +200,7 @@ export const GET_ISSUE_BY_ID = gql`
     node(id: $issueId) {
       ... on Issue {
         closed
+        closedAt
         title
         body
         number
@@ -235,19 +236,50 @@ export const GET_ISSUE_BY_ID = gql`
             }
           }
         }
-        timelineItems(first: 100, itemTypes: CROSS_REFERENCED_EVENT) {
-          edges {
-            node {
-              ... on CrossReferencedEvent {
-                source {
-                  ... on PullRequest {
+
+        timelineItems(first: 100, itemTypes: [CROSS_REFERENCED_EVENT, CLOSED_EVENT]) {
+          nodes {
+            ... on CrossReferencedEvent {
+              referencedAt
+
+              source {
+                ... on PullRequest {
+                  mergedAt
+                  url
+                  merged
+                  title
+                  author {
+                    login
+                    avatarUrl
                     url
-                    merged
-                    title
+                  }
+                  mergeCommit {
                     author {
-                      login
+                      avatarUrl
+                      name
+                      user {
+                        login
+                        url
+                      }
                     }
                   }
+                }
+              }
+            }
+            ... on ClosedEvent {
+              id
+              actor {
+                avatarUrl
+                login
+                url
+                ... on Organization {
+                  name
+                }
+                ... on EnterpriseUserAccount {
+                  name
+                }
+                ... on User {
+                  name
                 }
               }
             }
