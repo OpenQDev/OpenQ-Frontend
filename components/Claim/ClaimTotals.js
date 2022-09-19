@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 
-const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable, refunded }) => {
+const ClaimTotals = ({ bounty, tokenAddresses, claimant, claimants, stillClaim, refundable, refunded }) => {
   const [appState] = useContext(StoreContext);
 
   const getBalancesStillClaimable = () => {
@@ -13,7 +13,16 @@ const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable, refu
   const stillClaimableValue = balanceValuesStillClaimable?.total ? balanceValuesStillClaimable?.total : 0;
 
   const getBalancesDeposits = () => {
-    return bounty.deposits ? bounty.deposits : null;
+    return tokenAddresses.map((tokenAddress) => {
+      const deposits = bounty.deposits
+        ? bounty.deposits.filter((deposit) => deposit.tokenAddress == tokenAddress)
+        : null;
+      if (deposits.length > 1) {
+        const volume = deposits.map((deposit) => deposit.volume).reduce((a, b) => parseInt(a) + parseInt(b));
+        return { tokenAddress: tokenAddress, volume: volume };
+      }
+      return deposits;
+    });
   };
   const balanceObjDeposits = useMemo(() => getBalancesDeposits(), [bounty]);
   const [balanceValuesDeposits] = useGetTokenValues(balanceObjDeposits);
@@ -55,7 +64,6 @@ const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable, refu
   }
   const unlockedDepositValue = depValues ? depValues.reduce((a, b) => a + b) : 0;
 
-  // need to check for token if deposit 0 already then DONT take away claimantsTotalValue
   const refundableValue =
     unlockedDepositValue - claimantsTotalValue - refundValue < 0
       ? 0

@@ -147,10 +147,8 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
     }
     return deposits;
   };
-  console.log(getBalancesDeposits());
   const balanceObjDeposits = useMemo(() => getBalancesDeposits(), [bounty]);
   const [balanceValuesDeposits] = useGetTokenValues(balanceObjDeposits);
-  console.log('YO: ', balanceValuesDeposits);
   const totalDepositValue = balanceValuesDeposits?.total;
 
   const currentDepositVolume = totalDepositVolume() - refundVolume();

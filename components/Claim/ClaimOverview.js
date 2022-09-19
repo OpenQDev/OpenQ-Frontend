@@ -56,7 +56,7 @@ const ClaimOverview = ({ bounty }) => {
                   </td>
                 ))}
                 <td key={claimant + 2}>
-                  <ClaimTotals bounty={bounty} claimant={claimant} />
+                  <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} claimant={claimant} />
                 </td>
               </tr>
             ))}
@@ -69,7 +69,7 @@ const ClaimOverview = ({ bounty }) => {
                   </td>
                 ))}
               <td>
-                <ClaimTotals bounty={bounty} claimants={claimants} />
+                <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} claimants={claimants} />
               </td>
             </tr>
             <tr>
@@ -80,7 +80,7 @@ const ClaimOverview = ({ bounty }) => {
                 </td>
               ))}
               <td>
-                <ClaimTotals bounty={bounty} stillClaim={true} />
+                <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} stillClaim={true} />
               </td>
             </tr>
             <tr className='italic'>
@@ -91,7 +91,7 @@ const ClaimOverview = ({ bounty }) => {
                 </td>
               ))}
               <td>
-                <ClaimTotals bounty={bounty} refundable={true} />
+                <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} refundable={true} />
               </td>
             </tr>
             <tr>
@@ -102,7 +102,7 @@ const ClaimOverview = ({ bounty }) => {
                 </td>
               ))}
               <td>
-                <ClaimTotals bounty={bounty} refunded={true} />
+                <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} refunded={true} />
               </td>
             </tr>
             <tr className='font-bold border-t border-gray-700'>
@@ -113,7 +113,7 @@ const ClaimOverview = ({ bounty }) => {
                 </td>
               ))}
               <td>
-                <ClaimTotals bounty={bounty} />
+                <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} />
               </td>
             </tr>
           </tbody>
