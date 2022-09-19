@@ -45,22 +45,20 @@ const ClaimOverview = ({ bounty }) => {
           </thead>
           <tbody>
             {claimants.map((claimant, index) => (
-              <>
-                <tr key={claimant}>
-                  <td className='flex gap-4 items-center px-2 pb-2' key={claimant}>
-                    <Jazzicon tooltipPosition={'-left-2'} size={36} address={claimant} />
-                    <span>{claimantsShort[index]}</span>
+              <tr key={claimant}>
+                <td className='flex gap-4 items-center px-2 pb-2' key={claimant + 1}>
+                  <Jazzicon tooltipPosition={'-left-2'} size={36} address={claimant} />
+                  <span>{claimantsShort[index]}</span>
+                </td>
+                {tokenAddresses.map((tokenAddress) => (
+                  <td key={tokenAddress}>
+                    <ClaimPerToken bounty={bounty} claimant={claimant} tokenAddress={tokenAddress} />
                   </td>
-                  {tokenAddresses.map((tokenAddress) => (
-                    <td key={tokenAddress}>
-                      <ClaimPerToken bounty={bounty} claimant={claimant} tokenAddress={tokenAddress} />
-                    </td>
-                  ))}
-                  <td key={claimant + 1}>
-                    <ClaimTotals bounty={bounty} claimant={claimant} />
-                  </td>
-                </tr>
-              </>
+                ))}
+                <td key={claimant + 2}>
+                  <ClaimTotals bounty={bounty} claimant={claimant} />
+                </td>
+              </tr>
             ))}
             <tr className='font-bold border-t border-gray-700'>
               <td className='px-2 pb-2'>SubTotal</td>

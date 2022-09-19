@@ -116,8 +116,8 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
   const divValue = 'flex justify-end text-right w-20';
 
   return (
-    <td className='flex px-2 pb-2 w-full'>
-      <td className='px-2 pb-2'>
+    <div className='flex px-2 pb-2 w-full'>
+      <div className='px-2 pb-2'>
         {claimant ? (
           <div className={divVolume}>{claimantVolume()}</div>
         ) : claimants ? (
@@ -131,8 +131,8 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
         ) : (
           <div className={divVolume}>{totalDepositVolume()}</div>
         )}
-      </td>
-      <td className='px-2 pb-2'>
+      </div>
+      <div className='px-2 pb-2'>
         {claimant ? (
           <div className={divPercent}>{claimantPercent()} %</div>
         ) : claimants ? (
@@ -148,8 +148,8 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
         ) : (
           <div className={divPercent}>100 %</div>
         )}
-      </td>
-      <td className='px-2 pb-2'>
+      </div>
+      <div className='px-2 pb-2'>
         {claimant ? (
           <div className={divValue}>{appState.utils.formatter.format(claimantBalances)}</div>
         ) : claimants ? (
@@ -163,8 +163,8 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
         ) : (
           <div className={divValue}>{appState.utils.formatter.format(stillClaimable + claimedBalances)}</div>
         )}
-      </td>
-    </td>
+      </div>
+    </div>
   );
 };
 

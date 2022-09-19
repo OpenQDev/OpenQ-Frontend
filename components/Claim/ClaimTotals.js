@@ -56,8 +56,8 @@ const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable }) =>
   const divValue = 'flex justify-end';
 
   return (
-    <td className='flex gap-2 px-2 pb-2 w-full'>
-      <td className='px-2 pb-2'>
+    <div className='flex gap-2 px-2 pb-2 w-full'>
+      <div className='px-2 pb-2'>
         {claimant ? (
           <div className={divPercent}>{parseFloat((claimantTotalValue / totalDepositValue) * 100).toFixed(1)} %</div>
         ) : claimants ? (
@@ -75,8 +75,8 @@ const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable }) =>
         ) : (
           <div className={divPercent}>100 %</div>
         )}
-      </td>
-      <td className='px-2 pb-2 w-full'>
+      </div>
+      <div className='px-2 pb-2 w-full'>
         {claimant ? (
           <div className={divValue}>{appState.utils.formatter.format(claimantTotalValue)}</div>
         ) : claimants ? (
@@ -92,8 +92,8 @@ const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable }) =>
             {bounty.deposits ? <>{appState.utils.formatter.format(totalDepositValue)}</> : '0.0'}
           </div>
         )}
-      </td>
-    </td>
+      </div>
+    </div>
   );
 };
 
