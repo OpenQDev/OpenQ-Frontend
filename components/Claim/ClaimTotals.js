@@ -10,28 +10,28 @@ const ClaimTotals = ({ bounty, claimant, claimants, stillClaim, refundable, refu
   };
   const balanceObjStillClaimable = useMemo(() => getBalancesStillClaimable(), [bounty]);
   const [balanceValuesStillClaimable] = useGetTokenValues(balanceObjStillClaimable);
-  const stillClaimableValue = balanceValuesStillClaimable?.total;
+  const stillClaimableValue = balanceValuesStillClaimable?.total ? balanceValuesStillClaimable?.total : 0;
 
   const getBalancesDeposits = () => {
     return bounty.deposits ? bounty.deposits : null;
   };
   const balanceObjDeposits = useMemo(() => getBalancesDeposits(), [bounty]);
   const [balanceValuesDeposits] = useGetTokenValues(balanceObjDeposits);
-  const totalDepositValue = balanceValuesDeposits?.total;
+  const totalDepositValue = balanceValuesDeposits?.total ? balanceValuesDeposits?.total : 0;
 
   const getBalancesRefunds = () => {
     return bounty.refunds ? bounty.refunds : null;
   };
   const balanceObjRefunds = useMemo(() => getBalancesRefunds(), [bounty]);
   const [balanceValuesRefunds] = useGetTokenValues(balanceObjRefunds);
-  const refundValue = balanceValuesRefunds?.total;
+  const refundValue = balanceValuesRefunds?.total ? balanceValuesRefunds?.total : 0;
 
   const getClaimantTotalValueBalances = () => {
     return claimant ? bounty.payouts.filter((payout) => payout.closer.id == claimant) : null;
   };
   const claimantTotalValueObj = useMemo(() => getClaimantTotalValueBalances(), [claimant]);
   const [claimantTotalValues] = useGetTokenValues(claimantTotalValueObj);
-  const claimantTotalValue = claimantTotalValues?.total;
+  const claimantTotalValue = claimantTotalValues?.total ? claimantTotalValues?.total : 0;
 
   const payouts = bounty.payouts ? bounty.payouts : null;
   const claims = bounty.payouts ? [] : 0;
