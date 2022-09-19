@@ -15,10 +15,10 @@ import MintBountyHeader from './MintBountyHeader';
 import MintBountyInput from './MintBountyInput';
 import ErrorModal from '../ConfirmErrorSuccessModals/ErrorModal';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
-import TierInput from './TierInput';
-import TierResult from './TierResult.js';
+import SetTierValues from './SetTierValues';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import SubMenu from '../Utils/SubMenu';
+import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
 
 const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
   // Context
@@ -35,6 +35,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
   };
   // State
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
+  const [hideModal, setHideModal] = useState();
   const [issue, setIssue] = useState();
   const [url, setUrl] = useState('');
   const [bountyAddress, setBountyAddress] = useState();
@@ -45,13 +46,20 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
   const isValidUrl = appState.utils.issurUrlRegex(url);
   const [invoice, setInvoice] = useState(false);
   const [tier, setTier] = useState(3);
-  const [tierArr, setTierArr] = useState(['1', '2', '3']);
-  const [tierVolumes, setTierVolumes] = useState({ 1: 1, 2: 1, 3: 1 });
+  const [tierArr, setTierArr] = useState(['0', '1', '2']);
+  const [tierVolumes, setTierVolumes] = useState({ 0: 1, 1: 1, 2: 1 });
 
   const [finalTierVolumes, setFinalTierVolumes] = useState([1, 1, 1]);
   const [payoutVolume, setPayoutVolume] = useState('');
   const [payoutToken, setPayoutToken] = useState(zeroAddressMetadata);
-  const initialCategory = types[0] === '1' ? 'Repeating' : types[0] === '2' || types[0] === '3' ? 'Contest' : 'Atomic';
+  const initialCategory =
+    types[0] === '1'
+      ? 'Split Price'
+      : types[0] === '2'
+      ? 'Contest'
+      : types[0] === '3'
+      ? 'Fixed Contest'
+      : 'Fixed Price';
   const [category, setCategory] = useState(initialCategory);
   const [goalVolume, setGoalVolume] = useState('');
   const [goalToken, setGoalToken] = useState(zeroAddressMetadata);
@@ -148,13 +156,13 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
       setIsLoading(true);
       let data;
       switch (category) {
-        case 'Atomic':
+        case 'Fixed Price':
           data = {
             fundingTokenVolume: goalVolume,
             fundingTokenAddress: goalToken,
           };
           break;
-        case 'Repeating':
+        case 'Split Price':
           data = {
             payoutVolume: payoutVolume,
             payoutToken: payoutToken,
@@ -167,6 +175,14 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
             fundingTokenVolume: goalVolume,
             fundingTokenAddress: goalToken,
             tiers: finalTierVolumes,
+          };
+          break;
+        case 'Fixed Contest':
+          data = {
+            payoutToken: payoutToken,
+            tiers: finalTierVolumes,
+            fundingTokenVolume: goalVolume,
+            fundingTokenAddress: goalToken,
           };
           break;
         default:
@@ -252,7 +268,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 
     setTierVolumes(newTierVolumes);
   }
-
+  console.log(tierArr);
   const handleGoalChange = (goalVolume) => {
     appState.utils.updateVolume(goalVolume, setGoalVolume);
   };
@@ -272,24 +288,6 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
     appState.utils.updateVolume(payoutVolume, setPayoutVolume);
   }
 
-  function onTierVolumeChange(e, localTierVolumes) {
-    if (parseInt(e.target.value) >= 0) {
-      setTierVolumes({
-        ...localTierVolumes,
-        [e.name]: parseInt(e.target.value),
-      });
-    }
-    if (parseInt(e.target.value) === '' || !Number(e.target.value) || parseInt(e.target.value) > 100) {
-      setTierVolumes({
-        ...localTierVolumes,
-        [e.name]: parseInt(e.target.value),
-      });
-    }
-  }
-
-  useEffect(() => {
-    setFinalTierVolumes(Object.values(tierVolumes));
-  }, [tierVolumes]);
   useEffect(() => {
     if (finalTierVolumes.length) {
       setSum(finalTierVolumes.reduce((a, b) => a + b));
@@ -310,7 +308,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
   // Render
   return (
     <div
-      className={`justify-center items-start sm:items-center mx-4 overflow-x-hidden overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-10 ${
+      className={`justify-center items-start sm:items-center mx-4  overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-10 ${
         appState.walletConnectModal ? 'hidden' : 'flex'
       }`}
     >
@@ -318,17 +316,22 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
         <ErrorModal setShowErrorModal={closeModal} error={error} />
       ) : (
         <>
-          <div ref={modal} className='m-auto w-5/6 md:w-2/3 lg:w-1/3 min-w-[320px] z-50 fixed top-24'>
+          <div
+            ref={modal}
+            className={`m-auto w-5/6 md:w-2/3 max-h-[70vh] overflow-y-auto lg:w-1/3 min-w-[320px] z-50 fixed top-24 ${
+              hideModal && 'invisible'
+            } `}
+          >
             <div className='w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-1'>
               {!hideSubmenu && (
                 <SubMenu
-                  items={[{ name: 'Fixed Price' }, { name: 'Contest' }]}
+                  items={[{ name: 'Fixed Contest' }, { name: 'Contest' }]}
                   internalMenu={category}
                   updatePage={setCategory}
                   styles={'justify-center'}
                 />
               )}
-              <div className='max-h-[70vh] w-full overflow-y-auto'>
+              <div className='w-full'>
                 <MintBountyHeader category={category} />
                 <div className='flex flex-col items-center pl-6 pr-6'>
                   <MintBountyInput setIssueUrl={setIssueUrl} issueData={issue} url={url} isValidUrl={isValidUrl} />
@@ -350,7 +353,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                         <div className='flex items-center gap-2'>
                           Is this Contract invoiceable?
                           <ToolTipNew mobileX={10} toolTipText={'Do you want an invoice for this contract?'}>
-                            <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                            <div className='cursor-help rounded-full border border-[#c9d1d9] text-sm aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
                               ?
                             </div>
                           </ToolTipNew>
@@ -398,7 +401,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                         <ToolTipNew
                           mobileX={10}
                           toolTipText={
-                            category === 'Atomic'
+                            category === 'Fixed Price'
                               ? 'Amount of funds you would like to escrow on this issue.'
                               : 'How much will each successful submitter earn?'
                           }
@@ -426,7 +429,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                   </div>
                 </div>
 
-                {category === 'Repeating' ? (
+                {category === 'Split Price' ? (
                   <>
                     <div className='flex flex-col items-center pl-6 pr-6 pb-2'>
                       <div className='flex flex-col w-full'>
@@ -435,7 +438,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                             {' '}
                             Reward Split?
                             <ToolTipNew mobileX={10} toolTipText={'How much will each successful submitter earn?'}>
-                              <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                              <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>
                                 ?
                               </div>
                             </ToolTipNew>
@@ -453,77 +456,74 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                       </div>
                     </div>
                   </>
-                ) : category === 'Contest' ? (
+                ) : category === 'Contest' || category === 'Fixed Contest' ? (
                   <>
                     <div className='flex flex-col items-center pl-6 pr-6 pb-2'>
-                      <div className='flex flex-col w-full'>
+                      <div className='flex flex-col w-full items-start p-2 py-1 text-base pb-4'>
+                        <div className='flex items-center gap-2'>
+                          How many Tiers?
+                          <ToolTipNew
+                            mobileX={10}
+                            toolTipText={"How many people will be able to claim a prize? Don't exceed 100."}
+                          >
+                            <div className='cursor-help rounded-full border border-[#c9d1d9] text-sm aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                              ?
+                            </div>
+                          </ToolTipNew>
+                        </div>
+
+                        <div className='flex-1 w-full mt-2 ml-4'>
+                          <input
+                            className={'flex-1 input-field w-full'}
+                            id='name'
+                            aria-label='tiers'
+                            placeholder='0'
+                            autoComplete='off'
+                            defaultValue={3}
+                            type='text'
+                            min='0'
+                            max='100'
+                            onChange={(e) => onTierChange(e)}
+                          />
+                        </div>
+                      </div>
+                      {tier === '2' && (
                         <div className='flex flex-col w-full items-start p-2 py-1 text-base pb-4'>
                           <div className='flex items-center gap-2'>
-                            How many Tiers?
-                            <ToolTipNew
-                              mobileX={10}
-                              toolTipText={"How many people will be able to claim a prize? Don't exceed 100."}
-                            >
-                              <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                                ?
-                              </div>
-                            </ToolTipNew>
+                            <div className='flex items-center gap-2'>
+                              Which token?
+                              <ToolTipNew
+                                mobileX={10}
+                                toolTipText={'Fixed contests can only be funded with one token.'}
+                              >
+                                <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>
+                                  ?
+                                </div>
+                              </ToolTipNew>
+                            </div>
                           </div>
                           <div className='flex-1 w-full mt-2 ml-4'>
-                            <input
-                              className={'flex-1 input-field w-full'}
-                              id='name'
-                              aria-label='tiers'
-                              placeholder='0'
-                              autoComplete='off'
-                              defaultValue={3}
-                              type='text'
-                              min='0'
-                              max='100'
-                              onChange={(e) => onTierChange(e)}
+                            <TokenSearch
+                              token={payoutToken}
+                              setShowTokenSearch={setHideModal}
+                              onCurrencySelect={onCurrencySelect}
+                              alone={true}
                             />
                           </div>
                         </div>
-                        {tier > 0 ? (
-                          <>
-                            <div className='flex flex-col w-full items-start p-2 py-1 pb-0 text-base'>
-                              <div className='flex items-center gap-2 '>
-                                Weight per Tier (%)
-                                <ToolTipNew mobileX={10} toolTipText={'How much % of the total will each winner earn?'}>
-                                  <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                                    ?
-                                  </div>
-                                </ToolTipNew>
-                              </div>
-                              {sum > 100 ? (
-                                <span className='text-sm my-2 pb-2 text-[#f85149]'>
-                                  The sum can not be more than 100%!
-                                </span>
-                              ) : sum === 100 ? (
-                                <span className='text-sm my-2 pb-2'>Sum is 100, now you can mint.</span>
-                              ) : (
-                                <span className='text-sm my-2 pb-2'>
-                                  For the sum to add up to 100, you still need to allocate: {100 - sum} %
-                                </span>
-                              )}
-                              <div className=' w-full mx-h-60 overflow-y-auto overflow-x-hidden'>
-                                {tierArr.map((t) => {
-                                  return (
-                                    <div key={t}>
-                                      <TierInput
-                                        tier={t}
-                                        tierVolumes={tierVolumes}
-                                        onTierVolumeChange={onTierVolumeChange}
-                                      />
-                                    </div>
-                                  );
-                                })}
-                              </div>
-                              <TierResult sum={sum} finalTierVolumes={finalTierVolumes} />
-                            </div>
-                          </>
-                        ) : null}
-                      </div>
+                      )}
+                      {tier > 0 ? (
+                        <SetTierValues
+                          category={category}
+                          sum={sum}
+                          finalTierVolumes={finalTierVolumes}
+                          setFinalTierVolumes={setFinalTierVolumes}
+                          setSum={setSum}
+                          tierArr={tierArr}
+                          setEnableContest={setEnableContest}
+                          initialVolumes={['1', '1', '1']}
+                        />
+                      ) : null}
                     </div>
                   </>
                 ) : null}
