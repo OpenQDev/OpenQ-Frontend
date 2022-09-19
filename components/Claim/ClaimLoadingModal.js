@@ -87,7 +87,7 @@ const ClaimLoadingModal = ({
                 <div className='text-3xl font-semibold pb-8'>{title[claimState]}</div>
               </div>
             </div>
-            <p className='text-md  pb-2 break-words'>
+            <div className='text-md  pb-2 break-words'>
               <span>{message[claimState]}</span>
               {link[claimState] && (
                 <div>
@@ -115,7 +115,7 @@ const ClaimLoadingModal = ({
                   <div>{afterLink[claimState]}</div>
                 </div>
               )}
-            </p>
+            </div>
             {claimState == WITHDRAWAL_INELIGIBLE || claimState == TRANSACTION_CONFIRMED ? (
               <div className='flex items-center justify-end p-5'>
                 <button className='btn-default w-full' type='button' onClick={() => updateModal()}>
