@@ -20,7 +20,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
     case '0':
       break;
     case '1':
-      category = 'Repeating';
+      category = 'Split Price';
       break;
     case '2':
       category = 'Contest';
@@ -224,7 +224,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
       const transaction = await appState.openQClient.closeOngoing(library, bounty.bountyId);
       setModal({
         transaction,
-        type: 'Closed Repeatable',
+        type: 'Closed Split Price',
       });
       setShowButton(false);
       refreshBounty();
@@ -358,12 +358,14 @@ const AdminPage = ({ bounty, refreshBounty }) => {
                       Set Payout
                     </button>
 
-                    <h2 className='text-2xl text-[#f85149] border-b border-gray-700 pb-4'>Close Repeatable Contract</h2>
+                    <h2 className='text-2xl text-[#f85149] border-b border-gray-700 pb-4'>
+                      Close Split Price Contract
+                    </h2>
                     <div className='flex justify-between items-center gap-2'>
-                      Once you close this repeatable contract, there is no going back. Please be certain.
+                      Once you close this split price contract, there is no going back. Please be certain.
                     </div>
                     <button className='btn-danger' type='button' onClick={closeOngoing}>
-                      Close Repeatable Contract
+                      Close Split Price Contract
                     </button>
                   </>
                 ) : null}

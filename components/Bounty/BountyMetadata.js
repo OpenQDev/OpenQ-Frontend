@@ -20,7 +20,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
   };
   const payoutBalances = useMemo(() => createPayout(bounty), [bounty]);
   const [payoutValues] = useGetTokenValues(payoutBalances);
-  let type = 'Atomic Contract';
+  let type = 'Fixed Price';
 
   switch (bounty.bountyType) {
     case '0':
