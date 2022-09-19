@@ -129,6 +129,13 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
 
+  const getBalancesDeposits = () => {
+    return bounty.deposits ? bounty.deposits.filter((deposit) => deposit.tokenAddress == tokenAddress) : null;
+  };
+  const balanceObjDeposits = useMemo(() => getBalancesDeposits(), [bounty]);
+  const [balanceValuesDeposits] = useGetTokenValues(balanceObjDeposits);
+  const totalDepositValue = balanceValuesDeposits?.total;
+
   const currentDepositVolume = totalDepositVolume() - refundVolume();
 
   const divVolume = 'flex justify-end w-12';
@@ -193,7 +200,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
             <div>{appState.utils.formatter.format(refundedValue)}</div>
           </div>
         ) : (
-          <div className={divValue}>{appState.utils.formatter.format(stillClaimable + claimedBalances)}</div>
+          <div className={divValue}>{appState.utils.formatter.format(totalDepositValue)}</div>
         )}
       </div>
     </div>
