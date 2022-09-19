@@ -10,7 +10,7 @@ const ClaimText = ({ bounty }) => {
           : "Don't forget to add a closer comment for this bounty on your pull request :-)."}
       </p>
       <div>
-        {bounty.bountyType === '2' || bounty.bountyType === '3' ? (
+        {bounty.bountyType === '2' || (bounty.bountyType === '3' && bounty.payoutSchedule) ? (
           bounty.payoutSchedule.map((elem, index) => {
             return (
               <CopyAddressToClipboard
