@@ -121,7 +121,7 @@ const BountyList = ({
       case 'Contest':
         types = ['2', '3'];
         break;
-      case 'Multi':
+      case 'Split Price':
         types = ['1'];
         break;
     }
@@ -346,7 +346,7 @@ const BountyList = ({
               styles='whitespace-nowrap'
               width='36'
               title='Contract Type'
-              names={['Fixed Price', 'Contest', 'All']}
+              names={['Fixed Price', 'Split Price', 'Contest', 'All']}
               borderShape={'rounded-r-lg'}
             />
           )}

@@ -37,16 +37,18 @@ const FundPage = ({ bounty, refreshBounty }) => {
   // Context
   const [appState, dispatch] = useContext(StoreContext);
   const { library, account } = useWeb3();
-
+  console.log(bounty.bountyType);
   // State
   const [token, setToken] = useState(zeroAddressMetadata);
   const bountyName =
-    bounty.bountyType == 0
+    bounty.bountyType === '0'
       ? 'Fixed Price'
-      : bounty.bountyType == 1
-      ? 'Repeatable Contract'
-      : bounty.bountyType == 2
+      : bounty.bountyType === '1'
+      ? 'Split Price Contract'
+      : bounty.bountyType === '2'
       ? 'Contest'
+      : bounty.bountyType === '3'
+      ? 'Fixed Contest'
       : 'Type Unknown';
 
   const closed = bounty.status == '1';
@@ -64,7 +66,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
       ? 'btn-default w-full cursor-not-allowed'
       : 'btn-primary cursor-pointer'
   }`;
-  const fundButtonClasses = `text-center px-8 items-center  ${disableOrEnable}`;
+  const fundButtonClasses = `text-center px-8 w-min items-center  ${disableOrEnable}`;
 
   function resetState() {
     setApproveTransferState(RESTING);
@@ -286,9 +288,9 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
               <ToolTipNew
                 relativePosition={'left-0'}
-                outerStyles={'-top-1'}
+                outerStyles={'-top-1 '}
                 groupStyles={'w-min'}
-                innerStyles={'sm:w-40 w-40 md:w-auto whitespace-normal'}
+                innerStyles={'sm:w-40 w-0 md:w-60 whitespace-normal'}
                 hideToolTip={account && isOnCorrectNetwork && !loadingClosedOrZero}
                 toolTipText={
                   account && isOnCorrectNetwork && !(depositPeriodDays > 0)
@@ -301,7 +303,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
                 }
               >
                 <button
-                  className={fundButtonClasses}
+                  className={`${fundButtonClasses} py-1.5`}
                   disabled={(loadingClosedOrZero || !isOnCorrectNetwork) && account}
                   type='button'
                   onClick={account ? openFund : connectWallet}
