@@ -140,10 +140,17 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
   };
 
   const getBalancesDeposits = () => {
-    return bounty.deposits ? bounty.deposits.filter((deposit) => deposit.tokenAddress == tokenAddress) : null;
+    const deposits = bounty.deposits ? bounty.deposits.filter((deposit) => deposit.tokenAddress == tokenAddress) : null;
+    if (deposits.length > 1) {
+      const volume = deposits.map((deposit) => deposit.volume).reduce((a, b) => parseInt(a) + parseInt(b));
+      return { tokenAddress: tokenAddress, volume: volume };
+    }
+    return deposits;
   };
+  console.log(getBalancesDeposits());
   const balanceObjDeposits = useMemo(() => getBalancesDeposits(), [bounty]);
   const [balanceValuesDeposits] = useGetTokenValues(balanceObjDeposits);
+  console.log('YO: ', balanceValuesDeposits);
   const totalDepositValue = balanceValuesDeposits?.total;
 
   const currentDepositVolume = totalDepositVolume() - refundVolume();
