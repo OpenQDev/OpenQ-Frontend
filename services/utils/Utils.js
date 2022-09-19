@@ -247,8 +247,8 @@ class Utils {
     } catch (err) {
       console.log(err);
     }
-    const bountyAddresses = prismaContracts.map((bounty) => bounty.address.toLowerCase());
-    const bountyIds = prismaContracts.map((contract) => contract.bountyId);
+    const bountyAddresses = prismaContracts?.map((bounty) => bounty.address.toLowerCase());
+    const bountyIds = prismaContracts?.map((contract) => contract.bountyId);
     const subgraphContracts = await openQSubgraphClient.getBountiesByContractAddresses(bountyAddresses);
 
     const githubIssues = await githubRepository.getIssueData(bountyIds);
@@ -264,7 +264,7 @@ class Utils {
       const prismaResult = await openQPrismaClient.getUser(account, types);
       prismaContracts = prismaResult?.watchedBounties.nodes || [];
       const watchedBountyAddresses = prismaResult?.watchedBountyIds.map((address) => address.toLowerCase()) || [];
-      const watchedBountyIds = prismaContracts.map((contract) => contract.bountyId);
+      const watchedBountyIds = prismaContracts?.map((contract) => contract.bountyId);
       subgraphContracts = await openQSubgraphClient.getBountiesByContractAddresses(watchedBountyAddresses);
       githubIssues = await githubRepository.getIssueData(watchedBountyIds);
     } catch (err) {
