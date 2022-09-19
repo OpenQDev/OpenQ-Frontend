@@ -27,7 +27,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
       type = 'Fixed Price';
       break;
     case '1':
-      type = 'Multi';
+      type = 'Split Price';
       break;
     case '2':
       type = 'Contest';
@@ -39,10 +39,12 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
 
   return (
     <ul className='md:max-w-[300px] w-full md:pl-4'>
-      <li className='border-b border-web-gray py-3'>
-        <div className='text-xs font-semibold text-muted'>Type</div>
-        <div className='text-xs font-semibold text-primary leading-loose'>{type}</div>
-      </li>
+      {bounty.bountyType && (
+        <li className='border-b border-web-gray py-3'>
+          <div className='text-xs font-semibold text-muted'>Type</div>
+          <div className='text-xs font-semibold text-primary leading-loose'>{type}</div>
+        </li>
+      )}
 
       <li className='border-b border-web-gray py-3'>
         <div className='text-xs font-semibold text-muted'>TVL</div>

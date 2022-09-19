@@ -264,67 +264,71 @@ const AdminPage = ({ bounty, refreshBounty }) => {
                   Set New Budget
                 </button>
 
-                {bounty.bountyType == '2' ? (
+                {bounty.bountyType === '2' || bounty.bountyType === '3' ? (
                   <>
-                    <div className='flex flex-col items-center pb-2'>
-                      <div className='flex flex-col w-full md:w-full'>
-                        <div className='flex flex-col w-full items-start p-2 py-1 text-base pb-4'>
-                          <div className='flex items-center gap-2'>
-                            How many Tiers?
-                            <ToolTipNew
-                              mobileX={10}
-                              toolTipText={`How many people will be able to claim a prize? Don't exceed 100.`}
-                            >
-                              <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                                ?
+                    {bounty.bountyType === '2' && (
+                      <>
+                        <div className='flex flex-col items-center pb-2'>
+                          <div className='flex flex-col w-full md:w-full'>
+                            <div className='flex flex-col w-full items-start p-2 py-1 text-base pb-4'>
+                              <div className='flex items-center gap-2'>
+                                How many Tiers?
+                                <ToolTipNew
+                                  mobileX={10}
+                                  toolTipText={`How many people will be able to claim a prize? Don't exceed 100.`}
+                                >
+                                  <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                                    ?
+                                  </div>
+                                </ToolTipNew>
                               </div>
-                            </ToolTipNew>
-                          </div>
-                          <div className='flex-1 w-full mt-2'>
-                            <input
-                              className={'flex-1 input-field w-full'}
-                              id='name'
-                              placeholder='0'
-                              autoComplete='off'
-                              type='text'
-                              min='0'
-                              max='100'
-                              value={tier}
-                              onChange={(e) => onTierChange(e)}
+                              <div className='flex-1 w-full mt-2'>
+                                <input
+                                  className={'flex-1 input-field w-full'}
+                                  id='name'
+                                  placeholder='0'
+                                  autoComplete='off'
+                                  type='text'
+                                  min='0'
+                                  max='100'
+                                  value={tier}
+                                  onChange={(e) => onTierChange(e)}
+                                />
+                              </div>
+                            </div>
+                            <SetTierValues
+                              category={category}
+                              sum={sum}
+                              initialVolumes={bounty.payoutSchedule || []}
+                              finalTierVolumes={finalTierVolumes}
+                              setFinalTierVolumes={setFinalTierVolumes}
+                              setSum={setSum}
+                              tierArr={tierArr}
+                              setEnableContest={setEnableContest}
                             />
                           </div>
                         </div>
-                        <SetTierValues
-                          category={category}
-                          sum={sum}
-                          initialVolumes={bounty.payoutSchedule || []}
-                          finalTierVolumes={finalTierVolumes}
-                          setFinalTierVolumes={setFinalTierVolumes}
-                          setSum={setSum}
-                          tierArr={tierArr}
-                          setEnableContest={setEnableContest}
-                        />
-                      </div>
-                    </div>
-                    <ToolTipNew
-                      hideToolTip={(enableContest && isOnCorrectNetwork && account) || isLoading}
-                      toolTipText={
-                        account && isOnCorrectNetwork && !enableContest
-                          ? 'Please make sure the sum of tier percentages adds up to 100.'
-                          : isOnCorrectNetwork
-                          ? 'Connect your wallet to mint a bounty!'
-                          : 'Please switch to the correct network to mint a bounty.'
-                      }
-                    >
-                      <button
-                        className={`w-full btn-default ${enableContest ? 'cursor-pointer' : 'cursor-not-allowed'}`}
-                        type='button'
-                        onClick={setPayoutSchedule}
-                        disabled={!enableContest}
-                      >
-                        Set New Payout Schedule
-                      </button>
-                    </ToolTipNew>
+                        <ToolTipNew
+                          hideToolTip={(enableContest && isOnCorrectNetwork && account) || isLoading}
+                          toolTipText={
+                            account && isOnCorrectNetwork && !enableContest
+                              ? 'Please make sure the sum of tier percentages adds up to 100.'
+                              : isOnCorrectNetwork
+                              ? 'Connect your wallet to mint a bounty!'
+                              : 'Please switch to the correct network to mint a bounty.'
+                          }
+                        >
+                          <button
+                            className={`w-full btn-default ${enableContest ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+                            type='button'
+                            onClick={setPayoutSchedule}
+                            disabled={!enableContest}
+                          >
+                            Set New Payout Schedule
+                          </button>
+                        </ToolTipNew>
+                      </>
+                    )}
 
                     <h2 className='text-2xl text-[#f85149] border-b border-gray-700 pb-4'>Close Contract</h2>
                     <p className='flex items-center gap-2'>
