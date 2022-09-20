@@ -4,6 +4,7 @@ import Jazzicon from '../Utils/Jazzicon';
 import useEns from '../../hooks/useENS';
 import ClaimPerToken from './ClaimPerToken';
 import ClaimTotals from './ClaimTotals';
+import ToolTipNew from '../Utils/ToolTipNew';
 
 const ClaimOverview = ({ bounty }) => {
   const [appState] = useContext(StoreContext);
@@ -126,7 +127,20 @@ const ClaimOverview = ({ bounty }) => {
               </td>
             </tr>
             <tr className='font-bold border-t border-gray-700'>
-              <td className='px-2 pb-2'>Total Deposited</td>
+              <td className='flex items-center gap-2 px-2 pb-2'>
+                Total Deposited
+                <ToolTipNew
+                  innerStyles={'whitespace-normal w-80'}
+                  toolTipText={
+                    'Everything that has ever been deposited on this bounty. Includes refunded and claimed amounts.'
+                  }
+                >
+                  <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                    ?
+                  </div>
+                </ToolTipNew>
+              </td>
+
               {tokenAddresses.map((tokenAddress) => (
                 <td key={tokenAddress}>
                   <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} type={'total'} />
