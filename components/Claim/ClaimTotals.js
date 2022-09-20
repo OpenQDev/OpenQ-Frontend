@@ -82,8 +82,6 @@ const ClaimTotals = ({ bounty, tokenAddresses, claimant, type }) => {
       ? 0
       : unlockedDepositValue - claimantsTotalValue - refundValue;
 
-  console.log(unlockedDepositValue, claimantsTotalValue, refundValue, refundableValue);
-
   const divPercent = 'flex justify-end w-16';
   const divValue = 'flex justify-end';
 
