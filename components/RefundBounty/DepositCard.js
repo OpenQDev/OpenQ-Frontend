@@ -47,8 +47,8 @@ const DepositCard = ({
             </div>
           )}
         </div>
-        
-          <div className='flex flex-col space-y-3 w-44 pl-3 text-primary'>
+
+        <div className='flex flex-col space-y-3 w-44 pl-3 text-primary'>
           {status === 'refundable' && (
             <ToolTipNew
               outerStyles='flex'
@@ -64,75 +64,76 @@ const DepositCard = ({
               </button>
             </ToolTipNew>
           )}
-          {status !== 'refunded' && <>
-            {expanded ? (
-              <div className=' text-primary flex flex-col md:flex-row md:space-x-2 items-center'>
-                <div className='flex w-full input-field-big pl-4 justify-between'>
-                  <div className=' flex items-center'>
-                    <ToolTipNew
-                      innerStyles={'whitespace-normal w-80'}
-                      toolTipText={
-                        "This is the number of days that your deposit will be in escrow. After this many days, you're deposit will be fully refundable if the bounty has still not been claimed."
-                      }
-                    >
-                      <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                        ?
-                      </div>
-                    </ToolTipNew>
-                  </div>
+          {status !== 'refunded' && (
+            <>
+              {expanded ? (
+                <div className=' text-primary flex flex-col md:flex-row md:space-x-2 items-center'>
+                  <div className='flex w-full input-field-big pl-4 justify-between'>
+                    <div className=' flex items-center'>
+                      <ToolTipNew
+                        innerStyles={'whitespace-normal w-80'}
+                        toolTipText={
+                          "This is the number of days that your deposit will be in escrow. After this many days, you're deposit will be fully refundable if the bounty has still not been claimed."
+                        }
+                      >
+                        <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                          ?
+                        </div>
+                      </ToolTipNew>
+                    </div>
 
-                  <input
-                    className='flex w-full md:w-12 text-primary text-right number outline-none bg-dark-mode'
-                    autoComplete='off'
-                    value={depositPeriodDays || 0}
-                    name={deposit.id}
-                    id='deposit-period'
-                    onChange={onDepositPeriodChanged}
-                    placeholder='0'
-                  />
+                    <input
+                      className='flex w-full md:w-12 text-primary text-right number outline-none bg-dark-mode'
+                      autoComplete='off'
+                      value={depositPeriodDays || 0}
+                      name={deposit.id}
+                      id='deposit-period'
+                      onChange={onDepositPeriodChanged}
+                      placeholder='0'
+                    />
+                  </div>
+                  <ToolTipNew
+                    outerStyles='flex w-full items-center'
+                    hideToolTip={isOnCorrectNetwork && depositPeriodDays > 0}
+                    toolTipText={
+                      !isOnCorrectNetwork
+                        ? 'Please switch to the correct network to extend this bounty.'
+                        : !(depositPeriodDays > 0)
+                        ? "Please indicate how many days you'd like to extend your bounty for."
+                        : null
+                    }
+                  >
+                    <button
+                      onClick={() => extendBounty(deposit.id)}
+                      disabled={!isOnCorrectNetwork || !(depositPeriodDays > 0)}
+                      className={`flex mt-3 md:mt-0 text-center w-full px-3 justify-center ${
+                        isOnCorrectNetwork && depositPeriodDays > 0
+                          ? 'btn-primary cursor-pointer p-1'
+                          : 'btn-default cursor-not-allowed'
+                      }`}
+                    >
+                      Extend
+                    </button>
+                  </ToolTipNew>
                 </div>
+              ) : (
                 <ToolTipNew
-                  outerStyles='flex w-full items-center'
-                  hideToolTip={isOnCorrectNetwork && depositPeriodDays > 0}
-                  toolTipText={
-                    !isOnCorrectNetwork
-                      ? 'Please switch to the correct network to extend this bounty.'
-                      : !(depositPeriodDays > 0)
-                      ? "Please indicate how many days you'd like to extend your bounty for."
-                      : null
-                  }
+                  outerStyles='flex self-center'
+                  hideToolTip={isOnCorrectNetwork}
+                  toolTipText={'Please switch to the correct network to refund this deposit.'}
                 >
                   <button
-                    onClick={() => extendBounty(deposit.id)}
-                    disabled={!isOnCorrectNetwork || !(depositPeriodDays > 0)}
-                    className={`flex mt-3 md:mt-0 text-center w-full px-3 justify-center ${
-                      isOnCorrectNetwork && depositPeriodDays > 0
-                        ? 'btn-primary cursor-pointer p-1'
-                        : 'btn-default cursor-not-allowed'
-                    }`}
+                    onClick={() => setExpanded(!expanded)}
+                    disabled={!isOnCorrectNetwork}
+                    className={`${isOnCorrectNetwork ? 'btn-default w-full' : 'btn-default cursor-not-allowed w-full'}`}
                   >
                     Extend
                   </button>
                 </ToolTipNew>
-              </div>
-            ) : (
-              <ToolTipNew
-                outerStyles='flex self-center'
-                hideToolTip={isOnCorrectNetwork}
-                toolTipText={'Please switch to the correct network to refund this deposit.'}
-              >
-                <button
-                  onClick={() => setExpanded(!expanded)}
-                  disabled={!isOnCorrectNetwork}
-                  className={`${isOnCorrectNetwork ? 'btn-default w-full' : 'btn-default cursor-not-allowed w-full'}`}
-                >
-                  Extend
-                </button>
-              </ToolTipNew>
-            )} </>
-            }
-          </div>
-        
+              )}{' '}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
