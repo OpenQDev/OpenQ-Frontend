@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 
-const ClaimTotals = ({ bounty, tokenAddresses, claimant, claimants, type }) => {
+const ClaimTotals = ({ bounty, tokenAddresses, claimant, type }) => {
   const [appState] = useContext(StoreContext);
 
   const getBalancesStillClaimable = () => {

@@ -76,21 +76,11 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
               {bounty.payouts?.length &&
                 tokenAddresses.map((tokenAddress) => (
                   <td key={tokenAddress}>
-                    <ClaimPerToken
-                      bounty={bounty}
-                      claimants={claimants}
-                      tokenAddress={tokenAddress}
-                      type={'allClaimants'}
-                    />
+                    <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} type={'allClaimants'} />
                   </td>
                 ))}
               <td>
-                <ClaimTotals
-                  tokenAddresses={tokenAddresses}
-                  bounty={bounty}
-                  claimants={claimants}
-                  type={'allClaimants'}
-                />
+                <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} type={'allClaimants'} />
               </td>
             </tr>
             <tr>
