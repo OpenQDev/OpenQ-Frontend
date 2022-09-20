@@ -619,6 +619,9 @@ const bounties = [
   },
 ];
 
+// ClaimOverview tests the structure of the table:
+// tokenAddresses headings, row descriptions and display of claimants addresses
+
 describe('ClaimOverview', () => {
   beforeEach(() => {
     nextRouter.useRouter.mockImplementation(() => ({
@@ -631,7 +634,6 @@ describe('ClaimOverview', () => {
   });
 
   it('should render the headings', async () => {
-    // can test the variable part of tokeAddresses/Headings better
     // ARRANGE
     render(<ClaimOverview bounty={bounties[0]} />);
 
