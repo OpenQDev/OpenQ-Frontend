@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { render, screen } from '../../test-utils';
-import ClaimPerToken from '../../components/Claim/ClaimPerToken';
+import ClaimTotals from '../../components/Claim/ClaimTotals';
 import nextRouter from 'next/router';
 
 nextRouter.useRouter = jest.fn();
@@ -619,7 +619,7 @@ const bounties = [
   },
 ];
 
-describe('ClaimPerToken', () => {
+describe('ClaimTotals', () => {
   beforeEach(() => {
     nextRouter.useRouter.mockImplementation(() => ({
       query: { type: null },
@@ -630,33 +630,22 @@ describe('ClaimPerToken', () => {
     }));
   });
 
-  it('should display the right volume per claimant and token', async () => {
+  it('should display the right percentage per claimant', async () => {
     // ARRANGE
-    render(<ClaimPerToken bounty={bounties[0]} />);
+    render(<ClaimTotals bounty={bounties[0]} />);
 
     // ASSERT
-    const volDERC20 = await screen.findByText('300.0');
-    expect(volDERC20).toBeInTheDocument();
+    const percentClaimant = await screen.findByText('30.0 %');
+    expect(percentClaimant).toBeInTheDocument();
 
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
   });
 
-  it('should display the right percentage per claimant and token', async () => {
+  it('should display the right value per claimant', async () => {
     // ARRANGE
-    render(<ClaimPerToken bounty={bounties[0]} />);
-
-    // ASSERT
-
-    // should not have null or undefined values
-    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-    expect(nullish).toHaveLength(0);
-  });
-
-  it('should display the right value per claimant and token', async () => {
-    // ARRANGE
-    render(<ClaimPerToken bounty={bounties[0]} />);
+    render(<ClaimTotals bounty={bounties[0]} />);
 
     // ASSERT
 
@@ -666,5 +655,5 @@ describe('ClaimPerToken', () => {
   });
 
   // Further test suites:
-  // vol, percent and value for: subtotal, for still claimable, refundable, refunded, and total deposited
+  // percent and value for subtotal, for still claimable, refundable, refunded, and total deposited
 });
