@@ -85,7 +85,7 @@ const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
               transformOrigin: 'left center',
               backgroundColor: `hsl(${hue}, ${saturation}%, ${lightness}%)`,
             }}
-            data-testId={'tierInput'}
+            data-testid={'tierInput'}
             type='textarea'
             className='resize-x w-full  h-4'
           >

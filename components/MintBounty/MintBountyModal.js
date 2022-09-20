@@ -268,7 +268,6 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
 
     setTierVolumes(newTierVolumes);
   }
-  console.log(tierArr);
   const handleGoalChange = (goalVolume) => {
     appState.utils.updateVolume(goalVolume, setGoalVolume);
   };
