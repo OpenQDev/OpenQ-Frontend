@@ -662,4 +662,19 @@ describe('ClaimOverview', () => {
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
   });
+
+  it('should display the claimants addresses', async () => {
+    // ARRANGE
+    render(<ClaimOverview bounty={bounties[0]} />);
+
+    // ASSERT
+    const claimant1 = await screen.findByText('0x3c...93bc');
+    expect(claimant1).toBeInTheDocument();
+    const claimant2 = await screen.findByText('0xf3...2266');
+    expect(claimant2).toBeInTheDocument();
+
+    // should not have null or undefined values
+    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(nullish).toHaveLength(0);
+  });
 });

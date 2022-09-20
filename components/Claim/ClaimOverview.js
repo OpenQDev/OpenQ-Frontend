@@ -106,7 +106,7 @@ const ClaimOverview = ({ bounty }) => {
               </td>
             </tr>
             <tr className='font-bold border-t border-gray-700'>
-              <td className='px-2 pb-2'>Total Deposited (tooltip: incl. refunded)</td>
+              <td className='px-2 pb-2'>Total Deposited</td>
               {tokenAddresses.map((tokenAddress) => (
                 <td key={tokenAddress}>
                   <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} />
