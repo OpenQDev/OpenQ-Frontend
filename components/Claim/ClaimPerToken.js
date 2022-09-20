@@ -11,8 +11,8 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
   function filterAndAggregate(toFilterPerToken) {
     const array = toFilterPerToken.filter((payout) => payout.tokenAddress == tokenAddress);
     const volume =
-      array.map((element) => element.volume).reduce((a, b) => parseInt(a) + parseInt(b)) || array[0].volume;
-    return { tokenAddress: tokenAddress, volume: volume };
+      array.map((element) => element.volume).reduce((a, b) => parseInt(a) + parseInt(b), 0) || array[0]?.volume;
+    return { tokenAddress: tokenAddress, volume: volume } || null;
   }
 
   const claimantVolume = () => {
@@ -21,18 +21,12 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
 
-  const getClaimantBalances = () => {
-    const claimArr = claimant
-      ? bounty.payouts
-          .filter((payout) => payout.closer.id == claimant && payout.tokenAddress == tokenAddress)
-          .map((claim) => claim.volume)
-      : null;
-    const vol = claimArr == null ? 0 : claimArr.reduce((a, b) => parseInt(a) + parseInt(b));
-    return vol == 0 ? 0 : { tokenAddress: tokenAddress, volume: vol };
-  };
-  const claimantBalancesObj = useMemo(() => getClaimantBalances(), [claimant, tokenAddress]);
+  const claimantBalancesObj = useMemo(
+    () => filterAndAggregate(bounty.payouts.filter((payout) => payout.closer.id == claimant)),
+    [claimant, tokenAddress]
+  );
   const [claimantBalancesValues] = useGetTokenValues(claimantBalancesObj);
-  const claimantBalances = claimantBalancesValues?.total;
+  const claimantValue = claimantBalancesValues?.total;
 
   const claimedVolume = () => {
     const claimedVolume = bounty.payouts
@@ -152,7 +146,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
     case 'perClaimant':
       volumeDisplay = claimantVolume();
       percentDisplay = claimantVolume() / totalDepositVolume();
-      valueDisplay = claimantBalances;
+      valueDisplay = claimantValue;
       break;
     case 'allClaimants':
       volumeDisplay = claimedVolume();
