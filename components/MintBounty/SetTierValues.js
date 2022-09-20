@@ -3,6 +3,7 @@ import ToolTipNew from '../Utils/ToolTipNew';
 import TierInput from './TierInput';
 import TextTierInput from './TextTierInput';
 import TierResult from './TierResult';
+import SmallToggle from '../Utils/SmallToggle';
 
 const SetTierValues = ({
   category,
@@ -17,6 +18,7 @@ const SetTierValues = ({
   const initialNumberVolumes = initialVolumes.map((elem) => parseInt(elem));
   const [tierVolumes, setTierVolumes] = useState(initialNumberVolumes);
   const [fixedTierVolumes, setFixedTierVolumes] = useState({});
+  const [toggleVal, setToggleVal] = useState('Visual');
 
   function onFixedTierChange(e, localTierVolumes) {
     if (parseInt(e.target.value) >= 0) {
@@ -59,11 +61,22 @@ const SetTierValues = ({
       });
     }
   };
+  const handleToggle = () => {
+    if (toggleVal === 'Visual') {
+      setToggleVal('Text');
+      setTierVolumes({});
+      setSum(0);
+      setFinalTierVolumes([]);
+    } else {
+      setToggleVal('Visual');
+      setTierVolumes({ 0: 1, 1: 1, 2: 1 });
+    }
+  };
   return (
     <>
       {category === 'Contest' ? (
-        <div className='flex flex-col w-full items-start p-2 py-1 pb-0 text-base'>
-          <div className='flex items-center gap-2 '>
+        <div className='flex flex-col gap-2 w-full items-start p-2 py-1 pb-0 text-base'>
+          <div className='flex items-center gap-2'>
             Weight per Tier (%)
             <ToolTipNew mobileX={10} toolTipText={'How much % of the total will each winner earn?'}>
               <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 text-sm box-content text-center font-bold text-primary'>
@@ -71,24 +84,40 @@ const SetTierValues = ({
               </div>
             </ToolTipNew>
           </div>
+          <SmallToggle
+            toggleVal={toggleVal}
+            className={' ml-4 '}
+            toggleFunc={handleToggle}
+            names={['Visual', 'Text']}
+          />
           {sum > 100 ? (
-            <span className='text-sm my-2 pb-2 text-[#f85149]'>The sum can not be more than 100%!</span>
+            <span className='text-sm  text-[#f85149]'>The sum can not be more than 100%!</span>
           ) : sum === 100 ? (
-            <span className='text-sm my-2 pb-2'>Sum is 100, now you can mint.</span>
+            <span className='text-sm '>Sum is 100, now you can mint.</span>
           ) : (
-            <span className='text-sm my-2 pb-2'>
-              For the sum to add up to 100, you still need to allocate: {100 - sum} %
-            </span>
+            <span className='text-sm'>For the sum to add up to 100, you still need to allocate: {100 - sum} %</span>
           )}
-          <div className=' w-full mx-h-60 overflow-y-auto overflow-x-hidden'>
-            {tierArr.map((t) => {
-              return (
-                <div key={t}>
-                  <TierInput tier={t} tierVolumes={tierVolumes} onTierVolumeChange={onTierVolumeChange} />
-                </div>
-              );
-            })}
-          </div>
+          {toggleVal === 'Visual' ? (
+            <div className=' w-full mx-h-60 overflow-y-auto overflow-x-hidden'>
+              {tierArr.map((t) => {
+                return (
+                  <div key={t}>
+                    <TierInput tier={t} tierVolumes={tierVolumes} onTierVolumeChange={onTierVolumeChange} />
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className='max-h-40 w-full overflow-y-auto overflow-x-hidden'>
+              {tierArr.map((t, i) => {
+                return (
+                  <div key={i}>
+                    <TextTierInput tier={i + 1} tierVolumes={tierVolumes} onTierVolumeChange={onTierVolumeChange} />
+                  </div>
+                );
+              })}
+            </div>
+          )}
           <TierResult sum={sum} finalTierVolumes={finalTierVolumes} />
         </div>
       ) : (
