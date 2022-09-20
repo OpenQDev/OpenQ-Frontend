@@ -225,7 +225,9 @@ const address = ({ address, mergedBounty, renderError }) => {
               )}
               {internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
               {internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
-              {internalMenu == 'Claims Overview' && bounty ? <ClaimOverview bounty={bounty} /> : null}
+              {internalMenu == 'Claims Overview' && bounty ? (
+                <ClaimOverview bounty={bounty} setInternalMenu={setInternalMenu} />
+              ) : null}
               {internalMenu == 'Admin' && bounty && ethers.utils.getAddress(bounty.issuer.id) == account ? (
                 <AdminPage
                   bounty={bounty}
