@@ -6,6 +6,7 @@ import { ethers } from 'ethers';
 const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
   const [appState] = useContext(StoreContext);
   const tokenMetadata = appState.tokenClient.getToken(tokenAddress);
+  const decimals = parseInt(tokenMetadata.decimals) || 18;
 
   const claimantVolume = () => {
     const volumeArr = bounty.payouts?.filter(
@@ -18,7 +19,6 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
     }
     const finVolume = transitArr == 0 ? 0 : transitArr.reduce((a, b) => parseInt(a) + parseInt(b));
     let bigNumberVolume = ethers.BigNumber.from(finVolume.toString());
-    let decimals = parseInt(tokenMetadata.decimals) || 18;
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
 
@@ -43,7 +43,6 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
     let bigNumberclaimedVolume = ethers.BigNumber.from(
       claimedVolume.toLocaleString('fullwide', { useGrouping: false })
     );
-    let decimals = parseInt(tokenMetadata.decimals) || 18;
     return ethers.utils.formatUnits(bigNumberclaimedVolume, decimals);
   };
 
@@ -58,7 +57,6 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
       : 0;
     const volume = volumeArr == 0 ? 0 : volumeArr.reduce((a, b) => parseInt(a) + parseInt(b));
     let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
-    let decimals = parseInt(tokenMetadata.decimals) || 18;
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
 
@@ -114,7 +112,6 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
       : 0;
     const volume = volumeArr == 0 ? 0 : volumeArr.reduce((a, b) => parseInt(a) + parseInt(b));
     let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
-    let decimals = parseInt(tokenMetadata.decimals) || 18;
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
 
@@ -131,7 +128,6 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
       .map((deposit) => deposit.volume)
       .reduce((a, b) => parseInt(a) + parseInt(b));
     let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
-    let decimals = parseInt(tokenMetadata.decimals) || 18;
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
 
