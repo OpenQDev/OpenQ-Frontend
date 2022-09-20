@@ -35,16 +35,15 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
   };
 
   const unlockedDepositVolume = () => {
-    const volumeArr = bounty.deposits.length
-      ? bounty.deposits
-          ?.filter((deposit) => deposit.tokenAddress == tokenAddress && !deposit.refunded)
-          ?.filter((deposit) => {
+    const volume =
+      filterAndAggregate(
+        bounty.deposits
+          ?.filter((deposit) => !deposit.refunded)
+          .filter((deposit) => {
             return parseInt(deposit.receiveTime) + parseInt(deposit.expiration) < Math.floor(Date.now() / 1000);
           })
-          ?.map((deposit) => deposit.volume)
-      : 0;
-    const volume = volumeArr == 0 ? 0 : volumeArr.reduce((a, b) => parseInt(a) + parseInt(b));
-    let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
+      )?.volume || 0;
+    let bigNumberVolume = ethers.BigNumber.from(volume.toString());
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
 
