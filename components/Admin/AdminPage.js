@@ -62,7 +62,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
       });
     } else return [];
   }, [bounty]);
-  const [tier, setTier] = useState(0);
+  const [tier, setTier] = useState(bounty.payoutSchedule.length);
   const [tierArr, setTierArr] = useState(initialTierArr);
   const [finalTierVolumes, setFinalTierVolumes] = useState(bounty.payoutSchedule || []);
 
@@ -100,21 +100,28 @@ const AdminPage = ({ bounty, refreshBounty }) => {
   // handle change in Payout for Contests
 
   function onTierChange(e) {
-    if (parseInt(e.target.value) >= 0) {
+    const newTier = e.target.value;
+    if (newTier >= 0) {
+      console.log(newTier);
       setTier(parseInt(e.target.value));
     }
-    if (parseInt(e.target.value) > 100) {
+    if (newTier > 100) {
+      console.log('exic');
       setTier('0');
     }
-    if (e.target.value === '') setTier('0');
-    setTierArr(
-      Array.from(
-        {
-          length: e.target.value,
-        },
-        (_, i) => i + 1
-      )
+    const newTierArr = Array.from(
+      {
+        length: e.target.value,
+      },
+      (_, i) => i
     );
+    setTierArr(newTierArr);
+
+    // removes final tier volumes
+    const newFinalTierVolumes = newTierArr.map((tier) => {
+      return finalTierVolumes[tier];
+    });
+    setFinalTierVolumes(newFinalTierVolumes);
   }
 
   // useEffect
@@ -290,7 +297,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
                                   type='text'
                                   min='0'
                                   max='100'
-                                  value={tier}
+                                  defaultValue={tier}
                                   onChange={(e) => onTierChange(e)}
                                 />
                               </div>
