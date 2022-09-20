@@ -91,7 +91,6 @@ class SuperfluidClient {
   }
 
   async approve(library, superTokenAddress, amount) {
-    console.log('s', superTokenAddress);
     const promise = new Promise(async (resolve, reject) => {
       const address = superTokenAddress;
       const amountInWei = ethers.utils.parseEther(amount);
@@ -118,7 +117,6 @@ class SuperfluidClient {
   }
 
   async superTokenCreateFlow(library, superTokenAddress, sender, receiver, flowRate) {
-    console.log('s', superTokenAddress);
     const address = superTokenAddress;
     const superToken = await this.loadSuperToken(library, address);
     const createFlowOp = superToken.createFlow({
@@ -264,7 +262,6 @@ class SuperfluidClient {
   }
 
   viewAccount(account) {
-    console.log(process.env.NEXT_PUBLIC_SUPERFLUID_SUBGRAPH_URL);
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
