@@ -37,7 +37,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
   // Context
   const [appState, dispatch] = useContext(StoreContext);
   const { library, account } = useWeb3();
-  console.log(bounty.bountyType);
   // State
   const [token, setToken] = useState(zeroAddressMetadata);
   const bountyName =

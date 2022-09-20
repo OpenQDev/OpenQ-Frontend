@@ -172,7 +172,6 @@ const AdminPage = ({ bounty, refreshBounty }) => {
       });
     }
   }
-  console.log(finalTierVolumes);
   async function setPayoutSchedule() {
     try {
       setIsLoading(true);
