@@ -6,7 +6,7 @@ import ClaimPerToken from './ClaimPerToken';
 import ClaimTotals from './ClaimTotals';
 import ToolTipNew from '../Utils/ToolTipNew';
 
-const ClaimOverview = ({ bounty }) => {
+const ClaimOverview = ({ bounty, setInternalMenu }) => {
   const [appState] = useContext(StoreContext);
   const shortenAddress = (address) => {
     if (!address) {
@@ -105,7 +105,12 @@ const ClaimOverview = ({ bounty }) => {
               </td>
             </tr>
             <tr className='italic'>
-              <td className='px-2 pb-2'>of which currently refundable</td>
+              <td className='px-2 pb-2'>
+                of which currently{' '}
+                <button className='italic text-link-colour hover:underline' onClick={() => setInternalMenu('Refund')}>
+                  refundable
+                </button>
+              </td>
               {tokenAddresses.map((tokenAddress) => (
                 <td key={tokenAddress}>
                   <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} type={'refundable'} />
