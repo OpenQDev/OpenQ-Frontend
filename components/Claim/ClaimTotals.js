@@ -21,7 +21,7 @@ const ClaimTotals = ({ bounty, tokenAddresses, claimant, claimants, stillClaim, 
         const volume = deposits.map((deposit) => deposit.volume).reduce((a, b) => parseInt(a) + parseInt(b));
         return { tokenAddress: tokenAddress, volume: volume };
       }
-      return deposits;
+      return { tokenAddress: tokenAddress, volume: deposits[0].volume };
     });
   };
   const balanceObjDeposits = useMemo(() => getBalancesDeposits(), [bounty]);
@@ -45,7 +45,6 @@ const ClaimTotals = ({ bounty, tokenAddresses, claimant, claimants, stillClaim, 
             const volume = payouts.map((payout) => payout.volume).reduce((a, b) => parseInt(a) + parseInt(b));
             return { tokenAddress: tokenAddress, volume: volume };
           } else {
-            console.log(payouts[0].volume);
             return { tokenAddress: tokenAddress, volume: payouts[0].volume };
           }
         })
@@ -77,6 +76,7 @@ const ClaimTotals = ({ bounty, tokenAddresses, claimant, claimants, stillClaim, 
     depValues.push(unlockedDepositsValues?.total);
   }
   const unlockedDepositValue = depValues ? depValues.reduce((a, b) => a + b) : 0;
+  console.log(unlockedDepositValue, claimantsTotalValue, refundValue);
 
   const refundableValue =
     unlockedDepositValue - claimantsTotalValue - refundValue < 0
