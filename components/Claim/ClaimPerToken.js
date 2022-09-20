@@ -3,7 +3,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import { ethers } from 'ethers';
 
-const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, refundable, refunded }) => {
+const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
   const [appState] = useContext(StoreContext);
   const tokenMetadata = appState.tokenClient.getToken(tokenAddress);
 
@@ -157,66 +157,53 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, claimants, stillClaim, 
   const divPercent = 'flex justify-end w-12';
   const divValue = 'flex justify-end text-right w-20';
 
+  let volumeDisplay = 0;
+  let percentDisplay = 0;
+  let valueDisplay = 0;
+
+  switch (type) {
+    case 'perClaimant':
+      volumeDisplay = claimantVolume();
+      percentDisplay = claimantPercent();
+      valueDisplay = claimantBalances;
+      break;
+    case 'allClaimants':
+      volumeDisplay = claimedVolume();
+      percentDisplay = (claimedVolume() / totalDepositVolume()) * 100;
+      valueDisplay = claimedBalances;
+      break;
+    case 'stillClaimable':
+      volumeDisplay = parseFloat(currentDepositVolume - claimedVolume()).toFixed(1);
+      percentDisplay = (parseFloat((currentDepositVolume - claimedVolume()) / totalDepositVolume()) * 100).toFixed(1);
+      valueDisplay = stillClaimable;
+      break;
+    case 'refundable':
+      volumeDisplay = refundableVolume();
+      percentDisplay = (parseFloat(refundableVolume() / totalDepositVolume()) * 100).toFixed(1);
+      valueDisplay = refundableValue();
+      break;
+    case 'refunded':
+      volumeDisplay = refundVolume();
+      percentDisplay = (parseFloat(refundVolume() / totalDepositVolume()) * 100).toFixed(1);
+      valueDisplay = refundedValue;
+      break;
+    case 'total':
+      volumeDisplay = totalDepositVolume();
+      percentDisplay = 100;
+      valueDisplay = totalDepositValue;
+      break;
+  }
+
   return (
     <div className='flex px-2 pb-2 w-full'>
       <div className='px-2 pb-2'>
-        {claimant ? (
-          <div className={divVolume}>{claimantVolume()}</div>
-        ) : claimants ? (
-          <div className={divVolume}>{claimedVolume()}</div>
-        ) : stillClaim ? (
-          <div className={divVolume}>{parseFloat(currentDepositVolume - claimedVolume()).toFixed(1)}</div>
-        ) : refundable ? (
-          <div className={divVolume}>
-            <div>{refundableVolume()}</div>
-          </div>
-        ) : refunded ? (
-          <div className={divVolume}>
-            <div>{refundVolume()}</div>
-          </div>
-        ) : (
-          <div className={divVolume}>{totalDepositVolume()}</div>
-        )}
+        <div className={divVolume}>{volumeDisplay}</div>
       </div>
       <div className='px-2 pb-2'>
-        {claimant ? (
-          <div className={divPercent}>{claimantPercent()} %</div>
-        ) : claimants ? (
-          <div className={divPercent}>{(claimedVolume() / totalDepositVolume()) * 100} %</div>
-        ) : stillClaim ? (
-          <div className={divPercent}>
-            {(parseFloat((currentDepositVolume - claimedVolume()) / totalDepositVolume()) * 100).toFixed(1)} %
-          </div>
-        ) : refundable ? (
-          <div className={divPercent}>
-            <div>{(parseFloat(refundableVolume() / totalDepositVolume()) * 100).toFixed(1)} %</div>
-          </div>
-        ) : refunded ? (
-          <div className={divPercent}>
-            <div>{(parseFloat(refundVolume() / totalDepositVolume()) * 100).toFixed(1)} %</div>
-          </div>
-        ) : (
-          <div className={divPercent}>100 %</div>
-        )}
+        <div className={divPercent}>{percentDisplay} %</div>
       </div>
       <div className='px-2 pb-2'>
-        {claimant ? (
-          <div className={divValue}>{appState.utils.formatter.format(claimantBalances)}</div>
-        ) : claimants ? (
-          <div className={divValue}>{appState.utils.formatter.format(claimedBalances)}</div>
-        ) : stillClaim ? (
-          <div className={divValue}>{appState.utils.formatter.format(stillClaimable)}</div>
-        ) : refundable ? (
-          <div className={divValue}>
-            <div>{appState.utils.formatter.format(refundableValue())}</div>
-          </div>
-        ) : refunded ? (
-          <div className={divValue}>
-            <div>{appState.utils.formatter.format(refundedValue)}</div>
-          </div>
-        ) : (
-          <div className={divValue}>{appState.utils.formatter.format(totalDepositValue)}</div>
-        )}
+        <div className={divValue}>{appState.utils.formatter.format(valueDisplay)}</div>
       </div>
     </div>
   );
