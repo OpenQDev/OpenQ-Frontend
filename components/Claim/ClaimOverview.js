@@ -61,7 +61,12 @@ const ClaimOverview = ({ bounty }) => {
                   </td>
                 ))}
                 <td key={claimant + 2}>
-                  <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} claimant={claimant} />
+                  <ClaimTotals
+                    tokenAddresses={tokenAddresses}
+                    bounty={bounty}
+                    claimant={claimant}
+                    type={'perClaimant'}
+                  />
                 </td>
               </tr>
             ))}
@@ -79,7 +84,12 @@ const ClaimOverview = ({ bounty }) => {
                   </td>
                 ))}
               <td>
-                <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} claimants={claimants} />
+                <ClaimTotals
+                  tokenAddresses={tokenAddresses}
+                  bounty={bounty}
+                  claimants={claimants}
+                  type={'allClaimants'}
+                />
               </td>
             </tr>
             <tr>
@@ -90,18 +100,18 @@ const ClaimOverview = ({ bounty }) => {
                 </td>
               ))}
               <td>
-                <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} stillClaim={true} />
+                <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} type={'stillClaimable'} />
               </td>
             </tr>
             <tr className='italic'>
               <td className='px-2 pb-2'>of which currently refundable</td>
               {tokenAddresses.map((tokenAddress) => (
                 <td key={tokenAddress}>
-                  <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} refundable={true} type={'refundable'} />
+                  <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} type={'refundable'} />
                 </td>
               ))}
               <td>
-                <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} refundable={true} />
+                <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} type={'refundable'} />
               </td>
             </tr>
             <tr>
@@ -112,7 +122,7 @@ const ClaimOverview = ({ bounty }) => {
                 </td>
               ))}
               <td>
-                <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} refunded={true} />
+                <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} type={'refunded'} />
               </td>
             </tr>
             <tr className='font-bold border-t border-gray-700'>
@@ -123,7 +133,7 @@ const ClaimOverview = ({ bounty }) => {
                 </td>
               ))}
               <td>
-                <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} />
+                <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} type={'total'} />
               </td>
             </tr>
           </tbody>

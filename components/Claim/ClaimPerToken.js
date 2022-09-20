@@ -22,10 +22,6 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
 
-  const claimantPercent = () => {
-    return parseFloat((claimantVolume() / totalDepositVolume()) * 100).toFixed(1);
-  };
-
   const getClaimantBalances = () => {
     const claimArr = claimant
       ? bounty.payouts
@@ -164,32 +160,32 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
   switch (type) {
     case 'perClaimant':
       volumeDisplay = claimantVolume();
-      percentDisplay = claimantPercent();
+      percentDisplay = claimantVolume() / totalDepositVolume();
       valueDisplay = claimantBalances;
       break;
     case 'allClaimants':
       volumeDisplay = claimedVolume();
-      percentDisplay = (claimedVolume() / totalDepositVolume()) * 100;
+      percentDisplay = claimedVolume() / totalDepositVolume();
       valueDisplay = claimedBalances;
       break;
     case 'stillClaimable':
       volumeDisplay = parseFloat(currentDepositVolume - claimedVolume()).toFixed(1);
-      percentDisplay = (parseFloat((currentDepositVolume - claimedVolume()) / totalDepositVolume()) * 100).toFixed(1);
+      percentDisplay = parseFloat((currentDepositVolume - claimedVolume()) / totalDepositVolume());
       valueDisplay = stillClaimable;
       break;
     case 'refundable':
       volumeDisplay = refundableVolume();
-      percentDisplay = (parseFloat(refundableVolume() / totalDepositVolume()) * 100).toFixed(1);
+      percentDisplay = parseFloat(refundableVolume() / totalDepositVolume());
       valueDisplay = refundableValue();
       break;
     case 'refunded':
       volumeDisplay = refundVolume();
-      percentDisplay = (parseFloat(refundVolume() / totalDepositVolume()) * 100).toFixed(1);
+      percentDisplay = parseFloat(refundVolume() / totalDepositVolume());
       valueDisplay = refundedValue;
       break;
     case 'total':
       volumeDisplay = totalDepositVolume();
-      percentDisplay = 100;
+      percentDisplay = 1;
       valueDisplay = totalDepositValue;
       break;
   }
@@ -200,7 +196,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
         <div className={divVolume}>{volumeDisplay}</div>
       </div>
       <div className='px-2 pb-2'>
-        <div className={divPercent}>{percentDisplay} %</div>
+        <div className={divPercent}>{(percentDisplay * 100).toFixed(0)} %</div>
       </div>
       <div className='px-2 pb-2'>
         <div className={divValue}>{appState.utils.formatter.format(valueDisplay)}</div>

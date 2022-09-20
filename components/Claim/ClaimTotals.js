@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 
-const ClaimTotals = ({ bounty, tokenAddresses, claimant, claimants, stillClaim, refundable, refunded }) => {
+const ClaimTotals = ({ bounty, tokenAddresses, claimant, claimants, type }) => {
   const [appState] = useContext(StoreContext);
 
   const getBalancesStillClaimable = () => {
@@ -87,47 +87,43 @@ const ClaimTotals = ({ bounty, tokenAddresses, claimant, claimants, stillClaim, 
   const divPercent = 'flex justify-end w-16';
   const divValue = 'flex justify-end';
 
+  let percentDisplay = 0;
+  let valueDisplay = 0;
+
+  switch (type) {
+    case 'perClaimant':
+      percentDisplay = parseFloat(claimantTotalValue / totalDepositValue);
+      valueDisplay = claimantTotalValue;
+      break;
+    case 'allClaimants':
+      percentDisplay = parseFloat(claimantsTotalValue / totalDepositValue);
+      valueDisplay = claimantsTotalValue;
+      break;
+    case 'stillClaimable':
+      percentDisplay = bounty.payouts ? parseFloat(stillClaimableValue / totalDepositValue) : 0;
+      valueDisplay = stillClaimableValue;
+      break;
+    case 'refundable':
+      percentDisplay = parseFloat(refundableValue / totalDepositValue);
+      valueDisplay = refundableValue;
+      break;
+    case 'refunded':
+      percentDisplay = parseFloat(refundValue / totalDepositValue);
+      valueDisplay = refundValue;
+      break;
+    case 'total':
+      percentDisplay = 1;
+      valueDisplay = totalDepositValue;
+      break;
+  }
+
   return (
     <div className='flex gap-2 px-2 pb-2 w-full'>
       <div className='px-2 pb-2'>
-        {claimant ? (
-          <div className={divPercent}>{parseFloat((claimantTotalValue / totalDepositValue) * 100).toFixed(1)} %</div>
-        ) : claimants ? (
-          <div className={divPercent}>{parseFloat((claimantsTotalValue / totalDepositValue) * 100).toFixed(1)} %</div>
-        ) : stillClaim ? (
-          <div className={divPercent}>
-            {bounty.payouts ? (
-              <div>{parseFloat((stillClaimableValue / totalDepositValue) * 100).toFixed(1)} %</div>
-            ) : (
-              '0.0'
-            )}
-          </div>
-        ) : refundable ? (
-          <div className={divPercent}>{parseFloat((refundableValue / totalDepositValue) * 100).toFixed(1)} %</div>
-        ) : refunded ? (
-          <div className={divPercent}>{parseFloat((refundValue / totalDepositValue) * 100).toFixed(1)} %</div>
-        ) : (
-          <div className={divPercent}>100 %</div>
-        )}
+        <div className={divPercent}>{(percentDisplay * 100).toFixed(1)} %</div>
       </div>
       <div className='px-2 pb-2 w-full'>
-        {claimant ? (
-          <div className={divValue}>{appState.utils.formatter.format(claimantTotalValue)}</div>
-        ) : claimants ? (
-          <div className={divValue}>{appState.utils.formatter.format(claimantsTotalValue)}</div>
-        ) : stillClaim ? (
-          <div className={divValue}>
-            {bounty.payouts ? <>{appState.utils.formatter.format(stillClaimableValue)}</> : '0.0'}
-          </div>
-        ) : refundable ? (
-          <div className={divValue}>{appState.utils.formatter.format(refundableValue)}</div>
-        ) : refunded ? (
-          <div className={divValue}>{appState.utils.formatter.format(refundValue)}</div>
-        ) : (
-          <div className={divValue}>
-            {bounty.deposits ? <>{appState.utils.formatter.format(totalDepositValue)}</> : '0.0'}
-          </div>
-        )}
+        <div className={divValue}>{appState.utils.formatter.format(valueDisplay)}</div>
       </div>
     </div>
   );
