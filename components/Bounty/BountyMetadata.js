@@ -7,6 +7,7 @@ import CopyBountyAddress from './CopyBountyAddress';
 import StoreContext from '../../store/Store/StoreContext';
 import TokenBalances from '../TokenBalances/TokenBalances';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
+import PieChart from './PieChart';
 
 const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
   const [appState] = useContext(StoreContext);
@@ -98,6 +99,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
               );
             })}
           </div>
+          <PieChart payoutSchedule={bounty.payoutSchedule} />
         </li>
       ) : null}
       {bounty.assignees && (
