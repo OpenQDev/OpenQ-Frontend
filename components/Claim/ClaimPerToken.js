@@ -149,10 +149,6 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
 
   const currentDepositVolume = totalDepositVolume() - refundVolume();
 
-  const divVolume = 'flex justify-end w-12';
-  const divPercent = 'flex justify-end w-12';
-  const divValue = 'flex justify-end text-right w-20';
-
   let volumeDisplay = 0;
   let percentDisplay = 0;
   let valueDisplay = 0;
@@ -189,6 +185,10 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
       valueDisplay = totalDepositValue;
       break;
   }
+
+  const divVolume = 'flex justify-end w-12';
+  const divPercent = 'flex justify-end w-12';
+  const divValue = 'flex justify-end text-right w-20';
 
   return (
     <div className='flex px-2 pb-2 w-full'>
