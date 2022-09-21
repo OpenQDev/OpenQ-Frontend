@@ -24,7 +24,6 @@ const ClaimTotals = ({ bounty, tokenAddresses, claimant, type }) => {
   const balanceObjDeposits = useMemo(() => filterAndAggregate(bounty.deposits), [bounty]);
   const [balanceValuesDeposits] = useGetTokenValues(balanceObjDeposits);
   const totalDepositValue = balanceValuesDeposits?.total ? balanceValuesDeposits?.total : 0;
-  console.log(totalDepositValue);
 
   const getBalancesRefunds = () => {
     return bounty.refunds ? bounty.refunds : null;

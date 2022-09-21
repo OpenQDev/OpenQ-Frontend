@@ -95,11 +95,21 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
               </td>
             </tr>
             <tr className='italic'>
-              <td className='px-2 pb-2'>
+              <td className='flex gap-1 items-center px-2 pb-2'>
                 of which currently{' '}
                 <button className='italic text-link-colour hover:underline' onClick={() => setInternalMenu('Refund')}>
                   refundable
                 </button>
+                <ToolTipNew
+                  innerStyles={'not-italic whitespace-normal w-80'}
+                  toolTipText={
+                    'Funds that are currently not locked (deposit lock period expired) and have not already been used for claims. Claims will be deducted from deposits with earliest expiration date first.'
+                  }
+                >
+                  <div className='not-italic cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                    ?
+                  </div>
+                </ToolTipNew>
               </td>
               {tokenAddresses.map((tokenAddress) => (
                 <td key={tokenAddress}>
