@@ -55,31 +55,23 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
     return parseFloat(refundable).toFixed(1);
   };
 
-  const payoutsClaimedBalances = bounty.payouts
-    ? bounty.payouts.filter((payout) => payout.tokenAddress == tokenAddress)
-    : null;
-  const claimsClaimedBalances = bounty.payouts ? [] : 0;
-  let i;
-  for (i = 0; i < payoutsClaimedBalances?.length; i++) {
-    const claimedBalancesObj = useMemo(() => payoutsClaimedBalances[i], [bounty]);
-    const [balanceValuesclaimedBalances] = useGetTokenValues(claimedBalancesObj);
-    claimsClaimedBalances.push(balanceValuesclaimedBalances?.total);
-  }
-  const claimedBalances = claimsClaimedBalances ? claimsClaimedBalances.reduce((a, b) => a + b) : 0;
+  const claimedBalancesObj = useMemo(() => filterAndAggregate(bounty.payouts), [bounty]);
+  const [balanceValuesclaimedBalances] = useGetTokenValues(claimedBalancesObj);
+  const claimedBalances = balanceValuesclaimedBalances?.total;
 
-  const unlockedDeposits = bounty.deposits
-    ?.filter((deposit) => deposit.tokenAddress == tokenAddress && !deposit.refunded)
-    .filter((deposit) => {
-      return parseInt(deposit.receiveTime) + parseInt(deposit.expiration) < Math.floor(Date.now() / 1000);
-    });
-  const depValues = bounty.deposits ? [] : 0;
-  let j;
-  for (j = 0; j < unlockedDeposits?.length; j++) {
-    const unlockedDepositsObj = useMemo(() => unlockedDeposits[j], [bounty]);
-    const [unlockedDepositsValues] = useGetTokenValues(unlockedDepositsObj);
-    depValues.push(unlockedDepositsValues?.total);
-  }
-  const unlockedDepositValue = depValues == 0 ? 0 : depValues.reduce((a, b) => a + b);
+  const unlockedDepositsObj = useMemo(
+    () =>
+      filterAndAggregate(
+        bounty.deposits
+          ?.filter((deposit) => !deposit.refunded)
+          .filter((deposit) => {
+            return parseInt(deposit.receiveTime) + parseInt(deposit.expiration) < Math.floor(Date.now() / 1000);
+          })
+      ),
+    [bounty]
+  );
+  const [unlockedDepositsValues] = useGetTokenValues(unlockedDepositsObj);
+  const unlockedDepositValue = unlockedDepositsValues?.total;
 
   const refundableValue = () => {
     const refundable = claimedBalances > unlockedDepositValue ? 0 : unlockedDepositValue - claimedBalances;
