@@ -9,9 +9,9 @@ import MintBountyButton from '../MintBounty/MintBountyButton';
 import Carousel from '../Utils/Carousel';
 import CarouselBounty from '../Bounty/CarouselBounty';
 import useWeb3 from '../../hooks/useWeb3';
-import searchFoundInText from './SearchHelpers/searchFoundInText';
-import searchFoundInLabels from './SearchHelpers/searchFoundInLabels';
-import searchTagInBounty from './SearchHelpers/searchTagInBounty';
+import searchFoundInText from './searchHelpers/searchFoundInText';
+import searchFoundInLabels from './searchHelpers/searchFoundInLabels';
+import searchTagInBounty from './searchHelpers/searchTagInBounty';
 import SmallToggle from '../Utils/SmallToggle';
 import { useRouter } from 'next/router';
 
