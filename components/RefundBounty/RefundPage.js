@@ -6,6 +6,7 @@ import { ethers } from 'ethers';
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
 import DepositCard from './DepositCard';
+import ToolTipNew from '../Utils/ToolTipNew';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import useEns from '../../hooks/useENS';
 import ApproveTransferModal from './ApproveTransferModal';
@@ -111,11 +112,11 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 
   return (
     <>
-      {closed ? (
+      {closed && bounty.bountyType === '0' ? (
         <>{internalMenu === 'Refund' && <BountyClosed bounty={bounty} />}</>
       ) : (
         <div
-          className={`flex flex-1 px-12 pt-4 pb-8 w-full max-w-[1200px] justify-center ${
+          className={`flex flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center ${
             internalMenu !== 'Refund' ? 'hidden' : null
           }`}
         >
@@ -125,7 +126,22 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
             </h1>
             <div className='flex flex-col space-y-5 w-full px-8 pt-2'>
               <div className=' text-center'>To see your deposits, connect the wallet that funded them.</div>
-              <h2 className='text-2xl border-b border-gray-700 pb-4'>Refundable</h2>
+              <h2 className='text-2xl border-b border-gray-700 pb-4 flex contents-center items-center gap-4'>
+                <span>{closed && 'Partially'} Refundable</span>
+                <span>
+                  <ToolTipNew
+                    innerStyles={'w-48 whitespace-normal'}
+                    mobileX={10}
+                    toolTipText={
+                      'This bounty is already closed, if claims have been made on this competition, you may not be able to refund your deposit.'
+                    }
+                  >
+                    <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>
+                      ?
+                    </div>
+                  </ToolTipNew>
+                </span>
+              </h2>
               <div className='lg:grid lg:grid-cols-[1fr_1fr] gap-4 pb-5'>
                 {bounty.deposits &&
                   bounty.deposits
@@ -146,6 +162,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                           <DepositCard
                             deposit={deposit}
                             status='refundable'
+                            closed={closed}
                             bounty={bounty}
                             onDepositPeriodChanged={onDepositPeriodChanged}
                             depositPeriodDays={depositPeriodDays[deposit.id]}
@@ -196,6 +213,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                         <div key={deposit.id}>
                           <DepositCard
                             deposit={deposit}
+                            closed={closed}
                             status='not-yet-refundable'
                             bounty={bounty}
                             onDepositPeriodChanged={onDepositPeriodChanged}

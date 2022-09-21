@@ -15,11 +15,11 @@ import useAuth from '../../hooks/useAuth';
 import AuthButton from '../Authentication/AuthButton';
 import useWeb3 from '../../hooks/useWeb3';
 import ClaimLoadingModal from './ClaimLoadingModal';
+import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import useEns from '../../hooks/useENS';
 import ToolTipNew from '../Utils/ToolTipNew';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
-import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import StoreContext from '../../store/Store/StoreContext';
 
 const ClaimPage = ({ bounty, refreshBounty }) => {
@@ -130,44 +130,29 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
     // rewards are claimable
     return (
       <>
-        <div className='flex flex-1 px-12 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
-          <div className='flex flex-col space-y-2 items-center md:border rounded-sm border-gray-700'>
+        {/* <ClaimOverview bounty={bounty} />*/}
+        <div className='flex flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
+          <div className='flex flex-col w-full space-y-2 items-center content-center md:border rounded-sm border-gray-700'>
             <div className='flex w-full text-3xl text-primary justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
               Claim Your Rewards
             </div>
-            <div className='flex flex-1 justify-center'>
+            <div className='flex flex-1 justify-center content-center items-center'>
               <div className='w-5/6 pb-4 min-w-min'>
                 <div className='flex flex-col gap-4 pt-4'>
+                  <p>
+                    {bounty.bountyType === '0' &&
+                      "Don't forget to add a closer comment for this bounty on your pull request :-)."}
+                    <CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} />
+                  </p>
                   {!authState.isAuthenticated ? (
                     <div className=' col-span-3 border border-gray-700 bg-[#21262d] rounded-sm p-4'>
                       We noticed you are not signed into Github. You must sign to verify and claim an issue!
                     </div>
                   ) : null}
-                  <div className='col-span-3 space-y-4 p-4'>
-                    <p>
-                      {bounty.bountyType === '2' || bounty.bountyType === '3'
-                        ? 'Decide the winner by commenting OpenQ-Tier-[1,2,3]-Winner on the winning pull request:'
-                        : "Don't forget to add a closer comment for this bounty on your pull request :-)."}
-                    </p>
-                    <div>
-                      {bounty.bountyType === '2' || bounty.bountyType === '3' ? (
-                        bounty.payoutSchedule.map((elem, index) => {
-                          return (
-                            <CopyAddressToClipboard
-                              key={index}
-                              noClip={true}
-                              data={`Closes #${bounty.number} OpenQ-Tier-${index + 1}-Winner`}
-                            />
-                          );
-                        })
-                      ) : (
-                        <CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} />
-                      )}
-                    </div>
-                  </div>
 
                   <div className='flex flex-col space-y-5'>
                     <ToolTipNew
+                      groupStyles={'w-full'}
                       outerStyles='flex w-full items-center'
                       hideToolTip={account && isOnCorrectNetwork && authState.isAuthenticated}
                       toolTipText={
@@ -184,8 +169,8 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
                         type='submit'
                         className={
                           (isOnCorrectNetwork && authState.isAuthenticated) || !account
-                            ? 'btn-primary cursor-pointer w-full'
-                            : 'btn-default cursor-not-allowed w-full'
+                            ? 'btn-primary cursor-pointer w-full px-8 whitespace-nowrap'
+                            : 'btn-default cursor-not-allowed w-full px-8 whitespace-nowrap'
                         }
                         disabled={(!isOnCorrectNetwork || !authState.isAuthenticated) && account}
                         onClick={account ? () => setShowClaimLoadingModal(true) : connectWallet}

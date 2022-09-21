@@ -1,9 +1,9 @@
 // Thrid Party
 import React from 'react';
 
-const SmallToggle = ({ toggleFunc, toggleVal, names }) => {
+const SmallToggle = ({ toggleFunc, toggleVal, names, className }) => {
   return (
-    <div className='flex text-sm rounded-sm overflow-hidden w-fit text-primary '>
+    <div className={`flex text-sm rounded-sm overflow-hidden w-fit ${className} text-primary `}>
       {names.map((name, index) => {
         return (
           <button

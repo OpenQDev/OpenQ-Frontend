@@ -185,7 +185,7 @@ const ApproveFundModal = ({
               </>
             ) : (
               <>
-                <div className='text-md gap-4 py-6 px-4 grid grid-cols-[1fr_1fr] w-full justify-between'>
+                <div className='text-md gap-4 py-6 pb-[68px] px-4 grid grid-cols-[1fr_1fr] w-full justify-between'>
                   <div className='w-4'>Funding</div>
                   <div className='flex flex-wrap justify-between w-[120px] gap-2'>
                     <Image
@@ -279,7 +279,7 @@ const ApproveFundModal = ({
           </div>
         </div>
       </div>
-      <div className='bg-overlay fixed inset-0'></div>
+      <div className='bg-overlay z-10 fixed inset-0'></div>
     </div>
   );
 };

@@ -21,6 +21,7 @@ import useAuth from '../../../hooks/useAuth';
 import RepoTitle from '../../../components/Bounty/RepoTitle';
 import SubMenu from '../../../components/Utils/SubMenu';
 import BountyHeading from '../../../components/Bounty/BountyHeading';
+import BountyMetadata from '../../../components/Bounty/BountyMetadata';
 
 import Add from '../../../components/svg/add';
 import Subtract from '../../../components/svg/subtract';
@@ -208,30 +209,49 @@ const address = ({ address, mergedBounty, renderError }) => {
               />
 
               <BountyHeading tokenValues={tokenValues} budgetValues={budgetValues} bounty={bounty} />
-              {internalMenu == 'View' && (
-                <BountyCardDetails
-                  justMinted={justMinted}
-                  budgetValues={budgetValues}
-                  split={split}
-                  bounty={bounty}
-                  setInternalMenu={setInternalMenu}
-                  address={address}
-                  tokenValues={tokenValues}
-                  internalMenu={internalMenu}
-                />
-              )}
-              {internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
-              {internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
-              {internalMenu == 'Admin' && bounty && ethers.utils.getAddress(bounty.issuer.id) == account ? (
-                <AdminPage
-                  bounty={bounty}
-                  refreshBounty={refreshBounty}
+
+              <div className='flex justify-between  w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
+                {internalMenu == 'View' && (
+                  <BountyCardDetails
+                    justMinted={justMinted}
+                    budgetValues={budgetValues}
+                    split={split}
+                    bounty={bounty}
+                    setInternalMenu={setInternalMenu}
+                    address={address}
+                    tokenValues={tokenValues}
+                    internalMenu={internalMenu}
+                  />
+                )}
+                {internalMenu == 'Fund' && bounty ? (
+                  <FundPage
+                    bounty={bounty}
+                    refreshBounty={refreshBounty}
+                    price={tokenValues?.total}
+                    budget={budget}
+                    split={split}
+                  />
+                ) : null}
+                {internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
+                {internalMenu == 'Admin' && bounty && ethers.utils.getAddress(bounty.issuer.id) == account ? (
+                  <AdminPage
+                    bounty={bounty}
+                    refreshBounty={refreshBounty}
+                    price={tokenValues?.total}
+                    budget={budget}
+                    split={split}
+                  />
+                ) : null}
+                {bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
+
+                <BountyMetadata
                   price={tokenValues?.total}
                   budget={budget}
                   split={split}
+                  bounty={bounty}
+                  setInternalMenu={setInternalMenu}
                 />
-              ) : null}
-              {bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
+              </div>
               <canvas className='absolute w-full top-0 z-40 bottom-0 pointer-events-none' ref={canvas}></canvas>
             </div>
           </>

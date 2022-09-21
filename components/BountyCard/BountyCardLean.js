@@ -157,7 +157,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                   </span>
                 ) : bounty.bountyType === '1' ? (
                   <span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
-                    <div className='whitespace-nowrap'>Multi</div>
+                    <div className='whitespace-nowrap'>Split Price</div>
                     <PersonAddIcon />
                   </span>
                 ) : (

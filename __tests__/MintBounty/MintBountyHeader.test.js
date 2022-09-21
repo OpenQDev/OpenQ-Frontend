@@ -9,9 +9,9 @@ import MintBountyHeader from '../../components/MintBounty/MintBountyHeader';
 describe('MintBountyHeader', () => {
   it('should display atomic header', () => {
     // ARRANGE
-    render(<MintBountyHeader category={'Atomic'} />);
+    render(<MintBountyHeader category={'Fixed Price'} />);
 
-    expect(screen.getByText(/Create an Atomic Contract to send funds to any GitHub issue/i)).toBeInTheDocument();
+    expect(screen.getByText(/Create a Fixed Price Contract to send funds to any GitHub issue/i)).toBeInTheDocument();
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
@@ -19,7 +19,7 @@ describe('MintBountyHeader', () => {
 
   it('should display repeatable header', () => {
     // ARRANGE
-    render(<MintBountyHeader category={'Repeating'} />);
+    render(<MintBountyHeader category={'Split Price'} />);
 
     expect(
       screen.getByText(/Pay out a fixed amount to any contributors who submit work to this bounty/i)
