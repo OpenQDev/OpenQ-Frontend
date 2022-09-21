@@ -53,7 +53,7 @@ const ClaimLoadingModal = ({
   let afterLink = {
     [TRANSACTION_CONFIRMED]: ` Funds from this payout will appear in your address at ${address}.`,
     [TRANSACTION_SUBMITTED]: '',
-    [CONFIRM_CLAIM]: ` to the address ${ensName || account}. Is this correct ?`,
+    [CONFIRM_CLAIM]: ` to the address ${ensName || account}. Is this correct?`,
   };
 
   // Hooks
@@ -82,7 +82,7 @@ const ClaimLoadingModal = ({
         <div ref={modal} className='w-1/2 lg:w-1/3 min-w-[320px] rounded-sm p-6  w-full bg-nav-bg  text-center'>
           <div className='text-3xl font-semibold pb-8'>{title[claimState]}</div>
 
-          <p className='text-md  pb-2 break-words'>
+          <div className='text-md  pb-2 break-words'>
             <span>{message[claimState]}</span>
             {link[claimState] && (
               <div>
@@ -110,7 +110,7 @@ const ClaimLoadingModal = ({
                 <span>{afterLink[claimState]}</span>
               </div>
             )}
-          </p>
+          </div>
           {claimState == WITHDRAWAL_INELIGIBLE || claimState == TRANSACTION_CONFIRMED ? (
             <div className='flex items-center justify-end p-5'>
               <button className='btn-default w-full' type='button' onClick={() => updateModal()}>
