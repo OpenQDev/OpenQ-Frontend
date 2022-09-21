@@ -13,7 +13,7 @@ export default function MintBountyInput({ setIssueUrl, issueData, isValidUrl, ur
         <div className='flex items-center gap-2'>
           Enter GitHub Issue URL
           <ToolTipNew mobileX={10} toolTipText={'Enter the link to the GitHub issue you would like to fund.'}>
-            <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+            <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 text-sm box-content text-center font-bold text-primary'>
               ?
             </div>
           </ToolTipNew>

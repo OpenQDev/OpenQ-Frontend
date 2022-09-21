@@ -12,6 +12,9 @@ const NavLinks = () => {
       <Link href={'/fixed-price'}>
         <a className={`nav-link $ ${router.asPath === '/fixed-price' && 'text-white'}`}>Fixed Price</a>
       </Link>
+      <Link href={'/split-price'}>
+        <a className={`nav-link $ ${router.asPath === '/split-price' && 'text-white'}`}>Split Price</a>
+      </Link>
 
       <Link href={'/contests'}>
         <a className={`nav-link $ ${router.asPath === '/contests' && 'text-white'}`}>Contests</a>

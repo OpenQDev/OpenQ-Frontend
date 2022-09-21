@@ -1,9 +1,17 @@
 import React from 'react';
 
-const ToolTipNew = ({ toolTipText, children, hideToolTip, outerStyles, innerStyles, relativePosition }) => {
+const ToolTipNew = ({
+  toolTipText,
+  children,
+  groupStyles,
+  hideToolTip,
+  outerStyles,
+  innerStyles,
+  relativePosition,
+}) => {
   if (hideToolTip) return children;
   return (
-    <div className={'group'}>
+    <div className={`group ${groupStyles}`}>
       {children}
       <div className={`justify-center w-full relative hidden z-50 group-hover:block  ${outerStyles} `}>
         <div className='flex flex-col items-center'>

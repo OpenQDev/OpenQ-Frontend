@@ -1,19 +1,34 @@
 // Third party Libraries
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useMemo } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import AdminModal from './AdminModal.js';
 import ToolTipNew from '../Utils/ToolTipNew';
-import TierInput from '../MintBounty/TierInput';
+import SetTierValues from '../MintBounty/SetTierValues';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
-import BountyMetadata from '../Bounty/BountyMetadata';
+import ClaimText from './ClaimText';
 
-const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
+const AdminPage = ({ bounty, refreshBounty }) => {
   // Context
   const { library, account } = useWeb3();
   const [appState] = useContext(StoreContext);
+  let category = '';
+
+  switch (bounty.bountyType) {
+    case '0':
+      break;
+    case '1':
+      category = 'Split Price';
+      break;
+    case '2':
+      category = 'Contest';
+      break;
+    case '3':
+      category = 'Fixed Contest';
+  }
+
   const zeroAddressMetadata = {
     name: 'Matic',
     address: '0x0000000000000000000000000000000000000000',
@@ -40,10 +55,17 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
   const [payoutToken, setPayoutToken] = useState(zeroAddressMetadata);
 
   // contest state
-  const [tier, setTier] = useState(0);
-  const [tierArr, setTierArr] = useState([]);
-  const [tierVolume, setTierVolume] = useState({});
-  const [finalTierVolume, setFinalTierVolume] = useState([]);
+  const initialTierArr = useMemo(() => {
+    if (bounty.payoutSchedule) {
+      return bounty.payoutSchedule.map((elem, index) => {
+        return index.toString();
+      });
+    } else return [];
+  }, [bounty]);
+  const [tier, setTier] = useState(bounty.payoutSchedule.length);
+  const [tierArr, setTierArr] = useState(initialTierArr);
+  const [finalTierVolumes, setFinalTierVolumes] = useState(bounty.payoutSchedule || []);
+
   const [sum, setSum] = useState(0);
   const [enableContest, setEnableContest] = useState(false);
   const [isLoading, setIsLoading] = useState();
@@ -78,50 +100,31 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
   // handle change in Payout for Contests
 
   function onTierChange(e) {
-    if (parseInt(e.target.value) >= 0) {
+    const newTier = e.target.value;
+    if (newTier >= 0) {
+      console.log(newTier);
       setTier(parseInt(e.target.value));
     }
-    if (parseInt(e.target.value) > 100) {
+    if (newTier > 100) {
+      console.log('exic');
       setTier('0');
     }
-    if (e.target.value === '') setTier('0');
-    setTierArr(
-      Array.from(
-        {
-          length: e.target.value,
-        },
-        (_, i) => i + 1
-      )
+    const newTierArr = Array.from(
+      {
+        length: e.target.value,
+      },
+      (_, i) => i
     );
-  }
+    setTierArr(newTierArr);
 
-  function onTierVolumeChange(e) {
-    if (parseInt(e.target.value) >= 0)
-      setTierVolume({
-        ...tierVolume,
-        [e.target.name]: parseInt(e.target.value),
-      });
-    if (parseInt(e.target.value) === '' || !Number(e.target.value) || parseInt(e.target.value) > 100)
-      setTierVolume({
-        ...tierVolume,
-        [e.target.name]: '',
-      });
+    // removes final tier volumes
+    const newFinalTierVolumes = newTierArr.map((tier) => {
+      return finalTierVolumes[tier];
+    });
+    setFinalTierVolumes(newFinalTierVolumes);
   }
 
   // useEffect
-
-  useEffect(() => {
-    setFinalTierVolume(Object.values(tierVolume));
-  }, [tierVolume]);
-
-  useEffect(() => {
-    if (finalTierVolume?.length) {
-      setSum(finalTierVolume.reduce((a, b) => a + b));
-    }
-    if (sum == 100) {
-      setEnableContest(true);
-    }
-  }, [finalTierVolume]);
 
   useEffect(() => {
     if (!tierConditions) {
@@ -176,16 +179,15 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
       });
     }
   }
-
   async function setPayoutSchedule() {
     try {
       setIsLoading(true);
-      const transaction = await appState.openQClient.setPayoutSchedule(library, bounty.bountyId, finalTierVolume);
+      const transaction = await appState.openQClient.setPayoutSchedule(library, bounty.bountyId, finalTierVolumes);
       refreshBounty();
       setModal({
         transaction,
         type: 'PayoutSchedule',
-        finalTierVolume: finalTierVolume,
+        finalTierVolume: finalTierVolumes,
       });
     } catch (error) {
       console.log(error);
@@ -228,7 +230,7 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
       const transaction = await appState.openQClient.closeOngoing(library, bounty.bountyId);
       setModal({
         transaction,
-        type: 'Closed Repeatable',
+        type: 'Closed Split Price',
       });
       setShowButton(false);
       refreshBounty();
@@ -246,11 +248,11 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
 
   return (
     <>
-      {showButton && (
-        <div className='flex justify-between  w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
-          <div className='flex flex-1 flex-col space-y-8 sm:px-12 px-4 pt-4 pb-8 w-full max-w-[800px] justify-center'>
+      {showButton ? (
+        <>
+          <div className='flex flex-1 flex-col space-y-8 pt-4 pb-8 w-full max-w-[800px] justify-center'>
             <div className='flex flex-col space-y-2 items-center w-full md:border rounded-sm border-gray-700 text-primary pb-8'>
-              <h1 className='flex w-full text-3xl justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
+              <h1 className='flex w-full text-2xl justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
                 Settings
               </h1>
               <div className='flex flex-col space-y-5 w-full px-8 pt-2'>
@@ -268,94 +270,71 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
                   Set New Budget
                 </button>
 
-                {bounty.bountyType == '2' ? (
+                {bounty.bountyType === '2' || bounty.bountyType === '3' ? (
                   <>
-                    <div className='flex flex-col items-center pb-2'>
-                      <div className='flex flex-col w-full md:w-full'>
-                        <div className='flex flex-col w-full items-start p-2 py-1 text-base pb-4'>
-                          <div className='flex items-center gap-2'>
-                            How many Tiers?
-                            <ToolTipNew
-                              mobileX={10}
-                              toolTipText={`How many people will be able to claim a prize? Don't exceed 100.`}
-                            >
-                              <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                                ?
-                              </div>
-                            </ToolTipNew>
-                          </div>
-                          <div className='flex-1 w-full mt-2'>
-                            <input
-                              className={'flex-1 input-field w-full'}
-                              id='name'
-                              placeholder='0'
-                              autoComplete='off'
-                              type='text'
-                              min='0'
-                              max='100'
-                              value={tier}
-                              onChange={(e) => onTierChange(e)}
-                            />
-                          </div>
-                        </div>
-                        {tier > 0 ? (
-                          <>
-                            <div className='flex flex-col w-full items-start p-2 py-1 pb-0 text-base'>
-                              <div className='flex items-center gap-2 '>
-                                Weight per Tier (%)
-                                <ToolTipNew mobileX={10} toolTipText={'How much % of the total will each winner earn?'}>
+                    {bounty.bountyType === '2' && (
+                      <>
+                        <div className='flex flex-col items-center pb-2'>
+                          <div className='flex flex-col w-full md:w-full'>
+                            <div className='flex flex-col w-full items-start p-2 py-1 text-base pb-4'>
+                              <div className='flex items-center gap-2'>
+                                How many Tiers?
+                                <ToolTipNew
+                                  mobileX={10}
+                                  toolTipText={`How many people will be able to claim a prize? Don't exceed 100.`}
+                                >
                                   <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
                                     ?
                                   </div>
                                 </ToolTipNew>
                               </div>
-                              {sum > 100 ? (
-                                <span className='text-sm my-2 pb-2 text-[#f85149]'>
-                                  The sum can not be more than 100%!
-                                </span>
-                              ) : (
-                                <span className='text-sm my-2 pb-2'>
-                                  For the sum to add up to 100, you still need to allocate: {100 - sum} %
-                                </span>
-                              )}
-                              <div className='max-h-40 w-full overflow-y-auto overflow-x-hidden'>
-                                {tierArr?.map((t) => {
-                                  return (
-                                    <div key={t}>
-                                      <TierInput
-                                        tier={t}
-                                        tierVolume={tierVolume[t]}
-                                        onTierVolumeChange={onTierVolumeChange}
-                                        style={'ml-0'}
-                                      />
-                                    </div>
-                                  );
-                                })}
+                              <div className='flex-1 w-full mt-2'>
+                                <input
+                                  className={'flex-1 input-field w-full'}
+                                  id='name'
+                                  placeholder='0'
+                                  autoComplete='off'
+                                  type='text'
+                                  min='0'
+                                  max='100'
+                                  defaultValue={tier}
+                                  onChange={(e) => onTierChange(e)}
+                                />
                               </div>
                             </div>
-                          </>
-                        ) : null}
-                      </div>
-                    </div>
-                    <ToolTipNew
-                      hideToolTip={(enableContest && isOnCorrectNetwork && account) || isLoading}
-                      toolTipText={
-                        account && isOnCorrectNetwork && !enableContest
-                          ? 'Please make sure the sum of tier percentages adds up to 100.'
-                          : isOnCorrectNetwork
-                          ? 'Connect your wallet to mint a bounty!'
-                          : 'Please switch to the correct network to mint a bounty.'
-                      }
-                    >
-                      <button
-                        className={`w-full btn-default ${enableContest ? 'cursor-pointer' : 'cursor-not-allowed'}`}
-                        type='button'
-                        onClick={setPayoutSchedule}
-                        disabled={!enableContest}
-                      >
-                        Set New Payout Schedule
-                      </button>
-                    </ToolTipNew>
+                            <SetTierValues
+                              category={category}
+                              sum={sum}
+                              initialVolumes={bounty.payoutSchedule || []}
+                              finalTierVolumes={finalTierVolumes}
+                              setFinalTierVolumes={setFinalTierVolumes}
+                              setSum={setSum}
+                              tierArr={tierArr}
+                              setEnableContest={setEnableContest}
+                            />
+                          </div>
+                        </div>
+                        <ToolTipNew
+                          hideToolTip={(enableContest && isOnCorrectNetwork && account) || isLoading}
+                          toolTipText={
+                            account && isOnCorrectNetwork && !enableContest
+                              ? 'Please make sure the sum of tier percentages adds up to 100.'
+                              : isOnCorrectNetwork
+                              ? 'Connect your wallet to mint a bounty!'
+                              : 'Please switch to the correct network to mint a bounty.'
+                          }
+                        >
+                          <button
+                            className={`w-full btn-default ${enableContest ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+                            type='button'
+                            onClick={setPayoutSchedule}
+                            disabled={!enableContest}
+                          >
+                            Set New Payout Schedule
+                          </button>
+                        </ToolTipNew>
+                      </>
+                    )}
 
                     <h2 className='text-2xl text-[#f85149] border-b border-gray-700 pb-4'>Close Contract</h2>
                     <p className='flex items-center gap-2'>
@@ -385,28 +364,25 @@ const AdminPage = ({ bounty, refreshBounty, price, budget, split }) => {
                       Set Payout
                     </button>
 
-                    <h2 className='text-2xl text-[#f85149] border-b border-gray-700 pb-4'>Close Repeatable Contract</h2>
+                    <h2 className='text-2xl text-[#f85149] border-b border-gray-700 pb-4'>
+                      Close Split Price Contract
+                    </h2>
                     <div className='flex justify-between items-center gap-2'>
-                      Once you close this repeatable contract, there is no going back. Please be certain.
+                      Once you close this split price contract, there is no going back. Please be certain.
                     </div>
                     <button className='btn-danger' type='button' onClick={closeOngoing}>
-                      Close Repeatable Contract
+                      Close Split Price Contract
                     </button>
                   </>
                 ) : null}
               </div>
             </div>
           </div>
-          <BountyMetadata
-            bounty={bounty}
-            pricesOnly={true}
-            setInternalMenu={() => null}
-            price={price}
-            budget={budget}
-            split={split}
-          />
-        </div>
+        </>
+      ) : (
+        <ClaimText bounty={bounty} />
       )}
+
       {modal && <AdminModal setModal={setModal} modal={modal} />}
       {error && (
         <AdminModal

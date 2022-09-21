@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Skeleton from 'react-loading-skeleton';
@@ -19,6 +19,17 @@ const ActionBubble = ({ addresses, bounty, action }) => {
   const [claimantEnsName] = useEns(action?.claimant?.id);
   const [tokenValues] = useGetTokenValues((action?.receiveTime || action?.refundTime) && action);
   const { account } = useWeb3();
+
+  const getPayout = (bounty) => {
+    return action?.claimTime
+      ? bounty?.payouts?.filter(
+          (payout) => payout.closer.id == action?.claimant?.id && payout?.payoutTime == action?.claimTime
+        )
+      : null;
+  };
+  const payoutObj = useMemo(() => getPayout(bounty), [bounty]);
+  const [payoutValues] = useGetTokenValues(payoutObj);
+  const payoutTotal = appState.utils.formatter.format(payoutValues?.total);
 
   useEffect(() => {
     const justMinted = sessionStorage.getItem('justMinted');
@@ -55,9 +66,13 @@ const ActionBubble = ({ addresses, bounty, action }) => {
     const claimant = claimantEnsName || shortenAddress(action.claimant.id);
     address = action.claimant.id;
     if (bounty.bountyType === '0') {
-      titlePartOne = `${claimant} claimed this contract on ${appState.utils.formatUnixDate(action.claimTime)}.`;
+      titlePartOne = `${claimant} claimed ${payoutTotal} on this contract on ${appState.utils.formatUnixDate(
+        action.claimTime
+      )}.`;
     } else {
-      titlePartOne = `${claimant} made a claim on this contract on ${appState.utils.formatUnixDate(action.claimTime)}.`;
+      titlePartOne = `${claimant} made a claim of ${payoutTotal} on this contract on ${appState.utils.formatUnixDate(
+        action.claimTime
+      )}.`;
     }
   }
   if (action?.referencedTime) {

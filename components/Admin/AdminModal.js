@@ -48,15 +48,15 @@ const AdminModal = ({ setModal, modal }) => {
   };
   const title = {
     ['Closed Contest']: 'Contest Closed!',
-    ['Closed Repeatable']: 'Repeatable Contract Closed!',
+    ['Closed Split Price']: 'Split Price Contract Closed!',
     Budget: 'Budget Updated!',
     Payout: 'Payout Updated!',
     PayoutSchedule: 'Payout Schedule Updated!',
     Error: modal.title,
   };
   const content = {
-    ['Closed Repeatable']:
-      'Repeatable contract closed, no further claims will be available through this contract. Check out the closing transaction with the link below:',
+    ['Closed Split Price']:
+      'Split Price contract closed, no further claims will be available through this contract. Check out the closing transaction with the link below:',
     ['Closed Contest']:
       'Contest closed, now contestants can cash out. Check out the closing transaction with the link below:',
     Budget: 'Budget has been updated. Check out your transaction with the link below:',

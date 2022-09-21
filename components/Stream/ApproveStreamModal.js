@@ -259,13 +259,13 @@ const ApproveStreamModal = ({
                         }
                       >
                         {' '}
-                        <span className='flex self-center content-center'>
+                        <div className='flex h-full self-center content-center'>
                           {approveTransferState === CONFIRM
                             ? 'Approve'
                             : approveTransferState === APPROVING
                             ? 'Approving'
                             : 'Approved'}
-                        </span>
+                        </div>
                       </ToolTipNew>
                       {approveTransferState === APPROVING && <LoadingIcon className={'self-center mt-0.5'} />}
                     </button>

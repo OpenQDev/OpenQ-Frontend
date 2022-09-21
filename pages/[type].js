@@ -140,9 +140,8 @@ export const getServerSideProps = async (ctx) => {
       types = ['2', '3'];
       category = 'contest';
       break;
-    case 'learn2earn':
+    case 'split-price':
       category = 'learn2earn';
-
       types = ['1'];
       break;
   }

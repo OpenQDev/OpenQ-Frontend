@@ -106,10 +106,9 @@ const test = (issue, type) => {
 
       case '2':
         {
+          expect(await screen.findAllByText(/place winner/)).toHaveLength(3);
           await user.type(screen.getByLabelText(/tier/), '2');
-          expect(screen.getByLabelText(/tiers/).value).toBe('2');
-          expect(await screen.findByText(/Weight per Tier/)).toBeInTheDocument();
-          expect(await screen.findAllByPlaceholderText(/winner/)).toHaveLength(2);
+          expect(await screen.findAllByText(/place winner/)).toHaveLength(32);
 
           /**/
         }

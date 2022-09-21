@@ -19,7 +19,11 @@ const BountyHomepage = ({
   contractToggle,
 }) => {
   const title =
-    category === 'learn2earn' ? 'Repeatable Contracts' : category === 'contest' ? 'Contests' : 'Atomic Contracts';
+    category === 'split-price'
+      ? 'Split Price Contracts'
+      : category === 'contest'
+      ? 'Contests'
+      : 'Fixed Price Contracts';
   // Render
   return (
     <div>

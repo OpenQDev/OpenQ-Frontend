@@ -29,6 +29,10 @@ export const GET_ALL_BOUNTIES = gql`
       payouts {
         tokenAddress
         volume
+        payoutTime
+        closer {
+          id
+        }
       }
       deposits {
         id
@@ -100,6 +104,10 @@ export const GET_BOUNTY = gql`
       payouts {
         tokenAddress
         volume
+        payoutTime
+        closer {
+          id
+        }
       }
       claimedTransactionHash
       payoutAddress
@@ -205,6 +213,10 @@ export const GET_BOUNTIES_BY_CONTRACT_ADDRESSES = gql`
       payouts {
         tokenAddress
         volume
+        payoutTime
+        closer {
+          id
+        }
       }
       issuer {
         id
