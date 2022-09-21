@@ -102,10 +102,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
   const refundedValue = refundedValues?.total ? refundedValues?.total : 0;
 
   const totalDepositVolume = () => {
-    const volume = bounty.deposits
-      .filter((deposit) => deposit.tokenAddress == tokenAddress)
-      .map((deposit) => deposit.volume)
-      .reduce((a, b) => parseInt(a) + parseInt(b));
+    const volume = filterAndAggregate(bounty.deposits)?.volume || 0;
     let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
