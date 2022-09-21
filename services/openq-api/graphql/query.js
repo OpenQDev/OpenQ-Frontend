@@ -84,6 +84,7 @@ export const GET_USER_BY_HASH = gql`
           tvl
           address
           bountyId
+          watchingCount
         }
       }
       starredOrganizationIds
