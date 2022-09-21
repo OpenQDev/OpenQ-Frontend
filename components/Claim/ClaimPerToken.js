@@ -6,7 +6,12 @@ import { ethers } from 'ethers';
 const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
   const [appState] = useContext(StoreContext);
   const tokenMetadata = appState.tokenClient.getToken(tokenAddress);
-  const decimals = parseInt(tokenMetadata.decimals) || 18;
+
+  function formatVolume(volume) {
+    const decimal = parseInt(tokenMetadata.decimals) || 18;
+    let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
+    return ethers.utils.formatUnits(bigNumberVolume, decimal);
+  }
 
   function filterAndAggregate(toFilterPerToken) {
     const array = toFilterPerToken.filter((element) => element.tokenAddress == tokenAddress);
@@ -16,9 +21,9 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
   }
 
   const claimantVolume = () => {
-    const volume = filterAndAggregate(bounty.payouts.filter((payout) => payout.closer.id == claimant))?.volume || 0;
-    let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
-    return ethers.utils.formatUnits(bigNumberVolume, decimals);
+    return formatVolume(
+      filterAndAggregate(bounty.payouts.filter((payout) => payout.closer.id == claimant))?.volume || 0
+    );
   };
 
   const claimantBalancesObj = useMemo(
@@ -29,22 +34,19 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
   const claimantValue = claimantBalances?.total;
 
   const claimedVolume = () => {
-    const volume = filterAndAggregate(bounty.payouts)?.volume || 0;
-    let bigNumberclaimedVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
-    return ethers.utils.formatUnits(bigNumberclaimedVolume, decimals);
+    return formatVolume(filterAndAggregate(bounty.payouts)?.volume || 0);
   };
 
   const unlockedDepositVolume = () => {
-    const volume =
+    return formatVolume(
       filterAndAggregate(
         bounty.deposits
           ?.filter((deposit) => !deposit.refunded)
           .filter((deposit) => {
             return parseInt(deposit.receiveTime) + parseInt(deposit.expiration) < Math.floor(Date.now() / 1000);
           })
-      )?.volume || 0;
-    let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
-    return ethers.utils.formatUnits(bigNumberVolume, decimals);
+      )?.volume || 0
+    );
   };
 
   const refundableVolume = () => {
@@ -89,9 +91,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
   const stillClaimable = stillClaimableValues?.total ? stillClaimableValues?.total : 0;
 
   const refundVolume = () => {
-    const volume = filterAndAggregate(bounty.refunds)?.volume || 0;
-    let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
-    return ethers.utils.formatUnits(bigNumberVolume, decimals);
+    return formatVolume(filterAndAggregate(bounty.refunds)?.volume || 0);
   };
 
   const refundedObj = useMemo(() => filterAndAggregate(bounty.refunds), [tokenAddress]);
@@ -99,9 +99,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
   const refundedValue = refundedValues?.total ? refundedValues?.total : 0;
 
   const totalDepositVolume = () => {
-    const volume = filterAndAggregate(bounty.deposits)?.volume || 0;
-    let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
-    return ethers.utils.formatUnits(bigNumberVolume, decimals);
+    return formatVolume(filterAndAggregate(bounty.deposits)?.volume || 0);
   };
 
   const balanceObjDeposits = useMemo(() => filterAndAggregate(bounty.deposits), [bounty]);
