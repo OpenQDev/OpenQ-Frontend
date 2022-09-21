@@ -84,12 +84,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
     return refundable;
   };
 
-  const getStillClaimableBalances = () => {
-    return bounty.bountyTokenBalances
-      ? bounty.bountyTokenBalances.filter((balances) => balances.tokenAddress == tokenAddress)
-      : null;
-  };
-  const stillClaimableObj = useMemo(() => getStillClaimableBalances(), [tokenAddress]);
+  const stillClaimableObj = useMemo(() => filterAndAggregate(bounty.bountyTokenBalances), [tokenAddress]);
   const [stillClaimableValues] = useGetTokenValues(stillClaimableObj);
   const stillClaimable = stillClaimableValues?.total ? stillClaimableValues?.total : 0;
 
