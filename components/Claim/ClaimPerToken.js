@@ -112,20 +112,16 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
       break;
   }
 
-  const divVolume = 'flex justify-end w-12';
-  const divPercent = 'flex justify-end w-12';
-  const divValue = 'flex justify-end text-right w-20';
-
   return (
     <div className='flex px-2 pb-2 w-full'>
       <div className='px-2 pb-2'>
-        <div className={divVolume}>{volumeDisplay}</div>
+        <div className='flex justify-end w-12'>{volumeDisplay}</div>
       </div>
       <div className='px-2 pb-2'>
-        <div className={divPercent}>{(percentDisplay * 100).toFixed(0)} %</div>
+        <div className='flex justify-end w-12'>{(percentDisplay * 100).toFixed(0)} %</div>
       </div>
       <div className='px-2 pb-2'>
-        <div className={divValue}>{appState.utils.formatter.format(valueDisplay)}</div>
+        <div className='flex justify-end text-right w-20'>{appState.utils.formatter.format(valueDisplay)}</div>
       </div>
     </div>
   );
