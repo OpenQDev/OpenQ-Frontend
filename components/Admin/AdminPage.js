@@ -62,7 +62,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
       });
     } else return [];
   }, [bounty]);
-  const [tier, setTier] = useState(bounty.payoutSchedule.length);
+  const [tier, setTier] = useState(bounty.payoutSchedule?.length);
   const [tierArr, setTierArr] = useState(initialTierArr);
   const [finalTierVolumes, setFinalTierVolumes] = useState(bounty.payoutSchedule || []);
 
