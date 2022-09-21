@@ -115,15 +115,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
 
-  const getBalancesDeposits = () => {
-    const deposits = bounty.deposits ? bounty.deposits.filter((deposit) => deposit.tokenAddress == tokenAddress) : null;
-    if (deposits.length > 1) {
-      const volume = deposits.map((deposit) => deposit.volume).reduce((a, b) => parseInt(a) + parseInt(b));
-      return { tokenAddress: tokenAddress, volume: volume };
-    }
-    return deposits;
-  };
-  const balanceObjDeposits = useMemo(() => getBalancesDeposits(), [bounty]);
+  const balanceObjDeposits = useMemo(() => filterAndAggregate(bounty.deposits), [bounty]);
   const [balanceValuesDeposits] = useGetTokenValues(balanceObjDeposits);
   const totalDepositValue = balanceValuesDeposits?.total ? balanceValuesDeposits?.total : 0;
 
