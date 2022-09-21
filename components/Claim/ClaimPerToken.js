@@ -94,10 +94,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
 
-  const getRefundedBalances = () => {
-    return bounty.refunds ? bounty.refunds.filter((refund) => refund.tokenAddress == tokenAddress) : null;
-  };
-  const refundedObj = useMemo(() => getRefundedBalances(), [tokenAddress]);
+  const refundedObj = useMemo(() => filterAndAggregate(bounty.refunds), [tokenAddress]);
   const [refundedValues] = useGetTokenValues(refundedObj);
   const refundedValue = refundedValues?.total ? refundedValues?.total : 0;
 
