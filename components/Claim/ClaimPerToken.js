@@ -17,7 +17,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
 
   const claimantVolume = () => {
     const volume = filterAndAggregate(bounty.payouts.filter((payout) => payout.closer.id == claimant))?.volume || 0;
-    let bigNumberVolume = ethers.BigNumber.from(volume.toString());
+    let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
 
@@ -30,7 +30,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
 
   const claimedVolume = () => {
     const volume = filterAndAggregate(bounty.payouts)?.volume || 0;
-    let bigNumberclaimedVolume = ethers.BigNumber.from(volume.toString());
+    let bigNumberclaimedVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
     return ethers.utils.formatUnits(bigNumberclaimedVolume, decimals);
   };
 
@@ -43,7 +43,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
             return parseInt(deposit.receiveTime) + parseInt(deposit.expiration) < Math.floor(Date.now() / 1000);
           })
       )?.volume || 0;
-    let bigNumberVolume = ethers.BigNumber.from(volume.toString());
+    let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
 
