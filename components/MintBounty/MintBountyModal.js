@@ -532,7 +532,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                     'https://github.com/OpenQDev/OpenQ-Contracts/blob/production/contracts/Bounty/Implementations/BountyV1.sol'
                   }
                 >
-                  <a className='flex content-center gap-2 underline px-8'>
+                  <a target={'_blank'} rel='noopener noreferrer' className='flex content-center gap-2 underline px-8'>
                     <Image src={'/social-icons/github-logo-white.svg'} width={24} height={24} />
                     Contract source code
                   </a>
