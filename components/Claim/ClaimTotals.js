@@ -5,6 +5,15 @@ import useGetTokenValues from '../../hooks/useGetTokenValues';
 const ClaimTotals = ({ bounty, tokenAddresses, claimant, type }) => {
   const [appState] = useContext(StoreContext);
 
+  function filterAndAggregate(toFilterPerToken) {
+    return tokenAddresses.map((tokenAddress) => {
+      const array = toFilterPerToken.filter((element) => element.tokenAddress == tokenAddress);
+      const volume =
+        array.map((element) => element.volume).reduce((a, b) => parseInt(a) + parseInt(b), 0) || array[0]?.volume;
+      return { tokenAddress: tokenAddress, volume: volume } || null;
+    });
+  }
+
   const getBalancesStillClaimable = () => {
     return bounty.bountyTokenBalances ? bounty.bountyTokenBalances : null;
   };
@@ -12,21 +21,10 @@ const ClaimTotals = ({ bounty, tokenAddresses, claimant, type }) => {
   const [balanceValuesStillClaimable] = useGetTokenValues(balanceObjStillClaimable);
   const stillClaimableValue = balanceValuesStillClaimable?.total ? balanceValuesStillClaimable?.total : 0;
 
-  const getBalancesDeposits = () => {
-    return tokenAddresses.map((tokenAddress) => {
-      const deposits = bounty.deposits
-        ? bounty.deposits.filter((deposit) => deposit.tokenAddress == tokenAddress)
-        : null;
-      if (deposits.length > 1) {
-        const volume = deposits.map((deposit) => deposit.volume).reduce((a, b) => parseInt(a) + parseInt(b));
-        return { tokenAddress: tokenAddress, volume: volume };
-      }
-      return { tokenAddress: tokenAddress, volume: deposits[0].volume };
-    });
-  };
-  const balanceObjDeposits = useMemo(() => getBalancesDeposits(), [bounty]);
+  const balanceObjDeposits = useMemo(() => filterAndAggregate(bounty.deposits), [bounty]);
   const [balanceValuesDeposits] = useGetTokenValues(balanceObjDeposits);
   const totalDepositValue = balanceValuesDeposits?.total ? balanceValuesDeposits?.total : 0;
+  console.log(totalDepositValue);
 
   const getBalancesRefunds = () => {
     return bounty.refunds ? bounty.refunds : null;
@@ -35,23 +33,10 @@ const ClaimTotals = ({ bounty, tokenAddresses, claimant, type }) => {
   const [balanceValuesRefunds] = useGetTokenValues(balanceObjRefunds);
   const refundValue = balanceValuesRefunds?.total ? balanceValuesRefunds?.total : 0;
 
-  const getClaimantTotalValueBalances = () => {
-    const payouts = claimant
-      ? tokenAddresses.map((tokenAddress) => {
-          const payouts = bounty.payouts
-            ? bounty.payouts.filter((payout) => payout.closer.id == claimant && payout.tokenAddress == tokenAddress)
-            : null;
-          if (payouts.length > 1) {
-            const volume = payouts.map((payout) => payout.volume).reduce((a, b) => parseInt(a) + parseInt(b));
-            return { tokenAddress: tokenAddress, volume: volume };
-          } else {
-            return { tokenAddress: tokenAddress, volume: payouts[0].volume };
-          }
-        })
-      : null;
-    return payouts;
-  };
-  const claimantTotalValueObj = useMemo(() => getClaimantTotalValueBalances(), [claimant]);
+  const claimantTotalValueObj = useMemo(
+    () => filterAndAggregate(bounty.payouts.filter((payout) => payout.closer.id == claimant)),
+    [claimant]
+  );
   const [claimantTotalValues] = useGetTokenValues(claimantTotalValueObj);
   const claimantTotalValue = claimantTotalValues?.total ? claimantTotalValues?.total : 0;
 
