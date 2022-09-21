@@ -9,7 +9,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
   const decimals = parseInt(tokenMetadata.decimals) || 18;
 
   function filterAndAggregate(toFilterPerToken) {
-    const array = toFilterPerToken.filter((payout) => payout.tokenAddress == tokenAddress);
+    const array = toFilterPerToken.filter((element) => element.tokenAddress == tokenAddress);
     const volume =
       array.map((element) => element.volume).reduce((a, b) => parseInt(a) + parseInt(b), 0) || array[0]?.volume;
     return { tokenAddress: tokenAddress, volume: volume } || null;
@@ -25,8 +25,8 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
     () => filterAndAggregate(bounty.payouts.filter((payout) => payout.closer.id == claimant)),
     [claimant, tokenAddress]
   );
-  const [claimantBalancesValues] = useGetTokenValues(claimantBalancesObj);
-  const claimantValue = claimantBalancesValues?.total;
+  const [claimantBalances] = useGetTokenValues(claimantBalancesObj);
+  const claimantValue = claimantBalances?.total;
 
   const claimedVolume = () => {
     const volume = filterAndAggregate(bounty.payouts)?.volume || 0;
@@ -94,10 +94,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
   const stillClaimable = stillClaimableValues?.total ? stillClaimableValues?.total : 0;
 
   const refundVolume = () => {
-    const volumeArr = bounty.refunds
-      ? bounty.refunds?.filter((refund) => refund.tokenAddress == tokenAddress)?.map((refund) => refund.volume)
-      : 0;
-    const volume = volumeArr == 0 ? 0 : volumeArr.reduce((a, b) => parseInt(a) + parseInt(b));
+    const volume = filterAndAggregate(bounty.refunds)?.volume || 0;
     let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
     return ethers.utils.formatUnits(bigNumberVolume, decimals);
   };
