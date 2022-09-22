@@ -38,7 +38,7 @@ class MockGithubRepository {
 		const promise = new Promise((resolve, reject) => {
 			axios.get(`http://localhost:3030/githubIssues?id=${issueId}`)
 				.then(result => {
-					resolve(this.parseIssueData(result.data[0]));
+					resolve(this.parseIssueData(result.data[0], reject));
 				})
 				.catch(error => {
 					reject(error);
@@ -78,8 +78,8 @@ class MockGithubRepository {
 	}
 
 	  parseIssueData(rawIssueResponse, reject) {
-    try {
-      const responseData = rawIssueResponse.data.node;
+
+      const responseData = rawIssueResponse;
       const timelineItems = responseData.timelineItems.nodes;
       const prs = timelineItems.filter((event) => event?.source?.__typename === 'PullRequest');
       const closedEvents = timelineItems.filter((event) => event?.__typename === 'ClosedEvent');
@@ -112,48 +112,9 @@ class MockGithubRepository {
         prs,
         closedEvents,
       };
-    } catch (err) {
-      reject(err);
-      let id,
-        title,
-        assignees,
-        body,
-        url,
-        repoName,
-        closedAt,
-        owner,
-        avatarUrl,
-        labels,
-        createdAt,
-        closed,
-        bodyHTML,
-        titleHTML,
-        twitterUsername,
-        number,
-        prs,
-        closedEvents;
-      return {
-        id,
-        title,
-        assignees,
-        body,
-        url,
-        repoName,
-        owner,
-        avatarUrl,
-        labels,
-        createdAt,
-        closedAt,
-        closed,
-        bodyHTML,
-        titleHTML,
-        twitterUsername,
-        number,
-        prs,
-        closedEvents,
-      };
+   
     }
-  }
+  
 
 	
   parseIssuesData(rawIssuesResponse, reject) {
@@ -161,10 +122,10 @@ class MockGithubRepository {
     return responseData
       .filter((event) => event?.__typename === 'Issue')
       .map((elem) => {
-        try {
+        
           const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = elem;
           const repoName = elem.repository.name;
-          const prs = elem.timelineItems.edges.map((edge) => edge.node);
+          const prs = elem.timelineItems.nodes.map((edge) => edge.node);
           const avatarUrl = elem.repository.owner.avatarUrl;
           const owner = elem.repository.owner.login;
           const repoDescription = elem.repository.description;
@@ -193,28 +154,13 @@ class MockGithubRepository {
             repoDescription,
             prs,
           };
-        } catch (err) {
-          reject(err);
-          let id, url, repoName, owner, avatarUrl, labels, createdAt, closed, titleHTML, assignees;
-          return {
-            id,
-            assignees,
-            url,
-            repoName,
-            owner,
-            avatarUrl,
-            labels,
-            createdAt,
-            closed,
-            titleHTML,
-            bodyHTML: '',
-          };
-        }
+        
       });
   }
 
 	async getIssueData(issueIds) {
 		const promise = new Promise((resolve, reject) => {
+		
 			axios.get('http://localhost:3030/githubIssues')
 				.then(result => {
 					resolve(this.parseIssuesData(result.data).filter((issue) => issueIds.includes(issue.id)));
