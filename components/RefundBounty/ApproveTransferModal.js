@@ -130,7 +130,7 @@ const ApproveTransferModal = ({
           </div>
         </div>
       </div>
-      <div className='bg-overlay fixed inset-0'></div>
+      <div className='bg-overlay fixed z-40 inset-0'></div>
     </div>
   );
 };
