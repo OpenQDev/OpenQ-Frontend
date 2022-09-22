@@ -126,7 +126,7 @@ class Utils {
   combineBounties = (subgraphBounties, githubIssues, metadata) => {
     const fullBounties = [];
     metadata.forEach((contract) => {
-      const relatedIssue = githubIssues.find((issue) => issue.id == contract.bountyId);
+      const relatedIssue = githubIssues.find((issue) => issue?.id == contract.bountyId);
       const subgraphBounty = subgraphBounties.find((bounty) => {
         return contract.address?.toLowerCase() === bounty.bountyAddress;
       });
@@ -186,77 +186,100 @@ class Utils {
   };
 
   fetchOrganizations = async ({ githubRepository, openQPrismaClient }, types) => {
-    let githubOrganizations = [];
-    let renderError = '';
-    const batch = 100;
-    const orgData = await openQPrismaClient.getOrganizations(types, batch);
-    const filteredOrgs = orgData.organizations.filter((data) => !data.blacklisted);
-    const orgIds = filteredOrgs.map((org) => org.id);
-    try {
-      githubOrganizations = await githubRepository.fetchOrganizationsByIds(orgIds);
-    } catch (err) {
-      if (!renderError) {
-        console.error(err);
-        renderError = 'OpenQ is unable to connect with Github.';
+    const promise = new Promise(async (resolve, reject) => {
+      let githubOrganizations = [];
+      const batch = 100;
+      let orgData = [];
+      try {
+        orgData = await openQPrismaClient.getOrganizations(types, batch);
+      } catch (err) {
+        reject(err);
       }
-    }
+      const filteredOrgs = orgData.organizations.filter((data) => !data.blacklisted);
+      const orgIds = filteredOrgs.map((org) => org.id);
+      try {
+        githubOrganizations = await githubRepository.fetchOrganizationsByIds(orgIds);
+      } catch (err) {
+        reject(err);
+      }
 
-    const mergedOrgs =
-      filteredOrgs
-        .map((org) => {
-          let currentGithubOrg;
-          for (const githubOrganization of githubOrganizations) {
-            if (org.id === githubOrganization.id) {
-              currentGithubOrg = githubOrganization;
+      const mergedOrgs =
+        filteredOrgs
+          .map((org) => {
+            let currentGithubOrg;
+            for (const githubOrganization of githubOrganizations) {
+              if (org.id === githubOrganization.id) {
+                currentGithubOrg = githubOrganization;
+              }
             }
-          }
-          return { ...org, ...currentGithubOrg };
-        })
-        .filter((org) => {
-          return !org.blacklisted;
-        }) || [];
-    return [mergedOrgs, renderError];
+            return { ...org, ...currentGithubOrg };
+          })
+          .filter((org) => {
+            return !org.blacklisted;
+          }) || [];
+      resolve(mergedOrgs);
+    });
+    return promise;
   };
 
   fetchBounties = async (
-    { openQSubgraphClient, githubRepository, openQPrismaClient },
+    { openQSubgraphClient, githubRepository, openQPrismaClient, logger },
     batch,
     category,
     sortOrder,
     orderBy,
     cursor,
-    organization
+    organization,
+    address
   ) => {
-    let renderError = '';
-    let prismaContracts;
-    let newCursor;
-    try {
-      const prismaContractsResult = await openQPrismaClient.getContractPage(
-        cursor,
-        batch,
-        sortOrder,
-        orderBy,
-        category,
-        organization
-      );
-      prismaContracts = prismaContractsResult.nodes.filter(
-        (contract) => !contract.blacklisted && !contract.organization.blacklisted
-      );
+    const promise = new Promise(async (resolve, reject) => {
+      let newCursor;
+      let prismaContracts;
+      try {
+        const prismaContractsResult = await openQPrismaClient.getContractPage(
+          cursor,
+          batch,
+          sortOrder,
+          orderBy,
+          category,
+          organization
+        );
+        prismaContracts = prismaContractsResult.nodes.filter(
+          (contract) => !contract.blacklisted && !contract.organization.blacklisted
+        );
 
-      newCursor = prismaContractsResult.cursor;
-    } catch (err) {
-      console.log(err);
-    }
-    const bountyAddresses = prismaContracts.map((bounty) => bounty.address.toLowerCase());
-    const bountyIds = prismaContracts.map((contract) => contract.bountyId);
-    const subgraphContracts = await openQSubgraphClient.getBountiesByContractAddresses(bountyAddresses);
+        newCursor = prismaContractsResult.cursor;
+      } catch (err) {
+        reject(err);
+        logger.error({ ...err, address });
+      }
+      const bountyAddresses = prismaContracts.map((bounty) => bounty.address.toLowerCase());
+      const bountyIds = prismaContracts.map((contract) => contract.bountyId);
 
-    const githubIssues = await githubRepository.getIssueData(bountyIds);
-    const fullBounties = this.combineBounties(subgraphContracts, githubIssues, prismaContracts);
-    return [fullBounties, newCursor, renderError];
+      let subgraphContracts = [];
+      try {
+        subgraphContracts = await openQSubgraphClient.getBountiesByContractAddresses(bountyAddresses);
+      } catch (err) {
+        reject(err);
+      }
+      let githubIssues = [];
+      try {
+        githubIssues = await githubRepository.getIssueData(bountyIds);
+      } catch (err) {
+        reject(err);
+      }
+      const fullBounties = this.combineBounties(subgraphContracts, githubIssues, prismaContracts);
+
+      resolve([fullBounties, newCursor]);
+    });
+    return promise;
   };
 
-  fetchWatchedBounties = async ({ openQSubgraphClient, githubRepository, openQPrismaClient }, account, types) => {
+  fetchWatchedBounties = async (
+    { openQSubgraphClient, githubRepository, openQPrismaClient, logger },
+    account,
+    types
+  ) => {
     let subgraphContracts = [];
     let githubIssues = [];
     let prismaContracts = [];
@@ -268,7 +291,7 @@ class Utils {
       subgraphContracts = await openQSubgraphClient.getBountiesByContractAddresses(watchedBountyAddresses);
       githubIssues = await githubRepository.getIssueData(watchedBountyIds);
     } catch (err) {
-      console.log(err);
+      logger.error({ ...err, address: account });
     }
     const watchedBounties = this.combineBounties(subgraphContracts, githubIssues, prismaContracts);
 

@@ -67,8 +67,8 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
       try {
         setApproveTransferState(SUCCESS);
         refreshBounty();
-      } catch (error) {
-        console.log(error);
+      } catch (err) {
+        appState.logger.error(err, account, bounty.id);
       }
     } catch (error) {
       const { message, title } = appState.openQClient.handleError(error, {
@@ -96,11 +96,11 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
       try {
         setApproveTransferState(SUCCESS);
         refreshBounty();
-      } catch (error) {
-        console.log(error);
+      } catch (err) {
+        appState.logger.error(err, account, bounty.id);
       }
-    } catch (error) {
-      const { message, title } = appState.openQClient.handleError(error, {
+    } catch (err) {
+      const { message, title } = appState.openQClient.handleError(err, {
         account,
         bounty,
       });

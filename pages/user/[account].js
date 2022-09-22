@@ -7,6 +7,7 @@ import AboutFreelancer from '../../components/User/AboutFreelancer';
 import UnexpectedError from '../../components/Utils/UnexpectedError';
 import WrappedGithubClient from '../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
+import logger from '../../services/logger/Logger';
 import useAuth from '../../hooks/useAuth';
 import StoreContext from '../../store/Store/StoreContext';
 
@@ -38,7 +39,7 @@ const account = ({ account, user, organizations, renderError }) => {
         setStarredOrganizations(starredOrganizations);
       }
     } catch (err) {
-      console.log(err);
+      appState.logger.error(err);
     }
   }, []);
   return (
@@ -69,7 +70,7 @@ export const getServerSideProps = async (context) => {
     account = await provider.resolveName(account);
     // we need to check if their address is reverse registered
   } catch (err) {
-    console.log('ens account not found');
+    logger.error(err);
   }
   try {
     ethers.utils.getAddress(account);
@@ -103,7 +104,7 @@ export const getServerSideProps = async (context) => {
     }
     user = { ...user, ...userOnChainData };
   } catch (err) {
-    console.log(err);
+    logger.error(err);
   }
 
   return {

@@ -67,7 +67,7 @@ class CoinClient {
   }
 
   async getPrices() {
-    const promise = new Promise(async (resolve) => {
+    const promise = new Promise(async (resolve, reject) => {
       const GET_PRICES = {
         query: `{
 			prices {
@@ -86,7 +86,7 @@ class CoinClient {
         });
         resolve(response?.data?.data?.prices?.priceObj);
       } catch (err) {
-        console.error(err);
+        reject(err);
       }
     });
     return promise;
@@ -150,7 +150,7 @@ class CoinClient {
           const tokenValues = await this.getTokenValues(data, url);
           return tokenValues;
         } catch (error) {
-          console.error(error);
+          throw new Error(error);
         }
       } else {
         return null;

@@ -33,7 +33,8 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const canvas = useRef();
 
-  const [, dispatch] = useContext(StoreContext);
+  const [appState, dispatch] = useContext(StoreContext);
+  const { logger } = appState;
 
   const claimable = bounty.bountyType == 0 || bounty.bountyType == 1 ? bounty.status == '1' : bounty.status == '0';
 
@@ -106,10 +107,10 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
           },
         });
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        logger.error(err, account, bounty.id);
         setClaimState(WITHDRAWAL_INELIGIBLE);
-        setError({ message: error.response.data.errorMessage, title: 'Error' });
+        setError({ message: err.response.data.errorMessage, title: 'Error' });
       });
   };
 

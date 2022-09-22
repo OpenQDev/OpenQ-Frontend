@@ -5,6 +5,7 @@ import PrCard from '../../components/ShowCase/PrCard';
 import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedGithubClient from '../../services/github/WrappedGithubClient';
 import useAuth from '../../hooks/useAuth';
+import Logger from '../../services/logger/Logger';
 
 const showcase = ({ prs }) => {
   useAuth();
@@ -16,7 +17,7 @@ const showcase = ({ prs }) => {
   };
 
   return (
-    <div className='lg:grid lg:grid-cols-extra-wide mx-4 pt-8 sm:mx-8 xl:grid-cols-wide justify-center'>
+    <div className='lg:grid lg:grid-cols-extra-wide smx-4 pt-8 sm:mx-8 xl:grid-cols-wide justify-center'>
       <h1 className='lg:col-start-2 justify-between justify-self-center py-16 text-4xl font-bold text-tinted'>
         Submissions
       </h1>
@@ -47,8 +48,15 @@ export async function getServerSideProps() {
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const githubRepository = new WrappedGithubClient();
   githubRepository.instance.setGraphqlHeaders();
+  const logger = new Logger();
   const batch = 100;
-  const newBounties = await openQSubgraphClient.instance.getAllBounties('desc', 0, batch);
+  let newBounties = [];
+  const types = ['0', '1', '2', '3'];
+  try {
+    newBounties = await openQSubgraphClient.instance.getAllBounties('desc', 0, batch, types);
+  } catch (err) {
+    logger.error(err);
+  }
   const parsePrs = (responseData) => {
     return responseData.data.nodes
       .map((node) =>

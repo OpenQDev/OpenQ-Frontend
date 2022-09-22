@@ -14,6 +14,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
   // Context
   const { library, account } = useWeb3();
   const [appState] = useContext(StoreContext);
+  const { utils, openQClient, logger } = appState;
   let category = '';
 
   switch (bounty.bountyType) {
@@ -81,7 +82,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
   }
 
   function onVolumeChange(volume) {
-    appState.utils.updateVolume(volume, setVolume);
+    utils.updateVolume(volume, setVolume);
   }
 
   // handle change in Payout for Ongoing Contracts
@@ -94,7 +95,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
   }
 
   function onPayoutVolumeChange(payoutVolume) {
-    appState.utils.updateVolume(payoutVolume, setPayoutVolume);
+    utils.updateVolume(payoutVolume, setPayoutVolume);
   }
 
   // handle change in Payout for Contests
@@ -102,11 +103,9 @@ const AdminPage = ({ bounty, refreshBounty }) => {
   function onTierChange(e) {
     const newTier = e.target.value;
     if (newTier >= 0) {
-      console.log(newTier);
       setTier(parseInt(e.target.value));
     }
     if (newTier > 100) {
-      console.log('exic');
       setTier('0');
     }
     const newTierArr = Array.from(
@@ -139,7 +138,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
   async function setBudget() {
     try {
       setIsLoading(true);
-      const transaction = await appState.openQClient.setFundingGoal(library, bounty.bountyId, token, volume);
+      const transaction = await openQClient.setFundingGoal(library, bounty.bountyId, token, volume);
       refreshBounty();
       setVolume('');
       setModal({
@@ -147,8 +146,8 @@ const AdminPage = ({ bounty, refreshBounty }) => {
         type: 'Budget',
       });
     } catch (error) {
-      console.log(error);
-      const { message, title } = appState.openQClient.handleError(error, {
+      logger.error(error, account, bounty.id);
+      const { message, title } = openQClient.handleError(error, {
         bounty,
       });
       setError({
@@ -161,7 +160,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
   async function setPayout() {
     try {
       setIsLoading(true);
-      const transaction = await appState.openQClient.setPayout(library, bounty.bountyId, payoutToken, payoutVolume);
+      const transaction = await openQClient.setPayout(library, bounty.bountyId, payoutToken, payoutVolume);
       refreshBounty();
       setPayoutVolume('');
       setModal({
@@ -169,8 +168,8 @@ const AdminPage = ({ bounty, refreshBounty }) => {
         type: 'Payout',
       });
     } catch (error) {
-      console.log(error);
-      const { message, title } = appState.openQClient.handleError(error, {
+      logger.error(error, account, bounty.id);
+      const { message, title } = openQClient.handleError(error, {
         bounty,
       });
       setError({
@@ -182,7 +181,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
   async function setPayoutSchedule() {
     try {
       setIsLoading(true);
-      const transaction = await appState.openQClient.setPayoutSchedule(library, bounty.bountyId, finalTierVolumes);
+      const transaction = await openQClient.setPayoutSchedule(library, bounty.bountyId, finalTierVolumes);
       refreshBounty();
       setModal({
         transaction,
@@ -190,8 +189,8 @@ const AdminPage = ({ bounty, refreshBounty }) => {
         finalTierVolume: finalTierVolumes,
       });
     } catch (error) {
-      console.log(error);
-      const { message, title } = appState.openQClient.handleError(error, {
+      logger.error(error, account, bounty.id);
+      const { message, title } = openQClient.handleError(error, {
         bounty,
       });
       setError({
@@ -204,7 +203,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
   async function closeCompetition() {
     try {
       setIsLoading(true);
-      const transaction = await appState.openQClient.closeCompetition(library, bounty.bountyId);
+      const transaction = await openQClient.closeCompetition(library, bounty.bountyId);
       setModal({
         transaction,
         type: 'Closed Contest',
@@ -213,8 +212,8 @@ const AdminPage = ({ bounty, refreshBounty }) => {
       refreshBounty();
       //	dispatch(payload);
     } catch (error) {
-      console.log(error);
-      const { message, title } = appState.openQClient.handleError(error, {
+      logger.error(error, account, bounty.id);
+      const { message, title } = openQClient.handleError(error, {
         bounty,
       });
       setError({
@@ -227,7 +226,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
   async function closeOngoing() {
     try {
       setIsLoading(true);
-      const transaction = await appState.openQClient.closeOngoing(library, bounty.bountyId);
+      const transaction = await openQClient.closeOngoing(library, bounty.bountyId);
       setModal({
         transaction,
         type: 'Closed Split Price',
@@ -235,8 +234,8 @@ const AdminPage = ({ bounty, refreshBounty }) => {
       setShowButton(false);
       refreshBounty();
     } catch (error) {
-      console.log(error);
-      const { message, title } = appState.openQClient.handleError(error, {
+      logger.error(error, account, bounty.id);
+      const { message, title } = openQClient.handleError(error, {
         bounty,
       });
       setError({

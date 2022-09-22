@@ -256,7 +256,6 @@ class OpenQPrismaClient {
         });
         resolve(result.data.user);
       } catch (e) {
-        console.log(e);
         reject(e);
       }
     });
@@ -281,7 +280,6 @@ class OpenQPrismaClient {
         resolve(result.data.bounties.bountyConnection);
       } catch (e) {
         reject(e);
-        console.log(e);
       }
     });
     return promise;

@@ -1,10 +1,10 @@
 import React from 'react';
-
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import Invoice from '../../../components/Invoicing/Invoice';
 import UnexpectedError from '../../../components/Utils/UnexpectedError';
 import useAuth from '../../../hooks/useAuth';
+import Logger from '../../../services/logger/Logger';
 
 const invoice = ({ bounty, renderError }) => {
   useAuth();
@@ -15,13 +15,14 @@ export const getServerSideProps = async (context) => {
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const githubClient = new WrappedGithubClient();
   githubClient.instance.setGraphqlHeaders();
+  const logger = new Logger();
   const { id, address } = context.query;
   let issueData = {};
   let renderError = '';
   try {
     issueData = await githubClient.instance.fetchIssueById(id);
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     renderError = 'OpenQ could not find the issue connected to this bounty on Github.';
   }
   let bounty = {};
@@ -32,7 +33,7 @@ export const getServerSideProps = async (context) => {
     }
   } catch (err) {
     renderError = `OpenQ could not find a bounty with address: ${address}.`;
-    console.log(err);
+    logger.error(err);
   }
   const mergedBounty = { ...issueData, ...bounty };
 

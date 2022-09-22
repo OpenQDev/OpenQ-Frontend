@@ -29,16 +29,18 @@ const Navigation = () => {
   const [showWizard, setShowWizard] = useState(false);
   const [loadingBar, setLoadingBar] = useState(false);
   const [changeText, setChangeText] = useState(false);
+  const { bountyMinted, authService, openQSubgraphClient, openQPrismaClient, utils, githubRepository, tokenClient } =
+    appState;
 
   const router = useRouter();
   useEffect(() => {
-    if (appState.bountyMinted) {
+    if (bountyMinted) {
       setLoadingBar(true);
     }
-    if (loadingBar && !appState.bountyMinted) {
+    if (loadingBar && !bountyMinted) {
       setChangeText(true);
     }
-  }, [appState.bountyMinted]);
+  }, [bountyMinted]);
 
   useEffect(() => {
     setQuickSearch('');
@@ -48,9 +50,9 @@ const Navigation = () => {
   useEffect(async () => {
     if (account) {
       try {
-        const response = await appState.authService.hasSignature(account);
+        const response = await authService.hasSignature(account);
         if (response.data.status === false) {
-          await appState.authService.verifySignature(account, '');
+          await authService.verifySignature(account, '');
         }
       } catch (error) {
         console.error(error);
@@ -61,20 +63,18 @@ const Navigation = () => {
   useEffect(async () => {
     // set up searchable
     try {
-      const subgraphOrganizations = await appState.openQSubgraphClient.getOrganizationIds();
-      const prismaContracts = await appState.openQPrismaClient.getAllContracts();
+      const subgraphOrganizations = await openQSubgraphClient.getOrganizationIds();
+      const prismaContracts = await openQPrismaClient.getAllContracts();
 
-      const githubOrganizations = await appState.githubRepository.searchOrgOrUser(
+      const githubOrganizations = await githubRepository.searchOrgOrUser(
         subgraphOrganizations.organizations.map((organization) => organization.id)
       );
-      const prismaOrganizations = await appState.openQPrismaClient.getLeanOrganizations(
+      const prismaOrganizations = await openQPrismaClient.getLeanOrganizations(
         subgraphOrganizations.organizations.map((organization) => organization.id)
       );
 
-      const subgraphBounties = await appState.openQSubgraphClient.getBountyIds();
-      const githubIssues = await appState.githubRepository.getLeanIssueData(
-        subgraphBounties.map((bounty) => bounty.bountyId)
-      );
+      const subgraphBounties = await openQSubgraphClient.getBountyIds();
+      const githubIssues = await githubRepository.getLeanIssueData(subgraphBounties.map((bounty) => bounty.bountyId));
       const fullOrgs = githubOrganizations
         .map((organization) => {
           const prismaOrg = prismaOrganizations.find((prismaOrganization) => {
@@ -83,7 +83,7 @@ const Navigation = () => {
           return { ...organization, ...prismaOrg };
         })
         .filter((org) => !org.blacklisted);
-      const fullBounties = appState.utils
+      const fullBounties = utils
         .combineBounties(subgraphBounties, githubIssues, prismaContracts)
         .filter((bounty) => !bounty.blacklisted && !bounty.organization.blacklisted);
       const searchable = [...fullBounties, ...fullOrgs].map((searchableItem) => {
@@ -101,7 +101,7 @@ const Navigation = () => {
       });
       setSearchable(searchable);
     } catch (err) {
-      console.log(err);
+      appState.logger.error(err, account);
     }
     // set up gnosis safe
     const safe = new SafeAppConnector();
@@ -117,12 +117,12 @@ const Navigation = () => {
     let tokenPrices = {};
 
     try {
-      tokenPrices = (await appState.tokenClient.getPrices()) || {};
+      tokenPrices = (await tokenClient.getPrices()) || {};
     } catch (err) {
-      console.log('could not fetch initial prices', err);
+      appState.logger.error(err, account);
     }
 
-    appState.tokenClient.firstTenPrices = tokenPrices;
+    tokenClient.firstTenPrices = tokenPrices;
   }, []);
 
   useEffect(async () => {

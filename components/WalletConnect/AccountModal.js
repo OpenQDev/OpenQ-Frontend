@@ -1,13 +1,15 @@
 // Third party
-import React from 'react';
+import React, { useContext } from 'react';
 import Link from 'next/link';
 // Custom
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import { PersonIcon, SignOutIcon } from '@primer/octicons-react';
+import StoreContext from '../../store/Store/StoreContext';
 
 const AccountModal = ({ chainId, account, ensName, deactivate, setIsConnecting, domRef, isSafeApp }) => {
   let networkName;
+  const [appState] = useContext(StoreContext);
   for (let key in chainIdDeployEnvMap) {
     if (chainIdDeployEnvMap[key].chainId === chainId) {
       networkName = chainIdDeployEnvMap[key].networkName;
@@ -16,8 +18,8 @@ const AccountModal = ({ chainId, account, ensName, deactivate, setIsConnecting, 
   const disconnectAccount = () => {
     try {
       deactivate();
-    } catch (ex) {
-      console.log(ex);
+    } catch (err) {
+      appState.logger.error(err, account);
     }
     setIsConnecting(false);
   };

@@ -238,7 +238,7 @@ describe('ActionBubble', () => {
     render(<ActionBubble action={action} bounty={bounty} addresses={addresses} />);
 
     // ASSERT
-    expect(await screen.findByText('sample.eth made a claim on this contract on January 3, 1970 at 7:33.'));
+    expect(await screen.findByText('sample.eth made a claim of $0.00 on this contract on January 3, 1970 at 7:33.'));
   });
   it('should display single claimed action message', async () => {
     // ARRANGE
@@ -252,7 +252,7 @@ describe('ActionBubble', () => {
     render(<ActionBubble action={action} bounty={{ ...bounty, bountyType: '0' }} addresses={addresses} />);
 
     // ASSERT
-    expect(await screen.findByText('sample.eth claimed this contract on January 3, 1970 at 7:33.'));
+    expect(await screen.findByText('sample.eth claimed $0.00 on this contract on January 3, 1970 at 7:33.'));
   });
   it('should display closed action message', async () => {
     // ARRANGE

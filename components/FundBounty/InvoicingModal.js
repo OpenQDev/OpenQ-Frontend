@@ -3,9 +3,10 @@ import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import axios from 'axios';
 
-const InvoicingModal = ({ closeModal }) => {
+const InvoicingModal = ({ closeModal, bounty }) => {
   const { account } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
+  const { logger, openQPrismaClient } = appState;
   const [success, setSucess] = useState();
 
   const signMessage = async () => {
@@ -55,12 +56,12 @@ const InvoicingModal = ({ closeModal }) => {
           formValues[key] = inputObj[key];
         }
       });
-      const { updateUser } = await appState.openQPrismaClient.setFunderValues(formValues);
+      const { updateUser } = await openQPrismaClient.setFunderValues(formValues);
       if (updateUser) {
         setSucess(true);
       }
     } catch (err) {
-      console.log(err);
+      logger.error(err, account, bounty.id);
     }
   };
 

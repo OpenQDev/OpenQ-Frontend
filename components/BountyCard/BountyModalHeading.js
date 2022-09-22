@@ -36,7 +36,7 @@ const BountyModalHeading = ({ bounty, closeModal, unWatchable, watchingState }) 
             </div>
           </div>
         </Link>
-        <WatchButton watchingState={watchingState} unwatchable={unWatchable} bounty={bounty} />
+        <WatchButton watchingState={watchingState} unWatchable={unWatchable} bounty={bounty} />
         <div className='hidden lg:block'>
           <Image src={bounty.avatarUrl} className='rounded-full' alt='avatarUrl' width='51' height='51' />
         </div>

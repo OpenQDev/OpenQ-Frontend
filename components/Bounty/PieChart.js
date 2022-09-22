@@ -4,7 +4,6 @@ import * as d3 from 'd3';
 const PieChart = ({ payoutSchedule }) => {
   const drawChart = () => {
     const data = payoutSchedule.map((e) => parseInt(e));
-    console.log(data);
     const margin = { top: 36, right: 30, bottom: 30, left: 30 };
     const width = 280 - margin.left - margin.right;
     const height = 280 - margin.top - margin.bottom;
@@ -78,7 +77,6 @@ const PieChart = ({ payoutSchedule }) => {
               .attr('y', '0.7em')
               .attr('fill-opacity', 0.7)
               .text((d) => {
-                console.log(d);
                 return d.data.toString().concat('%');
               })
           )

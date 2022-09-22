@@ -1869,7 +1869,7 @@
 				}
 			},
 			"timelineItems": {
-				"edges": []
+				"nodes": []
 			}
 		},
 		{
@@ -1926,7 +1926,7 @@
 				}
 			},
 			"timelineItems": {
-				"edges": []
+				"nodes": []
 			}
 		},
 		{
@@ -2062,7 +2062,7 @@
 				}
 			},
 			"timelineItems": {
-				"edges": []
+				"nodes": []
 			}
 		},
 		{
@@ -2129,7 +2129,7 @@
 				}
 			},
 			"timelineItems": {
-				"edges": []
+				"nodes": []
 			}
 		},
 		{
@@ -2175,7 +2175,7 @@
 				}
 			},
 			"timelineItems": {
-				"edges": []
+				"nodes": []
 			}
 		},
 		{
@@ -2213,7 +2213,7 @@
 				}
 			},
 			"timelineItems": {
-				"edges": [
+				"nodes": [
 					{
 						"node": {
 							"source": {
@@ -2269,7 +2269,7 @@
 				}
 			},
 			"timelineItems": {
-				"edges": []
+				"nodes": []
 			},
 				
 				"languages": {
@@ -2332,7 +2332,7 @@
 					]
 				},
 			"timelineItems": {
-				"edges": []
+				"nodes": []
 			}
 		},
 		{
@@ -2387,7 +2387,7 @@
 				}
 			},
 			"timelineItems": {
-				"edges": []
+				"nodes": []
 			}
 		}
 	],

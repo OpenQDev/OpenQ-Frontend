@@ -11,6 +11,7 @@ import WrappedGithubClient from '../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../services/openq-api/WrappedOpenQPrismaClient';
 import Utils from '../services/utils/Utils';
+import Logger from '../services/logger/Logger';
 import SubMenu from '../components/Utils/SubMenu';
 import UnexpectedError from '../components/Utils/UnexpectedError';
 
@@ -26,6 +27,7 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
   const [pagination, setPagination] = useState(batch);
   const [offChainCursor, setOffChainCursor] = useState(firstCursor);
   const [watchedBounties, setWatchedBounties] = useState([]);
+  const [error, setError] = useState(renderError);
 
   // Context
   const [appState] = useContext(StoreContext);
@@ -61,19 +63,27 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
   async function getBountyData(sortOrder, currentPagination, orderBy, cursor) {
     setPagination(() => currentPagination + batch);
     let complete = false;
-    const [fullBounties, newCursor] = await appState.utils.fetchBounties(
-      appState,
-      batch,
-      types,
-      sortOrder,
-      orderBy,
-      cursor
-    );
-    setOffChainCursor(newCursor);
-    if (fullBounties?.length === 0) {
-      complete = true;
+    try {
+      const [fullBounties, newCursor] = await appState.utils.fetchBounties(
+        appState,
+        batch,
+        types,
+        sortOrder,
+        orderBy,
+        cursor
+      );
+      setOffChainCursor(newCursor);
+
+      if (fullBounties?.length === 0) {
+        complete = true;
+      }
+
+      return [fullBounties, complete];
+    } catch (err) {
+      setError(err);
+      appState.logger.error(err, account);
+      return [[], true];
     }
-    return [fullBounties, complete];
   }
 
   // Pagination handler for when user switches sort order.
@@ -107,8 +117,8 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
         />
       </div>
       <div>
-        {renderError ? (
-          <UnexpectedError error={renderError} />
+        {error ? (
+          <UnexpectedError error={error} />
         ) : internalMenu == 'Organizations' ? (
           <OrganizationHomepage orgs={controlledOrgs} types={types} category={category} />
         ) : (
@@ -150,25 +160,40 @@ export const getServerSideProps = async (ctx) => {
   const githubRepository = new WrappedGithubClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
   const utils = new Utils();
+  const logger = new Logger();
   githubRepository.instance.setGraphqlHeaders();
   const batch = 10;
-  const [mergedOrgs, orgRenderError] = await utils.fetchOrganizations(
-    {
-      githubRepository: githubRepository.instance,
-      openQPrismaClient: openQPrismaClient.instance,
-    },
-    types
-  );
-  const [fullBounties, firstCursor, bountyRenderError] = await utils.fetchBounties(
-    {
-      openQSubgraphClient: openQSubgraphClient.instance,
-      githubRepository: githubRepository.instance,
-      openQPrismaClient: openQPrismaClient.instance,
-    },
-    batch,
-    types
-  );
-  const renderError = bountyRenderError || orgRenderError;
+  let fullBounties = [];
+  let firstCursor;
+  let renderError = '';
+  let mergedOrgs = [];
+  try {
+    mergedOrgs = await utils.fetchOrganizations(
+      {
+        githubRepository: githubRepository.instance,
+        openQPrismaClient: openQPrismaClient.instance,
+      },
+      types
+    );
+  } catch (err) {
+    logger.error(err);
+    renderError = JSON.stringify(err.message);
+  }
+  try {
+    [fullBounties, firstCursor] = await utils.fetchBounties(
+      {
+        openQSubgraphClient: openQSubgraphClient.instance,
+        githubRepository: githubRepository.instance,
+        openQPrismaClient: openQPrismaClient.instance,
+        logger,
+      },
+      batch,
+      types
+    );
+  } catch (err) {
+    logger.error(err);
+    renderError = JSON.stringify(err.message);
+  }
   return {
     props: {
       orgs: mergedOrgs,
