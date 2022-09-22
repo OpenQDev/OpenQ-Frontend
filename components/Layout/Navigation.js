@@ -15,7 +15,8 @@ import { useRouter } from 'next/router';
 import NavLinks from './NavLinks';
 import ContractWizard from '../ContractWizard/ContractWizard';
 import OpenQSocials from './OpenQSocials';
-import LoadingBar from '../Loading/LoadingBar.js';
+import LoadingBar from '../Loading/LoadingBar';
+import LoadingThread from '../Loading/LoadingThread.js';
 
 const Navigation = () => {
   const [gnosisSafe, setGnosisSafe] = useState();
@@ -148,6 +149,8 @@ const Navigation = () => {
   return (
     <div className='bg-nav-bg py-1 '>
       <FirstTimeBanner />
+
+      <LoadingThread />
 
       {/* Desktop view */}
 

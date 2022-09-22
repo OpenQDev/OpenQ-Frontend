@@ -1,0 +1,19 @@
+.animationStart{
+transform-origin:left;
+transform: scale(0);
+}
+.animationHidden{
+display: none;
+transform: scale(0);
+} 
+.animationStageOne{
+transform: scaleX(.9);
+}
+.animationStageTwo{
+transition: .1s;
+transform: scaleX(1);
+}
+.animationDefault{
+transition-duration: 1.2s;
+transform-origin:left;
+}
