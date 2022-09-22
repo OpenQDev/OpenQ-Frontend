@@ -12,18 +12,18 @@ class Logger {
     }
   }
 
-  info(data) {
+  info(data, account, id) {
     if (this.enabled === 'DEV') {
-      const { id, message, address } = data;
+      const { message } = data;
       const currentDate = new Date();
-      console.log(`id: ${id}, message: ${message}, date: ${currentDate}, userAddress: ${address}`);
+      console.log(`id: ${id}, message: ${message}, date: ${currentDate}, userAddress: ${account}`);
     }
   }
-  error(data) {
-    const { id, message, address } = data;
+  error(data, account, id) {
+    const { message } = data;
     if (this.enabled === 'PROD' || this.enabled === 'DEV') {
       const currentDate = new Date();
-      console.error(`id: ${id}, message: ${message}, date: ${currentDate}, userAddress: ${address}`);
+      console.error(`id: ${id}, message: ${message}, date: ${currentDate}, userAddress: ${account}`);
     }
   }
 }
