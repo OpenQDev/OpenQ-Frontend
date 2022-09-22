@@ -4,6 +4,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import TokenBalances from '../TokenBalances/TokenBalances';
 import ToolTipNew from '../Utils/ToolTipNew';
+import { ethers } from 'ethers';
 const DepositCard = ({
   deposit,
   refundBounty,
@@ -19,6 +20,10 @@ const DepositCard = ({
 
   // State
   const [tokenValues] = useGetTokenValues(deposit);
+  const tokenMetadata = appState.tokenClient.getToken(deposit.tokenAddress);
+  let bigNumberVolume = ethers.BigNumber.from(deposit.volume.toString());
+  let decimals = parseInt(tokenMetadata.decimals) || 18;
+  let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
 
   const [expanded, setExpanded] = useState(false);
 
@@ -72,9 +77,11 @@ const DepositCard = ({
                   <div className='flex w-full input-field-big pl-4 justify-between'>
                     <div className=' flex items-center'>
                       <ToolTipNew
-                        innerStyles={'whitespace-normal w-80'}
+                        innerStyles={'whitespace-normal w-40'}
                         toolTipText={
-                          "This is the number of days that your deposit will be in escrow. After this many days, you're deposit will be fully refundable if the bounty has still not been claimed."
+                          status === 'refundable'
+                            ? 'How many days you will relock this deposit for.'
+                            : "How many days you will add to this deposit's current lock period."
                         }
                       >
                         <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
@@ -100,12 +107,12 @@ const DepositCard = ({
                       !isOnCorrectNetwork
                         ? 'Please switch to the correct network to extend this bounty.'
                         : !(depositPeriodDays > 0)
-                        ? "Please indicate how many days you'd like to extend your bounty for."
+                        ? "Please indicate how many days you'd like to extend this deposit for."
                         : null
                     }
                   >
                     <button
-                      onClick={() => extendBounty(deposit.id)}
+                      onClick={() => extendBounty(deposit.id, formattedVolume, tokenMetadata.symbol)}
                       disabled={!isOnCorrectNetwork || !(depositPeriodDays > 0)}
                       className={`flex mt-3 md:mt-0 text-center w-full px-3 justify-center ${
                         isOnCorrectNetwork && depositPeriodDays > 0
