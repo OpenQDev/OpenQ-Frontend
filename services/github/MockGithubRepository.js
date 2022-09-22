@@ -224,7 +224,6 @@ class MockGithubRepository {
 				resolve(organizations);
 			}
 			catch (err) {
-				console.log(err);
 				reject(err);
 			}
 
@@ -242,7 +241,6 @@ class MockGithubRepository {
 				resolve(organizations);
 			}
 			catch (err) {
-				console.log(err);
 				reject(err);
 			}
 

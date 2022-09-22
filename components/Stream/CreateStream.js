@@ -97,7 +97,6 @@ const CreateStream = () => {
     try {
       const tx = await superfluidClient.upgradeAndCreateFlowBacth(library, token.address, flowRate, account, recipient);
       await tx.wait();
-      logger.info(tx);
       setTxnHash(tx.hash);
 
       setApproveTransferState(SUCCESS);
@@ -113,7 +112,6 @@ const CreateStream = () => {
     try {
       const tx = await superfluidClient.updateFlow(library, account, recipient, flowRate, token.address);
       await tx.wait();
-      logger.info(tx);
       setTxnHash(tx.hash);
       setApproveTransferState(SUCCESS);
     } catch (err) {
@@ -131,7 +129,6 @@ const CreateStream = () => {
     try {
       const tx = await superfluidClient.deleteFlow(library, account, recipient, token.address);
       await tx.wait();
-      logger.info(tx);
       setApproveTransferState(SUCCESS);
     } catch (error) {
       const { message, title } = openQClient.handleError(error, recipient);
