@@ -301,7 +301,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
                   type='button'
                   onClick={account ? openFund : connectWallet}
                 >
-                  <div className='text-center w-full'>{account ? buttonText : 'Connect Wallet'}</div>
+                  <div className='text-center whitespace-nowrap w-full'>{account ? buttonText : 'Connect Wallet'}</div>
                   <div>
                     {approveTransferState != RESTING &&
                     approveTransferState != SUCCESS &&
