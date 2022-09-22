@@ -1,4 +1,3 @@
-import { logger } from 'ethers';
 import React, { useState, useEffect, useContext } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
@@ -24,7 +23,7 @@ const WatchButton = ({ unWatchable, watchingState, bounty }) => {
       } catch (err) {
         if (JSON.stringify(err).includes('AuthenticationError')) {
           appState.logger.error('Cannot get watched bounties because user is not signed in with ethereum.');
-        } else logger.error(err, account);
+        } else appState.logger.error(err, account);
       }
     }
   }, [account]);

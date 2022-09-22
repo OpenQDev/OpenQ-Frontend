@@ -16,7 +16,6 @@ import NavLinks from './NavLinks';
 import ContractWizard from '../ContractWizard/ContractWizard';
 import OpenQSocials from './OpenQSocials';
 import LoadingBar from '../Loading/LoadingBar.js';
-import { logger } from 'ethers';
 
 const Navigation = () => {
   const [gnosisSafe, setGnosisSafe] = useState();
@@ -102,7 +101,7 @@ const Navigation = () => {
       });
       setSearchable(searchable);
     } catch (err) {
-      logger.error(err, account);
+      appState.logger.error(err, account);
     }
     // set up gnosis safe
     const safe = new SafeAppConnector();
@@ -120,7 +119,7 @@ const Navigation = () => {
     try {
       tokenPrices = (await tokenClient.getPrices()) || {};
     } catch (err) {
-      logger.error(err, account);
+      appState.logger.error(err, account);
     }
 
     tokenClient.firstTenPrices = tokenPrices;

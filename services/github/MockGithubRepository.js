@@ -157,7 +157,7 @@ class MockGithubRepository {
 
 	
   parseIssuesData(rawIssuesResponse, reject) {
-    const responseData = rawIssuesResponse.data.nodes;
+    const responseData = rawIssuesResponse;
     return responseData
       .filter((event) => event?.__typename === 'Issue')
       .map((elem) => {
@@ -217,7 +217,7 @@ class MockGithubRepository {
 		const promise = new Promise((resolve, reject) => {
 			axios.get('http://localhost:3030/githubIssues')
 				.then(result => {
-					resolve(this.parseIssuesData(result.data, reject).filter((issue) => issueIds.includes(issue.id)));
+					resolve(this.parseIssuesData(result.data).filter((issue) => issueIds.includes(issue.id)));
 				})
 				.catch(error => {
 					reject(error);
@@ -278,6 +278,7 @@ class MockGithubRepository {
 				resolve(organizations);
 			}
 			catch (err) {
+				console.log(err);
 				reject(err);
 			}
 
@@ -295,6 +296,7 @@ class MockGithubRepository {
 				resolve(organizations);
 			}
 			catch (err) {
+				console.log(err);
 				reject(err);
 			}
 

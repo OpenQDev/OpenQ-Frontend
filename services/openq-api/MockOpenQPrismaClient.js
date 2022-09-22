@@ -1,5 +1,4 @@
 import axios from "axios";
-import { reject } from "lodash";
 class OpenQPrismaClient {
 	constructor() { }
 
