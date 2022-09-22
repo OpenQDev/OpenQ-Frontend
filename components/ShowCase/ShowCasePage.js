@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import useAuth from '../../hooks/useAuth';
+import useWeb3 from '../../hooks/useWeb3';
 
 const ShowCasePage = ({ pr, bounty }) => {
   const [authState] = useAuth();
@@ -16,6 +17,7 @@ const ShowCasePage = ({ pr, bounty }) => {
   const [error, setError] = useState('Url not valid.');
   const [userId, setUserId] = useState();
   const [appState] = useContext(StoreContext);
+  const { account } = useWeb3();
   const openContributorForm = () => {
     setShowForm(!showForm);
   };
@@ -35,7 +37,7 @@ const ShowCasePage = ({ pr, bounty }) => {
     try {
       await getOffChainData();
     } catch (err) {
-      console.log(err);
+      appState.logger.error(err, account);
     }
   }, []);
   const fetchGithub = async (e) => {
@@ -65,19 +67,23 @@ const ShowCasePage = ({ pr, bounty }) => {
   };
 
   const saveContributor = async () => {
-    if (!error) {
-      const result = await appState.openQPrismaClient.addContributor(pr.id, userId, address);
-      if (result.addContributor) {
-        setUserId();
-        setAddress();
-        setShowForm();
+    try {
+      if (!error) {
+        const result = await appState.openQPrismaClient.addContributor(pr.id, userId, address);
+        if (result.addContributor) {
+          setUserId();
+          setAddress();
+          setShowForm();
 
-        try {
-          await getOffChainData();
-        } catch (err) {
-          console.log(err);
+          try {
+            await getOffChainData();
+          } catch (err) {
+            appState.logger.error(err, account);
+          }
         }
       }
+    } catch (err) {
+      appState.logger.error(err, account);
     }
   };
   const isAuthor = avatarUrl?.includes(pr.author.avatarUrl.slice(0, 48));
@@ -88,7 +94,7 @@ const ShowCasePage = ({ pr, bounty }) => {
       try {
         await getOffChainData();
       } catch (err) {
-        console.log(err);
+        appState.logger.error(err, account);
       }
     }
   };

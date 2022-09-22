@@ -2,13 +2,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import StoreContext from '../../store/Store/StoreContext.js';
+import useWeb3 from '../../hooks/useWeb3.js';
 
 function GitHubAuth() {
   const router = useRouter();
   const [, setAuthCode] = useState('NO AUTH CODE');
 
   const [appState] = useContext(StoreContext);
-
+  const { account } = useWeb3();
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setAuthCode(params.get('code'));
@@ -39,8 +40,8 @@ function GitHubAuth() {
           alert('CSRF Alert!');
         }
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        appState.logger.error(err, account);
       });
   };
 

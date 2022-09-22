@@ -118,7 +118,13 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
                   );
                 })
                 .map((deposit, index) => (
-                  <MiniDepositCard key={index} deposit={deposit} status={bounty.status} showLink={false} />
+                  <MiniDepositCard
+                    key={index}
+                    deposit={deposit}
+                    status={bounty.status}
+                    showLink={false}
+                    id={bounty.id}
+                  />
                 ))}
             {bounty.bountyTokenBalances?.length > 1 && (
               <Link href={`/bounty/${bounty.id}/${bounty.bountyAddress}`}>

@@ -200,9 +200,8 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
       await router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress.toLowerCase()}`);
       modalVisibility(false);
     } catch (error) {
-      console.log('error in mintbounty', error);
       const { message, title } = appState.openQClient.handleError(error);
-      console.log(message);
+      appState.logger.error(message, account);
       setError({ message, title });
     }
   };

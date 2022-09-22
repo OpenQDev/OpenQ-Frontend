@@ -81,7 +81,6 @@ class OpenQPrismaClient {
 	
 	getOrganization(id){
 		const promise = new Promise(async (resolve, reject) => {
-			console.log(id)
 			axios.get(`http://localhost:3030/prismaOrgs/`)
 				.then(result => {
 					resolve({organization: result.data.organizations.filter(org=>org.id===id)[0]})

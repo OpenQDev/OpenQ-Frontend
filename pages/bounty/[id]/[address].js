@@ -17,6 +17,7 @@ import UnexpectedError from '../../../components/Utils/UnexpectedError';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
+import Logger from '../../../services/logger/Logger';
 import useAuth from '../../../hooks/useAuth';
 import RepoTitle from '../../../components/Bounty/RepoTitle';
 import SubMenu from '../../../components/Utils/SubMenu';
@@ -129,7 +130,7 @@ const address = ({ address, mergedBounty, renderError }) => {
           canvas.current.height = window.innerHeight;
         }
       } catch (err) {
-        console.log(err);
+        appState.logger.error(err, account);
       }
     };
     window.addEventListener('resize', handleResize, false);
@@ -265,13 +266,14 @@ export const getServerSideProps = async (context) => {
   const githubRepository = new WrappedGithubClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
   githubRepository.instance.setGraphqlHeaders();
+  const logger = new Logger();
   const { id, address } = context.query;
   let bountyMetadata = {};
   let renderError = '';
   try {
     bountyMetadata = await openQPrismaClient.instance.getBounty(ethers.utils.getAddress(address));
   } catch (err) {
-    console.log(err);
+    logger.error(err);
   }
   let mergedBounty = null;
   let issueData = {};
@@ -279,13 +281,13 @@ export const getServerSideProps = async (context) => {
   try {
     issueData = await githubRepository.instance.fetchIssueById(id);
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     renderError = 'OpenQ could not find the issue connected to this to contract on Github.';
   }
   try {
     bounty = await openQSubgraphClient.instance.getBounty(address, 'no-cache');
     if (!bounty) {
-      console.log('could not find bounty on graph');
+      logger.error({ message: `OpenQ could not find a contract with address: ${address}.` });
     }
     mergedBounty = {
       ...issueData,
@@ -294,8 +296,7 @@ export const getServerSideProps = async (context) => {
       bountyAddress: address,
     };
   } catch (err) {
-    console.log(err);
-
+    logger.error(err);
     renderError = `OpenQ could not find a contract with address: ${address}.`;
   }
   return { props: { id, address, mergedBounty, renderError } };

@@ -8,6 +8,7 @@ import UnexpectedError from '../../../components/Utils/UnexpectedError';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
+import Logger from '../../../services/logger/Logger';
 
 const account = ({ account, user, organizations, renderError }) => {
   return (
@@ -34,6 +35,7 @@ export const getServerSideProps = async (context) => {
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
   const githubRepository = new WrappedGithubClient();
+  const logger = new Logger();
   githubRepository.instance.setGraphqlHeaders();
   let user = {
     bountiesClosed: [],
@@ -54,11 +56,11 @@ export const getServerSideProps = async (context) => {
     try {
       organizations = await githubRepository.instance.parseOrgIssues(issueIds);
     } catch (err) {
-      console.log(err);
+      logger.error(err);
     }
     user = { ...user, ...userOffChainData, ...userOnChainData };
   } catch (err) {
-    console.log(err);
+    logger.error(err);
   }
 
   return { props: { account, user, organizations, renderError } };

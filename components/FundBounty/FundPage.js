@@ -36,6 +36,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
   };
   // Context
   const [appState, dispatch] = useContext(StoreContext);
+  const { logger, openQClient, utils } = appState;
   const { library, account } = useWeb3();
   // State
   const [token, setToken] = useState(zeroAddressMetadata);
@@ -117,14 +118,11 @@ const FundPage = ({ bounty, refreshBounty }) => {
     let approveSucceeded = false;
 
     try {
-      const isWhitelisted = await appState.openQClient.isWhitelisted(library, token.address);
+      const isWhitelisted = await openQClient.isWhitelisted(library, token.address);
 
       // Only check bounty token address limit for non-whitelisted tokens
       if (!isWhitelisted) {
-        const tokenAddressLimitReached = await appState.openQClient.tokenAddressLimitReached(
-          library,
-          bounty.bountyAddress
-        );
+        const tokenAddressLimitReached = await openQClient.tokenAddressLimitReached(library, bounty.bountyAddress);
         if (tokenAddressLimitReached) {
           setError({
             title: 'Token Address Limit Is Reached!',
@@ -146,11 +144,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
     }
 
     try {
-      const callerBalance = await appState.openQClient.balanceOf(
-        library,
-        account,
-        ethers.utils.getAddress(token.address)
-      );
+      const callerBalance = await openQClient.balanceOf(library, account, ethers.utils.getAddress(token.address));
       if (callerBalance.noSigner) {
         setError({
           title: 'No wallet connected.',
@@ -167,7 +161,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
         return;
       }
     } catch (error) {
-      console.log(error);
+      logger.error(error, account, bounty.id);
       setError({
         title: 'Call Revert Exception',
         message: 'A contract call exception occurred. Please try again.',
@@ -182,11 +176,11 @@ const FundPage = ({ bounty, refreshBounty }) => {
       if (token.address != ethers.constants.AddressZero) {
         setButtonText('Approving');
         setApproveTransferState(APPROVING);
-        await appState.openQClient.approve(library, bounty.bountyAddress, token.address, bigNumberVolumeInWei);
+        await openQClient.approve(library, bounty.bountyAddress, token.address, bigNumberVolumeInWei);
       }
       approveSucceeded = true;
     } catch (error) {
-      const { message, title, link, linkText } = appState.openQClient.handleError(error, { bounty });
+      const { message, title, link, linkText } = openQClient.handleError(error, { bounty });
       setError({ message, title, link, linkText });
       setButtonText('Fund');
       setApproveTransferState(ERROR);
@@ -195,7 +189,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
     if (approveSucceeded) {
       setApproveTransferState(TRANSFERRING);
       try {
-        const fundTxnReceipt = await appState.openQClient.fundBounty(
+        const fundTxnReceipt = await openQClient.fundBounty(
           library,
           bounty.bountyAddress,
           token.address,
@@ -207,8 +201,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
         setSuccessMessage(`Successfully funded issue ${bounty.url} with ${volume} ${token.symbol}!`);
         refreshBounty();
       } catch (error) {
-        console.log(error);
-        const { message, title } = appState.openQClient.handleError(error, {
+        logger.error(error, account, bounty.id);
+        const { message, title } = openQClient.handleError(error, {
           bounty,
         });
         setError({ message, title });
@@ -223,7 +217,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
   }
 
   function onVolumeChange(volume) {
-    appState.utils.updateVolume(volume, setVolume);
+    utils.updateVolume(volume, setVolume);
   }
   const onDepositPeriodChanged = (e) => {
     if (parseInt(e.target.value) >= 0) setDepositPeriodDays(parseInt(e.target.value));
@@ -322,7 +316,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
               </div>
             </div>
           </div>
-          {invoicingModal && <InvoicingModal closeModal={() => setInvoicingModal(false)} />}
+          {invoicingModal && <InvoicingModal closeModal={() => setInvoicingModal(false)} bounty={bounty} />}
           {showApproveTransferModal && (
             <ApproveFundModal
               approveTransferState={approveTransferState}

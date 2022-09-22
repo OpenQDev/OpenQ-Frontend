@@ -16,7 +16,7 @@ import Watching from './AboutModules/Watching';
 import Starred from './AboutModules/Starred';
 import StoreContext from '../../store/Store/StoreContext';
 
-const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatched }) => {
+const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatched, watchedBounties }) => {
   const { payoutTokenBalances, payouts } = user;
   const [internalMenu, setInternalMenu] = useState('Overview');
   const [appState] = useContext(StoreContext);
@@ -42,10 +42,11 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
     if (account && showWatched) {
       // get watched bounties as soon as we know what the account is.
       try {
-        const watchedBountyAddresses = watchedFullBounties.map((bounty) => bounty.address.toLowerCase()) || [];
+        const watchedBountyAddresses = watchedBounties.map((bounty) => bounty.address.toLowerCase()) || [];
+
         const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(
           watchedBountyAddresses,
-          ['0', '1', '2']
+          ['0', '1', '2', '3']
         );
         const githubIds = subgraphBounties.map((bounty) => bounty.bountyId);
         const githubBounties = await appState.githubRepository.getIssueData(githubIds);
@@ -55,7 +56,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
           })
         );
       } catch (err) {
-        console.log(err);
+        appState.logger.error(err, account);
       }
     }
   }, [account, showWatched]);

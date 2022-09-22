@@ -9,6 +9,7 @@ import { ethers } from 'ethers';
 const CreateStream = () => {
   // CONTEXT
   const [appState] = useContext(StoreContext);
+  const { logger, superfluidClient, openQClient } = appState;
   const [txnHash, setTxnHash] = useState('');
   const [error, setError] = useState({});
   const { account, library } = useWeb3();
@@ -29,26 +30,21 @@ const CreateStream = () => {
   async function fund(volume, token) {
     try {
       setApproveTransferState(APPROVING);
-      const tx = await appState.superfluidClient.approve(library, token.address, volume.toString());
-      await appState.superfluidClient.upgradeToken(library, token.address, volume.toString());
+      const tx = await superfluidClient.approve(library, token.address, volume.toString());
+      await superfluidClient.upgradeToken(library, token.address, volume.toString());
       setTxnHash(tx.hash);
       setApproveTransferState(SUCCESS);
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      logger.error(err, account);
       setApproveTransferState(ERROR);
-      const { message, title } = appState.openQClient.handleError(error);
+      const { message, title } = openQClient.handleError(error);
       setError({ message, title });
     }
   }
   async function approveToken(volume, recipient, flowRate, type) {
     const volumeInWei = volume * 10 ** token.decimals;
     const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', { useGrouping: false }));
-    const callerBalance = await appState.openQClient.balanceOf(
-      library,
-      account,
-      ethers.utils.getAddress(token.address)
-    );
-    console.log(callerBalance);
+    const callerBalance = await openQClient.balanceOf(library, account, ethers.utils.getAddress(token.address));
     if (callerBalance.lt(bigNumberVolumeInWei)) {
       setError({
         title: 'Funds Too Low',
@@ -58,14 +54,14 @@ const CreateStream = () => {
       return;
     }
     try {
-      await appState.superfluidClient.approve(library, token.address, volume);
+      await superfluidClient.approve(library, token.address, volume);
 
       setApproveTransferState(TRANSFERRING);
       await stream(recipient, flowRate, type);
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      logger.error(err, account);
       setApproveTransferState(ERROR);
-      const { message, title } = appState.openQClient.handleError(error);
+      const { message, title } = openQClient.handleError(error);
       setError({ message, title });
     }
   }
@@ -77,8 +73,8 @@ const CreateStream = () => {
       await approveToken(volume, recipient, flowRate, type);
     } catch (err) {
       setApproveTransferState(ERROR);
-      const { message, title } = appState.openQClient.handleError(err);
-      console.log(message, title);
+      const { message, title } = openQClient.handleError(err);
+      logger.error(err, account);
       setError({ message, title });
     }
   };
@@ -99,20 +95,14 @@ const CreateStream = () => {
 
   async function createNewFlowAndUpgrade(recipient, flowRate) {
     try {
-      const tx = await appState.superfluidClient.upgradeAndCreateFlowBacth(
-        library,
-        token.address,
-        flowRate,
-        account,
-        recipient
-      );
+      const tx = await superfluidClient.upgradeAndCreateFlowBacth(library, token.address, flowRate, account, recipient);
       await tx.wait();
-      console.log(tx);
+      logger.info(tx);
       setTxnHash(tx.hash);
 
       setApproveTransferState(SUCCESS);
     } catch (error) {
-      const { message, title } = appState.openQClient.handleError(error, recipient);
+      const { message, title } = openQClient.handleError(error, recipient);
       setError({ message, title });
       console.error(error);
       setApproveTransferState(ERROR);
@@ -121,18 +111,15 @@ const CreateStream = () => {
 
   async function updateFlow(recipient, flowRate) {
     try {
-      const tx = await appState.superfluidClient.updateFlow(library, account, recipient, flowRate, token.address);
-      console.log('Updating your stream...');
+      const tx = await superfluidClient.updateFlow(library, account, recipient, flowRate, token.address);
       await tx.wait();
-      console.log(tx);
+      logger.info(tx);
       setTxnHash(tx.hash);
       setApproveTransferState(SUCCESS);
-    } catch (error) {
-      const { message, title } = appState.openQClient.handleError(error, recipient);
+    } catch (err) {
+      const { message, title } = openQClient.handleError(err, recipient);
       setError({ message, title });
-      console.log(
-        "Hmmm, your transaction threw an error. Make sure that this stream does exist, and that you've entered a valid Ethereum address!"
-      );
+      logger.error(err, account);
       console.error(error);
 
       setApproveTransferState(ERROR);
@@ -142,13 +129,12 @@ const CreateStream = () => {
   async function deleteFlow(recipient) {
     setApproveTransferState(TRANSFERRING);
     try {
-      const tx = await appState.superfluidClient.deleteFlow(library, account, recipient, token.address);
-      console.log('Deleting your stream...');
+      const tx = await superfluidClient.deleteFlow(library, account, recipient, token.address);
       await tx.wait();
-      console.log(tx);
+      logger.info(tx);
       setApproveTransferState(SUCCESS);
     } catch (error) {
-      const { message, title } = appState.openQClient.handleError(error, recipient);
+      const { message, title } = openQClient.handleError(error, recipient);
       console.error(error);
       setError({ message, title });
       setApproveTransferState(ERROR);
