@@ -126,7 +126,7 @@ class Utils {
   combineBounties = (subgraphBounties, githubIssues, metadata) => {
     const fullBounties = [];
     metadata.forEach((contract) => {
-      const relatedIssue = githubIssues.find((issue) => issue.id == contract.bountyId);
+      const relatedIssue = githubIssues.find((issue) => issue?.id == contract.bountyId);
       const subgraphBounty = subgraphBounties.find((bounty) => {
         return contract.address?.toLowerCase() === bounty.bountyAddress;
       });
