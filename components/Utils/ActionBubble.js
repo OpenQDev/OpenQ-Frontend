@@ -103,7 +103,7 @@ const ActionBubble = ({ addresses, bounty, action }) => {
   }
 
   if (action?.receiveTime || action?.refundTime) {
-    const funder = senderEnsName || shortenAddress(action.sender.id);
+    const funder = senderEnsName || shortenAddress(action.sender?.id);
     address = action.sender?.id || bounty.issuer.id;
     const { volume } = action;
     const tokenMetadata = appState.tokenClient.getToken(action.tokenAddress);
