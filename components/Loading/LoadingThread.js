@@ -10,7 +10,6 @@ const LoadingBar = () => {
       setRouteChanging(70);
     };
     const handlerouteChangeComplete = () => {
-      console.log('exec');
       setRouteChanging(100);
       setTimeout(() => {
         setRouteChanging(null);
