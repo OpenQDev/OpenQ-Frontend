@@ -41,8 +41,12 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
   useEffect(async () => {
     // handle org reload events (caused by user starring org.)
     if (reloadNow) {
-      const [mergedOrgs] = await appState.utils.fetchOrganizations(appState, types);
-      setControlledOrgs(mergedOrgs);
+      try {
+        const mergedOrgs = await appState.utils.fetchOrganizations(appState, types);
+        setControlledOrgs(mergedOrgs);
+      } catch (err) {
+        appState.logger.error(err);
+      }
       // get watched bounties when reload action is triggered.
     }
   }, [reloadNow]);
