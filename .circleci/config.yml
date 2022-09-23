@@ -34,7 +34,9 @@ jobs:
               echo "" >> $(pwd)/.env
               echo "DEPOSIT_MANAGER_PROXY_ADDRESS=$DEPOSIT_MANAGER_PROXY_ADDRESS_PRODUCTION" >> $(pwd)/.env
             fi
-      - run: cat .env
+      - run: yarn
+      - run: yarn json-server
+      - run: yarn test
       - run: docker build -t openq/openq-frontend:$CIRCLE_TAG --build-arg deploy_env=$DEPLOY_ENV .
       - run: docker push openq/openq-frontend:$CIRCLE_TAG
 workflows:
