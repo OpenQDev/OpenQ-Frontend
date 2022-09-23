@@ -132,6 +132,7 @@ export const GET_BOUNTY = gql`
         refundTime
         tokenAddress
         volume
+        depositId
       }
       bountyTokenBalances {
         tokenAddress
