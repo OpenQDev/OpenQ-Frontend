@@ -141,7 +141,7 @@ const ClaimLoadingModal = ({
           )}
         </div>
       </div>
-      <div onClick={() => updateModal()} className='bg-overlay z-40 absolute inset-0'></div>
+      <div onClick={() => updateModal()} className='bg-overlay z-40 fixed inset-0'></div>
     </>
   );
 };
