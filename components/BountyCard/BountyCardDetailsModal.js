@@ -32,6 +32,9 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [modal, showModal]);
+  const fundedDeposits = bounty.deposits.filter((deposit) => {
+    return deposit.refunded == false;
+  });
 
   return (
     <div
@@ -101,15 +104,12 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
         </div>
 
         <div className='font-semibold text-primary text-base my-3 mx-4 sm:mx-8'>
-          {!tokenValues?.total && 'No '}Deposits
+          {fundedDeposits.length === 0 ? 'No active deposits.' : 'Deposits'}
         </div>
         {tokenValues && (
           <div className='flex flex-wrap gap-4 pb-6 items-end mx-4 sm:mx-8'>
-            {bounty.deposits &&
-              bounty.deposits
-                .filter((deposit) => {
-                  return deposit.refunded == false;
-                })
+            {fundedDeposits &&
+              fundedDeposits
                 .sort((a, b) => {
                   return (
                     parseInt(a.receiveTime) +
