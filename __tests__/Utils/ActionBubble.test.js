@@ -164,7 +164,7 @@ const bounty = {
 
 describe('ActionBubble', () => {
   // Test cases for
-  const addresses = ['0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266', '0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b'];
+
   beforeEach(() => {
     nextRouter.useRouter.mockImplementation(() => ({
       query: { type: null },
@@ -178,7 +178,7 @@ describe('ActionBubble', () => {
   it('should display minted message', async () => {
     // ARRANGE
 
-    render(<ActionBubble bounty={bounty} addresses={addresses} />);
+    render(<ActionBubble bounty={bounty} />);
     // ASSERT
     expect(await screen.findByText('sample.eth minted this contract on August 29, 2022 at 10:12.'));
     expect(screen.getByText(/body of test2/i)).toBeInTheDocument();
@@ -187,13 +187,11 @@ describe('ActionBubble', () => {
   it('should display minted links', async () => {
     // ARRANGE
     const user = userEvent.setup();
-    render(<ActionBubble bounty={bounty} addresses={addresses} />);
+    render(<ActionBubble bounty={bounty} />);
     // ASSERT
-    const links = await screen.findAllByRole('link');
-    for (let i = 0; i < links.length; i++) {
-      await user.hover(links[i]);
-      expect(screen.getByText(addresses[i]));
-    }
+    const link = await screen.findByRole('link');
+    await user.hover(link);
+    expect(screen.getByText('sample.eth'));
   });
 
   it('should display funded action message', async () => {
@@ -205,7 +203,7 @@ describe('ActionBubble', () => {
       depositId: '0x5fad7d4850474383e594afa53cedd57709f994d3da7787d72ecd4d4f0b6e1264',
       volume: '10000000000000000000',
     };
-    render(<ActionBubble action={action} bounty={bounty} addresses={addresses} />);
+    render(<ActionBubble action={action} bounty={bounty} />);
 
     // ASSERT
     expect(
@@ -222,7 +220,7 @@ describe('ActionBubble', () => {
       volume: '10000000000000000000',
       depositId: '0x5fad7d4850474383e594afa53cedd57709f994d3da7787d72ecd4d4f0b6e1264',
     };
-    render(<ActionBubble action={{ ...action }} bounty={bounty} addresses={addresses} />);
+    render(<ActionBubble action={{ ...action }} bounty={bounty} />);
 
     // ASSERT
     expect(await screen.findByText('0xf3...2266 refunded a deposit of 10.0 MATIC ($6.70) on January 3, 1970 at 7:33.'));
@@ -237,7 +235,7 @@ describe('ActionBubble', () => {
       volume: '10000000000000000000',
       claimant: { id: '0x5fbdb2315678afecb367f032d93f642f64180aa3' },
     };
-    render(<ActionBubble action={action} bounty={bounty} addresses={addresses} />);
+    render(<ActionBubble action={action} bounty={bounty} />);
 
     // ASSERT
     expect(await screen.findByText('sample.eth made a claim of $0.00 on this contract on January 3, 1970 at 7:33.'));
@@ -251,7 +249,7 @@ describe('ActionBubble', () => {
       volume: '10000000000000000000',
       claimant: { id: '0x5fbdb2315678afecb367f032d93f642f64180aa3' },
     };
-    render(<ActionBubble action={action} bounty={{ ...bounty, bountyType: '0' }} addresses={addresses} />);
+    render(<ActionBubble action={action} bounty={{ ...bounty, bountyType: '0' }} />);
 
     // ASSERT
     expect(await screen.findByText('sample.eth claimed $0.00 on this contract on January 3, 1970 at 7:33.'));
@@ -265,7 +263,7 @@ describe('ActionBubble', () => {
       volume: '10000000000000000000',
       claimant: { id: '0x5fbdb2315678afecb367f032d93f642f64180aa3' },
     };
-    render(<ActionBubble action={action} bounty={{ ...bounty, bountyType: '0' }} addresses={addresses} />);
+    render(<ActionBubble action={action} bounty={{ ...bounty, bountyType: '0' }} />);
 
     // ASSERT
     expect(await screen.findByText('sample.eth closed this contract on January 3, 1970 at 7:33.'));
@@ -286,7 +284,7 @@ describe('ActionBubble', () => {
       title: 'update readme.md',
       url,
     };
-    render(<ActionBubble action={action} bounty={{ ...bounty, bountyType: '0' }} addresses={addresses} />);
+    render(<ActionBubble action={action} bounty={{ ...bounty, bountyType: '0' }} />);
 
     // ASSERT
     expect(await screen.findByText(/Christopher-Stevers linked/));

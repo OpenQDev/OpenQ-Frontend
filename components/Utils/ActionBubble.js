@@ -42,7 +42,10 @@ const ActionBubble = ({ bounty, action }) => {
     if (!address) {
       return '';
     }
-    return `${address.slice(0, 4)}...${address.slice(38)}`;
+    if (ethers.utils.isAddress(address)) {
+      const checkSummedAddress = ethers.utils.getAddress(address);
+      return `${checkSummedAddress.slice(0, 4)}...${checkSummedAddress.slice(38)}`;
+    }
   };
   const minter = minterEnsName || (bounty.issuer && shortenAddress(bounty.issuer.id)) || shortenAddress(account);
   let titlePartOne = `${minter} minted this contract on ${appState.utils.formatUnixDate(bounty.bountyMintTime)}.`;
@@ -59,6 +62,7 @@ const ActionBubble = ({ bounty, action }) => {
       titlePartOne = 'Waiting for this contract to be indexed by the Graph.';
     } else {
       titlePartOne = `${minter} minted this contract on ${appState.utils.formatUnixDate(bounty.bountyMintTime)}.`;
+      name = minter;
     }
   }
 
