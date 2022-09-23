@@ -156,7 +156,7 @@ const ActionBubble = ({ addresses, bounty, action }) => {
       <div className='w-full flex-0 rounded-sm overflow-hidden ml-4 border-web-gray border-b before:w-2 before:h-2 before:bg-nav-bg before:absolute before:absolute before:left-12 before:top-[34px] before:border-b  before:border-l before:border-web-gray before:rotate-45  border'>
         <div className={`bg-nav-bg w-full pl-3 ${!action && 'border-web-gray'} flex justify-between`}>
           <span className='py-2'>
-            <span data-testid='actionTitle'>{tokenValues || titlePartOne}</span>
+            <span data-testid='actionTitle'>{titlePartOne}</span>
             {action?.url && (
               <a className='inline underline' href={action.url}>
                 {action.title}
