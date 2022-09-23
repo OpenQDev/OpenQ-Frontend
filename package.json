@@ -90,7 +90,7 @@
 	"husky": {
 		"hooks": {
 			"pre-commit": "lint-staged",
-			"pre-push": "test:cicd"
+			"pre-push": "yarn jest test"
 		}
 	},
 	"lint-staged": {
