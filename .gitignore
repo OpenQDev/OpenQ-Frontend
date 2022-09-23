@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 
+logs.log
+
 # testing
 /coverage
 
