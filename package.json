@@ -86,15 +86,5 @@
 		"postcss": "^8.3.6",
 		"prettier": "^2.7.1",
 		"tailwindcss": "^3.0.23"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "lint-staged"
-		}
-	},
-	"lint-staged": {
-		"**/*.js": [
-			"eslint . --fix"
-		]
 	}
 }
