@@ -14,10 +14,11 @@ const ActionBubble = ({ bounty, action }) => {
   const [justMinted, setJustMinted] = useState(false);
   const { bodyHTML } = bounty;
   const [senderEnsName] = useEns(action?.sender?.id);
-  const [minterEnsName] = useEns(bounty?.issuer?.id);
+  const { account } = useWeb3();
+  const [minterEnsName] = useEns(bounty?.issuer?.id || account);
+  const [refunderEnsName] = useEns(action?.sender?.id);
   const [claimantEnsName] = useEns(action?.claimant?.id);
   const [tokenValues] = useGetTokenValues((action?.receiveTime || action?.refundTime) && action);
-  const { account } = useWeb3();
 
   const getPayout = (bounty) => {
     return action?.claimTime
@@ -32,7 +33,7 @@ const ActionBubble = ({ bounty, action }) => {
 
   useEffect(() => {
     const justMinted = sessionStorage.getItem('justMinted');
-    if (justMinted) {
+    if (justMinted === 'true') {
       setJustMinted(true);
     }
   }, []);
@@ -43,27 +44,33 @@ const ActionBubble = ({ bounty, action }) => {
     }
     return `${address.slice(0, 4)}...${address.slice(38)}`;
   };
-  const minter = minterEnsName || (bounty.issuer && shortenAddress(bounty.issuer.id));
-
+  const minter = minterEnsName || (bounty.issuer && shortenAddress(bounty.issuer.id)) || shortenAddress(account);
   let titlePartOne = `${minter} minted this contract on ${appState.utils.formatUnixDate(bounty.bountyMintTime)}.`;
   let titlePartTwo = '';
   let avatarUrl, url, name;
   let address = bounty.issuer?.id;
-  if (!action && !minter) {
+  if (!action) {
     if (justMinted) {
-      titlePartOne = `${account} minted this contract on ${appState.utils.formatUnixDate(Date.now() / 1000)}.`;
-    } else {
+      address = account;
+      const currentDate = Date.now();
+      titlePartOne = `${minter} minted this contract on ${appState.utils.formatUnixDate(currentDate / 1000)}.`;
+      name = minter;
+    } else if (!bounty.issuer) {
       titlePartOne = 'Waiting for this contract to be indexed by the Graph.';
+    } else {
+      titlePartOne = `${minter} minted this contract on ${appState.utils.formatUnixDate(bounty.bountyMintTime)}.`;
     }
   }
 
   if (action?.closingTime) {
     titlePartOne = `${minter} closed this contract on ${appState.utils.formatUnixDate(action.closingTime)}.`;
+    name = minter;
   }
 
   if (action?.claimTime) {
     const claimant = claimantEnsName || shortenAddress(action.claimant.id);
     address = action.claimant.id;
+    name = claimant;
     if (bounty.bountyType === '0') {
       titlePartOne = `${claimant} claimed ${payoutTotal} on this contract on ${appState.utils.formatUnixDate(
         action.claimTime
@@ -113,21 +120,20 @@ const ActionBubble = ({ bounty, action }) => {
     const usdValue = appState.utils.formatter.format(tokenValues?.total);
 
     if (action.receiveTime) {
+      name = funder;
       titlePartOne = isNaN(tokenValues?.total)
         ? ''
         : `${funder} funded this contract with ${formattedVolume} ${
             tokenMetadata.symbol
           } (${usdValue}) on ${appState.utils.formatUnixDate(action.receiveTime)}.`;
     } else if (action.refundTime) {
-      // const refunder = bounty.deposits.filter((deposit) => deposit.id === action.depositId)[0]?.sender?.id;
+      name = refunderEnsName || shortenAddress(refunder);
       address = refunder;
       titlePartOne = isNaN(tokenValues?.total)
         ? ''
-        : `${shortenAddress(refunder)} refunded a deposit of ${formattedVolume} ${
-            tokenMetadata.symbol
-          } (${appState.utils.formatter.format(tokenValues?.total)}) on ${appState.utils.formatUnixDate(
-            action.refundTime
-          )}.`;
+        : `${name} refunded a deposit of ${formattedVolume} ${tokenMetadata.symbol} (${appState.utils.formatter.format(
+            tokenValues?.total
+          )}) on ${appState.utils.formatUnixDate(action.refundTime)}.`;
     }
   }
   return (
@@ -141,7 +147,7 @@ const ActionBubble = ({ bounty, action }) => {
           </a>
         </Link>
       ) : (
-        <Jazzicon tooltipPosition={'-left-2'} size={36} address={address} />
+        <Jazzicon tooltipPosition={'-left-2'} size={36} address={address} name={name} />
       )}
       <div className='w-full bg-nav-bg flex-0 rounded-sm overflow-hidden ml-4 border-web-gray border-b before:w-2 before:h-2 before:bg-nav-bg before:absolute before:left-12 before:top-[34px] before:border-b  before:border-l before:border-web-gray before:rotate-45  border'>
         <div className={` w-full pl-3 ${!action && 'border-web-gray'} flex justify-between`}>

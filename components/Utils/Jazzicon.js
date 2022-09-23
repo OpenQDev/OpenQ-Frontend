@@ -3,7 +3,7 @@ import jazzicon from '@metamask/jazzicon';
 import ToolTipNew from './ToolTipNew';
 import Link from 'next/link';
 
-const Jazzicon = ({ address, size, tooltipPosition }) => {
+const Jazzicon = ({ address, size, tooltipPosition, name }) => {
   const iconWrapper = useRef();
   useEffect(async () => {
     if (address && iconWrapper.current) {
@@ -14,7 +14,7 @@ const Jazzicon = ({ address, size, tooltipPosition }) => {
   return (
     <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/user/${address}`}>
       <a className={`cursor-pointer ${!address && 'w-9 mr-px'}`}>
-        <ToolTipNew toolTipText={address} outerStyles={'relative bottom-2'} relativePosition={tooltipPosition}>
+        <ToolTipNew toolTipText={name || address} outerStyles={'relative bottom-2'} relativePosition={tooltipPosition}>
           <div ref={iconWrapper}>{address}</div>
         </ToolTipNew>
       </a>
