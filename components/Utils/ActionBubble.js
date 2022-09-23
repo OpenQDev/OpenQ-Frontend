@@ -9,7 +9,7 @@ import Jazzicon from './Jazzicon';
 import useWeb3 from '../../hooks/useWeb3';
 import ToolTipNew from './ToolTipNew';
 
-const ActionBubble = ({ addresses, bounty, action }) => {
+const ActionBubble = ({ bounty, action }) => {
   const [appState] = useContext(StoreContext);
   const [justMinted, setJustMinted] = useState(false);
   const { bodyHTML } = bounty;
@@ -119,9 +119,11 @@ const ActionBubble = ({ addresses, bounty, action }) => {
             tokenMetadata.symbol
           } (${usdValue}) on ${appState.utils.formatUnixDate(action.receiveTime)}.`;
     } else if (action.refundTime) {
+      // const refunder = bounty.deposits.filter((deposit) => deposit.id === action.depositId)[0]?.sender?.id;
+      address = refunder;
       titlePartOne = isNaN(tokenValues?.total)
         ? ''
-        : `${funder} refunded a deposit of ${formattedVolume} ${
+        : `${shortenAddress(refunder)} refunded a deposit of ${formattedVolume} ${
             tokenMetadata.symbol
           } (${appState.utils.formatter.format(tokenValues?.total)}) on ${appState.utils.formatUnixDate(
             action.refundTime
@@ -130,31 +132,16 @@ const ActionBubble = ({ addresses, bounty, action }) => {
   }
   return (
     <div className='w-full pt-4 flex relative'>
-      {action ? (
-        avatarUrl ? (
-          <Link href={url}>
-            <a className='w-9 h-9 flex-none'>
-              <ToolTipNew toolTipText={name} relativePosition={'-left-2'} outerStyles={'relative bottom-2'}>
-                <Image className='rounded-full' height={36} width={36} src={avatarUrl} />
-              </ToolTipNew>
-            </a>
-          </Link>
-        ) : (
-          <Jazzicon tooltipPosition={'-left-2'} size={36} address={address} />
-        )
+      {avatarUrl ? (
+        <Link href={url}>
+          <a className='w-9 h-9 flex-none'>
+            <ToolTipNew toolTipText={name} relativePosition={'-left-2'} outerStyles={'relative bottom-2'}>
+              <Image className='rounded-full' height={36} width={36} src={avatarUrl} />
+            </ToolTipNew>
+          </a>
+        </Link>
       ) : (
-        <div className='relative w-9'>
-          {addresses.reverse().map((address, index) => {
-            return (
-              <div
-                key={index}
-                className={`h-4 w-10 z-${30 - index * 10} bg-transparent cursor-pointer relative hover:z-40`}
-              >
-                <Jazzicon tooltipPosition={'-left-2'} key={index} size={36} address={address} />
-              </div>
-            );
-          })}
-        </div>
+        <Jazzicon tooltipPosition={'-left-2'} size={36} address={address} />
       )}
       <div className='w-full bg-nav-bg flex-0 rounded-sm overflow-hidden ml-4 border-web-gray border-b before:w-2 before:h-2 before:bg-nav-bg before:absolute before:left-12 before:top-[34px] before:border-b  before:border-l before:border-web-gray before:rotate-45  border'>
         <div className={` w-full pl-3 ${!action && 'border-web-gray'} flex justify-between`}>
