@@ -177,14 +177,17 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                               setApproveTransferState(CONFIRM);
                               setShowApproveTransferModal(deposit.id);
                             }}
-                            extendBounty={() => {
+                            extendBounty={(id, formattedVolume, tokenSymbol) => {
                               setConfirmationMessage(
-                                `You are about to extend the bounty at ${bounty.bountyAddress.substring(
+                                `You are about to relock this deposit at ${bounty.bountyAddress.substring(
                                   0,
                                   12
-                                )}...${bounty.bountyAddress.substring(32)} by ${depositPeriodDays[deposit.id]} ${
+                                )}...${bounty.bountyAddress.substring(32)} for ${depositPeriodDays[deposit.id]} ${
                                   depositPeriodDays[deposit.id] == 1 ? 'day' : 'days'
-                                }.	Are you sure you want to extend this deposit?`
+                                }.	Are you sure you want to relock this deposit?
+                                You will be able to refund your deposit of ${formattedVolume} ${tokenSymbol} on ${appState.utils.formatUnixDate(
+                                  parseInt(Date.now() / 1000) + depositPeriodDays[deposit.id] * 60 * 60 * 24
+                                )}`
                               );
                               setExtend(true);
                               setApproveTransferState(CONFIRM);
@@ -218,14 +221,19 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                             bounty={bounty}
                             onDepositPeriodChanged={onDepositPeriodChanged}
                             depositPeriodDays={depositPeriodDays[deposit.id]}
-                            extendBounty={() => {
+                            extendBounty={(id, formattedVolume, tokenSymbol) => {
                               setConfirmationMessage(
-                                `You are about to extend the bounty at ${bounty.bountyAddress.substring(
+                                `You are about to extend this deposit's lock period at ${bounty.bountyAddress.substring(
                                   0,
                                   12
                                 )}...${bounty.bountyAddress.substring(32)} by ${depositPeriodDays[deposit.id]} ${
                                   depositPeriodDays[deposit.id] == 1 ? 'day' : 'days'
-                                }.	Are you sure you want to extend this deposit?`
+                                }.	Are you sure you want to extend this deposit?
+                                You will be able to refund your deposit of ${formattedVolume} ${tokenSymbol} on ${appState.utils.formatUnixDate(
+                                  parseInt(deposit.receiveTime) +
+                                    parseInt(deposit.expiration) +
+                                    parseInt(depositPeriodDays[deposit.id] * 60 * 60 * 24)
+                                )}`
                               );
                               setExtend(true);
                               setApproveTransferState(CONFIRM);
