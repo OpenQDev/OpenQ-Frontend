@@ -140,11 +140,11 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
             <div className='flex flex-1 justify-center content-center items-center'>
               <div className='w-5/6 pb-4 min-w-min'>
                 <div className='flex flex-col gap-4 pt-4'>
-                  <p>
+                  <div>
                     {bounty.bountyType === '0' &&
                       "Don't forget to add a closer comment for this bounty on your pull request :-)."}
                     <CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} />
-                  </p>
+                  </div>
                   {!authState.isAuthenticated ? (
                     <div className=' col-span-3 border border-gray-700 bg-[#21262d] rounded-sm p-4'>
                       We noticed you are not signed into Github. You must sign to verify and claim an issue!
