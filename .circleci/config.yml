@@ -38,6 +38,21 @@ jobs:
       - run: yarn json-server:cicd && yarn test:cicd
       - run: docker build -t openq/openq-frontend:$CIRCLE_TAG --build-arg deploy_env=$DEPLOY_ENV .
       - run: docker push openq/openq-frontend:$CIRCLE_TAG
+      - run:
+          command: |
+            wget https://github.com/mikefarah/yq/releases/download/v4.27.5/yq_linux_386
+            sudo mv yq_linux_386 /usr/local/bin/yq
+            sudo chmod +x /usr/local/bin/yq
+            git clone https://${CIRCLECI_PAT}@github.com/openqdev/OpenQ-Helm.git
+            cd OpenQ-Helm/
+            yq -i '.frontend.image.tag = env(CIRCLE_TAG)' values-staging.yaml
+            cat values-staging.yaml
+            git add .
+            git commit -m "[CIRCLE CI] ${CIRCLE_TAG}"
+            git push
+            git tag ${CIRCLE_TAG}
+            git remote set-url origin https://${CIRCLECI_PAT}@github.com/openqdev/OpenQ-Helm.git
+            git push -f origin ${CIRCLE_TAG}
 workflows:
   version: 2
   build-and-deploy:

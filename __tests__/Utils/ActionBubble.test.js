@@ -202,6 +202,7 @@ describe('ActionBubble', () => {
     const action = {
       receiveTime: 200000,
       tokenAddress: '0x0000000000000000000000000000000000000000',
+      depositId: '0x5fad7d4850474383e594afa53cedd57709f994d3da7787d72ecd4d4f0b6e1264',
       volume: '10000000000000000000',
     };
     render(<ActionBubble action={action} bounty={bounty} addresses={addresses} />);
@@ -219,6 +220,7 @@ describe('ActionBubble', () => {
       refundTime: 200000,
       tokenAddress: '0x0000000000000000000000000000000000000000',
       volume: '10000000000000000000',
+      depositId: '0x5fad7d4850474383e594afa53cedd57709f994d3da7787d72ecd4d4f0b6e1264',
     };
     render(<ActionBubble action={{ ...action }} bounty={bounty} addresses={addresses} />);
 

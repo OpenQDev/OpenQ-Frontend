@@ -144,6 +144,7 @@ describe('BountyCardDetails', () => {
           refundTime: '1662559726',
           tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
           volume: '2000000000000000000',
+          depositId: '0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a',
           __typename: 'Refund',
         },
       ],

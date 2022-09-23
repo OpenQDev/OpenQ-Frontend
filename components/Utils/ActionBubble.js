@@ -109,19 +109,23 @@ const ActionBubble = ({ addresses, bounty, action }) => {
     const tokenMetadata = appState.tokenClient.getToken(action.tokenAddress);
     let bigNumberVolume = ethers.BigNumber.from(volume.toString());
     let decimals = parseInt(tokenMetadata.decimals) || 18;
-    let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
+    let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals) || '';
+    const usdValue = appState.utils.formatter.format(tokenValues?.total);
+
     if (action.receiveTime) {
-      titlePartOne = `${funder} funded this contract with ${formattedVolume} ${
-        tokenMetadata.symbol
-      } (${appState.utils.formatter.format(tokenValues?.total)}) on ${appState.utils.formatUnixDate(
-        action.receiveTime
-      )}.`;
+      titlePartOne = isNaN(tokenValues?.total)
+        ? ''
+        : `${funder} funded this contract with ${formattedVolume} ${
+            tokenMetadata.symbol
+          } (${usdValue}) on ${appState.utils.formatUnixDate(action.receiveTime)}.`;
     } else if (action.refundTime) {
-      titlePartOne = `${funder} refunded a deposit of ${formattedVolume} ${
-        tokenMetadata.symbol
-      } (${appState.utils.formatter.format(tokenValues?.total)}) on ${appState.utils.formatUnixDate(
-        action.refundTime
-      )}.`;
+      titlePartOne = isNaN(tokenValues?.total)
+        ? ''
+        : `${funder} refunded a deposit of ${formattedVolume} ${
+            tokenMetadata.symbol
+          } (${appState.utils.formatter.format(tokenValues?.total)}) on ${appState.utils.formatUnixDate(
+            action.refundTime
+          )}.`;
     }
   }
   return (
@@ -152,8 +156,8 @@ const ActionBubble = ({ addresses, bounty, action }) => {
           })}
         </div>
       )}
-      <div className='w-full flex-0 rounded-sm overflow-hidden ml-4 border-web-gray border-b before:w-2 before:h-2 before:bg-nav-bg before:absolute before:absolute before:left-12 before:top-[34px] before:border-b  before:border-l before:border-web-gray before:rotate-45  border'>
-        <div className={`bg-nav-bg w-full pl-3 ${!action && 'border-web-gray'} flex justify-between`}>
+      <div className='w-full bg-nav-bg flex-0 rounded-sm overflow-hidden ml-4 border-web-gray border-b before:w-2 before:h-2 before:bg-nav-bg before:absolute before:left-12 before:top-[34px] before:border-b  before:border-l before:border-web-gray before:rotate-45  border'>
+        <div className={` w-full pl-3 ${!action && 'border-web-gray'} flex justify-between`}>
           <span className='py-2'>
             <span data-testid='actionTitle'>{titlePartOne}</span>
             {action?.url && (

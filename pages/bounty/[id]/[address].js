@@ -118,7 +118,9 @@ const address = ({ address, mergedBounty, renderError }) => {
   }, [internalMenu]);
 
   useEffect(() => {
-    setInternalMenu('View');
+    if (bounty && ethers.utils.getAddress(bounty.issuer.id) !== account) {
+      setInternalMenu('View');
+    }
   }, [account]);
 
   // Hooks
@@ -245,13 +247,15 @@ const address = ({ address, mergedBounty, renderError }) => {
                 ) : null}
                 {bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
 
-                <BountyMetadata
-                  price={tokenValues?.total}
-                  budget={budget}
-                  split={split}
-                  bounty={bounty}
-                  setInternalMenu={setInternalMenu}
-                />
+                {internalMenu && (
+                  <BountyMetadata
+                    price={tokenValues?.total}
+                    budget={budget}
+                    split={split}
+                    bounty={bounty}
+                    setInternalMenu={setInternalMenu}
+                  />
+                )}
               </div>
               <canvas className='absolute w-full top-0 z-40 bottom-0 pointer-events-none' ref={canvas}></canvas>
             </div>
