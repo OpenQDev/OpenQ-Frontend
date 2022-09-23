@@ -13,7 +13,7 @@ const Jazzicon = ({ address, size, tooltipPosition }) => {
   }, [address]);
   return (
     <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/user/${address}`}>
-      <a className='cursor-pointer'>
+      <a className={`cursor-pointer ${!address && 'w-9 mr-px'}`}>
         <ToolTipNew toolTipText={address} outerStyles={'relative bottom-2'} relativePosition={tooltipPosition}>
           <div ref={iconWrapper}>{address}</div>
         </ToolTipNew>
