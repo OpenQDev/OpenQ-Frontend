@@ -316,7 +316,7 @@ describe('ClaimLoadingModal', () => {
 
     // ASSERT
     expect(screen.getByText(/Nonce to high/)).toBeInTheDocument();
-    expect(screen.getByText(/My brain cell was fried/i)).toBeInTheDocument();
+    expect(screen.getByText(/My brain scell was fried/i)).toBeInTheDocument();
 
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
