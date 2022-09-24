@@ -9,15 +9,16 @@ import Jazzicon from './Jazzicon';
 import useWeb3 from '../../hooks/useWeb3';
 import ToolTipNew from './ToolTipNew';
 
-const ActionBubble = ({ addresses, bounty, action }) => {
+const ActionBubble = ({ bounty, action }) => {
   const [appState] = useContext(StoreContext);
   const [justMinted, setJustMinted] = useState(false);
   const { bodyHTML } = bounty;
   const [senderEnsName] = useEns(action?.sender?.id);
-  const [minterEnsName] = useEns(bounty?.issuer?.id);
+  const { account } = useWeb3();
+  const [minterEnsName] = useEns(bounty?.issuer?.id || account);
+  const [refunderEnsName] = useEns(action?.sender?.id);
   const [claimantEnsName] = useEns(action?.claimant?.id);
   const [tokenValues] = useGetTokenValues((action?.receiveTime || action?.refundTime) && action);
-  const { account } = useWeb3();
 
   const getPayout = (bounty) => {
     return action?.claimTime
@@ -32,7 +33,7 @@ const ActionBubble = ({ addresses, bounty, action }) => {
 
   useEffect(() => {
     const justMinted = sessionStorage.getItem('justMinted');
-    if (justMinted) {
+    if (justMinted === 'true') {
       setJustMinted(true);
     }
   }, []);
@@ -41,29 +42,39 @@ const ActionBubble = ({ addresses, bounty, action }) => {
     if (!address) {
       return '';
     }
-    return `${address.slice(0, 4)}...${address.slice(38)}`;
+    if (ethers.utils.isAddress(address)) {
+      const checkSummedAddress = ethers.utils.getAddress(address);
+      return `${checkSummedAddress.slice(0, 4)}...${checkSummedAddress.slice(38)}`;
+    }
   };
-  const minter = minterEnsName || (bounty.issuer && shortenAddress(bounty.issuer.id));
-
+  const minter = minterEnsName || (bounty.issuer && shortenAddress(bounty.issuer.id)) || shortenAddress(account);
   let titlePartOne = `${minter} minted this contract on ${appState.utils.formatUnixDate(bounty.bountyMintTime)}.`;
   let titlePartTwo = '';
   let avatarUrl, url, name;
   let address = bounty.issuer?.id;
-  if (!action && !minter) {
+  if (!action) {
     if (justMinted) {
-      titlePartOne = `${account} minted this contract on ${appState.utils.formatUnixDate(Date.now() / 1000)}.`;
-    } else {
+      address = account;
+      const currentDate = Date.now();
+      titlePartOne = `${minter} minted this contract on ${appState.utils.formatUnixDate(currentDate / 1000)}.`;
+      name = minter;
+    } else if (!bounty.issuer) {
       titlePartOne = 'Waiting for this contract to be indexed by the Graph.';
+    } else {
+      titlePartOne = `${minter} minted this contract on ${appState.utils.formatUnixDate(bounty.bountyMintTime)}.`;
+      name = minter;
     }
   }
 
   if (action?.closingTime) {
     titlePartOne = `${minter} closed this contract on ${appState.utils.formatUnixDate(action.closingTime)}.`;
+    name = minter;
   }
 
   if (action?.claimTime) {
     const claimant = claimantEnsName || shortenAddress(action.claimant.id);
     address = action.claimant.id;
+    name = claimant;
     if (bounty.bountyType === '0') {
       titlePartOne = `${claimant} claimed ${payoutTotal} on this contract on ${appState.utils.formatUnixDate(
         action.claimTime
@@ -113,48 +124,34 @@ const ActionBubble = ({ addresses, bounty, action }) => {
     const usdValue = appState.utils.formatter.format(tokenValues?.total);
 
     if (action.receiveTime) {
+      name = funder;
       titlePartOne = isNaN(tokenValues?.total)
         ? ''
         : `${funder} funded this contract with ${formattedVolume} ${
             tokenMetadata.symbol
           } (${usdValue}) on ${appState.utils.formatUnixDate(action.receiveTime)}.`;
     } else if (action.refundTime) {
+      name = refunderEnsName || shortenAddress(refunder);
+      address = refunder;
       titlePartOne = isNaN(tokenValues?.total)
         ? ''
-        : `${funder} refunded a deposit of ${formattedVolume} ${
-            tokenMetadata.symbol
-          } (${appState.utils.formatter.format(tokenValues?.total)}) on ${appState.utils.formatUnixDate(
-            action.refundTime
-          )}.`;
+        : `${name} refunded a deposit of ${formattedVolume} ${tokenMetadata.symbol} (${appState.utils.formatter.format(
+            tokenValues?.total
+          )}) on ${appState.utils.formatUnixDate(action.refundTime)}.`;
     }
   }
   return (
     <div className='w-full pt-4 flex relative'>
-      {action ? (
-        avatarUrl ? (
-          <Link href={url}>
-            <a className='w-9 h-9 flex-none'>
-              <ToolTipNew toolTipText={name} relativePosition={'-left-2'} outerStyles={'relative bottom-2'}>
-                <Image className='rounded-full' height={36} width={36} src={avatarUrl} />
-              </ToolTipNew>
-            </a>
-          </Link>
-        ) : (
-          <Jazzicon tooltipPosition={'-left-2'} size={36} address={address} />
-        )
+      {avatarUrl ? (
+        <Link href={url}>
+          <a className='w-9 h-9 flex-none'>
+            <ToolTipNew toolTipText={name} relativePosition={'-left-2'} outerStyles={'relative bottom-2'}>
+              <Image className='rounded-full' height={36} width={36} src={avatarUrl} />
+            </ToolTipNew>
+          </a>
+        </Link>
       ) : (
-        <div className='relative w-9'>
-          {addresses.reverse().map((address, index) => {
-            return (
-              <div
-                key={index}
-                className={`h-4 w-10 z-${30 - index * 10} bg-transparent cursor-pointer relative hover:z-40`}
-              >
-                <Jazzicon tooltipPosition={'-left-2'} key={index} size={36} address={address} />
-              </div>
-            );
-          })}
-        </div>
+        <Jazzicon tooltipPosition={'-left-2'} size={36} address={address} name={name} />
       )}
       <div className='w-full bg-nav-bg flex-0 rounded-sm overflow-hidden ml-4 border-web-gray border-b before:w-2 before:h-2 before:bg-nav-bg before:absolute before:left-12 before:top-[34px] before:border-b  before:border-l before:border-web-gray before:rotate-45  border'>
         <div className={` w-full pl-3 ${!action && 'border-web-gray'} flex justify-between`}>

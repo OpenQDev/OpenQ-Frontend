@@ -88,7 +88,7 @@ const PieChart = ({ payoutSchedule }) => {
   }, [payoutSchedule]);
 
   return (
-    <li className='border-b border-web-gray py-3'>
+    <li className='border-web-gray border-b py-3'>
       <div id='pie-container'></div>
     </li>
   );
