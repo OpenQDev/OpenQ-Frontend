@@ -1,9 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useMemo } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import Jazzicon from '../Utils/Jazzicon';
 import useEns from '../../hooks/useENS';
 import ClaimPerToken from './ClaimPerToken';
 import ClaimTotals from './ClaimTotals';
+import useGetTokenValues from '../../hooks/useGetTokenValues';
 import ToolTipNew from '../Utils/ToolTipNew';
 
 const ClaimOverview = ({ bounty, setInternalMenu }) => {
@@ -29,11 +30,22 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
     return claimantEnsName || shortenAddress(claimant);
   });
 
+  function filterAndAggregate(toFilterPerToken) {
+    return tokenAddresses.map((tokenAddress) => {
+      const array = toFilterPerToken.filter((element) => element.tokenAddress == tokenAddress);
+      const volume =
+        array.map((element) => element.volume).reduce((a, b) => parseInt(a) + parseInt(b), 0) || array[0]?.volume;
+      return { tokenAddress: tokenAddress, volume: volume } || null;
+    });
+  }
+
+  const balanceObjDeposits = useMemo(() => filterAndAggregate(bounty.deposits), [bounty]);
+  const [balanceValuesDeposits] = useGetTokenValues(balanceObjDeposits);
+  const totalDepositValue = balanceValuesDeposits?.total ? balanceValuesDeposits?.total : 0;
+
   const [sum, setSum] = useState({});
 
   const changeObj = (claimant, value) => {
-    console.log('sum', sum[claimant]);
-    console.log('value', value);
     if (claimant in sum && value) {
       setSum((prev) => ({ ...prev, [claimant]: prev[claimant] + value }));
     }
@@ -41,7 +53,6 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
       setSum((prev) => ({ ...prev, [claimant]: value }));
     }
   };
-  console.log(sum);
 
   return (
     <div className='pb-8'>
@@ -77,37 +88,41 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                   </td>
                 ))}
                 <td key={claimant + 2}>
-                  <ClaimTotals
-                    tokenAddresses={tokenAddresses}
-                    bounty={bounty}
-                    claimant={claimant}
-                    type={'perClaimant'}
-                  />
-                  <div>{sum[claimant]}</div>
+                  <ClaimTotals valueDisplay={sum[claimant]} totalDepositValue={totalDepositValue} />
                 </td>
               </tr>
             ))}
-            {/* <tr className='font-bold border-t border-gray-700'>
+            <tr className='font-bold border-t border-gray-700'>
               <td className='px-2 pb-2'>SubTotal</td>
               {bounty.payouts?.length &&
                 tokenAddresses.map((tokenAddress) => (
                   <td key={tokenAddress}>
-                    <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} type={'allClaimants'} />
+                    <ClaimPerToken
+                      bounty={bounty}
+                      tokenAddress={tokenAddress}
+                      type={'allClaimants'}
+                      changeObj={changeObj}
+                    />
                   </td>
                 ))}
               <td>
-                <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} type={'allClaimants'} />
+                <ClaimTotals valueDisplay={sum['allClaimants']} totalDepositValue={totalDepositValue} />
               </td>
             </tr>
             <tr>
               <td className='px-2'>Still Claimable</td>
               {tokenAddresses.map((tokenAddress) => (
                 <td key={tokenAddress}>
-                  <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} type={'stillClaimable'} />
+                  <ClaimPerToken
+                    bounty={bounty}
+                    tokenAddress={tokenAddress}
+                    type={'stillClaimable'}
+                    changeObj={changeObj}
+                  />
                 </td>
               ))}
               <td>
-                <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} type={'stillClaimable'} />
+                <ClaimTotals valueDisplay={sum['stillClaimable']} totalDepositValue={totalDepositValue} />
               </td>
             </tr>
             <tr className='italic'>
@@ -129,22 +144,27 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
               </td>
               {tokenAddresses.map((tokenAddress) => (
                 <td key={tokenAddress}>
-                  <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} type={'refundable'} />
+                  <ClaimPerToken
+                    bounty={bounty}
+                    tokenAddress={tokenAddress}
+                    type={'refundable'}
+                    changeObj={changeObj}
+                  />
                 </td>
               ))}
               <td>
-                <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} type={'refundable'} />
+                <ClaimTotals valueDisplay={sum['refundable']} totalDepositValue={totalDepositValue} />
               </td>
             </tr>
             <tr>
               <td className='px-2'>Refunded</td>
               {tokenAddresses.map((tokenAddress) => (
                 <td key={tokenAddress}>
-                  <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} type={'refunded'} />
+                  <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} type={'refunded'} changeObj={changeObj} />
                 </td>
               ))}
               <td>
-                <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} type={'refunded'} />
+                <ClaimTotals valueDisplay={sum['refunded']} totalDepositValue={totalDepositValue} />
               </td>
             </tr>
             <tr className='font-bold border-t border-gray-700'>
@@ -164,13 +184,13 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
 
               {tokenAddresses.map((tokenAddress) => (
                 <td key={tokenAddress}>
-                  <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} type={'total'} />
+                  <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} type={'total'} changeObj={changeObj} />
                 </td>
               ))}
               <td>
-                <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} type={'total'} />
+                <ClaimTotals valueDisplay={sum['total']} totalDepositValue={totalDepositValue} />
               </td>
-            </tr> */}
+            </tr>
           </tbody>
         </table>
       ) : (

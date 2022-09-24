@@ -84,39 +84,51 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type, changeObj }) => {
       volumeDisplay = claimantVolume;
       percentDisplay = claimantVolume / totalDepositVolume;
       valueDisplay = claimantValue;
+      useEffect(() => {
+        changeObj(claimant, valueDisplay);
+      }, [valueDisplay]);
       break;
     case 'allClaimants':
       volumeDisplay = claimedVolume;
       percentDisplay = claimedVolume / totalDepositVolume;
       valueDisplay = claimedBalances;
+      useEffect(() => {
+        changeObj(type, valueDisplay);
+      }, [valueDisplay]);
       break;
     case 'stillClaimable':
       volumeDisplay = parseFloat(currentDepositVolume - claimedVolume).toFixed(1);
       percentDisplay = parseFloat((currentDepositVolume - claimedVolume) / totalDepositVolume);
       valueDisplay = stillClaimable;
+      useEffect(() => {
+        changeObj(type, valueDisplay);
+      }, [valueDisplay]);
       break;
     case 'refundable':
       volumeDisplay = refundableVolume();
       percentDisplay = parseFloat(refundableVolume() / totalDepositVolume);
       valueDisplay = refundableValue();
+      useEffect(() => {
+        changeObj(type, valueDisplay);
+      }, [valueDisplay]);
       break;
     case 'refunded':
       volumeDisplay = refundVolume;
       percentDisplay = parseFloat(refundVolume / totalDepositVolume);
       valueDisplay = refundedValue;
+      useEffect(() => {
+        changeObj(type, valueDisplay);
+      }, [valueDisplay]);
       break;
     case 'total':
       volumeDisplay = totalDepositVolume;
       percentDisplay = 1;
       valueDisplay = totalDepositValue;
+      useEffect(() => {
+        changeObj(type, valueDisplay);
+      }, [valueDisplay]);
       break;
   }
-
-  console.log('valueDisplay', valueDisplay);
-
-  useEffect(() => {
-    changeObj(claimant, valueDisplay);
-  }, [valueDisplay]);
 
   return (
     <div className='flex px-2 pb-2 w-full'>

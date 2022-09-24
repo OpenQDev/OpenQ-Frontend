@@ -1,100 +1,12 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
 
-const ClaimTotals = ({ bounty, tokenAddresses, claimant, type }) => {
+const ClaimTotals = ({ valueDisplay, totalDepositValue }) => {
   const [appState] = useContext(StoreContext);
-
-  function filterAndAggregate(toFilterPerToken) {
-    return tokenAddresses.map((tokenAddress) => {
-      const array = toFilterPerToken.filter((element) => element.tokenAddress == tokenAddress);
-      const volume =
-        array.map((element) => element.volume).reduce((a, b) => parseInt(a) + parseInt(b), 0) || array[0]?.volume;
-      return { tokenAddress: tokenAddress, volume: volume } || null;
-    });
-  }
-
-  const getBalancesStillClaimable = () => {
-    return bounty.bountyTokenBalances ? bounty.bountyTokenBalances : null;
-  };
-  const balanceObjStillClaimable = useMemo(() => getBalancesStillClaimable(), [bounty]);
-  const [balanceValuesStillClaimable] = useGetTokenValues(balanceObjStillClaimable);
-  const stillClaimableValue = balanceValuesStillClaimable?.total ? balanceValuesStillClaimable?.total : 0;
-
-  const balanceObjDeposits = useMemo(() => filterAndAggregate(bounty.deposits), [bounty]);
-  const [balanceValuesDeposits] = useGetTokenValues(balanceObjDeposits);
-  const totalDepositValue = balanceValuesDeposits?.total ? balanceValuesDeposits?.total : 0;
-
-  const getBalancesRefunds = () => {
-    return bounty.refunds ? bounty.refunds : null;
-  };
-  const balanceObjRefunds = useMemo(() => getBalancesRefunds(), [bounty]);
-  const [balanceValuesRefunds] = useGetTokenValues(balanceObjRefunds);
-  const refundValue = balanceValuesRefunds?.total ? balanceValuesRefunds?.total : 0;
-
-  const claimantTotalValueObj = useMemo(
-    () => filterAndAggregate(bounty.payouts.filter((payout) => payout.closer.id == claimant)),
-    [claimant]
-  );
-  const [claimantTotalValues] = useGetTokenValues(claimantTotalValueObj);
-  const claimantTotalValue = claimantTotalValues?.total ? claimantTotalValues?.total : 0;
-
-  const claimantsTotalObj = useMemo(() => filterAndAggregate(bounty.payouts), [bounty]);
-  const [claimantsTotalValues] = useGetTokenValues(claimantsTotalObj);
-  const claimantsTotalValue = claimantsTotalValues?.total;
-
-  const unlockedDepositsObj = useMemo(
-    () =>
-      filterAndAggregate(
-        bounty.deposits?.filter((deposit) => {
-          return parseInt(deposit.receiveTime) + parseInt(deposit.expiration) < Math.floor(Date.now() / 1000);
-        })
-      ),
-    [bounty]
-  );
-  const [unlockedDepositsValues] = useGetTokenValues(unlockedDepositsObj);
-
-  const unlockedDepositValue = unlockedDepositsValues?.total;
-
-  const refundableValue =
-    unlockedDepositValue - claimantsTotalValue - refundValue < 0
-      ? 0
-      : unlockedDepositValue - claimantsTotalValue - refundValue;
-
-  let percentDisplay = 0;
-  let valueDisplay = 0;
-
-  switch (type) {
-    case 'perClaimant':
-      percentDisplay = parseFloat(claimantTotalValue / totalDepositValue);
-      valueDisplay = claimantTotalValue;
-      break;
-    case 'allClaimants':
-      percentDisplay = parseFloat(claimantsTotalValue / totalDepositValue);
-      valueDisplay = claimantsTotalValue;
-      break;
-    case 'stillClaimable':
-      percentDisplay = bounty.payouts ? parseFloat(stillClaimableValue / totalDepositValue) : 0;
-      valueDisplay = stillClaimableValue;
-      break;
-    case 'refundable':
-      percentDisplay = parseFloat(refundableValue / totalDepositValue);
-      valueDisplay = refundableValue;
-      break;
-    case 'refunded':
-      percentDisplay = parseFloat(refundValue / totalDepositValue);
-      valueDisplay = refundValue;
-      break;
-    case 'total':
-      percentDisplay = 1;
-      valueDisplay = totalDepositValue;
-      break;
-  }
-
   return (
     <div className='flex gap-2 px-2 pb-2 w-full'>
       <div className='px-2 pb-2'>
-        <div className='flex justify-end w-16'>{(percentDisplay * 100).toFixed(1)} %</div>
+        <div className='flex justify-end w-16'>{((valueDisplay / totalDepositValue) * 100).toFixed(1)} %</div>
       </div>
       <div className='px-2 pb-2 w-full'>
         <div className='flex justify-end'>{appState.utils.formatter.format(valueDisplay)}</div>
