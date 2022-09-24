@@ -1,11 +1,13 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useState, useMemo } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import Jazzicon from '../Utils/Jazzicon';
 import useEns from '../../hooks/useENS';
+import ClaimPerToken from './ClaimPerToken';
+import ClaimTotals from './ClaimTotals';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
-import { ethers } from 'ethers';
+import ToolTipNew from '../Utils/ToolTipNew';
 
-const ClaimOverview = ({ bounty }) => {
+const ClaimOverview = ({ bounty, setInternalMenu }) => {
   const [appState] = useContext(StoreContext);
   const shortenAddress = (address) => {
     if (!address) {
@@ -19,7 +21,7 @@ const ClaimOverview = ({ bounty }) => {
       return self.indexOf(itm) == pos;
     });
   const claimants = bounty.payouts
-    .map((payout) => payout.closer.id)
+    ?.map((payout) => payout.closer.id)
     .filter((itm, pos, self) => {
       return self.indexOf(itm) == pos;
     });
@@ -28,231 +30,180 @@ const ClaimOverview = ({ bounty }) => {
     return claimantEnsName || shortenAddress(claimant);
   });
 
-  const claimantBalances = (claimant, tokenAddress) => {
-    const getBalances = () => {
-      return claimant
-        ? bounty.payouts.filter((payout) => payout.closer.id == claimant && payout.tokenAddress == tokenAddress)
-        : null;
-    };
-    const balanceObj = useMemo(() => getBalances(), [tokenAddress]);
-    const [balanceValues] = useGetTokenValues(balanceObj);
-    return balanceValues?.total;
-  };
+  function filterAndAggregate(toFilterPerToken) {
+    return tokenAddresses.map((tokenAddress) => {
+      const array = toFilterPerToken.filter((element) => element.tokenAddress == tokenAddress);
+      const volume =
+        array.map((element) => element.volume).reduce((a, b) => parseInt(a) + parseInt(b), 0) || array[0]?.volume;
+      return { tokenAddress: tokenAddress, volume: volume } || null;
+    });
+  }
 
-  const claimedBalances = (tokenAddress) => {
-    const claimed = claimants.map((claimant) => claimantBalances(claimant, tokenAddress)).reduce((a, b) => a + b);
-    return appState.utils.formatter.format(claimed);
-  };
+  const balanceObjDeposits = useMemo(() => filterAndAggregate(bounty.deposits), [bounty]);
+  const [balanceValuesDeposits] = useGetTokenValues(balanceObjDeposits);
+  const totalDepositValue = balanceValuesDeposits?.total ? balanceValuesDeposits?.total : 0;
 
-  const claimantVolume = (claimant, tokenAddress) => {
-    const tokenMetadata = appState.tokenClient.getToken(tokenAddress);
-    const volume = bounty.payouts.filter(
-      (payout) => payout.closer.id == claimant && payout.tokenAddress == tokenAddress
-    )[0].volume;
-    let bigNumberVolume = ethers.BigNumber.from(volume.toString());
-    let decimals = parseInt(tokenMetadata.decimals) || 18;
-    return ethers.utils.formatUnits(bigNumberVolume, decimals);
-  };
+  const [sum, setSum] = useState({});
 
-  const claimedVolume = (tokenAddress) => {
-    const tokenMetadata = appState.tokenClient.getToken(tokenAddress);
-    const volume = bounty.payouts
-      ?.filter((payout) => payout.tokenAddress == tokenAddress)
-      .map((payout) => payout.volume)
-      .reduce((a, b) => parseInt(a) + parseInt(b));
-    let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
-    let decimals = parseInt(tokenMetadata.decimals) || 18;
-    return ethers.utils.formatUnits(bigNumberVolume, decimals);
-  };
-
-  const totalDeposit = (tokenAddress) => {
-    const tokenMetadata = appState.tokenClient.getToken(tokenAddress);
-    const volume = bounty.deposits
-      .filter((deposit) => deposit.tokenAddress == tokenAddress)
-      .map((deposit) => deposit.volume)
-      .reduce((a, b) => parseInt(a) + parseInt(b));
-    let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
-    let decimals = parseInt(tokenMetadata.decimals) || 18;
-    return ethers.utils.formatUnits(bigNumberVolume, decimals);
-  };
-
-  const claimantPercent = (claimant, tokenAddress) => {
-    return (claimantVolume(claimant, tokenAddress) / totalDeposit(tokenAddress)) * 100;
-  };
-
-  const stillClaimable = (tokenAddress) => {
-    const getBalances = () => {
-      return bounty.bountyTokenBalances
-        ? bounty.bountyTokenBalances.filter((balances) => balances.tokenAddress == tokenAddress)
-        : null;
-    };
-    const balanceObj = useMemo(() => getBalances(), [tokenAddress]);
-    const [balanceValues] = useGetTokenValues(balanceObj);
-    return balanceValues?.total;
-  };
-
-  const totalDepositBalance = (tokenAddress) => {
-    const getBalances = () => {
-      return bounty.payouts ? bounty.payouts.filter((payout) => payout.tokenAddress == tokenAddress) : null;
-    };
-    const balanceObj = useMemo(() => getBalances(tokenAddress), [tokenAddress]);
-    const [balanceValues] = useGetTokenValues(balanceObj);
-    return balanceValues?.total + stillClaimable(tokenAddress);
+  const changeObj = (claimant, value) => {
+    if (claimant in sum && value) {
+      setSum((prev) => ({ ...prev, [claimant]: prev[claimant] + value }));
+    }
+    if (!(claimant in sum) && value) {
+      setSum((prev) => ({ ...prev, [claimant]: value }));
+    }
   };
 
   return (
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th className='px-2 pb-2'></th>
-            {tokenAddresses.map((token) => (
-              <th key={token} className='px-2 pb-2'>
-                {appState.tokenClient.getToken(token).symbol}
-                <div className='flex justify-between px-2 pb-2'>
-                  <th className='px-2 pb-2'>Vol</th>
-                  <th className='px-2 pb-2'>%</th>
-                  <th className='px-2 pb-2'>$</th>
-                </div>
-              </th>
-            ))}
-            <th className='px-2 pb-2'>
-              TOTAL
-              <div className='flex justify-between px-2 pb-2'>
-                <th className='px-2 pb-2'>%</th>
-                <th className='px-2 pb-2'>$</th>
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {claimants.map((claimant, index) => (
-            <>
-              <tr key={claimant}>
-                <td className='flex gap-4 items-center px-2 pb-2' key={claimant}>
-                  <Jazzicon tooltipPosition={'-left-2'} size={36} address={claimant} />
-                  <span>{claimantsShort[index]}</span>
-                </td>
-                {tokenAddresses.map((tokenAddress) => (
-                  <td key={tokenAddress} className='px-2 pb-2 text-center'>
-                    <td className='px-2 pb-2 text-center' key={tokenAddress + 1}>
-                      {bounty.payouts?.some((payout) => payout.closer.id == claimant) ? (
-                        <>{claimantVolume(claimant, tokenAddress)}</>
-                      ) : (
-                        '0.0'
-                      )}
-                    </td>
-                    <td className='px-2 pb-2 text-center' key={tokenAddress + 2}>
-                      {bounty.payouts?.some((payout) => payout.closer.id == claimant) ? (
-                        <>{claimantPercent(claimant, tokenAddress)} %</>
-                      ) : (
-                        '0.0'
-                      )}
-                    </td>
-                    <td className='px-2 pb-2 text-center' key={tokenAddress + 3}>
-                      {bounty.payouts?.some((payout) => payout.closer.id == claimant) ? (
-                        <>{appState.utils.formatter.format(claimantBalances(claimant, tokenAddress))}</>
-                      ) : (
-                        '0.0'
-                      )}
-                    </td>
-                  </td>
+    <>
+      <div className='flex max-w-[800px] overflow-auto h-1/2'>
+        {bounty.payouts?.length ? (
+          <div>
+            <thead>
+              <tr>
+                <th className='px-2 pb-2'></th>
+                {tokenAddresses.map((token) => (
+                  <th key={token} className='px-2 pb-2'>
+                    {appState.tokenClient.getToken(token).symbol}
+                  </th>
                 ))}
-                <td className='px-2 pb-2 text-center'>
-                  <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
-                  <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
+                <th className='px-2 pb-2'>TOTAL</th>
+              </tr>
+            </thead>
+            <tbody>
+              {claimants.map((claimant, index) => (
+                <tr key={claimant}>
+                  <td className='flex gap-4 items-center px-2 pb-2' key={claimant + 1}>
+                    <Jazzicon tooltipPosition={'-left-2'} size={36} address={claimant} />
+                    <span>{claimantsShort[index]}</span>
+                  </td>
+                  {tokenAddresses.map((tokenAddress) => (
+                    <td key={tokenAddress}>
+                      <ClaimPerToken
+                        bounty={bounty}
+                        claimant={claimant}
+                        tokenAddress={tokenAddress}
+                        type={'perClaimant'}
+                        changeObj={changeObj}
+                      />
+                    </td>
+                  ))}
+                  <td key={claimant + 2}>
+                    <ClaimTotals valueDisplay={sum[claimant]} totalDepositValue={totalDepositValue} />
+                  </td>
+                </tr>
+              ))}
+              <tr className='font-bold border-t border-gray-700'>
+                <td className='px-2 pb-2'>SubTotal</td>
+                {bounty.payouts?.length &&
+                  tokenAddresses.map((tokenAddress) => (
+                    <td key={tokenAddress}>
+                      <ClaimPerToken
+                        bounty={bounty}
+                        tokenAddress={tokenAddress}
+                        type={'allClaimants'}
+                        changeObj={changeObj}
+                      />
+                    </td>
+                  ))}
+                <td>
+                  <ClaimTotals valueDisplay={sum['allClaimants']} totalDepositValue={totalDepositValue} />
                 </td>
               </tr>
-            </>
-          ))}
-          <tr className='font-bold items-center border-t border-gray-700'>
-            <td className='px-2 pb-2'>SubTotal</td>
-            {tokenAddresses.map((tokenAddress) => (
-              <td key={tokenAddress} className='px-2 pb-2 text-center'>
-                <td className='px-2 pb-2 text-center' key={tokenAddress + 1}>
-                  {claimedVolume(tokenAddress)}
+              <tr>
+                <td className='px-2'>Still Claimable</td>
+                {tokenAddresses.map((tokenAddress) => (
+                  <td key={tokenAddress}>
+                    <ClaimPerToken
+                      bounty={bounty}
+                      tokenAddress={tokenAddress}
+                      type={'stillClaimable'}
+                      changeObj={changeObj}
+                    />
+                  </td>
+                ))}
+                <td>
+                  <ClaimTotals valueDisplay={sum['stillClaimable']} totalDepositValue={totalDepositValue} />
                 </td>
-                <td className='px-2 pb-2 text-center' key={tokenAddress + 2}>
-                  {(claimedVolume(tokenAddress) / totalDeposit(tokenAddress)) * 100} %
+              </tr>
+              <tr className='italic'>
+                <td className='flex gap-1 items-center px-2 pb-2 whitespace-nowrap'>
+                  of which currently{' '}
+                  <button className='italic text-link-colour hover:underline' onClick={() => setInternalMenu('Refund')}>
+                    refundable
+                  </button>
+                  <ToolTipNew
+                    innerStyles={'not-italic whitespace-normal w-80'}
+                    toolTipText={
+                      'Funds that are currently not locked (deposit lock period expired) and have not already been used for claims. Claims will be deducted from deposits with earliest expiration date first.'
+                    }
+                  >
+                    <div className='not-italic cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                      ?
+                    </div>
+                  </ToolTipNew>
                 </td>
-                <td className='px-2 pb-2 text-center' key={tokenAddress + 3}>
-                  {claimedBalances(tokenAddress)}
+                {tokenAddresses.map((tokenAddress) => (
+                  <td key={tokenAddress}>
+                    <ClaimPerToken
+                      bounty={bounty}
+                      tokenAddress={tokenAddress}
+                      type={'refundable'}
+                      changeObj={changeObj}
+                    />
+                  </td>
+                ))}
+                <td>
+                  <ClaimTotals valueDisplay={sum['refundable']} totalDepositValue={totalDepositValue} />
                 </td>
-              </td>
-            ))}
-            <td className='px-2 pb-2 text-center'>
-              <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
-              <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
-            </td>
-          </tr>
-          <tr>
-            <td className='px-2'>Still Claimable</td>
-            {tokenAddresses.map((tokenAddress) => (
-              <td key={tokenAddress} className='px-2 text-center'>
-                <td className='px-2 text-center' key={tokenAddress + 1}>
-                  {parseFloat(totalDeposit(tokenAddress) - claimedVolume(tokenAddress)).toFixed(1)}
+              </tr>
+              <tr>
+                <td className='px-2'>Refunded</td>
+                {tokenAddresses.map((tokenAddress) => (
+                  <td key={tokenAddress}>
+                    <ClaimPerToken
+                      bounty={bounty}
+                      tokenAddress={tokenAddress}
+                      type={'refunded'}
+                      changeObj={changeObj}
+                    />
+                  </td>
+                ))}
+                <td>
+                  <ClaimTotals valueDisplay={sum['refunded']} totalDepositValue={totalDepositValue} />
                 </td>
-                <td className='px-2 text-center' key={tokenAddress + 2}>
-                  {(
-                    parseFloat(
-                      (totalDeposit(tokenAddress) - claimedVolume(tokenAddress)) / totalDeposit(tokenAddress)
-                    ) * 100
-                  ).toFixed(1)}{' '}
-                  %
+              </tr>
+              <tr className='font-bold border-t border-gray-700'>
+                <td className='flex items-center gap-2 px-2 pb-2'>
+                  Total Deposited
+                  <ToolTipNew
+                    innerStyles={'whitespace-normal w-80'}
+                    toolTipText={
+                      'Everything that has ever been deposited on this bounty. Includes refunded and claimed amounts.'
+                    }
+                  >
+                    <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                      ?
+                    </div>
+                  </ToolTipNew>
                 </td>
-                <td className='px-2 text-center' key={tokenAddress + 3}>
-                  {appState.utils.formatter.format(stillClaimable(tokenAddress))}
+
+                {tokenAddresses.map((tokenAddress) => (
+                  <td key={tokenAddress}>
+                    <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} type={'total'} changeObj={changeObj} />
+                  </td>
+                ))}
+                <td>
+                  <ClaimTotals valueDisplay={sum['total']} totalDepositValue={totalDepositValue} />
                 </td>
-              </td>
-            ))}
-            <td className='px-2 text-center'>
-              <td className='px-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
-              <td className='px-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
-            </td>
-          </tr>
-          <tr className='italic'>
-            <td className='px-2 pb-2'>of which currently refundable</td>
-            {tokenAddresses.map((tokenAddress) => (
-              <td key={tokenAddress} className='px-2 pb-2 text-center'>
-                <td className='px-2 pb-2 text-center' key={tokenAddress + 1}>
-                  1
-                </td>
-                <td className='px-2 pb-2 text-center' key={tokenAddress + 2}>
-                  2
-                </td>
-                <td className='px-2 pb-2 text-center' key={tokenAddress + 3}>
-                  3
-                </td>
-              </td>
-            ))}
-            <td className='px-2 pb-2 text-center'>
-              <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
-              <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
-            </td>
-          </tr>
-          <tr className='font-bold items-center border-t border-gray-700'>
-            <td className='px-2 pb-2'>Total Deposit</td>
-            {tokenAddresses.map((tokenAddress) => (
-              <td key={tokenAddress} className='px-2 pb-2 text-center'>
-                <td className='px-2 pb-2 text-center' key={tokenAddress + 1}>
-                  {totalDeposit(tokenAddress)}
-                </td>
-                <td className='px-2 pb-2 text-center' key={tokenAddress + 2}>
-                  100 %
-                </td>
-                <td className='px-2 pb-2 text-center' key={tokenAddress + 3}>
-                  {appState.utils.formatter.format(totalDepositBalance(tokenAddress))}
-                </td>
-              </td>
-            ))}
-            <td className='px-2 pb-2 text-center'>
-              <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>OK</div> : '0.0'}</td>
-              <td className='px-2 pb-2 text-center'>{bounty.payouts ? <div>BIS</div> : '0.0'}</td>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+              </tr>
+            </tbody>
+          </div>
+        ) : (
+          <div className='text-lg'>No claims have been made yet.</div>
+        )}
+      </div>
+    </>
   );
 };
 

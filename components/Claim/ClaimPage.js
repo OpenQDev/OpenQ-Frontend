@@ -131,7 +131,6 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
     // rewards are claimable
     return (
       <>
-        {/* <ClaimOverview bounty={bounty} />*/}
         <div className='flex flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
           <div className='flex flex-col w-full space-y-2 items-center content-center md:border rounded-sm border-gray-700'>
             <div className='flex w-full text-3xl text-primary justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
