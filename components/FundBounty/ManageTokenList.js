@@ -7,19 +7,22 @@ import Toggle from '../Utils/Toggle';
 import { ethers } from 'ethers';
 import StoreContext from '../../store/Store/StoreContext';
 import TokenDisplay from '../TokenBalances/TokenDisplay';
+import useWeb3 from '../../hooks/useWeb3';
 
 const ManageTokenList = ({ setCustomTokens, customTokens, setLists, lists, stream }) => {
   const [displayedTab, setDisplayedTab] = useState('Lists');
   const [tokenInput, setTokenInput] = useState('');
   const [error, setError] = useState();
   const [appState] = useContext(StoreContext);
+  const { logger, tokenClient } = appState;
+  const { account } = useWeb3();
   const getAddressErrors = (address) => {
     if (!customTokens.some((token) => token.address === address)) {
       try {
         ethers.utils.getAddress(address.toLowerCase());
         return '';
       } catch (err) {
-        console.log(err);
+        logger.error(err, account);
         return 'Not a valid address.';
       }
     }
@@ -28,7 +31,7 @@ const ManageTokenList = ({ setCustomTokens, customTokens, setLists, lists, strea
 
   const enterValue = async (e) => {
     if (e.key === 'Enter' && getAddressErrors(tokenInput) === '') {
-      const token = await appState.tokenClient.getToken(tokenInput);
+      const token = await tokenClient.getToken(tokenInput);
       const fullToken = {
         address: tokenInput,
         symbol: token.symbol || `${tokenInput.slice(0, 4)}...${tokenInput.slice(35)}`,

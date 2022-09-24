@@ -6,7 +6,7 @@ import { XIcon } from '@primer/octicons-react';
 import StoreContext from '../../../store/Store/StoreContext';
 import Image from 'next/image';
 
-const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch }) => {
+const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch, alone }) => {
   const [showListManager, setShowListManager] = useState(true);
   const [tokenSearchTerm, setTokenSearchTerm] = useState();
   const [lists, setLists] = useState({
@@ -17,11 +17,12 @@ const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch }) =>
   const [customTokens, setCustomTokens] = useState([]);
   const [polygonTokens, setPolygonTokens] = useState([]);
   const [openQTokens, setOpenQTokens] = useState([]);
-  const [showStreamTokenSearch, setShowStreamTokenSearch] = useState(!stream);
+  const [showStreamTokenSearch, setShowStreamTokenSearch] = useState(false);
   const handleShowSearch = (bool) => {
-    if (stream) {
+    if (stream || alone) {
       setShowStreamTokenSearch(bool);
-    } else {
+    }
+    if (alone || !stream) {
       setShowTokenSearch(bool);
     }
   };
@@ -47,7 +48,7 @@ const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch }) =>
     <div className='justify-self-end'>
       <div>
         <button
-          className='flex flex-row items-center space-x-1 py-2 drop-shadow-lg border border-web-gray rounded-sm p-2 pr-2'
+          className={`flex flex-row items-center space-x-1 py-2 drop-shadow-lg border border-web-gray rounded-sm p-2 pr-2 `}
           onClick={() => handleShowSearch(true)}
         >
           <div className='flex flex-row space-x-5 items-center justify-center'>
@@ -73,10 +74,12 @@ const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch }) =>
           </div>
         </button>
       </div>
-      {(!stream || showStreamTokenSearch) && (
+      {((!stream && !alone) || showStreamTokenSearch) && (
         <div
           onClick={handleOutsideClick}
-          className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 left-20 z-50 outline-none focus:outline-none'
+          className={`justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 left-20 z-50 outline-none focus:outline-none
+          ${showStreamTokenSearch && 'visible'}
+          `}
         >
           <div className='w-5/6 max-w-md'>
             {' '}
@@ -130,7 +133,7 @@ const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch }) =>
                   lists={lists}
                 />
               )}
-              {!stream && (
+              {!stream && !alone && (
                 <button
                   className='btn-default p-2 m-2'
                   onClick={(e) => {
@@ -145,7 +148,7 @@ const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch }) =>
           </div>
         </div>
       )}
-      {!stream && <div className='fixed inset-0 z-10 bg-overlay'></div>}
+      {!stream && !alone && <div className='fixed inset-0 z-10 bg-overlay'></div>}
     </div>
   );
 };

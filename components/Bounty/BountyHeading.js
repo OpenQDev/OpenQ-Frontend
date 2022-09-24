@@ -13,7 +13,7 @@ const BountyHeading = ({ bounty, price }) => {
   const marker = appState.utils.getBountyMarker(bounty, authState.login);
 
   return (
-    <div className='sm:px-8 px-4 w-full max-w-[1200px] pb-4'>
+    <div className='sm:px-8 px-4 w-full max-w-[1200px] pb-2'>
       <div className='pt-6 pb-2 w-full flex flex-wrap'>
         <h1 className='text-[32px] flex-1 leading-tight min-w-[240px]'>
           <span className='text-primary'>{bounty.title} </span>

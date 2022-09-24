@@ -1,5 +1,5 @@
 // Third party
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
 import Link from 'next/link';
 
 // Custom
@@ -7,6 +7,8 @@ import { CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveFundS
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Image from 'next/image';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
+import StoreContext from '../../store/Store/StoreContext';
+import useWeb3 from '../../hooks/useWeb3';
 
 const ApproveFundModal = ({
   transactionHash,
@@ -29,6 +31,8 @@ const ApproveFundModal = ({
     resetState();
     setShowApproveTransferModal(false);
   };
+  const [appState] = useContext(StoreContext);
+  const { account } = useWeb3();
   useEffect(async () => {
     try {
       /*
@@ -36,7 +40,7 @@ const ApproveFundModal = ({
       setInvoicingData(invoicingData);
       */
     } catch (err) {
-      console.log(err);
+      appState.logger.error(err, account, bounty.id);
     }
   }, []);
   useEffect(() => {
@@ -185,7 +189,7 @@ const ApproveFundModal = ({
               </>
             ) : (
               <>
-                <div className='text-md gap-4 py-6 px-4 grid grid-cols-[1fr_1fr] w-full justify-between'>
+                <div className='text-md gap-4 py-6 pb-[68px] px-4 grid grid-cols-[1fr_1fr] w-full justify-between'>
                   <div className='w-4'>Funding</div>
                   <div className='flex flex-wrap justify-between w-[120px] gap-2'>
                     <Image
@@ -279,7 +283,7 @@ const ApproveFundModal = ({
           </div>
         </div>
       </div>
-      <div className='bg-overlay fixed inset-0'></div>
+      <div className='bg-overlay z-10 fixed inset-0'></div>
     </div>
   );
 };

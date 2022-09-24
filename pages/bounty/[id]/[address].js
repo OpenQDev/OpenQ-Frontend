@@ -17,10 +17,12 @@ import UnexpectedError from '../../../components/Utils/UnexpectedError';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
+import Logger from '../../../services/logger/Logger';
 import useAuth from '../../../hooks/useAuth';
 import RepoTitle from '../../../components/Bounty/RepoTitle';
 import SubMenu from '../../../components/Utils/SubMenu';
 import BountyHeading from '../../../components/Bounty/BountyHeading';
+import BountyMetadata from '../../../components/Bounty/BountyMetadata';
 
 import Add from '../../../components/svg/add';
 import Subtract from '../../../components/svg/subtract';
@@ -118,7 +120,9 @@ const address = ({ address, mergedBounty, renderError }) => {
   }, [internalMenu]);
 
   useEffect(() => {
-    setInternalMenu('View');
+    if (bounty && ethers.utils.getAddress(bounty.issuer.id) !== account) {
+      setInternalMenu('View');
+    }
   }, [account]);
 
   // Hooks
@@ -130,7 +134,7 @@ const address = ({ address, mergedBounty, renderError }) => {
           canvas.current.height = window.innerHeight;
         }
       } catch (err) {
-        console.log(err);
+        appState.logger.error(err, account);
       }
     };
     window.addEventListener('resize', handleResize, false);
@@ -211,33 +215,54 @@ const address = ({ address, mergedBounty, renderError }) => {
               />
 
               <BountyHeading tokenValues={tokenValues} budgetValues={budgetValues} bounty={bounty} />
-              {internalMenu == 'View' && (
-                <BountyCardDetails
-                  justMinted={justMinted}
-                  budgetValues={budgetValues}
-                  split={split}
-                  bounty={bounty}
-                  setInternalMenu={setInternalMenu}
-                  address={address}
-                  tokenValues={tokenValues}
-                  internalMenu={internalMenu}
-                />
-              )}
-              {internalMenu == 'Fund' && bounty ? <FundPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
-              {internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
-              {internalMenu == 'Claims Overview' && bounty ? (
-                <ClaimOverview bounty={bounty} setInternalMenu={setInternalMenu} />
-              ) : null}
-              {internalMenu == 'Admin' && bounty && ethers.utils.getAddress(bounty.issuer.id) == account ? (
-                <AdminPage
-                  bounty={bounty}
-                  refreshBounty={refreshBounty}
-                  price={tokenValues?.total}
-                  budget={budget}
-                  split={split}
-                />
-              ) : null}
-              {bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
+
+              <div className='flex justify-between  w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
+                {internalMenu == 'View' && (
+                  <BountyCardDetails
+                    justMinted={justMinted}
+                    budgetValues={budgetValues}
+                    split={split}
+                    bounty={bounty}
+                    setInternalMenu={setInternalMenu}
+                    address={address}
+                    tokenValues={tokenValues}
+                    internalMenu={internalMenu}
+                  />
+                )}
+                {internalMenu == 'Fund' && bounty ? (
+                  <FundPage
+                    bounty={bounty}
+                    refreshBounty={refreshBounty}
+                    price={tokenValues?.total}
+                    budget={budget}
+                    split={split}
+                  />
+                ) : null}
+                {internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
+                {internalMenu == 'Claims Overview' && bounty ? (
+                  <ClaimOverview bounty={bounty} setInternalMenu={setInternalMenu} />
+                ) : null}
+                {internalMenu == 'Admin' && bounty && ethers.utils.getAddress(bounty.issuer.id) == account ? (
+                  <AdminPage
+                    bounty={bounty}
+                    refreshBounty={refreshBounty}
+                    price={tokenValues?.total}
+                    budget={budget}
+                    split={split}
+                  />
+                ) : null}
+                {bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
+
+                {internalMenu && (
+                  <BountyMetadata
+                    price={tokenValues?.total}
+                    budget={budget}
+                    split={split}
+                    bounty={bounty}
+                    setInternalMenu={setInternalMenu}
+                  />
+                )}
+              </div>
               <canvas className='absolute w-full top-0 z-40 bottom-0 pointer-events-none' ref={canvas}></canvas>
             </div>
           </>
@@ -251,13 +276,14 @@ export const getServerSideProps = async (context) => {
   const githubRepository = new WrappedGithubClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
   githubRepository.instance.setGraphqlHeaders();
+  const logger = new Logger();
   const { id, address } = context.query;
   let bountyMetadata = {};
   let renderError = '';
   try {
     bountyMetadata = await openQPrismaClient.instance.getBounty(ethers.utils.getAddress(address));
   } catch (err) {
-    console.log(err);
+    logger.error(err);
   }
   let mergedBounty = null;
   let issueData = {};
@@ -265,13 +291,13 @@ export const getServerSideProps = async (context) => {
   try {
     issueData = await githubRepository.instance.fetchIssueById(id);
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     renderError = 'OpenQ could not find the issue connected to this to contract on Github.';
   }
   try {
     bounty = await openQSubgraphClient.instance.getBounty(address, 'no-cache');
     if (!bounty) {
-      console.log('could not find bounty on graph');
+      logger.error({ message: `OpenQ could not find a contract with address: ${address}.` });
     }
     mergedBounty = {
       ...issueData,
@@ -280,8 +306,7 @@ export const getServerSideProps = async (context) => {
       bountyAddress: address,
     };
   } catch (err) {
-    console.log(err);
-
+    logger.error(err);
     renderError = `OpenQ could not find a contract with address: ${address}.`;
   }
   return { props: { id, address, mergedBounty, renderError } };

@@ -62,7 +62,7 @@ class OpenQClient {
       );
       const hasFundingGoal = fundVolumeInWei > 0;
       switch (type) {
-        case 'Atomic':
+        case 'Fixed Price':
           {
             const fundingGoalBountyParams = abiCoder.encode(
               ['bool', 'address', 'uint256'],
@@ -71,7 +71,7 @@ class OpenQClient {
             bountyInitOperation = [0, fundingGoalBountyParams];
           }
           break;
-        case 'Repeating':
+        case 'Split Price':
           {
             const payoutVolumeInWei = data.payoutVolume * 10 ** data.payoutToken.decimals;
             const payoutBigNumberVolumeInWei = ethers.BigNumber.from(
@@ -101,6 +101,15 @@ class OpenQClient {
             bountyInitOperation = [2, tieredAbiEncodedParams];
           }
           break;
+        case 'Fixed Contest':
+          {
+            const tieredAbiEncodedParams = abiCoder.encode(
+              ['uint256[]', 'address'],
+              [data.tiers, data.payoutToken.address]
+            );
+            bountyInitOperation = [3, tieredAbiEncodedParams];
+          }
+          break;
         default:
           throw new Error('Unknown Bounty Type');
       }
@@ -111,12 +120,11 @@ class OpenQClient {
       try {
         const txnResponse = await contract.mintBounty(issueId, organization, bountyInitOperation);
         const txnReceipt = await txnResponse.wait();
-        console.log(txnReceipt);
         const bountyAddress = txnReceipt.events.find((eventObj) => eventObj.event === 'BountyCreated').args
           .bountyAddress;
-        resolve({ bountyAddress });
+        resolve({ bountyAddress, txnReceipt });
       } catch (err) {
-        console.log('err', err);
+        reject('err', err);
         reject(err);
       }
     });
@@ -137,10 +145,8 @@ class OpenQClient {
         let txnReceipt;
         txnResponse = await contract.setFundingGoal(_bountyId, _fundingGoalToken.address, bigNumberVolumeInWei);
         txnReceipt = await txnResponse.wait();
-        console.log(txnReceipt);
         resolve(txnReceipt);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     });
@@ -160,10 +166,8 @@ class OpenQClient {
         let txnReceipt;
         txnResponse = await contract.setPayout(_bountyId, _payoutToken.address, bigNumberVolumeInWei);
         txnReceipt = await txnResponse.wait();
-        console.log(txnReceipt);
         resolve(txnReceipt);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     });
@@ -179,10 +183,8 @@ class OpenQClient {
         let txnReceipt;
         txnResponse = await contract.setPayoutSchedule(_bountyId, _payoutSchedule);
         txnReceipt = await txnResponse.wait();
-        console.log(txnReceipt);
         resolve(txnReceipt);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     });
@@ -238,7 +240,6 @@ class OpenQClient {
         }
         resolve(volume);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     });
@@ -321,10 +322,8 @@ class OpenQClient {
           txnResponse = await contract.fundBountyToken(_bountyAddress, _tokenAddress, _value, expiration);
         }
         txnReceipt = await txnResponse.wait();
-        console.log(txnReceipt);
         resolve(txnReceipt);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     });
@@ -339,10 +338,8 @@ class OpenQClient {
       try {
         let txnResponse = await contract.closeCompetition(_bountyId);
         let txnReceipt = await txnResponse.wait();
-        console.log(txnReceipt);
         resolve(txnReceipt);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     });
@@ -357,10 +354,8 @@ class OpenQClient {
       try {
         let txnResponse = await contract.closeOngoing(_bountyId);
         let txnReceipt = await txnResponse.wait();
-        console.log(txnReceipt);
         resolve(txnReceipt);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     });
@@ -375,7 +370,6 @@ class OpenQClient {
         const seconds = _depositPeriodDays * 24 * 60 * 60;
         const txnResponse = await contract.extendDeposit(_bountyAddress, _depositId, seconds);
         const txnReceipt = await txnResponse.wait();
-        console.log(txnReceipt);
         resolve(txnReceipt);
       } catch (err) {
         reject(err);
@@ -391,7 +385,6 @@ class OpenQClient {
       try {
         const txnResponse = await contract.refundDeposit(_bountyAddress, _depositId);
         const txnReceipt = await txnResponse.wait();
-        console.log(txnReceipt);
         resolve(txnReceipt);
       } catch (err) {
         reject(err);
@@ -430,7 +423,6 @@ class OpenQClient {
 
   handleError(jsonRpcError, data) {
     let errorString = jsonRpcError?.data?.message;
-    console.log(errorString);
 
     // Data messages - more specific than jsonRpcError.message
     if (errorString) {
@@ -447,7 +439,6 @@ class OpenQClient {
     }
 
     let miscError;
-    console.log(jsonRpcError);
     if (typeof jsonRpcError === 'string') {
       if (jsonRpcError.includes('Ambire user rejected the request')) {
         miscError = 'USER_DENIED_TRANSACTION';

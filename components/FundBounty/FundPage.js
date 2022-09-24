@@ -36,17 +36,19 @@ const FundPage = ({ bounty, refreshBounty }) => {
   };
   // Context
   const [appState, dispatch] = useContext(StoreContext);
+  const { logger, openQClient, utils } = appState;
   const { library, account } = useWeb3();
-
   // State
   const [token, setToken] = useState(zeroAddressMetadata);
   const bountyName =
-    bounty.bountyType == 0
+    bounty.bountyType === '0'
       ? 'Fixed Price'
-      : bounty.bountyType == 1
-      ? 'Repeatable Contract'
-      : bounty.bountyType == 2
+      : bounty.bountyType === '1'
+      ? 'Split Price Contract'
+      : bounty.bountyType === '2'
       ? 'Contest'
+      : bounty.bountyType === '3'
+      ? 'Fixed Contest'
       : 'Type Unknown';
 
   const closed = bounty.status == '1';
@@ -64,7 +66,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
       ? 'btn-default w-full cursor-not-allowed'
       : 'btn-primary cursor-pointer'
   }`;
-  const fundButtonClasses = `flex flex-row w-full justify-center space-x-5 items-center  ${disableOrEnable}`;
+  const fundButtonClasses = `text-center px-8 w-min items-center  ${disableOrEnable}`;
 
   function resetState() {
     setApproveTransferState(RESTING);
@@ -116,14 +118,11 @@ const FundPage = ({ bounty, refreshBounty }) => {
     let approveSucceeded = false;
 
     try {
-      const isWhitelisted = await appState.openQClient.isWhitelisted(library, token.address);
+      const isWhitelisted = await openQClient.isWhitelisted(library, token.address);
 
       // Only check bounty token address limit for non-whitelisted tokens
       if (!isWhitelisted) {
-        const tokenAddressLimitReached = await appState.openQClient.tokenAddressLimitReached(
-          library,
-          bounty.bountyAddress
-        );
+        const tokenAddressLimitReached = await openQClient.tokenAddressLimitReached(library, bounty.bountyAddress);
         if (tokenAddressLimitReached) {
           setError({
             title: 'Token Address Limit Is Reached!',
@@ -145,11 +144,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
     }
 
     try {
-      const callerBalance = await appState.openQClient.balanceOf(
-        library,
-        account,
-        ethers.utils.getAddress(token.address)
-      );
+      const callerBalance = await openQClient.balanceOf(library, account, ethers.utils.getAddress(token.address));
       if (callerBalance.noSigner) {
         setError({
           title: 'No wallet connected.',
@@ -166,7 +161,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
         return;
       }
     } catch (error) {
-      console.log(error);
+      logger.error(error, account, bounty.id);
       setError({
         title: 'Call Revert Exception',
         message: 'A contract call exception occurred. Please try again.',
@@ -181,11 +176,11 @@ const FundPage = ({ bounty, refreshBounty }) => {
       if (token.address != ethers.constants.AddressZero) {
         setButtonText('Approving');
         setApproveTransferState(APPROVING);
-        await appState.openQClient.approve(library, bounty.bountyAddress, token.address, bigNumberVolumeInWei);
+        await openQClient.approve(library, bounty.bountyAddress, token.address, bigNumberVolumeInWei);
       }
       approveSucceeded = true;
     } catch (error) {
-      const { message, title, link, linkText } = appState.openQClient.handleError(error, { bounty });
+      const { message, title, link, linkText } = openQClient.handleError(error, { bounty });
       setError({ message, title, link, linkText });
       setButtonText('Fund');
       setApproveTransferState(ERROR);
@@ -194,7 +189,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
     if (approveSucceeded) {
       setApproveTransferState(TRANSFERRING);
       try {
-        const fundTxnReceipt = await appState.openQClient.fundBounty(
+        const fundTxnReceipt = await openQClient.fundBounty(
           library,
           bounty.bountyAddress,
           token.address,
@@ -206,8 +201,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
         setSuccessMessage(`Successfully funded issue ${bounty.url} with ${volume} ${token.symbol}!`);
         refreshBounty();
       } catch (error) {
-        console.log(error);
-        const { message, title } = appState.openQClient.handleError(error, {
+        logger.error(error, account, bounty.id);
+        const { message, title } = openQClient.handleError(error, {
           bounty,
         });
         setError({ message, title });
@@ -222,7 +217,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
   }
 
   function onVolumeChange(volume) {
-    appState.utils.updateVolume(volume, setVolume);
+    utils.updateVolume(volume, setVolume);
   }
   const onDepositPeriodChanged = (e) => {
     if (parseInt(e.target.value) >= 0) setDepositPeriodDays(parseInt(e.target.value));
@@ -237,8 +232,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
           <BountyClosed bounty={bounty} />
         </>
       ) : (
-        <div className='flex flex-1 sm:px-12 px-4 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
-          <div className='flex flex-col space-y-5 pb-4 items-center md:border rounded-sm border-gray-700'>
+        <div className='flex flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
+          <div className='flex flex-col w-full space-y-5 pb-4 items-center md:border rounded-sm border-gray-700'>
             <div className='flex text-3xl w-full text-primary justify-center px-16 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
               Escrow Funds{' '}
               {bounty.bountyType === '0'
@@ -258,6 +253,10 @@ const FundPage = ({ bounty, refreshBounty }) => {
               <div className='flex w-full input-field-big'>
                 <div className=' flex items-center gap-3 w-full text-primary md:whitespace-nowrap'>
                   <ToolTipNew
+                    relativePosition={'md:-left-12'}
+                    outerStyles={'-top-1'}
+                    groupStyles={''}
+                    innerStyles={'whitespace-normal md:w-96 sm:w-60 w-40  '}
                     toolTipText={
                       'This is the number of days that your deposit will be in escrow. After this many days, your deposit will be fully refundable if the bounty has still not been claimed.'
                     }
@@ -281,6 +280,10 @@ const FundPage = ({ bounty, refreshBounty }) => {
               </div>
 
               <ToolTipNew
+                relativePosition={'left-0'}
+                outerStyles={'-top-1 '}
+                groupStyles={'w-min'}
+                innerStyles={'sm:w-40 w-0 md:w-60 whitespace-normal'}
                 hideToolTip={account && isOnCorrectNetwork && !loadingClosedOrZero}
                 toolTipText={
                   account && isOnCorrectNetwork && !(depositPeriodDays > 0)
@@ -293,12 +296,12 @@ const FundPage = ({ bounty, refreshBounty }) => {
                 }
               >
                 <button
-                  className={fundButtonClasses}
+                  className={`${fundButtonClasses} py-1.5`}
                   disabled={(loadingClosedOrZero || !isOnCorrectNetwork) && account}
                   type='button'
                   onClick={account ? openFund : connectWallet}
                 >
-                  <div>{account ? buttonText : 'Connect Wallet'}</div>
+                  <div className='text-center whitespace-nowrap w-full'>{account ? buttonText : 'Connect Wallet'}</div>
                   <div>
                     {approveTransferState != RESTING &&
                     approveTransferState != SUCCESS &&
@@ -313,7 +316,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
               </div>
             </div>
           </div>
-          {invoicingModal && <InvoicingModal closeModal={() => setInvoicingModal(false)} />}
+          {invoicingModal && <InvoicingModal closeModal={() => setInvoicingModal(false)} bounty={bounty} />}
           {showApproveTransferModal && (
             <ApproveFundModal
               approveTransferState={approveTransferState}

@@ -77,7 +77,7 @@ const ConnectButton = ({ mobile }) => {
         method: 'wallet_addEthereumChain',
         params: chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['params'],
       })
-      .catch((error) => console.log('Error', error.message));
+      .catch((err) => appState.logger.error(err, account));
   };
 
   // Render

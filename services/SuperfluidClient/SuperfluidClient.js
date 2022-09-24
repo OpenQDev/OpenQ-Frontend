@@ -66,19 +66,22 @@ class SuperfluidClient {
    * via a setter
    */
   async createInstance(library) {
-    try {
-      if (!this.instance) {
-        const tempInstance = await Framework.create({
-          ...this.options,
-          provider: library,
-        });
-        this.instance = tempInstance;
-        return tempInstance;
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        if (!this.instance) {
+          const tempInstance = await Framework.create({
+            ...this.options,
+            provider: library,
+          });
+          this.instance = tempInstance;
+          resolve(tempInstance);
+        }
+        resolve(this.instance);
+      } catch (err) {
+        reject(err);
       }
-      return this.instance;
-    } catch (err) {
-      console.log(err);
-    }
+    });
+    return promise;
   }
 
   async createSigner(library) {
@@ -143,8 +146,7 @@ class SuperfluidClient {
     return await instance.batchCall([upgradeOp, createFlowOp]).exec(signer);
   }
 
-  async updateFlow(library, sender, receiver, amountPerDay, superTokenAddress) {
-    console.log(superTokenAddress);
+  async updateFlow(library, sender, receiver, amountPerDay) {
     const address = this.tokensEnumerable[0].address;
     const instance = await this.createInstance(library);
     const signer = await this.createSigner(library);
@@ -167,7 +169,6 @@ class SuperfluidClient {
    * @description Downgrading is essentially the equivalent of withdrawing from the stream
    */
   async downgradeToken(library, superTokenAddress, amount) {
-    console.log(superTokenAddress);
     const address = this.tokensEnumerable[0].address;
     const amountInWei = ethers.utils.parseEther(amount);
     const signer = await this.createSigner(library);
@@ -178,8 +179,7 @@ class SuperfluidClient {
     return await downgradeOp.exec(signer);
   }
 
-  async deleteFlow(library, sender, receiver, superTokenAddress) {
-    console.log(superTokenAddress);
+  async deleteFlow(library, sender, receiver) {
     const address = this.tokensEnumerable[0].address;
     const instance = await this.createInstance(library);
     const signer = await this.createSigner(library);
@@ -209,8 +209,7 @@ class SuperfluidClient {
     });
   }
 
-  async getAccountFlowInfo(library, account, superTokenAddress) {
-    console.log(superTokenAddress);
+  async getAccountFlowInfo(library, account) {
     const address = this.tokensEnumerable[0].address;
     const instance = await this.createInstance(library);
     return instance.cfaV1.getAccountFlowInfo({
@@ -219,8 +218,7 @@ class SuperfluidClient {
     });
   }
 
-  async getNetFlow(library, account, superTokenAddress) {
-    console.log(superTokenAddress);
+  async getNetFlow(library, account) {
     const address = this.tokensEnumerable[0].address;
     const instance = await this.createInstance(library);
     return instance.cfaV1.getNetFlow({
@@ -229,15 +227,13 @@ class SuperfluidClient {
     });
   }
 
-  async balanceOf(library, account, superTokenAddress) {
-    console.log(superTokenAddress);
+  async balanceOf(library, account) {
     const address = this.tokensEnumerable[0].address;
     const superToken = this.loadSuperToken(library, address);
     return await superToken.balanceOf({ account });
   }
 
-  async allowance(library, account, superTokenAddress) {
-    console.log(superTokenAddress);
+  async allowance(library, account) {
     const address = this.tokensEnumerable[0].address;
     const superToken = await this.loadSuperToken(library, address);
     const unwrappedToken = superToken.underlyingToken.contract.connect(library.getSigner());
@@ -245,8 +241,7 @@ class SuperfluidClient {
     return allowanceBigNumber.toString();
   }
 
-  async realtimeBalanceOf(library, account, timestamp, superTokenAddress) {
-    console.log(superTokenAddress);
+  async realtimeBalanceOf(library, account, timestamp) {
     const address = this.tokensEnumerable[0].address;
     const superToken = this.loadSuperToken(library, address);
     return await superToken.realtimeBalanceOf({

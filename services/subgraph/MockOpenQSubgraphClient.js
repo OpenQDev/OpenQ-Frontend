@@ -24,7 +24,6 @@ class MockOpenQSubgraphClient {
 					resolve(result.data[0]);
 				})
 				.catch(error => {
-				console.log(error)
 					resolve (null)
 				});
 		});
@@ -38,7 +37,6 @@ class MockOpenQSubgraphClient {
 					resolve(result.data.filter(bounty=>contractAddresses.includes(bounty.bountyAddress)));
 				})
 				.catch(error => {
-				console.log(error)
 					resolve (null)
 				});
 				});

@@ -7,8 +7,9 @@ import CopyBountyAddress from './CopyBountyAddress';
 import StoreContext from '../../store/Store/StoreContext';
 import TokenBalances from '../TokenBalances/TokenBalances';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
+import PieChart from './PieChart';
 
-const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split, pricesOnly }) => {
+const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
   const [appState] = useContext(StoreContext);
   const createPayout = (bounty) => {
     return bounty.payoutTokenVolume
@@ -20,14 +21,14 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split, pricesO
   };
   const payoutBalances = useMemo(() => createPayout(bounty), [bounty]);
   const [payoutValues] = useGetTokenValues(payoutBalances);
-  let type = 'Atomic Contract';
+  let type = 'Fixed Price';
 
   switch (bounty.bountyType) {
     case '0':
       type = 'Fixed Price';
       break;
     case '1':
-      type = 'Multi';
+      type = 'Split Price';
       break;
     case '2':
       type = 'Contest';
@@ -39,10 +40,12 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split, pricesO
 
   return (
     <ul className='md:max-w-[300px] w-full md:pl-4'>
-      <li className='border-b border-web-gray py-3'>
-        <div className='text-xs font-semibold text-muted'>Type</div>
-        <div className='text-xs font-semibold text-primary leading-loose'>{type}</div>
-      </li>
+      {bounty.bountyType && (
+        <li className='border-b border-web-gray py-3'>
+          <div className='text-xs font-semibold text-muted'>Type</div>
+          <div className='text-xs font-semibold text-primary leading-loose'>{type}</div>
+        </li>
+      )}
 
       <li className='border-b border-web-gray py-3'>
         <div className='text-xs font-semibold text-muted'>TVL</div>
@@ -51,7 +54,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split, pricesO
         </button>
       </li>
 
-      {bounty.fundingTokenBalance && (
+      {bounty.fundingGoalVolume && (
         <li className='border-b border-web-gray py-3'>
           <div className='text-xs font-semibold text-muted'>Current Target Budget</div>
           <div className='text-xs font-semibold text-primary pt-2'>
@@ -96,9 +99,10 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split, pricesO
               );
             })}
           </div>
+          <PieChart payoutSchedule={bounty.payoutSchedule} />
         </li>
       ) : null}
-      {!pricesOnly && (
+      {bounty.assignees && (
         <>
           {bounty.assignees.length > 0 && (
             <li className='border-b border-web-gray py-3'>

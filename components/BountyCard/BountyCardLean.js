@@ -149,7 +149,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                   <Skeleton width={51} height={51} />
                 )}
               </div>
-              <div className='flex gap-4 content-center items-center justify-between sm:w-60'>
+              <div className='flex gap-x-4 flex-wrap  w-full content-center items-center justify-between sm:w-60'>
                 {bounty.bountyType === '0' ? (
                   <span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
                     <PersonIcon />
@@ -157,7 +157,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                   </span>
                 ) : bounty.bountyType === '1' ? (
                   <span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
-                    <div className='whitespace-nowrap'>Multi</div>
+                    <div className='whitespace-nowrap'>Split Price</div>
                     <PersonAddIcon />
                   </span>
                 ) : (
@@ -170,33 +170,29 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                 )}
 
                 {tokenValues?.total > budget ? (
-                  <div className='flex flex-row space-x-1 items-center'>
-                    <div className='pr-2 pt-1'>
+                  <div className='flex flex-row space-x-1 w-min items-center'>
+                    <div className='pr-2 pt-1 w-4'>
                       <Image src='/crypto-logos/ETH-COLORED.png' alt='avatarUrl' width='12' height='20' />
                     </div>
 
-                    <>
-                      <div className='font-semibold '>TVL</div>
-                      <div className=''>{appState.utils.formatter.format(tokenValues?.total)}</div>
-                    </>
+                    <div className='font-semibold '>TVL</div>
+                    <div className=''>{appState.utils.formatter.format(tokenValues?.total)}</div>
                   </div>
                 ) : budget > 0 ? (
                   <>
-                    <div className='flex flex-row space-x-1 items-center'>
-                      <div className='pr-2 pt-1'>
+                    <div className='flex flex-row space-x-1 w-min items-center'>
+                      <div className='pr-2 w-4 pt-1'>
                         <Image src='/crypto-logos/ETH.svg' alt='avatarUrl' width='12' height='20' />
                       </div>
 
-                      <>
-                        <div className='font-semibold '>Budget</div>
-                        <div className=''>{appState.utils.formatter.format(budget)}</div>
-                      </>
+                      <div className='font-semibold '>Budget</div>
+                      <div className=''>{appState.utils.formatter.format(budget)}</div>
                     </div>
                   </>
                 ) : (
                   <div className='flex gap-2'>
-                    <div className='flex flex-row space-x-1 items-center'>
-                      <div className='pr-2 pt-1'>
+                    <div className='flex flex-row space-x-1 w-min items-center'>
+                      <div className='pr-2 w-4 pt-1'>
                         <Image src='/crypto-logos/ETH.svg' alt='avatarUrl' width='12' height='20' />
                       </div>
 

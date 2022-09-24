@@ -46,7 +46,9 @@ const ContractWizard = ({ wizardVisibility, refreshBounties }) => {
       wizardVisibility(false);
     }
   }, [mintModal]);
-
+  const handleTypeChange = () => {
+    setType(type + 1);
+  };
   return (
     <>
       {!mintModal ? (
@@ -56,9 +58,9 @@ const ContractWizard = ({ wizardVisibility, refreshBounties }) => {
               'flex justify-center items-start sm:items-center mx-4 overflow-x-hidden overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-10'
             }
           >
-            <div ref={modal} className='m-auto w-3/5 min-w-[320px] z-50 fixed top-40'>
+            <div ref={modal} className='m-auto w-3/5 min-w-[320px] max-w-screen-sm z-50 fixed top-40'>
               <div className='w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-1'>
-                <div className='max-h-[70vh] w-full overflow-y-auto'>
+                <div className='max-h-[70vh] h-96 w-full overflow-y-auto'>
                   <div className='flex flex-col items-center justify-center p-5 pb-8 rounded-t'>
                     <h3 className='text-3xl text-center font-semibold'>Contract Wizard</h3>
                     <h3 className='text-2xl pt-2 w-5/6 text-center text-gray-300'>
@@ -73,14 +75,16 @@ const ContractWizard = ({ wizardVisibility, refreshBounties }) => {
                             ? 'Should only one person complete this task?'
                             : type == 1
                             ? 'Should several people be able to earn the same amount of money for this task? This contract is especially suitable for Learn 2 Earn.'
-                            : 'Do you want to create a contest and allow several people to earn money on this task? In this case you can set different weights and choose multiple winners.'}
+                            : type === 2
+                            ? 'Do you want to create a contest and allow several people to earn prizes? In this case you can set different weights and choose multiple winners.'
+                            : 'Do you want to create a contest and allow several people to earn fixed prizes? In this case you can set different weights and choose multiple winners.'}
                           <ToolTipNew
                             innerStyles={'whitespace-normal w-60'}
                             toolTipText={
                               type == 0
                                 ? 'Deploy an Fixed Price Contract to fund a single issue to be payed out to one submitter.'
                                 : type == 1
-                                ? 'Deploy a Repeating Contract, where several people can submit and claim the funds for the same issue.'
+                                ? 'Deploy a Split Price Contract, where several people can submit and claim the funds for the same issue.'
                                 : 'Do you want to create a contest and allow several people to earn money on this task? In this case you can set different weights and choose multiple winners.'
                             }
                           >
@@ -98,7 +102,7 @@ const ContractWizard = ({ wizardVisibility, refreshBounties }) => {
                               Yes
                             </button>
                             <button
-                              onClick={() => setType(type + 2)}
+                              onClick={handleTypeChange}
                               className='w-fit min-w-[80px] py-[5px] px-4 border-l-0 rounded-r-sm border whitespace-nowrap hover:bg-secondary-button hover:border-secondary-button border-web-gray'
                             >
                               No

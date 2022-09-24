@@ -202,6 +202,7 @@ describe('ActionBubble', () => {
     const action = {
       receiveTime: 200000,
       tokenAddress: '0x0000000000000000000000000000000000000000',
+      depositId: '0x5fad7d4850474383e594afa53cedd57709f994d3da7787d72ecd4d4f0b6e1264',
       volume: '10000000000000000000',
     };
     render(<ActionBubble action={action} bounty={bounty} addresses={addresses} />);
@@ -219,6 +220,7 @@ describe('ActionBubble', () => {
       refundTime: 200000,
       tokenAddress: '0x0000000000000000000000000000000000000000',
       volume: '10000000000000000000',
+      depositId: '0x5fad7d4850474383e594afa53cedd57709f994d3da7787d72ecd4d4f0b6e1264',
     };
     render(<ActionBubble action={{ ...action }} bounty={bounty} addresses={addresses} />);
 
@@ -238,7 +240,7 @@ describe('ActionBubble', () => {
     render(<ActionBubble action={action} bounty={bounty} addresses={addresses} />);
 
     // ASSERT
-    expect(await screen.findByText('sample.eth made a claim on this contract on January 3, 1970 at 7:33.'));
+    expect(await screen.findByText('sample.eth made a claim of $0.00 on this contract on January 3, 1970 at 7:33.'));
   });
   it('should display single claimed action message', async () => {
     // ARRANGE
@@ -252,7 +254,7 @@ describe('ActionBubble', () => {
     render(<ActionBubble action={action} bounty={{ ...bounty, bountyType: '0' }} addresses={addresses} />);
 
     // ASSERT
-    expect(await screen.findByText('sample.eth claimed this contract on January 3, 1970 at 7:33.'));
+    expect(await screen.findByText('sample.eth claimed $0.00 on this contract on January 3, 1970 at 7:33.'));
   });
   it('should display closed action message', async () => {
     // ARRANGE

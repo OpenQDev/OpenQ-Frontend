@@ -6,48 +6,16 @@ import React from 'react';
 import { render, screen } from '../../test-utils';
 import BountyCardDetails from '../../components/Bounty/BountyCardDetails';
 import { waitFor } from '@testing-library/react';
-import mocks from '../../__mocks__/mock-server.json';
-import InitialState from '../../store/Store/InitialState';
 
 // WARNING If you change the mock data for issues you may need to change some
 // of this test's getByText invocations to getAllByText.
 describe('BountyCardDetails', () => {
-  const newBounties = mocks.bounties;
-  const issueData = InitialState.githubRepository.parseIssuesData(mocks.githubIssues);
-  const prismaContracts = mocks.prismaBounties;
-  const fullBounties = InitialState.utils.combineBounties(
-    newBounties,
-    issueData,
-    prismaContracts.bounties.bountyConnection.nodes
-  );
   const tokenValues = {
     tokenPrices: { '0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39': 0.67 },
     tokens: { '0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39': 8.040000000000001 },
     total: 8.04,
   };
 
-  const testRender = (bounty) => {
-    it('should render BountyDetails', async () => {
-      // Arrange
-      render(<BountyCardDetails bounty={bounty} address={bounty.bountyAddress} tokenValues={tokenValues} />);
-
-      // ASSERT
-      await waitFor(() => {
-        const usdValue = screen.queryAllByText(/\$\d+.\d+/);
-        expect(usdValue[0]).toBeInTheDocument();
-
-        if (bounty.id === 'I_kwDOGWnnz85LAu6g') {
-          expect(screen.getByText(/Update README/i)).toBeInTheDocument();
-        } else {
-          expect(screen.getByText(/No linked/i)).toBeInTheDocument();
-        }
-      });
-    });
-  };
-
-  fullBounties.forEach((bounty) => {
-    testRender(bounty);
-  });
   it('should display bubles in correct order', async () => {
     const bounty = {
       id: 'I_kwDOGWnnz85GjwA1',
@@ -176,6 +144,7 @@ describe('BountyCardDetails', () => {
           refundTime: '1662559726',
           tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
           volume: '2000000000000000000',
+          depositId: '0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a',
           __typename: 'Refund',
         },
       ],
@@ -209,21 +178,21 @@ describe('BountyCardDetails', () => {
 
       //gets actions individually
       const refundAction = screen.getByText(
-        /0xf3\.\.\.2266 refunded a deposit of 2\.0 DERC20 \(\$1\.34\) on September 7, 2022 at 10:08/i
+        /0xf3\.\.\.2266 refunded a deposit of 2\.0 DERC20 \(\$1\.34\) on September 7, 2022 at 14:08/i
       );
       const fundActionOne = screen.getByText(
-        /0xf3\.\.\.2266 funded this contract with 1\.0 MATIC \(\$0\.67\) on September 7, 2022 at 6:09/i
+        /0xf3\.\.\.2266 funded this contract with 1\.0 MATIC \(\$0\.67\) on September 7, 2022 at 10:09/i
       );
       const fundActionTwo = screen.getByText(
-        /funded this contract with 2\.0 DERC20 \(\$1\.34\) on September 7, 2022 at 6:09/i
+        /funded this contract with 2\.0 DERC20 \(\$1\.34\) on September 7, 2022 at 10:09/i
       );
       const fundActionThree = screen.getByText(
-        /funded this contract with 1\.0 LINK \(\$0\.67\) on September 7, 2022 at 6:09/i
+        /funded this contract with 1\.0 LINK \(\$0\.67\) on September 7, 2022 at 10:09/i
       );
       const mergeAction = screen.getByText(/FlacoJones merged linked pull request/i);
-      const closedAction = screen.getByText(/FlacoJones closed this issue on March 28, 2022 at 13:57/i);
+      const closedAction = screen.getByText(/FlacoJones closed this issue on March 28, 2022 at 17:57/i);
       const linkedAction = screen.getByText(/FlacoJones linked/i);
-      const mintedAction = screen.getByText(/0xf3\.\.\.2266 minted this contract on September 7, 2022 at 6:09/i);
+      const mintedAction = screen.getByText(/0xf3\.\.\.2266 minted this contract on September 7, 2022 at 10:09/i);
 
       //orders individual actions into a correctly ordered array.
       const orderedActions = [

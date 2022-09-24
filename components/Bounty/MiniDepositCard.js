@@ -6,11 +6,13 @@ import Link from 'next/link';
 import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import TokenBalances from '../TokenBalances/TokenBalances';
+import useWeb3 from '../../hooks/useWeb3';
 
-const MiniDepositCard = ({ deposit, showLink }) => {
+const MiniDepositCard = ({ deposit, showLink, id }) => {
   // Context
   const [appState] = useContext(StoreContext);
 
+  const { account } = useWeb3();
   // State
   const [title, updateTitle] = useState('');
   const [tokenValues] = useGetTokenValues(deposit);
@@ -22,7 +24,7 @@ const MiniDepositCard = ({ deposit, showLink }) => {
         const fetchedTitle = await appState.githubRepository.fetchIssueById(deposit.bounty.bountyId);
         updateTitle(fetchedTitle.title);
       } catch (error) {
-        console.log(error);
+        appState.logger.error(error, account, id);
       }
     }
   });

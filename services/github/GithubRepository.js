@@ -65,7 +65,7 @@ class GithubRepository {
     return promise;
   }
 
-  parseIssueData(rawIssueResponse) {
+  parseIssueData(rawIssueResponse, reject) {
     try {
       const responseData = rawIssueResponse.data.node;
       const timelineItems = responseData.timelineItems.nodes;
@@ -101,7 +101,7 @@ class GithubRepository {
         closedEvents,
       };
     } catch (err) {
-      console.log(err);
+      reject(err);
       let id,
         title,
         assignees,
@@ -143,7 +143,7 @@ class GithubRepository {
     }
   }
 
-  parseIssuesData(rawIssuesResponse) {
+  parseIssuesData(rawIssuesResponse, reject) {
     const responseData = rawIssuesResponse.data.nodes;
     return responseData
       .filter((event) => event?.__typename === 'Issue')
@@ -181,7 +181,7 @@ class GithubRepository {
             prs,
           };
         } catch (err) {
-          console.log(err);
+          reject(err);
           let id, url, repoName, owner, avatarUrl, labels, createdAt, closed, titleHTML, assignees;
           return {
             id,
@@ -209,7 +209,7 @@ class GithubRepository {
             issueId,
           },
         });
-        resolve(this.parseIssueData(result));
+        resolve(this.parseIssueData(result, reject));
       } catch (e) {
         reject(e);
       }
@@ -228,7 +228,7 @@ class GithubRepository {
           },
           errorPolicy: 'all',
         });
-        resolve(this.parseIssuesData(result));
+        resolve(this.parseIssuesData(result, reject));
       } catch (e) {
         reject(e);
       }
@@ -298,7 +298,6 @@ class GithubRepository {
           const userResult = await this.fetchUserByLogin(login);
           resolve(userResult);
         } catch (e) {
-          console.log(e);
           reject(e);
         }
       }
@@ -354,7 +353,6 @@ class GithubRepository {
           resolve(userResult);
         }
       } catch (e) {
-        console.log(e);
         reject(e);
       }
     });
@@ -373,7 +371,6 @@ class GithubRepository {
         });
         resolve(result.data.node);
       } catch (e) {
-        console.log(e);
         reject(e);
       }
     });
@@ -392,7 +389,6 @@ class GithubRepository {
         });
         resolve(result.data.nodes);
       } catch (e) {
-        console.log(e);
         reject(e);
       }
     });
@@ -410,7 +406,6 @@ class GithubRepository {
         });
         resolve(result);
       } catch (e) {
-        console.log(e);
         reject(e);
       }
     });
@@ -462,7 +457,6 @@ class GithubRepository {
         });
         resolve(result.data.node);
       } catch (e) {
-        console.log(e);
         reject(e);
       }
     });
@@ -481,7 +475,6 @@ class GithubRepository {
         });
         resolve(result.data.nodes);
       } catch (e) {
-        console.log(e);
         reject(e);
       }
     });
