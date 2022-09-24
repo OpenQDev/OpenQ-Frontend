@@ -120,7 +120,7 @@ const address = ({ address, mergedBounty, renderError }) => {
   }, [internalMenu]);
 
   useEffect(() => {
-    if (bounty && ethers.utils.getAddress(bounty.issuer.id) !== account) {
+    if (bounty && bounty.issuer?.id && ethers.utils.getAddress(bounty.issuer.id) !== account) {
       setInternalMenu('View');
     }
   }, [account]);
@@ -242,7 +242,10 @@ const address = ({ address, mergedBounty, renderError }) => {
                 {internalMenu == 'Claims Overview' && bounty ? (
                   <ClaimOverview bounty={bounty} setInternalMenu={setInternalMenu} />
                 ) : null}
-                {internalMenu == 'Admin' && bounty && ethers.utils.getAddress(bounty.issuer.id) == account ? (
+                {internalMenu == 'Admin' &&
+                bounty &&
+                bounty?.issuer?.id &&
+                ethers.utils.getAddress(bounty.issuer.id) == account ? (
                   <AdminPage
                     bounty={bounty}
                     refreshBounty={refreshBounty}
