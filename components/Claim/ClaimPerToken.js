@@ -1,9 +1,9 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo, useEffect } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import { ethers } from 'ethers';
 
-const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
+const ClaimPerToken = ({ bounty, tokenAddress, claimant, type, changeObj }) => {
   const [appState] = useContext(StoreContext);
   const tokenMetadata = appState.tokenClient.getToken(tokenAddress);
 
@@ -111,6 +111,12 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type }) => {
       valueDisplay = totalDepositValue;
       break;
   }
+
+  console.log('valueDisplay', valueDisplay);
+
+  useEffect(() => {
+    changeObj(claimant, valueDisplay);
+  }, [valueDisplay]);
 
   return (
     <div className='flex px-2 pb-2 w-full'>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import Jazzicon from '../Utils/Jazzicon';
 import useEns from '../../hooks/useENS';
@@ -29,6 +29,20 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
     return claimantEnsName || shortenAddress(claimant);
   });
 
+  const [sum, setSum] = useState({});
+
+  const changeObj = (claimant, value) => {
+    console.log('sum', sum[claimant]);
+    console.log('value', value);
+    if (claimant in sum && value) {
+      setSum((prev) => ({ ...prev, [claimant]: prev[claimant] + value }));
+    }
+    if (!(claimant in sum) && value) {
+      setSum((prev) => ({ ...prev, [claimant]: value }));
+    }
+  };
+  console.log(sum);
+
   return (
     <div className='pb-8'>
       {bounty.payouts?.length ? (
@@ -58,6 +72,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                       claimant={claimant}
                       tokenAddress={tokenAddress}
                       type={'perClaimant'}
+                      changeObj={changeObj}
                     />
                   </td>
                 ))}
@@ -68,10 +83,11 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                     claimant={claimant}
                     type={'perClaimant'}
                   />
+                  <div>{sum[claimant]}</div>
                 </td>
               </tr>
             ))}
-            <tr className='font-bold border-t border-gray-700'>
+            {/* <tr className='font-bold border-t border-gray-700'>
               <td className='px-2 pb-2'>SubTotal</td>
               {bounty.payouts?.length &&
                 tokenAddresses.map((tokenAddress) => (
@@ -154,7 +170,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
               <td>
                 <ClaimTotals tokenAddresses={tokenAddresses} bounty={bounty} type={'total'} />
               </td>
-            </tr>
+            </tr> */}
           </tbody>
         </table>
       ) : (
