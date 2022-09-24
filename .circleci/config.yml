@@ -46,8 +46,8 @@ jobs:
             sudo chmod +x /usr/local/bin/yq
             git clone https://${CIRCLECI_PAT}@github.com/openqdev/OpenQ-Helm.git
             cd OpenQ-Helm/
-            yq -i '.frontend.image.tag = env(CIRCLE_TAG)' values-staging.yaml
-            cat values-staging.yaml
+            yq -i '.frontend.image.tag = env(CIRCLE_TAG)' values-$DEPLOY_ENV.yaml
+            cat values-$DEPLOY_ENV.yaml
             git add .
             git commit -m "[CIRCLE CI] ${CIRCLE_TAG}"
             git push
