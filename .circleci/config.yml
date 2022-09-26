@@ -3,6 +3,7 @@ orbs:
   kubernetes: circleci/kubernetes@0.12.0
 jobs:
   build:
+    parallelism: 10
     machine: true
     steps:
       - checkout
@@ -37,7 +38,18 @@ jobs:
       - run: docker build -t openq/openq-frontend:$CIRCLE_TAG --build-arg deploy_env=$DEPLOY_ENV .
       - run: docker run -d --name openq-frontend openq/openq-frontend:$CIRCLE_TAG
       - run: docker exec openq-frontend yarn json-server:cicd
-      - run: docker exec openq-frontend yarn test:cicd
+      - run: 
+          name: Test application
+          command: |
+              TEST=$(circleci tests glob "src/__tests__/*.js" | circleci tests split --split-by=timings)
+              yarn test $TEST      
+      - run:
+          command: cp junit.xml ~/junit/
+          when: always
+      - store_test_results:
+          path: ~/junit
+      - store_artifacts:
+          path: ~/junit
       - run: docker push openq/openq-frontend:$CIRCLE_TAG
       - run:
           command: |

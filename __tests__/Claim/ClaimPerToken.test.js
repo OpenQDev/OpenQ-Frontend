@@ -620,7 +620,9 @@ const bounties = [
 ];
 
 describe('ClaimPerToken', () => {
+  let changeObj;
   beforeEach(() => {
+    changeObj = jest.fn();
     nextRouter.useRouter.mockImplementation(() => ({
       query: { type: null },
       prefetch: jest.fn(() => {
@@ -632,10 +634,17 @@ describe('ClaimPerToken', () => {
 
   it('should display the right volume per claimant and token', async () => {
     // ARRANGE
-    render(<ClaimPerToken bounty={bounties[0]} />);
+    render(
+      <ClaimPerToken
+        tokenAddress={'0x0000000000000000000000000000000000000000'}
+        type={'allClaimants'}
+        changeObj={changeObj}
+        bounty={bounties[0]}
+      />
+    );
 
     // ASSERT
-    const volDERC20 = await screen.findByText('300.0');
+    const volDERC20 = await screen.findByText(/469.0/);
     expect(volDERC20).toBeInTheDocument();
 
     // should not have null or undefined values
@@ -645,7 +654,13 @@ describe('ClaimPerToken', () => {
 
   it('should display the right percentage per claimant and token', async () => {
     // ARRANGE
-    render(<ClaimPerToken bounty={bounties[0]} />);
+    render(
+      <ClaimPerToken
+        bounty={bounties[0]}
+        tokenAddress={'0x0000000000000000000000000000000000000000'}
+        changeObj={changeObj}
+      />
+    );
 
     // ASSERT
 
@@ -656,7 +671,13 @@ describe('ClaimPerToken', () => {
 
   it('should display the right value per claimant and token', async () => {
     // ARRANGE
-    render(<ClaimPerToken bounty={bounties[0]} />);
+    render(
+      <ClaimPerToken
+        tokenAddress={'0x0000000000000000000000000000000000000000'}
+        bounty={bounties[0]}
+        changeObj={changeObj}
+      />
+    );
 
     // ASSERT
 

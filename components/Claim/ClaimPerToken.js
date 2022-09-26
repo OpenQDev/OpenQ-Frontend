@@ -113,7 +113,11 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type, changeObj }) => {
   }
 
   useEffect(() => {
-    changeObj(claimant || type, valueDisplay);
+    let didCancel;
+    if (!didCancel) {
+      changeObj(claimant || type, valueDisplay);
+    }
+    return () => (didCancel = true);
   }, [valueDisplay]);
 
   return (

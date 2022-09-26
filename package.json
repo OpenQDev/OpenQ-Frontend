@@ -83,19 +83,12 @@
 		"eslint-config-next": "11.1.0",
 		"eslint-plugin-react": "^7.28.0",
 		"husky": "^8.0.1",
+		"jest-junit": "^14.0.1",
 		"postcss": "^8.3.6",
 		"prettier": "^2.7.1",
 		"tailwindcss": "^3.0.23"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "lint-staged",
-			"pre-push": "yarn run test"
-		}
-	},
-	"lint-staged": {
-		"**/*.js": [
-			"eslint . --fix"
-		]
-	}
+	},	
+  "jest-junit": {
+    "addFileAttribute": "true"
+  }
 }
