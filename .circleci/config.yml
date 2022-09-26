@@ -6,6 +6,7 @@ jobs:
     machine: true
     steps:
       - checkout
+      - parallelism: 10
       - run: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USER --password-stdin
       - run:
           name: Update DEPLOY_ENV environment variable using CIRCLE_TAG
@@ -37,7 +38,11 @@ jobs:
       - run: docker build -t openq/openq-frontend:$CIRCLE_TAG --build-arg deploy_env=$DEPLOY_ENV .
       - run: docker run -d --name openq-frontend openq/openq-frontend:$CIRCLE_TAG
       - run: docker exec openq-frontend yarn json-server:cicd
-      - run: docker exec openq-frontend yarn test:cicd
+      - run: 
+          name: Test application
+          command: |
+              TEST=$(circleci tests glob "src/__tests__/*.js" | circleci tests split)
+              yarn test $TEST
       - run: docker push openq/openq-frontend:$CIRCLE_TAG
       - run:
           command: |
