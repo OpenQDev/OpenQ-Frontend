@@ -9,7 +9,7 @@ logs.log
 
 # testing
 /coverage
-/junit.xml
+junit.xml
 
 PAT
 
