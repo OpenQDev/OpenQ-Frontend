@@ -42,8 +42,7 @@ jobs:
           name: Test application
           command: |
               TEST=$(circleci tests glob "src/__tests__/*.js" | circleci tests split --split-by=timings)
-              yarn test $TEST      
-      - run:
+              docker exec openq-frontend yarn test:cicd $TEST
           command: cp junit.xml ~/junit/
           when: always
       - store_test_results:
