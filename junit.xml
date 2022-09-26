@@ -1,101 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="3" failures="3" errors="0" time="9.655">
-  <testsuite name="BountyList" errors="0" failures="3" skipped="0" timestamp="2022-09-26T10:37:54" time="7.142" tests="3">
-    <testcase classname="BountyList should allow user to open BountyCardDetailsModal" name="BountyList should allow user to open BountyCardDetailsModal" time="1.918" file="__tests__/BountyList/BountyList.test.js">
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+<testsuites name="jest tests" tests="25" failures="0" errors="0" time="7.901">
+  <testsuite name="ClaimPerToken" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:03:39" time="1.484" tests="3">
+    <testcase classname="ClaimPerToken should display the right volume per claimant and token" name="ClaimPerToken should display the right volume per claimant and token" time="0.311" file="__tests__/Claim/ClaimPerToken.test.js">
     </testcase>
-    <testcase classname="BountyList should allow user to search by text and tags" name="BountyList should allow user to search by text and tags" time="1.31" file="__tests__/BountyList/BountyList.test.js">
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+    <testcase classname="ClaimPerToken should display the right percentage per claimant and token" name="ClaimPerToken should display the right percentage per claimant and token" time="0.026" file="__tests__/Claim/ClaimPerToken.test.js">
     </testcase>
-    <testcase classname="BountyList should allow the user to sort by age" name="BountyList should allow the user to sort by age" time="1.356" file="__tests__/BountyList/BountyList.test.js">
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
-      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
-    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+    <testcase classname="ClaimPerToken should display the right value per claimant and token" name="ClaimPerToken should display the right value per claimant and token" time="0.021" file="__tests__/Claim/ClaimPerToken.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="ActionBubble" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:03:39" time="3.899" tests="8">
+    <testcase classname="ActionBubble should display minted message" name="ActionBubble should display minted message" time="1.055" file="__tests__/Utils/ActionBubble.test.js">
+    </testcase>
+    <testcase classname="ActionBubble should display minted links" name="ActionBubble should display minted links" time="0.078" file="__tests__/Utils/ActionBubble.test.js">
+    </testcase>
+    <testcase classname="ActionBubble should display funded action message" name="ActionBubble should display funded action message" time="0.272" file="__tests__/Utils/ActionBubble.test.js">
+    </testcase>
+    <testcase classname="ActionBubble should display refunded action message" name="ActionBubble should display refunded action message" time="0.245" file="__tests__/Utils/ActionBubble.test.js">
+    </testcase>
+    <testcase classname="ActionBubble should display multi claimed action message" name="ActionBubble should display multi claimed action message" time="1.015" file="__tests__/Utils/ActionBubble.test.js">
+    </testcase>
+    <testcase classname="ActionBubble should display single claimed action message" name="ActionBubble should display single claimed action message" time="0.016" file="__tests__/Utils/ActionBubble.test.js">
+    </testcase>
+    <testcase classname="ActionBubble should display closed action message" name="ActionBubble should display closed action message" time="0.014" file="__tests__/Utils/ActionBubble.test.js">
+    </testcase>
+    <testcase classname="ActionBubble should display pull request linked action message" name="ActionBubble should display pull request linked action message" time="0.041" file="__tests__/Utils/ActionBubble.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="ClaimOverview" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:03:40" time="3.243" tests="2">
+    <testcase classname="ClaimOverview should render the headings" name="ClaimOverview should render the headings" time="2.314" file="__tests__/Claim/ClaimOverview.test.js">
+    </testcase>
+    <testcase classname="ClaimOverview should display the claimants addresses" name="ClaimOverview should display the claimants addresses" time="0.328" file="__tests__/Claim/ClaimOverview.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="BountyCardDetails" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:03:43" time="1.071" tests="1">
+    <testcase classname="BountyCardDetails should display bubles in correct order" name="BountyCardDetails should display bubles in correct order" time="0.51" file="__tests__/Bounty/BountyCardDetails.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="RefundPage" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:03:44" time="1.082" tests="4">
+    <testcase classname="RefundPage should render the heading" name="RefundPage should render the heading" time="0.074" file="__tests__/RefundBounty/RefundPage.test.js">
+    </testcase>
+    <testcase classname="RefundPage should render refundable" name="RefundPage should render refundable" time="0.226" file="__tests__/RefundBounty/RefundPage.test.js">
+    </testcase>
+    <testcase classname="RefundPage should render times, including not yet refundable times" name="RefundPage should render times, including not yet refundable times" time="0.04" file="__tests__/RefundBounty/RefundPage.test.js">
+    </testcase>
+    <testcase classname="RefundPage should render refunded" name="RefundPage should render refunded" time="0.04" file="__tests__/RefundBounty/RefundPage.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="RefundPage" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:03:44" time="0.992" tests="2">
+    <testcase classname="RefundPage should render the heading" name="RefundPage should render the heading" time="0.081" file="__tests__/RefundBounty/Refund.test.js">
+    </testcase>
+    <testcase classname="RefundPage should render allow refund" name="RefundPage should render allow refund" time="0.239" file="__tests__/RefundBounty/Refund.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="About Freelancer " errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:03:45" time="0.812" tests="2">
+    <testcase classname="About Freelancer  should render the freelancer with no activity" name="About Freelancer  should render the freelancer with no activity" time="0.062" file="__tests__/User/AboutFreelancer.test.js">
+    </testcase>
+    <testcase classname="About Freelancer  should render freelancer with a claim" name="About Freelancer  should render freelancer with a claim" time="0.127" file="__tests__/User/AboutFreelancer.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="WatchButton" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:03:45" time="0.712" tests="2">
+    <testcase classname="WatchButton should render watch button" name="WatchButton should render watch button" time="0.043" file="__tests__/WalletConnect/ConnectButton.test.js">
+    </testcase>
+    <testcase classname="WatchButton should open modal and display link to profile." name="WatchButton should open modal and display link to profile." time="0.089" file="__tests__/WalletConnect/ConnectButton.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="ClaimPage" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:03:46" time="0.658" tests="1">
+    <testcase classname="ClaimPage should render the heading" name="ClaimPage should render the heading" time="0.071" file="__tests__/Claim/Claim.test.js">
     </testcase>
   </testsuite>
 </testsuites>
