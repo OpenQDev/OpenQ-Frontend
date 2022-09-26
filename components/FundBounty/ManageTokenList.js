@@ -64,14 +64,32 @@ const ManageTokenList = ({ setCustomTokens, customTokens, setLists, lists, strea
         <>
           <div className='md:w-5/6 w-full  py-3 text-left px-4 border border-gray-700 rounded-sm flex items-center gap-4 justify-between'>
             <div className={'flex justify-center items-center h-10 w-10 rounded-full'}>
-              <Image height={31} width={31} src={'/openq-logo-white-2.png'} />
+              <Image height={31} width={31} alt={'openq logo'} src={'/openq-logo-white-2.png'} />
             </div>
-            <span className='justify-self-start flex-1'>OpenQ List</span>
-            <input onChange={setOpenQ} checked={lists.openq} type='checkbox' className='checkbox cursor-pointer' />
+            <label htmlFor='includeOpenq' className='justify-self-start flex-1'>
+              OpenQ List
+            </label>
+            <input
+              onChange={setOpenQ}
+              aria-label='include openq list'
+              id='includeOpenq'
+              checked={lists.openq}
+              type='checkbox'
+              className='checkbox cursor-pointer'
+            />
           </div>
           <div className='md:w-5/6 w-full  py-3 mb-4.5 text-left px-4 border border-gray-700 rounded-sm flex items-center gap-4 justify-between'>
             <div className={'flex justify-center items-center h-10 w-10'}>
-              <svg version='1.1' id='Layer_1' height='24' x='0px' y='0px' fill='#8247e5' viewBox='0 0 38.4 33.5'>
+              <svg
+                version='1.1'
+                id='Layer_1'
+                height='24'
+                x='0px'
+                y='0px'
+                aria-label={'polygon logo'}
+                fill='#8247e5'
+                viewBox='0 0 38.4 33.5'
+              >
                 <g>
                   <path
                     className='st0'
@@ -85,8 +103,17 @@ const ManageTokenList = ({ setCustomTokens, customTokens, setLists, lists, strea
                 </g>
               </svg>
             </div>
-            <span className='justify-self-start flex-1 truncate'>Polygon.Technology List</span>
-            <input onChange={setPolygon} type='checkbox' checked={lists.polygon} className='checkbox cursor-pointer' />
+            <label htmlFor='includePolygon' className='justify-self-start flex-1 truncate'>
+              Polygon.Technology List
+            </label>
+            <input
+              onChange={setPolygon}
+              id='includePolygon'
+              aria-label='include polygon list'
+              type='checkbox'
+              checked={lists.polygon}
+              className='checkbox cursor-pointer'
+            />
           </div>
         </>
       ) : (
