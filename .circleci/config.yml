@@ -171,6 +171,8 @@ workflows:
                 - /^staging.*/
                 - /^production.*/
       - test:
+          requires:
+            - build
           context: OpenQ
           filters:
             branches:
