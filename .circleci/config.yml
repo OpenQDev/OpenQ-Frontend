@@ -3,10 +3,10 @@ orbs:
   kubernetes: circleci/kubernetes@0.12.0
 jobs:
   build:
+    parallelism: 10
     machine: true
     steps:
       - checkout
-      - parallelism: 10
       - run: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USER --password-stdin
       - run:
           name: Update DEPLOY_ENV environment variable using CIRCLE_TAG
@@ -42,7 +42,14 @@ jobs:
           name: Test application
           command: |
               TEST=$(circleci tests glob "src/__tests__/*.js" | circleci tests split --split-by=timings)
-              yarn test $TEST
+              yarn test $TEST      
+      - run:
+          command: cp junit.xml ~/junit/
+          when: always
+      - store_test_results:
+          path: ~/junit
+      - store_artifacts:
+          path: ~/junit
       - run: docker push openq/openq-frontend:$CIRCLE_TAG
       - run:
           command: |
