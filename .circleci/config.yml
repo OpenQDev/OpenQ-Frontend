@@ -63,8 +63,8 @@ jobs:
             git add .
             git commit -m "[CIRCLE CI] ${CIRCLE_TAG}"
             git remote set-url origin https://${CIRCLECI_PAT}@github.com/openqdev/OpenQ-Helm.git
-            git push
             git tag -f ${CIRCLE_TAG}
+            git push
             git push origin --tags
 workflows:
   version: 2
