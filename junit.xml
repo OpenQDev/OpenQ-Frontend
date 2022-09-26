@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="3" failures="3" errors="0" time="9.655">
+  <testsuite name="BountyList" errors="0" failures="3" skipped="0" timestamp="2022-09-26T10:37:54" time="7.142" tests="3">
+    <testcase classname="BountyList should allow user to open BountyCardDetailsModal" name="BountyList should allow user to open BountyCardDetailsModal" time="1.918" file="__tests__/BountyList/BountyList.test.js">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+    </testcase>
+    <testcase classname="BountyList should allow user to search by text and tags" name="BountyList should allow user to search by text and tags" time="1.31" file="__tests__/BountyList/BountyList.test.js">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+    </testcase>
+    <testcase classname="BountyList should allow the user to sort by age" name="BountyList should allow the user to sort by age" time="1.356" file="__tests__/BountyList/BountyList.test.js">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;data&apos;)
+    at checkAccount (/home/christopherstevers/OpenQ-Fullstack/OpenQ-Frontend/hooks/useAuth.js:47:20)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+    </testcase>
+  </testsuite>
+</testsuites>
