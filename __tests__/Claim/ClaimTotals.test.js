@@ -632,7 +632,7 @@ describe('ClaimTotals', () => {
 
   it('should display the right percentage per claimant', async () => {
     // ARRANGE
-    render(<ClaimTotals bounty={bounties[0]} />);
+    render(<ClaimTotals valueDisplay={3} totalDepositValue={10} />);
 
     // ASSERT
     const percentClaimant = await screen.findByText('30.0 %');
