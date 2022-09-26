@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
-xterm -e "yarn json-server"
+gnome -e "yarn json-server"
 yarn run test:cicd
