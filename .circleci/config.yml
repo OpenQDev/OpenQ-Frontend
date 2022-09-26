@@ -39,14 +39,14 @@ jobs:
       - persist_to_workspace: 
           root: ./
           paths:
-            - build
+            - ./
   test:
     parallelism: 10
     machine: true
     steps:
       - checkout
       - attach_workspace:
-          at: ./build
+          at: ./
       - run: docker exec openq-frontend yarn json-server:cicd
       - run: 
           name: Test application
