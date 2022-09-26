@@ -32,6 +32,8 @@ describe('ManageTokenList', () => {
       expect(screen.getByText(/tokens/i)).toBeInTheDocument();
       const polygonToggle = screen.getByLabelText(/Polygon.Technology List/);
       expect(polygonToggle).toBeInTheDocument();
+      const openqToggle = screen.getByLabelText(/OpenQ List/);
+      expect(openqToggle).toBeInTheDocument();
     });
   };
 
