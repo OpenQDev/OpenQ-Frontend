@@ -287,7 +287,7 @@ class Utils {
       const prismaResult = await openQPrismaClient.getUser(account, types);
       prismaContracts = prismaResult?.watchedBounties.nodes || [];
       const watchedBountyAddresses = prismaResult?.watchedBountyIds.map((address) => address.toLowerCase()) || [];
-      const watchedBountyIds = prismaContracts.map((contract) => contract.bountyId);
+      const watchedBountyIds = prismaContracts?.map((contract) => contract.bountyId);
       subgraphContracts = await openQSubgraphClient.getBountiesByContractAddresses(watchedBountyAddresses);
       githubIssues = await githubRepository.getIssueData(watchedBountyIds);
     } catch (err) {
