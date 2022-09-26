@@ -1,691 +1,691 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="267" failures="0" errors="0" time="44.748">
-  <testsuite name="FundPage" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:03" time="7.702" tests="9">
-    <testcase classname="FundPage should render the heading" name="FundPage should render the heading" time="0.079" file="__tests__/Fund/FundPage.test.js">
+<testsuites name="jest tests" tests="267" failures="0" errors="0" time="31.667">
+  <testsuite name="BountyList" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:09" time="5.677" tests="3">
+    <testcase classname="BountyList should allow user to open BountyCardDetailsModal" name="BountyList should allow user to open BountyCardDetailsModal" time="1.588" file="__tests__/BountyList/BountyList.test.js">
     </testcase>
-    <testcase classname="FundPage should render list items" name="FundPage should render list items" time="0.018" file="__tests__/Fund/FundPage.test.js">
+    <testcase classname="BountyList should allow user to search by text and tags" name="BountyList should allow user to search by text and tags" time="1.414" file="__tests__/BountyList/BountyList.test.js">
     </testcase>
-    <testcase classname="FundPage should let user submit and handle too low amount of token" name="FundPage should let user submit and handle too low amount of token" time="0.386" file="__tests__/Fund/FundPage.test.js">
-    </testcase>
-    <testcase classname="FundPage should let user submit and handle owned amount of Matic" name="FundPage should let user submit and handle owned amount of Matic" time="1.292" file="__tests__/Fund/FundPage.test.js">
-    </testcase>
-    <testcase classname="FundPage should let user submit and handle owned amount of Link" name="FundPage should let user submit and handle owned amount of Link" time="2.711" file="__tests__/Fund/FundPage.test.js">
-    </testcase>
-    <testcase classname="FundPage should handle approval errors" name="FundPage should handle approval errors" time="1.71" file="__tests__/Fund/FundPage.test.js">
-    </testcase>
-    <testcase classname="FundPage should prevent user from submitting over 10000000" name="FundPage should prevent user from submitting over 10000000" time="0.114" file="__tests__/Fund/FundPage.test.js">
-    </testcase>
-    <testcase classname="FundPage should prevent user from submitting under 0.0000001" name="FundPage should prevent user from submitting under 0.0000001" time="0.126" file="__tests__/Fund/FundPage.test.js">
-    </testcase>
-    <testcase classname="FundPage should show tooltip" name="FundPage should show tooltip" time="0.057" file="__tests__/Fund/FundPage.test.js">
+    <testcase classname="BountyList should allow the user to sort by age" name="BountyList should allow the user to sort by age" time="1.235" file="__tests__/BountyList/BountyList.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="BountyList" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:11" time="4.767" tests="3">
-    <testcase classname="BountyList should allow user to open BountyCardDetailsModal" name="BountyList should allow user to open BountyCardDetailsModal" time="1.448" file="__tests__/BountyList/BountyList.test.js">
+  <testsuite name="FundPage" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:09" time="8.165" tests="9">
+    <testcase classname="FundPage should render the heading" name="FundPage should render the heading" time="0.078" file="__tests__/Fund/FundPage.test.js">
     </testcase>
-    <testcase classname="BountyList should allow user to search by text and tags" name="BountyList should allow user to search by text and tags" time="1.319" file="__tests__/BountyList/BountyList.test.js">
+    <testcase classname="FundPage should render list items" name="FundPage should render list items" time="0.03" file="__tests__/Fund/FundPage.test.js">
     </testcase>
-    <testcase classname="BountyList should allow the user to sort by age" name="BountyList should allow the user to sort by age" time="1.3" file="__tests__/BountyList/BountyList.test.js">
+    <testcase classname="FundPage should let user submit and handle too low amount of token" name="FundPage should let user submit and handle too low amount of token" time="0.4" file="__tests__/Fund/FundPage.test.js">
     </testcase>
-  </testsuite>
-  <testsuite name="MintBountyButton" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:03" time="14.098" tests="48">
-    <testcase classname="MintBountyButton should handle mint interactions for type 0" name="MintBountyButton should handle mint interactions for type 0" time="0.235" file="__tests__/MintBounty/MintBountyModal.test.js">
+    <testcase classname="FundPage should let user submit and handle owned amount of Matic" name="FundPage should let user submit and handle owned amount of Matic" time="1.327" file="__tests__/Fund/FundPage.test.js">
     </testcase>
-    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.041" file="__tests__/MintBounty/MintBountyModal.test.js">
+    <testcase classname="FundPage should let user submit and handle owned amount of Link" name="FundPage should let user submit and handle owned amount of Link" time="2.866" file="__tests__/Fund/FundPage.test.js">
     </testcase>
-    <testcase classname="MintBountyButton should handle extra data for type 0" name="MintBountyButton should handle extra data for type 0" time="0.236" file="__tests__/MintBounty/MintBountyModal.test.js">
+    <testcase classname="FundPage should handle approval errors" name="FundPage should handle approval errors" time="1.789" file="__tests__/Fund/FundPage.test.js">
     </testcase>
-    <testcase classname="MintBountyButton should handle mint interactions for type 1" name="MintBountyButton should handle mint interactions for type 1" time="0.144" file="__tests__/MintBounty/MintBountyModal.test.js">
+    <testcase classname="FundPage should prevent user from submitting over 10000000" name="FundPage should prevent user from submitting over 10000000" time="0.149" file="__tests__/Fund/FundPage.test.js">
     </testcase>
-    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.033" file="__tests__/MintBounty/MintBountyModal.test.js">
+    <testcase classname="FundPage should prevent user from submitting under 0.0000001" name="FundPage should prevent user from submitting under 0.0000001" time="0.138" file="__tests__/Fund/FundPage.test.js">
     </testcase>
-    <testcase classname="MintBountyButton should handle extra data for type 1" name="MintBountyButton should handle extra data for type 1" time="0.312" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle mint interactions for type 2" name="MintBountyButton should handle mint interactions for type 2" time="0.146" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.038" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle extra data for type 2" name="MintBountyButton should handle extra data for type 2" time="0.376" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle mint interactions for type 3" name="MintBountyButton should handle mint interactions for type 3" time="0.12" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.024" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle extra data for type 3" name="MintBountyButton should handle extra data for type 3" time="0.223" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle mint interactions for type 0" name="MintBountyButton should handle mint interactions for type 0" time="0.353" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.026" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle extra data for type 0" name="MintBountyButton should handle extra data for type 0" time="0.393" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle mint interactions for type 1" name="MintBountyButton should handle mint interactions for type 1" time="0.392" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.033" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle extra data for type 1" name="MintBountyButton should handle extra data for type 1" time="0.525" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle mint interactions for type 2" name="MintBountyButton should handle mint interactions for type 2" time="0.441" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.034" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle extra data for type 2" name="MintBountyButton should handle extra data for type 2" time="0.574" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle mint interactions for type 3" name="MintBountyButton should handle mint interactions for type 3" time="0.338" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.025" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle extra data for type 3" name="MintBountyButton should handle extra data for type 3" time="0.412" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle mint interactions for type 0" name="MintBountyButton should handle mint interactions for type 0" time="0.304" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.021" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle extra data for type 0" name="MintBountyButton should handle extra data for type 0" time="0.401" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle mint interactions for type 1" name="MintBountyButton should handle mint interactions for type 1" time="0.394" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.027" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle extra data for type 1" name="MintBountyButton should handle extra data for type 1" time="0.543" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle mint interactions for type 2" name="MintBountyButton should handle mint interactions for type 2" time="0.39" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.028" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle extra data for type 2" name="MintBountyButton should handle extra data for type 2" time="0.607" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle mint interactions for type 3" name="MintBountyButton should handle mint interactions for type 3" time="0.351" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.026" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle extra data for type 3" name="MintBountyButton should handle extra data for type 3" time="0.492" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle mint interactions for type 0" name="MintBountyButton should handle mint interactions for type 0" time="0.29" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.017" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle extra data for type 0" name="MintBountyButton should handle extra data for type 0" time="0.374" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle mint interactions for type 1" name="MintBountyButton should handle mint interactions for type 1" time="0.334" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.025" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle extra data for type 1" name="MintBountyButton should handle extra data for type 1" time="0.591" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle mint interactions for type 2" name="MintBountyButton should handle mint interactions for type 2" time="0.32" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.03" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle extra data for type 2" name="MintBountyButton should handle extra data for type 2" time="0.539" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle mint interactions for type 3" name="MintBountyButton should handle mint interactions for type 3" time="0.287" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.022" file="__tests__/MintBounty/MintBountyModal.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should handle extra data for type 3" name="MintBountyButton should handle extra data for type 3" time="0.388" file="__tests__/MintBounty/MintBountyModal.test.js">
+    <testcase classname="FundPage should show tooltip" name="FundPage should show tooltip" time="0.069" file="__tests__/Fund/FundPage.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="ActionBubble" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:16" time="3.232" tests="8">
-    <testcase classname="ActionBubble should display minted message" name="ActionBubble should display minted message" time="1.039" file="__tests__/Utils/ActionBubble.test.js">
+  <testsuite name="ClaimOverview" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:15" time="3.418" tests="2">
+    <testcase classname="ClaimOverview should render the headings" name="ClaimOverview should render the headings" time="2.397" file="__tests__/Claim/ClaimOverview.test.js">
     </testcase>
-    <testcase classname="ActionBubble should display minted links" name="ActionBubble should display minted links" time="0.045" file="__tests__/Utils/ActionBubble.test.js">
-    </testcase>
-    <testcase classname="ActionBubble should display funded action message" name="ActionBubble should display funded action message" time="0.232" file="__tests__/Utils/ActionBubble.test.js">
-    </testcase>
-    <testcase classname="ActionBubble should display refunded action message" name="ActionBubble should display refunded action message" time="0.223" file="__tests__/Utils/ActionBubble.test.js">
-    </testcase>
-    <testcase classname="ActionBubble should display multi claimed action message" name="ActionBubble should display multi claimed action message" time="1.009" file="__tests__/Utils/ActionBubble.test.js">
-    </testcase>
-    <testcase classname="ActionBubble should display single claimed action message" name="ActionBubble should display single claimed action message" time="0.013" file="__tests__/Utils/ActionBubble.test.js">
-    </testcase>
-    <testcase classname="ActionBubble should display closed action message" name="ActionBubble should display closed action message" time="0.012" file="__tests__/Utils/ActionBubble.test.js">
-    </testcase>
-    <testcase classname="ActionBubble should display pull request linked action message" name="ActionBubble should display pull request linked action message" time="0.031" file="__tests__/Utils/ActionBubble.test.js">
+    <testcase classname="ClaimOverview should display the claimants addresses" name="ClaimOverview should display the claimants addresses" time="0.332" file="__tests__/Claim/ClaimOverview.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="ClaimOverview" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:17" time="3.066" tests="2">
-    <testcase classname="ClaimOverview should render the headings" name="ClaimOverview should render the headings" time="2.141" file="__tests__/Claim/ClaimOverview.test.js">
+  <testsuite name="OrganizationMetadata" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:19" time="2.099" tests="4">
+    <testcase classname="OrganizationMetadata should render Org homepage" name="OrganizationMetadata should render Org homepage" time="0.105" file="__tests__/Organization/OrganizationMetadata.test.js">
     </testcase>
-    <testcase classname="ClaimOverview should display the claimants addresses" name="ClaimOverview should display the claimants addresses" time="0.317" file="__tests__/Claim/ClaimOverview.test.js">
+    <testcase classname="OrganizationMetadata should render Org homepage" name="OrganizationMetadata should render Org homepage" time="1.313" file="__tests__/Organization/OrganizationMetadata.test.js">
     </testcase>
-  </testsuite>
-  <testsuite name="DepositCard" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:19" time="1.792" tests="16">
-    <testcase classname="DepositCard should render the volume and name of token" name="DepositCard should render the volume and name of token" time="0.255" file="__tests__/RefundBounty/DepositCard.test.js">
+    <testcase classname="OrganizationMetadata should render Org homepage" name="OrganizationMetadata should render Org homepage" time="0.005" file="__tests__/Organization/OrganizationMetadata.test.js">
     </testcase>
-    <testcase classname="DepositCard should render refund and extend button when refundable" name="DepositCard should render refund and extend button when refundable" time="0.046" file="__tests__/RefundBounty/DepositCard.test.js">
-    </testcase>
-    <testcase classname="DepositCard should render times whether refundable or not" name="DepositCard should render times whether refundable or not" time="0.014" file="__tests__/RefundBounty/DepositCard.test.js">
-    </testcase>
-    <testcase classname="DepositCard should render extend button when not refunded yet" name="DepositCard should render extend button when not refunded yet" time="0.027" file="__tests__/RefundBounty/DepositCard.test.js">
-    </testcase>
-    <testcase classname="DepositCard should render the volume and name of token" name="DepositCard should render the volume and name of token" time="0.225" file="__tests__/RefundBounty/DepositCard.test.js">
-    </testcase>
-    <testcase classname="DepositCard should render refund and extend button when refundable" name="DepositCard should render refund and extend button when refundable" time="0.037" file="__tests__/RefundBounty/DepositCard.test.js">
-    </testcase>
-    <testcase classname="DepositCard should render times whether refundable or not" name="DepositCard should render times whether refundable or not" time="0.012" file="__tests__/RefundBounty/DepositCard.test.js">
-    </testcase>
-    <testcase classname="DepositCard should render extend button when not refunded yet" name="DepositCard should render extend button when not refunded yet" time="0.019" file="__tests__/RefundBounty/DepositCard.test.js">
-    </testcase>
-    <testcase classname="DepositCard should render the volume and name of token" name="DepositCard should render the volume and name of token" time="0.223" file="__tests__/RefundBounty/DepositCard.test.js">
-    </testcase>
-    <testcase classname="DepositCard should render refund and extend button when refundable" name="DepositCard should render refund and extend button when refundable" time="0.04" file="__tests__/RefundBounty/DepositCard.test.js">
-    </testcase>
-    <testcase classname="DepositCard should render times whether refundable or not" name="DepositCard should render times whether refundable or not" time="0.012" file="__tests__/RefundBounty/DepositCard.test.js">
-    </testcase>
-    <testcase classname="DepositCard should render extend button when not refunded yet" name="DepositCard should render extend button when not refunded yet" time="0.021" file="__tests__/RefundBounty/DepositCard.test.js">
-    </testcase>
-    <testcase classname="DepositCard should render the volume and name of token" name="DepositCard should render the volume and name of token" time="0.26" file="__tests__/RefundBounty/DepositCard.test.js">
-    </testcase>
-    <testcase classname="DepositCard should render refund and extend button when refundable" name="DepositCard should render refund and extend button when refundable" time="0.031" file="__tests__/RefundBounty/DepositCard.test.js">
-    </testcase>
-    <testcase classname="DepositCard should render times whether refundable or not" name="DepositCard should render times whether refundable or not" time="0.014" file="__tests__/RefundBounty/DepositCard.test.js">
-    </testcase>
-    <testcase classname="DepositCard should render extend button when not refunded yet" name="DepositCard should render extend button when not refunded yet" time="0.021" file="__tests__/RefundBounty/DepositCard.test.js">
+    <testcase classname="OrganizationMetadata should render Org homepage" name="OrganizationMetadata should render Org homepage" time="0.005" file="__tests__/Organization/OrganizationMetadata.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="ContractWizard" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:21" time="1.007" tests="4">
-    <testcase classname="ContractWizard should open wizard and direct to discord server" name="ContractWizard should open wizard and direct to discord server" time="0.118" file="__tests__/ContractWizard/ContractWizard.test.js">
+  <testsuite name="ActionBubble" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:18" time="3.342" tests="8">
+    <testcase classname="ActionBubble should display minted message" name="ActionBubble should display minted message" time="1.037" file="__tests__/Utils/ActionBubble.test.js">
     </testcase>
-    <testcase classname="ContractWizard should open wizard and direct to repating contract" name="ContractWizard should open wizard and direct to repating contract" time="0.112" file="__tests__/ContractWizard/ContractWizard.test.js">
+    <testcase classname="ActionBubble should display minted links" name="ActionBubble should display minted links" time="0.064" file="__tests__/Utils/ActionBubble.test.js">
     </testcase>
-    <testcase classname="ContractWizard should open wizard and direct to repating contract" name="ContractWizard should open wizard and direct to repating contract" time="0.081" file="__tests__/ContractWizard/ContractWizard.test.js">
+    <testcase classname="ActionBubble should display funded action message" name="ActionBubble should display funded action message" time="0.281" file="__tests__/Utils/ActionBubble.test.js">
     </testcase>
-    <testcase classname="ContractWizard should open wizard and direct to atomic contract" name="ContractWizard should open wizard and direct to atomic contract" time="0.044" file="__tests__/ContractWizard/ContractWizard.test.js">
+    <testcase classname="ActionBubble should display refunded action message" name="ActionBubble should display refunded action message" time="0.231" file="__tests__/Utils/ActionBubble.test.js">
     </testcase>
-  </testsuite>
-  <testsuite name="LabelsList" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:22" time="0.564" tests="1">
-    <testcase classname="LabelsList should render at least one label" name="LabelsList should render at least one label" time="0.021" file="__tests__/Bounty/LabelsList.test.js">
+    <testcase classname="ActionBubble should display multi claimed action message" name="ActionBubble should display multi claimed action message" time="1.012" file="__tests__/Utils/ActionBubble.test.js">
     </testcase>
-  </testsuite>
-  <testsuite name="OrganizationMetadata" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:21" time="2.099" tests="4">
-    <testcase classname="OrganizationMetadata should render Org homepage" name="OrganizationMetadata should render Org homepage" time="0.121" file="__tests__/Organization/OrganizationMetadata.test.js">
+    <testcase classname="ActionBubble should display single claimed action message" name="ActionBubble should display single claimed action message" time="0.016" file="__tests__/Utils/ActionBubble.test.js">
     </testcase>
-    <testcase classname="OrganizationMetadata should render Org homepage" name="OrganizationMetadata should render Org homepage" time="1.342" file="__tests__/Organization/OrganizationMetadata.test.js">
+    <testcase classname="ActionBubble should display closed action message" name="ActionBubble should display closed action message" time="0.013" file="__tests__/Utils/ActionBubble.test.js">
     </testcase>
-    <testcase classname="OrganizationMetadata should render Org homepage" name="OrganizationMetadata should render Org homepage" time="0.008" file="__tests__/Organization/OrganizationMetadata.test.js">
-    </testcase>
-    <testcase classname="OrganizationMetadata should render Org homepage" name="OrganizationMetadata should render Org homepage" time="0.007" file="__tests__/Organization/OrganizationMetadata.test.js">
+    <testcase classname="ActionBubble should display pull request linked action message" name="ActionBubble should display pull request linked action message" time="0.041" file="__tests__/Utils/ActionBubble.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="Tier Input" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:23" time="0.641" tests="1">
-    <testcase classname="Tier Input should show tier selecter" name="Tier Input should show tier selecter" time="0.02" file="__tests__/MintBounty/TextTierInput.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="ContractWizard" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:23" time="0.75" tests="1">
-    <testcase classname="ContractWizard should open wizard and direct to discord server" name="ContractWizard should open wizard and direct to discord server" time="0.057" file="__tests__/ContractWizard/GetSupportModal.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="MiniBountyCard" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:23" time="0.756" tests="1">
-    <testcase classname="MiniBountyCard should render MiniBountyCard with link" name="MiniBountyCard should render MiniBountyCard with link" time="0.044" file="__tests__/User/AboutModules/MiniBountyCard.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="BountyCardDetailsModal" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:23" time="1.212" tests="8">
-    <testcase classname="BountyCardDetailsModal should display BountyCardDetailsModal" name="BountyCardDetailsModal should display BountyCardDetailsModal" time="0.115" file="__tests__/BountyCard/BountyCardDetailsModal.test.js">
+  <testsuite name="BountyCardDetailsModal" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:21" time="1.379" tests="8">
+    <testcase classname="BountyCardDetailsModal should display BountyCardDetailsModal" name="BountyCardDetailsModal should display BountyCardDetailsModal" time="0.138" file="__tests__/BountyCard/BountyCardDetailsModal.test.js">
     </testcase>
     <testcase classname="BountyCardDetailsModal should display BountyCardDetailsModal" name="BountyCardDetailsModal should display BountyCardDetailsModal" time="0.09" file="__tests__/BountyCard/BountyCardDetailsModal.test.js">
     </testcase>
-    <testcase classname="BountyCardDetailsModal should display BountyCardDetailsModal" name="BountyCardDetailsModal should display BountyCardDetailsModal" time="0.085" file="__tests__/BountyCard/BountyCardDetailsModal.test.js">
+    <testcase classname="BountyCardDetailsModal should display BountyCardDetailsModal" name="BountyCardDetailsModal should display BountyCardDetailsModal" time="0.095" file="__tests__/BountyCard/BountyCardDetailsModal.test.js">
     </testcase>
-    <testcase classname="BountyCardDetailsModal should display BountyCardDetailsModal" name="BountyCardDetailsModal should display BountyCardDetailsModal" time="0.055" file="__tests__/BountyCard/BountyCardDetailsModal.test.js">
+    <testcase classname="BountyCardDetailsModal should display BountyCardDetailsModal" name="BountyCardDetailsModal should display BountyCardDetailsModal" time="0.059" file="__tests__/BountyCard/BountyCardDetailsModal.test.js">
     </testcase>
-    <testcase classname="BountyCardDetailsModal should display BountyCardDetailsModal" name="BountyCardDetailsModal should display BountyCardDetailsModal" time="0.058" file="__tests__/BountyCard/BountyCardDetailsModal.test.js">
+    <testcase classname="BountyCardDetailsModal should display BountyCardDetailsModal" name="BountyCardDetailsModal should display BountyCardDetailsModal" time="0.075" file="__tests__/BountyCard/BountyCardDetailsModal.test.js">
     </testcase>
-    <testcase classname="BountyCardDetailsModal should display BountyCardDetailsModal" name="BountyCardDetailsModal should display BountyCardDetailsModal" time="0.064" file="__tests__/BountyCard/BountyCardDetailsModal.test.js">
+    <testcase classname="BountyCardDetailsModal should display BountyCardDetailsModal" name="BountyCardDetailsModal should display BountyCardDetailsModal" time="0.071" file="__tests__/BountyCard/BountyCardDetailsModal.test.js">
     </testcase>
-    <testcase classname="BountyCardDetailsModal should display BountyCardDetailsModal" name="BountyCardDetailsModal should display BountyCardDetailsModal" time="0.073" file="__tests__/BountyCard/BountyCardDetailsModal.test.js">
+    <testcase classname="BountyCardDetailsModal should display BountyCardDetailsModal" name="BountyCardDetailsModal should display BountyCardDetailsModal" time="0.077" file="__tests__/BountyCard/BountyCardDetailsModal.test.js">
     </testcase>
-    <testcase classname="BountyCardDetailsModal should display BountyCardDetailsModal" name="BountyCardDetailsModal should display BountyCardDetailsModal" time="0.054" file="__tests__/BountyCard/BountyCardDetailsModal.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="MiniDepositList" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:24" time="0.646" tests="2">
-    <testcase classname="MiniDepositList should render Bounty heading" name="MiniDepositList should render Bounty heading" time="0.043" file="__tests__/User/AboutModules/MiniDepositList.test.js">
-    </testcase>
-    <testcase classname="MiniDepositList should render Bounty heading" name="MiniDepositList should render Bounty heading" time="0.016" file="__tests__/User/AboutModules/MiniDepositList.test.js">
+    <testcase classname="BountyCardDetailsModal should display BountyCardDetailsModal" name="BountyCardDetailsModal should display BountyCardDetailsModal" time="0.056" file="__tests__/BountyCard/BountyCardDetailsModal.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="RepoTitle" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:24" time="0.582" tests="1">
-    <testcase classname="RepoTitle should render BountyDetails" name="RepoTitle should render BountyDetails" time="0.027" file="__tests__/Bounty/RepoTitle.test.js">
+  <testsuite name="DepositCard" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:21" time="2.042" tests="16">
+    <testcase classname="DepositCard should render the volume and name of token" name="DepositCard should render the volume and name of token" time="0.303" file="__tests__/RefundBounty/DepositCard.test.js">
+    </testcase>
+    <testcase classname="DepositCard should render refund and extend button when refundable" name="DepositCard should render refund and extend button when refundable" time="0.072" file="__tests__/RefundBounty/DepositCard.test.js">
+    </testcase>
+    <testcase classname="DepositCard should render times whether refundable or not" name="DepositCard should render times whether refundable or not" time="0.022" file="__tests__/RefundBounty/DepositCard.test.js">
+    </testcase>
+    <testcase classname="DepositCard should render extend button when not refunded yet" name="DepositCard should render extend button when not refunded yet" time="0.044" file="__tests__/RefundBounty/DepositCard.test.js">
+    </testcase>
+    <testcase classname="DepositCard should render the volume and name of token" name="DepositCard should render the volume and name of token" time="0.241" file="__tests__/RefundBounty/DepositCard.test.js">
+    </testcase>
+    <testcase classname="DepositCard should render refund and extend button when refundable" name="DepositCard should render refund and extend button when refundable" time="0.04" file="__tests__/RefundBounty/DepositCard.test.js">
+    </testcase>
+    <testcase classname="DepositCard should render times whether refundable or not" name="DepositCard should render times whether refundable or not" time="0.015" file="__tests__/RefundBounty/DepositCard.test.js">
+    </testcase>
+    <testcase classname="DepositCard should render extend button when not refunded yet" name="DepositCard should render extend button when not refunded yet" time="0.028" file="__tests__/RefundBounty/DepositCard.test.js">
+    </testcase>
+    <testcase classname="DepositCard should render the volume and name of token" name="DepositCard should render the volume and name of token" time="0.227" file="__tests__/RefundBounty/DepositCard.test.js">
+    </testcase>
+    <testcase classname="DepositCard should render refund and extend button when refundable" name="DepositCard should render refund and extend button when refundable" time="0.046" file="__tests__/RefundBounty/DepositCard.test.js">
+    </testcase>
+    <testcase classname="DepositCard should render times whether refundable or not" name="DepositCard should render times whether refundable or not" time="0.019" file="__tests__/RefundBounty/DepositCard.test.js">
+    </testcase>
+    <testcase classname="DepositCard should render extend button when not refunded yet" name="DepositCard should render extend button when not refunded yet" time="0.025" file="__tests__/RefundBounty/DepositCard.test.js">
+    </testcase>
+    <testcase classname="DepositCard should render the volume and name of token" name="DepositCard should render the volume and name of token" time="0.237" file="__tests__/RefundBounty/DepositCard.test.js">
+    </testcase>
+    <testcase classname="DepositCard should render refund and extend button when refundable" name="DepositCard should render refund and extend button when refundable" time="0.047" file="__tests__/RefundBounty/DepositCard.test.js">
+    </testcase>
+    <testcase classname="DepositCard should render times whether refundable or not" name="DepositCard should render times whether refundable or not" time="0.014" file="__tests__/RefundBounty/DepositCard.test.js">
+    </testcase>
+    <testcase classname="DepositCard should render extend button when not refunded yet" name="DepositCard should render extend button when not refunded yet" time="0.022" file="__tests__/RefundBounty/DepositCard.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="Toggle" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:25" time="0.624" tests="3">
-    <testcase classname="Toggle should display toggle" name="Toggle should display toggle" time="0.018" file="__tests__/Utils/Toggle.test.js">
+  <testsuite name="MintBountyButton" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:22" time="1.107" tests="3">
+    <testcase classname="MintBountyButton should open wizard and direct to discord server" name="MintBountyButton should open wizard and direct to discord server" time="0.233" file="__tests__/MintBounty/MintBountyButton.test.js">
     </testcase>
-    <testcase classname="Toggle should display toggle" name="Toggle should display toggle" time="0.004" file="__tests__/Utils/Toggle.test.js">
+    <testcase classname="MintBountyButton should open wizard and direct to competition contract" name="MintBountyButton should open wizard and direct to competition contract" time="0.151" file="__tests__/MintBounty/MintBountyButton.test.js">
     </testcase>
-    <testcase classname="Toggle should display toggle" name="Toggle should display toggle" time="0.028" file="__tests__/Utils/Toggle.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="Watching" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:25" time="0.967" tests="2">
-    <testcase classname="Watching should render Watching" name="Watching should render Watching" time="0.157" file="__tests__/User/AboutModules/Watching.test.js">
-    </testcase>
-    <testcase classname="Watching should let user open BountyCardDetailsModal" name="Watching should let user open BountyCardDetailsModal" time="0.205" file="__tests__/User/AboutModules/Watching.test.js">
+    <testcase classname="MintBountyButton should open wizard and direct to atomic contract server" name="MintBountyButton should open wizard and direct to atomic contract server" time="0.062" file="__tests__/MintBounty/MintBountyButton.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="BountyCardDetails" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:26" time="1.05" tests="1">
-    <testcase classname="BountyCardDetails should display bubles in correct order" name="BountyCardDetails should display bubles in correct order" time="0.466" file="__tests__/Bounty/BountyCardDetails.test.js">
+  <testsuite name="BountyCardDetails" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:23" time="1.149" tests="1">
+    <testcase classname="BountyCardDetails should display bubles in correct order" name="BountyCardDetails should display bubles in correct order" time="0.483" file="__tests__/Bounty/BountyCardDetails.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="BountyCard" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:26" time="0.833" tests="2">
-    <testcase classname="BountyCard should render BountyCard" name="BountyCard should render BountyCard" time="0.097" file="__tests__/BountyCard/BountyCardLean.test.js">
+  <testsuite name="MintBountyButton" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:09" time="14.712" tests="48">
+    <testcase classname="MintBountyButton should handle mint interactions for type 0" name="MintBountyButton should handle mint interactions for type 0" time="0.29" file="__tests__/MintBounty/MintBountyModal.test.js">
     </testcase>
-    <testcase classname="BountyCard should let user open BountyCardDetailsModal" name="BountyCard should let user open BountyCardDetailsModal" time="0.171" file="__tests__/BountyCard/BountyCardLean.test.js">
+    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.058" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle extra data for type 0" name="MintBountyButton should handle extra data for type 0" time="0.263" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle mint interactions for type 1" name="MintBountyButton should handle mint interactions for type 1" time="0.172" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.037" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle extra data for type 1" name="MintBountyButton should handle extra data for type 1" time="0.32" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle mint interactions for type 2" name="MintBountyButton should handle mint interactions for type 2" time="0.132" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.037" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle extra data for type 2" name="MintBountyButton should handle extra data for type 2" time="0.384" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle mint interactions for type 3" name="MintBountyButton should handle mint interactions for type 3" time="0.144" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.028" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle extra data for type 3" name="MintBountyButton should handle extra data for type 3" time="0.264" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle mint interactions for type 0" name="MintBountyButton should handle mint interactions for type 0" time="0.432" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.027" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle extra data for type 0" name="MintBountyButton should handle extra data for type 0" time="0.438" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle mint interactions for type 1" name="MintBountyButton should handle mint interactions for type 1" time="0.383" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.034" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle extra data for type 1" name="MintBountyButton should handle extra data for type 1" time="0.573" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle mint interactions for type 2" name="MintBountyButton should handle mint interactions for type 2" time="0.437" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.037" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle extra data for type 2" name="MintBountyButton should handle extra data for type 2" time="0.622" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle mint interactions for type 3" name="MintBountyButton should handle mint interactions for type 3" time="0.377" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.026" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle extra data for type 3" name="MintBountyButton should handle extra data for type 3" time="0.487" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle mint interactions for type 0" name="MintBountyButton should handle mint interactions for type 0" time="0.286" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.034" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle extra data for type 0" name="MintBountyButton should handle extra data for type 0" time="0.491" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle mint interactions for type 1" name="MintBountyButton should handle mint interactions for type 1" time="0.413" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.031" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle extra data for type 1" name="MintBountyButton should handle extra data for type 1" time="0.618" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle mint interactions for type 2" name="MintBountyButton should handle mint interactions for type 2" time="0.393" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.04" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle extra data for type 2" name="MintBountyButton should handle extra data for type 2" time="0.591" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle mint interactions for type 3" name="MintBountyButton should handle mint interactions for type 3" time="0.366" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.021" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle extra data for type 3" name="MintBountyButton should handle extra data for type 3" time="0.426" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle mint interactions for type 0" name="MintBountyButton should handle mint interactions for type 0" time="0.327" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.02" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle extra data for type 0" name="MintBountyButton should handle extra data for type 0" time="0.409" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle mint interactions for type 1" name="MintBountyButton should handle mint interactions for type 1" time="0.454" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.028" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle extra data for type 1" name="MintBountyButton should handle extra data for type 1" time="0.61" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle mint interactions for type 2" name="MintBountyButton should handle mint interactions for type 2" time="0.34" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.032" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle extra data for type 2" name="MintBountyButton should handle extra data for type 2" time="0.628" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle mint interactions for type 3" name="MintBountyButton should handle mint interactions for type 3" time="0.338" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should contain link to .sol code" name="MintBountyButton should contain link to .sol code" time="0.026" file="__tests__/MintBounty/MintBountyModal.test.js">
+    </testcase>
+    <testcase classname="MintBountyButton should handle extra data for type 3" name="MintBountyButton should handle extra data for type 3" time="0.455" file="__tests__/MintBounty/MintBountyModal.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="RefundPage" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:27" time="0.966" tests="2">
-    <testcase classname="RefundPage should render the heading" name="RefundPage should render the heading" time="0.086" file="__tests__/RefundBounty/Refund.test.js">
+  <testsuite name="Watching" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:23" time="1.052" tests="2">
+    <testcase classname="Watching should render Watching" name="Watching should render Watching" time="0.187" file="__tests__/User/AboutModules/Watching.test.js">
     </testcase>
-    <testcase classname="RefundPage should render allow refund" name="RefundPage should render allow refund" time="0.284" file="__tests__/RefundBounty/Refund.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="MintBountyButton" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:27" time="1.029" tests="3">
-    <testcase classname="MintBountyButton should open wizard and direct to discord server" name="MintBountyButton should open wizard and direct to discord server" time="0.17" file="__tests__/MintBounty/MintBountyButton.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should open wizard and direct to competition contract" name="MintBountyButton should open wizard and direct to competition contract" time="0.152" file="__tests__/MintBounty/MintBountyButton.test.js">
-    </testcase>
-    <testcase classname="MintBountyButton should open wizard and direct to atomic contract server" name="MintBountyButton should open wizard and direct to atomic contract server" time="0.077" file="__tests__/MintBounty/MintBountyButton.test.js">
+    <testcase classname="Watching should let user open BountyCardDetailsModal" name="Watching should let user open BountyCardDetailsModal" time="0.227" file="__tests__/User/AboutModules/Watching.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="Tier Input" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:28" time="0.618" tests="1">
-    <testcase classname="Tier Input should show tier selecter" name="Tier Input should show tier selecter" time="0.022" file="__tests__/MintBounty/TierInput.test.js">
+  <testsuite name="UserHistory" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:24" time="0.795" tests="1">
+    <testcase classname="UserHistory should render UserHistory with link" name="UserHistory should render UserHistory with link" time="0.036" file="__tests__/User/AboutModules/UserHistory.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="ClaimPage" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:28" time="0.671" tests="1">
-    <testcase classname="ClaimPage should render the heading" name="ClaimPage should render the heading" time="0.067" file="__tests__/Claim/Claim.test.js">
+  <testsuite name="ContractWizard" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:24" time="1.114" tests="4">
+    <testcase classname="ContractWizard should open wizard and direct to discord server" name="ContractWizard should open wizard and direct to discord server" time="0.131" file="__tests__/ContractWizard/ContractWizard.test.js">
+    </testcase>
+    <testcase classname="ContractWizard should open wizard and direct to repating contract" name="ContractWizard should open wizard and direct to repating contract" time="0.146" file="__tests__/ContractWizard/ContractWizard.test.js">
+    </testcase>
+    <testcase classname="ContractWizard should open wizard and direct to repating contract" name="ContractWizard should open wizard and direct to repating contract" time="0.111" file="__tests__/ContractWizard/ContractWizard.test.js">
+    </testcase>
+    <testcase classname="ContractWizard should open wizard and direct to atomic contract" name="ContractWizard should open wizard and direct to atomic contract" time="0.056" file="__tests__/ContractWizard/ContractWizard.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="BountyClosed" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:28" time="0.926" tests="27">
-    <testcase classname="BountyClosed should render the heading" name="BountyClosed should render the heading" time="0.038" file="__tests__/BountyClosed/BountyClosed.test.js">
+  <testsuite name="TotalValue" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:24" time="0.589" tests="2">
+    <testcase classname="TotalValue should render 0 in TotalValue" name="TotalValue should render 0 in TotalValue" time="0.019" file="__tests__/Bounty/TotalValue.test.js">
     </testcase>
-    <testcase classname="BountyClosed should render the linked transaction" name="BountyClosed should render the linked transaction" time="0.017" file="__tests__/BountyClosed/BountyClosed.test.js">
+    <testcase classname="TotalValue should render &gt;0 in TotalValue" name="TotalValue should render &gt;0 in TotalValue" time="0.004" file="__tests__/Bounty/TotalValue.test.js">
     </testcase>
-    <testcase classname="BountyClosed should render a tweet link when just claimed" name="BountyClosed should render a tweet link when just claimed" time="0.026" file="__tests__/BountyClosed/BountyClosed.test.js">
+  </testsuite>
+  <testsuite name="BountyHeading" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:25" time="0.661" tests="1">
+    <testcase classname="BountyHeading should render Bounty heading" name="BountyHeading should render Bounty heading" time="0.036" file="__tests__/Bounty/BountyHeading.test.js">
     </testcase>
-    <testcase classname="BountyClosed should render the heading" name="BountyClosed should render the heading" time="0.016" file="__tests__/BountyClosed/BountyClosed.test.js">
+  </testsuite>
+  <testsuite name="BountyClosed" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:25" time="1.054" tests="27">
+    <testcase classname="BountyClosed should render the heading" name="BountyClosed should render the heading" time="0.037" file="__tests__/BountyClosed/BountyClosed.test.js">
     </testcase>
-    <testcase classname="BountyClosed should render the linked transaction" name="BountyClosed should render the linked transaction" time="0.015" file="__tests__/BountyClosed/BountyClosed.test.js">
+    <testcase classname="BountyClosed should render the linked transaction" name="BountyClosed should render the linked transaction" time="0.026" file="__tests__/BountyClosed/BountyClosed.test.js">
     </testcase>
-    <testcase classname="BountyClosed should render a tweet link when just claimed" name="BountyClosed should render a tweet link when just claimed" time="0.013" file="__tests__/BountyClosed/BountyClosed.test.js">
+    <testcase classname="BountyClosed should render a tweet link when just claimed" name="BountyClosed should render a tweet link when just claimed" time="0.023" file="__tests__/BountyClosed/BountyClosed.test.js">
     </testcase>
-    <testcase classname="BountyClosed should render the heading" name="BountyClosed should render the heading" time="0.029" file="__tests__/BountyClosed/BountyClosed.test.js">
+    <testcase classname="BountyClosed should render the heading" name="BountyClosed should render the heading" time="0.014" file="__tests__/BountyClosed/BountyClosed.test.js">
     </testcase>
-    <testcase classname="BountyClosed should render the linked transaction" name="BountyClosed should render the linked transaction" time="0.01" file="__tests__/BountyClosed/BountyClosed.test.js">
-    </testcase>
-    <testcase classname="BountyClosed should render a tweet link when just claimed" name="BountyClosed should render a tweet link when just claimed" time="0.013" file="__tests__/BountyClosed/BountyClosed.test.js">
-    </testcase>
-    <testcase classname="BountyClosed should render the heading" name="BountyClosed should render the heading" time="0.009" file="__tests__/BountyClosed/BountyClosed.test.js">
-    </testcase>
-    <testcase classname="BountyClosed should render the linked transaction" name="BountyClosed should render the linked transaction" time="0.012" file="__tests__/BountyClosed/BountyClosed.test.js">
-    </testcase>
-    <testcase classname="BountyClosed should render a tweet link when just claimed" name="BountyClosed should render a tweet link when just claimed" time="0.013" file="__tests__/BountyClosed/BountyClosed.test.js">
-    </testcase>
-    <testcase classname="BountyClosed should render the heading" name="BountyClosed should render the heading" time="0.01" file="__tests__/BountyClosed/BountyClosed.test.js">
-    </testcase>
-    <testcase classname="BountyClosed should render the linked transaction" name="BountyClosed should render the linked transaction" time="0.009" file="__tests__/BountyClosed/BountyClosed.test.js">
-    </testcase>
-    <testcase classname="BountyClosed should render a tweet link when just claimed" name="BountyClosed should render a tweet link when just claimed" time="0.011" file="__tests__/BountyClosed/BountyClosed.test.js">
-    </testcase>
-    <testcase classname="BountyClosed should render the heading" name="BountyClosed should render the heading" time="0.013" file="__tests__/BountyClosed/BountyClosed.test.js">
-    </testcase>
-    <testcase classname="BountyClosed should render the linked transaction" name="BountyClosed should render the linked transaction" time="0.01" file="__tests__/BountyClosed/BountyClosed.test.js">
-    </testcase>
-    <testcase classname="BountyClosed should render a tweet link when just claimed" name="BountyClosed should render a tweet link when just claimed" time="0.013" file="__tests__/BountyClosed/BountyClosed.test.js">
-    </testcase>
-    <testcase classname="BountyClosed should render the heading" name="BountyClosed should render the heading" time="0.011" file="__tests__/BountyClosed/BountyClosed.test.js">
-    </testcase>
-    <testcase classname="BountyClosed should render the linked transaction" name="BountyClosed should render the linked transaction" time="0.008" file="__tests__/BountyClosed/BountyClosed.test.js">
-    </testcase>
-    <testcase classname="BountyClosed should render a tweet link when just claimed" name="BountyClosed should render a tweet link when just claimed" time="0.013" file="__tests__/BountyClosed/BountyClosed.test.js">
-    </testcase>
-    <testcase classname="BountyClosed should render the heading" name="BountyClosed should render the heading" time="0.008" file="__tests__/BountyClosed/BountyClosed.test.js">
-    </testcase>
-    <testcase classname="BountyClosed should render the linked transaction" name="BountyClosed should render the linked transaction" time="0.008" file="__tests__/BountyClosed/BountyClosed.test.js">
+    <testcase classname="BountyClosed should render the linked transaction" name="BountyClosed should render the linked transaction" time="0.011" file="__tests__/BountyClosed/BountyClosed.test.js">
     </testcase>
     <testcase classname="BountyClosed should render a tweet link when just claimed" name="BountyClosed should render a tweet link when just claimed" time="0.014" file="__tests__/BountyClosed/BountyClosed.test.js">
     </testcase>
+    <testcase classname="BountyClosed should render the heading" name="BountyClosed should render the heading" time="0.014" file="__tests__/BountyClosed/BountyClosed.test.js">
+    </testcase>
+    <testcase classname="BountyClosed should render the linked transaction" name="BountyClosed should render the linked transaction" time="0.019" file="__tests__/BountyClosed/BountyClosed.test.js">
+    </testcase>
+    <testcase classname="BountyClosed should render a tweet link when just claimed" name="BountyClosed should render a tweet link when just claimed" time="0.021" file="__tests__/BountyClosed/BountyClosed.test.js">
+    </testcase>
+    <testcase classname="BountyClosed should render the heading" name="BountyClosed should render the heading" time="0.013" file="__tests__/BountyClosed/BountyClosed.test.js">
+    </testcase>
+    <testcase classname="BountyClosed should render the linked transaction" name="BountyClosed should render the linked transaction" time="0.011" file="__tests__/BountyClosed/BountyClosed.test.js">
+    </testcase>
+    <testcase classname="BountyClosed should render a tweet link when just claimed" name="BountyClosed should render a tweet link when just claimed" time="0.014" file="__tests__/BountyClosed/BountyClosed.test.js">
+    </testcase>
+    <testcase classname="BountyClosed should render the heading" name="BountyClosed should render the heading" time="0.01" file="__tests__/BountyClosed/BountyClosed.test.js">
+    </testcase>
+    <testcase classname="BountyClosed should render the linked transaction" name="BountyClosed should render the linked transaction" time="0.017" file="__tests__/BountyClosed/BountyClosed.test.js">
+    </testcase>
+    <testcase classname="BountyClosed should render a tweet link when just claimed" name="BountyClosed should render a tweet link when just claimed" time="0.021" file="__tests__/BountyClosed/BountyClosed.test.js">
+    </testcase>
+    <testcase classname="BountyClosed should render the heading" name="BountyClosed should render the heading" time="0.016" file="__tests__/BountyClosed/BountyClosed.test.js">
+    </testcase>
+    <testcase classname="BountyClosed should render the linked transaction" name="BountyClosed should render the linked transaction" time="0.011" file="__tests__/BountyClosed/BountyClosed.test.js">
+    </testcase>
+    <testcase classname="BountyClosed should render a tweet link when just claimed" name="BountyClosed should render a tweet link when just claimed" time="0.013" file="__tests__/BountyClosed/BountyClosed.test.js">
+    </testcase>
     <testcase classname="BountyClosed should render the heading" name="BountyClosed should render the heading" time="0.009" file="__tests__/BountyClosed/BountyClosed.test.js">
     </testcase>
-    <testcase classname="BountyClosed should render the linked transaction" name="BountyClosed should render the linked transaction" time="0.007" file="__tests__/BountyClosed/BountyClosed.test.js">
+    <testcase classname="BountyClosed should render the linked transaction" name="BountyClosed should render the linked transaction" time="0.011" file="__tests__/BountyClosed/BountyClosed.test.js">
     </testcase>
-    <testcase classname="BountyClosed should render a tweet link when just claimed" name="BountyClosed should render a tweet link when just claimed" time="0.011" file="__tests__/BountyClosed/BountyClosed.test.js">
+    <testcase classname="BountyClosed should render a tweet link when just claimed" name="BountyClosed should render a tweet link when just claimed" time="0.015" file="__tests__/BountyClosed/BountyClosed.test.js">
     </testcase>
-  </testsuite>
-  <testsuite name="OrganizationContent" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:29" time="0.839" tests="1">
-    <testcase classname="OrganizationContent should render Org content card for yoheikikuta" name="OrganizationContent should render Org content card for yoheikikuta" time="0.248" file="__tests__/Organization/OrganizationContent.test.js">
+    <testcase classname="BountyClosed should render the heading" name="BountyClosed should render the heading" time="0.013" file="__tests__/BountyClosed/BountyClosed.test.js">
     </testcase>
-  </testsuite>
-  <testsuite name="IssueDetailsBubble" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:29" time="0.563" tests="2">
-    <testcase classname="IssueDetailsBubble should display mintable issue" name="IssueDetailsBubble should display mintable issue" time="0.018" file="__tests__/MintBounty/IssueDetailsBubble.test.js">
+    <testcase classname="BountyClosed should render the linked transaction" name="BountyClosed should render the linked transaction" time="0.013" file="__tests__/BountyClosed/BountyClosed.test.js">
     </testcase>
-    <testcase classname="IssueDetailsBubble should display unmintable issue" name="IssueDetailsBubble should display unmintable issue" time="0.005" file="__tests__/MintBounty/IssueDetailsBubble.test.js">
+    <testcase classname="BountyClosed should render a tweet link when just claimed" name="BountyClosed should render a tweet link when just claimed" time="0.032" file="__tests__/BountyClosed/BountyClosed.test.js">
     </testcase>
-  </testsuite>
-  <testsuite name="ClaimPerToken" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:29" time="0.835" tests="3">
-    <testcase classname="ClaimPerToken should display the right volume per claimant and token" name="ClaimPerToken should display the right volume per claimant and token" time="0.265" file="__tests__/Claim/ClaimPerToken.test.js">
+    <testcase classname="BountyClosed should render the heading" name="BountyClosed should render the heading" time="0.011" file="__tests__/BountyClosed/BountyClosed.test.js">
     </testcase>
-    <testcase classname="ClaimPerToken should display the right percentage per claimant and token" name="ClaimPerToken should display the right percentage per claimant and token" time="0.015" file="__tests__/Claim/ClaimPerToken.test.js">
+    <testcase classname="BountyClosed should render the linked transaction" name="BountyClosed should render the linked transaction" time="0.009" file="__tests__/BountyClosed/BountyClosed.test.js">
     </testcase>
-    <testcase classname="ClaimPerToken should display the right value per claimant and token" name="ClaimPerToken should display the right value per claimant and token" time="0.014" file="__tests__/Claim/ClaimPerToken.test.js">
+    <testcase classname="BountyClosed should render a tweet link when just claimed" name="BountyClosed should render a tweet link when just claimed" time="0.016" file="__tests__/BountyClosed/BountyClosed.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="BountyHeading" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:30" time="0.617" tests="1">
-    <testcase classname="BountyHeading should render Bounty heading" name="BountyHeading should render Bounty heading" time="0.039" file="__tests__/Bounty/BountyHeading.test.js">
+  <testsuite name="OrganizationContent" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:25" time="0.973" tests="1">
+    <testcase classname="OrganizationContent should render Org content card for yoheikikuta" name="OrganizationContent should render Org content card for yoheikikuta" time="0.364" file="__tests__/Organization/OrganizationContent.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="RefundPage" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:30" time="0.818" tests="4">
-    <testcase classname="RefundPage should render the heading" name="RefundPage should render the heading" time="0.058" file="__tests__/RefundBounty/RefundPage.test.js">
+  <testsuite name="AvatarPack" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:26" time="0.691" tests="2">
+    <testcase classname="AvatarPack should show org name on hover" name="AvatarPack should show org name on hover" time="0.055" file="__tests__/Utils/AvatarPack.test.js">
     </testcase>
-    <testcase classname="RefundPage should render refundable" name="RefundPage should render refundable" time="0.14" file="__tests__/RefundBounty/RefundPage.test.js">
-    </testcase>
-    <testcase classname="RefundPage should render times, including not yet refundable times" name="RefundPage should render times, including not yet refundable times" time="0.033" file="__tests__/RefundBounty/RefundPage.test.js">
-    </testcase>
-    <testcase classname="RefundPage should render refunded" name="RefundPage should render refunded" time="0.033" file="__tests__/RefundBounty/RefundPage.test.js">
+    <testcase classname="AvatarPack should have link with correct url" name="AvatarPack should have link with correct url" time="0.014" file="__tests__/Utils/AvatarPack.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="MiniBountyList" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:30" time="0.815" tests="1">
-    <testcase classname="MiniBountyList should render MiniBountyList with link" name="MiniBountyList should render MiniBountyList with link" time="0.269" file="__tests__/User/AboutModules/MiniBountyList.test.js">
+  <testsuite name="WatchButton" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:26" time="0.771" tests="2">
+    <testcase classname="WatchButton should render watch button" name="WatchButton should render watch button" time="0.026" file="__tests__/WatchButton/WatchButton.test.js">
+    </testcase>
+    <testcase classname="WatchButton should allow user to manipulate watch button starting unwatched" name="WatchButton should allow user to manipulate watch button starting unwatched" time="0.132" file="__tests__/WatchButton/WatchButton.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="OrganizationMetadata" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:31" time="0.649" tests="1">
-    <testcase classname="OrganizationMetadata should render Repo card" name="OrganizationMetadata should render Repo card" time="0.042" file="__tests__/Organization/RepoCard.test.js">
+  <testsuite name="AccountModal" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:26" time="0.724" tests="3">
+    <testcase classname="AccountModal should render account modal" name="AccountModal should render account modal" time="0.037" file="__tests__/WalletConnect/AccountModal.test.js">
+    </testcase>
+    <testcase classname="AccountModal should link to profile." name="AccountModal should link to profile." time="0.043" file="__tests__/WalletConnect/AccountModal.test.js">
+    </testcase>
+    <testcase classname="AccountModal should be able to deactivate." name="AccountModal should be able to deactivate." time="0.054" file="__tests__/WalletConnect/AccountModal.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="About Freelancer " errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:31" time="0.987" tests="2">
-    <testcase classname="About Freelancer  should render the freelancer with no activity" name="About Freelancer  should render the freelancer with no activity" time="0.07" file="__tests__/User/AboutFreelancer.test.js">
-    </testcase>
-    <testcase classname="About Freelancer  should render freelancer with a claim" name="About Freelancer  should render freelancer with a claim" time="0.12" file="__tests__/User/AboutFreelancer.test.js">
+  <testsuite name="RepoTitle" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:26" time="0.796" tests="1">
+    <testcase classname="RepoTitle should render BountyDetails" name="RepoTitle should render BountyDetails" time="0.028" file="__tests__/Bounty/RepoTitle.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="MintBountyInput" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:32" time="0.811" tests="1">
-    <testcase classname="MintBountyInput should display atomic header" name="MintBountyInput should display atomic header" time="0.144" file="__tests__/MintBounty/MintBountyInput.test.js">
+  <testsuite name="BountyCard" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:27" time="1.004" tests="2">
+    <testcase classname="BountyCard should render BountyCard" name="BountyCard should render BountyCard" time="0.094" file="__tests__/BountyCard/BountyCardLean.test.js">
+    </testcase>
+    <testcase classname="BountyCard should let user open BountyCardDetailsModal" name="BountyCard should let user open BountyCardDetailsModal" time="0.173" file="__tests__/BountyCard/BountyCardLean.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="SetTier" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:32" time="0.649" tests="3">
-    <testcase classname="SetTier should display initial values for bar inputs" name="SetTier should display initial values for bar inputs" time="0.037" file="__tests__/MintBounty/SetTierValues.test.js">
+  <testsuite name="RefundPage" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:27" time="1.107" tests="2">
+    <testcase classname="RefundPage should render the heading" name="RefundPage should render the heading" time="0.078" file="__tests__/RefundBounty/Refund.test.js">
     </testcase>
-    <testcase classname="SetTier should display initial values for bar inputs" name="SetTier should display initial values for bar inputs" time="0.007" file="__tests__/MintBounty/SetTierValues.test.js">
-    </testcase>
-    <testcase classname=" should give choice for bar inputs or number inputs" name=" should give choice for bar inputs or number inputs" time="0.053" file="__tests__/MintBounty/SetTierValues.test.js">
+    <testcase classname="RefundPage should render allow refund" name="RefundPage should render allow refund" time="0.244" file="__tests__/RefundBounty/Refund.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="Dropdown" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:33" time="0.618" tests="3">
-    <testcase classname="Dropdown should be render with title" name="Dropdown should be render with title" time="0.02" file="__tests__/Utils/DropdownBasic.test.js">
+  <testsuite name="RefundPage" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:27" time="0.957" tests="4">
+    <testcase classname="RefundPage should render the heading" name="RefundPage should render the heading" time="0.087" file="__tests__/RefundBounty/RefundPage.test.js">
     </testcase>
-    <testcase classname="Dropdown should render firstname as title when !title prop" name="Dropdown should render firstname as title when !title prop" time="0.004" file="__tests__/Utils/DropdownBasic.test.js">
+    <testcase classname="RefundPage should render refundable" name="RefundPage should render refundable" time="0.138" file="__tests__/RefundBounty/RefundPage.test.js">
     </testcase>
-    <testcase classname="Dropdown should be useable dropdown" name="Dropdown should be useable dropdown" time="0.044" file="__tests__/Utils/DropdownBasic.test.js">
+    <testcase classname="RefundPage should render times, including not yet refundable times" name="RefundPage should render times, including not yet refundable times" time="0.045" file="__tests__/RefundBounty/RefundPage.test.js">
     </testcase>
-  </testsuite>
-  <testsuite name="UserHistory" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:33" time="0.568" tests="1">
-    <testcase classname="UserHistory should render UserHistory with link" name="UserHistory should render UserHistory with link" time="0.035" file="__tests__/User/AboutModules/UserHistory.test.js">
+    <testcase classname="RefundPage should render refunded" name="RefundPage should render refunded" time="0.036" file="__tests__/RefundBounty/RefundPage.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="Navlinks" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:33" time="0.596" tests="1">
-    <testcase classname="Navlinks should open wizard and direct to discord server" name="Navlinks should open wizard and direct to discord server" time="0.039" file="__tests__/Layout/Navlinks.test.js">
+  <testsuite name="WatchButton" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:28" time="0.747" tests="2">
+    <testcase classname="WatchButton should render watch button" name="WatchButton should render watch button" time="0.043" file="__tests__/WalletConnect/ConnectModal.test.js">
+    </testcase>
+    <testcase classname="WatchButton should open modal and display link to profile." name="WatchButton should open modal and display link to profile." time="0.114" file="__tests__/WalletConnect/ConnectModal.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="AboutTitle" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:33" time="0.578" tests="2">
-    <testcase classname="AboutTitle should render Bounty heading" name="AboutTitle should render Bounty heading" time="0.03" file="__tests__/User/AboutModules/AboutTitle.test.js">
+  <testsuite name="ClaimPerToken" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:28" time="0.901" tests="3">
+    <testcase classname="ClaimPerToken should display the right volume per claimant and token" name="ClaimPerToken should display the right volume per claimant and token" time="0.276" file="__tests__/Claim/ClaimPerToken.test.js">
     </testcase>
-    <testcase classname="AboutTitle should render Bounty heading" name="AboutTitle should render Bounty heading" time="0.01" file="__tests__/User/AboutModules/AboutTitle.test.js">
+    <testcase classname="ClaimPerToken should display the right percentage per claimant and token" name="ClaimPerToken should display the right percentage per claimant and token" time="0.027" file="__tests__/Claim/ClaimPerToken.test.js">
     </testcase>
-  </testsuite>
-  <testsuite name="BountyLinks" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:34" time="0.736" tests="6">
-    <testcase classname="BountyLinks should render Bounty Links" name="BountyLinks should render Bounty Links" time="0.044" file="__tests__/BountyCard/BountyLinks.test.js">
-    </testcase>
-    <testcase classname="BountyLinks should render Bounty Links" name="BountyLinks should render Bounty Links" time="0.027" file="__tests__/BountyCard/BountyLinks.test.js">
-    </testcase>
-    <testcase classname="BountyLinks should render Bounty Links" name="BountyLinks should render Bounty Links" time="0.02" file="__tests__/BountyCard/BountyLinks.test.js">
-    </testcase>
-    <testcase classname="BountyLinks should render Bounty Links" name="BountyLinks should render Bounty Links" time="0.026" file="__tests__/BountyCard/BountyLinks.test.js">
-    </testcase>
-    <testcase classname="BountyLinks should render Bounty Links" name="BountyLinks should render Bounty Links" time="0.02" file="__tests__/BountyCard/BountyLinks.test.js">
-    </testcase>
-    <testcase classname="BountyLinks should render Bounty Links" name="BountyLinks should render Bounty Links" time="0.022" file="__tests__/BountyCard/BountyLinks.test.js">
+    <testcase classname="ClaimPerToken should display the right value per claimant and token" name="ClaimPerToken should display the right value per claimant and token" time="0.019" file="__tests__/Claim/ClaimPerToken.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="WatchButton" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:34" time="0.74" tests="2">
-    <testcase classname="WatchButton should render watch button" name="WatchButton should render watch button" time="0.046" file="__tests__/WalletConnect/ConnectButton.test.js">
-    </testcase>
-    <testcase classname="WatchButton should open modal and display link to profile." name="WatchButton should open modal and display link to profile." time="0.081" file="__tests__/WalletConnect/ConnectButton.test.js">
+  <testsuite name="MiniBountyList" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:28" time="0.839" tests="1">
+    <testcase classname="MiniBountyList should render MiniBountyList with link" name="MiniBountyList should render MiniBountyList with link" time="0.279" file="__tests__/User/AboutModules/MiniBountyList.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="ApprovalTranferModal" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:35" time="0.666" tests="5">
-    <testcase classname="ApprovalTranferModal should render the modal" name="ApprovalTranferModal should render the modal" time="0.031" file="__tests__/RefundBounty/ApprovalTransferModal.test.js">
+  <testsuite name="HorizontalOrganizationCard" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:29" time="0.702" tests="4">
+    <testcase classname="HorizontalOrganizationCard should render Horizontal Org card" name="HorizontalOrganizationCard should render Horizontal Org card" time="0.049" file="__tests__/Organization/HorizontalOrganizationCard.test.js">
     </testcase>
-    <testcase classname="ApprovalTranferModal should render the modal" name="ApprovalTranferModal should render the modal" time="0.02" file="__tests__/RefundBounty/ApprovalTransferModal.test.js">
-    </testcase>
-    <testcase classname="ApprovalTranferModal should render the modal" name="ApprovalTranferModal should render the modal" time="0.006" file="__tests__/RefundBounty/ApprovalTransferModal.test.js">
-    </testcase>
-    <testcase classname="ApprovalTranferModal should render the modal" name="ApprovalTranferModal should render the modal" time="0.013" file="__tests__/RefundBounty/ApprovalTransferModal.test.js">
-    </testcase>
-    <testcase classname="ApprovalTranferModal should render the modal" name="ApprovalTranferModal should render the modal" time="0.005" file="__tests__/RefundBounty/ApprovalTransferModal.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="Jazzicon" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:35" time="0.801" tests="1">
-    <testcase classname="Jazzicon should display address and have link" name="Jazzicon should display address and have link" time="0.151" file="__tests__/Utils/Jazzicon.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="CarouselBounty" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:35" time="0.833" tests="6">
-    <testcase classname="CarouselBounty should render CarouselBounty" name="CarouselBounty should render CarouselBounty" time="0.052" file="__tests__/Bounty/CarouselBounty.test.js">
-    </testcase>
-    <testcase classname="CarouselBounty should render CarouselBounty" name="CarouselBounty should render CarouselBounty" time="0.023" file="__tests__/Bounty/CarouselBounty.test.js">
-    </testcase>
-    <testcase classname="CarouselBounty should render CarouselBounty" name="CarouselBounty should render CarouselBounty" time="0.019" file="__tests__/Bounty/CarouselBounty.test.js">
-    </testcase>
-    <testcase classname="CarouselBounty should render CarouselBounty" name="CarouselBounty should render CarouselBounty" time="0.026" file="__tests__/Bounty/CarouselBounty.test.js">
-    </testcase>
-    <testcase classname="CarouselBounty should render CarouselBounty" name="CarouselBounty should render CarouselBounty" time="0.018" file="__tests__/Bounty/CarouselBounty.test.js">
-    </testcase>
-    <testcase classname="CarouselBounty should render CarouselBounty" name="CarouselBounty should render CarouselBounty" time="0.046" file="__tests__/Bounty/CarouselBounty.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="ClaimTotals" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:36" time="0.705" tests="2">
-    <testcase classname="ClaimTotals should display the right percentage per claimant" name="ClaimTotals should display the right percentage per claimant" time="0.021" file="__tests__/Claim/ClaimTotals.test.js">
-    </testcase>
-    <testcase classname="ClaimTotals should display the right value per claimant" name="ClaimTotals should display the right value per claimant" time="0.004" file="__tests__/Claim/ClaimTotals.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="AccountModal" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:36" time="0.752" tests="3">
-    <testcase classname="AccountModal should display tooltip" name="AccountModal should display tooltip" time="0.017" file="__tests__/Utils/TooltipNew.test.js">
-    </testcase>
-    <testcase classname="AccountModal should hide tooltip" name="AccountModal should hide tooltip" time="0.003" file="__tests__/Utils/TooltipNew.test.js">
-    </testcase>
-    <testcase classname="AccountModal should show tooltip styles" name="AccountModal should show tooltip styles" time="0.007" file="__tests__/Utils/TooltipNew.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="MintBountyHeader" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:36" time="0.646" tests="3">
-    <testcase classname="MintBountyHeader should display atomic header" name="MintBountyHeader should display atomic header" time="0.017" file="__tests__/MintBounty/MintBountyHeader.test.js">
-    </testcase>
-    <testcase classname="MintBountyHeader should display repeatable header" name="MintBountyHeader should display repeatable header" time="0.004" file="__tests__/MintBounty/MintBountyHeader.test.js">
-    </testcase>
-    <testcase classname="MintBountyHeader should display competition header" name="MintBountyHeader should display competition header" time="0.003" file="__tests__/MintBounty/MintBountyHeader.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="BountyAlreadyMintedMessage" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:37" time="0.617" tests="2">
-    <testcase classname="BountyAlreadyMintedMessage should display closed with correct link" name="BountyAlreadyMintedMessage should display closed with correct link" time="0.034" file="__tests__/MintBounty/BountyAlreadyMintedMessage.test.js">
-    </testcase>
-    <testcase classname="BountyAlreadyMintedMessage should display closed with correct link" name="BountyAlreadyMintedMessage should display closed with correct link" time="0.02" file="__tests__/MintBounty/BountyAlreadyMintedMessage.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="OrganizationHomepage" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:37" time="0.791" tests="1">
-    <testcase classname="OrganizationHomepage should render Org homepage" name="OrganizationHomepage should render Org homepage" time="0.146" file="__tests__/Organization/OrganizationHomepage.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="Starred" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:38" time="0.719" tests="1">
-    <testcase classname="Starred should render Starred card" name="Starred should render Starred card" time="0.134" file="__tests__/User/AboutModules/Starred.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="ClaimLoadingModal" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:38" time="0.7" tests="5">
-    <testcase classname="ClaimLoadingModal should display checking elgibility" name="ClaimLoadingModal should display checking elgibility" time="0.043" file="__tests__/Fund/ApproveFundModal.test.js">
-    </testcase>
-    <testcase classname="ClaimLoadingModal should display confirm state of modal and let user trigger state change" name="ClaimLoadingModal should display confirm state of modal and let user trigger state change" time="0.059" file="__tests__/Fund/ApproveFundModal.test.js">
-    </testcase>
-    <testcase classname="ClaimLoadingModal should display transfer state" name="ClaimLoadingModal should display transfer state" time="0.014" file="__tests__/Fund/ApproveFundModal.test.js">
-    </testcase>
-    <testcase classname="ClaimLoadingModal should display approve state" name="ClaimLoadingModal should display approve state" time="0.011" file="__tests__/Fund/ApproveFundModal.test.js">
-    </testcase>
-    <testcase classname="ClaimLoadingModal should display error state" name="ClaimLoadingModal should display error state" time="0.006" file="__tests__/Fund/ApproveFundModal.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="GithubAuth" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:38" time="0.582" tests="1">
-    <testcase classname="GithubAuth should allow user to open BountyCardDetailsModal" name="GithubAuth should allow user to open BountyCardDetailsModal" time="0.017" file="__tests__/pages/github.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="BountyStatus" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:38" time="0.678" tests="6">
-    <testcase classname="BountyStatus should render Bounty Status" name="BountyStatus should render Bounty Status" time="0.025" file="__tests__/BountyCard/BountyStatus.test.js">
-    </testcase>
-    <testcase classname="BountyStatus should render Bounty Status" name="BountyStatus should render Bounty Status" time="0.007" file="__tests__/BountyCard/BountyStatus.test.js">
-    </testcase>
-    <testcase classname="BountyStatus should render Bounty Status" name="BountyStatus should render Bounty Status" time="0.006" file="__tests__/BountyCard/BountyStatus.test.js">
-    </testcase>
-    <testcase classname="BountyStatus should render Bounty Status" name="BountyStatus should render Bounty Status" time="0.016" file="__tests__/BountyCard/BountyStatus.test.js">
-    </testcase>
-    <testcase classname="BountyStatus should render Bounty Status" name="BountyStatus should render Bounty Status" time="0.015" file="__tests__/BountyCard/BountyStatus.test.js">
-    </testcase>
-    <testcase classname="BountyStatus should render Bounty Status" name="BountyStatus should render Bounty Status" time="0.03" file="__tests__/BountyCard/BountyStatus.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="BountyMetadata" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:39" time="0.666" tests="1">
-    <testcase classname="BountyMetadata should render Bounty heading" name="BountyMetadata should render Bounty heading" time="0.04" file="__tests__/Bounty/BountyMetadata.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="HorizontalOrganizationCard" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:39" time="0.745" tests="4">
-    <testcase classname="HorizontalOrganizationCard should render Horizontal Org card" name="HorizontalOrganizationCard should render Horizontal Org card" time="0.065" file="__tests__/Organization/HorizontalOrganizationCard.test.js">
-    </testcase>
-    <testcase classname="HorizontalOrganizationCard should render Horizontal Org card" name="HorizontalOrganizationCard should render Horizontal Org card" time="0.031" file="__tests__/Organization/HorizontalOrganizationCard.test.js">
-    </testcase>
-    <testcase classname="HorizontalOrganizationCard should render Horizontal Org card" name="HorizontalOrganizationCard should render Horizontal Org card" time="0.025" file="__tests__/Organization/HorizontalOrganizationCard.test.js">
+    <testcase classname="HorizontalOrganizationCard should render Horizontal Org card" name="HorizontalOrganizationCard should render Horizontal Org card" time="0.035" file="__tests__/Organization/HorizontalOrganizationCard.test.js">
     </testcase>
     <testcase classname="HorizontalOrganizationCard should render Horizontal Org card" name="HorizontalOrganizationCard should render Horizontal Org card" time="0.02" file="__tests__/Organization/HorizontalOrganizationCard.test.js">
     </testcase>
-  </testsuite>
-  <testsuite name="AvatarPack" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:40" time="0.68" tests="2">
-    <testcase classname="AvatarPack should show org name on hover" name="AvatarPack should show org name on hover" time="0.057" file="__tests__/Utils/AvatarPack.test.js">
-    </testcase>
-    <testcase classname="AvatarPack should have link with correct url" name="AvatarPack should have link with correct url" time="0.015" file="__tests__/Utils/AvatarPack.test.js">
+    <testcase classname="HorizontalOrganizationCard should render Horizontal Org card" name="HorizontalOrganizationCard should render Horizontal Org card" time="0.022" file="__tests__/Organization/HorizontalOrganizationCard.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="WatchButton" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:40" time="0.749" tests="2">
-    <testcase classname="WatchButton should render watch button" name="WatchButton should render watch button" time="0.047" file="__tests__/WalletConnect/ConnectModal.test.js">
+  <testsuite name="About Freelancer " errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:29" time="0.787" tests="2">
+    <testcase classname="About Freelancer  should render the freelancer with no activity" name="About Freelancer  should render the freelancer with no activity" time="0.067" file="__tests__/User/AboutFreelancer.test.js">
     </testcase>
-    <testcase classname="WatchButton should open modal and display link to profile." name="WatchButton should open modal and display link to profile." time="0.12" file="__tests__/WalletConnect/ConnectModal.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="ClaimPage" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:40" time="0.597" tests="2">
-    <testcase classname="ClaimPage should render the copyable content" name="ClaimPage should render the copyable content" time="0.021" file="__tests__/Copy/CopyBountyAddress.test.js">
-    </testcase>
-    <testcase classname="ClaimPage should render clip copyable content" name="ClaimPage should render clip copyable content" time="0.006" file="__tests__/Copy/CopyBountyAddress.test.js">
+    <testcase classname="About Freelancer  should render freelancer with a claim" name="About Freelancer  should render freelancer with a claim" time="0.119" file="__tests__/User/AboutFreelancer.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="MintBountyModalButton" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:41" time="0.641" tests="3">
-    <testcase classname="MintBountyModalButton should be able to be disabled." name="MintBountyModalButton should be able to be disabled." time="0.027" file="__tests__/MintBounty/MintBountyModalButton.test.js">
+  <testsuite name="ClaimLoadingModal" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:29" time="0.719" tests="5">
+    <testcase classname="ClaimLoadingModal should display checking elgibility" name="ClaimLoadingModal should display checking elgibility" time="0.047" file="__tests__/Fund/ApproveFundModal.test.js">
+    </testcase>
+    <testcase classname="ClaimLoadingModal should display confirm state of modal and let user trigger state change" name="ClaimLoadingModal should display confirm state of modal and let user trigger state change" time="0.059" file="__tests__/Fund/ApproveFundModal.test.js">
+    </testcase>
+    <testcase classname="ClaimLoadingModal should display transfer state" name="ClaimLoadingModal should display transfer state" time="0.013" file="__tests__/Fund/ApproveFundModal.test.js">
+    </testcase>
+    <testcase classname="ClaimLoadingModal should display approve state" name="ClaimLoadingModal should display approve state" time="0.012" file="__tests__/Fund/ApproveFundModal.test.js">
+    </testcase>
+    <testcase classname="ClaimLoadingModal should display error state" name="ClaimLoadingModal should display error state" time="0.007" file="__tests__/Fund/ApproveFundModal.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="GithubAuth" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:29" time="0.607" tests="1">
+    <testcase classname="GithubAuth should allow user to open BountyCardDetailsModal" name="GithubAuth should allow user to open BountyCardDetailsModal" time="0.019" file="__tests__/pages/github.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="CarouselBounty" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:30" time="0.992" tests="6">
+    <testcase classname="CarouselBounty should render CarouselBounty" name="CarouselBounty should render CarouselBounty" time="0.138" file="__tests__/Bounty/CarouselBounty.test.js">
+    </testcase>
+    <testcase classname="CarouselBounty should render CarouselBounty" name="CarouselBounty should render CarouselBounty" time="0.026" file="__tests__/Bounty/CarouselBounty.test.js">
+    </testcase>
+    <testcase classname="CarouselBounty should render CarouselBounty" name="CarouselBounty should render CarouselBounty" time="0.026" file="__tests__/Bounty/CarouselBounty.test.js">
+    </testcase>
+    <testcase classname="CarouselBounty should render CarouselBounty" name="CarouselBounty should render CarouselBounty" time="0.023" file="__tests__/Bounty/CarouselBounty.test.js">
+    </testcase>
+    <testcase classname="CarouselBounty should render CarouselBounty" name="CarouselBounty should render CarouselBounty" time="0.025" file="__tests__/Bounty/CarouselBounty.test.js">
+    </testcase>
+    <testcase classname="CarouselBounty should render CarouselBounty" name="CarouselBounty should render CarouselBounty" time="0.02" file="__tests__/Bounty/CarouselBounty.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="BountyLinks" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:30" time="0.877" tests="6">
+    <testcase classname="BountyLinks should render Bounty Links" name="BountyLinks should render Bounty Links" time="0.057" file="__tests__/BountyCard/BountyLinks.test.js">
+    </testcase>
+    <testcase classname="BountyLinks should render Bounty Links" name="BountyLinks should render Bounty Links" time="0.024" file="__tests__/BountyCard/BountyLinks.test.js">
+    </testcase>
+    <testcase classname="BountyLinks should render Bounty Links" name="BountyLinks should render Bounty Links" time="0.027" file="__tests__/BountyCard/BountyLinks.test.js">
+    </testcase>
+    <testcase classname="BountyLinks should render Bounty Links" name="BountyLinks should render Bounty Links" time="0.021" file="__tests__/BountyCard/BountyLinks.test.js">
+    </testcase>
+    <testcase classname="BountyLinks should render Bounty Links" name="BountyLinks should render Bounty Links" time="0.022" file="__tests__/BountyCard/BountyLinks.test.js">
+    </testcase>
+    <testcase classname="BountyLinks should render Bounty Links" name="BountyLinks should render Bounty Links" time="0.018" file="__tests__/BountyCard/BountyLinks.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="Carousel" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:30" time="0.898" tests="1">
+    <testcase classname="Carousel should display repo name and title" name="Carousel should display repo name and title" time="0.101" file="__tests__/Utils/Carousel.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="ClaimPage" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:31" time="0.711" tests="1">
+    <testcase classname="ClaimPage should render the heading" name="ClaimPage should render the heading" time="0.067" file="__tests__/Claim/Claim.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="SetTier" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:31" time="0.68" tests="3">
+    <testcase classname="SetTier should display initial values for bar inputs" name="SetTier should display initial values for bar inputs" time="0.04" file="__tests__/MintBounty/SetTierValues.test.js">
+    </testcase>
+    <testcase classname="SetTier should display initial values for bar inputs" name="SetTier should display initial values for bar inputs" time="0.007" file="__tests__/MintBounty/SetTierValues.test.js">
+    </testcase>
+    <testcase classname=" should give choice for bar inputs or number inputs" name=" should give choice for bar inputs or number inputs" time="0.057" file="__tests__/MintBounty/SetTierValues.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="LoadingIcon" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:31" time="0.563" tests="1">
+    <testcase classname="LoadingIcon should render LoadingIcon" name="LoadingIcon should render LoadingIcon" time="0.015" file="__tests__/Loading/LoadingIcon.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="DepositList" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:31" time="0.635" tests="2">
+    <testcase classname="DepositList should render Bounty heading" name="DepositList should render Bounty heading" time="0.04" file="__tests__/User/AboutModules/DepositList.test.js">
+    </testcase>
+    <testcase classname="DepositList should render Bounty heading" name="DepositList should render Bounty heading" time="0.02" file="__tests__/User/AboutModules/DepositList.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="BountyStatus" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:31" time="0.653" tests="6">
+    <testcase classname="BountyStatus should render Bounty Status" name="BountyStatus should render Bounty Status" time="0.023" file="__tests__/BountyCard/BountyStatus.test.js">
+    </testcase>
+    <testcase classname="BountyStatus should render Bounty Status" name="BountyStatus should render Bounty Status" time="0.008" file="__tests__/BountyCard/BountyStatus.test.js">
+    </testcase>
+    <testcase classname="BountyStatus should render Bounty Status" name="BountyStatus should render Bounty Status" time="0.007" file="__tests__/BountyCard/BountyStatus.test.js">
+    </testcase>
+    <testcase classname="BountyStatus should render Bounty Status" name="BountyStatus should render Bounty Status" time="0.005" file="__tests__/BountyCard/BountyStatus.test.js">
+    </testcase>
+    <testcase classname="BountyStatus should render Bounty Status" name="BountyStatus should render Bounty Status" time="0.005" file="__tests__/BountyCard/BountyStatus.test.js">
+    </testcase>
+    <testcase classname="BountyStatus should render Bounty Status" name="BountyStatus should render Bounty Status" time="0.015" file="__tests__/BountyCard/BountyStatus.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="OrganizationHomepage" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:32" time="0.78" tests="1">
+    <testcase classname="OrganizationHomepage should render Org homepage" name="OrganizationHomepage should render Org homepage" time="0.178" file="__tests__/Organization/OrganizationHomepage.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="Starred" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:32" time="0.778" tests="1">
+    <testcase classname="Starred should render Starred card" name="Starred should render Starred card" time="0.138" file="__tests__/User/AboutModules/Starred.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="TokenBalances" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:32" time="0.64" tests="1">
+    <testcase classname="TokenBalances should render the header and balances" name="TokenBalances should render the header and balances" time="0.041" file="__tests__/TokenBalances/TokenBalances.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="MintBountyInput" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:32" time="1.014" tests="1">
+    <testcase classname="MintBountyInput should display atomic header" name="MintBountyInput should display atomic header" time="0.16" file="__tests__/MintBounty/MintBountyInput.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="Dropdown" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:33" time="0.682" tests="3">
+    <testcase classname="Dropdown should be render with title" name="Dropdown should be render with title" time="0.021" file="__tests__/Utils/DropdownBasic.test.js">
+    </testcase>
+    <testcase classname="Dropdown should render firstname as title when !title prop" name="Dropdown should render firstname as title when !title prop" time="0.005" file="__tests__/Utils/DropdownBasic.test.js">
+    </testcase>
+    <testcase classname="Dropdown should be useable dropdown" name="Dropdown should be useable dropdown" time="0.055" file="__tests__/Utils/DropdownBasic.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="BountyAlreadyMintedMessage" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:33" time="0.638" tests="2">
+    <testcase classname="BountyAlreadyMintedMessage should display closed with correct link" name="BountyAlreadyMintedMessage should display closed with correct link" time="0.03" file="__tests__/MintBounty/BountyAlreadyMintedMessage.test.js">
+    </testcase>
+    <testcase classname="BountyAlreadyMintedMessage should display closed with correct link" name="BountyAlreadyMintedMessage should display closed with correct link" time="0.022" file="__tests__/MintBounty/BountyAlreadyMintedMessage.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="LabelsList" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:33" time="0.591" tests="1">
+    <testcase classname="LabelsList should render at least one label" name="LabelsList should render at least one label" time="0.026" file="__tests__/Bounty/LabelsList.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="OrganizationHomepage" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:33" time="0.736" tests="4">
+    <testcase classname="OrganizationHomepage should render Org card" name="OrganizationHomepage should render Org card" time="0.051" file="__tests__/Organization/OrganizationCard.test.js">
+    </testcase>
+    <testcase classname="OrganizationHomepage should render Org card" name="OrganizationHomepage should render Org card" time="0.031" file="__tests__/Organization/OrganizationCard.test.js">
+    </testcase>
+    <testcase classname="OrganizationHomepage should render Org card" name="OrganizationHomepage should render Org card" time="0.031" file="__tests__/Organization/OrganizationCard.test.js">
+    </testcase>
+    <testcase classname="OrganizationHomepage should render Org card" name="OrganizationHomepage should render Org card" time="0.024" file="__tests__/Organization/OrganizationCard.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="BountyMetadata" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:34" time="0.656" tests="1">
+    <testcase classname="BountyMetadata should render Bounty heading" name="BountyMetadata should render Bounty heading" time="0.043" file="__tests__/Bounty/BountyMetadata.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="LinkDropdown" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:34" time="0.634" tests="1">
+    <testcase classname="LinkDropdown should display LinkDropdown" name="LinkDropdown should display LinkDropdown" time="0.072" file="__tests__/Utils/LinkDropdown.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="WatchButton" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:34" time="0.747" tests="2">
+    <testcase classname="WatchButton should render watch button" name="WatchButton should render watch button" time="0.037" file="__tests__/WalletConnect/ConnectButton.test.js">
+    </testcase>
+    <testcase classname="WatchButton should open modal and display link to profile." name="WatchButton should open modal and display link to profile." time="0.084" file="__tests__/WalletConnect/ConnectButton.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="MintBountyModalButton" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:34" time="0.668" tests="3">
+    <testcase classname="MintBountyModalButton should be able to be disabled." name="MintBountyModalButton should be able to be disabled." time="0.043" file="__tests__/MintBounty/MintBountyModalButton.test.js">
     </testcase>
     <testcase classname="MintBountyModalButton should work when enabled." name="MintBountyModalButton should work when enabled." time="0.013" file="__tests__/MintBounty/MintBountyModalButton.test.js">
     </testcase>
     <testcase classname="MintBountyModalButton should work when enabled." name="MintBountyModalButton should work when enabled." time="0.031" file="__tests__/MintBounty/MintBountyModalButton.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="WatchButton" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:41" time="0.684" tests="2">
-    <testcase classname="WatchButton should render watch button" name="WatchButton should render watch button" time="0.023" file="__tests__/WatchButton/WatchButton.test.js">
+  <testsuite name="ClaimLoadingModal" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:34" time="0.68" tests="5">
+    <testcase classname="ClaimLoadingModal should display checking elgibility" name="ClaimLoadingModal should display checking elgibility" time="0.035" file="__tests__/Claim/ClaimLoadingModal.test.js">
     </testcase>
-    <testcase classname="WatchButton should allow user to manipulate watch button starting unwatched" name="WatchButton should allow user to manipulate watch button starting unwatched" time="0.099" file="__tests__/WatchButton/WatchButton.test.js">
+    <testcase classname="ClaimLoadingModal should display inelgible" name="ClaimLoadingModal should display inelgible" time="0.006" file="__tests__/Claim/ClaimLoadingModal.test.js">
     </testcase>
-  </testsuite>
-  <testsuite name="ClaimLoadingModal" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:41" time="0.761" tests="5">
-    <testcase classname="ClaimLoadingModal should display checking elgibility" name="ClaimLoadingModal should display checking elgibility" time="0.047" file="__tests__/Claim/ClaimLoadingModal.test.js">
+    <testcase classname="ClaimLoadingModal should display completed transaction" name="ClaimLoadingModal should display completed transaction" time="0.01" file="__tests__/Claim/ClaimLoadingModal.test.js">
     </testcase>
-    <testcase classname="ClaimLoadingModal should display inelgible" name="ClaimLoadingModal should display inelgible" time="0.007" file="__tests__/Claim/ClaimLoadingModal.test.js">
+    <testcase classname="ClaimLoadingModal should display transaction submitted" name="ClaimLoadingModal should display transaction submitted" time="0.035" file="__tests__/Claim/ClaimLoadingModal.test.js">
     </testcase>
-    <testcase classname="ClaimLoadingModal should display completed transaction" name="ClaimLoadingModal should display completed transaction" time="0.012" file="__tests__/Claim/ClaimLoadingModal.test.js">
-    </testcase>
-    <testcase classname="ClaimLoadingModal should display transaction submitted" name="ClaimLoadingModal should display transaction submitted" time="0.051" file="__tests__/Claim/ClaimLoadingModal.test.js">
-    </testcase>
-    <testcase classname="ClaimLoadingModal should display checking elgibility" name="ClaimLoadingModal should display checking elgibility" time="0.047" file="__tests__/Claim/ClaimLoadingModal.test.js">
+    <testcase classname="ClaimLoadingModal should display checking elgibility" name="ClaimLoadingModal should display checking elgibility" time="0.022" file="__tests__/Claim/ClaimLoadingModal.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="TotalValue" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:42" time="0.59" tests="2">
-    <testcase classname="TotalValue should render 0 in TotalValue" name="TotalValue should render 0 in TotalValue" time="0.018" file="__tests__/Bounty/TotalValue.test.js">
+  <testsuite name="MiniDepositList" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:35" time="0.618" tests="2">
+    <testcase classname="MiniDepositList should render Bounty heading" name="MiniDepositList should render Bounty heading" time="0.039" file="__tests__/User/AboutModules/MiniDepositList.test.js">
     </testcase>
-    <testcase classname="TotalValue should render &gt;0 in TotalValue" name="TotalValue should render &gt;0 in TotalValue" time="0.005" file="__tests__/Bounty/TotalValue.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="AccountModal" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:42" time="0.971" tests="2">
-    <testcase classname="AccountModal should link to homepage." name="AccountModal should link to homepage." time="0.059" file="__tests__/Utils/UnexpectedError.test.js">
-    </testcase>
-    <testcase classname="AccountModal should link to github." name="AccountModal should link to github." time="0.034" file="__tests__/Utils/UnexpectedError.test.js">
+    <testcase classname="MiniDepositList should render Bounty heading" name="MiniDepositList should render Bounty heading" time="0.016" file="__tests__/User/AboutModules/MiniDepositList.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="LinkDropdown" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:43" time="0.646" tests="1">
-    <testcase classname="LinkDropdown should display LinkDropdown" name="LinkDropdown should display LinkDropdown" time="0.072" file="__tests__/Utils/LinkDropdown.test.js">
+  <testsuite name="SearchBar" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:35" time="0.624" tests="1">
+    <testcase classname="SearchBar should render allow user to type into searchbar" name="SearchBar should render allow user to type into searchbar" time="0.068" file="__tests__/Search/SearchBar.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="OrganizationHomepage" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:43" time="0.716" tests="4">
-    <testcase classname="OrganizationHomepage should render Org card" name="OrganizationHomepage should render Org card" time="0.061" file="__tests__/Organization/OrganizationCard.test.js">
+  <testsuite name="AccountModal" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:35" time="0.72" tests="2">
+    <testcase classname="AccountModal should link to homepage." name="AccountModal should link to homepage." time="0.078" file="__tests__/Utils/UnexpectedError.test.js">
     </testcase>
-    <testcase classname="OrganizationHomepage should render Org card" name="OrganizationHomepage should render Org card" time="0.024" file="__tests__/Organization/OrganizationCard.test.js">
-    </testcase>
-    <testcase classname="OrganizationHomepage should render Org card" name="OrganizationHomepage should render Org card" time="0.036" file="__tests__/Organization/OrganizationCard.test.js">
-    </testcase>
-    <testcase classname="OrganizationHomepage should render Org card" name="OrganizationHomepage should render Org card" time="0.023" file="__tests__/Organization/OrganizationCard.test.js">
+    <testcase classname="AccountModal should link to github." name="AccountModal should link to github." time="0.037" file="__tests__/Utils/UnexpectedError.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="SearchBar" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:43" time="0.623" tests="1">
-    <testcase classname="SearchBar should render allow user to type into searchbar" name="SearchBar should render allow user to type into searchbar" time="0.061" file="__tests__/Search/SearchBar.test.js">
+  <testsuite name="ContractWizard" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:36" time="0.628" tests="1">
+    <testcase classname="ContractWizard should open wizard and direct to discord server" name="ContractWizard should open wizard and direct to discord server" time="0.046" file="__tests__/ContractWizard/GetSupportModal.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="TokenBalances" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:43" time="0.614" tests="1">
-    <testcase classname="TokenBalances should render the header and balances" name="TokenBalances should render the header and balances" time="0.048" file="__tests__/TokenBalances/TokenBalances.test.js">
+  <testsuite name="AboutTitle" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:36" time="0.635" tests="2">
+    <testcase classname="AboutTitle should render Bounty heading" name="AboutTitle should render Bounty heading" time="0.03" file="__tests__/User/AboutModules/AboutTitle.test.js">
+    </testcase>
+    <testcase classname="AboutTitle should render Bounty heading" name="AboutTitle should render Bounty heading" time="0.012" file="__tests__/User/AboutModules/AboutTitle.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="Tier Input" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:44" time="0.582" tests="1">
-    <testcase classname="Tier Input should show tier selecter" name="Tier Input should show tier selecter" time="0.018" file="__tests__/MintBounty/TierResults.test.js">
+  <testsuite name="ApprovalTranferModal" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:36" time="0.683" tests="5">
+    <testcase classname="ApprovalTranferModal should render the modal" name="ApprovalTranferModal should render the modal" time="0.023" file="__tests__/RefundBounty/ApprovalTransferModal.test.js">
+    </testcase>
+    <testcase classname="ApprovalTranferModal should render the modal" name="ApprovalTranferModal should render the modal" time="0.008" file="__tests__/RefundBounty/ApprovalTransferModal.test.js">
+    </testcase>
+    <testcase classname="ApprovalTranferModal should render the modal" name="ApprovalTranferModal should render the modal" time="0.005" file="__tests__/RefundBounty/ApprovalTransferModal.test.js">
+    </testcase>
+    <testcase classname="ApprovalTranferModal should render the modal" name="ApprovalTranferModal should render the modal" time="0.021" file="__tests__/RefundBounty/ApprovalTransferModal.test.js">
+    </testcase>
+    <testcase classname="ApprovalTranferModal should render the modal" name="ApprovalTranferModal should render the modal" time="0.006" file="__tests__/RefundBounty/ApprovalTransferModal.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="LoadingIcon" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:44" time="0.563" tests="1">
-    <testcase classname="LoadingIcon should render LoadingIcon" name="LoadingIcon should render LoadingIcon" time="0.018" file="__tests__/Loading/LoadingIcon.test.js">
+  <testsuite name="Tier Input" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:36" time="0.582" tests="1">
+    <testcase classname="Tier Input should show tier selecter" name="Tier Input should show tier selecter" time="0.017" file="__tests__/MintBounty/TextTierInput.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="DepositList" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:45" time="0.881" tests="2">
-    <testcase classname="DepositList should render Bounty heading" name="DepositList should render Bounty heading" time="0.04" file="__tests__/User/AboutModules/DepositList.test.js">
+  <testsuite name="Toggle" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:36" time="0.613" tests="3">
+    <testcase classname="Toggle should display toggle" name="Toggle should display toggle" time="0.017" file="__tests__/Utils/Toggle.test.js">
     </testcase>
-    <testcase classname="DepositList should render Bounty heading" name="DepositList should render Bounty heading" time="0.014" file="__tests__/User/AboutModules/DepositList.test.js">
+    <testcase classname="Toggle should display toggle" name="Toggle should display toggle" time="0.004" file="__tests__/Utils/Toggle.test.js">
     </testcase>
-  </testsuite>
-  <testsuite name="Carousel" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:44" time="0.961" tests="1">
-    <testcase classname="Carousel should display repo name and title" name="Carousel should display repo name and title" time="0.107" file="__tests__/Utils/Carousel.test.js">
+    <testcase classname="Toggle should display toggle" name="Toggle should display toggle" time="0.025" file="__tests__/Utils/Toggle.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="Balances" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:45" time="0.751" tests="1">
-    <testcase classname="Balances should render the header and balances" name="Balances should render the header and balances" time="0.059" file="__tests__/User/AboutModules/Balances.test.js">
+  <testsuite name="Jazzicon" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:36" time="1.054" tests="1">
+    <testcase classname="Jazzicon should display address and have link" name="Jazzicon should display address and have link" time="0.407" file="__tests__/Utils/Jazzicon.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="AccountModal" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:45" time="0.881" tests="3">
-    <testcase classname="AccountModal should render account modal" name="AccountModal should render account modal" time="0.051" file="__tests__/WalletConnect/AccountModal.test.js">
+  <testsuite name="MintBountyHeader" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:37" time="0.805" tests="3">
+    <testcase classname="MintBountyHeader should display atomic header" name="MintBountyHeader should display atomic header" time="0.016" file="__tests__/MintBounty/MintBountyHeader.test.js">
     </testcase>
-    <testcase classname="AccountModal should link to profile." name="AccountModal should link to profile." time="0.071" file="__tests__/WalletConnect/AccountModal.test.js">
+    <testcase classname="MintBountyHeader should display repeatable header" name="MintBountyHeader should display repeatable header" time="0.004" file="__tests__/MintBounty/MintBountyHeader.test.js">
     </testcase>
-    <testcase classname="AccountModal should be able to deactivate." name="AccountModal should be able to deactivate." time="0.025" file="__tests__/WalletConnect/AccountModal.test.js">
-    </testcase>
-  </testsuite>
-  <testsuite name="CopyBountyAddress" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:46" time="0.879" tests="1">
-    <testcase classname="CopyBountyAddress should render CopyBountyAddress" name="CopyBountyAddress should render CopyBountyAddress" time="0.028" file="__tests__/Bounty/CopyBountyAddress.test.js">
+    <testcase classname="MintBountyHeader should display competition header" name="MintBountyHeader should display competition header" time="0.004" file="__tests__/MintBounty/MintBountyHeader.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="SubMenu" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:46" time="0.933" tests="1">
-    <testcase classname="SubMenu should display SubMenu" name="SubMenu should display SubMenu" time="0.042" file="__tests__/Utils/Submenu.test.js">
+  <testsuite name="Balances" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:37" time="1.002" tests="1">
+    <testcase classname="Balances should render the header and balances" name="Balances should render the header and balances" time="0.053" file="__tests__/User/AboutModules/Balances.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="searchFoundInLabels" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:47" time="0.158" tests="1">
-    <testcase classname="searchFoundInLabels should render Bounty Status" name="searchFoundInLabels should render Bounty Status" time="0.004" file="__tests__/BountyList/SearchHelpers/searchFoundInLabels.test.js">
+  <testsuite name="MiniBountyCard" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:37" time="0.635" tests="1">
+    <testcase classname="MiniBountyCard should render MiniBountyCard with link" name="MiniBountyCard should render MiniBountyCard with link" time="0.044" file="__tests__/User/AboutModules/MiniBountyCard.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="searchFoundInText" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:47" time="0.168" tests="1">
-    <testcase classname="searchFoundInText should render Bounty Status" name="searchFoundInText should render Bounty Status" time="0.002" file="__tests__/BountyList/SearchHelpers/searchFoundInText.test.js">
+  <testsuite name="ClaimPage" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:38" time="0.616" tests="2">
+    <testcase classname="ClaimPage should render the copyable content" name="ClaimPage should render the copyable content" time="0.02" file="__tests__/Copy/CopyBountyAddress.test.js">
+    </testcase>
+    <testcase classname="ClaimPage should render clip copyable content" name="ClaimPage should render clip copyable content" time="0.006" file="__tests__/Copy/CopyBountyAddress.test.js">
     </testcase>
   </testsuite>
-  <testsuite name="searchTagInBounty" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:30:47" time="0.129" tests="1">
+  <testsuite name="Navlinks" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:38" time="0.611" tests="1">
+    <testcase classname="Navlinks should open wizard and direct to discord server" name="Navlinks should open wizard and direct to discord server" time="0.034" file="__tests__/Layout/Navlinks.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="OrganizationMetadata" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:38" time="0.688" tests="1">
+    <testcase classname="OrganizationMetadata should render Repo card" name="OrganizationMetadata should render Repo card" time="0.053" file="__tests__/Organization/RepoCard.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="ClaimTotals" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:38" time="0.898" tests="2">
+    <testcase classname="ClaimTotals should display the right percentage per claimant" name="ClaimTotals should display the right percentage per claimant" time="0.021" file="__tests__/Claim/ClaimTotals.test.js">
+    </testcase>
+    <testcase classname="ClaimTotals should display the right value per claimant" name="ClaimTotals should display the right value per claimant" time="0.014" file="__tests__/Claim/ClaimTotals.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="Tier Input" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:39" time="0.699" tests="1">
+    <testcase classname="Tier Input should show tier selecter" name="Tier Input should show tier selecter" time="0.028" file="__tests__/MintBounty/TierInput.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="CopyBountyAddress" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:39" time="0.587" tests="1">
+    <testcase classname="CopyBountyAddress should render CopyBountyAddress" name="CopyBountyAddress should render CopyBountyAddress" time="0.019" file="__tests__/Bounty/CopyBountyAddress.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="AccountModal" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:39" time="0.559" tests="3">
+    <testcase classname="AccountModal should display tooltip" name="AccountModal should display tooltip" time="0.015" file="__tests__/Utils/TooltipNew.test.js">
+    </testcase>
+    <testcase classname="AccountModal should hide tooltip" name="AccountModal should hide tooltip" time="0.002" file="__tests__/Utils/TooltipNew.test.js">
+    </testcase>
+    <testcase classname="AccountModal should show tooltip styles" name="AccountModal should show tooltip styles" time="0.006" file="__tests__/Utils/TooltipNew.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="SubMenu" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:39" time="0.604" tests="1">
+    <testcase classname="SubMenu should display SubMenu" name="SubMenu should display SubMenu" time="0.045" file="__tests__/Utils/Submenu.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="searchTagInBounty" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:40" time="0.156" tests="1">
     <testcase classname="searchTagInBounty should render Bounty Status" name="searchTagInBounty should render Bounty Status" time="0.002" file="__tests__/BountyList/SearchHelpers/searchFoundInTags.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="Tier Input" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:39" time="0.631" tests="1">
+    <testcase classname="Tier Input should show tier selecter" name="Tier Input should show tier selecter" time="0.022" file="__tests__/MintBounty/TierResults.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="searchFoundInLabels" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:40" time="0.139" tests="1">
+    <testcase classname="searchFoundInLabels should render Bounty Status" name="searchFoundInLabels should render Bounty Status" time="0.003" file="__tests__/BountyList/SearchHelpers/searchFoundInLabels.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="searchFoundInText" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:40" time="0.184" tests="1">
+    <testcase classname="searchFoundInText should render Bounty Status" name="searchFoundInText should render Bounty Status" time="0.003" file="__tests__/BountyList/SearchHelpers/searchFoundInText.test.js">
+    </testcase>
+  </testsuite>
+  <testsuite name="IssueDetailsBubble" errors="0" failures="0" skipped="0" timestamp="2022-09-26T12:34:40" time="0.614" tests="2">
+    <testcase classname="IssueDetailsBubble should display mintable issue" name="IssueDetailsBubble should display mintable issue" time="0.021" file="__tests__/MintBounty/IssueDetailsBubble.test.js">
+    </testcase>
+    <testcase classname="IssueDetailsBubble should display unmintable issue" name="IssueDetailsBubble should display unmintable issue" time="0.007" file="__tests__/MintBounty/IssueDetailsBubble.test.js">
     </testcase>
   </testsuite>
 </testsuites>
