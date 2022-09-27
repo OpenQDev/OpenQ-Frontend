@@ -38,20 +38,15 @@ jobs:
             fi
       - run: docker build -t openq/openq-frontend:$CIRCLE_TAG --build-arg deploy_env=$DEPLOY_ENV .
       - run: docker run -d --name openq-frontend openq/openq-frontend:$CIRCLE_TAG
-      - run: docker save -o /openq-frontend openq/openq-frontend:$CIRCLE_TAG
-      - persist_to_workspace: 
-          root: ./
-          paths:
-            - ./openq-frontend
+      - run: docker push openq/openq-frontend:$CIRCLE_TAG
+
   test:
     parallelism: 10
     machine: true
     steps:
       - checkout
-      - attach_workspace:
-          at: ./openq-frontend
-      - run: docker load -i ./openq-frontend
-      - run: docker run -d --name openq-frontend openq/openq-frontend:$CIRCLE_TAG
+      - run: docker pull openq/openq-frontend:staging-35
+      - run: docker run -d --name openq-frontend openq/openq-frontend:staging-35
       - run: docker exec openq-frontend yarn json-server:cicd
       - run: 
           name: Test application
@@ -59,12 +54,12 @@ jobs:
               TEST=$(circleci tests glob "__tests__/*.js" | circleci tests split --split-by=timings)
               docker exec openq-frontend yarn test:cicd $TEST
       - run:
-          command: mkdir ~/junit && cp ~/junit.xml ~/junit/
+          command: mkdir test-reuslts && cp ~/junit.xml ~/test-reuslts/junit.xml
           when: always
       - store_test_results:
-          path: ~/junit
+          path: test-results
       - store_artifacts:
-           path: ~/junit
+           path: test-results
   pushImage:
     machine: true
     steps:
@@ -166,18 +161,7 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build:
-          context: OpenQ
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only:
-                - /^staging.*/
-                - /^production.*/
       - test:
-          requires:
-            - build
           context: OpenQ
           filters:
             branches:
