@@ -20,6 +20,7 @@ module.exports = () => {
     NEXT_PUBLIC_GA_TRACKING_ID: process.env.GA_TRACKING_ID,
     NEXT_PUBLIC_INFURA_PROJECT_ID: process.env.INFURA_PROJECT_ID,
     NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS: process.env.CLAIM_MANAGER_PROXY_ADDRESS,
+    NEXT_PUBLIC_BUILD_NUMBER: process.env.BUILD_NUMBER,
   };
 
   const config = {

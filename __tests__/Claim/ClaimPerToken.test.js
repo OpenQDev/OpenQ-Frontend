@@ -636,10 +636,11 @@ describe('ClaimPerToken', () => {
     // ARRANGE
     render(
       <ClaimPerToken
-        tokenAddress={'0x0000000000000000000000000000000000000000'}
-        type={'allClaimants'}
-        changeObj={changeObj}
         bounty={bounties[0]}
+        tokenAddress={'0x0000000000000000000000000000000000000000'}
+        claimant={'0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc'}
+        type={'allClaimants'}
+        changeObj={() => {}}
       />
     );
 
@@ -658,7 +659,9 @@ describe('ClaimPerToken', () => {
       <ClaimPerToken
         bounty={bounties[0]}
         tokenAddress={'0x0000000000000000000000000000000000000000'}
-        changeObj={changeObj}
+        claimant={'0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc'}
+        type={'perClaimant'}
+        changeObj={() => {}}
       />
     );
 
@@ -673,9 +676,11 @@ describe('ClaimPerToken', () => {
     // ARRANGE
     render(
       <ClaimPerToken
-        tokenAddress={'0x0000000000000000000000000000000000000000'}
         bounty={bounties[0]}
-        changeObj={changeObj}
+        tokenAddress={'0x0000000000000000000000000000000000000000'}
+        claimant={'0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc'}
+        type={'perClaimant'}
+        changeObj={() => {}}
       />
     );
 
