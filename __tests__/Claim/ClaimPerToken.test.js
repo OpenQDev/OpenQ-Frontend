@@ -620,7 +620,9 @@ const bounties = [
 ];
 
 describe('ClaimPerToken', () => {
+  let changeObj;
   beforeEach(() => {
+    changeObj = jest.fn();
     nextRouter.useRouter.mockImplementation(() => ({
       query: { type: null },
       prefetch: jest.fn(() => {
@@ -634,16 +636,23 @@ describe('ClaimPerToken', () => {
     // ARRANGE
     render(
       <ClaimPerToken
+<<<<<<< HEAD
         bounty={bounties[0]}
         tokenAddress={'0x0000000000000000000000000000000000000000'}
         claimant={'0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc'}
         type={'perClaimant'}
         changeObj={() => {}}
+=======
+        tokenAddress={'0x0000000000000000000000000000000000000000'}
+        type={'allClaimants'}
+        changeObj={changeObj}
+        bounty={bounties[0]}
+>>>>>>> d8c38c02b59f830bb22ea4f09bc7bd8fc0676ef7
       />
     );
 
     // ASSERT
-    const volDERC20 = await screen.findByText('300.0');
+    const volDERC20 = await screen.findByText(/469.0/);
     expect(volDERC20).toBeInTheDocument();
 
     // should not have null or undefined values

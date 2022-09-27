@@ -93,34 +93,36 @@ const test = (issue, type) => {
     await user.type(inputs[0], issue.url);
     await user.click(screen.getByRole('checkbox'));
     await user.type(screen.getByLabelText('budget'), '123assdf');
-    expect(screen.getByLabelText('budget').value).toBe('123');
-
-    // ASSERT
-    switch (type[0]) {
-      case '1':
-        {
-          await user.type(screen.getByLabelText('split'), '123assdf');
-          expect(screen.getByLabelText('split').value).toBe('123');
-        }
-        break;
-
-      case '2':
-        {
-          expect(await screen.findAllByText(/place winner/)).toHaveLength(3);
-          await user.type(screen.getByLabelText(/tier/), '2');
-          expect(await screen.findAllByText(/place winner/)).toHaveLength(32);
-
-          /**/
-        }
-        break;
-
-      case '3':
-        break;
-      default:
-    }
-
     await waitFor(async () => {
-      const deploy = await screen.findAllByText(/deploy/i);
+      expect(screen.getByLabelText('budget').value).toBe('123');
+
+      // ASSERT
+      switch (type[0]) {
+        case '1':
+          {
+            await user.type(screen.getByLabelText('split'), '123assdf');
+            expect(screen.getByLabelText('split').value).toBe('123');
+          }
+          break;
+
+        case '2':
+          {
+            expect(screen.getAllByText(/place winner/)).toHaveLength(3);
+            await user.type(screen.getByLabelText(/tier/), '2');
+            expect(screen.getAllByText(/place winner/)).toHaveLength(32);
+
+            /**/
+          }
+          break;
+
+        case '3':
+          expect(screen.getAllByText(/fixed Contest/i)).toHaveLength(3);
+
+          break;
+        default:
+      }
+
+      const deploy = screen.getAllByText(/deploy/i);
       expect(deploy[0]).toBeInTheDocument();
       // should not have null or undefined values
       const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];

@@ -36,8 +36,66 @@ jobs:
             fi
       - run: docker build -t openq/openq-frontend:$CIRCLE_TAG --build-arg deploy_env=$DEPLOY_ENV .
       - run: docker run -d --name openq-frontend openq/openq-frontend:$CIRCLE_TAG
+      - run: docker save -o /openq-frontend openq/openq-frontend:$CIRCLE_TAG
+      - persist_to_workspace: 
+          root: ./
+          paths:
+            - ./openq-frontend
+  test:
+    parallelism: 10
+    machine: true
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ./openq-frontend
+      - run: docker load -i ./openq-frontend
+      - run: docker run -d --name openq-frontend openq/openq-frontend:$CIRCLE_TAG
       - run: docker exec openq-frontend yarn json-server:cicd
-      - run: docker exec openq-frontend yarn test:cicd
+      - run: 
+          name: Test application
+          command: |
+              TEST=$(circleci tests glob "__tests__/*.js" | circleci tests split --split-by=timings)
+              docker exec openq-frontend yarn test:cicd $TEST
+      - run:
+          command: mkdir ~/junit && cp ~/junit.xml ~/junit/
+          when: always
+      - store_test_results:
+          path: ~/junit
+      - store_artifacts:
+           path: ~/junit
+  pushImage:
+    machine: true
+    steps:
+      - checkout
+      - run: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USER --password-stdin
+      - run:
+          name: Update DEPLOY_ENV environment variable using CIRCLE_TAG
+          command: |
+            echo 'export DEPLOY_ENV=$(echo ${CIRCLE_TAG} | sed 's/-.*//')' >> $BASH_ENV
+            source $BASH_ENV
+      - run: echo $DEPLOY_ENV
+      - run:
+          name: Load .env based on $DEPLOY_ENV
+          command: |
+            if [ "$DEPLOY_ENV" = staging ]; then
+              echo "$staging_env" | base64 --decode > $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "PATS=$PATS" >> $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "OPENQ_PROXY_ADDRESS=$OPENQ_PROXY_ADDRESS_STAGING" >> $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "DEPOSIT_MANAGER_PROXY_ADDRESS=$DEPOSIT_MANAGER_PROXY_ADDRESS_STAGING" >> $(pwd)/.env
+            fi
+            if [ "$DEPLOY_ENV" = production ]; then
+              echo "$production_env" | base64 --decode > $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "PATS=$PATS_PRODUCTION" >> $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "OPENQ_PROXY_ADDRESS=$OPENQ_PROXY_ADDRESS_PRODUCTION" >> $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "DEPOSIT_MANAGER_PROXY_ADDRESS=$DEPOSIT_MANAGER_PROXY_ADDRESS_PRODUCTION" >> $(pwd)/.env
+            fi
+     
       - run: docker push openq/openq-frontend:$CIRCLE_TAG
       - run:
           command: |
@@ -48,12 +106,60 @@ jobs:
             cd OpenQ-Helm/
             yq -i '.frontend.image.tag = env(CIRCLE_TAG)' values-$DEPLOY_ENV.yaml
             cat values-$DEPLOY_ENV.yaml
-            git add .
-            git commit -m "[CIRCLE CI] ${CIRCLE_TAG}"
-            git push
-            git tag -f ${CIRCLE_TAG}
+            git add . || true
+            git commit -m "[CIRCLE CI] ${CIRCLE_TAG}" || true
             git remote set-url origin https://${CIRCLECI_PAT}@github.com/openqdev/OpenQ-Helm.git
-            git push -f origin ${CIRCLE_TAG}
+            git push || true
+            git tag -f ${CIRCLE_TAG}
+            git push -f origin ${CIRCLE_TAG} --tags || true
+  pushHelm:
+    machine: true
+    steps:
+      - checkout
+      - run: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USER --password-stdin
+      - run:
+          name: Update DEPLOY_ENV environment variable using CIRCLE_TAG
+          command: |
+            echo 'export DEPLOY_ENV=$(echo ${CIRCLE_TAG} | sed 's/-.*//')' >> $BASH_ENV
+            source $BASH_ENV
+      - run: echo $DEPLOY_ENV
+      - run:
+          name: Load .env based on $DEPLOY_ENV
+          command: |
+            if [ "$DEPLOY_ENV" = staging ]; then
+              echo "$staging_env" | base64 --decode > $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "PATS=$PATS" >> $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "OPENQ_PROXY_ADDRESS=$OPENQ_PROXY_ADDRESS_STAGING" >> $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "DEPOSIT_MANAGER_PROXY_ADDRESS=$DEPOSIT_MANAGER_PROXY_ADDRESS_STAGING" >> $(pwd)/.env
+            fi
+            if [ "$DEPLOY_ENV" = production ]; then
+              echo "$production_env" | base64 --decode > $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "PATS=$PATS_PRODUCTION" >> $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "OPENQ_PROXY_ADDRESS=$OPENQ_PROXY_ADDRESS_PRODUCTION" >> $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "DEPOSIT_MANAGER_PROXY_ADDRESS=$DEPOSIT_MANAGER_PROXY_ADDRESS_PRODUCTION" >> $(pwd)/.env
+            fi
+      - run:
+          command: |
+            wget https://github.com/mikefarah/yq/releases/download/v4.27.5/yq_linux_386
+            sudo mv yq_linux_386 /usr/local/bin/yq
+            sudo chmod +x /usr/local/bin/yq
+            git clone https://${CIRCLECI_PAT}@github.com/openqdev/OpenQ-Helm.git
+            cd OpenQ-Helm/
+            yq -i '.frontend.image.tag = env(CIRCLE_TAG)' values-$DEPLOY_ENV.yaml
+            cat values-$DEPLOY_ENV.yaml
+            git add . || true
+            git commit -m "[CIRCLE CI] ${CIRCLE_TAG}" || true
+            git remote set-url origin https://${CIRCLECI_PAT}@github.com/openqdev/OpenQ-Helm.git
+            git push || true
+            git tag -f ${CIRCLE_TAG}
+            git push -f origin ${CIRCLE_TAG} --tags || true
+
 workflows:
   version: 2
   build-and-deploy:
@@ -67,3 +173,15 @@ workflows:
               only:
                 - /^staging.*/
                 - /^production.*/
+      - test:
+          requires:
+            - build
+          context: OpenQ
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only:
+                - /^staging.*/
+                - /^production.*/
+    

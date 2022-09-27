@@ -5,6 +5,7 @@ import React from 'react';
 import { render, screen } from '../../test-utils';
 import ClaimOverview from '../../components/Claim/ClaimOverview';
 import nextRouter from 'next/router';
+import { waitFor } from '@testing-library/react';
 
 nextRouter.useRouter = jest.fn();
 const push = jest.fn(() => {
@@ -639,44 +640,45 @@ describe('ClaimOverview', () => {
 
     // ASSERT
     // column headings
-    const link = await screen.findByText('LINK');
-    expect(link).toBeInTheDocument();
-    const derc = await screen.findByText('DERC20');
-    expect(derc).toBeInTheDocument();
-    const matic = await screen.findByText('MATIC');
-    expect(matic).toBeInTheDocument();
-    const total = await screen.findByText('TOTAL');
-    expect(total).toBeInTheDocument();
+    await waitFor(async () => {
+      const link = screen.getByText('LINK');
+      expect(link).toBeInTheDocument();
+      const derc = screen.getByText('DERC20');
+      expect(derc).toBeInTheDocument();
+      const matic = screen.getByText('MATIC');
+      expect(matic).toBeInTheDocument();
+      const total = screen.getByText('TOTAL');
+      expect(total).toBeInTheDocument();
 
-    // row descriptions
-    const subTotal = await screen.findByText('SubTotal');
-    expect(subTotal).toBeInTheDocument();
-    const stillClaimable = await screen.findByText('Still Claimable');
-    expect(stillClaimable).toBeInTheDocument();
-    const refundable = await screen.findByText('of which currently');
-    expect(refundable).toBeInTheDocument();
-    const refunded = await screen.findByText('Refunded');
-    expect(refunded).toBeInTheDocument();
-    const totalDeposited = await screen.findByText('Total Deposited');
-    expect(totalDeposited).toBeInTheDocument();
+      // row descriptions
+      const subTotal = await screen.findByText('SubTotal');
+      expect(subTotal).toBeInTheDocument();
+      const stillClaimable = await screen.findByText('Still Claimable');
+      expect(stillClaimable).toBeInTheDocument();
+      const refundable = await screen.findByText('of which currently');
+      expect(refundable).toBeInTheDocument();
+      const refunded = await screen.findByText('Refunded');
+      expect(refunded).toBeInTheDocument();
+      const totalDeposited = await screen.findByText('Total Deposited');
+      expect(totalDeposited).toBeInTheDocument();
 
-    // should not have null or undefined values
-    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-    expect(nullish).toHaveLength(0);
+      // should not have null or undefined values
+      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+      expect(nullish).toHaveLength(0);
+    });
   });
-
   it('should display the claimants addresses', async () => {
     // ARRANGE
     render(<ClaimOverview bounty={bounties[0]} />);
 
     // ASSERT
-    const claimant1 = await screen.findByText('0x3c...93bc');
-    expect(claimant1).toBeInTheDocument();
-    const claimant2 = await screen.findByText('0xf3...2266');
-    expect(claimant2).toBeInTheDocument();
+    await waitFor(async () => {
+      const claimant1 = screen.getAllByText('sample.eth');
+      expect(claimant1).toHaveLength(2);
 
-    // should not have null or undefined values
-    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-    expect(nullish).toHaveLength(0);
+      // should not have null or undefined values
+      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+      expect(nullish).toHaveLength(0);
+    });
   });
 });

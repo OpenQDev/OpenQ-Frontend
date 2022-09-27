@@ -1,20 +1,13 @@
 import React, { useContext, useState, useMemo } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
-import Jazzicon from '../Utils/Jazzicon';
-import useEns from '../../hooks/useENS';
 import ClaimPerToken from './ClaimPerToken';
 import ClaimTotals from './ClaimTotals';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import ToolTipNew from '../Utils/ToolTipNew';
+import Claimants from './Claim/Claimants.js';
 
 const ClaimOverview = ({ bounty, setInternalMenu }) => {
   const [appState] = useContext(StoreContext);
-  const shortenAddress = (address) => {
-    if (!address) {
-      return '';
-    }
-    return `${address.slice(0, 4)}...${address.slice(38)}`;
-  };
   const tokenAddresses = bounty.deposits
     .map((deposit) => deposit.tokenAddress)
     .filter((itm, pos, self) => {
@@ -25,10 +18,6 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
     .filter((itm, pos, self) => {
       return self.indexOf(itm) == pos;
     });
-  const claimantsShort = claimants.map((claimant) => {
-    const [claimantEnsName] = useEns(claimant);
-    return claimantEnsName || shortenAddress(claimant);
-  });
 
   function filterAndAggregate(toFilterPerToken) {
     return tokenAddresses.map((tokenAddress) => {
@@ -58,7 +47,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
     <>
       <div className='flex max-w-[800px] overflow-auto h-1/2'>
         {bounty.payouts?.length ? (
-          <div>
+          <table>
             <thead>
               <tr>
                 <th className='px-2 pb-2'></th>
@@ -71,12 +60,9 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
               </tr>
             </thead>
             <tbody>
-              {claimants.map((claimant, index) => (
+              {claimants.map((claimant) => (
                 <tr key={claimant}>
-                  <td className='flex gap-4 items-center px-2 pb-2' key={claimant + 1}>
-                    <Jazzicon tooltipPosition={'-left-2'} size={36} address={claimant} />
-                    <span>{claimantsShort[index]}</span>
-                  </td>
+                  <Claimants claimant={claimant} />
                   {tokenAddresses.map((tokenAddress) => (
                     <td key={tokenAddress}>
                       <ClaimPerToken
@@ -198,7 +184,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                 </td>
               </tr>
             </tbody>
-          </div>
+          </table>
         ) : (
           <div className='text-lg'>No claims have been made yet.</div>
         )}
