@@ -24,6 +24,8 @@ jobs:
               echo "OPENQ_PROXY_ADDRESS=$OPENQ_PROXY_ADDRESS_STAGING" >> $(pwd)/.env
               echo "" >> $(pwd)/.env
               echo "DEPOSIT_MANAGER_PROXY_ADDRESS=$DEPOSIT_MANAGER_PROXY_ADDRESS_STAGING" >> $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "BUILD_NUMBER=$CIRCLE_TAG" >> $(pwd)/.env
             fi
             if [ "$DEPLOY_ENV" = production ]; then
               echo "$production_env" | base64 --decode > $(pwd)/.env
