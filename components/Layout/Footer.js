@@ -33,6 +33,8 @@ const Footer = () => {
     <div className='text-primary text-sm w-full bg-nav-bg py-2 flex flex-col lg:flex-row w-full justify-between content-center font-semibold text-muted'>
       <div className='flex-row lg:flex flex-wrap lg:flex-nowrap justify-between items-center justify-between w-full lg:px-12 px-4'>
         <div className='flex-0 border-web-gray lg:border-none border-b py-2'>Copyright {year} OpenQ ©</div>
+        {process.env.NEXT_PUBLIC_BUILD_NUMBER ? <div>Build: {process.env.NEXT_PUBLIC_BUILD_NUMBER}</div> : <></>}
+
         <div className='border-web-gray lg:border-none border-b py-2'>
           Contracts currently not audited, please use at your own risk.
         </div>
