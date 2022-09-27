@@ -46,11 +46,11 @@ jobs:
       - run: docker pull openq/openq-frontend:staging-35
       - run: docker run -d --name openq-frontend openq/openq-frontend:staging-35
       - run: docker exec openq-frontend yarn json-server:cicd
+      - run: ls -al
       - run: 
           name: Test application
           command: |
-              TEST=$(circleci tests glob "__tests__/*.test.js" | circleci tests split --split-by=timings)
-              echo $TEST && echo $DEPLOY_ENV
+              TEST=$(circleci tests glob "__tests__/**/*.test.js" | circleci tests split --split-by=timings)
               docker exec openq-frontend yarn test:cicd $TEST
       - run:
           command: mkdir ~/test-results &&  docker cp openq-frontend:/app/junit.xml ~/test-results/junit.xml
