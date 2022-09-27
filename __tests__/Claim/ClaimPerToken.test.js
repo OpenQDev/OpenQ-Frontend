@@ -620,9 +620,7 @@ const bounties = [
 ];
 
 describe('ClaimPerToken', () => {
-  let changeObj;
   beforeEach(() => {
-    changeObj = jest.fn();
     nextRouter.useRouter.mockImplementation(() => ({
       query: { type: null },
       prefetch: jest.fn(() => {
