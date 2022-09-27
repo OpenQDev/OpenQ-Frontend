@@ -40,11 +40,11 @@ jobs:
 
   test:
     parallelism: 10
-    docker:
-      - image: openq/openq-frontend:$CIRCLE_TAG
+    machine: true
     steps:
       - checkout
-      - run: docker run -d --name openq-frontend openq/openq-frontend:$CIRCLE_TAG
+      - run: docker pull openq/openq-frontend:staging-35
+      - run: docker run -d --name openq-frontend openq/openq-frontend:staging-35
       - run: docker exec openq-frontend yarn json-server:cicd
       - run: 
           name: Test application
@@ -159,15 +159,6 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build:
-          context: OpenQ
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only:
-                - /^staging.*/
-                - /^production.*/
       - test:
           requires:
             - build
