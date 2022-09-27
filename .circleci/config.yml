@@ -36,6 +36,7 @@ jobs:
             fi
       - run: docker build -t openq/openq-frontend:$CIRCLE_TAG --build-arg deploy_env=$DEPLOY_ENV .
       - run: docker run -d --name openq-frontend openq/openq-frontend:$CIRCLE_TAG
+      - run: docker push openq/openq-frontend:$CIRCLE_TAG
 
   test:
     parallelism: 10
