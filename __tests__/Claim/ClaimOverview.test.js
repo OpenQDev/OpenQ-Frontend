@@ -651,18 +651,16 @@ describe('ClaimOverview', () => {
       expect(total).toBeInTheDocument();
 
       // row descriptions
-      const subTotal = screen.getByText('SubTotal');
+      const subTotal = await screen.findByText('SubTotal');
       expect(subTotal).toBeInTheDocument();
-      const stillClaimable = screen.getByText('Still Claimable');
+      const stillClaimable = await screen.findByText('Still Claimable');
       expect(stillClaimable).toBeInTheDocument();
-      const refundable = screen.getByText('of which currently');
+      const refundable = await screen.findByText('of which currently');
       expect(refundable).toBeInTheDocument();
-      const refunded = screen.getByText('Refunded');
+      const refunded = await screen.findByText('Refunded');
       expect(refunded).toBeInTheDocument();
-      const totalDeposited = screen.getByText('Total Deposited');
+      const totalDeposited = await screen.findByText('Total Deposited');
       expect(totalDeposited).toBeInTheDocument();
-      const claimant1 = screen.getAllByText('sample.eth');
-      expect(claimant1).toHaveLength(1);
 
       // should not have null or undefined values
       const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
