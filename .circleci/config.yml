@@ -115,6 +115,7 @@ workflows:
           context: OpenQ
           requires: 
               - build
+              - test
           filters:
             branches:
               ignore: /.*/
