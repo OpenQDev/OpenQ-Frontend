@@ -653,7 +653,7 @@ describe('ClaimOverview', () => {
     expect(subTotal).toBeInTheDocument();
     const stillClaimable = await screen.findByText('Still Claimable');
     expect(stillClaimable).toBeInTheDocument();
-    const refundable = await screen.findByText('of which currently refundable');
+    const refundable = await screen.findByText('of which currently');
     expect(refundable).toBeInTheDocument();
     const refunded = await screen.findByText('Refunded');
     expect(refunded).toBeInTheDocument();
