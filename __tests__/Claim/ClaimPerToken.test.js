@@ -636,18 +636,11 @@ describe('ClaimPerToken', () => {
     // ARRANGE
     render(
       <ClaimPerToken
-<<<<<<< HEAD
         bounty={bounties[0]}
         tokenAddress={'0x0000000000000000000000000000000000000000'}
         claimant={'0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc'}
-        type={'perClaimant'}
-        changeObj={() => {}}
-=======
-        tokenAddress={'0x0000000000000000000000000000000000000000'}
         type={'allClaimants'}
-        changeObj={changeObj}
-        bounty={bounties[0]}
->>>>>>> d8c38c02b59f830bb22ea4f09bc7bd8fc0676ef7
+        changeObj={() => {}}
       />
     );
 
