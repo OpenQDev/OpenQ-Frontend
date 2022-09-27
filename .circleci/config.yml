@@ -51,15 +51,15 @@ jobs:
           command: |
               TEST=$(circleci tests glob "__tests__/*.test.js" | circleci tests split --split-by=timings)
               echo $TEST
-              echo circleci tests glob "__tests__/*.test.js"
+              echo $(circleci tests glob "__tests__/*.test.js")
               docker exec openq-frontend yarn test:cicd $TEST
       - run:
           command: mkdir ~/test-results &&  docker cp openq-frontend:/app/junit.xml ~/test-results/junit.xml
           when: always
       - store_test_results:
-          path: ~/test-results
+          path: ~/test-results/junit.xml
       - store_artifacts:
-          path: ~/test-results
+          path: ~/test-results//junit.xml
   pushImage:
     machine: true
     steps:
