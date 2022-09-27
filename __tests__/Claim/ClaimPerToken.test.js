@@ -632,7 +632,15 @@ describe('ClaimPerToken', () => {
 
   it('should display the right volume per claimant and token', async () => {
     // ARRANGE
-    render(<ClaimPerToken bounty={bounties[0]} />);
+    render(
+      <ClaimPerToken
+        bounty={bounties[0]}
+        tokenAddress={'0x0000000000000000000000000000000000000000'}
+        claimant={'0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc'}
+        type={'perClaimant'}
+        changeObj={() => {}}
+      />
+    );
 
     // ASSERT
     const volDERC20 = await screen.findByText('300.0');
@@ -645,7 +653,15 @@ describe('ClaimPerToken', () => {
 
   it('should display the right percentage per claimant and token', async () => {
     // ARRANGE
-    render(<ClaimPerToken bounty={bounties[0]} />);
+    render(
+      <ClaimPerToken
+        bounty={bounties[0]}
+        tokenAddress={'0x0000000000000000000000000000000000000000'}
+        claimant={'0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc'}
+        type={'perClaimant'}
+        changeObj={() => {}}
+      />
+    );
 
     // ASSERT
 
@@ -656,7 +672,15 @@ describe('ClaimPerToken', () => {
 
   it('should display the right value per claimant and token', async () => {
     // ARRANGE
-    render(<ClaimPerToken bounty={bounties[0]} />);
+    render(
+      <ClaimPerToken
+        bounty={bounties[0]}
+        tokenAddress={'0x0000000000000000000000000000000000000000'}
+        claimant={'0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc'}
+        type={'perClaimant'}
+        changeObj={() => {}}
+      />
+    );
 
     // ASSERT
 
