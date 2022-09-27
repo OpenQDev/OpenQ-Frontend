@@ -43,12 +43,10 @@ jobs:
             - ./openq-frontend
   test:
     parallelism: 10
-    machine: true
+    docker:
+      - image: openq/openq-frontend:$CIRCLE_TAG
     steps:
       - checkout
-      - attach_workspace:
-          at: ./openq-frontend
-      - run: docker load -i ./openq-frontend
       - run: docker run -d --name openq-frontend openq/openq-frontend:$CIRCLE_TAG
       - run: docker exec openq-frontend yarn json-server:cicd
       - run: 
