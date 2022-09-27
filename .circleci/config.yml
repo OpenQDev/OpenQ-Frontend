@@ -160,8 +160,6 @@ workflows:
   build-and-deploy:
     jobs:
       - test:
-          requires:
-            - build
           context: OpenQ
           filters:
             branches:
