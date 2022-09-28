@@ -22,6 +22,7 @@ module.exports = () => {
     NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS: process.env.CLAIM_MANAGER_PROXY_ADDRESS,
     NEXT_PUBLIC_BUILD_NUMBER: process.env.BUILD_NUMBER,
     NEXT_PUBLIC_LS_TRACKING_ID: process.env.LS_TRACKING_ID,
+    NEXT_PUBLIC_LS_ROOT_HOSTNAME: process.env.LS_ROOT_HOSTNAME,
   };
 
   const config = {
