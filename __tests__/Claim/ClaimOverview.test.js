@@ -661,19 +661,8 @@ describe('ClaimOverview', () => {
       expect(refunded).toBeInTheDocument();
       const totalDeposited = await screen.findByText('Total Deposited');
       expect(totalDeposited).toBeInTheDocument();
-
-      // should not have null or undefined values
-      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-      expect(nullish).toHaveLength(0);
-    });
-  });
-  it('should display the claimants addresses', async () => {
-    // ARRANGE
-    render(<ClaimOverview bounty={bounties[0]} />);
-
-    // ASSERT
-    await waitFor(async () => {
-      const claimant1 = screen.getAllByText('sample.eth');
+      //leave this in here otherwise jest will exit and errors will show up in the test console
+      const claimant1 = await screen.findAllByText('sample.eth');
       expect(claimant1).toHaveLength(2);
 
       // should not have null or undefined values
