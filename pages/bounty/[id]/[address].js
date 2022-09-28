@@ -214,7 +214,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                 updatePage={setInternalMenu}
               />
 
-              <BountyHeading tokenValues={tokenValues} budgetValues={budgetValues} bounty={bounty} />
+              <BountyHeading price={tokenValues?.total} budget={budget} bounty={bounty} />
 
               <div className='flex justify-between  w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
                 {internalMenu == 'View' && (

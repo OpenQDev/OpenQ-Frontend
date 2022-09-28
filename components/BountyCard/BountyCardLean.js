@@ -70,7 +70,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
         className={`flex flex-col md:px-4 py-4 border-web-gray cursor-pointer ${index !== length - 1 && 'border-b'}`}
       >
         <div className='flex flex-row flex-wrap sm:flex-nowrap justify-between sm:pt-0 text-primary'>
-          <div className='w-3/4'>
+          <div className='w-full sm:w-3/4 md:w-1/2'>
             <div className='flex flex-grow flex-row items-center md:space-x-2 sm:pb-0 w-full'>
               <div className='hidden md:block'>
                 <svg
@@ -140,7 +140,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
           {loading ? (
             <Skeleton width={60} />
           ) : (
-            <div className='flex flex-col justify-between items-end leading-tight '>
+            <div className='flex flex-col w-1/4 sm:w-1/2 justify-between items-end leading-tight '>
               <div className='sm:block hidden'>
                 {' '}
                 {bounty?.avatarUrl ? (
@@ -149,7 +149,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                   <Skeleton width={51} height={51} />
                 )}
               </div>
-              <div className='flex gap-x-4 flex-wrap  w-full content-center items-center justify-between sm:w-60'>
+              <div className='flex gap-x-4 flex-wrap sm:flex-nowrap w-full content-center items-center justify-between sm:justify-end sm:w-72'>
                 {bounty.bountyType === '0' ? (
                   <span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
                     <PersonIcon />
