@@ -72,8 +72,18 @@ function OpenQ({ Component, pageProps }) {
             var s = d.getElementsByTagName(t)[0]; s.parentNode.insertBefore(ls, s);
         }(window, document, 'script', window['__ls_script_url'], window['__ls_namespace']);
     
-        __ls("init", "${process.env.NEXT_PUBLIC_LS_TRACKING_ID}", { keystrokes: false });
-        __ls("newPageView");`}
+        __ls("init", "${process.env.NEXT_PUBLIC_LS_TRACKING_ID}", { keystrokes: false, rootHostname: ".staging.openq.dev/.com" });
+        __ls("newPageView");
+        __ls("getSessionURL", function(url, isNewSession){
+          if(isNewSession){
+              ga('send', {
+                  hitType: 'event',
+                  eventCategory: 'LiveSession recording',
+                  eventAction: url,
+                  nonInteraction: 1
+              })
+          }
+      });`}
       </script>
       <Head>
         <title>OpenQ | Tempo Engineering, scale better with Atomic Contracts</title>
