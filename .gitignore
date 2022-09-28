@@ -6,6 +6,7 @@
 .pnp.js
 
 logs.log
+junit.xml
 
 # testing
 /coverage
@@ -41,3 +42,4 @@ node_modules
 
 #Hardhat files
 cache
+junit.xml

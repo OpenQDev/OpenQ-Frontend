@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-yarn run test:cicd
+yarn json-server:cicd && yarn run test:cicd
