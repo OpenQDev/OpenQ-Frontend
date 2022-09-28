@@ -59,8 +59,13 @@ function OpenQ({ Component, pageProps }) {
   `}
       </Script>
 
-      <script type='text/javascript'>
-        {`
+      <Head>
+        <title>OpenQ | Tempo Engineering, scale better with Atomic Contracts</title>
+        <meta name='OpenQ Bounties' content='width=device-width, initial-scale=1.0' />
+        <link rel='icon' href='/openq-logo.png' />
+        <link rel='manifest' href='/manifest.json' />
+        <script type='text/javascript'>
+          {`
       window['__ls_namespace'] = '__ls';
       window['__ls_script_url'] = 'https://cdn.livesession.io/track.js';
       !function(w, d, t, u, n) {
@@ -84,12 +89,7 @@ function OpenQ({ Component, pageProps }) {
               })
           }
       });`}
-      </script>
-      <Head>
-        <title>OpenQ | Tempo Engineering, scale better with Atomic Contracts</title>
-        <meta name='OpenQ Bounties' content='width=device-width, initial-scale=1.0' />
-        <link rel='icon' href='/openq-logo.png' />
-        <link rel='manifest' href='/manifest.json' />
+        </script>
       </Head>
       <>
         <AuthProvider>
