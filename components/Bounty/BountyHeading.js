@@ -15,7 +15,7 @@ const BountyHeading = ({ bounty, price }) => {
   return (
     <div className='sm:px-8 px-4 w-full max-w-[1200px] pb-2'>
       <div className='pt-6 pb-2 w-full flex flex-wrap'>
-        <h1 className='text-[32px] flex-1 leading-tight min-w-[240px]'>
+        <h1 className='text-[32px] flex-1 leading-tight min-w-[240px] pr-20'>
           <span className='text-primary'>{bounty.title} </span>
           {bounty.url ? (
             <Link href={bounty.url} className='text-muted text font-light'>
@@ -27,8 +27,8 @@ const BountyHeading = ({ bounty, price }) => {
             <div>#{bounty.number}</div>
           )}
         </h1>
-        <div className='flex flex-row space-x-3 items-center'>
-          <div className='pt-1'>
+        <div className='flex flex-row space-x-3 self-start items-center'>
+          <div className='flex pt-1'>
             <Link href={bounty.url}>
               <a target='_blank'>
                 <Image
@@ -41,10 +41,10 @@ const BountyHeading = ({ bounty, price }) => {
               </a>
             </Link>
           </div>
-          <MintBountyButton types={['0', '1', '2', '3']} styles={'h-8 self-center'} wizard={true} />
+          <MintBountyButton types={['0', '1', '2', '3']} styles={'h-8'} wizard={true} />
         </div>
       </div>
-      <div className='w-full flex flex-wrap justify-between w-full pb-4 border-b border-web-gray'>
+      <div className='w-full flex flex-wrap justify-between pb-4 border-b border-web-gray'>
         <div className={`${marker.colour} py-2 font-light rounded-full px-4 flex gap-1  w-fit`}>
           <svg
             xmlns='http://www.w3.org/2000/svg'
