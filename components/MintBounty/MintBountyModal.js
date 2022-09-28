@@ -136,7 +136,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
             if (!didCancel && closed === true && bounty?.status !== '1') {
               setClosed(false);
             }
-            if (bounty) {
+            if (bounty && !didCancel) {
               setBountyAddress(bounty.bountyAddress);
             } else {
               if (!didCancel) {
