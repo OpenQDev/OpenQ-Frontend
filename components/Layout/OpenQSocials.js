@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const OpenQSocials = () => {
   return (
-    <div className='flex fixed z-10 bottom-6 right-4 gap-2'>
+    <div className='flex fixed z-10 bottom-4 right-4 gap-2'>
       <Link href={'https://twitter.com/openqlabs'}>
         <a target={'_blank'} rel='noopener noreferrer'>
           <svg className='w-6 h-6 fill-primary' viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'>
