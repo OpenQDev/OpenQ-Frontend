@@ -45,42 +45,41 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
 
   return (
     <>
-      <div className='flex w-[800px] overflow-auto h-1/2 border border-blue-600'>
+      <div className='flex w-[800px] overflow-auto h-1/2'>
         {bounty.payouts?.length ? (
-          <div className='grid grid-flow-row auto-rows-auto border border-orange-500'>
+          <div className='flex flex-col border w-full'>
             <div className='grid grid-cols-[250px_1fr]'>
-              <div className='px-2 pb-2 border'></div>
+              <div className='px-2 pb-2'></div>
               <div className='grid grid-flow-col auto-cols-auto'>
                 {tokenAddresses.map((token) => (
-                  <div key={token} className='px-2 pb-2 text-center border'>
+                  <div key={token} className='px-2 pb-2 text-center'>
                     {appState.tokenClient.getToken(token).symbol}
                   </div>
                 ))}
-                {tokenAddresses.length > 1 && <div className='px-2 pb-2 text-center border'>TOTAL</div>}
+                {tokenAddresses.length > 1 && <div className='px-2 pb-2 text-center'>TOTAL</div>}
               </div>
             </div>
-            <div className='border border-red-300'>
+            <div className=''>
               {claimants.map((claimant) => (
-                <div key={claimant} className='grid grid-cols-[250px_1fr] border'>
-                  <div className='border'>
-                    <Claimants claimant={claimant} />
-                  </div>
-                  <div key={claimant + 1} className='grid grid-flow-col auto-cols-auto border border-violet-600'>
+                <div key={claimant} className='grid grid-cols-[250px_1fr]'>
+                  <Claimants claimant={claimant} />
+                  <div className='grid grid-flow-col auto-cols-auto'>
                     {tokenAddresses.map((tokenAddress) => (
-                      <div key={tokenAddress}>
-                        <ClaimPerToken
-                          bounty={bounty}
-                          claimant={claimant}
-                          tokenAddress={tokenAddress}
-                          type={'perClaimant'}
-                          changeObj={changeObj}
-                        />
-                      </div>
+                      <ClaimPerToken
+                        key={tokenAddress}
+                        bounty={bounty}
+                        claimant={claimant}
+                        tokenAddress={tokenAddress}
+                        type={'perClaimant'}
+                        changeObj={changeObj}
+                      />
                     ))}
                     {tokenAddresses.length > 1 && (
-                      <div key={claimant + 2}>
-                        <ClaimTotals valueDisplay={sum[claimant]} totalDepositValue={totalDepositValue} />
-                      </div>
+                      <ClaimTotals
+                        key={claimant + 1}
+                        valueDisplay={sum[claimant]}
+                        totalDepositValue={totalDepositValue}
+                      />
                     )}
                   </div>
                 </div>
@@ -100,9 +99,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                       />
                     ))}
                   {tokenAddresses.length > 1 && (
-                    <div>
-                      <ClaimTotals valueDisplay={sum['allClaimants']} totalDepositValue={totalDepositValue} />
-                    </div>
+                    <ClaimTotals valueDisplay={sum['allClaimants']} totalDepositValue={totalDepositValue} />
                   )}
                 </div>
               </div>
@@ -119,9 +116,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                     />
                   ))}
                   {tokenAddresses.length > 1 && (
-                    <div>
-                      <ClaimTotals valueDisplay={sum['stillClaimable']} totalDepositValue={totalDepositValue} />
-                    </div>
+                    <ClaimTotals valueDisplay={sum['stillClaimable']} totalDepositValue={totalDepositValue} />
                   )}
                 </div>
               </div>
@@ -153,9 +148,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                     />
                   ))}
                   {tokenAddresses.length > 1 && (
-                    <div>
-                      <ClaimTotals valueDisplay={sum['refundable']} totalDepositValue={totalDepositValue} />
-                    </div>
+                    <ClaimTotals valueDisplay={sum['refundable']} totalDepositValue={totalDepositValue} />
                   )}
                 </div>
               </div>
@@ -172,9 +165,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                     />
                   ))}
                   {tokenAddresses.length > 1 && (
-                    <div>
-                      <ClaimTotals valueDisplay={sum['refunded']} totalDepositValue={totalDepositValue} />
-                    </div>
+                    <ClaimTotals valueDisplay={sum['refunded']} totalDepositValue={totalDepositValue} />
                   )}
                 </div>
               </div>
@@ -203,9 +194,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                     />
                   ))}
                   {tokenAddresses.length > 1 && (
-                    <div>
-                      <ClaimTotals valueDisplay={sum['total']} totalDepositValue={totalDepositValue} />
-                    </div>
+                    <ClaimTotals valueDisplay={sum['total']} totalDepositValue={totalDepositValue} />
                   )}
                 </div>
               </div>
