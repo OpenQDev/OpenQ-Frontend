@@ -1,11 +1,12 @@
 // Third party
-import React, { useState, useContext, useMemo } from 'react';
+import React, { useState, useContext, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import Skeleton from 'react-loading-skeleton';
 import BountyCardDetailsModal from './BountyCardDetailsModal';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import ToolTipNew from '../Utils/ToolTipNew';
 import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
+import ReactGA from 'react-ga4';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
@@ -17,6 +18,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
   const bountyName = bounty?.title.toLowerCase() || '';
   const [appState] = useContext(StoreContext);
   const [isModal, setIsModal] = useState();
+  const [hovered, setHovered] = useState();
   const currentDate = Date.now();
   const relativeDeployDay = parseInt((currentDate - bounty?.bountyMintTime * 1000) / 86400000);
   const createTokenBalances = (bounty) => {
@@ -42,15 +44,51 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 
   const [authState] = useAuth();
   const marker = appState.utils.getBountyMarker(bounty, authState.login);
+  useEffect(() => {
+    if (isModal) {
+      document.body.style.height = '100vh';
+      document.body.style.overflowY = 'hidden';
+    } else {
+      document.body.style.height = 'auto';
+      document.body.style.overflowY = 'auto';
+    }
+  }, [isModal]);
+  const bountyTypeName = appState.utils.getBountyTypeName(bounty);
 
   const closeModal = () => {
     setIsModal(false);
-    document.body.style.height = 'auto';
-    document.body.style.overflowY = 'auto';
   };
+  const handleMouseEnter = () => {
+    if (!hovered) {
+      setHovered(true);
+      ReactGA.event({
+        category: 'BOUNTY_INTERACTION',
+        action: 'HOVER_CARD',
+        dimension: JSON.stringify({
+          bountyType: bountyTypeName,
+          [bounty.address]: 'OPEN_MODAL',
+        }),
+        label: 'address:'.concat(bounty.address),
+      });
+    }
+  };
+
   const openModal = () => {
-    document.body.style.height = '100vh';
-    document.body.style.overflowY = 'hidden';
+    ReactGA.event({
+      category: 'BOUNTY_INTERACTION',
+      action: 'OPEN_MODAL',
+      label: 'address:'.concat(bounty.address),
+
+      dimension: [
+        {
+          bountyType: bountyTypeName,
+        },
+        {
+          [bounty.address]: 'OPEN_MODAL',
+        },
+      ],
+    });
+
     setIsModal(true);
   };
 
@@ -66,11 +104,12 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
         tokenValues={tokenValues}
       />
       <div
+        onMouseEnter={handleMouseEnter}
         onClick={openModal}
         className={`flex flex-col md:px-4 py-4 border-web-gray cursor-pointer ${index !== length - 1 && 'border-b'}`}
       >
         <div className='flex flex-row flex-wrap sm:flex-nowrap justify-between sm:pt-0 text-primary'>
-          <div className='w-3/4'>
+          <div className='w-full sm:w-3/4 md:w-1/2'>
             <div className='flex flex-grow flex-row items-center md:space-x-2 sm:pb-0 w-full'>
               <div className='hidden md:block'>
                 <svg
@@ -140,7 +179,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
           {loading ? (
             <Skeleton width={60} />
           ) : (
-            <div className='flex flex-col justify-between items-end leading-tight '>
+            <div className='flex flex-col w-1/4 sm:w-1/2 justify-between items-end leading-tight '>
               <div className='sm:block hidden'>
                 {' '}
                 {bounty?.avatarUrl ? (
@@ -149,25 +188,17 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                   <Skeleton width={51} height={51} />
                 )}
               </div>
-              <div className='flex gap-x-4 flex-wrap  w-full content-center items-center justify-between sm:w-60'>
-                {bounty.bountyType === '0' ? (
-                  <span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
+              <div className='flex gap-x-4 flex-wrap sm:flex-nowrap w-full content-center items-center justify-between sm:justify-end sm:w-72'>
+                <span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
+                  {bounty.bountyType === '0' ? (
                     <PersonIcon />
-                    <div className='whitespace-nowrap'>Fixed Price</div>
-                  </span>
-                ) : bounty.bountyType === '1' ? (
-                  <span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
-                    <div className='whitespace-nowrap'>Split Price</div>
+                  ) : bounty.bountyType === '1' ? (
                     <PersonAddIcon />
-                  </span>
-                ) : (
-                  (bounty.bountyType === '2' || bounty.bountyType === '3') && (
-                    <span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
-                      <PeopleIcon />
-                      <div className='whitespace-nowrap'>Contest</div>
-                    </span>
-                  )
-                )}
+                  ) : (
+                    (bounty.bountyType === '2' || bounty.bountyType === '3') && <PeopleIcon />
+                  )}
+                  <div className='whitespace-nowrap'>{bountyTypeName}</div>
+                </span>
 
                 {tokenValues?.total > budget ? (
                   <div className='flex flex-row space-x-1 w-min items-center'>

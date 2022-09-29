@@ -34,6 +34,8 @@ const test = (issue, type) => {
     render(<MintBountyModal types={type} />);
     // ACT
     const inputs = await screen.findAllByRole('textbox');
+    await user.type(inputs[0], issues[0].url);
+    await user.clear(inputs[0]);
     await user.type(inputs[0], issue.url);
 
     // ASSERT
