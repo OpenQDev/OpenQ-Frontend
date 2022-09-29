@@ -47,7 +47,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
     <>
       <div className='flex w-[800px] overflow-auto h-1/2'>
         {bounty.payouts?.length ? (
-          <div className='flex flex-col border w-full'>
+          <div className='flex flex-col'>
             <div className='grid grid-cols-[250px_1fr]'>
               <div className='px-2 pb-2'></div>
               <div className='grid grid-flow-col auto-cols-auto'>

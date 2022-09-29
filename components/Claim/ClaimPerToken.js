@@ -122,9 +122,9 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type, changeObj }) => {
 
   return (
     <div className='grid grid-cols-[1fr_1fr_1fr] px-2 pb-2'>
-      <div className='justify-end px-1 whitespace-nowrap w-12'>{volumeDisplay}</div>
-      <div className='justify-end px-1 whitespace-nowrap w-12'>{(percentDisplay * 100).toFixed(0)} %</div>
-      <div className='justify-end text-right px-1 whitespace-nowrap w-12'>
+      <div className='justify-end px-1 whitespace-nowrap'>{volumeDisplay}</div>
+      <div className='justify-end px-1 whitespace-nowrap'>{(percentDisplay * 100).toFixed(0)} %</div>
+      <div className='justify-end text-right px-1 whitespace-nowrap'>
         {appState.utils.formatter.format(valueDisplay)}
       </div>
     </div>
