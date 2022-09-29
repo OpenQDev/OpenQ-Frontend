@@ -56,7 +56,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                     {appState.tokenClient.getToken(token).symbol}
                   </th>
                 ))}
-                <th className='px-2 pb-2'>TOTAL</th>
+                {tokenAddresses.length > 1 && <th className='px-2 pb-2'>TOTAL</th>}
               </tr>
             </thead>
             <tbody>
@@ -74,9 +74,11 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                       />
                     </td>
                   ))}
-                  <td key={claimant + 2}>
-                    <ClaimTotals valueDisplay={sum[claimant]} totalDepositValue={totalDepositValue} />
-                  </td>
+                  {tokenAddresses.length > 1 && (
+                    <td key={claimant + 2}>
+                      <ClaimTotals valueDisplay={sum[claimant]} totalDepositValue={totalDepositValue} />
+                    </td>
+                  )}
                 </tr>
               ))}
               <tr className='font-bold border-t border-gray-700'>
@@ -92,9 +94,11 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                       />
                     </td>
                   ))}
-                <td>
-                  <ClaimTotals valueDisplay={sum['allClaimants']} totalDepositValue={totalDepositValue} />
-                </td>
+                {tokenAddresses.length > 1 && (
+                  <td>
+                    <ClaimTotals valueDisplay={sum['allClaimants']} totalDepositValue={totalDepositValue} />
+                  </td>
+                )}
               </tr>
               <tr>
                 <td className='px-2'>Still Claimable</td>
@@ -108,9 +112,11 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                     />
                   </td>
                 ))}
-                <td>
-                  <ClaimTotals valueDisplay={sum['stillClaimable']} totalDepositValue={totalDepositValue} />
-                </td>
+                {tokenAddresses.length > 1 && (
+                  <td>
+                    <ClaimTotals valueDisplay={sum['stillClaimable']} totalDepositValue={totalDepositValue} />
+                  </td>
+                )}
               </tr>
               <tr className='italic'>
                 <td className='flex gap-1 items-center px-2 pb-2 whitespace-nowrap'>
@@ -139,9 +145,11 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                     />
                   </td>
                 ))}
-                <td>
-                  <ClaimTotals valueDisplay={sum['refundable']} totalDepositValue={totalDepositValue} />
-                </td>
+                {tokenAddresses.length > 1 && (
+                  <td>
+                    <ClaimTotals valueDisplay={sum['refundable']} totalDepositValue={totalDepositValue} />
+                  </td>
+                )}
               </tr>
               <tr>
                 <td className='px-2'>Refunded</td>
@@ -155,9 +163,11 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                     />
                   </td>
                 ))}
-                <td>
-                  <ClaimTotals valueDisplay={sum['refunded']} totalDepositValue={totalDepositValue} />
-                </td>
+                {tokenAddresses.length > 1 && (
+                  <td>
+                    <ClaimTotals valueDisplay={sum['refunded']} totalDepositValue={totalDepositValue} />
+                  </td>
+                )}
               </tr>
               <tr className='font-bold border-t border-gray-700'>
                 <td className='flex items-center gap-2 px-2 pb-2'>
@@ -179,9 +189,11 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                     <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} type={'total'} changeObj={changeObj} />
                   </td>
                 ))}
-                <td>
-                  <ClaimTotals valueDisplay={sum['total']} totalDepositValue={totalDepositValue} />
-                </td>
+                {tokenAddresses.length > 1 && (
+                  <td>
+                    <ClaimTotals valueDisplay={sum['total']} totalDepositValue={totalDepositValue} />
+                  </td>
+                )}
               </tr>
             </tbody>
           </table>
