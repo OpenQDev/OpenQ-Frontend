@@ -8,6 +8,7 @@ import Claimants from './Claim/Claimants.js';
 
 const ClaimOverview = ({ bounty, setInternalMenu }) => {
   const [appState] = useContext(StoreContext);
+  const types = ['allClaimants', 'stillClaimable', 'refundable', 'refunded', 'total'];
   const tokenAddresses = bounty.deposits
     .map((deposit) => deposit.tokenAddress)
     .filter((itm, pos, self) => {
@@ -42,6 +43,66 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
       setSum((prev) => ({ ...prev, [claimant]: value }));
     }
   };
+
+  let title = '';
+  let styles = '';
+  function switchType(type) {
+    switch (type) {
+      case 'perClaimant':
+        break;
+      case 'allClaimants':
+        title = 'SubTotal';
+        styles = 'font-bold border-t border-gray-700';
+        break;
+      case 'stillClaimable':
+        title = 'Still Claimable';
+        styles = '';
+        break;
+      case 'refundable':
+        title = (
+          <div className='flex gap-1 items-center whitespace-nowrap'>
+            of which currently{' '}
+            <button className='italic text-link-colour hover:underline' onClick={() => setInternalMenu('Refund')}>
+              refundable
+            </button>
+            <ToolTipNew
+              innerStyles={'not-italic whitespace-normal w-80'}
+              toolTipText={
+                'Funds that are currently not locked (deposit lock period expired) and have not already been used for claims. Claims will be deducted from deposits with earliest expiration date first.'
+              }
+            >
+              <div className='not-italic cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                ?
+              </div>
+            </ToolTipNew>
+          </div>
+        );
+        styles = 'italic';
+        break;
+      case 'refunded':
+        title = 'Refunded';
+        styles = '';
+        break;
+      case 'total':
+        title = (
+          <div className='flex gap-1 items-center whitespace-nowrap'>
+            Total Deposited
+            <ToolTipNew
+              innerStyles={'whitespace-normal w-80'}
+              toolTipText={
+                'Everything that has ever been deposited on this bounty. Includes refunded and claimed amounts.'
+              }
+            >
+              <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                ?
+              </div>
+            </ToolTipNew>
+          </div>
+        );
+        styles = 'font-bold border-t border-gray-700';
+        break;
+    }
+  }
 
   return (
     <>
@@ -85,119 +146,29 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                 </div>
               ))}
 
-              <div className='grid grid-cols-[250px_1fr] font-bold border-t border-gray-700'>
-                <div className='px-2 pb-2'>SubTotal</div>
-                <div className='grid grid-flow-col auto-cols-auto'>
-                  {bounty.payouts?.length &&
-                    tokenAddresses.map((tokenAddress) => (
-                      <ClaimPerToken
-                        key={tokenAddress}
-                        bounty={bounty}
-                        tokenAddress={tokenAddress}
-                        type={'allClaimants'}
-                        changeObj={changeObj}
-                      />
-                    ))}
-                  {tokenAddresses.length > 1 && (
-                    <ClaimTotals valueDisplay={sum['allClaimants']} totalDepositValue={totalDepositValue} />
-                  )}
-                </div>
-              </div>
-              <div className='grid grid-cols-[250px_1fr]'>
-                <div className='px-2'>Still Claimable</div>
-                <div className='grid grid-flow-col auto-cols-auto'>
-                  {tokenAddresses.map((tokenAddress) => (
-                    <ClaimPerToken
-                      key={tokenAddress}
-                      bounty={bounty}
-                      tokenAddress={tokenAddress}
-                      type={'stillClaimable'}
-                      changeObj={changeObj}
-                    />
-                  ))}
-                  {tokenAddresses.length > 1 && (
-                    <ClaimTotals valueDisplay={sum['stillClaimable']} totalDepositValue={totalDepositValue} />
-                  )}
-                </div>
-              </div>
-              <div className='grid grid-cols-[250px_1fr]'>
-                <div className='flex gap-1 items-center px-2 pb-2 whitespace-nowrap'>
-                  of which currently{' '}
-                  <button className='italic text-link-colour hover:underline' onClick={() => setInternalMenu('Refund')}>
-                    refundable
-                  </button>
-                  <ToolTipNew
-                    innerStyles={'not-italic whitespace-normal w-80'}
-                    toolTipText={
-                      'Funds that are currently not locked (deposit lock period expired) and have not already been used for claims. Claims will be deducted from deposits with earliest expiration date first.'
-                    }
-                  >
-                    <div className='not-italic cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                      ?
+              {types.map((type) => (
+                <>
+                  {switchType(type)}
+                  <div key={type} className={`grid grid-cols-[250px_1fr] ${styles}`}>
+                    <div className='px-2 pb-2'>{title}</div>
+                    <div className='grid grid-flow-col auto-cols-auto'>
+                      {bounty.payouts?.length &&
+                        tokenAddresses.map((tokenAddress) => (
+                          <ClaimPerToken
+                            key={tokenAddress}
+                            bounty={bounty}
+                            tokenAddress={tokenAddress}
+                            type={type}
+                            changeObj={changeObj}
+                          />
+                        ))}
+                      {tokenAddresses.length > 1 && (
+                        <ClaimTotals valueDisplay={sum[type]} totalDepositValue={totalDepositValue} />
+                      )}
                     </div>
-                  </ToolTipNew>
-                </div>
-                <div className='grid grid-flow-col auto-cols-auto'>
-                  {tokenAddresses.map((tokenAddress) => (
-                    <ClaimPerToken
-                      key={tokenAddress}
-                      bounty={bounty}
-                      tokenAddress={tokenAddress}
-                      type={'refundable'}
-                      changeObj={changeObj}
-                    />
-                  ))}
-                  {tokenAddresses.length > 1 && (
-                    <ClaimTotals valueDisplay={sum['refundable']} totalDepositValue={totalDepositValue} />
-                  )}
-                </div>
-              </div>
-              <div className='grid grid-cols-[250px_1fr]'>
-                <div className='px-2'>Refunded</div>
-                <div className='grid grid-flow-col auto-cols-auto'>
-                  {tokenAddresses.map((tokenAddress) => (
-                    <ClaimPerToken
-                      key={tokenAddress}
-                      bounty={bounty}
-                      tokenAddress={tokenAddress}
-                      type={'refunded'}
-                      changeObj={changeObj}
-                    />
-                  ))}
-                  {tokenAddresses.length > 1 && (
-                    <ClaimTotals valueDisplay={sum['refunded']} totalDepositValue={totalDepositValue} />
-                  )}
-                </div>
-              </div>
-              <div className='grid grid-cols-[250px_1fr] font-bold border-t border-gray-700'>
-                <div className='flex items-center gap-2 px-2 pb-2'>
-                  Total Deposited
-                  <ToolTipNew
-                    innerStyles={'whitespace-normal w-80'}
-                    toolTipText={
-                      'Everything that has ever been deposited on this bounty. Includes refunded and claimed amounts.'
-                    }
-                  >
-                    <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                      ?
-                    </div>
-                  </ToolTipNew>
-                </div>
-                <div className='grid grid-flow-col auto-cols-auto'>
-                  {tokenAddresses.map((tokenAddress) => (
-                    <ClaimPerToken
-                      key={tokenAddress}
-                      bounty={bounty}
-                      tokenAddress={tokenAddress}
-                      type={'total'}
-                      changeObj={changeObj}
-                    />
-                  ))}
-                  {tokenAddresses.length > 1 && (
-                    <ClaimTotals valueDisplay={sum['total']} totalDepositValue={totalDepositValue} />
-                  )}
-                </div>
-              </div>
+                  </div>
+                </>
+              ))}
             </div>
           </div>
         ) : (
