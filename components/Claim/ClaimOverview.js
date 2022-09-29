@@ -45,81 +45,88 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
 
   return (
     <>
-      <div className='flex max-w-[800px] overflow-auto h-1/2'>
+      <div className='flex w-[800px] overflow-auto h-1/2 border border-blue-600'>
         {bounty.payouts?.length ? (
-          <table>
-            <thead>
-              <tr>
-                <th className='px-2 pb-2'></th>
+          <div className='grid grid-flow-row auto-rows-auto border border-orange-500'>
+            <div className='grid grid-cols-[250px_1fr]'>
+              <div className='px-2 pb-2 border'></div>
+              <div className='grid grid-flow-col auto-cols-auto'>
                 {tokenAddresses.map((token) => (
-                  <th key={token} className='px-2 pb-2'>
+                  <div key={token} className='px-2 pb-2 text-center border'>
                     {appState.tokenClient.getToken(token).symbol}
-                  </th>
+                  </div>
                 ))}
-                {tokenAddresses.length > 1 && <th className='px-2 pb-2'>TOTAL</th>}
-              </tr>
-            </thead>
-            <tbody>
+                {tokenAddresses.length > 1 && <div className='px-2 pb-2 text-center border'>TOTAL</div>}
+              </div>
+            </div>
+            <div className='border border-red-300'>
               {claimants.map((claimant) => (
-                <tr key={claimant}>
-                  <Claimants claimant={claimant} />
-                  {tokenAddresses.map((tokenAddress) => (
-                    <td key={tokenAddress}>
-                      <ClaimPerToken
-                        bounty={bounty}
-                        claimant={claimant}
-                        tokenAddress={tokenAddress}
-                        type={'perClaimant'}
-                        changeObj={changeObj}
-                      />
-                    </td>
-                  ))}
-                  {tokenAddresses.length > 1 && (
-                    <td key={claimant + 2}>
-                      <ClaimTotals valueDisplay={sum[claimant]} totalDepositValue={totalDepositValue} />
-                    </td>
-                  )}
-                </tr>
+                <div key={claimant} className='grid grid-cols-[250px_1fr] border'>
+                  <div className='border'>
+                    <Claimants claimant={claimant} />
+                  </div>
+                  <div key={claimant + 1} className='grid grid-flow-col auto-cols-auto border border-violet-600'>
+                    {tokenAddresses.map((tokenAddress) => (
+                      <div key={tokenAddress}>
+                        <ClaimPerToken
+                          bounty={bounty}
+                          claimant={claimant}
+                          tokenAddress={tokenAddress}
+                          type={'perClaimant'}
+                          changeObj={changeObj}
+                        />
+                      </div>
+                    ))}
+                    {tokenAddresses.length > 1 && (
+                      <div key={claimant + 2}>
+                        <ClaimTotals valueDisplay={sum[claimant]} totalDepositValue={totalDepositValue} />
+                      </div>
+                    )}
+                  </div>
+                </div>
               ))}
-              <tr className='font-bold border-t border-gray-700'>
-                <td className='px-2 pb-2'>SubTotal</td>
-                {bounty.payouts?.length &&
-                  tokenAddresses.map((tokenAddress) => (
-                    <td key={tokenAddress}>
+
+              <div className='grid grid-cols-[250px_1fr] font-bold border-t border-gray-700'>
+                <div className='px-2 pb-2'>SubTotal</div>
+                <div className='grid grid-flow-col auto-cols-auto'>
+                  {bounty.payouts?.length &&
+                    tokenAddresses.map((tokenAddress) => (
                       <ClaimPerToken
+                        key={tokenAddress}
                         bounty={bounty}
                         tokenAddress={tokenAddress}
                         type={'allClaimants'}
                         changeObj={changeObj}
                       />
-                    </td>
-                  ))}
-                {tokenAddresses.length > 1 && (
-                  <td>
-                    <ClaimTotals valueDisplay={sum['allClaimants']} totalDepositValue={totalDepositValue} />
-                  </td>
-                )}
-              </tr>
-              <tr>
-                <td className='px-2'>Still Claimable</td>
-                {tokenAddresses.map((tokenAddress) => (
-                  <td key={tokenAddress}>
+                    ))}
+                  {tokenAddresses.length > 1 && (
+                    <div>
+                      <ClaimTotals valueDisplay={sum['allClaimants']} totalDepositValue={totalDepositValue} />
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className='grid grid-cols-[250px_1fr]'>
+                <div className='px-2'>Still Claimable</div>
+                <div className='grid grid-flow-col auto-cols-auto'>
+                  {tokenAddresses.map((tokenAddress) => (
                     <ClaimPerToken
+                      key={tokenAddress}
                       bounty={bounty}
                       tokenAddress={tokenAddress}
                       type={'stillClaimable'}
                       changeObj={changeObj}
                     />
-                  </td>
-                ))}
-                {tokenAddresses.length > 1 && (
-                  <td>
-                    <ClaimTotals valueDisplay={sum['stillClaimable']} totalDepositValue={totalDepositValue} />
-                  </td>
-                )}
-              </tr>
-              <tr className='italic'>
-                <td className='flex gap-1 items-center px-2 pb-2 whitespace-nowrap'>
+                  ))}
+                  {tokenAddresses.length > 1 && (
+                    <div>
+                      <ClaimTotals valueDisplay={sum['stillClaimable']} totalDepositValue={totalDepositValue} />
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className='grid grid-cols-[250px_1fr]'>
+                <div className='flex gap-1 items-center px-2 pb-2 whitespace-nowrap'>
                   of which currently{' '}
                   <button className='italic text-link-colour hover:underline' onClick={() => setInternalMenu('Refund')}>
                     refundable
@@ -134,43 +141,45 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                       ?
                     </div>
                   </ToolTipNew>
-                </td>
-                {tokenAddresses.map((tokenAddress) => (
-                  <td key={tokenAddress}>
+                </div>
+                <div className='grid grid-flow-col auto-cols-auto'>
+                  {tokenAddresses.map((tokenAddress) => (
                     <ClaimPerToken
+                      key={tokenAddress}
                       bounty={bounty}
                       tokenAddress={tokenAddress}
                       type={'refundable'}
                       changeObj={changeObj}
                     />
-                  </td>
-                ))}
-                {tokenAddresses.length > 1 && (
-                  <td>
-                    <ClaimTotals valueDisplay={sum['refundable']} totalDepositValue={totalDepositValue} />
-                  </td>
-                )}
-              </tr>
-              <tr>
-                <td className='px-2'>Refunded</td>
-                {tokenAddresses.map((tokenAddress) => (
-                  <td key={tokenAddress}>
+                  ))}
+                  {tokenAddresses.length > 1 && (
+                    <div>
+                      <ClaimTotals valueDisplay={sum['refundable']} totalDepositValue={totalDepositValue} />
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className='grid grid-cols-[250px_1fr]'>
+                <div className='px-2'>Refunded</div>
+                <div className='grid grid-flow-col auto-cols-auto'>
+                  {tokenAddresses.map((tokenAddress) => (
                     <ClaimPerToken
+                      key={tokenAddress}
                       bounty={bounty}
                       tokenAddress={tokenAddress}
                       type={'refunded'}
                       changeObj={changeObj}
                     />
-                  </td>
-                ))}
-                {tokenAddresses.length > 1 && (
-                  <td>
-                    <ClaimTotals valueDisplay={sum['refunded']} totalDepositValue={totalDepositValue} />
-                  </td>
-                )}
-              </tr>
-              <tr className='font-bold border-t border-gray-700'>
-                <td className='flex items-center gap-2 px-2 pb-2'>
+                  ))}
+                  {tokenAddresses.length > 1 && (
+                    <div>
+                      <ClaimTotals valueDisplay={sum['refunded']} totalDepositValue={totalDepositValue} />
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className='grid grid-cols-[250px_1fr] font-bold border-t border-gray-700'>
+                <div className='flex items-center gap-2 px-2 pb-2'>
                   Total Deposited
                   <ToolTipNew
                     innerStyles={'whitespace-normal w-80'}
@@ -182,21 +191,26 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                       ?
                     </div>
                   </ToolTipNew>
-                </td>
-
-                {tokenAddresses.map((tokenAddress) => (
-                  <td key={tokenAddress}>
-                    <ClaimPerToken bounty={bounty} tokenAddress={tokenAddress} type={'total'} changeObj={changeObj} />
-                  </td>
-                ))}
-                {tokenAddresses.length > 1 && (
-                  <td>
-                    <ClaimTotals valueDisplay={sum['total']} totalDepositValue={totalDepositValue} />
-                  </td>
-                )}
-              </tr>
-            </tbody>
-          </table>
+                </div>
+                <div className='grid grid-flow-col auto-cols-auto'>
+                  {tokenAddresses.map((tokenAddress) => (
+                    <ClaimPerToken
+                      key={tokenAddress}
+                      bounty={bounty}
+                      tokenAddress={tokenAddress}
+                      type={'total'}
+                      changeObj={changeObj}
+                    />
+                  ))}
+                  {tokenAddresses.length > 1 && (
+                    <div>
+                      <ClaimTotals valueDisplay={sum['total']} totalDepositValue={totalDepositValue} />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
         ) : (
           <div className='text-lg'>No claims have been made yet.</div>
         )}
