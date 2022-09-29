@@ -46,6 +46,8 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
 
   let title = '';
   let styles = '';
+  let toolTipText = '';
+
   function switchType(type) {
     switch (type) {
       case 'perClaimant':
@@ -60,23 +62,15 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
         break;
       case 'refundable':
         title = (
-          <div className='flex gap-1 items-center whitespace-nowrap'>
+          <div>
             of which currently{' '}
             <button className='italic text-link-colour hover:underline' onClick={() => setInternalMenu('Refund')}>
               refundable
             </button>
-            <ToolTipNew
-              innerStyles={'not-italic whitespace-normal w-80'}
-              toolTipText={
-                'Funds that are currently not locked (deposit lock period expired) and have not already been used for claims. Claims will be deducted from deposits with earliest expiration date first.'
-              }
-            >
-              <div className='not-italic cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                ?
-              </div>
-            </ToolTipNew>
           </div>
         );
+        toolTipText =
+          'Funds that are currently not locked (deposit lock period expired) and have not already been used for claims. Claims will be deducted from deposits with earliest expiration date first.';
         styles = 'italic';
         break;
       case 'refunded':
@@ -84,21 +78,8 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
         styles = '';
         break;
       case 'total':
-        title = (
-          <div className='flex gap-1 items-center whitespace-nowrap'>
-            Total Deposited
-            <ToolTipNew
-              innerStyles={'whitespace-normal w-80'}
-              toolTipText={
-                'Everything that has ever been deposited on this bounty. Includes refunded and claimed amounts.'
-              }
-            >
-              <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                ?
-              </div>
-            </ToolTipNew>
-          </div>
-        );
+        title = 'Total Deposited';
+        toolTipText = 'Everything that has ever been deposited on this bounty. Includes refunded and claimed amounts.';
         styles = 'font-bold border-t border-gray-700';
         break;
     }
@@ -147,10 +128,23 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
               ))}
 
               {types.map((type) => (
-                <>
+                <div key={type}>
                   {switchType(type)}
-                  <div key={type} className={`grid grid-cols-[250px_1fr] ${styles}`}>
-                    <div className='px-2 pb-2'>{title}</div>
+                  <div className={`grid grid-cols-[250px_1fr] ${styles}`}>
+                    <div className='px-2 pb-2'>
+                      {type === 'refundable' || type === 'total' ? (
+                        <div className='flex gap-1 items-center whitespace-nowrap'>
+                          {title}
+                          <ToolTipNew innerStyles={'whitespace-normal w-80'} toolTipText={toolTipText}>
+                            <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                              ?
+                            </div>
+                          </ToolTipNew>
+                        </div>
+                      ) : (
+                        title
+                      )}
+                    </div>
                     <div className='grid grid-flow-col auto-cols-auto'>
                       {bounty.payouts?.length &&
                         tokenAddresses.map((tokenAddress) => (
@@ -167,7 +161,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                       )}
                     </div>
                   </div>
-                </>
+                </div>
               ))}
             </div>
           </div>
