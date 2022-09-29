@@ -4,6 +4,7 @@ import confetti from 'canvas-confetti';
 import { ethers } from 'ethers';
 import useWeb3 from '../../../hooks/useWeb3';
 import Link from 'next/link';
+import ReactGA from 'react-ga4';
 
 // Custom
 import StoreContext from '../../../store/Store/StoreContext';
@@ -127,6 +128,20 @@ const address = ({ address, mergedBounty, renderError }) => {
 
   // Hooks
   useEffect(async () => {
+    const bountyTypeName = appState.utils.getBountyTypeName(bounty);
+    ReactGA.event(
+      {
+        category: 'BOUNTY_INTERACTION',
+        name: 'VIEW_BOUNTY',
+        action: 'VIEW_BOUNTY',
+        dimension: JSON.stringify({
+          bountyType: bountyTypeName,
+          [bounty.address]: 'OPEN_MODAL',
+        }),
+        label: 'address:'.concat(bounty.address),
+      },
+      []
+    );
     const handleResize = () => {
       try {
         if (canvas.current?.width) {

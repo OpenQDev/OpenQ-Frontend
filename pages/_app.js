@@ -14,6 +14,7 @@ import AuthProvider from '../store/AuthStore/AuthProvider';
 import Navigation from '../components/Layout/Navigation';
 import Head from 'next/head';
 import Footer from '../components/Layout/Footer';
+import ReactGA from 'react-ga4';
 
 function OpenQ({ Component, pageProps }) {
   function getLibrary(provider) {
@@ -21,43 +22,28 @@ function OpenQ({ Component, pageProps }) {
     library.pollingInterval = 12000;
     return library;
   }
-
-  const router = useRouter();
   useEffect(() => {
-    const pageview = (url) => {
-      if (window.gtag) {
-        window.gtag('config', process.env.NEXT_PUBLIC_GA_TRACKING_ID, {
-          page_path: url,
-        });
-      }
-    };
-
-    const handleRouteChange = (url) => {
-      pageview(url);
-    };
-    router.events.on('routeChangeComplete', handleRouteChange);
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
-    };
-  }, [router.events]);
+    ReactGA.initialize(process.env.NEXT_PUBLIC_GA_TRACKING_ID);
+  }, []);
+  const router = useRouter();
   return (
     <div className='bg-dark-mode font-segoe text-primary'>
       {/* Global Site Tag (gtag.js) - Google Analytics */}
+
       <Script
         strategy='lazyOnload'
-        src={`https://www.googletagmanager.com/gtag/js?id=G-${process.env.NEXT_PUBLIC_GA_TRACKING_ID}`}
+        dangerouslySETInnerHTML={{
+          __html: ` (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:3177116,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+  `,
+        }}
       />
-
-      <Script strategy='lazyOnload'>
-        {`
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-${process.env.NEXT_PUBLIC_GA_TRACKING_ID}', {
-        page_path: window.location.pathname,
-      });
-  `}
-      </Script>
 
       <Head>
         <title>OpenQ | Tempo Engineering, scale better with Atomic Contracts</title>
@@ -94,7 +80,7 @@ function OpenQ({ Component, pageProps }) {
         <AuthProvider>
           <StoreProvider>
             <Web3ReactProvider getLibrary={getLibrary}>
-              <div className='min-h-screen overflow-y-hidden flex flex-col justify-between'>
+              <div className='min-h-screen  flex flex-col justify-between'>
                 <div>
                   <Navigation />
                   <Component key={router.asPath} {...pageProps} />

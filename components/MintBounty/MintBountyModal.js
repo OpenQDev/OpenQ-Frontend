@@ -130,10 +130,13 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
         if (issueData) {
           try {
             let bounty = await appState.openQSubgraphClient.getBountyByGithubId(issueData.id);
-            if (!didCancel) {
-              setClosed(bounty?.status == '1');
+            if (closed === false && bounty?.status == '1' && didCancel) {
+              setClosed(true);
             }
-            if (bounty) {
+            if (!didCancel && closed === true && bounty?.status !== '1') {
+              setClosed(false);
+            }
+            if (bounty && !didCancel) {
               setBountyAddress(bounty.bountyAddress);
             } else {
               if (!didCancel) {
@@ -198,7 +201,9 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
       sessionStorage.setItem('justMinted', true);
       refreshBounty(bountyAddress);
       await router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress.toLowerCase()}`);
-      modalVisibility(false);
+      if (modalVisibility) {
+        modalVisibility(false);
+      }
     } catch (error) {
       const { message, title } = appState.openQClient.handleError(error);
       appState.logger.error(message, account);

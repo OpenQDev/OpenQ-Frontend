@@ -140,9 +140,12 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
               <div className='w-5/6 pb-4 min-w-min'>
                 <div className='flex flex-col gap-4 pt-4'>
                   <div>
-                    {bounty.bountyType === '0' &&
-                      "Don't forget to add a closer comment for this bounty on your pull request :-)."}
-                    <CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} />
+                    {bounty.bountyType === '0' && (
+                      <>
+                        "Don't forget to add a closer comment for this bounty on your pull request :-)."
+                        <CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} />
+                      </>
+                    )}
                   </div>
                   {!authState.isAuthenticated ? (
                     <div className=' col-span-3 border border-gray-700 bg-[#21262d] rounded-sm p-4'>
