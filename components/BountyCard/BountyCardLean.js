@@ -188,7 +188,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                   <Skeleton width={51} height={51} />
                 )}
               </div>
-              <div className='flex gap-x-4 flex-wrap sm:flex-nowrap w-full content-center items-center justify-end sm:w-72'>
+              <div className='flex gap-x-4 flex-wrap sm:flex-nowrap w-full content-center items-center justify-between sm:justify-end sm:w-72'>
                 <span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
                   {bounty.bountyType === '0' ? (
                     <PersonIcon />
