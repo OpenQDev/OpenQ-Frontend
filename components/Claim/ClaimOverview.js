@@ -1,7 +1,6 @@
 import React, { useContext, useState, useMemo } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import ClaimPerToken from './ClaimPerToken';
-import ClaimTotals from './ClaimTotals';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import ToolTipNew from '../Utils/ToolTipNew';
 import Claimants from './Claim/Claimants.js';
@@ -117,11 +116,14 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                       />
                     ))}
                     {tokenAddresses.length > 1 && (
-                      <ClaimTotals
-                        key={claimant + 1}
-                        valueDisplay={sum[claimant]}
-                        totalDepositValue={totalDepositValue}
-                      />
+                      <div className='grid grid-cols-[1fr_1fr] px-2 pb-2'>
+                        <div className='flex justify-end px-1 whitespace-nowrap w-14'>
+                          {((sum[claimant] / totalDepositValue) * 100).toFixed(0)} %
+                        </div>
+                        <div className='flex justify-end px-1 whitespace-nowrap'>
+                          {appState.utils.formatter.format(sum[claimant])}
+                        </div>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -162,7 +164,14 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                           />
                         ))}
                       {tokenAddresses.length > 1 && (
-                        <ClaimTotals valueDisplay={sum[type]} totalDepositValue={totalDepositValue} />
+                        <div className='grid grid-cols-[1fr_1fr] px-2 pb-2'>
+                          <div className='flex justify-end px-1 whitespace-nowrap w-14'>
+                            {((sum[type] / totalDepositValue) * 100).toFixed(0)} %
+                          </div>
+                          <div className='flex justify-end px-1 whitespace-nowrap'>
+                            {appState.utils.formatter.format(sum[type])}
+                          </div>
+                        </div>
                       )}
                     </div>
                   </div>
