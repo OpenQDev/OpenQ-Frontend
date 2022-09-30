@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { SafeAppConnector } from '@gnosis.pm/safe-apps-web3-react';
 import Link from 'next/link';
+import ReactGA from 'react-ga4';
 // Custom
 import StoreContext from '../../store/Store/StoreContext.js';
 import ConnectButton from '../WalletConnect/ConnectButton.js';
@@ -44,6 +45,7 @@ const Navigation = () => {
   }, [bountyMinted]);
 
   useEffect(() => {
+    ReactGA.pageview(router.asPath);
     setQuickSearch('');
     setOpenMenu(false);
   }, [router.asPath]);
