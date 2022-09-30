@@ -95,7 +95,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
       <div className='flex w-[800px] overflow-auto h-1/2'>
         {bounty.payouts?.length ? (
           <div className='flex flex-col pb-6'>
-            <div className='grid grid-cols-[250px_1fr]'>
+            <div className='grid grid-cols-[250px_1fr_150px]'>
               <div className='px-2 pb-2'></div>
               <div className='grid grid-flow-col auto-cols-auto'>
                 {tokenAddresses.map((token) => (
@@ -103,10 +103,10 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                     {appState.tokenClient.getToken(token).symbol}
                   </div>
                 ))}
-                {tokenAddresses.length > 1 && <div className='px-2 pb-2 text-center'>TOTAL</div>}
               </div>
+              {tokenAddresses.length > 1 && <div className='px-2 pb-2 text-center'>TOTAL</div>}
             </div>
-            <div className=''>
+            <div>
               {allTypes.map((type) => (
                 <div key={type}>
                   {switchType(type)}
@@ -147,7 +147,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                           <div className='flex justify-end px-1 whitespace-nowrap w-14'>
                             {((sum[type] / totalDepositValue) * 100).toFixed(0)} %
                           </div>
-                          <div className='flex justify-end px-1 whitespace-nowrap'>
+                          <div className='flex justify-end px-1 whitespace-nowrap w-20'>
                             {appState.utils.formatter.format(sum[type])}
                           </div>
                         </div>
