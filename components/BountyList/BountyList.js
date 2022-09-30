@@ -193,7 +193,7 @@ const BountyList = ({
         {
           if (complete || firstLoad) {
             return bounties.sort((a, b) => {
-              return b.createdAt - a.createdAt;
+              return parseInt(b.createdAt) - parseInt(a.createdAt);
             });
           } else {
             getNewData('desc');
@@ -204,7 +204,8 @@ const BountyList = ({
         {
           if (complete || firstLoad) {
             return bounties.sort((a, b) => {
-              return a.createdAt - b.createdAt;
+              console.log(parseInt(a.createdAt), a.createdAt);
+              return parseInt(a.createdAt) - parseInt(b.createdAt);
             });
           } else {
             getNewData('asc');
