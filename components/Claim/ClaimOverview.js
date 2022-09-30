@@ -89,7 +89,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
     <>
       <div className='flex w-[800px] overflow-auto h-1/2'>
         {bounty.payouts?.length ? (
-          <div className='flex flex-col'>
+          <div className='flex flex-col pb-12'>
             <div className='grid grid-cols-[250px_1fr]'>
               <div className='px-2 pb-2'></div>
               <div className='grid grid-flow-col auto-cols-auto'>
@@ -135,7 +135,12 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                       {type === 'refundable' || type === 'total' ? (
                         <div className='flex gap-1 items-center whitespace-nowrap'>
                           {title}
-                          <ToolTipNew innerStyles={'whitespace-normal w-80'} toolTipText={toolTipText}>
+                          <ToolTipNew
+                            relativePosition={'-left-5'}
+                            outerStyles={'relative bottom-1'}
+                            innerStyles={'whitespace-normal w-96'}
+                            toolTipText={toolTipText}
+                          >
                             <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
                               ?
                             </div>
