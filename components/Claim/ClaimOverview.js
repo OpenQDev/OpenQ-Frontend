@@ -79,7 +79,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
         break;
       case 'total':
         title = 'Total Deposited';
-        toolTipText = 'Everything that has ever been deposited on this bounty. Includes refunded and claimed amounts.';
+        toolTipText = 'Everything that has ever been deposited on this bounty, incl. refunded and claimed amounts.';
         styles = 'font-bold border-t border-gray-700';
         break;
     }
@@ -89,7 +89,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
     <>
       <div className='flex w-[800px] overflow-auto h-1/2'>
         {bounty.payouts?.length ? (
-          <div className='flex flex-col pb-12'>
+          <div className='flex flex-col pb-6'>
             <div className='grid grid-cols-[250px_1fr]'>
               <div className='px-2 pb-2'></div>
               <div className='grid grid-flow-col auto-cols-auto'>
@@ -138,7 +138,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                           <ToolTipNew
                             relativePosition={'-left-5'}
                             outerStyles={'relative bottom-1'}
-                            innerStyles={'whitespace-normal w-96'}
+                            innerStyles={'whitespace-normal w-[520px]'}
                             toolTipText={toolTipText}
                           >
                             <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
