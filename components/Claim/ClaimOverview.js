@@ -1,4 +1,4 @@
-import React, { useContext, useState, useMemo } from 'react';
+import React, { useContext, useState, useMemo, useEffect } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import ClaimPerToken from './ClaimPerToken';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
@@ -18,6 +18,11 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
     .filter((itm, pos, self) => {
       return self.indexOf(itm) == pos;
     });
+
+  let allTypes = claimants.concat(types);
+  useEffect(() => {
+    allTypes = claimants.concat(types);
+  }, [bounty]);
 
   function filterAndAggregate(toFilterPerToken) {
     return tokenAddresses.map((tokenAddress) => {
@@ -48,18 +53,19 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
   let toolTipText = '';
 
   function switchType(type) {
-    switch (type) {
-      case 'perClaimant':
+    switch (true) {
+      case type[0] === '0':
+        title = <Claimants claimant={type} />;
         break;
-      case 'allClaimants':
+      case type === 'allClaimants':
         title = 'SubTotal';
         styles = 'font-bold border-t border-gray-700';
         break;
-      case 'stillClaimable':
+      case type === 'stillClaimable':
         title = 'Still Claimable';
         styles = '';
         break;
-      case 'refundable':
+      case type === 'refundable':
         title = (
           <div>
             of which currently{' '}
@@ -72,11 +78,11 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
           'Funds that are currently not locked (deposit lock period expired) and have not already been used for claims. Claims will be deducted from deposits with earliest expiration date first.';
         styles = 'italic';
         break;
-      case 'refunded':
+      case type === 'refunded':
         title = 'Refunded';
         styles = '';
         break;
-      case 'total':
+      case type === 'total':
         title = 'Total Deposited';
         toolTipText = 'Everything that has ever been deposited on this bounty, incl. refunded and claimed amounts.';
         styles = 'font-bold border-t border-gray-700';
@@ -101,39 +107,11 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
               </div>
             </div>
             <div className=''>
-              {claimants.map((claimant) => (
-                <div key={claimant} className='grid grid-cols-[250px_1fr]'>
-                  <Claimants claimant={claimant} />
-                  <div className='grid grid-flow-col auto-cols-auto'>
-                    {tokenAddresses.map((tokenAddress) => (
-                      <ClaimPerToken
-                        key={tokenAddress}
-                        bounty={bounty}
-                        claimant={claimant}
-                        tokenAddress={tokenAddress}
-                        type={'perClaimant'}
-                        changeObj={changeObj}
-                      />
-                    ))}
-                    {tokenAddresses.length > 1 && (
-                      <div className='grid grid-cols-[1fr_1fr] px-2 pb-2'>
-                        <div className='flex justify-end px-1 whitespace-nowrap w-14'>
-                          {((sum[claimant] / totalDepositValue) * 100).toFixed(0)} %
-                        </div>
-                        <div className='flex justify-end px-1 whitespace-nowrap'>
-                          {appState.utils.formatter.format(sum[claimant])}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-
-              {types.map((type) => (
+              {allTypes.map((type) => (
                 <div key={type}>
                   {switchType(type)}
                   <div className={`grid grid-cols-[250px_1fr] ${styles}`}>
-                    <div className='px-2 pb-2'>
+                    <div>
                       {type === 'refundable' || type === 'total' ? (
                         <div className='flex gap-1 items-center whitespace-nowrap'>
                           {title}
@@ -159,6 +137,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                             key={tokenAddress}
                             bounty={bounty}
                             tokenAddress={tokenAddress}
+                            claimant={type}
                             type={type}
                             changeObj={changeObj}
                           />

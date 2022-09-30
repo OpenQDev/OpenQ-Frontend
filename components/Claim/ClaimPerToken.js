@@ -79,33 +79,33 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type, changeObj }) => {
   let percentDisplay = 0;
   let valueDisplay = 0;
 
-  switch (type) {
-    case 'perClaimant':
+  switch (true) {
+    case type[0] === '0':
       volumeDisplay = claimantVolume;
       percentDisplay = claimantVolume / totalDepositVolume;
       valueDisplay = claimantValue;
       break;
-    case 'allClaimants':
+    case type === 'allClaimants':
       volumeDisplay = claimedVolume;
       percentDisplay = claimedVolume / totalDepositVolume;
       valueDisplay = claimedBalances;
       break;
-    case 'stillClaimable':
+    case type === 'stillClaimable':
       volumeDisplay = parseFloat(currentDepositVolume - claimedVolume).toFixed(1);
       percentDisplay = parseFloat((currentDepositVolume - claimedVolume) / totalDepositVolume);
       valueDisplay = stillClaimable;
       break;
-    case 'refundable':
+    case type === 'refundable':
       volumeDisplay = refundableVolume();
       percentDisplay = parseFloat(refundableVolume() / totalDepositVolume);
       valueDisplay = refundableValue();
       break;
-    case 'refunded':
+    case type === 'refunded':
       volumeDisplay = refundVolume;
       percentDisplay = parseFloat(refundVolume / totalDepositVolume);
       valueDisplay = refundedValue;
       break;
-    case 'total':
+    case type === 'total':
       volumeDisplay = totalDepositVolume;
       percentDisplay = 1;
       valueDisplay = totalDepositValue;
