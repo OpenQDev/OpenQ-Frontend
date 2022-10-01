@@ -1,5 +1,5 @@
 // Third party
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
 
 //Custom
 import BountyCardLean from '../BountyCard/BountyCardLean';
@@ -14,6 +14,7 @@ import searchFoundInLabels from './searchHelpers/searchFoundInLabels';
 import searchTagInBounty from './searchHelpers/searchTagInBounty';
 import SmallToggle from '../Utils/SmallToggle';
 import { useRouter } from 'next/router';
+import StoreContext from '../../store/Store/StoreContext';
 
 const BountyList = ({
   bounties,
@@ -29,6 +30,7 @@ const BountyList = ({
 }) => {
   // Hooks
   const { account } = useWeb3();
+  const [appState] = useContext(StoreContext);
   const router = useRouter();
   const [searchText, updateSearchText] = useState(
     `order:newest ${
@@ -172,7 +174,7 @@ const BountyList = ({
           isType
         );
       } catch (err) {
-        console.error(err);
+        appState.logger.error(err);
       }
     });
 
@@ -193,7 +195,7 @@ const BountyList = ({
         {
           if (complete || firstLoad) {
             return bounties.sort((a, b) => {
-              return b.createdAt - a.createdAt;
+              return parseInt(b.createdAt) - parseInt(a.createdAt);
             });
           } else {
             getNewData('desc');
@@ -204,7 +206,7 @@ const BountyList = ({
         {
           if (complete || firstLoad) {
             return bounties.sort((a, b) => {
-              return a.createdAt - b.createdAt;
+              return parseInt(a.createdAt) - parseInt(b.createdAt);
             });
           } else {
             getNewData('asc');
