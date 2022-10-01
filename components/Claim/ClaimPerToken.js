@@ -121,10 +121,12 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type, changeObj }) => {
   }, [valueDisplay]);
 
   return (
-    <div className='grid grid-cols-[1fr_1fr_1fr] px-2 pb-2'>
-      <div className='text-right px-1 whitespace-nowrap w-20'>{volumeDisplay}</div>
-      <div className='text-right px-1 whitespace-nowrap w-14'>{(percentDisplay * 100).toFixed(0)} %</div>
-      <div className='text-right px-1 whitespace-nowrap w-20'>{appState.utils.formatter.format(valueDisplay)}</div>
+    <div className='grid grid-cols-[1fr_1fr_1fr]'>
+      <div className='self-center text-right whitespace-nowrap w-20'>{volumeDisplay}</div>
+      <div className='self-center text-center mx-2 whitespace-nowrap w-14'>{(percentDisplay * 100).toFixed(0)} %</div>
+      <div className='self-center text-left whitespace-nowrap w-20'>
+        {appState.utils.formatter.format(valueDisplay)}
+      </div>
     </div>
   );
 };

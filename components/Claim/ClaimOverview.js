@@ -59,11 +59,11 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
         break;
       case type === 'allClaimants':
         title = 'SubTotal';
-        styles = 'font-bold border-t border-gray-700';
+        styles = 'font-bold border-t border-gray-700 py-2';
         break;
       case type === 'stillClaimable':
         title = 'Still Claimable';
-        styles = '';
+        styles = 'pb-2';
         break;
       case type === 'refundable':
         title = (
@@ -76,16 +76,16 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
         );
         toolTipText =
           'Funds that are currently not locked (deposit lock period expired) and have not already been used for claims. Claims will be deducted from deposits with earliest expiration date first.';
-        styles = 'italic';
+        styles = 'italic pb-2';
         break;
       case type === 'refunded':
         title = 'Refunded';
-        styles = '';
+        styles = 'pb-2';
         break;
       case type === 'total':
         title = 'Total Deposited';
         toolTipText = 'Everything that has ever been deposited on this bounty, incl. refunded and claimed amounts.';
-        styles = 'font-bold border-t border-gray-700';
+        styles = 'font-bold border-t border-gray-700 py-2';
         break;
     }
   }
@@ -94,12 +94,14 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
     <>
       <div className='flex w-[800px] overflow-auto h-1/2'>
         {bounty.payouts?.length ? (
-          <div className='flex flex-col pb-6'>
-            <div className='grid grid-cols-[250px_1fr_150px]'>
+          <div className={`flex flex-col pb-6 ${tokenAddresses.length > 1 ? '' : 'w-full'}`}>
+            <div
+              className={`grid ${tokenAddresses.length > 1 ? 'grid-cols-[250px_1fr_172px]' : 'grid-cols-[1fr_250px]'}`}
+            >
               <div className='px-2 pb-2'></div>
-              <div className='grid grid-flow-col auto-cols-auto'>
+              <div className='grid grid-flow-col auto-cols-fr'>
                 {tokenAddresses.map((token) => (
-                  <div key={token} className='px-2 pb-2 text-center'>
+                  <div key={token} className='px-2 pb-2 text-center '>
                     {appState.tokenClient.getToken(token).symbol}
                   </div>
                 ))}
@@ -110,8 +112,12 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
               {allTypes.map((type) => (
                 <div key={type}>
                   {switchType(type)}
-                  <div className={`grid grid-cols-[250px_1fr] ${styles}`}>
-                    <div>
+                  <div
+                    className={`grid ${
+                      tokenAddresses.length > 1 ? 'grid-cols-[250px_1fr]' : 'grid-cols-[1fr_250px]'
+                    } ${styles}`}
+                  >
+                    <div className=''>
                       {type === 'refundable' || type === 'total' ? (
                         <div className='flex gap-1 items-center whitespace-nowrap'>
                           {title}
@@ -133,21 +139,23 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                     <div className='grid grid-flow-col auto-cols-auto'>
                       {bounty.payouts?.length &&
                         tokenAddresses.map((tokenAddress) => (
-                          <ClaimPerToken
-                            key={tokenAddress}
-                            bounty={bounty}
-                            tokenAddress={tokenAddress}
-                            claimant={type}
-                            type={type}
-                            changeObj={changeObj}
-                          />
+                          <div key={tokenAddress} className='flex'>
+                            <ClaimPerToken
+                              key={tokenAddress}
+                              bounty={bounty}
+                              tokenAddress={tokenAddress}
+                              claimant={type}
+                              type={type}
+                              changeObj={changeObj}
+                            />
+                          </div>
                         ))}
                       {tokenAddresses.length > 1 && (
                         <div className='grid grid-cols-[1fr_1fr] px-2 pb-2'>
-                          <div className='flex justify-end px-1 whitespace-nowrap w-14'>
+                          <div className='flex justify-end self-center px-1 mr-1 whitespace-nowrap w-14'>
                             {((sum[type] / totalDepositValue) * 100).toFixed(0)} %
                           </div>
-                          <div className='flex justify-end px-1 whitespace-nowrap w-20'>
+                          <div className='flex justify-start self-center px-1 whitespace-nowrap w-24'>
                             {appState.utils.formatter.format(sum[type])}
                           </div>
                         </div>
