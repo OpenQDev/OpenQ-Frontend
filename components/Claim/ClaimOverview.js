@@ -3,7 +3,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import ClaimPerToken from './ClaimPerToken';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import ToolTipNew from '../Utils/ToolTipNew';
-import Claimants from './Claim/Claimants.js';
+import Claimants from './Claimants.js';
 
 const ClaimOverview = ({ bounty, setInternalMenu }) => {
   const [appState] = useContext(StoreContext);
