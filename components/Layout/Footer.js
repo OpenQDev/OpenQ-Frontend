@@ -2,16 +2,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import { ethers } from 'ethers';
+import Link from 'next/link';
+import OpenQSocials from './OpenQSocials';
 
 // Custom
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 
 const Footer = () => {
-  const year = new Date().getFullYear();
   const [toggle, setToggle] = useState(1);
   const [open, setOpen] = useState();
   const modal = useRef();
 
+  const year = new Date().getFullYear();
   useEffect(() => {
     let didCancel;
     // Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
@@ -30,29 +32,39 @@ const Footer = () => {
     };
   }, [open]);
   return (
-    <div className='text-primary text-sm w-full bg-nav-bg py-2 flex flex-col lg:flex-row w-full justify-between content-center font-semibold text-muted'>
-      <div className='flex-row lg:flex flex-wrap lg:flex-nowrap justify-between items-center justify-between w-full lg:px-12 px-4'>
-        <div className='flex-0 border-web-gray lg:border-none border-b py-2'>Copyright {year} OpenQ ©</div>
-        {process.env.NEXT_PUBLIC_BUILD_NUMBER ? <div>Build: {process.env.NEXT_PUBLIC_BUILD_NUMBER}</div> : <></>}
-
-        <div className='border-web-gray lg:border-none border-b py-2'>
-          Contracts currently not audited, please use at your own risk.
+    <div className='flex justify-center justify-items-center full'>
+      <div className='text-primary max-w- text-sm px-4 lg:px-20 max-w-[1120px] lg:py-12 py-4  grid gap-x-4 lg:grid-cols-[0.5fr_1fr_1fr_1.5fr] grid-cols-[1fr_1fr]  lg:grid-rows-2 grid-rows-4 grid-flow-col items-center lg:flex-row w-full justify-between content-center font-semibold'>
+        <div className='font-semibold font-sans text-3xl'>OpenQ</div>
+        <OpenQSocials />
+        <Link href={'/'}>
+          <a className='text-lg lg:justify-self-center '>Feature requests</a>
+        </Link>
+        <Link href={'/'}>
+          <a className='text-lg lg:justify-self-center '>Documentation</a>
+        </Link>
+        <div className='text-lg text-muted '>
+          Copyright {year} <span className='whitespace-nowrap'>OpenQ ©</span>
         </div>
-        <div className='flex flex-wrap gap-6 items-center justify-content-between w-full lg:w-fit text-right py-2 pr-32'>
+        {process.env.NEXT_PUBLIC_BUILD_NUMBER ? (
+          <div className='text-muted '>Build: {process.env.NEXT_PUBLIC_BUILD_NUMBER}</div>
+        ) : (
+          <div></div>
+        )}
+        <div className='flex flex-wrap lg:gap-2 items-center justify-content-between text-muted w-full lg:w-fit text-right py-2  '>
           <div onClick={() => setOpen(!open)} className='min-w-[100px] flex gap-4 cursor-pointer'>
             <span> Smart Contracts</span>
             {open ? (
               <span>
-                <ChevronDownIcon />
+                <ChevronUpIcon />
               </span>
             ) : (
               <span onClick={() => setOpen(!open)}>
-                <ChevronUpIcon />
+                <ChevronDownIcon />
               </span>
             )}
           </div>
           <div className='relative h-6'>
-            <div className={`relative w-36 ${open && 'bottom-14 p-2 bg-nav-bg rounded-sm border border-web-gray'}`}>
+            <div className={`relative w-48 ${open && 'left-0.25 rounded-sm border border-web-gray'}`}>
               {open ? (
                 <div ref={modal}>
                   <button onClick={() => setToggle(1)} value={1} className='block'>
@@ -106,6 +118,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
+        <span className='text-muted col-span-2 w-3/4'>Contracts currently not audited, use at your own risk.</span>
       </div>
     </div>
   );
