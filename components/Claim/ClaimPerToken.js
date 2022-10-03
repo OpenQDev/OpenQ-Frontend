@@ -79,33 +79,33 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type, changeObj }) => {
   let percentDisplay = 0;
   let valueDisplay = 0;
 
-  switch (type) {
-    case 'perClaimant':
+  switch (true) {
+    case type[0] === '0':
       volumeDisplay = claimantVolume;
       percentDisplay = claimantVolume / totalDepositVolume;
       valueDisplay = claimantValue;
       break;
-    case 'allClaimants':
+    case type === 'allClaimants':
       volumeDisplay = claimedVolume;
       percentDisplay = claimedVolume / totalDepositVolume;
       valueDisplay = claimedBalances;
       break;
-    case 'stillClaimable':
+    case type === 'stillClaimable':
       volumeDisplay = parseFloat(currentDepositVolume - claimedVolume).toFixed(1);
       percentDisplay = parseFloat((currentDepositVolume - claimedVolume) / totalDepositVolume);
       valueDisplay = stillClaimable;
       break;
-    case 'refundable':
+    case type === 'refundable':
       volumeDisplay = refundableVolume();
       percentDisplay = parseFloat(refundableVolume() / totalDepositVolume);
       valueDisplay = refundableValue();
       break;
-    case 'refunded':
+    case type === 'refunded':
       volumeDisplay = refundVolume;
       percentDisplay = parseFloat(refundVolume / totalDepositVolume);
       valueDisplay = refundedValue;
       break;
-    case 'total':
+    case type === 'total':
       volumeDisplay = totalDepositVolume;
       percentDisplay = 1;
       valueDisplay = totalDepositValue;
@@ -121,15 +121,11 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type, changeObj }) => {
   }, [valueDisplay]);
 
   return (
-    <div className='flex px-2 pb-2 w-full'>
-      <div className='px-2 pb-2'>
-        <div className='flex justify-end w-12'>{volumeDisplay}</div>
-      </div>
-      <div className='px-2 pb-2'>
-        <div className='flex justify-end w-12'>{(percentDisplay * 100).toFixed(0)} %</div>
-      </div>
-      <div className='px-2 pb-2'>
-        <div className='flex justify-end text-right w-20'>{appState.utils.formatter.format(valueDisplay)}</div>
+    <div className='grid grid-cols-[1fr_1fr_1fr]'>
+      <div className='self-center text-right whitespace-nowrap w-20'>{volumeDisplay}</div>
+      <div className='self-center text-center mx-2 whitespace-nowrap w-14'>{(percentDisplay * 100).toFixed(0)} %</div>
+      <div className='self-center text-left whitespace-nowrap w-20'>
+        {appState.utils.formatter.format(valueDisplay)}
       </div>
     </div>
   );

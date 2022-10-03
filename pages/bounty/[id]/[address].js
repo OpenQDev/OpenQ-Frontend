@@ -86,11 +86,12 @@ const address = ({ address, mergedBounty, renderError }) => {
     dispatch(payload);
   };
 
-  // Claim: Change in bounty.status
+  // Close Bounty: Change in bounty.status
   // Group Fund/Refund/Extend Deposit in "JSON.stringify(newBounty.deposits) === JSON.stringify(bounty.deposits)" comparison
   // Fund: Change in deposits length
   // Refund: Check that one of the deposits has been refunded
   // Extend Deposit: Change in deposit expiration
+  // Claim: change in payouts
   // No faster than 1 second so begin with a sleep so as to not spam the Graph Hosted Service
   const refreshBounty = async () => {
     await sleep(1000);
@@ -101,7 +102,8 @@ const address = ({ address, mergedBounty, renderError }) => {
         JSON.stringify(newBounty.deposits) === JSON.stringify(bounty.deposits) &&
         newBounty.fundingGoalVolume === bounty.fundingGoalVolume &&
         newBounty.payoutTokenVolume === bounty.payoutTokenVolume &&
-        newBounty.payoutSchedule === bounty.payoutSchedule
+        newBounty.payoutSchedule === bounty.payoutSchedule &&
+        newBounty.payouts === bounty.payouts
       ) {
         newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
         await sleep(500);

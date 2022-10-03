@@ -1,6 +1,6 @@
 import React from 'react';
-import useEns from '../../../hooks/useENS';
-import Jazzicon from '../../Utils/Jazzicon';
+import useEns from '../../hooks/useENS';
+import Jazzicon from '../Utils/Jazzicon';
 
 const Claimants = ({ claimant }) => {
   const shortenAddress = (address) => {
@@ -11,10 +11,10 @@ const Claimants = ({ claimant }) => {
   };
   const [claimantEnsName] = useEns(claimant);
   return (
-    <td className='flex gap-4 items-center px-2 pb-2' key={claimant + 1}>
+    <div className='flex gap-4 items-center px-2 pb-2' key={claimant + 1}>
       <Jazzicon tooltipPosition={'-left-2'} size={36} address={claimant} />
       <span>{claimantEnsName || shortenAddress(claimant)}</span>
-    </td>
+    </div>
   );
 };
 export default Claimants;
