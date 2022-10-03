@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import { ethers } from 'ethers';
+import Link from 'next/link';
+import OpenQSocials from './OpenQSocials';
 
 // Custom
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
@@ -30,29 +32,31 @@ const Footer = () => {
     };
   }, [open]);
   return (
-    <div className='text-primary text-sm w-full bg-nav-bg py-2 flex flex-col lg:flex-row w-full justify-between content-center font-semibold text-muted'>
-      <div className='flex-row lg:flex flex-wrap lg:flex-nowrap justify-between items-center justify-between w-full lg:px-12 px-4'>
-        <div className='flex-0 border-web-gray lg:border-none border-b py-2'>Copyright {year} OpenQ ©</div>
-        {process.env.NEXT_PUBLIC_BUILD_NUMBER ? <div>Build: {process.env.NEXT_PUBLIC_BUILD_NUMBER}</div> : <></>}
-
-        <div className='border-web-gray lg:border-none border-b py-2'>
-          Contracts currently not audited, please use at your own risk.
-        </div>
-        <div className='flex flex-wrap gap-6 items-center justify-content-between w-full lg:w-fit text-right py-2 pr-32'>
+    <div className='flex justify-center justify-items-center full'>
+      <div className='text-primary max-w- text-sm w-full px-4 md:px-20 max-w-[1120px] md:py-12 py-4  grid gap-x-4 md:grid-cols-[0.5fr_1.5fr_1fr] grid-cols-[1fr_1fr]  md:grid-rows-2 grid-rows-4 grid-flow-col items-center lg:flex-row w-full justify-between content-center font-semibold'>
+        <div className='font-semibold font-sans text-3xl'>OpenQ</div>
+        <OpenQSocials />
+        <Link href={'/'}>
+          <a className='text-lg justify-self-start'>Feature requests</a>
+        </Link>
+        <Link href={'/'}>
+          <a className='text-lg'>Documentation</a>
+        </Link>
+        <div className='flex flex-wrap gap-2 items-center justify-content-between text-muted w-full lg:w-fit text-right py-2 col-start-1 row-start-3  md:col-start-auto md:row-start-auto'>
           <div onClick={() => setOpen(!open)} className='min-w-[100px] flex gap-4 cursor-pointer'>
             <span> Smart Contracts</span>
             {open ? (
               <span>
-                <ChevronDownIcon />
+                <ChevronUpIcon />
               </span>
             ) : (
               <span onClick={() => setOpen(!open)}>
-                <ChevronUpIcon />
+                <ChevronDownIcon />
               </span>
             )}
           </div>
           <div className='relative h-6'>
-            <div className={`relative w-36 ${open && 'bottom-14 p-2 bg-nav-bg rounded-sm border border-web-gray'}`}>
+            <div className={`relative w-48 ${open && 'left-0.25 rounded-sm border border-web-gray'}`}>
               {open ? (
                 <div ref={modal}>
                   <button onClick={() => setToggle(1)} value={1} className='block'>
@@ -106,6 +110,9 @@ const Footer = () => {
             </div>
           </div>
         </div>
+        <span className='text-muted col-start-1 col-span-2 w-3/4 row-start-4 md:col-start-auto md:row-start-auto'>
+          Contracts currently not audited, use at your own risk.
+        </span>
       </div>
     </div>
   );
