@@ -9,11 +9,11 @@ import OpenQSocials from './OpenQSocials';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 
 const Footer = () => {
-  const year = new Date().getFullYear();
   const [toggle, setToggle] = useState(1);
   const [open, setOpen] = useState();
   const modal = useRef();
 
+  const year = new Date().getFullYear();
   useEffect(() => {
     let didCancel;
     // Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
@@ -33,16 +33,24 @@ const Footer = () => {
   }, [open]);
   return (
     <div className='flex justify-center justify-items-center full'>
-      <div className='text-primary max-w- text-sm w-full px-4 md:px-20 max-w-[1120px] md:py-12 py-4  grid gap-x-4 md:grid-cols-[0.5fr_1.5fr_1fr] grid-cols-[1fr_1fr]  md:grid-rows-2 grid-rows-4 grid-flow-col items-center lg:flex-row w-full justify-between content-center font-semibold'>
+      <div className='text-primary max-w- text-sm px-4 lg:px-20 max-w-[1120px] lg:py-12 py-4  grid gap-x-4 lg:grid-cols-[0.5fr_1fr_1fr_1.5fr] grid-cols-[1fr_1fr]  lg:grid-rows-2 grid-rows-4 grid-flow-col items-center lg:flex-row w-full justify-between content-center font-semibold'>
         <div className='font-semibold font-sans text-3xl'>OpenQ</div>
         <OpenQSocials />
         <Link href={'/'}>
-          <a className='text-lg justify-self-start'>Feature requests</a>
+          <a className='text-lg lg:justify-self-center '>Feature requests</a>
         </Link>
         <Link href={'/'}>
-          <a className='text-lg'>Documentation</a>
+          <a className='text-lg lg:justify-self-center '>Documentation</a>
         </Link>
-        <div className='flex flex-wrap gap-2 items-center justify-content-between text-muted w-full lg:w-fit text-right py-2 col-start-1 row-start-3  md:col-start-auto md:row-start-auto'>
+        <div className='text-lg text-muted '>
+          Copyright {year} <span className='whitespace-nowrap'>OpenQ ©</span>
+        </div>
+        {process.env.NEXT_PUBLIC_BUILD_NUMBER ? (
+          <div className='text-muted '>Build: {process.env.NEXT_PUBLIC_BUILD_NUMBER}</div>
+        ) : (
+          <div></div>
+        )}
+        <div className='flex flex-wrap lg:gap-2 items-center justify-content-between text-muted w-full lg:w-fit text-right py-2  '>
           <div onClick={() => setOpen(!open)} className='min-w-[100px] flex gap-4 cursor-pointer'>
             <span> Smart Contracts</span>
             {open ? (
@@ -110,9 +118,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <span className='text-muted col-start-1 col-span-2 w-3/4 row-start-4 md:col-start-auto md:row-start-auto'>
-          Contracts currently not audited, use at your own risk.
-        </span>
+        <span className='text-muted col-span-2 w-3/4'>Contracts currently not audited, use at your own risk.</span>
       </div>
     </div>
   );
