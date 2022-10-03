@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
 import Link from 'next/link';
 import Image from 'next/image';
+import chainIdDeployEnvMap from '../../components/WalletConnect/chainIdDeployEnvMap';
 
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
@@ -217,6 +218,15 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
       payload: true,
     };
     dispatch(payload);
+  };
+
+  const addOrSwitchNetwork = () => {
+    window.ethereum
+      .request({
+        method: 'wallet_addEthereumChain',
+        params: chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['params'],
+      })
+      .catch((err) => appState.logger.error(err, account));
   };
 
   const closeModal = () => {
@@ -560,8 +570,9 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                     }
                   >
                     <MintBountyModalButton
-                      mintBounty={account ? mintBounty : connectWallet}
+                      mintBounty={!isOnCorrectNetwork ? addOrSwitchNetwork : account ? mintBounty : connectWallet}
                       account={account}
+                      isOnCorrectNetwork={isOnCorrectNetwork}
                       enableMint={
                         (enableContest && enableMint && isOnCorrectNetwork && !issue?.closed && !isLoading) || !account
                       }
