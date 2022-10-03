@@ -51,7 +51,7 @@ function OpenQ({ Component, pageProps }) {
         <link rel='icon' href='/openq-logo.png' />
         <link rel='manifest' href='/manifest.json' />
         <script type='text/javascript'>
-          {`window['__ls_namespace'] = '__ls';
+          {`window['__ls_namespace'] = 'LiveSession';
     window['__ls_script_url'] = 'https://cdn.livesession.io/track.js';
     !function(w, d, t, u, n) {
           if (n in w) {if(w.console && w.console.log) { w.console.log('LiveSession namespace conflict. Please set window["__ls_namespace"].');} return;}
@@ -62,9 +62,9 @@ function OpenQ({ Component, pageProps }) {
           var s = d.getElementsByTagName(t)[0]; s.parentNode.insertBefore(ls, s);
       }(window, document, 'script', window['__ls_script_url'], window['__ls_namespace']);
   
-      __ls("init", "e91cab7c.5a8a3643", { keystrokes: false, rootHostname : '.staging.openq.dev' });
-      __ls("newPageView");
-      __ls("getSessionURL", function(url, isNewSession){
+      LiveSession("init", "e91cab7c.5a8a3643", { keystrokes: false, rootHostname : '.staging.openq.dev' });
+      LiveSession("newPageView");
+      LiveSession("getSessionURL", function(url, isNewSession){
         if(isNewSession){
             ga('send', {
                 hitType: 'event',
