@@ -15,7 +15,6 @@ import LinkDropdown from '../Utils/LinkDropdown';
 import { useRouter } from 'next/router';
 import NavLinks from './NavLinks';
 import ContractWizard from '../ContractWizard/ContractWizard';
-import OpenQSocials from './OpenQSocials';
 import LoadingBar from '../Loading/LoadingBar';
 import LoadingThread from '../Loading/LoadingThread.js';
 
