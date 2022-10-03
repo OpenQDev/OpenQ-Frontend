@@ -225,7 +225,6 @@ const Navigation = () => {
           </div>
         </div>
       ) : null}
-      <OpenQSocials />
       {loadingBar && <LoadingBar loadingBar={setLoadingBar} changeText={changeText} />}
     </div>
   );
