@@ -15,7 +15,6 @@ import LinkDropdown from '../Utils/LinkDropdown';
 import { useRouter } from 'next/router';
 import NavLinks from './NavLinks';
 import ContractWizard from '../ContractWizard/ContractWizard';
-import OpenQSocials from './OpenQSocials';
 import LoadingBar from '../Loading/LoadingBar';
 import LoadingThread from '../Loading/LoadingThread.js';
 
@@ -157,7 +156,7 @@ const Navigation = () => {
       {/* Desktop view */}
 
       <div className='flex visible relative'>
-        <div className='flex w-full lg:py-1 justify-between mx-8'>
+        <div className='flex w-full lg:py-1 justify-between mx-4 lg:mx-8'>
           <div className='flex space-x-5 items-center'>
             <Link href={'/'}>
               <a className='flex items-center lg:hover:opacity-70'>

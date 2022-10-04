@@ -71,7 +71,7 @@ const Footer = () => {
                     <CopyAddressToClipboard
                       clipping={[5, 38]}
                       data={process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS}
-                      styles='pt-0 w-64'
+                      styles='pt-0 w-40'
                     />
                   </button>
 
@@ -79,14 +79,14 @@ const Footer = () => {
                     <CopyAddressToClipboard
                       clipping={[5, 38]}
                       data={process.env.NEXT_PUBLIC_DEPOSIT_MANAGER_PROXY_ADDRESS}
-                      styles='pt-0 w-64'
+                      styles='pt-0 w-40'
                     />
                   </button>
                   <button onClick={() => setToggle(3)} value={3} className='block'>
                     <CopyAddressToClipboard
                       clipping={[5, 38]}
                       data={process.env.NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS}
-                      styles='pt-0 w-64'
+                      styles='pt-0 w-40'
                     />
                   </button>
                 </div>
@@ -95,7 +95,7 @@ const Footer = () => {
                   <CopyAddressToClipboard
                     clipping={[5, 38]}
                     data={process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS}
-                    styles='pt-0 w-64'
+                    styles='pt-0 w-40'
                   />
                 </button>
               ) : toggle === 2 ? (
@@ -103,7 +103,7 @@ const Footer = () => {
                   <CopyAddressToClipboard
                     clipping={[5, 38]}
                     data={process.env.NEXT_PUBLIC_DEPOSIT_MANAGER_PROXY_ADDRESS}
-                    styles='pt-0 w-64'
+                    styles='pt-0 w-40'
                   />
                 </button>
               ) : (
@@ -111,7 +111,7 @@ const Footer = () => {
                   <CopyAddressToClipboard
                     clipping={[5, 38]}
                     data={ethers.utils.getAddress(process.env.NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS || '')}
-                    styles='pt-0 w-64'
+                    styles='pt-0 w-40'
                   />
                 </button>
               )}
