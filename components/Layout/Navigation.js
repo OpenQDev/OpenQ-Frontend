@@ -14,7 +14,6 @@ import { ThreeBarsIcon } from '@primer/octicons-react';
 import LinkDropdown from '../Utils/LinkDropdown';
 import { useRouter } from 'next/router';
 import NavLinks from './NavLinks';
-import OpenQSocials from './OpenQSocials';
 import LoadingBar from '../Loading/LoadingBar';
 import LoadingThread from '../Loading/LoadingThread.js';
 
@@ -205,7 +204,6 @@ const Navigation = () => {
           </div>
         </div>
       ) : null}
-      <OpenQSocials />
       {loadingBar && <LoadingBar loadingBar={setLoadingBar} changeText={changeText} />}
     </div>
   );
