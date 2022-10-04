@@ -134,6 +134,7 @@ const BountyList = ({
         ) || searchedLabels.length === 0;
 
       const isType = types.some((type) => type === bounty.bountyType);
+      const isNonProfit = router.query.type === 'non-profit' ? bounty.category === 'non-profit' : true;
       let containsSearch = true;
 
       try {
@@ -170,7 +171,8 @@ const BountyList = ({
           hasLabels &&
           bounty.url &&
           !bounty.blacklisted &&
-          isType
+          isType &&
+          isNonProfit
         );
       } catch (err) {
         appState.logger.error(err);
