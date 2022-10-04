@@ -124,10 +124,9 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
         {error ? (
           <UnexpectedError error={error} />
         ) : internalMenu == 'Organizations' ? (
-          <OrganizationHomepage orgs={controlledOrgs} types={types} category={category} />
+          <OrganizationHomepage orgs={controlledOrgs} types={types} />
         ) : (
           <BountyHomepage
-            category={category}
             bounties={bounties}
             watchedBounties={watchedBounties}
             loading={isLoading}
@@ -135,6 +134,7 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
             complete={complete}
             getNewData={getNewData}
             types={types}
+            wizard={category === 'non-profit'}
           />
         )}
       </div>
@@ -157,6 +157,10 @@ export const getServerSideProps = async (ctx) => {
     case 'split-price':
       category = 'learn2earn';
       types = ['1'];
+      break;
+    case 'non-profit':
+      category = 'non-profit';
+      types = ['0', '1', '2', '3'];
       break;
   }
 

@@ -62,7 +62,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
     if (!hovered) {
       setHovered(true);
       ReactGA.event({
-        category: 'BOUNTY_INTERACTION',
+        category: bountyTypeName,
         action: 'HOVER_CARD',
         dimension: JSON.stringify({
           bountyType: bountyTypeName,
@@ -75,7 +75,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 
   const openModal = () => {
     ReactGA.event({
-      category: 'BOUNTY_INTERACTION',
+      category: 'bountyTypeName',
       action: 'OPEN_MODAL',
       label: 'address:'.concat(bounty.address),
 
