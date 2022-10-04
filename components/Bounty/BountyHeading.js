@@ -15,7 +15,7 @@ const BountyHeading = ({ bounty, price, budget }) => {
   return (
     <div className='sm:px-8 px-4 w-full max-w-[1200px] pb-2'>
       <div className='pt-6 pb-2 w-full flex flex-wrap'>
-        <h1 className='text-[32px] flex-1 leading-tight min-w-[240px] pr-20'>
+        <h1 className='sm:text-[32px] text-xl flex-1 leading-tight min-w-[240px] pr-20'>
           <span className='text-primary'>{bounty.title} </span>
           {bounty.url ? (
             <Link href={bounty.url} className='text-muted text font-light'>

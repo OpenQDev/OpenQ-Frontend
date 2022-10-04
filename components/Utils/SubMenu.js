@@ -6,7 +6,7 @@ const SubMenu = ({ updatePage, internalMenu, items, styles, colour }) => {
   };
   return (
     <div
-      className={`px-2 sm:px-8 text-primary border-web-gray border-b w-full flex h-12 items-center gap-x-1 md:gap-x-4 relative ${styles}`}
+      className={`px-2 sm:px-8 text-primary border-web-gray border-b w-full flex h-12 items-center gap-x-1 md:gap-x-4 relative ${styles} overflow-x-scroll`}
     >
       {items.map((item, index) => (
         <button
@@ -20,7 +20,7 @@ const SubMenu = ({ updatePage, internalMenu, items, styles, colour }) => {
           }`}
         >
           {item.Svg && <item.Svg />}
-          <span>{item.name}</span>
+          <span className='whitespace-nowrap'>{item.name}</span>
         </button>
       ))}
     </div>
