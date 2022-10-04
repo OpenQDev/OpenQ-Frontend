@@ -6,7 +6,7 @@ const SubMenu = ({ updatePage, internalMenu, items, styles, colour }) => {
   };
   return (
     <div
-      className={`px-2 sm:px-8 text-primary border-web-gray border-b w-full flex h-12 items-center gap-x-1 md:gap-x-4 relative ${styles} overflow-x-scroll`}
+      className={`px-2 sm:px-8 text-primary border-web-gray border-b w-full flex h-12 items-center gap-x-1 md:gap-x-4 relative ${styles} overflow-x-auto`}
     >
       {items.map((item, index) => (
         <button
