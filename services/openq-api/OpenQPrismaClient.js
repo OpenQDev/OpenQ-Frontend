@@ -154,12 +154,16 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  getOrganizations(types, batch) {
+  getOrganizations(types, batch, category) {
     const promise = new Promise(async (resolve, reject) => {
+      const variables = { types, batch, category };
+      if (category) {
+        variables.category = category;
+      }
       try {
         const result = await this.client.mutate({
           mutation: GET_ORGANIZATIONS,
-          variables: { types, batch },
+          variables,
         });
         resolve(result.data);
       } catch (e) {
@@ -244,15 +248,20 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async getUser(userAddress, types) {
+  async getUser(userAddress, types, category) {
     const promise = new Promise(async (resolve, reject) => {
+      const variables = {
+        userAddress: ethers.utils.getAddress(userAddress),
+        types,
+      };
+      if (category) {
+        variables.category = category;
+      }
+      console.log(category);
       try {
         const result = await this.client.mutate({
           mutation: GET_USER_BY_HASH,
-          variables: {
-            userAddress: ethers.utils.getAddress(userAddress),
-            types,
-          },
+          variables,
         });
         resolve(result.data.user);
       } catch (e) {
@@ -262,10 +271,13 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async getContractPage(after, limit, sortOrder, orderBy, types, organizationId) {
+  async getContractPage(after, limit, sortOrder, orderBy, types, organizationId, category) {
     const variables = { after, orderBy, limit, sortOrder, organizationId };
     if (types) {
       variables.types = types;
+    }
+    if (category) {
+      variables.category = category;
     }
     if (sortOrder) {
       variables.sortOrder = sortOrder;

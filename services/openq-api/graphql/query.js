@@ -76,10 +76,10 @@ export const REMOVE_CONTRIBUTOR = gql`
 `;
 // good to go
 export const GET_USER_BY_HASH = gql`
-  query ($userAddress: String!, $types: [String]) {
+  query ($userAddress: String!, $types: [String], $category: String) {
     user(address: $userAddress) {
       watchedBountyIds
-      watchedBounties(limit: 100, types: $types) {
+      watchedBounties(limit: 100, types: $types, category: $category) {
         nodes {
           tvl
           address
@@ -112,12 +112,12 @@ export const GET_ORGANIZATION = gql`
 `;
 
 export const GET_ORGANIZATIONS = gql`
-  query ($types: [String], $batch: Int!) {
-    organizations(types: $types) {
+  query getOrganizations($types: [String], $batch: Int!, $category: String) {
+    organizations(types: $types, category: $category) {
       blacklisted
       id
       starringUserIds
-      bounties(limit: $batch, types: $types) {
+      bounties(limit: $batch, types: $types, category: $category) {
         nodes {
           tvl
           bountyId
@@ -206,6 +206,7 @@ export const GET_CONTRACT_PAGE = gql`
     $organizationId: String
     $types: [String]
     $limit: Int!
+    $category: String
   ) {
     bounties(
       after: $after
@@ -214,6 +215,7 @@ export const GET_CONTRACT_PAGE = gql`
       sortOrder: $sortOrder
       organizationId: $organizationId
       types: $types
+      category: $category
     ) {
       bountyConnection {
         nodes {

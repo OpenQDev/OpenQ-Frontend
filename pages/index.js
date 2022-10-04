@@ -41,7 +41,7 @@ export default function Index({ fullBounties, batch, types, renderError, firstCu
 
     try {
       if (account == signedAccount && account) {
-        const [watchedBounties] = await appState.utils.fetchWatchedBounties(appState, account, category, types);
+        const [watchedBounties] = await appState.utils.fetchWatchedBounties(appState, account, types, category);
         setWatchedBounties(watchedBounties || []);
       } else {
         setWatchedBounties([]);

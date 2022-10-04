@@ -33,13 +33,13 @@ const Footer = () => {
   }, [open]);
   return (
     <div className='flex justify-center justify-items-center full'>
-      <div className='text-primary max-w- text-sm px-4 lg:px-20 max-w-[1120px] lg:py-12 py-4  grid gap-x-4 lg:grid-cols-[0.5fr_1fr_1fr_1.5fr] grid-cols-[1fr_1fr]  lg:grid-rows-2 grid-rows-4 grid-flow-col items-center lg:flex-row w-full justify-between content-center font-semibold'>
+      <div className='text-primary max-w- text-sm px-4 lg:px-20 max-w-[1120px] lg:py-12 py-4  grid gap-x-4 lg:grid-cols-[0.5fr_1fr_1fr_1.5fr] grid-cols-[1fr_1fr]  lg:grid-rows-2 grid-rows-4 lg:grid-flow-col items-center lg:flex-row w-full justify-between content-center font-semibold grid-flow-row'>
         <div className='font-semibold font-sans text-3xl'>OpenQ</div>
         <OpenQSocials />
-        <Link href={'/'}>
+        <Link href={'https://openq.canny.io/openq-feature-requests'}>
           <a className='text-lg lg:justify-self-center '>Feature requests</a>
         </Link>
-        <Link href={'/'}>
+        <Link href={'https://docs.openq.dev'}>
           <a className='text-lg lg:justify-self-center '>Documentation</a>
         </Link>
         <div className='text-lg text-muted '>
@@ -50,7 +50,7 @@ const Footer = () => {
         ) : (
           <div></div>
         )}
-        <div className='flex flex-wrap lg:gap-2 items-center justify-content-between text-muted w-full lg:w-fit text-right py-2  '>
+        <div className='flex flex-wrap lg:gap-2 items-center justify-content-between text-muted w-full lg:w-fit text-right py-2 '>
           <div onClick={() => setOpen(!open)} className='min-w-[100px] flex gap-4 cursor-pointer'>
             <span> Smart Contracts</span>
             {open ? (
@@ -64,14 +64,14 @@ const Footer = () => {
             )}
           </div>
           <div className='relative h-6'>
-            <div className={`relative w-48 ${open && 'left-0.25 rounded-sm border border-web-gray'}`}>
+            <div className={`relative w-48 ${open && 'left-0.25 rounded-sm border bg-dark-mode border-web-gray'}`}>
               {open ? (
                 <div ref={modal}>
                   <button onClick={() => setToggle(1)} value={1} className='block'>
                     <CopyAddressToClipboard
                       clipping={[5, 38]}
                       data={process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS}
-                      styles='pt-0 w-64'
+                      styles='pt-0 w-40'
                     />
                   </button>
 
@@ -79,14 +79,14 @@ const Footer = () => {
                     <CopyAddressToClipboard
                       clipping={[5, 38]}
                       data={process.env.NEXT_PUBLIC_DEPOSIT_MANAGER_PROXY_ADDRESS}
-                      styles='pt-0 w-64'
+                      styles='pt-0 w-40'
                     />
                   </button>
                   <button onClick={() => setToggle(3)} value={3} className='block'>
                     <CopyAddressToClipboard
                       clipping={[5, 38]}
                       data={process.env.NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS}
-                      styles='pt-0 w-64'
+                      styles='pt-0 w-40'
                     />
                   </button>
                 </div>
@@ -95,7 +95,7 @@ const Footer = () => {
                   <CopyAddressToClipboard
                     clipping={[5, 38]}
                     data={process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS}
-                    styles='pt-0 w-64'
+                    styles='pt-0 w-40'
                   />
                 </button>
               ) : toggle === 2 ? (
@@ -103,7 +103,7 @@ const Footer = () => {
                   <CopyAddressToClipboard
                     clipping={[5, 38]}
                     data={process.env.NEXT_PUBLIC_DEPOSIT_MANAGER_PROXY_ADDRESS}
-                    styles='pt-0 w-64'
+                    styles='pt-0 w-40'
                   />
                 </button>
               ) : (
@@ -111,7 +111,7 @@ const Footer = () => {
                   <CopyAddressToClipboard
                     clipping={[5, 38]}
                     data={ethers.utils.getAddress(process.env.NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS || '')}
-                    styles='pt-0 w-64'
+                    styles='pt-0 w-40'
                   />
                 </button>
               )}

@@ -127,7 +127,7 @@ const ConnectButton = ({ mobile }) => {
         <div>
           <button
             onClick={openConnectModal}
-            className='flex items-center btn-default mr-4 hover:border-[#8b949e] hover:bg-[#30363d]'
+            className='flex items-center btn-default mr-4 hover:border-[#8b949e] hover:bg-[#30363d] whitespace-nowrap'
             disabled={isConnecting}
           >
             {'Connect Wallet'}

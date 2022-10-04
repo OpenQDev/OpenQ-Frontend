@@ -133,7 +133,7 @@ const address = ({ address, mergedBounty, renderError }) => {
     const bountyTypeName = appState.utils.getBountyTypeName(bounty);
     ReactGA.event(
       {
-        category: 'BOUNTY_INTERACTION',
+        category: bountyTypeName,
         name: 'VIEW_BOUNTY',
         action: 'VIEW_BOUNTY',
         dimension: JSON.stringify({
