@@ -14,7 +14,6 @@ import { ThreeBarsIcon } from '@primer/octicons-react';
 import LinkDropdown from '../Utils/LinkDropdown';
 import { useRouter } from 'next/router';
 import NavLinks from './NavLinks';
-import ContractWizard from '../ContractWizard/ContractWizard';
 import LoadingBar from '../Loading/LoadingBar';
 import LoadingThread from '../Loading/LoadingThread.js';
 
@@ -27,7 +26,6 @@ const Navigation = () => {
   const [quickSearch, setQuickSearch] = useState('');
   const [items, setItems] = useState([]);
   const [searchable, setSearchable] = useState();
-  const [showWizard, setShowWizard] = useState(false);
   const [loadingBar, setLoadingBar] = useState(false);
   const [changeText, setChangeText] = useState(false);
   const { bountyMinted, authService, openQSubgraphClient, openQPrismaClient, utils, githubRepository, tokenClient } =
@@ -181,12 +179,6 @@ const Navigation = () => {
                 {quickSearch && <LinkDropdown items={items} />}
               </div>
               <NavLinks />
-              <button onClick={() => setShowWizard(true)}>
-                <div className='mx-2 text-[0.8rem] tracking-wider md:hover:text-primary text-muted font-bold hover:cursor-pointer'>
-                  Contract Wizard
-                </div>
-              </button>
-              {showWizard && <ContractWizard wizardVisibility={setShowWizard} />}
             </div>
           </div>
           <div className='flex items-center text-[0.8rem] lg:text-[1rem]'>
@@ -212,15 +204,7 @@ const Navigation = () => {
               ></input>
               {quickSearch && <LinkDropdown items={items} />}
             </div>
-
             <NavLinks />
-
-            <button onClick={() => setShowWizard(true)}>
-              <div className='flex text-[0.8rem] pt-1 border-t border-gray-700 tracking-wider text-nav-text font-bold'>
-                Contract Wizard
-              </div>
-            </button>
-            {showWizard && <ContractWizard wizardVisibility={setShowWizard} />}
           </div>
         </div>
       ) : null}
