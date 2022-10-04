@@ -27,14 +27,13 @@ const BountyList = ({
   contractToggle,
   wizard,
   types,
-  category,
 }) => {
   // Hooks
   const { account } = useWeb3();
   const [appState] = useContext(StoreContext);
   const router = useRouter();
   const [searchText, updateSearchText] = useState(
-    `order:newest ${router.query.type && category !== 'non-profit' ? `type:"${router.query.type}"` : ''}`
+    `order:newest ${router.query.type ? `type:"${router.query.type}"` : ''}`
   );
   const [tagArr, updateTagArr] = useState([]);
   const [searchedBounties, updateSearchedBounties] = useState([]);
@@ -103,12 +102,6 @@ const BountyList = ({
     }
   }, [bounties]);
   // NOTE tag search doesn't turn off regular search, it just manages it a little differently.
-
-  useEffect(() => {
-    if (category === 'non-profit') {
-      addLabel('non-profit');
-    }
-  }, [category]);
 
   const filter = (bounties, options = {}) => {
     const localTagArr = options.tagArr || tagArr;
@@ -397,6 +390,7 @@ const BountyList = ({
           {searchedBounties.map((bounty, index) => {
             return (
               <div key={bounty.id} ref={index === searchedBounties.length - 1 ? lastElem : null}>
+                {console.log(bounty.category)}
                 <BountyCardLean index={index} length={searchedBounties.length} bounty={bounty} />
               </div>
             );

@@ -124,10 +124,9 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
         {error ? (
           <UnexpectedError error={error} />
         ) : internalMenu == 'Organizations' ? (
-          <OrganizationHomepage orgs={controlledOrgs} types={types} category={category} />
+          <OrganizationHomepage orgs={controlledOrgs} types={types} />
         ) : (
           <BountyHomepage
-            category={category}
             bounties={bounties}
             watchedBounties={watchedBounties}
             loading={isLoading}
