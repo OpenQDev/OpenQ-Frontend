@@ -96,7 +96,11 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
         {bounty.payouts?.length ? (
           <div className={`flex flex-col pb-6 ${tokenAddresses.length > 1 ? '' : 'w-full'}`}>
             <div
-              className={`grid ${tokenAddresses.length > 1 ? 'grid-cols-[250px_1fr_172px]' : 'grid-cols-[1fr_250px]'}`}
+              className={`grid ${
+                tokenAddresses.length > 1
+                  ? 'grid-cols-[250px_1fr_172px]'
+                  : 'grid-cols-[140px_250px] sm:grid-cols-[1fr_250px]'
+              }`}
             >
               <div className='px-2 pb-2'></div>
               <div className='grid grid-flow-col auto-cols-fr'>
@@ -114,12 +118,14 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                   {switchType(type)}
                   <div
                     className={`grid ${
-                      tokenAddresses.length > 1 ? 'grid-cols-[250px_1fr]' : 'grid-cols-[1fr_250px]'
+                      tokenAddresses.length > 1
+                        ? 'grid-cols-[250px_1fr]'
+                        : 'grid-cols-[140px_250px] sm:grid-cols-[1fr_250px]'
                     } ${styles}`}
                   >
                     <div className=''>
                       {type === 'refundable' || type === 'total' ? (
-                        <div className='flex gap-1 items-center whitespace-nowrap'>
+                        <div className='flex gap-1 items-center sm:whitespace-nowrap'>
                           {title}
                           <ToolTipNew
                             relativePosition={'-left-5'}
