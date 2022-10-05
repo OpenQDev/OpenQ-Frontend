@@ -257,7 +257,6 @@ class OpenQPrismaClient {
       if (category) {
         variables.category = category;
       }
-      console.log(category);
       try {
         const result = await this.client.mutate({
           mutation: GET_USER_BY_HASH,
