@@ -358,7 +358,7 @@ const BountyList = ({
               title='Contract Type'
               names={['Fixed Price', 'Split Price', 'Contest', 'All']}
               borderShape={'rounded-r-lg'}
-            />dsfdfff
+            />dfssddf
           )}
         </div>
       </div>
