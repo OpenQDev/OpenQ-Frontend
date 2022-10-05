@@ -159,7 +159,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                       {tokenAddresses.length > 1 && (
                         <div className='grid grid-cols-[1fr_1fr] px-2 pb-2'>
                           <div className='flex justify-end self-center px-1 mr-1 whitespace-nowrap w-14'>
-                            {((sum[type] / totalDepositValue) * 100).toFixed(0)} %
+                            {totalDepositValue > 0 ? ((sum[type] / totalDepositValue) * 100).toFixed(0) : 'n.a.'} %
                           </div>
                           <div className='flex justify-start self-center px-1 whitespace-nowrap w-24'>
                             {appState.utils.formatter.format(sum[type])}
