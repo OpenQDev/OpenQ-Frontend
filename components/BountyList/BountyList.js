@@ -35,11 +35,14 @@ const BountyList = ({
   const [searchText, updateSearchText] = useState(
     `order:newest ${router.query.type ? `type:"${router.query.type}"` : ''}`
   );
+  const [currentSearchedLabels, setCurrentSearchedLabels] = useState([]);
   const [tagArr, updateTagArr] = useState([]);
   const [searchedBounties, updateSearchedBounties] = useState([]);
   const [isProcessed, updateIsProcessed] = useState(false);
   const [isReady, setIsReady] = useState('Ready for work');
   const [labels, setLabels] = useState([]);
+  const [currentContractTypes, setCurrentContractTypes] = useState([]);
+  const [currentOrder, setCurrentOrder] = useState(['newest']);
   const searchRegex = /label:"[^"]+"/gi;
   const contractTypeRegex = /type:"[^"]+"/gi;
   const orderRegex = /order:(\w+)/gi;
@@ -48,6 +51,7 @@ const BountyList = ({
 
   const fetchPage = () => {
     const sortOrder = searchText.match(orderRegex)?.[0]?.slice(6) || '';
+
     switch (sortOrder) {
       case 'newest':
         {
@@ -111,8 +115,9 @@ const BountyList = ({
     const searchedLabelsWrapped = localSearchText.match(searchRegex) || [];
     const contractsTypesWrapped = localSearchText.match(contractTypeRegex) || [];
     const searchedLabels = searchedLabelsWrapped.map((elem) => elem.slice(7, -1));
+    setCurrentSearchedLabels(searchedLabels);
     const contractType = contractsTypesWrapped.map((elem) => elem.slice(6, -1))[0];
-
+    setCurrentContractTypes([contractType]);
     let types = ['0', '1', '2', '3'];
 
     switch (contractType) {
@@ -191,6 +196,7 @@ const BountyList = ({
       return bounties;
     }
     const toggleTo = newOrder || searchText.match(orderRegex)?.[0]?.slice(6) || '';
+    setCurrentOrder([toggleTo]);
     switch (toggleTo) {
       case 'newest':
         {
@@ -248,8 +254,8 @@ const BountyList = ({
     updateSearchedBounties(orderBounties(filter(bounties, { searchText: e.target.value })));
   };
   const addLabel = (label) => {
-    if (!searchText.includes(label)) {
-      updateSearchText(`${searchText} label:"${label}"`);
+    if (!searchText.includes(`${searchText} label:"${label}"`)) {
+      updateSearchText(`${searchText.trimEnd()} label:"${label}"`);
       updateSearchedBounties(orderBounties(filter(bounties, { searchText: `${searchText} label:"${label}"` })));
     } else {
       updateSearchText(`${searchText.replace(`label:"${label}"`, '').trimEnd()} `);
@@ -257,6 +263,12 @@ const BountyList = ({
         orderBounties(filter(bounties, { searchText: `${searchText.replace(`label:"${label}"`, '')}` }))
       );
     }
+  };
+  const handleRemoveLabel = (label) => {
+    updateSearchText(`${searchText.replace(`label:"${label}"`, '').trimEnd()} `);
+    updateSearchedBounties(
+      orderBounties(filter(bounties, { searchText: `${searchText.replace(`label:"${label}"`, '')}` }))
+    );
   };
 
   const setContractType = (type) => {
@@ -269,6 +281,18 @@ const BountyList = ({
       orderBounties(
         filter(bounties, {
           searchText: `${searchText.replace(contractTypeRegex, '')} type:"${type}"`,
+        })
+      )
+    );
+  };
+
+  const handleRemoveTypeCheck = () => {
+    let newSearch = `${searchText.replace(contractTypeRegex, '')}`.replace(/\s+/g, ' ');
+    updateSearchText(newSearch);
+    updateSearchedBounties(
+      orderBounties(
+        filter(bounties, {
+          searchText: `${searchText.replace(contractTypeRegex, '')} `,
         })
       )
     );
@@ -332,31 +356,36 @@ const BountyList = ({
           />
 
           <Dropdown
+            dropdownWidth='w-36'
             toggleFunc={handleSortBounties}
-            toggleVal={''}
+            toggleVal={currentOrder}
             styles='whitespace-nowrap'
-            width='32'
+            width='w-32'
             title={'Sort Order'}
             names={['newest', 'oldest', 'highest', 'lowest']}
             borderShape={'rounded-r-lg'}
           />
           <Dropdown
+            dropdownWidth='w-52'
             toggleFunc={addLabel}
-            toggleVal={''}
-            styles='whitespace-nowrap'
-            width='24'
+            removeFunc={handleRemoveLabel}
+            toggleVal={currentSearchedLabels}
+            styles='whitespace-nowrap w-56 md:w-24'
+            width='w-24'
             title='Labels'
             names={labels}
             borderShape={'rounded-r-lg'}
           />
           {contractToggle && (
             <Dropdown
+              dropdownWidth='w-36'
               toggleFunc={setContractType}
-              toggleVal={''}
+              removeFunc={handleRemoveTypeCheck}
+              toggleVal={currentContractTypes}
               styles='whitespace-nowrap'
-              width='36'
+              width='w-36'
               title='Contract Type'
-              names={['Fixed Price', 'Split Price', 'Contest', 'All']}
+              names={['Fixed Price', 'Split Price', 'Contest']}
               borderShape={'rounded-r-lg'}
             />
           )}
