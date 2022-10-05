@@ -40,10 +40,10 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
   const [sum, setSum] = useState({});
 
   const changeObj = (claimant, value) => {
-    if (claimant in sum && value) {
+    if (claimant in sum && value >= 0) {
       setSum((prev) => ({ ...prev, [claimant]: prev[claimant] + value }));
     }
-    if (!(claimant in sum) && value) {
+    if (!(claimant in sum) && value >= 0) {
       setSum((prev) => ({ ...prev, [claimant]: value }));
     }
   };
