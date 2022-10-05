@@ -138,7 +138,7 @@ describe('RefundPage', () => {
       {
         id: '0x8f5c1c912b8ffca325a22eadb33d6d54fa8e85b3752f2392eb54ecc6dd24b1e1',
         refunded: false,
-        receiveTime: '1662395948',
+        receiveTime: '1762395948',
         tokenAddress: '0x0000000000000000000000000000000000000000',
         expiration: '2592000',
         volume: '23000000000000000000',
@@ -151,7 +151,7 @@ describe('RefundPage', () => {
         refunded: false,
         receiveTime: '1662395897',
         tokenAddress: '0x0000000000000000000000000000000000000000',
-        expiration: '21592000',
+        expiration: '2592000',
         volume: '23000000000000000000',
         refundTime: null,
         sender: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
