@@ -359,6 +359,7 @@ const BountyList = ({
               names={['Fixed Price', 'Split Price', 'Contest', 'All']}
               borderShape={'rounded-r-lg'}
             />
+            asdfsad
           )}
         </div>
       </div>
@@ -392,7 +393,6 @@ const BountyList = ({
           {searchedBounties.map((bounty, index) => {
             return (
               <div key={bounty.id} ref={index === searchedBounties.length - 1 ? lastElem : null}>
-                {console.log(bounty.category)}
                 <BountyCardLean index={index} length={searchedBounties.length} bounty={bounty} />
               </div>
             );
