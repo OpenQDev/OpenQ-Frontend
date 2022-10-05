@@ -42,7 +42,7 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
     // handle org reload events (caused by user starring org.)
     if (reloadNow) {
       try {
-        const mergedOrgs = await appState.utils.fetchOrganizations(appState, types);
+        const mergedOrgs = await appState.utils.fetchOrganizations(appState, types, category);
         setControlledOrgs(mergedOrgs);
       } catch (err) {
         appState.logger.error(err);
@@ -54,7 +54,7 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
   useEffect(async () => {
     // get watched bounties as soon as we know what the account is.
     if (account == signedAccount && account) {
-      const [watchedBounties] = await appState.utils.fetchWatchedBounties(appState, account, types);
+      const [watchedBounties] = await appState.utils.fetchWatchedBounties(appState, account, types, category);
       setWatchedBounties(watchedBounties || []);
     } else {
       setWatchedBounties([]);
@@ -74,7 +74,10 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
         types,
         sortOrder,
         orderBy,
-        cursor
+        cursor,
+        undefined,
+        undefined,
+        category
       );
       setOffChainCursor(newCursor);
 
@@ -124,10 +127,9 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
         {error ? (
           <UnexpectedError error={error} />
         ) : internalMenu == 'Organizations' ? (
-          <OrganizationHomepage orgs={controlledOrgs} types={types} category={category} />
+          <OrganizationHomepage orgs={controlledOrgs} types={types} />
         ) : (
           <BountyHomepage
-            category={category}
             bounties={bounties}
             watchedBounties={watchedBounties}
             loading={isLoading}
@@ -135,6 +137,7 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
             complete={complete}
             getNewData={getNewData}
             types={types}
+            wizard={category === 'non-profit'}
           />
         )}
       </div>
@@ -148,15 +151,16 @@ export const getServerSideProps = async (ctx) => {
   switch (ctx?.query?.type) {
     case 'fixed-price':
       types = ['0'];
-      category = 'fixed-price';
       break;
     case 'contests':
       types = ['2', '3'];
-      category = 'contest';
       break;
     case 'split-price':
-      category = 'learn2earn';
       types = ['1'];
+      break;
+    case 'non-profit':
+      category = 'non-profit';
+      types = ['0', '1', '2', '3'];
       break;
   }
 
@@ -177,7 +181,8 @@ export const getServerSideProps = async (ctx) => {
         githubRepository: githubRepository.instance,
         openQPrismaClient: openQPrismaClient.instance,
       },
-      types
+      types,
+      category
     );
   } catch (err) {
     logger.error(err);
@@ -192,7 +197,13 @@ export const getServerSideProps = async (ctx) => {
         logger,
       },
       batch,
-      types
+      types,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      category
     );
   } catch (err) {
     logger.error(err);

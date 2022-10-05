@@ -33,9 +33,7 @@ const BountyList = ({
   const [appState] = useContext(StoreContext);
   const router = useRouter();
   const [searchText, updateSearchText] = useState(
-    `order:newest ${
-      router.query.type && router.route === '/organization/[organization]' ? `type:"${router.query.type}"` : ''
-    }`
+    `order:newest ${router.query.type ? `type:"${router.query.type}"` : ''}`
   );
   const [tagArr, updateTagArr] = useState([]);
   const [searchedBounties, updateSearchedBounties] = useState([]);
@@ -104,6 +102,7 @@ const BountyList = ({
     }
   }, [bounties]);
   // NOTE tag search doesn't turn off regular search, it just manages it a little differently.
+
   const filter = (bounties, options = {}) => {
     const localTagArr = options.tagArr || tagArr;
     const localSearchText = options.searchText === undefined ? searchText : options.searchText;
@@ -135,6 +134,7 @@ const BountyList = ({
         ) || searchedLabels.length === 0;
 
       const isType = types.some((type) => type === bounty.bountyType);
+      const isNonProfit = router.query.type === 'non-profit' ? bounty.category === 'non-profit' : true;
       let containsSearch = true;
 
       try {
@@ -171,7 +171,8 @@ const BountyList = ({
           hasLabels &&
           bounty.url &&
           !bounty.blacklisted &&
-          isType
+          isType &&
+          isNonProfit
         );
       } catch (err) {
         appState.logger.error(err);
@@ -247,8 +248,15 @@ const BountyList = ({
     updateSearchedBounties(orderBounties(filter(bounties, { searchText: e.target.value })));
   };
   const addLabel = (label) => {
-    updateSearchText(`${searchText} label:"${label}"`);
-    updateSearchedBounties(orderBounties(filter(bounties, { searchText: `${searchText} label:"${label}"` })));
+    if (!searchText.includes(label)) {
+      updateSearchText(`${searchText} label:"${label}"`);
+      updateSearchedBounties(orderBounties(filter(bounties, { searchText: `${searchText} label:"${label}"` })));
+    } else {
+      updateSearchText(`${searchText.replace(`label:"${label}"`, '').trimEnd()} `);
+      updateSearchedBounties(
+        orderBounties(filter(bounties, { searchText: `${searchText.replace(`label:"${label}"`, '')}` }))
+      );
+    }
   };
 
   const setContractType = (type) => {
@@ -384,6 +392,7 @@ const BountyList = ({
           {searchedBounties.map((bounty, index) => {
             return (
               <div key={bounty.id} ref={index === searchedBounties.length - 1 ? lastElem : null}>
+                {console.log(bounty.category)}
                 <BountyCardLean index={index} length={searchedBounties.length} bounty={bounty} />
               </div>
             );

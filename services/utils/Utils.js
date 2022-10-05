@@ -200,13 +200,13 @@ class Utils {
     }
   };
 
-  fetchOrganizations = async ({ githubRepository, openQPrismaClient }, types) => {
+  fetchOrganizations = async ({ githubRepository, openQPrismaClient }, types, category) => {
     const promise = new Promise(async (resolve, reject) => {
       let githubOrganizations = [];
       const batch = 100;
       let orgData = [];
       try {
-        orgData = await openQPrismaClient.getOrganizations(types, batch);
+        orgData = await openQPrismaClient.getOrganizations(types, batch, category);
       } catch (err) {
         reject(err);
       }
@@ -240,12 +240,13 @@ class Utils {
   fetchBounties = async (
     { openQSubgraphClient, githubRepository, openQPrismaClient, logger },
     batch,
-    category,
+    types,
     sortOrder,
     orderBy,
     cursor,
     organization,
-    address
+    address,
+    category
   ) => {
     const promise = new Promise(async (resolve, reject) => {
       let newCursor;
@@ -256,8 +257,9 @@ class Utils {
           batch,
           sortOrder,
           orderBy,
-          category,
-          organization
+          types,
+          organization,
+          category
         );
         prismaContracts = prismaContractsResult.nodes.filter(
           (contract) => !contract.blacklisted && !contract.organization.blacklisted
@@ -293,13 +295,14 @@ class Utils {
   fetchWatchedBounties = async (
     { openQSubgraphClient, githubRepository, openQPrismaClient, logger },
     account,
-    types
+    types,
+    category
   ) => {
     let subgraphContracts = [];
     let githubIssues = [];
     let prismaContracts = [];
     try {
-      const prismaResult = await openQPrismaClient.getUser(account, types);
+      const prismaResult = await openQPrismaClient.getUser(account, types, category);
       prismaContracts = prismaResult?.watchedBounties.nodes || [];
       const watchedBountyAddresses = prismaResult?.watchedBountyIds.map((address) => address.toLowerCase()) || [];
       const watchedBountyIds = prismaContracts?.map((contract) => contract.bountyId);

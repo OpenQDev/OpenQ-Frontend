@@ -44,7 +44,6 @@ const BountyHomepage = ({
             complete={complete}
             getNewData={getNewData}
             wizard={wizard}
-            category={category}
             types={types}
             contractToggle={contractToggle}
           />
