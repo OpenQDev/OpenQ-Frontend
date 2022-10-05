@@ -3,7 +3,8 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"boot:local": "next dev -p 3005",
+		"boot:local": "next dev -p 3005",		
+    	"postinstall": "husky install",
 		"boot:docker": "DEPLOY_ENV=docker next dev",
 		"boot:development": "DEPLOY_ENV=development next dev",
 		"json-server": "json-server --port 3030 __mocks__/mock-server.json",
