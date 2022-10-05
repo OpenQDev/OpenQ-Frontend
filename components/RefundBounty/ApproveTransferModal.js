@@ -68,7 +68,7 @@ const ApproveTransferModal = ({
   };
   return (
     <div>
-      <div className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 pl-20 outline-none focus:outline-none'>
+      <div className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
         <div ref={modal} className='w-1/4 min-w-[320px]'>
           <div className='border-0 rounded-sm p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none'>
             <div className='flex items-center justify-center border-solid'>

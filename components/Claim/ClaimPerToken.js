@@ -26,7 +26,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type, changeObj }) => {
   );
   const [claimantBalances] = useGetTokenValues(claimantBalancesObj);
   const claimantVolume = formatVolume(claimantBalancesObj?.volume || 0);
-  const claimantValue = claimantBalances?.total;
+  const claimantValue = claimantBalances?.total || 0;
 
   const unlockedDepositsObj = useMemo(
     () =>
@@ -41,12 +41,12 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type, changeObj }) => {
   );
   const [unlockedDepositsValues] = useGetTokenValues(unlockedDepositsObj);
   const unlockedDepositVolume = formatVolume(unlockedDepositsObj?.volume || 0);
-  const unlockedDepositValue = unlockedDepositsValues?.total;
+  const unlockedDepositValue = unlockedDepositsValues?.total || 0;
 
   const claimedBalancesObj = useMemo(() => filterAndAggregate(bounty.payouts), [bounty]);
   const [balanceValuesclaimedBalances] = useGetTokenValues(claimedBalancesObj);
   const claimedVolume = formatVolume(claimedBalancesObj?.volume || 0);
-  const claimedBalances = balanceValuesclaimedBalances?.total;
+  const claimedBalances = balanceValuesclaimedBalances?.total || 0;
 
   const refundableVolume = () => {
     const refundable =
@@ -61,17 +61,17 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type, changeObj }) => {
 
   const stillClaimableObj = useMemo(() => filterAndAggregate(bounty.bountyTokenBalances), [tokenAddress]);
   const [stillClaimableValues] = useGetTokenValues(stillClaimableObj);
-  const stillClaimable = stillClaimableValues?.total ? stillClaimableValues?.total : 0;
+  const stillClaimable = stillClaimableValues?.total || 0;
 
   const refundedObj = useMemo(() => filterAndAggregate(bounty.refunds), [tokenAddress]);
   const [refundedValues] = useGetTokenValues(refundedObj);
   const refundVolume = formatVolume(refundedObj?.volume || 0);
-  const refundedValue = refundedValues?.total ? refundedValues?.total : 0;
+  const refundedValue = refundedValues?.total || 0;
 
   const balanceObjDeposits = useMemo(() => filterAndAggregate(bounty.deposits), [bounty]);
   const [balanceValuesDeposits] = useGetTokenValues(balanceObjDeposits);
   const totalDepositVolume = formatVolume(balanceObjDeposits?.volume || 0);
-  const totalDepositValue = balanceValuesDeposits?.total ? balanceValuesDeposits?.total : 0;
+  const totalDepositValue = balanceValuesDeposits?.total || 0;
 
   const currentDepositVolume = totalDepositVolume - refundVolume;
 
