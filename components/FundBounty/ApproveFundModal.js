@@ -212,6 +212,7 @@ const ApproveFundModal = ({
                       </a>
                     </Link>
                   )}
+                  {/* <div className='col-span-2 text-center'>{message[approveTransferState]}</div> */}
                 </div>
                 {token.address !== '0x0000000000000000000000000000000000000000' ? (
                   <div className='flex px-1.5 gap-2 border-gray-700 border rounded-sm py-1.5 self-center'>
