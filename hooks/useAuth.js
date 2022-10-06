@@ -39,7 +39,7 @@ const useAuth = () => {
   const { account } = useWeb3();
 
   // runs whenever backend changes or account changes.
-  useEffect(() => {
+  useEffect(async () => {
     let didCancel;
     // updates signed account if recieves true.
     async function checkAccount() {
@@ -48,13 +48,13 @@ const useAuth = () => {
         setAuthState({
           type: 'UPDATE_SIGNED_ACCOUNT',
           payload: { addressRecovered: response.data.addressRecovered },
+          isAdmin: response.data.admin,
         });
       }
     }
     if (account) {
-      checkAccount();
+      await checkAccount();
     }
-
     () => (didCancel = true);
   }, [account, reloadNow]);
 

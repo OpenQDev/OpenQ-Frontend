@@ -1,4 +1,4 @@
-import { ApolloClient, HttpLink, InMemoryCache, HttpHeaders } from '@apollo/client';
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 import {
   WATCH_BOUNTY,
   UNWATCH_BOUNTY,
@@ -272,14 +272,14 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async blacklistOrg(bountyId, blackList, secret) {
+  async blacklistOrg(organizationId, blacklist, secret) {
     return new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
           query: BLACKLIST_ORG,
-          variables: { bountyId, blackList },
+          variables: { organizationId, blacklist },
           fetchPolicy: 'no-cache',
-          context: { headers: new HttpHeaders().set('authorization', secret) },
+          context: { headers: { authorization: secret } },
         });
         resolve(result.data);
       } catch (e) {
@@ -288,14 +288,14 @@ class OpenQPrismaClient {
     });
   }
 
-  async blacklistIssue(bountyId, blackList, secret) {
+  async blacklistIssue(bountyId, blacklist, secret) {
     return new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
           query: BLACKLIST_ISSUE,
-          variables: { bountyId, blackList },
+          variables: { bountyId, blacklist },
           fetchPolicy: 'no-cache',
-          context: { headers: new HttpHeaders().set('authorization', secret) },
+          context: { headers: { authorization: secret } },
         });
         resolve(result.data);
       } catch (e) {
