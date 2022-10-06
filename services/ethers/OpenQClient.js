@@ -207,12 +207,12 @@ class OpenQClient {
     return promise;
   }
 
-  async allowance(library, _tokenAddress, _bountyAddress) {
+  async allowance(library, _callerAddress, _tokenAddress, _bountyAddress) {
     const promise = new Promise(async (resolve) => {
       try {
         const signer = library.getSigner();
         const contract = this.ERC20(_tokenAddress, signer);
-        const allowance = await contract.allowance(signer, _bountyAddress);
+        const allowance = await contract.allowance(_callerAddress, _bountyAddress);
         resolve(allowance);
       } catch (err) {
         resolve({ _hex: '0x00', _isBigNumber: true });
