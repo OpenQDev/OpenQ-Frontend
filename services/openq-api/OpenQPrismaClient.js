@@ -1,4 +1,4 @@
-import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
+import { ApolloClient, HttpLink, InMemoryCache, HttpHeaders } from '@apollo/client';
 import {
   WATCH_BOUNTY,
   UNWATCH_BOUNTY,
@@ -16,6 +16,8 @@ import {
   STAR_ORG,
   UN_STAR_ORG,
   GET_ORGANIZATION,
+  BLACKLIST_ISSUE,
+  BLACKLIST_ORG,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
@@ -268,6 +270,38 @@ class OpenQPrismaClient {
       }
     });
     return promise;
+  }
+
+  async blacklistOrg(bountyId, blackList, secret) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: BLACKLIST_ORG,
+          variables: { bountyId, blackList },
+          fetchPolicy: 'no-cache',
+          context: { headers: new HttpHeaders().set('authorization', secret) },
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  async blacklistIssue(bountyId, blackList, secret) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: BLACKLIST_ISSUE,
+          variables: { bountyId, blackList },
+          fetchPolicy: 'no-cache',
+          context: { headers: new HttpHeaders().set('authorization', secret) },
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
   }
 
   async getContractPage(after, limit, sortOrder, orderBy, types, organizationId, category) {

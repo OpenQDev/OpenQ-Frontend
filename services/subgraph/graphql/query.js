@@ -537,3 +537,16 @@ export const GET_CORE_VALUE_METRICS_HISTORIC = gql`
     }
   }
 `;
+export const BLACKLIST_ISSUE = gql`
+  mutation blacklistOrg($bountyId: String, $blackList: Boolean) {
+    blackListOrg(bountyId: $organizationId, blackList: $blacklist)
+    blacklist
+  }
+`;
+export const BLACKLIST_ORG = gql`
+  mutation blacklistOrg($organizationId: String, $blackList: Boolean) {
+    blackListOrg(organizationId: $organizationId, blackList: $blacklist) {
+      blacklist
+    }
+  }
+`;
