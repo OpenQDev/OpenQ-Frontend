@@ -505,3 +505,35 @@ export const SUBSCRIBE_TO_BOUNTY = gql`
     }
   }
 `;
+export const GET_CORE_VALUE_METRICS_CURRENT = gql`
+  query GetCoreValues($currentTimestamp: String) {
+    deposits(where: { receiveTime_gt: $currentTimestamp }) {
+      tokenAddress
+      receiveTime
+      volume
+    }
+    payouts(where: { payoutTime_gt: $currentTimestamp }) {
+      tokenAddress
+      payoutTime
+      volume
+    }
+    bountyFundedTokenBalances {
+      tokenAddress
+      volume
+    }
+  }
+`;
+export const GET_CORE_VALUE_METRICS_HISTORIC = gql`
+  query GetCoreValues($currentTimestamp: String, $previousTimestamp: String) {
+    payouts(where: { payoutTime_lt: $currentTimestamp, payoutTime_gt: $previousTimestamp }) {
+      tokenAddress
+      payoutTime
+      volume
+    }
+    deposits(where: { receiveTime_lt: $currentTimestamp, receiveTime_gt: $previousTimestamp }) {
+      tokenAddress
+      receiveTime
+      volume
+    }
+  }
+`;

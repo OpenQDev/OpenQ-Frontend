@@ -1,7 +1,9 @@
 // Third party
 import React, { useState, useEffect, useRef } from 'react';
+import Exit from '../svg/exit';
+import Check from '../svg/check';
 
-const Dropdown = ({ toggleFunc, toggleVal, names, title, styles, width }) => {
+const Dropdown = ({ toggleFunc, toggleVal, names, title, styles, width, dropdownWidth, removeFunc }) => {
   // Hooks
   const [open, updateOpen] = useState(false);
   const ref = useRef();
@@ -23,26 +25,24 @@ const Dropdown = ({ toggleFunc, toggleVal, names, title, styles, width }) => {
   }, [ref]);
 
   // Methods
-  const handleSelection = (e) => {
-    toggleFunc(e.target.value);
-    updateOpen(() => !open);
+  const addSelection = (e, name) => {
+    if (!toggleVal.includes(name)) toggleFunc(name);
+    e.stopPropagation();
+  };
+  const removeSelection = (e, name) => {
+    e.stopPropagation();
+    removeFunc(name);
   };
 
-  const handleToggle = (e) => {
-    e.preventDefault();
-    updateOpen(!open);
+  const handleToggle = () => {
+    updateOpen(true);
   };
 
   // Render
   return (
-    <details
-      ref={ref}
-      open={open}
-      onClick={handleToggle}
-      className={`max-h-8 ${styles} text-sm text-muted cursor-pointer`}
-    >
+    <details ref={ref} open={open} onClick={handleToggle} className={`h-7 ${styles} text-sm text-muted cursor-pointer`}>
       <summary
-        className={`inline-flex justify-between w-${width} rounded-l-sm border-border-default text-primary rounded-l-smleading-2 py-[5px] px-4`}
+        className={`inline-flex justify-between ${width} rounded-l-sm border-border-default text-primary rounded-l-smleading-2 py-[5px] px-4`}
       >
         {title || toggleVal}
 
@@ -57,18 +57,30 @@ const Dropdown = ({ toggleFunc, toggleVal, names, title, styles, width }) => {
         </svg>
       </summary>
       <div className='w-0'>
-        <ul className='z-20 relative bg-subtle w-60 mt-2 mb-4 shadow-[rgb(1,_4,_9)_0px_8px_24px_0px] border-web-gray border rounded-sm'>
+        <ul
+          className={`z-20 relative bg-subtle ${dropdownWidth} max-h-60 overflow-y-auto mt-2 mb-4 shadow-[rgb(1,_4,_9)_0px_8px_24px_0px] border-web-gray border rounded-sm`}
+        >
           {names.length > 0 ? (
             <>
               {names.map((name) => (
-                <li key={name}>
+                <li className='relative w-full hover:bg-dropdown-hover' key={name}>
                   <button
-                    className='w-full text-left p-2 px-4 hover:bg-dropdown-hover'
-                    onClick={handleSelection}
+                    className={` text-left p-2 ${(!removeFunc || !toggleVal.includes(name)) && 'w-full'}`}
+                    onClick={(e) => addSelection(e, name)}
                     value={name}
                   >
+                    {toggleVal.includes(name) ? (
+                      <Check className='inline mr-2  fill-muted' />
+                    ) : (
+                      <div className='inline-block w-6'></div>
+                    )}
                     {name}
                   </button>
+                  {toggleVal.includes(name) && removeFunc && (
+                    <button onClick={(e) => removeSelection(e, name)}>
+                      <Exit className='inline mr-2 fill-muted  absolute right-0 top-3' />
+                    </button>
+                  )}
                 </li>
               ))}{' '}
             </>

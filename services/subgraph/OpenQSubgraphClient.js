@@ -11,6 +11,8 @@ import {
   GET_ORGANIZATIONS_BY_IDS,
   GET_LEAN_ORGANIZATIONS,
   GET_LEAN_BOUNTIES,
+  GET_CORE_VALUE_METRICS_CURRENT,
+  GET_CORE_VALUE_METRICS_HISTORIC,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 
@@ -113,6 +115,37 @@ class OpenQSubgraphClient {
     });
 
     return promise;
+  }
+
+  getCoreValueMetrics({ currentTimestamp, previousTimestamp }) {
+    return new Promise(async (resolve, reject) => {
+      let currentDeposits, currentClaims, totalBalances;
+      try {
+        const result = await this.client.query({
+          query: GET_CORE_VALUE_METRICS_CURRENT,
+          variables: { currentTimestamp },
+        });
+        console.log(result.data);
+        currentDeposits = result.data.deposits;
+        currentClaims = result.data.payouts;
+        totalBalances = result.data.bountyFundedTokenBalances;
+      } catch (err) {
+        reject(err);
+      }
+      let previousDeposits, previousClaims;
+      try {
+        const result = await this.client.query({
+          query: GET_CORE_VALUE_METRICS_HISTORIC,
+          variables: { currentTimestamp, previousTimestamp },
+        });
+        console.log(result.data);
+        previousDeposits = result.data.deposits;
+        previousClaims = result.data.payouts;
+      } catch (err) {
+        reject(err);
+      }
+      resolve({ currentDeposits, currentClaims, totalBalances, previousDeposits, previousClaims });
+    });
   }
 
   async getUser(id) {
