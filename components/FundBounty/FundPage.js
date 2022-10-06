@@ -183,7 +183,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
     try {
       setShowApproveTransferModal(true);
-      if (token.address != ethers.constants.AddressZero) {
+      if (token.address != ethers.constants.AddressZero && !allowance) {
         setButtonText('Approving');
         setApproveTransferState(APPROVING);
         await openQClient.approve(library, bounty.bountyAddress, token.address, bigNumberVolumeInWei);
@@ -196,7 +196,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
       setApproveTransferState(ERROR);
     }
 
-    if (approveSucceeded) {
+    if (approveSucceeded || allowance) {
       setApproveTransferState(TRANSFERRING);
       try {
         const fundTxnReceipt = await openQClient.fundBounty(
