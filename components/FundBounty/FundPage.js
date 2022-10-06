@@ -143,6 +143,9 @@ const FundPage = ({ bounty, refreshBounty }) => {
       return;
     }
 
+    /* const allowanceBigNumber = await openQClient.allowance(library, account, token.address, bounty.bountyAddress);
+    console.log(token.address != ethers.constants.AddressZero && allowanceBigNumber.gte(bigNumberVolumeInWei)); */
+
     try {
       const callerBalance = await openQClient.balanceOf(library, account, ethers.utils.getAddress(token.address));
       if (callerBalance.noSigner) {
@@ -171,15 +174,12 @@ const FundPage = ({ bounty, refreshBounty }) => {
       return;
     }
 
-    let allowanceBigNumber = 0;
-
     try {
       setShowApproveTransferModal(true);
       if (token.address != ethers.constants.AddressZero) {
         setButtonText('Approving');
         setApproveTransferState(APPROVING);
         await openQClient.approve(library, bounty.bountyAddress, token.address, bigNumberVolumeInWei);
-        allowanceBigNumber = await openQClient.allowance(account, bounty.bountyAddress);
       }
       approveSucceeded = true;
     } catch (error) {
@@ -188,9 +188,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
       setButtonText('Fund');
       setApproveTransferState(ERROR);
     }
-
-    console.log(allowanceBigNumber);
-    // needs allowanceBigNumber >= volume of volumeInWei
 
     if (approveSucceeded) {
       setApproveTransferState(TRANSFERRING);
