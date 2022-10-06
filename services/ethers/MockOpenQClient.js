@@ -100,7 +100,7 @@ class MockOpenQClient {
 
 	async allowance(library, _callerAddress, _tokenAddress, _bountyAddress) {
 		const promise = new Promise(async (resolve, reject) => {
-				resolve(ethers.BigNumber.from("6600000000000000000"));
+				resolve(ethers.BigNumber.from("0"));
 		});
 		return promise;
 	}
