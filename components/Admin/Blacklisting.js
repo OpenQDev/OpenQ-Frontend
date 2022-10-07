@@ -54,7 +54,7 @@ const Blacklisting = () => {
         <input
           name='issue action'
           checked={!blacklistingIssue}
-          onClick={() => setBlacklistingIssue(false)}
+          onChange={() => setBlacklistingIssue(false)}
           id='unblacklist org'
           type='radio'
         />
@@ -63,7 +63,7 @@ const Blacklisting = () => {
         <label htmlFor='blacklist org'>blacklist</label>
         <input
           name='issue action'
-          onClick={() => setBlacklistingIssue(true)}
+          onChange={() => setBlacklistingIssue(true)}
           checked={blacklistingIssue}
           id='blacklist org'
           type='radio'
@@ -78,7 +78,7 @@ const Blacklisting = () => {
       <button onClick={handleIssueBlacklist} className='btn-danger text-lg my-4 w-96 h-16'>
         {issueSuccess
           ? 'Success'
-          : `${blacklistingIssue ? 'B' : 'Unb'}lacklist Issue with ID: {issueId || '<issueId>'}`}
+          : `${blacklistingIssue ? 'B' : 'Unb'}lacklist Issue with ID: ${issueId || '<issueId>'}`}
       </button>
       <label className='block w-full my-2' htmlFor='organizationId'>
         Organization Id
@@ -87,7 +87,7 @@ const Blacklisting = () => {
         <label htmlFor='unblacklist org'>unblacklist</label>
         <input
           name='org action'
-          onClick={() => setBlacklistingOrg(false)}
+          onChange={() => setBlacklistingOrg(false)}
           checked={!blacklistingOrg}
           id='unblacklist org'
           type='radio'
@@ -97,7 +97,7 @@ const Blacklisting = () => {
         <label htmlFor='blacklist org'>blacklist</label>
         <input
           name='org action'
-          onClick={() => setBlacklistingOrg(true)}
+          onChange={() => setBlacklistingOrg(true)}
           checked={blacklistingOrg}
           id='blacklist org'
           type='radio'
@@ -112,7 +112,7 @@ const Blacklisting = () => {
       <button onClick={handleOrgBlacklist} className='btn-danger h-16 text-lg my-4 w-96'>
         {orgSuccess
           ? 'Success'
-          : `${blacklistingOrg ? 'B' : 'Unb'}lacklisting organization with ID: ${orgId || '<organizationId>'}`}
+          : `${blacklistingOrg ? 'B' : 'Unb'}lacklist organization with ID: ${orgId || '<organizationId>'}`}
       </button>
     </div>
   );

@@ -178,6 +178,32 @@ class OpenQPrismaClient {
 		);
 		return promise;
 	}
+
+	 async blacklistOrg() {
+    return new Promise(async (resolve, reject) => {
+    
+			axios.get(`http://localhost:3030/watchedBounties`)
+				.then(result => {
+					resolve({ watchedBounties: result.data });
+				})
+				.catch(error => {
+					reject(error);
+				});
+    });
+  }
+
+  async blacklistIssue() {
+    return new Promise(async (resolve, reject) => {
+    
+			axios.get(`http://localhost:3030/watchedBounties`)
+				.then(result => {
+					resolve({ watchedBounties: result.data });
+				})
+				.catch(error => {
+					reject(error);
+				});
+    });
+  }
 }
 
 export default OpenQPrismaClient;
