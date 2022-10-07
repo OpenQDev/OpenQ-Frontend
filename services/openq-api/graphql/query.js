@@ -238,3 +238,18 @@ export const GET_CONTRACT_PAGE = gql`
     }
   }
 `;
+
+export const BLACKLIST_ISSUE = gql`
+  mutation blacklist($bountyId: String, $blacklist: Boolean) {
+    blackList(bountyId: $bountyId, blackList: $blacklist) {
+      blacklisted
+    }
+  }
+`;
+export const BLACKLIST_ORG = gql`
+  mutation blacklistOrg($organizationId: String, $blacklist: Boolean) {
+    blackListOrg(organizationId: $organizationId, blackList: $blacklist) {
+      blacklisted
+    }
+  }
+`;

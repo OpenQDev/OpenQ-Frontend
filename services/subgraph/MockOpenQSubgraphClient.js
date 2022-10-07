@@ -127,6 +127,57 @@ class MockOpenQSubgraphClient {
 
 		return promise;
 	}
+
+	
+  getCoreValueMetrics({ currentTimestamp, previousTimestamp }) {
+  return new Promise((resolve, reject) => {
+			axios.get(`http://localhost:3030/bounties`)
+				.then(result => {
+				const coreMetrics = {
+				previousClaims: result.data[0].payouts,
+				previousDeposits: result.data[0].deposits,
+				currentClaims: result.data[1].payouts,
+				currentDeposits: result.data[1].deposits
+				
+				
+				} 
+
+					resolve(coreMetrics);
+				})
+				.catch(error => {
+					resolve (null)
+				});
+				
+		});/*
+    return new Promise(async (resolve, reject) => {
+      let currentDeposits, currentClaims, totalBalances;
+      try {
+        const result = await this.client.query({
+          query: GET_CORE_VALUE_METRICS_CURRENT,
+          variables: { currentTimestamp },
+        });
+        console.log(result.data);
+        currentDeposits = result.data.deposits;
+        currentClaims = result.data.payouts;
+        totalBalances = result.data.bountyFundedTokenBalances;
+      } catch (err) {
+        reject(err);
+      }
+      let previousDeposits, previousClaims;
+      try {
+        const result = await this.client.query({
+          query: GET_CORE_VALUE_METRICS_HISTORIC,
+          variables: { currentTimestamp, previousTimestamp },
+        });
+        console.log(result.data);
+        previousDeposits = result.data.deposits;
+        previousClaims = result.data.payouts;
+      } catch (err) {
+        reject(err);
+      }
+      resolve({ currentDeposits, currentClaims, totalBalances, previousDeposits, previousClaims });
+    });*/
+  }
 }
 
 export default MockOpenQSubgraphClient;

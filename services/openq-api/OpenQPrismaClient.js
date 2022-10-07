@@ -16,6 +16,8 @@ import {
   STAR_ORG,
   UN_STAR_ORG,
   GET_ORGANIZATION,
+  BLACKLIST_ISSUE,
+  BLACKLIST_ORG,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
@@ -268,6 +270,38 @@ class OpenQPrismaClient {
       }
     });
     return promise;
+  }
+
+  async blacklistOrg(organizationId, blacklist, secret) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: BLACKLIST_ORG,
+          variables: { organizationId, blacklist },
+          fetchPolicy: 'no-cache',
+          context: { headers: { authorization: secret } },
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  async blacklistIssue(bountyId, blacklist, secret) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: BLACKLIST_ISSUE,
+          variables: { bountyId, blacklist },
+          fetchPolicy: 'no-cache',
+          context: { headers: { authorization: secret } },
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
   }
 
   async getContractPage(after, limit, sortOrder, orderBy, types, organizationId, category) {
