@@ -47,8 +47,7 @@ const useAuth = () => {
       if (response.data.status && !didCancel) {
         setAuthState({
           type: 'UPDATE_SIGNED_ACCOUNT',
-          payload: { addressRecovered: response.data.addressRecovered },
-          isAdmin: response.data.admin,
+          payload: { addressRecovered: response.data.addressRecovered, isAdmin: response.data.admin },
         });
       }
     }
