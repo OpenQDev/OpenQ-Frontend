@@ -38,10 +38,8 @@ describe('Blacklisting', () => {
 
     await user.click(blacklistOrgRadio);
     await user.click(blacklistOrgButton);
-    expect(await screen.findByRole('button', { name: /success/i })).toBeInTheDocument();
     expect(await screen.findByRole('button', { name: /Blacklist org/i })).toBeInTheDocument();
     await user.click(blacklistIssueButton);
-    expect(await screen.findByRole('button', { name: /success/i })).toBeInTheDocument();
     expect(await screen.findByRole('button', { name: /Blacklist issue/i })).toBeInTheDocument();
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
