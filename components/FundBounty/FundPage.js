@@ -26,6 +26,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
   const [approveTransferState, setApproveTransferState] = useState(RESTING);
   const [invoicingModal, setInvoicingModal] = useState();
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
+  const [allowance, setAllowance] = useState();
+
   const zeroAddressMetadata = {
     name: 'Matic',
     address: '0x0000000000000000000000000000000000000000',
@@ -74,7 +76,15 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
   // Methods
 
-  const openFund = () => {
+  const openFund = async () => {
+    const allowanceBigNumber = await openQClient.allowance(library, account, token.address, bounty.bountyAddress);
+    const volumeInWei = volume * 10 ** token.decimals;
+    const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', { useGrouping: false }));
+    setAllowance(
+      allowanceBigNumber > 0
+        ? token.address != ethers.constants.AddressZero && allowanceBigNumber?.gte(bigNumberVolumeInWei)
+        : 0
+    );
     setConfirmationMessage(
       `You are about to fund this bounty at address ${bounty.bountyAddress.substring(
         0,
@@ -173,7 +183,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
     try {
       setShowApproveTransferModal(true);
-      if (token.address != ethers.constants.AddressZero) {
+      if (token.address != ethers.constants.AddressZero && !allowance) {
         setButtonText('Approving');
         setApproveTransferState(APPROVING);
         await openQClient.approve(library, bounty.bountyAddress, token.address, bigNumberVolumeInWei);
@@ -186,7 +196,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
       setApproveTransferState(ERROR);
     }
 
-    if (approveSucceeded) {
+    if (approveSucceeded || allowance) {
       setApproveTransferState(TRANSFERRING);
       try {
         const fundTxnReceipt = await openQClient.fundBounty(
@@ -332,6 +342,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
               volume={volume}
               bountyAddress={bounty.bountyAddress}
               bounty={bounty}
+              allowance={allowance}
             />
           )}
         </div>

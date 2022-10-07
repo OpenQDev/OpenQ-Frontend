@@ -238,6 +238,29 @@ describe('FundPage', () => {
     expect(close).not.toBeInTheDocument();
   });
 
+  it('should go straight to fund when DERC20 approved previously', async () => {
+    // ARRANGE
+    const user = userEvent.setup();
+    render(<FundPage bounty={bounty} refreshBounty={refreshBounty} />);
+
+    // ACT
+    const input = screen.getByLabelText('amount');
+    await user.type(input, '4.8');
+    await user.click(screen.getByText(/Matic/i));
+    await user.click(screen.getAllByText(/derc20/i)[0]);
+    const button = screen.getByRole('button', { name: /Fund/i });
+    await user.click(button);
+    const value = await screen.findByText(/4.8 derc20/i);
+
+    // ASSERT
+    expect(value).toBeInTheDocument();
+    const confirmBtn = await screen.findAllByRole('button', { name: /Fund/i });
+    await user.click(confirmBtn[1]);
+    const modalContent = await screen.findByText(/Transfer Complete/i);
+    await user.click(screen.getByRole('button', { name: 'Close' }));
+    expect(modalContent).not.toBeInTheDocument();
+  });
+
   it('should handle approval errors', async () => {
     // ARRANGE
     InitialState.openQClient.shouldError = true;
