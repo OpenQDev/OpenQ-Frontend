@@ -37,6 +37,14 @@ body:
       placeholder: 500 USDC
     validations:
       required: false
+  - type: input
+    id: timeline
+    attributes:
+      label: 🗓 Timeline/Deadline
+      description: When would you like this completed (calculate from time of Assignment to work)
+      placeholder: Pull Request by 10/02, Work Completion by 10/05
+    validations:
+      required: false
   - type: textarea
     id: screenshots
     attributes:
