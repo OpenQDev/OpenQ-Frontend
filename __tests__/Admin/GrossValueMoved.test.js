@@ -16,6 +16,7 @@ describe('GrossValueMoved', () => {
     expect(await screen.findByText(/Claimed/)).toBeInTheDocument();
     expect(await screen.findByText(/8.04/)).toBeInTheDocument();
     expect(await screen.findAllByText(/335/)).toHaveLength(2);
+    expect(await screen.getAllByText(/October/)).toHaveLength(2);
 
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];

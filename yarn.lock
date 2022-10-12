@@ -2074,7 +2074,7 @@
 
 "@web3-react/gnosis-safe@^8.0.0-beta.0":
   version "8.0.0-beta.0"
-  resolved "https://registry.npmjs.org/@web3-react/gnosis-safe/-/gnosis-safe-8.0.0-beta.0.tgz"
+  resolved "https://registry.yarnpkg.com/@web3-react/gnosis-safe/-/gnosis-safe-8.0.0-beta.0.tgz#def4fa6876431f1d1b5059514493857b4492b645"
   integrity sha512-U2Z8XYt1v/KB4kdqJImFJNNXo9tEP2XLSpf2hVVhpSgJwmvx60tkJcK48XE+qOrb1Ea95gTwwD8buWAqDklBhA==
   dependencies:
     "@gnosis.pm/safe-apps-provider" "^0.11.0"

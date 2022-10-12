@@ -40,12 +40,13 @@ const TokenList = ({
       )
     );
   }
-
+  console.log(fetchedTokens);
   const displayTokens = fetchedTokens.filter((token) => {
     return tokenSearchTerm
       ? token.name.concat(token.symbol).concat(token.address).toLowerCase().indexOf(tokenSearchTerm.toLowerCase()) > -1
       : token;
   });
+  console.log(displayTokens.length);
 
   const getMoreData = async () => {
     setIsComplete(true);
@@ -88,7 +89,7 @@ const TokenList = ({
     onCurrencySelect(token);
     setShowTokenSearch(false);
   }
-
+  console.log(displayTokens.length);
   return (
     <>
       {/* <div style={{ padding: '25px', margin: '10px', outline: '2px solid pink', borderRadius: '20px' }} > */}
