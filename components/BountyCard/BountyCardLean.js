@@ -75,7 +75,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 
   const openModal = () => {
     ReactGA.event({
-      category: 'bountyTypeName',
+      category: bountyTypeName,
       action: 'OPEN_MODAL',
       label: 'address:'.concat(bounty.address),
 

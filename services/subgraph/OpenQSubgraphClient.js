@@ -13,6 +13,7 @@ import {
   GET_LEAN_BOUNTIES,
   GET_CORE_VALUE_METRICS_CURRENT,
   GET_CORE_VALUE_METRICS_HISTORIC,
+  GET_TVL_AND_TVC,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 
@@ -117,18 +118,39 @@ class OpenQSubgraphClient {
     return promise;
   }
 
-  getCoreValueMetrics({ currentTimestamp, previousTimestamp }) {
+  getCoreValueMetrics({ oneMonthAgo, twoMonthsAgo, firstSecond, lastSecond }) {
     return new Promise(async (resolve, reject) => {
-      let currentDeposits, currentClaims, totalBalances;
+      let currentDeposits, currentClaims, totalBalances, claimedBalances;
       try {
         const result = await this.client.query({
           query: GET_CORE_VALUE_METRICS_CURRENT,
-          variables: { currentTimestamp },
+          variables: { startTimestamp: oneMonthAgo },
         });
-        console.log(result.data);
         currentDeposits = result.data.deposits;
         currentClaims = result.data.payouts;
+      } catch (err) {
+        reject(err);
+      }
+
+      try {
+        const result = await this.client.query({
+          query: GET_TVL_AND_TVC,
+          variables: { startTimestamp: oneMonthAgo },
+        });
         totalBalances = result.data.bountyFundedTokenBalances;
+        claimedBalances = result.data.payouts;
+      } catch (err) {
+        reject(err);
+      }
+
+      let definedDeposits, definedClaims;
+      try {
+        const result = await this.client.query({
+          query: GET_CORE_VALUE_METRICS_HISTORIC,
+          variables: { endTimestamp: lastSecond, startTimestamp: firstSecond },
+        });
+        definedDeposits = result.data.deposits;
+        definedClaims = result.data.payouts;
       } catch (err) {
         reject(err);
       }
@@ -136,15 +158,23 @@ class OpenQSubgraphClient {
       try {
         const result = await this.client.query({
           query: GET_CORE_VALUE_METRICS_HISTORIC,
-          variables: { currentTimestamp, previousTimestamp },
+          variables: { endTimestamp: oneMonthAgo, startTimestamp: twoMonthsAgo },
         });
-        console.log(result.data);
         previousDeposits = result.data.deposits;
         previousClaims = result.data.payouts;
       } catch (err) {
         reject(err);
       }
-      resolve({ currentDeposits, currentClaims, totalBalances, previousDeposits, previousClaims });
+      resolve({
+        currentDeposits,
+        currentClaims,
+        totalBalances,
+        previousDeposits,
+        previousClaims,
+        definedClaims,
+        definedDeposits,
+        claimedBalances,
+      });
     });
   }
 

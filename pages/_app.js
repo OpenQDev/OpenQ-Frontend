@@ -31,17 +31,20 @@ function OpenQ({ Component, pageProps }) {
       {/* Global Site Tag (gtag.js) - Google Analytics */}
 
       <Script
-        strategy='lazyOnload'
-        dangerouslySETInnerHTML={{
-          __html: ` (function(h,o,t,j,a,r){
-        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-        h._hjSettings={hjid:3177116,hjsv:6};
-        a=o.getElementsByTagName('head')[0];
-        r=o.createElement('script');r.async=1;
-        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-        a.appendChild(r);
-    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-  `,
+        onLoad={() => {
+          (function (h, o, t, j, a, r) {
+            h.hj =
+              h.hj ||
+              function () {
+                (h.hj.q = h.hj.q || []).push(arguments);
+              };
+            h._hjSettings = { hjid: 3177116, hjsv: 6 };
+            a = o.getElementsByTagName('head')[0];
+            r = o.createElement('script');
+            r.async = 1;
+            r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+            a.appendChild(r);
+          })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
         }}
       />
 
@@ -49,7 +52,7 @@ function OpenQ({ Component, pageProps }) {
         <title>OpenQ | Tempo Engineering, scale better with Atomic Contracts</title>
         <meta name='OpenQ Bounties' content='width=device-width, initial-scale=1.0' />
         <link rel='icon' href='/openq-logo.png' />
-        <link rel='manifest' href='/manifest.json' />
+        <link rel='manifest' href='/manifest.json' crossOrigin='use-credentials' />
         <script type='text/javascript'>
           {`window['__ls_namespace'] = 'LiveSession';
     window['__ls_script_url'] = 'https://cdn.livesession.io/track.js';
