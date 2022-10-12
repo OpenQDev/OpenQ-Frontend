@@ -3,8 +3,8 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"boot:local": "next dev -p 3005",		
-    	"prepare": "husky install",
+		"boot:local": "next dev -p 3005",
+		"prepare": "husky install",
 		"boot:docker": "DEPLOY_ENV=docker next dev",
 		"boot:development": "DEPLOY_ENV=development next dev",
 		"json-server": "json-server --port 3030 __mocks__/mock-server.json",
@@ -68,6 +68,7 @@
 		"react": "17.0.2",
 		"react-dom": "17.0.2",
 		"react-ga4": "^1.4.1",
+		"react-hotjar": "^5.1.0",
 		"react-loading-skeleton": "3.0.3",
 		"sharp": "^0.30.3",
 		"stream-browserify": "^3.0.0",

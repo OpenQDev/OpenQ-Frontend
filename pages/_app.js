@@ -5,7 +5,6 @@ import { ethers } from 'ethers';
 import 'tailwindcss/tailwind.css';
 import 'github-markdown-css/github-markdown-dark.css';
 import { useRouter } from 'next/router';
-import Script from 'next/script';
 
 // Custom
 import '../styles/globals.css';
@@ -15,6 +14,7 @@ import Navigation from '../components/Layout/Navigation';
 import Head from 'next/head';
 import Footer from '../components/Layout/Footer';
 import ReactGA from 'react-ga4';
+import { hotjar } from 'react-hotjar';
 
 function OpenQ({ Component, pageProps }) {
   function getLibrary(provider) {
@@ -24,29 +24,29 @@ function OpenQ({ Component, pageProps }) {
   }
   useEffect(() => {
     ReactGA.initialize(process.env.NEXT_PUBLIC_GA_TRACKING_ID);
+
+    const hjid = '3177116';
+    const hjsv = '6';
+    hotjar.initialize(hjid, hjsv);
+
+    // Identify the user
+    hotjar.identify('USER_ID', { userProperty: 'value' });
+
+    // Add an event
+    hotjar.event('button-click');
+
+    // Update SPA state
+    hotjar.stateChange('/my/page');
+
+    // Check if Hotjar has been initialized before calling its methods
+    if (hotjar.initialized()) {
+      hotjar.identify('USER_ID', { userProperty: 'value' });
+    }
   }, []);
   const router = useRouter();
   return (
     <div className='bg-dark-mode font-segoe text-primary'>
       {/* Global Site Tag (gtag.js) - Google Analytics */}
-
-      <Script
-        onLoad={() => {
-          (function (h, o, t, j, a, r) {
-            h.hj =
-              h.hj ||
-              function () {
-                (h.hj.q = h.hj.q || []).push(arguments);
-              };
-            h._hjSettings = { hjid: 3177116, hjsv: 6 };
-            a = o.getElementsByTagName('head')[0];
-            r = o.createElement('script');
-            r.async = 1;
-            r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
-            a.appendChild(r);
-          })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
-        }}
-      />
 
       <Head>
         <title>OpenQ | Tempo Engineering, scale better with Atomic Contracts</title>
