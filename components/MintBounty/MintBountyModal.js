@@ -349,9 +349,11 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                 <div className='flex flex-col items-center pl-6 pr-6'>
                   <MintBountyInput setIssueUrl={setIssueUrl} issueData={issue} url={url} isValidUrl={isValidUrl} />
                 </div>
-                {isValidUrl && !issue && <div className='flex flex-col items-center pt-5 '>Github Issue not found</div>}
+                {isValidUrl && !issue?.url.includes('/issues/') && (
+                  <div className='flex flex-col items-center pt-2 pb-4 '>Github Issue not found</div>
+                )}
                 <div className='flex flex-col items-center space-x-1 px-8'>
-                  {isValidUrl && issue?.closed && !bountyAddress && (
+                  {isValidUrl && issue?.url.includes('/issues/') && issue?.closed && !bountyAddress && (
                     <div className='text-center pt-3 '>This issue is already closed on GitHub</div>
                   )}
                   {isValidUrl && bountyAddress && issue && (

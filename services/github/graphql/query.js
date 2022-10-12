@@ -21,6 +21,7 @@ export const GET_ISSUE = gql`
         id
         titleHTML
         bodyHTML
+        url
         repository {
           name
           owner {
