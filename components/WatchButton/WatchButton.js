@@ -4,7 +4,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import watchBounty from './watchBounty';
 
 const WatchButton = ({ unWatchable, watchingState, bounty }) => {
-  const { account } = useWeb3();
+  const { account, safe } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
   const [watchDisabled, setWatchDisabled] = useState();
   const [watchingDisplay, setWatchingDisplay] = useState();
@@ -47,7 +47,7 @@ const WatchButton = ({ unWatchable, watchingState, bounty }) => {
   };
   return (
     <div>
-      {!unWatchable && account && (
+      {!unWatchable && !safe && account && (
         <button
           onClick={handleWatch}
           disabled={watchDisabled}
