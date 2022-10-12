@@ -6,15 +6,16 @@ import useAuth from '../../hooks/useAuth';
 const AuthorizedOnly = ({ children }) => {
   const [appState, dispatch] = useContext(StoreContext);
   const [showPage, setShowPage] = useState();
+  const [isSigned, setIsSigned] = useState();
   const [authState] = useAuth();
   const { account } = useWeb3();
 
   useEffect(() => {
-    console.log(authState);
     if (authState.isAdmin) {
       setShowPage(true);
     }
-  }, [authState]);
+    setIsSigned(authState.signedAccount === account);
+  }, [authState, account]);
   const signIn = async () => {
     const signMessage = async () => {
       const message = 'OpenQ';
@@ -24,9 +25,7 @@ const AuthorizedOnly = ({ children }) => {
       });
       return signature;
     };
-    const response = await appState.authService.hasSignature(account);
-
-    if (response.data.status === false) {
+    if (!isSigned) {
       const signature = await signMessage();
       await appState.authService.verifySignature(account, signature);
 
@@ -44,7 +43,11 @@ const AuthorizedOnly = ({ children }) => {
         { ...children }
       ) : (
         <div className='flex flex-col content-center justify-center gap-4 items-center min-h-[calc(100vh_-_246px)] text-xl font-semibold  text-muted'>
-          <div>signed in account does not have access to this page.</div>
+          <div>
+            {isSigned
+              ? 'signed in account does not have access to this page. Please switch to an account that does then sign in.'
+              : 'current account not signed in'}
+          </div>
           <button className='btn-primary px-4' onClick={signIn}>
             sign in with ethereum
           </button>
