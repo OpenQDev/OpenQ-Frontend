@@ -22,10 +22,25 @@ module.exports = () => {
     NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS: process.env.CLAIM_MANAGER_PROXY_ADDRESS,
     NEXT_PUBLIC_BUILD_NUMBER: process.env.BUILD_NUMBER,
   };
+  const headers = [
+    { key: 'Access-Control-Allow-Origin', value: '*' },
+    { key: 'Access-Control-Allow-Methods', value: 'GET' },
+    { key: 'Access-Control-Allow-Headers', value: 'X-Requested-With, content-type, Authorization' },
+  ];
 
   const config = {
     reactStrictMode: true,
     env,
+
+    async headers() {
+      return [
+        {
+          // matching all API routes
+          source: '/mainfest.json',
+          headers,
+        },
+      ];
+    },
     images: {
       domains: [
         'githubusercontent.com',
