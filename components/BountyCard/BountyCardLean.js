@@ -200,7 +200,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                   <div className='whitespace-nowrap'>{bountyTypeName}</div>
                 </span>
 
-                {tokenValues?.total > budget ? (
+                {tokenValues?.total >= budget ? (
                   <div className='flex flex-row space-x-1 w-min items-center'>
                     <div className='pr-2 pt-1 w-4'>
                       <Image src='/crypto-logos/ETH-COLORED.png' alt='avatarUrl' width='12' height='20' />

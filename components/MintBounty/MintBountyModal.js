@@ -273,7 +273,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
     if (e.target.value === '') {
       return;
     }
-    const newTierArr = Array.from({ length: e.target.value }, (_, i) => i + 1);
+    const newTierArr = Array.from({ length: e.target.value }, (_, i) => i);
     setTierArr(newTierArr);
     const newTierVolumes = {};
     newTierArr.forEach((tier) => {

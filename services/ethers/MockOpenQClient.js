@@ -98,6 +98,17 @@ class MockOpenQClient {
 		return promise;
 	}
 
+	async allowance(library, _callerAddress, _tokenAddress, _bountyAddress) {
+		const promise = new Promise(async (resolve, reject) => {
+			if(_tokenAddress === '0x5FbDB2315678afecb367f032d93F642f64180aa3' || _tokenAddress === '0x0000000000000000000000000000000000000000') {
+				resolve(ethers.BigNumber.from("0"));
+			} else {
+				resolve(ethers.BigNumber.from("6600000000000000000"));
+			}
+		});
+		return promise;
+	}
+
 	async approve(library, _bountyAddress, _tokenAddress, _value) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {

@@ -53,7 +53,7 @@ function OpenQ({ Component, pageProps }) {
         <meta name='OpenQ Bounties' content='width=device-width, initial-scale=1.0' />
         <link rel='icon' href='/openq-logo.png' />
         <link rel='manifest' href='/manifest.json' crossOrigin='use-credentials' />
-        <Script type='text/javascript' strategy='lazyOnload'>
+        <script type='text/javascript'>
           {`window['__ls_namespace'] = 'LiveSession';
     window['__ls_script_url'] = 'https://cdn.livesession.io/track.js';
     !function(w, d, t, u, n) {
@@ -77,7 +77,7 @@ function OpenQ({ Component, pageProps }) {
             })
         }
     });`}
-        </Script>
+        </script>
       </Head>
       <>
         <AuthProvider>

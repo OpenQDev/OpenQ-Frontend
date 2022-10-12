@@ -24,6 +24,7 @@ const ApproveFundModal = ({
   volume,
   bountyAddress,
   bounty,
+  allowance,
   /*openInvoicingModal*/
 }) => {
   const modal = useRef();
@@ -212,8 +213,9 @@ const ApproveFundModal = ({
                       </a>
                     </Link>
                   )}
+                  {/* <div className='col-span-2 text-center'>{message[approveTransferState]}</div> */}
                 </div>
-                {token.address !== '0x0000000000000000000000000000000000000000' ? (
+                {token.address !== '0x0000000000000000000000000000000000000000' && !allowance ? (
                   <div className='flex px-1.5 gap-2 border-gray-700 border rounded-sm py-1.5 self-center'>
                     <button
                       onClick={confirmMethod}
@@ -245,7 +247,7 @@ const ApproveFundModal = ({
                   <button
                     onClick={confirmMethod}
                     disabled={approveTransferState !== CONFIRM}
-                    className={`py-1.5 flex justify-center gap-4 ${fundStyles[approveTransferState]}`}
+                    className={`py-1.5 flex justify-center gap-4 ${approveStyles[approveTransferState]}`}
                   >
                     <span>{approveTransferState === TRANSFERRING ? 'Funding' : 'Fund'}</span>
                     {approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
