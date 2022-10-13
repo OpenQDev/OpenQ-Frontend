@@ -576,7 +576,13 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                       account={account}
                       isOnCorrectNetwork={isOnCorrectNetwork}
                       enableMint={
-                        (enableContest && enableMint && isOnCorrectNetwork && !issue?.closed && !isLoading) || !account
+                        (enableContest &&
+                          enableMint &&
+                          isOnCorrectNetwork &&
+                          !issue?.closed &&
+                          issue?.url.includes('/issues/') &&
+                          !isLoading) ||
+                        !account
                       }
                       transactionPending={isLoading}
                     />
