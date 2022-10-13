@@ -557,12 +557,18 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                   <ToolTipNew
                     outerStyles={''}
                     hideToolTip={
-                      (enableContest && enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading
+                      (enableContest &&
+                        enableMint &&
+                        isOnCorrectNetwork &&
+                        !issue?.closed &&
+                        account &&
+                        issue?.url.includes('/issues/')) ||
+                      isLoading
                     }
                     toolTipText={
-                      issue?.closed
+                      issue?.closed && issue?.url.includes('/issues/')
                         ? 'Issue closed'
-                        : account && isOnCorrectNetwork && !enableMint
+                        : account && isOnCorrectNetwork && (!enableMint || !issue?.url.includes('/issues/'))
                         ? 'Please choose an elgible issue.'
                         : !enableContest
                         ? 'Please make sure the sum of tier percentages adds up to 100.'
