@@ -46,8 +46,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
   const marker = appState.utils.getBountyMarker(bounty, authState.login);
   useEffect(() => {
     if (isModal) {
-      document.body.style.height = '100vh';
-      document.body.style.overflowY = 'hidden';
+      document.body.classList.add('invisible-scrollbar');
     } else {
       document.body.style.height = 'auto';
       document.body.style.overflowY = 'auto';
