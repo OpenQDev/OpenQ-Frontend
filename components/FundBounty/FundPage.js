@@ -86,14 +86,9 @@ const FundPage = ({ bounty, refreshBounty }) => {
         : 0
     );
     setConfirmationMessage(
-      `You are about to fund this bounty at address ${bounty.bountyAddress.substring(
-        0,
-        12
-      )}...${bounty.bountyAddress.substring(32)} with ${volume} ${token.name}.
-									
-									This will be refundable after ${depositPeriodDays} ${depositPeriodDays == 1 ? 'day' : 'days'}.
-									
-									Is this correct?`
+      `You are in the process of funding this contract. <br /> Your funds will be locked for ${depositPeriodDays} ${
+        depositPeriodDays == 1 ? 'day' : 'days'
+      }.`
     );
     setApproveTransferState(CONFIRM);
     setShowApproveTransferModal(true);

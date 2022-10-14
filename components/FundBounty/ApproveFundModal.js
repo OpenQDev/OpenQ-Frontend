@@ -190,7 +190,7 @@ const ApproveFundModal = ({
               </>
             ) : (
               <>
-                <div className='text-md gap-4 py-6 pb-[68px] px-4 grid grid-cols-[1fr_1fr] w-full justify-between'>
+                <div className='text-md gap-4 py-6 pb-4 px-4 grid grid-cols-[1fr_1fr] w-full justify-between'>
                   <div className='w-4'>Funding</div>
                   <div className='flex flex-wrap justify-between w-[120px] gap-2'>
                     <Image
@@ -213,7 +213,10 @@ const ApproveFundModal = ({
                       </a>
                     </Link>
                   )}
-                  {/* <div className='col-span-2 text-center'>{message[approveTransferState]}</div> */}
+                  <div
+                    className='py-4 col-span-2 text-center'
+                    dangerouslySetInnerHTML={{ __html: message[approveTransferState] }}
+                  />
                 </div>
                 {token.address !== '0x0000000000000000000000000000000000000000' && !allowance ? (
                   <div className='flex px-1.5 gap-2 border-gray-700 border rounded-sm py-1.5 self-center'>
