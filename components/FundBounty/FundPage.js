@@ -242,8 +242,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
           <BountyClosed bounty={bounty} />
         </>
       ) : (
-        <div className='flex flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
-          <div className='flex flex-col w-full space-y-5 pb-4 items-center md:border rounded-sm border-gray-700'>
+        <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
+          <div className='flex flex-col w-full space-y-5 pb-8 items-center md:border rounded-sm border-gray-700'>
             <div className='flex text-3xl w-full text-primary justify-center px-16 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
               Escrow Funds{' '}
               {bounty.bountyType === '0'
