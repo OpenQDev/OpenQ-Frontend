@@ -7,7 +7,7 @@ export default function MintBountyInput({ setIssueUrl, issueData, isValidUrl, ur
     <div className='flex flex-col w-full'>
       <div
         className={`flex flex-col w-full items-start p-2 rounded-sm py-1 text-base bg-[#161B22]  ${
-          isValidUrl && issueData ? 'pt-5' : null
+          isValidUrl && issueData?.url.includes('/issues/') ? 'pt-5' : null
         }`}
       >
         <div className='flex items-center gap-2'>
@@ -31,7 +31,7 @@ export default function MintBountyInput({ setIssueUrl, issueData, isValidUrl, ur
           }}
         />
       </div>
-      {isValidUrl && issueData ? <IssueDetailsBubble issueData={issueData} /> : null}
+      {isValidUrl && issueData?.url.includes('/issues/') ? <IssueDetailsBubble issueData={issueData} /> : null}
     </div>
   );
 }

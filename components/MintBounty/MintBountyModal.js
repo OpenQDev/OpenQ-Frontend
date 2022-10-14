@@ -349,9 +349,11 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                 <div className='flex flex-col items-center pl-6 pr-6'>
                   <MintBountyInput setIssueUrl={setIssueUrl} issueData={issue} url={url} isValidUrl={isValidUrl} />
                 </div>
-                {isValidUrl && !issue && <div className='flex flex-col items-center pt-5 '>Github Issue not found</div>}
+                {isValidUrl && !issue?.url.includes('/issues/') && (
+                  <div className='flex flex-col items-center pt-2 pb-4 '>Github Issue not found</div>
+                )}
                 <div className='flex flex-col items-center space-x-1 px-8'>
-                  {isValidUrl && issue?.closed && !bountyAddress && (
+                  {isValidUrl && issue?.url.includes('/issues/') && issue?.closed && !bountyAddress && (
                     <div className='text-center pt-3 '>This issue is already closed on GitHub</div>
                   )}
                   {isValidUrl && bountyAddress && issue && (
@@ -555,12 +557,18 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                   <ToolTipNew
                     outerStyles={''}
                     hideToolTip={
-                      (enableContest && enableMint && isOnCorrectNetwork && !issue?.closed && account) || isLoading
+                      (enableContest &&
+                        enableMint &&
+                        isOnCorrectNetwork &&
+                        !issue?.closed &&
+                        account &&
+                        issue?.url.includes('/issues/')) ||
+                      isLoading
                     }
                     toolTipText={
-                      issue?.closed
+                      issue?.closed && issue?.url.includes('/issues/')
                         ? 'Issue closed'
-                        : account && isOnCorrectNetwork && !enableMint
+                        : account && isOnCorrectNetwork && (!enableMint || !issue?.url.includes('/issues/'))
                         ? 'Please choose an elgible issue.'
                         : !enableContest
                         ? 'Please make sure the sum of tier percentages adds up to 100.'
@@ -574,7 +582,13 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                       account={account}
                       isOnCorrectNetwork={isOnCorrectNetwork}
                       enableMint={
-                        (enableContest && enableMint && isOnCorrectNetwork && !issue?.closed && !isLoading) || !account
+                        (enableContest &&
+                          enableMint &&
+                          isOnCorrectNetwork &&
+                          !issue?.closed &&
+                          issue?.url.includes('/issues/') &&
+                          !isLoading) ||
+                        !account
                       }
                       transactionPending={isLoading}
                     />

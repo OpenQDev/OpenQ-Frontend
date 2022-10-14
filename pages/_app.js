@@ -65,7 +65,7 @@ function OpenQ({ Component, pageProps }) {
           var s = d.getElementsByTagName(t)[0]; s.parentNode.insertBefore(ls, s);
       }(window, document, 'script', window['__ls_script_url'], window['__ls_namespace']);
   
-      LiveSession("init", "e91cab7c.5a8a3643", { keystrokes: false, rootHostname : '.openq.dev' });
+      LiveSession("init", "e91cab7c.f76e7165", { keystrokes: false, rootHostname : '.openq.dev' });
       LiveSession("newPageView");
       LiveSession("getSessionURL", function(url, isNewSession){
         if(isNewSession){
