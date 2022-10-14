@@ -185,7 +185,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
                   <div className='flex items-center col-span-3 pb-8'>
                     <AuthButton
                       hideSignOut={true}
-                      redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyId}/${bounty.bountyAddress}`}
+                      redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.bountyAddress}`}
                     />
                   </div>
                   {showClaimLoadingModal && (

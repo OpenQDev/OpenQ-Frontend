@@ -88,7 +88,7 @@ const Navigation = () => {
         .filter((bounty) => !bounty.blacklisted && !bounty.organization.blacklisted);
       const searchable = [...fullBounties, ...fullOrgs].map((searchableItem) => {
         const url = searchableItem.title
-          ? `${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${searchableItem.bountyId}/${searchableItem.bountyAddress}`
+          ? `${process.env.NEXT_PUBLIC_BASE_URL}/contract/${searchableItem.bountyId}/${searchableItem.bountyAddress}`
           : `${process.env.NEXT_PUBLIC_BASE_URL}/organization/${searchableItem.login}`;
         const name = searchableItem.name || searchableItem.title || searchableItem.login;
         const searchItemUrl = searchableItem.url;

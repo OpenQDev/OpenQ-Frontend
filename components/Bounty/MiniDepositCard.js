@@ -38,7 +38,7 @@ const MiniDepositCard = ({ deposit, showLink, id }) => {
       }
     >
       {showLink && (
-        <Link href={`/bounty/${deposit.bounty.bountyId}/${deposit.bounty.id}`}>
+        <Link href={`/contract/${deposit.bounty.bountyId}/${deposit.bounty.id}`}>
           <h3 className='text-xl font-semibold leading-none underline cursor-pointer pb-2'>{title}</h3>
         </Link>
       )}

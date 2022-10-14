@@ -201,7 +201,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
       );
       sessionStorage.setItem('justMinted', true);
       refreshBounty(bountyAddress);
-      await router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress.toLowerCase()}`);
+      await router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${issue.id}/${bountyAddress.toLowerCase()}`);
       if (modalVisibility) {
         modalVisibility(false);
       }

@@ -24,7 +24,7 @@ const MiniBountyCard = ({ payout }) => {
   }, [payout]);
 
   return (
-    <Link href={`/bounty/${payout.bounty.bountyId}/${payout.bounty.id}`}>
+    <Link href={`/contract/${payout.bounty.bountyId}/${payout.bounty.id}`}>
       <a>
         <div className='border-border-colour hover:bg-active-gray bg-inactive-gray border rounded-sm px-6 py-2 my-4 cursor-pointer'>
           <div className=''>{title}</div>
