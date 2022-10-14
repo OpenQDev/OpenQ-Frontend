@@ -114,7 +114,7 @@ const OrganizationCard = ({ organization }) => {
           <div className=' rounded shadow-md text-gray-300 text-lg font-sans relative'>
             {orgBounties && `${orgBounties.length}`}
             {orgBounties ? (
-              `${orgBounties.length === 1 ? ' Bounty' : ' Bounties'}`
+              `${orgBounties.length === 1 ? ' Contract' : ' Contracts'}`
             ) : (
               <Skeleton width={'64px'} height={'16px'} baseColor={'#333'} />
             )}

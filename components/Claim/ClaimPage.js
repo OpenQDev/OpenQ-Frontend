@@ -162,10 +162,10 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
                         account && isOnCorrectNetwork && authState.isAuthenticated
                           ? "Please indicate the volume you'd like to claim with."
                           : account && authState.isAuthenticated
-                          ? 'Please switch to the correct network to claim this bounty.'
+                          ? 'Please switch to the correct network to claim this contract.'
                           : !account
-                          ? 'Connect your wallet to claim this bounty!'
-                          : 'Connect your GitHub account to claim this bounty!'
+                          ? 'Connect your wallet to claim this contract!'
+                          : 'Connect your GitHub account to claim this contract!'
                       }
                     >
                       <button

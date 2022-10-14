@@ -8,7 +8,7 @@ import Image from 'next/image';
 import useWeb3 from '../../hooks/useWeb3';
 
 const BountyLinks = ({ bounty, hideBountyLink }) => {
-  const tweetText = `Check out this bounty ${
+  const tweetText = `Check out this contract ${
     bounty?.owner && `for ${bounty?.owner}`
   } on OpenQ. You can claim it just by making a pull request that completes the issue! `;
   const { safe } = useWeb3();

@@ -133,7 +133,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                     innerStyles={'w-48 whitespace-normal'}
                     mobileX={10}
                     toolTipText={
-                      'This bounty is already closed, if claims have been made on this competition, you may not be able to refund your deposit.'
+                      'This contract is already closed, if claims have been made on this competition, you may not be able to refund your deposit.'
                     }
                   >
                     <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>

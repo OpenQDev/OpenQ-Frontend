@@ -263,7 +263,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
                     groupStyles={''}
                     innerStyles={'whitespace-normal md:w-96 sm:w-60 w-40  '}
                     toolTipText={
-                      'This is the number of days that your deposit will be in escrow. After this many days, your deposit will be fully refundable if the bounty has still not been claimed.'
+                      'This is the number of days that your deposit will be in escrow. After this many days, your deposit will be fully refundable if the contract has still not been claimed.'
                     }
                   >
                     <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
@@ -292,12 +292,12 @@ const FundPage = ({ bounty, refreshBounty }) => {
                 hideToolTip={account && isOnCorrectNetwork && !loadingClosedOrZero}
                 toolTipText={
                   account && isOnCorrectNetwork && !(depositPeriodDays > 0)
-                    ? "Please indicate how many days you'd like to fund your bounty for."
+                    ? "Please indicate how many days you'd like to fund your contract for."
                     : account && isOnCorrectNetwork
                     ? "Please indicate the volume you'd like to fund with. Must be between 0.0000001 and 1,000,000."
                     : account
-                    ? 'Please switch to the correct network to fund this bounty.'
-                    : 'Connect your wallet to fund this bounty!'
+                    ? 'Please switch to the correct network to fund this contract.'
+                    : 'Connect your wallet to fund this contract!'
                 }
               >
                 <button
