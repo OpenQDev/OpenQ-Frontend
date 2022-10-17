@@ -40,20 +40,20 @@ const TokenList = ({
       )
     );
   }
-  console.log(fetchedTokens);
   const displayTokens = fetchedTokens.filter((token) => {
     return tokenSearchTerm
       ? token.name.concat(token.symbol).concat(token.address).toLowerCase().indexOf(tokenSearchTerm.toLowerCase()) > -1
       : token;
   });
-  console.log(displayTokens.length);
 
   const getMoreData = async () => {
     setIsComplete(true);
     const newPolygonTokens = await appState.tokenClient.getTokenMetadata(cursor, batch, 'polygon');
     setCursor(batch + cursor);
     setPolygonTokens([...polygonTokens, ...newPolygonTokens]);
-    if (newPolygonTokens.length === batch) {
+    console.log(newPolygonTokens, newPolygonTokens.length, batch);
+    if (newPolygonTokens.length !== 0) {
+      console.log('exec');
       setIsComplete(false);
     }
   };
@@ -83,7 +83,7 @@ const TokenList = ({
     if (displayTokens.length === 0 && !isComplete && lists.polygon) {
       getMoreData();
     }
-  }, [tokenSearchTerm]);
+  }, [tokenSearchTerm, isComplete]);
 
   function onSelect(token) {
     onCurrencySelect(token);
