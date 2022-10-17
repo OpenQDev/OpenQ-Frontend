@@ -226,21 +226,17 @@ const FundPage = ({ bounty, refreshBounty }) => {
     if (approveSucceeded || allowance) {
       setApproveTransferState(TRANSFERRING);
       try {
-        const addressOfNft = pickedNft.tokenAddress;
-        const tokenId = pickedNft.tokenId;
-
-        const fundTxnReceipt = await openQClient.fundBountyWithNft(
+        const fundTxnReceipt = await openQClient.fundBounty(
           library,
           bounty.bountyAddress,
-          '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512',
-          tokenId,
+          token.address,
+          bigNumberVolumeInWei,
           depositPeriodDays
         );
-        console.log(fundTxnReceipt);
-        //  setTransactionHash(fundTxnReceipt.events[0].transactionHash);
-        //setApproveTransferState(SUCCESS);
-        //setSuccessMessage(`Successfully funded issue ${bounty.url} with ${volume} ${token.symbol}!`);
-        //refreshBounty();
+        setTransactionHash(fundTxnReceipt.events[0].transactionHash);
+        setApproveTransferState(SUCCESS);
+        setSuccessMessage(`Successfully funded issue ${bounty.url} with ${volume} ${token.symbol}!`);
+        refreshBounty();
       } catch (error) {
         logger.error(error, account, bounty.id);
         const { message, title } = openQClient.handleError(error, {
@@ -251,6 +247,42 @@ const FundPage = ({ bounty, refreshBounty }) => {
       }
       setButtonText('Fund');
     }
+    /* if (approveSucceeded || allowance) {
+      setApproveTransferState(TRANSFERRING);
+      
+      try {
+        const addressOfNft = pickedNft.tokenAddress;
+        const tokenId = pickedNft.tokenId;
+        const fundTxnReceipt = await fundBounty(
+          library,
+          bounty.bountyAddress,
+          token.address,
+          volume,
+          depositPeriodDays
+        );
+        /*  await openQClient.fundBountyWithNft(
+          library,
+          bounty.bountyAddress,
+          '0x36b58F5C1969B7b6591D752ea6F5486D069010AB',
+          tokenId,
+          depositPeriodDays
+        );
+        console.log(fundTxnReceipt);*/
+    //  setTransactionHash(fundTxnReceipt.events[0].transactionHash);
+    //setApproveTransferState(SUCCESS);
+    //setSuccessMessage(`Successfully funded issue ${bounty.url} with ${volume} ${token.symbol}!`);
+    //refreshBounty();
+
+    /*  } catch (error) {
+        logger.error(error, account, bounty.id);
+        const { message, title } = openQClient.handleError(error, {
+          bounty,
+        });
+        setError({ message, title });
+        setApproveTransferState(ERROR);
+      }
+      setButtonText('Fund');
+    }*/
   }
 
   function onCurrencySelect(token) {
