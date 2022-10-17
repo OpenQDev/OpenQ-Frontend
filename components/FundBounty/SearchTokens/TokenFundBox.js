@@ -6,7 +6,7 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume, placeho
   const [showTokenSearch, setShowTokenSearch] = useState(false);
 
   return (
-    <div className='flex space-x-4'>
+    <div className='flex space-x-4 w-full'>
       <div className='flex w-full flex-row justify-between items-center px-4 input-field-big'>
         <div className={' bg-dark-mode'}>
           <input

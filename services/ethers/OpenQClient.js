@@ -23,11 +23,8 @@ class OpenQClient {
    * @returns Web3Contract
    */
   DepositManager = (signer) => {
-    const contract = new ethers.Contract(
-      process.env.NEXT_PUBLIC_DEPOSIT_MANAGER_PROXY_ADDRESS,
-      DepositManagerABI.abi,
-      signer
-    );
+    console.log(process.env.NEXT_PUBLIC_DEPOSIT_MANAGER_PROXY_ADDRESS);
+    const contract = new ethers.Contract('0xfbC22278A96299D91d41C453234d97b4F5Eb9B2d', DepositManagerABI.abi, signer);
     return contract;
   };
 
@@ -318,6 +315,39 @@ class OpenQClient {
         } else {
           txnResponse = await contract.fundBountyToken(_bountyAddress, _tokenAddress, _value, expiration);
         }
+        txnReceipt = await txnResponse.wait();
+        resolve(txnReceipt);
+      } catch (error) {
+        reject(error);
+      }
+    });
+    return promise;
+  }
+
+  async fundBountyWithNft(library, _bountyAddress, _tokenAddress, _tokenId, _depositPeriodDays, _tier) {
+    const promise = new Promise(async (resolve, reject) => {
+      console.log('exec');
+      const signer = library.getSigner();
+      const contract = this.DepositManager(signer);
+      console.log(signer);
+      console.log(contract);
+      try {
+        const expiration = _depositPeriodDays * 24 * 60 * 60;
+
+        let txnResponse;
+        let txnReceipt;
+        console.log('contract', contract);
+        const checkSummedAddress = ethers.utils.getAddress(_bountyAddress);
+        console.log(checkSummedAddress, _tokenAddress, 2, expiration, 0);
+        console.log(process.env.NEXT_PUBLIC_MOCK_NFT_TOKEN_ADDRESS);
+        txnResponse = await contract.fundBountyNFT(
+          _bountyAddress,
+          process.env.NEXT_PUBLIC_MOCK_NFT_TOKEN_ADDRESS,
+          1,
+          expiration,
+          0
+        );
+        console.log(txnResponse);
         txnReceipt = await txnResponse.wait();
         resolve(txnReceipt);
       } catch (error) {

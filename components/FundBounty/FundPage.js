@@ -1,5 +1,5 @@
 // Third party
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { ethers } from 'ethers';
 
 // Custom
@@ -13,6 +13,8 @@ import ApproveFundModal from './ApproveFundModal';
 import InvoicingModal from './InvoicingModal';
 import { RESTING, CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveFundState';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
+import SelectableNFT from './SelectableNFT';
+import NFTFundModal from './NFTFundModal.js';
 
 const FundPage = ({ bounty, refreshBounty }) => {
   const [volume, setVolume] = useState('');
@@ -28,6 +30,9 @@ const FundPage = ({ bounty, refreshBounty }) => {
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const [allowance, setAllowance] = useState();
 
+  const [pickedNft, setPickedNft] = useState();
+  const [nfts, setNfts] = useState([]);
+  const web3 = useWeb3();
   const zeroAddressMetadata = {
     name: 'Matic',
     address: '0x0000000000000000000000000000000000000000',
@@ -40,6 +45,28 @@ const FundPage = ({ bounty, refreshBounty }) => {
   const [appState, dispatch] = useContext(StoreContext);
   const { logger, openQClient, utils } = appState;
   const { library, account } = useWeb3();
+  const url = `https://deep-index.moralis.io/api/v2/${account}/nft?chain=polygon`;
+  const fetchData = async () => {
+    const headers = { 'X-API-Key': 'test', accept: 'application/json' };
+    const fetchProm = await fetch(url, { headers });
+    const fetchJson = await fetchProm.json();
+    console.log(fetchJson.result);
+    const nfts = fetchJson.result;
+    const val =
+      nfts &&
+      nfts.map((nft) => {
+        return { ...nft, metadata: JSON.parse(nft.metadata) };
+      });
+    console.log(val, 'val');
+    if (val) {
+      setNfts(val);
+    }
+    console.log(web3);
+  };
+  useEffect(() => {
+    fetchData();
+  }, [account]);
+
   // State
   const [token, setToken] = useState(zeroAddressMetadata);
   const bountyName =
@@ -215,6 +242,42 @@ const FundPage = ({ bounty, refreshBounty }) => {
       }
       setButtonText('Fund');
     }
+    /* if (approveSucceeded || allowance) {
+      setApproveTransferState(TRANSFERRING);
+      
+      try {
+        const addressOfNft = pickedNft.tokenAddress;
+        const tokenId = pickedNft.tokenId;
+        const fundTxnReceipt = await fundBounty(
+          library,
+          bounty.bountyAddress,
+          token.address,
+          volume,
+          depositPeriodDays
+        );
+        /*  await openQClient.fundBountyWithNft(
+          library,
+          bounty.bountyAddress,
+          '0x36b58F5C1969B7b6591D752ea6F5486D069010AB',
+          tokenId,
+          depositPeriodDays
+        );
+        console.log(fundTxnReceipt);*/
+    //  setTransactionHash(fundTxnReceipt.events[0].transactionHash);
+    //setApproveTransferState(SUCCESS);
+    //setSuccessMessage(`Successfully funded issue ${bounty.url} with ${volume} ${token.symbol}!`);
+    //refreshBounty();
+
+    /*  } catch (error) {
+        logger.error(error, account, bounty.id);
+        const { message, title } = openQClient.handleError(error, {
+          bounty,
+        });
+        setError({ message, title });
+        setApproveTransferState(ERROR);
+      }
+      setButtonText('Fund');
+    }*/
   }
 
   function onCurrencySelect(token) {
@@ -248,13 +311,15 @@ const FundPage = ({ bounty, refreshBounty }) => {
                 : 'in Contract'}
             </div>
             <div className='flex flex-col space-y-5 w-5/6 pt-2'>
-              <TokenFundBox
-                onCurrencySelect={onCurrencySelect}
-                onVolumeChange={onVolumeChange}
-                token={token}
-                volume={volume}
-              />
-
+              <div className='flex w-full gap-4'>
+                <TokenFundBox
+                  onCurrencySelect={onCurrencySelect}
+                  onVolumeChange={onVolumeChange}
+                  token={token}
+                  volume={volume}
+                />
+                <NFTFundModal nfts={nfts} setPickedNft={setPickedNft} />
+              </div>
               <div className='flex w-full input-field-big'>
                 <div className=' flex items-center gap-3 w-full text-primary md:whitespace-nowrap'>
                   <ToolTipNew
@@ -316,10 +381,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
                   </div>
                 </button>
               </ToolTipNew>
-              <div className='text-primary text-[0.8rem]'>
-                Always fund through the interface! Never send funds directly to the address!
-              </div>
             </div>
+            {JSON.stringify(pickedNft)}
           </div>
           {invoicingModal && <InvoicingModal closeModal={() => setInvoicingModal(false)} bounty={bounty} />}
           {showApproveTransferModal && (

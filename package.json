@@ -39,7 +39,7 @@
 		"@web3-react/walletconnect-connector": "^6.2.13",
 		"apollo-link-http": "^1.5.17",
 		"assert": "^2.0.0",
-		"axios": "^0.21.4",
+		"axios": "^1.1.2",
 		"axios-cache-adapter": "^2.7.3",
 		"bignumber.js": "^9.0.1",
 		"blob-stream": "^0.1.3",
