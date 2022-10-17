@@ -8,7 +8,7 @@ import Image from 'next/image';
 import useWeb3 from '../../hooks/useWeb3';
 
 const BountyLinks = ({ bounty, hideBountyLink }) => {
-  const tweetText = `Check out this bounty ${
+  const tweetText = `Check out this contract ${
     bounty?.owner && `for ${bounty?.owner}`
   } on OpenQ. You can claim it just by making a pull request that completes the issue! `;
   const { safe } = useWeb3();
@@ -24,7 +24,7 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
     <div className='flex flex-row font-bold text-xl space-x-4'>
       {!hideBountyLink ? (
         bounty ? (
-          <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.id}/${bounty.bountyAddress}`}>
+          <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.id}/${bounty.bountyAddress}`}>
             <a onClick={resetScroll} target={safe ? '_self' : '_blank'} rel='noopener noreferrer'>
               <div id={'bounty-link'} className='cursor-pointer'>
                 <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' fill='ffffff' width='24' height='24'>
@@ -66,7 +66,7 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
       )}
       {bounty ? (
         <Link
-          href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.id}/${bounty.bountyAddress}`}
+          href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.id}/${bounty.bountyAddress}`}
         >
           <a target='_blank' rel='noopener noreferrer'>
             <div id={'bounty-link'} className='cursor-pointer'>

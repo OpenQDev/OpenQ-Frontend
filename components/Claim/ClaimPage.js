@@ -131,7 +131,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
     // rewards are claimable
     return (
       <>
-        <div className='flex flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
+        <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
           <div className='flex flex-col w-full space-y-2 items-center content-center md:border rounded-sm border-gray-700'>
             <div className='flex w-full text-3xl text-primary justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
               Claim Your Rewards
@@ -162,10 +162,10 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
                         account && isOnCorrectNetwork && authState.isAuthenticated
                           ? "Please indicate the volume you'd like to claim with."
                           : account && authState.isAuthenticated
-                          ? 'Please switch to the correct network to claim this bounty.'
+                          ? 'Please switch to the correct network to claim this contract.'
                           : !account
-                          ? 'Connect your wallet to claim this bounty!'
-                          : 'Connect your GitHub account to claim this bounty!'
+                          ? 'Connect your wallet to claim this contract!'
+                          : 'Connect your GitHub account to claim this contract!'
                       }
                     >
                       <button
@@ -182,10 +182,10 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
                       </button>
                     </ToolTipNew>
                   </div>
-                  <div className='flex items-center col-span-3'>
+                  <div className='flex items-center col-span-3 pb-8'>
                     <AuthButton
                       hideSignOut={true}
-                      redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyId}/${bounty.bountyAddress}`}
+                      redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.bountyAddress}`}
                     />
                   </div>
                   {showClaimLoadingModal && (

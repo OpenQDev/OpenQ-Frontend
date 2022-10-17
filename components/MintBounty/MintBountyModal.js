@@ -201,7 +201,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
       );
       sessionStorage.setItem('justMinted', true);
       refreshBounty(bountyAddress);
-      await router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${issue.id}/${bountyAddress.toLowerCase()}`);
+      await router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${issue.id}/${bountyAddress.toLowerCase()}`);
       if (modalVisibility) {
         modalVisibility(false);
       }
@@ -573,8 +573,8 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                         : !enableContest
                         ? 'Please make sure the sum of tier percentages adds up to 100.'
                         : isOnCorrectNetwork
-                        ? 'Connect your wallet to mint a bounty!'
-                        : 'Please switch to the correct network to mint a bounty.'
+                        ? 'Connect your wallet to mint a contract!'
+                        : 'Please switch to the correct network to mint a contract.'
                     }
                   >
                     <MintBountyModalButton

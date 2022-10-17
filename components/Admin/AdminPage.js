@@ -319,8 +319,8 @@ const AdminPage = ({ bounty, refreshBounty }) => {
                             account && isOnCorrectNetwork && !enableContest
                               ? 'Please make sure the sum of tier percentages adds up to 100.'
                               : isOnCorrectNetwork
-                              ? 'Connect your wallet to mint a bounty!'
-                              : 'Please switch to the correct network to mint a bounty.'
+                              ? 'Connect your wallet to mint a contract!'
+                              : 'Please switch to the correct network to mint a contract.'
                           }
                         >
                           <button

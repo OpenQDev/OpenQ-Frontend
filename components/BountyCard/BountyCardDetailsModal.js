@@ -127,7 +127,7 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
                   />
                 ))}
             {bounty.bountyTokenBalances?.length > 1 && (
-              <Link href={`/bounty/${bounty.id}/${bounty.bountyAddress}`}>
+              <Link href={`/contract/${bounty.id}/${bounty.bountyAddress}`}>
                 <a onClick={closeModal} target={safe ? '_self' : '_blank'} rel='noopener noreferrer'>
                   <div
                     onClick={closeModal}
@@ -145,7 +145,7 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
             <div className=' flex-1 w-full py-4 border-web-gray border px-2 rounded-sm'>
               <section className='markdown-body' dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}></section>
               <div className='py-4'>
-                <Link href={`/bounty/${bounty.id}/${bounty.bountyAddress}`}>
+                <Link href={`/contract/${bounty.id}/${bounty.bountyAddress}`}>
                   <a onClick={closeModal} target={safe ? '_self' : '_blank'} rel='noopener noreferrer'>
                     <div className='flex flex-row space-x-2 btn-default text-sm w-fit items-center'>
                       <LogIcon size={16} />
