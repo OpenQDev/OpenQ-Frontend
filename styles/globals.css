@@ -296,3 +296,6 @@ body::-webkit-scrollbar {
   background-color: #343a42;
   border-radius: 2px;
 }
+.invisible-scrollbar::-webkit-scrollbar {
+  display: none;
+}

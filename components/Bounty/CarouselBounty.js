@@ -29,7 +29,7 @@ const CarouselBounty = ({ bounty }) => {
       <Link
         target={'_blank'}
         rel='noopener noreferrer'
-        href={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyId}/${bounty.bountyAddress}`}
+        href={`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.bountyAddress}`}
       >
         <a className='border-web-gray bg-dark-mode p-4 gap-2 border rounded-sm flex mb-1'>
           <div className='w-64'>

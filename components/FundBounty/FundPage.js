@@ -86,14 +86,9 @@ const FundPage = ({ bounty, refreshBounty }) => {
         : 0
     );
     setConfirmationMessage(
-      `You are about to fund this bounty at address ${bounty.bountyAddress.substring(
-        0,
-        12
-      )}...${bounty.bountyAddress.substring(32)} with ${volume} ${token.name}.
-									
-									This will be refundable after ${depositPeriodDays} ${depositPeriodDays == 1 ? 'day' : 'days'}.
-									
-									Is this correct?`
+      `You are in the process of funding this contract. <br /> Your funds will be locked for ${depositPeriodDays} ${
+        depositPeriodDays == 1 ? 'day' : 'days'
+      }.`
     );
     setApproveTransferState(CONFIRM);
     setShowApproveTransferModal(true);
@@ -242,8 +237,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
           <BountyClosed bounty={bounty} />
         </>
       ) : (
-        <div className='flex flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
-          <div className='flex flex-col w-full space-y-5 pb-4 items-center md:border rounded-sm border-gray-700'>
+        <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
+          <div className='flex flex-col w-full space-y-5 pb-8 items-center md:border rounded-sm border-gray-700'>
             <div className='flex text-3xl w-full text-primary justify-center px-16 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
               Escrow Funds{' '}
               {bounty.bountyType === '0'
@@ -268,7 +263,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
                     groupStyles={''}
                     innerStyles={'whitespace-normal md:w-96 sm:w-60 w-40  '}
                     toolTipText={
-                      'This is the number of days that your deposit will be in escrow. After this many days, your deposit will be fully refundable if the bounty has still not been claimed.'
+                      'This is the number of days that your deposit will be in escrow. After this many days, your deposit will be fully refundable if the contract has still not been claimed.'
                     }
                   >
                     <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
@@ -297,12 +292,12 @@ const FundPage = ({ bounty, refreshBounty }) => {
                 hideToolTip={account && isOnCorrectNetwork && !loadingClosedOrZero}
                 toolTipText={
                   account && isOnCorrectNetwork && !(depositPeriodDays > 0)
-                    ? "Please indicate how many days you'd like to fund your bounty for."
+                    ? "Please indicate how many days you'd like to fund your contract for."
                     : account && isOnCorrectNetwork
                     ? "Please indicate the volume you'd like to fund with. Must be between 0.0000001 and 1,000,000."
                     : account
-                    ? 'Please switch to the correct network to fund this bounty.'
-                    : 'Connect your wallet to fund this bounty!'
+                    ? 'Please switch to the correct network to fund this contract.'
+                    : 'Connect your wallet to fund this contract!'
                 }
               >
                 <button

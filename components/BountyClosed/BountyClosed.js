@@ -40,7 +40,7 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
           <div className='flex items-center border-b border-web-gray py-3 gap-4'>
             <div className='font-semibold text-muted'>Tweet about it</div>
             <Link
-              href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyId}/${bounty.bountyAddress}`}
+              href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.bountyAddress}`}
             >
               <a
                 className='hover:scale-105 animate-single-bounce duration-100'

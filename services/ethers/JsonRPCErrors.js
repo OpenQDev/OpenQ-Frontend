@@ -7,18 +7,18 @@ const jsonRpcErrors = [
   // MINT
   {
     'ERC1167: create2 failed': {
-      title: 'Bounty already exists',
+      title: 'Contract already exists',
       message: () => {
-        return 'A bounty for that issue already exists';
+        return 'A contract for that issue already exists';
       },
     },
   },
   // FUND
   {
     FUNDING_CLOSED_BOUNTY: {
-      title: 'Cannot fund a closed bounty',
+      title: 'Cannot fund a closed contract',
       message: ({ bounty }) => {
-        return `Bounty was closed on ${bounty.bountyClosedTime}`;
+        return `Contract was closed on ${bounty.bountyClosedTime}`;
       },
     },
   },
@@ -34,7 +34,7 @@ const jsonRpcErrors = [
     TOO_MANY_TOKEN_ADDRESSES: {
       title: 'Too Many Token Addresses',
       message: () => {
-        return 'This bounty already has the maximum number of token funded addresses. You can still fund with USDC. If you would like to get whitelisted, please contact info@openq.dev';
+        return 'This contract already has the maximum number of token funded addresses. You can still fund with USDC. If you would like to get whitelisted, please contact info@openq.dev';
       },
     },
   },
@@ -57,9 +57,9 @@ const jsonRpcErrors = [
   // REFUND
   {
     BOUNTY_ALREADY_REFUNDED: {
-      title: 'Bounty Already Refunded',
+      title: 'Contract Already Refunded',
       message: () => {
-        return 'Bounty was already refunded';
+        return 'Contract was already refunded';
       },
     },
   },
@@ -68,7 +68,7 @@ const jsonRpcErrors = [
       title: 'Too early to withdraw funds',
       message: ({ bounty }) => {
         const utils = new Utils();
-        return `Bounty was minted on ${utils.formatUnixDate(bounty.bountyMintTime)}`;
+        return `Contract was minted on ${utils.formatUnixDate(bounty.bountyMintTime)}`;
       },
     },
   },
@@ -81,8 +81,8 @@ const jsonRpcErrors = [
   },
   {
     REFUNDING_CLOSED_BOUNTY: {
-      title: 'Cannot request refund on a closed bounty',
-      message: () => 'You are requesting on a closed bounty',
+      title: 'Cannot request refund on a closed contract',
+      message: () => 'You are requesting on a closed contract',
     },
   },
   // CLAIM
@@ -94,14 +94,14 @@ const jsonRpcErrors = [
   },
   {
     ONGOING_BOUNTY_ALREADY_CLOSED: {
-      title: 'This repeating bounty is already closed, you cannot close it again',
-      message: () => 'You are attempting to close a closed repeating bounty',
+      title: 'This repeating contract is already closed, you cannot close it again',
+      message: () => 'You are attempting to close a closed repeating contract',
     },
   },
   {
     CLAIMING_CLOSED_BOUNTY: {
-      title: 'Cannot claim a closed bounty',
-      message: () => 'You are attempting to claim a closed bounty',
+      title: 'Cannot claim a closed contract',
+      message: () => 'You are attempting to claim a closed contract',
     },
   },
   // CONNECTION
