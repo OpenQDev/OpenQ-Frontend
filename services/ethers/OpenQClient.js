@@ -327,6 +327,32 @@ class OpenQClient {
     return promise;
   }
 
+  async fundBountyWithNft(library, _bountyAddress, _tokenAddress, _tokenId, _depositPeriodDays, _tier) {
+    const promise = new Promise(async (resolve, reject) => {
+      console.log('exec');
+      const signer = library.getSigner();
+      const contract = this.DepositManager(signer);
+      console.log(signer);
+      console.log(contract);
+      try {
+        const expiration = _depositPeriodDays * 24 * 60 * 60;
+
+        let txnResponse;
+        let txnReceipt;
+        console.log('contract', contract);
+        const checkSummedAddress = ethers.utils.getAddress(_bountyAddress);
+        console.log(checkSummedAddress, _tokenAddress, 2, expiration, 0);
+        txnResponse = await contract.fundBountyNFT(_bountyAddress, _tokenAddress, '1', expiration, 0);
+
+        txnReceipt = await txnResponse.wait();
+        resolve(txnReceipt);
+      } catch (error) {
+        reject(error);
+      }
+    });
+    return promise;
+  }
+
   async closeCompetition(library, _bountyId) {
     const promise = new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
