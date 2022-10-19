@@ -257,7 +257,7 @@ describe('ClaimLoadingModal', () => {
     );
 
     // ASSERT
-    expect(screen.getByText(/Transfer/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Transfer/i)).toHaveLength(2);
     expect(screen.getAllByText(/Funding/)).toHaveLength(2);
 
     // should not have null or undefined values
