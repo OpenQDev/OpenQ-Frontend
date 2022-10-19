@@ -181,7 +181,7 @@ const BountyList = ({
           isNonProfit
         );
       } catch (err) {
-        appState.logger.error(err);
+        appState.logger.error(err, account, undefined, 'bountylist1');
       }
     });
 
