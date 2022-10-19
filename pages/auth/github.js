@@ -41,7 +41,7 @@ function GitHubAuth() {
         }
       })
       .catch((err) => {
-        appState.logger.error(err, account);
+        appState.logger.error(err, account, 'github1');
       });
   };
 
