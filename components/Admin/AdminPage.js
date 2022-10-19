@@ -309,6 +309,9 @@ const AdminPage = ({ bounty, refreshBounty }) => {
                             Set New Payout Schedule
                           </button>
                         </ToolTipNew>
+
+                        <h2 className='text-2xl border-b border-gray-700 pb-4'>Select Winners</h2>
+                        <ClaimText bounty={bounty} />
                       </>
                     )}
                   </>
@@ -344,7 +347,10 @@ const AdminPage = ({ bounty, refreshBounty }) => {
           </div>
         </>
       ) : (
-        <ClaimText bounty={bounty} />
+        <>
+          <h2 className='text-2xl border-b border-gray-700 pb-4'>Select Winners</h2>
+          <ClaimText bounty={bounty} />
+        </>
       )}
 
       {modal && <AdminModal setModal={setModal} modal={modal} />}
