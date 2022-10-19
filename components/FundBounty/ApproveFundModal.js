@@ -5,7 +5,7 @@ import Link from 'next/link';
 // Custom
 import { CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveFundState';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
-import Image from 'next/image';
+import FundingTokenStats from './TokenStats.js';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import StoreContext from '../../store/Store/StoreContext';
 import useWeb3 from '../../hooks/useWeb3';
@@ -25,11 +25,14 @@ const ApproveFundModal = ({
   bountyAddress,
   bounty,
   allowance,
+  pickedNft,
+  setPickedNft,
   /*openInvoicingModal*/
 }) => {
   const modal = useRef();
   const updateModal = () => {
     resetState();
+    setPickedNft();
     setShowApproveTransferModal(false);
   };
   const [appState] = useContext(StoreContext);
@@ -146,15 +149,7 @@ const ApproveFundModal = ({
                 <div className='text-md gap-4 py-6 px-4 grid grid-cols-[1fr_1fr] w-full justify-between'>
                   <div className='w-4'>Deposited</div>
                   <div className='flex flex-wrap justify-between w-[120px] gap-2'>
-                    <Image
-                      width={24}
-                      className='inline'
-                      height={24}
-                      src={token.path || token.logoURI || '/crypto-logs/ERC20.svg'}
-                    />
-                    <span>
-                      {volume} {token.symbol}
-                    </span>
+                    <FundingTokenStats volume={volume} token={token} pickedNft={pickedNft} />
                   </div>
                   <span>To</span>
                   <CopyAddressToClipboard data={bountyAddress} clipping={[5, 39]} />
@@ -192,16 +187,8 @@ const ApproveFundModal = ({
               <>
                 <div className='text-md gap-4 py-6 pb-4 px-4 grid grid-cols-[1fr_1fr] w-full justify-between'>
                   <div className='w-4'>Funding</div>
-                  <div className='flex flex-wrap justify-between w-[120px] gap-2'>
-                    <Image
-                      width={24}
-                      className='inline'
-                      height={24}
-                      src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'}
-                    />
-                    <span>
-                      {volume} {token.symbol}
-                    </span>
+                  <div className='flex flex-wrap justify-between w-full gap-2'>
+                    <FundingTokenStats pickedNft={pickedNft} volume={volume} token={token} />
                   </div>
                   <span>To</span>
                   <CopyAddressToClipboard data={bountyAddress} clipping={[5, 39]} />

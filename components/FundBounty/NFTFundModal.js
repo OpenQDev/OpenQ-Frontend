@@ -1,5 +1,4 @@
-import React, { useContext, useState } from 'react';
-import StoreContext from '../../store/Store/StoreContext';
+import React, { useState } from 'react';
 import SelectableNFT from './SelectableNFT';
 const NFTFundModal = ({ nfts, setPickedNft }) => {
   const [showModal, setShowModal] = useState();
@@ -34,7 +33,6 @@ const NFTFundModal = ({ nfts, setPickedNft }) => {
               <h2 className='text-center text-4xl pb-8'>Select NFT</h2>
               <div className='text-primary text-[0.8rem] grid  gap-8 grid-cols-[repeat(_auto-fit,_minmax(200px,_1fr)_)] yeet'>
                 {nfts.map((nft, index) => {
-                  console.log('exec');
                   return (
                     <SelectableNFT
                       pickNft={pickNft}
@@ -48,7 +46,7 @@ const NFTFundModal = ({ nfts, setPickedNft }) => {
               </div>
             </div>
           </div>{' '}
-          ><div className='bg-overlay fixed inset-0'></div>
+          <div className='bg-overlay fixed inset-0'></div>
         </>
       )}
     </>

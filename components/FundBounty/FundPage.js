@@ -29,10 +29,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
   const [invoicingModal, setInvoicingModal] = useState();
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const [allowance, setAllowance] = useState();
-
   const [pickedNft, setPickedNft] = useState();
   const [nfts, setNfts] = useState([]);
-  const web3 = useWeb3();
   const zeroAddressMetadata = {
     name: 'Matic',
     address: '0x0000000000000000000000000000000000000000',
@@ -46,26 +44,55 @@ const FundPage = ({ bounty, refreshBounty }) => {
   const { logger, openQClient, utils } = appState;
   const { library, account } = useWeb3();
   const url = `https://deep-index.moralis.io/api/v2/${account}/nft?chain=polygon`;
-  const fetchData = async () => {
-    const headers = { 'X-API-Key': 'test', accept: 'application/json' };
-    const fetchProm = await fetch(url, { headers });
-    const fetchJson = await fetchProm.json();
-    console.log(fetchJson.result);
-    const nfts = fetchJson.result;
-    const val =
-      nfts &&
-      nfts.map((nft) => {
-        return { ...nft, metadata: JSON.parse(nft.metadata) };
-      });
-    console.log(val, 'val');
-    if (val) {
-      setNfts(val);
+
+  useEffect(async () => {
+    const fetchDataPolygon = async () => {
+      const headers = { 'X-API-Key': 'test', accept: 'application/json' };
+      const fetchProm = await fetch(url, { headers });
+      const fetchJson = await fetchProm.json();
+      const nfts = fetchJson.result;
+      return (
+        nfts &&
+        nfts
+          .map((nft) => {
+            return { ...nft, metadata: nft.metadata && JSON.parse(nft.metadata) };
+          })
+          .filter((nft) => nft.contract_type === 'ERC721')
+      );
+    };
+    const fetchDataLocal = async () => {
+      const localNfts = [];
+      for (let i = 0; i < 6; i++) {
+        const value = await appState.openQClient.getNFT(library, process.env.NEXT_PUBLIC_MOCK_NFT_TOKEN_ADDRESS, i);
+        const { uri, name } = value;
+        const fetchProm = await fetch(uri);
+        const fetchJson = await fetchProm.json();
+        const nftData = {
+          token_address: process.env.NEXT_PUBLIC_MOCK_NFT_TOKEN_ADDRESS,
+          token_id: i.toString(),
+          amount: '1',
+          contract_type: 'ERC721',
+          metadata: fetchJson,
+          name: name,
+          token_uri: uri,
+          symbol: 'MNFT',
+        };
+        localNfts[i] = nftData;
+      }
+      return localNfts;
+    };
+    if (library) {
+      const nfts = await fetchDataPolygon();
+
+      const localNfts = await fetchDataLocal();
+      if (process.env.NEXT_PUBLIC_DEPLOY_ENV === 'docker') {
+        setNfts(localNfts);
+      } else {
+        setNfts(nfts);
+      }
     }
-    console.log(web3);
-  };
-  useEffect(() => {
-    fetchData();
-  }, [account]);
+  }, [library]);
+  useEffect(async () => {}, [pickedNft]);
 
   // State
   const [token, setToken] = useState(zeroAddressMetadata);
@@ -88,8 +115,9 @@ const FundPage = ({ bounty, refreshBounty }) => {
     closed ||
     parseFloat(volume) <= 0.00000001 ||
     parseFloat(volume) > 1000000 ||
-    volume == '' ||
+    (volume == '' && !pickedNft) ||
     !(parseInt(depositPeriodDays) > 0);
+
   const disableOrEnable = `${
     (loadingClosedOrZero || !isOnCorrectNetwork) && account
       ? 'btn-default w-full cursor-not-allowed'
@@ -135,149 +163,141 @@ const FundPage = ({ bounty, refreshBounty }) => {
   };
   async function fundBounty() {
     const volumeInWei = volume * 10 ** token.decimals;
-    if (volumeInWei == 0) {
-      setError({
-        title: 'Zero Volume Sent',
-        message: 'Must send a greater than 0 volume of tokens.',
-      });
-      setApproveTransferState(ERROR);
-      setButtonText('Fund');
-      return;
-    }
 
     const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', { useGrouping: false }));
 
     let approveSucceeded = false;
 
-    try {
-      const isWhitelisted = await openQClient.isWhitelisted(library, token.address);
+    if (!pickedNft) {
+      try {
+        const isWhitelisted = await openQClient.isWhitelisted(library, token.address);
 
-      // Only check bounty token address limit for non-whitelisted tokens
-      if (!isWhitelisted) {
-        const tokenAddressLimitReached = await openQClient.tokenAddressLimitReached(library, bounty.bountyAddress);
-        if (tokenAddressLimitReached) {
+        // Only check bounty token address limit for non-whitelisted tokens
+        if (!isWhitelisted) {
+          const tokenAddressLimitReached = await openQClient.tokenAddressLimitReached(library, bounty.bountyAddress);
+          if (tokenAddressLimitReached) {
+            setError({
+              title: 'Token Address Limit Is Reached!',
+              message: 'Contact info@openq.dev',
+            });
+            setApproveTransferState(ERROR);
+            return;
+          }
+        }
+      } catch (error) {
+        console.error('err', error);
+        setError({
+          title: 'Call Revert Exception',
+          message: 'A contract call exception occurred. Please try again.',
+        });
+        setButtonText('Fund');
+        setApproveTransferState(ERROR);
+        return;
+      }
+      try {
+        const callerBalance = await openQClient.balanceOf(library, account, token.address);
+
+        if (callerBalance.noSigner) {
           setError({
-            title: 'Token Address Limit Is Reached!',
-            message: 'Contact info@openq.dev',
+            title: 'No wallet connected.',
+            message: 'Please connect your wallet.',
+          });
+          setApproveTransferState(ERROR);
+          return;
+        } else if (callerBalance.lt(bigNumberVolumeInWei)) {
+          setError({
+            title: 'Funds Too Low',
+            message: 'You do not have sufficient funds for this deposit',
           });
           setApproveTransferState(ERROR);
           return;
         }
-      }
-    } catch (error) {
-      console.error(error);
-      setError({
-        title: 'Call Revert Exception',
-        message: 'A contract call exception occurred. Please try again.',
-      });
-      setButtonText('Fund');
-      setApproveTransferState(ERROR);
-      return;
-    }
-
-    try {
-      const callerBalance = await openQClient.balanceOf(library, account, ethers.utils.getAddress(token.address));
-      if (callerBalance.noSigner) {
-        setError({
-          title: 'No wallet connected.',
-          message: 'Please connect your wallet.',
-        });
-        setApproveTransferState(ERROR);
-        return;
-      } else if (callerBalance.lt(bigNumberVolumeInWei)) {
-        setError({
-          title: 'Funds Too Low',
-          message: 'You do not have sufficient funds for this deposit',
-        });
-        setApproveTransferState(ERROR);
-        return;
-      }
-    } catch (error) {
-      logger.error(error, account, bounty.id);
-      setError({
-        title: 'Call Revert Exception',
-        message: 'A contract call exception occurred. Please try again.',
-      });
-      setButtonText('Fund');
-      setApproveTransferState(ERROR);
-      return;
-    }
-
-    try {
-      setShowApproveTransferModal(true);
-      if (token.address != ethers.constants.AddressZero && !allowance) {
-        setButtonText('Approving');
-        setApproveTransferState(APPROVING);
-        await openQClient.approve(library, bounty.bountyAddress, token.address, bigNumberVolumeInWei);
-      }
-      approveSucceeded = true;
-    } catch (error) {
-      const { message, title, link, linkText } = openQClient.handleError(error, { bounty });
-      setError({ message, title, link, linkText });
-      setButtonText('Fund');
-      setApproveTransferState(ERROR);
-    }
-
-    if (approveSucceeded || allowance) {
-      setApproveTransferState(TRANSFERRING);
-      try {
-        const fundTxnReceipt = await openQClient.fundBounty(
-          library,
-          bounty.bountyAddress,
-          token.address,
-          bigNumberVolumeInWei,
-          depositPeriodDays
-        );
-        setTransactionHash(fundTxnReceipt.events[0].transactionHash);
-        setApproveTransferState(SUCCESS);
-        setSuccessMessage(`Successfully funded issue ${bounty.url} with ${volume} ${token.symbol}!`);
-        refreshBounty();
       } catch (error) {
         logger.error(error, account, bounty.id);
-        const { message, title } = openQClient.handleError(error, {
-          bounty,
+        setError({
+          title: 'Call Revert Exception',
+          message: 'A contract call exception occurred. Please try again.',
         });
-        setError({ message, title });
+        setButtonText('Fund');
         setApproveTransferState(ERROR);
+        return;
       }
-      setButtonText('Fund');
-    }
-    /* if (approveSucceeded || allowance) {
-      setApproveTransferState(TRANSFERRING);
-      
       try {
-        const addressOfNft = pickedNft.tokenAddress;
-        const tokenId = pickedNft.tokenId;
-        const fundTxnReceipt = await fundBounty(
-          library,
-          bounty.bountyAddress,
-          token.address,
-          volume,
-          depositPeriodDays
-        );
-        /*  await openQClient.fundBountyWithNft(
-          library,
-          bounty.bountyAddress,
-          '0x36b58F5C1969B7b6591D752ea6F5486D069010AB',
-          tokenId,
-          depositPeriodDays
-        );
-        console.log(fundTxnReceipt);*/
-    //  setTransactionHash(fundTxnReceipt.events[0].transactionHash);
-    //setApproveTransferState(SUCCESS);
-    //setSuccessMessage(`Successfully funded issue ${bounty.url} with ${volume} ${token.symbol}!`);
-    //refreshBounty();
-
-    /*  } catch (error) {
-        logger.error(error, account, bounty.id);
-        const { message, title } = openQClient.handleError(error, {
-          bounty,
-        });
-        setError({ message, title });
+        setShowApproveTransferModal(true);
+        if (token.address != ethers.constants.AddressZero && !allowance) {
+          setButtonText('Approving');
+          setApproveTransferState(APPROVING);
+          await openQClient.approve(library, bounty.bountyAddress, token.address, bigNumberVolumeInWei);
+        }
+        approveSucceeded = true;
+      } catch (error) {
+        const { message, title, link, linkText } = openQClient.handleError(error, { bounty });
+        setError({ message, title, link, linkText });
+        setButtonText('Fund');
         setApproveTransferState(ERROR);
       }
-      setButtonText('Fund');
-    }*/
+
+      if (approveSucceeded || allowance) {
+        setApproveTransferState(TRANSFERRING);
+        try {
+          const fundTxnReceipt = await openQClient.fundBounty(
+            library,
+            bounty.bountyAddress,
+            token.address,
+            bigNumberVolumeInWei,
+            depositPeriodDays
+          );
+          setTransactionHash(fundTxnReceipt.events[0].transactionHash);
+          setApproveTransferState(SUCCESS);
+          setSuccessMessage(`Successfully funded issue ${bounty.url} with ${volume} ${token.symbol}!`);
+          refreshBounty();
+        } catch (error) {
+          logger.error(error, account, bounty.id);
+          const { message, title } = openQClient.handleError(error, {
+            bounty,
+          });
+          setError({ message, title });
+          setApproveTransferState(ERROR);
+        }
+        setButtonText('Fund');
+      }
+    } else {
+      try {
+        setShowApproveTransferModal(true);
+        setButtonText('Approving');
+        setApproveTransferState(APPROVING);
+
+        await openQClient.approveNFT(library, bounty.bountyAddress, pickedNft.token_address, pickedNft.token_id);
+
+        approveSucceeded = true;
+      } catch (error) {
+        const { message, title, link, linkText } = openQClient.handleError(error, { bounty });
+        setError({ message, title, link, linkText });
+        setButtonText('Fund');
+        setApproveTransferState(ERROR);
+      }
+      setApproveTransferState(TRANSFERRING);
+
+      try {
+        const { token_address, token_id } = pickedNft;
+        const fundTxnReceipt = await openQClient.fundBountyWithNft(
+          library,
+          bounty.bountyAddress,
+          token_address,
+          token_id,
+          depositPeriodDays
+        );
+
+        setTransactionHash(fundTxnReceipt.events[0].transactionHash);
+        setApproveTransferState(SUCCESS);
+        setSuccessMessage(
+          `Successfully funded issue ${bounty.url} with ${pickedNft.name} #${pickedNft.token_id} (${pickedNft.metadata.name})${token.symbol}!`
+        );
+        refreshBounty();
+      } catch (err) {
+        console.error(err);
+      }
+    }
   }
 
   function onCurrencySelect(token) {
@@ -311,82 +331,98 @@ const FundPage = ({ bounty, refreshBounty }) => {
                 : 'in Contract'}
             </div>
             <div className='flex flex-col space-y-5 w-5/6 pt-2'>
-              <div className='flex w-full gap-4'>
-                <TokenFundBox
-                  onCurrencySelect={onCurrencySelect}
-                  onVolumeChange={onVolumeChange}
-                  token={token}
-                  volume={volume}
-                />
-                <NFTFundModal nfts={nfts} setPickedNft={setPickedNft} />
-              </div>
-              <div className='flex w-full input-field-big'>
-                <div className=' flex items-center gap-3 w-full text-primary md:whitespace-nowrap'>
+              {!pickedNft ? (
+                <div className='flex w-full gap-4'>
+                  <>
+                    <TokenFundBox
+                      onCurrencySelect={onCurrencySelect}
+                      onVolumeChange={onVolumeChange}
+                      token={token}
+                      volume={volume}
+                    />
+                    <NFTFundModal nfts={nfts} setPickedNft={setPickedNft} />
+                  </>
+                </div>
+              ) : null}
+              <div className='flex gap-4'>
+                <div>
+                  <div className='flex w-full input-field-big mb-4'>
+                    <div className=' flex items-center gap-3 w-full text-primary md:whitespace-nowrap'>
+                      <ToolTipNew
+                        relativePosition={'md:-left-12'}
+                        outerStyles={'-top-1'}
+                        groupStyles={''}
+                        innerStyles={'whitespace-normal md:w-96 sm:w-60 w-40  '}
+                        toolTipText={
+                          'This is the number of days that your deposit will be in escrow. After this many days, your deposit will be fully refundable if the contract has still not been claimed.'
+                        }
+                      >
+                        <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                          ?
+                        </div>
+                      </ToolTipNew>
+                      <span>Deposit Locked Period</span>
+                    </div>
+
+                    <div className={'flex px-4 font-bold bg-dark-mode'}>
+                      <input
+                        className='text-primary text-right number outline-none bg-dark-mode w-full flex-1'
+                        autoComplete='off'
+                        value={depositPeriodDays}
+                        id='deposit-period'
+                        onChange={onDepositPeriodChanged}
+                      />
+                    </div>
+                  </div>
+
                   <ToolTipNew
-                    relativePosition={'md:-left-12'}
-                    outerStyles={'-top-1'}
-                    groupStyles={''}
-                    innerStyles={'whitespace-normal md:w-96 sm:w-60 w-40  '}
+                    relativePosition={'left-0'}
+                    outerStyles={'-top-1 '}
+                    groupStyles={'w-min'}
+                    innerStyles={'sm:w-40 w-0 md:w-60 whitespace-normal'}
+                    hideToolTip={account && isOnCorrectNetwork && !loadingClosedOrZero}
                     toolTipText={
-                      'This is the number of days that your deposit will be in escrow. After this many days, your deposit will be fully refundable if the contract has still not been claimed.'
+                      account && isOnCorrectNetwork && !(depositPeriodDays > 0)
+                        ? "Please indicate how many days you'd like to fund your contract for."
+                        : account && isOnCorrectNetwork
+                        ? "Please indicate the volume you'd like to fund with. Must be between 0.0000001 and 1,000,000."
+                        : account
+                        ? 'Please switch to the correct network to fund this contract.'
+                        : 'Connect your wallet to fund this contract!'
                     }
                   >
-                    <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                      ?
-                    </div>
+                    <button
+                      className={`${fundButtonClasses} py-1.5`}
+                      disabled={(loadingClosedOrZero || !isOnCorrectNetwork) && account}
+                      type='button'
+                      onClick={account ? openFund : connectWallet}
+                    >
+                      <div className='text-center whitespace-nowrap w-full'>
+                        {account ? buttonText : 'Connect Wallet'}
+                      </div>
+                      <div>
+                        {approveTransferState != RESTING &&
+                        approveTransferState != SUCCESS &&
+                        approveTransferState != ERROR ? (
+                          <ButtonLoadingIcon />
+                        ) : null}
+                      </div>
+                    </button>
                   </ToolTipNew>
-                  <span>Deposit Locked Period</span>
                 </div>
-
-                <div className={'flex px-4 font-bold bg-dark-mode'}>
-                  <input
-                    className='text-primary text-right number outline-none bg-dark-mode w-full flex-1'
-                    autoComplete='off'
-                    value={depositPeriodDays}
-                    id='deposit-period'
-                    onChange={onDepositPeriodChanged}
-                  />
-                </div>
-              </div>
-
-              <ToolTipNew
-                relativePosition={'left-0'}
-                outerStyles={'-top-1 '}
-                groupStyles={'w-min'}
-                innerStyles={'sm:w-40 w-0 md:w-60 whitespace-normal'}
-                hideToolTip={account && isOnCorrectNetwork && !loadingClosedOrZero}
-                toolTipText={
-                  account && isOnCorrectNetwork && !(depositPeriodDays > 0)
-                    ? "Please indicate how many days you'd like to fund your contract for."
-                    : account && isOnCorrectNetwork
-                    ? "Please indicate the volume you'd like to fund with. Must be between 0.0000001 and 1,000,000."
-                    : account
-                    ? 'Please switch to the correct network to fund this contract.'
-                    : 'Connect your wallet to fund this contract!'
-                }
-              >
-                <button
-                  className={`${fundButtonClasses} py-1.5`}
-                  disabled={(loadingClosedOrZero || !isOnCorrectNetwork) && account}
-                  type='button'
-                  onClick={account ? openFund : connectWallet}
-                >
-                  <div className='text-center whitespace-nowrap w-full'>{account ? buttonText : 'Connect Wallet'}</div>
-                  <div>
-                    {approveTransferState != RESTING &&
-                    approveTransferState != SUCCESS &&
-                    approveTransferState != ERROR ? (
-                      <ButtonLoadingIcon />
-                    ) : null}
+                {pickedNft && (
+                  <div className='w-60 rounded-md '>
+                    <SelectableNFT nft={pickedNft} />
                   </div>
-                </button>
-              </ToolTipNew>
+                )}
+              </div>
             </div>
-            {JSON.stringify(pickedNft)}
           </div>
           {invoicingModal && <InvoicingModal closeModal={() => setInvoicingModal(false)} bounty={bounty} />}
           {showApproveTransferModal && (
             <ApproveFundModal
+              pickedNft={pickedNft}
+              setPickedNft={setPickedNft}
               approveTransferState={approveTransferState}
               address={account}
               transactionHash={transactionHash}

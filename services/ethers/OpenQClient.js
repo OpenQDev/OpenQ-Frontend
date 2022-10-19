@@ -2,6 +2,8 @@ import { ethers } from 'ethers';
 import OpenQABI from '../../artifacts/contracts/OpenQ/Implementations/OpenQV1.sol/OpenQV1.json';
 import DepositManagerABI from '../../artifacts/contracts/DepositManager/DepositManager.sol/DepositManager.json';
 import ERC20ABI from '../../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json';
+import ERC721ABI from '../../artifacts/@openzeppelin/contracts/token/ERC721/ERC721.sol/ERC721.json';
+
 import jsonRpcErrors from './JsonRPCErrors';
 
 class OpenQClient {
@@ -24,7 +26,11 @@ class OpenQClient {
    */
   DepositManager = (signer) => {
     console.log(process.env.NEXT_PUBLIC_DEPOSIT_MANAGER_PROXY_ADDRESS);
-    const contract = new ethers.Contract('0xfbC22278A96299D91d41C453234d97b4F5Eb9B2d', DepositManagerABI.abi, signer);
+    const contract = new ethers.Contract(
+      process.env.NEXT_PUBLIC_DEPOSIT_MANAGER_PROXY_ADDRESS,
+      DepositManagerABI.abi,
+      signer
+    );
     return contract;
   };
 
@@ -37,6 +43,12 @@ class OpenQClient {
 
   ERC20 = (tokenAddress, signer) => {
     const contract = new ethers.Contract(tokenAddress, ERC20ABI.abi, signer);
+    return contract;
+  };
+
+  ERC721 = (tokenAddress, signer) => {
+    const contract = new ethers.Contract(tokenAddress, ERC721ABI.abi, signer);
+
     return contract;
   };
 
@@ -203,6 +215,23 @@ class OpenQClient {
     });
     return promise;
   }
+  async approveNFT(library, _bountyAddress, _tokenAddress, _tokenId) {
+    const promise = new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+
+      const contract = this.ERC721(_tokenAddress, signer);
+      try {
+        console.log(_bountyAddress, _tokenId, 'boom');
+        const txnResponse = await contract.approve(_bountyAddress, _tokenId);
+        const txnReceipt = await txnResponse.wait();
+        resolve(txnReceipt);
+      } catch (error) {
+        console.log(_bountyAddress, _tokenId, 'boom');
+        reject(error);
+      }
+    });
+    return promise;
+  }
 
   async allowance(library, _callerAddress, _tokenAddress, _bountyAddress) {
     const promise = new Promise(async (resolve) => {
@@ -324,13 +353,24 @@ class OpenQClient {
     return promise;
   }
 
-  async fundBountyWithNft(library, _bountyAddress, _tokenAddress, _tokenId, _depositPeriodDays, _tier) {
+  async getNFT(library, _tokenAddress, _tokenId) {
     const promise = new Promise(async (resolve, reject) => {
-      console.log('exec');
+      try {
+        const signer = library.getSigner();
+        const contract = new ethers.Contract(process.env.NEXT_PUBLIC_MOCK_NFT_TOKEN_ADDRESS, ERC721ABI.abi, signer);
+        resolve({ name: await contract.name(), uri: await contract.tokenURI(_tokenId) });
+      } catch (err) {
+        reject(err);
+      }
+    });
+    return promise;
+  }
+
+  async fundBountyWithNft(library, _bountyAddress, _tokenAddress, _tokenId, _depositPeriodDays) {
+    const promise = new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
       const contract = this.DepositManager(signer);
-      console.log(signer);
-      console.log(contract);
+
       try {
         const expiration = _depositPeriodDays * 24 * 60 * 60;
 
@@ -340,14 +380,8 @@ class OpenQClient {
         const checkSummedAddress = ethers.utils.getAddress(_bountyAddress);
         console.log(checkSummedAddress, _tokenAddress, 2, expiration, 0);
         console.log(process.env.NEXT_PUBLIC_MOCK_NFT_TOKEN_ADDRESS);
-        txnResponse = await contract.fundBountyNFT(
-          _bountyAddress,
-          process.env.NEXT_PUBLIC_MOCK_NFT_TOKEN_ADDRESS,
-          1,
-          expiration,
-          0
-        );
-        console.log(txnResponse);
+        txnResponse = await contract.fundBountyNFT(_bountyAddress, _tokenAddress, _tokenId, expiration, 0);
+
         txnReceipt = await txnResponse.wait();
         resolve(txnReceipt);
       } catch (error) {
