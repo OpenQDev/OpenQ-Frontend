@@ -327,22 +327,6 @@ class OpenQClient {
     return promise;
   }
 
-  async closeCompetition(library, _bountyId) {
-    const promise = new Promise(async (resolve, reject) => {
-      const signer = library.getSigner();
-
-      const contract = this.OpenQ(signer);
-      try {
-        let txnResponse = await contract.closeCompetition(_bountyId);
-        let txnReceipt = await txnResponse.wait();
-        resolve(txnReceipt);
-      } catch (error) {
-        reject(error);
-      }
-    });
-    return promise;
-  }
-
   async closeOngoing(library, _bountyId) {
     const promise = new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
