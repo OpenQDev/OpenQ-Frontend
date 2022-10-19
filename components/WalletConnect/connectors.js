@@ -9,7 +9,7 @@ export const injected = new InjectedConnector({
 export const walletconnect = new WalletConnectConnector({
   supportedChainIds: [137],
   rpc: {
-    137: process.env.POLYGON_PROVIDER_URL,
+    137: `https://polygon-mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_PROJECT_ID}`,
   },
   qrcode: true,
 });
