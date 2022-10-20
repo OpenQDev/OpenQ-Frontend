@@ -12,6 +12,7 @@ import {
 } from './ClaimStates';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import LinkText from '../svg/linktext';
+import Twitter from '../svg/twitter';
 
 const ClaimLoadingModal = ({
   confirmMethod,
@@ -23,6 +24,7 @@ const ClaimLoadingModal = ({
   setShowClaimLoadingModal,
   error,
   claimState,
+  bounty,
 }) => {
   const updateModal = () => {
     setShowClaimLoadingModal(false);
@@ -56,6 +58,9 @@ const ClaimLoadingModal = ({
     [TRANSACTION_SUBMITTED]: '',
     [CONFIRM_CLAIM]: ` to the address ${ensName || account}. Is this correct?`,
   };
+
+  console.log(bounty.owner);
+  const tweetText = `💸 Just claimed a developer bounty from ${bounty.owner} on OpenQ working on this issue: `;
 
   // Hooks
 
@@ -99,13 +104,32 @@ const ClaimLoadingModal = ({
               </div>
             )}
           </div>
-          {claimState == WITHDRAWAL_INELIGIBLE || claimState == TRANSACTION_CONFIRMED ? (
+          {claimState == WITHDRAWAL_INELIGIBLE && (
             <div className='flex items-center justify-end p-5'>
               <button className='btn-default w-full' type='button' onClick={() => updateModal()}>
                 Close
               </button>
             </div>
-          ) : null}
+          )}
+          {claimState == TRANSACTION_CONFIRMED && (
+            <Link
+              href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.bountyAddress}`}
+            >
+              <a
+                className='hover:scale-105 animate-single-bounce duration-100'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <div className='flex justify-center items-center m-5 btn-primary'>
+                  <div className='flex justify-center items-center gap-2'>
+                    <div className=''>Tweet about it</div>
+
+                    <Twitter className='w-4 inline' />
+                  </div>
+                </div>
+              </a>
+            </Link>
+          )}
           {claimState == CONFIRM_CLAIM ? (
             <div className=' p-7 flex flex-col w-full outline-none focus:outline-none'>
               <div className='flex items-center'>

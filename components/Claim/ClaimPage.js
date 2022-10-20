@@ -199,6 +199,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
                       address={account}
                       transactionHash={transactionHash}
                       setShowClaimLoadingModal={updateModal}
+                      bounty={bounty}
                     />
                   )}
                 </div>
