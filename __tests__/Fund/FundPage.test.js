@@ -207,7 +207,9 @@ describe('FundPage', () => {
     const confirmBtn = await screen.findAllByRole('button', { name: /Fund/i });
     await user.click(confirmBtn[1]);
     const modalContent = await screen.findByText(/Transfer Complete/i);
-    await user.click(screen.getByRole('button', { name: 'Close' }));
+    const tweet = screen.getByText('Tweet about it');
+    expect(tweet).toBeInTheDocument();
+    await user.click(screen.getByTestId('cross'));
     expect(modalContent).not.toBeInTheDocument();
   });
 
@@ -231,11 +233,13 @@ describe('FundPage', () => {
     await user.click(confirmBtn);
     const funding = await screen.findByText('Funding');
     expect(funding).toBeInTheDocument();
-    const close = await screen.findByText(/close/i, undefined, {
+    const modalContent = await screen.findByText(/Transfer Complete/i, undefined, {
       timeout: 4000,
     });
-    await user.click(close);
-    expect(close).not.toBeInTheDocument();
+    const tweet = screen.getByText('Tweet about it');
+    expect(tweet).toBeInTheDocument();
+    await user.click(screen.getByTestId('cross'));
+    expect(modalContent).not.toBeInTheDocument();
   });
 
   it('should go straight to fund when DERC20 approved previously', async () => {
@@ -257,7 +261,9 @@ describe('FundPage', () => {
     const confirmBtn = await screen.findAllByRole('button', { name: /Fund/i });
     await user.click(confirmBtn[1]);
     const modalContent = await screen.findByText(/Transfer Complete/i);
-    await user.click(screen.getByRole('button', { name: 'Close' }));
+    const tweet = screen.getByText('Tweet about it');
+    expect(tweet).toBeInTheDocument();
+    await user.click(screen.getByTestId('cross'));
     expect(modalContent).not.toBeInTheDocument();
   });
 
