@@ -12,8 +12,8 @@ import {
 } from './ClaimStates';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import LinkText from '../svg/linktext';
-import Twitter from '../svg/twitter';
 import Cross from '../svg/cross';
+import TweetAbout from '../Utils/TweetAbout';
 
 const ClaimLoadingModal = ({
   confirmMethod,
@@ -114,25 +114,7 @@ const ClaimLoadingModal = ({
               </button>
             </div>
           )}
-          {claimState == TRANSACTION_CONFIRMED && (
-            <Link
-              href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.bountyAddress}`}
-            >
-              <a
-                className='hover:scale-105 animate-single-bounce duration-100'
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                <div className='flex justify-center items-center m-5 btn-primary'>
-                  <div className='flex justify-center items-center gap-2'>
-                    <div className=''>Tweet about it</div>
-
-                    <Twitter className='w-4 inline' />
-                  </div>
-                </div>
-              </a>
-            </Link>
-          )}
+          {claimState == TRANSACTION_CONFIRMED && <TweetAbout tweetText={tweetText} bounty={bounty} />}
           {claimState == CONFIRM_CLAIM ? (
             <div className=' p-7 flex flex-col w-full outline-none focus:outline-none'>
               <div className='flex items-center'>

@@ -11,7 +11,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import useWeb3 from '../../hooks/useWeb3';
 import LinkText from '../svg/linktext';
 import Cross from '../svg/cross';
-import Twitter from '../svg/twitter';
+import TweetAbout from '../Utils/TweetAbout';
 
 const ApproveFundModal = ({
   transactionHash,
@@ -250,25 +250,7 @@ const ApproveFundModal = ({
                 </button>
               </div>
             ) : (
-              approveTransferState == SUCCESS && (
-                <Link
-                  href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.bountyAddress}`}
-                >
-                  <a
-                    className='hover:scale-105 animate-single-bounce duration-100'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    <div className='flex justify-center items-center m-5 btn-primary'>
-                      <div className='flex justify-center items-center gap-2'>
-                        <div className=''>Tweet about it</div>
-
-                        <Twitter className='w-4 inline' />
-                      </div>
-                    </div>
-                  </a>
-                </Link>
-              )
+              approveTransferState == SUCCESS && <TweetAbout tweetText={tweetText} bounty={bounty} />
             )}
             {/*<button onClick={openInvoicingModal} className='btn-primary py-1.5 text-center flex justify-center cursor-pointer w-full'>
 								<span>{invoicingData && 'Add'} Invoicing Details</span>
