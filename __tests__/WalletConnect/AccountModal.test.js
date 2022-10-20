@@ -13,7 +13,6 @@ const chainId = 137;
 const account = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266';
 const ensName = 'bungo';
 const setIsConnecting = jest.fn();
-const deactivate = jest.fn();
 
 describe('AccountModal', () => {
   // Test cases for
@@ -41,15 +40,7 @@ describe('AccountModal', () => {
 
   it('should render account modal', async () => {
     // ARRANGE
-    render(
-      <AccountModal
-        chainId={chainId}
-        ensName={ensName}
-        deactivate={deactivate}
-        account={account}
-        setIsConnecting={setIsConnecting}
-      />
-    );
+    render(<AccountModal chainId={chainId} ensName={ensName} account={account} setIsConnecting={setIsConnecting} />);
 
     // ASSERT
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
@@ -59,37 +50,11 @@ describe('AccountModal', () => {
   it('should link to profile.', async () => {
     // ARRANGE
     const user = userEvent.setup();
-    render(
-      <AccountModal
-        chainId={chainId}
-        ensName={ensName}
-        deactivate={deactivate}
-        account={account}
-        setIsConnecting={setIsConnecting}
-      />
-    );
+    render(<AccountModal chainId={chainId} ensName={ensName} account={account} setIsConnecting={setIsConnecting} />);
 
     // ASSERT
 
     await user.click(await screen.findByRole('link'));
     expect(push).toHaveBeenCalledTimes(1);
-  });
-
-  it('should be able to deactivate.', async () => {
-    // ARRANGE
-    const user = userEvent.setup();
-    render(
-      <AccountModal
-        chainId={chainId}
-        ensName={ensName}
-        deactivate={deactivate}
-        account={account}
-        setIsConnecting={setIsConnecting}
-      />
-    );
-
-    // ASSERT
-    await user.click(await screen.findByText(/disconnect/i));
-    expect(deactivate).toHaveBeenCalledTimes(1);
   });
 });
