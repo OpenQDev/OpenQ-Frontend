@@ -10,6 +10,8 @@ import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import StoreContext from '../../store/Store/StoreContext';
 import useWeb3 from '../../hooks/useWeb3';
 import LinkText from '../svg/linktext';
+import Cross from '../svg/cross';
+import Twitter from '../svg/twitter';
 
 const ApproveFundModal = ({
   transactionHash,
@@ -103,13 +105,18 @@ const ApproveFundModal = ({
     [ERROR]: `${error.linkText}`,
   };
 
+  const tweetText = `💸 Just funded this issue from ${bounty.owner}/${bounty.repoName} on OpenQ, looking for devs to work on it: `;
+
   volume = Math.round(volume * Math.pow(10, 10)) / Math.pow(10, 10);
 
   return (
     <div>
       <div className='justify-center items-center flex overflow-x-hidden text-primary overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
         <div ref={modal} className='min-w-[320px] max-w-[620px] mx-8 px-4'>
-          <div className='rounded-sm p-6 shadow-lg flex flex-col w-full bg-[#161B22] outline-none focus:outline-none'>
+          <div className='relative rounded-sm p-6 shadow-lg flex flex-col w-full bg-[#161B22] outline-none focus:outline-none'>
+            <button className='absolute top-4 right-4 cursor-pointer' onClick={() => updateModal()}>
+              <Cross />
+            </button>
             <div className='flex items-center justify-center border-solid'>
               <div className='flex flex-row'>
                 <div className='text-2xl font-semibold'>{title[approveTransferState]}</div>
@@ -240,26 +247,33 @@ const ApproveFundModal = ({
                   className='btn-default py-1.5 text-center flex justify-center cursor-pointer w-full'
                 >
                   <span>Close</span>
-                  {approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
                 </button>
               </div>
             ) : (
               approveTransferState == SUCCESS && (
-                <div className='flex items-center justify-between gap-8 text-lg rounded-b'>
-                  <button
-                    onClick={() => updateModal()}
-                    className='btn-default py-1.5 text-center flex justify-center cursor-pointer w-full'
+                <Link
+                  href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.bountyAddress}`}
+                >
+                  <a
+                    className='hover:scale-105 animate-single-bounce duration-100'
+                    target='_blank'
+                    rel='noopener noreferrer'
                   >
-                    <span>Close</span>
-                    {approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
-                  </button>
-                  {/*<button onClick={openInvoicingModal} className='btn-primary py-1.5 text-center flex justify-center cursor-pointer w-full'>
+                    <div className='flex justify-center items-center m-5 btn-primary'>
+                      <div className='flex justify-center items-center gap-2'>
+                        <div className=''>Tweet about it</div>
+
+                        <Twitter className='w-4 inline' />
+                      </div>
+                    </div>
+                  </a>
+                </Link>
+              )
+            )}
+            {/*<button onClick={openInvoicingModal} className='btn-primary py-1.5 text-center flex justify-center cursor-pointer w-full'>
 								<span>{invoicingData && 'Add'} Invoicing Details</span>
 								{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
 							</button>*/}
-                </div>
-              )
-            )}
           </div>
         </div>
       </div>

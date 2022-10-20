@@ -13,6 +13,7 @@ import {
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import LinkText from '../svg/linktext';
 import Twitter from '../svg/twitter';
+import Cross from '../svg/cross';
 
 const ClaimLoadingModal = ({
   confirmMethod,
@@ -59,7 +60,6 @@ const ClaimLoadingModal = ({
     [CONFIRM_CLAIM]: ` to the address ${ensName || account}. Is this correct?`,
   };
 
-  console.log(bounty.owner);
   const tweetText = `💸 Just claimed a developer bounty from ${bounty.owner} on OpenQ working on this issue: `;
 
   // Hooks
@@ -85,7 +85,10 @@ const ClaimLoadingModal = ({
   return (
     <>
       <div className='justify-center items-center flex  fixed inset-0 z-50'>
-        <div ref={modal} className='w-1/2 lg:w-1/3 min-w-[320px] rounded-sm p-6  w-full bg-nav-bg  text-center'>
+        <div ref={modal} className='relative lg:w-1/3 min-w-[320px] rounded-sm p-6  w-full bg-nav-bg  text-center'>
+          <button className='absolute top-4 right-4 cursor-pointer' onClick={() => updateModal()}>
+            <Cross />
+          </button>
           <div className='text-3xl font-semibold pb-8'>{title[claimState]}</div>
 
           <div className='text-md  pb-2 break-words'>
