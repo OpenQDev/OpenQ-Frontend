@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
+import LinkText from '../svg/linktext';
 
 const AdminModal = ({ setModal, modal }) => {
   const [token, setToken] = useState();
@@ -102,20 +103,7 @@ const AdminModal = ({ setModal, modal }) => {
                 >
                   {modal.transaction.transactionHash.slice(0, 3)}...
                   {modal.transaction.transactionHash.slice(-3)}
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    className='h-4 w-4 inline'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    stroke='currentColor'
-                    strokeWidth='2'
-                  >
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'
-                    />
-                  </svg>
+                  <LinkText />
                 </a>
               </div>
             </>
@@ -158,20 +146,7 @@ const AdminModal = ({ setModal, modal }) => {
                 >
                   {modal.transaction.transactionHash.slice(0, 3)}...
                   {modal.transaction.transactionHash.slice(-3)}
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    className='h-4 w-4 inline'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    stroke='currentColor'
-                    strokeWidth='2'
-                  >
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'
-                    />
-                  </svg>
+                  <LinkText />
                 </a>
               </div>
             </>

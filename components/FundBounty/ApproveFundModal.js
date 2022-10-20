@@ -9,6 +9,7 @@ import Image from 'next/image';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import StoreContext from '../../store/Store/StoreContext';
 import useWeb3 from '../../hooks/useWeb3';
+import LinkText from '../svg/linktext';
 
 const ApproveFundModal = ({
   transactionHash,
@@ -122,20 +123,7 @@ const ApproveFundModal = ({
                     <Link href={link[approveTransferState]}>
                       <a target={'_blank'} rel='noopener noreferrer'>
                         {linkText[approveTransferState] || link[approveTransferState]}
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          className='h-4 w-4 inline'
-                          fill='none'
-                          viewBox='0 0 24 24'
-                          stroke='currentColor'
-                          strokeWidth='2'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'
-                          />
-                        </svg>
+                        <LinkText />
                       </a>
                     </Link>
                   </p>
@@ -170,20 +158,7 @@ const ApproveFundModal = ({
                   <Link href={link[approveTransferState]}>
                     <a target={'_blank'} className='underline' rel='noopener noreferrer'>
                       {transactionHash.slice(0, 5)} . . . {transactionHash.slice(62)}
-                      <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        className='h-4 w-4 inline'
-                        fill='none'
-                        viewBox='0 0 24 24'
-                        stroke='currentColor'
-                        strokeWidth='2'
-                      >
-                        <path
-                          strokeLinecap='round'
-                          strokeLinejoin='round'
-                          d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'
-                        />
-                      </svg>
+                      <LinkText />
                     </a>
                   </Link>
                 </div>
