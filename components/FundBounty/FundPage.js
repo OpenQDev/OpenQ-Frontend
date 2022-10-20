@@ -121,7 +121,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
     const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', { useGrouping: false }));
 
     let approveSucceeded = false;
-
     try {
       const isWhitelisted = await openQClient.isWhitelisted(library, token.address);
 

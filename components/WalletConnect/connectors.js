@@ -1,15 +1,22 @@
-// Third party
-import { InjectedConnector } from '@web3-react/injected-connector';
-import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
-// web3-react fails to report ANY chainId if it is not included in the supportedChainIds array - so we add most common networks here... :-P
+import { WalletConnect } from '@web3-react/walletconnect';
+import { initializeConnector } from '@web3-react/core';
+import { MetaMask } from '@web3-react/metamask';
 
-export const injected = new InjectedConnector({
-  supportedChainIds: [1, 2, 3, 4, 5, 42, 10, 80001, 137, 31337, 137, 56, 97, 100, 61, 62, 63],
-});
-export const walletconnect = new WalletConnectConnector({
-  supportedChainIds: [137],
-  rpc: {
-    137: `https://polygon-mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_PROJECT_ID}`,
-  },
-  qrcode: true,
-});
+export const [walletConnect, walletConnectHooks] = initializeConnector(
+  (actions) =>
+    new WalletConnect({
+      actions,
+      options: {
+        rpc: {
+          137: [
+            `https://polygon-mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_PROJECT_ID}`,
+            'https://polygon-rpc.com',
+          ],
+        },
+      },
+    })
+);
+function onError(error) {
+  console.debug(`web3-react error: ${error}`);
+}
+export const [metaMask, metaMaskHooks] = initializeConnector((actions) => new MetaMask({ actions, onError }));

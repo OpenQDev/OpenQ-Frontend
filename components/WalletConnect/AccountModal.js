@@ -6,8 +6,9 @@ import chainIdDeployEnvMap from './chainIdDeployEnvMap';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import { PersonIcon, SignOutIcon } from '@primer/octicons-react';
 import StoreContext from '../../store/Store/StoreContext';
+import { metaMask, walletConnect } from '../WalletConnect/connectors';
 
-const AccountModal = ({ chainId, account, ensName, deactivate, setIsConnecting, domRef, isSafeApp }) => {
+const AccountModal = ({ chainId, account, ensName, setIsConnecting, domRef, isSafeApp }) => {
   let networkName;
   const [appState] = useContext(StoreContext);
   for (let key in chainIdDeployEnvMap) {
@@ -16,8 +17,15 @@ const AccountModal = ({ chainId, account, ensName, deactivate, setIsConnecting, 
     }
   }
   const disconnectAccount = () => {
+    const connectors = [walletConnect, metaMask];
     try {
-      deactivate();
+      connectors.forEach((connector) => {
+        if (connector?.deactivate) {
+          connector.deactivate();
+        } else {
+          connector.resetState();
+        }
+      });
     } catch (err) {
       appState.logger.error(err, account);
     }

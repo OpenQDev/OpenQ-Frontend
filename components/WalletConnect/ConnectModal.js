@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
-import { injected, walletconnect } from './connectors';
+import { metaMask, walletConnect } from './connectors';
 import useWeb3 from '../../hooks/useWeb3';
 import Image from 'next/image';
 
 const ConnectModal = ({ closeModal }) => {
-  const { activate, account } = useWeb3();
+  const { account } = useWeb3();
 
   const handleMetaMask = async () => {
-    await activate(injected);
+    await metaMask.activate();
     closeModal();
   };
 
   const handleWalletConnect = async () => {
-    await activate(walletconnect);
+    await walletConnect.activate();
     closeModal();
   };
   useEffect(() => {
