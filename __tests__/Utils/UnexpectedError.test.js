@@ -4,12 +4,11 @@
  */
 import React from 'react';
 import { render, screen } from '../../test-utils';
-import userEvent from '@testing-library/user-event';
 import UnexpectedError from '../../components/Utils/UnexpectedError';
 import nextRouter from 'next/router';
 // Test cases for full balances, empty balances, and undefined balances.
 
-describe('AccountModal', () => {
+describe('Error Modal', () => {
   // Test cases for
   let push;
   beforeEach(() => {
@@ -36,7 +35,6 @@ describe('AccountModal', () => {
 
   it('should link to homepage.', async () => {
     // ARRANGE
-    const user = userEvent.setup();
     render(<UnexpectedError error={"I don't like bacon"} />);
     const anchorTag = await screen.findByRole('link');
     const githubLink = screen.queryByText(/github status/i);
@@ -44,19 +42,14 @@ describe('AccountModal', () => {
     expect(screen.getByText("Sorry, something went wrong. I don't like bacon"));
     expect(githubLink).not.toBeInTheDocument();
     expect(anchorTag.href).toMatch(/localhost/);
-    await user.click(anchorTag);
-    expect(push).toHaveBeenCalledTimes(1);
   });
   it('should link to github.', async () => {
     // ARRANGE
-    const user = userEvent.setup();
     render(<UnexpectedError error={"I don't like Githubs bacon"} />);
     // ASSERT
     expect(screen.getByText("Sorry, something went wrong. I don't like Githubs bacon"));
-    const anchorTags = await screen.findAllByRole('link');
+    await screen.findAllByRole('link');
     const githubLink = screen.getByText(/github status/i);
     expect(githubLink.href).toMatch(/github/);
-    await user.click(anchorTags[0]);
-    expect(push).toHaveBeenCalledTimes(1);
   });
 });
