@@ -320,7 +320,6 @@ class OpenQClient {
         txnReceipt = await txnResponse.wait();
         resolve(txnReceipt);
       } catch (error) {
-        console.log('fund error');
         reject(error);
       }
     });

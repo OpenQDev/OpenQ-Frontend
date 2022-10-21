@@ -1,6 +1,7 @@
 import { WalletConnect } from '@web3-react/walletconnect';
 import { initializeConnector } from '@web3-react/core';
 import { MetaMask } from '@web3-react/metamask';
+import { GnosisSafe } from '@web3-react/gnosis-safe';
 
 export const [walletConnect, walletConnectHooks] = initializeConnector(
   (actions) =>
@@ -20,3 +21,5 @@ function onError(error) {
   console.debug(`web3-react error: ${error}`);
 }
 export const [metaMask, metaMaskHooks] = initializeConnector((actions) => new MetaMask({ actions, onError }));
+
+export const [gnosisSafe, gnosisSafeHooks] = initializeConnector((actions) => new GnosisSafe({ actions }));

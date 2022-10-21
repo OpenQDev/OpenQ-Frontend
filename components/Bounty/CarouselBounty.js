@@ -6,9 +6,11 @@ import ToolTipNew from '../Utils/ToolTipNew';
 import Link from 'next/link';
 import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
 import LabelsList from '../Bounty/LabelsList';
+import useWeb3 from '../../hooks/useWeb3';
 
 const CarouselBounty = ({ bounty }) => {
   const [appState] = useContext(StoreContext);
+  const { safe } = useWeb3();
   const createBudget = (bounty) => {
     return bounty.fundingGoalTokenAddress
       ? {
@@ -27,7 +29,7 @@ const CarouselBounty = ({ bounty }) => {
   return (
     <>
       <Link
-        target={'_blank'}
+        target={safe ? '_self' : '_blank'}
         rel='noopener noreferrer'
         href={`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.bountyAddress}`}
       >

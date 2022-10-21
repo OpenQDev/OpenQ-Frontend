@@ -13,7 +13,6 @@ const HorizontalOrganizationCard = ({ organization }) => {
   const context = useContext(StoreContext);
   const { account } = useWeb3();
   const [appState] = context;
-
   useEffect(() => {
     setStarredDisabled(true);
     if (organization.starringUserIds && organization.starringUserIds.some((user) => user === account)) {
