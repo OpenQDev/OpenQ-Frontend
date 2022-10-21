@@ -11,7 +11,7 @@ import ToolTipNew from '../Utils/ToolTipNew';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import ApproveFundModal from './ApproveFundModal';
 import InvoicingModal from './InvoicingModal';
-import { RESTING, CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveFundState';
+import { RESTING, CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR, APPROVE } from './ApproveFundState';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 
 const FundPage = ({ bounty, refreshBounty }) => {
@@ -90,7 +90,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
         depositPeriodDays == 1 ? 'day' : 'days'
       }.`
     );
-    setApproveTransferState(CONFIRM);
+    setApproveTransferState(allowance || token.address == ethers.constants.AddressZero ? CONFIRM : APPROVE);
     setShowApproveTransferModal(true);
   };
 
@@ -338,6 +338,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
               bountyAddress={bounty.bountyAddress}
               bounty={bounty}
               allowance={allowance}
+              depositPeriodDays={depositPeriodDays}
             />
           )}
         </div>

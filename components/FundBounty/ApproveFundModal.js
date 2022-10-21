@@ -3,15 +3,15 @@ import React, { useRef, useEffect, useContext } from 'react';
 import Link from 'next/link';
 
 // Custom
-import { CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveFundState';
+import { CONFIRM, APPROVE, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveFundState';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Image from 'next/image';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import StoreContext from '../../store/Store/StoreContext';
 import useWeb3 from '../../hooks/useWeb3';
 import LinkText from '../svg/linktext';
-import Cross from '../svg/cross';
 import TweetAbout from '../Utils/TweetAbout';
+import ModalDefault from '../Utils/ModalDefault';
 
 const ApproveFundModal = ({
   transactionHash,
@@ -21,13 +21,12 @@ const ApproveFundModal = ({
   error,
   confirmationMessage,
   confirmMethod,
-  approvingMessage,
-  approvingTitle,
   token,
   volume,
   bountyAddress,
   bounty,
   allowance,
+  depositPeriodDays,
   /*openInvoicingModal*/
 }) => {
   const modal = useRef();
@@ -67,13 +66,15 @@ const ApproveFundModal = ({
 
   let title = {
     [CONFIRM]: 'Confirm Deposit',
-    [APPROVING]: approvingTitle || 'Approve',
+    [APPROVE]: 'Approve Deposit',
+    [APPROVING]: 'Approving Deposit...',
     [TRANSFERRING]: 'Transfer',
     [SUCCESS]: 'Transfer Complete!',
     [ERROR]: `${error.title}`,
   };
   let approveStyles = {
     [CONFIRM]: 'btn-primary',
+    [APPROVE]: 'btn-primary',
     [APPROVING]: 'btn-primary',
     [TRANSFERRING]: 'btn-default',
   };
@@ -89,7 +90,8 @@ const ApproveFundModal = ({
 
   let message = {
     [CONFIRM]: `${confirmationMessage}`,
-    [APPROVING]: approvingMessage || 'Approving...',
+    [APPROVE]: 'Please Approve me',
+    [APPROVING]: 'Approving...',
     [TRANSFERRING]: 'Transferring...',
     [SUCCESS]: `Transaction confirmed! Check out your transaction with the link below:\n
 		`,
@@ -109,158 +111,126 @@ const ApproveFundModal = ({
 
   volume = Math.round(volume * Math.pow(10, 10)) / Math.pow(10, 10);
 
-  return (
+  const fundButton = (
     <div>
-      <div className='justify-center items-center flex overflow-x-hidden text-primary overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
-        <div ref={modal} className='min-w-[320px] max-w-[620px] mx-8 px-4'>
-          <div className='relative rounded-sm p-6 shadow-lg flex flex-col w-full bg-[#161B22] outline-none focus:outline-none'>
-            <button data-testid='cross' className='absolute top-4 right-4 cursor-pointer' onClick={() => updateModal()}>
-              <Cross />
-            </button>
-            <div className='flex items-center justify-center border-solid'>
-              <div className='flex flex-row'>
-                <div className='text-2xl font-semibold'>{title[approveTransferState]}</div>
-              </div>
-            </div>
-            {approveTransferState === 'ERROR' ? (
-              <div className='text-md pb-4'>
-                <p className='break-words'>{message[approveTransferState]}</p>
-                {link[approveTransferState] && (
-                  <p className='break-all underline'>
-                    <Link href={link[approveTransferState]}>
-                      <a target={'_blank'} rel='noopener noreferrer'>
-                        {linkText[approveTransferState] || link[approveTransferState]}
-                        <LinkText />
-                      </a>
-                    </Link>
-                  </p>
-                )}
-              </div>
-            ) : approveTransferState === SUCCESS ? (
-              <>
-                <div className='text-md gap-4 py-6 px-4 grid grid-cols-[1fr_1fr] w-full justify-between'>
-                  <div className='w-4'>Deposited</div>
-                  <div className='flex flex-wrap justify-between w-[120px] gap-2'>
-                    <Image
-                      width={24}
-                      className='inline'
-                      height={24}
-                      src={token.path || token.logoURI || '/crypto-logs/ERC20.svg'}
-                    />
-                    <span>
-                      {volume} {token.symbol}
-                    </span>
-                  </div>
-                  <span>To</span>
-                  <CopyAddressToClipboard data={bountyAddress} clipping={[5, 39]} />
-                  <span>For</span>
-                  {bounty.url && (
-                    <Link href={bounty.url}>
-                      <a target='_blank' rel='noopener noreferrer' className='underline'>
-                        {bounty.title}
-                      </a>
-                    </Link>
-                  )}
-                  <span>Transaction</span>
-                  <Link href={link[approveTransferState]}>
-                    <a target={'_blank'} className='underline' rel='noopener noreferrer'>
-                      {transactionHash.slice(0, 5)} . . . {transactionHash.slice(62)}
-                      <LinkText />
-                    </a>
-                  </Link>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className='text-md gap-4 py-6 pb-4 px-4 grid grid-cols-[1fr_1fr] w-full justify-between'>
-                  <div className='w-4'>Funding</div>
-                  <div className='flex flex-wrap justify-between w-[120px] gap-2'>
-                    <Image
-                      width={24}
-                      className='inline'
-                      height={24}
-                      src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'}
-                    />
-                    <span>
-                      {volume} {token.symbol}
-                    </span>
-                  </div>
-                  <span>To</span>
-                  <CopyAddressToClipboard data={bountyAddress} clipping={[5, 39]} />
-                  <span>For</span>
-                  {bounty.url && (
-                    <Link href={bounty.url}>
-                      <a target='_blank' rel='noopener noreferrer' className='underline'>
-                        {bounty.title}
-                      </a>
-                    </Link>
-                  )}
-                  <div
-                    className='py-4 col-span-2 text-center'
-                    dangerouslySetInnerHTML={{ __html: message[approveTransferState] }}
-                  />
-                </div>
-                {token.address !== '0x0000000000000000000000000000000000000000' && !allowance ? (
-                  <div className='flex px-1.5 gap-2 border-gray-700 border rounded-sm py-1.5 self-center'>
-                    <button
-                      onClick={confirmMethod}
-                      disabled={approveTransferState !== CONFIRM}
-                      className={`flex btn-primary p-2 gap-2 ${
-                        approveTransferState === CONFIRM ? 'cursor-pointer' : null
-                      } ${approveStyles[approveTransferState]}`}
-                    >
-                      <span>
-                        {approveTransferState === CONFIRM
-                          ? 'Approve'
-                          : approveTransferState === APPROVING
-                          ? 'Approving'
-                          : 'Approved'}
-                      </span>
-                      {approveTransferState === APPROVING && <LoadingIcon className={'inline pt-1'} />}
-                    </button>
+      {token.address !== '0x0000000000000000000000000000000000000000' && !allowance ? (
+        <div className='flex px-1.5 gap-2 border-gray-700 border rounded-sm py-1.5 self-center'>
+          <button
+            onClick={confirmMethod}
+            disabled={approveTransferState !== CONFIRM}
+            className={`flex btn-primary p-2 gap-2 ${approveTransferState === CONFIRM ? 'cursor-pointer' : null} ${
+              approveStyles[approveTransferState]
+            }`}
+          >
+            <span>
+              {approveTransferState === CONFIRM
+                ? 'Approve'
+                : approveTransferState === APPROVING
+                ? 'Approving'
+                : 'Approved'}
+            </span>
+            {approveTransferState === APPROVING && <LoadingIcon className={'inline pt-1'} />}
+          </button>
 
-                    <div
-                      className={`text-center px-2 flex gap-2 py-1.5 border ${
-                        approveTransferState === TRANSFERRING ? 'cursor-pointer' : null
-                      } ${fundStyles[approveTransferState]}`}
-                    >
-                      <span>{approveTransferState === TRANSFERRING ? 'Funding' : 'Fund'}</span>
-                      {approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
-                    </div>
-                  </div>
-                ) : (
-                  <button
-                    onClick={confirmMethod}
-                    disabled={approveTransferState !== CONFIRM}
-                    className={`py-1.5 flex justify-center gap-4 ${approveStyles[approveTransferState]}`}
-                  >
-                    <span>{approveTransferState === TRANSFERRING ? 'Funding' : 'Fund'}</span>
-                    {approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
-                  </button>
-                )}
-              </>
-            )}
-            {approveTransferState == ERROR ? (
-              <div className='flex items-center justify-center text-lg rounded-b'>
-                <button
-                  onClick={() => updateModal()}
-                  className='btn-default py-1.5 text-center flex justify-center cursor-pointer w-full'
-                >
-                  <span>Close</span>
-                </button>
-              </div>
-            ) : (
-              approveTransferState == SUCCESS && <TweetAbout tweetText={tweetText} bounty={bounty} />
-            )}
-            {/*<button onClick={openInvoicingModal} className='btn-primary py-1.5 text-center flex justify-center cursor-pointer w-full'>
-								<span>{invoicingData && 'Add'} Invoicing Details</span>
-								{approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
-							</button>*/}
+          <div
+            className={`text-center px-2 flex gap-2 py-1.5 border ${
+              approveTransferState === TRANSFERRING ? 'cursor-pointer' : null
+            } ${fundStyles[approveTransferState]}`}
+          >
+            <span>{approveTransferState === TRANSFERRING ? 'Funding' : 'Fund'}</span>
+            {approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
           </div>
         </div>
-      </div>
-      <div className='bg-overlay z-10 fixed inset-0'></div>
+      ) : (
+        <button
+          onClick={confirmMethod}
+          disabled={approveTransferState !== CONFIRM}
+          className={`py-1.5 flex justify-center gap-4 ${approveStyles[approveTransferState]}`}
+        >
+          <span>{approveTransferState === TRANSFERRING ? 'Funding' : 'Fund'}</span>
+          {approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
+        </button>
+      )}
+      {approveTransferState == ERROR ? (
+        <div className='flex items-center justify-center text-lg rounded-b'>
+          <button
+            onClick={() => updateModal()}
+            className='btn-default py-1.5 text-center flex justify-center cursor-pointer w-full'
+          >
+            <span>Close</span>
+          </button>
+        </div>
+      ) : (
+        approveTransferState == SUCCESS && <TweetAbout tweetText={tweetText} bounty={bounty} />
+      )}
+      {/*<button onClick={openInvoicingModal} className='btn-primary py-1.5 text-center flex justify-center cursor-pointer w-full'>
+    <span>{invoicingData && 'Add'} Invoicing Details</span>
+    {approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
+  </button>*/}
     </div>
+  );
+
+  return (
+    <ModalDefault
+      title={title[approveTransferState]}
+      footerRight={fundButton}
+      setShowModal={setShowApproveTransferModal}
+      resetState={resetState}
+    >
+      {/* Body */}
+      {approveTransferState === 'ERROR' ? (
+        <div className='text-md pb-4'>
+          <p className='break-words'>{message[approveTransferState]}</p>
+          {link[approveTransferState] && (
+            <p className='break-all underline'>
+              <Link href={link[approveTransferState]}>
+                <a target={'_blank'} rel='noopener noreferrer'>
+                  {linkText[approveTransferState] || link[approveTransferState]}
+                  <LinkText />
+                </a>
+              </Link>
+            </p>
+          )}
+        </div>
+      ) : (
+        <>
+          <div className='gap-4 grid grid-cols-[100px_1fr]'>
+            <div>Deposit:</div>
+            <div className='flex gap-2'>
+              <Image
+                width={20}
+                className='inline'
+                height={20}
+                src={token.path || token.logoURI || '/crypto-logs/ERC20.svg'}
+              />
+              <span>
+                {volume} {token.symbol}
+              </span>
+            </div>
+            <span>Issue: </span>
+            {bounty.url && (
+              <Link href={bounty.url}>
+                <a target='_blank' rel='noopener noreferrer' className='underline w-full truncate'>
+                  {bounty.title}
+                </a>
+              </Link>
+            )}
+            <span>Locked until:</span>
+            <span>{appState.utils.formatUnixDate(parseInt(Date.now() / 1000) + depositPeriodDays * 60 * 60 * 24)}</span>
+            <span>To Address:</span>
+            <CopyAddressToClipboard data={bountyAddress} clipping={[5, 39]} />
+          </div>
+        </>
+      )}
+      <div>{message[approveTransferState]}</div>
+      {/* <span>Transaction</span>
+            <Link href={link[approveTransferState]}>
+              <a target={'_blank'} className='underline' rel='noopener noreferrer'>
+                {transactionHash.slice(0, 5)} . . . {transactionHash.slice(62)}
+                <LinkText />
+              </a>
+            </Link> */}
+    </ModalDefault>
   );
 };
 
