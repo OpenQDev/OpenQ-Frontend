@@ -64,14 +64,35 @@ const ApproveFundModal = ({
     };
   }, [modal, approveTransferState]);
 
-  let title = {
-    [CONFIRM]: 'Confirm Deposit',
-    [APPROVE]: 'Approve Deposit',
-    [APPROVING]: 'Approving Deposit...',
-    [TRANSFERRING]: 'Transfer',
-    [SUCCESS]: 'Transfer Complete!',
-    [ERROR]: `${error.title}`,
+  let statesFormat = {
+    [CONFIRM]: {
+      title: 'Confirm Deposit',
+      message: 'Are you sure you want to fund this deposit?',
+    },
+    [APPROVE]: {
+      title: 'Approve Deposit',
+      message: 'Approve your ERC20 to get deposited:',
+    },
+    [APPROVING]: {
+      title: 'Approving Deposit...',
+      message: 'Approving...',
+    },
+    [TRANSFERRING]: {
+      title: 'Transferring Deposit...',
+      message: 'Transferring...',
+    },
+    [SUCCESS]: {
+      link: `${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`,
+      title: 'Transfer Complete!',
+    },
+    [ERROR]: {
+      link: error.link,
+      linkText: `${error.linkText}`,
+      title: `${error.title}`,
+      message: `${confirmationMessage}`,
+    },
   };
+
   let approveStyles = {
     [CONFIRM]: 'btn-primary',
     [APPROVE]: 'btn-primary',
@@ -87,25 +108,6 @@ const ApproveFundModal = ({
   if ('0x0000000000000000000000000000000000000000' === token.address) {
     fundStyles = { ...approveStyles };
   }
-
-  let message = {
-    [CONFIRM]: `${confirmationMessage}`,
-    [APPROVE]: 'Please Approve me',
-    [APPROVING]: 'Approving...',
-    [TRANSFERRING]: 'Transferring...',
-    [SUCCESS]: `Transaction confirmed! Check out your transaction with the link below:\n
-		`,
-    [ERROR]: `${error.message}`,
-  };
-
-  let link = {
-    [SUCCESS]: `${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`,
-    [ERROR]: error.link,
-  };
-
-  let linkText = {
-    [ERROR]: `${error.linkText}`,
-  };
 
   const tweetText = `💸 Just funded this issue from ${bounty.owner}/${bounty.repoName} on OpenQ, looking for devs to work on it: `;
 
@@ -172,7 +174,7 @@ const ApproveFundModal = ({
 
   return (
     <ModalDefault
-      title={title[approveTransferState]}
+      title={statesFormat[approveTransferState].title}
       footerRight={fundButton}
       setShowModal={setShowApproveTransferModal}
       resetState={resetState}
@@ -180,12 +182,12 @@ const ApproveFundModal = ({
       {/* Body */}
       {approveTransferState === 'ERROR' ? (
         <div className='text-md pb-4'>
-          <p className='break-words'>{message[approveTransferState]}</p>
-          {link[approveTransferState] && (
+          <p className='break-words'>{statesFormat[approveTransferState].message}</p>
+          {statesFormat[approveTransferState].link && (
             <p className='break-all underline'>
-              <Link href={link[approveTransferState]}>
+              <Link href={statesFormat[approveTransferState].link}>
                 <a target={'_blank'} rel='noopener noreferrer'>
-                  {linkText[approveTransferState] || link[approveTransferState]}
+                  {statesFormat[approveTransferState].linkText || statesFormat[approveTransferState].link}
                   <LinkText />
                 </a>
               </Link>
@@ -219,17 +221,21 @@ const ApproveFundModal = ({
             <span>{appState.utils.formatUnixDate(parseInt(Date.now() / 1000) + depositPeriodDays * 60 * 60 * 24)}</span>
             <span>To Address:</span>
             <CopyAddressToClipboard data={bountyAddress} clipping={[5, 39]} />
+            {approveTransferState == SUCCESS && (
+              <>
+                <span className='pr-8'>Transaction:</span>
+                <Link href={statesFormat[approveTransferState].link}>
+                  <a target={'_blank'} className='underline' rel='noopener noreferrer'>
+                    {transactionHash.slice(0, 5)} . . . {transactionHash.slice(62)}
+                    <LinkText />
+                  </a>
+                </Link>
+              </>
+            )}
+            <div className='col-span-2'>{statesFormat[approveTransferState].message}</div>
           </div>
         </>
       )}
-      <div>{message[approveTransferState]}</div>
-      {/* <span>Transaction</span>
-            <Link href={link[approveTransferState]}>
-              <a target={'_blank'} className='underline' rel='noopener noreferrer'>
-                {transactionHash.slice(0, 5)} . . . {transactionHash.slice(62)}
-                <LinkText />
-              </a>
-            </Link> */}
     </ModalDefault>
   );
 };
