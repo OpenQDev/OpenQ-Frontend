@@ -87,6 +87,24 @@ const Editing = () => {
             formValues[key] = inputObj[key];
           }
         });
+        if (formValues.email) {
+          try {
+            const formData = new FormData();
+            formData.append('api_key', 'JlUKxDNJAmbFF44byOHTNQ');
+            formData.append('email', formValues.email);
+            const response = await fetch('https://api.convertkit.com/v3/forms/3697685/subscribe', {
+              method: 'POST',
+              body: formData,
+            });
+            const subscribeJson = await response.json();
+            if (subscribeJson) {
+              setSubscribed(true);
+            }
+          } catch (err) {
+            appState.logger.error(err);
+          }
+        }
+
         const { updateUser } = await openQPrismaClient.updateUser(formValues);
         if (updateUser) {
           Object.values(form)
