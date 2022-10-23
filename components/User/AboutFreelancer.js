@@ -6,15 +6,16 @@ import Image from 'next/image';
 // Custom
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import useEns from '../../hooks/useENS';
-import AboutTitle from './AboutModules/AboutTitle';
-import UserHistory from './AboutModules/UserHistory';
-import Balances from './AboutModules/Balances';
-import MiniBountyList from './AboutModules/MiniBountyList';
+import AboutTitle from './OverviewTab/AboutTitle';
+import UserHistory from './OverviewTab/UserHistory';
+import Balances from './OverviewTab/Balances';
+import MiniBountyList from './OverviewTab/MiniBountyList';
 import { BookIcon, EyeIcon, StarIcon } from '@primer/octicons-react';
 import SubMenu from '../Utils/SubMenu';
-import Watching from './AboutModules/Watching';
-import Starred from './AboutModules/Starred';
+import Watching from './WatchingTab/Watching';
+import Starred from './StarsTab/Starred';
 import StoreContext from '../../store/Store/StoreContext';
+import Editing from './EditingTab/Editing';
 
 const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatched, watchedBounties }) => {
   const { payoutTokenBalances, payouts } = user;
@@ -81,6 +82,8 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
             { name: 'Overview', Svg: BookIcon },
             { name: 'Stars', Svg: StarIcon },
             ...[showWatched ? { name: 'Watching', Svg: EyeIcon } : {}],
+
+            ...[showWatched ? { name: 'Editing', Svg: EyeIcon } : {}],
           ]}
         />
         <div className='w-full border-b h-px border-web-gray'></div>
@@ -130,7 +133,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
           </div>
 
           <div className='flex flex-col flex-1 lg:pl-20 '>
-            {internalMenu == 'Overview' ? (
+            {internalMenu == 'Overview' && (
               <div className=''>
                 <AboutTitle ensName={ensName} account={account} githubUser={githubUser} />
 
@@ -138,11 +141,12 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
                 <Balances tokenBalances={payoutTokenBalances} tokenValues={payoutTokenValues} title='Total Payouts' />
                 <MiniBountyList payouts={payouts} />
               </div>
-            ) : internalMenu == 'Stars' ? (
-              <Starred starredOrganizations={starredOrganizations} />
-            ) : (
-              watchedFullBounties.length > 0 && showWatched && <Watching watchedBounties={watchedFullBounties} />
             )}
+            {internalMenu == 'Stars' && <Starred starredOrganizations={starredOrganizations} />}{' '}
+            {internalMenu === 'Watching' && watchedFullBounties.length > 0 && showWatched && (
+              <Watching watchedBounties={watchedFullBounties} />
+            )}
+            {internalMenu === 'Editing' && showWatched && <Editing />}
           </div>
         </div>
       </div>

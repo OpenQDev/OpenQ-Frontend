@@ -14,6 +14,7 @@ const useWeb3 = () => {
     };
   } else {
     const { provider, account, active, activate, chainId, deactivate, error, connector } = useWeb3React();
+    console.log(account);
     return {
       library: provider,
       account,
