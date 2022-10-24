@@ -66,6 +66,8 @@ const ApproveFundModal = ({
 
   useEffect(() => {
     if (allowance) setApproveTransferState(CONFIRM);
+    if (token.address !== '0x0000000000000000000000000000000000000000' && !allowance && approveTransferState == CONFIRM)
+      setApproveTransferState(APPROVE);
   }, [allowance]);
 
   let statesFormat = {
