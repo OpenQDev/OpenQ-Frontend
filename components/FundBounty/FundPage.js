@@ -89,7 +89,9 @@ const FundPage = ({ bounty, refreshBounty }) => {
         depositPeriodDays == 1 ? 'day' : 'days'
       }.`
     );
+    console.log(allowance);
     setApproveTransferState(allowance || token.address == ethers.constants.AddressZero ? CONFIRM : APPROVE);
+    console.log(allowance);
     setShowApproveTransferModal(true);
   };
 

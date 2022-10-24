@@ -68,54 +68,71 @@ const ApproveFundModal = ({
     [CONFIRM]: {
       title: 'Confirm Deposit',
       message: 'Are you sure you want to fund this deposit?',
+      rightBtn: ['Fund', 'btn-primary', 'enabled'],
+      leftBtn: ['Approved!', 'btn-default cursor-not-allowed', 'disabled'],
+      clickMethod: confirmMethod,
     },
     [APPROVE]: {
       title: 'Approve Deposit',
-      message: 'Approve your ERC20 to get deposited:',
+      message: 'Approve your ERC20 for the deposit:',
+      rightBtn: ['Fund', 'btn-default cursor-not-allowed', 'disabled'],
+      leftBtn: ['Approve', 'btn-primary', 'enabled'],
+      clickMethod: confirmMethod,
     },
     [APPROVING]: {
       title: 'Approving Deposit...',
       message: 'Approving...',
+      rightBtn: ['Fund', 'btn-default cursor-not-allowed', 'disabled'],
+      leftBtn: ['Approving...', 'btn-primary cursor-not-allowed', 'disabled'],
     },
     [TRANSFERRING]: {
       title: 'Transferring Deposit...',
       message: 'Transferring...',
+      rightBtn: ['Funding...', 'btn-primary cursor-not-allowed', 'disabled'],
+      leftBtn: ['Approved!', 'btn-default cursor-not-allowed', 'disabled'],
     },
     [SUCCESS]: {
       link: `${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`,
       title: 'Transfer Complete!',
+      rightBtn: ['', 'hidden', ''],
+      leftBtn: ['', 'hidden', ''],
     },
     [ERROR]: {
       link: error.link,
       linkText: `${error.linkText}`,
       title: `${error.title}`,
-      message: `${confirmationMessage}`,
+      message: `${error.message}`,
+      rightBtn: ['Close', 'btn-default', 'enabled'],
+      leftBtn: ['', 'hidden', ''],
+      clickMethod: () => updateModal(),
     },
   };
-
-  let approveStyles = {
-    [CONFIRM]: 'btn-primary',
-    [APPROVE]: 'btn-primary',
-    [APPROVING]: 'btn-primary',
-    [TRANSFERRING]: 'btn-default',
-  };
-
-  let fundStyles = {
-    [CONFIRM]: 'px-8 border-transparent',
-    [APPROVING]: 'px-8 border-transparent',
-    [TRANSFERRING]: 'btn-primary',
-  };
-  if ('0x0000000000000000000000000000000000000000' === token.address) {
-    fundStyles = { ...approveStyles };
-  }
 
   const tweetText = `💸 Just funded this issue from ${bounty.owner}/${bounty.repoName} on OpenQ, looking for devs to work on it: `;
 
   volume = Math.round(volume * Math.pow(10, 10)) / Math.pow(10, 10);
 
   const fundButton = (
-    <div>
-      {token.address !== '0x0000000000000000000000000000000000000000' && !allowance ? (
+    <div className='flex gap-2'>
+      {console.log(approveTransferState)}
+      {token.address !== '0x0000000000000000000000000000000000000000' && !allowance && (
+        <button
+          disabled={statesFormat[approveTransferState].leftBtn[2] == 'disabled'}
+          onClick={statesFormat[approveTransferState].clickMethod}
+          className={`${statesFormat[approveTransferState].leftBtn[1]}`}
+        >
+          {statesFormat[approveTransferState].leftBtn[0]}
+        </button>
+      )}
+      <button
+        disabled={statesFormat[approveTransferState].rightBtn[2] == 'disabled'}
+        onClick={statesFormat[approveTransferState].clickMethod}
+        className={`border ${statesFormat[approveTransferState].rightBtn[1]}`}
+      >
+        {statesFormat[approveTransferState].rightBtn[0]}
+      </button>
+      {approveTransferState == SUCCESS && <TweetAbout tweetText={tweetText} bounty={bounty} />}
+      {/* {token.address !== '0x0000000000000000000000000000000000000000' && !allowance ? (
         <div className='flex px-1.5 gap-2 border-gray-700 border rounded-sm py-1.5 self-center'>
           <button
             onClick={confirmMethod}
@@ -164,7 +181,7 @@ const ApproveFundModal = ({
         </div>
       ) : (
         approveTransferState == SUCCESS && <TweetAbout tweetText={tweetText} bounty={bounty} />
-      )}
+      )}*/}
       {/*<button onClick={openInvoicingModal} className='btn-primary py-1.5 text-center flex justify-center cursor-pointer w-full'>
     <span>{invoicingData && 'Add'} Invoicing Details</span>
     {approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
