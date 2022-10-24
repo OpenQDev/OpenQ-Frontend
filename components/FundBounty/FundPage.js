@@ -21,7 +21,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
   const [buttonText, setButtonText] = useState('Fund');
   const [, setSuccessMessage] = useState('');
   const [transactionHash, setTransactionHash] = useState(null);
-  const [confirmationMessage, setConfirmationMessage] = useState('Please enter a volume greater than 0.');
   const [showApproveTransferModal, setShowApproveTransferModal] = useState(false);
   const [approveTransferState, setApproveTransferState] = useState(RESTING);
   const [invoicingModal, setInvoicingModal] = useState();
@@ -84,14 +83,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
         ? token.address != ethers.constants.AddressZero && allowanceBigNumber?.gte(bigNumberVolumeInWei)
         : 0
     );
-    setConfirmationMessage(
-      `You are in the process of funding this contract. <br /> Your funds will be locked for ${depositPeriodDays} ${
-        depositPeriodDays == 1 ? 'day' : 'days'
-      }.`
-    );
     console.log(allowance);
     setApproveTransferState(allowance || token.address == ethers.constants.AddressZero ? CONFIRM : APPROVE);
-    console.log(allowance);
     setShowApproveTransferModal(true);
   };
 
@@ -323,7 +316,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
               approveTransferState={approveTransferState}
               address={account}
               transactionHash={transactionHash}
-              confirmationMessage={confirmationMessage}
               error={error}
               setShowApproveTransferModal={setShowApproveTransferModal}
               confirmMethod={fundBounty}

@@ -19,7 +19,6 @@ const ApproveFundModal = ({
   approveTransferState,
   resetState,
   error,
-  confirmationMessage,
   confirmMethod,
   token,
   volume,
