@@ -95,7 +95,7 @@ pre {
 		@apply py-[4px] px-3 text-[0.75rem] tracking-wider placeholder:text-muted outline-none rounded-sm border border-border-gray bg-menu-bg focus-within:border-blue-400
 	}
 	.input-field-big {
-		@apply py-[5px] pl-8 pr-3 text-[0.75rem] tracking-wider leading-[20px] h-min placeholder:text-muted rounded-sm outline-none border border-border-gray bg-menu-bg focus-within:border-blue-400
+		@apply py-[5px] sm:pl-8 pl-2  pr-2 sm:pr-3 text-[0.75rem] tracking-wider leading-[20px] h-min placeholder:text-muted rounded-sm outline-none border border-border-gray bg-menu-bg focus-within:border-blue-400
 	}
 	.nav-link{
 	@apply flex text-[0.8rem] lg:mx-2 hover:text-primary text-muted font-bold hover:cursor-pointer pt-1 lg:pt-0 lg:border-none border-t border-web-gray

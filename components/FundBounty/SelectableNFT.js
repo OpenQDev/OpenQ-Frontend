@@ -2,7 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 
 const SelectableNFT = ({ nft, setSelectedNft, selectedNft, pickNft }) => {
-  console.log(selectedNft);
   const uriRegex = /^https:\/\/||http:\/\/||\//;
   const vidRegex = /mp4$/;
   let selected =
@@ -17,7 +16,7 @@ const SelectableNFT = ({ nft, setSelectedNft, selectedNft, pickNft }) => {
   return (
     <div className='relative'>
       <div
-        className={`border-4 bg-nav-bg ${
+        className={`border-4 bg-nav-bg py-1 ${
           !selected && setSelectedNft && 'cursor-pointer'
         } rounded-md  h-76 border-dark-mode`}
         onClick={handleSelect}
@@ -51,7 +50,7 @@ const SelectableNFT = ({ nft, setSelectedNft, selectedNft, pickNft }) => {
         >
           <button
             onClick={pickNft}
-            className='p-3 bg-green hover:bg-green-highlight -mx-1 -mb-1 rounded-b-md cursor-pointer justify-center text-center text-white text-lg text-semibold'
+            className='p-3 bg-green hover:bg-green-highlight -mx-1 -mb-1 py-1 rounded-b-md cursor-pointer justify-center text-center text-white text-lg text-semibold'
           >
             Select
           </button>

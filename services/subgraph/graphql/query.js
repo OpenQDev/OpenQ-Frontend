@@ -123,6 +123,8 @@ export const GET_BOUNTY = gql`
         tokenAddress
         expiration
         volume
+        tokenId
+        isNft
         refundTime
         sender {
           id

@@ -31,6 +31,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
   const [allowance, setAllowance] = useState();
   const [pickedNft, setPickedNft] = useState();
   const [nfts, setNfts] = useState([]);
+  const [nftTier, setNftTier] = useState('');
   const zeroAddressMetadata = {
     name: 'Matic',
     address: '0x0000000000000000000000000000000000000000',
@@ -96,6 +97,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
   // State
   const [token, setToken] = useState(zeroAddressMetadata);
+  const isContest = bounty.bountyType === '2' || bounty.bountyType === '3';
   const bountyName =
     bounty.bountyType === '0'
       ? 'Fixed Price'
@@ -108,6 +110,12 @@ const FundPage = ({ bounty, refreshBounty }) => {
       : 'Type Unknown';
 
   const closed = bounty.status == '1';
+  const onNftTierChange = (e) => {
+    const targetedTier = parseInt(e.target.value);
+    if ((targetedTier > 0 && targetedTier <= bounty.payoutSchedule.length) || e.target.value === '') {
+      setNftTier(e.target.value);
+    }
+  };
   const loadingClosedOrZero =
     approveTransferState == CONFIRM ||
     approveTransferState == APPROVING ||
@@ -116,6 +124,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
     parseFloat(volume) <= 0.00000001 ||
     parseFloat(volume) > 1000000 ||
     (volume == '' && !pickedNft) ||
+    (isContest && nftTier === '' && pickedNft) ||
     !(parseInt(depositPeriodDays) > 0);
 
   const disableOrEnable = `${
@@ -270,13 +279,13 @@ const FundPage = ({ bounty, refreshBounty }) => {
         await openQClient.approveNFT(library, bounty.bountyAddress, pickedNft.token_address, pickedNft.token_id);
 
         approveSucceeded = true;
+        setApproveTransferState(TRANSFERRING);
       } catch (error) {
         const { message, title, link, linkText } = openQClient.handleError(error, { bounty });
         setError({ message, title, link, linkText });
         setButtonText('Fund');
         setApproveTransferState(ERROR);
       }
-      setApproveTransferState(TRANSFERRING);
 
       try {
         const { token_address, token_id } = pickedNft;
@@ -290,6 +299,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
         setTransactionHash(fundTxnReceipt.events[0].transactionHash);
         setApproveTransferState(SUCCESS);
+        setButtonText('Fund');
         setSuccessMessage(
           `Successfully funded issue ${bounty.url} with ${pickedNft.name} #${pickedNft.token_id} (${pickedNft.metadata.name})${token.symbol}!`
         );
@@ -322,7 +332,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
       ) : (
         <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
           <div className='flex flex-col w-full space-y-5 pb-8 items-center md:border rounded-sm border-gray-700'>
-            <div className='flex text-3xl w-full text-primary justify-center px-16 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
+            <div className='flex text-3xl w-full text-primary justify-center px-8 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
               Escrow Funds{' '}
               {bounty.bountyType === '0'
                 ? `in ${bountyName} Contract`
@@ -345,7 +355,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
                 </div>
               ) : null}
               <div className='flex gap-4'>
-                <div>
+                <div className='w-full'>
                   <div className='flex w-full input-field-big mb-4'>
                     <div className=' flex items-center gap-3 w-full text-primary md:whitespace-nowrap'>
                       <ToolTipNew
@@ -363,7 +373,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
                       </ToolTipNew>
                       <span>Deposit Locked Period</span>
                     </div>
-
                     <div className={'flex px-4 font-bold bg-dark-mode'}>
                       <input
                         className='text-primary text-right number outline-none bg-dark-mode w-full flex-1'
@@ -375,15 +384,46 @@ const FundPage = ({ bounty, refreshBounty }) => {
                     </div>
                   </div>
 
+                  {isContest && pickedNft && (
+                    <div className='flex w-full input-field-big mb-4'>
+                      <div className=' flex items-center gap-3 w-full text-primary md:whitespace-nowrap'>
+                        <ToolTipNew
+                          relativePosition={'md:-left-12'}
+                          outerStyles={'-top-1'}
+                          groupStyles={''}
+                          innerStyles={'whitespace-normal md:w-96 sm:w-60 w-40  '}
+                          toolTipText={
+                            'Which tier of this contest do you want this nft to be funded to. Elgible tiers are '
+                          }
+                        >
+                          <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                            ?
+                          </div>
+                        </ToolTipNew>
+                        <span>Tier</span>
+                      </div>
+                      <div className={'flex px-4 font-bold bg-dark-mode'}>
+                        <input
+                          className='text-primary text-right number outline-none bg-dark-mode w-full flex-1'
+                          autoComplete='off'
+                          value={nftTier}
+                          id='deposit-period'
+                          onChange={onNftTierChange}
+                        />
+                      </div>
+                    </div>
+                  )}
                   <ToolTipNew
                     relativePosition={'left-0'}
                     outerStyles={'-top-1 '}
                     groupStyles={'w-min'}
-                    innerStyles={'sm:w-40 w-0 md:w-60 whitespace-normal'}
+                    innerStyles={'sm:w-40 md:w-60 whitespace-normal'}
                     hideToolTip={account && isOnCorrectNetwork && !loadingClosedOrZero}
                     toolTipText={
                       account && isOnCorrectNetwork && !(depositPeriodDays > 0)
                         ? "Please indicate how many days you'd like to fund your contract for."
+                        : account && isOnCorrectNetwork && isContest && nftTier === '' && pickedNft
+                        ? 'Please select an elgible tier to fund the nft to.'
                         : account && isOnCorrectNetwork
                         ? "Please indicate the volume you'd like to fund with. Must be between 0.0000001 and 1,000,000."
                         : account
@@ -411,7 +451,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
                   </ToolTipNew>
                 </div>
                 {pickedNft && (
-                  <div className='w-60 rounded-md '>
+                  <div className='w-60 relative -top-2 rounded-md '>
                     <SelectableNFT nft={pickedNft} />
                   </div>
                 )}

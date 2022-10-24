@@ -147,8 +147,8 @@ const ApproveFundModal = ({
             ) : approveTransferState === SUCCESS ? (
               <>
                 <div className='text-md gap-4 py-6 px-4 grid grid-cols-[1fr_1fr] w-full justify-between'>
-                  <div className='w-4'>Deposited</div>
-                  <div className='flex flex-wrap justify-between w-[120px] gap-2'>
+                  <div className='w-4  hidden sm:block'>Deposited</div>
+                  <div className='flex flex-wrap justify-between w-[120px] gap-2 col-span-2 sm:col-span-1'>
                     <FundingTokenStats volume={volume} token={token} pickedNft={pickedNft} />
                   </div>
                   <span>To</span>
@@ -186,8 +186,8 @@ const ApproveFundModal = ({
             ) : (
               <>
                 <div className='text-md gap-4 py-6 pb-4 px-4 grid grid-cols-[1fr_1fr] w-full justify-between'>
-                  <div className='w-4'>Funding</div>
-                  <div className='flex flex-wrap justify-between w-full gap-2'>
+                  <div className='w-4 hidden sm:block'>Funding</div>
+                  <div className='flex flex-wrap justify-between w-full gap-2 col-span-2 sm:col-span-1'>
                     <FundingTokenStats pickedNft={pickedNft} volume={volume} token={token} />
                   </div>
                   <span>To</span>

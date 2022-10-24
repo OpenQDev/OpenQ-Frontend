@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import SelectableNFT from './SelectableNFT';
 const NFTFundModal = ({ nfts, setPickedNft }) => {
   const [showModal, setShowModal] = useState();
@@ -7,10 +7,32 @@ const NFTFundModal = ({ nfts, setPickedNft }) => {
     setPickedNft(selectedNft);
     setShowModal(false);
   };
+
+  const modalRef = useRef();
+  useEffect(() => {
+    // Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
+    function handleClickOutside(event) {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setShowModal();
+      }
+    }
+
+    // Bind the event listener
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [modalRef]);
+
   return (
     <>
       <div>
-        <button onClick={() => setShowModal(true)} className='flex gap-2 btn-default content-center items-center '>
+        <button
+          onClick={() => setShowModal(true)}
+          className='flex gap-2 py-[7px] btn-default content-center items-center '
+        >
           <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16' className='fill-muted'>
             <path
               fillRule='evenodd'
@@ -28,10 +50,13 @@ const NFTFundModal = ({ nfts, setPickedNft }) => {
 
       {showModal && (
         <>
-          <div className='justify-center items-center flex overflow-x-hidden  text-primary overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
-            <div className='min-w-[320px] max-h-[650px] overflow-y-scroll w-full max-w-[780px] p-8 bg-dark-mode rounded-md'>
+          <div className='justify-center md:items-center flex overflow-x-hidden  text-primary overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
+            <div
+              ref={modalRef}
+              className=' md:max-h-[650px] md:overflow-y-scroll w-full max-w-[780px] p-8 bg-dark-mode md:mx-8 md:rounded-md'
+            >
               <h2 className='text-center text-4xl pb-8'>Select NFT</h2>
-              <div className='text-primary text-[0.8rem] grid  gap-8 grid-cols-[repeat(_auto-fit,_minmax(200px,_1fr)_)] yeet'>
+              <div className='text-primary text-[0.8rem] grid  gap-8 xs:grid-cols-[repeat(_auto-fit,_minmax(200px,_1fr)_)]'>
                 {nfts.map((nft, index) => {
                   return (
                     <SelectableNFT
@@ -46,7 +71,12 @@ const NFTFundModal = ({ nfts, setPickedNft }) => {
               </div>
             </div>
           </div>{' '}
-          <div className='bg-overlay fixed inset-0'></div>
+          <div
+            onClick={() => {
+              setShowModal();
+            }}
+            className='bg-overlay fixed inset-0'
+          ></div>
         </>
       )}
     </>

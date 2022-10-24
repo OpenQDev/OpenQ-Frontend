@@ -51,9 +51,7 @@ const TokenList = ({
     const newPolygonTokens = await appState.tokenClient.getTokenMetadata(cursor, batch, 'polygon');
     setCursor(batch + cursor);
     setPolygonTokens([...polygonTokens, ...newPolygonTokens]);
-    console.log(newPolygonTokens, newPolygonTokens.length, batch);
     if (newPolygonTokens.length !== 0) {
-      console.log('exec');
       setIsComplete(false);
     }
   };
@@ -89,7 +87,6 @@ const TokenList = ({
     onCurrencySelect(token);
     setShowTokenSearch(false);
   }
-  console.log(displayTokens.length);
   return (
     <>
       {/* <div style={{ padding: '25px', margin: '10px', outline: '2px solid pink', borderRadius: '20px' }} > */}
