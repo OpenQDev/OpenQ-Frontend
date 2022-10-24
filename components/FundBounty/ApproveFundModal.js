@@ -65,6 +65,7 @@ const ApproveFundModal = ({
   }, [modal, approveTransferState]);
 
   useEffect(() => {
+    // REFACTOR: is there a better way to force the correct state here?
     if (allowance) setApproveTransferState(CONFIRM);
     if (token.address !== '0x0000000000000000000000000000000000000000' && !allowance && approveTransferState == CONFIRM)
       setApproveTransferState(APPROVE);
