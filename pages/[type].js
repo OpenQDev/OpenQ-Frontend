@@ -87,7 +87,7 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
 
       return [fullBounties, complete];
     } catch (err) {
-      setError(err);
+      setError(JSON.stringify(err));
       appState.logger.error(err, account);
       return [[], true];
     }

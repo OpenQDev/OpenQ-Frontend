@@ -11,7 +11,7 @@ const UnexpectedError = ({ error }) => {
           <span className='underline'>
             <Link href={'/'}>Go home</Link>
           </span>
-          {error?.includes('Github') && (
+          {typeof error === 'string' && error?.includes('Github') && (
             <span className='underline'>
               <Link href={'https://www.githubstatus.com/'}>Check Github Status</Link>.
             </span>

@@ -1,7 +1,6 @@
 // Third party Libraries
 import React, { useEffect } from 'react';
 import { Web3ReactProvider } from '@web3-react/core';
-import { ethers } from 'ethers';
 import 'tailwindcss/tailwind.css';
 import 'github-markdown-css/github-markdown-dark.css';
 import { useRouter } from 'next/router';
@@ -15,13 +14,13 @@ import Head from 'next/head';
 import Footer from '../components/Layout/Footer';
 import ReactGA from 'react-ga4';
 import { hotjar } from 'react-hotjar';
+import { walletConnect, walletConnectHooks, metaMask, metaMaskHooks } from '../components/WalletConnect/connectors';
 
 function OpenQ({ Component, pageProps }) {
-  function getLibrary(provider) {
-    const library = new ethers.providers.Web3Provider(provider);
-    library.pollingInterval = 12000;
-    return library;
-  }
+  const connectors = [
+    [metaMask, metaMaskHooks],
+    [walletConnect, walletConnectHooks],
+  ];
   useEffect(() => {
     ReactGA.initialize(process.env.NEXT_PUBLIC_GA_TRACKING_ID);
 
@@ -82,7 +81,7 @@ function OpenQ({ Component, pageProps }) {
       <>
         <AuthProvider>
           <StoreProvider>
-            <Web3ReactProvider getLibrary={getLibrary}>
+            <Web3ReactProvider connectors={connectors}>
               <div className='min-h-screen  flex flex-col justify-between'>
                 <div>
                   <Navigation />

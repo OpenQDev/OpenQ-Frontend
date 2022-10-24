@@ -13,9 +13,9 @@ const useWeb3 = () => {
       error: () => {},
     };
   } else {
-    const { library, account, active, activate, chainId, deactivate, error, connector } = useWeb3React();
+    const { provider, account, active, activate, chainId, deactivate, error, connector } = useWeb3React();
     return {
-      library,
+      library: provider,
       account,
       active,
       activate,
