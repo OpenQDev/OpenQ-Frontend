@@ -114,79 +114,31 @@ const ApproveFundModal = ({
   const fundButton = (
     <div className='flex gap-2'>
       {console.log(approveTransferState)}
+      {/* Left Button */}
       {token.address !== '0x0000000000000000000000000000000000000000' && !allowance && (
         <button
           disabled={statesFormat[approveTransferState].leftBtn[2] == 'disabled'}
           onClick={statesFormat[approveTransferState].clickMethod}
-          className={`flex gap-2 ${statesFormat[approveTransferState].leftBtn[1]}`}
+          className={`flex gap-2 items-center ${statesFormat[approveTransferState].leftBtn[1]}`}
         >
           {statesFormat[approveTransferState].leftBtn[0]}
-          {approveTransferState == 'APPROVING' && <LoadingIcon className={'inline pt-1'} />}
+          {approveTransferState == 'APPROVING' && <LoadingIcon />}
         </button>
       )}
+      {/* Right Button */}
       <button
         disabled={statesFormat[approveTransferState].rightBtn[2] == 'disabled'}
         onClick={statesFormat[approveTransferState].clickMethod}
-        className={`flex gap-2 ${statesFormat[approveTransferState].rightBtn[1]}`}
+        className={`flex gap-2 items-center ${statesFormat[approveTransferState].rightBtn[1]}`}
       >
         {statesFormat[approveTransferState].rightBtn[0]}
-        {approveTransferState == 'TRANSFERRING' && <LoadingIcon className={'inline pt-1'} />}
+        {approveTransferState == 'TRANSFERRING' && <LoadingIcon />}
       </button>
       {approveTransferState == SUCCESS && <TweetAbout tweetText={tweetText} bounty={bounty} />}
-      {/* {token.address !== '0x0000000000000000000000000000000000000000' && !allowance ? (
-        <div className='flex px-1.5 gap-2 border-gray-700 border rounded-sm py-1.5 self-center'>
-          <button
-            onClick={confirmMethod}
-            disabled={approveTransferState !== CONFIRM}
-            className={`flex btn-primary p-2 gap-2 ${approveTransferState === CONFIRM ? 'cursor-pointer' : null} ${
-              approveStyles[approveTransferState]
-            }`}
-          >
-            <span>
-              {approveTransferState === CONFIRM
-                ? 'Approve'
-                : approveTransferState === APPROVING
-                ? 'Approving'
-                : 'Approved'}
-            </span>
-            {approveTransferState === APPROVING && <LoadingIcon className={'inline pt-1'} />}
-          </button>
-
-          <div
-            className={`text-center px-2 flex gap-2 py-1.5 border ${
-              approveTransferState === TRANSFERRING ? 'cursor-pointer' : null
-            } ${fundStyles[approveTransferState]}`}
-          >
-            <span>{approveTransferState === TRANSFERRING ? 'Funding' : 'Fund'}</span>
+      {/* <button onClick={openInvoicingModal} className='btn-primary'>
+            <span>{invoicingData && 'Add'} Invoicing Details</span>
             {approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
-          </div>
-        </div>
-      ) : (
-        <button
-          onClick={confirmMethod}
-          disabled={approveTransferState !== CONFIRM}
-          className={`py-1.5 flex justify-center gap-4 ${approveStyles[approveTransferState]}`}
-        >
-          <span>{approveTransferState === TRANSFERRING ? 'Funding' : 'Fund'}</span>
-          {approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
-        </button>
-      )}
-      {approveTransferState == ERROR ? (
-        <div className='flex items-center justify-center text-lg rounded-b'>
-          <button
-            onClick={() => updateModal()}
-            className='btn-default py-1.5 text-center flex justify-center cursor-pointer w-full'
-          >
-            <span>Close</span>
-          </button>
-        </div>
-      ) : (
-        approveTransferState == SUCCESS && <TweetAbout tweetText={tweetText} bounty={bounty} />
-      )}*/}
-      {/*<button onClick={openInvoicingModal} className='btn-primary py-1.5 text-center flex justify-center cursor-pointer w-full'>
-    <span>{invoicingData && 'Add'} Invoicing Details</span>
-    {approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
-  </button>*/}
+          </button>*/}
     </div>
   );
 
