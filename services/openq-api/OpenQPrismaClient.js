@@ -19,6 +19,7 @@ import {
   BLACKLIST_ISSUE,
   BLACKLIST_ORG,
   UPDATE_USER_SIMPLE,
+  GET_USERS,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
@@ -207,7 +208,6 @@ class OpenQPrismaClient {
   }
 
   updateUser(values) {
-    console.log(values);
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
@@ -224,7 +224,6 @@ class OpenQPrismaClient {
 
   // only updates github and address, no auth
   updateUserSimple(values) {
-    console.log(values);
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
@@ -287,6 +286,24 @@ class OpenQPrismaClient {
           variables,
         });
         resolve(result.data.user);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  async getUsers(secret) {
+    const promise = new Promise(async (resolve, reject) => {
+      const variables = {};
+      try {
+        const result = await this.client.query({
+          query: GET_USERS,
+          variables,
+          context: { headers: { authorization: secret } },
+        });
+        console.log(result.data.usersConnection.users);
+        resolve(result.data.usersConnection.users);
       } catch (e) {
         reject(e);
       }

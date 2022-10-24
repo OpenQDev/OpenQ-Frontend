@@ -15,7 +15,7 @@ const useAuth = () => {
     if (Object.prototype.hasOwnProperty.call(authState, 'login') && account) {
       const accountData = await appState.openQPrismaClient.getUser(account);
 
-      if (!accountData.github) {
+      if (!accountData?.github) {
         const githubLogin = authState.login;
         const params = {
           address: ethers.utils.getAddress(account),

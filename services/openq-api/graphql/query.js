@@ -93,6 +93,22 @@ export const GET_USER_BY_HASH = gql`
   }
 `;
 
+export const GET_USERS = gql`
+  query getUsers {
+    usersConnection {
+      users {
+        watchedBountyIds
+        github
+        discord
+        twitter
+        email
+        address
+        starredOrganizationIds
+      }
+    }
+  }
+`;
+
 export const GET_ORGANIZATION = gql`
   query getOrganization($organizationId: String!) {
     organization(organizationId: $organizationId) {
@@ -172,8 +188,8 @@ export const UPDATE_USER = gql`
 `;
 
 export const UPDATE_USER_SIMPLE = gql`
-  mutation updateUser($address: String!, $github: String) {
-    updateUser(address: $address, github: $github) {
+  mutation updateUserSimple($address: String!, $github: String) {
+    updateUserSimple(address: $address, github: $github) {
       address
     }
   }
