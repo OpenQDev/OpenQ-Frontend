@@ -231,7 +231,7 @@ describe('FundPage', () => {
     expect(value);
     const confirmBtn = await screen.findByRole('button', { name: /Approv/i });
     await user.click(confirmBtn);
-    const funding = await screen.findByText('Funding');
+    const funding = await screen.findByText('Funding...');
     expect(funding).toBeInTheDocument();
     const modalContent = await screen.findByText(/Transfer Complete/i, undefined, {
       timeout: 4000,

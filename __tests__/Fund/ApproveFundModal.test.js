@@ -10,7 +10,7 @@ import { CONFIRM, APPROVING, TRANSFERRING, ERROR } from '../../components/FundBo
 import ApproveFundModal from '../../components/FundBounty/ApproveFundModal';
 import userEvent from '@testing-library/user-event';
 
-describe('ClaimLoadingModal', () => {
+describe('ApproveFundModal', () => {
   jest.mock('axios');
   axios.get = jest.fn().mockResolvedValue({ data: { data: 'true' } });
 
@@ -162,14 +162,13 @@ describe('ClaimLoadingModal', () => {
     issuer: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
   };
   const fundBounty = jest.fn();
-  const confirmationMessage = 'Hello World';
   const setShowApproveTransferModal = jest.fn();
   const resetState = jest.fn();
   const token = { address: '0x0000000000000000000000000000000000000000', symbol: 'MATIC' };
   const volume = 23;
   const openInvoicingModal = jest.fn();
 
-  const error = { title: 'Nonce to high', message: 'My brain cell was fried' };
+  const error = { title: 'Nonce too high', message: 'My brain cell was fried' };
   const transactionHash = '0xyeet';
   const account = '0xpoly';
 
@@ -182,7 +181,6 @@ describe('ClaimLoadingModal', () => {
         approveTransferState={approveTransferState}
         address={account}
         transactionHash={transactionHash}
-        confirmationMessage={confirmationMessage}
         error={error}
         setShowApproveTransferModal={setShowApproveTransferModal}
         confirmMethod={fundBounty}
@@ -212,7 +210,6 @@ describe('ClaimLoadingModal', () => {
         approveTransferState={approveTransferState}
         address={account}
         transactionHash={transactionHash}
-        confirmationMessage={confirmationMessage}
         error={error}
         setShowApproveTransferModal={setShowApproveTransferModal}
         confirmMethod={fundBounty}
@@ -243,7 +240,6 @@ describe('ClaimLoadingModal', () => {
         approveTransferState={approveTransferState}
         address={account}
         transactionHash={transactionHash}
-        confirmationMessage={confirmationMessage}
         error={error}
         setShowApproveTransferModal={setShowApproveTransferModal}
         confirmMethod={fundBounty}
@@ -257,8 +253,8 @@ describe('ClaimLoadingModal', () => {
     );
 
     // ASSERT
-    expect(screen.getAllByText(/Transfer/i)).toHaveLength(2);
-    expect(screen.getAllByText(/Funding/)).toHaveLength(2);
+    expect(screen.getByText(/Transferring Deposit.../i)).toBeInTheDocument();
+    expect(screen.getByText(/Funding.../i)).toBeInTheDocument();
 
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
@@ -273,7 +269,6 @@ describe('ClaimLoadingModal', () => {
         approveTransferState={approveTransferState}
         address={account}
         transactionHash={transactionHash}
-        confirmationMessage={confirmationMessage}
         error={error}
         setShowApproveTransferModal={setShowApproveTransferModal}
         confirmMethod={fundBounty}
@@ -287,7 +282,7 @@ describe('ClaimLoadingModal', () => {
     );
 
     // ASSERT
-    expect(screen.getByText(/Approve/i)).toBeInTheDocument();
+    expect(screen.getByText(/Approving Deposit.../i)).toBeInTheDocument();
 
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
@@ -301,7 +296,6 @@ describe('ClaimLoadingModal', () => {
         approveTransferState={approveTransferState}
         address={account}
         transactionHash={transactionHash}
-        confirmationMessage={confirmationMessage}
         error={error}
         setShowApproveTransferModal={setShowApproveTransferModal}
         confirmMethod={fundBounty}
@@ -315,7 +309,7 @@ describe('ClaimLoadingModal', () => {
     );
 
     // ASSERT
-    expect(screen.getByText(/Nonce to high/)).toBeInTheDocument();
+    expect(screen.getByText(/Nonce too high/)).toBeInTheDocument();
     expect(screen.getByText(/My brain cell was fried/i)).toBeInTheDocument();
 
     // should not have null or undefined values
