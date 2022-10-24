@@ -135,9 +135,9 @@ const ApproveFundModal = ({
         {approveTransferState == 'TRANSFERRING' && <LoadingIcon />}
       </button>
       {approveTransferState == SUCCESS && <TweetAbout tweetText={tweetText} bounty={bounty} />}
-      {/* <button onClick={openInvoicingModal} className='btn-primary'>
+      {/* <button onClick={openInvoicingModal} className='flex gap-2 items-center btn-primary'>
             <span>{invoicingData && 'Add'} Invoicing Details</span>
-            {approveTransferState === TRANSFERRING && <LoadingIcon className={'inline pt-1'} />}
+            {approveTransferState === TRANSFERRING && <LoadingIcon />}
           </button>*/}
     </div>
   );
