@@ -17,6 +17,7 @@ const ApproveFundModal = ({
   transactionHash,
   setShowApproveTransferModal,
   approveTransferState,
+  setApproveTransferState,
   resetState,
   error,
   confirmMethod,
@@ -62,6 +63,10 @@ const ApproveFundModal = ({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [modal, approveTransferState]);
+
+  useEffect(() => {
+    if (allowance) setApproveTransferState(CONFIRM);
+  }, [allowance]);
 
   let statesFormat = {
     [CONFIRM]: {
@@ -113,7 +118,6 @@ const ApproveFundModal = ({
 
   const fundButton = (
     <div className='flex gap-2'>
-      {console.log(approveTransferState)}
       {/* Left Button */}
       {token.address !== '0x0000000000000000000000000000000000000000' && !allowance && (
         <button

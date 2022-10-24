@@ -74,7 +74,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
   // Methods
 
-  const openFund = async () => {
+  const isAllowed = async () => {
     const allowanceBigNumber = await openQClient.allowance(library, account, token.address, bounty.bountyAddress);
     const volumeInWei = volume * 10 ** token.decimals;
     const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', { useGrouping: false }));
@@ -83,7 +83,10 @@ const FundPage = ({ bounty, refreshBounty }) => {
         ? token.address != ethers.constants.AddressZero && allowanceBigNumber?.gte(bigNumberVolumeInWei)
         : 0
     );
-    console.log(allowance);
+  };
+
+  const openFund = async () => {
+    isAllowed();
     setApproveTransferState(allowance || token.address == ethers.constants.AddressZero ? CONFIRM : APPROVE);
     setShowApproveTransferModal(true);
   };
@@ -314,6 +317,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
           {showApproveTransferModal && (
             <ApproveFundModal
               approveTransferState={approveTransferState}
+              setApproveTransferState={setApproveTransferState}
               address={account}
               transactionHash={transactionHash}
               error={error}
