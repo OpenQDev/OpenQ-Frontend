@@ -118,17 +118,19 @@ const ApproveFundModal = ({
         <button
           disabled={statesFormat[approveTransferState].leftBtn[2] == 'disabled'}
           onClick={statesFormat[approveTransferState].clickMethod}
-          className={`${statesFormat[approveTransferState].leftBtn[1]}`}
+          className={`flex gap-2 ${statesFormat[approveTransferState].leftBtn[1]}`}
         >
           {statesFormat[approveTransferState].leftBtn[0]}
+          {approveTransferState == 'APPROVING' && <LoadingIcon className={'inline pt-1'} />}
         </button>
       )}
       <button
         disabled={statesFormat[approveTransferState].rightBtn[2] == 'disabled'}
         onClick={statesFormat[approveTransferState].clickMethod}
-        className={`border ${statesFormat[approveTransferState].rightBtn[1]}`}
+        className={`flex gap-2 ${statesFormat[approveTransferState].rightBtn[1]}`}
       >
         {statesFormat[approveTransferState].rightBtn[0]}
+        {approveTransferState == 'TRANSFERRING' && <LoadingIcon className={'inline pt-1'} />}
       </button>
       {approveTransferState == SUCCESS && <TweetAbout tweetText={tweetText} bounty={bounty} />}
       {/* {token.address !== '0x0000000000000000000000000000000000000000' && !allowance ? (
