@@ -6,6 +6,7 @@ import { CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveTrans
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Link from 'next/link';
 import LinkText from '../svg/linktext';
+import ModalDefault from '../Utils/ModalDefault';
 
 const ApproveTransferModal = ({
   approveTransferState,
@@ -67,59 +68,58 @@ const ApproveTransferModal = ({
   let linkText = {
     [ERROR]: `${error.linkText}`,
   };
-  return (
-    <div>
-      <div className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
-        <div ref={modal} className='w-1/4 min-w-[320px]'>
-          <div className='border-0 rounded-sm p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none'>
-            <div className='flex items-center justify-center border-solid'>
-              <div className='flex flex-row'>
-                <div className='text-3xl  text-center font-semibold pb-8'>{title[approveTransferState]}</div>
-              </div>
-            </div>
-            <div className='text-md  text-center pb-4'>
-              <p className='break-words'>{message[approveTransferState]}</p>
-              {link[approveTransferState] && (
-                <p className='break-all underline'>
-                  <Link href={link[approveTransferState]}>
-                    <a target={'_blank'} rel='noopener noreferrer'>
-                      {linkText[approveTransferState] || link[approveTransferState]}
-                      <LinkText />
-                    </a>
-                  </Link>
-                </p>
-              )}
-            </div>
-            {approveTransferState == 'CONFIRM' ? (
-              <div className='flex items-center'>
-                <button
-                  className='btn-primary w-full px-6 py-2 text-lg'
-                  type='button'
-                  onClick={() => {
-                    confirmMethod();
-                  }}
-                >
-                  {positiveOption}
-                </button>
-              </div>
-            ) : null}
-            {approveTransferState == ERROR || approveTransferState == SUCCESS ? (
-              <div className='flex items-center justify-end p-5 text-lg '>
-                <button className='btn-default w-full' type='button' onClick={() => updateModal()}>
-                  Close
-                </button>
-              </div>
-            ) : null}
-            {(approveTransferState === TRANSFERRING || approveTransferState === APPROVING) && (
-              <div className='self-center'>
-                <LoadingIcon bg='colored' />
-              </div>
-            )}
-          </div>
+
+  {
+    /* Button */
+  }
+  const btn = (
+    <>
+      {approveTransferState == 'CONFIRM' ? (
+        <button
+          className='btn-primary'
+          type='button'
+          onClick={() => {
+            confirmMethod();
+          }}
+        >
+          {positiveOption}
+        </button>
+      ) : null}
+      {approveTransferState == ERROR || approveTransferState == SUCCESS ? (
+        <button className='btn-default w-full' type='button' onClick={() => updateModal()}>
+          Close
+        </button>
+      ) : null}
+      {(approveTransferState === TRANSFERRING || approveTransferState === APPROVING) && (
+        <div className='self-center'>
+          <LoadingIcon bg='colored' />
         </div>
+      )}
+    </>
+  );
+
+  return (
+    <ModalDefault
+      title={title[approveTransferState]}
+      footerRight={btn}
+      setShowModal={setShowApproveTransferModal}
+      resetState={resetState}
+    >
+      {/* Body */}
+      <div className='text-md  text-center pb-4'>
+        <p className='break-words'>{message[approveTransferState]}</p>
+        {link[approveTransferState] && (
+          <p className='break-all underline'>
+            <Link href={link[approveTransferState]}>
+              <a target={'_blank'} rel='noopener noreferrer'>
+                {linkText[approveTransferState] || link[approveTransferState]}
+                <LinkText />
+              </a>
+            </Link>
+          </p>
+        )}
       </div>
-      <div className='bg-overlay fixed z-40 inset-0'></div>
-    </div>
+    </ModalDefault>
   );
 };
 
