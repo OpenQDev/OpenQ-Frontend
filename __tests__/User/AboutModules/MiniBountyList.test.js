@@ -4,7 +4,7 @@
 import React from 'react';
 
 import { render, screen } from '../../../test-utils';
-import MiniBountyList from '../../../components/User/AboutModules/MiniBountyList';
+import MiniBountyList from '../../../components/User/OverviewTab/MiniBountyList';
 
 describe('MiniBountyList', () => {
   const payouts = [

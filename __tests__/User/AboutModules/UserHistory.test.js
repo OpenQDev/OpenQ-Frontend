@@ -4,7 +4,7 @@
 import React from 'react';
 
 import { render, screen } from '../../../test-utils';
-import UserHistory from '../../../components/User/AboutModules/UserHistory';
+import UserHistory from '../../../components/User/OverviewTab/UserHistory';
 
 describe('UserHistory', () => {
   const payouts = [

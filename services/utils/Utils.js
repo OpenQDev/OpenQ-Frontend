@@ -267,7 +267,6 @@ class Utils {
           ) || [];
         newCursor = prismaContractsResult.cursor;
 
-        console.log(prismaContracts, 'contracts');
         const bountyAddresses = prismaContracts.map((bounty) => bounty.address.toLowerCase());
         const bountyIds = prismaContracts.map((contract) => contract.bountyId);
 

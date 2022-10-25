@@ -2,12 +2,12 @@
 import React from 'react';
 // Custom
 import useGetTokenValues from '../../hooks/useGetTokenValues';
-import UserHistory from './AboutModules/UserHistory';
-import MiniBountyList from './AboutModules/MiniBountyList';
-import MiniDepositList from './AboutModules/MiniDepositList';
-import Balances from './AboutModules/Balances';
+import UserHistory from './OverviewTab/UserHistory';
+import MiniBountyList from './OverviewTab/MiniBountyList';
+import MiniDepositList from './OverviewTab/MiniDepositList';
+import Balances from './OverviewTab/Balances';
 import useEns from '../../hooks/useENS';
-import AboutTitle from './AboutModules/AboutTitle';
+import AboutTitle from './OverviewTab/AboutTitle';
 
 const AboutUser = ({ user, organizations }) => {
   const { fundedTokenBalances, bountiesCreated, bountiesClosed, deposits, payoutTokenBalances, payouts } = user;

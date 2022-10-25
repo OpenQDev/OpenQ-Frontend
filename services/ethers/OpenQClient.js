@@ -303,7 +303,6 @@ class OpenQClient {
   async fundBounty(library, _bountyAddress, _tokenAddress, _value, _depositPeriodDays) {
     const promise = new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
-
       const contract = this.DepositManager(signer);
       try {
         const expiration = _depositPeriodDays * 24 * 60 * 60;

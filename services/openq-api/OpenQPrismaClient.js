@@ -18,6 +18,8 @@ import {
   GET_ORGANIZATION,
   BLACKLIST_ISSUE,
   BLACKLIST_ORG,
+  UPDATE_USER_SIMPLE,
+  GET_USERS,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
@@ -205,11 +207,27 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  setFunderValues(values) {
+  updateUser(values) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
           mutation: UPDATE_USER,
+          variables: values,
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  // only updates github and address, no auth
+  updateUserSimple(values) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: UPDATE_USER_SIMPLE,
           variables: values,
         });
         resolve(result.data);
@@ -252,6 +270,9 @@ class OpenQPrismaClient {
 
   async getUser(userAddress, types, category) {
     const promise = new Promise(async (resolve, reject) => {
+      if (!ethers.utils.isAddress(userAddress)) {
+        return {};
+      }
       const variables = {
         userAddress: ethers.utils.getAddress(userAddress),
         types,
@@ -265,6 +286,24 @@ class OpenQPrismaClient {
           variables,
         });
         resolve(result.data.user);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  async getUsers(secret) {
+    const promise = new Promise(async (resolve, reject) => {
+      const variables = {};
+      try {
+        const result = await this.client.query({
+          query: GET_USERS,
+          variables,
+          context: { headers: { authorization: secret } },
+        });
+        console.log(result.data.usersConnection.users);
+        resolve(result.data.usersConnection.users);
       } catch (e) {
         reject(e);
       }

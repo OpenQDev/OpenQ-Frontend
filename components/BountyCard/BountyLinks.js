@@ -56,7 +56,7 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
       )}
       {bounty ? (
         <Link href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/address/${bounty.bountyAddress}`}>
-          <a target='_blank'>
+          <a target='_blank' rel='noreferrer'>
             <div id={'bounty-link'} className='cursor-pointer'>
               <Image src='/BountyMaterial/polyscan-white.png' width={24} height={24} />
             </div>

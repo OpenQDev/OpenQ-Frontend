@@ -4,10 +4,10 @@ import jazzicon from '@metamask/jazzicon';
 // Custom
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import useEns from '../../hooks/useENS';
-import DepositList from './AboutModules/DepositList';
-import MiniBountyList from './AboutModules/MiniBountyList';
-import Balances from './AboutModules/Balances';
-import AboutTitle from './AboutModules/AboutTitle';
+import DepositList from './OverviewTab/DepositList';
+import MiniBountyList from './OverviewTab/MiniBountyList';
+import Balances from './OverviewTab/Balances';
+import AboutTitle from './OverviewTab/AboutTitle';
 
 const AboutFunder = ({ user }) => {
   const { fundedTokenBalances, bountiesCreated, bountiesClosed, deposits } = user;
