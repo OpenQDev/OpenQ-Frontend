@@ -14,7 +14,7 @@ import ToolTipNew from '../Utils/ToolTipNew';
 import MintBountyModalButton from './MintBountyModalButton';
 import MintBountyHeader from './MintBountyHeader';
 import MintBountyInput from './MintBountyInput';
-import ErrorModal from '../ConfirmErrorSuccessModals/ErrorModal';
+import ErrorModal from './ErrorModal';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import SetTierValues from './SetTierValues';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';

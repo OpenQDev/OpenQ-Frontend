@@ -200,29 +200,6 @@ const AdminPage = ({ bounty, refreshBounty }) => {
     }
   }
 
-  async function closeCompetition() {
-    try {
-      setIsLoading(true);
-      const transaction = await openQClient.closeCompetition(library, bounty.bountyId);
-      setModal({
-        transaction,
-        type: 'Closed Contest',
-      });
-      setShowButton(false);
-      refreshBounty();
-      //	dispatch(payload);
-    } catch (error) {
-      logger.error(error, account, bounty.id);
-      const { message, title } = openQClient.handleError(error, {
-        bounty,
-      });
-      setError({
-        message,
-        title,
-      });
-    }
-  }
-
   async function closeOngoing() {
     try {
       setIsLoading(true);
@@ -332,20 +309,11 @@ const AdminPage = ({ bounty, refreshBounty }) => {
                             Set New Payout Schedule
                           </button>
                         </ToolTipNew>
+
+                        <h2 className='text-2xl border-b border-gray-700 pb-4'>Select Winners</h2>
+                        <ClaimText bounty={bounty} />
                       </>
                     )}
-
-                    <h2 className='text-2xl text-[#f85149] border-b border-gray-700 pb-4'>Close Contract</h2>
-                    <p className='flex items-center gap-2'>
-                      Once you close the contract for this contest, there is no going back. Please be certain.
-                    </p>
-                    <p>
-                      To allow contestants to claim their winnings, please also make sure their pull requests are
-                      commented as needed before merging.
-                    </p>
-                    <button className='btn-danger' type='button' onClick={closeCompetition}>
-                      Close Competition
-                    </button>
                   </>
                 ) : bounty.bountyType == '1' ? (
                   <>
@@ -379,7 +347,10 @@ const AdminPage = ({ bounty, refreshBounty }) => {
           </div>
         </>
       ) : (
-        <ClaimText bounty={bounty} />
+        <>
+          <h2 className='text-2xl border-b border-gray-700 pb-4'>Select Winners</h2>
+          <ClaimText bounty={bounty} />
+        </>
       )}
 
       {modal && <AdminModal setModal={setModal} modal={modal} />}
