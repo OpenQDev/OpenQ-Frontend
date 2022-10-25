@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useRef } from 'react';
 
-const GetSupportModal = ({ modalVisibility }) => {
+const GetSupportModal = ({ wizardVisibility, modalVisibility }) => {
   // Refs
   const modal = useRef();
 
@@ -11,6 +11,7 @@ const GetSupportModal = ({ modalVisibility }) => {
     function handleClickOutside(event) {
       if (modal.current && !modal.current.contains(event.target)) {
         modalVisibility(false);
+        wizardVisibility(false);
       }
     }
     // Bind the event listener

@@ -47,8 +47,47 @@ const ContractWizard = ({ wizardVisibility, refreshBounties }) => {
       wizardVisibility(false);
     }
   }, [mintModal]);
+
   const handleTypeChange = () => {
     setType(type + 1);
+  };
+
+  const resetState = () => {
+    wizardVisibility(false);
+  };
+
+  const texts = new Map([
+    [
+      0,
+      [
+        'Should only one person complete this task?',
+        'Deploy a Fixed Price Contract to fund a single issue to be payed out to one submitter.',
+      ],
+    ],
+    [
+      1,
+      [
+        'Should several people be able to earn the same amount of money for this task? This contract is especially suitable for Learn 2 Earn.',
+        'Deploy a Split Price Contract, where several people can submit and claim the funds for the same issue.',
+      ],
+    ],
+    [
+      2,
+      [
+        'Do you want to create a contest and allow several people to earn prizes? In this case you can set different weights and choose multiple winners.',
+        'Particulary suitable for Hackathons or other contests.',
+      ],
+    ],
+    [
+      3,
+      [
+        'Do you want to create a contest and allow several people to earn fixed prizes? In this case you can set fixed prizes and choose multiple winners.',
+        'Particulary suitable for Hackathons or other contests.',
+      ],
+    ],
+  ]);
+  const text = (type) => {
+    return texts.get(type) || ['Type of contract unkown.', '?'];
   };
 
   const btn = (
@@ -76,29 +115,14 @@ const ContractWizard = ({ wizardVisibility, refreshBounties }) => {
             title={'Contract Wizard'}
             footerRight={btn}
             setShowModal={wizardVisibility}
-            /* resetState={resetState} */
+            resetState={resetState}
           >
             <h3 className='text-2xl pt-2'>
               In this section we will help you find the right type of contract for your job.
             </h3>
             <div className='flex items-center gap-2 pt-4'>
-              {type == 0
-                ? 'Should only one person complete this task?'
-                : type == 1
-                ? 'Should several people be able to earn the same amount of money for this task? This contract is especially suitable for Learn 2 Earn.'
-                : type === 2
-                ? 'Do you want to create a contest and allow several people to earn prizes? In this case you can set different weights and choose multiple winners.'
-                : 'Do you want to create a contest and allow several people to earn fixed prizes? In this case you can set different weights and choose multiple winners.'}
-              <ToolTipNew
-                innerStyles={'whitespace-normal w-60'}
-                toolTipText={
-                  type == 0
-                    ? 'Deploy an Fixed Price Contract to fund a single issue to be payed out to one submitter.'
-                    : type == 1
-                    ? 'Deploy a Split Price Contract, where several people can submit and claim the funds for the same issue.'
-                    : 'Do you want to create a contest and allow several people to earn money on this task? In this case you can set different weights and choose multiple winners.'
-                }
-              >
+              {text(type)[0]}
+              <ToolTipNew innerStyles={'whitespace-normal w-60'} toolTipText={text(type)[1]}>
                 <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
                   ?
                 </div>
@@ -106,7 +130,7 @@ const ContractWizard = ({ wizardVisibility, refreshBounties }) => {
             </div>
           </ModalDefault>
         ) : (
-          <GetSupportModal modalVisibility={setSupportModal} />
+          <GetSupportModal wizardVisibility={wizardVisibility} modalVisibility={setSupportModal} />
         )
       ) : (
         <>
