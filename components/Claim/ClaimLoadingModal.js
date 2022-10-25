@@ -12,8 +12,8 @@ import {
 } from './ClaimStates';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import LinkText from '../svg/linktext';
-import Cross from '../svg/cross';
 import TweetAbout from '../Utils/TweetAbout';
+import ModalDefault from '../Utils/ModalDefault';
 
 const ClaimLoadingModal = ({
   confirmMethod,
@@ -82,64 +82,58 @@ const ClaimLoadingModal = ({
     };
   }, [modal, claimState]);
 
-  return (
-    <>
-      <div className='justify-center items-center flex  fixed inset-0 z-50'>
-        <div ref={modal} className='relative lg:w-1/3 min-w-[320px] rounded-sm p-6  w-full bg-nav-bg  text-center'>
-          <button className='absolute top-4 right-4 cursor-pointer' onClick={() => updateModal()}>
-            <Cross />
-          </button>
-          <div className='text-3xl font-semibold pb-8'>{title[claimState]}</div>
+  const btn = (
+    <div>
+      {claimState == WITHDRAWAL_INELIGIBLE && (
+        <button className='btn-default' type='button' onClick={() => updateModal()}>
+          Close
+        </button>
+      )}
+      {claimState == TRANSACTION_CONFIRMED && <TweetAbout tweetText={tweetText} bounty={bounty} />}
+      {claimState == CONFIRM_CLAIM ? (
+        <button
+          className='btn-primary'
+          type='button'
+          onClick={() => {
+            confirmMethod();
+          }}
+        >
+          Yes! Claim!
+        </button>
+      ) : null}
 
-          <div className='text-md  pb-2 break-words'>
-            <span>{message[claimState]}</span>
-            {link[claimState] && (
-              <div>
-                <>
-                  <Link href={link[claimState]}>
-                    <a className='underline break-all' target='_blank' rel='noopener noreferrer'>
-                      {link[claimState]}
-                      <LinkText />
-                    </a>
-                  </Link>
-                </>
-                <span>{afterLink[claimState]}</span>
-              </div>
-            )}
-          </div>
-          {claimState == WITHDRAWAL_INELIGIBLE && (
-            <div className='flex items-center justify-end p-5'>
-              <button className='btn-default w-full' type='button' onClick={() => updateModal()}>
-                Close
-              </button>
-            </div>
-          )}
-          {claimState == TRANSACTION_CONFIRMED && <TweetAbout tweetText={tweetText} bounty={bounty} />}
-          {claimState == CONFIRM_CLAIM ? (
-            <div className=' p-7 flex flex-col w-full outline-none focus:outline-none'>
-              <div className='flex items-center'>
-                <button
-                  className='btn-primary w-full'
-                  type='button'
-                  onClick={() => {
-                    confirmMethod();
-                  }}
-                >
-                  Yes! Claim!
-                </button>
-              </div>
-            </div>
-          ) : null}
-
-          {(claimState === CHECKING_WITHDRAWAL_ELIGIBILITY || claimState === TRANSACTION_SUBMITTED) && (
-            <div className='flex justify-center'>
-              <LoadingIcon bg='colored' />
-            </div>
-          )}
+      {(claimState === CHECKING_WITHDRAWAL_ELIGIBILITY || claimState === TRANSACTION_SUBMITTED) && (
+        <div className='flex justify-center'>
+          <LoadingIcon bg='colored' />
         </div>
+      )}
+    </div>
+  );
+
+  return (
+    <ModalDefault
+      title={title[claimState]}
+      footerRight={btn}
+      setShowModal={setShowClaimLoadingModal}
+      resetState={updateModal}
+    >
+      <div className='text-md  pb-2 break-words'>
+        <span>{message[claimState]}</span>
+        {link[claimState] && (
+          <div>
+            <>
+              <Link href={link[claimState]}>
+                <a className='underline break-all' target='_blank' rel='noopener noreferrer'>
+                  {link[claimState]}
+                  <LinkText />
+                </a>
+              </Link>
+            </>
+            <span>{afterLink[claimState]}</span>
+          </div>
+        )}
       </div>
-      <div onClick={() => updateModal()} className='bg-overlay z-40 fixed inset-0'></div>
-    </>
+    </ModalDefault>
   );
 };
 
