@@ -9,7 +9,7 @@ const UnexpectedError = ({ error }) => {
         <p>Sorry, something went wrong. {error ? error : 'There was an error fetching data for your page.'}</p>
         <p className='flex w-full justify-between'>
           <span className='underline'>
-            <Link href={'/'}>Go home</Link>
+            <a href={'/'}>Go home</a>
           </span>
           {typeof error === 'string' && error?.includes('Github') && (
             <span className='underline'>

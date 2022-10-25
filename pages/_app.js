@@ -14,12 +14,20 @@ import Head from 'next/head';
 import Footer from '../components/Layout/Footer';
 import ReactGA from 'react-ga4';
 import { hotjar } from 'react-hotjar';
-import { walletConnect, walletConnectHooks, metaMask, metaMaskHooks } from '../components/WalletConnect/connectors';
+import {
+  walletConnect,
+  walletConnectHooks,
+  metaMask,
+  metaMaskHooks,
+  gnosisSafe,
+  gnosisSafeHooks,
+} from '../components/WalletConnect/connectors';
 
 function OpenQ({ Component, pageProps }) {
   const connectors = [
     [metaMask, metaMaskHooks],
     [walletConnect, walletConnectHooks],
+    [gnosisSafe, gnosisSafeHooks],
   ];
   useEffect(() => {
     ReactGA.initialize(process.env.NEXT_PUBLIC_GA_TRACKING_ID);

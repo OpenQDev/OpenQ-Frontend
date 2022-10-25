@@ -56,7 +56,7 @@ const InvoicingModal = ({ closeModal, bounty }) => {
           formValues[key] = inputObj[key];
         }
       });
-      const { updateUser } = await openQPrismaClient.setFunderValues(formValues);
+      const { updateUser } = await openQPrismaClient.updateUser(formValues);
       if (updateUser) {
         setSucess(true);
       }

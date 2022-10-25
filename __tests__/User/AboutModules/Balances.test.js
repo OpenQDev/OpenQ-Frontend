@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import { render, screen } from '../../../test-utils';
-import Balances from '../../../components/User/AboutModules/Balances';
+import Balances from '../../../components/User/OverviewTab/Balances';
 // Test cases for full balances, empty balances, and undefined balances.
 const tokenValues = {
   tokenPrices: { '0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39': 0.67 },

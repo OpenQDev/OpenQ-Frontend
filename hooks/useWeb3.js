@@ -22,7 +22,7 @@ const useWeb3 = () => {
       chainId,
       deactivate,
       error,
-      safe: connector?.safe,
+      safe: connector?.provider?.safe,
     };
   }
 };

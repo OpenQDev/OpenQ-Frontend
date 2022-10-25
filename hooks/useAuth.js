@@ -3,14 +3,28 @@ import AuthContext from '../store/AuthStore/AuthContext';
 import axios from 'axios';
 import useWeb3 from './useWeb3';
 import StoreContext from '../store/Store/StoreContext';
+import { ethers } from 'ethers';
 import ReactGA from 'react-ga4';
 
 const useAuth = () => {
   const [authState, setAuthState] = useContext(AuthContext);
   const [appState] = useContext(StoreContext);
   const { reloadNow } = appState;
-
   const { account } = useWeb3();
+  useEffect(async () => {
+    if (Object.prototype.hasOwnProperty.call(authState, 'login') && account) {
+      const accountData = await appState.openQPrismaClient.getUser(account);
+
+      if (!accountData?.github) {
+        const githubLogin = authState.login;
+        const params = {
+          address: ethers.utils.getAddress(account),
+          ...(githubLogin && { github: githubLogin }),
+        };
+        await appState.openQPrismaClient.updateUserSimple(params);
+      }
+    }
+  }, [authState, account]);
   useEffect(() => {
     let didCancel;
     async function checkAuth(didCancel) {
