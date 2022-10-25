@@ -1,10 +1,12 @@
 // Third party
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import TokenBalances from '../TokenBalances/TokenBalances';
 import ToolTipNew from '../Utils/ToolTipNew';
 import { ethers } from 'ethers';
+import useWeb3 from '../../hooks/useWeb3';
+import Link from 'next/link';
 const DepositCard = ({
   deposit,
   refundBounty,
@@ -17,6 +19,7 @@ const DepositCard = ({
 }) => {
   // Context
   const [appState] = useContext(StoreContext);
+  const { library } = useWeb3();
 
   // State
   const [tokenValues] = useGetTokenValues(deposit);
@@ -26,11 +29,26 @@ const DepositCard = ({
   let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
 
   const [expanded, setExpanded] = useState(false);
+  const [NFT, setNFT] = useState();
+  useEffect(async () => {
+    if (deposit?.isNft && library) {
+      const NFT = await appState.openQClient.getNFT(library, deposit.tokenAddress, deposit.tokenId);
 
+      setNFT(NFT);
+    }
+  }, [deposit, library]);
   return (
     <div className='flex flex-col items-center w-full md:border rounded-sm border-gray-700 text-primary'>
       <div className='flex justify-center w-full md:bg-[#161b22] md:border-b border-gray-700 pb-1 rounded-t-sm'>
-        <TokenBalances lean={true} tokenBalances={deposit} tokenValues={tokenValues} singleCurrency={true} />
+        {deposit.isNft && NFT ? (
+          <Link href={NFT.uri}>
+            <a className='underline'>
+              {NFT?.name} #{deposit.tokenId}
+            </a>
+          </Link>
+        ) : (
+          <TokenBalances lean={true} tokenBalances={deposit} tokenValues={tokenValues} singleCurrency={true} />
+        )}
       </div>
 
       <div

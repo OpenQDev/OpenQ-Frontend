@@ -48,7 +48,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
   };
 
   // Context
-  const { account, provider } = useWeb3();
+  const { account, library } = useWeb3();
   const [ensName] = useEns(account);
 
   // Hooks
@@ -80,7 +80,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
         // We should now transition from Transaction Submitted -> Transaction Pending
         setTransactionHash(txnHash);
         setClaimState(TRANSACTION_SUBMITTED);
-        await provider.waitForTransaction(txnHash);
+        await library.waitForTransaction(txnHash);
         setClaimState(TRANSACTION_CONFIRMED);
         setJustClaimed(true);
 
