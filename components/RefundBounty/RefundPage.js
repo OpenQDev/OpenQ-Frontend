@@ -43,9 +43,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
   useEffect(() => {
     if (bounty) {
       setConfirmationMessage(
-        `You are about to refund your deposits on issue ${bounty.url} to the address ${
-          ensName || account
-        }. Is this correct ?`
+        'Are you sure you want to refund this deposit? The refund may only be partial if contributors have claimed on this contract already.'
       );
     }
   }, [bounty]);
@@ -168,27 +166,14 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                             depositPeriodDays={depositPeriodDays[deposit.id]}
                             refundBounty={() => {
                               setConfirmationMessage(
-                                `You are about to refund the bounty at ${bounty.bountyAddress.substring(
-                                  0,
-                                  12
-                                )}...${bounty.bountyAddress.substring(32)}	Are you sure you want to refund this deposit?`
+                                'Are you sure you want to refund this deposit? The refund may only be partial if contributors have claimed on this contract already.'
                               );
                               setExtend(false);
                               setApproveTransferState(CONFIRM);
                               setShowApproveTransferModal(deposit.id);
                             }}
-                            extendBounty={(id, formattedVolume, tokenSymbol) => {
-                              setConfirmationMessage(
-                                `You are about to relock this deposit at ${bounty.bountyAddress.substring(
-                                  0,
-                                  12
-                                )}...${bounty.bountyAddress.substring(32)} for ${depositPeriodDays[deposit.id]} ${
-                                  depositPeriodDays[deposit.id] == 1 ? 'day' : 'days'
-                                }.	Are you sure you want to relock this deposit?
-                                You will be able to refund your deposit of ${formattedVolume} ${tokenSymbol} on ${appState.utils.formatUnixDate(
-                                  parseInt(Date.now() / 1000) + depositPeriodDays[deposit.id] * 60 * 60 * 24
-                                )}`
-                              );
+                            extendBounty={() => {
+                              setConfirmationMessage('Are you sure you want to relock this deposit?');
                               setExtend(true);
                               setApproveTransferState(CONFIRM);
                               setShowApproveTransferModal(deposit.id);
@@ -281,6 +266,10 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                 resetState={resetState}
                 approvingMessage={!extend ? 'Refunding...' : 'Extending...'}
                 approvingTitle={!extend ? 'Refund' : 'Extend'}
+                bounty={bounty}
+                depositPeriodDays={depositPeriodDays}
+                depositId={showApproveTransferModal}
+                account={account}
               />
             )}
           </div>
