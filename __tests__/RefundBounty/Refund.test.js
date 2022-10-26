@@ -150,7 +150,7 @@ describe('RefundPage', () => {
       let heading = await screen.findByText('Your Deposits');
       const refundBtns = await screen.findAllByRole('button', { name: /Refund/i });
       await user.click(refundBtns[0]);
-      const confirmBtn = await screen.findByText('Yes, Refund!');
+      const confirmBtn = await screen.findByText('Yes, refund!');
       await user.click(confirmBtn);
 
       // ASSERT
