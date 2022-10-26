@@ -22,7 +22,7 @@ import ToolTipNew from '../Utils/ToolTipNew';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import StoreContext from '../../store/Store/StoreContext';
 
-const ClaimPage = ({ bounty, refreshBounty }) => {
+const ClaimPage = ({ bounty, refreshBounty, price }) => {
   const { url } = bounty;
   // State
   const [error, setError] = useState('');
@@ -36,7 +36,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
   const [appState, dispatch] = useContext(StoreContext);
   const { logger } = appState;
 
-  const claimable = bounty.bountyType == 0 || bounty.bountyType == 1 ? bounty.status == '1' : bounty.status == '0';
+  const showBountyClosed = bounty.status == '1' && (bounty.bountyType == 2 ? price == 0 : true);
 
   const updateModal = () => {
     setShowClaimLoadingModal(false);
@@ -114,16 +114,13 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
       });
   };
 
-  if (claimable) {
+  console.log(bounty);
+
+  if (showBountyClosed) {
     return bounty.bountyType ? (
-      bounty.status == '1' ? (
-        <>
-          <BountyClosed bounty={bounty} showTweetLink={justClaimed} />
-        </>
-      ) : (
-        // case where bounty not claimable yet (contest not closed yet)
-        <div className='text-lg'>Contest must be closed in order to be able to claim your rewards.</div>
-      )
+      <>
+        <BountyClosed bounty={bounty} showTweetLink={justClaimed} />
+      </>
     ) : (
       <div className='text-lg'>Bounty type unknown. Please refresh your window.</div>
     );
