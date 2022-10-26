@@ -33,7 +33,6 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
   // Context
   const [appState] = useContext(StoreContext);
   const { library, account } = useWeb3();
-  
 
   const closed = bounty.status == '1';
 

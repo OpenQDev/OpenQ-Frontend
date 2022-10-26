@@ -35,14 +35,13 @@ const ApproveTransferModal = ({
   let bigNumberVolume = ethers.BigNumber.from(deposit.volume.toString());
   let decimals = parseInt(tokenMetadata.decimals) || 18;
   let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
-  console.log(depositExpired(deposit));
   const [lockDate] = useState(
     appState.utils.formatUnixDate(
       depositExpired(deposit)
         ? parseInt(Date.now() / 1000) + depositPeriodDays[depositId] * 60 * 60 * 24
         : parseInt(deposit.receiveTime) +
             parseInt(deposit.expiration) +
-            parseInt(depositPeriodDays[deposit.id] * 60 * 60 * 24)
+            parseInt(depositPeriodDays[depositId] * 60 * 60 * 24)
     )
   );
   const tweetText = `💸 Just extended the deposit period for this issue from ${bounty.owner}/${bounty.repoName} on OpenQ, looking for devs to work on it: `;
@@ -85,7 +84,7 @@ const ApproveTransferModal = ({
     },
     [APPROVING]: {
       title: ['Extending Lock Period...', 'Refunding Deposit...'],
-      message: ['Extending...', 'Refunding...'],
+      message: ['Extending your deposit...', 'Refunding your deposit...'],
       btnText: ['Extending...', 'Refunding...'],
       btnStyle: ['btn-default cursor-not-allowed'],
     },
@@ -156,7 +155,7 @@ const ApproveTransferModal = ({
             <>
               <span>Extend by:</span>
               <span>
-                {depositPeriodDays[deposit.id]} {depositPeriodDays[depositId] == 1 ? 'day' : 'days'}
+                {depositPeriodDays[depositId]} {depositPeriodDays[depositId] == 1 ? 'day' : 'days'}
               </span>
               <span>Locked until:</span>
               <span>{lockDate}</span>
