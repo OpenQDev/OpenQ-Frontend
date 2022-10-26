@@ -1,5 +1,5 @@
 // Third party
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
 import { ethers } from 'ethers';
 
@@ -8,7 +8,6 @@ import StoreContext from '../../store/Store/StoreContext';
 import DepositCard from './DepositCard';
 import ToolTipNew from '../Utils/ToolTipNew';
 import BountyClosed from '../BountyClosed/BountyClosed';
-import useEns from '../../hooks/useENS';
 import ApproveTransferModal from './ApproveTransferModal';
 import { RESTING, CONFIRM, APPROVING, SUCCESS, ERROR } from './ApproveTransferState';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
@@ -16,7 +15,6 @@ import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
   const [error, setError] = useState('');
   const [transactionHash, setTransactionHash] = useState(null);
-  const [confirmationMessage, setConfirmationMessage] = useState('');
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const [approveTransferState, setApproveTransferState] = useState(RESTING);
   const [showApproveTransferModal, setShowApproveTransferModal] = useState(false);
@@ -35,18 +33,11 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
   // Context
   const [appState] = useContext(StoreContext);
   const { library, account } = useWeb3();
-  const [ensName] = useEns(account);
+  
 
   const closed = bounty.status == '1';
 
   // Side Effects
-  useEffect(() => {
-    if (bounty) {
-      setConfirmationMessage(
-        'Are you sure you want to refund this deposit? The refund may only be partial if contributors have claimed on this contract already.'
-      );
-    }
-  }, [bounty]);
 
   const resetState = () => {
     setShowApproveTransferModal(false);
@@ -54,6 +45,11 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
   };
 
   // Methods
+
+  function depositExpired(deposit) {
+    return parseInt(deposit.receiveTime) + parseInt(deposit.expiration) < Math.floor(Date.now() / 1000);
+  }
+
   async function refundBounty() {
     setApproveTransferState(APPROVING);
     const depositId = showApproveTransferModal;
@@ -150,9 +146,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                       return deposit.refunded == false;
                     })
                     .filter((deposit) => {
-                      return (
-                        parseInt(deposit.receiveTime) + parseInt(deposit.expiration) < Math.floor(Date.now() / 1000)
-                      );
+                      return depositExpired(deposit);
                     })
                     .map((deposit) => {
                       return (
@@ -165,15 +159,11 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                             onDepositPeriodChanged={onDepositPeriodChanged}
                             depositPeriodDays={depositPeriodDays[deposit.id]}
                             refundBounty={() => {
-                              setConfirmationMessage(
-                                'Are you sure you want to refund this deposit? The refund may only be partial if contributors have claimed on this contract already.'
-                              );
                               setExtend(false);
                               setApproveTransferState(CONFIRM);
                               setShowApproveTransferModal(deposit.id);
                             }}
                             extendBounty={() => {
-                              setConfirmationMessage('Are you sure you want to relock this deposit?');
                               setExtend(true);
                               setApproveTransferState(CONFIRM);
                               setShowApproveTransferModal(deposit.id);
@@ -192,9 +182,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                       return ethers.utils.getAddress(deposit.sender.id) == account;
                     })
                     .filter((deposit) => {
-                      return (
-                        parseInt(deposit.receiveTime) + parseInt(deposit.expiration) > Math.floor(Date.now() / 1000)
-                      );
+                      return !depositExpired(deposit);
                     })
                     .map((deposit) => {
                       return (
@@ -206,20 +194,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                             bounty={bounty}
                             onDepositPeriodChanged={onDepositPeriodChanged}
                             depositPeriodDays={depositPeriodDays[deposit.id]}
-                            extendBounty={(id, formattedVolume, tokenSymbol) => {
-                              setConfirmationMessage(
-                                `You are about to extend this deposit's lock period at ${bounty.bountyAddress.substring(
-                                  0,
-                                  12
-                                )}...${bounty.bountyAddress.substring(32)} by ${depositPeriodDays[deposit.id]} ${
-                                  depositPeriodDays[deposit.id] == 1 ? 'day' : 'days'
-                                }.	Are you sure you want to extend this deposit?
-                                You will be able to refund your deposit of ${formattedVolume} ${tokenSymbol} on ${appState.utils.formatUnixDate(
-                                  parseInt(deposit.receiveTime) +
-                                    parseInt(deposit.expiration) +
-                                    parseInt(depositPeriodDays[deposit.id] * 60 * 60 * 24)
-                                )}`
-                              );
+                            extendBounty={() => {
                               setExtend(true);
                               setApproveTransferState(CONFIRM);
                               setShowApproveTransferModal(deposit.id);
@@ -258,18 +233,16 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
               <ApproveTransferModal
                 approveTransferState={approveTransferState}
                 transactionHash={transactionHash}
-                confirmationMessage={confirmationMessage}
                 error={error}
                 setShowApproveTransferModal={setShowApproveTransferModal}
-                positiveOption={!extend ? 'Yes, Refund!' : 'Yes, Extend!'}
+                extend={extend}
                 confirmMethod={!extend ? refundBounty : extendBounty}
                 resetState={resetState}
-                approvingMessage={!extend ? 'Refunding...' : 'Extending...'}
-                approvingTitle={!extend ? 'Refund' : 'Extend'}
                 bounty={bounty}
                 depositPeriodDays={depositPeriodDays}
                 depositId={showApproveTransferModal}
                 account={account}
+                depositExpired={depositExpired}
               />
             )}
           </div>
