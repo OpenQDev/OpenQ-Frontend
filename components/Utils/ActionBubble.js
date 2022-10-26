@@ -102,6 +102,7 @@ const ActionBubble = ({ bounty, action }) => {
       url = author.user.url;
       address = name;
       titlePartOne = `${name} merged linked pull request: `;
+
       titlePartTwo = ` on ${appState.utils.formatUnixDate(action.referencedTime)}.`;
     } else {
       avatarUrl = action.author.avatarUrl;
@@ -171,13 +172,13 @@ const ActionBubble = ({ bounty, action }) => {
         <div className={` w-full pl-3 ${!action && 'border-web-gray'} flex justify-between`}>
           <span className='py-2'>
             <span data-testid='actionTitle'>{titlePartOne}</span>
-            {action?.url ||
-              (NFT.uri && (
-                <a className='inline underline' target='_blank' href={action.url || NFT.uri} rel='noreferrer'>
-                  {action.title || NFT.title}
-                </a>
-              ))}
-            <span>{titlePartTwo}</span>
+
+            {(action?.url || NFT.uri) && (
+              <a className='inline underline' target='_blank' href={action.url || NFT.uri} rel='noreferrer'>
+                {action.title || NFT.title}
+              </a>
+            )}
+            <span className='text-left'>{titlePartTwo}</span>
           </span>
           {action?.refunded && (
             <span className='flex items-center border rounded-sm border-web-gray px-2 py-px m-1'> Refunded</span>
