@@ -459,6 +459,54 @@ class OpenQClient {
     return promise;
   }
 
+  fetchNfts = async (library, account) => {
+    return new Promise(async (resolve, reject) => {
+      if (process.env.NEXT_PUBLIC_DEPLOY_ENV === 'docker') {
+        try {
+          const localNfts = [];
+          for (let i = 0; i < 6; i++) {
+            const value = await this.getNFT(library, process.env.NEXT_PUBLIC_MOCK_NFT_TOKEN_ADDRESS, i);
+            const { uri, name } = value;
+            const fetchProm = await fetch(uri);
+            const fetchJson = await fetchProm.json();
+            const nftData = {
+              token_address: process.env.NEXT_PUBLIC_MOCK_NFT_TOKEN_ADDRESS,
+              token_id: i.toString(),
+              amount: '1',
+              contract_type: 'ERC721',
+              metadata: fetchJson,
+              name: name,
+              token_uri: uri,
+              symbol: 'MNFT',
+            };
+            localNfts[i] = nftData;
+          }
+          resolve(localNfts);
+        } catch (err) {
+          reject(err);
+        }
+      } else {
+        try {
+          const url = `https://deep-index.moralis.io/api/v2/${account}/nft?chain=polygon`;
+          const headers = { 'X-API-Key': 'test', accept: 'application/json' };
+          const fetchProm = await fetch(url, { headers });
+          const fetchJson = await fetchProm.json();
+          const nfts = fetchJson.result;
+          resolve(
+            nfts &&
+              nfts
+                .map((nft) => {
+                  return { ...nft, metadata: nft.metadata && JSON.parse(nft.metadata) };
+                })
+                .filter((nft) => nft.contract_type === 'ERC721')
+          );
+        } catch (err) {
+          reject(err);
+        }
+      }
+    });
+  };
+
   handleError(jsonRpcError, data) {
     let errorString = jsonRpcError?.data?.message;
 

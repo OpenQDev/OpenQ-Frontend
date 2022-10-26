@@ -5,6 +5,14 @@ import React from 'react';
 import { render, screen } from '../../../test-utils';
 import TokenList from '../../../components/FundBounty/SearchTokens/TokenList';
 
+beforeEach(() => {
+  const observe = jest.fn();
+  const disconnect = jest.fn();
+  window.IntersectionObserver = jest.fn(() => ({
+    observe,
+    disconnect,
+  }));
+});
 describe('TokenList', () => {
   it('should display the TokenList interface', async () => {
     // ARRANGE
@@ -616,15 +624,6 @@ describe('TokenList', () => {
         extensions: { rootAddress: '0xb8949b6de0869735d71d0f07d1e899e57f1076d6' },
       },
     ];
-    beforeEach(() => {
-      const observe = jest.fn();
-      const disconnect = jest.fn();
-
-      window.IntersectionObserver = jest.fn(() => ({
-        observe,
-        disconnect,
-      }));
-    });
     render(
       <TokenList
         customTokens={[]}
@@ -635,9 +634,8 @@ describe('TokenList', () => {
     );
 
     // ASSERT
-    expect(screen.getByText(/Mooney/i)).toBeInTheDocument();
-    expect(screen.getByRole('img')).toBeInTheDocument();
-    expect(screen.getByRole('textbox')).toBeInTheDocument();
+    expect(screen.getByText(/Chainlink/i)).toBeInTheDocument();
+    expect(await screen.getAllByRole('img').length).toBeGreaterThan(1);
 
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
