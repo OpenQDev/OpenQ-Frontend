@@ -81,6 +81,7 @@ export const GET_USER_BY_HASH = gql`
   query ($userAddress: String!, $types: [String], $category: String) {
     user(address: $userAddress) {
       watchedBountyIds
+      github
       watchedBounties(limit: 100, types: $types, category: $category) {
         nodes {
           tvl
@@ -91,6 +92,22 @@ export const GET_USER_BY_HASH = gql`
         }
       }
       starredOrganizationIds
+    }
+  }
+`;
+
+export const GET_USERS = gql`
+  query getUsers {
+    usersConnection {
+      users {
+        watchedBountyIds
+        github
+        discord
+        twitter
+        email
+        address
+        starredOrganizationIds
+      }
     }
   }
 `;
@@ -154,6 +171,9 @@ export const UPDATE_USER = gql`
     $streetAddress: String
     $country: String
     $province: String
+    $discord: String
+    $github: String
+    $twitter: String
   ) {
     updateUser(
       address: $address
@@ -163,7 +183,18 @@ export const UPDATE_USER = gql`
       streetAddress: $streetAddress
       country: $country
       province: $province
+      discord: $discord
+      github: $github
+      twitter: $twitter
     ) {
+      address
+    }
+  }
+`;
+
+export const UPDATE_USER_SIMPLE = gql`
+  mutation updateUserSimple($address: String!, $github: String) {
+    updateUserSimple(address: $address, github: $github) {
       address
     }
   }

@@ -4,7 +4,7 @@
 import React from 'react';
 
 import { render, screen } from '../../../test-utils';
-import AboutTitle from '../../../components/User/AboutModules/AboutTitle';
+import AboutTitle from '../../../components/User/OverviewTab/AboutTitle';
 
 describe('AboutTitle', () => {
   beforeEach(() => {

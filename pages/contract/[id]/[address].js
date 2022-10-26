@@ -255,7 +255,9 @@ const address = ({ address, mergedBounty, renderError }) => {
                     split={split}
                   />
                 ) : null}
-                {internalMenu == 'Claim' && bounty ? <ClaimPage bounty={bounty} refreshBounty={refreshBounty} /> : null}
+                {internalMenu == 'Claim' && bounty ? (
+                  <ClaimPage price={tokenValues?.total} bounty={bounty} refreshBounty={refreshBounty} />
+                ) : null}
                 {internalMenu == 'Claims Overview' && bounty ? (
                   <ClaimOverview bounty={bounty} setInternalMenu={setInternalMenu} />
                 ) : null}

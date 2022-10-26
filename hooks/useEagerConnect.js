@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import chainIdDeployEnvMap from '../components/WalletConnect/chainIdDeployEnvMap';
 import { walletConnect, metaMask, gnosisSafe } from '../components/WalletConnect/connectors';
 
 import useWeb3 from './useWeb3';
@@ -13,7 +14,11 @@ export default function useEagerConnect() {
       await gnosisSafe.activate();
     } catch {
       try {
-        await walletConnect.connectEagerly();
+        if (walletConnect.defaultChainId === chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]) {
+          await walletConnect.connectEagerly();
+        } else {
+          throw new Error();
+        }
       } catch (err) {
         if (window.ethereum?.isMetaMask) {
           metaMask.connectEagerly();
