@@ -114,8 +114,6 @@ const ClaimPage = ({ bounty, refreshBounty, price }) => {
       });
   };
 
-  console.log(bounty);
-
   if (showBountyClosed) {
     return bounty.bountyType ? (
       <>
