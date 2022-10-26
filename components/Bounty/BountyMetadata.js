@@ -47,12 +47,21 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
         </li>
       )}
 
-      <li className='border-b border-web-gray py-3'>
-        <div className='text-xs font-semibold text-muted'>🔒 Total Value Locked</div>
-        <button className='text-xs font-semibold text-primary pt-2' onClick={() => setInternalMenu('Fund')}>
-          {(price && appState.utils.formatter.format(price)) || '$0.00'}
-        </button>
-      </li>
+      {bounty.status !== '0' && bounty.tvc ? (
+        <li className='border-b border-web-gray py-3'>
+          <div className='text-xs font-semibold text-muted'>🔓 Total Value Claimed</div>
+          <button className='text-xs font-semibold text-primary pt-2' onClick={() => setInternalMenu('Fund')}>
+            {appState.utils.formatter.format(bounty.tvc) || '$0.00'}
+          </button>
+        </li>
+      ) : (
+        <li className='border-b border-web-gray py-3'>
+          <div className='text-xs font-semibold text-muted'>🔒 Total Value Locked</div>
+          <button className='text-xs font-semibold text-primary pt-2' onClick={() => setInternalMenu('Fund')}>
+            {(price && appState.utils.formatter.format(price)) || '$0.00'}
+          </button>
+        </li>
+      )}
 
       {bounty.fundingGoalVolume && (
         <li className='border-b border-web-gray py-3'>

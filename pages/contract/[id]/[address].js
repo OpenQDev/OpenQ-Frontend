@@ -188,7 +188,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
+  const claimOverView = bounty?.claims.length > 0 ? [{ name: 'Claims Overview', Svg: Log }] : [];
   // User Methods
 
   // Render
@@ -221,7 +221,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                   { name: 'Fund', Svg: Add },
                   { name: 'Refund', Svg: Subtract },
                   { name: 'Claim', Svg: Fire },
-                  { name: 'Claims Overview', Svg: Log },
+                  ...claimOverView,
                   {
                     name: bounty.issuer && ethers.utils.getAddress(bounty?.issuer?.id) == account ? 'Admin' : null,
                     Svg: bounty.issuer && ethers.utils.getAddress(bounty.issuer.id) == account ? Gear : null,

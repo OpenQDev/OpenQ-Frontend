@@ -63,7 +63,11 @@ const BountyHeading = ({ bounty, price, budget }) => {
           <span className='leading-none'>{marker.status}</span>
         </div>
         <>
-          {price || price === 0 ? (
+          {bounty.status !== '0' && bounty.tvc ? (
+            <span className='leading-loose text-lg font-semibold text-primary'>
+              Total Value Claimed {appState.utils.formatter.format(bounty.tvc)}
+            </span>
+          ) : price || price === 0 ? (
             <span className='leading-loose text-lg font-semibold text-primary'>
               Total Value Locked {appState.utils.formatter.format(price)}
             </span>
