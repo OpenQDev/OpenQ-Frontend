@@ -5,7 +5,7 @@ import React from 'react';
 
 import { render, screen } from '../../../test-utils';
 import mocks from '../../../__mocks__/mock-server.json';
-import Starred from '../../../components/User/AbouOverviewTabtModules/Starred';
+import Starred from '../../../components/User/StarsTab/Starred';
 
 describe('Starred', () => {
   let mergedOrgs = mocks.organizations.map((org) => {

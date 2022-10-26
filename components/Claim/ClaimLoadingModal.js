@@ -11,6 +11,9 @@ import {
   CONFIRM_CLAIM,
 } from './ClaimStates';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
+import LinkText from '../svg/linktext';
+import TweetAbout from '../Utils/TweetAbout';
+import ModalDefault from '../Utils/ModalDefault';
 
 const ClaimLoadingModal = ({
   confirmMethod,
@@ -22,6 +25,7 @@ const ClaimLoadingModal = ({
   setShowClaimLoadingModal,
   error,
   claimState,
+  bounty,
 }) => {
   const updateModal = () => {
     setShowClaimLoadingModal(false);
@@ -56,6 +60,8 @@ const ClaimLoadingModal = ({
     [CONFIRM_CLAIM]: ` to the address ${ensName || account}. Is this correct?`,
   };
 
+  const tweetText = `💸 Just claimed a developer bounty from ${bounty.owner} on OpenQ working on this issue: `;
+
   // Hooks
 
   useEffect(() => {
@@ -76,73 +82,58 @@ const ClaimLoadingModal = ({
     };
   }, [modal, claimState]);
 
-  return (
-    <>
-      <div className='justify-center items-center flex  fixed inset-0 z-50'>
-        <div ref={modal} className='w-1/2 lg:w-1/3 min-w-[320px] rounded-sm p-6  w-full bg-nav-bg  text-center'>
-          <div className='text-3xl font-semibold pb-8'>{title[claimState]}</div>
+  const btn = (
+    <div>
+      {claimState == WITHDRAWAL_INELIGIBLE && (
+        <button className='btn-default' type='button' onClick={() => updateModal()}>
+          Close
+        </button>
+      )}
+      {claimState == TRANSACTION_CONFIRMED && <TweetAbout tweetText={tweetText} bounty={bounty} />}
+      {claimState == CONFIRM_CLAIM ? (
+        <button
+          className='btn-primary'
+          type='button'
+          onClick={() => {
+            confirmMethod();
+          }}
+        >
+          Yes! Claim!
+        </button>
+      ) : null}
 
-          <div className='text-md  pb-2 break-words'>
-            <span>{message[claimState]}</span>
-            {link[claimState] && (
-              <div>
-                <>
-                  <Link href={link[claimState]}>
-                    <a className='underline break-all' target='_blank' rel='noopener noreferrer'>
-                      {link[claimState]}
-                      <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        className='h-4 w-4 relative bottom-1 inline'
-                        fill='none'
-                        viewBox='0 0 24 24'
-                        stroke='currentColor'
-                        strokeWidth='2'
-                      >
-                        <path
-                          strokeLinecap='round'
-                          strokeLinejoin='round'
-                          d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'
-                        />
-                      </svg>
-                    </a>
-                  </Link>
-                </>
-                <span>{afterLink[claimState]}</span>
-              </div>
-            )}
-          </div>
-          {claimState == WITHDRAWAL_INELIGIBLE || claimState == TRANSACTION_CONFIRMED ? (
-            <div className='flex items-center justify-end p-5'>
-              <button className='btn-default w-full' type='button' onClick={() => updateModal()}>
-                Close
-              </button>
-            </div>
-          ) : null}
-          {claimState == CONFIRM_CLAIM ? (
-            <div className=' p-7 flex flex-col w-full outline-none focus:outline-none'>
-              <div className='flex items-center'>
-                <button
-                  className='btn-primary w-full'
-                  type='button'
-                  onClick={() => {
-                    confirmMethod();
-                  }}
-                >
-                  Yes! Claim!
-                </button>
-              </div>
-            </div>
-          ) : null}
-
-          {(claimState === CHECKING_WITHDRAWAL_ELIGIBILITY || claimState === TRANSACTION_SUBMITTED) && (
-            <div className='flex justify-center'>
-              <LoadingIcon bg='colored' />
-            </div>
-          )}
+      {(claimState === CHECKING_WITHDRAWAL_ELIGIBILITY || claimState === TRANSACTION_SUBMITTED) && (
+        <div className='flex justify-center'>
+          <LoadingIcon bg='colored' />
         </div>
+      )}
+    </div>
+  );
+
+  return (
+    <ModalDefault
+      title={title[claimState]}
+      footerRight={btn}
+      setShowModal={setShowClaimLoadingModal}
+      resetState={updateModal}
+    >
+      <div className='text-md  pb-2 break-words'>
+        <span>{message[claimState]}</span>
+        {link[claimState] && (
+          <div>
+            <>
+              <Link href={link[claimState]}>
+                <a className='underline break-all' target='_blank' rel='noopener noreferrer'>
+                  {link[claimState]}
+                  <LinkText />
+                </a>
+              </Link>
+            </>
+            <span>{afterLink[claimState]}</span>
+          </div>
+        )}
       </div>
-      <div onClick={() => updateModal()} className='bg-overlay z-40 fixed inset-0'></div>
-    </>
+    </ModalDefault>
   );
 };
 

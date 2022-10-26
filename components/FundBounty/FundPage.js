@@ -11,7 +11,7 @@ import ToolTipNew from '../Utils/ToolTipNew';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import ApproveFundModal from './ApproveFundModal';
 import InvoicingModal from './InvoicingModal';
-import { RESTING, CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveFundState';
+import { RESTING, CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR, APPROVE } from './ApproveFundState';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 
 const FundPage = ({ bounty, refreshBounty }) => {
@@ -21,7 +21,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
   const [buttonText, setButtonText] = useState('Fund');
   const [, setSuccessMessage] = useState('');
   const [transactionHash, setTransactionHash] = useState(null);
-  const [confirmationMessage, setConfirmationMessage] = useState('Please enter a volume greater than 0.');
   const [showApproveTransferModal, setShowApproveTransferModal] = useState(false);
   const [approveTransferState, setApproveTransferState] = useState(RESTING);
   const [invoicingModal, setInvoicingModal] = useState();
@@ -42,16 +41,15 @@ const FundPage = ({ bounty, refreshBounty }) => {
   const { library, account } = useWeb3();
   // State
   const [token, setToken] = useState(zeroAddressMetadata);
-  const bountyName =
-    bounty.bountyType === '0'
-      ? 'Fixed Price'
-      : bounty.bountyType === '1'
-      ? 'Split Price Contract'
-      : bounty.bountyType === '2'
-      ? 'Contest'
-      : bounty.bountyType === '3'
-      ? 'Fixed Contest'
-      : 'Type Unknown';
+  const bountyNames = new Map([
+    ['0', 'Fixed Price Contract'],
+    ['1', 'Split Price Contract'],
+    ['2', 'Contest'],
+    ['3', 'Fixed Contest'],
+  ]);
+  const bountyName = (type) => {
+    return bountyNames.get(type) || 'Type unknown';
+  };
 
   const closed = bounty.status == '1';
   const loadingClosedOrZero =
@@ -76,7 +74,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
   // Methods
 
-  const openFund = async () => {
+  const isAllowed = async () => {
     const allowanceBigNumber = await openQClient.allowance(library, account, token.address, bounty.bountyAddress);
     const volumeInWei = volume * 10 ** token.decimals;
     const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', { useGrouping: false }));
@@ -85,12 +83,11 @@ const FundPage = ({ bounty, refreshBounty }) => {
         ? token.address != ethers.constants.AddressZero && allowanceBigNumber?.gte(bigNumberVolumeInWei)
         : 0
     );
-    setConfirmationMessage(
-      `You are in the process of funding this contract. <br /> Your funds will be locked for ${depositPeriodDays} ${
-        depositPeriodDays == 1 ? 'day' : 'days'
-      }.`
-    );
-    setApproveTransferState(CONFIRM);
+  };
+
+  const openFund = async () => {
+    isAllowed();
+    setApproveTransferState(allowance || token.address == ethers.constants.AddressZero ? CONFIRM : APPROVE);
     setShowApproveTransferModal(true);
   };
 
@@ -239,12 +236,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
         <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
           <div className='flex flex-col w-full space-y-5 pb-8 items-center md:border rounded-sm border-gray-700'>
             <div className='flex text-3xl w-full text-primary justify-center px-16 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
-              Escrow Funds{' '}
-              {bounty.bountyType === '0'
-                ? `in ${bountyName} Contract`
-                : bounty.bountyType === '2' || bounty.bountyType === '3'
-                ? `in ${bountyName}`
-                : 'in Contract'}
+              Escrow Funds in {bountyName(bounty.bountyType)}
             </div>
             <div className='flex flex-col space-y-5 w-5/6 pt-2'>
               <TokenFundBox
@@ -324,9 +316,9 @@ const FundPage = ({ bounty, refreshBounty }) => {
           {showApproveTransferModal && (
             <ApproveFundModal
               approveTransferState={approveTransferState}
+              setApproveTransferState={setApproveTransferState}
               address={account}
               transactionHash={transactionHash}
-              confirmationMessage={confirmationMessage}
               error={error}
               setShowApproveTransferModal={setShowApproveTransferModal}
               confirmMethod={fundBounty}
@@ -337,6 +329,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
               bountyAddress={bounty.bountyAddress}
               bounty={bounty}
               allowance={allowance}
+              depositPeriodDays={depositPeriodDays}
             />
           )}
         </div>
