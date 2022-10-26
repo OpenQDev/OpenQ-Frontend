@@ -23,23 +23,9 @@ const bounty = {
   title: 'test2',
   body: 'body of test2',
   url: 'https://github.com/OpenQDev/OpenQ-Frontend/issues/8',
-  languages: [
-    { __typename: 'Language', name: 'JavaScript', color: '#f1e05a' },
-    { __typename: 'Language', name: 'CSS', color: '#563d7c' },
-    { __typename: 'Language', name: 'Dockerfile', color: '#384d54' },
-    { __typename: 'Language', name: 'Shell', color: '#89e051' },
-  ],
   repoName: 'OpenQ-Frontend',
   owner: 'OpenQDev',
   avatarUrl: 'https://avatars.githubusercontent.com/u/77402538?v=4',
-  labels: [
-    { __typename: 'Label', name: 'documentation', color: '0075ca' },
-    { __typename: 'Label', name: 'duplicate', color: 'cfd3d7' },
-    { __typename: 'Label', name: 'enhancement', color: 'a2eeef' },
-    { __typename: 'Label', name: 'wontfix', color: 'ffffff' },
-    { __typename: 'Label', name: 'javascript', color: 'E16391' },
-    { __typename: 'Label', name: 'bounty', color: '727384' },
-  ],
   createdAt: '1661767948472',
   closed: true,
   bodyHTML: '<p dir="auto">body of test2</p>',
@@ -55,11 +41,6 @@ const bounty = {
   bountyMintTime: '1661767971',
   bountyClosedTime: null,
   status: '0',
-  fundingGoalTokenAddress: '0x0000000000000000000000000000000000000000',
-  fundingGoalVolume: '0',
-  payoutTokenVolume: '100',
-  payoutTokenAddress: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
-  payoutSchedule: null,
   closerData: null,
   bountyType: '1',
   claimedTransactionHash: null,
@@ -97,16 +78,6 @@ const bounty = {
       __typename: 'BountyFundedTokenBalance',
       volume: '2000000000000000000',
       tokenAddress: '0x0000000000000000000000000000000000000000',
-    },
-    {
-      __typename: 'BountyFundedTokenBalance',
-      volume: '2000000000000000000',
-      tokenAddress: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
-    },
-    {
-      __typename: 'BountyFundedTokenBalance',
-      volume: '2000000000000000000',
-      tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
     },
   ],
   tvl: 0,
@@ -274,21 +245,46 @@ const test = (approveTransferState, error) => {
 
     // ASSERT
     let title;
+    let line1 = screen.getByText('Deposit:');
+    let amount = screen.getByText(/1.0 MATIC/i);
+    let line4 = screen.getByText('From address:');
+    let address = screen.getByText(/0x3c5 ... e9f/i);
+    let btnText;
+    let msg;
+
     switch (approveTransferState) {
       case CONFIRM:
         title = screen.getByText('Refund Deposit');
+        msg = screen.getByText(
+          'Are you sure you want to refund this deposit? The refund may only be partial if contributors have claimed funds on this contract already.'
+        );
+        btnText = screen.getByRole('button', { name: 'Yes, refund!' });
         break;
       case APPROVING:
         title = screen.getByText('Refunding Deposit...');
+        msg = screen.getByText('Refunding your deposit...');
+        btnText = screen.getByRole('button', { name: 'Refunding...' });
         break;
       case SUCCESS:
         title = screen.getByText('Deposit Refunded!');
+        msg = screen.getByText(
+          'The refund may only be partial if contributors have claimed funds on this contract already.'
+        );
+        btnText = screen.getByRole('button', { name: 'Close' });
         break;
       case ERROR:
         title = screen.getByText('User Denied Transaction');
+        msg = screen.getByText('Thank You! Come Again!');
+        btnText = screen.getByRole('button', { name: 'Close' });
         break;
     }
     expect(title).toBeInTheDocument();
+    expect(line1).toBeInTheDocument();
+    expect(line4).toBeInTheDocument();
+    expect(btnText).toBeInTheDocument();
+    expect(amount).toBeInTheDocument();
+    expect(address).toBeInTheDocument();
+    expect(msg).toBeInTheDocument();
 
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
