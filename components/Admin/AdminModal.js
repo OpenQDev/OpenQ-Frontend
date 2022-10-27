@@ -85,7 +85,7 @@ const AdminModal = ({ setModal, modal }) => {
           <>
             <p className='pb-4'>{content[modal.type]}</p>
             <div className='flex justify-between w-full gap-2 pb-4'>
-              <div className='w-28 flex-1'>Payout set to</div>
+              <div className='w-28 flex-1'>{modal.type} set to:</div>
               <div className='flex flex-wrap flex-1 justify-start w-[120px] gap-8'>
                 <Image
                   width={24}
