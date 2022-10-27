@@ -103,9 +103,10 @@ const ClaimLoadingModal = ({
       ) : null}
 
       {(claimState === CHECKING_WITHDRAWAL_ELIGIBILITY || claimState === TRANSACTION_SUBMITTED) && (
-        <div className='flex justify-center'>
+        <button className='flex items-center gap-2 btn-default cursor-not-allowed' type='button' disabled={true}>
+          Claiming...
           <LoadingIcon bg='colored' />
-        </div>
+        </button>
       )}
     </div>
   );
