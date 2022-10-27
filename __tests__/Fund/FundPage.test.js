@@ -168,7 +168,6 @@ describe('FundPage', () => {
     expect(modalContent).not.toBeInTheDocument();
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
-    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should render list items', async () => {
@@ -194,7 +193,6 @@ describe('FundPage', () => {
     expect(token).toBeInTheDocument();
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
-    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should let user submit and handle too low amount of token', async () => {
@@ -217,7 +215,6 @@ describe('FundPage', () => {
     expect(modalContent).not.toBeInTheDocument();
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
-    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should let user submit and handle owned amount of Matic', async () => {
@@ -243,7 +240,6 @@ describe('FundPage', () => {
     expect(modalContent).not.toBeInTheDocument();
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
-    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should let user submit and handle owned amount of Link', async () => {
@@ -275,7 +271,6 @@ describe('FundPage', () => {
     expect(modalContent).not.toBeInTheDocument();
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
-    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should go straight to fund when DERC20 approved previously', async () => {
@@ -303,7 +298,6 @@ describe('FundPage', () => {
     expect(modalContent).not.toBeInTheDocument();
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
-    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should handle approval errors', async () => {
@@ -330,7 +324,6 @@ describe('FundPage', () => {
     expect(modalContent).not.toBeInTheDocument();
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
-    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should prevent user from submitting over 10000000', async () => {
@@ -350,7 +343,6 @@ describe('FundPage', () => {
     expect(tooltip).toBeInTheDocument();
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
-    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should prevent user from submitting under 0.0000001', async () => {
@@ -372,7 +364,6 @@ describe('FundPage', () => {
       expect(tooltip).toBeInTheDocument();
       const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
       expect(nullish).toHaveLength(0);
-      expect(await screen.findByTestId('fetched')).toBeInTheDocument();
     });
   });
 
@@ -390,7 +381,6 @@ describe('FundPage', () => {
       expect(tooltip).toBeInTheDocument();
       const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
       expect(nullish).toHaveLength(0);
-      expect(await screen.findByTestId('fetched')).toBeInTheDocument();
     });
   });
 });
