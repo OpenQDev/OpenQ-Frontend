@@ -110,8 +110,11 @@ class MockOpenQClient {
 	}
 
 	async fetchNfts(){
+	return  new Promise(async(resolve, reject)=>{
 	
-	return []
+				this.sleep();
+	resolve([])
+	})
 	}
 
 	async approve(library, _bountyAddress, _tokenAddress, _value) {

@@ -1,13 +1,27 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
+import useWeb3 from '../../hooks/useWeb3';
+import StoreContext from '../../store/Store/StoreContext';
 import SelectableNFT from './SelectableNFT';
-const NFTFundModal = ({ nfts, setPickedNft }) => {
+const NFTFundModal = ({ setPickedNft }) => {
   const [showModal, setShowModal] = useState();
   const [selectedNft, setSelectedNft] = useState();
+  const [appState] = useContext(StoreContext);
+  const { library, account } = useWeb3();
+  const [nfts, setNfts] = useState([]);
   const pickNft = () => {
     setPickedNft(selectedNft);
     setShowModal(false);
   };
 
+  useEffect(async () => {
+    if (library) {
+      let cancelled;
+      const nfts = await appState.openQClient.fetchNfts(library, account);
+
+      if (cancelled) setNfts(nfts);
+      return () => (cancelled = true);
+    }
+  }, [library]);
   const modalRef = useRef();
   useEffect(() => {
     // Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component

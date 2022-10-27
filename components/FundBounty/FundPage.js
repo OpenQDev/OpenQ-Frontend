@@ -1,5 +1,5 @@
 // Third party
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { ethers } from 'ethers';
 
 // Custom
@@ -30,7 +30,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const [allowance, setAllowance] = useState();
   const [pickedNft, setPickedNft] = useState();
-  const [nfts, setNfts] = useState([]);
   const [nftTier, setNftTier] = useState('');
   const zeroAddressMetadata = {
     name: 'Matic',
@@ -44,14 +43,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
   const [appState, dispatch] = useContext(StoreContext);
   const { logger, openQClient, utils } = appState;
   const { library, account } = useWeb3();
-
-  useEffect(async () => {
-    if (library) {
-      const nfts = await appState.openQClient.fetchNfts(library, account);
-      setNfts(nfts);
-    }
-  }, [library]);
-  useEffect(async () => {}, [pickedNft]);
 
   // State
   const [token, setToken] = useState(zeroAddressMetadata);
@@ -308,7 +299,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
                       token={token}
                       volume={volume}
                     />
-                    <NFTFundModal nfts={nfts} setPickedNft={setPickedNft} />
+                    <NFTFundModal setPickedNft={setPickedNft} />
                   </>
                 </div>
               ) : null}
