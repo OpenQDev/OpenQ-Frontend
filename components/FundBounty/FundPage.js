@@ -296,7 +296,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
                       token={token}
                       volume={volume}
                     />
-                    <NFTFundModal setPickedNft={setPickedNft} />
+                    <NFTFundModal setPickedNft={(nft) => setPickedNft(nft)} />
                   </>
                 </div>
               ) : null}
