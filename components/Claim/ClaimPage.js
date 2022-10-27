@@ -152,25 +152,27 @@ const ClaimPage = ({ bounty, refreshBounty, price }) => {
                     <ToolTipNew
                       groupStyles={'w-full'}
                       outerStyles='flex w-full items-center'
-                      hideToolTip={account && isOnCorrectNetwork && authState.isAuthenticated}
+                      hideToolTip={account && isOnCorrectNetwork && authState.isAuthenticated && price > 0}
                       toolTipText={
-                        account && isOnCorrectNetwork && authState.isAuthenticated
+                        account && isOnCorrectNetwork && authState.isAuthenticated && price > 0
                           ? "Please indicate the volume you'd like to claim with."
-                          : account && authState.isAuthenticated
+                          : account && authState.isAuthenticated && price > 0
                           ? 'Please switch to the correct network to claim this contract.'
-                          : !account
+                          : authState.isAuthenticated && price > 0
                           ? 'Connect your wallet to claim this contract!'
-                          : 'Connect your GitHub account to claim this contract!'
+                          : price > 0
+                          ? 'Connect your GitHub account to claim this contract!'
+                          : 'There are no funds locked to claim, contact the maintainer of this issue.'
                       }
                     >
                       <button
                         type='submit'
                         className={
-                          (isOnCorrectNetwork && authState.isAuthenticated) || !account
+                          (isOnCorrectNetwork && authState.isAuthenticated && price > 0) || !account
                             ? 'btn-primary cursor-pointer w-full px-8 whitespace-nowrap'
                             : 'btn-default cursor-not-allowed w-full px-8 whitespace-nowrap'
                         }
-                        disabled={(!isOnCorrectNetwork || !authState.isAuthenticated) && account}
+                        disabled={(!isOnCorrectNetwork || !authState.isAuthenticated || !(price > 0)) && account}
                         onClick={account ? () => setShowClaimLoadingModal(true) : connectWallet}
                       >
                         {account ? 'Claim' : 'Connect Wallet'}
