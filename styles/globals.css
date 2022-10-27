@@ -101,7 +101,7 @@ pre {
 	@apply flex text-[0.8rem] lg:mx-2 hover:text-primary text-muted font-bold hover:cursor-pointer pt-1 lg:pt-0 lg:border-none border-t border-web-gray
 	}
 	.btn-primary{
-		@apply bg-[#238636] border border-[#238636] rounded-sm py-1.5 hover:bg-[#2ea043] text-white
+		@apply bg-[#238636] border border-[#238636] rounded-sm px-3 py-1 hover:bg-[#2ea043] text-white
 	}
 	.btn-default{
 		@apply rounded-sm px-3 py-1 bg-[#21262d] hover:bg-[#30363d] border border-gray-700 hover:border-[#8b949e]
