@@ -212,7 +212,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                     ) : (
                       <>
                         <div className='font-semibold '>TVL</div>
-                        <div className=''>{appState.utils.formatter.format(tokenValues?.total)}</div>
+                        <div className=''>{appState.utils.formatter.format(tokenValues?.total || 0)}</div>
                       </>
                     )}
                   </div>
