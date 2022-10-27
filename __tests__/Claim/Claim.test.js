@@ -35,7 +35,7 @@ describe('ClaimPage', () => {
   it('should render the heading', async () => {
     // ARRANGE
     const user = userEvent.setup();
-    render(<ClaimPage bounty={bounty} />);
+    render(<ClaimPage bounty={bounty} price={100} />);
 
     // ACT
     const claimBtn = screen.getByText('Claim');
