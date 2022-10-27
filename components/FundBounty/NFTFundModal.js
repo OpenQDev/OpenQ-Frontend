@@ -5,6 +5,7 @@ import SelectableNFT from './SelectableNFT';
 const NFTFundModal = ({ setPickedNft }) => {
   const [showModal, setShowModal] = useState();
   const [selectedNft, setSelectedNft] = useState();
+  const [nftsLoaded, setNftsLoaded] = useState();
   const [appState] = useContext(StoreContext);
   const { library, account } = useWeb3();
   const [nfts, setNfts] = useState([]);
@@ -15,18 +16,20 @@ const NFTFundModal = ({ setPickedNft }) => {
 
   useEffect(async () => {
     let cancelled;
-    if (library && account && !cancelled) {
+    if (library && account && !cancelled && !nftsLoaded) {
       try {
         const nfts = await appState.openQClient.fetchNfts(library, account);
         if (!cancelled) {
           setNfts(nfts);
+          setNftsLoaded(true);
         }
       } catch (err) {
         appState.logger.error(err);
       }
     }
     return () => (cancelled = true);
-  }, [library, account, showModal]);
+  }, [library, account]);
+
   const modalRef = useRef();
   useEffect(() => {
     // Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
@@ -49,7 +52,7 @@ const NFTFundModal = ({ setPickedNft }) => {
     <>
       <div>
         <button
-          data-testid={nfts.length > 0 ? 'fetched' : 'waiting'}
+          data-testid={nfts.length === 1 ? 'fetched' : 'waiting'}
           onClick={() => setShowModal(true)}
           className='flex gap-2 py-[7px] btn-default content-center items-center '
         >
