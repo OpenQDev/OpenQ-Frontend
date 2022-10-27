@@ -9,6 +9,7 @@ import ToolTipNew from '../Utils/ToolTipNew';
 import SetTierValues from '../MintBounty/SetTierValues';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import ClaimText from './ClaimText';
+import BountyClosed from '../BountyClosed/BountyClosed';
 
 const AdminPage = ({ bounty, refreshBounty }) => {
   // Context
@@ -348,8 +349,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
         </>
       ) : (
         <>
-          <h2 className='text-2xl border-b border-gray-700 pb-4'>Select Winners</h2>
-          <ClaimText bounty={bounty} />
+          <BountyClosed bounty={bounty} />
         </>
       )}
 
