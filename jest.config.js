@@ -3,6 +3,7 @@ module.exports = {
   setupFilesAfterEnv: ['./jest.setup.js'],
   bail: true,
   reporters: ['default', 'jest-junit'],
+  transformIgnorePatterns: ['node_modules/(?!axios)'],
   moduleNameMapper: {
     '^@components(.*)$': '<rootDir>/components$1',
     '^@pages(.*)$': '<rootDir>/pages$1',
