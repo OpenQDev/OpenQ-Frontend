@@ -22,6 +22,24 @@ describe('ClaimLoadingModal', () => {
   beforeEach(() => {
     InitialState.openQClient.reset();
   });
+  const bounty = {
+    __typename: 'Bounty',
+    bountyAddress: '0x1f191c4166865882b26551fb8618668b7a67d0fb',
+    bountyId: 'I_kwDOBC3Cis5Kk2OD',
+    bountyMintTime: '1654260766',
+    bountyClosedTime: null,
+    status: 'OPEN',
+    bountyType: '2',
+    payoutSchedule: ['70', '20', '10'],
+    claimedTransactionHash: null,
+    owner: 'OpenQDev',
+    deposits: [],
+    issuer: {
+      __typename: 'User',
+      id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+    },
+    bountyTokenBalances: [],
+  };
   const claimBounty = jest.fn();
   const url = 'www.example.com';
   const ensName = 'voyageur.eth';
@@ -43,6 +61,7 @@ describe('ClaimLoadingModal', () => {
         address={account}
         transactionHash={transactionHash}
         setShowClaimLoadingModal={updateModal}
+        bounty={bounty}
       />
     );
 
@@ -75,6 +94,7 @@ describe('ClaimLoadingModal', () => {
         address={account}
         transactionHash={transactionHash}
         setShowClaimLoadingModal={updateModal}
+        bounty={bounty}
       />
     );
 
@@ -99,6 +119,7 @@ describe('ClaimLoadingModal', () => {
         address={account}
         transactionHash={transactionHash}
         setShowClaimLoadingModal={updateModal}
+        bounty={bounty}
       />
     );
 
@@ -123,6 +144,7 @@ describe('ClaimLoadingModal', () => {
         address={account}
         transactionHash={transactionHash}
         setShowClaimLoadingModal={updateModal}
+        bounty={bounty}
       />
     );
 
@@ -151,6 +173,7 @@ describe('ClaimLoadingModal', () => {
         address={account}
         transactionHash={transactionHash}
         setShowClaimLoadingModal={updateModal}
+        bounty={bounty}
       />
     );
 

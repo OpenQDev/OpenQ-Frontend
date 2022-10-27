@@ -5,6 +5,7 @@ export const GET_PAGINATED_TVLS = gql`
     bountiesConnection(orderBy: $orderBy, limit: $limit, sortOrder: $sortOrder, after: String) {
       bounties {
         tvl
+        tvc
         address
         bountyId
       }
@@ -17,6 +18,7 @@ export const GET_BOUNTY_BY_HASH = gql`
   query bounty($contractAddress: String!) {
     bounty(address: $contractAddress) {
       tvl
+      tvc
       bountyId
     }
   }
@@ -79,15 +81,33 @@ export const GET_USER_BY_HASH = gql`
   query ($userAddress: String!, $types: [String], $category: String) {
     user(address: $userAddress) {
       watchedBountyIds
+      github
       watchedBounties(limit: 100, types: $types, category: $category) {
         nodes {
           tvl
+          tvc
           address
           bountyId
           watchingCount
         }
       }
       starredOrganizationIds
+    }
+  }
+`;
+
+export const GET_USERS = gql`
+  query getUsers {
+    usersConnection {
+      users {
+        watchedBountyIds
+        github
+        discord
+        twitter
+        email
+        address
+        starredOrganizationIds
+      }
     }
   }
 `;
@@ -100,6 +120,7 @@ export const GET_ORGANIZATION = gql`
         bountyConnection {
           nodes {
             tvl
+            tvc
             bountyId
             address
             blacklisted
@@ -121,6 +142,7 @@ export const GET_ORGANIZATIONS = gql`
       bounties(limit: $batch, types: $types, category: $category) {
         nodes {
           tvl
+          tvc
           bountyId
           address
           blacklisted
@@ -149,6 +171,9 @@ export const UPDATE_USER = gql`
     $streetAddress: String
     $country: String
     $province: String
+    $discord: String
+    $github: String
+    $twitter: String
   ) {
     updateUser(
       address: $address
@@ -158,7 +183,18 @@ export const UPDATE_USER = gql`
       streetAddress: $streetAddress
       country: $country
       province: $province
+      discord: $discord
+      github: $github
+      twitter: $twitter
     ) {
+      address
+    }
+  }
+`;
+
+export const UPDATE_USER_SIMPLE = gql`
+  mutation updateUserSimple($address: String!, $github: String) {
+    updateUserSimple(address: $address, github: $github) {
       address
     }
   }
@@ -221,6 +257,7 @@ export const GET_CONTRACT_PAGE = gql`
       bountyConnection {
         nodes {
           tvl
+          tvc
           address
           organizationId
           bountyId
@@ -235,6 +272,21 @@ export const GET_CONTRACT_PAGE = gql`
         }
         cursor
       }
+    }
+  }
+`;
+
+export const BLACKLIST_ISSUE = gql`
+  mutation blacklist($bountyId: String, $blacklist: Boolean) {
+    blackList(bountyId: $bountyId, blackList: $blacklist) {
+      blacklisted
+    }
+  }
+`;
+export const BLACKLIST_ORG = gql`
+  mutation blacklistOrg($organizationId: String, $blacklist: Boolean) {
+    blackListOrg(organizationId: $organizationId, blackList: $blacklist) {
+      blacklisted
     }
   }
 `;

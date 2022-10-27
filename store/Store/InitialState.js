@@ -33,7 +33,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
     break;
   case 'docker':
     InitialState = {
-      openQClient: new OpenQClient(),
+      openQClient: new MockOpenQClient(),
       authService: new AuthService(),
       githubRepository: new GithubRepository(),
       openQSubgraphClient: new OpenQSubgraphClient(),

@@ -22,7 +22,7 @@ import ToolTipNew from '../Utils/ToolTipNew';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import StoreContext from '../../store/Store/StoreContext';
 
-const ClaimPage = ({ bounty, refreshBounty }) => {
+const ClaimPage = ({ bounty, refreshBounty, price }) => {
   const { url } = bounty;
   // State
   const [error, setError] = useState('');
@@ -36,7 +36,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
   const [appState, dispatch] = useContext(StoreContext);
   const { logger } = appState;
 
-  const claimable = bounty.bountyType == 0 || bounty.bountyType == 1 ? bounty.status == '1' : bounty.status == '0';
+  const showBountyClosed = bounty.status == '1' && (bounty.bountyType == 2 ? price == 0 : true);
 
   const updateModal = () => {
     setShowClaimLoadingModal(false);
@@ -114,16 +114,11 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
       });
   };
 
-  if (claimable) {
+  if (showBountyClosed) {
     return bounty.bountyType ? (
-      bounty.status == '1' ? (
-        <>
-          <BountyClosed bounty={bounty} showTweetLink={justClaimed} />
-        </>
-      ) : (
-        // case where bounty not claimable yet (contest not closed yet)
-        <div className='text-lg'>Contest must be closed in order to be able to claim your rewards.</div>
-      )
+      <>
+        <BountyClosed bounty={bounty} showTweetLink={justClaimed} />
+      </>
     ) : (
       <div className='text-lg'>Bounty type unknown. Please refresh your window.</div>
     );
@@ -131,7 +126,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
     // rewards are claimable
     return (
       <>
-        <div className='flex flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
+        <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
           <div className='flex flex-col w-full space-y-2 items-center content-center md:border rounded-sm border-gray-700'>
             <div className='flex w-full text-3xl text-primary justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
               Claim Your Rewards
@@ -157,35 +152,37 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
                     <ToolTipNew
                       groupStyles={'w-full'}
                       outerStyles='flex w-full items-center'
-                      hideToolTip={account && isOnCorrectNetwork && authState.isAuthenticated}
+                      hideToolTip={account && isOnCorrectNetwork && authState.isAuthenticated && price > 0}
                       toolTipText={
-                        account && isOnCorrectNetwork && authState.isAuthenticated
+                        account && isOnCorrectNetwork && authState.isAuthenticated && price > 0
                           ? "Please indicate the volume you'd like to claim with."
-                          : account && authState.isAuthenticated
-                          ? 'Please switch to the correct network to claim this bounty.'
-                          : !account
-                          ? 'Connect your wallet to claim this bounty!'
-                          : 'Connect your GitHub account to claim this bounty!'
+                          : account && authState.isAuthenticated && price > 0
+                          ? 'Please switch to the correct network to claim this contract.'
+                          : authState.isAuthenticated && price > 0
+                          ? 'Connect your wallet to claim this contract!'
+                          : price > 0
+                          ? 'Connect your GitHub account to claim this contract!'
+                          : 'There are no funds locked to claim, contact the maintainer of this issue.'
                       }
                     >
                       <button
                         type='submit'
                         className={
-                          (isOnCorrectNetwork && authState.isAuthenticated) || !account
+                          (isOnCorrectNetwork && authState.isAuthenticated && price > 0) || !account
                             ? 'btn-primary cursor-pointer w-full px-8 whitespace-nowrap'
                             : 'btn-default cursor-not-allowed w-full px-8 whitespace-nowrap'
                         }
-                        disabled={(!isOnCorrectNetwork || !authState.isAuthenticated) && account}
+                        disabled={(!isOnCorrectNetwork || !authState.isAuthenticated || !(price > 0)) && account}
                         onClick={account ? () => setShowClaimLoadingModal(true) : connectWallet}
                       >
                         {account ? 'Claim' : 'Connect Wallet'}
                       </button>
                     </ToolTipNew>
                   </div>
-                  <div className='flex items-center col-span-3'>
+                  <div className='flex items-center col-span-3 pb-8'>
                     <AuthButton
                       hideSignOut={true}
-                      redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${bounty.bountyId}/${bounty.bountyAddress}`}
+                      redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.bountyAddress}`}
                     />
                   </div>
                   {showClaimLoadingModal && (
@@ -199,6 +196,7 @@ const ClaimPage = ({ bounty, refreshBounty }) => {
                       address={account}
                       transactionHash={transactionHash}
                       setShowClaimLoadingModal={updateModal}
+                      bounty={bounty}
                     />
                   )}
                 </div>

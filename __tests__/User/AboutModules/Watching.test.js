@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { render, screen } from '../../../test-utils';
-import Watching from '../../../components/User/AboutModules/Watching';
+import Watching from '../../../components/User/WatchingTab/Watching';
 import userEvent from '@testing-library/user-event';
 
 describe('Watching', () => {

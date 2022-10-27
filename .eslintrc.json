@@ -13,7 +13,7 @@
 	"extends": [
 		"eslint:recommended",
 		"plugin:react/recommended",
-    "prettier"
+		"prettier"
 	],
 	"parser": "@babel/eslint-parser",
 	"parserOptions": {
@@ -32,7 +32,7 @@
 	"plugins": [
 		"react",
 		"unused-imports",
-    "prettier"
+		"prettier"
 	],
 	"rules": {
 		"no-async-promise-executor": "off",
@@ -42,14 +42,11 @@
 		"react/no-unescaped-entities": "off",
 		"react/prop-types": 0,
 		"linebreak-style": 0,
+		"no-loss-of-precision": "off",
 		"semi": [
 			"error",
 			"always"
 		],
-  "prettier/prettier": 
-    "error"
-    
-  
-
-	}  
+		"prettier/prettier": "error"
+	}
 }

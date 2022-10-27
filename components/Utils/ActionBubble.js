@@ -14,10 +14,11 @@ const ActionBubble = ({ bounty, action }) => {
   const [justMinted, setJustMinted] = useState(false);
   const { bodyHTML } = bounty;
   const [senderEnsName] = useEns(action?.sender?.id);
-  const { account } = useWeb3();
+  const { library, account } = useWeb3();
   const [minterEnsName] = useEns(bounty?.issuer?.id || account);
   const [refunderEnsName] = useEns(action?.sender?.id);
   const [claimantEnsName] = useEns(action?.claimant?.id);
+  const [NFT, setNFT] = useState({ title: 'an NFT' });
   const [tokenValues] = useGetTokenValues((action?.receiveTime || action?.refundTime) && action);
 
   const getPayout = (bounty) => {
@@ -37,6 +38,14 @@ const ActionBubble = ({ bounty, action }) => {
       setJustMinted(true);
     }
   }, []);
+
+  useEffect(async () => {
+    if (action?.isNft && action.receiveTime && library) {
+      const NFT = await appState.openQClient.getNFT(library, action.tokenAddress, action.tokenId);
+
+      setNFT({ title: `${NFT.name} #${action.tokenId}`, uri: NFT.uri });
+    }
+  }, [action, library]);
 
   const shortenAddress = (address) => {
     if (!address) {
@@ -93,6 +102,7 @@ const ActionBubble = ({ bounty, action }) => {
       url = author.user.url;
       address = name;
       titlePartOne = `${name} merged linked pull request: `;
+
       titlePartTwo = ` on ${appState.utils.formatUnixDate(action.referencedTime)}.`;
     } else {
       avatarUrl = action.author.avatarUrl;
@@ -124,12 +134,17 @@ const ActionBubble = ({ bounty, action }) => {
     const usdValue = appState.utils.formatter.format(tokenValues?.total);
 
     if (action.receiveTime) {
-      name = funder;
-      titlePartOne = isNaN(tokenValues?.total)
-        ? ''
-        : `${funder} funded this contract with ${formattedVolume} ${
-            tokenMetadata.symbol
-          } (${usdValue}) on ${appState.utils.formatUnixDate(action.receiveTime)}.`;
+      if (action.isNft) {
+        titlePartOne = `${funder} funded this contract with `;
+        titlePartTwo = ` on ${appState.utils.formatUnixDate(action.receiveTime)}.`;
+      } else {
+        name = funder;
+        titlePartOne = isNaN(tokenValues?.total)
+          ? ''
+          : `${funder} funded this contract with ${formattedVolume} ${
+              tokenMetadata.symbol
+            } (${usdValue}) on ${appState.utils.formatUnixDate(action.receiveTime)}.`;
+      }
     } else if (action.refundTime) {
       name = refunderEnsName || shortenAddress(refunder);
       address = refunder;
@@ -157,12 +172,13 @@ const ActionBubble = ({ bounty, action }) => {
         <div className={` w-full pl-3 ${!action && 'border-web-gray'} flex justify-between`}>
           <span className='py-2'>
             <span data-testid='actionTitle'>{titlePartOne}</span>
-            {action?.url && (
-              <a className='inline underline' href={action.url}>
-                {action.title}
+
+            {(action?.url || NFT.uri) && (
+              <a className='inline underline' target='_blank' href={action.url || NFT.uri} rel='noreferrer'>
+                {action.title || NFT.title}
               </a>
             )}
-            <span>{titlePartTwo}</span>
+            <span className='text-left'>{titlePartTwo}</span>
           </span>
           {action?.refunded && (
             <span className='flex items-center border rounded-sm border-web-gray px-2 py-px m-1'> Refunded</span>

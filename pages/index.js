@@ -190,7 +190,7 @@ export const getServerSideProps = async () => {
   return {
     props: {
       fullBounties,
-      firstCursor,
+      firstCursor: firstCursor || null,
       batch,
       types,
       mergedOrgs,

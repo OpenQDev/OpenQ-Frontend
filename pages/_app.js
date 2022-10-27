@@ -1,11 +1,9 @@
 // Third party Libraries
 import React, { useEffect } from 'react';
 import { Web3ReactProvider } from '@web3-react/core';
-import { ethers } from 'ethers';
 import 'tailwindcss/tailwind.css';
 import 'github-markdown-css/github-markdown-dark.css';
 import { useRouter } from 'next/router';
-import Script from 'next/script';
 
 // Custom
 import '../styles/globals.css';
@@ -15,41 +13,53 @@ import Navigation from '../components/Layout/Navigation';
 import Head from 'next/head';
 import Footer from '../components/Layout/Footer';
 import ReactGA from 'react-ga4';
+import { hotjar } from 'react-hotjar';
+import {
+  walletConnect,
+  walletConnectHooks,
+  metaMask,
+  metaMaskHooks,
+  gnosisSafe,
+  gnosisSafeHooks,
+} from '../components/WalletConnect/connectors';
 
 function OpenQ({ Component, pageProps }) {
-  function getLibrary(provider) {
-    const library = new ethers.providers.Web3Provider(provider);
-    library.pollingInterval = 12000;
-    return library;
-  }
+  const connectors = [
+    [metaMask, metaMaskHooks],
+    [walletConnect, walletConnectHooks],
+    [gnosisSafe, gnosisSafeHooks],
+  ];
   useEffect(() => {
     ReactGA.initialize(process.env.NEXT_PUBLIC_GA_TRACKING_ID);
+
+    const hjid = '3177116';
+    const hjsv = '6';
+    hotjar.initialize(hjid, hjsv);
+
+    // Identify the user
+    hotjar.identify('USER_ID', { userProperty: 'value' });
+
+    // Add an event
+    hotjar.event('button-click');
+
+    // Update SPA state
+    hotjar.stateChange('/my/page');
+
+    // Check if Hotjar has been initialized before calling its methods
+    if (hotjar.initialized()) {
+      hotjar.identify('USER_ID', { userProperty: 'value' });
+    }
   }, []);
   const router = useRouter();
   return (
     <div className='bg-dark-mode font-segoe text-primary'>
       {/* Global Site Tag (gtag.js) - Google Analytics */}
 
-      <Script
-        strategy='lazyOnload'
-        dangerouslySETInnerHTML={{
-          __html: ` (function(h,o,t,j,a,r){
-        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-        h._hjSettings={hjid:3177116,hjsv:6};
-        a=o.getElementsByTagName('head')[0];
-        r=o.createElement('script');r.async=1;
-        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-        a.appendChild(r);
-    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-  `,
-        }}
-      />
-
       <Head>
         <title>OpenQ | Tempo Engineering, scale better with Atomic Contracts</title>
         <meta name='OpenQ Bounties' content='width=device-width, initial-scale=1.0' />
         <link rel='icon' href='/openq-logo.png' />
-        <link rel='manifest' href='/manifest.json' />
+        <link rel='manifest' href='/manifest.json' crossOrigin='use-credentials' />
         <script type='text/javascript'>
           {`window['__ls_namespace'] = 'LiveSession';
     window['__ls_script_url'] = 'https://cdn.livesession.io/track.js';
@@ -62,7 +72,7 @@ function OpenQ({ Component, pageProps }) {
           var s = d.getElementsByTagName(t)[0]; s.parentNode.insertBefore(ls, s);
       }(window, document, 'script', window['__ls_script_url'], window['__ls_namespace']);
   
-      LiveSession("init", "e91cab7c.5a8a3643", { keystrokes: false, rootHostname : '.staging.openq.dev' });
+      LiveSession("init", "e91cab7c.f76e7165", { keystrokes: false, rootHostname : '.openq.dev' });
       LiveSession("newPageView");
       LiveSession("getSessionURL", function(url, isNewSession){
         if(isNewSession){
@@ -79,7 +89,7 @@ function OpenQ({ Component, pageProps }) {
       <>
         <AuthProvider>
           <StoreProvider>
-            <Web3ReactProvider getLibrary={getLibrary}>
+            <Web3ReactProvider connectors={connectors}>
               <div className='min-h-screen  flex flex-col justify-between'>
                 <div>
                   <Navigation />

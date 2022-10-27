@@ -123,6 +123,8 @@ export const GET_BOUNTY = gql`
         tokenAddress
         expiration
         volume
+        tokenId
+        isNft
         refundTime
         sender {
           id
@@ -506,13 +508,23 @@ export const SUBSCRIBE_TO_BOUNTY = gql`
   }
 `;
 export const GET_CORE_VALUE_METRICS_CURRENT = gql`
-  query GetCoreValues($currentTimestamp: String) {
-    deposits(where: { receiveTime_gt: $currentTimestamp }) {
+  query GetCoreValues($startTimestamp: String) {
+    deposits(where: { receiveTime_gt: $startTimestamp }) {
       tokenAddress
       receiveTime
       volume
     }
-    payouts(where: { payoutTime_gt: $currentTimestamp }) {
+    payouts(where: { payoutTime_gt: $startTimestamp }) {
+      tokenAddress
+      payoutTime
+      volume
+    }
+  }
+`;
+
+export const GET_TVL_AND_TVC = gql`
+  query GetCoreValues {
+    payouts {
       tokenAddress
       payoutTime
       volume
@@ -524,13 +536,13 @@ export const GET_CORE_VALUE_METRICS_CURRENT = gql`
   }
 `;
 export const GET_CORE_VALUE_METRICS_HISTORIC = gql`
-  query GetCoreValues($currentTimestamp: String, $previousTimestamp: String) {
-    payouts(where: { payoutTime_lt: $currentTimestamp, payoutTime_gt: $previousTimestamp }) {
+  query GetCoreValues($startTimestamp: String, $endTimestamp: String) {
+    payouts(where: { payoutTime_lt: $endTimestamp, payoutTime_gt: $startTimestamp }) {
       tokenAddress
       payoutTime
       volume
     }
-    deposits(where: { receiveTime_lt: $currentTimestamp, receiveTime_gt: $previousTimestamp }) {
+    deposits(where: { receiveTime_lt: $endTimestamp, receiveTime_gt: $startTimestamp }) {
       tokenAddress
       receiveTime
       volume

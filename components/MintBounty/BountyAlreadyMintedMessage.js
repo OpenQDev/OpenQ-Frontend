@@ -8,7 +8,7 @@ export default function BountyAlreadyMintedMessage({ bountyAddress, closed, id }
     <div className='flex flex-row items-center space-x-1 pb-2 mx-4'>
       <div className='text-white text-center'>
         Bounty is already {closed ? 'closed' : 'minted'}, view
-        <Link href={`/?address=${id}/${bountyAddress}}`} as={`/bounty/${id}/${bountyAddress}`}>
+        <Link href={`/?address=${id}/${bountyAddress}}`} as={`/contract/${id}/${bountyAddress}`}>
           <a target={safe ? '_self' : '_blank'} rel='noreferrer' className='cursor-pointer text-link'>
             &nbsp;here.
           </a>

@@ -63,6 +63,7 @@ module.exports = {
 				'button-inside': '#241219',
 				'button-inside-hover': '#461429',
 				'green-inside': '#293e30',
+				'green-highlight': '#2ea043',
 				'green': '#238636',
 				'tinted': '#b7b9bc'
 
@@ -82,7 +83,7 @@ module.exports = {
 				'6/7': '85.7142857%',
 			},
 			screens: {
-				xs: { max: '639' },
+				xs: '380px',
 				// => @media (min-width: 380px) { ... }
 
 				sm: '640px',

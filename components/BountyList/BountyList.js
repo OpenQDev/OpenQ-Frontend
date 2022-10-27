@@ -165,13 +165,14 @@ const BountyList = ({
         const isOpenOnGithub = !bounty.closed;
         const hasBudget = bounty.fundingGoalVolume > 0;
         const isAssigned = bounty.assignees?.length > 0;
+        const nonProfit = bounty.category === 'non-profit';
 
         // some auto generated bounties show up as funded but don't display anything, that's because they are funded at really low values.
         // Combine
         return (
           containsSearch &&
           containsTag &&
-          (((hasBudget || isFunded) && isUnclaimed && !isAssigned && isOpenOnGithub) ||
+          (((hasBudget || isFunded || nonProfit) && isUnclaimed && !isAssigned && isOpenOnGithub) ||
             localIsReady === 'All issues') &&
           hasLabels &&
           bounty.url &&
@@ -180,7 +181,7 @@ const BountyList = ({
           isNonProfit
         );
       } catch (err) {
-        appState.logger.error(err);
+        appState.logger.error(err, account, undefined, 'bountylist1');
       }
     });
 

@@ -28,7 +28,7 @@ const BountyModalHeading = ({ bounty, closeModal, unWatchable, watchingState }) 
         </h2>
       </div>
       <div className='min-w-[40px] flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-2'>
-        <Link href={`/bounty/${bounty.id}/${bounty.bountyAddress}`}>
+        <Link href={`/contract/${bounty.id}/${bounty.bountyAddress}`}>
           <div onClick={closeModal} target={safe ? '_self' : '_blank'} rel='noopener noreferrer'>
             <div className='flex gap-3 items-center text-xs text-primary bg-inactive-gray leading-5 h-7 whitespace-nowrap px-3 py-[3px] w-fit hover:bg-active-gray rounded-sm border hover:border-border-active border-border-gray'>
               <StackIcon size={24} />

@@ -1,10 +1,18 @@
 // Third party
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useContext, useState } from 'react';
 
 // Custom
-import { CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveTransferState';
+import { CONFIRM, APPROVING, SUCCESS, ERROR } from './ApproveTransferState';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Link from 'next/link';
+import LinkText from '../svg/linktext';
+import ModalDefault from '../Utils/ModalDefault';
+import Image from 'next/image';
+import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
+import StoreContext from '../../store/Store/StoreContext';
+import { ethers } from 'ethers';
+import TweetAbout from '../Utils/TweetAbout';
+import useEns from '../../hooks/useENS';
 
 const ApproveTransferModal = ({
   approveTransferState,
@@ -12,12 +20,32 @@ const ApproveTransferModal = ({
   setShowApproveTransferModal,
   resetState,
   error,
-  confirmationMessage,
-  positiveOption,
+  extend,
   confirmMethod,
-  approvingMessage,
-  approvingTitle,
+  bounty,
+  depositPeriodDays,
+  depositId,
+  account,
+  depositExpired,
 }) => {
+  const [appState] = useContext(StoreContext);
+  const [ensName] = useEns(account);
+  const deposit = bounty.deposits.filter((deposit) => deposit.id == depositId)[0];
+  const tokenMetadata = appState.tokenClient.getToken(deposit.tokenAddress);
+  let bigNumberVolume = ethers.BigNumber.from(deposit.volume.toString());
+  let decimals = parseInt(tokenMetadata.decimals) || 18;
+  let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
+  const [lockDate] = useState(
+    appState.utils.formatUnixDate(
+      depositExpired(deposit)
+        ? parseInt(Date.now() / 1000) + depositPeriodDays[depositId] * 60 * 60 * 24
+        : parseInt(deposit.receiveTime) +
+            parseInt(deposit.expiration) +
+            parseInt(depositPeriodDays[depositId] * 60 * 60 * 24)
+    )
+  );
+  const tweetText = `💸 Just extended the deposit period for this issue from ${bounty.owner}/${bounty.repoName} on OpenQ, looking for devs to work on it: `;
+
   const modal = useRef();
   const updateModal = () => {
     resetState();
@@ -32,7 +60,7 @@ const ApproveTransferModal = ({
     }
 
     // Bind the event listener
-    if (approveTransferState !== APPROVING && approveTransferState !== TRANSFERRING) {
+    if (approveTransferState !== APPROVING) {
       document.addEventListener('mousedown', handleClickOutside);
     }
     return () => {
@@ -41,97 +69,124 @@ const ApproveTransferModal = ({
     };
   }, [modal, approveTransferState]);
 
-  let title = {
-    [CONFIRM]: 'Confirm',
-    [APPROVING]: approvingTitle || 'Approve',
-    [TRANSFERRING]: 'Transfer',
-    [SUCCESS]: 'Transfer Complete!',
-    [ERROR]: `${error.title}`,
+  let action = extend ? 0 : 1;
+
+  let statesFormat = {
+    [CONFIRM]: {
+      title: ['Extend Lock Period', 'Refund Deposit'],
+      message: [
+        'Are you sure you want to extend this deposit?',
+        'Are you sure you want to refund this deposit? The refund may only be partial if contributors have claimed funds on this contract already.',
+      ],
+      btnText: ['Yes, extend!', 'Yes, refund!'],
+      btnStyle: ['btn-primary'],
+      clickMethod: confirmMethod,
+    },
+    [APPROVING]: {
+      title: ['Extending Lock Period...', 'Refunding Deposit...'],
+      message: ['Extending your deposit...', 'Refunding your deposit...'],
+      btnText: ['Extending...', 'Refunding...'],
+      btnStyle: ['btn-default cursor-not-allowed'],
+    },
+    [SUCCESS]: {
+      title: ['Lock Period Extended!', 'Deposit Refunded!'],
+      message: [
+        'You have successfully extended your deposit!',
+        'The refund may only be partial if contributors have claimed funds on this contract already.',
+      ],
+      btnText: ['', 'Close'],
+      btnStyle: ['btn-default'],
+      clickMethod: updateModal,
+      link: `${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`,
+      linkText: 'Transaction: ',
+    },
+    [ERROR]: {
+      title: [`${error.title}`, `${error.title}`],
+      message: [`${error.message}`, `${error.message}`],
+      btnText: ['Close', 'Close'],
+      btnStyle: ['btn-default'],
+      clickMethod: updateModal,
+      link: error.link,
+      linkText: `${error.linkText}`,
+    },
   };
 
-  let message = {
-    [CONFIRM]: `${confirmationMessage}`,
-    [APPROVING]: approvingMessage || 'Approving...',
-    [TRANSFERRING]: 'Transferring...',
-    [SUCCESS]: `Transaction confirmed! Check out your transaction with the link below:\n
-		`,
-    [ERROR]: `${error.message}`,
-  };
-
-  let link = {
-    [SUCCESS]: `${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`,
-    [ERROR]: error.link,
-  };
-
-  let linkText = {
-    [ERROR]: `${error.linkText}`,
-  };
-  return (
+  {
+    /* Button */
+  }
+  const btn = (
     <div>
-      <div className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
-        <div ref={modal} className='w-1/4 min-w-[320px]'>
-          <div className='border-0 rounded-sm p-7 shadow-lg flex flex-col w-full bg-dark-mode outline-none focus:outline-none'>
-            <div className='flex items-center justify-center border-solid'>
-              <div className='flex flex-row'>
-                <div className='text-3xl  text-center font-semibold pb-8'>{title[approveTransferState]}</div>
-              </div>
-            </div>
-            <div className='text-md  text-center pb-4'>
-              <p className='break-words'>{message[approveTransferState]}</p>
-              {link[approveTransferState] && (
-                <p className='break-all underline'>
-                  <Link href={link[approveTransferState]}>
-                    <a target={'_blank'} rel='noopener noreferrer'>
-                      {linkText[approveTransferState] || link[approveTransferState]}
-                      <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        className='h-4 w-4 inline'
-                        fill='none'
-                        viewBox='0 0 24 24'
-                        stroke='currentColor'
-                        strokeWidth='2'
-                      >
-                        <path
-                          strokeLinecap='round'
-                          strokeLinejoin='round'
-                          d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'
-                        />
-                      </svg>
-                    </a>
-                  </Link>
-                </p>
-              )}
-            </div>
-            {approveTransferState == 'CONFIRM' ? (
-              <div className='flex items-center'>
-                <button
-                  className='btn-primary w-full px-6 py-2 text-lg'
-                  type='button'
-                  onClick={() => {
-                    confirmMethod();
-                  }}
-                >
-                  {positiveOption}
-                </button>
-              </div>
-            ) : null}
-            {approveTransferState == ERROR || approveTransferState == SUCCESS ? (
-              <div className='flex items-center justify-end p-5 text-lg '>
-                <button className='btn-default w-full' type='button' onClick={() => updateModal()}>
-                  Close
-                </button>
-              </div>
-            ) : null}
-            {(approveTransferState === TRANSFERRING || approveTransferState === APPROVING) && (
-              <div className='self-center'>
-                <LoadingIcon bg='colored' />
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-      <div className='bg-overlay fixed z-40 inset-0'></div>
+      {extend && approveTransferState == SUCCESS ? (
+        <TweetAbout tweetText={tweetText} bounty={bounty} />
+      ) : (
+        <button
+          className={`flex items-center gap-2 ${statesFormat[approveTransferState].btnStyle}`}
+          onClick={statesFormat[approveTransferState].clickMethod}
+        >
+          {statesFormat[approveTransferState].btnText[action]}
+          {approveTransferState === APPROVING && <LoadingIcon bg='colored' />}
+        </button>
+      )}
     </div>
+  );
+
+  return (
+    <ModalDefault
+      title={statesFormat[approveTransferState].title[action]}
+      footerRight={btn}
+      setShowModal={setShowApproveTransferModal}
+      resetState={resetState}
+    >
+      {/* Body */}
+      <>
+        <div className='gap-4 grid grid-cols-[100px_1fr]'>
+          <div>Deposit:</div>
+          <div className='flex gap-2'>
+            <Image
+              width={20}
+              className='inline'
+              height={20}
+              src={tokenMetadata.path || tokenMetadata.logoURI || '/crypto-logs/ERC20.svg'}
+            />
+            <span>
+              {formattedVolume} {tokenMetadata.symbol}
+            </span>
+          </div>
+          {extend && (
+            <>
+              <span>Extend by:</span>
+              <span>
+                {depositPeriodDays[depositId]} {depositPeriodDays[depositId] == 1 ? 'day' : 'days'}
+              </span>
+              <span>Locked until:</span>
+              <span>{lockDate}</span>
+            </>
+          )}
+          <span>
+            {extend ? 'On' : 'From'} {'address:'}
+          </span>
+          <CopyAddressToClipboard data={bounty.bountyAddress} clipping={[5, 39]} />
+          {!extend && (
+            <>
+              <span>To address:</span>
+              <CopyAddressToClipboard data={account || ensName} clipping={[5, 39]} />
+            </>
+          )}
+          {statesFormat[approveTransferState].link && (
+            <>
+              <span className='pr-8'>{statesFormat[approveTransferState].linkText}</span>
+              <Link href={statesFormat[approveTransferState].link}>
+                <a target={'_blank'} className='underline' rel='noopener noreferrer'>
+                  {transactionHash.slice(0, 5)} . . . {transactionHash.slice(62)}
+                  <LinkText />
+                </a>
+              </Link>
+            </>
+          )}
+          <div className='col-span-2'>{statesFormat[approveTransferState].message[action]}</div>
+        </div>
+      </>
+    </ModalDefault>
   );
 };
 

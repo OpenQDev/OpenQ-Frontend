@@ -20,12 +20,27 @@ module.exports = () => {
     NEXT_PUBLIC_GA_TRACKING_ID: process.env.GA_TRACKING_ID,
     NEXT_PUBLIC_INFURA_PROJECT_ID: process.env.INFURA_PROJECT_ID,
     NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS: process.env.CLAIM_MANAGER_PROXY_ADDRESS,
+    NEXT_PUBLIC_MOCK_NFT_TOKEN_ADDRESS: process.env.MOCK_NFT_TOKEN_ADDRESS,
     NEXT_PUBLIC_BUILD_NUMBER: process.env.BUILD_NUMBER,
   };
+  const headers = [
+    { key: 'Access-Control-Allow-Origin', value: '*' },
+    { key: 'Access-Control-Allow-Methods', value: 'GET' },
+    { key: 'Access-Control-Allow-Headers', value: 'X-Requested-With, content-type, Authorization' },
+  ];
 
   const config = {
     reactStrictMode: true,
     env,
+
+    async headers() {
+      return [
+        {
+          source: '/manifest.json',
+          headers,
+        },
+      ];
+    },
     images: {
       domains: [
         'githubusercontent.com',

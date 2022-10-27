@@ -13,16 +13,17 @@ const useWeb3 = () => {
       error: () => {},
     };
   } else {
-    const { library, account, active, activate, chainId, deactivate, error, connector } = useWeb3React();
+    const { provider, account, active, activate, chainId, deactivate, error, connector } = useWeb3React();
+    const chainIdEnv = process.env.NEXT_PUBLIC_DEPLOY_ENV === 'docker' ? 31337 : chainId;
     return {
-      library,
+      library: provider,
       account,
       active,
       activate,
-      chainId,
+      chainId: chainIdEnv,
       deactivate,
       error,
-      safe: connector?.safe,
+      safe: connector?.provider?.safe,
     };
   }
 };

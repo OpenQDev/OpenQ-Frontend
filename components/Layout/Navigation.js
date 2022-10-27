@@ -1,6 +1,5 @@
 // Third party
 import React, { useState, useEffect, useContext } from 'react';
-import { SafeAppConnector } from '@gnosis.pm/safe-apps-web3-react';
 import Link from 'next/link';
 import ReactGA from 'react-ga4';
 // Custom
@@ -18,9 +17,7 @@ import LoadingBar from '../Loading/LoadingBar';
 import LoadingThread from '../Loading/LoadingThread.js';
 
 const Navigation = () => {
-  const [gnosisSafe, setGnosisSafe] = useState();
-  const [safeInfo, setSafeInfo] = useState();
-  const { account, activate, deactivate } = useWeb3();
+  const { account } = useWeb3();
   const [appState] = useContext(StoreContext);
   const [openMenu, setOpenMenu] = useState(false);
   const [quickSearch, setQuickSearch] = useState('');
@@ -88,7 +85,7 @@ const Navigation = () => {
         .filter((bounty) => !bounty.blacklisted && !bounty.organization.blacklisted);
       const searchable = [...fullBounties, ...fullOrgs].map((searchableItem) => {
         const url = searchableItem.title
-          ? `${process.env.NEXT_PUBLIC_BASE_URL}/bounty/${searchableItem.bountyId}/${searchableItem.bountyAddress}`
+          ? `${process.env.NEXT_PUBLIC_BASE_URL}/contract/${searchableItem.bountyId}/${searchableItem.bountyAddress}`
           : `${process.env.NEXT_PUBLIC_BASE_URL}/organization/${searchableItem.login}`;
         const name = searchableItem.name || searchableItem.title || searchableItem.login;
         const searchItemUrl = searchableItem.url;
@@ -104,14 +101,6 @@ const Navigation = () => {
       appState.logger.error(err, account);
     }
     // set up gnosis safe
-    const safe = new SafeAppConnector();
-    safe.getSafeInfo().then((data) => {
-      if (data) {
-        setSafeInfo(data);
-        deactivate();
-      }
-    });
-    setGnosisSafe(safe);
 
     // set up tokens
     let tokenPrices = {};
@@ -124,12 +113,6 @@ const Navigation = () => {
 
     tokenClient.firstTenPrices = tokenPrices;
   }, []);
-
-  useEffect(async () => {
-    if (safeInfo) {
-      await activate(gnosisSafe);
-    }
-  }, [account]);
 
   const handleSearch = (e) => {
     setQuickSearch(e.target.value);

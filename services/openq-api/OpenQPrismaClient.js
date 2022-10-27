@@ -16,6 +16,10 @@ import {
   STAR_ORG,
   UN_STAR_ORG,
   GET_ORGANIZATION,
+  BLACKLIST_ISSUE,
+  BLACKLIST_ORG,
+  UPDATE_USER_SIMPLE,
+  GET_USERS,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
@@ -203,11 +207,27 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  setFunderValues(values) {
+  updateUser(values) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
           mutation: UPDATE_USER,
+          variables: values,
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  // only updates github and address, no auth
+  updateUserSimple(values) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: UPDATE_USER_SIMPLE,
           variables: values,
         });
         resolve(result.data);
@@ -250,6 +270,9 @@ class OpenQPrismaClient {
 
   async getUser(userAddress, types, category) {
     const promise = new Promise(async (resolve, reject) => {
+      if (!ethers.utils.isAddress(userAddress)) {
+        return {};
+      }
       const variables = {
         userAddress: ethers.utils.getAddress(userAddress),
         types,
@@ -268,6 +291,56 @@ class OpenQPrismaClient {
       }
     });
     return promise;
+  }
+
+  async getUsers(secret) {
+    const promise = new Promise(async (resolve, reject) => {
+      const variables = {};
+      try {
+        const result = await this.client.query({
+          query: GET_USERS,
+          variables,
+          context: { headers: { authorization: secret } },
+        });
+        console.log(result.data.usersConnection.users);
+        resolve(result.data.usersConnection.users);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  async blacklistOrg(organizationId, blacklist, secret) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: BLACKLIST_ORG,
+          variables: { organizationId, blacklist },
+          fetchPolicy: 'no-cache',
+          context: { headers: { authorization: secret } },
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  async blacklistIssue(bountyId, blacklist, secret) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: BLACKLIST_ISSUE,
+          variables: { bountyId, blacklist },
+          fetchPolicy: 'no-cache',
+          context: { headers: { authorization: secret } },
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
   }
 
   async getContractPage(after, limit, sortOrder, orderBy, types, organizationId, category) {

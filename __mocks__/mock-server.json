@@ -1,4 +1,28 @@
 {
+
+
+"prismaUsers":[
+  {
+    "__typename": "User",
+    "watchedBountyIds": [],
+    "github": "Christopher-Stevers",
+    "discord": null,
+    "twitter": null,
+    "email": null,
+    "address": "0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b",
+    "starredOrganizationIds": []
+  },
+  {
+    "__typename": "User",
+    "watchedBountyIds": [],
+    "github": "chris-stevers",
+    "discord": "Voyageur#5630",
+    "twitter": null,
+    "email": "christopher.stevers1@gmail.com",
+    "address": "0xchristopher.stevers1@gmail.com",
+    "starredOrganizationIds": []
+  }
+],
 	"prismaOrgs": {
 		"organizations":[
 		{
@@ -2543,6 +2567,7 @@
 			"path": "/crypto-logos/ETH.svg"
 		}
 	],
+	"fetchNfts": [{"token_address":"0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512","token_id":"2","amount":"1","contract_type":"ERC721","metadata":{"name":"darkHorse","description":"knight of rueful countenance","image":"https://darkhorse.infura-ipfs.io/ipfs/QmSCNQxtXoJjTXHkKFVi4LHXQjko5cJojoa7y81kM4uTnk","attributes":[{"trait_type":"armor","value":"simple"},{"trait_type":"color","value":"darkgray"},{"trait_type":"background","value":"fog"},{"trait_type":"horse","value":"brown"}]},"name":"MockNft","token_uri":"https://darkhorse.infura-ipfs.io/ipfs/Qmdpxsr7Ynhf6pF6Y5rke4fWNEZc3geWupLiG2uKC3R8RT","symbol":"MNFT"}],
 	"tokenMetadata": {
 		"name": "Chainlink Token",
 		"address": "0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39",

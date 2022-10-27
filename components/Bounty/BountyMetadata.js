@@ -42,17 +42,26 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
     <ul className='md:max-w-[300px] w-full md:pl-4'>
       {bounty.bountyType && (
         <li className='border-b border-web-gray py-3'>
-          <div className='text-xs font-semibold text-muted'>Type</div>
+          <div className='text-xs font-semibold text-muted'>Type of Contract</div>
           <div className='text-xs font-semibold text-primary leading-loose'>{type}</div>
         </li>
       )}
 
-      <li className='border-b border-web-gray py-3'>
-        <div className='text-xs font-semibold text-muted'>🔒 TVL</div>
-        <button className='text-xs font-semibold text-primary pt-2' onClick={() => setInternalMenu('Fund')}>
-          {(price && appState.utils.formatter.format(price)) || '$0.00'}
-        </button>
-      </li>
+      {bounty.status !== '0' && bounty.tvc ? (
+        <li className='border-b border-web-gray py-3'>
+          <div className='text-xs font-semibold text-muted'>🔓 Total Value Claimed</div>
+          <button className='text-xs font-semibold text-primary pt-2' onClick={() => setInternalMenu('Fund')}>
+            {appState.utils.formatter.format(bounty.tvc) || '$0.00'}
+          </button>
+        </li>
+      ) : (
+        <li className='border-b border-web-gray py-3'>
+          <div className='text-xs font-semibold text-muted'>🔒 Total Value Locked</div>
+          <button className='text-xs font-semibold text-primary pt-2' onClick={() => setInternalMenu('Fund')}>
+            {(price && appState.utils.formatter.format(price)) || '$0.00'}
+          </button>
+        </li>
+      )}
 
       {bounty.fundingGoalVolume && (
         <li className='border-b border-web-gray py-3'>
@@ -122,7 +131,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
 
         {bounty.labels && (
           <li className='border-b border-web-gray py-3'>
-            <div className='text-xs font-semibold text-muted pb-2'>Labels</div>
+            <div className='text-xs font-semibold text-muted pb-2'>GitHub Labels</div>
             {bounty.labels.length > 0 ? <LabelsList bounty={bounty} /> : <span className='text-sm'>No labels</span>}
           </li>
         )}

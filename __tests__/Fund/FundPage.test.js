@@ -144,8 +144,7 @@ describe('FundPage', () => {
     InitialState.openQClient.reset();
     InitialState.shouldSleep = 200;
   });
-
-  it('should render the heading', () => {
+  it('should render the heading', async () => {
     // ARRANGE
     render(<FundPage bounty={bounty} />);
 
@@ -157,9 +156,10 @@ describe('FundPage', () => {
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
+    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
-  it('should render list items', () => {
+  it('should render list items', async () => {
     // ARRANGE
     render(<FundPage bounty={bounty} />);
 
@@ -168,6 +168,9 @@ describe('FundPage', () => {
 
     // ASSERT
     expect(token).toBeInTheDocument();
+    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(nullish).toHaveLength(0);
+    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should let user submit and handle too low amount of token', async () => {
@@ -188,6 +191,9 @@ describe('FundPage', () => {
     expect(modalContent).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Close' }));
     expect(modalContent).not.toBeInTheDocument();
+    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(nullish).toHaveLength(0);
+    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should let user submit and handle owned amount of Matic', async () => {
@@ -207,8 +213,13 @@ describe('FundPage', () => {
     const confirmBtn = await screen.findAllByRole('button', { name: /Fund/i });
     await user.click(confirmBtn[1]);
     const modalContent = await screen.findByText(/Transfer Complete/i);
-    await user.click(screen.getByRole('button', { name: 'Close' }));
+    const tweet = screen.getByText('Tweet about it');
+    expect(tweet).toBeInTheDocument();
+    await user.click(screen.getByTestId('cross'));
     expect(modalContent).not.toBeInTheDocument();
+    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(nullish).toHaveLength(0);
+    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should let user submit and handle owned amount of Link', async () => {
@@ -229,13 +240,46 @@ describe('FundPage', () => {
     expect(value);
     const confirmBtn = await screen.findByRole('button', { name: /Approv/i });
     await user.click(confirmBtn);
-    const funding = await screen.findByText('Funding');
+    const funding = await screen.findByText('Funding...');
     expect(funding).toBeInTheDocument();
-    const close = await screen.findByText(/close/i, undefined, {
-      timeout: 4000,
+    const modalContent = await screen.findByText(/Transfer Complete/i, undefined, {
+      timeout: 8000,
     });
-    await user.click(close);
-    expect(close).not.toBeInTheDocument();
+    const tweet = screen.getByText('Tweet about it');
+    expect(tweet).toBeInTheDocument();
+    await user.click(screen.getByTestId('cross'));
+    expect(modalContent).not.toBeInTheDocument();
+    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(nullish).toHaveLength(0);
+    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
+  });
+
+  it('should go straight to fund when DERC20 approved previously', async () => {
+    // ARRANGE
+    const user = userEvent.setup();
+    render(<FundPage bounty={bounty} refreshBounty={refreshBounty} />);
+
+    // ACT
+    const input = screen.getByLabelText('amount');
+    await user.type(input, '4.8');
+    await user.click(screen.getByText(/Matic/i));
+    await user.click(screen.getAllByText(/derc20/i)[0]);
+    const button = screen.getByRole('button', { name: /Fund/i });
+    await user.click(button);
+    const value = await screen.findByText(/4.8 derc20/i);
+
+    // ASSERT
+    expect(value).toBeInTheDocument();
+    const confirmBtn = await screen.findAllByRole('button', { name: /Fund/i });
+    await user.click(confirmBtn[1]);
+    const modalContent = await screen.findByText(/Transfer Complete/i);
+    const tweet = screen.getByText('Tweet about it');
+    expect(tweet).toBeInTheDocument();
+    await user.click(screen.getByTestId('cross'));
+    expect(modalContent).not.toBeInTheDocument();
+    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(nullish).toHaveLength(0);
+    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should handle approval errors', async () => {
@@ -260,6 +304,9 @@ describe('FundPage', () => {
 
     await user.click(await screen.findByRole('button', { name: 'Close' }));
     expect(modalContent).not.toBeInTheDocument();
+    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(nullish).toHaveLength(0);
+    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should prevent user from submitting over 10000000', async () => {
@@ -277,8 +324,10 @@ describe('FundPage', () => {
     await user.hover(button);
     const tooltip = await screen.findByText(/Must be between/);
     expect(tooltip).toBeInTheDocument();
+    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(nullish).toHaveLength(0);
+    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
-
   it('should prevent user from submitting under 0.0000001', async () => {
     // ARRANGE
     const user = userEvent.setup();
@@ -294,6 +343,9 @@ describe('FundPage', () => {
     await user.hover(button);
     const tooltip = await screen.findByText(/Must be between/);
     expect(tooltip).toBeInTheDocument();
+    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(nullish).toHaveLength(0);
+    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should show tooltip', async () => {
@@ -307,5 +359,8 @@ describe('FundPage', () => {
     await user.hover(button);
     const tooltip = await screen.findByText(/indicate the volume you'd like to fund with./i);
     expect(tooltip).toBeInTheDocument();
+    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(nullish).toHaveLength(0);
+    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 });
