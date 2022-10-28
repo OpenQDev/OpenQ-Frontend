@@ -24,7 +24,7 @@ import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
 const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
   // Context
   const [appState, dispatch] = useContext(StoreContext);
-  const { library, account } = useWeb3();
+  const { library, account, safe } = useWeb3();
   const router = useRouter();
   const zeroAddressMetadata = {
     name: 'Matic',
@@ -202,7 +202,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
       sessionStorage.setItem('justMinted', true);
       refreshBounty(bountyAddress);
       await router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${issue.id}/${bountyAddress.toLowerCase()}`);
-      if (modalVisibility) {
+      if (modalVisibility && safe) {
         modalVisibility(false);
       }
     } catch (error) {

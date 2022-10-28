@@ -140,6 +140,7 @@ class Utils {
   };
 
   getBountyMarker = (bounty, login) => {
+    if (bounty.closed) return { status: 'Closed', colour: 'bg-danger', fill: 'fill-danger' };
     if (bounty.bountyType === '0') {
       if (bounty.status == '1') {
         if (bounty.claims?.length && bounty?.prs?.some((pr) => pr.source.author?.login === login)) {
@@ -149,7 +150,6 @@ class Utils {
             fill: 'fill-danger',
           };
         }
-        return { status: 'Closed', colour: 'bg-danger', fill: 'fill-danger' };
       }
       if (bounty.status == '0' && bounty?.prs?.some((pr) => pr.source.merged)) {
         {
@@ -160,7 +160,6 @@ class Utils {
               fill: 'fill-closed',
             };
           }
-          return { status: 'Closed', colour: 'bg-danger', fill: 'fill-danger' };
         }
       }
       if (bounty.assignees[0]) {
@@ -170,16 +169,11 @@ class Utils {
           fill: 'fill-yellow-500',
         };
       }
-      if (bounty.closed) return { status: 'Closed', colour: 'bg-danger', fill: 'fill-danger' };
-      else {
-        return {
-          status: 'Ready for Work',
-          colour: 'bg-green',
-          fill: 'fill-green',
-        };
-      }
-    } else if (bounty.status == '1') {
-      return { status: 'Closed', colour: 'bg-danger', fill: 'fill-danger' };
+      return {
+        status: 'Ready for Work',
+        colour: 'bg-green',
+        fill: 'fill-green',
+      };
     } else {
       return { status: 'Open', colour: 'bg-green', fill: 'fill-green' };
     }
