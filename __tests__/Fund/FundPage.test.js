@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { waitFor } from '@testing-library/react';
 import { render, screen } from '../../test-utils';
 import FundPage from '../../components/FundBounty/FundPage';
 import userEvent from '@testing-library/user-event';
@@ -145,54 +144,33 @@ describe('FundPage', () => {
     InitialState.openQClient.reset();
     InitialState.shouldSleep = 200;
   });
-
   it('should render the heading', async () => {
     // ARRANGE
-    const user = userEvent.setup();
     render(<FundPage bounty={bounty} />);
 
     // ACT
     const heading = screen.getByText('Fund');
-    expect(heading).toBeInTheDocument();
-    const input = screen.getByLabelText('amount');
-    await user.type(input, '200');
-    const button = screen.getByRole('button', { name: /Fund/i });
-    await user.click(button);
-    const confirmBtn = await screen.findAllByRole('button', { name: /Fund/i });
-    await user.click(confirmBtn[1]);
-    const modalContent = await screen.findByText(/Too Low/i);
-
     // ASSERT
-    expect(modalContent).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: 'Close' }));
-    expect(modalContent).not.toBeInTheDocument();
+    expect(heading).toBeInTheDocument();
+
+    // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
+    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should render list items', async () => {
-    const user = userEvent.setup();
     // ARRANGE
     render(<FundPage bounty={bounty} />);
-    const input = screen.getByLabelText('amount');
-    await user.type(input, '200');
 
     // ACT
     const token = screen.getByText('MATIC');
-    const button = screen.getByRole('button', { name: /Fund/i });
-    await user.click(button);
-    const confirmBtn = await screen.findAllByRole('button', { name: /Fund/i });
-    expect(confirmBtn[0]).toBeInTheDocument();
-    await user.click(confirmBtn[1]);
-    const modalContent = await screen.findByText(/Too Low/i);
-
-    // ASSERT
-    expect(modalContent).toBeInTheDocument();
 
     // ASSERT
     expect(token).toBeInTheDocument();
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
+    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should let user submit and handle too low amount of token', async () => {
@@ -215,6 +193,7 @@ describe('FundPage', () => {
     expect(modalContent).not.toBeInTheDocument();
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
+    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should let user submit and handle owned amount of Matic', async () => {
@@ -240,6 +219,7 @@ describe('FundPage', () => {
     expect(modalContent).not.toBeInTheDocument();
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
+    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should let user submit and handle owned amount of Link', async () => {
@@ -271,6 +251,7 @@ describe('FundPage', () => {
     expect(modalContent).not.toBeInTheDocument();
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
+    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should go straight to fund when DERC20 approved previously', async () => {
@@ -298,6 +279,7 @@ describe('FundPage', () => {
     expect(modalContent).not.toBeInTheDocument();
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
+    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should handle approval errors', async () => {
@@ -324,6 +306,7 @@ describe('FundPage', () => {
     expect(modalContent).not.toBeInTheDocument();
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
+    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should prevent user from submitting over 10000000', async () => {
@@ -343,8 +326,8 @@ describe('FundPage', () => {
     expect(tooltip).toBeInTheDocument();
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
+    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
-
   it('should prevent user from submitting under 0.0000001', async () => {
     // ARRANGE
     const user = userEvent.setup();
@@ -352,19 +335,17 @@ describe('FundPage', () => {
 
     // ACT
     const input = screen.getByLabelText('amount');
+    await user.type(input, '0.00000001');
+    const button = await screen.findByRole('button', { name: /Fund/i });
 
-    await waitFor(async () => {
-      await user.type(input, '0.00000001');
-      const button = await screen.findByRole('button', { name: /Fund/i });
-
-      // ASSERT
-      expect(button).toBeDisabled();
-      await user.hover(button);
-      const tooltip = await screen.findByText(/Must be between/);
-      expect(tooltip).toBeInTheDocument();
-      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-      expect(nullish).toHaveLength(0);
-    });
+    // ASSERT
+    expect(button).toBeDisabled();
+    await user.hover(button);
+    const tooltip = await screen.findByText(/Must be between/);
+    expect(tooltip).toBeInTheDocument();
+    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(nullish).toHaveLength(0);
+    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 
   it('should show tooltip', async () => {
@@ -374,13 +355,12 @@ describe('FundPage', () => {
 
     // ACT / ASSERT
     const button = screen.getByRole('button', { name: /Fund/i });
-    await waitFor(async () => {
-      expect(button).toBeDisabled();
-      await user.hover(button);
-      const tooltip = await screen.findByText(/indicate the volume you'd like to fund with./i);
-      expect(tooltip).toBeInTheDocument();
-      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-      expect(nullish).toHaveLength(0);
-    });
+    expect(button).toBeDisabled();
+    await user.hover(button);
+    const tooltip = await screen.findByText(/indicate the volume you'd like to fund with./i);
+    expect(tooltip).toBeInTheDocument();
+    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(nullish).toHaveLength(0);
+    expect(await screen.findByTestId('fetched')).toBeInTheDocument();
   });
 });

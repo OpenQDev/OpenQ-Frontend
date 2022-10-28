@@ -188,7 +188,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-  const claimOverView = bounty?.claims?.length > 0 ? [{ name: 'Claims Overview', Svg: Log }] : [];
+  const claimOverView = bounty?.claims.length > 0 ? [{ name: 'Claims Overview', Svg: Log }] : [];
   // User Methods
 
   // Render
