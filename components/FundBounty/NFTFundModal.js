@@ -75,7 +75,7 @@ const NFTFundModal = ({ setPickedNft }) => {
 
       {showModal && (
         <>
-          <div className='justify-center md:items-center flex overflow-x-hidden  text-primary overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
+          <div className='justify-center md:items-center flex overflow-x-hidden  text-primary overflow-y-auto fixed inset-0  z-50 outline-none focus:outline-none'>
             <div
               ref={modalRef}
               className=' md:max-h-[650px] md:overflow-y-scroll w-full max-w-[780px] p-8 bg-dark-mode md:mx-8 md:rounded-md'
@@ -100,7 +100,7 @@ const NFTFundModal = ({ setPickedNft }) => {
             onClick={() => {
               setShowModal();
             }}
-            className='bg-overlay fixed inset-0'
+            className='bg-overlay fixed z-40  inset-0'
           ></div>
         </>
       )}
