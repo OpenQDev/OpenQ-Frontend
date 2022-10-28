@@ -127,7 +127,6 @@ const ActionBubble = ({ bounty, action }) => {
     const funder = senderEnsName || shortenAddress(action.sender?.id) || shortenAddress(refunder);
     address = action.sender?.id || bounty.issuer.id;
     const { volume } = action;
-    console.log(action.tokenAddress);
     const tokenMetadata = appState.tokenClient.getToken(action.tokenAddress);
     let bigNumberVolume = ethers.BigNumber.from(volume.toString());
     let decimals = parseInt(tokenMetadata.decimals) || 18;
