@@ -7,22 +7,19 @@ import Toggle from '../Utils/Toggle';
 import { ethers } from 'ethers';
 import StoreContext from '../../store/Store/StoreContext';
 import TokenDisplay from '../TokenBalances/TokenDisplay';
-import useWeb3 from '../../hooks/useWeb3';
 
 const ManageTokenList = ({ setCustomTokens, customTokens, setLists, lists, stream }) => {
   const [displayedTab, setDisplayedTab] = useState('Lists');
   const [tokenInput, setTokenInput] = useState('');
   const [error, setError] = useState();
   const [appState] = useContext(StoreContext);
-  const { logger, tokenClient } = appState;
-  const { account } = useWeb3();
+  const { tokenClient } = appState;
   const getAddressErrors = (address) => {
     if (!customTokens.some((token) => token.address === address)) {
       try {
         ethers.utils.getAddress(address.toLowerCase());
         return '';
       } catch (err) {
-        logger.error(err, account);
         return 'Not a valid address.';
       }
     }
@@ -39,6 +36,7 @@ const ManageTokenList = ({ setCustomTokens, customTokens, setLists, lists, strea
         decimals: token.decimals || '18',
         path: token.path || token.logoURI,
       };
+
       setCustomTokens([...customTokens, fullToken]);
       setTokenInput('');
     }
@@ -118,14 +116,18 @@ const ManageTokenList = ({ setCustomTokens, customTokens, setLists, lists, strea
         </>
       ) : (
         <div className='w-full flex flex-col gap-2 content-start'>
+          <label htmlFor='custom-tokens'>Add custom tokens</label>
           <input
+            id='custom-tokens'
             onChange={handleTokenInput}
             onKeyDown={enterValue}
             value={tokenInput}
             className='w-full text-lg input-field-big mt-2 text-tinted'
             placeholder='0 x . . .'
           ></input>
-          <p className='self-start text-tinted h-5'>{error}</p>
+          <p className='self-start text-tinted h-5'>
+            {error || (tokenInput && 'Press Enter to add address to custom tokens.')}
+          </p>
           <h4 className='self-start font-semibold pt-2 text-tinted'>Custom tokens</h4>
           <ul className='self-start h-16 mb-3 space-y-2 overflow-auto h-64 w-full border-b border-border-gray'>
             {customTokens.map((token) => (

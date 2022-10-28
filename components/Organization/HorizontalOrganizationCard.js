@@ -11,7 +11,7 @@ const HorizontalOrganizationCard = ({ organization }) => {
   const [starredDisabled, setStarredDisabled] = useState(true);
   const [orgBounties, setOrgBounties] = useState([]);
   const context = useContext(StoreContext);
-  const { account } = useWeb3();
+  const { account, safe } = useWeb3();
   const [appState] = context;
   useEffect(() => {
     setStarredDisabled(true);
@@ -44,7 +44,6 @@ const HorizontalOrganizationCard = ({ organization }) => {
   const handleStar = () => {
     starOrganization(account, organization.id, starred, setStarred, setStarredDisabled, context);
   };
-
   // Render
   return (
     <div className='grid grid-cols-[64px_1fr_73px] gap-x-4 h-[118px] content-center mt-0 border-b border-web-gray py-6'>
@@ -67,27 +66,29 @@ const HorizontalOrganizationCard = ({ organization }) => {
           </div>
         </div>
       </div>
-      <button
-        onClick={handleStar}
-        disabled={starredDisabled}
-        className='flex items-center text-xs bg-inactive-gray leading-5 h-7 px-3 py-[3px] hover:bg-active-gray rounded-sm border hover:border-border-active border-border-gray'
-      >
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          className={`stroke-muted inline-block mr-2 ${starred ? 'fill-muted' : 'fill-transparent'}`}
-          height='16'
-          viewBox='0 0 24 24'
-          stroke='#4C535B'
-          strokeWidth='2'
+      {!safe && (
+        <button
+          onClick={handleStar}
+          disabled={starredDisabled}
+          className='flex items-center text-xs bg-inactive-gray leading-5 h-7 px-3 py-[3px] hover:bg-active-gray rounded-sm border hover:border-border-active border-border-gray'
         >
-          <path
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            d='M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z'
-          />
-        </svg>
-        <span className=''>Star</span>
-      </button>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            className={`stroke-muted inline-block mr-2 ${starred ? 'fill-muted' : 'fill-transparent'}`}
+            height='16'
+            viewBox='0 0 24 24'
+            stroke='#4C535B'
+            strokeWidth='2'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z'
+            />
+          </svg>
+          <span className=''>Star</span>
+        </button>
+      )}
     </div>
   );
 };

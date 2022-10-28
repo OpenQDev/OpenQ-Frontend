@@ -199,14 +199,23 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                   <div className='whitespace-nowrap'>{bountyTypeName}</div>
                 </span>
 
-                {tokenValues?.total >= budget ? (
+                {tokenValues?.total >= budget || bounty.status !== '0' ? (
                   <div className='flex flex-row space-x-1 w-min items-center'>
                     <div className='pr-2 pt-1 w-4'>
                       <Image src='/crypto-logos/ETH-COLORED.png' alt='avatarUrl' width='12' height='20' />
                     </div>
-
-                    <div className='font-semibold '>TVL</div>
-                    <div className=''>{appState.utils.formatter.format(tokenValues?.total)}</div>
+                    {console.log(bounty)}
+                    {bounty.status !== '0' && bounty.tvc ? (
+                      <>
+                        <div className='font-semibold '>TVC</div>
+                        <div>{appState.utils.formatter.format(bounty.tvc)}</div>
+                      </>
+                    ) : (
+                      <>
+                        <div className='font-semibold '>TVL</div>
+                        <div className=''>{appState.utils.formatter.format(tokenValues?.total)}</div>
+                      </>
+                    )}
                   </div>
                 ) : budget > 0 ? (
                   <>

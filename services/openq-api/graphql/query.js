@@ -5,6 +5,7 @@ export const GET_PAGINATED_TVLS = gql`
     bountiesConnection(orderBy: $orderBy, limit: $limit, sortOrder: $sortOrder, after: String) {
       bounties {
         tvl
+        tvc
         address
         bountyId
       }
@@ -17,6 +18,7 @@ export const GET_BOUNTY_BY_HASH = gql`
   query bounty($contractAddress: String!) {
     bounty(address: $contractAddress) {
       tvl
+      tvc
       bountyId
     }
   }
@@ -83,6 +85,7 @@ export const GET_USER_BY_HASH = gql`
       watchedBounties(limit: 100, types: $types, category: $category) {
         nodes {
           tvl
+          tvc
           address
           bountyId
           watchingCount
@@ -117,6 +120,7 @@ export const GET_ORGANIZATION = gql`
         bountyConnection {
           nodes {
             tvl
+            tvc
             bountyId
             address
             blacklisted
@@ -138,6 +142,7 @@ export const GET_ORGANIZATIONS = gql`
       bounties(limit: $batch, types: $types, category: $category) {
         nodes {
           tvl
+          tvc
           bountyId
           address
           blacklisted
@@ -252,6 +257,7 @@ export const GET_CONTRACT_PAGE = gql`
       bountyConnection {
         nodes {
           tvl
+          tvc
           address
           organizationId
           bountyId

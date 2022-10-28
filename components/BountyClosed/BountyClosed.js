@@ -1,18 +1,14 @@
 // Third party
-import React, { useContext } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import StoreContext from '../../store/Store/StoreContext';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
 import Twitter from '../svg/twitter';
 
 const BountyClosed = ({ bounty, showTweetLink }) => {
-  const [appState] = useContext(StoreContext);
-  const [tokenValues] = useGetTokenValues(bounty?.payouts);
-  const TVL = appState.utils.formatter.format(tokenValues?.total);
+  const { tvc } = bounty;
   // Hooks
-  const tweetText = `💸 Just claimed a developer bounty from ${bounty.owner} on OpenQ for ${TVL} working on this issue: `;
+  const tweetText = `💸 Just claimed a developer bounty from ${bounty.owner} on OpenQ for ${tvc} working on this issue: `;
   const url = `${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${bounty.claimedTransactionHash}`;
 
   //Render

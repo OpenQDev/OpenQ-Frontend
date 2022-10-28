@@ -5,7 +5,7 @@ import Link from 'next/link';
 // Custom
 import { CONFIRM, APPROVE, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveFundState';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
-import Image from 'next/image';
+import FundingTokenStats from './TokenStats.js';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import StoreContext from '../../store/Store/StoreContext';
 import useWeb3 from '../../hooks/useWeb3';
@@ -26,12 +26,15 @@ const ApproveFundModal = ({
   bountyAddress,
   bounty,
   allowance,
+  pickedNft,
+  setPickedNft,
   depositPeriodDays,
   /*openInvoicingModal*/
 }) => {
   const modal = useRef();
   const updateModal = () => {
     resetState();
+    setPickedNft();
     setShowApproveTransferModal(false);
   };
   const [appState] = useContext(StoreContext);
@@ -175,16 +178,8 @@ const ApproveFundModal = ({
         <>
           <div className='gap-4 grid grid-cols-[100px_1fr]'>
             <div>Deposit:</div>
-            <div className='flex gap-2'>
-              <Image
-                width={20}
-                className='inline'
-                height={20}
-                src={token.path || token.logoURI || '/crypto-logs/ERC20.svg'}
-              />
-              <span>
-                {volume} {token.symbol}
-              </span>
+            <div className='flex  gap-4'>
+              <FundingTokenStats pickedNft={pickedNft} volume={volume} token={token} />
             </div>
             <span>Issue: </span>
             {bounty.url && (

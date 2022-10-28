@@ -104,10 +104,17 @@ const CarouselBounty = ({ bounty }) => {
                           <Image src='/crypto-logos/ETH-COLORED.png' alt='avatarUrl' width='12' height='20' />
                         </div>
 
-                        <>
-                          <div className='font-semibold '>TVL</div>
-                          <div className=''>{appState.utils.formatter.format(price)}</div>
-                        </>
+                        {bounty.status !== '0' && bounty.tvc ? (
+                          <>
+                            <div className='font-semibold '>TVC</div>
+                            <div className=''>{appState.utils.formatter.format(bounty.tvc)}</div>
+                          </>
+                        ) : (
+                          <>
+                            <div className='font-semibold '>TVL</div>
+                            <div className=''>{appState.utils.formatter.format(price)}</div>
+                          </>
+                        )}
                       </div>
                     ) : budget > 0 ? (
                       <>

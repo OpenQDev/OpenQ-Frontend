@@ -109,6 +109,20 @@ class MockOpenQClient {
 		return promise;
 	}
 
+	async fetchNfts() {
+		const promise = new Promise((resolve, reject) => {
+			axios.get('http://localhost:3030/fetchNfts')
+				.then(result => {
+					resolve(result.data);
+				})
+				.catch(error => {
+					reject(error);
+				});
+		});
+
+		return promise;
+	}
+
 	async approve(library, _bountyAddress, _tokenAddress, _value) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
