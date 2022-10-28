@@ -171,7 +171,11 @@ class CoinClient {
     if (indexable[address.toLowerCase()]) {
       return indexable[address.toLowerCase()];
     }
+    if (indexable[checkSummedAddress]) {
+      return indexable[checkSummedAddress];
+    }
     if (this.openqIndexableTokens[checkSummedAddress]) {
+      console.log(checkSummedAddress, '0xF501dd45a1198C2E1b5aEF5314A68B9006D842E0');
       return this.openqIndexableTokens[checkSummedAddress];
     }
     if (localSuperfluidIndexable[address.toLowerCase()]) {
