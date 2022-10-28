@@ -171,9 +171,6 @@ class CoinClient {
     if (indexable[address.toLowerCase()]) {
       return indexable[address.toLowerCase()];
     }
-    if (indexable[checkSummedAddress]) {
-      return indexable[checkSummedAddress];
-    }
     if (this.openqIndexableTokens[checkSummedAddress]) {
       return this.openqIndexableTokens[checkSummedAddress];
     }

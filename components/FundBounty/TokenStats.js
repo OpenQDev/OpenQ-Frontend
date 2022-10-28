@@ -17,7 +17,7 @@ const TokenStats = ({ volume, token, pickedNft }) => {
             width={24}
             className='inline'
             height={24}
-            src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'}
+            src={token.path || token.logoURI || '/crypto-logs/ERC20.svg'}
           />
           <span>
             {volume} {token.symbol}

@@ -33,7 +33,7 @@ const HorizontalOrganizationCard = ({ organization }) => {
       const combinedBounties = await appState.utils.combineBounties(subgraphBounties, githubIssues, filteredBounties);
       const budgetedOrFundedBounties = combinedBounties.filter(
         (bounty) =>
-          ((bounty.fundingGoalVolume && bounty.fundingGoalVolume !== '0') || bounty.bountyTokenBalances?.length) &&
+          ((bounty.fundingGoalVolume && bounty.fundingGoalVolume !== '0') || bounty.bountyTokenBalances.length) &&
           !bounty.closed
       );
       setOrgBounties(budgetedOrFundedBounties);

@@ -302,6 +302,7 @@ class OpenQPrismaClient {
           variables,
           context: { headers: { authorization: secret } },
         });
+        console.log(result.data.usersConnection.users);
         resolve(result.data.usersConnection.users);
       } catch (e) {
         reject(e);

@@ -19,6 +19,7 @@ const SetTierValues = ({
   const [tierVolumes, setTierVolumes] = useState(initialNumberVolumes);
   const [fixedTierVolumes, setFixedTierVolumes] = useState({});
   const [toggleVal, setToggleVal] = useState('Visual');
+
   function onFixedTierChange(e, localTierVolumes) {
     if (parseInt(e.target.value) >= 0) {
       setFixedTierVolumes({
@@ -89,7 +90,9 @@ const SetTierValues = ({
             toggleFunc={handleToggle}
             names={['Visual', 'Text']}
           />
-          {sum >= 100 ? (
+          {sum > 100 ? (
+            <span className='text-sm  text-[#f85149]'>The sum can not be more than 100%!</span>
+          ) : sum === 100 ? (
             <span className='text-sm '>Sum is 100, now you can mint.</span>
           ) : (
             <span className='text-sm'>For the sum to add up to 100, you still need to allocate: {100 - sum} %</span>

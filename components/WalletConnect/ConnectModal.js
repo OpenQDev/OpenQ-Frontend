@@ -59,10 +59,9 @@ const ConnectModal = ({ closeModal }) => {
           <p className='text-sm text-muted pb-4'>
             Are you using Gnosis Safe? For the best experience use OpenQ as a Safe App. For more information on safe
             apps, check out{' '}
-            <a className='underline' href='https://help.gnosis-safe.io/en/articles/4022030-add-a-custom-safe-app'>
+            <a className='undelined' href='https://help.gnosis-safe.io/en/articles/4022030-add-a-custom-safe-app'>
               Add a Custom Safe App
             </a>
-            .
           </p>
           <button onClick={closeModal} className='btn-default w-full'>
             Close
