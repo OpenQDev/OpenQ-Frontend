@@ -19,7 +19,6 @@ const SetTierValues = ({
   const [tierVolumes, setTierVolumes] = useState(initialNumberVolumes);
   const [fixedTierVolumes, setFixedTierVolumes] = useState({});
   const [toggleVal, setToggleVal] = useState('Visual');
-
   function onFixedTierChange(e, localTierVolumes) {
     if (parseInt(e.target.value) >= 0) {
       setFixedTierVolumes({
