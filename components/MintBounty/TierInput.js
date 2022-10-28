@@ -10,52 +10,64 @@ const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
   };
   const memoizedScale = useMemo(() => createReactScale(tierVolumes, tier), [tierVolumes, tier]);
   const [reactScale, setReactScale] = useState(memoizedScale);
+  const [drag, setDrag] = useState();
+  const [ogWidth, setOgWidth] = useState(0);
   const widthParent = useRef();
   const edgeOfScale = useRef();
   const tierIndex = parseInt(tier);
   const saturation = tierIndex % 2 ? 84 - tierIndex : 84 - tierIndex + 1;
   const lightness = !(tierIndex % 2) ? 48 + tierIndex : 48 + tierIndex - 1;
   const hue = 400 - tierIndex * 67;
+  const handleMouseMove = (e) => {
+    const tierValues = Object.values(tierVolumes);
+    const totalValue = tierValues.reduce((accum, elem) => {
+      return accum + elem;
+    }, 0);
+    if (drag) {
+      const start = widthParent.current.getBoundingClientRect().x;
+      const newPxWidth = e.clientX - start;
+      const newScale = newPxWidth / ogWidth;
+      if (newScale > reactScale && totalValue >= 100) {
+        const totaLNonTierValue = tierValues.reduce((accum, elem, index) => {
+          if (index === parseInt(tier)) {
+            return accum;
+          }
+          return accum + elem;
+        }, 0);
+        setReactScale((100 - totaLNonTierValue) / 100);
+        return;
+      }
+
+      if (newScale > 0 && newScale < 1) {
+        setReactScale(newScale);
+      } else if (newScale > 1) {
+        setReactScale(1);
+      } else if (newScale <= 1) {
+        setReactScale(0.01);
+      }
+    }
+  };
+  const handleDragEnd = () => {
+    setDrag();
+  };
+
+  const handleDragBegin = () => {
+    if (ogWidth === 0) {
+      setOgWidth(widthParent.current.clientWidth);
+    }
+    setDrag(true);
+  };
+
   useEffect(() => {
     handleChange(reactScale, tierVolumes);
   }, [reactScale]);
   useEffect(() => {
     if (edgeOfScale.current) {
       setSuffix(appState.utils.handleSuffix(parseInt(tier) + 1));
-      let drag = false;
-      let ogWidth = 0;
-      let scale = 0;
-      const handleMouseMove = (e) => {
-        if (drag) {
-          const start = widthParent.current.getBoundingClientRect().x;
-          const newPxWidth = e.clientX - start;
-          const newScale = newPxWidth / ogWidth;
-          scale = newScale;
-          if (newScale > 0 && newScale < 1) {
-            setReactScale(scale);
-          } else if (newScale > 1) {
-            setReactScale(1);
-          } else if (newScale <= 1) {
-            setReactScale(0.01);
-          }
-        }
-      };
-      const handleDragEnd = () => {
-        drag = false;
-      };
-      const handleDragBegin = () => {
-        if (ogWidth === 0) {
-          ogWidth = widthParent.current.clientWidth;
-        }
-        drag = true;
-      };
+
       window.addEventListener('mouseup', handleDragEnd);
-      window.addEventListener('mousemove', handleMouseMove);
-      edgeOfScale.current.addEventListener('mousedown', handleDragBegin);
 
       () => {
-        window.removeEventListener('mouseup');
-        edgeOfScale.current.removeEventListener('mousemove');
         edgeOfScale.current.removeEventListener('mousedown');
       };
     }
@@ -76,7 +88,11 @@ const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
   return (
     <>
       <div>{suffix} place winner</div>
-      <div className={`flex w-11/12 text-sm content-center items-center gap-2 mb-1 ${style}`}>
+      <div
+        onMouseDown={handleDragBegin}
+        onMouseMove={handleMouseMove}
+        className={`flex w-11/12 text-sm content-center items-center gap-2 mb-1 ${style}`}
+      >
         <div className='w-9 flex none w-full'>{tierVolumes[tier]}%</div>
         <div ref={widthParent} className='w-full rounded-full overflow-hidden border border-transparent h-4'>
           <div
@@ -91,6 +107,7 @@ const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
           >
             <div
               ref={edgeOfScale}
+              onMouseMove={handleMouseMove}
               style={{ transform: `scaleX(${1 / reactScale})` }}
               type='textarea'
               className='resize-x w-6 opacity-0  h-4 float-right relative left-3 cursor-ew-resize overflow-visible'

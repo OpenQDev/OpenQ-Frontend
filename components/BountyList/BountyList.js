@@ -28,6 +28,20 @@ const BountyList = ({
   wizard,
   types,
 }) => {
+  //Pre hook functions
+
+  const getReadyText = (isContest) => {
+    if (isContest) {
+      return 'Ready to Hack';
+    } else return 'Ready for Work';
+  };
+  const isOnlyContest = (types) => {
+    const includesReady = types.includes('2') || types.includes('3');
+    const inlcudesNonReady = types.includes('0') && types.includes('0');
+    return includesReady && !inlcudesNonReady;
+  };
+  const READY_TEXT = getReadyText(isOnlyContest(types));
+
   // Hooks
   const { account } = useWeb3();
   const [appState] = useContext(StoreContext);
@@ -39,7 +53,7 @@ const BountyList = ({
   const [tagArr, updateTagArr] = useState([]);
   const [searchedBounties, updateSearchedBounties] = useState([]);
   const [isProcessed, updateIsProcessed] = useState(false);
-  const [isReady, setIsReady] = useState('Ready for work');
+  const [isReady, setIsReady] = useState(READY_TEXT);
   const [labels, setLabels] = useState([]);
   const [currentContractTypes, setCurrentContractTypes] = useState([]);
   const [currentOrder, setCurrentOrder] = useState(['newest']);
@@ -333,7 +347,6 @@ const BountyList = ({
       observer.current.observe(node);
     }
   });
-
   // Render
   return (
     <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
@@ -351,8 +364,8 @@ const BountyList = ({
       <div className='w-full rounded-sm'>
         <div className='flex flex-wrap gap-4 p-2 sm:p-4 border-web-gray border rounded-sm bg-subtle'>
           <SmallToggle
-            names={['Ready for work', 'All issues']}
-            toggleVal={isReady === 'Ready for work' ? 'Ready for work' : 'All issues'}
+            names={[READY_TEXT, 'All issues']}
+            toggleVal={isReady === READY_TEXT ? READY_TEXT : 'All issues'}
             toggleFunc={showUnready}
           />
 

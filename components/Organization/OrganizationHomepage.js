@@ -49,7 +49,8 @@ const OrganizationHomepage = ({ orgs, types, wizard }) => {
             {orgs
               .filter((organization) => {
                 return organizationSearchTerm
-                  ? organization.name.toLowerCase().indexOf(organizationSearchTerm.toLowerCase()) > -1
+                  ? organization.name?.toLowerCase().indexOf(organizationSearchTerm.toLowerCase()) > -1 ||
+                      organization.login?.toLowerCase().indexOf(organizationSearchTerm.toLowerCase()) > -1
                   : organization;
               })
               .map((elem, index) => (
