@@ -20,9 +20,7 @@ import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 const ClaimLoadingModal = ({
   confirmMethod,
   url,
-  ensName,
   account,
-  address,
   transactionHash,
   setShowClaimLoadingModal,
   error,
@@ -51,7 +49,7 @@ const ClaimLoadingModal = ({
     [CHECKING_WITHDRAWAL_ELIGIBILITY]: 'Checking that you are indeed the droid we are looking for...',
     [WITHDRAWAL_INELIGIBLE]: `You are NOT the droid we are looking for. \nError message: ${error.message}`,
     [TRANSACTION_SUBMITTED]: 'You are indeed the droid we are looking for. See your pending transaction here: ',
-    [TRANSACTION_CONFIRMED]: `Transaction confirmed! Funds from this payout will appear in your address at ${address}.`,
+    [TRANSACTION_CONFIRMED]: `Transaction confirmed! Funds from this payout will appear in your address soon.`,
   };
 
   let link = {
@@ -152,7 +150,7 @@ const ClaimLoadingModal = ({
           </>
         )}
         <span>To Address:</span>
-        <CopyAddressToClipboard data={account || ensName} clipping={[5, 39]} />
+        <CopyAddressToClipboard data={account} clipping={[5, 39]} />
         {claimState == TRANSACTION_CONFIRMED && (
           <>
             <span className='pr-8'>Transaction:</span>
