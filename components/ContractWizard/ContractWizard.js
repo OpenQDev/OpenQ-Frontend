@@ -9,7 +9,6 @@ const ContractWizard = ({ wizardVisibility, refreshBounties }) => {
   const [mintModal, setMintModal] = useState(false);
   const [supportModal, setSupportModal] = useState(false);
   const [mintActivated, setMintActivated] = useState(false);
-
   // Refs
   const modal = useRef();
 
@@ -37,7 +36,7 @@ const ContractWizard = ({ wizardVisibility, refreshBounties }) => {
   }, [modal, mintModal, supportModal]);
 
   useEffect(() => {
-    if (type > 2) {
+    if (type > 3) {
       setSupportModal(true);
     }
   }, [type]);
@@ -106,7 +105,6 @@ const ContractWizard = ({ wizardVisibility, refreshBounties }) => {
       </button>
     </div>
   );
-
   return (
     <>
       {!mintModal ? (

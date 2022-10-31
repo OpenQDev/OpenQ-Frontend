@@ -47,9 +47,6 @@ const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
       }
     }
   };
-  const handleDragEnd = () => {
-    setDrag();
-  };
 
   const handleDragBegin = () => {
     if (ogWidth === 0) {
@@ -62,13 +59,20 @@ const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
     handleChange(reactScale, tierVolumes);
   }, [reactScale]);
   useEffect(() => {
+    let cancelled = false;
     if (edgeOfScale.current) {
       setSuffix(appState.utils.handleSuffix(parseInt(tier) + 1));
 
+      const handleDragEnd = () => {
+        if (!cancelled) {
+          setDrag();
+        }
+      };
       window.addEventListener('mouseup', handleDragEnd);
 
       () => {
         edgeOfScale.current.removeEventListener('mousedown');
+        cancelled = true;
       };
     }
   }, [widthParent.current, edgeOfScale.current]);
@@ -106,6 +110,7 @@ const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
             className='resize-x w-full  h-4'
           >
             <div
+              data-testid={'edgeOfScale'}
               ref={edgeOfScale}
               onMouseMove={handleMouseMove}
               style={{ transform: `scaleX(${1 / reactScale})` }}

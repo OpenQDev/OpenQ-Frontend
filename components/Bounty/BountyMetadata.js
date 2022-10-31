@@ -31,10 +31,10 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
       type = 'Split Price';
       break;
     case '2':
-      type = 'Contest';
+      type = 'Weighted Contest';
       break;
     case '3':
-      type = 'Contest';
+      type = 'Fixed Contest';
       break;
   }
 
@@ -112,6 +112,29 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
           </li>
           <PieChart payoutSchedule={bounty.payoutSchedule} />
         </>
+      ) : bounty.bountyType === '2' || bounty.bountyType === '3' ? (
+        <li className='border-b border-web-gray py-3'>
+          <div className='text-xs font-semibold text-muted'>Current Payout Schedule</div>
+          <div className='flex items-center gap-4 pt-2 text-primary'>
+            <div className='text-xs font-semibold leading-loose'>Number of tiers: </div>
+            <div className='text-xs font-semibold'>{bounty.payoutSchedule?.length}</div>
+          </div>
+          <div className='flex flex-col max-h-80 w-full overflow-y-auto overflow-x-hidden'>
+            {bounty.payoutSchedule?.map((t, index) => {
+              const token = appState.tokenClient.getToken(bounty.payoutTokenAddress);
+              return (
+                <div key={index} className='flex items-center gap-4 text-primary'>
+                  <div className='text-xs font-semibold leading-loose'>{`${appState.utils.handleSuffix(
+                    index + 1
+                  )} winner:`}</div>
+                  <div className='text-xs font-semibold'>
+                    {t} {token.symbol}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </li>
       ) : null}
       <>
         {bounty.assignees?.length > 0 && (

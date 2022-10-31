@@ -1,12 +1,33 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import Cross from '../svg/cross';
 
 const ModalDefault = ({ title, children, footerLeft, footerRight, setShowModal, resetState }) => {
   const modal = useRef();
   const updateModal = () => {
-    resetState();
+    if (typeof resetState === 'function') {
+      resetState();
+    }
     setShowModal(false);
   };
+
+  useEffect(() => {
+    // Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
+    function handleClickOutside(event) {
+      if (modal.current && !modal?.current.contains(event.target)) {
+        setShowModal(false);
+        resetState();
+      }
+    }
+
+    // Bind the event listener
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [modal]);
+
   return (
     <div>
       <div className='flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50'>
