@@ -35,6 +35,7 @@ describe('MintBountyButton', () => {
     await user.click(mintBountyButton);
     await user.click(screen.getByText('No'));
     await user.click(screen.getByText('No'));
+    await user.click(screen.getByText('No'));
     await user.click(screen.getByText('Yes'));
     expect(screen.getByText(/Create a Contest Contract to send funds to any GitHub issue/i));
     expect(screen.getByText(/How many tiers/i));

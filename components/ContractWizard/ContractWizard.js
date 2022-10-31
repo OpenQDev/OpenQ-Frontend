@@ -9,7 +9,6 @@ const ContractWizard = ({ wizardVisibility, refreshBounties }) => {
   const [mintModal, setMintModal] = useState(false);
   const [supportModal, setSupportModal] = useState(false);
   const [mintActivated, setMintActivated] = useState(false);
-
   // Refs
   const modal = useRef();
 
