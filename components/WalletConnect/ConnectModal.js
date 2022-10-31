@@ -32,7 +32,12 @@ const ConnectModal = ({ closeModal, setShowModal }) => {
     <ModalLarge title={'Connect Wallet'} footerRight={btn} setShowModal={setShowModal} resetState={closeModal}>
       <p className='text-xl'>
         Connect your wallet to continue with OpenQ. By connecting your wallet you agree with OpenQ{"'"}s{' '}
-        <a className='hover:underline text-blue-400' href='https://www.openq.dev/terms-of-service'>
+        <a
+          className='hover:underline text-blue-400'
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://www.openq.dev/terms-of-service'
+        >
           terms of service
         </a>
         .
@@ -54,7 +59,12 @@ const ConnectModal = ({ closeModal, setShowModal }) => {
       <p className='text-sm text-muted pb-4'>
         Are you using Gnosis Safe? For the best experience use OpenQ as a Safe App. For more information on safe apps,
         check out{' '}
-        <a className='underline' href='https://help.gnosis-safe.io/en/articles/4022030-add-a-custom-safe-app'>
+        <a
+          className='underline'
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://help.gnosis-safe.io/en/articles/4022030-add-a-custom-safe-app'
+        >
           Add a Custom Safe App
         </a>
         .
