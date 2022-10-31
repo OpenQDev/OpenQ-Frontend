@@ -62,7 +62,7 @@ const ClaimLoadingModal = ({
 
   const tweetText = `💸 Just claimed a developer bounty from ${bounty.owner} on OpenQ working on this issue: `;
   const latestUserPR = bounty.prs
-    .filter((pr) => {
+    ?.filter((pr) => {
       return pr.source.author.login == authState.login;
     })
     .slice(-1)[0];
