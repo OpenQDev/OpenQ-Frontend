@@ -65,7 +65,6 @@ const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
 
       const handleDragEnd = () => {
         if (!cancelled) {
-          console.log(cancelled);
           setDrag();
         }
       };
