@@ -381,13 +381,12 @@ const AdminPage = ({ bounty, refreshBounty }) => {
                   </>
                 ) : null}
 
-                {bounty.bountyType === '2' ||
-                  (bounty.bountyType === '3' && (
-                    <>
-                      <h2 className='text-2xl border-b border-gray-700 pb-4'>Select Winners</h2>
-                      <ClaimText bounty={bounty} />
-                    </>
-                  ))}
+                {(bounty.bountyType === '2' || bounty.bountyType === '3') && (
+                  <>
+                    <h2 className='text-2xl border-b border-gray-700 pb-4'>Select Winners</h2>
+                    <ClaimText bounty={bounty} />
+                  </>
+                )}
               </div>
             </div>
           </div>
