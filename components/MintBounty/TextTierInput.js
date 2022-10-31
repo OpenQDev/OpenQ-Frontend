@@ -24,7 +24,7 @@ const TextTierInput = ({ tier, tierVolumes, onTierVolumeChange, style }) => {
     );
   };
   return (
-    <div className={`flex-1 w-11/12 mb-1  ml-4 ${style}`}>
+    <div className={`flex-1 w-11/12 mb-1 ${style}`}>
       <input
         name={tier}
         id='tier-volume'
@@ -32,7 +32,7 @@ const TextTierInput = ({ tier, tierVolumes, onTierVolumeChange, style }) => {
         placeholder={`${suffix} winner`}
         value={tierVolumes[tier] || ''}
         onChange={(e) => handleChange(e.target.value, tierVolumes)}
-        className='input-field w-full number'
+        className='input-field w-full ml-4 number'
       />
     </div>
   );

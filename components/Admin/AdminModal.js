@@ -5,7 +5,7 @@ import { ethers } from 'ethers';
 import LinkText from '../svg/linktext';
 import ModalDefault from '../Utils/ModalDefault';
 
-const AdminModal = ({ setModal, modal }) => {
+const AdminModal = ({ setModal, modal, bounty, payoutTokenAddress }) => {
   const [token, setToken] = useState();
   const [volume, setVolume] = useState();
   const [appState] = useContext(StoreContext);
@@ -48,6 +48,7 @@ const AdminModal = ({ setModal, modal }) => {
   const closeModal = () => {
     setModal(false);
   };
+
   const title = {
     ['Closed Contest']: 'Contest Closed!',
     ['Closed Split Price']: 'Split Price Contract Closed!',
@@ -66,7 +67,10 @@ const AdminModal = ({ setModal, modal }) => {
     PayoutSchedule: 'Payout Schedule has been updated. Check out your transaction with the link below:',
     Error: modal.message,
   };
-
+  const getVolumeSuffix = (bountyType, tokenAddress) => {
+    if (bountyType === '2') return '%';
+    return appState.tokenClient.getToken(tokenAddress).symbol;
+  };
   const btn = (
     <button onClick={closeModal} className='btn-default'>
       <span>Close</span>
@@ -133,7 +137,9 @@ const AdminModal = ({ setModal, modal }) => {
                         <div className='text-xs font-semibold leading-loose'>{`${appState.utils.handleSuffix(
                           index + 1
                         )} winner:`}</div>
-                        <div className='text-xs font-semibold'>{t} %</div>
+                        <div className='text-xs font-semibold'>
+                          {t} {getVolumeSuffix(bounty.bountyType, payoutTokenAddress)}
+                        </div>
                       </div>
                     );
                   })}

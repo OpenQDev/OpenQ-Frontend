@@ -4,7 +4,9 @@ import Cross from '../svg/cross';
 const ModalDefault = ({ title, children, footerLeft, footerRight, setShowModal, resetState }) => {
   const modal = useRef();
   const updateModal = () => {
-    resetState();
+    if (typeof resetState === 'function') {
+      resetState();
+    }
     setShowModal(false);
   };
 

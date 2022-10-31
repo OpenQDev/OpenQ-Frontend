@@ -346,11 +346,11 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
               )}
               <div className='w-full'>
                 <MintBountyHeader category={category} />
-                <div className='flex flex-col items-center pl-6 pr-6'>
+                <div className='flex flex-col px-8 py-2'>
                   <MintBountyInput setIssueUrl={setIssueUrl} issueData={issue} url={url} isValidUrl={isValidUrl} />
                 </div>
                 {isValidUrl && !issue?.url.includes('/issues/') && (
-                  <div className='flex flex-col items-center pt-2 pb-4 '>Github Issue not found</div>
+                  <div className='flex flex-col items-center px-8'>Github Issue not found</div>
                 )}
                 <div className='flex flex-col items-center space-x-1 px-8'>
                   {isValidUrl && issue?.url.includes('/issues/') && issue?.closed && !bountyAddress && (
@@ -361,186 +361,161 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                   )}
                 </div>
 
-                <>
-                  <div className='flex flex-col items-center pl-6 pr-6 pb-2'>
-                    <div className='flex flex-col w-full'>
-                      <div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
-                        <div className='flex items-center gap-2'>
-                          Is this Contract invoiceable?
-                          <ToolTipNew mobileX={10} toolTipText={'Do you want an invoice for this contract?'}>
-                            <div className='cursor-help rounded-full border border-[#c9d1d9] text-sm aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                              ?
-                            </div>
-                          </ToolTipNew>
-                        </div>
-                        <div className='flex-1 w-full mt-2 ml-4'>
-                          <div className='flex text-sm rounded-sm text-primary '>
-                            <ToolTipNew innerStyles={'flex'} toolTipText={'Invoicing feature coming soon'}>
-                              <button
-                                disabled={true}
-                                onClick={() => setInvoice(true)}
-                                className={`cursor-not-allowed w-fit min-w-[80px] py-[5px] px-4 rounded-l-sm border whitespace-nowrap ${
-                                  invoice ? 'bg-secondary-button border-secondary-button' : ''
-                                }  border-web-gray`}
-                              >
-                                Yes
-                              </button>
-                            </ToolTipNew>
-                            <button
-                              onClick={() => setInvoice(false)}
-                              className={`w-fit min-w-[80px] py-[5px] px-4 border-l-0 rounded-r-sm border whitespace-nowrap ${
-                                !invoice
-                                  ? 'bg-secondary-button border-secondary-button'
-                                  : 'hover:bg-secondary-button hover:border-secondary-button border-web-gray'
-                              } `}
-                            >
-                              No
-                            </button>
-                          </div>
-                        </div>
+                <div className='flex flex-col  px-8 gap-2 p-2 w-full items-start  text-base bg-[#161B22]'>
+                  <div className='flex items-center gap-2'>
+                    Is this Contract invoiceable?
+                    <ToolTipNew mobileX={10} toolTipText={'Do you want an invoice for this contract?'}>
+                      <div className='cursor-help rounded-full border border-[#c9d1d9] text-sm aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                        ?
                       </div>
-                    </div>
+                    </ToolTipNew>
                   </div>
-                </>
-
-                <div className='flex flex-col items-center pl-6 pr-6 pb-2'>
-                  <div className='flex flex-col w-full'>
-                    <div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
-                      <div className='flex items-center gap-2'>
-                        Set a Budget
-                        <input
-                          type='checkbox'
-                          className='checkbox'
-                          onChange={() => setBudgetInput(!budgetInput)}
-                        ></input>
-                        <ToolTipNew
-                          mobileX={10}
-                          toolTipText={
-                            category === 'Fixed Price'
-                              ? 'Amount of funds you would like to escrow on this issue.'
-                              : 'How much will each successful submitter earn?'
-                          }
+                  <div className='flex-1 w-full px-4'>
+                    <div className='flex text-sm rounded-sm text-primary '>
+                      <ToolTipNew innerStyles={'flex'} toolTipText={'Invoicing feature coming soon'}>
+                        <button
+                          disabled={true}
+                          onClick={() => setInvoice(true)}
+                          className={`cursor-not-allowed w-fit min-w-[80px] py-[5px] px-4 rounded-l-sm border whitespace-nowrap ${
+                            invoice ? 'bg-secondary-button border-secondary-button' : ''
+                          }  border-web-gray`}
                         >
-                          <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                            ?
-                          </div>
-                        </ToolTipNew>
-                      </div>
-                      <span className='text-sm mt-2'>
-                        You don{"'"}t have to deposit now! The budget is just what you intend to pay.
-                      </span>
-                      {budgetInput ? (
-                        <div className='flex-1 w-full mt-2 ml-4'>
-                          <TokenFundBox
-                            label='budget'
-                            onCurrencySelect={onGoalCurrencySelect}
-                            onVolumeChange={handleGoalChange}
-                            volume={goalVolume}
-                            token={goalToken}
-                          />
-                        </div>
-                      ) : null}
+                          Yes
+                        </button>
+                      </ToolTipNew>
+                      <button
+                        onClick={() => setInvoice(false)}
+                        className={`w-fit min-w-[80px] py-[5px] px-4 border-l-0 rounded-r-sm border whitespace-nowrap ${
+                          !invoice
+                            ? 'bg-secondary-button border-secondary-button'
+                            : 'hover:bg-secondary-button hover:border-secondary-button border-web-gray'
+                        } `}
+                      >
+                        No
+                      </button>
                     </div>
                   </div>
                 </div>
 
+                <div className=' px-8 flex flex-col gap-2 w-full py-2 items-start text-base bg-[#161B22]'>
+                  <div className='flex items-center gap-2'>
+                    Set a Budget
+                    <input type='checkbox' className='checkbox' onChange={() => setBudgetInput(!budgetInput)}></input>
+                    <ToolTipNew
+                      mobileX={10}
+                      toolTipText={
+                        category === 'Fixed Price'
+                          ? 'Amount of funds you would like to escrow on this issue.'
+                          : 'How much will each successful submitter earn?'
+                      }
+                    >
+                      <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                        ?
+                      </div>
+                    </ToolTipNew>
+                  </div>
+                  <span className='text-sm '>
+                    You don{"'"}t have to deposit now! The budget is just what you intend to pay.
+                  </span>
+                  {budgetInput ? (
+                    <div className='flex-1 w-full px-4'>
+                      <TokenFundBox
+                        label='budget'
+                        onCurrencySelect={onGoalCurrencySelect}
+                        onVolumeChange={handleGoalChange}
+                        volume={goalVolume}
+                        token={goalToken}
+                      />
+                    </div>
+                  ) : null}
+                </div>
+
                 {category === 'Split Price' ? (
                   <>
-                    <div className='flex flex-col items-center pl-6 pr-6 pb-2'>
-                      <div className='flex flex-col w-full'>
-                        <div className='flex flex-col w-full items-start p-2 py-1 text-base bg-[#161B22]'>
+                    <div className='flex flex-col px-8 gap-2 w-full items-start py-2 pb-4 text-base bg-[#161B22]'>
+                      <div className='flex items-center gap-2'>
+                        {' '}
+                        Reward Split?
+                        <ToolTipNew mobileX={10} toolTipText={'How much will each successful submitter earn?'}>
+                          <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>
+                            ?
+                          </div>
+                        </ToolTipNew>
+                      </div>
+                      <div className='flex-1 w-full ml-4'>
+                        <TokenFundBox
+                          label='split'
+                          onCurrencySelect={onCurrencySelect}
+                          onVolumeChange={onVolumeChange}
+                          token={payoutToken}
+                          volume={payoutVolume}
+                        />
+                      </div>
+                    </div>
+                  </>
+                ) : category === 'Contest' || category === 'Fixed Contest' ? (
+                  <div className='px-8 items-center py-2'>
+                    <div className=' w-11/12 text-base flex flex-col gap-2'>
+                      <div className='flex items-center gap-2'>
+                        How many Tiers?
+                        <ToolTipNew
+                          mobileX={10}
+                          toolTipText={"How many people will be able to claim a prize? Don't exceed 100."}
+                        >
+                          <div className='cursor-help rounded-full border border-[#c9d1d9] text-sm aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                            ?
+                          </div>
+                        </ToolTipNew>
+                      </div>
+
+                      <input
+                        className={'flex-1 input-field w-full mx-4'}
+                        id='name'
+                        aria-label='tiers'
+                        placeholder='0'
+                        autoComplete='off'
+                        defaultValue={3}
+                        type='text'
+                        min='0'
+                        max='100'
+                        onChange={(e) => onTierChange(e)}
+                      />
+                    </div>
+                    {types[0] === '3' && (
+                      <div className='flex flex-col w-11/12 items-start py-2 gap-2 text-base pb-4'>
+                        <div className='flex items-center gap-2'>
                           <div className='flex items-center gap-2'>
-                            {' '}
-                            Reward Split?
-                            <ToolTipNew mobileX={10} toolTipText={'How much will each successful submitter earn?'}>
+                            Which token?
+                            <ToolTipNew mobileX={10} toolTipText={'Fixed contests can only be funded with one token.'}>
                               <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>
                                 ?
                               </div>
                             </ToolTipNew>
                           </div>
-                          <div className='flex-1 w-full mt-2 ml-4'>
-                            <TokenFundBox
-                              label='split'
-                              onCurrencySelect={onCurrencySelect}
-                              onVolumeChange={onVolumeChange}
-                              token={payoutToken}
-                              volume={payoutVolume}
-                            />
-                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </>
-                ) : category === 'Contest' || category === 'Fixed Contest' ? (
-                  <>
-                    <div className='flex flex-col items-center pl-6 pr-6 pb-2'>
-                      <div className='flex flex-col w-full items-start p-2 py-1 text-base pb-4'>
-                        <div className='flex items-center gap-2'>
-                          How many Tiers?
-                          <ToolTipNew
-                            mobileX={10}
-                            toolTipText={"How many people will be able to claim a prize? Don't exceed 100."}
-                          >
-                            <div className='cursor-help rounded-full border border-[#c9d1d9] text-sm aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                              ?
-                            </div>
-                          </ToolTipNew>
-                        </div>
-
-                        <div className='flex-1 w-full mt-2 ml-4'>
-                          <input
-                            className={'flex-1 input-field w-full'}
-                            id='name'
-                            aria-label='tiers'
-                            placeholder='0'
-                            autoComplete='off'
-                            defaultValue={3}
-                            type='text'
-                            min='0'
-                            max='100'
-                            onChange={(e) => onTierChange(e)}
+                        <div className=' pl-4'>
+                          <TokenSearch
+                            token={payoutToken}
+                            setShowTokenSearch={setHideModal}
+                            onCurrencySelect={onCurrencySelect}
+                            alone={true}
                           />
                         </div>
                       </div>
-                      {tier === '2' && (
-                        <div className='flex flex-col w-full items-start p-2 py-1 text-base pb-4'>
-                          <div className='flex items-center gap-2'>
-                            <div className='flex items-center gap-2'>
-                              Which token?
-                              <ToolTipNew
-                                mobileX={10}
-                                toolTipText={'Fixed contests can only be funded with one token.'}
-                              >
-                                <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>
-                                  ?
-                                </div>
-                              </ToolTipNew>
-                            </div>
-                          </div>
-                          <div className='flex-1 w-full mt-2 ml-4'>
-                            <TokenSearch
-                              token={payoutToken}
-                              setShowTokenSearch={setHideModal}
-                              onCurrencySelect={onCurrencySelect}
-                              alone={true}
-                            />
-                          </div>
-                        </div>
-                      )}
-                      {tier > 0 ? (
-                        <SetTierValues
-                          category={category}
-                          sum={sum}
-                          finalTierVolumes={finalTierVolumes}
-                          setFinalTierVolumes={setFinalTierVolumes}
-                          setSum={setSum}
-                          tierArr={tierArr}
-                          setEnableContest={setEnableContest}
-                          initialVolumes={['1', '1', '1']}
-                        />
-                      ) : null}
-                    </div>
-                  </>
+                    )}
+                    {tier > 0 ? (
+                      <SetTierValues
+                        category={category}
+                        sum={sum}
+                        finalTierVolumes={finalTierVolumes}
+                        setFinalTierVolumes={setFinalTierVolumes}
+                        setSum={setSum}
+                        tierArr={tierArr}
+                        setEnableContest={setEnableContest}
+                        initialVolumes={['1', '1', '1']}
+                      />
+                    ) : null}
+                  </div>
                 ) : null}
 
                 <Link
