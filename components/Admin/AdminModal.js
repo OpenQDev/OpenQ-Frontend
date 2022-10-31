@@ -5,6 +5,7 @@ import { ethers } from 'ethers';
 import LinkText from '../svg/linktext';
 import ModalDefault from '../Utils/ModalDefault';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
+import TweetAbout from '../Utils/TweetAbout';
 
 const AdminModal = ({ setModal, modal, bounty }) => {
   const [token, setToken] = useState();
@@ -88,12 +89,20 @@ const AdminModal = ({ setModal, modal, bounty }) => {
     PayoutSchedule: `The payout schedule for this issue has been updated. \nCheck out your transaction with the link below:`,
     Error: modal.message,
   };
+  const tweetText = {
+    Budget: `💸 Just set a budget for an issue from ${bounty.owner} on OpenQ, looking for devs to work on it: `,
+    Payout: `💸 Just set a payout amount for an issue from ${bounty.owner} on OpenQ, come get some rewards: `,
+    PayoutSchedule: `💸 Just set a payout schedule for an issue from ${bounty.owner} on OpenQ, looking for devs to work on it: `,
+  };
 
-  const btn = (
-    <button onClick={closeModal} className='btn-default'>
-      <span>Close</span>
-    </button>
-  );
+  const btn =
+    modal.type.includes('Closed') || modal.type === 'Error' ? (
+      <button onClick={closeModal} className='btn-default'>
+        <span>Close</span>
+      </button>
+    ) : (
+      <TweetAbout tweetText={tweetText[modal.type]} bounty={bounty} />
+    );
 
   return (
     <div ref={modalRef}>
@@ -135,32 +144,23 @@ const AdminModal = ({ setModal, modal, bounty }) => {
 
         {modal.type === 'PayoutSchedule' && (
           <>
-            <p className='pb-4'>{content[modal.type]}</p>
-            <div className='flex justify-between w-full gap-2 pb-4'>
-              <div className='w-28 flex-1'>Payout Schedule set to</div>
-              <div className='flex flex-wrap flex-1 justify-start w-[120px] '>
-                <div className='flex items-center gap-4 pt-2 text-primary'>
-                  <div className='text-xs font-semibold leading-loose'>Number of tiers: </div>
-                  <div className='text-xs font-semibold'>{modal.finalTierVolume.length}</div>
-                </div>
-                <div className='flex flex-col max-h-40 w-full overflow-y-auto overflow-x-hidden'>
-                  {modal.finalTierVolume.map((t, index) => {
-                    return (
-                      <div key={index} className='flex items-center gap-4 text-primary'>
-                        <div className='text-xs font-semibold leading-loose'>{`${appState.utils.handleSuffix(
-                          index + 1
-                        )} winner:`}</div>
-                        <div className='text-xs font-semibold'>{t} %</div>
-                      </div>
-                    );
-                  })}
-                </div>
+            <div className='gap-4 grid grid-cols-[200px_1fr]'>
+              <div className='flex whitespace-pre-wrap col-span-2'>{content[modal.type]}</div>
+              <div>Payout Schedule set to:</div>
+              <div className='grid grid-cols-[120px_1fr] text-xs font-semibold leading-loose'>
+                <div>Number of tiers:</div>
+                <div>{modal.finalTierVolume.length}</div>
+
+                {modal.finalTierVolume.map((t, index) => {
+                  return (
+                    <>
+                      <div>{`${appState.utils.handleSuffix(index + 1)} winner:`}</div>
+                      <div className='self-center'>{t} %</div>
+                    </>
+                  );
+                })}
               </div>
-            </div>
-            <div className='flex justify-between pb-4'>
-              <div className='flex-1' href={modal.transaction.transactionHash}>
-                Transaction:
-              </div>
+              <div href={modal.transaction.transactionHash}>Transaction:</div>
               <a
                 className='break-all flex-1 underline cursor-pointer'
                 target='_blank'
