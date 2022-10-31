@@ -97,12 +97,7 @@ const AdminModal = ({ setModal, modal, bounty }) => {
 
   return (
     <div ref={modalRef}>
-      <ModalDefault
-        title={title[modal.type]}
-        footerRight={btn}
-        setShowModal={setModal}
-        /* resetState={resetState} */
-      >
+      <ModalDefault title={title[modal.type]} footerRight={btn} setShowModal={setModal} resetState={setModal}>
         {(modal.type === 'Payout' || modal.type === 'Budget') && token && (
           <>
             <div className='gap-4 grid grid-cols-[150px_1fr]'>
