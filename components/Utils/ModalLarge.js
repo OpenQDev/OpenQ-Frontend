@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import Cross from '../svg/cross';
 
-const ModalLarge = ({ setShowModal, resetState }) => {
+const ModalLarge = ({ title, children, footerLeft, footerRight, setShowModal, resetState }) => {
   const modal = useRef();
   const updateModal = () => {
     resetState();
@@ -15,25 +15,11 @@ const ModalLarge = ({ setShowModal, resetState }) => {
             <button data-testid='cross' className='absolute top-4 right-4 cursor-pointer' onClick={() => updateModal()}>
               <Cross />
             </button>
-            <div className='py-2 px-4 border-b border-gray-700 text-2xl w-full h-[50px]'>Modal Title</div>
-            <div className='py-2 px-4 w-full h-[500px] overflow-x-hidden overflow-y-auto'>
-              Modal Body Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-              labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-              aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-              dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-              deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-              exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-              cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor
-              sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-              id est laborum.
-            </div>
+            <div className='py-2 px-4 border-b border-gray-700 text-2xl w-full h-[50px]'>{title}</div>
+            <div className='py-2 px-4 w-full h-[500px] overflow-x-hidden overflow-y-auto'>{children}</div>
             <div className='flex justify-end py-2 px-4 border-t border-gray-700 w-full h-[50px]'>
-              <button className='btn-primary'>Modal Button</button>
+              <div>{footerLeft}</div>
+              <div>{footerRight}</div>
             </div>
           </div>
         </div>
