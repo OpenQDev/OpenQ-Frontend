@@ -6,6 +6,7 @@ import LinkText from '../svg/linktext';
 import ModalDefault from '../Utils/ModalDefault';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import TweetAbout from '../Utils/TweetAbout';
+import LoadingIcon from '../Loading/ButtonLoadingIcon';
 
 const AdminModal = ({ setModal, modal, bounty }) => {
   const [token, setToken] = useState();
@@ -27,7 +28,7 @@ const AdminModal = ({ setModal, modal, bounty }) => {
     if (modal.transaction && modal.type === 'PayoutSchedule') {
       // do something?
     }
-  }, []);
+  }, [modal]);
 
   const createBudget = (bounty) => {
     return bounty?.fundingGoalTokenAddress
@@ -79,6 +80,7 @@ const AdminModal = ({ setModal, modal, bounty }) => {
     Budget: 'Budget Updated!',
     Payout: 'Payout Updated!',
     PayoutSchedule: 'Payout Schedule Updated!',
+    Loading: modal.inProgress,
     Error: modal.title,
   };
   const content = {
@@ -90,13 +92,13 @@ const AdminModal = ({ setModal, modal, bounty }) => {
     Error: modal.message,
   };
   const tweetText = {
-    Budget: `💸 Just set a budget for an issue from ${bounty.owner} on OpenQ, looking for devs to work on it: `,
-    Payout: `💸 Just set a payout amount for an issue from ${bounty.owner} on OpenQ, come get some rewards: `,
-    PayoutSchedule: `💸 Just set a payout schedule for an issue from ${bounty.owner} on OpenQ, looking for devs to work on it: `,
+    Budget: `💸 Just set a budget for an issue from ${bounty?.owner} on OpenQ, looking for devs to work on it: `,
+    Payout: `💸 Just set a payout amount for an issue from ${bounty?.owner} on OpenQ, come get some rewards: `,
+    PayoutSchedule: `💸 Just set a payout schedule for an issue from ${bounty?.owner} on OpenQ, looking for devs to work on it: `,
   };
 
   const btn =
-    modal.type.includes('Closed') || modal.type === 'Error' ? (
+    modal.type.includes('Closed') || modal.type === 'Error' || modal.type === 'Loading' ? (
       <button onClick={closeModal} className='btn-default'>
         <span>Close</span>
       </button>
@@ -153,10 +155,10 @@ const AdminModal = ({ setModal, modal, bounty }) => {
 
                 {modal.finalTierVolume.map((t, index) => {
                   return (
-                    <>
+                    <div key={index}>
                       <div>{`${appState.utils.handleSuffix(index + 1)} winner:`}</div>
                       <div className='self-center'>{t} %</div>
-                    </>
+                    </div>
                   );
                 })}
               </div>
@@ -171,6 +173,14 @@ const AdminModal = ({ setModal, modal, bounty }) => {
                 {modal.transaction.transactionHash.slice(-3)}
                 <LinkText />
               </a>
+            </div>
+          </>
+        )}
+
+        {modal.type === 'Loading' && (
+          <>
+            <div className='flex items-center gap-2'>
+              Your request is being processed... <LoadingIcon />
             </div>
           </>
         )}
