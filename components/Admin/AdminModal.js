@@ -1,11 +1,12 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 import LinkText from '../svg/linktext';
 import ModalDefault from '../Utils/ModalDefault';
+import useGetTokenValues from '../../hooks/useGetTokenValues';
 
-const AdminModal = ({ setModal, modal }) => {
+const AdminModal = ({ setModal, modal, bounty }) => {
   const [token, setToken] = useState();
   const [volume, setVolume] = useState();
   const [appState] = useContext(StoreContext);
@@ -26,6 +27,30 @@ const AdminModal = ({ setModal, modal }) => {
       // do something?
     }
   }, []);
+
+  const createBudget = (bounty) => {
+    return bounty.fundingGoalTokenAddress
+      ? {
+          tokenAddress: bounty.fundingGoalTokenAddress,
+          volume: bounty.fundingGoalVolume,
+        }
+      : null;
+  };
+  const budgetObj = useMemo(() => createBudget(bounty), [bounty]);
+  const [budgetValues] = useGetTokenValues(budgetObj);
+  const budget = budgetValues?.total;
+
+  const createRewardSplit = (bounty) => {
+    return bounty.payoutTokenVolume
+      ? {
+          tokenAddress: bounty.payoutTokenAddress,
+          volume: bounty.payoutTokenVolume,
+        }
+      : null;
+  };
+  const splitObj = useMemo(() => createRewardSplit(bounty), [bounty]);
+  const [splitValue] = useGetTokenValues(splitObj);
+  const split = splitValue?.total;
 
   const modalRef = useRef();
   useEffect(() => {
@@ -49,7 +74,6 @@ const AdminModal = ({ setModal, modal }) => {
     setModal(false);
   };
   const title = {
-    ['Closed Contest']: 'Contest Closed!',
     ['Closed Split Price']: 'Split Price Contract Closed!',
     Budget: 'Budget Updated!',
     Payout: 'Payout Updated!',
@@ -58,12 +82,10 @@ const AdminModal = ({ setModal, modal }) => {
   };
   const content = {
     ['Closed Split Price']:
-      'Split Price contract closed, no further claims will be available through this contract. Check out the closing transaction with the link below:',
-    ['Closed Contest']:
-      'Contest closed, now contestants can cash out. Check out the closing transaction with the link below:',
-    Budget: 'Budget has been updated. Check out your transaction with the link below:',
-    Payout: 'Payout has been updated. Check out your transaction with the link below:',
-    PayoutSchedule: 'Payout Schedule has been updated. Check out your transaction with the link below:',
+      'Split Price contract closed, no further claims will be available through this contract! \n\nCheck out the closing transaction with the link below for more information:',
+    Budget: `The budget for this issue has been updated! \nCheck out your transaction with the link below:`,
+    Payout: `The payout amount for this issue has been updated! \nCheck out your transaction with the link below:`,
+    PayoutSchedule: `The payout schedule for this issue has been updated. \nCheck out your transaction with the link below:`,
     Error: modal.message,
   };
 
@@ -83,10 +105,10 @@ const AdminModal = ({ setModal, modal }) => {
       >
         {(modal.type === 'Payout' || modal.type === 'Budget') && token && (
           <>
-            <p className='pb-4'>{content[modal.type]}</p>
-            <div className='flex justify-between w-full gap-2 pb-4'>
-              <div className='w-28 flex-1'>{modal.type} set to:</div>
-              <div className='flex flex-wrap flex-1 justify-start w-[120px] gap-8'>
+            <div className='gap-4 grid grid-cols-[150px_1fr]'>
+              <div className='flex whitespace-pre-wrap col-span-2'>{content[modal.type]}</div>
+              <div>{modal.type} set to:</div>
+              <div className='flex gap-2'>
                 <Image
                   width={24}
                   className='inline'
@@ -97,10 +119,10 @@ const AdminModal = ({ setModal, modal }) => {
                   {volume} {token.symbol}
                 </span>
               </div>
-            </div>
-            <div className='flex justify-between pb-4'>
+              <div>Value: </div>
+              <div>{appState.utils.formatter.format(modal.type === 'Budget' ? budget : split)}</div>
               <div className='flex-1' href={modal.transaction.transactionHash}>
-                Transaction:{' '}
+                Transaction:
               </div>
               <a
                 className='break-all flex-1 underline cursor-pointer'
@@ -142,13 +164,13 @@ const AdminModal = ({ setModal, modal }) => {
             </div>
             <div className='flex justify-between pb-4'>
               <div className='flex-1' href={modal.transaction.transactionHash}>
-                Transaction:{' '}
+                Transaction:
               </div>
               <a
                 className='break-all flex-1 underline cursor-pointer'
                 target='_blank'
                 rel='noopener noreferrer'
-                href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/${modal.transaction.transactionHash}`}
+                href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${modal.transaction.transactionHash}`}
               >
                 {modal.transaction.transactionHash.slice(0, 3)}...
                 {modal.transaction.transactionHash.slice(-3)}
@@ -160,13 +182,26 @@ const AdminModal = ({ setModal, modal }) => {
 
         {(modal.type.includes('Closed') || modal.type === 'Error') && (
           <>
-            <p>{content[modal.type]}</p>
-            {modal.type !== 'Error' && (
-              <a className='break-all underline cursor-pointer'>
-                {' '}
-                {process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/{modal.transaction.transactionHash}
-              </a>
-            )}
+            <div className='gap-4 grid grid-cols-[150px_1fr]'>
+              <div className='pb-2 whitespace-pre-wrap col-span-2'>{content[modal.type]}</div>
+              {modal.type !== 'Error' && (
+                <>
+                  <div className='flex-1' href={modal.transaction.transactionHash}>
+                    Transaction:
+                  </div>
+                  <a
+                    className='break-all flex-1 underline cursor-pointer'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${modal.transaction.transactionHash}`}
+                  >
+                    {modal.transaction.transactionHash.slice(0, 3)}...
+                    {modal.transaction.transactionHash.slice(-3)}
+                    <LinkText />
+                  </a>
+                </>
+              )}
+            </div>
           </>
         )}
       </ModalDefault>

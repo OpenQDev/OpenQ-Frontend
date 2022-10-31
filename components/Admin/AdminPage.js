@@ -353,7 +353,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
         </>
       )}
 
-      {modal && <AdminModal setModal={setModal} modal={modal} />}
+      {modal && <AdminModal bounty={bounty} setModal={setModal} modal={modal} />}
       {error && (
         <AdminModal
           setModal={setError}
