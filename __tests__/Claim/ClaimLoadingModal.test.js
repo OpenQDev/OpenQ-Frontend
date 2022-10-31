@@ -124,7 +124,7 @@ describe('ClaimLoadingModal', () => {
     );
 
     // ASSERT
-    expect(screen.getByText(/Funds from this payout will appear in your address at 0xpoly./i)).toBeInTheDocument();
+    expect(screen.getByText(/Funds from this payout will appear in your address soon./i)).toBeInTheDocument();
 
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
