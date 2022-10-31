@@ -5,6 +5,7 @@ import React from 'react';
 import { render, screen } from '../../test-utils';
 import AdminModal from '../../components/Admin/AdminModal';
 import InitialState from '../../store/Store/InitialState';
+import { waitFor } from '@testing-library/react';
 import { BigNumber } from 'ethers';
 
 describe('AdminModal', () => {
@@ -301,20 +302,19 @@ describe('AdminModal', () => {
     it('should show Budget updated', async () => {
       // ARRANGE
       render(<AdminModal modal={modalBudget} />);
+      await waitFor(() => {
+        // ACT
+        const heading = screen.getByText('Budget Updated!');
+        const text = screen.getByText('Budget set to:');
+        const amount = screen.getByText(/1.0 MATIC/i);
+        const btn = screen.getByRole('button', { name: 'Close' });
 
-      // ACT
-      const heading = screen.getByText('Budget Updated!');
-      const subheading = screen.getByText('Budget has been updated. Check out your transaction with the link below:');
-      const text = screen.getByText('Budget set to:');
-      const amount = screen.getByText(/1.0 MATIC/i);
-      const btn = screen.getByRole('button', { name: 'Close' });
-
-      // ASSERT
-      expect(heading).toBeInTheDocument();
-      expect(subheading).toBeInTheDocument();
-      expect(text).toBeInTheDocument();
-      expect(amount).toBeInTheDocument();
-      expect(btn).toBeInTheDocument();
+        // ASSERT
+        expect(heading).toBeInTheDocument();
+        expect(text).toBeInTheDocument();
+        expect(amount).toBeInTheDocument();
+        expect(btn).toBeInTheDocument();
+      });
     });
 
     it('should show Set Payout Upated for split price contracts', async () => {
@@ -322,18 +322,18 @@ describe('AdminModal', () => {
       render(<AdminModal modal={modalPayout} />);
 
       // ACT
-      const heading = screen.getByText('Payout Updated!');
-      const subheading = screen.getByText('Payout has been updated. Check out your transaction with the link below:');
-      const text = screen.getByText('Payout set to:');
-      const amount = screen.getByText(/1.0 MATIC/i);
-      const btn = screen.getByRole('button', { name: 'Close' });
+      await waitFor(() => {
+        const heading = screen.getByText('Payout Updated!');
+        const text = screen.getByText('Payout set to:');
+        const amount = screen.getByText(/1.0 MATIC/i);
+        const btn = screen.getByRole('button', { name: 'Close' });
 
-      // ASSERT
-      expect(heading).toBeInTheDocument();
-      expect(subheading).toBeInTheDocument();
-      expect(text).toBeInTheDocument();
-      expect(amount).toBeInTheDocument();
-      expect(btn).toBeInTheDocument();
+        // ASSERT
+        expect(heading).toBeInTheDocument();
+        expect(text).toBeInTheDocument();
+        expect(amount).toBeInTheDocument();
+        expect(btn).toBeInTheDocument();
+      });
     });
 
     it('should show Closed contract for split price contracts', async () => {
@@ -341,16 +341,14 @@ describe('AdminModal', () => {
       render(<AdminModal modal={modalCloseSplitPrice} />);
 
       // ACT
-      const heading = screen.getByText('Split Price Contract Closed!');
-      const subheading = screen.getByText(
-        'Split Price contract closed, no further claims will be available through this contract. Check out the closing transaction with the link below:'
-      );
-      const btn = screen.getByRole('button', { name: 'Close' });
+      await waitFor(() => {
+        const heading = screen.getByText('Split Price Contract Closed!');
+        const btn = screen.getByRole('button', { name: 'Close' });
 
-      // ASSERT
-      expect(heading).toBeInTheDocument();
-      expect(subheading).toBeInTheDocument();
-      expect(btn).toBeInTheDocument();
+        // ASSERT
+        expect(heading).toBeInTheDocument();
+        expect(btn).toBeInTheDocument();
+      });
     });
 
     it('should show Set New Payout Schedule on Contest contracts', async () => {
@@ -358,18 +356,16 @@ describe('AdminModal', () => {
       render(<AdminModal modal={modalContest} />);
 
       // ACT
-      const heading = screen.getByText('Payout Schedule Updated!');
-      const subheading = screen.getByText(
-        'Payout Schedule has been updated. Check out your transaction with the link below:'
-      );
-      const text = screen.getByText('Payout Schedule set to');
-      const btn = screen.getByRole('button', { name: 'Close' });
+      await waitFor(() => {
+        const heading = screen.getByText('Payout Schedule Updated!');
+        const text = screen.getByText('Payout Schedule set to');
+        const btn = screen.getByRole('button', { name: 'Close' });
 
-      // ASSERT
-      expect(heading).toBeInTheDocument();
-      expect(subheading).toBeInTheDocument();
-      expect(text).toBeInTheDocument();
-      expect(btn).toBeInTheDocument();
+        // ASSERT
+        expect(heading).toBeInTheDocument();
+        expect(text).toBeInTheDocument();
+        expect(btn).toBeInTheDocument();
+      });
     });
   };
   test();

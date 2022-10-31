@@ -29,7 +29,7 @@ const AdminModal = ({ setModal, modal, bounty }) => {
   }, []);
 
   const createBudget = (bounty) => {
-    return bounty.fundingGoalTokenAddress
+    return bounty?.fundingGoalTokenAddress
       ? {
           tokenAddress: bounty.fundingGoalTokenAddress,
           volume: bounty.fundingGoalVolume,
@@ -41,7 +41,7 @@ const AdminModal = ({ setModal, modal, bounty }) => {
   const budget = budgetValues?.total;
 
   const createRewardSplit = (bounty) => {
-    return bounty.payoutTokenVolume
+    return bounty?.payoutTokenVolume
       ? {
           tokenAddress: bounty.payoutTokenAddress,
           volume: bounty.payoutTokenVolume,
