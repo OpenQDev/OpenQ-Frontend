@@ -256,7 +256,10 @@ const FundPage = ({ bounty, refreshBounty }) => {
         );
         refreshBounty();
       } catch (err) {
-        console.error(err);
+        const { message, title, link, linkText } = openQClient.handleError(error, { bounty });
+        setError({ message, title, link, linkText });
+        setButtonText('Fund');
+        setApproveTransferState(ERROR);
       }
     }
   }
@@ -296,7 +299,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
                       token={token}
                       volume={volume}
                     />
-                    <NFTFundModal setPickedNft={(nft) => setPickedNft(nft)} />
+                    <NFTFundModal setPickedNft={setPickedNft} />
                   </>
                 </div>
               ) : null}
