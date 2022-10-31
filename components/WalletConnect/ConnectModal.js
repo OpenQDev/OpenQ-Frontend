@@ -30,24 +30,18 @@ const ConnectModal = ({ closeModal, setShowModal }) => {
 
   return (
     <ModalLarge title={'Connect Wallet'} footerRight={btn} setShowModal={setShowModal} resetState={closeModal}>
-      <p className=''>
+      <p className='text-xl'>
         Connect your wallet to continue with OpenQ. By connecting your wallet you agree with OpenQ{"'"}s{' '}
         <a className='hover:underline text-blue-400' href='https://www.openq.dev/terms-of-service'>
           terms of service
         </a>
         .
       </p>
-      <button
-        onClick={handleMetaMask}
-        className='flex flex-wrap sm:flew-row sm:py-4 mt-4 my-2 w-full gap-4 hover:bg-[#21262d] hover:text-white rounded-sm hover:border-gray-700 border border-transparent justify-center'
-      >
+      <button onClick={handleMetaMask} className='flex py-4 pl-4 my-8 w-full gap-8 btn-default'>
         <Image src={'/wallet-logos/metamask.png'} height={40} width={40} alt={'metamask logo'} />
         <div className='text-lg leading-loose'>Metamask</div>
       </button>
-      <button
-        onClick={handleWalletConnect}
-        className='flex flex-wrap sm:flew-row sm:py-4 mb-4 w-full gap-4 hover:bg-[#21262d] hover:text-white rounded-sm hover:border-gray-700 border border-transparent justify-center'
-      >
+      <button onClick={handleWalletConnect} className='flex py-4 pl-4 mb-8 w-full gap-8 btn-default'>
         <Image
           src={'/wallet-logos/wallet-connect.jpg'}
           className='rounded-full'
