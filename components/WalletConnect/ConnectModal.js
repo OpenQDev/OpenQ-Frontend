@@ -4,7 +4,7 @@ import useWeb3 from '../../hooks/useWeb3';
 import Image from 'next/image';
 import ModalLarge from '../Utils/ModalLarge';
 
-const ConnectModal = ({ closeModal }) => {
+const ConnectModal = ({ closeModal, setShowModal }) => {
   const { account } = useWeb3();
 
   const handleMetaMask = async () => {
@@ -29,15 +29,13 @@ const ConnectModal = ({ closeModal }) => {
   );
 
   return (
-    <ModalLarge
-      title={'Connect Wallet'}
-      footerRight={btn}
-      /* setShowModal={setShowApproveTransferModal} */
-      resetState={closeModal}
-    >
-      <p className='text-sm'>
-        Connect your wallet to continue with OpenQ. By connecting your wallet you agree with OpenQ{"'"}s terms of
-        service.
+    <ModalLarge title={'Connect Wallet'} footerRight={btn} setShowModal={setShowModal} resetState={closeModal}>
+      <p className=''>
+        Connect your wallet to continue with OpenQ. By connecting your wallet you agree with OpenQ{"'"}s{' '}
+        <a className='hover:underline text-blue-400' href='https://www.openq.dev/terms-of-service'>
+          terms of service
+        </a>
+        .
       </p>
       <button
         onClick={handleMetaMask}
