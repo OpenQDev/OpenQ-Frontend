@@ -137,6 +137,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
   // trigger smart contracts
 
   async function setBudget() {
+    setModal({ type: 'Loading', inProgress: 'Updating Budget...' });
     try {
       setIsLoading(true);
       const transaction = await openQClient.setFundingGoal(library, bounty.bountyId, token, volume);
@@ -159,6 +160,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
   }
 
   async function setPayout() {
+    setModal({ type: 'Loading', inProgress: 'Updating Payout...' });
     try {
       setIsLoading(true);
       const transaction = await openQClient.setPayout(library, bounty.bountyId, payoutToken, payoutVolume);
@@ -180,6 +182,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
     }
   }
   async function setPayoutSchedule() {
+    setModal({ type: 'Loading', inProgress: 'Updating Payout Schedule...' });
     try {
       setIsLoading(true);
       const transaction = await openQClient.setPayoutSchedule(library, bounty.bountyId, finalTierVolumes);
@@ -202,6 +205,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
   }
 
   async function closeOngoing() {
+    setModal({ type: 'Loading', inProgress: 'Closing Split Price Contract...' });
     try {
       setIsLoading(true);
       const transaction = await openQClient.closeOngoing(library, bounty.bountyId);
@@ -353,7 +357,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
         </>
       )}
 
-      {modal && <AdminModal setModal={setModal} modal={modal} />}
+      {modal && <AdminModal bounty={bounty} setModal={setModal} modal={modal} />}
       {error && (
         <AdminModal
           setModal={setError}
