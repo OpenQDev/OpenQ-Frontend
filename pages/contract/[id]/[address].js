@@ -24,6 +24,7 @@ import RepoTitle from '../../../components/Bounty/RepoTitle';
 import SubMenu from '../../../components/Utils/SubMenu';
 import BountyHeading from '../../../components/Bounty/BountyHeading';
 import BountyMetadata from '../../../components/Bounty/BountyMetadata';
+import Submissions from '../../../components/Bounty/Submissions.js';
 
 import Add from '../../../components/svg/add';
 import Subtract from '../../../components/svg/subtract';
@@ -221,6 +222,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                   { name: 'Fund', Svg: Add },
                   { name: 'Refund', Svg: Subtract },
                   { name: 'Claim', Svg: Fire },
+                  { name: 'Submissions', Svg: Fire },
                   ...claimOverView,
                   {
                     name: bounty.issuer && ethers.utils.getAddress(bounty?.issuer?.id) == account ? 'Admin' : null,
@@ -273,9 +275,10 @@ const address = ({ address, mergedBounty, renderError }) => {
                     split={split}
                   />
                 ) : null}
+                {internalMenu == 'Submissions' && bounty ? <Submissions bounty={bounty} /> : null}
                 {bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
 
-                {internalMenu && (
+                {internalMenu && internalMenu !== 'Submissions' && (
                   <BountyMetadata
                     price={tokenValues?.total}
                     budget={budget}

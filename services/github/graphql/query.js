@@ -248,6 +248,9 @@ export const GET_ISSUE_BY_ID = gql`
                   mergedAt
                   url
                   merged
+                  bodyText
+                  body
+                  bodyHTML
                   title
                   author {
                     login
