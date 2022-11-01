@@ -14,7 +14,7 @@ import RefundPage from '../../../components/RefundBounty/RefundPage';
 import ClaimPage from '../../../components/Claim/ClaimPage';
 import AdminPage from '../../../components/Admin/AdminPage';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
-import UnexpectedError from '../../../components/Utils/UnexpectedError';
+import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
@@ -193,7 +193,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 
   // Render
   if (error) {
-    return <UnexpectedError error={error} />;
+    return <UnexpectedErrorModal error={error} />;
   } else
     return (
       <>
