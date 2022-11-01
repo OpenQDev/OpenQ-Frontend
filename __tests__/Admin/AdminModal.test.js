@@ -623,7 +623,7 @@ describe('AdminModal', () => {
 
     it('should show Set New Payout Schedule on Contest contracts', async () => {
       // ARRANGE
-      render(<AdminModal modal={modalContest} bounty={bounty} />);
+      render(<AdminModal payoutTokenAddress={zeroAddress} modal={modalContest} bounty={bounty} />);
 
       // ACT
       await waitFor(() => {
