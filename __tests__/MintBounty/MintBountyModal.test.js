@@ -118,7 +118,7 @@ const test = (issue, type) => {
           break;
 
         case '3':
-          expect(screen.getAllByText(/fixed Contest/i)).toHaveLength(4);
+          expect(screen.getAllByText(/fixed Contest/i)).toHaveLength(3);
 
           break;
         default:
@@ -132,7 +132,7 @@ const test = (issue, type) => {
     });
   });
 };
-describe('MintBountyModal', () => {
+describe('MintBountyButton', () => {
   issues.forEach((issue) => {
     types.forEach((type) => test(issue, type));
   });

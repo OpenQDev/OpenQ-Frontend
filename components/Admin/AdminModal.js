@@ -1,14 +1,11 @@
-import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 import LinkText from '../svg/linktext';
 import ModalDefault from '../Utils/ModalDefault';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
-import TweetAbout from '../Utils/TweetAbout';
-import LoadingIcon from '../Loading/ButtonLoadingIcon';
 
-const AdminModal = ({ setModal, modal, bounty, payoutTokenAddress }) => {
+const AdminModal = ({ setModal, modal }) => {
   const [token, setToken] = useState();
   const [volume, setVolume] = useState();
   const [appState] = useContext(StoreContext);
@@ -28,31 +25,7 @@ const AdminModal = ({ setModal, modal, bounty, payoutTokenAddress }) => {
     if (modal.transaction && modal.type === 'PayoutSchedule') {
       // do something?
     }
-  }, [modal]);
-
-  const createBudget = (bounty) => {
-    return bounty?.fundingGoalTokenAddress
-      ? {
-          tokenAddress: bounty.fundingGoalTokenAddress,
-          volume: bounty.fundingGoalVolume,
-        }
-      : null;
-  };
-  const budgetObj = useMemo(() => createBudget(bounty), [bounty]);
-  const [budgetValues] = useGetTokenValues(budgetObj);
-  const budget = budgetValues?.total;
-
-  const createRewardSplit = (bounty) => {
-    return bounty?.payoutTokenVolume
-      ? {
-          tokenAddress: bounty.payoutTokenAddress,
-          volume: bounty.payoutTokenVolume,
-        }
-      : null;
-  };
-  const splitObj = useMemo(() => createRewardSplit(bounty), [bounty]);
-  const [splitValue] = useGetTokenValues(splitObj);
-  const split = splitValue?.total;
+  }, []);
 
   const modalRef = useRef();
   useEffect(() => {
@@ -75,51 +48,45 @@ const AdminModal = ({ setModal, modal, bounty, payoutTokenAddress }) => {
   const closeModal = () => {
     setModal(false);
   };
-
   const title = {
+    ['Closed Contest']: 'Contest Closed!',
     ['Closed Split Price']: 'Split Price Contract Closed!',
     Budget: 'Budget Updated!',
     Payout: 'Payout Updated!',
     PayoutSchedule: 'Payout Schedule Updated!',
-    Loading: modal.inProgress,
     Error: modal.title,
   };
   const content = {
     ['Closed Split Price']:
-      'Split Price contract closed, no further claims will be available through this contract! \n\nCheck out the closing transaction with the link below for more information:',
-    Budget: `The budget for this issue has been updated! \nCheck out your transaction with the link below:`,
-    Payout: `The payout amount for this issue has been updated! \nCheck out your transaction with the link below:`,
-    PayoutSchedule: `The payout schedule for this issue has been updated. \nCheck out your transaction with the link below:`,
+      'Split Price contract closed, no further claims will be available through this contract. Check out the closing transaction with the link below:',
+    ['Closed Contest']:
+      'Contest closed, now contestants can cash out. Check out the closing transaction with the link below:',
+    Budget: 'Budget has been updated. Check out your transaction with the link below:',
+    Payout: 'Payout has been updated. Check out your transaction with the link below:',
+    PayoutSchedule: 'Payout Schedule has been updated. Check out your transaction with the link below:',
     Error: modal.message,
   };
-  const getVolumeSuffix = (bountyType, tokenAddress) => {
-    if (bountyType === '2') return '%';
-    return appState.tokenClient.getToken(tokenAddress).symbol;
-  };
-  const tweetText = {
-    Budget: `💸 Just set a budget for an issue from ${bounty?.owner} on OpenQ, looking for devs to work on it: `,
-    Payout: `💸 Just set a payout amount for an issue from ${bounty?.owner} on OpenQ, come get some rewards: `,
-    PayoutSchedule: `💸 Just set a payout schedule for an issue from ${bounty?.owner} on OpenQ, looking for devs to work on it: `,
-  };
 
-  const btn =
-    modal.type.includes('Closed') || modal.type === 'Error' || modal.type === 'Loading' ? (
-      <button onClick={closeModal} className='btn-default'>
-        <span>Close</span>
-      </button>
-    ) : (
-      <TweetAbout tweetText={tweetText[modal.type]} bounty={bounty} />
-    );
+  const btn = (
+    <button onClick={closeModal} className='btn-default'>
+      <span>Close</span>
+    </button>
+  );
 
   return (
     <div ref={modalRef}>
-      <ModalDefault title={title[modal.type]} footerRight={btn} setShowModal={setModal} resetState={setModal}>
+      <ModalDefault
+        title={title[modal.type]}
+        footerRight={btn}
+        setShowModal={setModal}
+        /* resetState={resetState} */
+      >
         {(modal.type === 'Payout' || modal.type === 'Budget') && token && (
           <>
-            <div className='gap-4 grid grid-cols-[150px_1fr]'>
-              <div className='flex whitespace-pre-wrap col-span-2'>{content[modal.type]}</div>
-              <div>{modal.type} set to:</div>
-              <div className='flex gap-2'>
+            <p className='pb-4'>{content[modal.type]}</p>
+            <div className='flex justify-between w-full gap-2 pb-4'>
+              <div className='w-28 flex-1'>{modal.type} set to:</div>
+              <div className='flex flex-wrap flex-1 justify-start w-[120px] gap-8'>
                 <Image
                   width={24}
                   className='inline'
@@ -130,16 +97,16 @@ const AdminModal = ({ setModal, modal, bounty, payoutTokenAddress }) => {
                   {volume} {token.symbol}
                 </span>
               </div>
-              <div>Value: </div>
-              <div>{appState.utils.formatter.format(modal.type === 'Budget' ? budget : split)}</div>
+            </div>
+            <div className='flex justify-between pb-4'>
               <div className='flex-1' href={modal.transaction.transactionHash}>
-                Transaction:
+                Transaction:{' '}
               </div>
               <a
                 className='break-all flex-1 underline cursor-pointer'
                 target='_blank'
                 rel='noopener noreferrer'
-                href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${modal.transaction.transactionHash}`}
+                href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/${modal.transaction.transactionHash}`}
               >
                 {modal.transaction.transactionHash.slice(0, 3)}...
                 {modal.transaction.transactionHash.slice(-3)}
@@ -151,30 +118,37 @@ const AdminModal = ({ setModal, modal, bounty, payoutTokenAddress }) => {
 
         {modal.type === 'PayoutSchedule' && (
           <>
-            <div className='gap-4 grid grid-cols-[200px_1fr]'>
-              <div className='flex whitespace-pre-wrap col-span-2'>{content[modal.type]}</div>
-              <div>Payout Schedule set to:</div>
-              <div className='grid grid-cols-[120px_1fr] text-xs font-semibold leading-loose'>
-                <div>Number of tiers:</div>
-                <div>{modal.finalTierVolume.length}</div>
-
-                {modal.finalTierVolume.map((t, index) => {
-                  return (
-                    <div key={index}>
-                      <div>{`${appState.utils.handleSuffix(index + 1)} winner:`}</div>
-                      <div className='self-center'>
-                        {t} {getVolumeSuffix(bounty.bountyType, payoutTokenAddress)}
+            <p className='pb-4'>{content[modal.type]}</p>
+            <div className='flex justify-between w-full gap-2 pb-4'>
+              <div className='w-28 flex-1'>Payout Schedule set to</div>
+              <div className='flex flex-wrap flex-1 justify-start w-[120px] '>
+                <div className='flex items-center gap-4 pt-2 text-primary'>
+                  <div className='text-xs font-semibold leading-loose'>Number of tiers: </div>
+                  <div className='text-xs font-semibold'>{modal.finalTierVolume.length}</div>
+                </div>
+                <div className='flex flex-col max-h-40 w-full overflow-y-auto overflow-x-hidden'>
+                  {modal.finalTierVolume.map((t, index) => {
+                    return (
+                      <div key={index} className='flex items-center gap-4 text-primary'>
+                        <div className='text-xs font-semibold leading-loose'>{`${appState.utils.handleSuffix(
+                          index + 1
+                        )} winner:`}</div>
+                        <div className='text-xs font-semibold'>{t} %</div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
-              <div href={modal.transaction.transactionHash}>Transaction:</div>
+            </div>
+            <div className='flex justify-between pb-4'>
+              <div className='flex-1' href={modal.transaction.transactionHash}>
+                Transaction:{' '}
+              </div>
               <a
                 className='break-all flex-1 underline cursor-pointer'
                 target='_blank'
                 rel='noopener noreferrer'
-                href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${modal.transaction.transactionHash}`}
+                href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/${modal.transaction.transactionHash}`}
               >
                 {modal.transaction.transactionHash.slice(0, 3)}...
                 {modal.transaction.transactionHash.slice(-3)}
@@ -184,36 +158,15 @@ const AdminModal = ({ setModal, modal, bounty, payoutTokenAddress }) => {
           </>
         )}
 
-        {modal.type === 'Loading' && (
-          <>
-            <div className='flex items-center gap-2'>
-              Your request is being processed... <LoadingIcon />
-            </div>
-          </>
-        )}
-
         {(modal.type.includes('Closed') || modal.type === 'Error') && (
           <>
-            <div className='gap-4 grid grid-cols-[150px_1fr]'>
-              <div className='pb-2 whitespace-pre-wrap col-span-2'>{content[modal.type]}</div>
-              {modal.type !== 'Error' && (
-                <>
-                  <div className='flex-1' href={modal.transaction.transactionHash}>
-                    Transaction:
-                  </div>
-                  <a
-                    className='break-all flex-1 underline cursor-pointer'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${modal.transaction.transactionHash}`}
-                  >
-                    {modal.transaction.transactionHash.slice(0, 3)}...
-                    {modal.transaction.transactionHash.slice(-3)}
-                    <LinkText />
-                  </a>
-                </>
-              )}
-            </div>
+            <p>{content[modal.type]}</p>
+            {modal.type !== 'Error' && (
+              <a className='break-all underline cursor-pointer'>
+                {' '}
+                {process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/{modal.transaction.transactionHash}
+              </a>
+            )}
           </>
         )}
       </ModalDefault>

@@ -141,7 +141,7 @@ const ConnectButton = ({ mobile }) => {
           Use {chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['networkName']} Network
         </button>
       )}
-      {walletConnectModal && <ConnectModal closeModal={closeModal} setShowModal={setShowModal} />}
+      {walletConnectModal && <ConnectModal closeModal={closeModal} />}
     </div>
   );
 };

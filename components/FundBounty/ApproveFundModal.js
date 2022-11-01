@@ -176,7 +176,7 @@ const ApproveFundModal = ({
         </div>
       ) : (
         <>
-          <div className='gap-4 grid grid-cols-[150px_1fr]'>
+          <div className='gap-4 grid grid-cols-[100px_1fr]'>
             <div>Deposit:</div>
             <div className='flex  gap-4'>
               <FundingTokenStats pickedNft={pickedNft} volume={volume} token={token} />

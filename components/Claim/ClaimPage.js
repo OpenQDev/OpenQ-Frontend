@@ -22,7 +22,7 @@ import ToolTipNew from '../Utils/ToolTipNew';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import StoreContext from '../../store/Store/StoreContext';
 
-const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
+const ClaimPage = ({ bounty, refreshBounty, price }) => {
   const { url } = bounty;
   // State
   const [error, setError] = useState('');
@@ -197,9 +197,6 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
                       transactionHash={transactionHash}
                       setShowClaimLoadingModal={updateModal}
                       bounty={bounty}
-                      authState={authState}
-                      price={price}
-                      split={split}
                     />
                   )}
                 </div>

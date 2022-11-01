@@ -21,7 +21,6 @@ describe('MintBountyButton', () => {
     await user.click(screen.getByText('No'));
     await user.click(screen.getByText('No'));
     await user.click(screen.getByText('No'));
-    await user.click(screen.getByText('No'));
     expect(await screen.findByText(/we didn't find a suitable contract/i)).toBeInTheDocument();
     expect(screen.getByRole('link').href).toBe('https://discord.gg/puQVqEvVXn');
   });
@@ -36,9 +35,8 @@ describe('MintBountyButton', () => {
     await user.click(mintBountyButton);
     await user.click(screen.getByText('No'));
     await user.click(screen.getByText('No'));
-    await user.click(screen.getByText('No'));
     await user.click(screen.getByText('Yes'));
-    expect(screen.getByText(/Create a Fixed Contest Contract to send funds to any GitHub issue/i));
+    expect(screen.getByText(/Create a Contest Contract to send funds to any GitHub issue/i));
     expect(screen.getByText(/How many tiers/i));
   });
 

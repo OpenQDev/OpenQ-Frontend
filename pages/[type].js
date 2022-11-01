@@ -13,7 +13,7 @@ import WrappedOpenQPrismaClient from '../services/openq-api/WrappedOpenQPrismaCl
 import Utils from '../services/utils/Utils';
 import Logger from '../services/logger/Logger';
 import SubMenu from '../components/Utils/SubMenu';
-import UnexpectedErrorModal from '../components/Utils/UnexpectedErrorModal';
+import UnexpectedError from '../components/Utils/UnexpectedError';
 
 export default function Index({ orgs, fullBounties, batch, types, category, renderError, firstCursor }) {
   useAuth();
@@ -125,7 +125,7 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
       </div>
       <div>
         {error ? (
-          <UnexpectedErrorModal error={error} />
+          <UnexpectedError error={error} />
         ) : internalMenu == 'Organizations' ? (
           <OrganizationHomepage orgs={controlledOrgs} types={types} />
         ) : (

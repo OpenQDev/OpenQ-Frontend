@@ -2,13 +2,13 @@ import React from 'react';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import Invoice from '../../../components/Invoicing/Invoice';
-import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
+import UnexpectedError from '../../../components/Utils/UnexpectedError';
 import useAuth from '../../../hooks/useAuth';
 import Logger from '../../../services/logger/Logger';
 
 const invoice = ({ bounty, renderError }) => {
   useAuth();
-  return <>{renderError ? <UnexpectedErrorModal error={renderError} /> : <Invoice bounty={bounty} />}</>;
+  return <>{renderError ? <UnexpectedError error={renderError} /> : <Invoice bounty={bounty} />}</>;
 };
 
 export const getServerSideProps = async (context) => {

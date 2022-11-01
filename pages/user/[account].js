@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 
 // Custom
 import AboutFreelancer from '../../components/User/AboutFreelancer';
-import UnexpectedErrorModal from '../../components/Utils/UnexpectedErrorModal';
+import UnexpectedError from '../../components/Utils/UnexpectedError';
 import WrappedGithubClient from '../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
 import logger from '../../services/logger/Logger';
@@ -54,7 +54,7 @@ const account = ({ account, user, organizations, renderError }) => {
           organizations={organizations}
         />
       ) : (
-        <UnexpectedErrorModal error={renderError} />
+        <UnexpectedError error={renderError} />
       )}
     </div>
   );

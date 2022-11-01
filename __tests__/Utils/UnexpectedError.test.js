@@ -1,9 +1,10 @@
+// test/component/Utils/UnexpectedError.test.js
 /**
  * @jest-environment jsdom
  */
 import React from 'react';
 import { render, screen } from '../../test-utils';
-import UnexpectedErrorModal from '../../components/Utils/UnexpectedErrorModal';
+import UnexpectedError from '../../components/Utils/UnexpectedError';
 import nextRouter from 'next/router';
 // Test cases for full balances, empty balances, and undefined balances.
 
@@ -34,7 +35,7 @@ describe('Error Modal', () => {
 
   it('should link to homepage.', async () => {
     // ARRANGE
-    render(<UnexpectedErrorModal error={"I don't like bacon"} />);
+    render(<UnexpectedError error={"I don't like bacon"} />);
     const anchorTag = await screen.findByRole('link');
     const githubLink = screen.queryByText(/github status/i);
     // ASSERT
@@ -44,7 +45,7 @@ describe('Error Modal', () => {
   });
   it('should link to github.', async () => {
     // ARRANGE
-    render(<UnexpectedErrorModal error={"I don't like Githubs bacon"} />);
+    render(<UnexpectedError error={"I don't like Githubs bacon"} />);
     // ASSERT
     expect(screen.getByText("Sorry, something went wrong. I don't like Githubs bacon"));
     await screen.findAllByRole('link');

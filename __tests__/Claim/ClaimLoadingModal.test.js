@@ -124,7 +124,7 @@ describe('ClaimLoadingModal', () => {
     );
 
     // ASSERT
-    expect(screen.getByText(/Funds from this payout will appear in your address soon./i)).toBeInTheDocument();
+    expect(screen.getByText(/Funds from this payout will appear in your address at 0xpoly./i)).toBeInTheDocument();
 
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
@@ -151,6 +151,10 @@ describe('ClaimLoadingModal', () => {
     // ASSERT
     expect(screen.getByText(/You are indeed the/i)).toBeInTheDocument();
 
+    expect(screen.getByRole('link', { name: /undefined\/tx\/0xyeet/i }).href).toEqual(
+      'http://localhost/undefined/tx/0xyeet'
+    );
+
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
@@ -174,7 +178,9 @@ describe('ClaimLoadingModal', () => {
     );
 
     // ASSERT
-    expect(screen.getByText(/Do you want to claim these rewards?/i)).toBeInTheDocument();
+    expect(screen.getByText(/to the address voyageur.eth. Is this correct?/i)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /www.example.com/i }).href).toEqual('http://localhost/www.example.com');
+    expect(screen.getByText(/to the address voyageur.eth. Is this correct?/i)).toBeInTheDocument();
 
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];

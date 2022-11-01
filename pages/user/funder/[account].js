@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 
 // Custom
 import AboutFunder from '../../../components/User/AboutFunder';
-import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
+import UnexpectedError from '../../../components/Utils/UnexpectedError';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
@@ -18,7 +18,7 @@ const account = ({ account, user, organizations, renderError }) => {
           <AboutFunder user={user} account={account} organizations={organizations} />
         </section>
       ) : (
-        <UnexpectedErrorModal error={renderError} />
+        <UnexpectedError error={renderError} />
       )}
     </div>
   );

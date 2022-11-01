@@ -1,7 +1,6 @@
 // Third party
-import React, { useRef, useEffect, useContext } from 'react';
+import React, { useRef, useEffect } from 'react';
 import Link from 'next/link';
-import StoreContext from '../../store/Store/StoreContext';
 
 // Custom
 import {
@@ -15,41 +14,38 @@ import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import LinkText from '../svg/linktext';
 import TweetAbout from '../Utils/TweetAbout';
 import ModalDefault from '../Utils/ModalDefault';
-import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 
 const ClaimLoadingModal = ({
   confirmMethod,
   url,
+  ensName,
   account,
+  address,
   transactionHash,
   setShowClaimLoadingModal,
   error,
   claimState,
   bounty,
-  authState,
-  price,
-  split,
 }) => {
   const updateModal = () => {
     setShowClaimLoadingModal(false);
   };
   const modal = useRef();
-  const [appState] = useContext(StoreContext);
 
   let title = {
-    [CONFIRM_CLAIM]: 'Claim Rewards',
-    [CHECKING_WITHDRAWAL_ELIGIBILITY]: 'Validating Claim...',
+    [CONFIRM_CLAIM]: 'Confirm Claim',
+    [CHECKING_WITHDRAWAL_ELIGIBILITY]: 'Validating Claim',
     [WITHDRAWAL_INELIGIBLE]: 'Withdrawal Ineligible',
     [TRANSACTION_SUBMITTED]: 'Transaction Submitted',
-    [TRANSACTION_CONFIRMED]: 'Rewards Claimed Successfully!',
+    [TRANSACTION_CONFIRMED]: 'Transaction Confirmed!',
   };
 
   let message = {
-    [CONFIRM_CLAIM]: `Do you want to claim these rewards?`,
+    [CONFIRM_CLAIM]: `You are about to claim the deposits on issue`,
     [CHECKING_WITHDRAWAL_ELIGIBILITY]: 'Checking that you are indeed the droid we are looking for...',
-    [WITHDRAWAL_INELIGIBLE]: `You are NOT the droid we are looking for. \nError message: ${error.message}`,
+    [WITHDRAWAL_INELIGIBLE]: `You are NOT the droid we are looking for. Error message: ${error.message}`,
     [TRANSACTION_SUBMITTED]: 'You are indeed the droid we are looking for. See your pending transaction here: ',
-    [TRANSACTION_CONFIRMED]: `Transaction confirmed! Funds from this payout will appear in your address soon.`,
+    [TRANSACTION_CONFIRMED]: 'Transaction confirmed!  Check out your transaction with the link below: ',
   };
 
   let link = {
@@ -58,12 +54,13 @@ const ClaimLoadingModal = ({
     [CONFIRM_CLAIM]: url,
   };
 
+  let afterLink = {
+    [TRANSACTION_CONFIRMED]: ` Funds from this payout will appear in your address at ${address}.`,
+    [TRANSACTION_SUBMITTED]: '',
+    [CONFIRM_CLAIM]: ` to the address ${ensName || account}. Is this correct?`,
+  };
+
   const tweetText = `💸 Just claimed a developer bounty from ${bounty.owner} on OpenQ working on this issue: `;
-  const latestUserPR = bounty.prs
-    ?.filter((pr) => {
-      return pr.source.author.login == authState.login;
-    })
-    .slice(-1)[0];
 
   // Hooks
 
@@ -121,48 +118,21 @@ const ClaimLoadingModal = ({
       setShowModal={setShowClaimLoadingModal}
       resetState={updateModal}
     >
-      <div className='gap-2 grid grid-cols-[150px_1fr]'>
-        <span>Issue: </span>
-        {bounty.url && (
-          <Link href={bounty.url}>
-            <a target='_blank' rel='noopener noreferrer' className='underline w-full truncate'>
-              {bounty.title}
-            </a>
-          </Link>
+      <div className='text-md  pb-2 break-words'>
+        <span>{message[claimState]}</span>
+        {link[claimState] && (
+          <div>
+            <>
+              <Link href={link[claimState]}>
+                <a className='underline break-all' target='_blank' rel='noopener noreferrer'>
+                  {link[claimState]}
+                  <LinkText />
+                </a>
+              </Link>
+            </>
+            <span>{afterLink[claimState]}</span>
+          </div>
         )}
-        <span>Your PR:</span>
-        {latestUserPR ? (
-          <span>
-            <Link href={latestUserPR.source.url}>
-              <a target='_blank' className={'underline'}>
-                {latestUserPR.source.title}
-              </a>
-            </Link>
-            <span>{latestUserPR.source.merged ? ' (merged)' : ' (not merged)'}</span>
-          </span>
-        ) : (
-          <div>No linked PR</div>
-        )}
-        {(bounty.bountyType == 0 || bounty.bountyType == 1) && (
-          <>
-            <span>Value:</span>
-            <span>{appState.utils.formatter.format(bounty.bountyType == 0 ? price : split)}</span>
-          </>
-        )}
-        <span>To Address:</span>
-        <CopyAddressToClipboard data={account} clipping={[5, 39]} />
-        {claimState == TRANSACTION_CONFIRMED && (
-          <>
-            <span className='pr-8'>Transaction:</span>
-            <Link href={link[claimState]}>
-              <a target={'_blank'} className='underline' rel='noopener noreferrer'>
-                {transactionHash.slice(0, 5)} . . . {transactionHash.slice(62)}
-                <LinkText />
-              </a>
-            </Link>
-          </>
-        )}
-        <div className='col-span-2 whitespace-pre-wrap'>{message[claimState]}</div>
       </div>
     </ModalDefault>
   );

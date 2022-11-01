@@ -139,7 +139,7 @@ const ApproveTransferModal = ({
     >
       {/* Body */}
       <>
-        <div className='gap-4 grid grid-cols-[150px_1fr]'>
+        <div className='gap-4 grid grid-cols-[100px_1fr]'>
           <div>Deposit:</div>
           <div className='flex gap-2'>
             <Image

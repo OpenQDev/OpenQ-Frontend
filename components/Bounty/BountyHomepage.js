@@ -3,7 +3,7 @@ import React from 'react';
 
 // Custom
 import BountyList from '../BountyList/BountyList';
-import UnexpectedErrorModal from '../Utils/UnexpectedErrorModal';
+import UnexpectedError from '../Utils/UnexpectedError';
 
 const BountyHomepage = ({
   bounties,
@@ -33,7 +33,7 @@ const BountyHomepage = ({
       </div>
       <div className='lg:grid lg:grid-cols-extra-wide mx-4 sm:mx-8 xl:grid-cols-wide justify-center md:pr-3 pt-10'>
         {error ? (
-          <UnexpectedErrorModal />
+          <UnexpectedError />
         ) : (
           <BountyList
             bounties={bounties}

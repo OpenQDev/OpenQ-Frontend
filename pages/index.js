@@ -12,7 +12,7 @@ import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgrap
 import WrappedOpenQPrismaClient from '../services/openq-api/WrappedOpenQPrismaClient';
 import Utils from '../services/utils/Utils';
 import Logger from '../services/logger/Logger';
-import UnexpectedErrorModal from '../components/Utils/UnexpectedErrorModal';
+import UnexpectedError from '../components/Utils/UnexpectedError';
 import SubMenu from '../components/Utils/SubMenu';
 
 export default function Index({ fullBounties, batch, types, renderError, firstCursor, category, mergedOrgs }) {
@@ -116,7 +116,7 @@ export default function Index({ fullBounties, batch, types, renderError, firstCu
   return (
     <main className='bg-dark-mode flex-col'>
       {error ? (
-        <UnexpectedErrorModal error={renderError} />
+        <UnexpectedError error={renderError} />
       ) : (
         <>
           <SubMenu

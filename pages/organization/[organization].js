@@ -14,7 +14,7 @@ import SubMenu from '../../components/Utils/SubMenu';
 import Home from '../../components/svg/home';
 import OrganizationMetadata from '../../components/Organization/OrganizationMetadata';
 import OrganizationContent from '../../components/Organization/OrganizationContent';
-import UnexpectedErrorModal from '../../components/Utils/UnexpectedErrorModal';
+import UnexpectedError from '../../components/Utils/UnexpectedError';
 import useWeb3 from '../../hooks/useWeb3';
 
 const organization = ({ organizationData, fullBounties, batch, renderError, firstCursor }) => {
@@ -96,7 +96,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
   return (
     <>
       {error ? (
-        <UnexpectedErrorModal error={error} />
+        <UnexpectedError error={error} />
       ) : (
         <div className='w-full mx-auto text-primary mt-1 px-4 md:px-16 max-w-[1420px] '>
           <OrganizationHeader colour='rust' organizationData={organizationData} />
