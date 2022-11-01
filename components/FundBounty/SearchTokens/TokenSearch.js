@@ -6,7 +6,7 @@ import { XIcon } from '@primer/octicons-react';
 import StoreContext from '../../../store/Store/StoreContext';
 import Image from 'next/image';
 
-const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch, alone }) => {
+const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch, alone, showTokenSearch }) => {
   const [showListManager, setShowListManager] = useState(true);
   const [tokenSearchTerm, setTokenSearchTerm] = useState();
   const [lists, setLists] = useState({
@@ -148,7 +148,7 @@ const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch, alon
           </div>
         </div>
       )}
-      {!stream && !alone && <div className='fixed inset-0 z-10 bg-overlay'></div>}
+      {!stream && (!alone || showTokenSearch) && <div className='fixed inset-0 z-10 bg-overlay'></div>}
     </div>
   );
 };
