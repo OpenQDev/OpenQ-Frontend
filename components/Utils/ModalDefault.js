@@ -41,7 +41,6 @@ const ModalDefault = ({ title, children, footerLeft, footerRight, setShowModal, 
             <div className='flex justify-end py-2 px-4 border-t border-gray-700 w-full h-[50px]'>
               <div>{footerLeft}</div>
               <div>{footerRight}</div>
-              {/* <button className='btn-primary'>Modal Button</button> */}
             </div>
           </div>
         </div>
