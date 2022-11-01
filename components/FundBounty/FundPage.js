@@ -6,7 +6,6 @@ import { ethers } from 'ethers';
 import useWeb3 from '../../hooks/useWeb3';
 import TokenFundBox from './SearchTokens/TokenFundBox';
 import StoreContext from '../../store/Store/StoreContext';
-import ButtonLoadingIcon from '../Loading/ButtonLoadingIcon';
 import ToolTipNew from '../Utils/ToolTipNew';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import ApproveFundModal from './ApproveFundModal';
@@ -256,7 +255,10 @@ const FundPage = ({ bounty, refreshBounty }) => {
         );
         refreshBounty();
       } catch (err) {
-        console.error(err);
+        const { message, title, link, linkText } = openQClient.handleError(error, { bounty });
+        setError({ message, title, link, linkText });
+        setButtonText('Fund');
+        setApproveTransferState(ERROR);
       }
     }
   }
@@ -296,7 +298,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
                       token={token}
                       volume={volume}
                     />
-                    <NFTFundModal setPickedNft={(nft) => setPickedNft(nft)} />
+                    <NFTFundModal setPickedNft={setPickedNft} />
                   </>
                 </div>
               ) : null}
@@ -385,13 +387,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
                     >
                       <div className='text-center whitespace-nowrap w-full'>
                         {account ? buttonText : 'Connect Wallet'}
-                      </div>
-                      <div>
-                        {approveTransferState != RESTING &&
-                        approveTransferState != SUCCESS &&
-                        approveTransferState != ERROR ? (
-                          <ButtonLoadingIcon />
-                        ) : null}
                       </div>
                     </button>
                   </ToolTipNew>

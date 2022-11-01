@@ -48,9 +48,9 @@ describe('BountyMetadata', () => {
     fundingGoalVolume: '0',
     payoutTokenVolume: '100',
     payoutTokenAddress: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
-    payoutSchedule: null,
+    payoutSchedule: ['20', '40', '40'],
     closerData: null,
-    bountyType: '1',
+    bountyType: '2',
     claimedTransactionHash: null,
     deposits: [
       {
@@ -152,7 +152,7 @@ describe('BountyMetadata', () => {
       expect(polygonscan).toBeInTheDocument();
       const prs = screen.getByText(/No linked pull/);
       expect(prs).toBeInTheDocument();
-
+      expect(screen.getByText(/Weighted Contest/));
       // should not have null or undefined values
       const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
       expect(nullish).toHaveLength(0);
