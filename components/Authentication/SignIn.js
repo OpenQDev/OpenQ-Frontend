@@ -1,11 +1,40 @@
 // Third party
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 // Custom
 import Image from 'next/image';
 
-const SignIn = ({ redirectUrl }) => {
+const SignIn = () => {
   const router = useRouter();
+
+  const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}`; //`${process.env.NEXT_PUBLIC_AUTH_URL}/checkAuth`;
+
+  useEffect(() => {
+    const handleRouteChange = async (url, { shallow }) => {
+      console.log(`App is changing to ${url} ${shallow ? 'with' : 'without'} shallow routing`);
+      //if (!url.includes('/user/github/')) {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/checkAuth`, { withCredentials: true });
+        const { githubId } = response.data;
+        console.log(response.data.githubId);
+        console.log(githubId);
+        githubId && router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/github/${githubId}`);
+        /* return { type: 'UPDATE_IS_AUTHENTICATED', payload: { isAuthenticated, avatarUrl, login, githubId } }; */
+      } catch (error) {
+        console.log(error);
+      }
+      //}
+    };
+
+    router.events.on('routeChangeStart', handleRouteChange);
+
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method:
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange);
+    };
+  }, []);
 
   const signIn = () => {
     const clientId = `client_id=${process.env.NEXT_PUBLIC_OPENQ_ID}`;
