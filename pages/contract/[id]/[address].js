@@ -24,7 +24,7 @@ import RepoTitle from '../../../components/Bounty/RepoTitle';
 import SubMenu from '../../../components/Utils/SubMenu';
 import BountyHeading from '../../../components/Bounty/BountyHeading';
 import BountyMetadata from '../../../components/Bounty/BountyMetadata';
-import Submissions from '../../../components/Bounty/Submissions.js';
+import Submissions from '../../../components/Submissions/Submissions';
 
 import Add from '../../../components/svg/add';
 import Subtract from '../../../components/svg/subtract';

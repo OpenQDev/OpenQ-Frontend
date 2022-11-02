@@ -38,7 +38,11 @@ const ModalDefault = ({ title, children, footerLeft, footerRight, setShowModal, 
             </button>
             <div className='py-2 px-4 border-b border-gray-700 text-2xl w-full h-[50px]'>{title}</div>
             <div className='py-2 px-4 w-full h-[220px] overflow-x-hidden overflow-y-auto'>{children}</div>
-            <div className='flex justify-end py-2 px-4 border-t border-gray-700 w-full h-[50px]'>
+            <div
+              className={`flex ${
+                footerLeft && footerRight ? 'justify-between' : 'justify-end'
+              }  py-2 px-4 border-t border-gray-700 w-full h-[50px]`}
+            >
               <div>{footerLeft}</div>
               <div>{footerRight}</div>
             </div>

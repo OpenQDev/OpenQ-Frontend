@@ -1,7 +1,7 @@
 import React from 'react';
 import WinnerSelect from './WinnerSelect';
 
-const SubmissionCardAdmin = ({ bounty }) => {
+const SubmissionCardAdmin = ({ bounty, pr }) => {
   const payoutAndIndex = bounty.payoutSchedule.map((payout, index) => {
     return {
       index,
@@ -23,11 +23,21 @@ const SubmissionCardAdmin = ({ bounty }) => {
       <h4 className='py-4 text-center w-full font-medium text-xl'>Select Winner</h4>
       <div className='flex w-full'>
         {evenPrizes.map((payout, index) => {
-          return <WinnerSelect numberOfPayouts={payoutAndIndex.length} prize={payout} key={index} />;
+          return (
+            <WinnerSelect pr={pr} bounty={bounty} numberOfPayouts={payoutAndIndex.length} prize={payout} key={index} />
+          );
         })}
-        <WinnerSelect numberOfPayouts={payoutAndIndex.length} prize={firstPrize} key={firstPrize.index} />
+        <WinnerSelect
+          pr={pr}
+          bounty={bounty}
+          numberOfPayouts={payoutAndIndex.length}
+          prize={firstPrize}
+          key={firstPrize.index}
+        />
         {oddPrizes.map((payout, index) => {
-          return <WinnerSelect numberOfPayouts={payoutAndIndex.length} prize={payout} key={index} />;
+          return (
+            <WinnerSelect pr={pr} bounty={bounty} numberOfPayouts={payoutAndIndex.length} prize={payout} key={index} />
+          );
         })}
       </div>
     </div>
