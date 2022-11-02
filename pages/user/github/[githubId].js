@@ -11,6 +11,8 @@ import logger from '../../../services/logger/Logger';
 import useAuth from '../../../hooks/useAuth';
 import StoreContext from '../../../store/Store/StoreContext';
 import useWeb3 from '../../../hooks/useWeb3';
+import ModalDefault from '../../../components/Utils/ModalDefault';
+import LoadingIcon from '../../../components/Loading/ButtonLoadingIcon';
 
 const account = ({ githubId, user, organizations, renderError }) => {
   // TODO => useAuth => only user can see connection and connect to different wallet
@@ -36,6 +38,8 @@ const account = ({ githubId, user, organizations, renderError }) => {
   const [starredOrganizations, setStarredOrganizations] = useState([]);
   const [watchedBounties, setwatchedBounties] = useState([]);
   const [relAccount, setRelAccount] = useState(account);
+  const [showModal, setShowModal] = useState(false);
+  const [state, setState] = useState();
 
   useEffect(async () => {
     const userOffChainData = await appState.openQPrismaClient.getUser(account);
@@ -70,28 +74,66 @@ const account = ({ githubId, user, organizations, renderError }) => {
     }
   }
 
+  async function associateAccounts() {
+    setShowModal(true);
+    setState('LOADING');
+  }
+
+  const statesFormat = {
+    LOADING: {
+      title: 'Associating Your Account...',
+      message: 'Your wallet address is being associated with your GitHub account...',
+      btn: { text: 'In Progress...', disabled: true, format: 'flex items-center btn-default cursor-not-allowed gap-2' },
+    },
+    CONFIRMED: {
+      title: 'Account Successfully Associated!',
+      message:
+        'Your wallet address and GitHub account were successfully associated! \nYou can now participate in Hackathons!',
+      btn: { text: 'Close', disabled: false, format: 'flex btn-default' },
+      clickAction: () => setShowModal(false),
+    },
+  };
+
+  const btn = showModal && (
+    <div>
+      <button
+        onClick={statesFormat[state].clickAction}
+        className={statesFormat[state].btn.format}
+        disabled={statesFormat[state].btn.disabled}
+      >
+        {statesFormat[state].btn.text}
+        {state == 'LOADING' && <LoadingIcon />}
+      </button>
+    </div>
+  );
+
   return (
-    <div className=' gap-4 justify-center pt-6'>
-      {user ? (
-        <div className='flex flex-col gap-4 px-8'>
-          <p>
-            You MUST sign up with Github in order to receive prize payouts in our seasonal hackathons! Funds will be
-            sent to the address you put here. You can change this at any time
-          </p>
-          <div className='flex gap-4'>
-            <input
-              className={'flex-1 input-field w-full'}
-              id='name'
-              placeholder='Enter your wallet address...'
-              autoComplete='off'
-              type='text'
-              defaultValue={account}
-              onChange={(e) => onInput(e)}
-            />
-            <button className='btn-primary'>Associate Ethereum Address to your Github {relAccount}</button>
-            {console.log(user)}
-          </div>
-          {/* <AboutFreelancer
+    <div>
+      {console.log(state)}
+      <div className='flex gap-4 justify-center items-center pt-6'>
+        {user ? (
+          <div className='flex flex-col gap-4 p-8 w-1/2'>
+            <div>
+              You MUST sign up with Github in order to receive prize payouts in our seasonal hackathons! Funds will be
+              sent to the address you put here. You can change this at any time.
+            </div>
+            <div className='flex gap-4'>
+              <div>Enter your wallet address:</div>
+              <input
+                className={'flex-1 input-field w-full'}
+                id='name'
+                placeholder='Enter your wallet address...'
+                autoComplete='off'
+                type='text'
+                defaultValue={account}
+                onChange={(e) => onInput(e)}
+              />
+            </div>
+            <button className='btn-primary' onClick={associateAccounts}>
+              Associate Ethereum Address to your Github {relAccount}
+            </button>
+            {console.log(showModal)}
+            {/* <AboutFreelancer
             showWatched={account === signedAccount}
             starredOrganizations={starredOrganizations}
             watchedBounties={watchedBounties}
@@ -99,9 +141,20 @@ const account = ({ githubId, user, organizations, renderError }) => {
             account={account}
             organizations={organizations}
           /> */}
-        </div>
-      ) : (
-        <UnexpectedErrorModal error={renderError} />
+          </div>
+        ) : (
+          <UnexpectedErrorModal error={renderError} />
+        )}
+      </div>
+      {showModal && (
+        <ModalDefault
+          title={statesFormat[state].title}
+          footerRight={btn}
+          setShowModal={setShowModal}
+          resetState={setState}
+        >
+          {statesFormat[state].message}
+        </ModalDefault>
       )}
     </div>
   );
