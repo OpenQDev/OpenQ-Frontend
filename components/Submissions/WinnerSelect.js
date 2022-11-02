@@ -23,7 +23,7 @@ const WinnerSelect = ({ prize, bounty, numberOfPayouts, pr }) => {
         library,
         bounty.bountyAddress,
         author,
-        pr.source.url,
+        pr.url,
         tierIndex
       );
       if (transaction) {
@@ -101,8 +101,8 @@ const WinnerSelect = ({ prize, bounty, numberOfPayouts, pr }) => {
             <>
               <p className='my-2'>
                 You are about to select{' '}
-                <a href={pr.source.url} className='underline'>
-                  {pr.source.title}
+                <a href={pr.url} className='underline'>
+                  {pr.title}
                 </a>{' '}
                 as {suffixed} place for the{' '}
                 <a className='underline' href={bounty.url}>
@@ -127,7 +127,7 @@ const WinnerSelect = ({ prize, bounty, numberOfPayouts, pr }) => {
               <p className='my-2'>
                 {prize.payout}
                 {bounty.bountyType === '2' ? '% of funds' : unit} staked on this competition have been sent to{' '}
-                {pr.source.author.name || pr.source.author.login} at {author.slice(0, 4)}...{author.slice(0, 4)} .
+                {pr.author.name || pr.author.login} at {author.slice(0, 4)}...{author.slice(0, 4)} .
               </p>
             </>
           )}

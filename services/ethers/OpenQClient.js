@@ -212,7 +212,6 @@ class OpenQClient {
 
   async setPayoutScheduleFixed(library, _bountyId, _payoutSchedule, payoutTokenAddress) {
     const promise = new Promise(async (resolve, reject) => {
-      console.log(_payoutSchedule);
       const signer = library.getSigner();
       const contract = this.OpenQ(signer);
       try {
@@ -415,10 +414,9 @@ class OpenQClient {
 
   async claimBounty(library, _bountyAddress /* _closer, _claimantAsset, tier*/) {
     return new Promise(async (resolve, reject) => {
-      const signer = library.getSigner();
+      //  const signer = library.getSigner();
 
-      const contract = this.ClaimManager(signer);
-      console.log(contract);
+      //const contract = this.ClaimManager(signer);
       try {
         /*
         let abiCoder = new ethers.utils.AbiCoder();

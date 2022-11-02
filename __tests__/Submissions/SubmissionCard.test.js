@@ -56,6 +56,7 @@ describe('SubmissionCard', () => {
               __typename: 'GitActor',
               avatarUrl: 'https://avatars.githubusercontent.com/u/93455288?v=4',
               name: 'FlacoJones',
+              url: 'http://localhost:3000/showcase',
               user: { __typename: 'User', login: 'FlacoJones', url: 'https://github.com/FlacoJones' },
             },
           },
@@ -165,11 +166,13 @@ describe('SubmissionCard', () => {
 
   it('should render 0 in SubmissionCard', async () => {
     // ARRANGE
-    render(<SubmissionCard bounty={bounty} pr={bounty.prs[0]} />);
+    render(<SubmissionCard bounty={bounty} pr={bounty.prs[0].source} />);
 
     // ASSERT
     expect(screen.getByText(/Update README.md/)).toBeInTheDocument();
-    expect(screen.getByRole('link').href).toEqual('https://github.com/OpenQDev/OpenQ-TestRepo/pull/138');
+    const links = screen.getAllByRole('link');
+    expect(links[0].href).toEqual('http://localhost/showcase/undefined');
+    expect(links[1].href).toEqual('https://github.com/FlacoJones');
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);

@@ -169,7 +169,9 @@ describe('WinnerSelect', () => {
   it('should render 0 in WinnerSelect', async () => {
     // ARRANGE
     const user = await userEvent.setup();
-    render(<WinnerSelect bounty={bounty} pr={bounty.prs[0]} numberOfPayouts='3' prize={{ index: 0, payout: 3 }} />);
+    render(
+      <WinnerSelect bounty={bounty} pr={bounty.prs[0].source} numberOfPayouts='3' prize={{ index: 0, payout: 3 }} />
+    );
 
     // ASSERT
     const bar = screen.getByTestId(/winnerSelect/);

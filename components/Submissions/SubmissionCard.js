@@ -7,18 +7,8 @@ import useWeb3 from '../../hooks/useWeb3';
 
 const SubmissionCard = ({ pr, bounty }) => {
   const { account } = useWeb3();
-  const admin = bounty.issuer.id === account.toLowerCase();
-  const { source } = pr;
-  const author = source.author;
-  /*div className='border border-web-gray h-96 p-4 text-lg'>
-      <h3 className='text-2xl font-bold text-muted'>{source.title}</h3>
-      <h3>{source.author.name || source.author.login}</h3>
-      <h3>{source.bodyText}</h3>
-      <a href={source.url} className='underline'>
-        {source.author.name || source.author.login}
-      </a>
-      {admin && <SubmissionCardAdmin />}
-    </div>*/
+  const admin = bounty && bounty?.issuer?.id === account?.toLowerCase();
+  const author = pr.author;
   return (
     <div className={`min-w-[300px] w-60  border rounded-sm border-border-gray bg-menu-bg`}>
       <div
@@ -46,14 +36,25 @@ const SubmissionCard = ({ pr, bounty }) => {
             )}
           </div>
         </div>
-        <div className='pt-5 text-center w-full font-medium text-xl '>{source.title}</div>
-        <div className='text-center pt-2 text-gray-400 w-full'>By {source.author.name || source.author.login}</div>
-
-        <div className=' pt-2 text-gray-400 w-full'>
-          {source.body.slice(0, 100)}
-          ...
+        <Link href={`/showcase/${pr.id}`}>
+          <a className='w-full'>
+            <div className='pt-5 text-center underline w-full font-medium text-xl truncate'>{pr.title}</div>
+          </a>
+        </Link>
+        <div className='text-center pt-2 text-gray-400 w-full'>
+          By{' '}
+          <Link href={pr.author.url || '/showcase'}>
+            <a href={pr.author.url} className='underline cursor-pointer'>
+              {pr.author.name || pr.author.login}
+            </a>
+          </Link>
         </div>
-        <Link href={source.url}>
+
+        <div className=' pt-2 text-gray-400 h-20 w-full'>
+          {pr.body.slice(0, 100)}
+          {pr.body && '...'}
+        </div>
+        <Link href={pr.url}>
           <a target='_blank' className='pt-4 cursor-pointer' rel='noreferrer'>
             <div id={'github-link'}>
               <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='white'>
