@@ -22,11 +22,11 @@ const SignIn = () => {
       }
       //}
     };
-    router.events.on('routeChangeStart', handleRouteChange);
+    router.events.on('routeChangeComplete', handleRouteChange);
     // If the component is unmounted, unsubscribe
     // from the event with the `off` method:
     return () => {
-      router.events.off('routeChangeStart', handleRouteChange);
+      router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, []);
 
