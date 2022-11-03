@@ -44,7 +44,7 @@ const account = ({ githubId, user /* , organizations */, renderError }) => {
         `${process.env.NEXT_PUBLIC_ORACLE_URL}/associateUserIdToAddress`,
         {
           userId: githubId,
-          userAddress: relAccount,
+          userAddress: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
         },
         { withCredentials: true }
       )
