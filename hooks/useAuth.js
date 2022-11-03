@@ -40,6 +40,7 @@ const useAuth = () => {
                 isAuthenticated: res.data.isAuthenticated,
                 avatarUrl: res.data.avatarUrl,
                 login: res.data.login,
+                githubId: res.data.githubId,
               },
             });
           }

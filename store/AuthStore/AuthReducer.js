@@ -12,6 +12,7 @@ const AuthReducer = (state, action) => {
         login: action.payload.login,
         isAuthenticated: action.payload.isAuthenticated,
         avatarUrl: action.payload.avatarUrl,
+        githubId: action.payload.githubId,
       };
     case 'LOGOUT':
       return {
