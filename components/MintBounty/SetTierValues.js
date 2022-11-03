@@ -26,6 +26,13 @@ const SetTierValues = ({
   const [fixedTierVolumes, setFixedTierVolumes] = useState(newFixedVolumes);
   const [toggleVal, setToggleVal] = useState('Visual');
 
+  useEffect(() => {
+    const newFixedVolumes = {};
+    for (const index in tierArr) {
+      newFixedVolumes[parseInt(index) + 1] = 1;
+    }
+    setFixedTierVolumes(newFixedVolumes);
+  }, [tierArr]);
   function onFixedTierChange(e, localTierVolumes) {
     if (parseInt(e.target.value) >= 0) {
       setFixedTierVolumes({

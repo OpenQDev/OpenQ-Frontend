@@ -2415,6 +2415,11 @@
 			}
 		}
 	],
+	"githubPrs": {"repository":{"pullRequests":{"nodes":[
+{"__typename":"PullRequest","id":"MDExOlB1bGxSZXF1ZXN0NTYzMjY0ODkw","bodyText":"","body":"","title":"Refactored Oracles","url":"https://github.com/OpenQDev/OpenQ-Contracts/pull/1","author":{"__typename":"User","url":"https://github.com/0xSachinK","login":"0xSachinK","avatarUrl":"https://avatars.githubusercontent.com/u/73331595?u=ab23f1fb829a2e840a1f377757d62612e72c9d59&v=4"},"repository":{"__typename":"Repository","owner":{"__typename":"Organization","avatarUrl":"https://avatars.githubusercontent.com/u/77402538?v=4"}}},
+	{"__typename":"PullRequest","id":"MDExOlB1bGxSZXF1ZXN0NTk0OTY1OTgx","bodyText":"This is intended to cover:\n#4\n#5\nThings to consder:\n\nDo we want to explicitly disable the allowance (approval) related functions inherited from ERC20? (Probably)\nWhere are we storing the list of Tokens created? In the factory or a separate contract?\nWhere is the mapping to the org/repo stored?\n\nTO DO:\n\n Add appropriate events to track token creation\n implement balanceOfAt(uint256 blocknumber)","body":"This is intended to cover: \r\n#4 \r\n#5 \r\n\r\nThings to consder:\r\n\r\n- Do we want to explicitly disable the allowance (approval) related functions inherited from ERC20? (Probably)\r\n- Where are we storing the list of Tokens created? In the factory or a separate contract?\r\n- Where is the mapping to the org/repo stored?\r\n\r\nTO DO:\r\n\r\n- [ ] Add appropriate events to track token creation\r\n- [ ] implement `balanceOfAt(uint256 blocknumber)`","title":"Add implementation for governance token template and token factory","url":"https://github.com/OpenQDev/OpenQ-Contracts/pull/8","author":{"__typename":"User","url":"https://github.com/JasperTimm","login":"JasperTimm","avatarUrl":"https://avatars.githubusercontent.com/u/4495499?v=4"},"repository":{"__typename":"Repository","owner":{"__typename":"Organization","avatarUrl":"https://avatars.githubusercontent.com/u/77402538?v=4"}}}
+	
+	]}}},
 	"watchedBounties": {
 		"bounties": [
 			{

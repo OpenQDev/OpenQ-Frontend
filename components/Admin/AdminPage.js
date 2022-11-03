@@ -121,7 +121,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 
     // removes final tier volumes
     const newFinalTierVolumes = newTierArr.map((tier) => {
-      return finalTierVolumes[tier];
+      return finalTierVolumes[tier] || 1;
     });
     setFinalTierVolumes(newFinalTierVolumes);
   }

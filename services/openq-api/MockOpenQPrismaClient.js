@@ -137,6 +137,13 @@ class OpenQPrismaClient {
 		return promise;
 	}
 
+	async getPr(){
+		const promise = new Promise(async (resolve, reject) => {
+			return {pr: null}
+		});
+		return promise;
+		}
+
 	async unWatchBounty(contractAddress, userAddress) {
 		const promise = new Promise(async (resolve, reject) => {
 			axios.get(`http://localhost:3030/tokenPrice`)

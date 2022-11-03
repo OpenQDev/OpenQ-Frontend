@@ -13,6 +13,34 @@ export const GET_LEAN_ISSUES_BY_ID = gql`
   }
 `;
 
+export const GET_PRS = gql`
+  query getPrs($owner: String!, $name: String!) {
+    repository(owner: $owner, name: $name) {
+      name
+      pullRequests(first: 100) {
+        nodes {
+          id
+          bodyText
+          body
+          title
+          url
+          author {
+            url
+
+            login
+            avatarUrl
+          }
+          repository {
+            owner {
+              avatarUrl
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const GET_ISSUE = gql`
   query GetIssue($issueUrl: URI!) {
     resource(url: $issueUrl) {
@@ -248,6 +276,9 @@ export const GET_ISSUE_BY_ID = gql`
                   mergedAt
                   url
                   merged
+                  bodyText
+                  body
+                  bodyHTML
                   title
                   author {
                     login

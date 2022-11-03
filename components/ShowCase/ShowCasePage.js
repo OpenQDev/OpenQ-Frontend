@@ -3,11 +3,10 @@ import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 import Image from 'next/image';
 import Link from 'next/link';
-import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import useAuth from '../../hooks/useAuth';
 import useWeb3 from '../../hooks/useWeb3';
 
-const ShowCasePage = ({ pr, bounty }) => {
+const ShowCasePage = ({ pr }) => {
   const [authState] = useAuth();
   const { avatarUrl } = authState;
   const { isAddress } = ethers.utils;
@@ -18,9 +17,9 @@ const ShowCasePage = ({ pr, bounty }) => {
   const [userId, setUserId] = useState();
   const [appState] = useContext(StoreContext);
   const { account } = useWeb3();
-  const openContributorForm = () => {
+  /*const openContributorForm = () => {
     setShowForm(!showForm);
-  };
+  };*/
   const getOffChainData = async () => {
     const result = await appState.openQPrismaClient.getPr(pr.id);
     if (result.pr) {
@@ -105,24 +104,19 @@ const ShowCasePage = ({ pr, bounty }) => {
   };
 
   return (
-    <div className='m-auto pt-8 w-3/4'>
-      <h1 className='text-4xl text-tinted font-bold'>{pr.title}</h1>
+    <div className='m-auto w-3/4'>
+      <h1 className='lsm:text-[32px] text-4xl pt-16 pb-8 flex-1 leading-tight min-w-[240px] pr-20'>{pr.title}</h1>
       <Link href={pr.url}>
-        <a className='text-tinted font-bold underline'>View Source</a>
+        <a className='text-tinted underline'>View Source</a>
       </Link>
       <div className='pt-8 text-lg'>
         {' '}
         <div className='markdown-body' dangerouslySetInnerHTML={{ __html: pr.bodyHTML }}></div>
-        {bounty.closer?.id?.length === 42 && (
-          <>
-            Payed to <CopyAddressToClipboard clipping={[5, 38]} data={bounty.closer.id} />
-          </>
-        )}
       </div>
 
       <h3 className='flex gap-2 items-center'>
-        <span className='py-1 text-xl font-bold text-tinted'>Contributors</span>{' '}
-        {!showForm && isAuthor ? (
+        <span className='py-1 text-xl pt-8 text-primary'>Contributors</span>{' '}
+        {/*    {!showForm && isAuthor ? (
           <button onClick={openContributorForm}>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -138,7 +132,7 @@ const ShowCasePage = ({ pr, bounty }) => {
               />
             </svg>
           </button>
-        ) : null}
+        ) : null}*/}
       </h3>
       {showForm && (
         <div className='my-2'>
@@ -194,39 +188,38 @@ const ShowCasePage = ({ pr, bounty }) => {
         </div>
       )}
       <div className='py-2'>
-        <div className='flex gap-2 h-6 text-tinted'>
+        <div className='flex gap-2 h-6 text-primary'>
           <Link href={pr.author.url}>
             <a>
               <Image className='rounded-lg' src={pr.author.avatarUrl} height={'32px'} width={'32'} />
             </a>
           </Link>
-          <div className='text-xl font-bold'>{pr.author.login}</div>
-          <Link href={'https://twitter.com/${pr.author.twitterUsername}'}>
+          <div className='text-xl '>{pr.author.login}</div>
+          <Link href={`https://twitter.com/${pr.author.twitterUsername}`}>
             <a>
-              <Image width={32} height={32} src={'/social-icons/twitter.svg'} />
+              <Image width={24} height={24} src={'/social-icons/twitter.svg'} />
             </a>
           </Link>
         </div>
       </div>
       {contributorData.map((contributor, index) => {
         return (
-          <div className='py-2 text-tinted' key={index}>
+          <div className='py-2 text-primary' key={index}>
             <div className='flex gap-2 h-6'>
               <Link href={contributor.url}>
                 <a>
                   <Image className='rounded-lg' src={contributor.avatarUrl} height={'32px'} width={'32'} />
                 </a>
               </Link>
-
-              <div className='text-xl font-bold'>{contributor.login}</div>
+              <div className='text-xl '>{contributor.login}</div>
+              {contributor.twitterUsername}
               {contributor.twitterUsername && (
                 <Link href={`https://twitter.com/${contributor.twitterUsername}`}>
-                  <a>
-                    <Image width={32} height={32} src={'/social-icons/twitter.svg'} />
+                  <a target='_blank' rel='noopener norefferer'>
+                    <Image width={24} height={24} src={'/social-icons/twitter.svg'} />
                   </a>
                 </Link>
               )}
-
               {isAuthor && (
                 <button className='mt-1' value={contributor.id} onClick={removeContributor}>
                   <svg
@@ -245,7 +238,6 @@ const ShowCasePage = ({ pr, bounty }) => {
                 </button>
               )}
             </div>
-            {bounty.closer?.id?.length === 42 && <CopyAddressToClipboard clipping={[5, 38]} data={bounty.closer.id} />}
           </div>
         );
       })}

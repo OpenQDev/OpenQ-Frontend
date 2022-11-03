@@ -15,6 +15,7 @@ import {
   GET_USERS_BY_IDS,
   GET_ORGS_OR_USERS_BY_IDS,
   GET_LEAN_ISSUES_BY_ID,
+  GET_PRS,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 import { setContext } from '@apollo/client/link/context';
@@ -63,6 +64,23 @@ class GithubRepository {
     });
 
     return promise;
+  }
+
+  async getPrs(owner, name) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_PRS,
+          variables: {
+            owner,
+            name,
+          },
+        });
+        resolve(result);
+      } catch (err) {
+        reject(err);
+      }
+    });
   }
 
   parseIssueData(rawIssueResponse, reject) {

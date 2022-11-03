@@ -147,6 +147,19 @@ class MockOpenQClient {
 		return promise;
 	}
 
+	  async claimBounty(library, _bountyAddress /* _closer, _claimantAsset, tier*/) {
+    return new Promise(async (resolve, reject) => {
+  
+      try {
+    
+        setTimeout(() => resolve({ transactionHash: _bountyAddress }), 2000);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    });
+  }
+
 	
 	async userOwnedTokenBalances(library, _callerAddress, tokens) {
 		const promise = new Promise(async (resolve) => {

@@ -156,7 +156,6 @@ class MockOpenQSubgraphClient {
           query: GET_CORE_VALUE_METRICS_CURRENT,
           variables: { currentTimestamp },
         });
-        console.log(result.data);
         currentDeposits = result.data.deposits;
         currentClaims = result.data.payouts;
         totalBalances = result.data.bountyFundedTokenBalances;
@@ -169,7 +168,6 @@ class MockOpenQSubgraphClient {
           query: GET_CORE_VALUE_METRICS_HISTORIC,
           variables: { currentTimestamp, previousTimestamp },
         });
-        console.log(result.data);
         previousDeposits = result.data.deposits;
         previousClaims = result.data.payouts;
       } catch (err) {
