@@ -1,94 +1,106 @@
 // Third party
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import { ethers } from 'ethers';
+import axios from 'axios';
+import confetti from 'canvas-confetti';
 
 // Custom
-import AboutFreelancer from '../../../components/User/AboutFreelancer';
 import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
-// import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import logger from '../../../services/logger/Logger';
-import useAuth from '../../../hooks/useAuth';
 import StoreContext from '../../../store/Store/StoreContext';
 import useWeb3 from '../../../hooks/useWeb3';
 import ModalDefault from '../../../components/Utils/ModalDefault';
 import LoadingIcon from '../../../components/Loading/ButtonLoadingIcon';
 
-const account = ({ githubId, user, organizations, renderError }) => {
+const account = ({ githubId, user /* , organizations */, renderError }) => {
   // TODO => useAuth => only user can see connection and connect to different wallet
-  /* const [authState] = useAuth();
-  console.log(authState.githubId);
-  return (
-    <div className=' md:grid grid-cols-wide gap-4 justify-center col-start-2 pt-12'>
-      {githubId ? (
-        <section className='min-h-card rounded-lg shadow-sm col-start-2 md:border border-web-gray'>
-          It works. Or does it? {account} {authState.githubId} {authState.login}
-          {console.log(authState)}
-        </section>
-      ) : (
-        <UnexpectedErrorModal error={renderError} />
-      )}
-    </div>
-  ); */
 
-  const [authState] = useAuth();
-  const { account } = useWeb3();
-  const { signedAccount } = authState;
-  const [appState] = useContext(StoreContext);
-  const [starredOrganizations, setStarredOrganizations] = useState([]);
-  const [watchedBounties, setwatchedBounties] = useState([]);
+  // const [authState] = useAuth();
+  const { account, library } = useWeb3();
+  const [appState, dispatch] = useContext(StoreContext);
+  const { logger } = appState;
   const [relAccount, setRelAccount] = useState(account);
   const [showModal, setShowModal] = useState(false);
-  const [state, setState] = useState();
-
-  useEffect(async () => {
-    const userOffChainData = await appState.openQPrismaClient.getUser(account);
-    let starredOrganizations = [];
-    setwatchedBounties(userOffChainData?.watchedBounties.nodes);
-    //get starred organizations.
-    try {
-      if (userOffChainData) {
-        const subgraphOrgs = await appState.openQSubgraphClient.getOrganizationsByIds(
-          userOffChainData.starredOrganizationIds
-        );
-        const githubOrgIds = subgraphOrgs.map((bounty) => bounty.id);
-        const githubOrganizations = await appState.githubRepository.fetchOrganizationsByIds(githubOrgIds);
-        starredOrganizations = githubOrganizations.map((organization) => {
-          const subgraphOrg = subgraphOrgs.find((org) => {
-            return org.id === organization.id;
-          });
-
-          return { ...organization, ...subgraphOrg, starred: true };
-        });
-        setStarredOrganizations(starredOrganizations);
-      }
-    } catch (err) {
-      appState.logger.error(err);
-    }
-  }, []);
+  const [associateState, setAssociateState] = useState();
+  const [transactionHash, setTransactionHash] = useState(null);
+  const canvas = useRef();
+  const [error, setError] = useState('');
 
   function onInput(e) {
     if (ethers.utils.isAddress(e.target.value)) {
       const checkSummedAddress = ethers.utils.getAddress(e.target.value);
       setRelAccount(checkSummedAddress);
+    } else {
+      alert('address not valid');
     }
   }
 
-  async function associateAccounts() {
+  const associateExternalIdToAddress = async () => {
+    setAssociateState('TRANSACTION_SUBMITTED');
     setShowModal(true);
-    setState('LOADING');
-  }
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_ORACLE_URL}/associateUserIdToAddress`,
+        {
+          userId: githubId,
+          userAddress: relAccount,
+        },
+        { withCredentials: true }
+      )
+      .then(async (result) => {
+        const { txnHash } = result.data;
+        // Upon this return, the associateExternalIdToAddress transaction has been submitted
+        setTransactionHash(txnHash);
+        await library.waitForTransaction(txnHash);
+        setAssociateState('TRANSACTION_CONFIRMED');
+
+        const payload = {
+          type: 'UPDATE_RELOAD',
+          payload: true,
+        };
+
+        dispatch(payload);
+
+        canvas.current.width = window.innerWidth;
+        canvas.current.height = window.innerHeight;
+
+        const canvasConfetti = confetti.create(canvas.current, {
+          resize: true,
+          useWorker: true,
+        });
+        canvasConfetti({
+          particleCount: 50,
+          spread: window.innerWidth,
+          origin: {
+            x: 1,
+            y: 0,
+          },
+        });
+      })
+      .catch((err) => {
+        logger.error(err, account, githubId);
+        setAssociateState('ERROR');
+        setError({ message: err.response.data.errorMessage, title: 'Error' });
+      });
+  };
 
   const statesFormat = {
-    LOADING: {
+    TRANSACTION_SUBMITTED: {
       title: 'Associating Your Account...',
       message: 'Your wallet address is being associated with your GitHub account...',
       btn: { text: 'In Progress...', disabled: true, format: 'flex items-center btn-default cursor-not-allowed gap-2' },
     },
-    CONFIRMED: {
+    TRANSACTION_CONFIRMED: {
       title: 'Account Successfully Associated!',
       message:
         'Your wallet address and GitHub account were successfully associated! \nYou can now participate in Hackathons!',
+      btn: { text: 'Close', disabled: false, format: 'flex btn-default' },
+      clickAction: () => setShowModal(false),
+    },
+    ERROR: {
+      title: error.title,
+      message: error.message,
       btn: { text: 'Close', disabled: false, format: 'flex btn-default' },
       clickAction: () => setShowModal(false),
     },
@@ -97,19 +109,18 @@ const account = ({ githubId, user, organizations, renderError }) => {
   const btn = showModal && (
     <div>
       <button
-        onClick={statesFormat[state].clickAction}
-        className={statesFormat[state].btn.format}
-        disabled={statesFormat[state].btn.disabled}
+        onClick={statesFormat[associateState].clickAction}
+        className={statesFormat[associateState].btn.format}
+        disabled={statesFormat[associateState].btn.disabled}
       >
-        {statesFormat[state].btn.text}
-        {state == 'LOADING' && <LoadingIcon />}
+        {statesFormat[associateState].btn.text}
+        {associateState == 'TRANSACTION_SUBMITTED' && <LoadingIcon />}
       </button>
     </div>
   );
 
   return (
     <div>
-      {console.log(state)}
       <div className='flex gap-4 justify-center items-center pt-6'>
         {user ? (
           <div className='flex flex-col gap-4 p-8 w-1/2'>
@@ -129,18 +140,9 @@ const account = ({ githubId, user, organizations, renderError }) => {
                 onChange={(e) => onInput(e)}
               />
             </div>
-            <button className='btn-primary' onClick={associateAccounts}>
-              Associate Ethereum Address to your Github {relAccount}
+            <button className='btn-primary' onClick={associateExternalIdToAddress}>
+              Associate Ethereum Address to your Github
             </button>
-            {console.log(showModal)}
-            {/* <AboutFreelancer
-            showWatched={account === signedAccount}
-            starredOrganizations={starredOrganizations}
-            watchedBounties={watchedBounties}
-            user={user}
-            account={account}
-            organizations={organizations}
-          /> */}
           </div>
         ) : (
           <UnexpectedErrorModal error={renderError} />
@@ -148,12 +150,13 @@ const account = ({ githubId, user, organizations, renderError }) => {
       </div>
       {showModal && (
         <ModalDefault
-          title={statesFormat[state].title}
+          title={statesFormat[associateState].title}
           footerRight={btn}
           setShowModal={setShowModal}
-          resetState={setState}
+          resetState={setAssociateState}
         >
-          {statesFormat[state].message}
+          {statesFormat[associateState].message}
+          {transactionHash}
         </ModalDefault>
       )}
     </div>

@@ -15,7 +15,6 @@ const SignIn = () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/checkAuth`, { withCredentials: true });
         const { githubId } = response.data;
-        console.log(response.data.githubId);
         console.log(githubId);
         githubId && router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/github/${githubId}`);
       } catch (error) {
