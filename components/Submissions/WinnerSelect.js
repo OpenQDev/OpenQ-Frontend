@@ -24,7 +24,8 @@ const WinnerSelect = ({ prize, bounty, numberOfPayouts, pr }) => {
         bounty.bountyAddress,
         author,
         pr.url,
-        tierIndex
+        tierIndex,
+        account
       );
       if (transaction) {
         setSelectionState(SUCCESS);
@@ -65,8 +66,16 @@ const WinnerSelect = ({ prize, bounty, numberOfPayouts, pr }) => {
         Confirm
       </button>
     ),
-    TRANSFERRING: <button className='btn-default'>Close</button>,
-    SUCCESS: <button className='btn-default'>Close</button>,
+    TRANSFERRING: (
+      <button onClick={() => resetState()} className='btn-default'>
+        Close
+      </button>
+    ),
+    SUCCESS: (
+      <button onClick={() => resetState()} className='btn-default'>
+        Close
+      </button>
+    ),
   };
   const modalTitle = {
     CONFIRM: `Choosing ${suffixed} Place`,

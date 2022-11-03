@@ -412,23 +412,35 @@ class OpenQClient {
     return promise;
   }
 
-  async claimBounty(library, _bountyAddress /* _closer, _claimantAsset, tier*/) {
+  async claimBounty(library, _bountyAddress, _closer, _claimantAsset, tier, account) {
     return new Promise(async (resolve, reject) => {
-      //  const signer = library.getSigner();
-
-      //const contract = this.ClaimManager(signer);
+      const signer = library.getSigner();
+      const winner = 'Christopher-Stevers';
+      const bountyAddress = ethers.utils.getAddress(_bountyAddress);
+      console.log(process.env.NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS, 'address');
+      const contract = new ethers.Contract(
+        process.env.NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS,
+        ClaimManagerAbi.abi,
+        signer
+      );
+      let abiCoder = new ethers.utils.AbiCoder();
+      console.log(bountyAddress, winner, account, _claimantAsset, 1);
+      //0xBcC58fb72409BA1CdEc5dBcDD3Cd6c42E3e04242 Christopher-Stevers 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 https://github.com/OpenQDev/OpenQ-TestRepo/pull/689 1
       try {
-        /*
-        let abiCoder = new ethers.utils.AbiCoder();
-        const _closerData = abiCoder.encode(
+        let closerData = abiCoder.encode(
           ['address', 'string', 'address', 'string', 'uint256'],
-          [_bountyAddress, _closer, _closer, _claimantAsset, tier]
+          [bountyAddress, winner, account, _claimantAsset, 1]
         );
-        let txnResponse = await contract.directClaimTieredBounty(_bountyAddress, _closer, _closerData);
+        console.log(bountyAddress, winner);
+        //0xBcC58fb72409BA1CdEc5dBcDD3Cd6c42E3e04242 Christopher-Stevers
+        await contract.directClaimTieredBounty(bountyAddress, winner, closerData);
+
+        let txnResponse = await contract.directClaimTieredBounty(bountyAddress, winner, closerData);
+
         let txnReceipt = await txnResponse.wait();
         resolve(txnReceipt);
-        */
-        setTimeout(() => resolve({ transactionHash: _bountyAddress }), 2000);
+
+        //  setTimeout(() => resolve({ transactionHash: _bountyAddress }), 2000);
       } catch (error) {
         console.log(error);
         reject(error);
