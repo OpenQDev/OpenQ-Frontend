@@ -1,5 +1,5 @@
 // Third party
-import React, { useState, useContext, useMemo } from 'react';
+import React, { useState, useContext, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import Skeleton from 'react-loading-skeleton';
 import BountyCardDetailsModal from './BountyCardDetailsModal';
@@ -44,6 +44,14 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 
   const [authState] = useAuth();
   const marker = appState.utils.getBountyMarker(bounty, authState.login);
+  useEffect(() => {
+    if (isModal) {
+      document.body.classList.add('invisible-scrollbar');
+    } else {
+      document.body.style.height = 'auto';
+      document.body.style.overflowY = 'auto';
+    }
+  }, [isModal]);
   const bountyTypeName = appState.utils.getBountyTypeName(bounty);
 
   const closeModal = () => {
@@ -160,7 +168,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                 <span>{watchingUsers}</span>
               </span>
 
-              <span>Assigned to {bounty.assignees[0]?.name || bounty.assignees[0]?.login || 'no one.'}</span>
+              <span>Assigned to {bounty.assignees[0]?.name || 'no one.'}</span>
               {bounty.assignees[0]?.avatarUrl && (
                 <Image height={24} width={24} className='rounded-full pt-1' src={bounty.assignees[0]?.avatarUrl} />
               )}
