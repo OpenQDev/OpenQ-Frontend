@@ -5,6 +5,7 @@ import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import { RESTING, CONFIRM, TRANSFERRING, SUCCESS, ERROR } from '../FundBounty/ApproveFundState';
 import ToolTip from '../Utils/ToolTipNew';
 import ModalDefault from '../Utils/ModalDefault';
+import { ethers } from 'ethers';
 
 const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr }) => {
   const [showModal, setShowModal] = useState();
@@ -16,13 +17,15 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr }) => 
   const [user, setUser] = useState({});
   const [closer, setCloser] = useState('');
   const [error, setError] = useState({});
+  const zeroAddress = '0x0000000000000000000000000000000000000000';
   let unit;
   useEffect(async () => {
     const userId = pr.author.id;
     if (library) {
       const closer = await appState.openQClient.getAddressById(library, userId);
-
-      setCloser(closer);
+      if (ethers.utils.isAddress(closer) && closer !== zeroAddress) {
+        setCloser(closer);
+      }
     }
     setUser({ id: pr.author.id, login: pr.author.login });
   }, [library, pr]);
@@ -84,11 +87,16 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr }) => 
   const confirmBtn = {
     CONFIRM: (
       <ToolTip
+        innerStyles={'  whitespace-pre-wrap'}
+        relativePosition={'-right-4 w-32 md:right:auto md:w-60'}
         hideToolTip={closer}
-        disabled={!closer}
         toolTipText='User has not registered their github with a wallet address, please have them register a wallet address before paying out.'
       >
-        <button className={closer ? 'btn-primary' : 'btn-default'} onClick={claimBounty}>
+        <button
+          disabled={!closer}
+          className={closer ? 'btn-primary' : 'btn-default cursor-not-allowed'}
+          onClick={claimBounty}
+        >
           Confirm
         </button>
       </ToolTip>

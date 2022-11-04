@@ -451,8 +451,8 @@ class OpenQClient {
       const contract = this.OpenQ(signer);
 
       try {
-        const userId = await contract.externalUserIdToAddress(externalUserId);
-        resolve(userId);
+        const userAddress = await contract.externalUserIdToAddress(externalUserId);
+        resolve(userAddress);
       } catch (error) {
         reject(error);
       }
