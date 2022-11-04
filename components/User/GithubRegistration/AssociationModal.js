@@ -6,10 +6,12 @@ import confetti from 'canvas-confetti';
 
 // Custom
 import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
+import useAuth from '../../../hooks/useAuth';
 import StoreContext from '../../../store/Store/StoreContext';
 import useWeb3 from '../../../hooks/useWeb3';
 import ModalDefault from '../../../components/Utils/ModalDefault';
 import LoadingIcon from '../../../components/Loading/ButtonLoadingIcon';
+import ToolTipNew from '../../Utils/ToolTipNew';
 const AssociationModal = ({ githubId, user /* , organizations */, renderError }) => {
   const { account, library } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
@@ -18,20 +20,23 @@ const AssociationModal = ({ githubId, user /* , organizations */, renderError })
   const [showModal, setShowModal] = useState(false);
   const [associateState, setAssociateState] = useState();
   const [transactionHash, setTransactionHash] = useState(null);
+  const [enableLink, setEnableLink] = useState();
   const canvas = useRef();
   const [error, setError] = useState('');
+  const [authState] = useAuth();
 
-  function onInput(e) {
+  const onInput = (e) => {
+    setRelAccount(e.target.value);
     if (ethers.utils.isAddress(e.target.value)) {
-      const checkSummedAddress = ethers.utils.getAddress(e.target.value);
-      setRelAccount(checkSummedAddress);
+      setEnableLink(true);
     } else {
-      alert('address not valid');
+      setEnableLink();
     }
-  }
+  };
   useEffect(() => {
-    if (account) {
+    if (ethers.utils.isAddress(account)) {
       setRelAccount(ethers.utils.getAddress(account));
+      setEnableLink(true);
     }
   }, [account]);
 
@@ -97,8 +102,11 @@ const AssociationModal = ({ githubId, user /* , organizations */, renderError })
     },
     TRANSACTION_CONFIRMED: {
       title: 'Account Successfully Associated!',
-      message:
-        'Your wallet address and GitHub account were successfully associated! \nYou can now participate in Hackathons!',
+      message: `Your wallet address(${appState.utils.shortenAddress(
+        relAccount
+      )}) and GitHub account were successfully associated! 
+      
+      \nYou can now participate in Hackathons!`,
       btn: { text: 'Close', disabled: false, format: 'flex btn-default' },
       clickAction: () => setShowModal(false),
     },
@@ -129,11 +137,15 @@ const AssociationModal = ({ githubId, user /* , organizations */, renderError })
       <div className='flex gap-4 justify-center items-center pt-6'>
         {user ? (
           <div className='flex flex-col gap-4 p-8 w-1/2'>
-            <div>
-              You MUST sign up with Github in order to receive prize payouts in our seasonal hackathons! Funds will be
-              sent to the address you put here. You can change this at any time.
-            </div>
-            <div className='flex gap-4'>
+            {!authState.isAuthenticated ? (
+              <div className=' col-span-3 border border-gray-700 bg-[#21262d] rounded-sm p-4'>
+                We noticed you are not signed in with Github. You must sign to verify to link your an address to your
+                github!
+              </div>
+            ) : null}
+            Link your address here in order to receive prize payouts in our seasonal hackathons! You can change this at
+            any time.
+            <div className='flex gap-4 asdf s'>
               <div>Enter your wallet address:</div>
               <input
                 className={'flex-1 input-field w-full'}
@@ -141,13 +153,19 @@ const AssociationModal = ({ githubId, user /* , organizations */, renderError })
                 placeholder='Enter your wallet address...'
                 autoComplete='off'
                 type='text'
-                defaultValue={account}
+                value={relAccount}
                 onChange={(e) => onInput(e)}
               />
             </div>
-            <button className='btn-primary' onClick={associateExternalIdToAddress}>
-              Associate Ethereum Address to your Github
-            </button>
+            <ToolTipNew toolTipText={'Please enter a valid ethereum address'} hideToolTip={enableLink}>
+              <button
+                disabled={!enableLink}
+                className={enableLink ? 'btn-primary' : 'btn-default w-full'}
+                onClick={associateExternalIdToAddress}
+              >
+                Associate Ethereum Address to your Github
+              </button>
+            </ToolTipNew>
           </div>
         ) : (
           <UnexpectedErrorModal error={renderError} />
@@ -162,7 +180,7 @@ const AssociationModal = ({ githubId, user /* , organizations */, renderError })
             resetState={setAssociateState}
           >
             {statesFormat[associateState].message}
-            <p className='flex justify-between'>
+            <p className='flex justify-between pt-4'>
               <span>txnHash:</span>
               {transactionHash && (
                 <a href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/${transactionHash}`}>
