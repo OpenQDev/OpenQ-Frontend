@@ -279,6 +279,7 @@ pre {
   position: absolute;
   z-index: 1;
 }
+
 body::-webkit-scrollbar {
   width:12px;
   height: 12px;
@@ -296,6 +297,5 @@ body::-webkit-scrollbar {
   background-color: #343a42;
   border-radius: 2px;
 }
-.invisible-scrollbar::-webkit-scrollbar {
-  display: none;
-}
+
+
