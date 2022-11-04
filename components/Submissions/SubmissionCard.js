@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Skeleton from 'react-loading-skeleton';
 import useWeb3 from '../../hooks/useWeb3';
 
-const SubmissionCard = ({ pr, bounty }) => {
+const SubmissionCard = ({ pr, bounty, refreshBounty }) => {
   const { account } = useWeb3();
   const admin = bounty && bounty?.issuer?.id === account?.toLowerCase();
   const author = pr.author;
@@ -65,7 +65,7 @@ const SubmissionCard = ({ pr, bounty }) => {
         </Link>
       </div>
 
-      {admin && <SubmissionCardAdmin pr={pr} bounty={bounty} />}
+      {admin && <SubmissionCardAdmin refreshBounty={refreshBounty} pr={pr} bounty={bounty} />}
     </div>
   );
 };

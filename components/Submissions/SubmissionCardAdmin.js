@@ -1,9 +1,12 @@
 import React from 'react';
 import WinnerSelect from './WinnerSelect';
 
-const SubmissionCardAdmin = ({ bounty, pr }) => {
+const SubmissionCardAdmin = ({ bounty, pr, refreshBounty }) => {
+  const claimedArr = bounty.claims.map((claim) => parseInt(claim.tier));
   const payoutAndIndex = bounty.payoutSchedule.map((payout, index) => {
+    const claimed = claimedArr.includes(index);
     return {
+      claimed,
       index,
       payout,
     };
@@ -36,7 +39,14 @@ const SubmissionCardAdmin = ({ bounty, pr }) => {
         />
         {oddPrizes.map((payout, index) => {
           return (
-            <WinnerSelect pr={pr} bounty={bounty} numberOfPayouts={payoutAndIndex.length} prize={payout} key={index} />
+            <WinnerSelect
+              refreshBounty={refreshBounty}
+              pr={pr}
+              bounty={bounty}
+              numberOfPayouts={payoutAndIndex.length}
+              prize={payout}
+              key={index}
+            />
           );
         })}
       </div>

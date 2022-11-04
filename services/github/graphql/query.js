@@ -269,6 +269,7 @@ export const GET_ISSUE_BY_ID = gql`
         timelineItems(first: 100, itemTypes: [CROSS_REFERENCED_EVENT, CLOSED_EVENT]) {
           nodes {
             ... on CrossReferencedEvent {
+              id
               referencedAt
 
               source {
@@ -281,6 +282,25 @@ export const GET_ISSUE_BY_ID = gql`
                   bodyHTML
                   title
                   author {
+                    ... on Bot {
+                      id
+                    }
+                    ... on EnterpriseUserAccount {
+                      id
+                      name
+                    }
+                    ... on User {
+                      id
+                      email
+                    }
+                    ... on Organization {
+                      id
+                      email
+                    }
+                    ... on Mannequin {
+                      id
+                      email
+                    }
                     login
                     avatarUrl
                     url

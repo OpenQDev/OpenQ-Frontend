@@ -7,7 +7,6 @@ import SignIn from './SignIn';
 
 const AuthButton = ({ redirectUrl, propicUrl, hideSignOut }) => {
   const [authState] = useContext(AuthContext);
-
   return (
     <div className='w-full justify-center'>
       {authState.isAuthenticated ? (

@@ -275,7 +275,9 @@ const address = ({ address, mergedBounty, renderError }) => {
                     split={split}
                   />
                 ) : null}
-                {internalMenu == 'Submissions' && bounty ? <Submissions bounty={bounty} /> : null}
+                {internalMenu == 'Submissions' && bounty ? (
+                  <Submissions refreshBounty={refreshBounty} bounty={bounty} />
+                ) : null}
                 {bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
 
                 {internalMenu && internalMenu !== 'Submissions' && (

@@ -96,6 +96,7 @@ export const GET_BOUNTY = gql`
       claims(orderBy: "claimTime", orderDirection: "desc") {
         claimTime
         claimantAsset
+        tier
         claimant {
           id
         }
