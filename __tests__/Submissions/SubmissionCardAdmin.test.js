@@ -47,6 +47,7 @@ describe('SubmissionCardAdmin', () => {
           author: {
             __typename: 'User',
             login: 'FlacoJones',
+            id: '123',
             avatarUrl:
               'https://avatars.githubusercontent.com/u/93455288?u=fd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84&v=4',
             url: 'https://github.com/FlacoJones',
@@ -55,6 +56,7 @@ describe('SubmissionCardAdmin', () => {
             __typename: 'Commit',
             author: {
               __typename: 'GitActor',
+              id: '123',
               avatarUrl: 'https://avatars.githubusercontent.com/u/93455288?v=4',
               name: 'FlacoJones',
               user: { __typename: 'User', login: 'FlacoJones', url: 'https://github.com/FlacoJones' },
@@ -166,7 +168,7 @@ describe('SubmissionCardAdmin', () => {
 
   it('should render 0 in SubmissionCardAdmin', async () => {
     // ARRANGE
-    render(<SubmissionCardAdmin bounty={bounty} pr={bounty.prs[0]} />);
+    render(<SubmissionCardAdmin bounty={bounty} pr={bounty.prs[0].source} />);
 
     // ASSERT
     expect(screen.getByText(/Select winner/i)).toBeInTheDocument();

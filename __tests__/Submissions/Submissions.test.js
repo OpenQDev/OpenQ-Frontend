@@ -168,7 +168,7 @@ describe('Submissions', () => {
     render(<Submissions bounty={bounty} pr={bounty.prs[0]} />);
 
     // ASSERT
-    expect(screen.getAllByText(/Update README.md/)).toHaveLength(4);
+    expect(screen.getAllByText(/Update README.md/)).toHaveLength(1);
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);

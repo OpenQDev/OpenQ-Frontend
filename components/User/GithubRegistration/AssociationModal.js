@@ -41,7 +41,6 @@ const AssociationModal = ({ githubId, user /* , organizations */, renderError })
   }, [account]);
 
   const associateExternalIdToAddress = async () => {
-    console.log(relAccount);
     setAssociateState('TRANSACTION_SUBMITTED');
     setShowModal(true);
     axios
@@ -83,7 +82,7 @@ const AssociationModal = ({ githubId, user /* , organizations */, renderError })
             },
           });
         } catch (err) {
-          console.log(err);
+          appState.logger.error(err);
         }
       })
       .catch((err) => {

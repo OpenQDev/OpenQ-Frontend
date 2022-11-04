@@ -3,6 +3,7 @@
 import jsonRpcErrors from './JsonRPCErrors';
 import axios from 'axios';
 import {ethers} from 'ethers';
+import { reject } from 'lodash';
 
 class MockOpenQClient {
 	shouldSleep = 1000;
@@ -67,6 +68,15 @@ class MockOpenQClient {
 			.catch(error => {
 				console.error(error);
 			});
+	}
+
+	async getAddressById(library, externalUserId){
+	return new Promise(async(resolve, reject)=>{
+        setTimeout(() => resolve("0xbcc58fb72409ba1cdec5dbcdd3cd6c42e3e04242"), 500);	
+	
+	})
+	
+	
 	}
 
 	signMessage = async () => {
@@ -154,7 +164,6 @@ class MockOpenQClient {
     
         setTimeout(() => resolve({ transactionHash: _bountyAddress }), 2000);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     });

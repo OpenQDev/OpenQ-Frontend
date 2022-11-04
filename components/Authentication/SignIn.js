@@ -1,24 +1,24 @@
 // Third party
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 // Custom
 import Image from 'next/image';
+import StoreContext from '../../store/Store/StoreContext';
 
 const SignIn = () => {
   const router = useRouter();
+  const [appState] = useContext(StoreContext);
   const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}`;
   // source: https://nextjs.org/docs/api-reference/next/router
   useEffect(() => {
-    const handleRouteChange = async (url, { shallow }) => {
-      console.log(`App is changing to ${url} ${shallow ? 'with' : 'without'} shallow routing`);
+    const handleRouteChange = async () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/checkAuth`, { withCredentials: true });
         const { githubId } = response.data;
-        console.log(githubId);
         githubId && router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/github/${githubId}`);
       } catch (error) {
-        console.log(error);
+        appState.logger.error(error);
       }
       //}
     };

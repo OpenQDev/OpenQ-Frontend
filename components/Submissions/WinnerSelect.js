@@ -8,8 +8,6 @@ import ModalDefault from '../Utils/ModalDefault';
 
 const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr }) => {
   const [showModal, setShowModal] = useState();
-  console.log(typeof refreshBounty);
-  console.log(prize);
   const [selectionState, setSelectionState] = useState(RESTING);
   const height = (100 / numberOfPayouts) * (numberOfPayouts - prize.index);
   const tierIndex = parseInt(prize.index);
