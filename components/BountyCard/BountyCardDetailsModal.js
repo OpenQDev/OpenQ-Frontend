@@ -39,14 +39,12 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
   return (
     <div
       className={
-        showModal
-          ? 'flex flex-col justify-center w-full justify-items- items-center bg-overlay inset-0 fixed py-10 overflow-hidden z-30'
-          : 'hidden'
+        showModal ? 'flex justify-center items-start bg-overlay inset-0 fixed pt-10 overflow-auto z-30' : 'hidden'
       }
     >
       <div
         ref={modal}
-        className='bg-dark-mode pt-2 rounded-sm-t w-5/6 lg:w-2/3 max-w-3xl text-lg relative max-h-[calc(100vh-190px)] overflow-auto'
+        className='bg-dark-mode pt-2 w-5/6 rounded-sm lg:w-2/3 max-w-3xl text-lg relative overflow-hidden'
       >
         <BountyModalHeading
           watchingState={watchingState}
@@ -159,9 +157,9 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
             </div>
           </div>
         )}
-      </div>
-      <div className='bg-black w-5/6  lg:w-2/3 max-w-3xl overflow-hidden rounded-b-sm p-4'>
-        <BountyLinks bounty={bounty} />
+        <div className='sticky w-full bg-black overflow-hidden rounded-b-sm p-4'>
+          <BountyLinks bounty={bounty} />
+        </div>
       </div>
     </div>
   );
