@@ -131,45 +131,45 @@ const AssociationModal = ({ githubId, user /* , organizations */, renderError })
   );
 
   return (
-    <div>
+    <div className='sm:flex flex-wrap items-center pt-8 px-8 gap-4'>
       <div ref={canvas}></div>
-      <div className='flex gap-4 justify-center items-center pt-6'>
-        {user ? (
-          <div className='flex flex-col gap-4 p-8 w-1/2'>
-            {!authState.isAuthenticated ? (
-              <div className=' col-span-3 border border-gray-700 bg-[#21262d] rounded-sm p-4'>
-                We noticed you are not signed in with Github. You must sign to verify to link your an address to your
-                github!
-              </div>
-            ) : null}
+      {user ? (
+        <div className='flex flex-col gap-4'>
+          {!authState.isAuthenticated ? (
+            <div className='col-span-3 border border-gray-700 bg-[#21262d] rounded-sm p-4'>
+              We noticed you are not signed in with Github. You must sign to verify to link your an address to your
+              github!
+            </div>
+          ) : null}
+          <div className='font-semibold'>
             Link your address here in order to receive prize payouts in our seasonal hackathons! You can change this at
             any time.
-            <div className='flex gap-4 asdf s'>
-              <div>Enter your wallet address:</div>
-              <input
-                className={'flex-1 input-field w-full'}
-                id='name'
-                placeholder='Enter your wallet address...'
-                autoComplete='off'
-                type='text'
-                value={relAccount}
-                onChange={(e) => onInput(e)}
-              />
-            </div>
-            <ToolTipNew toolTipText={'Please enter a valid ethereum address'} hideToolTip={enableLink}>
-              <button
-                disabled={!enableLink}
-                className={enableLink ? 'btn-primary' : 'btn-default w-full'}
-                onClick={associateExternalIdToAddress}
-              >
-                Associate Ethereum Address to your Github
-              </button>
-            </ToolTipNew>
           </div>
-        ) : (
-          <UnexpectedErrorModal error={renderError} />
-        )}
-      </div>
+          <div>Enter your wallet address:</div>
+          <div className='flex gap-4 asdf s w-80'>
+            <input
+              className={'flex-1 input-field'}
+              id='name'
+              placeholder='Enter your wallet address...'
+              autoComplete='off'
+              type='text'
+              value={relAccount}
+              onChange={(e) => onInput(e)}
+            />
+          </div>
+          <ToolTipNew toolTipText={'Please enter a valid ethereum address'} hideToolTip={enableLink}>
+            <button
+              disabled={!enableLink}
+              className={enableLink ? 'w-fit btn-primary' : 'w-fit btn-default'}
+              onClick={associateExternalIdToAddress}
+            >
+              Associate Ethereum Address to your Github
+            </button>
+          </ToolTipNew>
+        </div>
+      ) : (
+        <UnexpectedErrorModal error={renderError} />
+      )}
       <>
         {showModal && (
           <ModalDefault
