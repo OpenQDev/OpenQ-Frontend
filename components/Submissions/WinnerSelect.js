@@ -20,7 +20,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr }) => 
   useEffect(async () => {
     const userId = pr.author.id;
     if (library) {
-      const closer = await appState.openQClient.getAddressById(library, userId);
+      const closer = await appState.openQClient.getAddressById(library, userId, appState.logger);
 
       setCloser(closer);
     }
