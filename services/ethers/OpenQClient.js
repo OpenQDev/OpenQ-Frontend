@@ -412,37 +412,49 @@ class OpenQClient {
     return promise;
   }
 
-  async claimBounty(library, _bountyAddress, _closer, _claimantAsset, tier, account) {
+  /**
+   *
+   * @param {*} library
+   * @param {*} _bountyAddress
+   * @param { account money will be sent to} _closer
+   * @param { pull request that's being chosen } _claimantAsset
+   * @param {*} _tier
+   * @returns {promise}
+   */
+
+  async claimBounty(library, _bountyAddress, _closer, _claimantAsset, _tier, _externalUserId, _externalUserName) {
     return new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
-      const winner = 'Christopher-Stevers';
-      const bountyAddress = ethers.utils.getAddress(_bountyAddress);
-      console.log(process.env.NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS, 'address');
-      const contract = new ethers.Contract(
-        process.env.NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS,
-        ClaimManagerAbi.abi,
-        signer
-      );
+      const contract = this.ClaimManager(signer);
+
       let abiCoder = new ethers.utils.AbiCoder();
-      console.log(bountyAddress, winner, account, _claimantAsset, 1);
-      //0xBcC58fb72409BA1CdEc5dBcDD3Cd6c42E3e04242 Christopher-Stevers 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 https://github.com/OpenQDev/OpenQ-TestRepo/pull/689 1
+
       try {
         let closerData = abiCoder.encode(
           ['address', 'string', 'address', 'string', 'uint256'],
-          [bountyAddress, winner, account, _claimantAsset, 1]
+          [_bountyAddress, _externalUserName, _closer, _claimantAsset, _tier]
         );
-        console.log(bountyAddress, winner);
-        //0xBcC58fb72409BA1CdEc5dBcDD3Cd6c42E3e04242 Christopher-Stevers
-        await contract.directClaimTieredBounty(bountyAddress, winner, closerData);
 
-        let txnResponse = await contract.directClaimTieredBounty(bountyAddress, winner, closerData);
+        let txnResponse = await contract.directClaimTieredBounty(_bountyAddress, _externalUserId, closerData);
 
         let txnReceipt = await txnResponse.wait();
         resolve(txnReceipt);
-
-        //  setTimeout(() => resolve({ transactionHash: _bountyAddress }), 2000);
       } catch (error) {
-        console.log(error);
+        reject(error);
+      }
+    });
+  }
+
+  async getAddressById(library, externalUserId) {
+    return new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.OpenQ(signer);
+
+      try {
+        const userId = await contract.externalUserIdToAddress(externalUserId);
+        console.log(userId);
+        resolve(userId);
+      } catch (error) {
         reject(error);
       }
     });
