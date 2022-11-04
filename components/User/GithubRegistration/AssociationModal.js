@@ -12,6 +12,8 @@ import useWeb3 from '../../../hooks/useWeb3';
 import ModalDefault from '../../../components/Utils/ModalDefault';
 import LoadingIcon from '../../../components/Loading/ButtonLoadingIcon';
 import ToolTipNew from '../../Utils/ToolTipNew';
+import { LinkText } from '../../../components/svg/linktext';
+
 const AssociationModal = ({ githubId, user /* , organizations */, renderError }) => {
   const { account, library } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
@@ -101,10 +103,9 @@ const AssociationModal = ({ githubId, user /* , organizations */, renderError })
     },
     TRANSACTION_CONFIRMED: {
       title: 'Account Successfully Associated!',
-      message: `Your wallet address(${appState.utils.shortenAddress(
+      message: `Your wallet address (${appState.utils.shortenAddress(
         relAccount
-      )}) and GitHub account were successfully associated! 
-      
+      )}) and GitHub account were successfully associated!
       \nYou can now participate in Hackathons!`,
       btn: { text: 'Close', disabled: false, format: 'flex btn-default' },
       clickAction: () => setShowModal(false),
@@ -178,12 +179,13 @@ const AssociationModal = ({ githubId, user /* , organizations */, renderError })
             setShowModal={setShowModal}
             resetState={setAssociateState}
           >
-            {statesFormat[associateState].message}
+            <div className='whitespace-pre-wrap'>{statesFormat[associateState].message}</div>
             <p className='flex justify-between pt-4'>
-              <span>txnHash:</span>
+              <span>Transaction:</span>
               {transactionHash && (
-                <a href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/${transactionHash}`}>
+                <a href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`}>
                   {transactionHash.slice(0, 4)}...{transactionHash.slice(63)}
+                  <LinkText />
                 </a>
               )}
             </p>

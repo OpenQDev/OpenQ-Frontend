@@ -4,7 +4,7 @@ import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import AssociationModal from '../../../components/User/GithubRegistration/AssociationModal';
 import Logger from '../../../services/logger/Logger';
 import SubMenu from '../../../components/Utils/SubMenu';
-import { GearIcon } from '@primer/octicons-react';
+import { Gear } from '../../../components/svg/gear';
 import Image from 'next/image';
 
 const account = ({ githubId, githubUser /* , organizations */, renderError }) => {
@@ -18,7 +18,7 @@ const account = ({ githubId, githubUser /* , organizations */, renderError }) =>
           updatePage={setInternalMenu}
           styles='w-full justify-center lg:justify-start max-w-[600px] mx-auto border-none'
           colour='rust'
-          items={[{ name: 'Settings', Svg: GearIcon }]}
+          items={[{ name: 'Settings', Svg: Gear }]}
         />
         <div className='w-full border-b h-px border-web-gray'></div>
         <div className='flex relative max-w-[1440px] w-full mx-auto'>
