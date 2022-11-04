@@ -16,6 +16,7 @@ const ProfilePicture = ({ mobile, styles }) => {
 
   // Effects
   useEffect(() => {
+    console.log(router);
     async function setProfilePicture() {
       const avatarUrl = authState.avatarUrl;
       setProPicUrl(avatarUrl);
