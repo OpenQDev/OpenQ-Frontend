@@ -168,7 +168,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                 <span>{watchingUsers}</span>
               </span>
 
-              <span>Assigned to {bounty.assignees[0]?.name || 'no one.'}</span>
+              <span>Assigned to {bounty.assignees[0]?.name || bounty.assignees[0]?.login || 'no one.'}</span>
               {bounty.assignees[0]?.avatarUrl && (
                 <Image height={24} width={24} className='rounded-full pt-1' src={bounty.assignees[0]?.avatarUrl} />
               )}
