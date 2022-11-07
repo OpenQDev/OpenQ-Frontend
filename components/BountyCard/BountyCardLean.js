@@ -15,6 +15,7 @@ import useAuth from '../../hooks/useAuth';
 
 const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
   // State
+  console.log(bounty);
   const bountyName = bounty?.title.toLowerCase() || '';
   const [appState] = useContext(StoreContext);
   const [isModal, setIsModal] = useState();
@@ -40,8 +41,9 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
   const budget = budgetValue?.total;
   const watchingState = useState(bounty.watchingCount);
   const [watchingUsers] = watchingState;
+  const [payoutValues] = useGetTokenValues(bounty.payouts);
   // Hooks
-
+  console.log(payoutValues);
   const [authState] = useAuth();
   const marker = appState.utils.getBountyMarker(bounty, authState.login);
   const bountyTypeName = appState.utils.getBountyTypeName(bounty);
@@ -196,10 +198,10 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                     <div className='pr-2 pt-1 w-4'>
                       <Image src='/crypto-logos/ETH-COLORED.png' alt='avatarUrl' width='12' height='20' />
                     </div>
-                    {bounty.status !== '0' && bounty.tvc ? (
+                    {bounty.status !== '0' ? (
                       <>
                         <div className='font-semibold '>TVC</div>
-                        <div>{appState.utils.formatter.format(bounty.tvc)}</div>
+                        <div>{appState.utils.formatter.format(bounty.tvc || payoutValues?.total || 0)}</div>
                       </>
                     ) : (
                       <>

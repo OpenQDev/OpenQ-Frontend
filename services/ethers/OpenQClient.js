@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import OpenQABI from '../../artifacts/contracts/OpenQ/Implementations/OpenQV1.sol/OpenQV1.json';
+import OpenQABI from '../../artifacts/contracts/OpenQ/Implementations/OpenQV2.sol/OpenQV2.json';
 import DepositManagerABI from '../../artifacts/contracts/DepositManager/DepositManager.sol/DepositManager.json';
 import ERC20ABI from '../../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json';
 import ERC721ABI from '../../artifacts/@openzeppelin/contracts/token/ERC721/ERC721.sol/ERC721.json';
