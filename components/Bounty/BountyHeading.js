@@ -12,7 +12,6 @@ const BountyHeading = ({ bounty, price, budget }) => {
   const [appState] = useContext(StoreContext);
   const [authState] = useAuth();
   const [payoutPrice] = useGetTokenValues(bounty.payouts);
-  console.log(payoutPrice);
   const marker = appState.utils.getBountyMarker(bounty, authState.login);
 
   return (
