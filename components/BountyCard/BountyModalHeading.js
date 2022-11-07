@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React from 'react';
 import useWeb3 from '../../hooks/useWeb3';
 import { StackIcon } from '@primer/octicons-react';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import WatchButton from '../WatchButton/WatchButton';
 
 const BountyModalHeading = ({ bounty, closeModal, unWatchable, watchingState }) => {

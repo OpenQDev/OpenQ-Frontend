@@ -1,7 +1,7 @@
 // Third party
 import React, { useEffect, useContext, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import Skeleton from 'react-loading-skeleton';
 
 // Custom

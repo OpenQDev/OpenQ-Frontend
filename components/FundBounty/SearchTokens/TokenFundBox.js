@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TokenSearch from './TokenSearch';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 
 const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume, placeholder, label }) => {
   const [showTokenSearch, setShowTokenSearch] = useState(false);

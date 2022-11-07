@@ -2,8 +2,7 @@
 import React, { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-// Custom
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import StoreContext from '../../store/Store/StoreContext';
 
 const SignIn = () => {

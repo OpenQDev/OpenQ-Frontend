@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import Link from 'next/link';
 import useAuth from '../../hooks/useAuth';
 import useWeb3 from '../../hooks/useWeb3';

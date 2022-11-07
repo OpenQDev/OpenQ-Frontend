@@ -4,7 +4,7 @@ import React from 'react';
 // Custom
 import Link from 'next/link';
 import Skeleton from 'react-loading-skeleton';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import useWeb3 from '../../hooks/useWeb3';
 import Twitter from '../../components/svg/twitter';
 

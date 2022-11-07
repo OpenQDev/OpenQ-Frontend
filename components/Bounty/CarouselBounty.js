@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import ToolTipNew from '../Utils/ToolTipNew';
 import Link from 'next/link';
 import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';

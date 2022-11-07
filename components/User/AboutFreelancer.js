@@ -1,7 +1,7 @@
 // Third party
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import jazzicon from '@metamask/jazzicon';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 
 // Custom
 import useGetTokenValues from '../../hooks/useGetTokenValues';

@@ -1,7 +1,7 @@
 // Third Party
 import React, { useRef, useEffect } from 'react';
 import jazzicon from '@metamask/jazzicon';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 //Custom
 import CopyAddressToClipboard from '../../Copy/CopyAddressToClipboard';
 

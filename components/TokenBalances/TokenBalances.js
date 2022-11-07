@@ -1,6 +1,6 @@
 // Third party
 import React, { useState, useContext, useEffect } from 'react';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import StoreContext from '../../store/Store/StoreContext';
 const ethers = require('ethers');
 import Skeleton from 'react-loading-skeleton';

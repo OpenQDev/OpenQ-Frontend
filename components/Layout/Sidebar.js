@@ -1,6 +1,6 @@
 // Third party
 import React, { useEffect, useRef, useContext } from 'react';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import Link from 'next/link';
 // Custom
 import StoreContext from '../../store/Store/StoreContext';

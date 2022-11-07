@@ -6,7 +6,7 @@ import { ethers } from 'ethers';
 // Custom
 import { CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveTransferState';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
 import StoreContext from '../../store/Store/StoreContext';

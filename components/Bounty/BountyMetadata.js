@@ -1,6 +1,6 @@
 import React, { useContext, useMemo } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 
 import LabelsList from './LabelsList';
 import CopyBountyAddress from './CopyBountyAddress';

@@ -4,7 +4,7 @@ import TokenList from './TokenList';
 import ManageTokenList from '../ManageTokenList';
 import { XIcon } from '@primer/octicons-react';
 import StoreContext from '../../../store/Store/StoreContext';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 
 const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch, alone, showTokenSearch }) => {
   const [showListManager, setShowListManager] = useState(true);

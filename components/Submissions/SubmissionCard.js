@@ -1,7 +1,7 @@
 import React from 'react';
 import SubmissionCardAdmin from './SubmissionCardAdmin';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import Skeleton from 'react-loading-skeleton';
 import useWeb3 from '../../hooks/useWeb3';
 

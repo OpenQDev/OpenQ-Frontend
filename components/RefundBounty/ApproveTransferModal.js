@@ -7,7 +7,7 @@ import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Link from 'next/link';
 import LinkText from '../svg/linktext';
 import ModalDefault from '../Utils/ModalDefault';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
