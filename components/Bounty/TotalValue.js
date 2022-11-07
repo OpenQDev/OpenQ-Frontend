@@ -1,15 +1,19 @@
 // Third party
 import React, { useContext } from 'react';
+import useGetTokenValues from '../../hooks/useGetTokenValues';
 import StoreContext from '../../store/Store/StoreContext';
 
 const TotalValue = ({ price, bounty }) => {
   const [appState] = useContext(StoreContext);
+  const [payoutPrice] = useGetTokenValues(bounty.payouts);
   return (
     <div className='text-base font-semibold text-primary'>
       {bounty.status !== '0' && bounty.tvc ? (
         <>
           <div>Total Value Claimed</div>
-          <div className='text-sm font-normal'> {appState.utils.formatter.format(bounty.tvc || 0)}</div>
+          <div className='text-sm font-normal'>
+            {appState.utils.formatter.format(bounty.tvc || payoutPrice?.total || 0)}
+          </div>
         </>
       ) : (
         <>
