@@ -40,11 +40,11 @@ const OrganizationHomepage = ({ orgs, types, wizard }) => {
 			// Trigger Magic link to be sent to user
 			let didToken = await magic.auth.loginWithMagicLink({
 				email,
-				redirectURI: new URL('/callback', window.location.origin).href, // optional redirect back to your app after magic link is clicked
+				redirectURI: new URL('/auth/email', window.location.origin).href, // optional redirect back to your app after magic link is clicked
 			});
 
 			// Validate didToken with server
-			const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/login`, {
+			const res = await fetch(`${process.env.NEXT_PUBLIC_AUTH_URL}/api/login`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -55,6 +55,7 @@ const OrganizationHomepage = ({ orgs, types, wizard }) => {
 			if (res.status === 200) {
 				// Set the UserContext to the now logged in user
 				let userMetadata = await magic.user.getMetadata();
+				console.log(userMetadata);
 				await setUser(userMetadata);
 				history.push('/profile');
 			}
