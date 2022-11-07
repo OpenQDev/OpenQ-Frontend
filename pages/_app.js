@@ -1,12 +1,14 @@
 // Third party Libraries
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Web3ReactProvider } from '@web3-react/core';
 import 'tailwindcss/tailwind.css';
 import 'github-markdown-css/github-markdown-dark.css';
 import { useRouter } from 'next/router';
 
 // Custom
+import { UserContext } from './lib/UserContext';
 import '../styles/globals.css';
+import StoreProvider from '../store/Store/StoreProvider';
 import StoreProvider from '../store/Store/StoreProvider';
 import AuthProvider from '../store/AuthStore/AuthProvider';
 import Navigation from '../components/Layout/Navigation';
@@ -15,55 +17,69 @@ import Footer from '../components/Layout/Footer';
 import ReactGA from 'react-ga4';
 import { hotjar } from 'react-hotjar';
 import {
-  walletConnect,
-  walletConnectHooks,
-  metaMask,
-  metaMaskHooks,
-  gnosisSafe,
-  gnosisSafeHooks,
+	walletConnect,
+	walletConnectHooks,
+	metaMask,
+	metaMaskHooks,
+	gnosisSafe,
+	gnosisSafeHooks,
 } from '../components/WalletConnect/connectors';
 
 function OpenQ({ Component, pageProps }) {
-  const connectors = [
-    [metaMask, metaMaskHooks],
-    [walletConnect, walletConnectHooks],
-    [gnosisSafe, gnosisSafeHooks],
-  ];
-  useEffect(() => {
-    if (process.env.NEXT_PUBLIC_GA_TRACKING_ID) {
-      ReactGA.initialize(process.env.NEXT_PUBLIC_GA_TRACKING_ID);
-    }
+	const connectors = [
+		[metaMask, metaMaskHooks],
+		[walletConnect, walletConnectHooks],
+		[gnosisSafe, gnosisSafeHooks],
+	];
 
-    const hjid = '3177116';
-    const hjsv = '6';
-    hotjar.initialize(hjid, hjsv);
+	const [user, setUser] = useState();
 
-    // Identify the user
-    hotjar.identify('USER_ID', { userProperty: 'value' });
+	// If isLoggedIn is true, set the UserContext with user data
+	// Otherwise, set it to {user: null}
+	useEffect(() => {
+		setUser({ loading: true });
+		magic.user.isLoggedIn().then((isLoggedIn) => {
+			return isLoggedIn
+				? magic.user.getMetadata().then((userData) => setUser(userData))
+				: setUser({ user: null });
+		});
+	}, []);
 
-    // Add an event
-    hotjar.event('button-click');
+	useEffect(() => {
+		if (process.env.NEXT_PUBLIC_GA_TRACKING_ID) {
+			ReactGA.initialize(process.env.NEXT_PUBLIC_GA_TRACKING_ID);
+		}
 
-    // Update SPA state
-    hotjar.stateChange('/my/page');
+		const hjid = '3177116';
+		const hjsv = '6';
+		hotjar.initialize(hjid, hjsv);
 
-    // Check if Hotjar has been initialized before calling its methods
-    if (hotjar.initialized()) {
-      hotjar.identify('USER_ID', { userProperty: 'value' });
-    }
-  }, []);
-  const router = useRouter();
-  return (
-    <div className='bg-dark-mode font-segoe text-primary'>
-      {/* Global Site Tag (gtag.js) - Google Analytics */}
+		// Identify the user
+		hotjar.identify('USER_ID', { userProperty: 'value' });
 
-      <Head>
-        <title>OpenQ | Tempo Engineering, scale better with Atomic Contracts</title>
-        <meta name='OpenQ Bounties' content='width=device-width, initial-scale=1.0' />
-        <link rel='icon' href='/openq-logo.png' />
-        <link rel='manifest' href='/manifest.json' crossOrigin='use-credentials' />
-        <script type='text/javascript'>
-          {`window['__ls_namespace'] = 'LiveSession';
+		// Add an event
+		hotjar.event('button-click');
+
+		// Update SPA state
+		hotjar.stateChange('/my/page');
+
+		// Check if Hotjar has been initialized before calling its methods
+		if (hotjar.initialized()) {
+			hotjar.identify('USER_ID', { userProperty: 'value' });
+		}
+	}, []);
+	const router = useRouter();
+	return (
+		<div className='bg-dark-mode font-segoe text-primary'>
+			{/* Global Site Tag (gtag.js) - Google Analytics */}
+
+			<Head>
+				<title>OpenQ | Tempo Engineering, scale better with Atomic Contracts</title>
+				<meta name='OpenQ Bounties' content='width=device-width, initial-scale=1.0' />
+				<link rel='icon' href='/openq-logo.png' />
+				<link rel='manifest' href='/manifest.json' crossOrigin='use-credentials' />
+				<script type='text/javascript'>
+					{`window['__ls_namespace'] = 'LiveSession';
     window['__ls_script_url'] = 'https://cdn.livesession.io/track.js';
     !function(w, d, t, u, n) {
           if (n in w) {if(w.console && w.console.log) { w.console.log('LiveSession namespace conflict. Please set window["__ls_namespace"].');} return;}
@@ -86,25 +102,27 @@ function OpenQ({ Component, pageProps }) {
             })
         }
     });`}
-        </script>
-      </Head>
-      <>
-        <AuthProvider>
-          <StoreProvider>
-            <Web3ReactProvider connectors={connectors}>
-              <div className='min-h-screen  flex flex-col justify-between'>
-                <div>
-                  <Navigation />
-                  <Component key={router.asPath} {...pageProps} />
-                </div>
-                <Footer />
-              </div>
-            </Web3ReactProvider>
-          </StoreProvider>
-        </AuthProvider>
-      </>
-    </div>
-  );
+				</script>
+			</Head>
+			<>
+				<UserContext.Provider value={[user, setUser]}></UserContext.Provider>
+				<AuthProvider>
+					<StoreProvider>
+						<Web3ReactProvider connectors={connectors}>
+							<div className='min-h-screen  flex flex-col justify-between'>
+								<div>
+									<Navigation />
+									<Component key={router.asPath} {...pageProps} />
+								</div>
+								<Footer />
+							</div>
+						</Web3ReactProvider>
+					</StoreProvider>
+				</AuthProvider>
+			</UserContext.Provider>
+		</>
+		</div >
+	);
 }
 
 export default OpenQ;
