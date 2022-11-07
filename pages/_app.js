@@ -30,7 +30,9 @@ function OpenQ({ Component, pageProps }) {
     [gnosisSafe, gnosisSafeHooks],
   ];
   useEffect(() => {
-    ReactGA.initialize(process.env.NEXT_PUBLIC_GA_TRACKING_ID);
+    if (process.env.NEXT_PUBLIC_GA_TRACKING_ID) {
+      ReactGA.initialize(process.env.NEXT_PUBLIC_GA_TRACKING_ID);
+    }
 
     const hjid = '3177116';
     const hjsv = '6';
