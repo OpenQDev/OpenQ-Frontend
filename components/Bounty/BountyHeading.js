@@ -6,10 +6,13 @@ import Image from 'next/image';
 import MintBountyButton from '../MintBounty/MintBountyButton';
 import StoreContext from '../../store/Store/StoreContext';
 import useAuth from '../../hooks/useAuth';
+import useGetTokenValues from '../../hooks/useGetTokenValues';
 
 const BountyHeading = ({ bounty, price, budget }) => {
   const [appState] = useContext(StoreContext);
   const [authState] = useAuth();
+  const [payoutPrice] = useGetTokenValues(bounty.payouts);
+  console.log(payoutPrice);
   const marker = appState.utils.getBountyMarker(bounty, authState.login);
 
   return (
@@ -63,9 +66,9 @@ const BountyHeading = ({ bounty, price, budget }) => {
           <span className='leading-none'>{marker.status}</span>
         </div>
         <>
-          {bounty.status !== '0' && bounty.tvc ? (
+          {bounty.status !== '0' ? (
             <span className='leading-loose text-lg font-semibold text-primary'>
-              Total Value Claimed {appState.utils.formatter.format(bounty.tvc)}
+              Total Value Claimed {appState.utils.formatter.format(bounty.tvc || payoutPrice?.total || 0)}
             </span>
           ) : price || price === 0 ? (
             <span className='leading-loose text-lg font-semibold text-primary'>
