@@ -1,4 +1,6 @@
 // Third party Libraries
+import { Magic } from 'magic-sdk';
+import { OAuthExtension } from '@magic-ext/oauth';
 import React, { useEffect, useState } from 'react';
 import { Web3ReactProvider } from '@web3-react/core';
 import 'tailwindcss/tailwind.css';
@@ -6,9 +8,8 @@ import 'github-markdown-css/github-markdown-dark.css';
 import { useRouter } from 'next/router';
 
 // Custom
-import { UserContext } from './lib/UserContext';
+import { UserContext } from '../lib/UserContext';
 import '../styles/globals.css';
-import StoreProvider from '../store/Store/StoreProvider';
 import StoreProvider from '../store/Store/StoreProvider';
 import AuthProvider from '../store/AuthStore/AuthProvider';
 import Navigation from '../components/Layout/Navigation';
@@ -38,6 +39,9 @@ function OpenQ({ Component, pageProps }) {
 	// Otherwise, set it to {user: null}
 	useEffect(() => {
 		setUser({ loading: true });
+		let magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
+			extensions: [new OAuthExtension()],
+		});
 		magic.user.isLoggedIn().then((isLoggedIn) => {
 			return isLoggedIn
 				? magic.user.getMetadata().then((userData) => setUser(userData))
@@ -105,22 +109,22 @@ function OpenQ({ Component, pageProps }) {
 				</script>
 			</Head>
 			<>
-				<UserContext.Provider value={[user, setUser]}></UserContext.Provider>
-				<AuthProvider>
-					<StoreProvider>
-						<Web3ReactProvider connectors={connectors}>
-							<div className='min-h-screen  flex flex-col justify-between'>
-								<div>
-									<Navigation />
-									<Component key={router.asPath} {...pageProps} />
+				<UserContext.Provider value={[user, setUser]}>
+					<AuthProvider>
+						<StoreProvider>
+							<Web3ReactProvider connectors={connectors}>
+								<div className='min-h-screen  flex flex-col justify-between'>
+									<div>
+										<Navigation />
+										<Component key={router.asPath} {...pageProps} />
+									</div>
+									<Footer />
 								</div>
-								<Footer />
-							</div>
-						</Web3ReactProvider>
-					</StoreProvider>
-				</AuthProvider>
-			</UserContext.Provider>
-		</>
+							</Web3ReactProvider>
+						</StoreProvider>
+					</AuthProvider>
+				</UserContext.Provider>
+			</>
 		</div >
 	);
 }
