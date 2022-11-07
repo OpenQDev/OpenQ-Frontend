@@ -17,7 +17,9 @@ const Dropdown = ({ toggleFunc, toggleVal, names, title, styles, width, dropdown
     }
 
     // Bind the event listener
-    document.addEventListener('mousedown', handleClickOutside);
+    if (ref.current) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
     return () => {
       // Unbind the event listener on clean up
       document.removeEventListener('mousedown', handleClickOutside);
@@ -34,13 +36,21 @@ const Dropdown = ({ toggleFunc, toggleVal, names, title, styles, width, dropdown
     removeFunc(name);
   };
 
-  const handleToggle = () => {
-    updateOpen(true);
+  const handleToggle = (e) => {
+    e.preventDefault();
+    if (e.target.open) {
+      updateOpen(true);
+    }
   };
 
   // Render
   return (
-    <details ref={ref} open={open} onClick={handleToggle} className={`h-7 ${styles} text-sm text-muted cursor-pointer`}>
+    <details
+      ref={ref}
+      onToggle={handleToggle}
+      open={open}
+      className={`h-7 ${styles} text-sm text-muted cursor-pointer`}
+    >
       <summary
         className={`inline-flex justify-between ${width} rounded-l-sm border-border-default text-primary rounded-l-smleading-2 py-[5px] px-4`}
       >
