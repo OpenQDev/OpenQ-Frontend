@@ -32,6 +32,11 @@ const OrganizationHomepage = ({ orgs, types, wizard }) => {
 
 	const [disabled, setDisabled] = useState(false);
 
+	const logout = () => {
+		magic.user.logout().then(() => {
+			setUser({ user: null });
+		});
+	};
 
 	async function handleLoginWithEmail() {
 		try {
@@ -57,7 +62,6 @@ const OrganizationHomepage = ({ orgs, types, wizard }) => {
 				let userMetadata = await magic.user.getMetadata();
 				console.log(userMetadata);
 				await setUser(userMetadata);
-				history.push('/profile');
 			}
 		} catch (error) {
 			setDisabled(false); // re-enable login button - user may have requested to edit their email
@@ -89,6 +93,8 @@ const OrganizationHomepage = ({ orgs, types, wizard }) => {
 							value={email}
 							onChange={(e) => setEmail(e.target.value)} />
 						<button disabled={disabled} onClick={handleLoginWithEmail}>Sign In With Email</button>
+						<button disabled={disabled} onClick={logout}>Logout</button>
+						<div>{JSON.stringify(user)}</div>
 					</div>
 					<Carousel height={'80'}>
 						{orgs

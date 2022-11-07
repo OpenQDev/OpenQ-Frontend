@@ -1,50 +1,39 @@
 // Third party
-import { useEffect, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect, useContext, useState } from 'react';
 import StoreContext from '../../store/Store/StoreContext.js';
 import useWeb3 from '../../hooks/useWeb3.js';
-import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../lib/UserContext';
+import { useRouter } from 'next/router';
 
 import { Magic } from 'magic-sdk';
 import { OAuthExtension } from '@magic-ext/oauth';
 
-function EmailAuth() {
-	const history = useHistory();
+function EmailAuth(props) {
 	const [user, setUser] = useContext(UserContext);
-
-	const [magic, setMagic] = useState(null);
+	const router = useRouter();
 
 	useEffect(() => {
-		let newMagic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
-			extensions: [new OAuthExtension()],
-		});
-
-		setMagic(newMagic);
+		finishEmailRedirectLogin();
 	}, []);
-
-	// The redirect contains a `provider` query param if the user is logging in with a social provider
-	useEffect(() => {
-		let provider = new URLSearchParams(props.location.search).get('provider');
-		provider ? finishSocialLogin() : finishEmailRedirectLogin();
-	}, [props.location.search]);
-
-	// `getRedirectResult()` returns an object with user data from Magic and the social provider
-	const finishSocialLogin = async () => {
-		let result = await magic.oauth.getRedirectResult();
-		authenticateWithServer(result.magic.idToken);
-	};
 
 	// `loginWithCredential()` returns a didToken for the user logging in
 	const finishEmailRedirectLogin = () => {
-		let magicCredential = new URLSearchParams(props.location.search).get('magic_credential');
+		let magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
+			extensions: [new OAuthExtension()],
+		});
+
+		console.log(router.asPath);
+		const re = new RegExp('[\?]([^=]+)\=(.*)');
+		const arr = re.exec(router.asPath);
+		let magicCredential = arr[2];
 		if (magicCredential)
 			magic.auth.loginWithCredential().then((didToken) => authenticateWithServer(didToken));
 	};
 
 	// Send token to server to validate
 	const authenticateWithServer = async (didToken) => {
-		let res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/login`, {
+		console.log('didToken', didToken);
+		let res = await fetch(`${process.env.NEXT_PUBLIC_AUTH_URL}/api/login`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -52,11 +41,17 @@ function EmailAuth() {
 			},
 		});
 
+		console.log('res', res);
+		console.log('res.status', res.status);
+
 		if (res.status === 200) {
+			let magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
+				extensions: [new OAuthExtension()],
+			});
 			// Set the UserContext to the now logged in user
 			let userMetadata = await magic.user.getMetadata();
 			await setUser(userMetadata);
-			history.push('/profile');
+			router.push(process.env.NEXT_PUBLIC_BASE_URL);
 		}
 	};
 
