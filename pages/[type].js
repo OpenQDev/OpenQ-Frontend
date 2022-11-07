@@ -38,27 +38,33 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
   const { signedAccount } = authState;
 
   // Hooks
-  useEffect(async () => {
-    // handle org reload events (caused by user starring org.)
-    if (reloadNow) {
-      try {
-        const mergedOrgs = await appState.utils.fetchOrganizations(appState, types, category);
-        setControlledOrgs(mergedOrgs);
-      } catch (err) {
-        appState.logger.error(err);
+  useEffect(() => {
+    // handle org reloaasyncd events (caused by user starring org.)
+    const handleReload = async () => {
+      if (reloadNow) {
+        try {
+          const mergedOrgs = await appState.utils.fetchOrganizations(appState, types, category);
+          setControlledOrgs(mergedOrgs);
+        } catch (err) {
+          appState.logger.error(err);
+        }
+        // get watched bounties when reload action is triggered.
       }
-      // get watched bounties when reload action is triggered.
-    }
+    };
+    handleReload();
   }, [reloadNow]);
 
-  useEffect(async () => {
+  useEffect(() => {
     // get watched bounties as soon as we know what the account is.
-    if (account == signedAccount && account) {
-      const [watchedBounties] = await appState.utils.fetchWatchedBounties(appState, account, types, category);
-      setWatchedBounties(watchedBounties || []);
-    } else {
-      setWatchedBounties([]);
-    }
+    const getMyWatched = async () => {
+      if (account == signedAccount && account) {
+        const [watchedBounties] = await appState.utils.fetchWatchedBounties(appState, account, types, category);
+        setWatchedBounties(watchedBounties || []);
+      } else {
+        setWatchedBounties([]);
+      }
+    };
+    getMyWatched();
   }, [account, reloadNow, signedAccount]);
 
   // Methods

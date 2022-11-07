@@ -7,11 +7,14 @@ const ViewStreams = () => {
   const { account } = useWeb3();
   const [superfluidData, setSuperfluidData] = useState();
   const [appState] = useContext(StoreContext);
-  useEffect(async () => {
-    if (account) {
-      const value = await appState.superfluidClient.viewAccount(account);
-      setSuperfluidData(value.data.account);
-    }
+  useEffect(() => {
+    const getValue = async () => {
+      if (account) {
+        const value = await appState.superfluidClient.viewAccount(account);
+        setSuperfluidData(value.data.account);
+      }
+    };
+    getValue();
   }, [account]);
 
   return (

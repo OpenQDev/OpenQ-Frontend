@@ -39,7 +39,7 @@ const ApproveFundModal = ({
   };
   const [appState] = useContext(StoreContext);
   const { account } = useWeb3();
-  useEffect(async () => {
+  useEffect(() => {
     try {
       /*
       const invoicingData = await appState.openQPrismaClient.getInvoicingData(account);
@@ -165,11 +165,9 @@ const ApproveFundModal = ({
           <p className='break-words'>{statesFormat[approveTransferState].message}</p>
           {statesFormat[approveTransferState].link && (
             <p className='break-all underline'>
-              <Link href={statesFormat[approveTransferState].link}>
-                <a target={'_blank'} rel='noopener noreferrer'>
-                  {statesFormat[approveTransferState].linkText || statesFormat[approveTransferState].link}
-                  <LinkText />
-                </a>
+              <Link href={statesFormat[approveTransferState].link} target={'_blank'} rel='noopener noreferrer'>
+                {statesFormat[approveTransferState].linkText || statesFormat[approveTransferState].link}
+                <LinkText />
               </Link>
             </p>
           )}
@@ -183,10 +181,8 @@ const ApproveFundModal = ({
             </div>
             <span>Issue: </span>
             {bounty.url && (
-              <Link href={bounty.url}>
-                <a target='_blank' rel='noopener noreferrer' className='underline w-full truncate'>
-                  {bounty.title}
-                </a>
+              <Link href={bounty.url} target='_blank' rel='noopener noreferrer' className='underline w-full truncate'>
+                {bounty.title}
               </Link>
             )}
             <span>Locked until:</span>
@@ -196,11 +192,14 @@ const ApproveFundModal = ({
             {approveTransferState == SUCCESS && (
               <>
                 <span className='pr-8'>Transaction:</span>
-                <Link href={statesFormat[approveTransferState].link}>
-                  <a target={'_blank'} className='underline' rel='noopener noreferrer'>
-                    {transactionHash.slice(0, 5)} . . . {transactionHash.slice(62)}
-                    <LinkText />
-                  </a>
+                <Link
+                  href={statesFormat[approveTransferState].link}
+                  target={'_blank'}
+                  className='underline'
+                  rel='noopener noreferrer'
+                >
+                  {transactionHash.slice(0, 5)}. . .{transactionHash.slice(62)}
+                  <LinkText />
                 </Link>
               </>
             )}

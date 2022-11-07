@@ -18,15 +18,18 @@ const MiniDepositCard = ({ deposit, showLink, id }) => {
   const [tokenValues] = useGetTokenValues(deposit);
 
   // Hooks
-  useEffect(async () => {
-    if (showLink) {
-      try {
-        const fetchedTitle = await appState.githubRepository.fetchIssueById(deposit.bounty.bountyId);
-        updateTitle(fetchedTitle.title);
-      } catch (error) {
-        appState.logger.error(error, account, id);
+  useEffect(() => {
+    const getLink = async () => {
+      if (showLink) {
+        try {
+          const fetchedTitle = await appState.githubRepository.fetchIssueById(deposit.bounty.bountyId);
+          updateTitle(fetchedTitle.title);
+        } catch (error) {
+          appState.logger.error(error, account, id);
+        }
       }
-    }
+    };
+    getLink();
   });
 
   // render
@@ -38,7 +41,7 @@ const MiniDepositCard = ({ deposit, showLink, id }) => {
       }
     >
       {showLink && (
-        <Link href={`/contract/${deposit.bounty.bountyId}/${deposit.bounty.id}`}>
+        <Link href={`/contract/${deposit.bounty.bountyId}/${deposit.bounty.id}`} legacyBehavior>
           <h3 className='text-xl font-semibold leading-none underline cursor-pointer pb-2'>{title}</h3>
         </Link>
       )}

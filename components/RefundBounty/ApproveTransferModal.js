@@ -7,7 +7,7 @@ import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Link from 'next/link';
 import LinkText from '../svg/linktext';
 import ModalDefault from '../Utils/ModalDefault';
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
@@ -175,11 +175,14 @@ const ApproveTransferModal = ({
           {statesFormat[approveTransferState].link && (
             <>
               <span className='pr-8'>{statesFormat[approveTransferState].linkText}</span>
-              <Link href={statesFormat[approveTransferState].link}>
-                <a target={'_blank'} className='underline' rel='noopener noreferrer'>
-                  {transactionHash.slice(0, 5)} . . . {transactionHash.slice(62)}
-                  <LinkText />
-                </a>
+              <Link
+                href={statesFormat[approveTransferState].link}
+                target={'_blank'}
+                className='underline'
+                rel='noopener noreferrer'
+              >
+                {transactionHash.slice(0, 5)}. . .{transactionHash.slice(62)}
+                <LinkText />
               </Link>
             </>
           )}

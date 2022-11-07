@@ -13,27 +13,28 @@ const MiniBountyCard = ({ payout }) => {
   const [tokenValues] = useGetTokenValues(payout);
 
   //Hooks
-  useEffect(async () => {
+  useEffect(() => {
     let didCancel;
-    const fetchedTitle = await appState.githubRepository.fetchIssueById(payout.bounty.bountyId);
+    const getTitle = async () => {
+      const fetchedTitle = await appState.githubRepository.fetchIssueById(payout.bounty.bountyId);
 
-    if (!didCancel) {
-      updateTitle(fetchedTitle.title);
-    }
+      if (!didCancel) {
+        updateTitle(fetchedTitle.title);
+      }
+    };
+    getTitle();
     return () => (didCancel = true);
   }, [payout]);
 
   return (
     <Link href={`/contract/${payout.bounty.bountyId}/${payout.bounty.id}`}>
-      <a>
-        <div className='border-border-colour hover:bg-active-gray bg-inactive-gray border rounded-sm px-6 py-2 my-4 cursor-pointer'>
-          <div className=''>{title}</div>
+      <div className='border-border-colour hover:bg-active-gray bg-inactive-gray border rounded-sm px-6 py-2 my-4 cursor-pointer'>
+        <div className=''>{title}</div>
 
-          {tokenValues
-            ? `${appState.utils.formatter.format(tokenValues.total)}`
-            : `${appState.utils.formatter.format(0)}`}
-        </div>
-      </a>
+        {tokenValues
+          ? `${appState.utils.formatter.format(tokenValues.total)}`
+          : `${appState.utils.formatter.format(0)}`}
+      </div>
     </Link>
   );
 };

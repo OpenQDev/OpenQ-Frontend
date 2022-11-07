@@ -3,7 +3,7 @@ import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
 import Link from 'next/link';
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image';
 import chainIdDeployEnvMap from '../../components/WalletConnect/chainIdDeployEnvMap';
 
 // Custom
@@ -522,11 +522,10 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                   href={
                     'https://github.com/OpenQDev/OpenQ-Contracts/blob/production/contracts/Bounty/Implementations/BountyV1.sol'
                   }
+                  className='flex content-center gap-2 underline px-8'
                 >
-                  <a className='flex content-center gap-2 underline px-8'>
-                    <Image src={'/social-icons/github-logo-white.svg'} width={24} height={24} />
-                    Contract source code
-                  </a>
+                  <Image src={'/social-icons/github-logo-white.svg'} width={24} height={24} />
+                  Contract source code
                 </Link>
                 <div className='pb-10 pt-6 px-8 w-full'>
                   <ToolTipNew

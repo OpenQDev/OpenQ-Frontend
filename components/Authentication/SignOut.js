@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import axios from 'axios';
 // Custom
 import AuthContext from '../../store/AuthStore/AuthContext';
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image';
 
 const SignOut = ({ propicUrl }) => {
   const [, setAuthState] = useContext(AuthContext);

@@ -7,17 +7,20 @@ const Users = () => {
   const [apiSecret, setApiSecret] = useState();
   const [appState] = useContext(StoreContext);
 
-  useEffect(async () => {
-    if (apiSecret) {
-      try {
-        // add pagination if necessary
-        const limit = 400;
-        const users = await appState.openQPrismaClient.getUsers(apiSecret, limit);
-        setUsers(users);
-      } catch (err) {
-        appState.logger.error(err);
+  useEffect(() => {
+    const displayUsers = async () => {
+      if (apiSecret) {
+        try {
+          // add pagination if necessary
+          const limit = 400;
+          const users = await appState.openQPrismaClient.getUsers(apiSecret, limit);
+          setUsers(users);
+        } catch (err) {
+          appState.logger.error(err);
+        }
       }
-    }
+    };
+    displayUsers();
   }, [apiSecret]);
   return (
     <div className='bg-black rounded-lg p-4 space-y-4 w-full col-span-2'>

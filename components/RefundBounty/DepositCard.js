@@ -30,21 +30,22 @@ const DepositCard = ({
 
   const [expanded, setExpanded] = useState(false);
   const [NFT, setNFT] = useState();
-  useEffect(async () => {
-    if (deposit?.isNft && library) {
-      const NFT = await appState.openQClient.getNFT(library, deposit.tokenAddress, deposit.tokenId);
+  useEffect(() => {
+    const getNft = async () => {
+      if (deposit?.isNft && library) {
+        const NFT = await appState.openQClient.getNFT(library, deposit.tokenAddress, deposit.tokenId);
 
-      setNFT(NFT);
-    }
+        setNFT(NFT);
+      }
+    };
+    getNft();
   }, [deposit, library]);
   return (
     <div className='flex flex-col items-center w-full md:border rounded-sm border-gray-700 text-primary'>
       <div className='flex justify-center w-full md:bg-[#161b22] md:border-b border-gray-700 pb-1 rounded-t-sm'>
         {deposit.isNft && NFT ? (
-          <Link href={NFT.uri}>
-            <a className='underline'>
-              {NFT?.name} #{deposit.tokenId}
-            </a>
+          <Link href={NFT.uri} className='underline'>
+            {NFT?.name}#{deposit.tokenId}
           </Link>
         ) : (
           <TokenBalances lean={true} tokenBalances={deposit} tokenValues={tokenValues} singleCurrency={true} />

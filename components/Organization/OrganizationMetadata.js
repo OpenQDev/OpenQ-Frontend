@@ -1,6 +1,6 @@
 // Third Party
 import React from 'react';
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image';
 import Link from 'next/link';
 
 // Custom
@@ -25,10 +25,8 @@ const OrganizationMetadata = ({ organizationData, repositories }) => {
               return (
                 <div key={index}>
                   <ToolTipNew key={member.url} toolTipText={member.name || member.login}>
-                    <Link href={member.url}>
-                      <a target={'_blank'} rel='noopener noreffer'>
-                        <Image className='rounded-lg cursor-pointer' height={36} width={36} src={member.avatarUrl} />
-                      </a>
+                    <Link href={member.url} target={'_blank'} rel='noopener noreffer'>
+                      <Image className='rounded-lg cursor-pointer' height={36} width={36} src={member.avatarUrl} />
                     </Link>
                   </ToolTipNew>
                 </div>

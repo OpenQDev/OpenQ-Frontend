@@ -5,7 +5,7 @@ import AssociationModal from '../../../components/User/GithubRegistration/Associ
 import Logger from '../../../services/logger/Logger';
 import SubMenu from '../../../components/Utils/SubMenu';
 import { Gear } from '../../../components/svg/gear';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 
 const account = ({ githubId, githubUser /* , organizations */, renderError }) => {
   const [internalMenu, setInternalMenu] = useState('Settings');

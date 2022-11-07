@@ -130,7 +130,7 @@ const address = ({ address, mergedBounty, renderError }) => {
   }, [account]);
 
   // Hooks
-  useEffect(async () => {
+  useEffect(() => {
     const bountyTypeName = appState.utils.getBountyTypeName(bounty);
     ReactGA.event(
       {

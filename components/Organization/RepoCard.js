@@ -11,8 +11,12 @@ const RepoCard = ({ repository }) => {
         ></path>
       </svg>
       {repository.url && (
-        <Link title={repository.url} href={repository.url}>
-          <a className='text-link-colour hover:underline cursor-pointer ml-2'>{repository.name}</a>
+        <Link
+          title={repository.url}
+          href={repository.url}
+          className='text-link-colour hover:underline cursor-pointer ml-2'
+        >
+          {repository.name}
         </Link>
       )}
       <div className='mt-2 text-xs text-muted leading-normal min-h-[12px]'>{repository.description}</div>

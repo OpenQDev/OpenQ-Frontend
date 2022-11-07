@@ -20,7 +20,7 @@ const AboutFunder = ({ user }) => {
 
   const iconWrapper = useRef(null);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (account && iconWrapper.current) {
       iconWrapper.current.innerHTML = '';
       iconWrapper.current.appendChild(jazzicon(32, parseInt(account.slice(2, 10), 16)));

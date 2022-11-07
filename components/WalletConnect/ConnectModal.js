@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { metaMask, walletConnect } from './connectors';
 import useWeb3 from '../../hooks/useWeb3';
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image';
 import ModalLarge from '../Utils/ModalLarge';
 
 const ConnectModal = ({ closeModal, setShowModal }) => {

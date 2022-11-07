@@ -1,6 +1,6 @@
 // Third party
 import React, { useContext, useEffect, useState } from 'react';
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image';
 import Link from 'next/link';
 import StoreContext from '../../store/Store/StoreContext';
 import starOrganization from './starOrganization';
@@ -23,23 +23,26 @@ const HorizontalOrganizationCard = ({ organization }) => {
     setStarredDisabled(false);
   }, [account, organization.starringUserIds]);
 
-  useEffect(async () => {
-    if (organization?.bounties) {
-      const filteredBounties = organization.bounties.nodes.filter((contract) => !contract.blacklisted && !closed);
-      const bountyAddresses = filteredBounties.map((bounty) => bounty.address.toLowerCase());
-      const bountyIds = filteredBounties.map((bounty) => bounty.bountyId);
-      const githubIssues = await appState.githubRepository.getLeanIssueData(bountyIds);
-      const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(bountyAddresses);
-      const combinedBounties = await appState.utils.combineBounties(subgraphBounties, githubIssues, filteredBounties);
-      const budgetedOrFundedBounties = combinedBounties.filter(
-        (bounty) =>
-          ((bounty.fundingGoalVolume && bounty.fundingGoalVolume !== '0') || bounty.bountyTokenBalances?.length) &&
-          !bounty.closed
-      );
-      setOrgBounties(budgetedOrFundedBounties);
-    } else if (organization) {
-      setOrgBounties(organization.bountiesCreated);
-    }
+  useEffect(() => {
+    const fetchBountiesData = async () => {
+      if (organization?.bounties) {
+        const filteredBounties = organization.bounties.nodes.filter((contract) => !contract.blacklisted && !closed);
+        const bountyAddresses = filteredBounties.map((bounty) => bounty.address.toLowerCase());
+        const bountyIds = filteredBounties.map((bounty) => bounty.bountyId);
+        const githubIssues = await appState.githubRepository.getLeanIssueData(bountyIds);
+        const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(bountyAddresses);
+        const combinedBounties = await appState.utils.combineBounties(subgraphBounties, githubIssues, filteredBounties);
+        const budgetedOrFundedBounties = combinedBounties.filter(
+          (bounty) =>
+            ((bounty.fundingGoalVolume && bounty.fundingGoalVolume !== '0') || bounty.bountyTokenBalances?.length) &&
+            !bounty.closed
+        );
+        setOrgBounties(budgetedOrFundedBounties);
+      } else if (organization) {
+        setOrgBounties(organization.bountiesCreated);
+      }
+    };
+    fetchBountiesData();
   }, [organization.bountiesCreated]);
   const handleStar = () => {
     starOrganization(account, organization.id, starred, setStarred, setStarredDisabled, context);
@@ -52,9 +55,7 @@ const HorizontalOrganizationCard = ({ organization }) => {
       </div>
       <div>
         <h2 className='text-xl mt-1 leading-tight text-primary hover:text-link-colour'>
-          <Link href={`/organization/${organization.login}`}>
-            <a>{organization.name || organization.login}</a>
-          </Link>
+          <Link href={`/organization/${organization.login}`}>{organization.name || organization.login}</Link>
         </h2>
         <div className='flex gap-4'>
           <div className='mt-1 text text-sm leading-normal text-muted truncate'>

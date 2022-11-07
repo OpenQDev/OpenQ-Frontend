@@ -74,10 +74,8 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
                     if (pr.source?.['__typename'] === 'PullRequest' && pr.source?.url) {
                       return (
                         <li className='text-sm text-primary' key={index}>
-                          <Link href={pr.source.url}>
-                            <a target='_blank' className={'underline'}>
-                              {pr.source.title}
-                            </a>
+                          <Link href={pr.source.url} target='_blank' className={'underline'}>
+                            {pr.source.title}
                           </Link>
                           <span>{pr.source.merged ? ' (merged)' : ' (not merged)'}</span>
                         </li>
@@ -129,15 +127,18 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
                   />
                 ))}
             {bounty.bountyTokenBalances?.length > 1 && (
-              <Link href={`/contract/${bounty.id}/${bounty.bountyAddress}`}>
-                <a onClick={closeModal} target={safe ? '_self' : '_blank'} rel='noopener noreferrer'>
-                  <div
-                    onClick={closeModal}
-                    className='border border-web-gray px-4 pb-1.5 pt-1.5 w-max rounded-md cursor-pointer'
-                  >
-                    more...
-                  </div>
-                </a>
+              <Link
+                href={`/contract/${bounty.id}/${bounty.bountyAddress}`}
+                onClick={closeModal}
+                target={safe ? '_self' : '_blank'}
+                rel='noopener noreferrer'
+              >
+                <div
+                  onClick={closeModal}
+                  className='border border-web-gray px-4 pb-1.5 pt-1.5 w-max rounded-md cursor-pointer'
+                >
+                  more...
+                </div>
               </Link>
             )}
           </div>
@@ -147,13 +148,16 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
             <div className=' flex-1 w-full py-4 border-web-gray border px-2 rounded-sm'>
               <section className='markdown-body' dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}></section>
               <div className='py-4'>
-                <Link href={`/contract/${bounty.id}/${bounty.bountyAddress}`}>
-                  <a onClick={closeModal} target={safe ? '_self' : '_blank'} rel='noopener noreferrer'>
-                    <div className='flex flex-row space-x-2 btn-default text-sm w-fit items-center'>
-                      <LogIcon size={16} />
-                      <div>Read more</div>
-                    </div>
-                  </a>
+                <Link
+                  href={`/contract/${bounty.id}/${bounty.bountyAddress}`}
+                  onClick={closeModal}
+                  target={safe ? '_self' : '_blank'}
+                  rel='noopener noreferrer'
+                >
+                  <div className='flex flex-row space-x-2 btn-default text-sm w-fit items-center'>
+                    <LogIcon size={16} />
+                    <div>Read more</div>
+                  </div>
                 </Link>
               </div>
             </div>

@@ -19,15 +19,18 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr }) => 
   const [error, setError] = useState({});
   const zeroAddress = '0x0000000000000000000000000000000000000000';
   let unit;
-  useEffect(async () => {
-    const userId = pr.author.id;
-    if (library) {
-      const closer = await appState.openQClient.getAddressById(library, userId);
-      if (ethers.utils.isAddress(closer) && closer !== zeroAddress) {
-        setCloser(closer);
+  useEffect(() => {
+    const getAddress = async () => {
+      const userId = pr.author.id;
+      if (library) {
+        const closer = await appState.openQClient.getAddressById(library, userId);
+        if (ethers.utils.isAddress(closer) && closer !== zeroAddress) {
+          setCloser(closer);
+        }
       }
-    }
-    setUser({ id: pr.author.id, login: pr.author.login });
+      setUser({ id: pr.author.id, login: pr.author.login });
+    };
+    getAddress();
   }, [library, pr]);
   const claimBounty = async () => {
     try {

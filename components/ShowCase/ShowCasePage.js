@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image';
 import Link from 'next/link';
 import useAuth from '../../hooks/useAuth';
 import useWeb3 from '../../hooks/useWeb3';
@@ -32,9 +32,9 @@ const ShowCasePage = ({ pr }) => {
     }
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     try {
-      await getOffChainData();
+      getOffChainData();
     } catch (err) {
       appState.logger.error(err, account);
     }
@@ -106,8 +106,8 @@ const ShowCasePage = ({ pr }) => {
   return (
     <div className='m-auto w-3/4'>
       <h1 className='lsm:text-[32px] text-4xl pt-16 pb-8 flex-1 leading-tight min-w-[240px] pr-20'>{pr.title}</h1>
-      <Link href={pr.url}>
-        <a className='text-tinted underline'>View Source</a>
+      <Link href={pr.url} className='text-tinted underline'>
+        View Source
       </Link>
       <div className='pt-8 text-lg'>
         {' '}
@@ -190,15 +190,11 @@ const ShowCasePage = ({ pr }) => {
       <div className='py-2'>
         <div className='flex gap-2 h-6 text-primary'>
           <Link href={pr.author.url}>
-            <a>
-              <Image className='rounded-lg' src={pr.author.avatarUrl} height={'32px'} width={'32'} />
-            </a>
+            <Image className='rounded-lg' src={pr.author.avatarUrl} height={'32px'} width={'32'} />
           </Link>
           <div className='text-xl '>{pr.author.login}</div>
           <Link href={`https://twitter.com/${pr.author.twitterUsername}`}>
-            <a>
-              <Image width={24} height={24} src={'/social-icons/twitter.svg'} />
-            </a>
+            <Image width={24} height={24} src={'/social-icons/twitter.svg'} />
           </Link>
         </div>
       </div>
@@ -207,17 +203,17 @@ const ShowCasePage = ({ pr }) => {
           <div className='py-2 text-primary' key={index}>
             <div className='flex gap-2 h-6'>
               <Link href={contributor.url}>
-                <a>
-                  <Image className='rounded-lg' src={contributor.avatarUrl} height={'32px'} width={'32'} />
-                </a>
+                <Image className='rounded-lg' src={contributor.avatarUrl} height={'32px'} width={'32'} />
               </Link>
               <div className='text-xl '>{contributor.login}</div>
               {contributor.twitterUsername}
               {contributor.twitterUsername && (
-                <Link href={`https://twitter.com/${contributor.twitterUsername}`}>
-                  <a target='_blank' rel='noopener norefferer'>
-                    <Image width={24} height={24} src={'/social-icons/twitter.svg'} />
-                  </a>
+                <Link
+                  href={`https://twitter.com/${contributor.twitterUsername}`}
+                  target='_blank'
+                  rel='noopener norefferer'
+                >
+                  <Image width={24} height={24} src={'/social-icons/twitter.svg'} />
                 </Link>
               )}
               {isAuthor && (

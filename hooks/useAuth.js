@@ -11,19 +11,22 @@ const useAuth = () => {
   const [appState] = useContext(StoreContext);
   const { reloadNow } = appState;
   const { account } = useWeb3();
-  useEffect(async () => {
-    if (Object.prototype.hasOwnProperty.call(authState, 'login') && account) {
-      const accountData = await appState.openQPrismaClient.getUser(account);
+  useEffect(() => {
+    const checkGithub = async () => {
+      if (Object.prototype.hasOwnProperty.call(authState, 'login') && account) {
+        const accountData = await appState.openQPrismaClient.getUser(account);
 
-      if (!accountData?.github) {
-        const githubLogin = authState.login;
-        const params = {
-          address: ethers.utils.getAddress(account),
-          ...(githubLogin && { github: githubLogin }),
-        };
-        await appState.openQPrismaClient.updateUserSimple(params);
+        if (!accountData?.github) {
+          const githubLogin = authState.login;
+          const params = {
+            address: ethers.utils.getAddress(account),
+            ...(githubLogin && { github: githubLogin }),
+          };
+          await appState.openQPrismaClient.updateUserSimple(params);
+        }
       }
-    }
+    };
+    checkGithub();
   }, [authState, account]);
   useEffect(() => {
     let didCancel;
@@ -56,7 +59,7 @@ const useAuth = () => {
   }, []);
 
   // runs whenever backend changes or account changes.
-  useEffect(async () => {
+  useEffect(() => {
     let didCancel;
     // updates signed account if recieves true.
     async function checkAccount() {
@@ -73,12 +76,12 @@ const useAuth = () => {
       }
     }
     if (account) {
-      await checkAccount();
+      checkAccount();
     }
     () => (didCancel = true);
   }, [account, reloadNow]);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (account) {
       const logAuth = () => {
         ReactGA.event({

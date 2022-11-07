@@ -24,7 +24,7 @@ const BountyContributors = ({ bounty }) => {
       {/*Each contributor account should be clickable so people can see other things they've funded, bounties created, etc. more social*/}
       {Object.keys(contributors).map((contributor) => {
         return (
-          <Link href={`/user/${contributor}`} key={contributor}>
+          <Link href={`/user/${contributor}`} key={contributor} legacyBehavior>
             {contributor}
           </Link>
         );
