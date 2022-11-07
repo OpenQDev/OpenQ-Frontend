@@ -65,10 +65,6 @@ class Utils {
     return formattedTime;
   };
 
-  formatDate = (createdAt, hideDate) => {
-    return this.formatUnixDate(new Date(createdAt) / 1000, hideDate);
-  };
-
   issurUrlRegex = (issueUrl) => {
     const pattern = /https?:\/\/github\.com\/(?:[^\/\s]+\/)+(?:issues\/\d+)/;
     return pattern.test(issueUrl);
