@@ -35,9 +35,9 @@ const GetSupportModal = ({ wizardVisibility, modalVisibility }) => {
       target={'_blank'}
       rel='noopener noreferrer'
     >
-      <div data-testid='link'>
+      <div data-testid='link' className='flex items-center gap-2 btn-primary'>
         <Image src={'/social-icons/discord.svg'} width={24} height={24} />
-        <p>Get Help!</p>
+        Get Help!
       </div>
     </a>
   );
