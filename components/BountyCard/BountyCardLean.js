@@ -15,7 +15,6 @@ import useAuth from '../../hooks/useAuth';
 
 const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
   // State
-  console.log(bounty);
   const bountyName = bounty?.title.toLowerCase() || '';
   const [appState] = useContext(StoreContext);
   const [isModal, setIsModal] = useState();
@@ -43,7 +42,6 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
   const [watchingUsers] = watchingState;
   const [payoutValues] = useGetTokenValues(bounty.payouts);
   // Hooks
-  console.log(payoutValues);
   const [authState] = useAuth();
   const marker = appState.utils.getBountyMarker(bounty, authState.login);
   const bountyTypeName = appState.utils.getBountyTypeName(bounty);

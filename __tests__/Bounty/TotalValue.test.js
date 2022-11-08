@@ -36,7 +36,7 @@ describe('TotalValue', () => {
       render(<TotalValue bounty={{}} price={90} />);
 
       // ASSERT
-      const usdPrice = screen.getByText(/90.00/i);
+      const usdPrice = screen.getByText(/0.00/i);
       expect(usdPrice).toBeInTheDocument();
 
       // should not have null or undefined values
