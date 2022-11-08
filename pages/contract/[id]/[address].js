@@ -206,7 +206,9 @@ const address = ({ address, mergedBounty, renderError }) => {
             <div className='text-2xl'>
               Bounty not found.{' '}
               <span className='underline'>
-                <Link href={'/'}>Go home</Link>
+                <Link href={'/'}>
+                  <span>Go home</span>
+                </Link>
               </span>
               .
             </div>

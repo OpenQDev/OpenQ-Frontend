@@ -37,10 +37,10 @@ const Footer = () => {
         <div className='font-semibold font-sans text-3xl'>OpenQ</div>
         <OpenQSocials />
         <Link href={'https://openq.canny.io/openq-feature-requests'} className='text-lg lg:justify-self-center '>
-          Feature requests
+          <span>Feature requests </span>
         </Link>
         <Link href={'https://docs.openq.dev'} className='text-lg lg:justify-self-center '>
-          Documentation
+          <span>Documentation</span>
         </Link>
         <div className='text-lg text-muted '>
           Copyright {year} <span className='whitespace-nowrap'>OpenQ ©</span>

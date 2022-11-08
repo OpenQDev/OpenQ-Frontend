@@ -182,8 +182,10 @@ const ApproveTransferModal = ({
                 rel='noopener noreferrer'
                 legacyBehavior
               >
-                {transactionHash.slice(0, 5)}. . .{transactionHash.slice(62)}
-                <LinkText />
+                <>
+                  {transactionHash.slice(0, 5)}. . .{transactionHash.slice(62)}
+                  <LinkText />
+                </>
               </Link>
             </>
           )}

@@ -73,8 +73,10 @@ const AccountModal = ({ chainId, account, ensName, setIsConnecting, domRef, isSa
               className='flex md:hover:bg-[#1f6feb] h-8 items-center w-full hover:text-white text-[#c9d1d9] self-start gap-4 p-2 mb-2'
               legacyBehavior
             >
-              <PersonIcon className='w-4 h-4 ml-2' />
-              <span>Profile</span>
+              <>
+                <PersonIcon className='w-4 h-4 ml-2' />
+                <span>Profile</span>
+              </>
             </Link>
           </div>
         )}

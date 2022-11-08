@@ -37,8 +37,10 @@ const GetSupportModal = ({ wizardVisibility, modalVisibility }) => {
       rel='noopener noreferrer'
       legacyBehavior
     >
-      <Image src={'/social-icons/discord.svg'} width={24} height={24} />
-      <p>Get Help!</p>
+      <>
+        <Image src={'/social-icons/discord.svg'} width={24} height={24} />
+        <p>Get Help!</p>
+      </>
     </Link>
   );
 

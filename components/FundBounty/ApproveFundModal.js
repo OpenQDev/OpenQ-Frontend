@@ -171,8 +171,10 @@ const ApproveFundModal = ({
                 rel='noopener noreferrer'
                 legacyBehavior
               >
-                {statesFormat[approveTransferState].linkText || statesFormat[approveTransferState].link}
-                <LinkText />
+                <>
+                  {statesFormat[approveTransferState].linkText || statesFormat[approveTransferState].link}
+                  <LinkText />
+                </>
               </Link>
             </p>
           )}
@@ -193,7 +195,7 @@ const ApproveFundModal = ({
                 className='underline w-full truncate'
                 legacyBehavior
               >
-                {bounty.title}
+                <span>{bounty.title}</span>
               </Link>
             )}
             <span>Locked until:</span>
@@ -210,8 +212,10 @@ const ApproveFundModal = ({
                   rel='noopener noreferrer'
                   legacyBehavior
                 >
-                  {transactionHash.slice(0, 5)}. . .{transactionHash.slice(62)}
-                  <LinkText />
+                  <>
+                    {transactionHash.slice(0, 5)}. . .{transactionHash.slice(62)}
+                    <LinkText />
+                  </>
                 </Link>
               </>
             )}

@@ -131,6 +131,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
     if (!pickedNft) {
       try {
         const isWhitelisted = await openQClient.isWhitelisted(library, token.address);
+        console.log('exec', console.log(isWhitelisted));
 
         // Only check bounty token address limit for non-whitelisted tokens
         if (!isWhitelisted) {
@@ -145,7 +146,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
           }
         }
       } catch (error) {
-        console.error('err', error);
         setError({
           title: 'Call Revert Exception',
           message: 'A contract call exception occurred. Please try again.',
@@ -196,10 +196,11 @@ const FundPage = ({ bounty, refreshBounty }) => {
         setButtonText('Fund');
         setApproveTransferState(ERROR);
       }
-
+      console.log(approveSucceeded, 'success');
       if (approveSucceeded || allowance) {
         setApproveTransferState(TRANSFERRING);
         try {
+          console.log("Let's gop");
           const fundTxnReceipt = await openQClient.fundBounty(
             library,
             bounty.bountyAddress,
@@ -207,11 +208,14 @@ const FundPage = ({ bounty, refreshBounty }) => {
             bigNumberVolumeInWei,
             depositPeriodDays
           );
+          console.log('funded');
           setTransactionHash(fundTxnReceipt.events[0].transactionHash);
           setApproveTransferState(SUCCESS);
+          console.log('success');
           setSuccessMessage(`Successfully funded issue ${bounty.url} with ${volume} ${token.symbol}!`);
           refreshBounty();
         } catch (error) {
+          console.log('errorer');
           logger.error(error, account, bounty.id);
           const { message, title } = openQClient.handleError(error, {
             bounty,

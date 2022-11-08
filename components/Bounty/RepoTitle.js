@@ -24,7 +24,7 @@ const RepoTitle = ({ bounty }) => {
                 className='text-link-colour hover:underline'
                 legacyBehavior
               >
-                {bounty.owner}
+                <span>{bounty.owner}</span>
               </Link>
               <span className='text-muted'> / {bounty.repoName}</span>
             </span>

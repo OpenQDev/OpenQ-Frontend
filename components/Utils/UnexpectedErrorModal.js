@@ -18,7 +18,10 @@ const UnexpectedErrorModal = ({ error }) => {
       <p>Sorry, something went wrong. {error ? error : 'There was an error fetching data for your page.'}</p>
       {typeof error === 'string' && error?.includes('Github') && (
         <span className='underline'>
-          <Link href={'https://www.githubstatus.com/'}>Check Github Status</Link>.
+          <Link href={'https://www.githubstatus.com/'}>
+            <span>Check Github Status</span>
+          </Link>
+          .
         </span>
       )}
     </ModalDefault>

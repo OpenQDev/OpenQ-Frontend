@@ -178,7 +178,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
                     return (
                       <li className='text-sm text-primary' key={index}>
                         <Link href={pr.source.url} target='_blank' className={'underline'} legacyBehavior>
-                          {pr.source.title}
+                          <span>{pr.source.title}</span>
                         </Link>
                         <span>{pr.source.merged ? ' (merged)' : ' (not merged)'}</span>
                       </li>

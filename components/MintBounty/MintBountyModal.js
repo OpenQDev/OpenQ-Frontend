@@ -525,8 +525,10 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                   className='flex content-center gap-2 underline px-8'
                   legacyBehavior
                 >
-                  <Image src={'/social-icons/github-logo-white.svg'} width={24} height={24} />
-                  Contract source code
+                  <>
+                    <Image src={'/social-icons/github-logo-white.svg'} width={24} height={24} />
+                    Contract source code
+                  </>
                 </Link>
                 <div className='pb-10 pt-6 px-8 w-full'>
                   <ToolTipNew

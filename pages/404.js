@@ -10,7 +10,9 @@ const PageNotFound = () => {
       <div className='text-2xl'>
         404: Page not found.{' '}
         <span className='underline'>
-          <Link href={'/'}>Go home</Link>
+          <Link href={'/'}>
+            <span>Go home</span>
+          </Link>
         </span>
         .
       </div>

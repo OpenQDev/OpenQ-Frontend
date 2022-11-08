@@ -18,14 +18,14 @@ const BountyModalHeading = ({ bounty, closeModal, unWatchable, watchingState }) 
             className='text-link-colour hover:underline'
             legacyBehavior
           >
-            {bounty.owner}
+            <div>{bounty.owner}</div>
           </Link>
           <span className='text-muted'> / {bounty.repoName}</span>
         </span>
         <h2 className='text-xl flex-1 leading-tight md:w-96'>
           <span className='flex text-primary break-word'>{bounty.title} </span>
           <Link href={bounty.url} className='text-muted text font-light' target='_blank' legacyBehavior>
-            #{bounty.number}
+            <div>#{bounty.number}</div>
           </Link>
         </h2>
       </div>

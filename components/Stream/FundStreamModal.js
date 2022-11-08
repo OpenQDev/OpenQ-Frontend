@@ -133,8 +133,10 @@ const FundStreamModal = ({
               {link[approveTransferState] && (
                 <p className='break-all underline'>
                   <Link href={link[approveTransferState]} target={'_blank'} rel='noopener noreferrer' legacyBehavior>
-                    {linkText[approveTransferState] || link[approveTransferState]}
-                    <LinkText />
+                    <>
+                      {linkText[approveTransferState] || link[approveTransferState]}
+                      <LinkText />
+                    </>
                   </Link>
                 </p>
               )}
@@ -160,8 +162,10 @@ const FundStreamModal = ({
                 rel='noopener noreferrer'
                 legacyBehavior
               >
-                {transactionHash.slice(0, 5)}. . .{transactionHash.slice(62)}
-                <LinkText />
+                <>
+                  {transactionHash.slice(0, 5)}. . .{transactionHash.slice(62)}
+                  <LinkText />
+                </>
               </Link>
             </div>
           ) : (

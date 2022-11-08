@@ -29,10 +29,12 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
               className='flex items-center gap-1 underline'
               legacyBehavior
             >
-              <div id={'bounty-link'} className='flex cursor-pointer items-center'>
-                <Image src='/BountyMaterial/polyscan-white.png' width={18} height={18} />
-              </div>
-              <span className='underline pl-1'>view here</span>
+              <>
+                <div id={'bounty-link'} className='flex cursor-pointer items-center'>
+                  <Image src='/BountyMaterial/polyscan-white.png' width={18} height={18} />
+                </div>
+                <span className='underline pl-1'>view here</span>
+              </>
             </Link>
           </div>
         </div>

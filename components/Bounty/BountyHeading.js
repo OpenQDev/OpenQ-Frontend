@@ -27,7 +27,7 @@ const BountyHeading = ({ bounty, price, budget }) => {
               target='_blank'
               legacyBehavior
             >
-              #{bounty.number}
+              <span>#{bounty.number}</span>
             </Link>
           ) : (
             <div>#{bounty.number}</div>

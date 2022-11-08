@@ -131,14 +131,14 @@ const ClaimLoadingModal = ({
             className='underline w-full truncate'
             legacyBehavior
           >
-            {bounty.title}
+            <span> {bounty.title}</span>
           </Link>
         )}
         <span>Your PR:</span>
         {latestUserPR ? (
           <span>
             <Link href={latestUserPR.source.url} target='_blank' className={'underline'} legacyBehavior>
-              {latestUserPR.source.title}
+              <span> {latestUserPR.source.title}</span>
             </Link>
             <span>{latestUserPR.source.merged ? ' (merged)' : ' (not merged)'}</span>
           </span>
@@ -163,8 +163,10 @@ const ClaimLoadingModal = ({
               rel='noopener noreferrer'
               legacyBehavior
             >
-              {transactionHash.slice(0, 5)}. . .{transactionHash.slice(62)}
-              <LinkText />
+              <>
+                {transactionHash.slice(0, 5)}. . .{transactionHash.slice(62)}
+                <LinkText />
+              </>
             </Link>
           </>
         )}

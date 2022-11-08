@@ -56,7 +56,7 @@ const HorizontalOrganizationCard = ({ organization }) => {
       <div>
         <h2 className='text-xl mt-1 leading-tight text-primary hover:text-link-colour'>
           <Link href={`/organization/${organization.login}`} legacyBehavior>
-            {organization.name || organization.login}
+            <span> {organization.name || organization.login}</span>
           </Link>
         </h2>
         <div className='flex gap-4'>

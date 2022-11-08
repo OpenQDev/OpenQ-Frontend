@@ -17,7 +17,7 @@ const RepoCard = ({ repository }) => {
           className='text-link-colour hover:underline cursor-pointer ml-2'
           legacyBehavior
         >
-          {repository.name}
+          <span> {repository.name}</span>
         </Link>
       )}
       <div className='mt-2 text-xs text-muted leading-normal min-h-[12px]'>{repository.description}</div>
