@@ -96,7 +96,6 @@ const SetTierValues = ({
       setTierVolumes(newVolumes);
     }
   };
-  console.log('fixed', fixedTierVolumes, finalTierVolumes, tierVolumes);
   return (
     <>
       {category === 'Contest' ? (

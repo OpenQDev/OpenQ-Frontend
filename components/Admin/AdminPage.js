@@ -243,8 +243,6 @@ const AdminPage = ({ bounty, refreshBounty }) => {
     }
   }
 
-  console.log('finaltiervolumes in Adminpage', finalTierVolumes);
-
   return (
     <>
       {showButton ? (
