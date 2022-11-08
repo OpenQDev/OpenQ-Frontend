@@ -69,7 +69,7 @@ const AssociationModal = ({ githubId, user, redirectUrl, renderError }) => {
         };
 
         dispatch(payload);
-        redirectUrl && router.push(`${redirectUrl}`);
+        redirectUrl && router.push(redirectUrl);
         try {
           canvas.current.width = window.innerWidth;
           canvas.current.height = window.innerHeight;
