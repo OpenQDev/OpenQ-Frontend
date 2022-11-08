@@ -318,6 +318,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
     }
   }, [category, tier, sum]);
 
+  console.log(finalTierVolumes);
   // Render
   return (
     <div

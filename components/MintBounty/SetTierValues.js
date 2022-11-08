@@ -34,13 +34,12 @@ const SetTierValues = ({
     setFixedTierVolumes(newFixedVolumes);
   }, [tierArr]);
   function onFixedTierChange(e, localTierVolumes) {
-    if (parseInt(e.target.value) >= 0) {
-      setFixedTierVolumes({
-        ...localTierVolumes,
-        [e.name]: parseInt(e.target.value),
-      });
-    }
-    if (parseInt(e.target.value) === '' || !Number(e.target.value) || parseInt(e.target.value) > 100) {
+    if (
+      parseInt(e.target.value) >= 0 ||
+      parseInt(e.target.value) === '' ||
+      !Number(e.target.value) ||
+      parseInt(e.target.value) > 100
+    ) {
       setFixedTierVolumes({
         ...localTierVolumes,
         [e.name]: parseInt(e.target.value),
@@ -49,7 +48,8 @@ const SetTierValues = ({
   }
   useEffect(() => {
     setFinalTierVolumes(Object.values(tierVolumes));
-  }, [tierVolumes]);
+    setFinalTierVolumes(Object.values(fixedTierVolumes));
+  }, [tierVolumes, fixedTierVolumes]);
   useEffect(() => {
     if (finalTierVolumes.length) {
       setSum(finalTierVolumes.reduce((a, b) => a + b));
@@ -61,13 +61,12 @@ const SetTierValues = ({
   }, [finalTierVolumes]);
 
   const onTierVolumeChange = (e, localTierVolumes) => {
-    if (parseInt(e.target.value) >= 0) {
-      setTierVolumes({
-        ...localTierVolumes,
-        [e.name]: parseInt(e.target.value),
-      });
-    }
-    if (parseInt(e.target.value) === '' || !Number(e.target.value) || parseInt(e.target.value) > 100) {
+    if (
+      parseInt(e.target.value) >= 0 ||
+      parseInt(e.target.value) === '' ||
+      !Number(e.target.value) ||
+      parseInt(e.target.value) > 100
+    ) {
       setTierVolumes({
         ...localTierVolumes,
         [e.name]: parseInt(e.target.value),
@@ -97,6 +96,7 @@ const SetTierValues = ({
       setTierVolumes(newVolumes);
     }
   };
+  console.log('fixed', fixedTierVolumes, finalTierVolumes, tierVolumes);
   return (
     <>
       {category === 'Contest' ? (
