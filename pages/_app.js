@@ -1,6 +1,6 @@
 // Third party Libraries
-import { Magic } from 'magic-sdk';
-import { OAuthExtension } from '@magic-ext/oauth';
+//import { Magic } from 'magic-sdk';
+//import { OAuthExtension } from '@magic-ext/oauth';
 import React, { useEffect, useState } from 'react';
 import { Web3ReactProvider } from '@web3-react/core';
 import 'tailwindcss/tailwind.css';
