@@ -137,16 +137,26 @@ const ActionBubble = ({ bounty, action }) => {
     const usdValue = appState.utils.formatter.format(tokenValues?.total);
 
     if (action.receiveTime) {
+      const addStrings = (a, b) => {
+        return parseInt(a) + parseInt(b);
+      };
+      console.log(action);
+      const expiryDate = appState.utils.formatUnixDate(addStrings(action.receiveTime, action.expiration));
+      console.log(expiryDate);
       if (action.isNft) {
         titlePartOne = `${funder} funded this contract with `;
-        titlePartTwo = ` on ${appState.utils.formatUnixDate(action.receiveTime)}.`;
+        titlePartTwo = ` on ${appState.utils.formatUnixDate(
+          action.receiveTime
+        )}. This deposit will expire on ${expiryDate}.`;
       } else {
         name = funder;
         titlePartOne = isNaN(tokenValues?.total)
           ? ''
           : `${funder} funded this contract with ${formattedVolume} ${
               tokenMetadata.symbol
-            } (${usdValue}) on ${appState.utils.formatUnixDate(action.receiveTime)}.`;
+            } (${usdValue}) on ${appState.utils.formatUnixDate(
+              action.receiveTime
+            )}. This deposit will expire on ${expiryDate}.`;
       }
     } else if (action.refundTime) {
       name = refunderEnsName || shortenAddress(refunder);

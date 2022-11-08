@@ -102,7 +102,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
     }
   }
   // Render
-
+  console.log(closed);
   return (
     <>
       {closed && bounty.bountyType === '0' ? (
@@ -114,13 +114,12 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
           }`}
         >
           <div className='flex flex-col space-y-2 items-center w-full md:border rounded-sm border-gray-700 text-primary'>
-            <h1 className='flex w-full text-3xl justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
-              Your Deposits
-            </h1>
+            <h2 className='flex w-full text-3xl justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
+              My Deposits
+            </h2>
             <div className='flex flex-col space-y-5 w-full px-8 pt-2'>
-              <div className=' text-center'>To see your deposits, connect the wallet that funded them.</div>
               <h2 className='text-2xl border-b border-gray-700 pb-4 flex contents-center items-center gap-4'>
-                <span>{closed && 'Partially'} Refundable</span>
+                <span>{closed && 'Partially'}My Refundable Deposits</span>
                 <span>
                   <ToolTipNew
                     innerStyles={'w-48 whitespace-normal'}
@@ -173,7 +172,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                       );
                     })}
               </div>
-              <h2 className='text-2xl border-b border-gray-700 pb-4'>Not Yet Refundable</h2>
+              <h2 className='text-2xl border-b border-gray-700 pb-4'>My Deposits - Not Yet Refundable</h2>
               <div className='grid lg:grid-cols-[1fr_1fr] gap-4 pb-5'>
                 {bounty.deposits &&
                   bounty.deposits
@@ -213,6 +212,30 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                     })
                     .filter((deposit) => {
                       return deposit.refunded == true;
+                    })
+                    .map((deposit) => {
+                      return (
+                        <div key={deposit.id}>
+                          <DepositCard
+                            deposit={deposit}
+                            status='refunded'
+                            bounty={bounty}
+                            refundBounty={refundBounty}
+                          />
+                        </div>
+                      );
+                    })}
+              </div>
+            </div>
+            <h2 className='flex w-full text-3xl justify-center px-12 py-4 md:bg-[#161b22] md:border-y border-gray-700 '>
+              Other Deposits
+            </h2>
+            <div className='flex flex-col space-y-5 w-full px-8 pt-2'>
+              <div className='grid lg:grid-cols-[1fr_1fr] gap-4 pb-5'>
+                {bounty.deposits &&
+                  bounty.deposits
+                    .filter((deposit) => {
+                      return ethers.utils.getAddress(deposit.sender.id) !== account;
                     })
                     .map((deposit) => {
                       return (

@@ -137,7 +137,7 @@ describe('RefundPage', () => {
     it('should render the heading', async () => {
       // ARRANGE
       render(<RefundPage bounty={bounty} />);
-      let heading = await screen.findByText('Your Deposits');
+      let heading = await screen.findByText('Deposits');
 
       // ASSERT
       expect(heading).toBeInTheDocument();
@@ -147,8 +147,8 @@ describe('RefundPage', () => {
       // ARRANGE
       const user = userEvent.setup();
       render(<RefundPage bounty={bounty} />);
-      let heading = await screen.findByText('Your Deposits');
-      const refundBtns = await screen.findAllByRole('button', { name: /Refund/i });
+      let heading = await screen.findByText('Deposits');
+      const refundBtns = await screen.getByRole('button', { name: /Refund/i });
       await user.click(refundBtns[0]);
       const confirmBtn = await screen.findByText('Yes, refund!');
       await user.click(confirmBtn);

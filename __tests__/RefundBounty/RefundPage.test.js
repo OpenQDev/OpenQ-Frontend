@@ -192,7 +192,7 @@ describe('RefundPage', () => {
     it('should render the heading', async () => {
       // ARRANGE
       render(<RefundPage bounty={bounty} />);
-      let heading = await screen.findByText('Your Deposits');
+      let heading = await screen.findByText('Deposits');
 
       // ASSERT
       expect(heading).toBeInTheDocument();
@@ -201,7 +201,7 @@ describe('RefundPage', () => {
     it('should render refundable', async () => {
       // ARRANGE
       render(<RefundPage bounty={bounty} />);
-      let heading = await screen.findByText('Your Deposits');
+      let heading = await screen.findByText('Deposits');
       const refundBtn = await screen.findByRole('button', { name: /Refund/i });
       const extendBtn = await screen.findAllByRole('button', { name: /Extend/i });
 
@@ -227,7 +227,7 @@ describe('RefundPage', () => {
     it('should render refunded', async () => {
       // ARRANGE
       render(<RefundPage bounty={depWithRefund} />);
-      let heading = await screen.findByText('Your Deposits');
+      let heading = await screen.findByText('Deposits');
 
       // ASSERT
       expect(heading).toBeInTheDocument();

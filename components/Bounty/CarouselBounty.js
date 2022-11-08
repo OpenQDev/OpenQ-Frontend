@@ -24,6 +24,7 @@ const CarouselBounty = ({ bounty }) => {
   const budget = budgetValue?.total;
 
   const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
+  const [payoutValues] = useGetTokenValues(bounty?.payouts);
   const price = tokenValues?.total;
 
   return (
@@ -105,10 +106,12 @@ const CarouselBounty = ({ bounty }) => {
                         <Image src='/crypto-logos/ETH-COLORED.png' alt='avatarUrl' width='12' height='20' />
                       </div>
 
-                      {bounty.status !== '0' && bounty.tvc ? (
+                      {bounty.status !== '0' ? (
                         <>
                           <div className='font-semibold '>TVC</div>
-                          <div className=''>{appState.utils.formatter.format(bounty.tvc)}</div>
+                          <div className=''>
+                            {appState.utils.formatter.format(bounty.tvc || payoutValues.total || 0)}
+                          </div>
                         </>
                       ) : (
                         <>

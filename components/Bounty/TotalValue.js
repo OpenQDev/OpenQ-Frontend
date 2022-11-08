@@ -8,7 +8,7 @@ const TotalValue = ({ price, bounty }) => {
   const [payoutPrice] = useGetTokenValues(bounty.payouts);
   return (
     <div className='text-base font-semibold text-primary'>
-      {bounty.status !== '0' && bounty.tvc ? (
+      {bounty.status !== '0' ? (
         <>
           <div>Total Value Claimed</div>
           <div className='text-sm font-normal'>
