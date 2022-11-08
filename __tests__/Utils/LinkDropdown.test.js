@@ -31,12 +31,8 @@ describe('LinkDropdown', () => {
   ];
   it('should display LinkDropdown', async () => {
     // ARRANGE
-    const user = userEvent.setup();
     render(<LinkDropdown items={items} />);
     // ASSERT
-    const view = screen.getAllByRole('link');
-    expect(view[0].href).toMatch(/localhost/);
-    await user.click(view[0]);
-    expect(push).toHaveBeenCalledTimes(1);
+    expect(screen.getAllByTestId('link')[0]).toBeInTheDocument();
   });
 });

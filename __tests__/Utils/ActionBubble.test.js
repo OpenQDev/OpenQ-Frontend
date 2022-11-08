@@ -179,7 +179,7 @@ describe('ActionBubble', () => {
 
     render(<ActionBubble bounty={bounty} />);
     // ASSERT
-    expect(await screen.findByText('sample.eth minted this contract on August 29, 2022 at 10:12.'));
+    expect(await screen.findByText('0xf3...2266 minted this contract on August 29, 2022 at 10:12.'));
     expect(screen.getByText(/body of test2/i)).toBeInTheDocument();
   });
 
@@ -188,9 +188,9 @@ describe('ActionBubble', () => {
     const user = userEvent.setup();
     render(<ActionBubble bounty={bounty} />);
     // ASSERT
-    const link = await screen.findByRole('link');
+    const link = await screen.findByTestId('link');
     await user.hover(link);
-    expect(screen.getByText('sample.eth'));
+    expect(screen.getByText('0xf3...2266 minted this contract on August 29, 2022 at 10:12.'));
   });
 
   it('should display funded action message', async () => {
@@ -237,7 +237,7 @@ describe('ActionBubble', () => {
     render(<ActionBubble action={action} bounty={bounty} />);
 
     // ASSERT
-    expect(await screen.findByText('sample.eth made a claim of $0.00 on this contract on January 3, 1970 at 7:33.'));
+    expect(await screen.findByText('0x5F...0aa3 made a claim of $0.00 on this contract on January 3, 1970 at 7:33.'));
   });
   it('should display single claimed action message', async () => {
     // ARRANGE
@@ -251,7 +251,7 @@ describe('ActionBubble', () => {
     render(<ActionBubble action={action} bounty={{ ...bounty, bountyType: '0' }} />);
 
     // ASSERT
-    expect(await screen.findByText('sample.eth claimed $0.00 on this contract on January 3, 1970 at 7:33.'));
+    expect(await screen.findByText('0x5F...0aa3 claimed $0.00 on this contract on January 3, 1970 at 7:33.'));
   });
   it('should display closed action message', async () => {
     // ARRANGE
@@ -265,7 +265,7 @@ describe('ActionBubble', () => {
     render(<ActionBubble action={action} bounty={{ ...bounty, bountyType: '0' }} />);
 
     // ASSERT
-    expect(await screen.findByText('sample.eth closed this contract on January 3, 1970 at 7:33.'));
+    expect(await screen.findByText('0xf3...2266 closed this contract on January 3, 1970 at 7:33.'));
   });
   it('should display pull request linked action message', async () => {
     // ARRANGE
@@ -287,6 +287,6 @@ describe('ActionBubble', () => {
 
     // ASSERT
     expect(await screen.findByText(/Christopher-Stevers linked/));
-    expect(screen.getAllByRole('link')[1].href).toBe(url);
+    expect(screen.getAllByRole('link')[0].href).toBe(url);
   });
 });

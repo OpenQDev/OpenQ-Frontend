@@ -36,13 +36,15 @@ const BountyHeading = ({ bounty, price, budget }) => {
         <div className='flex flex-row space-x-3 self-start items-center'>
           <div className='flex pt-1'>
             <Link href={bounty.url} target='_blank' legacyBehavior>
-              <Image
-                src='/social-icons/github-logo-white.svg'
-                className='cursor-pointer'
-                alt='Picture of the author'
-                width={30}
-                height={30}
-              />
+              <>
+                <Image
+                  src='/social-icons/github-logo-white.svg'
+                  className='cursor-pointer'
+                  alt='Picture of the author'
+                  width={30}
+                  height={30}
+                />
+              </>
             </Link>
           </div>
           <MintBountyButton types={['0', '1', '2', '3']} styles={'h-8'} wizard={true} />

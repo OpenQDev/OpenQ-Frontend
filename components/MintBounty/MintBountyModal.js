@@ -518,18 +518,17 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                   </div>
                 ) : null}
 
-                <Link
+                <a
                   href={
                     'https://github.com/OpenQDev/OpenQ-Contracts/blob/production/contracts/Bounty/Implementations/BountyV1.sol'
                   }
                   className='flex content-center gap-2 underline px-8'
-                  legacyBehavior
                 >
                   <>
                     <Image src={'/social-icons/github-logo-white.svg'} width={24} height={24} />
                     Contract source code
                   </>
-                </Link>
+                </a>
                 <div className='pb-10 pt-6 px-8 w-full'>
                   <ToolTipNew
                     outerStyles={''}

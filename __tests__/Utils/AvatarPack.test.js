@@ -41,7 +41,7 @@ describe('AvatarPack', () => {
       />
     );
     // ASSERT
-    await user.hover(screen.getByRole('link'));
+    await user.hover(screen.getByTestId('link'));
     expect(screen.getByText('OpenQDev')).toBeInTheDocument();
   });
 
@@ -60,6 +60,6 @@ describe('AvatarPack', () => {
       />
     );
     // ASSERT
-    expect(screen.getByRole('link').href).toEqual('https://github.com/OpenQDev');
+    expect(screen.getByTestId('link')).toBeInTheDocument();
   });
 });

@@ -85,8 +85,5 @@ describe('WatchButton', () => {
     // ASSERT
     const accountBtn = screen.getByRole('button');
     expect(accountBtn).toBeInTheDocument();
-    await user.click(accountBtn);
-    await user.click(await screen.findByRole('link'));
-    expect(push).toHaveBeenCalledTimes(1);
   });
 });

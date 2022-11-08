@@ -30,18 +30,17 @@ const GetSupportModal = ({ wizardVisibility, modalVisibility }) => {
   };
 
   const btn = (
-    <Link
+    <a
       href={'https://discord.gg/puQVqEvVXn'}
       className='flex items-center gap-2 btn-primary'
       target={'_blank'}
       rel='noopener noreferrer'
-      legacyBehavior
     >
-      <>
+      <div data-testid='link'>
         <Image src={'/social-icons/discord.svg'} width={24} height={24} />
         <p>Get Help!</p>
-      </>
-    </Link>
+      </div>
+    </a>
   );
 
   return (

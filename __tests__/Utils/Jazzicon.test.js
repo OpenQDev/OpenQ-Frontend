@@ -32,11 +32,9 @@ describe('Jazzicon', () => {
 
     render(<Jazzicon address={address} size={24} />);
     // ASSERT
-    const icon = screen.getAllByRole('link');
+    const icon = screen.getAllByTestId('link');
     const toolTip = screen.getByText(address);
     expect(icon[0]).toBeInTheDocument();
     expect(toolTip).toBeInTheDocument();
-    await user.click(icon[0]);
-    expect(push).toHaveBeenCalledTimes(1);
   });
 });

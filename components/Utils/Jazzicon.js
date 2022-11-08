@@ -12,14 +12,12 @@ const Jazzicon = ({ address, size, tooltipPosition, name }) => {
     }
   }, [address]);
   return (
-    <Link
-      href={`${process.env.NEXT_PUBLIC_BASE_URL}/user/${address}`}
-      className={`cursor-pointer ${!address && 'w-9 mr-px'}`}
-      legacyBehavior
-    >
-      <ToolTipNew toolTipText={name || address} outerStyles={'relative bottom-2'} relativePosition={tooltipPosition}>
-        <div ref={iconWrapper}>{address}</div>
-      </ToolTipNew>
+    <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/user/${address}`}>
+      <div data-testid='link' className={`cursor-pointer ${!address && 'w-9 h-9 mr-px'}`}>
+        <ToolTipNew toolTipText={name || address} outerStyles={'relative bottom-2'} relativePosition={tooltipPosition}>
+          <div ref={iconWrapper}>{address}</div>
+        </ToolTipNew>
+      </div>
     </Link>
   );
 };

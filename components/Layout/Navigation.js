@@ -143,7 +143,9 @@ const Navigation = () => {
         <div className='flex w-full lg:py-1 justify-between mx-4 lg:mx-8'>
           <div className='flex space-x-5 items-center'>
             <Link href={'/'} className='flex items-center lg:hover:opacity-70' legacyBehavior>
-              <Image src='/openq-logo-white-2.png' alt='OpenQ' width='31' height='31' />
+              <>
+                <Image src='/openq-logo-white-2.png' alt='OpenQ' width='31' height='31' />
+              </>
             </Link>
             <button className='flex lg:hidden' onClick={() => setOpenMenu(!openMenu)}>
               <ThreeBarsIcon size={24} />
