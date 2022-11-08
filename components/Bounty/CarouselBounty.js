@@ -33,6 +33,7 @@ const CarouselBounty = ({ bounty }) => {
         rel='noopener noreferrer'
         href={`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.bountyAddress}`}
         className='border-web-gray bg-dark-mode p-4 gap-2 border rounded-sm flex mb-1'
+        legacyBehavior
       >
         <div className='w-64'>
           <div className='flex flex-row justify-between items-center'>

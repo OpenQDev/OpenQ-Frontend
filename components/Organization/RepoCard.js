@@ -15,6 +15,7 @@ const RepoCard = ({ repository }) => {
           title={repository.url}
           href={repository.url}
           className='text-link-colour hover:underline cursor-pointer ml-2'
+          legacyBehavior
         >
           {repository.name}
         </Link>

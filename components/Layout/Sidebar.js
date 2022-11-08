@@ -40,7 +40,7 @@ const Sidebar = ({ trigger, setTrigger }) => {
                   <Image src='/openq-logo.png' alt='OpenQ' width='31' height='31' />
                 </a>
               ) : (
-                <Link href={'/'}>
+                <Link href={'/'} legacyBehavior>
                   <Image src='/openq-logo.png' alt='OpenQ' width='31' height='31' />
                 </Link>
               )}

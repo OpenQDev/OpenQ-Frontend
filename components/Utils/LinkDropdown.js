@@ -21,6 +21,7 @@ const LinkDropdown = ({ items, styles }) => {
                 <Link
                   href={item.url}
                   className='cursor-pointer flex  w-full gap-4 hover:bg-link-colour text-white py-2 px-4 border-t border-web-gray'
+                  legacyBehavior
                 >
                   {item.isIssue ? (
                     <svg

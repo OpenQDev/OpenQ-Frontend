@@ -16,6 +16,7 @@ const BountyModalHeading = ({ bounty, closeModal, unWatchable, watchingState }) 
           <Link
             href={`${process.env.NEXT_PUBLIC_BASE_URL}/organization/${bounty.owner}`}
             className='text-link-colour hover:underline'
+            legacyBehavior
           >
             {bounty.owner}
           </Link>
@@ -23,7 +24,7 @@ const BountyModalHeading = ({ bounty, closeModal, unWatchable, watchingState }) 
         </span>
         <h2 className='text-xl flex-1 leading-tight md:w-96'>
           <span className='flex text-primary break-word'>{bounty.title} </span>
-          <Link href={bounty.url} className='text-muted text font-light' target='_blank'>
+          <Link href={bounty.url} className='text-muted text font-light' target='_blank' legacyBehavior>
             #{bounty.number}
           </Link>
         </h2>

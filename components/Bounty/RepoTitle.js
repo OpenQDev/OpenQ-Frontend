@@ -22,6 +22,7 @@ const RepoTitle = ({ bounty }) => {
                 href={`${process.env.NEXT_PUBLIC_BASE_URL}/organization/${bounty.owner}`}
                 data-testid='repo'
                 className='text-link-colour hover:underline'
+                legacyBehavior
               >
                 {bounty.owner}
               </Link>

@@ -35,6 +35,7 @@ const GetSupportModal = ({ wizardVisibility, modalVisibility }) => {
       className='flex items-center gap-2 btn-primary'
       target={'_blank'}
       rel='noopener noreferrer'
+      legacyBehavior
     >
       <Image src={'/social-icons/discord.svg'} width={24} height={24} />
       <p>Get Help!</p>

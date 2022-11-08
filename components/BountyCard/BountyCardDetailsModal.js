@@ -74,7 +74,7 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
                     if (pr.source?.['__typename'] === 'PullRequest' && pr.source?.url) {
                       return (
                         <li className='text-sm text-primary' key={index}>
-                          <Link href={pr.source.url} target='_blank' className={'underline'}>
+                          <Link href={pr.source.url} target='_blank' className={'underline'} legacyBehavior>
                             {pr.source.title}
                           </Link>
                           <span>{pr.source.merged ? ' (merged)' : ' (not merged)'}</span>
@@ -132,6 +132,7 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
                 onClick={closeModal}
                 target={safe ? '_self' : '_blank'}
                 rel='noopener noreferrer'
+                legacyBehavior
               >
                 <div
                   onClick={closeModal}
@@ -153,6 +154,7 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
                   onClick={closeModal}
                   target={safe ? '_self' : '_blank'}
                   rel='noopener noreferrer'
+                  legacyBehavior
                 >
                   <div className='flex flex-row space-x-2 btn-default text-sm w-fit items-center'>
                     <LogIcon size={16} />

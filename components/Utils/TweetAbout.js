@@ -8,6 +8,7 @@ const TweetAbout = ({ tweetText, bounty }) => {
       href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.bountyAddress}`}
       target='_blank'
       rel='noopener noreferrer'
+      legacyBehavior
     >
       <div className='flex justify-center items-center btn-primary'>
         <div className='flex justify-center items-center gap-2'>

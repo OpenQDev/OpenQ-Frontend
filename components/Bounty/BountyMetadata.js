@@ -177,7 +177,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
                   if (pr.source['__typename'] === 'PullRequest' && pr.source.url) {
                     return (
                       <li className='text-sm text-primary' key={index}>
-                        <Link href={pr.source.url} target='_blank' className={'underline'}>
+                        <Link href={pr.source.url} target='_blank' className={'underline'} legacyBehavior>
                           {pr.source.title}
                         </Link>
                         <span>{pr.source.merged ? ' (merged)' : ' (not merged)'}</span>

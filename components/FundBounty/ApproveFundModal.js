@@ -165,7 +165,12 @@ const ApproveFundModal = ({
           <p className='break-words'>{statesFormat[approveTransferState].message}</p>
           {statesFormat[approveTransferState].link && (
             <p className='break-all underline'>
-              <Link href={statesFormat[approveTransferState].link} target={'_blank'} rel='noopener noreferrer'>
+              <Link
+                href={statesFormat[approveTransferState].link}
+                target={'_blank'}
+                rel='noopener noreferrer'
+                legacyBehavior
+              >
                 {statesFormat[approveTransferState].linkText || statesFormat[approveTransferState].link}
                 <LinkText />
               </Link>
@@ -181,7 +186,13 @@ const ApproveFundModal = ({
             </div>
             <span>Issue: </span>
             {bounty.url && (
-              <Link href={bounty.url} target='_blank' rel='noopener noreferrer' className='underline w-full truncate'>
+              <Link
+                href={bounty.url}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='underline w-full truncate'
+                legacyBehavior
+              >
                 {bounty.title}
               </Link>
             )}
@@ -197,6 +208,7 @@ const ApproveFundModal = ({
                   target={'_blank'}
                   className='underline'
                   rel='noopener noreferrer'
+                  legacyBehavior
                 >
                   {transactionHash.slice(0, 5)}. . .{transactionHash.slice(62)}
                   <LinkText />

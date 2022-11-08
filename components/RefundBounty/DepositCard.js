@@ -44,7 +44,7 @@ const DepositCard = ({
     <div className='flex flex-col items-center w-full md:border rounded-sm border-gray-700 text-primary'>
       <div className='flex justify-center w-full md:bg-[#161b22] md:border-b border-gray-700 pb-1 rounded-t-sm'>
         {deposit.isNft && NFT ? (
-          <Link href={NFT.uri} className='underline'>
+          <Link href={NFT.uri} className='underline' legacyBehavior>
             {NFT?.name}#{deposit.tokenId}
           </Link>
         ) : (

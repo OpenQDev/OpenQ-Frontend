@@ -124,14 +124,20 @@ const ClaimLoadingModal = ({
       <div className='gap-2 grid grid-cols-[150px_1fr]'>
         <span>Issue: </span>
         {bounty.url && (
-          <Link href={bounty.url} target='_blank' rel='noopener noreferrer' className='underline w-full truncate'>
+          <Link
+            href={bounty.url}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='underline w-full truncate'
+            legacyBehavior
+          >
             {bounty.title}
           </Link>
         )}
         <span>Your PR:</span>
         {latestUserPR ? (
           <span>
-            <Link href={latestUserPR.source.url} target='_blank' className={'underline'}>
+            <Link href={latestUserPR.source.url} target='_blank' className={'underline'} legacyBehavior>
               {latestUserPR.source.title}
             </Link>
             <span>{latestUserPR.source.merged ? ' (merged)' : ' (not merged)'}</span>
@@ -150,7 +156,13 @@ const ClaimLoadingModal = ({
         {claimState == TRANSACTION_CONFIRMED && (
           <>
             <span className='pr-8'>Transaction:</span>
-            <Link href={link[claimState]} target={'_blank'} className='underline' rel='noopener noreferrer'>
+            <Link
+              href={link[claimState]}
+              target={'_blank'}
+              className='underline'
+              rel='noopener noreferrer'
+              legacyBehavior
+            >
               {transactionHash.slice(0, 5)}. . .{transactionHash.slice(62)}
               <LinkText />
             </Link>

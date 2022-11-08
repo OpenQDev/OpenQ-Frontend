@@ -14,7 +14,7 @@ const AvatarPack = ({ avatars }) => {
             <div key={avatar.login} className='w-8'>
               <ToolTipNew toolTipText={avatar.login}>
                 <div className='h-8 w-8 rounded-full bg-black cursor-pointer overflow-hidden position relative hover:z-10 z-0 hover:border-gray-700 hover:border border border-transparent'>
-                  <Link href={avatar.url} target='_blank' rel='noopener noreferrer'>
+                  <Link href={avatar.url} target='_blank' rel='noopener noreferrer' legacyBehavior>
                     <Image height={32} width={32} src={avatar.avatarUrl} />
                   </Link>
                 </div>
