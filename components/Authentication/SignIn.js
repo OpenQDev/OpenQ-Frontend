@@ -31,7 +31,7 @@ const SignIn = ({ redirectUrl }) => {
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
-  }, []);
+  }, [router.asPath]);
 
   const signIn = () => {
     const clientId = `client_id=${process.env.NEXT_PUBLIC_OPENQ_ID}`;
