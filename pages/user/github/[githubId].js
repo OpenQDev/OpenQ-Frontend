@@ -4,7 +4,7 @@ import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import AssociationModal from '../../../components/User/GithubRegistration/AssociationModal';
 import Logger from '../../../services/logger/Logger';
 import SubMenu from '../../../components/Utils/SubMenu';
-import { Gear } from '../../../components/svg/gear';
+import Gear from '../../../components/svg/gear';
 import Image from 'next/legacy/image';
 
 const account = ({ githubId, githubUser, redirectUrl, renderError }) => {
