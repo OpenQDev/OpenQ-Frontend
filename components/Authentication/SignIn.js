@@ -5,17 +5,21 @@ import axios from 'axios';
 import Image from 'next/legacy/image';
 import StoreContext from '../../store/Store/StoreContext';
 
-const SignIn = () => {
+const SignIn = ({ redirectUrl }) => {
   const router = useRouter();
   const [appState] = useContext(StoreContext);
-  const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}`;
+  // const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}`;
   // source: https://nextjs.org/docs/api-reference/next/router
   useEffect(() => {
     const handleRouteChange = async () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/checkAuth`, { withCredentials: true });
         const { githubId } = response.data;
-        githubId && router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/github/${githubId}`);
+        githubId &&
+          router.push({
+            pathname: `${process.env.NEXT_PUBLIC_BASE_URL}/user/github/${githubId}`,
+            query: { redirectUrl: redirectUrl },
+          });
       } catch (error) {
         appState.logger.error(error);
       }

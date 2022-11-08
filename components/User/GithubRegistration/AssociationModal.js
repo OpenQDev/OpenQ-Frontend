@@ -3,6 +3,7 @@ import React, { useContext, useState, useRef, useEffect } from 'react';
 import { ethers } from 'ethers';
 import axios from 'axios';
 import confetti from 'canvas-confetti';
+import { useRouter } from 'next/router';
 
 // Custom
 import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
@@ -14,7 +15,7 @@ import LoadingIcon from '../../../components/Loading/ButtonLoadingIcon';
 import ToolTipNew from '../../Utils/ToolTipNew';
 import LinkText from '../../../components/svg/linktext';
 
-const AssociationModal = ({ githubId, user /* , organizations */, renderError }) => {
+const AssociationModal = ({ githubId, user, redirectUrl, renderError }) => {
   const { account, library } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
   const { logger } = appState;
@@ -26,6 +27,7 @@ const AssociationModal = ({ githubId, user /* , organizations */, renderError })
   const canvas = useRef();
   const [error, setError] = useState('');
   const [authState] = useAuth();
+  const router = useRouter();
 
   const onInput = (e) => {
     setRelAccount(e.target.value);
@@ -67,6 +69,7 @@ const AssociationModal = ({ githubId, user /* , organizations */, renderError })
         };
 
         dispatch(payload);
+        redirectUrl && router.push(redirectUrl);
         try {
           canvas.current.width = window.innerWidth;
           canvas.current.height = window.innerHeight;

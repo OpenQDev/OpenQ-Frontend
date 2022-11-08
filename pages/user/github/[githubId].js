@@ -7,7 +7,7 @@ import SubMenu from '../../../components/Utils/SubMenu';
 import { Gear } from '../../../components/svg/gear';
 import Image from 'next/legacy/image';
 
-const account = ({ githubId, githubUser /* , organizations */, renderError }) => {
+const account = ({ githubId, githubUser, redirectUrl, renderError }) => {
   const [internalMenu, setInternalMenu] = useState('Settings');
 
   return (
@@ -43,7 +43,12 @@ const account = ({ githubId, githubUser /* , organizations */, renderError }) =>
 
           <div className='flex flex-col flex-1 lg:pl-20 '>
             {internalMenu == 'Settings' && (
-              <AssociationModal githubId={githubId} user={githubUser} renderError={renderError} />
+              <AssociationModal
+                githubId={githubId}
+                user={githubUser}
+                renderError={renderError}
+                redirectUrl={redirectUrl}
+              />
             )}
           </div>
         </div>
@@ -53,6 +58,7 @@ const account = ({ githubId, githubUser /* , organizations */, renderError }) =>
 };
 
 export const getServerSideProps = async (context) => {
+  const redirectUrl = context.query.redirectUrl;
   const githubId = context.params.githubId;
   const githubRepository = new WrappedGithubClient();
   githubRepository.instance.setGraphqlHeaders();
@@ -65,7 +71,7 @@ export const getServerSideProps = async (context) => {
     logger.error(err);
     return { props: { renderError: `${githubId} is not a valid GitHub ID.` } };
   }
-  return { props: { githubId, renderError, githubUser } };
+  return { props: { githubId, renderError, githubUser, redirectUrl } };
 };
 
 export default account;
