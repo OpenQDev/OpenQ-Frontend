@@ -195,7 +195,7 @@ class MockOpenQClient {
 	async isWhitelisted(library, tokenAddress) {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
-				resolve();
+				resolve(true);
 			} catch (err) {
 				reject(err);
 			}

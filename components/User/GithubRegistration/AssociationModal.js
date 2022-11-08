@@ -12,7 +12,7 @@ import useWeb3 from '../../../hooks/useWeb3';
 import ModalDefault from '../../../components/Utils/ModalDefault';
 import LoadingIcon from '../../../components/Loading/ButtonLoadingIcon';
 import ToolTipNew from '../../Utils/ToolTipNew';
-import { LinkText } from '../../../components/svg/linktext';
+import LinkText from '../../../components/svg/linktext';
 
 const AssociationModal = ({ githubId, user /* , organizations */, renderError }) => {
   const { account, library } = useWeb3();

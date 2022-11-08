@@ -17,30 +17,33 @@ const account = ({ account, user, organizations, renderError }) => {
   const [appState] = useContext(StoreContext);
   const [starredOrganizations, setStarredOrganizations] = useState([]);
   const [watchedBounties, setwatchedBounties] = useState([]);
-  useEffect(async () => {
-    const userOffChainData = await appState.openQPrismaClient.getUser(ethers.utils.getAddress(account));
-    let starredOrganizations = [];
-    setwatchedBounties(userOffChainData?.watchedBounties.nodes);
-    //get starred organizations.
-    try {
-      if (userOffChainData) {
-        const subgraphOrgs = await appState.openQSubgraphClient.getOrganizationsByIds(
-          userOffChainData.starredOrganizationIds
-        );
-        const githubOrgIds = subgraphOrgs.map((bounty) => bounty.id);
-        const githubOrganizations = await appState.githubRepository.fetchOrganizationsByIds(githubOrgIds);
-        starredOrganizations = githubOrganizations.map((organization) => {
-          const subgraphOrg = subgraphOrgs.find((org) => {
-            return org.id === organization.id;
-          });
+  useEffect(() => {
+    const getOffChainData = async () => {
+      const userOffChainData = await appState.openQPrismaClient.getUser(ethers.utils.getAddress(account));
+      let starredOrganizations = [];
+      setwatchedBounties(userOffChainData?.watchedBounties.nodes);
+      //get starred organizations.
+      try {
+        if (userOffChainData) {
+          const subgraphOrgs = await appState.openQSubgraphClient.getOrganizationsByIds(
+            userOffChainData.starredOrganizationIds
+          );
+          const githubOrgIds = subgraphOrgs.map((bounty) => bounty.id);
+          const githubOrganizations = await appState.githubRepository.fetchOrganizationsByIds(githubOrgIds);
+          starredOrganizations = githubOrganizations.map((organization) => {
+            const subgraphOrg = subgraphOrgs.find((org) => {
+              return org.id === organization.id;
+            });
 
-          return { ...organization, ...subgraphOrg, starred: true };
-        });
-        setStarredOrganizations(starredOrganizations);
+            return { ...organization, ...subgraphOrg, starred: true };
+          });
+          setStarredOrganizations(starredOrganizations);
+        }
+      } catch (err) {
+        appState.logger.error(err);
       }
-    } catch (err) {
-      appState.logger.error(err);
-    }
+    };
+    getOffChainData();
   }, []);
   return (
     <div className=' gap-4 justify-center pt-6'>

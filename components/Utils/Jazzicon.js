@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 const Jazzicon = ({ address, size, tooltipPosition, name }) => {
   const iconWrapper = useRef();
-  useEffect(async () => {
+  useEffect(() => {
     if (address && iconWrapper.current) {
       iconWrapper.current.innerHTML = '';
       iconWrapper.current.appendChild(jazzicon(size, parseInt(address.slice(2, 10), 16)));
@@ -13,11 +13,11 @@ const Jazzicon = ({ address, size, tooltipPosition, name }) => {
   }, [address]);
   return (
     <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/user/${address}`}>
-      <a className={`cursor-pointer ${!address && 'w-9 mr-px'}`}>
+      <div data-testid='link' className={`cursor-pointer ${!address && 'w-9 h-9 mr-px'}`}>
         <ToolTipNew toolTipText={name || address} outerStyles={'relative bottom-2'} relativePosition={tooltipPosition}>
           <div ref={iconWrapper}>{address}</div>
         </ToolTipNew>
-      </a>
+      </div>
     </Link>
   );
 };

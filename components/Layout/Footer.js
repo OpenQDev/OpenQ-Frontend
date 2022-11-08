@@ -36,11 +36,11 @@ const Footer = () => {
       <div className='text-primary max-w- text-sm px-4 lg:px-20 max-w-[1120px] lg:py-12 py-4  grid gap-x-4 lg:grid-cols-[0.5fr_1fr_1fr_1.5fr] grid-cols-[1fr_1fr]  lg:grid-rows-2 grid-rows-4 lg:grid-flow-col items-center lg:flex-row w-full justify-between content-center font-semibold grid-flow-row'>
         <div className='font-semibold font-sans text-3xl'>OpenQ</div>
         <OpenQSocials />
-        <Link href={'https://openq.canny.io/openq-feature-requests'}>
-          <a className='text-lg lg:justify-self-center '>Feature requests</a>
+        <Link href={'https://openq.canny.io/openq-feature-requests'} className='text-lg lg:justify-self-center '>
+          <span>Feature requests </span>
         </Link>
-        <Link href={'https://docs.openq.dev'}>
-          <a className='text-lg lg:justify-self-center '>Documentation</a>
+        <Link href={'https://docs.openq.dev'} className='text-lg lg:justify-self-center '>
+          <span>Documentation</span>
         </Link>
         <div className='text-lg text-muted '>
           Copyright {year} <span className='whitespace-nowrap'>OpenQ ©</span>

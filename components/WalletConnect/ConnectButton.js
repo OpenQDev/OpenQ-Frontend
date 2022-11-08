@@ -34,11 +34,14 @@ const ConnectButton = ({ mobile }) => {
   // Hooks
   useConnectOnLoad()(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
 
-  useEffect(async () => {
-    if (account && iconWrapper.current) {
-      iconWrapper.current.innerHTML = '';
-      iconWrapper.current.appendChild(jazzicon(mobile ? 52 : 26, parseInt(account.slice(2, 10), 16)));
-    }
+  useEffect(() => {
+    const createJazzicon = async () => {
+      if (account && iconWrapper.current) {
+        iconWrapper.current.innerHTML = '';
+        iconWrapper.current.appendChild(jazzicon(mobile ? 52 : 26, parseInt(account.slice(2, 10), 16)));
+      }
+    };
+    createJazzicon();
   }, [account, isOnCorrectNetwork]);
 
   useEffect(() => {

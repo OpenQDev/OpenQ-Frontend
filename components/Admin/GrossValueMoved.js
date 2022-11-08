@@ -20,26 +20,29 @@ const GrossValueMoved = () => {
   const [totalLockedValues] = useGetTokenValues(coreMetrics?.totalBalances);
   const [totalClaimedValues] = useGetTokenValues(coreMetrics?.claimedBalances);
 
-  useEffect(async () => {
-    const month = 2592000;
-    const oneMonthAgo = parseInt(Date.now() / 1000) - month;
-    const twoMonthsAgo = oneMonthAgo - month;
-    const toTrueString = (num) => {
-      return num.toLocaleString('fullwide', { useGrouping: false });
-    };
-    const times = {
-      twoMonthsAgo: toTrueString(twoMonthsAgo),
-      oneMonthAgo: toTrueString(oneMonthAgo),
-      ...monthTimes,
-    };
-    if (monthTimes) {
-      try {
-        const coreMetrics = await appState.openQSubgraphClient.getCoreValueMetrics(times);
-        setCoreMetrics(coreMetrics);
-      } catch (err) {
-        appState.logger.error(err, account, undefined, 'grossvaluemoved1');
+  useEffect(() => {
+    const fetchData = async () => {
+      const month = 2592000;
+      const oneMonthAgo = parseInt(Date.now() / 1000) - month;
+      const twoMonthsAgo = oneMonthAgo - month;
+      const toTrueString = (num) => {
+        return num.toLocaleString('fullwide', { useGrouping: false });
+      };
+      const times = {
+        twoMonthsAgo: toTrueString(twoMonthsAgo),
+        oneMonthAgo: toTrueString(oneMonthAgo),
+        ...monthTimes,
+      };
+      if (monthTimes) {
+        try {
+          const coreMetrics = await appState.openQSubgraphClient.getCoreValueMetrics(times);
+          setCoreMetrics(coreMetrics);
+        } catch (err) {
+          appState.logger.error(err, account, undefined, 'grossvaluemoved1');
+        }
       }
-    }
+    };
+    fetchData();
   }, [yearVal, monthTimes]);
   useEffect(() => {
     const targetMonth = new Date(`${monthVal} 1,  ${yearVal}`);

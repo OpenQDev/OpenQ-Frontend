@@ -1,7 +1,7 @@
 // Third party
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import jazzicon from '@metamask/jazzicon';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 
 // Custom
 import useGetTokenValues from '../../hooks/useGetTokenValues';
@@ -29,19 +29,21 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
   // State
   const [payoutTokenValues] = useGetTokenValues(payoutTokenBalances);
 
-  useEffect(async () => {
-    const userLogin = user.bountiesClosed.find((bounty) => bounty.bountyType === '0')?.claims[0].externalUserId;
-    if (userLogin) {
-      const githubUser = await appState.githubRepository.fetchUserByLogin(userLogin);
-      setGithubUser(githubUser);
-    } else {
-      setGithubUser(null);
-    }
+  useEffect(() => {
+    const getUserLogin = async () => {
+      const userLogin = user.bountiesClosed.find((bounty) => bounty.bountyType === '0')?.claims[0].externalUserId;
+      if (userLogin) {
+        const githubUser = await appState.githubRepository.fetchUserByLogin(userLogin);
+        setGithubUser(githubUser);
+      } else {
+        setGithubUser(null);
+      }
+    };
+    getUserLogin();
   }, []);
 
-  useEffect(async () => {
-    if (account && showWatched) {
-      // get watched bounties as soon as we know what the account is.
+  useEffect(() => {
+    const getWatched = async () => {
       try {
         const watchedBountyAddresses = watchedBounties.map((bounty) => bounty.address.toLowerCase()) || [];
 
@@ -59,12 +61,16 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
       } catch (err) {
         appState.logger.error(err, account);
       }
+    };
+    if (account && showWatched) {
+      // get watched bounties as soon as we know what the account is.
+      getWatched();
     }
   }, [account, showWatched]);
 
   const iconWrapper = useRef(null);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (account && iconWrapper.current && githubUser === null) {
       iconWrapper.current.innerHTML = '';
       iconWrapper.current.appendChild(jazzicon(300, parseInt(account.slice(2, 10), 16)));

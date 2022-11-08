@@ -1,11 +1,14 @@
 // Third party Libraries
-import React, { useEffect } from 'react';
+import { Magic } from 'magic-sdk';
+import { OAuthExtension } from '@magic-ext/oauth';
+import React, { useEffect, useState } from 'react';
 import { Web3ReactProvider } from '@web3-react/core';
 import 'tailwindcss/tailwind.css';
 import 'github-markdown-css/github-markdown-dark.css';
 import { useRouter } from 'next/router';
 
 // Custom
+import { UserContext } from '../lib/UserContext';
 import '../styles/globals.css';
 import StoreProvider from '../store/Store/StoreProvider';
 import AuthProvider from '../store/AuthStore/AuthProvider';
@@ -29,6 +32,21 @@ function OpenQ({ Component, pageProps }) {
     [walletConnect, walletConnectHooks],
     [gnosisSafe, gnosisSafeHooks],
   ];
+
+  const [user, setUser] = useState();
+
+  // If isLoggedIn is true, set the UserContext with user data
+  // Otherwise, set it to {user: null}
+  useEffect(() => {
+    setUser({ loading: true });
+    let magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
+      extensions: [new OAuthExtension()],
+    });
+    magic.user.isLoggedIn().then((isLoggedIn) => {
+      return isLoggedIn ? magic.user.getMetadata().then((userData) => setUser(userData)) : setUser({ user: null });
+    });
+  }, []);
+
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_GA_TRACKING_ID) {
       ReactGA.initialize(process.env.NEXT_PUBLIC_GA_TRACKING_ID);
@@ -89,19 +107,21 @@ function OpenQ({ Component, pageProps }) {
         </script>
       </Head>
       <>
-        <AuthProvider>
-          <StoreProvider>
-            <Web3ReactProvider connectors={connectors}>
-              <div className='min-h-screen  flex flex-col justify-between'>
-                <div>
-                  <Navigation />
-                  <Component key={router.asPath} {...pageProps} />
+        <UserContext.Provider value={[user, setUser]}>
+          <AuthProvider>
+            <StoreProvider>
+              <Web3ReactProvider connectors={connectors}>
+                <div className='min-h-screen  flex flex-col justify-between'>
+                  <div>
+                    <Navigation />
+                    <Component key={router.asPath} {...pageProps} />
+                  </div>
+                  <Footer />
                 </div>
-                <Footer />
-              </div>
-            </Web3ReactProvider>
-          </StoreProvider>
-        </AuthProvider>
+              </Web3ReactProvider>
+            </StoreProvider>
+          </AuthProvider>
+        </UserContext.Provider>
       </>
     </div>
   );

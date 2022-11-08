@@ -40,7 +40,7 @@ class Utils {
   };
 
   formatDate = (createdAt, hideDate) => {
-    return this.formatUnixDate(new Date(createdAt), hideDate);
+    return this.formatUnixDate(new Date(createdAt) / 1000, hideDate);
   };
 
   formatUnixDateWithTime = (unixTime, hideDate) => {
@@ -63,10 +63,6 @@ class Utils {
     }
     var formattedTime = `${month} ${day}, ${year}`;
     return formattedTime;
-  };
-
-  formatDate = (createdAt, hideDate) => {
-    return this.formatUnixDate(new Date(createdAt) / 1000, hideDate);
   };
 
   issurUrlRegex = (issueUrl) => {

@@ -130,7 +130,7 @@ const address = ({ address, mergedBounty, renderError }) => {
   }, [account]);
 
   // Hooks
-  useEffect(async () => {
+  useEffect(() => {
     const bountyTypeName = appState.utils.getBountyTypeName(bounty);
     ReactGA.event(
       {
@@ -206,7 +206,9 @@ const address = ({ address, mergedBounty, renderError }) => {
             <div className='text-2xl'>
               Bounty not found.{' '}
               <span className='underline'>
-                <Link href={'/'}>Go home</Link>
+                <Link href={'/'}>
+                  <span>Go home</span>
+                </Link>
               </span>
               .
             </div>

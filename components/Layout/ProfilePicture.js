@@ -1,6 +1,6 @@
 // Third party
 import React, { useEffect, useState, useContext } from 'react';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import { useRouter } from 'next/router';
 // Custom
 import AuthContext from '../../store/AuthStore/AuthContext';

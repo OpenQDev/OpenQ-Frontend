@@ -1,7 +1,7 @@
 // Third party
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 
 import Twitter from '../svg/twitter';
 
@@ -22,13 +22,19 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
         <div className='flex border-b border-web-gray py-3 gap-2'>
           <div className='font-semibold text-muted'>Linked Closing Transaction</div>
           <div className='flex gap-1 text-primary'>
-            <Link href={url}>
-              <a target={'_blank'} rel='noopener norefferer' className='flex items-center gap-1 underline'>
+            <Link
+              href={url}
+              target={'_blank'}
+              rel='noopener norefferer'
+              className='flex items-center gap-1 underline'
+              legacyBehavior
+            >
+              <>
                 <div id={'bounty-link'} className='flex cursor-pointer items-center'>
                   <Image src='/BountyMaterial/polyscan-white.png' width={18} height={18} />
                 </div>
                 <span className='underline pl-1'>view here</span>
-              </a>
+              </>
             </Link>
           </div>
         </div>
@@ -38,14 +44,12 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
             <div className='font-semibold text-muted'>Tweet about it</div>
             <Link
               href={`https://twitter.com/intent/tweet/?text=${tweetText}${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.bountyAddress}`}
+              className='hover:scale-105 animate-single-bounce duration-100'
+              target='_blank'
+              rel='noopener noreferrer'
+              legacyBehavior
             >
-              <a
-                className='hover:scale-105 animate-single-bounce duration-100'
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                <Twitter />
-              </a>
+              <Twitter />
             </Link>
           </div>
         )}

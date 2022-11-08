@@ -18,8 +18,11 @@ const LinkDropdown = ({ items, styles }) => {
           <ul className='z-20 overflow-hidden relative bg-subtle w-full -mt-1 mb-4 shadow-[rgb(1,_4,_9)_0px_8px_24px_0px] border-web-gray border-x border-b rounded-b-sm'>
             {items.map((item) => (
               <li key={item.url}>
-                <Link href={item.url}>
-                  <a className='cursor-pointer flex  w-full gap-4 hover:bg-link-colour text-white py-2 px-4 border-t border-web-gray'>
+                <Link href={item.url} legacyBehavior>
+                  <div
+                    data-testid='link'
+                    className='cursor-pointer flex  w-full gap-4 hover:bg-link-colour text-white py-2 px-4 border-t border-web-gray'
+                  >
                     {item.isIssue ? (
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -49,7 +52,7 @@ const LinkDropdown = ({ items, styles }) => {
                       </svg>
                     )}
                     <span className='max-w-[100px] truncate '>{item.name}</span>
-                  </a>
+                  </div>
                 </Link>
               </li>
             ))}

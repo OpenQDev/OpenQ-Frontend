@@ -22,6 +22,7 @@ module.exports = () => {
     NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS: process.env.CLAIM_MANAGER_PROXY_ADDRESS,
     NEXT_PUBLIC_MOCK_NFT_TOKEN_ADDRESS: process.env.MOCK_NFT_TOKEN_ADDRESS,
     NEXT_PUBLIC_BUILD_NUMBER: process.env.BUILD_NUMBER,
+    NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY: process.env.MAGIC_PUBLISHABLE_KEY,
   };
   const headers = [
     { key: 'Access-Control-Allow-Origin', value: '*' },

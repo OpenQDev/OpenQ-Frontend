@@ -6,7 +6,7 @@ import ReactGA from 'react-ga4';
 import StoreContext from '../../store/Store/StoreContext.js';
 import ConnectButton from '../WalletConnect/ConnectButton.js';
 import ProfilePicture from './ProfilePicture.js';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import FirstTimeBanner from './FirstTimeBanner';
 import useWeb3 from '../../hooks/useWeb3.js';
 import { ThreeBarsIcon } from '@primer/octicons-react';
@@ -44,74 +44,81 @@ const Navigation = () => {
     setOpenMenu(false);
   }, [router.asPath]);
 
-  useEffect(async () => {
-    if (account) {
-      try {
-        const response = await authService.hasSignature(account);
-        if (response.data.status === false) {
-          await authService.verifySignature(account, '');
+  useEffect(() => {
+    const fetchSignature = async () => {
+      if (account) {
+        try {
+          const response = await authService.hasSignature(account);
+          if (response.data.status === false) {
+            await authService.verifySignature(account, '');
+          }
+        } catch (error) {
+          console.error(error);
         }
-      } catch (error) {
-        console.error(error);
       }
-    }
+    };
+    fetchSignature();
   }, [account]);
 
-  useEffect(async () => {
+  useEffect(() => {
     // set up searchable
-    try {
-      const subgraphOrganizations = await openQSubgraphClient.getOrganizationIds();
-      const prismaContracts = await openQPrismaClient.getAllContracts();
+    const fetchSearch = async () => {
+      try {
+        const subgraphOrganizations = await openQSubgraphClient.getOrganizationIds();
+        const prismaContracts = await openQPrismaClient.getAllContracts();
 
-      const githubOrganizations = await githubRepository.searchOrgOrUser(
-        subgraphOrganizations.organizations.map((organization) => organization.id)
-      );
-      const prismaOrganizations = await openQPrismaClient.getLeanOrganizations(
-        subgraphOrganizations.organizations.map((organization) => organization.id)
-      );
+        const githubOrganizations = await githubRepository.searchOrgOrUser(
+          subgraphOrganizations.organizations.map((organization) => organization.id)
+        );
+        const prismaOrganizations = await openQPrismaClient.getLeanOrganizations(
+          subgraphOrganizations.organizations.map((organization) => organization.id)
+        );
 
-      const subgraphBounties = await openQSubgraphClient.getBountyIds();
-      const githubIssues = await githubRepository.getLeanIssueData(subgraphBounties.map((bounty) => bounty.bountyId));
-      const fullOrgs = githubOrganizations
-        .map((organization) => {
-          const prismaOrg = prismaOrganizations.find((prismaOrganization) => {
-            return prismaOrganization.id === organization.id;
-          });
-          return { ...organization, ...prismaOrg };
-        })
-        .filter((org) => !org.blacklisted);
-      const fullBounties = utils
-        .combineBounties(subgraphBounties, githubIssues, prismaContracts)
-        .filter((bounty) => !bounty.blacklisted && !bounty.organization.blacklisted);
-      const searchable = [...fullBounties, ...fullOrgs].map((searchableItem) => {
-        const url = searchableItem.title
-          ? `${process.env.NEXT_PUBLIC_BASE_URL}/contract/${searchableItem.bountyId}/${searchableItem.bountyAddress}`
-          : `${process.env.NEXT_PUBLIC_BASE_URL}/organization/${searchableItem.login}`;
-        const name = searchableItem.name || searchableItem.title || searchableItem.login;
-        const searchItemUrl = searchableItem.url;
-        return {
-          name: name.toLowerCase(),
-          searchUrl: searchItemUrl,
-          url,
-          isIssue: searchableItem.title,
-        };
-      });
-      setSearchable(searchable);
-    } catch (err) {
-      appState.logger.error(err, account);
-    }
-    // set up gnosis safe
+        const subgraphBounties = await openQSubgraphClient.getBountyIds();
+        const githubIssues = await githubRepository.getLeanIssueData(subgraphBounties.map((bounty) => bounty.bountyId));
+        const fullOrgs = githubOrganizations
+          .map((organization) => {
+            const prismaOrg = prismaOrganizations.find((prismaOrganization) => {
+              return prismaOrganization.id === organization.id;
+            });
+            return { ...organization, ...prismaOrg };
+          })
+          .filter((org) => !org.blacklisted);
+        const fullBounties = utils
+          .combineBounties(subgraphBounties, githubIssues, prismaContracts)
+          .filter((bounty) => !bounty.blacklisted && !bounty.organization.blacklisted);
+        const searchable = [...fullBounties, ...fullOrgs].map((searchableItem) => {
+          const url = searchableItem.title
+            ? `${process.env.NEXT_PUBLIC_BASE_URL}/contract/${searchableItem.bountyId}/${searchableItem.bountyAddress}`
+            : `${process.env.NEXT_PUBLIC_BASE_URL}/organization/${searchableItem.login}`;
+          const name = searchableItem.name || searchableItem.title || searchableItem.login;
+          const searchItemUrl = searchableItem.url;
+          return {
+            name: name.toLowerCase(),
+            searchUrl: searchItemUrl,
+            url,
+            isIssue: searchableItem.title,
+          };
+        });
+        setSearchable(searchable);
+      } catch (err) {
+        appState.logger.error(err, account);
+      }
+      // set up gnosis safe
 
-    // set up tokens
-    let tokenPrices = {};
+      // set up tokens
+      let tokenPrices = {};
 
-    try {
-      tokenPrices = (await tokenClient.getPrices()) || {};
-    } catch (err) {
-      appState.logger.error(err, account);
-    }
+      try {
+        tokenPrices = (await tokenClient.getPrices()) || {};
+      } catch (err) {
+        appState.logger.error(err, account);
+      }
 
-    tokenClient.firstTenPrices = tokenPrices;
+      tokenClient.firstTenPrices = tokenPrices;
+    };
+
+    fetchSearch();
   }, []);
 
   const handleSearch = (e) => {
@@ -135,10 +142,10 @@ const Navigation = () => {
       <div className='flex visible relative'>
         <div className='flex w-full lg:py-1 justify-between mx-4 lg:mx-8'>
           <div className='flex space-x-5 items-center'>
-            <Link href={'/'}>
-              <a className='flex items-center lg:hover:opacity-70'>
+            <Link href={'/'} className='flex items-center lg:hover:opacity-70' legacyBehavior>
+              <>
                 <Image src='/openq-logo-white-2.png' alt='OpenQ' width='31' height='31' />
-              </a>
+              </>
             </Link>
             <button className='flex lg:hidden' onClick={() => setOpenMenu(!openMenu)}>
               <ThreeBarsIcon size={24} />

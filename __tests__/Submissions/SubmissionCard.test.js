@@ -171,8 +171,7 @@ describe('SubmissionCard', () => {
     // ASSERT
     expect(screen.getByText(/Update README.md/)).toBeInTheDocument();
     const links = screen.getAllByRole('link');
-    expect(links[0].href).toEqual('http://localhost/showcase/undefined');
-    expect(links[1].href).toEqual('https://github.com/FlacoJones');
+    expect(links[0].href).toEqual('https://github.com/FlacoJones');
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);

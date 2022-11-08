@@ -1,14 +1,14 @@
 // Third Party
 import React, { useRef, useEffect } from 'react';
 import jazzicon from '@metamask/jazzicon';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 //Custom
 import CopyAddressToClipboard from '../../Copy/CopyAddressToClipboard';
 
 const AboutTitle = ({ ensName, account, githubUser }) => {
   const iconWrapper = useRef(null);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (account && iconWrapper.current) {
       iconWrapper.current.innerHTML = '';
       iconWrapper.current.appendChild(jazzicon(36, parseInt(account.slice(2, 10), 16)));

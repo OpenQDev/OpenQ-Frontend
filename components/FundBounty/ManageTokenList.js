@@ -1,6 +1,6 @@
 // Third
 import React, { useContext, useState } from 'react';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 
 // Custom Hooks
 import Toggle from '../Utils/Toggle';

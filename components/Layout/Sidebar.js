@@ -1,6 +1,6 @@
 // Third party
 import React, { useEffect, useRef, useContext } from 'react';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import Link from 'next/link';
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
@@ -40,10 +40,8 @@ const Sidebar = ({ trigger, setTrigger }) => {
                   <Image src='/openq-logo.png' alt='OpenQ' width='31' height='31' />
                 </a>
               ) : (
-                <Link href={'/'}>
-                  <a>
-                    <Image src='/openq-logo.png' alt='OpenQ' width='31' height='31' />
-                  </a>
+                <Link href={'/'} legacyBehavior>
+                  <Image src='/openq-logo.png' alt='OpenQ' width='31' height='31' />
                 </Link>
               )}
             </div>

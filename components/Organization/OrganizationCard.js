@@ -1,7 +1,7 @@
 // Third party
 import React, { useEffect, useContext, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import Skeleton from 'react-loading-skeleton';
 
 // Custom
@@ -44,30 +44,33 @@ const OrganizationCard = ({ organization }) => {
     orgName = orgName.slice(0, 9).concat('...');
   }
 
-  useEffect(async () => {
-    if (organization?.bounties) {
-      const filteredBounties = organization.bounties.nodes.filter((contract) => !contract.blacklisted && !closed);
-      const bountyAddresses = filteredBounties.map((bounty) => bounty.address.toLowerCase());
-      const bountyIds = filteredBounties.map((bounty) => bounty.bountyId);
-      const githubIssues = await appState.githubRepository.getLeanIssueData(bountyIds);
-      const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(bountyAddresses);
-      const combinedBounties = await appState.utils.combineBounties(subgraphBounties, githubIssues, filteredBounties);
-      const budgetedOrFundedBounties = combinedBounties.filter(
-        (bounty) =>
-          ((bounty.fundingGoalVolume && bounty.fundingGoalVolume !== '0') || bounty.bountyTokenBalances?.length) &&
-          !bounty.closed
-      );
-      setOrgBounties(budgetedOrFundedBounties);
-    } else if (organization) {
-      setOrgBounties(organization.bountiesCreated);
-    }
+  useEffect(() => {
+    const fetchBountiesData = async () => {
+      if (organization?.bounties) {
+        const filteredBounties = organization.bounties.nodes.filter((contract) => !contract.blacklisted && !closed);
+        const bountyAddresses = filteredBounties.map((bounty) => bounty.address.toLowerCase());
+        const bountyIds = filteredBounties.map((bounty) => bounty.bountyId);
+        const githubIssues = await appState.githubRepository.getLeanIssueData(bountyIds);
+        const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(bountyAddresses);
+        const combinedBounties = await appState.utils.combineBounties(subgraphBounties, githubIssues, filteredBounties);
+        const budgetedOrFundedBounties = combinedBounties.filter(
+          (bounty) =>
+            ((bounty.fundingGoalVolume && bounty.fundingGoalVolume !== '0') || bounty.bountyTokenBalances?.length) &&
+            !bounty.closed
+        );
+        setOrgBounties(budgetedOrFundedBounties);
+      } else if (organization) {
+        setOrgBounties(organization.bountiesCreated);
+      }
+    };
+    fetchBountiesData();
   }, [organization.bountiesCreated]);
 
   // Methods
   // Render
   return (
     <div className={`min-w-[300px] w-60 ${!starred ? 'hidden' : null}`}>
-      <Link href={`/organization/${organization.login}`}>
+      <Link href={`/organization/${organization.login}`} legacyBehavior>
         <div
           className={
             'flex flex-col p-6 items-center cursor-pointer text-[0.8rem] tracking-wider placeholder-input-gray outline-none rounded-sm border border-border-gray bg-menu-bg w-full h-72 mb-1'

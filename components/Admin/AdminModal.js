@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 import LinkText from '../svg/linktext';
