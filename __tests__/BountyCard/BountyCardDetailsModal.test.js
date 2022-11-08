@@ -41,7 +41,7 @@ describe('BountyCardDetailsModal', () => {
           complete={true}
         />
       );
-      const totalRegExp = new RegExp('0.00');
+      const totalRegExp = new RegExp('$');
       // ASSERT
       const orgName = screen.getByText(bounty.owner);
       expect(orgName).toBeInTheDocument();
