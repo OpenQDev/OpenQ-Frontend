@@ -4,7 +4,6 @@
  */
 import React from 'react';
 import { render, screen } from '../../test-utils';
-import userEvent from '@testing-library/user-event';
 import AccountModal from '../../components/WalletConnect/AccountModal';
 import nextRouter from 'next/router';
 // Test cases for full balances, empty balances, and undefined balances.
@@ -49,12 +48,10 @@ describe('AccountModal', () => {
 
   it('should link to profile.', async () => {
     // ARRANGE
-    const user = userEvent.setup();
     render(<AccountModal chainId={chainId} ensName={ensName} account={account} setIsConnecting={setIsConnecting} />);
 
     // ASSERT
 
-    await user.click(await screen.findByRole('link'));
-    expect(push).toHaveBeenCalledTimes(1);
+    expect(await screen.findByTestId('link')).toBeInTheDocument();
   });
 });

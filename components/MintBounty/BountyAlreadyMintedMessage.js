@@ -15,7 +15,7 @@ export default function BountyAlreadyMintedMessage({ bountyAddress, closed, id }
           rel='noreferrer'
           className='cursor-pointer text-link'
         >
-          <span> &nbsp;here.</span>
+          <span data-testid='link'> &nbsp;here.</span>
         </Link>
       </div>
     </div>

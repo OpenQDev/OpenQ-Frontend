@@ -33,7 +33,7 @@ describe('MiniBountyCard', () => {
     render(<MiniBountyCard payout={payout} />);
 
     // ASSERT
-    expect(screen.getByRole('link')).toBeInTheDocument();
+    expect(screen.getByTestId('link')).toBeInTheDocument();
 
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];

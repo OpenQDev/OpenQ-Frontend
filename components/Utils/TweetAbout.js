@@ -12,7 +12,9 @@ const TweetAbout = ({ tweetText, bounty }) => {
     >
       <div className='flex justify-center items-center btn-primary'>
         <div className='flex justify-center items-center gap-2'>
-          <div className=''>Tweet about it</div>
+          <div data-testid='link' className=''>
+            Tweet about it
+          </div>
 
           <Twitter className='w-4 inline' />
         </div>

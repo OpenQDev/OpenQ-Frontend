@@ -1,5 +1,4 @@
 import Image from 'next/legacy/image';
-import Link from 'next/link';
 import React, { useEffect, useRef } from 'react';
 import ModalDefault from '../Utils/ModalDefault';
 
@@ -30,18 +29,17 @@ const GetSupportModal = ({ wizardVisibility, modalVisibility }) => {
   };
 
   const btn = (
-    <Link
+    <a
       href={'https://discord.gg/puQVqEvVXn'}
       className='flex items-center gap-2 btn-primary'
       target={'_blank'}
       rel='noopener noreferrer'
-      legacyBehavior
     >
-      <div className='flex items-center gap-2 btn-primary'>
+      <div data-testid='link' className='flex items-center gap-2 btn-primary'>
         <Image src={'/social-icons/discord.svg'} width={24} height={24} />
         Get Help!
       </div>
-    </Link>
+    </a>
   );
 
   return (

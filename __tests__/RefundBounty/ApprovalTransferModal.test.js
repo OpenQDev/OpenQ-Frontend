@@ -137,7 +137,7 @@ const test = (approveTransferState, error) => {
       case SUCCESS:
         title = screen.getByText('Lock Period Extended!');
         msg = screen.getByText('You have successfully extended your deposit!');
-        btnText = screen.getByRole('link', { name: 'Tweet about it' });
+        btnText = screen.getByTestId('link', { name: 'Tweet about it' });
         break;
       case ERROR:
         title = screen.getByText('User Denied Transaction');
@@ -204,7 +204,7 @@ const test = (approveTransferState, error) => {
       case SUCCESS:
         title = screen.getByText('Lock Period Extended!');
         msg = screen.getByText('You have successfully extended your deposit!');
-        btnText = screen.getByRole('link', { name: 'Tweet about it' });
+        btnText = screen.getByTestId('link', { name: 'Tweet about it' });
         break;
       case ERROR:
         title = screen.getByText('User Denied Transaction');

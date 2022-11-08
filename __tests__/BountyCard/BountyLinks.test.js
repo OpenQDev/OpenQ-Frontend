@@ -34,7 +34,7 @@ describe('BountyLinks', () => {
       render(<BountyLinks bounty={bounty} watchedBounties={[]} />);
 
       // ASSERT
-      const Images = screen.getAllByRole('link');
+      const Images = screen.getAllByTestId('link');
       expect(Images).toHaveLength(4);
 
       // should not have null or undefined values

@@ -20,14 +20,8 @@ const BountyHeading = ({ bounty, price, budget }) => {
         <h1 className='sm:text-[32px] text-xl flex-1 leading-tight min-w-[240px] pr-20'>
           <span className='text-primary'>{bounty.title} </span>
           {bounty.url ? (
-            <Link
-              href={bounty.url}
-              className='text-muted text font-light'
-              rel='noopener norefferer'
-              target='_blank'
-              legacyBehavior
-            >
-              <span>#{bounty.number}</span>
+            <Link href={bounty.url} rel='noopener norefferer' target='_blank' legacyBehavior>
+              <span className='text-muted text font-light'>#{bounty.number}</span>
             </Link>
           ) : (
             <div>#{bounty.number}</div>
@@ -36,13 +30,15 @@ const BountyHeading = ({ bounty, price, budget }) => {
         <div className='flex flex-row space-x-3 self-start items-center'>
           <div className='flex pt-1'>
             <Link href={bounty.url} target='_blank' legacyBehavior>
-              <Image
-                src='/social-icons/github-logo-white.svg'
-                className='cursor-pointer'
-                alt='Picture of the author'
-                width={30}
-                height={30}
-              />
+              <>
+                <Image
+                  src='/social-icons/github-logo-white.svg'
+                  className='cursor-pointer'
+                  alt='Picture of the author'
+                  width={30}
+                  height={30}
+                />
+              </>
             </Link>
           </div>
           <MintBountyButton types={['0', '1', '2', '3']} styles={'h-8'} wizard={true} />

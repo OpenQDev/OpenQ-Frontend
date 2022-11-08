@@ -26,7 +26,9 @@ const OrganizationMetadata = ({ organizationData, repositories }) => {
                 <div key={index}>
                   <ToolTipNew key={member.url} toolTipText={member.name || member.login}>
                     <Link href={member.url} target={'_blank'} rel='noopener noreffer' legacyBehavior>
-                      <Image className='rounded-lg cursor-pointer' height={36} width={36} src={member.avatarUrl} />
+                      <span>
+                        <Image className='rounded-lg cursor-pointer' height={36} width={36} src={member.avatarUrl} />
+                      </span>
                     </Link>
                   </ToolTipNew>
                 </div>

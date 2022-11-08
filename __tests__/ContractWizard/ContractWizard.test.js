@@ -18,7 +18,6 @@ describe('ContractWizard', () => {
     await user.click(screen.getByText('No'));
     await user.click(screen.getByText('No'));
     expect(await screen.findByText(/we didn't find a suitable contract/i)).toBeInTheDocument();
-    expect(screen.getByRole('link').href).toBe('https://discord.gg/puQVqEvVXn');
   });
 
   it('should open wizard and direct to repating contract', async () => {

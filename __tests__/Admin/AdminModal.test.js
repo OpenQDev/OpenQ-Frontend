@@ -577,7 +577,7 @@ describe('AdminModal', () => {
         const heading = screen.getByText('Budget Updated!');
         const text = screen.getByText('Budget set to:');
         const amount = screen.getByText(/1.0 MATIC/i);
-        const btn = screen.getByRole('link', { name: 'Tweet about it' });
+        const btn = screen.getByTestId('link', { name: 'Tweet about it' });
 
         // ASSERT
         expect(heading).toBeInTheDocument();
@@ -596,7 +596,7 @@ describe('AdminModal', () => {
         const heading = screen.getByText('Payout Updated!');
         const text = screen.getByText('Payout set to:');
         const amount = screen.getByText(/1.0 MATIC/i);
-        const btn = screen.getByRole('link', { name: 'Tweet about it' });
+        const btn = screen.getByTestId('link', { name: 'Tweet about it' });
 
         // ASSERT
         expect(heading).toBeInTheDocument();
@@ -629,7 +629,7 @@ describe('AdminModal', () => {
       await waitFor(() => {
         const heading = screen.getByText('Payout Schedule Updated!');
         const text = screen.getByText('Payout Schedule set to:');
-        const btn = screen.getByRole('link', { name: 'Tweet about it' });
+        const btn = screen.getByTestId('link', { name: 'Tweet about it' });
 
         // ASSERT
         expect(heading).toBeInTheDocument();
