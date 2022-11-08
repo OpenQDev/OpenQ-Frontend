@@ -1,5 +1,4 @@
 import Image from 'next/legacy/image';
-import Link from 'next/link';
 import React, { useEffect, useRef } from 'react';
 import ModalDefault from '../Utils/ModalDefault';
 

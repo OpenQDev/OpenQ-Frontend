@@ -1,5 +1,6 @@
 // Third party
 import React, { useState } from 'react';
+
 // Custom
 import OrganizationCard from '../Organization/OrganizationCard';
 import MintBountyButton from '../MintBounty/MintBountyButton';

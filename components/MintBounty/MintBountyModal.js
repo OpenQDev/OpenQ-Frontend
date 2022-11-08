@@ -2,7 +2,6 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
-import Link from 'next/link';
 import Image from 'next/legacy/image';
 import chainIdDeployEnvMap from '../../components/WalletConnect/chainIdDeployEnvMap';
 

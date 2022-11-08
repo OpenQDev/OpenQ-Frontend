@@ -4,19 +4,37 @@
 
 If the work you are engaged in doesn't require the Fullstack, you can boot just the OpenQ-Frontend by following these instructions:
 
-### 1 Boot a Local Json Server
+### 1 Get a GitHub Personal Access Token (PAT)
+
+You can get a GitHub Personal Access Token (PAT) [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
+
+You will need to create the token with these scopes:
+
+```bash
+public_repo
+read:org
+read:user
+```
+
+### 2 Get the right .env variables
+
+In the root of `OpenQ-Frontend`, create a `.env` file.
+Copy the content from `.env.local-targeting-staging.sample` to `.env`.
+This will ensure that you target the same environment as deployed on staging.openq.dev but with your Frontend booted locally.
+
+### 3 Boot a Local Json Server
 
 ```bash
 yarn json-server
 ```
 
-### 2 Boot the App
+### 4 Boot the App
 
 ```bash
 yarn boot:local
 ```
 
-### 3 Access OpenQ on http://localhost:3000
+### 5 Access OpenQ on http://localhost:3000
 
 ## Contributing
 

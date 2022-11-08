@@ -1,6 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
-
 const RepoCard = ({ repository }) => {
   return (
     <div className='w-full rounded-sm border border-web-gray p-4'>

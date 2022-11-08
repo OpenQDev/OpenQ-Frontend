@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import ModalDefault from './ModalDefault';
 import { useRouter } from 'next/router';
 

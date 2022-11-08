@@ -4,7 +4,6 @@
 import React from 'react';
 import { render, screen } from '../../test-utils';
 import LinkDropdown from '../../components/Utils/LinkDropdown';
-import userEvent from '@testing-library/user-event';
 import nextRouter from 'next/router';
 // Test cases for full balances, empty balances, and undefined balances.
 
