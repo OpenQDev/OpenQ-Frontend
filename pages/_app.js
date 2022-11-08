@@ -37,6 +37,7 @@ function OpenQ({ Component, pageProps }) {
 
   // If isLoggedIn is true, set the UserContext with user data
   // Otherwise, set it to {user: null}
+
   useEffect(() => {
     setUser({ loading: true });
     let magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {

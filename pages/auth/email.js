@@ -20,7 +20,6 @@ function EmailAuth() {
       extensions: [new OAuthExtension()],
     });
 
-    console.log(router.asPath);
     const re = new RegExp('[?]([^=]+)=(.*)');
     const arr = re.exec(router.asPath);
     let magicCredential = arr[2];
