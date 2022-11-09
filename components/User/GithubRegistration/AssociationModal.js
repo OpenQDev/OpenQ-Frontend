@@ -3,7 +3,6 @@ import React, { useContext, useState, useRef, useEffect } from 'react';
 import { ethers } from 'ethers';
 import axios from 'axios';
 import confetti from 'canvas-confetti';
-import { useRouter } from 'next/router';
 
 // Custom
 import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
@@ -14,8 +13,9 @@ import ModalDefault from '../../../components/Utils/ModalDefault';
 import LoadingIcon from '../../../components/Loading/ButtonLoadingIcon';
 import ToolTipNew from '../../Utils/ToolTipNew';
 import LinkText from '../../../components/svg/linktext';
+import { useRouter } from 'next/router';
 
-const AssociationModal = ({ githubId, user, redirectUrl, renderError }) => {
+const AssociationModal = ({ githubId, user }) => {
   const { account, library } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
   const { logger } = appState;
@@ -27,8 +27,8 @@ const AssociationModal = ({ githubId, user, redirectUrl, renderError }) => {
   const canvas = useRef();
   const [error, setError] = useState('');
   const [authState] = useAuth();
-  const router = useRouter();
 
+  const router = useRouter();
   const onInput = (e) => {
     setRelAccount(e.target.value);
     if (ethers.utils.isAddress(e.target.value)) {
@@ -69,7 +69,6 @@ const AssociationModal = ({ githubId, user, redirectUrl, renderError }) => {
         };
 
         dispatch(payload);
-        redirectUrl && router.push(redirectUrl);
         try {
           canvas.current.width = window.innerWidth;
           canvas.current.height = window.innerHeight;
@@ -97,7 +96,9 @@ const AssociationModal = ({ githubId, user, redirectUrl, renderError }) => {
         setError({ message: err.response.data.errorMessage, title: 'Error' });
       });
   };
-
+  const handleClose = () => {
+    router.push(router.query.redirectUrl);
+  };
   const statesFormat = {
     TRANSACTION_SUBMITTED: {
       title: 'Associating Your Account...',
@@ -111,7 +112,7 @@ const AssociationModal = ({ githubId, user, redirectUrl, renderError }) => {
       )}) and GitHub account were successfully associated!
       \nYou can now participate in Hackathons!`,
       btn: { text: 'Close', disabled: false, format: 'flex btn-default' },
-      clickAction: () => setShowModal(false),
+      clickAction: handleClose,
     },
     ERROR: {
       title: error.title,
@@ -172,7 +173,7 @@ const AssociationModal = ({ githubId, user, redirectUrl, renderError }) => {
           </ToolTipNew>
         </div>
       ) : (
-        <UnexpectedErrorModal error={renderError} />
+        <UnexpectedErrorModal error='' />
       )}
       <>
         {showModal && (

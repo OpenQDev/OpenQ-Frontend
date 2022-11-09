@@ -1,37 +1,38 @@
 // Third party
 import React, { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import axios from 'axios';
-import Image from 'next/legacy/image';
 import StoreContext from '../../store/Store/StoreContext';
+// Custom
+import Image from 'next/image';
+import useWeb3 from '../../hooks/useWeb3';
 
 const SignIn = ({ redirectUrl }) => {
   const router = useRouter();
   const [appState] = useContext(StoreContext);
-  // const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}`;
-  // source: https://nextjs.org/docs/api-reference/next/router
+  const { library } = useWeb3();
   useEffect(() => {
-    const handleRouteChange = async () => {
-      try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/checkAuth`, { withCredentials: true });
-        const { githubId } = response.data;
-        githubId &&
-          router.push({
-            pathname: `${process.env.NEXT_PUBLIC_BASE_URL}/user/github/${githubId}`,
-            query: { redirectUrl: redirectUrl },
-          });
-      } catch (error) {
-        appState.logger.error(error);
+    const getAuthed = async () => {
+      const redirectUrl = router.query.redirectUrl;
+      if (redirectUrl) {
+        const githubValues = await appState.authService.checkAuth();
+        const githubId = githubValues.payload.githubId;
+
+        if (githubId) {
+          const currentAddress = await appState.openQClient.getAddressById(library, githubId);
+          const zeroAddress = '0x0000000000000000000000000000000000000000';
+          if (currentAddress === zeroAddress) {
+            router.push(
+              `${process.env.NEXT_PUBLIC_BASE_URL}/user/github/${githubValues.payload.githubId}?redirectUrl=${redirectUrl}`
+            );
+          }
+        }
       }
-      //}
     };
-    router.events.on('routeChangeStart', handleRouteChange);
+    getAuthed();
+
     // If the component is unmounted, unsubscribe
-    // from the event with the `off` method:
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChange);
-    };
-  }, [router.asPath]);
+    // from the event with the `off` method:}
+  }, [router.query]);
 
   const signIn = () => {
     const clientId = `client_id=${process.env.NEXT_PUBLIC_OPENQ_ID}`;
