@@ -65,7 +65,7 @@ const HorizontalOrganizationCard = ({ organization }) => {
             {organization.starringUserIds?.length !== 1 && 's'}
           </div>
           <div className='mt-1 text text-sm leading-normal text-muted truncate'>
-            {orgBounties.length} {orgBounties.length !== 1 ? 'bounties' : 'bounty'}
+            {orgBounties.length} {orgBounties.length !== 1 ? 'contracts' : 'contract'}
           </div>
         </div>
       </div>
