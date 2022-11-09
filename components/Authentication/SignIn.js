@@ -32,7 +32,7 @@ const SignIn = ({ redirectUrl }) => {
   }, [router.query, library]);
 
   const signIn = () => {
-    const clientId = `client_id=${'b5802eaa3dda753a43a5'}`;
+    const clientId = `client_id=${process.env.NEXT_PUBLIC_OPENQ_ID}`;
     const nonce = randomString(10);
     window.localStorage.setItem('csrf_nonce', nonce);
     const state = {
