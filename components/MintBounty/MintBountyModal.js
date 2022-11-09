@@ -11,7 +11,6 @@ import StoreContext from '../../store/Store/StoreContext';
 import BountyAlreadyMintedMessage from './BountyAlreadyMintedMessage';
 import ToolTipNew from '../Utils/ToolTipNew';
 import MintBountyModalButton from './MintBountyModalButton';
-import MintBountyHeader from './MintBountyHeader';
 import MintBountyInput from './MintBountyInput';
 import ErrorModal from './ErrorModal';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
@@ -19,6 +18,7 @@ import SetTierValues from './SetTierValues';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import SubMenu from '../Utils/SubMenu';
 import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
+import ModalLarge from '../Utils/ModalLarge';
 
 const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
   // Context
@@ -35,7 +35,6 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
   };
   // State
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
-  const [hideModal, setHideModal] = useState();
   const [issue, setIssue] = useState();
   const [url, setUrl] = useState('');
   const [bountyAddress, setBountyAddress] = useState();
@@ -317,265 +316,260 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
     }
   }, [category, tier, sum]);
 
+  const footerLeft = (
+    <a
+      href={'https://github.com/OpenQDev/OpenQ-Contracts/blob/production/contracts/Bounty/Implementations/BountyV1.sol'}
+      className='flex gap-2 underline'
+      target='_blank'
+      rel='noreferrer'
+    >
+      <>
+        <Image src={'/social-icons/github-logo-white.svg'} width={24} height={24} />
+        Contract source code
+      </>
+    </a>
+  );
+
+  const btn = !error && (
+    <ToolTipNew
+      outerStyles={''}
+      hideToolTip={
+        (enableContest &&
+          enableMint &&
+          isOnCorrectNetwork &&
+          !issue?.closed &&
+          account &&
+          issue?.url.includes('/issues/')) ||
+        isLoading
+      }
+      toolTipText={
+        issue?.closed && issue?.url.includes('/issues/')
+          ? 'Issue closed'
+          : account && isOnCorrectNetwork && (!enableMint || !issue?.url.includes('/issues/'))
+          ? 'Please choose an elgible issue.'
+          : !enableContest
+          ? 'Please make sure the sum of tier percentages adds up to 100.'
+          : isOnCorrectNetwork
+          ? 'Connect your wallet to mint a contract!'
+          : 'Please switch to the correct network to mint a contract.'
+      }
+    >
+      <MintBountyModalButton
+        mintBounty={!isOnCorrectNetwork ? addOrSwitchNetwork : account ? mintBounty : connectWallet}
+        account={account}
+        isOnCorrectNetwork={isOnCorrectNetwork}
+        enableMint={
+          (enableContest &&
+            enableMint &&
+            isOnCorrectNetwork &&
+            !issue?.closed &&
+            issue?.url.includes('/issues/') &&
+            !isLoading) ||
+          !account
+        }
+        transactionPending={isLoading}
+      />
+    </ToolTipNew>
+  );
+
   // Render
   return (
-    <div
-      className={`justify-center items-start sm:items-center mx-4  overflow-y-auto fixed inset-0 outline-none z-50 focus:outline-none p-10 ${
-        appState.walletConnectModal ? 'hidden' : 'flex'
-      }`}
-    >
+    <>
       {error ? (
         <ErrorModal setShowErrorModal={closeModal} error={error} />
       ) : (
-        <>
-          <div
-            ref={modal}
-            className={`m-auto w-5/6 md:w-2/3 max-h-[70vh] overflow-y-auto lg:w-1/3 min-w-[320px] z-50 fixed top-24 ${
-              hideModal && 'invisible'
-            } `}
-          >
-            <div className='w-full rounded-sm flex flex-col bg-[#161B22] z-11 space-y-1'>
-              {!hideSubmenu && (
-                <SubMenu
-                  items={[{ name: 'Fixed Contest' }, { name: 'Contest' }]}
-                  internalMenu={category}
-                  updatePage={setCategory}
-                  styles={'justify-center'}
-                />
+        <ModalLarge
+          title={`Deploy ${category} Contract`}
+          footerLeft={footerLeft}
+          footerRight={btn}
+          setShowModal={modalVisibility}
+          resetState={closeModal}
+        >
+          <>
+            {!hideSubmenu && (
+              <SubMenu
+                items={[{ name: 'Fixed Contest' }, { name: 'Contest' }]}
+                internalMenu={category}
+                updatePage={setCategory}
+                styles={'justify-center'}
+              />
+            )}
+            <h3 className='text-xl pt-2'>
+              {category === 'Split Price'
+                ? 'Pay out a fixed amount to any contributors who submit work to this bounty, as many times as you like'
+                : `Create a${
+                    category === 'Fixed price' ? 'n' : ''
+                  } ${category} Contract to send funds to any GitHub issue`}
+            </h3>
+            <div className='flex flex-col py-2'>
+              <MintBountyInput setIssueUrl={setIssueUrl} issueData={issue} url={url} isValidUrl={isValidUrl} />
+            </div>
+            {isValidUrl && !issue?.url.includes('/issues/') && (
+              <div className='flex flex-col items-center'>Github Issue not found</div>
+            )}
+            <div className='flex flex-col items-center space-x-1'>
+              {isValidUrl && issue?.url.includes('/issues/') && issue?.closed && !bountyAddress && (
+                <div className='text-center pt-3 '>This issue is already closed on GitHub</div>
               )}
-              <div className='w-full'>
-                <MintBountyHeader category={category} />
-                <div className='flex flex-col px-8 py-2'>
-                  <MintBountyInput setIssueUrl={setIssueUrl} issueData={issue} url={url} isValidUrl={isValidUrl} />
-                </div>
-                {isValidUrl && !issue?.url.includes('/issues/') && (
-                  <div className='flex flex-col items-center px-8'>Github Issue not found</div>
-                )}
-                <div className='flex flex-col items-center space-x-1 px-8'>
-                  {isValidUrl && issue?.url.includes('/issues/') && issue?.closed && !bountyAddress && (
-                    <div className='text-center pt-3 '>This issue is already closed on GitHub</div>
-                  )}
-                  {isValidUrl && bountyAddress && issue && (
-                    <BountyAlreadyMintedMessage closed={closed} id={issue.id} bountyAddress={bountyAddress} />
-                  )}
-                </div>
+              {isValidUrl && bountyAddress && issue && (
+                <BountyAlreadyMintedMessage closed={closed} id={issue.id} bountyAddress={bountyAddress} />
+              )}
+            </div>
 
-                <div className='flex flex-col  px-8 gap-2 p-2 w-full items-start  text-base bg-[#161B22]'>
+            <div className='flex flex-col  gap-2 py-2 w-full items-start  text-base bg-[#161B22]'>
+              <div className='flex items-center gap-2'>
+                Is this Contract invoiceable?
+                <ToolTipNew mobileX={10} toolTipText={'Do you want an invoice for this contract?'}>
+                  <div className='cursor-help rounded-full border border-[#c9d1d9] text-sm aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                    ?
+                  </div>
+                </ToolTipNew>
+              </div>
+              <div className='flex-1 w-full px-2'>
+                <div className='flex text-sm rounded-sm text-primary '>
+                  <ToolTipNew innerStyles={'flex'} toolTipText={'Invoicing feature coming soon'}>
+                    <button
+                      disabled={true}
+                      onClick={() => setInvoice(true)}
+                      className={`cursor-not-allowed w-fit min-w-[80px] py-[5px] px-4 rounded-l-sm border whitespace-nowrap ${
+                        invoice ? 'bg-secondary-button border-secondary-button' : ''
+                      }  border-web-gray`}
+                    >
+                      Yes
+                    </button>
+                  </ToolTipNew>
+                  <button
+                    onClick={() => setInvoice(false)}
+                    className={`w-fit min-w-[80px] py-[5px] px-4 border-l-0 rounded-r-sm border whitespace-nowrap ${
+                      !invoice
+                        ? 'bg-secondary-button border-secondary-button'
+                        : 'hover:bg-secondary-button hover:border-secondary-button border-web-gray'
+                    } `}
+                  >
+                    No
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className=' flex flex-col gap-2 w-full py-2 items-start text-base bg-[#161B22]'>
+              <div className='flex items-center gap-2'>
+                Set a Budget
+                <input type='checkbox' className='checkbox' onChange={() => setBudgetInput(!budgetInput)}></input>
+                <ToolTipNew
+                  mobileX={10}
+                  toolTipText={
+                    category === 'Fixed Price'
+                      ? 'Amount of funds you would like to escrow on this issue.'
+                      : 'How much will each successful submitter earn?'
+                  }
+                >
+                  <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                    ?
+                  </div>
+                </ToolTipNew>
+              </div>
+              <span className='text-sm '>
+                You don{"'"}t have to deposit now! The budget is just what you intend to pay.
+              </span>
+              {budgetInput ? (
+                <div className='flex-1 w-full px-4'>
+                  <TokenFundBox
+                    label='budget'
+                    onCurrencySelect={onGoalCurrencySelect}
+                    onVolumeChange={handleGoalChange}
+                    volume={goalVolume}
+                    token={goalToken}
+                  />
+                </div>
+              ) : null}
+            </div>
+
+            {category === 'Split Price' ? (
+              <>
+                <div className='flex flex-col gap-2 w-full items-start py-2 pb-4 text-base bg-[#161B22]'>
                   <div className='flex items-center gap-2'>
-                    Is this Contract invoiceable?
-                    <ToolTipNew mobileX={10} toolTipText={'Do you want an invoice for this contract?'}>
+                    Reward Split?
+                    <ToolTipNew mobileX={10} toolTipText={'How much will each successful submitter earn?'}>
+                      <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>
+                        ?
+                      </div>
+                    </ToolTipNew>
+                  </div>
+                  <div className='flex-1 w-full ml-2'>
+                    <TokenFundBox
+                      label='split'
+                      onCurrencySelect={onCurrencySelect}
+                      onVolumeChange={onVolumeChange}
+                      token={payoutToken}
+                      volume={payoutVolume}
+                    />
+                  </div>
+                </div>
+              </>
+            ) : category === 'Contest' || category === 'Fixed Contest' ? (
+              <div className='items-center py-2'>
+                <div className=' w-11/12 text-base flex flex-col gap-2'>
+                  <div className='flex items-center gap-2'>
+                    How many Tiers?
+                    <ToolTipNew
+                      mobileX={10}
+                      toolTipText={"How many people will be able to claim a prize? Don't exceed 100."}
+                    >
                       <div className='cursor-help rounded-full border border-[#c9d1d9] text-sm aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
                         ?
                       </div>
                     </ToolTipNew>
                   </div>
-                  <div className='flex-1 w-full px-4'>
-                    <div className='flex text-sm rounded-sm text-primary '>
-                      <ToolTipNew innerStyles={'flex'} toolTipText={'Invoicing feature coming soon'}>
-                        <button
-                          disabled={true}
-                          onClick={() => setInvoice(true)}
-                          className={`cursor-not-allowed w-fit min-w-[80px] py-[5px] px-4 rounded-l-sm border whitespace-nowrap ${
-                            invoice ? 'bg-secondary-button border-secondary-button' : ''
-                          }  border-web-gray`}
-                        >
-                          Yes
-                        </button>
-                      </ToolTipNew>
-                      <button
-                        onClick={() => setInvoice(false)}
-                        className={`w-fit min-w-[80px] py-[5px] px-4 border-l-0 rounded-r-sm border whitespace-nowrap ${
-                          !invoice
-                            ? 'bg-secondary-button border-secondary-button'
-                            : 'hover:bg-secondary-button hover:border-secondary-button border-web-gray'
-                        } `}
-                      >
-                        No
-                      </button>
-                    </div>
-                  </div>
-                </div>
 
-                <div className=' px-8 flex flex-col gap-2 w-full py-2 items-start text-base bg-[#161B22]'>
-                  <div className='flex items-center gap-2'>
-                    Set a Budget
-                    <input type='checkbox' className='checkbox' onChange={() => setBudgetInput(!budgetInput)}></input>
-                    <ToolTipNew
-                      mobileX={10}
-                      toolTipText={
-                        category === 'Fixed Price'
-                          ? 'Amount of funds you would like to escrow on this issue.'
-                          : 'How much will each successful submitter earn?'
-                      }
-                    >
-                      <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                        ?
-                      </div>
-                    </ToolTipNew>
-                  </div>
-                  <span className='text-sm '>
-                    You don{"'"}t have to deposit now! The budget is just what you intend to pay.
-                  </span>
-                  {budgetInput ? (
-                    <div className='flex-1 w-full px-4'>
-                      <TokenFundBox
-                        label='budget'
-                        onCurrencySelect={onGoalCurrencySelect}
-                        onVolumeChange={handleGoalChange}
-                        volume={goalVolume}
-                        token={goalToken}
-                      />
-                    </div>
-                  ) : null}
+                  <input
+                    className={'flex-1 input-field w-full mx-4'}
+                    id='name'
+                    aria-label='tiers'
+                    placeholder='0'
+                    autoComplete='off'
+                    defaultValue={3}
+                    type='text'
+                    min='0'
+                    max='100'
+                    onChange={(e) => onTierChange(e)}
+                  />
                 </div>
-
-                {category === 'Split Price' ? (
-                  <>
-                    <div className='flex flex-col px-8 gap-2 w-full items-start py-2 pb-4 text-base bg-[#161B22]'>
+                {types[0] === '3' && (
+                  <div className='flex flex-col w-11/12 items-start py-2 gap-2 text-base pb-4'>
+                    <div className='flex items-center gap-2'>
                       <div className='flex items-center gap-2'>
-                        {' '}
-                        Reward Split?
-                        <ToolTipNew mobileX={10} toolTipText={'How much will each successful submitter earn?'}>
+                        Which token?
+                        <ToolTipNew mobileX={10} toolTipText={'Fixed contests can only be funded with one token.'}>
                           <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>
                             ?
                           </div>
                         </ToolTipNew>
                       </div>
-                      <div className='flex-1 w-full ml-4'>
-                        <TokenFundBox
-                          label='split'
-                          onCurrencySelect={onCurrencySelect}
-                          onVolumeChange={onVolumeChange}
-                          token={payoutToken}
-                          volume={payoutVolume}
-                        />
-                      </div>
                     </div>
-                  </>
-                ) : category === 'Contest' || category === 'Fixed Contest' ? (
-                  <div className='px-8 items-center py-2'>
-                    <div className=' w-11/12 text-base flex flex-col gap-2'>
-                      <div className='flex items-center gap-2'>
-                        How many Tiers?
-                        <ToolTipNew
-                          mobileX={10}
-                          toolTipText={"How many people will be able to claim a prize? Don't exceed 100."}
-                        >
-                          <div className='cursor-help rounded-full border border-[#c9d1d9] text-sm aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                            ?
-                          </div>
-                        </ToolTipNew>
-                      </div>
-
-                      <input
-                        className={'flex-1 input-field w-full mx-4'}
-                        id='name'
-                        aria-label='tiers'
-                        placeholder='0'
-                        autoComplete='off'
-                        defaultValue={3}
-                        type='text'
-                        min='0'
-                        max='100'
-                        onChange={(e) => onTierChange(e)}
-                      />
+                    <div className=' pl-4'>
+                      <TokenSearch token={payoutToken} onCurrencySelect={onCurrencySelect} alone={true} />
                     </div>
-                    {types[0] === '3' && (
-                      <div className='flex flex-col w-11/12 items-start py-2 gap-2 text-base pb-4'>
-                        <div className='flex items-center gap-2'>
-                          <div className='flex items-center gap-2'>
-                            Which token?
-                            <ToolTipNew mobileX={10} toolTipText={'Fixed contests can only be funded with one token.'}>
-                              <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>
-                                ?
-                              </div>
-                            </ToolTipNew>
-                          </div>
-                        </div>
-                        <div className=' pl-4'>
-                          <TokenSearch
-                            token={payoutToken}
-                            setShowTokenSearch={setHideModal}
-                            onCurrencySelect={onCurrencySelect}
-                            alone={true}
-                          />
-                        </div>
-                      </div>
-                    )}
-                    {tier > 0 ? (
-                      <SetTierValues
-                        category={category}
-                        sum={sum}
-                        finalTierVolumes={finalTierVolumes}
-                        setFinalTierVolumes={setFinalTierVolumes}
-                        setSum={setSum}
-                        tierArr={tierArr}
-                        setEnableContest={setEnableContest}
-                        initialVolumes={['1', '1', '1']}
-                      />
-                    ) : null}
                   </div>
+                )}
+                {tier > 0 ? (
+                  <SetTierValues
+                    category={category}
+                    sum={sum}
+                    finalTierVolumes={finalTierVolumes}
+                    setFinalTierVolumes={setFinalTierVolumes}
+                    setSum={setSum}
+                    tierArr={tierArr}
+                    setEnableContest={setEnableContest}
+                    initialVolumes={['1', '1', '1']}
+                  />
                 ) : null}
-
-                <a
-                  href={
-                    'https://github.com/OpenQDev/OpenQ-Contracts/blob/production/contracts/Bounty/Implementations/BountyV1.sol'
-                  }
-                  className='flex content-center gap-2 underline px-8'
-                >
-                  <>
-                    <Image src={'/social-icons/github-logo-white.svg'} width={24} height={24} />
-                    Contract source code
-                  </>
-                </a>
-                <div className='pb-10 pt-6 px-8 w-full'>
-                  <ToolTipNew
-                    outerStyles={''}
-                    hideToolTip={
-                      (enableContest &&
-                        enableMint &&
-                        isOnCorrectNetwork &&
-                        !issue?.closed &&
-                        account &&
-                        issue?.url.includes('/issues/')) ||
-                      isLoading
-                    }
-                    toolTipText={
-                      issue?.closed && issue?.url.includes('/issues/')
-                        ? 'Issue closed'
-                        : account && isOnCorrectNetwork && (!enableMint || !issue?.url.includes('/issues/'))
-                        ? 'Please choose an elgible issue.'
-                        : !enableContest
-                        ? 'Please make sure the sum of tier percentages adds up to 100.'
-                        : isOnCorrectNetwork
-                        ? 'Connect your wallet to mint a contract!'
-                        : 'Please switch to the correct network to mint a contract.'
-                    }
-                  >
-                    <MintBountyModalButton
-                      mintBounty={!isOnCorrectNetwork ? addOrSwitchNetwork : account ? mintBounty : connectWallet}
-                      account={account}
-                      isOnCorrectNetwork={isOnCorrectNetwork}
-                      enableMint={
-                        (enableContest &&
-                          enableMint &&
-                          isOnCorrectNetwork &&
-                          !issue?.closed &&
-                          issue?.url.includes('/issues/') &&
-                          !isLoading) ||
-                        !account
-                      }
-                      transactionPending={isLoading}
-                    />
-                  </ToolTipNew>
-                </div>
               </div>
-            </div>
-          </div>
-          <div className='bg-overlay fixed inset-0 z-10'></div>
-        </>
+            ) : null}
+          </>
+        </ModalLarge>
       )}
-    </div>
+    </>
   );
 };
 
