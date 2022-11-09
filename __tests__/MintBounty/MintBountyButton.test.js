@@ -10,47 +10,44 @@ import InitialState from '../../store/Store/InitialState';
 InitialState.openQClient.shouldSleep = 200;
 
 describe('MintBountyButton', () => {
-  it('should open wizard and direct to discord server', async () => {
+  it('should open MintBountyModal on fixed price', async () => {
     // ARRANGE
     const user = userEvent.setup();
-    render(<MintBountyButton types={['1', '2', '3']} wizard={true} />);
+    render(<MintBountyButton types={['0', '1', '2', '3']} />);
 
     // ACT
     const mintBountyButton = await screen.findByRole('button', { name: /New Contract/i });
     await user.click(mintBountyButton);
-    await user.click(screen.getByText('No'));
-    await user.click(screen.getByText('No'));
-    await user.click(screen.getByText('No'));
-    await user.click(screen.getByText('No'));
-    expect(await screen.findByText(/we didn't find a suitable contract/i)).toBeInTheDocument();
-  });
-
-  it('should open wizard and direct to competition contract', async () => {
-    // ARRANGE
-    const user = userEvent.setup();
-    render(<MintBountyButton types={['1', '2', '3']} wizard={true} />);
-
-    // ACT
-    const mintBountyButton = await screen.findByRole('button', { name: /New Contract/i });
-    await user.click(mintBountyButton);
-    await user.click(screen.getByText('No'));
-    await user.click(screen.getByText('No'));
-    await user.click(screen.getByText('No'));
-    await user.click(screen.getByText('Yes'));
-    expect(screen.getByText(/Create a Fixed Contest Contract to send funds to any GitHub issue/i));
-    expect(screen.getByText(/How many tiers/i));
-  });
-
-  it('should open wizard and direct to atomic contract server', async () => {
-    // ARRANGE
-    const user = userEvent.setup();
-    render(<MintBountyButton types={['1', '2', '3']} wizard={true} />);
-
-    // ACT
-    const mintBountyButton = await screen.findByRole('button', { name: /New Contract/i });
-    await user.click(mintBountyButton);
-    expect(screen.getByText(/Should only one person complete this task/i)).toBeInTheDocument();
-    await user.click(screen.getByText('Yes'));
+    expect(await screen.findByText(/Deploy Fixed Price Contract/i)).toBeInTheDocument();
     expect(screen.getByText(/Create a Fixed Price Contract to send funds to any GitHub issue/i));
+  });
+
+  it('should open MintBountyModal on split price', async () => {
+    // ARRANGE
+    const user = userEvent.setup();
+    render(<MintBountyButton types={['1', '2', '3']} wizard={true} />);
+
+    // ACT
+    const mintBountyButton = await screen.findByRole('button', { name: /New Contract/i });
+    await user.click(mintBountyButton);
+    expect(await screen.findByText(/Deploy Split Price Contract/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /Pay out a fixed amount to any contributors who submit work to this bounty, as many times as you like/i
+      )
+    );
+  });
+
+  it('should open MintBountyModal on contest', async () => {
+    // ARRANGE
+    const user = userEvent.setup();
+    render(<MintBountyButton types={['2', '3']} />);
+
+    // ACT
+    const mintBountyButton = await screen.findByRole('button', { name: /New Contract/i });
+    await user.click(mintBountyButton);
+    expect(await screen.findByText(/Deploy Contest Contract/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Create a Contest Contract to send funds to any GitHub issue/i)).toBeInTheDocument();
+    expect(screen.getByText(/How many tiers/i));
   });
 });
