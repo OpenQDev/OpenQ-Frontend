@@ -6,8 +6,10 @@ import Logger from '../../../services/logger/Logger';
 import SubMenu from '../../../components/Utils/SubMenu';
 import Gear from '../../../components/svg/gear';
 import Image from 'next/legacy/image';
+import useAuth from '../../../hooks/useAuth';
 
-const account = ({ githubId, githubUser, redirectUrl, renderError }) => {
+const account = ({ githubId, githubUser, renderError }) => {
+  useAuth();
   const [internalMenu, setInternalMenu] = useState('Settings');
 
   return (
@@ -43,12 +45,7 @@ const account = ({ githubId, githubUser, redirectUrl, renderError }) => {
 
           <div className='flex flex-col flex-1 pl-24 '>
             {internalMenu == 'Settings' && (
-              <AssociationModal
-                githubId={githubId}
-                user={githubUser}
-                renderError={renderError}
-                redirectUrl={redirectUrl}
-              />
+              <AssociationModal githubId={githubId} user={githubUser} renderError={renderError} />
             )}
           </div>
         </div>
@@ -58,7 +55,6 @@ const account = ({ githubId, githubUser, redirectUrl, renderError }) => {
 };
 
 export const getServerSideProps = async (context) => {
-  const redirectUrl = context.query.redirectUrl;
   const githubId = context.params.githubId;
   const githubRepository = new WrappedGithubClient();
   githubRepository.instance.setGraphqlHeaders();
@@ -71,7 +67,7 @@ export const getServerSideProps = async (context) => {
     logger.error(err);
     return { props: { renderError: `${githubId} is not a valid GitHub ID.` } };
   }
-  return { props: { githubId, renderError, githubUser, redirectUrl } };
+  return { props: { githubId, renderError, githubUser } };
 };
 
 export default account;

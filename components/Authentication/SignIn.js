@@ -10,6 +10,7 @@ const SignIn = ({ redirectUrl }) => {
   const router = useRouter();
   const [appState] = useContext(StoreContext);
   const { library } = useWeb3();
+
   useEffect(() => {
     const getAuthed = async () => {
       const redirectUrl = router.query.redirectUrl;
@@ -18,16 +19,11 @@ const SignIn = ({ redirectUrl }) => {
         const githubId = githubValues.payload.githubId;
 
         if (githubId) {
-          const currentAddress = await appState.openQClient.getAddressById(library, githubId);
-          const zeroAddress = '0x0000000000000000000000000000000000000000';
-          if (currentAddress === zeroAddress) {
-            router.push(
-              `${process.env.NEXT_PUBLIC_BASE_URL}/user/github/${githubValues.payload.githubId}?redirectUrl=${redirectUrl}`
-            );
-          }
+          router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/github/${githubValues.payload.githubId}`);
         }
       }
     };
+
     getAuthed();
   }, [router.query, library]);
 
@@ -41,7 +37,9 @@ const SignIn = ({ redirectUrl }) => {
       },
     };
     const stateParams = `state=${JSON.stringify(state)}`;
-    router.push(`https://github.com/login/oauth/authorize?${clientId}&${stateParams}`);
+    router.push(
+      `https://github.com/login/oauth/authorize?${clientId}&${stateParams}&scope=read:user,read:org,public_repo`
+    );
   };
 
   function randomString(length) {

@@ -9,6 +9,7 @@ function GitHubAuth() {
   const [, setAuthCode] = useState('NO AUTH CODE');
   const [appState] = useContext(StoreContext);
   const { account } = useWeb3();
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setAuthCode(params.get('code'));
@@ -19,7 +20,7 @@ function GitHubAuth() {
   const exchangeAuthCodeForAccessToken = (authCode) => {
     appState.authService
       .getAccessToken(authCode)
-      .then(() => {
+      .then(async (data) => {
         // Retrieve csrf_nonce from local storage
         const nonce = window.localStorage.getItem('csrf_nonce');
 
@@ -31,11 +32,17 @@ function GitHubAuth() {
         let parsedState = JSON.parse(state);
         let redirectObject = parsedState[nonce];
 
-        if (redirectObject) {
-          // If the nonce is present in the parsed state, that is good
-          let redirectUrl = redirectObject.redirectUrl;
+        window.localStorage.setItem('gh_oauth_token', data.data.access_token);
 
-          router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/?redirectUrl=${redirectUrl}`);
+        if (redirectObject) {
+          // fetch the id
+          const githubValues = await appState.authService.checkAuth();
+          console.log('githubValues', githubValues);
+          const githubId = githubValues.payload.githubId;
+
+          if (githubId) {
+            router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/github/${githubValues.payload.githubId}`);
+          }
         } else {
           // If not, you may be under a CSRF attack
           alert('CSRF Alert!');

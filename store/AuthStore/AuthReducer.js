@@ -21,7 +21,6 @@ const AuthReducer = (state, action) => {
         isAuthenticated: action.payload,
         avatarUrl: null,
       };
-
     case 'UPDATE_SIGNED_ACCOUNT':
       return {
         ...state,
