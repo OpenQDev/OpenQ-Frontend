@@ -47,8 +47,11 @@ const SetTierValues = ({
     }
   }
   useEffect(() => {
-    setFinalTierVolumes(Object.values(tierVolumes));
-    setFinalTierVolumes(Object.values(fixedTierVolumes));
+    if (category === 'Contest') {
+      setFinalTierVolumes(Object.values(tierVolumes));
+    } else {
+      setFinalTierVolumes(Object.values(fixedTierVolumes));
+    }
   }, [tierVolumes, fixedTierVolumes]);
   useEffect(() => {
     if (finalTierVolumes.length) {
