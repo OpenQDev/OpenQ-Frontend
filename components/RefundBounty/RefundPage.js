@@ -102,7 +102,6 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
     }
   }
   // Render
-  console.log(closed);
   return (
     <>
       {closed && bounty.bountyType === '0' ? (

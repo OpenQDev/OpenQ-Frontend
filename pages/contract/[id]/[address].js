@@ -160,7 +160,7 @@ const address = ({ address, mergedBounty, renderError }) => {
     const justMinted = sessionStorage.getItem('justMinted') === 'true';
     if (justMinted && canvas.current) {
       setJustMinted(true);
-      setReload();
+      refreshBounty();
       canvas.current.width = window.innerWidth;
       canvas.current.height = window.innerHeight;
 
@@ -190,6 +190,9 @@ const address = ({ address, mergedBounty, renderError }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   const claimOverView = bounty?.claims?.length > 0 ? [{ name: 'Claims Overview', Svg: Log }] : [];
+  const submissions =
+    bounty.bountyType === '2' || bounty.bountyType === '3' ? [{ name: 'Submissions', Svg: Gear }] : [];
+  const claim = bounty.bountyType === '0' || bounty.bountyType === '1' ? [{ name: 'Claim', Svg: Fire }] : [];
   // User Methods
 
   // Render
@@ -223,8 +226,8 @@ const address = ({ address, mergedBounty, renderError }) => {
                   { name: 'View', Svg: Telescope },
                   { name: 'Fund', Svg: Add },
                   { name: 'Refund', Svg: Subtract },
-                  { name: 'Claim', Svg: Fire },
-                  { name: 'Submissions', Svg: Fire },
+                  ...claim,
+                  ...submissions,
                   ...claimOverView,
                   {
                     name: bounty.issuer && ethers.utils.getAddress(bounty?.issuer?.id) == account ? 'Admin' : null,
@@ -277,7 +280,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                     split={split}
                   />
                 ) : null}
-                {internalMenu == 'Submissions' && bounty ? (
+                {internalMenu == 'Submissions' && bounty?.payoutSchedule ? (
                   <Submissions refreshBounty={refreshBounty} bounty={bounty} />
                 ) : null}
                 {bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}

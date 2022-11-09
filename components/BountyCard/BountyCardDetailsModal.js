@@ -13,7 +13,6 @@ import CopyBountyAddress from '../Bounty/CopyBountyAddress';
 
 const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, unWatchable, watchingState }) => {
   const modal = useRef();
-
   const { safe } = useWeb3();
   useEffect(() => {
     let didCancel;

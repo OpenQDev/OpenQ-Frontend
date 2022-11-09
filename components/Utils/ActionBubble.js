@@ -140,9 +140,8 @@ const ActionBubble = ({ bounty, action }) => {
       const addStrings = (a, b) => {
         return parseInt(a) + parseInt(b);
       };
-      console.log(action);
       const expiryDate = appState.utils.formatUnixDate(addStrings(action.receiveTime, action.expiration));
-      console.log(expiryDate);
+
       if (action.isNft) {
         titlePartOne = `${funder} funded this contract with `;
         titlePartTwo = ` on ${appState.utils.formatUnixDate(

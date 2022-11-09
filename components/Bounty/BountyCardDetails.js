@@ -59,9 +59,9 @@ const BountyCardDetails = ({ bounty }) => {
   return (
     <div className='flex-1 pr-4 min-w-[260px]'>
       {allActions.map((action, index) => (
-        <ActionBubble key={index} bounty={bounty} action={action} />
+        <ActionBubble suppressHydrationWarning key={index} bounty={bounty} action={action} />
       ))}
-      <ActionBubble bounty={bounty} />
+      <ActionBubble suppressHydrationWarning bounty={bounty} />
     </div>
   );
 };
