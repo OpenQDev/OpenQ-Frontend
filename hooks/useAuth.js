@@ -57,7 +57,7 @@ const useAuth = () => {
       checkAuth(didCancel);
     }
     () => (didCancel = true);
-  }, [router.asPath]);
+  }, [router?.asPath]);
 
   // runs whenever backend changes or account changes.
   useEffect(() => {

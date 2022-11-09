@@ -93,7 +93,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr }) => 
         innerStyles={'  whitespace-pre-wrap'}
         relativePosition={'-right-4 w-32 md:right:auto md:w-60'}
         hideToolTip={closer}
-        toolTipText='User has not registered their github with a wallet address, please have them register a wallet address before paying out.'
+        toolTipText='User has not registered their Github account on OpenQ with a wallet address, please have them register a wallet address before paying out.'
       >
         <button
           disabled={!closer}

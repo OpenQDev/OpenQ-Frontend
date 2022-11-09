@@ -1,8 +1,8 @@
 // Third party
 import React from 'react';
-import ShowCasePage from '../../components/ShowCase/ShowCasePage';
-import WrappedGithubClient from '../../services/github/WrappedGithubClient';
-import useAuth from '../../hooks/useAuth';
+import ShowCasePage from '../../../components/ShowCase/ShowCasePage';
+import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
+import useAuth from '../../../hooks/useAuth';
 
 const showcasePR = ({ pr }) => {
   useAuth();
