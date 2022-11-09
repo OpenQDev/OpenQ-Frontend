@@ -1,17 +1,33 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import StyledInput from './StyledInput';
 import useWeb3 from '../../../hooks/useWeb3';
 import StoreContext from '../../../store/Store/StoreContext';
+import AssociationModal from '../GithubRegistration/AssociationModal';
 import axios from 'axios';
+import useAuth from '../../../hooks/useAuth';
 
 const Editing = () => {
   const { account } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
   const { logger, openQPrismaClient } = appState;
-  const [success, setSucess] = useState(null);
+  // const [success, setSucess] = useState(null);
   const [subscribed, setSubscribed] = useState(null);
   const [subscriptionError, setSubscriptionError] = useState();
-  const formValuesSocial = [{ value: 'twitter' }, { value: 'discord' }];
+  const [githubUser, setGithubUser] = useState({});
+  // const formValuesSocial = [{ value: 'twitter' }, { value: 'discord' }];
+  const [authState] = useAuth();
+  const { githubId } = authState;
+
+  useEffect(() => {
+    if (githubId) {
+      const getGithubUser = async () => {
+        const githubUser = await appState.githubRepository.fetchUserById(githubId);
+        setGithubUser(githubUser);
+      };
+      getGithubUser();
+    }
+  }, [githubId]);
+  /*
   const formValuesInvoicing = [
     {
       value: 'company',
@@ -33,7 +49,7 @@ const Editing = () => {
     { value: 'country' },
     { value: 'province', displayValue: 'State/Province' },
   ];
-
+*/
   const formValuesContact = [
     {
       value: 'email',
@@ -151,7 +167,7 @@ const Editing = () => {
       setSubscriptionError(true);
     }
   };
-
+  /*
   const handleForm = async (e) => {
     try {
       e.preventDefault();
@@ -166,7 +182,7 @@ const Editing = () => {
     } catch (err) {
       logger.error(err, account, 'Editing1');
     }
-  };
+  };*/
 
   return (
     <div className='px-8 py-6 text-lg  font-semibold'>
@@ -192,8 +208,11 @@ const Editing = () => {
             'We cant send you personalized notifications about new tasks without having your Github profile'}
         </span>
       </form>
-      <h2 className='text-2xl '>Edit Public Profile</h2>
-
+      <div className='flex flex-col flex-1 font-normal'>
+        {githubId && <AssociationModal githubId={githubId} user={githubUser} renderError={''} redirectUrl={''} />}
+      </div>
+      {/*<h2 className='text-2xl '>Edit Public Profile</h2>
+     
       <form className='font-normal py-4 max-w-[500px] gap-4' onSubmit={handleForm}>
         <div className='py-4'>
           <h3 className='font-semibold text-muted pb-2'>Invoicing</h3>
@@ -226,6 +245,7 @@ const Editing = () => {
           type='submit'
         />
       </form>
+      */}
     </div>
   );
 };

@@ -11,7 +11,7 @@ const account = ({ githubId, githubUser, redirectUrl, renderError }) => {
   const [internalMenu, setInternalMenu] = useState('Settings');
 
   return (
-    <div className=' gap-4 justify-center pt-6'>
+    <div className=' gap-4 justify-center pt-6 pl-20'>
       <div className='flex flex-col justify-center'>
         <SubMenu
           internalMenu={internalMenu}
@@ -41,7 +41,7 @@ const account = ({ githubId, githubUser, redirectUrl, renderError }) => {
             )}
           </div>
 
-          <div className='flex flex-col flex-1 lg:pl-20 '>
+          <div className='flex flex-col flex-1 pl-24 '>
             {internalMenu == 'Settings' && (
               <AssociationModal
                 githubId={githubId}

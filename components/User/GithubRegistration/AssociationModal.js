@@ -42,7 +42,7 @@ const AssociationModal = ({ githubId, user }) => {
       setRelAccount(ethers.utils.getAddress(account));
       setEnableLink(true);
     }
-  }, [account]);
+  }, [account, library]);
 
   const associateExternalIdToAddress = async () => {
     setAssociateState('TRANSACTION_SUBMITTED');
@@ -136,7 +136,7 @@ const AssociationModal = ({ githubId, user }) => {
   );
 
   return (
-    <div className='sm:flex flex-wrap items-center pt-8 px-8 gap-4'>
+    <div className='sm:flex flex-wrap pt-8 gap-y-4'>
       <div ref={canvas}></div>
       {user ? (
         <div className='flex flex-col gap-4'>
@@ -146,7 +146,8 @@ const AssociationModal = ({ githubId, user }) => {
               github!
             </div>
           ) : null}
-          <div className='font-semibold'>
+          <h2 className='text-2xl pb-4 font-semibold'>Link Address to Github</h2>
+          <div>
             Link your address here in order to receive prize payouts in our seasonal hackathons! You can change this at
             any time.
           </div>

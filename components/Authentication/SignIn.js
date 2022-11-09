@@ -13,7 +13,7 @@ const SignIn = ({ redirectUrl }) => {
   useEffect(() => {
     const getAuthed = async () => {
       const redirectUrl = router.query.redirectUrl;
-      if (redirectUrl) {
+      if ((redirectUrl, library)) {
         const githubValues = await appState.authService.checkAuth();
         const githubId = githubValues.payload.githubId;
 
@@ -29,10 +29,7 @@ const SignIn = ({ redirectUrl }) => {
       }
     };
     getAuthed();
-
-    // If the component is unmounted, unsubscribe
-    // from the event with the `off` method:}
-  }, [router.query]);
+  }, [router.query, library]);
 
   const signIn = () => {
     const clientId = `client_id=${process.env.NEXT_PUBLIC_OPENQ_ID}`;

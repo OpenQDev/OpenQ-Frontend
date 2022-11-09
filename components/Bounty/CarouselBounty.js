@@ -28,12 +28,12 @@ const CarouselBounty = ({ bounty }) => {
   const price = tokenValues?.total;
 
   return (
-    <>
+    <div className='border-web-gray bg-dark-mode p-4 gap-2 border rounded-sm flex mb-1'>
       <Link
         target={safe ? '_self' : '_blank'}
         rel='noopener noreferrer'
         href={`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.bountyAddress}`}
-        className='border-web-gray bg-dark-mode p-4 gap-2 border rounded-sm flex mb-1'
+        className=''
         legacyBehavior
       >
         <div className='w-64'>
@@ -162,7 +162,7 @@ const CarouselBounty = ({ bounty }) => {
           </div>
         </div>
       </Link>
-    </>
+    </div>
   );
 };
 export default CarouselBounty;
