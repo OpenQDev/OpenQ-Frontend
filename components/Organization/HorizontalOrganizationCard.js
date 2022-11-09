@@ -54,7 +54,7 @@ const HorizontalOrganizationCard = ({ organization }) => {
         <Image src={organization.avatarUrl} width='64' height='64' />
       </div>
       <div>
-        <h2 className='text-xl mt-1 leading-tight text-primary hover:text-link-colour'>
+        <h2 className='text-xl mt-1 leading-tight text-primary hover:text-link-colour cursor-pointer'>
           <Link href={`/organization/${organization.login}`} legacyBehavior>
             <span> {organization.name || organization.login}</span>
           </Link>

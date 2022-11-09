@@ -1,8 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import StyledInput from './StyledInput';
 import useWeb3 from '../../../hooks/useWeb3';
 import StoreContext from '../../../store/Store/StoreContext';
+import AssociationModal from '../GithubRegistration/AssociationModal';
 import axios from 'axios';
+import useAuth from '../../../hooks/useAuth';
 
 const Editing = () => {
   const { account } = useWeb3();
@@ -11,7 +13,21 @@ const Editing = () => {
   const [success, setSucess] = useState(null);
   const [subscribed, setSubscribed] = useState(null);
   const [subscriptionError, setSubscriptionError] = useState();
+  const [githubUser, setGithubUser] = useState({});
   const formValuesSocial = [{ value: 'twitter' }, { value: 'discord' }];
+  const [authState] = useAuth();
+  const { githubId } = authState;
+
+  useEffect(() => {
+    if (githubId) {
+      const getGithubUser = async () => {
+        const githubUser = await appState.githubRepository.fetchUserById(githubId);
+        setGithubUser(githubUser);
+      };
+      getGithubUser();
+    }
+  }, [githubId]);
+
   const formValuesInvoicing = [
     {
       value: 'company',
@@ -192,6 +208,9 @@ const Editing = () => {
             'We cant send you personalized notifications about new tasks without having your Github profile'}
         </span>
       </form>
+      <div className='flex flex-col flex-1 lg:pl-20 '>
+        {githubId && <AssociationModal githubId={githubId} user={githubUser} renderError={''} redirectUrl={''} />}
+      </div>
       <h2 className='text-2xl '>Edit Public Profile</h2>
 
       <form className='font-normal py-4 max-w-[500px] gap-4' onSubmit={handleForm}>

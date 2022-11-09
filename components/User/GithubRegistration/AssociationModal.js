@@ -16,6 +16,7 @@ import LinkText from '../../../components/svg/linktext';
 import { useRouter } from 'next/router';
 
 const AssociationModal = ({ githubId, user }) => {
+  console.log(githubId);
   const { account, library } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
   const { logger } = appState;
@@ -136,7 +137,7 @@ const AssociationModal = ({ githubId, user }) => {
   );
 
   return (
-    <div className='sm:flex flex-wrap items-center pt-8 px-8 gap-4'>
+    <div className='sm:flex flex-wrap pt-8 gap-y-4'>
       <div ref={canvas}></div>
       {user ? (
         <div className='flex flex-col gap-4'>
