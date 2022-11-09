@@ -113,7 +113,7 @@ const SetTierValues = ({
           </div>
           <SmallToggle
             toggleVal={toggleVal}
-            className={' ml-4 '}
+            className={' ml-2 '}
             toggleFunc={handleToggle}
             names={['Visual', 'Text']}
           />

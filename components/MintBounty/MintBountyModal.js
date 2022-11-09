@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
 import Image from 'next/legacy/image';
 import chainIdDeployEnvMap from '../../components/WalletConnect/chainIdDeployEnvMap';
+import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
 
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
@@ -20,7 +21,7 @@ import SubMenu from '../Utils/SubMenu';
 import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
 import ModalLarge from '../Utils/ModalLarge';
 
-const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
+const MintBountyModal = ({ modalVisibility, types }) => {
   // Context
   const [appState, dispatch] = useContext(StoreContext);
   const { library, account, safe } = useWeb3();
@@ -35,6 +36,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
   };
   // State
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
+  const [hideModal, setHideModal] = useState();
   const [issue, setIssue] = useState();
   const [url, setUrl] = useState('');
   const [bountyAddress, setBountyAddress] = useState();
@@ -386,16 +388,22 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
           resetState={closeModal}
         >
           <div className='h-full grid grid-cols-[150px_1fr] gap-4'>
-            <div className='py-2 text-muted border-r border-gray-700'>Contract Type</div>
-            <div>
-              {!hideSubmenu && (
-                <SubMenu
-                  items={[{ name: 'Fixed Contest' }, { name: 'Contest' }]}
-                  internalMenu={category}
-                  updatePage={setCategory}
-                  styles={'justify-center'}
-                />
-              )}
+            <div className='pl-4 p-2 text-muted border-r border-gray-700'>
+              <div className='pb-2'>Contract Type</div>
+              <SubMenu
+                items={[
+                  { name: 'Fixed Price', Svg: PersonIcon },
+                  { name: 'Split Price', Svg: PersonAddIcon },
+                  { name: 'Contest', Svg: PeopleIcon },
+                  { name: 'Fixed Contest', Svg: PeopleIcon },
+                ]}
+                internalMenu={category}
+                updatePage={setCategory}
+                styles={'justify-center'}
+                vertical={true}
+              />
+            </div>
+            <div className='overflow-y-auto px-2'>
               <h3 className='text-xl pt-2'>
                 {category === 'Split Price'
                   ? 'Pay out a fixed amount to any contributors who submit work to this bounty, as many times as you like'
@@ -475,7 +483,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                   You don{"'"}t have to deposit now! The budget is just what you intend to pay.
                 </span>
                 {budgetInput ? (
-                  <div className='flex-1 w-full px-4'>
+                  <div className='flex-1 w-full px-2'>
                     <TokenFundBox
                       label='budget'
                       onCurrencySelect={onGoalCurrencySelect}
@@ -498,7 +506,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                         </div>
                       </ToolTipNew>
                     </div>
-                    <div className='flex-1 w-full ml-2'>
+                    <div className='flex-1 w-full px-4'>
                       <TokenFundBox
                         label='split'
                         onCurrencySelect={onCurrencySelect}
@@ -523,9 +531,8 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                         </div>
                       </ToolTipNew>
                     </div>
-
                     <input
-                      className={'flex-1 input-field w-full mx-4'}
+                      className={'flex-1 input-field w-full ml-2'}
                       id='name'
                       aria-label='tiers'
                       placeholder='0'
@@ -537,7 +544,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                       onChange={(e) => onTierChange(e)}
                     />
                   </div>
-                  {types[0] === '3' && (
+                  {category === 'Fixed Contest' && (
                     <div className='flex flex-col w-11/12 items-start py-2 gap-2 text-base pb-4'>
                       <div className='flex items-center gap-2'>
                         <div className='flex items-center gap-2'>
@@ -550,7 +557,13 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                         </div>
                       </div>
                       <div className=' pl-4'>
-                        <TokenSearch token={payoutToken} onCurrencySelect={onCurrencySelect} alone={true} />
+                        <TokenSearch
+                          token={payoutToken}
+                          setShowTokenSearch={setHideModal}
+                          showTokenSearch={hideModal}
+                          onCurrencySelect={onCurrencySelect}
+                          alone={true}
+                        />
                       </div>
                     </div>
                   )}
