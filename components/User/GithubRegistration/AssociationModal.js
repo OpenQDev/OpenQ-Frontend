@@ -16,7 +16,6 @@ import LinkText from '../../../components/svg/linktext';
 import { useRouter } from 'next/router';
 
 const AssociationModal = ({ githubId, user }) => {
-  console.log(githubId);
   const { account, library } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
   const { logger } = appState;
@@ -43,7 +42,7 @@ const AssociationModal = ({ githubId, user }) => {
       setRelAccount(ethers.utils.getAddress(account));
       setEnableLink(true);
     }
-  }, [account]);
+  }, [account, library]);
 
   const associateExternalIdToAddress = async () => {
     setAssociateState('TRANSACTION_SUBMITTED');
@@ -147,7 +146,8 @@ const AssociationModal = ({ githubId, user }) => {
               github!
             </div>
           ) : null}
-          <div className='font-semibold'>
+          <h2 className='text-2xl pb-4 font-semibold'>Link Address to Github</h2>
+          <div>
             Link your address here in order to receive prize payouts in our seasonal hackathons! You can change this at
             any time.
           </div>

@@ -48,7 +48,7 @@ function GitHubAuth() {
 
   return (
     <div className='flex fixed inset-0 justify-center'>
-      <div className=' h-min text-center self-center flex flex-col items-center gap-4 px-4'>
+      <div className=' h-min text-center self-center flex flex-col items-center gap-4 px-4 pl-20'>
         <p>Authenticating with GitHub. You will be redirected to OpenQ once we{"'"}re done.</p>
         <svg
           xmlns='http://www.w3.org/2000/svg'

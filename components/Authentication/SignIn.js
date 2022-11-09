@@ -13,7 +13,7 @@ const SignIn = ({ redirectUrl }) => {
   useEffect(() => {
     const getAuthed = async () => {
       const redirectUrl = router.query.redirectUrl;
-      if (redirectUrl) {
+      if ((redirectUrl, library)) {
         const githubValues = await appState.authService.checkAuth();
         const githubId = githubValues.payload.githubId;
 
@@ -29,30 +29,10 @@ const SignIn = ({ redirectUrl }) => {
       }
     };
     getAuthed();
-  }, [router.query]);
-  useEffect(() => {
-    const getAuthed = async () => {
-      const redirectUrl = router.query.redirectUrl;
-      if (redirectUrl) {
-        const githubValues = await appState.authService.checkAuth();
-        const githubId = githubValues.payload.githubId;
-
-        if (githubId) {
-          const currentAddress = await appState.openQClient.getAddressById(library, githubId);
-          const zeroAddress = '0x0000000000000000000000000000000000000000';
-          if (currentAddress === zeroAddress) {
-            router.push(
-              `${process.env.NEXT_PUBLIC_BASE_URL}/user/github/${githubValues.payload.githubId}?redirectUrl=${redirectUrl}`
-            );
-          }
-        }
-      }
-    };
-    getAuthed();
-  }, []);
+  }, [router.query, library]);
 
   const signIn = () => {
-    const clientId = `client_id=${process.env.NEXT_PUBLIC_OPENQ_ID}`;
+    const clientId = `client_id=${'b5802eaa3dda753a43a5'}`;
     const nonce = randomString(10);
     window.localStorage.setItem('csrf_nonce', nonce);
     const state = {
