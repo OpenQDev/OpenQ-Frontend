@@ -9,12 +9,13 @@ import ProfilePicture from './ProfilePicture.js';
 import Image from 'next/legacy/image';
 import FirstTimeBanner from './FirstTimeBanner';
 import useWeb3 from '../../hooks/useWeb3.js';
-import { ThreeBarsIcon } from '@primer/octicons-react';
+import { QuestionIcon, ThreeBarsIcon } from '@primer/octicons-react';
 import LinkDropdown from '../Utils/LinkDropdown';
 import { useRouter } from 'next/router';
 import NavLinks from './NavLinks';
 import LoadingBar from '../Loading/LoadingBar';
 import LoadingThread from '../Loading/LoadingThread.js';
+import ContractWizard from '../ContractWizard/ContractWizard.js';
 
 const Navigation = () => {
   const { account } = useWeb3();
@@ -25,6 +26,7 @@ const Navigation = () => {
   const [searchable, setSearchable] = useState();
   const [loadingBar, setLoadingBar] = useState(false);
   const [changeText, setChangeText] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const { bountyMinted, authService, openQSubgraphClient, openQPrismaClient, utils, githubRepository, tokenClient } =
     appState;
 
@@ -142,10 +144,8 @@ const Navigation = () => {
       <div className='flex visible relative'>
         <div className='flex w-full lg:py-1 justify-between mx-4 lg:mx-8'>
           <div className='flex space-x-5 items-center'>
-            <Link href={'/'} className='flex items-center lg:hover:opacity-70' legacyBehavior>
-              <>
-                <Image src='/openq-logo-white-2.png' alt='OpenQ' width='31' height='31' />
-              </>
+            <Link href={'/'} className='flex items-center lg:hover:opacity-70'>
+              <Image src='/openq-logo-white-2.png' alt='OpenQ' width='31' height='31' />
             </Link>
             <button className='flex lg:hidden' onClick={() => setOpenMenu(!openMenu)}>
               <ThreeBarsIcon size={24} />
@@ -165,6 +165,9 @@ const Navigation = () => {
                 {quickSearch && <LinkDropdown items={items} />}
               </div>
               <NavLinks />
+              <button onClick={() => setShowModal(true)} className='pl-4 flex items-center'>
+                <QuestionIcon size={16} className='fill-muted hover:fill-primary' />
+              </button>
             </div>
           </div>
           <div className='flex items-center text-[0.8rem] lg:text-[1rem]'>
@@ -195,6 +198,7 @@ const Navigation = () => {
         </div>
       ) : null}
       {loadingBar && <LoadingBar loadingBar={setLoadingBar} changeText={changeText} />}
+      {showModal && <ContractWizard wizardVisibility={setShowModal} />}
     </div>
   );
 };

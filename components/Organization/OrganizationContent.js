@@ -16,7 +16,6 @@ const OrganizationContent = ({ bounties, isLoading, getMoreData, complete, getNe
 
       <h2 className='text-primary w-full mb-2'>Smart Contracts</h2>
       <BountyList
-        wizard={true}
         contractToggle={true}
         bounties={bounties}
         loading={isLoading}

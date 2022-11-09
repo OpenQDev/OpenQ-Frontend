@@ -13,7 +13,6 @@ const BountyHomepage = ({
   getMoreData,
   getNewData,
   error,
-  wizard,
   category,
   types,
   contractToggle,
@@ -43,7 +42,6 @@ const BountyHomepage = ({
             getMoreData={getMoreData}
             complete={complete}
             getNewData={getNewData}
-            wizard={wizard}
             types={types}
             contractToggle={contractToggle}
           />
