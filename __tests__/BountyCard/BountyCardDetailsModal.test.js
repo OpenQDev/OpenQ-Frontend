@@ -45,7 +45,9 @@ describe('BountyCardDetailsModal', () => {
       // ASSERT
       const orgName = screen.getByText(bounty.owner);
       expect(orgName).toBeInTheDocument();
-      expect(screen.getAllByText(totalRegExp)[0]).toBeInTheDocument();
+      if (bounty.status === '0') {
+        expect(screen.getAllByText(totalRegExp)[0]).toBeInTheDocument();
+      }
 
       const bountyAddressRegExp = new RegExp(bounty.bountyAddress.slice(0, 4));
       expect(screen.getByText(bountyAddressRegExp)).toBeInTheDocument();

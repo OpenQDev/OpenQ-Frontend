@@ -48,7 +48,6 @@ describe('MiniBountyList', () => {
     // ASSERT
     expect(await screen.findByText(/0.40/)).toBeInTheDocument();
     expect(await screen.findByText(/0.60/)).toBeInTheDocument();
-    expect(screen.getAllByRole('link')).toHaveLength(2);
 
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];

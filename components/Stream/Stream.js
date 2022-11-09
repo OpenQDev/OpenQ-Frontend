@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useContext } from 'react';
 import jazzicon from '@metamask/jazzicon';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import StoreContext from '../../store/Store/StoreContext';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 
 const Stream = ({ stream, direction }) => {
   const [appState] = useContext(StoreContext);

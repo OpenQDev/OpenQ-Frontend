@@ -6,7 +6,7 @@ import { ethers } from 'ethers';
 // Custom
 import { CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveTransferState';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
 import StoreContext from '../../store/Store/StoreContext';
@@ -132,11 +132,11 @@ const ApproveStreamModal = ({
                 <p className='break-words'>{message[approveTransferState]}</p>
                 {link[approveTransferState] && (
                   <p className='break-all underline'>
-                    <Link href={link[approveTransferState]}>
-                      <a target={'_blank'} rel='noopener noreferrer'>
+                    <Link href={link[approveTransferState]} target={'_blank'} rel='noopener noreferrer' legacyBehavior>
+                      <>
                         {linkText[approveTransferState] || link[approveTransferState]}
                         <LinkText />
-                      </a>
+                      </>
                     </Link>
                   </p>
                 )}
@@ -164,11 +164,17 @@ const ApproveStreamModal = ({
                   <CopyAddressToClipboard data={recipient} clipping={[5, 38]} />
 
                   <span>Transaction</span>
-                  <Link href={link[approveTransferState]}>
-                    <a target={'_blank'} className='underline' rel='noopener noreferrer'>
-                      {transactionHash.slice(0, 5)} . . . {transactionHash.slice(62)}
+                  <Link
+                    href={link[approveTransferState]}
+                    target={'_blank'}
+                    className='underline'
+                    rel='noopener noreferrer'
+                    legacyBehavior
+                  >
+                    <>
+                      {transactionHash.slice(0, 5)}. . .{transactionHash.slice(62)}
                       <LinkText />
-                    </a>
+                    </>
                   </Link>
                 </div>
               )

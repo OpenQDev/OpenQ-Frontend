@@ -6,7 +6,7 @@ const useIsOnCorrectNetwork = (props) => {
   const { chainId, error, account } = useWeb3(props);
   const [isOnCorrectNetwork, setIsOnCorrectNetwork] = useState(true);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (
       error?.message?.includes('Unsupported chain id') ||
       (chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'] !== chainId && account)

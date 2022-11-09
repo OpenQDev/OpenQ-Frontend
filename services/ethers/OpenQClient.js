@@ -1,6 +1,8 @@
 import { ethers } from 'ethers';
-import OpenQABI from '../../artifacts/contracts/OpenQ/Implementations/OpenQV1.sol/OpenQV1.json';
+import OpenQABI from '../../artifacts/contracts/OpenQ/Implementations/OpenQV2.sol/OpenQV2.json';
 import DepositManagerABI from '../../artifacts/contracts/DepositManager/DepositManager.sol/DepositManager.json';
+import ClaimManagerAbi from '../../artifacts/contracts/ClaimManager/Implementations/ClaimManagerV2.sol/ClaimManagerV2.json';
+
 import ERC20ABI from '../../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json';
 import ERC721ABI from '../../artifacts/@openzeppelin/contracts/token/ERC721/ERC721.sol/ERC721.json';
 
@@ -33,6 +35,14 @@ class OpenQClient {
     return contract;
   };
 
+  ClaimManager = (signer) => {
+    const contract = new ethers.Contract(
+      process.env.NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS,
+      ClaimManagerAbi.abi,
+      signer
+    );
+    return contract;
+  };
   /**
    *
    * @param {string} tokenAddress Contract address of an ERC20 token
@@ -72,6 +82,7 @@ class OpenQClient {
       switch (type) {
         case 'Fixed Price':
           {
+            let abiCoder = new ethers.utils.AbiCoder();
             const fundingGoalBountyParams = abiCoder.encode(
               ['bool', 'address', 'uint256'],
               [hasFundingGoal, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]
@@ -399,6 +410,53 @@ class OpenQClient {
       }
     });
     return promise;
+  }
+
+  /**
+   *
+   * @param {*} library
+   * @param {*} _bountyAddress
+   * @param { account money will be sent to} _closer
+   * @param { pull request that's being chosen } _claimantAsset
+   * @param {*} _tier
+   * @returns {promise}
+   */
+
+  async claimBounty(library, _bountyAddress, _closer, _claimantAsset, _tier, _externalUserId, _externalUserName) {
+    return new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.ClaimManager(signer);
+
+      let abiCoder = new ethers.utils.AbiCoder();
+
+      try {
+        let closerData = abiCoder.encode(
+          ['address', 'string', 'address', 'string', 'uint256'],
+          [_bountyAddress, _externalUserName, _closer, _claimantAsset, _tier]
+        );
+
+        let txnResponse = await contract.directClaimTieredBounty(_bountyAddress, _externalUserId, closerData);
+
+        let txnReceipt = await txnResponse.wait();
+        resolve(txnReceipt);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  async getAddressById(library, externalUserId) {
+    return new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.OpenQ(signer);
+
+      try {
+        const userAddress = await contract.externalUserIdToAddress(externalUserId);
+        resolve(userAddress);
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 
   async closeOngoing(library, _bountyId) {

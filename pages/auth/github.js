@@ -1,18 +1,18 @@
 // Third party
 import React, { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
-import StoreContext from '../../store/Store/StoreContext.js';
-import useWeb3 from '../../hooks/useWeb3.js';
+import StoreContext from '../../store/Store/StoreContext';
+import useWeb3 from '../../hooks/useWeb3';
 
 function GitHubAuth() {
   const router = useRouter();
   const [, setAuthCode] = useState('NO AUTH CODE');
-
   const [appState] = useContext(StoreContext);
   const { account } = useWeb3();
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setAuthCode(params.get('code'));
+
     exchangeAuthCodeForAccessToken(params.get('code'));
   }, []);
 
@@ -34,7 +34,8 @@ function GitHubAuth() {
         if (redirectObject) {
           // If the nonce is present in the parsed state, that is good
           let redirectUrl = redirectObject.redirectUrl;
-          router.push(redirectUrl);
+
+          router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/?redirectUrl=${redirectUrl}`);
         } else {
           // If not, you may be under a CSRF attack
           alert('CSRF Alert!');

@@ -9,23 +9,26 @@ export default function useEagerConnect() {
   const { active } = useWeb3();
 
   const [tried, setTried] = useState(false);
-  useEffect(async () => {
-    try {
-      await gnosisSafe.activate();
-    } catch {
+  useEffect(() => {
+    const connect = async () => {
       try {
-        if (walletConnect.defaultChainId === chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]) {
-          await walletConnect.connectEagerly();
-        } else {
-          throw new Error();
-        }
-      } catch (err) {
-        if (window.ethereum?.isMetaMask) {
-          metaMask.connectEagerly();
-          return;
+        await gnosisSafe.activate();
+      } catch {
+        try {
+          if (walletConnect.defaultChainId === chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]) {
+            await walletConnect.connectEagerly();
+          } else {
+            throw new Error();
+          }
+        } catch (err) {
+          if (window.ethereum?.isMetaMask) {
+            metaMask.connectEagerly();
+            return;
+          }
         }
       }
-    }
+    };
+    connect();
   }, []); // intentionally only running on mount (make sure it's only mounted once :))
 
   // if the connection worked, wait until we get confirmation of that to flip the flag

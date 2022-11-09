@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 import LinkText from '../svg/linktext';
@@ -160,7 +160,7 @@ const AdminModal = ({ setModal, modal, bounty, payoutTokenAddress }) => {
 
                 {modal.finalTierVolume.map((t, index) => {
                   return (
-                    <div key={index}>
+                    <div key={index} className='col-span-2 grid grid-cols-[120px_1fr]'>
                       <div>{`${appState.utils.handleSuffix(index + 1)} winner:`}</div>
                       <div className='self-center'>
                         {t} {getVolumeSuffix(bounty.bountyType, payoutTokenAddress)}

@@ -1,6 +1,6 @@
 // Third party Libraries
-import { Magic } from 'magic-sdk';
-import { OAuthExtension } from '@magic-ext/oauth';
+//import { Magic } from 'magic-sdk';
+//import { OAuthExtension } from '@magic-ext/oauth';
 import React, { useEffect, useState } from 'react';
 import { Web3ReactProvider } from '@web3-react/core';
 import 'tailwindcss/tailwind.css';
@@ -37,6 +37,7 @@ function OpenQ({ Component, pageProps }) {
 
   // If isLoggedIn is true, set the UserContext with user data
   // Otherwise, set it to {user: null}
+  /*
   useEffect(() => {
     setUser({ loading: true });
     let magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
@@ -46,6 +47,7 @@ function OpenQ({ Component, pageProps }) {
       return isLoggedIn ? magic.user.getMetadata().then((userData) => setUser(userData)) : setUser({ user: null });
     });
   }, []);
+*/
 
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_GA_TRACKING_ID) {

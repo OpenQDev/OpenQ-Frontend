@@ -11,18 +11,21 @@ const UserHistory = ({ payouts }) => {
   // State
   const [organizations, updateOrganizations] = useState([]);
 
-  useEffect(async () => {
+  useEffect(() => {
     let didCancel;
-    const fetchedOrgs = await appState.githubRepository.fetchOrganizationsByIds(
-      payouts
-        .map((p) => p.organization.id)
-        .filter((itm, pos, self) => {
-          return self.indexOf(itm) == pos;
-        })
-    );
-    if (!didCancel) {
-      updateOrganizations(fetchedOrgs);
-    }
+    const fetchOrganizations = async () => {
+      const fetchedOrgs = await appState.githubRepository.fetchOrganizationsByIds(
+        payouts
+          .map((p) => p.organization.id)
+          .filter((itm, pos, self) => {
+            return self.indexOf(itm) == pos;
+          })
+      );
+      if (!didCancel) {
+        updateOrganizations(fetchedOrgs);
+      }
+    };
+    fetchOrganizations();
     return () => (didCancel = true);
   }, [payouts]);
 

@@ -1,6 +1,6 @@
 // Third party
 import React, { useState, useContext, useMemo } from 'react';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import Skeleton from 'react-loading-skeleton';
 import BountyCardDetailsModal from './BountyCardDetailsModal';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
@@ -19,6 +19,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
   const [appState] = useContext(StoreContext);
   const [isModal, setIsModal] = useState();
   const [hovered, setHovered] = useState();
+  const [payoutPrice] = useGetTokenValues(bounty?.payout);
   const currentDate = Date.now();
   const relativeDeployDay = parseInt((currentDate - bounty?.bountyMintTime * 1000) / 86400000);
   const createTokenBalances = (bounty) => {
@@ -196,10 +197,10 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                     <div className='pr-2 pt-1 w-4'>
                       <Image src='/crypto-logos/ETH-COLORED.png' alt='avatarUrl' width='12' height='20' />
                     </div>
-                    {bounty.status !== '0' && bounty.tvc ? (
+                    {bounty.status !== '0' ? (
                       <>
                         <div className='font-semibold '>TVC</div>
-                        <div>{appState.utils.formatter.format(bounty.tvc)}</div>
+                        <div>{appState.utils.formatter.format(bounty.tvc || payoutPrice?.total || 0)}</div>
                       </>
                     ) : (
                       <>

@@ -14,19 +14,22 @@ const NFTFundModal = ({ setPickedNft }) => {
     setShowModal(false);
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     let cancelled;
-    if (library && account && !cancelled && !nftsLoaded) {
-      try {
-        const nfts = await appState.openQClient.fetchNfts(library, account);
-        if (!cancelled) {
-          setNfts(nfts);
-          setNftsLoaded(true);
+    const fetchNfts = async () => {
+      if (library && account && !cancelled && !nftsLoaded) {
+        try {
+          const nfts = await appState.openQClient.fetchNfts(library, account);
+          if (!cancelled) {
+            setNfts(nfts);
+            setNftsLoaded(true);
+          }
+        } catch (err) {
+          appState.logger.error(err);
         }
-      } catch (err) {
-        appState.logger.error(err);
       }
-    }
+    };
+    fetchNfts();
     return () => (cancelled = true);
   }, [library, account]);
 

@@ -55,3 +55,5 @@ return(
 <div>{READY_TEXT}</div>
 )
 ```
+
+When adding api calls or ethers calls, first create a mock, then create UI based on the mock, then finally keep the mock in the appropriate mockClient and add the real call. This will ensure our tests and mock environment are resiliant as we grow.

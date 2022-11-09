@@ -145,7 +145,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
           }
         }
       } catch (error) {
-        console.error('err', error);
         setError({
           title: 'Call Revert Exception',
           message: 'A contract call exception occurred. Please try again.',
@@ -196,7 +195,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
         setButtonText('Fund');
         setApproveTransferState(ERROR);
       }
-
       if (approveSucceeded || allowance) {
         setApproveTransferState(TRANSFERRING);
         try {

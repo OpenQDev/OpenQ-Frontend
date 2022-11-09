@@ -32,7 +32,7 @@ const TextTierInput = ({ tier, tierVolumes, onTierVolumeChange, style }) => {
         placeholder={`${suffix} winner`}
         value={tierVolumes[tier] || ''}
         onChange={(e) => handleChange(e.target.value, tierVolumes)}
-        className='input-field w-full ml-4 number'
+        className='input-field w-full ml-2 number'
       />
     </div>
   );

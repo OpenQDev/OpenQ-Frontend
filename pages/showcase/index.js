@@ -1,15 +1,12 @@
 // Third party
 import React, { useState } from 'react';
 import SearchBar from '../../components/Search/SearchBar';
-import PrCard from '../../components/ShowCase/PrCard';
-import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedGithubClient from '../../services/github/WrappedGithubClient';
 import useAuth from '../../hooks/useAuth';
-import Logger from '../../services/logger/Logger';
+import SubmissionCard from '../../components/Submissions/SubmissionCard';
 
-const showcase = ({ prs }) => {
+const showcase = ({ name, currentPrs }) => {
   useAuth();
-
   const [submissionSearchTerm, setSubmissionSearchTerm] = useState('');
   // Render
   const filterBySubmission = (e) => {
@@ -17,25 +14,23 @@ const showcase = ({ prs }) => {
   };
 
   return (
-    <div className='lg:grid lg:grid-cols-extra-wide smx-4 pt-8 sm:mx-8 xl:grid-cols-wide justify-center'>
-      <h1 className='lg:col-start-2 justify-between justify-self-center py-16 text-4xl font-bold text-tinted'>
-        Submissions
+    <div className='  w-full px-2 sm:px-8 flex-wrap max-w-[1028px] pb-8 mx-auto'>
+      <h1 className='lsm:text-[32px] text-4xl py-16 flex-1 leading-tight min-w-[240px] pr-20'>
+        Submissions for {name}
       </h1>
-      <div className='lg:col-start-2 justify-between justify-self-center space-y-3 w-full pb-8 max-w-[850px]'>
+
+      <div className='lg:col-start-2 justify-between justify-self-center space-y-3 w-full pb-8'>
         <SearchBar
           onKeyUp={filterBySubmission}
           searchText={submissionSearchTerm}
           placeholder='Search Submissions...'
-          borderShape={'border rounded-full w-full'}
+          styles={''}
         />
-        <div className='grid grid-cols-[repeat(_auto-fill,_240px)] gap-y-16 pt-6 justify-center lg:justify-between mx-auto'>
-          {prs
-            .filter((pr) => {
-              const searchable = pr.bodyText.toLowerCase() + pr.title.toLowerCase();
-              return searchable.includes(submissionSearchTerm.toLowerCase()) || submissionSearchTerm === '';
-            })
+        <div className='grid gap-8 w-full pt-8 justify-between justify-items-center grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))]'>
+          {currentPrs
+            .filter((pr) => pr.title.includes(submissionSearchTerm) || pr.body.includes(submissionSearchTerm))
             .map((pr, index) => (
-              <PrCard key={index} pr={pr} />
+              <SubmissionCard key={index} pr={pr} />
             ))}
         </div>
       </div>
@@ -45,36 +40,12 @@ const showcase = ({ prs }) => {
 export default showcase;
 
 export async function getServerSideProps() {
-  const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const githubRepository = new WrappedGithubClient();
   githubRepository.instance.setGraphqlHeaders();
-  const logger = new Logger();
-  const batch = 100;
-  let newBounties = [];
-  const types = ['0', '1', '2', '3'];
-  try {
-    newBounties = await openQSubgraphClient.instance.getAllBounties('desc', 0, batch, types);
-  } catch (err) {
-    logger.error(err);
-  }
-  const parsePrs = (responseData) => {
-    return responseData.data.nodes
-      .map((node) =>
-        node.timelineItems.edges.map((edge) => {
-          return {
-            ...edge.node.source,
-            issueId: node.id,
-            address: newBounties.find((bounty) => bounty.bountyId === node.id).bountyAddress,
-          };
-        })
-      )
-      .flat()
-      .filter((elem) => elem.id);
-  };
-  const result = await githubRepository.instance.fetchPRsByIssues(newBounties.map((bounty) => bounty.bountyId));
-  const prs = parsePrs(result);
-
+  const org = 'OpenQDev';
+  const name = 'OpenQ-Testrepo';
+  const currentPrs = await githubRepository.instance.getPrs(org, name);
   return {
-    props: { prs }, // will be passed to the page component as props
+    props: { name, org, currentPrs: currentPrs.data.repository.pullRequests.nodes }, // will be passed to the page component as props
   };
 }

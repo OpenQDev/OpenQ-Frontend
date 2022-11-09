@@ -1,11 +1,38 @@
 // Third party
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import StoreContext from '../../store/Store/StoreContext';
 // Custom
 import Image from 'next/image';
+import useWeb3 from '../../hooks/useWeb3';
 
 const SignIn = ({ redirectUrl }) => {
   const router = useRouter();
+  const [appState] = useContext(StoreContext);
+  const { library } = useWeb3();
+  useEffect(() => {
+    const getAuthed = async () => {
+      const redirectUrl = router.query.redirectUrl;
+      if (redirectUrl) {
+        const githubValues = await appState.authService.checkAuth();
+        const githubId = githubValues.payload.githubId;
+
+        if (githubId) {
+          const currentAddress = await appState.openQClient.getAddressById(library, githubId);
+          const zeroAddress = '0x0000000000000000000000000000000000000000';
+          if (currentAddress === zeroAddress) {
+            router.push(
+              `${process.env.NEXT_PUBLIC_BASE_URL}/user/github/${githubValues.payload.githubId}?redirectUrl=${redirectUrl}`
+            );
+          }
+        }
+      }
+    };
+    getAuthed();
+
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method:}
+  }, [router.query]);
 
   const signIn = () => {
     const clientId = `client_id=${process.env.NEXT_PUBLIC_OPENQ_ID}`;

@@ -36,31 +36,36 @@ export default function Index({ fullBounties, batch, types, renderError, firstCu
   const [internalMenu, setInternalMenu] = useState('Organizations');
   // Hooks
 
-  useEffect(async () => {
+  useEffect(() => {
     // get watched bounties as soon as we know what the account is.
-
-    try {
-      if (account == signedAccount && account) {
-        const [watchedBounties] = await appState.utils.fetchWatchedBounties(appState, account, types, category);
-        setWatchedBounties(watchedBounties || []);
-      } else {
-        setWatchedBounties([]);
-      }
-    } catch (err) {
-      appState.logger.error(err, account);
-      setError(err);
-    }
-  }, [account, reloadNow, signedAccount]);
-
-  useEffect(async () => {
-    if (reloadNow) {
+    const getWatched = async () => {
       try {
-        const mergedOrgs = await appState.utils.fetchOrganizations(appState);
-        setControlledOrgs(mergedOrgs);
+        if (account == signedAccount && account) {
+          const [watchedBounties] = await appState.utils.fetchWatchedBounties(appState, account, types, category);
+          setWatchedBounties(watchedBounties || []);
+        } else {
+          setWatchedBounties([]);
+        }
       } catch (err) {
         appState.logger.error(err, account);
+        setError(err);
       }
-    }
+    };
+    getWatched();
+  }, [account, reloadNow, signedAccount]);
+
+  useEffect(() => {
+    const getOrgs = async () => {
+      if (reloadNow) {
+        try {
+          const mergedOrgs = await appState.utils.fetchOrganizations(appState);
+          setControlledOrgs(mergedOrgs);
+        } catch (err) {
+          appState.logger.error(err, account);
+        }
+      }
+    };
+    getOrgs();
   }, [reloadNow]);
 
   // Methods
@@ -127,7 +132,7 @@ export default function Index({ fullBounties, batch, types, renderError, firstCu
           />
 
           {internalMenu === 'Organizations' ? (
-            <OrganizationHomepage types={['0', '1', '2', '3']} wizard='true' orgs={controlledOrgs} />
+            <OrganizationHomepage types={['0', '1', '2', '3']} orgs={controlledOrgs} />
           ) : (
             <BountyHomepage
               types={types}
@@ -137,7 +142,6 @@ export default function Index({ fullBounties, batch, types, renderError, firstCu
               getMoreData={getMoreData}
               complete={complete}
               getNewData={getNewData}
-              wizard={true}
               contractToggle={true}
             />
           )}

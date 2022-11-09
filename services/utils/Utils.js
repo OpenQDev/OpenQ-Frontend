@@ -40,7 +40,7 @@ class Utils {
   };
 
   formatDate = (createdAt, hideDate) => {
-    return this.formatUnixDate(new Date(createdAt), hideDate);
+    return this.formatUnixDate(new Date(createdAt) / 1000, hideDate);
   };
 
   formatUnixDateWithTime = (unixTime, hideDate) => {
@@ -63,10 +63,6 @@ class Utils {
     }
     var formattedTime = `${month} ${day}, ${year}`;
     return formattedTime;
-  };
-
-  formatDate = (createdAt, hideDate) => {
-    return this.formatUnixDate(new Date(createdAt) / 1000, hideDate);
   };
 
   issurUrlRegex = (issueUrl) => {
@@ -111,6 +107,11 @@ class Utils {
       res = hex(avg(r(hex1), r(hex2))) + hex(avg(g(hex1), g(hex2))) + hex(avg(b(hex1), b(hex2)));
     return res;
   }
+  shortenAddress = (address) => {
+    if (address) {
+      return `${address.slice(0, 4)}...${address.slice(38)}`;
+    } else return '';
+  };
 
   formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',

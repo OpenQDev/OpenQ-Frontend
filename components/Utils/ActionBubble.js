@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useMemo } from 'react';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import Link from 'next/link';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import StoreContext from '../../store/Store/StoreContext';
@@ -39,12 +39,15 @@ const ActionBubble = ({ bounty, action }) => {
     }
   }, []);
 
-  useEffect(async () => {
-    if (action?.isNft && action.receiveTime && library) {
-      const NFT = await appState.openQClient.getNFT(library, action.tokenAddress, action.tokenId);
+  useEffect(() => {
+    const getNft = async () => {
+      if (action?.isNft && action.receiveTime && library) {
+        const NFT = await appState.openQClient.getNFT(library, action.tokenAddress, action.tokenId);
 
-      setNFT({ title: `${NFT.name} #${action.tokenId}`, uri: NFT.uri });
-    }
+        setNFT({ title: `${NFT.name} #${action.tokenId}`, uri: NFT.uri });
+      }
+    };
+    getNft();
   }, [action, library]);
 
   const shortenAddress = (address) => {
@@ -134,16 +137,25 @@ const ActionBubble = ({ bounty, action }) => {
     const usdValue = appState.utils.formatter.format(tokenValues?.total);
 
     if (action.receiveTime) {
+      const addStrings = (a, b) => {
+        return parseInt(a) + parseInt(b);
+      };
+      const expiryDate = appState.utils.formatUnixDate(addStrings(action.receiveTime, action.expiration));
+
       if (action.isNft) {
         titlePartOne = `${funder} funded this contract with `;
-        titlePartTwo = ` on ${appState.utils.formatUnixDate(action.receiveTime)}.`;
+        titlePartTwo = ` on ${appState.utils.formatUnixDate(
+          action.receiveTime
+        )}. This deposit will expire on ${expiryDate}.`;
       } else {
         name = funder;
         titlePartOne = isNaN(tokenValues?.total)
           ? ''
           : `${funder} funded this contract with ${formattedVolume} ${
               tokenMetadata.symbol
-            } (${usdValue}) on ${appState.utils.formatUnixDate(action.receiveTime)}.`;
+            } (${usdValue}) on ${appState.utils.formatUnixDate(
+              action.receiveTime
+            )}. This deposit will expire on ${expiryDate}.`;
       }
     } else if (action.refundTime) {
       name = refunderEnsName || shortenAddress(refunder);
@@ -158,12 +170,15 @@ const ActionBubble = ({ bounty, action }) => {
   return (
     <div className='w-full pt-4 flex relative'>
       {avatarUrl ? (
-        <Link href={url}>
-          <a className='w-9 h-9 flex-none'>
+        <Link href={url} className='w-9 h-9 flex-none' legacyBehavior>
+          <>
+            {' '}
             <ToolTipNew toolTipText={name} relativePosition={'-left-2'} outerStyles={'relative bottom-2'}>
-              <Image className='rounded-full' height={36} width={36} src={avatarUrl} />
+              <>
+                <Image className='rounded-full' height={36} width={36} src={avatarUrl} />
+              </>
             </ToolTipNew>
-          </a>
+          </>
         </Link>
       ) : (
         <Jazzicon tooltipPosition={'-left-2'} size={36} address={address} name={name} />

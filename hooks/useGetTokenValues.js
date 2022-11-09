@@ -19,8 +19,13 @@ const useGetTokenValues = (tokenBalances) => {
 
   const getParsedTokenValues = async () => {
     if (JSON.stringify(tokenValues) !== '{}' && tokenBalances) {
-      const value = await appState.tokenClient.parseTokenValues(tokenBalances);
-      return value;
+      try {
+        const value = await appState.tokenClient.parseTokenValues(tokenBalances);
+
+        return value;
+      } catch (err) {
+        console.log(err);
+      }
     }
     if (tokenBalances?.length === 0) {
       return { total: 0 };

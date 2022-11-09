@@ -4,7 +4,7 @@ import TokenList from './TokenList';
 import ManageTokenList from '../ManageTokenList';
 import { XIcon } from '@primer/octicons-react';
 import StoreContext from '../../../store/Store/StoreContext';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 
 const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch, alone, showTokenSearch }) => {
   const [showListManager, setShowListManager] = useState(true);
@@ -32,14 +32,16 @@ const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch, alon
     handleShowSearch(false);
   }
 
-  useEffect(async () => {
+  useEffect(() => {
     let didCancel;
-    const polygonDefaultTokens = await appState.tokenClient.getTokenMetadata(0, batch, 'polygon');
-    const constantTokens = await appState.tokenClient.getTokenMetadata(0, 100, 'constants');
+    const setTokenList = async () => {
+      const polygonDefaultTokens = await appState.tokenClient.getTokenMetadata(0, batch, 'polygon');
+      const constantTokens = await appState.tokenClient.getTokenMetadata(0, 100, 'constants');
 
-    if (!didCancel) setOpenQTokens(constantTokens);
-
-    if (!didCancel) setPolygonTokens(polygonDefaultTokens);
+      if (!didCancel) setOpenQTokens(constantTokens);
+      if (!didCancel) setPolygonTokens(polygonDefaultTokens);
+    };
+    setTokenList();
 
     return () => (didCancel = true);
   }, []);

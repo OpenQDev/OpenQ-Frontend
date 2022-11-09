@@ -9,8 +9,8 @@ const WatchButton = ({ unWatchable, watchingState, bounty }) => {
   const [watchDisabled, setWatchDisabled] = useState();
   const [watchingDisplay, setWatchingDisplay] = useState();
 
-  useEffect(async () => {
-    if (account) {
+  useEffect(() => {
+    const getWatched = async () => {
       try {
         const user = await appState.openQPrismaClient.getUser(account);
 
@@ -25,6 +25,9 @@ const WatchButton = ({ unWatchable, watchingState, bounty }) => {
           appState.logger.error('Cannot get watched bounties because user is not signed in with ethereum.');
         } else appState.logger.error(err, account);
       }
+    };
+    if (account) {
+      getWatched();
     }
   }, [account]);
 
