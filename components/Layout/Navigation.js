@@ -166,7 +166,7 @@ const Navigation = () => {
               </div>
               <NavLinks />
               <button onClick={() => setShowModal(true)} className='pl-4 flex items-center'>
-                <QuestionIcon size={16} />
+                <QuestionIcon size={16} className='fill-muted hover:fill-primary' />
               </button>
             </div>
           </div>
