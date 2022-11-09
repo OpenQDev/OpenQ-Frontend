@@ -17,7 +17,7 @@ export default function MintBountyInput({ setIssueUrl, issueData, isValidUrl, ur
         </ToolTipNew>
       </div>
       <input
-        className={'flex-1 input-field w-full ml-4'}
+        className={'flex-1 input-field w-full ml-2'}
         id='name'
         aria-label='issue url'
         placeholder='https://github.com/...'
