@@ -25,7 +25,6 @@ const BountyList = ({
   getNewData,
   addCarousel,
   contractToggle,
-  wizard,
   types,
 }) => {
   //Pre hook functions
@@ -359,7 +358,7 @@ const BountyList = ({
           styles={'rounded-sm w-full'}
         />
 
-        <MintBountyButton styles={'w-full'} types={types} wizard={wizard} />
+        <MintBountyButton styles={'w-full'} types={types} />
       </div>
       <div className='w-full rounded-sm'>
         <div className='flex flex-wrap gap-4 p-2 sm:p-4 border-web-gray border rounded-sm bg-subtle'>

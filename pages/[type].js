@@ -143,7 +143,6 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
             complete={complete}
             getNewData={getNewData}
             types={types}
-            wizard={category === 'non-profit'}
           />
         )}
       </div>

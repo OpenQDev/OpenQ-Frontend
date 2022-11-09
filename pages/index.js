@@ -132,7 +132,7 @@ export default function Index({ fullBounties, batch, types, renderError, firstCu
           />
 
           {internalMenu === 'Organizations' ? (
-            <OrganizationHomepage types={['0', '1', '2', '3']} wizard='true' orgs={controlledOrgs} />
+            <OrganizationHomepage types={['0', '1', '2', '3']} orgs={controlledOrgs} />
           ) : (
             <BountyHomepage
               types={types}
@@ -142,7 +142,6 @@ export default function Index({ fullBounties, batch, types, renderError, firstCu
               getMoreData={getMoreData}
               complete={complete}
               getNewData={getNewData}
-              wizard={true}
               contractToggle={true}
             />
           )}

@@ -41,7 +41,7 @@ const BountyHeading = ({ bounty, price, budget }) => {
               </>
             </Link>
           </div>
-          <MintBountyButton types={['0', '1', '2', '3']} styles={'h-8'} wizard={true} />
+          <MintBountyButton types={['0', '1', '2', '3']} styles={'h-8'} />
         </div>
       </div>
       <div className='w-full flex flex-wrap justify-between pb-4 border-b border-web-gray'>
