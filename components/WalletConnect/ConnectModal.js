@@ -30,7 +30,7 @@ const ConnectModal = ({ closeModal, setShowModal }) => {
 
   return (
     <ModalLarge title={'Connect Wallet'} footerRight={btn} setShowModal={setShowModal} resetState={closeModal}>
-      <p className='text-xl'>
+      <p className='text-xl pt-2'>
         Connect your wallet to continue with OpenQ. By connecting your wallet you agree with OpenQ{"'"}s{' '}
         <a
           className='hover:underline text-blue-400'
