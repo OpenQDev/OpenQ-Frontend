@@ -11,7 +11,6 @@ import StoreContext from '../../store/Store/StoreContext';
 import BountyAlreadyMintedMessage from './BountyAlreadyMintedMessage';
 import ToolTipNew from '../Utils/ToolTipNew';
 import MintBountyModalButton from './MintBountyModalButton';
-import MintBountyHeader from './MintBountyHeader';
 import MintBountyInput from './MintBountyInput';
 import ErrorModal from './ErrorModal';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
@@ -36,7 +35,6 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
   };
   // State
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
-  const [hideModal, setHideModal] = useState();
   const [issue, setIssue] = useState();
   const [url, setUrl] = useState('');
   const [bountyAddress, setBountyAddress] = useState();
@@ -550,12 +548,7 @@ const MintBountyModal = ({ modalVisibility, hideSubmenu, types }) => {
                       </div>
                     </div>
                     <div className=' pl-4'>
-                      <TokenSearch
-                        token={payoutToken}
-                        setShowTokenSearch={setHideModal}
-                        onCurrencySelect={onCurrencySelect}
-                        alone={true}
-                      />
+                      <TokenSearch token={payoutToken} onCurrencySelect={onCurrencySelect} alone={true} />
                     </div>
                   </div>
                 )}
