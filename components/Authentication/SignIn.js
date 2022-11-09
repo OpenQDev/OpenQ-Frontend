@@ -7,65 +7,49 @@ import Image from 'next/image';
 import useWeb3 from '../../hooks/useWeb3';
 
 const SignIn = ({ redirectUrl }) => {
-  const router = useRouter();
-  const [appState] = useContext(StoreContext);
-  const { library } = useWeb3();
+	const router = useRouter();
+	const [appState] = useContext(StoreContext);
+	const { library } = useWeb3();
 
-  useEffect(() => {
-    const getAuthed = async () => {
-      const redirectUrl = router.query.redirectUrl;
-      if ((redirectUrl, library)) {
-        const githubValues = await appState.authService.checkAuth();
-        const githubId = githubValues.payload.githubId;
+	const signIn = () => {
+		const clientId = `client_id=${process.env.NEXT_PUBLIC_OPENQ_ID}`;
+		const nonce = randomString(10);
+		window.localStorage.setItem('csrf_nonce', nonce);
+		const state = {
+			[nonce]: {
+				redirectUrl,
+			},
+		};
+		const stateParams = `state=${JSON.stringify(state)}`;
+		router.push(
+			`https://github.com/login/oauth/authorize?${clientId}&${stateParams}&scope=read:user%20read:org%20public_repo`
+		);
+	};
 
-        if (githubId) {
-          router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/github/${githubValues.payload.githubId}`);
-        }
-      }
-    };
+	function randomString(length) {
+		return Array(length + 1)
+			.join((Math.random().toString(36) + '00000000000000000').slice(2, 18))
+			.slice(0, length);
+	}
 
-    getAuthed();
-  }, [router.query, library]);
-
-  const signIn = () => {
-    const clientId = `client_id=${process.env.NEXT_PUBLIC_OPENQ_ID}`;
-    const nonce = randomString(10);
-    window.localStorage.setItem('csrf_nonce', nonce);
-    const state = {
-      [nonce]: {
-        redirectUrl,
-      },
-    };
-    const stateParams = `state=${JSON.stringify(state)}`;
-    router.push(
-      `https://github.com/login/oauth/authorize?${clientId}&${stateParams}&scope=read:user,read:org,public_repo`
-    );
-  };
-
-  function randomString(length) {
-    return Array(length + 1)
-      .join((Math.random().toString(36) + '00000000000000000').slice(2, 18))
-      .slice(0, length);
-  }
-
-  return (
-    <button
-      onClick={() => signIn()}
-      className={'flex justify-center btn-default hover:border-[#8b949e] hover:bg-[#30363d] w-full'}
-    >
-      <div className='flex flex-row items-center justify-center space-x-3'>
-        <div className='h-4 w-4 md:h-6 md:w-6 relative'>
-          <Image
-            src='/social-icons/github-logo-white.svg'
-            alt='Picture of the author'
-            layout='fill'
-            objectFit='cover'
-          />
-        </div>
-        <div>Sign In</div>
-      </div>
-    </button>
-  );
+	return (
+		<button
+			onClick={() => signIn()}
+			className={'flex justify-center btn-default hover:border-[#8b949e] hover:bg-[#30363d] w-full'}
+		>
+			<div className='flex flex-row items-center justify-center space-x-3'>
+				<div className='h-4 w-4 md:h-6 md:w-6 relative'>
+					<Image
+						src='/social-icons/github-logo-white.svg'
+						alt='Picture of the author'
+						layout='fill'
+						objectFit='cover'
+					/>
+				</div>
+				<div>Sign In</div>
+			</div>
+		</button>
+	);
 };
 
 export default SignIn;
