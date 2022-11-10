@@ -7,7 +7,7 @@ import ToolTip from '../Utils/ToolTipNew';
 import ModalDefault from '../Utils/ModalDefault';
 import { ethers } from 'ethers';
 
-const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr }) => {
+const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disabled }) => {
   const [showModal, setShowModal] = useState();
   const [selectionState, setSelectionState] = useState(RESTING);
   const height = (100 / numberOfPayouts) * (numberOfPayouts - prize.index);
@@ -46,9 +46,6 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr }) => 
       );
       if (transaction) {
         setSelectionState(SUCCESS);
-        if (typeof refreshBounty === 'function') {
-          refreshBounty();
-        }
       }
     } catch (err) {
       appState.logger.error(err, account, bounty.id);
@@ -64,9 +61,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr }) => 
   }
 
   const suffixed = appState.utils.handleSuffix(tierIndex + 1);
-  const saturation = tierIndex % 2 ? 84 - tierIndex : 84 - tierIndex + 1;
-  const lightness = !(tierIndex % 2) ? 48 + tierIndex : 48 + tierIndex - 1;
-  const hue = 400 - tierIndex * 67;
+  const prizeColor = appState.utils.getPrizeColor(tierIndex);
   const selectWinner = () => {
     if (prize.claimed) {
       return;
@@ -76,6 +71,9 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr }) => 
   };
   const resetState = () => {
     setSelectionState(CONFIRM);
+    if (typeof refreshBounty === 'function') {
+      refreshBounty();
+    }
     setShowModal();
   };
   const goBackBtn = {
@@ -86,7 +84,6 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr }) => 
       </button>
     ),
   };
-
   const confirmBtn = {
     CONFIRM: (
       <ToolTip
@@ -96,8 +93,8 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr }) => 
         toolTipText='User has not registered their Github account on OpenQ with a wallet address, please have them register a wallet address before paying out.'
       >
         <button
-          disabled={!closer}
-          className={closer ? 'btn-primary' : 'btn-default cursor-not-allowed'}
+          disabled={!closer || disabled}
+          className={closer && !disabled ? 'btn-primary' : 'btn-default cursor-not-allowed'}
           onClick={claimBounty}
         >
           Confirm
@@ -131,15 +128,15 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr }) => 
       <button
         data-testid='winnerSelect'
         onClick={selectWinner}
-        disabled={prize.claimed}
+        disabled={prize.claimed || disabled}
         className={`flex justify-center hover:scale-110 ${
-          prize.claimed ? 'cursor-not-allowed' : 'cursor-pointer hover:scale-200'
+          prize.claimed || disabled ? 'cursor-not-allowed' : 'cursor-pointer hover:scale-200'
         } text-black content-center items-center w-full`}
         style={{
           height: `${height}px`,
           transform: `translateY(${100 - height}px)`,
           transformOrigin: 'left center',
-          backgroundColor: !prize.claimed ? `hsl(${hue}, ${saturation}%, ${lightness}%)` : '#4f4f4f',
+          backgroundColor: (!prize.claimed && !disabled) || disabled ? prizeColor : '#4f4f4f',
         }}
       >
         <div> {tierIndex + 1}</div>

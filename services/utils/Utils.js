@@ -43,6 +43,13 @@ class Utils {
     return this.formatUnixDate(new Date(createdAt) / 1000, hideDate);
   };
 
+  getPrizeColor = (tierIndex) => {
+    const saturation = tierIndex % 2 ? 84 - tierIndex : 84 - tierIndex + 1;
+    const lightness = !(tierIndex % 2) ? 48 + tierIndex : 48 + tierIndex - 1;
+    const hue = 400 - tierIndex * 67;
+    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+  };
+
   formatUnixDateWithTime = (unixTime, hideDate) => {
     var date = new Date(unixTime * 1000);
 
