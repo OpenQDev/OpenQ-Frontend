@@ -111,7 +111,7 @@ function OpenQ({ Component, pageProps }) {
 			<>
 				<UserContext.Provider value={[user, setUser]}>
 					<AuthProvider>
-						<StoreProvider>
+						<StoreProvider oauthToken={pageProps.oauthToken}>
 							<Web3ReactProvider connectors={connectors}>
 								<div className='min-h-screen  flex flex-col justify-between'>
 									<div>
