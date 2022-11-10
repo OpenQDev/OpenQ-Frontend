@@ -33,7 +33,6 @@ function GitHubAuth() {
 				let redirectObject = parsedState[nonce];
 
 				console.log('data.data.access_token', data.data.access_token);
-				window.localStorage.setItem('gh_oauth_token', data.data.access_token);
 
 				if (redirectObject) {
 					try {
