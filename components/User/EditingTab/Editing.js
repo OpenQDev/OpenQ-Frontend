@@ -185,7 +185,10 @@ const Editing = () => {
   };*/
 
   return (
-    <div className='px-8 py-6 text-lg  font-semibold'>
+    <div className='px-8 py text-lg  font-semibold'>
+      <div className='flex flex-col flex-1 font-normal pb-16'>
+        {githubId && <AssociationModal githubId={githubId} user={githubUser} renderError={''} redirectUrl={''} />}
+      </div>
       <h2 className='text-2xl pb-4 '>Subscribe</h2>
       <form onSubmit={handleSubscribe} className='pb-4 font-normal max-w-[500px] gap-4'>
         <p> Subscribe to our email notification system to get latest tasks that fit to your Github profile</p>
@@ -208,9 +211,6 @@ const Editing = () => {
             'We cant send you personalized notifications about new tasks without having your Github profile'}
         </span>
       </form>
-      <div className='flex flex-col flex-1 font-normal'>
-        {githubId && <AssociationModal githubId={githubId} user={githubUser} renderError={''} redirectUrl={''} />}
-      </div>
       {/*<h2 className='text-2xl '>Edit Public Profile</h2>
      
       <form className='font-normal py-4 max-w-[500px] gap-4' onSubmit={handleForm}>

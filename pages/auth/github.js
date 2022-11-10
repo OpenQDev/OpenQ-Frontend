@@ -38,7 +38,6 @@ function GitHubAuth() {
           try {
             const githubValues = await appState.authService.checkAuth();
 
-            console.log('githubValues', githubValues);
             const githubId = githubValues.payload.githubId;
 
             if (githubId) {

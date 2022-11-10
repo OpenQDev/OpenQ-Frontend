@@ -12,8 +12,8 @@ import useWeb3 from '../../../hooks/useWeb3';
 import ModalDefault from '../../../components/Utils/ModalDefault';
 import LoadingIcon from '../../../components/Loading/ButtonLoadingIcon';
 import ToolTipNew from '../../Utils/ToolTipNew';
+import CopyAddressToClipBoard from '../../../components/Copy/CopyAddressToClipboard';
 import LinkText from '../../../components/svg/linktext';
-import { useRouter } from 'next/router';
 
 const AssociationModal = ({ githubId, user }) => {
   const { account, library } = useWeb3();
@@ -27,8 +27,23 @@ const AssociationModal = ({ githubId, user }) => {
   const canvas = useRef();
   const [error, setError] = useState('');
   const [authState] = useAuth();
+  const [currentAccount, setCurrentAccount] = useState();
 
-  const router = useRouter();
+  useEffect(() => {
+    const getRelAccount = async () => {
+      try {
+        const currentAccount = await appState.openQClient.getAddressById(library, 'MDQ6VXNlcjcyMTU2Njc5');
+        if (currentAccount) {
+          setCurrentAccount(currentAccount);
+        }
+      } catch (err) {
+        appState.logger.error(err);
+      }
+    };
+    if ((githubId, library, account)) {
+      getRelAccount();
+    }
+  }, [library, githubId, account]);
   const onInput = (e) => {
     setRelAccount(e.target.value);
     if (ethers.utils.isAddress(e.target.value)) {
@@ -58,9 +73,9 @@ const AssociationModal = ({ githubId, user }) => {
       )
       .then(async (result) => {
         const { txnHash } = result.data;
+
         // Upon this return, the associateExternalIdToAddress transaction has been submitted
         setTransactionHash(txnHash);
-        await library.waitForTransaction(txnHash);
         setAssociateState('TRANSACTION_CONFIRMED');
 
         const payload = {
@@ -97,7 +112,7 @@ const AssociationModal = ({ githubId, user }) => {
       });
   };
   const handleClose = () => {
-    router.push(router.query.redirectUrl);
+    setShowModal();
   };
   const statesFormat = {
     TRANSACTION_SUBMITTED: {
@@ -121,7 +136,7 @@ const AssociationModal = ({ githubId, user }) => {
       clickAction: () => setShowModal(false),
     },
   };
-
+  const zeroAddress = '0x0000000000000000000000000000000000000000';
   const btn = showModal && (
     <div>
       <button
@@ -151,6 +166,11 @@ const AssociationModal = ({ githubId, user }) => {
             Link your address here in order to receive prize payouts in our seasonal hackathons! You can change this at
             any time.
           </div>
+          {currentAccount && currentAccount !== zeroAddress && (
+            <div>
+              Current Associated address is: <CopyAddressToClipBoard data={currentAccount} />
+            </div>
+          )}
           <div>Enter your wallet address:</div>
           <div className='flex gap-4 asdf s w-80'>
             <input
@@ -188,7 +208,11 @@ const AssociationModal = ({ githubId, user }) => {
             <p className='flex justify-between pt-4'>
               <span>Transaction:</span>
               {transactionHash && (
-                <a href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`}>
+                <a
+                  target='_blank'
+                  href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`}
+                  rel='noreferrer'
+                >
                   {transactionHash.slice(0, 4)}...{transactionHash.slice(63)}
                   <LinkText />
                 </a>

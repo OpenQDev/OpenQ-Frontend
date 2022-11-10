@@ -89,7 +89,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
             { name: 'Stars', Svg: StarIcon },
             ...[showWatched ? { name: 'Watching', Svg: EyeIcon } : {}],
 
-            ...[showWatched ? { name: 'Editing', Svg: EyeIcon } : {}],
+            { name: 'Editing', Svg: EyeIcon },
           ]}
         />
         <div className='w-full border-b h-px border-web-gray'></div>
@@ -152,7 +152,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
             {internalMenu === 'Watching' && watchedFullBounties.length > 0 && showWatched && (
               <Watching watchedBounties={watchedFullBounties} />
             )}
-            {internalMenu === 'Editing' && showWatched && <Editing />}
+            {internalMenu === 'Editing' && <Editing showWatched={showWatched} />}
           </div>
         </div>
       </div>
