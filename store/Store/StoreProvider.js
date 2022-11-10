@@ -4,11 +4,11 @@ import StoreContext from './StoreContext';
 import InitialState from './InitialState';
 
 const StoreProvider = ({ children, oauthToken }) => {
-	console.log(oauthToken);
-	const [state, dispatch] = useReducer(StoreReducer, InitialState);
-	state.githubRepository.setGraphqlHeaders(oauthToken);
+  console.log(oauthToken);
+  const [state, dispatch] = useReducer(StoreReducer, InitialState);
+  state.githubRepository.setGraphqlHeaders(oauthToken);
 
-	return <StoreContext.Provider value={[state, dispatch]}>{children}</StoreContext.Provider>;
+  return <StoreContext.Provider value={[state, dispatch]}>{children}</StoreContext.Provider>;
 };
 
 export default StoreProvider;

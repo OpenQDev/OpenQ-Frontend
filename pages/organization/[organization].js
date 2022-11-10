@@ -1,5 +1,6 @@
 // Third party
 import React, { useState, useContext } from 'react';
+import nookies from 'nookies';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
@@ -168,15 +169,19 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
 };
 
 export const getServerSideProps = async (context) => {
+  const githubRepository = new WrappedGithubClient();
+  const cookies = nookies.get(context);
+  const { github_oauth_token_unsigned } = cookies;
+  const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
+  githubRepository.instance.setGraphqlHeaders(oauthToken);
+
   const batch = 10;
   let renderError = '';
   const { organization } = context.params;
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
-  const githubRepository = new WrappedGithubClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
   const utils = new Utils();
   const logger = new Logger();
-  githubRepository.instance.setGraphqlHeaders();
 
   let orgData;
   let orgMetadata = {};
@@ -228,6 +233,7 @@ export const getServerSideProps = async (context) => {
       batch,
       renderError,
       firstCursor: orgMetadata.organization.bounties.bountyConnection.cursor,
+      oauthToken,
     },
   };
 };
