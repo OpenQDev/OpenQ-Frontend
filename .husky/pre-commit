@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+echo "Linting to make sure your code is ✨ spotless ✨ which I'm sure it is..."
 eslint --fix .
