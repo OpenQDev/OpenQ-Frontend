@@ -7,13 +7,14 @@ import SubMenu from '../../../components/Utils/SubMenu';
 import Gear from '../../../components/svg/gear';
 import Image from 'next/legacy/image';
 import useAuth from '../../../hooks/useAuth';
+import AuthButton from '../../../components/Authentication/AuthButton';
 
 const account = ({ githubId, githubUser, renderError }) => {
   useAuth();
   const [internalMenu, setInternalMenu] = useState('Settings');
 
   return (
-    <div className=' gap-4 justify-center pt-6 pl-20'>
+    <div className=' gap-4 justify-center pt-6'>
       <div className='flex flex-col justify-center'>
         <SubMenu
           internalMenu={internalMenu}
@@ -23,7 +24,7 @@ const account = ({ githubId, githubUser, renderError }) => {
           items={[{ name: 'Settings', Svg: Gear }]}
         />
         <div className='w-full border-b h-px border-web-gray'></div>
-        <div className='flex relative max-w-[1440px] w-full mx-auto'>
+        <div className='flex relative max-w-[1440px] w-full mx-auto px-16'>
           <div className='hidden lg:block max-w-[25%] border-web-gray pl-4 left-24 xl:left-20 relative'>
             {githubUser && (
               <div className='flex flex-col items-center gap-4'>
@@ -39,14 +40,20 @@ const account = ({ githubId, githubUser, renderError }) => {
                 <a href={githubUser.url} className='hover:underline mt-2 text-xl font-semibold'>
                   {githubUser.login}
                 </a>
+
+                <AuthButton />
               </div>
             )}
           </div>
 
-          <div className='flex flex-col flex-1 pl-24 '>
+          <div className='flex flex-col flex-1 md:pl-36 pr-4 '>
             {internalMenu == 'Settings' && (
               <AssociationModal githubId={githubId} user={githubUser} renderError={renderError} />
             )}
+            <div className='w-60 py-8'>
+              <h2 className='text-2xl pb-4 font-semibold'>Sign out of Github</h2>
+              <AuthButton />
+            </div>
           </div>
         </div>
       </div>

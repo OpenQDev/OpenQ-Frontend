@@ -1,18 +1,15 @@
 // Third party
 import React, { useEffect, useState, useContext } from 'react';
 import Image from 'next/legacy/image';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 // Custom
 import AuthContext from '../../store/AuthStore/AuthContext';
-import AuthButton from '../../components/Authentication/AuthButton';
 
 const ProfilePicture = ({ mobile, styles }) => {
   // Context
   const [authState] = useContext(AuthContext);
-  const router = useRouter();
   // State
   const [propicUrl, setProPicUrl] = useState(null);
-  const [showModal, setShowModal] = useState(!authState.isAuthenticated);
 
   // Effects
   useEffect(() => {
@@ -21,23 +18,12 @@ const ProfilePicture = ({ mobile, styles }) => {
       setProPicUrl(avatarUrl);
     }
     setProfilePicture();
-    if (authState.isAuthenticated) {
-      setShowModal(false);
-    }
   }, [authState]);
 
   return (
     <div className={`flex items-center h-12 content-center  ${styles}`}>
-      {showModal || !authState.isAuthenticated ? (
-        <div className={'flex w-max'}>
-          <AuthButton redirectUrl={process.env.NEXT_PUBLIC_BASE_URL + router.asPath} propicUrl={propicUrl} />
-          {authState.isAuthenticated && <button onClick={() => setShowModal(false)}> </button>}
-        </div>
-      ) : (
-        <button
-          className='flex items-center border border-gray-700 hover:border-opacity-70 rounded-full'
-          onClick={() => setShowModal(true)}
-        >
+      <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/user/github/${authState.githubId}`}>
+        <div className='flex items-center border border-gray-700 hover:border-opacity-70 rounded-full'>
           {propicUrl != null ? (
             <Image
               src={propicUrl}
@@ -47,8 +33,8 @@ const ProfilePicture = ({ mobile, styles }) => {
               className='rounded-full'
             />
           ) : null}
-        </button>
-      )}
+        </div>
+      </Link>
     </div>
   );
 };
