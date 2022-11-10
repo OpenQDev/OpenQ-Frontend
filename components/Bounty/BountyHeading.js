@@ -21,7 +21,7 @@ const BountyHeading = ({ bounty, price, budget }) => {
           <span className='text-primary'>{bounty.title} </span>
           {bounty.url ? (
             <Link href={bounty.url} rel='noopener norefferer' target='_blank' legacyBehavior>
-              <span className='text-muted text font-light'>#{bounty.number}</span>
+              <span className='text-link-colour cursor-pointer font-light hover:underline'>#{bounty.number}</span>
             </Link>
           ) : (
             <div>#{bounty.number}</div>

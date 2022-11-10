@@ -13,12 +13,8 @@ const BountyModalHeading = ({ bounty, closeModal, unWatchable, watchingState }) 
     <div className='flex flex-col pr-10 sm:flex-row justify-between px-8 mb-2 p-3'>
       <div className='flex basis-1/4 flex-col mb-2'>
         <span>
-          <Link
-            href={`${process.env.NEXT_PUBLIC_BASE_URL}/organization/${bounty.owner}`}
-            className='text-link-colour hover:underline'
-            legacyBehavior
-          >
-            <div>{bounty.owner}</div>
+          <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/organization/${bounty.owner}`} legacyBehavior>
+            <div className='text-link-colour hover:underline cursor-pointer'>{bounty.owner}</div>
           </Link>
           <span className='text-muted'> / {bounty.repoName}</span>
         </span>
