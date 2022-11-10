@@ -122,9 +122,18 @@ class OpenQClient {
           break;
         case 'Fixed Contest':
           {
+            const tierVolumes = data.tiers.map((tier) => {
+              const payoutVolumeInWei = tier * 10 ** data.payoutToken.decimals;
+              const payoutBigNumberVolumeInWei = ethers.BigNumber.from(
+                payoutVolumeInWei.toLocaleString('fullwide', {
+                  useGrouping: false,
+                })
+              );
+              return payoutBigNumberVolumeInWei;
+            });
             const tieredAbiEncodedParams = abiCoder.encode(
               ['uint256[]', 'address'],
-              [data.tiers, data.payoutToken.address]
+              [tierVolumes, data.payoutToken.address]
             );
             bountyInitOperation = [3, tieredAbiEncodedParams];
           }
