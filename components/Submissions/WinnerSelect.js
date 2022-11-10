@@ -46,6 +46,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
     };
     getAddress();
   }, [library, pr]);
+
   const claimBounty = async () => {
     try {
       setSelectionState(TRANSFERRING);
@@ -90,6 +91,30 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
     }
     setShowModal();
   };
+  const checkIsSolvent = (tokenBalances, currentPayout) => {
+    if (bounty.bountyType == 3) {
+      const tokenBalancesOfTarget = tokenBalances.find((tokenBalance) => {
+        return tokenBalance.tokenAddress === currentPayout?.tokenAddress?.toLowerCase();
+      });
+
+      if (tokenBalancesOfTarget) {
+        let bigNumberBalance = ethers.BigNumber.from(tokenBalancesOfTarget.volume);
+        const bigNumberPayout = ethers.BigNumber.from(currentPayout?.volume);
+        const isSolvent = bigNumberBalance.gte(bigNumberPayout);
+        return isSolvent;
+      }
+    } else {
+      return true;
+    }
+  };
+  const totalPayoutsScheduled = bounty.payoutSchedule.reduce((acc, payout) => {
+    return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
+  });
+
+  const isSolvent = checkIsSolvent(bounty.bountyTokenBalances, {
+    tokenAddress: bounty.payoutTokenAddress,
+    volume: totalPayoutsScheduled,
+  });
 
   function formatVolume(fixedPayout) {
     const tokenMetadata = appState.tokenClient.getToken(bounty.payoutTokenAddress);
@@ -112,12 +137,16 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
       <ToolTip
         innerStyles={'  whitespace-pre-wrap'}
         relativePosition={'-right-4 w-32 md:right:auto md:w-60'}
-        hideToolTip={closer}
-        toolTipText='Winner needs to register their Github account on OpenQ with a wallet address before paying out.'
+        hideToolTip={closer && isSolvent}
+        toolTipText={
+          isSolvent
+            ? 'Winner needs to register their Github account on OpenQ with a wallet address before paying out.'
+            : `You don't have enough funds escrowed to cover this contest, please make a deposit.`
+        }
       >
         <button
-          disabled={!closer || disabled}
-          className={closer && !disabled ? 'btn-primary' : 'btn-default cursor-not-allowed'}
+          disabled={!closer || disabled || !isSolvent}
+          className={closer && !disabled && isSolvent ? 'btn-primary' : 'btn-default cursor-not-allowed'}
           onClick={claimBounty}
         >
           Confirm
@@ -169,7 +198,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
         <ModalDefault
           footerLeft={goBackBtn[selectionState]}
           footerRight={confirmBtn[selectionState]}
-          resetState={() => {}}
+          resetState={resetState}
           title={modalTitle[selectionState]}
           setShowModal={setShowModal}
         >
@@ -214,9 +243,9 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
           {selectionState === SUCCESS && (
             <>
               <p className='my-2'>
-                {prize.payout}
-                {bounty.bountyType === '2' ? '% of funds' : unit} staked on this competition have been sent to{' '}
-                {pr.author.name || pr.author.login} at {closer.slice(0, 4)}...{closer.slice(39)} .
+                {bounty.bountyType === '2' ? prize.payout + '% of funds' : formatVolume(prize.payout) + unit} staked on
+                this competition have been sent to {pr.author.name || pr.author.login} at {closer.slice(0, 4)}
+                ...{closer.slice(39)} .
               </p>
             </>
           )}
