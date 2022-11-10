@@ -151,16 +151,17 @@ export default function Index({ fullBounties, batch, types, renderError, firstCu
 	);
 }
 
-export const getServerSideProps = async (ctx) => {
-	const cookies = nookies.get(ctx);
+export const getServerSideProps = async (context) => {
+	const githubRepository = new WrappedGithubClient();
+	const cookies = nookies.get(context);
 	const { github_oauth_token_unsigned } = cookies;
 	const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
+	githubRepository.instance.setGraphqlHeaders(oauthToken);
+
 	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
-	const githubRepository = new WrappedGithubClient();
 	const openQPrismaClient = new WrappedOpenQPrismaClient();
 	const utils = new Utils();
 	const logger = new Logger();
-	githubRepository.instance.setGraphqlHeaders(oauthToken);
 	const batch = 10;
 	const types = ['0', '1', '2', '3'];
 	let fullBounties = [];
