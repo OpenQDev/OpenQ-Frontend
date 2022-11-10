@@ -1,6 +1,7 @@
 // Third party
 import React from 'react';
 import { ethers } from 'ethers';
+import nookies from 'nookies';
 
 // Custom
 import AboutFunder from '../../../components/User/AboutFunder';
@@ -25,6 +26,12 @@ const account = ({ account, user, organizations, renderError }) => {
 };
 
 export const getServerSideProps = async (context) => {
+  const githubRepository = new WrappedGithubClient();
+  const cookies = nookies.get(context);
+  const { github_oauth_token_unsigned } = cookies;
+  const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
+  githubRepository.instance.setGraphqlHeaders(oauthToken);
+
   const account = context.params.account;
   let renderError = '';
   try {
@@ -34,9 +41,7 @@ export const getServerSideProps = async (context) => {
   }
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
-  const githubRepository = new WrappedGithubClient();
   const logger = new Logger();
-  githubRepository.instance.setGraphqlHeaders();
   let user = {
     bountiesClosed: [],
     bountiesCreated: [],
@@ -63,7 +68,7 @@ export const getServerSideProps = async (context) => {
     logger.error(err);
   }
 
-  return { props: { account, user, organizations, renderError } };
+  return { props: { account, user, organizations, renderError, oauthToken } };
 };
 
 export default account;
