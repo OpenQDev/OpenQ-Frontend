@@ -97,9 +97,8 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
   }, []);
   const contestRepositories = bounties?.reduce((repositories, bounty) => {
     if (
-      repositories.some(
-        (repo) => repo.name === bounty.repoName && (bounty.bountyType === '2' || bounty.bountyType === '3')
-      )
+      repositories.some((repo) => repo.name === bounty.repoName) ||
+      (bounty.bountyType !== '2' && bounty.bountyType !== '3')
     ) {
       return repositories;
     }
@@ -113,6 +112,16 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
       },
     ];
   }, []);
+
+  const hackSubmissions =
+    contestRepositories.length > 0
+      ? [
+          {
+            name: 'Hackathon Submissions',
+            Svg: Trophy,
+          },
+        ]
+      : [];
 
   // Render
   return (
@@ -128,10 +137,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
                 name: 'Overview',
                 Svg: Home,
               },
-              {
-                name: 'Hackathon Submissions',
-                Svg: Trophy,
-              },
+              ...hackSubmissions,
               /*{name: 'About', Svg: Question }*/
             ]}
             internalMenu={toggleVal}
