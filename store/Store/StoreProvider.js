@@ -4,7 +4,6 @@ import StoreContext from './StoreContext';
 import InitialState from './InitialState';
 
 const StoreProvider = ({ children, oauthToken }) => {
-	console.log('oauthToken in provider', oauthToken);
 	const [state, dispatch] = useReducer(StoreReducer, InitialState);
 	state.githubRepository.setGraphqlHeaders(oauthToken);
 

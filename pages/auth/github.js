@@ -32,8 +32,6 @@ function GitHubAuth() {
 				let parsedState = JSON.parse(state);
 				let redirectObject = parsedState[nonce];
 
-				console.log('data.data.access_token', data.data.access_token);
-
 				if (redirectObject) {
 					try {
 						const githubValues = await appState.authService.checkAuth();

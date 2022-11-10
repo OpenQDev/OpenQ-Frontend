@@ -18,7 +18,6 @@ import SubMenu from '../components/Utils/SubMenu';
 
 export default function Index({ fullBounties, batch, types, renderError, firstCursor, category, mergedOrgs, oauthToken }) {
 	// State
-	console.log('oauthToken', oauthToken);
 	const [bounties, setBounties] = useState(fullBounties);
 	const [isLoading, setIsLoading] = useState(false);
 	const [complete, setComplete] = useState(false);

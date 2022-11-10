@@ -1,6 +1,5 @@
 import { useEffect, useContext } from 'react';
 import AuthContext from '../store/AuthStore/AuthContext';
-import axios from 'axios';
 import useWeb3 from './useWeb3';
 import StoreContext from '../store/Store/StoreContext';
 import { ethers } from 'ethers';
@@ -36,21 +35,22 @@ const useAuth = () => {
 		let didCancel;
 
 		async function checkAuth(didCancel) {
-			appState.authService.checkAuth().then((res) => {
-				if (!didCancel) {
-					setAuthState({
-						type: 'UPDATE_IS_AUTHENTICATED',
-						payload: {
-							isAuthenticated: res.data.isAuthenticated,
-							avatarUrl: res.data.avatarUrl,
-							login: res.data.login,
-							githubId: res.data.githubId,
-						},
-					});
-				}
-			}).catch((err) => {
-				appState.logger.error(err, account, 'useAuth1');
-			});
+			appState.authService.checkAuth()
+				.then((data) => {
+					if (!didCancel) {
+						setAuthState({
+							type: 'UPDATE_IS_AUTHENTICATED',
+							payload: {
+								isAuthenticated: data.payload.isAuthenticated,
+								avatarUrl: data.payload.avatarUrl,
+								login: data.payload.login,
+								githubId: data.payload.githubId,
+							},
+						});
+					}
+				}).catch((err) => {
+					appState.logger.error(err, account, 'useAuth1');
+				});
 		}
 
 		if (process.env.NEXT_PUBLIC_DEPLOY_ENV !== 'local') {
@@ -77,9 +77,11 @@ const useAuth = () => {
 				appState.logger.error(err);
 			}
 		}
+
 		if (account) {
 			checkAccount();
 		}
+
 		() => (didCancel = true);
 	}, [account, reloadNow]);
 
