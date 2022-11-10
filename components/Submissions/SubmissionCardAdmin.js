@@ -36,16 +36,10 @@ const SubmissionCardAdmin = ({ bounty, pr, refreshBounty }) => {
       <h4 className='py-4 text-center w-full font-medium text-xl'>
         {linkedPrize ? `Winner of tier ${tierWon}` : 'Select Winner'}
       </h4>
-      <div className='flex w-full relative'>
+      <div className='flex w-full relative h-32'>
         {tierWon ? (
-          <div className='absolute inset-0  z-50 flex justify-center justify-items-center content-center items-center'>
-            <svg
-              className='w-20 pt-16 h-32'
-              xmlns='http://www.w3.org/2000/svg'
-              viewBox='0 0 24 24'
-              width='24'
-              height='24'
-            >
+          <div className='absolute inset-0   flex justify-center justify-items-center content-center items-center'>
+            <svg className='w-20 h-32' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'>
               <path
                 fillRule='evenodd'
                 fill={prizeColor}
