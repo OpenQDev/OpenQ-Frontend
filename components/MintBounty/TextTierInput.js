@@ -11,7 +11,7 @@ const TextTierInput = ({ tier, tierVolumes, onTierVolumeChange, style }) => {
   }, []);
 
   const handleChange = (value, tierVolumes) => {
-    const passedValue = parseInt(value) || 0;
+    const passedValue = value;
     onTierVolumeChange(
       {
         name: tier,

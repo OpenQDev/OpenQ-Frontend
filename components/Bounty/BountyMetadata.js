@@ -8,6 +8,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import TokenBalances from '../TokenBalances/TokenBalances';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import PieChart from './PieChart';
+import { ethers } from 'ethers';
 
 const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
   const [appState] = useContext(StoreContext);
@@ -22,6 +23,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
   };
   const payoutBalances = useMemo(() => createPayout(bounty), [bounty]);
   const [payoutValues] = useGetTokenValues(payoutBalances);
+
   let type = 'Fixed Price';
 
   switch (bounty.bountyType) {
@@ -37,6 +39,14 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
     case '3':
       type = 'Fixed Contest';
       break;
+  }
+
+  function formatVolume(tierVolume) {
+    const tokenMetadata = appState.tokenClient.getToken(bounty.payoutTokenAddress);
+    let bigNumberVolume = ethers.BigNumber.from(tierVolume.toString());
+    let decimals = parseInt(tokenMetadata.decimals) || 18;
+    let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
+    return formattedVolume;
   }
 
   return (
@@ -113,7 +123,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
           </li>
           <PieChart payoutSchedule={bounty.payoutSchedule} />
         </>
-      ) : bounty.bountyType === '2' || bounty.bountyType === '3' ? (
+      ) : bounty.bountyType == 3 ? (
         <li className='border-b border-web-gray py-3'>
           <div className='text-xs font-semibold text-muted'>Current Payout Schedule</div>
           <div className='flex items-center gap-4 pt-2 text-primary'>
@@ -129,7 +139,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
                     index + 1
                   )} winner:`}</div>
                   <div className='text-xs font-semibold'>
-                    {t} {token.symbol}
+                    {formatVolume(t)} {token.symbol}
                   </div>
                 </div>
               );

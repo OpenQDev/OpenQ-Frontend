@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useMemo } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
@@ -6,6 +6,7 @@ import { RESTING, CONFIRM, TRANSFERRING, SUCCESS, ERROR } from '../FundBounty/Ap
 import ToolTip from '../Utils/ToolTipNew';
 import ModalDefault from '../Utils/ModalDefault';
 import { ethers } from 'ethers';
+import useGetTokenValues from '../../hooks/useGetTokenValues';
 
 const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disabled }) => {
   const [showModal, setShowModal] = useState();
@@ -18,6 +19,19 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
   const [closer, setCloser] = useState('');
   const [error, setError] = useState({});
   const zeroAddress = '0x0000000000000000000000000000000000000000';
+  const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
+  const price = tokenValues?.total;
+  const createFixedPayout = () => {
+    return prize.payout && bounty.bountyType == 3
+      ? {
+          tokenAddress: bounty.payoutTokenAddress,
+          volume: prize.payout,
+        }
+      : null;
+  };
+  const payoutBalances = useMemo(() => createFixedPayout(), [prize]);
+  const [fixedPayoutValue] = useGetTokenValues(payoutBalances);
+
   let unit;
   useEffect(() => {
     const getAddress = async () => {
@@ -76,6 +90,15 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
     }
     setShowModal();
   };
+
+  function formatVolume(fixedPayout) {
+    const tokenMetadata = appState.tokenClient.getToken(bounty.payoutTokenAddress);
+    let bigNumberVolume = ethers.BigNumber.from(fixedPayout.toString());
+    let decimals = parseInt(tokenMetadata.decimals) || 18;
+    let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
+    return formattedVolume;
+  }
+
   const goBackBtn = {
     CONFIRM: (
       <button className=' btn-danger' onClick={resetState}>
@@ -90,7 +113,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
         innerStyles={'  whitespace-pre-wrap'}
         relativePosition={'-right-4 w-32 md:right:auto md:w-60'}
         hideToolTip={closer}
-        toolTipText='User has not registered their Github account on OpenQ with a wallet address, please have them register a wallet address before paying out.'
+        toolTipText='Winner needs to register their Github account on OpenQ with a wallet address before paying out.'
       >
         <button
           disabled={!closer || disabled}
@@ -163,11 +186,23 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
                 </a>{' '}
                 challenge.
               </p>
-              <p className='my-2'>
-                This will automaticaly send {prize.payout}
-                {bounty.bountyType === '2' ? '% of funds' : unit} staked on this competition to the author of this
-                submission.
-              </p>
+              {closer && closer != zeroAddress ? (
+                <p className='my-2'>
+                  This will automaticaly send{' '}
+                  {bounty.bountyType === '2' ? prize.payout + '% of funds' : formatVolume(prize.payout) + unit} staked
+                  on this competition (
+                  {bounty.bountyType === '2'
+                    ? appState.utils.formatter.format((price * prize.payout) / 100)
+                    : appState.utils.formatter.format(fixedPayoutValue?.total)}
+                  ) to the author of this submission, at the following address:{' '}
+                  {`${closer.slice(0, 4)}...${closer.slice(39)}`} .
+                </p>
+              ) : (
+                <p className='my-2'>
+                  However, the user has not registered their Github account on OpenQ with a wallet address, please have
+                  them register a wallet address before paying out.
+                </p>
+              )}
             </>
           )}
           {selectionState === TRANSFERRING && (
