@@ -16,190 +16,192 @@ import Logger from '../services/logger/Logger';
 import UnexpectedErrorModal from '../components/Utils/UnexpectedErrorModal';
 import SubMenu from '../components/Utils/SubMenu';
 
-export default function Index({ fullBounties, batch, types, renderError, firstCursor, category, mergedOrgs }) {
-  // State
+export default function Index({ fullBounties, batch, types, renderError, firstCursor, category, mergedOrgs, oauthToken }) {
+	// State
+	console.log('oauthToken', oauthToken);
+	const [bounties, setBounties] = useState(fullBounties);
+	const [isLoading, setIsLoading] = useState(false);
+	const [complete, setComplete] = useState(false);
+	const [pagination, setPagination] = useState(batch);
+	const [offChainCursor, setOffChainCursor] = useState(firstCursor);
+	const [watchedBounties, setWatchedBounties] = useState([]);
+	const [error, setError] = useState(renderError);
 
-  const [bounties, setBounties] = useState(fullBounties);
-  const [isLoading, setIsLoading] = useState(false);
-  const [complete, setComplete] = useState(false);
-  const [pagination, setPagination] = useState(batch);
-  const [offChainCursor, setOffChainCursor] = useState(firstCursor);
-  const [watchedBounties, setWatchedBounties] = useState([]);
-  const [error, setError] = useState(renderError);
+	// Context
+	const [appState] = useContext(StoreContext);
+	const { reloadNow } = appState;
+	const { account } = useWeb3();
+	const [authState] = useAuth();
+	const { signedAccount } = authState;
+	const [controlledOrgs, setControlledOrgs] = useState(mergedOrgs);
+	const [internalMenu, setInternalMenu] = useState('Organizations');
+	// Hooks
 
-  // Context
-  const [appState] = useContext(StoreContext);
-  const { reloadNow } = appState;
-  const { account } = useWeb3();
-  const [authState] = useAuth();
-  const { signedAccount } = authState;
-  const [controlledOrgs, setControlledOrgs] = useState(mergedOrgs);
-  const [internalMenu, setInternalMenu] = useState('Organizations');
-  // Hooks
+	useEffect(() => {
+		// get watched bounties as soon as we know what the account is.
+		const getWatched = async () => {
+			try {
+				if (account == signedAccount && account) {
+					const [watchedBounties] = await appState.utils.fetchWatchedBounties(appState, account, types, category);
+					setWatchedBounties(watchedBounties || []);
+				} else {
+					setWatchedBounties([]);
+				}
+			} catch (err) {
+				appState.logger.error(err, account);
+				setError(err);
+			}
+		};
+		getWatched();
+	}, [account, reloadNow, signedAccount]);
 
-  useEffect(() => {
-    // get watched bounties as soon as we know what the account is.
-    const getWatched = async () => {
-      try {
-        if (account == signedAccount && account) {
-          const [watchedBounties] = await appState.utils.fetchWatchedBounties(appState, account, types, category);
-          setWatchedBounties(watchedBounties || []);
-        } else {
-          setWatchedBounties([]);
-        }
-      } catch (err) {
-        appState.logger.error(err, account);
-        setError(err);
-      }
-    };
-    getWatched();
-  }, [account, reloadNow, signedAccount]);
+	useEffect(() => {
+		const getOrgs = async () => {
+			if (reloadNow) {
+				try {
+					const mergedOrgs = await appState.utils.fetchOrganizations(appState);
+					setControlledOrgs(mergedOrgs);
+				} catch (err) {
+					appState.logger.error(err, account);
+				}
+			}
+		};
+		getOrgs();
+	}, [reloadNow]);
 
-  useEffect(() => {
-    const getOrgs = async () => {
-      if (reloadNow) {
-        try {
-          const mergedOrgs = await appState.utils.fetchOrganizations(appState);
-          setControlledOrgs(mergedOrgs);
-        } catch (err) {
-          appState.logger.error(err, account);
-        }
-      }
-    };
-    getOrgs();
-  }, [reloadNow]);
+	// Methods
+	// General method for getting bounty data, used by pagination and handlers.
+	async function getBountyData(sortOrder, currentPagination, orderBy, cursor) {
+		setPagination(() => currentPagination + batch);
+		let complete = false;
+		try {
+			let [fullBounties, newCursor] = await appState.utils.fetchBounties(
+				appState,
+				batch,
+				category,
+				sortOrder,
+				orderBy,
+				cursor,
+				null,
+				account
+			);
+			setOffChainCursor(newCursor);
 
-  // Methods
-  // General method for getting bounty data, used by pagination and handlers.
-  async function getBountyData(sortOrder, currentPagination, orderBy, cursor) {
-    setPagination(() => currentPagination + batch);
-    let complete = false;
-    try {
-      let [fullBounties, newCursor] = await appState.utils.fetchBounties(
-        appState,
-        batch,
-        category,
-        sortOrder,
-        orderBy,
-        cursor,
-        null,
-        account
-      );
-      setOffChainCursor(newCursor);
+			if (fullBounties?.length === 0) {
+				complete = true;
+			}
 
-      if (fullBounties?.length === 0) {
-        complete = true;
-      }
+			return [fullBounties, complete];
+		} catch (err) {
+			setError(err);
+			appState.logger.error(err, account);
+			return [[], true];
+		}
+	}
 
-      return [fullBounties, complete];
-    } catch (err) {
-      setError(err);
-      appState.logger.error(err, account);
-      return [[], true];
-    }
-  }
+	// Pagination handler for when user switches sort order.
+	async function getNewData(order, orderBy) {
+		setIsLoading(true);
+		setComplete(false);
+		let newBounties = [];
+		[newBounties] = await getBountyData(order, 0, orderBy);
+		setBounties(newBounties);
+		setIsLoading(false);
+	}
 
-  // Pagination handler for when user switches sort order.
-  async function getNewData(order, orderBy) {
-    setIsLoading(true);
-    setComplete(false);
-    let newBounties = [];
-    [newBounties] = await getBountyData(order, 0, orderBy);
-    setBounties(newBounties);
-    setIsLoading(false);
-  }
+	// Pagination handler for when user just needs another page of the same sort order.
+	async function getMoreData(order, orderBy) {
+		setComplete(true);
+		const [newBounties, complete] = await getBountyData(order, pagination, orderBy, offChainCursor);
+		if (!complete) {
+			setComplete(false);
+		}
+		setBounties(bounties.concat(newBounties));
+	}
 
-  // Pagination handler for when user just needs another page of the same sort order.
-  async function getMoreData(order, orderBy) {
-    setComplete(true);
-    const [newBounties, complete] = await getBountyData(order, pagination, orderBy, offChainCursor);
-    if (!complete) {
-      setComplete(false);
-    }
-    setBounties(bounties.concat(newBounties));
-  }
+	return (
+		<main className='bg-dark-mode flex-col'>
+			{error ? (
+				<UnexpectedErrorModal error={renderError} />
+			) : (
+				<>
+					<SubMenu
+						styles={'justify-center'}
+						items={[{ name: 'Organizations' }, { name: 'Issues' }]}
+						internalMenu={internalMenu}
+						updatePage={setInternalMenu}
+					/>
 
-  return (
-    <main className='bg-dark-mode flex-col'>
-      {error ? (
-        <UnexpectedErrorModal error={renderError} />
-      ) : (
-        <>
-          <SubMenu
-            styles={'justify-center'}
-            items={[{ name: 'Organizations' }, { name: 'Issues' }]}
-            internalMenu={internalMenu}
-            updatePage={setInternalMenu}
-          />
-
-          {internalMenu === 'Organizations' ? (
-            <OrganizationHomepage types={['0', '1', '2', '3']} orgs={controlledOrgs} />
-          ) : (
-            <BountyHomepage
-              types={types}
-              bounties={bounties}
-              watchedBounties={watchedBounties}
-              loading={isLoading}
-              getMoreData={getMoreData}
-              complete={complete}
-              getNewData={getNewData}
-              contractToggle={true}
-            />
-          )}
-        </>
-      )}
-    </main>
-  );
+					{internalMenu === 'Organizations' ? (
+						<OrganizationHomepage types={['0', '1', '2', '3']} orgs={controlledOrgs} />
+					) : (
+						<BountyHomepage
+							types={types}
+							bounties={bounties}
+							watchedBounties={watchedBounties}
+							loading={isLoading}
+							getMoreData={getMoreData}
+							complete={complete}
+							getNewData={getNewData}
+							contractToggle={true}
+						/>
+					)}
+				</>
+			)}
+		</main>
+	);
 }
 
 export const getServerSideProps = async (ctx) => {
-  const cookies = nookies.get(ctx);
-  console.log(cookies);
-  const openQSubgraphClient = new WrappedOpenQSubgraphClient();
-  const githubRepository = new WrappedGithubClient();
-  const openQPrismaClient = new WrappedOpenQPrismaClient();
-  const utils = new Utils();
-  const logger = new Logger();
-  githubRepository.instance.setGraphqlHeaders();
-  const batch = 10;
-  const types = ['0', '1', '2', '3'];
-  let fullBounties = [];
-  let firstCursor;
-  let renderError = '';
-  let mergedOrgs = [];
-  try {
-    [fullBounties, firstCursor] = await utils.fetchBounties(
-      {
-        openQSubgraphClient: openQSubgraphClient.instance,
-        githubRepository: githubRepository.instance,
-        openQPrismaClient: openQPrismaClient.instance,
-      },
-      batch
-    );
-  } catch (err) {
-    logger.error(err);
-    renderError = JSON.stringify(err);
-  }
+	const cookies = nookies.get(ctx);
+	const { github_oauth_token_unsigned } = cookies;
+	const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
+	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
+	const githubRepository = new WrappedGithubClient();
+	const openQPrismaClient = new WrappedOpenQPrismaClient();
+	const utils = new Utils();
+	const logger = new Logger();
+	githubRepository.instance.setGraphqlHeaders(oauthToken);
+	const batch = 10;
+	const types = ['0', '1', '2', '3'];
+	let fullBounties = [];
+	let firstCursor;
+	let renderError = '';
+	let mergedOrgs = [];
+	try {
+		[fullBounties, firstCursor] = await utils.fetchBounties(
+			{
+				openQSubgraphClient: openQSubgraphClient.instance,
+				githubRepository: githubRepository.instance,
+				openQPrismaClient: openQPrismaClient.instance,
+			},
+			batch
+		);
+	} catch (err) {
+		logger.error(err);
+		renderError = JSON.stringify(err);
+	}
 
-  try {
-    mergedOrgs = await utils.fetchOrganizations({
-      openQSubgraphClient: openQSubgraphClient.instance,
-      githubRepository: githubRepository.instance,
-      openQPrismaClient: openQPrismaClient.instance,
-    });
-  } catch (err) {
-    logger.error(err);
-    renderError = JSON.stringify(err.message);
-  }
+	try {
+		mergedOrgs = await utils.fetchOrganizations({
+			openQSubgraphClient: openQSubgraphClient.instance,
+			githubRepository: githubRepository.instance,
+			openQPrismaClient: openQPrismaClient.instance,
+		});
+	} catch (err) {
+		logger.error(err);
+		renderError = JSON.stringify(err.message);
+	}
 
-  return {
-    props: {
-      fullBounties,
-      firstCursor: firstCursor || null,
-      batch,
-      types,
-      mergedOrgs,
-      renderError,
-    },
-  };
+	return {
+		props: {
+			fullBounties,
+			firstCursor: firstCursor || null,
+			batch,
+			types,
+			mergedOrgs,
+			renderError,
+			oauthToken
+		},
+	};
 };
