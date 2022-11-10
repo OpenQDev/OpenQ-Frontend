@@ -34,15 +34,16 @@ const SetTierValues = ({
     setFixedTierVolumes(newFixedVolumes);
   }, [tierArr]);
   function onFixedTierChange(e, localTierVolumes) {
-    if (
-      parseInt(e.target.value) >= 0 ||
-      parseInt(e.target.value) === '' ||
-      !Number(e.target.value) ||
-      parseInt(e.target.value) > 100
-    ) {
+    if (!isNaN(e.target.value) && parseFloat(e.target.value) >= 0) {
       setFixedTierVolumes({
         ...localTierVolumes,
-        [e.name]: parseInt(e.target.value),
+        [e.name]: e.target.value,
+      });
+    }
+    if (e.target.value === '') {
+      setFixedTierVolumes({
+        ...localTierVolumes,
+        [e.name]: 0,
       });
     }
   }
