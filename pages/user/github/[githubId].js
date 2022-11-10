@@ -10,7 +10,7 @@ import useAuth from '../../../hooks/useAuth';
 import AuthButton from '../../../components/Authentication/AuthButton';
 
 const account = ({ githubId, githubUser, renderError }) => {
-  useAuth();
+  const [authState] = useAuth();
   const [internalMenu, setInternalMenu] = useState('Settings');
 
   return (
@@ -50,8 +50,8 @@ const account = ({ githubId, githubUser, renderError }) => {
             {internalMenu == 'Settings' && (
               <AssociationModal githubId={githubId} user={githubUser} renderError={renderError} />
             )}
-            <div className='w-60 py-8'>
-              <h2 className='text-2xl pb-4 font-semibold'>Sign out of Github</h2>
+            <div className='w-60 py-8 lg:hidden'>
+              <h2 className='text-2xl pb-4 font-semibold'>Sign {authState.githubId ? 'out of' : 'into'} Github</h2>
               <AuthButton />
             </div>
           </div>

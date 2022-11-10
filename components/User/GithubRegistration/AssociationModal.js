@@ -77,6 +77,7 @@ const AssociationModal = ({ githubId, user }) => {
         // Upon this return, the associateExternalIdToAddress transaction has been submitted
         setTransactionHash(txnHash);
         setAssociateState('TRANSACTION_CONFIRMED');
+        setCurrentAccount(relAccount);
 
         const payload = {
           type: 'UPDATE_RELOAD',

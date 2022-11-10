@@ -14,10 +14,11 @@ export const GET_LEAN_ISSUES_BY_ID = gql`
 `;
 
 export const GET_PRS = gql`
-  query getPrs($owner: String!, $name: String!) {
+  query getPrs($owner: String!, $name: String!, $first: Int!) {
     repository(owner: $owner, name: $name) {
       name
-      pullRequests(first: 100) {
+      pullRequests(first: $first) {
+        totalCount
         nodes {
           id
           bodyText
