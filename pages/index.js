@@ -1,6 +1,7 @@
 // Third party
 import React, { useState, useContext, useEffect } from 'react';
 import StoreContext from '../store/Store/StoreContext';
+import nookies from 'nookies';
 
 // Custom
 import BountyHomepage from '../components/Bounty/BountyHomepage';
@@ -151,7 +152,9 @@ export default function Index({ fullBounties, batch, types, renderError, firstCu
   );
 }
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async (ctx) => {
+  const cookies = nookies.get(ctx);
+  console.log(cookies);
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const githubRepository = new WrappedGithubClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();

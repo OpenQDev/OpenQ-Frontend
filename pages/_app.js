@@ -27,6 +27,7 @@ import {
 } from '../components/WalletConnect/connectors';
 
 function OpenQ({ Component, pageProps }) {
+  console.log('pageProps', pageProps);
   const connectors = [
     [metaMask, metaMaskHooks],
     [walletConnect, walletConnectHooks],
@@ -38,15 +39,15 @@ function OpenQ({ Component, pageProps }) {
   // If isLoggedIn is true, set the UserContext with user data
   // Otherwise, set it to {user: null}
   /*
-  useEffect(() => {
-    setUser({ loading: true });
-    let magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
-      extensions: [new OAuthExtension()],
-    });
-    magic.user.isLoggedIn().then((isLoggedIn) => {
-      return isLoggedIn ? magic.user.getMetadata().then((userData) => setUser(userData)) : setUser({ user: null });
-    });
-  }, []);
+	useEffect(() => {
+		setUser({ loading: true });
+		let magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
+			extensions: [new OAuthExtension()],
+		});
+		magic.user.isLoggedIn().then((isLoggedIn) => {
+			return isLoggedIn ? magic.user.getMetadata().then((userData) => setUser(userData)) : setUser({ user: null });
+		});
+	}, []);
 */
 
   useEffect(() => {
