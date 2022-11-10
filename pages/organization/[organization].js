@@ -12,8 +12,11 @@ import useAuth from '../../hooks/useAuth';
 import OrganizationHeader from '../../components/Organization/OrganizationHeader';
 import SubMenu from '../../components/Utils/SubMenu';
 import Home from '../../components/svg/home';
+import Trophy from '../../components/svg/trophy';
 import OrganizationMetadata from '../../components/Organization/OrganizationMetadata';
 import OrganizationContent from '../../components/Organization/OrganizationContent';
+import HackathonTab from '../../components/Organization/HackathonTab.js';
+
 import UnexpectedErrorModal from '../../components/Utils/UnexpectedErrorModal';
 import useWeb3 from '../../hooks/useWeb3';
 
@@ -92,6 +95,25 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
       },
     ];
   }, []);
+  const contestRepositories = bounties?.reduce((repositories, bounty) => {
+    if (
+      repositories.some(
+        (repo) => repo.name === bounty.repoName && (bounty.bountyType === '2' || bounty.bountyType === '3')
+      )
+    ) {
+      return repositories;
+    }
+    return [
+      ...repositories,
+      {
+        name: bounty.repoName,
+        languages: bounty.languages,
+        description: bounty.repoDescription,
+        url: bounty.repoUrl,
+      },
+    ];
+  }, []);
+
   // Render
   return (
     <>
@@ -105,7 +127,12 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
               {
                 name: 'Overview',
                 Svg: Home,
-              } /*{name: 'About', Svg: Question }*/,
+              },
+              {
+                name: 'Hackathon Submissions',
+                Svg: Trophy,
+              },
+              /*{name: 'About', Svg: Question }*/
             ]}
             internalMenu={toggleVal}
             updatePage={handleToggle}
@@ -121,6 +148,11 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
                 repositories={repositories}
               />
               <OrganizationMetadata organizationData={organizationData} repositories={repositories} />
+            </div>
+          )}
+          {toggleVal === 'Hackathon Submissions' && (
+            <div className='py-3 gap-6 w-full flex flex-col flex-wrap md:flex-nowrap'>
+              <HackathonTab repositories={contestRepositories} organization={organizationData} />
             </div>
           )}
         </div>

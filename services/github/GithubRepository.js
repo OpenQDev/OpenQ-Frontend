@@ -66,15 +66,17 @@ class GithubRepository {
     return promise;
   }
 
-  async getPrs(owner, name) {
+  async getPrs(owner, name, limit) {
+    const variables = { owner, name, first: 100 };
+    if (limit) {
+      variables.first = limit;
+    }
+
     return new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
           query: GET_PRS,
-          variables: {
-            owner,
-            name,
-          },
+          variables,
         });
         resolve(result);
       } catch (err) {
