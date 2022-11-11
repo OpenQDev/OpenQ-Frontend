@@ -3,12 +3,15 @@ import SubmissionCardAdmin from './SubmissionCardAdmin';
 import Link from 'next/link';
 import Image from 'next/legacy/image';
 import Skeleton from 'react-loading-skeleton';
+import SubmissionWinner from './SubmissionWinner';
 import useWeb3 from '../../hooks/useWeb3';
 
 const SubmissionCard = ({ pr, bounty, refreshBounty }) => {
   const { account } = useWeb3();
   const admin = bounty && bounty?.issuer?.id === account?.toLowerCase();
   const author = pr.author;
+
+  const linkedPrize = bounty.claims.filter((claim) => claim.claimantAsset === pr.url)[0];
   return (
     <div className={`min-w-[300px] w-60  border rounded-sm border-border-gray bg-menu-bg`}>
       <div
@@ -60,8 +63,11 @@ const SubmissionCard = ({ pr, bounty, refreshBounty }) => {
           </div>
         </Link>
       </div>
-
-      {admin && <SubmissionCardAdmin refreshBounty={refreshBounty} pr={pr} bounty={bounty} />}
+      {!linkedPrize ? (
+        admin && <SubmissionCardAdmin refreshBounty={refreshBounty} pr={pr} bounty={bounty} />
+      ) : (
+        <SubmissionWinner linkedPrize={linkedPrize} />
+      )}
     </div>
   );
 };
