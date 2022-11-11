@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import TokenSearch from './TokenSearch';
 import Image from 'next/legacy/image';
 
-const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume, placeholder, label }) => {
+const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume, placeholder, label, styles }) => {
   const [showTokenSearch, setShowTokenSearch] = useState(false);
 
   return (
-    <div className='flex space-x-4 w-full'>
+    <div className={`flex space-x-4 w-full ${styles}`}>
       <div className='flex w-full flex-row justify-between items-center px-4 input-field-big'>
         <div className={' bg-dark-mode'}>
           <input
