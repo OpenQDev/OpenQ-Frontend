@@ -1,7 +1,8 @@
 // Third Party
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/legacy/image';
+import { ethers } from 'ethers';
 // Custom
 import MintBountyButton from '../MintBounty/MintBountyButton';
 import StoreContext from '../../store/Store/StoreContext';
@@ -13,12 +14,25 @@ const BountyHeading = ({ bounty, price, budget }) => {
   const [authState] = useAuth();
   const [payoutPrice] = useGetTokenValues(bounty.payouts);
   const marker = appState.utils.getBountyMarker(bounty, authState.login);
+  const getPayoutScheduleBalance = (bounty) => {
+    if (bounty.bountyType === '3') {
+      const totalPayoutsScheduled = bounty.payoutSchedule.reduce((acc, payout) => {
+        return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
+      });
+      return {
+        volume: totalPayoutsScheduled.toString(),
+        tokenAddress: bounty.payoutTokenAddress,
+      };
+    }
+  };
 
+  const payoutScheduledBalance = useMemo(() => getPayoutScheduleBalance(bounty), [bounty]);
+  const [payoutScheduledValues] = useGetTokenValues(payoutScheduledBalance);
   return (
     <div className='sm:px-8 px-4 w-full max-w-[1200px] pb-2'>
       <div className='pt-6 pb-2 w-full flex flex-wrap'>
         <h1 className='sm:text-[32px] text-xl flex-1 leading-tight min-w-[240px] pr-20'>
-          <span className='text-primary'>{bounty.title} </span>
+          <span className='text-primary'>{bounty.title}asdf </span>
           {bounty.url ? (
             <Link href={bounty.url} rel='noopener norefferer' target='_blank' legacyBehavior>
               <span className='text-link-colour cursor-pointer font-light hover:underline'>#{bounty.number}</span>
@@ -71,9 +85,9 @@ const BountyHeading = ({ bounty, price, budget }) => {
             <span className='leading-loose text-lg font-semibold text-primary'>
               Total Value Locked {appState.utils.formatter.format(price)}
             </span>
-          ) : budget || budget === 0 ? (
+          ) : budget || payoutScheduledValues?.total || budget === 0 ? (
             <span className='leading-loose text-lg font-semibold text-primary'>
-              Budget {appState.utils.formatter.format(budget)}
+              Budget {appState.utils.formatter.format(payoutScheduledValues?.total || budget)}
             </span>
           ) : null}
         </>
