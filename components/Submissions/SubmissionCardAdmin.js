@@ -34,7 +34,7 @@ const SubmissionCardAdmin = ({ bounty, pr, refreshBounty }) => {
   return (
     <div className='border-web-gray border-t px-2'>
       <h4 className='py-4 text-center w-full font-medium text-xl'>
-        {linkedPrize ? `Winner of tier ${tierWon}` : 'Select Winner'}
+        {linkedPrize ? `Winner of ${appState.utils.handleSuffix(tierWon)} Place` : 'Select Winner'}
       </h4>
       <div className='flex w-full relative h-32'>
         {tierWon ? (
