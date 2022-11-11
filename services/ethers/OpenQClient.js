@@ -219,14 +219,23 @@ class OpenQClient {
     return promise;
   }
 
-  async setPayoutScheduleFixed(library, _bountyId, _payoutSchedule, payoutTokenAddress) {
+  async setPayoutScheduleFixed(library, _bountyId, _payoutSchedule, _payoutToken) {
+    const tierVolumesInWei = _payoutSchedule.map((tier) => {
+      const payoutVolumeInWei = tier * 10 ** _payoutToken.decimals;
+      const payoutBigNumberVolumeInWei = ethers.BigNumber.from(
+        payoutVolumeInWei.toLocaleString('fullwide', {
+          useGrouping: false,
+        })
+      );
+      return payoutBigNumberVolumeInWei;
+    });
     const promise = new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
       const contract = this.OpenQ(signer);
       try {
         let txnResponse;
         let txnReceipt;
-        txnResponse = await contract.setPayoutScheduleFixed(_bountyId, _payoutSchedule, payoutTokenAddress);
+        txnResponse = await contract.setPayoutScheduleFixed(_bountyId, tierVolumesInWei, _payoutToken.address);
         txnReceipt = await txnResponse.wait();
         resolve(txnReceipt);
       } catch (error) {
