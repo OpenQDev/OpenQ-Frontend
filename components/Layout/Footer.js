@@ -33,7 +33,7 @@ const Footer = () => {
   }, [open]);
   return (
     <div className='flex justify-center justify-items-center full'>
-      <div className='text-primary max-w- text-sm px-4 lg:px-20 max-w-[1120px] lg:py-12 py-4  grid gap-x-4 lg:grid-cols-[0.5fr_1fr_1fr_1.5fr] grid-cols-[1fr_1fr]  lg:grid-rows-2 grid-rows-4 lg:grid-flow-col items-center lg:flex-row w-full justify-between content-center font-semibold grid-flow-row'>
+      <div className='text-primary max-w- text-sm px-4 lg:px-20 max-w-[1120px] lg:py-12 py-4  xs:grid flex flex-col content-start items-start gap-4 xs:gap-y-0 lg:grid-cols-[0.5fr_1fr_1fr_1.5fr] grid-cols-[1fr_1fr]  lg:grid-rows-2 grid-rows-4 lg:grid-flow-col xs:items-center lg:flex-row w-full justify-between xs:content-center font-semibold grid-flow-row'>
         <div className='font-semibold font-sans text-3xl'>OpenQ</div>
         <OpenQSocials />
         <Link href={'https://openq.canny.io/openq-feature-requests'} className='text-lg lg:justify-self-center '>

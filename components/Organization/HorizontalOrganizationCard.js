@@ -49,7 +49,7 @@ const HorizontalOrganizationCard = ({ organization }) => {
   };
   // Render
   return (
-    <div className='grid grid-cols-[64px_1fr_73px] gap-x-4 h-[118px] content-center mt-0 border-b border-web-gray py-6'>
+    <div className='grid grid-cols-[64px_1fr_73px] gap-x-2 sm:gap-x-4 h-[118px] content-center mt-0 border-b border-web-gray py-6'>
       <div className='rounded-sm self-center overflow-hidden h-16'>
         <Image src={organization.avatarUrl} width='64' height='64' />
       </div>
@@ -73,7 +73,7 @@ const HorizontalOrganizationCard = ({ organization }) => {
         <button
           onClick={handleStar}
           disabled={starredDisabled}
-          className='flex items-center text-xs bg-inactive-gray leading-5 h-7 px-3 py-[3px] hover:bg-active-gray rounded-sm border hover:border-border-active border-border-gray'
+          className='hidden xs:flex items-center text-xs  bg-inactive-gray leading-5 h-7 px-3 py-[3px] hover:bg-active-gray rounded-sm border hover:border-border-active border-border-gray'
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
