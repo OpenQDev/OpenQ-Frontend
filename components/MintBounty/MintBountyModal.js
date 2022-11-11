@@ -49,6 +49,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
   const [tier, setTier] = useState(3);
   const [tierArr, setTierArr] = useState(['0', '1', '2']);
   const [tierVolumes, setTierVolumes] = useState({ 0: 1, 1: 1, 2: 1 });
+  const [currentSum, setCurrentSum] = useState(0);
 
   const [finalTierVolumes, setFinalTierVolumes] = useState([1, 1, 1]);
   const [payoutVolume, setPayoutVolume] = useState('');
@@ -305,6 +306,22 @@ const MintBountyModal = ({ modalVisibility, types }) => {
     if (finalTierVolumes.length) {
       setSum(finalTierVolumes.reduce((a, b) => a + b));
     }
+    if (finalTierVolumes.length) {
+      setCurrentSum(
+        finalTierVolumes.reduce((a, b) => {
+          if (a && b) {
+            return a + b;
+          }
+          if (a) {
+            return a;
+          }
+          if (b) {
+            return b;
+          }
+          return 0;
+        })
+      );
+    }
     if (sum == 100) {
       setEnableContest(true);
     }
@@ -334,7 +351,9 @@ const MintBountyModal = ({ modalVisibility, types }) => {
 
   const btn = !error && (
     <ToolTipNew
-      outerStyles={''}
+      groupStyles={''}
+      outerStyles={'hover:hidden -top-20 md:top-auto'}
+      triangleStyles={'mt-7 md:mt-1 rotate-180 md:rotate-0 '}
       hideToolTip={
         (enableContest &&
           enableMint &&
@@ -349,6 +368,8 @@ const MintBountyModal = ({ modalVisibility, types }) => {
           ? 'Issue closed'
           : account && isOnCorrectNetwork && (!enableMint || !issue?.url.includes('/issues/'))
           ? 'Please choose an elgible issue.'
+          : currentSum !== sum
+          ? 'Please make sure each tier gets a percentage.'
           : !enableContest
           ? 'Please make sure the sum of tier percentages adds up to 100.'
           : isOnCorrectNetwork
@@ -574,6 +595,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                     <SetTierValues
                       category={category}
                       sum={sum}
+                      currentSum={currentSum}
                       finalTierVolumes={finalTierVolumes}
                       setFinalTierVolumes={setFinalTierVolumes}
                       setSum={setSum}
