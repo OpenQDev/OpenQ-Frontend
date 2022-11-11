@@ -69,6 +69,7 @@ const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
         }
       };
       window.addEventListener('mouseup', handleDragEnd);
+      window.addEventListener('touchend', handleDragEnd);
 
       () => {
         edgeOfScale.current.removeEventListener('mousedown');
@@ -94,6 +95,8 @@ const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
       <div>{suffix} place winner</div>
       <div
         onMouseDown={handleDragBegin}
+        onTouchStart={handleDragBegin}
+        onTouchMove={handleMouseMove}
         onMouseMove={handleMouseMove}
         className={`flex w-11/12 text-sm content-center items-center gap-2 mb-1 ${style}`}
       >
@@ -115,7 +118,7 @@ const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
               onMouseMove={handleMouseMove}
               style={{ transform: `scaleX(${1 / reactScale})` }}
               type='textarea'
-              className='resize-x w-6 opacity-0  h-4 float-right relative left-3 cursor-ew-resize overflow-visible'
+              className='resize-x w-6 opacity-0 scale-150  h-4 float-right relative left-3 cursor-ew-resize overflow-visible'
             ></div>
           </div>
         </div>
