@@ -86,7 +86,7 @@ const test = (issue, type) => {
     });
   });
 
-  if (type !== '3') {
+  if (type[0] !== '3') {
     it(`should handle extra data for type ${type[0]}`, async () => {
       // ARRANGE
       const user = userEvent.setup();
