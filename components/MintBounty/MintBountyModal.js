@@ -462,39 +462,40 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                 </div>
               </div>
 
-              <div className=' flex flex-col gap-2 w-full py-2 items-start text-base bg-[#161B22]'>
-                <div className='flex items-center gap-2'>
-                  Set a Budget
-                  <input type='checkbox' className='checkbox' onChange={() => setBudgetInput(!budgetInput)}></input>
-                  <ToolTipNew
-                    mobileX={10}
-                    toolTipText={
-                      category === 'Fixed Price'
-                        ? 'Amount of funds you would like to escrow on this issue.'
-                        : 'How much will each successful submitter earn?'
-                    }
-                  >
-                    <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                      ?
-                    </div>
-                  </ToolTipNew>
-                </div>
-                <span className='text-sm '>
-                  You don{"'"}t have to deposit now! The budget is just what you intend to pay.
-                </span>
-                {budgetInput ? (
-                  <div className='flex-1 w-full px-2'>
-                    <TokenFundBox
-                      label='budget'
-                      onCurrencySelect={onGoalCurrencySelect}
-                      onVolumeChange={handleGoalChange}
-                      volume={goalVolume}
-                      token={goalToken}
-                    />
+              {category !== 'Fixed Contest' && (
+                <div className=' flex flex-col gap-2 w-full py-2 items-start text-base bg-[#161B22]'>
+                  <div className='flex items-center gap-2'>
+                    Set a Budget
+                    <input type='checkbox' className='checkbox' onChange={() => setBudgetInput(!budgetInput)}></input>
+                    <ToolTipNew
+                      mobileX={10}
+                      toolTipText={
+                        category === 'Fixed Price'
+                          ? 'Amount of funds you would like to escrow on this issue.'
+                          : 'How much will each successful submitter earn?'
+                      }
+                    >
+                      <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                        ?
+                      </div>
+                    </ToolTipNew>
                   </div>
-                ) : null}
-              </div>
-
+                  <span className='text-sm '>
+                    You don{"'"}t have to deposit now! The budget is just what you intend to pay.
+                  </span>
+                  {budgetInput ? (
+                    <div className='flex-1 w-full px-2'>
+                      <TokenFundBox
+                        label='budget'
+                        onCurrencySelect={onGoalCurrencySelect}
+                        onVolumeChange={handleGoalChange}
+                        volume={goalVolume}
+                        token={goalToken}
+                      />
+                    </div>
+                  ) : null}
+                </div>
+              )}
               {category === 'Split Price' ? (
                 <>
                   <div className='flex flex-col gap-2 w-full items-start py-2 pb-4 text-base bg-[#161B22]'>
