@@ -107,7 +107,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
       return true;
     }
   };
-  const totalPayoutsScheduled = bounty.payoutSchedule.reduce((acc, payout) => {
+  const totalPayoutsScheduled = bounty.payoutSchedule?.reduce((acc, payout) => {
     return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
   });
 

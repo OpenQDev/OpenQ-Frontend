@@ -26,7 +26,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
 
   const getPayoutScheduleBalance = (bounty) => {
     if (bounty.bountyType === '3') {
-      const totalPayoutsScheduled = bounty.payoutSchedule.reduce((acc, payout) => {
+      const totalPayoutsScheduled = bounty.payoutSchedule?.reduce((acc, payout) => {
         return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
       });
       return {

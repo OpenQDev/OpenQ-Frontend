@@ -31,7 +31,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
   const [tokenValues] = useGetTokenValues(tokenBalances);
   const getPayoutScheduleBalance = (bounty) => {
     if (bounty.bountyType === '3') {
-      const totalPayoutsScheduled = bounty.payoutSchedule.reduce((acc, payout) => {
+      const totalPayoutsScheduled = bounty.payoutSchedule?.reduce((acc, payout) => {
         return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
       });
       return {
