@@ -29,7 +29,7 @@ const CarouselBounty = ({ bounty }) => {
   const price = tokenValues?.total;
 
   const getPayoutScheduleBalance = (bounty) => {
-    if (bounty.bountyType === '3') {
+    if (bounty.bountyType === '3' && bounty.payoutSchedule) {
       const totalPayoutsScheduled = bounty.payoutSchedule?.reduce((acc, payout) => {
         return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
       });

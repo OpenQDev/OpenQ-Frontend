@@ -15,7 +15,7 @@ const BountyHeading = ({ bounty, price, budget }) => {
   const [payoutPrice] = useGetTokenValues(bounty.payouts);
   const marker = appState.utils.getBountyMarker(bounty, authState.login);
   const getPayoutScheduleBalance = (bounty) => {
-    if (bounty.bountyType === '3') {
+    if (bounty.bountyType === '3' && bounty.payoutSchedule) {
       const totalPayoutsScheduled = bounty.payoutSchedule?.reduce((acc, payout) => {
         return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
       });
