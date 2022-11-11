@@ -13,7 +13,7 @@ const SubmissionCard = ({ pr, bounty, refreshBounty }) => {
 
   const linkedPrize = bounty.claims.filter((claim) => claim.claimantAsset === pr.url)[0];
   return (
-    <div className={`min-w-[300px] w-60  border rounded-sm border-border-gray bg-menu-bg`}>
+    <div className={`min-w-[300px] w-60  border rounded-sm border-border-gray bg-menu-bg `}>
       <div
         target='_blank'
         rel='noopener norefferer'
@@ -51,7 +51,7 @@ const SubmissionCard = ({ pr, bounty, refreshBounty }) => {
           </Link>
         </div>
 
-        <div className=' pt-2 text-gray-400 h-20 w-full'>
+        <div className=' pt-2 text-gray-400 h-20 w-full break-word'>
           {pr.body.slice(0, 100)}
           {pr.body && '...'}
         </div>

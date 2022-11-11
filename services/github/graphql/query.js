@@ -277,6 +277,7 @@ export const GET_ISSUE_BY_ID = gql`
                 ... on PullRequest {
                   mergedAt
                   url
+                  id
                   merged
                   bodyText
                   body
