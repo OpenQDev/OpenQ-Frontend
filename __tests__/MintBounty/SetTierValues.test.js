@@ -93,6 +93,7 @@ it('should give choice for bar inputs or number inputs', async () => {
     <SetTierValues
       category={'Contest'}
       sum={9}
+      currentSum={9}
       setSum={mockSum}
       setEnableContest={mockEnabler}
       finalTierVolumes={['2', '3', '4']}
