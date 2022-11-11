@@ -491,6 +491,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                         onVolumeChange={handleGoalChange}
                         volume={goalVolume}
                         token={goalToken}
+                        styles={'flex-col sm:flex-row space-y-4 space-x-0 sm:space-x-4 sm:space-y-0'}
                       />
                     </div>
                   ) : null}
@@ -507,13 +508,14 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                         </div>
                       </ToolTipNew>
                     </div>
-                    <div className='flex-1 w-full px-4'>
+                    <div className='flex-1 w-full px-2'>
                       <TokenFundBox
                         label='split'
                         onCurrencySelect={onCurrencySelect}
                         onVolumeChange={onVolumeChange}
                         token={payoutToken}
                         volume={payoutVolume}
+                        styles={'flex-col sm:flex-row space-y-4 space-x-0 sm:space-x-4 sm:space-y-0'}
                       />
                     </div>
                   </div>

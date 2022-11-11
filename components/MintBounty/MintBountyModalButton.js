@@ -19,7 +19,9 @@ export default function MintBountyModalButton({
       disabled={!enableMint && isOnCorrectNetwork}
     >
       {transactionPending ? (
-        <LoadingIcon bg='colored' />
+        <div className='flex items-center gap-2'>
+          Processing... <LoadingIcon bg='colored' />
+        </div>
       ) : !isOnCorrectNetwork ? (
         `Use ${chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['networkName']} Network`
       ) : account ? (

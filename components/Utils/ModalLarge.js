@@ -39,13 +39,16 @@ const ModalLarge = ({ title, children, footerLeft, footerRight, setShowModal, re
           isWalletConnect && 'z-[51]'
         }`}
       >
-        <div ref={modal} className='flex w-[640px] h-[600px] border border-gray-700 rounded-sm bg-[#161B22]'>
+        <div
+          ref={modal}
+          className='flex w-full md:w-[640px] h-full md:h-[600px] border border-gray-700 md:rounded-sm bg-[#161B22]'
+        >
           <div className='flex flex-col relative w-full'>
             <button data-testid='cross' className='absolute top-4 right-4 cursor-pointer' onClick={() => updateModal()}>
               <Cross />
             </button>
             <div className='py-2 px-4 border-b border-gray-700 text-2xl w-full'>{title}</div>
-            <div className='w-full h-[500px] overflow-x-hidden overflow-y-auto'>{children}</div>
+            <div className='w-full h-full md:h-[500px] overflow-x-hidden overflow-y-auto'>{children}</div>
             <div className='flex justify-between items-center py-2 px-4 flex-wrap border-t border-gray-700 w-full '>
               <div className='my-1'>{footerLeft}</div>
               <div>{footerRight}</div>
