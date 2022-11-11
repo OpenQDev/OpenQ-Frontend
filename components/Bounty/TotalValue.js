@@ -6,6 +6,7 @@ import StoreContext from '../../store/Store/StoreContext';
 const TotalValue = ({ price, bounty }) => {
   const [appState] = useContext(StoreContext);
   const [payoutPrice] = useGetTokenValues(bounty.payouts);
+
   return (
     <div className='text-base font-semibold text-primary'>
       {bounty.status !== '0' ? (

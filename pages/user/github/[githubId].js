@@ -26,7 +26,7 @@ const account = ({ githubId, githubUser, renderError }) => {
           items={[{ name: 'Settings', Svg: Gear }]}
         />
         <div className='w-full border-b h-px border-web-gray'></div>
-        <div className='flex relative max-w-[1440px] w-full mx-auto px-16'>
+        <div className='flex relative max-w-[1440px] mx-auto px-16'>
           <div className='hidden lg:block max-w-[25%] border-web-gray pl-4 left-24 xl:left-20 relative'>
             {githubUser && (
               <div className='flex flex-col items-center gap-4'>
@@ -52,7 +52,7 @@ const account = ({ githubId, githubUser, renderError }) => {
             {internalMenu == 'Settings' && (
               <AssociationModal githubId={githubId} user={githubUser} renderError={renderError} />
             )}
-            <div className='w-60 py-8 lg:hidden'>
+            <div className='xs:w-60 py-8 lg:hidden'>
               <h2 className='text-2xl pb-4 font-semibold'>Sign {authState.githubId ? 'out of' : 'into'} Github</h2>
               <AuthButton />
             </div>

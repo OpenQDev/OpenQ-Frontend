@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
 import LabelsList from '../Bounty/LabelsList';
 import useWeb3 from '../../hooks/useWeb3';
+import { ethers } from 'ethers';
 
 const CarouselBounty = ({ bounty }) => {
   const [appState] = useContext(StoreContext);
@@ -26,6 +27,21 @@ const CarouselBounty = ({ bounty }) => {
   const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
   const [payoutValues] = useGetTokenValues(bounty?.payouts);
   const price = tokenValues?.total;
+
+  const getPayoutScheduleBalance = (bounty) => {
+    if (bounty.bountyType === '3' && bounty.payoutSchedule) {
+      const totalPayoutsScheduled = bounty.payoutSchedule?.reduce((acc, payout) => {
+        return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
+      });
+      return {
+        volume: totalPayoutsScheduled.toString(),
+        tokenAddress: bounty.payoutTokenAddress,
+      };
+    }
+  };
+
+  const payoutScheduledBalance = useMemo(() => getPayoutScheduleBalance(bounty), [bounty]);
+  const [payoutScheduledValues] = useGetTokenValues(payoutScheduledBalance);
 
   return (
     <div className='border-web-gray bg-dark-mode p-4 gap-2 border rounded-sm flex mb-1'>
@@ -120,7 +136,7 @@ const CarouselBounty = ({ bounty }) => {
                         </>
                       )}
                     </div>
-                  ) : budget > 0 ? (
+                  ) : budget > 0 || payoutScheduledValues?.total > 0 ? (
                     <>
                       <div className='flex flex-row space-x-1 items-center'>
                         <div className='pr-2 pt-1'>
@@ -129,7 +145,9 @@ const CarouselBounty = ({ bounty }) => {
 
                         <>
                           <div className='font-semibold '>Budget</div>
-                          <div className=''>{appState.utils.formatter.format(budget)}</div>
+                          <div className=''>
+                            {appState.utils.formatter.format(payoutScheduledValues?.total || budget)}
+                          </div>
                         </>
                       </div>
                     </>

@@ -24,6 +24,21 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
   const payoutBalances = useMemo(() => createPayout(bounty), [bounty]);
   const [payoutValues] = useGetTokenValues(payoutBalances);
 
+  const getPayoutScheduleBalance = (bounty) => {
+    if (bounty.bountyType === '3' && bounty.payoutSchedule) {
+      const totalPayoutsScheduled = bounty.payoutSchedule?.reduce((acc, payout) => {
+        return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
+      });
+      return {
+        volume: totalPayoutsScheduled.toString(),
+        tokenAddress: bounty.payoutTokenAddress,
+      };
+    }
+  };
+
+  const payoutScheduledBalance = useMemo(() => getPayoutScheduleBalance(bounty), [bounty]);
+  const [payoutScheduledValues] = useGetTokenValues(payoutScheduledBalance);
+
   let type = 'Fixed Price';
 
   switch (bounty.bountyType) {
@@ -74,11 +89,13 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
         </li>
       )}
 
-      {bounty.fundingGoalVolume && (
+      {(bounty.fundingGoalVolume || payoutScheduledValues?.total) && (
         <li className='border-b border-web-gray py-3'>
           <div className='text-xs font-semibold text-muted'>🎯 Current Target Budget</div>
           <div className='text-xs font-semibold text-primary pt-2'>
-            {(budget && appState.utils.formatter.format(budget)) || '$0.00'}
+            {((budget || payoutScheduledValues?.total) &&
+              appState.utils.formatter.format(payoutScheduledValues?.total || budget)) ||
+              '$0.00'}
           </div>
         </li>
       )}

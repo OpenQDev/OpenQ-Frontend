@@ -7,6 +7,7 @@ import useGetTokenValues from '../../hooks/useGetTokenValues';
 import ToolTipNew from '../Utils/ToolTipNew';
 import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
 import ReactGA from 'react-ga4';
+import { ethers } from 'ethers';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
@@ -20,6 +21,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
   const [isModal, setIsModal] = useState();
   const [hovered, setHovered] = useState();
   const [payoutPrice] = useGetTokenValues(bounty?.payout);
+
   const currentDate = Date.now();
   const relativeDeployDay = parseInt((currentDate - bounty?.bountyMintTime * 1000) / 86400000);
   const createTokenBalances = (bounty) => {
@@ -27,7 +29,20 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
   };
   const tokenBalances = useMemo(() => createTokenBalances(bounty), [bounty.tokenBalances]);
   const [tokenValues] = useGetTokenValues(tokenBalances);
+  const getPayoutScheduleBalance = (bounty) => {
+    if (bounty.bountyType === '3' && bounty.payoutSchedule) {
+      const totalPayoutsScheduled = bounty.payoutSchedule?.reduce((acc, payout) => {
+        return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
+      });
+      return {
+        volume: totalPayoutsScheduled.toString(),
+        tokenAddress: bounty.payoutTokenAddress,
+      };
+    }
+  };
 
+  const payoutScheduledBalance = useMemo(() => getPayoutScheduleBalance(bounty), [bounty]);
+  const [payoutScheduledValues] = useGetTokenValues(payoutScheduledBalance);
   const createBudget = (bounty) => {
     return bounty.fundingGoalTokenAddress
       ? {
@@ -218,6 +233,17 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 
                       <div className='font-semibold '>Budget</div>
                       <div className=''>{appState.utils.formatter.format(budget)}</div>
+                    </div>
+                  </>
+                ) : payoutScheduledValues?.total ? (
+                  <>
+                    <div className='flex flex-row space-x-1 w-min items-center'>
+                      <div className='pr-2 w-4 pt-1'>
+                        <Image src='/crypto-logos/ETH.svg' alt='avatarUrl' width='12' height='20' />
+                      </div>
+
+                      <div className='font-semibold '>Budget</div>
+                      <div className=''>{appState.utils.formatter.format(payoutScheduledValues?.total)}</div>
                     </div>
                   </>
                 ) : (
