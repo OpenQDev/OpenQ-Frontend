@@ -346,7 +346,7 @@ export const getServerSideProps = async (context) => {
     };
   } catch (err) {
     logger.error(err);
-    renderError = `OpenQ could not find a contract with address: ${address}.`;
+    renderError = ``;
   }
   return { props: { id, address, mergedBounty, renderError, oauthToken } };
 };
