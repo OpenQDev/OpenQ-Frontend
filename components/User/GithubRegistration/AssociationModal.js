@@ -173,7 +173,7 @@ const AssociationModal = ({ githubId, user }) => {
             </div>
           )}
           <div>Enter your wallet address:</div>
-          <div className='flex gap-4 asdf s w-80'>
+          <div className='flex gap-4 w-80'>
             <input
               className={'flex-1 input-field'}
               id='name'
