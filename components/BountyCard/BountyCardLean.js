@@ -175,32 +175,41 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                   <div className='whitespace-nowrap'>{bountyTypeName}</div>
                 </span>
 
-                <div className='flex flex-row space-x-1 w-min items-center'>
-                  <div className='pr-2 pt-1 w-4'>
-                    <Image src='/crypto-logos/ETH-COLORED.png' alt='avatarUrl' width='12' height='20' />
+                {displayValue ? (
+                  <div className='flex flex-row space-x-1 w-min items-center'>
+                    <div className='pr-2 pt-1 w-4'>
+                      <Image
+                        src={displayValue?.imgSrc || '/crypto-logos/ETH.svg'}
+                        alt='avatarUrl'
+                        width='12'
+                        height='20'
+                      />
+                    </div>
+                    {console.log('displayValue', displayValue)}
+                    {displayValue.displayValue ? (
+                      <>
+                        <div className='font-semibold '>{displayValue?.valueType}</div>
+                        <div className=''>{displayValue?.displayValue}</div>
+                      </>
+                    ) : (
+                      <>
+                        <div className='font-semibold '>Budget</div>
+                        <div className='flex flex-row space-x-1 items-center'>
+                          <ToolTipNew
+                            innerStyles={'whitespace-normal w-60'}
+                            toolTipText={'No budget has been set for this contract'}
+                          >
+                            <div className='cursor-help p-0.25 rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                              ?
+                            </div>
+                          </ToolTipNew>
+                        </div>
+                      </>
+                    )}
                   </div>
-
-                  {displayValue?.displayValue ? (
-                    <>
-                      <div className='font-semibold '>{displayValue?.valueType}</div>
-                      <div className=''>{displayValue?.displayValue}</div>
-                    </>
-                  ) : (
-                    <>
-                      <div className='font-semibold '>Budget</div>
-                      <div className='flex flex-row space-x-1 items-center'>
-                        <ToolTipNew
-                          innerStyles={'whitespace-normal w-60'}
-                          toolTipText={'No budget has been set for this contract'}
-                        >
-                          <div className='cursor-help p-0.25 rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                            ?
-                          </div>
-                        </ToolTipNew>
-                      </div>
-                    </>
-                  )}
-                </div>
+                ) : (
+                  <Skeleton width={100} baseColor='#333' borderRadius={'1rem'} />
+                )}
               </div>
             </div>
           )}

@@ -9,10 +9,10 @@ import TokenBalances from '../TokenBalances/TokenBalances';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import PieChart from './PieChart';
 import { ethers } from 'ethers';
+import useDisplayValue from '../../hooks/useDisplayValue';
 
-const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
+const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
   const [appState] = useContext(StoreContext);
-  const [payoutPrice] = useGetTokenValues(bounty.payouts);
   const createPayout = (bounty) => {
     return bounty.payoutTokenVolume
       ? {
@@ -23,21 +23,8 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
   };
   const payoutBalances = useMemo(() => createPayout(bounty), [bounty]);
   const [payoutValues] = useGetTokenValues(payoutBalances);
-
-  const getPayoutScheduleBalance = (bounty) => {
-    if (bounty.bountyType === '3' && bounty.payoutSchedule) {
-      const totalPayoutsScheduled = bounty.payoutSchedule?.reduce((acc, payout) => {
-        return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
-      });
-      return {
-        volume: totalPayoutsScheduled.toLocaleString('fullwide', { useGrouping: false }),
-        tokenAddress: bounty.payoutTokenAddress,
-      };
-    }
-  };
-
-  const payoutScheduledBalance = useMemo(() => getPayoutScheduleBalance(bounty), [bounty]);
-  const [payoutScheduledValues] = useGetTokenValues(payoutScheduledBalance);
+  const budgetValues = useDisplayValue(bounty, appState.utils.formatter.format, 'budget');
+  const actualValues = useDisplayValue(bounty, appState.utils.formatter.format, 'actual');
 
   let type = 'Fixed Price';
 
@@ -72,33 +59,19 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
           <div className='text-xs font-semibold text-primary leading-loose'>{type}</div>
         </li>
       )}
+      <li className='border-b border-web-gray py-3'>
+        <div className='text-xs font-semibold text-muted'>
+          {bounty.status === '0' ? 'Total Value Locked 🔒' : 'Total Value Claimed 🔓'}
+        </div>
+        <button className='text-xs font-semibold text-primary pt-2' onClick={() => setInternalMenu('Fund')}>
+          {actualValues?.displayValue || '$0.00'}
+        </button>
+      </li>
 
-      {bounty.status !== '0' ? (
-        <li className='border-b border-web-gray py-3'>
-          <div className='text-xs font-semibold text-muted'>🔓 Total Value Claimed</div>
-          <button className='text-xs font-semibold text-primary pt-2' onClick={() => setInternalMenu('Fund')}>
-            {appState.utils.formatter.format(bounty.tvc || payoutPrice?.total || 0)}
-          </button>
-        </li>
-      ) : (
-        <li className='border-b border-web-gray py-3'>
-          <div className='text-xs font-semibold text-muted'>🔒 Total Value Locked</div>
-          <button className='text-xs font-semibold text-primary pt-2' onClick={() => setInternalMenu('Fund')}>
-            {(price && appState.utils.formatter.format(price)) || '$0.00'}
-          </button>
-        </li>
-      )}
-
-      {(bounty.fundingGoalVolume || payoutScheduledValues?.total) && (
-        <li className='border-b border-web-gray py-3'>
-          <div className='text-xs font-semibold text-muted'>🎯 Current Target Budget</div>
-          <div className='text-xs font-semibold text-primary pt-2'>
-            {((budget || payoutScheduledValues?.total) &&
-              appState.utils.formatter.format(payoutScheduledValues?.total || budget)) ||
-              '$0.00'}
-          </div>
-        </li>
-      )}
+      <li className='border-b border-web-gray py-3'>
+        <div className='text-xs font-semibold text-muted'>🎯 Current Target Budget</div>
+        <div className='text-xs font-semibold text-primary pt-2'>{budgetValues?.displayValue || '$0.00'}</div>
+      </li>
 
       {bounty.bountyType == 1 ? (
         <li className='border-b border-web-gray py-3'>

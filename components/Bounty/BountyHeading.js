@@ -1,33 +1,19 @@
 // Third Party
-import React, { useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/legacy/image';
-import { ethers } from 'ethers';
 // Custom
 import MintBountyButton from '../MintBounty/MintBountyButton';
 import StoreContext from '../../store/Store/StoreContext';
 import useAuth from '../../hooks/useAuth';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
+import useDisplayValue from '../../hooks/useDisplayValue';
 
-const BountyHeading = ({ bounty, price, budget }) => {
+const BountyHeading = ({ bounty }) => {
   const [appState] = useContext(StoreContext);
   const [authState] = useAuth();
-  const [payoutPrice] = useGetTokenValues(bounty.payouts);
   const marker = appState.utils.getBountyMarker(bounty, authState.login);
-  const getPayoutScheduleBalance = (bounty) => {
-    if (bounty.bountyType === '3' && bounty.payoutSchedule) {
-      const totalPayoutsScheduled = bounty.payoutSchedule?.reduce((acc, payout) => {
-        return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
-      });
-      return {
-        volume: totalPayoutsScheduled.toLocaleString('fullwide', { useGrouping: false }),
-        tokenAddress: bounty.payoutTokenAddress,
-      };
-    }
-  };
+  const totalPrice = useDisplayValue(bounty, appState.utils.formatter.format);
 
-  const payoutScheduledBalance = useMemo(() => getPayoutScheduleBalance(bounty), [bounty]);
-  const [payoutScheduledValues] = useGetTokenValues(payoutScheduledBalance);
   return (
     <div className='sm:px-8 px-4 w-full max-w-[1200px] pb-2'>
       <div className='pt-6 pb-2 w-full flex flex-wrap'>
@@ -77,17 +63,9 @@ const BountyHeading = ({ bounty, price, budget }) => {
           <span className='leading-none'>{marker.status}</span>
         </div>
         <>
-          {bounty.status !== '0' ? (
+          {totalPrice?.displayValue ? (
             <span className='leading-loose text-lg font-semibold text-primary'>
-              Total Value Claimed {appState.utils.formatter.format(bounty.tvc || payoutPrice?.total || 0)}
-            </span>
-          ) : price || price === 0 ? (
-            <span className='leading-loose text-lg font-semibold text-primary'>
-              Total Value Locked {appState.utils.formatter.format(price)}
-            </span>
-          ) : budget || payoutScheduledValues?.total || budget === 0 ? (
-            <span className='leading-loose text-lg font-semibold text-primary'>
-              Budget {appState.utils.formatter.format(payoutScheduledValues?.total || budget)}
+              {totalPrice.valueTypeFull} {totalPrice.displayValue}
             </span>
           ) : null}
         </>
