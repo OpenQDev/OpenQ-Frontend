@@ -36,7 +36,6 @@ const useDisplayValue = (bounty, formatter) => {
   }
   if (!valueObj?.value && valueObj?.value !== 0) {
     if (bounty.status !== '0') {
-      console.log(formatter(tvc));
       setValueObj({ value: tvc, valueType: 'TVC', valueTypeFull: 'Total Value Claimed', displayValue: formatter(tvc) });
     }
     if (tvl > budget) {

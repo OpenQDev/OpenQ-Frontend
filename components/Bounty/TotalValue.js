@@ -6,7 +6,6 @@ import StoreContext from '../../store/Store/StoreContext';
 const TotalValue = ({ bounty }) => {
   const [appState] = useContext(StoreContext);
   const displayValue = useDisplayValue(bounty, appState.utils.formatter.format);
-  console.log(displayValue);
   return (
     <div className='text-base font-semibold text-primary'>
       <>
