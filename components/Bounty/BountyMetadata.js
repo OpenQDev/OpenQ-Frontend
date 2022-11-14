@@ -52,7 +52,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
   }
 
   return (
-    <ul className='md:max-w-[300px] w-full md:pl-4'>
+    <ul className='lg:max-w-[300px] w-full lg:pl-4'>
       {bounty.bountyType && (
         <li className='border-b border-web-gray py-3'>
           <div className='text-xs font-semibold text-muted'>Type of Contract</div>
