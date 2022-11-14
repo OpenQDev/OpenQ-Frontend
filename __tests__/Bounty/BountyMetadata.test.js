@@ -138,14 +138,12 @@ describe('BountyMetadata', () => {
     }));
   });
 
-  const test = (bounty, price) => {
+  const test = (bounty) => {
     it('should render Bounty heading', async () => {
       // ARRANGE
-      render(<BountyMetadata bounty={bounty} setInternalMenu={() => null} price={price} />);
+      render(<BountyMetadata bounty={bounty} setInternalMenu={() => null} />);
 
       // ASSERT
-      const usdPrice = screen.getByText('$19.00');
-      expect(usdPrice).toBeInTheDocument();
       const label = screen.getByText('duplicate');
       expect(label).toBeInTheDocument();
       const polygonscan = screen.getByText(/0x3c57cd5933/);

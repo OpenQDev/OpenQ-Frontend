@@ -97,7 +97,6 @@ const CarouselBounty = ({ bounty }) => {
                           height='20'
                         />
                       </div>
-                      {console.log('displayValue', displayValue)}
                       {displayValue.displayValue ? (
                         <>
                           <div className='font-semibold '>{displayValue?.valueType}</div>
