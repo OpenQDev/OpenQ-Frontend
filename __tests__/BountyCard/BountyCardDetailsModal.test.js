@@ -32,16 +32,8 @@ describe('BountyCardDetailsModal', () => {
   const test = (bounty) => {
     it('should display BountyCardDetailsModal', async () => {
       // ARRANGE
-      render(
-        <BountyCardDetailsModal
-          bounty={bounty}
-          closeModal={() => null}
-          tokenValues={{ total: 12 }}
-          showModal={() => null}
-          complete={true}
-        />
-      );
-      const totalRegExp = new RegExp('12');
+      render(<BountyCardDetailsModal bounty={bounty} closeModal={() => null} showModal={() => null} complete={true} />);
+      const totalRegExp = new RegExp('0.00');
       // ASSERT
       const orgName = screen.getByText(bounty.owner);
       expect(orgName).toBeInTheDocument();

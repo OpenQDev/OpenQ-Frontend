@@ -20,7 +20,7 @@ const BountyHeading = ({ bounty, price, budget }) => {
         return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
       });
       return {
-        volume: totalPayoutsScheduled.toString(),
+        volume: totalPayoutsScheduled.toLocaleString('fullwide', { useGrouping: false }),
         tokenAddress: bounty.payoutTokenAddress,
       };
     }

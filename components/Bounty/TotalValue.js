@@ -1,27 +1,18 @@
 // Third party
 import React, { useContext } from 'react';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
+import useDisplayValue from '../../hooks/useDisplayValue';
 import StoreContext from '../../store/Store/StoreContext';
 
-const TotalValue = ({ price, bounty }) => {
+const TotalValue = ({ bounty }) => {
   const [appState] = useContext(StoreContext);
-  const [payoutPrice] = useGetTokenValues(bounty.payouts);
-
+  const displayValue = useDisplayValue(bounty, appState.utils.formatter.format);
+  console.log(displayValue);
   return (
     <div className='text-base font-semibold text-primary'>
-      {bounty.status !== '0' ? (
-        <>
-          <div>Total Value Claimed</div>
-          <div className='text-sm font-normal'>
-            {appState.utils.formatter.format(bounty.tvc || payoutPrice?.total || 0)}
-          </div>
-        </>
-      ) : (
-        <>
-          <div>Total Value Locked</div>
-          <div className='text-sm font-normal'> {appState.utils.formatter.format(price || 0)}</div>
-        </>
-      )}
+      <>
+        <div>{displayValue?.valueTypeFull || 'Budget'}</div>
+        <div className='text-sm font-normal'>{displayValue?.displayValue || '$0.00'}</div>
+      </>
     </div>
   );
 };

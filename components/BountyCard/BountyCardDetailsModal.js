@@ -10,10 +10,12 @@ import { LogIcon } from '@primer/octicons-react';
 import TotalValue from '../Bounty/TotalValue';
 import LabelsList from '../Bounty/LabelsList';
 import CopyBountyAddress from '../Bounty/CopyBountyAddress';
+import useGetTokenValues from '../../hooks/useGetTokenValues';
 
-const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, unWatchable, watchingState }) => {
+const BountyCardDetailsModal = ({ bounty, closeModal, showModal, unWatchable, watchingState }) => {
   const modal = useRef();
   const { safe } = useWeb3();
+  const [tokenValues] = useGetTokenValues(bounty.bountyTokenBalances);
   useEffect(() => {
     let didCancel;
     // Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
@@ -54,7 +56,7 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
 
           <div className=' w-full px-8 gap-4 flex'>
             <div className='w-full'>
-              <TotalValue bounty={bounty} price={tokenValues?.total} />
+              <TotalValue bounty={bounty} />
             </div>
             <div className='w-full mb-6'>
               <div className='font-semibold text-primary text-base w-full'>
