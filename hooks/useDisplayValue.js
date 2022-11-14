@@ -20,8 +20,8 @@ const useDisplayValue = (bounty, formatter, type) => {
       tokenAddress: bounty.payoutTokenAddress,
     };
   };
-
-  if (bounty.bountyType === '3' && bounty.payoutSchedule) {
+  const isFixedContest = bounty.bountyType === '3' && bounty.payoutSchedule;
+  if (isFixedContest) {
     const payoutScheduledBalance = getPayoutScheduleBalance(bounty);
     const [payoutScheduledValue] = useGetValueFromComposite(
       payoutScheduledBalance.tokenAddress,
@@ -34,7 +34,8 @@ const useDisplayValue = (bounty, formatter, type) => {
     const [budgetValue] = useGetValueFromComposite(bounty.fundingGoalTokenAddress, bounty.fundingGoalVolume);
     budget = budgetValue?.total;
   }
-  if (!valueObj && valueObj?.value !== 0) {
+  if (!valueObj) {
+    const hasTvl = (tvl > budget && type !== 'budget') || (type === 'actual' && tvl !== 0);
     if (bounty.status !== '0') {
       setValueObj({
         value: tvc,
@@ -43,7 +44,7 @@ const useDisplayValue = (bounty, formatter, type) => {
         displayValue: formatter(tvc),
         imgSrc: '/crypto-logos/ETH-COLORED.png',
       });
-    } else if ((tvl > budget && type !== 'budget') || (type === 'actual' && tvl !== 0)) {
+    } else if (hasTvl) {
       setValueObj({
         value: tvl,
         valueType: 'TVL',
