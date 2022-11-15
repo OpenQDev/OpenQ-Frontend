@@ -9,7 +9,7 @@ const jsonRpcErrors = [
     'ERC1167: create2 failed': {
       title: 'Contract already exists',
       message: () => {
-        return 'A contract for that issue already exists';
+        return 'A contract for that issue already exists. Make sure to add an issue that has not been deployed as a contract yet. If you need more information or want to report a bug, please contact info@openq.dev';
       },
     },
   },
@@ -18,7 +18,7 @@ const jsonRpcErrors = [
     FUNDING_CLOSED_BOUNTY: {
       title: 'Cannot fund a closed contract',
       message: ({ bounty }) => {
-        return `Contract was closed on ${bounty.bountyClosedTime}`;
+        return `This contract was closed on ${bounty.bountyClosedTime}. You cannot fund a closed contract. If you need more information or want to report a bug, please contact info@openq.dev`;
       },
     },
   },
@@ -26,7 +26,7 @@ const jsonRpcErrors = [
     ZERO_VOLUME_SENT: {
       title: 'Zero Volume Sent',
       message: () => {
-        return 'Must send a greater than 0 volume of tokens.';
+        return 'The token volume needs to be strictly more than 0. Are you sure you have entered an amount of tokens for this transaction? If you need more information or want to report a bug, please contact info@openq.dev';
       },
     },
   },
@@ -42,7 +42,7 @@ const jsonRpcErrors = [
     'ERC20: transfer amount exceeds balance': {
       title: 'Transfer amount exceeds balance',
       message: () => {
-        return 'Transfer amount exceeds balance';
+        return 'It seems like you are trying to transfer a token volume that exceeds your address balance. Did you enter the correct amount of tokens for this transfer? If you need more information or want to report a bug, please contact info@openq.dev';
       },
     },
   },
@@ -50,7 +50,7 @@ const jsonRpcErrors = [
     NONCE_TO_HIGH: {
       title: 'Nonce Too High',
       message: () => {
-        return 'Nonce too high. If developing locally, Go to MetaMask -> Accounts -> Settings -> Advanced -> Reset Account';
+        return 'Nonce too high. If developing locally, Go to MetaMask -> Accounts -> Settings -> Advanced -> Reset Account. If you need more information or want to report a bug, please contact info@openq.dev';
       },
     },
   },
@@ -59,7 +59,7 @@ const jsonRpcErrors = [
     BOUNTY_ALREADY_REFUNDED: {
       title: 'Contract Already Refunded',
       message: () => {
-        return 'Contract was already refunded';
+        return 'This contract was already refunded. If you need more information or want to report a bug, please contact info@openq.dev';
       },
     },
   },
@@ -68,7 +68,9 @@ const jsonRpcErrors = [
       title: 'Too early to withdraw funds',
       message: ({ bounty }) => {
         const utils = new Utils();
-        return `Contract was minted on ${utils.formatUnixDate(bounty.bountyMintTime)}`;
+        return `Contract was minted on ${utils.formatUnixDate(
+          bounty.bountyMintTime
+        )} and the funds on this deposit are still locked. Please check the date at which it becomes refundable again before requesting a refund. If you need more information or want to report a bug, please contact info@openq.dev`;
       },
     },
   },
@@ -76,32 +78,36 @@ const jsonRpcErrors = [
     ONLY_FUNDERS_CAN_REQUEST_REFUND: {
       title: 'Not a Funder',
       message: ({ account }) =>
-        `Only funders can request refunds on this issue. Your address ${account} has not funded this issue.`,
+        `Only funders can request refunds on this issue. Your address ${account} has not funded this issue. Make sure you connect the right wallet or are on the right issue. If you need more information or want to report a bug, please contact info@openq.dev`,
     },
   },
   {
     REFUNDING_CLOSED_BOUNTY: {
       title: 'Cannot request refund on a closed contract',
-      message: () => 'You are requesting on a closed contract',
+      message: () =>
+        'You are requesting a refund on a closed contract. If you need more information or want to report a bug, please contact info@openq.dev',
     },
   },
   // CLAIM
   {
     COMPETITION_ALREADY_CLOSED: {
       title: 'This contest is already closed, you cannot close it again',
-      message: () => 'You are attempting to close a closed contest',
+      message: () =>
+        'You are attempting to close a closed contest. If you need more information or want to report a bug, please contact info@openq.dev',
     },
   },
   {
     ONGOING_BOUNTY_ALREADY_CLOSED: {
       title: 'This repeating contract is already closed, you cannot close it again',
-      message: () => 'You are attempting to close a closed repeating contract',
+      message: () =>
+        'You are attempting to close a closed repeating contract. This action has already been performed. If you need more information or want to report a bug, please contact info@openq.dev',
     },
   },
   {
     CLAIMING_CLOSED_BOUNTY: {
       title: 'Cannot claim a closed contract',
-      message: () => 'You are attempting to claim a closed contract',
+      message: () =>
+        'You are attempting to claim a closed contract. If you need more information or want to report a bug, please contact info@openq.dev',
     },
   },
   // CONNECTION
@@ -109,7 +115,7 @@ const jsonRpcErrors = [
     METAMASK_HAVING_TROUBLE: {
       title: 'Cannot Connect to network.',
       message: () => {
-        return 'Please check your wallet settings.';
+        return 'Please check your wallet settings and make sure you are connected to the right network. If you need more information or want to report a bug, please contact info@openq.dev';
       },
     },
   },
@@ -118,7 +124,7 @@ const jsonRpcErrors = [
     USER_DENIED_TRANSACTION: {
       title: 'User Denied Transaction',
       message: () => {
-        return 'Thank You! Come Again!';
+        return 'You have been denied the transaction. If you need more information or want to report a bug, please contact info@openq.dev';
       },
     },
   },
@@ -127,7 +133,7 @@ const jsonRpcErrors = [
     INTERNAL_ERROR: {
       title: 'Internal RPC Error',
       message: () => {
-        return 'Something went awry and the transaction failed! Please reload and try again.';
+        return 'Something went awry and the transaction failed! Please reload and try again. If you need more information or want to report a bug, please contact info@openq.dev';
       },
     },
   },
@@ -147,7 +153,7 @@ const jsonRpcErrors = [
     OUT_OF_GAS: {
       title: 'Out of Gas',
       message: () => {
-        return 'Transaction ran out of gas.';
+        return 'The transaction ran out of gas. You might need to set a higher gas fee to get your transaction through. If you need more information or want to report a bug, please contact info@openq.dev';
       },
     },
   },
@@ -158,7 +164,7 @@ const jsonRpcErrors = [
       message: (recipient) => {
         return `Stream already created from your address to ${recipient.slice(0, 4)}...${recipient.slice(
           38
-        )}. If you\'d like to change the terms of your stream, please use the update button`;
+        )}. If you\'d like to change the terms of your stream, please use the update button. If you need more information or want to report a bug, please contact info@openq.dev`;
       },
     },
   },
@@ -166,7 +172,9 @@ const jsonRpcErrors = [
     CFA_DOES_NOT_EXIST: {
       title: 'Stream does not exist',
       message: (recipient) => {
-        return `No stream exists from your address to ${recipient.slice(0, 4)}...${recipient.slice(38)}.`;
+        return `No stream exists from your address to ${recipient.slice(0, 4)}...${recipient.slice(
+          38
+        )}. If you need more information or want to report a bug, please contact info@openq.dev`;
       },
     },
   },
@@ -175,7 +183,7 @@ const jsonRpcErrors = [
     CALL_EXCEPTION: {
       title: 'Polygon Call Exception',
       message: () => {
-        return 'A exception occured while calling Polygon.';
+        return 'An exception occured while calling Polygon. You might want to try again. If you need more information or want to report a bug, please contact info@openq.dev';
       },
     },
   },
