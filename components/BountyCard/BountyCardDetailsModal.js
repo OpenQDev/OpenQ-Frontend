@@ -6,10 +6,11 @@ import BountyStatus from './BountyStatus';
 import BountyLinks from './BountyLinks';
 import useWeb3 from '../../hooks/useWeb3';
 import BountyModalHeading from './BountyModalHeading';
-import { LogIcon } from '@primer/octicons-react';
+import { StackIcon } from '@primer/octicons-react';
 import TotalValue from '../Bounty/TotalValue';
 import LabelsList from '../Bounty/LabelsList';
 import CopyBountyAddress from '../Bounty/CopyBountyAddress';
+import ModalLarge from '../Utils/ModalLarge';
 
 const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, unWatchable, watchingState }) => {
   const modal = useRef();
@@ -35,16 +36,31 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
     return deposit.refunded == false;
   });
 
+  const footerLeft = <BountyLinks bounty={bounty} />;
+  const btn = (
+    <Link href={`/contract/${bounty.id}/${bounty.bountyAddress}`}>
+      <div
+        onClick={closeModal}
+        target={safe ? '_self' : '_blank'}
+        rel='noopener noreferrer'
+        className='flex gap-2 items-center whitespace-nowrap btn-default'
+      >
+        <StackIcon size={24} />
+        Full Contract Details
+      </div>
+    </Link>
+  );
+
   return (
-    <div
-      className={
-        showModal
-          ? 'flex flex-col justify-center w-full justify-items- items-center bg-overlay inset-0 fixed py-10 overflow-hidden z-30'
-          : 'hidden'
-      }
-    >
-      <div className='flex-col flex justify-center w-5/6 lg:w-2/3 max-w-3xl max-h-[calc(100vh-200px)]' ref={modal}>
-        <div className='bg-dark-mode pt-2 rounded-sm-t text-lg relative sm:max-h-[calc(100vh-190px)]  overflow-auto'>
+    <>
+      {showModal && (
+        <ModalLarge
+          title={`Deploy Contract`}
+          footerLeft={footerLeft}
+          footerRight={btn}
+          setShowModal={closeModal}
+          resetState={closeModal}
+        >
           <BountyModalHeading
             watchingState={watchingState}
             unWatchable={unWatchable}
@@ -129,7 +145,6 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
                   onClick={closeModal}
                   target={safe ? '_self' : '_blank'}
                   rel='noopener noreferrer'
-                  legacyBehavior
                 >
                   <div
                     onClick={closeModal}
@@ -145,29 +160,12 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
             <div className='flex flex-wrap mx-4 sm:mx-8 pb-4 text-primary'>
               <div className=' flex-1 w-full py-4 border-web-gray border px-2 rounded-sm'>
                 <section className='markdown-body' dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}></section>
-                <div className='py-4'>
-                  <Link
-                    href={`/contract/${bounty.id}/${bounty.bountyAddress}`}
-                    onClick={closeModal}
-                    target={safe ? '_self' : '_blank'}
-                    rel='noopener noreferrer'
-                    legacyBehavior
-                  >
-                    <div className='flex flex-row space-x-2 btn-default text-sm w-fit items-center'>
-                      <LogIcon size={16} />
-                      <div>Read more</div>
-                    </div>
-                  </Link>
-                </div>
               </div>
             </div>
           )}
-        </div>
-        <div className='bg-black w-5/6  lg:w-2/3 max-w-3xl overflow-hidden rounded-b-sm p-4'>
-          <BountyLinks bounty={bounty} />
-        </div>
-      </div>
-    </div>
+        </ModalLarge>
+      )}
+    </>
   );
 };
 

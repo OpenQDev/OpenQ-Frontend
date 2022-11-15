@@ -1,14 +1,10 @@
 // Third party
 import Link from 'next/link';
 import React from 'react';
-import useWeb3 from '../../hooks/useWeb3';
-import { StackIcon } from '@primer/octicons-react';
 import Image from 'next/legacy/image';
 import WatchButton from '../WatchButton/WatchButton';
 
-const BountyModalHeading = ({ bounty, closeModal, unWatchable, watchingState }) => {
-  const { safe } = useWeb3();
-
+const BountyModalHeading = ({ bounty, unWatchable, watchingState }) => {
   return (
     <div className='flex flex-col pr-10 sm:flex-row justify-between px-8 mb-2 p-3'>
       <div className='flex basis-1/4 flex-col mb-2'>
@@ -26,14 +22,6 @@ const BountyModalHeading = ({ bounty, closeModal, unWatchable, watchingState }) 
         </h2>
       </div>
       <div className='min-w-[40px] flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-2'>
-        <Link href={`/contract/${bounty.id}/${bounty.bountyAddress}`} legacyBehavior>
-          <div onClick={closeModal} target={safe ? '_self' : '_blank'} rel='noopener noreferrer'>
-            <div className='flex gap-3 items-center text-xs text-primary bg-inactive-gray leading-5 h-7 whitespace-nowrap px-3 py-[3px] w-fit hover:bg-active-gray rounded-sm border hover:border-border-active border-border-gray'>
-              <StackIcon size={24} />
-              <a className='cursor-pointer'> Full Contract Details</a>
-            </div>
-          </div>
-        </Link>
         <WatchButton watchingState={watchingState} unWatchable={unWatchable} bounty={bounty} />
         <div className='hidden lg:block'>
           <Image src={bounty.avatarUrl} className='rounded-full' alt='avatarUrl' width='51' height='51' />
