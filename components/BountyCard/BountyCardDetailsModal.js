@@ -55,20 +55,20 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
     <>
       {showModal && (
         <ModalLarge
-          title={`Deploy Contract`}
+          title={
+            <BountyModalHeading
+              watchingState={watchingState}
+              unWatchable={unWatchable}
+              closeModal={closeModal}
+              bounty={bounty}
+            />
+          }
           footerLeft={footerLeft}
           footerRight={btn}
           setShowModal={closeModal}
           resetState={closeModal}
         >
-          <BountyModalHeading
-            watchingState={watchingState}
-            unWatchable={unWatchable}
-            closeModal={closeModal}
-            bounty={bounty}
-          />
-
-          <div className=' w-full px-8 gap-4 flex'>
+          <div className=' w-full px-8 pt-4 gap-4 flex'>
             <div className='w-full'>
               <TotalValue bounty={bounty} price={tokenValues?.total} />
             </div>
@@ -146,10 +146,7 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
                   target={safe ? '_self' : '_blank'}
                   rel='noopener noreferrer'
                 >
-                  <div
-                    onClick={closeModal}
-                    className='border border-web-gray px-4 pb-1.5 pt-1.5 w-max rounded-md cursor-pointer'
-                  >
+                  <div onClick={closeModal} className='btn-default'>
                     more...
                   </div>
                 </Link>
@@ -157,8 +154,9 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
             </div>
           )}
           {bounty.bodyHTML && (
-            <div className='flex flex-wrap mx-4 sm:mx-8 pb-4 text-primary'>
-              <div className=' flex-1 w-full py-4 border-web-gray border px-2 rounded-sm'>
+            <div className='flex text-lg text-muted mx-4 sm:mx-8 pb-4 text-primary'>
+              <div className='flex flex-col w-full mt-2 p-4 border-web-gray border rounded-sm bg-dark-mode gap-2'>
+                Issue content:
                 <section className='markdown-body' dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}></section>
               </div>
             </div>
