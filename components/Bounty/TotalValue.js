@@ -8,17 +8,17 @@ const TotalValue = ({ price, bounty }) => {
   const [payoutPrice] = useGetTokenValues(bounty.payouts);
 
   return (
-    <div className='text-base font-semibold text-primary'>
+    <div className='flex items-center gap-2 py-2 text-base'>
       {bounty.status !== '0' ? (
         <>
-          <div>Total Value Claimed</div>
+          <div className='text-muted'>Total Value Claimed: </div>
           <div className='text-sm font-normal'>
             {appState.utils.formatter.format(bounty.tvc || payoutPrice?.total || 0)}
           </div>
         </>
       ) : (
         <>
-          <div>Total Value Locked</div>
+          <div className='text-muted'>Total Value Locked: </div>
           <div className='text-sm font-normal'> {appState.utils.formatter.format(price || 0)}</div>
         </>
       )}

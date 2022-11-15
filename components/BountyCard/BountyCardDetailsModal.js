@@ -9,7 +9,6 @@ import BountyModalHeading from './BountyModalHeading';
 import { StackIcon } from '@primer/octicons-react';
 import TotalValue from '../Bounty/TotalValue';
 import LabelsList from '../Bounty/LabelsList';
-import CopyBountyAddress from '../Bounty/CopyBountyAddress';
 import ModalLarge from '../Utils/ModalLarge';
 
 const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, unWatchable, watchingState }) => {
@@ -46,7 +45,7 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
         className='flex gap-2 items-center whitespace-nowrap btn-default'
       >
         <StackIcon size={24} />
-        Full Contract Details
+        Full Contract
       </div>
     </Link>
   );
@@ -68,14 +67,18 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
           setShowModal={closeModal}
           resetState={closeModal}
         >
-          <div className=' w-full px-8 pt-4 gap-4 flex'>
+          <div className='w-full px-8 pt-2'>
+            <BountyStatus bounty={bounty} />
+          </div>
+          <div className='w-full px-8'>
+            <TotalValue bounty={bounty} price={tokenValues?.total} />
+          </div>
+          <div className=' w-full px-8 gap-4 flex'>
             <div className='w-full'>
-              <TotalValue bounty={bounty} price={tokenValues?.total} />
-            </div>
-            <div className='w-full mb-6'>
-              <div className='font-semibold text-primary text-base w-full'>
-                {!bounty?.prs?.some((pr) => pr.source?.__typename === 'PullRequest' && pr.source?.url) && 'No '}
-                Linked Pull Requests
+              <div className=' text-muted pb-1 text-base w-full'>
+                {!bounty?.prs?.some((pr) => pr.source?.__typename === 'PullRequest' && pr.source?.url)
+                  ? 'No Pull Requests'
+                  : 'Linked Pull Requests: '}
               </div>
               {bounty?.prs?.length > 0 && (
                 <ul>
@@ -99,28 +102,17 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
               )}
             </div>
           </div>
-          <div className='w-full px-8 gap-4 -mt-4 flex flex-col sm:flex-row'>
-            <BountyStatus bounty={bounty} />
-            <div className='w-full'>
-              <div className='font-semibold text-primary text-base my-3'>Smart Contract</div>
-              <div className='flex flex-row space-x-2 text-primary text-base'>
-                <div className='-mt-0.5'>
-                  <CopyBountyAddress address={bounty.bountyAddress} />
-                </div>
-              </div>
-            </div>
-          </div>
           <div className=' w-full px-8'>
-            <div className='pb-1'>
+            <div className='pt-4 pb-1'>
               <LabelsList bounty={bounty} />
             </div>
           </div>
 
-          <div className='font-semibold text-primary text-base my-3 mx-4 sm:mx-8'>
+          <div className='font-semibold text-primary text-base px-8 my-2'>
             {fundedDeposits.length === 0 ? 'No active deposits.' : 'Deposits'}
           </div>
           {tokenValues && (
-            <div className='flex flex-wrap gap-4 pb-6 items-end mx-4 sm:mx-8'>
+            <div className='flex flex-wrap gap-4 pb-6 items-center px-8'>
               {fundedDeposits &&
                 fundedDeposits
                   .sort((a, b) => {
@@ -154,7 +146,7 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
             </div>
           )}
           {bounty.bodyHTML && (
-            <div className='flex text-lg text-muted mx-4 sm:mx-8 pb-4 text-primary'>
+            <div className='flex text-lg text-muted px-8 pb-4'>
               <div className='flex flex-col w-full mt-2 p-4 border-web-gray border rounded-sm bg-dark-mode gap-2'>
                 Issue content:
                 <section className='markdown-body' dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}></section>

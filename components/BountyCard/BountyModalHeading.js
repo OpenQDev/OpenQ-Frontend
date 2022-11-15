@@ -18,7 +18,7 @@ const BountyModalHeading = ({ bounty, unWatchable, watchingState }) => {
           <div className='flex-1 leading-tight w-full'>
             <span className='flex text-primary break-word'>{bounty.title} </span>
 
-            <div className='flex gap-12 mt-1 items-center'>
+            <div className='flex gap-12 mt-1 items-center justify-between sm:justify-start'>
               <Link href={bounty.url} className='text-muted text font-light' target='_blank'>
                 <div>#{bounty.number}</div>
               </Link>
@@ -27,7 +27,7 @@ const BountyModalHeading = ({ bounty, unWatchable, watchingState }) => {
           </div>
         </div>
       </div>
-      <div className='flex items-center pr-8'>
+      <div className='sm:flex items-center hidden sm:pr-8'>
         <Image src={bounty.avatarUrl} className='rounded-full' alt='avatarUrl' width='62' height='62' />
       </div>
     </div>
