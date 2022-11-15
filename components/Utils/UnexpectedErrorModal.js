@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ModalDefault from './ModalDefault';
 import { useRouter } from 'next/router';
+import { useWeb3 } from '../../hooks/useWeb3';
 import SignIn from '../Authentication/SignIn';
+import StoreContext from '../../store/Store/StoreContext';
 
 const UnexpectedErrorModal = ({ error }) => {
   const [currentError, setCurrentError] = useState('');
   const [loginModal, setLoginModal] = useState(false);
+  const { account } = useWeb3();
+  const [appState] = useContext(StoreContext);
   useEffect(() => {
     let parsedError;
     try {
       parsedError = JSON.parse(error);
-      console.log(parsedError);
     } catch (err) {
-      console.log(err);
+      appState.logger.error(err, account);
     }
 
-    setCurrentError(parsedError?.message || currentError);
-
+    setCurrentError(parsedError?.message || error || currentError);
     if (error.includes('github') && error.includes('401')) {
       setLoginModal(true);
     }
@@ -25,16 +27,21 @@ const UnexpectedErrorModal = ({ error }) => {
   const resetState = () => {
     router.push('/');
   };
-  const btn = (
+  const signIn = (
     <div>
       <SignIn />
     </div>
+  );
+  const btn = (
+    <a href={'/'} className='flex btn-default' type='link'>
+      Go Home
+    </a>
   );
   if (loginModal)
     return (
       <ModalDefault
         title={'Please login with Github.'}
-        footerRight={btn}
+        footerRight={signIn}
         setShowModal={() => {}}
         resetState={resetState}
       >
