@@ -4,6 +4,8 @@
 
 If the work you are engaged in doesn't require the Fullstack, you can boot just the OpenQ-Frontend by following these instructions. We normally work on the 'staging' branch, so make sure have all latest changes from it and do your Pull Requests to 'staging' unless instructed otherwise.
 
+Note: the instructions should work if you are using Mac OS, Linux, but if you are on Windows, make sure to be using (Windows Sublinux System (WSL))[https://learn.microsoft.com/en-us/windows/wsl/install]. 
+
 ### 1 Get a GitHub Personal Access Token (PAT)
 
 You can get a GitHub Personal Access Token (PAT) [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
