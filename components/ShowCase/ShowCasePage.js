@@ -115,7 +115,7 @@ const ShowCasePage = ({ pr }) => {
       </div>
 
       <h3 className='flex gap-2 items-center'>
-        <span className='py-1 text-xl pt-8 text-primary'>Contributors</span>{' '}
+        <span className='py-1 text-xl pt-8 text-primary'>Contributor</span>{' '}
         {/*    {!showForm && isAuthor ? (
           <button onClick={openContributorForm}>
             <svg
@@ -189,8 +189,8 @@ const ShowCasePage = ({ pr }) => {
       )}
       <div className='py-2'>
         <div className='flex gap-2 h-6 text-primary'>
-          <Link href={pr.author.url} legacyBehavior>
-            <Image className='rounded-lg' src={pr.author.avatarUrl} height={'32px'} width={'32'} />
+          <Link href={pr.author.url}>
+            <Image className='rounded-lg h-8' src={pr.author.avatarUrl} height={'32px'} width={'32px'} />
           </Link>
           <div className='text-xl '>{pr.author.login}</div>
           <Link href={`https://twitter.com/${pr.author.twitterUsername}`} legacyBehavior>
@@ -208,14 +208,16 @@ const ShowCasePage = ({ pr }) => {
               <div className='text-xl '>{contributor.login}</div>
               {contributor.twitterUsername}
               {contributor.twitterUsername && (
-                <Link
-                  href={`https://twitter.com/${contributor.twitterUsername}`}
-                  target='_blank'
-                  rel='noopener norefferer'
-                  legacyBehavior
-                >
-                  <Image width={24} height={24} src={'/social-icons/twitter.svg'} />
-                </Link>
+                <div className='pt-1 cursor-pointer'>
+                  <Link
+                    href={`https://twitter.com/${contributor.twitterUsername}`}
+                    target='_blank'
+                    rel='noopener norefferer'
+                    legacyBehavior
+                  >
+                    <Image width={24} height={24} src={'/social-icons/twitter.svg'} />
+                  </Link>
+                </div>
               )}
               {isAuthor && (
                 <button className='mt-1' value={contributor.id} onClick={removeContributor}>

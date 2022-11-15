@@ -194,12 +194,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
       }
 
       if (bounty.bountyType === '3') {
-        transaction = await openQClient.setPayoutScheduleFixed(
-          library,
-          bounty.bountyId,
-          finalTierVolumes,
-          payoutToken.address
-        );
+        transaction = await openQClient.setPayoutScheduleFixed(library, bounty.bountyId, finalTierVolumes, payoutToken);
       }
       refreshBounty();
       setModal({

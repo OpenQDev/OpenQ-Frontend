@@ -14,6 +14,7 @@ const SetTierValues = ({
   finalTierVolumes,
   setFinalTierVolumes,
   initialVolumes,
+  currentSum,
 }) => {
   const newFixedVolumes = {};
   const newVolumesArr = [];
@@ -118,12 +119,16 @@ const SetTierValues = ({
             toggleFunc={handleToggle}
             names={['Visual', 'Text']}
           />
-          {sum > 100 ? (
+          {sum !== currentSum ? (
+            <span className='text-sm'>You must give a value for each tier</span>
+          ) : sum > 100 ? (
             <span className='text-sm  text-[#f85149]'>The sum can not be more than 100%!</span>
           ) : sum === 100 ? (
             <span className='text-sm '>Sum is 100, now you can mint.</span>
           ) : (
-            <span className='text-sm'>For the sum to add up to 100, you still need to allocate: {100 - sum} %</span>
+            <span className='text-sm'>
+              For the sum to add up to 100, you still need to allocate: {100 - currentSum} %
+            </span>
           )}
           {toggleVal === 'Visual' ? (
             <div className=' w-full mx-h-60 pl-4 overflow-y-auto overflow-x-hidden'>
@@ -146,7 +151,7 @@ const SetTierValues = ({
               })}
             </div>
           )}
-          <TierResult sum={sum} finalTierVolumes={finalTierVolumes} />
+          <TierResult sum={currentSum} finalTierVolumes={finalTierVolumes} />
         </div>
       ) : (
         <div className='max-h-40 w-full flex flex-col gap-2 overflow-y-auto overflow-x-hidden'>

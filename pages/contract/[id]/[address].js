@@ -314,7 +314,6 @@ export const getServerSideProps = async (context) => {
 
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
-  githubRepository.instance.setGraphqlHeaders();
   const logger = new Logger();
   const { id, address } = context.query;
   let bountyMetadata = {};
@@ -346,7 +345,7 @@ export const getServerSideProps = async (context) => {
     };
   } catch (err) {
     logger.error(err);
-    renderError = `OpenQ could not find a contract with address: ${address}.`;
+    renderError = ``;
   }
   return { props: { id, address, mergedBounty, renderError, oauthToken } };
 };

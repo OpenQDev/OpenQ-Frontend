@@ -173,7 +173,7 @@ const AssociationModal = ({ githubId, user }) => {
             </div>
           )}
           <div>Enter your wallet address:</div>
-          <div className='flex gap-4 asdf s w-80'>
+          <div className='flex gap-4 w-full max-w-[340px]'>
             <input
               className={'flex-1 input-field'}
               id='name'
@@ -187,7 +187,7 @@ const AssociationModal = ({ githubId, user }) => {
           <ToolTipNew toolTipText={'Please enter a valid ethereum address'} hideToolTip={enableLink}>
             <button
               disabled={!enableLink}
-              className={enableLink ? 'w-fit btn-primary' : 'w-fit btn-default'}
+              className={enableLink ? 'max-w-[340px] w-full btn-primary' : 'max-w-[340px] w-full btn-default'}
               onClick={associateExternalIdToAddress}
             >
               Associate Ethereum Address to your Github
@@ -207,16 +207,18 @@ const AssociationModal = ({ githubId, user }) => {
           >
             <div className='whitespace-pre-wrap'>{statesFormat[associateState].message}</div>
             <p className='flex justify-between pt-4'>
-              <span>Transaction:</span>
               {transactionHash && (
-                <a
-                  target='_blank'
-                  href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`}
-                  rel='noreferrer'
-                >
-                  {transactionHash.slice(0, 4)}...{transactionHash.slice(63)}
-                  <LinkText />
-                </a>
+                <>
+                  <span>Transaction:</span>
+                  <a
+                    target='_blank'
+                    href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`}
+                    rel='noreferrer'
+                  >
+                    {transactionHash.slice(0, 4)}...{transactionHash.slice(63)}
+                    <LinkText />
+                  </a>
+                </>
               )}
             </p>
           </ModalDefault>

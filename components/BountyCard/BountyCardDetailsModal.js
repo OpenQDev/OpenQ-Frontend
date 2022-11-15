@@ -6,14 +6,16 @@ import BountyStatus from './BountyStatus';
 import BountyLinks from './BountyLinks';
 import useWeb3 from '../../hooks/useWeb3';
 import BountyModalHeading from './BountyModalHeading';
-import { LogIcon } from '@primer/octicons-react';
+import { StackIcon } from '@primer/octicons-react';
 import TotalValue from '../Bounty/TotalValue';
 import LabelsList from '../Bounty/LabelsList';
-import CopyBountyAddress from '../Bounty/CopyBountyAddress';
+import ModalLarge from '../Utils/ModalLarge';
+import useGetTokenValues from '../../hooks/useGetTokenValues';
 
-const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, unWatchable, watchingState }) => {
+const BountyCardDetailsModal = ({ bounty, closeModal, showModal, unWatchable, watchingState }) => {
   const modal = useRef();
   const { safe } = useWeb3();
+  const [tokenValues] = useGetTokenValues(bounty.bountyTokenBalances);
   useEffect(() => {
     let didCancel;
     // Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
@@ -35,31 +37,50 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
     return deposit.refunded == false;
   });
 
-  return (
-    <div
-      className={
-        showModal
-          ? 'flex flex-col justify-center w-full justify-items- items-center bg-overlay inset-0 fixed py-10 overflow-hidden z-30'
-          : 'hidden'
-      }
-    >
-      <div className='flex-col flex justify-center w-5/6 lg:w-2/3 max-w-3xl max-h-[calc(100vh-200px)]' ref={modal}>
-        <div className='bg-dark-mode pt-2 rounded-sm-t text-lg relative sm:max-h-[calc(100vh-190px)]  overflow-auto'>
-          <BountyModalHeading
-            watchingState={watchingState}
-            unWatchable={unWatchable}
-            closeModal={closeModal}
-            bounty={bounty}
-          />
+  const footerLeft = <BountyLinks bounty={bounty} />;
+  const btn = (
+    <Link href={`/contract/${bounty.id}/${bounty.bountyAddress}`}>
+      <div
+        onClick={closeModal}
+        target={safe ? '_self' : '_blank'}
+        rel='noopener noreferrer'
+        className='flex gap-2 items-center whitespace-nowrap btn-primary'
+      >
+        <StackIcon size={24} />
+        Full Contract
+      </div>
+    </Link>
+  );
 
+  return (
+    <>
+      {showModal && (
+        <ModalLarge
+          title={
+            <BountyModalHeading
+              watchingState={watchingState}
+              unWatchable={unWatchable}
+              closeModal={closeModal}
+              bounty={bounty}
+            />
+          }
+          footerLeft={footerLeft}
+          footerRight={btn}
+          setShowModal={closeModal}
+          resetState={closeModal}
+        >
+          <div className='w-full px-8 pt-2'>
+            <BountyStatus bounty={bounty} />
+          </div>
+          <div className='w-full px-8'>
+            <TotalValue bounty={bounty} price={tokenValues?.total} />
+          </div>
           <div className=' w-full px-8 gap-4 flex'>
             <div className='w-full'>
-              <TotalValue bounty={bounty} price={tokenValues?.total} />
-            </div>
-            <div className='w-full mb-6'>
-              <div className='font-semibold text-primary text-base w-full'>
-                {!bounty?.prs?.some((pr) => pr.source?.__typename === 'PullRequest' && pr.source?.url) && 'No '}
-                Linked Pull Requests
+              <div className=' text-muted pb-1 text-base w-full'>
+                {!bounty?.prs?.some((pr) => pr.source?.__typename === 'PullRequest' && pr.source?.url)
+                  ? 'No Pull Requests'
+                  : 'Linked Pull Requests: '}
               </div>
               {bounty?.prs?.length > 0 && (
                 <ul>
@@ -83,28 +104,17 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
               )}
             </div>
           </div>
-          <div className='w-full px-8 gap-4 -mt-4 flex flex-col sm:flex-row'>
-            <BountyStatus bounty={bounty} />
-            <div className='w-full'>
-              <div className='font-semibold text-primary text-base my-3'>Smart Contract</div>
-              <div className='flex flex-row space-x-2 text-primary text-base'>
-                <div className='-mt-0.5'>
-                  <CopyBountyAddress address={bounty.bountyAddress} />
-                </div>
-              </div>
-            </div>
-          </div>
           <div className=' w-full px-8'>
-            <div className='pb-1'>
+            <div className='pt-4 pb-1'>
               <LabelsList bounty={bounty} />
             </div>
           </div>
 
-          <div className='font-semibold text-primary text-base my-3 mx-4 sm:mx-8'>
+          <div className='font-semibold text-primary text-base px-8 my-2'>
             {fundedDeposits.length === 0 ? 'No active deposits.' : 'Deposits'}
           </div>
           {tokenValues && (
-            <div className='flex flex-wrap gap-4 pb-6 items-end mx-4 sm:mx-8'>
+            <div className='flex flex-wrap gap-4 pb-6 items-center px-8'>
               {fundedDeposits &&
                 fundedDeposits
                   .sort((a, b) => {
@@ -129,12 +139,8 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
                   onClick={closeModal}
                   target={safe ? '_self' : '_blank'}
                   rel='noopener noreferrer'
-                  legacyBehavior
                 >
-                  <div
-                    onClick={closeModal}
-                    className='border border-web-gray px-4 pb-1.5 pt-1.5 w-max rounded-md cursor-pointer'
-                  >
+                  <div onClick={closeModal} className='btn-default'>
                     more...
                   </div>
                 </Link>
@@ -142,32 +148,16 @@ const BountyCardDetailsModal = ({ bounty, closeModal, tokenValues, showModal, un
             </div>
           )}
           {bounty.bodyHTML && (
-            <div className='flex flex-wrap mx-4 sm:mx-8 pb-4 text-primary'>
-              <div className=' flex-1 w-full py-4 border-web-gray border px-2 rounded-sm'>
+            <div className='flex text-lg text-muted px-8 pb-4'>
+              <div className='flex flex-col w-full mt-2 p-4 border-web-gray border rounded-sm bg-dark-mode gap-2'>
+                Issue content:
                 <section className='markdown-body' dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}></section>
-                <div className='py-4'>
-                  <Link
-                    href={`/contract/${bounty.id}/${bounty.bountyAddress}`}
-                    onClick={closeModal}
-                    target={safe ? '_self' : '_blank'}
-                    rel='noopener noreferrer'
-                    legacyBehavior
-                  >
-                    <div className='flex flex-row space-x-2 btn-default text-sm w-fit items-center'>
-                      <LogIcon size={16} />
-                      <div>Read more</div>
-                    </div>
-                  </Link>
-                </div>
               </div>
             </div>
           )}
-        </div>
-        <div className='bg-black w-5/6  lg:w-2/3 max-w-3xl overflow-hidden rounded-b-sm p-4'>
-          <BountyLinks bounty={bounty} />
-        </div>
-      </div>
-    </div>
+        </ModalLarge>
+      )}
+    </>
   );
 };
 

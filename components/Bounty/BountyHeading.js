@@ -6,13 +6,13 @@ import Image from 'next/legacy/image';
 import MintBountyButton from '../MintBounty/MintBountyButton';
 import StoreContext from '../../store/Store/StoreContext';
 import useAuth from '../../hooks/useAuth';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
+import useDisplayValue from '../../hooks/useDisplayValue';
 
-const BountyHeading = ({ bounty, price, budget }) => {
+const BountyHeading = ({ bounty }) => {
   const [appState] = useContext(StoreContext);
   const [authState] = useAuth();
-  const [payoutPrice] = useGetTokenValues(bounty.payouts);
   const marker = appState.utils.getBountyMarker(bounty, authState.login);
+  const totalPrice = useDisplayValue(bounty, appState.utils.formatter.format);
 
   return (
     <div className='sm:px-8 px-4 w-full max-w-[1200px] pb-2'>
@@ -63,17 +63,9 @@ const BountyHeading = ({ bounty, price, budget }) => {
           <span className='leading-none'>{marker.status}</span>
         </div>
         <>
-          {bounty.status !== '0' ? (
+          {totalPrice?.displayValue ? (
             <span className='leading-loose text-lg font-semibold text-primary'>
-              Total Value Claimed {appState.utils.formatter.format(bounty.tvc || payoutPrice?.total || 0)}
-            </span>
-          ) : price || price === 0 ? (
-            <span className='leading-loose text-lg font-semibold text-primary'>
-              Total Value Locked {appState.utils.formatter.format(price)}
-            </span>
-          ) : budget || budget === 0 ? (
-            <span className='leading-loose text-lg font-semibold text-primary'>
-              Budget {appState.utils.formatter.format(budget)}
+              {totalPrice.valueTypeFull} {totalPrice.displayValue}
             </span>
           ) : null}
         </>

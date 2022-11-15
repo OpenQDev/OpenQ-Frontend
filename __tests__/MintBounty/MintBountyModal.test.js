@@ -86,51 +86,53 @@ const test = (issue, type) => {
     });
   });
 
-  it(`should handle extra data for type ${type[0]}`, async () => {
-    // ARRANGE
-    const user = userEvent.setup();
-    render(<MintBountyModal types={type} />);
-    // ACT
-    const inputs = await screen.findAllByRole('textbox');
-    await user.type(inputs[0], issue.url);
-    await user.click(screen.getByRole('checkbox'));
-    await user.type(screen.getByLabelText('budget'), '123assdf');
-    await waitFor(async () => {
-      expect(screen.getByLabelText('budget').value).toBe('123');
+  if (type[0] !== '3') {
+    it(`should handle extra data for type ${type[0]}`, async () => {
+      // ARRANGE
+      const user = userEvent.setup();
+      render(<MintBountyModal types={type} />);
+      // ACT
+      const inputs = await screen.findAllByRole('textbox');
+      await user.type(inputs[0], issue.url);
+      await user.click(screen.getByRole('checkbox'));
+      await user.type(screen.getByLabelText('budget'), '123assdf');
+      await waitFor(async () => {
+        expect(screen.getByLabelText('budget').value).toBe('123');
 
-      // ASSERT
-      switch (type[0]) {
-        case '1':
-          {
-            await user.type(screen.getByLabelText('split'), '123assdf');
-            expect(screen.getByLabelText('split').value).toBe('123');
-          }
-          break;
+        // ASSERT
+        switch (type[0]) {
+          case '1':
+            {
+              await user.type(screen.getByLabelText('split'), '123assdf');
+              expect(screen.getByLabelText('split').value).toBe('123');
+            }
+            break;
 
-        case '2':
-          {
-            expect(screen.getAllByText(/place winner/)).toHaveLength(3);
-            await user.type(screen.getByLabelText(/tier/), '2');
-            expect(screen.getAllByText(/place winner/)).toHaveLength(32);
+          case '2':
+            {
+              expect(screen.getAllByText(/place winner/)).toHaveLength(3);
+              await user.type(screen.getByLabelText(/tier/), '2');
+              expect(screen.getAllByText(/place winner/)).toHaveLength(32);
 
-            /**/
-          }
-          break;
+              /**/
+            }
+            break;
 
-        case '3':
-          expect(screen.getAllByText(/fixed Contest/i)).toHaveLength(4);
+          case '3':
+            expect(screen.getAllByText(/fixed Contest/i)).toHaveLength(4);
 
-          break;
-        default:
-      }
+            break;
+          default:
+        }
 
-      const deploy = screen.getAllByText(/deploy/i);
-      expect(deploy[0]).toBeInTheDocument();
-      // should not have null or undefined values
-      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-      expect(nullish).toHaveLength(0);
+        const deploy = screen.getAllByText(/deploy/i);
+        expect(deploy[0]).toBeInTheDocument();
+        // should not have null or undefined values
+        const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+        expect(nullish).toHaveLength(0);
+      });
     });
-  });
+  }
 };
 describe('MintBountyModal', () => {
   issues.forEach((issue) => {

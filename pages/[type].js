@@ -182,7 +182,7 @@ export const getServerSideProps = async (context) => {
   const logger = new Logger();
   const batch = 10;
   let fullBounties = [];
-  let firstCursor;
+  let firstCursor = null;
   let renderError = '';
   let mergedOrgs = [];
   try {

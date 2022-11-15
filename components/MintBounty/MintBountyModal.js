@@ -49,6 +49,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
   const [tier, setTier] = useState(3);
   const [tierArr, setTierArr] = useState(['0', '1', '2']);
   const [tierVolumes, setTierVolumes] = useState({ 0: 1, 1: 1, 2: 1 });
+  const [currentSum, setCurrentSum] = useState(0);
 
   const [finalTierVolumes, setFinalTierVolumes] = useState([1, 1, 1]);
   const [payoutVolume, setPayoutVolume] = useState('');
@@ -305,6 +306,22 @@ const MintBountyModal = ({ modalVisibility, types }) => {
     if (finalTierVolumes.length) {
       setSum(finalTierVolumes.reduce((a, b) => a + b));
     }
+    if (finalTierVolumes.length) {
+      setCurrentSum(
+        finalTierVolumes.reduce((a, b) => {
+          if (a && b) {
+            return a + b;
+          }
+          if (a) {
+            return a;
+          }
+          if (b) {
+            return b;
+          }
+          return 0;
+        })
+      );
+    }
     if (sum == 100) {
       setEnableContest(true);
     }
@@ -334,7 +351,9 @@ const MintBountyModal = ({ modalVisibility, types }) => {
 
   const btn = !error && (
     <ToolTipNew
-      outerStyles={''}
+      groupStyles={''}
+      outerStyles={'hover:hidden -top-20 md:top-auto'}
+      triangleStyles={'mt-7 md:mt-1 rotate-180 md:rotate-0 '}
       hideToolTip={
         (enableContest &&
           enableMint &&
@@ -349,6 +368,8 @@ const MintBountyModal = ({ modalVisibility, types }) => {
           ? 'Issue closed'
           : account && isOnCorrectNetwork && (!enableMint || !issue?.url.includes('/issues/'))
           ? 'Please choose an elgible issue.'
+          : currentSum !== sum
+          ? 'Please make sure each tier gets a percentage.'
           : !enableContest
           ? 'Please make sure the sum of tier percentages adds up to 100.'
           : isOnCorrectNetwork
@@ -462,39 +483,41 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                 </div>
               </div>
 
-              <div className=' flex flex-col gap-2 w-full py-2 items-start text-base bg-[#161B22]'>
-                <div className='flex items-center gap-2'>
-                  Set a Budget
-                  <input type='checkbox' className='checkbox' onChange={() => setBudgetInput(!budgetInput)}></input>
-                  <ToolTipNew
-                    mobileX={10}
-                    toolTipText={
-                      category === 'Fixed Price'
-                        ? 'Amount of funds you would like to escrow on this issue.'
-                        : 'How much will each successful submitter earn?'
-                    }
-                  >
-                    <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                      ?
-                    </div>
-                  </ToolTipNew>
-                </div>
-                <span className='text-sm '>
-                  You don{"'"}t have to deposit now! The budget is just what you intend to pay.
-                </span>
-                {budgetInput ? (
-                  <div className='flex-1 w-full px-2'>
-                    <TokenFundBox
-                      label='budget'
-                      onCurrencySelect={onGoalCurrencySelect}
-                      onVolumeChange={handleGoalChange}
-                      volume={goalVolume}
-                      token={goalToken}
-                    />
+              {category !== 'Fixed Contest' && (
+                <div className=' flex flex-col gap-2 w-full py-2 items-start text-base bg-[#161B22]'>
+                  <div className='flex items-center gap-2'>
+                    Set a Budget
+                    <input type='checkbox' className='checkbox' onChange={() => setBudgetInput(!budgetInput)}></input>
+                    <ToolTipNew
+                      mobileX={10}
+                      toolTipText={
+                        category === 'Fixed Price'
+                          ? 'Amount of funds you would like to escrow on this issue.'
+                          : 'How much will each successful submitter earn?'
+                      }
+                    >
+                      <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                        ?
+                      </div>
+                    </ToolTipNew>
                   </div>
-                ) : null}
-              </div>
-
+                  <span className='text-sm '>
+                    You don{"'"}t have to deposit now! The budget is just what you intend to pay.
+                  </span>
+                  {budgetInput ? (
+                    <div className='flex-1 w-full px-2'>
+                      <TokenFundBox
+                        label='budget'
+                        onCurrencySelect={onGoalCurrencySelect}
+                        onVolumeChange={handleGoalChange}
+                        volume={goalVolume}
+                        token={goalToken}
+                        styles={'flex-col sm:flex-row space-y-4 space-x-0 sm:space-x-4 sm:space-y-0'}
+                      />
+                    </div>
+                  ) : null}
+                </div>
+              )}
               {category === 'Split Price' ? (
                 <>
                   <div className='flex flex-col gap-2 w-full items-start py-2 pb-4 text-base bg-[#161B22]'>
@@ -506,13 +529,14 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                         </div>
                       </ToolTipNew>
                     </div>
-                    <div className='flex-1 w-full px-4'>
+                    <div className='flex-1 w-full px-2'>
                       <TokenFundBox
                         label='split'
                         onCurrencySelect={onCurrencySelect}
                         onVolumeChange={onVolumeChange}
                         token={payoutToken}
                         volume={payoutVolume}
+                        styles={'flex-col sm:flex-row space-y-4 space-x-0 sm:space-x-4 sm:space-y-0'}
                       />
                     </div>
                   </div>
@@ -571,6 +595,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                     <SetTierValues
                       category={category}
                       sum={sum}
+                      currentSum={currentSum}
                       finalTierVolumes={finalTierVolumes}
                       setFinalTierVolumes={setFinalTierVolumes}
                       setSum={setSum}

@@ -190,7 +190,7 @@ export const getServerSideProps = async (context) => {
     });
   } catch (err) {
     logger.error(err);
-    renderError = JSON.stringify(err.message);
+    renderError = JSON.stringify(err);
   }
 
   return {

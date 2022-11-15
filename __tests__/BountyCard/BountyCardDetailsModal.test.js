@@ -32,16 +32,8 @@ describe('BountyCardDetailsModal', () => {
   const test = (bounty) => {
     it('should display BountyCardDetailsModal', async () => {
       // ARRANGE
-      render(
-        <BountyCardDetailsModal
-          bounty={bounty}
-          closeModal={() => null}
-          tokenValues={{ total: 12 }}
-          showModal={() => null}
-          complete={true}
-        />
-      );
-      const totalRegExp = new RegExp('12');
+      render(<BountyCardDetailsModal bounty={bounty} closeModal={() => null} showModal={() => null} complete={true} />);
+      const totalRegExp = new RegExp('0.00');
       // ASSERT
       const orgName = screen.getByText(bounty.owner);
       expect(orgName).toBeInTheDocument();
@@ -57,7 +49,7 @@ describe('BountyCardDetailsModal', () => {
       }
       const link = await screen.findAllByText(/Full Contract/i);
       expect(link[0]).toBeInTheDocument();
-      expect(screen.getAllByText(/Smart Contract/)).toHaveLength(2);
+      expect(screen.getByText(/Smart Contract/)).toBeInTheDocument();
 
       // should not have null or undefined values
       const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];

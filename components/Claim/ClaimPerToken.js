@@ -10,7 +10,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type, changeObj }) => {
   function formatVolume(volume) {
     const decimal = parseInt(tokenMetadata.decimals) || 18;
     let bigNumberVolume = ethers.BigNumber.from(volume.toLocaleString('fullwide', { useGrouping: false }));
-    return ethers.utils.formatUnits(bigNumberVolume, decimal);
+    return parseFloat(ethers.utils.formatUnits(bigNumberVolume, decimal)).toFixed(6);
   }
 
   function filterAndAggregate(toFilterPerToken) {

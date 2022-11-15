@@ -115,7 +115,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
   }, []);
 
   const hackSubmissions =
-    contestRepositories.length > 0
+    contestRepositories?.length > 0
       ? [
           {
             name: 'Hackathon Submissions',
@@ -232,7 +232,7 @@ export const getServerSideProps = async (context) => {
       fullBounties,
       batch,
       renderError,
-      firstCursor: orgMetadata.organization.bounties.bountyConnection.cursor,
+      firstCursor: orgMetadata.organization.bounties.bountyConnection.cursor || null,
       oauthToken,
     },
   };

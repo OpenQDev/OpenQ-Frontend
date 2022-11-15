@@ -1,5 +1,7 @@
 // Third party
 import React, { useState } from 'react';
+import nookies from 'nookies';
+
 import SearchBar from '../../../components/Search/SearchBar';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import useAuth from '../../../hooks/useAuth';
@@ -41,7 +43,10 @@ export default showcase;
 
 export async function getServerSideProps(context) {
   const githubRepository = new WrappedGithubClient();
-  githubRepository.instance.setGraphqlHeaders();
+  const cookies = nookies.get(context);
+  const { github_oauth_token_unsigned } = cookies;
+  const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
+  githubRepository.instance.setGraphqlHeaders(oauthToken);
   const { org, name } = context.query;
   const currentPrs = await githubRepository.instance.getPrs(org, name);
   return {

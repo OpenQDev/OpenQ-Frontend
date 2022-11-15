@@ -9,10 +9,10 @@ import TokenBalances from '../TokenBalances/TokenBalances';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import PieChart from './PieChart';
 import { ethers } from 'ethers';
+import useDisplayValue from '../../hooks/useDisplayValue';
 
-const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
+const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
   const [appState] = useContext(StoreContext);
-  const [payoutPrice] = useGetTokenValues(bounty.payouts);
   const createPayout = (bounty) => {
     return bounty.payoutTokenVolume
       ? {
@@ -23,6 +23,8 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
   };
   const payoutBalances = useMemo(() => createPayout(bounty), [bounty]);
   const [payoutValues] = useGetTokenValues(payoutBalances);
+  const budgetValues = useDisplayValue(bounty, appState.utils.formatter.format, 'budget');
+  const actualValues = useDisplayValue(bounty, appState.utils.formatter.format, 'actual');
 
   let type = 'Fixed Price';
 
@@ -50,38 +52,26 @@ const BountyMetadata = ({ bounty, setInternalMenu, price, budget, split }) => {
   }
 
   return (
-    <ul className='md:max-w-[300px] w-full md:pl-4'>
+    <ul className='lg:max-w-[300px] w-full lg:pl-4'>
       {bounty.bountyType && (
         <li className='border-b border-web-gray py-3'>
           <div className='text-xs font-semibold text-muted'>Type of Contract</div>
           <div className='text-xs font-semibold text-primary leading-loose'>{type}</div>
         </li>
       )}
+      <li className='border-b border-web-gray py-3'>
+        <div className='text-xs font-semibold text-muted'>
+          {bounty.status === '0' ? 'Total Value Locked 🔒' : 'Total Value Claimed 🔓'}
+        </div>
+        <button className='text-xs font-semibold text-primary pt-2' onClick={() => setInternalMenu('Fund')}>
+          {actualValues?.displayValue || '$0.00'}
+        </button>
+      </li>
 
-      {bounty.status !== '0' ? (
-        <li className='border-b border-web-gray py-3'>
-          <div className='text-xs font-semibold text-muted'>🔓 Total Value Claimed</div>
-          <button className='text-xs font-semibold text-primary pt-2' onClick={() => setInternalMenu('Fund')}>
-            {appState.utils.formatter.format(bounty.tvc || payoutPrice?.total || 0)}
-          </button>
-        </li>
-      ) : (
-        <li className='border-b border-web-gray py-3'>
-          <div className='text-xs font-semibold text-muted'>🔒 Total Value Locked</div>
-          <button className='text-xs font-semibold text-primary pt-2' onClick={() => setInternalMenu('Fund')}>
-            {(price && appState.utils.formatter.format(price)) || '$0.00'}
-          </button>
-        </li>
-      )}
-
-      {bounty.fundingGoalVolume && (
-        <li className='border-b border-web-gray py-3'>
-          <div className='text-xs font-semibold text-muted'>🎯 Current Target Budget</div>
-          <div className='text-xs font-semibold text-primary pt-2'>
-            {(budget && appState.utils.formatter.format(budget)) || '$0.00'}
-          </div>
-        </li>
-      )}
+      <li className='border-b border-web-gray py-3'>
+        <div className='text-xs font-semibold text-muted'>🎯 Current Target Budget</div>
+        <div className='text-xs font-semibold text-primary pt-2'>{budgetValues?.displayValue || '$0.00'}</div>
+      </li>
 
       {bounty.bountyType == 1 ? (
         <li className='border-b border-web-gray py-3'>
