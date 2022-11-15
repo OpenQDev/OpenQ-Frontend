@@ -1,47 +1,18 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
+import Skeleton from 'react-loading-skeleton';
 import Image from 'next/legacy/image';
 import ToolTipNew from '../Utils/ToolTipNew';
 import Link from 'next/link';
 import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
 import LabelsList from '../Bounty/LabelsList';
 import useWeb3 from '../../hooks/useWeb3';
-import { ethers } from 'ethers';
+import useDisplayValue from '../../hooks/useDisplayValue';
 
 const CarouselBounty = ({ bounty }) => {
   const [appState] = useContext(StoreContext);
   const { safe } = useWeb3();
-  const createBudget = (bounty) => {
-    return bounty.fundingGoalTokenAddress
-      ? {
-          tokenAddress: bounty.fundingGoalTokenAddress,
-          volume: bounty.fundingGoalVolume,
-        }
-      : null;
-  };
-  const budgetObj = useMemo(() => createBudget(bounty), [bounty]);
-  const [budgetValue] = useGetTokenValues(budgetObj);
-  const budget = budgetValue?.total;
-
-  const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
-  const [payoutValues] = useGetTokenValues(bounty?.payouts);
-  const price = tokenValues?.total;
-
-  const getPayoutScheduleBalance = (bounty) => {
-    if (bounty.bountyType === '3' && bounty.payoutSchedule) {
-      const totalPayoutsScheduled = bounty.payoutSchedule?.reduce((acc, payout) => {
-        return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
-      });
-      return {
-        volume: totalPayoutsScheduled.toString(),
-        tokenAddress: bounty.payoutTokenAddress,
-      };
-    }
-  };
-
-  const payoutScheduledBalance = useMemo(() => getPayoutScheduleBalance(bounty), [bounty]);
-  const [payoutScheduledValues] = useGetTokenValues(payoutScheduledBalance);
+  const displayValue = useDisplayValue(bounty, appState.utils.formatter.format);
 
   return (
     <div className='border-web-gray bg-dark-mode p-4 gap-2 border rounded-sm flex mb-1'>
@@ -116,63 +87,39 @@ const CarouselBounty = ({ bounty }) => {
                   </span>
                 </div>
                 <div className=''>
-                  {price > budget ? (
-                    <div className='flex flex-row space-x-1 items-center'>
-                      <div className='pr-2 pt-1'>
-                        <Image src='/crypto-logos/ETH-COLORED.png' alt='avatarUrl' width='12' height='20' />
+                  {displayValue ? (
+                    <div className='flex flex-row space-x-1 w-min items-center'>
+                      <div className='pr-2 pt-1 w-4'>
+                        <Image
+                          src={displayValue?.imgSrc || '/crypto-logos/ETH.svg'}
+                          alt='avatarUrl'
+                          width='12'
+                          height='20'
+                        />
                       </div>
-
-                      {bounty.status !== '0' ? (
+                      {displayValue.displayValue ? (
                         <>
-                          <div className='font-semibold '>TVC</div>
-                          <div className=''>
-                            {appState.utils.formatter.format(bounty.tvc || payoutValues.total || 0)}
-                          </div>
+                          <div className='font-semibold '>{displayValue?.valueType}</div>
+                          <div className=''>{displayValue?.displayValue}</div>
                         </>
                       ) : (
                         <>
-                          <div className='font-semibold '>TVL</div>
-                          <div className=''>{appState.utils.formatter.format(price)}</div>
+                          <div className='font-semibold '>Budget</div>
+                          <div className='flex flex-row space-x-1 items-center'>
+                            <ToolTipNew
+                              innerStyles={'whitespace-normal w-60'}
+                              toolTipText={'No budget has been set for this contract'}
+                            >
+                              <div className='cursor-help p-0.25 rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                                ?
+                              </div>
+                            </ToolTipNew>
+                          </div>
                         </>
                       )}
                     </div>
-                  ) : budget > 0 || payoutScheduledValues?.total > 0 ? (
-                    <>
-                      <div className='flex flex-row space-x-1 items-center'>
-                        <div className='pr-2 pt-1'>
-                          <Image src='/crypto-logos/ETH.svg' alt='avatarUrl' width='12' height='20' />
-                        </div>
-
-                        <>
-                          <div className='font-semibold '>Budget</div>
-                          <div className=''>
-                            {appState.utils.formatter.format(payoutScheduledValues?.total || budget)}
-                          </div>
-                        </>
-                      </div>
-                    </>
                   ) : (
-                    <div className='flex gap-2'>
-                      <div className='flex flex-row space-x-1 items-center'>
-                        <div className='pr-2 pt-1'>
-                          <Image src='/crypto-logos/ETH.svg' alt='avatarUrl' width='12' height='20' />
-                        </div>
-
-                        <>
-                          <div className='font-semibold '>Budget</div>
-                        </>
-                      </div>
-                      <div className='flex flex-row space-x-1 items-center'>
-                        <ToolTipNew
-                          innerStyles={'whitespace-normal w-60'}
-                          toolTipText={'No budget has been set for this contract'}
-                        >
-                          <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                            ?
-                          </div>
-                        </ToolTipNew>
-                      </div>
-                    </div>
+                    <Skeleton width={100} baseColor='#333' borderRadius={'1rem'} />
                   )}
                 </div>
               </div>

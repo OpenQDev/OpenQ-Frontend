@@ -207,16 +207,18 @@ const AssociationModal = ({ githubId, user }) => {
           >
             <div className='whitespace-pre-wrap'>{statesFormat[associateState].message}</div>
             <p className='flex justify-between pt-4'>
-              <span>Transaction:</span>
               {transactionHash && (
-                <a
-                  target='_blank'
-                  href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`}
-                  rel='noreferrer'
-                >
-                  {transactionHash.slice(0, 4)}...{transactionHash.slice(63)}
-                  <LinkText />
-                </a>
+                <>
+                  <span>Transaction:</span>
+                  <a
+                    target='_blank'
+                    href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`}
+                    rel='noreferrer'
+                  >
+                    {transactionHash.slice(0, 4)}...{transactionHash.slice(63)}
+                    <LinkText />
+                  </a>
+                </>
               )}
             </p>
           </ModalDefault>
