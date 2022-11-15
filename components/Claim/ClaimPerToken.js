@@ -122,7 +122,6 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type, changeObj }) => {
 
   return (
     <div className='grid grid-cols-[1fr_1fr_1fr]'>
-      {console.log(totalDepositVolume)}
       <div className='self-center text-right whitespace-nowrap w-20'>{volumeDisplay}</div>
       <div className='self-center text-center mx-2 whitespace-nowrap w-14'>{(percentDisplay * 100).toFixed(0)} %</div>
       <div className='self-center text-left whitespace-nowrap w-20'>

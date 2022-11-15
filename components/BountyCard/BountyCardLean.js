@@ -185,7 +185,6 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                         height='20'
                       />
                     </div>
-                    {console.log('displayValue', displayValue)}
                     {displayValue.displayValue ? (
                       <>
                         <div className='font-semibold '>{displayValue?.valueType}</div>
