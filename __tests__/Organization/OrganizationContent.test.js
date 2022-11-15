@@ -120,7 +120,7 @@ describe('OrganizationContent', () => {
       const title = await screen.findAllByText(nameRegex);
       expect(title[0]).toBeInTheDocument();
       const images = screen.getAllByRole('img');
-      expect(images).toHaveLength(orgBounties.length * 3 + 1);
+      expect(images).toHaveLength(orgBounties.length * 1 + 1);
 
       // should not have null or undefined values
       const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];

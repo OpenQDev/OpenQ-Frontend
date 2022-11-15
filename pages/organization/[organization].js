@@ -115,7 +115,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
   }, []);
 
   const hackSubmissions =
-    contestRepositories.length > 0
+    contestRepositories?.length > 0
       ? [
           {
             name: 'Hackathon Submissions',
