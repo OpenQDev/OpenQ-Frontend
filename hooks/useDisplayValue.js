@@ -13,7 +13,7 @@ const useDisplayValue = (bounty, formatter, type) => {
       return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
     });
     return {
-      volume: totalPayoutsScheduled.toLocaleString('fullwide', { useGrouping: false }),
+      volume: totalPayoutsScheduled?.toLocaleString('fullwide', { useGrouping: false }),
       tokenAddress: bounty.payoutTokenAddress,
     };
   };
