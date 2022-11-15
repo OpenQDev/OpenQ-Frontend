@@ -4,14 +4,12 @@ import useWeb3 from './useWeb3';
 import StoreContext from '../store/Store/StoreContext';
 import { ethers } from 'ethers';
 import ReactGA from 'react-ga4';
-import { useRouter } from 'next/router';
 
 const useAuth = () => {
   const [authState, setAuthState] = useContext(AuthContext);
   const [appState] = useContext(StoreContext);
   const { reloadNow } = appState;
   const { account } = useWeb3();
-  const router = useRouter();
 
   useEffect(() => {
     const checkGithub = async () => {
@@ -60,7 +58,7 @@ const useAuth = () => {
     }
 
     () => (didCancel = true);
-  }, [router?.asPath]);
+  }, []);
 
   // runs whenever backend changes or account changes.
   useEffect(() => {

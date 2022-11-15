@@ -23,8 +23,48 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
   };
   const payoutBalances = useMemo(() => createPayout(bounty), [bounty]);
   const [payoutValues] = useGetTokenValues(payoutBalances);
-  const budgetValues = useDisplayValue(bounty, appState.utils.formatter.format, 'budget');
+  const budgetValues = useDisplayValue(bounty, appState.utils.formatter.format, 'budget', 'side');
   const actualValues = useDisplayValue(bounty, appState.utils.formatter.format, 'actual');
+  const getFundsNeeded = (bounty) => {
+    const { BigNumber } = ethers;
+    if (!bounty.fundingGoalVolume) {
+      const { fundingGoalTokenAddress, fundingGoalVolume } = bounty;
+      const bigNumberBudgetnVolume = BigNumber.from(fundingGoalVolume);
+      const token = bounty.bountyTokenBalances?.find((token) => token.tokenAddress === fundingGoalTokenAddress);
+
+      const bigNumberTokenVolume = BigNumber.from(token.volume);
+
+      const bigNumberVolumeNeeded = bigNumberBudgetnVolume.sub(bigNumberTokenVolume);
+
+      // number from bignumber
+      const volumeNeeded = bigNumberVolumeNeeded.toString();
+
+      const tokenMetadata = appState.tokenClient.getToken(fundingGoalTokenAddress);
+      let decimals = parseInt(tokenMetadata.decimals) || 18;
+      let formattedVolume = ethers.utils.formatUnits(volumeNeeded, decimals);
+      return { volume: formattedVolume, symbol: tokenMetadata.symbol };
+    } else {
+      const bigNumberBudgetnVolume = bounty.payoutSchedule.reduce((accum, payout) => {
+        return BigNumber.from(payout).add(accum);
+      }, BigNumber.from(0));
+
+      const token = bounty.bountyTokenBalances?.find((token) => token.tokenAddress === bounty.payoutTokenAddress);
+      const bigNumberTokenVolume = BigNumber.from(token?.volume || 0);
+
+      const bigNumberVolumeNeeded = bigNumberBudgetnVolume.sub(bigNumberTokenVolume);
+
+      // number from bignumber
+      const volumeNeeded = bigNumberVolumeNeeded.toString();
+
+      const tokenMetadata = appState.tokenClient.getToken(bounty.payoutTokenAddress);
+      let decimals = parseInt(tokenMetadata.decimals) || 18;
+      let formattedVolume = ethers.utils.formatUnits(volumeNeeded, decimals);
+      return { volume: formattedVolume, symbol: tokenMetadata.symbol };
+    }
+  };
+
+  const fundsNeeded = getFundsNeeded(bounty);
+  // number from bignumber
 
   let type = 'Fixed Price';
 
@@ -72,6 +112,14 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
         <div className='text-xs font-semibold text-muted'>🎯 Current Target Budget</div>
         <div className='text-xs font-semibold text-primary pt-2'>{budgetValues?.displayValue || '$0.00'}</div>
       </li>
+      {parseFloat(fundsNeeded.volume) > 0 && (
+        <li className='border-b border-web-gray py-3'>
+          <div className='text-xs font-semibold text-muted'>Insolvent</div>
+          <div className='text-xs font-semibold text-primary pt-2'>
+            Funder still needs to add {fundsNeeded.volume} {fundsNeeded.symbol} to match the budget.
+          </div>
+        </li>
+      )}
 
       {bounty.bountyType == 1 ? (
         <li className='border-b border-web-gray py-3'>

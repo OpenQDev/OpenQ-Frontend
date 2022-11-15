@@ -68,7 +68,6 @@ const UnexpectedErrorModal = ({ error }) => {
         <a href={'https://discord.gg/puQVqEvVXn'} target={'_blank'} className='text-blue-500' rel='noopener noreferrer'>
           discord
         </a>
-        .
       </p>
       {typeof error === 'string' && error?.includes('Github') && (
         <span className='underline'>

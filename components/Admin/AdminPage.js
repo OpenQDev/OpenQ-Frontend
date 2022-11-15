@@ -249,18 +249,23 @@ const AdminPage = ({ bounty, refreshBounty }) => {
               </h1>
               <div className='flex flex-col space-y-4 w-full px-8 pt-2'>
                 <h2 className='text-2xl border-b border-gray-700 pb-4'>Modifications</h2>
-                <div className='flex items-center gap-2'>Set a New Budget for this Contract</div>
-                <div className='flex-1 items-center w-full px-4'>
-                  <TokenFundBox
-                    onCurrencySelect={onCurrencySelect}
-                    onVolumeChange={onVolumeChange}
-                    token={token}
-                    volume={volume}
-                  />
-                </div>
-                <button className='btn-default mx-4' type='button' onClick={setBudget}>
-                  Set New Budget
-                </button>
+                {bounty.bountyType !== '2' && bounty.bountyType !== '3' && (
+                  <>
+                    {' '}
+                    <div className='flex items-center gap-2'>Set a New Budget for this Contract</div>
+                    <div className='flex-1 items-center w-full px-4'>
+                      <TokenFundBox
+                        onCurrencySelect={onCurrencySelect}
+                        onVolumeChange={onVolumeChange}
+                        token={token}
+                        volume={volume}
+                      />
+                    </div>
+                    <button className='btn-default mx-4' type='button' onClick={setBudget}>
+                      Set New Budget
+                    </button>
+                  </>
+                )}
 
                 {bounty.bountyType === '2' || bounty.bountyType === '3' ? (
                   <>
