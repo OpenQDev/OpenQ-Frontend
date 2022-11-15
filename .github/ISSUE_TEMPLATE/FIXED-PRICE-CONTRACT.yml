@@ -1,6 +1,6 @@
-name: Atomic Contract
+name: Fixed Price Contract
 description: Contributors can only give you what you need if you can accurately describe what you want!
-title: "[ATOMIC CONTRACT]: "
+title: "[FIXED PRICE CONTRACT]: "
 labels: ["paid"]
 body:
   - type: markdown
