@@ -16,13 +16,13 @@ const BountyStatus = ({ bounty }) => {
     <div className='w-full'>
       <div className='font-semibold text-primary text-base my-3 pr-3'>Status</div>
       <div className='flex flex-row space-x-2 text-primary text-base'>
-        <div className='pt-1.5'>
+        <div className=' pt-1'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             className={`relative bottom-0.5 ${marker.fill}`}
             viewBox='0 0 16 16'
-            width='16'
-            height='16'
+            width='18'
+            height='18'
           >
             <path d='M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z'></path>
             <path
@@ -31,9 +31,7 @@ const BountyStatus = ({ bounty }) => {
             ></path>
           </svg>
         </div>
-        <div className='flex space-x-1'>
-          <div>{marker.status}</div>
-        </div>
+        <div>{marker.status}</div>
       </div>
       <div>
         {bounty ? (

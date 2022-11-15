@@ -1,18 +1,17 @@
 // Third party
-import React, { useState, useContext, useMemo } from 'react';
+import React, { useState, useContext } from 'react';
 import Image from 'next/legacy/image';
 import Skeleton from 'react-loading-skeleton';
 import BountyCardDetailsModal from './BountyCardDetailsModal';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
 import ToolTipNew from '../Utils/ToolTipNew';
 import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
 import ReactGA from 'react-ga4';
-import { ethers } from 'ethers';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
 import LabelsList from '../Bounty/LabelsList';
 import useAuth from '../../hooks/useAuth';
+import useDisplayValue from '../../hooks/useDisplayValue';
 
 const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
   // State
@@ -20,40 +19,10 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
   const [appState] = useContext(StoreContext);
   const [isModal, setIsModal] = useState();
   const [hovered, setHovered] = useState();
-  const [payoutPrice] = useGetTokenValues(bounty?.payout);
-
+  const displayValue = useDisplayValue(bounty, appState.utils.formatter.format);
   const currentDate = Date.now();
   const relativeDeployDay = parseInt((currentDate - bounty?.bountyMintTime * 1000) / 86400000);
-  const createTokenBalances = (bounty) => {
-    return bounty?.bountyTokenBalances;
-  };
-  const tokenBalances = useMemo(() => createTokenBalances(bounty), [bounty.tokenBalances]);
-  const [tokenValues] = useGetTokenValues(tokenBalances);
-  const getPayoutScheduleBalance = (bounty) => {
-    if (bounty.bountyType === '3' && bounty.payoutSchedule) {
-      const totalPayoutsScheduled = bounty.payoutSchedule?.reduce((acc, payout) => {
-        return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
-      });
-      return {
-        volume: totalPayoutsScheduled.toString(),
-        tokenAddress: bounty.payoutTokenAddress,
-      };
-    }
-  };
 
-  const payoutScheduledBalance = useMemo(() => getPayoutScheduleBalance(bounty), [bounty]);
-  const [payoutScheduledValues] = useGetTokenValues(payoutScheduledBalance);
-  const createBudget = (bounty) => {
-    return bounty.fundingGoalTokenAddress
-      ? {
-          tokenAddress: bounty.fundingGoalTokenAddress,
-          volume: bounty.fundingGoalVolume,
-        }
-      : null;
-  };
-  const budgetObj = useMemo(() => createBudget(bounty), [bounty.fundingGoalTokenAddress, bounty.fundingGoalVolume]);
-  const [budgetValue] = useGetTokenValues(budgetObj);
-  const budget = budgetValue?.total;
   const watchingState = useState(bounty.watchingCount);
   const [watchingUsers] = watchingState;
   // Hooks
@@ -108,7 +77,6 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
         watchingState={watchingState}
         closeModal={closeModal}
         showModal={bounty && isModal}
-        tokenValues={tokenValues}
       />
       <div
         onMouseEnter={handleMouseEnter}
@@ -207,67 +175,39 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                   <div className='whitespace-nowrap'>{bountyTypeName}</div>
                 </span>
 
-                {tokenValues?.total >= budget || bounty.status !== '0' ? (
+                {displayValue ? (
                   <div className='flex flex-row space-x-1 w-min items-center'>
                     <div className='pr-2 pt-1 w-4'>
-                      <Image src='/crypto-logos/ETH-COLORED.png' alt='avatarUrl' width='12' height='20' />
+                      <Image
+                        src={displayValue?.imgSrc || '/crypto-logos/ETH.svg'}
+                        alt='avatarUrl'
+                        width='12'
+                        height='20'
+                      />
                     </div>
-                    {bounty.status !== '0' ? (
+                    {displayValue.displayValue ? (
                       <>
-                        <div className='font-semibold '>TVC</div>
-                        <div>{appState.utils.formatter.format(bounty.tvc || payoutPrice?.total || 0)}</div>
+                        <div className='font-semibold '>{displayValue?.valueType}</div>
+                        <div className=''>{displayValue?.displayValue}</div>
                       </>
                     ) : (
                       <>
-                        <div className='font-semibold '>TVL</div>
-                        <div className=''>{appState.utils.formatter.format(tokenValues?.total || 0)}</div>
+                        <div className='font-semibold '>Budget</div>
+                        <div className='flex flex-row space-x-1 items-center'>
+                          <ToolTipNew
+                            innerStyles={'whitespace-normal w-60'}
+                            toolTipText={'No budget has been set for this contract'}
+                          >
+                            <div className='cursor-help p-0.25 rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                              ?
+                            </div>
+                          </ToolTipNew>
+                        </div>
                       </>
                     )}
                   </div>
-                ) : budget > 0 ? (
-                  <>
-                    <div className='flex flex-row space-x-1 w-min items-center'>
-                      <div className='pr-2 w-4 pt-1'>
-                        <Image src='/crypto-logos/ETH.svg' alt='avatarUrl' width='12' height='20' />
-                      </div>
-
-                      <div className='font-semibold '>Budget</div>
-                      <div className=''>{appState.utils.formatter.format(budget)}</div>
-                    </div>
-                  </>
-                ) : payoutScheduledValues?.total ? (
-                  <>
-                    <div className='flex flex-row space-x-1 w-min items-center'>
-                      <div className='pr-2 w-4 pt-1'>
-                        <Image src='/crypto-logos/ETH.svg' alt='avatarUrl' width='12' height='20' />
-                      </div>
-
-                      <div className='font-semibold '>Budget</div>
-                      <div className=''>{appState.utils.formatter.format(payoutScheduledValues?.total)}</div>
-                    </div>
-                  </>
                 ) : (
-                  <div className='flex gap-2'>
-                    <div className='flex flex-row space-x-1 w-min items-center'>
-                      <div className='pr-2 w-4 pt-1'>
-                        <Image src='/crypto-logos/ETH.svg' alt='avatarUrl' width='12' height='20' />
-                      </div>
-
-                      <>
-                        <div className='font-semibold '>Budget</div>
-                      </>
-                    </div>
-                    <div className='flex flex-row space-x-1 items-center'>
-                      <ToolTipNew
-                        innerStyles={'whitespace-normal w-60'}
-                        toolTipText={'No budget has been set for this contract'}
-                      >
-                        <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                          ?
-                        </div>
-                      </ToolTipNew>
-                    </div>
-                  </div>
+                  <Skeleton width={100} baseColor='#333' borderRadius={'1rem'} />
                 )}
               </div>
             </div>

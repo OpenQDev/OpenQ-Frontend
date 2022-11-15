@@ -11,7 +11,7 @@ const SubmissionCard = ({ pr, bounty, refreshBounty }) => {
   const admin = bounty && bounty?.issuer?.id === account?.toLowerCase();
   const author = pr.author;
 
-  const linkedPrize = bounty.claims.filter((claim) => claim.claimantAsset === pr.url)[0];
+  const linkedPrize = bounty?.claims?.filter((claim) => claim.claimantAsset === pr.url)[0];
   return (
     <div className={`min-w-[300px] w-60  border rounded-sm border-border-gray bg-menu-bg `}>
       <div

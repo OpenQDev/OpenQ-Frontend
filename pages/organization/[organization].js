@@ -232,7 +232,7 @@ export const getServerSideProps = async (context) => {
       fullBounties,
       batch,
       renderError,
-      firstCursor: orgMetadata.organization.bounties.bountyConnection.cursor,
+      firstCursor: orgMetadata.organization.bounties.bountyConnection.cursor || null,
       oauthToken,
     },
   };
