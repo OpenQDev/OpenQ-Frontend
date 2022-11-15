@@ -1,43 +1,34 @@
 // Third party
 import Link from 'next/link';
 import React from 'react';
-import useWeb3 from '../../hooks/useWeb3';
-import { StackIcon } from '@primer/octicons-react';
 import Image from 'next/legacy/image';
 import WatchButton from '../WatchButton/WatchButton';
 
-const BountyModalHeading = ({ bounty, closeModal, unWatchable, watchingState }) => {
-  const { safe } = useWeb3();
-
+const BountyModalHeading = ({ bounty, unWatchable, watchingState }) => {
   return (
-    <div className='flex flex-col pr-10 sm:flex-row justify-between px-8 mb-2 p-3'>
-      <div className='flex basis-1/4 flex-col mb-2'>
-        <span>
-          <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/organization/${bounty.owner}`} legacyBehavior>
-            <span className='text-link-colour hover:underline cursor-pointer'>{bounty.owner}</span>
-          </Link>
-          <span className='text-muted'> / {bounty.repoName}</span>
-        </span>
-        <h2 className='text-xl flex-1 leading-tight md:w-96'>
-          <span className='flex text-primary break-word'>{bounty.title} </span>
-          <Link href={bounty.url} className='text-muted text font-light' target='_blank' legacyBehavior>
-            <div>#{bounty.number}</div>
-          </Link>
-        </h2>
-      </div>
-      <div className='min-w-[40px] flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-2'>
-        <Link href={`/contract/${bounty.id}/${bounty.bountyAddress}`} legacyBehavior>
-          <div onClick={closeModal} target={safe ? '_self' : '_blank'} rel='noopener noreferrer'>
-            <div className='flex gap-3 items-center text-xs text-primary bg-inactive-gray leading-5 h-7 whitespace-nowrap px-3 py-[3px] w-fit hover:bg-active-gray rounded-sm border hover:border-border-active border-border-gray'>
-              <StackIcon size={24} />
-              <a className='cursor-pointer'> Full Contract Details</a>
+    <div className='flex'>
+      <div className='flex flex-col sm:flex-row justify-between w-full px-2'>
+        <div className='flex flex-col mb-2 w-full'>
+          <div className='flex items-center gap-2 text-lg w-full'>
+            <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/organization/${bounty.owner}`}>
+              <span className='text-link-colour hover:underline cursor-pointer'>{bounty.owner}</span>
+            </Link>
+            <span className='text-muted'> / {bounty.repoName}</span>
+          </div>
+          <div className='flex-1 leading-tight w-full'>
+            <span className='flex text-primary break-word'>{bounty.title} </span>
+
+            <div className='flex gap-12 mt-1 items-center justify-between sm:justify-start'>
+              <Link href={bounty.url} className='text-muted text font-light' target='_blank'>
+                <div>#{bounty.number}</div>
+              </Link>
+              <WatchButton watchingState={watchingState} unWatchable={unWatchable} bounty={bounty} />
             </div>
           </div>
-        </Link>
-        <WatchButton watchingState={watchingState} unWatchable={unWatchable} bounty={bounty} />
-        <div className='hidden lg:block'>
-          <Image src={bounty.avatarUrl} className='rounded-full' alt='avatarUrl' width='51' height='51' />
         </div>
+      </div>
+      <div className='sm:flex items-center hidden sm:pr-8'>
+        <Image src={bounty.avatarUrl} className='rounded-full' alt='avatarUrl' width='62' height='62' />
       </div>
     </div>
   );

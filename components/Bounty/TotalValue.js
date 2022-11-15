@@ -7,9 +7,9 @@ const TotalValue = ({ bounty }) => {
   const [appState] = useContext(StoreContext);
   const displayValue = useDisplayValue(bounty, appState.utils.formatter.format);
   return (
-    <div className='text-base font-semibold text-primary'>
+    <div className='flex items-center gap-2 py-2 text-base'>
       <>
-        <div>{displayValue?.valueTypeFull || 'Budget'}</div>
+        <div className='text-muted'>{displayValue?.valueTypeFull || 'Budget'}</div>
         <div className='text-sm font-normal'>{displayValue?.displayValue || '$0.00'}</div>
       </>
     </div>
