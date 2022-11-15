@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import ModalDefault from './ModalDefault';
 import { useRouter } from 'next/router';
-import { useWeb3 } from '../../hooks/useWeb3';
+import useWeb3 from '../../hooks/useWeb3';
 import SignIn from '../Authentication/SignIn';
 import StoreContext from '../../store/Store/StoreContext';
 
