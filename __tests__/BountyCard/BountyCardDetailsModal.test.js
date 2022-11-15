@@ -49,7 +49,7 @@ describe('BountyCardDetailsModal', () => {
       }
       const link = await screen.findAllByText(/Full Contract/i);
       expect(link[0]).toBeInTheDocument();
-      expect(screen.getAllByText(/Smart Contract/)).toHaveLength(2);
+      expect(screen.getByText(/Smart Contract/)).toBeInTheDocument();
 
       // should not have null or undefined values
       const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];

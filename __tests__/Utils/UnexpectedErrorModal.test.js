@@ -35,18 +35,18 @@ describe('Error Modal', () => {
   it('should link to homepage.', async () => {
     // ARRANGE
     render(<UnexpectedErrorModal error={"I don't like bacon"} />);
-    const anchorTag = await screen.findByRole('link');
+    const anchorTag = await screen.findAllByRole('link');
     const githubLink = screen.queryByText(/github status/i);
     // ASSERT
-    expect(screen.getByText("Sorry, something went wrong. I don't like bacon"));
+    expect(await screen.findByText("Error: I don't like bacon"));
     expect(githubLink).not.toBeInTheDocument();
-    expect(anchorTag.href).toMatch(/localhost/);
+    expect(anchorTag[0].href).toMatch(/DISCORD/i);
   });
   it('should link to github.', async () => {
     // ARRANGE
     render(<UnexpectedErrorModal error={"I don't like Githubs bacon"} />);
     // ASSERT
-    expect(screen.getByText("Sorry, something went wrong. I don't like Githubs bacon"));
+    expect(await screen.findByText("Error: I don't like Githubs bacon"));
     await screen.findAllByRole('link');
     const githubLink = screen.getByText(/github status/i);
     expect(githubLink.href).toMatch(/github/);
