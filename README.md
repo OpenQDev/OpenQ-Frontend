@@ -2,7 +2,7 @@
  
 ## Boot Locally
 
-If the work you are engaged in doesn't require the Fullstack, you can boot just the OpenQ-Frontend by following these instructions:
+If the work you are engaged in doesn't require the Fullstack, you can boot just the OpenQ-Frontend by following these instructions. We normally work on the 'staging' branch, so make sure have all latest changes from it and do your Pull Requests to 'staging' unless instructed otherwise.
 
 ### 1 Get a GitHub Personal Access Token (PAT)
 
@@ -31,7 +31,7 @@ yarn json-server
 ### 4 Boot the App
 
 ```bash
-yarn boot:local
+yarn boot:local-targeting-staging
 ```
 
 ### 5 Access OpenQ on http://localhost:3000
