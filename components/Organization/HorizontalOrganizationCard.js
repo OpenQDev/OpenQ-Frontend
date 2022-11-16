@@ -1,6 +1,6 @@
 // Third party
 import React, { useContext, useEffect, useState } from 'react';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import Link from 'next/link';
 import StoreContext from '../../store/Store/StoreContext';
 import starOrganization from './starOrganization';
@@ -55,7 +55,7 @@ const HorizontalOrganizationCard = ({ organization }) => {
       </div>
       <div>
         <h2 className='text-xl mt-1 leading-tight text-primary hover:text-link-colour cursor-pointer'>
-          <Link href={`/organization/${organization.login}`} legacyBehavior>
+          <Link href={`/organization/${organization.login}`}>
             <span> {organization.name || organization.login}</span>
           </Link>
         </h2>

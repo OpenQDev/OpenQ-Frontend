@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import chainIdDeployEnvMap from '../../components/WalletConnect/chainIdDeployEnvMap';
 import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
 

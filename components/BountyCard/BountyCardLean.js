@@ -1,6 +1,6 @@
 // Third party
 import React, { useState, useContext } from 'react';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import Skeleton from 'react-loading-skeleton';
 import BountyCardDetailsModal from './BountyCardDetailsModal';
 import ToolTipNew from '../Utils/ToolTipNew';

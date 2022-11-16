@@ -18,11 +18,7 @@ const RepoTitle = ({ bounty }) => {
         <div className='text-xl'>
           {bounty.owner && (
             <span>
-              <Link
-                href={`${process.env.NEXT_PUBLIC_BASE_URL}/organization/${bounty.owner}`}
-                data-testid='repo'
-                legacyBehavior
-              >
+              <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/organization/${bounty.owner}`} data-testid='repo'>
                 <span className='text-link-colour hover:underline cursor-pointer'>{bounty.owner}</span>
               </Link>
               <span className='text-muted'> / {bounty.repoName}</span>

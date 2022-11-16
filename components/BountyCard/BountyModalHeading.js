@@ -1,7 +1,7 @@
 // Third party
 import Link from 'next/link';
 import React from 'react';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import WatchButton from '../WatchButton/WatchButton';
 
 const BountyModalHeading = ({ bounty, unWatchable, watchingState }) => {

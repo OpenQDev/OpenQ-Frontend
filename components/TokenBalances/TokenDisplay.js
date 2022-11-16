@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 
 const TokenDisplay = ({ token, onSelect, showCursor }) => {
   return (
@@ -9,8 +9,8 @@ const TokenDisplay = ({ token, onSelect, showCursor }) => {
           src={token.logoURI || token.path || '/crypto-logos/ERC20.svg'}
           className='rounded-full'
           alt='n/a'
-          width='25%'
-          height='25%'
+          width={24}
+          height={24}
         />
       </div>
       <div className='flex flex-col'>

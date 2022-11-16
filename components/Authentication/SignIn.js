@@ -35,12 +35,7 @@ const SignIn = ({ redirectUrl }) => {
     >
       <div className='flex flex-row items-center justify-center space-x-3'>
         <div className='h-4 w-4 md:h-6 md:w-6 relative'>
-          <Image
-            src='/social-icons/github-logo-white.svg'
-            alt='Picture of the author'
-            layout='fill'
-            objectFit='cover'
-          />
+          <Image src='/social-icons/github-logo-white.svg' alt='Picture of the author' width={24} height={24} />
         </div>
         <div>Sign In</div>
       </div>

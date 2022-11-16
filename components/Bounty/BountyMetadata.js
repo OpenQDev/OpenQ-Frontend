@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 
 import LabelsList from './LabelsList';
 import CopyBountyAddress from './CopyBountyAddress';
@@ -211,7 +211,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
           </li>
         )}
         <li className='border-b border-web-gray py-3 text sm'>
-          <Link href={`https://polygonscan.com/address/${bounty.bountyAddress}`} legacyBehavior>
+          <Link href={`https://polygonscan.com/address/${bounty.bountyAddress}`}>
             <div className='text-xs font-semibold  cursor-pointer text-muted'>Polygonscan</div>
           </Link>
           {bounty.bountyAddress && <CopyBountyAddress styles='text-sm pt-2' address={bounty.bountyAddress} />}
@@ -228,7 +228,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
                   if (pr.source['__typename'] === 'PullRequest' && pr.source.url) {
                     return (
                       <li className='text-sm text-primary' key={index}>
-                        <Link href={pr.source.url} target='_blank' legacyBehavior>
+                        <Link href={pr.source.url} target='_blank'>
                           <span className={'underline cursor-pointer'}>{pr.source.title}</span>
                         </Link>
                         <span>{pr.source.merged ? ' (merged)' : ' (not merged)'}</span>

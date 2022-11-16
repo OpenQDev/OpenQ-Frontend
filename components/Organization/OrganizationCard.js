@@ -1,7 +1,7 @@
 // Third party
 import React, { useEffect, useContext, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import Skeleton from 'react-loading-skeleton';
 
 // Custom
@@ -70,7 +70,7 @@ const OrganizationCard = ({ organization }) => {
   // Render
   return (
     <div className={`min-w-[300px] w-60 ${!starred ? 'hidden' : null}`}>
-      <Link href={`/organization/${organization.login}`} legacyBehavior>
+      <Link href={`/organization/${organization.login}`}>
         <div
           className={
             'flex flex-col p-6 items-center cursor-pointer text-[0.8rem] tracking-wider placeholder-input-gray outline-none rounded-sm border border-border-gray bg-menu-bg w-full h-72 mb-1'
@@ -103,7 +103,8 @@ const OrganizationCard = ({ organization }) => {
                   placeholder={'blur'}
                   blurDataURL={'/diverse/placeholder-px.png'}
                   alt='n/a'
-                  layout='fill'
+                  width={64}
+                  height={64}
                   priority={true}
                 />
               ) : (

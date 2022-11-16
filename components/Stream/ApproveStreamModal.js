@@ -6,7 +6,7 @@ import { ethers } from 'ethers';
 // Custom
 import { CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveTransferState';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
 import StoreContext from '../../store/Store/StoreContext';
@@ -132,7 +132,7 @@ const ApproveStreamModal = ({
                 <p className='break-words'>{message[approveTransferState]}</p>
                 {link[approveTransferState] && (
                   <p className='break-all underline'>
-                    <Link href={link[approveTransferState]} target={'_blank'} rel='noopener noreferrer' legacyBehavior>
+                    <Link href={link[approveTransferState]} target={'_blank'} rel='noopener noreferrer'>
                       <>
                         {linkText[approveTransferState] || link[approveTransferState]}
                         <LinkText />
@@ -169,7 +169,6 @@ const ApproveStreamModal = ({
                     target={'_blank'}
                     className='underline'
                     rel='noopener noreferrer'
-                    legacyBehavior
                   >
                     <>
                       {transactionHash.slice(0, 5)}. . .{transactionHash.slice(62)}

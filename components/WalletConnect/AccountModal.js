@@ -68,7 +68,7 @@ const AccountModal = ({ chainId, account, ensName, setIsConnecting, domRef, isSa
               <SignOutIcon className='w-4 h-4 ml-2 ' />
               <span>Disconnect</span>
             </button>
-            <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/user/${account}`} className='' legacyBehavior>
+            <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/user/${account}`} className=''>
               <div
                 data-testid='link'
                 className='flex md:hover:bg-[#1f6feb] h-8 items-center w-full cursor-pointer hover:text-white text-[#c9d1d9] self-start gap-4 p-2 mb-2'

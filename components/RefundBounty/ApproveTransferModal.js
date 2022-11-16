@@ -7,7 +7,7 @@ import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Link from 'next/link';
 import LinkText from '../svg/linktext';
 import ModalDefault from '../Utils/ModalDefault';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
@@ -180,7 +180,6 @@ const ApproveTransferModal = ({
                 target={'_blank'}
                 className='underline'
                 rel='noopener noreferrer'
-                legacyBehavior
               >
                 <>
                   {transactionHash.slice(0, 5)}. . .{transactionHash.slice(62)}

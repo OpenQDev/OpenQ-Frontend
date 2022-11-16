@@ -1,7 +1,7 @@
 // Third party
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 
 import Twitter from '../svg/twitter';
 
@@ -22,13 +22,7 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
         <div className='flex border-b border-web-gray py-3 gap-2'>
           <div className='font-semibold text-muted'>Linked Closing Transaction</div>
           <div className='flex gap-1 text-primary'>
-            <Link
-              href={url}
-              target={'_blank'}
-              rel='noopener norefferer'
-              className='flex items-center gap-1 underline'
-              legacyBehavior
-            >
+            <Link href={url} target={'_blank'} rel='noopener norefferer' className='flex items-center gap-1 underline'>
               <>
                 <div id={'bounty-link'} className='flex cursor-pointer items-center'>
                   <Image src='/BountyMaterial/polyscan-white.png' width={18} height={18} />
@@ -47,7 +41,6 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
               className='hover:scale-105 animate-single-bounce duration-100'
               target='_blank'
               rel='noopener noreferrer'
-              legacyBehavior
             >
               <Twitter />
             </Link>
