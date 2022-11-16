@@ -59,8 +59,8 @@ const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch, alon
                 src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'}
                 className='rounded-sm'
                 alt='n/a'
-                width='40%'
-                height='40%'
+                width={40}
+                height={40}
               />
             </div>
           </div>

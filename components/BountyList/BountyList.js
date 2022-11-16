@@ -9,11 +9,9 @@ import MintBountyButton from '../MintBounty/MintBountyButton';
 import Carousel from '../Utils/Carousel';
 import CarouselBounty from '../Bounty/CarouselBounty';
 import useWeb3 from '../../hooks/useWeb3';
-import searchFoundInText from './searchHelpers/searchFoundInText';
-import searchFoundInLabels from './searchHelpers/searchFoundInLabels';
-import searchTagInBounty from './searchHelpers/searchTagInBounty';
 import SmallToggle from '../Utils/SmallToggle';
 import { useRouter } from 'next/router';
+import filterBounties from './searchHelpers/filterBounties';
 import StoreContext from '../../store/Store/StoreContext';
 
 const BountyList = ({
@@ -43,8 +41,8 @@ const BountyList = ({
 
   // Hooks
   const { account } = useWeb3();
-  const [appState] = useContext(StoreContext);
   const router = useRouter();
+  const [appState] = useContext(StoreContext);
   const [searchText, updateSearchText] = useState(
     `order:newest ${router.query.type ? `type:"${router.query.type}"` : ''}`
   );
@@ -56,7 +54,6 @@ const BountyList = ({
   const [labels, setLabels] = useState([]);
   const [currentContractTypes, setCurrentContractTypes] = useState([]);
   const [currentOrder, setCurrentOrder] = useState(['newest']);
-  const searchRegex = /label:"[^"]+"/gi;
   const contractTypeRegex = /type:"[^"]+"/gi;
   const orderRegex = /order:(\w+)/gi;
   let observer = useRef();
@@ -94,10 +91,29 @@ const BountyList = ({
     }
   };
 
+  const filterWithOptions = (bounties, options) => {
+    return filterBounties(
+      bounties,
+      options,
+      tagArr,
+      searchText,
+      isReady,
+      contractTypeRegex,
+      setCurrentSearchedLabels,
+      setCurrentContractTypes,
+      orderRegex,
+      account,
+      fetchPage,
+      complete,
+      appState,
+      router
+    );
+  };
+
   useEffect(() => {
     if (bounties) {
       updateIsProcessed(false);
-      updateSearchedBounties(orderBounties(filter(bounties), true));
+      updateSearchedBounties(orderBounties(filterWithOptions(bounties), true));
       updateIsProcessed(true);
 
       const labels =
@@ -119,90 +135,6 @@ const BountyList = ({
     }
   }, [bounties]);
   // NOTE tag search doesn't turn off regular search, it just manages it a little differently.
-
-  const filter = (bounties, options = {}) => {
-    const localTagArr = options.tagArr || tagArr;
-    const localSearchText = options.searchText === undefined ? searchText : options.searchText;
-    const localIsReady = options.isReady === undefined ? isReady : options.isReady;
-
-    const searchedLabelsWrapped = localSearchText.match(searchRegex) || [];
-    const contractsTypesWrapped = localSearchText.match(contractTypeRegex) || [];
-    const searchedLabels = searchedLabelsWrapped.map((elem) => elem.slice(7, -1));
-    setCurrentSearchedLabels(searchedLabels);
-    const contractType = contractsTypesWrapped.map((elem) => elem.slice(6, -1))[0];
-    setCurrentContractTypes([contractType]);
-    let types = ['0', '1', '2', '3'];
-
-    switch (contractType) {
-      case 'Fixed Price':
-        types = ['0'];
-        break;
-      case 'Contest':
-        types = ['2', '3'];
-        break;
-      case 'Split Price':
-        types = ['1'];
-        break;
-    }
-
-    const displayBounties = bounties.filter((bounty) => {
-      const hasLabels =
-        searchedLabels.some((searchedLabel) =>
-          bounty.labels.some((bountyLabel) => bountyLabel.name === searchedLabel)
-        ) || searchedLabels.length === 0;
-
-      const isType = types.some((type) => type === bounty.bountyType);
-      const isNonProfit = router.query.type === 'non-profit' ? bounty.category === 'non-profit' : true;
-      let containsSearch = true;
-
-      try {
-        // Simple search
-        let lowerCaseSearch = localSearchText
-          .replace(searchRegex, '')
-          .toLowerCase()
-          .replace(orderRegex, '')
-          .replace(contractTypeRegex, '')
-          .trim();
-        const isFoundInText = searchFoundInText(bounty.title, bounty.body, lowerCaseSearch);
-        const isFoundInLabels = searchFoundInLabels(bounty, lowerCaseSearch);
-        const emptySearchText = localSearchText.length === 0;
-        containsSearch = isFoundInText || isFoundInLabels || emptySearchText;
-
-        // Tags
-        const containsTag = searchTagInBounty(bounty, localTagArr);
-        // Check based filters
-        const isUnclaimed = bounty.status === '0';
-        const isFunded = bounty?.deposits?.some((deposit) => {
-          return !deposit.refunded;
-        });
-        const isOpenOnGithub = !bounty.closed;
-        const hasBudget = bounty.fundingGoalVolume > 0;
-        const isAssigned = bounty.assignees?.length > 0;
-        const nonProfit = bounty.category === 'non-profit';
-
-        // some auto generated bounties show up as funded but don't display anything, that's because they are funded at really low values.
-        // Combine
-        return (
-          containsSearch &&
-          containsTag &&
-          (((hasBudget || isFunded || nonProfit) && isUnclaimed && !isAssigned && isOpenOnGithub) ||
-            localIsReady === 'All issues') &&
-          hasLabels &&
-          bounty.url &&
-          !bounty.blacklisted &&
-          isType &&
-          isNonProfit
-        );
-      } catch (err) {
-        appState.logger.error(err, account, undefined, 'bountylist1');
-      }
-    });
-
-    if (displayBounties.length === 0 && !complete) {
-      fetchPage();
-      return [];
-    } else return displayBounties;
-  };
 
   // Orders bounties
   const orderBounties = (bounties = [], firstLoad, changed, newOrder) => {
@@ -260,28 +192,30 @@ const BountyList = ({
       newSearch = `${searchText} ${`order:${toggleTo}`}`;
     }
     updateSearchText(newSearch);
-    updateSearchedBounties(orderBounties(filter(searchedBounties, {}), false, true, toggleTo));
+    updateSearchedBounties(orderBounties(filterWithOptions(searchedBounties, {}), false, true, toggleTo));
   };
 
   const handleSearchInput = (e) => {
     updateSearchText(e.target.value);
-    updateSearchedBounties(orderBounties(filter(bounties, { searchText: e.target.value })));
+    updateSearchedBounties(orderBounties(filterWithOptions(bounties, { searchText: e.target.value })));
   };
   const addLabel = (label) => {
     if (!searchText.includes(`${searchText} label:"${label}"`)) {
       updateSearchText(`${searchText.trimEnd()} label:"${label}"`);
-      updateSearchedBounties(orderBounties(filter(bounties, { searchText: `${searchText} label:"${label}"` })));
+      updateSearchedBounties(
+        orderBounties(filterWithOptions(bounties, { searchText: `${searchText} label:"${label}"` }))
+      );
     } else {
       updateSearchText(`${searchText.replace(`label:"${label}"`, '').trimEnd()} `);
       updateSearchedBounties(
-        orderBounties(filter(bounties, { searchText: `${searchText.replace(`label:"${label}"`, '')}` }))
+        orderBounties(filterWithOptions(bounties, { searchText: `${searchText.replace(`label:"${label}"`, '')}` }))
       );
     }
   };
   const handleRemoveLabel = (label) => {
     updateSearchText(`${searchText.replace(`label:"${label}"`, '').trimEnd()} `);
     updateSearchedBounties(
-      orderBounties(filter(bounties, { searchText: `${searchText.replace(`label:"${label}"`, '')}` }))
+      orderBounties(filterWithOptions(bounties, { searchText: `${searchText.replace(`label:"${label}"`, '')}` }))
     );
   };
 
@@ -293,7 +227,7 @@ const BountyList = ({
     updateSearchText(newSearch);
     updateSearchedBounties(
       orderBounties(
-        filter(bounties, {
+        filterWithOptions(bounties, {
           searchText: `${searchText.replace(contractTypeRegex, '')} type:"${type}"`,
         })
       )
@@ -305,7 +239,7 @@ const BountyList = ({
     updateSearchText(newSearch);
     updateSearchedBounties(
       orderBounties(
-        filter(bounties, {
+        filterWithOptions(bounties, {
           searchText: `${searchText.replace(contractTypeRegex, '')} `,
         })
       )
@@ -314,7 +248,7 @@ const BountyList = ({
 
   const showUnready = (toggleVal) => {
     setIsReady(toggleVal);
-    updateSearchedBounties(orderBounties(filter(bounties, { isReady: toggleVal })));
+    updateSearchedBounties(orderBounties(filterWithOptions(bounties, { isReady: toggleVal })));
   };
 
   /* const filterByL2e = ()=>{
@@ -325,7 +259,7 @@ const BountyList = ({
   const removeTag = (e) => {
     const newTagArr = tagArr.filter((tag) => tag !== e.target.value);
     updateTagArr(newTagArr);
-    updateSearchedBounties(orderBounties(filter(bounties, { tagArr: newTagArr })));
+    updateSearchedBounties(orderBounties(filterWithOptions(bounties, { tagArr: newTagArr })));
   };
 
   const lastElem = useCallback((node) => {

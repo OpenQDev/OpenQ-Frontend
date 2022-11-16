@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TokenSearch from './TokenSearch';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 
 const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume, placeholder, label, styles }) => {
   const [showTokenSearch, setShowTokenSearch] = useState(false);
@@ -27,8 +27,8 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume, placeho
               src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'}
               className='rounded-full'
               alt='n/a'
-              width='40%'
-              height='40%'
+              width={40}
+              height={40}
             />
           </div>
           <div className='flex pl-2 pr-1 text-primary'>{token.symbol}</div>

@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import axios from 'axios';
 // Custom
 import AuthContext from '../../store/AuthStore/AuthContext';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 
 const SignOut = ({ propicUrl }) => {
   const [, setAuthState] = useContext(AuthContext);
@@ -34,8 +34,8 @@ const SignOut = ({ propicUrl }) => {
           <Image
             src={propicUrl || '/social-icons/github-logo-white.svg'}
             alt='Picture of the author'
-            layout='fill'
-            objectFit='cover'
+            width={24}
+            height={24}
             className={'rounded-full'}
           />
         </div>

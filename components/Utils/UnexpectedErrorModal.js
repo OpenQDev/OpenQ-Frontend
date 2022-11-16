@@ -42,7 +42,7 @@ const UnexpectedErrorModal = ({ error }) => {
       rel='noopener noreferrer'
     >
       <div data-testid='link' className='flex items-center gap-2'>
-        <Image src={'/social-icons/discord.svg'} width={24} height={24} />
+        <Image src={'/social-icons/discord.svg'} width={24} height={24} alt='discord icon' />
         Get Help!
       </div>
     </a>
