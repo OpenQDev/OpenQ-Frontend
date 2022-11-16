@@ -151,8 +151,6 @@ const BountyList = ({
           bounty.labels.some((bountyLabel) => bountyLabel.name === searchedLabel)
         ) || searchedLabels.length === 0;
 
-      const isType = types.some((type) => type === bounty.bountyType);
-      const isNonProfit = router.query.type === 'non-profit' ? bounty.category === 'non-profit' : true;
       let containsSearch = true;
 
       try {
@@ -170,29 +168,45 @@ const BountyList = ({
 
         // Tags
         const containsTag = searchTagInBounty(bounty, localTagArr);
-        // Check based filters
-        const isUnclaimed = bounty.status === '0';
-        const isFunded = bounty?.deposits?.some((deposit) => {
-          return !deposit.refunded;
-        });
-        const isOpenOnGithub = !bounty.closed;
-        const hasBudget = bounty.fundingGoalVolume > 0;
-        const isAssigned = bounty.assignees?.length > 0;
-        const nonProfit = bounty.category === 'non-profit';
+
+        //if non-profit type selected in search, make sure bounties filtered per 'non-profit' category, otherwise neglect ('true')
+        const isNonProfitType = router.query.type === 'non-profit' ? bounty.category === 'non-profit' : true;
+        const isBountyType = types.some((type) => type === bounty.bountyType);
+
+        // Criteria: to be respected at all time:
+        // => Bounty must contain the searched terms, tags, github labels, and selected bounty type(s)
+        // => Bounty must have a valid url and not be blacklisted
+        const overallCriteria =
+          containsSearch &&
+          containsTag &&
+          hasLabels &&
+          isBountyType &&
+          isNonProfitType &&
+          bounty.url &&
+          !bounty.blacklisted;
+
+        // Criteria: TVL or Budget condition:
+        // => Bounty must have a Budget, or a Total Value locked, or neither if it is a non-profit bounty
+        const meetsFundsCriteria =
+          bounty.fundingGoalVolume > 0 ||
+          bounty?.deposits?.some((deposit) => {
+            return !deposit.refunded;
+          }) ||
+          bounty.category === 'non-profit';
+
+        // Criteria: Must still be open:
+        // => Bounty must still be open on OpenQ, unassigned and the issue must still be open on Github
+        const isStillOpen = bounty.status === '0' && bounty.assignees?.length == 0 && !bounty.closed;
+
+        // Criteria: 'All Issues' or 'Ready For Work' selection:
+        // => show all issues when selected 'All issues' or else, if 'Ready for work', meet the funds criteria and be still open.
+        const readyOrAllIssues = localIsReady === 'All issues' || (meetsFundsCriteria && isStillOpen);
 
         // some auto generated bounties show up as funded but don't display anything, that's because they are funded at really low values.
         // Combine
-        return (
-          containsSearch &&
-          containsTag &&
-          (((hasBudget || isFunded || nonProfit) && isUnclaimed && !isAssigned && isOpenOnGithub) ||
-            localIsReady === 'All issues') &&
-          hasLabels &&
-          bounty.url &&
-          !bounty.blacklisted &&
-          isType &&
-          isNonProfit
-        );
+
+        // All criteria to filter issues on 'Ready for Work' or 'All Issues':
+        return overallCriteria && readyOrAllIssues;
       } catch (err) {
         appState.logger.error(err, account, undefined, 'bountylist1');
       }
