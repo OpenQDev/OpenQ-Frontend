@@ -24,7 +24,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
   };
   const payoutBalances = useMemo(() => createPayout(bounty), [bounty]);
   const [payoutValues] = useGetTokenValues(payoutBalances);
-  const budgetValues = useDisplayValue(bounty, appState.utils.formatter.format, 'budget', 'side');
+  const budgetValues = useDisplayValue(bounty, appState.utils.formatter.format, 'budget');
   const actualValues = useDisplayValue(bounty, appState.utils.formatter.format, 'actual');
   const getFundsNeeded = (bounty) => {
     const { BigNumber } = ethers;
