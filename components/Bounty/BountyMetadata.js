@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/legacy/image';
 
@@ -13,6 +13,7 @@ import useDisplayValue from '../../hooks/useDisplayValue';
 
 const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
   const [appState] = useContext(StoreContext);
+  const [fundsNeeded, setFundsNeeded] = useState();
   const createPayout = (bounty) => {
     return bounty.payoutTokenVolume
       ? {
@@ -27,28 +28,27 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
   const actualValues = useDisplayValue(bounty, appState.utils.formatter.format, 'actual');
   const getFundsNeeded = (bounty) => {
     const { BigNumber } = ethers;
-    if (!bounty.fundingGoalVolume) {
+    if (bounty.fundingGoalVolume) {
       const { fundingGoalTokenAddress, fundingGoalVolume } = bounty;
       const bigNumberBudgetnVolume = BigNumber.from(fundingGoalVolume);
       const token = bounty.bountyTokenBalances?.find((token) => token.tokenAddress === fundingGoalTokenAddress);
-
-      const bigNumberTokenVolume = BigNumber.from(token.volume);
+      const bigNumberTokenVolume = BigNumber.from(token?.volume || 0);
 
       const bigNumberVolumeNeeded = bigNumberBudgetnVolume.sub(bigNumberTokenVolume);
 
       // number from bignumber
       const volumeNeeded = bigNumberVolumeNeeded.toString();
-
       const tokenMetadata = appState.tokenClient.getToken(fundingGoalTokenAddress);
       let decimals = parseInt(tokenMetadata.decimals) || 18;
       let formattedVolume = ethers.utils.formatUnits(volumeNeeded, decimals);
       return { volume: formattedVolume, symbol: tokenMetadata.symbol };
-    } else {
+    } else if (bounty.payoutTokenAddress) {
       const bigNumberBudgetnVolume = bounty.payoutSchedule.reduce((accum, payout) => {
         return BigNumber.from(payout).add(accum);
       }, BigNumber.from(0));
 
       const token = bounty.bountyTokenBalances?.find((token) => token.tokenAddress === bounty.payoutTokenAddress);
+
       const bigNumberTokenVolume = BigNumber.from(token?.volume || 0);
 
       const bigNumberVolumeNeeded = bigNumberBudgetnVolume.sub(bigNumberTokenVolume);
@@ -63,8 +63,10 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
     }
   };
 
-  const fundsNeeded = getFundsNeeded(bounty);
-  // number from bignumber
+  useEffect(() => {
+    const fundsNeeded = getFundsNeeded(bounty);
+    setFundsNeeded(fundsNeeded);
+  }, [bounty]);
 
   let type = 'Fixed Price';
 
@@ -112,11 +114,12 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
         <div className='text-xs font-semibold text-muted'>🎯 Current Target Budget</div>
         <div className='text-xs font-semibold text-primary pt-2'>{budgetValues?.displayValue || '$0.00'}</div>
       </li>
-      {parseFloat(fundsNeeded.volume) > 0 && (
+      {fundsNeeded && parseFloat(fundsNeeded.volume) > 0 && (
         <li className='border-b border-web-gray py-3'>
           <div className='text-xs font-semibold text-muted'>Insolvent</div>
           <div className='text-xs font-semibold text-primary pt-2'>
-            Funder still needs to add {fundsNeeded.volume} {fundsNeeded.symbol} to match the budget.
+            Funder still needs to add {fundsNeeded.volume} {fundsNeeded.symbol} to match the {fundsNeeded.symbol}{' '}
+            budget.
           </div>
         </li>
       )}
