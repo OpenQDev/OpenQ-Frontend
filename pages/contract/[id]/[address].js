@@ -330,7 +330,7 @@ export const getServerSideProps = async (context) => {
     issueData = await githubRepository.instance.fetchIssueById(id);
   } catch (err) {
     logger.error(err);
-    renderError = 'OpenQ could not find the issue connected to this to contract on Github.';
+    renderError = JSON.stringify(err);
   }
   try {
     bounty = await openQSubgraphClient.instance.getBounty(address, 'no-cache');
