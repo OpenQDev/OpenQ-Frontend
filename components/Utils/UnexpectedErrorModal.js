@@ -11,6 +11,7 @@ const UnexpectedErrorModal = ({ error }) => {
   const [loginModal, setLoginModal] = useState(false);
   const { account } = useWeb3();
   const [appState] = useContext(StoreContext);
+  appState.logger.error(error, account);
   useEffect(() => {
     let parsedError;
     try {
@@ -20,7 +21,7 @@ const UnexpectedErrorModal = ({ error }) => {
     }
 
     setCurrentError(parsedError?.message || error || currentError);
-    if (error.includes('github') && error.includes('401')) {
+    if (JSON.stringify(error).includes('github') && error.includes('401')) {
       setLoginModal(true);
     }
   }, []);
