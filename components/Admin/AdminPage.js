@@ -249,7 +249,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
               </h1>
               <div className='flex flex-col space-y-4 w-full px-8 pt-2'>
                 <h2 className='text-2xl border-b border-gray-700 pb-4'>Modifications</h2>
-                {bounty.bountyType !== '2' && bounty.bountyType !== '3' && (
+                {bounty.bountyType !== '3' && (
                   <>
                     {' '}
                     <div className='flex items-center gap-2'>Set a New Budget for this Contract</div>
