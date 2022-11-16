@@ -343,7 +343,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
       rel='noreferrer'
     >
       <>
-        <Image src={'/social-icons/github-logo-white.svg'} width={24} height={24} />
+        <Image src={'/social-icons/github-logo-white.svg'} width={24} height={24} alt='github-logo' />
         Contract source code
       </>
     </a>

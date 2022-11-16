@@ -10,6 +10,7 @@ const OrganizationHeader = ({ organizationData }) => {
           height={100}
           className='bg-active-gray rounded-sm  w-20 h-20'
           src={organizationData.avatarUrl}
+          alt='avatar'
         />
       </div>
       <div className='flex-1 self-center'>

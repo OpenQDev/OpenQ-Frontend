@@ -155,6 +155,7 @@ const ApproveStreamModal = ({
                       width={24}
                       className='inline'
                       height={24}
+                      alt='crypto-logo'
                       src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'}
                     />
                     <span> {token.symbol}</span>

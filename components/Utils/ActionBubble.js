@@ -175,7 +175,7 @@ const ActionBubble = ({ bounty, action }) => {
             {' '}
             <ToolTipNew toolTipText={name} relativePosition={'-left-2'} outerStyles={'relative bottom-2'}>
               <>
-                <Image className='rounded-full' height={36} width={36} src={avatarUrl} />
+                <Image className='rounded-full' height={36} width={36} src={avatarUrl} alt='avatar' />
               </>
             </ToolTipNew>
           </>

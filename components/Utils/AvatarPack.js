@@ -16,7 +16,7 @@ const AvatarPack = ({ avatars }) => {
                 <div className='h-8 w-8 rounded-full bg-black cursor-pointer overflow-hidden position relative hover:z-10 z-0 hover:border-gray-700 hover:border border border-transparent'>
                   <Link href={avatar.url} target='_blank' rel='noopener noreferrer'>
                     <div data-testid='link'>
-                      <Image height={32} width={32} src={avatar.avatarUrl} />
+                      <Image height={32} width={32} src={avatar.avatarUrl} alt='avatar' />
                     </div>
                   </Link>
                 </div>

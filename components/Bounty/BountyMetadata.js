@@ -196,7 +196,13 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
             {bounty.assignees.map((assignee, index) => {
               return (
                 <div key={index} className='flex gap-2 py-3'>
-                  <Image className='rounded-lg inline-block py-4' height={24} width={24} src={assignee.avatarUrl} />
+                  <Image
+                    className='rounded-lg inline-block py-4'
+                    height={24}
+                    width={24}
+                    src={assignee.avatarUrl}
+                    alt='Image of the assignee'
+                  />
                   <div className='inline-block text-xs pt-1 font-semibold'>{assignee.name}</div>
                 </div>
               );

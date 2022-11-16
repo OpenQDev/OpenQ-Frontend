@@ -121,6 +121,7 @@ const AdminModal = ({ setModal, modal, bounty, payoutTokenAddress }) => {
               <div>{modal.type} set to:</div>
               <div className='flex gap-2'>
                 <Image
+                  alt='crypto-logo'
                   width={24}
                   className='inline'
                   height={24}

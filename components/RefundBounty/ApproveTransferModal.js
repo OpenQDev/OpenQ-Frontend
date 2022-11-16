@@ -146,6 +146,7 @@ const ApproveTransferModal = ({
               width={20}
               className='inline'
               height={20}
+              alt='crypto-logo'
               src={tokenMetadata.path || tokenMetadata.logoURI || '/crypto-logos/ERC20.svg'}
             />
             <span>
