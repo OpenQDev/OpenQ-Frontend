@@ -92,7 +92,7 @@ const BountyList = ({
   };
 
   const filterWithOptions = (bounties, options) => {
-    filterBounties(
+    return filterBounties(
       bounties,
       options,
       tagArr,
