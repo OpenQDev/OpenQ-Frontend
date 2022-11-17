@@ -120,7 +120,12 @@ const ContractWizard = ({ wizardVisibility, refreshBounties }) => {
             </h3>
             <div className='flex items-center gap-2 pt-4'>
               {text(type)[0]}
-              <ToolTipNew innerStyles={'whitespace-normal w-60'} toolTipText={text(type)[1]}>
+              <ToolTipNew
+                relativePosition={'-right-5'}
+                outerStyles={'relative bottom-1'}
+                innerStyles={'whitespace-normal w-60'}
+                toolTipText={text(type)[1]}
+              >
                 <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
                   ?
                 </div>

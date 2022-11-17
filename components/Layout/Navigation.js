@@ -6,7 +6,7 @@ import ReactGA from 'react-ga4';
 import StoreContext from '../../store/Store/StoreContext.js';
 import ConnectButton from '../WalletConnect/ConnectButton.js';
 import ProfilePicture from './ProfilePicture.js';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import FirstTimeBanner from './FirstTimeBanner';
 import useWeb3 from '../../hooks/useWeb3.js';
 import { QuestionIcon, ThreeBarsIcon } from '@primer/octicons-react';

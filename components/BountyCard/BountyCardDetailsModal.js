@@ -92,7 +92,7 @@ const BountyCardDetailsModal = ({ bounty, closeModal, showModal, unWatchable, wa
                       if (pr.source?.['__typename'] === 'PullRequest' && pr.source?.url) {
                         return (
                           <li className='text-sm text-primary' key={index}>
-                            <Link href={pr.source.url} target='_blank' className={'underline'} legacyBehavior>
+                            <Link href={pr.source.url} target='_blank' className={'underline'}>
                               {pr.source.title}
                             </Link>
                             <span>{pr.source.merged ? ' (merged)' : ' (not merged)'}</span>

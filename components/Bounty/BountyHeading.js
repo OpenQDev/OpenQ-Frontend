@@ -1,7 +1,7 @@
 // Third Party
 import React, { useContext } from 'react';
 import Link from 'next/link';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 // Custom
 import MintBountyButton from '../MintBounty/MintBountyButton';
 import StoreContext from '../../store/Store/StoreContext';
@@ -20,7 +20,7 @@ const BountyHeading = ({ bounty }) => {
         <h1 className='sm:text-[32px] text-xl flex-1 leading-tight min-w-[240px] pr-20'>
           <span className='text-primary'>{bounty.title} </span>
           {bounty.url ? (
-            <Link href={bounty.url} rel='noopener norefferer' target='_blank' legacyBehavior>
+            <Link href={bounty.url} rel='noopener norefferer' target='_blank'>
               <span className='text-link-colour cursor-pointer font-light hover:underline'>#{bounty.number}</span>
             </Link>
           ) : (
@@ -29,7 +29,7 @@ const BountyHeading = ({ bounty }) => {
         </h1>
         <div className='flex flex-row space-x-3 self-start items-center'>
           <div className='flex pt-1'>
-            <Link href={bounty.url} target='_blank' legacyBehavior>
+            <Link href={bounty.url} target='_blank'>
               <>
                 <Image
                   src='/social-icons/github-logo-white.svg'
