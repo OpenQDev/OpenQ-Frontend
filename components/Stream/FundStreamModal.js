@@ -149,6 +149,7 @@ const FundStreamModal = ({
                   width={24}
                   className='inline'
                   height={24}
+                  alt='crypto-logo'
                   src={localToken.path || localToken.logoURI || '/crypto-logos/ERC20.svg'}
                 />
                 <span> {localToken.symbol}</span>

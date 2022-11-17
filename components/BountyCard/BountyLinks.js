@@ -63,7 +63,7 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
           className='flex'
         >
           <div data-testid='link' id={'bounty-link'} className='cursor-pointer hover:opacity-70'>
-            <Image src='/BountyMaterial/polyscan-white.png' width={24} height={24} />
+            <Image src='/BountyMaterial/polyscan-white.png' width={24} height={24} alt='link-icon' />
           </div>
         </Link>
       ) : (

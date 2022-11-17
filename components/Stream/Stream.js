@@ -21,7 +21,7 @@ const Stream = ({ stream, direction }) => {
     <div className='p-4 w-fit border border-web-gray rounded-sm'>
       <div className='flex gap-8 space-between w-full'>
         <div className='flex gap-2'>
-          <Image height={32} width={32} src={path} />
+          <Image height={32} width={32} src={path} alt='n/a' />
           <div className='pt-2'>{name}</div>
         </div>
         <span className='pt-2'>{direction === 'in' ? 'From' : 'To'}</span>

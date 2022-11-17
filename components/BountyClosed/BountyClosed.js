@@ -25,7 +25,7 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
             <Link href={url} target={'_blank'} rel='noopener norefferer' className='flex items-center gap-1 underline'>
               <>
                 <div id={'bounty-link'} className='flex cursor-pointer items-center'>
-                  <Image src='/BountyMaterial/polyscan-white.png' width={18} height={18} />
+                  <Image src='/BountyMaterial/polyscan-white.png' width={18} height={18} alt='link-icon' />
                 </div>
                 <span className='underline pl-1'>view here</span>
               </>

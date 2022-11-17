@@ -51,7 +51,7 @@ const HorizontalOrganizationCard = ({ organization }) => {
   return (
     <div className='grid grid-cols-[64px_1fr_73px] gap-x-2 sm:gap-x-4 h-[118px] content-center mt-0 border-b border-web-gray py-6'>
       <div className='rounded-sm self-center overflow-hidden h-16'>
-        <Image src={organization.avatarUrl} width='64' height='64' />
+        <Image src={organization.avatarUrl} width='64' height='64' alt='avatar' />
       </div>
       <div>
         <h2 className='text-xl mt-1 leading-tight text-primary hover:text-link-colour cursor-pointer'>
