@@ -24,7 +24,7 @@ const useDisplayValue = (bounty, formatter, type) => {
   );
   const [budgetValue] = useGetValueFromComposite(bounty.fundingGoalTokenAddress, bounty.fundingGoalVolume);
   const setDisplayValues = (budget, tvc, tvl) => {
-    const hasTvl = (tvl > budget && type !== 'budget') || (type === 'actual' && tvl !== 0);
+    const hasTvl = (tvl > budget && type !== 'budget') || type === 'actual';
     if (bounty.status !== '0') {
       setValueObj({
         value: tvc,

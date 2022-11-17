@@ -98,7 +98,8 @@ const address = ({ address, mergedBounty, renderError }) => {
   // No faster than 1 second so begin with a sleep so as to not spam the Graph Hosted Service
   const refreshBounty = async () => {
     await sleep(1000);
-    let newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
+    let newBounty = bounty;
+
     try {
       while (
         newBounty.status === bounty.status &&
