@@ -153,6 +153,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
                 complete={complete}
                 getNewData={getNewData}
                 repositories={repositories}
+                organizationData={organizationData}
               />
               <OrganizationMetadata organizationData={organizationData} repositories={repositories} />
             </div>
