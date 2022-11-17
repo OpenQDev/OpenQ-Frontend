@@ -30,6 +30,10 @@ const ClaimLoadingModal = ({
   price,
   split,
 }) => {
+  /* const referencedPrs = [
+    { url: 'https://github.com/ArcAnya/OpenQ-TestRepo/pull/225' },
+    { url: 'https://github.com/ArcAnya/OpenQ-TestRepo/pull/227' },
+  ]; */
   const updateModal = () => {
     setShowClaimLoadingModal(false);
   };
@@ -159,6 +163,15 @@ const ClaimLoadingModal = ({
           </>
         )}
         <div className='col-span-2 whitespace-pre-wrap'>{message[claimState]}</div>
+        {error?.referencedPrs &&
+          claimState == WITHDRAWAL_INELIGIBLE &&
+          error.referencedPrs.map((pr, index) => {
+            return (
+              <Link key={index} href={pr.url} className='text-blue-500 hover:underline col-span-2' target='_blank'>
+                {pr.url}
+              </Link>
+            );
+          })}
       </div>
     </ModalDefault>
   );
