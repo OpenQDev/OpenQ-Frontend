@@ -25,6 +25,7 @@ import {
   gnosisSafe,
   gnosisSafeHooks,
 } from '../components/WalletConnect/connectors';
+import Script from 'next/script';
 
 function OpenQ({ Component, pageProps }) {
   const connectors = [
@@ -82,8 +83,9 @@ function OpenQ({ Component, pageProps }) {
         <meta name='OpenQ Bounties' content='width=device-width, initial-scale=1.0' />
         <link rel='icon' href='/openq-logo.png' />
         <link rel='manifest' href='/manifest.json' crossOrigin='use-credentials' />
-        <script type='text/javascript'>
-          {`window['__ls_namespace'] = 'LiveSession';
+      </Head>
+      <Script id='live-session'>
+        {`window['__ls_namespace'] = 'LiveSession';
     window['__ls_script_url'] = 'https://cdn.livesession.io/track.js';
     !function(w, d, t, u, n) {
           if (n in w) {if(w.console && w.console.log) { w.console.log('LiveSession namespace conflict. Please set window["__ls_namespace"].');} return;}
@@ -106,8 +108,7 @@ function OpenQ({ Component, pageProps }) {
             })
         }
     });`}
-        </script>
-      </Head>
+      </Script>
       <>
         <UserContext.Provider value={[user, setUser]}>
           <AuthProvider>
