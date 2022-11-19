@@ -141,6 +141,7 @@ export const GET_USER_BY_ID = gql`
         id
         url
         avatarUrl
+        twitterUsername
       }
     }
   }

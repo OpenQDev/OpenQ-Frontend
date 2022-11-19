@@ -222,8 +222,8 @@ export const UPDATE_USER = gql`
 `;
 
 export const UPDATE_USER_SIMPLE = gql`
-  mutation updateUserSimple($address: String!, $github: String) {
-    updateUserSimple(address: $address, github: $github) {
+  mutation updateUserSimple($address: String!, $github: String, $twitter: String) {
+    updateUserSimple(address: $address, github: $github, twitter: $twitter) {
       address
     }
   }

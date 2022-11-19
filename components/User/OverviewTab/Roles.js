@@ -50,12 +50,12 @@ const Roles = ({ defaultRoles, category, user }) => {
   };
   return (
     <>
-      {(roles.length > 0 || isOwner) && (
+      {(roles?.length > 0 || isOwner) && (
         <li className='py-6'>
           <h4 className='font-bold'>{category}s</h4>
           <div>
             <div className='grid gap-4 py-4 grid-cols-[repeat(auto-fill,_minmax(200px,_1fr))] '>
-              {roles.map((role, index) => {
+              {roles?.map((role, index) => {
                 return (
                   <div
                     className={`flex items-center gap-2  py-0.5  ${
