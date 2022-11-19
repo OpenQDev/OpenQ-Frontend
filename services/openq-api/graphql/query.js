@@ -78,10 +78,28 @@ export const REMOVE_CONTRIBUTOR = gql`
 `;
 // good to go
 export const GET_USER_BY_HASH = gql`
+  query ($userAddress: String!) {
+    user(address: $userAddress) {
+      github
+      discord
+      twitter
+      devRoles
+      otherRoles
+      languages
+      frameworks
+      starredOrganizationIds
+    }
+  }
+`;
+
+// gets info that requires auth
+export const GET_PRIVATE_USER_BY_HASH = gql`
   query ($userAddress: String!, $types: [String], $category: String) {
     user(address: $userAddress) {
       watchedBountyIds
       github
+      address
+      email
       watchedBounties(limit: 100, types: $types, category: $category) {
         nodes {
           tvl
@@ -174,6 +192,10 @@ export const UPDATE_USER = gql`
     $discord: String
     $github: String
     $twitter: String
+    $devRoles: [String]
+    $frameworks: [String]
+    $languages: [String]
+    $otherRoles: [String]
   ) {
     updateUser(
       address: $address
@@ -186,8 +208,15 @@ export const UPDATE_USER = gql`
       discord: $discord
       github: $github
       twitter: $twitter
+      devRoles: $devRoles
+      frameworks: $frameworks
+      languages: $languages
+      otherRoles: $otherRoles
     ) {
       address
+      twitter
+      github
+      discord
     }
   }
 `;

@@ -4,6 +4,7 @@ import {
   UNWATCH_BOUNTY,
   GET_BOUNTY_BY_HASH,
   GET_USER_BY_HASH,
+  GET_PRIVATE_USER_BY_HASH,
   UPDATE_USER,
   GET_CONTRACT_PAGE,
   GET_LEAN_ORGANIZATIONS,
@@ -280,6 +281,27 @@ class OpenQPrismaClient {
       if (category) {
         variables.category = category;
       }
+      try {
+        const result = await this.client.mutate({
+          mutation: GET_PRIVATE_USER_BY_HASH,
+          variables,
+        });
+        resolve(result.data.user);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  getPublicUser(userAddress) {
+    const promise = new Promise(async (resolve, reject) => {
+      if (!ethers.utils.isAddress(userAddress)) {
+        return {};
+      }
+      const variables = {
+        userAddress: ethers.utils.getAddress(userAddress),
+      };
       try {
         const result = await this.client.mutate({
           mutation: GET_USER_BY_HASH,
