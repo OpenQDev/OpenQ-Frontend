@@ -1,22 +1,12 @@
 import React, { useRef, useEffect, useContext, useState } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
-import axios from 'axios';
 
 const InvoicingModal = ({ closeModal, bounty }) => {
   const { account } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
   const { logger, openQPrismaClient } = appState;
   const [success, setSucess] = useState();
-
-  const signMessage = async () => {
-    const message = 'OpenQ';
-    const signature = await window.ethereum.request({
-      method: 'personal_sign',
-      params: [message, account],
-    });
-    return signature;
-  };
 
   const handleForm = async (e) => {
     e.preventDefault();
@@ -30,20 +20,6 @@ const InvoicingModal = ({ closeModal, bounty }) => {
       return;
     }
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature?address=${account}`, {
-        withCredentials: true,
-      });
-      if (response.data.status === false) {
-        const signature = await signMessage();
-        await axios.post(
-          `${process.env.NEXT_PUBLIC_AUTH_URL}/verifySignature`,
-          {
-            signature,
-            address: account,
-          },
-          { withCredentials: true }
-        );
-      }
       const formValues = { address: account };
       const form = e.target;
       const interMediateValue = Object.values(form)

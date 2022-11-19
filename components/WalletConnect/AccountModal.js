@@ -10,13 +10,20 @@ import { metaMask, walletConnect } from '../WalletConnect/connectors';
 
 const AccountModal = ({ chainId, account, ensName, setIsConnecting, domRef, isSafeApp }) => {
   let networkName;
-  const [appState] = useContext(StoreContext);
+  const [appState, dispatch] = useContext(StoreContext);
   for (let key in chainIdDeployEnvMap) {
     if (chainIdDeployEnvMap[key].chainId === chainId) {
       networkName = chainIdDeployEnvMap[key].networkName;
     }
   }
   const disconnectAccount = () => {
+    const updateSignedAccount = async (signedAccount) => {
+      const payload = {
+        type: 'SET_SIGNED_ACCOUNT',
+        payload: signedAccount,
+      };
+      dispatch(payload);
+    };
     const connectors = [walletConnect, metaMask];
     try {
       connectors.forEach((connector) => {
@@ -25,6 +32,8 @@ const AccountModal = ({ chainId, account, ensName, setIsConnecting, domRef, isSa
         } else {
           connector.resetState();
         }
+        appState.authService.hasSignature(null);
+        updateSignedAccount(null);
       });
     } catch (err) {
       appState.logger.error(err, account);

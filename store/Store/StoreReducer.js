@@ -25,6 +25,11 @@ const StoreReducer = (state, action) => {
         ...state,
         signer: action.payload,
       };
+    case 'SET_SIGNED_ACCOUNT':
+      return {
+        ...state,
+        signedAccount: action.payload,
+      };
     case 'UPDATE_RELOAD':
       return {
         ...state,
