@@ -57,7 +57,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
   const [enableRegistration, setEnableRegistration] = useState(false);
   const [startDate, setStartDate] = useState();
   const [registrationDeadline, setRegistrationDeadline] = useState();
-  const { router } = useRouter();
+  const router = useRouter();
   const initialCategory =
     types[0] === '1'
       ? 'Split Price'
