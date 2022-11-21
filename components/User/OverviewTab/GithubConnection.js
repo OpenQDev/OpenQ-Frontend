@@ -13,7 +13,8 @@ import AssociateModal from '../GithubRegistration/AssociateModal';
 const GithubConnection = ({ user }) => {
   const [appState] = useContext(StoreContext);
   const { account } = useWeb3();
-  const isOwner = user.address?.toLowerCase() === account?.toLowerCase();
+  const isOwner = user.id?.toLowerCase() === account?.toLowerCase();
+  console.log('isOwner', isOwner, account, user.id);
   const [authState] = useAuth();
   const { githubId } = authState;
   const [externalUserId, setExternalUserId] = useState(null);

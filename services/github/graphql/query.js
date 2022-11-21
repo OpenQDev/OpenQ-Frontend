@@ -135,6 +135,15 @@ export const GET_USER_BY_ID = gql`
     node(id: $userId) {
       __typename
       ... on User {
+        repositories(last: 100) {
+          nodes {
+            languages(first: 10) {
+              nodes {
+                name
+              }
+            }
+          }
+        }
         name
         login
         bio

@@ -54,15 +54,17 @@ const SetContextState = (props) => {
         console.log(signedAccount);
         const accountData = await appState.openQPrismaClient.getUser(signedAccount);
 
-        if (!accountData?.github && !accountData?.twitter) {
+        if (!accountData?.github) {
           const githubUser = await appState.githubRepository.fetchUserById(authState.githubId);
-          const twitter = `https://twitter.com/${githubUser.twitterUsername}`;
 
+          const twitter = `https://twitter.com/${githubUser.twitterUsername}`;
+          const languages = githubUser.recentLanguages;
           const githubUrl = githubUser?.url;
           const params = {
             address: ethers.utils.getAddress(signedAccount),
             ...(githubUrl && { github: githubUrl }),
             ...(twitter && { twitter }),
+            ...(languages && { languages }),
           };
 
           // get github profile by login
@@ -71,7 +73,7 @@ const SetContextState = (props) => {
         }
       }
     };
-    if (authState) {
+    if ((authState, appState.signedAccount)) {
       checkGithub();
     }
   }, [authState, appState.signedAccount]);
