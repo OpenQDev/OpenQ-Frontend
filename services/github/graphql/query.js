@@ -147,6 +147,7 @@ export const GET_USER_BY_ID = gql`
         name
         login
         bio
+        email
         id
         url
         avatarUrl

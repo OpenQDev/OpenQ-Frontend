@@ -99,7 +99,7 @@ const Subscribe = ({ user }) => {
       setSubscriptionError(true);
     }
   };
-
+  console.log(user);
   const formValuesContact = [
     {
       value: 'email',

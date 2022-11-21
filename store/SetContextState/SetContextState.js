@@ -60,8 +60,10 @@ const SetContextState = (props) => {
           const twitter = `https://twitter.com/${githubUser.twitterUsername}`;
           const languages = githubUser.recentLanguages;
           const githubUrl = githubUser?.url;
+          const email = githubUser;
           const params = {
             address: ethers.utils.getAddress(signedAccount),
+            ...(githubUser.email && { email }),
             ...(githubUrl && { github: githubUrl }),
             ...(twitter && { twitter }),
             ...(languages && { languages }),
