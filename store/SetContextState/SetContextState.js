@@ -51,7 +51,6 @@ const SetContextState = (props) => {
     const checkGithub = async () => {
       const signedAccount = appState.signedAccount;
       if (Object.prototype.hasOwnProperty.call(authState, 'login') && signedAccount) {
-        console.log(signedAccount);
         const accountData = await appState.openQPrismaClient.getUser(signedAccount);
 
         if (!accountData?.github) {
