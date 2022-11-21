@@ -94,7 +94,7 @@ const test = (issue, type) => {
       // ACT
       const inputs = await screen.findAllByRole('textbox');
       await user.type(inputs[0], issue.url);
-      await user.click(screen.getByRole('checkbox'));
+      await user.click(screen.getAllByRole('checkbox')[0]);
       await user.type(screen.getByLabelText('budget'), '123assdf');
       await waitFor(async () => {
         expect(screen.getByLabelText('budget').value).toBe('123');
