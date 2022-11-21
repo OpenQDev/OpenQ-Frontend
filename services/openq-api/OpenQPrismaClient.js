@@ -21,6 +21,7 @@ import {
   BLACKLIST_ORG,
   UPDATE_USER_SIMPLE,
   GET_USERS,
+  SET_IS_CONTEST,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
@@ -356,6 +357,21 @@ class OpenQPrismaClient {
           variables: { bountyId, blacklist },
           fetchPolicy: 'no-cache',
           context: { headers: { authorization: secret } },
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  async setIsContest(variables) {
+    console.log(variables);
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: SET_IS_CONTEST,
+          variables,
         });
         resolve(result.data);
       } catch (e) {

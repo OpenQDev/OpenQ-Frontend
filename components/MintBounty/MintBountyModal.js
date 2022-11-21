@@ -9,6 +9,7 @@ import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
+
 import BountyAlreadyMintedMessage from './BountyAlreadyMintedMessage';
 import ToolTipNew from '../Utils/ToolTipNew';
 import MintBountyModalButton from './MintBountyModalButton';
@@ -25,7 +26,6 @@ const MintBountyModal = ({ modalVisibility, types }) => {
   // Context
   const [appState, dispatch] = useContext(StoreContext);
   const { library, account, safe } = useWeb3();
-  const router = useRouter();
   const zeroAddressMetadata = {
     name: 'Matic',
     address: '0x0000000000000000000000000000000000000000',
@@ -54,6 +54,10 @@ const MintBountyModal = ({ modalVisibility, types }) => {
   const [finalTierVolumes, setFinalTierVolumes] = useState([1, 1, 1]);
   const [payoutVolume, setPayoutVolume] = useState('');
   const [payoutToken, setPayoutToken] = useState(zeroAddressMetadata);
+  const [enableRegistration, setEnableRegistration] = useState(false);
+  const [startDate, setStartDate] = useState();
+  const [registrationDeadline, setRegistrationDeadline] = useState();
+  const { router } = useRouter();
   const initialCategory =
     types[0] === '1'
       ? 'Split Price'
@@ -200,6 +204,16 @@ const MintBountyModal = ({ modalVisibility, types }) => {
         category,
         data
       );
+      if (enableRegistration) {
+        await appState.openQPrismaClient.setIsContest({
+          repositoryId: issue.repository.id,
+          isContest: true,
+          organizationId: issue.repository.owner.id,
+          startDate,
+          registrationDeadline,
+        });
+        //repositoryId, isContest, organizationId, startDate, registrationDeadline
+      }
       sessionStorage.setItem('justMinted', true);
       refreshBounty(bountyAddress);
       await router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${issue.id}/${bountyAddress.toLowerCase()}`);
@@ -207,6 +221,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
         modalVisibility(false);
       }
     } catch (error) {
+      console.log(error);
       const { message, title } = appState.openQClient.handleError(error);
       appState.logger.error(message, account);
       setError({ message, title });
@@ -544,6 +559,62 @@ const MintBountyModal = ({ modalVisibility, types }) => {
               ) : category === 'Contest' || category === 'Fixed Contest' ? (
                 <div className='items-center py-2'>
                   <div className=' w-11/12 text-base flex flex-col gap-2'>
+                    <div className=' flex flex-col gap-2 w-full py-2 items-start text-base bg-[#161B22]'>
+                      <div className='flex items-center gap-2'>
+                        Enable Hackathon Registration
+                        <input
+                          type='checkbox'
+                          className='checkbox'
+                          onChange={() => setEnableRegistration(true)}
+                        ></input>
+                        <ToolTipNew
+                          mobileX={10}
+                          toolTipText={
+                            category === 'Fixed Price'
+                              ? 'Amount of funds you would like to escrow on this issue.'
+                              : 'How much will each successful submitter earn?'
+                          }
+                        >
+                          <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                            ?
+                          </div>
+                        </ToolTipNew>
+                      </div>
+                      <span className='text-sm '>
+                        Require contestants to sign up for your hackathon contests in this repo. This will allow you to
+                        set a timeline, be highlighted on OpenQ, and ensure you can connect with all participants
+                        post-hackathon.
+                      </span>
+                    </div>
+                    {enableRegistration ? (
+                      <>
+                        <div className='flex items-center gap-2'>Start Date</div>
+
+                        <input
+                          className={'flex-1 input-field w-full ml-2'}
+                          id='name'
+                          aria-label='issue url'
+                          placeholder='https://github.com/...'
+                          autoComplete='off'
+                          type='date'
+                          value={startDate}
+                          onChange={(e) => setStartDate(e.target.value)}
+                        />
+                        <div className='flex items-center gap-2'>End Date</div>
+
+                        <input
+                          className={'flex-1 input-field w-full ml-2'}
+                          id='name'
+                          aria-label='issue url'
+                          placeholder='https://github.com/...'
+                          autoComplete='off'
+                          type='date'
+                          value={registrationDeadline}
+                          onChange={(e) => setRegistrationDeadline(e.target.value)}
+                        />
+                      </>
+                    ) : null}
+
                     <div className='flex items-center gap-2'>
                       How many Tiers?
                       <ToolTipNew

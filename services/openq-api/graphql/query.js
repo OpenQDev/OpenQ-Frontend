@@ -325,3 +325,24 @@ export const BLACKLIST_ORG = gql`
     }
   }
 `;
+
+export const SET_IS_CONTEST = gql`
+  mutation setIsContest(
+    $repositoryId: String!
+    $isContest: Boolean!
+    $organizationId: String!
+    $startDate: String!
+    $registrationDeadline: String!
+  ) {
+    setIsContest(
+      repositoryId: $repositoryId
+      isContest: $isContest
+      organizationId: $organizationId
+      startDate: $startDate
+      registrationDeadline: $registrationDeadline
+    ) {
+      isContest
+      id
+    }
+  }
+`;

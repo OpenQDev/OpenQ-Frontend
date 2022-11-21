@@ -52,6 +52,7 @@ export const GET_ISSUE = gql`
         bodyHTML
         url
         repository {
+          id
           name
           owner {
             id
