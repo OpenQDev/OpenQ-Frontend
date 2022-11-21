@@ -6,15 +6,18 @@ import SubmissionCard from '../Submissions/SubmissionCard';
 const HackathonTab = ({ repositories, organization }) => {
   const [displayRepos, setDisplayRepos] = useState([]);
   const [appState] = useContext(StoreContext);
-  const [totalCount, setTotalCount] = useState(0);
+  const [totalCount, setTotalCount] = useState({});
   useEffect(() => {
     const getPrs = async () => {
+      let localCount = {};
+
       if ((organization, repositories)) {
         const org = organization.login;
         let currentRepos = await Promise.all(
           repositories.map(async (repo) => {
             const repoPrs = await appState.githubRepository.getPrs(org, repo.name, 3);
-            setTotalCount(repoPrs.data.repository.pullRequests.totalCount);
+            setTotalCount({ ...localCount, [repo.name]: repoPrs.data.repository.pullRequests.totalCount });
+            localCount = { ...totalCount, [repo.name]: repoPrs.data.repository.pullRequests.totalCount };
             const prs = repoPrs.data.repository.pullRequests.nodes;
 
             return { name: repo.name, prs };
@@ -31,7 +34,7 @@ const HackathonTab = ({ repositories, organization }) => {
   }, []);
   return (
     <div className='  w-full  sm:px-8 flex-wrap max-w-[1028px] pb-8 '>
-      <div className='lg:col-start-2 justify-between justify-self-center space-y-3 w-full pb-8'>
+      <div className='lg:col-start-2 justify-start justify-self-center space-y-3 w-full pb-8'>
         {displayRepos.map((repo) => {
           return (
             <div key={repo.name}>
@@ -39,15 +42,15 @@ const HackathonTab = ({ repositories, organization }) => {
                 Submissions for {repo.name}
               </h2>
 
-              <div className='grid gap-8 w-full pt-8 justify-between justify-items-center grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))]'>
+              <div className='grid gap-8 w-full pt-8 justify-between justify-items-start grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))]'>
                 {repo.prs.map((pr, index) => {
                   return <SubmissionCard key={index} pr={pr} />;
                 })}
               </div>
-              {totalCount && (
+              {totalCount[repo.name] > repo.prs.length && (
                 <Link href={`/showcase/${organization.login}/${repo.name}`}>
                   <div className='flex underline items-center gap-4 lsm:text-[32px] text-2xl py-8 flex-1 leading-tight min-w-[240px] pr-20'>
-                    <div className=''>{totalCount} more submissions</div>
+                    <div className=''>{totalCount[repo.name] - repo.prs.length} more submissions</div>
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
                       className='fill-primary'

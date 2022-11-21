@@ -2,11 +2,11 @@ import React, { useState, useContext, useEffect } from 'react';
 import StyledInput from './StyledInput';
 import useWeb3 from '../../../hooks/useWeb3';
 import StoreContext from '../../../store/Store/StoreContext';
-import AssociationModal from '../GithubRegistration/AssociationModal';
-import axios from 'axios';
+import AssociationModal from '../GithubRegistration/AssociateAddress';
+
 import useAuth from '../../../hooks/useAuth';
 
-const Editing = () => {
+const InvoicingDetails = () => {
   const { account } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
   const { logger, openQPrismaClient } = appState;
@@ -57,15 +57,6 @@ const Editing = () => {
     { value: 'github' },
   ];
 
-  const signMessage = async () => {
-    const message = 'OpenQ';
-    const signature = await window.ethereum.request({
-      method: 'personal_sign',
-      params: [message, account],
-    });
-    return signature;
-  };
-
   const submitProfileData = async (e) => {
     return new Promise(async (resolve, reject) => {
       if (!account) {
@@ -77,20 +68,6 @@ const Editing = () => {
         return;
       }
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/hasSignature?address=${account}`, {
-          withCredentials: true,
-        });
-        if (response.data.status === false) {
-          const signature = await signMessage();
-          await axios.post(
-            `${process.env.NEXT_PUBLIC_AUTH_URL}/verifySignature`,
-            {
-              signature,
-              address: account,
-            },
-            { withCredentials: true }
-          );
-        }
         const formValues = { address: account };
         const form = e.target;
         const interMediateValue = Object.values(form)
@@ -161,7 +138,7 @@ const Editing = () => {
           }, 1000);
         }
       } catch (err) {
-        logger.error(err, account, 'Editing1');
+        logger.error(err, account, 'Invoicing Details1');
       }
     } else {
       setSubscriptionError(true);
@@ -180,7 +157,7 @@ const Editing = () => {
         }, 1000);
       }
     } catch (err) {
-      logger.error(err, account, 'Editing1');
+      logger.error(err, account, 'Invoicing Details1');
     }
   };*/
 
@@ -211,9 +188,9 @@ const Editing = () => {
             'We cant send you personalized notifications about new tasks without having your Github profile'}
         </span>
       </form>
-      {/*<h2 className='text-2xl '>Edit Public Profile</h2>
-     
-      <form className='font-normal py-4 max-w-[500px] gap-4' onSubmit={handleForm}>
+      <h2 className='text-2xl '>Edit Public Profile</h2>
+
+      {/*<form className='font-normal py-4 max-w-[500px] gap-4' onSubmit={() => {}}>
         <div className='py-4'>
           <h3 className='font-semibold text-muted pb-2'>Invoicing</h3>
           {formValuesInvoicing.map((invoicingField) => {
@@ -226,7 +203,7 @@ const Editing = () => {
             );
           })}
         </div>
-        <div className='py-4'>
+   <div className='py-4'>
           <h3 className='font-semibold text-muted pb-2'>Socials</h3>
           {formValuesSocial.map((invoicingField) => {
             return (
@@ -249,4 +226,4 @@ const Editing = () => {
     </div>
   );
 };
-export default Editing;
+export default InvoicingDetails;

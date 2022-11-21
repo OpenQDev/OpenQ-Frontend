@@ -52,6 +52,7 @@ export const GET_ISSUE = gql`
         bodyHTML
         url
         repository {
+          id
           name
           owner {
             id
@@ -135,12 +136,23 @@ export const GET_USER_BY_ID = gql`
     node(id: $userId) {
       __typename
       ... on User {
+        repositories(last: 100) {
+          nodes {
+            languages(first: 10) {
+              nodes {
+                name
+              }
+            }
+          }
+        }
         name
         login
         bio
+        email
         id
         url
         avatarUrl
+        twitterUsername
       }
     }
   }

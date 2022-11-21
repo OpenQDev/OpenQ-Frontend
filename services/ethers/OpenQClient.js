@@ -477,6 +477,20 @@ class OpenQClient {
     });
   }
 
+  async getExternalUserIdByAddress(library, userAddress) {
+    return new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.OpenQ(signer);
+
+      try {
+        const externalUserId = await contract.addressToExternalUserId(userAddress);
+        resolve(externalUserId);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
   async closeOngoing(library, _bountyId) {
     const promise = new Promise(async (resolve, reject) => {
       const signer = library.getSigner();

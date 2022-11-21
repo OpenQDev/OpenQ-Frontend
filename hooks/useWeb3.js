@@ -1,7 +1,11 @@
 import { useWeb3React } from '@web3-react/core';
+import { useContext } from 'react';
+import account from '../pages/user/[account]';
+import StoreContext from '../store/Store/StoreContext';
 
 // This is a lightweight wrapper of web3React which allows the frontend to run in local mode without attempting to connect to any localhost chain
 const useWeb3 = () => {
+  const [appState] = useContext(StoreContext);
   if (process.env.NEXT_PUBLIC_DEPLOY_ENV == 'local') {
     return {
       library: {},
@@ -13,11 +17,12 @@ const useWeb3 = () => {
       error: () => {},
     };
   } else {
-    const { provider, account, active, activate, chainId, deactivate, error, connector } = useWeb3React();
+    const { provider, active, activate, chainId, deactivate, error, connector } = useWeb3React();
     const chainIdEnv = /* process.env.NEXT_PUBLIC_DEPLOY_ENV === 'docker' ? 31337 : */ chainId;
     return {
       library: provider,
-      account,
+      account: appState.signedAccount,
+      unSignedAccount: account,
       active,
       activate,
       chainId: chainIdEnv,

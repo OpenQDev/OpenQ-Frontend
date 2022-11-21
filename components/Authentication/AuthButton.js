@@ -5,10 +5,10 @@ import AuthContext from '../../store/AuthStore/AuthContext';
 import SignOut from './SignOut';
 import SignIn from './SignIn';
 
-const AuthButton = ({ redirectUrl, propicUrl, hideSignOut }) => {
+const AuthButton = ({ redirectUrl, propicUrl, className, hideSignOut }) => {
   const [authState] = useContext(AuthContext);
   return (
-    <div className='w-full justify-center'>
+    <div className={`w-full justify-center ${className}`}>
       {authState.isAuthenticated ? (
         !hideSignOut ? (
           <SignOut propicUrl={propicUrl} />

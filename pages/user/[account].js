@@ -8,9 +8,10 @@ import AboutFreelancer from '../../components/User/AboutFreelancer';
 import UnexpectedErrorModal from '../../components/Utils/UnexpectedErrorModal';
 import WrappedGithubClient from '../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
-import logger from '../../services/logger/Logger';
+import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
 import useAuth from '../../hooks/useAuth';
 import StoreContext from '../../store/Store/StoreContext';
+import Logger from '../../services/logger/Logger';
 
 const account = ({ account, user, organizations, renderError }) => {
   const [authState] = useAuth();
@@ -18,17 +19,24 @@ const account = ({ account, user, organizations, renderError }) => {
   const [appState] = useContext(StoreContext);
   const [starredOrganizations, setStarredOrganizations] = useState([]);
   const [watchedBounties, setwatchedBounties] = useState([]);
+
+  const [publicPrivateUserData, setPublicPrivateUserData] = useState(user);
+
   useEffect(() => {
     const getOffChainData = async () => {
-      const userOffChainData = await appState.openQPrismaClient.getUser(ethers.utils.getAddress(account));
+      let privateUserData;
+      try {
+        privateUserData = await appState.openQPrismaClient.getUser(ethers.utils.getAddress(account));
+        setPublicPrivateUserData({ ...user, ...privateUserData });
+      } catch (error) {
+        appState.logger.info('Viewing user not owner');
+      }
       let starredOrganizations = [];
-      setwatchedBounties(userOffChainData?.watchedBounties.nodes);
+      setwatchedBounties(privateUserData?.watchedBounties.nodes);
       //get starred organizations.
       try {
-        if (userOffChainData) {
-          const subgraphOrgs = await appState.openQSubgraphClient.getOrganizationsByIds(
-            userOffChainData.starredOrganizationIds
-          );
+        if (user.starredOrganizationIds) {
+          const subgraphOrgs = await appState.openQSubgraphClient.getOrganizationsByIds(user.starredOrganizationIds);
           const githubOrgIds = subgraphOrgs.map((bounty) => bounty.id);
           const githubOrganizations = await appState.githubRepository.fetchOrganizationsByIds(githubOrgIds);
           starredOrganizations = githubOrganizations.map((organization) => {
@@ -53,7 +61,7 @@ const account = ({ account, user, organizations, renderError }) => {
           showWatched={account === signedAccount}
           starredOrganizations={starredOrganizations}
           watchedBounties={watchedBounties}
-          user={user}
+          user={publicPrivateUserData}
           account={account}
           organizations={organizations}
         />
@@ -68,6 +76,7 @@ export const getServerSideProps = async (context) => {
   const githubRepository = new WrappedGithubClient();
   const cookies = nookies.get(context);
   const { github_oauth_token_unsigned } = cookies;
+  const logger = new Logger();
   const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
   githubRepository.instance.setGraphqlHeaders(oauthToken);
 
@@ -88,20 +97,28 @@ export const getServerSideProps = async (context) => {
     return { props: { renderError: `${account} is not a valid address.` } };
   }
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
+  const openQPrismaClient = new WrappedOpenQPrismaClient();
   let user = {
     bountiesClosed: [],
     bountiesCreated: [],
     deposits: [],
     fundedTokenBalances: [],
-    id: account.toLowerCase(),
+    id: account?.toLowerCase(),
     payoutTokenBalances: [],
     payouts: [],
     renderError,
   };
   let organizations = [];
   let starredOrganizations = [];
+  let userOffChainData = {};
   try {
-    const userOnChainData = await openQSubgraphClient.instance.getUser(account.toLowerCase());
+    userOffChainData = await openQPrismaClient.instance.getPublicUser(ethers.utils.getAddress(account));
+  } catch (err) {
+    logger.error(err);
+  }
+
+  try {
+    const userOnChainData = await openQSubgraphClient.instance.getUser(account?.toLowerCase());
 
     // fetch orgs freelancer has worked for.
     try {
@@ -110,7 +127,7 @@ export const getServerSideProps = async (context) => {
     } catch (err) {
       console.error('could not fetch organizations');
     }
-    user = { ...user, ...userOnChainData };
+    user = { ...user, ...userOnChainData, ...userOffChainData };
   } catch (err) {
     logger.error(err);
   }
