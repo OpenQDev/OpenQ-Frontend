@@ -14,10 +14,13 @@ import BountyList from '../../../components/BountyList/BountyList';
 import StoreContext from '../../../store/Store/StoreContext';
 import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
 import useWeb3 from '../../../hooks/useWeb3';
-import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
-import Logger from '../../services/logger/Logger';
+import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
+import Logger from '../../../services/logger/Logger';
+import Utils from '../../../services/utils/Utils';
+import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 
-const showcase = ({ name, currentPrs, batch, renderError, firstCursor }) => {
+const showcase = ({ name, currentPrs, batch, renderError, firstCursor, fullBounties }) => {
+  //oAuth, mergedOrgs
   //Context
   const [appState] = useContext(StoreContext);
   useAuth();
@@ -115,16 +118,20 @@ const showcase = ({ name, currentPrs, batch, renderError, firstCursor }) => {
           />
           {toggleVal === 'Overview' && (
             <>
-              <h2 className='text-primary w-full mb-2'>Smart Contracts</h2>
-              <BountyList
-                contractToggle={true}
-                bounties={bounties}
-                loading={isLoading}
-                getMoreData={getMoreData}
-                complete={complete}
-                getNewData={getNewData}
-                types={['0', '1', '2', '3']}
-              />
+              <div className='px-4 py-3 gap-6 w-full flex flex-wrap md:flex-nowrap'>
+                <div className='max-w-[960px] w-full md:basis-3/4 md:shrink'>
+                  <h2 className='text-primary w-full mb-2'>Smart Contracts</h2>
+                  <BountyList
+                    contractToggle={true}
+                    bounties={bounties}
+                    loading={isLoading}
+                    getMoreData={getMoreData}
+                    complete={complete}
+                    getNewData={getNewData}
+                    types={['0', '1', '2', '3']}
+                  />
+                </div>
+              </div>
             </>
           )}
           {toggleVal === 'Hackathon Submissions' && (
@@ -161,34 +168,48 @@ export default showcase;
 
 export async function getServerSideProps(context) {
   const githubRepository = new WrappedGithubClient();
-  const openQPrismaClient = new WrappedOpenQPrismaClient();
-  const logger = new Logger();
   const cookies = nookies.get(context);
   const { github_oauth_token_unsigned } = cookies;
   const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
   githubRepository.instance.setGraphqlHeaders(oauthToken);
-  const { org, name } = context.query;
-  const currentPrs = await githubRepository.instance.getPrs(org, name);
+
+  const openQSubgraphClient = new WrappedOpenQSubgraphClient();
+  const openQPrismaClient = new WrappedOpenQPrismaClient();
+  const utils = new Utils();
+  const logger = new Logger();
   const batch = 10;
+  let fullBounties = [];
+  let firstCursor = null;
   let renderError = '';
-  let repoMetadata = {};
-  // here need logic openQPrismaClient.instance.getRepository(repoData.id) instead?
   try {
-    repoMetadata = await openQPrismaClient.instance.getOrganization(orgData.id);
-    if (repoMetadata.blacklisted === 'true') {
-      renderError = 'Organization blacklisted.';
-    }
+    [fullBounties, firstCursor] = await utils.fetchBounties(
+      {
+        openQSubgraphClient: openQSubgraphClient.instance,
+        githubRepository: githubRepository.instance,
+        openQPrismaClient: openQPrismaClient.instance,
+        logger,
+      },
+      batch,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined
+    );
   } catch (err) {
     logger.error(err);
+    renderError = JSON.stringify(err);
   }
   return {
     props: {
-      name,
-      org,
-      batch,
-      firstCursor: repoMetadata.repository.bounties.bountyConnection.cursor || null,
-      currentPrs: currentPrs.data.repository.pullRequests.nodes,
+      fullBounties,
       renderError,
-    }, // will be passed to the page component as props
+      batch,
+      firstCursor,
+      oauthToken,
+      // name, currentPrs
+    },
   };
 }
