@@ -481,7 +481,6 @@ class OpenQClient {
     return new Promise(async (resolve) => {
       const signer = library.getSigner();
       const contract = this.OpenQ(signer);
-      console.log(userAddress);
       try {
         const externalUserId = await contract.addressToExternalUserId(userAddress);
         resolve(externalUserId);
