@@ -15,7 +15,13 @@ import SubMenu from '../Utils/SubMenu';
 import Watching from './WatchingTab/Watching';
 import Starred from './StarsTab/Starred';
 import StoreContext from '../../store/Store/StoreContext';
-import Editing from './EditingTab/Editing';
+import InvoicingDetails from './InvoicingDetailsTab/InvoicingDetails';
+import UserSocials from './OverviewTab/UserSocials';
+import Gear from '../svg/gear';
+import Skills from './OverviewTab/Skills';
+import useAuth from '../../hooks/useAuth';
+import Subscribe from '../Utils/Subscribe';
+import GithubConnection from './OverviewTab/GithubConnection';
 
 const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatched, watchedBounties }) => {
   const { payoutTokenBalances, payouts } = user;
@@ -25,6 +31,19 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
   const [githubUser, setGithubUser] = useState();
   const account = user.id;
   const [ensName] = useEns(account);
+  const isOwner = user.address?.toLowerCase() === account;
+  const [authState] = useAuth();
+  const { githubId } = authState;
+
+  useEffect(() => {
+    if (githubId) {
+      const getGithubUser = async () => {
+        const githubUser = await appState.githubRepository.fetchUserById(githubId);
+        if (isOwner) setGithubUser(githubUser);
+      };
+      getGithubUser();
+    }
+  }, [githubId]);
   // Context
   // State
   const [payoutTokenValues] = useGetTokenValues(payoutTokenBalances);
@@ -39,6 +58,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
         setGithubUser(null);
       }
     };
+
     getUserLogin();
   }, []);
 
@@ -89,7 +109,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
             { name: 'Stars', Svg: StarIcon },
             ...[showWatched ? { name: 'Watching', Svg: EyeIcon } : {}],
 
-            { name: 'Editing', Svg: EyeIcon },
+            { name: 'Invoicing Details', Svg: Gear },
           ]}
         />
         <div className='w-full border-b h-px border-web-gray'></div>
@@ -146,13 +166,22 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
                 <UserHistory organizations={organizations} payouts={payouts} />
                 <Balances tokenBalances={payoutTokenBalances} tokenValues={payoutTokenValues} title='Total Payouts' />
                 <MiniBountyList payouts={payouts} />
+                <GithubConnection user={user} />
+
+                <UserSocials user={user} />
+
+                <Skills user={user} />
+                <div className='px-8 py-6 pb border-t border-web-gray'>
+                  <h2 className='font-semibold text-lg pb-8'>Subscribe</h2>
+                  <Subscribe user={user} />
+                </div>
               </div>
             )}
             {internalMenu == 'Stars' && <Starred starredOrganizations={starredOrganizations} />}{' '}
             {internalMenu === 'Watching' && watchedFullBounties.length > 0 && showWatched && (
               <Watching watchedBounties={watchedFullBounties} />
             )}
-            {internalMenu === 'Editing' && <Editing showWatched={showWatched} />}
+            {internalMenu === 'Invoicing Details' && <InvoicingDetails showWatched={showWatched} />}
           </div>
         </div>
       </div>

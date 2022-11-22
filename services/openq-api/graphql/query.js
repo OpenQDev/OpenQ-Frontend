@@ -78,10 +78,28 @@ export const REMOVE_CONTRIBUTOR = gql`
 `;
 // good to go
 export const GET_USER_BY_HASH = gql`
+  query ($userAddress: String!) {
+    user(address: $userAddress) {
+      github
+      discord
+      twitter
+      devRoles
+      otherRoles
+      languages
+      frameworks
+      starredOrganizationIds
+    }
+  }
+`;
+
+// gets info that requires auth
+export const GET_PRIVATE_USER_BY_HASH = gql`
   query ($userAddress: String!, $types: [String], $category: String) {
     user(address: $userAddress) {
       watchedBountyIds
       github
+      address
+      email
       watchedBounties(limit: 100, types: $types, category: $category) {
         nodes {
           tvl
@@ -174,6 +192,10 @@ export const UPDATE_USER = gql`
     $discord: String
     $github: String
     $twitter: String
+    $devRoles: [String]
+    $frameworks: [String]
+    $languages: [String]
+    $otherRoles: [String]
   ) {
     updateUser(
       address: $address
@@ -186,15 +208,28 @@ export const UPDATE_USER = gql`
       discord: $discord
       github: $github
       twitter: $twitter
+      devRoles: $devRoles
+      frameworks: $frameworks
+      languages: $languages
+      otherRoles: $otherRoles
     ) {
       address
+      twitter
+      github
+      discord
     }
   }
 `;
 
 export const UPDATE_USER_SIMPLE = gql`
-  mutation updateUserSimple($address: String!, $github: String) {
-    updateUserSimple(address: $address, github: $github) {
+  mutation updateUserSimple(
+    $address: String!
+    $github: String
+    $twitter: String
+    $languages: [String]
+    $email: String
+  ) {
+    updateUserSimple(address: $address, github: $github, twitter: $twitter, languages: $languages, email: $email) {
       address
     }
   }
@@ -287,6 +322,27 @@ export const BLACKLIST_ORG = gql`
   mutation blacklistOrg($organizationId: String, $blacklist: Boolean) {
     blackListOrg(organizationId: $organizationId, blackList: $blacklist) {
       blacklisted
+    }
+  }
+`;
+
+export const SET_IS_CONTEST = gql`
+  mutation setIsContest(
+    $repositoryId: String!
+    $isContest: Boolean!
+    $organizationId: String!
+    $startDate: String!
+    $registrationDeadline: String!
+  ) {
+    setIsContest(
+      repositoryId: $repositoryId
+      isContest: $isContest
+      organizationId: $organizationId
+      startDate: $startDate
+      registrationDeadline: $registrationDeadline
+    ) {
+      isContest
+      id
     }
   }
 `;

@@ -407,7 +407,27 @@ class GithubRepository {
             userId,
           },
         });
-        resolve(result.data.node);
+        const languages = result.data.node.repositories.nodes.map((repo) =>
+          repo.languages.nodes.map((language) => language.name)
+        );
+        const getRecentLanguages = (languages) => {
+          const recentLanguages = [];
+          // for loop from the end of the array
+          for (let i = languages.length - 1; i >= 0; i--) {
+            // if the language is not in the array, add it
+            if (!recentLanguages.includes(languages[i])) {
+              recentLanguages.push(languages[i]);
+            }
+            // if the array is 5 languages long, break
+            if (recentLanguages.length == 5) {
+              break;
+            }
+          }
+          return recentLanguages;
+        };
+        const recentLanguages = getRecentLanguages(languages.flat());
+        const user = Object.assign(result.data.node, { recentLanguages });
+        resolve(user);
       } catch (e) {
         reject(e);
       }

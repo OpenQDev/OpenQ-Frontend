@@ -8,21 +8,8 @@ const starOrganization = async (account, id, starred, setStarred, setStarredDisa
     dispatch(payload);
     return;
   }
-  const signMessage = async () => {
-    const message = 'OpenQ';
-    const signature = await window.ethereum.request({
-      method: 'personal_sign',
-      params: [message, account],
-    });
-    return signature;
-  };
-  try {
-    const response = await appState.authService.hasSignature(account);
-    if (response.data.status === false) {
-      const signature = await signMessage();
-      await appState.authService.verifySignature(account, signature);
-    }
 
+  try {
     setStarredDisabled(true);
     if (starred) {
       await appState.openQPrismaClient.unStarOrg(id, account);

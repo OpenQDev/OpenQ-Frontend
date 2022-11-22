@@ -410,6 +410,8 @@ export const GET_ORGANIZATION = gql`
           volume
           tokenAddress
         }
+        payoutSchedule
+        payoutTokenAddress
       }
       fundedTokenBalances(orderBy: volume, orderDirection: desc) {
         id

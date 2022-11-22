@@ -4,6 +4,7 @@ import {
   UNWATCH_BOUNTY,
   GET_BOUNTY_BY_HASH,
   GET_USER_BY_HASH,
+  GET_PRIVATE_USER_BY_HASH,
   UPDATE_USER,
   GET_CONTRACT_PAGE,
   GET_LEAN_ORGANIZATIONS,
@@ -20,6 +21,7 @@ import {
   BLACKLIST_ORG,
   UPDATE_USER_SIMPLE,
   GET_USERS,
+  SET_IS_CONTEST,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
@@ -282,6 +284,27 @@ class OpenQPrismaClient {
       }
       try {
         const result = await this.client.mutate({
+          mutation: GET_PRIVATE_USER_BY_HASH,
+          variables,
+        });
+        resolve(result.data.user);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  getPublicUser(userAddress) {
+    const promise = new Promise(async (resolve, reject) => {
+      if (!ethers.utils.isAddress(userAddress)) {
+        return {};
+      }
+      const variables = {
+        userAddress: ethers.utils.getAddress(userAddress),
+      };
+      try {
+        const result = await this.client.mutate({
           mutation: GET_USER_BY_HASH,
           variables,
         });
@@ -334,6 +357,21 @@ class OpenQPrismaClient {
           variables: { bountyId, blacklist },
           fetchPolicy: 'no-cache',
           context: { headers: { authorization: secret } },
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  async setIsContest(variables) {
+    console.log(variables);
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: SET_IS_CONTEST,
+          variables,
         });
         resolve(result.data);
       } catch (e) {

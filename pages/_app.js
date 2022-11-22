@@ -6,17 +6,18 @@ import { Web3ReactProvider } from '@web3-react/core';
 import 'tailwindcss/tailwind.css';
 import 'github-markdown-css/github-markdown-dark.css';
 import { useRouter } from 'next/router';
+import ReactGA from 'react-ga4';
+import { hotjar } from 'react-hotjar';
 
 // Custom
 import { UserContext } from '../lib/UserContext';
+import SetContextState from '../store/SetContextState/SetContextState';
 import '../styles/globals.css';
 import StoreProvider from '../store/Store/StoreProvider';
 import AuthProvider from '../store/AuthStore/AuthProvider';
 import Navigation from '../components/Layout/Navigation';
 import Head from 'next/head';
 import Footer from '../components/Layout/Footer';
-import ReactGA from 'react-ga4';
-import { hotjar } from 'react-hotjar';
 import {
   walletConnect,
   walletConnectHooks,
@@ -112,17 +113,19 @@ function OpenQ({ Component, pageProps }) {
       <>
         <UserContext.Provider value={[user, setUser]}>
           <AuthProvider>
-            <StoreProvider oauthToken={pageProps.oauthToken}>
-              <Web3ReactProvider connectors={connectors}>
-                <div className='min-h-screen  flex flex-col justify-between'>
-                  <div>
-                    <Navigation />
-                    <Component key={router.asPath} {...pageProps} />
+            <Web3ReactProvider connectors={connectors}>
+              <StoreProvider oauthToken={pageProps.oauthToken}>
+                <SetContextState>
+                  <div className='min-h-screen  flex flex-col justify-between'>
+                    <div>
+                      <Navigation />
+                      <Component key={router.asPath} {...pageProps} />
+                    </div>
+                    <Footer />
                   </div>
-                  <Footer />
-                </div>
-              </Web3ReactProvider>
-            </StoreProvider>
+                </SetContextState>
+              </StoreProvider>
+            </Web3ReactProvider>
           </AuthProvider>
         </UserContext.Provider>
       </>

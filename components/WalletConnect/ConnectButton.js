@@ -14,7 +14,7 @@ import StoreContext from '../../store/Store/StoreContext';
 
 const ConnectButton = ({ mobile }) => {
   // Context
-  const { chainId, error, account, deactivate, safe } = useWeb3();
+  const { chainId, error, account, safe } = useWeb3();
   const [ensName] = useEns(account);
   const [appState, dispatch] = useContext(StoreContext);
   const { walletConnectModal } = appState;
@@ -32,8 +32,11 @@ const ConnectButton = ({ mobile }) => {
   const buttonRef = useRef();
 
   // Hooks
-  useConnectOnLoad()(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
+  const connectOnLoad = useConnectOnLoad(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
 
+  if (typeof connectOnLoad === 'function') {
+    connectOnLoad();
+  }
   useEffect(() => {
     const createJazzicon = async () => {
       if (account && iconWrapper.current) {
@@ -120,7 +123,6 @@ const ConnectButton = ({ mobile }) => {
               account={account}
               ensName={ensName}
               chainId={chainId}
-              deactivate={deactivate}
               setIsConnecting={setIsConnecting}
               isSafeApp={safe}
             />

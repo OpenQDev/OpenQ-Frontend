@@ -5,17 +5,17 @@ import axios from 'axios';
 import confetti from 'canvas-confetti';
 
 // Custom
-import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
+import UnexpectedErrorModal from '../../Utils/UnexpectedErrorModal';
 import useAuth from '../../../hooks/useAuth';
 import StoreContext from '../../../store/Store/StoreContext';
 import useWeb3 from '../../../hooks/useWeb3';
-import ModalDefault from '../../../components/Utils/ModalDefault';
-import LoadingIcon from '../../../components/Loading/ButtonLoadingIcon';
+import ModalDefault from '../../Utils/ModalDefault';
+import LoadingIcon from '../../Loading/ButtonLoadingIcon';
 import ToolTipNew from '../../Utils/ToolTipNew';
-import CopyAddressToClipBoard from '../../../components/Copy/CopyAddressToClipboard';
-import LinkText from '../../../components/svg/linktext';
+import CopyAddressToClipBoard from '../../Copy/CopyAddressToClipboard';
+import LinkText from '../../svg/linktext';
 
-const AssociationModal = ({ githubId, user }) => {
+const AssociateAddress = ({ githubId, user }) => {
   const { account, library } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
   const { logger } = appState;
@@ -227,4 +227,4 @@ const AssociationModal = ({ githubId, user }) => {
     </div>
   );
 };
-export default AssociationModal;
+export default AssociateAddress;

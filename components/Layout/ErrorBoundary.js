@@ -8,9 +8,8 @@ class ErrorBoundary extends React.Component {
     this.state = { hasError: false };
   }
   static getDerivedStateFromError(error) {
-    console.log(error);
     // Update state so the next render will show the fallback UI
-
+    console.log(error);
     return { hasError: true };
   }
   componentDidCatch(error, errorInfo) {
