@@ -26,7 +26,9 @@ const HorizontalOrganizationCard = ({ organization }) => {
   useEffect(() => {
     const fetchBountiesData = async () => {
       if (organization?.bounties) {
-        const filteredBounties = organization.bounties.nodes.filter((contract) => !contract.blacklisted && !closed);
+        const filteredBounties = organization.bounties.nodes.filter(
+          (contract) => !contract.blacklisted && !contract.closed
+        );
         const bountyAddresses = filteredBounties.map((bounty) => bounty.address.toLowerCase());
         const bountyIds = filteredBounties.map((bounty) => bounty.bountyId);
         const githubIssues = await appState.githubRepository.getLeanIssueData(bountyIds);
