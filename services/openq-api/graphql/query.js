@@ -279,6 +279,7 @@ export const GET_CONTRACT_PAGE = gql`
     $types: [String]
     $limit: Int!
     $category: String
+    $repositoryId: String
   ) {
     bounties(
       after: $after
@@ -288,6 +289,7 @@ export const GET_CONTRACT_PAGE = gql`
       organizationId: $organizationId
       types: $types
       category: $category
+      repositoryId: $repositoryId
     ) {
       bountyConnection {
         nodes {
@@ -295,6 +297,7 @@ export const GET_CONTRACT_PAGE = gql`
           tvc
           address
           organizationId
+          repositoryId
           bountyId
           type
           category

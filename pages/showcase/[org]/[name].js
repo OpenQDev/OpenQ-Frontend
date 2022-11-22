@@ -46,7 +46,8 @@ const showcase = ({ name, currentPrs, batch, renderError, firstCursor, fullBount
         orderBy,
         cursor,
         organizationData.id,
-        account
+        account,
+        'MDEwOlJlcG9zaXRvcnkxNDQxNDAzNDI='
       );
       setOffChainCursor(newCursor);
       if (fullBounties?.length === 0) {
@@ -168,10 +169,13 @@ export default showcase;
 
 export async function getServerSideProps(context) {
   const githubRepository = new WrappedGithubClient();
+  console.log(githubRepository);
   const cookies = nookies.get(context);
   const { github_oauth_token_unsigned } = cookies;
   const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
   githubRepository.instance.setGraphqlHeaders(oauthToken);
+  const { org, name } = context.query;
+  const currentPrs = await githubRepository.instance.getPrs(org, name);
 
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
@@ -196,7 +200,8 @@ export async function getServerSideProps(context) {
       undefined,
       undefined,
       undefined,
-      undefined
+      undefined,
+      'MDEwOlJlcG9zaXRvcnkxNDQxNDAzNDI='
     );
   } catch (err) {
     logger.error(err);
@@ -209,7 +214,8 @@ export async function getServerSideProps(context) {
       batch,
       firstCursor,
       oauthToken,
-      // name, currentPrs
+      name,
+      currentPrs: currentPrs.data.repository.pullRequests.nodes,
     },
   };
 }
