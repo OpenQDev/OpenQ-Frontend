@@ -30,7 +30,7 @@ const ActionBubble = ({ bounty, action }) => {
   };
   const payoutObj = useMemo(() => getPayout(bounty), [bounty]);
   const [payoutValues] = useGetTokenValues(payoutObj);
-  const payoutTotal = appState.utils.formatter.format(payoutValues?.total);
+  const payoutTotal = appState.utils.formatter.format(payoutValues?.total || 0);
 
   useEffect(() => {
     const justMinted = sessionStorage.getItem('justMinted');
@@ -134,7 +134,7 @@ const ActionBubble = ({ bounty, action }) => {
     let bigNumberVolume = ethers.BigNumber.from(volume.toString());
     let decimals = parseInt(tokenMetadata.decimals) || 18;
     let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals) || '';
-    const usdValue = appState.utils.formatter.format(tokenValues?.total);
+    const usdValue = appState.utils.formatter.format(tokenValues?.total || 0);
 
     if (action.receiveTime) {
       const addStrings = (a, b) => {
@@ -163,7 +163,7 @@ const ActionBubble = ({ bounty, action }) => {
       titlePartOne = isNaN(tokenValues?.total)
         ? ''
         : `${name} refunded a deposit of ${formattedVolume} ${tokenMetadata.symbol} (${appState.utils.formatter.format(
-            tokenValues?.total
+            tokenValues?.total || 0
           )}) on ${appState.utils.formatUnixDate(action.refundTime)}.`;
     }
   }
