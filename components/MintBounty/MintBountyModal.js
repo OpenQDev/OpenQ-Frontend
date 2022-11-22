@@ -221,7 +221,6 @@ const MintBountyModal = ({ modalVisibility, types }) => {
         modalVisibility(false);
       }
     } catch (error) {
-      console.log(error);
       const { message, title } = appState.openQClient.handleError(error);
       appState.logger.error(message, account);
       setError({ message, title });

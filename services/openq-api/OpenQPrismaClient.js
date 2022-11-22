@@ -366,7 +366,6 @@ class OpenQPrismaClient {
   }
 
   async setIsContest(variables) {
-    console.log(variables);
     return new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
