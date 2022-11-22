@@ -20,7 +20,9 @@ import Utils from '../../../services/utils/Utils';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 
 const showcase = ({ name, currentPrs, batch, renderError, firstCursor, fullBounties }) => {
-  //oAuth, mergedOrgs
+  // oAuthToken?
+  // TO DO: get orgData & repoData to fill in info from header + Hackathon Data
+  // TO DO: fetch bounties only per that repo
   //Context
   const [appState] = useContext(StoreContext);
   useAuth();
@@ -172,6 +174,8 @@ export async function getServerSideProps(context) {
   const { github_oauth_token_unsigned } = cookies;
   const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
   githubRepository.instance.setGraphqlHeaders(oauthToken);
+  const { org, name } = context.query;
+  const currentPrs = await githubRepository.instance.getPrs(org, name);
 
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
@@ -209,7 +213,8 @@ export async function getServerSideProps(context) {
       batch,
       firstCursor,
       oauthToken,
-      // name, currentPrs
+      name,
+      currentPrs: currentPrs.data.repository.pullRequests.nodes,
     },
   };
 }
