@@ -2,11 +2,14 @@ import React, { useEffect, useState, useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import Link from 'next/link';
 import SubmissionCard from '../Submissions/SubmissionCard';
+import { getNonBlacklisted } from '../../services/utils/lib';
 
 const HackathonTab = ({ repositories, organization }) => {
+  console.log(repositories);
   const [displayRepos, setDisplayRepos] = useState([]);
   const [appState] = useContext(StoreContext);
   const [totalCount, setTotalCount] = useState({});
+  console.log(totalCount);
   useEffect(() => {
     const getPrs = async () => {
       let localCount = {};
@@ -15,19 +18,24 @@ const HackathonTab = ({ repositories, organization }) => {
         const org = organization.login;
         let currentRepos = await Promise.all(
           repositories.map(async (repo) => {
-            const repoPrs = await appState.githubRepository.getPrs(org, repo.name, 3);
-            setTotalCount({ ...localCount, [repo.name]: repoPrs.data.repository.pullRequests.totalCount });
-            localCount = { ...totalCount, [repo.name]: repoPrs.data.repository.pullRequests.totalCount };
-            const prs = repoPrs.data.repository.pullRequests.nodes;
+            // get nonBlacklisted repos
+            const { nonBlacklisted, totalCount } = await getNonBlacklisted(appState, repo.name, org);
 
-            return { name: repo.name, prs };
+            setTotalCount({ ...localCount, [repo.name]: totalCount });
+            localCount = { ...totalCount, [repo.name]: totalCount };
+            const prs = nonBlacklisted;
+
+            return { name: repo.name, prs, id: repo.id };
           })
         );
-        //     const repos = await appState.openQPrismaClient.getRepositories();
-        //   const reposNotBlaclisted = currentRepos.filter((repo) => {
-        //   return !appState.blacklistedRepos.includes(repo.name);
-        //});
-        setDisplayRepos(currentRepos);
+        const repos = await appState.openQPrismaClient.getRepositories({ organizationId: organization.id });
+
+        const blacklistedRepoIds = repos.filter((repo) => repo.hackathonBlacklisted).map((repo) => repo.id);
+
+        const reposNotHackathonBlacklisted = currentRepos.filter((repo) => {
+          return !blacklistedRepoIds.includes(repo.id);
+        });
+        setDisplayRepos(reposNotHackathonBlacklisted);
       }
     };
     const updatePrs = async () => {

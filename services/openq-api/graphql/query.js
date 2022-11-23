@@ -38,6 +38,15 @@ export const GET_PR_BY_ID = gql`
   }
 `;
 
+export const GET_ALL_PRS = gql`
+  query prs {
+    prs {
+      prId
+      blacklisted
+    }
+  }
+`;
+
 export const GET_ALL_CONTRACTS = gql`
   query getAllContracts {
     bounties(limit: 200) {
@@ -182,17 +191,11 @@ export const GET_LEAN_ORGANIZATIONS = gql`
 export const GET_REPOSITORIES = gql`
   query getRepositories($organizationId: String!) {
     organization(organizationId: $organizationId) {
-      repositories {
+      repositories(limit: 100) {
         nodes {
           id
-          className
-          className
-          description
-          name
-          url
-          owner {
-            login
-          }
+          isContest
+          hackathonBlacklisted
         }
       }
     }

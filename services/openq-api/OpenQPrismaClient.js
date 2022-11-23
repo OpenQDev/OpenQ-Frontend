@@ -23,6 +23,7 @@ import {
   GET_USERS,
   SET_IS_CONTEST,
   GET_REPOSITORIES,
+  GET_ALL_PRS,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
@@ -173,6 +174,21 @@ class OpenQPrismaClient {
           variables,
         });
         resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  getPullRequests() {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_ALL_PRS,
+        });
+        console.log(result.data);
+        resolve(result.data.prs);
       } catch (e) {
         reject(e);
       }
@@ -380,13 +396,14 @@ class OpenQPrismaClient {
     });
   }
 
-  getRepositories() {
+  getRepositories(variables) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
           query: GET_REPOSITORIES,
+          variables,
         });
-        resolve(result.data.repositories);
+        resolve(result.data.organization.repositories.nodes);
       } catch (e) {
         reject(e);
       }

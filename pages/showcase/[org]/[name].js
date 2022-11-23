@@ -4,8 +4,10 @@ import nookies from 'nookies';
 
 import SearchBar from '../../../components/Search/SearchBar';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
+import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
 import useAuth from '../../../hooks/useAuth';
 import SubmissionCard from '../../../components/Submissions/SubmissionCard';
+import { getNonBlacklisted } from '../../../services/utils/lib';
 
 const showcase = ({ name, currentPrs }) => {
   useAuth();
@@ -42,14 +44,19 @@ const showcase = ({ name, currentPrs }) => {
 export default showcase;
 
 export async function getServerSideProps(context) {
-  const githubRepository = new WrappedGithubClient();
+  const wrappedGithubRepository = new WrappedGithubClient();
+  const githubRepository = wrappedGithubRepository.instance;
+  const wrappedOpenQPrismaClient = new WrappedOpenQPrismaClient();
+  const openQPrismaClient = wrappedOpenQPrismaClient.instance;
   const cookies = nookies.get(context);
   const { github_oauth_token_unsigned } = cookies;
   const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
-  githubRepository.instance.setGraphqlHeaders(oauthToken);
+  githubRepository.setGraphqlHeaders(oauthToken);
   const { org, name } = context.query;
-  const currentPrs = await githubRepository.instance.getPrs(org, name);
+
+  const { nonBlacklisted } = await getNonBlacklisted({ githubRepository, openQPrismaClient }, name, org, 100);
+
   return {
-    props: { name, org, currentPrs: currentPrs.data.repository.pullRequests.nodes }, // will be passed to the page component as props
+    props: { name, org, currentPrs: nonBlacklisted }, // will be passed to the page component as props
   };
 }
