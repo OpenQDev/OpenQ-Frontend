@@ -179,6 +179,25 @@ export const GET_LEAN_ORGANIZATIONS = gql`
     }
   }
 `;
+export const GET_REPOSITORIES = gql`
+  query getRepositories($organizationId: String!) {
+    organization(organizationId: $organizationId) {
+      repositories {
+        nodes {
+          id
+          className
+          className
+          description
+          name
+          url
+          owner {
+            login
+          }
+        }
+      }
+    }
+  }
+`;
 
 export const UPDATE_USER = gql`
   mutation updateUser(

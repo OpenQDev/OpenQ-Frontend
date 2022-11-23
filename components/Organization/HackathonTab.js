@@ -23,7 +23,10 @@ const HackathonTab = ({ repositories, organization }) => {
             return { name: repo.name, prs };
           })
         );
-
+        //     const repos = await appState.openQPrismaClient.getRepositories();
+        //   const reposNotBlaclisted = currentRepos.filter((repo) => {
+        //   return !appState.blacklistedRepos.includes(repo.name);
+        //});
         setDisplayRepos(currentRepos);
       }
     };

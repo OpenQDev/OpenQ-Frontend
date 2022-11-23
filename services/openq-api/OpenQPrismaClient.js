@@ -22,6 +22,7 @@ import {
   UPDATE_USER_SIMPLE,
   GET_USERS,
   SET_IS_CONTEST,
+  GET_REPOSITORIES,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
@@ -377,6 +378,20 @@ class OpenQPrismaClient {
         reject(e);
       }
     });
+  }
+
+  getRepositories() {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_REPOSITORIES,
+        });
+        resolve(result.data.repositories);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
   }
 
   async getContractPage(after, limit, sortOrder, orderBy, types, organizationId, category) {
