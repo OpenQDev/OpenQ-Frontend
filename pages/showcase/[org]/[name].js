@@ -19,11 +19,12 @@ import Logger from '../../../services/logger/Logger';
 import Utils from '../../../services/utils/Utils';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 
-const showcase = ({ name, currentPrs, batch, renderError, firstCursor, fullBounties }) => {
+const showcase = ({ name, currentPrs, batch, renderError, firstCursor, fullBounties, repoData }) => {
   // oAuthToken?
   // TO DO: get orgData & repoData to fill in info from header + Hackathon Data
   // TO DO: fetch bounties only per that repo
   //Context
+  console.log(repoData);
   const [appState] = useContext(StoreContext);
   useAuth();
   const [submissionSearchTerm, setSubmissionSearchTerm] = useState('');
@@ -185,6 +186,19 @@ export async function getServerSideProps(context) {
   let fullBounties = [];
   let firstCursor = null;
   let renderError = '';
+  let repoData;
+  console.log(org, name);
+  try {
+    console.log('yay');
+    repoData = await githubRepository.instance.fetchRepoByName(name, org);
+  } catch (err) {
+    return {
+      props: {
+        renderError: `Could not find ${name} for the organization ${org} on Github, does this repository and / or organization exist on Github?`,
+      },
+    };
+  }
+  console.log(repoData);
   try {
     [fullBounties, firstCursor] = await utils.fetchBounties(
       {
@@ -215,6 +229,7 @@ export async function getServerSideProps(context) {
       oauthToken,
       name,
       currentPrs: currentPrs.data.repository.pullRequests.nodes,
+      repoData,
     },
   };
 }
