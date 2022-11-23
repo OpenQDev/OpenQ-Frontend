@@ -212,18 +212,6 @@ export const GET_REPO_BY_NAME = gql`
       description
       homepageUrl
       url
-      collaborators {
-        nodes {
-          name
-          login
-          bio
-          email
-          id
-          url
-          avatarUrl
-          twitterUsername
-        }
-      }
     }
   }
 `;

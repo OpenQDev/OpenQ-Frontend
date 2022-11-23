@@ -187,10 +187,9 @@ export async function getServerSideProps(context) {
   let firstCursor = null;
   let renderError = '';
   let repoData;
-  console.log(org, name);
   try {
-    console.log('yay');
-    repoData = await githubRepository.instance.fetchRepoByName(name, org);
+    console.log('yay', name, org);
+    repoData = await githubRepository.instance.fetchRepoByName(org, name);
   } catch (err) {
     return {
       props: {
