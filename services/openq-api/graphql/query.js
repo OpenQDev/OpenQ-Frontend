@@ -153,7 +153,7 @@ export const GET_ORGANIZATION = gql`
 
 export const GET_ORGANIZATIONS = gql`
   query getOrganizations($types: [String], $batch: Int!, $category: String) {
-    organizations(types: $types, category: $category) {
+    organizations {
       blacklisted
       id
       starringUserIds
