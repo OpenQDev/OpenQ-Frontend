@@ -8,7 +8,9 @@ function GitHubAuth() {
   const router = useRouter();
   const [, setAuthCode] = useState('NO AUTH CODE');
   const [appState] = useContext(StoreContext);
-  const { account } = useWeb3();
+  const { unSignedAccount, account } = useWeb3();
+  const [push, setPush] = useState(false);
+  console.log(unSignedAccount, account);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -34,13 +36,9 @@ function GitHubAuth() {
 
         if (redirectObject) {
           try {
-            const githubValues = await appState.authService.checkAuth();
+            await appState.authService.checkAuth();
 
-            const githubId = githubValues.payload.githubId;
-
-            if (githubId) {
-              router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/github/${githubValues.payload.githubId}`);
-            }
+            setPush(true);
           } catch (error) {
             console.error(error);
           }
@@ -50,10 +48,19 @@ function GitHubAuth() {
         }
       })
       .catch((err) => {
-        appState.logger.error(err, account, 'github1');
+        appState.logger.error(err, unSignedAccount, 'github1');
       });
   };
 
+  useEffect(() => {
+    if (account && push) {
+      router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${account}`);
+    } else if (push) {
+      setTimeout(() => {
+        router.push(`${process.env.NEXT_PUBLIC_BASE_URL}`);
+      }, 500);
+    }
+  }, [account, push]);
   return (
     <div className='flex fixed inset-0 justify-center'>
       <div className=' h-min text-center self-center flex flex-col items-center gap-4 px-4 pl-20'>
