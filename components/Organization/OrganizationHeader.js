@@ -17,7 +17,11 @@ const OrganizationHeader = ({ organizationData, repository }) => {
       </div>
       <div className='flex-1 self-center'>
         <h1 className='text-2xl leading-condensed font-semibold'>
-          <Link href={organizationData.url} target='_blank' className='text-blue-400 hover:underline'>
+          <Link
+            href={repository ? '/organization/' + organizationData.login : organizationData.url}
+            target={!repository && '_blank'}
+            className='text-blue-400 hover:underline'
+          >
             {organizationData.name || organizationData.login}
           </Link>
 
