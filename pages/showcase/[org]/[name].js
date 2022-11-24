@@ -2,14 +2,14 @@
 import React, { useState, useContext } from 'react';
 import nookies from 'nookies';
 
-import SearchBar from '../../../components/Search/SearchBar';
+// import SearchBar from '../../../components/Search/SearchBar';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import useAuth from '../../../hooks/useAuth';
-import SubmissionCard from '../../../components/Submissions/SubmissionCard';
+// import SubmissionCard from '../../../components/Submissions/SubmissionCard';
 import OrganizationHeader from '../../../components/Organization/OrganizationHeader';
 import SubMenu from '../../../components/Utils/SubMenu';
 import Home from '../../../components/svg/home';
-import Trophy from '../../../components/svg/trophy';
+// import Trophy from '../../../components/svg/trophy';
 import BountyList from '../../../components/BountyList/BountyList';
 import StoreContext from '../../../store/Store/StoreContext';
 import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
@@ -19,15 +19,13 @@ import Logger from '../../../services/logger/Logger';
 import Utils from '../../../services/utils/Utils';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 
-const showcase = ({ name, currentPrs, batch, renderError, firstCursor, fullBounties, repoData }) => {
+const showcase = ({ /* currentPrs, */ batch, renderError, firstCursor, fullBounties, orgData, repoData }) => {
   // oAuthToken?
-  // TO DO: get orgData & repoData to fill in info from header + Hackathon Data
-  // TO DO: fetch bounties only per that repo
   //Context
-  console.log(repoData);
+  console.log(orgData);
   const [appState] = useContext(StoreContext);
   useAuth();
-  const [submissionSearchTerm, setSubmissionSearchTerm] = useState('');
+  // const [submissionSearchTerm, setSubmissionSearchTerm] = useState('');
   const [toggleVal, setToggleVal] = useState('Overview');
   const [isLoading, setIsLoading] = useState(false);
   const [complete, setComplete] = useState();
@@ -48,7 +46,7 @@ const showcase = ({ name, currentPrs, batch, renderError, firstCursor, fullBount
         sortOrder,
         orderBy,
         cursor,
-        organizationData.id,
+        orgData.id,
         account
       );
       setOffChainCursor(newCursor);
@@ -65,9 +63,9 @@ const showcase = ({ name, currentPrs, batch, renderError, firstCursor, fullBount
   const handleToggle = (toggleVal) => {
     setToggleVal(toggleVal);
   };
-  const filterBySubmission = (e) => {
+  /* const filterBySubmission = (e) => {
     setSubmissionSearchTerm(e.target.value);
-  };
+  }; */
   async function getNewData(order, orderBy) {
     setIsLoading(true);
     setComplete(false);
@@ -84,18 +82,6 @@ const showcase = ({ name, currentPrs, batch, renderError, firstCursor, fullBount
     }
     setBounties(bounties.concat(newBounties));
   }
-  //dummy data to remove:
-  const organizationData = {
-    name: 'OpenQ Labs',
-    login: 'OpenQDev',
-    description: 'hello world',
-    location: 'Github',
-    websiteUrl: 'www.myorgwebsite.com',
-    twitterUsername: 'OpenQ',
-    email: 'email@gmail.com',
-    url: 'mywebsite.com',
-    avatarUrl: 'https://avatars.githubusercontent.com/u/77402538?s=200&v=4',
-  };
 
   return (
     <>
@@ -103,11 +89,11 @@ const showcase = ({ name, currentPrs, batch, renderError, firstCursor, fullBount
         <UnexpectedErrorModal error={error} />
       ) : (
         <div className='w-full mx-auto text-primary mt-1 px-4 md:px-16 max-w-[1420px] '>
-          <OrganizationHeader organizationData={organizationData} repository={repoData}></OrganizationHeader>
+          <OrganizationHeader organizationData={orgData} repository={repoData}></OrganizationHeader>
           <SubMenu
             items={[
               { name: 'Overview', Svg: Home },
-              { name: 'Hackathon Submissions', Svg: Trophy },
+              /* { name: 'Hackathon Submissions', Svg: Trophy }, */
             ]}
             internalMenu={toggleVal}
             updatePage={handleToggle}
@@ -130,7 +116,7 @@ const showcase = ({ name, currentPrs, batch, renderError, firstCursor, fullBount
               </div>
             </>
           )}
-          {toggleVal === 'Hackathon Submissions' && (
+          {/* {toggleVal === 'Hackathon Submissions' && (
             <div className='py-3 gap-6 w-full flex flex-col flex-wrap md:flex-nowrap'>
               <div className='  w-full px-2 sm:px-8 flex-wrap max-w-[1028px] pb-8 mx-auto'>
                 <h1 className='lsm:text-[32px] text-4xl py-16 flex-1 leading-tight min-w-[240px] pr-20'>
@@ -154,7 +140,7 @@ const showcase = ({ name, currentPrs, batch, renderError, firstCursor, fullBount
                 </div>
               </div>
             </div>
-          )}
+          )} */}
         </div>
       )}
     </>
@@ -179,7 +165,17 @@ export async function getServerSideProps(context) {
   let fullBounties = [];
   let firstCursor = null;
   let renderError = '';
+  let orgData;
   let repoData;
+  try {
+    orgData = await githubRepository.instance.fetchOrgOrUserByLogin(org);
+  } catch (err) {
+    return {
+      props: {
+        renderError: `Could not find ${org} on Github, does an organization with this name exists on Github?`,
+      },
+    };
+  }
   try {
     repoData = await githubRepository.instance.fetchRepoByName(org, name);
   } catch (err) {
@@ -219,6 +215,7 @@ export async function getServerSideProps(context) {
       oauthToken,
       name,
       currentPrs: currentPrs.data.repository.pullRequests.nodes,
+      orgData,
       repoData,
     },
   };
