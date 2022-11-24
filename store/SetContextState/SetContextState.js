@@ -19,14 +19,14 @@ const SetContextState = (props) => {
         type: 'SET_SIGNED_ACCOUNT',
         payload: signedAccount,
       };
-      dispatch(payload);
+      await dispatch(payload);
     };
 
     // function to check if signed then set signed, else get signature, verify, and set signed.
     const updateSignature = async (unSignedAccount) => {
       // isSigning a promise returns the signing result;
       const response = await appState.authService.hasSignature(unSignedAccount);
-      if (response.data.status === false) {
+      if (response.data.status === false && typeof account === 'string') {
         try {
           const signature = await appState.openQClient.signMessage(unSignedAccount);
           await appState.authService.verifySignature(unSignedAccount, signature);
@@ -34,7 +34,7 @@ const SetContextState = (props) => {
         } catch (error) {
           updateSignedAccount(null);
         }
-      } else {
+      } else if (typeof account === 'string') {
         updateSignedAccount(account);
       }
     };
@@ -53,7 +53,7 @@ const SetContextState = (props) => {
       if (Object.prototype.hasOwnProperty.call(authState, 'login') && signedAccount) {
         const accountData = await appState.openQPrismaClient.getUser(signedAccount);
 
-        if (!accountData?.github) {
+        if (!accountData?.github && authState.githubId) {
           const githubUser = await appState.githubRepository.fetchUserById(authState.githubId);
 
           const twitter = `https://twitter.com/${githubUser.twitterUsername}`;
