@@ -16,7 +16,12 @@ const OrganizationHomepage = ({ orgs, types }) => {
   const filterByOrg = (e) => {
     setOrganizationSearchTerm(e.target.value);
   };
-
+  const checkSearchTerm = (organization, organizationSearchTerm) => {
+    return organizationSearchTerm
+      ? organization.name?.toLowerCase().indexOf(organizationSearchTerm.toLowerCase()) > -1 ||
+          organization.login?.toLowerCase().indexOf(organizationSearchTerm.toLowerCase()) > -1
+      : organization;
+  };
   // Render
   return (
     <div>
@@ -49,10 +54,9 @@ const OrganizationHomepage = ({ orgs, types }) => {
           <div className=''>
             {orgs
               .filter((organization) => {
-                return organizationSearchTerm
-                  ? organization.name?.toLowerCase().indexOf(organizationSearchTerm.toLowerCase()) > -1 ||
-                      organization.login?.toLowerCase().indexOf(organizationSearchTerm.toLowerCase()) > -1
-                  : organization;
+                const hasSearchTerm = checkSearchTerm(organization, organizationSearchTerm);
+                const hasBounties = organization?.bounties?.nodes.length > 0;
+                return hasBounties && hasSearchTerm;
               })
               .map((elem, index) => (
                 <HorizontalOrganizationCard key={index} organization={elem} />

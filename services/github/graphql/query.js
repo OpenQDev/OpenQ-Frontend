@@ -203,6 +203,20 @@ export const GET_ORG_BY_NAME = gql`
   }
 `;
 
+export const GET_REPO_BY_NAME = gql`
+  query GetRepo($name: String!, $owner: String!) {
+    repository(name: $name, owner: $owner) {
+      __typename
+      name
+      nameWithOwner
+      id
+      description
+      homepageUrl
+      url
+    }
+  }
+`;
+
 export const GET_USER_BY_NAME = gql`
   query GetUser($login: String!) {
     user(login: $login) {
