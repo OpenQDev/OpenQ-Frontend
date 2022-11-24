@@ -68,7 +68,7 @@ describe('OrganizationMetadata', () => {
 
   it('should render Repo card', async () => {
     // ARRANGE
-    render(<RepoCard repository={repositoryData} complete={true} />);
+    render(<RepoCard repository={repositoryData} organizationData={'Curl'} complete={true} />);
 
     // ASSERT
     expect(screen.getByRole('link', { name: /curl/ })).toBeInTheDocument();
