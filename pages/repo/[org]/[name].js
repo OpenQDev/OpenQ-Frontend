@@ -176,9 +176,8 @@ export async function getServerSideProps(context) {
   const cookies = nookies.get(context);
   const { github_oauth_token_unsigned } = cookies;
   const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
-  githubRepository.setGraphqlHeaders(oauthToken);
+  githubRepository.instance.setGraphqlHeaders(oauthToken);
   const { org, name } = context.query;
-  const currentPrs = await githubRepository.instance.getPrs(org, name);
 
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
@@ -238,7 +237,6 @@ export async function getServerSideProps(context) {
       firstCursor,
       oauthToken,
       name,
-      currentPrs: currentPrs.data.repository.pullRequests.nodes,
       orgData,
       repoData,
     },
