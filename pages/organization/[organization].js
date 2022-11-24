@@ -13,10 +13,10 @@ import useAuth from '../../hooks/useAuth';
 import OrganizationHeader from '../../components/Organization/OrganizationHeader';
 import SubMenu from '../../components/Utils/SubMenu';
 import Home from '../../components/svg/home';
-import Trophy from '../../components/svg/trophy';
+// import Trophy from '../../components/svg/trophy';
 import OrganizationMetadata from '../../components/Organization/OrganizationMetadata';
 import OrganizationContent from '../../components/Organization/OrganizationContent';
-import HackathonTab from '../../components/Organization/HackathonTab.js';
+// import HackathonTab from '../../components/Organization/HackathonTab.js';
 
 import UnexpectedErrorModal from '../../components/Utils/UnexpectedErrorModal';
 import useWeb3 from '../../hooks/useWeb3';
@@ -97,7 +97,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
       },
     ];
   }, []);
-  const contestRepositories = bounties?.reduce((repositories, bounty) => {
+  /* const contestRepositories = bounties?.reduce((repositories, bounty) => {
     if (
       repositories.some((repo) => repo.name === bounty.repoName) ||
       (bounty.bountyType !== '2' && bounty.bountyType !== '3')
@@ -114,9 +114,9 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
         id: bounty.repoId,
       },
     ];
-  }, []);
+  }, []); */
 
-  const hackSubmissions =
+  /* const hackSubmissions =
     contestRepositories?.length > 0
       ? [
           {
@@ -124,7 +124,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
             Svg: Trophy,
           },
         ]
-      : [];
+      : []; */
 
   // Render
   return (
@@ -140,7 +140,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
                 name: 'Overview',
                 Svg: Home,
               },
-              ...hackSubmissions,
+              /* ...hackSubmissions, */
               /*{name: 'About', Svg: Question }*/
             ]}
             internalMenu={toggleVal}
@@ -155,15 +155,16 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
                 complete={complete}
                 getNewData={getNewData}
                 repositories={repositories}
+                organizationData={organizationData}
               />
               <OrganizationMetadata organizationData={organizationData} repositories={repositories} />
             </div>
           )}
-          {toggleVal === 'Hackathon Submissions' && (
+          {/* {toggleVal === 'Hackathon Submissions' && (
             <div className='py-3 gap-6 w-full flex flex-col flex-wrap md:flex-nowrap'>
               <HackathonTab repositories={contestRepositories} organization={organizationData} />
             </div>
-          )}
+          )} */}
         </div>
       )}
     </>

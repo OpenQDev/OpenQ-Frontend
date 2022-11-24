@@ -248,7 +248,8 @@ class Utils {
     cursor,
     organization,
     address,
-    category
+    category,
+    repositoryId
   ) => {
     const promise = new Promise(async (resolve, reject) => {
       let newCursor;
@@ -261,7 +262,8 @@ class Utils {
           orderBy,
           types,
           organization,
-          category
+          category,
+          repositoryId
         );
         prismaContracts =
           prismaContractsResult.nodes.filter(
