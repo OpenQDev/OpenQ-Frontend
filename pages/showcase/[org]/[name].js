@@ -22,7 +22,7 @@ import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQS
 const showcase = ({ /* currentPrs, */ batch, renderError, firstCursor, fullBounties, orgData, repoData }) => {
   // oAuthToken?
   //Context
-  console.log(orgData);
+  console.log(repoData);
   const [appState] = useContext(StoreContext);
   useAuth();
   // const [submissionSearchTerm, setSubmissionSearchTerm] = useState('');
@@ -48,7 +48,7 @@ const showcase = ({ /* currentPrs, */ batch, renderError, firstCursor, fullBount
         cursor,
         orgData.id,
         account,
-        'MDEwOlJlcG9zaXRvcnkxNDQxNDAzNDI='
+        repoData.id
       );
       setOffChainCursor(newCursor);
       if (fullBounties?.length === 0) {
@@ -203,7 +203,7 @@ export async function getServerSideProps(context) {
       undefined,
       undefined,
       undefined,
-      'MDEwOlJlcG9zaXRvcnkxNDQxNDAzNDI='
+      repoData.id
     );
   } catch (err) {
     logger.error(err);
