@@ -379,8 +379,8 @@ class OpenQPrismaClient {
     });
   }
 
-  async getContractPage(after, limit, sortOrder, orderBy, types, organizationId, category) {
-    const variables = { after, orderBy, limit, sortOrder, organizationId };
+  async getContractPage(after, limit, sortOrder, orderBy, types, organizationId, category, repositoryId) {
+    const variables = { after, orderBy, limit, sortOrder, organizationId, repositoryId };
     if (types) {
       variables.types = types;
     }

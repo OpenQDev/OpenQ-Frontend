@@ -4,6 +4,7 @@ import {
   GET_USER_BY_NAME,
   GET_ORG_BY_ID,
   GET_ORG_BY_NAME,
+  GET_REPO_BY_NAME,
   GET_ISSUE,
   GET_ISSUE_BY_ID,
   GET_ISSUES_BY_ID,
@@ -373,6 +374,24 @@ class GithubRepository {
         });
         resolve(result.data.user);
       } catch (e) {
+        reject(e);
+      }
+    });
+
+    return promise;
+  }
+
+  async fetchRepoByName(owner, name) {
+    const variables = { owner, name };
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_REPO_BY_NAME,
+          variables,
+        });
+        resolve(result.data.repository);
+      } catch (e) {
+        console.log(e);
         reject(e);
       }
     });
