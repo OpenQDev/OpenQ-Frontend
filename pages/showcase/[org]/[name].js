@@ -96,13 +96,6 @@ const showcase = ({ name, currentPrs, batch, renderError, firstCursor, fullBount
     url: 'mywebsite.com',
     avatarUrl: 'https://avatars.githubusercontent.com/u/77402538?s=200&v=4',
   };
-  //dummy data to remove:
-  const repository = {
-    name: 'OpenQ-Frontend',
-    url: 'www.repo.com',
-    description: 'That is my repo description',
-    isContest: true,
-  };
 
   return (
     <>
@@ -110,7 +103,7 @@ const showcase = ({ name, currentPrs, batch, renderError, firstCursor, fullBount
         <UnexpectedErrorModal error={error} />
       ) : (
         <div className='w-full mx-auto text-primary mt-1 px-4 md:px-16 max-w-[1420px] '>
-          <OrganizationHeader organizationData={organizationData} repository={repository}></OrganizationHeader>
+          <OrganizationHeader organizationData={organizationData} repository={repoData}></OrganizationHeader>
           <SubMenu
             items={[
               { name: 'Overview', Svg: Home },
@@ -188,7 +181,6 @@ export async function getServerSideProps(context) {
   let renderError = '';
   let repoData;
   try {
-    console.log('yay', name, org);
     repoData = await githubRepository.instance.fetchRepoByName(org, name);
   } catch (err) {
     return {
@@ -197,7 +189,6 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  console.log(repoData);
   try {
     [fullBounties, firstCursor] = await utils.fetchBounties(
       {

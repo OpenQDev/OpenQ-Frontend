@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const OrganizationHeader = ({ organizationData, repository }) => {
   const data = repository ? repository : organizationData;
@@ -17,7 +18,12 @@ const OrganizationHeader = ({ organizationData, repository }) => {
       <div className='flex-1 self-center'>
         <h1 className='text-2xl leading-condensed font-semibold'>
           {organizationData.name || organizationData.login}
-          {repository && ` / ${repository.name}`}
+          {' / '}
+          {repository && (
+            <Link href={repository.url} target='_blank' className='text-blue-400 hover:underline'>
+              {repository.name}
+            </Link>
+          )}
         </h1>
         <p className='text-sm text-muted leading-[21px]'>
           <span>{data?.description || ''}</span>
