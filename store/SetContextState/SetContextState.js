@@ -3,11 +3,12 @@ import StoreContext from '../Store/StoreContext';
 import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 import useAuth from '../../hooks/useAuth';
+import { metaMask, walletConnect } from '../../components/WalletConnect/connectors';
 
 // manages shared state between auth context and store context
 const SetContextState = (props) => {
   const { account } = useWeb3React();
-  const [triedSig, setTriedSig] = useState();
+  const [focused, setFocused] = useState(true);
   const [authState] = useAuth();
   const [appState, dispatch] = useContext(StoreContext);
 
@@ -33,6 +34,16 @@ const SetContextState = (props) => {
           updateSignedAccount(account);
         } catch (error) {
           updateSignedAccount(null);
+          const connectors = [metaMask, walletConnect];
+          connectors.forEach((connector) => {
+            if (connector?.deactivate) {
+              connector.deactivate();
+            } else {
+              connector.resetState();
+            }
+            appState.authService.hasSignature(null);
+            updateSignedAccount(null);
+          });
         }
       } else if (typeof account === 'string') {
         updateSignedAccount(account);
@@ -40,11 +51,22 @@ const SetContextState = (props) => {
     };
 
     // execute
-    if (account !== triedSig) {
-      setTriedSig(account);
+    if (focused) {
       updateSignature(account);
     }
-  }, [account]);
+  }, [account, focused]);
+
+  // watches for user focus
+  useEffect(() => {
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) {
+        setFocused(false);
+      } else {
+        setFocused(true);
+      }
+    });
+    () => document.removeEventListener('visibilitychange');
+  }, []);
 
   // saves github and account data to openq-api
   useEffect(() => {
