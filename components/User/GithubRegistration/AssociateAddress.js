@@ -32,7 +32,7 @@ const AssociateAddress = ({ githubId, user }) => {
   useEffect(() => {
     const getRelAccount = async () => {
       try {
-        const currentAccount = await appState.openQClient.getAddressById(library, 'MDQ6VXNlcjcyMTU2Njc5');
+        const currentAccount = await appState.openQClient.getAddressById(library, githubId);
         if (currentAccount) {
           setCurrentAccount(currentAccount);
         }

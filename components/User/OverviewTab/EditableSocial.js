@@ -49,11 +49,11 @@ const EditableSocial = ({ isOwner, social, user }) => {
               <input
                 onChange={handleInputChange}
                 value={inputValue}
-                className='w-36 bg-transparent rounded-sm border-web-gray border h-8 outline-transparent focus-within:shadow-none input-field curosr-auto'
+                className='w-36 bg-transparent rounded-sm border-web-gray border h-6 outline-transparent focus-within:shadow-none input-field curosr-auto'
               />
             </div>
           ) : (
-            <div className='h-8 flex gap-4'>
+            <div className=' flex gap-4'>
               <Icon className='inline' />
               <>
                 {hasSocial && isDiscord && (

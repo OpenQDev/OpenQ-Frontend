@@ -109,6 +109,24 @@ export const GET_PRIVATE_USER_BY_HASH = gql`
       github
       address
       email
+      company
+      email
+      city
+      streetAddress
+      country
+      province
+      discord
+      github
+      twitter
+      postalCode
+      billingName
+      invoiceNumber
+      phoneNumber
+      taxId
+      vatNumber
+      vatRate
+      memo
+
       watchedBounties(limit: 100, types: $types, category: $category) {
         nodes {
           tvl
@@ -218,6 +236,14 @@ export const UPDATE_USER = gql`
     $frameworks: [String]
     $languages: [String]
     $otherRoles: [String]
+    $postalCode: String
+    $billingName: String
+    $invoiceNumber: Int
+    $phoneNumber: String
+    $taxId: String
+    $vatNumber: String
+    $vatRate: Float
+    $memo: String
   ) {
     updateUser(
       address: $address
@@ -234,11 +260,35 @@ export const UPDATE_USER = gql`
       frameworks: $frameworks
       languages: $languages
       otherRoles: $otherRoles
+      postalCode: $postalCode
+      invoiceNumber: $invoiceNumber
+      billingName: $billingName
+      phoneNumber: $phoneNumber
+      taxId: $taxId
+      vatNumber: $vatNumber
+      vatRate: $vatRate
+      memo: $memo
     ) {
-      address
-      twitter
       github
+      address
+      email
+      company
+      email
+      city
+      streetAddress
+      country
+      province
       discord
+      github
+      twitter
+      postalCode
+      billingName
+      invoiceNumber
+      phoneNumber
+      taxId
+      vatNumber
+      vatRate
+      memo
     }
   }
 `;

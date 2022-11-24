@@ -241,6 +241,20 @@ class OpenQPrismaClient {
     return promise;
   }
 
+  updateLocalUser(values) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const updatedUser = { ...user, ...values };
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        resolve({ updateUser: updatedUser });
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
   // only updates github and address, no auth
   updateUserSimple(values) {
     const promise = new Promise(async (resolve, reject) => {
@@ -300,11 +314,23 @@ class OpenQPrismaClient {
         variables.category = category;
       }
       try {
-        const result = await this.client.mutate({
-          mutation: GET_PRIVATE_USER_BY_HASH,
+        const result = await this.client.query({
+          query: GET_PRIVATE_USER_BY_HASH,
           variables,
         });
         resolve(result.data.user);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  getLocalUser() {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        resolve(user);
       } catch (e) {
         reject(e);
       }

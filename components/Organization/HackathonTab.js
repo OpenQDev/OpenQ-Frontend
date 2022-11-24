@@ -5,11 +5,9 @@ import SubmissionCard from '../Submissions/SubmissionCard';
 import { getNonBlacklisted } from '../../services/utils/lib';
 
 const HackathonTab = ({ repositories, organization }) => {
-  console.log(repositories);
   const [displayRepos, setDisplayRepos] = useState([]);
   const [appState] = useContext(StoreContext);
   const [totalCount, setTotalCount] = useState({});
-  console.log(totalCount);
   useEffect(() => {
     const getPrs = async () => {
       let localCount = {};
