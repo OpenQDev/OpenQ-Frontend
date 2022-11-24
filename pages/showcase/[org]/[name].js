@@ -114,6 +114,28 @@ const showcase = ({ /* currentPrs, */ batch, renderError, firstCursor, fullBount
                     types={['0', '1', '2', '3']}
                   />
                 </div>
+                <ul className='w-full max-w-[960px] md:shrink-0 md:basis-1/4'>
+                  {repoData.languages.edges.length > 0 && (
+                    <li className='border-b border-web-gray pb-8' key='languages'>
+                      <div className='text-normal text-primary py-4 flex'>Top Languages</div>
+                      <div className='flex flex-wrap gap-2 w-60'>
+                        {' '}
+                        {repoData.languages.edges.map((language, index) => {
+                          return (
+                            <div className='w-fit inline' key={index}>
+                              {' '}
+                              <div
+                                style={{ backgroundColor: language.node.color }}
+                                className='w-3 h-3 rounded-lg inline-block'
+                              ></div>{' '}
+                              <span className='text-sm'>{language.node.name}</span>
+                            </div>
+                          );
+                        })}{' '}
+                      </div>
+                    </li>
+                  )}
+                </ul>
               </div>
             </>
           )}

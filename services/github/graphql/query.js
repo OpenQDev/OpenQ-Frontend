@@ -213,6 +213,14 @@ export const GET_REPO_BY_NAME = gql`
       description
       homepageUrl
       url
+      languages(first: 10) {
+        edges {
+          node {
+            name
+            color
+          }
+        }
+      }
     }
   }
 `;
