@@ -15,6 +15,7 @@ import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import SelectableNFT from './SelectableNFT';
 import NFTFundModal from './NFTFundModal.js';
 import Cross from '../svg/cross';
+import chainIdDeployEnvMap from '../../components/WalletConnect/chainIdDeployEnvMap';
 
 const FundPage = ({ bounty, refreshBounty }) => {
   const [volume, setVolume] = useState('');
@@ -75,7 +76,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
     !(parseInt(depositPeriodDays) > 0);
 
   const disableOrEnable = `${
-    (loadingClosedOrZero || !isOnCorrectNetwork) && account
+    loadingClosedOrZero && account && isOnCorrectNetwork
       ? 'btn-default w-full cursor-not-allowed'
       : 'btn-primary cursor-pointer'
   }`;
@@ -273,6 +274,15 @@ const FundPage = ({ bounty, refreshBounty }) => {
     if (e.target.value === '') setDepositPeriodDays('0');
   };
 
+  const addOrSwitchNetwork = () => {
+    window.ethereum
+      .request({
+        method: 'wallet_addEthereumChain',
+        params: chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['params'],
+      })
+      .catch((err) => appState.logger.error(err, account));
+  };
+
   // Render
   return (
     <>
@@ -379,12 +389,17 @@ const FundPage = ({ bounty, refreshBounty }) => {
                   >
                     <button
                       className={`${fundButtonClasses} py-1.5`}
-                      disabled={(loadingClosedOrZero || !isOnCorrectNetwork) && account}
+                      disabled={loadingClosedOrZero && account && isOnCorrectNetwork}
                       type='button'
-                      onClick={account ? openFund : connectWallet}
+                      onClick={!account ? connectWallet : !isOnCorrectNetwork ? addOrSwitchNetwork : openFund}
                     >
                       <div className='text-center whitespace-nowrap w-full'>
-                        {account ? buttonText : 'Connect Wallet'}
+                        {/* {account && isOnCorrectNetwork ? buttonText : 'Connect Wallet'} */}
+                        {!account
+                          ? 'Connect Wallet'
+                          : !isOnCorrectNetwork
+                          ? `Use ${chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['networkName']} Network`
+                          : buttonText}
                       </div>
                     </button>
                   </ToolTipNew>

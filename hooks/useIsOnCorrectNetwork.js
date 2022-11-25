@@ -15,7 +15,7 @@ const useIsOnCorrectNetwork = (props) => {
     } else {
       setIsOnCorrectNetwork(true);
     }
-  }, [chainId, error?.message]);
+  }, [chainId, error?.message, account]);
   return [isOnCorrectNetwork, setIsOnCorrectNetwork];
 };
 
