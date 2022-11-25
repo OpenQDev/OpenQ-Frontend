@@ -22,6 +22,8 @@ import {
   UPDATE_USER_SIMPLE,
   GET_USERS,
   SET_IS_CONTEST,
+  GET_REPOSITORIES,
+  GET_ALL_PRS,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
@@ -179,6 +181,21 @@ class OpenQPrismaClient {
     return promise;
   }
 
+  getPullRequests() {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_ALL_PRS,
+        });
+        console.log(result.data);
+        resolve(result.data.prs);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
   getOrganization(id) {
     const promise = new Promise(async (resolve, reject) => {
       try {
@@ -217,6 +234,20 @@ class OpenQPrismaClient {
           variables: values,
         });
         resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  updateLocalUser(values) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const updatedUser = { ...user, ...values };
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        resolve({ updateUser: updatedUser });
       } catch (e) {
         reject(e);
       }
@@ -283,11 +314,23 @@ class OpenQPrismaClient {
         variables.category = category;
       }
       try {
-        const result = await this.client.mutate({
-          mutation: GET_PRIVATE_USER_BY_HASH,
+        const result = await this.client.query({
+          query: GET_PRIVATE_USER_BY_HASH,
           variables,
         });
         resolve(result.data.user);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  getLocalUser() {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        resolve(user);
       } catch (e) {
         reject(e);
       }
@@ -377,6 +420,21 @@ class OpenQPrismaClient {
         reject(e);
       }
     });
+  }
+
+  getRepositories(variables) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_REPOSITORIES,
+          variables,
+        });
+        resolve(result.data.organization.repositories.nodes);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
   }
 
   async getContractPage(after, limit, sortOrder, orderBy, types, organizationId, category, repositoryId) {

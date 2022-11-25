@@ -11,7 +11,7 @@ const RepoCard = ({ repository, organizationData }) => {
       {repository.url && (
         <a
           title={repository.url}
-          href={`/showcase/${organizationData.login}/${repository.name}`}
+          href={`/repo/${organizationData.login}/${repository.name}`}
           className='text-link-colour hover:underline cursor-pointer ml-2'
         >
           {repository.name}

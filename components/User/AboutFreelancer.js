@@ -15,13 +15,15 @@ import SubMenu from '../Utils/SubMenu';
 import Watching from './WatchingTab/Watching';
 import Starred from './StarsTab/Starred';
 import StoreContext from '../../store/Store/StoreContext';
-import InvoicingDetails from './InvoicingDetailsTab/InvoicingDetails';
+import FreelancerDetails from './InvoicingDetailsTab/FreelancerDetails';
+import OrgDetails from './InvoicingDetailsTab/OrgDetails';
 import UserSocials from './OverviewTab/UserSocials';
-import Gear from '../svg/gear';
+//import Gear from '../svg/gear';
 import Skills from './OverviewTab/Skills';
 import useAuth from '../../hooks/useAuth';
 import Subscribe from '../Utils/Subscribe';
 import GithubConnection from './OverviewTab/GithubConnection';
+import useWeb3 from '../../hooks/useWeb3';
 
 const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatched, watchedBounties }) => {
   const { payoutTokenBalances, payouts } = user;
@@ -29,8 +31,10 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
   const [appState] = useContext(StoreContext);
   const [watchedFullBounties, setWatchedFullBounties] = useState([]);
   const [githubUser, setGithubUser] = useState();
-  const account = user.id;
-  const [ensName] = useEns(account);
+  const userId = user.id;
+  const { account } = useWeb3();
+  const [ensName] = useEns(userId);
+
   const isOwner = user.address?.toLowerCase() === account;
   const [authState] = useAuth();
   const { githubId } = authState;
@@ -102,14 +106,16 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
         <SubMenu
           internalMenu={internalMenu}
           updatePage={setInternalMenu}
-          styles='w-full justify-center lg:justify-start max-w-[600px] mx-auto border-none'
+          styles='w-full justify-center lg:justify-start max-w-[800px] mx-auto border-none'
           colour='rust'
           items={[
             { name: 'Overview', Svg: BookIcon },
             { name: 'Stars', Svg: StarIcon },
             ...[showWatched ? { name: 'Watching', Svg: EyeIcon } : {}],
-
-            { name: 'Invoicing Details', Svg: Gear },
+            /*
+            { name: 'Invoicing Details - Freelancer', Svg: Gear },
+            { name: 'Invoicing Details - Org', Svg: Gear },
+            */
           ]}
         />
         <div className='w-full border-b h-px border-web-gray'></div>
@@ -128,7 +134,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
                 </div>
               </div>
             ) : (
-              <div className='float-right'>
+              <div className='float-right '>
                 <div className='rounded-full h-72 w-72 xl:-mt-4 relative overflow-hidden' ref={iconWrapper}></div>
               </div>
             )}
@@ -164,24 +170,27 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
                 <AboutTitle ensName={ensName} account={account} githubUser={githubUser} />
 
                 <UserHistory organizations={organizations} payouts={payouts} />
+                <GithubConnection user={user} />
                 <Balances tokenBalances={payoutTokenBalances} tokenValues={payoutTokenValues} title='Total Payouts' />
                 <MiniBountyList payouts={payouts} />
-                <GithubConnection user={user} />
 
                 <UserSocials user={user} />
 
                 <Skills user={user} />
-                <div className='px-8 py-6 pb border-t border-web-gray'>
-                  <h2 className='font-semibold text-lg pb-8'>Subscribe</h2>
-                  <Subscribe user={user} />
-                </div>
+                {isOwner && (
+                  <div className='px-8 py-6 pb border-t border-web-gray'>
+                    <h2 className='font-semibold text-lg pb-8'>Subscribe</h2>
+                    <Subscribe user={user} />
+                  </div>
+                )}
               </div>
             )}
             {internalMenu == 'Stars' && <Starred starredOrganizations={starredOrganizations} />}{' '}
             {internalMenu === 'Watching' && watchedFullBounties.length > 0 && showWatched && (
               <Watching watchedBounties={watchedFullBounties} />
             )}
-            {internalMenu === 'Invoicing Details' && <InvoicingDetails showWatched={showWatched} />}
+            {internalMenu === 'Invoicing Details - Freelancer' && <FreelancerDetails showWatched={showWatched} />}
+            {internalMenu === 'Invoicing Details - Org' && <OrgDetails showWatched={showWatched} />}
           </div>
         </div>
       </div>

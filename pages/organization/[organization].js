@@ -93,6 +93,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
         languages: bounty.languages,
         description: bounty.repoDescription,
         url: bounty.repoUrl,
+        id: bounty.repoId,
       },
     ];
   }, []);
@@ -110,6 +111,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
         languages: bounty.languages,
         description: bounty.repoDescription,
         url: bounty.repoUrl,
+        id: bounty.repoId,
       },
     ];
   }, []); */

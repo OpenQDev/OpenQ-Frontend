@@ -38,6 +38,15 @@ export const GET_PR_BY_ID = gql`
   }
 `;
 
+export const GET_ALL_PRS = gql`
+  query prs {
+    prs {
+      prId
+      blacklisted
+    }
+  }
+`;
+
 export const GET_ALL_CONTRACTS = gql`
   query getAllContracts {
     bounties(limit: 200) {
@@ -100,6 +109,24 @@ export const GET_PRIVATE_USER_BY_HASH = gql`
       github
       address
       email
+      company
+      email
+      city
+      streetAddress
+      country
+      province
+      discord
+      github
+      twitter
+      postalCode
+      billingName
+      invoiceNumber
+      phoneNumber
+      taxId
+      vatNumber
+      vatRate
+      memo
+
       watchedBounties(limit: 100, types: $types, category: $category) {
         nodes {
           tvl
@@ -179,6 +206,19 @@ export const GET_LEAN_ORGANIZATIONS = gql`
     }
   }
 `;
+export const GET_REPOSITORIES = gql`
+  query getRepositories($organizationId: String!) {
+    organization(organizationId: $organizationId) {
+      repositories(limit: 100) {
+        nodes {
+          id
+          isContest
+          hackathonBlacklisted
+        }
+      }
+    }
+  }
+`;
 
 export const UPDATE_USER = gql`
   mutation updateUser(
@@ -196,6 +236,14 @@ export const UPDATE_USER = gql`
     $frameworks: [String]
     $languages: [String]
     $otherRoles: [String]
+    $postalCode: String
+    $billingName: String
+    $invoiceNumber: Int
+    $phoneNumber: String
+    $taxId: String
+    $vatNumber: String
+    $vatRate: Float
+    $memo: String
   ) {
     updateUser(
       address: $address
@@ -212,11 +260,35 @@ export const UPDATE_USER = gql`
       frameworks: $frameworks
       languages: $languages
       otherRoles: $otherRoles
+      postalCode: $postalCode
+      invoiceNumber: $invoiceNumber
+      billingName: $billingName
+      phoneNumber: $phoneNumber
+      taxId: $taxId
+      vatNumber: $vatNumber
+      vatRate: $vatRate
+      memo: $memo
     ) {
-      address
-      twitter
       github
+      address
+      email
+      company
+      email
+      city
+      streetAddress
+      country
+      province
       discord
+      github
+      twitter
+      postalCode
+      billingName
+      invoiceNumber
+      phoneNumber
+      taxId
+      vatNumber
+      vatRate
+      memo
     }
   }
 `;

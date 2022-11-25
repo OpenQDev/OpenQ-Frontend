@@ -97,7 +97,8 @@ class GithubRepository {
           query: GET_PRS,
           variables,
         });
-        resolve(result);
+        const pullRequestObj = result.data.repository.pullRequests;
+        resolve({ repoPrs: pullRequestObj.nodes, totalCount: pullRequestObj.totalCount });
       } catch (err) {
         reject(err);
       }
@@ -113,6 +114,7 @@ class GithubRepository {
       const closedAt = responseData.closedAt;
       const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = responseData;
       const repoName = responseData.repository.name;
+      const repoId = responseData.repository.id;
       const avatarUrl = responseData.repository.owner.avatarUrl;
       const owner = responseData.repository.owner.login;
       const twitterUsername = responseData.repository.owner.twitterUsername || null;
@@ -137,6 +139,7 @@ class GithubRepository {
         twitterUsername,
         number,
         prs,
+        repoId,
         closedEvents,
       };
     } catch (err) {
@@ -144,6 +147,7 @@ class GithubRepository {
       let id,
         title,
         assignees,
+        repoId,
         body,
         url,
         repoName,
@@ -166,6 +170,7 @@ class GithubRepository {
         body,
         url,
         repoName,
+        repoId,
         owner,
         avatarUrl,
         labels,
@@ -194,6 +199,7 @@ class GithubRepository {
           const avatarUrl = elem.repository.owner.avatarUrl;
           const owner = elem.repository.owner.login;
           const repoDescription = elem.repository.description;
+          const repoId = elem.repository.id;
           const repoUrl = elem.repository.url;
           const assignees = elem.assignees.nodes;
           const number = elem.number;
@@ -218,6 +224,7 @@ class GithubRepository {
             repoUrl,
             repoDescription,
             prs,
+            repoId,
           };
         } catch (err) {
           reject(err);
