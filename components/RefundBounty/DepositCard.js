@@ -7,6 +7,8 @@ import ToolTipNew from '../Utils/ToolTipNew';
 import { ethers } from 'ethers';
 import useWeb3 from '../../hooks/useWeb3';
 import Link from 'next/link';
+import chainIdDeployEnvMap from '../../components/WalletConnect/chainIdDeployEnvMap';
+
 const DepositCard = ({
   deposit,
   refundBounty,
@@ -16,6 +18,7 @@ const DepositCard = ({
   isOnCorrectNetwork,
   onDepositPeriodChanged,
   depositPeriodDays,
+  account,
 }) => {
   // Context
   const [appState] = useContext(StoreContext);
@@ -40,6 +43,16 @@ const DepositCard = ({
     };
     getNft();
   }, [deposit, library]);
+
+  const addOrSwitchNetwork = () => {
+    window.ethereum
+      .request({
+        method: 'wallet_addEthereumChain',
+        params: chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['params'],
+      })
+      .catch((err) => appState.logger.error(err, account));
+  };
+
   return (
     <div className='flex flex-col items-center w-full md:border rounded-sm border-gray-700 text-primary'>
       <div className='flex justify-center w-full md:bg-[#161b22] md:border-b border-gray-700 pb-1 rounded-t-sm'>
@@ -93,7 +106,7 @@ const DepositCard = ({
           )}
           {status !== 'refunded' && !closed && (
             <>
-              {expanded ? (
+              {expanded && isOnCorrectNetwork ? (
                 <div className=' text-primary flex flex-col md:flex-row md:space-x-2 items-center'>
                   <div className='flex w-full input-field-big pl-4 justify-between'>
                     <div className=' flex items-center'>
@@ -152,14 +165,13 @@ const DepositCard = ({
                   toolTipText={'Please switch to the correct network to refund this deposit.'}
                 >
                   <button
-                    onClick={() => setExpanded(!expanded)}
-                    disabled={!isOnCorrectNetwork}
-                    className={`${isOnCorrectNetwork ? 'btn-default w-full' : 'btn-default cursor-not-allowed w-full'}`}
+                    onClick={!isOnCorrectNetwork ? addOrSwitchNetwork : () => setExpanded(!expanded)}
+                    className='btn-default w-full'
                   >
-                    Extend
+                    {!isOnCorrectNetwork ? 'Change Network' : 'Extend'}
                   </button>
                 </ToolTipNew>
-              )}{' '}
+              )}
             </>
           )}
         </div>
