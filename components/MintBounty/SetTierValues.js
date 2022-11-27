@@ -105,7 +105,7 @@ const SetTierValues = ({
     <>
       {category === 'Contest' ? (
         <div className='py-2 gap-2  flex flex-col w-full  text-base'>
-          <div className='flex  gap-2'>
+          <div className='flex  gap-2 font-semibold'>
             Weight per Tier (%)
             <ToolTipNew mobileX={10} toolTipText={'How much % of the total will each winner earn?'}>
               <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 text-sm box-content text-center font-bold text-primary'>
@@ -113,12 +113,7 @@ const SetTierValues = ({
               </div>
             </ToolTipNew>
           </div>
-          <SmallToggle
-            toggleVal={toggleVal}
-            className={' ml-2 '}
-            toggleFunc={handleToggle}
-            names={['Visual', 'Text']}
-          />
+          <SmallToggle toggleVal={toggleVal} className={'  '} toggleFunc={handleToggle} names={['Visual', 'Text']} />
           {sum !== currentSum ? (
             <span className='text-sm'>You must give a value for each tier</span>
           ) : sum > 100 ? (

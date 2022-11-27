@@ -67,6 +67,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
       ? 'Fixed Contest'
       : 'Fixed Price';
   const [category, setCategory] = useState(initialCategory);
+  // const [template, setTemplate] = useState('');
   const [goalVolume, setGoalVolume] = useState('');
   const [goalToken, setGoalToken] = useState(zeroAddressMetadata);
   const [sum, setSum] = useState(0);
@@ -437,6 +438,19 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                 styles={'justify-center'}
                 vertical={true}
               />
+              {/* <div className='pb-2 pt-8'>Templates</div>
+              <SubMenu
+                items={[
+                  { name: 'Fixed Price Contract', Svg: PersonIcon },
+                  { name: 'Learn2Earn', Svg: PersonAddIcon },
+                  { name: 'Competition', Svg: PeopleIcon },
+                  // { name: 'Fixed Contest', Svg: PeopleIcon },
+                ]}
+                internalMenu={category}
+                updatePage={setCategory}
+                styles={'justify-center'}
+                vertical={true}
+              /> */}
             </div>
             <div className='overflow-y-auto px-2'>
               <h3 className='text-xl pt-2'>
@@ -462,7 +476,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
               </div>
 
               <div className='flex flex-col  gap-2 py-2 w-full items-start  text-base bg-[#161B22]'>
-                <div className='flex items-center gap-2'>
+                <div className='flex items-center gap-2 font-semibold'>
                   Is this Contract invoiceable?
                   <ToolTipNew mobileX={10} toolTipText={'Do you want an invoice for this contract?'}>
                     <div className='cursor-help rounded-full border border-[#c9d1d9] text-sm aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
@@ -470,7 +484,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                     </div>
                   </ToolTipNew>
                 </div>
-                <div className='flex-1 w-full px-2'>
+                <div className='flex-1 w-full'>
                   <div className='flex text-sm rounded-sm text-primary '>
                     <ToolTipNew innerStyles={'flex'} toolTipText={'Invoicing feature coming soon'}>
                       <button
@@ -499,7 +513,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
 
               {category !== 'Fixed Contest' && (
                 <div className=' flex flex-col gap-2 w-full py-2 items-start text-base bg-[#161B22]'>
-                  <div className='flex items-center gap-2'>
+                  <div className='flex items-center gap-2 font-semibold'>
                     Set a Budget
                     <input type='checkbox' className='checkbox' onChange={() => setBudgetInput(!budgetInput)}></input>
                     <ToolTipNew
@@ -535,7 +549,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
               {category === 'Split Price' ? (
                 <>
                   <div className='flex flex-col gap-2 w-full items-start py-2 pb-4 text-base bg-[#161B22]'>
-                    <div className='flex items-center gap-2'>
+                    <div className='flex items-center gap-2 font-semibold'>
                       Reward Split?
                       <ToolTipNew mobileX={10} toolTipText={'How much will each successful submitter earn?'}>
                         <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>
@@ -543,7 +557,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                         </div>
                       </ToolTipNew>
                     </div>
-                    <div className='flex-1 w-full px-2'>
+                    <div className='flex-1 w-full'>
                       <TokenFundBox
                         label='split'
                         onCurrencySelect={onCurrencySelect}
@@ -559,7 +573,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                 <div className='items-center py-2'>
                   <div className=' w-11/12 text-base flex flex-col gap-2'>
                     <div className=' flex flex-col gap-2 w-full py-2 items-start text-base bg-[#161B22]'>
-                      <div className='flex items-center gap-2'>
+                      <div className='flex items-center gap-2 font-semibold'>
                         Enable Hackathon Registration
                         <input
                           type='checkbox'
@@ -614,7 +628,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                       </>
                     ) : null}
 
-                    <div className='flex items-center gap-2'>
+                    <div className='flex items-center gap-2 font-semibold'>
                       How many Tiers?
                       <ToolTipNew
                         mobileX={10}
@@ -626,7 +640,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                       </ToolTipNew>
                     </div>
                     <input
-                      className={'flex-1 input-field w-full ml-2'}
+                      className={'flex-1 input-field w-full'}
                       id='name'
                       aria-label='tiers'
                       placeholder='0'
@@ -641,7 +655,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                   {category === 'Fixed Contest' && (
                     <div className='flex flex-col w-11/12 items-start py-2 gap-2 text-base pb-4'>
                       <div className='flex items-center gap-2'>
-                        <div className='flex items-center gap-2'>
+                        <div className='flex items-center gap-2 font-semibold '>
                           Which token?
                           <ToolTipNew mobileX={10} toolTipText={'Fixed contests can only be funded with one token.'}>
                             <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>
@@ -650,7 +664,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                           </ToolTipNew>
                         </div>
                       </div>
-                      <div className=' pl-4'>
+                      <div className=''>
                         <TokenSearch
                           token={payoutToken}
                           setShowTokenSearch={setHideModal}

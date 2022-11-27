@@ -4,7 +4,7 @@ const TierResult = ({ finalTierVolumes, sum }) => {
   const container = useRef();
   return (
     <>
-      Total
+      <div className='flex items-center gap-2 font-semibold'>Total</div>
       <div className={`flex w-11/12 text-sm  items-center gap-2 mb-1 pl-2 pr-8`}>
         <div className='w-9 flex-none'>{sum}%</div>
         <div
