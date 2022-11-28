@@ -66,7 +66,7 @@ describe('DepositCard', () => {
   const test = (deposit) => {
     it('should render the volume and name of token', async () => {
       // ARRANGE
-      render(<DepositCard deposit={deposit} />);
+      render(<DepositCard deposit={deposit} isOnCorrectNetwork={true} />);
       let heading = await screen.findByText(/23.00 MATIC/i);
 
       // ASSERT
@@ -75,7 +75,7 @@ describe('DepositCard', () => {
 
     it('should render refund and extend button when refundable', async () => {
       // ARRANGE
-      render(<DepositCard deposit={deposit} status={'refundable'} />);
+      render(<DepositCard deposit={deposit} status={'refundable'} isOnCorrectNetwork={true} />);
       const refundBtn = await screen.findByRole('button', { name: /Refund/i });
       const extendBtn = await screen.findByRole('button', { name: /Extend/i });
 
@@ -89,7 +89,7 @@ describe('DepositCard', () => {
     });
     it('should render times whether refundable or not', async () => {
       // ARRANGE
-      render(<DepositCard deposit={deposit} />);
+      render(<DepositCard deposit={deposit} isOnCorrectNetwork={true} />);
 
       const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
       // ASSERT
@@ -103,7 +103,7 @@ describe('DepositCard', () => {
 
     it('should render extend button when not refunded yet', async () => {
       // ARRANGE
-      render(<DepositCard deposit={deposit} />);
+      render(<DepositCard deposit={deposit} isOnCorrectNetwork={true} />);
       const extendBtn = await screen.findByRole('button', { name: /Extend/i });
 
       // ASSERT
@@ -112,6 +112,18 @@ describe('DepositCard', () => {
       } else {
         expect(extendBtn).toHaveLength(0);
       }
+
+      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+      expect(nullish).toHaveLength(0);
+    });
+
+    it('should render change network button when not on right network', async () => {
+      // ARRANGE
+      render(<DepositCard deposit={deposit} isOnCorrectNetwork={false} />);
+      const chgeNetworkBtn = await screen.findByRole('button', { name: /Change Network/i });
+
+      // ASSERT
+      expect(chgeNetworkBtn).toBeInTheDocument();
 
       const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
       expect(nullish).toHaveLength(0);
