@@ -19,8 +19,15 @@ const UnexpectedErrorModal = ({ error }) => {
     } catch (err) {
       appState.logger.error(err, account);
     }
-
-    setCurrentError(parsedError?.message || error || currentError);
+    if (error.graphQLErrors[0].type == 'RATE_LIMITED') {
+      setCurrentError(
+        `Looks like you're a power user...We're still building and have limited Github access at the moment. 
+        Please give it a rest, go get a coffee, and come back in about an hour. 
+        Your Github auth should be good by then.`
+      );
+    } else {
+      setCurrentError(parsedError?.message || error || currentError);
+    }
     if (JSON.stringify(error).includes('github') && error.includes('401')) {
       setLoginModal(true);
     }
@@ -61,11 +68,11 @@ const UnexpectedErrorModal = ({ error }) => {
 
   return (
     <ModalDefault title={'Unexpected Error'} footerRight={btn} setShowModal={() => {}} resetState={resetState}>
-      <p className='pb-4'>Unfortunately we could not process your request due to a technical issue on our end. </p>
+      <p className='pb-4'>Unfortunately we could not process your request due to a technical issue. </p>
       <p className='pb-4'>Error: {error ? error : 'There was an error fetching data for your page.'}</p>
       <p>
         {' '}
-        Please try again. If the issue keeps happening, contact us at info@openq.dev or ask us in{' '}
+        If the issue keeps happening, contact us at info@openq.dev or ask us in{' '}
         <a href={'https://discord.gg/puQVqEvVXn'} target={'_blank'} className='text-blue-500' rel='noopener noreferrer'>
           discord
         </a>
