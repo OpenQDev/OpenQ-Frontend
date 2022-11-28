@@ -14,7 +14,7 @@ const SubMenu = ({ updatePage, internalMenu, items, styles, colour, vertical }) 
         <button
           key={index}
           onClick={handleClick}
-          className={`px-1 flex gap-1 sm:gap-2 items-center text-sm hover:bg-inactive-gray leading-5 py-1 hover:bg-active-gray rounded-sm justify-center w-fit ${
+          className={`cursor-pointer px-1 flex gap-1 sm:gap-2 items-center text-sm hover:bg-inactive-gray leading-5 py-1 hover:bg-active-gray rounded-sm justify-center w-fit ${
             internalMenu === item.name &&
             `${colour === 'rust' ? 'after:bg-rust' : 'after:bg-link-colour'} ${
               vertical
