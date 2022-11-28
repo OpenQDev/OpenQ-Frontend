@@ -51,4 +51,23 @@ describe('Error Modal', () => {
     const githubLink = screen.getByText(/github status/i);
     expect(githubLink.href).toMatch(/github/);
   });
+  it('should render explanation for graphql rate limit.', async () => {
+    // ARRANGE
+    const error = {
+      graphQLErrors: [{ type: 'RATE_LIMITED', message: 'API rate limit exceeded for user ID 98236734' }],
+      clientErrors: [],
+      networkError: null,
+      message: 'API rate limit exceeded for user ID 98236734',
+    };
+    render(<UnexpectedErrorModal error={error} />);
+    // ASSERT
+    expect(
+      await screen.findByText(
+        "Error: Looks like you're a power user...We're still building and have limited Github access at the moment. Please give it a rest, go get a coffee, and come back in about an hour. Your Github auth should be good by then."
+      )
+    );
+    await screen.findAllByRole('link');
+    const githubLink = screen.getByText(/discord/i);
+    expect(githubLink.href).toMatch(/discord/);
+  });
 });

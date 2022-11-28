@@ -19,7 +19,7 @@ const UnexpectedErrorModal = ({ error }) => {
     } catch (err) {
       appState.logger.error(err, account);
     }
-    if (error.graphQLErrors[0].type == 'RATE_LIMITED') {
+    if (error.graphQLErrors && error.graphQLErrors[0].type == 'RATE_LIMITED') {
       setCurrentError(
         `Looks like you're a power user...We're still building and have limited Github access at the moment. 
         Please give it a rest, go get a coffee, and come back in about an hour. 
@@ -69,7 +69,7 @@ const UnexpectedErrorModal = ({ error }) => {
   return (
     <ModalDefault title={'Unexpected Error'} footerRight={btn} setShowModal={() => {}} resetState={resetState}>
       <p className='pb-4'>Unfortunately we could not process your request due to a technical issue. </p>
-      <p className='pb-4'>Error: {error ? error : 'There was an error fetching data for your page.'}</p>
+      <p className='pb-4'>Error: {currentError ? currentError : 'There was an error fetching data for your page.'}</p>
       <p>
         {' '}
         If the issue keeps happening, contact us at info@openq.dev or ask us in{' '}
