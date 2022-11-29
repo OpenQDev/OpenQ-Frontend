@@ -1,9 +1,6 @@
 import React from 'react';
 
 const SubMenu = ({ updatePage, internalMenu, items, styles, colour, vertical }) => {
-  const handleClick = (e) => {
-    updatePage(e.target.innerText);
-  };
   return (
     <div
       className={`px-2 ${!vertical && 'sm:px-8'} text-primary  w-full flex ${
@@ -12,8 +9,9 @@ const SubMenu = ({ updatePage, internalMenu, items, styles, colour, vertical }) 
     >
       {items.map((item, index) => (
         <button
+          type='button'
           key={index}
-          onClick={handleClick}
+          onClick={() => updatePage(item.name)}
           className={`cursor-pointer px-1 flex gap-1 sm:gap-2 items-center text-sm hover:bg-inactive-gray leading-5 py-1 hover:bg-active-gray rounded-sm justify-center w-fit ${
             internalMenu === item.name &&
             `${colour === 'rust' ? 'after:bg-rust' : 'after:bg-link-colour'} ${
