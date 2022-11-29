@@ -2,7 +2,7 @@ import React from 'react';
 
 const SubMenu = ({ updatePage, internalMenu, items, styles, colour, vertical }) => {
   const handleClick = (e) => {
-    updatePage(e.currentTarget.innerText);
+    updatePage(e.target.innerText);
   };
   return (
     <div
