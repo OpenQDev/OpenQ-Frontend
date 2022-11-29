@@ -88,7 +88,7 @@ const ShowCasePage = ({ pr }) => {
   const isAuthor = avatarUrl?.includes(pr.author.avatarUrl.slice(0, 48));
 
   const removeContributor = async (e) => {
-    const result = await appState.openQPrismaClient.removeContributor(pr.id, e.currentTarget.value);
+    const result = await appState.openQPrismaClient.removeContributor(pr.id, e.target.value);
     if (result.removeContributor) {
       try {
         await getOffChainData();
