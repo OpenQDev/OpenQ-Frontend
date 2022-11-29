@@ -25,7 +25,7 @@ const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
     }, 0);
     if (drag) {
       const start = widthParent.current.getBoundingClientRect().x;
-      const newPxWidth = e.clientX - start;
+      const newPxWidth = (e.touches ? e.touches[0].clientX : e.clientX) - start;
       const newScale = newPxWidth / ogWidth;
       if (newScale > reactScale && totalValue >= 100) {
         const totaLNonTierValue = tierValues.reduce((accum, elem, index) => {
