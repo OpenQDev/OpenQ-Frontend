@@ -262,7 +262,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
                         volume={volume}
                       />
                     </div>
-                    <ConnectButton nav={false} needsGithub={false} />
+                    <ConnectButton nav={false} needsGithub={false} centerStyles={true} />
                     {isOnCorrectNetwork && account && (
                       <button className='btn-default' type='button' onClick={setBudget}>
                         Set New Budget
@@ -339,7 +339,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
                         setEnableContest={setEnableContest}
                       />
                     </div>
-                    <ConnectButton nav={false} needsGithub={false} />
+                    <ConnectButton nav={false} needsGithub={false} centerStyles={true} />
                     {isOnCorrectNetwork && account && (
                       <ToolTipNew
                         hideToolTip={enableContest || isLoading}
@@ -370,7 +370,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
                         volume={payoutVolume}
                       />
                     </div>
-                    <ConnectButton nav={false} needsGithub={false} />
+                    <ConnectButton nav={false} needsGithub={false} centerStyles={true} />
                     {isOnCorrectNetwork && account && (
                       <button className='btn-default' type='button' onClick={setPayout}>
                         Set Payout
@@ -383,7 +383,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
                     <div className='flex justify-between items-center gap-2'>
                       Once you close this split price contract, there is no going back. Please be certain.
                     </div>
-                    <ConnectButton nav={false} needsGithub={false} />
+                    <ConnectButton nav={false} needsGithub={false} centerStyles={true} />
                     {isOnCorrectNetwork && account && (
                       <button className='btn-danger' type='button' onClick={closeOngoing}>
                         Close Split Price Contract

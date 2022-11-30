@@ -16,7 +16,7 @@ import useAuth from '../../hooks/useAuth';
 import ToolTipNew from '../Utils/ToolTipNew';
 // import axios from 'axios';
 
-const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut }) => {
+const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut, centerStyles }) => {
   // Context
   const { chainId, error, account, safe } = useWeb3();
   const [ensName] = useEns(account);
@@ -95,7 +95,7 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut }) => {
   // Render
   return (
     <>
-      {needsGithub && !authState.isAuthenticated ? (
+      {needsGithub && authState.isAuthenticated ? (
         <AuthButton redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/` + router.asPath} hideSignOut={hideSignOut} />
       ) : (
         <div>
@@ -144,15 +144,15 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut }) => {
             </>
           ) : isOnCorrectNetwork ? (
             <ToolTipNew
-              relativePosition={'left-0'}
+              relativePosition={centerStyles ? '' : 'left-0'}
               outerStyles={'-top-1 '}
-              groupStyles={'w-min'}
+              groupStyles={centerStyles ? '' : 'w-min'}
               innerStyles={'sm:w-40 md:w-60 whitespace-normal'}
               toolTipText={`Connect your wallet to ${tooltipAction}`}
             >
               <button
                 onClick={openConnectModal}
-                className='flex items-center btn-default mr-4 whitespace-nowrap'
+                className='flex w-full items-center justify-center btn-default mr-4 whitespace-nowrap'
                 disabled={isConnecting}
               >
                 {'Connect Wallet'}
@@ -160,13 +160,16 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut }) => {
             </ToolTipNew>
           ) : (
             <ToolTipNew
-              relativePosition={'left-0'}
+              relativePosition={centerStyles ? '' : 'left-0'}
               outerStyles={'-top-1 '}
-              groupStyles={'w-min'}
+              groupStyles={centerStyles ? '' : 'w-min'}
               innerStyles={'sm:w-40 md:w-60 whitespace-normal'}
               toolTipText={'Please switch to the correct network to fund this contract.'}
             >
-              <button onClick={addOrSwitchNetwork} className='flex items-center btn-default mr-4 whitespace-nowrap'>
+              <button
+                onClick={addOrSwitchNetwork}
+                className='flex w-full items-center justify-center btn-default mr-4 whitespace-nowrap'
+              >
                 Use {chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['networkName']} Network
               </button>
             </ToolTipNew>
