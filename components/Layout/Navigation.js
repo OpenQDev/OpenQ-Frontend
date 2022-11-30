@@ -15,10 +15,13 @@ import NavLinks from './NavLinks';
 import LoadingBar from '../Loading/LoadingBar';
 import LoadingThread from '../Loading/LoadingThread.js';
 import ContractWizard from '../ContractWizard/ContractWizard.js';
+import useAuth from '../../hooks/useAuth';
+import AuthButton from '../Authentication/AuthButton.js';
 
 const Navigation = () => {
   const { account } = useWeb3();
   const [appState] = useContext(StoreContext);
+  const [authState] = useAuth();
   const [openMenu, setOpenMenu] = useState(false);
   const [quickSearch, setQuickSearch] = useState('');
   const [items, setItems] = useState([]);
@@ -171,7 +174,11 @@ const Navigation = () => {
           </div>
           <div className='flex items-center text-[0.8rem] lg:text-[1rem]'>
             <div className='pr-4'>
-              <ConnectButton />
+              {!authState.isAuthenticated ? (
+                <AuthButton redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/` + router.asPath} />
+              ) : (
+                <ConnectButton />
+              )}
             </div>
           </div>
         </div>
