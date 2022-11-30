@@ -7,8 +7,23 @@ import ClaimPage from '../../components/Claim/ClaimPage';
 import axios from 'axios';
 import InitialState from '../../store/Store/InitialState';
 import userEvent from '@testing-library/user-event';
+import nextRouter from 'next/router';
+
+nextRouter.useRouter = jest.fn();
+const push = jest.fn(() => {
+  return { catch: jest.fn };
+});
 
 describe('ClaimPage', () => {
+  beforeEach(() => {
+    nextRouter.useRouter.mockImplementation(() => ({
+      query: { type: null },
+      prefetch: jest.fn(() => {
+        return { catch: jest.fn };
+      }),
+      push,
+    }));
+  });
   const bounty = {
     __typename: 'Bounty',
     bountyAddress: '0x1f191c4166865882b26551fb8618668b7a67d0fb',
