@@ -3,7 +3,6 @@ import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
 import Image from 'next/image';
-import chainIdDeployEnvMap from '../../components/WalletConnect/chainIdDeployEnvMap';
 import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
 
 // Custom
@@ -229,23 +228,6 @@ const MintBountyModal = ({ modalVisibility, types }) => {
     }
   };
 
-  const connectWallet = () => {
-    const payload = {
-      type: 'CONNECT_WALLET',
-      payload: true,
-    };
-    dispatch(payload);
-  };
-
-  const addOrSwitchNetwork = () => {
-    window.ethereum
-      .request({
-        method: 'wallet_addEthereumChain',
-        params: chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['params'],
-      })
-      .catch((err) => appState.logger.error(err, account));
-  };
-
   const closeModal = () => {
     setIssue();
     setUrl();
@@ -423,19 +405,6 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                 styles={'justify-center'}
                 vertical={true}
               />
-              {/* <div className='pb-2 pt-8'>Templates</div>
-              <SubMenu
-                items={[
-                  { name: 'Fixed Price Contract', Svg: PersonIcon },
-                  { name: 'Learn2Earn', Svg: PersonAddIcon },
-                  { name: 'Competition', Svg: PeopleIcon },
-                  // { name: 'Fixed Contest', Svg: PeopleIcon },
-                ]}
-                internalMenu={category}
-                updatePage={setCategory}
-                styles={'justify-center'}
-                vertical={true}
-              /> */}
             </div>
             <div className='overflow-y-auto px-2'>
               <h3 className='text-xl pt-2'>
