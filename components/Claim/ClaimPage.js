@@ -143,7 +143,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
                   <ConnectButton
                     needsGithub={true}
                     nav={false}
-                    tooltipAction={'to claim this contract!'}
+                    tooltipAction={'claim this contract!'}
                     hideSignOut={true}
                   />
 

@@ -21,6 +21,7 @@ import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import SubMenu from '../Utils/SubMenu';
 import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
 import ModalLarge from '../Utils/ModalLarge';
+import ConnectButton from '../WalletConnect/ConnectButton';
 
 const MintBountyModal = ({ modalVisibility, types }) => {
   // Context
@@ -365,49 +366,33 @@ const MintBountyModal = ({ modalVisibility, types }) => {
   );
 
   const btn = !error && (
-    <ToolTipNew
-      groupStyles={''}
-      outerStyles={'hover:hidden -top-20 md:top-auto'}
-      triangleStyles={'mt-7 md:mt-1 rotate-180 md:rotate-0 '}
-      hideToolTip={
-        (enableContest &&
-          enableMint &&
-          isOnCorrectNetwork &&
-          !issue?.closed &&
-          account &&
-          issue?.url.includes('/issues/')) ||
-        isLoading
-      }
-      toolTipText={
-        issue?.closed && issue?.url.includes('/issues/')
-          ? 'Issue closed'
-          : account && isOnCorrectNetwork && (!enableMint || !issue?.url.includes('/issues/'))
-          ? 'Please choose an elgible issue.'
-          : currentSum !== sum
-          ? 'Please make sure each tier gets a percentage.'
-          : !enableContest
-          ? 'Please make sure the sum of tier percentages adds up to 100.'
-          : isOnCorrectNetwork
-          ? 'Connect your wallet to mint a contract!'
-          : 'Please switch to the correct network to mint a contract.'
-      }
-    >
-      <MintBountyModalButton
-        mintBounty={!isOnCorrectNetwork ? addOrSwitchNetwork : account ? mintBounty : connectWallet}
-        account={account}
-        isOnCorrectNetwork={isOnCorrectNetwork}
-        enableMint={
-          (enableContest &&
-            enableMint &&
-            isOnCorrectNetwork &&
-            !issue?.closed &&
-            issue?.url.includes('/issues/') &&
-            !isLoading) ||
-          !account
-        }
-        transactionPending={isLoading}
-      />
-    </ToolTipNew>
+    <>
+      <ConnectButton nav={false} needsGithub={false} tooltipAction={'mint a contract.'} />
+      {account && isOnCorrectNetwork && (
+        <ToolTipNew
+          outerStyles={'hover:hidden -top-20 md:top-auto'}
+          triangleStyles={'mt-7 md:mt-1 rotate-180 md:rotate-0 '}
+          hideToolTip={(enableContest && enableMint && !issue?.closed && issue?.url.includes('/issues/')) || isLoading}
+          toolTipText={
+            issue?.closed && issue?.url.includes('/issues/')
+              ? 'Issue closed'
+              : !enableMint || !issue?.url.includes('/issues/')
+              ? 'Please choose an elgible issue.'
+              : currentSum !== sum
+              ? 'Please make sure each tier gets a percentage.'
+              : !enableContest
+              ? 'Please make sure the sum of tier percentages adds up to 100.'
+              : null
+          }
+        >
+          <MintBountyModalButton
+            mintBounty={mintBounty}
+            enableMint={enableContest && enableMint && !issue?.closed && issue?.url.includes('/issues/') && !isLoading}
+            transactionPending={isLoading}
+          />
+        </ToolTipNew>
+      )}
+    </>
   );
 
   // Render
