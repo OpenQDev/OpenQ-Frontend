@@ -16,7 +16,7 @@ import useAuth from '../../hooks/useAuth';
 import ToolTipNew from '../Utils/ToolTipNew';
 // import axios from 'axios';
 
-const ConnectButton = ({ needsGithub, nav, tooltipAction }) => {
+const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut }) => {
   // Context
   const { chainId, error, account, safe } = useWeb3();
   const [ensName] = useEns(account);
@@ -96,7 +96,7 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction }) => {
   return (
     <>
       {needsGithub && !authState.isAuthenticated ? (
-        <AuthButton redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/` + router.asPath} />
+        <AuthButton redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/` + router.asPath} hideSignOut={hideSignOut} />
       ) : (
         <div>
           {account && isOnCorrectNetwork ? (
