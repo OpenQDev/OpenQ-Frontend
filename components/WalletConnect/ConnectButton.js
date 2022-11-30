@@ -95,7 +95,7 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut, centerSty
   // Render
   return (
     <>
-      {needsGithub && authState.isAuthenticated ? (
+      {needsGithub && !authState.isAuthenticated ? (
         <AuthButton redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/` + router.asPath} hideSignOut={hideSignOut} />
       ) : (
         <div>
