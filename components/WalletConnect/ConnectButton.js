@@ -152,7 +152,7 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut }) => {
             >
               <button
                 onClick={openConnectModal}
-                className='flex items-center btn-default mr-4 hover:border-[#8b949e] hover:bg-[#30363d] whitespace-nowrap'
+                className='flex items-center btn-default mr-4 whitespace-nowrap'
                 disabled={isConnecting}
               >
                 {'Connect Wallet'}
@@ -166,10 +166,7 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut }) => {
               innerStyles={'sm:w-40 md:w-60 whitespace-normal'}
               toolTipText={'Please switch to the correct network to fund this contract.'}
             >
-              <button
-                onClick={addOrSwitchNetwork}
-                className='flex items-center btn-default mr-4 hover:border-[#8b949e] hover:bg-[#30363d] whitespace-nowrap'
-              >
+              <button onClick={addOrSwitchNetwork} className='flex items-center btn-default mr-4 whitespace-nowrap'>
                 Use {chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['networkName']} Network
               </button>
             </ToolTipNew>
