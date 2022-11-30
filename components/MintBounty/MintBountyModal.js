@@ -3,7 +3,6 @@ import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
 import Image from 'next/image';
-import chainIdDeployEnvMap from '../../components/WalletConnect/chainIdDeployEnvMap';
 import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
 
 // Custom
@@ -21,6 +20,7 @@ import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import SubMenu from '../Utils/SubMenu';
 import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
 import ModalLarge from '../Utils/ModalLarge';
+import ConnectButton from '../WalletConnect/ConnectButton';
 
 const MintBountyModal = ({ modalVisibility, types }) => {
   // Context
@@ -228,23 +228,6 @@ const MintBountyModal = ({ modalVisibility, types }) => {
     }
   };
 
-  const connectWallet = () => {
-    const payload = {
-      type: 'CONNECT_WALLET',
-      payload: true,
-    };
-    dispatch(payload);
-  };
-
-  const addOrSwitchNetwork = () => {
-    window.ethereum
-      .request({
-        method: 'wallet_addEthereumChain',
-        params: chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['params'],
-      })
-      .catch((err) => appState.logger.error(err, account));
-  };
-
   const closeModal = () => {
     setIssue();
     setUrl();
@@ -365,49 +348,33 @@ const MintBountyModal = ({ modalVisibility, types }) => {
   );
 
   const btn = !error && (
-    <ToolTipNew
-      groupStyles={''}
-      outerStyles={'hover:hidden -top-20 md:top-auto'}
-      triangleStyles={'mt-7 md:mt-1 rotate-180 md:rotate-0 '}
-      hideToolTip={
-        (enableContest &&
-          enableMint &&
-          isOnCorrectNetwork &&
-          !issue?.closed &&
-          account &&
-          issue?.url.includes('/issues/')) ||
-        isLoading
-      }
-      toolTipText={
-        issue?.closed && issue?.url.includes('/issues/')
-          ? 'Issue closed'
-          : account && isOnCorrectNetwork && (!enableMint || !issue?.url.includes('/issues/'))
-          ? 'Please choose an elgible issue.'
-          : currentSum !== sum
-          ? 'Please make sure each tier gets a percentage.'
-          : !enableContest
-          ? 'Please make sure the sum of tier percentages adds up to 100.'
-          : isOnCorrectNetwork
-          ? 'Connect your wallet to mint a contract!'
-          : 'Please switch to the correct network to mint a contract.'
-      }
-    >
-      <MintBountyModalButton
-        mintBounty={!isOnCorrectNetwork ? addOrSwitchNetwork : account ? mintBounty : connectWallet}
-        account={account}
-        isOnCorrectNetwork={isOnCorrectNetwork}
-        enableMint={
-          (enableContest &&
-            enableMint &&
-            isOnCorrectNetwork &&
-            !issue?.closed &&
-            issue?.url.includes('/issues/') &&
-            !isLoading) ||
-          !account
-        }
-        transactionPending={isLoading}
-      />
-    </ToolTipNew>
+    <>
+      <ConnectButton nav={false} needsGithub={false} tooltipAction={'mint a contract.'} />
+      {account && isOnCorrectNetwork && (
+        <ToolTipNew
+          outerStyles={'hover:hidden -top-20 md:top-auto'}
+          triangleStyles={'mt-7 md:mt-1 rotate-180 md:rotate-0 '}
+          hideToolTip={(enableContest && enableMint && !issue?.closed && issue?.url.includes('/issues/')) || isLoading}
+          toolTipText={
+            issue?.closed && issue?.url.includes('/issues/')
+              ? 'Issue closed'
+              : !enableMint || !issue?.url.includes('/issues/')
+              ? 'Please choose an elgible issue.'
+              : currentSum !== sum
+              ? 'Please make sure each tier gets a percentage.'
+              : !enableContest
+              ? 'Please make sure the sum of tier percentages adds up to 100.'
+              : null
+          }
+        >
+          <MintBountyModalButton
+            mintBounty={mintBounty}
+            enableMint={enableContest && enableMint && !issue?.closed && issue?.url.includes('/issues/') && !isLoading}
+            transactionPending={isLoading}
+          />
+        </ToolTipNew>
+      )}
+    </>
   );
 
   // Render
@@ -438,19 +405,6 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                 styles={'justify-center'}
                 vertical={true}
               />
-              {/* <div className='pb-2 pt-8'>Templates</div>
-              <SubMenu
-                items={[
-                  { name: 'Fixed Price Contract', Svg: PersonIcon },
-                  { name: 'Learn2Earn', Svg: PersonAddIcon },
-                  { name: 'Competition', Svg: PeopleIcon },
-                  // { name: 'Fixed Contest', Svg: PeopleIcon },
-                ]}
-                internalMenu={category}
-                updatePage={setCategory}
-                styles={'justify-center'}
-                vertical={true}
-              /> */}
             </div>
             <div className='overflow-y-auto px-2'>
               <h3 className='text-xl pt-2'>

@@ -15,7 +15,7 @@ import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import SelectableNFT from './SelectableNFT';
 import NFTFundModal from './NFTFundModal.js';
 import Cross from '../svg/cross';
-import chainIdDeployEnvMap from '../../components/WalletConnect/chainIdDeployEnvMap';
+import ConnectButton from '../WalletConnect/ConnectButton';
 
 const FundPage = ({ bounty, refreshBounty }) => {
   const [volume, setVolume] = useState('');
@@ -40,7 +40,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
     path: 'https://wallet-asset.matic.network/img/tokens/matic.svg',
   };
   // Context
-  const [appState, dispatch] = useContext(StoreContext);
+  const [appState] = useContext(StoreContext);
   const { logger, openQClient, utils } = appState;
   const { library, account } = useWeb3();
 
@@ -108,14 +108,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
   const closeModal = () => {
     setShowApproveTransferModal();
     setPickedNft();
-  };
-
-  const connectWallet = () => {
-    const payload = {
-      type: 'CONNECT_WALLET',
-      payload: true,
-    };
-    dispatch(payload);
   };
 
   const openInvoicingModal = () => {
@@ -274,15 +266,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
     if (e.target.value === '') setDepositPeriodDays('0');
   };
 
-  const addOrSwitchNetwork = () => {
-    window.ethereum
-      .request({
-        method: 'wallet_addEthereumChain',
-        params: chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['params'],
-      })
-      .catch((err) => appState.logger.error(err, account));
-  };
-
   // Render
   return (
     <>
@@ -369,40 +352,32 @@ const FundPage = ({ bounty, refreshBounty }) => {
                       </div>
                     </div>
                   )}
-                  <ToolTipNew
-                    relativePosition={'left-0'}
-                    outerStyles={'-top-1 '}
-                    groupStyles={'w-min'}
-                    innerStyles={'sm:w-40 md:w-60 whitespace-normal'}
-                    hideToolTip={account && isOnCorrectNetwork && !loadingClosedOrZero}
-                    toolTipText={
-                      account && isOnCorrectNetwork && !(depositPeriodDays > 0)
-                        ? "Please indicate how many days you'd like to fund your contract for."
-                        : account && isOnCorrectNetwork && isContest && nftTier === '' && pickedNft
-                        ? 'Please select an elgible tier to fund the nft to.'
-                        : account && isOnCorrectNetwork
-                        ? "Please indicate the volume you'd like to fund with. Must be between 0.0000001 and 1,000,000."
-                        : account
-                        ? 'Please switch to the correct network to fund this contract.'
-                        : 'Connect your wallet to fund this contract!'
-                    }
-                  >
-                    <button
-                      className={`${fundButtonClasses} py-1.5`}
-                      disabled={loadingClosedOrZero && account && isOnCorrectNetwork}
-                      type='button'
-                      onClick={!account ? connectWallet : !isOnCorrectNetwork ? addOrSwitchNetwork : openFund}
+                  <ConnectButton needsGithub={false} nav={false} tooltipAction={'to fund this contract!'} />
+                  {account && isOnCorrectNetwork && (
+                    <ToolTipNew
+                      relativePosition={'left-0'}
+                      outerStyles={'-top-1 '}
+                      groupStyles={'w-min'}
+                      innerStyles={'sm:w-40 md:w-60 whitespace-normal'}
+                      hideToolTip={!loadingClosedOrZero}
+                      toolTipText={
+                        !(depositPeriodDays > 0)
+                          ? "Please indicate how many days you'd like to fund your contract for."
+                          : isContest && nftTier === '' && pickedNft
+                          ? 'Please select an elgible tier to send the nft to.'
+                          : "Please indicate the volume you'd like to fund with. Must be between 0.0000001 and 1,000,000."
+                      }
                     >
-                      <div className='text-center whitespace-nowrap w-full'>
-                        {/* {account && isOnCorrectNetwork ? buttonText : 'Connect Wallet'} */}
-                        {!account
-                          ? 'Connect Wallet'
-                          : !isOnCorrectNetwork
-                          ? `Use ${chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['networkName']} Network`
-                          : buttonText}
-                      </div>
-                    </button>
-                  </ToolTipNew>
+                      <button
+                        className={`${fundButtonClasses} py-1.5`}
+                        disabled={loadingClosedOrZero}
+                        type='button'
+                        onClick={openFund}
+                      >
+                        <div className='text-center whitespace-nowrap w-full'>{buttonText}</div>
+                      </button>
+                    </ToolTipNew>
+                  )}
                 </div>
                 {pickedNft && (
                   <div className='w-60 relative -top-2 rounded-md '>
