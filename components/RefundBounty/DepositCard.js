@@ -18,6 +18,7 @@ const DepositCard = ({
   isOnCorrectNetwork,
   onDepositPeriodChanged,
   depositPeriodDays,
+  isFunder,
 }) => {
   // Context
   const [appState] = useContext(StoreContext);
@@ -73,7 +74,7 @@ const DepositCard = ({
             </div>
           )}
         </div>
-        {isOnCorrectNetwork && (
+        {isOnCorrectNetwork && isFunder && (
           <>
             <div className='flex flex-col space-y-3 w-44 pl-3 text-primary'>
               {status === 'refundable' && (

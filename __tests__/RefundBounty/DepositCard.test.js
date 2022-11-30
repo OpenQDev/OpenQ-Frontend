@@ -75,7 +75,7 @@ describe('DepositCard', () => {
 
     it('should render refund and extend button when refundable', async () => {
       // ARRANGE
-      render(<DepositCard deposit={deposit} status={'refundable'} isOnCorrectNetwork={true} />);
+      render(<DepositCard deposit={deposit} status={'refundable'} isOnCorrectNetwork={true} isFunder={true} />);
       const refundBtn = await screen.findByRole('button', { name: /Refund/i });
       const extendBtn = await screen.findByRole('button', { name: /Extend/i });
 
@@ -103,7 +103,7 @@ describe('DepositCard', () => {
 
     it('should render extend button when not refunded yet', async () => {
       // ARRANGE
-      render(<DepositCard deposit={deposit} isOnCorrectNetwork={true} />);
+      render(<DepositCard deposit={deposit} isOnCorrectNetwork={true} isFunder={true} />);
       const extendBtn = await screen.findByRole('button', { name: /Extend/i });
 
       // ASSERT
