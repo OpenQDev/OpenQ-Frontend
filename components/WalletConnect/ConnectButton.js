@@ -12,12 +12,15 @@ import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import StoreContext from '../../store/Store/StoreContext';
 import AuthButton from '../Authentication/AuthButton';
 import { useRouter } from 'next/router';
+import useAuth from '../../hooks/useAuth';
+import ToolTipNew from '../Utils/ToolTipNew';
 // import axios from 'axios';
 
-const ConnectButton = ({ needsGithub, isAuthenticated }) => {
+const ConnectButton = ({ needsGithub, nav, tooltipAction }) => {
   // Context
   const { chainId, error, account, safe } = useWeb3();
   const [ensName] = useEns(account);
+  const [authState] = useAuth();
   const router = useRouter();
   const [appState, dispatch] = useContext(StoreContext);
   const { walletConnectModal } = appState;
@@ -92,51 +95,61 @@ const ConnectButton = ({ needsGithub, isAuthenticated }) => {
   // Render
   return (
     <>
-      {needsGithub && !isAuthenticated ? (
+      {needsGithub && !authState.isAuthenticated ? (
         <AuthButton redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/` + router.asPath} />
       ) : (
         <div>
           {account && isOnCorrectNetwork ? (
-            <div>
-              <button
-                disabled={isConnecting}
-                ref={buttonRef}
-                onClick={() => {
-                  setShowModal(!showModal);
-                }}
-                className='group flex items-center gap-x-1 h-12 whitespace-nowrap py-1 px-3 font-semibold cursor-pointer'
-              >
-                <span
-                  className='border border-[#8b949e] rounded-full h-7 py-pxt group-hover:border-opacity-70'
-                  ref={iconWrapper}
-                ></span>
-                <span className='md:group-hover:opacity-70'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    className='h-3 w-3'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    stroke='white'
-                    strokeWidth='3'
+            <>
+              {nav ? (
+                <div>
+                  <button
+                    disabled={isConnecting}
+                    ref={buttonRef}
+                    onClick={() => {
+                      setShowModal(!showModal);
+                    }}
+                    className='group flex items-center gap-x-1 h-12 whitespace-nowrap py-1 px-3 font-semibold cursor-pointer'
                   >
-                    <path strokeLinecap='round' strokeLinejoin='round' d='M19 9l-7 7-7-7' />
-                  </svg>
-                </span>
-              </button>
+                    <span
+                      className='border border-[#8b949e] rounded-full h-7 py-pxt group-hover:border-opacity-70'
+                      ref={iconWrapper}
+                    ></span>
+                    <span className='md:group-hover:opacity-70'>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        className='h-3 w-3'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        stroke='white'
+                        strokeWidth='3'
+                      >
+                        <path strokeLinecap='round' strokeLinejoin='round' d='M19 9l-7 7-7-7' />
+                      </svg>
+                    </span>
+                  </button>
 
-              {showModal && (
-                <AccountModal
-                  domRef={modalRef}
-                  account={account}
-                  ensName={ensName}
-                  chainId={chainId}
-                  setIsConnecting={setIsConnecting}
-                  isSafeApp={safe}
-                />
-              )}
-            </div>
+                  {showModal && (
+                    <AccountModal
+                      domRef={modalRef}
+                      account={account}
+                      ensName={ensName}
+                      chainId={chainId}
+                      setIsConnecting={setIsConnecting}
+                      isSafeApp={safe}
+                    />
+                  )}
+                </div>
+              ) : null}
+            </>
           ) : isOnCorrectNetwork ? (
-            <div>
+            <ToolTipNew
+              relativePosition={'left-0'}
+              outerStyles={'-top-1 '}
+              groupStyles={'w-min'}
+              innerStyles={'sm:w-40 md:w-60 whitespace-normal'}
+              toolTipText={`Connect your wallet to ${tooltipAction}`}
+            >
               <button
                 onClick={openConnectModal}
                 className='flex items-center btn-default mr-4 hover:border-[#8b949e] hover:bg-[#30363d] whitespace-nowrap'
@@ -144,14 +157,22 @@ const ConnectButton = ({ needsGithub, isAuthenticated }) => {
               >
                 {'Connect Wallet'}
               </button>
-            </div>
+            </ToolTipNew>
           ) : (
-            <button
-              onClick={addOrSwitchNetwork}
-              className='flex items-center btn-default mr-4 hover:border-[#8b949e] hover:bg-[#30363d]'
+            <ToolTipNew
+              relativePosition={'left-0'}
+              outerStyles={'-top-1 '}
+              groupStyles={'w-min'}
+              innerStyles={'sm:w-40 md:w-60 whitespace-normal'}
+              toolTipText={'Please switch to the correct network to fund this contract.'}
             >
-              Use {chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['networkName']} Network
-            </button>
+              <button
+                onClick={addOrSwitchNetwork}
+                className='flex items-center btn-default mr-4 hover:border-[#8b949e] hover:bg-[#30363d] whitespace-nowrap'
+              >
+                Use {chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['networkName']} Network
+              </button>
+            </ToolTipNew>
           )}
           {walletConnectModal && <ConnectModal closeModal={closeModal} setShowModal={setShowModal} />}
         </div>

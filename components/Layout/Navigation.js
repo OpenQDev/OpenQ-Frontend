@@ -15,12 +15,10 @@ import NavLinks from './NavLinks';
 import LoadingBar from '../Loading/LoadingBar';
 import LoadingThread from '../Loading/LoadingThread.js';
 import ContractWizard from '../ContractWizard/ContractWizard.js';
-import useAuth from '../../hooks/useAuth';
 
 const Navigation = () => {
   const { account } = useWeb3();
   const [appState] = useContext(StoreContext);
-  const [authState] = useAuth();
   const [openMenu, setOpenMenu] = useState(false);
   const [quickSearch, setQuickSearch] = useState('');
   const [items, setItems] = useState([]);
@@ -173,7 +171,7 @@ const Navigation = () => {
           </div>
           <div className='flex items-center text-[0.8rem] lg:text-[1rem]'>
             <div className='pr-4'>
-              <ConnectButton needsGithub={true} isAuthenticated={authState.isAuthenticated} />
+              <ConnectButton needsGithub={true} nav={true} />
             </div>
           </div>
         </div>
