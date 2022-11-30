@@ -220,7 +220,6 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                             status='refunded'
                             bounty={bounty}
                             refundBounty={refundBounty}
-                            account={account}
                           />
                         </div>
                       );
