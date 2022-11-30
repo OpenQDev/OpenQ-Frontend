@@ -12,7 +12,7 @@ import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import StoreContext from '../../store/Store/StoreContext';
 // import axios from 'axios';
 
-const ConnectButton = ({ mobile }) => {
+const ConnectButton = () => {
   // Context
   const { chainId, error, account, safe } = useWeb3();
   const [ensName] = useEns(account);
@@ -41,7 +41,7 @@ const ConnectButton = ({ mobile }) => {
     const createJazzicon = async () => {
       if (account && iconWrapper.current) {
         iconWrapper.current.innerHTML = '';
-        iconWrapper.current.appendChild(jazzicon(mobile ? 52 : 26, parseInt(account.slice(2, 10), 16)));
+        iconWrapper.current.appendChild(jazzicon(26, parseInt(account.slice(2, 10), 16)));
       }
     };
     createJazzicon();
