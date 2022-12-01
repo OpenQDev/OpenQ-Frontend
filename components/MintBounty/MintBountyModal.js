@@ -346,28 +346,16 @@ const MintBountyModal = ({ modalVisibility, types }) => {
     <>
       <ConnectButton nav={false} needsGithub={false} tooltipAction={'mint a contract.'} />
       {account && isOnCorrectNetwork && (
-        <ToolTipNew
-          outerStyles={'hover:hidden -top-20 md:top-auto'}
-          triangleStyles={'mt-7 md:mt-1 rotate-180 md:rotate-0 '}
-          hideToolTip={(enableContest && enableMint && !issue?.closed && issue?.url.includes('/issues/')) || isLoading}
-          toolTipText={
-            issue?.closed && issue?.url.includes('/issues/')
-              ? 'Issue closed'
-              : !enableMint || !issue?.url.includes('/issues/')
-              ? 'Please choose an elgible issue.'
-              : currentSum !== sum
-              ? 'Please make sure each tier gets a percentage.'
-              : !enableContest
-              ? 'Please make sure the sum of tier percentages adds up to 100.'
-              : null
-          }
-        >
-          <MintBountyModalButton
-            mintBounty={mintBounty}
-            enableMint={enableContest && enableMint && !issue?.closed && issue?.url.includes('/issues/') && !isLoading}
-            transactionPending={isLoading}
-          />
-        </ToolTipNew>
+        <MintBountyModalButton
+          mintBounty={mintBounty}
+          enableMint={enableMint}
+          transactionPending={isLoading}
+          issue={issue}
+          enableContest={enableContest}
+          isLoading={isLoading}
+          currentSum={currentSum}
+          sum={sum}
+        />
       )}
     </>
   );
@@ -415,6 +403,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                 url={url}
                 isValidUrl={isValidUrl}
                 bountyAddress={bountyAddress}
+                closed={closed}
               />
               <div className='flex flex-col  gap-2 py-2 w-full items-start  text-base bg-[#161B22]'>
                 <div className='flex items-center gap-2 font-semibold'>

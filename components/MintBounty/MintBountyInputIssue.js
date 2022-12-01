@@ -3,7 +3,7 @@ import ToolTipNew from '../Utils/ToolTipNew';
 import BountyAlreadyMintedMessage from './BountyAlreadyMintedMessage';
 import IssueDetailsBubble from './IssueDetailsBubble';
 
-export default function MintBountyInputIssue({ setIssueUrl, issueData, isValidUrl, url, bountyAddress }) {
+export default function MintBountyInputIssue({ setIssueUrl, issueData, isValidUrl, url, bountyAddress, closed }) {
   return (
     <>
       <div className='flex flex-col py-2'>
