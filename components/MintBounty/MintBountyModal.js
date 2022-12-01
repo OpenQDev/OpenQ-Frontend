@@ -414,11 +414,11 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                     Set a Budget
                     <input type='checkbox' className='checkbox' onChange={() => setBudgetInput(!budgetInput)}></input>
                     <ToolTipNew
-                      mobileX={10}
+                      innerStyles={'w-40 whitespace-normal'}
                       toolTipText={
-                        category === 'Fixed Price'
-                          ? 'Amount of funds you would like to escrow on this issue.'
-                          : 'How much will each successful submitter earn?'
+                        category === 'Split Price'
+                          ? 'How much will each successful submitter earn?'
+                          : 'Amount of funds you would like to escrow on this issue.'
                       }
                     >
                       <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
@@ -430,7 +430,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                     You don{"'"}t have to deposit now! The budget is just what you intend to pay.
                   </span>
                   {budgetInput ? (
-                    <div className='flex-1 w-full px-2'>
+                    <div className='flex-1 w-full'>
                       <TokenFundBox
                         label='budget'
                         onCurrencySelect={onGoalCurrencySelect}
