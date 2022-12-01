@@ -164,35 +164,31 @@ const MintBountyModal = ({ modalVisibility, types }) => {
   const mintBounty = async () => {
     try {
       setIsLoading(true);
-      let data;
+      let data = {
+        fundingTokenVolume: goalVolume,
+        fundingTokenAddress: goalToken,
+      };
       switch (category) {
         case 'Fixed Price':
-          data = {
-            fundingTokenVolume: goalVolume,
-            fundingTokenAddress: goalToken,
-          };
           break;
         case 'Split Price':
           data = {
+            ...data,
             payoutVolume: payoutVolume,
             payoutToken: payoutToken,
-            fundingTokenVolume: goalVolume,
-            fundingTokenAddress: goalToken,
           };
           break;
         case 'Contest':
           data = {
-            fundingTokenVolume: goalVolume,
-            fundingTokenAddress: goalToken,
+            ...data,
             tiers: finalTierVolumes,
           };
           break;
         case 'Fixed Contest':
           data = {
+            ...data,
             payoutToken: payoutToken,
             tiers: finalTierVolumes,
-            fundingTokenVolume: goalVolume,
-            fundingTokenAddress: goalToken,
           };
           break;
         default:
