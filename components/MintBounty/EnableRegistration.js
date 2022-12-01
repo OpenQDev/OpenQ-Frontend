@@ -10,7 +10,12 @@ const EnableRegistration = ({ enableRegistrationState, registrationDeadlineState
       <div className=' flex flex-col gap-2 w-full py-2 items-start text-base bg-[#161B22]'>
         <div className='flex items-center gap-2 font-semibold'>
           Enable Hackathon Registration
-          <input type='checkbox' className='checkbox' onChange={() => setEnableRegistration(true)}></input>
+          <input
+            type='checkbox'
+            className='checkbox'
+            checked={enableRegistration}
+            onChange={() => setEnableRegistration(!enableRegistration)}
+          ></input>
           <ToolTipNew
             mobileX={10}
             toolTipText={

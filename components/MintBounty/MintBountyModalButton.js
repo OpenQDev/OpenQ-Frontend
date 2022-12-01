@@ -161,7 +161,7 @@ const MintBountyModalButton = ({
           }
         >
           <button
-            className={`${enableMint ? 'btn-primary cursor-pointer' : 'btn-primary cursor-not-allowed'}`}
+            className={`${enableMint ? 'btn-primary cursor-pointer' : 'btn-default cursor-not-allowed'}`}
             type='button'
             onClick={() => mintBounty()}
             disabled={!enableMint}

@@ -42,7 +42,7 @@ const Budgeting = ({ category, goalVolumeState, goalTokenState }) => {
             You don{"'"}t have to deposit now! The budget is just what you intend to pay.
           </span>
           {budget ? (
-            <div className='flex-1 w-full px-2'>
+            <div className='flex-1 w-full'>
               <TokenFundBox
                 label='budget'
                 onCurrencySelect={onGoalCurrencySelect}
