@@ -15,13 +15,6 @@ describe('MintBountyModalButton', () => {
 
     expect(screen.getByRole('button', { name: 'Deploy Contract' }).disabled).toBe(true);
   });
-  it('should be enabled to switch network.', () => {
-    // ARRANGE
-    render(<MintBountyModalButton account={true} enableMint={false} isOnCorrectNetwork={false} />);
-
-    const button = screen.queryByRole('button', { name: 'Use Localhost:8545 Network' });
-    expect(button).toBeInTheDocument();
-  });
   it('should disappear when enabled transaction pending.', async () => {
     // ARRANGE
     render(
