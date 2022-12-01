@@ -6,6 +6,7 @@ import {
   GET_USER_BY_HASH,
   GET_PRIVATE_USER_BY_HASH,
   UPDATE_USER,
+  UPSERT_USER,
   GET_CONTRACT_PAGE,
   GET_LEAN_ORGANIZATIONS,
   GET_ALL_CONTRACTS,
@@ -235,6 +236,22 @@ class OpenQPrismaClient {
         });
         resolve(result.data);
       } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  upsertUser(values) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: UPSERT_USER,
+          variables: values,
+        });
+        resolve(result.data);
+      } catch (e) {
+        console.log(e);
         reject(e);
       }
     });
