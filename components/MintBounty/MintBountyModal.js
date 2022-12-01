@@ -20,6 +20,7 @@ import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
 import ModalLarge from '../Utils/ModalLarge';
 import ConnectButton from '../WalletConnect/ConnectButton';
 import MintBountyInputIssue from './MintBountyInputIssue';
+import InvoiceableToggle from './InvoiceableToggle';
 
 const MintBountyModal = ({ modalVisibility, types }) => {
   // Context
@@ -44,7 +45,6 @@ const MintBountyModal = ({ modalVisibility, types }) => {
   const [closed, setClosed] = useState();
   const [enableMint, setEnableMint] = useState();
   const isValidUrl = appState.utils.issurUrlRegex(url);
-  const [invoice, setInvoice] = useState(false);
   const [tier, setTier] = useState(3);
   const [tierArr, setTierArr] = useState(['0', '1', '2']);
   const [tierVolumes, setTierVolumes] = useState({ 0: 1, 1: 1, 2: 1 });
@@ -405,41 +405,8 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                 bountyAddress={bountyAddress}
                 closed={closed}
               />
-              <div className='flex flex-col  gap-2 py-2 w-full items-start  text-base bg-[#161B22]'>
-                <div className='flex items-center gap-2 font-semibold'>
-                  Is this Contract invoiceable?
-                  <ToolTipNew mobileX={10} toolTipText={'Do you want an invoice for this contract?'}>
-                    <div className='cursor-help rounded-full border border-[#c9d1d9] text-sm aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                      ?
-                    </div>
-                  </ToolTipNew>
-                </div>
-                <div className='flex-1 w-full'>
-                  <div className='flex text-sm rounded-sm text-primary '>
-                    <ToolTipNew innerStyles={'flex'} toolTipText={'Invoicing feature coming soon'}>
-                      <button
-                        disabled={true}
-                        onClick={() => setInvoice(true)}
-                        className={`cursor-not-allowed w-fit min-w-[80px] py-[5px] px-4 rounded-l-sm border whitespace-nowrap ${
-                          invoice ? 'bg-secondary-button border-secondary-button' : ''
-                        }  border-web-gray`}
-                      >
-                        Yes
-                      </button>
-                    </ToolTipNew>
-                    <button
-                      onClick={() => setInvoice(false)}
-                      className={`w-fit min-w-[80px] py-[5px] px-4 border-l-0 rounded-r-sm border whitespace-nowrap ${
-                        !invoice
-                          ? 'bg-secondary-button border-secondary-button'
-                          : 'hover:bg-secondary-button hover:border-secondary-button border-web-gray'
-                      } `}
-                    >
-                      No
-                    </button>
-                  </div>
-                </div>
-              </div>
+
+              <InvoiceableToggle />
 
               {category !== 'Fixed Contest' && (
                 <div className=' flex flex-col gap-2 w-full py-2 items-start text-base bg-[#161B22]'>
