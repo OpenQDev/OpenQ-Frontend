@@ -9,10 +9,8 @@ import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 
-import BountyAlreadyMintedMessage from './BountyAlreadyMintedMessage';
 import ToolTipNew from '../Utils/ToolTipNew';
 import MintBountyModalButton from './MintBountyModalButton';
-import MintBountyInput from './MintBountyInput';
 import ErrorModal from './ErrorModal';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import SetTierValues from './SetTierValues';
@@ -21,6 +19,7 @@ import SubMenu from '../Utils/SubMenu';
 import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
 import ModalLarge from '../Utils/ModalLarge';
 import ConnectButton from '../WalletConnect/ConnectButton';
+import MintBountyInputIssue from './MintBountyInputIssue';
 
 const MintBountyModal = ({ modalVisibility, types }) => {
   // Context
@@ -410,21 +409,13 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                       category === 'Fixed price' ? 'n' : ''
                     } ${category} Contract to send funds to any GitHub issue`}
               </h3>
-              <div className='flex flex-col py-2'>
-                <MintBountyInput setIssueUrl={setIssueUrl} issueData={issue} url={url} isValidUrl={isValidUrl} />
-              </div>
-              {isValidUrl && !issue?.url.includes('/issues/') && (
-                <div className='flex flex-col items-center'>Github Issue not found</div>
-              )}
-              <div className='flex flex-col items-center space-x-1'>
-                {isValidUrl && issue?.url.includes('/issues/') && issue?.closed && !bountyAddress && (
-                  <div className='text-center pt-3 '>This issue is already closed on GitHub</div>
-                )}
-                {isValidUrl && bountyAddress && issue && (
-                  <BountyAlreadyMintedMessage closed={closed} id={issue.id} bountyAddress={bountyAddress} />
-                )}
-              </div>
-
+              <MintBountyInputIssue
+                setIssueUrl={setIssueUrl}
+                issueData={issue}
+                url={url}
+                isValidUrl={isValidUrl}
+                bountyAddress={bountyAddress}
+              />
               <div className='flex flex-col  gap-2 py-2 w-full items-start  text-base bg-[#161B22]'>
                 <div className='flex items-center gap-2 font-semibold'>
                   Is this Contract invoiceable?
