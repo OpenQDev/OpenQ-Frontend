@@ -11,6 +11,7 @@ import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import ClaimText from './ClaimText';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
+import ConnectButton from '../WalletConnect/ConnectButton';
 
 const AdminPage = ({ bounty, refreshBounty }) => {
   // Context
@@ -261,9 +262,12 @@ const AdminPage = ({ bounty, refreshBounty }) => {
                         volume={volume}
                       />
                     </div>
-                    <button className='btn-default mx-4' type='button' onClick={setBudget}>
-                      Set New Budget
-                    </button>
+                    <ConnectButton nav={false} needsGithub={false} centerStyles={true} />
+                    {isOnCorrectNetwork && account && (
+                      <button className='btn-default' type='button' onClick={setBudget}>
+                        Set New Budget
+                      </button>
+                    )}
                   </>
                 )}
 
@@ -335,27 +339,24 @@ const AdminPage = ({ bounty, refreshBounty }) => {
                         setEnableContest={setEnableContest}
                       />
                     </div>
-                    <ToolTipNew
-                      hideToolTip={(enableContest && isOnCorrectNetwork && account) || isLoading}
-                      toolTipText={
-                        account && isOnCorrectNetwork && !enableContest
-                          ? 'Please make sure the sum of tier percentages adds up to 100.'
-                          : isOnCorrectNetwork
-                          ? 'Connect your wallet to mint a contract!'
-                          : 'Please switch to the correct network to mint a contract.'
-                      }
-                    >
-                      <div className='px-4'>
-                        <button
-                          className={`w-full btn-default ${enableContest ? 'cursor-pointer' : 'cursor-not-allowed'}`}
-                          type='button'
-                          onClick={setPayoutSchedule}
-                          disabled={!enableContest}
-                        >
-                          Set New Payout Schedule
-                        </button>
-                      </div>
-                    </ToolTipNew>
+                    <ConnectButton nav={false} needsGithub={false} centerStyles={true} />
+                    {isOnCorrectNetwork && account && (
+                      <ToolTipNew
+                        hideToolTip={enableContest || isLoading}
+                        toolTipText={!enableContest && 'Please make sure the sum of tier percentages adds up to 100.'}
+                      >
+                        <div className='px-4'>
+                          <button
+                            className={`w-full btn-default ${enableContest ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+                            type='button'
+                            onClick={setPayoutSchedule}
+                            disabled={!enableContest}
+                          >
+                            Set New Payout Schedule
+                          </button>
+                        </div>
+                      </ToolTipNew>
+                    )}
                   </>
                 ) : bounty.bountyType == '1' ? (
                   <>
@@ -369,9 +370,12 @@ const AdminPage = ({ bounty, refreshBounty }) => {
                         volume={payoutVolume}
                       />
                     </div>
-                    <button className='btn-default' type='button' onClick={setPayout}>
-                      Set Payout
-                    </button>
+                    <ConnectButton nav={false} needsGithub={false} centerStyles={true} />
+                    {isOnCorrectNetwork && account && (
+                      <button className='btn-default' type='button' onClick={setPayout}>
+                        Set Payout
+                      </button>
+                    )}
 
                     <h2 className='text-2xl text-[#f85149] border-b border-gray-700 pb-4'>
                       Close Split Price Contract
@@ -379,9 +383,12 @@ const AdminPage = ({ bounty, refreshBounty }) => {
                     <div className='flex justify-between items-center gap-2'>
                       Once you close this split price contract, there is no going back. Please be certain.
                     </div>
-                    <button className='btn-danger' type='button' onClick={closeOngoing}>
-                      Close Split Price Contract
-                    </button>
+                    <ConnectButton nav={false} needsGithub={false} centerStyles={true} />
+                    {isOnCorrectNetwork && account && (
+                      <button className='btn-danger' type='button' onClick={closeOngoing}>
+                        Close Split Price Contract
+                      </button>
+                    )}
                   </>
                 ) : null}
 

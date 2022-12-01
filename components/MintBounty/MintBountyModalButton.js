@@ -1,33 +1,20 @@
 import React from 'react';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
-import chainIdDeployEnvMap from '../../components/WalletConnect/chainIdDeployEnvMap';
 
-export default function MintBountyModalButton({
-  enableMint,
-  transactionPending,
-  mintBounty,
-  account,
-  isOnCorrectNetwork,
-}) {
+export default function MintBountyModalButton({ enableMint, transactionPending, mintBounty }) {
   return (
     <button
-      className={`${
-        enableMint || !isOnCorrectNetwork ? 'btn-primary cursor-pointer' : 'btn-primary cursor-not-allowed'
-      }`}
+      className={`${enableMint ? 'btn-primary cursor-pointer' : 'btn-primary cursor-not-allowed'}`}
       type='button'
       onClick={() => mintBounty()}
-      disabled={!enableMint && isOnCorrectNetwork}
+      disabled={!enableMint}
     >
       {transactionPending ? (
         <div className='flex items-center gap-2'>
           Processing... <LoadingIcon bg='colored' />
         </div>
-      ) : !isOnCorrectNetwork ? (
-        `Use ${chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['networkName']} Network`
-      ) : account ? (
-        'Deploy Contract'
       ) : (
-        'Connect Wallet'
+        'Deploy Contract'
       )}
     </button>
   );
