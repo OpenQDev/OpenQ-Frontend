@@ -1,47 +1,35 @@
 import React, { useContext } from 'react';
 
 import { useRouter } from 'next/router';
-import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
-import useWeb3 from '../../hooks/useWeb3';
-import StoreContext from '../../store/Store/StoreContext';
-import LoadingIcon from '../Loading/ButtonLoadingIcon';
-import ToolTipNew from '../Utils/ToolTipNew';
-import ConnectButton from '../WalletConnect/ConnectButton';
-import MintContext from './MintContext';
+import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
+import useWeb3 from '../../../hooks/useWeb3';
+import StoreContext from '../../../store/Store/StoreContext';
+import LoadingIcon from '../../Loading/ButtonLoadingIcon';
+import ToolTipNew from '../../Utils/ToolTipNew';
+import ConnectButton from '../../WalletConnect/ConnectButton';
+import MintContext from '../MintContext';
 
 // TODO: Put all this state logic into a context, and possibly add a reducer
-const MintBountyModalButton = ({
-  enableMint,
-  isLoadngState,
-  issue,
-
-  currentSum,
-  sum,
-  category,
-  enableRegistrationState,
-  registrationDeadlineState,
-  startDateState,
-  payoutTokenState,
-
-  payoutVolumeState,
-  finalTierVolumesState,
-  modalVisibility,
-  setError,
-}) => {
+const MintBountyModalButton = ({ currentSum, modalVisibility, setError }) => {
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const enableContest = category === 'Contest' ? sum == 100 : true;
-  console.log(enableContest, enableMint);
+  const [mintState, mintDispatch] = useContext(MintContext);
 
-  const [finalTierVolumes] = finalTierVolumesState;
-  const [payoutToken] = payoutTokenState;
-  const [payoutVolume] = payoutVolumeState;
-  const [enableRegistration] = enableRegistrationState;
-  const [registrationDeadline] = registrationDeadlineState;
-  const [startDate] = startDateState;
-  const [isLoading, setIsLoading] = isLoadngState;
-  const [mintState] = useContext(MintContext);
-
-  const { goalToken, goalVolume } = mintState;
+  const {
+    goalToken,
+    goalVolume,
+    registrationDeadline,
+    startDate,
+    enableRegistration,
+    category,
+    payoutToken,
+    payoutVolume,
+    finalTierVolumes,
+    isLoading,
+    issue,
+    enableMint,
+  } = mintState;
+  const sum = finalTierVolumes.reduce((a, b) => a + b);
 
   const [appState, dispatch] = useContext(StoreContext);
   const { account, library, safe } = useWeb3();
@@ -80,7 +68,8 @@ const MintBountyModalButton = ({
 
   const mintBounty = async () => {
     try {
-      setIsLoading(true);
+      const dispatch = { type: 'SET_LOADING', payload: true };
+      mintDispatch(dispatch);
       let data;
       switch (category) {
         case 'Fixed Price':

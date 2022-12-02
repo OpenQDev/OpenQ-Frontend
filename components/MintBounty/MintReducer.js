@@ -12,10 +12,84 @@ const MintReducer = (state, action) => {
         goalVolume: action.payload,
       };
     }
-    case 'UPDATE_ENABLE_CONTEST': {
+    case 'UPDATE_PAYOUT_TOKEN': {
       return {
         ...state,
-        enableContest: action.payload,
+        payoutToken: action.payload,
+      };
+    }
+    case 'UPDATE_PAYOUT_VOLUME': {
+      return {
+        ...state,
+        payoutVolume: action.payload,
+      };
+    }
+    case 'UPDATE_START_DATE': {
+      return {
+        ...state,
+        startDate: action.payload,
+      };
+    }
+    case 'UPDATE_REGISTRATION_DEADLINE': {
+      return {
+        ...state,
+        registrationDeadline: action.payload,
+      };
+    }
+    case 'UPDATE_ENABLE_REGISTRATION': {
+      return {
+        ...state,
+        enableRegistration: action.payload,
+      };
+    }
+    case 'SET_CATEGORY': {
+      return {
+        ...state,
+        category: action.payload,
+      };
+    }
+    case 'UPDATE_FINAL_TIER_VOLUMES': {
+      return {
+        ...state,
+        finalTierVolumes: action.payload,
+      };
+    }
+    case 'UPDATE_IS_LOADING': {
+      return {
+        ...state,
+        isLoading: action.payload,
+      };
+    }
+    case 'UPDATE_SUM': {
+      return {
+        ...state,
+        sum: action.payload,
+      };
+    }
+    case 'UPDATE_HIDE_MODAL': {
+      return {
+        ...state,
+        hideModal: action.payload,
+      };
+    }
+    case 'SET_LOADING': {
+      return {
+        ...state,
+        isLoading: action.payload,
+      };
+    }
+
+    case 'SET_ISSUE': {
+      return {
+        ...state,
+        issue: action.payload,
+      };
+    }
+
+    case 'SET_ENABLE_MINT': {
+      return {
+        ...state,
+        enableMint: action.payload,
       };
     }
 

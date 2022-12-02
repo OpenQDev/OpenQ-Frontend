@@ -8,14 +8,16 @@ const zeroAddressMetadata = {
 };
 
 const InitialMintState = {
-  finalTierVolumesState: [1, 1, 1],
-  payoutVolumeState: '',
-  payoutTokenState: zeroAddressMetadata,
-  enableRegistrationState: false,
-  registrationDeadlineState: null,
-  startDateState: null,
-  enableContestState: false,
-  enableContest: false,
+  finalTierVolumes: [1, 1, 1],
+  isLoading: false,
+  payoutVolume: '',
+  payoutToken: zeroAddressMetadata,
+  enableRegistration: false,
+  registrationDeadline: null,
+  startDate: null,
+  sum: 0,
+  hideModal: false,
+
   goalVolume: '',
   goalToken: zeroAddressMetadata,
 };

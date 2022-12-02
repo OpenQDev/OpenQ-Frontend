@@ -1,8 +1,11 @@
 import React, { useContext } from 'react';
-import StoreContext from '../../store/Store/StoreContext';
+import StoreContext from '../../../../store/Store/StoreContext';
+import MintContext from '../../MintContext';
 
-export default function IssueDetailsBubble({ issueData }) {
+export default function IssueDetailsBubble() {
   const [appState] = useContext(StoreContext);
+  const [mintState] = useContext(MintContext);
+  const { issue } = mintState;
 
   return (
     <>
@@ -11,7 +14,7 @@ export default function IssueDetailsBubble({ issueData }) {
           <div className=''>
             <svg
               xmlns='http://www.w3.org/2000/svg'
-              fill={issueData?.closed ? '#F0431D' : '#15FB31'}
+              fill={issue?.closed ? '#F0431D' : '#15FB31'}
               viewBox='0 0 16 16'
               width='17'
               height='17'
@@ -23,12 +26,11 @@ export default function IssueDetailsBubble({ issueData }) {
               ></path>
             </svg>
           </div>
-          <div className='break-word text-sm'> {issueData.title}</div>
+          <div className='break-word text-sm'> {issue.title}</div>
         </div>
         <div className='text-xs pt-3 pl-6 text-gray-200'>
           {' '}
-          Created on {appState.utils.formatDate(issueData.createdAt)}{' '}
-          {issueData.author && `by ${issueData.author.login}`}
+          Created on {appState.utils.formatDate(issue.createdAt)} {issue.author && `by ${issue.author.login}`}
         </div>
       </div>
     </>

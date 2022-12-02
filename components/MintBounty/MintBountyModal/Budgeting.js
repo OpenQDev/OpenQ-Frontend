@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
-import ToolTipNew from '../Utils/ToolTipNew';
-import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
+import ToolTipNew from '../../Utils/ToolTipNew';
+import TokenFundBox from '../../FundBounty/SearchTokens/TokenFundBox';
 import { ethers } from 'ethers';
-import { parseVolume } from '../../services/utils/lib';
-import MintContext from './MintContext';
+import { parseVolume } from '../../../services/utils/lib';
+import MintContext from '../MintContext';
 
 const Budgeting = ({ category }) => {
   const [budget, setBudget] = useState();

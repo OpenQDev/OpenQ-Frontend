@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import MintBountyModal from '../MintBounty/MintBountyModal';
+import MintBountyModal from '../MintBounty//MintBountyModal/MintBountyModal';
+import MintProvider from '../MintBounty/MintProvider';
 import ModalDefault from '../Utils/ModalDefault';
 import ToolTipNew from '../Utils/ToolTipNew';
 import GetSupportModal from './GetSupportModal';
@@ -138,12 +139,14 @@ const ContractWizard = ({ wizardVisibility, refreshBounties }) => {
       ) : (
         <>
           {mintModal && (
-            <MintBountyModal
-              modalVisibility={setMintModal}
-              types={[type.toString()]}
-              hideSubmenu={true}
-              refreshBounties={refreshBounties}
-            />
+            <MintProvider types={[type.toString()]}>
+              <MintBountyModal
+                modalVisibility={setMintModal}
+                types={[type.toString()]}
+                hideSubmenu={true}
+                refreshBounties={refreshBounties}
+              />
+            </MintProvider>
           )}
         </>
       )}

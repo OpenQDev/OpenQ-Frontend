@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ToolTipNew from '../Utils/ToolTipNew';
+import ToolTipNew from '../../Utils/ToolTipNew';
 
 const InvoiceableToggle = () => {
   const [invoice, setInvoice] = useState(false);

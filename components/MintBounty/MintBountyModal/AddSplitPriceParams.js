@@ -1,23 +1,28 @@
 import React, { useContext } from 'react';
-import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
+import TokenFundBox from '../../FundBounty/SearchTokens/TokenFundBox';
 import { ethers } from 'ethers';
-import ToolTipNew from '../Utils/ToolTipNew';
-import StoreContext from '../../store/Store/StoreContext';
+import ToolTipNew from '../../Utils/ToolTipNew';
+import MintContext from '../MintContext';
+import { parseVolume } from '../../../services/utils/lib';
 
-const AddSplitPriceParams = ({ payoutVolumeState, payoutTokenState }) => {
-  const [appState] = useContext(StoreContext);
-  const [payoutVolume, setPayoutVolume] = payoutVolumeState;
-  const [payoutToken, setPayoutToken] = payoutTokenState;
-
-  function onVolumeChange(payoutVolume) {
-    appState.utils.updateVolume(payoutVolume, setPayoutVolume);
-  }
+const AddSplitPriceParams = () => {
+  const [mintState, mintDispatch] = useContext(MintContext);
+  const { payoutToken, payoutVolume } = mintState;
+  const onVolumeChange = (payoutVolume) => {
+    const parsedPayoutVolume = parseVolume(payoutVolume);
+    const dispatch = {
+      type: 'UPDATE_PAYOUT_VOLUME',
+      payload: parsedPayoutVolume,
+    };
+    mintDispatch(dispatch);
+  };
 
   function onCurrencySelect(payoutToken) {
-    setPayoutToken({
-      ...payoutToken,
-      address: ethers.utils.getAddress(payoutToken.address),
-    });
+    const dispatch = {
+      type: 'UPDATE_PAYOUT_TOKEN',
+      payload: { ...payoutToken, address: ethers.utils.getAddress(payoutToken.address) },
+    };
+    mintDispatch(dispatch);
   }
   return (
     <div className='flex flex-col gap-2 w-full items-start py-2 pb-4 text-base bg-[#161B22]'>

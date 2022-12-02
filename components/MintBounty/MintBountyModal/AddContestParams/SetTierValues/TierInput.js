@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext, useRef, useMemo } from 'react';
-import StoreContext from '../../store/Store/StoreContext';
+import StoreContext from '../../../../../store/Store/StoreContext';
 
 const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
   // State

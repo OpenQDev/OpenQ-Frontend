@@ -1,10 +1,33 @@
-import React from 'react';
-import ToolTipNew from '../Utils/ToolTipNew';
+import React, { useContext } from 'react';
+import ToolTipNew from '../../../Utils/ToolTipNew';
+import MintContext from '../../MintContext';
 
-const EnableRegistration = ({ enableRegistrationState, registrationDeadlineState, startDateState, category }) => {
-  const [enableRegistration, setEnableRegistration] = enableRegistrationState;
-  const [registrationDeadline, setRegistrationDeadline] = registrationDeadlineState;
-  const [startDate, setStartDate] = startDateState;
+const EnableRegistration = () => {
+  const [mintState, mintDispatch] = useContext(MintContext);
+  const { startDate, registrationDeadline, enableRegistration, category } = mintState;
+  const handleStartDate = (e) => {
+    const dispatch = {
+      type: 'UPDATE_START_DATE',
+      payload: e.target.value,
+    };
+    mintDispatch(dispatch);
+  };
+
+  const handleRegistrationDeadline = (e) => {
+    const dispatch = {
+      type: 'UPDATE_REGISTRATION_DEADLINE',
+      payload: e.target.value,
+    };
+    mintDispatch(dispatch);
+  };
+  const handleRegistration = (e) => {
+    const dispatch = {
+      type: 'UPDATE_ENABLE_REGISTRATION',
+      payload: e.target.checked,
+    };
+    mintDispatch(dispatch);
+  };
+
   return (
     <>
       <div className=' flex flex-col gap-2 w-full py-2 items-start text-base bg-[#161B22]'>
@@ -14,7 +37,7 @@ const EnableRegistration = ({ enableRegistrationState, registrationDeadlineState
             type='checkbox'
             className='checkbox'
             checked={enableRegistration}
-            onChange={() => setEnableRegistration(!enableRegistration)}
+            onChange={handleRegistration}
           ></input>
           <ToolTipNew
             mobileX={10}
@@ -46,7 +69,7 @@ const EnableRegistration = ({ enableRegistrationState, registrationDeadlineState
             autoComplete='off'
             type='date'
             value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
+            onChange={handleStartDate}
           />
           <div className='flex items-center gap-2'>End Date</div>
 
@@ -58,7 +81,7 @@ const EnableRegistration = ({ enableRegistrationState, registrationDeadlineState
             autoComplete='off'
             type='date'
             value={registrationDeadline}
-            onChange={(e) => setRegistrationDeadline(e.target.value)}
+            onChange={handleRegistrationDeadline}
           />
         </>
       ) : null}

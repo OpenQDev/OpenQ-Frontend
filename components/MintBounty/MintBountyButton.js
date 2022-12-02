@@ -1,7 +1,8 @@
 // Third party
 import React, { useState } from 'react';
 // Custom
-import MintBountyModal from './MintBountyModal';
+import MintBountyModal from './MintBountyModal/MintBountyModal';
+import MintProvider from './MintProvider';
 
 const MintBountyButton = ({ styles, types }) => {
   const [showModal, setShowModal] = useState(false);
@@ -28,7 +29,11 @@ const MintBountyButton = ({ styles, types }) => {
         </svg>
         <div>New Contract</div>
       </button>
-      {showModal && <MintBountyModal hideSubmenu={types.length < 3} types={types} modalVisibility={setShowModal} />}
+      {showModal && (
+        <MintProvider types={types}>
+          <MintBountyModal hideSubmenu={types.length < 3} types={types} modalVisibility={setShowModal} />
+        </MintProvider>
+      )}
     </>
   );
 };

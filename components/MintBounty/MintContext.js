@@ -1,3 +1,3 @@
 import React from 'react';
-const StoreContext = React.createContext();
-export default StoreContext;
+const MintContext = React.createContext();
+export default MintContext;
