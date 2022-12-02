@@ -14,6 +14,7 @@ import SubMenu from '../Utils/SubMenu';
 import ModalLarge from '../Utils/ModalLarge';
 import AddContestParams from './AddContestParams';
 import MintBountyInputIssue from './MintBountyInputIssue';
+import MintProvider from './MintProvider';
 
 const MintBountyModal = ({ modalVisibility, types }) => {
   // Context
@@ -45,11 +46,10 @@ const MintBountyModal = ({ modalVisibility, types }) => {
   const enableRegistrationState = useState(false);
   const registrationDeadlineState = useState();
   const startDateState = useState();
-  const enableContestState = useState(false);
-  const [isLoading, setIsLoading] = isLoadingState;
+  console.log(enableMint, 'enableMint');
 
   // get values from state instances
-  const [enableContest] = enableContestState;
+  const [isLoading, setIsLoading] = isLoadingState;
 
   const initialCategory =
     types[0] === '1'
@@ -61,8 +61,6 @@ const MintBountyModal = ({ modalVisibility, types }) => {
       : 'Fixed Price';
   const [category, setCategory] = useState(initialCategory);
   // const [template, setTemplate] = useState('');
-  const goalVolumeState = useState('');
-  const goalTokenState = useState(zeroAddressMetadata);
   const sumState = useState(0);
   const [sum] = sumState;
 
@@ -93,7 +91,6 @@ const MintBountyModal = ({ modalVisibility, types }) => {
           }
         }
         const issueData = await fetchIssue();
-        console.log(issueData);
         if (issueData) {
           try {
             console.log(bounty);
@@ -108,6 +105,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
               setBountyAddress(bounty.bountyAddress);
             } else {
               if (!didCancel) {
+                console.log('exec');
                 setEnableMint(true);
                 setBountyAddress();
               }
@@ -174,17 +172,11 @@ const MintBountyModal = ({ modalVisibility, types }) => {
   const btn = !error && (
     <MintBountyModalButton
       issue={issue}
-      enableMint={
-        enableContest ||
-        (!category.includes('Contest') && enableMint && !issue?.closed && issue?.url.includes('/issues/') && !isLoading)
-      }
+      enableMint={enableMint}
       isLoadngState={isLoadingState}
-      enableContest={enableContest}
       currentSum={currentSum}
       sum={sum}
-      goalTokenState={goalTokenState}
       payoutVolumeState={payoutVolumeState}
-      goalVolumeState={goalVolumeState}
       sumState={sumState}
       finalTierVolumesState={finalTierVolumesState}
       category={category}
@@ -193,7 +185,6 @@ const MintBountyModal = ({ modalVisibility, types }) => {
       startDateState={startDateState}
       payoutTokenState={payoutTokenState}
       hideModalState={hideModalState}
-      enableContestState={enableContestState}
       modalVisibility={modalVisibility}
       setError={setError}
     />
@@ -201,7 +192,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
 
   // Render
   return (
-    <>
+    <MintProvider>
       {error ? (
         <ErrorModal setShowErrorModal={closeModal} error={error} />
       ) : (
@@ -246,7 +237,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
               />
 
               <Invoicing />
-              <Budgeting category={category} goalVolumeState={goalVolumeState} goalTokenState={goalTokenState} />
+              <Budgeting category={category} />
 
               {category === 'Split Price' ? (
                 <>
@@ -263,7 +254,6 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                     startDateState={startDateState}
                     payoutTokenState={payoutTokenState}
                     hideModalState={hideModalState}
-                    enableContestState={enableContestState}
                   />
                 </>
               ) : null}
@@ -271,7 +261,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
           </div>
         </ModalLarge>
       )}
-    </>
+    </MintProvider>
   );
 };
 

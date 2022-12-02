@@ -12,7 +12,6 @@ const AddContestParams = ({
   payoutTokenState,
   hideModalState,
   sumState,
-  enableContestState,
   finalTierVolumesState,
 }) => {
   const [tier, setTier] = useState(3);
@@ -20,17 +19,11 @@ const AddContestParams = ({
   const [tierVolumes, setTierVolumes] = useState({ 0: 1, 1: 1, 2: 1 });
   const [currentSum, setCurrentSum] = useState(0);
   const [sum, setSum] = sumState;
-  const [, setEnableContest] = enableContestState;
   const [finalTierVolumes, setFinalTierVolumes] = finalTierVolumesState;
-  const tierConditions = sum == 100;
 
-  useEffect(() => {
-    if (category == 'Contest' && !tierConditions) {
-      setEnableContest(false);
-    } else {
-      setEnableContest(true);
-    }
-  }, [category, tier, sum]);
+  const setEnableContest = () => {
+    return null;
+  };
   useEffect(() => {
     if (finalTierVolumes.length) {
       setSum(finalTierVolumes.reduce((a, b) => a + b));
@@ -50,9 +43,6 @@ const AddContestParams = ({
           return 0;
         })
       );
-    }
-    if (sum == 100) {
-      setEnableContest(true);
     }
   }, [finalTierVolumes]);
 

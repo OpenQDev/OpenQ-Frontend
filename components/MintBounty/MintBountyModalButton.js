@@ -7,13 +7,14 @@ import StoreContext from '../../store/Store/StoreContext';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import ToolTipNew from '../Utils/ToolTipNew';
 import ConnectButton from '../WalletConnect/ConnectButton';
+import MintContext from './MintContext';
 
 // TODO: Put all this state logic into a context, and possibly add a reducer
 const MintBountyModalButton = ({
   enableMint,
   isLoadngState,
   issue,
-  enableContest,
+
   currentSum,
   sum,
   category,
@@ -21,14 +22,15 @@ const MintBountyModalButton = ({
   registrationDeadlineState,
   startDateState,
   payoutTokenState,
-  goalVolumeState,
-  goalTokenState,
+
   payoutVolumeState,
   finalTierVolumesState,
   modalVisibility,
   setError,
 }) => {
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
+  const enableContest = category === 'Contest' ? sum == 100 : true;
+  console.log(enableContest, enableMint);
 
   const [finalTierVolumes] = finalTierVolumesState;
   const [payoutToken] = payoutTokenState;
@@ -37,12 +39,14 @@ const MintBountyModalButton = ({
   const [registrationDeadline] = registrationDeadlineState;
   const [startDate] = startDateState;
   const [isLoading, setIsLoading] = isLoadngState;
+  const [mintState] = useContext(MintContext);
 
-  const [goalVolume] = goalVolumeState;
-  const [goalToken] = goalTokenState;
+  const { goalToken, goalVolume } = mintState;
+
   const [appState, dispatch] = useContext(StoreContext);
   const { account, library, safe } = useWeb3();
   const router = useRouter();
+  const readyToMint = enableMint && !issue?.closed && issue?.url.includes('/issues/') && !isLoading && enableContest;
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
@@ -148,7 +152,7 @@ const MintBountyModalButton = ({
         <ToolTipNew
           outerStyles={'hover:hidden -top-20 md:top-auto'}
           triangleStyles={'mt-7 md:mt-1 rotate-180 md:rotate-0 '}
-          hideToolTip={enableMint}
+          hideToolTip={readyToMint}
           toolTipText={
             issue?.closed && issue?.url?.includes('/issues/')
               ? 'Issue closed'
@@ -162,10 +166,10 @@ const MintBountyModalButton = ({
           }
         >
           <button
-            className={`${enableMint ? 'btn-primary cursor-pointer' : 'btn-default cursor-not-allowed'}`}
+            className={`${readyToMint ? 'btn-primary cursor-pointer' : 'btn-default cursor-not-allowed'}`}
             type='button'
             onClick={() => mintBounty()}
-            disabled={!enableMint}
+            disabled={!readyToMint}
           >
             {isLoading ? (
               <div className='flex items-center gap-2'>
