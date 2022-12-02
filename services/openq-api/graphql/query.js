@@ -220,6 +220,15 @@ export const GET_REPOSITORIES = gql`
   }
 `;
 
+export const UPSERT_USER = gql`
+  mutation upsertUser($email: String, $github: String) {
+    upsertUser(email: $email, github: $github) {
+      github
+      email
+    }
+  }
+`;
+
 export const UPDATE_USER = gql`
   mutation updateUser(
     $address: String!

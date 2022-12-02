@@ -7,16 +7,13 @@ import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
 import StoreContext from '../../store/Store/StoreContext';
 import Invoicing from './Invoicing';
 import Budgeting from './Budgeting';
-
-import BountyAlreadyMintedMessage from './BountyAlreadyMintedMessage';
-
 import MintBountyModalButton from './MintBountyModalButton';
-import MintBountyInput from './MintBountyInput';
 import ErrorModal from './ErrorModal';
 import AddSplitPriceParams from './AddSplitPriceParams';
 import SubMenu from '../Utils/SubMenu';
 import ModalLarge from '../Utils/ModalLarge';
 import AddContestParams from './AddContestParams';
+import MintBountyInputIssue from './MintBountyInputIssue';
 
 const MintBountyModal = ({ modalVisibility, types }) => {
   // Context
@@ -96,9 +93,10 @@ const MintBountyModal = ({ modalVisibility, types }) => {
           }
         }
         const issueData = await fetchIssue();
-
+        console.log(issueData);
         if (issueData) {
           try {
+            console.log(bounty);
             let bounty = await appState.openQSubgraphClient.getBountyByGithubId(issueData.id);
             if (closed === false && bounty?.status == '1' && didCancel) {
               setClosed(true);
@@ -238,21 +236,14 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                       category === 'Fixed price' ? 'n' : ''
                     } ${category} Contract to send funds to any GitHub issue`}
               </h3>
-              <div className='flex flex-col py-2'>
-                <MintBountyInput setIssueUrl={setIssueUrl} issueData={issue} url={url} isValidUrl={isValidUrl} />
-              </div>
-
-              {isValidUrl && !issue?.url.includes('/issues/') && (
-                <div className='flex flex-col items-center'>Github Issue not found</div>
-              )}
-              <div className='flex flex-col items-center space-x-1'>
-                {isValidUrl && issue?.url.includes('/issues/') && issue?.closed && !bountyAddress && (
-                  <div className='text-center pt-3 '>This issue is already closed on GitHub</div>
-                )}
-                {isValidUrl && bountyAddress && issue && (
-                  <BountyAlreadyMintedMessage closed={closed} id={issue.id} bountyAddress={bountyAddress} />
-                )}
-              </div>
+              <MintBountyInputIssue
+                setIssueUrl={setIssueUrl}
+                issueData={issue}
+                url={url}
+                isValidUrl={isValidUrl}
+                bountyAddress={bountyAddress}
+                closed={closed}
+              />
 
               <Invoicing />
               <Budgeting category={category} goalVolumeState={goalVolumeState} goalTokenState={goalTokenState} />

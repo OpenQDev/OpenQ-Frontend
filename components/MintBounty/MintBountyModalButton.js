@@ -8,6 +8,7 @@ import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import ToolTipNew from '../Utils/ToolTipNew';
 import ConnectButton from '../WalletConnect/ConnectButton';
 
+// TODO: Put all this state logic into a context, and possibly add a reducer
 const MintBountyModalButton = ({
   enableMint,
   isLoadngState,
@@ -149,9 +150,9 @@ const MintBountyModalButton = ({
           triangleStyles={'mt-7 md:mt-1 rotate-180 md:rotate-0 '}
           hideToolTip={enableMint}
           toolTipText={
-            issue?.closed && issue?.url.includes('/issues/')
+            issue?.closed && issue?.url?.includes('/issues/')
               ? 'Issue closed'
-              : !enableMint || !issue?.url.includes('/issues/')
+              : !enableMint || !issue?.url?.includes('/issues/')
               ? 'Please choose an elgible issue.'
               : currentSum !== sum
               ? 'Please make sure each tier gets a percentage.'

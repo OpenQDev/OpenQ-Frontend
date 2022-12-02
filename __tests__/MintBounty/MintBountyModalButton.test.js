@@ -15,8 +15,22 @@ const zeroAddressMetadata = {
   chainId: 80001,
   path: 'https://wallet-asset.matic.network/img/tokens/matic.svg',
 };
+const issues = [
+  {
+    status: 'mintable',
+    url: 'https://github.com/OpenQDev/OpenQ-TestRepo/issues/21',
+  },
+  {
+    status: 'minted',
+    url: 'https://github.com/OpenQDev/OpenQ-TestRepo/issues/221',
+  },
+  {
+    status: 'unknown',
+    url: 'https://github.com/OpenQDev/OpenQ-Frontend/issues/2190',
+  },
+];
 
-describe('MintBountyModalButton', () => {
+const test = (issue) => {
   it('should be disabled when on correct network but not mintable yet.', () => {
     // ARRANGE
     render(
@@ -75,7 +89,7 @@ describe('MintBountyModalButton', () => {
         account={true}
         enableMint={true}
         isLoadingState={[false]}
-        issue={{ url: 'issues' }}
+        issue={issue}
         currentSum={100}
         finalTierVolumesState={[[10, 20, 70]]}
         isOnCorrectNetwork={true}
@@ -92,5 +106,11 @@ describe('MintBountyModalButton', () => {
     );
 
     await user.click(screen.getByRole('button'));
+  });
+};
+
+describe('MintBountyModalButton', () => {
+  issues.forEach((issue) => {
+    test(issue);
   });
 });
