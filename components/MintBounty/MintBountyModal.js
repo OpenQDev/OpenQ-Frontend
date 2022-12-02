@@ -9,10 +9,8 @@ import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 
-import BountyAlreadyMintedMessage from './BountyAlreadyMintedMessage';
 import ToolTipNew from '../Utils/ToolTipNew';
 import MintBountyModalButton from './MintBountyModalButton';
-import MintBountyInput from './MintBountyInput';
 import ErrorModal from './ErrorModal';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import SetTierValues from './SetTierValues';
@@ -21,6 +19,8 @@ import SubMenu from '../Utils/SubMenu';
 import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
 import ModalLarge from '../Utils/ModalLarge';
 import ConnectButton from '../WalletConnect/ConnectButton';
+import MintBountyInputIssue from './MintBountyInputIssue';
+import InvoiceableToggle from './InvoiceableToggle';
 
 const MintBountyModal = ({ modalVisibility, types }) => {
   // Context
@@ -45,7 +45,6 @@ const MintBountyModal = ({ modalVisibility, types }) => {
   const [closed, setClosed] = useState();
   const [enableMint, setEnableMint] = useState();
   const isValidUrl = appState.utils.issurUrlRegex(url);
-  const [invoice, setInvoice] = useState(false);
   const [tier, setTier] = useState(3);
   const [tierArr, setTierArr] = useState(['0', '1', '2']);
   const [tierVolumes, setTierVolumes] = useState({ 0: 1, 1: 1, 2: 1 });
@@ -164,35 +163,31 @@ const MintBountyModal = ({ modalVisibility, types }) => {
   const mintBounty = async () => {
     try {
       setIsLoading(true);
-      let data;
+      let data = {
+        fundingTokenVolume: goalVolume,
+        fundingTokenAddress: goalToken,
+      };
       switch (category) {
         case 'Fixed Price':
-          data = {
-            fundingTokenVolume: goalVolume,
-            fundingTokenAddress: goalToken,
-          };
           break;
         case 'Split Price':
           data = {
+            ...data,
             payoutVolume: payoutVolume,
             payoutToken: payoutToken,
-            fundingTokenVolume: goalVolume,
-            fundingTokenAddress: goalToken,
           };
           break;
         case 'Contest':
           data = {
-            fundingTokenVolume: goalVolume,
-            fundingTokenAddress: goalToken,
+            ...data,
             tiers: finalTierVolumes,
           };
           break;
         case 'Fixed Contest':
           data = {
+            ...data,
             payoutToken: payoutToken,
             tiers: finalTierVolumes,
-            fundingTokenVolume: goalVolume,
-            fundingTokenAddress: goalToken,
           };
           break;
         default:
@@ -351,28 +346,16 @@ const MintBountyModal = ({ modalVisibility, types }) => {
     <>
       <ConnectButton nav={false} needsGithub={false} tooltipAction={'mint a contract.'} />
       {account && isOnCorrectNetwork && (
-        <ToolTipNew
-          outerStyles={'hover:hidden -top-20 md:top-auto'}
-          triangleStyles={'mt-7 md:mt-1 rotate-180 md:rotate-0 '}
-          hideToolTip={(enableContest && enableMint && !issue?.closed && issue?.url.includes('/issues/')) || isLoading}
-          toolTipText={
-            issue?.closed && issue?.url.includes('/issues/')
-              ? 'Issue closed'
-              : !enableMint || !issue?.url.includes('/issues/')
-              ? 'Please choose an elgible issue.'
-              : currentSum !== sum
-              ? 'Please make sure each tier gets a percentage.'
-              : !enableContest
-              ? 'Please make sure the sum of tier percentages adds up to 100.'
-              : null
-          }
-        >
-          <MintBountyModalButton
-            mintBounty={mintBounty}
-            enableMint={enableContest && enableMint && !issue?.closed && issue?.url.includes('/issues/') && !isLoading}
-            transactionPending={isLoading}
-          />
-        </ToolTipNew>
+        <MintBountyModalButton
+          mintBounty={mintBounty}
+          enableMint={enableMint}
+          transactionPending={isLoading}
+          issue={issue}
+          enableContest={enableContest}
+          isLoading={isLoading}
+          currentSum={currentSum}
+          sum={sum}
+        />
       )}
     </>
   );
@@ -414,56 +397,16 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                       category === 'Fixed price' ? 'n' : ''
                     } ${category} Contract to send funds to any GitHub issue`}
               </h3>
-              <div className='flex flex-col py-2'>
-                <MintBountyInput setIssueUrl={setIssueUrl} issueData={issue} url={url} isValidUrl={isValidUrl} />
-              </div>
-              {isValidUrl && !issue?.url.includes('/issues/') && (
-                <div className='flex flex-col items-center'>Github Issue not found</div>
-              )}
-              <div className='flex flex-col items-center space-x-1'>
-                {isValidUrl && issue?.url.includes('/issues/') && issue?.closed && !bountyAddress && (
-                  <div className='text-center pt-3 '>This issue is already closed on GitHub</div>
-                )}
-                {isValidUrl && bountyAddress && issue && (
-                  <BountyAlreadyMintedMessage closed={closed} id={issue.id} bountyAddress={bountyAddress} />
-                )}
-              </div>
+              <MintBountyInputIssue
+                setIssueUrl={setIssueUrl}
+                issueData={issue}
+                url={url}
+                isValidUrl={isValidUrl}
+                bountyAddress={bountyAddress}
+                closed={closed}
+              />
 
-              <div className='flex flex-col  gap-2 py-2 w-full items-start  text-base bg-[#161B22]'>
-                <div className='flex items-center gap-2 font-semibold'>
-                  Is this Contract invoiceable?
-                  <ToolTipNew mobileX={10} toolTipText={'Do you want an invoice for this contract?'}>
-                    <div className='cursor-help rounded-full border border-[#c9d1d9] text-sm aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                      ?
-                    </div>
-                  </ToolTipNew>
-                </div>
-                <div className='flex-1 w-full'>
-                  <div className='flex text-sm rounded-sm text-primary '>
-                    <ToolTipNew innerStyles={'flex'} toolTipText={'Invoicing feature coming soon'}>
-                      <button
-                        disabled={true}
-                        onClick={() => setInvoice(true)}
-                        className={`cursor-not-allowed w-fit min-w-[80px] py-[5px] px-4 rounded-l-sm border whitespace-nowrap ${
-                          invoice ? 'bg-secondary-button border-secondary-button' : ''
-                        }  border-web-gray`}
-                      >
-                        Yes
-                      </button>
-                    </ToolTipNew>
-                    <button
-                      onClick={() => setInvoice(false)}
-                      className={`w-fit min-w-[80px] py-[5px] px-4 border-l-0 rounded-r-sm border whitespace-nowrap ${
-                        !invoice
-                          ? 'bg-secondary-button border-secondary-button'
-                          : 'hover:bg-secondary-button hover:border-secondary-button border-web-gray'
-                      } `}
-                    >
-                      No
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <InvoiceableToggle />
 
               {category !== 'Fixed Contest' && (
                 <div className=' flex flex-col gap-2 w-full py-2 items-start text-base bg-[#161B22]'>
@@ -471,11 +414,11 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                     Set a Budget
                     <input type='checkbox' className='checkbox' onChange={() => setBudgetInput(!budgetInput)}></input>
                     <ToolTipNew
-                      mobileX={10}
+                      innerStyles={'w-40 whitespace-normal'}
                       toolTipText={
-                        category === 'Fixed Price'
-                          ? 'Amount of funds you would like to escrow on this issue.'
-                          : 'How much will each successful submitter earn?'
+                        category === 'Split Price'
+                          ? 'How much will each successful submitter earn?'
+                          : 'Amount of funds you would like to escrow on this issue.'
                       }
                     >
                       <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
@@ -487,7 +430,7 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                     You don{"'"}t have to deposit now! The budget is just what you intend to pay.
                   </span>
                   {budgetInput ? (
-                    <div className='flex-1 w-full px-2'>
+                    <div className='flex-1 w-full'>
                       <TokenFundBox
                         label='budget'
                         onCurrencySelect={onGoalCurrencySelect}

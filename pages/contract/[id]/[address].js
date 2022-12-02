@@ -71,7 +71,7 @@ const address = ({ address, mergedBounty, renderError }) => {
   // State
   const [error, setError] = useState(renderError);
   const [internalMenu, setInternalMenu] = useState();
-  const [justMinted, setJustMinted] = useState();
+  const [, setJustMinted] = useState();
 
   // Refs
   const canvas = useRef();
@@ -244,18 +244,7 @@ const address = ({ address, mergedBounty, renderError }) => {
               <BountyHeading price={tokenValues?.total} budget={budget} bounty={bounty} />
 
               <div className='flex justify-between  w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
-                {internalMenu == 'View' && (
-                  <BountyCardDetails
-                    justMinted={justMinted}
-                    budgetValues={budgetValues}
-                    split={split}
-                    bounty={bounty}
-                    setInternalMenu={setInternalMenu}
-                    address={address}
-                    tokenValues={tokenValues}
-                    internalMenu={internalMenu}
-                  />
-                )}
+                {internalMenu == 'View' && <BountyCardDetails bounty={bounty} />}
                 {internalMenu == 'Fund' && bounty ? (
                   <FundPage
                     bounty={bounty}
