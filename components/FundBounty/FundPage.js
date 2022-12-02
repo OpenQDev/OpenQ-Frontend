@@ -10,7 +10,7 @@ import ToolTipNew from '../Utils/ToolTipNew';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import ApproveFundModal from './ApproveFundModal';
 import InvoicingModal from './InvoicingModal';
-import { RESTING, CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR, APPROVE } from './ApproveFundState';
+import { RESTING, CONFIRM, APPROVING, TRANSFERRING, APPROVE } from './ApproveFundState';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import SelectableNFT from './SelectableNFT';
 import NFTFundModal from './NFTFundModal.js';
@@ -120,16 +120,12 @@ const FundPage = ({ bounty, refreshBounty }) => {
       library,
       setButtonText,
       bounty,
-      ERROR,
       account,
       logger,
       setShowApproveTransferModal,
       allowance,
-      APPROVING,
       depositPeriodDays,
       setTransactionHash,
-      TRANSFERRING,
-      SUCCESS,
       setSuccessMessage,
       refreshBounty,
       error

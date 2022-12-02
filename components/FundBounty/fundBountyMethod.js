@@ -1,3 +1,5 @@
+import { APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveFundState';
+
 const fundBountyMethod = async (
   setError,
   setApproveTransferState,
@@ -9,16 +11,12 @@ const fundBountyMethod = async (
   library,
   setButtonText,
   bounty,
-  ERROR,
   account,
   logger,
   setShowApproveTransferModal,
   allowance,
-  APPROVING,
   depositPeriodDays,
   setTransactionHash,
-  TRANSFERRING,
-  SUCCESS,
   setSuccessMessage,
   refreshBounty,
   error
