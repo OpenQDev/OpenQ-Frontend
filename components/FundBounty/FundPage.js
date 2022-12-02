@@ -57,30 +57,22 @@ const FundPage = ({ bounty, refreshBounty }) => {
     return bountyNames.get(type) || 'Type unknown';
   };
 
-  const closed = bounty.status == '1';
   const onNftTierChange = (e) => {
     const targetedTier = parseInt(e.target.value);
     if ((targetedTier > 0 && targetedTier <= bounty.payoutSchedule.length) || e.target.value === '') {
       setNftTier(e.target.value);
     }
   };
-  const loadingClosedOrZero =
+  const disabledFundButton =
     approveTransferState == CONFIRM ||
     approveTransferState == APPROVING ||
     approveTransferState == TRANSFERRING ||
-    closed ||
+    bounty.status == '1' ||
     parseFloat(volume) <= 0.00000001 ||
     parseFloat(volume) > 1000000 ||
     (volume == '' && !pickedNft) ||
     (isContest && nftTier === '' && pickedNft) ||
     !(parseInt(depositPeriodDays) > 0);
-
-  const disableOrEnable = `${
-    loadingClosedOrZero && account && isOnCorrectNetwork
-      ? 'btn-default w-full cursor-not-allowed'
-      : 'btn-primary cursor-pointer'
-  }`;
-  const fundButtonClasses = `text-center px-8 w-min items-center  ${disableOrEnable}`;
 
   function resetState() {
     setApproveTransferState(RESTING);
@@ -269,7 +261,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
   // Render
   return (
     <>
-      {closed ? (
+      {bounty.status == '1' ? (
         <>
           <BountyClosed bounty={bounty} />
         </>
@@ -359,7 +351,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
                       outerStyles={'-top-1 '}
                       groupStyles={'w-min'}
                       innerStyles={'sm:w-40 md:w-60 whitespace-normal'}
-                      hideToolTip={!loadingClosedOrZero}
+                      hideToolTip={!disabledFundButton}
                       toolTipText={
                         !(depositPeriodDays > 0)
                           ? "Please indicate how many days you'd like to fund your contract for."
@@ -369,8 +361,10 @@ const FundPage = ({ bounty, refreshBounty }) => {
                       }
                     >
                       <button
-                        className={`${fundButtonClasses} py-1.5`}
-                        disabled={loadingClosedOrZero}
+                        className={`text-center px-8 w-min items-center  ${
+                          disabledFundButton ? 'btn-default w-full cursor-not-allowed' : 'btn-primary cursor-pointer'
+                        } py-1.5`}
+                        disabled={disabledFundButton}
                         type='button'
                         onClick={openFund}
                       >
