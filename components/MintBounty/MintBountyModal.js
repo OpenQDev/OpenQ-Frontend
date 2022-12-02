@@ -176,7 +176,10 @@ const MintBountyModal = ({ modalVisibility, types }) => {
   const btn = !error && (
     <MintBountyModalButton
       issue={issue}
-      enableMint={enableContest && enableMint && !issue?.closed && issue?.url.includes('/issues/') && !isLoading}
+      enableMint={
+        enableContest ||
+        (!category.includes('Contest') && enableMint && !issue?.closed && issue?.url.includes('/issues/') && !isLoading)
+      }
       isLoadngState={isLoadingState}
       enableContest={enableContest}
       currentSum={currentSum}
