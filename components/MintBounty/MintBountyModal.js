@@ -1,31 +1,23 @@
 // Third party
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import { useRouter } from 'next/router';
-import { ethers } from 'ethers';
 import Image from 'next/image';
 import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
 
 // Custom
-import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
-
-import ToolTipNew from '../Utils/ToolTipNew';
+import Invoicing from './Invoicing';
+import Budgeting from './Budgeting';
 import MintBountyModalButton from './MintBountyModalButton';
 import ErrorModal from './ErrorModal';
-import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
-import SetTierValues from './SetTierValues';
-import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
+import AddSplitPriceParams from './AddSplitPriceParams';
 import SubMenu from '../Utils/SubMenu';
-import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
 import ModalLarge from '../Utils/ModalLarge';
-import ConnectButton from '../WalletConnect/ConnectButton';
+import AddContestParams from './AddContestParams';
 import MintBountyInputIssue from './MintBountyInputIssue';
-import InvoiceableToggle from './InvoiceableToggle';
 
 const MintBountyModal = ({ modalVisibility, types }) => {
   // Context
-  const [appState, dispatch] = useContext(StoreContext);
-  const { library, account, safe } = useWeb3();
+  const [appState] = useContext(StoreContext);
   const zeroAddressMetadata = {
     name: 'Matic',
     address: '0x0000000000000000000000000000000000000000',
@@ -35,28 +27,30 @@ const MintBountyModal = ({ modalVisibility, types }) => {
     path: 'https://wallet-asset.matic.network/img/tokens/matic.svg',
   };
   // State
-  const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
-  const [hideModal, setHideModal] = useState();
+  const hideModalState = useState();
   const [issue, setIssue] = useState();
   const [url, setUrl] = useState('');
   const [bountyAddress, setBountyAddress] = useState();
-  const [isLoading, setIsLoading] = useState();
+  const isLoadingState = useState();
   const [error, setError] = useState();
   const [closed, setClosed] = useState();
   const [enableMint, setEnableMint] = useState();
   const isValidUrl = appState.utils.issurUrlRegex(url);
-  const [tier, setTier] = useState(3);
-  const [tierArr, setTierArr] = useState(['0', '1', '2']);
-  const [tierVolumes, setTierVolumes] = useState({ 0: 1, 1: 1, 2: 1 });
-  const [currentSum, setCurrentSum] = useState(0);
+  const [currentSum] = useState(0);
 
-  const [finalTierVolumes, setFinalTierVolumes] = useState([1, 1, 1]);
-  const [payoutVolume, setPayoutVolume] = useState('');
-  const [payoutToken, setPayoutToken] = useState(zeroAddressMetadata);
-  const [enableRegistration, setEnableRegistration] = useState(false);
-  const [startDate, setStartDate] = useState();
-  const [registrationDeadline, setRegistrationDeadline] = useState();
-  const router = useRouter();
+  // state instances to pass
+  const finalTierVolumesState = useState([1, 1, 1]);
+  const payoutVolumeState = useState('');
+  const payoutTokenState = useState(zeroAddressMetadata);
+  const enableRegistrationState = useState(false);
+  const registrationDeadlineState = useState();
+  const startDateState = useState();
+  const enableContestState = useState(false);
+  const [isLoading, setIsLoading] = isLoadingState;
+
+  // get values from state instances
+  const [enableContest] = enableContestState;
+
   const initialCategory =
     types[0] === '1'
       ? 'Split Price'
@@ -67,49 +61,16 @@ const MintBountyModal = ({ modalVisibility, types }) => {
       : 'Fixed Price';
   const [category, setCategory] = useState(initialCategory);
   // const [template, setTemplate] = useState('');
-  const [goalVolume, setGoalVolume] = useState('');
-  const [goalToken, setGoalToken] = useState(zeroAddressMetadata);
-  const [sum, setSum] = useState(0);
-  const [enableContest, setEnableContest] = useState(false);
-  const [budgetInput, setBudgetInput] = useState(false);
-  const tierConditions = sum == 100;
+  const goalVolumeState = useState('');
+  const goalTokenState = useState(zeroAddressMetadata);
+  const sumState = useState(0);
+  const [sum] = sumState;
 
   // logic if smart contract adjusted: const tierConditions = tier == 0 || (tier > 0 && sum == 100) || tier == '' || tier == undefined
   // and tooltip text: 'Please make sure the number of tiers is set to 0 OR the sum of percentages adds up to 100.'
 
   // Refs
   const modal = useRef();
-
-  function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
-  const setReload = () => {
-    const payload = {
-      type: 'UPDATE_RELOAD',
-      payload: true,
-    };
-    dispatch(payload);
-  };
-
-  const refreshBounty = async (address) => {
-    await sleep(1000);
-    const payload = { type: 'BOUNTY_MINTED', payload: address };
-    dispatch(payload);
-    let newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
-    try {
-      while (!newBounty) {
-        newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
-        await sleep(500);
-      }
-      await sleep(180000); // forcing 3 min waiting time since the new bounty still not visible in list
-      const payload = { type: 'BOUNTY_MINTED', payload: '' };
-      dispatch(payload);
-      setReload();
-    } catch (error) {
-      setError(true);
-    }
-  };
 
   const setIssueUrl = async (issueUrl) => {
     if (!isLoading) {
@@ -132,9 +93,10 @@ const MintBountyModal = ({ modalVisibility, types }) => {
           }
         }
         const issueData = await fetchIssue();
-
+        console.log(issueData);
         if (issueData) {
           try {
+            console.log(bounty);
             let bounty = await appState.openQSubgraphClient.getBountyByGithubId(issueData.id);
             if (closed === false && bounty?.status == '1' && didCancel) {
               setClosed(true);
@@ -158,68 +120,6 @@ const MintBountyModal = ({ modalVisibility, types }) => {
       return () => {
         didCancel = true;
       };
-    }
-  };
-  const mintBounty = async () => {
-    try {
-      setIsLoading(true);
-      let data = {
-        fundingTokenVolume: goalVolume,
-        fundingTokenAddress: goalToken,
-      };
-      switch (category) {
-        case 'Fixed Price':
-          break;
-        case 'Split Price':
-          data = {
-            ...data,
-            payoutVolume: payoutVolume,
-            payoutToken: payoutToken,
-          };
-          break;
-        case 'Contest':
-          data = {
-            ...data,
-            tiers: finalTierVolumes,
-          };
-          break;
-        case 'Fixed Contest':
-          data = {
-            ...data,
-            payoutToken: payoutToken,
-            tiers: finalTierVolumes,
-          };
-          break;
-        default:
-          throw new Error(`No type: ${category}`);
-      }
-      const { bountyAddress } = await appState.openQClient.mintBounty(
-        library,
-        issue.id,
-        issue.repository.owner.id,
-        category,
-        data
-      );
-      if (enableRegistration) {
-        await appState.openQPrismaClient.setIsContest({
-          repositoryId: issue.repository.id,
-          isContest: true,
-          organizationId: issue.repository.owner.id,
-          startDate,
-          registrationDeadline,
-        });
-        //repositoryId, isContest, organizationId, startDate, registrationDeadline
-      }
-      sessionStorage.setItem('justMinted', true);
-      refreshBounty(bountyAddress);
-      await router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${issue.id}/${bountyAddress.toLowerCase()}`);
-      if (modalVisibility && safe) {
-        modalVisibility(false);
-      }
-    } catch (error) {
-      const { message, title } = appState.openQClient.handleError(error);
-      appState.logger.error(message, account);
-      setError({ message, title });
     }
   };
 
@@ -257,77 +157,6 @@ const MintBountyModal = ({ modalVisibility, types }) => {
 
   // Methods
 
-  function onTierChange(e) {
-    if (parseInt(e.target.value) >= 0) {
-      setTier(parseInt(e.target.value));
-    }
-    if (parseInt(e.target.value) > 100) {
-      setTier('0');
-    }
-    if (e.target.value === '') {
-      return;
-    }
-    const newTierArr = Array.from({ length: e.target.value }, (_, i) => i);
-    setTierArr(newTierArr);
-    const newTierVolumes = {};
-    newTierArr.forEach((tier) => {
-      newTierVolumes[tier] = tierVolumes[tier] || 1;
-    });
-
-    setTierVolumes(newTierVolumes);
-  }
-  const handleGoalChange = (goalVolume) => {
-    appState.utils.updateVolume(goalVolume, setGoalVolume);
-  };
-
-  function onGoalCurrencySelect(token) {
-    setGoalToken({ ...token, address: ethers.utils.getAddress(token.address) });
-  }
-
-  function onCurrencySelect(payoutToken) {
-    setPayoutToken({
-      ...payoutToken,
-      address: ethers.utils.getAddress(payoutToken.address),
-    });
-  }
-
-  function onVolumeChange(payoutVolume) {
-    appState.utils.updateVolume(payoutVolume, setPayoutVolume);
-  }
-
-  useEffect(() => {
-    if (finalTierVolumes.length) {
-      setSum(finalTierVolumes.reduce((a, b) => a + b));
-    }
-    if (finalTierVolumes.length) {
-      setCurrentSum(
-        finalTierVolumes.reduce((a, b) => {
-          if (a && b) {
-            return a + b;
-          }
-          if (a) {
-            return a;
-          }
-          if (b) {
-            return b;
-          }
-          return 0;
-        })
-      );
-    }
-    if (sum == 100) {
-      setEnableContest(true);
-    }
-  }, [finalTierVolumes]);
-
-  useEffect(() => {
-    if (category == 'Contest' && !tierConditions) {
-      setEnableContest(false);
-    } else {
-      setEnableContest(true);
-    }
-  }, [category, tier, sum]);
-
   const footerLeft = (
     <a
       href={'https://github.com/OpenQDev/OpenQ-Contracts/blob/production/contracts/Bounty/Implementations/BountyV1.sol'}
@@ -343,21 +172,31 @@ const MintBountyModal = ({ modalVisibility, types }) => {
   );
 
   const btn = !error && (
-    <>
-      <ConnectButton nav={false} needsGithub={false} tooltipAction={'mint a contract.'} />
-      {account && isOnCorrectNetwork && (
-        <MintBountyModalButton
-          mintBounty={mintBounty}
-          enableMint={enableMint}
-          transactionPending={isLoading}
-          issue={issue}
-          enableContest={enableContest}
-          isLoading={isLoading}
-          currentSum={currentSum}
-          sum={sum}
-        />
-      )}
-    </>
+    <MintBountyModalButton
+      issue={issue}
+      enableMint={
+        enableContest ||
+        (!category.includes('Contest') && enableMint && !issue?.closed && issue?.url.includes('/issues/') && !isLoading)
+      }
+      isLoadngState={isLoadingState}
+      enableContest={enableContest}
+      currentSum={currentSum}
+      sum={sum}
+      goalTokenState={goalTokenState}
+      payoutVolumeState={payoutVolumeState}
+      goalVolumeState={goalVolumeState}
+      sumState={sumState}
+      finalTierVolumesState={finalTierVolumesState}
+      category={category}
+      enableRegistrationState={enableRegistrationState}
+      registrationDeadlineState={registrationDeadlineState}
+      startDateState={startDateState}
+      payoutTokenState={payoutTokenState}
+      hideModalState={hideModalState}
+      enableContestState={enableContestState}
+      modalVisibility={modalVisibility}
+      setError={setError}
+    />
   );
 
   // Render
@@ -406,186 +245,27 @@ const MintBountyModal = ({ modalVisibility, types }) => {
                 closed={closed}
               />
 
-              <InvoiceableToggle />
+              <Invoicing />
+              <Budgeting category={category} goalVolumeState={goalVolumeState} goalTokenState={goalTokenState} />
 
-              {category !== 'Fixed Contest' && (
-                <div className=' flex flex-col gap-2 w-full py-2 items-start text-base bg-[#161B22]'>
-                  <div className='flex items-center gap-2 font-semibold'>
-                    Set a Budget
-                    <input type='checkbox' className='checkbox' onChange={() => setBudgetInput(!budgetInput)}></input>
-                    <ToolTipNew
-                      innerStyles={'w-40 whitespace-normal'}
-                      toolTipText={
-                        category === 'Split Price'
-                          ? 'How much will each successful submitter earn?'
-                          : 'Amount of funds you would like to escrow on this issue.'
-                      }
-                    >
-                      <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                        ?
-                      </div>
-                    </ToolTipNew>
-                  </div>
-                  <span className='text-sm '>
-                    You don{"'"}t have to deposit now! The budget is just what you intend to pay.
-                  </span>
-                  {budgetInput ? (
-                    <div className='flex-1 w-full'>
-                      <TokenFundBox
-                        label='budget'
-                        onCurrencySelect={onGoalCurrencySelect}
-                        onVolumeChange={handleGoalChange}
-                        volume={goalVolume}
-                        token={goalToken}
-                        styles={'flex-col sm:flex-row space-y-4 space-x-0 sm:space-x-4 sm:space-y-0'}
-                      />
-                    </div>
-                  ) : null}
-                </div>
-              )}
               {category === 'Split Price' ? (
                 <>
-                  <div className='flex flex-col gap-2 w-full items-start py-2 pb-4 text-base bg-[#161B22]'>
-                    <div className='flex items-center gap-2 font-semibold'>
-                      Reward Split?
-                      <ToolTipNew mobileX={10} toolTipText={'How much will each successful submitter earn?'}>
-                        <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>
-                          ?
-                        </div>
-                      </ToolTipNew>
-                    </div>
-                    <div className='flex-1 w-full'>
-                      <TokenFundBox
-                        label='split'
-                        onCurrencySelect={onCurrencySelect}
-                        onVolumeChange={onVolumeChange}
-                        token={payoutToken}
-                        volume={payoutVolume}
-                        styles={'flex-col sm:flex-row space-y-4 space-x-0 sm:space-x-4 sm:space-y-0'}
-                      />
-                    </div>
-                  </div>
+                  <AddSplitPriceParams payoutTokenState={payoutTokenState} payoutVolumeState={payoutVolumeState} />
                 </>
               ) : category === 'Contest' || category === 'Fixed Contest' ? (
-                <div className='items-center py-2'>
-                  <div className=' w-11/12 text-base flex flex-col gap-2'>
-                    <div className=' flex flex-col gap-2 w-full py-2 items-start text-base bg-[#161B22]'>
-                      <div className='flex items-center gap-2 font-semibold'>
-                        Enable Hackathon Registration
-                        <input
-                          type='checkbox'
-                          className='checkbox'
-                          onChange={() => setEnableRegistration(true)}
-                        ></input>
-                        <ToolTipNew
-                          mobileX={10}
-                          toolTipText={
-                            category === 'Fixed Price'
-                              ? 'Amount of funds you would like to escrow on this issue.'
-                              : 'How much will each successful submitter earn?'
-                          }
-                        >
-                          <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                            ?
-                          </div>
-                        </ToolTipNew>
-                      </div>
-                      <span className='text-sm '>
-                        Require contestants to sign up for your hackathon contests in this repo. This will allow you to
-                        set a timeline, be highlighted on OpenQ, and ensure you can connect with all participants
-                        post-hackathon.
-                      </span>
-                    </div>
-                    {enableRegistration ? (
-                      <>
-                        <div className='flex items-center gap-2'>Start Date</div>
-
-                        <input
-                          className={'flex-1 input-field w-full ml-2'}
-                          id='name'
-                          aria-label='issue url'
-                          placeholder='https://github.com/...'
-                          autoComplete='off'
-                          type='date'
-                          value={startDate}
-                          onChange={(e) => setStartDate(e.target.value)}
-                        />
-                        <div className='flex items-center gap-2'>End Date</div>
-
-                        <input
-                          className={'flex-1 input-field w-full ml-2'}
-                          id='name'
-                          aria-label='issue url'
-                          placeholder='https://github.com/...'
-                          autoComplete='off'
-                          type='date'
-                          value={registrationDeadline}
-                          onChange={(e) => setRegistrationDeadline(e.target.value)}
-                        />
-                      </>
-                    ) : null}
-
-                    <div className='flex items-center gap-2 font-semibold'>
-                      How many Tiers?
-                      <ToolTipNew
-                        mobileX={10}
-                        toolTipText={"How many people will be able to claim a prize? Don't exceed 100."}
-                      >
-                        <div className='cursor-help rounded-full border border-[#c9d1d9] text-sm aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                          ?
-                        </div>
-                      </ToolTipNew>
-                    </div>
-                    <input
-                      className={'flex-1 input-field w-full'}
-                      id='name'
-                      aria-label='tiers'
-                      placeholder='0'
-                      autoComplete='off'
-                      defaultValue={3}
-                      type='text'
-                      min='0'
-                      max='100'
-                      onChange={(e) => onTierChange(e)}
-                    />
-                  </div>
-                  {category === 'Fixed Contest' && (
-                    <div className='flex flex-col w-11/12 items-start py-2 gap-2 text-base pb-4'>
-                      <div className='flex items-center gap-2'>
-                        <div className='flex items-center gap-2 font-semibold '>
-                          Which token?
-                          <ToolTipNew mobileX={10} toolTipText={'Fixed contests can only be funded with one token.'}>
-                            <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>
-                              ?
-                            </div>
-                          </ToolTipNew>
-                        </div>
-                      </div>
-                      <div className=''>
-                        <TokenSearch
-                          token={payoutToken}
-                          setShowTokenSearch={setHideModal}
-                          showTokenSearch={hideModal}
-                          onCurrencySelect={onCurrencySelect}
-                          alone={true}
-                        />
-                      </div>
-                    </div>
-                  )}
-                  {tier > 0 ? (
-                    <SetTierValues
-                      category={category}
-                      sum={sum}
-                      currentSum={currentSum}
-                      finalTierVolumes={finalTierVolumes}
-                      setFinalTierVolumes={setFinalTierVolumes}
-                      setSum={setSum}
-                      tierArr={tierArr}
-                      setEnableContest={setEnableContest}
-                      initialVolumes={['1', '1', '1']}
-                    />
-                  ) : null}
-                </div>
+                <>
+                  <AddContestParams
+                    sumState={sumState}
+                    finalTierVolumesState={finalTierVolumesState}
+                    category={category}
+                    enableRegistrationState={enableRegistrationState}
+                    registrationDeadlineState={registrationDeadlineState}
+                    startDateState={startDateState}
+                    payoutTokenState={payoutTokenState}
+                    hideModalState={hideModalState}
+                    enableContestState={enableContestState}
+                  />
+                </>
               ) : null}
             </div>
           </div>

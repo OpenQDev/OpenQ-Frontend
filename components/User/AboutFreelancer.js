@@ -18,7 +18,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import FreelancerDetails from './InvoicingDetailsTab/FreelancerDetails';
 import OrgDetails from './InvoicingDetailsTab/OrgDetails';
 import UserSocials from './OverviewTab/UserSocials';
-//import Gear from '../svg/gear';
+import Gear from '../svg/gear';
 import Skills from './OverviewTab/Skills';
 import useAuth from '../../hooks/useAuth';
 import Subscribe from '../Utils/Subscribe';
@@ -112,10 +112,9 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
             { name: 'Overview', Svg: BookIcon },
             { name: 'Stars', Svg: StarIcon },
             ...[showWatched ? { name: 'Watching', Svg: EyeIcon } : {}],
-            /*
+
             { name: 'Invoicing Details - Freelancer', Svg: Gear },
             { name: 'Invoicing Details - Org', Svg: Gear },
-            */
           ]}
         />
         <div className='w-full border-b h-px border-web-gray'></div>

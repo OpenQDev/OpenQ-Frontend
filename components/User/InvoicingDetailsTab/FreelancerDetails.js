@@ -12,10 +12,15 @@ const InvoicingDetails = () => {
   const { logger, openQPrismaClient } = appState;
   const [formState, setFormState] = useState({ text: 'Update', className: 'btn-primary' });
   const [githubUser, setGithubUser] = useState({});
+  const [showPreview, setShowPreview] = useState(false);
   // const formValuesSocial = [{ value: 'twitter' }, { value: 'discord' }];
   const [authState] = useAuth();
   const { githubId } = authState;
   const [freelancerInfo, setFreelancerInfo] = useState();
+
+  const getPdf = async () => {
+    setShowPreview(!showPreview);
+  };
 
   // TODO - add encryption to local data
   useEffect(() => {
@@ -31,9 +36,12 @@ const InvoicingDetails = () => {
   useEffect(() => {
     const fetchFreelancerInfo = async () => {
       try {
-        const freelancerInfo = await appState.openQPrismaClient.getLocalUser(account);
+        const freelancerInfo = await appState.openQPrismaClient.getUser(account);
 
         if (freelancerInfo) {
+          setFreelancerInfo(freelancerInfo);
+        } else {
+          const freelancerInfo = await appState.openQPrismaClient.getLocalUser(account);
           setFreelancerInfo(freelancerInfo);
         }
       } catch (error) {
@@ -64,6 +72,7 @@ const InvoicingDetails = () => {
       displayValue: 'Billing Address',
       required: true,
     },
+    { value: 'postalCode', displayValue: 'Postal Code', required: true },
     { value: 'country', required: true },
     { value: 'phoneNumber', displayValue: 'Phone Number', required: true },
     { value: 'province', displayValue: 'State/Province', required: true },
@@ -125,7 +134,7 @@ const InvoicingDetails = () => {
           }
         }
 
-        const { updateUser } = await openQPrismaClient.updateLocalUser(formValues);
+        const { updateUser } = await openQPrismaClient.updateUser(formValues);
 
         if (updateUser) {
           setFormState({ text: 'Updated', className: 'btn-primary', disabled: false });
@@ -145,33 +154,39 @@ const InvoicingDetails = () => {
       <div className='flex flex-col flex-1 font-normal pb-16'>
         {githubId && <AssociationModal githubId={githubId} user={githubUser} renderError={''} redirectUrl={''} />}
       </div>
-
       <div className='border-b border-web-gray flex justify-between'>
         <h2 className='text-2xl pb-2'>Freelancer Invoicing Information</h2>
-        <button className='btn-default text-xs py-0.75 my-0.75 h-7'>Preview Invoice</button>
-      </div>
+        <button onClick={getPdf} className='btn-default text-xs py-0.75 my-0.75 h-7'>
+          {showPreview ? 'Edit' : 'Preview'} Invoice
+        </button>
+      </div>{' '}
       <div className='note'>Freelancer invoicing details are never held on OpenQ's servers.</div>
+      {showPreview ? (
+        <iframe className='w-full h-[1400px] py-16' src={`http://localhost:3007/preview?account=${account}`}></iframe>
+      ) : (
+        <>
+          <form className='font-normal max-w-[500px] gap-4' onSubmit={submitProfileData}>
+            {formValuesInvoicing.map((invoicingField) => {
+              return (
+                <StyledInput
+                  defaultValue={freelancerInfo?.[invoicingField.value]}
+                  key={invoicingField.value}
+                  value={invoicingField.value}
+                  type={invoicingField.type}
+                  optional={!invoicingField.required}
+                  displayValue={invoicingField.displayValue}
+                />
+              );
+            })}
 
-      <form className='font-normal max-w-[500px] gap-4' onSubmit={submitProfileData}>
-        {formValuesInvoicing.map((invoicingField) => {
-          return (
-            <StyledInput
-              defaultValue={freelancerInfo?.[invoicingField.value]}
-              key={invoicingField.value}
-              value={invoicingField.value}
-              type={invoicingField.type}
-              optional={!invoicingField.required}
-              displayValue={invoicingField.displayValue}
+            <input
+              className={`${formState.className}  text-sm py-1 px-2 text-center w-20 cursor-pointer`}
+              value={formState.text}
+              type='submit'
             />
-          );
-        })}
-
-        <input
-          className={`${formState.className}  text-sm py-1 px-2 text-center w-20 cursor-pointer`}
-          value={formState.text}
-          type='submit'
-        />
-      </form>
+          </form>
+        </>
+      )}
     </div>
   );
 };

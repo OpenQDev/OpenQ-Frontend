@@ -31,14 +31,14 @@ export default function MintBountyInputIssue({ setIssueUrl, issueData, isValidUr
               setIssueUrl(event.target.value);
             }}
           />
-          {isValidUrl && issueData?.url.includes('/issues/') ? <IssueDetailsBubble issueData={issueData} /> : null}
+          {isValidUrl && issueData?.url?.includes('/issues/') ? <IssueDetailsBubble issueData={issueData} /> : null}
         </div>
       </div>
-      {isValidUrl && !issueData?.url.includes('/issues/') && (
+      {isValidUrl && !issueData?.url?.includes('/issues/') && (
         <div className='flex flex-col items-center'>Github Issue not found</div>
       )}
       <div className='flex flex-col items-center space-x-1'>
-        {isValidUrl && issueData?.url.includes('/issues/') && issueData?.closed && !bountyAddress && (
+        {isValidUrl && issueData?.url?.includes('/issues/') && issueData?.closed && !bountyAddress && (
           <div className='text-center pt-3 '>This issue is already closed on GitHub</div>
         )}
         {isValidUrl && bountyAddress && issueData && (
