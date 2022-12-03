@@ -2,8 +2,8 @@ import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 import {
   WATCH_BOUNTY,
   UNWATCH_BOUNTY,
-  GET_BOUNTY_BY_HASH,
-  GET_USER_BY_HASH,
+  GET_BOUNTY_BY_ADDRESS,
+  GET_USER,
   GET_PRIVATE_USER_BY_HASH,
   UPDATE_USER,
   UPSERT_USER,
@@ -106,7 +106,7 @@ class OpenQPrismaClient {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
-          query: GET_BOUNTY_BY_HASH,
+          query: GET_BOUNTY_BY_ADDRESS,
           variables: {
             contractAddress: ethers.utils.getAddress(contractAddress),
           },
@@ -365,7 +365,7 @@ class OpenQPrismaClient {
       };
       try {
         const result = await this.client.mutate({
-          mutation: GET_USER_BY_HASH,
+          mutation: GET_USER,
           variables,
         });
         resolve(result.data.user);

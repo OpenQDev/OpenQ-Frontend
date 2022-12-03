@@ -38,34 +38,6 @@ const test = (issue, type) => {
     await user.clear(inputs[0]);
     await user.type(inputs[0], issue.url);
 
-    // ASSERT
-    switch (issue.status) {
-      case 'mintable':
-        {
-          expect(await screen.findByText(/mintable/i)).toBeInTheDocument();
-          const mintBountyArr = await screen.findAllByText(/Deploy Contract/i);
-          await user.click(mintBountyArr[2]);
-        }
-        break;
-
-      case 'minted':
-        {
-          expect(await screen.findByText(/already minted/i)).toBeInTheDocument();
-          expect(await screen.findByText(/here./)).toBeInTheDocument();
-        }
-        break;
-
-      case 'unknown':
-        {
-          expect(await screen.findByText(/not found/i)).toBeInTheDocument();
-        }
-        break;
-
-      case 'not-issue': {
-        expect(await screen.findByText(/Please choose an elgible issue/i)).toBeInTheDocument();
-      }
-    }
-
     await waitFor(async () => {
       const deploy = await screen.findAllByText(/deploy/i);
       expect(deploy[0]).toBeInTheDocument();
