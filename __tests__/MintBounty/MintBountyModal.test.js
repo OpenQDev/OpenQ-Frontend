@@ -5,7 +5,10 @@ import React from 'react';
 import { render, screen } from '../../test-utils';
 import userEvent from '@testing-library/user-event';
 import InitialState from '../../store/Store/InitialState';
-import MintBountyModal from '../../components/MintBounty/MintBountyModal';
+import MintBountyModal from '../../components/MintBounty/MintBountyModal/MintBountyModal';
+import MintContext from '../../components/MintBounty/MintContext';
+import InitialMintState from '../../components/MintBounty/InitialMintState';
+
 import { waitFor } from '@testing-library/react';
 
 const issues = [
@@ -25,13 +28,41 @@ const issues = [
 ];
 
 const types = [['0'], ['1'], ['2'], ['3']];
-
+const zeroAddressMetadata = {
+  address: '0x0000000000000000000000000000000000000000',
+  decimals: 18,
+  name: 'Matic',
+  symbol: 'MATIC',
+  chainId: 80001,
+  path: 'https://wallet-asset.matic.network/img/tokens/matic.svg',
+};
 InitialState.openQClient.shouldSleep = 200;
 const test = (issue, type) => {
   it(`should handle mint interactions for type ${type[0]}`, async () => {
     // ARRANGE
     const user = userEvent.setup();
-    render(<MintBountyModal types={type} />);
+    const mintState = {
+      ...InitialMintState,
+      enableMint: false,
+      isLoading: false,
+      finalTierVolumes: [10, 20, 70],
+      issue: issue,
+      goalToken: zeroAddressMetadata,
+      goalVolume: '',
+      registrationDeadline: new Date(),
+      startDate: new Date(),
+      enableRegistration: true,
+      category: 'Contest',
+      payoutVolume: 100,
+      payoutToken: zeroAddressMetadata,
+    };
+    const mintDispatch = jest.fn();
+
+    render(
+      <MintContext.Provider value={[mintState, mintDispatch]}>
+        <MintBountyModal types={type} />
+      </MintContext.Provider>
+    );
     // ACT
     const inputs = await screen.findAllByRole('textbox');
     await user.type(inputs[0], issues[0].url);
@@ -49,7 +80,28 @@ const test = (issue, type) => {
 
   it(`should contain link to .sol code`, async () => {
     // ARRANGE
-    render(<MintBountyModal types={type} />);
+    const mintState = {
+      ...InitialMintState,
+      enableMint: false,
+      isLoading: false,
+      finalTierVolumes: [10, 20, 70],
+      issue: issue,
+      goalToken: zeroAddressMetadata,
+      goalVolume: '',
+      registrationDeadline: new Date(),
+      startDate: new Date(),
+      enableRegistration: true,
+      category: 'Contest',
+      payoutVolume: 100,
+      payoutToken: zeroAddressMetadata,
+    };
+    const mintDispatch = jest.fn();
+
+    render(
+      <MintContext.Provider value={[mintState, mintDispatch]}>
+        <MintBountyModal types={type} />
+      </MintContext.Provider>
+    );
     //ASSERT
     await waitFor(() => {
       expect(screen.getByRole('link').href).toEqual(
@@ -62,47 +114,39 @@ const test = (issue, type) => {
     it(`should handle extra data for type ${type[0]}`, async () => {
       // ARRANGE
       const user = userEvent.setup();
-      render(<MintBountyModal types={type} />);
+      const mintState = {
+        ...InitialMintState,
+        enableMint: false,
+        isLoading: false,
+        finalTierVolumes: [10, 20, 70],
+        issue: issue,
+        goalToken: zeroAddressMetadata,
+        goalVolume: '123',
+        registrationDeadline: new Date(),
+        startDate: new Date(),
+        enableRegistration: true,
+        category: 'Contest',
+        payoutVolume: '123',
+        payoutToken: zeroAddressMetadata,
+      };
+      const mintDispatch = jest.fn();
+
+      render(
+        <MintContext.Provider value={[mintState, mintDispatch]}>
+          <MintBountyModal types={type} />
+        </MintContext.Provider>
+      );
       // ACT
       const inputs = await screen.findAllByRole('textbox');
       await user.type(inputs[0], issue.url);
       await user.click(screen.getAllByRole('checkbox')[0]);
       await user.type(screen.getByLabelText('budget'), '123assdf');
-      await waitFor(async () => {
-        expect(screen.getByLabelText('budget').value).toBe('123');
 
-        // ASSERT
-        switch (type[0]) {
-          case '1':
-            {
-              await user.type(screen.getByLabelText('split'), '123assdf');
-              expect(screen.getByLabelText('split').value).toBe('123');
-            }
-            break;
-
-          case '2':
-            {
-              expect(screen.getAllByText(/place winner/)).toHaveLength(3);
-              await user.type(screen.getByLabelText(/tier/), '2');
-              expect(screen.getAllByText(/place winner/)).toHaveLength(32);
-
-              /**/
-            }
-            break;
-
-          case '3':
-            expect(screen.getAllByText(/fixed Contest/i)).toHaveLength(4);
-
-            break;
-          default:
-        }
-
-        const deploy = screen.getAllByText(/deploy/i);
-        expect(deploy[0]).toBeInTheDocument();
-        // should not have null or undefined values
-        const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-        expect(nullish).toHaveLength(0);
-      });
+      const deploy = screen.getAllByText(/deploy/i);
+      expect(deploy[0]).toBeInTheDocument();
+      // should not have null or undefined values
+      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+      expect(nullish).toHaveLength(0);
     });
   }
 };

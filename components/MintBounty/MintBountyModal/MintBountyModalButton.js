@@ -12,7 +12,6 @@ import MintContext from '../MintContext';
 // TODO: Put all this state logic into a context, and possibly add a reducer
 const MintBountyModalButton = ({ currentSum, modalVisibility, setError }) => {
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
-  const enableContest = category === 'Contest' ? sum == 100 : true;
   const [mintState, mintDispatch] = useContext(MintContext);
 
   const {
@@ -31,6 +30,7 @@ const MintBountyModalButton = ({ currentSum, modalVisibility, setError }) => {
   } = mintState;
   const sum = finalTierVolumes.reduce((a, b) => a + b);
 
+  const enableContest = category === 'Contest' ? sum == 100 : true;
   const [appState, dispatch] = useContext(StoreContext);
   const { account, library, safe } = useWeb3();
   const router = useRouter();
