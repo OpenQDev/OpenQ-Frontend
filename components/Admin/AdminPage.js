@@ -6,7 +6,7 @@ import { ethers } from 'ethers';
 import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
 import AdminModal from './AdminModal.js';
 import ToolTipNew from '../Utils/ToolTipNew';
-import SetTierValues from '../MintBounty/SetTierValues';
+import SetTierValues from '../MintBounty/MintBountyModal/AddContestParams/SetTierValues/SetTierValues';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import ClaimText from './ClaimText';
 import BountyClosed from '../BountyClosed/BountyClosed';

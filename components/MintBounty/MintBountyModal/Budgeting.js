@@ -1,21 +1,34 @@
 import React, { useContext, useState } from 'react';
-import ToolTipNew from '../Utils/ToolTipNew';
-import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
-import StoreContext from '../../store/Store/StoreContext';
+import ToolTipNew from '../../Utils/ToolTipNew';
+import TokenFundBox from '../../FundBounty/SearchTokens/TokenFundBox';
 import { ethers } from 'ethers';
+import { parseVolume } from '../../../services/utils/lib';
+import MintContext from '../MintContext';
 
-const Budgeting = ({ category, goalVolumeState, goalTokenState }) => {
+const Budgeting = ({ category }) => {
   const [budget, setBudget] = useState();
-  const [goalVolume, setGoalVolume] = goalVolumeState;
-  const [goalToken, setGoalToken] = goalTokenState;
-  const [appState] = useContext(StoreContext);
+  const [mintState, mintDispatch] = useContext(MintContext);
+  const { goalToken, goalVolume } = mintState;
 
   const handleGoalChange = (goalVolume) => {
-    appState.utils.updateVolume(goalVolume, setGoalVolume);
+    const dispatch = {
+      type: 'UPDATE_GOAL_VOLUME',
+      payload: goalVolume,
+    };
+    mintDispatch(dispatch);
+
+    const parsedGoalVolume = parseVolume(goalVolume);
+    if (parsedGoalVolume !== null) {
+      mintDispatch(parsedGoalVolume);
+    }
   };
 
   function onGoalCurrencySelect(token) {
-    setGoalToken({ ...token, address: ethers.utils.getAddress(token.address) });
+    const dispatch = {
+      type: 'UPDATE_GOAL_TOKEN',
+      payload: { ...token, address: ethers.utils.getAddress(token.address) },
+    };
+    mintDispatch(dispatch);
   }
 
   return (

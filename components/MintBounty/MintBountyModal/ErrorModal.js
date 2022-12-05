@@ -1,6 +1,6 @@
 // Third party
 import React from 'react';
-import ModalDefault from '../Utils/ModalDefault';
+import ModalDefault from '../../Utils/ModalDefault';
 
 const ErrorModal = ({ setShowErrorModal, error }) => {
   const { title, message } = error;

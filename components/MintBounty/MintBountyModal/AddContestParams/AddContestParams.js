@@ -1,40 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import EnableRegistration from './EnableRegistration';
-import ToolTipNew from '../Utils/ToolTipNew';
+import ToolTipNew from '../../../Utils/ToolTipNew';
 import SetPayoutToken from './SetPayoutToken';
-import SetTierValues from './SetTierValues';
+import SetTierValues from './SetTierValues/SetTierValues';
+import MintContext from '../../MintContext';
 
-const AddContestParams = ({
-  category,
-  enableRegistrationState,
-  registrationDeadlineState,
-  startDateState,
-  payoutTokenState,
-  hideModalState,
-  sumState,
-  enableContestState,
-  finalTierVolumesState,
-}) => {
+const AddContestParams = () => {
   const [tier, setTier] = useState(3);
   const [tierArr, setTierArr] = useState(['0', '1', '2']);
   const [tierVolumes, setTierVolumes] = useState({ 0: 1, 1: 1, 2: 1 });
   const [currentSum, setCurrentSum] = useState(0);
-  const [sum, setSum] = sumState;
-  const [, setEnableContest] = enableContestState;
-  const [finalTierVolumes, setFinalTierVolumes] = finalTierVolumesState;
-  const tierConditions = sum == 100;
+  const [mintState, mintDispatch] = useContext(MintContext);
+  const { category, finalTierVolumes } = mintState;
+
+  const setFinalTierVolumes = (tierVolumes) => {
+    const dispatch = {
+      payload: tierVolumes,
+      type: 'SET_FINAL_TIER_VOLUMES',
+    };
+    mintDispatch(dispatch);
+  };
+
+  const noop = () => {
+    return null;
+  };
+
+  const sum = finalTierVolumes.reduce((a, b) => a + b);
 
   useEffect(() => {
-    if (category == 'Contest' && !tierConditions) {
-      setEnableContest(false);
-    } else {
-      setEnableContest(true);
-    }
-  }, [category, tier, sum]);
-  useEffect(() => {
-    if (finalTierVolumes.length) {
-      setSum(finalTierVolumes.reduce((a, b) => a + b));
-    }
     if (finalTierVolumes.length) {
       setCurrentSum(
         finalTierVolumes.reduce((a, b) => {
@@ -50,9 +43,6 @@ const AddContestParams = ({
           return 0;
         })
       );
-    }
-    if (sum == 100) {
-      setEnableContest(true);
     }
   }, [finalTierVolumes]);
 
@@ -79,12 +69,7 @@ const AddContestParams = ({
   return (
     <div className='items-center py-2'>
       <div className=' w-11/12 text-base flex flex-col gap-2'>
-        <EnableRegistration
-          enableRegistrationState={enableRegistrationState}
-          registrationDeadlineState={registrationDeadlineState}
-          startDateState={startDateState}
-          category={category}
-        />
+        <EnableRegistration category={category} />
 
         <div className='flex items-center gap-2 font-semibold'>
           How many Tiers?
@@ -112,9 +97,6 @@ const AddContestParams = ({
           body: 'Which token?',
           message: 'Fixed contests can only be funded with one token.',
         }}
-        category={category}
-        payoutTokenState={payoutTokenState}
-        hideModalState={hideModalState}
       />
 
       {tier > 0 ? (
@@ -124,9 +106,9 @@ const AddContestParams = ({
           currentSum={currentSum}
           finalTierVolumes={finalTierVolumes}
           setFinalTierVolumes={setFinalTierVolumes}
-          setSum={setSum}
           tierArr={tierArr}
-          setEnableContest={setEnableContest}
+          setSum={noop}
+          setEnableContest={noop}
           initialVolumes={['1', '1', '1']}
         />
       ) : null}

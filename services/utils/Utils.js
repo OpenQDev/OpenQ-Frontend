@@ -210,6 +210,7 @@ class Utils {
       try {
         orgData = await openQPrismaClient.getOrganizations(types, batch, category);
       } catch (err) {
+        console.log('hi', JSON.stringify(err));
         reject(err);
       }
       const filteredOrgs = orgData.organizations.filter((data) => !data.blacklisted);

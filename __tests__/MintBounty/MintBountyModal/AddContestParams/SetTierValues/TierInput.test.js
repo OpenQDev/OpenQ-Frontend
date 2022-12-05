@@ -2,9 +2,9 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen } from '../../test-utils';
-import TierInput from '../../components/MintBounty/TierInput';
-import InitialState from '../../store/Store/InitialState';
+import { render, screen } from '../../../../../test-utils';
+import TierInput from '../../../../../components/MintBounty/MintBountyModal/AddContestParams/SetTierValues/TierInput';
+import InitialState from '../../../../../store/Store/InitialState';
 
 InitialState.openQClient.shouldSleep = 200;
 

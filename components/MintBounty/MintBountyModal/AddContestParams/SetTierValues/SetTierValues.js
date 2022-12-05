@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import ToolTipNew from '../Utils/ToolTipNew';
+import ToolTipNew from '../../../../Utils/ToolTipNew';
 import TierInput from './TierInput';
 import TextTierInput from './TextTierInput';
 import TierResult from './TierResult';
-import SmallToggle from '../Utils/SmallToggle';
+import SmallToggle from '../../../../Utils/SmallToggle';
 
 const SetTierValues = ({
   category,

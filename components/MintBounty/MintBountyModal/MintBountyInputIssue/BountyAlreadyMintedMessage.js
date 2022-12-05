@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import useWeb3 from '../../hooks/useWeb3';
+import useWeb3 from '../../../../hooks/useWeb3';
 
 export default function BountyAlreadyMintedMessage({ bountyAddress, closed, id }) {
   const { safe } = useWeb3();
