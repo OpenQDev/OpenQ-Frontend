@@ -2,9 +2,9 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen } from '../../test-utils';
+import { render, screen } from '../../../../../test-utils';
 import nextRouter from 'next/router';
-import SetTierValues from '../../components/MintBounty/SetTierValues';
+import SetTierValues from '../../../../../components/MintBounty/MintBountyModal/AddContestParams/SetTierValues/SetTierValues';
 import userEvent from '@testing-library/user-event';
 
 describe('SetTier', () => {

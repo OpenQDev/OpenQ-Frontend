@@ -1,22 +1,32 @@
-import React from 'react';
-import ToolTipNew from '../Utils/ToolTipNew';
-import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
+import React, { useContext } from 'react';
+import ToolTipNew from '../../../Utils/ToolTipNew';
+import TokenSearch from '../../../FundBounty/SearchTokens/TokenSearch';
 import { ethers } from 'ethers';
+import MintContext from '../../MintContext';
 
-const SetPayoutToken = ({ category, targetCategory, payoutTokenState, hideModalState, content }) => {
-  const [payoutToken, setPayoutToken] = payoutTokenState;
-  const [hideModal, setHideModal] = hideModalState;
+const SetPayoutToken = ({ content }) => {
+  const [mintState, mintDispatch] = useContext(MintContext);
+  const { payoutToken, category, hideModal } = mintState;
+
   function onCurrencySelect(payoutToken) {
-    setPayoutToken({
-      ...payoutToken,
-      address: ethers.utils.getAddress(payoutToken.address),
-    });
+    const dispatch = {
+      type: 'UPDATE_PAYOUT_TOKEN',
+      payload: { ...payoutToken, address: ethers.utils.getAddress(payoutToken.address) },
+    };
+    mintDispatch(dispatch);
   }
+
+  const setHideModal = (hideModal) => {
+    const dispatch = {
+      type: 'UPDATE_HIDE_MODAL',
+      payload: hideModal,
+    };
+    mintDispatch(dispatch);
+  };
 
   return (
     <>
-      {' '}
-      {category === targetCategory && (
+      {category === 'Fixed Contest' && (
         <div className='flex flex-col w-11/12 items-start py-2 gap-2 text-base pb-4'>
           <div className='flex items-center gap-2'>
             <div className='flex items-center gap-2 font-semibold '>

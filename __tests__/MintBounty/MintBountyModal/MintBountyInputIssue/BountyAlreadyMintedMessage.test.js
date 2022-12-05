@@ -3,8 +3,8 @@
  */
 import React from 'react';
 
-import { render, screen } from '../../test-utils';
-import BountyAlreadyMintedMessage from '../../components/MintBounty/BountyAlreadyMintedMessage';
+import { render, screen } from '../../../../test-utils';
+import BountyAlreadyMintedMessage from '../../../../components/MintBounty/MintBountyModal/MintBountyInputIssue/BountyAlreadyMintedMessage';
 
 describe('BountyAlreadyMintedMessage', () => {
   it('should display closed with correct link', () => {

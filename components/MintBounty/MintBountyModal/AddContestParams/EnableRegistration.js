@@ -1,20 +1,44 @@
-import React from 'react';
-import ToolTipNew from '../Utils/ToolTipNew';
+import React, { useContext } from 'react';
+import ToolTipNew from '../../../Utils/ToolTipNew';
+import MintContext from '../../MintContext';
 
-const EnableRegistration = ({ enableRegistrationState, registrationDeadlineState, startDateState, category }) => {
-  const [enableRegistration, setEnableRegistration] = enableRegistrationState;
-  const [registrationDeadline, setRegistrationDeadline] = registrationDeadlineState;
-  const [startDate, setStartDate] = startDateState;
+const EnableRegistration = () => {
+  const [mintState, mintDispatch] = useContext(MintContext);
+  const { startDate, registrationDeadline, enableRegistration, category } = mintState;
+  const handleStartDate = (e) => {
+    const dispatch = {
+      type: 'UPDATE_START_DATE',
+      payload: e.target.value,
+    };
+    mintDispatch(dispatch);
+  };
+
+  const handleRegistrationDeadline = (e) => {
+    const dispatch = {
+      type: 'UPDATE_REGISTRATION_DEADLINE',
+      payload: e.target.value,
+    };
+    mintDispatch(dispatch);
+  };
+  const handleRegistration = (e) => {
+    const dispatch = {
+      type: 'UPDATE_ENABLE_REGISTRATION',
+      payload: e.target.checked,
+    };
+    mintDispatch(dispatch);
+  };
+
   return (
     <>
       <div className=' flex flex-col gap-2 w-full py-2 items-start text-base bg-[#161B22]'>
         <div className='flex items-center gap-2 font-semibold'>
-          Enable Hackathon Registration
+          <label htmlFor='enable registration checkbox'>Enable Hackathon Registration</label>
           <input
             type='checkbox'
             className='checkbox'
+            id='enable registration checkbox'
             checked={enableRegistration}
-            onChange={() => setEnableRegistration(!enableRegistration)}
+            onChange={handleRegistration}
           ></input>
           <ToolTipNew
             mobileX={10}
@@ -36,29 +60,32 @@ const EnableRegistration = ({ enableRegistrationState, registrationDeadlineState
       </div>
       {enableRegistration ? (
         <>
-          <div className='flex items-center gap-2'>Start Date</div>
-
+          <label htmlFor='start date' className='flex items-center gap-2'>
+            Start Date
+          </label>
           <input
             className={'flex-1 input-field w-full ml-2'}
-            id='name'
-            aria-label='issue url'
+            id='start date'
+            aria-label='Start Date'
+            data-testid='start date'
             placeholder='https://github.com/...'
             autoComplete='off'
             type='date'
             value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
+            onChange={handleStartDate}
           />
-          <div className='flex items-center gap-2'>End Date</div>
+          <label htmlFor='end date' className='flex items-center gap-2'>
+            End Date
+          </label>
 
           <input
             className={'flex-1 input-field w-full ml-2'}
-            id='name'
-            aria-label='issue url'
+            id='end date'
             placeholder='https://github.com/...'
             autoComplete='off'
             type='date'
             value={registrationDeadline}
-            onChange={(e) => setRegistrationDeadline(e.target.value)}
+            onChange={handleRegistrationDeadline}
           />
         </>
       ) : null}

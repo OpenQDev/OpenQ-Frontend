@@ -6,3 +6,12 @@ export const getNonBlacklisted = async (appState, repoName, org, limit) => {
 
   return { nonBlacklisted: repoPrs.filter((pr) => !blacklistedPrIds.includes(pr.id)), totalCount };
 };
+
+export const parseVolume = (volume) => {
+  const numberRegex = /^(\d+)?(\.)?(\d+)?$/;
+  if (numberRegex.test(volume) || volume === '' || volume === '.') {
+    return volume.match(numberRegex)[0];
+  } else {
+    return null;
+  }
+};

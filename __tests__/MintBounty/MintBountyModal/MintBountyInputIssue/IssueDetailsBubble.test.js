@@ -3,8 +3,10 @@
  */
 import React from 'react';
 
-import { render, screen } from '../../test-utils';
-import IssueDetailsBubble from '../../components/MintBounty/IssueDetailsBubble';
+import { render, screen } from '../../../../test-utils';
+import IssueDetailsBubble from '../../../../components/MintBounty/MintBountyModal/MintBountyInputIssue/IssueDetailsBubble';
+import MintContext from '../../../../components/MintBounty/MintContext';
+import InitialMintState from '../../../../components/MintBounty/InitialMintState';
 
 describe('IssueDetailsBubble', () => {
   const mintableIssue = {
@@ -113,8 +115,18 @@ describe('IssueDetailsBubble', () => {
   };
 
   it('should display mintable issue', () => {
+    const mintState = {
+      ...InitialMintState.mintState,
+      enableRegistration: true,
+      issue: mintableIssue,
+    };
+    const mintDispatch = jest.fn();
     // ARRANGE
-    render(<IssueDetailsBubble issueData={mintableIssue} />);
+    render(
+      <MintContext.Provider value={[mintState, mintDispatch]}>
+        <IssueDetailsBubble issueData={mintableIssue} />
+      </MintContext.Provider>
+    );
 
     expect(screen.getByText('Created on May 3, 2022 at 11:05')).toBeInTheDocument();
     expect(screen.getByText(/Mintable Issue/i)).toBeInTheDocument();
@@ -124,8 +136,18 @@ describe('IssueDetailsBubble', () => {
   });
 
   it('should display unmintable issue', () => {
+    const mintState = {
+      ...InitialMintState.mintState,
+      enableRegistration: true,
+      issue: unmintableIssue,
+    };
+    const mintDispatch = jest.fn();
     // ARRANGE
-    render(<IssueDetailsBubble issueData={unmintableIssue} />);
+    render(
+      <MintContext.Provider value={[mintState, mintDispatch]}>
+        <IssueDetailsBubble issueData={mintableIssue} />
+      </MintContext.Provider>
+    );
 
     expect(screen.getByText('Created on May 3, 2022 at 11:05')).toBeInTheDocument();
     expect(screen.getByText(/Mintable Issue/i)).toBeInTheDocument();
