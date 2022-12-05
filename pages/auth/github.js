@@ -10,11 +10,12 @@ function GitHubAuth() {
   const [appState] = useContext(StoreContext);
   const { unSignedAccount, account } = useWeb3();
   const [push, setPush] = useState(false);
-  console.log(unSignedAccount, account);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setAuthCode(params.get('code'));
+
+		console.log('params.get', params.get('code'))
 
     exchangeAuthCodeForAccessToken(params.get('code'));
   }, []);
@@ -61,6 +62,7 @@ function GitHubAuth() {
       }, 500);
     }
   }, [account, push]);
+
   return (
     <div className='flex fixed inset-0 justify-center'>
       <div className=' h-min text-center self-center flex flex-col items-center gap-4 px-4 pl-20'>

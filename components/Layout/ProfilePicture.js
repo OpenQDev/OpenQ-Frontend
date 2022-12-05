@@ -40,7 +40,7 @@ const ProfilePicture = ({ mobile, styles }) => {
           </div>
         </Link>
       ) : (
-        <AuthButton redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/` + router.asPath} />
+        <AuthButton redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}` + router.asPath} />
       )}
     </div>
   );

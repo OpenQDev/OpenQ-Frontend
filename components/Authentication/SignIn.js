@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 
 const SignIn = ({ redirectUrl }) => {
+	console.log('redirectUrl', redirectUrl)
   const router = useRouter();
 
   const signIn = () => {
