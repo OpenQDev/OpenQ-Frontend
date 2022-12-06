@@ -54,20 +54,6 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
   const [payoutTokenValues] = useGetTokenValues(payoutTokenBalances);
 
   useEffect(() => {
-    const getUserLogin = async () => {
-      const userLogin = user.bountiesClosed.find((bounty) => bounty.bountyType === '0')?.claims[0].externalUserId;
-      if (userLogin) {
-        const githubUser = await appState.githubRepository.fetchUserByLogin(userLogin);
-        setGithubUser(githubUser);
-      } else {
-        setGithubUser(null);
-      }
-    };
-
-    //   getUserLogin();
-  }, []);
-
-  useEffect(() => {
     const getWatched = async () => {
       try {
         const watchedBountyAddresses = watchedBounties.map((bounty) => bounty.address.toLowerCase()) || [];
@@ -113,16 +99,10 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
         <div className='w-full border-b h-px border-web-gray'></div>
         <div className='flex relative max-w-[1440px] w-full mx-auto'>
           <div className='hidden lg:block max-w-[25%] border-web-gray pl-4 left-24 xl:left-20 relative left-24'>
-            {githubUser ? (
+            {user ? (
               <div className='flex '>
                 <div className='flex items-center content-center relative top-4 xl:-top-4'>
-                  <Image
-                    src={githubUser.avatarUrl}
-                    width={292}
-                    height={292}
-                    alt={'profile pic'}
-                    className='rounded-full'
-                  />
+                  <Image src={user.avatarUrl} width={292} height={292} alt={'profile pic'} className='rounded-full' />
                 </div>
               </div>
             ) : (
