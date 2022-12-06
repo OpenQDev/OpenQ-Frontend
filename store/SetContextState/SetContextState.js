@@ -1,6 +1,5 @@
 import React, { useEffect, useContext } from 'react';
 import StoreContext from '../Store/StoreContext';
-import { ethers } from 'ethers';
 import useAuth from '../../hooks/useAuth';
 
 // manages shared state between auth context and store context
@@ -12,6 +11,7 @@ const SetContextState = (props) => {
   useEffect(() => {
     const checkGithub = async () => {
       if (Object.prototype.hasOwnProperty.call(authState, 'githubId')) {
+        console.log(authState);
         const accountData = await appState.openQPrismaClient.getUser({ github: authState.githubId });
         dispatch({ payload: accountData, type: 'UPDATE_ACCOUNTDATA' });
 
@@ -23,7 +23,6 @@ const SetContextState = (props) => {
           const githubUrl = githubUser?.url;
           const email = githubUser;
           const params = {
-            address: ethers.utils.getAddress(),
             ...(githubUser.email && { email }),
             ...(githubUrl && { github: githubUrl }),
             ...(twitter && { twitter }),
@@ -32,7 +31,7 @@ const SetContextState = (props) => {
 
           // get github profile by login
 
-          await appState.openQPrismaClient.updateUserSimple(params);
+          await appState.openQPrismaClient.upsertUser(params);
         }
       }
     };

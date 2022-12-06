@@ -14,6 +14,7 @@ const InvoicingDetails = () => {
   const [githubUser, setGithubUser] = useState({});
   // const formValuesSocial = [{ value: 'twitter' }, { value: 'discord' }];
   const [authState] = useAuth();
+  const { accountData } = appState;
   const { githubId } = authState;
   const [organizationInfo, setOrganizationInfo] = useState();
 
@@ -76,7 +77,7 @@ const InvoicingDetails = () => {
         return;
       }
       try {
-        const formValues = { address: account };
+        const formValues = { github: accountData.github };
         const form = e.target;
         const interMediateValue = Object.values(form)
           .filter((input) => input.nodeName === 'INPUT' && input.type !== 'submit')
@@ -96,14 +97,16 @@ const InvoicingDetails = () => {
         interMediateValue.forEach((inputObj) => {
           for (let key in inputObj) {
             console.log(formValues, inputObj);
-            formValues[key] = inputObj[key];
+            if (key !== 'email') {
+              formValues[key] = inputObj[key];
+            }
           }
         });
         if (formValues.email) {
           try {
             const formData = new FormData();
             formData.append('api_key', process.env.NEXT_PBULIC_CONVERTKIT_API_KEY);
-            formData.append('email', formValues.email);
+            //   formData.append('email', formValues.email);
             const response = await fetch('https://api.convertkit.com/v3/forms/3697685/subscribe', {
               method: 'POST',
               body: formData,
@@ -131,7 +134,7 @@ const InvoicingDetails = () => {
   return (
     <div className='px-8 py text-lg'>
       <div className='flex flex-col flex-1 font-normal pb-16'>
-        {githubId && <AssociationModal githubId={githubId} user={githubUser} renderError={''} redirectUrl={''} />}
+        {!githubId && <AssociationModal githubId={githubId} user={githubUser} renderError={''} redirectUrl={''} />}
       </div>
 
       <div className='border-b border-web-gray'>
