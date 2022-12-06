@@ -319,7 +319,6 @@ class OpenQPrismaClient {
   }
 
   async getUser(idObject, types, category) {
-    console.log(idObject, 'idObject');
     const promise = new Promise(async (resolve, reject) => {
       const variables = {
         ...idObject,
@@ -360,8 +359,8 @@ class OpenQPrismaClient {
       };
 
       try {
-        const result = await this.client.mutate({
-          mutation: GET_USER,
+        const result = await this.client.query({
+          query: GET_USER,
           variables,
         });
         resolve(result.data.user);
@@ -379,8 +378,8 @@ class OpenQPrismaClient {
       };
 
       try {
-        const result = await this.client.mutate({
-          mutation: GET_USER,
+        const result = await this.client.query({
+          query: GET_USER,
           variables,
         });
         resolve(result.data.user);

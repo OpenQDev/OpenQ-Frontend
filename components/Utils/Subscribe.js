@@ -104,7 +104,7 @@ const Subscribe = ({ user }) => {
       value: 'email',
       defaultValue: user.email,
     },
-    { value: 'github', displayValue: 'Github Profile Url', defaultValue: `https://github.com/${user.github}` },
+    { value: 'github', displayValue: 'Github Profile Url', defaultValue: `https://github.com/${user.login}` },
   ];
 
   return (

@@ -13,7 +13,7 @@ import useAuth from '../../hooks/useAuth';
 import StoreContext from '../../store/Store/StoreContext';
 import Logger from '../../services/logger/Logger';
 
-const userId = ({ userId, user, organizations, renderError }) => {
+const userId = ({ user, organizations, renderError }) => {
   const [authState] = useAuth();
   const { signedAccount } = authState;
   const [appState] = useContext(StoreContext);
@@ -26,7 +26,7 @@ const userId = ({ userId, user, organizations, renderError }) => {
     const getOffChainData = async () => {
       let privateUserData;
       try {
-        privateUserData = await appState.openQPrismaClient.getUser(userId);
+        privateUserData = await appState.openQPrismaClient.getUser(user.id);
         setPublicPrivateUserData({ ...user, ...privateUserData });
       } catch (error) {
         appState.logger.info('Viewing user not owner');
@@ -54,15 +54,16 @@ const userId = ({ userId, user, organizations, renderError }) => {
     };
     getOffChainData();
   }, []);
+  console.log('publicPrivateUserData', publicPrivateUserData);
   return (
     <div className=' gap-4 justify-center pt-6'>
       {user ? (
         <AboutFreelancer
-          showWatched={userId === signedAccount}
+          showWatched={user.id === signedAccount}
           starredOrganizations={starredOrganizations}
           watchedBounties={watchedBounties}
           user={publicPrivateUserData}
-          userId={userId}
+          userId={user.id}
           organizations={organizations}
         />
       ) : (
@@ -100,12 +101,21 @@ export const getServerSideProps = async (context) => {
   let organizations = [];
   let starredOrganizations = [];
   let userOffChainData = {};
+  let userGithubData = {};
 
   try {
     // 1. We fetch the API user using the userId we get from the URL
     userOffChainData = await openQPrismaClient.instance.getPublicUserById(userId);
   } catch (err) {
     logger.error(err);
+  }
+  try {
+    // 1. We fetch the Github user using the userId we get from the URL // Not working
+    userGithubData = await githubRepository.instance.fetchUserById(userOffChainData.github);
+    console.log(userGithubData.id);
+  } catch (err) {
+    logger.error(err);
+    return { props: { renderError: `${userOffChainData.github} is not a valid GitHub ID.` } };
   }
 
   try {
@@ -122,20 +132,20 @@ export const getServerSideProps = async (context) => {
       logger.error(err);
     }
 
-    // 4. This is throwing an error...
+    // 4. If user closed issues, get relevant issueIds and organizations
     try {
-      const issueIds = userOnChainData.bountiesClosed.map((bounty) => bounty.bountyId);
-      organizations = await githubRepository.instance.parseOrgIssues(issueIds);
+      const issueIds = userOnChainData.bountiesClosed?.map((bounty) => bounty.bountyId);
+      if (issueIds) organizations = await githubRepository.instance.parseOrgIssues(issueIds);
     } catch (err) {
       console.error('could not fetch organizations');
     }
-    user = { ...user, ...userOnChainData, ...userOffChainData };
+    user = { ...userGithubData, ...user, ...userOnChainData, ...userOffChainData };
   } catch (err) {
     logger.error(err);
   }
 
   return {
-    props: { userId, user, organizations, renderError, starredOrganizations, oauthToken },
+    props: { user, organizations, renderError, starredOrganizations, oauthToken },
   };
 };
 

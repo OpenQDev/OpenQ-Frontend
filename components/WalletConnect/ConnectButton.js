@@ -40,12 +40,11 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut, centerSty
   // Hooks
   if (typeof useConnectOnLoad === 'function') {
     const connectOnLoad = useConnectOnLoad(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
-  
 
-  if (typeof connectOnLoad === 'function') {
-    connectOnLoad();
+    if (typeof connectOnLoad === 'function') {
+      connectOnLoad();
+    }
   }
-}
 
   useEffect(() => {
     const createJazzicon = async () => {

@@ -1,13 +1,9 @@
 // Third Party
-import React, { useRef, useEffect } from 'react';
-import jazzicon from '@metamask/jazzicon';
+import React from 'react';
 import Image from 'next/image';
 //Custom
-import CopyAddressToClipboard from '../../Copy/CopyAddressToClipboard';
 
-const AboutTitle = ({ ensName, account, githubUser }) => {
-
-
+const AboutTitle = ({ githubUser }) => {
   return (
     <div className='sm:flex flex-wrap items-center font-semibold pt-8 px-8 gap-4 w-full'>
       {githubUser && (
@@ -18,7 +14,6 @@ const AboutTitle = ({ ensName, account, githubUser }) => {
           </span>
         </a>
       )}
-     
     </div>
   );
 };

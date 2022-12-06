@@ -452,7 +452,8 @@ class GithubRepository {
           return recentLanguages;
         };
         const recentLanguages = getRecentLanguages(languages.flat());
-        const user = Object.assign(result.data.node, { recentLanguages });
+        let user = {};
+        Object.assign(user, result.data.node, { recentLanguages: recentLanguages });
         resolve(user);
       } catch (e) {
         reject(e);
