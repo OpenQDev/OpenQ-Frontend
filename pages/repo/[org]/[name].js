@@ -172,7 +172,6 @@ export default showcase;
 
 export async function getServerSideProps(context) {
   const githubRepository = new WrappedGithubClient();
-  console.log(githubRepository);
   const cookies = nookies.get(context);
   const { github_oauth_token_unsigned } = cookies;
   const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;

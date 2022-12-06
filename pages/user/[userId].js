@@ -54,7 +54,6 @@ const userId = ({ user, organizations, renderError }) => {
     };
     getOffChainData();
   }, []);
-  console.log('publicPrivateUserData', publicPrivateUserData);
   return (
     <div className=' gap-4 justify-center pt-6'>
       {user ? (
@@ -112,7 +111,6 @@ export const getServerSideProps = async (context) => {
   try {
     // 1. We fetch the Github user using the userId we get from the URL // Not working
     userGithubData = await githubRepository.instance.fetchUserById(userOffChainData.github);
-    console.log(userGithubData.id);
   } catch (err) {
     logger.error(err);
     return { props: { renderError: `${userOffChainData.github} is not a valid GitHub ID.` } };

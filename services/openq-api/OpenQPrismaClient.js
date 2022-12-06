@@ -236,6 +236,7 @@ class OpenQPrismaClient {
         });
         resolve(result.data);
       } catch (e) {
+        console.log(e);
         reject(e);
       }
     });

@@ -13,7 +13,6 @@ const OrganizationContent = ({
   repositories,
   organizationData,
 }) => {
-  console.log(repositories);
   return (
     <div className='max-w-[960px] w-full md:basis-3/4 md:shrink'>
       <h2 className='text-primary w-full mb-2'>Active Repos</h2>
