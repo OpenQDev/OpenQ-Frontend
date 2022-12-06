@@ -318,13 +318,11 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async getUser(userAddress, types, category) {
+  async getUser(idObject, types, category) {
+    console.log(idObject, 'idObject');
     const promise = new Promise(async (resolve, reject) => {
-      if (!ethers.utils.isAddress(userAddress)) {
-        return {};
-      }
       const variables = {
-        userAddress: ethers.utils.getAddress(userAddress),
+        ...idObject,
         types,
       };
       if (category) {

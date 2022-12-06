@@ -26,7 +26,7 @@ const userId = ({ userId, user, organizations, renderError }) => {
     const getOffChainData = async () => {
       let privateUserData;
       try {
-        privateUserData = await appState.openQPrismaClient.getUser(ethers.utils.getAddress(userId));
+        privateUserData = await appState.openQPrismaClient.getUser(userId);
         setPublicPrivateUserData({ ...user, ...privateUserData });
       } catch (error) {
         appState.logger.info('Viewing user not owner');
@@ -62,7 +62,7 @@ const userId = ({ userId, user, organizations, renderError }) => {
           starredOrganizations={starredOrganizations}
           watchedBounties={watchedBounties}
           user={publicPrivateUserData}
-          account={userId}
+          userId={userId}
           organizations={organizations}
         />
       ) : (
@@ -85,8 +85,8 @@ export const getServerSideProps = async (context) => {
 
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
-  
-	let user = {
+
+  let user = {
     bountiesClosed: [],
     bountiesCreated: [],
     deposits: [],
@@ -100,27 +100,27 @@ export const getServerSideProps = async (context) => {
   let organizations = [];
   let starredOrganizations = [];
   let userOffChainData = {};
-  
-	try {
-		// 1. We fetch the API user using the userId we get from the URL
+
+  try {
+    // 1. We fetch the API user using the userId we get from the URL
     userOffChainData = await openQPrismaClient.instance.getPublicUserById(userId);
   } catch (err) {
     logger.error(err);
   }
 
   try {
-		// 2. We fetch the on-chain user address if they have registered using the externalUserId (AKA githubId)
-		// userOnChainData.id is the address of the user
+    // 2. We fetch the on-chain user address if they have registered using the externalUserId (AKA githubId)
+    // userOnChainData.id is the address of the user
     const userOnChainData = await openQSubgraphClient.instance.getUserByGithubId(userOffChainData.github);
-		try {
-			let provider = new ethers.providers.InfuraProvider('homestead', process.env.INFURA_PROJECT_ID);
-	
-			// 3. We use the address to resolve the ENS name
-			userId = await provider.resolveName(userOnChainData.id);
-			// we need to check if their address is reverse registered
-		} catch (err) {
-			logger.error(err);
-		}
+    try {
+      let provider = new ethers.providers.InfuraProvider('homestead', process.env.INFURA_PROJECT_ID);
+
+      // 3. We use the address to resolve the ENS name
+      userId = await provider.resolveName(userOnChainData.id);
+      // we need to check if their address is reverse registered
+    } catch (err) {
+      logger.error(err);
+    }
 
     // 4. This is throwing an error...
     try {

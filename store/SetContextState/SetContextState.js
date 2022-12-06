@@ -1,79 +1,19 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import StoreContext from '../Store/StoreContext';
-import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 import useAuth from '../../hooks/useAuth';
-import { metaMask, walletConnect } from '../../components/WalletConnect/connectors';
 
 // manages shared state between auth context and store context
 const SetContextState = (props) => {
-  const { account } = useWeb3React();
-  const [focused, setFocused] = useState(true);
   const [authState] = useAuth();
   const [appState, dispatch] = useContext(StoreContext);
-
-  // set signed account
-  useEffect(() => {
-    // function to set signed account
-    const updateSignedAccount = async (signedAccount) => {
-      const payload = {
-        type: 'SET_SIGNED_ACCOUNT',
-        payload: signedAccount,
-      };
-      await dispatch(payload);
-    };
-
-    // function to check if signed then set signed, else get signature, verify, and set signed.
-    const updateSignature = async (unSignedAccount) => {
-      // isSigning a promise returns the signing result;
-      const response = await appState.authService.hasSignature(unSignedAccount);
-      if (response.data.status === false && typeof account === 'string') {
-        try {
-          const signature = await appState.openQClient.signMessage(unSignedAccount);
-          await appState.authService.verifySignature(unSignedAccount, signature);
-          updateSignedAccount(account);
-        } catch (error) {
-          updateSignedAccount(null);
-          const connectors = [metaMask, walletConnect];
-          connectors.forEach((connector) => {
-            if (connector?.deactivate) {
-              connector.deactivate();
-            } else {
-              connector.resetState();
-            }
-            appState.authService.hasSignature(null);
-            updateSignedAccount(null);
-          });
-        }
-      } else if (typeof account === 'string') {
-        updateSignedAccount(account);
-      }
-    };
-
-    // execute
-    if (focused) {
-      updateSignature(account);
-    }
-  }, [account, focused]);
-
-  // watches for user focus
-  useEffect(() => {
-    document.addEventListener('visibilitychange', function () {
-      if (document.hidden) {
-        setFocused(false);
-      } else {
-        setFocused(true);
-      }
-    });
-    () => document.removeEventListener('visibilitychange');
-  }, []);
 
   // saves github and account data to openq-api
   useEffect(() => {
     const checkGithub = async () => {
-      const signedAccount = appState.signedAccount;
-      if (Object.prototype.hasOwnProperty.call(authState, 'login') && signedAccount) {
-        const accountData = await appState.openQPrismaClient.getUser(signedAccount);
+      if (Object.prototype.hasOwnProperty.call(authState, 'githubId')) {
+        const accountData = await appState.openQPrismaClient.getUser({ github: authState.githubId });
+        dispatch({ payload: accountData, type: 'UPDATE_ACCOUNTDATA' });
 
         if (!accountData?.github && authState.githubId) {
           const githubUser = await appState.githubRepository.fetchUserById(authState.githubId);
@@ -83,7 +23,7 @@ const SetContextState = (props) => {
           const githubUrl = githubUser?.url;
           const email = githubUser;
           const params = {
-            address: ethers.utils.getAddress(signedAccount),
+            address: ethers.utils.getAddress(),
             ...(githubUser.email && { email }),
             ...(githubUrl && { github: githubUrl }),
             ...(twitter && { twitter }),
@@ -96,10 +36,10 @@ const SetContextState = (props) => {
         }
       }
     };
-    if ((authState, appState.signedAccount)) {
+    if (authState) {
       checkGithub();
     }
-  }, [authState, appState.signedAccount]);
+  }, [authState]);
 
   return <>{props.children}</>;
 };

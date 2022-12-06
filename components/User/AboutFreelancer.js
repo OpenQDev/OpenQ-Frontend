@@ -1,6 +1,5 @@
 // Third party
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import jazzicon from '@metamask/jazzicon';
+import React, { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 // Custom
@@ -35,17 +34,19 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
   const { account } = useWeb3();
   const [ensName] = useEns(userId);
 
-  const isOwner = user.address?.toLowerCase() === account;
+  const { accountData } = appState;
+  const loggedId = accountData?.id;
+  const isOwner = loggedId == user.id;
   const [authState] = useAuth();
   const { githubId } = authState;
 
   useEffect(() => {
     if (githubId) {
       const getGithubUser = async () => {
-        const githubUser = await appState.githubRepository.fetchUserById(githubId);
+        //  const githubUser = await appState.githubRepository.fetchUserById(githubId);
         if (isOwner) setGithubUser(githubUser);
       };
-      getGithubUser();
+      //  getGithubUser();
     }
   }, [githubId]);
   // Context
@@ -63,7 +64,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
       }
     };
 
-    getUserLogin();
+    //   getUserLogin();
   }, []);
 
   useEffect(() => {
@@ -88,18 +89,10 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
     };
     if (account && showWatched) {
       // get watched bounties as soon as we know what the account is.
-      getWatched();
+      // getWatched();
     }
   }, [account, showWatched]);
 
-  const iconWrapper = useRef(null);
-
-  useEffect(() => {
-    if (account && iconWrapper.current && githubUser === null) {
-      iconWrapper.current.innerHTML = '';
-      iconWrapper.current.appendChild(jazzicon(300, parseInt(account.slice(2, 10), 16)));
-    }
-  }, [account, githubUser]);
   return (
     <>
       <div className='flex flex-col justify-center'>
@@ -134,7 +127,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
               </div>
             ) : (
               <div className='float-right '>
-                <div className='rounded-full h-72 w-72 xl:-mt-4 relative overflow-hidden' ref={iconWrapper}></div>
+                <div className='rounded-full h-72 w-72 xl:-mt-4 relative overflow-hidden'></div>
               </div>
             )}
             {githubUser && (

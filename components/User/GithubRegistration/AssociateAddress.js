@@ -124,7 +124,7 @@ const AssociateAddress = ({ githubId, user }) => {
     TRANSACTION_CONFIRMED: {
       title: 'Account Successfully Associated!',
       message: `Your wallet address (${appState.utils.shortenAddress(
-        relAccount
+        "null"
       )}) and GitHub account were successfully associated!
       \nYou can now participate in Hackathons!`,
       btn: { text: 'Close', disabled: false, format: 'flex btn-default' },

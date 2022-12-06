@@ -38,11 +38,15 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut, centerSty
   const buttonRef = useRef();
 
   // Hooks
-  const connectOnLoad = useConnectOnLoad(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
+  if (typeof useConnectOnLoad === 'function') {
+    const connectOnLoad = useConnectOnLoad(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
+  
 
   if (typeof connectOnLoad === 'function') {
     connectOnLoad();
   }
+}
+
   useEffect(() => {
     const createJazzicon = async () => {
       if (account && iconWrapper.current) {

@@ -1,14 +1,14 @@
 import React, { useContext, useState } from 'react';
 import Cross from '../../svg/cross';
-import useWeb3 from '../../../hooks/useWeb3';
 import StoreContext from '../../../store/Store/StoreContext';
 
 const Roles = ({ defaultRoles, category, user }) => {
   const [roles, setRoles] = useState(defaultRoles);
   const [inputValue, setInputValue] = useState('');
   const [appState] = useContext(StoreContext);
-  const { account } = useWeb3();
-  const isOwner = account?.toLowerCase() === user?.id;
+  const { accountData } = appState;
+  const loggedId = accountData?.id;
+  const isOwner = loggedId == user.id;
   const categoryToFieldName = {
     'Dev Role': 'devRoles',
     Framework: 'frameworks',
@@ -39,7 +39,7 @@ const Roles = ({ defaultRoles, category, user }) => {
     const fieldName = categoryToFieldName[category];
 
     const userValues = {
-      address: user.address,
+      id: accountData.id,
       [fieldName]: newRoles,
     };
 
