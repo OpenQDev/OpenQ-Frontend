@@ -2,7 +2,7 @@ import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 import {
   GET_ORGANIZATION,
   GET_USER,
-	GET_USER_BY_GITHUB_ID,
+  GET_USER_BY_GITHUB_ID,
   GET_BOUNTY,
   GET_ALL_BOUNTIES,
   GET_ORGANIZATIONS,

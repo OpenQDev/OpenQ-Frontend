@@ -1,6 +1,5 @@
 // Third party
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import jazzicon from '@metamask/jazzicon';
+import React, { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 // Custom
@@ -35,36 +34,24 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
   const { account } = useWeb3();
   const [ensName] = useEns(userId);
 
-  const isOwner = user.address?.toLowerCase() === account;
+  const { accountData } = appState;
+  const loggedId = accountData?.id;
+  const isOwner = loggedId == user.id;
   const [authState] = useAuth();
   const { githubId } = authState;
 
   useEffect(() => {
     if (githubId) {
       const getGithubUser = async () => {
-        const githubUser = await appState.githubRepository.fetchUserById(githubId);
+        //  const githubUser = await appState.githubRepository.fetchUserById(githubId);
         if (isOwner) setGithubUser(githubUser);
       };
-      getGithubUser();
+      //  getGithubUser();
     }
   }, [githubId]);
   // Context
   // State
   const [payoutTokenValues] = useGetTokenValues(payoutTokenBalances);
-
-  useEffect(() => {
-    const getUserLogin = async () => {
-      const userLogin = user.bountiesClosed.find((bounty) => bounty.bountyType === '0')?.claims[0].externalUserId;
-      if (userLogin) {
-        const githubUser = await appState.githubRepository.fetchUserByLogin(userLogin);
-        setGithubUser(githubUser);
-      } else {
-        setGithubUser(null);
-      }
-    };
-
-    getUserLogin();
-  }, []);
 
   useEffect(() => {
     const getWatched = async () => {
@@ -88,18 +75,10 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
     };
     if (account && showWatched) {
       // get watched bounties as soon as we know what the account is.
-      getWatched();
+      // getWatched();
     }
   }, [account, showWatched]);
 
-  const iconWrapper = useRef(null);
-
-  useEffect(() => {
-    if (account && iconWrapper.current && githubUser === null) {
-      iconWrapper.current.innerHTML = '';
-      iconWrapper.current.appendChild(jazzicon(300, parseInt(account.slice(2, 10), 16)));
-    }
-  }, [account, githubUser]);
   return (
     <>
       <div className='flex flex-col justify-center'>
@@ -120,21 +99,15 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
         <div className='w-full border-b h-px border-web-gray'></div>
         <div className='flex relative max-w-[1440px] w-full mx-auto'>
           <div className='hidden lg:block max-w-[25%] border-web-gray pl-4 left-24 xl:left-20 relative left-24'>
-            {githubUser ? (
+            {user ? (
               <div className='flex '>
                 <div className='flex items-center content-center relative top-4 xl:-top-4'>
-                  <Image
-                    src={githubUser.avatarUrl}
-                    width={292}
-                    height={292}
-                    alt={'profile pic'}
-                    className='rounded-full'
-                  />
+                  <Image src={user.avatarUrl} width={292} height={292} alt={'profile pic'} className='rounded-full' />
                 </div>
               </div>
             ) : (
               <div className='float-right '>
-                <div className='rounded-full h-72 w-72 xl:-mt-4 relative overflow-hidden' ref={iconWrapper}></div>
+                <div className='rounded-full h-72 w-72 xl:-mt-4 relative overflow-hidden'></div>
               </div>
             )}
             {githubUser && (

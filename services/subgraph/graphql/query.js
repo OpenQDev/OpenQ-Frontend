@@ -234,12 +234,12 @@ export const GET_BOUNTIES_BY_CONTRACT_ADDRESSES = gql`
 `;
 
 export const GET_USER_BY_GITHUB_ID = gql`
-	query GetUserAddressWithGithubId($github: String!) {
-		users(where: {externalUserId: $github}) {
-			id
-		}
-	}
-`
+  query GetUserAddressWithGithubId($github: String!) {
+    users(where: { externalUserId: $github }) {
+      id
+    }
+  }
+`;
 
 export const GET_USER = gql`
   query GetUser($id: ID!) {

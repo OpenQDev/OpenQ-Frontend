@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import EditableSocial from './EditableSocial';
-import useWeb3 from '../../../hooks/useWeb3';
 import Twitter from '../../svg/twitter';
 import Discord from '../../svg/discord';
+import StoreContext from '../../../store/Store/StoreContext';
 
 const UserSocials = ({ user }) => {
   // state variables
-  const { account } = useWeb3();
-  const isOwner = account?.toLowerCase() === user.id;
+  const [appState] = useContext(StoreContext);
+  const { accountData } = appState;
+  const loggedId = accountData?.id;
+  const isOwner = loggedId == user.id;
 
   const getTwitterUser = (url) => {
     const regexToGetTwitterUsername = /twitter.com\/(.*)/;

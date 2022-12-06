@@ -236,6 +236,7 @@ class OpenQPrismaClient {
         });
         resolve(result.data);
       } catch (e) {
+        console.log(e);
         reject(e);
       }
     });
@@ -318,13 +319,10 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async getUser(userAddress, types, category) {
+  async getUser(idObject, types, category) {
     const promise = new Promise(async (resolve, reject) => {
-      if (!ethers.utils.isAddress(userAddress)) {
-        return {};
-      }
       const variables = {
-        userAddress: ethers.utils.getAddress(userAddress),
+        ...idObject,
         types,
       };
       if (category) {
@@ -362,8 +360,8 @@ class OpenQPrismaClient {
       };
 
       try {
-        const result = await this.client.mutate({
-          mutation: GET_USER,
+        const result = await this.client.query({
+          query: GET_USER,
           variables,
         });
         resolve(result.data.user);
@@ -381,8 +379,8 @@ class OpenQPrismaClient {
       };
 
       try {
-        const result = await this.client.mutate({
-          mutation: GET_USER,
+        const result = await this.client.query({
+          query: GET_USER,
           variables,
         });
         resolve(result.data.user);

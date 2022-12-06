@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Pencil from '../../svg/pencil';
 import StoreContext from '../../../store/Store/StoreContext';
-import { ethers } from 'ethers';
 import CopyAddressToClipboard from '../../Copy/CopyAddressToClipboard';
 import ToolTipNew from '../../Utils/ToolTipNew';
 
@@ -16,8 +15,8 @@ const EditableSocial = ({ isOwner, social, user }) => {
   };
   const handleSave = async (value, name) => {
     try {
-      const address = ethers.utils.getAddress(user.id);
-      const { updateUser } = await appState.openQPrismaClient.updateUser({ [name]: value, address });
+      const userId = user.github;
+      const { updateUser } = await appState.openQPrismaClient.updateUser({ [name]: value, github: userId });
       if (updateUser) {
         const newLink = updateUser[name];
         setLocalSocial({ ...localSocial, link: newLink });
