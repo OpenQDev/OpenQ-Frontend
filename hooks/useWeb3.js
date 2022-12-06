@@ -1,6 +1,6 @@
 import { useWeb3React } from '@web3-react/core';
 import { useContext } from 'react';
-import account from '../pages/user/[account]';
+import account from '../pages/user/[userId]';
 import StoreContext from '../store/Store/StoreContext';
 
 // This is a lightweight wrapper of web3React which allows the frontend to run in local mode without attempting to connect to any localhost chain

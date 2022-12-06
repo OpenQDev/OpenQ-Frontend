@@ -13,7 +13,7 @@ import useAuth from '../../hooks/useAuth';
 import StoreContext from '../../store/Store/StoreContext';
 import Logger from '../../services/logger/Logger';
 
-const account = ({ account, user, organizations, renderError }) => {
+const userId = ({ userId, user, organizations, renderError }) => {
   const [authState] = useAuth();
   const { signedAccount } = authState;
   const [appState] = useContext(StoreContext);
@@ -26,7 +26,7 @@ const account = ({ account, user, organizations, renderError }) => {
     const getOffChainData = async () => {
       let privateUserData;
       try {
-        privateUserData = await appState.openQPrismaClient.getUser(ethers.utils.getAddress(account));
+        privateUserData = await appState.openQPrismaClient.getUser(ethers.utils.getAddress(userId));
         setPublicPrivateUserData({ ...user, ...privateUserData });
       } catch (error) {
         appState.logger.info('Viewing user not owner');
@@ -58,11 +58,11 @@ const account = ({ account, user, organizations, renderError }) => {
     <div className=' gap-4 justify-center pt-6'>
       {user ? (
         <AboutFreelancer
-          showWatched={account === signedAccount}
+          showWatched={userId === signedAccount}
           starredOrganizations={starredOrganizations}
           watchedBounties={watchedBounties}
           user={publicPrivateUserData}
-          account={account}
+          account={userId}
           organizations={organizations}
         />
       ) : (
@@ -80,47 +80,49 @@ export const getServerSideProps = async (context) => {
   const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
   githubRepository.instance.setGraphqlHeaders(oauthToken);
 
-  let account = context.params.account;
+  let userId = context.params.userId;
   let renderError = '';
 
-  try {
-    let provider = new ethers.providers.InfuraProvider('homestead', process.env.INFURA_PROJECT_ID);
-
-    account = await provider.resolveName(account);
-    // we need to check if their address is reverse registered
-  } catch (err) {
-    logger.error(err);
-  }
-  try {
-    ethers.utils.getAddress(account);
-  } catch {
-    return { props: { renderError: `${account} is not a valid address.` } };
-  }
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
-  let user = {
+  
+	let user = {
     bountiesClosed: [],
     bountiesCreated: [],
     deposits: [],
     fundedTokenBalances: [],
-    id: account?.toLowerCase(),
+    id: userId,
     payoutTokenBalances: [],
     payouts: [],
     renderError,
   };
+
   let organizations = [];
   let starredOrganizations = [];
   let userOffChainData = {};
-  try {
-    userOffChainData = await openQPrismaClient.instance.getPublicUser(ethers.utils.getAddress(account));
+  
+	try {
+		// 1. We fetch the API user using the userId we get from the URL
+    userOffChainData = await openQPrismaClient.instance.getPublicUserById(userId);
   } catch (err) {
     logger.error(err);
   }
 
   try {
-    const userOnChainData = await openQSubgraphClient.instance.getUser(account?.toLowerCase());
+		// 2. We fetch the on-chain user address if they have registered using the externalUserId (AKA githubId)
+		// userOnChainData.id is the address of the user
+    const userOnChainData = await openQSubgraphClient.instance.getUserByGithubId(userOffChainData.github);
+		try {
+			let provider = new ethers.providers.InfuraProvider('homestead', process.env.INFURA_PROJECT_ID);
+	
+			// 3. We use the address to resolve the ENS name
+			userId = await provider.resolveName(userOnChainData.id);
+			// we need to check if their address is reverse registered
+		} catch (err) {
+			logger.error(err);
+		}
 
-    // fetch orgs freelancer has worked for.
+    // 4. This is throwing an error...
     try {
       const issueIds = userOnChainData.bountiesClosed.map((bounty) => bounty.bountyId);
       organizations = await githubRepository.instance.parseOrgIssues(issueIds);
@@ -133,8 +135,8 @@ export const getServerSideProps = async (context) => {
   }
 
   return {
-    props: { account, user, organizations, renderError, starredOrganizations, oauthToken },
+    props: { userId, user, organizations, renderError, starredOrganizations, oauthToken },
   };
 };
 
-export default account;
+export default userId;

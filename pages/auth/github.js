@@ -34,12 +34,11 @@ function GitHubAuth() {
         if (redirectObject) {
           try {
             const result = await appState.authService.checkAuth();
-						const github = result.payload.githubId;
-						const fullApiUser = await appState.openQPrismaClient.getPublicUser(github);
-						console.log('fullApiUser', fullApiUser)
-						
-						// once this is set, it should trigger the redirect to /user/userId
-						setUserId(fullApiUser.id);
+            const github = result.payload.githubId;
+            const fullApiUser = await appState.openQPrismaClient.getPublicUser(github);
+
+            // once this is set, it should trigger the redirect to /user/userId
+            setUserId(fullApiUser.id);
           } catch (error) {
             console.error(error);
           }
@@ -55,8 +54,8 @@ function GitHubAuth() {
 
   useEffect(() => {
     if (userId) {
-			router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${userId}`);
-		}
+      router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${userId}`);
+    }
   }, [userId]);
 
   return (
