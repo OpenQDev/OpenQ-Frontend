@@ -2,20 +2,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import StoreContext from '../../store/Store/StoreContext';
-import useWeb3 from '../../hooks/useWeb3';
 
 function GitHubAuth() {
   const router = useRouter();
   const [, setAuthCode] = useState('NO AUTH CODE');
   const [appState] = useContext(StoreContext);
-  const { unSignedAccount, account } = useWeb3();
-  const [push, setPush] = useState(false);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setAuthCode(params.get('code'));
-
-		console.log('params.get', params.get('code'))
 
     exchangeAuthCodeForAccessToken(params.get('code'));
   }, []);
@@ -37,9 +33,13 @@ function GitHubAuth() {
 
         if (redirectObject) {
           try {
-            await appState.authService.checkAuth();
-
-            setPush(true);
+            const result = await appState.authService.checkAuth();
+						const github = result.payload.githubId;
+						const fullApiUser = await appState.openQPrismaClient.getPublicUser(github);
+						console.log('fullApiUser', fullApiUser)
+						
+						// once this is set, it should trigger the redirect to /user/userId
+						setUserId(fullApiUser.id);
           } catch (error) {
             console.error(error);
           }
@@ -49,19 +49,15 @@ function GitHubAuth() {
         }
       })
       .catch((err) => {
-        appState.logger.error(err, unSignedAccount, 'github1');
+        appState.logger.error(err, null, 'github1');
       });
   };
 
   useEffect(() => {
-    if (account && push) {
-      router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${account}`);
-    } else if (push) {
-      setTimeout(() => {
-        router.push(`${process.env.NEXT_PUBLIC_BASE_URL}`);
-      }, 500);
-    }
-  }, [account, push]);
+    if (userId) {
+			router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${userId}`);
+		}
+  }, [userId]);
 
   return (
     <div className='flex fixed inset-0 justify-center'>

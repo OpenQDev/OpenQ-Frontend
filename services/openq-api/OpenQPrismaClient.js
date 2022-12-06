@@ -4,7 +4,7 @@ import {
   UNWATCH_BOUNTY,
   GET_BOUNTY_BY_ADDRESS,
   GET_USER,
-  GET_PRIVATE_USER_BY_HASH,
+  GET_PRIVATE_USER,
   UPDATE_USER,
   UPSERT_USER,
   GET_CONTRACT_PAGE,
@@ -332,7 +332,7 @@ class OpenQPrismaClient {
       }
       try {
         const result = await this.client.query({
-          query: GET_PRIVATE_USER_BY_HASH,
+          query: GET_PRIVATE_USER,
           variables,
         });
         resolve(result.data.user);
@@ -355,14 +355,12 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  getPublicUser(userAddress) {
+  getPublicUser(github) {
     const promise = new Promise(async (resolve, reject) => {
-      if (!ethers.utils.isAddress(userAddress)) {
-        return {};
-      }
       const variables = {
-        userAddress: ethers.utils.getAddress(userAddress),
+        github
       };
+
       try {
         const result = await this.client.mutate({
           mutation: GET_USER,

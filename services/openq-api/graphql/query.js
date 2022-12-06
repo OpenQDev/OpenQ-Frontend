@@ -91,7 +91,8 @@ export const GET_USER_BY_ID = gql`
 export const GET_USER = gql`
   query ($id: String, $email: String, $github: String) {
     user(id: $id, email: $email, github: $github) {
-      github
+      id
+			github
       discord
       twitter
       devRoles
@@ -103,9 +104,10 @@ export const GET_USER = gql`
   }
 `;
 
-export const GET_PRIVATE_USER_BY_HASH = gql`
-  query ($userAddress: String!, $types: [String], $category: String) {
-    user(address: $userAddress) {
+export const GET_PRIVATE_USER = gql`
+  query ($id: String, $github: String, $email: String, $types: [String], $category: String) {
+    user(id: $id, github: $github, email: $email) {
+			id
       watchedBountyIds
       github
       email
