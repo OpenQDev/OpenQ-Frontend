@@ -5,20 +5,25 @@ import CopyAddressToClipboard from '../../Copy/CopyAddressToClipboard';
 import ToolTipNew from '../../Utils/ToolTipNew';
 
 const EditableSocial = ({ isOwner, social, user }) => {
-  console.log(social);
+  console.log('social', social);
+  console.log('user', user);
+
   const [localSocial, setLocalSocial] = useState(social);
   const [isEditing, setIsEditing] = useState(false);
   const [appState] = useContext(StoreContext);
   const [inputValue, setInputValue] = useState(localSocial.link.replace('https://twitter.com/', ''));
   const [saveValue, setSaveValue] = useState('');
   const [validFormat, setValidFormat] = useState(false);
+  console.log('localSocial', localSocial);
+
+  console.log('inputValue', inputValue);
   const handleEdit = () => {
     setIsEditing(true);
   };
   const handleSave = async (value, name) => {
     try {
-      const userId = user.github;
-      const { updateUser } = await appState.openQPrismaClient.updateUser({ [name]: value, github: userId });
+      const githubId = user.github;
+      const { updateUser } = await appState.openQPrismaClient.updateUser({ [name]: value, github: githubId });
       if (updateUser) {
         const newLink = updateUser[name];
         setLocalSocial({ ...localSocial, link: newLink });
