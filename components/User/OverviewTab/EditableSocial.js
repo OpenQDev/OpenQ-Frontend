@@ -5,10 +5,12 @@ import CopyAddressToClipboard from '../../Copy/CopyAddressToClipboard';
 import ToolTipNew from '../../Utils/ToolTipNew';
 
 const EditableSocial = ({ isOwner, social, user }) => {
+  console.log(social);
   const [localSocial, setLocalSocial] = useState(social);
   const [isEditing, setIsEditing] = useState(false);
   const [appState] = useContext(StoreContext);
-  const [inputValue, setInputValue] = useState(localSocial.link);
+  const [inputValue, setInputValue] = useState(localSocial.link.replace('https://twitter.com/', ''));
+  const [saveValue, setSaveValue] = useState('');
   const [validFormat, setValidFormat] = useState(false);
   const handleEdit = () => {
     setIsEditing(true);
@@ -29,11 +31,16 @@ const EditableSocial = ({ isOwner, social, user }) => {
   const handleInputChange = (e) => {
     const { value } = e.target;
     setInputValue(value);
-    if (value === '' || localSocial.parseFunction(value)) {
+    let linkValue = '';
+    if (!isDiscord) {
+      linkValue = 'https://twitter.com/' + value;
+    }
+    if (linkValue === '' || localSocial.parseFunction(linkValue)) {
       setValidFormat(true);
     } else {
       setValidFormat(false);
     }
+    setSaveValue(linkValue || value);
   };
   const Icon = localSocial.icon;
   const isDiscord = localSocial.name === 'discord';
@@ -42,13 +49,14 @@ const EditableSocial = ({ isOwner, social, user }) => {
   return (
     <>
       {
-        <div className='w-full max-w-[300px] justify-between flex gap-4 rounded-sm border border-web-gray p-4 px-8'>
+        <div className='w-full max-w-[300px] justify-between flex items-center gap-4 rounded-sm border border-web-gray p-4 px-8'>
           {isEditing ? (
-            <div>
+            <div className='flex w-36 h-6 items-center input-field'>
+              {!isDiscord && '@'}
               <input
                 onChange={handleInputChange}
                 value={inputValue}
-                className='w-36 bg-transparent rounded-sm border-web-gray border h-6 outline-transparent focus-within:shadow-none input-field curosr-auto'
+                className='w-28 bg-transparent cursor-auto focus-within:outline-none'
               />
             </div>
           ) : (
@@ -57,7 +65,7 @@ const EditableSocial = ({ isOwner, social, user }) => {
               <>
                 {hasSocial && isDiscord && (
                   <CopyAddressToClipboard
-                    styles='w-36 inline'
+                    styles='truncate w-36 inline'
                     noClip={true}
                     data={localSocial.parseFunction(localSocial.link)}
                   />
@@ -68,7 +76,7 @@ const EditableSocial = ({ isOwner, social, user }) => {
                     title={localSocial.name}
                     href={localSocial.link}
                     target='_blank'
-                    className='text-link-colour hover:underline cursor-pointer ml-4 truncate'
+                    className='w-36 inline text-link-colour hover:underline cursor-pointer ml-4 truncate'
                     rel='noreferrer'
                   >
                     {localSocial.parseFunction(localSocial.link)}
@@ -84,7 +92,7 @@ const EditableSocial = ({ isOwner, social, user }) => {
                 <button
                   disabled={!validFormat}
                   className={validFormat ? 'btn-primary text-sm' : 'btn-default text-sm cursor-not-allowed'}
-                  onClick={() => handleSave(inputValue, localSocial.name)}
+                  onClick={() => handleSave(saveValue, localSocial.name)}
                 >
                   Update
                 </button>
