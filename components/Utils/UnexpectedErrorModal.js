@@ -28,7 +28,7 @@ const UnexpectedErrorModal = ({ error }) => {
     } else {
       setCurrentError(parsedError?.message || error || currentError);
     }
-    if (JSON.stringify(error).includes('github') && error.includes('401')) {
+    if (JSON.stringify(error).includes('github') && (error.includes('401') || error.includes('EHOSTUNREACH'))) {
       setLoginModal(true);
     }
   }, []);

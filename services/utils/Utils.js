@@ -298,19 +298,13 @@ class Utils {
     return promise;
   };
 
-  fetchWatchedBounties = async (
-    { openQSubgraphClient, githubRepository, openQPrismaClient, logger },
-    account,
-    types,
-    category
-  ) => {
+  fetchWatchedBounties = async ({ openQSubgraphClient, githubRepository, logger }, account) => {
     let subgraphContracts = [];
     let githubIssues = [];
     let prismaContracts = [];
     try {
-      const prismaResult = await openQPrismaClient.getUser(account, types, category);
-      prismaContracts = prismaResult?.watchedBounties.nodes || [];
-      const watchedBountyAddresses = prismaResult?.watchedBountyIds.map((address) => address.toLowerCase()) || [];
+      prismaContracts = [];
+      const watchedBountyAddresses = [];
       const watchedBountyIds = prismaContracts?.map((contract) => contract.bountyId);
       subgraphContracts = await openQSubgraphClient.getBountiesByContractAddresses(watchedBountyAddresses);
       githubIssues = await githubRepository.getIssueData(watchedBountyIds);

@@ -1,6 +1,5 @@
 import React, { useEffect, useContext } from 'react';
 import StoreContext from '../Store/StoreContext';
-import { ethers } from 'ethers';
 import useAuth from '../../hooks/useAuth';
 
 // manages shared state between auth context and store context
@@ -12,27 +11,26 @@ const SetContextState = (props) => {
   useEffect(() => {
     const checkGithub = async () => {
       if (Object.prototype.hasOwnProperty.call(authState, 'githubId')) {
-        const accountData = await appState.openQPrismaClient.getUser({ github: authState.githubId });
-        dispatch({ payload: accountData, type: 'UPDATE_ACCOUNTDATA' });
+        console.log(authState);
+        if (authState.githubId || authState.email) {
+          const accountData = await appState.openQPrismaClient.getUser({ github: authState.githubId });
+          dispatch({ payload: accountData, type: 'UPDATE_ACCOUNTDATA' });
+          console.log(authState);
+          if (!accountData?.languages && !accountData?.twitter && authState.githubId) {
+            const githubUser = await appState.githubRepository.fetchUserById(authState.githubId);
+            const github = authState.githubId;
+            const twitter = `https://twitter.com/${githubUser.twitterUsername}`;
+            const languages = githubUser.recentLanguages;
+            const params = {
+              ...(github && { github }),
+              ...(twitter && { twitter }),
+              ...(languages && { languages }),
+            };
 
-        if (!accountData?.github && authState.githubId) {
-          const githubUser = await appState.githubRepository.fetchUserById(authState.githubId);
+            // get github profile by login
 
-          const twitter = `https://twitter.com/${githubUser.twitterUsername}`;
-          const languages = githubUser.recentLanguages;
-          const githubUrl = githubUser?.url;
-          const email = githubUser;
-          const params = {
-            address: ethers.utils.getAddress(),
-            ...(githubUser.email && { email }),
-            ...(githubUrl && { github: githubUrl }),
-            ...(twitter && { twitter }),
-            ...(languages && { languages }),
-          };
-
-          // get github profile by login
-
-          await appState.openQPrismaClient.updateUserSimple(params);
+            await appState.openQPrismaClient.updateUser(params);
+          }
         }
       }
     };

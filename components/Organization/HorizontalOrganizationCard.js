@@ -13,6 +13,7 @@ const HorizontalOrganizationCard = ({ organization }) => {
   const context = useContext(StoreContext);
   const { account, safe } = useWeb3();
   const [appState] = context;
+  const { github, email, id } = appState.accountData;
   useEffect(() => {
     setStarredDisabled(true);
     if (organization.starringUserIds && organization.starringUserIds.some((user) => user === account)) {
@@ -47,7 +48,7 @@ const HorizontalOrganizationCard = ({ organization }) => {
     fetchBountiesData();
   }, [organization.bountiesCreated]);
   const handleStar = () => {
-    starOrganization(account, organization.id, starred, setStarred, setStarredDisabled, context);
+    starOrganization(github, email, id, organization.id, starred, setStarred, setStarredDisabled, context);
   };
   // Render
   return (

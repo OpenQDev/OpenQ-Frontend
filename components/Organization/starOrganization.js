@@ -1,22 +1,29 @@
-const starOrganization = async (account, id, starred, setStarred, setStarredDisabled, context) => {
+const starOrganization = async (
+  github,
+  email,
+  userId,
+  organizationId,
+  starred,
+  setStarred,
+  setStarredDisabled,
+  context
+) => {
   const [appState, dispatch] = context;
-  if (!account) {
-    const payload = {
-      type: 'CONNECT_WALLET',
-      payload: true,
-    };
-    dispatch(payload);
-    return;
-  }
 
   try {
     setStarredDisabled(true);
+    const variables = {
+      ...(github && { github }),
+      ...(email && { email }),
+      userId,
+      organizationId,
+    };
     if (starred) {
-      await appState.openQPrismaClient.unStarOrg(id, account);
+      await appState.openQPrismaClient.unStarOrg(variables);
       setStarred(false);
       setStarredDisabled(false);
     } else {
-      await appState.openQPrismaClient.starOrg(id, account);
+      await appState.openQPrismaClient.starOrg(variables);
       setStarred(true);
       setStarredDisabled(false);
     }

@@ -17,6 +17,7 @@ const OrganizationCard = ({ organization }) => {
   const [starredDisabled, setStarredDisabled] = useState(true);
   const { account } = useWeb3();
   const [appState] = context;
+  const { github, email, id } = appState.accountData;
   const description = organization.description || organization.bio;
   useEffect(() => {
     if (
@@ -30,7 +31,8 @@ const OrganizationCard = ({ organization }) => {
 
   const handleStar = (e) => {
     e.stopPropagation();
-    starOrganization(account, organization.id, starred, setStarred, setStarredDisabled, context);
+
+    starOrganization(github, email, id, organization.id, starred, setStarred, setStarredDisabled, context);
   };
 
   let orgName;

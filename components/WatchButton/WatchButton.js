@@ -1,18 +1,17 @@
 import React, { useState, useEffect, useContext } from 'react';
-import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import watchBounty from './watchBounty';
 
 const WatchButton = ({ unWatchable, watchingState, bounty }) => {
-  const { account, safe } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
   const [watchDisabled, setWatchDisabled] = useState();
   const [watchingDisplay, setWatchingDisplay] = useState();
+  const { github, email, id } = appState.accountData;
 
   useEffect(() => {
     const getWatched = async () => {
       try {
-        const user = await appState.openQPrismaClient.getUser(account);
+        const user = { watchedBountyIds: [] };
 
         if (user) {
           const watching = user.watchedBountyIds?.some((bountyAddress) => {
@@ -23,13 +22,11 @@ const WatchButton = ({ unWatchable, watchingState, bounty }) => {
       } catch (err) {
         if (JSON.stringify(err).includes('AuthenticationError')) {
           appState.logger.error('Cannot get watched bounties because user is not signed in with ethereum.');
-        } else appState.logger.error(err, account);
+        } else appState.logger.error(err);
       }
     };
-    if (account) {
-      getWatched();
-    }
-  }, [account]);
+    getWatched();
+  }, []);
 
   const handleWatch = async () => {
     if (watchingState) {
@@ -42,15 +39,24 @@ const WatchButton = ({ unWatchable, watchingState, bounty }) => {
     }
     setWatchDisabled(true);
     try {
-      await watchBounty([appState, dispatch], account, bounty, watchingDisplay, setWatchingDisplay, watchDisabled);
+      await watchBounty(
+        [appState, dispatch],
+        github,
+        email,
+        id,
+        bounty,
+        watchingDisplay,
+        setWatchingDisplay,
+        watchDisabled
+      );
     } catch (err) {
-      appState.logger.error(err, account);
+      appState.logger.error(err);
     }
     setWatchDisabled(false);
   };
   return (
     <div>
-      {!unWatchable && !safe && account && (
+      {!unWatchable && (
         <button
           onClick={handleWatch}
           disabled={watchDisabled}

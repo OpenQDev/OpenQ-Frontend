@@ -43,10 +43,10 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
   useEffect(() => {
     if (githubId) {
       const getGithubUser = async () => {
-        //  const githubUser = await appState.githubRepository.fetchUserById(githubId);
+        const githubUser = await appState.githubRepository.fetchUserById(githubId);
         if (isOwner) setGithubUser(githubUser);
       };
-      //  getGithubUser();
+      getGithubUser();
     }
   }, [githubId]);
   // Context
@@ -75,7 +75,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
     };
     if (account && showWatched) {
       // get watched bounties as soon as we know what the account is.
-      // getWatched();
+      getWatched();
     }
   }, [account, showWatched]);
 

@@ -15,8 +15,8 @@ import {
   ADD_CONTRIBUTOR,
   REMOVE_CONTRIBUTOR,
   GET_ORGANIZATIONS,
-  STAR_ORG,
-  UN_STAR_ORG,
+  STAR_ORGANIZATION,
+  UNSTAR_ORGANIZATION,
   GET_ORGANIZATION,
   BLACKLIST_ISSUE,
   BLACKLIST_ORG,
@@ -40,12 +40,13 @@ class OpenQPrismaClient {
     cache: new InMemoryCache(),
   });
 
-  async watchBounty(contractAddress, userAddress) {
+  async watchBounty(contractAddress, idObj) {
+    console.log(idObj);
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
           mutation: WATCH_BOUNTY,
-          variables: { contractAddress, userAddress },
+          variables: { contractAddress, ...idObj },
           fetchPolicy: 'no-cache',
         });
         resolve(result.data);
@@ -56,12 +57,12 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async unWatchBounty(contractAddress, userAddress) {
+  async unWatchBounty(contractAddress, idObj) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
           mutation: UNWATCH_BOUNTY,
-          variables: { contractAddress, userAddress },
+          variables: { contractAddress, ...idObj },
           fetchPolicy: 'no-cache',
         });
         resolve(result.data);
@@ -72,12 +73,12 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async unStarOrg(id, address) {
+  async unStarOrg(variables) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
-          mutation: UN_STAR_ORG,
-          variables: { id, address },
+          mutation: UNSTAR_ORGANIZATION,
+          variables,
         });
         resolve(result.data);
       } catch (e) {
@@ -87,15 +88,17 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async starOrg(id, address) {
+  async starOrg(variables) {
     const promise = new Promise(async (resolve, reject) => {
       try {
+        console.log(variables);
         const result = await this.client.mutate({
-          mutation: STAR_ORG,
-          variables: { id, address },
+          mutation: STAR_ORGANIZATION,
+          variables,
         });
         resolve(result.data);
       } catch (e) {
+        console.log(e);
         reject(e);
       }
     });
