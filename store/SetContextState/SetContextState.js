@@ -14,7 +14,8 @@ const SetContextState = (props) => {
         if (authState.githubId || authState.email) {
           const accountData = await appState.openQPrismaClient.getUser({ github: authState.githubId });
           dispatch({ payload: accountData, type: 'UPDATE_ACCOUNTDATA' });
-          if (!accountData?.languages && !accountData?.twitterUsername && authState.githubId) {
+
+          if (!accountData?.languages && !accountData?.twitter && authState.githubId) {
             const githubUser = await appState.githubRepository.fetchUserById(authState.githubId);
             const github = authState.githubId;
             const twitter = `https://twitter.com/${githubUser.twitterUsername}`;
