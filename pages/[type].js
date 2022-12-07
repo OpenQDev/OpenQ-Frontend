@@ -33,7 +33,6 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
   const { reloadNow } = appState;
-  console.log(watchedBounties);
   // Hooks
   useEffect(() => {
     // handle org reloaasyncd events (caused by user starring org.)

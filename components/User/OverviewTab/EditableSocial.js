@@ -5,18 +5,12 @@ import CopyAddressToClipboard from '../../Copy/CopyAddressToClipboard';
 import ToolTipNew from '../../Utils/ToolTipNew';
 
 const EditableSocial = ({ isOwner, social, user }) => {
-  console.log('social', social);
-  console.log('user', user);
-
   const [localSocial, setLocalSocial] = useState(social);
   const [isEditing, setIsEditing] = useState(false);
   const [appState] = useContext(StoreContext);
   const [inputValue, setInputValue] = useState(localSocial.link.replace('https://twitter.com/', ''));
   const [saveValue, setSaveValue] = useState('');
   const [validFormat, setValidFormat] = useState(false);
-  console.log('localSocial', localSocial);
-
-  console.log('inputValue', inputValue);
   const handleEdit = () => {
     setIsEditing(true);
   };

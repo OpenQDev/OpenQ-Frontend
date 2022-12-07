@@ -64,7 +64,6 @@ describe('WatchButton', () => {
     const watchButton = await screen.findByRole('button');
     expect(watchButton).toBeInTheDocument();
     await user.click(watchButton);
-    expect(watchButton).toHaveClass('undefined');
     const watchingButton = await screen.findByText('Watching');
     await user.hover(watchingButton);
     const unwatchButton = await screen.findByText('Unwatch');

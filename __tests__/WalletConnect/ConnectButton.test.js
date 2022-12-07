@@ -36,7 +36,7 @@ describe('ConnectButton', () => {
     render(<ConnectButton nav={true} />);
 
     // ASSERT
-    const accountBtn = screen.getByRole('button');
-    expect(accountBtn).toBeInTheDocument();
+    const accountBtn = screen.getAllByRole('button');
+    expect(accountBtn[0]).toBeInTheDocument();
   });
 });
