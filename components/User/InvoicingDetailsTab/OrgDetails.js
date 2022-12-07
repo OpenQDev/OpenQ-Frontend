@@ -96,7 +96,6 @@ const InvoicingDetails = () => {
           });
         interMediateValue.forEach((inputObj) => {
           for (let key in inputObj) {
-            console.log(formValues, inputObj);
             if (key !== 'email') {
               formValues[key] = inputObj[key];
             }

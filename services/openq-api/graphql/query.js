@@ -182,19 +182,23 @@ export const GET_ORGANIZATION = gql`
 export const GET_ORGANIZATIONS = gql`
   query getOrganizations($types: [String], $batch: Int!, $category: String) {
     organizations {
-      blacklisted
-      id
-      starringUsers {
+      nodes {
+        blacklisted
         id
-      }
-      bounties(limit: $batch, types: $types, category: $category) {
-        nodes {
-          tvl
-          tvc
-          bountyId
-          address
-          blacklisted
-          category
+        starringUsers(limit: 10000) {
+          nodes {
+            id
+          }
+        }
+        bounties(limit: $batch, types: $types, category: $category) {
+          nodes {
+            tvl
+            tvc
+            bountyId
+            address
+            blacklisted
+            category
+          }
         }
       }
     }
@@ -204,8 +208,10 @@ export const GET_ORGANIZATIONS = gql`
 export const GET_LEAN_ORGANIZATIONS = gql`
   query getLeanOrganizations {
     organizations {
-      id
-      blacklisted
+      nodes {
+        id
+        blacklisted
+      }
     }
   }
 `;
@@ -331,8 +337,10 @@ export const STAR_ORGANIZATION = gql`
   mutation StarOrg($userId: String!, $organizationId: String!, $github: String, $email: String) {
     starOrg(userId: $userId, organizationId: $organizationId, github: $github, email: $email) {
       id
-      starringUsers {
-        id
+      starringUsers(limit: 10000) {
+        nodes {
+          id
+        }
       }
     }
   }
@@ -342,8 +350,10 @@ export const UNSTAR_ORGANIZATION = gql`
   mutation unstarOrg($userId: String!, $organizationId: String!, $github: String, $email: String) {
     unstarOrg(userId: $userId, organizationId: $organizationId, github: $github, email: $email) {
       id
-      starringUsers {
-        id
+      starringUsers(limit: 10000) {
+        nodes {
+          id
+        }
       }
     }
   }

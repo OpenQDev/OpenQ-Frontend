@@ -41,7 +41,6 @@ class OpenQPrismaClient {
   });
 
   async watchBounty(contractAddress, idObj) {
-    console.log(idObj);
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
@@ -91,14 +90,12 @@ class OpenQPrismaClient {
   async starOrg(variables) {
     const promise = new Promise(async (resolve, reject) => {
       try {
-        console.log(variables);
         const result = await this.client.mutate({
           mutation: STAR_ORGANIZATION,
           variables,
         });
         resolve(result.data);
       } catch (e) {
-        console.log(e);
         reject(e);
       }
     });
@@ -191,7 +188,6 @@ class OpenQPrismaClient {
         const result = await this.client.query({
           query: GET_ALL_PRS,
         });
-        console.log(result.data);
         resolve(result.data.prs);
       } catch (e) {
         reject(e);
@@ -222,7 +218,7 @@ class OpenQPrismaClient {
           mutation: GET_LEAN_ORGANIZATIONS,
           variables: { organizationIds },
         });
-        resolve(result.data.organizations);
+        resolve(result.data.organizations.nodes);
       } catch (e) {
         reject(e);
       }
@@ -239,7 +235,6 @@ class OpenQPrismaClient {
         });
         resolve(result.data);
       } catch (e) {
-        console.log(e);
         reject(e);
       }
     });
@@ -255,7 +250,6 @@ class OpenQPrismaClient {
         });
         resolve(result.data);
       } catch (e) {
-        console.log(e);
         reject(e);
       }
     });
@@ -322,12 +316,18 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async getUser(idObject, types, category) {
+  async getUser(idObject, types, category, fetchPolicy = {}) {
     const promise = new Promise(async (resolve, reject) => {
       const variables = {
-        ...idObject,
         types,
       };
+      if (idObject.id) {
+        variables.id = idObject.id;
+      } else if (idObject.github) {
+        variables.github = idObject.github;
+      } else if (idObject.email) {
+        variables.email = idObject.email;
+      }
       if (category) {
         variables.category = category;
       }
@@ -335,6 +335,7 @@ class OpenQPrismaClient {
         const result = await this.client.query({
           query: GET_PRIVATE_USER,
           variables,
+          ...fetchPolicy,
         });
         resolve(result.data.user);
       } catch (e) {
