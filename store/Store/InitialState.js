@@ -20,6 +20,7 @@ let InitialState = {};
 switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
   case 'local':
     InitialState = {
+      accountData: {},
       openQClient: new MockOpenQClient(),
       authService: new MockAuthService(),
       githubRepository: new MockGithubRepository(),
@@ -33,6 +34,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
     break;
   case 'docker':
     InitialState = {
+      accountData: {},
       openQClient: new OpenQClient(),
       authService: new AuthService(),
       githubRepository: new GithubRepository(),
@@ -46,6 +48,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
     break;
   case 'development':
     InitialState = {
+      accountData: {},
       openQClient: new OpenQClient(),
       authService: new AuthService(),
       githubRepository: new GithubRepository(),
@@ -59,6 +62,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
     break;
   case 'staging':
     InitialState = {
+      accountData: {},
       openQClient: new OpenQClient(),
       authService: new AuthService(),
       githubRepository: new GithubRepository(),
@@ -72,6 +76,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
     break;
   case 'production':
     InitialState = {
+      accountData: {},
       openQClient: new OpenQClient(),
       authService: new AuthService(),
       githubRepository: new GithubRepository(),

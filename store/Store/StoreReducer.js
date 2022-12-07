@@ -3,7 +3,7 @@ const StoreReducer = (state, action) => {
     case 'UPDATE_ACCOUNTDATA':
       return {
         ...state,
-        accountData: action.payload,
+        accountData: action.payload || {},
       };
     case 'BOUNTY_MINTED':
       return {

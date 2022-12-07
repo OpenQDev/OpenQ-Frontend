@@ -327,7 +327,7 @@ export const UNWATCH_BOUNTY = gql`
   }
 `;
 
-export const STAR_ORGANZIATION = gql`
+export const STAR_ORGANIZATION = gql`
   mutation StarOrg($userId: String!, $organizationId: String!, $github: String, $email: String) {
     starOrg(userId: $userId, organizationId: $organizationId, github: $github, email: $email) {
       id
@@ -339,7 +339,7 @@ export const STAR_ORGANZIATION = gql`
 `;
 
 export const UNSTAR_ORGANIZATION = gql`
-  mutation StarOrg($userId: String!, $organizationId: String!, $github: String, $email: String) {
+  mutation unstarOrg($userId: String!, $organizationId: String!, $github: String, $email: String) {
     unstarOrg(userId: $userId, organizationId: $organizationId, github: $github, email: $email) {
       id
       starringUsers {

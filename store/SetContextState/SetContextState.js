@@ -12,26 +12,25 @@ const SetContextState = (props) => {
     const checkGithub = async () => {
       if (Object.prototype.hasOwnProperty.call(authState, 'githubId')) {
         console.log(authState);
-        const accountData = await appState.openQPrismaClient.getUser({ github: authState.githubId });
-        dispatch({ payload: accountData, type: 'UPDATE_ACCOUNTDATA' });
+        if (authState.githubId || authState.email) {
+          const accountData = await appState.openQPrismaClient.getUser({ github: authState.githubId });
+          dispatch({ payload: accountData, type: 'UPDATE_ACCOUNTDATA' });
+          console.log(authState);
+          if (!accountData?.languages && !accountData?.twitterUsername && authState.githubId) {
+            const githubUser = await appState.githubRepository.fetchUserById(authState.githubId);
+            const github = authState.githubId;
+            const twitter = `https://twitter.com/${githubUser.twitterUsername}`;
+            const languages = githubUser.recentLanguages;
+            const params = {
+              ...(github && { github }),
+              ...(twitter && { twitter }),
+              ...(languages && { languages }),
+            };
 
-        if (!accountData?.github && authState.githubId) {
-          const githubUser = await appState.githubRepository.fetchUserById(authState.githubId);
+            // get github profile by login
 
-          const twitter = `https://twitter.com/${githubUser.twitterUsername}`;
-          const languages = githubUser.recentLanguages;
-          const githubUrl = githubUser?.url;
-          const email = githubUser;
-          const params = {
-            ...(githubUser.email && { email }),
-            ...(githubUrl && { github: githubUrl }),
-            ...(twitter && { twitter }),
-            ...(languages && { languages }),
-          };
-
-          // get github profile by login
-
-          await appState.openQPrismaClient.upsertUser(params);
+            await appState.openQPrismaClient.updateUser(params);
+          }
         }
       }
     };
