@@ -37,8 +37,7 @@ function GitHubAuth() {
             const github = result.payload.githubId;
             const fullApiUser = await appState.openQPrismaClient.getPublicUser(github);
             if (!fullApiUser) {
-              const calue = await appState.openQPrismaClient.upsertUser({ github });
-              console.log(calue);
+              await appState.openQPrismaClient.upsertUser({ github });
             }
 
             // once this is set, it should trigger the redirect to /user/userId

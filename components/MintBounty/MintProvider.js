@@ -12,7 +12,6 @@ const MintProvider = ({ children, types }) => {
       : types[0] === '3'
       ? 'Fixed Contest'
       : 'Fixed Price';
-  console.log('inital category', category);
   const [state, dispatch] = useReducer(MintReducer, { category, ...InitialState });
 
   return <MintContext.Provider value={[state, dispatch]}>{children}</MintContext.Provider>;

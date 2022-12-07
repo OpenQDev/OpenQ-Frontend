@@ -26,7 +26,6 @@ const BountyList = ({
   types,
 }) => {
   //Pre hook functions
-
   const getReadyText = (isContest) => {
     if (isContest) {
       return 'Ready to Hack';
@@ -356,11 +355,11 @@ const BountyList = ({
         </ul>
       )}
 
-      {addCarousel && account && watchedBounties.length ? (
+      {addCarousel && watchedBounties.length ? (
         <Carousel watchedBounties={watchedBounties} styles={'col-start-2'}>
-          {watchedBounties.map((watchedBounty, index) => (
-            <CarouselBounty key={index} bounty={watchedBounty} />
-          ))}
+          {watchedBounties.map((watchedBounty, index) => {
+            return <CarouselBounty key={index} bounty={watchedBounty} />;
+          })}
         </Carousel>
       ) : null}
       {isProcessed && !loading && searchedBounties.length > 0 && (

@@ -279,10 +279,10 @@ describe('OrganizationHomepage', () => {
       render(<OrganizationHomepage orgs={orgs} complete={true} />);
 
       // ASSERT
-      const title = screen.getByText(/OpenQ Labs/i);
-      expect(title).toBeInTheDocument();
+      const title = screen.getAllByText(/OpenQ Labs/i);
+      expect(title).toHaveLength(2);
       const images = screen.getAllByRole('img');
-      expect(images).toHaveLength(8);
+      expect(images).toHaveLength(16);
 
       // should not have null or undefined values
       const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];

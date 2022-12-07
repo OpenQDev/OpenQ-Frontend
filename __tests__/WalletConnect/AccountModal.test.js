@@ -45,13 +45,4 @@ describe('AccountModal', () => {
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
   });
-
-  it('should link to profile.', async () => {
-    // ARRANGE
-    render(<AccountModal chainId={chainId} ensName={ensName} account={account} setIsConnecting={setIsConnecting} />);
-
-    // ASSERT
-
-    expect(await screen.findByTestId('link')).toBeInTheDocument();
-  });
 });

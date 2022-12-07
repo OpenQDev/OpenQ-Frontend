@@ -7,7 +7,6 @@ import nookies from 'nookies';
 import BountyHomepage from '../components/Bounty/BountyHomepage';
 import OrganizationHomepage from '../components/Organization/OrganizationHomepage';
 import useWeb3 from '../hooks/useWeb3';
-import useAuth from '../hooks/useAuth';
 import WrappedGithubClient from '../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../services/openq-api/WrappedOpenQPrismaClient';
@@ -30,19 +29,19 @@ export default function Index({ fullBounties, batch, types, renderError, firstCu
   const [appState] = useContext(StoreContext);
   const { reloadNow } = appState;
   const { account } = useWeb3();
-  const [authState] = useAuth();
-  const { signedAccount } = authState;
   const [controlledOrgs, setControlledOrgs] = useState(mergedOrgs);
   const [internalMenu, setInternalMenu] = useState('Organizations');
+  const { accountData } = appState;
   // Hooks
 
   useEffect(() => {
     // get watched bounties as soon as we know what the account is.
     const getWatched = async () => {
       try {
-        if (account == signedAccount && account) {
-          const [watchedBounties] = await appState.utils.fetchWatchedBounties(appState, account, types, category);
-          setWatchedBounties(watchedBounties || []);
+        if (accountData) {
+          const [watchedBounties] = await appState.utils.fetchWatchedBounties(accountData, appState, types, category);
+
+          setWatchedBounties(watchedBounties);
         } else {
           setWatchedBounties([]);
         }
@@ -52,7 +51,7 @@ export default function Index({ fullBounties, batch, types, renderError, firstCu
       }
     };
     getWatched();
-  }, [account, reloadNow, signedAccount]);
+  }, [accountData, reloadNow]);
 
   useEffect(() => {
     const getOrgs = async () => {

@@ -7,22 +7,17 @@ import starOrganization from './starOrganization';
 import useWeb3 from '../../hooks/useWeb3';
 
 const HorizontalOrganizationCard = ({ organization }) => {
-  const [starred, setStarred] = useState();
-  const [starredDisabled, setStarredDisabled] = useState(true);
-  const [orgBounties, setOrgBounties] = useState([]);
   const context = useContext(StoreContext);
-  const { account, safe } = useWeb3();
+  const { safe } = useWeb3();
   const [appState] = context;
   const { github, email, id } = appState.accountData;
+  const alreadyStarred = organization?.starringUsers?.nodes?.some((user) => user.id === id);
+  const [starred, setStarred] = useState(alreadyStarred);
   useEffect(() => {
-    setStarredDisabled(true);
-    if (organization.starringUserIds && organization.starringUserIds.some((user) => user === account)) {
-      setStarred(true);
-    } else {
-      setStarred(false);
-    }
-    setStarredDisabled(false);
-  }, [account, organization.starringUserIds]);
+    setStarred(alreadyStarred);
+  }, [alreadyStarred]);
+  const [starredDisabled, setStarredDisabled] = useState();
+  const [orgBounties, setOrgBounties] = useState([]);
 
   useEffect(() => {
     const fetchBountiesData = async () => {

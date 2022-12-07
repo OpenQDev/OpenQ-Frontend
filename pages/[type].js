@@ -6,7 +6,6 @@ import nookies from 'nookies';
 // Custom
 import BountyHomepage from '../components/Bounty/BountyHomepage';
 import OrganizationHomepage from '../components/Organization/OrganizationHomepage';
-import useWeb3 from '../hooks/useWeb3';
 import useAuth from '../hooks/useAuth';
 import WrappedGithubClient from '../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgraphClient';
@@ -32,12 +31,8 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
 
   // Context
   const [appState] = useContext(StoreContext);
+  const { accountData } = appState;
   const { reloadNow } = appState;
-  const { account } = useWeb3();
-
-  const [authState] = useAuth();
-  const { signedAccount } = authState;
-
   // Hooks
   useEffect(() => {
     // handle org reloaasyncd events (caused by user starring org.)
@@ -58,15 +53,15 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
   useEffect(() => {
     // get watched bounties as soon as we know what the account is.
     const getMyWatched = async () => {
-      if (account == signedAccount && account) {
-        const [watchedBounties] = await appState.utils.fetchWatchedBounties(appState, account, types, category);
+      if (accountData) {
+        const [watchedBounties] = await appState.utils.fetchWatchedBounties(accountData, appState, types, category);
         setWatchedBounties(watchedBounties || []);
       } else {
         setWatchedBounties([]);
       }
     };
     getMyWatched();
-  }, [account, reloadNow, signedAccount]);
+  }, [accountData, reloadNow]);
 
   // Methods
 
@@ -95,7 +90,6 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
       return [fullBounties, complete];
     } catch (err) {
       setError(JSON.stringify(err));
-      appState.logger.error(err, account);
       return [[], true];
     }
   }
