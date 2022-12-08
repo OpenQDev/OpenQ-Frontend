@@ -18,7 +18,10 @@ const SetContextState = (props) => {
           if (!accountData?.languages && !accountData?.twitter && authState.githubId) {
             const githubUser = await appState.githubRepository.fetchUserById(authState.githubId);
             const github = authState.githubId;
-            const twitter = `https://twitter.com/${githubUser.twitterUsername}`;
+            let twitter = '';
+            if (githubUser.twitterUsername) {
+              twitter = `https://twitter.com/${githubUser.twitterUsername}`;
+            }
             const languages = githubUser.recentLanguages;
             const params = {
               ...(github && { github }),

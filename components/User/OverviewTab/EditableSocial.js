@@ -27,6 +27,13 @@ const EditableSocial = ({ isOwner, social, user }) => {
       setIsEditing(false);
     }
   };
+  const handleKeypress = (e) => {
+    //it triggers by pressing the enter key
+    console.log(e);
+    if (e.key === 'Enter') {
+      handleSave(saveValue, localSocial.name);
+    }
+  };
   const handleInputChange = (e) => {
     const { value } = e.target;
     setInputValue(value);
@@ -54,6 +61,7 @@ const EditableSocial = ({ isOwner, social, user }) => {
               {!isDiscord && '@'}
               <input
                 onChange={handleInputChange}
+                onKeyDown={handleKeypress}
                 value={inputValue}
                 className='w-28 bg-transparent cursor-auto focus-within:outline-none'
               />
