@@ -29,7 +29,6 @@ const EditableSocial = ({ isOwner, social, user }) => {
   };
   const handleKeypress = (e) => {
     //it triggers by pressing the enter key
-    console.log(e);
     if (e.key === 'Enter') {
       handleSave(saveValue, localSocial.name);
     }
