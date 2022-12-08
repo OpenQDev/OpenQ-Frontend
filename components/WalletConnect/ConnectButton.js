@@ -41,7 +41,7 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut, centerSty
   const profileRef = useRef();
 
   // Hooks
-  if (typeof useConnectOnLoad === 'function') {
+  if (nav && typeof useConnectOnLoad === 'function') {
     const connectOnLoad = useConnectOnLoad(); // See [useEagerConnect](../../hooks/useEagerConnect.js)
 
     if (typeof connectOnLoad === 'function') {
