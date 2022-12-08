@@ -16,7 +16,7 @@ const AddContestParams = () => {
   const setFinalTierVolumes = (tierVolumes) => {
     const dispatch = {
       payload: tierVolumes,
-      type: 'SET_FINAL_TIER_VOLUMES',
+      type: 'UPDATE_FINAL_TIER_VOLUMES',
     };
     mintDispatch(dispatch);
   };

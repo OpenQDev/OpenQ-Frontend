@@ -14,7 +14,7 @@ const BountyModalHeading = ({ bounty, unWatchable, watchingState }) => {
               <span className='text-link-colour hover:underline cursor-pointer'>{bounty.owner}</span>
             </Link>
             {' / '}
-            <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/showcase/${bounty.owner}/${bounty.repoName}`}>
+            <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/repo/${bounty.owner}/${bounty.repoName}`}>
               <span className='text-link-colour hover:underline cursor-pointer'>{bounty.repoName}</span>
             </Link>
           </div>

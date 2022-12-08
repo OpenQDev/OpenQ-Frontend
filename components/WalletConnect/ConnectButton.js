@@ -57,7 +57,7 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut, centerSty
       }
     };
     createJazzicon();
-  }, [account, isOnCorrectNetwork, iconWrapper]);
+  }, [account, isOnCorrectNetwork, iconWrapper.current]);
 
   useEffect(() => {
     let handler = (event) => {

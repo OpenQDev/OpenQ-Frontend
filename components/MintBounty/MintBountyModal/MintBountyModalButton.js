@@ -32,6 +32,7 @@ const MintBountyModalButton = ({ currentSum, modalVisibility, setError }) => {
 
   const enableContest = category === 'Contest' ? sum == 100 : true;
   const [appState, dispatch] = useContext(StoreContext);
+  const { github } = appState.accountData;
   const { account, library, safe } = useWeb3();
   const router = useRouter();
   const readyToMint = enableMint && !issue?.closed && issue?.url.includes('/issues/') && !isLoading && enableContest;
@@ -113,6 +114,7 @@ const MintBountyModalButton = ({ currentSum, modalVisibility, setError }) => {
       );
       if (enableRegistration) {
         await appState.openQPrismaClient.setIsContest({
+          github,
           repositoryId: issue.repository.id,
           isContest: true,
           organizationId: issue.repository.owner.id,

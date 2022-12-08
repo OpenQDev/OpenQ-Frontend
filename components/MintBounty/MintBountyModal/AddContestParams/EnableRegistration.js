@@ -64,7 +64,7 @@ const EnableRegistration = () => {
             Start Date
           </label>
           <input
-            className={'flex-1 input-field w-full ml-2'}
+            className={'flex-1 input-field w-full'}
             id='start date'
             aria-label='Start Date'
             data-testid='start date'
@@ -79,7 +79,7 @@ const EnableRegistration = () => {
           </label>
 
           <input
-            className={'flex-1 input-field w-full ml-2'}
+            className={'flex-1 input-field w-full'}
             id='end date'
             placeholder='https://github.com/...'
             autoComplete='off'
