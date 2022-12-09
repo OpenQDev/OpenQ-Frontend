@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import TokenSearch from './TokenSearch';
 import Image from 'next/image';
 
-const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume, placeholder, label, styles }) => {
+const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume, placeholder, label, styles, small }) => {
   const [showTokenSearch, setShowTokenSearch] = useState(false);
 
   return (
     <div className={`flex space-x-4 w-full ${styles}`}>
-      <div className='flex w-52 flex-row justify-between items-center px-4 input-field-big'>
+      <div className={`flex ${small ? 'w-52' : 'w-full'} flex-row justify-between items-center px-4 input-field-big`}>
         <div className={' bg-dark-mode'}>
           <input
             aria-label={label || 'amount'}

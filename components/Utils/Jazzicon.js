@@ -11,9 +11,11 @@ const Jazzicon = ({ address, size, tooltipPosition, name }) => {
     }
   }, [address]);
   return (
-    <div data-testid='link' className={`cursor-pointer ${!address && 'w-9 h-9 mr-px'}`}>
+    <div data-testid='link' className={!address && 'w-9 h-9 mr-px'}>
       <ToolTipNew toolTipText={name || address} outerStyles={'relative bottom-2'} relativePosition={tooltipPosition}>
-        <div ref={iconWrapper}>{address}</div>
+        <div className='cursor-pointer' ref={iconWrapper}>
+          {address}
+        </div>
       </ToolTipNew>
     </div>
   );

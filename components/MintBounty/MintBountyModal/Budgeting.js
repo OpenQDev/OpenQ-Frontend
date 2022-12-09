@@ -57,6 +57,7 @@ const Budgeting = ({ category }) => {
           {budget ? (
             <div className='flex-1 w-full'>
               <TokenFundBox
+                small={true}
                 label='budget'
                 onCurrencySelect={onGoalCurrencySelect}
                 onVolumeChange={handleGoalChange}

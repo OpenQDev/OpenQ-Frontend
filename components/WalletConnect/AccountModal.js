@@ -78,23 +78,26 @@ const AccountModal = ({ chainId, account, ensName, setIsConnecting, domRef, isSa
           </div>
         </div>
       ) : (
-        <div className='flex mr-4 flex-col items-center'>
-          <div className='flex -mt-2 md:-mt-2 border-b-gray-700 tooltip-triangle absolute'></div>
-          <div className='flex z-40 -mt-1.5 md:-mt-1.5 border-b-[#161B22] tooltip-triangle absolute'></div>
+        <div className='flex mr-4 flex-col items-center relative right-7'>
+          <div className='flex -mt-2 md:-mt-2 border-b-gray-700 tooltip-triangle absolute left-10'></div>
+          <div className='flex z-40 -mt-1.5 md:-mt-1.5 border-b-[#161B22] tooltip-triangle absolute left-10'></div>
 
           <div
             ref={domRef}
-            className='flex absolute flex-col mt-0 pt-2 z-30 bg-[#161B22] w-40 tooltip border-gray-700 border rounded-sm p-0'
+            className='flex absolute flex-col mt-0 pt-2 z-30 bg-[#161B22] w-52 tooltip border-gray-700 border rounded-sm p-0'
           >
-            <div className='flex text-[#c9d1d9] items-center w-full h-8 p-2 mt-2 ml-2 m-0 gap-1'>
-              Sign in as{' '}
-              <Link
-                href={`https://github.com/${authState.login}`}
-                className='text-blue-500 hover:underline semi-bold'
-                target='_blank'
-              >
-                {authState.login}
-              </Link>
+            <div className='flex text-[#c9d1d9] justify-items-start items-center w-full h-8 p-3  m-0 gap-1'>
+              <span className='w-full text-left pl-1'>
+                {' '}
+                Signed in as{' '}
+                <Link
+                  href={`https://github.com/${authState.login}`}
+                  className='text-blue-500 hover:underline semi-bold'
+                  target='_blank'
+                >
+                  {authState.login}
+                </Link>
+              </span>
             </div>
             {!isSafeApp && (
               <div className='flex flex-col w-full'>

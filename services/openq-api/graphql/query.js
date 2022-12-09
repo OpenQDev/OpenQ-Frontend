@@ -421,6 +421,7 @@ export const BLACKLIST_ORGANIZATION = gql`
 
 export const SET_IS_CONTEST = gql`
   mutation setIsContest(
+    $github: String
     $repositoryId: String!
     $isContest: Boolean!
     $organizationId: String!

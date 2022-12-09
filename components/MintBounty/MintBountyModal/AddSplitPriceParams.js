@@ -36,6 +36,7 @@ const AddSplitPriceParams = () => {
       </div>
       <div className='flex-1 w-full'>
         <TokenFundBox
+          small={true}
           label='split'
           onCurrencySelect={onCurrencySelect}
           onVolumeChange={onVolumeChange}
