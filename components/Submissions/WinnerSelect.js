@@ -16,7 +16,8 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
   const [appState] = useContext(StoreContext);
   const { account, library } = useWeb3();
   const [user, setUser] = useState({});
-  const [closer, setCloser] = useState('');
+  const [closerAddress, setCloserAddress] = useState('');
+  const [closerGithubId, setCloserGithubId] = useState('');
   const [error, setError] = useState({});
   const zeroAddress = '0x0000000000000000000000000000000000000000';
   const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
@@ -36,10 +37,11 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
   useEffect(() => {
     const getAddress = async () => {
       const userId = pr.author.id;
+      setCloserGithubId(userId);
       if (library) {
-        const closer = await appState.openQClient.getAddressById(library, userId);
-        if (ethers.utils.isAddress(closer) && closer !== zeroAddress) {
-          setCloser(closer);
+        const closerAddress = await appState.openQClient.getAddressById(library, userId);
+        if (ethers.utils.isAddress(closerAddress) && closerAddress !== zeroAddress) {
+          setCloserAddress(closerAddress);
         }
       }
       setUser({ id: pr.author.id, login: pr.author.login });
@@ -53,7 +55,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
       const transaction = await appState.openQClient.claimBounty(
         library,
         bounty.bountyAddress,
-        closer,
+        closerGithubId,
         pr.url,
         tierIndex,
         user.id,
@@ -137,7 +139,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
       <ToolTip
         innerStyles={'  whitespace-pre-wrap'}
         relativePosition={'-right-4 w-32 md:right:auto md:w-60'}
-        hideToolTip={closer && isSolvent}
+        hideToolTip={closerAddress && isSolvent}
         toolTipText={
           isSolvent
             ? 'Winner needs to register their Github account on OpenQ with a wallet address before paying out.'
@@ -145,8 +147,8 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
         }
       >
         <button
-          disabled={!closer || disabled || !isSolvent}
-          className={closer && !disabled && isSolvent ? 'btn-primary' : 'btn-default cursor-not-allowed'}
+          disabled={!closerAddress || disabled || !isSolvent}
+          className={closerAddress && !disabled && isSolvent ? 'btn-primary' : 'btn-default cursor-not-allowed'}
           onClick={claimBounty}
         >
           Confirm
@@ -215,7 +217,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
                 </a>{' '}
                 challenge.
               </p>
-              {closer && closer != zeroAddress ? (
+              {closerAddress && closerAddress != zeroAddress ? (
                 <p className='my-2'>
                   This will automaticaly send{' '}
                   {bounty.bountyType === '2' ? prize.payout + '% of funds' : formatVolume(prize.payout) + unit} staked
@@ -224,7 +226,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
                     ? appState.utils.formatter.format((price * prize.payout) / 100)
                     : appState.utils.formatter.format(fixedPayoutValue?.total)}
                   ) to the author of this submission, at the following address:{' '}
-                  {`${closer.slice(0, 4)}...${closer.slice(39)}`} .
+                  {`${closerAddress.slice(0, 4)}...${closerAddress.slice(39)}`} .
                 </p>
               ) : (
                 <p className='my-2'>
@@ -244,8 +246,8 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
             <>
               <p className='my-2'>
                 {bounty.bountyType === '2' ? prize.payout + '% of funds' : formatVolume(prize.payout) + unit} staked on
-                this competition have been sent to {pr.author.name || pr.author.login} at {closer.slice(0, 4)}
-                ...{closer.slice(39)} .
+                this competition have been sent to {pr.author.name || pr.author.login} at {closerAddress.slice(0, 4)}
+                ...{closerAddress.slice(39)} .
               </p>
             </>
           )}

@@ -98,7 +98,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
         />
         <div className='w-full border-b h-px border-web-gray'></div>
         <div className='flex relative max-w-[1440px] w-full mx-auto'>
-          <div className='hidden lg:block max-w-[25%] border-web-gray pl-4 left-24 xl:left-20 relative left-24'>
+          <div className='hidden lg:block max-w-[25%] border-web-gray pl-4 xl:left-20 relative left-24'>
             {user ? (
               <div className='flex '>
                 <div className='flex items-center content-center relative top-4 xl:-top-4'>
