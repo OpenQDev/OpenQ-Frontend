@@ -2,17 +2,28 @@
 import React, { useEffect, useContext } from 'react';
 import { UserContext } from '../../lib/UserContext';
 import { useRouter } from 'next/router';
+import StoreContext from '../../store/Store/StoreContext';
 
 import { Magic } from 'magic-sdk';
 import { OAuthExtension } from '@magic-ext/oauth';
 
 function EmailAuth() {
-  const [, setUser] = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
   const router = useRouter();
+  const [appState] = useContext(StoreContext);
+  const { accountData } = appState;
+
+  console.log('accountData', accountData);
 
   useEffect(() => {
     finishEmailRedirectLogin();
   }, []);
+
+/*   useEffect(() => {
+    if (user) {
+      createOrUpdateUser();
+    }
+  }, [accountData, user]); */
 
   // `loginWithCredential()` returns a didToken for the user logging in
   const finishEmailRedirectLogin = () => {
@@ -47,7 +58,24 @@ function EmailAuth() {
       // Set the UserContext to the now logged in user
       let userMetadata = await magic.user.getMetadata();
       await setUser(userMetadata);
+      console.log('userMetadata', userMetadata);
+      createOrUpdateUser(userMetadata.email);
       router.push(process.env.NEXT_PUBLIC_BASE_URL);
+    }
+  };
+
+  const createOrUpdateUser = async (email) => {
+    if (!accountData) {
+      console.log('before email');
+      await appState.openQPrismaClient.upsertUser({ email });
+      console.log('after email');
+    } else {
+      console.log('before update');
+      const userId = accountData?.id;
+      console.log(userId);
+      // needs confirmation that email authenticated? i.e. No email_auth cookie found message
+      await appState.openQPrismaClient.updateUser({ email: email, id: userId });
+      console.log('after update');
     }
   };
 

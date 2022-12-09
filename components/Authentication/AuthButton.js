@@ -5,7 +5,7 @@ import AuthContext from '../../store/AuthStore/AuthContext';
 import SignOut from './SignOut';
 import SignIn from './SignIn';
 
-const AuthButton = ({ redirectUrl, propicUrl, className, hideSignOut }) => {
+const AuthButton = ({ redirectUrl, propicUrl, className, hideSignOut, signInStyle }) => {
   const [authState] = useContext(AuthContext);
   return (
     <div className={`w-full justify-center ${className}`}>
@@ -14,7 +14,7 @@ const AuthButton = ({ redirectUrl, propicUrl, className, hideSignOut }) => {
           <SignOut propicUrl={propicUrl} />
         ) : null
       ) : (
-        <SignIn redirectUrl={redirectUrl} />
+        <SignIn redirectUrl={redirectUrl} signInStyle={signInStyle} />
       )}
     </div>
   );

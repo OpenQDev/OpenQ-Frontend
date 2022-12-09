@@ -15,6 +15,7 @@ import { useRouter } from 'next/router';
 import useAuth from '../../hooks/useAuth';
 import ToolTipNew from '../Utils/ToolTipNew';
 import Image from 'next/image';
+import LoginModal from '../Authentication/LoginModal';
 // import axios from 'axios';
 
 const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut, centerStyles }) => {
@@ -34,6 +35,7 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut, centerSty
     account: account,
   });
   const [showAccountModal, setShowAccountModal] = useState();
+  const [showLoginModal, setShowLoginModal] = useState(true);
   const [showProfileModal, setShowProfileModal] = useState();
   const iconWrapper = useRef();
   const modalRef = useRef();
@@ -92,6 +94,15 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut, centerSty
     dispatch(payload);
   };
 
+  const closeLoginModal = () => {
+    setShowLoginModal(false);
+    /* const payload = {
+      type: '',
+      payload: false,
+    };
+    dispatch(payload); */
+  };
+
   const addOrSwitchNetwork = () => {
     window.ethereum
       .request({
@@ -104,6 +115,7 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut, centerSty
   // Render
   return (
     <>
+      {showLoginModal && <LoginModal closeModal={closeLoginModal} setShowModal={setShowLoginModal} />}
       {needsGithub && !authState.isAuthenticated ? (
         <AuthButton redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}` + router.asPath} hideSignOut={hideSignOut} />
       ) : (
