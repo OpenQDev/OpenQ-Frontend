@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
-import OpenQABI from '../../artifacts/contracts/OpenQ/Implementations/OpenQV2.sol/OpenQV2.json';
-import DepositManagerABI from '../../artifacts/contracts/DepositManager/DepositManager.sol/DepositManager.json';
+import OpenQABI from '../../artifacts/contracts/OpenQ/Implementations/OpenQV3.sol/OpenQV3.json';
+import DepositManagerABI from '../../artifacts/contracts/DepositManager/DepositManagerV2.sol/DepositManagerV2.json';
 import ClaimManagerAbi from '../../artifacts/contracts/ClaimManager/Implementations/ClaimManagerV2.sol/ClaimManagerV2.json';
 
 import ERC20ABI from '../../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json';
