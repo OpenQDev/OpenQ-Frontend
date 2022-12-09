@@ -39,10 +39,11 @@ function GitHubAuth() {
             if (!fullApiUser) {
               const id = await appState.openQPrismaClient.upsertUser({ github });
               fullApiUser.id = id;
+              setUserId(id);
+            } else {
+              // once this is set, it should trigger the redirect to /user/userId
+              setUserId(fullApiUser.id);
             }
-
-            // once this is set, it should trigger the redirect to /user/userId
-            setUserId(fullApiUser.id);
           } catch (error) {
             console.error(error);
           }

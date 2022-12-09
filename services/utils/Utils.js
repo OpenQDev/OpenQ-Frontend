@@ -306,6 +306,9 @@ class Utils {
     let subgraphContracts = [];
     let githubIssues = [];
     let prismaContracts = [];
+    if (!accountData.email && !accountData.github) {
+      return [[]];
+    }
     try {
       const prismaResult = await openQPrismaClient.getUser(accountData, types, category, { fetchPolicy: 'no-cache' });
       prismaContracts = prismaResult?.watchedBounties.nodes || [];

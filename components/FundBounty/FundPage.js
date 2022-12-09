@@ -32,6 +32,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
   const [allowance, setAllowance] = useState();
   const [pickedNft, setPickedNft] = useState();
   const [nftTier, setNftTier] = useState('');
+  const [appState] = useContext(StoreContext);
+  const { accountData } = appState;
   const zeroAddressMetadata = {
     name: 'Matic',
     address: '0x0000000000000000000000000000000000000000',
@@ -41,7 +43,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
     path: 'https://wallet-asset.matic.network/img/tokens/matic.svg',
   };
   // Context
-  const [appState] = useContext(StoreContext);
   const { logger, openQClient, utils } = appState;
   const { library, account } = useWeb3();
 
@@ -128,7 +129,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
       setTransactionHash,
       setSuccessMessage,
       refreshBounty,
-      error
+      error,
+      accountData.id
     );
   };
 

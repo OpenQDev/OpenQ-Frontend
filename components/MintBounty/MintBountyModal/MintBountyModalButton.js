@@ -27,6 +27,7 @@ const MintBountyModalButton = ({ currentSum, modalVisibility, setError }) => {
     isLoading,
     issue,
     enableMint,
+    invoiceable,
   } = mintState;
   const sum = finalTierVolumes.reduce((a, b) => a + b);
 
@@ -110,6 +111,7 @@ const MintBountyModalButton = ({ currentSum, modalVisibility, setError }) => {
         issue.id,
         issue.repository.owner.id,
         category,
+        invoiceable,
         data
       );
       if (enableRegistration) {

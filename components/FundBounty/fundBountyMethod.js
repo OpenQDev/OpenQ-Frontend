@@ -121,7 +121,8 @@ const fundBounty = async (
   account,
   volume,
   setError,
-  setButtonText
+  setButtonText,
+  uuid
 ) => {
   setApproveTransferState(TRANSFERRING);
   try {
@@ -130,7 +131,8 @@ const fundBounty = async (
       bounty.bountyAddress,
       token.address,
       bigNumberVolumeInWei,
-      depositPeriodDays
+      depositPeriodDays,
+      uuid
     );
     setTransactionHash(fundTxnReceipt.events[0].transactionHash);
     setApproveTransferState(SUCCESS);
@@ -230,7 +232,8 @@ const fundBountyMethod = async (
   setTransactionHash,
   setSuccessMessage,
   refreshBounty,
-  error
+  error,
+  uuid
 ) => {
   const volumeInWei = volume * 10 ** token.decimals;
   const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', { useGrouping: false }));
@@ -281,7 +284,8 @@ const fundBountyMethod = async (
         account,
         volume,
         setError,
-        setButtonText
+        setButtonText,
+        uuid
       );
     }
   } else {
