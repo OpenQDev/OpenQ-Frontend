@@ -3,6 +3,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../lib/UserContext';
 import { Magic } from 'magic-sdk';
 import { OAuthExtension } from '@magic-ext/oauth';
+import { MailIcon } from '@primer/octicons-react';
 
 const EmailLogin = () => {
   const [user, setUser] = useContext(UserContext);
@@ -54,17 +55,43 @@ const EmailLogin = () => {
       console.log(error);
     }
   }
-
+  console.log(user);
   return (
     <>
-      <input placeholder='Enter your email' size='sm' value={email} onChange={(e) => setEmail(e.target.value)} />
-      <button disabled={disabled} onClick={handleLoginWithEmail}>
-        Sign In With Email
-      </button>
-      <button disabled={disabled} onClick={logout}>
-        Logout
-      </button>
-      <div>{JSON.stringify(user)}</div>
+      {!user ? (
+        <div className='flex flex-col md:flex-row gap-4 md:items-center'>
+          <div>Sign in with your email address: </div>
+          <input
+            className='input-field h-full w-52'
+            placeholder='Enter your email'
+            size='sm'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <button
+            className='flex items-center whitespace-nowrap gap-3 btn-primary'
+            disabled={disabled}
+            onClick={handleLoginWithEmail}
+          >
+            <MailIcon size={20} />
+            Sign In
+          </button>
+        </div>
+      ) : (
+        <div className='flex flex-col md:flex-row md:items-center gap-4 '>
+          <div className='flex gap-2'>
+            You are logged in as <div className='text-blue-500'>{user.email}</div>
+          </div>
+          <button
+            className='flex items-center whitespace-nowrap gap-3 btn-default'
+            disabled={disabled}
+            onClick={logout}
+          >
+            <MailIcon size={20} />
+            Logout
+          </button>
+        </div>
+      )}
     </>
   );
 };
