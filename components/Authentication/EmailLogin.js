@@ -21,7 +21,7 @@ const EmailLogin = () => {
 
   const logout = () => {
     magic.user.logout().then(() => {
-      setUser({ user: null });
+      setUser(null);
     });
   };
 
@@ -47,15 +47,15 @@ const EmailLogin = () => {
       if (res.status === 200) {
         // Set the UserContext to the now logged in user
         let userMetadata = await magic.user.getMetadata();
-        console.log(userMetadata);
         await setUser(userMetadata);
+        setDisabled(false);
       }
     } catch (error) {
       setDisabled(false); // re-enable login button - user may have requested to edit their email
       console.log(error);
     }
   }
-  console.log(user);
+
   return (
     <>
       {!user ? (
@@ -83,7 +83,9 @@ const EmailLogin = () => {
             You are logged in as <div className='text-blue-500'>{user.email}</div>
           </div>
           <button
-            className='flex items-center whitespace-nowrap gap-3 btn-default'
+            className={`flex items-center whitespace-nowrap gap-3 btn-default ${
+              disabled ? 'cursor-not-allowed' : 'cursor-pointer'
+            }`}
             disabled={disabled}
             onClick={logout}
           >

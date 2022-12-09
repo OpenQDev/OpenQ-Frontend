@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import useWeb3 from '../../hooks/useWeb3';
+import React from 'react';
 import ModalLarge from '../Utils/ModalLarge';
 import EmailLogin from './EmailLogin';
 import AuthButton from './AuthButton';
@@ -8,15 +7,8 @@ import useAuth from '../../hooks/useAuth';
 import Image from 'next/image';
 
 const LoginModal = ({ closeModal, setShowModal }) => {
-  const { account } = useWeb3();
   const router = useRouter();
   const [authState] = useAuth();
-
-  useEffect(() => {
-    if (account) {
-      closeModal();
-    }
-  }, [account]);
 
   const btn = (
     <button onClick={closeModal} className='btn-default w-full'>

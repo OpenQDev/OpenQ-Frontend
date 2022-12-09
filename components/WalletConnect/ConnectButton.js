@@ -35,7 +35,7 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut, centerSty
     account: account,
   });
   const [showAccountModal, setShowAccountModal] = useState();
-  const [showLoginModal, setShowLoginModal] = useState();
+  const [showLoginModal, setShowLoginModal] = useState(true);
   const [showProfileModal, setShowProfileModal] = useState();
   const iconWrapper = useRef();
   const modalRef = useRef();
@@ -115,7 +115,7 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut, centerSty
   // Render
   return (
     <>
-      {/* showLoginModal &&  */<LoginModal closeModal={closeLoginModal} setShowModal={setShowLoginModal} />}
+      {showLoginModal && <LoginModal closeModal={closeLoginModal} setShowModal={setShowLoginModal} />}
       {needsGithub && !authState.isAuthenticated ? (
         <AuthButton redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}` + router.asPath} hideSignOut={hideSignOut} />
       ) : (
