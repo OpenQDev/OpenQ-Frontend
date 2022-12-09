@@ -19,11 +19,11 @@ function EmailAuth() {
     finishEmailRedirectLogin();
   }, []);
 
-  useEffect(() => {
+/*   useEffect(() => {
     if (user) {
       createOrUpdateUser();
     }
-  }, [accountData, user]);
+  }, [accountData, user]); */
 
   // `loginWithCredential()` returns a didToken for the user logging in
   const finishEmailRedirectLogin = () => {
@@ -58,12 +58,13 @@ function EmailAuth() {
       // Set the UserContext to the now logged in user
       let userMetadata = await magic.user.getMetadata();
       await setUser(userMetadata);
+      console.log('userMetadata', userMetadata);
+      createOrUpdateUser(userMetadata.email);
       router.push(process.env.NEXT_PUBLIC_BASE_URL);
     }
   };
 
-  const createOrUpdateUser = async () => {
-    const email = user.email;
+  const createOrUpdateUser = async (email) => {
     if (!accountData) {
       console.log('before email');
       await appState.openQPrismaClient.upsertUser({ email });
