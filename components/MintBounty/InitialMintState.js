@@ -17,7 +17,7 @@ const InitialMintState = {
   startDate: null,
   sum: 0,
   hideModal: false,
-
+  invoiceable: false,
   goalVolume: '',
   goalToken: zeroAddressMetadata,
 };

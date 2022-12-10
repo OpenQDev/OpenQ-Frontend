@@ -113,6 +113,10 @@ export const getServerSideProps = async (context) => {
     userGithubData = await githubRepository.instance.fetchUserById(userOffChainData.github);
   } catch (err) {
     logger.error(err);
+    const stringifiedErr = JSON.stringify(err);
+    if (stringifiedErr.includes('401')) {
+      return { props: { renderError: stringifiedErr } };
+    }
     return { props: { renderError: `${userOffChainData.github} is not a valid GitHub ID.` } };
   }
 

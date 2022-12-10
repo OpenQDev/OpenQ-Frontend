@@ -70,7 +70,8 @@ class OpenQClient {
     return signature;
   };
 
-  async mintBounty(library, issueId, organization, type, data) {
+  mintBounty = async (library, issueId, organization, type, invoiceable, data) => {
+    const kycRequired = false;
     const promise = new Promise(async (resolve, reject) => {
       let bountyInitOperation;
       let abiCoder = new ethers.utils.AbiCoder();
@@ -84,8 +85,8 @@ class OpenQClient {
           {
             let abiCoder = new ethers.utils.AbiCoder();
             const fundingGoalBountyParams = abiCoder.encode(
-              ['bool', 'address', 'uint256'],
-              [hasFundingGoal, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]
+              ['bool', 'address', 'uint256', 'bool', 'bool'],
+              [hasFundingGoal, data.fundingTokenAddress.address, fundBigNumberVolumeInWei, invoiceable, kycRequired]
             );
             bountyInitOperation = [0, fundingGoalBountyParams];
           }
@@ -99,13 +100,15 @@ class OpenQClient {
               })
             );
             const ongoingAbiEncodedParams = abiCoder.encode(
-              ['address', 'uint256', 'bool', 'address', 'uint256'],
+              ['address', 'uint256', 'bool', 'address', 'uint256', 'bool', 'bool'],
               [
                 data.payoutToken.address,
                 payoutBigNumberVolumeInWei,
                 hasFundingGoal,
                 data.fundingTokenAddress.address,
                 fundBigNumberVolumeInWei,
+                invoiceable,
+                kycRequired,
               ]
             );
             bountyInitOperation = [1, ongoingAbiEncodedParams];
@@ -114,8 +117,16 @@ class OpenQClient {
         case 'Contest':
           {
             const tieredAbiEncodedParams = abiCoder.encode(
-              ['uint256[]', 'bool', 'address', 'uint256'],
-              [data.tiers, hasFundingGoal, data.fundingTokenAddress.address, fundBigNumberVolumeInWei]
+              ['uint256[]', 'bool', 'address', 'uint256', 'bool', 'bool'],
+              [
+                data.tiers,
+                hasFundingGoal,
+                data.fundingTokenAddress.address,
+                fundBigNumberVolumeInWei,
+
+                invoiceable,
+                kycRequired,
+              ]
             );
             bountyInitOperation = [2, tieredAbiEncodedParams];
           }
@@ -147,20 +158,20 @@ class OpenQClient {
       const contract = this.OpenQ(signer);
       try {
         const txnResponse = await contract.mintBounty(issueId, organization, bountyInitOperation);
+
         const txnReceipt = await txnResponse.wait();
         const bountyAddress = txnReceipt.events.find((eventObj) => eventObj.event === 'BountyCreated').args
           .bountyAddress;
         resolve({ bountyAddress, txnReceipt });
       } catch (err) {
-        reject('err', err);
         reject(err);
       }
     });
     return promise;
-  }
+  };
 
   // setFunding inspired by fundBounty
-  async setFundingGoal(library, _bountyId, _fundingGoalToken, _fundingGoalVolume) {
+  setFundingGoal = async (library, _bountyId, _fundingGoalToken, _fundingGoalVolume) => {
     const promise = new Promise(async (resolve, reject) => {
       const volumeInWei = _fundingGoalVolume * 10 ** _fundingGoalToken.decimals;
       const bigNumberVolumeInWei = ethers.BigNumber.from(
@@ -179,9 +190,9 @@ class OpenQClient {
       }
     });
     return promise;
-  }
+  };
 
-  async setPayout(library, _bountyId, _payoutToken, _payoutVolume) {
+  setPayout = async (library, _bountyId, _payoutToken, _payoutVolume) => {
     const promise = new Promise(async (resolve, reject) => {
       const volumeInWei = _payoutVolume * 10 ** _payoutToken.decimals;
       const bigNumberVolumeInWei = ethers.BigNumber.from(
@@ -200,9 +211,9 @@ class OpenQClient {
       }
     });
     return promise;
-  }
+  };
 
-  async setPayoutSchedule(library, _bountyId, _payoutSchedule) {
+  setPayoutSchedule = async (library, _bountyId, _payoutSchedule) => {
     const promise = new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
       const contract = this.OpenQ(signer);
@@ -217,9 +228,9 @@ class OpenQClient {
       }
     });
     return promise;
-  }
+  };
 
-  async setPayoutScheduleFixed(library, _bountyId, _payoutSchedule, _payoutToken) {
+  setPayoutScheduleFixed = async (library, _bountyId, _payoutSchedule, _payoutToken) => {
     const tierVolumesInWei = _payoutSchedule.map((tier) => {
       const payoutVolumeInWei = tier * 10 ** _payoutToken.decimals;
       const payoutBigNumberVolumeInWei = ethers.BigNumber.from(
@@ -243,9 +254,9 @@ class OpenQClient {
       }
     });
     return promise;
-  }
+  };
 
-  async approve(library, _bountyAddress, _tokenAddress, _value) {
+  approve = async (library, _bountyAddress, _tokenAddress, _value) => {
     const promise = new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
 
@@ -259,8 +270,8 @@ class OpenQClient {
       }
     });
     return promise;
-  }
-  async approveNFT(library, _bountyAddress, _tokenAddress, _tokenId) {
+  };
+  approveNFT = async (library, _bountyAddress, _tokenAddress, _tokenId) => {
     const promise = new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
 
@@ -274,9 +285,9 @@ class OpenQClient {
       }
     });
     return promise;
-  }
+  };
 
-  async allowance(library, _callerAddress, _tokenAddress, _bountyAddress) {
+  allowance = async (library, _callerAddress, _tokenAddress, _bountyAddress) => {
     const promise = new Promise(async (resolve) => {
       try {
         const signer = library.getSigner();
@@ -288,9 +299,9 @@ class OpenQClient {
       }
     });
     return promise;
-  }
+  };
 
-  async balanceOf(library, _callerAddress, _tokenAddress) {
+  balanceOf = async (library, _callerAddress, _tokenAddress) => {
     const promise = new Promise(async (resolve, reject) => {
       const signer = library?.getSigner();
       if (!signer) {
@@ -310,9 +321,9 @@ class OpenQClient {
       }
     });
     return promise;
-  }
+  };
 
-  async userOwnedTokenBalances(library, _callerAddress, tokens) {
+  userOwnedTokenBalances = async (library, _callerAddress, tokens) => {
     const promise = new Promise(async (resolve) => {
       const tokensInWallet = [];
       tokens.forEach(async (token) => {
@@ -322,9 +333,9 @@ class OpenQClient {
     });
 
     return promise;
-  }
+  };
 
-  async userBalanceForToken(library, token, _callerAddress) {
+  userBalanceForToken = async (library, token, _callerAddress) => {
     const signer = library.getSigner();
     const zero = ethers.BigNumber.from(0);
 
@@ -348,9 +359,9 @@ class OpenQClient {
     });
 
     return promise;
-  }
+  };
 
-  async getENS(_callerAddress) {
+  getENS = async (_callerAddress) => {
     let promise = new Promise(async (resolve) => {
       let ensName;
       try {
@@ -367,9 +378,9 @@ class OpenQClient {
       }
     });
     return promise;
-  }
+  };
 
-  async fundBounty(library, _bountyAddress, _tokenAddress, _value, _depositPeriodDays) {
+  fundBounty = async (library, _bountyAddress, _tokenAddress, _value, _depositPeriodDays, uuid = '') => {
     const promise = new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
       const contract = this.DepositManager(signer);
@@ -380,11 +391,11 @@ class OpenQClient {
         let txnReceipt;
 
         if (_tokenAddress == ethers.constants.AddressZero) {
-          txnResponse = await contract.fundBountyToken(_bountyAddress, _tokenAddress, _value, expiration, {
+          txnResponse = await contract.fundBountyToken(_bountyAddress, _tokenAddress, _value, expiration, uuid, {
             value: _value,
           });
         } else {
-          txnResponse = await contract.fundBountyToken(_bountyAddress, _tokenAddress, _value, expiration);
+          txnResponse = await contract.fundBountyToken(_bountyAddress, _tokenAddress, _value, expiration, uuid);
         }
         txnReceipt = await txnResponse.wait();
         resolve(txnReceipt);
@@ -393,9 +404,9 @@ class OpenQClient {
       }
     });
     return promise;
-  }
+  };
 
-  async getNFT(library, _tokenAddress, _tokenId) {
+  getNFT = async (library, _tokenAddress, _tokenId) => {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const signer = library.getSigner();
@@ -407,9 +418,9 @@ class OpenQClient {
       }
     });
     return promise;
-  }
+  };
 
-  async fundBountyWithNft(library, _bountyAddress, _tokenAddress, _tokenId, _depositPeriodDays) {
+  fundBountyWithNft = async (library, _bountyAddress, _tokenAddress, _tokenId, _depositPeriodDays) => {
     const promise = new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
       const contract = this.DepositManager(signer);
@@ -428,7 +439,7 @@ class OpenQClient {
       }
     });
     return promise;
-  }
+  };
 
   /**
    *
@@ -440,7 +451,7 @@ class OpenQClient {
    * @returns {promise}
    */
 
-  async claimBounty(library, _bountyAddress, _closer, _claimantAsset, _tier, _externalUserId, _externalUserName) {
+  claimBounty = async (library, _bountyAddress, _closer, _claimantAsset, _tier, _externalUserId, _externalUserName) => {
     return new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
       const contract = this.ClaimManager(signer);
@@ -461,9 +472,9 @@ class OpenQClient {
         reject(error);
       }
     });
-  }
+  };
 
-  async getAddressById(library, externalUserId) {
+  getAddressById = async (library, externalUserId) => {
     return new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
       const contract = this.OpenQ(signer);
@@ -475,9 +486,9 @@ class OpenQClient {
         reject(error);
       }
     });
-  }
+  };
 
-  async getExternalUserIdByAddress(library, userAddress) {
+  getExternalUserIdByAddress = async (library, userAddress) => {
     return new Promise(async (resolve) => {
       const signer = library.getSigner();
       const contract = this.OpenQ(signer);
@@ -488,9 +499,9 @@ class OpenQClient {
         resolve(null);
       }
     });
-  }
+  };
 
-  async closeOngoing(library, _bountyId) {
+  closeOngoing = async (library, _bountyId) => {
     const promise = new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
 
@@ -504,9 +515,9 @@ class OpenQClient {
       }
     });
     return promise;
-  }
+  };
 
-  async extendDeposit(library, _bountyAddress, _depositId, _depositPeriodDays) {
+  extendDeposit = async (library, _bountyAddress, _depositId, _depositPeriodDays) => {
     const promise = new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
       const contract = this.DepositManager(signer);
@@ -520,9 +531,9 @@ class OpenQClient {
       }
     });
     return promise;
-  }
+  };
 
-  async refundDeposit(library, _bountyAddress, _depositId) {
+  refundDeposit = async (library, _bountyAddress, _depositId) => {
     const promise = new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
       const contract = this.DepositManager(signer);
@@ -535,9 +546,9 @@ class OpenQClient {
       }
     });
     return promise;
-  }
+  };
 
-  async tokenAddressLimitReached(library, _bountyAddress) {
+  tokenAddressLimitReached = async (library, _bountyAddress) => {
     const promise = new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
       const contract = this.DepositManager(signer);
@@ -549,9 +560,9 @@ class OpenQClient {
       }
     });
     return promise;
-  }
+  };
 
-  async isWhitelisted(library, tokenAddress) {
+  isWhitelisted = async (library, tokenAddress) => {
     const promise = new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
       const contract = this.DepositManager(signer);
@@ -563,7 +574,7 @@ class OpenQClient {
       }
     });
     return promise;
-  }
+  };
 
   fetchNfts = async (library, account) => {
     return new Promise(async (resolve, reject) => {

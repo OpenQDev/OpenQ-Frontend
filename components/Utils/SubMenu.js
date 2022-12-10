@@ -4,7 +4,7 @@ const SubMenu = ({ updatePage, internalMenu, items, styles, colour, vertical }) 
   return (
     <div
       className={`px-2 ${!vertical ? 'sm:px-8' : 'px-0'} text-primary  w-full flex ${
-        vertical ? 'flex-col gap-2' : 'h-12 overflow-x-auto border-web-gray border-b items-center'
+        vertical ? 'flex-col gap-2' : 'h-12 overflow-x-auto overflow-y-hidden border-web-gray border-b items-center'
       }  gap-x-1 md:gap-x-4 relative ${styles} `}
     >
       {items.map((item, index) => (

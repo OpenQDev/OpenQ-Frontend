@@ -150,6 +150,7 @@ export const GET_USER_BY_ID = gql`
         bio
         email
         id
+        websiteUrl
         url
         avatarUrl
         twitterUsername

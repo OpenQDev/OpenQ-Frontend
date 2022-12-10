@@ -11,7 +11,6 @@ const useGetValueFromComposite = (address, volume) => {
     if (JSON.stringify(tokenBalance) !== '{}' && address && tokenBalance) {
       try {
         const value = await appState.tokenClient.parseTokenValues(tokenBalance);
-
         return value;
       } catch (err) {
         console.log(err);
