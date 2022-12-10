@@ -54,6 +54,7 @@ const userId = ({ user, organizations, renderError }) => {
     };
     getOffChainData();
   }, []);
+	
   return (
     <div className=' gap-4 justify-center pt-6'>
       {user ? (

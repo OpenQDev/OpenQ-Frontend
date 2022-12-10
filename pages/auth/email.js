@@ -58,7 +58,6 @@ function EmailAuth() {
       // Set the UserContext to the now logged in user
       let userMetadata = await magic.user.getMetadata();
       await setUser(userMetadata);
-      console.log('userMetadata', userMetadata);
       createOrUpdateUser(userMetadata.email);
       router.push(process.env.NEXT_PUBLIC_BASE_URL);
     }

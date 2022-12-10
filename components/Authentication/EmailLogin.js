@@ -9,7 +9,7 @@ const EmailLogin = () => {
   const [user, setUser] = useContext(UserContext);
   const [magic, setMagic] = useState(null);
   const [disabled, setDisabled] = useState(false);
-  const [email, setEmail] = useState(null);
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
     let newMagic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
