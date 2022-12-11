@@ -16,6 +16,8 @@ import useAuth from '../../hooks/useAuth';
 import ToolTipNew from '../Utils/ToolTipNew';
 import Image from 'next/image';
 import LoginModal from '../Authentication/LoginModal';
+import Signup from '../Authentication/Signup';
+import LogIn from '../Authentication/LogIn';
 // import axios from 'axios';
 
 const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut, centerStyles }) => {
@@ -117,7 +119,10 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut, centerSty
     <>
       {/* {showLoginModal && <LoginModal closeModal={closeLoginModal} setShowModal={setShowLoginModal} />} */}
       {needsGithub && !authState.isAuthenticated ? (
-        <AuthButton redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}` + router.asPath} hideSignOut={hideSignOut} />
+        <div>
+          <Signup />
+          <LogIn />
+        </div>
       ) : (
         <div className='flex items-center'>
           {account && isOnCorrectNetwork ? (

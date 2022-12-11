@@ -103,15 +103,20 @@ export const getServerSideProps = async (context) => {
   let starredOrganizations = [];
   let userOffChainData = {};
   let userGithubData = {};
+  let userOnChainData = {};
 
   try {
     // 1. We fetch the API user using the userId we get from the URL
     userOffChainData = await openQPrismaClient.instance.getPublicUserById(userId);
+    if (!userOffChainData) {
+      // This is where we should throw a 404
+      return { props: { renderError: `User with id ${userId} not found.` } };
+    }
   } catch (err) {
     logger.error(err);
   }
 
-	const userHasAssociatedGithub = userOffChainData.github;
+  const userHasAssociatedGithub = userOffChainData.github;
   if (userHasAssociatedGithub) {
     try {
       // 2. We fetch the Github user using the userId we get from the URL (IF IT'S A GITHUB USER!)
@@ -124,32 +129,37 @@ export const getServerSideProps = async (context) => {
       }
       return { props: { renderError: `${userOffChainData.github} is not a valid GitHub ID.` } };
     }
-  }
 
-  try {
-    // 3. We fetch the on-chain user address if they have registered using the externalUserId (AKA githubId)
-    // userOnChainData.id is the address of the user
-    const userOnChainData = await openQSubgraphClient.instance.getUserByGithubId(userOffChainData.github);
     try {
-      let provider = new ethers.providers.InfuraProvider('homestead', process.env.INFURA_PROJECT_ID);
+      // 3. We fetch the on-chain user address if they have registered using the externalUserId (AKA githubId)
+      // userOnChainData.id is the address of the user
+      userOnChainData = await openQSubgraphClient.instance.getUserByGithubId(userOffChainData.github);
+      try {
+        let provider = new ethers.providers.InfuraProvider('homestead', process.env.INFURA_PROJECT_ID);
 
-      // 4. We use the address to resolve the ENS name
-      userId = await provider.resolveName(userOnChainData.id);
+        // 4. We use the address to resolve the ENS name
+        userId = await provider.resolveName(userOnChainData.id);
+      } catch (err) {
+        logger.error(err);
+      }
+
+      // 5. If user closed issues, get relevant issueIds and organizations
+      try {
+        const issueIds = userOnChainData.bountiesClosed?.map((bounty) => bounty.bountyId);
+        if (issueIds) organizations = await githubRepository.instance.parseOrgIssues(issueIds);
+      } catch (err) {
+        console.error('could not fetch organizations');
+      }
+      // NOTE: The order of the spread is important here. We want to override the Github user avatarUrl with the one from the database
+      // For email users, they get an auto-assigned anonymous profile picture for email
+      // For Github users, we want to default to their Github profile picture
+      // For other users, they may want to set their own profile picture in the database
     } catch (err) {
       logger.error(err);
     }
-
-    // 5. If user closed issues, get relevant issueIds and organizations
-    try {
-      const issueIds = userOnChainData.bountiesClosed?.map((bounty) => bounty.bountyId);
-      if (issueIds) organizations = await githubRepository.instance.parseOrgIssues(issueIds);
-    } catch (err) {
-      console.error('could not fetch organizations');
-    }
-    user = { ...userGithubData, ...user, ...userOnChainData, ...userOffChainData };
-  } catch (err) {
-    logger.error(err);
   }
+
+  user = { ...user, ...userGithubData, ...userOffChainData, ...userOnChainData };
 
   return {
     props: { user, organizations, renderError, starredOrganizations, oauthToken },

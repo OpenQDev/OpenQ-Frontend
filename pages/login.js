@@ -6,9 +6,11 @@ const Login = () => {
   return (
     <div className='flex fixed inset-0 justify-center items-center h-screen mt-16'>
       <div className='text-2xl'>
-        <EmailLogin />
-        <br />
         <GithubSignIn redirectUrl={'/'} signInStyle={'btn-primary'} />
+        <br />
+        <div className='or text-center'>- OR -</div>
+        <br />
+        <EmailLogin />
       </div>
     </div>
   );

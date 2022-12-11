@@ -32,8 +32,8 @@ const EmailLogin = () => {
       .get(`${process.env.NEXT_PUBLIC_AUTH_URL}/logout`, {
         withCredentials: true,
       })
-      .then((res) => {
-        console.log('Sign out success. Cookies cleared.')
+      .then(() => {
+        console.log('Sign out success. Cookies cleared.');
       })
       .catch((error) => {
         console.error(error);
