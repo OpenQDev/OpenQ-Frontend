@@ -4,6 +4,7 @@ import { UserContext } from '../../lib/UserContext';
 import { Magic } from 'magic-sdk';
 import { OAuthExtension } from '@magic-ext/oauth';
 import { MailIcon } from '@primer/octicons-react';
+import axios from 'axios';
 
 const EmailLogin = () => {
   const [user, setUser] = useContext(UserContext);
@@ -22,7 +23,21 @@ const EmailLogin = () => {
   const logout = () => {
     magic.user.logout().then(() => {
       setUser(null);
+      signOut();
     });
+  };
+
+  const signOut = () => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_AUTH_URL}/logout`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log('Sign out success. Cookies cleared.')
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   async function handleLoginWithEmail() {
@@ -47,11 +62,12 @@ const EmailLogin = () => {
       if (res.status === 200) {
         // Set the UserContext to the now logged in user
         let userMetadata = await magic.user.getMetadata();
+        console.log('userMetadata', userMetadata);
         await setUser(userMetadata);
         setDisabled(false);
       }
     } catch (error) {
-      setDisabled(false); // re-enable login button - user may have requested to edit their email
+      setDisabled(false);
       console.log(error);
     }
   }

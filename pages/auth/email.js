@@ -3,6 +3,7 @@ import React, { useEffect, useContext } from 'react';
 import { UserContext } from '../../lib/UserContext';
 import { useRouter } from 'next/router';
 import StoreContext from '../../store/Store/StoreContext';
+import axios from 'axios';
 
 import { Magic } from 'magic-sdk';
 import { OAuthExtension } from '@magic-ext/oauth';
@@ -11,21 +12,11 @@ function EmailAuth() {
   const [, setUser] = useContext(UserContext);
   const router = useRouter();
   const [appState] = useContext(StoreContext);
-  const { accountData } = appState;
-
-  console.log('accountData', accountData);
 
   useEffect(() => {
     finishEmailRedirectLogin();
   }, []);
 
-  /*   useEffect(() => {
-    if (user) {
-      createOrUpdateUser();
-    }
-  }, [accountData, user]); */
-
-  // `loginWithCredential()` returns a didToken for the user logging in
   const finishEmailRedirectLogin = () => {
     let magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
       extensions: [new OAuthExtension()],
@@ -37,45 +28,30 @@ function EmailAuth() {
     if (magicCredential) magic.auth.loginWithCredential().then((didToken) => authenticateWithServer(didToken));
   };
 
-  // Send token to server to validate
   const authenticateWithServer = async (didToken) => {
-    console.log('didToken', didToken);
-    let res = await fetch(`${process.env.NEXT_PUBLIC_AUTH_URL}/api/login`, {
+    let res = await axios({
       method: 'POST',
+      url: `${process.env.NEXT_PUBLIC_AUTH_URL}/api/login`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + didToken,
       },
+      withCredentials: true,
     });
-
-    console.log('res', res);
-    console.log('res.status', res.status);
 
     if (res.status === 200) {
       let magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
         extensions: [new OAuthExtension()],
       });
-      // Set the UserContext to the now logged in user
       let userMetadata = await magic.user.getMetadata();
       await setUser(userMetadata);
-      createOrUpdateUser(userMetadata.email);
-      router.push(process.env.NEXT_PUBLIC_BASE_URL);
+      upsertUser(userMetadata.email);
     }
   };
 
-  const createOrUpdateUser = async (email) => {
-    if (!accountData) {
-      console.log('before email');
-      await appState.openQPrismaClient.upsertUser({ email });
-      console.log('after email');
-    } else {
-      console.log('before update');
-      const userId = accountData?.id;
-      console.log(userId);
-      // needs confirmation that email authenticated? i.e. No email_auth cookie found message
-      await appState.openQPrismaClient.updateUser({ email: email, id: userId });
-      console.log('after update');
-    }
+  const upsertUser = async (email) => {
+    const { id } = await appState.openQPrismaClient.upsertUser({ email });
+    router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${id}`);
   };
 
   return (

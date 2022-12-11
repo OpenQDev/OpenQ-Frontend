@@ -248,7 +248,7 @@ class OpenQPrismaClient {
           mutation: UPSERT_USER,
           variables: values,
         });
-        resolve(result.data);
+        resolve(result.data.upsertUser);
       } catch (e) {
         reject(e);
       }

@@ -235,6 +235,8 @@ export const UPSERT_USER = gql`
     upsertUser(email: $email, github: $github) {
       github
       email
+      username
+      id
     }
   }
 `;

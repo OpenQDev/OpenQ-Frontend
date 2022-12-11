@@ -96,6 +96,7 @@ export const getServerSideProps = async (context) => {
     payoutTokenBalances: [],
     payouts: [],
     renderError,
+    avatarUrl: 'https://avatars.githubusercontent.com/u/77402538?s=200&v=4',
   };
 
   let organizations = [];
@@ -109,33 +110,36 @@ export const getServerSideProps = async (context) => {
   } catch (err) {
     logger.error(err);
   }
-  try {
-    // 1. We fetch the Github user using the userId we get from the URL // Not working
-    userGithubData = await githubRepository.instance.fetchUserById(userOffChainData.github);
-  } catch (err) {
-    logger.error(err);
-    const stringifiedErr = JSON.stringify(err);
-    if (stringifiedErr.includes('401')) {
-      return { props: { renderError: stringifiedErr } };
+
+	const userHasAssociatedGithub = userOffChainData.github;
+  if (userHasAssociatedGithub) {
+    try {
+      // 2. We fetch the Github user using the userId we get from the URL (IF IT'S A GITHUB USER!)
+      userGithubData = await githubRepository.instance.fetchUserById(userOffChainData.github);
+    } catch (err) {
+      logger.error(err);
+      const stringifiedErr = JSON.stringify(err);
+      if (stringifiedErr.includes('401')) {
+        return { props: { renderError: stringifiedErr } };
+      }
+      return { props: { renderError: `${userOffChainData.github} is not a valid GitHub ID.` } };
     }
-    return { props: { renderError: `${userOffChainData.github} is not a valid GitHub ID.` } };
   }
 
   try {
-    // 2. We fetch the on-chain user address if they have registered using the externalUserId (AKA githubId)
+    // 3. We fetch the on-chain user address if they have registered using the externalUserId (AKA githubId)
     // userOnChainData.id is the address of the user
     const userOnChainData = await openQSubgraphClient.instance.getUserByGithubId(userOffChainData.github);
     try {
       let provider = new ethers.providers.InfuraProvider('homestead', process.env.INFURA_PROJECT_ID);
 
-      // 3. We use the address to resolve the ENS name
+      // 4. We use the address to resolve the ENS name
       userId = await provider.resolveName(userOnChainData.id);
-      // we need to check if their address is reverse registered
     } catch (err) {
       logger.error(err);
     }
 
-    // 4. If user closed issues, get relevant issueIds and organizations
+    // 5. If user closed issues, get relevant issueIds and organizations
     try {
       const issueIds = userOnChainData.bountiesClosed?.map((bounty) => bounty.bountyId);
       if (issueIds) organizations = await githubRepository.instance.parseOrgIssues(issueIds);

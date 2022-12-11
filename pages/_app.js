@@ -29,7 +29,6 @@ import {
 import Script from 'next/script';
 
 function OpenQ({ Component, pageProps }) {
-  console.log('Component.displayName', Component.displayName);
   const connectors = [
     [metaMask, metaMaskHooks],
     [walletConnect, walletConnectHooks],
