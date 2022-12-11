@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 // Custom
 import AuthContext from '../../store/AuthStore/AuthContext';
 import SignOut from './SignOut';
-import SignIn from './SignIn';
+import GithubSignIn from './GithubSignIn';
 
 const AuthButton = ({ redirectUrl, propicUrl, className, hideSignOut, signInStyle }) => {
   const [authState] = useContext(AuthContext);
@@ -14,7 +14,7 @@ const AuthButton = ({ redirectUrl, propicUrl, className, hideSignOut, signInStyl
           <SignOut propicUrl={propicUrl} />
         ) : null
       ) : (
-        <SignIn redirectUrl={redirectUrl} signInStyle={signInStyle} />
+        <GithubSignIn redirectUrl={redirectUrl} signInStyle={signInStyle} />
       )}
     </div>
   );

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 // Custom
 import Image from 'next/image';
 
-const SignIn = ({ redirectUrl, signInStyle }) => {
+const GithubSignIn = ({ redirectUrl, signInStyle }) => {
   const router = useRouter();
 
   const signIn = () => {
@@ -43,4 +43,4 @@ const SignIn = ({ redirectUrl, signInStyle }) => {
   );
 };
 
-export default SignIn;
+export default GithubSignIn;

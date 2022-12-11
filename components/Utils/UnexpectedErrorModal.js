@@ -3,7 +3,7 @@ import ModalDefault from './ModalDefault';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import useWeb3 from '../../hooks/useWeb3';
-import SignIn from '../Authentication/SignIn';
+import GithubSignIn from '../Authentication/GithubSignIn';
 import StoreContext from '../../store/Store/StoreContext';
 
 const UnexpectedErrorModal = ({ error }) => {
@@ -38,7 +38,7 @@ const UnexpectedErrorModal = ({ error }) => {
   };
   const signIn = (
     <div>
-      <SignIn />
+      <GithubSignIn />
     </div>
   );
   const btn = (

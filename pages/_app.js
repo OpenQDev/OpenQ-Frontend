@@ -29,6 +29,7 @@ import {
 import Script from 'next/script';
 
 function OpenQ({ Component, pageProps }) {
+  console.log('Component.displayName', Component.displayName);
   const connectors = [
     [metaMask, metaMaskHooks],
     [walletConnect, walletConnectHooks],
@@ -118,7 +119,7 @@ function OpenQ({ Component, pageProps }) {
                 <SetContextState>
                   <div className='min-h-screen  flex flex-col justify-between'>
                     <div>
-                      <Navigation />
+                      {router.asPath == '/login' ? null : <Navigation />}
                       <Component key={router.asPath} {...pageProps} />
                     </div>
                     <Footer />

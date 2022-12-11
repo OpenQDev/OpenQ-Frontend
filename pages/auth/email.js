@@ -8,7 +8,7 @@ import { Magic } from 'magic-sdk';
 import { OAuthExtension } from '@magic-ext/oauth';
 
 function EmailAuth() {
-  const [user, setUser] = useContext(UserContext);
+  const [, setUser] = useContext(UserContext);
   const router = useRouter();
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
@@ -19,7 +19,7 @@ function EmailAuth() {
     finishEmailRedirectLogin();
   }, []);
 
-/*   useEffect(() => {
+  /*   useEffect(() => {
     if (user) {
       createOrUpdateUser();
     }
