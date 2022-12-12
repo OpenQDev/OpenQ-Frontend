@@ -4,7 +4,7 @@ import useWeb3 from '../../../hooks/useWeb3';
 import StoreContext from '../../../store/Store/StoreContext';
 import AssociationModal from '../GithubRegistration/AssociateAddress';
 
-import useAuth from '../../../hooks/useAuth';
+import AuthContext from '../../../store/AuthStore/AuthContext';
 
 const InvoicingDetails = () => {
   const { account } = useWeb3();
@@ -13,7 +13,7 @@ const InvoicingDetails = () => {
   const [formState, setFormState] = useState({ text: 'Update', className: 'btn-primary' });
   const [githubUser, setGithubUser] = useState({});
   // const formValuesSocial = [{ value: 'twitter' }, { value: 'discord' }];
-  const [authState] = useAuth();
+  const [authState] = useContext(AuthContext);
   const { accountData } = appState;
   const { githubId } = authState;
   const [organizationInfo, setOrganizationInfo] = useState();

@@ -10,22 +10,18 @@ import ConnectModal from './ConnectModal';
 import useEns from '../../hooks/useENS';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import StoreContext from '../../store/Store/StoreContext';
-import AuthButton from '../Authentication/AuthButton';
-import { useRouter } from 'next/router';
-import useAuth from '../../hooks/useAuth';
+import AuthContext from '../../store/AuthStore/AuthContext';
 import ToolTipNew from '../Utils/ToolTipNew';
 import Image from 'next/image';
-import LoginModal from '../Authentication/LoginModal';
 import Signup from '../Authentication/Signup';
 import LogIn from '../Authentication/LogIn';
 // import axios from 'axios';
 
-const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut, centerStyles }) => {
+const ConnectButton = ({ needsGithub, nav, tooltipAction, centerStyles }) => {
   // Context
   const { chainId, error, account, safe } = useWeb3();
   const [ensName] = useEns(account);
-  const [authState] = useAuth();
-  const router = useRouter();
+  const [authState] = useContext(AuthContext);
   const [appState, dispatch] = useContext(StoreContext);
   const { walletConnectModal } = appState;
 
@@ -37,7 +33,6 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut, centerSty
     account: account,
   });
   const [showAccountModal, setShowAccountModal] = useState();
-  const [showLoginModal, setShowLoginModal] = useState(true);
   const [showProfileModal, setShowProfileModal] = useState();
   const iconWrapper = useRef();
   const modalRef = useRef();
@@ -96,15 +91,6 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut, centerSty
     dispatch(payload);
   };
 
-  const closeLoginModal = () => {
-    setShowLoginModal(false);
-    /* const payload = {
-      type: '',
-      payload: false,
-    };
-    dispatch(payload); */
-  };
-
   const addOrSwitchNetwork = () => {
     window.ethereum
       .request({
@@ -117,9 +103,8 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, hideSignOut, centerSty
   // Render
   return (
     <>
-      {/* {showLoginModal && <LoginModal closeModal={closeLoginModal} setShowModal={setShowLoginModal} />} */}
       {needsGithub && !authState.isAuthenticated ? (
-        <div>
+        <div className='flex gap-2'>
           <Signup />
           <LogIn />
         </div>

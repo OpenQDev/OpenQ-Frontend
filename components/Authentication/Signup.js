@@ -7,7 +7,7 @@ const Signup = () => {
     <Link href='/login'>
       <button className={`flex justify-center btn-default whitespace-nowrap w-full`}>
         <div className='flex flex-row items-center justify-center space-x-3'>
-          <div>Signup</div>
+          <div>Sign up</div>
         </div>
       </button>
     </Link>

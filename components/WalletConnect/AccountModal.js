@@ -7,12 +7,12 @@ import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import { PersonIcon, SignOutIcon } from '@primer/octicons-react';
 import StoreContext from '../../store/Store/StoreContext';
 import { metaMask, walletConnect } from '../WalletConnect/connectors';
-import useAuth from '../../hooks/useAuth';
+import AuthContext from '../../store/AuthStore/AuthContext';
 
 const AccountModal = ({ chainId, account, ensName, setIsConnecting, domRef, isSafeApp }) => {
   let networkName;
   const [appState, dispatch] = useContext(StoreContext);
-  const [authState] = useAuth();
+  const [authState] = useContext(AuthContext);
   const { accountData } = appState;
   for (let key in chainIdDeployEnvMap) {
     if (chainIdDeployEnvMap[key].chainId === chainId) {

@@ -5,12 +5,12 @@ import Image from 'next/image';
 // Custom
 import MintBountyButton from '../MintBounty/MintBountyButton';
 import StoreContext from '../../store/Store/StoreContext';
-import useAuth from '../../hooks/useAuth';
 import useDisplayValue from '../../hooks/useDisplayValue';
+import AuthContext from '../../store/AuthStore/AuthContext';
 
 const BountyHeading = ({ bounty }) => {
   const [appState] = useContext(StoreContext);
-  const [authState] = useAuth();
+  const [authState] = useContext(AuthContext);
   const marker = appState.utils.getBountyMarker(bounty, authState.login);
   const totalPrice = useDisplayValue(bounty, appState.utils.formatter.format);
 

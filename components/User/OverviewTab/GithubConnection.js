@@ -4,11 +4,11 @@ import React, { useContext, useEffect, useState } from 'react';
 // Custom
 import ShieldCheck from '../../svg/shieldCheck';
 import StoreContext from '../../../store/Store/StoreContext';
-import useAuth from '../../../hooks/useAuth';
 import AuthButton from '../../Authentication/AuthButton';
 import Chain from '../../svg/chain';
 import useWeb3 from '../../../hooks/useWeb3';
 import AssociateModal from '../GithubRegistration/AssociateModal';
+import AuthContext from '../../../store/AuthStore/AuthContext';
 
 const GithubConnection = ({ user }) => {
   const [appState] = useContext(StoreContext);
@@ -16,7 +16,7 @@ const GithubConnection = ({ user }) => {
   const { accountData } = appState;
   const loggedId = accountData?.id;
   const isOwner = loggedId == user.id;
-  const [authState] = useAuth();
+  const [authState] = useContext(AuthContext);
   const { githubId } = authState;
   const [externalUserId, setExternalUserId] = useState(null);
   const [externalUserIdLoading, setExternalUserIdLoading] = useState(true);
