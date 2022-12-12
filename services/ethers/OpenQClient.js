@@ -451,7 +451,7 @@ class OpenQClient {
    * @returns {promise}
    */
 
-  claimBounty = async (library, _bountyAddress, _closer, _claimantAsset, _tier, _externalUserId, _externalUserName) => {
+  claimBounty = async (library, _bountyAddress, _closer, _claimantAsset, _tier, _externalUserId) => {
     return new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
       const contract = this.ClaimManager(signer);
@@ -461,7 +461,7 @@ class OpenQClient {
       try {
         let closerData = abiCoder.encode(
           ['address', 'string', 'address', 'string', 'uint256'],
-          [_bountyAddress, _externalUserName, _closer, _claimantAsset, _tier]
+          [_bountyAddress, _externalUserId, _closer, _claimantAsset, _tier]
         );
 
         let txnResponse = await contract.directClaimTieredBounty(_bountyAddress, _externalUserId, closerData);
