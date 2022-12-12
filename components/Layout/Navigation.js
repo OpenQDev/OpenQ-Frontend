@@ -171,7 +171,12 @@ const Navigation = () => {
           </div>
           <div className='flex items-center text-[0.8rem] lg:text-[1rem]'>
             <div className='pr-4'>
-              <ConnectButton needsGithub={true} nav={true} />
+              <ConnectButton
+                needsGithub={true}
+                nav={true}
+                tooltipAction={"start using all of OpenQ's features"}
+                centerStyles={true}
+              />
             </div>
           </div>
         </div>
