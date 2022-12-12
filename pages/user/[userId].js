@@ -20,12 +20,12 @@ const userId = ({ user, organizations, renderError }) => {
   const [starredOrganizations, setStarredOrganizations] = useState([]);
   const [watchedBounties, setWatchedBounties] = useState([]);
 
-  const [publicPrivateUserData, setPublicPrivateUserData] = useState(user);
+  const [publicPrivateUserData] = useState(user);
 
   useEffect(() => {
     const getOffChainData = async () => {
       let starredOrganizations = [];
-			console.log(user)
+      console.log(user);
       setWatchedBounties(user?.watchedBounties.nodes);
       //get starred organizations.
       try {
@@ -79,9 +79,9 @@ export const getServerSideProps = async (context) => {
   let renderError = '';
 
   const openQPrismaClient = new WrappedOpenQPrismaClient();
-	openQPrismaClient.instance.setGraphqlHeaders(oauthToken);
+  openQPrismaClient.instance.setGraphqlHeaders(oauthToken);
 
-	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
+  const openQSubgraphClient = new WrappedOpenQSubgraphClient();
 
   let user = {
     bountiesClosed: [],
@@ -112,12 +112,12 @@ export const getServerSideProps = async (context) => {
     logger.error(err);
   }
 
-	let privateUserData;
-	try {
-		privateUserData = await openQPrismaClient.instance.getUser({ id: userOffChainData.id } );
-	} catch (error) {
-		console.log('Viewer is not owner')
-	}
+  let privateUserData;
+  try {
+    privateUserData = await openQPrismaClient.instance.getUser({ id: userOffChainData.id });
+  } catch (error) {
+    console.log('Viewer is not owner');
+  }
 
   const userHasAssociatedGithub = userOffChainData.github;
   if (userHasAssociatedGithub) {
@@ -168,7 +168,7 @@ export const getServerSideProps = async (context) => {
     ...userOnChainData,
     onChainAddress: userOnChainData?.id || null,
     ...userOffChainData,
-		...privateUserData
+    ...privateUserData,
   };
 
   return {

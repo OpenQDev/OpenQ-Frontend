@@ -41,20 +41,20 @@ class OpenQPrismaClient {
     cache: new InMemoryCache(),
   });
 
-	setGraphqlHeaders = (githubOAuthToken) => {
+  setGraphqlHeaders = (githubOAuthToken) => {
     let authLink;
 
     // oauthToken will be null if the user does not have the github_oauth_token_unsigned cookie set
     // In this case, we initialize the Apollo Client for that page using the PAT, otherwise, we use the oauthToken
     authLink = setContext((_, { headers }) => {
-			return {
-				headers: {
-					...headers,
-					github_oauth_token_unsigned: `${githubOAuthToken}`,
-				},
-			};
-		});
-		
+      return {
+        headers: {
+          ...headers,
+          github_oauth_token_unsigned: `${githubOAuthToken}`,
+        },
+      };
+    });
+
     this.client.setLink(authLink.concat(this.httpLink));
   };
 
@@ -335,21 +335,21 @@ class OpenQPrismaClient {
   }
 
   async getUser(idObject, types, category, fetchPolicy = {}) {
-		console.log('idObject', idObject)
+    console.log('idObject', idObject);
     const promise = new Promise(async (resolve, reject) => {
       const variables = {
         types,
       };
-      
-			if (idObject.id) {
+
+      if (idObject.id) {
         variables.id = idObject.id;
       }
-			
-			if (idObject.github) {
+
+      if (idObject.github) {
         variables.github = idObject.github;
-      } 
-			
-			if (idObject.email) {
+      }
+
+      if (idObject.email) {
         variables.email = idObject.email;
       }
 
