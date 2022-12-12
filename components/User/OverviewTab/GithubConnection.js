@@ -16,6 +16,7 @@ const GithubConnection = ({ user }) => {
   const { accountData } = appState;
   const loggedId = accountData?.id;
   const isOwner = loggedId == user.id;
+  console.log(user, loggedId);
   const [authState] = useAuth();
   const { githubId } = authState;
   const [externalUserId, setExternalUserId] = useState(null);

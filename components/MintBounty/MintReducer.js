@@ -92,6 +92,12 @@ const MintReducer = (state, action) => {
         enableMint: action.payload,
       };
     }
+    case 'SET_INVOICEABLE': {
+      return {
+        ...state,
+        invoiceable: action.payload,
+      };
+    }
 
     default:
       return state;

@@ -1,22 +1,21 @@
 import React, { useState, useContext, useEffect } from 'react';
 import StyledInput from './StyledInput';
-import useWeb3 from '../../../hooks/useWeb3';
 import StoreContext from '../../../store/Store/StoreContext';
 import AssociationModal from '../GithubRegistration/AssociateAddress';
 
 import useAuth from '../../../hooks/useAuth';
 
 const InvoicingDetails = () => {
-  const { account } = useWeb3();
-  const [appState, dispatch] = useContext(StoreContext);
-  const { logger, openQPrismaClient } = appState;
+  const [appState] = useContext(StoreContext);
+  const { openQPrismaClient } = appState;
   const [formState, setFormState] = useState({ text: 'Update', className: 'btn-primary' });
   const [githubUser, setGithubUser] = useState({});
   // const formValuesSocial = [{ value: 'twitter' }, { value: 'discord' }];
   const [authState] = useAuth();
   const { accountData } = appState;
   const { githubId } = authState;
-  const [organizationInfo, setOrganizationInfo] = useState();
+
+  const organizationInfo = {};
 
   useEffect(() => {
     if (githubId) {
@@ -28,20 +27,6 @@ const InvoicingDetails = () => {
     }
   }, [githubId]);
 
-  useEffect(() => {
-    const fetchOrganizationInfo = async () => {
-      try {
-        const organizationInfo = await appState.openQPrismaClient.getUser(account);
-
-        if (organizationInfo) {
-          setOrganizationInfo(organizationInfo);
-        }
-      } catch (error) {
-        logger.error(error);
-      }
-    };
-    fetchOrganizationInfo();
-  }, []);
   const formValuesInvoicing = [
     {
       value: 'company',
@@ -68,14 +53,6 @@ const InvoicingDetails = () => {
     e.preventDefault();
     setFormState({ text: 'Updating...', className: 'btn-default', disabled: true });
     return new Promise(async (resolve, reject) => {
-      if (!account) {
-        const payload = {
-          type: 'CONNECT_WALLET',
-          payload: true,
-        };
-        dispatch(payload);
-        return;
-      }
       try {
         const formValues = { github: accountData.github };
         const form = e.target;
