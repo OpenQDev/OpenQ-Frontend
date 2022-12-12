@@ -159,7 +159,13 @@ export const getServerSideProps = async (context) => {
     }
   }
 
-  user = { ...user, ...userGithubData, ...userOffChainData, ...userOnChainData };
+  user = {
+    ...user,
+    ...userGithubData,
+    ...userOnChainData,
+    onChainAddress: userOnChainData?.id || null,
+    ...userOffChainData,
+  };
 
   return {
     props: { user, organizations, renderError, starredOrganizations, oauthToken },

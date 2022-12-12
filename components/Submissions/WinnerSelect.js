@@ -17,7 +17,6 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
   const { account, library } = useWeb3();
   const [user, setUser] = useState({});
   const [closerAddress, setCloserAddress] = useState('');
-  const [closerGithubId, setCloserGithubId] = useState('');
   const [error, setError] = useState({});
   const zeroAddress = '0x0000000000000000000000000000000000000000';
   const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
@@ -37,7 +36,6 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
   useEffect(() => {
     const getAddress = async () => {
       const userId = pr.author.id;
-      setCloserGithubId(userId);
       if (library) {
         const closerAddress = await appState.openQClient.getAddressById(library, userId);
         if (ethers.utils.isAddress(closerAddress) && closerAddress !== zeroAddress) {
@@ -55,7 +53,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
       const transaction = await appState.openQClient.claimBounty(
         library,
         bounty.bountyAddress,
-        closerGithubId,
+        closerAddress,
         pr.url,
         tierIndex,
         user.id,

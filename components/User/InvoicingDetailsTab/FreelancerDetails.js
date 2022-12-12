@@ -8,15 +8,15 @@ import AuthContext from '../../../store/AuthStore/AuthContext';
 
 const InvoicingDetails = () => {
   const { account } = useWeb3();
-  const [appState, dispatch] = useContext(StoreContext);
-  const { logger, openQPrismaClient } = appState;
+  const [appState] = useContext(StoreContext);
+  const { openQPrismaClient } = appState;
+  const freelancerInfo = {};
   const [formState, setFormState] = useState({ text: 'Update', className: 'btn-primary' });
   const [githubUser, setGithubUser] = useState({});
   const [showPreview, setShowPreview] = useState(false);
   // const formValuesSocial = [{ value: 'twitter' }, { value: 'discord' }];
   const [authState] = useContext(AuthContext);
   const { githubId } = authState;
-  const [freelancerInfo, setFreelancerInfo] = useState();
 
   const getPdf = async () => {
     setShowPreview(!showPreview);
@@ -33,23 +33,6 @@ const InvoicingDetails = () => {
     }
   }, [githubId]);
 
-  useEffect(() => {
-    const fetchFreelancerInfo = async () => {
-      try {
-        const freelancerInfo = await appState.openQPrismaClient.getUser(account);
-
-        if (freelancerInfo) {
-          setFreelancerInfo(freelancerInfo);
-        } else {
-          const freelancerInfo = await appState.openQPrismaClient.getLocalUser(account);
-          setFreelancerInfo(freelancerInfo);
-        }
-      } catch (error) {
-        logger.error(error);
-      }
-    };
-    fetchFreelancerInfo();
-  }, []);
   const formValuesInvoicing = [
     {
       value: 'company',
@@ -88,14 +71,6 @@ const InvoicingDetails = () => {
     e.preventDefault();
     setFormState({ text: 'Updating...', className: 'btn-default', disabled: true });
     return new Promise(async (resolve, reject) => {
-      if (!account) {
-        const payload = {
-          type: 'CONNECT_WALLET',
-          payload: true,
-        };
-        dispatch(payload);
-        return;
-      }
       try {
         const formValues = { github: githubId };
         const form = e.target;
@@ -164,7 +139,10 @@ const InvoicingDetails = () => {
       </div>{' '}
       <div className='note'>Freelancer invoicing details are never held on OpenQ's servers.</div>
       {showPreview ? (
-        <iframe className='w-full h-[1400px] py-16' src={`http://localhost:3007/preview?account=${account}`}></iframe>
+        <iframe
+          className='w-full h-[1400px] py-16'
+          src={`http://localhost:3007/preview?githubId=${githubId}&account=${account}`}
+        ></iframe>
       ) : (
         <>
           <form className='font-normal max-w-[500px] gap-4' onSubmit={submitProfileData}>
