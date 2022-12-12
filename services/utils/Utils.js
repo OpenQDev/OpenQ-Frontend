@@ -206,13 +206,16 @@ class Utils {
     const promise = new Promise(async (resolve, reject) => {
       let githubOrganizations = [];
       const batch = 100;
-      let orgData = [];
+      let orgData = { organizations: { nodes: [] } };
       try {
         orgData = await openQPrismaClient.getOrganizations(types, batch, category);
       } catch (err) {
+        console.log(JSON.stringify(err));
         reject(err);
       }
-      const filteredOrgs = orgData.organizations.nodes.filter((data) => !data.blacklisted);
+      const filteredOrgs = orgData?.organizations?.nodes.filter((data) => !data.blacklisted) || {
+        organizations: { nodes: [] },
+      };
       const orgIds = filteredOrgs.map((org) => org.id);
       try {
         githubOrganizations = await githubRepository.fetchOrganizationsByIds(orgIds);

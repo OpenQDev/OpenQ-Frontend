@@ -73,22 +73,6 @@ export const REMOVE_CONTRIBUTOR = gql`
   }
 `;
 
-export const GET_USER_BY_ID = gql`
-  query ($id: String!) {
-    user(id: $id) {
-      github
-      username
-      discord
-      twitter
-      devRoles
-      otherRoles
-      languages
-      frameworks
-      starredOrganizationIds
-    }
-  }
-`;
-
 export const GET_USER = gql`
   query ($id: String, $email: String, $github: String) {
     user(id: $id, email: $email, github: $github) {

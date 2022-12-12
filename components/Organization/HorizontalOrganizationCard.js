@@ -59,8 +59,8 @@ const HorizontalOrganizationCard = ({ organization }) => {
         </h2>
         <div className='flex gap-4'>
           <div className='mt-1 text text-sm leading-normal text-muted truncate'>
-            {organization.starringUserIds?.length || 0} star
-            {organization.starringUserIds?.length !== 1 && 's'}
+            {organization.starringUsers.nodes?.length || 0} star
+            {organization.starringUsers.nodes?.length !== 1 && 's'}
           </div>
           <div className='mt-1 text text-sm leading-normal text-muted truncate'>
             {orgBounties.length} {orgBounties.length !== 1 ? 'contracts' : 'contract'}

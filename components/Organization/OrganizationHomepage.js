@@ -53,9 +53,10 @@ const OrganizationHomepage = ({ orgs, types }) => {
                 const hasBounties = organization?.bounties?.nodes.length > 0;
                 return hasBounties && hasSearchTerm;
               })
-              .map((elem, index) => (
-                <HorizontalOrganizationCard key={index} organization={elem} />
-              ))}
+              .map((elem, index) => {
+                console.log(elem);
+                return <HorizontalOrganizationCard key={index} organization={elem} />;
+              })}
           </div>
         </div>
       </div>

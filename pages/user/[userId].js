@@ -18,21 +18,15 @@ const userId = ({ user, organizations, renderError }) => {
   const { signedAccount } = authState;
   const [appState] = useContext(StoreContext);
   const [starredOrganizations, setStarredOrganizations] = useState([]);
-  const [watchedBounties, setwatchedBounties] = useState([]);
+  const [watchedBounties, setWatchedBounties] = useState([]);
 
   const [publicPrivateUserData, setPublicPrivateUserData] = useState(user);
 
   useEffect(() => {
     const getOffChainData = async () => {
-      let privateUserData;
-      try {
-        privateUserData = await appState.openQPrismaClient.getUser(user.id);
-        setPublicPrivateUserData({ ...user, ...privateUserData });
-      } catch (error) {
-        appState.logger.info('Viewing user not owner');
-      }
       let starredOrganizations = [];
-      setwatchedBounties(privateUserData?.watchedBounties.nodes);
+			console.log(user)
+      setWatchedBounties(user?.watchedBounties.nodes);
       //get starred organizations.
       try {
         if (user.starredOrganizationIds) {
@@ -85,8 +79,10 @@ export const getServerSideProps = async (context) => {
   let userId = context.params.userId;
   let renderError = '';
 
-  const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
+	openQPrismaClient.instance.setGraphqlHeaders(oauthToken);
+
+	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
 
   let user = {
     bountiesClosed: [],
@@ -120,6 +116,13 @@ export const getServerSideProps = async (context) => {
   } catch (err) {
     logger.error(err);
   }
+
+	let privateUserData;
+	try {
+		privateUserData = await openQPrismaClient.instance.getUser({ id: userOffChainData.id } );
+	} catch (error) {
+		console.log('Viewer is not owner')
+	}
 
   const userHasAssociatedGithub = userOffChainData.github;
   if (userHasAssociatedGithub) {
@@ -164,7 +167,14 @@ export const getServerSideProps = async (context) => {
     }
   }
 
-  user = { ...user, ...userGithubData, ...userOffChainData, ...userOnChainData };
+  user = {
+    ...user,
+    ...userGithubData,
+    ...userOnChainData,
+    onChainAddress: userOnChainData?.id || null,
+    ...userOffChainData,
+		...privateUserData
+  };
 
   return {
     props: { user, organizations, renderError, starredOrganizations, oauthToken },
