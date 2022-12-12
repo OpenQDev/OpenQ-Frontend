@@ -11,7 +11,6 @@ import {
   TRANSACTION_CONFIRMED,
   CONFIRM_CLAIM,
 } from './ClaimStates';
-import useAuth from '../../hooks/useAuth';
 import useWeb3 from '../../hooks/useWeb3';
 import ClaimLoadingModal from './ClaimLoadingModal';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
@@ -21,6 +20,7 @@ import ToolTipNew from '../Utils/ToolTipNew';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import StoreContext from '../../store/Store/StoreContext';
 import ConnectButton from '../WalletConnect/ConnectButton';
+import AuthContext from '../../store/AuthStore/AuthContext';
 
 const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const { url } = bounty;
@@ -52,7 +52,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const [ensName] = useEns(account);
 
   // Hooks
-  const [authState] = useAuth();
+  const [authState] = useContext(AuthContext);
 
   // Methods
 

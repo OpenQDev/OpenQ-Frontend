@@ -19,10 +19,10 @@ import OrgDetails from './InvoicingDetailsTab/OrgDetails';
 import UserSocials from './OverviewTab/UserSocials';
 import Gear from '../svg/gear';
 import Skills from './OverviewTab/Skills';
-import useAuth from '../../hooks/useAuth';
 import Subscribe from '../Utils/Subscribe';
 import GithubConnection from './OverviewTab/GithubConnection';
 import useWeb3 from '../../hooks/useWeb3';
+import AuthContext from '../../store/AuthStore/AuthContext';
 
 const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatched, watchedBounties }) => {
   const { payoutTokenBalances, payouts } = user;
@@ -37,7 +37,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
   const { accountData } = appState;
   const loggedId = accountData?.id;
   const isOwner = loggedId == user.id;
-  const [authState] = useAuth();
+  const [authState] = useContext(AuthContext);
   const { githubId } = authState;
 
   useEffect(() => {

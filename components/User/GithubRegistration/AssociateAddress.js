@@ -6,7 +6,6 @@ import confetti from 'canvas-confetti';
 
 // Custom
 import UnexpectedErrorModal from '../../Utils/UnexpectedErrorModal';
-import useAuth from '../../../hooks/useAuth';
 import StoreContext from '../../../store/Store/StoreContext';
 import useWeb3 from '../../../hooks/useWeb3';
 import ModalDefault from '../../Utils/ModalDefault';
@@ -14,6 +13,7 @@ import LoadingIcon from '../../Loading/ButtonLoadingIcon';
 import ToolTipNew from '../../Utils/ToolTipNew';
 import CopyAddressToClipBoard from '../../Copy/CopyAddressToClipboard';
 import LinkText from '../../svg/linktext';
+import AuthContext from '../../../store/AuthStore/AuthContext';
 
 const AssociateAddress = ({ githubId, user }) => {
   const { account, library } = useWeb3();
@@ -26,7 +26,7 @@ const AssociateAddress = ({ githubId, user }) => {
   const [enableLink, setEnableLink] = useState();
   const canvas = useRef();
   const [error, setError] = useState('');
-  const [authState] = useAuth();
+  const [authState] = useContext(AuthContext);
   const [currentAccount, setCurrentAccount] = useState();
 
   useEffect(() => {

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
-import useAuth from '../../hooks/useAuth';
 import ConnectButton from '../WalletConnect/ConnectButton';
+import AuthContext from '../../store/AuthStore/AuthContext';
 
 const AuthorizedOnly = ({ children }) => {
   const [showPage, setShowPage] = useState();
   const [isSigned, setIsSigned] = useState();
-  const [authState] = useAuth();
+  const [authState] = useContext(AuthContext);
   const { account } = useWeb3();
 
   useEffect(() => {
