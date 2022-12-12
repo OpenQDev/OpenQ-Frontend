@@ -57,7 +57,7 @@ const userId = ({ user, organizations, renderError }) => {
 
   return (
     <div className=' gap-4 justify-center pt-6'>
-      {user?.email || user?.github ? (
+      {user?.id ? (
         <AboutFreelancer
           showWatched={user.id === signedAccount}
           starredOrganizations={starredOrganizations}
@@ -79,6 +79,7 @@ export const getServerSideProps = async (context) => {
   const { github_oauth_token_unsigned } = cookies;
   const logger = new Logger();
   const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
+  const emailAuth = true;
   githubRepository.instance.setGraphqlHeaders(oauthToken);
 
   let userId = context.params.userId;
@@ -107,7 +108,11 @@ export const getServerSideProps = async (context) => {
 
   try {
     // 1. We fetch the API user using the userId we get from the URL
-    userOffChainData = await openQPrismaClient.instance.getPublicUserById(userId);
+    if (emailAuth) {
+      userOffChainData = await openQPrismaClient.instance.getPublicUserById(userId);
+    } else {
+      userOffChainData = await openQPrismaClient.instance.getUser(userId);
+    }
     if (!userOffChainData) {
       // This is where we should throw a 404
       return { props: { renderError: `User with id ${userId} not found.` } };
