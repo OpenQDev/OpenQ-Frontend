@@ -78,6 +78,7 @@ export const GET_USER = gql`
     user(id: $id, email: $email, github: $github) {
       id
       github
+      username
       discord
       twitter
       devRoles
@@ -97,7 +98,7 @@ export const GET_PRIVATE_USER = gql`
       github
       email
       company
-      email
+      username
       city
       streetAddress
       country
@@ -137,6 +138,7 @@ export const GET_USERS = gql`
         discord
         twitter
         email
+        username
         starredOrganizationIds
       }
     }
@@ -231,6 +233,7 @@ export const UPDATE_USER = gql`
     $id: String
     $email: String
     $github: String
+    $username: String
     $company: String
     $city: String
     $streetAddress: String
@@ -255,6 +258,7 @@ export const UPDATE_USER = gql`
       id: $id
       email: $email
       github: $github
+      username: $username
       company: $company
       city: $city
       streetAddress: $streetAddress
@@ -278,7 +282,7 @@ export const UPDATE_USER = gql`
       github
       email
       company
-      email
+      username
       city
       streetAddress
       country

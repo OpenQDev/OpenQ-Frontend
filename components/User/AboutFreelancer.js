@@ -23,6 +23,7 @@ import Subscribe from '../Utils/Subscribe';
 import GithubConnection from './OverviewTab/GithubConnection';
 import useWeb3 from '../../hooks/useWeb3';
 import AuthContext from '../../store/AuthStore/AuthContext';
+import Username from './OverviewTab/Username';
 
 const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatched, watchedBounties }) => {
   const { payoutTokenBalances, payouts } = user;
@@ -141,6 +142,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
           <div className='flex flex-col flex-1 lg:pl-20 '>
             {internalMenu == 'Overview' && (
               <div className=''>
+                <Username user={user} />
                 <AboutTitle ensName={ensName} account={account} githubUser={githubUser} />
 
                 <UserHistory organizations={organizations} payouts={payouts} />
