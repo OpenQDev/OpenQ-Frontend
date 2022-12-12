@@ -62,7 +62,7 @@ const UnexpectedErrorModal = ({ error }) => {
         setShowModal={() => {}}
         resetState={resetState}
       >
-        <p>Please log in with github to contiue browsing.</p>
+        <p>Please log in with github to continue browsing.</p>
       </ModalDefault>
     );
 
