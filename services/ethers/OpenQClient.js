@@ -143,8 +143,8 @@ class OpenQClient {
               return payoutBigNumberVolumeInWei;
             });
             const tieredAbiEncodedParams = abiCoder.encode(
-              ['uint256[]', 'address'],
-              [tierVolumes, data.payoutToken.address]
+              ['uint256[]', 'address', 'bool', 'bool'],
+              [tierVolumes, data.payoutToken.address, invoiceable, kycRequired]
             );
             bountyInitOperation = [3, tieredAbiEncodedParams];
           }
