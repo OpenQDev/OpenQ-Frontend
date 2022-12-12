@@ -13,9 +13,8 @@ const InvoicingDetails = () => {
   // const formValuesSocial = [{ value: 'twitter' }, { value: 'discord' }];
   const [authState] = useContext(AuthContext);
   const { accountData } = appState;
+  console.log(accountData);
   const { githubId } = authState;
-
-  const organizationInfo = {};
 
   useEffect(() => {
     if (githubId) {
@@ -123,7 +122,7 @@ const InvoicingDetails = () => {
         {formValuesInvoicing.map((invoicingField) => {
           return (
             <StyledInput
-              defaultValue={organizationInfo?.[invoicingField.value]}
+              defaultValue={accountData?.[invoicingField.value]}
               key={invoicingField.value}
               value={invoicingField.value}
               type={invoicingField.type}

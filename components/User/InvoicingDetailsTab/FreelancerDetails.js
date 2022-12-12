@@ -10,7 +10,7 @@ const InvoicingDetails = () => {
   const { account } = useWeb3();
   const [appState] = useContext(StoreContext);
   const { openQPrismaClient } = appState;
-  const freelancerInfo = {};
+  const { accountData } = appState;
   const [formState, setFormState] = useState({ text: 'Update', className: 'btn-primary' });
   const [githubUser, setGithubUser] = useState({});
   const [showPreview, setShowPreview] = useState(false);
@@ -137,7 +137,6 @@ const InvoicingDetails = () => {
           {showPreview ? 'Edit' : 'Preview'} Invoice
         </button>
       </div>{' '}
-      <div className='note'>Freelancer invoicing details are never held on OpenQ's servers.</div>
       {showPreview ? (
         <iframe
           className='w-full h-[1400px] py-16'
@@ -149,7 +148,7 @@ const InvoicingDetails = () => {
             {formValuesInvoicing.map((invoicingField) => {
               return (
                 <StyledInput
-                  defaultValue={freelancerInfo?.[invoicingField.value]}
+                  defaultValue={accountData?.[invoicingField.value]}
                   key={invoicingField.value}
                   value={invoicingField.value}
                   type={invoicingField.type}
