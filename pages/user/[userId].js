@@ -25,8 +25,7 @@ const userId = ({ user, organizations, renderError }) => {
   useEffect(() => {
     const getOffChainData = async () => {
       let starredOrganizations = [];
-      console.log(user);
-      setWatchedBounties(user?.watchedBounties.nodes);
+      setWatchedBounties(user?.watchedBounties?.nodes);
       //get starred organizations.
       try {
         if (user.starredOrganizationIds) {
