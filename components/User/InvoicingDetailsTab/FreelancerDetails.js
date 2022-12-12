@@ -139,7 +139,10 @@ const InvoicingDetails = () => {
       </div>{' '}
       <div className='note'>Freelancer invoicing details are never held on OpenQ's servers.</div>
       {showPreview ? (
-        <iframe className='w-full h-[1400px] py-16' src={`http://localhost:3007/preview?account=${account}`}></iframe>
+        <iframe
+          className='w-full h-[1400px] py-16'
+          src={`http://localhost:3007/preview?githubId=${githubId}&account=${account}`}
+        ></iframe>
       ) : (
         <>
           <form className='font-normal max-w-[500px] gap-4' onSubmit={submitProfileData}>
