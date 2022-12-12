@@ -4,12 +4,12 @@ import axios from 'axios';
 import confetti from 'canvas-confetti';
 
 // Custom
-import useAuth from '../../../hooks/useAuth';
 import StoreContext from '../../../store/Store/StoreContext';
 import useWeb3 from '../../../hooks/useWeb3';
 import ModalDefault from '../../Utils/ModalDefault';
 import LoadingIcon from '../../Loading/ButtonLoadingIcon';
 import LinkText from '../../svg/linktext';
+import AuthContext from '../../../store/AuthStore/AuthContext';
 
 const AssociateModal = ({ enableLink, btnText, activeBtnStyles, setExternalUserId }) => {
   const { account } = useWeb3();
@@ -20,7 +20,7 @@ const AssociateModal = ({ enableLink, btnText, activeBtnStyles, setExternalUserI
   const [transactionHash, setTransactionHash] = useState(null);
   const canvas = useRef();
   const [error, setError] = useState('');
-  const [authState] = useAuth();
+  const [authState] = useContext(AuthContext);
   const { githubId } = authState;
   const handleClose = () => {
     setShowModal();

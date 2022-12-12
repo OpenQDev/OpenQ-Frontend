@@ -57,7 +57,7 @@ const userId = ({ user, organizations, renderError }) => {
 
   return (
     <div className=' gap-4 justify-center pt-6'>
-      {user ? (
+      {user?.email || user?.github ? (
         <AboutFreelancer
           showWatched={user.id === signedAccount}
           starredOrganizations={starredOrganizations}

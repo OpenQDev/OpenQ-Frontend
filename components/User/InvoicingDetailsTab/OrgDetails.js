@@ -3,7 +3,7 @@ import StyledInput from './StyledInput';
 import StoreContext from '../../../store/Store/StoreContext';
 import AssociationModal from '../GithubRegistration/AssociateAddress';
 
-import useAuth from '../../../hooks/useAuth';
+import AuthContext from '../../../store/AuthStore/AuthContext';
 
 const InvoicingDetails = () => {
   const [appState] = useContext(StoreContext);
@@ -11,7 +11,7 @@ const InvoicingDetails = () => {
   const [formState, setFormState] = useState({ text: 'Update', className: 'btn-primary' });
   const [githubUser, setGithubUser] = useState({});
   // const formValuesSocial = [{ value: 'twitter' }, { value: 'discord' }];
-  const [authState] = useAuth();
+  const [authState] = useContext(AuthContext);
   const { accountData } = appState;
   const { githubId } = authState;
 

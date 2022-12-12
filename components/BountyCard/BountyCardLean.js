@@ -10,8 +10,8 @@ import ReactGA from 'react-ga4';
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
 import LabelsList from '../Bounty/LabelsList';
-import useAuth from '../../hooks/useAuth';
 import useDisplayValue from '../../hooks/useDisplayValue';
+import AuthContext from '../../store/AuthStore/AuthContext';
 
 const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
   // State
@@ -27,7 +27,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
   const [watchingUsers] = watchingState;
   // Hooks
 
-  const [authState] = useAuth();
+  const [authState] = useContext(AuthContext);
   const marker = appState.utils.getBountyMarker(bounty, authState.login);
   const bountyTypeName = appState.utils.getBountyTypeName(bounty);
 

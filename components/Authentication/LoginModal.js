@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import ModalLarge from '../Utils/ModalLarge';
 import EmailLogin from './EmailLogin';
 import AuthButton from './AuthButton';
 import { useRouter } from 'next/router';
-import useAuth from '../../hooks/useAuth';
 import Image from 'next/image';
+import AuthContext from '../../store/AuthStore/AuthContext';
 
 const LoginModal = ({ closeModal, setShowModal }) => {
   const router = useRouter();
-  const [authState] = useAuth();
+  const [authState] = useContext(AuthContext);
 
   const btn = (
     <button onClick={closeModal} className='btn-default w-full'>

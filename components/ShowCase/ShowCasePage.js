@@ -3,11 +3,11 @@ import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 import Image from 'next/image';
 import Link from 'next/link';
-import useAuth from '../../hooks/useAuth';
 import useWeb3 from '../../hooks/useWeb3';
+import AuthContext from '../../store/AuthStore/AuthContext';
 
 const ShowCasePage = ({ pr }) => {
-  const [authState] = useAuth();
+  const [authState] = useContext(AuthContext);
   const { avatarUrl } = authState;
   const { isAddress } = ethers.utils;
   const [showForm, setShowForm] = useState();
