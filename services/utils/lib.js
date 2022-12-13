@@ -15,3 +15,38 @@ export const parseVolume = (volume) => {
     return null;
   }
 };
+export const listWordsWithAnd = (words) => {
+  if (words.length === 1) {
+    return words[0];
+  }
+  if (words.length === 2) {
+    return `${words[0]} and ${words[1]}`;
+  }
+  return `${words.slice(0, -1).join(', ')}, and ${words[words.length - 1]}`;
+};
+
+export const capitalize = (word) => {
+  return word[0].toUpperCase() + word.substring(1);
+};
+export const valueToDisplay = (value) => {
+  switch (value) {
+    case 'streetAddress':
+      return 'Billing Address';
+    case 'postalCode':
+      return 'Postal Code';
+    case 'phoneNumber':
+      return 'Phone Number';
+    case 'invoiceNumber':
+      return 'Invoice Number';
+    case 'taxId':
+      return 'Tax ID';
+    case 'vatNumber':
+      return 'VAT Number';
+    case 'vatRate':
+      return 'VAT Rate';
+    case 'billingName':
+      return 'Billing Name';
+    default:
+      return capitalize(value);
+  }
+};

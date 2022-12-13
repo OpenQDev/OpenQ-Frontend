@@ -9,7 +9,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import ToolTipNew from '../Utils/ToolTipNew';
 import BountyClosed from '../BountyClosed/BountyClosed';
 import ApproveFundModal from './ApproveFundModal';
-import InvoicingModal from './InvoicingModal';
+import OrgDetails from '../User/InvoicingDetailsTab/OrgDetails';
 import { RESTING, CONFIRM, APPROVING, TRANSFERRING, APPROVE } from './ApproveFundState';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import SelectableNFT from './SelectableNFT';
@@ -17,6 +17,8 @@ import NFTFundModal from './NFTFundModal.js';
 import Cross from '../svg/cross';
 import ConnectButton from '../WalletConnect/ConnectButton';
 import fundBountyMethod from './fundBountyMethod';
+import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
+import { valueToDisplay, listWordsWithAnd } from '../../services/utils/lib';
 
 const FundPage = ({ bounty, refreshBounty }) => {
   const [volume, setVolume] = useState('');
@@ -27,13 +29,19 @@ const FundPage = ({ bounty, refreshBounty }) => {
   const [transactionHash, setTransactionHash] = useState(null);
   const [showApproveTransferModal, setShowApproveTransferModal] = useState(false);
   const [approveTransferState, setApproveTransferState] = useState(RESTING);
-  const [invoicingModal, setInvoicingModal] = useState();
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const [allowance, setAllowance] = useState();
   const [pickedNft, setPickedNft] = useState();
   const [nftTier, setNftTier] = useState('');
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
+  const accountKeys = ['company', 'city', 'country', 'streetAddress', 'province', 'email'];
+
+  const neededAccountData = accountKeys.filter((key) => {
+    return !accountData[key];
+  });
+
+  const hasInvoicingInfo = neededAccountData.length === 0;
   const zeroAddressMetadata = {
     name: 'Matic',
     address: '0x0000000000000000000000000000000000000000',
@@ -66,15 +74,16 @@ const FundPage = ({ bounty, refreshBounty }) => {
     }
   };
   const disabledFundButton =
-    approveTransferState == CONFIRM ||
-    approveTransferState == APPROVING ||
-    approveTransferState == TRANSFERRING ||
-    bounty.status == '1' ||
-    parseFloat(volume) <= 0.00000001 ||
-    parseFloat(volume) > 1000000 ||
-    (volume == '' && !pickedNft) ||
-    (isContest && nftTier === '' && pickedNft) ||
-    !(parseInt(depositPeriodDays) > 0);
+    (approveTransferState == CONFIRM ||
+      approveTransferState == APPROVING ||
+      approveTransferState == TRANSFERRING ||
+      bounty.status == '1' ||
+      parseFloat(volume) <= 0.00000001 ||
+      parseFloat(volume) > 1000000 ||
+      (volume == '' && !pickedNft) ||
+      (isContest && nftTier === '' && pickedNft) ||
+      !(parseInt(depositPeriodDays) > 0)) &&
+    !hasInvoicingInfo;
 
   function resetState() {
     setApproveTransferState(RESTING);
@@ -102,11 +111,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
   const closeModal = () => {
     setShowApproveTransferModal();
     setPickedNft();
-  };
-
-  const openInvoicingModal = () => {
-    setShowApproveTransferModal(false);
-    setInvoicingModal(true);
   };
 
   const fundBounty = async () => {
@@ -192,9 +196,9 @@ const FundPage = ({ bounty, refreshBounty }) => {
                       </ToolTipNew>
                       <span>Deposit Locked Period</span>
                     </div>
-                    <div className={'flex px-4 font-bold bg-dark-mode'}>
+                    <div className={'flex px-4 font-bold bg-input-bg'}>
                       <input
-                        className='text-primary text-right number outline-none bg-dark-mode w-full flex-1'
+                        className='text-primary text-right number outline-none w-full flex-1 bg-input-bg'
                         autoComplete='off'
                         value={depositPeriodDays}
                         id='deposit-period'
@@ -205,7 +209,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
 
                   {isContest && pickedNft && (
                     <div className='flex w-full input-field-big mb-4'>
-                      <div className=' flex items-center gap-3 w-full text-primary md:whitespace-nowrap'>
+                      <div className=' flex items-center gap-3 w-full text-primary bg-input-bg md:whitespace-nowrap'>
                         <ToolTipNew
                           relativePosition={'md:-left-12'}
                           outerStyles={'-top-1'}
@@ -221,9 +225,9 @@ const FundPage = ({ bounty, refreshBounty }) => {
                         </ToolTipNew>
                         <span>Tier</span>
                       </div>
-                      <div className={'flex px-4 font-bold bg-dark-mode'}>
+                      <div className={'flex px-4 font-bold bg-input-bg'}>
                         <input
-                          className='text-primary text-right number outline-none bg-dark-mode w-full flex-1'
+                          className='text-primary text-right number outline-none bg-input-bg w-full flex-1'
                           autoComplete='off'
                           value={nftTier}
                           id='deposit-period'
@@ -245,11 +249,13 @@ const FundPage = ({ bounty, refreshBounty }) => {
                           ? "Please indicate how many days you'd like to fund your contract for."
                           : isContest && nftTier === '' && pickedNft
                           ? 'Please select an eligible tier to send the nft to.'
+                          : !hasInvoicingInfo
+                          ? 'This bounty requires funding information.'
                           : "Please indicate the volume you'd like to fund with. Must be between 0.0000001 and 1,000,000."
                       }
                     >
                       <button
-                        className={`text-center px-8 w-min items-center  ${
+                        className={`text-center px-8 w-min items-center py-0.5  ${
                           disabledFundButton ? 'btn-default w-full cursor-not-allowed' : 'btn-primary cursor-pointer'
                         } py-1.5`}
                         disabled={disabledFundButton}
@@ -274,8 +280,33 @@ const FundPage = ({ bounty, refreshBounty }) => {
                 )}
               </div>
             </div>
+            {bounty.invoiceable && (
+              <>
+                <div className='w-5/6'>
+                  Invoicing data required for this bounty, you are missing values for the{' '}
+                  {listWordsWithAnd(
+                    neededAccountData.map((elem) => {
+                      return valueToDisplay(elem);
+                    })
+                  )}{' '}
+                  fields.
+                </div>
+                <details className='w-5/6 group' open={!hasInvoicingInfo}>
+                  <summary className='list-none text-2xl text-muted fill-muted cursor-pointer'>
+                    Invoicing data{' '}
+                    <span className='group-open:hidden'>
+                      <ChevronDownIcon size='24px' />
+                    </span>
+                    <span className='hidden group-open:inline'>
+                      <ChevronUpIcon size='24px' />
+                    </span>
+                  </summary>
+                  <OrgDetails slim={true} />
+                </details>
+              </>
+            )}
           </div>
-          {invoicingModal && <InvoicingModal closeModal={() => setInvoicingModal(false)} bounty={bounty} />}
+
           {showApproveTransferModal && (
             <ApproveFundModal
               pickedNft={pickedNft}
@@ -289,7 +320,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
               confirmMethod={fundBounty}
               resetState={resetState}
               token={token}
-              openInvoicingModal={openInvoicingModal}
               volume={volume}
               bountyAddress={bounty.bountyAddress}
               bounty={bounty}

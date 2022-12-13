@@ -5,10 +5,9 @@ import StoreContext from '../../../store/Store/StoreContext';
 import AssociationModal from '../GithubRegistration/AssociateAddress';
 
 import AuthContext from '../../../store/AuthStore/AuthContext';
-
-const InvoicingDetails = () => {
+const InvoicingDetails = ({ slim }) => {
   const { account } = useWeb3();
-  const [appState] = useContext(StoreContext);
+  const [appState, dispatch] = useContext(StoreContext);
   const { openQPrismaClient } = appState;
   const { accountData } = appState;
   const [formState, setFormState] = useState({ text: 'Update', className: 'btn-primary' });
@@ -114,6 +113,14 @@ const InvoicingDetails = () => {
         const { updateUser } = await openQPrismaClient.updateUser(formValues);
 
         if (updateUser) {
+          const accountDispatch = {
+            type: 'UPDATE_ACCOUNT_DATA',
+            payload: {
+              ...accountData,
+              ...updateUser,
+            },
+          };
+          dispatch(accountDispatch);
           setFormState({ text: 'Updated', className: 'btn-primary', disabled: false });
           setTimeout(() => {
             setFormState({ text: 'Update', className: 'btn-primary', disabled: false });
@@ -127,16 +134,20 @@ const InvoicingDetails = () => {
   };
 
   return (
-    <div className='px-8 py text-lg'>
-      <div className='flex flex-col flex-1 font-normal pb-16'>
-        {!githubId && <AssociationModal githubId={githubId} user={githubUser} renderError={''} redirectUrl={''} />}
-      </div>
-      <div className='border-b border-web-gray flex justify-between'>
-        <h2 className='text-2xl pb-2'>Freelancer Invoicing Information</h2>
-        <button onClick={getPdf} className='btn-default text-xs py-0.75 my-0.75 h-7'>
-          {showPreview ? 'Edit' : 'Preview'} Invoice
-        </button>
-      </div>{' '}
+    <div className={`${!slim && 'px-8'} py text-lg`}>
+      {!slim && (
+        <>
+          <div className='flex flex-col flex-1 font-normal pb-16'>
+            {!githubId && <AssociationModal githubId={githubId} user={githubUser} renderError={''} redirectUrl={''} />}
+          </div>
+          <div className='border-b border-web-gray flex justify-between'>
+            <h2 className='text-2xl pb-2'>Freelancer Invoicing Information</h2>
+            <button onClick={getPdf} className='btn-default text-xs py-0.75 my-0.75 h-7'>
+              {showPreview ? 'Edit' : 'Preview'} Invoice
+            </button>
+          </div>
+        </>
+      )}
       {showPreview ? (
         <iframe
           className='w-full h-[1400px] py-16'
@@ -148,6 +159,7 @@ const InvoicingDetails = () => {
             {formValuesInvoicing.map((invoicingField) => {
               return (
                 <StyledInput
+                  highlightEmpty={slim}
                   defaultValue={accountData?.[invoicingField.value]}
                   key={invoicingField.value}
                   value={invoicingField.value}

@@ -51,6 +51,12 @@ const StoreReducer = (state, action) => {
         walletConnectModal: action.payload,
       };
     }
+    case 'UPDATE_ACCOUNT_DATA': {
+      return {
+        ...state,
+        accountData: action.payload,
+      };
+    }
     default:
       return state;
   }

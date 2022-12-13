@@ -11,7 +11,7 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume, placeho
         <div className={' bg-dark-mode'}>
           <input
             aria-label={label || 'amount'}
-            className='font-semibold number outline-none bg-dark-mode text-primary w-full'
+            className='font-semibold number outline-none bg-input-bg text-primary w-full'
             autoComplete='off'
             value={volume}
             placeholder={placeholder || '0.0'}
