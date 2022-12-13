@@ -25,13 +25,13 @@ const BountyModalHeading = ({ bounty, unWatchable, watchingState }) => {
               <Link href={bounty.url} className='text-muted text font-light' target='_blank'>
                 <div>#{bounty.number}</div>
               </Link>
-              <WatchButton watchingState={watchingState} unWatchable={unWatchable} bounty={bounty} />
             </div>
           </div>
         </div>
       </div>
-      <div className='sm:flex items-center hidden sm:pr-8'>
+      <div className='sm:flex sm:flex-col items-center hidden sm:pr-8 justify-around'>
         <Image src={bounty.avatarUrl} className='rounded-full' alt='avatarUrl' width='62' height='62' />
+        <WatchButton watchingState={watchingState} unWatchable={unWatchable} bounty={bounty} />
       </div>
     </div>
   );
