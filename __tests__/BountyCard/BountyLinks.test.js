@@ -12,11 +12,7 @@ describe('BountyLinks', () => {
   const newBounties = mocks.bounties;
   const issueData = InitialState.githubRepository.parseIssuesData(mocks.githubIssues);
   const prismaContracts = mocks.prismaBounties;
-  const fullBounties = InitialState.utils.combineBounties(
-    newBounties,
-    issueData,
-    prismaContracts.bounties.bountyConnection.nodes
-  );
+  const fullBounties = InitialState.utils.combineBounties(newBounties, issueData, prismaContracts.bounties.nodes);
 
   beforeEach(() => {
     const observe = jest.fn();

@@ -52,7 +52,7 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, centerStyles }) => {
     const createJazzicon = async () => {
       if (account && iconWrapper.current) {
         iconWrapper.current.innerHTML = '';
-        iconWrapper.current.appendChild(jazzicon(26, parseInt(account.slice(2, 10), 16)));
+        iconWrapper.current.appendChild(jazzicon(28, parseInt(account.slice(2, 10), 16)));
       }
     };
     createJazzicon();

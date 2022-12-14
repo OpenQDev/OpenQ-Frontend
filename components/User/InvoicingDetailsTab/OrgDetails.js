@@ -5,8 +5,8 @@ import AssociationModal from '../GithubRegistration/AssociateAddress';
 
 import AuthContext from '../../../store/AuthStore/AuthContext';
 
-const InvoicingDetails = () => {
-  const [appState] = useContext(StoreContext);
+const InvoicingDetails = ({ slim }) => {
+  const [appState, dispatch] = useContext(StoreContext);
   const { openQPrismaClient } = appState;
   const [formState, setFormState] = useState({ text: 'Update', className: 'btn-primary' });
   const [githubUser, setGithubUser] = useState({});
@@ -14,8 +14,6 @@ const InvoicingDetails = () => {
   const [authState] = useContext(AuthContext);
   const { accountData } = appState;
   const { githubId } = authState;
-
-  const organizationInfo = {};
 
   useEffect(() => {
     if (githubId) {
@@ -95,6 +93,14 @@ const InvoicingDetails = () => {
 
         const { updateUser } = await openQPrismaClient.updateUser(formValues);
         if (updateUser) {
+          const accountDispatch = {
+            type: 'UPDATE_ACCOUNT_DATA',
+            payload: {
+              ...accountData,
+              ...updateUser,
+            },
+          };
+          dispatch(accountDispatch);
           setFormState({ text: 'Updated', className: 'btn-primary', disabled: false });
           setTimeout(() => {
             setFormState({ text: 'Update', className: 'btn-primary', disabled: false });
@@ -108,22 +114,27 @@ const InvoicingDetails = () => {
   };
 
   return (
-    <div className='px-8 py text-lg'>
-      <div className='flex flex-col flex-1 font-normal pb-16'>
-        {!githubId && <AssociationModal githubId={githubId} user={githubUser} renderError={''} redirectUrl={''} />}
-      </div>
-
-      <div className='border-b border-web-gray'>
-        <h2 className='text-2xl pb-2'>Organization Invoicing Information</h2>
-      </div>
-      <div className='note'>
-        OpenQ will use these values to generate invoices when the contracts you fund are payed out.
-      </div>
+    <div className={`${!slim && 'px-8'} py text-lg`}>
+      {!slim && (
+        <>
+          <div className='flex flex-col flex-1 font-normal pb-16'>
+            {!githubId && <AssociationModal githubId={githubId} user={githubUser} renderError={''} redirectUrl={''} />}
+          </div>
+          <div className='border-b border-web-gray'>
+            <h2 className='text-2xl pb-2'>Organization Invoicing Information</h2>
+          </div>
+          <div className='note'>
+            OpenQ will use these values to generate invoices when the contracts you fund (including this one) are payed
+            out.
+          </div>
+        </>
+      )}
       <form className='font-normal max-w-[500px] gap-4' onSubmit={submitProfileData}>
         {formValuesInvoicing.map((invoicingField) => {
           return (
             <StyledInput
-              defaultValue={organizationInfo?.[invoicingField.value]}
+              highlightEmpty={slim}
+              defaultValue={accountData?.[invoicingField.value]}
               key={invoicingField.value}
               value={invoicingField.value}
               type={invoicingField.type}

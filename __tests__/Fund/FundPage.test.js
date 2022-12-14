@@ -231,7 +231,6 @@ describe('FundPage', () => {
     expect(value).toBeInTheDocument();
     const confirmBtn = await screen.findAllByRole('button', { name: /Fund/i });
     await user.click(confirmBtn[1]);
-    expect(await screen.findByText(/funding/i)).toBeInTheDocument();
     const modalContent = await screen.findByText(/Transfer Complete/i);
     const tweet = await screen.findByText('Tweet about it');
     expect(tweet).toBeInTheDocument();

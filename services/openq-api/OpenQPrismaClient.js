@@ -335,7 +335,6 @@ class OpenQPrismaClient {
   }
 
   async getUser(idObject, types, category, fetchPolicy = {}) {
-    console.log('idObject', idObject);
     const promise = new Promise(async (resolve, reject) => {
       const variables = {
         types,
@@ -414,7 +413,6 @@ class OpenQPrismaClient {
         });
         resolve(result.data.user);
       } catch (e) {
-        console.log(e);
         reject(e);
       }
     });

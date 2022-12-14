@@ -210,7 +210,6 @@ class Utils {
       try {
         orgData = await openQPrismaClient.getOrganizations(types, batch, category);
       } catch (err) {
-        console.log(JSON.stringify(err));
         reject(err);
       }
       const filteredOrgs = orgData?.organizations?.nodes.filter((data) => !data.blacklisted) || {
@@ -243,7 +242,7 @@ class Utils {
   };
 
   fetchBounties = async (
-    { openQSubgraphClient, githubRepository, openQPrismaClient, logger },
+    { openQSubgraphClient, githubRepository, openQPrismaClient },
     batch,
     types,
     sortOrder,
@@ -294,7 +293,6 @@ class Utils {
         resolve([fullBounties, newCursor]);
       } catch (err) {
         reject(err);
-        logger.error({ ...err, address });
       }
     });
     return promise;

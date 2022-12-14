@@ -57,13 +57,13 @@ const GithubConnection = ({ user }) => {
                 <Chain className={'w-6 h-6  fill-primary'} />
 
                 <span>
-                  {externalUserId === githubId
-                    ? 'Signed in Github profile associated with address on chain.'
-                    : externalUserId && githubId
-                    ? 'Another Github profile is associated with address on chain.'
+                  {externalUserId && githubId
+                    ? `Signed in Github profile associated with address ${appState.utils.shortenAddress(
+                        account
+                      )} on chain.`
                     : !githubId
                     ? 'Github profile not signed in.'
-                    : 'No Github profile associated with address on chain.'}
+                    : 'No address associated with current Github profile on Chain.'}
                 </span>
                 {externalUserId !== githubId && githubId && (
                   <AssociateModal

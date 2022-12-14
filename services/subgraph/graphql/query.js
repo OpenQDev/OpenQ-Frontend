@@ -93,6 +93,7 @@ export const GET_BOUNTY = gql`
       payoutTokenVolume
       payoutTokenAddress
       payoutSchedule
+      invoiceable
       claims(orderBy: "claimTime", orderDirection: "desc") {
         claimTime
         claimantAsset

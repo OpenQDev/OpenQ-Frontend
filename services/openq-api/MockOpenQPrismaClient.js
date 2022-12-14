@@ -94,7 +94,7 @@ class OpenQPrismaClient {
 		const promise = new Promise(async (resolve, reject) => {
 		axios.get(`http://localhost:3030/prismaBounties`)
 			.then(result => {
-					resolve(result.data.bounties.bountyConnection)
+					resolve(result.data.bounties)
 			})
 			.catch(error => {
 				reject(error);

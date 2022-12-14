@@ -11,7 +11,18 @@ describe('OrganizationHomepage', () => {
     {
       blacklisted: false,
       id: 'MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4',
-      starringUserIds: [],
+      starringUsers: {
+        nodes: [
+          {
+            address: '0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b',
+            github: 'Christopher-Stevers',
+            discord: null,
+            twitter: null,
+            email: null,
+            starredOrganizationIds: [],
+          },
+        ],
+      },
       bounties: {
         nodes: [
           {
@@ -99,7 +110,18 @@ describe('OrganizationHomepage', () => {
     {
       blacklisted: false,
       id: 'MDEyOk9yZ2FuaXphdGlvbjM0OTY2NDY0',
-      starringUserIds: [],
+      starringUsers: {
+        nodes: [
+          {
+            address: '0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b',
+            github: 'Christopher-Stevers',
+            discord: null,
+            twitter: null,
+            email: null,
+            starredOrganizationIds: [],
+          },
+        ],
+      },
       bounties: {
         nodes: [
           {
@@ -124,7 +146,18 @@ describe('OrganizationHomepage', () => {
     {
       blacklisted: false,
       id: 'MDEyOk9yZ2FuaXphdGlvbjM4OTE3MTM3',
-      starringUserIds: [],
+      starringUsers: {
+        nodes: [
+          {
+            address: '0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b',
+            github: 'Christopher-Stevers',
+            discord: null,
+            twitter: null,
+            email: null,
+            starredOrganizationIds: [],
+          },
+        ],
+      },
       bounties: {
         nodes: [
           {
@@ -149,7 +182,18 @@ describe('OrganizationHomepage', () => {
     {
       blacklisted: false,
       id: 'O_kgDOBiNoZQ',
-      starringUserIds: [],
+      starringUsers: {
+        nodes: [
+          {
+            address: '0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b',
+            github: 'Christopher-Stevers',
+            discord: null,
+            twitter: null,
+            email: null,
+            starredOrganizationIds: [],
+          },
+        ],
+      },
       bounties: {
         nodes: [
           {
@@ -174,7 +218,18 @@ describe('OrganizationHomepage', () => {
     {
       blacklisted: false,
       id: 'MDEyOk9yZ2FuaXphdGlvbjEyNTIzMDI1',
-      starringUserIds: [],
+      starringUsers: {
+        nodes: [
+          {
+            address: '0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b',
+            github: 'Christopher-Stevers',
+            discord: null,
+            twitter: null,
+            email: null,
+            starredOrganizationIds: [],
+          },
+        ],
+      },
       bounties: {
         nodes: [
           {
@@ -199,7 +254,18 @@ describe('OrganizationHomepage', () => {
     {
       blacklisted: false,
       id: 'MDEyOk9yZ2FuaXphdGlvbjE0MTc2OTA2',
-      starringUserIds: [],
+      starringUsers: {
+        nodes: [
+          {
+            address: '0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b',
+            github: 'Christopher-Stevers',
+            discord: null,
+            twitter: null,
+            email: null,
+            starredOrganizationIds: [],
+          },
+        ],
+      },
       bounties: {
         nodes: [
           {
@@ -224,7 +290,18 @@ describe('OrganizationHomepage', () => {
     {
       blacklisted: false,
       id: 'MDEyOk9yZ2FuaXphdGlvbjE2OTI4MDg1',
-      starringUserIds: [],
+      starringUsers: {
+        nodes: [
+          {
+            address: '0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b',
+            github: 'Christopher-Stevers',
+            discord: null,
+            twitter: null,
+            email: null,
+            starredOrganizationIds: [],
+          },
+        ],
+      },
       bounties: {
         nodes: [
           {
@@ -249,7 +326,18 @@ describe('OrganizationHomepage', () => {
     {
       blacklisted: false,
       id: 'MDEyOk9yZ2FuaXphdGlvbjE3MjE5Mjg4',
-      starringUserIds: [],
+      starringUsers: {
+        nodes: [
+          {
+            address: '0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b',
+            github: 'Christopher-Stevers',
+            discord: null,
+            twitter: null,
+            email: null,
+            starredOrganizationIds: [],
+          },
+        ],
+      },
       bounties: {
         nodes: [
           {

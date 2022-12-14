@@ -21,9 +21,13 @@ import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import StoreContext from '../../store/Store/StoreContext';
 import ConnectButton from '../WalletConnect/ConnectButton';
 import AuthContext from '../../store/AuthStore/AuthContext';
+import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
+import FreelancerDetails from '../User/InvoicingDetailsTab/FreelancerDetails';
+import { valueToDisplay, listWordsWithAnd } from '../../services/utils/lib';
 
 const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const { url } = bounty;
+  const [appState, dispatch] = useContext(StoreContext);
   // State
   const [error, setError] = useState('');
   const [transactionHash, setTransactionHash] = useState(null);
@@ -31,9 +35,30 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const [showClaimLoadingModal, setShowClaimLoadingModal] = useState(false);
   const [justClaimed, setJustClaimed] = useState(false);
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
+  const { accountData } = appState;
+  const accountKeys = [
+    'billingName',
+    'city',
+    'streetAddress',
+    'postalCode',
+
+    'country',
+
+    'phoneNumber',
+    'province',
+    'email',
+    'invoiceNumber',
+    'taxId',
+    'vatNumber',
+    'vatRate',
+  ];
+  const neededAccountData = accountKeys.filter((key) => {
+    return !accountData[key];
+  });
+  const hasInvoicingInfo = neededAccountData.length === 0 || !bounty.invoiceable;
+
   const canvas = useRef();
 
-  const [appState, dispatch] = useContext(StoreContext);
   const { logger } = appState;
 
   const showBountyClosed = bounty.status == '1' && (bounty.bountyType == 2 ? price == 0 : true);
@@ -146,28 +171,56 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
                     tooltipAction={'claim this contract!'}
                     hideSignOut={true}
                   />
-
                   {account && isOnCorrectNetwork && authState.isAuthenticated && (
                     <div className='flex flex-col space-y-5'>
                       <ToolTipNew
                         groupStyles={'w-full'}
                         outerStyles='flex w-full items-center'
-                        hideToolTip={price > 0}
-                        toolTipText={'There are no funds locked to claim, contact the maintainer of this issue.'}
+                        hideToolTip={price > 0 && hasInvoicingInfo}
+                        toolTipText={
+                          price <= 0
+                            ? 'There are no funds locked to claim, contact the maintainer of this issue.'
+                            : !hasInvoicingInfo && 'This bounty requires invoicing data, please fill in the form below.'
+                        }
                       >
                         <button
                           type='submit'
                           className={
-                            price > 0
-                              ? 'btn-primary cursor-pointer w-full px-8 whitespace-nowrap'
-                              : 'btn-default cursor-not-allowed w-full px-8 whitespace-nowrap'
+                            price > 0 && hasInvoicingInfo
+                              ? 'btn-primary cursor-pointer w-full px-8 whitespace-nowrap py-0.5'
+                              : 'btn-default cursor-not-allowed w-full  px-8 whitespace-nowrap py-0.5'
                           }
-                          disabled={!(price > 0)}
+                          disabled={!(price > 0 && hasInvoicingInfo)}
                           onClick={() => setShowClaimLoadingModal(true)}
                         >
                           Claim
                         </button>
                       </ToolTipNew>
+                      {bounty.invoiceable && (
+                        <>
+                          <div>
+                            Invoicing data required for this bounty, you are missing values for the{' '}
+                            {listWordsWithAnd(
+                              neededAccountData.map((elem) => {
+                                return valueToDisplay(elem);
+                              })
+                            )}{' '}
+                            fields.
+                          </div>
+                          <details className='w-5/6 group' open={!hasInvoicingInfo}>
+                            <summary className='list-none text-2xl text-muted fill-muted cursor-pointer'>
+                              Invoicing data{' '}
+                              <span className='group-open:hidden'>
+                                <ChevronDownIcon size='24px' />
+                              </span>
+                              <span className='hidden group-open:inline'>
+                                <ChevronUpIcon size='24px' />
+                              </span>
+                            </summary>
+                            <FreelancerDetails slim={true} />
+                          </details>
+                        </>
+                      )}
                     </div>
                   )}
                   {showClaimLoadingModal && (
