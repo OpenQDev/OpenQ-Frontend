@@ -13,7 +13,6 @@ const InvoicingDetails = ({ slim }) => {
   // const formValuesSocial = [{ value: 'twitter' }, { value: 'discord' }];
   const [authState] = useContext(AuthContext);
   const { accountData } = appState;
-  console.log(accountData);
   const { githubId } = authState;
 
   useEffect(() => {

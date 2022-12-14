@@ -41,7 +41,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
     return !accountData[key];
   });
 
-  const hasInvoicingInfo = neededAccountData.length === 0;
+  const hasInvoicingInfo = neededAccountData.length === 0 || !bounty.invoiceable;
   const zeroAddressMetadata = {
     name: 'Matic',
     address: '0x0000000000000000000000000000000000000000',

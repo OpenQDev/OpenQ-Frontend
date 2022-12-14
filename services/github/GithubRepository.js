@@ -205,6 +205,7 @@ class GithubRepository {
           const number = elem.number;
           const labels = elem.labels.edges.map((edge) => edge.node);
           const languages = elem.repository.languages.edges.map((languages) => languages.node);
+
           return {
             id,
             title,

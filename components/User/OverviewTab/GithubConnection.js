@@ -57,7 +57,6 @@ const GithubConnection = ({ user }) => {
                 <Chain className={'w-6 h-6  fill-primary'} />
 
                 <span>
-                  {console.log(externalUserId, githubId)}
                   {externalUserId && githubId
                     ? `Signed in Github profile associated with address ${appState.utils.shortenAddress(
                         account

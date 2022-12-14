@@ -53,12 +53,10 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
     'vatRate',
   ];
   const neededAccountData = accountKeys.filter((key) => {
-    console.log(accountData[key]);
     return !accountData[key];
   });
-  console.log(neededAccountData, 'here');
-  const hasInvoicingInfo = neededAccountData.length === 0;
-  console.log(neededAccountData);
+  const hasInvoicingInfo = neededAccountData.length === 0 || !bounty.invoiceable;
+
   const canvas = useRef();
 
   const { logger } = appState;
@@ -173,7 +171,6 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
                     tooltipAction={'claim this contract!'}
                     hideSignOut={true}
                   />
-
                   {account && isOnCorrectNetwork && authState.isAuthenticated && (
                     <div className='flex flex-col space-y-5'>
                       <ToolTipNew
@@ -181,9 +178,9 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
                         outerStyles='flex w-full items-center'
                         hideToolTip={price > 0 && hasInvoicingInfo}
                         toolTipText={
-                          price > 0
+                          price <= 0
                             ? 'There are no funds locked to claim, contact the maintainer of this issue.'
-                            : 'This bounty requires invoicing data, please fill in the form below.'
+                            : !hasInvoicingInfo && 'This bounty requires invoicing data, please fill in the form below.'
                         }
                       >
                         <button
