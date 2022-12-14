@@ -151,7 +151,7 @@ const InvoicingDetails = ({ slim }) => {
       {showPreview ? (
         <iframe
           className='w-full h-[1400px] py-16'
-          src={`http://localhost:3007/preview?githubId=${githubId}&account=${account}`}
+          src={`${process.env.NEXT_PUBLIC_INVOICE_URL}/preview?githubId=${githubId}&account=${account}`}
         ></iframe>
       ) : (
         <>
