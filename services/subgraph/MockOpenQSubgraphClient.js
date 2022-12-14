@@ -33,7 +33,7 @@ class MockOpenQSubgraphClient {
 	}
 	async getBountiesByContractAddresses(contractAddresses) {
 		const promise = new Promise((resolve, reject) => {
-		return mocks.bounties
+		resolve( mocks.bounties)
 		});
 
 		return promise;
