@@ -7,7 +7,7 @@ import FirstSignupModal from '../components/Authentication/FirstSignupModal';
 const Login = () => {
   return (
     <div className='flex flex-col md:flex-row fixed inset-0 justify-end items-center h-screen z-10 bg-dark-mode'>
-      {/* <FirstSignupModal /> */}
+      <FirstSignupModal />
       <div className='absolute top-2 md:inset-4 w-full content-center md:w-fit md:h-fit z-10'>
         <div className='flex justify-center'>
           <Image src='/openq-logo-with-text.png' width={150} height={150} />
