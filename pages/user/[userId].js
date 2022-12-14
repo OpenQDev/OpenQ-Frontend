@@ -54,7 +54,7 @@ const userId = ({ user, organizations, renderError, firstSignup }) => {
     <div className=' gap-4 justify-center pt-6'>
       {user?.id ? (
         <>
-          {firstSignupModal && <FirstSignupModal /* closeModal={closeModal} */ setShowModal={setFirstSignupModal} />}
+          {firstSignupModal && <FirstSignupModal closeModal={setFirstSignupModal} setShowModal={setFirstSignupModal} />}
           <AboutFreelancer
             showWatched={user.id === signedAccount}
             starredOrganizations={starredOrganizations}

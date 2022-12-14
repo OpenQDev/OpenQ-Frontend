@@ -82,6 +82,7 @@ export const GET_USER_BY_ID = gql`
       twitter
       devRoles
       otherRoles
+      interests
       languages
       frameworks
       starredOrganizationIds
@@ -99,6 +100,7 @@ export const GET_USER = gql`
       twitter
       devRoles
       otherRoles
+      interests
       languages
       frameworks
       starredOrganizationIds
@@ -261,6 +263,7 @@ export const UPDATE_USER = gql`
     $frameworks: [String]
     $languages: [String]
     $otherRoles: [String]
+    $interests: [String]
     $postalCode: String
     $billingName: String
     $invoiceNumber: Int
@@ -286,6 +289,7 @@ export const UPDATE_USER = gql`
       frameworks: $frameworks
       languages: $languages
       otherRoles: $otherRoles
+      interests: $interests
       postalCode: $postalCode
       invoiceNumber: $invoiceNumber
       billingName: $billingName
