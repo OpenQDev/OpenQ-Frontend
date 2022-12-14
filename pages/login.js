@@ -5,16 +5,16 @@ import EmailLogin from '../components/Authentication/LoginPageEmailLogin';
 
 const Login = () => {
   return (
-    <div className='flex fixed inset-0 justify-between items-center h-screen bg-dark-mode z-10'>
+    <div className='flex flex-col md:flex-row fixed inset-0 justify-end items-center h-screen z-10 bg-dark-mode'>
       <div className='absolute top-2 md:inset-4 w-full content-center md:w-fit md:h-fit z-40'>
         <div className='flex justify-center'>
           <Image src='/openq-logo-with-text.png' width={150} height={150} />
         </div>
       </div>
-      <div className='text-2xl absolute bottom-32 md:inset-0 xl:block  object-fill'>
-        <Image src='/SpaceScapes/login.png' width={1000} height={200} />
+      <div className='text-2xl relative md:inset-0 w-full h-full'>
+        <Image src='/SpaceScapes/login.png' className='object-none h-full w-full' width={800} height={500} />
       </div>
-      <div className='text-xl w-full text-center flex gap-4 justify-center items-center justify-items-center content-center'>
+      <div className='text-xl bottom-0 relative h-full md:w-[1900px] py-8 text-center bg-dark-mode flex gap-4 justify-center items-center'>
         <div className=' md:w-1/2 space-y-4 mx-4'>
           <h1 className='my-2 text-3xl'>Let's get you started!</h1>
           <EmailLogin />
