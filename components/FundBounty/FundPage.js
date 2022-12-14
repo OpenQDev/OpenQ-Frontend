@@ -51,8 +51,9 @@ const FundPage = ({ bounty, refreshBounty }) => {
     path: 'https://wallet-asset.matic.network/img/tokens/matic.svg',
   };
   // Context
-  const { logger, openQClient, utils } = appState;
-  const { library, account } = useWeb3();
+  const { openQClient, utils } = appState;
+  const web3 = useWeb3();
+  const { account, library } = web3;
 
   // State
   const [token, setToken] = useState(zeroAddressMetadata);
@@ -119,14 +120,9 @@ const FundPage = ({ bounty, refreshBounty }) => {
       setApproveTransferState,
       volume,
       token,
-      ethers,
       pickedNft,
-      openQClient,
-      library,
       setButtonText,
       bounty,
-      account,
-      logger,
       setShowApproveTransferModal,
       allowance,
       depositPeriodDays,
@@ -134,7 +130,8 @@ const FundPage = ({ bounty, refreshBounty }) => {
       setSuccessMessage,
       refreshBounty,
       error,
-      accountData.id
+      appState,
+      web3
     );
   };
 

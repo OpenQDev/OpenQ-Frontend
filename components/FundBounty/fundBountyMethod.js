@@ -1,5 +1,5 @@
 import { APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveFundState';
-
+import { ethers } from 'ethers';
 const checkAddressLimit = async (
   openQClient,
   library,
@@ -36,17 +36,17 @@ const checkAddressLimit = async (
 };
 
 const checkFundsBalance = async (
-  openQClient,
-  library,
-  account,
+  appState,
+  web3,
   token,
   setError,
   setApproveTransferState,
   bigNumberVolumeInWei,
-  logger,
   bounty,
   setButtonText
 ) => {
+  const { account, library } = web3;
+  const { openQClient, logger } = appState;
   try {
     const callerBalance = await openQClient.balanceOf(library, account, token.address);
 
@@ -80,7 +80,6 @@ const checkFundsBalance = async (
 const approveToken = async (
   setShowApproveTransferModal,
   token,
-  ethers,
   allowance,
   setButtonText,
   setApproveTransferState,
@@ -107,9 +106,9 @@ const approveToken = async (
 };
 
 const fundBounty = async (
+  appState,
+  web3,
   setApproveTransferState,
-  openQClient,
-  library,
   bounty,
   token,
   bigNumberVolumeInWei,
@@ -117,14 +116,13 @@ const fundBounty = async (
   setTransactionHash,
   setSuccessMessage,
   refreshBounty,
-  logger,
-  account,
   volume,
   setError,
-  setButtonText,
-  uuid
+  setButtonText
 ) => {
   setApproveTransferState(TRANSFERRING);
+  const { openQClient, logger, accountData } = appState;
+  const { library, account } = web3;
   try {
     const fundTxnReceipt = await openQClient.fundBounty(
       library,
@@ -132,7 +130,7 @@ const fundBounty = async (
       token.address,
       bigNumberVolumeInWei,
       depositPeriodDays,
-      uuid
+      accountData.id
     );
     setTransactionHash(fundTxnReceipt.events[0].transactionHash);
     setApproveTransferState(SUCCESS);
@@ -218,14 +216,9 @@ const fundBountyMethod = async (
   setApproveTransferState,
   volume,
   token,
-  ethers,
   pickedNft,
-  openQClient,
-  library,
   setButtonText,
   bounty,
-  account,
-  logger,
   setShowApproveTransferModal,
   allowance,
   depositPeriodDays,
@@ -233,8 +226,11 @@ const fundBountyMethod = async (
   setSuccessMessage,
   refreshBounty,
   error,
-  uuid
+  appState,
+  web3
 ) => {
+  const { openQClient } = appState;
+  const { library } = web3;
   const volumeInWei = volume * 10 ** token.decimals;
   const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', { useGrouping: false }));
 
@@ -243,14 +239,13 @@ const fundBountyMethod = async (
     checkAddressLimit(openQClient, library, token, bounty, setError, setApproveTransferState, setButtonText);
 
     checkFundsBalance(
-      openQClient,
-      library,
-      account,
+      appState,
+      web3,
       token,
       setError,
       setApproveTransferState,
       bigNumberVolumeInWei,
-      logger,
+
       bounty,
       setButtonText
     );
@@ -258,7 +253,6 @@ const fundBountyMethod = async (
     const approveSucceeded = approveToken(
       setShowApproveTransferModal,
       token,
-      ethers,
       allowance,
       setButtonText,
       setApproveTransferState,
@@ -270,9 +264,9 @@ const fundBountyMethod = async (
 
     if (approveSucceeded || allowance) {
       fundBounty(
+        appState,
+        web3,
         setApproveTransferState,
-        openQClient,
-        library,
         bounty,
         token,
         bigNumberVolumeInWei,
@@ -280,12 +274,9 @@ const fundBountyMethod = async (
         setTransactionHash,
         setSuccessMessage,
         refreshBounty,
-        logger,
-        account,
         volume,
         setError,
-        setButtonText,
-        uuid
+        setButtonText
       );
     }
   } else {
