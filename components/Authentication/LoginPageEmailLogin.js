@@ -6,7 +6,7 @@ import { OAuthExtension } from '@magic-ext/oauth';
 import { ArrowRightIcon, MailIcon } from '@primer/octicons-react';
 import axios from 'axios';
 
-const EmailLogin = () => {
+const LoginPageEmailLogin = () => {
   const [user, setUser] = useContext(UserContext);
   const [magic, setMagic] = useState(null);
   const [disabled, setDisabled] = useState(false);
@@ -115,4 +115,4 @@ const EmailLogin = () => {
   );
 };
 
-export default EmailLogin;
+export default LoginPageEmailLogin;

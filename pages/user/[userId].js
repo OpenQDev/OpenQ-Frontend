@@ -12,13 +12,15 @@ import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrism
 import useAuth from '../../hooks/useAuth';
 import StoreContext from '../../store/Store/StoreContext';
 import Logger from '../../services/logger/Logger';
+import FirstSignupModal from '../../components/Authentication/FirstSignupModal';
 
-const userId = ({ user, organizations, renderError }) => {
+const userId = ({ user, organizations, renderError, firstSignup }) => {
   const [authState] = useAuth();
   const { signedAccount } = authState;
   const [appState] = useContext(StoreContext);
   const [starredOrganizations, setStarredOrganizations] = useState([]);
   const [watchedBounties, setWatchedBounties] = useState([]);
+  const [firstSignupModal, setFirstSignupModal] = useState(firstSignup);
 
   const [publicPrivateUserData] = useState(user);
 
@@ -51,14 +53,17 @@ const userId = ({ user, organizations, renderError }) => {
   return (
     <div className=' gap-4 justify-center pt-6'>
       {user?.id ? (
-        <AboutFreelancer
-          showWatched={user.id === signedAccount}
-          starredOrganizations={starredOrganizations}
-          watchedBounties={watchedBounties}
-          user={publicPrivateUserData}
-          userId={user.id}
-          organizations={organizations}
-        />
+        <>
+          {firstSignupModal && <FirstSignupModal /* closeModal={closeModal} */ setShowModal={setFirstSignupModal} />}
+          <AboutFreelancer
+            showWatched={user.id === signedAccount}
+            starredOrganizations={starredOrganizations}
+            watchedBounties={watchedBounties}
+            user={publicPrivateUserData}
+            userId={user.id}
+            organizations={organizations}
+          />
+        </>
       ) : (
         <UnexpectedErrorModal error={renderError} />
       )}
@@ -77,6 +82,7 @@ export const getServerSideProps = async (context) => {
 
   let userId = context.params.userId;
   let renderError = '';
+  let firstSignup = true;
 
   const openQPrismaClient = new WrappedOpenQPrismaClient();
   openQPrismaClient.instance.setGraphqlHeaders(oauthToken);
@@ -176,7 +182,7 @@ export const getServerSideProps = async (context) => {
   };
 
   return {
-    props: { user, organizations, renderError, starredOrganizations, oauthToken },
+    props: { user, organizations, renderError, starredOrganizations, oauthToken, firstSignup },
   };
 };
 
