@@ -10,7 +10,7 @@ import ConnectButton from '../../WalletConnect/ConnectButton';
 import MintContext from '../MintContext';
 
 // TODO: Put all this state logic into a context, and possibly add a reducer
-const MintBountyModalButton = ({ currentSum, modalVisibility, setError }) => {
+const MintBountyModalButton = ({ modalVisibility, setError }) => {
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const [mintState, mintDispatch] = useContext(MintContext);
 
@@ -145,14 +145,12 @@ const MintBountyModalButton = ({ currentSum, modalVisibility, setError }) => {
         <ToolTipNew
           outerStyles={'hover:hidden -top-20 md:top-auto'}
           triangleStyles={'mt-7 md:mt-1 rotate-180 md:rotate-0 '}
-          hideToolTip={readyToMint}
+          hideToolTip={readyToMint || isLoading}
           toolTipText={
             issue?.closed && issue?.url?.includes('/issues/')
               ? 'Issue closed'
               : !enableMint || !issue?.url?.includes('/issues/')
               ? 'Please choose an elgible issue.'
-              : currentSum !== sum
-              ? 'Please make sure each tier gets a percentage.'
               : !enableContest
               ? 'Please make sure the sum of tier percentages adds up to 100.'
               : null

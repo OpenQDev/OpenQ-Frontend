@@ -35,7 +35,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
   const [nftTier, setNftTier] = useState('');
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
-  const accountKeys = ['company', 'city', 'country', 'streetAddress', 'province', 'email'];
+  const accountKeys = ['company', 'city', 'country', 'streetAddress', 'province', 'invoicingEmail'];
 
   const neededAccountData = accountKeys.filter((key) => {
     return !accountData[key];
@@ -250,7 +250,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
                           : isContest && nftTier === '' && pickedNft
                           ? 'Please select an eligible tier to send the nft to.'
                           : !hasInvoicingInfo
-                          ? 'This bounty requires funding information.'
+                          ? 'This bounty requires invoicing information.'
                           : "Please indicate the volume you'd like to fund with. Must be between 0.0000001 and 1,000,000."
                       }
                     >

@@ -335,6 +335,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
                         finalTierVolumes={finalTierVolumes}
                         setFinalTierVolumes={setFinalTierVolumes}
                         setSum={setSum}
+                        currentSum={sum}
                         tierArr={tierArr}
                         setEnableContest={setEnableContest}
                       />

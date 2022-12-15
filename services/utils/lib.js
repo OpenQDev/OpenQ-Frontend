@@ -30,6 +30,8 @@ export const capitalize = (word) => {
 };
 export const valueToDisplay = (value) => {
   switch (value) {
+    case 'invoicingName':
+      return 'Invoicing Name';
     case 'streetAddress':
       return 'Billing Address';
     case 'postalCode':
