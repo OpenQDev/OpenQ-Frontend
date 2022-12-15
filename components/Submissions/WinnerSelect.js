@@ -221,8 +221,8 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
                   {bounty.bountyType === '2' ? prize.payout + '% of funds' : formatVolume(prize.payout) + unit} staked
                   on this competition (
                   {bounty.bountyType === '2'
-                    ? appState.utils.formatter.format((price * prize.payout) / 100)
-                    : appState.utils.formatter.format(fixedPayoutValue?.total)}
+                    ? appState.utils.formatter.format((price * prize.payout) / 100 || 0)
+                    : appState.utils.formatter.format(fixedPayoutValue?.total || 0)}
                   ) to the author of this submission, at the following address:{' '}
                   {`${closerAddress.slice(0, 4)}...${closerAddress.slice(39)}`} .
                 </p>
