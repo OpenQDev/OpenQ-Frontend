@@ -106,7 +106,7 @@ const ShowCasePage = ({ pr }) => {
   return (
     <div className='m-auto w-3/4'>
       <h1 className='lsm:text-[32px] text-4xl pt-16 pb-8 flex-1 leading-tight min-w-[240px] pr-20'>{pr.title}</h1>
-      <a href={pr.url} className='text-tinted underline' target='_blank' rel='noopener norefferer'>
+      <a href={pr.url} className='text-tinted underline' target='_blank' rel='noopener noreferrer'>
         <span>View Source</span>
       </a>
       <div className='pt-8 text-lg'>
