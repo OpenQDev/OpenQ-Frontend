@@ -255,7 +255,7 @@ const fundBountyMethod = async (
       setButtonText
     );
 
-    const approveSucceeded = approveToken(
+    const approveSucceeded = await approveToken(
       setShowApproveTransferModal,
       token,
       ethers,
@@ -265,7 +265,8 @@ const fundBountyMethod = async (
       openQClient,
       library,
       bounty,
-      setError
+      setError,
+      bigNumberVolumeInWei
     );
 
     if (approveSucceeded || allowance) {
