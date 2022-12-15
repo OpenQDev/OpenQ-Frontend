@@ -44,7 +44,7 @@ const InvoicingDetails = ({ slim }) => {
     },
     { value: 'country', required: true },
     { value: 'province', displayValue: 'State/Province', required: true },
-    { value: 'email', required: true },
+    { value: 'invoicingEmail', displayValue: 'Invoicing Email', required: true },
   ];
 
   const submitProfileData = async (e) => {

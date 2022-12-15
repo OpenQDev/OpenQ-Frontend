@@ -124,6 +124,7 @@ export const GET_PRIVATE_USER = gql`
       discord
       github
       twitter
+      invoicingEmail
       postalCode
       billingName
       invoiceNumber
@@ -267,6 +268,7 @@ export const UPDATE_USER = gql`
     $postalCode: String
     $billingName: String
     $invoiceNumber: Int
+    $invoicingEmail: String
     $phoneNumber: String
     $taxId: String
     $vatNumber: String
@@ -294,6 +296,7 @@ export const UPDATE_USER = gql`
       invoiceNumber: $invoiceNumber
       billingName: $billingName
       phoneNumber: $phoneNumber
+      invoicingEmail: $invoicingEmail
       taxId: $taxId
       vatNumber: $vatNumber
       vatRate: $vatRate
@@ -311,6 +314,7 @@ export const UPDATE_USER = gql`
       github
       twitter
       postalCode
+      invoicingEmail
       billingName
       invoiceNumber
       phoneNumber
