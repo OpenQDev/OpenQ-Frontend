@@ -51,9 +51,9 @@ const AddContestParams = () => {
       setTier(parseInt(e.target.value));
     }
     if (parseInt(e.target.value) > 100) {
-      setTier('0');
+      setTier('1');
     }
-    if (e.target.value === '') {
+    if (e.target.value === '' || isNaN(parseInt(e.target.value))) {
       return;
     }
     const newTierArr = Array.from({ length: e.target.value }, (_, i) => i);

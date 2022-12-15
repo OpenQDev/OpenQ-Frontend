@@ -1,15 +1,11 @@
-import React, { useEffect, useState, useContext, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import StoreContext from '../../../../../store/Store/StoreContext';
 
 const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
   // State
   const [suffix, setSuffix] = useState();
   const [appState] = useContext(StoreContext);
-  const createReactScale = (tierVolumes, tier) => {
-    return (tierVolumes[tier] || 1) / 100;
-  };
-  const memoizedScale = useMemo(() => createReactScale(tierVolumes, tier), [tierVolumes, tier]);
-  const [reactScale, setReactScale] = useState(memoizedScale);
+  const [reactScale, setReactScale] = useState(0.01);
   const [drag, setDrag] = useState();
   const [ogWidth, setOgWidth] = useState(0);
   const widthParent = useRef();

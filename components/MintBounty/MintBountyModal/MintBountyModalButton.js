@@ -145,7 +145,7 @@ const MintBountyModalButton = ({ currentSum, modalVisibility, setError }) => {
         <ToolTipNew
           outerStyles={'hover:hidden -top-20 md:top-auto'}
           triangleStyles={'mt-7 md:mt-1 rotate-180 md:rotate-0 '}
-          hideToolTip={readyToMint}
+          hideToolTip={readyToMint || isLoading}
           toolTipText={
             issue?.closed && issue?.url?.includes('/issues/')
               ? 'Issue closed'
@@ -171,6 +171,7 @@ const MintBountyModalButton = ({ currentSum, modalVisibility, setError }) => {
             ) : (
               'Deploy Contract'
             )}
+            {readyToMint && 'ready'}
           </button>
         </ToolTipNew>
       )}
