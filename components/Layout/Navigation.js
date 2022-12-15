@@ -5,8 +5,7 @@ import ReactGA from 'react-ga4';
 // Custom
 import StoreContext from '../../store/Store/StoreContext.js';
 import ConnectButton from '../WalletConnect/ConnectButton.js';
-import ProfilePicture from './ProfilePicture.js';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import FirstTimeBanner from './FirstTimeBanner';
 import useWeb3 from '../../hooks/useWeb3.js';
 import { QuestionIcon, ThreeBarsIcon } from '@primer/octicons-react';
@@ -171,11 +170,13 @@ const Navigation = () => {
             </div>
           </div>
           <div className='flex items-center text-[0.8rem] lg:text-[1rem]'>
-            <div>
-              <ConnectButton />
-            </div>
-            <div>
-              <ProfilePicture />
+            <div className='pr-4'>
+              <ConnectButton
+                needsGithub={true}
+                nav={true}
+                tooltipAction={"start using all of OpenQ's features"}
+                centerStyles={true}
+              />
             </div>
           </div>
         </div>

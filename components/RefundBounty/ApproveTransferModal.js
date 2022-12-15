@@ -7,7 +7,7 @@ import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Link from 'next/link';
 import LinkText from '../svg/linktext';
 import ModalDefault from '../Utils/ModalDefault';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
@@ -146,6 +146,7 @@ const ApproveTransferModal = ({
               width={20}
               className='inline'
               height={20}
+              alt='crypto-logo'
               src={tokenMetadata.path || tokenMetadata.logoURI || '/crypto-logos/ERC20.svg'}
             />
             <span>
@@ -180,7 +181,6 @@ const ApproveTransferModal = ({
                 target={'_blank'}
                 className='underline'
                 rel='noopener noreferrer'
-                legacyBehavior
               >
                 <>
                   {transactionHash.slice(0, 5)}. . .{transactionHash.slice(62)}

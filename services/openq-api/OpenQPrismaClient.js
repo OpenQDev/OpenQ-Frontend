@@ -2,9 +2,11 @@ import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 import {
   WATCH_BOUNTY,
   UNWATCH_BOUNTY,
-  GET_BOUNTY_BY_HASH,
-  GET_USER_BY_HASH,
+  GET_BOUNTY_BY_ADDRESS,
+  GET_USER,
+  GET_PRIVATE_USER,
   UPDATE_USER,
+  UPSERT_USER,
   GET_CONTRACT_PAGE,
   GET_LEAN_ORGANIZATIONS,
   GET_ALL_CONTRACTS,
@@ -13,16 +15,20 @@ import {
   ADD_CONTRIBUTOR,
   REMOVE_CONTRIBUTOR,
   GET_ORGANIZATIONS,
-  STAR_ORG,
-  UN_STAR_ORG,
+  STAR_ORGANIZATION,
+  UNSTAR_ORGANIZATION,
   GET_ORGANIZATION,
   BLACKLIST_ISSUE,
   BLACKLIST_ORG,
   UPDATE_USER_SIMPLE,
   GET_USERS,
+  SET_IS_CONTEST,
+  GET_REPOSITORIES,
+  GET_ALL_PRS,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
+import { setContext } from '@apollo/client/link/context';
 
 class OpenQPrismaClient {
   constructor() {}
@@ -35,12 +41,29 @@ class OpenQPrismaClient {
     cache: new InMemoryCache(),
   });
 
-  async watchBounty(contractAddress, userAddress) {
+  setGraphqlHeaders = (githubOAuthToken) => {
+    let authLink;
+
+    // oauthToken will be null if the user does not have the github_oauth_token_unsigned cookie set
+    // In this case, we initialize the Apollo Client for that page using the PAT, otherwise, we use the oauthToken
+    authLink = setContext((_, { headers }) => {
+      return {
+        headers: {
+          ...headers,
+          github_oauth_token_unsigned: `${githubOAuthToken}`,
+        },
+      };
+    });
+
+    this.client.setLink(authLink.concat(this.httpLink));
+  };
+
+  async watchBounty(contractAddress, idObj) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
           mutation: WATCH_BOUNTY,
-          variables: { contractAddress, userAddress },
+          variables: { contractAddress, ...idObj },
           fetchPolicy: 'no-cache',
         });
         resolve(result.data);
@@ -51,12 +74,12 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async unWatchBounty(contractAddress, userAddress) {
+  async unWatchBounty(contractAddress, idObj) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
           mutation: UNWATCH_BOUNTY,
-          variables: { contractAddress, userAddress },
+          variables: { contractAddress, ...idObj },
           fetchPolicy: 'no-cache',
         });
         resolve(result.data);
@@ -67,12 +90,12 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async unStarOrg(id, address) {
+  async unStarOrg(variables) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
-          mutation: UN_STAR_ORG,
-          variables: { id, address },
+          mutation: UNSTAR_ORGANIZATION,
+          variables,
         });
         resolve(result.data);
       } catch (e) {
@@ -82,12 +105,12 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async starOrg(id, address) {
+  async starOrg(variables) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
-          mutation: STAR_ORG,
-          variables: { id, address },
+          mutation: STAR_ORGANIZATION,
+          variables,
         });
         resolve(result.data);
       } catch (e) {
@@ -101,7 +124,7 @@ class OpenQPrismaClient {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
-          query: GET_BOUNTY_BY_HASH,
+          query: GET_BOUNTY_BY_ADDRESS,
           variables: {
             contractAddress: ethers.utils.getAddress(contractAddress),
           },
@@ -177,6 +200,20 @@ class OpenQPrismaClient {
     return promise;
   }
 
+  getPullRequests() {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_ALL_PRS,
+        });
+        resolve(result.data.prs);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
   getOrganization(id) {
     const promise = new Promise(async (resolve, reject) => {
       try {
@@ -199,7 +236,7 @@ class OpenQPrismaClient {
           mutation: GET_LEAN_ORGANIZATIONS,
           variables: { organizationIds },
         });
-        resolve(result.data.organizations);
+        resolve(result.data.organizations.nodes);
       } catch (e) {
         reject(e);
       }
@@ -215,6 +252,35 @@ class OpenQPrismaClient {
           variables: values,
         });
         resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  upsertUser(values) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: UPSERT_USER,
+          variables: values,
+        });
+        resolve(result.data.upsertUser);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  updateLocalUser(values) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const updatedUser = { ...user, ...values };
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        resolve({ updateUser: updatedUser });
       } catch (e) {
         reject(e);
       }
@@ -268,21 +334,81 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async getUser(userAddress, types, category) {
+  async getUser(idObject, types, category, fetchPolicy = {}) {
     const promise = new Promise(async (resolve, reject) => {
-      if (!ethers.utils.isAddress(userAddress)) {
-        return {};
-      }
       const variables = {
-        userAddress: ethers.utils.getAddress(userAddress),
         types,
       };
+
+      if (idObject.id) {
+        variables.id = idObject.id;
+      }
+
+      if (idObject.github) {
+        variables.github = idObject.github;
+      }
+
+      if (idObject.email) {
+        variables.email = idObject.email;
+      }
+
       if (category) {
         variables.category = category;
       }
       try {
-        const result = await this.client.mutate({
-          mutation: GET_USER_BY_HASH,
+        const result = await this.client.query({
+          query: GET_PRIVATE_USER,
+          variables,
+          ...fetchPolicy,
+        });
+        resolve(result.data.user);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  getLocalUser() {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        resolve(user);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  getPublicUser(github) {
+    const promise = new Promise(async (resolve, reject) => {
+      const variables = {
+        github,
+      };
+
+      try {
+        const result = await this.client.query({
+          query: GET_USER,
+          variables,
+        });
+        resolve(result.data.user);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  getPublicUserById(id) {
+    const promise = new Promise(async (resolve, reject) => {
+      const variables = {
+        id,
+      };
+
+      try {
+        const result = await this.client.query({
+          query: GET_USER,
           variables,
         });
         resolve(result.data.user);
@@ -342,8 +468,37 @@ class OpenQPrismaClient {
     });
   }
 
-  async getContractPage(after, limit, sortOrder, orderBy, types, organizationId, category) {
-    const variables = { after, orderBy, limit, sortOrder, organizationId };
+  async setIsContest(variables) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: SET_IS_CONTEST,
+          variables,
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  getRepositories(variables) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_REPOSITORIES,
+          variables,
+        });
+        resolve(result.data.organization.repositories.nodes);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  async getContractPage(after, limit, sortOrder, orderBy, types, organizationId, category, repositoryId) {
+    const variables = { after, orderBy, limit, sortOrder, organizationId, repositoryId };
     if (types) {
       variables.types = types;
     }

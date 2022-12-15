@@ -8,6 +8,7 @@ module.exports = () => {
     NEXT_PUBLIC_INFURA_KEY: process.env.INFURA_KEY,
     NEXT_PUBLIC_BASE_URL: process.env.BASE_URL,
     NEXT_PUBLIC_AUTH_URL: process.env.AUTH_URL,
+    NEXT_PUBLIC_INVOICE_URL: process.env.INVOICE_URL,
     NEXT_PUBLIC_OPENQ_API_URL: process.env.OPENQ_API_URL,
     NEXT_PUBLIC_ORACLE_URL: process.env.ORACLE_URL,
     NEXT_PUBLIC_GITHUB_BOT_WEBHOOK: process.env.GITHUB_BOT_WEBHOOK,
@@ -23,6 +24,7 @@ module.exports = () => {
     NEXT_PUBLIC_MOCK_NFT_TOKEN_ADDRESS: process.env.MOCK_NFT_TOKEN_ADDRESS,
     NEXT_PUBLIC_BUILD_NUMBER: process.env.BUILD_NUMBER,
     NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY: process.env.MAGIC_PUBLISHABLE_KEY,
+    NEXT_PUBLIC_CONVERTKIT_API_KEY: process.env.CONVERTKIT_API_KEY,
   };
   const headers = [
     { key: 'Access-Control-Allow-Origin', value: '*' },
@@ -31,7 +33,7 @@ module.exports = () => {
   ];
 
   const config = {
-    reactStrictMode: true,
+    reactStrictMode: false,
     env,
 
     async headers() {

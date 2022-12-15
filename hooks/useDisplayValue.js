@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useGetTokenValues from './useGetTokenValues';
 import useGetValueFromComposite from './useGetValueFromComposite';
 
@@ -7,35 +7,24 @@ const useDisplayValue = (bounty, formatter, type) => {
   //takes in bounty and returns correct value object
   const [valueObj, setValueObj] = useState();
   const [payoutPrice] = useGetTokenValues(bounty?.payout);
-  let budget;
-  const tvc = bounty.tvc || payoutPrice?.total || 0;
   const [tokenValues] = useGetTokenValues(bounty.bountyTokenBalances);
-  const tvl = tokenValues?.total || bounty.tvl || 0;
   const getPayoutScheduleBalance = (bounty) => {
     const totalPayoutsScheduled = bounty.payoutSchedule?.reduce((acc, payout) => {
       return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
     });
     return {
-      volume: totalPayoutsScheduled.toLocaleString('fullwide', { useGrouping: false }),
+      volume: totalPayoutsScheduled?.toLocaleString('fullwide', { useGrouping: false }),
       tokenAddress: bounty.payoutTokenAddress,
     };
   };
-  const isFixedContest = bounty.bountyType === '3' && bounty.payoutSchedule;
-  if (isFixedContest) {
-    const payoutScheduledBalance = getPayoutScheduleBalance(bounty);
-    const [payoutScheduledValue] = useGetValueFromComposite(
-      payoutScheduledBalance.tokenAddress,
-      payoutScheduledBalance.volume
-    );
-    if (payoutScheduledValue) {
-      budget = payoutScheduledValue.total;
-    }
-  } else {
-    const [budgetValue] = useGetValueFromComposite(bounty.fundingGoalTokenAddress, bounty.fundingGoalVolume);
-    budget = budgetValue?.total;
-  }
-  if (!valueObj) {
-    const hasTvl = (tvl > budget && type !== 'budget') || (type === 'actual' && tvl !== 0);
+  const payoutScheduledBalance = getPayoutScheduleBalance(bounty);
+  const [payoutScheduledValue] = useGetValueFromComposite(
+    payoutScheduledBalance.tokenAddress,
+    payoutScheduledBalance.volume
+  );
+  const [budgetValue] = useGetValueFromComposite(bounty.fundingGoalTokenAddress, bounty.fundingGoalVolume);
+  const setDisplayValues = (budget, tvc, tvl) => {
+    const hasTvl = (tvl > budget && type !== 'budget') || type === 'actual';
     if (bounty.status !== '0') {
       setValueObj({
         value: tvc,
@@ -67,7 +56,22 @@ const useDisplayValue = (bounty, formatter, type) => {
         displayValue: null,
       });
     }
-  }
+  };
+  useEffect(() => {
+    let budget;
+    const tvc = bounty.tvc || payoutPrice?.total || 0;
+    const tvl = tokenValues?.total || bounty.tvl || 0;
+    const isFixedContest = bounty.bountyType === '3' && bounty.payoutSchedule;
+    if (isFixedContest) {
+      if (payoutScheduledValue) {
+        budget = payoutScheduledValue.total;
+      }
+    } else {
+      budget = budgetValue?.total;
+    }
+    setDisplayValues(budget, tvc, tvl);
+  }, [payoutPrice, tokenValues, payoutScheduledValue, budgetValue]);
+
   return valueObj;
 };
 export default useDisplayValue;

@@ -11,8 +11,6 @@ import {
   TRANSACTION_CONFIRMED,
   CONFIRM_CLAIM,
 } from './ClaimStates';
-import useAuth from '../../hooks/useAuth';
-import AuthButton from '../Authentication/AuthButton';
 import useWeb3 from '../../hooks/useWeb3';
 import ClaimLoadingModal from './ClaimLoadingModal';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
@@ -21,9 +19,15 @@ import useEns from '../../hooks/useENS';
 import ToolTipNew from '../Utils/ToolTipNew';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import StoreContext from '../../store/Store/StoreContext';
+import ConnectButton from '../WalletConnect/ConnectButton';
+import AuthContext from '../../store/AuthStore/AuthContext';
+import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
+import FreelancerDetails from '../User/InvoicingDetailsTab/FreelancerDetails';
+import { valueToDisplay, listWordsWithAnd } from '../../services/utils/lib';
 
 const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const { url } = bounty;
+  const [appState, dispatch] = useContext(StoreContext);
   // State
   const [error, setError] = useState('');
   const [transactionHash, setTransactionHash] = useState(null);
@@ -31,9 +35,30 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const [showClaimLoadingModal, setShowClaimLoadingModal] = useState(false);
   const [justClaimed, setJustClaimed] = useState(false);
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
+  const { accountData } = appState;
+  const accountKeys = [
+    'billingName',
+    'city',
+    'streetAddress',
+    'postalCode',
+
+    'country',
+
+    'phoneNumber',
+    'province',
+    'email',
+    'invoiceNumber',
+    'taxId',
+    'vatNumber',
+    'vatRate',
+  ];
+  const neededAccountData = accountKeys.filter((key) => {
+    return !accountData[key];
+  });
+  const hasInvoicingInfo = neededAccountData.length === 0 || !bounty.invoiceable;
+
   const canvas = useRef();
 
-  const [appState, dispatch] = useContext(StoreContext);
   const { logger } = appState;
 
   const showBountyClosed = bounty.status == '1' && (bounty.bountyType == 2 ? price == 0 : true);
@@ -52,16 +77,9 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const [ensName] = useEns(account);
 
   // Hooks
-  const [authState] = useAuth();
+  const [authState] = useContext(AuthContext);
 
   // Methods
-  const connectWallet = () => {
-    const payload = {
-      type: 'CONNECT_WALLET',
-      payload: true,
-    };
-    dispatch(payload);
-  };
 
   const claimBounty = async () => {
     setClaimState(CHECKING_WITHDRAWAL_ELIGIBILITY);
@@ -147,44 +165,64 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
                       We noticed you are not signed into Github. You must sign to verify and claim an issue!
                     </div>
                   ) : null}
-
-                  <div className='flex flex-col space-y-5'>
-                    <ToolTipNew
-                      groupStyles={'w-full'}
-                      outerStyles='flex w-full items-center'
-                      hideToolTip={account && isOnCorrectNetwork && authState.isAuthenticated && price > 0}
-                      toolTipText={
-                        account && isOnCorrectNetwork && authState.isAuthenticated && price > 0
-                          ? "Please indicate the volume you'd like to claim with."
-                          : account && authState.isAuthenticated && price > 0
-                          ? 'Please switch to the correct network to claim this contract.'
-                          : authState.isAuthenticated && price > 0
-                          ? 'Connect your wallet to claim this contract!'
-                          : price > 0
-                          ? 'Connect your GitHub account to claim this contract!'
-                          : 'There are no funds locked to claim, contact the maintainer of this issue.'
-                      }
-                    >
-                      <button
-                        type='submit'
-                        className={
-                          (isOnCorrectNetwork && authState.isAuthenticated && price > 0) || !account
-                            ? 'btn-primary cursor-pointer w-full px-8 whitespace-nowrap'
-                            : 'btn-default cursor-not-allowed w-full px-8 whitespace-nowrap'
+                  <ConnectButton
+                    needsGithub={true}
+                    nav={false}
+                    tooltipAction={'claim this contract!'}
+                    hideSignOut={true}
+                  />
+                  {account && isOnCorrectNetwork && authState.isAuthenticated && (
+                    <div className='flex flex-col space-y-5'>
+                      <ToolTipNew
+                        groupStyles={'w-full'}
+                        outerStyles='flex w-full items-center'
+                        hideToolTip={price > 0 && hasInvoicingInfo}
+                        toolTipText={
+                          price <= 0
+                            ? 'There are no funds locked to claim, contact the maintainer of this issue.'
+                            : !hasInvoicingInfo && 'This bounty requires invoicing data, please fill in the form below.'
                         }
-                        disabled={(!isOnCorrectNetwork || !authState.isAuthenticated || !(price > 0)) && account}
-                        onClick={account ? () => setShowClaimLoadingModal(true) : connectWallet}
                       >
-                        {account ? 'Claim' : 'Connect Wallet'}
-                      </button>
-                    </ToolTipNew>
-                  </div>
-                  <div className='flex items-center col-span-3 pb-8'>
-                    <AuthButton
-                      hideSignOut={true}
-                      redirectUrl={`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.bountyAddress}`}
-                    />
-                  </div>
+                        <button
+                          type='submit'
+                          className={
+                            price > 0 && hasInvoicingInfo
+                              ? 'btn-primary cursor-pointer w-full px-8 whitespace-nowrap py-0.5'
+                              : 'btn-default cursor-not-allowed w-full  px-8 whitespace-nowrap py-0.5'
+                          }
+                          disabled={!(price > 0 && hasInvoicingInfo)}
+                          onClick={() => setShowClaimLoadingModal(true)}
+                        >
+                          Claim
+                        </button>
+                      </ToolTipNew>
+                      {bounty.invoiceable && (
+                        <>
+                          <div>
+                            Invoicing data required for this bounty, you are missing values for the{' '}
+                            {listWordsWithAnd(
+                              neededAccountData.map((elem) => {
+                                return valueToDisplay(elem);
+                              })
+                            )}{' '}
+                            fields.
+                          </div>
+                          <details className='w-5/6 group' open={!hasInvoicingInfo}>
+                            <summary className='list-none text-2xl text-muted fill-muted cursor-pointer'>
+                              Invoicing data{' '}
+                              <span className='group-open:hidden'>
+                                <ChevronDownIcon size='24px' />
+                              </span>
+                              <span className='hidden group-open:inline'>
+                                <ChevronUpIcon size='24px' />
+                              </span>
+                            </summary>
+                            <FreelancerDetails slim={true} />
+                          </details>
+                        </>
+                      )}
+                    </div>
+                  )}
                   {showClaimLoadingModal && (
                     <ClaimLoadingModal
                       confirmMethod={claimBounty}

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 import LinkText from '../svg/linktext';
@@ -121,6 +121,7 @@ const AdminModal = ({ setModal, modal, bounty, payoutTokenAddress }) => {
               <div>{modal.type} set to:</div>
               <div className='flex gap-2'>
                 <Image
+                  alt='crypto-logo'
                   width={24}
                   className='inline'
                   height={24}

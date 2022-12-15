@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useMemo } from 'react';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import Link from 'next/link';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import StoreContext from '../../store/Store/StoreContext';
@@ -170,12 +170,12 @@ const ActionBubble = ({ bounty, action }) => {
   return (
     <div className='w-full pt-4 flex relative'>
       {avatarUrl ? (
-        <Link href={url} className='w-9 h-9 flex-none' legacyBehavior>
+        <Link href={url} className='w-9 h-9 flex-none'>
           <>
             {' '}
             <ToolTipNew toolTipText={name} relativePosition={'-left-2'} outerStyles={'relative bottom-2'}>
               <>
-                <Image className='rounded-full' height={36} width={36} src={avatarUrl} />
+                <Image className='rounded-full' height={36} width={36} src={avatarUrl} alt='avatar' />
               </>
             </ToolTipNew>
           </>

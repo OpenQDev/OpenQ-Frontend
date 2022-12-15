@@ -3,18 +3,18 @@ import React, { useContext } from 'react';
 // Custom
 import AuthContext from '../../store/AuthStore/AuthContext';
 import SignOut from './SignOut';
-import SignIn from './SignIn';
+import GithubSignIn from './GithubSignIn';
 
-const AuthButton = ({ redirectUrl, propicUrl, hideSignOut }) => {
+const AuthButton = ({ redirectUrl, propicUrl, className, hideSignOut, signInStyle }) => {
   const [authState] = useContext(AuthContext);
   return (
-    <div className='w-full justify-center'>
+    <div className={`w-full justify-center ${className}`}>
       {authState.isAuthenticated ? (
         !hideSignOut ? (
           <SignOut propicUrl={propicUrl} />
         ) : null
       ) : (
-        <SignIn redirectUrl={redirectUrl} />
+        <GithubSignIn redirectUrl={redirectUrl} signInStyle={signInStyle} />
       )}
     </div>
   );

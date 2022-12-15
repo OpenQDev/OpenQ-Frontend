@@ -1,13 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import Link from 'next/link';
-import useAuth from '../../hooks/useAuth';
 import useWeb3 from '../../hooks/useWeb3';
+import AuthContext from '../../store/AuthStore/AuthContext';
 
 const ShowCasePage = ({ pr }) => {
-  const [authState] = useAuth();
+  const [authState] = useContext(AuthContext);
   const { avatarUrl } = authState;
   const { isAddress } = ethers.utils;
   const [showForm, setShowForm] = useState();
@@ -88,7 +88,7 @@ const ShowCasePage = ({ pr }) => {
   const isAuthor = avatarUrl?.includes(pr.author.avatarUrl.slice(0, 48));
 
   const removeContributor = async (e) => {
-    const result = await appState.openQPrismaClient.removeContributor(pr.id, e.currentTarget.value);
+    const result = await appState.openQPrismaClient.removeContributor(pr.id, e.target.value);
     if (result.removeContributor) {
       try {
         await getOffChainData();
@@ -190,11 +190,11 @@ const ShowCasePage = ({ pr }) => {
       <div className='py-2'>
         <div className='flex gap-2 h-6 text-primary'>
           <Link href={pr.author.url}>
-            <Image className='rounded-lg h-8' src={pr.author.avatarUrl} height={'32px'} width={'32px'} />
+            <Image className='rounded-lg h-8' src={pr.author.avatarUrl} height={32} width={32} alt='avatar' />
           </Link>
           <div className='text-xl '>{pr.author.login}</div>
-          <Link href={`https://twitter.com/${pr.author.twitterUsername}`} legacyBehavior>
-            <Image width={24} height={24} src={'/social-icons/twitter.svg'} />
+          <Link href={`https://twitter.com/${pr.author.twitterUsername}`}>
+            <Image width={24} height={24} src={'/social-icons/twitter.svg'} alt='twitter icon' />
           </Link>
         </div>
       </div>
@@ -202,8 +202,8 @@ const ShowCasePage = ({ pr }) => {
         return (
           <div className='py-2 text-primary' key={index}>
             <div className='flex gap-2 h-6'>
-              <Link href={contributor.url} legacyBehavior>
-                <Image className='rounded-lg' src={contributor.avatarUrl} height={'32px'} width={'32'} />
+              <Link href={contributor.url}>
+                <Image className='rounded-lg' src={contributor.avatarUrl} height={32} width={32} alt='avatar' />
               </Link>
               <div className='text-xl '>{contributor.login}</div>
               {contributor.twitterUsername}
@@ -213,9 +213,8 @@ const ShowCasePage = ({ pr }) => {
                     href={`https://twitter.com/${contributor.twitterUsername}`}
                     target='_blank'
                     rel='noopener norefferer'
-                    legacyBehavior
                   >
-                    <Image width={24} height={24} src={'/social-icons/twitter.svg'} />
+                    <Image width={24} height={24} src={'/social-icons/twitter.svg'} alt='twitter icon' />
                   </Link>
                 </div>
               )}

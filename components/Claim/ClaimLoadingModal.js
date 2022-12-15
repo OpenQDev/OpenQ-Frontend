@@ -30,6 +30,10 @@ const ClaimLoadingModal = ({
   price,
   split,
 }) => {
+  /* const referencedPrs = [
+    { url: 'https://github.com/ArcAnya/OpenQ-TestRepo/pull/225' },
+    { url: 'https://github.com/ArcAnya/OpenQ-TestRepo/pull/227' },
+  ]; */
   const updateModal = () => {
     setShowClaimLoadingModal(false);
   };
@@ -124,20 +128,14 @@ const ClaimLoadingModal = ({
       <div className='gap-2 grid grid-cols-[150px_1fr]'>
         <span>Issue: </span>
         {bounty.url && (
-          <Link
-            href={bounty.url}
-            target='_blank'
-            rel='noopener noreferrer'
-            className='underline w-full truncate'
-            legacyBehavior
-          >
+          <Link href={bounty.url} target='_blank' rel='noopener noreferrer' className='underline w-full truncate'>
             <span> {bounty.title}</span>
           </Link>
         )}
         <span>Your PR:</span>
         {latestUserPR ? (
           <span>
-            <Link href={latestUserPR.source.url} target='_blank' className={'underline'} legacyBehavior>
+            <Link href={latestUserPR.source.url} target='_blank' className={'underline'}>
               <span> {latestUserPR.source.title}</span>
             </Link>
             <span>{latestUserPR.source.merged ? ' (merged)' : ' (not merged)'}</span>
@@ -156,13 +154,7 @@ const ClaimLoadingModal = ({
         {claimState == TRANSACTION_CONFIRMED && (
           <>
             <span className='pr-8'>Transaction:</span>
-            <Link
-              href={link[claimState]}
-              target={'_blank'}
-              className='underline'
-              rel='noopener noreferrer'
-              legacyBehavior
-            >
+            <Link href={link[claimState]} target={'_blank'} className='underline' rel='noopener noreferrer'>
               <>
                 {transactionHash.slice(0, 5)}. . .{transactionHash.slice(62)}
                 <LinkText />
@@ -171,6 +163,15 @@ const ClaimLoadingModal = ({
           </>
         )}
         <div className='col-span-2 whitespace-pre-wrap'>{message[claimState]}</div>
+        {error?.referencedPrs &&
+          claimState == WITHDRAWAL_INELIGIBLE &&
+          error.referencedPrs.map((pr, index) => {
+            return (
+              <Link key={index} href={pr.url} className='text-blue-500 hover:underline col-span-2' target='_blank'>
+                {pr.url}
+              </Link>
+            );
+          })}
       </div>
     </ModalDefault>
   );

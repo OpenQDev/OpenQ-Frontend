@@ -32,7 +32,7 @@ const BountyHomepage = ({
       </div>
       <div className='lg:grid lg:grid-cols-extra-wide mx-4 sm:mx-8 xl:grid-cols-wide justify-center md:pr-3 pt-10'>
         {error ? (
-          <UnexpectedErrorModal />
+          <UnexpectedErrorModal error={error} />
         ) : (
           <BountyList
             bounties={bounties}

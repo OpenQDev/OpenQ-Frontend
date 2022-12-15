@@ -93,6 +93,7 @@ export const GET_BOUNTY = gql`
       payoutTokenVolume
       payoutTokenAddress
       payoutSchedule
+      invoiceable
       claims(orderBy: "claimTime", orderDirection: "desc") {
         claimTime
         claimantAsset
@@ -229,6 +230,14 @@ export const GET_BOUNTIES_BY_CONTRACT_ADDRESSES = gql`
         volume
         tokenAddress
       }
+    }
+  }
+`;
+
+export const GET_USER_BY_GITHUB_ID = gql`
+  query GetUserAddressWithGithubId($github: String!) {
+    users(where: { externalUserId: $github }) {
+      id
     }
   }
 `;
@@ -410,6 +419,8 @@ export const GET_ORGANIZATION = gql`
           volume
           tokenAddress
         }
+        payoutSchedule
+        payoutTokenAddress
       }
       fundedTokenBalances(orderBy: volume, orderDirection: desc) {
         id

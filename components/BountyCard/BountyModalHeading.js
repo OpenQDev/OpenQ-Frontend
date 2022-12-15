@@ -1,7 +1,7 @@
 // Third party
 import Link from 'next/link';
 import React from 'react';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import WatchButton from '../WatchButton/WatchButton';
 
 const BountyModalHeading = ({ bounty, unWatchable, watchingState }) => {
@@ -13,7 +13,10 @@ const BountyModalHeading = ({ bounty, unWatchable, watchingState }) => {
             <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/organization/${bounty.owner}`}>
               <span className='text-link-colour hover:underline cursor-pointer'>{bounty.owner}</span>
             </Link>
-            <span className='text-muted'> / {bounty.repoName}</span>
+            {' / '}
+            <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/repo/${bounty.owner}/${bounty.repoName}`}>
+              <span className='text-link-colour hover:underline cursor-pointer'>{bounty.repoName}</span>
+            </Link>
           </div>
           <div className='flex-1 leading-tight w-full'>
             <span className='flex text-primary break-word'>{bounty.title} </span>
@@ -22,13 +25,13 @@ const BountyModalHeading = ({ bounty, unWatchable, watchingState }) => {
               <Link href={bounty.url} className='text-muted text font-light' target='_blank'>
                 <div>#{bounty.number}</div>
               </Link>
-              <WatchButton watchingState={watchingState} unWatchable={unWatchable} bounty={bounty} />
             </div>
           </div>
         </div>
       </div>
-      <div className='sm:flex items-center hidden sm:pr-8'>
+      <div className='sm:flex sm:flex-col items-center hidden sm:pr-8 justify-around'>
         <Image src={bounty.avatarUrl} className='rounded-full' alt='avatarUrl' width='62' height='62' />
+        <WatchButton watchingState={watchingState} unWatchable={unWatchable} bounty={bounty} />
       </div>
     </div>
   );

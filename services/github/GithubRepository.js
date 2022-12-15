@@ -4,6 +4,7 @@ import {
   GET_USER_BY_NAME,
   GET_ORG_BY_ID,
   GET_ORG_BY_NAME,
+  GET_REPO_BY_NAME,
   GET_ISSUE,
   GET_ISSUE_BY_ID,
   GET_ISSUES_BY_ID,
@@ -96,7 +97,8 @@ class GithubRepository {
           query: GET_PRS,
           variables,
         });
-        resolve(result);
+        const pullRequestObj = result.data.repository.pullRequests;
+        resolve({ repoPrs: pullRequestObj.nodes, totalCount: pullRequestObj.totalCount });
       } catch (err) {
         reject(err);
       }
@@ -112,6 +114,7 @@ class GithubRepository {
       const closedAt = responseData.closedAt;
       const { title, body, url, createdAt, closed, id, bodyHTML, titleHTML } = responseData;
       const repoName = responseData.repository.name;
+      const repoId = responseData.repository.id;
       const avatarUrl = responseData.repository.owner.avatarUrl;
       const owner = responseData.repository.owner.login;
       const twitterUsername = responseData.repository.owner.twitterUsername || null;
@@ -136,6 +139,7 @@ class GithubRepository {
         twitterUsername,
         number,
         prs,
+        repoId,
         closedEvents,
       };
     } catch (err) {
@@ -143,6 +147,7 @@ class GithubRepository {
       let id,
         title,
         assignees,
+        repoId,
         body,
         url,
         repoName,
@@ -165,6 +170,7 @@ class GithubRepository {
         body,
         url,
         repoName,
+        repoId,
         owner,
         avatarUrl,
         labels,
@@ -193,11 +199,13 @@ class GithubRepository {
           const avatarUrl = elem.repository.owner.avatarUrl;
           const owner = elem.repository.owner.login;
           const repoDescription = elem.repository.description;
+          const repoId = elem.repository.id;
           const repoUrl = elem.repository.url;
           const assignees = elem.assignees.nodes;
           const number = elem.number;
           const labels = elem.labels.edges.map((edge) => edge.node);
           const languages = elem.repository.languages.edges.map((languages) => languages.node);
+
           return {
             id,
             title,
@@ -217,6 +225,7 @@ class GithubRepository {
             repoUrl,
             repoDescription,
             prs,
+            repoId,
           };
         } catch (err) {
           reject(err);
@@ -380,6 +389,24 @@ class GithubRepository {
     return promise;
   }
 
+  async fetchRepoByName(owner, name) {
+    const variables = { owner, name };
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_REPO_BY_NAME,
+          variables,
+        });
+        resolve(result.data.repository);
+      } catch (e) {
+        console.log(e);
+        reject(e);
+      }
+    });
+
+    return promise;
+  }
+
   async fetchOrgOrUserById(id) {
     const promise = new Promise(async (resolve, reject) => {
       try {
@@ -407,7 +434,28 @@ class GithubRepository {
             userId,
           },
         });
-        resolve(result.data.node);
+        const languages = result.data.node.repositories.nodes.map((repo) =>
+          repo.languages.nodes.map((language) => language.name)
+        );
+        const getRecentLanguages = (languages) => {
+          const recentLanguages = [];
+          // for loop from the end of the array
+          for (let i = languages.length - 1; i >= 0; i--) {
+            // if the language is not in the array, add it
+            if (!recentLanguages.includes(languages[i])) {
+              recentLanguages.push(languages[i]);
+            }
+            // if the array is 5 languages long, break
+            if (recentLanguages.length == 5) {
+              break;
+            }
+          }
+          return recentLanguages;
+        };
+        const recentLanguages = getRecentLanguages(languages.flat());
+        let user = {};
+        Object.assign(user, result.data.node, { recentLanguages: recentLanguages });
+        resolve(user);
       } catch (e) {
         reject(e);
       }

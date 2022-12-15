@@ -2,13 +2,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import StoreContext from '../../store/Store/StoreContext';
-import useWeb3 from '../../hooks/useWeb3';
 
 function GitHubAuth() {
   const router = useRouter();
   const [, setAuthCode] = useState('NO AUTH CODE');
   const [appState] = useContext(StoreContext);
-  const { account } = useWeb3();
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -34,12 +33,21 @@ function GitHubAuth() {
 
         if (redirectObject) {
           try {
-            const githubValues = await appState.authService.checkAuth();
+            // Get the user's github id from checkAuth
+            const result = await appState.authService.checkAuth();
+            const github = result.payload.githubId;
 
-            const githubId = githubValues.payload.githubId;
+            // Get the user's full profile from the database
+            const fullApiUser = await appState.openQPrismaClient.getPublicUser(github);
 
-            if (githubId) {
-              router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/github/${githubValues.payload.githubId}`);
+            const isNewUser = !fullApiUser;
+
+            if (isNewUser) {
+              const { id } = await appState.openQPrismaClient.upsertUser({ github });
+              setUserId(id);
+            } else {
+              // once this is set, it should trigger the redirect to /user/userId
+              setUserId(fullApiUser.id);
             }
           } catch (error) {
             console.error(error);
@@ -50,9 +58,15 @@ function GitHubAuth() {
         }
       })
       .catch((err) => {
-        appState.logger.error(err, account, 'github1');
+        appState.logger.error(err, null, 'github1');
       });
   };
+
+  useEffect(() => {
+    if (userId) {
+      router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${userId}`);
+    }
+  }, [userId]);
 
   return (
     <div className='flex fixed inset-0 justify-center'>

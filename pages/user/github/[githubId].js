@@ -1,11 +1,11 @@
 // Third party
 import React, { useState } from 'react';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
-import AssociationModal from '../../../components/User/GithubRegistration/AssociationModal';
+import AssociationModal from '../../../components/User/GithubRegistration/AssociateAddress';
 import Logger from '../../../services/logger/Logger';
 import SubMenu from '../../../components/Utils/SubMenu';
 import Gear from '../../../components/svg/gear';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import useAuth from '../../../hooks/useAuth';
 import AuthButton from '../../../components/Authentication/AuthButton';
 

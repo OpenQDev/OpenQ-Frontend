@@ -52,6 +52,7 @@ export const GET_ISSUE = gql`
         bodyHTML
         url
         repository {
+          id
           name
           owner {
             id
@@ -135,12 +136,24 @@ export const GET_USER_BY_ID = gql`
     node(id: $userId) {
       __typename
       ... on User {
+        repositories(last: 100) {
+          nodes {
+            languages(first: 10) {
+              nodes {
+                name
+              }
+            }
+          }
+        }
         name
         login
         bio
+        email
         id
+        websiteUrl
         url
         avatarUrl
+        twitterUsername
       }
     }
   }
@@ -185,6 +198,28 @@ export const GET_ORG_BY_NAME = gql`
           name
           login
           url
+        }
+      }
+    }
+  }
+`;
+
+export const GET_REPO_BY_NAME = gql`
+  query GetRepo($name: String!, $owner: String!) {
+    repository(name: $name, owner: $owner) {
+      __typename
+      name
+      nameWithOwner
+      id
+      description
+      homepageUrl
+      url
+      languages(first: 10) {
+        edges {
+          node {
+            name
+            color
+          }
         }
       }
     }

@@ -1,5 +1,10 @@
 const StoreReducer = (state, action) => {
   switch (action.type) {
+    case 'UPDATE_ACCOUNTDATA':
+      return {
+        ...state,
+        accountData: action.payload || {},
+      };
     case 'BOUNTY_MINTED':
       return {
         ...state,
@@ -25,6 +30,11 @@ const StoreReducer = (state, action) => {
         ...state,
         signer: action.payload,
       };
+    case 'SET_SIGNED_ACCOUNT':
+      return {
+        ...state,
+        signedAccount: action.payload,
+      };
     case 'UPDATE_RELOAD':
       return {
         ...state,
@@ -39,6 +49,12 @@ const StoreReducer = (state, action) => {
       return {
         ...state,
         walletConnectModal: action.payload,
+      };
+    }
+    case 'UPDATE_ACCOUNT_DATA': {
+      return {
+        ...state,
+        accountData: action.payload,
       };
     }
     default:

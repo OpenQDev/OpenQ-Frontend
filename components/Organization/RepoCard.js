@@ -1,5 +1,5 @@
 import React from 'react';
-const RepoCard = ({ repository }) => {
+const RepoCard = ({ repository, organizationData }) => {
   return (
     <div className='w-full rounded-sm border border-web-gray p-4'>
       <svg xmlns='http://www.w3.org/2000/svg' className='fill-muted inline' viewBox='0 0 16 16' width='16' height='16'>
@@ -11,7 +11,7 @@ const RepoCard = ({ repository }) => {
       {repository.url && (
         <a
           title={repository.url}
-          href={repository.url}
+          href={`/repo/${organizationData.login}/${repository.name}`}
           className='text-link-colour hover:underline cursor-pointer ml-2'
         >
           {repository.name}

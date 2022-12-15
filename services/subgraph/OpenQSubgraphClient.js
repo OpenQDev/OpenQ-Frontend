@@ -2,6 +2,7 @@ import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 import {
   GET_ORGANIZATION,
   GET_USER,
+  GET_USER_BY_GITHUB_ID,
   GET_BOUNTY,
   GET_ALL_BOUNTIES,
   GET_ORGANIZATIONS,
@@ -186,6 +187,22 @@ class OpenQSubgraphClient {
           variables: { id },
         });
         resolve(result.data.user);
+      } catch (e) {
+        reject(e);
+      }
+    });
+
+    return promise;
+  }
+
+  async getUserByGithubId(github) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_USER_BY_GITHUB_ID,
+          variables: { github },
+        });
+        resolve(result.data.users[0] ? result.data.users[0] : null);
       } catch (e) {
         reject(e);
       }

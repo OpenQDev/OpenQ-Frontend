@@ -1,4 +1,5 @@
 import axios from 'axios';
+import mocks from "../../__mocks__/mock-server.json";
 
 class MockOpenQSubgraphClient {
 	constructor() { }
@@ -32,15 +33,10 @@ class MockOpenQSubgraphClient {
 	}
 	async getBountiesByContractAddresses(contractAddresses) {
 		const promise = new Promise((resolve, reject) => {
-		axios.get(`http://localhost:3030/bounties`)
-				.then(result => {
-					resolve(result.data.filter(bounty=>contractAddresses.includes(bounty.bountyAddress)));
-				})
-				.catch(error => {
-					resolve (null)
-				});
-				});
-		return promise
+		resolve( mocks.bounties)
+		});
+
+		return promise;
 	}
 
 	async getBountyByGithubId(id) {

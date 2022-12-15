@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 
 const TokenStats = ({ volume, token, pickedNft }) => {
   return (
@@ -18,6 +18,7 @@ const TokenStats = ({ volume, token, pickedNft }) => {
             className='inline'
             height={24}
             src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'}
+            alt='crypto-logo'
           />
           <span>
             {volume} {token.symbol}

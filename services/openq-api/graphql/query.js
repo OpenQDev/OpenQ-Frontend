@@ -1,20 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const GET_PAGINATED_TVLS = gql`
-  query GetTvls($orderBy: String, $limit: Int!, $sortOrder: String, $cursor: String) {
-    bountiesConnection(orderBy: $orderBy, limit: $limit, sortOrder: $sortOrder, after: String) {
-      bounties {
-        tvl
-        tvc
-        address
-        bountyId
-      }
-      cursor
-    }
-  }
-`;
-
-export const GET_BOUNTY_BY_HASH = gql`
+export const GET_BOUNTY_BY_ADDRESS = gql`
   query bounty($contractAddress: String!) {
     bounty(address: $contractAddress) {
       tvl
@@ -34,6 +20,16 @@ export const GET_PR_BY_ID = gql`
         userId
         address
       }
+    }
+  }
+`;
+
+// TODO: "Cannot query field \"prs\" on type \"Query\". Did you mean \"pr\"?"
+export const GET_ALL_PRS = gql`
+  query prs {
+    prs {
+      prId
+      blacklisted
     }
   }
 `;
@@ -76,12 +72,67 @@ export const REMOVE_CONTRIBUTOR = gql`
     }
   }
 `;
-// good to go
-export const GET_USER_BY_HASH = gql`
-  query ($userAddress: String!, $types: [String], $category: String) {
-    user(address: $userAddress) {
+
+export const GET_USER_BY_ID = gql`
+  query ($id: String!) {
+    user(id: $id) {
+      github
+      username
+      discord
+      twitter
+      devRoles
+      otherRoles
+      interests
+      languages
+      frameworks
+      starredOrganizationIds
+    }
+  }
+`;
+
+export const GET_USER = gql`
+  query ($id: String, $email: String, $github: String) {
+    user(id: $id, email: $email, github: $github) {
+      id
+      github
+      username
+      discord
+      twitter
+      devRoles
+      otherRoles
+      interests
+      languages
+      frameworks
+      starredOrganizationIds
+    }
+  }
+`;
+
+export const GET_PRIVATE_USER = gql`
+  query ($id: String, $github: String, $email: String, $types: [String], $category: String) {
+    user(id: $id, github: $github, email: $email) {
+      id
       watchedBountyIds
       github
+      email
+      company
+      username
+      city
+      streetAddress
+      country
+      province
+      discord
+      github
+      twitter
+      postalCode
+      billingName
+      invoiceNumber
+      phoneNumber
+      taxId
+      vatNumber
+      vatRate
+      memo
+
       watchedBounties(limit: 100, types: $types, category: $category) {
         nodes {
           tvl
@@ -105,7 +156,7 @@ export const GET_USERS = gql`
         discord
         twitter
         email
-        address
+        username
         starredOrganizationIds
       }
     }
@@ -135,18 +186,24 @@ export const GET_ORGANIZATION = gql`
 
 export const GET_ORGANIZATIONS = gql`
   query getOrganizations($types: [String], $batch: Int!, $category: String) {
-    organizations(types: $types, category: $category) {
-      blacklisted
-      id
-      starringUserIds
-      bounties(limit: $batch, types: $types, category: $category) {
-        nodes {
-          tvl
-          tvc
-          bountyId
-          address
-          blacklisted
-          category
+    organizations {
+      nodes {
+        blacklisted
+        id
+        starringUsers(limit: 10000) {
+          nodes {
+            id
+          }
+        }
+        bounties(limit: $batch, types: $types, category: $category) {
+          nodes {
+            tvl
+            tvc
+            bountyId
+            address
+            blacklisted
+            category
+          }
         }
       }
     }
@@ -156,85 +213,163 @@ export const GET_ORGANIZATIONS = gql`
 export const GET_LEAN_ORGANIZATIONS = gql`
   query getLeanOrganizations {
     organizations {
+      nodes {
+        id
+        blacklisted
+      }
+    }
+  }
+`;
+
+export const GET_REPOSITORIES = gql`
+  query getRepositories($organizationId: String!) {
+    organization(organizationId: $organizationId) {
+      repositories(limit: 100) {
+        nodes {
+          id
+          isContest
+          hackathonBlacklisted
+        }
+      }
+    }
+  }
+`;
+
+export const UPSERT_USER = gql`
+  mutation upsertUser($email: String, $github: String) {
+    upsertUser(email: $email, github: $github) {
+      github
+      email
+      username
       id
-      blacklisted
     }
   }
 `;
 
 export const UPDATE_USER = gql`
   mutation updateUser(
-    $address: String!
-    $company: String
+    $id: String
     $email: String
+    $github: String
+    $username: String
+    $company: String
     $city: String
     $streetAddress: String
     $country: String
     $province: String
     $discord: String
-    $github: String
     $twitter: String
+    $devRoles: [String]
+    $frameworks: [String]
+    $languages: [String]
+    $otherRoles: [String]
+    $interests: [String]
+    $postalCode: String
+    $billingName: String
+    $invoiceNumber: Int
+    $phoneNumber: String
+    $taxId: String
+    $vatNumber: String
+    $vatRate: Float
+    $memo: String
   ) {
     updateUser(
-      address: $address
-      company: $company
+      id: $id
       email: $email
+      github: $github
+      username: $username
+      company: $company
       city: $city
       streetAddress: $streetAddress
       country: $country
       province: $province
       discord: $discord
-      github: $github
       twitter: $twitter
+      devRoles: $devRoles
+      frameworks: $frameworks
+      languages: $languages
+      otherRoles: $otherRoles
+      interests: $interests
+      postalCode: $postalCode
+      invoiceNumber: $invoiceNumber
+      billingName: $billingName
+      phoneNumber: $phoneNumber
+      taxId: $taxId
+      vatNumber: $vatNumber
+      vatRate: $vatRate
+      memo: $memo
     ) {
-      address
-    }
-  }
-`;
-
-export const UPDATE_USER_SIMPLE = gql`
-  mutation updateUserSimple($address: String!, $github: String) {
-    updateUserSimple(address: $address, github: $github) {
-      address
+      github
+      email
+      company
+      username
+      city
+      streetAddress
+      country
+      province
+      discord
+      github
+      twitter
+      postalCode
+      billingName
+      invoiceNumber
+      phoneNumber
+      taxId
+      vatNumber
+      vatRate
+      memo
     }
   }
 `;
 
 export const WATCH_BOUNTY = gql`
-  mutation AddUser($contractAddress: String, $userAddress: String) {
-    watchBounty(contractAddress: $contractAddress, userAddress: $userAddress) {
+  mutation WatchBounty($contractAddress: String!, $userId: String!, $github: String, $email: String) {
+    watchBounty(contractAddress: $contractAddress, userId: $userId, github: $github, email: $email) {
       address
+      watchingUsers {
+        id
+      }
     }
   }
 `;
 
 export const UNWATCH_BOUNTY = gql`
-  mutation unWatchBounty($contractAddress: String, $userAddress: String) {
-    unWatchBounty(contractAddress: $contractAddress, userAddress: $userAddress) {
+  mutation UnwatchBounty($contractAddress: String!, $userId: String!, $github: String, $email: String) {
+    unwatchBounty(contractAddress: $contractAddress, userId: $userId, github: $github, email: $email) {
       address
+      watchingUsers {
+        id
+      }
     }
   }
 `;
 
-export const STAR_ORG = gql`
-  mutation starOrg($id: String!, $address: String!) {
-    starOrg(id: $id, address: $address) {
+export const STAR_ORGANIZATION = gql`
+  mutation StarOrg($userId: String!, $organizationId: String!, $github: String, $email: String) {
+    starOrg(userId: $userId, organizationId: $organizationId, github: $github, email: $email) {
       id
-      starringUserIds
+      starringUsers(limit: 10000) {
+        nodes {
+          id
+        }
+      }
     }
   }
 `;
 
-export const UN_STAR_ORG = gql`
-  mutation unStarOrg($id: String!, $address: String!) {
-    unStarOrg(id: $id, address: $address) {
+export const UNSTAR_ORGANIZATION = gql`
+  mutation unstarOrg($userId: String!, $organizationId: String!, $github: String, $email: String) {
+    unstarOrg(userId: $userId, organizationId: $organizationId, github: $github, email: $email) {
       id
-      starringUserIds
+      starringUsers(limit: 10000) {
+        nodes {
+          id
+        }
+      }
     }
   }
 `;
 
-// good to go
 export const GET_CONTRACT_PAGE = gql`
   query BountiesConnection(
     $after: ID
@@ -244,6 +379,7 @@ export const GET_CONTRACT_PAGE = gql`
     $types: [String]
     $limit: Int!
     $category: String
+    $repositoryId: String
   ) {
     bounties(
       after: $after
@@ -253,6 +389,7 @@ export const GET_CONTRACT_PAGE = gql`
       organizationId: $organizationId
       types: $types
       category: $category
+      repositoryId: $repositoryId
     ) {
       bountyConnection {
         nodes {
@@ -260,6 +397,7 @@ export const GET_CONTRACT_PAGE = gql`
           tvc
           address
           organizationId
+          repositoryId
           bountyId
           type
           category
@@ -278,15 +416,38 @@ export const GET_CONTRACT_PAGE = gql`
 
 export const BLACKLIST_ISSUE = gql`
   mutation blacklist($bountyId: String, $blacklist: Boolean) {
-    blackList(bountyId: $bountyId, blackList: $blacklist) {
+    blacklist(bountyId: $bountyId, blackList: $blacklist) {
       blacklisted
     }
   }
 `;
-export const BLACKLIST_ORG = gql`
+
+export const BLACKLIST_ORGANIZATION = gql`
   mutation blacklistOrg($organizationId: String, $blacklist: Boolean) {
-    blackListOrg(organizationId: $organizationId, blackList: $blacklist) {
+    blacklistOrg(organizationId: $organizationId, blacklist: $blacklist) {
       blacklisted
+    }
+  }
+`;
+
+export const SET_IS_CONTEST = gql`
+  mutation setIsContest(
+    $github: String
+    $repositoryId: String!
+    $isContest: Boolean!
+    $organizationId: String!
+    $startDate: String!
+    $registrationDeadline: String!
+  ) {
+    setIsContest(
+      repositoryId: $repositoryId
+      isContest: $isContest
+      organizationId: $organizationId
+      startDate: $startDate
+      registrationDeadline: $registrationDeadline
+    ) {
+      isContest
+      id
     }
   }
 `;

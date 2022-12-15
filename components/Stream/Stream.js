@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useContext } from 'react';
 import jazzicon from '@metamask/jazzicon';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import StoreContext from '../../store/Store/StoreContext';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 
 const Stream = ({ stream, direction }) => {
   const [appState] = useContext(StoreContext);
@@ -21,7 +21,7 @@ const Stream = ({ stream, direction }) => {
     <div className='p-4 w-fit border border-web-gray rounded-sm'>
       <div className='flex gap-8 space-between w-full'>
         <div className='flex gap-2'>
-          <Image height={32} width={32} src={path} />
+          <Image height={32} width={32} src={path} alt='n/a' />
           <div className='pt-2'>{name}</div>
         </div>
         <span className='pt-2'>{direction === 'in' ? 'From' : 'To'}</span>

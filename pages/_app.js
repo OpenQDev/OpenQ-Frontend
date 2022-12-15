@@ -6,17 +6,18 @@ import { Web3ReactProvider } from '@web3-react/core';
 import 'tailwindcss/tailwind.css';
 import 'github-markdown-css/github-markdown-dark.css';
 import { useRouter } from 'next/router';
+import ReactGA from 'react-ga4';
+import { hotjar } from 'react-hotjar';
 
 // Custom
 import { UserContext } from '../lib/UserContext';
+import SetContextState from '../store/SetContextState/SetContextState';
 import '../styles/globals.css';
 import StoreProvider from '../store/Store/StoreProvider';
 import AuthProvider from '../store/AuthStore/AuthProvider';
 import Navigation from '../components/Layout/Navigation';
 import Head from 'next/head';
 import Footer from '../components/Layout/Footer';
-import ReactGA from 'react-ga4';
-import { hotjar } from 'react-hotjar';
 import {
   walletConnect,
   walletConnectHooks,
@@ -25,6 +26,7 @@ import {
   gnosisSafe,
   gnosisSafeHooks,
 } from '../components/WalletConnect/connectors';
+import Script from 'next/script';
 
 function OpenQ({ Component, pageProps }) {
   const connectors = [
@@ -82,8 +84,9 @@ function OpenQ({ Component, pageProps }) {
         <meta name='OpenQ Bounties' content='width=device-width, initial-scale=1.0' />
         <link rel='icon' href='/openq-logo.png' />
         <link rel='manifest' href='/manifest.json' crossOrigin='use-credentials' />
-        <script type='text/javascript'>
-          {`window['__ls_namespace'] = 'LiveSession';
+      </Head>
+      <Script id='live-session'>
+        {`window['__ls_namespace'] = 'LiveSession';
     window['__ls_script_url'] = 'https://cdn.livesession.io/track.js';
     !function(w, d, t, u, n) {
           if (n in w) {if(w.console && w.console.log) { w.console.log('LiveSession namespace conflict. Please set window["__ls_namespace"].');} return;}
@@ -106,22 +109,23 @@ function OpenQ({ Component, pageProps }) {
             })
         }
     });`}
-        </script>
-      </Head>
+      </Script>
       <>
         <UserContext.Provider value={[user, setUser]}>
           <AuthProvider>
-            <StoreProvider oauthToken={pageProps.oauthToken}>
-              <Web3ReactProvider connectors={connectors}>
-                <div className='min-h-screen  flex flex-col justify-between'>
-                  <div>
-                    <Navigation />
-                    <Component key={router.asPath} {...pageProps} />
+            <Web3ReactProvider connectors={connectors}>
+              <StoreProvider oauthToken={pageProps.oauthToken}>
+                <SetContextState>
+                  <div className='min-h-screen  flex flex-col justify-between'>
+                    <div>
+                      {router.asPath == '/login' ? null : <Navigation />}
+                      <Component key={router.asPath} {...pageProps} />
+                    </div>
+                    <Footer />
                   </div>
-                  <Footer />
-                </div>
-              </Web3ReactProvider>
-            </StoreProvider>
+                </SetContextState>
+              </StoreProvider>
+            </Web3ReactProvider>
           </AuthProvider>
         </UserContext.Provider>
       </>

@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import TokenSearch from './TokenSearch';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 
-const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume, placeholder, label, styles }) => {
+const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume, placeholder, label, styles, small }) => {
   const [showTokenSearch, setShowTokenSearch] = useState(false);
 
   return (
     <div className={`flex space-x-4 w-full ${styles}`}>
-      <div className='flex w-full flex-row justify-between items-center px-4 input-field-big'>
+      <div className={`flex ${small ? 'w-52' : 'w-full'} flex-row justify-between items-center px-4 input-field-big`}>
         <div className={' bg-dark-mode'}>
           <input
             aria-label={label || 'amount'}
-            className='font-semibold number outline-none bg-dark-mode text-primary w-full'
+            className='font-semibold number outline-none bg-input-bg text-primary w-full'
             autoComplete='off'
             value={volume}
             placeholder={placeholder || '0.0'}
@@ -27,8 +27,8 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume, placeho
               src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'}
               className='rounded-full'
               alt='n/a'
-              width='40%'
-              height='40%'
+              width={40}
+              height={40}
             />
           </div>
           <div className='flex pl-2 pr-1 text-primary'>{token.symbol}</div>

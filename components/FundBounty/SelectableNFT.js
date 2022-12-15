@@ -32,7 +32,7 @@ const SelectableNFT = ({ nft, setSelectedNft, selectedNft, pickNft }) => {
           <div>#{nft.token_id}</div>
         </h4>
         {nft.token_uri ? (
-          <Link href={nft.token_uri} legacyBehavior>
+          <Link href={nft.token_uri}>
             <div className='px-2 cursor-pointer  hover:underline pb-4 h-8 truncate text-sm font-bold text-primary'>
               {nft.metadata?.name}
             </div>

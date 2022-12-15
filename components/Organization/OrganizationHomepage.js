@@ -7,16 +7,19 @@ import MintBountyButton from '../MintBounty/MintBountyButton';
 import SearchBar from '../Search/SearchBar';
 import Carousel from '../Utils/Carousel';
 import HorizontalOrganizationCard from './HorizontalOrganizationCard';
-import useWeb3 from '../../hooks/useWeb3';
-
 const OrganizationHomepage = ({ orgs, types }) => {
+  const organizationIds = orgs.map((org) => org.id);
   // State
   const [organizationSearchTerm, setOrganizationSearchTerm] = useState('');
-  const { account } = useWeb3();
   const filterByOrg = (e) => {
     setOrganizationSearchTerm(e.target.value);
   };
-
+  const checkSearchTerm = (organization, organizationSearchTerm) => {
+    return organizationSearchTerm
+      ? organization.name?.toLowerCase().indexOf(organizationSearchTerm.toLowerCase()) > -1 ||
+          organization.login?.toLowerCase().indexOf(organizationSearchTerm.toLowerCase()) > -1
+      : organization;
+  };
   // Render
   return (
     <div>
@@ -36,27 +39,23 @@ const OrganizationHomepage = ({ orgs, types }) => {
             <MintBountyButton styles={'w-full'} types={types} />
           </div>
           <Carousel height={'80'}>
-            {orgs
-              .filter(
-                (organization) =>
-                  organization.starringUserIds && organization.starringUserIds.some((user) => user === account)
-              )
-              .map((org, index) => {
-                return <OrganizationCard key={index} index={index} organization={org} />;
-              })}
+            {orgs.map((org, index) => {
+              return (
+                <OrganizationCard key={index} index={index} organization={org} organizationIds={organizationIds} />
+              );
+            })}
           </Carousel>
           <div className='grid grid-cols-[repeat(3,_300px)] justify-center lg:justify-between'></div>
           <div className=''>
             {orgs
               .filter((organization) => {
-                return organizationSearchTerm
-                  ? organization.name?.toLowerCase().indexOf(organizationSearchTerm.toLowerCase()) > -1 ||
-                      organization.login?.toLowerCase().indexOf(organizationSearchTerm.toLowerCase()) > -1
-                  : organization;
+                const hasSearchTerm = checkSearchTerm(organization, organizationSearchTerm);
+                const hasBounties = organization?.bounties?.nodes.length > 0;
+                return hasBounties && hasSearchTerm;
               })
-              .map((elem, index) => (
-                <HorizontalOrganizationCard key={index} organization={elem} />
-              ))}
+              .map((elem, index) => {
+                return <HorizontalOrganizationCard key={index} organization={elem} />;
+              })}
           </div>
         </div>
       </div>

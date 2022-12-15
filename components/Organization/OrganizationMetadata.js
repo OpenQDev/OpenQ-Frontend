@@ -1,6 +1,6 @@
 // Third Party
 import React from 'react';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import Link from 'next/link';
 
 // Custom
@@ -8,7 +8,7 @@ import ToolTipNew from '../Utils/ToolTipNew';
 
 const OrganizationMetadata = ({ organizationData, repositories }) => {
   const languages = repositories.reduce((languages, repository) => {
-    const newLanguages = repository.languages.filter(
+    const newLanguages = repository.languages?.filter(
       (currentLanguage) => !languages.some((language) => currentLanguage.name === language.name)
     );
 
@@ -25,9 +25,15 @@ const OrganizationMetadata = ({ organizationData, repositories }) => {
               return (
                 <div key={index}>
                   <ToolTipNew key={member.url} toolTipText={member.name || member.login}>
-                    <Link href={member.url} target={'_blank'} rel='noopener noreffer' legacyBehavior>
+                    <Link href={member.url} target={'_blank'} rel='noopener noreffer'>
                       <span>
-                        <Image className='rounded-lg cursor-pointer' height={36} width={36} src={member.avatarUrl} />
+                        <Image
+                          className='rounded-lg cursor-pointer'
+                          height={36}
+                          width={36}
+                          src={member.avatarUrl}
+                          alt='avatar'
+                        />
                       </span>
                     </Link>
                   </ToolTipNew>

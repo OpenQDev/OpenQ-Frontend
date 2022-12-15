@@ -101,6 +101,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
       setApproveTransferState(ERROR);
     }
   }
+  const isFunder = (deposit) => ethers.utils.getAddress(deposit.sender.id) == account;
   // Render
   return (
     <>
@@ -137,7 +138,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                 {bounty.deposits &&
                   bounty.deposits
                     .filter((deposit) => {
-                      return ethers.utils.getAddress(deposit.sender.id) == account;
+                      return isFunder(deposit);
                     })
                     .filter((deposit) => {
                       return deposit.refunded == false;
@@ -166,6 +167,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                               setShowApproveTransferModal(deposit.id);
                             }}
                             isOnCorrectNetwork={isOnCorrectNetwork}
+                            isFunder={isFunder(deposit)}
                           />
                         </div>
                       );
@@ -176,7 +178,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                 {bounty.deposits &&
                   bounty.deposits
                     .filter((deposit) => {
-                      return ethers.utils.getAddress(deposit.sender.id) == account;
+                      return isFunder(deposit);
                     })
                     .filter((deposit) => {
                       return !depositExpired(deposit);
@@ -197,6 +199,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                               setShowApproveTransferModal(deposit.id);
                             }}
                             isOnCorrectNetwork={isOnCorrectNetwork}
+                            isFunder={isFunder(deposit)}
                           />
                         </div>
                       );
@@ -207,7 +210,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                 {bounty.deposits &&
                   bounty.deposits
                     .filter((deposit) => {
-                      return ethers.utils.getAddress(deposit.sender.id) == account;
+                      return isFunder(deposit);
                     })
                     .filter((deposit) => {
                       return deposit.refunded == true;
@@ -220,6 +223,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                             status='refunded'
                             bounty={bounty}
                             refundBounty={refundBounty}
+                            isFunder={isFunder(deposit)}
                           />
                         </div>
                       );
@@ -234,16 +238,17 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
                 {bounty.deposits &&
                   bounty.deposits
                     .filter((deposit) => {
-                      return ethers.utils.getAddress(deposit.sender.id) !== account;
+                      return !isFunder(deposit);
                     })
                     .map((deposit) => {
                       return (
                         <div key={deposit.id}>
                           <DepositCard
                             deposit={deposit}
-                            status='refunded'
+                            status='other deposits'
                             bounty={bounty}
                             refundBounty={refundBounty}
+                            isFunder={isFunder(deposit)}
                           />
                         </div>
                       );

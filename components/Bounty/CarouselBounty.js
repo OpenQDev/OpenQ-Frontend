@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import Skeleton from 'react-loading-skeleton';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import ToolTipNew from '../Utils/ToolTipNew';
 import Link from 'next/link';
 import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
@@ -21,7 +21,6 @@ const CarouselBounty = ({ bounty }) => {
         rel='noopener noreferrer'
         href={`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.bountyAddress}`}
         className=''
-        legacyBehavior
       >
         <div className='w-64'>
           <div className='flex flex-row justify-between items-center'>
