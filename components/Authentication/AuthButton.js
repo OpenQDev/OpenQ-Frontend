@@ -9,7 +9,7 @@ const AuthButton = ({ redirectUrl, propicUrl, className, hideSignOut, signInStyl
   const [authState] = useContext(AuthContext);
   return (
     <div className={`w-full justify-center ${className}`}>
-      {authState.isAuthenticated ? (
+      {authState.githubId ? (
         !hideSignOut ? (
           <SignOut propicUrl={propicUrl} />
         ) : null

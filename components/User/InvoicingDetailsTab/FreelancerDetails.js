@@ -8,6 +8,7 @@ import AuthContext from '../../../store/AuthStore/AuthContext';
 const InvoicingDetails = ({ slim }) => {
   const { account } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
+  const { github } = appState.accountData;
   const { openQPrismaClient } = appState;
   const { accountData } = appState;
   const [formState, setFormState] = useState({ text: 'Update', className: 'btn-primary' });
@@ -58,7 +59,7 @@ const InvoicingDetails = ({ slim }) => {
     { value: 'country', required: true },
     { value: 'phoneNumber', displayValue: 'Phone Number', required: true },
     { value: 'province', displayValue: 'State/Province', required: true },
-    { value: 'email', required: true },
+    { value: 'invoicingEmail', displayValue: 'Invoicing Email', required: true },
     { value: 'invoiceNumber', displayValue: 'Invoice Number', required: true, type: 'integer' },
     { value: 'taxId', displayValue: 'Tax ID', required: true },
     { value: 'vatNumber', displayValue: 'VAT Number', required: true },
@@ -138,7 +139,7 @@ const InvoicingDetails = ({ slim }) => {
       {!slim && (
         <>
           <div className='flex flex-col flex-1 font-normal pb-16'>
-            {!githubId && <AssociationModal githubId={githubId} user={githubUser} renderError={''} redirectUrl={''} />}
+            {github && <AssociationModal githubId={github} user={githubUser} renderError={''} redirectUrl={''} />}
           </div>
           <div className='border-b border-web-gray flex justify-between'>
             <h2 className='text-2xl pb-2'>Freelancer Invoicing Information</h2>

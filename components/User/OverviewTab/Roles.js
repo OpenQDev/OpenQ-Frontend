@@ -37,11 +37,15 @@ const Roles = ({ defaultRoles, category, user }) => {
 
   const updateApiAndState = async (newRoles) => {
     const fieldName = categoryToFieldName[category];
-
-    const userValues = {
-      github: accountData.github,
-      [fieldName]: newRoles,
-    };
+    const userValues = accountData.github
+      ? {
+          github: accountData.github,
+          [fieldName]: newRoles,
+        }
+      : {
+          email: accountData.email,
+          [fieldName]: newRoles,
+        };
     const updateUser = await appState.openQPrismaClient.updateUser(userValues);
     if (updateUser) {
       setRoles(newRoles);

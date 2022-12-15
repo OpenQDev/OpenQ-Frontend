@@ -3,25 +3,19 @@ import React, { useState, useContext } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
 import StyledInput from '../User/InvoicingDetailsTab/StyledInput';
 import StoreContext from '../../store/Store/StoreContext';
+import EmailLogin from '../Authentication/EmailLogin';
 
 const Subscribe = ({ user }) => {
   // state variables
   const [subscribed, setSubscribed] = useState(null);
-  const [appState, dispatch] = useContext(StoreContext);
+  const [appState] = useContext(StoreContext);
   const { logger, openQPrismaClient } = appState;
   const { account } = useWeb3();
   const [subscriptionError, setSubscriptionError] = useState();
 
+  if (!appState.showSubscribed) return <></>;
   const submitProfileData = async (e) => {
     return new Promise(async (resolve, reject) => {
-      if (!account) {
-        const payload = {
-          type: 'CONNECT_WALLET',
-          payload: true,
-        };
-        dispatch(payload);
-        return;
-      }
       try {
         const formValues = { address: account };
         const form = e.target;
@@ -109,6 +103,7 @@ const Subscribe = ({ user }) => {
 
   return (
     <div>
+      <EmailLogin />
       <form onSubmit={handleSubscribe} className='pb-4 font-normal max-w-[500px] gap-4'>
         <p> Subscribe to our email notification system to get latest tasks that fit your Github profile</p>
         {formValuesContact.map((invoicingField) => {

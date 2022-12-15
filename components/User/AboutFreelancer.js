@@ -29,6 +29,7 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
   const { payoutTokenBalances, payouts } = user;
   const [internalMenu, setInternalMenu] = useState('Overview');
   const [appState] = useContext(StoreContext);
+  const { github } = appState.accountData;
   const [watchedFullBounties, setWatchedFullBounties] = useState([]);
   const [githubUser, setGithubUser] = useState();
   const userId = user.id;
@@ -90,10 +91,10 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
           colour='rust'
           items={[
             { name: 'Overview', Svg: BookIcon },
-            { name: 'Stars', Svg: StarIcon },
+            ...[starredOrganizations.length ? { name: 'Stars', Svg: StarIcon } : {}],
             ...[showWatched ? { name: 'Watching', Svg: EyeIcon } : {}],
 
-            { name: 'Invoicing Details - Freelancer', Svg: Gear },
+            ...[github ? { name: 'Invoicing Details - Freelancer', Svg: Gear } : {}],
             { name: 'Invoicing Details - Org', Svg: Gear },
           ]}
         />
@@ -143,29 +144,29 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
             {internalMenu == 'Overview' && (
               <div className=''>
                 <Username user={user} />
-                <AboutTitle ensName={ensName} account={account} githubUser={githubUser} />
+                <GithubConnection user={user} />
+                {/* 
+               
+               TODO associate openq account with ethereum account
+               <AboutTitle ensName={ensName} account={account} githubUser={githubUser} />
 
                 <UserHistory organizations={organizations} payouts={payouts} />
-                <GithubConnection user={user} />
                 <Balances tokenBalances={payoutTokenBalances} tokenValues={payoutTokenValues} title='Total Payouts' />
-                <MiniBountyList payouts={payouts} />
+                <MiniBountyList payouts={payouts} />*/}
 
                 <UserSocials user={user} />
 
                 <Skills user={user} />
-                {isOwner && (
-                  <div className='px-8 py-6 pb border-t border-web-gray'>
-                    <h2 className='font-semibold text-lg pb-8'>Subscribe</h2>
-                    <Subscribe user={user} />
-                  </div>
-                )}
+                {isOwner && <Subscribe user={user} />}
               </div>
             )}
             {internalMenu == 'Stars' && <Starred starredOrganizations={starredOrganizations} />}{' '}
             {internalMenu === 'Watching' && watchedFullBounties.length > 0 && showWatched && (
               <Watching watchedBounties={watchedFullBounties} />
             )}
-            {internalMenu === 'Invoicing Details - Freelancer' && <FreelancerDetails showWatched={showWatched} />}
+            {internalMenu === 'Invoicing Details - Freelancer' && github && (
+              <FreelancerDetails showWatched={showWatched} />
+            )}
             {internalMenu === 'Invoicing Details - Org' && <OrgDetails showWatched={showWatched} />}
           </div>
         </div>

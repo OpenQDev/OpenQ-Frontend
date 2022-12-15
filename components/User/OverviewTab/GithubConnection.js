@@ -44,7 +44,7 @@ const GithubConnection = ({ user }) => {
         <div className='px-8 py-6 pb border-t border-web-gray'>
           <h2 className='font-semibold text-lg pb-2'>Github Connection</h2>
           <div className='grid grid-cols-[0.1fr_1.9fr] w-fit justify-between gap-4 my-4 content-center'>
-            {authState.isAuthenticated && (
+            {authState.github && (
               <>
                 <ShieldCheck className={'w-6 h-6 fill-primary'} />
                 Signed in as {authState.login}

@@ -195,8 +195,8 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, centerStyles }) => {
                   }}
                   className='group flex items-center gap-x-1 h-12 whitespace-nowrap py-1 px-3 font-semibold cursor-pointer'
                 >
-                  <div className='flex items-center border border-gray-700 hover:border-opacity-70 rounded-full'>
-                    {authState.avatarUrl && (
+                  {authState.avatarUrl ? (
+                    <div className='flex items-center border border-gray-700 hover:border-opacity-70 rounded-full'>
                       <Image
                         src={authState.avatarUrl}
                         width={31}
@@ -204,8 +204,10 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, centerStyles }) => {
                         alt={'profile pic'}
                         className='rounded-full'
                       />
-                    )}
-                  </div>
+                    </div>
+                  ) : (
+                    `${authState.email}`
+                  )}
                   <span className='md:group-hover:opacity-70'>
                     <svg
                       xmlns='http://www.w3.org/2000/svg'

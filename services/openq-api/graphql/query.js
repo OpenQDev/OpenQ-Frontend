@@ -125,6 +125,7 @@ export const GET_PRIVATE_USER = gql`
       postalCode
       billingName
       invoiceNumber
+      invoicingEmail
       phoneNumber
       taxId
       vatNumber
@@ -264,6 +265,7 @@ export const UPDATE_USER = gql`
     $postalCode: String
     $billingName: String
     $invoiceNumber: Int
+    $invoicingEmail: String
     $phoneNumber: String
     $taxId: String
     $vatNumber: String
@@ -288,6 +290,7 @@ export const UPDATE_USER = gql`
       otherRoles: $otherRoles
       postalCode: $postalCode
       invoiceNumber: $invoiceNumber
+      invoicingEmail: $invoicingEmail
       billingName: $billingName
       phoneNumber: $phoneNumber
       taxId: $taxId
@@ -309,6 +312,7 @@ export const UPDATE_USER = gql`
       postalCode
       billingName
       invoiceNumber
+      invoicingEmail
       phoneNumber
       taxId
       vatNumber

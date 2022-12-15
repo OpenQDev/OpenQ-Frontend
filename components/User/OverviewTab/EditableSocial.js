@@ -16,8 +16,10 @@ const EditableSocial = ({ isOwner, social, user }) => {
   };
   const handleSave = async (value, name) => {
     try {
-      const githubId = user.github;
-      const { updateUser } = await appState.openQPrismaClient.updateUser({ [name]: value, github: githubId });
+      const { github, email } = appState.accountData;
+      const idObj = github ? { github } : { email };
+
+      const { updateUser } = await appState.openQPrismaClient.updateUser({ [name]: value, ...idObj });
       if (updateUser) {
         const newLink = updateUser[name];
         setLocalSocial({ ...localSocial, link: newLink });

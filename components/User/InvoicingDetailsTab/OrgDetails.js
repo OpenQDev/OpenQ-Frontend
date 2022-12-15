@@ -1,29 +1,13 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import StyledInput from './StyledInput';
 import StoreContext from '../../../store/Store/StoreContext';
-import AssociationModal from '../GithubRegistration/AssociateAddress';
-
-import AuthContext from '../../../store/AuthStore/AuthContext';
 
 const InvoicingDetails = ({ slim }) => {
   const [appState, dispatch] = useContext(StoreContext);
   const { openQPrismaClient } = appState;
   const [formState, setFormState] = useState({ text: 'Update', className: 'btn-primary' });
-  const [githubUser, setGithubUser] = useState({});
   // const formValuesSocial = [{ value: 'twitter' }, { value: 'discord' }];
-  const [authState] = useContext(AuthContext);
   const { accountData } = appState;
-  const { githubId } = authState;
-
-  useEffect(() => {
-    if (githubId) {
-      const getGithubUser = async () => {
-        const githubUser = await appState.githubRepository.fetchUserById(githubId);
-        setGithubUser(githubUser);
-      };
-      getGithubUser();
-    }
-  }, [githubId]);
 
   const formValuesInvoicing = [
     {
@@ -42,17 +26,19 @@ const InvoicingDetails = ({ slim }) => {
       displayValue: 'Billing Address',
       required: true,
     },
+    { value: 'invoicingEmail', displayValue: 'Invoicing Email', required: true },
     { value: 'country', required: true },
     { value: 'province', displayValue: 'State/Province', required: true },
-    { value: 'email', required: true },
   ];
-
+  console.log(accountData);
   const submitProfileData = async (e) => {
     e.preventDefault();
     setFormState({ text: 'Updating...', className: 'btn-default', disabled: true });
     return new Promise(async (resolve, reject) => {
       try {
-        const formValues = { github: accountData.github };
+        const { github, email } = accountData;
+        console.log(accountData);
+        const formValues = github ? { github } : { email };
         const form = e.target;
         const interMediateValue = Object.values(form)
           .filter((input) => input.nodeName === 'INPUT' && input.type !== 'submit')
@@ -71,12 +57,10 @@ const InvoicingDetails = ({ slim }) => {
           });
         interMediateValue.forEach((inputObj) => {
           for (let key in inputObj) {
-            if (key !== 'email') {
-              formValues[key] = inputObj[key];
-            }
+            formValues[key] = inputObj[key];
           }
         });
-        if (formValues.email) {
+        if (formValues.invoicingEmail) {
           try {
             const formData = new FormData();
             formData.append('api_key', process.env.NEXT_PBULIC_CONVERTKIT_API_KEY);
@@ -90,6 +74,7 @@ const InvoicingDetails = ({ slim }) => {
             appState.logger.error(err);
           }
         }
+        console.log(accountData);
 
         const { updateUser } = await openQPrismaClient.updateUser(formValues);
         if (updateUser) {
@@ -117,15 +102,13 @@ const InvoicingDetails = ({ slim }) => {
     <div className={`${!slim && 'px-8'} py text-lg`}>
       {!slim && (
         <>
-          <div className='flex flex-col flex-1 font-normal pb-16'>
-            {!githubId && <AssociationModal githubId={githubId} user={githubUser} renderError={''} redirectUrl={''} />}
-          </div>
+          <div className='flex flex-col flex-1 font-normal pb-16'></div>
           <div className='border-b border-web-gray'>
             <h2 className='text-2xl pb-2'>Organization Invoicing Information</h2>
           </div>
           <div className='note'>
-            OpenQ will use these values to generate invoices when the contracts you fund (including this one) are payed
-            out.
+            OpenQ will use these values to generate invoices when the contracts you fund
+            {slim && ' (including this one)'} are payed out.
           </div>
         </>
       )}
@@ -145,7 +128,7 @@ const InvoicingDetails = ({ slim }) => {
         })}
 
         <input
-          className={`${formState.className} w-fit text-sm py-1 px-2 text-center w-20 cursor-pointer`}
+          className={`${formState.className} text-sm py-1 px-2 text-center w-20 cursor-pointer`}
           value={formState.text}
           type='submit'
         />

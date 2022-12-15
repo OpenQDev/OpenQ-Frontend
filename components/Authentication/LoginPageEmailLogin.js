@@ -58,7 +58,6 @@ const EmailLogin = () => {
           Authorization: 'Bearer ' + didToken,
         },
       });
-
       if (res.status === 200) {
         // Set the UserContext to the now logged in user
         let userMetadata = await magic.user.getMetadata();

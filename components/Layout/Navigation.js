@@ -46,22 +46,6 @@ const Navigation = () => {
   }, [router.asPath]);
 
   useEffect(() => {
-    const fetchSignature = async () => {
-      if (account) {
-        try {
-          const response = await authService.hasSignature(account);
-          if (response.data.status === false) {
-            await authService.verifySignature(account, '');
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    };
-    fetchSignature();
-  }, [account]);
-
-  useEffect(() => {
     // set up searchable
     const fetchSearch = async () => {
       try {
