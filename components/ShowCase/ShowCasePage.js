@@ -106,7 +106,7 @@ const ShowCasePage = ({ pr }) => {
   return (
     <div className='m-auto w-3/4'>
       <h1 className='lsm:text-[32px] text-4xl pt-16 pb-8 flex-1 leading-tight min-w-[240px] pr-20'>{pr.title}</h1>
-      <a href={pr.url} className='text-tinted underline'>
+      <a href={pr.url} className='text-tinted underline' target='_blank' rel='noopener norefferer'>
         <span>View Source</span>
       </a>
       <div className='pt-8 text-lg'>
@@ -189,11 +189,11 @@ const ShowCasePage = ({ pr }) => {
       )}
       <div className='py-2'>
         <div className='flex gap-2 h-6 text-primary'>
-          <Link href={pr.author.url}>
+          <Link href={pr.author.url} target='_blank' rel='noopener norefferer'>
             <Image className='rounded-lg h-8' src={pr.author.avatarUrl} height={32} width={32} alt='avatar' />
           </Link>
           <div className='text-xl '>{pr.author.login}</div>
-          <Link href={`https://twitter.com/${pr.author.twitterUsername}`}>
+          <Link href={`https://twitter.com/${pr.author.twitterUsername}`} target='_blank' rel='noopener norefferer'>
             <Image width={24} height={24} src={'/social-icons/twitter.svg'} alt='twitter icon' />
           </Link>
         </div>
@@ -202,7 +202,7 @@ const ShowCasePage = ({ pr }) => {
         return (
           <div className='py-2 text-primary' key={index}>
             <div className='flex gap-2 h-6'>
-              <Link href={contributor.url}>
+              <Link href={contributor.url} target='_blank' rel='noopener norefferer'>
                 <Image className='rounded-lg' src={contributor.avatarUrl} height={32} width={32} alt='avatar' />
               </Link>
               <div className='text-xl '>{contributor.login}</div>
