@@ -10,7 +10,7 @@ import ConnectButton from '../../WalletConnect/ConnectButton';
 import MintContext from '../MintContext';
 
 // TODO: Put all this state logic into a context, and possibly add a reducer
-const MintBountyModalButton = ({ currentSum, modalVisibility, setError }) => {
+const MintBountyModalButton = ({ modalVisibility, setError }) => {
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const [mintState, mintDispatch] = useContext(MintContext);
 
@@ -151,8 +151,6 @@ const MintBountyModalButton = ({ currentSum, modalVisibility, setError }) => {
               ? 'Issue closed'
               : !enableMint || !issue?.url?.includes('/issues/')
               ? 'Please choose an elgible issue.'
-              : currentSum !== sum
-              ? 'Please make sure each tier gets a percentage.'
               : !enableContest
               ? 'Please make sure the sum of tier percentages adds up to 100.'
               : null
@@ -171,7 +169,6 @@ const MintBountyModalButton = ({ currentSum, modalVisibility, setError }) => {
             ) : (
               'Deploy Contract'
             )}
-            {readyToMint && 'ready'}
           </button>
         </ToolTipNew>
       )}
