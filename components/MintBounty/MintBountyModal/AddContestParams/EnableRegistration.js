@@ -40,18 +40,6 @@ const EnableRegistration = () => {
             checked={enableRegistration}
             onChange={handleRegistration}
           ></input>
-          <ToolTipNew
-            mobileX={10}
-            toolTipText={
-              category === 'Fixed Price'
-                ? 'Amount of funds you would like to escrow on this issue.'
-                : 'How much will each successful submitter earn?'
-            }
-          >
-            <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-              ?
-            </div>
-          </ToolTipNew>
         </div>
         <span className='text-sm '>
           Require contestants to sign up for your hackathon contests in this repo. This will allow you to set a
