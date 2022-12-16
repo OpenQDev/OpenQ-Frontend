@@ -75,6 +75,10 @@ const AdminPage = ({ bounty, refreshBounty }) => {
   const [isLoading, setIsLoading] = useState();
   const tierConditions = sum == 100 || bounty.bountyType === '3';
 
+  useEffect(() => {
+    setShowButton(ethers.utils.getAddress(bounty.issuer.id) == account && bounty.status == '0');
+  }, [bounty]);
+
   // handle change in Funding Goal
 
   function onCurrencySelect(token) {
