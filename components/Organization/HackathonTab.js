@@ -57,7 +57,7 @@ const HackathonTab = ({ repositories, organization }) => {
                 })}
               </div>
               {totalCount[repo.name] > repo.prs.length && (
-                <Link href={`/showcase/${organization.login}/${repo.name}`}>
+                <Link href={`/repo/${organization.login}/${repo.name}`}>
                   <div className='flex underline items-center gap-4 lsm:text-[32px] text-2xl py-8 flex-1 leading-tight min-w-[240px] pr-20'>
                     <div className=''>{totalCount[repo.name] - repo.prs.length} more submissions</div>
                     <svg

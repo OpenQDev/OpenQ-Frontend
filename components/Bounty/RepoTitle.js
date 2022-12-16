@@ -23,7 +23,7 @@ const RepoTitle = ({ bounty }) => {
               </Link>
               {' / '}
               <Link
-                href={`${process.env.NEXT_PUBLIC_BASE_URL}/showcase/${bounty.owner}/${bounty.repoName}`}
+                href={`${process.env.NEXT_PUBLIC_BASE_URL}/repo/${bounty.owner}/${bounty.repoName}`}
                 data-testid='repo'
               >
                 <span className='text-link-colour hover:underline cursor-pointer'>{bounty.repoName}</span>
