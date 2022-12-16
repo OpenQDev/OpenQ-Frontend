@@ -5,7 +5,6 @@ import React from 'react';
 import { render, screen } from '../../test-utils';
 import ClaimOverview from '../../components/Claim/ClaimOverview';
 import nextRouter from 'next/router';
-import { waitFor } from '@testing-library/react';
 
 nextRouter.useRouter = jest.fn();
 const push = jest.fn(() => {
