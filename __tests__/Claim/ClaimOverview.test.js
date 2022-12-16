@@ -662,7 +662,7 @@ describe('ClaimOverview', () => {
     expect(totalDeposited).toBeInTheDocument();
     //leave this in here otherwise jest will exit and errors will show up in the test console
     const claimant1 = await screen.findAllByText('sample.eth');
-    expect(claimant1).toHaveLength(2);
+    expect(claimant1[0]).toBeInTheDocument();
 
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
