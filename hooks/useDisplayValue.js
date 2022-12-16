@@ -6,7 +6,7 @@ import useGetValueFromComposite from './useGetValueFromComposite';
 const useDisplayValue = (bounty, formatter, type) => {
   //takes in bounty and returns correct value object
   const [valueObj, setValueObj] = useState();
-  const [payoutPrice] = useGetTokenValues(bounty?.payout);
+  const [payoutPrice] = useGetTokenValues(bounty?.payouts);
   const [tokenValues] = useGetTokenValues(bounty.bountyTokenBalances);
   const getPayoutScheduleBalance = (bounty) => {
     const totalPayoutsScheduled = bounty.payoutSchedule?.reduce((acc, payout) => {
