@@ -69,7 +69,7 @@ const AddContestParams = () => {
   return (
     <div className='items-center py-2'>
       <div className=' w-11/12 text-base flex flex-col gap-2'>
-        <EnableRegistration category={category} />
+        <EnableRegistration />
 
         <div className='flex items-center gap-2 font-semibold'>
           How many Tiers?

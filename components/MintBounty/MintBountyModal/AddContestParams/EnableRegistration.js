@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
-import ToolTipNew from '../../../Utils/ToolTipNew';
 import MintContext from '../../MintContext';
 
 const EnableRegistration = () => {
   const [mintState, mintDispatch] = useContext(MintContext);
-  const { startDate, registrationDeadline, enableRegistration, category } = mintState;
+  const { startDate, registrationDeadline, enableRegistration } = mintState;
   const handleStartDate = (e) => {
     const dispatch = {
       type: 'UPDATE_START_DATE',
