@@ -36,8 +36,8 @@ const LoginModal = ({ closeModal, setShowModal }) => {
             potential prizes for continuing working on projects submitted at Hackathons...
           </li>
           <li>
-            <div className='text-blue-500'>"more..."</div> on every point? => cf page that is more exhaustive and link
-            to specific point on it
+            <div className='text-blue-500'>"more..."</div> on every point? {'=>'} cf page that is more exhaustive and
+            link to specific point on it
           </li>
         </ul>
         <div className='flex flex-col md:flex-row p-4 gap-4 md:items-center'>

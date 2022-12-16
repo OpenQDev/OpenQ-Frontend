@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import EnableRegistration from './EnableRegistration';
 import ToolTipNew from '../../../Utils/ToolTipNew';
 import SetPayoutToken from './SetPayoutToken';
 import SetTierValues from './SetTierValues/SetTierValues';
@@ -69,8 +68,6 @@ const AddContestParams = () => {
   return (
     <div className='items-center py-2'>
       <div className=' w-11/12 text-base flex flex-col gap-2'>
-        <EnableRegistration />
-
         <div className='flex items-center gap-2 font-semibold'>
           How many Tiers?
           <ToolTipNew mobileX={10} toolTipText={"How many people will be able to claim a prize? Don't exceed 100."}>
