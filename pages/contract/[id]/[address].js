@@ -69,7 +69,7 @@ const address = ({ address, mergedBounty, renderError }) => {
   const split = splitValue?.total;
 
   // State
-  const [error, setError] = useState(renderError);
+  const [error] = useState(renderError);
   const [internalMenu, setInternalMenu] = useState();
   const [, setJustMinted] = useState();
 
@@ -122,7 +122,8 @@ const address = ({ address, mergedBounty, renderError }) => {
       setBounty(mergedBounty);
       setReload();
     } catch (error) {
-      setError(true);
+      console.log('error in refresh bounty', error);
+      // setError(true);
     }
   };
 
@@ -161,6 +162,7 @@ const address = ({ address, mergedBounty, renderError }) => {
           canvas.current.height = window.innerHeight;
         }
       } catch (err) {
+        console.log('handleResize error', err);
         appState.logger.error(err, account);
       }
     };
@@ -314,35 +316,45 @@ export const getServerSideProps = async (context) => {
   const { id, address } = context.query;
   let bountyMetadata = {};
   let renderError = '';
+
   try {
     bountyMetadata = await openQPrismaClient.instance.getBounty(ethers.utils.getAddress(address));
   } catch (err) {
+    console.log('openQPrismaClient error', err);
     logger.error(err);
   }
+
   let mergedBounty = null;
   let issueData = {};
   let bounty = {};
+
   try {
     issueData = await githubRepository.instance.fetchIssueById(id);
   } catch (err) {
+    console.log('githubRepository error', err);
     logger.error(err);
     renderError = JSON.stringify(err);
   }
+
   try {
     bounty = await openQSubgraphClient.instance.getBounty(address, 'no-cache');
+
     if (!bounty) {
       logger.error({ message: `OpenQ could not find a contract with address: ${address}.` });
     }
-    mergedBounty = {
-      ...issueData,
-      ...bountyMetadata,
-      ...bounty,
-      bountyAddress: address,
-    };
   } catch (err) {
+    console.log('openQSubgraphClient error', err);
     logger.error(err);
     renderError = ``;
   }
+
+  mergedBounty = {
+    ...issueData,
+    ...bountyMetadata,
+    ...bounty,
+    bountyAddress: address,
+  };
+
   return { props: { id, address, mergedBounty, renderError, oauthToken } };
 };
 

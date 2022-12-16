@@ -12,15 +12,15 @@ import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrism
 import useAuth from '../../hooks/useAuth';
 import StoreContext from '../../store/Store/StoreContext';
 import Logger from '../../services/logger/Logger';
-import FirstSignupModal from '../../components/Authentication/FirstSignupModal';
+// import FirstSignupModal from '../../components/Authentication/FirstSignupModal';
 
-const userId = ({ user, organizations, renderError, firstSignup }) => {
+const userId = ({ user, organizations, renderError }) => {
   const [authState] = useAuth();
   const { signedAccount } = authState;
   const [appState] = useContext(StoreContext);
   const [starredOrganizations, setStarredOrganizations] = useState([]);
   const [watchedBounties, setWatchedBounties] = useState([]);
-  const [firstSignupModal, setFirstSignupModal] = useState(firstSignup);
+  // const [firstSignupModal, setFirstSignupModal] = useState(firstSignup);
 
   const [publicPrivateUserData] = useState(user);
 
@@ -54,7 +54,7 @@ const userId = ({ user, organizations, renderError, firstSignup }) => {
     <div className=' gap-4 justify-center pt-6'>
       {user?.id ? (
         <>
-          {firstSignupModal && <FirstSignupModal closeModal={setFirstSignupModal} setShowModal={setFirstSignupModal} />}
+          {/* {firstSignupModal && <FirstSignupModal closeModal={setFirstSignupModal} setShowModal={setFirstSignupModal} />} */}
           <AboutFreelancer
             showWatched={user.id === signedAccount}
             starredOrganizations={starredOrganizations}
@@ -82,7 +82,7 @@ export const getServerSideProps = async (context) => {
 
   let userId = context.params.userId;
   let renderError = '';
-  let firstSignup = true;
+  // let firstSignup = true;
 
   const openQPrismaClient = new WrappedOpenQPrismaClient();
   openQPrismaClient.instance.setGraphqlHeaders(oauthToken);
@@ -182,7 +182,7 @@ export const getServerSideProps = async (context) => {
   };
 
   return {
-    props: { user, organizations, renderError, starredOrganizations, oauthToken, firstSignup },
+    props: { user, organizations, renderError, starredOrganizations, oauthToken },
   };
 };
 
