@@ -5,7 +5,6 @@ import nookies from 'nookies';
 // import SearchBar from '../../../components/Search/SearchBar';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
-import useAuth from '../../../hooks/useAuth';
 // import SubmissionCard from '../../../components/Submissions/SubmissionCard';
 import OrganizationHeader from '../../../components/Organization/OrganizationHeader';
 import SubMenu from '../../../components/Utils/SubMenu';
@@ -23,7 +22,6 @@ const showcase = ({ /* currentPrs, */ batch, renderError, firstCursor, fullBount
   // oAuthToken?
   //Context
   const [appState] = useContext(StoreContext);
-  useAuth();
   // const [submissionSearchTerm, setSubmissionSearchTerm] = useState('');
   const [toggleVal, setToggleVal] = useState('Overview');
   const [isLoading, setIsLoading] = useState(false);

@@ -9,14 +9,11 @@ import UnexpectedErrorModal from '../../components/Utils/UnexpectedErrorModal';
 import WrappedGithubClient from '../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
-import useAuth from '../../hooks/useAuth';
 import StoreContext from '../../store/Store/StoreContext';
 import Logger from '../../services/logger/Logger';
 // import FirstSignupModal from '../../components/Authentication/FirstSignupModal';
 
 const userId = ({ user, organizations, renderError }) => {
-  const [authState] = useAuth();
-  const { signedAccount } = authState;
   const [appState] = useContext(StoreContext);
   const [starredOrganizations, setStarredOrganizations] = useState([]);
   const [watchedBounties, setWatchedBounties] = useState([]);
@@ -56,7 +53,6 @@ const userId = ({ user, organizations, renderError }) => {
         <>
           {/* {firstSignupModal && <FirstSignupModal closeModal={setFirstSignupModal} setShowModal={setFirstSignupModal} />} */}
           <AboutFreelancer
-            showWatched={user.id === signedAccount}
             starredOrganizations={starredOrganizations}
             watchedBounties={watchedBounties}
             user={publicPrivateUserData}

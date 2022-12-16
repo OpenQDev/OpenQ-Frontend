@@ -3,10 +3,7 @@ import CreateStream from '../../components/Stream/CreateStream';
 import ViewStream from '../../components/Stream/ViewStream';
 import SubMenu from '../../components/Utils/SubMenu';
 
-import useAuth from '../../hooks/useAuth';
-
 const stream = () => {
-  useAuth();
   const [internalMenu, setInternalMenu] = useState('Stream');
   const handleToggle = (e) => {
     setInternalMenu(e);

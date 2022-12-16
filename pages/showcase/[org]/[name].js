@@ -5,12 +5,10 @@ import nookies from 'nookies';
 import SearchBar from '../../../components/Search/SearchBar';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
-import useAuth from '../../../hooks/useAuth';
 import SubmissionCard from '../../../components/Submissions/SubmissionCard';
 import { getNonBlacklisted } from '../../../services/utils/lib';
 
 const showcase = ({ name, currentPrs }) => {
-  useAuth();
   const [submissionSearchTerm, setSubmissionSearchTerm] = useState('');
   // Render
   const filterBySubmission = (e) => {

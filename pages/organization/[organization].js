@@ -9,7 +9,6 @@ import WrappedGithubClient from '../../services/github/WrappedGithubClient';
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
 import Logger from '../../services/logger/Logger';
 import Utils from '../../services/utils/Utils';
-import useAuth from '../../hooks/useAuth';
 import OrganizationHeader from '../../components/Organization/OrganizationHeader';
 import SubMenu from '../../components/Utils/SubMenu';
 import Home from '../../components/svg/home';
@@ -22,7 +21,6 @@ import UnexpectedErrorModal from '../../components/Utils/UnexpectedErrorModal';
 import useWeb3 from '../../hooks/useWeb3';
 
 const organization = ({ organizationData, fullBounties, batch, renderError, firstCursor }) => {
-  useAuth();
   // Context
   const [appState] = useContext(StoreContext);
   // State

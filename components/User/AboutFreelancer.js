@@ -65,11 +65,11 @@ const AboutFreelancer = ({ user, starredOrganizations, showWatched, watchedBount
         appState.logger.error(err, account);
       }
     };
-    if (account && showWatched) {
+    if (isOwner) {
       // get watched bounties as soon as we know what the account is.
       getWatched();
     }
-  }, [account, showWatched]);
+  }, [isOwner]);
 
   return (
     <>
@@ -82,7 +82,7 @@ const AboutFreelancer = ({ user, starredOrganizations, showWatched, watchedBount
           items={[
             { name: 'Overview', Svg: BookIcon },
             ...[starredOrganizations.length ? { name: 'Stars', Svg: StarIcon } : {}],
-            ...[showWatched ? { name: 'Watching', Svg: EyeIcon } : {}],
+            ...[isOwner ? { name: 'Watching', Svg: EyeIcon } : {}],
 
             ...[github ? { name: 'Invoicing Details - Freelancer', Svg: Gear } : {}],
             { name: 'Invoicing Details - Org', Svg: Gear },
@@ -154,10 +154,8 @@ const AboutFreelancer = ({ user, starredOrganizations, showWatched, watchedBount
             {internalMenu === 'Watching' && watchedFullBounties.length > 0 && showWatched && (
               <Watching watchedBounties={watchedFullBounties} />
             )}
-            {internalMenu === 'Invoicing Details - Freelancer' && github && (
-              <FreelancerDetails showWatched={showWatched} />
-            )}
-            {internalMenu === 'Invoicing Details - Org' && <OrgDetails showWatched={showWatched} />}
+            {internalMenu === 'Invoicing Details - Freelancer' && github && <FreelancerDetails showWatched={isOwner} />}
+            {internalMenu === 'Invoicing Details - Org' && <OrgDetails showWatched={isOwner} />}
           </div>
         </div>
       </div>

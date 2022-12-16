@@ -2,12 +2,9 @@
 import React from 'react';
 import ShowCasePage from '../../../components/ShowCase/ShowCasePage';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
-import useAuth from '../../../hooks/useAuth';
 import nookies from 'nookies';
 
 const showcasePR = ({ pr }) => {
-  useAuth();
-
   return <>{pr && <ShowCasePage pr={pr} />}</>;
 };
 
