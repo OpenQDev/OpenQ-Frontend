@@ -95,20 +95,20 @@ const MintBountyInputIssue = () => {
               setIssueUrl(event.target.value);
             }}
           />
-          <div className='border border-web-gray w-full rounded-sm my-1 p-3 bg-dark-mode'>
-            {isValidUrl && issue?.url?.includes('/issues/') ? <IssueDetailsBubble /> : null}
-            {isValidUrl && !issue?.url?.includes('/issues/') && (
-              <div className='flex flex-col'>Github Issue not found</div>
-            )}
-            <div className='flex flex-col space-x-1'>
-              {isValidUrl && issue?.url?.includes('/issues/') && issue?.closed && !bountyAddress && (
-                <div className=''>This issue is already closed on GitHub</div>
-              )}
-              {isValidUrl && bountyAddress && issue && (
-                <BountyAlreadyMintedMessage closed={closed} id={issue.id} bountyAddress={bountyAddress} />
-              )}
+          {isValidUrl && (
+            <div className='border border-web-gray w-full rounded-sm my-1 p-3 bg-dark-mode'>
+              {issue?.url?.includes('/issues/') ? <IssueDetailsBubble /> : null}
+              {!issue?.url?.includes('/issues/') && <div className='flex flex-col'>Github Issue not found</div>}
+              <div className='flex flex-col space-x-1'>
+                {issue?.url?.includes('/issues/') && issue?.closed && !bountyAddress && (
+                  <div className=''>This issue is already closed on GitHub</div>
+                )}
+                {bountyAddress && issue && (
+                  <BountyAlreadyMintedMessage closed={closed} id={issue.id} bountyAddress={bountyAddress} />
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </>
