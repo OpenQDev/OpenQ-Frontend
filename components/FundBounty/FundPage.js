@@ -75,15 +75,15 @@ const FundPage = ({ bounty, refreshBounty }) => {
     }
   };
   const disabledFundButton =
-    (approveTransferState == CONFIRM ||
-      approveTransferState == APPROVING ||
-      approveTransferState == TRANSFERRING ||
-      bounty.status == '1' ||
-      parseFloat(volume) <= 0.00000001 ||
-      parseFloat(volume) > 1000000 ||
-      (volume == '' && !pickedNft) ||
-      (isContest && nftTier === '' && pickedNft) ||
-      !(parseInt(depositPeriodDays) > 0)) &&
+    approveTransferState == CONFIRM ||
+    approveTransferState == APPROVING ||
+    approveTransferState == TRANSFERRING ||
+    bounty.status == '1' ||
+    parseFloat(volume) <= 0.00000001 ||
+    parseFloat(volume) > 1000000 ||
+    (volume == '' && !pickedNft) ||
+    (isContest && nftTier === '' && pickedNft) ||
+    !(parseInt(depositPeriodDays) > 0) ||
     !hasInvoicingInfo;
 
   function resetState() {

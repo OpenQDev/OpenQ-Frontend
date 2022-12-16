@@ -239,7 +239,6 @@ describe('FundPage', () => {
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
   });
-  /*
 
   it('should let user submit and handle owned amount of Link', async () => {
     // ARRANGE
@@ -344,26 +343,23 @@ describe('FundPage', () => {
     expect(nullish).toHaveLength(0);
   });
 
-  it('should prevent user from submitting under 0.0000001', async () => {
+  it('should prevent user from submitting under 0.00000001', async () => {
     // ARRANGE
     const user = userEvent.setup();
     render(<FundPage bounty={bounty} />);
 
     // ACT
     const input = screen.getByLabelText('amount');
+    await user.type(input, '0.00000001');
+    const button = await screen.findByRole('button', { name: /Fund/i });
 
-    await waitFor(async () => {
-      await user.type(input, '0.00000001');
-      const button = await screen.findByRole('button', { name: /Fund/i });
-
-      // ASSERT
-      expect(button).toBeDisabled();
-      await user.hover(button);
-      const tooltip = await screen.findByText(/Must be between/);
-      expect(tooltip).toBeInTheDocument();
-      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-      expect(nullish).toHaveLength(0);
-    });
+    // ASSERT
+    expect(button).toBeDisabled();
+    await user.hover(button);
+    const tooltip = await screen.findByText(/Must be between/);
+    expect(tooltip).toBeInTheDocument();
+    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(nullish).toHaveLength(0);
   });
 
   it('should show tooltip', async () => {
@@ -373,13 +369,11 @@ describe('FundPage', () => {
 
     // ACT / ASSERT
     const button = screen.getByRole('button', { name: /Fund/i });
-    await waitFor(async () => {
-      expect(button).toBeDisabled();
-      await user.hover(button);
-      const tooltip = await screen.findByText(/indicate the volume you'd like to fund with./i);
-      expect(tooltip).toBeInTheDocument();
-      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-      expect(nullish).toHaveLength(0);
-    });
-  });*/
+    expect(button).toBeDisabled();
+    await user.hover(button);
+    const tooltip = await screen.findByText(/indicate the volume you'd like to fund with./i);
+    expect(tooltip).toBeInTheDocument();
+    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(nullish).toHaveLength(0);
+  });
 });
