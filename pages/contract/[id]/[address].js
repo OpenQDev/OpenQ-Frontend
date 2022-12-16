@@ -102,17 +102,23 @@ const address = ({ address, mergedBounty, renderError }) => {
 
     try {
       while (
-        newBounty.status === bounty.status &&
-        JSON.stringify(newBounty.deposits) === JSON.stringify(bounty.deposits) &&
-        newBounty.fundingGoalVolume === bounty.fundingGoalVolume &&
-        newBounty.payoutTokenVolume === bounty.payoutTokenVolume &&
-        newBounty.payoutSchedule === bounty.payoutSchedule &&
-        newBounty.payouts === bounty.payouts
+        newBounty?.status === bounty?.status &&
+        JSON.stringify(newBounty?.deposits) === JSON.stringify(bounty?.deposits) &&
+        newBounty?.fundingGoalVolume === bounty?.fundingGoalVolume &&
+        newBounty?.payoutTokenVolume === bounty?.payoutTokenVolume &&
+        newBounty?.payoutSchedule === bounty?.payoutSchedule &&
+        newBounty?.payouts === bounty?.payouts
       ) {
         newBounty = await appState.openQSubgraphClient.getBounty(address, 'no-cache');
         await sleep(500);
+        const mergedBounty = {};
+        if (bounty) {
+          Object.assign(mergedBounty, bounty);
+        }
+        if (newBounty) {
+          Object.assign(mergedBounty, newBounty);
+        }
       }
-      const mergedBounty = { ...bounty, ...newBounty };
       setBounty(mergedBounty);
       setReload();
     } catch (error) {
