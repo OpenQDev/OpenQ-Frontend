@@ -19,8 +19,11 @@ class AuthService {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/checkAuth`, { withCredentials: true });
-        const { isAuthenticated, avatarUrl, login, githubId, email } = response.data;
-        resolve({ type: 'UPDATE_IS_AUTHENTICATED', payload: { isAuthenticated, avatarUrl, login, githubId, email } });
+        const { isAuthenticated, avatar_url, login, email } = response.data;
+        resolve({
+          type: 'UPDATE_IS_AUTHENTICATED',
+          payload: { isAuthenticated, avatarUrl: avatar_url, login, githubId: response.data.node_id, email },
+        });
       } catch (error) {
         reject(error);
       }
