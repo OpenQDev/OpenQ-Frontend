@@ -26,8 +26,7 @@ const Navigation = () => {
   const [loadingBar, setLoadingBar] = useState(false);
   const [changeText, setChangeText] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const { bountyMinted, authService, openQSubgraphClient, openQPrismaClient, utils, githubRepository, tokenClient } =
-    appState;
+  const { bountyMinted, openQSubgraphClient, openQPrismaClient, utils, githubRepository, tokenClient } = appState;
 
   const router = useRouter();
   useEffect(() => {

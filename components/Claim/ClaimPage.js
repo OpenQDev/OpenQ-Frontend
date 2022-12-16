@@ -46,7 +46,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
 
     'phoneNumber',
     'province',
-    'email',
+    'invoicingEmail',
     'invoiceNumber',
     'taxId',
     'vatNumber',
@@ -198,15 +198,17 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
                       </ToolTipNew>
                       {bounty.invoiceable && (
                         <>
-                          <div>
-                            Invoicing data required for this bounty, you are missing values for the{' '}
-                            {listWordsWithAnd(
-                              neededAccountData.map((elem) => {
-                                return valueToDisplay(elem);
-                              })
-                            )}{' '}
-                            fields.
-                          </div>
+                          {neededAccountData.length > 0 && (
+                            <div>
+                              Invoicing data required for this bounty, you are missing values for the{' '}
+                              {listWordsWithAnd(
+                                neededAccountData.map((elem) => {
+                                  return valueToDisplay(elem);
+                                })
+                              )}{' '}
+                              fields.
+                            </div>
+                          )}
                           <details className='w-5/6 group' open={!hasInvoicingInfo}>
                             <summary className='list-none text-2xl text-muted fill-muted cursor-pointer'>
                               Invoicing data{' '}

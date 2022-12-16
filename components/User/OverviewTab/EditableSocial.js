@@ -4,7 +4,7 @@ import StoreContext from '../../../store/Store/StoreContext';
 import CopyAddressToClipboard from '../../Copy/CopyAddressToClipboard';
 import ToolTipNew from '../../Utils/ToolTipNew';
 
-const EditableSocial = ({ isOwner, social, user }) => {
+const EditableSocial = ({ isOwner, social }) => {
   const [localSocial, setLocalSocial] = useState(social);
   const [isEditing, setIsEditing] = useState(false);
   const [appState] = useContext(StoreContext);

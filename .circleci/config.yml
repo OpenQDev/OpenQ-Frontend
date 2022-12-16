@@ -32,6 +32,8 @@ jobs:
               echo "GA_TRACKING_ID=$GA_TRACKING_ID_STAGING" >> $(pwd)/.env
               echo "" >> $(pwd)/.env
               echo "MAGIC_PUBLISHABLE_KEY=$MAGIC_PUBLISHABLE_KEY_STAGING" >> $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "INVOICE_URL=$INVOICE_URL_STAGING" >> $(pwd)/.env
             fi
             if [ "$DEPLOY_ENV" = production ]; then
               echo "$production_env" | base64 --decode > $(pwd)/.env
@@ -49,6 +51,8 @@ jobs:
               echo "GA_TRACKING_ID=$GA_TRACKING_ID" >> $(pwd)/.env
               echo "" >> $(pwd)/.env
               echo "MAGIC_PUBLISHABLE_KEY=$MAGIC_PUBLISHABLE_KEY_STAGING" >> $(pwd)/.env
+              echo "" >> $(pwd)/.env
+              echo "INVOICE_URL=$INVOICE_URL_PRODUCTION" >> $(pwd)/.env
             fi
       - run: docker build -t openq/openq-frontend:$CIRCLE_TAG --build-arg deploy_env=$DEPLOY_ENV .
       - run: docker run -d --name openq-frontend openq/openq-frontend:$CIRCLE_TAG

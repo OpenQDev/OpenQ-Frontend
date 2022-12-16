@@ -3,10 +3,10 @@ import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../lib/UserContext';
 import { Magic } from 'magic-sdk';
 import { OAuthExtension } from '@magic-ext/oauth';
-import { MailIcon } from '@primer/octicons-react';
+import { ArrowRightIcon, MailIcon } from '@primer/octicons-react';
 import axios from 'axios';
 
-const EmailLogin = () => {
+const LoginPageEmailLogin = () => {
   const [user, setUser] = useContext(UserContext);
   const [magic, setMagic] = useState(null);
   const [disabled, setDisabled] = useState(false);
@@ -84,12 +84,13 @@ const EmailLogin = () => {
           />
 
           <button
-            className='flex items-center whitespace-nowrap gap-3 rounded-full p-2 px-4 bg-white w-full text-black justify-center font-bold'
+            className='flex items-center whitespace-nowrap gap-3 rounded-full p-2 px-4 bg-white w-full text-black hover:bg-gray-200 justify-center font-bold cursor-pointer'
             disabled={disabled}
             onClick={handleLoginWithEmail}
           >
             <MailIcon size={20} />
             Continue with Email
+            <ArrowRightIcon size={32} />
           </button>
         </>
       ) : (
@@ -113,4 +114,4 @@ const EmailLogin = () => {
   );
 };
 
-export default EmailLogin;
+export default LoginPageEmailLogin;

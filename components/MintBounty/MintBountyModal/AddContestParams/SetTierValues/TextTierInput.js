@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import StoreContext from '../../../../../store/Store/StoreContext';
 
 const TextTierInput = ({ tier, tierVolumes, onTierVolumeChange, style }) => {
+  const [localValue, setLocalValue] = useState(tierVolumes[tier - 1] || 1);
   // State
   const [suffix, setSuffix] = useState();
   const [appState] = useContext(StoreContext);
@@ -11,17 +12,31 @@ const TextTierInput = ({ tier, tierVolumes, onTierVolumeChange, style }) => {
   }, []);
 
   const handleChange = (value, tierVolumes) => {
-    const passedValue = value;
-    onTierVolumeChange(
-      {
-        name: tier,
+    setLocalValue(value);
+    if (parseInt(value)) {
+      const passedValue = value;
+      onTierVolumeChange(
+        {
+          name: tier - 1,
 
-        target: {
-          value: passedValue,
+          target: {
+            value: passedValue,
+          },
         },
-      },
-      tierVolumes
-    );
+        tierVolumes
+      );
+    } else {
+      onTierVolumeChange(
+        {
+          name: tier - 1,
+
+          target: {
+            value: 0,
+          },
+        },
+        tierVolumes
+      );
+    }
   };
   return (
     <div className={`flex-1 w-11/12 mb-1 ${style}`}>
@@ -30,7 +45,7 @@ const TextTierInput = ({ tier, tierVolumes, onTierVolumeChange, style }) => {
         id='tier-volume'
         autoComplete='off'
         placeholder={`${suffix} winner`}
-        value={tierVolumes[tier] || ''}
+        value={localValue}
         onChange={(e) => handleChange(e.target.value, tierVolumes)}
         className='input-field w-full number'
       />

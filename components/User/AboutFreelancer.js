@@ -3,12 +3,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 // Custom
-import useGetTokenValues from '../../hooks/useGetTokenValues';
-import useEns from '../../hooks/useENS';
-import AboutTitle from './OverviewTab/AboutTitle';
-import UserHistory from './OverviewTab/UserHistory';
-import Balances from './OverviewTab/Balances';
-import MiniBountyList from './OverviewTab/MiniBountyList';
 import { BookIcon, EyeIcon, StarIcon } from '@primer/octicons-react';
 import SubMenu from '../Utils/SubMenu';
 import Watching from './WatchingTab/Watching';
@@ -25,16 +19,13 @@ import useWeb3 from '../../hooks/useWeb3';
 import AuthContext from '../../store/AuthStore/AuthContext';
 import Username from './OverviewTab/Username';
 
-const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatched, watchedBounties }) => {
-  const { payoutTokenBalances, payouts } = user;
+const AboutFreelancer = ({ user, starredOrganizations, showWatched, watchedBounties }) => {
   const [internalMenu, setInternalMenu] = useState('Overview');
   const [appState] = useContext(StoreContext);
   const { github } = appState.accountData;
   const [watchedFullBounties, setWatchedFullBounties] = useState([]);
   const [githubUser, setGithubUser] = useState();
-  const userId = user.id;
   const { account } = useWeb3();
-  const [ensName] = useEns(userId);
 
   const { accountData } = appState;
   const loggedId = accountData?.id;
@@ -53,7 +44,6 @@ const AboutFreelancer = ({ user, organizations, starredOrganizations, showWatche
   }, [githubId, isOwner]);
   // Context
   // State
-  const [payoutTokenValues] = useGetTokenValues(payoutTokenBalances);
 
   useEffect(() => {
     const getWatched = async () => {

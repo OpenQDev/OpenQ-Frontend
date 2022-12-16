@@ -45,7 +45,7 @@ const BountyHeading = ({ bounty }) => {
         </div>
       </div>
       <div className='w-full flex flex-wrap justify-between pb-4 border-b border-web-gray'>
-        <div className={`${marker.colour} py-2 font-light rounded-full px-4 flex gap-1  w-fit`}>
+        <div className={`${marker.colour} py-2 font-semibold rounded-full px-4 flex gap-1  w-fit`}>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 16 16'

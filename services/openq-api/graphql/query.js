@@ -82,6 +82,7 @@ export const GET_USER_BY_ID = gql`
       twitter
       devRoles
       otherRoles
+      interests
       languages
       frameworks
       starredOrganizationIds
@@ -99,6 +100,7 @@ export const GET_USER = gql`
       twitter
       devRoles
       otherRoles
+      interests
       languages
       frameworks
       starredOrganizationIds
@@ -122,6 +124,7 @@ export const GET_PRIVATE_USER = gql`
       discord
       github
       twitter
+      invoicingEmail
       postalCode
       billingName
       invoiceNumber
@@ -262,6 +265,7 @@ export const UPDATE_USER = gql`
     $frameworks: [String]
     $languages: [String]
     $otherRoles: [String]
+    $interests: [String]
     $postalCode: String
     $billingName: String
     $invoiceNumber: Int
@@ -288,11 +292,13 @@ export const UPDATE_USER = gql`
       frameworks: $frameworks
       languages: $languages
       otherRoles: $otherRoles
+      interests: $interests
       postalCode: $postalCode
       invoiceNumber: $invoiceNumber
       invoicingEmail: $invoicingEmail
       billingName: $billingName
       phoneNumber: $phoneNumber
+      invoicingEmail: $invoicingEmail
       taxId: $taxId
       vatNumber: $vatNumber
       vatRate: $vatRate
@@ -310,6 +316,7 @@ export const UPDATE_USER = gql`
       github
       twitter
       postalCode
+      invoicingEmail
       billingName
       invoiceNumber
       invoicingEmail

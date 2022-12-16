@@ -3,8 +3,9 @@ import React from 'react';
 import { useRouter } from 'next/router';
 // Custom
 import Image from 'next/image';
+import { ArrowRightIcon } from '@primer/octicons-react';
 
-const GithubSignIn = ({ redirectUrl, signInStyle }) => {
+const LoginPageGithubSignIn = ({ redirectUrl, signInStyle }) => {
   const router = useRouter();
 
   const signIn = () => {
@@ -31,18 +32,19 @@ const GithubSignIn = ({ redirectUrl, signInStyle }) => {
   return (
     <button
       onClick={() => signIn()}
-      className={`flex justify-center ${
-        signInStyle ? signInStyle : 'bg-web-gray rounded-lg py-2 text-primary font-bold'
+      className={`flex justify-center btn-primary ${
+        signInStyle ? signInStyle : ' rounded-lg py-2 font-bold'
       } whitespace-nowrap w-full`}
     >
       <div className='flex flex-row items-center justify-center space-x-3'>
-        <div className='h-4 w-4 md:h-6 md:w-6 relative bg-web-gray rounded-full'>
+        <div className='h-4 w-4 md:h-6 md:w-6 relative rounded-full'>
           <Image src='/social-icons/github-logo-white.svg' alt='Picture of the author' width={24} height={24} />
         </div>
         <div>Continue with Github</div>
+        <ArrowRightIcon size={32} />
       </div>
     </button>
   );
 };
 
-export default GithubSignIn;
+export default LoginPageGithubSignIn;

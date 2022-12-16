@@ -13,7 +13,6 @@ const SetTierValues = ({
   setEnableContest,
   finalTierVolumes,
   setFinalTierVolumes,
-  initialVolumes,
   currentSum,
 }) => {
   const newFixedVolumes = {};
@@ -22,39 +21,28 @@ const SetTierValues = ({
     newFixedVolumes[parseInt(index) + 1] = 1;
     newVolumesArr[index] = 1;
   }
-  const initialNumberVolumes = initialVolumes.map((elem) => parseInt(elem));
-  const [tierVolumes, setTierVolumes] = useState(initialNumberVolumes);
   const [fixedTierVolumes, setFixedTierVolumes] = useState(newFixedVolumes);
   const [toggleVal, setToggleVal] = useState('Visual');
 
   useEffect(() => {
-    const newFixedVolumes = {};
+    const newFixedVolumes = [];
     for (const index in tierArr) {
-      newFixedVolumes[parseInt(index) + 1] = 1;
+      newFixedVolumes[parseInt(index)] = 1;
     }
     setFixedTierVolumes(newFixedVolumes);
+    const newFinalVolumes = finalTierVolumes.slice(0, tierArr.length);
+    while (newFinalVolumes.length < tierArr.length) {
+      newFinalVolumes.push(1);
+    }
+    setFinalTierVolumes(newFinalVolumes);
   }, [tierArr]);
-  function onFixedTierChange(e, localTierVolumes) {
-    if (!isNaN(e.target.value) && parseFloat(e.target.value) >= 0) {
-      setFixedTierVolumes({
-        ...localTierVolumes,
-        [e.name]: e.target.value,
-      });
-    }
-    if (e.target.value === '') {
-      setFixedTierVolumes({
-        ...localTierVolumes,
-        [e.name]: 0,
-      });
-    }
+
+  function onFixedTierChange(e) {
+    const newVolumes = [...finalTierVolumes];
+    newVolumes[e.name] = parseInt(e.target.value);
+    setFixedTierVolumes(newVolumes);
+    setFinalTierVolumes(newVolumes);
   }
-  useEffect(() => {
-    if (category === 'Contest') {
-      setFinalTierVolumes(Object.values(tierVolumes));
-    } else {
-      setFinalTierVolumes(Object.values(fixedTierVolumes));
-    }
-  }, [tierVolumes, fixedTierVolumes]);
   useEffect(() => {
     if (finalTierVolumes.length) {
       setSum(finalTierVolumes.reduce((a, b) => a + b));
@@ -64,20 +52,30 @@ const SetTierValues = ({
       setEnableContest(true);
     }
   }, [finalTierVolumes]);
+  // reset when category changes
+  useEffect(() => {
+    const newVolumes = [];
 
-  const onTierVolumeChange = (e, localTierVolumes) => {
+    for (const index in tierArr) {
+      newVolumes[parseInt(index)] = 1;
+    }
+    setFinalTierVolumes(newVolumes);
+    setFixedTierVolumes(newVolumes);
+  }, [category]);
+
+  const onTierVolumeChange = (e) => {
     if (
       parseInt(e.target.value) >= 0 ||
       parseInt(e.target.value) === '' ||
       !Number(e.target.value) ||
       parseInt(e.target.value) > 100
     ) {
-      setTierVolumes({
-        ...localTierVolumes,
-        [e.name]: parseInt(e.target.value),
-      });
+      const newVolumes = [...finalTierVolumes];
+      newVolumes[e.name] = parseInt(e.target.value);
+      setFinalTierVolumes(newVolumes);
     }
   };
+
   const handleToggle = () => {
     if (toggleVal === 'Visual') {
       const newVolumes = {};
@@ -88,17 +86,14 @@ const SetTierValues = ({
       }
       setToggleVal('Text');
       setSum(0);
-      setTierVolumes(newVolumes);
       setFinalTierVolumes(newVolumesArr);
     } else {
-      const newVolumes = {};
       const newVolumesArr = [];
       for (const index in tierArr) {
-        newVolumes[parseInt(index)] = 1;
         newVolumesArr[index] = 1;
       }
+      setFinalTierVolumes(newVolumesArr);
       setToggleVal('Visual');
-      setTierVolumes(newVolumes);
     }
   };
   return (
@@ -130,7 +125,7 @@ const SetTierValues = ({
               {tierArr.map((t) => {
                 return (
                   <div key={t}>
-                    <TierInput tier={t} tierVolumes={tierVolumes} onTierVolumeChange={onTierVolumeChange} />
+                    <TierInput tier={t} tierVolumes={finalTierVolumes} onTierVolumeChange={onTierVolumeChange} />
                   </div>
                 );
               })}
@@ -140,7 +135,11 @@ const SetTierValues = ({
               {tierArr.map((t, i) => {
                 return (
                   <div key={i}>
-                    <TextTierInput tier={i + 1} tierVolumes={tierVolumes} onTierVolumeChange={onTierVolumeChange} />
+                    <TextTierInput
+                      tier={i + 1}
+                      tierVolumes={finalTierVolumes}
+                      onTierVolumeChange={onTierVolumeChange}
+                    />
                   </div>
                 );
               })}

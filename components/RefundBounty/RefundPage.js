@@ -119,7 +119,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
             </h2>
             <div className='flex flex-col space-y-5 w-full px-8 pt-2'>
               <h2 className='text-2xl border-b border-gray-700 pb-4 flex contents-center items-center gap-4'>
-                <span>{closed && 'Partially'}My Refundable Deposits</span>
+                <span>My {closed && 'Partially '}Refundable Deposits</span>
                 <span>
                   <ToolTipNew
                     innerStyles={'w-48 whitespace-normal'}

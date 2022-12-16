@@ -30,7 +30,6 @@ const InvoicingDetails = ({ slim }) => {
     { value: 'country', required: true },
     { value: 'province', displayValue: 'State/Province', required: true },
   ];
-  console.log(accountData);
   const submitProfileData = async (e) => {
     e.preventDefault();
     setFormState({ text: 'Updating...', className: 'btn-default', disabled: true });
@@ -74,7 +73,6 @@ const InvoicingDetails = ({ slim }) => {
             appState.logger.error(err);
           }
         }
-        console.log(accountData);
 
         const { updateUser } = await openQPrismaClient.updateUser(formValues);
         if (updateUser) {
