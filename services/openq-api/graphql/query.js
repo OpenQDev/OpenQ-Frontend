@@ -124,7 +124,7 @@ export const GET_PRIVATE_USER = gql`
       discord
       github
       twitter
-      invoicingEmail
+
       postalCode
       billingName
       invoiceNumber
@@ -248,6 +248,34 @@ export const UPSERT_USER = gql`
   }
 `;
 
+export const COMBINE_USERS = gql`
+  mutation combineUsers($id: String, $email: String, $github: String) {
+    combineUsers(id: $id, email: $email, github: $github) {
+      github
+      email
+      company
+      username
+      city
+      streetAddress
+      country
+      province
+      discord
+      github
+      twitter
+      postalCode
+      invoicingEmail
+      billingName
+      invoiceNumber
+      invoicingEmail
+      phoneNumber
+      taxId
+      vatNumber
+      vatRate
+      memo
+    }
+  }
+`;
+
 export const UPDATE_USER = gql`
   mutation updateUser(
     $id: String
@@ -298,7 +326,6 @@ export const UPDATE_USER = gql`
       invoicingEmail: $invoicingEmail
       billingName: $billingName
       phoneNumber: $phoneNumber
-      invoicingEmail: $invoicingEmail
       taxId: $taxId
       vatNumber: $vatNumber
       vatRate: $vatRate

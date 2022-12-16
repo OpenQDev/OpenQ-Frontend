@@ -6,7 +6,6 @@ import { render, screen } from '../../../../test-utils';
 import AddContestParams from '../../../../components/MintBounty/MintBountyModal/AddContestParams/AddContestParams';
 import InitialMintState from '../../../../components/MintBounty/InitialMintState';
 import MintContext from '../../../../components/MintBounty/MintContext';
-import { waitFor } from '@testing-library/react';
 //const mockTierVolumeChange = jest.fn();
 describe('AddContestParams', () => {
   const zeroAddressMetadata = {

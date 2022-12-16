@@ -6,12 +6,13 @@ import useAuth from '../../hooks/useAuth';
 const SetContextState = (props) => {
   const [authState] = useAuth();
   const [appState, dispatch] = useContext(StoreContext);
+  const { accountData } = appState;
+  const { githubId, email } = authState;
   // saves github and account data to openq-api
   useEffect(() => {
     const checkGithub = async () => {
-      if (authState.githubId || authState.email) {
+      if (githubId || email) {
         console.log('Exec');
-        const { githubId, email } = authState;
         const idObj = githubId ? { github: githubId } : { email };
         console.log(idObj, 'there');
         const accountData = await appState.openQPrismaClient.getUser(idObj);
@@ -26,7 +27,7 @@ const SetContextState = (props) => {
           }
           const languages = githubUser.recentLanguages;
           const params = {
-            ...(github && { github }),
+            ...(github && { github: githubId }),
             ...(twitter && { twitter }),
             ...(languages && { languages }),
           };
@@ -40,7 +41,22 @@ const SetContextState = (props) => {
     if (authState) {
       checkGithub();
     }
-  }, [authState]);
+  }, [authState.email, authState.githubId]);
+  useEffect(() => {
+    console.log(authState, accountData);
+
+    const combineUsers = async () => {
+      console.log('combined users');
+      const value = await appState.openQPrismaClient.combineUsers({
+        email: authState.email,
+        github: authState.githubId,
+      });
+      console.log(value);
+    };
+    if (authState.email && authState.githubId && accountData.email !== email && accountData.github === githubId) {
+      combineUsers();
+    }
+  }, [authState.githubId, authState.email, accountData.github, accountData.email]);
 
   return <>{props.children}</>;
 };
