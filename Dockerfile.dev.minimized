@@ -1,9 +1,0 @@
-FROM node:lts-alpine
-WORKDIR /app
-RUN apk update && apk upgrade && \
-	apk add --no-cache bash git
-COPY . .
-ENV DEPLOY_ENV=development
-RUN yarn
-EXPOSE 3000
-ENTRYPOINT yarn start
