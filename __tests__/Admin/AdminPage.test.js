@@ -157,7 +157,6 @@ describe('AdminPage', () => {
         render(<AdminPage bounty={bounty} />);
         // ACT
         await waitFor(() => {
-          const heading = screen.getByText('Select Winners');
           const subheading = screen.getByText('How many Tiers?');
           const tierHeading = screen.getByText('Weight per Tier (%)');
           const inputFieldBudget = screen.getByPlaceholderText('0.0');
@@ -165,7 +164,6 @@ describe('AdminPage', () => {
           const selectCurrency = screen.getByText(/Matic/i);
           const payoutBtn = screen.getByRole('button', { name: 'Set New Payout Schedule' });
           // ASSERT
-          expect(heading).toBeInTheDocument();
           expect(subheading).toBeInTheDocument();
           expect(tierHeading).toBeInTheDocument();
           expect(inputFieldBudget).toBeInTheDocument();

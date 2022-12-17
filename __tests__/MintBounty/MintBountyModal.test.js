@@ -105,7 +105,7 @@ const test = (issue, type) => {
     //ASSERT
     await waitFor(() => {
       expect(screen.getByRole('link').href).toEqual(
-        'https://github.com/OpenQDev/OpenQ-Contracts/blob/production/contracts/Bounty/Implementations/BountyV1.sol'
+        'https://github.com/OpenQDev/OpenQ-Contracts/blob/production/contracts/Bounty/Implementations/BountyV2.sol'
       );
     });
   });

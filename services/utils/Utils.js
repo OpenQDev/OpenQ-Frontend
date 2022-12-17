@@ -183,7 +183,12 @@ class Utils {
         fill: 'fill-green',
       };
     } else {
-      return { status: 'Open', colour: 'bg-green', fill: 'fill-green' };
+      // for split price and contests, closed when status is 1
+      if (bounty.status == '1') {
+        return { status: 'Closed', colour: 'bg-danger', fill: 'fill-danger' };
+      } else {
+        return { status: 'Open', colour: 'bg-green', fill: 'fill-green' };
+      }
     }
   };
 
