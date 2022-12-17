@@ -37,7 +37,7 @@ class GithubRepository {
 
   // If setGraphqlHeaders is called on the CLIENT, it will use process.env.NEXT_PUBLIC_PATS, which is only available in the browser per next.config.js
   // If setGraphqlHeaders is called on the SERVER, it will use process.env.PATS, which is only available on the server per next.config.js
-  patsArray = process.env.NEXT_PUBLIC_PATS ? process.env.NEXT_PUBLIC_PATS.split(',') : process.env.PATS.split(',');
+  patsArray = ['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']; //process.env.NEXT_PUBLIC_PATS ? process.env.NEXT_PUBLIC_PATS.split(',') : process.env.PATS.split(',');
 
   setGraphqlHeaders = (oauthToken) => {
     let authLink;

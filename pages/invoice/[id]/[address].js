@@ -3,12 +3,10 @@ import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import Invoice from '../../../components/Invoicing/Invoice';
 import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
-import useAuth from '../../../hooks/useAuth';
 import Logger from '../../../services/logger/Logger';
 import nookies from 'nookies';
 
 const invoice = ({ bounty, renderError }) => {
-  useAuth();
   return <>{renderError ? <UnexpectedErrorModal error={renderError} /> : <Invoice bounty={bounty} />}</>;
 };
 

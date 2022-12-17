@@ -4,7 +4,7 @@ import StoreContext from '../../../store/Store/StoreContext';
 import CopyAddressToClipboard from '../../Copy/CopyAddressToClipboard';
 import ToolTipNew from '../../Utils/ToolTipNew';
 
-const EditableSocial = ({ isOwner, social, user }) => {
+const EditableSocial = ({ isOwner, social }) => {
   const [localSocial, setLocalSocial] = useState(social);
   const [isEditing, setIsEditing] = useState(false);
   const [appState] = useContext(StoreContext);
@@ -16,8 +16,10 @@ const EditableSocial = ({ isOwner, social, user }) => {
   };
   const handleSave = async (value, name) => {
     try {
-      const githubId = user.github;
-      const { updateUser } = await appState.openQPrismaClient.updateUser({ [name]: value, github: githubId });
+      const { github, email } = appState.accountData;
+      const idObj = github ? { github } : { email };
+
+      const { updateUser } = await appState.openQPrismaClient.updateUser({ [name]: value, ...idObj });
       if (updateUser) {
         const newLink = updateUser[name];
         setLocalSocial({ ...localSocial, link: newLink });

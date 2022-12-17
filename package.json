@@ -12,8 +12,8 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"test": "TZ=UTC jest --watch",
-		"test:cicd": "TZ=UTC jest",
+		"test": "TZ=UTC jest --watch --runInBand",
+		"test:cicd": "TZ=UTC jest --runInBand",
 		"gen": "node services/ethers/mocks/abiToJavascriptClass.js",
 		"prepare-mumbai": "mustache constants/config/mumbai.json constants/polygon-mumbai.json.mustache > constants/polygon-mumbai.json && mustache constants/config/mumbai.json constants/polygon-mumbai-tokens.json.mustache > constants/polygon-mumbai-tokens.json",
 		"prepare-polygon": "mustache constants/config/mainnet.json constants/polygon-mainnet.json.mustache > constants/polygon-mainnet.json && mustache constants/config/mainnet.json constants/polygon-mainnet-tokens.json.mustache > constants/polygon-mainnet-tokens.json"

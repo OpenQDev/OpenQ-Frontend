@@ -2,12 +2,10 @@
 import React, { useState } from 'react';
 import SearchBar from '../../components/Search/SearchBar';
 import WrappedGithubClient from '../../services/github/WrappedGithubClient';
-import useAuth from '../../hooks/useAuth';
 import SubmissionCard from '../../components/Submissions/SubmissionCard';
 import nookies from 'nookies';
 
 const showcase = ({ name, currentPrs }) => {
-  useAuth();
   const [submissionSearchTerm, setSubmissionSearchTerm] = useState('');
   // Render
   const filterBySubmission = (e) => {

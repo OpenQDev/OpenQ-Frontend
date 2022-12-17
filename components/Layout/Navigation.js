@@ -26,8 +26,7 @@ const Navigation = () => {
   const [loadingBar, setLoadingBar] = useState(false);
   const [changeText, setChangeText] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const { bountyMinted, authService, openQSubgraphClient, openQPrismaClient, utils, githubRepository, tokenClient } =
-    appState;
+  const { bountyMinted, openQSubgraphClient, openQPrismaClient, utils, githubRepository, tokenClient } = appState;
 
   const router = useRouter();
   useEffect(() => {
@@ -44,22 +43,6 @@ const Navigation = () => {
     setQuickSearch('');
     setOpenMenu(false);
   }, [router.asPath]);
-
-  useEffect(() => {
-    const fetchSignature = async () => {
-      if (account) {
-        try {
-          const response = await authService.hasSignature(account);
-          if (response.data.status === false) {
-            await authService.verifySignature(account, '');
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    };
-    fetchSignature();
-  }, [account]);
 
   useEffect(() => {
     // set up searchable

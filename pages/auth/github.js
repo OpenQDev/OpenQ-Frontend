@@ -40,6 +40,7 @@ function GitHubAuth() {
             // Get the user's full profile from the database
             const fullApiUser = await appState.openQPrismaClient.getPublicUser(github);
 
+            console.log(fullApiUser, 'fullApiUser');
             const isNewUser = !fullApiUser;
 
             if (isNewUser) {

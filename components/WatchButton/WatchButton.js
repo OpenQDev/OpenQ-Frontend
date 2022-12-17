@@ -21,8 +21,8 @@ const WatchButton = ({ unWatchable, watchingState, bounty }) => {
         }
       } catch (err) {
         if (JSON.stringify(err).includes('AuthenticationError')) {
-          appState.logger.error('Cannot get watched bounties because user is not signed in with ethereum.');
-        } else appState.logger.error(err);
+          appState.logger.error('Cannot get watched bounties because user is not signed in.', 'watch1');
+        } else appState.logger.error(err, 'watch2');
       }
     };
     getWatched();
@@ -50,7 +50,7 @@ const WatchButton = ({ unWatchable, watchingState, bounty }) => {
         watchDisabled
       );
     } catch (err) {
-      appState.logger.error(err);
+      appState.logger.error(err, 'watch3');
     }
     setWatchDisabled(false);
   };

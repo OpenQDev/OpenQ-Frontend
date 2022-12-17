@@ -5,12 +5,16 @@ import { Magic } from 'magic-sdk';
 import { OAuthExtension } from '@magic-ext/oauth';
 import { ArrowRightIcon, MailIcon } from '@primer/octicons-react';
 import axios from 'axios';
+import StoreContext from '../../store/Store/StoreContext';
+import { useRouter } from 'next/router';
 
 const LoginPageEmailLogin = () => {
   const [user, setUser] = useContext(UserContext);
   const [magic, setMagic] = useState(null);
   const [disabled, setDisabled] = useState(false);
   const [email, setEmail] = useState('');
+  const [appState] = useContext(StoreContext);
+  const router = useRouter();
 
   useEffect(() => {
     let newMagic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
@@ -57,14 +61,17 @@ const LoginPageEmailLogin = () => {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + didToken,
         },
+        withCredentials: true,
+        credentials: 'include',
       });
-
       if (res.status === 200) {
         // Set the UserContext to the now logged in user
-        let userMetadata = await magic.user.getMetadata();
-        console.log('userMetadata', userMetadata);
-        await setUser(userMetadata);
-        setDisabled(false);
+
+        const { id } = await appState.openQPrismaClient.upsertUser({ email });
+        router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${id}`);
+        // await setUser(userMetadata);
+
+        // setDisabled(false);
       }
     } catch (error) {
       setDisabled(false);

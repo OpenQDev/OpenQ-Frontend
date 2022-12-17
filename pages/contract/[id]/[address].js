@@ -21,7 +21,6 @@ import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
 import Logger from '../../../services/logger/Logger';
-import useAuth from '../../../hooks/useAuth';
 import RepoTitle from '../../../components/Bounty/RepoTitle';
 import SubMenu from '../../../components/Utils/SubMenu';
 import BountyHeading from '../../../components/Bounty/BountyHeading';
@@ -37,7 +36,6 @@ import ClaimOverview from '../../../components/Claim/ClaimOverview';
 import Log from '../../../components/svg/log';
 
 const address = ({ address, mergedBounty, renderError }) => {
-  useAuth();
   // Context
   const [appState, dispatch] = useContext(StoreContext);
   const [bounty, setBounty] = useState(mergedBounty);

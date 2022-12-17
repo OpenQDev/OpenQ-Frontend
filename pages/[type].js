@@ -6,7 +6,6 @@ import nookies from 'nookies';
 // Custom
 import BountyHomepage from '../components/Bounty/BountyHomepage';
 import OrganizationHomepage from '../components/Organization/OrganizationHomepage';
-import useAuth from '../hooks/useAuth';
 import WrappedGithubClient from '../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../services/openq-api/WrappedOpenQPrismaClient';
@@ -16,8 +15,6 @@ import SubMenu from '../components/Utils/SubMenu';
 import UnexpectedErrorModal from '../components/Utils/UnexpectedErrorModal';
 
 export default function Index({ orgs, fullBounties, batch, types, category, renderError, firstCursor }) {
-  useAuth();
-
   // State
   const [internalMenu, setInternalMenu] = useState('Issues');
   const [controlledOrgs, setControlledOrgs] = useState(orgs);

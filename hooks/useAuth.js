@@ -7,7 +7,6 @@ import ReactGA from 'react-ga4';
 const useAuth = (state) => {
   const [authState, setAuthState] = useContext(AuthContext);
   const [appState] = useContext(StoreContext || state);
-  const { reloadNow } = appState;
   const { account } = useWeb3();
 
   useEffect(() => {
@@ -25,6 +24,7 @@ const useAuth = (state) => {
                 avatarUrl: data.payload.avatarUrl,
                 login: data.payload.login,
                 githubId: data.payload.githubId,
+                email: data.payload.email,
               },
             });
           }
@@ -40,31 +40,6 @@ const useAuth = (state) => {
 
     () => (didCancel = true);
   }, []);
-
-  // runs whenever backend changes or account changes.
-  useEffect(() => {
-    let didCancel;
-    // updates signed account if recieves true.
-    async function checkAccount() {
-      try {
-        const response = await appState.authService.hasSignature(account);
-        if (response.data.status && !didCancel) {
-          setAuthState({
-            type: 'UPDATE_SIGNED_ACCOUNT',
-            payload: { addressRecovered: response.data.addressRecovered, isAdmin: response.data.admin },
-          });
-        }
-      } catch (err) {
-        appState.logger.error(err);
-      }
-    }
-
-    if (account) {
-      checkAccount();
-    }
-
-    () => (didCancel = true);
-  }, [account, reloadNow]);
 
   useEffect(() => {
     if (account) {

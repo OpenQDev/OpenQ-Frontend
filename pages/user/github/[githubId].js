@@ -6,14 +6,16 @@ import Logger from '../../../services/logger/Logger';
 import SubMenu from '../../../components/Utils/SubMenu';
 import Gear from '../../../components/svg/gear';
 import Image from 'next/image';
-import useAuth from '../../../hooks/useAuth';
 import AuthButton from '../../../components/Authentication/AuthButton';
+import { useContext } from 'react';
+import StoreContext from '../../../store/Store/StoreContext';
 
 import nookies from 'nookies';
 
 const account = ({ githubId, githubUser, renderError }) => {
-  const [authState] = useAuth();
   const [internalMenu, setInternalMenu] = useState('Settings');
+  const [appState] = useContext(StoreContext);
+  const { accountData } = appState;
 
   return (
     <div className=' gap-4 justify-center pt-6'>
@@ -53,7 +55,7 @@ const account = ({ githubId, githubUser, renderError }) => {
               <AssociationModal githubId={githubId} user={githubUser} renderError={renderError} />
             )}
             <div className='xs:w-60 py-8 lg:hidden'>
-              <h2 className='text-2xl pb-4 font-semibold'>Sign {authState.githubId ? 'out of' : 'into'} Github</h2>
+              <h2 className='text-2xl pb-4 font-semibold'>Sign {accountData.github ? 'out of' : 'into'} Github</h2>
               <AuthButton />
             </div>
           </div>
