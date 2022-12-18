@@ -252,7 +252,6 @@ class OpenQPrismaClient {
           mutation: UPDATE_USER,
           variables: values,
         });
-        console.log('update usaer');
         resolve(result.data);
       } catch (e) {
         reject(e);
@@ -268,7 +267,6 @@ class OpenQPrismaClient {
           mutation: UPSERT_USER,
           variables: values,
         });
-        console.log('upsert user');
         resolve(result.data.upsertUser);
       } catch (e) {
         reject(e);
@@ -279,7 +277,6 @@ class OpenQPrismaClient {
 
   combineUsers(values) {
     const promise = new Promise(async (resolve, reject) => {
-      console.log('combineUsers values: ', values);
       try {
         const result = await this.client.mutate({
           mutation: COMBINE_USERS,
@@ -354,7 +351,6 @@ class OpenQPrismaClient {
   }
 
   async getUser(idObject, types, category, fetchPolicy = {}) {
-    console.log('get user');
     const promise = new Promise(async (resolve, reject) => {
       const variables = {
         types,
@@ -402,7 +398,6 @@ class OpenQPrismaClient {
   }
 
   getPublicUser(github) {
-    console.log('get public user');
     const promise = new Promise(async (resolve, reject) => {
       const variables = {
         github,
@@ -422,7 +417,6 @@ class OpenQPrismaClient {
   }
 
   getPublicUserById(id) {
-    console.log('get public user by i');
     const promise = new Promise(async (resolve, reject) => {
       const variables = {
         id,

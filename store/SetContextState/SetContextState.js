@@ -12,9 +12,7 @@ const SetContextState = (props) => {
   useEffect(() => {
     const checkGithub = async () => {
       if (githubId || email) {
-        console.log('Exec');
         const idObj = githubId ? { github: githubId } : { email };
-        console.log(idObj, 'there');
         const accountData = await appState.openQPrismaClient.getUser(idObj);
         dispatch({ payload: accountData, type: 'UPDATE_ACCOUNTDATA' });
 
@@ -43,15 +41,11 @@ const SetContextState = (props) => {
     }
   }, [authState.email, authState.githubId]);
   useEffect(() => {
-    console.log(authState, accountData);
-
     const combineUsers = async () => {
-      console.log('combined users');
-      const value = await appState.openQPrismaClient.combineUsers({
+      await appState.openQPrismaClient.combineUsers({
         email: authState.email,
         github: authState.githubId,
       });
-      console.log(value);
     };
     if (authState.email && authState.githubId && accountData.email !== email && accountData.github === githubId) {
       combineUsers();
