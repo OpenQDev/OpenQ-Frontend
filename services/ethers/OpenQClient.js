@@ -625,64 +625,53 @@ class OpenQClient {
   };
 
   handleError(jsonRpcError, data) {
-    let errorString = jsonRpcError?.data?.message;
-
-    // Data messages - more specific than jsonRpcError.message
-    if (errorString) {
-      for (const error of jsonRpcErrors) {
-        const revertString = Object.keys(error)[0];
-        if (errorString.includes(revertString)) {
-          const title = error[revertString]['title'];
-          const message = error[revertString].message(data);
-          const link = error[revertString].link;
-          const linkText = error[revertString].linkText;
-          return { title, message, link, linkText };
-        }
-      }
-    }
+    let errorString = JSON.stringify(errorString); // Data messages - more specific than errorString.message
 
     let miscError;
-    if (typeof jsonRpcError === 'string') {
-      if (jsonRpcError.includes('Ambire user rejected the request')) {
+    if (typeof errorString === 'string') {
+      if (errorString.includes('Ambire user rejected the request')) {
         miscError = 'USER_DENIED_TRANSACTION';
       }
-      if (jsonRpcError.includes('Rejected Request')) {
+      if (errorString.includes('Rejected Request')) {
         miscError = 'USER_DENIED_TRANSACTION';
       }
-      if (jsonRpcError.includes('Transaction was rejected')) {
+      if (errorString.includes('rejected transaction')) {
         miscError = 'USER_DENIED_TRANSACTION';
       }
-    }
-
-    if (jsonRpcError.message) {
-      if (jsonRpcError.message.includes('Nonce too high.')) {
+      if (errorString.includes('Transaction was rejected')) {
+        miscError = 'USER_DENIED_TRANSACTION';
+      }
+      if (errorString.message.includes('Nonce too high.')) {
         miscError = 'NONCE_TO_HIGH';
       }
-      if (jsonRpcError.message.includes('User denied transaction signature')) {
+      if (errorString.message.includes('User denied transaction signature')) {
         miscError = 'USER_DENIED_TRANSACTION';
       }
-      if (jsonRpcError.message.includes('Transaction was rejected')) {
+      if (errorString.message.includes('Transaction was rejected')) {
         miscError = 'USER_DENIED_TRANSACTION';
       }
-      if (jsonRpcError.message.includes('MetaMask is having trouble connecting to the network')) {
+      if (errorString.message.includes('rejected transaction')) {
+        miscError = 'USER_DENIED_TRANSACTION';
+      }
+      if (errorString.message.includes('MetaMask is having trouble connecting to the network')) {
         miscError = 'METAMASK_HAVING_TROUBLE';
       }
-      if (jsonRpcError.message.includes('Internal JSON-RPC error')) {
+      if (errorString.message.includes('Internal JSON-RPC error')) {
         miscError = 'INTERNAL_ERROR';
       }
-      if (jsonRpcError.message.includes('Set a higher gas fee')) {
+      if (errorString.message.includes('Set a higher gas fee')) {
         miscError = 'UNDERPRICED_TXN';
       }
-      if (jsonRpcError.message.includes('CFA: flow does not exist')) {
+      if (errorString.message.includes('CFA: flow does not exist')) {
         miscError = 'CFA_DOES_NOT_EXIST';
       }
-      if (jsonRpcError.message.includes('CFA: flow already exist')) {
+      if (errorString.message.includes('CFA: flow already exist')) {
         miscError = 'CFA_EXISTS';
       }
-      if (jsonRpcError.message.includes('COMPETITION_ALREADY_CLOSED')) {
+      if (errorString.message.includes('COMPETITION_ALREADY_CLOSED')) {
         miscError = 'COMPETITION_ALREADY_CLOSED';
       }
-      if (jsonRpcError.message.includes('ONGOING_BOUNTY_ALREADY_CLOSED')) {
+      if (errorString.message.includes('ONGOING_BOUNTY_ALREADY_CLOSED')) {
         miscError = 'ONGOING_BOUNTY_ALREADY_CLOSED';
       }
     }
