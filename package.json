@@ -2,6 +2,7 @@
 	"name": "openq-frontend",
 	"version": "0.1.0",
 	"private": true,
+	"license": "BUSL-1.1",
 	"scripts": {
 		"boot:local": "next dev -p 3005",
 		"boot:docker": "DEPLOY_ENV=docker next dev",
