@@ -22,26 +22,13 @@ jobs:
               echo "PATS=$PATS" >> $(pwd)/.env
               echo "" >> $(pwd)/.env
               echo "BUILD_NUMBER=$CIRCLE_TAG" >> $(pwd)/.env
-              echo "" >> $(pwd)/.env
             fi
             if [ "$DEPLOY_ENV" = production ]; then
               echo "$production_env" | base64 --decode > $(pwd)/.env
               echo "" >> $(pwd)/.env
               echo "PATS=$PATS_PRODUCTION" >> $(pwd)/.env
               echo "" >> $(pwd)/.env
-              echo "OPENQ_PROXY_ADDRESS=$OPENQ_PROXY_ADDRESS_PRODUCTION" >> $(pwd)/.env
-              echo "" >> $(pwd)/.env
-              echo "DEPOSIT_MANAGER_PROXY_ADDRESS=$DEPOSIT_MANAGER_PROXY_ADDRESS_PRODUCTION" >> $(pwd)/.env
-              echo "" >> $(pwd)/.env
-              echo "CLAIM_MANAGER_PROXY_ADDRESS=$CLAIM_MANAGER_PROXY_ADDRESS_PRODUCTION" >> $(pwd)/.env
-              echo "" >> $(pwd)/.env
               echo "BUILD_NUMBER=$CIRCLE_TAG" >> $(pwd)/.env
-              echo "" >> $(pwd)/.env
-              echo "GA_TRACKING_ID=$GA_TRACKING_ID" >> $(pwd)/.env
-              echo "" >> $(pwd)/.env
-              echo "MAGIC_PUBLISHABLE_KEY=$MAGIC_PUBLISHABLE_KEY_STAGING" >> $(pwd)/.env
-              echo "" >> $(pwd)/.env
-              echo "INVOICE_URL=$INVOICE_URL_PRODUCTION" >> $(pwd)/.env
             fi
       - run: docker build -t openq/openq-frontend:$CIRCLE_TAG --build-arg deploy_env=$DEPLOY_ENV .
       - run: docker run -d --name openq-frontend openq/openq-frontend:$CIRCLE_TAG
