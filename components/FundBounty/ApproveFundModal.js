@@ -30,7 +30,6 @@ const ApproveFundModal = ({
   depositPeriodDays,
   /*openInvoicingModal*/
 }) => {
-  const { accountData } = appState;
   const modal = useRef();
   const updateModal = () => {
     resetState();
@@ -38,6 +37,7 @@ const ApproveFundModal = ({
     setShowApproveTransferModal(false);
   };
   const [appState] = useContext(StoreContext);
+  const { accountData } = appState;
   useEffect(() => {
     try {
       /*
