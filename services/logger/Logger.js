@@ -13,6 +13,7 @@ class Logger {
   }
 
   info(data, account, id) {
+    if (process.env.JEST_WORKER_ID) return; // ignore infos in tests (they are logged in the console
     if (this.enabled === 'DEV') {
       const { message } = data;
       const currentDate = new Date();
@@ -20,6 +21,7 @@ class Logger {
     }
   }
   error(data, account, id) {
+    if (process.env.JEST_WORKER_ID) return; // ignore errors in tests (they are logged in the console
     const { message } = data;
     if (this.enabled === 'PROD' || this.enabled === 'DEV') {
       const currentDate = new Date();

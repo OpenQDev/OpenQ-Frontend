@@ -1,9 +1,12 @@
 import useEagerConnect from './useEagerConnect';
+import StoreContext from '../store/Store/StoreContext';
+import { useContext } from 'react';
 
 const useConnectOnLoad = () => {
+  const [appState] = useContext(StoreContext);
   if (process.env.NEXT_PUBLIC_DEPLOY_ENV == 'local') {
     return () => {
-      console.log('Not connecting on load because local.');
+      appState.logger.info('Not connecting on load because local.');
     };
   } else {
     return useEagerConnect;

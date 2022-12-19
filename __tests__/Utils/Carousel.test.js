@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen } from '../../test-utils';
+import { render, screen, waitFor } from '../../test-utils';
 import Carousel from '../../components/Utils/Carousel';
 import CarouselBounty from '../../components/Bounty/CarouselBounty';
 import nextRouter from 'next/router';
@@ -186,7 +186,9 @@ describe('Carousel', () => {
       </Carousel>
     );
     // ASSERT
-    expect(screen.getAllByText(/OpenQDev\/openq-frontend/i)).toHaveLength(5);
-    expect(screen.getAllByText(/test2/i)).toHaveLength(5);
+    await waitFor(async () => {
+      expect(screen.getAllByText(/OpenQDev\/openq-frontend/i)).toHaveLength(5);
+      expect(await screen.findAllByText(/test2/i)).toHaveLength(5);
+    });
   });
 });

@@ -3,7 +3,7 @@
  */
 import React from 'react';
 
-import { render, screen } from '../../test-utils';
+import { render, screen, waitFor } from '../../test-utils';
 import SubmissionCard from '../../components/Submissions/SubmissionCard';
 
 describe('SubmissionCard', () => {
@@ -169,11 +169,13 @@ describe('SubmissionCard', () => {
     render(<SubmissionCard bounty={bounty} pr={bounty.prs[0].source} />);
 
     // ASSERT
-    expect(screen.getByText(/Update README.md/)).toBeInTheDocument();
-    const links = screen.getAllByRole('link');
-    expect(links[0].href).toEqual('https://github.com/FlacoJones');
-    // should not have null or undefined values
-    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-    expect(nullish).toHaveLength(0);
+    await waitFor(() => {
+      expect(screen.getByText(/Update README.md/)).toBeInTheDocument();
+      const links = screen.getAllByRole('link');
+      expect(links[0].href).toEqual('https://github.com/FlacoJones');
+      // should not have null or undefined values
+      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+      expect(nullish).toHaveLength(0);
+    });
   });
 });

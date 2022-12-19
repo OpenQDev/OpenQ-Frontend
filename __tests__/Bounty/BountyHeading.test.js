@@ -3,7 +3,7 @@
  */
 import React from 'react';
 
-import { render, screen } from '../../test-utils';
+import { render, screen, waitFor } from '../../test-utils';
 import BountyHeading from '../../components/Bounty/BountyHeading';
 import mocks from '../../__mocks__/mock-server.json';
 import InitialState from '../../store/Store/InitialState';
@@ -30,18 +30,20 @@ describe('BountyHeading', () => {
       render(<BountyHeading bounty={bounty} price={price} />);
 
       // ASSERT
-      const title = screen.getByText(/No way to disable HMR/i);
-      expect(title).toBeInTheDocument();
+      await waitFor(async () => {
+        const title = screen.getByText(/No way to disable HMR/i);
+        expect(title).toBeInTheDocument();
 
-      const mintBountyButton = screen.getByText(/Contract/);
-      expect(mintBountyButton).toBeInTheDocument();
+        const mintBountyButton = screen.getByText(/Contract/);
+        expect(mintBountyButton).toBeInTheDocument();
 
-      const status = screen.getAllByText(/open||closed/);
-      expect(status[0]).toBeInTheDocument();
+        const status = await screen.findAllByText(/open||closed/);
+        expect(status[0]).toBeInTheDocument();
 
-      // should not have null or undefined values
-      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-      expect(nullish).toHaveLength(0);
+        // should not have null or undefined values
+        const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+        expect(nullish).toHaveLength(0);
+      });
     });
   };
 

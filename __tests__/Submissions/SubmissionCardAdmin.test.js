@@ -3,7 +3,7 @@
  */
 import React from 'react';
 
-import { render, screen } from '../../test-utils';
+import { render, screen, waitFor } from '../../test-utils';
 import SubmissionCardAdmin from '../../components/Submissions/SubmissionCardAdmin';
 
 describe('SubmissionCardAdmin', () => {
@@ -171,9 +171,11 @@ describe('SubmissionCardAdmin', () => {
     render(<SubmissionCardAdmin bounty={bounty} pr={bounty.prs[0].source} />);
 
     // ASSERT
-    expect(screen.getByText(/Select winner/i)).toBeInTheDocument();
-    expect(screen.getAllByTestId(/winnerSelect/)).toHaveLength(3); // should not have null or undefined values
-    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-    expect(nullish).toHaveLength(0);
+    await waitFor(() => {
+      expect(screen.getByText(/Select winner/i)).toBeInTheDocument();
+      expect(screen.getAllByTestId(/winnerSelect/)).toHaveLength(3); // should not have null or undefined values
+      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+      expect(nullish).toHaveLength(0);
+    });
   });
 });

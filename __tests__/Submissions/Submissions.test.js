@@ -3,7 +3,7 @@
  */
 import React from 'react';
 
-import { render, screen } from '../../test-utils';
+import { render, screen, waitFor } from '../../test-utils';
 import Submissions from '../../components/Submissions/Submissions';
 
 describe('Submissions', () => {
@@ -168,9 +168,11 @@ describe('Submissions', () => {
     render(<Submissions bounty={bounty} pr={bounty.prs[0]} />);
 
     // ASSERT
-    expect(screen.getAllByText(/Update README.md/)).toHaveLength(1);
-    // should not have null or undefined values
-    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-    expect(nullish).toHaveLength(0);
+    await waitFor(() => {
+      expect(screen.getAllByText(/Update README.md/)).toHaveLength(1);
+      // should not have null or undefined values
+      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+      expect(nullish).toHaveLength(0);
+    });
   });
 });
