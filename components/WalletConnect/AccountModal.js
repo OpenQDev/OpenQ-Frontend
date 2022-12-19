@@ -89,7 +89,7 @@ const AccountModal = ({ chainId, account, ensName, setIsConnecting, domRef, isSa
             </div>
             {!isSafeApp && (
               <div className='flex flex-col w-full'>
-                <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/user/${'6399d59cb372a7a55125bbbf'}`} className=''>
+                <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}`} className=''>
                   <div
                     data-testid='link'
                     className='flex md:hover:bg-[#1f6feb] h-8 md:hover:z-50 items-center w-full cursor-pointer hover:text-white text-[#c9d1d9] self-start gap-4 p-2 mb-2'
