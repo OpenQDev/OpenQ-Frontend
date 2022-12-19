@@ -14,6 +14,7 @@ import AuthContext from '../../../store/AuthStore/AuthContext';
 const AssociateModal = ({ enableLink, btnText, activeBtnStyles, setExternalUserId }) => {
   const { account } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
+  const { accountData } = appState;
   const { logger } = appState;
   const [showModal, setShowModal] = useState(false);
   const [associateState, setAssociateState] = useState();
@@ -67,7 +68,7 @@ const AssociateModal = ({ enableLink, btnText, activeBtnStyles, setExternalUserI
             },
           });
         } catch (err) {
-          appState.logger.error(err);
+          appState.logger.error(err, accountData.id, 'AboutFreelancer.js1');
         }
       })
       .catch((err) => {

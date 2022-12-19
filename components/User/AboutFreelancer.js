@@ -15,7 +15,6 @@ import Gear from '../svg/gear';
 import Skills from './OverviewTab/Skills';
 import Subscribe from '../Utils/Subscribe';
 import GithubConnection from './OverviewTab/GithubConnection';
-import useWeb3 from '../../hooks/useWeb3';
 import AuthContext from '../../store/AuthStore/AuthContext';
 import Username from './OverviewTab/Username';
 
@@ -25,7 +24,6 @@ const AboutFreelancer = ({ user, starredOrganizations, showWatched, watchedBount
   const { github } = appState.accountData;
   const [watchedFullBounties, setWatchedFullBounties] = useState([]);
   const [githubUser, setGithubUser] = useState();
-  const { account } = useWeb3();
 
   const { accountData } = appState;
   const loggedId = accountData?.id;
@@ -62,7 +60,7 @@ const AboutFreelancer = ({ user, starredOrganizations, showWatched, watchedBount
           })
         );
       } catch (err) {
-        appState.logger.error(err, account);
+        appState.logger.error(err, accountData.id, 'AboutFreelancer.js1');
       }
     };
     if (isOwner) {

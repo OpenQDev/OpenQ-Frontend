@@ -32,6 +32,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
 
   // Context
   const [appState] = useContext(StoreContext);
+  const { accountData } = appState;
   const { library, account } = useWeb3();
 
   const closed = bounty.status == '1';
@@ -61,7 +62,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
         setApproveTransferState(SUCCESS);
         refreshBounty();
       } catch (err) {
-        appState.logger.error(err, account, bounty.id);
+        appState.logger.error(err, accountData.id, bounty.id + 'RefundPage.js');
       }
     } catch (error) {
       const { message, title } = appState.openQClient.handleError(error, {
@@ -90,7 +91,7 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
         setApproveTransferState(SUCCESS);
         refreshBounty();
       } catch (err) {
-        appState.logger.error(err, account, bounty.id);
+        appState.logger.error(err, accountData.id, bounty.id + 'RefundPage.js2');
       }
     } catch (err) {
       const { message, title } = appState.openQClient.handleError(err, {

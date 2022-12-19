@@ -9,6 +9,7 @@ const NFTFundModal = ({ setPickedNft }) => {
   const [appState] = useContext(StoreContext);
   const { library, account } = useWeb3();
   const [nfts, setNfts] = useState([]);
+  const { accountData } = appState;
   const pickNft = () => {
     setPickedNft(selectedNft);
     setShowModal(false);
@@ -25,7 +26,7 @@ const NFTFundModal = ({ setPickedNft }) => {
             setNftsLoaded(true);
           }
         } catch (err) {
-          appState.logger.error(err);
+          appState.logger.error(err, accountData.id, 'NftFundModal.js1');
         }
       }
     };

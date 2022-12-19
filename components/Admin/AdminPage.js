@@ -16,6 +16,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
   // Context
   const { library, account } = useWeb3();
   const [appState] = useContext(StoreContext);
+  const { accountData } = appState;
   const { utils, openQClient, logger } = appState;
   const [showTokenSearch, setShowTokenSearch] = useState();
   let category = '';
@@ -154,7 +155,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
         type: 'Budget',
       });
     } catch (error) {
-      logger.error(error, account, bounty.id);
+      logger.error(error, accountData.id, 'adminPage1');
       const { message, title } = openQClient.handleError(error, {
         bounty,
       });
@@ -208,7 +209,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
         payoutTokenAddress: payoutToken.address,
       });
     } catch (error) {
-      logger.error(error, account, bounty.id);
+      logger.error(error, accountData.id, 'adminPage2');
       const { message, title } = openQClient.handleError(error, {
         bounty,
       });
@@ -231,7 +232,7 @@ const AdminPage = ({ bounty, refreshBounty }) => {
       setShowButton(false);
       refreshBounty();
     } catch (error) {
-      logger.error(error, account, bounty.id);
+      logger.error(error, accountData.id, 'adminPage3');
       const { message, title } = openQClient.handleError(error, {
         bounty,
       });

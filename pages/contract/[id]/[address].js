@@ -38,6 +38,7 @@ import Log from '../../../components/svg/log';
 const address = ({ address, mergedBounty, renderError }) => {
   // Context
   const [appState, dispatch] = useContext(StoreContext);
+  const { accountData } = appState;
   const [bounty, setBounty] = useState(mergedBounty);
   const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
 
@@ -120,8 +121,7 @@ const address = ({ address, mergedBounty, renderError }) => {
       setBounty(mergedBounty);
       setReload();
     } catch (error) {
-      console.log('error in refresh bounty', error);
-      // setError(true);
+      appState.logger.error(error, accountData, '[address.js]1');
     }
   };
 
@@ -160,8 +160,7 @@ const address = ({ address, mergedBounty, renderError }) => {
           canvas.current.height = window.innerHeight;
         }
       } catch (err) {
-        console.log('handleResize error', err);
-        appState.logger.error(err, account);
+        appState.logger.error(err, accountData, '[address.js]2');
       }
     };
     window.addEventListener('resize', handleResize, false);
@@ -318,8 +317,7 @@ export const getServerSideProps = async (context) => {
   try {
     bountyMetadata = await openQPrismaClient.instance.getBounty(ethers.utils.getAddress(address));
   } catch (err) {
-    console.log('openQPrismaClient error', err);
-    logger.error(err);
+    logger.error(err, null, '[address.js]3');
   }
 
   let mergedBounty = null;
@@ -329,8 +327,7 @@ export const getServerSideProps = async (context) => {
   try {
     issueData = await githubRepository.instance.fetchIssueById(id);
   } catch (err) {
-    console.log('githubRepository error', err);
-    logger.error(err);
+    logger.error(err, null, '[address.js]4');
     renderError = JSON.stringify(err);
   }
 
@@ -338,11 +335,10 @@ export const getServerSideProps = async (context) => {
     bounty = await openQSubgraphClient.instance.getBounty(address, 'no-cache');
 
     if (!bounty) {
-      logger.error({ message: `OpenQ could not find a contract with address: ${address}.` });
+      logger.error({ message: `OpenQ could not find a contract with address: ${address}.` }, null, '[address.js]6');
     }
   } catch (err) {
-    console.log('openQSubgraphClient error', err);
-    logger.error(err);
+    logger.error(err, null, '[address.js]6');
     renderError = ``;
   }
 

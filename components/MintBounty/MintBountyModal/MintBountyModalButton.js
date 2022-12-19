@@ -33,6 +33,7 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
 
   const enableContest = category === 'Contest' ? sum == 100 : true;
   const [appState, dispatch] = useContext(StoreContext);
+  const { accountData } = appState;
   const { github } = appState.accountData;
   const { account, library, safe } = useWeb3();
   const router = useRouter();
@@ -133,7 +134,7 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
       }
     } catch (error) {
       const { message, title } = appState.openQClient.handleError(error);
-      appState.logger.error(message, account);
+      appState.logger.error(error, accountData.id, 'MintBountyModalButton.js1');
       setError({ message, title });
     }
   };

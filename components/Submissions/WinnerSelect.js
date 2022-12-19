@@ -14,7 +14,8 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
   const height = (100 / numberOfPayouts) * (numberOfPayouts - prize.index);
   const tierIndex = parseInt(prize.index);
   const [appState] = useContext(StoreContext);
-  const { account, library } = useWeb3();
+  const { accountData } = appState;
+  const { library } = useWeb3();
   const [user, setUser] = useState({});
   const [closerAddress, setCloserAddress] = useState('');
   const [error, setError] = useState({});
@@ -63,7 +64,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
         setSelectionState(SUCCESS);
       }
     } catch (err) {
-      appState.logger.error(err, account, bounty.id);
+      appState.logger.error(err, accountData.id, 'WinnerSelect.js1');
       const { message, title } = appState.openQClient.handleError(err, {
         bounty,
       });

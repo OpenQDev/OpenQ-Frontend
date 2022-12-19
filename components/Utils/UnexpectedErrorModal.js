@@ -2,22 +2,22 @@ import React, { useContext, useEffect, useState } from 'react';
 import ModalDefault from './ModalDefault';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import useWeb3 from '../../hooks/useWeb3';
 import GithubSignIn from '../Authentication/GithubSignIn';
 import StoreContext from '../../store/Store/StoreContext';
 
 const UnexpectedErrorModal = ({ error }) => {
   const [currentError, setCurrentError] = useState('');
   const [loginModal, setLoginModal] = useState(false);
-  const { account } = useWeb3();
   const [appState] = useContext(StoreContext);
-  appState.logger.error(error, account);
+  const { accountData } = appState;
+  appState.logger.error(error, accountData.id, 'UnexpectedError.js1');
+
   useEffect(() => {
     let parsedError;
     try {
       parsedError = JSON.parse(error);
-    } catch (err) {
-      appState.logger.error(err, account);
+    } catch (error) {
+      appState.logger.error(error, accountData.id, 'UnexpectedError.js2');
     }
     if (error.graphQLErrors && error.graphQLErrors[0].type == 'RATE_LIMITED') {
       setCurrentError(

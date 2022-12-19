@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
-import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 
 const Blacklisting = () => {
   const [appState] = useContext(StoreContext);
+  const { accountData } = appState;
 
   const [orgId, setOrgId] = useState('');
   const [issueId, setIssueId] = useState('');
@@ -12,7 +12,6 @@ const Blacklisting = () => {
   const [issueSuccess, setIssueSuccess] = useState();
   const [blacklistingOrg, setBlacklistingOrg] = useState(true);
   const [orgSuccess, setOrgSuccess] = useState();
-  const { account } = useWeb3();
 
   const handleOrgBlacklist = async () => {
     try {
@@ -22,7 +21,7 @@ const Blacklisting = () => {
         setTimeout(() => setOrgSuccess(), 1000);
       }
     } catch (err) {
-      appState.logger.error(err, account, undefined, 'blacklisting1');
+      appState.logger.error(err, accountData.id, undefined, 'blacklisting1');
     }
   };
   const handleIssueBlacklist = async () => {
@@ -33,7 +32,7 @@ const Blacklisting = () => {
         setTimeout(() => setIssueSuccess(), 1000);
       }
     } catch (err) {
-      appState.logger.error(err, account, undefined, 'blacklisting2');
+      appState.logger.error(err, accountData.id, 'blacklisting2');
     }
   };
   return (

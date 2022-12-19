@@ -5,12 +5,15 @@ import { Magic } from 'magic-sdk';
 import { OAuthExtension } from '@magic-ext/oauth';
 import { MailIcon } from '@primer/octicons-react';
 import axios from 'axios';
+import StoreContext from '../../store/Store/StoreContext';
 
 const EmailLogin = () => {
   const [user, setUser] = useContext(UserContext);
   const [magic, setMagic] = useState(null);
   const [disabled, setDisabled] = useState(false);
   const [email, setEmail] = useState('');
+  const [appState] = useContext(StoreContext);
+  const { accountData } = appState;
 
   useEffect(() => {
     let newMagic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
@@ -33,10 +36,10 @@ const EmailLogin = () => {
         withCredentials: true,
       })
       .then(() => {
-        console.log('Sign out success. Cookies cleared.');
+        appState.logger.info({ message: 'Sign out success. Cookies cleared.' }, accountData.id, 'emailLogin1');
       })
       .catch((error) => {
-        console.error(error);
+        appState.logger.error({ message: error }, accountData.id, 'emailLogin2');
       });
   };
 
@@ -62,13 +65,12 @@ const EmailLogin = () => {
       if (res.status === 200) {
         // Set the UserContext to the now logged in user
         let userMetadata = await magic.user.getMetadata();
-        console.log('userMetadata', userMetadata);
         await setUser(userMetadata);
         setDisabled(false);
       }
     } catch (error) {
       setDisabled(false);
-      console.log(error);
+      appState.logger.error({ message: error }, accountData.id, 'emailLogin3');
     }
   }
 

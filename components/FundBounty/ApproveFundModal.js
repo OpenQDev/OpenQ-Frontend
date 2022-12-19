@@ -8,7 +8,6 @@ import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import FundingTokenStats from './TokenStats.js';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
 import StoreContext from '../../store/Store/StoreContext';
-import useWeb3 from '../../hooks/useWeb3';
 import LinkText from '../svg/linktext';
 import TweetAbout from '../Utils/TweetAbout';
 import ModalDefault from '../Utils/ModalDefault';
@@ -31,6 +30,7 @@ const ApproveFundModal = ({
   depositPeriodDays,
   /*openInvoicingModal*/
 }) => {
+  const { accountData } = appState;
   const modal = useRef();
   const updateModal = () => {
     resetState();
@@ -38,7 +38,6 @@ const ApproveFundModal = ({
     setShowApproveTransferModal(false);
   };
   const [appState] = useContext(StoreContext);
-  const { account } = useWeb3();
   useEffect(() => {
     try {
       /*
@@ -46,7 +45,7 @@ const ApproveFundModal = ({
       setInvoicingData(invoicingData);
       */
     } catch (err) {
-      appState.logger.error(err, account, bounty.id);
+      appState.logger.error(err, accountData.id, bounty.id + 'ApproveFundModal.js1');
     }
   }, []);
   useEffect(() => {

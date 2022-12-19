@@ -399,7 +399,6 @@ class GithubRepository {
         });
         resolve(result.data.repository);
       } catch (e) {
-        console.log(e);
         reject(e);
       }
     });

@@ -24,7 +24,7 @@ const Roles = ({ defaultRoles, category, user }) => {
     try {
       await updateApiAndState(newRoles);
     } catch (err) {
-      appState.logger.error(err);
+      appState.logger.error(err, accountData.id, 'Roles.js1');
     }
     setInputValue('');
   };

@@ -107,7 +107,7 @@ const InvoicingDetails = ({ slim }) => {
             });
             await response.json();
           } catch (err) {
-            appState.logger.error(err);
+            appState.logger.error(err, accountData.id, 'FreelancerDetails.js1');
           }
         }
 

@@ -6,6 +6,7 @@ const Users = () => {
   const [tempSecret, setTempSecret] = useState('');
   const [apiSecret, setApiSecret] = useState();
   const [appState] = useContext(StoreContext);
+  const { accountData, logger } = appState;
 
   useEffect(() => {
     const displayUsers = async () => {
@@ -15,8 +16,8 @@ const Users = () => {
           const limit = 400;
           const users = await appState.openQPrismaClient.getUsers(apiSecret, limit);
           setUsers(users);
-        } catch (err) {
-          appState.logger.error(err);
+        } catch (error) {
+          logger.error(error, accountData.id, 'usersPage1');
         }
       }
     };
