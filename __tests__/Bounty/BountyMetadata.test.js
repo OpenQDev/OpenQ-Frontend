@@ -81,7 +81,7 @@ describe('BountyMetadata', () => {
         refunded: false,
         refundTime: null,
         expiration: '1296000',
-        tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+        tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
         volume: '2000000000000000000',
         sender: { __typename: 'User', id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266' },
         receiveTime: '1661768002',
@@ -115,7 +115,7 @@ describe('BountyMetadata', () => {
       {
         __typename: 'BountyFundedTokenBalance',
         volume: '2000000000000000000',
-        tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+        tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
       },
     ],
     tvl: 0,

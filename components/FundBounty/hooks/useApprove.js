@@ -23,14 +23,9 @@ const useApprove = () => {
           type: 'SET_APPROVING',
         };
         fundDispatch(approveDispatch);
-        console.log('executeing');
         if (pickedNft) {
-          console.log(bounty.bountyAddress, pickedNft.token_address, pickedNft.token_id, 'pickedNfts');
           await openQClient.approveNFT(library, bounty.bountyAddress, pickedNft.token_address, pickedNft.token_id);
         } else {
-          console.log('no nft');
-          console.log('no nft', bounty.bountyAddress, token.address, bigNumberVolumeInWei);
-
           await openQClient.approve(library, bounty.bountyAddress, token.address, bigNumberVolumeInWei);
         }
       }

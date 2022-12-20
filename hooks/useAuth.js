@@ -17,7 +17,6 @@ const useAuth = (state) => {
       appState.authService
         .checkAuth()
         .then((data) => {
-          console.log('data', data);
           if (!didCancel) {
             setAuthState({
               type: 'UPDATE_IS_AUTHENTICATED',

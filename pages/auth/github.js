@@ -70,7 +70,6 @@ function GitHubAuth() {
   };
 
   useEffect(() => {
-    console.log(userId);
     if (userId) {
       router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${userId}`);
     }

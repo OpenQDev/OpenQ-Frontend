@@ -21,7 +21,6 @@ const useFundBounty = () => {
     try {
       let fundTxnReceipt;
       if (pickedNft) {
-        console.log('pickedNft', pickedNft);
         const { token_address, token_id } = pickedNft;
         fundTxnReceipt = await openQClient.fundBountyWithNft(
           library,

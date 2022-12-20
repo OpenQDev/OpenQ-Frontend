@@ -223,7 +223,7 @@ const bounties = [
         __typename: 'Payout',
       },
       {
-        tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+        tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
         volume: '300000000000000000000',
         payoutTime: '1663576393',
         closer: { id: '0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc', __typename: 'User' },
@@ -244,7 +244,7 @@ const bounties = [
         __typename: 'Payout',
       },
       {
-        tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+        tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
         volume: '400000000000000000000',
         payoutTime: '1663574512',
         closer: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
@@ -261,7 +261,7 @@ const bounties = [
         id: '0xbc6320373186b91ff682a268399c0b804136ff6247de916e99846bd366dfd116',
         refunded: true,
         receiveTime: '1663574388',
-        tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+        tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
         expiration: '1',
         volume: '1000000000000000000000',
         refundTime: '1663576942',
@@ -300,7 +300,7 @@ const bounties = [
       },
       {
         refundTime: '1663576942',
-        tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+        tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
         volume: '300000000000000000000',
         __typename: 'Refund',
       },
@@ -526,7 +526,7 @@ const bounties = [
         __typename: 'Payout',
       },
       {
-        tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+        tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
         volume: '300000000000000000000',
         payoutTime: '1663576393',
         closer: { id: '0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc', __typename: 'User' },
@@ -547,7 +547,7 @@ const bounties = [
         __typename: 'Payout',
       },
       {
-        tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+        tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
         volume: '400000000000000000000',
         payoutTime: '1663574512',
         closer: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
@@ -564,7 +564,7 @@ const bounties = [
         id: '0xbc6320373186b91ff682a268399c0b804136ff6247de916e99846bd366dfd116',
         refunded: true,
         receiveTime: '1663574388',
-        tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+        tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
         expiration: '1',
         volume: '1000000000000000000000',
         refundTime: '1663576942',
@@ -603,7 +603,7 @@ const bounties = [
       },
       {
         refundTime: '1663576942',
-        tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+        tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
         volume: '300000000000000000000',
         __typename: 'Refund',
       },

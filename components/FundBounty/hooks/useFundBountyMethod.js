@@ -18,7 +18,6 @@ const useFundBountyMethod = () => {
       checkAddressLimit();
       const hasAccountBalance = await checkAccountBalance();
       if (!hasAccountBalance) {
-        console.log('exec');
         return;
       }
     }
