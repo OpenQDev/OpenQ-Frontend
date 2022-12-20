@@ -624,8 +624,8 @@ class OpenQClient {
     });
   };
 
-  handleError(jsonRpcError, data) {
-    let errorString = JSON.stringify(errorString); // Data messages - more specific than errorString.message
+  handleError(data) {
+    let errorString = JSON.stringify(data); // Data messages - more specific than errorString.message
 
     let miscError;
     if (typeof errorString === 'string') {
@@ -641,37 +641,37 @@ class OpenQClient {
       if (errorString.includes('Transaction was rejected')) {
         miscError = 'USER_DENIED_TRANSACTION';
       }
-      if (errorString.message.includes('Nonce too high.')) {
+      if (errorString.includes('Nonce too high.')) {
         miscError = 'NONCE_TO_HIGH';
       }
-      if (errorString.message.includes('User denied transaction signature')) {
+      if (errorString.includes('User denied transaction signature')) {
         miscError = 'USER_DENIED_TRANSACTION';
       }
-      if (errorString.message.includes('Transaction was rejected')) {
+      if (errorString.includes('Transaction was rejected')) {
         miscError = 'USER_DENIED_TRANSACTION';
       }
-      if (errorString.message.includes('rejected transaction')) {
+      if (errorString.includes('rejected transaction')) {
         miscError = 'USER_DENIED_TRANSACTION';
       }
-      if (errorString.message.includes('MetaMask is having trouble connecting to the network')) {
+      if (errorString.includes('MetaMask is having trouble connecting to the network')) {
         miscError = 'METAMASK_HAVING_TROUBLE';
       }
-      if (errorString.message.includes('Internal JSON-RPC error')) {
+      if (errorString.includes('Internal JSON-RPC error')) {
         miscError = 'INTERNAL_ERROR';
       }
-      if (errorString.message.includes('Set a higher gas fee')) {
+      if (errorString.includes('Set a higher gas fee')) {
         miscError = 'UNDERPRICED_TXN';
       }
-      if (errorString.message.includes('CFA: flow does not exist')) {
+      if (errorString.includes('CFA: flow does not exist')) {
         miscError = 'CFA_DOES_NOT_EXIST';
       }
-      if (errorString.message.includes('CFA: flow already exist')) {
+      if (errorString.includes('CFA: flow already exist')) {
         miscError = 'CFA_EXISTS';
       }
-      if (errorString.message.includes('COMPETITION_ALREADY_CLOSED')) {
+      if (errorString.includes('COMPETITION_ALREADY_CLOSED')) {
         miscError = 'COMPETITION_ALREADY_CLOSED';
       }
-      if (errorString.message.includes('ONGOING_BOUNTY_ALREADY_CLOSED')) {
+      if (errorString.includes('ONGOING_BOUNTY_ALREADY_CLOSED')) {
         miscError = 'ONGOING_BOUNTY_ALREADY_CLOSED';
       }
     }

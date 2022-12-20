@@ -34,6 +34,7 @@ import Telescope from '../../../components/svg/telescope';
 import Gear from '../../../components/svg/gear';
 import ClaimOverview from '../../../components/Claim/ClaimOverview';
 import Log from '../../../components/svg/log';
+import FundProvider from '../../../components/FundBounty/FundProvider';
 
 const address = ({ address, mergedBounty, renderError }) => {
   // Context
@@ -251,13 +252,9 @@ const address = ({ address, mergedBounty, renderError }) => {
               <div className='flex justify-between  w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
                 {internalMenu == 'View' && <BountyCardDetails bounty={bounty} />}
                 {internalMenu == 'Fund' && bounty ? (
-                  <FundPage
-                    bounty={bounty}
-                    refreshBounty={refreshBounty}
-                    price={tokenValues?.total}
-                    budget={budget}
-                    split={split}
-                  />
+                  <FundProvider bounty={bounty} refreshBounty={refreshBounty}>
+                    <FundPage bounty={bounty} refreshBounty={refreshBounty} />
+                  </FundProvider>
                 ) : null}
                 {internalMenu == 'Claim' && bounty ? (
                   <ClaimPage price={tokenValues?.total} split={split} bounty={bounty} refreshBounty={refreshBounty} />

@@ -1,3 +1,5 @@
+import { ethers } from 'ethers';
+
 export const getNonBlacklisted = async (appState, repoName, org, limit) => {
   const { repoPrs, totalCount } = await appState.githubRepository.getPrs(org, repoName, limit || 3);
 
@@ -51,4 +53,10 @@ export const valueToDisplay = (value) => {
     default:
       return capitalize(value);
   }
+};
+
+export const getBigNumberVol = (volume, token) => {
+  const volumeInWei = volume * 10 ** token.decimals;
+
+  return ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', { useGrouping: false }));
 };

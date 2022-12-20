@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useContext } from 'react';
 import Link from 'next/link';
 
 // Custom
-import { CONFIRM, APPROVE, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveFundState';
+import { CONFIRM, APPROVE, APPROVING, TRANSFERRING, SUCCESS, ERROR, RESTING } from './ApproveFundState';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import FundingTokenStats from './TokenStats.js';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
@@ -11,30 +11,48 @@ import StoreContext from '../../store/Store/StoreContext';
 import LinkText from '../svg/linktext';
 import TweetAbout from '../Utils/TweetAbout';
 import ModalDefault from '../Utils/ModalDefault';
+import FundContext from './FundContext';
 
+// setError,
+// setApproveTransferState,
+//  setButtonText,
+//   setShowApproveTransferModal,
+// setTransactionHash,
+// setSuccessMessage,
+//   refreshBounty,
 const ApproveFundModal = ({
-  transactionHash,
-  setShowApproveTransferModal,
-  approveTransferState,
-  setApproveTransferState,
-  resetState,
-  error,
   confirmMethod,
-  token,
-  volume,
-  bountyAddress,
-  bounty,
-  allowance,
-  pickedNft,
-  setPickedNft,
-  depositPeriodDays,
+
   /*openInvoicingModal*/
 }) => {
   const modal = useRef();
+  const [fundState, fundDispatch] = useContext(FundContext);
+  const {
+    volume,
+    token,
+    transactionHash,
+    bounty,
+    pickedNft,
+    refreshBounty,
+    allowance,
+    depositPeriodDays,
+    error,
+    approveTransferState,
+  } = fundState;
+  const closeModal = () => {
+    const dispatch = {
+      type: 'SET_NFT',
+    };
+    const approveTransferDispatch = {
+      type: 'SET_APPROVE_TRANSFER_STATE',
+      payload: RESTING,
+    };
+    fundDispatch(approveTransferDispatch);
+    fundDispatch(dispatch);
+  };
   const updateModal = () => {
-    resetState();
-    setPickedNft();
-    setShowApproveTransferModal(false);
+    refreshBounty();
+    closeModal();
   };
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
@@ -68,9 +86,24 @@ const ApproveFundModal = ({
 
   useEffect(() => {
     // REFACTOR: is there a better way to force the correct state here?
-    if (allowance) setApproveTransferState(CONFIRM);
-    if (token.address !== '0x0000000000000000000000000000000000000000' && !allowance && approveTransferState == CONFIRM)
-      setApproveTransferState(APPROVE);
+    if (allowance) {
+      const dispatch = {
+        type: 'SET_APPROVE_TRANSFER_STATE',
+        payload: CONFIRM,
+      };
+      fundDispatch(dispatch);
+    }
+    if (
+      token.address !== '0x0000000000000000000000000000000000000000' &&
+      !allowance &&
+      approveTransferState == CONFIRM
+    ) {
+      const dispatch = {
+        type: 'SET_APPROVE_TRANSFER_STATE',
+        payload: APPROVE,
+      };
+      fundDispatch(dispatch);
+    }
   }, [allowance]);
 
   let statesFormat = {
@@ -119,7 +152,7 @@ const ApproveFundModal = ({
 
   const tweetText = `💸 Just funded this issue from ${bounty.owner}/${bounty.repoName} on OpenQ, looking for devs to work on it: `;
 
-  volume = Math.round(volume * Math.pow(10, 10)) / Math.pow(10, 10);
+  const usableVolume = Math.round(volume * Math.pow(10, 10)) / Math.pow(10, 10);
 
   const fundButton = (
     <div className='flex gap-2'>
@@ -155,8 +188,8 @@ const ApproveFundModal = ({
     <ModalDefault
       title={statesFormat[approveTransferState].title}
       footerRight={fundButton}
-      setShowModal={setShowApproveTransferModal}
-      resetState={resetState}
+      setShowModal={updateModal}
+      resetState={closeModal}
     >
       {/* Body */}
       {approveTransferState === 'ERROR' ? (
@@ -178,7 +211,7 @@ const ApproveFundModal = ({
           <div className='gap-4 grid grid-cols-[150px_1fr]'>
             <div>Deposit:</div>
             <div className='flex  gap-4'>
-              <FundingTokenStats pickedNft={pickedNft} volume={volume} token={token} />
+              <FundingTokenStats pickedNft={pickedNft} volume={usableVolume} token={token} />
             </div>
             <span>Issue: </span>
             {bounty.url && (
@@ -189,7 +222,7 @@ const ApproveFundModal = ({
             <span>Locked until:</span>
             <span>{appState.utils.formatUnixDate(parseInt(Date.now() / 1000) + depositPeriodDays * 60 * 60 * 24)}</span>
             <span>To Address:</span>
-            <CopyAddressToClipboard data={bountyAddress} clipping={[5, 39]} />
+            <CopyAddressToClipboard data={bounty.bountyAddress} clipping={[5, 39]} />
             {approveTransferState == SUCCESS && (
               <>
                 <span className='pr-8'>Transaction:</span>
