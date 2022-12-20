@@ -2,8 +2,8 @@
 import React from 'react';
 // Cusotm
 import { render } from '@testing-library/react';
-import StoreProvider from './store/Store/StoreProvider';
-import AuthProvider from './store/AuthStore/AuthProvider';
+import StoreProvider from '../store/Store/StoreProvider';
+import AuthProvider from '../store/AuthStore/AuthProvider';
 
 // Add in any providers here if necessary:
 // test-utils.js
