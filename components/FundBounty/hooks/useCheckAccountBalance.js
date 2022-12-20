@@ -15,7 +15,6 @@ const useCheckAccountBalance = () => {
     let dispatchedError = null;
     try {
       const callerBalance = await openQClient.balanceOf(library, account, token.address);
-      console.log(callerBalance.lt(bigNumberVolumeInWei), 'callerBalance');
       if (callerBalance.noSigner) {
         dispatchedError = {
           title: 'No wallet connected.',
