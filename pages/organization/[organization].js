@@ -32,6 +32,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
   const [complete, setComplete] = useState();
   const { account } = useWeb3();
   const [error, setError] = useState(renderError);
+  const { accountData, logger } = appState;
   // Methods
   async function getBountyData(sortOrder, currentPagination, orderBy, cursor) {
     setPagination(() => currentPagination + batch);
@@ -54,7 +55,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
       return [fullBounties, complete];
     } catch (err) {
       setError(err);
-      appState.logger.error(err, account);
+      logger.error(err, accountData.id, '[organization.js]1');
       return [[], true];
     }
   }
@@ -200,7 +201,7 @@ export const getServerSideProps = async (context) => {
   try {
     org = await openQSubgraphClient.instance.getOrganization(orgData.id, batch);
   } catch (err) {
-    logger.error(err);
+    logger.error(err, null, '[organization.js]2');
     renderError = 'OpenQ can not display organization data.';
   }
   try {
@@ -209,7 +210,7 @@ export const getServerSideProps = async (context) => {
       renderError = 'Organization blacklisted.';
     }
   } catch (err) {
-    logger.error(err);
+    logger.error(err, null, '[organization.js]3');
   }
   mergedOrgData = { ...org, ...orgData };
   const bounties = mergedOrgData.bountiesCreated || [];
@@ -219,7 +220,7 @@ export const getServerSideProps = async (context) => {
   try {
     issueData = await githubRepository.instance.getIssueData(bountyIds);
   } catch (err) {
-    logger.error(err);
+    logger.error(err, null, '[organization.js]4');
     renderError = 'OpenQ cannot fetch organization data from Github.';
   }
   const prismaContracts = orgMetadata.organization.bounties.bountyConnection.nodes.filter((node) => !node.blacklisted);

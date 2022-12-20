@@ -2,10 +2,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import Dropdown from '../Utils/Dropdown';
 import StoreContext from '../../store/Store/StoreContext';
-import useWeb3 from '../../hooks/useWeb3';
 
 const GrossValueMoved = () => {
   const [appState] = useContext(StoreContext);
+  const { accountData } = appState;
   const [coreMetrics, setCoreMetrics] = useState();
   const [previousClaimValues] = useGetTokenValues(coreMetrics?.previousClaims);
   const [currentClaimValues] = useGetTokenValues(coreMetrics?.currentClaims);
@@ -16,7 +16,6 @@ const GrossValueMoved = () => {
   const [monthVal, setMonthVal] = useState('October');
   const [yearVal, setYearVal] = useState('2022');
   const [monthTimes, setMonthTimes] = useState();
-  const { account } = useWeb3();
   const [totalLockedValues] = useGetTokenValues(coreMetrics?.totalBalances);
   const [totalClaimedValues] = useGetTokenValues(coreMetrics?.claimedBalances);
 
@@ -38,7 +37,7 @@ const GrossValueMoved = () => {
           const coreMetrics = await appState.openQSubgraphClient.getCoreValueMetrics(times);
           setCoreMetrics(coreMetrics);
         } catch (err) {
-          appState.logger.error(err, account, undefined, 'grossvaluemoved1');
+          appState.logger.error(err, accountData.id, undefined, 'grossvaluemoved1');
         }
       }
     };

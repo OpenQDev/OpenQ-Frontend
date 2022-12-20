@@ -3,7 +3,7 @@
  */
 import React from 'react';
 
-import { render, screen } from '../../test-utils';
+import { render, screen, waitFor } from '../../test-utils';
 import Submissions from '../../components/Submissions/Submissions';
 
 describe('Submissions', () => {
@@ -110,7 +110,7 @@ describe('Submissions', () => {
         id: '0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a',
         refunded: true,
         receiveTime: '1662545373',
-        tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+        tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
         expiration: '30',
         volume: '2000000000000000000',
         refundTime: '1662559726',
@@ -132,7 +132,7 @@ describe('Submissions', () => {
     refunds: [
       {
         refundTime: '1662559726',
-        tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+        tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
         volume: '2000000000000000000',
         depositId: '0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a',
         __typename: 'Refund',
@@ -168,9 +168,11 @@ describe('Submissions', () => {
     render(<Submissions bounty={bounty} pr={bounty.prs[0]} />);
 
     // ASSERT
-    expect(screen.getAllByText(/Update README.md/)).toHaveLength(1);
-    // should not have null or undefined values
-    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-    expect(nullish).toHaveLength(0);
+    await waitFor(() => {
+      expect(screen.getAllByText(/Update README.md/)).toHaveLength(1);
+      // should not have null or undefined values
+      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+      expect(nullish).toHaveLength(0);
+    });
   });
 });

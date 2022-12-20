@@ -5,6 +5,7 @@ import useAsync from './useAsync';
 const useGetValueFromComposite = (address, volume) => {
   const [tokenValues, setTokenValues] = useState(null);
   const [appState] = useContext(StoreContext);
+  const { accountData } = appState;
 
   const getParsedTokenValues = async () => {
     const tokenBalance = { tokenAddress: address, volume: volume };
@@ -13,7 +14,7 @@ const useGetValueFromComposite = (address, volume) => {
         const value = await appState.tokenClient.parseTokenValues(tokenBalance);
         return value;
       } catch (err) {
-        console.log(err);
+        appState.logger.error(err, accountData, 'globalErrorBoundary');
       }
     }
     if (tokenBalance?.length === 0) {

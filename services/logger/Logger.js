@@ -12,18 +12,20 @@ class Logger {
     }
   }
 
-  info(data, account, id) {
+  info(data, user, id) {
+    if (process.env.JEST_WORKER_ID) return; // ignore infos in tests (they are logged in the console
     if (this.enabled === 'DEV') {
       const { message } = data;
       const currentDate = new Date();
-      console.log(`id: ${id}, message: ${message}, date: ${currentDate}, userAddress: ${account}`);
+      console.log(`id: ${id}, message: ${message}, date: ${currentDate}, user: ${user}`);
     }
   }
-  error(data, account, id) {
+  error(data, user, id) {
+    if (process.env.JEST_WORKER_ID) return; // ignore errors in tests (they are logged in the console
     const { message } = data;
     if (this.enabled === 'PROD' || this.enabled === 'DEV') {
       const currentDate = new Date();
-      console.error(`id: ${id}, message: ${message}, date: ${currentDate}, userAddress: ${account}`);
+      console.error(`id: ${id}, message: ${message}, date: ${currentDate}, userAddress: ${user}`);
     }
   }
 }

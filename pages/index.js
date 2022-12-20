@@ -31,7 +31,7 @@ export default function Index({ fullBounties, batch, types, renderError, firstCu
   const { account } = useWeb3();
   const [controlledOrgs, setControlledOrgs] = useState(mergedOrgs);
   const [internalMenu, setInternalMenu] = useState('Organizations');
-  const { accountData } = appState;
+  const { accountData, logger } = appState;
   // Hooks
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function Index({ fullBounties, batch, types, renderError, firstCu
           setWatchedBounties([]);
         }
       } catch (err) {
-        appState.logger.error(err, account);
+        logger.error(err, accountData.id, '[index]1.js');
         setError(err);
       }
     };
@@ -60,7 +60,7 @@ export default function Index({ fullBounties, batch, types, renderError, firstCu
           const mergedOrgs = await appState.utils.fetchOrganizations(appState);
           setControlledOrgs(mergedOrgs);
         } catch (err) {
-          appState.logger.error(err, account);
+          logger.error(err, accountData.id, '[index]2.js');
         }
       }
     };
@@ -177,7 +177,7 @@ export const getServerSideProps = async (context) => {
       batch
     );
   } catch (err) {
-    logger.error(err);
+    logger.error(err, null, '[index]3.js');
     renderError = JSON.stringify(err);
   }
 
@@ -188,7 +188,7 @@ export const getServerSideProps = async (context) => {
       openQPrismaClient: openQPrismaClient.instance,
     });
   } catch (err) {
-    logger.error(err);
+    logger.error(err, null, '[index]4.js');
     renderError = JSON.stringify(err);
   }
 

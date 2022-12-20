@@ -3,7 +3,6 @@ import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 import Image from 'next/image';
 import Link from 'next/link';
-import useWeb3 from '../../hooks/useWeb3';
 import AuthContext from '../../store/AuthStore/AuthContext';
 
 const ShowCasePage = ({ pr }) => {
@@ -16,7 +15,7 @@ const ShowCasePage = ({ pr }) => {
   const [error, setError] = useState('Url not valid.');
   const [userId, setUserId] = useState();
   const [appState] = useContext(StoreContext);
-  const { account } = useWeb3();
+  const { accountData } = appState;
   /*const openContributorForm = () => {
     setShowForm(!showForm);
   };*/
@@ -36,7 +35,7 @@ const ShowCasePage = ({ pr }) => {
     try {
       getOffChainData();
     } catch (err) {
-      appState.logger.error(err, account);
+      appState.logger.error(err, accountData.id, 'ShowCasePage.js1');
     }
   }, []);
   const fetchGithub = async (e) => {
@@ -77,12 +76,12 @@ const ShowCasePage = ({ pr }) => {
           try {
             await getOffChainData();
           } catch (err) {
-            appState.logger.error(err, account);
+            appState.logger.error(err, accountData.id, 'ShowCasePage.js2');
           }
         }
       }
     } catch (err) {
-      appState.logger.error(err, account);
+      appState.logger.error(err, accountData.id, 'ShowCasePage.js3');
     }
   };
   const isAuthor = avatarUrl?.includes(pr.author.avatarUrl.slice(0, 48));
@@ -93,7 +92,7 @@ const ShowCasePage = ({ pr }) => {
       try {
         await getOffChainData();
       } catch (err) {
-        appState.logger.error(err, account);
+        appState.logger.error(err, accountData.id, 'ShowCasePage.js4');
       }
     }
   };
@@ -190,11 +189,15 @@ const ShowCasePage = ({ pr }) => {
       <div className='py-2'>
         <div className='flex gap-2 h-6 text-primary'>
           <Link href={pr.author.url} target='_blank' rel='noopener norefferer'>
-            <Image className='rounded-lg h-8' src={pr.author.avatarUrl} height={32} width={32} alt='avatar' />
+            <>
+              <Image className='rounded-lg h-8' src={pr.author.avatarUrl} height={32} width={32} alt='avatar' />
+            </>
           </Link>
           <div className='text-xl '>{pr.author.login}</div>
           <Link href={`https://twitter.com/${pr.author.twitterUsername}`} target='_blank' rel='noopener norefferer'>
-            <Image width={24} height={24} src={'/social-icons/twitter.svg'} alt='twitter icon' />
+            <>
+              <Image width={24} height={24} src={'/social-icons/twitter.svg'} alt='twitter icon' />
+            </>
           </Link>
         </div>
       </div>
@@ -203,7 +206,9 @@ const ShowCasePage = ({ pr }) => {
           <div className='py-2 text-primary' key={index}>
             <div className='flex gap-2 h-6'>
               <Link href={contributor.url} target='_blank' rel='noopener norefferer'>
-                <Image className='rounded-lg' src={contributor.avatarUrl} height={32} width={32} alt='avatar' />
+                <>
+                  <Image className='rounded-lg' src={contributor.avatarUrl} height={32} width={32} alt='avatar' />
+                </>
               </Link>
               <div className='text-xl '>{contributor.login}</div>
               {contributor.twitterUsername}
@@ -214,7 +219,9 @@ const ShowCasePage = ({ pr }) => {
                     target='_blank'
                     rel='noopener norefferer'
                   >
-                    <Image width={24} height={24} src={'/social-icons/twitter.svg'} alt='twitter icon' />
+                    <>
+                      <Image width={24} height={24} src={'/social-icons/twitter.svg'} alt='twitter icon' />
+                    </>
                   </Link>
                 </div>
               )}

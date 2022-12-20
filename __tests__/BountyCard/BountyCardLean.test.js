@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen } from '../../test-utils';
+import { render, screen, waitFor } from '../../test-utils';
 import BountyCardLean from '../../components/BountyCard/BountyCardLean';
 import userEvent from '@testing-library/user-event';
 
@@ -81,7 +81,7 @@ describe('BountyCard', () => {
         refunded: false,
         refundTime: null,
         expiration: '1296000',
-        tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+        tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
         volume: '2000000000000000000',
         sender: { __typename: 'User', id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266' },
         receiveTime: '1661768002',
@@ -115,7 +115,7 @@ describe('BountyCard', () => {
       {
         __typename: 'BountyFundedTokenBalance',
         volume: '2000000000000000000',
-        tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+        tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
       },
     ],
     tvl: 0,
@@ -142,9 +142,11 @@ describe('BountyCard', () => {
     render(<BountyCardLean bounty={bounty} complete={true} />);
 
     // ASSERT
-    const orgName = await screen.findByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
-    // ACT
-    expect(orgName).toBeInTheDocument();
+    await waitFor(async () => {
+      const orgName = await screen.findByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
+      // ACT
+      expect(orgName).toBeInTheDocument();
+    });
   });
 
   it('should let user open BountyCardDetailsModal', async () => {
@@ -153,16 +155,18 @@ describe('BountyCard', () => {
     render(<BountyCardLean bounty={bounty} complete={true} />);
 
     // ASSERT
-    const orgName = await screen.findByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
-    await user.click(orgName);
-    if (bounty.status == 1) {
-      const bountyStatus = await screen.findAllByText(/Closed/i);
-      expect(bountyStatus[0]).toBeInTheDocument();
-    }
-    const link = await screen.findAllByText(/Full Contract/i);
-    expect(link[0]).toBeInTheDocument();
-    // should not have null or undefined values
-    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-    expect(nullish).toHaveLength(0);
+    await waitFor(async () => {
+      const orgName = await screen.findByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
+      await user.click(orgName);
+      if (bounty.status == 1) {
+        const bountyStatus = await screen.findAllByText(/Closed/i);
+        expect(bountyStatus[0]).toBeInTheDocument();
+      }
+      const link = await screen.findAllByText(/Full Contract/i);
+      expect(link[0]).toBeInTheDocument();
+      // should not have null or undefined values
+      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+      expect(nullish).toHaveLength(0);
+    });
   });
 });

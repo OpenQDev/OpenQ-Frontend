@@ -14,6 +14,7 @@ const LoginPageEmailLogin = () => {
   const [disabled, setDisabled] = useState(false);
   const [email, setEmail] = useState('');
   const [appState] = useContext(StoreContext);
+  const { accountData } = appState;
   const router = useRouter();
 
   useEffect(() => {
@@ -37,10 +38,10 @@ const LoginPageEmailLogin = () => {
         withCredentials: true,
       })
       .then(() => {
-        console.log('Sign out success. Cookies cleared.');
+        appState.logger.info({ message: 'Sign out success. Cookies cleared.' }, accountData.id, 'loginPageEmailLogin1');
       })
       .catch((error) => {
-        console.error(error);
+        appState.logger.error({ message: error }, accountData.id, 'loginPageEmailLogin2');
       });
   };
 
@@ -75,7 +76,7 @@ const LoginPageEmailLogin = () => {
       }
     } catch (error) {
       setDisabled(false);
-      console.log(error);
+      appState.logger.error({ message: error }, accountData.id, 'loginPageEmailLogin3');
     }
   }
 

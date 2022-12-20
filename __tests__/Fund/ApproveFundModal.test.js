@@ -8,7 +8,9 @@ import InitialState from '../../store/Store/InitialState';
 
 import { CONFIRM, APPROVING, TRANSFERRING, ERROR } from '../../components/FundBounty/ApproveFundState';
 import ApproveFundModal from '../../components/FundBounty/ApproveFundModal';
+import FundContext from '../../components/FundBounty/FundContext';
 import userEvent from '@testing-library/user-event';
+import InitialFundState from '../../components/FundBounty/InitialFundState';
 
 describe('ApproveFundModal', () => {
   jest.mock('axios');
@@ -119,7 +121,7 @@ describe('ApproveFundModal', () => {
         id: '0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a',
         refunded: true,
         receiveTime: '1662545373',
-        tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+        tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
         expiration: '30',
         volume: '2000000000000000000',
         refundTime: '1662559726',
@@ -141,7 +143,7 @@ describe('ApproveFundModal', () => {
     refunds: [
       {
         refundTime: '1662559726',
-        tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+        tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
         volume: '2000000000000000000',
         depositId: '0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a',
         __typename: 'Refund',
@@ -162,35 +164,24 @@ describe('ApproveFundModal', () => {
     issuer: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
   };
   const fundBounty = jest.fn();
-  const setShowApproveTransferModal = jest.fn();
-  const resetState = jest.fn();
-  const token = { address: '0x0000000000000000000000000000000000000000', symbol: 'MATIC' };
-  const volume = 23;
-  const openInvoicingModal = jest.fn();
+  const refreshBounty = jest.fn();
 
-  const error = { title: 'Nonce too high', message: 'My brain cell was fried' };
-  const transactionHash = '0xyeet';
-  const account = '0xpoly';
+  const fundState = {
+    ...InitialFundState,
+    refreshBounty,
+    volume: '3',
 
-  let approveTransferState;
+    approveTransferState: CONFIRM,
+    bounty,
+  };
+  const fundDispatch = jest.fn();
+
   it('should display checking elgibility', async () => {
     // ARRANGE
-    approveTransferState = CONFIRM;
     render(
-      <ApproveFundModal
-        approveTransferState={approveTransferState}
-        address={account}
-        transactionHash={transactionHash}
-        error={error}
-        setShowApproveTransferModal={setShowApproveTransferModal}
-        confirmMethod={fundBounty}
-        resetState={resetState}
-        token={token}
-        openInvoicingModal={openInvoicingModal}
-        volume={volume}
-        bountyAddress={bounty.bountyAddress}
-        bounty={bounty}
-      />
+      <FundContext.Provider value={[fundState, fundDispatch]}>
+        <ApproveFundModal confirmMethod={fundBounty} />
+      </FundContext.Provider>
     );
 
     // ASSERT
@@ -202,24 +193,18 @@ describe('ApproveFundModal', () => {
   });
 
   it('should display confirm state of modal and let user trigger state change', async () => {
+    const confirmFundState = {
+      ...fundState,
+      volume: '3',
+
+      approveTransferState: CONFIRM,
+    };
     // ARRANGE
-    approveTransferState = CONFIRM;
     const user = userEvent.setup();
     render(
-      <ApproveFundModal
-        approveTransferState={approveTransferState}
-        address={account}
-        transactionHash={transactionHash}
-        error={error}
-        setShowApproveTransferModal={setShowApproveTransferModal}
-        confirmMethod={fundBounty}
-        resetState={resetState}
-        token={token}
-        openInvoicingModal={openInvoicingModal}
-        volume={volume}
-        bountyAddress={bounty.bountyAddress}
-        bounty={bounty}
-      />
+      <FundContext.Provider value={[confirmFundState, fundDispatch]}>
+        <ApproveFundModal confirmMethod={fundBounty} />
+      </FundContext.Provider>
     );
 
     // ASSERT
@@ -234,22 +219,14 @@ describe('ApproveFundModal', () => {
 
   it('should display transfer state', async () => {
     // ARRANGE
-    approveTransferState = TRANSFERRING;
+    const transferFundState = {
+      ...fundState,
+      approveTransferState: TRANSFERRING,
+    };
     render(
-      <ApproveFundModal
-        approveTransferState={approveTransferState}
-        address={account}
-        transactionHash={transactionHash}
-        error={error}
-        setShowApproveTransferModal={setShowApproveTransferModal}
-        confirmMethod={fundBounty}
-        resetState={resetState}
-        token={token}
-        openInvoicingModal={openInvoicingModal}
-        volume={volume}
-        bountyAddress={bounty.bountyAddress}
-        bounty={bounty}
-      />
+      <FundContext.Provider value={[transferFundState, fundDispatch]}>
+        <ApproveFundModal confirmMethod={fundBounty} />
+      </FundContext.Provider>
     );
 
     // ASSERT
@@ -263,22 +240,15 @@ describe('ApproveFundModal', () => {
 
   it('should display approve state', async () => {
     // ARRANGE
-    approveTransferState = APPROVING;
+
+    const approveFundState = {
+      ...fundState,
+      approveTransferState: APPROVING,
+    };
     render(
-      <ApproveFundModal
-        approveTransferState={approveTransferState}
-        address={account}
-        transactionHash={transactionHash}
-        error={error}
-        setShowApproveTransferModal={setShowApproveTransferModal}
-        confirmMethod={fundBounty}
-        resetState={resetState}
-        token={token}
-        openInvoicingModal={openInvoicingModal}
-        volume={volume}
-        bountyAddress={bounty.bountyAddress}
-        bounty={bounty}
-      />
+      <FundContext.Provider value={[approveFundState, fundDispatch]}>
+        <ApproveFundModal confirmMethod={fundBounty} />
+      </FundContext.Provider>
     );
 
     // ASSERT
@@ -288,24 +258,22 @@ describe('ApproveFundModal', () => {
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
   });
+
   it('should display error state', async () => {
     // ARRANGE
-    approveTransferState = ERROR;
+    const error = {
+      message: 'Nonce too high',
+      title: 'My brain cell was fried',
+    };
+    const errorFundState = {
+      ...fundState,
+      error,
+      approveTransferState: ERROR,
+    };
     render(
-      <ApproveFundModal
-        approveTransferState={approveTransferState}
-        address={account}
-        transactionHash={transactionHash}
-        error={error}
-        setShowApproveTransferModal={setShowApproveTransferModal}
-        confirmMethod={fundBounty}
-        resetState={resetState}
-        token={token}
-        openInvoicingModal={openInvoicingModal}
-        volume={volume}
-        bountyAddress={bounty.bountyAddress}
-        bounty={bounty}
-      />
+      <FundContext.Provider value={[errorFundState, fundDispatch]}>
+        <ApproveFundModal confirmMethod={fundBounty} />
+      </FundContext.Provider>
     );
 
     // ASSERT

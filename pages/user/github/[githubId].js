@@ -79,7 +79,7 @@ export const getServerSideProps = async (context) => {
   try {
     githubUser = await githubRepository.instance.fetchUserById(githubId);
   } catch (err) {
-    logger.error(err);
+    logger.error(err, null, 'login.js1');
     return { props: { renderError: `${githubId} is not a valid GitHub ID.` } };
   }
   return { props: { githubId, renderError, githubUser, oauthToken } };

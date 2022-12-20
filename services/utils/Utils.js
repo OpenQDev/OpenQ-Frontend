@@ -323,7 +323,7 @@ class Utils {
       subgraphContracts = await openQSubgraphClient.getBountiesByContractAddresses(watchedBountyAddresses);
       githubIssues = await githubRepository.getIssueData(watchedBountyIds);
     } catch (err) {
-      logger.error({ ...err });
+      logger.error({ ...err }, null, '[utils.js]1');
     }
 
     const watchedBounties = this.combineBounties(subgraphContracts, githubIssues, prismaContracts);

@@ -36,7 +36,6 @@ const InvoicingDetails = ({ slim }) => {
     return new Promise(async (resolve, reject) => {
       try {
         const { github, email } = accountData;
-        console.log(accountData);
         const formValues = github ? { github } : { email };
         const form = e.target;
         const interMediateValue = Object.values(form)
@@ -70,7 +69,7 @@ const InvoicingDetails = ({ slim }) => {
             });
             await response.json();
           } catch (err) {
-            appState.logger.error(err);
+            appState.logger.error(err, accountData.id, 'OrgDetails.js1');
           }
         }
 

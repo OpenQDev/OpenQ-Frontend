@@ -3,7 +3,7 @@
  */
 import React from 'react';
 
-import { render, screen } from '../../test-utils';
+import { render, screen, waitFor } from '../../test-utils';
 import BountyMetadata from '../../components/Bounty/BountyMetadata';
 
 describe('BountyMetadata', () => {
@@ -81,7 +81,7 @@ describe('BountyMetadata', () => {
         refunded: false,
         refundTime: null,
         expiration: '1296000',
-        tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+        tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
         volume: '2000000000000000000',
         sender: { __typename: 'User', id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266' },
         receiveTime: '1661768002',
@@ -115,7 +115,7 @@ describe('BountyMetadata', () => {
       {
         __typename: 'BountyFundedTokenBalance',
         volume: '2000000000000000000',
-        tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+        tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
       },
     ],
     tvl: 0,
@@ -142,19 +142,20 @@ describe('BountyMetadata', () => {
     it('should render Bounty heading', async () => {
       // ARRANGE
       render(<BountyMetadata bounty={bounty} setInternalMenu={() => null} />);
-
-      // ASSERT
-      const label = screen.getByText('duplicate');
-      expect(label).toBeInTheDocument();
-      const polygonscan = screen.getByText(/0x3c57cd5933/);
-      expect(polygonscan).toBeInTheDocument();
-      const prs = screen.getByText(/No linked pull/);
-      expect(prs).toBeInTheDocument();
-      expect(screen.getByText(/Weighted Contest/));
-      // should not have null or undefined values
-      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-      expect(nullish).toHaveLength(0);
+      await waitFor(async () => {
+        const label = screen.getByText('duplicate');
+        expect(label).toBeInTheDocument();
+        const polygonscan = screen.getByText(/0x3c57cd5933/);
+        expect(polygonscan).toBeInTheDocument();
+        const prs = screen.getByText(/No linked pull/);
+        expect(prs).toBeInTheDocument();
+        expect(await screen.findByText(/Weighted Contest/));
+        // should not have null or undefined values
+        const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+        expect(nullish).toHaveLength(0);
+      });
     });
+    // ASSERT
   };
 
   test(bounty, 19);

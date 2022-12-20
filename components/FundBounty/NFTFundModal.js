@@ -2,15 +2,22 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import SelectableNFT from './SelectableNFT';
-const NFTFundModal = ({ setPickedNft }) => {
+import FundContext from '../FundBounty/FundContext';
+const NFTFundModal = () => {
   const [showModal, setShowModal] = useState();
   const [selectedNft, setSelectedNft] = useState();
   const [nftsLoaded, setNftsLoaded] = useState();
   const [appState] = useContext(StoreContext);
   const { library, account } = useWeb3();
   const [nfts, setNfts] = useState([]);
+  const [, fundDispatch] = useContext(FundContext);
+  const { accountData } = appState;
   const pickNft = () => {
-    setPickedNft(selectedNft);
+    const dispatch = {
+      type: 'SET_NFT',
+      payload: selectedNft,
+    };
+    fundDispatch(dispatch);
     setShowModal(false);
   };
 
@@ -25,7 +32,7 @@ const NFTFundModal = ({ setPickedNft }) => {
             setNftsLoaded(true);
           }
         } catch (err) {
-          appState.logger.error(err);
+          appState.logger.error(err, accountData.id, 'NftFundModal.js1');
         }
       }
     };

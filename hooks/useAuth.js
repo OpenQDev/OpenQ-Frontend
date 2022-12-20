@@ -8,6 +8,7 @@ const useAuth = (state) => {
   const [authState, setAuthState] = useContext(AuthContext);
   const [appState] = useContext(StoreContext || state);
   const { account } = useWeb3();
+  const { accountData } = appState;
 
   useEffect(() => {
     let didCancel;
@@ -16,7 +17,6 @@ const useAuth = (state) => {
       appState.authService
         .checkAuth()
         .then((data) => {
-          console.log('data', data);
           if (!didCancel) {
             setAuthState({
               type: 'UPDATE_IS_AUTHENTICATED',
@@ -31,7 +31,7 @@ const useAuth = (state) => {
           }
         })
         .catch((err) => {
-          appState.logger.error(err, account, 'useAuth1');
+          appState.logger.error(err, accountData.id, 'useAuth1');
         });
     }
 

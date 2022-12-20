@@ -1,10 +1,11 @@
 // Third party
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { ethers } from 'ethers';
 
 // Custom
 import useWeb3 from '../../hooks/useWeb3';
 import TokenFundBox from './SearchTokens/TokenFundBox';
+import FundContext from './FundContext';
 import StoreContext from '../../store/Store/StoreContext';
 import ToolTipNew from '../Utils/ToolTipNew';
 import BountyClosed from '../BountyClosed/BountyClosed';
@@ -15,33 +16,15 @@ import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import SelectableNFT from './SelectableNFT';
 import NFTFundModal from './NFTFundModal.js';
 import Cross from '../svg/cross';
+import DepositPeriod from './DepositPeriod';
 import ConnectButton from '../WalletConnect/ConnectButton';
-import fundBountyMethod from './fundBountyMethod';
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import { valueToDisplay, listWordsWithAnd } from '../../services/utils/lib';
+import useFundBountyMethod from './hooks/useFundBountyMethod';
 
-const FundPage = ({ bounty, refreshBounty }) => {
-  const [volume, setVolume] = useState('');
-  const [depositPeriodDays, setDepositPeriodDays] = useState(30);
-  const [error, setError] = useState('');
-  const [buttonText, setButtonText] = useState('Fund');
-  const [, setSuccessMessage] = useState('');
-  const [transactionHash, setTransactionHash] = useState(null);
-  const [showApproveTransferModal, setShowApproveTransferModal] = useState(false);
-  const [approveTransferState, setApproveTransferState] = useState(RESTING);
-  const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
-  const [allowance, setAllowance] = useState();
-  const [pickedNft, setPickedNft] = useState();
-  const [nftTier, setNftTier] = useState('');
-  const [appState] = useContext(StoreContext);
-  const { accountData } = appState;
-  const accountKeys = ['company', 'city', 'country', 'streetAddress', 'province', 'invoicingEmail'];
-
-  const neededAccountData = accountKeys.filter((key) => {
-    return !accountData[key];
-  });
-
-  const hasInvoicingInfo = neededAccountData.length === 0 || !bounty.invoiceable;
+const FundPage = () => {
+  const [fundState, fundDispatch] = useContext(FundContext);
+  const { pickedNft, allowance, depositPeriodDays, nftTier, bounty, approveTransferState } = fundState;
   const zeroAddressMetadata = {
     name: 'Matic',
     address: '0x0000000000000000000000000000000000000000',
@@ -50,13 +33,48 @@ const FundPage = ({ bounty, refreshBounty }) => {
     chainId: 80001,
     path: 'https://wallet-asset.matic.network/img/tokens/matic.svg',
   };
+  const [volume, setVolume] = useState('');
+  const [token, setToken] = useState(zeroAddressMetadata);
+  const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
+  const [setNftTier] = useState('');
+  const [appState] = useContext(StoreContext);
+  const fundBountyMethod = useFundBountyMethod();
+  const { accountData, utils } = appState;
+  const accountKeys = ['company', 'city', 'country', 'streetAddress', 'province', 'invoicingEmail'];
+
+  const neededAccountData = accountKeys.filter((key) => {
+    return !accountData[key];
+  });
+  useEffect(() => {
+    const tokenDispatch = {
+      type: 'SET_TOKEN',
+      payload: token,
+    };
+    fundDispatch(tokenDispatch);
+  }, [token]);
+
+  useEffect(() => {
+    const volumeDispatch = {
+      type: 'SET_VOLUME',
+      payload: volume,
+    };
+    fundDispatch(volumeDispatch);
+  }, [volume]);
+  const hasInvoicingInfo = neededAccountData.length === 0 || !bounty.invoiceable;
+
   // Context
-  const { openQClient, utils } = appState;
+  const { openQClient } = appState;
   const web3 = useWeb3();
   const { account, library } = web3;
 
+  const clearNft = () => {
+    const dispatch = {
+      type: 'SET_NFT',
+    };
+    fundDispatch(dispatch);
+  };
+
   // State
-  const [token, setToken] = useState(zeroAddressMetadata);
   const isContest = bounty.bountyType === '2' || bounty.bountyType === '3';
   const bountyNames = new Map([
     ['0', 'Fixed Price Contract'],
@@ -86,55 +104,42 @@ const FundPage = ({ bounty, refreshBounty }) => {
     !(parseInt(depositPeriodDays) > 0) ||
     !hasInvoicingInfo;
 
-  function resetState() {
-    setApproveTransferState(RESTING);
-  }
-
   // Methods
-
   const hasEnoughAllowance = async () => {
     const allowanceBigNumber = await openQClient.allowance(library, account, token.address, bounty.bountyAddress);
     const volumeInWei = volume * 10 ** token.decimals;
     const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', { useGrouping: false }));
-    setAllowance(
+    const allowanceValue =
       allowanceBigNumber > 0
         ? token.address != ethers.constants.AddressZero && allowanceBigNumber?.gte(bigNumberVolumeInWei)
-        : 0
-    );
+        : 0;
+    const allowanceDispatch = {
+      type: 'SET_ALLOWANCE',
+      payload: allowanceValue,
+    };
+    fundDispatch(allowanceDispatch);
   };
 
   const openFund = async () => {
-    hasEnoughAllowance();
-    setApproveTransferState(allowance || token.address == ethers.constants.AddressZero ? CONFIRM : APPROVE);
-    setShowApproveTransferModal(true);
-  };
-
-  const closeModal = () => {
-    setShowApproveTransferModal();
-    setPickedNft();
+    await hasEnoughAllowance();
+    let dispatchPayload;
+    if (allowance || token.address == ethers.constants.AddressZero) {
+      dispatchPayload = {
+        type: 'SET_APPROVE_TRANSFER_STATE',
+        payload: CONFIRM,
+      };
+    } else {
+      dispatchPayload = {
+        type: 'SET_APPROVE_TRANSFER_STATE',
+        payload: APPROVE,
+      };
+    }
+    fundDispatch(dispatchPayload);
   };
 
   const fundBounty = async () => {
-    fundBountyMethod(
-      setError,
-      setApproveTransferState,
-      volume,
-      token,
-      pickedNft,
-      setButtonText,
-      bounty,
-      setShowApproveTransferModal,
-      allowance,
-      depositPeriodDays,
-      setTransactionHash,
-      setSuccessMessage,
-      refreshBounty,
-      error,
-      appState,
-      web3
-    );
+    fundBountyMethod();
   };
-
   function onCurrencySelect(token) {
     setToken({ ...token, address: ethers.utils.getAddress(token.address) });
   }
@@ -142,10 +147,6 @@ const FundPage = ({ bounty, refreshBounty }) => {
   function onVolumeChange(volume) {
     utils.updateVolume(volume, setVolume);
   }
-  const onDepositPeriodChanged = (e) => {
-    if (parseInt(e.target.value) >= 0) setDepositPeriodDays(parseInt(e.target.value));
-    if (e.target.value === '') setDepositPeriodDays('0');
-  };
 
   // Render
   return (
@@ -170,40 +171,13 @@ const FundPage = ({ bounty, refreshBounty }) => {
                       token={token}
                       volume={volume}
                     />
-                    <NFTFundModal setPickedNft={setPickedNft} />
+                    <NFTFundModal />
                   </>
                 </div>
               ) : null}
               <div className='flex gap-4'>
                 <div className='w-full'>
-                  <div className='flex w-full input-field-big mb-4'>
-                    <div className=' flex items-center gap-3 w-full text-primary md:whitespace-nowrap'>
-                      <ToolTipNew
-                        relativePosition={'md:-left-12'}
-                        outerStyles={'-top-1'}
-                        groupStyles={''}
-                        innerStyles={'whitespace-normal md:w-96 sm:w-60 w-40  '}
-                        toolTipText={
-                          'This is the number of days that your deposit will be in escrow. After this many days, your deposit will be fully refundable if the contract has still not been claimed.'
-                        }
-                      >
-                        <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                          ?
-                        </div>
-                      </ToolTipNew>
-                      <span>Deposit Locked Period</span>
-                    </div>
-                    <div className={'flex px-4 font-bold bg-input-bg'}>
-                      <input
-                        className='text-primary text-right number outline-none w-full flex-1 bg-input-bg'
-                        autoComplete='off'
-                        value={depositPeriodDays}
-                        id='deposit-period'
-                        onChange={onDepositPeriodChanged}
-                      />
-                    </div>
-                  </div>
-
+                  <DepositPeriod />
                   {isContest && pickedNft && (
                     <div className='flex w-full input-field-big mb-4'>
                       <div className=' flex items-center gap-3 w-full text-primary bg-input-bg md:whitespace-nowrap'>
@@ -259,7 +233,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
                         type='button'
                         onClick={openFund}
                       >
-                        <div className='text-center whitespace-nowrap w-full'>{buttonText}</div>
+                        <div className='text-center whitespace-nowrap w-full'>Fund</div>
                       </button>
                     </ToolTipNew>
                   )}
@@ -268,7 +242,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
                   <div className='w-60 relative -top-2 rounded-md '>
                     <SelectableNFT nft={pickedNft} />
                     <button
-                      onClick={() => setPickedNft()}
+                      onClick={clearNft}
                       className='absolute top-3 right-3 bg-dark-mode hover:bg-black rounded-full p-1'
                     >
                       <Cross />
@@ -304,26 +278,7 @@ const FundPage = ({ bounty, refreshBounty }) => {
             )}
           </div>
 
-          {showApproveTransferModal && (
-            <ApproveFundModal
-              pickedNft={pickedNft}
-              setPickedNft={setPickedNft}
-              approveTransferState={approveTransferState}
-              setApproveTransferState={setApproveTransferState}
-              address={account}
-              transactionHash={transactionHash}
-              error={error}
-              setShowApproveTransferModal={closeModal}
-              confirmMethod={fundBounty}
-              resetState={resetState}
-              token={token}
-              volume={volume}
-              bountyAddress={bounty.bountyAddress}
-              bounty={bounty}
-              allowance={allowance}
-              depositPeriodDays={depositPeriodDays}
-            />
-          )}
+          {approveTransferState !== RESTING && <ApproveFundModal confirmMethod={fundBounty} />}
         </div>
       )}
     </>

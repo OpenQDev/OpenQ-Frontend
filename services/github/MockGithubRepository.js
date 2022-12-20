@@ -178,7 +178,6 @@ class MockGithubRepository {
 		
 			axios.get('http://localhost:3030/githubIssues')
 				.then(result => {
-                console.log(this.parseIssuesData(result.data))
 					resolve(this.parseIssuesData(result.data));
 				})
 				.catch(error => {

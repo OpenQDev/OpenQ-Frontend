@@ -111,7 +111,7 @@ describe('AdminModal', () => {
         id: '0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a',
         refunded: true,
         receiveTime: '1662545373',
-        tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+        tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
         expiration: '30',
         volume: '2000000000000000000',
         refundTime: '1662559726',
@@ -133,7 +133,7 @@ describe('AdminModal', () => {
     refunds: [
       {
         refundTime: '1662559726',
-        tokenAddress: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+        tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
         volume: '2000000000000000000',
         depositId: '0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a',
         __typename: 'Refund',
@@ -461,13 +461,14 @@ describe('AdminModal', () => {
         }}
       />
     );
+    await waitFor(() => {
+      // ASSERT
+      expect(screen.getByText(/Split Price Contract Closed!/i)).toBeInTheDocument();
 
-    // ASSERT
-    expect(screen.getByText(/Split Price Contract Closed!/i)).toBeInTheDocument();
-
-    // should not have null or undefined values
-    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-    expect(nullish).toHaveLength(0);
+      // should not have null or undefined values
+      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+      expect(nullish).toHaveLength(0);
+    });
   });
 
   it('should display approve state', async () => {
@@ -484,15 +485,16 @@ describe('AdminModal', () => {
         }}
       />
     );
-
-    // ASSERT
-    expect(screen.getByText(/Budget updated/i)).toBeInTheDocument();
-    expect(screen.getByText(/Budget set to:/i)).toBeInTheDocument();
-    expect(screen.getByText(/0xa...adf/)).toBeInTheDocument();
-    expect(screen.getByText('10.0 MATIC')).toBeInTheDocument();
-    // should not have null or undefined values
-    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-    expect(nullish).toHaveLength(0);
+    await waitFor(() => {
+      // ASSERT
+      expect(screen.getByText(/Budget updated/i)).toBeInTheDocument();
+      expect(screen.getByText(/Budget set to:/i)).toBeInTheDocument();
+      expect(screen.getByText(/0xa...adf/)).toBeInTheDocument();
+      expect(screen.getByText('10.0 MATIC')).toBeInTheDocument();
+      // should not have null or undefined values
+      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+      expect(nullish).toHaveLength(0);
+    });
   });
 
   it('should display approve state', async () => {
@@ -509,15 +511,16 @@ describe('AdminModal', () => {
         }}
       />
     );
-
-    // ASSERT
-    expect(screen.getByText(/Payout updated/i)).toBeInTheDocument();
-    expect(screen.getByText(/Payout set to:/i)).toBeInTheDocument();
-    expect(screen.getByText(/0xa...adf/)).toBeInTheDocument();
-    expect(screen.getByText('10.0 MATIC')).toBeInTheDocument();
-    // should not have null or undefined values
-    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-    expect(nullish).toHaveLength(0);
+    await waitFor(() => {
+      // ASSERT
+      expect(screen.getByText(/Payout updated/i)).toBeInTheDocument();
+      expect(screen.getByText(/Payout set to:/i)).toBeInTheDocument();
+      expect(screen.getByText(/0xa...adf/)).toBeInTheDocument();
+      expect(screen.getByText('10.0 MATIC')).toBeInTheDocument();
+      // should not have null or undefined values
+      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+      expect(nullish).toHaveLength(0);
+    });
   });
 
   it('should display approve state', async () => {
@@ -535,16 +538,17 @@ describe('AdminModal', () => {
         }}
       />
     );
-
-    // ASSERT
-    expect(screen.getByText(/Payout Schedule Updated/i)).toBeInTheDocument();
-    expect(screen.getByText(/Payout schedule set to/i)).toBeInTheDocument();
-    expect(screen.getByText(/0xa...adf/)).toBeInTheDocument();
-    expect(screen.getByText(/1st winner/)).toBeInTheDocument();
-    expect(screen.getByText(/1 %/)).toBeInTheDocument();
-    // should not have null or undefined values
-    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-    expect(nullish).toHaveLength(0);
+    await waitFor(() => {
+      // ASSERT
+      expect(screen.getByText(/Payout Schedule Updated/i)).toBeInTheDocument();
+      expect(screen.getByText(/Payout schedule set to/i)).toBeInTheDocument();
+      expect(screen.getByText(/0xa...adf/)).toBeInTheDocument();
+      expect(screen.getByText(/1st winner/)).toBeInTheDocument();
+      expect(screen.getByText(/1 %/)).toBeInTheDocument();
+      // should not have null or undefined values
+      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+      expect(nullish).toHaveLength(0);
+    });
   });
   it('should display approve state', async () => {
     // ARRANGE
@@ -562,11 +566,13 @@ describe('AdminModal', () => {
       />
     );
 
-    // ASSERT
-    expect(screen.getByText(/1 MATIC/)).toBeInTheDocument();
-    // should not have null or undefined values
-    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-    expect(nullish).toHaveLength(0);
+    await waitFor(() => {
+      // ASSERT
+      expect(screen.getByText(/1 MATIC/)).toBeInTheDocument();
+      // should not have null or undefined values
+      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+      expect(nullish).toHaveLength(0);
+    });
   });
   const test = () => {
     it('should show Budget updated', async () => {

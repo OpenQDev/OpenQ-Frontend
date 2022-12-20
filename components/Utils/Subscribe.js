@@ -9,6 +9,7 @@ const Subscribe = ({ user }) => {
   // state variables
   const [subscribed, setSubscribed] = useState(null);
   const [appState] = useContext(StoreContext);
+  const { accountData } = appState;
   const { logger, openQPrismaClient } = appState;
   const { account } = useWeb3();
   const [subscriptionError, setSubscriptionError] = useState();
@@ -43,7 +44,7 @@ const Subscribe = ({ user }) => {
               setSubscribed(true);
             }
           } catch (err) {
-            appState.logger.error(err);
+            logger.error(err, accountData.id, 'Subscribe.js1');
           }
         }
 
@@ -87,7 +88,7 @@ const Subscribe = ({ user }) => {
           }, 1000);
         }
       } catch (err) {
-        logger.error(err, account, 'Invoicing Details1');
+        logger.error(err, accountData.id, 'Subscribe.js2');
       }
     } else {
       setSubscriptionError(true);

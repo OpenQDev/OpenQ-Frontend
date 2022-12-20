@@ -3,7 +3,7 @@
  */
 import React from 'react';
 
-import { render, screen } from '../../test-utils';
+import { render, screen, waitFor } from '../../test-utils';
 import ShowCasePage from '../../components/ShowCase/ShowCasePage';
 
 describe('ShowcasePage', () => {
@@ -47,12 +47,14 @@ describe('ShowcasePage', () => {
     render(<ShowCasePage pr={pr} />);
 
     // ASSERT
-    expect(screen.getByText(/Update README.md/)).toBeInTheDocument();
-    expect(screen.getByText(/FlacoJones/)).toBeInTheDocument();
-    expect(screen.getAllByRole('link')[0].href).toBe('https://github.com/OpenQDev/OpenQ-TestRepo/pull/138');
-    expect(screen.getByText(/closes #34/)).toBeInTheDocument();
-    // should not have null or undefined values
-    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-    expect(nullish).toHaveLength(0);
+    await waitFor(() => {
+      expect(screen.getByText(/Update README.md/)).toBeInTheDocument();
+      expect(screen.getByText(/FlacoJones/)).toBeInTheDocument();
+      expect(screen.getAllByRole('link')[0].href).toBe('https://github.com/OpenQDev/OpenQ-TestRepo/pull/138');
+      expect(screen.getByText(/closes #34/)).toBeInTheDocument();
+      // should not have null or undefined values
+      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+      expect(nullish).toHaveLength(0);
+    });
   });
 });

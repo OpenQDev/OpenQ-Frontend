@@ -28,6 +28,7 @@ const AssociateAddress = ({ githubId, user }) => {
   const [error, setError] = useState('');
   const [authState] = useContext(AuthContext);
   const [currentAccount, setCurrentAccount] = useState();
+  const { accountData } = appState;
 
   useEffect(() => {
     const getRelAccount = async () => {
@@ -37,7 +38,7 @@ const AssociateAddress = ({ githubId, user }) => {
           setCurrentAccount(currentAccount);
         }
       } catch (err) {
-        appState.logger.error(err);
+        logger.error(err, accountData.id, 'AssociateAddress.js1');
       }
     };
     if ((githubId, library, account)) {
@@ -102,12 +103,13 @@ const AssociateAddress = ({ githubId, user }) => {
             },
           });
         } catch (err) {
-          appState.logger.error(err);
+          logger.error(err, accountData.id, 'AssociateAddress.js2');
         }
       })
       .catch((err) => {
         if (err.message.includes(canvas)) return;
-        logger.error(err, account, githubId);
+        logger.error(err, accountData.id, 'AssociateAddress.js3');
+
         setAssociateState('ERROR');
         setError({ message: err.response.data.errorMessage, title: 'Error' });
       });

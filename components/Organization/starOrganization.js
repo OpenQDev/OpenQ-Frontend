@@ -35,7 +35,7 @@ const starOrganization = async (
 
     dispatch(payload);
   } catch (error) {
-    appState.logger.error(error, undefined, 'starOrganizations1');
+    appState.logger.error(error, appState?.accountData?.id, 'starOrganizations1');
   }
 };
 export default starOrganization;

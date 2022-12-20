@@ -54,7 +54,7 @@ const showcase = ({ /* currentPrs, */ batch, renderError, firstCursor, fullBount
       return [fullBounties, complete];
     } catch (err) {
       setError(err);
-      appState.logger.error(err, account);
+      appState.logger.error(err, null, '[name.js]1');
       return [[], true];
     }
   }
@@ -223,7 +223,7 @@ export async function getServerSideProps(context) {
       repoData.id
     );
   } catch (err) {
-    logger.error(err);
+    logger.error(err, null, '[name.js]2');
     renderError = JSON.stringify(err);
   }
   return {

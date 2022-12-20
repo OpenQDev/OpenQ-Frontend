@@ -42,7 +42,9 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
               target='_blank'
               rel='noopener noreferrer'
             >
-              <Twitter />
+              <>
+                <Twitter />
+              </>
             </Link>
           </div>
         )}

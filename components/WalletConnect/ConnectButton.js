@@ -23,6 +23,7 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, centerStyles }) => {
   const [ensName] = useEns(account);
   const [authState] = useContext(AuthContext);
   const [appState, dispatch] = useContext(StoreContext);
+  const { accountData } = appState;
   const { walletConnectModal } = appState;
 
   // State
@@ -97,7 +98,7 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, centerStyles }) => {
         method: 'wallet_addEthereumChain',
         params: chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['params'],
       })
-      .catch((err) => appState.logger.error(err, account));
+      .catch((error) => appState.logger.error(error, accountData.id, 'ConnectButton.js1'));
   };
 
   // Render

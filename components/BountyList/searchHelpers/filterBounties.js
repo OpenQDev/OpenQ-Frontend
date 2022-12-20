@@ -107,7 +107,7 @@ const filterBounties = (
       // All criteria to filter issues on 'Ready for Work' or 'All Issues':
       return overallCriteria && readyOrAllIssues;
     } catch (err) {
-      appState.logger.error(err, account, undefined, 'bountylist1');
+      appState.logger.error(err, appState?.accountData?.id, 'bountylist1');
     }
   });
 

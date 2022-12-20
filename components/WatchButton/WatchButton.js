@@ -4,6 +4,7 @@ import watchBounty from './watchBounty';
 
 const WatchButton = ({ unWatchable, watchingState, bounty }) => {
   const [appState, dispatch] = useContext(StoreContext);
+  const { accountData, logger } = appState;
   const [watchDisabled, setWatchDisabled] = useState();
   const [watchingDisplay, setWatchingDisplay] = useState();
   const { github, email, id } = appState.accountData;
@@ -21,8 +22,8 @@ const WatchButton = ({ unWatchable, watchingState, bounty }) => {
         }
       } catch (err) {
         if (JSON.stringify(err).includes('AuthenticationError')) {
-          appState.logger.error('Cannot get watched bounties because user is not signed in.', 'watch1');
-        } else appState.logger.error(err, 'watch2');
+          logger.error('Cannot get watched bounties because user is not signed in.', accountData.id, 'watch1');
+        } else logger.error(err, accountData.id, 'watch2');
       }
     };
     getWatched();
@@ -50,7 +51,7 @@ const WatchButton = ({ unWatchable, watchingState, bounty }) => {
         watchDisabled
       );
     } catch (err) {
-      appState.logger.error(err, 'watch3');
+      logger.error(err, accountData.id, 'watch4');
     }
     setWatchDisabled(false);
   };

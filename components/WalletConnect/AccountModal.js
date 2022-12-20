@@ -29,8 +29,8 @@ const AccountModal = ({ chainId, account, ensName, setIsConnecting, domRef, isSa
           connector.resetState();
         }
       });
-    } catch (err) {
-      appState.logger.error(err, account);
+    } catch (error) {
+      appState.logger.error(error, accountData.id, 'AccountModal.js1');
     }
     setIsConnecting(false);
   };

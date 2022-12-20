@@ -39,7 +39,7 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
           const mergedOrgs = await appState.utils.fetchOrganizations(appState, types, category);
           setControlledOrgs(mergedOrgs);
         } catch (err) {
-          appState.logger.error(err);
+          appState.logger.error(err, accountData.id, '[type]1.js');
         }
         // get watched bounties when reload action is triggered.
       }
@@ -186,7 +186,8 @@ export const getServerSideProps = async (context) => {
       category
     );
   } catch (err) {
-    logger.error(err);
+    logger.error(err, null, '[type]1.js');
+
     renderError = JSON.stringify(err);
   }
   try {
@@ -207,7 +208,7 @@ export const getServerSideProps = async (context) => {
       category
     );
   } catch (err) {
-    logger.error(err);
+    logger.error(err, null, '[type]1.js');
     renderError = JSON.stringify(err);
   }
   return {

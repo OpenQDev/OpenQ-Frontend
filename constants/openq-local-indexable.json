@@ -15,7 +15,7 @@
 		"chainId": 80001,
 		"path": "https://wallet-asset.matic.network/img/tokens/link.svg"
 	},
-	"0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512": {
+	"0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0": {
 		"name": "Dummy ERC20",
 		"address": "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
 		"symbol": "DERC20",
@@ -23,7 +23,7 @@
 		"chainId": 80001,
 		"path": "https://wallet-asset.matic.network/img/tokens/dai.svg"
 	},
-	"0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0": {
+	"0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9": {
 		"name": "Dummy ERC20 (Blacklisted)",
 		"address": "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
 		"symbol": "BDERC20",

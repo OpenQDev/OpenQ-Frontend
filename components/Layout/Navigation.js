@@ -7,7 +7,6 @@ import StoreContext from '../../store/Store/StoreContext.js';
 import ConnectButton from '../WalletConnect/ConnectButton.js';
 import Image from 'next/image';
 import FirstTimeBanner from './FirstTimeBanner';
-import useWeb3 from '../../hooks/useWeb3.js';
 import { QuestionIcon, ThreeBarsIcon } from '@primer/octicons-react';
 import LinkDropdown from '../Utils/LinkDropdown';
 import { useRouter } from 'next/router';
@@ -17,7 +16,6 @@ import LoadingThread from '../Loading/LoadingThread.js';
 import ContractWizard from '../ContractWizard/ContractWizard.js';
 
 const Navigation = () => {
-  const { account } = useWeb3();
   const [appState] = useContext(StoreContext);
   const [openMenu, setOpenMenu] = useState(false);
   const [quickSearch, setQuickSearch] = useState('');
@@ -27,7 +25,7 @@ const Navigation = () => {
   const [changeText, setChangeText] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const { bountyMinted, openQSubgraphClient, openQPrismaClient, utils, githubRepository, tokenClient } = appState;
-
+  const { accountData } = appState;
   const router = useRouter();
   useEffect(() => {
     if (bountyMinted) {
@@ -86,7 +84,7 @@ const Navigation = () => {
         });
         setSearchable(searchable);
       } catch (err) {
-        appState.logger.error(err, account);
+        appState.logger.error(err, accountData.id, 'Navigation.js1');
       }
       // set up gnosis safe
 
@@ -96,7 +94,7 @@ const Navigation = () => {
       try {
         tokenPrices = (await tokenClient.getPrices()) || {};
       } catch (err) {
-        appState.logger.error(err, account);
+        appState.logger.error(err, accountData.id, 'Navigation.js2');
       }
 
       tokenClient.firstTenPrices = tokenPrices;
