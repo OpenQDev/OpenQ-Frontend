@@ -16,15 +16,16 @@ const useAuth = (state) => {
       appState.authService
         .checkAuth()
         .then((data) => {
+          console.log('data', data);
           if (!didCancel) {
             setAuthState({
               type: 'UPDATE_IS_AUTHENTICATED',
               payload: {
-                isAuthenticated: data.payload.isAuthenticated,
-                avatarUrl: data.payload.avatarUrl,
-                login: data.payload.login,
-                githubId: data.payload.githubId,
-                email: data.payload.email,
+                isAuthenticated: data.isAuthenticated,
+                avatarUrl: data.avatar_url,
+                login: data.login,
+                githubId: data.node_id,
+                email: data.email,
               },
             });
           }
