@@ -2,11 +2,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import StoreContext from '../../store/Store/StoreContext';
+import AuthContext from '../../store/AuthStore/AuthContext';
 
 function GitHubAuth() {
   const router = useRouter();
   const [, setAuthCode] = useState('NO AUTH CODE');
   const [appState] = useContext(StoreContext);
+  const [, dispatch] = useContext(AuthContext);
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
@@ -35,12 +37,12 @@ function GitHubAuth() {
           try {
             // Get the user's github id from checkAuth
             const result = await appState.authService.checkAuth();
+            dispatch(result);
             const github = result.payload.githubId;
 
             // Get the user's full profile from the database
             const fullApiUser = await appState.openQPrismaClient.getPublicUser(github);
 
-            console.log(fullApiUser, 'fullApiUser');
             const isNewUser = !fullApiUser;
 
             if (isNewUser) {
