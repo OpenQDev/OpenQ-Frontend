@@ -24,6 +24,7 @@ class OpenQSubgraphClient {
   uri = process.env.OPENQ_SUBGRAPH_SSR_HTTP_URL
     ? process.env.OPENQ_SUBGRAPH_SSR_HTTP_URL
     : process.env.NEXT_PUBLIC_OPENQ_SUBGRAPH_HTTP_URL;
+
   httpLink = new HttpLink({ uri: this.uri, fetch });
 
   client = new ApolloClient({

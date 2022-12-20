@@ -5,18 +5,19 @@ import useWeb3 from '../../../../hooks/useWeb3';
 export default function BountyAlreadyMintedMessage({ bountyAddress, closed, id }) {
   const { safe } = useWeb3();
   return (
-    <div className='flex flex-row items-center space-x-1 pb-2 px-8'>
-      <div className='text-white text-center'>
-        Bounty is already {closed ? 'closed' : 'minted'}, view
+    <div className='flex flex-row items-center space-x-1'>
+      <div className=''>
+        Bounty is already {closed ? 'closed' : 'minted'}, view{' '}
         <Link
           href={`/?address=${id}/${bountyAddress}}`}
           as={`/contract/${id}/${bountyAddress}`}
           target={safe ? '_self' : '_blank'}
           rel='noreferrer'
-          className='cursor-pointer text-link'
+          className='cursor-pointer text-blue-500 hover:underline'
         >
-          <span data-testid='link'> &nbsp;here.</span>
+          <span data-testid='link'>here</span>
         </Link>
+        .
       </div>
     </div>
   );

@@ -2,11 +2,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import StoreContext from '../../store/Store/StoreContext';
+import AuthContext from '../../store/AuthStore/AuthContext';
 
 function GitHubAuth() {
   const router = useRouter();
   const [, setAuthCode] = useState('NO AUTH CODE');
   const [appState] = useContext(StoreContext);
+  const [, dispatch] = useContext(AuthContext);
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
@@ -35,10 +37,16 @@ function GitHubAuth() {
           try {
             // Get the user's github id from checkAuth
             const result = await appState.authService.checkAuth();
-            const github = result.payload.githubId;
+            const { isAuthenticated, avatar_url, login, node_id, email } = result;
+            dispatch({
+              type: 'UPDATE_IS_AUTHENTICATED',
+              payload: { isAuthenticated, avatarUrl: avatar_url, login, githubId: node_id, email },
+            });
+            const github = node_id;
 
             // Get the user's full profile from the database
             const fullApiUser = await appState.openQPrismaClient.getPublicUser(github);
+
             const isNewUser = !fullApiUser;
 
             if (isNewUser) {
@@ -62,6 +70,7 @@ function GitHubAuth() {
   };
 
   useEffect(() => {
+    console.log(userId);
     if (userId) {
       router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${userId}`);
     }

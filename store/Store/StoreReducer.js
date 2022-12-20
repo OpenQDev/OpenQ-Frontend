@@ -15,7 +15,7 @@ const StoreReducer = (state, action) => {
         ...state,
         isAuthenticated: action.payload,
       };
-    case 'UPDATE_ADDRESS':
+    /*     case 'UPDATE_ADDRESS':
       return {
         ...state,
         publicAddress: action.payload,
@@ -34,7 +34,7 @@ const StoreReducer = (state, action) => {
       return {
         ...state,
         signedAccount: action.payload,
-      };
+      }; */
     case 'UPDATE_RELOAD':
       return {
         ...state,
