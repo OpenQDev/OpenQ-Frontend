@@ -5,12 +5,10 @@ import React from 'react';
 
 import { render, screen } from '../../test-utils';
 import CopyBountyAddress from '../../components/Bounty/CopyBountyAddress';
+import Constants from '../../test-utils/constant';
 
 describe('CopyBountyAddress', () => {
-  const bounty = {
-    __typename: 'Bounty',
-    bountyAddress: '0x1f191c4166865882b26551fb8618668b7a67d0fb',
-  };
+  const bounty = Constants.bounty;
 
   beforeEach(() => {
     const observe = jest.fn();

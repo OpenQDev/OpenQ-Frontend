@@ -5,11 +5,11 @@ import React from 'react';
 
 import { render, screen } from '../../test-utils';
 import BountyClosed from '../../components/BountyClosed/BountyClosed';
-import mocks from '../../__mocks__/mock-server.json';
+import Constants from '../../test-utils/constant';
 import { waitFor } from '@testing-library/react';
 
 describe('BountyClosed', () => {
-  const bounties = mocks.bounties;
+  const bounty = Constants.bounty;
 
   const test = (bounty) => {
     it('should render the heading', async () => {
@@ -47,7 +47,5 @@ describe('BountyClosed', () => {
     });
   };
 
-  bounties.forEach((bounty) => {
-    test(bounty);
-  });
+  test(bounty);
 });

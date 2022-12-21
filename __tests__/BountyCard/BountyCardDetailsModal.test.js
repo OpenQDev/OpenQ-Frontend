@@ -3,22 +3,11 @@
  */
 import React from 'react';
 import { render, screen, waitFor } from '../../test-utils';
-import InitialState from '../../store/Store/InitialState';
-import mocks from '../../__mocks__/mock-server.json';
 import BountyCardDetailsModal from '../../components/BountyCard/BountyCardDetailsModal';
+import Constants from '../../test-utils/constant';
 
 describe('BountyCardDetailsModal', () => {
-  const newBounties = mocks.bounties;
-  const fullBounties = [];
-
-  const issueData = InitialState.githubRepository.parseIssuesData(mocks.githubIssues);
-  newBounties.forEach((bounty) => {
-    const relatedIssue = issueData.find((issue) => issue.id == bounty.bountyId);
-    if (relatedIssue) {
-      const mergedBounty = { ...bounty, ...relatedIssue };
-      fullBounties.push(mergedBounty);
-    }
-  });
+  const bounty = Constants.bounty;
 
   beforeEach(() => {
     const observe = jest.fn();
@@ -58,6 +47,5 @@ describe('BountyCardDetailsModal', () => {
       });
     });
   };
-
-  fullBounties.forEach((bounty) => test(bounty));
+  test(bounty);
 });
