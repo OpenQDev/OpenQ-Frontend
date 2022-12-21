@@ -18,10 +18,10 @@ describe('TotalValue', () => {
     }));
   });
 
-  const test = (bounty, price) => {
+  const test = (bounty) => {
     it('should render 0 in TotalValue', async () => {
       // ARRANGE
-      render(<TotalValue bounty={{}} setInternalMenu={() => null} price={price} />);
+      render(<TotalValue bounty={bounty} />);
       await waitFor(() => {
         // ASSERT
         const usdPrice = screen.getByText(/0.00/);
@@ -35,7 +35,7 @@ describe('TotalValue', () => {
 
     it('should render >0 in TotalValue', async () => {
       // ARRANGE
-      render(<TotalValue bounty={{}} price={90} />);
+      render(<TotalValue bounty={bounty} />);
 
       // ASSERT
       await waitFor(() => {

@@ -5,6 +5,7 @@ import React from 'react';
 
 import { render, screen } from '../../test-utils';
 import RepoTitle from '../../components/Bounty/RepoTitle';
+import Constants from '../../test-utils/constant';
 
 // WARNING If you change the mock data for issues you may need to change some
 // of this test's getByText invocations to getAllByText.
@@ -15,65 +16,7 @@ describe('RepoTitle', () => {
     total: 8.04,
   };
 
-  const bounty = {
-    __typename: 'Issue',
-    closed: false,
-    title: 'Good first issue',
-    body: 'This is a good first issue',
-    url: 'https://github.com/OpenQDev/OpenQ-TestRepo/issues/221',
-    number: '221',
-    id: 'I_kwDOGWnnz85I9Ahl',
-    titleHTML: 'Good first issue',
-    bodyHTML: '<p dir="auto">This is a good first issue</p>',
-    assignees: {
-      __typename: 'UserConnection',
-      nodes: [],
-    },
-    labels: {
-      __typename: 'LabelConnection',
-      edges: [
-        {
-          __typename: 'LabelEdge',
-          node: {
-            __typename: 'Label',
-            name: 'L2E',
-            color: 'fbca04',
-          },
-        },
-      ],
-    },
-    createdAt: '2022-05-03T11:05:14Z',
-    repoName: 'OpenQ-TestRepo',
-    owner: 'OpenQDev',
-    repository: {
-      __typename: 'Repository',
-      id: 'R_kgDOGWnnzw',
-      name: 'OpenQ-TestRepo',
-
-      languages: {
-        __typename: 'LanguageConnection',
-        edges: [
-          {
-            __typename: 'LanguageEdge',
-            node: {
-              __typename: 'Language',
-              name: 'JavaScript',
-              color: 'yellow',
-            },
-          },
-        ],
-      },
-      owner: {
-        __typename: 'Organization',
-        login: 'OpenQDev',
-        avatarUrl: 'https://avatars.githubusercontent.com/u/77402538?v=4',
-        url: 'https://github.com/OpenQDev',
-      },
-    },
-    timelineItems: {
-      edges: [],
-    },
-  };
+  const bounty = Constants.bounty;
 
   it('should render BountyDetails', async () => {
     // Arrange

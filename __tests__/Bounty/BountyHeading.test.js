@@ -5,15 +5,10 @@ import React from 'react';
 
 import { render, screen, waitFor } from '../../test-utils';
 import BountyHeading from '../../components/Bounty/BountyHeading';
-import mocks from '../../__mocks__/mock-server.json';
-import InitialState from '../../store/Store/InitialState';
+import Constants from '../../test-utils/constant';
 
 describe('BountyHeading', () => {
-  const newBounties = mocks.bounties;
-  const issueData = InitialState.githubRepository.parseIssuesData(mocks.githubIssues);
-  const prismaContracts = mocks.prismaBounties;
-  const fullBounties = InitialState.utils.combineBounties(newBounties, issueData, prismaContracts.bounties.nodes);
-
+  const bounty = Constants.bounty;
   beforeEach(() => {
     const observe = jest.fn();
     const disconnect = jest.fn();
@@ -31,7 +26,7 @@ describe('BountyHeading', () => {
 
       // ASSERT
       await waitFor(async () => {
-        const title = screen.getByText(/No way to disable HMR/i);
+        const title = screen.getByText(/Properly Referenced and Merged by FlacoJones/i);
         expect(title).toBeInTheDocument();
 
         const mintBountyButton = screen.getByText(/Contract/);
@@ -47,5 +42,5 @@ describe('BountyHeading', () => {
     });
   };
 
-  test(fullBounties[0], 19);
+  test(bounty);
 });

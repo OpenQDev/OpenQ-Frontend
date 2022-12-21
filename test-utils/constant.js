@@ -4,6 +4,23 @@ export default class Constants {
   static get bountyId() {
     return 'I_kwDOGAqhQc48U5_r';
   }
+  static get claimant() {
+    return { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' };
+  }
+  static get claimantAsset() {
+    return 'https://github.com/ArcAnya/OpenQ-TestRepo/pull/153';
+  }
+  static get claim() {
+    return {
+      claimTime: Constants.claimTime,
+      claimant: Constants.claimant,
+      claimantAsset: Constants.claimantAsset,
+      __typename: 'Claim',
+    };
+  }
+  static get claimTime() {
+    return '1661767948472';
+  }
   static get body() {
     return 'body of test2';
   }
@@ -52,6 +69,12 @@ export default class Constants {
   }
   static get number() {
     return 8;
+  }
+
+  static get authState() {
+    return {
+      login: 'Christopher-Stevers',
+    };
   }
   static get prs() {
     return [Constants.pr1];
@@ -210,8 +233,11 @@ export default class Constants {
   static get payoutTokenAddress() {
     return '0x5fbdb2315678afecb367f032d93f642f64180aa3';
   }
-  static get payoutSchedule() {
+  static get payoutSchedule0() {
     return null;
+  }
+  static get payoutSchedule2() {
+    return ['30', '60', '10'];
   }
   static get closerData() {
     return null;
@@ -265,7 +291,38 @@ export default class Constants {
       __typename: 'Deposit',
     };
   }
+  static get payouts() {
+    return [Constants.payout1, Constants.payout2, Constants.payout3];
+  }
 
+  static get payout1() {
+    return {
+      tokenAddress: Constants.maticAddress,
+      volume: '700000000000000000000',
+      closer: { id: '0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc', __typename: 'User' },
+      __typename: 'Payout',
+    };
+  }
+
+  static get payout2() {
+    return {
+      tokenAddress: Constants.linkAddress,
+      volume: '300000000000000000000',
+      payoutTime: '1663576393',
+      closer: { id: '0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc', __typename: 'User' },
+      __typename: 'Payout',
+    };
+  }
+
+  static get payout3() {
+    return {
+      tokenAddress: Constants.daiAddress,
+      volume: Constants.volume,
+      payoutTime: '1663576393',
+      closer: { id: '0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc', __typename: 'User' },
+      __typename: 'Payout',
+    };
+  }
   static get refunds() {
     return [Constants.refund1];
   }
@@ -279,9 +336,6 @@ export default class Constants {
     };
   }
 
-  static get payouts() {
-    return [];
-  }
   static get issuer() {
     return {
       __typename: 'User',
@@ -345,6 +399,18 @@ export default class Constants {
   static get organization() {
     return { blacklisted: false, __typename: 'Organization' };
   }
+  static get bountyTypeFixed() {
+    return '0';
+  }
+  static get bountyTypeSplit() {
+    return '1';
+  }
+  static get bountyTypeContest() {
+    return '2';
+  }
+  static get bountyTypeFixedContest() {
+    return '3';
+  }
   static get bounty() {
     return {
       id: Constants.id,
@@ -374,6 +440,8 @@ export default class Constants {
       refunds: Constants.refunds,
       bountyTokenBalances: Constants.bountyTokenBalances,
       issuer: Constants.issuer,
+      bountyType: Constants.bountyTypeFixed,
+      payoutSchedule: Constants.payoutSchedule0,
     };
   }
 }

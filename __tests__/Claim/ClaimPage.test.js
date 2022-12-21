@@ -8,7 +8,7 @@ import axios from 'axios';
 import InitialState from '../../store/Store/InitialState';
 import userEvent from '@testing-library/user-event';
 import nextRouter from 'next/router';
-
+import Constants from '../../test-utils/constant';
 nextRouter.useRouter = jest.fn();
 const push = jest.fn(() => {
   return { catch: jest.fn };
@@ -24,23 +24,7 @@ describe('ClaimPage', () => {
       push,
     }));
   });
-  const bounty = {
-    __typename: 'Bounty',
-    bountyAddress: '0x1f191c4166865882b26551fb8618668b7a67d0fb',
-    bountyId: 'I_kwDOBC3Cis5Kk2OD',
-    bountyMintTime: '1654260766',
-    bountyClosedTime: null,
-    status: 'OPEN',
-    bountyType: '2',
-    payoutSchedule: ['70', '20', '10'],
-    claimedTransactionHash: null,
-    deposits: [],
-    issuer: {
-      __typename: 'User',
-      id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
-    },
-    bountyTokenBalances: [],
-  };
+  const bounty = Constants.bounty;
   jest.mock('axios');
   axios.get = jest.fn().mockResolvedValue({ data: { data: 'true' } });
 
