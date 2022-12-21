@@ -25,10 +25,10 @@ export const GET_PR_BY_ID = gql`
 `;
 
 // TODO: "Cannot query field \"prs\" on type \"Query\". Did you mean \"pr\"?"
-export const GET_ALL_PRS = gql`
-  query prs {
-    prs {
-      prId
+export const GET_ALL_SUBMISSIONS = gql`
+  query getALlSubmissions {
+    submissions {
+      id
       blacklisted
     }
   }
