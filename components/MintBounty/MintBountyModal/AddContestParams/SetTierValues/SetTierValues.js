@@ -39,7 +39,7 @@ const SetTierValues = ({
 
   function onFixedTierChange(e) {
     const newVolumes = [...finalTierVolumes];
-    newVolumes[e.name] = parseInt(e.target.value);
+    newVolumes[e.name] = parseFloat(e.target.value);
     setFixedTierVolumes(newVolumes);
     setFinalTierVolumes(newVolumes);
   }

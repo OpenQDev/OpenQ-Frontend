@@ -14,7 +14,7 @@ const TextTierInput = ({ tier, tierVolumes, onTierVolumeChange, style, decimal }
   const handleChange = (value, tierVolumes) => {
     const formattedValue = appState.utils.contestNumberFormat(value, decimal);
     setLocalValue(formattedValue);
-    if (parseInt(formattedValue)) {
+    if (formattedValue) {
       const passedValue = formattedValue;
       onTierVolumeChange(
         {
