@@ -16,7 +16,10 @@ const InvoiceableToggle = () => {
     <div className='flex flex-col  gap-2 py-2 w-full items-start  text-base bg-[#161B22]'>
       <div className='flex items-center gap-2 font-semibold'>
         Is this Contract invoiceable?
-        <ToolTipNew toolTipText={'Do you want an invoiceable for this contract?'}>
+        <ToolTipNew
+          innerStyles={'w-40 whitespace-normal'}
+          toolTipText={'Do you want an invoiceable for this contract?'}
+        >
           <div className='cursor-help rounded-full border border-[#c9d1d9] text-sm aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
             ?
           </div>

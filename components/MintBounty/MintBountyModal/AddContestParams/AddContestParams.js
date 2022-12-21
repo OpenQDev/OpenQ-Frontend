@@ -70,7 +70,10 @@ const AddContestParams = () => {
       <div className=' w-11/12 text-base flex flex-col gap-2'>
         <div className='flex items-center gap-2 font-semibold'>
           How many Tiers?
-          <ToolTipNew mobileX={10} toolTipText={"How many people will be able to claim a prize? Don't exceed 100."}>
+          <ToolTipNew
+            innerStyles={'w-40 whitespace-normal'}
+            toolTipText={"How many people will be able to claim a prize? Don't exceed 100."}
+          >
             <div className='cursor-help rounded-full border border-[#c9d1d9] text-sm aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
               ?
             </div>

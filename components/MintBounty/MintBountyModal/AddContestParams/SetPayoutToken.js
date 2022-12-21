@@ -31,7 +31,7 @@ const SetPayoutToken = ({ content }) => {
           <div className='flex items-center gap-2'>
             <div className='flex items-center gap-2 font-semibold '>
               {content.body}
-              <ToolTipNew mobileX={10} toolTipText={content.message}>
+              <ToolTipNew innerStyles={'w-40 whitespace-normal'} toolTipText={content.message}>
                 <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>
                   ?
                 </div>
