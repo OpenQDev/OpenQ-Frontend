@@ -96,10 +96,18 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
   return (
     <ul className='lg:max-w-[300px] w-full lg:pl-4'>
       {bounty.bountyType && (
-        <li className='border-b border-web-gray py-3'>
-          <div className='text-xs font-semibold text-muted'>Type of Contract</div>
-          <div className='text-xs font-semibold text-primary leading-loose'>{type}</div>
-        </li>
+        <>
+          <li className='border-b border-web-gray py-3'>
+            <div className='text-xs font-semibold text-muted'>Type of Contract</div>
+            <div className='text-xs font-semibold text-primary leading-loose'>{type}</div>
+          </li>
+          <li className='border-b border-web-gray py-3'>
+            <div className='text-xs font-semibold text-muted'>Invoiceable 🧾 </div>
+            <div className='text-xs font-semibold text-primary leading-loose'>
+              {bounty.invoiceable ? 'Contract is invoiceable ✅' : 'Contract is not invoiceable ❌'}
+            </div>
+          </li>
+        </>
       )}
       <li className='border-b border-web-gray py-3'>
         <div className='text-xs font-semibold text-muted'>
