@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen } from '../../test-utils/test-utils';
+import { render, screen } from '../../test-utils';
 import axios from 'axios';
 import InitialState from '../../store/Store/InitialState';
 
