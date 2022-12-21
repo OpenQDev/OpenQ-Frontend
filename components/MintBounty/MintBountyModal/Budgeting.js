@@ -39,7 +39,7 @@ const Budgeting = ({ category }) => {
             Set a Budget
             <input type='checkbox' className='checkbox' onChange={() => setBudget(!budget)}></input>
             <ToolTipNew
-              mobileX={10}
+              innerStyles={'w-40 whitespace-normal'}
               toolTipText={
                 category === 'Fixed Price'
                   ? 'Amount of funds you would like to escrow on this issue.'
