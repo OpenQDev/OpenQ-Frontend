@@ -142,6 +142,7 @@ const SetTierValues = ({
                       tier={i + 1}
                       tierVolumes={finalTierVolumes}
                       onTierVolumeChange={onTierVolumeChange}
+                      decimal={false}
                     />
                   </div>
                 );
@@ -155,7 +156,12 @@ const SetTierValues = ({
           {tierArr.map((t, i) => {
             return (
               <div key={i}>
-                <TextTierInput tier={i + 1} tierVolumes={fixedTierVolumes} onTierVolumeChange={onFixedTierChange} />
+                <TextTierInput
+                  tier={i + 1}
+                  tierVolumes={fixedTierVolumes}
+                  onTierVolumeChange={onFixedTierChange}
+                  decimal={true}
+                />
               </div>
             );
           })}

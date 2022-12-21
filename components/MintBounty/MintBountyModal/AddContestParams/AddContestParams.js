@@ -3,8 +3,10 @@ import ToolTipNew from '../../../Utils/ToolTipNew';
 import SetPayoutToken from './SetPayoutToken';
 import SetTierValues from './SetTierValues/SetTierValues';
 import MintContext from '../../MintContext';
+import StoreContext from '../../../../store/Store/StoreContext';
 
 const AddContestParams = () => {
+  const [appState] = useContext(StoreContext);
   const [tier, setTier] = useState(3);
   const [tierArr, setTierArr] = useState(['0', '1', '2']);
   const [tierVolumes, setTierVolumes] = useState({ 0: 1, 1: 1, 2: 1 });
@@ -24,7 +26,7 @@ const AddContestParams = () => {
     return null;
   };
 
-  const sum = finalTierVolumes.reduce((a, b) => a + b);
+  const sum = finalTierVolumes.length ? finalTierVolumes.reduce((a, b) => a + b) : 0;
 
   useEffect(() => {
     if (finalTierVolumes.length) {
@@ -46,16 +48,14 @@ const AddContestParams = () => {
   }, [finalTierVolumes]);
 
   function onTierChange(e) {
-    if (parseInt(e.target.value) >= 0) {
-      setTier(parseInt(e.target.value));
+    const value = e.target.value;
+    if (parseInt(value) <= 100) {
+      setTier(appState.utils.contestNumberFormat(value));
+    } else {
+      setTier('');
     }
-    if (parseInt(e.target.value) > 100) {
-      setTier('1');
-    }
-    if (e.target.value === '' || isNaN(parseInt(e.target.value))) {
-      return;
-    }
-    const newTierArr = Array.from({ length: e.target.value }, (_, i) => i);
+
+    const newTierArr = Array.from({ length: value }, (_, i) => i);
     setTierArr(newTierArr);
     const newTierVolumes = {};
     newTierArr.forEach((tier) => {
@@ -80,15 +80,15 @@ const AddContestParams = () => {
           </ToolTipNew>
         </div>
         <input
-          className={'flex-1 input-field w-full'}
+          className={'flex-1 input-field w-full number'}
           id='name'
           aria-label='tiers'
           placeholder='0'
           autoComplete='off'
-          defaultValue={3}
           type='text'
           min='0'
           max='100'
+          value={tier}
           onChange={(e) => onTierChange(e)}
         />
       </div>
