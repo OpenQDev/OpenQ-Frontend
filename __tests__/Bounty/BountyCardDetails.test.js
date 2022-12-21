@@ -6,6 +6,7 @@ import React from 'react';
 import { render, screen } from '../../test-utils';
 import BountyCardDetails from '../../components/Bounty/BountyCardDetails';
 import { waitFor } from '@testing-library/react';
+import Constants from '../../test-utils/constant';
 
 // WARNING If you change the mock data for issues you may need to change some
 // of this test's getByText invocations to getAllByText.
@@ -17,7 +18,9 @@ describe('BountyCardDetails', () => {
   };
 
   it('should display bubles in correct order', async () => {
-    const bounty = {
+    const bounty = Constants.bounty;
+
+    const oldBounty = {
       id: 'I_kwDOGWnnz85GjwA1',
       title: 'Properly Referenced and Merged by FlacoJones',
       assignees: [
@@ -162,6 +165,10 @@ describe('BountyCardDetails', () => {
       ],
       issuer: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
     };
+    bounty.refunds = oldBounty.refunds;
+    bounty.pr = oldBounty.pr;
+    bounty.closedEvents = oldBounty.closedEvents;
+    bounty.bountyTokenBalances = oldBounty.bountyTokenBalances;
     // Arrange
     render(
       <BountyCardDetails
@@ -172,6 +179,8 @@ describe('BountyCardDetails', () => {
     );
 
     // ASSERT
+    //expect(oldBounty.prs).toEqual(bounty.prs);
+
     await waitFor(() => {
       // gets actions as array
       const actions = screen.getAllByTestId('actionTitle');

@@ -24,7 +24,7 @@ import {
   GET_USERS,
   SET_IS_CONTEST,
   GET_REPOSITORIES,
-  GET_ALL_PRS,
+  GET_ALL_SUBMISSIONS,
   COMBINE_USERS,
 } from './graphql/query';
 import fetch from 'cross-fetch';
@@ -201,13 +201,13 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  getPullRequests() {
+  getSubmissions() {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
-          query: GET_ALL_PRS,
+          query: GET_ALL_SUBMISSIONS,
         });
-        resolve(result.data.prs);
+        resolve(result.data.submissions);
       } catch (e) {
         reject(e);
       }

@@ -167,6 +167,7 @@ const ActionBubble = ({ bounty, action }) => {
           )}) on ${appState.utils.formatUnixDate(action.refundTime)}.`;
     }
   }
+
   return (
     <div className='w-full pt-4 flex relative'>
       {avatarUrl ? (
