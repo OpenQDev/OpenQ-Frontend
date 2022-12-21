@@ -102,7 +102,10 @@ const SetTierValues = ({
         <div className='py-2 gap-2  flex flex-col w-full  text-base'>
           <div className='flex  gap-2 font-semibold'>
             Weight per Tier (%)
-            <ToolTipNew mobileX={10} toolTipText={'How much % of the total will each winner earn?'}>
+            <ToolTipNew
+              innerStyles={'w-40 whitespace-normal'}
+              toolTipText={'How much % of the total will each winner earn?'}
+            >
               <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 text-sm box-content text-center font-bold text-primary'>
                 ?
               </div>
