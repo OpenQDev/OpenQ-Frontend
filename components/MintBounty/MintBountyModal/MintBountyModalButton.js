@@ -29,7 +29,7 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
     enableMint,
     invoiceable,
   } = mintState;
-  const sum = finalTierVolumes.reduce((a, b) => a + b);
+  const sum = finalTierVolumes.length ? finalTierVolumes.reduce((a, b) => a + b) : 0;
 
   const enableContest = category === 'Contest' ? sum == 100 : true;
   const [appState, dispatch] = useContext(StoreContext);
