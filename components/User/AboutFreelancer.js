@@ -18,7 +18,7 @@ import GithubConnection from './OverviewTab/GithubConnection';
 import AuthContext from '../../store/AuthStore/AuthContext';
 import Username from './OverviewTab/Username';
 
-const AboutFreelancer = ({ user, starredOrganizations, showWatched, watchedBounties }) => {
+const AboutFreelancer = ({ user, starredOrganizations, watchedBounties }) => {
   const [internalMenu, setInternalMenu] = useState('Overview');
   const [appState] = useContext(StoreContext);
   const { github } = appState.accountData;
@@ -149,7 +149,7 @@ const AboutFreelancer = ({ user, starredOrganizations, showWatched, watchedBount
               </div>
             )}
             {internalMenu == 'Stars' && <Starred starredOrganizations={starredOrganizations} />}{' '}
-            {internalMenu === 'Watching' && watchedFullBounties.length > 0 && showWatched && (
+            {internalMenu === 'Watching' && isOwner && watchedFullBounties.length > 0 && (
               <Watching watchedBounties={watchedFullBounties} />
             )}
             {internalMenu === 'Invoicing Details - Freelancer' && github && <FreelancerDetails showWatched={isOwner} />}

@@ -4,14 +4,15 @@
 import React from 'react';
 import { render, screen } from '../../../test-utils';
 import TokenFundBox from '../../../components/FundBounty/SearchTokens/TokenFundBox';
+import Constants from '../../../test-utils/constant';
 
 describe('TokenFundBox', () => {
   it('should display the TokenFundBox interface', async () => {
     // ARRANGE
-    render(<TokenFundBox token={{ symbol: 'MATIC' }} />);
+    render(<TokenFundBox token={Constants.tokenMetadata} />);
 
     // ASSERT
-    expect(screen.getByText(/MATIC/i)).toBeInTheDocument();
+    expect(screen.getByText(Constants.tokenSymbol)).toBeInTheDocument();
     expect(screen.getByRole('img')).toBeInTheDocument();
     expect(screen.getByRole('textbox')).toBeInTheDocument();
 

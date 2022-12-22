@@ -11,7 +11,7 @@ const AuthButton = ({ redirectUrl, propicUrl, className, hideSignOut, signInStyl
     <div className={`w-full justify-center ${className}`}>
       {authState.githubId ? (
         !hideSignOut ? (
-          <SignOut propicUrl={propicUrl} />
+          <SignOut propicUrl={propicUrl} styles={'justify-center'} />
         ) : null
       ) : (
         <GithubSignIn redirectUrl={redirectUrl} signInStyle={signInStyle} />

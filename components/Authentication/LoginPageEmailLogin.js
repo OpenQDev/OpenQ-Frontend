@@ -13,7 +13,7 @@ const LoginPageEmailLogin = () => {
   const [magic, setMagic] = useState(null);
   const [disabled, setDisabled] = useState(false);
   const [email, setEmail] = useState('');
-  const [appState] = useContext(StoreContext);
+  const [appState, dispatch] = useContext(StoreContext);
   const { accountData } = appState;
   const router = useRouter();
 
@@ -38,6 +38,7 @@ const LoginPageEmailLogin = () => {
         withCredentials: true,
       })
       .then(() => {
+        dispatch({ payload: {}, type: 'UPDATE_ACCOUNTDATA' });
         appState.logger.info({ message: 'Sign out success. Cookies cleared.' }, accountData.id, 'loginPageEmailLogin1');
       })
       .catch((error) => {
@@ -69,10 +70,12 @@ const LoginPageEmailLogin = () => {
         // Set the UserContext to the now logged in user
 
         const { id } = await appState.openQPrismaClient.upsertUser({ email });
-        router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${id}`);
-        // await setUser(userMetadata);
 
-        // setDisabled(false);
+        const accountData = await appState.openQPrismaClient.getUser({ email });
+
+        dispatch({ payload: accountData, type: 'UPDATE_ACCOUNTDATA' });
+
+        router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${id}`);
       }
     } catch (error) {
       setDisabled(false);

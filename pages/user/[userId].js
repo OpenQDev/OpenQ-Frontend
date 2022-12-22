@@ -76,7 +76,6 @@ export const getServerSideProps = async (context) => {
   const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
   const emailAuth = true;
   githubRepository.instance.setGraphqlHeaders(oauthToken);
-
   let userId = context.params.userId;
   let renderError = '';
   // let firstSignup = true;

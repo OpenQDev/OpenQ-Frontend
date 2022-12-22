@@ -12,7 +12,7 @@ const EmailLogin = () => {
   const [magic, setMagic] = useState(null);
   const [disabled, setDisabled] = useState(false);
   const [email, setEmail] = useState('');
-  const [appState] = useContext(StoreContext);
+  const [appState, dispatch] = useContext(StoreContext);
   const { accountData } = appState;
 
   useEffect(() => {
@@ -36,6 +36,7 @@ const EmailLogin = () => {
         withCredentials: true,
       })
       .then(() => {
+        dispatch({ payload: {}, type: 'UPDATE_ACCOUNTDATA' });
         appState.logger.info({ message: 'Sign out success. Cookies cleared.' }, accountData.id, 'emailLogin1');
       })
       .catch((error) => {
