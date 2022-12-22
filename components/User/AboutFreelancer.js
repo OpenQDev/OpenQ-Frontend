@@ -148,9 +148,8 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties }) => {
                 {isOwner && <Subscribe user={user} />}
               </div>
             )}
-            {console.log(internalMenu === 'Watching', watchedFullBounties.length > 0)}
             {internalMenu == 'Stars' && <Starred starredOrganizations={starredOrganizations} />}{' '}
-            {internalMenu === 'Watching' && watchedFullBounties.length > 0 && (
+            {internalMenu === 'Watching' && isOwner && watchedFullBounties.length > 0 && (
               <Watching watchedBounties={watchedFullBounties} />
             )}
             {internalMenu === 'Invoicing Details - Freelancer' && github && <FreelancerDetails showWatched={isOwner} />}

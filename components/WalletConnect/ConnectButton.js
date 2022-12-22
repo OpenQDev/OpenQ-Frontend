@@ -6,8 +6,8 @@ import useWeb3 from '../../hooks/useWeb3';
 import useConnectOnLoad from '../../hooks/useConnectOnLoad';
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
 import AccountModal from './AccountModal';
+
 import ConnectModal from './ConnectModal';
-import useEns from '../../hooks/useENS';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
 import StoreContext from '../../store/Store/StoreContext';
 import AuthContext from '../../store/AuthStore/AuthContext';
@@ -15,12 +15,12 @@ import ToolTipNew from '../Utils/ToolTipNew';
 import Image from 'next/image';
 import Signup from '../Authentication/Signup';
 import LogIn from '../Authentication/LogIn';
+import ProfileModal from './ProfileModal';
 // import axios from 'axios';
 
 const ConnectButton = ({ needsGithub, nav, tooltipAction, centerStyles }) => {
   // Context
   const { chainId, error, account, safe } = useWeb3();
-  const [ensName] = useEns(account);
   const [authState] = useContext(AuthContext);
   const [appState, dispatch] = useContext(StoreContext);
   const { accountData } = appState;
@@ -140,16 +140,7 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, centerStyles }) => {
                       </svg>
                     </span>
                   </button>
-                  {showAccountModal && (
-                    <AccountModal
-                      domRef={modalRef}
-                      account={account}
-                      ensName={ensName}
-                      chainId={chainId}
-                      setIsConnecting={setIsConnecting}
-                      isSafeApp={safe}
-                    />
-                  )}
+                  <AccountModal setIsConnecting={setIsConnecting} domRef={modalRef} showModal={showAccountModal} />
                 </div>
               )}
             </>
@@ -223,7 +214,7 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, centerStyles }) => {
                   </span>
                 </button>
               </div>
-              {showProfileModal && <AccountModal domRef={modalRef} isSafeApp={safe} />}
+              <ProfileModal showModal={showProfileModal} domRef={modalRef} isSafeApp={safe} />
             </div>
           )}
           {walletConnectModal && <ConnectModal closeModal={closeModal} setShowModal={setShowAccountModal} />}

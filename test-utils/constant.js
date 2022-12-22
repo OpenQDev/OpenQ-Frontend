@@ -1,5 +1,42 @@
 export default class Constants {
   constructor() {}
+  static get githubUserId() {
+    return 'MDQ6VXNlcjcyMTU2Njc5';
+  }
+
+  static get uuid() {
+    return '63a3a266ab24d99d359a6d51';
+  }
+
+  static get email() {
+    return 'abc123@gmail.com';
+  }
+
+  static get userName() {
+    return 'Christopher';
+  }
+  static getTwitter() {
+    return 'https://twitter.com/Christo28120856';
+  }
+  static getWatchedBounties() {
+    return { __typename: 'Bounties', nodes: [] };
+  }
+  static getStarredOrganizationIds() {
+    return [];
+  }
+
+  static get accountData() {
+    return {
+      id: Constants.uuid,
+      github: Constants.githubUserId,
+      email: Constants.email,
+      username: Constants.userName,
+      twitter: 'https://twitter.com/Christo28120856',
+
+      watchedBounties: Constants.watchedBounties,
+      starredOrganizationIds: Constants.starredOrganizationIds,
+    };
+  }
 
   static get bountyId() {
     return 'I_kwDOGAqhQc48U5_r';
