@@ -45,7 +45,7 @@ const AccountModal = ({ chainId, account, ensName, setIsConnecting, domRef, isSa
 
           <div
             ref={domRef}
-            className='flex absolute flex-col mt-0 z-10 bg-[#161B22] w-40 tooltip border-gray-700 border rounded-sm p-0'
+            className='flex absolute flex-col mt-0 z-[5] bg-[#161B22] w-40 tooltip border-gray-700 border rounded-sm p-0'
           >
             <div className='flex text-[#c9d1d9] items-center w-full h-8 p-2 mt-2 ml-2 m-0'>{networkName}</div>
 
@@ -72,11 +72,11 @@ const AccountModal = ({ chainId, account, ensName, setIsConnecting, domRef, isSa
       ) : (
         <div className='flex mr-4 flex-col items-center relative right-7'>
           <div className='flex -mt-2 md:-mt-2 border-b-gray-700 tooltip-triangle absolute left-10'></div>
-          <div className='flex z-40 -mt-1.5 md:-mt-1.5 border-b-[#161B22] tooltip-triangle absolute left-10'></div>
+          <div className='flex z-10 -mt-1.5 md:-mt-1.5 border-b-[#161B22] tooltip-triangle absolute left-10'></div>
 
           <div
             ref={domRef}
-            className='flex absolute flex-col mt-0 pt-2 z-30 bg-[#161B22] w-52 tooltip border-gray-700 border rounded-sm p-0'
+            className='flex absolute flex-col mt-0 pt-2 z-[5] bg-[#161B22] w-52 tooltip border-gray-700 border rounded-sm p-0'
           >
             <div className='flex flex-wrap text-[#c9d1d9]  pl-4  w-full p-3  m-0 gap-1'>
               <span className='text-left break-all'> Signed in as </span>
