@@ -43,7 +43,7 @@ const AccountModal = ({ setIsConnecting, domRef, showModal }) => {
 
       <div
         ref={domRef}
-        className='flex absolute flex-col mt-0 z-10 bg-[#161B22] w-40 tooltip border-gray-700 border rounded-sm p-0'
+        className='flex absolute flex-col mt-0 z-[5] bg-[#161B22] w-40 tooltip border-gray-700 border rounded-sm p-0'
       >
         <div className='flex text-[#c9d1d9] items-center w-full h-8 p-2 mt-2 ml-2 m-0'>{networkName}</div>
 
