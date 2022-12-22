@@ -6,83 +6,9 @@ import { render, screen } from '../../test-utils';
 import AdminPage from '../../components/Admin/AdminPage';
 import InitialState from '../../store/Store/InitialState';
 import { waitFor } from '@testing-library/react';
+import Constants from '../../test-utils/constant';
 
-const bounties = [
-  // bounty closed
-  {
-    __typename: 'Bounty',
-    bountyAddress: '0x3q191c4166865882b26551fb8618668b7a67fexc',
-    bountyId: 'I_kwDOBC3Cis5Kk2OD',
-    bountyMintTime: '1654260766',
-    bountyClosedTime: null,
-    status: '1',
-    bountyType: '2',
-    payoutSchedule: ['70', '20', '10'],
-    claimedTransactionHash: null,
-    owner: 'OpenQDev',
-    deposits: [],
-    issuer: {
-      __typename: 'User',
-      id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
-    },
-    bountyTokenBalances: [],
-  },
-  // bounty open Type 0 = fixed price
-  {
-    __typename: 'Bounty',
-    bountyAddress: '0x1f191c4166865882b26551fb8618668b7a67d0fb',
-    bountyId: 'I_kwDOBC3Cis5Kk2OE',
-    bountyMintTime: '1654260766',
-    bountyClosedTime: null,
-    status: '0',
-    bountyType: '0',
-    claimedTransactionHash: null,
-    owner: 'OpenQDev',
-    deposits: [],
-    issuer: {
-      __typename: 'User',
-      id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
-    },
-    bountyTokenBalances: [],
-  },
-  // bounty open Type 1 = split price
-  {
-    __typename: 'Bounty',
-    bountyAddress: '0x1f191c4166865882b26551fb8618668b7a67d0ab',
-    bountyId: 'I_kwDOBC3Cis5Kk2OF',
-    bountyMintTime: '1654260766',
-    bountyClosedTime: null,
-    status: '0',
-    bountyType: '1',
-    claimedTransactionHash: null,
-    owner: 'OpenQDev',
-    deposits: [],
-    issuer: {
-      __typename: 'User',
-      id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
-    },
-    bountyTokenBalances: [],
-  },
-  // bounty open Type 2 = contest %
-  {
-    __typename: 'Bounty',
-    bountyAddress: '0x1f191c4166865882b26551fb8618668b7a67d0cd',
-    bountyId: 'I_kwDOBC3Cis5Kk2OG',
-    bountyMintTime: '1654260766',
-    bountyClosedTime: null,
-    status: '0',
-    bountyType: '2',
-    payoutSchedule: ['70', '20', '10'],
-    claimedTransactionHash: null,
-    owner: 'OpenQDev',
-    deposits: [],
-    issuer: {
-      __typename: 'User',
-      id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
-    },
-    bountyTokenBalances: [],
-  },
-];
+const bounties = Constants.bounties;
 
 describe('AdminPage', () => {
   beforeEach(() => {
