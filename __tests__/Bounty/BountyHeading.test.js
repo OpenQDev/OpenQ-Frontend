@@ -8,7 +8,7 @@ import BountyHeading from '../../components/Bounty/BountyHeading';
 import Constants from '../../test-utils/constant';
 
 describe('BountyHeading', () => {
-  const bounty = Constants.bounty;
+  const bounties = Constants.bounties;
   beforeEach(() => {
     const observe = jest.fn();
     const disconnect = jest.fn();
@@ -41,6 +41,7 @@ describe('BountyHeading', () => {
       });
     });
   };
-
-  test(bounty);
+  bounties.forEach((bounty) => {
+    test(bounty);
+  });
 });

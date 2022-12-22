@@ -814,6 +814,13 @@ export default class Constants {
       bountyType: Constants.bountyTypeContest,
     };
   }
+  static get bounty3() {
+    return {
+      ...Constants.bounty,
+      payoutSchedule: Constants.payoutSchedule2,
+      bountyType: Constants.bountyTypeFixedContest,
+    };
+  }
 
   static get bounties() {
     return [
@@ -821,6 +828,7 @@ export default class Constants {
       Constants.bounty0,
       Constants.bounty1,
       Constants.bounty2,
+      Constants.bounty3,
     ];
   }
 }
