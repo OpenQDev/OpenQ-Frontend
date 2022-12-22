@@ -5,6 +5,7 @@ import axios from 'axios';
 import AuthContext from '../../store/AuthStore/AuthContext';
 import Image from 'next/image';
 import StoreContext from '../../store/Store/StoreContext';
+import { SignOutIcon } from '@primer/octicons-react';
 
 const SignOut = ({ propicUrl, styles, hidePropPic }) => {
   const [, setAuthState] = useContext(AuthContext);
@@ -32,7 +33,11 @@ const SignOut = ({ propicUrl, styles, hidePropPic }) => {
       className={`flex   btn-default hover:border-[#8b949e] hover:bg-[#30363d] w-full ${styles} `}
     >
       <div className='flex flex-row justify-center items-center space-x-3'>
-        {!hidePropPic && (
+        {!hidePropPic ? (
+          <div className='py-1'>
+            <SignOutIcon className='w-4 h-4 ml-2 ' />
+          </div>
+        ) : (
           <div className='h-4 w-4 md:h-6 md:w-6 relative'>
             <Image
               src={propicUrl || '/social-icons/github-logo-white.svg'}

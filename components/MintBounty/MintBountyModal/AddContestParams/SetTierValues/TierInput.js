@@ -96,7 +96,7 @@ const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
         onMouseMove={handleMouseMove}
         className={`flex w-11/12 text-sm content-center items-center gap-2 mb-1 ${style}`}
       >
-        <div className='w-9 flex none w-full'>{tierVolumes[tier]}%</div>
+        <div className='w-9 flex none'>{tierVolumes[tier]}%</div>
         <div ref={widthParent} className='w-full rounded-full overflow-hidden border border-transparent h-4'>
           <div
             style={{

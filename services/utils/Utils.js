@@ -88,6 +88,16 @@ class Utils {
       updater(volume.match(numberRegex)[0]);
     }
   }
+
+  contestNumberFormat(volume, decimal) {
+    const numberRegex = decimal ? /^(\d+)?(\.)?(\d+)?$/ : /^(\d+)?$/;
+    if (numberRegex.test(volume) || volume === '') {
+      return volume.match(numberRegex)[0];
+    } else {
+      return 0;
+    }
+  }
+
   // Thanks rmwxiong https://gist.github.com/rmwxiong/ad6e922dcc739a599640/02854508d14e737e38293c5467d75c45843830c8
   avgcolor(color1, color2) {
     var avg = function (a, b) {
