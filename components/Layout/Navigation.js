@@ -166,19 +166,21 @@ const Navigation = () => {
           </div>
         </div>
       </div>
-      {openMenu && includeSearch ? (
+      {openMenu ? (
         <div className='flex lg:hidden w-full'>
           <div className='flex flex-col p-4 space-x-1 space-y-2 w-full'>
-            <div className='flex-col mr-2 h-7  group'>
-              <input
-                className='flex pr-4 items-center input-field'
-                onChange={handleSearch}
-                value={quickSearch}
-                type='text'
-                placeholder='Search OpenQ'
-              ></input>
-              {quickSearch && <LinkDropdown items={items} />}
-            </div>
+            {includeSearch && (
+              <div className='flex-col mr-2 h-7  group'>
+                <input
+                  className='flex pr-4 items-center input-field'
+                  onChange={handleSearch}
+                  value={quickSearch}
+                  type='text'
+                  placeholder='Search OpenQ'
+                ></input>
+                {quickSearch && <LinkDropdown items={items} />}
+              </div>
+            )}
             <NavLinks />
           </div>
         </div>
