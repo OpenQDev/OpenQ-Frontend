@@ -1,5 +1,333 @@
+import { BigNumber } from 'ethers';
+
 export default class Constants {
   constructor() {}
+  static get githubUserId() {
+    return 'MDQ6VXNlcjcyMTU2Njc5';
+  }
+
+  static get uuid() {
+    return '63a3a266ab24d99d359a6d51';
+  }
+  static get modalPayout() {
+    return {
+      transaction: {
+        to: '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
+        from: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+        contractAddress: null,
+        transactionIndex: 0,
+        gasUsed: {
+          type: 'BigNumber',
+          hex: '0x013cde',
+        },
+        logsBloom:
+          '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000240000000000000000000000000000000100000000000000000000000000000000001000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000',
+        blockHash: '0xfbd15e811bcee46ef985879debf4bd1495412593b400b6b01760cc4aeded977f',
+        transactionHash: '0x49ef7a99c1bf9790f9de69d8fd8622d668c6e217db150157ca46c11fe652da35',
+        logs: [
+          {
+            transactionIndex: 0,
+            blockNumber: 92,
+            transactionHash: '0x49ef7a99c1bf9790f9de69d8fd8622d668c6e217db150157ca46c11fe652da35',
+            address: '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
+            topics: ['0x9ebf11c1043e634700e1019f0f2f99b428b0fe7e1d5f1d1a5cb3fc74137eb957'],
+            data: '0x000000000000000000000000f752c6324fb1b9e776ff6559ce7723b9decbd0490000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a688906bd8b00000000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000',
+            logIndex: 0,
+            blockHash: '0xfbd15e811bcee46ef985879debf4bd1495412593b400b6b01760cc4aeded977f',
+          },
+        ],
+        blockNumber: 92,
+        confirmations: 1,
+        cumulativeGasUsed: {
+          type: 'BigNumber',
+          hex: '0x013cde',
+        },
+        effectiveGasPrice: {
+          type: 'BigNumber',
+          hex: '0x01668feb11',
+        },
+        status: 1,
+        type: 2,
+        byzantium: true,
+        events: [
+          {
+            transactionIndex: 0,
+            blockNumber: 92,
+            transactionHash: '0x49ef7a99c1bf9790f9de69d8fd8622d668c6e217db150157ca46c11fe652da35',
+            address: '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
+            topics: ['0x9ebf11c1043e634700e1019f0f2f99b428b0fe7e1d5f1d1a5cb3fc74137eb957'],
+            data: '0x000000000000000000000000f752c6324fb1b9e776ff6559ce7723b9decbd0490000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a688906bd8b00000000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000',
+            logIndex: 0,
+            blockHash: '0xfbd15e811bcee46ef985879debf4bd1495412593b400b6b01760cc4aeded977f',
+            args: [
+              '0xF752C6324fb1b9e776FF6559CE7723b9DecBD049',
+              '0x0000000000000000000000000000000000000000',
+              BigNumber.from({ _hex: '0x0de0b6b3a7640000', _isBigNumber: true }),
+              {
+                type: 'BigNumber',
+                hex: '0x03',
+              },
+              '0x',
+              {
+                type: 'BigNumber',
+                hex: '0x01',
+              },
+            ],
+            event: 'FundingGoalSet',
+            eventSignature: 'FundingGoalSet(address,address,uint256,uint256,bytes,uint256)',
+          },
+        ],
+      },
+      type: 'Payout',
+    };
+  }
+  static get modalBudget() {
+    return {
+      transaction: {
+        to: '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
+        from: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+        contractAddress: null,
+        transactionIndex: 0,
+        gasUsed: {
+          type: 'BigNumber',
+          hex: '0x013cde',
+        },
+        logsBloom:
+          '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000240000000000000000000000000000000100000000000000000000000000000000001000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000',
+        blockHash: '0xfbd15e811bcee46ef985879debf4bd1495412593b400b6b01760cc4aeded977f',
+        transactionHash: '0x49ef7a99c1bf9790f9de69d8fd8622d668c6e217db150157ca46c11fe652da35',
+        logs: [
+          {
+            transactionIndex: 0,
+            blockNumber: 92,
+            transactionHash: '0x49ef7a99c1bf9790f9de69d8fd8622d668c6e217db150157ca46c11fe652da35',
+            address: '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
+            topics: ['0x9ebf11c1043e634700e1019f0f2f99b428b0fe7e1d5f1d1a5cb3fc74137eb957'],
+            data: '0x000000000000000000000000f752c6324fb1b9e776ff6559ce7723b9decbd0490000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a688906bd8b00000000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000',
+            logIndex: 0,
+            blockHash: '0xfbd15e811bcee46ef985879debf4bd1495412593b400b6b01760cc4aeded977f',
+          },
+        ],
+        blockNumber: 92,
+        confirmations: 1,
+        cumulativeGasUsed: {
+          type: 'BigNumber',
+          hex: '0x013cde',
+        },
+        effectiveGasPrice: {
+          type: 'BigNumber',
+          hex: '0x01668feb11',
+        },
+        status: 1,
+        type: 2,
+        byzantium: true,
+        events: [
+          {
+            transactionIndex: 0,
+            blockNumber: 92,
+            transactionHash: '0x49ef7a99c1bf9790f9de69d8fd8622d668c6e217db150157ca46c11fe652da35',
+            address: '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
+            topics: ['0x9ebf11c1043e634700e1019f0f2f99b428b0fe7e1d5f1d1a5cb3fc74137eb957'],
+            data: '0x000000000000000000000000f752c6324fb1b9e776ff6559ce7723b9decbd0490000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a688906bd8b00000000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000',
+            logIndex: 0,
+            blockHash: '0xfbd15e811bcee46ef985879debf4bd1495412593b400b6b01760cc4aeded977f',
+            args: [
+              '0xF752C6324fb1b9e776FF6559CE7723b9DecBD049',
+              '0x0000000000000000000000000000000000000000',
+              BigNumber.from({ _hex: '0x0de0b6b3a7640000', _isBigNumber: true }),
+              {
+                type: 'BigNumber',
+                hex: '0x03',
+              },
+              '0x',
+              {
+                type: 'BigNumber',
+                hex: '0x01',
+              },
+            ],
+            event: 'FundingGoalSet',
+            eventSignature: 'FundingGoalSet(address,address,uint256,uint256,bytes,uint256)',
+          },
+        ],
+      },
+      type: 'Budget',
+    };
+  }
+  static get modalClosedSplitPrice() {
+    return {
+      transaction: {
+        to: '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
+        from: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+        contractAddress: null,
+        transactionIndex: 0,
+        gasUsed: {
+          type: 'BigNumber',
+          hex: '0x013cde',
+        },
+        logsBloom:
+          '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000240000000000000000000000000000000100000000000000000000000000000000001000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000',
+        blockHash: '0xfbd15e811bcee46ef985879debf4bd1495412593b400b6b01760cc4aeded977f',
+        transactionHash: '0x49ef7a99c1bf9790f9de69d8fd8622d668c6e217db150157ca46c11fe652da35',
+        logs: [
+          {
+            transactionIndex: 0,
+            blockNumber: 92,
+            transactionHash: '0x49ef7a99c1bf9790f9de69d8fd8622d668c6e217db150157ca46c11fe652da35',
+            address: '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
+            topics: ['0x9ebf11c1043e634700e1019f0f2f99b428b0fe7e1d5f1d1a5cb3fc74137eb957'],
+            data: '0x000000000000000000000000f752c6324fb1b9e776ff6559ce7723b9decbd0490000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a688906bd8b00000000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000',
+            logIndex: 0,
+            blockHash: '0xfbd15e811bcee46ef985879debf4bd1495412593b400b6b01760cc4aeded977f',
+          },
+        ],
+        blockNumber: 92,
+        confirmations: 1,
+        cumulativeGasUsed: {
+          type: 'BigNumber',
+          hex: '0x013cde',
+        },
+        effectiveGasPrice: {
+          type: 'BigNumber',
+          hex: '0x01668feb11',
+        },
+        status: 1,
+        type: 2,
+        byzantium: true,
+        events: [
+          {
+            transactionIndex: 0,
+            blockNumber: 92,
+            transactionHash: '0x49ef7a99c1bf9790f9de69d8fd8622d668c6e217db150157ca46c11fe652da35',
+            address: '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
+            topics: ['0x9ebf11c1043e634700e1019f0f2f99b428b0fe7e1d5f1d1a5cb3fc74137eb957'],
+            data: '0x000000000000000000000000f752c6324fb1b9e776ff6559ce7723b9decbd0490000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a688906bd8b00000000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000',
+            logIndex: 0,
+            blockHash: '0xfbd15e811bcee46ef985879debf4bd1495412593b400b6b01760cc4aeded977f',
+            args: [
+              '0xF752C6324fb1b9e776FF6559CE7723b9DecBD049',
+              '0x0000000000000000000000000000000000000000',
+              BigNumber.from({ _hex: '0x0de0b6b3a7640000', _isBigNumber: true }),
+              {
+                type: 'BigNumber',
+                hex: '0x03',
+              },
+              '0x',
+              {
+                type: 'BigNumber',
+                hex: '0x01',
+              },
+            ],
+            event: 'FundingGoalSet',
+            eventSignature: 'FundingGoalSet(address,address,uint256,uint256,bytes,uint256)',
+          },
+        ],
+      },
+      type: 'Closed Split Price',
+    };
+  }
+  static get modalClosedContest() {
+    return {
+      transaction: {
+        to: '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
+        from: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+        contractAddress: null,
+        transactionIndex: 0,
+        gasUsed: {
+          type: 'BigNumber',
+          hex: '0x013cde',
+        },
+        logsBloom:
+          '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000240000000000000000000000000000000100000000000000000000000000000000001000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000',
+        blockHash: '0xfbd15e811bcee46ef985879debf4bd1495412593b400b6b01760cc4aeded977f',
+        transactionHash: '0x49ef7a99c1bf9790f9de69d8fd8622d668c6e217db150157ca46c11fe652da35',
+        logs: [
+          {
+            transactionIndex: 0,
+            blockNumber: 92,
+            transactionHash: '0x49ef7a99c1bf9790f9de69d8fd8622d668c6e217db150157ca46c11fe652da35',
+            address: '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
+            topics: ['0x9ebf11c1043e634700e1019f0f2f99b428b0fe7e1d5f1d1a5cb3fc74137eb957'],
+            data: '0x000000000000000000000000f752c6324fb1b9e776ff6559ce7723b9decbd0490000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a688906bd8b00000000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000',
+            logIndex: 0,
+            blockHash: '0xfbd15e811bcee46ef985879debf4bd1495412593b400b6b01760cc4aeded977f',
+          },
+        ],
+        blockNumber: 92,
+        confirmations: 1,
+        cumulativeGasUsed: {
+          type: 'BigNumber',
+          hex: '0x013cde',
+        },
+        effectiveGasPrice: {
+          type: 'BigNumber',
+          hex: '0x01668feb11',
+        },
+        status: 1,
+        type: 2,
+        byzantium: true,
+        events: [
+          {
+            transactionIndex: 0,
+            blockNumber: 92,
+            transactionHash: '0x49ef7a99c1bf9790f9de69d8fd8622d668c6e217db150157ca46c11fe652da35',
+            address: '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
+            topics: ['0x9ebf11c1043e634700e1019f0f2f99b428b0fe7e1d5f1d1a5cb3fc74137eb957'],
+            data: '0x000000000000000000000000f752c6324fb1b9e776ff6559ce7723b9decbd0490000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a688906bd8b00000000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000',
+            logIndex: 0,
+            blockHash: '0xfbd15e811bcee46ef985879debf4bd1495412593b400b6b01760cc4aeded977f',
+            args: [
+              '0xF752C6324fb1b9e776FF6559CE7723b9DecBD049',
+              '0x0000000000000000000000000000000000000000',
+              BigNumber.from({ _hex: '0x0de0b6b3a7640000', _isBigNumber: true }),
+              {
+                type: 'BigNumber',
+                hex: '0x03',
+              },
+              '0x',
+              {
+                type: 'BigNumber',
+                hex: '0x01',
+              },
+            ],
+            event: 'FundingGoalSet',
+            eventSignature: 'FundingGoalSet(address,address,uint256,uint256,bytes,uint256)',
+          },
+        ],
+      },
+      type: 'PayoutSchedule',
+      finalTierVolume: [70, 20, 10],
+    };
+  }
+
+  static get email() {
+    return 'abc123@gmail.com';
+  }
+
+  static get userName() {
+    return 'Christopher';
+  }
+  static getTwitter() {
+    return 'https://twitter.com/Christo28120856';
+  }
+  static getWatchedBounties() {
+    return { __typename: 'Bounties', nodes: [] };
+  }
+  static getStarredOrganizationIds() {
+    return [];
+  }
+
+  static get accountData() {
+    return {
+      id: Constants.uuid,
+      github: Constants.githubUserId,
+      email: Constants.email,
+      username: Constants.userName,
+      twitter: 'https://twitter.com/Christo28120856',
+
+      watchedBounties: Constants.watchedBounties,
+      starredOrganizationIds: Constants.starredOrganizationIds,
+    };
+  }
 
   static get bountyId() {
     return 'I_kwDOGAqhQc48U5_r';
@@ -78,6 +406,32 @@ export default class Constants {
   }
   static get prs() {
     return [Constants.pr1];
+  }
+  static get zeroAddress() {
+    return '0x0000000000000000000000000000000000000000';
+  }
+
+  static getTokenName() {
+    return 'Dai Stablecoin';
+  }
+  static get tokenSymbol() {
+    return 'DAI';
+  }
+  static get tokenDecimals() {
+    return 18;
+  }
+  static get tokenLogoURI() {
+    return 'https://tokens.1inch.exchange/0x6b175474e89094c44da98b954eedeac495271d0f.png';
+  }
+  static get tokenMetadata() {
+    return {
+      __typename: 'TokenMetadata',
+      id: Constants.zeroAddress,
+      name: Constants.tokenName,
+      symbol: Constants.tokenSymbol,
+      decimals: Constants.tokenDecimals,
+      logoURI: Constants.tokenLogoURI,
+    };
   }
   static get pr1() {
     return {
@@ -443,5 +797,30 @@ export default class Constants {
       bountyType: Constants.bountyTypeFixed,
       payoutSchedule: Constants.payoutSchedule0,
     };
+  }
+  static get bounty0() {
+    return Constants.bounty;
+  }
+  static get bounty1() {
+    return {
+      ...Constants.bounty,
+      bountyType: '1',
+    };
+  }
+  static get bounty2() {
+    return {
+      ...Constants.bounty,
+      payoutSchedule: Constants.payoutSchedule2,
+      bountyType: Constants.bountyTypeContest,
+    };
+  }
+
+  static get bounties() {
+    return [
+      // bounty closed
+      Constants.bounty0,
+      Constants.bounty1,
+      Constants.bounty2,
+    ];
   }
 }

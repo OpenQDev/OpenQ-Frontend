@@ -4,15 +4,15 @@
  */
 import React from 'react';
 import { render, screen } from '../../test-utils';
-import AccountModal from '../../components/WalletConnect/AccountModal';
+import ProfileModal from '../../components/WalletConnect/ProfileModal';
 import nextRouter from 'next/router';
+import Constants from '../../test-utils/constant';
 // Test cases for full balances, empty balances, and undefined balances.
-
-const setIsConnecting = jest.fn();
 
 describe('AccountModal', () => {
   // Test cases for
 
+  const setIsConnecting = jest.fn();
   const push = jest.fn(() => {
     return { catch: jest.fn };
   });
@@ -35,19 +35,13 @@ describe('AccountModal', () => {
   });
 
   it('should render account modal', async () => {
+    const initialState = { accountData: Constants.accountData };
     // ARRANGE
-    render(<AccountModal showModal={true} setIsConnecting={setIsConnecting} />);
-    expect(screen.getByText(/Localhost:8545/i)).toBeInTheDocument();
-    expect(screen.getByText(/Disconnect/i)).toBeInTheDocument();
-    expect(screen.getByText(/0xf39/i)).toBeInTheDocument();
-    // ASSERT
-    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-    expect(nullish).toHaveLength(0);
-  });
-  it(`shouldn render account modal when hidden`, async () => {
-    // ARRANGE
-    render(<AccountModal showModal={false} setIsConnecting={setIsConnecting} />);
-    expect(screen.queryByText(/Disconnect/i)).not.toBeInTheDocument();
+    render(<ProfileModal showModal={true} setIsConnecting={setIsConnecting} />, {}, initialState);
+    expect(screen.getByText(/Signed in/)).toBeInTheDocument();
+    expect(screen.getByText(/Profile/i)).toBeInTheDocument();
+    expect(screen.getByText(Constants.userName)).toBeInTheDocument();
+
     // ASSERT
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);

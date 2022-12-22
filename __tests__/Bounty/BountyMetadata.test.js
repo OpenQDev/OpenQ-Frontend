@@ -8,11 +8,7 @@ import BountyMetadata from '../../components/Bounty/BountyMetadata';
 import Constants from '../../test-utils/constant';
 
 describe('BountyMetadata', () => {
-  const bounty = {
-    ...Constants.bounty,
-    bountyType: Constants.bountyTypeContest,
-    payoutSchedule: Constants.payoutSchedule2,
-  };
+  const bounty = Constants.bounty2;
 
   beforeEach(() => {
     const observe = jest.fn();

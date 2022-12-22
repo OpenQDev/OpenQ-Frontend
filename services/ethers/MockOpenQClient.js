@@ -96,7 +96,7 @@ class MockOpenQClient {
 
 	async fundBounty(library, _bountyId, _tokenAddress, _value, _depositPeriodDays) {
 		const promise = new Promise(async (resolve, reject) => {
-			await this.sleep();
+			await this.sleep(20);
 			resolve( {events: [{transactionHash:"0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e" }]})});
 		return promise;
 	}
