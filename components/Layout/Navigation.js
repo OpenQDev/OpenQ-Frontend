@@ -19,8 +19,9 @@ const Navigation = () => {
   const [appState] = useContext(StoreContext);
   const [openMenu, setOpenMenu] = useState(false);
   const [quickSearch, setQuickSearch] = useState('');
+  const includeSearch = false;
   const [items, setItems] = useState([]);
-  const [searchable, setSearchable] = useState();
+  const [searchable, setSearchable] = useState([]);
   const [loadingBar, setLoadingBar] = useState(false);
   const [changeText, setChangeText] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -99,8 +100,9 @@ const Navigation = () => {
 
       tokenClient.firstTenPrices = tokenPrices;
     };
-
-    fetchSearch();
+    if (includeSearch) {
+      fetchSearch();
+    }
   }, []);
 
   const handleSearch = (e) => {
@@ -132,18 +134,20 @@ const Navigation = () => {
             </button>
 
             <div className='lg:flex hidden  content-center  items-center'>
-              <div className='flex-col justify-center mr-2 h-7 group '>
-                <input
-                  className={`lg:flex hidden pr-4 items-center focus:w-80 w-60  left-0 input-field transition-all  ease-in-out duration-700 ${
-                    quickSearch && 'focus:w-80'
-                  }`}
-                  onChange={handleSearch}
-                  value={quickSearch}
-                  type='text'
-                  placeholder='Search OpenQ'
-                ></input>
-                {quickSearch && <LinkDropdown items={items} />}
-              </div>
+              {includeSearch && (
+                <div className='flex-col justify-center mr-2 h-7 group '>
+                  <input
+                    className={`lg:flex hidden pr-4 items-center focus:w-80 w-60  left-0 input-field transition-all  ease-in-out duration-700 ${
+                      quickSearch && 'focus:w-80'
+                    }`}
+                    onChange={handleSearch}
+                    value={quickSearch}
+                    type='text'
+                    placeholder='Search OpenQ'
+                  ></input>
+                  {quickSearch && <LinkDropdown items={items} />}
+                </div>
+              )}
               <NavLinks />
               <button onClick={() => setShowModal(true)} className='pl-4 flex items-center'>
                 <QuestionIcon size={16} className='fill-muted hover:fill-primary' />
@@ -162,7 +166,7 @@ const Navigation = () => {
           </div>
         </div>
       </div>
-      {openMenu ? (
+      {openMenu && includeSearch ? (
         <div className='flex lg:hidden w-full'>
           <div className='flex flex-col p-4 space-x-1 space-y-2 w-full'>
             <div className='flex-col mr-2 h-7  group'>
