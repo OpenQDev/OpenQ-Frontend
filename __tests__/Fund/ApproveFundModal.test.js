@@ -3,7 +3,6 @@
  */
 import React from 'react';
 import { render, screen } from '../../test-utils';
-import axios from 'axios';
 import InitialState from '../../store/Store/InitialState';
 
 import { CONFIRM, APPROVING, TRANSFERRING, ERROR } from '../../components/FundBounty/ApproveFundState';
@@ -14,9 +13,6 @@ import InitialFundState from '../../components/FundBounty/InitialFundState';
 import Constants from '../../test-utils/constant';
 
 describe('ApproveFundModal', () => {
-  jest.mock('axios');
-  axios.get = jest.fn().mockResolvedValue({ data: { data: 'true' } });
-
   beforeEach(() => {
     InitialState.openQClient.reset();
   });

@@ -116,6 +116,32 @@ export default class Constants {
   static get prs() {
     return [Constants.pr1];
   }
+  static get zeroAddress() {
+    return '0x0000000000000000000000000000000000000000';
+  }
+
+  static getTokenName() {
+    return 'Dai Stablecoin';
+  }
+  static get tokenSymbol() {
+    return 'DAI';
+  }
+  static get tokenDecimals() {
+    return 18;
+  }
+  static get tokenLogoURI() {
+    return 'https://tokens.1inch.exchange/0x6b175474e89094c44da98b954eedeac495271d0f.png';
+  }
+  static get tokenMetadata() {
+    return {
+      __typename: 'TokenMetadata',
+      id: Constants.zeroAddress,
+      name: Constants.tokenName,
+      symbol: Constants.tokenSymbol,
+      decimals: Constants.tokenDecimals,
+      logoURI: Constants.tokenLogoURI,
+    };
+  }
   static get pr1() {
     return {
       __typename: 'CrossReferencedEvent',
