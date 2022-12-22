@@ -1,46 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const GET_LEAN_ISSUES_BY_ID = gql`
-  query ($issueIds: [ID!]!) {
-    nodes(ids: $issueIds) {
-      ... on Issue {
-        title
-        url
-        closed
-        id
-      }
-    }
-  }
-`;
-
-export const GET_PRS = gql`
-  query getPrs($owner: String!, $name: String!, $first: Int!) {
-    repository(owner: $owner, name: $name) {
-      name
-      pullRequests(first: $first) {
-        totalCount
-        nodes {
-          id
-          bodyText
-          body
-          title
-          url
-          author {
-            url
-
-            login
-            avatarUrl
-          }
-          repository {
-            owner {
-              avatarUrl
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+// ISSUES
 
 export const GET_ISSUE = gql`
   query GetIssue($issueUrl: URI!) {
@@ -70,191 +30,14 @@ export const GET_ISSUE = gql`
   }
 `;
 
-export const GET_ORG_BY_ID = gql`
-  query GetOrg($orgId: ID!) {
-    node(id: $orgId) {
-      __typename
-      ... on Organization {
-        name
-        login
-        id
-        avatarUrl
-      }
-    }
-  }
-`;
-
-export const GET_ORGS_OR_USERS_BY_IDS = gql`
-  query GetOrgs($ids: [ID!]!) {
-    nodes(ids: $ids) {
-      __typename
-      ... on Organization {
-        name
-        login
-        id
-        url
-        description
-        descriptionHTML
-      }
-      ... on User {
-        name
-        login
-        bio
-        id
-        url
-      }
-    }
-  }
-`;
-
-export const GET_ORGS_BY_IDS = gql`
-  query GetOrgs($orgIds: [ID!]!) {
-    nodes(ids: $orgIds) {
-      __typename
-      ... on Organization {
-        name
-        login
-        description
-        id
-        avatarUrl
-        url
-      }
-      ... on User {
-        name
-        login
-        bio
-        id
-        avatarUrl
-        url
-      }
-    }
-  }
-`;
-
-export const GET_USER_BY_ID = gql`
-  query GetUser($userId: ID!) {
-    node(id: $userId) {
-      __typename
-      ... on User {
-        repositories(last: 100) {
-          nodes {
-            languages(first: 10) {
-              nodes {
-                name
-              }
-            }
-          }
-        }
-        name
-        login
-        bio
-        email
-        id
-        websiteUrl
-        url
-        avatarUrl
-        twitterUsername
-      }
-    }
-  }
-`;
-
-export const GET_USERS_BY_IDS = gql`
-  query GetUsers($userIds: [ID!]!) {
-    nodes(ids: $userIds) {
-      __typename
-      ... on User {
-        name
-        login
-        bio
-        id
-        url
-        avatarUrl
-      }
-    }
-  }
-`;
-
-export const GET_ORG_BY_NAME = gql`
-  query GetOrg($login: String!) {
-    organization(login: $login) {
-      __typename
-      name
-      login
-      id
-      createdAt
-      description
-      email
-      websiteUrl
-      avatarUrl
-      isVerified
-      descriptionHTML
-      location
-      twitterUsername
-      url
-      membersWithRole(first: 100) {
-        nodes {
-          avatarUrl
-          name
-          login
-          url
-        }
-      }
-    }
-  }
-`;
-
-export const GET_REPO_BY_NAME = gql`
-  query GetRepo($name: String!, $owner: String!) {
-    repository(name: $name, owner: $owner) {
-      __typename
-      name
-      nameWithOwner
-      id
-      description
-      homepageUrl
-      url
-      languages(first: 10) {
-        edges {
-          node {
-            name
-            color
-          }
-        }
-      }
-    }
-  }
-`;
-
-export const GET_USER_BY_NAME = gql`
-  query GetUser($login: String!) {
-    user(login: $login) {
-      __typename
-      login
-      id
-      createdAt
-      websiteUrl
-      bio
-      avatarUrl
-      twitterUsername
-      url
-    }
-  }
-`;
-
-export const GET_ORGS_BY_ISSUES = gql`
+export const GET_LEAN_ISSUES_BY_ID = gql`
   query ($issueIds: [ID!]!) {
     nodes(ids: $issueIds) {
       ... on Issue {
-        repository {
-          owner {
-            url
-            avatarUrl
-            login
-            descriptionHTML
-            description
-          }
-        }
+        title
+        url
+        closed
+        id
       }
     }
   }
@@ -301,7 +84,6 @@ export const GET_ISSUE_BY_ID = gql`
             }
           }
         }
-
         timelineItems(first: 100, itemTypes: [CROSS_REFERENCED_EVENT, CLOSED_EVENT]) {
           nodes {
             ... on CrossReferencedEvent {
@@ -379,6 +161,54 @@ export const GET_ISSUE_BY_ID = gql`
   }
 `;
 
+export const GET_ORGS_BY_ISSUES = gql`
+  query ($issueIds: [ID!]!) {
+    nodes(ids: $issueIds) {
+      ... on Issue {
+        repository {
+          owner {
+            url
+            avatarUrl
+            login
+            descriptionHTML
+            description
+          }
+        }
+      }
+    }
+  }
+`;
+
+// PULL REQUESTS
+
+export const GET_PRS = gql`
+  query getPrs($owner: String!, $name: String!, $first: Int!) {
+    repository(owner: $owner, name: $name) {
+      name
+      pullRequests(first: $first) {
+        totalCount
+        nodes {
+          id
+          bodyText
+          body
+          title
+          url
+          author {
+            url
+            login
+            avatarUrl
+          }
+          repository {
+            owner {
+              avatarUrl
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const GET_PRS_BY_ISSUES = gql`
   query getPrs($bountyIds: [ID!]!) {
     nodes(ids: $bountyIds) {
@@ -428,6 +258,185 @@ export const GET_PR_BY_ID = gql`
             id
             twitterUsername
             bio
+          }
+        }
+      }
+    }
+  }
+`;
+
+// ORGANIZATION
+
+export const GET_ORG_BY_ID = gql`
+  query GetOrg($orgId: ID!) {
+    node(id: $orgId) {
+      __typename
+      ... on Organization {
+        name
+        login
+        id
+        avatarUrl
+      }
+    }
+  }
+`;
+
+export const GET_ORG_BY_NAME = gql`
+  query GetOrg($login: String!) {
+    organization(login: $login) {
+      __typename
+      name
+      login
+      id
+      createdAt
+      description
+      email
+      websiteUrl
+      avatarUrl
+      isVerified
+      descriptionHTML
+      location
+      twitterUsername
+      url
+      membersWithRole(first: 100) {
+        nodes {
+          avatarUrl
+          name
+          login
+          url
+        }
+      }
+    }
+  }
+`;
+
+export const GET_ORGS_OR_USERS_BY_IDS = gql`
+  query GetOrgs($ids: [ID!]!) {
+    nodes(ids: $ids) {
+      __typename
+      ... on Organization {
+        name
+        login
+        id
+        url
+        description
+        descriptionHTML
+      }
+      ... on User {
+        name
+        login
+        bio
+        id
+        url
+      }
+    }
+  }
+`;
+
+export const GET_ORGS_BY_IDS = gql`
+  query GetOrgs($orgIds: [ID!]!) {
+    nodes(ids: $orgIds) {
+      __typename
+      ... on Organization {
+        name
+        login
+        description
+        id
+        avatarUrl
+        url
+      }
+      ... on User {
+        name
+        login
+        bio
+        id
+        avatarUrl
+        url
+      }
+    }
+  }
+`;
+
+
+// USER
+
+export const GET_USER_BY_ID = gql`
+  query GetUser($userId: ID!) {
+    node(id: $userId) {
+      __typename
+      ... on User {
+        repositories(last: 100) {
+          nodes {
+            languages(first: 10) {
+              nodes {
+                name
+              }
+            }
+          }
+        }
+        name
+        login
+        bio
+        email
+        id
+        websiteUrl
+        url
+        avatarUrl
+        twitterUsername
+      }
+    }
+  }
+`;
+
+export const GET_USERS_BY_IDS = gql`
+  query GetUsers($userIds: [ID!]!) {
+    nodes(ids: $userIds) {
+      __typename
+      ... on User {
+        name
+        login
+        bio
+        id
+        url
+        avatarUrl
+      }
+    }
+  }
+`;
+
+export const GET_USER_BY_NAME = gql`
+  query GetUser($login: String!) {
+    user(login: $login) {
+      __typename
+      login
+      id
+      createdAt
+      websiteUrl
+      bio
+      avatarUrl
+      twitterUsername
+      url
+    }
+  }
+`;
+
+// REPOSITORY
+
+export const GET_REPO_BY_NAME = gql`
+  query GetRepo($name: String!, $owner: String!) {
+    repository(name: $name, owner: $owner) {
+      __typename
+      name
+      nameWithOwner
+      id
+      description
+      homepageUrl
+      url
+      languages(first: 10) {
+        edges {
+          node {
+            name
+            color
           }
         }
       }
