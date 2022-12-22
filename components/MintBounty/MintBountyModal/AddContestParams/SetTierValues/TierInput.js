@@ -79,7 +79,7 @@ const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
         name: tier,
 
         target: {
-          value: parseInt(percentage * 100),
+          value: Math.round(parseFloat(percentage * 100)),
         },
       },
       tierVolumes
