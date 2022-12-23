@@ -831,7 +831,9 @@ export default class Constants {
       bountyTokenBalances: Constants.bountyTokenBalances,
       issuer: Constants.issuer,
       bountyType: Constants.bountyTypeFixed,
-      payoutSchedule: Constants.payoutSchedule0,
+      payoutTokenAddress: Constants.zeroAddress,
+      fundingGoalTokenAddress: Constants.zeroAddress,
+      payoutSchedule: Constants.payoutSchedule2,
     };
   }
   static get bounty0() {
@@ -841,6 +843,7 @@ export default class Constants {
     return {
       ...Constants.bounty,
       bountyType: '1',
+      payoutSchedule: Constants.payoutSchedule2,
     };
   }
   static get bounty2() {
