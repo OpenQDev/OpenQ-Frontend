@@ -596,8 +596,17 @@ export default class Constants {
   static get closerData() {
     return null;
   }
-  static get bountyType() {
-    return '1';
+  static get bountyType0() {
+    return 0;
+  }
+  static get bountyType1() {
+    return 1;
+  }
+  static get bountyType2() {
+    return 2;
+  }
+  static get bountyType3() {
+    return 3;
   }
   static get claimedTransactionHash() {
     return null;
@@ -756,6 +765,30 @@ export default class Constants {
   static get bountyTypeFixed() {
     return '0';
   }
+  static get fixedPrice() {
+    return 'Fixed Price';
+  }
+  static get splitPrice() {
+    return 'Split Price';
+  }
+  static get contestPrice() {
+    return 'Contest';
+  }
+  static get fixedContestPrice() {
+    return 'Fixed Contest';
+  }
+  static get readyForWork() {
+    return 'Ready for Work';
+  }
+  static get inProgress() {
+    return 'In Progress';
+  }
+  static get claimAvailable() {
+    return 'Claim Available';
+  }
+  static get open() {
+    return 'Open';
+  }
   static get bountyTypeSplit() {
     return '1';
   }
@@ -823,12 +856,6 @@ export default class Constants {
   }
 
   static get bounties() {
-    return [
-      // bounty closed
-      Constants.bounty0,
-      Constants.bounty1,
-      Constants.bounty2,
-      Constants.bounty3,
-    ];
+    return [Constants.bounty0, Constants.bounty1, Constants.bounty2, Constants.bounty3];
   }
 }

@@ -3,15 +3,15 @@ import React from 'react';
 // Cusotm
 import { render } from '@testing-library/react';
 import StoreProvider from '../store/Store/TestStoreProvider';
-import AuthProvider from '../store/AuthStore/AuthProvider';
+import AuthProvider from '../store/AuthStore/TestAuthProvider';
 
 // Add in any providers here if necessary:
 // test-utils.js
 // (ReduxProvider, ThemeProvider, etc)
-const customRender = (ui, options = {}, storeProps) => {
+const customRender = (ui, options = {}, storeProps, authProps) => {
   const Providers = ({ children }) => {
     return (
-      <AuthProvider>
+      <AuthProvider StoreProps={authProps}>
         <StoreProvider StoreProps={storeProps}>{children}</StoreProvider>
       </AuthProvider>
     );

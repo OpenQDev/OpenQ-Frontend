@@ -8,7 +8,7 @@ import BountyMetadata from '../../components/Bounty/BountyMetadata';
 import Constants from '../../test-utils/constant';
 
 describe('BountyMetadata', () => {
-  const bounty = Constants.bounty2;
+  const bounties = Constants.bounties;
 
   beforeEach(() => {
     const observe = jest.fn();
@@ -39,6 +39,7 @@ describe('BountyMetadata', () => {
     });
     // ASSERT
   };
-
-  test(bounty, 19);
+  bounties.forEach((bounty) => {
+    test(bounty);
+  });
 });
