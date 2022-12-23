@@ -9,6 +9,9 @@ export default class Constants {
   static get uuid() {
     return '63a3a266ab24d99d359a6d51';
   }
+  static get bountyCost() {
+    return '$9.52';
+  }
   static get modalPayout() {
     return {
       transaction: {

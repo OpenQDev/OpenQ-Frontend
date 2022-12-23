@@ -43,16 +43,16 @@ describe('BountyHeading', () => {
 
         switch (position) {
           case 0:
-            expect(screen.getByText(Constants.readyForWork)).toBeInTheDocument();
+            expect(await screen.findByText(Constants.readyForWork)).toBeInTheDocument();
             break;
           case 1:
-            expect(screen.getByText(Constants.inProgress)).toBeInTheDocument();
+            expect(await screen.findByText(Constants.inProgress)).toBeInTheDocument();
             break;
           case 2:
-            expect(screen.getByText(Constants.claimAvailable)).toBeInTheDocument();
+            expect(await screen.findByText(Constants.claimAvailable)).toBeInTheDocument();
             break;
           default:
-            expect(screen.getByText(Constants.contestPrice)).toBeInTheDocument();
+            expect(await screen.findByText(Constants.contestPrice)).toBeInTheDocument();
         }
 
         // should not have null or undefined values
