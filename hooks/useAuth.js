@@ -12,12 +12,28 @@ const useAuth = (state) => {
 
   useEffect(() => {
     let didCancel;
+    console.log('waiting on useEffecrt');
 
     async function checkAuth(didCancel) {
+      console.log('check auth');
       appState.authService
         .checkAuth()
         .then((data) => {
           if (!didCancel) {
+            console.log("you don't see me");
+            console.log(
+              {
+                type: 'UPDATE_IS_AUTHENTICATED',
+                payload: {
+                  isAuthenticated: data.isAuthenticated,
+                  avatarUrl: data.avatar_url,
+                  login: data.login,
+                  githubId: data.node_id,
+                  email: data.email,
+                },
+              },
+              'data'
+            );
             setAuthState({
               type: 'UPDATE_IS_AUTHENTICATED',
               payload: {
@@ -35,7 +51,7 @@ const useAuth = (state) => {
         });
     }
 
-    if (process.env.NEXT_PUBLIC_DEPLOY_ENV !== 'local') {
+    if (process.env.NEXT_PUBLIC_DEPLOY_ENV === 'local') {
       checkAuth(didCancel);
     }
 
