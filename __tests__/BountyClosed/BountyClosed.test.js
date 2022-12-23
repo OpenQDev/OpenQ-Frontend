@@ -9,7 +9,7 @@ import Constants from '../../test-utils/constant';
 import { waitFor } from '@testing-library/react';
 
 describe('BountyClosed', () => {
-  const bounty = Constants.bounty;
+  const bounties = Constants.bounties;
 
   const test = (bounty) => {
     it('should render the heading', async () => {
@@ -46,6 +46,7 @@ describe('BountyClosed', () => {
       });
     });
   };
-
-  test(bounty);
+  bounties.forEach((elem) => {
+    test(elem);
+  });
 });
