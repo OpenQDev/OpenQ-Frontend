@@ -24,8 +24,6 @@ describe('useApprove', () => {
     const { result } = hookRender(() => useApprove(), {}, customInitialState, {}, customFundState);
     const approveFunc = result.current;
     await approveFunc();
-    console.log(approveFunc);
-    console.log(InitialState.openQClient.approve);
     const bigNumber = BigNumber.from('3000000000000000000');
     expect(customInitialState.openQClient.approve).toHaveBeenCalledWith(
       {},

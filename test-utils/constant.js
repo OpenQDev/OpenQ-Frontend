@@ -156,6 +156,13 @@ export default class Constants {
       type: 'Budget',
     };
   }
+  static get token_id() {
+    return '1';
+  }
+  static get nft() {
+    return { token_address: Constants.daiAddress, token_id: Constants.token_id };
+  }
+
   static get modalClosedSplitPrice() {
     return {
       transaction: {

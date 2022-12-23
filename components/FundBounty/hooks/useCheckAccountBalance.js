@@ -30,7 +30,6 @@ const useCheckAccountBalance = () => {
       }
     } catch (error) {
       logger.error(error, account, bounty.id);
-
       dispatchedError = {
         title: 'Call Revert Exception',
         message: 'A contract call exception occurred. Please try again.',

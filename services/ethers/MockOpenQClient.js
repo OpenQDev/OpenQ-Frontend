@@ -25,7 +25,7 @@ class MockOpenQClient {
 		this.shouldError = false;
 	}
 
-	async getENS(_callerAddress){
+	 getENS =async(_callerAddress)=>{
 		let promise = new Promise (async (resolve) =>{
 			await this.sleep();
 			resolve("sample.eth");
@@ -34,7 +34,7 @@ class MockOpenQClient {
 		return promise
 	}
 
-	async getAllIssues(library) {
+	 getAllIssues =async(library)=> {
 		await sleep();
 
 		return axios.get(`http://localhost:3030/getAllIssues`)
@@ -46,7 +46,7 @@ class MockOpenQClient {
 			});
 	}
 
-	async getIssueAddresses(library, issues) {
+	 getIssueAddresses =async(library, issues)=> {
 		return axios.get(`http://localhost:3030/getIssueAddresses`)
 			.then(result => {
 				return result.data;
@@ -56,11 +56,11 @@ class MockOpenQClient {
 			});
 	}
 
-	async getIssueIsOpen(library, issueId) {
+	 getIssueIsOpen =async(library, issueId)=> {
 		return true;
 	}
 
-	async getIssueIdFromAddress(library, address) {
+	 getIssueIdFromAddress =async(library, address)=> {
 		return axios.get(`http://localhost:3030/getIssueIdFromAddress/${address}`)
 			.then(result => {
 				return result.data.issueId;
@@ -70,7 +70,7 @@ class MockOpenQClient {
 			});
 	}
 
-	async getAddressById(library, externalUserId){
+	 getAddressById =async(library, externalUserId)=>{
 	return new Promise(async(resolve, reject)=>{
         setTimeout(() => resolve("0xbcc58fb72409ba1cdec5dbcdd3cd6c42e3e04242"), 500);	
 	
@@ -86,7 +86,7 @@ class MockOpenQClient {
 		return promise;
 	};
 
-	async mintBounty(library, issueId, organization) {
+	 mintBounty =async(library, issueId, organization)=> {
 		const promise = new Promise(async (resolve, reject) => {
 			await this.sleep();
 			resolve({ "bountyAddress": "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", "txnReceipt": {events: ["0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e"]} });
@@ -94,21 +94,28 @@ class MockOpenQClient {
 		return promise;
 	}
 
-	async fundBounty(library, _bountyId, _tokenAddress, _value, _depositPeriodDays) {
+	 fundBounty =async(library, _bountyId, _tokenAddress, _value, _depositPeriodDays)=> {
 		const promise = new Promise(async (resolve, reject) => {
 			await this.sleep(20);
 			resolve( {events: [{transactionHash:"0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e" }]})});
 		return promise;
 	}
 
-	async balanceOf(library, _callerAddress, _tokenAddress) {
+    fundBountyWithNft =async(library, _bountyId, _tokenAddress, _value, _depositPeriodDays)=> {
+		const promise = new Promise(async (resolve, reject) => {
+			await this.sleep(20);
+			resolve( {events: [{transactionHash:"0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e" }]})});
+		return promise;
+	}
+
+	 balanceOf =async(library, _callerAddress, _tokenAddress)=> {
 		const promise = new Promise(async (resolve, reject) => {
 				resolve(ethers.BigNumber.from("6600000000000000000"));
 		});
 		return promise;
 	}
 
-	async allowance(library, _callerAddress, _tokenAddress, _bountyAddress) {
+	 allowance =async(library, _callerAddress, _tokenAddress, _bountyAddress)=> {
 		const promise = new Promise(async (resolve, reject) => {
 			if(_tokenAddress === '0x5FbDB2315678afecb367f032d93F642f64180aa3' || _tokenAddress === '0x0000000000000000000000000000000000000000') {
 				resolve(ethers.BigNumber.from("0"));
@@ -119,7 +126,7 @@ class MockOpenQClient {
 		return promise;
 	}
 
-	async fetchNfts() {
+	 fetchNfts= async()=> {
 		const promise = new Promise((resolve, reject) => {
 			axios.get('http://localhost:3030/fetchNfts')
 				.then(result => {
@@ -133,7 +140,30 @@ class MockOpenQClient {
 		return promise;
 	}
 
-	async approve(library, _bountyAddress, _tokenAddress, _value) {
+	 approve =async(library, _bountyAddress, _tokenAddress, _value)=> {
+		const promise = new Promise(async (resolve, reject) => {
+			try {
+				await this.sleep();
+				if(this.shouldError){					
+				throw new Error();
+				}
+				resolve({});
+				}
+			catch (error) {
+				reject({
+					
+					title: 'Internal JSON',
+					message: 'Internal JSON-RPC error', 
+				data: {
+					title: 'Internal JSON',
+					message: 'Internal JSON-RPC error'
+				}
+			});
+			}
+		});
+		return promise;
+	}
+    	 approveNFT =async(library, _bountyAddress, _tokenAddress, _value)=> {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				await this.sleep();
@@ -170,7 +200,7 @@ class MockOpenQClient {
   }
 
 	
-	async userOwnedTokenBalances(library, _callerAddress, tokens) {
+	 userOwnedTokenBalances =async(library, _callerAddress, tokens)=> {
 		const promise = new Promise(async (resolve) => {
 			const tokensInWallet = [];
 			tokens.forEach(async (token) => {
@@ -182,7 +212,7 @@ class MockOpenQClient {
 		return promise;
 	}
 
-	async userBalanceForToken(library, token, _callerAddress) {
+	 userBalanceForToken =async(library, token, _callerAddress)=> {
 		let promise = new Promise(async (resolve) => {
 				this.sleep();
 				resolve(true);
@@ -192,7 +222,7 @@ class MockOpenQClient {
 		return promise;
 	}
 
-	async isWhitelisted(library, tokenAddress) {
+	 isWhitelisted =async(library, tokenAddress)=> {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				resolve(true);
@@ -203,7 +233,7 @@ class MockOpenQClient {
 		return promise;
 	}
 
-	async tokenAddressLimitReached(library, tokenAddress) {
+	 tokenAddressLimitReached =async(library, tokenAddress)=> {
 		const promise = new Promise(async (resolve, reject) => {
 			try {
 				resolve();
@@ -214,7 +244,7 @@ class MockOpenQClient {
 		return promise;
 	}
 
-async refundDeposit(library, _bountyId, _depositId)  {
+ refundDeposit =async(library, _bountyId, _depositId)=>  {
 		const promise = new Promise((resolve, reject) => {
 			axios.get('http://localhost:3030/txnResponse')
 				.then(async(result) => {
