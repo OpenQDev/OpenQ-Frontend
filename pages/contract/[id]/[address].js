@@ -311,7 +311,7 @@ export const getServerSideProps = async (context) => {
     logger.error(err, null, '[address.js]3');
   }
 
-  let mergedBounty = null;
+  let mergedBounty = {};
   let issueData = {};
   let bounty = {};
 
