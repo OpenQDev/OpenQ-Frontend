@@ -162,7 +162,18 @@ const ClaimLoadingModal = ({
             </Link>
           </>
         )}
+
         <div className='col-span-2 whitespace-pre-wrap'>{message[claimState]}</div>
+        {claimState == TRANSACTION_SUBMITTED && (
+          <>
+            <Link href={link[claimState]} target={'_blank'} className='underline col-span-2' rel='noopener noreferrer'>
+              <>
+                {link[claimState]}
+                <LinkText />
+              </>
+            </Link>
+          </>
+        )}
         {error?.referencedPrs &&
           claimState == WITHDRAWAL_INELIGIBLE &&
           error.referencedPrs.map((pr, index) => {
