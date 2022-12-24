@@ -35,7 +35,7 @@ const useAuth = (state) => {
         });
     }
 
-    if (process.env.NEXT_PUBLIC_DEPLOY_ENV === 'local') {
+    if (process.env.NEXT_PUBLIC_DEPLOY_ENV !== 'local') {
       checkAuth(didCancel);
     }
 

@@ -37,7 +37,11 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties }) => {
         const githubUser = await appState.githubRepository.fetchUserById(githubId);
         if (isOwner) setGithubUser(githubUser);
       };
-      getGithubUser();
+      try {
+        getGithubUser();
+      } catch (err) {
+        appState.logger.error(err, accountData.id, 'AboutFreelancer.js');
+      }
     }
   }, [githubId, isOwner]);
   // Context
