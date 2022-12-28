@@ -8,7 +8,7 @@ import Constants from '../../test-utils/constant';
 import renderer from 'react-test-renderer';
 
 describe('BountyClosed', () => {
-  const bounty = { ...Constants.bounty, tvc: Constants.tvc };
+  const bounty = Constants.bounty;
 
   it('should match DOM Snapshot', () => {
     const tree = renderer.create(<BountyClosed bounty={bounty} showTweetLink={true} />);

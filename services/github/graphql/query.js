@@ -357,7 +357,6 @@ export const GET_ORGS_BY_IDS = gql`
   }
 `;
 
-
 // USER
 
 export const GET_USER_BY_ID = gql`
