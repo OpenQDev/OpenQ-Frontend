@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Signup Snapshot should match DOM Snapshot 1`] = `
+<button
+  className="flex justify-center btn-default whitespace-nowrap w-full"
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  onTouchStart={[Function]}
+>
+  <div
+    className="flex flex-row items-center justify-center space-x-3"
+  >
+    <div>
+      Sign up
+    </div>
+  </div>
+</button>
+`;

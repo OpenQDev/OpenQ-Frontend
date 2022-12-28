@@ -3,9 +3,9 @@
  */
 import React from 'react';
 
-import { render, screen } from '../../test-utils';
 import CopyBountyAddress from '../../components/Bounty/CopyBountyAddress';
 import Constants from '../../test-utils/constant';
+import renderer from 'react-test-renderer';
 
 describe('CopyBountyAddress', () => {
   const bounty = Constants.bounty;
@@ -20,16 +20,8 @@ describe('CopyBountyAddress', () => {
     }));
   });
 
-  it('should render CopyBountyAddress', () => {
-    // ARRANGE
-    render(<CopyBountyAddress address={bounty.bountyAddress} />);
-    const addressRegex = new RegExp(bounty.bountyAddress.slice(0, 3));
-
-    // ASSERT
-    expect(screen.getByText(addressRegex));
-
-    // should not have null or undefined values
-    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-    expect(nullish).toHaveLength(0);
+  it('should render CopyBountyAddress and match DOM Snapshot', () => {
+    const tree = renderer.create(<CopyBountyAddress address={bounty.bountyAddress} />);
+    expect(tree.toJSON()).toMatchSnapshot();
   });
 });

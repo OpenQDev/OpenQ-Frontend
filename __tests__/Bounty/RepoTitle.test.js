@@ -3,9 +3,9 @@
  */
 import React from 'react';
 
-import { render, screen } from '../../test-utils';
 import RepoTitle from '../../components/Bounty/RepoTitle';
 import Constants from '../../test-utils/constant';
+import ShallowRenderer from 'react-test-renderer/shallow';
 
 // WARNING If you change the mock data for issues you may need to change some
 // of this test's getByText invocations to getAllByText.
@@ -18,17 +18,10 @@ describe('RepoTitle', () => {
 
   const bounty = Constants.bounty;
 
-  it('should render BountyDetails', async () => {
-    // Arrange
-    render(<RepoTitle bounty={bounty} address={bounty.bountyAddress} tokenValues={tokenValues} />);
-
-    // ASSERT
-
-    const repoRegex = new RegExp(bounty.repoName, 'i');
-    const repo = screen.getByText(repoRegex);
-    expect(repo).toBeInTheDocument();
-    const ownerRegex = new RegExp(bounty.owner, 'i');
-    const owner = screen.getByText(ownerRegex);
-    expect(owner).toBeInTheDocument();
+  it('should render BountyDetails and match DOM Snapshot', () => {
+    const shallow = new ShallowRenderer();
+    shallow.render(<RepoTitle bounty={bounty} address={bounty.bountyAddress} tokenValues={tokenValues} />);
+    const tree = shallow.getRenderOutput();
+    expect(tree).toMatchSnapshot();
   });
 });
