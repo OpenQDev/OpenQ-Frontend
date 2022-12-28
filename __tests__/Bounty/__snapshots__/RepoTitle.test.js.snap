@@ -205,6 +205,7 @@ exports[`RepoTitle should render BountyDetails and match DOM Snapshot 1`] = `
         "repoName": "OpenQ-Frontend",
         "title": "Properly Referenced and Merged by FlacoJones",
         "titleHTML": "Properly Referenced and Merged by FlacoJones",
+        "tvc": "7.7777",
         "tvl": "9.51848",
         "twitterUsername": "openqlabs",
         "url": "https://github.com/OpenQDev/OpenQ-TestRepo/issues/8",
