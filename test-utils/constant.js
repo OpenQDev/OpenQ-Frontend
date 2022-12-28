@@ -389,6 +389,10 @@ export default class Constants {
     return '9.51848';
   }
 
+  static get tvc() {
+    return '7.7777';
+  }
+
   static get assignees() {
     return [];
   }
@@ -786,6 +790,7 @@ export default class Constants {
       prs: Constants.prs,
       closedEvents: Constants.closedEvents,
       tvl: Constants.tvl,
+      tvc: Constants.tvc,
       bountyId: Constants.bountyId,
       bountyAddress: Constants.bountyAddress,
       closerData: Constants.closerData,

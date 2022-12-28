@@ -3,49 +3,15 @@
  */
 import React from 'react';
 
-import { render, screen } from '../../test-utils';
 import BountyClosed from '../../components/BountyClosed/BountyClosed';
 import Constants from '../../test-utils/constant';
-import { waitFor } from '@testing-library/react';
+import renderer from 'react-test-renderer';
 
 describe('BountyClosed', () => {
-  const bounty = Constants.bounty;
+  const bounty = { ...Constants.bounty, tvc: Constants.tvc };
 
-  const test = (bounty) => {
-    it('should render the heading', async () => {
-      // ARRANGE
-      render(<BountyClosed bounty={bounty} />);
-      // ACT
-      await waitFor(() => {
-        const heading = screen.getByText('This contract is closed.');
-        const subheading = screen.getByText('You cannot initiate actions on a closed contract.');
-        // ASSERT
-        expect(heading).toBeInTheDocument();
-        expect(subheading).toBeInTheDocument();
-      });
-    });
-
-    it('should render the linked transaction', async () => {
-      // ARRANGE
-      render(<BountyClosed bounty={bounty} />);
-      // ACT
-      await waitFor(() => {
-        const transactionText = screen.getByText('Linked Closing Transaction');
-        // ASSERT
-        expect(transactionText).toBeInTheDocument();
-      });
-    });
-
-    it('should render a tweet link when just claimed', async () => {
-      // ARRANGE
-      render(<BountyClosed bounty={bounty} showTweetLink={true} />);
-      // ASSERT
-      await waitFor(() => {
-        const tweet = screen.getByText('Tweet about it');
-        expect(tweet).toBeInTheDocument();
-      });
-    });
-  };
-
-  test(bounty);
+  it('should match DOM Snapshot', () => {
+    const tree = renderer.create(<BountyClosed bounty={bounty} showTweetLink={true} />);
+    expect(tree.toJSON()).toMatchSnapshot();
+  });
 });
