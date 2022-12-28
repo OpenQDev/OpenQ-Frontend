@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContractWizard should render BountyDetails and match DOM Snapshot 1`] = `
+<React.Fragment>
+  <ModalDefault
+    footerRight={
+      <div
+        className="flex text-sm rounded-sm overflow-hidden w-fit text-primary "
+      >
+        <button
+          className="w-fit min-w-[80px] py-[5px] px-4 rounded-l-sm border whitespace-nowrap hover:bg-secondary-button hover:border-secondary-button border-web-gray"
+          onClick={[Function]}
+        >
+          Yes
+        </button>
+        <button
+          className="w-fit min-w-[80px] py-[5px] px-4 border-l-0 rounded-r-sm border whitespace-nowrap hover:bg-secondary-button hover:border-secondary-button border-web-gray"
+          onClick={[Function]}
+        >
+          No
+        </button>
+      </div>
+    }
+    resetState={[Function]}
+    setShowModal={true}
+    title="Contract Wizard"
+  >
+    <h3
+      className="text-2xl pt-2"
+    >
+      In this section we will help you find the right type of contract for your job.
+    </h3>
+    <div
+      className="flex items-center gap-2 pt-4"
+    >
+      Should only one person complete this task?
+      <ToolTipNew
+        innerStyles="whitespace-normal w-60"
+        outerStyles="relative bottom-1"
+        relativePosition="-right-5"
+        toolTipText="Deploy a Fixed Price Contract to fund a single issue to be payed out to one submitter."
+      >
+        <div
+          className="cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary"
+        >
+          ?
+        </div>
+      </ToolTipNew>
+    </div>
+  </ModalDefault>
+</React.Fragment>
+`;
