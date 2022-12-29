@@ -19,7 +19,7 @@ const customRender = (ui, options = {}, storeProps, authProps) => {
     );
   };
 
-  render(ui, { wrapper: Providers, ...options });
+  return render(ui, { wrapper: Providers, ...options });
 };
 const customHookRender = (hook, options = {}, storeProps, authProps, fundProps) => {
   const Providers = ({ children }) => {

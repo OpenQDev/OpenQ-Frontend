@@ -1,6 +1,8 @@
 import axios from "axios";
 class OpenQPrismaClient {
-	constructor() { }
+	constructor(mockMutations) { 
+this.mockMutations =mockMutations
+    }
 
 	async getPaginatedTVLS(id, startAt, order, first) {
 		const promise = new Promise(async (resolve, reject) => {
@@ -15,31 +17,22 @@ class OpenQPrismaClient {
 		return promise;
 	}
 
-	async createNewBounty(id) {
-		const promise = new Promise(async (resolve, reject) => {
-			axios.get(`http://localhost:3030/tokenPrice`)
+  async updateUser(value) {
+    const promise = new Promise(async (resolve, reject) => {
+  axios.get(`http://localhost:3030/prismaUsers`)
 				.then(result => {
-					resolve(result.data);
-				})
-				.catch(error => {
-					reject(error);
-				});
-		});
-		return promise;
-	}
+                this.mockMutations.updateUserMockFunc(value)
 
-	async updateBounty(id, tvl) {
-		const promise = new Promise(async (resolve, reject) => {
-			axios.get(`http://localhost:3030/tvl`)
-				.then(result => {
-					resolve(result.data);
+					resolve({updateUser: result.data[0]});
 				})
 				.catch(error => {
+                console.log("error")
 					reject(error);
 				});
-		});
-		return promise;
-	}
+    });
+    
+    return promise;
+  }
 
 	getOrgMetadata() {
 		const promise = new Promise(async (resolve,) => {
