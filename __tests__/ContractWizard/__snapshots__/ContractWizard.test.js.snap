@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ContractWizard should render BountyDetails and match DOM Snapshot 1`] = `
+exports[`ContractWizard should render match DOM Snapshot 1`] = `
 <React.Fragment>
   <ModalDefault
     footerRight={

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ContractWizard should match DOM Snapshot 1`] = `
+exports[`GetSupportModal should match DOM Snapshot 1`] = `
 <div>
   <div
     className="flex justify-center items-end sm:items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50"

@@ -8,7 +8,7 @@ import userEvent from '@testing-library/user-event';
 import ShallowRenderer from 'react-test-renderer/shallow';
 
 describe('ContractWizard', () => {
-  it('should render BountyDetails and match DOM Snapshot', () => {
+  it('should render match DOM Snapshot', () => {
     const shallow = new ShallowRenderer();
     shallow.render(<ContractWizard wizardVisibility={true} />);
     const tree = shallow.getRenderOutput();
