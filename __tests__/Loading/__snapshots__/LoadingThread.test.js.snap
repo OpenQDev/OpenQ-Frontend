@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoadingThread should match DOM Snapshot 1`] = `
+<div
+  className="flex fixed top-0  bg-link-colour
+	   animationDefault
+	   false
+	   animationStart
+	   false 
+	 
+	  false
+	  z-40 py-px bg-link-color self-start left-0 w-full bg- border-web-gray h-0.5 "
+/>
+`;
