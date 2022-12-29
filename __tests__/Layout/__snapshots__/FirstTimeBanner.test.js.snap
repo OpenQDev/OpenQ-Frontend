@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FirstTimeBanner should show nothing 1`] = `null`;
+
+exports[`FirstTimeBanner should show the Banner and match DOM Snapshot 1`] = `
+<div
+  className="w-full bg-[#21262d] border-gray-700 border-b grid grid-cols-[1fr_1fr_1fr_1fr] py-4 items-center px-4"
+>
+  <div
+    className="col-start-2 col-end-4 text-center text-sm min-w-[240px]"
+  >
+    Welcome to 
+    <span
+      className="font-bold"
+    >
+      OpenQ!
+    </span>
+     Since it
+    '
+    s your first time with us, check out our
+     
+    <a
+      className="text-blue-400 hover:underline"
+      href="https://www.youtube.com/watch?v=HixkRY2v_pA&ab_channel=OpenQ"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      demo
+    </a>
+    .
+  </div>
+  <div
+    className="flex justify-self-end"
+  >
+    <button
+      className="px-4"
+      onClick={[Function]}
+    >
+      <svg
+        className="fill-muted hover:fill-blue-400 w-4 h-4"
+        height="16"
+        viewBox="0 0 16 16"
+        width="16"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"
+          fillRule="evenodd"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
+`;
