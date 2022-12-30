@@ -162,6 +162,15 @@ export default class Constants {
   static get nft() {
     return { token_address: Constants.daiAddress, token_id: Constants.token_id };
   }
+  static get roles() {
+    return [Constants.role0, Constants.role1];
+  }
+  static get role0() {
+    return 'engineer';
+  }
+  static get role1() {
+    return 'manager';
+  }
 
   static get modalClosedSplitPrice() {
     return {
