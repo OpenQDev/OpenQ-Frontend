@@ -5,6 +5,7 @@ import React from 'react';
 
 import { render, screen } from '../../test-utils';
 import OrganizationHomepage from '../../components/Organization/OrganizationHomepage';
+import ShallowRenderer from 'react-test-renderer/shallow';
 
 describe('OrganizationHomepage', () => {
   const orgs = [
@@ -362,13 +363,17 @@ describe('OrganizationHomepage', () => {
   ];
 
   const test = (orgs) => {
-    it('should render Org homepage', async () => {
+    it('should render match DOM Snapshot', () => {
+      const shallow = new ShallowRenderer();
+      shallow.render(<OrganizationHomepage orgs={orgs} />);
+      const tree = shallow.getRenderOutput();
+      expect(tree).toMatchSnapshot();
+    });
+    it('should render Org homepage with 16 img', async () => {
       // ARRANGE
-      render(<OrganizationHomepage orgs={orgs} complete={true} />);
+      render(<OrganizationHomepage orgs={orgs} />);
 
       // ASSERT
-      const title = screen.getAllByText(/OpenQ Labs/i);
-      expect(title).toHaveLength(2);
       const images = screen.getAllByRole('img');
       expect(images).toHaveLength(16);
 

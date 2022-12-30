@@ -5,8 +5,9 @@ import React from 'react';
 
 import { render, screen } from '../../test-utils';
 import RepoCard from '../../components/Organization/RepoCard';
+import renderer from 'react-test-renderer';
 
-describe('OrganizationMetadata', () => {
+describe('RepoCard', () => {
   const repositoryData = {
     name: 'curl',
     languages: [
@@ -66,9 +67,14 @@ describe('OrganizationMetadata', () => {
     url: 'https://github.com/curl/curl',
   };
 
+  it('should show the Banner and match DOM Snapshot', () => {
+    const tree = renderer.create(<RepoCard repository={repositoryData} organizationData={'Curl'} />);
+    expect(tree.toJSON()).toMatchSnapshot();
+  });
+
   it('should render Repo card', async () => {
     // ARRANGE
-    render(<RepoCard repository={repositoryData} organizationData={'Curl'} complete={true} />);
+    render(<RepoCard repository={repositoryData} organizationData={'Curl'} />);
 
     // ASSERT
     expect(screen.getByRole('link', { name: /curl/ })).toBeInTheDocument();
