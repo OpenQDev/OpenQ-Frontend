@@ -109,7 +109,7 @@ const OrganizationHeader = ({ organizationData, repository }) => {
                   className='text-xs'
                   href={`https://twitter.com/${organizationData.twitterUsername}`}
                 >
-                  @{organizationData.twitterUsername}
+                  <>@{organizationData.twitterUsername}</>
                 </Link>
               </div>
             </li>
