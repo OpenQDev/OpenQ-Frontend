@@ -14,7 +14,7 @@ import {
 import useWeb3 from '../../hooks/useWeb3';
 import ClaimLoadingModal from './ClaimLoadingModal';
 import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
-import BountyClosed from '../BountyClosed/BountyClosed';
+import BountyClosed from '../BountyClosed';
 import useEns from '../../hooks/useENS';
 import ToolTipNew from '../Utils/ToolTipNew';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';

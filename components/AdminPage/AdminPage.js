@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
 import { ethers } from 'ethers';
-import BountyClosed from '../BountyClosed/BountyClosed';
+import BountyClosed from '../BountyClosed';
 import SetBudgetAdminPage from './SetBudgetAdminPage';
 import SetTierAdminPage from './SetTierAdminPage';
 import SetPayoutAdminPage from './SetPayoutAdminPage.js';

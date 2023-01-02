@@ -58,7 +58,7 @@ body:
       label: 🎬 Where to Start
       description: Can you link your contributor to some helpful starting files or example code?
       placeholder: |
-        This new component is similar to this one: https://github.com/OpenQDev/OpenQ-Frontend/blob/production/components/BountyClosed/BountyClosed.js
+        This new component is similar to this one: https://github.com/OpenQDev/OpenQ-Frontend/blob/production/components/BountyClosed.js
     validations:
       required: false
   - type: textarea

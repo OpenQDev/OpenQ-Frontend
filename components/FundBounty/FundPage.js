@@ -8,7 +8,7 @@ import TokenFundBox from './SearchTokens/TokenFundBox';
 import FundContext from './FundContext';
 import StoreContext from '../../store/Store/StoreContext';
 import ToolTipNew from '../Utils/ToolTipNew';
-import BountyClosed from '../BountyClosed/BountyClosed';
+import BountyClosed from '../BountyClosed';
 import ApproveFundModal from './ApproveFundModal';
 import OrgDetails from '../User/InvoicingDetailsTab/OrgDetails';
 import { RESTING, CONFIRM, APPROVING, TRANSFERRING, APPROVE } from './ApproveFundState';

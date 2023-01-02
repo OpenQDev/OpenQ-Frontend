@@ -3,7 +3,7 @@
  */
 import React from 'react';
 
-import BountyClosed from '../../components/BountyClosed/BountyClosed';
+import BountyClosed from '.';
 import Constants from '../../test-utils/constant';
 import renderer from 'react-test-renderer';
 
