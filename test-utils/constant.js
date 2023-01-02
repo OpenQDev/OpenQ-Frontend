@@ -842,7 +842,6 @@ export default class Constants {
       prs: Constants.prs,
       closedEvents: Constants.closedEvents,
       tvl: Constants.tvl,
-      tvc: Constants.tvc,
       bountyId: Constants.bountyId,
       bountyAddress: Constants.bountyAddress,
       closerData: Constants.closerData,

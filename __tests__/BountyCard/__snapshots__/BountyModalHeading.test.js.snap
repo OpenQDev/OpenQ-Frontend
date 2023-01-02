@@ -150,6 +150,7 @@ exports[`BountyModalHeading Snapshot should match DOM Snapshot 1`] = `
               "volume": "1000000000000000000",
             },
           ],
+          "fundingGoalTokenAddress": "0x0000000000000000000000000000000000000000",
           "id": undefined,
           "issuer": {
             "__typename": "User",
@@ -169,7 +170,12 @@ exports[`BountyModalHeading Snapshot should match DOM Snapshot 1`] = `
           ],
           "number": 8,
           "owner": "OpenQDev",
-          "payoutSchedule": null,
+          "payoutSchedule": [
+            "30",
+            "60",
+            "10",
+          ],
+          "payoutTokenAddress": "0x0000000000000000000000000000000000000000",
           "prs": [
             {
               "__typename": "CrossReferencedEvent",
@@ -227,7 +233,6 @@ exports[`BountyModalHeading Snapshot should match DOM Snapshot 1`] = `
           "repoName": "OpenQ-Frontend",
           "title": "Properly Referenced and Merged by FlacoJones",
           "titleHTML": "Properly Referenced and Merged by FlacoJones",
-          "tvc": "7.7777",
           "tvl": "9.51848",
           "twitterUsername": "openqlabs",
           "url": "https://github.com/OpenQDev/OpenQ-TestRepo/issues/8",
