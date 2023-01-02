@@ -148,7 +148,6 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   }
   return (
     <>
-      {' '}
       {(bounty.bountyType === '2' || bounty.bountyType === '3') && (
         <>
           <div className=' flex flex-col gap-4'>
@@ -233,7 +232,7 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
               </div>
             </ToolTipNew>
           )}
-          <AdminModal setModal={setModal} bounty={bounty} modal={modal} />
+          <AdminModal tokenAddress={payoutToken.address} setModal={setModal} bounty={bounty} modal={modal} />
         </>
       )}
     </>

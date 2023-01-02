@@ -8,21 +8,22 @@ import useGetTokenValues from '../../hooks/useGetTokenValues';
 import TweetAbout from '../Utils/TweetAbout';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 
-const AdminModal = ({ setModal, modal, bounty, payoutTokenAddress }) => {
+const AdminModal = ({ setModal, modal, bounty, tokenAddress }) => {
   const [token, setToken] = useState();
   const [volume, setVolume] = useState();
   const [appState] = useContext(StoreContext);
 
   useEffect(() => {
     if (modal && modal.transaction && (modal.type === 'Budget' || modal.type === 'Payout')) {
-      const tokenAddress = modal.transaction.events[0].args[1];
-      const token = appState.tokenClient.getToken(tokenAddress);
-      setToken(token);
-      const volume = modal.transaction.events[0].args[2];
-      let bigNumberVolume = ethers.BigNumber.from(volume.toString());
-      let decimals = parseInt(token.decimals) || 18;
-      let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
-      setVolume(formattedVolume);
+      if (tokenAddress) {
+        const token = appState.tokenClient.getToken(tokenAddress);
+        setToken(token);
+        const volume = modal.transaction.events[0].args[2];
+        let bigNumberVolume = ethers.BigNumber.from(volume.toString());
+        let decimals = parseInt(token.decimals) || 18;
+        let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
+        setVolume(formattedVolume);
+      }
     }
   }, [modal]);
 
@@ -41,7 +42,7 @@ const AdminModal = ({ setModal, modal, bounty, payoutTokenAddress }) => {
   const createRewardSplit = (bounty) => {
     return bounty?.payoutTokenVolume
       ? {
-          tokenAddress: bounty.payoutTokenAddress,
+          tokenAddress: bounty.tokenAddress,
           volume: bounty.payoutTokenVolume,
         }
       : null;
@@ -167,7 +168,7 @@ const AdminModal = ({ setModal, modal, bounty, payoutTokenAddress }) => {
                         <div key={index} className='col-span-2 grid grid-cols-[120px_1fr]'>
                           <div>{`${appState.utils.handleSuffix(index + 1)} winner:`}</div>
                           <div className='self-center'>
-                            {t} {getVolumeSuffix(bounty.bountyType, payoutTokenAddress)}
+                            {t} {getVolumeSuffix(bounty.bountyType, tokenAddress)}
                           </div>
                         </div>
                       );
