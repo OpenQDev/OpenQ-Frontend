@@ -6,6 +6,7 @@ import { render, screen } from '../../test-utils';
 import Dropdown from '../../components/Utils/Dropdown';
 import userEvent from '@testing-library/user-event';
 import nextRouter from 'next/router';
+import renderer from 'react-test-renderer';
 
 nextRouter.useRouter = jest.fn();
 describe('Dropdown', () => {
@@ -14,24 +15,11 @@ describe('Dropdown', () => {
   beforeEach(() => {});
   const names = ['foo', 'bar'];
 
-  it('should be render with title', async () => {
-    // ARRANGE
-    render(<Dropdown toggleFunc={mockDropdown} title={title} names={names} toggleVal={names[0]} />);
-    const displayTitle = screen.getByText('pizzas');
-    const firstName = screen.getByText(names[0]);
-    const altName = screen.getByText(names[1]);
-    expect(firstName).toBeInTheDocument();
-    expect(altName).toBeInTheDocument();
-    expect(displayTitle).toBeInTheDocument();
-  });
-
-  it('should render firstname as title when !title prop', async () => {
-    // ARRANGE
-    render(<Dropdown toggleFunc={mockDropdown} title={title} names={names} toggleVal={names[0]} />);
-    const firstName = screen.getAllByText(names[0]);
-    const altName = screen.getByText(names[1]);
-    expect(firstName[0]).toBeInTheDocument();
-    expect(altName).toBeInTheDocument();
+  it('should match DOM Snapshot', () => {
+    const tree = renderer.create(
+      <Dropdown toggleFunc={mockDropdown} title={title} names={names} toggleVal={names[0]} />
+    );
+    expect(tree.toJSON()).toMatchSnapshot();
   });
 
   it('should be useable dropdown', async () => {

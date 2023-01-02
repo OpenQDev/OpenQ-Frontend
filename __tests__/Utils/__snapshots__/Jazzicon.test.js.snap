@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Jazzicon should match DOM Snapshot 1`] = `
+<div
+  className="w-9 h-9 mr-px"
+  data-testid="link"
+>
+  <div
+    className="group undefined"
+  >
+    <div
+      className="cursor-pointer"
+    >
+      0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+    </div>
+    <div
+      className="justify-center w-full relative hidden z-50 group-hover:block  relative bottom-2 "
+    >
+      <div
+        className="flex flex-col items-center"
+      >
+        <div
+          className="flex mt-0.5 md:mt-1 tooltip-triangle absolute undefined"
+        />
+        <div
+          className="flex tooltip absolute undefined"
+        >
+          <div
+            className="undefined"
+          >
+            0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

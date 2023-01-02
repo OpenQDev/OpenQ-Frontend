@@ -6,6 +6,7 @@ import { render, screen, waitFor } from '../../test-utils';
 import Carousel from '../../components/Utils/Carousel';
 import CarouselBounty from '../../components/Bounty/CarouselBounty';
 import nextRouter from 'next/router';
+import ShallowRenderer from 'react-test-renderer/shallow';
 // Test cases for full balances, empty balances, and undefined balances.
 
 nextRouter.useRouter = jest.fn();
@@ -171,6 +172,12 @@ describe('Carousel', () => {
       }),
       push,
     }));
+  });
+  it('should match DOM Snapshot', () => {
+    const shallow = new ShallowRenderer();
+    shallow.render(<Carousel height={36}></Carousel>);
+    const tree = shallow.getRenderOutput();
+    expect(tree).toMatchSnapshot();
   });
   it('should display repo name and title', async () => {
     // ARRANGE
