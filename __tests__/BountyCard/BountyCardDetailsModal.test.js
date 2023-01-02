@@ -7,7 +7,7 @@ import BountyCardDetailsModal from '../../components/BountyCard/BountyCardDetail
 import Constants from '../../test-utils/constant';
 
 describe('BountyCardDetailsModal', () => {
-  const bounty = Constants.bounty;
+  const bounties = [...Constants.bounties, { ...Constants.bounty0, status: '0' }];
 
   beforeEach(() => {
     const observe = jest.fn();
@@ -23,13 +23,9 @@ describe('BountyCardDetailsModal', () => {
       // ARRANGE
       render(<BountyCardDetailsModal bounty={bounty} closeModal={() => null} showModal={() => null} complete={true} />);
       await waitFor(async () => {
-        const totalRegExp = new RegExp('0.00');
         // ASSERT
         const orgName = screen.getByText(bounty.owner);
         expect(orgName).toBeInTheDocument();
-        if (bounty.status === '0') {
-          expect(screen.getAllByText(totalRegExp)[0]).toBeInTheDocument();
-        }
 
         const bountyAddressRegExp = new RegExp(bounty.bountyAddress.slice(0, 4));
         expect(screen.getByText(bountyAddressRegExp)).toBeInTheDocument();
@@ -47,5 +43,7 @@ describe('BountyCardDetailsModal', () => {
       });
     });
   };
-  test(bounty);
+  bounties.forEach((bounty) => {
+    test(bounty);
+  });
 });

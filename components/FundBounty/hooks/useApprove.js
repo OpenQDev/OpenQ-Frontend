@@ -12,7 +12,6 @@ const useApprove = () => {
   const { bounty, token, volume, allowance, pickedNft } = fundState;
   const bigNumberVolumeInWei = getBigNumberVol(volume, token);
   const { library } = useWeb3();
-
   const approve = async () => {
     if (allowance && !pickedNft) {
       return true;
@@ -22,7 +21,9 @@ const useApprove = () => {
         const approveDispatch = {
           type: 'SET_APPROVING',
         };
+
         fundDispatch(approveDispatch);
+
         if (pickedNft) {
           await openQClient.approveNFT(library, bounty.bountyAddress, pickedNft.token_address, pickedNft.token_id);
         } else {

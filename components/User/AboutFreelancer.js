@@ -28,6 +28,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties }) => {
   const { accountData } = appState;
   const loggedId = accountData?.id;
   const isOwner = loggedId == user.id;
+  console.log(accountData.id, user.id);
   const [authState] = useContext(AuthContext);
   const { githubId } = authState;
 
@@ -37,7 +38,11 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties }) => {
         const githubUser = await appState.githubRepository.fetchUserById(githubId);
         if (isOwner) setGithubUser(githubUser);
       };
-      getGithubUser();
+      try {
+        getGithubUser();
+      } catch (err) {
+        appState.logger.error(err, accountData.id, 'AboutFreelancer.js');
+      }
     }
   }, [githubId, isOwner]);
   // Context
@@ -47,7 +52,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties }) => {
     const getWatched = async () => {
       try {
         const watchedBountyAddresses = watchedBounties.map((bounty) => bounty.address.toLowerCase()) || [];
-
+        console.log('watched', watchedBountyAddresses);
         const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(
           watchedBountyAddresses,
           ['0', '1', '2', '3']
@@ -67,7 +72,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties }) => {
       // get watched bounties as soon as we know what the account is.
       getWatched();
     }
-  }, [isOwner]);
+  }, [isOwner, watchedBounties]);
 
   return (
     <>
@@ -149,6 +154,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties }) => {
               </div>
             )}
             {internalMenu == 'Stars' && <Starred starredOrganizations={starredOrganizations} />}{' '}
+            {console.log(internalMenu, isOwner, watchedFullBounties.length > 0)}
             {internalMenu === 'Watching' && isOwner && watchedFullBounties.length > 0 && (
               <Watching watchedBounties={watchedFullBounties} />
             )}

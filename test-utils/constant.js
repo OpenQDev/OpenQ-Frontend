@@ -9,6 +9,9 @@ export default class Constants {
   static get uuid() {
     return '63a3a266ab24d99d359a6d51';
   }
+  static get bountyCost() {
+    return '$9.52';
+  }
   static get modalPayout() {
     return {
       transaction: {
@@ -153,6 +156,22 @@ export default class Constants {
       type: 'Budget',
     };
   }
+  static get token_id() {
+    return '1';
+  }
+  static get nft() {
+    return { token_address: Constants.daiAddress, token_id: Constants.token_id };
+  }
+  static get roles() {
+    return [Constants.role0, Constants.role1];
+  }
+  static get role0() {
+    return 'engineer';
+  }
+  static get role1() {
+    return 'manager';
+  }
+
   static get modalClosedSplitPrice() {
     return {
       transaction: {
@@ -600,8 +619,17 @@ export default class Constants {
   static get closerData() {
     return null;
   }
-  static get bountyType() {
-    return '1';
+  static get bountyType0() {
+    return 0;
+  }
+  static get bountyType1() {
+    return 1;
+  }
+  static get bountyType2() {
+    return 2;
+  }
+  static get bountyType3() {
+    return 3;
   }
   static get claimedTransactionHash() {
     return null;
@@ -760,6 +788,30 @@ export default class Constants {
   static get bountyTypeFixed() {
     return '0';
   }
+  static get fixedPrice() {
+    return 'Fixed Price';
+  }
+  static get splitPrice() {
+    return 'Split Price';
+  }
+  static get contestPrice() {
+    return 'Contest';
+  }
+  static get fixedContestPrice() {
+    return 'Fixed Contest';
+  }
+  static get readyForWork() {
+    return 'Ready for Work';
+  }
+  static get inProgress() {
+    return 'In Progress';
+  }
+  static get claimAvailable() {
+    return 'Claim Available';
+  }
+  static get open() {
+    return 'Open';
+  }
   static get bountyTypeSplit() {
     return '1';
   }
@@ -800,7 +852,9 @@ export default class Constants {
       bountyTokenBalances: Constants.bountyTokenBalances,
       issuer: Constants.issuer,
       bountyType: Constants.bountyTypeFixed,
-      payoutSchedule: Constants.payoutSchedule0,
+      payoutTokenAddress: Constants.zeroAddress,
+      fundingGoalTokenAddress: Constants.zeroAddress,
+      payoutSchedule: Constants.payoutSchedule2,
     };
   }
   static get bounty0() {
@@ -810,6 +864,7 @@ export default class Constants {
     return {
       ...Constants.bounty,
       bountyType: '1',
+      payoutSchedule: Constants.payoutSchedule2,
     };
   }
   static get bounty2() {
@@ -819,14 +874,16 @@ export default class Constants {
       bountyType: Constants.bountyTypeContest,
     };
   }
+  static get bounty3() {
+    return {
+      ...Constants.bounty,
+      payoutSchedule: Constants.payoutSchedule2,
+      bountyType: Constants.bountyTypeFixedContest,
+    };
+  }
 
   static get bounties() {
-    return [
-      // bounty closed
-      Constants.bounty0,
-      Constants.bounty1,
-      Constants.bounty2,
-    ];
+    return [Constants.bounty0, Constants.bounty1, Constants.bounty2, Constants.bounty3];
   }
 
   static get membersWithRole() {

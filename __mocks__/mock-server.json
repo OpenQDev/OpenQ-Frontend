@@ -8,7 +8,9 @@
             "twitter": null,
             "email": null,
             "address": "0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b",
-            "starredOrganizationIds": []
+            "starredOrganizationIds": [],
+            "devRoles": [
+            "machine learning"]
         },
         {
             "__typename": "User",

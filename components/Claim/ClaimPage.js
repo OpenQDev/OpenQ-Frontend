@@ -128,7 +128,11 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
       .catch((err) => {
         logger.error(err, account, bounty.id);
         setClaimState(WITHDRAWAL_INELIGIBLE);
-        setError({ message: err.response.data.errorMessage, title: 'Error' });
+        setError({
+          message: err.response.data.errorMessage,
+          title: 'Error',
+          referencedPrs: err.response.data.referencedPrs,
+        });
       });
   };
 

@@ -8,7 +8,13 @@ import BountyStatus from '../../components/BountyCard/BountyStatus';
 import Constants from '../../test-utils/constant';
 
 describe('BountyStatus', () => {
-  const bounty = Constants.bounty;
+  const bounties = [
+    Constants.bounty,
+    { ...Constants.bounty0, status: '0', closed: false },
+    { ...Constants.bounty0, assignees: [{}], status: '1' },
+    { ...Constants.bounty0, status: '1' },
+    { ...Constants.bounty0, status: '0', closed: true },
+  ];
   beforeEach(() => {
     const observe = jest.fn();
     const disconnect = jest.fn();
@@ -28,8 +34,14 @@ describe('BountyStatus', () => {
       if (bounty.status === '1') {
         expect(screen.getByText(/Closed/i)).toBeInTheDocument();
       }
-      if (bounty.status === '0') {
-        expect(screen.getByText(/Open/i)).toBeInTheDocument();
+      if (bounty.status === '0' && bounty.assignees.length === 0 && !bounty.closed) {
+        expect(screen.getByText(Constants.readyForWork)).toBeInTheDocument();
+      }
+      if (bounty.status === '0' && bounty.assignees.length > 0) {
+        expect(screen.getByText(Constants.inProgress)).toBeInTheDocument();
+      }
+      if (bounty.status === '0' && bounty.closed) {
+        expect(screen.getByText(/closed/i)).toBeInTheDocument();
       }
       expect(screen.getByText(/Smart Contract Deployed/i)).toBeInTheDocument();
 
@@ -39,5 +51,7 @@ describe('BountyStatus', () => {
     });
   };
 
-  test(bounty);
+  bounties.forEach((bounty) => {
+    test(bounty);
+  });
 });
