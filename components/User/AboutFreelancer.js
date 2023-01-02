@@ -28,7 +28,6 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties }) => {
   const { accountData } = appState;
   const loggedId = accountData?.id;
   const isOwner = loggedId == user.id;
-  console.log(accountData.id, user.id);
   const [authState] = useContext(AuthContext);
   const { githubId } = authState;
 
@@ -52,7 +51,6 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties }) => {
     const getWatched = async () => {
       try {
         const watchedBountyAddresses = watchedBounties.map((bounty) => bounty.address.toLowerCase()) || [];
-        console.log('watched', watchedBountyAddresses);
         const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(
           watchedBountyAddresses,
           ['0', '1', '2', '3']
@@ -153,8 +151,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties }) => {
                 {isOwner && <Subscribe user={user} />}
               </div>
             )}
-            {internalMenu == 'Stars' && <Starred starredOrganizations={starredOrganizations} />}{' '}
-            {console.log(internalMenu, isOwner, watchedFullBounties.length > 0)}
+            {internalMenu == 'Stars' && <Starred starredOrganizations={starredOrganizations} />}
             {internalMenu === 'Watching' && isOwner && watchedFullBounties.length > 0 && (
               <Watching watchedBounties={watchedFullBounties} />
             )}

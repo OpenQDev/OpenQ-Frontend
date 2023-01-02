@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { render, screen } from '../../test-utils';
-import AdminModal from '../../components/Admin/AdminModal';
+import AdminModal from '../../components/AdminPage/AdminModal';
 import InitialState from '../../store/Store/InitialState';
 import { waitFor } from '@testing-library/react';
 import Constants from '../../test-utils/constant';

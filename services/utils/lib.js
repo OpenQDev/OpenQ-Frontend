@@ -56,7 +56,6 @@ export const valueToDisplay = (value) => {
 };
 
 export const getBigNumberVol = (volume, token) => {
-  console.log('token', token, volume);
   const volumeFloat = parseFloat(volume) || 0;
   const volumeInWei = volumeFloat * 10 ** token.decimals;
 
