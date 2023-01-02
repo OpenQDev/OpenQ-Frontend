@@ -99,7 +99,7 @@ exports[`Footer should match DOM Snapshot 1`] = `
       className="text-lg text-muted "
     >
       Copyright 
-      2022
+      2023
        
       <span
         className="whitespace-nowrap"
