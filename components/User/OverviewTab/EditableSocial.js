@@ -8,7 +8,7 @@ const EditableSocial = ({ isOwner, social }) => {
   const [localSocial, setLocalSocial] = useState(social);
   const [isEditing, setIsEditing] = useState(false);
   const [appState] = useContext(StoreContext);
-  const [inputValue, setInputValue] = useState(localSocial.link.replace('https://twitter.com/', ''));
+  const [inputValue, setInputValue] = useState(localSocial.link?.replace('https://twitter.com/', ''));
   const [saveValue, setSaveValue] = useState('');
   const [validFormat, setValidFormat] = useState(false);
   const handleEdit = () => {
@@ -19,10 +19,14 @@ const EditableSocial = ({ isOwner, social }) => {
       const { github, email } = appState.accountData;
       const idObj = github ? { github } : { email };
 
-      const { updateUser } = await appState.openQPrismaClient.updateUser({ [name]: value, ...idObj });
+      const thisVal = await appState.openQPrismaClient.updateUser({ [name]: value, ...idObj });
+
+      const { updateUser } = thisVal;
+
       if (updateUser) {
         const newLink = updateUser[name];
         setLocalSocial({ ...localSocial, link: newLink });
+
         setIsEditing(false);
       }
     } catch (err) {

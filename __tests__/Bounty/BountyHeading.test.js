@@ -6,9 +6,18 @@ import React from 'react';
 import { render, screen, waitFor } from '../../test-utils';
 import BountyHeading from '../../components/Bounty/BountyHeading';
 import Constants from '../../test-utils/constant';
-
+//
 describe('BountyHeading', () => {
-  const bounty = Constants.bounty;
+  const bounties = [
+    { ...Constants.bounty0, closed: false },
+    { ...Constants.bounty0, closed: false, assignees: [{}] },
+    {
+      ...Constants.bounty0,
+      status: '0',
+      closed: false,
+      prs: [{ source: { author: Constants.authState, merged: true } }],
+    },
+  ];
   beforeEach(() => {
     const observe = jest.fn();
     const disconnect = jest.fn();
@@ -19,21 +28,32 @@ describe('BountyHeading', () => {
     }));
   });
 
-  const test = (bounty, price) => {
+  const test = (bounty, position) => {
     it('should render Bounty heading', async () => {
       // ARRANGE
-      render(<BountyHeading bounty={bounty} price={price} />);
+      render(<BountyHeading bounty={bounty} />, {}, {}, Constants.authState);
 
-      // ASSERT
       await waitFor(async () => {
+        // ASSERT
         const title = screen.getByText(/Properly Referenced and Merged by FlacoJones/i);
         expect(title).toBeInTheDocument();
 
         const mintBountyButton = screen.getByText(/Contract/);
         expect(mintBountyButton).toBeInTheDocument();
 
-        const status = await screen.findAllByText(/open||closed/);
-        expect(status[0]).toBeInTheDocument();
+        switch (position) {
+          case 0:
+            expect(await screen.findByText(Constants.readyForWork)).toBeInTheDocument();
+            break;
+          case 1:
+            expect(await screen.findByText(Constants.inProgress)).toBeInTheDocument();
+            break;
+          case 2:
+            expect(await screen.findByText(Constants.claimAvailable)).toBeInTheDocument();
+            break;
+          default:
+            expect(await screen.findByText(Constants.contestPrice)).toBeInTheDocument();
+        }
 
         // should not have null or undefined values
         const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
@@ -41,6 +61,7 @@ describe('BountyHeading', () => {
       });
     });
   };
-
-  test(bounty);
+  bounties.forEach((bounty, position) => {
+    test(bounty, position);
+  });
 });

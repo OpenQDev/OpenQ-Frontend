@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { ethers } from 'ethers';
 
-import enumerable from '../../constants/polygon-mainnet-enumerable.json';
 import indexable from '../../constants/openq-local-indexable.json';
-import openqEnumerableTokens from '../../constants/openq-local-enumerable.json';
 import openqIndexableTokens from '../../constants/openq-local-indexable.json';
+import enumerable from '../../constants/openq-local-enumerable.json';
+
 
 class MockCoinClient {
+
 
 	async sleep(time) {
 		return new Promise(async (resolve,) => {
@@ -92,10 +93,10 @@ parseTokenValues = async(tokenBalances) => {
 	
 	getTokenMetadata(cursor, limit, list) {
 		if (list === 'polygon') {
-			return enumerable.tokens.slice(cursor, cursor + limit);
+			return enumerable.slice(cursor, cursor + limit);
 		}
-		if (openqEnumerableTokens.length && list === 'constants') {
-			return openqEnumerableTokens;
+		if (enumerable.length && list === 'constants') {
+			return enumerable;
 		}
 		else return [];
 	}

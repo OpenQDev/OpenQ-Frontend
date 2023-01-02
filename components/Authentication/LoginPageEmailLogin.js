@@ -69,7 +69,7 @@ const LoginPageEmailLogin = () => {
       if (res.status === 200) {
         // Set the UserContext to the now logged in user
 
-        const { id } = await appState.openQPrismaClient.upsertUser({ email });
+        const { id } = await appState.openQPrismaClient.upsertUser({ email, username: email });
 
         const accountData = await appState.openQPrismaClient.getUser({ email });
 

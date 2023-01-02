@@ -19,17 +19,6 @@ describe('Watching', () => {
       disconnect,
     }));
   });
-  it('should render Watching', async () => {
-    // ARRANGE
-    render(<Watching watchedBounties={bounties} complete={true} />);
-
-    // ASSERT
-    bounties.forEach(async (bounty) => {
-      const orgName = await screen.findByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
-      // ACT
-      expect(orgName).toBeInTheDocument();
-    });
-  });
 
   it('should let user open BountyCardDetailsModal', async () => {
     // ARRANGE
@@ -37,19 +26,19 @@ describe('Watching', () => {
     render(<Watching watchedBounties={bounties} complete={true} />);
 
     // ASSERT
-
-    bounties.forEach(async (bounty) => {
-      const orgName = await screen.findByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
-      await user.click(orgName);
+    for (let i = 0; i < bounties.length; i++) {
+      const bounty = bounties[i];
+      const orgName = await screen.findAllByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
+      await user.click(orgName[i]);
       if (bounty.status == 1) {
         const bountyStatus = await screen.findAllByText(/Closed/i);
         expect(bountyStatus[0]).toBeInTheDocument();
       }
       const link = await screen.findAllByText(/Full Contract/i);
       expect(link[0]).toBeInTheDocument();
-    });
-    // should not have null or undefined values
-    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-    expect(nullish).toHaveLength(0);
+      // should not have null or undefined values
+      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+      expect(nullish).toHaveLength(0);
+    }
   });
 });

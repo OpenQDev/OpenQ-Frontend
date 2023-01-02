@@ -3,8 +3,8 @@
  */
 import React from 'react';
 
-import { render, screen } from '../../../test-utils';
-import DepositList from '../../../components/User/OverviewTab/DepositList';
+import { render, screen } from '../../../../test-utils';
+import DepositList from '../../../../components/User/OverviewTab/DepositList';
 
 describe('DepositList', () => {
   const deposits = [

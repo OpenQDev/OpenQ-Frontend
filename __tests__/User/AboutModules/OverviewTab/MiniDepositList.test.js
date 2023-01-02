@@ -3,8 +3,8 @@
  */
 import React from 'react';
 
-import { render, screen } from '../../../test-utils';
-import MiniDepositList from '../../../components/User/OverviewTab/DepositList';
+import { render, screen } from '../../../../test-utils';
+import MiniDepositList from '../../../../components/User/OverviewTab/DepositList';
 
 describe('MiniDepositList', () => {
   const deposits = [

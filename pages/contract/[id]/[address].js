@@ -14,7 +14,7 @@ import FundPage from '../../../components/FundBounty/FundPage';
 import dynamic from 'next/dynamic';
 const RefundPage = dynamic(() => import('../../../components/RefundBounty/RefundPage'), { ssr: false });
 import ClaimPage from '../../../components/Claim/ClaimPage';
-import AdminPage from '../../../components/Admin/AdminPage';
+import AdminPage from '../../../components/AdminPage/AdminPage';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
 import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
@@ -311,7 +311,7 @@ export const getServerSideProps = async (context) => {
     logger.error(err, null, '[address.js]3');
   }
 
-  let mergedBounty = null;
+  let mergedBounty = {};
   let issueData = {};
   let bounty = {};
 

@@ -37,7 +37,11 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties }) => {
         const githubUser = await appState.githubRepository.fetchUserById(githubId);
         if (isOwner) setGithubUser(githubUser);
       };
-      getGithubUser();
+      try {
+        getGithubUser();
+      } catch (err) {
+        appState.logger.error(err, accountData.id, 'AboutFreelancer.js');
+      }
     }
   }, [githubId, isOwner]);
   // Context
@@ -47,7 +51,6 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties }) => {
     const getWatched = async () => {
       try {
         const watchedBountyAddresses = watchedBounties.map((bounty) => bounty.address.toLowerCase()) || [];
-
         const subgraphBounties = await appState.openQSubgraphClient.getBountiesByContractAddresses(
           watchedBountyAddresses,
           ['0', '1', '2', '3']
@@ -67,7 +70,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties }) => {
       // get watched bounties as soon as we know what the account is.
       getWatched();
     }
-  }, [isOwner]);
+  }, [isOwner, watchedBounties]);
 
   return (
     <>
@@ -148,7 +151,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties }) => {
                 {isOwner && <Subscribe user={user} />}
               </div>
             )}
-            {internalMenu == 'Stars' && <Starred starredOrganizations={starredOrganizations} />}{' '}
+            {internalMenu == 'Stars' && <Starred starredOrganizations={starredOrganizations} />}
             {internalMenu === 'Watching' && isOwner && watchedFullBounties.length > 0 && (
               <Watching watchedBounties={watchedFullBounties} />
             )}
