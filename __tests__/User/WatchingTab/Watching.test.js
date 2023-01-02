@@ -6,6 +6,7 @@ import { render, screen } from '../../../test-utils';
 import Watching from '../../../components/User/WatchingTab/Watching';
 import userEvent from '@testing-library/user-event';
 import Constants from '../../../test-utils/constant';
+import ShallowRenderer from 'react-test-renderer/shallow';
 
 describe('Watching', () => {
   const bounties = Constants.bounties;
@@ -18,6 +19,13 @@ describe('Watching', () => {
       observe,
       disconnect,
     }));
+  });
+
+  it('should render match DOM Snapshot', () => {
+    const shallow = new ShallowRenderer();
+    shallow.render(<Watching watchedBounties={bounties} complete={true} />);
+    const tree = shallow.getRenderOutput();
+    expect(tree).toMatchSnapshot();
   });
 
   it('should let user open BountyCardDetailsModal', async () => {

@@ -1,0 +1,886 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Starred should render match DOM Snapshot 1`] = `
+<div
+  className="sm:w-3/4 max-w-[960px] sm:mx-auto"
+>
+  <div
+    className="py-6 border-border-gray flex gap-4 flex-wrap justify-center sm:justify-start items-stretch w-full font-semibold text-lg"
+  >
+    <OrganizationCard
+      organization={
+        {
+          "__typename": "Organization",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
+          "bountiesCreated": [
+            {
+              "__typename": "Bounty",
+              "bountyAddress": "0x13f7816057de7256daf5028eaf8e79775d3a27a3",
+              "bountyClosedTime": null,
+              "bountyId": "I_kwDOGWnnz85I9Ahl",
+              "bountyMintTime": "1654041044",
+              "bountyTokenBalances": [
+                {
+                  "__typename": "BountyFundedTokenBalance",
+                  "tokenAddress": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+                  "volume": "12000000000000000000",
+                },
+              ],
+              "claimedTransactionHash": null,
+              "deposits": [
+                {
+                  "__typename": "Deposit",
+                  "expiration": "2592000",
+                  "id": "0xd024e550ba670d71f23f336c63ed0aacda946c6836f416028ffa0888b1a4b691",
+                  "receiveTime": "1642021044",
+                  "refundTime": null,
+                  "refunded": false,
+                  "sender": {
+                    "__typename": "User",
+                    "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+                  },
+                  "tokenAddress": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+                  "volume": "12000000000000000000",
+                },
+              ],
+              "issuer": {
+                "__typename": "User",
+                "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+              },
+              "status": "0",
+            },
+            {
+              "__typename": "Bounty",
+              "bountyAddress": "0x35dd738e306d32f2709824b6f744f188da01d3c5",
+              "bountyClosedTime": "1654260841",
+              "bountyId": "I_kwDOGWnnz85LAu6g",
+              "bountyMintTime": "1654260571",
+              "bountyTokenBalances": [],
+              "claimedTransactionHash": "0xe7eeb3a9f51e4c3d977d329b3c90e9ea06b9ab9e74b37fdc52d5093a9e327284",
+              "deposits": [],
+              "issuer": {
+                "__typename": "User",
+                "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+              },
+              "status": "1",
+            },
+            {
+              "__typename": "Bounty",
+              "bountyAddress": "0x7e2d5fcc5e02cbf2b9f860052c0226104e23f9c7",
+              "bountyClosedTime": null,
+              "bountyId": "I_kwDOGWnnz85JAh1-",
+              "bountyMintTime": "1654260379",
+              "bountyTokenBalances": [
+                {
+                  "__typename": "BountyFundedTokenBalance",
+                  "tokenAddress": "0x0000000000000000000000000000000000000000",
+                  "volume": "23000000000000000000",
+                },
+              ],
+              "claimedTransactionHash": null,
+              "deposits": [
+                {
+                  "__typename": "Deposit",
+                  "expiration": "2592000",
+                  "id": "0xf4468608784619a03df77b35476dacf71d8b4b79b02a077092b51a7331924d13",
+                  "receiveTime": "1654261019",
+                  "refundTime": null,
+                  "refunded": false,
+                  "sender": {
+                    "__typename": "User",
+                    "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+                  },
+                  "tokenAddress": "0x0000000000000000000000000000000000000000",
+                  "volume": "23000000000000000000",
+                },
+              ],
+              "issuer": {
+                "__typename": "User",
+                "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+              },
+              "status": "0",
+            },
+            {
+              "__typename": "Bounty",
+              "bountyAddress": "0x3ca8f9c04c7e3e1624ac2008f92f6f366a869444",
+              "bountyClosedTime": "1654260979",
+              "bountyId": "I_kwDOGWnnz85LBZmQ",
+              "bountyMintTime": "1654260353",
+              "bountyTokenBalances": [
+                {
+                  "__typename": "BountyFundedTokenBalance",
+                  "tokenAddress": "0x0000000000000000000000000000000000000000",
+                  "volume": "12000000000000000000",
+                },
+                {
+                  "__typename": "BountyFundedTokenBalance",
+                  "tokenAddress": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+                  "volume": "12000000000000000000",
+                },
+              ],
+              "claimedTransactionHash": "0x63e127d64b05acdb8d00a07d2313645abc4f4af6ae779c1f8a9be7b4dee11b87",
+              "deposits": [
+                {
+                  "__typename": "Deposit",
+                  "expiration": "2592000",
+                  "id": "0xdd9e09885524a2f2c9a906d7c19c9243d8176d355e5e2bf4d87e8cdd2f85dc89",
+                  "receiveTime": "1654260907",
+                  "refundTime": null,
+                  "refunded": false,
+                  "sender": {
+                    "__typename": "User",
+                    "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+                  },
+                  "tokenAddress": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+                  "volume": "12000000000000000000",
+                },
+                {
+                  "__typename": "Deposit",
+                  "expiration": "2592000",
+                  "id": "0xdf51f125ba48ca6ffba4cbbe797e434b792cc6f47c900108a82cd97736619126",
+                  "receiveTime": "1654260893",
+                  "refundTime": null,
+                  "refunded": false,
+                  "sender": {
+                    "__typename": "User",
+                    "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+                  },
+                  "tokenAddress": "0x0000000000000000000000000000000000000000",
+                  "volume": "12000000000000000000",
+                },
+              ],
+              "issuer": {
+                "__typename": "User",
+                "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+              },
+              "status": "1",
+            },
+            {
+              "__typename": "Bounty",
+              "bountyAddress": "0x8daf17a20c9dba35f005b6324f493785d239719d",
+              "bountyClosedTime": null,
+              "bountyId": "I_kwDOGWnnz85JAion",
+              "bountyMintTime": "1654260333",
+              "bountyTokenBalances": [],
+              "claimedTransactionHash": null,
+              "deposits": [],
+              "issuer": {
+                "__typename": "User",
+                "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+              },
+              "status": "0",
+            },
+          ],
+          "createdAt": "2021-01-13T16:10:08Z",
+          "deposits": [
+            {
+              "__typename": "Deposit",
+              "bounty": {
+                "__typename": "Bounty",
+                "bountyId": "I_kwDOGWnnz85I9Ahl",
+                "id": "0x13f7816057de7256daf5028eaf8e79775d3a27a3",
+              },
+              "expiration": "2592000",
+              "id": "0xd024e550ba670d71f23f336c63ed0aacda946c6836f416028ffa0888b1a4b691",
+              "receiveTime": "1642021044",
+              "refundTime": null,
+              "refunded": false,
+              "sender": {
+                "__typename": "User",
+                "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+              },
+              "tokenAddress": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+              "volume": "12000000000000000000",
+            },
+            {
+              "__typename": "Deposit",
+              "bounty": {
+                "__typename": "Bounty",
+                "bountyId": "I_kwDOGWnnz85LBZmQ",
+                "id": "0x3ca8f9c04c7e3e1624ac2008f92f6f366a869444",
+              },
+              "expiration": "2592000",
+              "id": "0xdd9e09885524a2f2c9a906d7c19c9243d8176d355e5e2bf4d87e8cdd2f85dc89",
+              "receiveTime": "1654260907",
+              "refundTime": null,
+              "refunded": false,
+              "sender": {
+                "__typename": "User",
+                "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+              },
+              "tokenAddress": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+              "volume": "12000000000000000000",
+            },
+            {
+              "__typename": "Deposit",
+              "bounty": {
+                "__typename": "Bounty",
+                "bountyId": "I_kwDOGWnnz85LBZmQ",
+                "id": "0x3ca8f9c04c7e3e1624ac2008f92f6f366a869444",
+              },
+              "expiration": "2592000",
+              "id": "0xdf51f125ba48ca6ffba4cbbe797e434b792cc6f47c900108a82cd97736619126",
+              "receiveTime": "1654260893",
+              "refundTime": null,
+              "refunded": false,
+              "sender": {
+                "__typename": "User",
+                "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+              },
+              "tokenAddress": "0x0000000000000000000000000000000000000000",
+              "volume": "12000000000000000000",
+            },
+            {
+              "__typename": "Deposit",
+              "bounty": {
+                "__typename": "Bounty",
+                "bountyId": "I_kwDOGWnnz85JAh1-",
+                "id": "0x7e2d5fcc5e02cbf2b9f860052c0226104e23f9c7",
+              },
+              "expiration": "2592000",
+              "id": "0xf4468608784619a03df77b35476dacf71d8b4b79b02a077092b51a7331924d13",
+              "receiveTime": "1654261019",
+              "refundTime": null,
+              "refunded": false,
+              "sender": {
+                "__typename": "User",
+                "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+              },
+              "tokenAddress": "0x0000000000000000000000000000000000000000",
+              "volume": "23000000000000000000",
+            },
+          ],
+          "description": "Free, open-source work platform tailored for software development",
+          "descriptionHTML": "<div>Free, open-source work platform tailored for software development</div>",
+          "email": "info@openq.dev",
+          "fundedTokenBalances": [
+            {
+              "__typename": "OrganizationFundedTokenBalance",
+              "id": "MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4-0x0000000000000000000000000000000000000000",
+              "tokenAddress": "0x0000000000000000000000000000000000000000",
+              "volume": "23000000000000000000",
+            },
+            {
+              "__typename": "OrganizationFundedTokenBalance",
+              "id": "MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4-0x5fbdb2315678afecb367f032d93f642f64180aa3",
+              "tokenAddress": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+              "volume": "12000000000000000000",
+            },
+          ],
+          "id": "MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4",
+          "isVerified": false,
+          "login": "OpenQDev",
+          "membersWithRole": {
+            "__typename": "OrganizationMemberConnection",
+            "nodes": [
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/13041?u=048e83e6757dab8a264a3adaf6db1b5130f2f9f1&v=4",
+                "name": "Guillermo Rauch",
+                "url": "https://github.com/rauchg",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/20542?u=2d5b4512b81ab00c9e57f42780bd9ebd2c914e9f&v=4",
+                "name": "Nathan Hammond",
+                "url": "https://github.com/nathanhammond",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/25966?u=fd866ec42bdc141a9fe09e9039388f98bf80aa9c&v=4",
+                "name": "Francis Gulotta",
+                "url": "https://github.com/reconbot",
+              },
+            ],
+          },
+          "name": "OpenQ Labs",
+          "payoutTokenBalances": [],
+          "payouts": [
+            {
+              "__typename": "Payout",
+              "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266-0x3ca8f9c04c7e3e1624ac2008f92f6f366a869444-0x0000000000000000000000000000000000000000-1654260979",
+              "payoutTime": "1654260979",
+              "tokenAddress": "0x0000000000000000000000000000000000000000",
+              "volume": "12000000000000000000",
+            },
+            {
+              "__typename": "Payout",
+              "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266-0x3ca8f9c04c7e3e1624ac2008f92f6f366a869444-0x5fbdb2315678afecb367f032d93f642f64180aa3-1654260979",
+              "payoutTime": "1654260979",
+              "tokenAddress": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+              "volume": "12000000000000000000",
+            },
+          ],
+          "starred": true,
+          "twitterUsername": "openqlabs",
+          "url": "https://github.com/OpenQDev",
+          "websiteUrl": "https://openq.dev",
+        }
+      }
+    />
+    <OrganizationCard
+      organization={
+        {
+          "__typename": "Organization",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/14985020?v=4",
+          "bountiesCreated": [
+            {
+              "__typename": "Bounty",
+              "bountyAddress": "0x1f191c4166865882b26551fb8618668b7a67d0fb",
+              "bountyClosedTime": null,
+              "bountyId": "I_kwDOBC3Cis5Kk2OD",
+              "bountyMintTime": "1654260766",
+              "bountyTokenBalances": [],
+              "claimedTransactionHash": null,
+              "deposits": [],
+              "issuer": {
+                "__typename": "User",
+                "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+              },
+              "status": "0",
+            },
+          ],
+          "createdAt": "2015-10-05T19:40:30Z",
+          "deposits": [],
+          "description": "Develop. Preview. Ship. Creators of Next.js.",
+          "descriptionHTML": "<div>Develop. Preview. Ship. Creators of Next.js.</div>",
+          "email": "support@vercel.com",
+          "fundedTokenBalances": [],
+          "id": "MDEyOk9yZ2FuaXphdGlvbjE0OTg1MDIw",
+          "isVerified": true,
+          "location": "Global",
+          "login": "vercel",
+          "membersWithRole": {
+            "__typename": "OrganizationMemberConnection",
+            "nodes": [
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/13041?u=048e83e6757dab8a264a3adaf6db1b5130f2f9f1&v=4",
+                "name": "Guillermo Rauch",
+                "url": "https://github.com/rauchg",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/20542?u=2d5b4512b81ab00c9e57f42780bd9ebd2c914e9f&v=4",
+                "name": "Nathan Hammond",
+                "url": "https://github.com/nathanhammond",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/25966?u=fd866ec42bdc141a9fe09e9039388f98bf80aa9c&v=4",
+                "name": "Francis Gulotta",
+                "url": "https://github.com/reconbot",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/71256?u=d6a9598cd7963ae290923ab12afeff947f542f80&v=4",
+                "name": "Nathan Rajlich",
+                "url": "https://github.com/TooTallNate",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/112982?u=69a62ef075d31a813357f3055f1fa7ec6af24535&v=4",
+                "name": "Justin Ridgewell",
+                "url": "https://github.com/jridgewell",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/123822?u=5c91160ac439795400183bac330905155bee1a90&v=4",
+                "name": "Vincent Voyer",
+                "url": "https://github.com/vvo",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/179761?u=1c474e07ef034242186fea0b914856db20313eb5&v=4",
+                "name": "William Li",
+                "url": "https://github.com/williamli",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/200112?u=a450e86395298e876523a1daf5c39bf1cd9d30c1&v=4",
+                "name": "Sebastian Roming",
+                "url": "https://github.com/sebastianroming",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/209817?u=7f8a7e0c283e1cd3a5b282d08d54b5a12d3796de&v=4",
+                "name": "Peter van der Zee",
+                "url": "https://github.com/pvdz",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/229881?u=58675cc3f9993517e5f29209ccba960d79b719ad&v=4",
+                "name": "Steven",
+                "url": "https://github.com/styfle",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/517210?v=4",
+                "name": "Lindsey Simon",
+                "url": "https://github.com/elsigh",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/556932?u=096b758165ea2694da5dfafda89153985c196d5f&v=4",
+                "name": "Jeff Escalante",
+                "url": "https://github.com/jescalan",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/616428?u=f5e8bd43978beb76f65bbcdc8a482056acaa55cc&v=4",
+                "name": "Joe Haddad",
+                "url": "https://github.com/Timer",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/755844?v=4",
+                "name": "Will Binns-Smith",
+                "url": "https://github.com/wbinnssmith",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/775227?u=2a58759e703e449e637bb11f60545f09a1051a06&v=4",
+                "name": "Naoyuki Kanezawa",
+                "url": "https://github.com/nkzawa",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/992008?u=8dbd9a103ee7090623ebd105434414b454b54e86&v=4",
+                "name": "Shu Uesugi",
+                "url": "https://github.com/chibicode",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/1000405?u=c23babafc6485065ef1c8324c03c913f87e71922&v=4",
+                "name": "Bret Hudson",
+                "url": "https://github.com/BretHudson",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/1130014?u=fba98e9b0c56df115175b294898cf38f108c3f4f&v=4",
+                "name": "Edward Thomson",
+                "url": "https://github.com/ethomson",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/1162991?u=ea2bcb5fb4aea5d36b1bc824a557b0582a1f77be&v=4",
+                "name": "Swarnava Sengupta",
+                "url": "https://github.com/swarnava",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/1365881?v=4",
+                "name": "Tobias Koppers",
+                "url": "https://github.com/sokra",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/1401559?u=14e2c238c5635fc0d112483a37a924062bff1762&v=4",
+                "name": "Bel",
+                "url": "https://github.com/okbel",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/1508008?v=4",
+                "name": "Mark Glagola",
+                "url": "https://github.com/mglagola",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/1634922?u=8b6e564a14939d2911b179a14c3af1973b12d315&v=4",
+                "name": "Javi Velasco",
+                "url": "https://github.com/javivelasco",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/2009676?u=a0480d1246a2db1458e0416fcc0f9685481956de&v=4",
+                "name": "Javier Bórquez",
+                "url": "https://github.com/javierbyte",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/2020473?u=1822b7ee0882022e9e5dcdd54523d9e1e0925244&v=4",
+                "name": "Ian Jones",
+                "url": "https://github.com/WITS",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/2096101?u=b5b169cca744d3c2323175c62cba6983ccd5c7c9&v=4",
+                "name": "Kiko Beats",
+                "url": "https://github.com/Kikobeats",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/2198240?v=4",
+                "name": null,
+                "url": "https://github.com/balazs4",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/2865858?u=27c3f8e33e79d063c5100a3ed6c06149fa2cd77f&v=4",
+                "name": "Maia Teegarden",
+                "url": "https://github.com/padmaia",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/3468483?u=daf25d236ad2cc227470fa0da2d5bdf3dbb7feed&v=4",
+                "name": "LongYinan",
+                "url": "https://github.com/Brooooooklyn",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/3580111?u=d4763fd8b3005b32e64342f495d61a0a8aaab7f2&v=4",
+                "name": "jeffrey",
+                "url": "https://github.com/jarneson",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/3676859?u=a866d19c4fce64bf67a084eb32f29bb6e84020a5&v=4",
+                "name": "Shu Ding",
+                "url": "https://github.com/shuding",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/4271679?u=f1f18b695144bd6ce58cb058306dcff7a2c11470&v=4",
+                "name": "Kaiyu Hsu",
+                "url": "https://github.com/kyh",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/4278345?u=2f0aec09054350f8b2878b832ad75ca5b84b01ac&v=4",
+                "name": "Luis Alvarez D.",
+                "url": "https://github.com/lfades",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/4721750?u=1402012e5e42beeeec00015203f095d15ac5431c&v=4",
+                "name": "Matheus Fernandes",
+                "url": "https://github.com/matheuss",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/4800338?u=b6bc3bdb43bba5681d1e1767af0004758a3c5af8&v=4",
+                "name": "Jiachi Liu",
+                "url": "https://github.com/huozhi",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/5043083?u=ec584c5db0560973cf564f09520dc631c01e5e10&v=4",
+                "name": "Brody McKee",
+                "url": "https://github.com/mrmckeb",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/5818726?v=4",
+                "name": "Caleb Boyd",
+                "url": "https://github.com/calebboyd",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/6324199?u=4bf20067bc68295cbc46fd57c3fe88d508f3305a&v=4",
+                "name": "Tim Neutkens",
+                "url": "https://github.com/timneutkens",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/6616955?u=80838a7a4a7d2a091e5fd00b16245a65bd8435c2&v=4",
+                "name": "Luc Leray",
+                "url": "https://github.com/lucleray",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/6849494?u=3f5c9babf5de70f61dd76a21ec7f939657e254bf&v=4",
+                "name": "Ben Seymour",
+                "url": "https://github.com/bseymour",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/6880091?u=da42714aac11597801cdded4c02ea6123f87888e&v=4",
+                "name": "Evil Rabbit",
+                "url": "https://github.com/evilrabbit",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/7249920?u=1511fd3e1c69c9a3c54f97f1733a5934caf9c2ce&v=4",
+                "name": "Chris",
+                "url": "https://github.com/chriswdmr",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/7690649?u=d0d1502ede1d3c02496be51652dc88334deb68d6&v=4",
+                "name": "paulogdm",
+                "url": "https://github.com/paulogdm",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/7945257?v=4",
+                "name": "Mitchell Wright",
+                "url": "https://github.com/mitchellwright",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/8069675?u=4586224bf7493d07bbed66a63ca032266d383dcd&v=4",
+                "name": "Thomas Mickley-Doyle",
+                "url": "https://github.com/tmickleydoyle",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/8146736?u=7d9ca9170c0df05dad1d27da60d1357245e307ae&v=4",
+                "name": "Florentin / 珞辰",
+                "url": "https://github.com/ecklf",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/8440026?u=92fe33e1864b024f28348a25ebb13c7025092114&v=4",
+                "name": "Christopher",
+                "url": "https://github.com/skllcrn",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/8675906?u=a331caeb60a15653560b067f60116ca9b43a37ad&v=4",
+                "name": "Max Leiter",
+                "url": "https://github.com/MaxLeiter",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/8845940?u=8f81a5bc07995d2c218339a4142463ce46e26237&v=4",
+                "name": "Leah",
+                "url": "https://github.com/ForsakenHarmony",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/9113740?u=6b5c9843f6d345ee178d1171dd3025610312af35&v=4",
+                "name": "Lee Robinson",
+                "url": "https://github.com/leerob",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/11383626?v=4",
+                "name": "Cody Ogden",
+                "url": "https://github.com/codyogden",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/11965195?u=684de98d1765f5354c36d82efdbbd604650c82aa&v=4",
+                "name": "Cody Brouwers",
+                "url": "https://github.com/codybrouwers",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/12075218?u=5bab910b01f92565db72244155c7b29d72d01ffd&v=4",
+                "name": "Elijah Cobb",
+                "url": "https://github.com/elijahjcobb",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/14811170?u=928698e6d968014ea24b7665491cdbf807a25cd2&v=4",
+                "name": "Matthew Stanciu",
+                "url": "https://github.com/MatthewStanciu",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/15165138?u=bdbafd9715a04e1fe321714f077aad03c7e87932&v=4",
+                "name": "Samuel Foster",
+                "url": "https://github.com/FosterSamuel",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/18369201?u=04a8116c83fc5ebbf2000e2e7333a7e388102d97&v=4",
+                "name": "Balázs Orbán",
+                "url": "https://github.com/balazsorban44",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/22380829?u=0d3d36a4bef923933ffa54c609191dbae9988642&v=4",
+                "name": "JJ Kasper",
+                "url": "https://github.com/ijjk",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/25056922?u=adceaebc5bd75972e87667289f00f4b17d2f791f&v=4",
+                "name": "Hannes Bornö",
+                "url": "https://github.com/hanneslund",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/26944716?u=f6456edd60fb60c60a67292c90c03f58a8c6faa2&v=4",
+                "name": "Matthew Sweeney",
+                "url": "https://github.com/mcsdevv",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/28912696?u=cf1b0febc6935d35a4b640fccaed0059bfdffa9f&v=4",
+                "name": "Sam Ko",
+                "url": "https://github.com/samsisle",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/29439845?u=4ec7ccf6b62bac00be89972a082730528ce8c114&v=4",
+                "name": "Hank Taylor",
+                "url": "https://github.com/theHankTaylor",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/29451794?u=511b26caf0ad283231a4e1a7aad2be9518563707&v=4",
+                "name": "Lydia Hallie",
+                "url": "https://github.com/lydiahallie",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/29931815?u=38146b0b29a3bd2425cc19f91bfc7c0e82a20997&v=4",
+                "name": "Donny/강동윤",
+                "url": "https://github.com/kdy1",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/30479228?u=73a077415d43859eb681e243e49dfefc2bf57862&v=4",
+                "name": "Kylie Czajkowski",
+                "url": "https://github.com/kale-stew",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/34559231?u=6219adfd2c117396731a73f5b6be18a2ba4cea02&v=4",
+                "name": "Andrew Healey",
+                "url": "https://github.com/healeycodes",
+              },
+              {
+                "__typename": "User",
+                "avatarUrl": "https://avatars.githubusercontent.com/u/35507539?u=8e9c3161551e0cd43029d3c54692cba302ceaafa&v=4",
+                "name": "Ana Trajkovska",
+                "url": "https://github.com/anatrajkovska",
+              },
+            ],
+          },
+          "name": "Vercel",
+          "payoutTokenBalances": [],
+          "payouts": [],
+          "starred": true,
+          "twitterUsername": null,
+          "url": "https://github.com/vercel",
+          "websiteUrl": "https://vercel.com",
+        }
+      }
+    />
+    <OrganizationCard
+      organization={
+        {
+          "__typename": "User",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/536621?u=d6a4396dac858671993163b112eae5eaaa2f8e87&v=4",
+          "bountiesCreated": [
+            {
+              "__typename": "Bounty",
+              "bountyAddress": "0xd316991a0b2014dcf954bb02150df6261661be2e",
+              "bountyClosedTime": null,
+              "bountyId": "MDU6SXNzdWU4MjQwMjMyMTk=",
+              "bountyMintTime": "1654260628",
+              "bountyTokenBalances": [],
+              "claimedTransactionHash": null,
+              "deposits": [],
+              "issuer": {
+                "__typename": "User",
+                "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+              },
+              "status": "0",
+            },
+          ],
+          "createdAt": "2010-12-26T02:32:21Z",
+          "deposits": [],
+          "fundedTokenBalances": [],
+          "id": "MDQ6VXNlcjUzNjYyMQ==",
+          "login": "lexfridman",
+          "payoutTokenBalances": [],
+          "payouts": [],
+          "starred": true,
+          "twitterUsername": "lexfridman",
+          "url": "https://github.com/lexfridman",
+          "websiteUrl": "https://lexfridman.com",
+        }
+      }
+    />
+    <OrganizationCard
+      organization={
+        {
+          "__typename": "User",
+          "avatarUrl": "https://avatars.githubusercontent.com/u/14804123?u=4c57866c2d77f3ca1ec555cd1b0d9470ea9e4bf8&v=4",
+          "bountiesCreated": [
+            {
+              "__typename": "Bounty",
+              "bountyAddress": "0xcdf0e532ab8eb9a12da5cae3b6ae5370faacd028",
+              "bountyClosedTime": null,
+              "bountyId": "MDU6SXNzdWU5ODU5NDM2NjQ=",
+              "bountyMintTime": "1654260724",
+              "bountyTokenBalances": [
+                {
+                  "__typename": "BountyFundedTokenBalance",
+                  "tokenAddress": "0x0000000000000000000000000000000000000000",
+                  "volume": "20000000000000000000",
+                },
+              ],
+              "claimedTransactionHash": null,
+              "deposits": [
+                {
+                  "__typename": "Deposit",
+                  "expiration": "2592000",
+                  "id": "0x7ee8fd2ee7dfa772cdb59e0d7eedec94a51af7fb711e9b80979aa93b9b0722a6",
+                  "receiveTime": "1654271484",
+                  "refundTime": null,
+                  "refunded": false,
+                  "sender": {
+                    "__typename": "User",
+                    "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+                  },
+                  "tokenAddress": "0x0000000000000000000000000000000000000000",
+                  "volume": "20000000000000000000",
+                },
+              ],
+              "issuer": {
+                "__typename": "User",
+                "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+              },
+              "status": "0",
+            },
+          ],
+          "createdAt": "2015-09-23T11:57:44Z",
+          "deposits": [
+            {
+              "__typename": "Deposit",
+              "bounty": {
+                "__typename": "Bounty",
+                "bountyId": "MDU6SXNzdWU5ODU5NDM2NjQ=",
+                "id": "0xcdf0e532ab8eb9a12da5cae3b6ae5370faacd028",
+              },
+              "expiration": "2592000",
+              "id": "0x7ee8fd2ee7dfa772cdb59e0d7eedec94a51af7fb711e9b80979aa93b9b0722a6",
+              "receiveTime": "1654271484",
+              "refundTime": null,
+              "refunded": false,
+              "sender": {
+                "__typename": "User",
+                "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+              },
+              "tokenAddress": "0x0000000000000000000000000000000000000000",
+              "volume": "20000000000000000000",
+            },
+          ],
+          "fundedTokenBalances": [
+            {
+              "__typename": "OrganizationFundedTokenBalance",
+              "id": "MDQ6VXNlcjE0ODA0MTIz-0x0000000000000000000000000000000000000000",
+              "tokenAddress": "0x0000000000000000000000000000000000000000",
+              "volume": "20000000000000000000",
+            },
+          ],
+          "id": "MDQ6VXNlcjE0ODA0MTIz",
+          "login": "yoheikikuta",
+          "payoutTokenBalances": [],
+          "payouts": [],
+          "starred": true,
+          "twitterUsername": null,
+          "url": "https://github.com/yoheikikuta",
+          "websiteUrl": "https://yoheikikuta.github.io/",
+        }
+      }
+    />
+  </div>
+</div>
+`;
