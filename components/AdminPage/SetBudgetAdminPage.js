@@ -80,7 +80,7 @@ const SetBudgetAdminPage = ({ refreshBounty, bounty }) => {
         </>
       )}
 
-      <AdminModal setModal={setModal} tokenAddress={token.tokenAddress} bounty={bounty} modal={modal} />
+      <AdminModal setModal={setModal} tokenAddress={token.address} bounty={bounty} modal={modal} />
     </>
   );
 };

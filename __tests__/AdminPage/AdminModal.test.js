@@ -27,12 +27,12 @@ describe('AdminModal', () => {
     transactionHash: '0xadfassadf',
     events: [{ args: [null, zeroAddress, '10000000000000000000'] }],
   };
-  it('should display approve state', async () => {
+  it('should display split price state', async () => {
     // ARRANGE
     render(
       <AdminModal
         bounty={{ bountyType: '1' }}
-        payoutAddress={zeroAddress}
+        tokenAddress={zeroAddress}
         setModal={() => null}
         modal={{
           title: 'Payout',
@@ -51,12 +51,12 @@ describe('AdminModal', () => {
     });
   });
 
-  it('should display approve state', async () => {
+  it('should update budget', async () => {
     // ARRANGE
     render(
       <AdminModal
         bounty={{ bountyType: '1' }}
-        payoutAddress={zeroAddress}
+        tokenAddress={zeroAddress}
         setModal={() => null}
         modal={{
           title: 'Payout',
@@ -77,12 +77,12 @@ describe('AdminModal', () => {
     });
   });
 
-  it('should display approve state', async () => {
+  it('should update payout', async () => {
     // ARRANGE
     render(
       <AdminModal
         bounty={{ bountyType: '1' }}
-        payoutAddress={zeroAddress}
+        tokenAddress={zeroAddress}
         setModal={() => null}
         modal={{
           title: 'Payout',
@@ -103,12 +103,12 @@ describe('AdminModal', () => {
     });
   });
 
-  it('should display approve state', async () => {
+  it('should display update payoutschedule', async () => {
     // ARRANGE
     render(
       <AdminModal
         bounty={{ bountyType: '2' }}
-        payoutAddress={zeroAddress}
+        tokenAddress={zeroAddress}
         setModal={() => null}
         modal={{
           title: 'Payout',
@@ -130,12 +130,12 @@ describe('AdminModal', () => {
       expect(nullish).toHaveLength(0);
     });
   });
-  it('should display approve state', async () => {
+  it('should update other payout schedule', async () => {
     // ARRANGE
     render(
       <AdminModal
         bounty={{ bountyType: '3' }}
-        payoutTokenAddress={zeroAddress}
+        tokenAddress={zeroAddress}
         setModal={() => null}
         modal={{
           title: 'Payout',
@@ -157,7 +157,7 @@ describe('AdminModal', () => {
   const test = () => {
     it('should show Budget updated', async () => {
       // ARRANGE
-      render(<AdminModal modal={modalBudget} bounty={bounty} />);
+      render(<AdminModal tokenAddress={zeroAddress} modal={modalBudget} bounty={bounty} />);
       await waitFor(() => {
         // ACT
         const heading = screen.getByText('Budget Updated!');
@@ -175,7 +175,7 @@ describe('AdminModal', () => {
 
     it('should show Set Payout Upated for split price contracts', async () => {
       // ARRANGE
-      render(<AdminModal modal={modalPayout} bounty={bounty} />);
+      render(<AdminModal tokenAddress={zeroAddress} modal={modalPayout} bounty={bounty} />);
 
       // ACT
       await waitFor(() => {
@@ -194,7 +194,7 @@ describe('AdminModal', () => {
 
     it('should show Closed contract for split price contracts', async () => {
       // ARRANGE
-      render(<AdminModal modal={modalCloseSplitPrice} bounty={bounty} />);
+      render(<AdminModal tokenAddress={zeroAddress} modal={modalCloseSplitPrice} bounty={bounty} />);
 
       // ACT
       await waitFor(() => {
@@ -209,7 +209,7 @@ describe('AdminModal', () => {
 
     it('should show Set New Payout Schedule on Contest contracts', async () => {
       // ARRANGE
-      render(<AdminModal payoutTokenAddress={zeroAddress} modal={modalContest} bounty={bounty} />);
+      render(<AdminModal tokenAddress={zeroAddress} modal={modalContest} bounty={bounty} />);
 
       // ACT
       await waitFor(() => {

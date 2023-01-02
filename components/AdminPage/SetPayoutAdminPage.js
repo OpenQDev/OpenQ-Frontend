@@ -120,7 +120,7 @@ const SetPayoutAdminPage = ({ bounty, refreshBounty, setShowButton }) => {
           )}
         </>
       ) : null}
-      <AdminModal setModal={setModal} bounty={bounty} modal={modal} />
+      <AdminModal setModal={setModal} bounty={bounty} modal={modal} tokenAddress={payoutToken.address} />
     </>
   );
 };

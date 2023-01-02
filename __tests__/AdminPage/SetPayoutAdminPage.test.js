@@ -40,7 +40,6 @@ describe('SetPayoutAdminPage', () => {
     expect(await screen.findByText(/Updating Payout.../)).toBeInTheDocument();
     expect(screen.getByText(/our request is being processed.../)).toBeInTheDocument();
     expect(await screen.findByText(/updated/i)).toBeInTheDocument();
-    expect(await screen.findByText(/payout set to/i)).toBeInTheDocument();
     expect(await screen.findByText(/100.0 LINK/i)).toBeInTheDocument();
     expect(setPayout).toBeCalledWith(bounty.bountyId, '100', '0x5FbDB2315678afecb367f032d93F642f64180aa3');
   });

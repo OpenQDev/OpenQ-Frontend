@@ -7,7 +7,7 @@ import CopyBountyAddress from '../CopyBountyAddress';
 import StoreContext from '../../../store/Store/StoreContext';
 import TokenBalances from '../../TokenBalances/TokenBalances';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
-import PieChart from './PieChart';
+import PieChart from '../PieChart';
 import { ethers } from 'ethers';
 import useDisplayValue from '../../../hooks/useDisplayValue';
 
