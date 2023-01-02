@@ -4,7 +4,7 @@
 import React from 'react';
 
 import { render, screen } from '../../test-utils';
-import BountyCardDetails from '../../components/Bounty/BountyCardDetails';
+import BountyCardDetails from './BountyCardDetails';
 import { waitFor } from '@testing-library/react';
 import Constants from '../../test-utils/constant';
 
