@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ToolTipNew should match DOM Snapshot & display tooltip with styles 1`] = `
+<div
+  className="group undefined"
+>
+  <div />
+  <div
+    className="justify-center w-full relative hidden z-50 group-hover:block  outerStyles "
+  >
+    <div
+      className="flex flex-col items-center"
+    >
+      <div
+        className="flex mt-0.5 md:mt-1 tooltip-triangle absolute undefined"
+      />
+      <div
+        className="flex tooltip absolute undefined"
+      >
+        <div
+          className="innerStyles"
+        >
+          sample text
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ToolTipNew should match DOM Snapshot & hide tooltip 1`] = `<div />`;
