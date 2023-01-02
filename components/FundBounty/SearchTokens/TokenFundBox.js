@@ -21,12 +21,16 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume, placeho
         </div>
       </div>
       <div className='flex'>
-        <button className='flex flex-row items-center btn-default p-0.5 px-2' onClick={() => setShowTokenSearch(true)}>
+        <button
+          aria-label='select token'
+          className='flex flex-row items-center btn-default p-0.5 px-2'
+          onClick={() => setShowTokenSearch(true)}
+        >
           <div className='flex h-4 w-4 items-center justify-center'>
             <Image
               src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'}
               className='rounded-full'
-              alt='n/a'
+              alt='selected token'
               width={40}
               height={40}
             />

@@ -3,13 +3,13 @@
  */
 import React from 'react';
 import { render, screen } from '../../test-utils';
-import SetBudgetAdminPage from '../../components/AdminPage/SetBudgetAdminPage';
+import SetPayoutAdminPage from '../../components/AdminPage/SetPayoutAdminPage';
 import InitialState from '../../store/Store/InitialState';
 import Constants from '../../test-utils/constant';
 import userEvent from '@testing-library/user-event';
 import MockOpenQClient from '../../services/ethers/MockOpenQClient';
-describe('SetBudgetAdminPage', () => {
-  const bounty = Constants.bounty;
+describe('SetPayoutAdminPage', () => {
+  const bounty = Constants.bounty1;
   beforeEach(() => {
     InitialState.openQClient.reset();
     const observe = jest.fn();
@@ -22,26 +22,26 @@ describe('SetBudgetAdminPage', () => {
   it('should allow user to update budget', async () => {
     // ARRANGE
     const user = userEvent.setup();
-    const setFundingGoal = jest.fn();
+    const setPayout = jest.fn();
     const customInitialState = {
       ...InitialState,
-      openQClient: new MockOpenQClient({ setFundingGoal }),
+      openQClient: new MockOpenQClient({ setPayout }),
     };
-    render(<SetBudgetAdminPage refreshBounty={() => {}} bounty={bounty} />, {}, customInitialState);
-    expect(screen.getByText('Set a New Budget for this Contract')).toBeInTheDocument();
+    render(<SetPayoutAdminPage refreshBounty={() => {}} bounty={bounty} />, {}, customInitialState);
+    expect(screen.getByText('Set Payout for Each Submitter')).toBeInTheDocument();
 
     // ACT
     await user.type(screen.getByRole('textbox'), '100');
     await user.click(screen.getByRole('button', { name: 'select token' }));
     await user.click(screen.getByRole('button', { name: /link/i }));
-    await user.click(await screen.findByRole('button', { name: 'Set New Budget' }));
+    await user.click(await screen.findByRole('button', { name: 'Set Payout' }));
 
     // ASSERT
-    expect(await screen.findByText(/Updating Budget.../)).toBeInTheDocument();
+    expect(await screen.findByText(/Updating Payout.../)).toBeInTheDocument();
     expect(screen.getByText(/our request is being processed.../)).toBeInTheDocument();
     expect(await screen.findByText(/updated/i)).toBeInTheDocument();
-    expect(await screen.findByText(/budget set to/i)).toBeInTheDocument();
-    expect(await screen.findByText(/100.0 LINK/)).toBeInTheDocument();
-    expect(setFundingGoal).toBeCalledWith(bounty.bountyId, '100', '0x5FbDB2315678afecb367f032d93F642f64180aa3');
+    expect(await screen.findByText(/payout set to/i)).toBeInTheDocument();
+    expect(await screen.findByText(/100.0 LINK/i)).toBeInTheDocument();
+    expect(setPayout).toBeCalledWith(bounty.bountyId, '100', '0x5FbDB2315678afecb367f032d93F642f64180aa3');
   });
 });

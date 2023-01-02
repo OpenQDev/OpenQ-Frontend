@@ -3,7 +3,11 @@ import Image from 'next/image';
 
 const TokenDisplay = ({ token, onSelect, showCursor }) => {
   return (
-    <div className={`flex flex-row ${showCursor && 'cursor-pointer'} space-x-4 pb-3`} onClick={() => onSelect(token)}>
+    <button
+      aria-label={`select ${token.name || token.symbol}`}
+      className={`flex flex-row ${showCursor && 'cursor-pointer'} space-x-4 pb-3`}
+      onClick={() => onSelect(token)}
+    >
       <div className='pt-2 h-8 w-6'>
         <Image
           src={token.logoURI || token.path || '/crypto-logos/ERC20.svg'}
@@ -17,7 +21,7 @@ const TokenDisplay = ({ token, onSelect, showCursor }) => {
         <div className='font-bold truncate'>{token.symbol}</div>
         <div className='text-sm text-gray-200 truncate w-32'>{token.name}</div>
       </div>
-    </div>
+    </button>
   );
 };
 
