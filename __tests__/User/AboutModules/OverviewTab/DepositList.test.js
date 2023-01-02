@@ -5,47 +5,17 @@ import React from 'react';
 
 import { render, screen } from '../../../../test-utils';
 import DepositList from '../../../../components/User/OverviewTab/DepositList';
+import ShallowRenderer from 'react-test-renderer/shallow';
+import Constants from '../../../../test-utils/constant';
 
 describe('DepositList', () => {
-  const deposits = [
-    {
-      __typename: 'Deposit',
-      id: '0xdd9e09885524a2f2c9a906d7c19c9243d8176d355e5e2bf4d87e8cdd2f85dc89',
-      refunded: false,
-      refundTime: null,
-      expiration: '2592000',
-      tokenAddress: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
-      volume: '12000000000000000000',
-      sender: {
-        __typename: 'User',
-        id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
-      },
-      receiveTime: '1654260907',
-    },
-    {
-      __typename: 'Deposit',
-      id: '0xdf51f125ba48ca6ffba4cbbe797e434b792cc6f47c900108a82cd97736619126',
-      refunded: false,
-      refundTime: null,
-      expiration: '2592000',
-      tokenAddress: '0x0000000000000000000000000000000000000000',
-      volume: '12000000000000000000',
-      sender: {
-        __typename: 'User',
-        id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
-      },
-      receiveTime: '1654260893',
-    },
-  ];
+  const deposits = Constants.deposits;
 
-  beforeEach(() => {
-    const observe = jest.fn();
-    const disconnect = jest.fn();
-
-    window.IntersectionObserver = jest.fn(() => ({
-      observe,
-      disconnect,
-    }));
+  it('should match DOM Snapshot', () => {
+    const shallow = new ShallowRenderer();
+    shallow.render(<DepositList deposits={deposits} />);
+    const tree = shallow.getRenderOutput();
+    expect(tree).toMatchSnapshot();
   });
 
   it('should render Bounty heading', async () => {
@@ -53,13 +23,8 @@ describe('DepositList', () => {
     render(<DepositList deposits={deposits} />);
 
     // ASSERT
-    expect(screen.getByText(/Deposited on: June 3, 2022 at 12:54/)).toBeInTheDocument();
-  });
-  it('should render Bounty heading', async () => {
-    // ARRANGE
-    render(<DepositList deposits={deposits} />);
-
-    // ASSERT
-    expect(screen.getByText(/Refundable on: July 3, 2022 at 12:55/)).toBeInTheDocument();
+    expect(screen.getAllByText(/Deposited on: September 7, 2022 at 10:09/)).toHaveLength(3);
+    expect(screen.getAllByText(/Refundable on: September 22, 2022 at 10:09/)).toHaveLength(2);
+    expect(screen.getByText(/Refunded on: September 7, 2022 at 14:08/)).toBeInTheDocument();
   });
 });

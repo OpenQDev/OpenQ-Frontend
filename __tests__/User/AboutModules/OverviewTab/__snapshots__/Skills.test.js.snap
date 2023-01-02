@@ -1,0 +1,144 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Skills should match DOM Snapshot 1`] = `
+<div
+  className="px-8 py-6 pb border-t border-web-gray"
+>
+  <h2
+    className="font-semibold text-lg pb-2 "
+  >
+    Skills
+  </h2>
+  <ul>
+    <Roles
+      category="Dev Role"
+      defaultRoles={
+        [
+          "Junior Developer",
+        ]
+      }
+      user={
+        {
+          "devRoles": [
+            "Junior Developer",
+          ],
+          "email": "abc123@gmail.com",
+          "frameworks": [
+            "React",
+          ],
+          "github": "MDQ6VXNlcjcyMTU2Njc5",
+          "id": "63a3a266ab24d99d359a6d51",
+          "languages": [
+            "JavaScript",
+            "Solidity",
+          ],
+          "otherRoles": [
+            "",
+          ],
+          "starredOrganizationIds": undefined,
+          "twitter": "https://twitter.com/Christo28120856",
+          "username": "Christopher",
+          "watchedBounties": undefined,
+        }
+      }
+    />
+    <Roles
+      category="Other Role"
+      defaultRoles={
+        [
+          "",
+        ]
+      }
+      user={
+        {
+          "devRoles": [
+            "Junior Developer",
+          ],
+          "email": "abc123@gmail.com",
+          "frameworks": [
+            "React",
+          ],
+          "github": "MDQ6VXNlcjcyMTU2Njc5",
+          "id": "63a3a266ab24d99d359a6d51",
+          "languages": [
+            "JavaScript",
+            "Solidity",
+          ],
+          "otherRoles": [
+            "",
+          ],
+          "starredOrganizationIds": undefined,
+          "twitter": "https://twitter.com/Christo28120856",
+          "username": "Christopher",
+          "watchedBounties": undefined,
+        }
+      }
+    />
+    <Roles
+      category="Language"
+      defaultRoles={
+        [
+          "JavaScript",
+          "Solidity",
+        ]
+      }
+      user={
+        {
+          "devRoles": [
+            "Junior Developer",
+          ],
+          "email": "abc123@gmail.com",
+          "frameworks": [
+            "React",
+          ],
+          "github": "MDQ6VXNlcjcyMTU2Njc5",
+          "id": "63a3a266ab24d99d359a6d51",
+          "languages": [
+            "JavaScript",
+            "Solidity",
+          ],
+          "otherRoles": [
+            "",
+          ],
+          "starredOrganizationIds": undefined,
+          "twitter": "https://twitter.com/Christo28120856",
+          "username": "Christopher",
+          "watchedBounties": undefined,
+        }
+      }
+    />
+    <Roles
+      category="Framework"
+      defaultRoles={
+        [
+          "React",
+        ]
+      }
+      user={
+        {
+          "devRoles": [
+            "Junior Developer",
+          ],
+          "email": "abc123@gmail.com",
+          "frameworks": [
+            "React",
+          ],
+          "github": "MDQ6VXNlcjcyMTU2Njc5",
+          "id": "63a3a266ab24d99d359a6d51",
+          "languages": [
+            "JavaScript",
+            "Solidity",
+          ],
+          "otherRoles": [
+            "",
+          ],
+          "starredOrganizationIds": undefined,
+          "twitter": "https://twitter.com/Christo28120856",
+          "username": "Christopher",
+          "watchedBounties": undefined,
+        }
+      }
+    />
+  </ul>
+</div>
+`;

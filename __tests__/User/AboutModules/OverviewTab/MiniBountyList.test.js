@@ -5,6 +5,7 @@ import React from 'react';
 
 import { render, screen } from '../../../../test-utils';
 import MiniBountyList from '../../../../components/User/OverviewTab/MiniBountyList';
+import ShallowRenderer from 'react-test-renderer/shallow';
 
 describe('MiniBountyList', () => {
   const payouts = [
@@ -29,16 +30,12 @@ describe('MiniBountyList', () => {
       tokenAddress: '0x0000000000000000000000000000000000000000',
     },
   ];
-  beforeEach(() => {
-    const observe = jest.fn();
-    const disconnect = jest.fn();
-    process.env.NEXT_PUBLIC_COIN_API_URL = 'http://localhost:3030';
-    process.env.COIN_API_SSR_URL = 'http://localhost:3030';
 
-    window.IntersectionObserver = jest.fn(() => ({
-      observe,
-      disconnect,
-    }));
+  it('should match DOM Snapshot', () => {
+    const shallow = new ShallowRenderer();
+    shallow.render(<MiniBountyList payouts={payouts} title={'example'} />);
+    const tree = shallow.getRenderOutput();
+    expect(tree).toMatchSnapshot();
   });
 
   it('should render MiniBountyList with link', async () => {
