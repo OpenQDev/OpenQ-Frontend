@@ -37,7 +37,6 @@ const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch, alon
     const setTokenList = async () => {
       const polygonDefaultTokens = await appState.tokenClient.getTokenMetadata(0, batch, 'polygon');
       const constantTokens = await appState.tokenClient.getTokenMetadata(0, 100, 'constants');
-
       if (!didCancel) setOpenQTokens(constantTokens);
       if (!didCancel) setPolygonTokens(polygonDefaultTokens);
     };
