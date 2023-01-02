@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SubMenu should match DOM Snapshot and match horizontal style 1`] = `
+<div
+  className="px-2 sm:px-8 text-primary  w-full flex h-12 overflow-x-auto overflow-y-hidden border-web-gray border-b items-center  gap-x-1 md:gap-x-4 relative undefined "
+>
+  <li
+    className="w-fit list-none relative"
+  >
+    <button
+      className="undefined cursor-pointer px-1 flex gap-1 sm:gap-2 items-center text-sm hover:bg-inactive-gray leading-5 py-1 hover:bg-active-gray rounded-sm justify-center w-fit false"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="whitespace-nowrap"
+      >
+        View
+      </span>
+    </button>
+    <div
+      className="absolute w-full  top-9 border border-transparent"
+    />
+  </li>
+  <li
+    className="w-fit list-none relative"
+  >
+    <button
+      className="undefined cursor-pointer px-1 flex gap-1 sm:gap-2 items-center text-sm hover:bg-inactive-gray leading-5 py-1 hover:bg-active-gray rounded-sm justify-center w-fit  undefined "
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="whitespace-nowrap"
+      >
+        Fund
+      </span>
+    </button>
+    <div
+      className="absolute w-full  top-9 border border-link-colour bg-link-colour"
+    />
+  </li>
+</div>
+`;
+
+exports[`SubMenu should match DOM Snapshot and match vertical style 1`] = `
+<div
+  className="px-2 px-0 text-primary  w-full flex flex-col gap-2  gap-x-1 md:gap-x-4 relative undefined "
+>
+  <li
+    className="w-fit list-none relative"
+  >
+    <button
+      className="pl-2 cursor-pointer px-1 flex gap-1 sm:gap-2 items-center text-sm hover:bg-inactive-gray leading-5 py-1 hover:bg-active-gray rounded-sm justify-center w-fit false"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="whitespace-nowrap"
+      >
+        View
+      </span>
+    </button>
+  </li>
+  <li
+    className="w-fit list-none relative"
+  >
+    <button
+      className="pl-2 cursor-pointer px-1 flex gap-1 sm:gap-2 items-center text-sm hover:bg-inactive-gray leading-5 py-1 hover:bg-active-gray rounded-sm justify-center w-fit  after:h-5 after:left-0 after:w-0.5 after:absolute after:bg-link-colour "
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="whitespace-nowrap"
+      >
+        Fund
+      </span>
+    </button>
+  </li>
+</div>
+`;

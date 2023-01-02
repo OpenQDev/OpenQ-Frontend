@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Balances should match DOM Snapshot 1`] = `
+<React.Fragment>
+  <div
+    className="px-8 py-6 pb border-t border-web-gray"
+  >
+    <h2
+      className="font-semibold text-lg"
+    >
+      spot on mate
+    </h2>
+    <TokenBalances
+      tokenBalances={
+        [
+          {
+            "__typename": "BountyFundedTokenBalance",
+            "tokenAddress": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+            "volume": "12000000000000000000",
+          },
+        ]
+      }
+      tokenValues={
+        {
+          "tokenPrices": {
+            "0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39": 0.67,
+          },
+          "tokens": {
+            "0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39": 8.040000000000001,
+          },
+          "total": 8.04,
+        }
+      }
+    />
+  </div>
+</React.Fragment>
+`;

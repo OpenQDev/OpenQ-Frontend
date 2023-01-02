@@ -6,10 +6,15 @@ import { render, screen } from '../../test-utils';
 import MintBountyButton from '../../components/MintBounty/MintBountyButton';
 import userEvent from '@testing-library/user-event';
 import InitialState from '../../store/Store/InitialState';
+import renderer from 'react-test-renderer';
 
 InitialState.openQClient.shouldSleep = 200;
 
 describe('MintBountyButton', () => {
+  it('should match DOM Snapshot', () => {
+    const tree = renderer.create(<MintBountyButton />);
+    expect(tree.toJSON()).toMatchSnapshot();
+  });
   it('should open MintBountyModal on fixed price', async () => {
     // ARRANGE
     const user = userEvent.setup();

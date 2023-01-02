@@ -2,19 +2,15 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen } from '../../../../../test-utils';
 import TierResult from '../../../../../components/MintBounty/MintBountyModal/AddContestParams/SetTierValues/TierResult';
 import InitialState from '../../../../../store/Store/InitialState';
+import renderer from 'react-test-renderer';
 
 InitialState.openQClient.shouldSleep = 200;
 
-const mockTierVolumeChange = jest.fn();
 describe('Tier Tier Result', () => {
-  it('should show tier selecter', async () => {
-    // ARRANGE
-    render(<TierResult tier={2} finalTierVolumes={[20, 80]} onTierVolumeChange={mockTierVolumeChange} />);
-
-    // ACT
-    expect(screen.getByText(/%/)).toBeInTheDocument();
+  it('should match DOM Snapshot', () => {
+    const tree = renderer.create(<TierResult sum={100} finalTierVolumes={[20, 80]} />);
+    expect(tree.toJSON()).toMatchSnapshot();
   });
 });

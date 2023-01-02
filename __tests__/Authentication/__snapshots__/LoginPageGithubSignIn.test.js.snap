@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoginPageGithubSignIn should match DOM Snapshot 1`] = `
+<button
+  className="flex justify-center btn-primary  rounded-lg py-2 font-bold whitespace-nowrap w-full"
+  onClick={[Function]}
+>
+  <div
+    className="flex flex-row items-center justify-center space-x-3"
+  >
+    <div
+      className="h-4 w-4 md:h-6 md:w-6 relative rounded-full"
+    >
+      <img
+        alt="Picture of the author"
+        data-nimg="1"
+        decoding="async"
+        height={24}
+        loading="lazy"
+        onError={[Function]}
+        onLoad={[Function]}
+        src="/social-icons/github-logo-white.svg"
+        srcSet="/social-icons/github-logo-white.svg 1x, /social-icons/github-logo-white.svg 2x"
+        style={
+          {
+            "color": "transparent",
+          }
+        }
+        width={24}
+      />
+    </div>
+    <div>
+      Continue with Github
+    </div>
+    <svg
+      aria-hidden="true"
+      className="octicon octicon-arrow-right"
+      fill="currentColor"
+      focusable="false"
+      height={32}
+      role="img"
+      style={
+        {
+          "display": "inline-block",
+          "overflow": "visible",
+          "userSelect": "none",
+          "verticalAlign": "text-bottom",
+        }
+      }
+      viewBox="0 0 24 24"
+      width={32}
+    >
+      <path
+        d="M13.22 19.03a.75.75 0 001.06 0l6.25-6.25a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 10-1.06 1.06l4.97 4.97H3.75a.75.75 0 000 1.5h14.44l-4.97 4.97a.75.75 0 000 1.06z"
+        fillRule="evenodd"
+      />
+    </svg>
+  </div>
+</button>
+`;

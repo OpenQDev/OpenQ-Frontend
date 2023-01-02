@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AvatarPack should match DOM Snapshot 1`] = `
+<div
+  className="flex flex-row-reverse relative w-min"
+>
+  <div
+    className="w-8"
+  >
+    <div
+      className="group undefined"
+    >
+      <div
+        className="h-8 w-8 rounded-full bg-black cursor-pointer overflow-hidden position relative hover:z-10 z-0 hover:border-gray-700 hover:border border border-transparent"
+      >
+        <div
+          data-testid="link"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+        >
+          <img
+            alt="avatar"
+            data-nimg="1"
+            decoding="async"
+            height={32}
+            loading="lazy"
+            onError={[Function]}
+            onLoad={[Function]}
+            src="/_next/image?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F77402538%3Fs%3D200%26v%3D4&w=64&q=75"
+            srcSet="/_next/image?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F77402538%3Fs%3D200%26v%3D4&w=32&q=75 1x, /_next/image?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F77402538%3Fs%3D200%26v%3D4&w=64&q=75 2x"
+            style={
+              {
+                "color": "transparent",
+              }
+            }
+            width={32}
+          />
+        </div>
+      </div>
+      <div
+        className="justify-center w-full relative hidden z-50 group-hover:block  undefined "
+      >
+        <div
+          className="flex flex-col items-center"
+        >
+          <div
+            className="flex mt-0.5 md:mt-1 tooltip-triangle absolute undefined"
+          />
+          <div
+            className="flex tooltip absolute undefined"
+          >
+            <div
+              className="undefined"
+            >
+              OpenQDev
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

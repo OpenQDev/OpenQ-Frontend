@@ -8,6 +8,7 @@ import { render, screen } from '../../test-utils';
 import InitialState from '../../store/Store/InitialState';
 import OrganizationMetadata from '../../components/Organization/OrganizationMetadata';
 import mocks from '../../__mocks__/mock-server.json';
+import renderer from 'react-test-renderer';
 
 describe('OrganizationMetadata', () => {
   let mergedOrgs = mocks.organizations.map((org) => {
@@ -43,9 +44,15 @@ describe('OrganizationMetadata', () => {
         },
       ];
     }, []);
+    it('should match DOM Snapshot', () => {
+      const tree = renderer.create(
+        <OrganizationMetadata organizationData={organization} repositories={repositories} />
+      );
+      expect(tree.toJSON()).toMatchSnapshot();
+    });
     it('should render Org homepage', async () => {
       // ARRANGE
-      render(<OrganizationMetadata organizationData={organization} repositories={repositories} complete={true} />);
+      render(<OrganizationMetadata organizationData={organization} repositories={repositories} />);
 
       // ASSERT
       await waitFor(() => {

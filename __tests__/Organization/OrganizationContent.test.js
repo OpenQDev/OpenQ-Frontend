@@ -7,6 +7,7 @@ import { waitFor } from '@testing-library/react';
 
 import { render, screen } from '../../test-utils';
 import OrganizationContent from '../../components/Organization/OrganizationContent';
+import ShallowRenderer from 'react-test-renderer/shallow';
 
 import nextRouter from 'next/router';
 
@@ -98,6 +99,21 @@ describe('OrganizationContent', () => {
   const getNewData = () => {
     return null;
   };
+
+  it('should render match DOM Snapshot', () => {
+    const shallow = new ShallowRenderer();
+    shallow.render(
+      <OrganizationContent
+        getMoreData={getMoreData}
+        getNewData={getNewData}
+        bounties={orgBounties}
+        repositories={repositories}
+        complete={true}
+      />
+    );
+    const tree = shallow.getRenderOutput();
+    expect(tree).toMatchSnapshot();
+  });
 
   it('should render Org content card for yoheikikuta', async () => {
     // ARRANGE

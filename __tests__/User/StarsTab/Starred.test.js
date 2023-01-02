@@ -6,6 +6,7 @@ import React from 'react';
 import { render, screen } from '../../../test-utils';
 import mocks from '../../../__mocks__/mock-server.json';
 import Starred from '../../../components/User/StarsTab/Starred';
+import ShallowRenderer from 'react-test-renderer/shallow';
 
 describe('Starred', () => {
   let mergedOrgs = mocks.organizations.map((org) => {
@@ -19,6 +20,12 @@ describe('Starred', () => {
   });
 
   const test = (mergedOrgs) => {
+    it('should render match DOM Snapshot', () => {
+      const shallow = new ShallowRenderer();
+      shallow.render(<Starred starredOrganizations={mergedOrgs} />);
+      const tree = shallow.getRenderOutput();
+      expect(tree).toMatchSnapshot();
+    });
     it('should render Starred card', async () => {
       // ARRANGE
       render(<Starred starredOrganizations={mergedOrgs} />);

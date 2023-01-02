@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BountyContributors Snapshot should match DOM Snapshot and 0 contribs 1`] = `
+[
+  <div
+    className="font-bold text-xl"
+  >
+    Contributors
+  </div>,
+  <div>
+    Total: 
+    0
+  </div>,
+  <br />,
+]
+`;

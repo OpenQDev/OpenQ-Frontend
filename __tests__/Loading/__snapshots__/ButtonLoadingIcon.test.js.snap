@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ButtonLoadingIcon should show graph and match DOM Snapshot 1`] = `
+<div>
+  <div
+    className="graph-anim-wrapper"
+  >
+    <div
+      className="size-9"
+    >
+      <div
+        className="orbit size-8"
+      >
+        <div
+          className="planet-8"
+        />
+        <div
+          className="orbit size-7"
+        >
+          <div
+            className="planet-7"
+          />
+          <div
+            className="orbit size-6"
+          >
+            <div
+              className="planet-wrapper"
+            >
+              <div
+                className="planet-6"
+              />
+              <div
+                className="planet-4"
+              />
+            </div>
+            <div
+              className="orbit size-5"
+            >
+              <div
+                className="planet-5"
+              />
+              <div
+                className="planet-2"
+              />
+              <div
+                className="orbit size-4"
+              >
+                <div
+                  className="planet-3"
+                />
+                <div
+                  className="orbit size-2"
+                >
+                  <div
+                    className="orbit size-1"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ButtonLoadingIcon should show purple border when no graph and bg white and match DOM Snapshot 1`] = `
+<div>
+  <div>
+    <svg
+      className="h-5 w-5 animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-purple-500"
+      data-testid="loading"
+      viewBox="0 0 24 24"
+    />
+  </div>
+</div>
+`;
+
+exports[`ButtonLoadingIcon should show white border when no graph and bg not white and match DOM Snapshot 1`] = `
+<div>
+  <div>
+    <svg
+      className="h-5 w-5 animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-white"
+      data-testid="loading"
+      viewBox="0 0 24 24"
+    />
+  </div>
+</div>
+`;

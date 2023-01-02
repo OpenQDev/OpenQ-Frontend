@@ -408,6 +408,10 @@ export default class Constants {
     return '9.51848';
   }
 
+  static get tvc() {
+    return '7.7777';
+  }
+
   static get assignees() {
     return [];
   }
@@ -879,5 +883,79 @@ export default class Constants {
 
   static get bounties() {
     return [Constants.bounty0, Constants.bounty1, Constants.bounty2, Constants.bounty3];
+  }
+
+  static get membersWithRole() {
+    return {
+      __typename: 'OrganizationMemberConnection',
+      nodes: [
+        {
+          __typename: 'User',
+          avatarUrl: 'https://avatars.githubusercontent.com/u/28826387?u=34c5f1594ad1ce83b111390b604ed5d26e389815&v=4',
+          name: 'Rick',
+          login: 'rickkdev',
+          url: 'https://github.com/rickkdev',
+        },
+        {
+          __typename: 'User',
+          avatarUrl: 'https://avatars.githubusercontent.com/u/47331078?u=05e9f2d42bf22bbdaa4c623fffbe590150bb5143&v=4',
+          name: 'Deep Patel',
+          login: 'Deep1144',
+          url: 'https://github.com/Deep1144',
+        },
+        {
+          __typename: 'User',
+          avatarUrl: 'https://avatars.githubusercontent.com/u/73331595?u=ab23f1fb829a2e840a1f377757d62612e72c9d59&v=4',
+          name: 'Sachin',
+          login: '0xSachinK',
+          url: 'https://github.com/0xSachinK',
+        },
+      ],
+    };
+  }
+
+  static get organizationData() {
+    return {
+      __typename: 'Organization',
+      id: 'MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4',
+      bountiesCreated: Constants.bounties,
+      fundedTokenBalances: [
+        {
+          __typename: 'OrganizationFundedTokenBalance',
+          id: 'MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4-0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0',
+          tokenAddress: '0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0',
+          volume: '2000000000000000000',
+        },
+        {
+          __typename: 'OrganizationFundedTokenBalance',
+          id: 'MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4-0x5fbdb2315678afecb367f032d93f642f64180aa3',
+          tokenAddress: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
+          volume: '1000000000000000000',
+        },
+        {
+          __typename: 'OrganizationFundedTokenBalance',
+          id: 'MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4-0x0000000000000000000000000000000000000000',
+          tokenAddress: '0x0000000000000000000000000000000000000000',
+          volume: '1000000000000000000',
+        },
+      ],
+      deposits: Constants.deposits,
+      refunds: [],
+      payouts: [],
+      payoutTokenBalances: [],
+      name: 'OpenQ Labs',
+      login: 'OpenQDev',
+      createdAt: '2021-01-13T16:10:08Z',
+      description: 'Free, open-source work platform tailored for software development',
+      email: 'info@openq.dev',
+      websiteUrl: 'https://openq.dev',
+      avatarUrl: 'https://avatars.githubusercontent.com/u/77402538?v=4',
+      isVerified: false,
+      descriptionHTML: '<div>Free, open-source work platform tailored for software development</div>',
+      location: 'GitHub',
+      twitterUsername: 'openqlabs',
+      url: 'https://github.com/OpenQDev',
+      membersWithRole: Constants.membersWithRole,
+    };
   }
 }

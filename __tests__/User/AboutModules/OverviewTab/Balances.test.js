@@ -5,6 +5,7 @@
 import React from 'react';
 import { render, screen } from '../../../../test-utils';
 import Balances from '../../../../components/User/OverviewTab/Balances';
+import ShallowRenderer from 'react-test-renderer/shallow';
 // Test cases for full balances, empty balances, and undefined balances.
 const tokenValues = {
   tokenPrices: { '0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39': 0.67 },
@@ -21,12 +22,17 @@ const tokenBalances = [
 
 // Test cases for
 const test = (tokenBalances, tokenValues) => {
+  it('should match DOM Snapshot', () => {
+    const shallow = new ShallowRenderer();
+    shallow.render(<Balances tokenBalances={tokenBalances} tokenValues={tokenValues} title={'spot on mate'} />);
+    const tree = shallow.getRenderOutput();
+    expect(tree).toMatchSnapshot();
+  });
   it('should render the header and balances', async () => {
     // ARRANGE
     render(<Balances tokenBalances={tokenBalances} tokenValues={tokenValues} title={'spot on mate'} />);
 
     // ASSERT
-    expect(await screen.findByText('spot on mate')).toBeInTheDocument();
     expect(await screen.findByText(/12.0/)).toBeInTheDocument();
     const totals = await screen.findAllByText(/8.04/);
     expect(totals[0]).toBeInTheDocument();
@@ -36,5 +42,5 @@ const test = (tokenBalances, tokenValues) => {
 };
 
 describe('Balances', () => {
-  test(tokenBalances, tokenValues, 'spot on mate');
+  test(tokenBalances, tokenValues);
 });

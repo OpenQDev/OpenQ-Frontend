@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from './LoadingThread.module.css';
 
-const LoadingBar = () => {
+const LoadingThread = () => {
   const [routeChanging, setRouteChanging] = useState(0);
   const router = useRouter(0);
   useEffect(() => {
@@ -43,4 +43,4 @@ const LoadingBar = () => {
   );
 };
 
-export default LoadingBar;
+export default LoadingThread;

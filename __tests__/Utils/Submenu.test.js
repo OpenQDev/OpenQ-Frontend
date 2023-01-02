@@ -6,6 +6,7 @@ import { render, screen } from '../../test-utils';
 import SubMenu from '../../components/Utils/SubMenu';
 import userEvent from '@testing-library/user-event';
 import Add from '../../components/svg/add.js';
+import renderer from 'react-test-renderer';
 // Test cases for full balances, empty balances, and undefined balances.
 
 describe('SubMenu', () => {
@@ -16,6 +17,16 @@ describe('SubMenu', () => {
     { name: 'View', SVG: Add },
     { name: 'Fund', SVG: Add },
   ];
+  it('should match DOM Snapshot and match horizontal style', () => {
+    const tree = renderer.create(<SubMenu updatePage={mockUpdatePage} internalMenu={'Fund'} items={items} />);
+    expect(tree.toJSON()).toMatchSnapshot();
+  });
+  it('should match DOM Snapshot and match vertical style', () => {
+    const tree = renderer.create(
+      <SubMenu updatePage={mockUpdatePage} vertical={true} internalMenu={'Fund'} items={items} />
+    );
+    expect(tree.toJSON()).toMatchSnapshot();
+  });
   it('should display SubMenu', async () => {
     // ARRANGE
     const user = userEvent.setup();

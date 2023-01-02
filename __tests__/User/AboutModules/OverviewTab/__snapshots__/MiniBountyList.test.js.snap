@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MiniBountyList should match DOM Snapshot 1`] = `
+<div
+  className="px-8 py-6 pb border-t border-web-gray"
+>
+  <h2
+    className="font-semibold text-lg"
+  >
+    Claimed Bounties 
+    example
+  </h2>
+  <div>
+    <ul>
+      <MiniBountyCard
+        payout={
+          {
+            "bounty": {
+              "bountyId": "I_kwDOGWnnz85I9Agl",
+              "issuer": {
+                "id": "0x46e09468616365256f11f4544e65ce0c70ee624b",
+              },
+            },
+            "tokenAddress": "0x0000000000000000000000000000000000000000",
+            "volume": "600000000000000000",
+          }
+        }
+      />
+      <MiniBountyCard
+        payout={
+          {
+            "bounty": {
+              "bountyId": "I_kwDOGWnnz85I9Agl",
+              "issuer": {
+                "id": "0x46e09468616365256f11f4544e65ce0c70ee624b",
+              },
+            },
+            "tokenAddress": "0x0000000000000000000000000000000000000000",
+            "volume": "900000000000000000",
+          }
+        }
+      />
+    </ul>
+  </div>
+</div>
+`;

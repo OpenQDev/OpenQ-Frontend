@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TokenStats should match DOM Snapshot 1`] = `
+[
+  <img
+    alt="crypto-logo"
+    className="inline"
+    data-nimg="1"
+    decoding="async"
+    height={24}
+    loading="lazy"
+    onError={[Function]}
+    onLoad={[Function]}
+    src="/_next/image?url=https%3A%2F%2Ftokens.1inch.exchange%2F0x6b175474e89094c44da98b954eedeac495271d0f.png&w=48&q=75"
+    srcSet="/_next/image?url=https%3A%2F%2Ftokens.1inch.exchange%2F0x6b175474e89094c44da98b954eedeac495271d0f.png&w=32&q=75 1x, /_next/image?url=https%3A%2F%2Ftokens.1inch.exchange%2F0x6b175474e89094c44da98b954eedeac495271d0f.png&w=48&q=75 2x"
+    style={
+      {
+        "color": "transparent",
+      }
+    }
+    width={24}
+  />,
+  <span>
+    2.8
+     
+    DAI
+  </span>,
+]
+`;

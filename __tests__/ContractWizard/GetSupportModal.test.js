@@ -2,16 +2,12 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen } from '../../test-utils';
 import GetSupportModal from '../../components/ContractWizard/GetSupportModal';
+import renderer from 'react-test-renderer';
 
-describe('ContractWizard', () => {
-  it('should open wizard and direct to discord server', async () => {
-    // ARRANGE
-    render(<GetSupportModal modalVisibility={true} />);
-
-    // ACT
-    expect(await screen.findByText(/we didn't find a suitable contract/i)).toBeInTheDocument();
-    expect(screen.getByRole('link').href).toBe('https://discord.gg/puQVqEvVXn');
+describe('GetSupportModal', () => {
+  it('should match DOM Snapshot', () => {
+    const tree = renderer.create(<GetSupportModal modalVisibility={true} />);
+    expect(tree.toJSON()).toMatchSnapshot();
   });
 });

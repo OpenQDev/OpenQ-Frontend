@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GithubSignIn Snapshot should match DOM Snapshot 1`] = `
+<button
+  className="flex justify-center btn-default whitespace-nowrap w-full"
+  onClick={[Function]}
+>
+  <div
+    className="flex flex-row items-center justify-center space-x-3"
+  >
+    <div
+      className="h-4 w-4 md:h-6 md:w-6 relative"
+    >
+      <img
+        alt="Picture of the author"
+        data-nimg="1"
+        decoding="async"
+        height={24}
+        loading="lazy"
+        onError={[Function]}
+        onLoad={[Function]}
+        src="/social-icons/github-logo-white.svg"
+        srcSet="/social-icons/github-logo-white.svg 1x, /social-icons/github-logo-white.svg 2x"
+        style={
+          {
+            "color": "transparent",
+          }
+        }
+        width={24}
+      />
+    </div>
+    <div>
+      Sign In
+    </div>
+  </div>
+</button>
+`;

@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dropdown should match DOM Snapshot 1`] = `
+<details
+  className="h-7 undefined text-sm text-muted cursor-pointer"
+  onToggle={[Function]}
+  open={false}
+>
+  <summary
+    className="inline-flex justify-between undefined rounded-l-sm border-border-default text-primary rounded-l-smleading-2 py-[5px] px-4"
+  >
+    pizzas
+    <svg
+      className="fill-muted relative top-1"
+      height="16"
+      viewBox="0 0 16 16"
+      width="16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M4.427 7.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 7H4.604a.25.25 0 00-.177.427z"
+      />
+    </svg>
+  </summary>
+  <div
+    className="w-0"
+  >
+    <ul
+      className="z-20 relative bg-subtle undefined max-h-60 overflow-y-auto mt-2 mb-4 shadow-[rgb(1,_4,_9)_0px_8px_24px_0px] border-web-gray border rounded-sm"
+    >
+      <li
+        className="relative w-full hover:bg-dropdown-hover"
+      >
+        <button
+          className=" text-left p-2 w-full"
+          onClick={[Function]}
+          value="foo"
+        >
+          <svg
+            className="inline mr-2 fill-muted"
+            height="16"
+            viewBox="0 0 16 16"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"
+              fillRule="evenodd"
+            />
+          </svg>
+          foo
+        </button>
+      </li>
+      <li
+        className="relative w-full hover:bg-dropdown-hover"
+      >
+        <button
+          className=" text-left p-2 w-full"
+          onClick={[Function]}
+          value="bar"
+        >
+          <div
+            className="inline-block w-6"
+          />
+          bar
+        </button>
+      </li>
+       
+    </ul>
+  </div>
+</details>
+`;

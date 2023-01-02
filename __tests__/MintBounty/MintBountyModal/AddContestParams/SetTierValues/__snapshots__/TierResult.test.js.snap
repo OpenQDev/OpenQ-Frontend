@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tier Tier Result should match DOM Snapshot 1`] = `
+[
+  <div
+    className="flex items-center gap-2 font-semibold"
+  >
+    Total
+  </div>,
+  <div
+    className="flex w-11/12 text-sm  items-center gap-2 mb-1 pl-2 pr-8"
+  >
+    <div
+      className="w-9 flex-none"
+    >
+      100
+      %
+    </div>
+    <div
+      className="flex border-transparent border-2 flex-none rounded-full overflow-hidden w-full relative border-primary"
+    >
+      <div
+        className="resize-x h-4 w-full inline z-15 left-0 top-0"
+        style={
+          {
+            "backgroundColor": "hsl(400, 85%, 48%)",
+            "width": "NaNpx",
+          }
+        }
+        type="textarea"
+      />
+      <div
+        className="resize-x h-4 w-full inline z-15 left-0 top-0"
+        style={
+          {
+            "backgroundColor": "hsl(333, 83%, 48%)",
+            "width": "NaNpx",
+          }
+        }
+        type="textarea"
+      />
+    </div>
+  </div>,
+  " ",
+]
+`;

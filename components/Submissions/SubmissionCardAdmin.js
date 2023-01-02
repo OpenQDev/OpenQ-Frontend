@@ -4,7 +4,7 @@ import WinnerSelect from './WinnerSelect';
 const SubmissionCardAdmin = ({ bounty, pr, refreshBounty }) => {
   const claimedArr = bounty.claims?.map((claim) => parseInt(claim.tier));
   const payoutAndIndex = bounty.payoutSchedule.map((payout, index) => {
-    const claimed = claimedArr.includes(index);
+    const claimed = claimedArr?.includes(index);
     return {
       claimed,
       index,

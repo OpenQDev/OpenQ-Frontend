@@ -2,22 +2,13 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen } from '../../../test-utils';
 import TokenFundBox from '../../../components/FundBounty/SearchTokens/TokenFundBox';
 import Constants from '../../../test-utils/constant';
+import renderer from 'react-test-renderer';
 
 describe('TokenFundBox', () => {
-  it('should display the TokenFundBox interface', async () => {
-    // ARRANGE
-    render(<TokenFundBox token={Constants.tokenMetadata} />);
-
-    // ASSERT
-    expect(screen.getByText(Constants.tokenSymbol)).toBeInTheDocument();
-    expect(screen.getByRole('img')).toBeInTheDocument();
-    expect(screen.getByRole('textbox')).toBeInTheDocument();
-
-    // should not have null or undefined values
-    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-    expect(nullish).toHaveLength(0);
+  it('should match DOM Snapshot', () => {
+    const tree = renderer.create(<TokenFundBox token={Constants.tokenMetadata} />);
+    expect(tree.toJSON()).toMatchSnapshot('shows token symbol, img and input field');
   });
 });
