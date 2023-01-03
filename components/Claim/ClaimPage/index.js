@@ -13,7 +13,7 @@ import {
 } from '../ClaimStates';
 import useWeb3 from '../../../hooks/useWeb3';
 import ClaimLoadingModal from '../ClaimLoadingModal';
-import CopyAddressToClipboard from '../../Copy/CopyAddressToClipboard';
+import CopyAddressToClipboard from '../../CopyAddressToClipboard';
 import BountyClosed from '../../BountyClosed';
 import useEns from '../../../hooks/useENS';
 import ToolTipNew from '../../Utils/ToolTipNew';

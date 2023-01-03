@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { CONFIRM, APPROVE, APPROVING, TRANSFERRING, SUCCESS, ERROR, RESTING } from './ApproveFundState';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import FundingTokenStats from './TokenStats.js';
-import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
+import CopyAddressToClipboard from '../CopyAddressToClipboard';
 import StoreContext from '../../store/Store/StoreContext';
 import LinkText from '../svg/linktext';
 import TweetAbout from '../Utils/TweetAbout';

@@ -25,7 +25,9 @@ describe('LabelsList', () => {
     render(<LabelsList bounty={bounty} />);
     if (bounty.labels[0]) {
       // ASSERT
-      expect(screen.getByText(bounty.labels[0].name));
+      const firstLablel = screen.getByText(bounty.labels[0].name);
+      expect(firstLablel).toBeInTheDocument();
+      expect(firstLablel).toHaveStyle('background-color: rgba(0, 117, 202, 0.133)');
     }
 
     // should not have null or undefined values

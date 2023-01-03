@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import AuthContext from '../../../store/AuthStore/AuthContext';
 import StoreContext from '../../../store/Store/StoreContext';
-import CopyAddressToClipboard from '../../Copy/CopyAddressToClipboard';
+import CopyAddressToClipboard from '../../CopyAddressToClipboard';
 
 // Custom
 

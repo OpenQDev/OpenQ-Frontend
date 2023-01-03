@@ -1,6 +1,6 @@
 // Third party
 import React from 'react';
-import CopyAddressToClipboard from '../../Copy/CopyAddressToClipboard';
+import CopyAddressToClipboard from '../../CopyAddressToClipboard';
 
 const CopyBountyAddress = ({ address, styles }) => {
   return (

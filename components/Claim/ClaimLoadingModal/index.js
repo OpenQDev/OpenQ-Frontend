@@ -15,7 +15,7 @@ import LoadingIcon from '../../Loading/ButtonLoadingIcon';
 import LinkText from '../../svg/linktext';
 import TweetAbout from '../../Utils/TweetAbout';
 import ModalDefault from '../../Utils/ModalDefault';
-import CopyAddressToClipboard from '../../Copy/CopyAddressToClipboard';
+import CopyAddressToClipboard from '../../CopyAddressToClipboard';
 
 const ClaimLoadingModal = ({
   confirmMethod,

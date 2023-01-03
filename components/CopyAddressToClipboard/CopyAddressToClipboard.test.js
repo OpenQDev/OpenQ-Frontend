@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import CopyAddressToClipboard from '../../components/Copy/CopyAddressToClipboard';
+import CopyAddressToClipboard from '.';
 import renderer from 'react-test-renderer';
 
 describe('CopyAddressToClipboard', () => {
