@@ -101,7 +101,6 @@ const BountyList = ({
       setCurrentSearchedLabels,
       setCurrentContractTypes,
       orderRegex,
-      account,
       fetchPage,
       complete,
       appState,
