@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useEffect } from 'react';
-import StoreContext from '../../store/Store/StoreContext';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
+import StoreContext from '../../../store/Store/StoreContext';
+import useGetTokenValues from '../../../hooks/useGetTokenValues';
 import { ethers } from 'ethers';
 
 const ClaimPerToken = ({ bounty, tokenAddress, claimant, type, changeObj }) => {

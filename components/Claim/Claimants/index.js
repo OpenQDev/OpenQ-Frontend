@@ -1,6 +1,6 @@
 import React from 'react';
-import useEns from '../../hooks/useENS';
-import Jazzicon from '../Utils/Jazzicon';
+import useEns from '../../../hooks/useENS';
+import Jazzicon from '../../Utils/Jazzicon';
 
 const Claimants = ({ claimant }) => {
   const shortenAddress = (address) => {

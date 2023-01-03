@@ -1,9 +1,9 @@
 import React, { useContext, useState, useMemo, useEffect } from 'react';
-import StoreContext from '../../store/Store/StoreContext';
-import ClaimPerToken from './ClaimPerToken';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
-import ToolTipNew from '../Utils/ToolTipNew';
-import Claimants from './Claimants.js';
+import StoreContext from '../../../store/Store/StoreContext';
+import ClaimPerToken from '../ClaimPerToken';
+import useGetTokenValues from '../../../hooks/useGetTokenValues';
+import ToolTipNew from '../../Utils/ToolTipNew';
+import Claimants from '../Claimants';
 
 const ClaimOverview = ({ bounty, setInternalMenu }) => {
   const [appState] = useContext(StoreContext);

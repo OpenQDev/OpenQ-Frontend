@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import searchTagInBounty from '../../../components/BountyList/searchHelpers/searchTagInBounty.js';
+import searchTagInBounty from './searchTagInBounty.js';
 
 //searchFoundInText(bounty.title, bounty.body, lowerCaseSearch);
 

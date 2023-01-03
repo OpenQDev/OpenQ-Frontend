@@ -5,7 +5,7 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 
 import { render, screen } from '../../test-utils';
-import BountyList from '../../components/BountyList/BountyList';
+import BountyList from '.';
 import nextRouter from 'next/router';
 
 describe('BountyList', () => {

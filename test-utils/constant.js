@@ -12,6 +12,7 @@ export default class Constants {
   static get bountyCost() {
     return '$9.52';
   }
+
   static get modalPayout() {
     return {
       transaction: {
@@ -854,6 +855,156 @@ export default class Constants {
       payoutTokenAddress: Constants.zeroAddress,
       fundingGoalTokenAddress: Constants.zeroAddress,
       payoutSchedule: Constants.payoutSchedule2,
+    };
+  }
+  static get bountyClaimOverview() {
+    return {
+      id: 'I_kwDOGWnnz85Z_0oY',
+      title: 'Checking no elgible prs',
+      assignees: [],
+      body: '',
+      url: 'https://github.com/OpenQDev/OpenQ-TestRepo/issues/792',
+      repoName: 'OpenQ-TestRepo',
+      closedAt: '2023-01-03T02:53:56Z',
+      owner: 'OpenQDev',
+      avatarUrl: 'https://avatars.githubusercontent.com/u/77402538?v=4',
+      labels: [],
+      createdAt: '2022-12-24T01:53:30Z',
+      closed: true,
+      bodyHTML: '',
+      titleHTML: 'Checking no elgible prs',
+      twitterUsername: 'openqlabs',
+      number: 792,
+      prs: [
+        {
+          __typename: 'CrossReferencedEvent',
+          id: 'CRE_kwDOGWnnz85J73TY',
+          referencedAt: '2022-12-24T01:57:04Z',
+          source: {
+            __typename: 'PullRequest',
+            mergedAt: '2023-01-03T02:53:55Z',
+            url: 'https://github.com/OpenQDev/OpenQ-TestRepo/pull/793',
+            id: 'PR_kwDOGWnnz85GJi_U',
+            merged: true,
+            bodyText: 'closes #792',
+            body: 'closes #792 ',
+            bodyHTML:
+              '<p dir="auto"><span class="issue-keyword tooltipped tooltipped-se" aria-label="This pull request closes issue #792.">closes</span> <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="1509902872" data-permission-text="Title is private" data-url="https://github.com/OpenQDev/OpenQ-TestRepo/issues/792" data-hovercard-type="issue" data-hovercard-url="/OpenQDev/OpenQ-TestRepo/issues/792/hovercard" href="https://github.com/OpenQDev/OpenQ-TestRepo/issues/792">#792</a></p>',
+            title: 'Update README.md',
+            author: {
+              __typename: 'User',
+              login: 'Christopher-Stevers',
+              avatarUrl:
+                'https://avatars.githubusercontent.com/u/72156679?u=7e821e3f2a1f88c0f4a134eec159189f9c3e7367&v=4',
+              url: 'https://github.com/Christopher-Stevers',
+              id: 'MDQ6VXNlcjcyMTU2Njc5',
+              email: '',
+            },
+            mergeCommit: {
+              __typename: 'Commit',
+              author: {
+                __typename: 'GitActor',
+                avatarUrl: 'https://avatars.githubusercontent.com/u/72156679?v=4',
+                name: 'Christopher Stevers',
+                user: {
+                  __typename: 'User',
+                  login: 'Christopher-Stevers',
+                  url: 'https://github.com/Christopher-Stevers',
+                },
+              },
+            },
+          },
+        },
+      ],
+      repoId: 'R_kgDOGWnnzw',
+      closedEvents: [
+        {
+          __typename: 'ClosedEvent',
+          id: 'CE_lADOGWnnz85Z_0oYzwAAAAHlLAs1',
+          actor: {
+            __typename: 'User',
+            avatarUrl:
+              'https://avatars.githubusercontent.com/u/72156679?u=7e821e3f2a1f88c0f4a134eec159189f9c3e7367&v=4',
+            login: 'Christopher-Stevers',
+            url: 'https://github.com/Christopher-Stevers',
+            name: 'Christopher Stevers',
+          },
+        },
+      ],
+      bountyAddress: '0xbcc58fb72409ba1cdec5dbcdd3cd6c42e3e04242',
+      bountyId: 'I_kwDOGWnnz85Z_0oY',
+      closerData:
+        '0x000000000000000000000000bcc58fb72409ba1cdec5dbcdd3cd6c42e3e042420000000000000000000000000000000000000000000000000000000000000080000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb9226600000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000144d44513656584e6c636a63794d5455324e6a6335000000000000000000000000000000000000000000000000000000000000000000000000000000000000003368747470733a2f2f6769746875622e636f6d2f4f70656e514465762f4f70656e512d546573745265706f2f70756c6c2f37393300000000000000000000000000',
+      bountyMintTime: '1672714438',
+      bountyClosedTime: '1672714503',
+      fundingGoalVolume: '0',
+      fundingGoalTokenAddress: '0x0000000000000000000000000000000000000000',
+      payoutTokenVolume: null,
+      payoutTokenAddress: null,
+      payoutSchedule: null,
+      invoiceable: false,
+      claims: [
+        {
+          claimTime: '1672714503',
+          claimantAsset: 'https://github.com/OpenQDev/OpenQ-TestRepo/pull/793',
+          tier: '0',
+          claimant: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
+          __typename: 'Claim',
+        },
+      ],
+      payouts: [
+        {
+          tokenAddress: '0x0000000000000000000000000000000000000000',
+          volume: '12000000000000000000',
+          payoutTime: '1672714503',
+          closer: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
+          __typename: 'Payout',
+        },
+        {
+          tokenAddress: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
+          volume: '12000000000000000000',
+          payoutTime: '1672714503',
+          closer: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
+          __typename: 'Payout',
+        },
+      ],
+      claimedTransactionHash: '0x70bbcc0406cfb20dd14c9095c10a0a34162d66133a36f8e7a3b5b0358d6924fe',
+      payoutAddress: null,
+      status: '1',
+      bountyType: '0',
+      closer: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
+      deposits: [
+        {
+          id: '0x278841875917899f6acdaa5ffc6fe91910692059988c7665d0a7ae0fc3ea0514',
+          refunded: false,
+          receiveTime: '1672714477',
+          tokenAddress: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
+          expiration: '2592000',
+          volume: '12000000000000000000',
+          tokenId: '0',
+          isNft: false,
+          refundTime: null,
+          sender: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
+          __typename: 'Deposit',
+        },
+        {
+          id: '0xa40bf6a13dd29aa3a0dfb222126995fcce25be9dfdc1fcf8c429c6f48d5eca60',
+          refunded: false,
+          receiveTime: '1672714459',
+          tokenAddress: '0x0000000000000000000000000000000000000000',
+          expiration: '2592000',
+          volume: '12000000000000000000',
+          tokenId: '0',
+          isNft: false,
+          refundTime: null,
+          sender: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
+          __typename: 'Deposit',
+        },
+      ],
+      refunds: [],
+      bountyTokenBalances: [],
+      issuer: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
+      __typename: 'Bounty',
     };
   }
   static get bounty0() {

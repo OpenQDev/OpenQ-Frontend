@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import searchFoundInLabels from '../../../components/BountyList/searchHelpers/searchFoundInLabels.js';
+import searchFoundInLabels from './searchFoundInLabels.js';
 
 //searchFoundInText(bounty.title, bounty.body, lowerCaseSearch);
 

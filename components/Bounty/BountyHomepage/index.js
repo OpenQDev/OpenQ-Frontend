@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Custom
-import BountyList from '../../BountyList/BountyList';
+import BountyList from '../../BountyList';
 import UnexpectedErrorModal from '../../Utils/UnexpectedErrorModal';
 
 const BountyHomepage = ({

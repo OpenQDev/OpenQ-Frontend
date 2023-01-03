@@ -1,7 +1,7 @@
 // Third party
 import React, { useRef, useEffect, useContext } from 'react';
 import Link from 'next/link';
-import StoreContext from '../../store/Store/StoreContext';
+import StoreContext from '../../../store/Store/StoreContext';
 
 // Custom
 import {
@@ -10,12 +10,12 @@ import {
   TRANSACTION_SUBMITTED,
   TRANSACTION_CONFIRMED,
   CONFIRM_CLAIM,
-} from './ClaimStates';
-import LoadingIcon from '../Loading/ButtonLoadingIcon';
-import LinkText from '../svg/linktext';
-import TweetAbout from '../Utils/TweetAbout';
-import ModalDefault from '../Utils/ModalDefault';
-import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
+} from '../ClaimStates';
+import LoadingIcon from '../../Loading/ButtonLoadingIcon';
+import LinkText from '../../svg/linktext';
+import TweetAbout from '../../Utils/TweetAbout';
+import ModalDefault from '../../Utils/ModalDefault';
+import CopyAddressToClipboard from '../../Copy/CopyAddressToClipboard';
 
 const ClaimLoadingModal = ({
   confirmMethod,

@@ -2,10 +2,10 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen } from '../../test-utils';
-import ClaimLoadingModal from '../../components/Claim/ClaimLoadingModal';
+import { render, screen } from '../../../test-utils';
+import ClaimLoadingModal from '.';
 import axios from 'axios';
-import InitialState from '../../store/Store/InitialState';
+import InitialState from '../../../store/Store/InitialState';
 
 import {
   CHECKING_WITHDRAWAL_ELIGIBILITY,
@@ -13,8 +13,8 @@ import {
   TRANSACTION_SUBMITTED,
   TRANSACTION_CONFIRMED,
   CONFIRM_CLAIM,
-} from '../../components/Claim/ClaimStates';
-import Constants from '../../test-utils/constant';
+} from '../ClaimStates';
+import Constants from '../../../test-utils/constant';
 
 describe('ClaimLoadingModal', () => {
   jest.mock('axios');
@@ -52,6 +52,8 @@ describe('ClaimLoadingModal', () => {
 
     // ASSERT
     expect(screen.getByText(/Checking that you are indeed/i)).toBeInTheDocument();
+    expect(screen.getByText(/validating claim/i)).toBeInTheDocument();
+    expect(screen.getByText(/0xpol/)).toBeInTheDocument();
 
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
@@ -86,7 +88,9 @@ describe('ClaimLoadingModal', () => {
 
     // ASSERT
     expect(screen.getByText(/Withdrawal Ineligible/i)).toBeInTheDocument();
+    expect(screen.getByText(/You are NOT the droid/i)).toBeInTheDocument();
 
+    expect(screen.getByText(/No linked PR/)).toBeInTheDocument();
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
@@ -112,6 +116,9 @@ describe('ClaimLoadingModal', () => {
 
     // ASSERT
     expect(screen.getByText(/Funds from this payout will appear in your address soon./i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Transaction confirmed! Funds from this payout will appear in your address soon./)
+    ).toBeInTheDocument();
 
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
@@ -141,8 +148,66 @@ describe('ClaimLoadingModal', () => {
 
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(screen.getByText(/Transaction Submitted/)).toBeInTheDocument();
     expect(nullish).toHaveLength(0);
   });
+  it('should display transaction submitted', async () => {
+    const claimState = TRANSACTION_SUBMITTED;
+    // ARRANGE
+    render(
+      <ClaimLoadingModal
+        confirmMethod={claimBounty}
+        url={url}
+        ensName={ensName}
+        account={account}
+        error={error}
+        claimState={claimState}
+        address={account}
+        transactionHash={transactionHash}
+        setShowClaimLoadingModal={updateModal}
+        authState={Constants.authState}
+        bounty={bounty}
+      />
+    );
+
+    // ASSERT
+    expect(screen.getByText(/You are indeed the/i)).toBeInTheDocument();
+
+    // should not have null or undefined values
+    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(screen.getByText(/Transaction Submitted/)).toBeInTheDocument();
+    expect(nullish).toHaveLength(0);
+  });
+
+  it('should display transaction submitted', async () => {
+    const error = { title: 'Potato', message: 'My brain cell was fried' };
+    const claimState = TRANSACTION_SUBMITTED;
+    // ARRANGE
+    render(
+      <ClaimLoadingModal
+        confirmMethod={claimBounty}
+        url={url}
+        ensName={ensName}
+        account={account}
+        error={error}
+        claimState={claimState}
+        address={account}
+        transactionHash={transactionHash}
+        setShowClaimLoadingModal={updateModal}
+        authState={Constants.authState}
+        bounty={bounty}
+      />
+    );
+
+    // ASSERT
+    expect(screen.getByText(/You are indeed the/i)).toBeInTheDocument();
+
+    // should not have null or undefined values
+    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(screen.getByText(/Transaction Submitted/)).toBeInTheDocument();
+    expect(nullish).toHaveLength(0);
+  });
+
   it('should display checking elgibility', async () => {
     const claimState = CONFIRM_CLAIM;
     // ARRANGE

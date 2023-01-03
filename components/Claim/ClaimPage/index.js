@@ -10,20 +10,20 @@ import {
   TRANSACTION_SUBMITTED,
   TRANSACTION_CONFIRMED,
   CONFIRM_CLAIM,
-} from './ClaimStates';
-import useWeb3 from '../../hooks/useWeb3';
-import ClaimLoadingModal from './ClaimLoadingModal';
-import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
-import BountyClosed from '../BountyClosed';
-import useEns from '../../hooks/useENS';
-import ToolTipNew from '../Utils/ToolTipNew';
-import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
-import StoreContext from '../../store/Store/StoreContext';
-import ConnectButton from '../WalletConnect/ConnectButton';
-import AuthContext from '../../store/AuthStore/AuthContext';
+} from '../ClaimStates';
+import useWeb3 from '../../../hooks/useWeb3';
+import ClaimLoadingModal from '../ClaimLoadingModal';
+import CopyAddressToClipboard from '../../Copy/CopyAddressToClipboard';
+import BountyClosed from '../../BountyClosed';
+import useEns from '../../../hooks/useENS';
+import ToolTipNew from '../../Utils/ToolTipNew';
+import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
+import StoreContext from '../../../store/Store/StoreContext';
+import ConnectButton from '../../WalletConnect/ConnectButton';
+import AuthContext from '../../../store/AuthStore/AuthContext';
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
-import FreelancerDetails from '../User/InvoicingDetailsTab/FreelancerDetails';
-import { valueToDisplay, listWordsWithAnd } from '../../services/utils/lib';
+import FreelancerDetails from '../../User/InvoicingDetailsTab/FreelancerDetails';
+import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
 
 const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const { url } = bounty;

@@ -2,8 +2,8 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen } from '../../test-utils';
-import Claimants from '../../components/Claim/Claimants';
+import { render, screen } from '../../../test-utils';
+import Claimants from '.';
 
 describe('Claimants', () => {
   it('should display the right address', async () => {
