@@ -7,11 +7,12 @@ import { ethers } from 'ethers';
 import { CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveTransferState';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Image from 'next/image';
-import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
+import TokenSearch from '../TokenSelection/TokenSearch';
 import ToolTipNew from '../Utils/ToolTipNew';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import LinkText from '../svg/linktext';
+import TokenProvider from '../TokenSelection/TokenStore/TokenProvider';
 
 const FundStreamModal = ({
   transactionHash,
@@ -167,7 +168,9 @@ const FundStreamModal = ({
             <>
               <div className='text-md gap-4 gap-x-12 py-6 grid grid-cols-[1fr_1fr] w-full justify-between'>
                 <div className='w-4'>Token</div>
-                <TokenSearch stream={true} token={localToken} onCurrencySelect={onCurrencySelect} />
+                <TokenProvider>
+                  <TokenSearch stream={true} token={localToken} onCurrencySelect={onCurrencySelect} />
+                </TokenProvider>
                 <span className='py-2'>Amount</span>
                 <div className={'flex border border-web-gray rounded-sm py-px pl-2 h-10'}>
                   <input

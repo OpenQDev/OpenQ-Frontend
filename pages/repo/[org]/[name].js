@@ -10,7 +10,7 @@ import OrganizationHeader from '../../../components/Organization/OrganizationHea
 import SubMenu from '../../../components/Utils/SubMenu';
 import Home from '../../../components/svg/home';
 // import Trophy from '../../../components/svg/trophy';
-import BountyList from '../../../components/BountyList/BountyList';
+import BountyList from '../../../components/BountyList';
 import StoreContext from '../../../store/Store/StoreContext';
 import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
 import useWeb3 from '../../../hooks/useWeb3';

@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TokenDisplay should match DOM Snapshot 1`] = `
-<div
+<button
+  aria-label="select DAI"
   className="flex flex-row undefined space-x-4 pb-3"
   onClick={[Function]}
 >
@@ -39,5 +40,5 @@ exports[`TokenDisplay should match DOM Snapshot 1`] = `
       className="text-sm text-gray-200 truncate w-32"
     />
   </div>
-</div>
+</button>
 `;

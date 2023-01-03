@@ -7,11 +7,12 @@ import { ethers } from 'ethers';
 import { CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveTransferState';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Image from 'next/image';
-import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
-import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
+import CopyAddressToClipboard from '../CopyAddressToClipboard';
+import TokenSearch from '../TokenSelection/TokenSearch';
 import StoreContext from '../../store/Store/StoreContext';
 import ToolTipNew from '../Utils/ToolTipNew';
 import LinkText from '../svg/linktext';
+import TokenContext from '../TokenSelection/TokenStore/TokenContext';
 
 const ApproveStreamModal = ({
   resetState,
@@ -21,7 +22,6 @@ const ApproveStreamModal = ({
   approveTransferState,
   confirmMethod,
   error,
-  token,
   showModal,
 }) => {
   const modal = useRef();
@@ -29,14 +29,9 @@ const ApproveStreamModal = ({
   const [flowRate, setFlowRate] = useState('');
   const [appState] = useContext(StoreContext);
   const { capitalize, toIng } = appState.utils;
-  const [localToken, setLocalToken] = useState({
-    name: 'Daix',
-    address: '0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f',
-    symbol: 'DAI',
-    decimals: 18,
-    chainId: 80001,
-    path: '/crypto-logos/DAI.svg',
-  });
+  const [tokenState] = useContext(TokenContext);
+  const { token } = tokenState;
+
   const updateModal = () => {
     resetState();
     setShowApproveTransferModal(false);
@@ -109,13 +104,6 @@ const ApproveStreamModal = ({
     setRecipient(e.target.value);
   };
 
-  function onCurrencySelect(token) {
-    setLocalToken({
-      ...token,
-      address: ethers.utils.getAddress(token.address),
-    });
-  }
-
   function handleFlowRateChange(e) {
     appState.utils.updateVolume(e.target.value, setFlowRate);
   }
@@ -184,7 +172,8 @@ const ApproveStreamModal = ({
                   {showModal !== 'delete' && approveTransferState !== ERROR && (
                     <>
                       <div className='w-4'>Funding</div>
-                      <TokenSearch stream={true} token={localToken} onCurrencySelect={onCurrencySelect} />
+
+                      <TokenSearch stream={true} />
                       <span className='py-2'>Flow Rate</span>
                       <div className={'flex border border-web-gray rounded-sm py-px pl-2 h-10'}>
                         <input
@@ -220,7 +209,7 @@ const ApproveStreamModal = ({
                 {showModal !== 'delete' && approveTransferState !== ERROR ? (
                   <div className='flex w-full justify-evenly px-1.5 gap-2 border-web-gray border rounded-sm py-1.5 self-center'>
                     <button
-                      onClick={() => confirmMethod(recipient, flowRate, showModal)}
+                      onClick={() => confirmMethod(recipient, flowRate, showModal, token)}
                       disabled={approveTransferState !== CONFIRM || isDisabled}
                       className={`text-center px-1.5 flex  gap-2 py-1.5 ${
                         approveTransferState === CONFIRM && !isDisabled ? 'cursor-pointer ' : ' hover:bg-[#238636]'
@@ -264,7 +253,7 @@ const ApproveStreamModal = ({
                     relativePosition={'w-52 whitespace-normal'}
                   >
                     <button
-                      onClick={() => deleteFlow(recipient)}
+                      onClick={() => deleteFlow(recipient, token)}
                       disabled={approveTransferState !== CONFIRM || !recipient}
                       className={`btn-primary text-center px-2 w-full gap-2 py-1.5 text-center flex justify-center gap-4 rounded-sm ${
                         !recipient && 'hover:bg-[#238636] cursor-not-allowed'

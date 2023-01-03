@@ -7,7 +7,7 @@ import { ethers } from 'ethers';
 import StoreContext from '../../store/Store/StoreContext';
 import DepositCard from './DepositCard';
 import ToolTipNew from '../Utils/ToolTipNew';
-import BountyClosed from '../BountyClosed/BountyClosed';
+import BountyClosed from '../BountyClosed';
 import ApproveTransferModal from './ApproveTransferModal';
 import { RESTING, CONFIRM, APPROVING, SUCCESS, ERROR } from './ApproveTransferState';
 import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';

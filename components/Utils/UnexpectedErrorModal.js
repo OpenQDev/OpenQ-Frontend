@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import ModalDefault from './ModalDefault';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
@@ -6,32 +6,27 @@ import GithubSignIn from '../Authentication/GithubSignIn';
 import StoreContext from '../../store/Store/StoreContext';
 
 const UnexpectedErrorModal = ({ error }) => {
-  const [currentError, setCurrentError] = useState('');
-  const [loginModal, setLoginModal] = useState(false);
+  let currentError = '';
+  let loginModal;
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
   appState.logger.error(error, accountData.id, 'UnexpectedError.js1');
-
-  useEffect(() => {
-    let parsedError;
-    try {
-      parsedError = JSON.parse(error);
-    } catch (error) {
-      appState.logger.error(error, accountData.id, 'UnexpectedError.js2');
-    }
-    if (error.graphQLErrors && error.graphQLErrors[0].type == 'RATE_LIMITED') {
-      setCurrentError(
-        `Looks like you're a power user...We're still building and have limited Github access at the moment. 
+  let parsedError;
+  try {
+    parsedError = JSON.parse(error);
+  } catch (error) {
+    appState.logger.error(error, accountData.id, 'UnexpectedError.js2');
+  }
+  if (error.graphQLErrors && error.graphQLErrors[0].type == 'RATE_LIMITED') {
+    currentError = `Looks like you're a power user...We're still building and have limited Github access at the moment. 
         Please give it a rest, go get a coffee, and come back in about an hour. 
-        Your Github auth should be good by then.`
-      );
-    } else {
-      setCurrentError(parsedError?.message || error || currentError);
-    }
-    if (JSON.stringify(error).includes('github') && (error.includes('401') || error.includes('EHOSTUNREACH'))) {
-      setLoginModal(true);
-    }
-  }, []);
+        Your Github auth should be good by then.`;
+  } else {
+    currentError = parsedError?.message || error || currentError;
+  }
+  if (JSON.stringify(error).includes('github') && (error.includes('401') || error.includes('EHOSTUNREACH'))) {
+    loginModal = true;
+  }
   const router = useRouter();
   const resetState = () => {
     router.push('/');

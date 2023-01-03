@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TokenFundBox should match DOM Snapshot 1`] = `
+<div
+  className="flex space-x-4 w-full undefined"
+>
+  <div
+    className="flex w-full flex-row justify-between items-center px-4 input-field-big"
+  >
+    <div
+      className=" bg-dark-mode"
+    >
+      <input
+        aria-label="amount"
+        autoComplete="off"
+        className="font-semibold number outline-none bg-input-bg text-primary w-full"
+        id="amount"
+        onChange={[Function]}
+        placeholder="0.0"
+      />
+    </div>
+  </div>
+  <div
+    className="flex"
+  >
+    <button
+      aria-label="select token"
+      className="flex flex-row items-center btn-default p-0.5 px-2"
+      onClick={[Function]}
+    >
+      <SelectedTokenImg />
+      <div
+        className="flex"
+      >
+        <svg
+          className="h-4 w-4"
+          fill="white"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            clipRule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            fillRule="evenodd"
+          />
+        </svg>
+      </div>
+    </button>
+  </div>
+</div>
+`;

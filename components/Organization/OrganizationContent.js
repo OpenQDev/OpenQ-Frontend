@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Custom
-import BountyList from '../BountyList/BountyList';
+import BountyList from '../BountyList';
 import RepoCard from './RepoCard';
 
 const OrganizationContent = ({

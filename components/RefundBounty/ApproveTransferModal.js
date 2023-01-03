@@ -8,7 +8,7 @@ import Link from 'next/link';
 import LinkText from '../svg/linktext';
 import ModalDefault from '../Utils/ModalDefault';
 import Image from 'next/image';
-import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
+import CopyAddressToClipboard from '../CopyAddressToClipboard';
 import StoreContext from '../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 import TweetAbout from '../Utils/TweetAbout';

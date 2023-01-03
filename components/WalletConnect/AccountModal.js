@@ -2,7 +2,7 @@
 import React, { useContext } from 'react';
 // Custom
 import chainIdDeployEnvMap from './chainIdDeployEnvMap';
-import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
+import CopyAddressToClipboard from '../CopyAddressToClipboard';
 import { SignOutIcon } from '@primer/octicons-react';
 import StoreContext from '../../store/Store/StoreContext';
 import { metaMask, walletConnect } from '../WalletConnect/connectors';

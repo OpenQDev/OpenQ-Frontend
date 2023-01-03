@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState, useMemo } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
-import { RESTING, CONFIRM, TRANSFERRING, SUCCESS, ERROR } from '../FundBounty/ApproveFundState';
+import { RESTING, CONFIRM, TRANSFERRING, SUCCESS, ERROR } from './SelectWinnerState';
 import ToolTip from '../Utils/ToolTipNew';
 import ModalDefault from '../Utils/ModalDefault';
 import { ethers } from 'ethers';

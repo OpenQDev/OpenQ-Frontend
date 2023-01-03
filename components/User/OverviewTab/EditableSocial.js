@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import Pencil from '../../svg/pencil';
 import StoreContext from '../../../store/Store/StoreContext';
-import CopyAddressToClipboard from '../../Copy/CopyAddressToClipboard';
+import CopyAddressToClipboard from '../../CopyAddressToClipboard';
 import ToolTipNew from '../../Utils/ToolTipNew';
 
 const EditableSocial = ({ isOwner, social }) => {

@@ -11,7 +11,7 @@ import useWeb3 from '../../../hooks/useWeb3';
 import ModalDefault from '../../Utils/ModalDefault';
 import LoadingIcon from '../../Loading/ButtonLoadingIcon';
 import ToolTipNew from '../../Utils/ToolTipNew';
-import CopyAddressToClipBoard from '../../Copy/CopyAddressToClipboard';
+import CopyAddressToClipBoard from '../../CopyAddressToClipboard';
 import LinkText from '../../svg/linktext';
 import AuthContext from '../../../store/AuthStore/AuthContext';
 

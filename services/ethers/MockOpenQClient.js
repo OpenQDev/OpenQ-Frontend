@@ -109,18 +109,74 @@ class MockOpenQClient {
         });
         return promise;
     };
-    setFundingGoal = async (library, _bountyId, _tokenAddress, _fundingGoalVolume, _depositPeriodDays) => {
-
-        this.mockMutations.setFundingGoal(_bountyId, _fundingGoalVolume);
+    setFundingGoal = async (library, _bountyId, _fundingGoalToken, _fundingGoalVolume, _depositPeriodDays) => {
+        const _tokenAddress = _fundingGoalToken.address;
+        this.mockMutations.setFundingGoal(_bountyId, _fundingGoalVolume, _tokenAddress);
         const promise = new Promise(async (resolve, reject) => {
             await this.sleep(200);
 
             const volumeInWei = _fundingGoalVolume * 10 ** 18;
             const zeroAddress = "0x0000000000000000000000000000000000000000";
-            resolve({ transactionHash: "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", events: [{ transactionHash: "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", args: [{}, zeroAddress, volumeInWei] }] });
+            resolve({ transactionHash: "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", events: [{ transactionHash: "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", args: [{}, _tokenAddress, volumeInWei] }] });
         });
         return promise;
     };
+    setPayout = async (library, _bountyId, _payoutToken, _payoutVolume) => {
+        const _tokenAddress = _payoutToken.address;
+        this.mockMutations.setPayout(_bountyId, _payoutVolume, _tokenAddress);
+        const promise = new Promise(async (resolve, reject) => {
+            await this.sleep(200);
+
+            const volumeInWei = _payoutVolume * 10 ** 18;
+            const zeroAddress = "0x0000000000000000000000000000000000000000";
+            resolve({ transactionHash: "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", events: [{ transactionHash: "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", args: [{}, _tokenAddress, volumeInWei] }] });
+        });
+        return promise;
+            
+    };
+
+
+    setPayoutSchedule = async (library, _bountyId, _payoutSchedule) => {
+        this.mockMutations.setTier(_bountyId, _payoutSchedule);
+            
+        const promise = new Promise(async (resolve, reject) => {
+            await this.sleep(200);
+            resolve({ transactionHash: "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", events: [{ transactionHash: "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", args: [_bountyId, _payoutSchedule] }] });
+        });
+        return promise;
+        
+    };
+
+    setPayoutScheduleFixed = async (library, _bountyId, _payoutSchedule, _payoutToken) => {
+            const promise = new Promise(async (resolve, reject) => {
+
+            const tierVolumesInWei = _payoutSchedule.map((tier) => {
+                const payoutVolumeInWei = tier * 10 ** _payoutToken.decimals;
+                const payoutBigNumberVolumeInWei = ethers.BigNumber.from(
+                    payoutVolumeInWei.toLocaleString('fullwide', {
+                        useGrouping: false,
+                    })
+                );
+                return payoutBigNumberVolumeInWei;
+            });
+
+            this.mockMutations.setTier(_bountyId, _payoutSchedule, _payoutToken.address);
+            await this.sleep(200);
+            resolve({ transactionHash: "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", events: [{ transactionHash: "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", args: [_bountyId, tierVolumesInWei, _payoutToken.address] }] });
+        });
+        return promise;
+    };
+    closeOngoing = async (library, _bountyId) => {
+    
+        const promise = new Promise(async (resolve, reject) => {
+            await this.sleep(20);
+        this.mockMutations.closeOngoing(_bountyId);
+            resolve({ events: [{ transactionHash: "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e" }] });
+        });
+        return promise;
+    };
+
+
 
 
     balanceOf = async (library, _callerAddress, _tokenAddress) => {

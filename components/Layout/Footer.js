@@ -6,7 +6,7 @@ import Link from 'next/link';
 import OpenQSocials from './OpenQSocials';
 
 // Custom
-import CopyAddressToClipboard from '../Copy/CopyAddressToClipboard';
+import CopyAddressToClipboard from '../CopyAddressToClipboard';
 
 const Footer = () => {
   const [toggle, setToggle] = useState(1);

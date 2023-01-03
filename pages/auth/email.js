@@ -50,7 +50,13 @@ function EmailAuth() {
   };
 
   const upsertUser = async (email) => {
-    const { id } = await appState.openQPrismaClient.upsertUser({ email, username: email });
+    const { id, ...user } = await appState.openQPrismaClient.upsertUser({ email, username: email });
+
+    const accountDispatch = {
+      type: 'UPDATE_ACCOUNTDATA',
+      payload: { ...user, id },
+    };
+    appState.dispatch(accountDispatch);
     router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${id}`);
   };
 

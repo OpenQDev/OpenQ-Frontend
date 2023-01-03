@@ -14,7 +14,7 @@ import FundPage from '../../../components/FundBounty/FundPage';
 import dynamic from 'next/dynamic';
 const RefundPage = dynamic(() => import('../../../components/RefundBounty/RefundPage'), { ssr: false });
 import ClaimPage from '../../../components/Claim/ClaimPage';
-import AdminPage from '../../../components/AdminPage/AdminPage';
+import AdminPage from '../../../components/AdminPage';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
 import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
@@ -27,6 +27,7 @@ import BountyHeading from '../../../components/Bounty/BountyHeading';
 import BountyMetadata from '../../../components/Bounty/BountyMetadata';
 import Submissions from '../../../components/Submissions/Submissions';
 
+import TokenProvider from '../../../components/TokenSelection/TokenStore/TokenProvider';
 import Add from '../../../components/svg/add';
 import Subtract from '../../../components/svg/subtract';
 import Fire from '../../../components/svg/fire';
@@ -34,7 +35,7 @@ import Telescope from '../../../components/svg/telescope';
 import Gear from '../../../components/svg/gear';
 import ClaimOverview from '../../../components/Claim/ClaimOverview';
 import Log from '../../../components/svg/log';
-import FundProvider from '../../../components/FundBounty/FundProvider';
+import FundProvider from '../../../components/FundBounty/FundStore/FundProvider';
 
 const address = ({ address, mergedBounty, renderError }) => {
   // Context
@@ -247,7 +248,9 @@ const address = ({ address, mergedBounty, renderError }) => {
                 {internalMenu == 'View' && <BountyCardDetails bounty={bounty} />}
                 {internalMenu == 'Fund' && bounty ? (
                   <FundProvider bounty={bounty} refreshBounty={refreshBounty}>
-                    <FundPage bounty={bounty} refreshBounty={refreshBounty} />
+                    <TokenProvider>
+                      <FundPage bounty={bounty} refreshBounty={refreshBounty} />
+                    </TokenProvider>
                   </FundProvider>
                 ) : null}
                 {internalMenu == 'Claim' && bounty ? (

@@ -1,20 +1,22 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import ToolTipNew from '../../../Utils/ToolTipNew';
-import TokenSearch from '../../../FundBounty/SearchTokens/TokenSearch';
-import { ethers } from 'ethers';
+import TokenSearch from '../../../TokenSelection/TokenSearch';
 import MintContext from '../../MintContext';
+import TokenContext from '../../../TokenSelection/TokenStore/TokenContext';
 
 const SetPayoutToken = ({ content }) => {
   const [mintState, mintDispatch] = useContext(MintContext);
-  const { payoutToken, category, hideModal } = mintState;
+  const { category, hideModal } = mintState;
+  const [tokenState] = useContext(TokenContext);
+  const { token } = tokenState;
 
-  function onCurrencySelect(payoutToken) {
+  useEffect(() => {
     const dispatch = {
       type: 'UPDATE_PAYOUT_TOKEN',
-      payload: { ...payoutToken, address: ethers.utils.getAddress(payoutToken.address) },
+      payload: token,
     };
     mintDispatch(dispatch);
-  }
+  }, [token]);
 
   const setHideModal = (hideModal) => {
     const dispatch = {
@@ -39,13 +41,7 @@ const SetPayoutToken = ({ content }) => {
             </div>
           </div>
           <div className=''>
-            <TokenSearch
-              token={payoutToken}
-              setShowTokenSearch={setHideModal}
-              showTokenSearch={hideModal}
-              onCurrencySelect={onCurrencySelect}
-              alone={true}
-            />
+            <TokenSearch setShowTokenSearch={setHideModal} showTokenSearch={hideModal} alone={true} />
           </div>
         </div>
       )}
