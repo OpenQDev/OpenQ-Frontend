@@ -15,7 +15,6 @@ const filterBounties = (
   setCurrentSearchedLabels,
   setCurrentContractTypes,
   orderRegex,
-  account,
   fetchPage,
   complete,
   appState,

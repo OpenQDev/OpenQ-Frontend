@@ -263,13 +263,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                 bounty &&
                 bounty?.issuer?.id &&
                 ethers.utils.getAddress(bounty.issuer.id) == account ? (
-                  <AdminPage
-                    bounty={bounty}
-                    refreshBounty={refreshBounty}
-                    price={tokenValues?.total}
-                    budget={budget}
-                    split={split}
-                  />
+                  <AdminPage bounty={bounty} refreshBounty={refreshBounty} />
                 ) : null}
                 {internalMenu == 'Submissions' && bounty?.payoutSchedule ? (
                   <Submissions refreshBounty={refreshBounty} bounty={bounty} />
@@ -277,13 +271,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                 {bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
 
                 {internalMenu && internalMenu !== 'Submissions' && (
-                  <BountyMetadata
-                    price={tokenValues?.total}
-                    budget={budget}
-                    split={split}
-                    bounty={bounty}
-                    setInternalMenu={setInternalMenu}
-                  />
+                  <BountyMetadata split={split} bounty={bounty} setInternalMenu={setInternalMenu} />
                 )}
               </div>
               <canvas className='absolute w-full top-0 z-40 bottom-0 pointer-events-none' ref={canvas}></canvas>

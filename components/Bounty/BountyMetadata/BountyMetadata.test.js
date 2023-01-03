@@ -39,7 +39,7 @@ describe('BountyMetadata', () => {
           expect(await screen.findByText(/Split/));
         }
         if (bounty.bountyType === Constants.bountyTypeContest) {
-          expect(await screen.findByText(/Weighted Contest/));
+          expect(await screen.findByText(/Contest/));
         }
         if (bounty.bountyType === Constants.bountyTypeFixedContest) {
           expect(await screen.findByText(/Fixed Contest/));

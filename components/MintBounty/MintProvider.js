@@ -1,17 +1,12 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useContext } from 'react';
 import MintReducer from './MintReducer.js';
 import MintContext from './MintContext';
 import InitialState from './InitialMintState.js';
+import StoreContext from '../../store/Store/StoreContext';
 
 const MintProvider = ({ children, types }) => {
-  const category =
-    types[0] === '1'
-      ? 'Split Price'
-      : types[0] === '2'
-      ? 'Contest'
-      : types[0] === '3'
-      ? 'Fixed Contest'
-      : 'Fixed Price';
+  const [appState] = useContext(StoreContext);
+  const category = appState.utils.getBountyTypeName({ bountyType: types[0] });
   const [state, dispatch] = useReducer(MintReducer, { category, ...InitialState });
 
   return <MintContext.Provider value={[state, dispatch]}>{children}</MintContext.Provider>;
