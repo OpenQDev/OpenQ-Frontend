@@ -39,7 +39,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
       authService: new AuthService(),
       githubRepository: new GithubRepository(),
       openQSubgraphClient: new OpenQSubgraphClient(),
-      tokenClient: new MockTokenClient(),
+      tokenClient: new TokenClient(),
       logger: new Logger('DEV'),
       utils: new Utils(),
       openQPrismaClient: new OpenQPrismaClient(),
