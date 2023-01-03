@@ -45,10 +45,8 @@ or
         return 'Fixed Price';
       case '1':
         return 'Split Price';
-
       case '2':
         return 'Contest';
-
       case '3':
         return 'Contest';
 	  default:
