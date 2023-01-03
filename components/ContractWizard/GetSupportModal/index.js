@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React, { useEffect, useRef } from 'react';
-import ModalDefault from '../Utils/ModalDefault';
+import ModalDefault from '../../Utils/ModalDefault';
 
 const GetSupportModal = ({ wizardVisibility, modalVisibility }) => {
   // Refs

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import MintBountyModal from '../MintBounty//MintBountyModal/MintBountyModal';
+import MintBountyModal from '../MintBounty/MintBountyModal/MintBountyModal';
 import MintProvider from '../MintBounty/MintProvider';
 import ModalDefault from '../Utils/ModalDefault';
 import ToolTipNew from '../Utils/ToolTipNew';

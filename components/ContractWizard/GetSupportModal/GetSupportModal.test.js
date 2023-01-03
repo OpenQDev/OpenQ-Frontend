@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import GetSupportModal from '../../components/ContractWizard/GetSupportModal';
+import GetSupportModal from '.';
 import renderer from 'react-test-renderer';
 
 describe('GetSupportModal', () => {

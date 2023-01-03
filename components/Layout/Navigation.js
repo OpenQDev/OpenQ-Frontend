@@ -13,7 +13,7 @@ import { useRouter } from 'next/router';
 import NavLinks from './NavLinks';
 import LoadingBar from '../Loading/LoadingBar';
 import LoadingThread from '../Loading/LoadingThread.js';
-import ContractWizard from '../ContractWizard/ContractWizard.js';
+import ContractWizard from '../ContractWizard';
 
 const Navigation = () => {
   const [appState] = useContext(StoreContext);

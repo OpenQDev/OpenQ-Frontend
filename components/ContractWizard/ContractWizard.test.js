@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { render, screen } from '../../test-utils';
-import ContractWizard from '../../components/ContractWizard/ContractWizard';
+import ContractWizard from '.';
 import userEvent from '@testing-library/user-event';
 import ShallowRenderer from 'react-test-renderer/shallow';
 
