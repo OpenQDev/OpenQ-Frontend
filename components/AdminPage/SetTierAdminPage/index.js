@@ -1,13 +1,13 @@
 import React, { useState, useContext, useEffect, useMemo } from 'react';
-import StoreContext from '../../store/Store/StoreContext';
-import ToolTipNew from '../Utils/ToolTipNew';
-import useWeb3 from '../../hooks/useWeb3';
-import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
-import ConnectButton from '../WalletConnect/ConnectButton';
-import TokenSearch from '../FundBounty/SearchTokens/TokenSearch';
-import SetTierValues from '../MintBounty/MintBountyModal/AddContestParams/SetTierValues/SetTierValues';
+import StoreContext from '../../../store/Store/StoreContext';
+import ToolTipNew from '../../Utils/ToolTipNew';
+import useWeb3 from '../../../hooks/useWeb3';
+import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
+import ConnectButton from '../../WalletConnect/ConnectButton';
+import TokenSearch from '../../FundBounty/SearchTokens/TokenSearch';
+import SetTierValues from '../../MintBounty/MintBountyModal/AddContestParams/SetTierValues/SetTierValues';
 import { ethers } from 'ethers';
-import AdminModal from './AdminModal.js';
+import AdminModal from '../AdminModal/index.js';
 
 const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   // Context

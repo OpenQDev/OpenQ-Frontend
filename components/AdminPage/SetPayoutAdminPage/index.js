@@ -1,12 +1,12 @@
 // Third party Libraries
 import React, { useState, useContext } from 'react';
-import AdminModal from './AdminModal';
-import TokenFundBox from '../FundBounty/SearchTokens/TokenFundBox';
-import ConnectButton from '../WalletConnect/ConnectButton';
+import AdminModal from '../AdminModal';
+import TokenFundBox from '../../FundBounty/SearchTokens/TokenFundBox';
+import ConnectButton from '../../WalletConnect/ConnectButton';
 import { ethers } from 'ethers';
-import StoreContext from '../../store/Store/StoreContext';
-import useWeb3 from '../../hooks/useWeb3';
-import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
+import StoreContext from '../../../store/Store/StoreContext';
+import useWeb3 from '../../../hooks/useWeb3';
+import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
 
 const SetPayoutAdminPage = ({ bounty, refreshBounty, setShowButton }) => {
   const zeroAddressMetadata = {

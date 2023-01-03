@@ -2,11 +2,11 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen } from '../../test-utils';
-import AdminModal from '../../components/AdminPage/AdminModal';
-import InitialState from '../../store/Store/InitialState';
+import { render, screen } from '../../../test-utils';
+import AdminModal from '.';
+import InitialState from '../../../store/Store/InitialState';
 import { waitFor } from '@testing-library/react';
-import Constants from '../../test-utils/constant';
+import Constants from '../../../test-utils/constant';
 
 describe('AdminModal', () => {
   const bounty = Constants.bounty;

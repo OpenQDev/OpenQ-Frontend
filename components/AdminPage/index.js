@@ -5,7 +5,7 @@ import { ethers } from 'ethers';
 import BountyClosed from '../BountyClosed';
 import SetBudgetAdminPage from './SetBudgetAdminPage';
 import SetTierAdminPage from './SetTierAdminPage';
-import SetPayoutAdminPage from './SetPayoutAdminPage.js';
+import SetPayoutAdminPage from './SetPayoutAdminPage/index.js';
 import BountyWrapper from '../Bounty/BountyWrapper';
 
 const AdminPage = ({ bounty, refreshBounty }) => {

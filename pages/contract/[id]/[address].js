@@ -14,7 +14,7 @@ import FundPage from '../../../components/FundBounty/FundPage';
 import dynamic from 'next/dynamic';
 const RefundPage = dynamic(() => import('../../../components/RefundBounty/RefundPage'), { ssr: false });
 import ClaimPage from '../../../components/Claim/ClaimPage';
-import AdminPage from '../../../components/AdminPage/AdminPage';
+import AdminPage from '../../../components/AdminPage';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
 import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';

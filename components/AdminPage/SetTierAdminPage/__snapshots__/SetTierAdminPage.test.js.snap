@@ -2,7 +2,6 @@
 
 exports[`SetTierAdminPage should match DOM and render "Weight per Tier (%)", "1st place winner" etc. if bounty type is 2 1`] = `
 <DocumentFragment>
-   
   <div
     class=" flex flex-col gap-4"
   >
@@ -293,7 +292,6 @@ exports[`SetTierAdminPage should match DOM and render "Weight per Tier (%)", "1s
 
 exports[`SetTierAdminPage should match DOM and render "Which token?", "Volumes:" if bounty type is 3 1`] = `
 <DocumentFragment>
-   
   <div
     class=" flex flex-col gap-4"
   >
@@ -521,14 +519,6 @@ exports[`SetTierAdminPage should match DOM and render "Which token?", "Volumes:"
 </DocumentFragment>
 `;
 
-exports[`SetTierAdminPage should render nothing if bounty type is 0 1`] = `
-<DocumentFragment>
-   
-</DocumentFragment>
-`;
+exports[`SetTierAdminPage should render nothing if bounty type is 0 1`] = `<DocumentFragment />`;
 
-exports[`SetTierAdminPage should render nothing if bounty type is 1 1`] = `
-<DocumentFragment>
-   
-</DocumentFragment>
-`;
+exports[`SetTierAdminPage should render nothing if bounty type is 1 1`] = `<DocumentFragment />`;

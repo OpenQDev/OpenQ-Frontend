@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
-import StoreContext from '../../store/Store/StoreContext';
+import StoreContext from '../../../store/Store/StoreContext';
 import { ethers } from 'ethers';
-import LinkText from '../svg/linktext';
-import ModalDefault from '../Utils/ModalDefault';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
-import TweetAbout from '../Utils/TweetAbout';
-import LoadingIcon from '../Loading/ButtonLoadingIcon';
+import LinkText from '../../svg/linktext';
+import ModalDefault from '../../Utils/ModalDefault';
+import useGetTokenValues from '../../../hooks/useGetTokenValues';
+import TweetAbout from '../../Utils/TweetAbout';
+import LoadingIcon from '../../Loading/ButtonLoadingIcon';
 
 const AdminModal = ({ setModal, modal, bounty, tokenAddress }) => {
   const [token, setToken] = useState();

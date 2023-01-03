@@ -2,12 +2,12 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen } from '../../test-utils';
-import SetBudgetAdminPage from '../../components/AdminPage/SetBudgetAdminPage';
-import InitialState from '../../store/Store/InitialState';
-import Constants from '../../test-utils/constant';
+import { render, screen } from '../../../test-utils';
+import SetBudgetAdminPage from '.';
+import InitialState from '../../../store/Store/InitialState';
+import Constants from '../../../test-utils/constant';
 import userEvent from '@testing-library/user-event';
-import MockOpenQClient from '../../services/ethers/MockOpenQClient';
+import MockOpenQClient from '../../../services/ethers/MockOpenQClient';
 describe('SetBudgetAdminPage', () => {
   const bounty = Constants.bounty;
   beforeEach(() => {
@@ -39,7 +39,8 @@ describe('SetBudgetAdminPage', () => {
     // ASSERT
     expect(await screen.findByText(/Updating Budget.../)).toBeInTheDocument();
     expect(screen.getByText(/our request is being processed.../)).toBeInTheDocument();
-    expect(await screen.findByText(/updated/i)).toBeInTheDocument();
+    const updatedTexts = await screen.findAllByText(/updated/i);
+    expect(updatedTexts[0]).toBeInTheDocument();
     expect(await screen.findByText(/budget set to/i)).toBeInTheDocument();
     expect(await screen.findByText(/100.0 LINK/)).toBeInTheDocument();
     expect(setFundingGoal).toBeCalledWith(bounty.bountyId, '100', '0x5FbDB2315678afecb367f032d93F642f64180aa3');
