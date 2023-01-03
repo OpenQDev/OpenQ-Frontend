@@ -13,9 +13,7 @@ const SetContextState = (props) => {
     const checkGithub = async () => {
       if (githubId || email) {
         const idObj = githubId ? { github: githubId } : { email };
-        console.log(idObj);
         const accountData = await appState.openQPrismaClient.getUser(idObj);
-        console.log('accountData', accountData);
         if (accountData) {
           dispatch({ payload: accountData, type: 'UPDATE_ACCOUNTDATA' });
         }
