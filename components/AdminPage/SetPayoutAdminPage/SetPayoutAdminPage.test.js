@@ -19,7 +19,7 @@ describe('SetPayoutAdminPage', () => {
       disconnect,
     }));
   });
-  it('should allow user to update budget', async () => {
+  it('should allow user to update payout', async () => {
     // ARRANGE
     const user = userEvent.setup();
     const setPayout = jest.fn();
@@ -43,5 +43,29 @@ describe('SetPayoutAdminPage', () => {
     expect(updatedTexts[0]).toBeInTheDocument();
     expect(await screen.findByText(/100.0 LINK/i)).toBeInTheDocument();
     expect(setPayout).toBeCalledWith(bounty.bountyId, '100', '0x5FbDB2315678afecb367f032d93F642f64180aa3');
+  });
+  it('should allow user to close contract', async () => {
+    // ARRANGE
+    const closeOngoing = jest.fn();
+    const user = userEvent.setup();
+    const customInitialState = {
+      ...InitialState,
+      openQClient: new MockOpenQClient({ closeOngoing }),
+    };
+    render(
+      <SetPayoutAdminPage setShowButton={() => null} refreshBounty={() => {}} bounty={bounty} />,
+      {},
+      customInitialState
+    );
+    expect(screen.getByText('Set Payout for Each Submitter')).toBeInTheDocument();
+
+    // ACT
+    await user.click(screen.getByRole('button', { name: /Close Split/ }));
+    expect(await screen.findByText(/Closing Split Price Contract.../)).toBeInTheDocument();
+    expect(screen.getByText(/our request is being processed.../)).toBeInTheDocument();
+    expect(await screen.findByText(/Split Price contract closed,/)).toBeInTheDocument();
+
+    // ASSERT
+    expect(closeOngoing).toBeCalledWith(bounty.bountyId);
   });
 });

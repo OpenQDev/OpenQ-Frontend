@@ -34,6 +34,8 @@ export const valueToDisplay = (value) => {
   switch (value) {
     case 'invoicingName':
       return 'Invoicing Name';
+    case 'invoicingEmail':
+      return 'Invoicing Email';
     case 'streetAddress':
       return 'Billing Address';
     case 'postalCode':

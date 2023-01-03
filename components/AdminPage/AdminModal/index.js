@@ -146,8 +146,8 @@ const AdminModal = ({ setModal, modal, bounty, tokenAddress }) => {
                     rel='noopener noreferrer'
                     href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${modal.transaction.transactionHash}`}
                   >
-                    {modal.transaction.transactionHash.slice(0, 3)}...
-                    {modal.transaction.transactionHash.slice(-3)}
+                    {modal?.transaction.transactionHash?.slice(0, 3)}...
+                    {modal?.transaction.transactionHash?.slice(-3)}
                     <LinkText />
                   </a>
                 </div>
@@ -212,8 +212,8 @@ const AdminModal = ({ setModal, modal, bounty, tokenAddress }) => {
                         rel='noopener noreferrer'
                         href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${modal.transaction.transactionHash}`}
                       >
-                        {modal.transaction.transactionHash.slice(0, 3)}...
-                        {modal.transaction.transactionHash.slice(-3)}
+                        {modal.transaction.transactionHash?.slice(0, 3)}...
+                        {modal.transaction.transactionHash?.slice(-3)}
                         <LinkText />
                       </a>
                     </>
