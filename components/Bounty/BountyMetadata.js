@@ -68,22 +68,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
     setFundsNeeded(fundsNeeded);
   }, [bounty]);
 
-  let type = 'Fixed Price';
-
-  switch (bounty.bountyType) {
-    case '0':
-      type = 'Fixed Price';
-      break;
-    case '1':
-      type = 'Split Price';
-      break;
-    case '2':
-      type = 'Weighted Contest';
-      break;
-    case '3':
-      type = 'Fixed Contest';
-      break;
-  }
+  const type = appState.utils.getBountyTypeName(bounty);
 
   function formatVolume(tierVolume) {
     const tokenMetadata = appState.tokenClient.getToken(bounty.payoutTokenAddress);
