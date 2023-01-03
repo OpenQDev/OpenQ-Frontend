@@ -3,38 +3,33 @@ import React, { useState, useContext, useEffect } from 'react';
 import { ethers } from 'ethers';
 
 // Custom
-import useWeb3 from '../../hooks/useWeb3';
-import TokenFundBox from './SearchTokens/TokenFundBox';
-import FundContext from './FundContext';
-import StoreContext from '../../store/Store/StoreContext';
-import ToolTipNew from '../Utils/ToolTipNew';
-import BountyClosed from '../BountyClosed';
-import ApproveFundModal from './ApproveFundModal';
-import OrgDetails from '../User/InvoicingDetailsTab/OrgDetails';
-import { RESTING, CONFIRM, APPROVING, TRANSFERRING, APPROVE } from './ApproveFundState';
-import useIsOnCorrectNetwork from '../../hooks/useIsOnCorrectNetwork';
-import SelectableNFT from './SelectableNFT';
-import NFTFundModal from './NFTFundModal.js';
-import Cross from '../svg/cross';
-import DepositPeriod from './DepositPeriod';
-import ConnectButton from '../WalletConnect/ConnectButton';
+import useWeb3 from '../../../hooks/useWeb3';
+import TokenFundBox from '../TokenSelection/TokenFundBox';
+import FundContext from '../FundStore/FundContext';
+import StoreContext from '../../../store/Store/StoreContext';
+import ToolTipNew from '../../Utils/ToolTipNew';
+import BountyClosed from '../../BountyClosed';
+import ApproveFundModal from '../ApproveFundModal';
+import OrgDetails from '../../User/InvoicingDetailsTab/OrgDetails';
+import { RESTING, CONFIRM, APPROVING, TRANSFERRING, APPROVE } from '../FundStore/ApproveFundState';
+import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
+import SelectableNFT from '../SelectableNFT';
+import NFTFundModal from '../NFTFundModal.js';
+import Cross from '../../svg/cross';
+import DepositPeriod from '../TokenSelection/DepositPeriod';
+import ConnectButton from '../../WalletConnect/ConnectButton';
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
-import { valueToDisplay, listWordsWithAnd } from '../../services/utils/lib';
-import useFundBountyMethod from './hooks/useFundBountyMethod';
+import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
+import useFundBountyMethod from '../hooks/useFundBountyMethod';
+import TokenContext from '../TokenSelection/TokenStore/TokenContext';
 
 const FundPage = () => {
   const [fundState, fundDispatch] = useContext(FundContext);
   const { pickedNft, allowance, depositPeriodDays, nftTier, bounty, approveTransferState } = fundState;
-  const zeroAddressMetadata = {
-    name: 'Matic',
-    address: '0x0000000000000000000000000000000000000000',
-    symbol: 'MATIC',
-    decimals: 18,
-    chainId: 80001,
-    path: 'https://wallet-asset.matic.network/img/tokens/matic.svg',
-  };
+
   const [volume, setVolume] = useState('');
-  const [token, setToken] = useState(zeroAddressMetadata);
+  const [tokenSelectState] = useContext(TokenContext);
+  const { token } = tokenSelectState;
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const [setNftTier] = useState('');
   const [appState] = useContext(StoreContext);
@@ -140,9 +135,6 @@ const FundPage = () => {
   const fundBounty = async () => {
     fundBountyMethod();
   };
-  function onCurrencySelect(token) {
-    setToken({ ...token, address: ethers.utils.getAddress(token.address) });
-  }
 
   function onVolumeChange(volume) {
     utils.updateVolume(volume, setVolume);
@@ -165,12 +157,7 @@ const FundPage = () => {
               {!pickedNft ? (
                 <div className='flex w-full gap-4'>
                   <>
-                    <TokenFundBox
-                      onCurrencySelect={onCurrencySelect}
-                      onVolumeChange={onVolumeChange}
-                      token={token}
-                      volume={volume}
-                    />
+                    <TokenFundBox onVolumeChange={onVolumeChange} token={token} volume={volume} />
                     <NFTFundModal />
                   </>
                 </div>

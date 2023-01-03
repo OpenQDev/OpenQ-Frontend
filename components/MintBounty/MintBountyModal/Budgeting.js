@@ -1,14 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ToolTipNew from '../../Utils/ToolTipNew';
-import TokenFundBox from '../../FundBounty/SearchTokens/TokenFundBox';
+import TokenFundBox from '../../FundBounty/TokenSelection/TokenFundBox';
 import { ethers } from 'ethers';
 import { parseVolume } from '../../../services/utils/lib';
 import MintContext from '../MintContext';
+import TokenContext from '../../FundBounty/TokenSelection/TokenStore/TokenContext';
 
 const Budgeting = ({ category }) => {
   const [budget, setBudget] = useState();
   const [mintState, mintDispatch] = useContext(MintContext);
   const { goalToken, goalVolume } = mintState;
+  const [tokenState] = useContext(TokenContext);
+  const { token } = tokenState;
 
   const handleGoalChange = (goalVolume) => {
     const dispatch = {
@@ -22,14 +25,13 @@ const Budgeting = ({ category }) => {
       mintDispatch(parsedGoalVolume);
     }
   };
-
-  function onGoalCurrencySelect(token) {
+  useEffect(() => {
     const dispatch = {
       type: 'UPDATE_GOAL_TOKEN',
       payload: { ...token, address: ethers.utils.getAddress(token.address) },
     };
     mintDispatch(dispatch);
-  }
+  }, [JSON.stringify(token)]);
 
   return (
     <>
@@ -59,7 +61,6 @@ const Budgeting = ({ category }) => {
               <TokenFundBox
                 small={true}
                 label='budget'
-                onCurrencySelect={onGoalCurrencySelect}
                 onVolumeChange={handleGoalChange}
                 volume={goalVolume}
                 token={goalToken}

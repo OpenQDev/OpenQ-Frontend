@@ -4,16 +4,18 @@ import ToolTipNew from '../../Utils/ToolTipNew';
 import useWeb3 from '../../../hooks/useWeb3';
 import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
 import ConnectButton from '../../WalletConnect/ConnectButton';
-import TokenSearch from '../../FundBounty/SearchTokens/TokenSearch';
+import TokenSearch from '../../FundBounty/TokenSelection/TokenSearch';
 import SetTierValues from '../../MintBounty/MintBountyModal/AddContestParams/SetTierValues/SetTierValues';
-import { ethers } from 'ethers';
 import AdminModal from '../AdminModal/index.js';
+import TokenContext from '../../FundBounty/TokenSelection/TokenStore/TokenContext';
 
 const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   // Context
   const { library, account } = useWeb3();
   const [appState] = useContext(StoreContext);
   const { accountData, openQClient, logger } = appState;
+  const [tokenState] = useContext(TokenContext);
+  const { token } = tokenState;
   const [showTokenSearch, setShowTokenSearch] = useState();
   const bountyTypeName = appState.utils.getBountyTypeName(bounty);
 
@@ -32,7 +34,7 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
 
   // funding goal volume and token
   // payout volume and token
-  const [payoutToken, setPayoutToken] = useState(zeroAddressMetadata);
+  const [,] = useState(zeroAddressMetadata);
 
   // contest state
   const initialTierArr = useMemo(() => {
@@ -54,13 +56,6 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   // handle change in Funding Goal
 
   // handle change in Payout for Ongoing Contracts
-
-  function onPayoutTokenSelect(payoutToken) {
-    setPayoutToken({
-      ...payoutToken,
-      address: ethers.utils.getAddress(payoutToken.address),
-    });
-  }
 
   // handle change in Payout for Contests
 
@@ -110,14 +105,14 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
       }
 
       if (bounty.bountyType === '3') {
-        transaction = await openQClient.setPayoutScheduleFixed(library, bounty.bountyId, finalTierVolumes, payoutToken);
+        transaction = await openQClient.setPayoutScheduleFixed(library, bounty.bountyId, finalTierVolumes, token);
       }
       refreshBounty();
       setModal({
         transaction,
         type: 'PayoutSchedule',
         finalTierVolume: finalTierVolumes,
-        payoutTokenAddress: payoutToken.address,
+        payoutTokenAddress: token.address,
       });
     } catch (error) {
       logger.error(error, accountData.id, 'adminPage2');
@@ -177,13 +172,7 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
                   </div>
                 </div>
                 <div className=' pl-4'>
-                  <TokenSearch
-                    setShowTokenSearch={setShowTokenSearch}
-                    showTokenSearch={showTokenSearch}
-                    token={payoutToken}
-                    alone={true}
-                    onCurrencySelect={onPayoutTokenSelect}
-                  />
+                  <TokenSearch setShowTokenSearch={setShowTokenSearch} showTokenSearch={showTokenSearch} alone={true} />
                 </div>
               </div>
             )}
@@ -218,7 +207,7 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
               </div>
             </ToolTipNew>
           )}
-          <AdminModal tokenAddress={payoutToken.address} setModal={setModal} bounty={bounty} modal={modal} />
+          <AdminModal tokenAddress={token.address} setModal={setModal} bounty={bounty} modal={modal} />
         </>
       )}
     </>

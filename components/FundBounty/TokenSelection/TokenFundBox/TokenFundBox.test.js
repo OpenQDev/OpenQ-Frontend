@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import TokenFundBox from '../../../components/FundBounty/SearchTokens/TokenFundBox';
+import TokenFundBox from '../../../components/FundBounty/TokenSelection/TokenFundBox';
 import Constants from '../../../test-utils/constant';
 import renderer from 'react-test-renderer';
 

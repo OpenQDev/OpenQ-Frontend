@@ -1,9 +1,9 @@
-import useFundBounty from './useFundBounty';
-import useCheckAddressLimit from './useCheckAddressLimit';
-import useCheckAccountBalance from './useCheckAccountBalance';
-import useApprove from './useApprove';
-import FundContext from '../FundContext';
-import StoreContext from '../../../store/Store/StoreContext';
+import useFundBounty from '../useFundBounty';
+import useCheckAddressLimit from '../useCheckAddressLimit';
+import useCheckAccountBalance from '../useCheckAccountBalance';
+import useApprove from '../useApprove';
+import FundContext from '../../FundStore/FundContext';
+import StoreContext from '../../../../store/Store/StoreContext';
 import { useContext } from 'react';
 
 const useFundBountyMethod = () => {

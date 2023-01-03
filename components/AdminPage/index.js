@@ -7,6 +7,7 @@ import SetBudgetAdminPage from './SetBudgetAdminPage';
 import SetTierAdminPage from './SetTierAdminPage';
 import SetPayoutAdminPage from './SetPayoutAdminPage/index.js';
 import BountyWrapper from '../Bounty/BountyWrapper';
+import TokenProvider from '../FundBounty/TokenSelection/TokenStore/TokenProvider';
 
 const AdminPage = ({ bounty, refreshBounty }) => {
   // Context
@@ -30,9 +31,18 @@ const AdminPage = ({ bounty, refreshBounty }) => {
         <BountyWrapper header='Settings'>
           <div className='flex flex-col space-y-4 w-full px-8 pt-2'>
             <h2 className='text-2xl border-b border-gray-700 pb-4'>Modifications</h2>
-            <SetBudgetAdminPage refreshBounty={refreshBounty} bounty={bounty} />
-            <SetTierAdminPage refreshBounty={refreshBounty} bounty={bounty} />
-            <SetPayoutAdminPage setShowButton={setShowButton} refreshBounty={refreshBounty} bounty={bounty} />
+
+            <TokenProvider>
+              <SetBudgetAdminPage refreshBounty={refreshBounty} bounty={bounty} />
+            </TokenProvider>
+
+            <TokenProvider>
+              <SetTierAdminPage refreshBounty={refreshBounty} bounty={bounty} />
+            </TokenProvider>
+
+            <TokenProvider>
+              <SetPayoutAdminPage setShowButton={setShowButton} refreshBounty={refreshBounty} bounty={bounty} />{' '}
+            </TokenProvider>
           </div>
         </BountyWrapper>
       ) : (

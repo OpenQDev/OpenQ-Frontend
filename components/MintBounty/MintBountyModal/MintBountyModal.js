@@ -11,6 +11,7 @@ import Budgeting from './Budgeting';
 import ErrorModal from './ErrorModal';
 import InvoiceableToggle from './InvoiceableToggle';
 import MintBountyModalButton from './MintBountyModalButton';
+import TokenProvider from '../../FundBounty/TokenSelection/TokenStore/TokenProvider';
 
 // Context
 import StoreContext from '../../../store/Store/StoreContext';
@@ -131,11 +132,15 @@ const MintBountyModal = ({ modalVisibility }) => {
               </h3>
               <MintBountyInputIssue />
               <InvoiceableToggle />
-              <Budgeting category={category} />
+              <TokenProvider>
+                <Budgeting category={category} />{' '}
+              </TokenProvider>
 
               {category === 'Split Price' ? (
                 <>
-                  <AddSplitPriceParams />
+                  <TokenProvider>
+                    <AddSplitPriceParams />
+                  </TokenProvider>
                 </>
               ) : category === 'Contest' || category === 'Fixed Contest' ? (
                 <>

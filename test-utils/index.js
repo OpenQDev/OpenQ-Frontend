@@ -5,7 +5,7 @@ import { render, renderHook } from '@testing-library/react';
 
 import StoreProvider from '../store/Store/TestStoreProvider';
 import AuthProvider from '../store/AuthStore/TestAuthProvider';
-import FundProvider from '../components/FundBounty/TestFundProvider';
+import FundProvider from '../components/FundBounty/FundStore/TestFundProvider';
 
 // Add in any providers here if necessary:
 // test-utils.js

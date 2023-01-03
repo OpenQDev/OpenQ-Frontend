@@ -1,7 +1,7 @@
 import React from 'react';
-import TokenStats from '../../components/FundBounty/TokenStats';
+import TokenStats from '.';
 import renderer from 'react-test-renderer';
-import Constants from '../../test-utils/constant';
+import Constants from '../../../test-utils/constant';
 
 describe('TokenStats', () => {
   it('should match DOM Snapshot', () => {

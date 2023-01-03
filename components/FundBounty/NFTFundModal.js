@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import SelectableNFT from './SelectableNFT';
-import FundContext from '../FundBounty/FundContext';
+import FundContext from './FundStore/FundContext';
 const NFTFundModal = () => {
   const [showModal, setShowModal] = useState();
   const [selectedNft, setSelectedNft] = useState();

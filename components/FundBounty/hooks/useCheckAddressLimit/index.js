@@ -1,7 +1,7 @@
 import { useContext } from 'react';
-import StoreContext from '../../../store/Store/StoreContext';
-import FundContext from '../FundContext';
-import useWeb3 from '../../../hooks/useWeb3';
+import StoreContext from '../../../../store/Store/StoreContext';
+import FundContext from '../../FundStore/FundContext';
+import useWeb3 from '../../../../hooks/useWeb3';
 
 const useCheckAddressLimit = () => {
   const [appState] = useContext(StoreContext);

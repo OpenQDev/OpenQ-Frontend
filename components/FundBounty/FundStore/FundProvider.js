@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
 import FundReducer from './FundReducer';
-import FundContext from './FundContext';
+import FundContext from '../FundStore/FundContext';
 import InitialState from './InitialFundState.js';
 
 const FundProvider = ({ children, bounty, refreshBounty }) => {

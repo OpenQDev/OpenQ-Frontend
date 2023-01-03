@@ -1,13 +1,16 @@
-import React, { useContext } from 'react';
-import TokenFundBox from '../../FundBounty/SearchTokens/TokenFundBox';
+import React, { useContext, useEffect } from 'react';
+import TokenFundBox from '../../FundBounty/TokenSelection/TokenFundBox';
 import { ethers } from 'ethers';
 import ToolTipNew from '../../Utils/ToolTipNew';
 import MintContext from '../MintContext';
+import TokenContext from '../../FundBounty/TokenSelection/TokenStore/TokenContext';
 import { parseVolume } from '../../../services/utils/lib';
 
 const AddSplitPriceParams = () => {
   const [mintState, mintDispatch] = useContext(MintContext);
-  const { payoutToken, payoutVolume } = mintState;
+  const { payoutVolume } = mintState;
+  const [tokenState] = useContext(TokenContext);
+  const { token } = tokenState;
   const onVolumeChange = (payoutVolume) => {
     const parsedPayoutVolume = parseVolume(payoutVolume);
     const dispatch = {
@@ -17,13 +20,15 @@ const AddSplitPriceParams = () => {
     mintDispatch(dispatch);
   };
 
-  function onCurrencySelect(payoutToken) {
+  useEffect(() => {
+    console.log(token);
     const dispatch = {
       type: 'UPDATE_PAYOUT_TOKEN',
-      payload: { ...payoutToken, address: ethers.utils.getAddress(payoutToken.address) },
+      payload: { ...token, address: ethers.utils.getAddress(token.address) },
     };
     mintDispatch(dispatch);
-  }
+  }, [JSON.stringify(token)]);
+
   return (
     <div className='flex flex-col gap-2 w-full items-start py-2 pb-4 text-base bg-[#161B22]'>
       <div className='flex items-center gap-2 font-semibold'>
@@ -41,9 +46,7 @@ const AddSplitPriceParams = () => {
         <TokenFundBox
           small={true}
           label='split'
-          onCurrencySelect={onCurrencySelect}
           onVolumeChange={onVolumeChange}
-          token={payoutToken}
           volume={payoutVolume}
           styles={'flex-col sm:flex-row space-y-4 space-x-0 sm:space-x-4 sm:space-y-0'}
         />

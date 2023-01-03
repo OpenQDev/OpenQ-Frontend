@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import StoreContext from '../../../store/Store/StoreContext';
-import FundContext from '../FundContext';
-import useWeb3 from '../../../hooks/useWeb3';
-import { getBigNumberVol } from '../../../services/utils/lib';
+import StoreContext from '../../../../store/Store/StoreContext';
+import FundContext from '../../FundStore/FundContext';
+import useWeb3 from '../../../../hooks/useWeb3';
+import { getBigNumberVol } from '../../../../services/utils/lib';
 
 const useCheckAccountBalance = () => {
   const [appState] = useContext(StoreContext);

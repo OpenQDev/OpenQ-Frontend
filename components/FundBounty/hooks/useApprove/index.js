@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import StoreContext from '../../../store/Store/StoreContext';
-import FundContext from '../FundContext';
+import StoreContext from '../../../../store/Store/StoreContext';
+import FundContext from '../../FundStore/FundContext';
 import { ethers } from 'ethers';
-import useWeb3 from '../../../hooks/useWeb3';
-import { getBigNumberVol } from '../../../services/utils/lib';
+import useWeb3 from '../../../../hooks/useWeb3';
+import { getBigNumberVol } from '../../../../services/utils/lib';
 
 const useApprove = () => {
   const [appState] = useContext(StoreContext);

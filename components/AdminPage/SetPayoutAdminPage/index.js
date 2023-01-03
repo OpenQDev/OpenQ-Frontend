@@ -1,35 +1,22 @@
 // Third party Libraries
 import React, { useState, useContext } from 'react';
 import AdminModal from '../AdminModal';
-import TokenFundBox from '../../FundBounty/SearchTokens/TokenFundBox';
+import TokenFundBox from '../../FundBounty/TokenSelection/TokenFundBox';
 import ConnectButton from '../../WalletConnect/ConnectButton';
-import { ethers } from 'ethers';
 import StoreContext from '../../../store/Store/StoreContext';
 import useWeb3 from '../../../hooks/useWeb3';
 import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
+import TokenContext from '../../FundBounty/TokenSelection/TokenStore/TokenContext';
 
 const SetPayoutAdminPage = ({ bounty, refreshBounty, setShowButton }) => {
-  const zeroAddressMetadata = {
-    name: 'Matic',
-    address: '0x0000000000000000000000000000000000000000',
-    symbol: 'MATIC',
-    decimals: 18,
-    chainId: 80001,
-    path: 'https://wallet-asset.matic.network/img/tokens/matic.svg',
-  };
-  const [payoutToken, setPayoutToken] = useState(zeroAddressMetadata);
+  const [tokenState] = useContext(TokenContext);
+  const { token } = tokenState;
   const [payoutVolume, setPayoutVolume] = useState('');
   const [appState] = useContext(StoreContext);
   const [modal, setModal] = useState({});
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const { library, account } = useWeb3();
   const { accountData, utils, openQClient, logger } = appState;
-  function onPayoutTokenSelect(payoutToken) {
-    setPayoutToken({
-      ...payoutToken,
-      address: ethers.utils.getAddress(payoutToken.address),
-    });
-  }
 
   function onPayoutVolumeChange(payoutVolume) {
     utils.updateVolume(payoutVolume, setPayoutVolume);
@@ -44,7 +31,7 @@ const SetPayoutAdminPage = ({ bounty, refreshBounty, setShowButton }) => {
   async function setPayout() {
     setModal({ type: 'Loading', inProgress: 'Updating Payout...' });
     try {
-      const transaction = await openQClient.setPayout(library, bounty.bountyId, payoutToken, payoutVolume);
+      const transaction = await openQClient.setPayout(library, bounty.bountyId, token, payoutVolume);
       refreshBounty();
       setPayoutVolume('');
       setModal({
@@ -94,12 +81,7 @@ const SetPayoutAdminPage = ({ bounty, refreshBounty, setShowButton }) => {
           <div className='flex items-center gap-2'>Set Payout for Each Submitter</div>
 
           <div className='flex-1 items-center w-full mt-2'>
-            <TokenFundBox
-              onCurrencySelect={onPayoutTokenSelect}
-              onVolumeChange={onPayoutVolumeChange}
-              token={payoutToken}
-              volume={payoutVolume}
-            />
+            <TokenFundBox onVolumeChange={onPayoutVolumeChange} volume={payoutVolume} />
           </div>
           <ConnectButton nav={false} needsGithub={false} centerStyles={true} />
           {isOnCorrectNetwork && account && (
@@ -120,7 +102,7 @@ const SetPayoutAdminPage = ({ bounty, refreshBounty, setShowButton }) => {
           )}
         </>
       ) : null}
-      <AdminModal setModal={setModal} bounty={bounty} modal={modal} tokenAddress={payoutToken.address} />
+      <AdminModal setModal={setModal} bounty={bounty} modal={modal} tokenAddress={token.address} />
     </>
   );
 };

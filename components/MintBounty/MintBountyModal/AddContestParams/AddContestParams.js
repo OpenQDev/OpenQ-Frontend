@@ -4,6 +4,7 @@ import SetPayoutToken from './SetPayoutToken';
 import SetTierValues from './SetTierValues/SetTierValues';
 import MintContext from '../../MintContext';
 import StoreContext from '../../../../store/Store/StoreContext';
+import TokenProvider from '../../../FundBounty/TokenSelection/TokenStore/TokenProvider';
 
 const AddContestParams = () => {
   const [appState] = useContext(StoreContext);
@@ -92,12 +93,14 @@ const AddContestParams = () => {
           onChange={(e) => onTierChange(e)}
         />
       </div>
-      <SetPayoutToken
-        content={{
-          body: 'Which token?',
-          message: 'Fixed contests can only be funded with one token.',
-        }}
-      />
+      <TokenProvider>
+        <SetPayoutToken
+          content={{
+            body: 'Which token?',
+            message: 'Fixed contests can only be funded with one token.',
+          }}
+        />
+      </TokenProvider>
 
       {tier > 0 ? (
         <SetTierValues

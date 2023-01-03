@@ -27,6 +27,7 @@ import BountyHeading from '../../../components/Bounty/BountyHeading';
 import BountyMetadata from '../../../components/Bounty/BountyMetadata';
 import Submissions from '../../../components/Submissions/Submissions';
 
+import TokenProvider from '../../../components/FundBounty/TokenSelection/TokenStore/TokenProvider';
 import Add from '../../../components/svg/add';
 import Subtract from '../../../components/svg/subtract';
 import Fire from '../../../components/svg/fire';
@@ -34,7 +35,7 @@ import Telescope from '../../../components/svg/telescope';
 import Gear from '../../../components/svg/gear';
 import ClaimOverview from '../../../components/Claim/ClaimOverview';
 import Log from '../../../components/svg/log';
-import FundProvider from '../../../components/FundBounty/FundProvider';
+import FundProvider from '../../../components/FundBounty/FundStore/FundProvider';
 
 const address = ({ address, mergedBounty, renderError }) => {
   // Context
@@ -247,7 +248,9 @@ const address = ({ address, mergedBounty, renderError }) => {
                 {internalMenu == 'View' && <BountyCardDetails bounty={bounty} />}
                 {internalMenu == 'Fund' && bounty ? (
                   <FundProvider bounty={bounty} refreshBounty={refreshBounty}>
-                    <FundPage bounty={bounty} refreshBounty={refreshBounty} />
+                    <TokenProvider>
+                      <FundPage bounty={bounty} refreshBounty={refreshBounty} />
+                    </TokenProvider>
                   </FundProvider>
                 ) : null}
                 {internalMenu == 'Claim' && bounty ? (

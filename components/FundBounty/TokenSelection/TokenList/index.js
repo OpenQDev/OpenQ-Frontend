@@ -2,11 +2,11 @@
 import React, { useContext, useState, useCallback, useRef, useEffect } from 'react';
 
 // Custom
-import StoreContext from '../../../store/Store/StoreContext';
-import TokenDisplay from '../../TokenBalances/TokenDisplay';
+import StoreContext from '../../../../store/Store/StoreContext';
+import TokenDisplay from '../../../TokenBalances/TokenDisplay';
+import TokenContext from '../TokenStore/TokenContext';
 
 const TokenList = ({
-  onCurrencySelect,
   setShowTokenSearch,
   tokenSearchTerm,
   customTokens,
@@ -18,6 +18,7 @@ const TokenList = ({
   const [appState] = useContext(StoreContext);
   const superTokens = appState.tokenClient.superfluidEnumerable;
   const [polygonTokens, setPolygonTokens] = useState(polygonDefaultTokens);
+  const [, tokenDispatch] = useContext(TokenContext);
   const [isComplete, setIsComplete] = useState(false);
   const batch = 50;
   const [cursor, setCursor] = useState(currentCursor);
@@ -84,7 +85,12 @@ const TokenList = ({
   }, [tokenSearchTerm, isComplete]);
 
   function onSelect(token) {
-    onCurrencySelect(token);
+    const dispatch = {
+      type: 'SET_TOKEN',
+      payload: token,
+    };
+    tokenDispatch(dispatch);
+
     setShowTokenSearch(false);
   }
   return (

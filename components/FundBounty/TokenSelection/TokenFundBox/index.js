@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
-import TokenSearch from './TokenSearch';
+import React, { useContext, useState } from 'react';
+import TokenSearch from '../TokenSearch';
 import Image from 'next/image';
+import TokenContext from '../TokenStore/TokenContext';
 
-const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume, placeholder, label, styles, small }) => {
+const TokenFundBox = ({ onVolumeChange, volume, placeholder, label, styles, small }) => {
   const [showTokenSearch, setShowTokenSearch] = useState(false);
+  const [tokenState] = useContext(TokenContext);
+  const { token } = tokenState;
 
   return (
     <div className={`flex space-x-4 w-full ${styles}`}>
@@ -47,9 +50,7 @@ const TokenFundBox = ({ onCurrencySelect, onVolumeChange, token, volume, placeho
           </div>
         </button>
       </div>
-      {showTokenSearch ? (
-        <TokenSearch token={token} setShowTokenSearch={setShowTokenSearch} onCurrencySelect={onCurrencySelect} />
-      ) : null}
+      {showTokenSearch ? <TokenSearch setShowTokenSearch={setShowTokenSearch} /> : null}
     </div>
   );
 };

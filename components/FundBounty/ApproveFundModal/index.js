@@ -3,15 +3,15 @@ import React, { useRef, useEffect, useContext } from 'react';
 import Link from 'next/link';
 
 // Custom
-import { CONFIRM, APPROVE, APPROVING, TRANSFERRING, SUCCESS, ERROR, RESTING } from './ApproveFundState';
-import LoadingIcon from '../Loading/ButtonLoadingIcon';
-import FundingTokenStats from './TokenStats.js';
-import CopyAddressToClipboard from '../CopyAddressToClipboard';
-import StoreContext from '../../store/Store/StoreContext';
-import LinkText from '../svg/linktext';
-import TweetAbout from '../Utils/TweetAbout';
-import ModalDefault from '../Utils/ModalDefault';
-import FundContext from './FundContext';
+import { CONFIRM, APPROVE, APPROVING, TRANSFERRING, SUCCESS, ERROR, RESTING } from '../FundStore/ApproveFundState';
+import LoadingIcon from '../../Loading/ButtonLoadingIcon';
+import FundingTokenStats from '../TokenStats/index.js';
+import CopyAddressToClipboard from '../../CopyAddressToClipboard';
+import StoreContext from '../../../store/Store/StoreContext';
+import LinkText from '../../svg/linktext';
+import TweetAbout from '../../Utils/TweetAbout';
+import ModalDefault from '../../Utils/ModalDefault';
+import FundContext from '../FundStore/FundContext';
 
 // setError,
 // setApproveTransferState,

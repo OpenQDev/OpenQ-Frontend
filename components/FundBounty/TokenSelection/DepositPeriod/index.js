@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import ToolTipNew from '../Utils/ToolTipNew';
-import FundContext from './FundContext';
+import ToolTipNew from '../../../Utils/ToolTipNew';
+import FundContext from '../../FundStore/FundContext';
 const DepositPeriod = () => {
   const [fundState, fundDispatch] = useContext(FundContext);
 

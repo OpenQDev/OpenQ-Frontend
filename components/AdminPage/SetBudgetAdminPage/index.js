@@ -1,23 +1,17 @@
 import React, { useContext, useState } from 'react';
 import useWeb3 from '../../../hooks/useWeb3';
-import { ethers } from 'ethers';
 import StoreContext from '../../../store/Store/StoreContext';
 import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
-import TokenFundBox from '../../FundBounty/SearchTokens/TokenFundBox';
+import TokenFundBox from '../../FundBounty/TokenSelection/TokenFundBox';
 import ConnectButton from '../../WalletConnect/ConnectButton';
 import AdminModal from '../AdminModal';
+import TokenContext from '../../FundBounty/TokenSelection/TokenStore/TokenContext';
 
 const SetBudgetAdminPage = ({ refreshBounty, bounty }) => {
   const [appState] = useContext(StoreContext);
-  const zeroAddressMetadata = {
-    name: 'Matic',
-    address: '0x0000000000000000000000000000000000000000',
-    symbol: 'MATIC',
-    decimals: 18,
-    chainId: 80001,
-    path: 'https://wallet-asset.matic.network/img/tokens/matic.svg',
-  };
-  const [token, setToken] = useState(zeroAddressMetadata);
+
+  const [tokenState] = useContext(TokenContext);
+  const { token } = tokenState;
   const [volume, setVolume] = useState('');
   const { openQClient, accountData, utils, logger } = appState;
   const [modal, setModal] = useState({});
@@ -46,13 +40,6 @@ const SetBudgetAdminPage = ({ refreshBounty, bounty }) => {
     }
   }
 
-  function onCurrencySelect(token) {
-    setToken({
-      ...token,
-      address: ethers.utils.getAddress(token.address),
-    });
-  }
-
   function onVolumeChange(volume) {
     utils.updateVolume(volume, setVolume);
   }
@@ -64,12 +51,7 @@ const SetBudgetAdminPage = ({ refreshBounty, bounty }) => {
           {' '}
           <div className='flex items-center gap-2'>Set a New Budget for this Contract</div>
           <div className='flex-1 items-center w-full px-4'>
-            <TokenFundBox
-              onCurrencySelect={onCurrencySelect}
-              onVolumeChange={onVolumeChange}
-              token={token}
-              volume={volume}
-            />
+            <TokenFundBox onVolumeChange={onVolumeChange} volume={volume} />
           </div>
           <ConnectButton nav={false} needsGithub={false} centerStyles={true} />
           {isOnCorrectNetwork && account && (

@@ -5,6 +5,7 @@ import ApproveStreamModal from './ApproveStreamModal';
 import { APPROVING, ERROR, SUCCESS, TRANSFERRING } from './ApproveTransferState';
 import FundStreamModal from './FundStreamModal';
 import { ethers } from 'ethers';
+import TokenProvider from '../FundBounty/TokenSelection/TokenStore/TokenProvider';
 
 const CreateStream = () => {
   // CONTEXT
@@ -18,13 +19,15 @@ const CreateStream = () => {
   const [showModal, setShowModal] = useState('');
   const [approveTransferState, setApproveTransferState] = useState('CONFIRM');
 
-  const token = {
-    name: 'Dai',
-    address: '0xB221D2E203F9e71E3a5cE0a745A6A9e890d8ED50',
-    symbol: 'DAI',
-    decimals: 18,
-    chainId: 80001,
-    path: '/crypto-logos/DAI.svg',
+  const initialToken = {
+    token: {
+      name: 'Dai',
+      address: '0xB221D2E203F9e71E3a5cE0a745A6A9e890d8ED50',
+      symbol: 'DAI',
+      decimals: 18,
+      chainId: 80001,
+      path: '/crypto-logos/DAI.svg',
+    },
   };
 
   async function fund(volume, token) {
@@ -41,7 +44,7 @@ const CreateStream = () => {
       setError({ message, title });
     }
   }
-  async function approveToken(volume, recipient, flowRate, type) {
+  async function approveToken(volume, recipient, flowRate, type, token) {
     const volumeInWei = volume * 10 ** token.decimals;
     const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', { useGrouping: false }));
     const callerBalance = await openQClient.balanceOf(library, account, ethers.utils.getAddress(token.address));
@@ -66,11 +69,11 @@ const CreateStream = () => {
     }
   }
 
-  const approve = async (recipient, flowRate, type) => {
+  const approve = async (recipient, flowRate, type, token) => {
     const volume = (parseFloat(flowRate) * 30).toString();
     setApproveTransferState(APPROVING);
     try {
-      await approveToken(volume, recipient, flowRate, type);
+      await approveToken(volume, recipient, flowRate, type, token);
     } catch (err) {
       setApproveTransferState(ERROR);
       const { message, title } = openQClient.handleError(err);
@@ -79,21 +82,21 @@ const CreateStream = () => {
     }
   };
 
-  const stream = async (recipient, flowRate, type) => {
+  const stream = async (recipient, flowRate, type, token) => {
     switch (type) {
       case 'create':
-        await createNewFlowAndUpgrade(recipient, flowRate);
+        await createNewFlowAndUpgrade(recipient, flowRate, token);
         break;
       case 'update':
-        await updateFlow(recipient, flowRate);
+        await updateFlow(recipient, flowRate, token);
         break;
       case 'delete':
-        await deleteFlow(recipient);
+        await deleteFlow(recipient, token);
         break;
     }
   };
 
-  async function createNewFlowAndUpgrade(recipient, flowRate) {
+  async function createNewFlowAndUpgrade(recipient, flowRate, token) {
     try {
       const tx = await superfluidClient.upgradeAndCreateFlowBacth(library, token.address, flowRate, account, recipient);
       await tx.wait();
@@ -108,7 +111,7 @@ const CreateStream = () => {
     }
   }
 
-  async function updateFlow(recipient, flowRate) {
+  async function updateFlow(recipient, flowRate, token) {
     try {
       const tx = await superfluidClient.updateFlow(library, account, recipient, flowRate, token.address);
       await tx.wait();
@@ -124,7 +127,7 @@ const CreateStream = () => {
     }
   }
 
-  async function deleteFlow(recipient) {
+  async function deleteFlow(recipient, token) {
     setApproveTransferState(TRANSFERRING);
     try {
       const tx = await superfluidClient.deleteFlow(library, account, recipient, token.address);
@@ -172,34 +175,37 @@ const CreateStream = () => {
 
       <div className='w-2/4 flex flex-col gap-4 pt-16'>
         {showModal === 'fund' ? (
-          <FundStreamModal
-            resetState={() => {
-              setShowModal(false);
-              setApproveTransferState('CONFIRM');
-            }}
-            transactionHash={txnHash}
-            showModal={showModal}
-            setShowApproveTransferModal={setShowModal}
-            fund={fund}
-            approveTransferState={approveTransferState}
-            error={error}
-          />
-        ) : (
-          showModal && (
-            <ApproveStreamModal
+          <TokenProvider initialToken={initialToken}>
+            <FundStreamModal
               resetState={() => {
                 setShowModal(false);
                 setApproveTransferState('CONFIRM');
               }}
               transactionHash={txnHash}
-              deleteFlow={deleteFlow}
               showModal={showModal}
               setShowApproveTransferModal={setShowModal}
+              fund={fund}
               approveTransferState={approveTransferState}
-              confirmMethod={approve}
               error={error}
-              token={token}
             />
+          </TokenProvider>
+        ) : (
+          showModal && (
+            <TokenProvider initialToken={initialToken}>
+              <ApproveStreamModal
+                resetState={() => {
+                  setShowModal(false);
+                  setApproveTransferState('CONFIRM');
+                }}
+                transactionHash={txnHash}
+                deleteFlow={deleteFlow}
+                showModal={showModal}
+                setShowApproveTransferModal={setShowModal}
+                approveTransferState={approveTransferState}
+                confirmMethod={approve}
+                error={error}
+              />
+            </TokenProvider>
           )
         )}
       </div>

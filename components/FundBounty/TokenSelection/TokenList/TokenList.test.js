@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { render, screen } from '../../../test-utils';
-import TokenList from '../../../components/FundBounty/SearchTokens/TokenList';
+import TokenList from '../../../components/FundBounty/TokenSelection/TokenList';
 import openqDefaultTokens from '../../../constants/openq-local-enumerable.json';
 import polygonDefaultTokens from '../../../constants/openq-polygon-mainnet-enumerable.json';
 

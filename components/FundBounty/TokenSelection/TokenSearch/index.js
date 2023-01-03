@@ -1,12 +1,15 @@
 // Third party
 import React, { useContext, useState, useEffect } from 'react';
-import TokenList from './TokenList';
+import TokenList from '../TokenList';
 import ManageTokenList from '../ManageTokenList';
 import { XIcon } from '@primer/octicons-react';
-import StoreContext from '../../../store/Store/StoreContext';
+import StoreContext from '../../../../store/Store/StoreContext';
+import TokenContext from '../TokenStore/TokenContext';
 import Image from 'next/legacy/image';
 
-const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch, alone, showTokenSearch }) => {
+const TokenSearch = ({ stream, setShowTokenSearch, alone, showTokenSearch }) => {
+  const [tokenState] = useContext(TokenContext);
+  const { token } = tokenState;
   const [showListManager, setShowListManager] = useState(true);
   const [tokenSearchTerm, setTokenSearchTerm] = useState();
   const [lists, setLists] = useState({
@@ -118,7 +121,6 @@ const TokenSearch = ({ token, onCurrencySelect, stream, setShowTokenSearch, alon
                         polygonDefaultTokens={polygonTokens}
                         openqDefaultTokens={openQTokens}
                         tokenSearchTerm={tokenSearchTerm}
-                        onCurrencySelect={onCurrencySelect}
                         setShowTokenSearch={handleShowSearch}
                       />
                     )}
