@@ -8,7 +8,6 @@ import SearchBar from '../Search/SearchBar';
 import MintBountyButton from '../MintBounty/MintBountyButton';
 import Carousel from '../Utils/Carousel';
 import CarouselBounty from '../Bounty/CarouselBounty';
-import useWeb3 from '../../hooks/useWeb3';
 import SmallToggle from '../Utils/SmallToggle';
 import { useRouter } from 'next/router';
 import filterBounties from './searchHelpers/filterBounties';
@@ -39,7 +38,6 @@ const BountyList = ({
   const READY_TEXT = getReadyText(isOnlyContest(types));
 
   // Hooks
-  const { account } = useWeb3();
   const router = useRouter();
   const [appState] = useContext(StoreContext);
   const [searchText, updateSearchText] = useState(
