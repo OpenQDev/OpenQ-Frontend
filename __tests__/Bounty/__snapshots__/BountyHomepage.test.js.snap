@@ -13,9 +13,7 @@ exports[`BountyHomepage should render BountyDetails and match DOM Snapshot: cont
     <div
       className="text-gray-500 text-md"
     >
-      GitHub issues backed by OpenQ 
-      Contests
-      .
+      GitHub issues backed by OpenQ escrows.
     </div>
   </div>
   <div
@@ -41,9 +39,7 @@ exports[`BountyHomepage should render BountyDetails and match DOM Snapshot: fixe
     <div
       className="text-gray-500 text-md"
     >
-      GitHub issues backed by OpenQ 
-      Fixed Price Contracts
-      .
+      GitHub issues backed by OpenQ escrows.
     </div>
   </div>
   <div
@@ -69,9 +65,7 @@ exports[`BountyHomepage should render BountyDetails and match DOM Snapshot: spli
     <div
       className="text-gray-500 text-md"
     >
-      GitHub issues backed by OpenQ 
-      Split Price Contracts
-      .
+      GitHub issues backed by OpenQ escrows.
     </div>
   </div>
   <div
@@ -97,9 +91,7 @@ exports[`BountyHomepage should render UnexpectedErrorModal and match DOM Snapsho
     <div
       className="text-gray-500 text-md"
     >
-      GitHub issues backed by OpenQ 
-      Fixed Price Contracts
-      .
+      GitHub issues backed by OpenQ escrows.
     </div>
   </div>
   <div
