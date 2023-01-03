@@ -13,23 +13,9 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   // Context
   const { library, account } = useWeb3();
   const [appState] = useContext(StoreContext);
-  const { accountData } = appState;
-  const { openQClient, logger } = appState;
+  const { accountData, openQClient, logger } = appState;
   const [showTokenSearch, setShowTokenSearch] = useState();
-  let category = '';
-
-  switch (bounty.bountyType) {
-    case '0':
-      break;
-    case '1':
-      category = 'Split Price';
-      break;
-    case '2':
-      category = 'Contest';
-      break;
-    case '3':
-      category = 'Fixed Contest';
-  }
+  const bountyTypeName = appState.utils.getBountyTypeName(bounty);
 
   const zeroAddressMetadata = {
     name: 'Matic',
@@ -203,7 +189,7 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
             )}
             <div>{bounty.bountyType ? 'Volumes:' : 'Percentage'}</div>
             <SetTierValues
-              category={category}
+              category={bountyTypeName}
               sum={sum}
               initialVolumes={bounty.payoutSchedule || []}
               finalTierVolumes={finalTierVolumes}

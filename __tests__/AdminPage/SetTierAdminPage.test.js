@@ -5,6 +5,7 @@ import InitialState from '../../store/Store/InitialState';
 import Constants from '../../test-utils/constant';
 import userEvent from '@testing-library/user-event';
 import MockOpenQClient from '../../services/ethers/MockOpenQClient';
+
 describe('SetTierAdminPage', () => {
   beforeEach(() => {
     InitialState.openQClient.reset();
@@ -91,5 +92,22 @@ describe('SetTierAdminPage', () => {
     expect(await screen.findByText(/^30 Matic/i)).toBeInTheDocument();
     expect(await screen.findByText(/^20 Matic/i)).toBeInTheDocument();
     expect(setTier).toBeCalledWith(bounty.bountyId, [50, 30, 20], Constants.maticAddress);
+  });
+
+  it('should render nothing if bounty type is 0', () => {
+    const { asFragment } = render(<SetTierAdminPage bounty={Constants.bounty0} />);
+    expect(asFragment()).toMatchSnapshot();
+  });
+  it('should render nothing if bounty type is 1', () => {
+    const { asFragment } = render(<SetTierAdminPage bounty={Constants.bounty1} />);
+    expect(asFragment()).toMatchSnapshot();
+  });
+  it('should match DOM and render "Weight per Tier (%)", "1st place winner" etc. if bounty type is 2', () => {
+    const { asFragment } = render(<SetTierAdminPage bounty={Constants.bounty2} />);
+    expect(asFragment()).toMatchSnapshot();
+  });
+  it('should match DOM and render "Which token?", "Volumes:" if bounty type is 3', () => {
+    const { asFragment } = render(<SetTierAdminPage bounty={Constants.bounty3} />);
+    expect(asFragment()).toMatchSnapshot();
   });
 });
