@@ -6,6 +6,7 @@ import { render, renderHook } from '@testing-library/react';
 import StoreProvider from '../store/Store/TestStoreProvider';
 import AuthProvider from '../store/AuthStore/TestAuthProvider';
 import FundProvider from '../components/FundBounty/FundStore/TestFundProvider';
+import TokenProvider from '../components/TokenSelection/TokenStore/TokenProvider';
 
 // Add in any providers here if necessary:
 // test-utils.js
@@ -14,7 +15,9 @@ const customRender = (ui, options = {}, storeProps, authProps) => {
   const Providers = ({ children }) => {
     return (
       <AuthProvider StoreProps={authProps}>
-        <StoreProvider StoreProps={storeProps}>{children}</StoreProvider>
+        <StoreProvider StoreProps={storeProps}>
+          <TokenProvider>{children}</TokenProvider>
+        </StoreProvider>
       </AuthProvider>
     );
   };
@@ -26,7 +29,9 @@ const customHookRender = (hook, options = {}, storeProps, authProps, fundProps) 
     return (
       <AuthProvider StoreProps={authProps}>
         <StoreProvider StoreProps={storeProps}>
-          <FundProvider StoreProps={fundProps}> {children}</FundProvider>
+          <FundProvider StoreProps={fundProps}>
+            <TokenProvider>{children}</TokenProvider>
+          </FundProvider>
         </StoreProvider>
       </AuthProvider>
     );

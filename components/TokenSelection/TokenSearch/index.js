@@ -3,7 +3,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import TokenList from '../TokenList';
 import ManageTokenList from '../ManageTokenList';
 import { XIcon } from '@primer/octicons-react';
-import StoreContext from '../../../../store/Store/StoreContext';
+import StoreContext from '../../../store/Store/StoreContext';
 import TokenContext from '../TokenStore/TokenContext';
 import Image from 'next/legacy/image';
 

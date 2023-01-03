@@ -11,7 +11,7 @@ import Budgeting from './Budgeting';
 import ErrorModal from './ErrorModal';
 import InvoiceableToggle from './InvoiceableToggle';
 import MintBountyModalButton from './MintBountyModalButton';
-import TokenProvider from '../../FundBounty/TokenSelection/TokenStore/TokenProvider';
+import TokenProvider from '../../TokenSelection/TokenStore/TokenProvider';
 
 // Context
 import StoreContext from '../../../store/Store/StoreContext';

@@ -1,8 +1,8 @@
-import { hookRender, waitFor } from '../../../test-utils';
-import useFundBountyMethod from '../../../components/FundBounty/hooks/useFundBountyMethod';
-import InitialState from '../../../store/Store/InitialState';
-import InitialFundState from '../../../components/FundBounty/InitialFundState';
-import Constants from '../../../test-utils/constant';
+import { hookRender, waitFor } from '../../../../test-utils';
+import useFundBountyMethod from '.';
+import InitialState from '../../../../store/Store/InitialState';
+import InitialFundState from '../../FundStore/InitialFundState';
+import Constants from '../../../../test-utils/constant';
 
 describe('useFundMethod', () => {
   it('should approve and fund normal bounties', async () => {

@@ -4,10 +4,10 @@ import ToolTipNew from '../../Utils/ToolTipNew';
 import useWeb3 from '../../../hooks/useWeb3';
 import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
 import ConnectButton from '../../WalletConnect/ConnectButton';
-import TokenSearch from '../../FundBounty/TokenSelection/TokenSearch';
+import TokenSearch from '../../TokenSelection/TokenSearch';
 import SetTierValues from '../../MintBounty/MintBountyModal/AddContestParams/SetTierValues/SetTierValues';
 import AdminModal from '../AdminModal/index.js';
-import TokenContext from '../../FundBounty/TokenSelection/TokenStore/TokenContext';
+import TokenContext from '../../TokenSelection/TokenStore/TokenContext';
 
 const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   // Context

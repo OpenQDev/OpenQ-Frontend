@@ -7,12 +7,12 @@ import { ethers } from 'ethers';
 import { CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveTransferState';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Image from 'next/image';
-import TokenSearch from '../FundBounty/TokenSelection/TokenSearch';
+import TokenSearch from '../TokenSelection/TokenSearch';
 import ToolTipNew from '../Utils/ToolTipNew';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import LinkText from '../svg/linktext';
-import TokenProvider from '../FundBounty/TokenSelection/TokenStore/TokenProvider';
+import TokenProvider from '../TokenSelection/TokenStore/TokenProvider';
 
 const FundStreamModal = ({
   transactionHash,

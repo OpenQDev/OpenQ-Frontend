@@ -2,15 +2,15 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen } from '../../test-utils';
-import FundPage from '../../components/FundBounty/FundPage';
+import { render, screen } from '../../../test-utils';
+import FundPage from '.';
 import userEvent from '@testing-library/user-event';
-import InitialState from '../../store/Store/InitialState';
-import FundContext from '../../components/FundBounty/FundContext';
-import FundProvider from '../../components/FundBounty/FundProvider';
-import Constants from '../../test-utils/constant';
-import InitialFundState from '../../components/FundBounty/InitialFundState';
-import { CONFIRM } from '../../components/FundBounty/ApproveFundState';
+import InitialState from '../../../store/Store/InitialState';
+import FundContext from '../../FundBounty/FundStore/FundContext';
+import FundProvider from '../../FundBounty/FundStore/FundProvider';
+import Constants from '../../../test-utils/constant';
+import InitialFundState from '../../FundBounty/FundStore/InitialFundState';
+import { CONFIRM } from '../../FundBounty/FundStore/ApproveFundState';
 
 describe('FundPage', () => {
   const bounty = Constants.bounty;

@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import TokenReducer from './TokenReducer';
-import TokenContext from '../TokenStore/TokenContext';
-import InitialTokenState from '../TokenStore/InitialTokenState';
+import TokenContext from './TokenContext';
+import InitialTokenState from './InitialTokenState';
 
 const TokenProvider = ({ children, initialToken }) => {
   const token = initialToken ? { ...initialToken } : { token: InitialTokenState.token };

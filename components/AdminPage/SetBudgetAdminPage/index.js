@@ -2,10 +2,10 @@ import React, { useContext, useState } from 'react';
 import useWeb3 from '../../../hooks/useWeb3';
 import StoreContext from '../../../store/Store/StoreContext';
 import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
-import TokenFundBox from '../../FundBounty/TokenSelection/TokenFundBox';
+import TokenFundBox from '../../TokenSelection/TokenFundBox';
 import ConnectButton from '../../WalletConnect/ConnectButton';
 import AdminModal from '../AdminModal';
-import TokenContext from '../../FundBounty/TokenSelection/TokenStore/TokenContext';
+import TokenContext from '../../TokenSelection/TokenStore/TokenContext';
 
 const SetBudgetAdminPage = ({ refreshBounty, bounty }) => {
   const [appState] = useContext(StoreContext);

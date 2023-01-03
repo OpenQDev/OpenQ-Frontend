@@ -1,12 +1,12 @@
 // Third party Libraries
 import React, { useState, useContext } from 'react';
 import AdminModal from '../AdminModal';
-import TokenFundBox from '../../FundBounty/TokenSelection/TokenFundBox';
+import TokenFundBox from '../../TokenSelection/TokenFundBox';
 import ConnectButton from '../../WalletConnect/ConnectButton';
 import StoreContext from '../../../store/Store/StoreContext';
 import useWeb3 from '../../../hooks/useWeb3';
 import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
-import TokenContext from '../../FundBounty/TokenSelection/TokenStore/TokenContext';
+import TokenContext from '../../TokenSelection/TokenStore/TokenContext';
 
 const SetPayoutAdminPage = ({ bounty, refreshBounty, setShowButton }) => {
   const [tokenState] = useContext(TokenContext);

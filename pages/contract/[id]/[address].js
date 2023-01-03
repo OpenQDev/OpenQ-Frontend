@@ -27,7 +27,7 @@ import BountyHeading from '../../../components/Bounty/BountyHeading';
 import BountyMetadata from '../../../components/Bounty/BountyMetadata';
 import Submissions from '../../../components/Submissions/Submissions';
 
-import TokenProvider from '../../../components/FundBounty/TokenSelection/TokenStore/TokenProvider';
+import TokenProvider from '../../../components/TokenSelection/TokenStore/TokenProvider';
 import Add from '../../../components/svg/add';
 import Subtract from '../../../components/svg/subtract';
 import Fire from '../../../components/svg/fire';

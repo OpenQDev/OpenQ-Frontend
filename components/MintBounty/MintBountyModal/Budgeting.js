@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import ToolTipNew from '../../Utils/ToolTipNew';
-import TokenFundBox from '../../FundBounty/TokenSelection/TokenFundBox';
+import TokenFundBox from '../../TokenSelection/TokenFundBox';
 import { ethers } from 'ethers';
 import { parseVolume } from '../../../services/utils/lib';
 import MintContext from '../MintContext';
-import TokenContext from '../../FundBounty/TokenSelection/TokenStore/TokenContext';
+import TokenContext from '../../TokenSelection/TokenStore/TokenContext';
 
 const Budgeting = ({ category }) => {
   const [budget, setBudget] = useState();

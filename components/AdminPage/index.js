@@ -7,7 +7,7 @@ import SetBudgetAdminPage from './SetBudgetAdminPage';
 import SetTierAdminPage from './SetTierAdminPage';
 import SetPayoutAdminPage from './SetPayoutAdminPage/index.js';
 import BountyWrapper from '../Bounty/BountyWrapper';
-import TokenProvider from '../FundBounty/TokenSelection/TokenStore/TokenProvider';
+import TokenProvider from '../TokenSelection/TokenStore/TokenProvider';
 
 const AdminPage = ({ bounty, refreshBounty }) => {
   // Context

@@ -1,12 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import TokenSearch from '../TokenSearch';
-import Image from 'next/image';
-import TokenContext from '../TokenStore/TokenContext';
+import SelectedTokenImg from '../SelectedTokenImg';
 
 const TokenFundBox = ({ onVolumeChange, volume, placeholder, label, styles, small }) => {
   const [showTokenSearch, setShowTokenSearch] = useState(false);
-  const [tokenState] = useContext(TokenContext);
-  const { token } = tokenState;
 
   return (
     <div className={`flex space-x-4 w-full ${styles}`}>
@@ -29,16 +26,8 @@ const TokenFundBox = ({ onVolumeChange, volume, placeholder, label, styles, smal
           className='flex flex-row items-center btn-default p-0.5 px-2'
           onClick={() => setShowTokenSearch(true)}
         >
-          <div className='flex h-4 w-4 items-center justify-center'>
-            <Image
-              src={token.path || token.logoURI || '/crypto-logos/ERC20.svg'}
-              className='rounded-full'
-              alt='selected token'
-              width={40}
-              height={40}
-            />
-          </div>
-          <div className='flex pl-2 pr-1 text-primary'>{token.symbol}</div>
+          <SelectedTokenImg />
+
           <div className='flex'>
             <svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4' viewBox='0 0 20 20' fill='white'>
               <path

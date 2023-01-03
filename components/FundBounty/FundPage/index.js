@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 
 // Custom
 import useWeb3 from '../../../hooks/useWeb3';
-import TokenFundBox from '../TokenSelection/TokenFundBox';
+import TokenFundBox from '../../TokenSelection/TokenFundBox';
 import FundContext from '../FundStore/FundContext';
 import StoreContext from '../../../store/Store/StoreContext';
 import ToolTipNew from '../../Utils/ToolTipNew';
@@ -13,15 +13,15 @@ import ApproveFundModal from '../ApproveFundModal';
 import OrgDetails from '../../User/InvoicingDetailsTab/OrgDetails';
 import { RESTING, CONFIRM, APPROVING, TRANSFERRING, APPROVE } from '../FundStore/ApproveFundState';
 import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
-import SelectableNFT from '../SelectableNFT';
-import NFTFundModal from '../NFTFundModal.js';
+import SelectableNFT from '../../TokenSelection/SelectableNFT';
+import NFTFundModal from '../../TokenSelection/NFTFundModal';
 import Cross from '../../svg/cross';
-import DepositPeriod from '../TokenSelection/DepositPeriod';
+import DepositPeriod from '../../TokenSelection/DepositPeriod';
 import ConnectButton from '../../WalletConnect/ConnectButton';
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
 import useFundBountyMethod from '../hooks/useFundBountyMethod';
-import TokenContext from '../TokenSelection/TokenStore/TokenContext';
+import TokenContext from '../../TokenSelection/TokenStore/TokenContext';
 
 const FundPage = () => {
   const [fundState, fundDispatch] = useContext(FundContext);

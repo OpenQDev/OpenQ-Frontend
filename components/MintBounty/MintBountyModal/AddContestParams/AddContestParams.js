@@ -4,7 +4,7 @@ import SetPayoutToken from './SetPayoutToken';
 import SetTierValues from './SetTierValues/SetTierValues';
 import MintContext from '../../MintContext';
 import StoreContext from '../../../../store/Store/StoreContext';
-import TokenProvider from '../../../FundBounty/TokenSelection/TokenStore/TokenProvider';
+import TokenProvider from '../../../TokenSelection/TokenStore/TokenProvider';
 
 const AddContestParams = () => {
   const [appState] = useContext(StoreContext);

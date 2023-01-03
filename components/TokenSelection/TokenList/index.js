@@ -2,8 +2,8 @@
 import React, { useContext, useState, useCallback, useRef, useEffect } from 'react';
 
 // Custom
-import StoreContext from '../../../../store/Store/StoreContext';
-import TokenDisplay from '../../../TokenBalances/TokenDisplay';
+import StoreContext from '../../../store/Store/StoreContext';
+import TokenDisplay from '../../TokenBalances/TokenDisplay';
 import TokenContext from '../TokenStore/TokenContext';
 
 const TokenList = ({

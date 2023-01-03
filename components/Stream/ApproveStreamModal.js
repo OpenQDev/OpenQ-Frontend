@@ -8,11 +8,11 @@ import { CONFIRM, APPROVING, TRANSFERRING, SUCCESS, ERROR } from './ApproveTrans
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 import Image from 'next/image';
 import CopyAddressToClipboard from '../CopyAddressToClipboard';
-import TokenSearch from '../FundBounty/TokenSelection/TokenSearch';
+import TokenSearch from '../TokenSelection/TokenSearch';
 import StoreContext from '../../store/Store/StoreContext';
 import ToolTipNew from '../Utils/ToolTipNew';
 import LinkText from '../svg/linktext';
-import TokenContext from '../FundBounty/TokenSelection/TokenStore/TokenContext';
+import TokenContext from '../TokenSelection/TokenStore/TokenContext';
 
 const ApproveStreamModal = ({
   resetState,

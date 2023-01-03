@@ -5,7 +5,7 @@ import Link from 'next/link';
 // Custom
 import { CONFIRM, APPROVE, APPROVING, TRANSFERRING, SUCCESS, ERROR, RESTING } from '../FundStore/ApproveFundState';
 import LoadingIcon from '../../Loading/ButtonLoadingIcon';
-import FundingTokenStats from '../TokenStats/index.js';
+import TokenStats from '../../TokenSelection/TokenStats';
 import CopyAddressToClipboard from '../../CopyAddressToClipboard';
 import StoreContext from '../../../store/Store/StoreContext';
 import LinkText from '../../svg/linktext';
@@ -211,7 +211,7 @@ const ApproveFundModal = ({
           <div className='gap-4 grid grid-cols-[150px_1fr]'>
             <div>Deposit:</div>
             <div className='flex  gap-4'>
-              <FundingTokenStats pickedNft={pickedNft} volume={usableVolume} token={token} />
+              <TokenStats pickedNft={pickedNft} volume={usableVolume} token={token} />
             </div>
             <span>Issue: </span>
             {bounty.url && (

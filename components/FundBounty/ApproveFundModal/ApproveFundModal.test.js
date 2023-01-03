@@ -2,15 +2,15 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen } from '../../test-utils';
-import InitialState from '../../store/Store/InitialState';
+import { render, screen } from '../../../test-utils';
+import InitialState from '../../../store/Store/InitialState';
 
-import { CONFIRM, APPROVING, TRANSFERRING, ERROR } from '../../components/FundBounty/ApproveFundState';
-import ApproveFundModal from '../../components/FundBounty/ApproveFundModal';
-import FundContext from '../../components/FundBounty/FundContext';
+import { CONFIRM, APPROVING, TRANSFERRING, ERROR } from '../FundStore/ApproveFundState';
+import ApproveFundModal from '.';
+import FundContext from '../FundStore/FundContext';
 import userEvent from '@testing-library/user-event';
-import InitialFundState from '../../components/FundBounty/InitialFundState';
-import Constants from '../../test-utils/constant';
+import InitialFundState from '../FundStore/InitialFundState';
+import Constants from '../../../test-utils/constant';
 
 describe('ApproveFundModal', () => {
   beforeEach(() => {
@@ -32,6 +32,7 @@ describe('ApproveFundModal', () => {
 
   it('should display checking elgibility', async () => {
     // ARRANGE
+
     render(
       <FundContext.Provider value={[fundState, fundDispatch]}>
         <ApproveFundModal confirmMethod={fundBounty} />

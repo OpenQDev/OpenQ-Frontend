@@ -4,8 +4,8 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 
-import { render, screen } from '../../test-utils';
-import ManageTokenList from '../../components/FundBounty/ManageTokenList';
+import { render, screen } from '../../../test-utils';
+import ManageTokenList from '.';
 
 describe('ManageTokenList', () => {
   const test = () => {

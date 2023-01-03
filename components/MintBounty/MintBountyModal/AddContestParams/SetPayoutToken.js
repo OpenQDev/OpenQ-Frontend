@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import ToolTipNew from '../../../Utils/ToolTipNew';
-import TokenSearch from '../../../FundBounty/TokenSelection/TokenSearch';
+import TokenSearch from '../../../TokenSelection/TokenSearch';
 import MintContext from '../../MintContext';
-import TokenContext from '../../../FundBounty/TokenSelection/TokenStore/TokenContext';
+import TokenContext from '../../../TokenSelection/TokenStore/TokenContext';
 
 const SetPayoutToken = ({ content }) => {
   const [mintState, mintDispatch] = useContext(MintContext);

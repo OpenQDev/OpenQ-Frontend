@@ -5,7 +5,7 @@ import ApproveStreamModal from './ApproveStreamModal';
 import { APPROVING, ERROR, SUCCESS, TRANSFERRING } from './ApproveTransferState';
 import FundStreamModal from './FundStreamModal';
 import { ethers } from 'ethers';
-import TokenProvider from '../FundBounty/TokenSelection/TokenStore/TokenProvider';
+import TokenProvider from '../TokenSelection/TokenStore/TokenProvider';
 
 const CreateStream = () => {
   // CONTEXT
