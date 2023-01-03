@@ -40,7 +40,7 @@ describe('AddContestParams', () => {
     expect(screen.getByText(/text/i)).toBeInTheDocument();
     // ASSERT
 
-    expect(mintDispatch).toHaveBeenCalledTimes(5);
+    expect(mintDispatch).toHaveBeenCalledTimes(6);
     // expect startdate to be in input
   });
 

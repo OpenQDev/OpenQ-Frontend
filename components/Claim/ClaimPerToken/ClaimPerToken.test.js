@@ -2,10 +2,10 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen } from '../../test-utils';
-import ClaimPerToken from '../../components/Claim/ClaimPerToken';
+import { render, screen } from '../../../test-utils';
+import ClaimPerToken from '.';
 import nextRouter from 'next/router';
-import Constants from '../../test-utils/constant';
+import Constants from '../../../test-utils/constant';
 
 nextRouter.useRouter = jest.fn();
 const push = jest.fn(() => {

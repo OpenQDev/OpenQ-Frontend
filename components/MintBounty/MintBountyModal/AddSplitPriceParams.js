@@ -21,7 +21,6 @@ const AddSplitPriceParams = () => {
   };
 
   useEffect(() => {
-    console.log(token);
     const dispatch = {
       type: 'UPDATE_PAYOUT_TOKEN',
       payload: { ...token, address: ethers.utils.getAddress(token.address) },
