@@ -7,7 +7,7 @@ import AuthContext from '../../store/AuthStore/AuthContext';
 function GitHubAuth() {
   const router = useRouter();
   const [, setAuthCode] = useState('NO AUTH CODE');
-  const [appState] = useContext(StoreContext);
+  const [appState, appDispatch] = useContext(StoreContext);
   const [, dispatch] = useContext(AuthContext);
   const [userId, setUserId] = useState(null);
 
@@ -50,7 +50,13 @@ function GitHubAuth() {
             const isNewUser = !fullApiUser;
 
             if (isNewUser) {
-              const { id } = await appState.openQPrismaClient.upsertUser({ github, username: login });
+              const { id, ...user } = await appState.openQPrismaClient.upsertUser({ github, username: login });
+              const accountDispatch = {
+                type: 'UPDATE_ACCOUNTDATA',
+                payload: { ...user, id },
+              };
+              console.log(accountDispatch);
+              await appDispatch(accountDispatch);
               setUserId(id);
             } else {
               // once this is set, it should trigger the redirect to /user/userId
