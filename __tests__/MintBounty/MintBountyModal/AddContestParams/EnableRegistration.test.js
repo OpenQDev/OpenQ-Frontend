@@ -10,9 +10,9 @@ import userEvent from '@testing-library/user-event';
 
 //const mockTierVolumeChange = jest.fn();
 describe('Enable Registration', () => {
+  const currentDate = new Date('01-01-2023');
   it('should fire event', async () => {
     // ARRANGE
-    const currentDate = new Date();
     const mintState = {
       ...InitialMintState.mintState,
       startDate: currentDate,
@@ -40,7 +40,6 @@ describe('Enable Registration', () => {
 
   it('should display inputs', async () => {
     // ARRANGE
-    const currentDate = new Date();
     const mintState = {
       ...InitialMintState.mintState,
       startDate: currentDate,
@@ -48,17 +47,13 @@ describe('Enable Registration', () => {
     };
     const mintDispatch = jest.fn();
 
-    render(
+    const { asFragment } = render(
       <MintContext.Provider value={[mintState, mintDispatch]}>
         <EnableRegistration />
       </MintContext.Provider>
     );
 
-    // ACT
-
     // ASSERT
-    expect(screen.getByLabelText(/start date/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/end date/i)).toBeInTheDocument();
-    // expect startdate to be in input
+    expect(asFragment()).toMatchSnapshot();
   });
 });

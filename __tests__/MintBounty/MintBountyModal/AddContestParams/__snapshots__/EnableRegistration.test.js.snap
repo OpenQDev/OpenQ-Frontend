@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Enable Registration should display inputs 1`] = `
+<DocumentFragment>
+  <div
+    class=" flex flex-col gap-2 w-full py-2 items-start text-base bg-[#161B22]"
+  >
+    <div
+      class="flex items-center gap-2 font-semibold"
+    >
+      <label
+        for="enable registration checkbox"
+      >
+        Enable Hackathon Registration
+      </label>
+      <input
+        checked=""
+        class="checkbox"
+        id="enable registration checkbox"
+        type="checkbox"
+      />
+    </div>
+    <span
+      class="text-sm "
+    >
+      Require contestants to sign up for your hackathon contests in this repo. This will allow you to set a timeline, be highlighted on OpenQ, and ensure you can connect with all participants post-hackathon.
+    </span>
+  </div>
+  <label
+    class="flex items-center gap-2"
+    for="start date"
+  >
+    Start Date
+  </label>
+  <input
+    aria-label="Start Date"
+    autocomplete="off"
+    class="flex-1 input-field w-full"
+    data-testid="start date"
+    id="start date"
+    max="2100-01-01"
+    min="2023-01-01"
+    placeholder="https://github.com/..."
+    type="date"
+    value="Sun Jan 01 2023 00:00:00 GMT+0000 (Coordinated Universal Time)"
+  />
+  <label
+    class="flex items-center gap-2"
+    for="end date"
+  >
+    End Date
+  </label>
+  <input
+    autocomplete="off"
+    class="flex-1 input-field w-full"
+    id="end date"
+    max="2100-01-01"
+    min="2023-01-01"
+    placeholder="https://github.com/..."
+    type="date"
+    value=""
+  />
+</DocumentFragment>
+`;

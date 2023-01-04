@@ -8,6 +8,7 @@ import LoadingIcon from '../../Loading/ButtonLoadingIcon';
 import ToolTipNew from '../../Utils/ToolTipNew';
 import ConnectButton from '../../WalletConnect/ConnectButton';
 import MintContext from '../MintContext';
+import { checkHackathonDates } from '../../../services/utils/lib';
 
 // TODO: Put all this state logic into a context, and possibly add a reducer
 const MintBountyModalButton = ({ modalVisibility, setError }) => {
@@ -33,11 +34,13 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
 
   const enableContest = category === 'Contest' ? sum == 100 : true;
   const [appState, dispatch] = useContext(StoreContext);
+  const datesCheck = checkHackathonDates(startDate, registrationDeadline, new Date());
   const { accountData } = appState;
   const { github } = appState.accountData;
   const { account, library, safe } = useWeb3();
   const router = useRouter();
-  const readyToMint = enableMint && !issue?.closed && issue?.url.includes('/issues/') && !isLoading && enableContest;
+  const readyToMint =
+    enableMint && !issue?.closed && issue?.url.includes('/issues/') && !isLoading && enableContest && datesCheck;
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
@@ -115,7 +118,7 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
         invoiceable,
         data
       );
-      if (enableRegistration) {
+      if (enableRegistration && datesCheck) {
         await appState.openQPrismaClient.setIsContest({
           github,
           repositoryId: issue.repository.id,
@@ -154,6 +157,8 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
               ? 'Please choose an elgible issue.'
               : !enableContest
               ? 'Please make sure the sum of tier percentages adds up to 100.'
+              : !datesCheck
+              ? 'Please make sure your Hackathon Start Date is > today and your End Date after your Start Date.'
               : null
           }
         >

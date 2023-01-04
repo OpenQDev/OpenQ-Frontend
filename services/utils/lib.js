@@ -63,3 +63,12 @@ export const getBigNumberVol = (volume, token) => {
 
   return ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', { useGrouping: false }));
 };
+
+export const checkHackathonDates = (startDate, endDate, today) => {
+  const start = startDate && new Date(startDate);
+  const end = endDate && new Date(endDate);
+  if ((start && start < today) || (end && end < today) || (start && end && end < start)) {
+    return false;
+  }
+  return true;
+};
