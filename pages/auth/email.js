@@ -50,7 +50,7 @@ function EmailAuth() {
   };
 
   const upsertUser = async (email) => {
-    const { id, ...user } = await appState.openQPrismaClient.upsertUser({ email, username: email });
+    const { id, ...user } = await appState.openQPrismaClient.upsertUser({ email });
 
     const accountDispatch = {
       type: 'UPDATE_ACCOUNTDATA',
