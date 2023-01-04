@@ -58,6 +58,8 @@ const EnableRegistration = () => {
             placeholder='https://github.com/...'
             autoComplete='off'
             type='date'
+            min='2023-01-01'
+            max='2100-01-01'
             value={startDate}
             onChange={handleStartDate}
           />
@@ -71,6 +73,8 @@ const EnableRegistration = () => {
             placeholder='https://github.com/...'
             autoComplete='off'
             type='date'
+            min='2023-01-01'
+            max='2100-01-01'
             value={registrationDeadline}
             onChange={handleRegistrationDeadline}
           />
