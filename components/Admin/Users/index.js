@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import StoreContext from '../../store/Store/StoreContext';
+import StoreContext from '../../../store/Store/StoreContext';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -38,7 +38,9 @@ const Users = () => {
           </thead>
           <tbody>
             {users.map((user, index) => {
-              const dateCreated = new Date(parseInt(user.createdAt)).toString().split(' ').slice(0, 4).join(' ');
+              const dateCreated = user.createdAt
+                ? new Date(parseInt(user.createdAt)).toString().split(' ').slice(0, 4).join(' ')
+                : null;
               return (
                 <tr className='break-words' key={index}>
                   <td className='p-1'>{user.github}</td>

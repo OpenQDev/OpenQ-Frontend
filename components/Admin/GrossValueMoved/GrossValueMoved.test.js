@@ -2,8 +2,8 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen } from '../../test-utils';
-import GrossValueMoved from '../../components/Admin/GrossValueMoved';
+import { render, screen } from '../../../test-utils';
+import GrossValueMoved from '.';
 
 describe('GrossValueMoved', () => {
   it('should display the GrossValueMoved interface', async () => {
