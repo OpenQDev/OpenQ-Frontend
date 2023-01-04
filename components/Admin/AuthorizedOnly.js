@@ -1,20 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
-import useWeb3 from '../../hooks/useWeb3';
-import ConnectButton from '../WalletConnect/ConnectButton';
-import AuthContext from '../../store/AuthStore/AuthContext';
+import StoreContext from '../../store/Store/StoreContext';
+import AuthButton from '../Authentication/AuthButton';
 
 const AuthorizedOnly = ({ children }) => {
   const [showPage, setShowPage] = useState();
-  const [isSigned, setIsSigned] = useState();
-  const [authState] = useContext(AuthContext);
-  const { account } = useWeb3();
-
+  const [appState] = useContext(StoreContext);
+  const githubId = appState.accountData.github;
   useEffect(() => {
-    if (authState.isAdmin) {
-      setShowPage(true);
-    }
-    setIsSigned(authState.signedAccount === account);
-  }, [authState, account]);
+    const updateIsAdmin = async () => {
+      const team = 'developers';
+      const login = 'OpenQDev';
+      const isAdmin = await appState.githubRepository.getIsAdmin(login, team, githubId);
+      setShowPage(isAdmin);
+    };
+    if (githubId) updateIsAdmin();
+  }, [githubId]);
 
   return (
     <div className='flex justify-center mt-1'>
@@ -23,11 +23,9 @@ const AuthorizedOnly = ({ children }) => {
       ) : (
         <div className='flex flex-col content-center justify-center gap-4 items-center min-h-[calc(100vh_-_246px)] text-xl font-semibold  text-muted'>
           <div>
-            {isSigned
-              ? 'signed in account does not have access to this page. Please switch to an account that does then sign in.'
-              : 'current account not signed in'}
+            You must be oauthed with an account that belongs to the OpenQ Github organization to view this page.
           </div>
-          <ConnectButton />
+          <AuthButton />
         </div>
       )}
     </div>

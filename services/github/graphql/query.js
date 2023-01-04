@@ -527,3 +527,18 @@ export const GET_ISSUES_BY_ID = gql`
     }
   }
 `;
+
+export const GET_IS_ADMIN = gql`
+  query ($login: String!, $team: String!) {
+    organization(login: $login) {
+      team(slug: $team) {
+        members(first: 10) {
+          nodes {
+            id
+            login
+          }
+        }
+      }
+    }
+  }
+`;

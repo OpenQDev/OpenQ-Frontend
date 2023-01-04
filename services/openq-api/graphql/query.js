@@ -151,15 +151,18 @@ export const GET_PRIVATE_USER = gql`
 
 export const GET_USERS = gql`
   query getUsers {
-    usersConnection {
-      users {
-        watchedBountyIds
-        github
-        discord
-        twitter
-        email
-        username
-        starredOrganizationIds
+    users {
+      userConnection {
+        nodes {
+          watchedBountyIds
+          github
+          discord
+          twitter
+          email
+          username
+          starredOrganizationIds
+          createdAt
+        }
       }
     }
   }
