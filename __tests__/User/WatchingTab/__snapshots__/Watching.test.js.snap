@@ -108,12 +108,6 @@ exports[`Watching should render match DOM Snapshot 1`] = `
           ],
           "number": 8,
           "owner": "OpenQDev",
-          "payoutSchedule": [
-            "30",
-            "60",
-            "10",
-          ],
-          "payoutTokenAddress": "0x0000000000000000000000000000000000000000",
           "prs": [
             {
               "__typename": "CrossReferencedEvent",
@@ -233,30 +227,30 @@ exports[`Watching should render match DOM Snapshot 1`] = `
             {
               "__typename": "Deposit",
               "expiration": "30",
-              "id": "0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a",
-              "receiveTime": "1662545373",
-              "refundTime": "1662559726",
+              "id": "0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e001",
+              "receiveTime": "1662545371",
+              "refundTime": null,
               "refunded": true,
               "sender": {
                 "__typename": "User",
                 "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
               },
-              "tokenAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+              "tokenAddress": "0x0000000000000000000000000000000000000000",
               "volume": "2000000000000000000",
             },
             {
               "__typename": "Deposit",
               "expiration": "1296000",
-              "id": "0x7db2691e573b9c19e90f391cd3eda9ce9246666a1502f2bf87b9d47d13679bc0",
-              "receiveTime": "1662545372",
+              "id": "0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e000",
+              "receiveTime": "1662545370",
               "refundTime": null,
               "refunded": false,
               "sender": {
                 "__typename": "User",
                 "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
               },
-              "tokenAddress": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
-              "volume": "1000000000000000000",
+              "tokenAddress": "0x0000000000000000000000000000000000000000",
+              "volume": "3000000000000000000",
             },
           ],
           "fundingGoalTokenAddress": "0x0000000000000000000000000000000000000000",
@@ -279,12 +273,8 @@ exports[`Watching should render match DOM Snapshot 1`] = `
           ],
           "number": 8,
           "owner": "OpenQDev",
-          "payoutSchedule": [
-            "30",
-            "60",
-            "10",
-          ],
           "payoutTokenAddress": "0x0000000000000000000000000000000000000000",
+          "payoutTokenVolume": "100",
           "prs": [
             {
               "__typename": "CrossReferencedEvent",
@@ -455,7 +445,6 @@ exports[`Watching should render match DOM Snapshot 1`] = `
             "60",
             "10",
           ],
-          "payoutTokenAddress": "0x0000000000000000000000000000000000000000",
           "prs": [
             {
               "__typename": "CrossReferencedEvent",
@@ -626,7 +615,6 @@ exports[`Watching should render match DOM Snapshot 1`] = `
             "60",
             "10",
           ],
-          "payoutTokenAddress": "0x0000000000000000000000000000000000000000",
           "prs": [
             {
               "__typename": "CrossReferencedEvent",

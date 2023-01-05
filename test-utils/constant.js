@@ -678,6 +678,32 @@ export default class Constants {
       __typename: 'Deposit',
     };
   }
+  static get deposit4() {
+    return {
+      id: '0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e001',
+      refunded: true,
+      receiveTime: '1662545371',
+      tokenAddress: '0x0000000000000000000000000000000000000000',
+      expiration: '30',
+      volume: '2000000000000000000',
+      refundTime: null,
+      sender: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
+      __typename: 'Deposit',
+    };
+  }
+  static get deposit5() {
+    return {
+      id: '0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e000',
+      refunded: false,
+      receiveTime: '1662545370',
+      tokenAddress: '0x0000000000000000000000000000000000000000',
+      expiration: '1296000',
+      volume: '3000000000000000000',
+      refundTime: null,
+      sender: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
+      __typename: 'Deposit',
+    };
+  }
   static get payouts() {
     return [Constants.payout1, Constants.payout2, Constants.payout3];
   }
@@ -852,9 +878,7 @@ export default class Constants {
       bountyTokenBalances: Constants.bountyTokenBalances,
       issuer: Constants.issuer,
       bountyType: Constants.bountyTypeFixed,
-      payoutTokenAddress: Constants.zeroAddress,
       fundingGoalTokenAddress: Constants.zeroAddress,
-      payoutSchedule: Constants.payoutSchedule2,
     };
   }
   static get bountyClaimOverview() {
@@ -1013,8 +1037,11 @@ export default class Constants {
   static get bounty1() {
     return {
       ...Constants.bounty,
-      bountyType: '1',
-      payoutSchedule: Constants.payoutSchedule2,
+      // split price should now only have one token type of deposits
+      deposits: [Constants.deposit1, Constants.deposit4, Constants.deposit5],
+      bountyType: Constants.bountyTypeSplit,
+      payoutTokenAddress: Constants.zeroAddress,
+      payoutTokenVolume: Constants.payoutTokenVolume,
     };
   }
   static get bounty2() {

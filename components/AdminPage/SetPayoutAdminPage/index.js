@@ -1,5 +1,5 @@
 // Third party Libraries
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import AdminModal from '../AdminModal';
 import TokenFundBox from '../../TokenSelection/TokenFundBox';
 import ConnectButton from '../../WalletConnect/ConnectButton';
@@ -17,6 +17,21 @@ const SetPayoutAdminPage = ({ bounty, refreshBounty, setShowButton }) => {
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const { library, account } = useWeb3();
   const { accountData, utils, openQClient, logger } = appState;
+
+  const [, tokenDispatch] = useContext(TokenContext);
+  useEffect(() => {
+    const depositTokenAddress = bounty?.deposits[0]?.tokenAddress;
+    if (bounty?.bountyType == '1' && bounty?.deposits?.length > 0) {
+      const tokenAddressDispatch = {
+        type: 'SET_TOKEN',
+        payload: {
+          ...appState.tokenClient.getToken(depositTokenAddress),
+          address: depositTokenAddress,
+        },
+      };
+      tokenDispatch(tokenAddressDispatch);
+    }
+  }, [bounty]);
 
   function onPayoutVolumeChange(payoutVolume) {
     utils.updateVolume(payoutVolume, setPayoutVolume);
@@ -81,7 +96,7 @@ const SetPayoutAdminPage = ({ bounty, refreshBounty, setShowButton }) => {
           <div className='flex items-center gap-2'>Set Payout for Each Submitter</div>
 
           <div className='flex-1 items-center w-full mt-2'>
-            <TokenFundBox onVolumeChange={onPayoutVolumeChange} volume={payoutVolume} />
+            <TokenFundBox onVolumeChange={onPayoutVolumeChange} volume={payoutVolume} bounty={bounty} />
           </div>
           <ConnectButton nav={false} needsGithub={false} centerStyles={true} />
           {isOnCorrectNetwork && account && (

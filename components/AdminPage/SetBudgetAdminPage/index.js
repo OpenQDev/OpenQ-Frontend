@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import useWeb3 from '../../../hooks/useWeb3';
 import StoreContext from '../../../store/Store/StoreContext';
 import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
@@ -17,6 +17,22 @@ const SetBudgetAdminPage = ({ refreshBounty, bounty }) => {
   const [modal, setModal] = useState({});
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const { account, library } = useWeb3();
+
+  const [, tokenDispatch] = useContext(TokenContext);
+  useEffect(() => {
+    const depositTokenAddress = bounty?.deposits[0]?.tokenAddress;
+    if (bounty?.bountyType == '1' && bounty?.deposits?.length > 0) {
+      const tokenAddressDispatch = {
+        type: 'SET_TOKEN',
+        payload: {
+          ...appState.tokenClient.getToken(depositTokenAddress),
+          address: depositTokenAddress,
+        },
+      };
+      tokenDispatch(tokenAddressDispatch);
+    }
+  }, [bounty]);
+
   async function setBudget() {
     setModal({ type: 'Loading', inProgress: 'Updating Budget...' });
     try {
@@ -50,8 +66,8 @@ const SetBudgetAdminPage = ({ refreshBounty, bounty }) => {
         <>
           {' '}
           <div className='flex items-center gap-2'>Set a New Budget for this Contract</div>
-          <div className='flex-1 items-center w-full px-4'>
-            <TokenFundBox onVolumeChange={onVolumeChange} volume={volume} />
+          <div className='flex-1 items-center w-full mt-2'>
+            <TokenFundBox onVolumeChange={onVolumeChange} volume={volume} bounty={bounty} />
           </div>
           <ConnectButton nav={false} needsGithub={false} centerStyles={true} />
           {isOnCorrectNetwork && account && (

@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import TokenSearch from '../TokenSearch';
 import SelectedTokenImg from '../SelectedTokenImg';
 
-const TokenFundBox = ({ onVolumeChange, volume, placeholder, label, styles, small }) => {
+const TokenFundBox = ({ onVolumeChange, volume, bounty, placeholder, label, styles, small }) => {
   const [showTokenSearch, setShowTokenSearch] = useState(false);
+  const bountyTokenLocked = bounty?.bountyType == 1 && bounty?.deposits?.length > 0;
 
   return (
     <div className={`flex space-x-4 w-full ${styles}`}>
@@ -23,20 +24,23 @@ const TokenFundBox = ({ onVolumeChange, volume, placeholder, label, styles, smal
       <div className='flex'>
         <button
           aria-label='select token'
-          className='flex flex-row items-center btn-default p-0.5 px-2'
+          className={`flex flex-row items-center p-0.5 px-2 ${!bountyTokenLocked ? 'btn-default' : 'cursor-default'}`}
           onClick={() => setShowTokenSearch(true)}
+          disabled={bountyTokenLocked}
         >
           <SelectedTokenImg />
 
-          <div className='flex'>
-            <svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4' viewBox='0 0 20 20' fill='white'>
-              <path
-                fillRule='evenodd'
-                d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
-                clipRule='evenodd'
-              />
-            </svg>
-          </div>
+          {!bountyTokenLocked && (
+            <div className='flex'>
+              <svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4' viewBox='0 0 20 20' fill='white'>
+                <path
+                  fillRule='evenodd'
+                  d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                  clipRule='evenodd'
+                />
+              </svg>
+            </div>
+          )}
         </button>
       </div>
       {showTokenSearch ? <TokenSearch setShowTokenSearch={setShowTokenSearch} /> : null}

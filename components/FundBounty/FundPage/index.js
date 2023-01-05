@@ -40,12 +40,29 @@ const FundPage = () => {
   const neededAccountData = accountKeys.filter((key) => {
     return !accountData[key];
   });
+  const [, tokenDispatch] = useContext(TokenContext);
   useEffect(() => {
-    const tokenDispatch = {
-      type: 'SET_TOKEN',
-      payload: token,
-    };
-    fundDispatch(tokenDispatch);
+    const depositTokenAddress = bounty?.deposits[0]?.tokenAddress;
+    if (bounty?.bountyType == '1' && bounty?.deposits?.length > 0) {
+      const tokenAddressDispatch = {
+        type: 'SET_TOKEN',
+        payload: {
+          ...appState.tokenClient.getToken(depositTokenAddress),
+          address: depositTokenAddress,
+        },
+      };
+      tokenDispatch(tokenAddressDispatch);
+      fundDispatch(tokenAddressDispatch);
+    }
+  }, [bounty]);
+  useEffect(() => {
+    if (!(bounty?.bountyType == '1' && bounty?.deposits?.length > 0)) {
+      const tokenDispatch = {
+        type: 'SET_TOKEN',
+        payload: token,
+      };
+      fundDispatch(tokenDispatch);
+    }
   }, [token]);
 
   useEffect(() => {
@@ -148,7 +165,7 @@ const FundPage = () => {
               {!pickedNft ? (
                 <div className='flex w-full gap-4'>
                   <>
-                    <TokenFundBox onVolumeChange={onVolumeChange} token={token} volume={volume} />
+                    <TokenFundBox onVolumeChange={onVolumeChange} volume={volume} bounty={bounty} />
                     <NFTFundModal />
                   </>
                 </div>
