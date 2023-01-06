@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
-import Dropdown from '../Utils/Dropdown';
-import StoreContext from '../../store/Store/StoreContext';
+import useGetTokenValues from '../../../hooks/useGetTokenValues';
+import Dropdown from '../../Utils/Dropdown';
+import StoreContext from '../../../store/Store/StoreContext';
 
 const GrossValueMoved = () => {
   const [appState] = useContext(StoreContext);

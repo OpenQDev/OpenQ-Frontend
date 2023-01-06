@@ -22,11 +22,15 @@ import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
 import useFundBountyMethod from '../hooks/useFundBountyMethod';
 import TokenContext from '../../TokenSelection/TokenStore/TokenContext';
+import { shortenAddress } from '../../../services/utils/lib';
 
 const FundPage = () => {
   const [fundState, fundDispatch] = useContext(FundContext);
   const { pickedNft, allowance, depositPeriodDays, nftTier, bounty, approveTransferState } = fundState;
-
+  const web3 = useWeb3();
+  const minter = bounty.issuer.id === web3.account.toLowerCase();
+  const canCrowdFund = !bounty.invoiceable || bounty.bountyType === '0';
+  const canFund = canCrowdFund || minter;
   const [volume, setVolume] = useState('');
   const [tokenSelectState] = useContext(TokenContext);
   const { token } = tokenSelectState;
@@ -59,7 +63,6 @@ const FundPage = () => {
 
   // Context
   const { openQClient } = appState;
-  const web3 = useWeb3();
   const { account, library } = web3;
 
   const clearNft = () => {
@@ -140,121 +143,129 @@ const FundPage = () => {
         </>
       ) : (
         <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
-          <div className='flex flex-col w-full space-y-5 pb-8 items-center md:border rounded-sm border-gray-700'>
-            <div className='flex text-3xl w-full text-primary justify-center px-16 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
-              Escrow Funds in {utils.getBountyTypeName(bounty)} Contract
-            </div>
-            <div className='flex flex-col space-y-5 w-5/6 pt-2'>
-              {!pickedNft ? (
-                <div className='flex w-full gap-4'>
-                  <>
-                    <TokenFundBox onVolumeChange={onVolumeChange} token={token} volume={volume} />
-                    <NFTFundModal />
-                  </>
-                </div>
-              ) : null}
-              <div className='flex gap-4'>
-                <div className='w-full'>
-                  <DepositPeriod />
-                  {isContest && pickedNft && (
-                    <div className='flex w-full input-field-big mb-4'>
-                      <div className=' flex items-center gap-3 w-full text-primary bg-input-bg md:whitespace-nowrap'>
-                        <ToolTipNew
-                          relativePosition={'md:-left-12'}
-                          outerStyles={'-top-1'}
-                          groupStyles={''}
-                          innerStyles={'whitespace-normal md:w-96 sm:w-60 w-40  '}
-                          toolTipText={
-                            'Which tier of this contest do you want this nft to be funded to. Elgible tiers are '
-                          }
+          {canFund ? (
+            <div className='flex flex-col w-full space-y-5 pb-8 items-center md:border rounded-sm border-gray-700'>
+              <div className='flex text-3xl w-full text-primary justify-center px-16 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
+                Escrow Funds in {utils.getBountyTypeName(bounty)} Contract
+              </div>
+              <div className='flex flex-col space-y-5 w-5/6 pt-2'>
+                {!pickedNft ? (
+                  <div className='flex w-full gap-4'>
+                    <>
+                      <TokenFundBox onVolumeChange={onVolumeChange} token={token} volume={volume} />
+                      <NFTFundModal />
+                    </>
+                  </div>
+                ) : null}
+                <div className='flex gap-4'>
+                  <div className='w-full'>
+                    <DepositPeriod />
+                    {isContest && pickedNft && (
+                      <div className='flex w-full input-field-big mb-4'>
+                        <div className=' flex items-center gap-3 w-full text-primary bg-input-bg md:whitespace-nowrap'>
+                          <ToolTipNew
+                            relativePosition={'md:-left-12'}
+                            outerStyles={'-top-1'}
+                            groupStyles={''}
+                            innerStyles={'whitespace-normal md:w-96 sm:w-60 w-40  '}
+                            toolTipText={
+                              'Which tier of this contest do you want this nft to be funded to. Elgible tiers are '
+                            }
+                          >
+                            <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                              ?
+                            </div>
+                          </ToolTipNew>
+                          <span>Tier</span>
+                        </div>
+                        <div className={'flex px-4 font-bold bg-input-bg'}>
+                          <input
+                            className='text-primary text-right number outline-none bg-input-bg w-full flex-1'
+                            autoComplete='off'
+                            value={nftTier}
+                            id='deposit-period'
+                            onChange={onNftTierChange}
+                          />
+                        </div>
+                      </div>
+                    )}
+                    <ConnectButton needsGithub={false} nav={false} tooltipAction={'to fund this contract!'} />
+                    {account && isOnCorrectNetwork && (
+                      <ToolTipNew
+                        relativePosition={'left-0'}
+                        outerStyles={'-top-1 '}
+                        groupStyles={'w-min'}
+                        innerStyles={'sm:w-40 md:w-60 whitespace-normal'}
+                        hideToolTip={!disabledFundButton}
+                        toolTipText={
+                          !(depositPeriodDays > 0)
+                            ? "Please indicate how many days you'd like to fund your contract for."
+                            : isContest && nftTier === '' && pickedNft
+                            ? 'Please select an eligible tier to send the nft to.'
+                            : !hasInvoicingInfo
+                            ? 'This bounty requires invoicing information.'
+                            : "Please indicate the volume you'd like to fund with. Must be between 0.0000001 and 1,000,000."
+                        }
+                      >
+                        <button
+                          className={`text-center px-8 w-min items-center py-0.5  ${
+                            disabledFundButton ? 'btn-default w-full cursor-not-allowed' : 'btn-primary cursor-pointer'
+                          } py-1.5`}
+                          disabled={disabledFundButton}
+                          type='button'
+                          onClick={openFund}
                         >
-                          <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                            ?
-                          </div>
-                        </ToolTipNew>
-                        <span>Tier</span>
-                      </div>
-                      <div className={'flex px-4 font-bold bg-input-bg'}>
-                        <input
-                          className='text-primary text-right number outline-none bg-input-bg w-full flex-1'
-                          autoComplete='off'
-                          value={nftTier}
-                          id='deposit-period'
-                          onChange={onNftTierChange}
-                        />
-                      </div>
+                          <div className='text-center whitespace-nowrap w-full'>Fund</div>
+                        </button>
+                      </ToolTipNew>
+                    )}
+                  </div>
+                  {pickedNft && (
+                    <div className='w-60 relative -top-2 rounded-md '>
+                      <SelectableNFT nft={pickedNft} />
+                      <button
+                        onClick={clearNft}
+                        className='absolute top-3 right-3 bg-dark-mode hover:bg-black rounded-full p-1'
+                      >
+                        <Cross />
+                      </button>
                     </div>
                   )}
-                  <ConnectButton needsGithub={false} nav={false} tooltipAction={'to fund this contract!'} />
-                  {account && isOnCorrectNetwork && (
-                    <ToolTipNew
-                      relativePosition={'left-0'}
-                      outerStyles={'-top-1 '}
-                      groupStyles={'w-min'}
-                      innerStyles={'sm:w-40 md:w-60 whitespace-normal'}
-                      hideToolTip={!disabledFundButton}
-                      toolTipText={
-                        !(depositPeriodDays > 0)
-                          ? "Please indicate how many days you'd like to fund your contract for."
-                          : isContest && nftTier === '' && pickedNft
-                          ? 'Please select an eligible tier to send the nft to.'
-                          : !hasInvoicingInfo
-                          ? 'This bounty requires invoicing information.'
-                          : "Please indicate the volume you'd like to fund with. Must be between 0.0000001 and 1,000,000."
-                      }
-                    >
-                      <button
-                        className={`text-center px-8 w-min items-center py-0.5  ${
-                          disabledFundButton ? 'btn-default w-full cursor-not-allowed' : 'btn-primary cursor-pointer'
-                        } py-1.5`}
-                        disabled={disabledFundButton}
-                        type='button'
-                        onClick={openFund}
-                      >
-                        <div className='text-center whitespace-nowrap w-full'>Fund</div>
-                      </button>
-                    </ToolTipNew>
-                  )}
                 </div>
-                {pickedNft && (
-                  <div className='w-60 relative -top-2 rounded-md '>
-                    <SelectableNFT nft={pickedNft} />
-                    <button
-                      onClick={clearNft}
-                      className='absolute top-3 right-3 bg-dark-mode hover:bg-black rounded-full p-1'
-                    >
-                      <Cross />
-                    </button>
-                  </div>
-                )}
               </div>
+              {bounty.invoiceable && (
+                <>
+                  <div className='w-5/6'>
+                    Invoicing data required for this bounty, you are missing values for the{' '}
+                    {listWordsWithAnd(
+                      neededAccountData.map((elem) => {
+                        return valueToDisplay(elem);
+                      })
+                    )}{' '}
+                    fields.
+                  </div>
+                  <details className='w-5/6 group' open={!hasInvoicingInfo}>
+                    <summary className='list-none text-2xl text-muted fill-muted cursor-pointer'>
+                      Invoicing data{' '}
+                      <span className='group-open:hidden'>
+                        <ChevronDownIcon size='24px' />
+                      </span>
+                      <span className='hidden group-open:inline'>
+                        <ChevronUpIcon size='24px' />
+                      </span>
+                    </summary>
+                    <OrgDetails slim={true} />
+                  </details>
+                </>
+              )}
             </div>
-            {bounty.invoiceable && (
-              <>
-                <div className='w-5/6'>
-                  Invoicing data required for this bounty, you are missing values for the{' '}
-                  {listWordsWithAnd(
-                    neededAccountData.map((elem) => {
-                      return valueToDisplay(elem);
-                    })
-                  )}{' '}
-                  fields.
-                </div>
-                <details className='w-5/6 group' open={!hasInvoicingInfo}>
-                  <summary className='list-none text-2xl text-muted fill-muted cursor-pointer'>
-                    Invoicing data{' '}
-                    <span className='group-open:hidden'>
-                      <ChevronDownIcon size='24px' />
-                    </span>
-                    <span className='hidden group-open:inline'>
-                      <ChevronUpIcon size='24px' />
-                    </span>
-                  </summary>
-                  <OrgDetails slim={true} />
-                </details>
-              </>
-            )}
-          </div>
+          ) : (
+            <div>
+              {' '}
+              Sorry crowdfunding isn't avaliable for this bounty, please connect the account (
+              {shortenAddress(bounty.issuer.id)}) that minted this bounty to fund it.
+            </div>
+          )}
 
           {approveTransferState !== RESTING && <ApproveFundModal confirmMethod={fundBounty} />}
         </div>

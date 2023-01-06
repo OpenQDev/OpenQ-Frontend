@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import StoreContext from '../../store/Store/StoreContext';
+import StoreContext from '../../../store/Store/StoreContext';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -29,22 +29,26 @@ const Users = () => {
         <table>
           <thead>
             <tr>
-              <th className='py-1 px-2 text-left'>Address</th>
               <th className='py-1 px-2 text-left'>Github</th>
               <th className='py-1 px-2 text-left'>Email</th>
               <th className='py-1 px-2 text-left'>Discord</th>
               <th className='py-1 px-2 text-left'>Twitter</th>
+              <th className='py-1 px-2 text-left'>Created At</th>
             </tr>
           </thead>
           <tbody>
             {users.map((user, index) => {
+              const dateCreated = user.createdAt
+                ? new Date(parseInt(user.createdAt)).toString().split(' ').slice(0, 4).join(' ')
+                : null;
               return (
                 <tr className='break-words' key={index}>
-                  <td className='p-1'>{user.address}</td>
                   <td className='p-1'>{user.github}</td>
                   <td className='p-1'>{user.email}</td>
                   <td className='p-1'>{user.discord}</td>
-                  <td className='p-1'>{user.twitter}</td>
+                  <td className='p-1 underline'>{user.twitter && <a href={user.twitter}>{user.twitter}</a>}</td>
+
+                  <td className='p-1'>{dateCreated}</td>
                 </tr>
               );
             })}

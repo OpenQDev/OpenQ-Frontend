@@ -444,7 +444,7 @@ class OpenQPrismaClient {
           variables,
           context: { headers: { authorization: secret } },
         });
-        resolve(result.data.usersConnection.users);
+        resolve(result.data.users.userConnection.nodes);
       } catch (e) {
         reject(e);
       }
