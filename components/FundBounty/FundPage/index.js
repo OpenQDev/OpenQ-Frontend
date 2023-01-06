@@ -23,13 +23,15 @@ import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
 import useFundBountyMethod from '../hooks/useFundBountyMethod';
 import TokenContext from '../../TokenSelection/TokenStore/TokenContext';
 import { shortenAddress } from '../../../services/utils/lib';
+import { useRouter } from 'next/router';
 
 const FundPage = () => {
   const [fundState, fundDispatch] = useContext(FundContext);
   const { pickedNft, allowance, depositPeriodDays, nftTier, bounty, approveTransferState } = fundState;
   const web3 = useWeb3();
+  const query = useRouter().query;
   const minter = bounty.issuer.id === web3?.account?.toLowerCase();
-  const canCrowdFund = !bounty.invoiceable || bounty.bountyType === '0';
+  const canCrowdFund = !(bounty.invoiceable || query.invoiceable) || bounty.bountyType === '0';
   const canFund = canCrowdFund || minter;
   const [volume, setVolume] = useState('');
   const [tokenSelectState] = useContext(TokenContext);

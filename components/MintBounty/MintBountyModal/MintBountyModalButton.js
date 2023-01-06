@@ -131,7 +131,11 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
       }
       sessionStorage.setItem('justMinted', true);
       refreshBounty(bountyAddress);
-      await router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${issue.id}/${bountyAddress.toLowerCase()}`);
+      await router.push(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/contract/${
+          issue.id
+        }/${bountyAddress.toLowerCase()}?invoiceable=${invoiceable}`
+      );
       if (modalVisibility && safe) {
         modalVisibility(false);
       }
