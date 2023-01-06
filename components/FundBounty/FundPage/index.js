@@ -28,7 +28,7 @@ const FundPage = () => {
   const [fundState, fundDispatch] = useContext(FundContext);
   const { pickedNft, allowance, depositPeriodDays, nftTier, bounty, approveTransferState } = fundState;
   const web3 = useWeb3();
-  const minter = bounty.issuer.id === web3.account.toLowerCase();
+  const minter = bounty.issuer.id === web3?.account?.toLowerCase();
   const canCrowdFund = !bounty.invoiceable || bounty.bountyType === '0';
   const canFund = canCrowdFund || minter;
   const [volume, setVolume] = useState('');
