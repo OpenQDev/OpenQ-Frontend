@@ -85,7 +85,6 @@ const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
       tierVolumes
     );
   };
-console.log(tier, `hsl(${hue}, ${saturation}%, ${lightness}%)`)
   return (
     <>
       <div>{suffix} place winner</div>
