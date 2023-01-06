@@ -11,6 +11,7 @@ import FundProvider from '../../FundBounty/FundStore/FundProvider';
 import Constants from '../../../test-utils/constant';
 import InitialFundState from '../../FundBounty/FundStore/InitialFundState';
 import { CONFIRM } from '../../FundBounty/FundStore/ApproveFundState';
+import nextRouter from 'next/router';
 
 describe('FundPage', () => {
   const bounty = Constants.bounty;
@@ -26,7 +27,14 @@ describe('FundPage', () => {
       observe,
       disconnect,
     }));
+    nextRouter.useRouter = jest.fn();
+    nextRouter.useRouter.mockImplementation(() => ({
+      query: { type: null },
 
+      prefetch: jest.fn(() => {
+        return { catch: jest.fn };
+      }),
+    }));
     InitialState.openQClient.reset();
     InitialState.shouldSleep = 200;
   });
