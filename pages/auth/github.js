@@ -55,7 +55,6 @@ function GitHubAuth() {
                 type: 'UPDATE_ACCOUNTDATA',
                 payload: { ...user, id },
               };
-              console.log(accountDispatch);
               await appDispatch(accountDispatch);
               setUserId(id);
             } else {
