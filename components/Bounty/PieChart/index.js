@@ -12,7 +12,7 @@ const PieChart = ({ payoutSchedule }) => {
       .domain(data.map((d) => d))
       .range(
         data.map((_, index) => {
-      const i =  data.length - index-1;
+          const i = data.length - index - 1;
           const saturation = i % 2 ? 84 - i : 84 - i + 1;
           const lightness = !(i % 2) ? 48 + i : 48 + i - 1;
           const hue = 400 - i * 67;
