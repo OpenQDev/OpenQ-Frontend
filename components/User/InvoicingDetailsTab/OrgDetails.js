@@ -95,7 +95,7 @@ const InvoicingDetails = ({ slim }) => {
     });
   };
   if (!accountData.id) {
-    return <div>Please signup/login and to make sure your invoicing information is up to date </div>;
+    return <div>Please signup/login and make sure your invoicing information is up to date </div>;
   }
   return (
     <div className={`${!slim && 'px-8'} py text-lg`}>

@@ -32,10 +32,10 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties }) => {
   const { githubId } = authState;
 
   useEffect(() => {
-    if (githubId) {
+    if (user.github) {
       const getGithubUser = async () => {
-        const githubUser = await appState.githubRepository.fetchUserById(githubId);
-        if (isOwner) setGithubUser(githubUser);
+        const githubUser = await appState.githubRepository.fetchUserById(user.github);
+        if (githubUser) setGithubUser(githubUser);
       };
       try {
         getGithubUser();
@@ -85,8 +85,8 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties }) => {
             ...[starredOrganizations.length ? { name: 'Stars', Svg: StarIcon } : {}],
             ...[isOwner ? { name: 'Watching', Svg: EyeIcon } : {}],
 
-            ...[github ? { name: 'Invoicing Details - Freelancer', Svg: Gear } : {}],
-            { name: 'Invoicing Details - Org', Svg: Gear },
+            ...[isOwner ? { name: 'Invoicing Details - Freelancer', Svg: Gear } : {}],
+            ...[isOwner ? { name: 'Invoicing Details - Org', Svg: Gear } : {}],
           ]}
         />
         <div className='w-full border-b h-px border-web-gray'></div>

@@ -76,6 +76,10 @@ class MockGithubRepository {
 
 		return promise;
   }
+  
+  async getIsAdmin() {
+    return true;
+  }
 
 	async fetchIssueByUrl(issueUrl) {
 		const promise = new Promise((resolve, reject) => {

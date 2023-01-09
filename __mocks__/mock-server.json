@@ -7,10 +7,10 @@
             "discord": null,
             "twitter": null,
             "email": null,
-            "address": "0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b",
             "starredOrganizationIds": [],
             "devRoles": [
-            "machine learning"]
+            "machine learning"],
+            "createdAt": null
         },
         {
             "__typename": "User",
@@ -19,8 +19,8 @@
             "discord": "Voyageur#5630",
             "twitter": null,
             "email": "christopher.stevers1@gmail.com",
-            "address": "0xchristopher.stevers1@gmail.com",
-            "starredOrganizationIds": []
+            "starredOrganizationIds": [],
+            "createdAt":"1672865114143"
         }
     ],
     "prismaOrgs": {

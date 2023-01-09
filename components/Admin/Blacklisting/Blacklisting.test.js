@@ -2,8 +2,8 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen } from '../../test-utils';
-import Blacklisting from '../../components/Admin/Blacklisting';
+import { render, screen } from '../../../test-utils';
+import Blacklisting from '.';
 import userEvent from '@testing-library/user-event';
 
 describe('Blacklisting', () => {

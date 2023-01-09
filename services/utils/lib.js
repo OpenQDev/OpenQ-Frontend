@@ -9,6 +9,13 @@ export const getNonBlacklisted = async (appState, repoName, org, limit) => {
   return { nonBlacklisted: repoPrs.filter((pr) => !blacklistedPrIds.includes(pr.id)), totalCount };
 };
 
+export const shortenAddress = (address) => {
+  if (!address) {
+    return '';
+  }
+  return `${address.slice(0, 4)}...${address.slice(38)}`;
+};
+
 export const parseVolume = (volume) => {
   const numberRegex = /^(\d+)?(\.)?(\d+)?$/;
   if (numberRegex.test(volume) || volume === '' || volume === '.') {

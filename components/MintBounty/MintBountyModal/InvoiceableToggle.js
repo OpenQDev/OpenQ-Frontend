@@ -4,7 +4,7 @@ import MintContext from '../MintContext';
 
 const InvoiceableToggle = () => {
   const [mintState, mintDispatch] = useContext(MintContext);
-  const { invoiceable } = mintState;
+  const { invoiceable, category } = mintState;
   const setInvoiceable = (invoiceable) => {
     const dispatch = {
       payload: invoiceable,
@@ -12,6 +12,7 @@ const InvoiceableToggle = () => {
     };
     mintDispatch(dispatch);
   };
+  const isCrowdFundable = category === 'Fixed Price' || invoiceable === false;
   return (
     <div className='flex flex-col  gap-2 py-2 w-full items-start  text-base bg-[#161B22]'>
       <div className='flex items-center gap-2 font-semibold'>
@@ -54,6 +55,11 @@ const InvoiceableToggle = () => {
             No
           </button>
         </div>
+        <span className='note'>
+          {' '}
+          {!isCrowdFundable &&
+            `Note: crowdfunding is not available on ${category.toLowerCase()} contracts that are invoiceable.`}
+        </span>
       </div>
     </div>
   );
