@@ -43,9 +43,12 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
       let formattedVolume = ethers.utils.formatUnits(volumeNeeded, decimals);
       return { volume: formattedVolume, symbol: tokenMetadata.symbol };
     } else if (bounty.payoutTokenAddress) {
-      const bigNumberBudgetnVolume = bounty.payoutSchedule.reduce((accum, payout) => {
-        return BigNumber.from(payout).add(accum);
-      }, BigNumber.from(0));
+      const bigNumberBudgetnVolume =
+        bounty.bountyType == '1'
+          ? BigNumber.from(bounty.payoutTokenVolume)
+          : bounty.payoutSchedule.reduce((accum, payout) => {
+              return BigNumber.from(payout).add(accum);
+            }, BigNumber.from(0));
 
       const token = bounty.bountyTokenBalances?.find((token) => token.tokenAddress === bounty.payoutTokenAddress);
 

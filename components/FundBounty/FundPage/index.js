@@ -26,7 +26,7 @@ import { shortenAddress } from '../../../services/utils/lib';
 
 const FundPage = () => {
   const [fundState, fundDispatch] = useContext(FundContext);
-  const { pickedNft, allowance, depositPeriodDays, nftTier, bounty, approveTransferState } = fundState;
+  const { pickedNft, allowance, depositPeriodDays, nftTier, bounty, approveTransferState, setInternalMenu } = fundState;
   const web3 = useWeb3();
   const minter = bounty.issuer.id === web3?.account?.toLowerCase();
   const canCrowdFund = !bounty.invoiceable || bounty.bountyType === '0';
@@ -40,16 +40,45 @@ const FundPage = () => {
   const fundBountyMethod = useFundBountyMethod();
   const { accountData, utils } = appState;
   const accountKeys = ['company', 'city', 'country', 'streetAddress', 'province', 'invoicingEmail'];
+  const mustChangePayoutFirst = bounty.bountyType == '1' && bounty.payoutTokenVolume;
 
   const neededAccountData = accountKeys.filter((key) => {
     return !accountData[key];
   });
+  const [, tokenDispatch] = useContext(TokenContext);
   useEffect(() => {
-    const tokenDispatch = {
-      type: 'SET_TOKEN',
-      payload: token,
-    };
-    fundDispatch(tokenDispatch);
+    const depositTokenAddress = bounty?.deposits[0]?.tokenAddress;
+    const payoutTokenAddress = bounty?.payoutTokenAddress;
+    if (bounty?.bountyType == '1' && bounty?.deposits?.length > 0) {
+      const tokenAddressDispatch = {
+        type: 'SET_TOKEN',
+        payload: {
+          ...appState.tokenClient.getToken(depositTokenAddress),
+          address: depositTokenAddress,
+        },
+      };
+      tokenDispatch(tokenAddressDispatch);
+      fundDispatch(tokenAddressDispatch);
+    } else if (bounty?.bountyType == '1' && bounty?.payoutTokenVolume > 0) {
+      const tokenAddressDispatch = {
+        type: 'SET_TOKEN',
+        payload: {
+          ...appState.tokenClient.getToken(payoutTokenAddress),
+          address: payoutTokenAddress,
+        },
+      };
+      tokenDispatch(tokenAddressDispatch);
+      fundDispatch(tokenAddressDispatch);
+    }
+  }, [bounty]);
+  useEffect(() => {
+    if (!(bounty?.bountyType == '1' && bounty?.deposits?.length > 0)) {
+      const tokenDispatch = {
+        type: 'SET_TOKEN',
+        payload: token,
+      };
+      fundDispatch(tokenDispatch);
+    }
   }, [token]);
 
   useEffect(() => {
@@ -152,7 +181,14 @@ const FundPage = () => {
                 {!pickedNft ? (
                   <div className='flex w-full gap-4'>
                     <>
-                      <TokenFundBox onVolumeChange={onVolumeChange} token={token} volume={volume} />
+                      <TokenFundBox
+                        onVolumeChange={onVolumeChange}
+                        token={token}
+                        volume={volume}
+                        bounty={bounty}
+                        mustChangePayoutFirst={mustChangePayoutFirst}
+                        setInternalMenu={setInternalMenu}
+                      />
                       <NFTFundModal />
                     </>
                   </div>
