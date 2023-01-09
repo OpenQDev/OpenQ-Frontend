@@ -24,13 +24,15 @@ import { setContext } from '@apollo/client/link/context';
 class GithubRepository {
   constructor() {}
 
+  uri = process.env.GITHUB_PROXY_SSR_URL ? process.env.GITHUB_PROXY_SSR_URL : process.env.NEXT_PUBLIC_GITHUB_PROXY_URL;
+
   httpLink = new HttpLink({
-    uri: 'https://api.github.com/graphql',
+    uri: this.uri,
     fetch,
   });
 
   client = new ApolloClient({
-    uri: 'https://api.github.com/graphql',
+    uri: this.uri,
     link: this.httpLink,
     cache: new InMemoryCache(),
   });
