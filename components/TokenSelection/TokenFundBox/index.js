@@ -1,10 +1,32 @@
 import React, { useState } from 'react';
 import TokenSearch from '../TokenSearch';
 import SelectedTokenImg from '../SelectedTokenImg';
+import ModalDefault from '../../Utils/ModalDefault';
 
-const TokenFundBox = ({ onVolumeChange, volume, bounty, placeholder, label, styles, small }) => {
+const TokenFundBox = ({
+  onVolumeChange,
+  volume,
+  bounty,
+  placeholder,
+  label,
+  styles,
+  small,
+  mustChangePayoutFirst,
+  setInternalMenu,
+}) => {
   const [showTokenSearch, setShowTokenSearch] = useState(false);
+  const [showPayoutModal, setShowPayoutModal] = useState(false);
   const bountyTokenLocked = bounty?.bountyType == 1 && bounty?.deposits?.length > 0;
+  const btn = (
+    <div className='flex gap-2'>
+      <button className='btn-default' onClick={() => setShowPayoutModal(false)}>
+        I understand
+      </button>
+      <button className='btn-primary' onClick={() => setInternalMenu('Admin')}>
+        Update Reward Split
+      </button>
+    </div>
+  );
 
   return (
     <div className={`flex space-x-4 w-full ${styles}`}>
@@ -25,7 +47,7 @@ const TokenFundBox = ({ onVolumeChange, volume, bounty, placeholder, label, styl
         <button
           aria-label='select token'
           className={`flex flex-row items-center p-0.5 px-2 ${!bountyTokenLocked ? 'btn-default' : 'cursor-default'}`}
-          onClick={() => setShowTokenSearch(true)}
+          onClick={mustChangePayoutFirst ? () => setShowPayoutModal(true) : () => setShowTokenSearch(true)}
           disabled={bountyTokenLocked}
         >
           <SelectedTokenImg />
@@ -44,6 +66,20 @@ const TokenFundBox = ({ onVolumeChange, volume, bounty, placeholder, label, styl
         </button>
       </div>
       {showTokenSearch ? <TokenSearch setShowTokenSearch={setShowTokenSearch} /> : null}
+      {showPayoutModal ? (
+        <ModalDefault
+          setShowModal={setShowPayoutModal}
+          title='Update your reward split token first!'
+          footerRight={btn}
+          resetState={() => {}}
+        >
+          <div>
+            If you want to change the token used for your deposit, you first need to update the reward split (on the
+            admin tab) so that it uses that specific token. Once you have made a deposit, you won't be able to change
+            the token for deposits or payouts going forward.
+          </div>
+        </ModalDefault>
+      ) : null}
     </div>
   );
 };

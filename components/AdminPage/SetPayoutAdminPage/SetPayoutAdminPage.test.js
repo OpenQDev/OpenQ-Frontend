@@ -28,7 +28,7 @@ describe('SetPayoutAdminPage', () => {
   });
   it('should allow user to update payout token and volume when no deposits', async () => {
     // ARRANGE
-    const noDepositSplitBounty = { ...splitBounty, deposits: [] };
+    const noDepositSplitBounty = { ...splitBounty, deposits: [], payoutTokenVolume: undefined };
     const user = userEvent.setup();
     const setPayout = jest.fn();
     const customInitialState = {
@@ -44,7 +44,9 @@ describe('SetPayoutAdminPage', () => {
 
     // ACT
     await user.type(screen.getByRole('textbox'), '100');
-    await user.click(screen.getByRole('button', { name: 'select token' }));
+    const maticButton = screen.getByRole('button', { name: 'select token' });
+    expect(screen.getByText(/matic/i)).toBeInTheDocument();
+    await user.click(maticButton);
     await user.click(screen.getByRole('button', { name: /link/i }));
     await user.click(await screen.findByRole('button', { name: 'Set Payout' }));
 
@@ -56,6 +58,49 @@ describe('SetPayoutAdminPage', () => {
     expect(await screen.findByText(/100.0 LINK/i)).toBeInTheDocument();
     expect(setPayout).toBeCalledWith(
       noDepositSplitBounty.bountyId,
+      '100',
+      '0x5FbDB2315678afecb367f032d93F642f64180aa3'
+    );
+  });
+  it('should set payout token per default if payoutTokenVolume BUT allow user to update payout token and volume if no deposits', async () => {
+    // payout token to DERC20, so showing that as default, but allowing change to Link since there are no deposits.
+    // ARRANGE
+    const noDepositButPayoutSplitBounty = {
+      ...splitBounty,
+      deposits: [],
+      payoutTokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
+    };
+    const user = userEvent.setup();
+    const setPayout = jest.fn();
+    const customInitialState = {
+      ...InitialState,
+      openQClient: new MockOpenQClient({ setPayout }),
+    };
+    const { asFragment } = render(
+      <SetPayoutAdminPage refreshBounty={() => {}} bounty={noDepositButPayoutSplitBounty} />,
+      {},
+      customInitialState
+    );
+    expect(asFragment()).toMatchSnapshot('Snapshot: initial view');
+    console.log(noDepositButPayoutSplitBounty);
+
+    // ACT
+    await user.type(screen.getByRole('textbox'), '100');
+    const matic = screen.queryByText(/matic/i);
+    expect(matic).not.toBeInTheDocument();
+    const tokenButton = screen.getByRole('button', { name: 'select token' });
+    await user.click(tokenButton);
+    await user.click(screen.getByRole('button', { name: /link/i }));
+    await user.click(await screen.findByRole('button', { name: 'Set Payout' }));
+
+    // ASSERT
+    expect(await screen.findByText(/Updating Payout.../)).toBeInTheDocument();
+    expect(screen.getByText(/our request is being processed.../)).toBeInTheDocument();
+    const updatedTexts = await screen.findAllByText(/updated/i);
+    expect(updatedTexts[0]).toBeInTheDocument();
+    expect(await screen.findByText(/100.0 LINK/i)).toBeInTheDocument();
+    expect(setPayout).toBeCalledWith(
+      noDepositButPayoutSplitBounty.bountyId,
       '100',
       '0x5FbDB2315678afecb367f032d93F642f64180aa3'
     );

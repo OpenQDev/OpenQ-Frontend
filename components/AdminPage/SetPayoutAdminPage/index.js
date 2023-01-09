@@ -21,12 +21,22 @@ const SetPayoutAdminPage = ({ bounty, refreshBounty, setShowButton }) => {
   const [, tokenDispatch] = useContext(TokenContext);
   useEffect(() => {
     const depositTokenAddress = bounty?.deposits[0]?.tokenAddress;
+    const payoutTokenAddress = bounty?.payoutTokenAddress;
     if (bounty?.bountyType == '1' && bounty?.deposits?.length > 0) {
       const tokenAddressDispatch = {
         type: 'SET_TOKEN',
         payload: {
           ...appState.tokenClient.getToken(depositTokenAddress),
           address: depositTokenAddress,
+        },
+      };
+      tokenDispatch(tokenAddressDispatch);
+    } else if (bounty?.bountyType == '1' && bounty?.payoutTokenVolume > 0) {
+      const tokenAddressDispatch = {
+        type: 'SET_TOKEN',
+        payload: {
+          ...appState.tokenClient.getToken(payoutTokenAddress),
+          address: payoutTokenAddress,
         },
       };
       tokenDispatch(tokenAddressDispatch);

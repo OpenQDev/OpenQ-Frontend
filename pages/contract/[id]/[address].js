@@ -247,7 +247,7 @@ const address = ({ address, mergedBounty, renderError }) => {
               <div className='flex justify-between  w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
                 {internalMenu == 'View' && <BountyCardDetails bounty={bounty} />}
                 {internalMenu == 'Fund' && bounty ? (
-                  <FundProvider bounty={bounty} refreshBounty={refreshBounty}>
+                  <FundProvider bounty={bounty} refreshBounty={refreshBounty} setInternalMenu={setInternalMenu}>
                     <TokenProvider>
                       <FundPage bounty={bounty} refreshBounty={refreshBounty} />
                     </TokenProvider>

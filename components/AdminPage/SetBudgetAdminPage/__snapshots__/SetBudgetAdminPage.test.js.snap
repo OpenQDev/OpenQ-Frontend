@@ -121,3 +121,94 @@ exports[`SetBudgetAdminPage Split Price Contracts should lock token but allow vo
   </div>
 </button>
 `;
+
+exports[`SetBudgetAdminPage Split Price Contracts should set payout token per default if payoutTokenVolume BUT allow user to update payout token and volume if no deposits: Snapshot: initial view 1`] = `
+<DocumentFragment>
+   
+  <div
+    class="flex items-center gap-2"
+  >
+    Set a New Budget for this Contract
+  </div>
+  <div
+    class="flex-1 items-center w-full mt-2"
+  >
+    <div
+      class="flex space-x-4 w-full undefined"
+    >
+      <div
+        class="flex w-full flex-row justify-between items-center px-4 input-field-big"
+      >
+        <div
+          class=" bg-dark-mode"
+        >
+          <input
+            aria-label="amount"
+            autocomplete="off"
+            class="font-semibold number outline-none bg-input-bg text-primary w-full"
+            id="amount"
+            placeholder="0.0"
+            value=""
+          />
+        </div>
+      </div>
+      <div
+        class="flex"
+      >
+        <button
+          aria-label="select token"
+          class="flex flex-row items-center p-0.5 px-2 btn-default"
+        >
+           
+          <div
+            class="flex h-4 w-4 items-center justify-center"
+          >
+            <img
+              alt="selected token"
+              class="rounded-full"
+              data-nimg="1"
+              decoding="async"
+              height="40"
+              loading="lazy"
+              src="https://wallet-asset.matic.network/img/tokens/dai.svg"
+              srcset="https://wallet-asset.matic.network/img/tokens/dai.svg 1x, https://wallet-asset.matic.network/img/tokens/dai.svg 2x"
+              style="color: transparent;"
+              width="40"
+            />
+          </div>
+          <div
+            class="flex pl-2 pr-1 text-primary"
+          >
+            DERC20
+          </div>
+          <div
+            class="flex"
+          >
+            <svg
+              class="h-4 w-4"
+              fill="white"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    class="flex items-center"
+  />
+  <button
+    class="btn-default"
+    type="button"
+  >
+    Set New Budget
+  </button>
+</DocumentFragment>
+`;
