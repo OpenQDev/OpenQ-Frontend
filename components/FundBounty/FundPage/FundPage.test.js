@@ -53,6 +53,33 @@ describe('FundPage', () => {
       const button = screen.getByRole('button', { name: /Fund/i });
       await user.click(button);
     });
+    it('should show modal to update reward split when no deposits but payoutTokenVolume > 0', async () => {
+      // ARRANGE
+      const noDepositSplitBounty = {
+        ...splitBounty,
+        deposits: [],
+        payoutTokenAddress: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
+      };
+      const user = userEvent.setup();
+      const setInternalMenu = jest.fn();
+      render(
+        <FundProvider bounty={noDepositSplitBounty} refreshBounty={refreshBounty} setInternalMenu={setInternalMenu}>
+          <FundPage bounty={noDepositSplitBounty} />
+        </FundProvider>
+      ); // ACT / ASSERT
+
+      const matic = screen.queryByText(/matic/i);
+      expect(matic).not.toBeInTheDocument();
+      const input = screen.getByLabelText('amount');
+      await user.type(input, '0.30sdf');
+      expect(screen.getAllByText(/link/i)[0]).toBeInTheDocument;
+      const selectToken = screen.getByRole('button', { name: 'select token' });
+      await user.click(selectToken);
+      expect(screen.getAllByText(/Update your reward split token first!/i)[0]).toBeInTheDocument;
+      const button = screen.getByRole('button', { name: /Update Reward Split/i });
+      await user.click(button);
+      expect(setInternalMenu).toHaveBeenCalledWith('Admin');
+    });
   });
 
   describe('Fixed Bounties', () => {

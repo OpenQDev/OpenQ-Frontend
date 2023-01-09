@@ -27,7 +27,6 @@ import { shortenAddress } from '../../../services/utils/lib';
 const FundPage = () => {
   const [fundState, fundDispatch] = useContext(FundContext);
   const { pickedNft, allowance, depositPeriodDays, nftTier, bounty, approveTransferState, setInternalMenu } = fundState;
-  console.log(fundState);
   const web3 = useWeb3();
   const minter = bounty.issuer.id === web3?.account?.toLowerCase();
   const canCrowdFund = !bounty.invoiceable || bounty.bountyType === '0';
