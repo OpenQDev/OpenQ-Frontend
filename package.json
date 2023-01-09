@@ -27,6 +27,7 @@
 		"@ethersproject/experimental": "5.6.0",
 		"@ethersproject/providers": "5.1.2",
 		"@ethersproject/units": "5.1.0",
+		"@kycdao/kycdao-web-sdk": "^0.3.0-rc.39",
 		"@magic-ext/oauth": "4.0.0",
 		"@metamask/jazzicon": "2.0.0",
 		"@primer/octicons-react": "17.9.0",

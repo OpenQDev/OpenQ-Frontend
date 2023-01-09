@@ -8,6 +8,8 @@ import 'github-markdown-css/github-markdown-dark.css';
 import { useRouter } from 'next/router';
 import ReactGA from 'react-ga4';
 import { hotjar } from 'react-hotjar';
+import '@kycdao/kycdao-web-sdk/app.css';
+import '@kycdao/kycdao-web-sdk/client.css';
 
 // Custom
 import { UserContext } from '../lib/UserContext';

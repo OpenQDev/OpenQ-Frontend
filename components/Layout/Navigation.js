@@ -121,6 +121,7 @@ const Navigation = () => {
 
   return (
     <div className='bg-nav-bg py-1 '>
+      <div className='z-10' id='kyc-container'></div>
       <FirstTimeBanner />
       <LoadingThread />
       <div className='flex visible relative'>
