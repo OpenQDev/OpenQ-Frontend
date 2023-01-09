@@ -85,7 +85,6 @@ const TierInput = ({ tier, onTierVolumeChange, style, tierVolumes }) => {
       tierVolumes
     );
   };
-
   return (
     <>
       <div>{suffix} place winner</div>
