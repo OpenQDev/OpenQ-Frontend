@@ -169,7 +169,7 @@ const FundPage = () => {
                 {!pickedNft ? (
                   <div className='flex w-full gap-4'>
                     <>
-                      <TokenFundBox onVolumeChange={onVolumeChange} token={token} volume={volume} />
+                      <TokenFundBox onVolumeChange={onVolumeChange} token={token} volume={volume} bounty={bounty} />
                       <NFTFundModal />
                     </>
                   </div>
