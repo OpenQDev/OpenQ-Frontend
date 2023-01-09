@@ -30,7 +30,7 @@
 		"@magic-ext/oauth": "4.0.0",
 		"@metamask/jazzicon": "2.0.0",
 		"@primer/octicons-react": "17.9.0",
-		"@react-pdf/renderer": "3.0.0",
+		"@react-pdf/renderer": "3.0.2",
 		"@superfluid-finance/sdk-core": "0.5.7",
 		"@testing-library/user-event": "14.4.3",
 		"@walletconnect/ethereum-provider": "1.8.0",
