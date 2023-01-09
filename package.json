@@ -21,7 +21,7 @@
 		"prepare": "husky install"
 	},
 	"dependencies": {
-		"@apollo/client": "3.7.1",
+		"@apollo/client": "3.7.3",
 		"@ethersproject/address": "5.5.0",
 		"@ethersproject/bignumber": "5.6.0",
 		"@ethersproject/experimental": "5.6.0",
