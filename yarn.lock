@@ -1552,12 +1552,12 @@
     "@json-rpc-tools/types" "^1.7.6"
     "@pedrouid/environment" "^1.0.1"
 
-"@magic-ext/oauth@4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@magic-ext/oauth/-/oauth-4.0.0.tgz#a930bfc6a868e687191348ce6e247913daf257c6"
-  integrity sha512-R7QxaSRfBIulBs/4iO9lVnTnhncqIe2h2jWBPRiDmUwIxPl+H38O/6vc0cHYTnyvIG3cRRNaRqdRqB2MQXuveA==
+"@magic-ext/oauth@4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@magic-ext/oauth/-/oauth-4.1.0.tgz#de072bf36807ba582d910fa56db339239fa7ed3e"
+  integrity sha512-xa+t5iYSAUx42KIfGxcM+wlIQMET3IkybD7pe5RIPVtbWSMHAUlHJNkgyk15BRS7vZMHU3oEBO8NXlNi5AnhCA==
   dependencies:
-    "@magic-sdk/types" "^9.0.0"
+    "@magic-sdk/types" "^9.1.0"
 
 "@magic-sdk/commons@^6.0.0":
   version "6.1.0"
