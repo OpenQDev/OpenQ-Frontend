@@ -7,11 +7,13 @@ import axios from 'axios';
 
 import { Magic } from 'magic-sdk';
 import { OAuthExtension } from '@magic-ext/oauth';
+import AuthContext from '../../store/AuthStore/AuthContext';
 
 function EmailAuth() {
   const [, setUser] = useContext(UserContext);
   const router = useRouter();
-  const [appState] = useContext(StoreContext);
+  const [appState, appDispatch] = useContext(StoreContext);
+  const [, dispatch] = useContext(AuthContext);
 
   useEffect(() => {
     finishEmailRedirectLogin();
@@ -50,13 +52,28 @@ function EmailAuth() {
   };
 
   const upsertUser = async (email) => {
+    const fullApiUser = await appState.openQPrismaClient.getUser({ email });
+    const isNewUser = !fullApiUser;
+    console.log('upsertUser', fullApiUser);
+    if (isNewUser) {
+      const newUserDispatch = {
+        type: 'IS_NEW_USER',
+        payload: true,
+      };
+      dispatch(newUserDispatch);
+    }
     const { id, ...user } = await appState.openQPrismaClient.upsertUser({ email });
+
+    dispatch({
+      type: 'UPDATE_IS_AUTHENTICATED',
+      payload: { isAuthenticated: true, email: email },
+    });
 
     const accountDispatch = {
       type: 'UPDATE_ACCOUNTDATA',
       payload: { ...user, id },
     };
-    appState.dispatch(accountDispatch);
+    appDispatch(accountDispatch);
     router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${id}`);
   };
 

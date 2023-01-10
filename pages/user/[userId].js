@@ -11,14 +11,17 @@ import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubg
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
 import StoreContext from '../../store/Store/StoreContext';
 import Logger from '../../services/logger/Logger';
-// import FirstSignupModal from '../../components/Authentication/FirstSignupModal';
+import FirstSignupModal from '../../components/Authentication/FirstSignupModal';
+import AuthContext from '../../store/AuthStore/AuthContext';
 
 const userId = ({ user, organizations, renderError }) => {
+  const [authState, dispatch] = useContext(AuthContext);
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
   const [starredOrganizations, setStarredOrganizations] = useState([]);
   const [watchedBounties, setWatchedBounties] = useState([]);
-  // const [firstSignupModal, setFirstSignupModal] = useState(firstSignup);
+  const [firstSignupModal, setFirstSignupModal] = useState(authState.isNewUser);
+  console.log(authState);
 
   const [publicPrivateUserData] = useState(user);
 
@@ -48,11 +51,24 @@ const userId = ({ user, organizations, renderError }) => {
     getOffChainData();
   }, []);
 
+  async function closeModal() {
+    setFirstSignupModal(false);
+    const newUserDispatch = {
+      type: 'IS_NEW_USER',
+      payload: false,
+    };
+    await dispatch(newUserDispatch);
+  }
+
+  console.log(authState);
+
   return (
     <div className=' gap-4 justify-center pt-6'>
       {user?.id ? (
         <>
-          {/* {firstSignupModal && <FirstSignupModal closeModal={setFirstSignupModal} setShowModal={setFirstSignupModal} />} */}
+          {authState?.isAuthenticated && firstSignupModal && (
+            <FirstSignupModal closeModal={closeModal} setShowModal={setFirstSignupModal} />
+          )}
           <AboutFreelancer
             starredOrganizations={starredOrganizations}
             watchedBounties={watchedBounties}
@@ -74,11 +90,10 @@ export const getServerSideProps = async (context) => {
   const { github_oauth_token_unsigned } = cookies;
   const logger = new Logger();
   const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
-  const emailAuth = true;
+  const emailAuth = true; // ?
   githubRepository.instance.setGraphqlHeaders(oauthToken);
   let userId = context.params.userId;
   let renderError = '';
-  // let firstSignup = true;
 
   const openQPrismaClient = new WrappedOpenQPrismaClient();
   openQPrismaClient.instance.setGraphqlHeaders(oauthToken);

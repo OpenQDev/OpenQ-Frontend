@@ -55,7 +55,12 @@ function GitHubAuth() {
                 type: 'UPDATE_ACCOUNTDATA',
                 payload: { ...user, id },
               };
+              const newUserDispatch = {
+                type: 'IS_NEW_USER',
+                payload: true,
+              };
               await appDispatch(accountDispatch);
+              await dispatch(newUserDispatch);
               setUserId(id);
             } else {
               // once this is set, it should trigger the redirect to /user/userId
