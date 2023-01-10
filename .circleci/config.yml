@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  kubernetes: circleci/kubernetes@0.12.0
+  kubernetes: circleci/kubernetes@0.12.1
 jobs:
   build:
     machine: true
