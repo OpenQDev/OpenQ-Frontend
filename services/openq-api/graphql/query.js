@@ -488,3 +488,11 @@ export const SET_IS_CONTEST = gql`
     }
   }
 `;
+
+export const CREATE_PRO_ACCOUNT = gql`
+  mutation CreateProAccount($userId: String!, $name: String!, $email: String, $github: String) {
+    createProAccount(userId: $userId, name: $name, email: $email, github: $github) {
+      id
+    }
+  }
+`;

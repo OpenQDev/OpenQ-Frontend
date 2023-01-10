@@ -26,6 +26,7 @@ import {
   GET_REPOSITORIES,
   GET_ALL_SUBMISSIONS,
   COMBINE_USERS,
+  CREATE_PRO_ACCOUNT,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
@@ -537,6 +538,20 @@ class OpenQPrismaClient {
       }
     });
     return promise;
+  }
+
+  async createProAccount(variables) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: CREATE_PRO_ACCOUNT,
+          variables,
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
   }
 }
 
