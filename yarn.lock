@@ -1559,12 +1559,12 @@
   dependencies:
     "@magic-sdk/types" "^9.0.0"
 
-"@magic-sdk/commons@^6.0.0":
+"@magic-sdk/commons@^6.1.0":
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/@magic-sdk/commons/-/commons-6.1.0.tgz#6dd6dc585315e2f6af9cf312d1557c481108029a"
   integrity sha512-297kNy/JVqe905KRGb0Y1A3kG49P9nZR2WiS8QWoU2nqvtv/4w2WNoCg9ujVUlTwTKwP2SvTY/zd35274fSNFg==
 
-"@magic-sdk/provider@^10.0.0":
+"@magic-sdk/provider@^10.1.0":
   version "10.1.0"
   resolved "https://registry.yarnpkg.com/@magic-sdk/provider/-/provider-10.1.0.tgz#0857c7579faf53bee26d6575321abd6c058db56c"
   integrity sha512-6hsTFL6Os3nCGDWe3ZT0dx6cxsBJZ1POZ8FJqhx2xYLsxGDXjZ44rlOC7LhlPWrkTdhj0bGt/R2v4rr7/yYhMg==
@@ -7719,14 +7719,14 @@ lz-string@^1.4.4:
   resolved "https://registry.yarnpkg.com/lz-string/-/lz-string-1.4.4.tgz#c0d8eaf36059f705796e1e344811cf4c498d3a26"
   integrity sha512-0ckx7ZHRPqb0oUm8zNr+90mtf9DQB60H1wMCjBtfi62Kl3a7JbHob6gA2bC+xRvZoOL+1hzUK8jeuEIQE8svEQ==
 
-magic-sdk@10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/magic-sdk/-/magic-sdk-10.0.0.tgz#3ccaa17f7a726bf266d7c67e0fffc97417bfc44e"
-  integrity sha512-8PIlzHU9hBq8fu32fHwCj6SNdADJEqxxNJOnk2IiPm471qkDPRMK3vUk0pNFGew1h7d0HOlSKYPaDDfFIANXzA==
+magic-sdk@10.1.0:
+  version "10.1.0"
+  resolved "https://registry.yarnpkg.com/magic-sdk/-/magic-sdk-10.1.0.tgz#b111e41d88d8dc339744c201a07e8d6cb2bb21ca"
+  integrity sha512-1Pykolr4WzK8j+FWm4rnjPqSRlG+z6nNd5kTMyDPFaqOxmKpoOpgUs2mVYASomXAZx1B883rSP67MGK+N6hlqw==
   dependencies:
-    "@magic-sdk/commons" "^6.0.0"
-    "@magic-sdk/provider" "^10.0.0"
-    "@magic-sdk/types" "^9.0.0"
+    "@magic-sdk/commons" "^6.1.0"
+    "@magic-sdk/provider" "^10.1.0"
+    "@magic-sdk/types" "^9.1.0"
     localforage "^1.7.4"
 
 make-dir@^3.0.0:
