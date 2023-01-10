@@ -1552,12 +1552,12 @@
     "@json-rpc-tools/types" "^1.7.6"
     "@pedrouid/environment" "^1.0.1"
 
-"@magic-ext/oauth@4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@magic-ext/oauth/-/oauth-4.0.0.tgz#a930bfc6a868e687191348ce6e247913daf257c6"
-  integrity sha512-R7QxaSRfBIulBs/4iO9lVnTnhncqIe2h2jWBPRiDmUwIxPl+H38O/6vc0cHYTnyvIG3cRRNaRqdRqB2MQXuveA==
+"@magic-ext/oauth@7.1.0":
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/@magic-ext/oauth/-/oauth-7.1.0.tgz#45c01485e5088c8e13583c6f5c674271e49ac95c"
+  integrity sha512-0flDWw4mLzjntMq25Z5Boqh+LmXr1TDFvM6uge37o/kXnvd1nzK7MX20kr6vbo1D8XfX2yi6ewFCo2FtSlKVbA==
   dependencies:
-    "@magic-sdk/types" "^9.0.0"
+    "@magic-sdk/types" "^11.1.0"
 
 "@magic-sdk/commons@^6.0.0":
   version "6.1.0"
@@ -1572,6 +1572,11 @@
     "@magic-sdk/types" "^9.1.0"
     eventemitter3 "^4.0.4"
     web3-core "1.5.2"
+
+"@magic-sdk/types@^11.1.0":
+  version "11.1.0"
+  resolved "https://registry.yarnpkg.com/@magic-sdk/types/-/types-11.1.0.tgz#43bcd666088b5d2294b0ce3663c7798e417e9277"
+  integrity sha512-Cj3tpOO50yuBMqg39DumYF7qIKakQWIE4aGL3y8XeFeV7+fqrWmD8jlNZi5Kib4bsLvWCjxPJqtnhCyYpHnC5w==
 
 "@magic-sdk/types@^9.0.0", "@magic-sdk/types@^9.1.0":
   version "9.1.0"
