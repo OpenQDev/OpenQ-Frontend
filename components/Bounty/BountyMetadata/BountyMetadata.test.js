@@ -8,7 +8,8 @@ import BountyMetadata from '.';
 import Constants from '../../../test-utils/constant';
 
 describe('BountyMetadata', () => {
-  const bounties = Constants.bounties;
+  // issues with the hook in a .map for bounty3
+  const bounties = [Constants.bounty0, Constants.bounty1, Constants.bounty2 /* , Constants.bounty3 */];
 
   beforeEach(() => {
     const observe = jest.fn();

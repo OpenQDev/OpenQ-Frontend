@@ -25,7 +25,8 @@ exports[`TokenFundBox should match DOM Snapshot 1`] = `
   >
     <button
       aria-label="select token"
-      className="flex flex-row items-center btn-default p-0.5 px-2"
+      className="flex flex-row items-center p-0.5 px-2 btn-default"
+      disabled={false}
       onClick={[Function]}
     >
       <SelectedTokenImg />
