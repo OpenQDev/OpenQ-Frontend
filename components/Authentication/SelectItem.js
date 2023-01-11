@@ -13,10 +13,15 @@ const SelectItem = ({ fieldName, items }) => {
     } else {
       newItems = selectedItems.filter((i) => i !== item.toLowerCase());
     }
-    const userValues = {
-      github: accountData.github,
-      [fieldName]: newItems,
-    };
+    const userValues = accountData.github
+      ? {
+          github: accountData.github,
+          [fieldName]: newItems,
+        }
+      : {
+          email: accountData.email,
+          [fieldName]: newItems,
+        };
     const updateUser = await appState.openQPrismaClient.updateUser(userValues);
     if (updateUser) {
       setSelectedItems(newItems);

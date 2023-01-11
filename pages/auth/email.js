@@ -54,7 +54,6 @@ function EmailAuth() {
   const upsertUser = async (email) => {
     const fullApiUser = await appState.openQPrismaClient.getUser({ email });
     const isNewUser = !fullApiUser;
-    console.log('upsertUser', fullApiUser);
     if (isNewUser) {
       const newUserDispatch = {
         type: 'IS_NEW_USER',

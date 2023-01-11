@@ -21,7 +21,6 @@ const userId = ({ user, organizations, renderError }) => {
   const [starredOrganizations, setStarredOrganizations] = useState([]);
   const [watchedBounties, setWatchedBounties] = useState([]);
   const [firstSignupModal, setFirstSignupModal] = useState(authState.isNewUser);
-  console.log(authState);
 
   const [publicPrivateUserData] = useState(user);
 
@@ -59,8 +58,6 @@ const userId = ({ user, organizations, renderError }) => {
     };
     await dispatch(newUserDispatch);
   }
-
-  console.log(authState);
 
   return (
     <div className=' gap-4 justify-center pt-6'>

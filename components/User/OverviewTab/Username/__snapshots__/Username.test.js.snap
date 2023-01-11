@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Username should match initial DOM Snapshot for FirstSignupModal 1`] = `
+<DocumentFragment>
+  <div
+    class="flex items-center  "
+  >
+    <div
+      class="flex-1 flex-row"
+    >
+      <div
+        class="flex w-fit items-center gap-4"
+      >
+        <div
+          class="font-normal flex-1"
+        >
+          Christopher
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Username should match initial DOM Snapshot for user profile page 1`] = `
+<DocumentFragment>
+  <div
+    class="px-8 py-6 gap-6 flex flex-wrap items-stretch w-full font-semibold text-lg "
+  >
+    <div
+      class="flex-1 flex-row"
+    >
+      <div
+        class="pb-2"
+      >
+        Username
+      </div>
+      <div
+        class="flex w-fit items-center gap-4"
+      >
+        <div
+          class="font-normal flex-1"
+        >
+          Christopher
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
