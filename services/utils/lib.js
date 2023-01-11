@@ -79,3 +79,11 @@ export const checkHackathonDates = (startDate, endDate, today) => {
   }
   return true;
 };
+
+export const handleDispatch = (e, type, dispatchFunc) => {
+  const dispatch = {
+    type,
+    payload: e.target.value,
+  };
+  dispatchFunc(dispatch);
+};

@@ -3,7 +3,7 @@
 /*CHECK DOC ABOUT extensio parameters vs theem*/
 module.exports = {
 	mode: 'jit',
-	content: ['./components/**/*.js', './pages/**/*.js', "./services/utils/Utils.js"],
+	content: ['./components/**/*.js', './pages/**/*.js', './pages/hackathons/*.js', "./services/utils/Utils.js"],
 	darkMode: false, // or 'media' or 'class'
 	theme: {
 		borderRadius: {
@@ -84,6 +84,9 @@ module.exports = {
 				'5/7': '71.4285714%',
 				'6/7': '85.7142857%',
 			},
+			maxWidth: {
+     			 '60': '240px',
+		    },
 			screens: {
 				xs: '380px',
 				// => @media (min-width: 380px) { ... }
@@ -103,11 +106,11 @@ module.exports = {
 				'2xl': '1536px',
 				// => @media (min-width: 1536px) { ... }
 			},
-		},
 		gridTemplateColumns: {
 			'wide': '1fr 950px 1fr',
 			'extra-wide': '.2fr 4fr .2fr',
 			'annoying': 'repeat( auto-fit, 192px)',
+		},
 		},
 		keyframes: {
 			bump: {

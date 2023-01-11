@@ -134,7 +134,24 @@ export const GET_PRIVATE_USER = gql`
       vatNumber
       vatRate
       memo
-
+      adminOrganizations {
+        nodes {
+          name
+          id
+        }
+      }
+      ownerOrganizations {
+        nodes {
+          name
+          id
+        }
+      }
+      memberOrganizations {
+        nodes {
+          name
+          id
+        }
+      }
       watchedBounties(limit: 100, types: $types, category: $category) {
         nodes {
           tvl
