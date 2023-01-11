@@ -496,3 +496,83 @@ export const CREATE_PRO_ACCOUNT = gql`
     }
   }
 `;
+
+export const GET_PRO_ACCOUNTS = gql`
+  query GetProAccount {
+    proAccounts {
+      proAccountConnection {
+        nodes {
+          name
+          id
+
+          adminUsers(limit: 10) {
+            nodes {
+              id
+              github
+              streetAddress
+              email
+            }
+          }
+          ownerUsers(limit: 10) {
+            nodes {
+              id
+              github
+              email
+            }
+          }
+          memberUsers(limit: 10) {
+            nodes {
+              id
+              github
+              email
+            }
+          }
+          permissionedProducts(limit: 10) {
+            nodes {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export const GET_PRODUCTS = gql`
+  query GetProducts {
+    products(limit: 10) {
+      productConnection {
+        nodes {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+export const CREATE_PRODUCT = gql`
+  mutation CreateProduct($name: String!) {
+    createProduct(name: $name) {
+      id
+      name
+    }
+  }
+`;
+
+export const UPDATE_PRODUCT = gql`
+  mutation UpdateProduct($id: String!, $name: String!) {
+    updateProduct(id: $id, name: $name) {
+      id
+      name
+    }
+  }
+`;
+
+export const ADD_PRODUCT_TO_PRO_ACCOUNT = gql`
+  mutation AddProductToProAccount($proAccountId: String!, $productId: String!) {
+    addProductToProAccount(proAccountId: $proAccountId, productId: $productId) {
+      id
+      name
+    }
+  }
+`;

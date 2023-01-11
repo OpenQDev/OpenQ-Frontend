@@ -225,6 +225,64 @@ class OpenQPrismaClient {
                 });
         });
     }
+
+      async getProAccounts() {
+    return new Promise(async (resolve, reject) => {
+           axios.get(`http://localhost:3030/proaccounts`)
+                .then(result => {
+                    resolve({ proAccounts: result.data });
+                })
+                .catch(error => {
+                    reject(error);
+                });
+    });
+  }
+
+  async getProducts() {
+    return new Promise(async (resolve, reject) => {
+         axios.get(`http://localhost:3030/products`)
+                .then(result => {
+                    resolve(result.data );
+                })
+                .catch(error => {
+                    reject(error);
+                });
+    });
+  }
+  async createProduct(secret, variables) {
+    return new Promise(async (resolve, reject) => {
+         axios.get(`http://localhost:3030/products`)
+                .then(result => {
+                    resolve({ createProduct: result.data });
+                })
+                .catch(error => {
+                    reject(error);
+                });
+    });
+  }
+
+  updateProduct(secret, variables) {
+    return new Promise(async (resolve, reject) => {
+           axios.get(`http://localhost:3030/products`)
+                .then(result => {
+                    resolve({ updateProduct: result.data });
+                })
+                .catch(error => {
+                    reject(error);
+                });
+    });
+  }
+  addProductToProAccount(secret, variables) {
+    return new Promise(async (resolve, reject) => {
+          axios.get(`http://localhost:3030/proaccount`)
+                .then(result => {
+                    resolve({ addProductToProAccount: result.data });
+                })
+                .catch(error => {
+                    reject(error);
+                });
+    });
+  }
 }
 
 export default OpenQPrismaClient;

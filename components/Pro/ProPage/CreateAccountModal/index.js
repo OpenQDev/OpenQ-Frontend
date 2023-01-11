@@ -17,7 +17,6 @@ const CreateAccountModal = ({ showModal, setShowModal }) => {
     e.preventDefault();
     const idObj = github ? { github } : { email };
     appState.openQPrismaClient.createProAccount({ name, userId, ...idObj });
-    console.log('create pro account');
   };
   return (
     <>

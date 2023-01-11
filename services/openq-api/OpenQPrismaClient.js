@@ -27,6 +27,11 @@ import {
   GET_ALL_SUBMISSIONS,
   COMBINE_USERS,
   CREATE_PRO_ACCOUNT,
+  GET_PRO_ACCOUNTS,
+  GET_PRODUCTS,
+  CREATE_PRODUCT,
+  UPDATE_PRODUCT,
+  ADD_PRODUCT_TO_PRO_ACCOUNT,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
@@ -546,6 +551,76 @@ class OpenQPrismaClient {
         const result = await this.client.mutate({
           mutation: CREATE_PRO_ACCOUNT,
           variables,
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  async getProAccounts() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_PRO_ACCOUNTS,
+        });
+        resolve(result.data.proAccounts.proAccountConnection.nodes);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  async getProducts() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_PRODUCTS,
+        });
+        resolve(result.data.products.productConnection.nodes);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+  async createProduct(secret, variables) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: CREATE_PRODUCT,
+          variables,
+
+          context: { headers: { authorization: secret } },
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  updateProduct(secret, variables) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: UPDATE_PRODUCT,
+          variables,
+          context: { headers: { authorization: secret } },
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+  addProductToProAccount(secret, variables) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: ADD_PRODUCT_TO_PRO_ACCOUNT,
+          variables,
+          context: { headers: { authorization: secret } },
         });
         resolve(result.data);
       } catch (e) {
