@@ -10,7 +10,6 @@ import ReactGA from 'react-ga4';
 import { hotjar } from 'react-hotjar';
 
 // Custom
-import { UserContext } from '../lib/UserContext';
 import SetContextState from '../store/SetContextState/SetContextState';
 import '../styles/globals.css';
 import StoreProvider from '../store/Store/StoreProvider';
@@ -34,22 +33,6 @@ function OpenQ({ Component, pageProps }) {
     [walletConnect, walletConnectHooks],
     [gnosisSafe, gnosisSafeHooks],
   ];
-
-  const [user, setUser] = useState();
-
-  // If isLoggedIn is true, set the UserContext with user data
-  // Otherwise, set it to {user: null}
-  /*
-	useEffect(() => {
-		setUser({ loading: true });
-		let magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
-			extensions: [new OAuthExtension()],
-		});
-		magic.user.isLoggedIn().then((isLoggedIn) => {
-			return isLoggedIn ? magic.user.getMetadata().then((userData) => setUser(userData)) : setUser({ user: null });
-		});
-	}, []);
-*/
 
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_GA_TRACKING_ID) {
@@ -111,7 +94,6 @@ function OpenQ({ Component, pageProps }) {
     });`}
       </Script>
       <>
-        <UserContext.Provider value={[user, setUser]}>
           <AuthProvider>
             <Web3ReactProvider connectors={connectors}>
               <StoreProvider>
@@ -127,7 +109,6 @@ function OpenQ({ Component, pageProps }) {
               </StoreProvider>
             </Web3ReactProvider>
           </AuthProvider>
-        </UserContext.Provider>
       </>
     </div>
   );
