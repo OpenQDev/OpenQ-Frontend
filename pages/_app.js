@@ -1,7 +1,6 @@
 // Third party Libraries
-//import { Magic } from 'magic-sdk';
-//import { OAuthExtension } from '@magic-ext/oauth';
 import React, { useEffect, useState } from 'react';
+import { UserContext } from '../lib/UserContext';
 import { Web3ReactProvider } from '@web3-react/core';
 import 'tailwindcss/tailwind.css';
 import 'github-markdown-css/github-markdown-dark.css';
@@ -33,6 +32,8 @@ function OpenQ({ Component, pageProps }) {
     [walletConnect, walletConnectHooks],
     [gnosisSafe, gnosisSafeHooks],
   ];
+
+  const [user, setUser] = useState();
 
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_GA_TRACKING_ID) {
@@ -94,6 +95,7 @@ function OpenQ({ Component, pageProps }) {
     });`}
       </Script>
       <>
+        <UserContext.Provider value={[user, setUser]}>
           <AuthProvider>
             <Web3ReactProvider connectors={connectors}>
               <StoreProvider>
@@ -109,6 +111,7 @@ function OpenQ({ Component, pageProps }) {
               </StoreProvider>
             </Web3ReactProvider>
           </AuthProvider>
+        </UserContext.Provider>
       </>
     </div>
   );
