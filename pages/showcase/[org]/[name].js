@@ -1,6 +1,5 @@
 // Third party
 import React, { useState } from 'react';
-import nookies from 'nookies';
 
 import SearchBar from '../../../components/Search/SearchBar';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';

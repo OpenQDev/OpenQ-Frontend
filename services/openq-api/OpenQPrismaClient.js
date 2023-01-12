@@ -29,7 +29,6 @@ import {
 } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
-import { setContext } from '@apollo/client/link/context';
 
 class OpenQPrismaClient {
   constructor() {}

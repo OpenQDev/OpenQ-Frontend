@@ -10,8 +10,6 @@ import AuthButton from '../../../components/Authentication/AuthButton';
 import { useContext } from 'react';
 import StoreContext from '../../../store/Store/StoreContext';
 
-import nookies from 'nookies';
-
 const account = ({ githubId, githubUser, renderError }) => {
   const [internalMenu, setInternalMenu] = useState('Settings');
   const [appState] = useContext(StoreContext);
@@ -66,10 +64,10 @@ const account = ({ githubId, githubUser, renderError }) => {
 };
 
 export const getServerSideProps = async (context) => {
-	const githubRepository = new WrappedGithubClient();
+  const githubRepository = new WrappedGithubClient();
   const logger = new Logger();
-	
-	const githubId = context.params.githubId;
+
+  const githubId = context.params.githubId;
 
   let renderError = '';
   let githubUser = {};
@@ -79,7 +77,7 @@ export const getServerSideProps = async (context) => {
     logger.error(err, null, 'login.js1');
     return { props: { renderError: `${githubId} is not a valid GitHub ID.` } };
   }
-  return { props: { githubId, renderError, githubUser, oauthToken } };
+  return { props: { githubId, renderError, githubUser } };
 };
 
 export default account;

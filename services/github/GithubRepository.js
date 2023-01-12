@@ -20,7 +20,6 @@ import {
   GET_IS_ADMIN,
 } from './graphql/query';
 import fetch from 'cross-fetch';
-import { setContext } from '@apollo/client/link/context';
 
 class GithubRepository {
   constructor() {}
@@ -29,8 +28,8 @@ class GithubRepository {
 
   httpLink = new HttpLink({
     uri: this.uri,
-		credentials: 'include',
-    fetch
+    credentials: 'include',
+    fetch,
   });
 
   client = new ApolloClient({

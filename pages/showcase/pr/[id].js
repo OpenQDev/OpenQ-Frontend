@@ -2,7 +2,6 @@
 import React from 'react';
 import ShowCasePage from '../../../components/ShowCase/ShowCasePage';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
-import nookies from 'nookies';
 
 const showcasePR = ({ pr }) => {
   return <>{pr && <ShowCasePage pr={pr} />}</>;
@@ -19,7 +18,6 @@ export const getServerSideProps = async (context) => {
   return {
     props: {
       pr,
-      oauthToken,
     },
   };
 };

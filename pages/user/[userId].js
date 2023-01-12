@@ -1,7 +1,6 @@
 // Third party
 import React, { useContext, useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import nookies from 'nookies';
 
 // Custom
 import AboutFreelancer from '../../components/User/AboutFreelancer';
@@ -71,10 +70,10 @@ const userId = ({ user, organizations, renderError }) => {
 export const getServerSideProps = async (context) => {
   const githubRepository = new WrappedGithubClient();
   const logger = new Logger();
-	const openQPrismaClient = new WrappedOpenQPrismaClient();
+  const openQPrismaClient = new WrappedOpenQPrismaClient();
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
 
-	const emailAuth = true;
+  const emailAuth = true;
   let userId = context.params.userId;
   let renderError = '';
   // let firstSignup = true;
@@ -172,7 +171,7 @@ export const getServerSideProps = async (context) => {
   };
 
   return {
-    props: { user, organizations, renderError, starredOrganizations, oauthToken },
+    props: { user, organizations, renderError, starredOrganizations },
   };
 };
 

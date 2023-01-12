@@ -1,6 +1,5 @@
 // Third party
 import React, { useState, useContext } from 'react';
-import nookies from 'nookies';
 
 // Custom
 import StoreContext from '../../store/Store/StoreContext';
@@ -231,7 +230,6 @@ export const getServerSideProps = async (context) => {
       batch,
       renderError,
       firstCursor: orgMetadata.organization.bounties.bountyConnection.cursor || null,
-      oauthToken,
     },
   };
 };

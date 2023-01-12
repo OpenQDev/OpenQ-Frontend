@@ -1,7 +1,6 @@
 // Third party
 import React from 'react';
 import { ethers } from 'ethers';
-import nookies from 'nookies';
 
 // Custom
 import AboutFunder from '../../../components/User/AboutFunder';
@@ -27,7 +26,7 @@ const account = ({ account, user, organizations, renderError }) => {
 
 export const getServerSideProps = async (context) => {
   const githubRepository = new WrappedGithubClient();
-	const openQSubgraphClient = new WrappedOpenQSubgraphClient();
+  const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
   const logger = new Logger();
 
@@ -65,7 +64,7 @@ export const getServerSideProps = async (context) => {
     logger.error(err);
   }
 
-  return { props: { account, user, organizations, renderError, oauthToken } };
+  return { props: { account, user, organizations, renderError } };
 };
 
 export default account;

@@ -1,6 +1,5 @@
 // Third party
 import React, { useState, useContext } from 'react';
-import nookies from 'nookies';
 
 // import SearchBar from '../../../components/Search/SearchBar';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
@@ -168,11 +167,12 @@ const showcase = ({ /* currentPrs, */ batch, renderError, firstCursor, fullBount
 };
 export default showcase;
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const githubRepository = new WrappedGithubClient();
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
-	
+
+  const org = 'MOCK ORG';
   const utils = new Utils();
   const logger = new Logger();
   const batch = 10;
@@ -227,7 +227,6 @@ export async function getServerSideProps(context) {
       renderError,
       batch,
       firstCursor,
-      oauthToken,
       name,
       orgData,
       repoData,

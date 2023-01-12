@@ -5,7 +5,6 @@ import { ethers } from 'ethers';
 import useWeb3 from '../../../hooks/useWeb3';
 import Link from 'next/link';
 import ReactGA from 'react-ga4';
-import nookies from 'nookies';
 
 // Custom
 import StoreContext from '../../../store/Store/StoreContext';
@@ -326,7 +325,7 @@ export const getServerSideProps = async (context) => {
     bountyAddress: address,
   };
 
-  return { props: { id, address, mergedBounty, renderError, oauthToken } };
+  return { props: { id, address, mergedBounty, renderError } };
 };
 
 export default address;

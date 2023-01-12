@@ -1,7 +1,6 @@
 // Third party
 import React, { useState, useContext, useEffect } from 'react';
 import StoreContext from '../store/Store/StoreContext';
-import nookies from 'nookies';
 
 // Custom
 import BountyHomepage from '../components/Bounty/BountyHomepage';
@@ -143,12 +142,12 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
 }
 
 export const getServerSideProps = async (context) => {
-	const githubRepository = new WrappedGithubClient();
+  const githubRepository = new WrappedGithubClient();
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
   const utils = new Utils();
   const logger = new Logger();
-	
+
   let types = ['0', '1', '2', '3'];
   let category = null;
   switch (context?.query?.type) {
@@ -216,7 +215,6 @@ export const getServerSideProps = async (context) => {
       types,
       category,
       firstCursor,
-      oauthToken,
     },
   };
 };
