@@ -12,12 +12,8 @@ const invoice = ({ bounty, renderError }) => {
 
 export const getServerSideProps = async (context) => {
   const githubRepository = new WrappedGithubClient();
-  const cookies = nookies.get(context);
-  const { github_oauth_token_unsigned } = cookies;
-  const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
-  githubRepository.instance.setGraphqlHeaders(oauthToken);
-
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
+	
   const logger = new Logger();
   const { id, address } = context.query;
   let issueData = {};

@@ -284,11 +284,6 @@ const address = ({ address, mergedBounty, renderError }) => {
 
 export const getServerSideProps = async (context) => {
   const githubRepository = new WrappedGithubClient();
-  const cookies = nookies.get(context);
-  const { github_oauth_token_unsigned } = cookies;
-  const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
-  githubRepository.instance.setGraphqlHeaders(oauthToken);
-
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
   const logger = new Logger();

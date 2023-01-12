@@ -3,9 +3,6 @@ import axios from 'axios';
 class MockGithubRepository {
 	constructor() { }
 
-	setGraphqlHeaders = () => {
-		return null;
-	};
 	async fetchIssue(orgName, repoName, issueId) {
 		const promise = new Promise((resolve, reject) => {
 			axios.get(`http://localhost:3030/githubIssues?id=${issueId}`)

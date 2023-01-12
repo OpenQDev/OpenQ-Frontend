@@ -143,12 +143,12 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
 }
 
 export const getServerSideProps = async (context) => {
-  const githubRepository = new WrappedGithubClient();
-  const cookies = nookies.get(context);
-  const { github_oauth_token_unsigned } = cookies;
-  const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
-  githubRepository.instance.setGraphqlHeaders(oauthToken);
-
+	const githubRepository = new WrappedGithubClient();
+  const openQSubgraphClient = new WrappedOpenQSubgraphClient();
+  const openQPrismaClient = new WrappedOpenQPrismaClient();
+  const utils = new Utils();
+  const logger = new Logger();
+	
   let types = ['0', '1', '2', '3'];
   let category = null;
   switch (context?.query?.type) {
@@ -167,10 +167,6 @@ export const getServerSideProps = async (context) => {
       break;
   }
 
-  const openQSubgraphClient = new WrappedOpenQSubgraphClient();
-  const openQPrismaClient = new WrappedOpenQPrismaClient();
-  const utils = new Utils();
-  const logger = new Logger();
   const batch = 10;
   let fullBounties = [];
   let firstCursor = null;

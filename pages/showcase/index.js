@@ -40,10 +40,6 @@ export default showcase;
 
 export async function getServerSideProps(context) {
   const githubRepository = new WrappedGithubClient();
-  const cookies = nookies.get(context);
-  const { github_oauth_token_unsigned } = cookies;
-  const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
-  githubRepository.instance.setGraphqlHeaders(oauthToken);
 
   const org = 'OpenQDev';
   const name = 'OpenQ-Testrepo';

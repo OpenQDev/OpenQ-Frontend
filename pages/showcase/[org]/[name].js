@@ -46,10 +46,7 @@ export async function getServerSideProps(context) {
   const githubRepository = wrappedGithubRepository.instance;
   const wrappedOpenQPrismaClient = new WrappedOpenQPrismaClient();
   const openQPrismaClient = wrappedOpenQPrismaClient.instance;
-  const cookies = nookies.get(context);
-  const { github_oauth_token_unsigned } = cookies;
-  const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
-  githubRepository.setGraphqlHeaders(oauthToken);
+
   const { org, name } = context.query;
 
   const { nonBlacklisted } = await getNonBlacklisted({ githubRepository, openQPrismaClient }, name, org, 100);

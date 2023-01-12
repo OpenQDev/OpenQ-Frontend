@@ -66,14 +66,11 @@ const account = ({ githubId, githubUser, renderError }) => {
 };
 
 export const getServerSideProps = async (context) => {
-  const githubId = context.params.githubId;
-  const githubRepository = new WrappedGithubClient();
-  const cookies = nookies.get(context);
-  const { github_oauth_token_unsigned } = cookies;
-  const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
-  githubRepository.instance.setGraphqlHeaders(oauthToken);
-
+	const githubRepository = new WrappedGithubClient();
   const logger = new Logger();
+	
+	const githubId = context.params.githubId;
+
   let renderError = '';
   let githubUser = {};
   try {

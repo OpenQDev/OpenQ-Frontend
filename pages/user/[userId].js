@@ -70,20 +70,14 @@ const userId = ({ user, organizations, renderError }) => {
 
 export const getServerSideProps = async (context) => {
   const githubRepository = new WrappedGithubClient();
-  const cookies = nookies.get(context);
-  const { github_oauth_token_unsigned } = cookies;
   const logger = new Logger();
-  const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
-  const emailAuth = true;
-  githubRepository.instance.setGraphqlHeaders(oauthToken);
+	const openQPrismaClient = new WrappedOpenQPrismaClient();
+  const openQSubgraphClient = new WrappedOpenQSubgraphClient();
+
+	const emailAuth = true;
   let userId = context.params.userId;
   let renderError = '';
   // let firstSignup = true;
-
-  const openQPrismaClient = new WrappedOpenQPrismaClient();
-  openQPrismaClient.instance.setGraphqlHeaders(oauthToken);
-
-  const openQSubgraphClient = new WrappedOpenQSubgraphClient();
 
   let user = {
     bountiesClosed: [],
