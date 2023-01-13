@@ -29,7 +29,6 @@ import {
 } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
-import { setContext } from '@apollo/client/link/context';
 
 class OpenQPrismaClient {
   constructor() {}
@@ -41,23 +40,6 @@ class OpenQPrismaClient {
     link: this.httpLink,
     cache: new InMemoryCache(),
   });
-
-  setGraphqlHeaders = (githubOAuthToken) => {
-    let authLink;
-
-    // oauthToken will be null if the user does not have the github_oauth_token_unsigned cookie set
-    // In this case, we initialize the Apollo Client for that page using the PAT, otherwise, we use the oauthToken
-    authLink = setContext((_, { headers }) => {
-      return {
-        headers: {
-          ...headers,
-          github_oauth_token_unsigned: `${githubOAuthToken}`,
-        },
-      };
-    });
-
-    this.client.setLink(authLink.concat(this.httpLink));
-  };
 
   async watchBounty(contractAddress, idObj) {
     const promise = new Promise(async (resolve, reject) => {

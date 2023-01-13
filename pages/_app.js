@@ -1,7 +1,6 @@
 // Third party Libraries
-//import { Magic } from 'magic-sdk';
-//import { OAuthExtension } from '@magic-ext/oauth';
 import React, { useEffect, useState } from 'react';
+import { UserContext } from '../lib/UserContext';
 import { Web3ReactProvider } from '@web3-react/core';
 import 'tailwindcss/tailwind.css';
 import 'github-markdown-css/github-markdown-dark.css';
@@ -12,7 +11,6 @@ import '@kycdao/kycdao-web-sdk/app.css';
 import '@kycdao/kycdao-web-sdk/client.css';
 
 // Custom
-import { UserContext } from '../lib/UserContext';
 import SetContextState from '../store/SetContextState/SetContextState';
 import '../styles/globals.css';
 import StoreProvider from '../store/Store/StoreProvider';
@@ -38,20 +36,6 @@ function OpenQ({ Component, pageProps }) {
   ];
 
   const [user, setUser] = useState();
-
-  // If isLoggedIn is true, set the UserContext with user data
-  // Otherwise, set it to {user: null}
-  /*
-	useEffect(() => {
-		setUser({ loading: true });
-		let magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
-			extensions: [new OAuthExtension()],
-		});
-		magic.user.isLoggedIn().then((isLoggedIn) => {
-			return isLoggedIn ? magic.user.getMetadata().then((userData) => setUser(userData)) : setUser({ user: null });
-		});
-	}, []);
-*/
 
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_GA_TRACKING_ID) {
@@ -116,7 +100,7 @@ function OpenQ({ Component, pageProps }) {
         <UserContext.Provider value={[user, setUser]}>
           <AuthProvider>
             <Web3ReactProvider connectors={connectors}>
-              <StoreProvider oauthToken={pageProps.oauthToken}>
+              <StoreProvider>
                 <SetContextState>
                   <div className='min-h-screen  flex flex-col justify-between'>
                     <div>

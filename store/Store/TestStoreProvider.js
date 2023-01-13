@@ -5,11 +5,9 @@ import InitialState from './InitialState';
 
 // The oauthToken here comes from _app.js.
 // whatever [page].js is being rendered will pass pageProps to _app.js containing the oauthToken
-const TestStoreProvider = ({ children, oauthToken, StoreProps }) => {
+const TestStoreProvider = ({ children, StoreProps }) => {
   const TestState = { ...InitialState, ...StoreProps };
   const [state, dispatch] = useReducer(StoreReducer, TestState);
-
-  state.githubRepository.setGraphqlHeaders(oauthToken);
 
   return <StoreContext.Provider value={[state, dispatch]}>{children}</StoreContext.Provider>;
 };

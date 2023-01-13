@@ -5,7 +5,6 @@ import { ethers } from 'ethers';
 import useWeb3 from '../../../hooks/useWeb3';
 import Link from 'next/link';
 import ReactGA from 'react-ga4';
-import nookies from 'nookies';
 
 // Custom
 import StoreContext from '../../../store/Store/StoreContext';
@@ -247,7 +246,7 @@ const address = ({ address, mergedBounty, renderError }) => {
               <div className='flex justify-between  w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
                 {internalMenu == 'View' && <BountyCardDetails bounty={bounty} />}
                 {internalMenu == 'Fund' && bounty ? (
-                  <FundProvider bounty={bounty} refreshBounty={refreshBounty}>
+                  <FundProvider bounty={bounty} refreshBounty={refreshBounty} setInternalMenu={setInternalMenu}>
                     <TokenProvider>
                       <FundPage bounty={bounty} refreshBounty={refreshBounty} />
                     </TokenProvider>
@@ -284,11 +283,6 @@ const address = ({ address, mergedBounty, renderError }) => {
 
 export const getServerSideProps = async (context) => {
   const githubRepository = new WrappedGithubClient();
-  const cookies = nookies.get(context);
-  const { github_oauth_token_unsigned } = cookies;
-  const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
-  githubRepository.instance.setGraphqlHeaders(oauthToken);
-
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
   const logger = new Logger();
@@ -331,7 +325,7 @@ export const getServerSideProps = async (context) => {
     bountyAddress: address,
   };
 
-  return { props: { id, address, mergedBounty, renderError, oauthToken } };
+  return { props: { id, address, mergedBounty, renderError } };
 };
 
 export default address;
