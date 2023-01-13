@@ -167,12 +167,12 @@ const showcase = ({ /* currentPrs, */ batch, renderError, firstCursor, fullBount
 };
 export default showcase;
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
   const githubRepository = new WrappedGithubClient();
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
 
-  const org = 'MOCK ORG';
+  const { org, name } = context.query;
   const utils = new Utils();
   const logger = new Logger();
   const batch = 10;
