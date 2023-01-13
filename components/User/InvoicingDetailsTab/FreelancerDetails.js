@@ -5,6 +5,7 @@ import StoreContext from '../../../store/Store/StoreContext';
 import AssociationModal from '../GithubRegistration/AssociateAddress';
 
 import AuthContext from '../../../store/AuthStore/AuthContext';
+import KycRegistration from '../KycRegistration/KycRegistration';
 const InvoicingDetails = ({ slim }) => {
   const { account } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
@@ -139,6 +140,7 @@ const InvoicingDetails = ({ slim }) => {
       {!slim && (
         <>
           <div className='flex flex-col flex-1 font-normal pb-16'>
+            <KycRegistration />
             {github && <AssociationModal githubId={github} user={githubUser} renderError={''} redirectUrl={''} />}
           </div>
           <div className='border-b border-web-gray flex justify-between'>
