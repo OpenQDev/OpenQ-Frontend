@@ -7,8 +7,9 @@ import SignOut from '../SignOut';
 import StoreContext from '../../../store/Store/StoreContext';
 import ToolTipNew from '../../Utils/ToolTipNew';
 import Username from '../../User/OverviewTab/Username';
+import LanguagesAndFrameworks from './LanguagesAndFrameworks';
 
-const FirstSignupModal = ({ closeModal, setShowModal }) => {
+const FirstSignupModal = ({ closeModal, setShowModal, user }) => {
   const [authState] = useContext(AuthContext);
   const [appState] = useContext(StoreContext);
   const [subscribe, setSubscribe] = useState(false);
@@ -55,8 +56,9 @@ const FirstSignupModal = ({ closeModal, setShowModal }) => {
   }
 
   function handleChange(e) {
-    setEmail(e.target.value);
-    setValidEmail(appState.utils.emailRegex(e.target.value) && e.target.value);
+    const mail = e.target.value;
+    setEmail(mail);
+    setValidEmail(appState.utils.emailRegex(mail) && mail);
   }
 
   const btn = (
@@ -102,8 +104,7 @@ const FirstSignupModal = ({ closeModal, setShowModal }) => {
         </div>
         <p className='font-semibold py-2'>What is your role?</p>
         <SelectItem fieldName={'otherRoles'} items={roles} />
-        <p className='font-semibold pt-4 py-2'>Tell us about your skills</p>
-        <input className='input-field w-full' placeholder='Programming languages, frameworks...' />
+        <LanguagesAndFrameworks user={user} />
         <p className='font-semibold pt-4 py-2'>Which OpenQ products are you interested in?</p>
         <SelectItem fieldName={'interests'} items={products} />
         <div className='flex flex-col pt-8 py-2'>

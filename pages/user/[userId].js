@@ -63,8 +63,8 @@ const userId = ({ user, organizations, renderError }) => {
     <div className=' gap-4 justify-center pt-6'>
       {user?.id ? (
         <>
-          {authState?.isAuthenticated && firstSignupModal && (
-            <FirstSignupModal closeModal={closeModal} setShowModal={setFirstSignupModal} />
+          {authState?.isAuthenticated && !firstSignupModal && (
+            <FirstSignupModal closeModal={closeModal} setShowModal={setFirstSignupModal} user={publicPrivateUserData} />
           )}
           <AboutFreelancer
             starredOrganizations={starredOrganizations}

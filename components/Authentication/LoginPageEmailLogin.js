@@ -126,7 +126,7 @@ const LoginPageEmailLogin = () => {
             onChange={(e) => handleChange(e)}
           />
           <ToolTipNew
-            hideToolTip={!disabled}
+            hideToolTip={!disabled || validEmail}
             toolTipText={!validEmail && 'Please enter a valid email address to subscribe.'}
             triangleStyles={'md:mt-0.5'}
             relativePosition={'rounded-full p-4'}
