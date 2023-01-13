@@ -55,8 +55,9 @@ const FirstSignupModal = ({ closeModal, setShowModal }) => {
   }
 
   function handleChange(e) {
-    setEmail(e.target.value);
-    setValidEmail(appState.utils.emailRegex(e.target.value) && e.target.value);
+    const mail = e.target.value;
+    setEmail(mail);
+    setValidEmail(appState.utils.emailRegex(mail) && mail);
   }
 
   const btn = (
