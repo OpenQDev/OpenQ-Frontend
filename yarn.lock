@@ -2706,7 +2706,7 @@
     bn.js "^5.2.1"
     bs58 "^5.0.0"
 
-"@kycdao/widget@^0.3.0-rc.45":
+"@kycdao/widget@^0.3.0-rc.44":
   version "0.3.0-rc.45"
   resolved "https://registry.yarnpkg.com/@kycdao/widget/-/widget-0.3.0-rc.45.tgz#9e037c6c53203e98b5f164f40e3ddf03ac6abd04"
   integrity sha512-SIuggL3ddGwRXeA9JCnkRxGvzne3CFC1WVluGSNL7Z3tpOam3JMx3+N32y/7CxFplhOdHKXoa6MnLHXa9DGziA==
