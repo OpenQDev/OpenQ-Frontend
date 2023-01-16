@@ -3,7 +3,7 @@ import StoreContext from '../../../store/Store/StoreContext';
 import Cross from '../../svg/cross';
 
 const AddSkill = ({ category, user, childInfo, setInputValue }) => {
-  const [roles, setRoles] = useState(user[category]);
+  const [roles, setRoles] = useState(user[category].map((item) => item.toLowerCase()));
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
 
