@@ -194,10 +194,157 @@ exports[`FirstSignupModal should match initial DOM Snapshot 1`] = `
               >
                 Tell us about your skills
               </p>
-              <input
-                class="input-field w-full"
-                placeholder="Programming languages, frameworks..."
-              />
+              <div
+                class="flex flex-wrap"
+              >
+                <div
+                  class="flex items-center gap-2 py-0.5 btn-default w-fit m-1"
+                >
+                  dockerfile 
+                  <button>
+                    <svg
+                      class="fill-muted hover:fill-blue-400 w-4 h-4"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div
+                  class="flex items-center gap-2 py-0.5 btn-default w-fit m-1"
+                >
+                  javascript 
+                  <button>
+                    <svg
+                      class="fill-muted hover:fill-blue-400 w-4 h-4"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div
+                  class="flex items-center gap-2 py-0.5 btn-default w-fit m-1"
+                >
+                  css 
+                  <button>
+                    <svg
+                      class="fill-muted hover:fill-blue-400 w-4 h-4"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div
+                  class="flex items-center gap-2 py-0.5 btn-default w-fit m-1"
+                >
+                  typescript 
+                  <button>
+                    <svg
+                      class="fill-muted hover:fill-blue-400 w-4 h-4"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div
+                  class="flex items-center gap-2 py-0.5 btn-default w-fit m-1"
+                >
+                  mustache 
+                  <button>
+                    <svg
+                      class="fill-muted hover:fill-blue-400 w-4 h-4"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div
+                  class="flex items-center gap-2 py-0.5 btn-default w-fit m-1"
+                >
+                  rust 
+                  <button>
+                    <svg
+                      class="fill-muted hover:fill-blue-400 w-4 h-4"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div
+                  class="flex items-center gap-2 py-0.5 btn-default w-fit m-1"
+                >
+                  ohia 
+                  <button>
+                    <svg
+                      class="fill-muted hover:fill-blue-400 w-4 h-4"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div
+                class="flex justify-center gap-2 mt-2"
+              >
+                <input
+                  class="flex input-field w-full"
+                  placeholder="Programming languages, frameworks..."
+                  value=""
+                />
+                <button
+                  class="btn-primary"
+                >
+                  Add
+                </button>
+              </div>
               <p
                 class="font-semibold pt-4 py-2"
               >

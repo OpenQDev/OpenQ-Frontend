@@ -8,7 +8,6 @@ const AddSkill = ({ category, user, childInfo, setInputValue }) => {
   const { accountData } = appState;
 
   useEffect(() => {
-    console.log('childInfo', childInfo);
     if (childInfo[1] == category) {
       addRole(childInfo[0]);
     }
@@ -18,7 +17,6 @@ const AddSkill = ({ category, user, childInfo, setInputValue }) => {
     const emptyOrExists = roles.includes(role.toLowerCase()) || '';
     if (emptyOrExists) return;
     const newRoles = [...roles, role.toLowerCase()];
-    console.log('newRoles', newRoles);
     try {
       await updateApiAndState(newRoles, category);
     } catch (err) {
