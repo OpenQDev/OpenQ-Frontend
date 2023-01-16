@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import SearchBar from '../../components/Search/SearchBar';
 import WrappedGithubClient from '../../services/github/WrappedGithubClient';
 import SubmissionCard from '../../components/Submissions/SubmissionCard';
-import nookies from 'nookies';
 
 const showcase = ({ name, currentPrs }) => {
   const [submissionSearchTerm, setSubmissionSearchTerm] = useState('');
@@ -38,17 +37,13 @@ const showcase = ({ name, currentPrs }) => {
 };
 export default showcase;
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const githubRepository = new WrappedGithubClient();
-  const cookies = nookies.get(context);
-  const { github_oauth_token_unsigned } = cookies;
-  const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
-  githubRepository.instance.setGraphqlHeaders(oauthToken);
 
   const org = 'OpenQDev';
   const name = 'OpenQ-Testrepo';
   const currentPrs = await githubRepository.instance.getPrs(org, name);
   return {
-    props: { name, org, currentPrs: currentPrs.data.repository.pullRequests.nodes, oauthToken }, // will be passed to the page component as props
+    props: { name, org, currentPrs: currentPrs.data.repository.pullRequests.nodes },
   };
 }

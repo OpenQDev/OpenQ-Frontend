@@ -6,7 +6,7 @@ import SelectItem from '../SelectItem';
 import SignOut from '../SignOut';
 import StoreContext from '../../../store/Store/StoreContext';
 import ToolTipNew from '../../Utils/ToolTipNew';
-import Username from '../../User/OverviewTab/Username';
+import Username from '../../User/OverviewTab/Username/index';
 import LanguagesAndFrameworks from './LanguagesAndFrameworks';
 
 const FirstSignupModal = ({ closeModal, setShowModal, user }) => {

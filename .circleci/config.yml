@@ -19,14 +19,10 @@ jobs:
             if [ "$DEPLOY_ENV" = staging ]; then
               echo "$staging_env" | base64 --decode > $(pwd)/.env
               echo "" >> $(pwd)/.env
-              echo "PATS=$PATS" >> $(pwd)/.env
-              echo "" >> $(pwd)/.env
               echo "BUILD_NUMBER=$CIRCLE_TAG" >> $(pwd)/.env
             fi
             if [ "$DEPLOY_ENV" = production ]; then
               echo "$production_env" | base64 --decode > $(pwd)/.env
-              echo "" >> $(pwd)/.env
-              echo "PATS=$PATS_PRODUCTION" >> $(pwd)/.env
               echo "" >> $(pwd)/.env
               echo "BUILD_NUMBER=$CIRCLE_TAG" >> $(pwd)/.env
             fi

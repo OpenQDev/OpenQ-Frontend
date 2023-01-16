@@ -20,53 +20,23 @@ import {
   GET_IS_ADMIN,
 } from './graphql/query';
 import fetch from 'cross-fetch';
-import { setContext } from '@apollo/client/link/context';
 
 class GithubRepository {
   constructor() {}
 
+  uri = process.env.GITHUB_PROXY_SSR_URL ? process.env.GITHUB_PROXY_SSR_URL : process.env.NEXT_PUBLIC_GITHUB_PROXY_URL;
+
   httpLink = new HttpLink({
-    uri: 'https://api.github.com/graphql',
+    uri: this.uri,
+    credentials: 'include',
     fetch,
   });
 
   client = new ApolloClient({
-    uri: 'https://api.github.com/graphql',
+    uri: this.uri,
     link: this.httpLink,
     cache: new InMemoryCache(),
   });
-
-  // If setGraphqlHeaders is called on the CLIENT, it will use process.env.NEXT_PUBLIC_PATS, which is only available in the browser per next.config.js
-  // If setGraphqlHeaders is called on the SERVER, it will use process.env.PATS, which is only available on the server per next.config.js
-  patsArray = process.env.NEXT_PUBLIC_PATS ? process.env.NEXT_PUBLIC_PATS.split(',') : process.env.PATS.split(',');
-
-  setGraphqlHeaders = (oauthToken) => {
-    let authLink;
-
-    // oauthToken will be null if the user does not have the github_oauth_token_unsigned cookie set
-    // In this case, we initialize the Apollo Client for that page using the PAT, otherwise, we use the oauthToken
-    if (oauthToken == null) {
-      const token = this.patsArray[Math.floor(Math.random() * this.patsArray.length)];
-      authLink = setContext((_, { headers }) => {
-        return {
-          headers: {
-            ...headers,
-            Authorization: `Bearer ${token}`,
-          },
-        };
-      });
-    } else {
-      authLink = setContext((_, { headers }) => {
-        return {
-          headers: {
-            ...headers,
-            Authorization: `Bearer ${oauthToken}`,
-          },
-        };
-      });
-    }
-    this.client.setLink(authLink.concat(this.httpLink));
-  };
 
   async getIsAdmin(login, team, githubId) {
     const promise = new Promise(async (resolve, reject) => {
