@@ -18,6 +18,8 @@ const userId = ({ user, organizations, renderError }) => {
   const [authState, dispatch] = useContext(AuthContext);
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
+  const loggedId = accountData?.id;
+  const isOwner = loggedId == user.id;
   const [starredOrganizations, setStarredOrganizations] = useState([]);
   const [watchedBounties, setWatchedBounties] = useState([]);
   const [firstSignupModal, setFirstSignupModal] = useState(authState.isNewUser);
@@ -63,7 +65,7 @@ const userId = ({ user, organizations, renderError }) => {
     <div className=' gap-4 justify-center pt-6'>
       {user?.id ? (
         <>
-          {authState?.isAuthenticated && !firstSignupModal && (
+          {authState?.isAuthenticated && !firstSignupModal && isOwner && (
             <FirstSignupModal closeModal={closeModal} setShowModal={setFirstSignupModal} user={publicPrivateUserData} />
           )}
           <AboutFreelancer
