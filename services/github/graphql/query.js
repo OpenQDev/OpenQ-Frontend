@@ -31,8 +31,8 @@ export const GET_ISSUE = gql`
 `;
 
 export const GET_LEAN_ISSUES_BY_ID = gql`
-  query ($issueIds: [ID!]!) {
-    nodes(ids: $issueIds) {
+  query ($ids: [ID!]!) {
+    nodes(ids: $ids) {
       ... on Issue {
         title
         url
@@ -44,8 +44,8 @@ export const GET_LEAN_ISSUES_BY_ID = gql`
 `;
 
 export const GET_ISSUE_BY_ID = gql`
-  query ($issueId: ID!) {
-    node(id: $issueId) {
+  query ($id: ID!) {
+    node(id: $id) {
       ... on Issue {
         closed
         closedAt
@@ -162,8 +162,8 @@ export const GET_ISSUE_BY_ID = gql`
 `;
 
 export const GET_ORGS_BY_ISSUES = gql`
-  query ($issueIds: [ID!]!) {
-    nodes(ids: $issueIds) {
+  query ($ids: [ID!]!) {
+    nodes(ids: $ids) {
       ... on Issue {
         repository {
           owner {
@@ -210,8 +210,8 @@ export const GET_PRS = gql`
 `;
 
 export const GET_PRS_BY_ISSUES = gql`
-  query getPrs($bountyIds: [ID!]!) {
-    nodes(ids: $bountyIds) {
+  query getPrs($ids: [ID!]!) {
+    nodes(ids: $ids) {
       id
       ... on Issue {
         id
@@ -268,8 +268,8 @@ export const GET_PR_BY_ID = gql`
 // ORGANIZATION
 
 export const GET_ORG_BY_ID = gql`
-  query GetOrg($orgId: ID!) {
-    node(id: $orgId) {
+  query GetOrg($id: ID!) {
+    node(id: $id) {
       __typename
       ... on Organization {
         name
@@ -334,8 +334,8 @@ export const GET_ORGS_OR_USERS_BY_IDS = gql`
 `;
 
 export const GET_ORGS_BY_IDS = gql`
-  query GetOrgs($orgIds: [ID!]!) {
-    nodes(ids: $orgIds) {
+  query GetOrgs($ids: [ID!]!) {
+    nodes(ids: $ids) {
       __typename
       ... on Organization {
         name
@@ -360,8 +360,8 @@ export const GET_ORGS_BY_IDS = gql`
 // USER
 
 export const GET_USER_BY_ID = gql`
-  query GetUser($userId: ID!) {
-    node(id: $userId) {
+  query GetUser($id: ID!) {
+    node(id: $id) {
       __typename
       ... on User {
         repositories(last: 100) {
@@ -388,8 +388,8 @@ export const GET_USER_BY_ID = gql`
 `;
 
 export const GET_USERS_BY_IDS = gql`
-  query GetUsers($userIds: [ID!]!) {
-    nodes(ids: $userIds) {
+  query GetUsers($ids: [ID!]!) {
+    nodes(ids: $ids) {
       __typename
       ... on User {
         name
@@ -459,8 +459,8 @@ export const GET_USER_BY_URL = gql`
 `;
 
 export const GET_ISSUES_BY_ID = gql`
-  query ($issueIds: [ID!]!) {
-    nodes(ids: $issueIds) {
+  query ($ids: [ID!]!) {
+    nodes(ids: $ids) {
       ... on Issue {
         closed
         title

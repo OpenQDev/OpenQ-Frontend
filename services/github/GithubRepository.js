@@ -238,13 +238,13 @@ class GithubRepository {
       });
   }
 
-  async fetchIssueById(issueId) {
+  async fetchIssueById(id) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
           query: GET_ISSUE_BY_ID,
           variables: {
-            issueId,
+            id,
           },
         });
         resolve(this.parseIssueData(result, reject));
@@ -256,13 +256,13 @@ class GithubRepository {
     return promise;
   }
 
-  async getIssueData(issueIds) {
+  async getIssueData(ids) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
           query: GET_ISSUES_BY_ID,
           variables: {
-            issueIds,
+            ids,
           },
           errorPolicy: 'all',
         });
@@ -274,13 +274,13 @@ class GithubRepository {
 
     return promise;
   }
-  async getLeanIssueData(issueIds) {
+  async getLeanIssueData(ids) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
           query: GET_LEAN_ISSUES_BY_ID,
           variables: {
-            issueIds,
+            ids,
           },
           errorPolicy: 'all',
         });
@@ -292,13 +292,13 @@ class GithubRepository {
 
     return promise;
   }
-  async fetchOrgsWithIssues(issueIds) {
+  async fetchOrgsWithIssues(ids) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
           query: GET_ORGS_BY_ISSUES,
           variables: {
-            issueIds,
+            ids,
           },
         });
         resolve(result.data.nodes);
@@ -415,13 +415,13 @@ class GithubRepository {
     return promise;
   }
 
-  async fetchUserById(userId) {
+  async fetchUserById(id) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
           query: GET_USER_BY_ID,
           variables: {
-            userId,
+            id,
           },
         });
         const languages = result.data.node.repositories.nodes.map((repo) =>
@@ -454,13 +454,13 @@ class GithubRepository {
     return promise;
   }
 
-  async fetchUsersByIds(userIds) {
+  async fetchUsersByIds(ids) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
           query: GET_USERS_BY_IDS,
           variables: {
-            userIds,
+            ids,
           },
         });
         resolve(result.data.nodes);
@@ -471,13 +471,13 @@ class GithubRepository {
     return promise;
   }
 
-  async fetchPRsByIssues(bountyIds) {
+  async fetchPRsByIssues(ids) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
           query: GET_PRS_BY_ISSUES,
           variables: {
-            bountyIds,
+            ids,
           },
         });
         resolve(result);
@@ -522,13 +522,13 @@ class GithubRepository {
     return promise;
   }
 
-  async fetchOrganizationById(orgId) {
+  async fetchOrganizationById(id) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
           query: GET_ORG_BY_ID,
           variables: {
-            orgId,
+            id,
           },
         });
         resolve(result.data.node);
@@ -540,13 +540,13 @@ class GithubRepository {
     return promise;
   }
 
-  async fetchOrganizationsByIds(orgIds) {
+  async fetchOrganizationsByIds(ids) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
           query: GET_ORGS_BY_IDS,
           variables: {
-            orgIds,
+            ids,
           },
         });
         resolve(result.data.nodes);
@@ -557,8 +557,8 @@ class GithubRepository {
     return promise;
   }
 
-  async parseOrgIssues(issueIds) {
-    const nodes = await this.fetchOrgsWithIssues(issueIds);
+  async parseOrgIssues(ids) {
+    const nodes = await this.fetchOrgsWithIssues(ids);
     const organizations = [];
     nodes.forEach((node) => {
       if (!organizations.some((organization) => organization.login === node.repository.owner.login)) {
