@@ -7,13 +7,17 @@ import { ArrowRightIcon, MailIcon } from '@primer/octicons-react';
 import axios from 'axios';
 import StoreContext from '../../store/Store/StoreContext';
 import { useRouter } from 'next/router';
+import AuthContext from '../../store/AuthStore/AuthContext';
+import ToolTipNew from '../Utils/ToolTipNew';
 
 const LoginPageEmailLogin = () => {
   const [user, setUser] = useContext(UserContext);
   const [magic, setMagic] = useState(null);
   const [disabled, setDisabled] = useState(false);
   const [email, setEmail] = useState('');
-  const [appState, dispatch] = useContext(StoreContext);
+  const [appState, appDispatch] = useContext(StoreContext);
+  const [validEmail, setValidEmail] = useState(appState.accountData.email);
+  const [, authDispatch] = useContext(AuthContext);
   const { accountData } = appState;
   const router = useRouter();
 
@@ -24,6 +28,14 @@ const LoginPageEmailLogin = () => {
 
     setMagic(newMagic);
   }, []);
+
+  useEffect(() => {
+    if (!validEmail) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [validEmail]);
 
   const logout = () => {
     magic.user.logout().then(() => {
@@ -38,7 +50,7 @@ const LoginPageEmailLogin = () => {
         withCredentials: true,
       })
       .then(() => {
-        dispatch({ payload: {}, type: 'UPDATE_ACCOUNTDATA' });
+        appDispatch({ payload: {}, type: 'UPDATE_ACCOUNTDATA' });
         appState.logger.info({ message: 'Sign out success. Cookies cleared.' }, accountData.id, 'loginPageEmailLogin1');
       })
       .catch((error) => {
@@ -68,14 +80,26 @@ const LoginPageEmailLogin = () => {
       });
       if (res.status === 200) {
         // Set the UserContext to the now logged in user
-
+        const fullApiUser = await appState.openQPrismaClient.getUser({ email });
+        const isNewUser = !fullApiUser;
+        if (isNewUser) {
+          const newUserDispatch = {
+            type: 'IS_NEW_USER',
+            payload: true,
+          };
+          authDispatch(newUserDispatch);
+        }
         const { id, ...user } = await appState.openQPrismaClient.upsertUser({ email });
 
+        authDispatch({
+          type: 'UPDATE_IS_AUTHENTICATED',
+          payload: { isAuthenticated: true, email: email },
+        });
         const accountDispatch = {
           type: 'UPDATE_ACCOUNTDATA',
           payload: { ...user, id },
         };
-        dispatch(accountDispatch);
+        appDispatch(accountDispatch);
 
         router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${id}`);
       }
@@ -83,6 +107,11 @@ const LoginPageEmailLogin = () => {
       setDisabled(false);
       appState.logger.error({ message: error }, accountData.id, 'loginPageEmailLogin3');
     }
+  }
+
+  function handleChange(e) {
+    setEmail(e.target.value);
+    setValidEmail(appState.utils.emailRegex(e.target.value) && e.target.value);
   }
 
   return (
@@ -94,18 +123,27 @@ const LoginPageEmailLogin = () => {
             placeholder='Enter your email'
             size='sm'
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => handleChange(e)}
           />
-
-          <button
-            className='flex items-center whitespace-nowrap gap-3 rounded-full p-2 px-4 bg-white w-full text-black hover:bg-gray-200 justify-center font-bold cursor-pointer'
-            disabled={disabled}
-            onClick={handleLoginWithEmail}
+          <ToolTipNew
+            hideToolTip={!disabled || validEmail}
+            toolTipText={!validEmail && 'Please enter a valid email address to subscribe.'}
+            triangleStyles={'md:mt-0.5'}
+            relativePosition={'rounded-full p-4'}
+            innerStyles={'text-lg'}
           >
-            <MailIcon size={20} />
-            Continue with Email
-            <ArrowRightIcon size={32} />
-          </button>
+            <button
+              className={`flex items-center whitespace-nowrap gap-3 rounded-full p-2 px-4 bg-white w-full text-black hover:bg-gray-200 justify-center font-bold ${
+                disabled ? 'cursor-not-allowed' : 'cursor-pointer'
+              }`}
+              disabled={disabled}
+              onClick={handleLoginWithEmail}
+            >
+              <MailIcon size={20} />
+              Continue with Email
+              <ArrowRightIcon size={32} />
+            </button>
+          </ToolTipNew>
         </>
       ) : (
         <div className='flex flex-col md:flex-row md:items-center gap-4 '>

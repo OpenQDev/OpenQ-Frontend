@@ -48,7 +48,6 @@ exports[`SetPayoutAdminPage should allow user to update payout token and volume 
               height="40"
               loading="lazy"
               src="https://wallet-asset.matic.network/img/tokens/matic.svg"
-              srcset="https://wallet-asset.matic.network/img/tokens/matic.svg 1x, https://wallet-asset.matic.network/img/tokens/matic.svg 2x"
               style="color: transparent;"
               width="40"
             />
@@ -127,7 +126,6 @@ exports[`SetPayoutAdminPage should lock token to deposit-token but allow volume 
       height="40"
       loading="lazy"
       src="https://wallet-asset.matic.network/img/tokens/dai.svg"
-      srcset="https://wallet-asset.matic.network/img/tokens/dai.svg 1x, https://wallet-asset.matic.network/img/tokens/dai.svg 2x"
       style="color: transparent;"
       width="40"
     />
@@ -188,7 +186,6 @@ exports[`SetPayoutAdminPage should set payout token per default if payoutTokenVo
               height="40"
               loading="lazy"
               src="https://wallet-asset.matic.network/img/tokens/dai.svg"
-              srcset="https://wallet-asset.matic.network/img/tokens/dai.svg 1x, https://wallet-asset.matic.network/img/tokens/dai.svg 2x"
               style="color: transparent;"
               width="40"
             />

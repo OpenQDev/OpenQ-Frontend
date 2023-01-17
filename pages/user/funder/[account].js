@@ -1,7 +1,6 @@
 // Third party
 import React from 'react';
 import { ethers } from 'ethers';
-import nookies from 'nookies';
 
 // Custom
 import AboutFunder from '../../../components/User/AboutFunder';
@@ -27,10 +26,9 @@ const account = ({ account, user, organizations, renderError }) => {
 
 export const getServerSideProps = async (context) => {
   const githubRepository = new WrappedGithubClient();
-  const cookies = nookies.get(context);
-  const { github_oauth_token_unsigned } = cookies;
-  const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
-  githubRepository.instance.setGraphqlHeaders(oauthToken);
+  const openQSubgraphClient = new WrappedOpenQSubgraphClient();
+  const openQPrismaClient = new WrappedOpenQPrismaClient();
+  const logger = new Logger();
 
   const account = context.params.account;
   let renderError = '';
@@ -39,9 +37,7 @@ export const getServerSideProps = async (context) => {
   } catch {
     return { props: { renderError: `${account} is not a valid address.` } };
   }
-  const openQSubgraphClient = new WrappedOpenQSubgraphClient();
-  const openQPrismaClient = new WrappedOpenQPrismaClient();
-  const logger = new Logger();
+
   let user = {
     bountiesClosed: [],
     bountiesCreated: [],
@@ -68,7 +64,7 @@ export const getServerSideProps = async (context) => {
     logger.error(err);
   }
 
-  return { props: { account, user, organizations, renderError, oauthToken } };
+  return { props: { account, user, organizations, renderError } };
 };
 
 export default account;

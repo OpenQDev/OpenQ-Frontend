@@ -82,7 +82,6 @@ describe('SetPayoutAdminPage', () => {
       customInitialState
     );
     expect(asFragment()).toMatchSnapshot('Snapshot: initial view');
-    console.log(noDepositButPayoutSplitBounty);
 
     // ACT
     await user.type(screen.getByRole('textbox'), '100');

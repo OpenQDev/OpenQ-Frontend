@@ -1,7 +1,6 @@
 // Third party
 import React, { useContext, useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import nookies from 'nookies';
 
 // Custom
 import AboutFreelancer from '../../components/User/AboutFreelancer';
@@ -11,14 +10,18 @@ import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubg
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
 import StoreContext from '../../store/Store/StoreContext';
 import Logger from '../../services/logger/Logger';
-// import FirstSignupModal from '../../components/Authentication/FirstSignupModal';
+import FirstSignupModal from '../../components/Authentication/FirstSignupModal';
+import AuthContext from '../../store/AuthStore/AuthContext';
 
 const userId = ({ user, organizations, renderError }) => {
+  const [authState, dispatch] = useContext(AuthContext);
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
+  const loggedId = accountData?.id;
+  const isOwner = loggedId == user.id;
   const [starredOrganizations, setStarredOrganizations] = useState([]);
   const [watchedBounties, setWatchedBounties] = useState([]);
-  // const [firstSignupModal, setFirstSignupModal] = useState(firstSignup);
+  const [firstSignupModal, setFirstSignupModal] = useState(authState.isNewUser);
 
   const [publicPrivateUserData] = useState(user);
 
@@ -48,11 +51,22 @@ const userId = ({ user, organizations, renderError }) => {
     getOffChainData();
   }, []);
 
+  async function closeModal() {
+    setFirstSignupModal(false);
+    const newUserDispatch = {
+      type: 'IS_NEW_USER',
+      payload: false,
+    };
+    await dispatch(newUserDispatch);
+  }
+
   return (
     <div className=' gap-4 justify-center pt-6'>
       {user?.id ? (
         <>
-          {/* {firstSignupModal && <FirstSignupModal closeModal={setFirstSignupModal} setShowModal={setFirstSignupModal} />} */}
+          {authState?.isAuthenticated && firstSignupModal && isOwner && (
+            <FirstSignupModal closeModal={closeModal} setShowModal={setFirstSignupModal} user={publicPrivateUserData} />
+          )}
           <AboutFreelancer
             starredOrganizations={starredOrganizations}
             watchedBounties={watchedBounties}
@@ -70,20 +84,13 @@ const userId = ({ user, organizations, renderError }) => {
 
 export const getServerSideProps = async (context) => {
   const githubRepository = new WrappedGithubClient();
-  const cookies = nookies.get(context);
-  const { github_oauth_token_unsigned } = cookies;
   const logger = new Logger();
-  const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
+  const openQPrismaClient = new WrappedOpenQPrismaClient();
+  const openQSubgraphClient = new WrappedOpenQSubgraphClient();
+
   const emailAuth = true;
-  githubRepository.instance.setGraphqlHeaders(oauthToken);
   let userId = context.params.userId;
   let renderError = '';
-  // let firstSignup = true;
-
-  const openQPrismaClient = new WrappedOpenQPrismaClient();
-  openQPrismaClient.instance.setGraphqlHeaders(oauthToken);
-
-  const openQSubgraphClient = new WrappedOpenQSubgraphClient();
 
   let user = {
     bountiesClosed: [],
@@ -178,7 +185,7 @@ export const getServerSideProps = async (context) => {
   };
 
   return {
-    props: { user, organizations, renderError, starredOrganizations, oauthToken },
+    props: { user, organizations, renderError, starredOrganizations },
   };
 };
 

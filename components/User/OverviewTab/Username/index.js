@@ -1,12 +1,12 @@
 // Third party
 import React, { useState, useContext } from 'react';
-import Pencil from '../../svg/pencil';
-import ToolTipNew from '../../Utils/ToolTipNew';
-import StoreContext from '../../../store/Store/StoreContext';
-import AuthContext from '../../../store/AuthStore/AuthContext';
+import Pencil from '../../../svg/pencil';
+import ToolTipNew from '../../../Utils/ToolTipNew';
+import StoreContext from '../../../../store/Store/StoreContext';
+import AuthContext from '../../../../store/AuthStore/AuthContext';
 // Custom
 
-const Username = ({ user }) => {
+const Username = ({ user, firstSignup }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(user.username);
   const [localUsername, setLocalUsername] = useState(user.username);
@@ -28,7 +28,9 @@ const Username = ({ user }) => {
   const handleSave = async () => {
     try {
       const githubId = user.github;
-      const { updateUser } = await appState.openQPrismaClient.updateUser({ username: inputValue, github: githubId });
+      const { updateUser } = githubId
+        ? await appState.openQPrismaClient.updateUser({ username: inputValue, github: githubId })
+        : await appState.openQPrismaClient.updateUser({ username: inputValue, email: user.email });
       if (updateUser) {
         setLocalUsername(inputValue);
         setIsEditing(false);
@@ -50,9 +52,15 @@ const Username = ({ user }) => {
   };
 
   return (
-    <div className='px-8 py-6 gap-6 flex flex-wrap items-stretch w-full font-semibold text-lg'>
+    <div
+      className={`${
+        !firstSignup
+          ? 'px-8 py-6 gap-6 flex flex-wrap items-stretch w-full font-semibold text-lg'
+          : 'flex items-center '
+      } `}
+    >
       <div className='flex-1 flex-row'>
-        <div className='pb-2'>Username</div>
+        {!firstSignup && <div className='pb-2'>Username</div>}
         {!isEditing ? (
           <div className='flex w-fit items-center gap-4'>
             <div className='font-normal flex-1'>{localUsername}</div>
@@ -68,7 +76,7 @@ const Username = ({ user }) => {
               onChange={handleInputChange}
               onKeyDown={handleKeypress}
               value={inputValue}
-              className='input-field-big pl-4 bg-transparent cursor-auto focus-within:outline-none'
+              className='input-field pl-4 cursor-auto focus-within:outline-none'
             />
             <ToolTipNew hideToolTip={validUsername} toolTipText={'Username is not valid'}>
               <button

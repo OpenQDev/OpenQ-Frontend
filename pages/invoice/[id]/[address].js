@@ -4,7 +4,6 @@ import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQS
 import Invoice from '../../../components/Invoicing/Invoice';
 import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
 import Logger from '../../../services/logger/Logger';
-import nookies from 'nookies';
 
 const invoice = ({ bounty, renderError }) => {
   return <>{renderError ? <UnexpectedErrorModal error={renderError} /> : <Invoice bounty={bounty} />}</>;
@@ -12,12 +11,8 @@ const invoice = ({ bounty, renderError }) => {
 
 export const getServerSideProps = async (context) => {
   const githubRepository = new WrappedGithubClient();
-  const cookies = nookies.get(context);
-  const { github_oauth_token_unsigned } = cookies;
-  const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
-  githubRepository.instance.setGraphqlHeaders(oauthToken);
-
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
+
   const logger = new Logger();
   const { id, address } = context.query;
   let issueData = {};
@@ -40,7 +35,7 @@ export const getServerSideProps = async (context) => {
   }
   const mergedBounty = { ...issueData, ...bounty };
 
-  return { props: { bounty: mergedBounty, renderError, oauthToken } };
+  return { props: { bounty: mergedBounty, renderError } };
 };
 
 export default invoice;

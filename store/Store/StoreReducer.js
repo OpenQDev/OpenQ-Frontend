@@ -10,31 +10,6 @@ const StoreReducer = (state, action) => {
         ...state,
         bountyMinted: action.payload,
       };
-    case 'UPDATE_IS_AUTHENTICATED':
-      return {
-        ...state,
-        isAuthenticated: action.payload,
-      };
-    /*     case 'UPDATE_ADDRESS':
-      return {
-        ...state,
-        publicAddress: action.payload,
-      };
-    case 'PROVIDER':
-      return {
-        ...state,
-        provider: action.payload,
-      };
-    case 'SIGNER':
-      return {
-        ...state,
-        signer: action.payload,
-      };
-    case 'SET_SIGNED_ACCOUNT':
-      return {
-        ...state,
-        signedAccount: action.payload,
-      }; */
     case 'UPDATE_RELOAD':
       return {
         ...state,

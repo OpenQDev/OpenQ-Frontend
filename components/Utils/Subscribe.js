@@ -33,7 +33,7 @@ const Subscribe = ({ user }) => {
         if (formValues.email) {
           try {
             const formData = new FormData();
-            formData.append('api_key', 'JlUKxDNJAmbFF44byOHTNQ');
+            formData.append('api_key', process.env.NEXT_PUBLIC_CONVERTKIT_API_KEY);
             formData.append('email', formValues.email);
             const response = await fetch('https://api.convertkit.com/v3/forms/3697685/subscribe', {
               method: 'POST',

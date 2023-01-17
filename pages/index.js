@@ -1,7 +1,6 @@
 // Third party
 import React, { useState, useContext, useEffect } from 'react';
 import StoreContext from '../store/Store/StoreContext';
-import nookies from 'nookies';
 
 // Custom
 import BountyHomepage from '../components/Bounty/BountyHomepage';
@@ -150,13 +149,8 @@ export default function Index({ fullBounties, batch, types, renderError, firstCu
   );
 }
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps = async () => {
   const githubRepository = new WrappedGithubClient();
-  const cookies = nookies.get(context);
-  const { github_oauth_token_unsigned } = cookies;
-  const oauthToken = github_oauth_token_unsigned ? github_oauth_token_unsigned : null;
-  githubRepository.instance.setGraphqlHeaders(oauthToken);
-
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
   const utils = new Utils();
@@ -200,7 +194,6 @@ export const getServerSideProps = async (context) => {
       types,
       mergedOrgs,
       renderError,
-      oauthToken,
     },
   };
 };
