@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import { render, screen } from '../../test-utils';
+import nextRouter from 'next/router';
 import userEvent from '@testing-library/user-event';
 import InitialState from '../../store/Store/InitialState';
 import MintBountyModal from '../../components/MintBounty/MintBountyModal/MintBountyModal';
@@ -57,6 +58,15 @@ const test = (issue, type) => {
       payoutToken: zeroAddressMetadata,
     };
     const mintDispatch = jest.fn();
+
+    nextRouter.useRouter = jest.fn();
+    nextRouter.useRouter.mockImplementation(() => ({
+      query: { type: null },
+
+      prefetch: jest.fn(() => {
+        return { catch: jest.fn };
+      }),
+    }));
 
     render(
       <MintContext.Provider value={[mintState, mintDispatch]}>
