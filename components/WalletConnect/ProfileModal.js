@@ -11,7 +11,7 @@ const ProfileModal = ({ domRef, isSafeApp, showModal }) => {
   const [appState] = useContext(StoreContext);
   const [authState] = useContext(AuthContext);
   const { accountData } = appState;
-  const adminOrganizations = accountData?.adminOrganizations?.nodes;
+  const adminOrganizations = accountData?.adminOrganizations?.nodes || [];
 
   if (!showModal) return <></>;
   return (
@@ -52,15 +52,17 @@ const ProfileModal = ({ domRef, isSafeApp, showModal }) => {
             </Link>
           </div>
         )}
-        <div className='flex flex-col w-full'>
-          <div
-            data-testid='link'
-            className='flex md:hover:bg-[#1f6feb] h-8 md:hover:z-50 items-center w-full cursor-pointer hover:text-white text-[#c9d1d9] self-start gap-4 p-2 mb-2'
-          >
-            <PersonIcon className='w-4 h-4 ml-2' />
-            <span>Pro Account: {adminOrganizations[0].name}</span>
+        {adminOrganizations[0] && (
+          <div className='flex flex-col w-full'>
+            <div
+              data-testid='link'
+              className='flex md:hover:bg-[#1f6feb] h-8 md:hover:z-50 items-center w-full cursor-pointer hover:text-white text-[#c9d1d9] self-start gap-4 p-2 mb-2'
+            >
+              <PersonIcon className='w-4 h-4 ml-2' />
+              <span>Pro Account: {adminOrganizations[0].name}</span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
