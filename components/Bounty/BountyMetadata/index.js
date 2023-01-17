@@ -191,9 +191,9 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
 
             {bounty.assignees.map((assignee, index) => {
               return (
-                <div key={index} className='flex gap-2 py-3'>
+                <div key={index} className='flex items-center gap-2 py-3'>
                   <Image
-                    className='rounded-lg inline-block py-4'
+                    className='rounded-full'
                     height={24}
                     width={24}
                     src={assignee.avatarUrl}
