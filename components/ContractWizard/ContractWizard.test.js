@@ -6,6 +6,16 @@ import { render, screen } from '../../test-utils';
 import ContractWizard from '.';
 import userEvent from '@testing-library/user-event';
 import ShallowRenderer from 'react-test-renderer/shallow';
+import nextRouter from 'next/router';
+
+nextRouter.useRouter = jest.fn();
+nextRouter.useRouter.mockImplementation(() => ({
+  query: { type: null },
+
+  prefetch: jest.fn(() => {
+    return { catch: jest.fn };
+  }),
+}));
 
 describe('ContractWizard', () => {
   it('should render match DOM Snapshot', () => {

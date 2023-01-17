@@ -7,8 +7,17 @@ import MintBountyButton from '../../components/MintBounty/MintBountyButton';
 import userEvent from '@testing-library/user-event';
 import InitialState from '../../store/Store/InitialState';
 import renderer from 'react-test-renderer';
+import nextRouter from 'next/router';
 
 InitialState.openQClient.shouldSleep = 200;
+nextRouter.useRouter = jest.fn();
+nextRouter.useRouter.mockImplementation(() => ({
+  query: { type: null },
+
+  prefetch: jest.fn(() => {
+    return { catch: jest.fn };
+  }),
+}));
 
 describe('MintBountyButton', () => {
   it('should match DOM Snapshot', () => {
