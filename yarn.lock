@@ -1686,10 +1686,10 @@
   resolved "https://registry.yarnpkg.com/@pedrouid/environment/-/environment-1.0.1.tgz#858f0f8a057340e0b250398b75ead77d6f4342ec"
   integrity sha512-HaW78NszGzRZd9SeoI3JD11JqY+lubnaOx7Pewj5pfjqWXOEATpeKIFb9Z4t2WBUK2iryiXX3lzWwmYWgUL0Ug==
 
-"@primer/octicons-react@17.9.0":
-  version "17.9.0"
-  resolved "https://registry.yarnpkg.com/@primer/octicons-react/-/octicons-react-17.9.0.tgz#034ad1f377c2834900a2dd6b3c54079628dd73b1"
-  integrity sha512-fx2abdGfzzHqB8DOSq6FqNgusjkeDHfPFTa8DjSaugCFccEO2vIfM2ZY1sg4c5SpOQEQAbOEC4/gqWDulIRHzA==
+"@primer/octicons-react@17.10.2":
+  version "17.10.2"
+  resolved "https://registry.yarnpkg.com/@primer/octicons-react/-/octicons-react-17.10.2.tgz#c9f2188f46295c4d0678c15d1edded1faba0410d"
+  integrity sha512-PjaIwdQ46UE2fgpwzAGUqxxqOJgsn+SBYKjeFbIwpkI8SEzIiSRebwk+LexFqOeWEdvbDfMTHptZMfXksacgxQ==
 
 "@react-pdf/fns@2.0.0":
   version "2.0.0"
