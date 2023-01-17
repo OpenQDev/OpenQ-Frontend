@@ -1,14 +1,14 @@
 // Third Party
 import React, { useContext } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 // Custom
 import MintBountyButton from '../../MintBounty/MintBountyButton';
 import StoreContext from '../../../store/Store/StoreContext';
 import useDisplayValue from '../../../hooks/useDisplayValue';
 import AuthContext from '../../../store/AuthStore/AuthContext';
+import RefreshBounty from './RefreshBounty';
 
-const BountyHeading = ({ bounty }) => {
+const BountyHeading = ({ bounty, refreshGithubBounty }) => {
   const [appState] = useContext(StoreContext);
   const [authState] = useContext(AuthContext);
   const marker = appState.utils.getBountyMarker(bounty, authState.login);
@@ -27,20 +27,8 @@ const BountyHeading = ({ bounty }) => {
             <div>#{bounty.number}</div>
           )}
         </h1>
-        <div className='flex flex-row space-x-3 self-start items-center'>
-          <div className='flex pt-1'>
-            <Link href={bounty.url} target='_blank'>
-              <>
-                <Image
-                  src='/social-icons/github-logo-white.svg'
-                  className='cursor-pointer'
-                  alt='Picture of the author'
-                  width={30}
-                  height={30}
-                />
-              </>
-            </Link>
-          </div>
+        <div className='flex flex-row space-x-3 self-center items-center'>
+          <RefreshBounty refreshGithubBounty={refreshGithubBounty} bounty={bounty} />
           <MintBountyButton types={['0', '1', '2', '3']} styles={'h-8'} />
         </div>
       </div>

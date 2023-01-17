@@ -120,6 +120,14 @@ const address = ({ address, mergedBounty, renderError }) => {
     }
   };
 
+  const refreshGithubBounty = async () => {
+    const githubBounty = await appState.githubRepository.fetchIssueById(bounty.id);
+    if (githubBounty) {
+      const mergedBounty = { ...bounty, ...githubBounty };
+      setBounty(mergedBounty);
+    }
+  };
+
   useEffect(() => {
     if (internalMenu) {
       sessionStorage.setItem(address, internalMenu);
@@ -241,7 +249,12 @@ const address = ({ address, mergedBounty, renderError }) => {
                 updatePage={setInternalMenu}
               />
 
-              <BountyHeading price={tokenValues?.total} budget={budget} bounty={bounty} />
+              <BountyHeading
+                refreshGithubBounty={refreshGithubBounty}
+                price={tokenValues?.total}
+                budget={budget}
+                bounty={bounty}
+              />
 
               <div className='flex justify-between  w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
                 {internalMenu == 'View' && <BountyCardDetails bounty={bounty} />}
