@@ -7,6 +7,16 @@ import { render, screen } from '../../test-utils';
 import MintBountyModalButton from '../../components/MintBounty/MintBountyModal/MintBountyModalButton';
 import MintContext from '../../components/MintBounty/MintContext';
 import InitialMintState from '../../components/MintBounty/InitialMintState';
+import nextRouter from 'next/router';
+
+nextRouter.useRouter = jest.fn();
+nextRouter.useRouter.mockImplementation(() => ({
+  query: { type: null },
+
+  prefetch: jest.fn(() => {
+    return { catch: jest.fn };
+  }),
+}));
 
 const zeroAddressMetadata = {
   name: 'Zero Address',

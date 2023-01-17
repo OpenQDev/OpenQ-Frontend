@@ -49,7 +49,6 @@ exports[`SetBudgetAdminPage Split Price Contracts should allow user to update bu
               height="40"
               loading="lazy"
               src="https://wallet-asset.matic.network/img/tokens/matic.svg"
-              srcset="https://wallet-asset.matic.network/img/tokens/matic.svg 1x, https://wallet-asset.matic.network/img/tokens/matic.svg 2x"
               style="color: transparent;"
               width="40"
             />
@@ -109,7 +108,6 @@ exports[`SetBudgetAdminPage Split Price Contracts should lock token but allow vo
       height="40"
       loading="lazy"
       src="https://wallet-asset.matic.network/img/tokens/dai.svg"
-      srcset="https://wallet-asset.matic.network/img/tokens/dai.svg 1x, https://wallet-asset.matic.network/img/tokens/dai.svg 2x"
       style="color: transparent;"
       width="40"
     />
@@ -171,7 +169,6 @@ exports[`SetBudgetAdminPage Split Price Contracts should set payout token per de
               height="40"
               loading="lazy"
               src="https://wallet-asset.matic.network/img/tokens/dai.svg"
-              srcset="https://wallet-asset.matic.network/img/tokens/dai.svg 1x, https://wallet-asset.matic.network/img/tokens/dai.svg 2x"
               style="color: transparent;"
               width="40"
             />

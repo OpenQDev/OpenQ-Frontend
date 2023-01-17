@@ -10,14 +10,18 @@ import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubg
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
 import StoreContext from '../../store/Store/StoreContext';
 import Logger from '../../services/logger/Logger';
-// import FirstSignupModal from '../../components/Authentication/FirstSignupModal';
+import FirstSignupModal from '../../components/Authentication/FirstSignupModal';
+import AuthContext from '../../store/AuthStore/AuthContext';
 
 const userId = ({ user, organizations, renderError }) => {
+  const [authState, dispatch] = useContext(AuthContext);
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
+  const loggedId = accountData?.id;
+  const isOwner = loggedId == user.id;
   const [starredOrganizations, setStarredOrganizations] = useState([]);
   const [watchedBounties, setWatchedBounties] = useState([]);
-  // const [firstSignupModal, setFirstSignupModal] = useState(firstSignup);
+  const [firstSignupModal, setFirstSignupModal] = useState(authState.isNewUser);
 
   const [publicPrivateUserData] = useState(user);
 
@@ -47,11 +51,22 @@ const userId = ({ user, organizations, renderError }) => {
     getOffChainData();
   }, []);
 
+  async function closeModal() {
+    setFirstSignupModal(false);
+    const newUserDispatch = {
+      type: 'IS_NEW_USER',
+      payload: false,
+    };
+    await dispatch(newUserDispatch);
+  }
+
   return (
     <div className=' gap-4 justify-center pt-6'>
       {user?.id ? (
         <>
-          {/* {firstSignupModal && <FirstSignupModal closeModal={setFirstSignupModal} setShowModal={setFirstSignupModal} />} */}
+          {authState?.isAuthenticated && firstSignupModal && isOwner && (
+            <FirstSignupModal closeModal={closeModal} setShowModal={setFirstSignupModal} user={publicPrivateUserData} />
+          )}
           <AboutFreelancer
             starredOrganizations={starredOrganizations}
             watchedBounties={watchedBounties}
@@ -76,7 +91,6 @@ export const getServerSideProps = async (context) => {
   const emailAuth = true;
   let userId = context.params.userId;
   let renderError = '';
-  // let firstSignup = true;
 
   let user = {
     bountiesClosed: [],

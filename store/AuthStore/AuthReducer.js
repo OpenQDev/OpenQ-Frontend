@@ -28,6 +28,11 @@ const AuthReducer = (state, action) => {
         signedAccount: action.payload.addressRecovered,
         isAdmin: action.payload.isAdmin,
       };
+    case 'IS_NEW_USER':
+      return {
+        ...state,
+        isNewUser: action.payload,
+      };
     default:
       return state;
   }
