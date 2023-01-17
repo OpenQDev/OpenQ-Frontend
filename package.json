@@ -33,7 +33,7 @@
 		"@react-pdf/renderer": "3.0.2",
 		"@superfluid-finance/sdk-core": "0.5.7",
 		"@testing-library/user-event": "14.4.3",
-		"@walletconnect/ethereum-provider": "1.8.0",
+		"@walletconnect/ethereum-provider": "2.2.1",
 		"@web3-react/core": "8.0.35-beta.0",
 		"@web3-react/gnosis-safe": "8.0.6-beta.0",
 		"@web3-react/metamask": "8.0.28-beta.0",
