@@ -28,6 +28,8 @@ const RepoTitle = ({ bounty }) => {
               >
                 <span className='text-link-colour hover:underline cursor-pointer'>{bounty.repoName}</span>
               </Link>
+              {console.log(bounty)}
+              {bounty.alternativeTitle && ` ( ${bounty.alternativeTitle} ) `}
             </span>
           )}
         </div>

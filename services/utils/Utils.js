@@ -155,7 +155,13 @@ class Utils {
       });
 
       if (relatedIssue && contract && !contract.blacklisted) {
-        let mergedBounty = { ...relatedIssue, ...subgraphBounty, ...contract };
+        let mergedBounty = {
+          ...relatedIssue,
+          ...subgraphBounty,
+          ...contract,
+          alternativeTitle: 'sponsorName',
+          alternativeSrc: 'https://avatars.githubusercontent.com/u/5261489?s=64&v=4',
+        };
         fullBounties.push(mergedBounty);
       }
     });

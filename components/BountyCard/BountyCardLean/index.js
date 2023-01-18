@@ -67,7 +67,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 
     setIsModal(true);
   };
-
+  console.log(bounty);
   // Render
   return (
     <div className={loading ? 'pointer-events-none cursor-normal relative w-full' : 'w-full'}>
@@ -103,7 +103,8 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
               </div>
               <div className='break-word text-xl text-link-colour inline gap-1 pb-1'>
                 <span data-testid='repo'>
-                  {bounty.owner && `${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`}
+                  {bounty.owner &&
+                    `${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()} ( ${bounty.alternativeTitle} )`}
                 </span>
                 <span></span>
               </div>
@@ -163,8 +164,14 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
             <div className='flex flex-col w-1/4 sm:w-1/2 justify-between items-end leading-tight '>
               <div className='sm:block hidden'>
                 {' '}
-                {bounty?.avatarUrl ? (
-                  <Image className='rounded-full ' src={bounty?.avatarUrl} alt='avatarUrl' width='51' height='51' />
+                {bounty?.avatarUrl || bounty?.alternativeSrc ? (
+                  <Image
+                    className='rounded-full '
+                    src={bounty?.alternativeSrc || bounty?.avatarUrl}
+                    alt='avatarUrl'
+                    width='51'
+                    height='51'
+                  />
                 ) : (
                   <Skeleton width={51} height={51} />
                 )}

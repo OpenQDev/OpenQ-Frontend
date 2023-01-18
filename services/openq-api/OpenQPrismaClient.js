@@ -112,7 +112,11 @@ class OpenQPrismaClient {
             contractAddress: ethers.utils.getAddress(contractAddress),
           },
         });
-        resolve(result.data.bounty);
+        resolve({
+          ...result.data.bounty,
+          alternativeTitle: 'loopy',
+          alternativeSrc: 'https://avatars.githubusercontent.com/u/5261489?s=64&v=4',
+        });
       } catch (e) {
         reject(e);
       }
