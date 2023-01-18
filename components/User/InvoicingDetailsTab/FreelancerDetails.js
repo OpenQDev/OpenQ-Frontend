@@ -5,7 +5,7 @@ import StoreContext from '../../../store/Store/StoreContext';
 import AssociationModal from '../GithubRegistration/AssociateAddress';
 
 import AuthContext from '../../../store/AuthStore/AuthContext';
-import KycRegistration from '../KycRegistration/KycRegistration';
+import KycRegistration from '../KycRegistration';
 const InvoicingDetails = ({ slim }) => {
   const { account } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
