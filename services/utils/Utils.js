@@ -159,8 +159,8 @@ class Utils {
           ...relatedIssue,
           ...subgraphBounty,
           ...contract,
-          alternativeTitle: 'sponsorName',
-          alternativeSrc: 'https://avatars.githubusercontent.com/u/5261489?s=64&v=4',
+          alternativeTitle: '',
+          alternativeSrc: '',
         };
         fullBounties.push(mergedBounty);
       }

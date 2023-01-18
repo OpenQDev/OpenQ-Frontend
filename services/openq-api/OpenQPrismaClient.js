@@ -115,7 +115,7 @@ class OpenQPrismaClient {
         resolve({
           ...result.data.bounty,
           alternativeTitle: 'loopy',
-          alternativeSrc: 'https://avatars.githubusercontent.com/u/5261489?s=64&v=4',
+          alternativeSrc: '',
         });
       } catch (e) {
         reject(e);
