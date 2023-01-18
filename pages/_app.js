@@ -102,6 +102,7 @@ function OpenQ({ Component, pageProps }) {
             <Web3ReactProvider connectors={connectors}>
               <StoreProvider>
                 <SetContextState>
+                  <div className='' id='modalroot'></div>
                   <div className='min-h-screen  flex flex-col justify-between'>
                     <div>
                       {router.asPath == '/login' ? null : <Navigation />}

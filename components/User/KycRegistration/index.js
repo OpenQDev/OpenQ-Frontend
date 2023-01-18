@@ -32,7 +32,6 @@ const KycRegistration = () => {
         </Link>
         .
       </div>
-      <div className='fixed inset-0 -z-10' id='modalroot'></div>
       <button className='my-2 btn-primary w-fit cursor-pointer' onClick={onOpenSDK}>
         Start KYC
       </button>
