@@ -6,7 +6,7 @@ const KycRegistration = () => {
     const { KycDaoClient } = await import('@kycdao/widget');
 
     new KycDaoClient({
-      parent: '#kyc-container',
+      parent: '#modalroot',
       config: {
         demoMode: false,
         enabledBlockchainNetworks: ['PolygonMainnet'],
@@ -32,8 +32,8 @@ const KycRegistration = () => {
         </Link>
         .
       </div>
-      <div className='border fixed inset-0 w-full' id='kyc-container'></div>
-      <button className='z-10 my-2 btn-primary w-fit cursor-pointer' onClick={onOpenSDK}>
+      <div className='fixed inset-0 -z-10' id='modalroot'></div>
+      <button className='my-2 btn-primary w-fit cursor-pointer' onClick={onOpenSDK}>
         Start KYC
       </button>
     </div>

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FirstSignupModal should match initial DOM Snapshot 1`] = `
+exports[`KycRegistration should match initial DOM Snapshot 1`] = `
 <DocumentFragment>
   <div
     class="border-b border-web-gray sm:flex flex-wrap pb-8 mb-8 gap-y-4"
@@ -23,11 +23,11 @@ exports[`FirstSignupModal should match initial DOM Snapshot 1`] = `
       .
     </div>
     <div
-      class="fixed inset-0 w-full"
-      id="kyc-container"
+      class="fixed inset-0 -z-10"
+      id="modalroot"
     />
     <button
-      class="z-20 my-2 btn-primary w-fit cursor-pointer"
+      class="my-2 btn-primary w-fit cursor-pointer"
     >
       Start KYC
     </button>
