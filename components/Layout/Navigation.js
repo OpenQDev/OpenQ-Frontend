@@ -120,11 +120,11 @@ const Navigation = () => {
   };
 
   return (
-    <div className='bg-nav-bg py-1 '>
-      <div className='z-10' id='kyc-container'></div>
-      <FirstTimeBanner />
-      <LoadingThread />
-      <div className='flex visible relative'>
+    <div className='flex bg-nav-bg py-1 h-16 '>
+      <div className='flex visible relative w-full'>
+        <div className='z-10' id='kyc-container'></div>
+        <FirstTimeBanner />
+        <LoadingThread />
         <div className='flex w-full lg:py-1 justify-between mx-4 lg:mx-8'>
           <div className='flex space-x-5 items-center'>
             <Link href={'/'} className='flex items-center lg:hover:opacity-70'>
