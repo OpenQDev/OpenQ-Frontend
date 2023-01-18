@@ -69,7 +69,7 @@ exports[`ButtonLoadingIcon should show purple border when no graph and bg white 
 <div>
   <div>
     <svg
-      className="h-5 w-5 animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-purple-500"
+      className=" animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-purple-500"
       data-testid="loading"
       viewBox="0 0 24 24"
     />
@@ -81,7 +81,7 @@ exports[`ButtonLoadingIcon should show white border when no graph and bg not whi
 <div>
   <div>
     <svg
-      className="h-5 w-5 animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-white"
+      className=" animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-white"
       data-testid="loading"
       viewBox="0 0 24 24"
     />

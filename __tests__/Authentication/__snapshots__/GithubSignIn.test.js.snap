@@ -20,6 +20,7 @@ exports[`GithubSignIn Snapshot should match DOM Snapshot 1`] = `
         onError={[Function]}
         onLoad={[Function]}
         src="/social-icons/github-logo-white.svg"
+        srcSet="/social-icons/github-logo-white.svg 1x, /social-icons/github-logo-white.svg 2x"
         style={
           {
             "color": "transparent",

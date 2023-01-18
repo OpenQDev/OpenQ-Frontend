@@ -54,7 +54,7 @@ exports[`BountyLinks should match DOM Snapshot 1`] = `
       data-testid="link"
       id="bounty-link"
     >
-      <ForwardRef
+      <Image
         alt="link-icon"
         height={24}
         src="/BountyMaterial/polyscan-white.png"

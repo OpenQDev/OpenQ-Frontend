@@ -36,7 +36,7 @@ exports[`ConnectModal should render match DOM Snapshot 1`] = `
       className="flex py-4 pl-4 my-8 w-full gap-8 btn-default"
       onClick={[Function]}
     >
-      <ForwardRef
+      <Image
         alt="metamask logo"
         height={40}
         src="/wallet-logos/metamask.png"
@@ -52,7 +52,7 @@ exports[`ConnectModal should render match DOM Snapshot 1`] = `
       className="flex py-4 pl-4 mb-8 w-full gap-8 btn-default"
       onClick={[Function]}
     >
-      <ForwardRef
+      <Image
         alt="wallet connect logo"
         className="rounded-full"
         height={40}

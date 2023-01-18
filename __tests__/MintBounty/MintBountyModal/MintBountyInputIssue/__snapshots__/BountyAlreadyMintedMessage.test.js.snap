@@ -11,21 +11,14 @@ exports[`BountyAlreadyMintedMessage should match DOM Snapshot and msg "closed"  
     closed
     , view
      
-    <a
-      className="cursor-pointer text-blue-500 hover:underline"
-      href="/contract/I_kwDOGAqhQc48U5_r/0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f"
+    <span
+      data-testid="link"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onTouchStart={[Function]}
-      rel="noreferrer"
-      target="_blank"
     >
-      <span
-        data-testid="link"
-      >
-        here
-      </span>
-    </a>
+      here
+    </span>
     .
   </div>
 </div>
@@ -42,21 +35,14 @@ exports[`BountyAlreadyMintedMessage should match DOM Snapshot and msg "is alread
     minted
     , view
      
-    <a
-      className="cursor-pointer text-blue-500 hover:underline"
-      href="/contract/I_kwDOGAqhQc48U5_r/0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f"
+    <span
+      data-testid="link"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onTouchStart={[Function]}
-      rel="noreferrer"
-      target="_blank"
     >
-      <span
-        data-testid="link"
-      >
-        here
-      </span>
-    </a>
+      here
+    </span>
     .
   </div>
 </div>
