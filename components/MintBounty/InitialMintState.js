@@ -19,6 +19,8 @@ const InitialMintState = {
   hideModal: false,
   invoiceable: false,
   goalVolume: '',
+  altName: '',
+  altUrl: '',
   goalToken: zeroAddressMetadata,
 };
 
