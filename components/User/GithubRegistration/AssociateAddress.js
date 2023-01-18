@@ -154,7 +154,7 @@ const AssociateAddress = ({ githubId, user }) => {
   );
 
   return (
-    <div className='sm:flex flex-wrap pt-8 gap-y-4'>
+    <div className='sm:flex flex-wrap py-8 gap-y-4 border-b border-web-gray'>
       <div ref={canvas}></div>
       {user ? (
         <div className='flex flex-col gap-4'>
@@ -189,7 +189,7 @@ const AssociateAddress = ({ githubId, user }) => {
           <ToolTipNew toolTipText={'Please enter a valid ethereum address'} hideToolTip={enableLink}>
             <button
               disabled={!enableLink}
-              className={enableLink ? 'max-w-[340px] w-full btn-primary' : 'max-w-[340px] w-full btn-default'}
+              className={enableLink ? 'max-w-[380px] w-full btn-primary' : 'max-w-[380px] w-full btn-default'}
               onClick={associateExternalIdToAddress}
             >
               Associate Ethereum Address to your Github

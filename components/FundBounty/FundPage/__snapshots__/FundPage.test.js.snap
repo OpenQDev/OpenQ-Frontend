@@ -58,7 +58,6 @@ exports[`FundPage Split Price Bounties should lock token choice to deposit token
                     height="40"
                     loading="lazy"
                     src="https://wallet-asset.matic.network/img/tokens/link.svg"
-                    srcset="https://wallet-asset.matic.network/img/tokens/link.svg 1x, https://wallet-asset.matic.network/img/tokens/link.svg 2x"
                     style="color: transparent;"
                     width="40"
                   />
@@ -192,7 +191,6 @@ exports[`FundPage Split Price Bounties should lock token choice to deposit token
       height="40"
       loading="lazy"
       src="https://wallet-asset.matic.network/img/tokens/link.svg"
-      srcset="https://wallet-asset.matic.network/img/tokens/link.svg 1x, https://wallet-asset.matic.network/img/tokens/link.svg 2x"
       style="color: transparent;"
       width="40"
     />
