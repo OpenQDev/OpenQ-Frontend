@@ -139,7 +139,7 @@ const InvoicingDetails = ({ slim }) => {
     <div className={`${!slim && 'px-8'} py text-lg`}>
       {!slim && (
         <>
-          <div className='flex flex-col flex-1 font-normal pb-16'>
+          <div className='flex flex-col flex-1 font-normal pb-8'>
             {github && <AssociationModal githubId={github} user={githubUser} renderError={''} redirectUrl={''} />}
           </div>
           <KycRegistration />

@@ -9,10 +9,10 @@ const KycRegistration = () => {
       parent: '#kyc-container',
       config: {
         demoMode: false,
-        enabledBlockchainNetworks: ['PolygonMumbai', 'EthereumGoerli', 'CeloAlfajores'],
+        enabledBlockchainNetworks: ['PolygonMainnet'],
         enabledVerificationTypes: ['KYC'],
         evmProvider: window.ethereum,
-        baseUrl: 'https://staging.kycdao.xyz',
+        baseUrl: 'https://kycdao.xyz',
       },
     }).open();
   }, []);
@@ -32,7 +32,8 @@ const KycRegistration = () => {
         </Link>
         .
       </div>
-      <button className='my-2 btn-primary w-fit cursor-pointer' onClick={onOpenSDK}>
+      <div className='fixed inset-0 w-full' id='kyc-container'></div>
+      <button className='z-20 my-2 btn-primary w-fit cursor-pointer' onClick={onOpenSDK}>
         Start KYC
       </button>
     </div>

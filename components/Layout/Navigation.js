@@ -122,7 +122,6 @@ const Navigation = () => {
   return (
     <div className='flex bg-nav-bg py-1 h-16 '>
       <div className='flex visible relative w-full'>
-        <div className='z-10' id='kyc-container'></div>
         <FirstTimeBanner />
         <LoadingThread />
         <div className='flex w-full lg:py-1 justify-between mx-4 lg:mx-8'>
