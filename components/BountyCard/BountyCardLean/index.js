@@ -67,7 +67,6 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
 
     setIsModal(true);
   };
-  console.log(bounty);
   // Render
   return (
     <div className={loading ? 'pointer-events-none cursor-normal relative w-full' : 'w-full'}>
@@ -104,7 +103,9 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
               <div className='break-word text-xl text-link-colour inline gap-1 pb-1'>
                 <span data-testid='repo'>
                   {bounty.owner &&
-                    `${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()} ( ${bounty.alternativeTitle} )`}
+                    `${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}${
+                      bounty.alternativeTitle ? ` ( ${bounty.alternativeTitle} )` : ''
+                    }`}
                 </span>
                 <span></span>
               </div>
