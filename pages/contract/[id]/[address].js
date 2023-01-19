@@ -201,9 +201,7 @@ const address = ({ address, mergedBounty, renderError }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   const claimOverView = bounty?.claims?.length > 0 ? [{ name: 'Claims Overview', Svg: Log }] : [];
-  const submissions =
-    bounty.bountyType === '2' || bounty.bountyType === '3' ? [{ name: 'Submissions', Svg: Gear }] : [];
-  const claim = bounty.bountyType === '0' || bounty.bountyType === '1' ? [{ name: 'Claim', Svg: Fire }] : [];
+
   // User Methods
 
   // Render
@@ -237,8 +235,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                   { name: 'View', Svg: Telescope },
                   { name: 'Fund', Svg: Add },
                   { name: 'Refund', Svg: Subtract },
-                  ...claim,
-                  ...submissions,
+                  { name: 'Claim', Svg: Fire },
                   ...claimOverView,
                   {
                     name: bounty.issuer && ethers.utils.getAddress(bounty?.issuer?.id) == account ? 'Admin' : null,

@@ -2,6 +2,7 @@
 import React, { useState, useRef, useContext } from 'react';
 import axios from 'axios';
 import confetti from 'canvas-confetti';
+import Link from 'next/link';
 
 // Custom
 import {
@@ -21,13 +22,15 @@ import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
 import StoreContext from '../../../store/Store/StoreContext';
 import ConnectButton from '../../WalletConnect/ConnectButton';
 import AuthContext from '../../../store/AuthStore/AuthContext';
-import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
-import FreelancerDetails from '../../User/InvoicingDetailsTab/FreelancerDetails';
-import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
+import { /*ChevronDownIcon, ChevronUpIcon,*/ MailIcon } from '@primer/octicons-react';
+//import FreelancerDetails from '../../User/InvoicingDetailsTab/FreelancerDetails';
+//import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
 
 const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const { url } = bounty;
   const [appState, dispatch] = useContext(StoreContext);
+  const { account, library } = useWeb3();
+  const [ensName] = useEns(account);
   // State
   const [error, setError] = useState('');
   const [transactionHash, setTransactionHash] = useState(null);
@@ -35,7 +38,22 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const [showClaimLoadingModal, setShowClaimLoadingModal] = useState(false);
   const [justClaimed, setJustClaimed] = useState(false);
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
+  const [missingFields, setMissingFields] = useState(false);
   const { accountData } = appState;
+  const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}`;
+  const handleSendInvoice = async () => {
+    try {
+      await axios.post(
+        `http://localhost:3007/fixedcontest?id=${bounty.bountyAddress}&account=${account}`,
+        {},
+        { withCredentials: true }
+      );
+    } catch (err) {
+      if (JSON.parse(err.request.response).missingFields.length) {
+        setMissingFields(true);
+      }
+    }
+  };
   const accountKeys = [
     'billingName',
     'city',
@@ -73,8 +91,6 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   };
 
   // Context
-  const { account, library } = useWeb3();
-  const [ensName] = useEns(account);
 
   // Hooks
   const [authState] = useContext(AuthContext);
@@ -149,107 +165,145 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
     return (
       <>
         <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
-          <div className='flex flex-col w-full space-y-2 items-center content-center md:border rounded-sm border-gray-700'>
-            <div className='flex w-full text-3xl text-primary justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
-              Claim Your Rewards
+          <div className='flex flex-col w-full space-y-2 rounded-sm gap-4'>
+            <div className='bg-info border-info-strong border p-4 rounded-sm'>
+              Congratulations, you are elgible to receive this bounty! in order to claim it you need to fulfill the
+              requriements highlighted below. To learn more read <span>here.</span>
             </div>
-            <div className='flex flex-1 justify-center content-center items-center'>
-              <div className='w-5/6 pb-4 min-w-min'>
-                <div className='flex flex-col gap-4 pt-4'>
-                  <div>
-                    {bounty.bountyType === '0' && (
-                      <>
-                        "Don't forget to add a closer comment for this bounty on your pull request :-)."
-                        <CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} />
-                      </>
-                    )}
+            <h3 className='justify-self-start text-2xl font-semibold'>Requirements</h3>
+
+            {bounty.invoiceable && (
+              <section className='flex flex-col gap-3'>
+                <h4 className='text-2xl'>
+                  <div className='flex content-center items-center gap-2 border-b border-web-gray pb-2'>
+                    Invoice
+                    <div className='bg-info border border-bg-info-strong text-sm px-2 rounded-full h-6'>Required</div>
                   </div>
-                  {!authState.isAuthenticated ? (
-                    <div className=' col-span-3 border border-gray-700 bg-[#21262d] rounded-sm p-4'>
-                      We noticed you are not signed into Github. You must sign to verify and claim an issue!
-                    </div>
-                  ) : null}
-                  <ConnectButton
-                    needsGithub={true}
-                    nav={false}
-                    tooltipAction={'claim this contract!'}
-                    hideSignOut={true}
-                  />
-                  {account && isOnCorrectNetwork && authState.isAuthenticated && (
-                    <div className='flex flex-col space-y-5'>
-                      <ToolTipNew
-                        groupStyles={'w-full'}
-                        outerStyles='flex w-full items-center'
-                        hideToolTip={price > 0 && hasInvoicingInfo}
-                        toolTipText={
-                          price <= 0
-                            ? 'There are no funds locked to claim, contact the maintainer of this issue.'
-                            : !hasInvoicingInfo && 'This bounty requires invoicing data, please fill in the form below.'
-                        }
-                      >
-                        <button
-                          type='submit'
-                          className={
-                            price > 0 && hasInvoicingInfo
-                              ? 'btn-primary cursor-pointer w-full px-8 whitespace-nowrap py-0.5'
-                              : 'btn-default cursor-not-allowed w-full  px-8 whitespace-nowrap py-0.5'
-                          }
-                          disabled={!(price > 0 && hasInvoicingInfo)}
-                          onClick={() => setShowClaimLoadingModal(true)}
-                        >
-                          Claim
-                        </button>
-                      </ToolTipNew>
-                      {bounty.invoiceable && (
-                        <>
-                          {neededAccountData.length > 0 && (
-                            <div>
-                              Invoicing data required for this bounty, you are missing values for the{' '}
-                              {listWordsWithAnd(
-                                neededAccountData.map((elem) => {
-                                  return valueToDisplay(elem);
-                                })
-                              )}{' '}
-                              fields.
-                            </div>
-                          )}
-                          <details className='w-5/6 group' open={!hasInvoicingInfo}>
-                            <summary className='list-none text-2xl text-muted fill-muted cursor-pointer'>
-                              Invoicing data{' '}
-                              <span className='group-open:hidden'>
-                                <ChevronDownIcon size='24px' />
-                              </span>
-                              <span className='hidden group-open:inline'>
-                                <ChevronUpIcon size='24px' />
-                              </span>
-                            </summary>
-                            <FreelancerDetails slim={true} />
-                          </details>
-                        </>
-                      )}
-                    </div>
-                  )}
-                  {showClaimLoadingModal && (
-                    <ClaimLoadingModal
-                      confirmMethod={claimBounty}
-                      url={url}
-                      ensName={ensName}
-                      account={account}
-                      error={error}
-                      claimState={claimState}
-                      address={account}
-                      transactionHash={transactionHash}
-                      setShowClaimLoadingModal={updateModal}
-                      bounty={bounty}
-                      authState={authState}
-                      price={price}
-                      split={split}
-                    />
-                  )}
+                </h4>
+                <p className='font-semibold'>How to use OpenQ's Invoice Generator</p>
+                <div>
+                  {' '}
+                  <p className='font-semibold'>Step 1</p>
+                  <p>
+                    Please fill in your billing details in your{' '}
+                    <Link className='underline' href={profileLink}>
+                      profile
+                    </Link>{' '}
+                    and review the sample invoice.
+                  </p>
                 </div>
+                <div>
+                  <p className='font-semibold'>Step 2</p>
+                  <p>Send your invoice to complete this requirement.</p>
+                </div>
+                <button
+                  onClick={handleSendInvoice}
+                  className='flex gap-2 justify-center items-center content-center w-20 px-4 py-0.5 bg-claim rounded-sm'
+                >
+                  <MailIcon />
+                  Send
+                </button>
+                {missingFields && (
+                  <div className='bg-info border-info-strong border p-4 rounded-sm'>
+                    You haven't added all the mandatory fields in your invoice details. Please head to your{' '}
+                    <Link className='underline' href={profileLink}>
+                      profile
+                    </Link>{' '}
+                    and add them or ask for help in our{' '}
+                    <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
+                      discord
+                    </a>
+                    .
+                  </div>
+                )}
+              </section>
+            )}
+            {/*
+            {bounty.invoiceable && (
+              <>
+                {neededAccountData.length > 0 && (
+                  <div>
+                    Invoicing data required for this bounty, you are missing values for the{' '}
+                    {listWordsWithAnd(
+                      neededAccountData.map((elem) => {
+                        return valueToDisplay(elem);
+                      })
+                    )}{' '}
+                    fields.
+                  </div>
+                )}
+                <details className='w-5/6 group' open={!hasInvoicingInfo}>
+                  <summary className='list-none text-2xl text-muted fill-muted cursor-pointer'>
+                    Invoicing data{' '}
+                    <span className='group-open:hidden'>
+                      <ChevronDownIcon size='24px' />
+                    </span>
+                    <span className='hidden group-open:inline'>
+                      <ChevronUpIcon size='24px' />
+                    </span>
+                  </summary>
+                  <FreelancerDetails slim={true} />
+                </details>
+              </>
+            )}*/}
+            {bounty.bountyType === '0' && (
+              <>
+                "Don't forget to add a closer comment for this bounty on your pull request :-)."
+                <CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} />
+              </>
+            )}
+            {!authState.isAuthenticated ? (
+              <div className=' col-span-3 border border-gray-700 bg-[#21262d] rounded-sm p-4'>
+                We noticed you are not signed into Github. You must sign to verify and claim an issue!
               </div>
-              <canvas className='absolute inset-0 pointer-events-none' ref={canvas}></canvas>
-            </div>
+            ) : null}
+            <ConnectButton needsGithub={true} nav={false} tooltipAction={'claim this contract!'} hideSignOut={true} />
+            {account && isOnCorrectNetwork && authState.isAuthenticated && (
+              <div className='flex flex-col space-y-5'>
+                <ToolTipNew
+                  groupStyles={'w-full'}
+                  outerStyles='flex w-full items-center'
+                  hideToolTip={price > 0 && hasInvoicingInfo}
+                  toolTipText={
+                    price <= 0
+                      ? 'There are no funds locked to claim, contact the maintainer of this issue.'
+                      : !hasInvoicingInfo && 'This bounty requires invoicing data, please fill in the form below.'
+                  }
+                >
+                  <button
+                    type='submit'
+                    className={
+                      price > 0 && hasInvoicingInfo
+                        ? 'btn-primary cursor-pointer w-full px-8 whitespace-nowrap py-0.5'
+                        : 'btn-default cursor-not-allowed w-full  px-8 whitespace-nowrap py-0.5'
+                    }
+                    disabled={!(price > 0 && hasInvoicingInfo)}
+                    onClick={() => setShowClaimLoadingModal(true)}
+                  >
+                    Claim
+                  </button>
+                </ToolTipNew>
+              </div>
+            )}
+            {showClaimLoadingModal && (
+              <ClaimLoadingModal
+                confirmMethod={claimBounty}
+                url={url}
+                ensName={ensName}
+                account={account}
+                error={error}
+                claimState={claimState}
+                address={account}
+                transactionHash={transactionHash}
+                setShowClaimLoadingModal={updateModal}
+                bounty={bounty}
+                authState={authState}
+                price={price}
+                split={split}
+              />
+            )}
+
+            <canvas className='absolute inset-0 pointer-events-none' ref={canvas}></canvas>
           </div>
         </div>
       </>
