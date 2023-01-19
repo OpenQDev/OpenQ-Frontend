@@ -18,7 +18,7 @@ exports[`SubmissionCard should match DOM Snapshot 1`] = `
       <div
         className="w-16 h-16 relative"
       >
-        <ForwardRef
+        <Image
           alt="n/a"
           blurDataURL="/diverse/placeholder-px.png"
           className="rounded-full"
