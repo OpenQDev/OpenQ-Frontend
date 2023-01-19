@@ -12,6 +12,7 @@ import ErrorModal from './ErrorModal';
 import InvoiceableToggle from './InvoiceableToggle';
 import MintBountyModalButton from './MintBountyModalButton';
 import TokenProvider from '../../TokenSelection/TokenStore/TokenProvider';
+//import AddAlternativeMetadata from './AddAlternativeMetadata';
 
 // Context
 import StoreContext from '../../../store/Store/StoreContext';
@@ -147,6 +148,7 @@ const MintBountyModal = ({ modalVisibility }) => {
                   <AddContestParams />
                 </>
               ) : null}
+              {/* <AddAlternativeMetadata />*/}
             </div>
           </div>
         </ModalLarge>

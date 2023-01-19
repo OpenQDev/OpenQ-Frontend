@@ -72,6 +72,7 @@ exports[`GetSupportModal should match DOM Snapshot 1`] = `
                   onError={[Function]}
                   onLoad={[Function]}
                   src="/social-icons/discord.svg"
+                  srcSet="/social-icons/discord.svg 1x, /social-icons/discord.svg 2x"
                   style={
                     {
                       "color": "transparent",

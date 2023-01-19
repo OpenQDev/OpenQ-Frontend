@@ -155,7 +155,13 @@ class Utils {
       });
 
       if (relatedIssue && contract && !contract.blacklisted) {
-        let mergedBounty = { ...relatedIssue, ...subgraphBounty, ...contract };
+        let mergedBounty = {
+          ...relatedIssue,
+          ...subgraphBounty,
+          ...contract,
+          alternativeTitle: '',
+          alternativeSrc: '',
+        };
         fullBounties.push(mergedBounty);
       }
     });

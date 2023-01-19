@@ -62,7 +62,7 @@ exports[`BountyModalHeading Snapshot should match DOM Snapshot 1`] = `
   <div
     className="sm:flex sm:flex-col items-center hidden sm:pr-8 justify-around"
   >
-    <ForwardRef
+    <Image
       alt="avatarUrl"
       className="rounded-full"
       height="62"

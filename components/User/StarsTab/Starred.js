@@ -10,7 +10,7 @@ const Starred = ({ starredOrganizations }) => {
       {starredOrganizations.length > 0 && (
         <div className='py-6 border-border-gray flex gap-4 flex-wrap justify-center sm:justify-start items-stretch w-full font-semibold text-lg'>
           {starredOrganizations.map((organization, index) => (
-            <OrganizationCard key={index} organization={organization} />
+            <OrganizationCard starringParent='true' key={index} organization={organization} />
           ))}
         </div>
       )}

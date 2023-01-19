@@ -98,6 +98,18 @@ const MintReducer = (state, action) => {
         invoiceable: action.payload,
       };
     }
+    case 'SET_ALT_NAME': {
+      return {
+        ...state,
+        altName: action.payload,
+      };
+    }
+    case 'SET_ALT_URL': {
+      return {
+        ...state,
+        altUrl: action.payload,
+      };
+    }
 
     default:
       return state;

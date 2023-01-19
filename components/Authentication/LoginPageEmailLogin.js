@@ -90,7 +90,6 @@ const LoginPageEmailLogin = () => {
           authDispatch(newUserDispatch);
         }
         const { id, ...user } = await appState.openQPrismaClient.upsertUser({ email });
-
         authDispatch({
           type: 'UPDATE_IS_AUTHENTICATED',
           payload: { isAuthenticated: true, email: email },
