@@ -15,6 +15,7 @@ import AuthContext from '../../store/AuthStore/AuthContext';
 
 const userId = ({ user, organizations, renderError }) => {
   const [authState, dispatch] = useContext(AuthContext);
+  const { githubId, email } = authState;
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
   const loggedId = accountData?.id;
@@ -28,7 +29,22 @@ const userId = ({ user, organizations, renderError }) => {
   useEffect(() => {
     const getOffChainData = async () => {
       let starredOrganizations = [];
-      setWatchedBounties(user?.watchedBounties?.nodes);
+      if (isOwner) {
+        //get watched bounties.
+        try {
+          const userOffChainData = await appState.openQPrismaClient.getUser({
+            id: userId,
+            github: githubId,
+            email: email,
+          });
+          if (userOffChainData.watchedBountyIds) {
+            setWatchedBounties(userOffChainData.watchedBounties.nodes);
+          }
+        } catch (error) {
+          appState.logger.error(error, accountData.id, '[userId.js]1');
+        }
+      }
+
       //get starred organizations.
       try {
         if (user.starredOrganizationIds) {
@@ -49,7 +65,7 @@ const userId = ({ user, organizations, renderError }) => {
       }
     };
     getOffChainData();
-  }, []);
+  }, [isOwner]);
 
   async function closeModal() {
     setFirstSignupModal(false);
