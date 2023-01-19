@@ -148,7 +148,7 @@ const MintBountyModal = ({ modalVisibility }) => {
                   <AddContestParams />
                 </>
               ) : null}
-              <AddAlternativeMetadata />
+              {/* <AddAlternativeMetadata />*/}
             </div>
           </div>
         </ModalLarge>
