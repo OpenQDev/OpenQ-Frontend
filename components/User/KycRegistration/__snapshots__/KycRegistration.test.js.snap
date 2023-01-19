@@ -22,10 +22,6 @@ exports[`KycRegistration should match initial DOM Snapshot 1`] = `
       </a>
       .
     </div>
-    <div
-      class="fixed inset-0 -z-10"
-      id="modalroot"
-    />
     <button
       class="my-2 btn-primary w-fit cursor-pointer"
     >

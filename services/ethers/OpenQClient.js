@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import OpenQABI from '../../artifacts/contracts/OpenQ/Implementations/OpenQV3.sol/OpenQV3.json';
+import OpenQABI from '../../artifacts/contracts/OpenQ/Implementations/OpenQV4.sol/OpenQV4.json';
 import DepositManagerABI from '../../artifacts/contracts/DepositManager/DepositManagerV2.sol/DepositManagerV2.json';
 import ClaimManagerAbi from '../../artifacts/contracts/ClaimManager/Implementations/ClaimManagerV3.sol/ClaimManagerV3.json';
 

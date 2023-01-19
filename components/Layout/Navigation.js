@@ -120,26 +120,60 @@ const Navigation = () => {
   };
 
   return (
-    <div className='flex bg-nav-bg py-1 h-16 '>
-      <div className='flex visible relative w-full'>
-        <FirstTimeBanner />
-        <LoadingThread />
-        <div className='flex w-full lg:py-1 justify-between mx-4 lg:mx-8'>
-          <div className='flex space-x-5 items-center'>
-            <Link href={'/'} className='flex items-center lg:hover:opacity-70'>
-              <Image src='/openq-logo-white-2.png' alt='OpenQ' width='31' height='31' />
-            </Link>
-            <button className='flex lg:hidden' onClick={() => setOpenMenu(!openMenu)}>
-              <ThreeBarsIcon size={24} />
-            </button>
+    <>
+      <FirstTimeBanner />
+      <LoadingThread />
+      <div className='flex bg-nav-bg py-1 h-16 '>
+        <div className='flex visible relative w-full'>
+          <div className='flex w-full lg:py-1 justify-between mx-4 lg:mx-8'>
+            <div className='flex space-x-5 items-center'>
+              <Link href={'/'} className='flex items-center lg:hover:opacity-70'>
+                <Image src='/openq-logo-white-2.png' alt='OpenQ' width='31' height='31' />
+              </Link>
+              <button className='flex lg:hidden' onClick={() => setOpenMenu(!openMenu)}>
+                <ThreeBarsIcon size={24} />
+              </button>
 
-            <div className='lg:flex hidden  content-center  items-center'>
+              <div className='lg:flex hidden  content-center  items-center'>
+                {includeSearch && (
+                  <div className='flex-col justify-center mr-2 h-7 group '>
+                    <input
+                      className={`lg:flex hidden pr-4 items-center focus:w-80 w-60  left-0 input-field transition-all  ease-in-out duration-700 ${
+                        quickSearch && 'focus:w-80'
+                      }`}
+                      onChange={handleSearch}
+                      value={quickSearch}
+                      type='text'
+                      placeholder='Search OpenQ'
+                    ></input>
+                    {quickSearch && <LinkDropdown items={items} />}
+                  </div>
+                )}
+                <NavLinks />
+                <button onClick={() => setShowModal(true)} className='pl-4 flex items-center'>
+                  <QuestionIcon size={16} className='fill-muted hover:fill-primary' />
+                </button>
+              </div>
+            </div>
+            <div className='flex items-center text-[0.8rem] lg:text-[1rem]'>
+              <div className='pr-4'>
+                <ConnectButton
+                  needsGithub={true}
+                  nav={true}
+                  tooltipAction={"start using all of OpenQ's features"}
+                  centerStyles={true}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        {openMenu ? (
+          <div className='flex lg:hidden w-full'>
+            <div className='flex flex-col p-4 space-x-1 space-y-2 w-full'>
               {includeSearch && (
-                <div className='flex-col justify-center mr-2 h-7 group '>
+                <div className='flex-col mr-2 h-7  group'>
                   <input
-                    className={`lg:flex hidden pr-4 items-center focus:w-80 w-60  left-0 input-field transition-all  ease-in-out duration-700 ${
-                      quickSearch && 'focus:w-80'
-                    }`}
+                    className='flex pr-4 items-center input-field'
                     onChange={handleSearch}
                     value={quickSearch}
                     type='text'
@@ -149,45 +183,13 @@ const Navigation = () => {
                 </div>
               )}
               <NavLinks />
-              <button onClick={() => setShowModal(true)} className='pl-4 flex items-center'>
-                <QuestionIcon size={16} className='fill-muted hover:fill-primary' />
-              </button>
             </div>
           </div>
-          <div className='flex items-center text-[0.8rem] lg:text-[1rem]'>
-            <div className='pr-4'>
-              <ConnectButton
-                needsGithub={true}
-                nav={true}
-                tooltipAction={"start using all of OpenQ's features"}
-                centerStyles={true}
-              />
-            </div>
-          </div>
-        </div>
+        ) : null}
+        {loadingBar && <LoadingBar loadingBar={setLoadingBar} changeText={changeText} />}
+        {showModal && <ContractWizard wizardVisibility={setShowModal} />}
       </div>
-      {openMenu ? (
-        <div className='flex lg:hidden w-full'>
-          <div className='flex flex-col p-4 space-x-1 space-y-2 w-full'>
-            {includeSearch && (
-              <div className='flex-col mr-2 h-7  group'>
-                <input
-                  className='flex pr-4 items-center input-field'
-                  onChange={handleSearch}
-                  value={quickSearch}
-                  type='text'
-                  placeholder='Search OpenQ'
-                ></input>
-                {quickSearch && <LinkDropdown items={items} />}
-              </div>
-            )}
-            <NavLinks />
-          </div>
-        </div>
-      ) : null}
-      {loadingBar && <LoadingBar loadingBar={setLoadingBar} changeText={changeText} />}
-      {showModal && <ContractWizard wizardVisibility={setShowModal} />}
-    </div>
+    </>
   );
 };
 
