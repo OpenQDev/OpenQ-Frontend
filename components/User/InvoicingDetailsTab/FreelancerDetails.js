@@ -5,6 +5,7 @@ import StoreContext from '../../../store/Store/StoreContext';
 import AssociationModal from '../GithubRegistration/AssociateAddress';
 
 import AuthContext from '../../../store/AuthStore/AuthContext';
+import KycRegistration from '../KycRegistration';
 const InvoicingDetails = ({ slim }) => {
   const { account } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
@@ -138,10 +139,11 @@ const InvoicingDetails = ({ slim }) => {
     <div className={`${!slim && 'px-8'} py text-lg`}>
       {!slim && (
         <>
-          <div className='flex flex-col flex-1 font-normal pb-16'>
+          <div className='flex flex-col flex-1 font-normal pb-8'>
             {github && <AssociationModal githubId={github} user={githubUser} renderError={''} redirectUrl={''} />}
           </div>
-          <div className='border-b border-web-gray flex justify-between'>
+          <KycRegistration />
+          <div className='flex justify-between mt-12'>
             <h2 className='text-2xl pb-2'>Freelancer Invoicing Information</h2>
             <button onClick={getPdf} className='btn-default text-xs py-0.75 my-0.75 h-7'>
               {showPreview ? 'Edit' : 'Preview'} Invoice
