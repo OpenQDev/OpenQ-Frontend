@@ -21,9 +21,13 @@ import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
 import StoreContext from '../../../store/Store/StoreContext';
 import ConnectButton from '../../WalletConnect/ConnectButton';
 import AuthContext from '../../../store/AuthStore/AuthContext';
-import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
+import { ChevronDownIcon, ChevronUpIcon, MailIcon, UploadIcon } from '@primer/octicons-react';
 import FreelancerDetails from '../../User/InvoicingDetailsTab/FreelancerDetails';
 import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
+import Link from 'next/link';
+import Image from 'next/image';
+import ShieldCheck from '../../svg/shieldCheck';
+import Github from '../../svg/github';
 
 const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const { url } = bounty;
@@ -148,12 +152,109 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
     // rewards are claimable
     return (
       <>
-        <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
-          <div className='flex flex-col w-full space-y-2 items-center content-center md:border rounded-sm border-gray-700'>
-            <div className='flex w-full text-3xl text-primary justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
-              Claim Your Rewards
+        <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px]'>
+          <div className='flex flex-col w-full space-y-2'>
+            <div className='flex w-full text-2xl font-bold text-primary'>Requirements</div>
+            <div className='flex py-2 md:border-b border-gray-700'>
+              <Image src='/kycDao-logo.svg' width={130} height={130} alt='kycDao-logo' />
             </div>
-            <div className='flex flex-1 justify-center content-center items-center'>
+            <div>
+              kycDAO is a multichain platform for issuing reusable, onchain KYC verifications.
+              <div>
+                Learn more{' '}
+                <Link
+                  href='https://kycdao.xyz/home'
+                  rel='noopener norefferer'
+                  target='_blank'
+                  className='text-blue-500 hover:underline col-span-2'
+                >
+                  here
+                </Link>
+                .
+              </div>
+            </div>
+            <div className='font-semibold'>Verify now</div>
+            <button className='flex items-center gap-2 btn-requirements w-fit'>
+              <ShieldCheck className={'w-4 h-4 fill-primary'} />
+              Start
+            </button>
+            <div className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>Form W8/W9*</div>
+            <div>
+              Please complete and upload a form W-8. Choose one of five types, depending on your entity. We encourage
+              you to consult with you own tax or financial adviser to determine which form is appropriate for you or ask
+              in our
+              <div>
+                <Link
+                  href={'https://discord.gg/puQVqEvVXn'}
+                  rel='noopener norefferer'
+                  target='_blank'
+                  className='text-blue-500 hover:underline col-span-2'
+                >
+                  discord
+                </Link>{' '}
+                for help.
+              </div>
+            </div>
+            <div className='font-semibold'>Upload</div>
+            <button className='flex items-center gap-2 btn-requirements w-fit'>
+              <UploadIcon size={16} /> Upload
+            </button>
+            <div className=''>
+              *W-8 forms are{' '}
+              <Link
+                href={'https://www.irs.gov/'}
+                rel='noopener norefferer'
+                target='_blank'
+                className='text-blue-500 hover:underline col-span-2'
+              >
+                Internal Revenue Service
+              </Link>{' '}
+              (IRS) forms that foreign individuals and businesses must file to verify their country of residence for tax
+              purposes, certifying that they qualify for a lower rate of tax withholding.
+            </div>
+            <div className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>GitHub</div>
+            <div className='flex items-center gap-2'>
+              Associate your GitHub account on-chain{' '}
+              <ToolTipNew
+                innerStyles={'whitespace-normal w-60'}
+                toolTipText={
+                  'You need to associate a wallet address to your GitHub account in order to be able to receive prizes.'
+                }
+              >
+                <div className='cursor-help p-0.25 rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                  ?
+                </div>
+              </ToolTipNew>
+            </div>
+            <div className='font-semibold'>Verify now</div>
+            <button className='flex items-center gap-2 btn-requirements w-fit'>
+              <Github className={'h-4 w-4'} />
+              Start
+            </button>
+            <div className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>Invoice</div>
+            <div>
+              How to use OpenQ's Invoice Generator
+              <div className='font-semibold pt-2'>Step 1</div>
+              <div>
+                Please fill in your billing details in{' '}
+                <Link
+                  href={`/user/${authState.id}`}
+                  rel='noopener norefferer'
+                  target='_blank'
+                  className='text-blue-500 hover:underline col-span-2'
+                >
+                  your profile
+                </Link>{' '}
+                and review the invoice. .
+              </div>
+              <div className='font-semibold pt-2'>Step 2</div>
+              <div>Send your invoice to complete this requirement</div>
+            </div>
+            <button className='flex items-center gap-2 btn-requirements w-fit'>
+              <MailIcon />
+              Send
+            </button>
+            <div className='flex flex-1'>
               <div className='w-5/6 pb-4 min-w-min'>
                 <div className='flex flex-col gap-4 pt-4'>
                   <div>
@@ -191,8 +292,8 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
                           type='submit'
                           className={
                             price > 0 && hasInvoicingInfo
-                              ? 'btn-primary cursor-pointer w-full px-8 whitespace-nowrap py-0.5'
-                              : 'btn-default cursor-not-allowed w-full  px-8 whitespace-nowrap py-0.5'
+                              ? 'btn-primary cursor-pointer w-full whitespace-nowrap py-0.5'
+                              : 'btn-default cursor-not-allowed w-full whitespace-nowrap py-0.5'
                           }
                           disabled={!(price > 0 && hasInvoicingInfo)}
                           onClick={() => setShowClaimLoadingModal(true)}
