@@ -8,7 +8,7 @@ import Skeleton from 'react-loading-skeleton';
 import StoreContext from '../../store/Store/StoreContext';
 import starOrganization from './starOrganization';
 
-const OrganizationCard = ({ organization }) => {
+const OrganizationCard = ({ organization, starringParent }) => {
   // Context
   const context = useContext(StoreContext);
   const [orgBounties, setOrgBounties] = useState();
@@ -19,8 +19,8 @@ const OrganizationCard = ({ organization }) => {
   const { github, email, id } = appState.accountData;
   const description = organization.description || organization.bio;
   useEffect(() => {
-    const alreadyStarred = organization?.starringUsers?.nodes?.some((user) => user.id === id);
-    const hasBounties = organization?.bounties?.nodes.length > 0;
+    const alreadyStarred = organization?.starringUsers?.nodes?.some((user) => user.id === id) || starringParent;
+    const hasBounties = organization?.bountiesCreated?.length > 0 || organization?.bounties?.nodes.length > 0;
     if (alreadyStarred && hasBounties) {
       setStarred(true);
     }
