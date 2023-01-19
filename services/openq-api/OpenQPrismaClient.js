@@ -114,7 +114,7 @@ class OpenQPrismaClient {
         });
         resolve({
           ...result.data.bounty,
-          alternativeTitle: 'loopy',
+          alternativeTitle: '',
           alternativeSrc: '',
         });
       } catch (e) {
