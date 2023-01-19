@@ -6,7 +6,7 @@ import { OAuthExtension } from '@magic-ext/oauth';
 import { ArrowRightIcon, MailIcon } from '@primer/octicons-react';
 import axios from 'axios';
 import StoreContext from '../../store/Store/StoreContext';
-//import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import AuthContext from '../../store/AuthStore/AuthContext';
 import ToolTipNew from '../Utils/ToolTipNew';
 
@@ -19,7 +19,7 @@ const LoginPageEmailLogin = () => {
   const [validEmail, setValidEmail] = useState(appState.accountData.email);
   const [, authDispatch] = useContext(AuthContext);
   const { accountData } = appState;
-  // const router = useRouter();
+  const router = useRouter();
 
   useEffect(() => {
     let newMagic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY, {
@@ -78,14 +78,11 @@ const LoginPageEmailLogin = () => {
         withCredentials: true,
         credentials: 'include',
       });
-      console.log('res', res);
       if (res.status === 200) {
         // Set the UserContext to the now logged in user
         const fullApiUser = await appState.openQPrismaClient.getUser({ email });
-        console.log(fullApiUser, 'fullApiUser');
         const isNewUser = !fullApiUser;
         if (isNewUser) {
-          console.log('new user', isNewUser);
           const newUserDispatch = {
             type: 'IS_NEW_USER',
             payload: true,
@@ -93,20 +90,17 @@ const LoginPageEmailLogin = () => {
           authDispatch(newUserDispatch);
         }
         const { id, ...user } = await appState.openQPrismaClient.upsertUser({ email });
-        console.log(id, user, 'id, user');
         authDispatch({
           type: 'UPDATE_IS_AUTHENTICATED',
           payload: { isAuthenticated: true, email: email },
         });
-        console.log('pass1');
         const accountDispatch = {
           type: 'UPDATE_ACCOUNTDATA',
           payload: { ...user, id },
         };
         appDispatch(accountDispatch);
-        console.log('pass2');
 
-        //   router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${id}`);
+        router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${id}`);
       }
     } catch (error) {
       setDisabled(false);
