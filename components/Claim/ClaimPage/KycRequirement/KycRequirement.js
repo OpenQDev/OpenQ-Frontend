@@ -51,7 +51,7 @@ const KycRequirement = ({ bounty }) => {
         onClick={onOpenSDK}
       >
         <ShieldCheck className={'w-4 h-4 fill-primary'} />
-        Start
+        {stage == 'verified' ? 'Verified' : 'Start'}
         {stage == 'processing' && <LoadingIcon />}
       </button>
     </section>
