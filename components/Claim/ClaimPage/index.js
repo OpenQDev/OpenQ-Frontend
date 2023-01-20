@@ -3,6 +3,7 @@ import React, { useState, useRef, useContext } from 'react';
 import axios from 'axios';
 import confetti from 'canvas-confetti';
 import Link from 'next/link';
+import Image from 'next/image';
 
 // Custom
 import {
@@ -22,9 +23,11 @@ import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
 import StoreContext from '../../../store/Store/StoreContext';
 import ConnectButton from '../../WalletConnect/ConnectButton';
 import AuthContext from '../../../store/AuthStore/AuthContext';
-import { /*ChevronDownIcon, ChevronUpIcon,*/ MailIcon } from '@primer/octicons-react';
+import { /* ChevronDownIcon, ChevronUpIcon, */ MailIcon, UploadIcon } from '@primer/octicons-react';
 //import FreelancerDetails from '../../User/InvoicingDetailsTab/FreelancerDetails';
 //import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
+import ShieldCheck from '../../svg/shieldCheck';
+import Github from '../../svg/github';
 
 const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const { url } = bounty;
@@ -164,15 +167,95 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
     // rewards are claimable
     return (
       <>
-        <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
+        <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px]'>
           <div className='flex flex-col w-full space-y-2 rounded-sm gap-4'>
             <div className='bg-info border-info-strong border p-4 rounded-sm'>
               Congratulations, you are elgible to receive this bounty! in order to claim it you need to fulfill the
               requriements highlighted below. To learn more read <span>here.</span>
             </div>
-            <h3 className='justify-self-start text-2xl font-semibold'>Requirements</h3>
-
-            {bounty.invoiceable && (
+            <h3 className='flex w-full text-2xl font-bold text-primary'>Requirements</h3>
+            <section className='flex flex-col gap-3'>
+              <h4 className='flex py-2 md:border-b border-gray-700'>
+                <Image src='/kycDao-logo.svg' width={130} height={130} alt='kycDao-logo' />
+              </h4>
+              <div>
+                kycDAO is a multichain platform for issuing reusable, onchain KYC verifications.
+                <div>
+                  Learn more{' '}
+                  <Link
+                    href='https://kycdao.xyz/home'
+                    rel='noopener norefferer'
+                    target='_blank'
+                    className='text-blue-500 hover:underline col-span-2'
+                  >
+                    here
+                  </Link>
+                  .
+                </div>
+              </div>
+              <div className='font-semibold'>Verify now</div>
+              <button className='flex items-center gap-2 btn-requirements w-fit'>
+                <ShieldCheck className={'w-4 h-4 fill-primary'} />
+                Start
+              </button>
+            </section>
+            <section className='flex flex-col gap-3'>
+              <h4 className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>Form W8/W9*</h4>
+              <div>
+                Please complete and upload a form W-8. Choose one of five types, depending on your entity. We encourage
+                you to consult with you own tax or financial adviser to determine which form is appropriate for you or
+                ask in our
+                <div>
+                  <Link
+                    href={'https://discord.gg/puQVqEvVXn'}
+                    rel='noopener norefferer'
+                    target='_blank'
+                    className='text-blue-500 hover:underline col-span-2'
+                  >
+                    discord
+                  </Link>{' '}
+                  for help.
+                </div>
+              </div>
+              <div className='font-semibold'>Upload</div>
+              <button className='flex items-center gap-2 btn-requirements w-fit'>
+                <UploadIcon size={16} /> Upload
+              </button>
+              <div className=''>
+                *W-8 forms are{' '}
+                <Link
+                  href={'https://www.irs.gov/'}
+                  rel='noopener norefferer'
+                  target='_blank'
+                  className='text-blue-500 hover:underline col-span-2'
+                >
+                  Internal Revenue Service
+                </Link>{' '}
+                (IRS) forms that foreign individuals and businesses must file to verify their country of residence for
+                tax purposes, certifying that they qualify for a lower rate of tax withholding.
+              </div>
+            </section>
+            <section className='flex flex-col gap-3'>
+              <h4 className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>GitHub</h4>
+              <div className='flex items-center gap-2'>
+                Associate your GitHub account on-chain{' '}
+                <ToolTipNew
+                  innerStyles={'whitespace-normal w-60'}
+                  toolTipText={
+                    'You need to associate a wallet address to your GitHub account in order to be able to receive prizes.'
+                  }
+                >
+                  <div className='cursor-help p-0.25 rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
+                    ?
+                  </div>
+                </ToolTipNew>
+              </div>
+              <button className='flex items-center gap-2 btn-requirements w-fit'>
+                <Github className={'h-4 w-4'} />
+                Start
+              </button>
+            </section>
+            {!bounty.invoiceable && (
               <section className='flex flex-col gap-3'>
                 <h4 className='text-2xl'>
                   <div className='flex content-center items-center gap-2 border-b border-web-gray pb-2'>
@@ -218,6 +301,50 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
                 )}
               </section>
             )}
+            <section className='flex flex-col gap-3'>
+              <h4 className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>Claim Your Rewards</h4>
+              <div className='flex flex-col gap-2'>
+                {bounty.bountyType === '0' && (
+                  <>
+                    "Don't forget to add a closer comment for this bounty on your pull request :-)."
+                    <CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} />
+                  </>
+                )}
+              </div>
+            </section>
+            {!authState.isAuthenticated ? (
+              <div>We noticed you are not signed into Github. You must sign to verify and claim an issue!</div>
+            ) : null}
+            <ConnectButton needsGithub={true} nav={false} tooltipAction={'claim this contract!'} hideSignOut={true} />
+            {account && isOnCorrectNetwork && authState.isAuthenticated && (
+              <div className='flex flex-col'>
+                <ToolTipNew
+                  relativePosition={'-left-2'}
+                  triangleStyles={'left-3'}
+                  outerStyles={'relative bottom-1'}
+                  hideToolTip={price > 0 && hasInvoicingInfo}
+                  toolTipText={
+                    price <= 0
+                      ? 'There are no funds locked to claim, contact the maintainer of this issue.'
+                      : !hasInvoicingInfo
+                      ? 'This bounty requires invoicing data, please fill in the form below.'
+                      : 'Please first go through all the required steps before you can claim your rewards.'
+                  }
+                >
+                  <button
+                    type='submit'
+                    className={
+                      price > 0 && hasInvoicingInfo ? 'btn-primary cursor-pointer' : 'btn-default cursor-not-allowed'
+                    }
+                    disabled={!(price > 0 && hasInvoicingInfo)}
+                    onClick={() => setShowClaimLoadingModal(true)}
+                  >
+                    Claim
+                  </button>
+                </ToolTipNew>
+              </div>
+            )}
+
             {/*
             {bounty.invoiceable && (
               <>
@@ -246,45 +373,6 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
                 </details>
               </>
             )}*/}
-            {bounty.bountyType === '0' && (
-              <>
-                "Don't forget to add a closer comment for this bounty on your pull request :-)."
-                <CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} />
-              </>
-            )}
-            {!authState.isAuthenticated ? (
-              <div className=' col-span-3 border border-gray-700 bg-[#21262d] rounded-sm p-4'>
-                We noticed you are not signed into Github. You must sign to verify and claim an issue!
-              </div>
-            ) : null}
-            <ConnectButton needsGithub={true} nav={false} tooltipAction={'claim this contract!'} hideSignOut={true} />
-            {account && isOnCorrectNetwork && authState.isAuthenticated && (
-              <div className='flex flex-col space-y-5'>
-                <ToolTipNew
-                  groupStyles={'w-full'}
-                  outerStyles='flex w-full items-center'
-                  hideToolTip={price > 0 && hasInvoicingInfo}
-                  toolTipText={
-                    price <= 0
-                      ? 'There are no funds locked to claim, contact the maintainer of this issue.'
-                      : !hasInvoicingInfo && 'This bounty requires invoicing data, please fill in the form below.'
-                  }
-                >
-                  <button
-                    type='submit'
-                    className={
-                      price > 0 && hasInvoicingInfo
-                        ? 'btn-primary cursor-pointer w-full px-8 whitespace-nowrap py-0.5'
-                        : 'btn-default cursor-not-allowed w-full  px-8 whitespace-nowrap py-0.5'
-                    }
-                    disabled={!(price > 0 && hasInvoicingInfo)}
-                    onClick={() => setShowClaimLoadingModal(true)}
-                  >
-                    Claim
-                  </button>
-                </ToolTipNew>
-              </div>
-            )}
             {showClaimLoadingModal && (
               <ClaimLoadingModal
                 confirmMethod={claimBounty}
