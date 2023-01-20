@@ -1,5 +1,5 @@
 // Third party Libraries
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext, useCallback } from 'react';
 import axios from 'axios';
 import confetti from 'canvas-confetti';
 import Link from 'next/link';
@@ -155,6 +155,21 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
       });
   };
 
+  const onOpenSDK = useCallback(async () => {
+    const { KycDaoClient } = await import('@kycdao/widget');
+
+    new KycDaoClient({
+      parent: '#modalroot',
+      config: {
+        demoMode: false,
+        enabledBlockchainNetworks: ['PolygonMainnet'],
+        enabledVerificationTypes: ['KYC'],
+        evmProvider: window.ethereum,
+        baseUrl: 'https://kycdao.xyz',
+      },
+    }).open();
+  }, []);
+
   if (showBountyClosed) {
     return bounty.bountyType ? (
       <>
@@ -167,6 +182,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
     // rewards are claimable
     return (
       <>
+        {console.log(bounty)}
         <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px]'>
           <div className='flex flex-col w-full space-y-2 rounded-sm gap-4'>
             <div className='bg-info border-info-strong border-2 p-3 rounded-sm'>
@@ -182,33 +198,35 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
               </Link>
               .
             </div>
-            <h3 className='flex w-full text-2xl font-bold text-primary'>Requirements</h3>
-            <section className='flex flex-col gap-3'>
-              <h4 className='flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
-                <Image src='/kycDao-logo.svg' width={130} height={130} alt='kycDao-logo' />
-                <div className='bg-info border-2 border-info-strong text-sm px-2 rounded-full h-6'>Required</div>
-              </h4>
-              <div>
-                kycDAO is a multichain platform for issuing reusable, onchain KYC verifications.
+            <h3 className='flex w-full text-3xl font-semibold text-primary'>Requirements</h3>
+            {!bounty.kycRequired && (
+              <section className='flex flex-col gap-3'>
+                <h4 className='flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
+                  <Image src='/kycDao-logo.svg' width={130} height={130} alt='kycDao-logo' />
+                  <div className='bg-info border-2 border-info-strong text-sm px-2 rounded-full h-6'>Required</div>
+                </h4>
                 <div>
-                  Learn more{' '}
-                  <Link
-                    href='https://kycdao.xyz/home'
-                    rel='noopener norefferer'
-                    target='_blank'
-                    className='text-blue-500 hover:underline col-span-2'
-                  >
-                    here
-                  </Link>
-                  .
+                  kycDAO is a multichain platform for issuing reusable, onchain KYC verifications.
+                  <div>
+                    Learn more{' '}
+                    <Link
+                      href='https://kycdao.xyz/home'
+                      rel='noopener norefferer'
+                      target='_blank'
+                      className='text-blue-500 hover:underline col-span-2'
+                    >
+                      here
+                    </Link>
+                    .
+                  </div>
                 </div>
-              </div>
-              <div className='font-semibold'>Verify now</div>
-              <button className='flex items-center gap-2 btn-requirements w-fit'>
-                <ShieldCheck className={'w-4 h-4 fill-primary'} />
-                Start
-              </button>
-            </section>
+                <div className='font-semibold'>Verify now</div>
+                <button className='flex items-center gap-2 btn-requirements w-fit' onClick={onOpenSDK}>
+                  <ShieldCheck className={'w-4 h-4 fill-primary'} />
+                  Start
+                </button>
+              </section>
+            )}
             <section className='flex flex-col gap-3'>
               <h4 className='text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
                 Form W8/W9*

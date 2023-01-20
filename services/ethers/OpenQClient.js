@@ -70,8 +70,7 @@ class OpenQClient {
     return signature;
   };
 
-  mintBounty = async (library, issueId, organization, type, invoiceable, data) => {
-    const kycRequired = false;
+  mintBounty = async (library, issueId, organization, type, invoiceable, kycRequired, data) => {
     const promise = new Promise(async (resolve, reject) => {
       let bountyInitOperation;
       let abiCoder = new ethers.utils.AbiCoder();

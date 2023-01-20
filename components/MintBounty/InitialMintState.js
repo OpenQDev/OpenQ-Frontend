@@ -18,6 +18,7 @@ const InitialMintState = {
   sum: 0,
   hideModal: false,
   invoiceable: false,
+  kycRequired: false,
   goalVolume: '',
   altName: '',
   altUrl: '',

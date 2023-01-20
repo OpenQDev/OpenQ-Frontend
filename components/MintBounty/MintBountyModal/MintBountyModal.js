@@ -21,6 +21,7 @@ import MintContext from '../MintContext';
 // Utils
 import SubMenu from '../../Utils/SubMenu';
 import ModalLarge from '../../Utils/ModalLarge';
+import KycRequiredToggle from './KycRequiredToggle';
 
 const MintBountyModal = ({ modalVisibility }) => {
   const [appState] = useContext(StoreContext);
@@ -133,6 +134,7 @@ const MintBountyModal = ({ modalVisibility }) => {
               </h3>
               <MintBountyInputIssue />
               <InvoiceableToggle />
+              <KycRequiredToggle />
               <TokenProvider>
                 <Budgeting category={category} />{' '}
               </TokenProvider>
