@@ -182,7 +182,6 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
     // rewards are claimable
     return (
       <>
-        {console.log(bounty)}
         <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px]'>
           <div className='flex flex-col w-full space-y-2 rounded-sm gap-4'>
             <div className='bg-info border-info-strong border-2 p-3 rounded-sm'>
@@ -199,7 +198,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
               .
             </div>
             <h3 className='flex w-full text-3xl font-semibold text-primary'>Requirements</h3>
-            {!bounty.kycRequired && (
+            {bounty.kycRequired && (
               <section className='flex flex-col gap-3'>
                 <h4 className='flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
                   <Image src='/kycDao-logo.svg' width={130} height={130} alt='kycDao-logo' />
@@ -301,7 +300,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
                   <p className='font-semibold'>Step 1</p>
                   <p>
                     Please fill in your billing details in your{' '}
-                    <Link className='underline' href={profileLink}>
+                    <Link className='text-blue-500 hover:underline col-span-2' href={profileLink}>
                       profile
                     </Link>{' '}
                     and review the sample invoice.

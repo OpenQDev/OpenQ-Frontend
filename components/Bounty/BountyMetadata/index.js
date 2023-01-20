@@ -90,9 +90,10 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
             <div className='text-xs font-semibold text-primary leading-loose'>{type}</div>
           </li>
           <li className='border-b border-web-gray py-3'>
-            <div className='text-xs font-semibold text-muted'>Invoiceable 🧾 </div>
+            <div className='text-xs font-semibold text-muted'>Requirements 🧾 </div>
             <div className='text-xs font-semibold text-primary leading-loose'>
-              {bounty.invoiceable ? 'Contract is invoiceable ✅' : 'Contract is not invoiceable ❌'}
+              {bounty.invoiceable && 'Invoice '}
+              {bounty.kycRequired && 'KYC '}
             </div>
           </li>
         </>
