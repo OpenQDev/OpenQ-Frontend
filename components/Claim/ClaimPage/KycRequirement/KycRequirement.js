@@ -1,24 +1,33 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
+import StoreContext from '../../../../store/Store/StoreContext';
 import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
 import ShieldCheck from '../../../svg/shieldCheck';
 
 const KycRequirement = () => {
+  // to be added: setState to verified & setError('') when know that Kyc'd
   const [stage, setStage] = useState('start');
+  const [error, setError] = useState('');
+  const [appState] = useContext(StoreContext);
   const onOpenSDK = useCallback(async () => {
-    const { KycDaoClient } = await import('@kycdao/widget');
+    try {
+      const { KycDaoClient } = await import('@kycdao/widget');
 
-    new KycDaoClient({
-      parent: '#modalroot',
-      config: {
-        demoMode: false,
-        enabledBlockchainNetworks: ['PolygonMainnet'],
-        enabledVerificationTypes: ['KYC'],
-        evmProvider: window.ethereum,
-        baseUrl: 'https://kycdao.xyz',
-      },
-    }).open();
+      new KycDaoClient({
+        parent: '#modalroot',
+        config: {
+          demoMode: false,
+          enabledBlockchainNetworks: ['PolygonMainnet'],
+          enabledVerificationTypes: ['KYC'],
+          evmProvider: window.ethereum,
+          baseUrl: 'https://kycdao.xyz',
+        },
+      }).open();
+    } catch (error) {
+      setError(error);
+      appState.logger.error(error, 'KycRequirement.js1');
+    }
 
     setStage('processing');
   }, []);
@@ -34,6 +43,30 @@ const KycRequirement = () => {
           {stage == 'verified' ? 'Approved' : 'Required'}
         </div>
       </h4>
+      {error && (
+        <div className='bg-info border-info-strong border-2 p-3 rounded-sm'>
+          Something went wrong, please try again or reach out for support at{' '}
+          <Link
+            href='https://discord.gg/puQVqEvVXn'
+            rel='noopener norefferer'
+            target='_blank'
+            className='underline col-span-2'
+          >
+            OpenQ
+          </Link>{' '}
+          or{' '}
+          <Link
+            href='https://discord.kycdao.xyz/'
+            rel='noopener norefferer'
+            target='_blank'
+            className='underline col-span-2'
+          >
+            KYC DAO
+          </Link>
+          .
+        </div>
+      )}
+      <div className='font-semibold'>What is kycDAO?</div>
       <div>
         kycDAO is a multichain platform for issuing reusable, onchain KYC verifications.
         <div>

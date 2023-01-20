@@ -171,12 +171,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
             <div className='bg-info border-info-strong border-2 p-3 rounded-sm'>
               Congratulations, you are elgible to receive this bounty! In order to claim it you need to fulfill the
               requirements highlighted below. To learn more read{' '}
-              <Link
-                href='/'
-                rel='noopener norefferer'
-                target='_blank'
-                className='text-blue-500 hover:underline col-span-2'
-              >
+              <Link href='/' rel='noopener norefferer' target='_blank' className='underline col-span-2'>
                 here
               </Link>
               .
