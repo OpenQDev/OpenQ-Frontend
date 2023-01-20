@@ -169,14 +169,24 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
       <>
         <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px]'>
           <div className='flex flex-col w-full space-y-2 rounded-sm gap-4'>
-            <div className='bg-info border-info-strong border p-4 rounded-sm'>
-              Congratulations, you are elgible to receive this bounty! in order to claim it you need to fulfill the
-              requriements highlighted below. To learn more read <span>here.</span>
+            <div className='bg-info border-info-strong border-2 p-3 rounded-sm'>
+              Congratulations, you are elgible to receive this bounty! In order to claim it you need to fulfill the
+              requriements highlighted below. To learn more read{' '}
+              <Link
+                href='/'
+                rel='noopener norefferer'
+                target='_blank'
+                className='text-blue-500 hover:underline col-span-2'
+              >
+                here
+              </Link>
+              .
             </div>
             <h3 className='flex w-full text-2xl font-bold text-primary'>Requirements</h3>
             <section className='flex flex-col gap-3'>
-              <h4 className='flex py-2 md:border-b border-gray-700'>
+              <h4 className='flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
                 <Image src='/kycDao-logo.svg' width={130} height={130} alt='kycDao-logo' />
+                <div className='bg-info border-2 border-info-strong text-sm px-2 rounded-full h-6'>Required</div>
               </h4>
               <div>
                 kycDAO is a multichain platform for issuing reusable, onchain KYC verifications.
@@ -200,7 +210,10 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
               </button>
             </section>
             <section className='flex flex-col gap-3'>
-              <h4 className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>Form W8/W9*</h4>
+              <h4 className='text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
+                Form W8/W9*
+                <div className='bg-info border-2 border-info-strong text-sm px-2 rounded-full h-6'>Required</div>
+              </h4>
               <div>
                 Please complete and upload a form W-8. Choose one of five types, depending on your entity. We encourage
                 you to consult with you own tax or financial adviser to determine which form is appropriate for you or
@@ -236,7 +249,10 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
               </div>
             </section>
             <section className='flex flex-col gap-3'>
-              <h4 className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>GitHub</h4>
+              <h4 className='text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
+                GitHub
+                <div className='bg-info border-2 border-info-strong text-sm px-2 rounded-full h-6'>Required</div>
+              </h4>
               <div className='flex items-center gap-2'>
                 Associate your GitHub account on-chain{' '}
                 <ToolTipNew
@@ -255,13 +271,11 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
                 Start
               </button>
             </section>
-            {!bounty.invoiceable && (
+            {bounty.invoiceable && (
               <section className='flex flex-col gap-3'>
-                <h4 className='text-2xl'>
-                  <div className='flex content-center items-center gap-2 border-b border-web-gray pb-2'>
-                    Invoice
-                    <div className='bg-info border border-bg-info-strong text-sm px-2 rounded-full h-6'>Required</div>
-                  </div>
+                <h4 className='text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
+                  Invoice
+                  <div className='bg-info border-2 border-info-strong text-sm px-2 rounded-full h-6'>Required</div>
                 </h4>
                 <p className='font-semibold'>How to use OpenQ's Invoice Generator</p>
                 <div>
@@ -279,10 +293,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
                   <p className='font-semibold'>Step 2</p>
                   <p>Send your invoice to complete this requirement.</p>
                 </div>
-                <button
-                  onClick={handleSendInvoice}
-                  className='flex gap-2 justify-center items-center content-center w-20 px-4 py-0.5 bg-claim rounded-sm'
-                >
+                <button onClick={handleSendInvoice} className='flex items-center gap-2 btn-requirements w-fit'>
                   <MailIcon />
                   Send
                 </button>
