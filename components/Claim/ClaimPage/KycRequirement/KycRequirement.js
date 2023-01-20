@@ -4,7 +4,7 @@ import React, { useCallback, useState } from 'react';
 import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
 import ShieldCheck from '../../../svg/shieldCheck';
 
-const KycRequirement = ({ bounty }) => {
+const KycRequirement = () => {
   const [stage, setStage] = useState('start');
   const onOpenSDK = useCallback(async () => {
     const { KycDaoClient } = await import('@kycdao/widget');

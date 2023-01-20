@@ -182,7 +182,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
               .
             </div>
             <h3 className='flex w-full text-3xl font-semibold text-primary'>Requirements</h3>
-            {bounty.kycRequired && <KycRequirement bounty={bounty} />}
+            {bounty.kycRequired && <KycRequirement />}
             <section className='flex flex-col gap-3'>
               <h4 className='text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
                 Form W8/W9*

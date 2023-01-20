@@ -31,7 +31,7 @@ const FundPage = () => {
   const web3 = useWeb3();
   const query = useRouter().query;
   const minter = bounty.issuer.id === web3?.account?.toLowerCase();
-  const canCrowdFund = !(bounty.invoiceable || query.invoiceable) || bounty.bountyType === '0';
+  const canCrowdFund = !(bounty.invoiceable || query.invoiceable) && !bounty.kycRequired;
   const canFund = canCrowdFund || minter;
   const [volume, setVolume] = useState('');
   const [tokenSelectState] = useContext(TokenContext);
