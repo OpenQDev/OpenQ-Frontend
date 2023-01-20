@@ -26,7 +26,13 @@ const KycRequirement = () => {
     <section className='flex flex-col gap-3'>
       <h4 className='flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
         <Image src='/kycDao-logo.svg' width={130} height={130} alt='kycDao-logo' />
-        <div className='bg-info border-2 border-info-strong text-sm px-2 rounded-full h-6'>Required</div>
+        <div
+          className={`${
+            stage == 'verified' ? 'bg-[#238636] border-[#2ea043]' : 'bg-info  border-info-strong'
+          } border-2 text-sm px-2 rounded-full h-6`}
+        >
+          {stage == 'verified' ? 'Approved' : 'Required'}
+        </div>
       </h4>
       <div>
         kycDAO is a multichain platform for issuing reusable, onchain KYC verifications.
