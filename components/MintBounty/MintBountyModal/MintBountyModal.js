@@ -134,7 +134,6 @@ const MintBountyModal = ({ modalVisibility }) => {
               </h3>
               <MintBountyInputIssue />
               <InvoiceableToggle />
-              <KycRequiredToggle />
               <TokenProvider>
                 <Budgeting category={category} />{' '}
               </TokenProvider>
@@ -147,6 +146,7 @@ const MintBountyModal = ({ modalVisibility }) => {
                 </>
               ) : category === 'Contest' || category === 'Fixed Contest' ? (
                 <>
+                  <KycRequiredToggle />
                   <AddContestParams />
                 </>
               ) : null}
