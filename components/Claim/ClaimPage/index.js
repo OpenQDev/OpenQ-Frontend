@@ -1,9 +1,8 @@
 // Third party Libraries
-import React, { useState, useRef, useContext, useCallback } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import axios from 'axios';
 import confetti from 'canvas-confetti';
 import Link from 'next/link';
-import Image from 'next/image';
 
 // Custom
 import {
@@ -26,8 +25,8 @@ import AuthContext from '../../../store/AuthStore/AuthContext';
 import { /* ChevronDownIcon, ChevronUpIcon, */ MailIcon, UploadIcon } from '@primer/octicons-react';
 //import FreelancerDetails from '../../User/InvoicingDetailsTab/FreelancerDetails';
 //import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
-import ShieldCheck from '../../svg/shieldCheck';
 import Github from '../../svg/github';
+import KycRequirement from './KycRequirement/KycRequirement';
 
 const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const { url } = bounty;
@@ -155,21 +154,6 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
       });
   };
 
-  const onOpenSDK = useCallback(async () => {
-    const { KycDaoClient } = await import('@kycdao/widget');
-
-    new KycDaoClient({
-      parent: '#modalroot',
-      config: {
-        demoMode: false,
-        enabledBlockchainNetworks: ['PolygonMainnet'],
-        enabledVerificationTypes: ['KYC'],
-        evmProvider: window.ethereum,
-        baseUrl: 'https://kycdao.xyz',
-      },
-    }).open();
-  }, []);
-
   if (showBountyClosed) {
     return bounty.bountyType ? (
       <>
@@ -186,7 +170,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
           <div className='flex flex-col w-full space-y-2 rounded-sm gap-4'>
             <div className='bg-info border-info-strong border-2 p-3 rounded-sm'>
               Congratulations, you are elgible to receive this bounty! In order to claim it you need to fulfill the
-              requriements highlighted below. To learn more read{' '}
+              requirements highlighted below. To learn more read{' '}
               <Link
                 href='/'
                 rel='noopener norefferer'
@@ -198,34 +182,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
               .
             </div>
             <h3 className='flex w-full text-3xl font-semibold text-primary'>Requirements</h3>
-            {bounty.kycRequired && (
-              <section className='flex flex-col gap-3'>
-                <h4 className='flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
-                  <Image src='/kycDao-logo.svg' width={130} height={130} alt='kycDao-logo' />
-                  <div className='bg-info border-2 border-info-strong text-sm px-2 rounded-full h-6'>Required</div>
-                </h4>
-                <div>
-                  kycDAO is a multichain platform for issuing reusable, onchain KYC verifications.
-                  <div>
-                    Learn more{' '}
-                    <Link
-                      href='https://kycdao.xyz/home'
-                      rel='noopener norefferer'
-                      target='_blank'
-                      className='text-blue-500 hover:underline col-span-2'
-                    >
-                      here
-                    </Link>
-                    .
-                  </div>
-                </div>
-                <div className='font-semibold'>Verify now</div>
-                <button className='flex items-center gap-2 btn-requirements w-fit' onClick={onOpenSDK}>
-                  <ShieldCheck className={'w-4 h-4 fill-primary'} />
-                  Start
-                </button>
-              </section>
-            )}
+            {bounty.kycRequired && <KycRequirement bounty={bounty} />}
             <section className='flex flex-col gap-3'>
               <h4 className='text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
                 Form W8/W9*

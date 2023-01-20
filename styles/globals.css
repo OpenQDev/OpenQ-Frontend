@@ -106,6 +106,9 @@ pre {
   .btn-requirements{
 		@apply bg-claim border border-claim rounded-sm px-3 py-0.5 hover:bg-blue-600 text-white
 	}
+  .btn-processing{
+		@apply bg-[#A095EB] border border-[#A095EB] rounded-sm px-3 py-0.5 text-white
+	}
 	.btn-primary{
 		@apply bg-[#238636] border border-[#238636] rounded-sm px-3 py-1 hover:bg-[#2ea043] text-white
 	}
