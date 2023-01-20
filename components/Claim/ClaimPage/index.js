@@ -226,7 +226,6 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
                 </div>
               </ToolTipNew>
             </div>
-            <div className='font-semibold'>Verify now</div>
             <button className='flex items-center gap-2 btn-requirements w-fit'>
               <Github className={'h-4 w-4'} />
               Start
@@ -257,6 +256,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
             <div className='flex flex-1'>
               <div className='w-5/6 pb-4 min-w-min'>
                 <div className='flex flex-col gap-4 pt-4'>
+                  <div className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>Claim Your Rewards</div>
                   <div>
                     {bounty.bountyType === '0' && (
                       <>
@@ -292,8 +292,8 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
                           type='submit'
                           className={
                             price > 0 && hasInvoicingInfo
-                              ? 'btn-primary cursor-pointer w-full whitespace-nowrap py-0.5'
-                              : 'btn-default cursor-not-allowed w-full whitespace-nowrap py-0.5'
+                              ? 'btn-primary cursor-pointer whitespace-nowrap py-0.5'
+                              : 'btn-default cursor-not-allowed whitespace-nowrap py-0.5'
                           }
                           disabled={!(price > 0 && hasInvoicingInfo)}
                           onClick={() => setShowClaimLoadingModal(true)}
