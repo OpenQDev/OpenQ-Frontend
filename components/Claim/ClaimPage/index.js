@@ -22,7 +22,8 @@ import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
 import StoreContext from '../../../store/Store/StoreContext';
 import ConnectButton from '../../WalletConnect/ConnectButton';
 import AuthContext from '../../../store/AuthStore/AuthContext';
-import { /* ChevronDownIcon, ChevronUpIcon, */ MailIcon, UploadIcon } from '@primer/octicons-react';
+import Invoicing from '../Invoicing';
+import W8Form from './W8Form';
 //import FreelancerDetails from '../../User/InvoicingDetailsTab/FreelancerDetails';
 //import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
 import Github from '../../svg/github';
@@ -40,22 +41,8 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const [showClaimLoadingModal, setShowClaimLoadingModal] = useState(false);
   const [justClaimed, setJustClaimed] = useState(false);
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
-  const [missingFields, setMissingFields] = useState(false);
   const { accountData } = appState;
-  const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}`;
-  const handleSendInvoice = async () => {
-    try {
-      await axios.post(
-        `http://localhost:3007/fixedcontest?id=${bounty.bountyAddress}&account=${account}`,
-        {},
-        { withCredentials: true }
-      );
-    } catch (err) {
-      if (JSON.parse(err.request.response).missingFields.length) {
-        setMissingFields(true);
-      }
-    }
-  };
+
   const accountKeys = [
     'billingName',
     'city',
@@ -178,45 +165,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
             </div>
             <h3 className='flex w-full text-3xl font-semibold text-primary'>Requirements</h3>
             {bounty.kycRequired && <KycRequirement />}
-            <section className='flex flex-col gap-3'>
-              <h4 className='text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
-                Form W8/W9*
-                <div className='bg-info border-2 border-info-strong text-sm px-2 rounded-full h-6'>Required</div>
-              </h4>
-              <div>
-                Please complete and upload a form W-8. Choose one of five types, depending on your entity. We encourage
-                you to consult with you own tax or financial adviser to determine which form is appropriate for you or
-                ask in our
-                <div>
-                  <Link
-                    href={'https://discord.gg/puQVqEvVXn'}
-                    rel='noopener norefferer'
-                    target='_blank'
-                    className='text-blue-500 hover:underline col-span-2'
-                  >
-                    discord
-                  </Link>{' '}
-                  for help.
-                </div>
-              </div>
-              <div className='font-semibold'>Upload</div>
-              <button className='flex items-center gap-2 btn-requirements w-fit'>
-                <UploadIcon size={16} /> Upload
-              </button>
-              <div className=''>
-                *W-8 forms are{' '}
-                <Link
-                  href={'https://www.irs.gov/'}
-                  rel='noopener norefferer'
-                  target='_blank'
-                  className='text-blue-500 hover:underline col-span-2'
-                >
-                  Internal Revenue Service
-                </Link>{' '}
-                (IRS) forms that foreign individuals and businesses must file to verify their country of residence for
-                tax purposes, certifying that they qualify for a lower rate of tax withholding.
-              </div>
-            </section>
+            <W8Form bounty={bounty} />
             <section className='flex flex-col gap-3'>
               <h4 className='text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
                 GitHub
@@ -240,47 +189,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
                 Start
               </button>
             </section>
-            {bounty.invoiceable && (
-              <section className='flex flex-col gap-3'>
-                <h4 className='text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
-                  Invoice
-                  <div className='bg-info border-2 border-info-strong text-sm px-2 rounded-full h-6'>Required</div>
-                </h4>
-                <p className='font-semibold'>How to use OpenQ's Invoice Generator</p>
-                <div>
-                  {' '}
-                  <p className='font-semibold'>Step 1</p>
-                  <p>
-                    Please fill in your billing details in your{' '}
-                    <Link className='text-blue-500 hover:underline col-span-2' href={profileLink}>
-                      profile
-                    </Link>{' '}
-                    and review the sample invoice.
-                  </p>
-                </div>
-                <div>
-                  <p className='font-semibold'>Step 2</p>
-                  <p>Send your invoice to complete this requirement.</p>
-                </div>
-                <button onClick={handleSendInvoice} className='flex items-center gap-2 btn-requirements w-fit'>
-                  <MailIcon />
-                  Send
-                </button>
-                {missingFields && (
-                  <div className='bg-info border-info-strong border p-4 rounded-sm'>
-                    You haven't added all the mandatory fields in your invoice details. Please head to your{' '}
-                    <Link className='underline' href={profileLink}>
-                      profile
-                    </Link>{' '}
-                    and add them or ask for help in our{' '}
-                    <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
-                      discord
-                    </a>
-                    .
-                  </div>
-                )}
-              </section>
-            )}
+            <Invoicing bounty={bounty} />
             <section className='flex flex-col gap-3'>
               <h4 className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>Claim Your Rewards</h4>
               <div className='flex flex-col gap-2'>
