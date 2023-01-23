@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import ToolTipNew from '../../../Utils/ToolTipNew';
 import { UploadIcon } from '@primer/octicons-react';
+import W8FormModal from './W8FormModal';
 import axios from 'axios';
 import { EMAIL_NOT_SENT } from '../../../../constants/invoiceableResponses';
 const W8Form = ({ bounty }) => {
   const [file, setFile] = useState(null);
   const [invoiceResponse, setInvoiceResponse] = useState('');
   const [sent, setSent] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
     setSent(false);
@@ -127,17 +128,22 @@ const W8Form = ({ bounty }) => {
           for help.
         </div>
       </div>
-      <div className='font-semibold flex gap-2'>
+      <div className='font-semibold flex gap-2 group w-fit'>
         Upload{' '}
-        <ToolTipNew toolTipText={'Tooltip text'}>
-          <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24' className='fill-primary'>
-            <path d='M13 7.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm-3 3.75a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v4.25h.75a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5h.75V12h-.75a.75.75 0 0 1-.75-.75Z'></path>
-            <path d='M12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1ZM2.5 12a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5A9.5 9.5 0 0 0 12 2.5 9.5 9.5 0 0 0 2.5 12Z'></path>
-          </svg>
-        </ToolTipNew>
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          viewBox='0 0 24 24'
+          width='24'
+          height='24'
+          className='fill-primary cursor-pointer'
+          onClick={() => setShowModal(true)}
+        >
+          <path d='M13 7.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm-3 3.75a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v4.25h.75a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5h.75V12h-.75a.75.75 0 0 1-.75-.75Z'></path>
+          <path d='M12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1ZM2.5 12a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5A9.5 9.5 0 0 0 12 2.5 9.5 9.5 0 0 0 2.5 12Z'></path>
+        </svg>
       </div>
       <form onSubmit={handleSend} className='flex gap-2'>
-        <label htmlFor='file input' className='relative btn-requirements '>
+        <label htmlFor='file input' className='relative btn-requirements cursor-pointer'>
           <div className='flex gap-2 z-20 items-center'>
             <UploadIcon size={16} /> Upload
           </div>
@@ -174,6 +180,7 @@ const W8Form = ({ bounty }) => {
           <MessageHTML />
         </div>
       )}
+      {showModal && <W8FormModal setShowModal={setShowModal} />}
     </section>
   );
 };
