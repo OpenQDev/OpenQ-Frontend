@@ -1,0 +1,232 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`W8FormModal should match initial DOM Snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    <div
+      class="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 undefined"
+    >
+      <div
+        class="flex w-full md:w-[640px] h-full md:h-[600px] border border-gray-700 md:rounded-sm bg-[#161B22]"
+      >
+        <div
+          class="flex flex-col relative w-full"
+        >
+          <button
+            class="absolute top-4 right-4 cursor-pointer"
+            data-testid="cross"
+          >
+            <svg
+              class="fill-muted hover:fill-blue-400 w-4 h-4"
+              height="16"
+              viewBox="0 0 16 16"
+              width="16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </button>
+          <div
+            class="py-2 px-4 border-b border-gray-700 text-2xl w-full"
+          >
+            W8/W9 Form
+          </div>
+          <div
+            class="w-full h-full md:h-[500px] overflow-x-hidden overflow-y-auto"
+          >
+            <div
+              class="whitespace-pre-wrap px-8 py-2"
+            >
+              <p
+                class="py-2"
+              >
+                Please complete and upload a form W-8. Choose one of five types, depending on your entity. We encourage you to consult with your own tax or financial adviser to determine which form is appropriate for you.
+              </p>
+              <p
+                class="py-2"
+              >
+                1. W-8-BEN, Certificate of Foreign Status of Beneficial Owner for United States Tax Withholding and Reporting (Individuals).
+              </p>
+              <p
+                class="py-2"
+              >
+                Instructions: 
+                <a
+                  class="text-blue-500 hover:underline col-span-2"
+                  href="https://www.irs.gov/instructions/iw8ben"
+                  rel="noopener norefferer"
+                  target="_blank"
+                >
+                  https://www.irs.gov/instructions/iw8ben
+                </a>
+              </p>
+              <p
+                class="py-2"
+              >
+                Form: 
+                <a
+                  class="text-blue-500 hover:underline col-span-2"
+                  href="https://www.irs.gov/pub/irs-pdf/fw8ben.pdf"
+                  rel="noopener norefferer"
+                  target="_blank"
+                >
+                  https://www.irs.gov/pub/irs-pdf/fw8ben.pdf
+                </a>
+              </p>
+              <p
+                class="py-2"
+              >
+                2. W-8-BEN-E, Certificate of Status of Beneficial Owner for United States Tax Withholding and Reporting (Entities).
+              </p>
+              <p
+                class="py-2"
+              >
+                Instructions: 
+                <a
+                  class="text-blue-500 hover:underline col-span-2"
+                  href="https://www.irs.gov/instructions/iw8bene"
+                  rel="noopener norefferer"
+                  target="_blank"
+                >
+                  https://www.irs.gov/instructions/iw8bene
+                </a>
+              </p>
+              <p
+                class="py-2"
+              >
+                Form: 
+                <a
+                  class="text-blue-500 hover:underline col-span-2"
+                  href="https://www.irs.gov/pub/irs-pdf/fw8bene.pdf"
+                  rel="noopener norefferer"
+                  target="_blank"
+                >
+                  https://www.irs.gov/pub/irs-pdf/fw8bene.pdf
+                </a>
+              </p>
+              <p
+                class="py-2"
+              >
+                3. W-8-ECI, Certificate of Foreign Person’s Claim That Income is Effectively Connected With the Conduct of a Trade or Business in the United States.
+              </p>
+              <p
+                class="py-2"
+              >
+                Instructions: 
+                <a
+                  class="text-blue-500 hover:underline col-span-2"
+                  href="https://www.irs.gov/pub/irs-pdf/iw8eci.pdf"
+                  rel="noopener norefferer"
+                  target="_blank"
+                >
+                  https://www.irs.gov/pub/irs-pdf/iw8eci.pdf
+                </a>
+              </p>
+              <p
+                class="py-2"
+              >
+                Form: 
+                <a
+                  class="text-blue-500 hover:underline col-span-2"
+                  href="https://www.irs.gov/pub/irs-pdf/fw8eci.pdf"
+                  rel="noopener norefferer"
+                  target="_blank"
+                >
+                  https://www.irs.gov/pub/irs-pdf/fw8eci.pdf
+                </a>
+              </p>
+              <p
+                class="py-2"
+              >
+                4. W-8-EXP, Certificate of Foreign Government or Other Foreign Organization for United States Tax Withholding and Reporting.
+              </p>
+              <p
+                class="py-2"
+              >
+                Instructions: 
+                <a
+                  class="text-blue-500 hover:underline col-span-2"
+                  href="https://www.irs.gov/pub/irs-pdf/iw8exp.pdf"
+                  rel="noopener norefferer"
+                  target="_blank"
+                >
+                  https://www.irs.gov/pub/irs-pdf/iw8exp.pdf
+                </a>
+              </p>
+              <p
+                class="py-2"
+              >
+                Form: 
+                <a
+                  class="text-blue-500 hover:underline col-span-2"
+                  href="https://www.irs.gov/pub/irs-pdf/fw8exp.pdf"
+                  rel="noopener norefferer"
+                  target="_blank"
+                >
+                  https://www.irs.gov/pub/irs-pdf/fw8exp.pdf
+                </a>
+              </p>
+              <p
+                class="py-2"
+              >
+                5. W-8-IMY, Certificate of Foreign Intermediary, Foreign Flow-Through Entity, or Certain U.S. Branches for United States Tax Withholding and Reporting.
+              </p>
+              <p
+                class="py-2"
+              >
+                Instructions: 
+                <a
+                  class="text-blue-500 hover:underline col-span-2"
+                  href="https://www.irs.gov/individuals/international-taxpayers/form-w-8imy"
+                  rel="noopener norefferer"
+                  target="_blank"
+                >
+                  https://www.irs.gov/individuals/international-taxpayers/form-w-8imy
+                </a>
+              </p>
+              <p
+                class="py-2"
+              >
+                Form: 
+                <a
+                  class="text-blue-500 hover:underline col-span-2"
+                  href="https://www.irs.gov/pub/irs-pdf/fw8imy.pdf"
+                  rel="noopener norefferer"
+                  target="_blank"
+                >
+                  https://www.irs.gov/pub/irs-pdf/fw8imy.pdf
+                </a>
+              </p>
+              <p
+                class="py-2"
+              >
+                The IRS requires us to withhold FIL from payments to non-U.S. citizens who live outside of the United States unless we can associate the payee with a completed, signed form W-8.
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex justify-between items-center py-2 px-4 flex-wrap border-t border-gray-700 w-full "
+          >
+            <div
+              class="my-1"
+            />
+            <div>
+              <button
+                class="btn-primary"
+              >
+                I unsertand
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="bg-overlay z-10 fixed inset-0"
+    />
+  </div>
+</DocumentFragment>
+`;
