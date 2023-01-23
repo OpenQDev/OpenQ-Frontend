@@ -1,17 +1,16 @@
 // Third party
 import React, { useContext } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import AuthContext from '../../../store/AuthStore/AuthContext';
 import StoreContext from '../../../store/Store/StoreContext';
 import CopyAddressToClipboard from '../../CopyAddressToClipboard';
+import { getBountyMarker } from '../../../services/utils/lib';
 
 // Custom
 
 const BountyStatus = ({ bounty }) => {
   const [appState] = useContext(StoreContext);
 
-  const [authState] = useContext(AuthContext);
-  const marker = appState.utils.getBountyMarker(bounty, authState.login);
+  const marker = getBountyMarker(bounty, appState.openQClient, appState.accountData.github);
 
   return (
     <div className='flex flex-col gap-2 w-full'>

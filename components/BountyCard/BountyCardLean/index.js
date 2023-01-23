@@ -11,7 +11,7 @@ import ReactGA from 'react-ga4';
 import StoreContext from '../../../store/Store/StoreContext';
 import LabelsList from '../../Bounty/LabelsList';
 import useDisplayValue from '../../../hooks/useDisplayValue';
-import AuthContext from '../../../store/AuthStore/AuthContext';
+import { getBountyMarker } from '../../..//services/utils/lib';
 
 const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
   // State
@@ -27,8 +27,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
   const [watchingUsers] = watchingState;
   // Hooks
 
-  const [authState] = useContext(AuthContext);
-  const marker = appState.utils.getBountyMarker(bounty, authState.login);
+  const marker = getBountyMarker(bounty, appState.openQClient, appState.accountData.github);
   const bountyTypeName = appState.utils.getBountyTypeName(bounty);
 
   const closeModal = () => {

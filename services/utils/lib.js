@@ -79,3 +79,91 @@ export const checkHackathonDates = (startDate, endDate, today) => {
   }
   return true;
 };
+const checkPrUsed = (pr, bounty) => {
+  bounty.claims.some((claim) => claim.claimantAsset === pr);
+};
+const checkTierClaimed = (bounty, index) => {
+  return bounty.claims.some((claim) => claim.tier === index.toString());
+};
+
+const checkFixedAndSplit = (bounty, currentUser) => {
+  if (
+    bounty.status == '0' &&
+    bounty?.prs?.some((pr) => pr.source.merged && pr.source.author.id === currentUser && checkPrUsed(pr, bounty))
+  )
+    return { status: 'Claimed' };
+  if (bounty.status == '0' && bounty?.prs?.some((pr) => pr.source.merged && pr.source.author.id === currentUser)) {
+    return { status: 'Claimable' };
+  }
+  return { status: null };
+};
+const checkTiered = (bounty, currentUser) => {
+  if (bounty?.tierWinners?.some((winner, index) => winner === currentUser && checkTierClaimed(bounty, index))) {
+    return { status: 'Claimed' };
+  }
+
+  if (bounty?.tierWinners?.some((winner) => winner === currentUser)) {
+    return { status: 'Claimable' };
+  }
+  return { status: null };
+};
+
+export const checkClaimable = (bounty, currentUser) => {
+  bounty.bountyType === '0';
+  switch (bounty.bountyType) {
+    case '0': {
+      return checkFixedAndSplit(bounty, currentUser);
+    }
+    case '1': {
+      return checkFixedAndSplit(bounty, currentUser);
+    }
+    case '2': {
+      return checkTiered(bounty, currentUser);
+    }
+    case '3': {
+      return checkTiered(bounty, currentUser);
+    }
+    default:
+      return { status: null };
+  }
+};
+
+export const getBountyMarker = (bounty, openQClient, githubId) => {
+  if (bounty.closed) return { status: 'Closed', colour: 'bg-danger', fill: 'fill-danger' };
+  const { status } = checkClaimable(bounty, githubId, openQClient);
+  if (status === 'Claimable') {
+    return {
+      status: 'Claim Available',
+      colour: 'bg-closed',
+      fill: 'fill-closed',
+    };
+  }
+  if (status === 'Claimed') {
+    return {
+      status: 'Claimed',
+      colour: 'bg-closed',
+      fill: 'fill-closed',
+    };
+  }
+  if (bounty.bountyType === '0') {
+    if (bounty.assignees[0]) {
+      return {
+        status: 'In Progress',
+        colour: 'bg-yellow-500 text-black fill-black',
+        fill: 'fill-yellow-500',
+      };
+    }
+    return {
+      status: 'Ready for Work',
+      colour: 'bg-green',
+      fill: 'fill-green',
+    };
+  } else {
+    // for split price and contests, closed when status is 1
+    if (bounty.status == '1') {
+      return { status: 'Closed', colour: 'bg-danger', fill: 'fill-danger' };
+    } else {
+      return { status: 'Open', colour: 'bg-green', fill: 'fill-green' };
+    }
+  }
+};

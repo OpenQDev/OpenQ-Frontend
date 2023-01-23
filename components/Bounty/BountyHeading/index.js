@@ -5,13 +5,13 @@ import Link from 'next/link';
 import MintBountyButton from '../../MintBounty/MintBountyButton';
 import StoreContext from '../../../store/Store/StoreContext';
 import useDisplayValue from '../../../hooks/useDisplayValue';
-import AuthContext from '../../../store/AuthStore/AuthContext';
 import RefreshBounty from './RefreshBounty';
+import { getBountyMarker } from '../../..//services/utils/lib';
 
 const BountyHeading = ({ bounty, refreshGithubBounty }) => {
   const [appState] = useContext(StoreContext);
-  const [authState] = useContext(AuthContext);
-  const marker = appState.utils.getBountyMarker(bounty, authState.login);
+  const githubId = appState.accountData.github;
+  const marker = getBountyMarker(bounty, appState.openQClient, githubId);
   const totalPrice = useDisplayValue(bounty, appState.utils.formatter.format);
 
   return (

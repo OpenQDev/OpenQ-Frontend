@@ -7,12 +7,14 @@ import { EMAIL_NOT_SENT } from '../../../../constants/invoiceableResponses';
 const W8Form = ({ bounty }) => {
   const [file, setFile] = useState(null);
   const [invoiceResponse, setInvoiceResponse] = useState('');
+  const [sent, setSent] = useState(false);
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
+    setSent(false);
+    setInvoiceResponse('');
   };
 
   const handleResult = (result) => {
-    console.log(result.data.message);
     if (result?.data?.message) {
       setInvoiceResponse(result.data.message);
     } else setInvoiceResponse(EMAIL_NOT_SENT);
@@ -20,7 +22,9 @@ const W8Form = ({ bounty }) => {
   const handleSend = async (e) => {
     e.preventDefault();
     const formData = new FormData();
+    setSent(true);
     formData.append('file', file);
+    setFile(null);
     const result = await axios.post(
       `${process.env.NEXT_PUBLIC_INVOICE_URL}/taxform?id=${bounty.bountyAddress}`,
       formData,
@@ -31,6 +35,7 @@ const W8Form = ({ bounty }) => {
         },
       }
     );
+
     handleResult(result);
   };
 
@@ -82,6 +87,10 @@ const W8Form = ({ bounty }) => {
         </>
       ),
     },
+
+    NOT_PDF: {
+      MessageHTML: () => <>Your file is not a pdf.</>,
+    },
     EMAIL_NOT_SENT: {
       MessageHTML: () => (
         <>
@@ -97,7 +106,6 @@ const W8Form = ({ bounty }) => {
   };
 
   const MessageHTML = invoiceResponseOptions[invoiceResponse]?.MessageHTML || (() => <></>);
-  console.log(invoiceResponse, MessageHTML);
   return (
     <section className='flex flex-col gap-3'>
       <h4 className='text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
@@ -145,7 +153,7 @@ const W8Form = ({ bounty }) => {
           disabled={!file}
           className={file ? 'btn-requirements cursor-pointer' : 'btn-default cursor-not-allowed'}
         >
-          Send
+          {sent ? 'Sent' : 'Send'}
         </button>
       </form>
       <div className=''>
