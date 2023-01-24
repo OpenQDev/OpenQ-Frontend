@@ -5,7 +5,6 @@ import ToolTipNew from '../../../Utils/ToolTipNew';
 
 const index = () => {
   const [verified, setVerified] = useState(null);
-  console.log('verified', verified);
   return (
     <section className='flex flex-col gap-3'>
       <h4 className='text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2'>

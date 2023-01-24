@@ -32,16 +32,16 @@ const GithubConnection = ({ user, claimPage, setVerified }) => {
         if (externalUserId) {
           setExternalUserId(externalUserId);
           setExternalUserIdLoading(false);
-          if (claimPage) {
-            setVerified(true);
-            console.log('verified');
-          }
         }
         setExternalUserIdLoading(false);
       }
     };
     checkAssociatedExternalId();
   }, [library, account, githubId]);
+
+  useEffect(() => {
+    if (externalUserId && githubId) setVerified(true);
+  }, [externalUserId]);
 
   return (
     <>
