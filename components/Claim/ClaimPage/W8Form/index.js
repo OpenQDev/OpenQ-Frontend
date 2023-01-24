@@ -13,7 +13,6 @@ const W8Form = ({ bounty }) => {
   };
 
   const handleResult = (result) => {
-    console.log(result.data.message);
     if (result?.data?.message) {
       setInvoiceResponse(result.data.message);
     } else setInvoiceResponse(EMAIL_NOT_SENT);
@@ -98,7 +97,6 @@ const W8Form = ({ bounty }) => {
   };
 
   const MessageHTML = invoiceResponseOptions[invoiceResponse]?.MessageHTML || (() => <></>);
-  console.log(invoiceResponse, MessageHTML);
   return (
     <section className='flex flex-col gap-3'>
       <h4 className='text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2'>

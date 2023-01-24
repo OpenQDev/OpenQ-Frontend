@@ -18,9 +18,7 @@ const Invoicing = ({ bounty }) => {
   const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}`;
 
   const [invoiceResponse, setInvoiceResponse] = useState('');
-  console.log(invoiceResponse);
   const handleResult = (result) => {
-    console.log(result);
     if (result.data) {
       setInvoiceResponse(result.data.message);
     } else setInvoiceResponse(EMAIL_NOT_SENT);
