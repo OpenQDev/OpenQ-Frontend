@@ -5,3 +5,4 @@ export const NOT_INVOICEABLE = 'NOT_INVOICEABLE';
 export const NOT_WINNER = 'NOT_WINNER';
 export const SECURITY_ERROR = 'SECURITY_ERROR';
 export const MISSING_FIELDS = 'MISSING_FIELDS';
+export const NOT_PDF = 'NOT_PDF';

@@ -271,7 +271,7 @@ const FundPage = () => {
                   )}
                 </div>
               </div>
-              {bounty.invoiceable && (
+              {bounty.invoiceable && neededAccountData.length !== 0 && (
                 <>
                   <div className='w-5/6'>
                     Invoicing data required for this bounty, you are missing values for the{' '}
@@ -299,8 +299,7 @@ const FundPage = () => {
             </div>
           ) : (
             <div>
-              {' '}
-              Sorry crowdfunding isn't avaliable for this bounty, please connect the account (
+              Sorry crowdfunding isn't avaliable for invoiceable bounties such as this one, please connect the account (
               {shortenAddress(bounty.issuer.id)}) that minted this bounty to fund it.
             </div>
           )}

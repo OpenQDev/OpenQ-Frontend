@@ -35,13 +35,16 @@ import Gear from '../../../components/svg/gear';
 import ClaimOverview from '../../../components/Claim/ClaimOverview';
 import Log from '../../../components/svg/log';
 import FundProvider from '../../../components/FundBounty/FundStore/FundProvider';
+import { checkClaimable } from '../../../services/utils/lib';
 
 const address = ({ address, mergedBounty, renderError }) => {
   // Context
   const [appState, dispatch] = useContext(StoreContext);
-  const { accountData } = appState;
+  const { accountData, openQClient } = appState;
   const [bounty, setBounty] = useState(mergedBounty);
   const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
+  const { status } = checkClaimable(bounty, accountData?.github, openQClient);
+  const claimable = status === 'Claimable';
 
   const createBudget = (bounty) => {
     return bounty.fundingGoalTokenAddress
@@ -201,6 +204,7 @@ const address = ({ address, mergedBounty, renderError }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   const claimOverView = bounty?.claims?.length > 0 ? [{ name: 'Claims Overview', Svg: Log }] : [];
+  const claim = claimable ? [{ name: 'Claim', Svg: Fire }] : [];
 
   // User Methods
 
@@ -235,7 +239,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                   { name: 'View', Svg: Telescope },
                   { name: 'Fund', Svg: Add },
                   { name: 'Refund', Svg: Subtract },
-                  { name: 'Claim', Svg: Fire },
+                  ...claim,
                   ...claimOverView,
                   {
                     name: bounty.issuer && ethers.utils.getAddress(bounty?.issuer?.id) == account ? 'Admin' : null,
@@ -262,7 +266,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                     </TokenProvider>
                   </FundProvider>
                 ) : null}
-                {internalMenu == 'Claim' && bounty ? (
+                {internalMenu == 'Claim' && claimable && bounty ? (
                   <ClaimPage price={tokenValues?.total} split={split} bounty={bounty} refreshBounty={refreshBounty} />
                 ) : null}
                 {internalMenu == 'Claims Overview' && bounty ? (

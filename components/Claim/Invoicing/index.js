@@ -77,7 +77,6 @@ const Invoicing = ({ bounty }) => {
 
       handleResult(result);
     } catch (err) {
-      console.log(err.request);
       if (JSON.parse(err.request.response).missingFields.length) {
         setInvoiceResponse(MISSING_FIELDS);
       } else {

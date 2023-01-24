@@ -7,9 +7,12 @@ import { EMAIL_NOT_SENT } from '../../../../constants/invoiceableResponses';
 const W8Form = ({ bounty }) => {
   const [file, setFile] = useState(null);
   const [invoiceResponse, setInvoiceResponse] = useState('');
+  const [sent, setSent] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
+    setSent(false);
+    setInvoiceResponse('');
   };
 
   const handleResult = (result) => {
@@ -20,7 +23,9 @@ const W8Form = ({ bounty }) => {
   const handleSend = async (e) => {
     e.preventDefault();
     const formData = new FormData();
+    setSent(true);
     formData.append('file', file);
+    setFile(null);
     const result = await axios.post(
       `${process.env.NEXT_PUBLIC_INVOICE_URL}/taxform?id=${bounty.bountyAddress}`,
       formData,
@@ -31,6 +36,7 @@ const W8Form = ({ bounty }) => {
         },
       }
     );
+
     handleResult(result);
   };
 
@@ -81,6 +87,10 @@ const W8Form = ({ bounty }) => {
           </a>
         </>
       ),
+    },
+
+    NOT_PDF: {
+      MessageHTML: () => <>Your file is not a pdf.</>,
     },
     EMAIL_NOT_SENT: {
       MessageHTML: () => (
@@ -149,7 +159,7 @@ const W8Form = ({ bounty }) => {
           disabled={!file}
           className={file ? 'btn-requirements cursor-pointer' : 'btn-default cursor-not-allowed'}
         >
-          Send
+          {sent ? 'Sent' : 'Send'}
         </button>
       </form>
       <div className=''>
