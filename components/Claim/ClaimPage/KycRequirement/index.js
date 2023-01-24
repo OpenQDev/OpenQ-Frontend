@@ -37,7 +37,7 @@ const KycRequirement = () => {
         <Image src='/kycDao-logo.svg' width={130} height={130} alt='kycDao-logo' />
         <div
           className={`${
-            stage == 'verified' ? 'bg-[#238636] border-[#2ea043]' : 'bg-info  border-info-strong'
+            stage == 'verified' ? 'bg-[#1c6f2c] border-[#2ea043]' : 'bg-info  border-info-strong'
           } border-2 text-sm px-2 rounded-full h-6`}
         >
           {stage == 'verified' ? 'Approved' : 'Required'}
