@@ -167,3 +167,10 @@ export const getBountyMarker = (bounty, openQClient, githubId) => {
     }
   }
 };
+
+export const getPlural = (count) => {
+  if (count > 1 || count === 0) {
+    return 's';
+  }
+  return '';
+};
