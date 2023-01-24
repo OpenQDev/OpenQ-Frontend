@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import React, { useState } from 'react';
 import GithubConnection from '../../../User/OverviewTab/GithubConnection';
 import ToolTipNew from '../../../Utils/ToolTipNew';
@@ -31,12 +30,6 @@ const index = () => {
         </ToolTipNew>
       </div>
       <GithubConnection verified={verified} setVerified={setVerified} claimPage={true} />
-      {verified && (
-        <div key={2} className='flex items-center gap-2 btn-verified w-fit'>
-          <Image src='/BountyMaterial/polyscan-white.png' width={20} height={20} alt='link-icon' />
-          Verified
-        </div>
-      )}
     </section>
   );
 };

@@ -13,6 +13,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
+		"lint:fix": "next lint --fix",
 		"test": "TZ=UTC jest --watch --runInBand",
 		"test:cicd": "TZ=UTC jest --runInBand",
 		"gen": "node services/ethers/mocks/abiToJavascriptClass.js",
