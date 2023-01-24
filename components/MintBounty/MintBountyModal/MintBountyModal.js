@@ -21,6 +21,7 @@ import MintContext from '../MintContext';
 // Utils
 import SubMenu from '../../Utils/SubMenu';
 import ModalLarge from '../../Utils/ModalLarge';
+import KycRequiredToggle from './KycRequiredToggle';
 
 const MintBountyModal = ({ modalVisibility }) => {
   const [appState] = useContext(StoreContext);
@@ -145,6 +146,7 @@ const MintBountyModal = ({ modalVisibility }) => {
                 </>
               ) : category === 'Contest' || category === 'Fixed Contest' ? (
                 <>
+                  <KycRequiredToggle />
                   <AddContestParams />
                 </>
               ) : null}

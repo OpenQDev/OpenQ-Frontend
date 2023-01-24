@@ -29,6 +29,9 @@ module.exports = {
 				inner: 'inset 0 -2px 3px 0 rgba(0, 0, 0, 0.06)',
 			},
 			colors: {
+			"claim": "#3a4be9",
+				'info': '#4b422f',
+				'info-strong': '#7e5a18',
 				'dark-mode': '#0D1117',
 				'nav-bg': '#161B22',
 				'nav-text': '#f0f6fc',

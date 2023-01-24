@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import OpenQABI from '../../artifacts/contracts/OpenQ/Implementations/OpenQV3.sol/OpenQV3.json';
 import DepositManagerABI from '../../artifacts/contracts/DepositManager/DepositManagerV2.sol/DepositManagerV2.json';
-import ClaimManagerAbi from '../../artifacts/contracts/ClaimManager/Implementations/ClaimManagerV3.sol/ClaimManagerV3.json';
+import ClaimManagerAbi from '../../artifacts/contracts/ClaimManager/Implementations/ClaimManagerV2.sol/ClaimManagerV2.json';
 
 import ERC20ABI from '../../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json';
 import ERC721ABI from '../../artifacts/@openzeppelin/contracts/token/ERC721/ERC721.sol/ERC721.json';
@@ -70,8 +70,7 @@ class OpenQClient {
     return signature;
   };
 
-  mintBounty = async (library, issueId, organization, type, invoiceable, data) => {
-    const kycRequired = false;
+  mintBounty = async (library, issueId, organization, type, invoiceable, kycRequired, data) => {
     const promise = new Promise(async (resolve, reject) => {
       let bountyInitOperation;
       let abiCoder = new ethers.utils.AbiCoder();

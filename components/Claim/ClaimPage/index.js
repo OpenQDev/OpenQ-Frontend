@@ -2,6 +2,7 @@
 import React, { useState, useRef, useContext } from 'react';
 import axios from 'axios';
 import confetti from 'canvas-confetti';
+import Link from 'next/link';
 
 // Custom
 import {
@@ -21,13 +22,18 @@ import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
 import StoreContext from '../../../store/Store/StoreContext';
 import ConnectButton from '../../WalletConnect/ConnectButton';
 import AuthContext from '../../../store/AuthStore/AuthContext';
-import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
-import FreelancerDetails from '../../User/InvoicingDetailsTab/FreelancerDetails';
-import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
+import Invoicing from '../Invoicing';
+import W8Form from './W8Form';
+//import FreelancerDetails from '../../User/InvoicingDetailsTab/FreelancerDetails';
+//import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
+import KycRequirement from './KycRequirement';
+import GithubRequirement from './GithubRequirement';
 
 const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const { url } = bounty;
   const [appState, dispatch] = useContext(StoreContext);
+  const { account, library } = useWeb3();
+  const [ensName] = useEns(account);
   // State
   const [error, setError] = useState('');
   const [transactionHash, setTransactionHash] = useState(null);
@@ -36,6 +42,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const [justClaimed, setJustClaimed] = useState(false);
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const { accountData } = appState;
+
   const accountKeys = [
     'billingName',
     'city',
@@ -73,8 +80,6 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   };
 
   // Context
-  const { account, library } = useWeb3();
-  const [ensName] = useEns(account);
 
   // Hooks
   const [authState] = useContext(AuthContext);
@@ -148,108 +153,112 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
     // rewards are claimable
     return (
       <>
-        <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
-          <div className='flex flex-col w-full space-y-2 items-center content-center md:border rounded-sm border-gray-700'>
-            <div className='flex w-full text-3xl text-primary justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
-              Claim Your Rewards
+        <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px]'>
+          <div className='flex flex-col w-full space-y-2 rounded-sm gap-4'>
+            <div className='bg-info border-info-strong border-2 p-3 rounded-sm'>
+              Congratulations, you are elgible to receive this bounty! In order to claim it you need to fulfill the
+              requirements highlighted below. To learn more read{' '}
+              <Link href='/' rel='noopener norefferer' target='_blank' className='underline col-span-2'>
+                here
+              </Link>
+              .
             </div>
-            <div className='flex flex-1 justify-center content-center items-center'>
-              <div className='w-5/6 pb-4 min-w-min'>
-                <div className='flex flex-col gap-4 pt-4'>
-                  <div>
-                    {bounty.bountyType === '0' && (
-                      <>
-                        "Don't forget to add a closer comment for this bounty on your pull request :-)."
-                        <CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} />
-                      </>
-                    )}
-                  </div>
-                  {!authState.isAuthenticated ? (
-                    <div className=' col-span-3 border border-gray-700 bg-[#21262d] rounded-sm p-4'>
-                      We noticed you are not signed into Github. You must sign to verify and claim an issue!
-                    </div>
-                  ) : null}
-                  <ConnectButton
-                    needsGithub={true}
-                    nav={false}
-                    tooltipAction={'claim this contract!'}
-                    hideSignOut={true}
-                  />
-                  {account && isOnCorrectNetwork && authState.isAuthenticated && (
-                    <div className='flex flex-col space-y-5'>
-                      <ToolTipNew
-                        groupStyles={'w-full'}
-                        outerStyles='flex w-full items-center'
-                        hideToolTip={price > 0 && hasInvoicingInfo}
-                        toolTipText={
-                          price <= 0
-                            ? 'There are no funds locked to claim, contact the maintainer of this issue.'
-                            : !hasInvoicingInfo && 'This bounty requires invoicing data, please fill in the form below.'
-                        }
-                      >
-                        <button
-                          type='submit'
-                          className={
-                            price > 0 && hasInvoicingInfo
-                              ? 'btn-primary cursor-pointer w-full px-8 whitespace-nowrap py-0.5'
-                              : 'btn-default cursor-not-allowed w-full  px-8 whitespace-nowrap py-0.5'
-                          }
-                          disabled={!(price > 0 && hasInvoicingInfo)}
-                          onClick={() => setShowClaimLoadingModal(true)}
-                        >
-                          Claim
-                        </button>
-                      </ToolTipNew>
-                      {bounty.invoiceable && (
-                        <>
-                          {neededAccountData.length > 0 && (
-                            <div>
-                              Invoicing data required for this bounty, you are missing values for the{' '}
-                              {listWordsWithAnd(
-                                neededAccountData.map((elem) => {
-                                  return valueToDisplay(elem);
-                                })
-                              )}{' '}
-                              fields.
-                            </div>
-                          )}
-                          <details className='w-5/6 group' open={!hasInvoicingInfo}>
-                            <summary className='list-none text-2xl text-muted fill-muted cursor-pointer'>
-                              Invoicing data{' '}
-                              <span className='group-open:hidden'>
-                                <ChevronDownIcon size='24px' />
-                              </span>
-                              <span className='hidden group-open:inline'>
-                                <ChevronUpIcon size='24px' />
-                              </span>
-                            </summary>
-                            <FreelancerDetails slim={true} />
-                          </details>
-                        </>
-                      )}
-                    </div>
-                  )}
-                  {showClaimLoadingModal && (
-                    <ClaimLoadingModal
-                      confirmMethod={claimBounty}
-                      url={url}
-                      ensName={ensName}
-                      account={account}
-                      error={error}
-                      claimState={claimState}
-                      address={account}
-                      transactionHash={transactionHash}
-                      setShowClaimLoadingModal={updateModal}
-                      bounty={bounty}
-                      authState={authState}
-                      price={price}
-                      split={split}
-                    />
-                  )}
-                </div>
+            <h3 className='flex w-full text-3xl font-semibold text-primary'>Requirements</h3>
+            {bounty.kycRequired && <KycRequirement />}
+            <W8Form bounty={bounty} />
+            <GithubRequirement />
+            <Invoicing bounty={bounty} />
+            <section className='flex flex-col gap-3'>
+              <h4 className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>Claim Your Rewards</h4>
+              <div className='flex flex-col gap-2'>
+                {bounty.bountyType === '0' && (
+                  <>
+                    "Don't forget to add a closer comment for this bounty on your pull request :-)."
+                    <CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} />
+                  </>
+                )}
               </div>
-              <canvas className='absolute inset-0 pointer-events-none' ref={canvas}></canvas>
-            </div>
+            </section>
+            {!authState.isAuthenticated ? (
+              <div>We noticed you are not signed into Github. You must sign to verify and claim an issue!</div>
+            ) : null}
+            <ConnectButton needsGithub={true} nav={false} tooltipAction={'claim this contract!'} hideSignOut={true} />
+            {account && isOnCorrectNetwork && authState.isAuthenticated && (
+              <div className='flex flex-col'>
+                <ToolTipNew
+                  relativePosition={'-left-2'}
+                  triangleStyles={'left-3'}
+                  outerStyles={'relative bottom-1'}
+                  hideToolTip={price > 0 && hasInvoicingInfo}
+                  toolTipText={
+                    price <= 0
+                      ? 'There are no funds locked to claim, contact the maintainer of this issue.'
+                      : !hasInvoicingInfo
+                      ? 'This bounty requires invoicing data, please fill in the form below.'
+                      : 'Please first go through all the required steps before you can claim your rewards.'
+                  }
+                >
+                  <button
+                    type='submit'
+                    className={
+                      price > 0 && hasInvoicingInfo ? 'btn-primary cursor-pointer' : 'btn-default cursor-not-allowed'
+                    }
+                    disabled={!(price > 0 && hasInvoicingInfo)}
+                    onClick={() => setShowClaimLoadingModal(true)}
+                  >
+                    Claim
+                  </button>
+                </ToolTipNew>
+              </div>
+            )}
+
+            {/*
+            {bounty.invoiceable && (
+              <>
+                {neededAccountData.length > 0 && (
+                  <div>
+                    Invoicing data required for this bounty, you are missing values for the{' '}
+                    {listWordsWithAnd(
+                      neededAccountData.map((elem) => {
+                        return valueToDisplay(elem);
+                      })
+                    )}{' '}
+                    fields.
+                  </div>
+                )}
+                <details className='w-5/6 group' open={!hasInvoicingInfo}>
+                  <summary className='list-none text-2xl text-muted fill-muted cursor-pointer'>
+                    Invoicing data{' '}
+                    <span className='group-open:hidden'>
+                      <ChevronDownIcon size='24px' />
+                    </span>
+                    <span className='hidden group-open:inline'>
+                      <ChevronUpIcon size='24px' />
+                    </span>
+                  </summary>
+                  <FreelancerDetails slim={true} />
+                </details>
+              </>
+            )}*/}
+            {showClaimLoadingModal && (
+              <ClaimLoadingModal
+                confirmMethod={claimBounty}
+                url={url}
+                ensName={ensName}
+                account={account}
+                error={error}
+                claimState={claimState}
+                address={account}
+                transactionHash={transactionHash}
+                setShowClaimLoadingModal={updateModal}
+                bounty={bounty}
+                authState={authState}
+                price={price}
+                split={split}
+              />
+            )}
+
+            <canvas className='absolute inset-0 pointer-events-none' ref={canvas}></canvas>
           </div>
         </div>
       </>

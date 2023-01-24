@@ -11,7 +11,7 @@ import LoadingIcon from '../../Loading/ButtonLoadingIcon';
 import LinkText from '../../svg/linktext';
 import AuthContext from '../../../store/AuthStore/AuthContext';
 
-const AssociateModal = ({ enableLink, btnText, activeBtnStyles, setExternalUserId }) => {
+const AssociateModal = ({ enableLink, btnText, activeBtnStyles, setAssociatedAddress }) => {
   const { account } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
   const { accountData } = appState;
@@ -40,7 +40,7 @@ const AssociateModal = ({ enableLink, btnText, activeBtnStyles, setExternalUserI
       )
       .then(async (result) => {
         const { txnHash } = result.data;
-        setExternalUserId(githubId);
+        setAssociatedAddress(account);
         // Upon this return, the associateExternalIdToAddress transaction has been submitted
         setTransactionHash(txnHash);
         setAssociateState('TRANSACTION_CONFIRMED');

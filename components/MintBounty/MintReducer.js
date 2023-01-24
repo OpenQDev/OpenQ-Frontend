@@ -98,6 +98,12 @@ const MintReducer = (state, action) => {
         invoiceable: action.payload,
       };
     }
+    case 'SET_KYC_REQUIRED': {
+      return {
+        ...state,
+        kycRequired: action.payload,
+      };
+    }
     case 'SET_ALT_NAME': {
       return {
         ...state,
