@@ -26,8 +26,8 @@ import Invoicing from '../Invoicing';
 import W8Form from './W8Form';
 //import FreelancerDetails from '../../User/InvoicingDetailsTab/FreelancerDetails';
 //import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
-import Github from '../../svg/github';
-import KycRequirement from './KycRequirement/KycRequirement';
+import KycRequirement from './KycRequirement';
+import GithubRequirement from './GithubRequirement';
 
 const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const { url } = bounty;
@@ -166,29 +166,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
             <h3 className='flex w-full text-3xl font-semibold text-primary'>Requirements</h3>
             {bounty.kycRequired && <KycRequirement />}
             <W8Form bounty={bounty} />
-            <section className='flex flex-col gap-3'>
-              <h4 className='text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
-                GitHub
-                <div className='bg-info border-2 border-info-strong text-sm px-2 rounded-full h-6'>Required</div>
-              </h4>
-              <div className='flex items-center gap-2'>
-                Associate your GitHub account on-chain{' '}
-                <ToolTipNew
-                  innerStyles={'whitespace-normal w-60'}
-                  toolTipText={
-                    'You need to associate a wallet address to your GitHub account in order to be able to receive prizes.'
-                  }
-                >
-                  <div className='cursor-help p-0.25 rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                    ?
-                  </div>
-                </ToolTipNew>
-              </div>
-              <button className='flex items-center gap-2 btn-requirements w-fit'>
-                <Github className={'h-4 w-4'} />
-                Start
-              </button>
-            </section>
+            <GithubRequirement />
             <Invoicing bounty={bounty} />
             <section className='flex flex-col gap-3'>
               <h4 className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>Claim Your Rewards</h4>
