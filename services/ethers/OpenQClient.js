@@ -79,13 +79,30 @@ class OpenQClient {
 				fundVolumeInWei.toLocaleString('fullwide', { useGrouping: false })
 			);
 			const hasFundingGoal = fundVolumeInWei > 0;
+
+			// TODO: Hardcoding here until we can accept these params from the MintBountyModal
+			const supportingDocumentsRequired = true;
+			const issuerExternalUserId = "issuerExternalUserId";
+			const alternativeName = "alternativeName";
+			const alternativeLogo = "alternativeLogo";
+
 			switch (type) {
 				case 'Fixed Price':
 					{
 						let abiCoder = new ethers.utils.AbiCoder();
 						const fundingGoalBountyParams = abiCoder.encode(
-							['bool', 'address', 'uint256', 'bool', 'bool'],
-							[hasFundingGoal, data.fundingTokenAddress.address, fundBigNumberVolumeInWei, invoiceable, kycRequired]
+							['bool', 'address', 'uint256', 'bool', 'bool', 'bool', 'string', 'string', 'string'],
+							[
+								hasFundingGoal,
+								data.fundingTokenAddress.address,
+								fundBigNumberVolumeInWei,
+								invoiceable,
+								kycRequired,
+								supportingDocumentsRequired,
+								issuerExternalUserId,
+								alternativeName,
+								alternativeLogo
+							]
 						);
 						bountyInitOperation = [0, fundingGoalBountyParams];
 					}
@@ -99,7 +116,7 @@ class OpenQClient {
 							})
 						);
 						const ongoingAbiEncodedParams = abiCoder.encode(
-							['address', 'uint256', 'bool', 'address', 'uint256', 'bool', 'bool'],
+							['address', 'uint256', 'bool', 'address', 'uint256', 'bool', 'bool', 'bool', 'string', 'string', 'string'],
 							[
 								data.payoutToken.address,
 								payoutBigNumberVolumeInWei,
@@ -108,6 +125,10 @@ class OpenQClient {
 								fundBigNumberVolumeInWei,
 								invoiceable,
 								kycRequired,
+								supportingDocumentsRequired,
+								issuerExternalUserId,
+								alternativeName,
+								alternativeLogo
 							]
 						);
 						bountyInitOperation = [1, ongoingAbiEncodedParams];
@@ -116,15 +137,18 @@ class OpenQClient {
 				case 'Contest':
 					{
 						const tieredAbiEncodedParams = abiCoder.encode(
-							['uint256[]', 'bool', 'address', 'uint256', 'bool', 'bool'],
+							['uint256[]', 'bool', 'address', 'uint256', 'bool', 'bool', 'bool', 'string', 'string', 'string'],
 							[
 								data.tiers,
 								hasFundingGoal,
 								data.fundingTokenAddress.address,
 								fundBigNumberVolumeInWei,
-
 								invoiceable,
 								kycRequired,
+								supportingDocumentsRequired,
+								issuerExternalUserId,
+								alternativeName,
+								alternativeLogo
 							]
 						);
 						bountyInitOperation = [2, tieredAbiEncodedParams];
@@ -142,8 +166,17 @@ class OpenQClient {
 							return payoutBigNumberVolumeInWei;
 						});
 						const tieredAbiEncodedParams = abiCoder.encode(
-							['uint256[]', 'address', 'bool', 'bool'],
-							[tierVolumes, data.payoutToken.address, invoiceable, kycRequired]
+							['uint256[]', 'address', 'bool', 'bool', 'bool', 'string', 'string', 'string'],
+							[
+								tierVolumes,
+								data.payoutToken.address,
+								invoiceable,
+								kycRequired,
+								supportingDocumentsRequired,
+								issuerExternalUserId,
+								alternativeName,
+								alternativeLogo
+							]
 						);
 						bountyInitOperation = [3, tieredAbiEncodedParams];
 					}
