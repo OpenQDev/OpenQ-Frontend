@@ -187,3 +187,11 @@ export const reverseBool = (value) => {
   }
   return 'No';
 };
+
+export const getW8Approved = (bounty, accountData) => {
+  if (bounty.bountyType === '2' || bounty.bountyType === '3') {
+    return bounty.supportingDocumentsCompleted[bounty.tierWinners.indexOf(accountData.github)];
+  } else {
+    return bounty.supportingDocumentsCompleted;
+  }
+};
