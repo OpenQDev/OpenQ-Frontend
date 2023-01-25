@@ -473,6 +473,19 @@ class OpenQClient {
     });
   };
 
+  hasKYC = async (library, _address) => {
+    return new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.ClaimManager(signer);
+      try {
+        const hasKYC = await contract.hasKYC(_address);
+        resolve(hasKYC);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
   getAddressById = async (library, externalUserId) => {
     return new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
