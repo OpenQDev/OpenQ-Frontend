@@ -1,8 +1,46 @@
-import React from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import RequestIndividual from '../RequestIndividual/index.js';
 import { getPlural } from '../../../services/utils/lib';
+import StoreContext from '../../../store/Store/StoreContext';
+import AuthContext from '../../../store/AuthStore/AuthContext';
 
-const RequestPage = ({ bounties }) => {
+// Custom
+import { useRouter } from 'next/router';
+
+const RequestPage = ({ user }) => {
+  const userId = user.id;
+  const [authState] = useContext(AuthContext);
+  const { githubId, email } = authState;
+  const [appState] = useContext(StoreContext);
+  const { accountData } = appState;
+  const loggedId = accountData?.id;
+  const isOwner = loggedId == user.id;
+  const [bounties, setBounties] = useState([]);
+  const router = useRouter();
+  useEffect(() => {
+    const getOffChainData = async () => {
+      if (isOwner) {
+        //get watched bounties.
+        try {
+          const userOffChainData = await appState.openQPrismaClient.getUser({
+            id: userId,
+            github: githubId,
+            email: email,
+          });
+          const watchedBounties = userOffChainData.watchedBounties.nodes.filter((bounty) => {
+            return bounty.request;
+          });
+          setBounties(watchedBounties);
+        } catch (error) {
+          router.push('/login');
+          appState.logger.error(error, accountData.id, '[userId.js]1');
+        }
+      } else {
+        router.push('/login');
+      }
+    };
+    getOffChainData();
+  }, [loggedId, user.id]);
   return (
     <>
       <div className='my-6'>
