@@ -39,6 +39,7 @@ const KycRequirement = () => {
       const transaction = await appState.openQClient.hasKYC(library, account);
       if (transaction) {
         setStage('verified');
+        setError('');
       }
     } catch (err) {
       appState.logger.error(err, account, 'KycRequirement.js1');
