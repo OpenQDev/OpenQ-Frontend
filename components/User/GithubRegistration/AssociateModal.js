@@ -151,7 +151,6 @@ const AssociateModal = ({
       <ToolTipNew
         innerStyles={'flex whitespace-normal w-80'}
         hideToolTip={!hasAssociatedAddress}
-
         toolTipText={'You will be prompted to change your Metamask account to update your associated address.'}
       >
         <button
