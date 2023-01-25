@@ -41,7 +41,9 @@ const FundPage = () => {
   const [appState] = useContext(StoreContext);
   const fundBountyMethod = useFundBountyMethod();
   const { accountData, utils } = appState;
-  const accountKeys = ['company', 'city', 'country', 'streetAddress', 'province', 'invoicingEmail'];
+  const accountKeys = bounty.invoiceable
+    ? ['company', 'city', 'country', 'streetAddress', 'province', 'invoicingEmail']
+    : ['invoicingEmail'];
   const mustChangePayoutFirst = bounty.bountyType == '1' && bounty.payoutTokenVolume;
 
   const neededAccountData = accountKeys.filter((key) => {
@@ -90,7 +92,7 @@ const FundPage = () => {
     };
     fundDispatch(volumeDispatch);
   }, [volume]);
-  const hasInvoicingInfo = neededAccountData.length === 0 || !bounty.invoiceable;
+  const hasInvoicingInfo = neededAccountData.length === 0 || (!bounty.invoiceable && !bounty.supportingDocuments);
 
   // Context
   const { openQClient } = appState;
@@ -271,20 +273,25 @@ const FundPage = () => {
                   )}
                 </div>
               </div>
-              {bounty.invoiceable && neededAccountData.length !== 0 && (
+
+              {(bounty.invoiceable || bounty.supportingDocuments) && (
                 <>
-                  <div className='w-5/6'>
-                    Invoicing data required for this bounty, you are missing values for the{' '}
-                    {listWordsWithAnd(
-                      neededAccountData.map((elem) => {
-                        return valueToDisplay(elem);
-                      })
-                    )}{' '}
-                    fields.
-                  </div>
+                  {bounty.invoiceable && neededAccountData.length !== 0 ? (
+                    <div className='w-5/6'>
+                      Invoicing data required for this bounty, you are missing values for the{' '}
+                      {listWordsWithAnd(
+                        neededAccountData.map((elem) => {
+                          return valueToDisplay(elem);
+                        })
+                      )}{' '}
+                      fields.
+                    </div>
+                  ) : (
+                    <></>
+                  )}
                   <details className='w-5/6 group' open={!hasInvoicingInfo}>
                     <summary className='list-none text-2xl text-muted fill-muted cursor-pointer'>
-                      Invoicing data{' '}
+                      {!bounty.invoiceable ? 'Contact Information' : 'Invoicing data'}
                       <span className='group-open:hidden'>
                         <ChevronDownIcon size='24px' />
                       </span>
@@ -292,8 +299,15 @@ const FundPage = () => {
                         <ChevronUpIcon size='24px' />
                       </span>
                     </summary>
-                    <OrgDetails slim={true} />
+                    <OrgDetails emailOnly={!bounty.invoiceable && bounty.supportingDocuments} slim={true} />
                   </details>
+                  {!bounty.invoiceable && bounty.supportingDocuments && (
+                    <div className='w-5/6 note'>
+                      We will send the completed W8 form with link to accept to this email. Please note that only your
+                      ethereum account is able to accept this. If someone else reviews the form you will need to confirm
+                      it.
+                    </div>
+                  )}
                 </>
               )}
             </div>
