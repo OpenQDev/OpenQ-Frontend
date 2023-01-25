@@ -117,6 +117,13 @@ const MintReducer = (state, action) => {
       };
     }
 
+    case 'SET_W8_REQUIRED': {
+      return {
+        ...state,
+        w8Required: action.payload,
+      };
+    }
+
     default:
       return state;
   }

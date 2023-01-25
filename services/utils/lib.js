@@ -174,3 +174,16 @@ export const getPlural = (count) => {
   }
   return '';
 };
+
+export const getBool = (value) => {
+  if (value === 'Yes') {
+    return true;
+  }
+  return false;
+};
+export const reverseBool = (value) => {
+  if (value === true) {
+    return 'Yes';
+  }
+  return 'No';
+};
