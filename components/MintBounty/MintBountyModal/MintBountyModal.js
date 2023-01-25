@@ -125,7 +125,7 @@ const MintBountyModal = ({ modalVisibility }) => {
                 items={[
                   { name: 'Fixed Price', Svg: PersonIcon },
                   { name: 'Split Price', Svg: PersonAddIcon },
-                  { name: 'Fixed Contest', Svg: PeopleIcon },
+                  { name: 'Contest', Svg: PeopleIcon },
                 ]}
                 internalMenu={category}
                 updatePage={handleSetCategory}

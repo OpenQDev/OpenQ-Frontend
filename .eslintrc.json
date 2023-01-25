@@ -11,6 +11,7 @@
 		"jest": true
 	},
 	"extends": [
+    "plugin:@next/next/recommended",
 		"eslint:recommended",
 		"plugin:react/recommended",
 		"prettier"
