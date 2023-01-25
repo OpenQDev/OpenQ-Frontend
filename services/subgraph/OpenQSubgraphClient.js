@@ -83,6 +83,7 @@ class OpenQSubgraphClient {
           ...result.data.bounty,
           invoiceable: true,
           kycRequired: true,
+          w8Required: true,
           externalUserId: 'asdfasdfa',
           supportingDocuments: true,
           invoiceCompleted: [true, true, true],
