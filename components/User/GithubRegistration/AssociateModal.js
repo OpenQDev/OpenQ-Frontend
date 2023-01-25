@@ -1,5 +1,5 @@
 // Third party
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import confetti from 'canvas-confetti';
 
@@ -10,10 +10,19 @@ import ModalDefault from '../../Utils/ModalDefault';
 import LoadingIcon from '../../Loading/ButtonLoadingIcon';
 import LinkText from '../../svg/linktext';
 import AuthContext from '../../../store/AuthStore/AuthContext';
+import ToolTipNew from '../../Utils/ToolTipNew';
 
-const AssociateModal = ({ enableLink, btnText, activeBtnStyles, setAssociatedAddress }) => {
+const AssociateModal = ({
+  enableLink,
+  btnText,
+  activeBtnStyles,
+  setAssociatedAddress,
+  setClaimPageError,
+  hasAssociatedAddress,
+}) => {
   const { account } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
+  const [updateAddress, setUpdateAddress] = useState(false);
   const { accountData } = appState;
   const { logger } = appState;
   const [showModal, setShowModal] = useState(false);
@@ -26,6 +35,16 @@ const AssociateModal = ({ enableLink, btnText, activeBtnStyles, setAssociatedAdd
   const handleClose = () => {
     setShowModal();
   };
+  useEffect(() => {
+    setClaimPageError(error);
+  }, [error]);
+  useEffect(() => {
+    if (updateAddress) {
+      associateExternalIdToAddress();
+      setUpdateAddress(false);
+    }
+  }, [updateAddress]);
+
   const associateExternalIdToAddress = async () => {
     setAssociateState('TRANSACTION_SUBMITTED');
     setShowModal(true);
@@ -78,6 +97,19 @@ const AssociateModal = ({ enableLink, btnText, activeBtnStyles, setAssociatedAdd
         setError({ message: err.response.data.errorMessage, title: 'Error' });
       });
   };
+  const changeAccount = async () => {
+    await window.ethereum
+      .request({
+        method: 'wallet_requestPermissions',
+        params: [
+          {
+            eth_accounts: {},
+          },
+        ],
+      })
+      .catch((error) => appState.logger.error(error, accountData.id, 'AssociateModal.js1'));
+    setUpdateAddress(true);
+  };
   const statesFormat = {
     TRANSACTION_SUBMITTED: {
       title: 'Associating Your Account...',
@@ -116,13 +148,20 @@ const AssociateModal = ({ enableLink, btnText, activeBtnStyles, setAssociatedAdd
   return (
     <>
       {' '}
-      <button
-        disabled={!enableLink}
-        className={enableLink ? ` ${activeBtnStyles}  w-full btn-primary` : 'max-w-[340px] w-full btn-default'}
-        onClick={associateExternalIdToAddress}
+      <ToolTipNew
+        innerStyles={'flex whitespace-normal w-80'}
+        hideToolTip={!hasAssociatedAddress}
+
+        toolTipText={'You will be prompted to change your Metamask account to update your associated address.'}
       >
-        {btnText}
-      </button>
+        <button
+          disabled={!enableLink}
+          className={enableLink ? ` ${activeBtnStyles}  w-full btn-primary` : 'max-w-[340px] w-full btn-default'}
+          onClick={hasAssociatedAddress ? changeAccount : associateExternalIdToAddress}
+        >
+          {btnText}
+        </button>
+      </ToolTipNew>
       {showModal && (
         <>
           <ModalDefault
