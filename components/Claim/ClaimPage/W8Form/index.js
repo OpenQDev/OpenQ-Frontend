@@ -110,6 +110,17 @@ const W8Form = ({ bounty }) => {
         </>
       ),
     },
+    EMAIL_LIMIT_REACHED: {
+      MessageHTML: () => (
+        <>
+          You have reached the limit of 4 emails per day, please try again tomorrow or ask for support on our{' '}
+          <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
+            discord
+          </a>
+          .
+        </>
+      ),
+    },
   };
 
   const MessageHTML = invoiceResponseOptions[invoiceResponse]?.MessageHTML || (() => <></>);

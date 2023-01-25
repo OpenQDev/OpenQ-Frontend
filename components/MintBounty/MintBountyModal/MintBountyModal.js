@@ -142,9 +142,13 @@ const MintBountyModal = ({ modalVisibility }) => {
                     } Contract to send funds to any GitHub issue`}
               </h3>
               <MintBountyInputIssue />
-              <InvoiceableToggle />
-              <KycRequiredToggle />
-              <W8RequiredToggle />
+              {category === 'Fixed Contest' && (
+                <>
+                  <InvoiceableToggle />
+                  <KycRequiredToggle />
+                  <W8RequiredToggle />
+                </>
+              )}
               <TokenProvider>
                 <Budgeting category={category} />{' '}
               </TokenProvider>
