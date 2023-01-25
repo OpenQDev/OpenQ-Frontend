@@ -137,9 +137,9 @@ const MintBountyModal = ({ modalVisibility }) => {
               <h3 className='text-xl pt-2'>
                 {category === 'Split Price'
                   ? 'Pay out a fixed amount to any contributors who submit work to this bounty, as many times as you like'
-                  : `Create a${
-                      category === 'Fixed price' ? 'n' : ''
-                    } ${category} Contract to send funds to any GitHub issue`}
+                  : `Create a${category === 'Fixed price' ? 'n' : ''} ${
+                      category !== 'Fixed Contest' ? category : 'Contest'
+                    } Contract to send funds to any GitHub issue`}
               </h3>
               <MintBountyInputIssue />
               <InvoiceableToggle />
