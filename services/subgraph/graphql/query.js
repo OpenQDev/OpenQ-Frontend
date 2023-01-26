@@ -93,7 +93,7 @@ export const GET_BOUNTY = gql`
       payoutTokenVolume
       payoutTokenAddress
       payoutSchedule
-      invoiceable
+      invoiceRequired
       kycRequired
       claims(orderBy: "claimTime", orderDirection: "desc") {
         claimTime

@@ -1,17 +1,28 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import useWeb3 from '../../../../hooks/useWeb3';
 import StoreContext from '../../../../store/Store/StoreContext';
 import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
 import ShieldCheck from '../../../svg/shieldCheck';
 
 const KycRequirement = () => {
-  // to be added: setState to verified & setError('') when know that Kyc'd
   const [stage, setStage] = useState('start');
+  const [clientResponse, setClientResponse] = useState(null);
   const [error, setError] = useState('');
   const [appState] = useContext(StoreContext);
   const { account, library } = useWeb3();
+  useEffect(() => {
+    if(clientResponse == 'cancelled') {
+      setStage('start'); 
+      setClientResponse(null);
+    };
+    if(clientResponse == 'https://kycdao.xyz') {
+      setStage('verified'); 
+      setError('');
+      setClientResponse(null);
+    };
+  }, [clientResponse]);
   const onOpenSDK = useCallback(async () => {
     try {
       const { KycDaoClient } = await import('@kycdao/widget');
@@ -24,14 +35,18 @@ const KycRequirement = () => {
           enabledVerificationTypes: ['KYC'],
           evmProvider: window.ethereum,
           baseUrl: 'https://kycdao.xyz',
+          // test: "https://staging.kycdao.xyz"
+          // prod: "https://kycdao.xyz"
         },
+        onFail: setClientResponse,
+        onSuccess: setClientResponse,
       }).open();
+      setStage('processing');
     } catch (error) {
       setError(error);
+      setStage('start');
       appState.logger.error(error, 'KycRequirement.js1');
     }
-
-    setStage('processing');
   }, []);
   // [WIP] make sure we get the update of hasKYC when the information changes
   const hasKYC = async () => {
