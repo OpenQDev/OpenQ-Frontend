@@ -30,6 +30,9 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
     enableMint,
     invoiceable,
     kycRequired,
+    supportingDocumentsRequired,
+    alternativeName,
+    alternativeLogo,
   } = mintState;
   const sum = finalTierVolumes.length ? finalTierVolumes.reduce((a, b) => a + b) : 0;
 
@@ -115,9 +118,13 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
         library,
         issue.id,
         issue.repository.owner.id,
+        accountData.id,
         category,
         invoiceable,
         kycRequired,
+        supportingDocumentsRequired,
+        alternativeName,
+        alternativeLogo,
         data
       );
       if (enableRegistration && datesCheck) {

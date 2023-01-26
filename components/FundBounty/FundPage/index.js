@@ -31,7 +31,7 @@ const FundPage = () => {
   const web3 = useWeb3();
   const query = useRouter().query;
   const minter = bounty.issuer.id === web3?.account?.toLowerCase();
-  const canCrowdFund = !(bounty.invoiceable || query.invoiceable) && !bounty.kycRequired;
+  const canCrowdFund = !(bountyinvoiceRequired || queryinvoiceRequired) && !bounty.kycRequired;
   const canFund = canCrowdFund || minter;
   const [volume, setVolume] = useState('');
   const [tokenSelectState] = useContext(TokenContext);
@@ -41,7 +41,7 @@ const FundPage = () => {
   const [appState] = useContext(StoreContext);
   const fundBountyMethod = useFundBountyMethod();
   const { accountData, utils } = appState;
-  const accountKeys = bounty.invoiceable
+  const accountKeys = bountyinvoiceRequired
     ? ['company', 'city', 'country', 'streetAddress', 'province', 'invoicingEmail']
     : ['invoicingEmail'];
   const mustChangePayoutFirst = bounty.bountyType == '1' && bounty.payoutTokenVolume;
@@ -92,7 +92,7 @@ const FundPage = () => {
     };
     fundDispatch(volumeDispatch);
   }, [volume]);
-  const hasInvoicingInfo = neededAccountData.length === 0 || (!bounty.invoiceable && !bounty.supportingDocuments);
+  const hasInvoicingInfo = neededAccountData.length === 0 || (!bountyinvoiceRequired && !bounty.supportingDocuments);
 
   // Context
   const { openQClient } = appState;
@@ -274,9 +274,9 @@ const FundPage = () => {
                 </div>
               </div>
 
-              {(bounty.invoiceable || bounty.supportingDocuments) && (
+              {(bountyinvoiceRequired || bounty.supportingDocuments) && (
                 <>
-                  {bounty.invoiceable && neededAccountData.length !== 0 ? (
+                  {bountyinvoiceRequired && neededAccountData.length !== 0 ? (
                     <div className='w-5/6'>
                       Invoicing data required for this bounty, you are missing values for the{' '}
                       {listWordsWithAnd(
@@ -291,7 +291,7 @@ const FundPage = () => {
                   )}
                   <details className='w-5/6 group' open={!hasInvoicingInfo}>
                     <summary className='list-none text-2xl text-muted fill-muted cursor-pointer'>
-                      {!bounty.invoiceable ? 'Contact Information' : 'Invoicing data'}
+                      {!bountyinvoiceRequired ? 'Contact Information' : 'Invoicing data'}
                       <span className='group-open:hidden'>
                         <ChevronDownIcon size='24px' />
                       </span>
@@ -299,9 +299,9 @@ const FundPage = () => {
                         <ChevronUpIcon size='24px' />
                       </span>
                     </summary>
-                    <OrgDetails emailOnly={!bounty.invoiceable && bounty.supportingDocuments} slim={true} />
+                    <OrgDetails emailOnly={!bountyinvoiceRequired && bounty.supportingDocuments} slim={true} />
                   </details>
-                  {!bounty.invoiceable && bounty.supportingDocuments && (
+                  {!bountyinvoiceRequired && bounty.supportingDocuments && (
                     <div className='w-5/6 note'>
                       We will send the completed W8 form with link to accept to this email. Please note that only your
                       ethereum account is able to accept this. If someone else reviews the form you will need to confirm

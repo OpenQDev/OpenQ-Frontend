@@ -70,7 +70,19 @@ class OpenQClient {
     return signature;
   };
 
-  mintBounty = async (library, issueId, organization, type, invoiceable, kycRequired, data) => {
+  mintBounty = async (
+    library,
+    issueId,
+    organization,
+    issuerExternalUserId,
+    type,
+    invoiceable,
+    kycRequired,
+    supportingDocumentsRequired,
+    alternativeName,
+    alternativeLogo,
+    data
+  ) => {
     const promise = new Promise(async (resolve, reject) => {
       let bountyInitOperation;
       let abiCoder = new ethers.utils.AbiCoder();
@@ -79,12 +91,6 @@ class OpenQClient {
         fundVolumeInWei.toLocaleString('fullwide', { useGrouping: false })
       );
       const hasFundingGoal = fundVolumeInWei > 0;
-
-      // TODO: Hardcoding here until we can accept these params from the MintBountyModal
-      const supportingDocumentsRequired = true;
-      const issuerExternalUserId = 'issuerExternalUserId';
-      const alternativeName = 'alternativeName';
-      const alternativeLogo = 'alternativeLogo';
 
       switch (type) {
         case 'Fixed Price':

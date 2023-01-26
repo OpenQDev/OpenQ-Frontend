@@ -87,7 +87,7 @@ const Invoicing = ({ bounty }) => {
 
   return (
     <>
-      {bounty.invoiceable && (
+      {bountyinvoiceRequired && (
         <section className='flex flex-col gap-3'>
           <h4 className='text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
             Invoice
