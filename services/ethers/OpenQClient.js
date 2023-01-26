@@ -501,20 +501,16 @@ class OpenQClient {
    * @returns {promise}
    */
 
-  claimBounty = async (library, _bountyAddress, _closer, _claimantAsset, _tier, _externalUserId) => {
+  setTierWinner = async (library, _bountyId, _tier, _externalUserId) => {
     return new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
-      const contract = this.ClaimManager(signer);
-
-      let abiCoder = new ethers.utils.AbiCoder();
+      const contract = this.OpenQ(signer);
 
       try {
-        let closerData = abiCoder.encode(
-          ['address', 'string', 'address', 'string', 'uint256'],
-          [_bountyAddress, _externalUserId, _closer, _claimantAsset, _tier]
-        );
-
-        let txnResponse = await contract.directClaimTieredBounty(_bountyAddress, _externalUserId, closerData);
+        // string calldata _bountyId,
+        //uint256 _tier,
+        //string calldata _winner
+        let txnResponse = await contract.setTierWinner(_bountyId, _tier, _externalUserId);
 
         let txnReceipt = await txnResponse.wait();
         resolve(txnReceipt);

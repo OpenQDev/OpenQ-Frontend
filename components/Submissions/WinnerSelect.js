@@ -16,10 +16,8 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
   const { library } = useWeb3();
-  const [user, setUser] = useState({});
-  const [winnerId, setWinnerId] = useState();
+  const winnerId = pr.author.id;
   const [error, setError] = useState({});
-  const zeroAddress = '0x0000000000000000000000000000000000000000';
   const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
   const price = tokenValues?.total;
   const createFixedPayout = () => {
@@ -34,27 +32,12 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
   const [fixedPayoutValue] = useGetTokenValues(payoutBalances);
 
   let unit;
-  useEffect(() => {
-    const getAddress = async () => {
-      const userId = pr.author.id;
-      setWinnerId(userId);
-
-      setUser({ id: pr.author.id, login: pr.author.login });
-    };
-    getAddress();
-  }, [library, pr]);
-
   const claimBounty = async () => {
     try {
       setSelectionState(TRANSFERRING);
-      const transaction = await appState.openQClient.claimBounty(
-        library,
-        bounty.bountyAddress,
-        pr.url,
-        tierIndex,
-        user.id,
-        user.login
-      );
+
+      const transaction = await appState.openQClient.setTierWinner(library, bounty.bountyId, tierIndex, winnerId);
+      console.log('transaction', transaction);
       if (transaction) {
         setSelectionState(SUCCESS);
       }
@@ -208,13 +191,13 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
                 challenge.
               </p>
               <p className='my-2'>
-                This will automaticaly send{' '}
+                This will release{' '}
                 {bounty.bountyType === '2' ? prize.payout + '% of funds' : formatVolume(prize.payout) + unit} staked on
                 this competition (
                 {bounty.bountyType === '2'
                   ? appState.utils.formatter.format((price * prize.payout) / 100 || 0)
                   : appState.utils.formatter.format(fixedPayoutValue?.total || 0)}
-                ) to the author of this submission, at the following address:{' '}
+                ) to the author of this submission, to be claimed at their leisure.
               </p>
             </>
           )}
@@ -228,8 +211,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
             <>
               <p className='my-2'>
                 {bounty.bountyType === '2' ? prize.payout + '% of funds' : formatVolume(prize.payout) + unit} staked on
-                this competition have been sent to {pr.author.name || pr.author.login} at {closerAddress.slice(0, 4)}
-                ...{closerAddress.slice(39)} .
+                this competition can now be claimed by {pr.author.name || pr.author.login}.
               </p>
             </>
           )}
