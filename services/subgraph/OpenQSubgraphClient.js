@@ -79,17 +79,7 @@ class OpenQSubgraphClient {
           variables: { id: lowerCasedAddress },
           fetchPolicy,
         });
-        resolve({
-          ...result.data.bounty,
-          invoiceable: true,
-          kycRequired: true,
-          w8Required: true,
-          externalUserId: 'asdfasdfa',
-          supportingDocuments: true,
-          invoiceCompleted: [true, true, true],
-          supportingDocumentsCompleted: [true, true, true],
-          tierWinners: ['MDQ6VXNlcjcyMTU2Njc5', 'MDQ6VXNlcjc1NzMyMjM5', 'U_kgDOBZIDuA'],
-        });
+        resolve(result.data.bounty);
       } catch (e) {
         reject(e);
       }
