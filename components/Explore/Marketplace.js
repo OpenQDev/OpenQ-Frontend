@@ -18,7 +18,7 @@ export default function ExploreMarketplace() {
   return (
     <div className='md:grid md:grid-cols-2 md:gap-12 lg:gap-24 w-full mt-8'>
       <Link href='/' className='lg:order-2'>
-        <ImageTeaser imageSrc='/teaser2.png' textPosition='top'>
+        <ImageTeaser imageSrc='/explore/teaser2.png' textPosition='top'>
           <ImageTeaserLink>
             Learn more
             <ChevronRightIcon className='ml-2 w-5 h-5' />

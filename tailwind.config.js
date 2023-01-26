@@ -29,7 +29,13 @@ module.exports = {
 				inner: 'inset 0 -2px 3px 0 rgba(0, 0, 0, 0.06)',
 			},
 			colors: {
-			"claim": "#3a4be9",
+				dark: {
+          1: "#343434",
+          2: "#161b22",
+          3: "#10141b",
+          4: "#0d1117",
+        },
+			  'claim': '#3a4be9',
 				'info': '#4b422f',
 				'info-strong': '#7e5a18',
 				'dark-mode': '#0D1117',

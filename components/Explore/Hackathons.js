@@ -18,7 +18,7 @@ export default function ExploreHackathons() {
   return (
     <div className='md:grid md:grid-cols-2 md:gap-12 lg:gap-24 w-full mt-12'>
       <Link href='/'>
-        <ImageTeaser imageSrc='/teaser1.png'>
+        <ImageTeaser imageSrc='/explore/teaser1.png'>
           <ImageTeaserLink>
             Learn more
             <ChevronRightIcon className='ml-2 w-5 h-5' />

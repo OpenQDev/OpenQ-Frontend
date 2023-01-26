@@ -9,7 +9,7 @@ import ExploreBlog from '../components/Explore/Blog';
 
 export default function Index() {
   return (
-    <main className='bg-dark-mode flex-col'>
+    <main className='bg-dark-mode flex-col explore'>
       <ExploreHeader />
       <div className='flex flex-col items-center max-w-screen-2xl mx-auto px-5 lg:px-10'>
         <ExploreSearch />
