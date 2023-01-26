@@ -9,6 +9,7 @@ const ToolTipNew = ({
   innerStyles,
   relativePosition,
   triangleStyles,
+  ToolTipHTML,
 }) => {
   if (hideToolTip) return children;
   return (
@@ -18,7 +19,7 @@ const ToolTipNew = ({
         <div className='flex flex-col items-center'>
           <div className={`flex mt-0.5 md:mt-1 tooltip-triangle absolute ${triangleStyles}`}></div>
           <div className={`flex tooltip absolute ${relativePosition}`}>
-            <div className={`${innerStyles}`}>{toolTipText}</div>
+            <div className={`${innerStyles}`}>{ToolTipHTML ? <ToolTipHTML /> : toolTipText}</div>
           </div>
         </div>
       </div>

@@ -2,34 +2,36 @@ import React, { useState, useContext } from 'react';
 import StyledInput from './StyledInput';
 import StoreContext from '../../../store/Store/StoreContext';
 
-const InvoicingDetails = ({ slim }) => {
+const InvoicingDetails = ({ slim, emailOnly }) => {
   const [appState, dispatch] = useContext(StoreContext);
   const { openQPrismaClient } = appState;
   const [formState, setFormState] = useState({ text: 'Update', className: 'btn-primary' });
   // const formValuesSocial = [{ value: 'twitter' }, { value: 'discord' }];
   const { accountData } = appState;
 
-  const formValuesInvoicing = [
-    {
-      value: 'company',
-      displayValue: 'Company',
-      required: true,
-    },
+  const formValuesInvoicing = emailOnly
+    ? [{ value: 'invoicingEmail', displayValue: 'Invoicing Email', required: true }]
+    : [
+        {
+          value: 'company',
+          displayValue: 'Company',
+          required: true,
+        },
 
-    {
-      value: 'city',
-      required: true,
-    },
-    {
-      value: 'streetAddress',
+        {
+          value: 'city',
+          required: true,
+        },
+        {
+          value: 'streetAddress',
 
-      displayValue: 'Billing Address',
-      required: true,
-    },
-    { value: 'invoicingEmail', displayValue: 'Invoicing Email', required: true },
-    { value: 'country', required: true },
-    { value: 'province', displayValue: 'State/Province', required: true },
-  ];
+          displayValue: 'Billing Address',
+          required: true,
+        },
+        { value: 'invoicingEmail', displayValue: 'Invoicing Email', required: true },
+        { value: 'country', required: true },
+        { value: 'province', displayValue: 'State/Province', required: true },
+      ];
   const submitProfileData = async (e) => {
     e.preventDefault();
     setFormState({ text: 'Updating...', className: 'btn-default', disabled: true });

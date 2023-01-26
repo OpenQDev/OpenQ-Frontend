@@ -142,6 +142,15 @@ export const GET_PRIVATE_USER = gql`
           address
           bountyId
           watchingCount
+          request {
+            id
+            requestingUser {
+              id
+              username
+              discord
+              github
+            }
+          }
         }
       }
       starredOrganizationIds

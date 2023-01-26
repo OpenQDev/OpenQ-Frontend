@@ -36,6 +36,7 @@ const Sidebar = ({ trigger, setTrigger }) => {
           <nav className=' flex flex-col space-y-4 items-center pt-1 flex-grow'>
             <div className='pb-8 pt-5 cursor-pointer'>
               {appState.needsReload ? (
+                // eslint-disable-next-line @next/next/no-html-link-for-pages
                 <a href='/'>
                   <Image src='/openq-logo.png' alt='OpenQ' width='31' height='31' />
                 </a>

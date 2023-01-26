@@ -167,3 +167,31 @@ export const getBountyMarker = (bounty, openQClient, githubId) => {
     }
   }
 };
+
+export const getPlural = (count) => {
+  if (count > 1 || count === 0) {
+    return 's';
+  }
+  return '';
+};
+
+export const getBool = (value) => {
+  if (value === 'Yes') {
+    return true;
+  }
+  return false;
+};
+export const reverseBool = (value) => {
+  if (value === true) {
+    return 'Yes';
+  }
+  return 'No';
+};
+
+export const getW8Approved = (bounty, accountData) => {
+  if (bounty.bountyType === '2' || bounty.bountyType === '3') {
+    return bounty.supportingDocumentsCompleted[bounty.tierWinners.indexOf(accountData.github)];
+  } else {
+    return bounty.supportingDocumentsCompleted;
+  }
+};

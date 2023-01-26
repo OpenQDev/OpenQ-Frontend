@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Link from 'next/link';
 import { UploadIcon } from '@primer/octicons-react';
 import W8FormModal from './W8FormModal';
 import axios from 'axios';
 import { EMAIL_NOT_SENT } from '../../../../constants/invoiceableResponses';
+import StoreContext from '../../../../store/Store/StoreContext';
+import { getW8Approved } from '../../../../services/utils/lib';
 const W8Form = ({ bounty }) => {
+  const [appState] = useContext(StoreContext);
   const [file, setFile] = useState(null);
   const [invoiceResponse, setInvoiceResponse] = useState('');
   const [sent, setSent] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const { accountData } = appState;
+
+  const W8Approved = getW8Approved(bounty, accountData);
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
     setSent(false);
@@ -104,6 +110,17 @@ const W8Form = ({ bounty }) => {
         </>
       ),
     },
+    EMAIL_LIMIT_REACHED: {
+      MessageHTML: () => (
+        <>
+          You have reached the limit of 4 emails per day, please try again tomorrow or ask for support on our{' '}
+          <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
+            discord
+          </a>
+          .
+        </>
+      ),
+    },
   };
 
   const MessageHTML = invoiceResponseOptions[invoiceResponse]?.MessageHTML || (() => <></>);
@@ -111,8 +128,15 @@ const W8Form = ({ bounty }) => {
     <section className='flex flex-col gap-3'>
       <h4 className='text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
         Form W8/W9*
-        <div className='bg-info border-2 border-info-strong text-sm px-2 rounded-full h-6'>Required</div>
+        <div
+          className={`${
+            W8Approved ? 'border-green bg-green-inside' : 'bg-info border-2 border-info-strong'
+          } text-sm px-2 border rounded-full h-6`}
+        >
+          {W8Approved ? 'Approved' : 'Required'}
+        </div>
       </h4>
+      {W8Approved && <div className='border-green bg-green-inside border p-4 rounded-sm'> Your w8 was accepted</div>}{' '}
       <div>
         Please complete and upload a form W-8. Choose one of five types, depending on your entity. We encourage you to
         consult with you own tax or financial adviser to determine which form is appropriate for you or ask in our

@@ -9,7 +9,7 @@ import MintBountyInputIssue from './MintBountyInputIssue/MintBountyInputIssue';
 import AddSplitPriceParams from './AddSplitPriceParams';
 import Budgeting from './Budgeting';
 import ErrorModal from './ErrorModal';
-import InvoiceableToggle from './InvoiceableToggle';
+import InvoiceableToggle from './InvoiceRequired';
 import MintBountyModalButton from './MintBountyModalButton';
 import TokenProvider from '../../TokenSelection/TokenStore/TokenProvider';
 //import AddAlternativeMetadata from './AddAlternativeMetadata';
@@ -22,6 +22,7 @@ import MintContext from '../MintContext';
 import SubMenu from '../../Utils/SubMenu';
 import ModalLarge from '../../Utils/ModalLarge';
 import KycRequiredToggle from './KycRequiredToggle';
+import W8RequiredToggle from './W8RequiredToggle';
 
 const MintBountyModal = ({ modalVisibility }) => {
   const [appState] = useContext(StoreContext);
@@ -32,12 +33,21 @@ const MintBountyModal = ({ modalVisibility }) => {
   const [error, setError] = useState();
 
   const { category, isLoading } = mintState;
-  const handlieSetCategory = (category) => {
-    const dispatch = {
-      payload: category,
-      type: 'SET_CATEGORY',
-    };
-    mintDispatch(dispatch);
+
+  const handleSetCategory = (category) => {
+    if (category === 'Contest') {
+      const dispatch = {
+        payload: 'Fixed Contest',
+        type: 'SET_CATEGORY',
+      };
+      mintDispatch(dispatch);
+    } else {
+      const dispatch = {
+        payload: category,
+        type: 'SET_CATEGORY',
+      };
+      mintDispatch(dispatch);
+    }
   };
 
   const modal = useRef();
@@ -116,10 +126,9 @@ const MintBountyModal = ({ modalVisibility }) => {
                   { name: 'Fixed Price', Svg: PersonIcon },
                   { name: 'Split Price', Svg: PersonAddIcon },
                   { name: 'Contest', Svg: PeopleIcon },
-                  { name: 'Fixed Contest', Svg: PeopleIcon },
                 ]}
                 internalMenu={category}
-                updatePage={handlieSetCategory}
+                updatePage={handleSetCategory}
                 styles={'justify-center'}
                 vertical={true}
               />
@@ -128,12 +137,18 @@ const MintBountyModal = ({ modalVisibility }) => {
               <h3 className='text-xl pt-2'>
                 {category === 'Split Price'
                   ? 'Pay out a fixed amount to any contributors who submit work to this bounty, as many times as you like'
-                  : `Create a${
-                      category === 'Fixed price' ? 'n' : ''
-                    } ${category} Contract to send funds to any GitHub issue`}
+                  : `Create a${category === 'Fixed price' ? 'n' : ''} ${
+                      category !== 'Fixed Contest' ? category : 'Contest'
+                    } Contract to send funds to any GitHub issue`}
               </h3>
               <MintBountyInputIssue />
-              <InvoiceableToggle />
+              {category === 'Fixed Contest' && (
+                <>
+                  <InvoiceableToggle />
+                  <KycRequiredToggle />
+                  <W8RequiredToggle />
+                </>
+              )}
               <TokenProvider>
                 <Budgeting category={category} />{' '}
               </TokenProvider>
@@ -146,7 +161,6 @@ const MintBountyModal = ({ modalVisibility }) => {
                 </>
               ) : category === 'Contest' || category === 'Fixed Contest' ? (
                 <>
-                  <KycRequiredToggle />
                   <AddContestParams />
                 </>
               ) : null}
