@@ -21,7 +21,7 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
   const [authState] = useContext(AuthContext);
   const { githubId } = authState;
   const [associatedAddress, setAssociatedAddress] = useState(null);
-  const [associatedAddressLoading, setAssociatedAddressLoading] = useState(true);
+  const [associatedAddressLoading, setAssociatedAddressLoading] = useState(false);
   const { library } = useWeb3();
   const zeroAddress = '0x0000000000000000000000000000000000000000';
   let hasAssociatedAddress = associatedAddress && associatedAddress !== zeroAddress;
@@ -31,16 +31,21 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
   useEffect(() => {
     const checkAssociatedAddress = async () => {
       if (library && account && githubId) {
-        const associatedAddress = await appState.openQClient.getAddressById(library, githubId);
-        if (associatedAddress !== zeroAddress) {
-          setAssociatedAddress(associatedAddress);
-          setAssociatedAddressLoading(false);
+        try {
+          const associatedAddress = await appState.openQClient.getAddressById(library, githubId);
+          if (associatedAddress !== zeroAddress) {
+            setAssociatedAddress(associatedAddress);
+            setAssociatedAddressLoading(false);
+          }
+        } catch (err) {
+          appState.logger.error(err, accountData.id, 'GithubConnection.js1');
         }
         setAssociatedAddressLoading(false);
       }
     };
     checkAssociatedAddress();
   }, [library, account, githubId]);
+  console.log(associatedAddressLoading);
 
   useEffect(() => {
     if (hasAssociatedAddress && githubId && claimPage) setVerified(true);
