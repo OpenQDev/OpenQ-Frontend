@@ -1,7 +1,9 @@
 import React from 'react';
-import { ChevronRightIcon } from '@primer/octicons-react';
+import { ChevronRightIcon, LocationIcon } from '@primer/octicons-react';
 import Link from 'next/link';
 import FlexScrollContainer from './FlexScrollContainer';
+
+import upcomingHackathons from './upcomingHackathons.json';
 
 export default function Newsletter() {
   return (
@@ -22,16 +24,20 @@ export default function Newsletter() {
       </div>
       <FlexScrollContainer>
         <div className='flex flex-col space-y-5'>
-          {[1, 2, 3, 4, 5].map((i) => (
+          {upcomingHackathons.map(([title, location, date, url]) => (
             <Link
-              key={i}
-              href='/'
+              key={title + location + date}
+              href={url}
+              target='_blank'
               className='flex items-center justify-between border bg-dark-2 border-dark-1 rounded px-10 py-6'
             >
-              <div className='text-blue-500 text-xl font-semibold'>Polygon Hackathon</div>
-              <div className='text-gray-400 text-xl font-bold'>
-                Paris, 22.01.2023
-                <ChevronRightIcon className='ml-3 w-6 h-6' />
+              <div className='text-blue-500 text-xl font-semibold truncate pr-3'>{title}</div>
+              <div className='text-gray-400 text-xl font-bold flex items-center space-x-3 whitespace-nowrap'>
+                <LocationIcon />
+                <span className='capitalize'>
+                  {location}, {new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                </span>
+                <ChevronRightIcon />
               </div>
             </Link>
           ))}
