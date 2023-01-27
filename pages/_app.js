@@ -7,8 +7,6 @@ import 'github-markdown-css/github-markdown-dark.css';
 import { useRouter } from 'next/router';
 import ReactGA from 'react-ga4';
 import { hotjar } from 'react-hotjar';
-import '@kycdao/widget/index.css';
-import '@kycdao/widget/KycDaoClient.css';
 
 // Custom
 import SetContextState from '../store/SetContextState/SetContextState';
