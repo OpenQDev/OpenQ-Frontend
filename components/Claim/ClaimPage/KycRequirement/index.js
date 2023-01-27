@@ -13,20 +13,21 @@ const KycRequirement = () => {
   const [error, setError] = useState('');
   const [appState] = useContext(StoreContext);
   const { account, library } = useWeb3();
+  const disabled = stage == 'processing' || stage == 'verified';
   useEffect(() => {
-    if(failResponse == 'cancelled') {
-      setStage('start'); 
+    if (failResponse == 'cancelled') {
+      setStage('start');
       setFailResponse(null);
-    };
-    if(successResponse) {
-      setStage('verified'); 
+    }
+    if (successResponse) {
+      setStage('verified');
       setError('');
       setSuccessResponse(null);
-    };
+    }
   }, [failResponse, successResponse]);
   useEffect(() => {
     hasKYC();
-  }, [])
+  }, []);
   const onOpenSDK = useCallback(async () => {
     try {
       const { KycDaoClient } = await import('@kycdao/widget');
@@ -69,7 +70,6 @@ const KycRequirement = () => {
       setError({ message, title });
     }
   };
-  console.log(stage, successResponse, failResponse, error);
   return (
     <section className='flex flex-col gap-3'>
       <h4 className='flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
@@ -82,7 +82,7 @@ const KycRequirement = () => {
           {stage == 'verified' ? 'Approved' : 'Required'}
         </div>
       </h4>
-      {error && (
+      {error && !(stage == 'verified') && (
         <div className='bg-info border-info-strong border-2 p-3 rounded-sm'>
           Something went wrong, please try again or reach out for support at{' '}
           <Link
@@ -123,8 +123,13 @@ const KycRequirement = () => {
       </div>
       <div className='font-semibold'>Verify now</div>
       <button
+        disabled={disabled}
         className={`flex items-center gap-2 ${
-          stage == 'start' ? 'btn-requirements' : stage == 'processing' ? 'btn-processing' : 'btn-verified'
+          stage == 'start'
+            ? 'btn-requirements'
+            : stage == 'processing'
+            ? 'btn-processing cursor-not-allowed'
+            : 'btn-verified cursor-not-allowed'
         } w-fit`}
         onClick={onOpenSDK}
       >
