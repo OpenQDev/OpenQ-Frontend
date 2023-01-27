@@ -1,11 +1,14 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import GithubConnection from '../../../User/OverviewTab/GithubConnection';
 import ToolTipNew from '../../../Utils/ToolTipNew';
 
-const index = () => {
+const index = ({ setGithubHasWalletVerified }) => {
   const [verified, setVerified] = useState(null);
   const [claimPageError, setClaimPageError] = useState('');
+  useEffect(() => {
+    if (verified) setGithubHasWalletVerified(true);
+  }, [verified]);
   return (
     <section className='flex flex-col gap-3'>
       <h4 className='text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
