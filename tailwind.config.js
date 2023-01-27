@@ -75,7 +75,10 @@ module.exports = {
 				'button-inside-hover': '#461429',
 				'green-inside': '#006d1f',
 				'green-highlight': '#2ea043',
-				'green': '#238636',
+				green: {
+					DEFAULT: '#238636',
+					4: '#4ade80'
+				},
 				'tinted': '#b7b9bc'
 
 			},

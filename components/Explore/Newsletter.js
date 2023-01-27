@@ -15,7 +15,7 @@ export default function Newsletter() {
             placeholder='Email'
             className='border rounded-l-2xl w-full text-2xl bg-gray-300 text-gray-900 px-8 py-4 outline-none'
           />
-          <button className='bg-gradient-to-r from-cyan-300 to-green-400 text-white text-2xl font-bold rounded-r-2xl rounded-l-none border-none px-12 py-4'>
+          <button className='bg-gradient-to-r from-cyan-300 to-green-400 !text-white text-2xl font-bold !rounded-r-2xl !rounded-l-none border-none !px-12 !py-4'>
             Subscribe
           </button>
         </div>
