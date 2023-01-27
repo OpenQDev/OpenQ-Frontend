@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useCallback, useContext, useState } from 'react';
+import useWeb3 from '../../../../hooks/useWeb3';
 import StoreContext from '../../../../store/Store/StoreContext';
 import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
 import ShieldCheck from '../../../svg/shieldCheck';
@@ -10,6 +11,7 @@ const KycRequirement = () => {
   const [stage, setStage] = useState('start');
   const [error, setError] = useState('');
   const [appState] = useContext(StoreContext);
+  const { account, library } = useWeb3();
   const onOpenSDK = useCallback(async () => {
     try {
       const { KycDaoClient } = await import('@kycdao/widget');
@@ -31,6 +33,23 @@ const KycRequirement = () => {
 
     setStage('processing');
   }, []);
+  // [WIP] make sure we get the update of hasKYC when the information changes
+  const hasKYC = async () => {
+    try {
+      const transaction = await appState.openQClient.hasKYC(library, account);
+      if (transaction) {
+        setStage('verified');
+        setError('');
+      }
+    } catch (err) {
+      appState.logger.error(err, account, 'KycRequirement.js1');
+      const { message, title } = appState.openQClient.handleError(err, {
+        account,
+      });
+      setError({ message, title });
+    }
+  };
+  console.log(hasKYC);
   return (
     <section className='flex flex-col gap-3'>
       <h4 className='flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
