@@ -97,6 +97,10 @@ module.exports = () => {
         's.ozys.io',
       ],
     },
+    webpack: function (config) {
+      config.module.noParse = /gun\.js$/;
+      return config;
+    },
   };
 
   return config;
