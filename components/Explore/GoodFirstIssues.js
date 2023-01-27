@@ -12,9 +12,9 @@ export default function GoodFirstIssues() {
   return (
     <div className='my-24 w-full'>
       <div className='text-center mb-10'>
-        <h1 className='text-center w-full'>Contribute to Open-Source in web3.</h1>
+        <h1 className='mx-auto'>Contribute to Open-Source in web3.</h1>
         <h3 className='text-3xl text-zinc-400 mt-4'>Find good first issues.</h3>
-        <FancyButton className='mt-4'>
+        <FancyButton className='mt-4 mx-auto'>
           Find more
           <ChevronRightIcon className='ml-2 w-5 h-5' />
         </FancyButton>

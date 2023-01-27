@@ -16,7 +16,7 @@ import FlexScrollContainer from './FlexScrollContainer';
 
 export default function ExploreHackathons() {
   return (
-    <div className='md:grid md:grid-cols-2 md:gap-12 lg:gap-24 w-full mt-12'>
+    <div className='md:grid md:grid-cols-2 md:gap-12 lg:gap-18 xl:gap-24 w-full mt-12'>
       <Link href='/'>
         <ImageTeaser imageSrc='/explore/teaser1.png'>
           <ImageTeaserLink>

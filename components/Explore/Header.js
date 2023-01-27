@@ -24,7 +24,7 @@ export default function Header() {
           Join the ultimate hub for builders and turn your ideas into reality.
         </p>
       </div>
-      <Image src='/explore/planet.png' alt='' width={571} height={587} />
+      <Image className='hidden lg:block' src='/explore/planet.png' alt='' width={571} height={587} />
     </header>
   );
 }
