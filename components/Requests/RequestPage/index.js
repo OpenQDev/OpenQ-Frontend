@@ -17,6 +17,19 @@ const RequestPage = ({ user }) => {
   const isOwner = loggedId == user.id;
   const [bounties, setBounties] = useState([]);
   const router = useRouter();
+  const requests = bounties.reduce((accum, bounty) => {
+    const requests = bounty.requests.nodes.reduce((accum, request) => {
+      const user = accum.find((earlierRequest) => earlierRequest.requestingUser.id === request.requestingUser.id);
+      console.log(user);
+
+      if (!user) {
+        return accum.concat({ request, bounty });
+      } else return accum;
+    }, []);
+    return accum.concat(requests);
+  }, []);
+  console.log(requests);
+
   useEffect(() => {
     const getOffChainData = async () => {
       if (isOwner) {
@@ -28,7 +41,7 @@ const RequestPage = ({ user }) => {
             email: email,
           });
           const watchedBounties = userOffChainData.watchedBounties.nodes.filter((bounty) => {
-            return bounty.request;
+            return bounty.requests;
           });
           setBounties(watchedBounties);
         } catch (error) {
@@ -46,7 +59,7 @@ const RequestPage = ({ user }) => {
       <div className='my-6'>
         <h2 className='text-2xl font-semibold pb-4 border-b border-web-gray my-4'>Manage your bounties</h2>
         <div className='border-web-gray border flex justify-center content-center h-24 rounded-sm items-center'>
-          You have recieved {bounties.length} new request{getPlural(bounties.length)}.
+          You have recieved {requests.length} new request{getPlural(requests.length)}.
         </div>
       </div>
       {bounties.length ? (
@@ -58,8 +71,9 @@ const RequestPage = ({ user }) => {
             satisfied with their submission.
           </div>
           <ul className='flex flex-col gap-4'>
-            {bounties.map((bounty, index) => {
-              return <RequestIndividual key={index} bounty={bounty} />;
+            {requests.map((item, index) => {
+              const { request, bounty } = item;
+              return <RequestIndividual key={index} request={request} bounty={bounty} />;
             })}
           </ul>
         </div>

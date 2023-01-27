@@ -520,6 +520,20 @@ class OpenQClient {
     });
   };
 
+  setSupportingDocumentsRequired = async (library, _bountyId, _data) => {
+    return new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.OpenQ(signer);
+      try {
+        let txnResponse = await contract.setSupportingDocumentsRequired(_bountyId, _data);
+        let txnReceipt = await txnResponse.wait();
+        resolve(txnReceipt);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
   getAddressById = async (library, externalUserId) => {
     return new Promise(async (resolve, reject) => {
       const signer = library.getSigner();

@@ -43,8 +43,16 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
   const { github } = appState.accountData;
   const { account, library, safe } = useWeb3();
   const router = useRouter();
+  const hasRequirements = invoiceable || kycRequired || supportingDocumentsRequired;
+  const loggedInIfNeeded = accountData.id || !hasRequirements;
   const readyToMint =
-    enableMint && !issue?.closed && issue?.url.includes('/issues/') && !isLoading && enableContest && datesCheck;
+    enableMint &&
+    !issue?.closed &&
+    issue?.url.includes('/issues/') &&
+    !isLoading &&
+    enableContest &&
+    datesCheck &&
+    loggedInIfNeeded;
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
@@ -172,6 +180,8 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
               ? 'Please make sure the sum of tier percentages adds up to 100.'
               : !datesCheck
               ? 'Please make sure your Hackathon Start Date is > today and your End Date after your Start Date.'
+              : !loggedInIfNeeded
+              ? 'Please make sure you are logged in.'
               : null
           }
         >
