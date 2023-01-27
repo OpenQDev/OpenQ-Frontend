@@ -1,9 +1,11 @@
+import Link from 'next/link';
 import React, { useState } from 'react';
 import GithubConnection from '../../../User/OverviewTab/GithubConnection';
 import ToolTipNew from '../../../Utils/ToolTipNew';
 
 const index = () => {
   const [verified, setVerified] = useState(null);
+  const [claimPageError, setClaimPageError] = useState('');
   return (
     <section className='flex flex-col gap-3'>
       <h4 className='text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
@@ -16,6 +18,20 @@ const index = () => {
           {verified ? 'Approved' : 'Required'}
         </div>
       </h4>
+      {claimPageError && (
+        <div className='bg-info border-info-strong border-2 p-3 rounded-sm'>
+          Something went wrong, please try again or reach out for support at{' '}
+          <Link
+            href='https://discord.gg/puQVqEvVXn'
+            rel='noopener norefferer'
+            target='_blank'
+            className='underline col-span-2'
+          >
+            OpenQ
+          </Link>
+          .
+        </div>
+      )}
       <div className='flex items-center gap-2'>
         Associate your GitHub account on-chain{' '}
         <ToolTipNew
@@ -29,7 +45,7 @@ const index = () => {
           </div>
         </ToolTipNew>
       </div>
-      <GithubConnection verified={verified} setVerified={setVerified} claimPage={true} />
+      <GithubConnection setVerified={setVerified} claimPage={true} setClaimPageError={setClaimPageError} />
     </section>
   );
 };
