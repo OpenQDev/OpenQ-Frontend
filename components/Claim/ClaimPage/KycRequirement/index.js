@@ -8,21 +8,25 @@ import ShieldCheck from '../../../svg/shieldCheck';
 
 const KycRequirement = () => {
   const [stage, setStage] = useState('start');
-  const [clientResponse, setClientResponse] = useState(null);
+  const [failResponse, setFailResponse] = useState(null);
+  const [successResponse, setSuccessResponse] = useState(null);
   const [error, setError] = useState('');
   const [appState] = useContext(StoreContext);
   const { account, library } = useWeb3();
   useEffect(() => {
-    if(clientResponse == 'cancelled') {
+    if(failResponse == 'cancelled') {
       setStage('start'); 
-      setClientResponse(null);
+      setFailResponse(null);
     };
-    if(clientResponse == 'https://kycdao.xyz') {
+    if(successResponse) {
       setStage('verified'); 
       setError('');
-      setClientResponse(null);
+      setSuccessResponse(null);
     };
-  }, [clientResponse]);
+  }, [failResponse, successResponse]);
+  useEffect(() => {
+    hasKYC();
+  }, [])
   const onOpenSDK = useCallback(async () => {
     try {
       const { KycDaoClient } = await import('@kycdao/widget');
@@ -35,11 +39,11 @@ const KycRequirement = () => {
           enabledVerificationTypes: ['KYC'],
           evmProvider: window.ethereum,
           baseUrl: 'https://kycdao.xyz',
-          // test: "https://staging.kycdao.xyz"
-          // prod: "https://kycdao.xyz"
+          // test: 'https://staging.kycdao.xyz', 'PolygonMumbai'
+          // prod: 'https://kycdao.xyz', 'PolygonMainnet'
         },
-        onFail: setClientResponse,
-        onSuccess: setClientResponse,
+        onFail: setFailResponse,
+        onSuccess: setSuccessResponse,
       }).open();
       setStage('processing');
     } catch (error) {
@@ -50,6 +54,7 @@ const KycRequirement = () => {
   }, []);
   // [WIP] make sure we get the update of hasKYC when the information changes
   const hasKYC = async () => {
+    console.log(account);
     try {
       const transaction = await appState.openQClient.hasKYC(library, account);
       if (transaction) {
@@ -64,7 +69,7 @@ const KycRequirement = () => {
       setError({ message, title });
     }
   };
-  console.log(hasKYC);
+  console.log(stage, successResponse, failResponse, error);
   return (
     <section className='flex flex-col gap-3'>
       <h4 className='flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
