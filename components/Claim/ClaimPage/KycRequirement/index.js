@@ -55,7 +55,6 @@ const KycRequirement = () => {
   }, []);
   // [WIP] make sure we get the update of hasKYC when the information changes
   const hasKYC = async () => {
-    console.log(account);
     try {
       const transaction = await appState.openQClient.hasKYC(library, account);
       if (transaction) {
@@ -64,10 +63,6 @@ const KycRequirement = () => {
       }
     } catch (err) {
       appState.logger.error(err, account, 'KycRequirement.js1');
-      const { message, title } = appState.openQClient.handleError(err, {
-        account,
-      });
-      setError({ message, title });
     }
   };
   return (
