@@ -6,7 +6,7 @@ import StoreContext from '../../../../store/Store/StoreContext';
 import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
 import ShieldCheck from '../../../svg/shieldCheck';
 
-const KycRequirement = () => {
+const KycRequirement = ({ setKycVerified }) => {
   const [stage, setStage] = useState('start');
   const [failResponse, setFailResponse] = useState(null);
   const [successResponse, setSuccessResponse] = useState(null);
@@ -21,6 +21,7 @@ const KycRequirement = () => {
     }
     if (successResponse) {
       setStage('verified');
+      setKycVerified(true);
       setError('');
       setSuccessResponse(null);
     }
@@ -59,6 +60,7 @@ const KycRequirement = () => {
       const transaction = await appState.openQClient.hasKYC(library, account);
       if (transaction) {
         setStage('verified');
+        setKycVerified(true);
         setError('');
       }
     } catch (err) {
