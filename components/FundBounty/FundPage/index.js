@@ -313,7 +313,7 @@ const FundPage = () => {
             </div>
           ) : (
             <div>
-              Sorry crowdfunding isn't avaliable for invoiceable bounties such as this one, please connect the account (
+              Sorry crowdfunding isn't available for invoiceable bounties such as this one, please connect the account (
               {shortenAddress(bounty.issuer.id)}) that minted this bounty to fund it.
             </div>
           )}
