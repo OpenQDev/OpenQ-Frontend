@@ -6,13 +6,13 @@ import { getBool, reverseBool } from '../../../../services/utils/lib';
 
 const W8RequiredToggle = () => {
   const [mintState, mintDispatch] = useContext(MintContext);
-  const { w8Required } = mintState;
+  const { supportingDocumentsRequired } = mintState;
 
-  const setW8Required = (w8Required) => {
-    const boolVal = getBool(w8Required);
+  const setSupportingDocumentsRequired = (supportingDocumentsRequired) => {
+    const boolVal = getBool(supportingDocumentsRequired);
     const dispatch = {
       payload: boolVal,
-      type: 'SET_W8_REQUIRED',
+      type: 'SET_SUPPORTING_DOCUMENTS_REQUIRED',
     };
     mintDispatch(dispatch);
   };
@@ -34,7 +34,11 @@ const W8RequiredToggle = () => {
       </div>
       <div className='flex-1 w-full'>
         <div className='flex text-sm rounded-sm text-primary '>
-          <SmallToggle toggleVal={reverseBool(w8Required)} names={['Yes', 'No']} toggleFunc={setW8Required} />
+          <SmallToggle
+            toggleVal={reverseBool(supportingDocumentsRequired)}
+            names={['Yes', 'No']}
+            toggleFunc={setSupportingDocumentsRequired}
+          />
         </div>
         <span className='note'>Note: crowdfunding is not available on contracts for which W8 form is required.</span>
       </div>

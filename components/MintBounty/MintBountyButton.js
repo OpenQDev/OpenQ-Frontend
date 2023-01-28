@@ -30,7 +30,7 @@ const MintBountyButton = ({ styles, types }) => {
         <div>New Contract</div>
       </button>
       {showModal && (
-        <MintProvider types={types}>
+        <MintProvider types={types.filter((type) => type != 2)}>
           <MintBountyModal hideSubmenu={types.length < 3} types={types} modalVisibility={setShowModal} />
         </MintProvider>
       )}
