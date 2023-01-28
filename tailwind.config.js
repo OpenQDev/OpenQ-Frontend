@@ -76,8 +76,7 @@ module.exports = {
 				'green-inside': '#006d1f',
 				'green-highlight': '#2ea043',
 				green: {
-					DEFAULT: '#238636',
-					4: '#4ade80'
+					DEFAULT: '#238636'
 				},
 				'tinted': '#b7b9bc'
 
