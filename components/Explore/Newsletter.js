@@ -28,9 +28,9 @@ export default function Newsletter() {
           body: formData,
         });
         const result = await response.json();
-        
+
         if (result.error) {
-          setIsError(true);  
+          setIsError(true);
         } else {
           setIsSuccess(true);
         }
@@ -70,7 +70,9 @@ export default function Newsletter() {
               onChange={handleEmailInputChange}
             />
             <button
-              className={`${!isEmailValid && 'opacity-80'} bg-gradient-to-r from-cyan-300 to-green-400 !text-white text-2xl font-bold !rounded-r-2xl !rounded-l-none border-none !px-12 !py-4`}
+              className={`${
+                !isEmailValid && 'opacity-80'
+              } bg-gradient-to-r from-cyan-300 to-green-400 !text-white text-2xl font-bold !rounded-r-2xl !rounded-l-none border-none !px-12 !py-4`}
               onClick={() => subscribeToNewsletter()}
               disabled={isSending || !isEmailValid}
             >
@@ -85,6 +87,7 @@ export default function Newsletter() {
           </p>
         )}
       </div>
+
       <FlexScrollContainer>
         <div className='flex flex-col space-y-5'>
           {upcomingHackathons.map(([title, location, date, url]) => (
