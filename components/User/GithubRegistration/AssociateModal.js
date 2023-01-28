@@ -36,7 +36,7 @@ const AssociateModal = ({
     setShowModal();
   };
   useEffect(() => {
-    setClaimPageError(error);
+    if (setClaimPageError) setClaimPageError(error);
   }, [error]);
   useEffect(() => {
     if (updateAddress) {
