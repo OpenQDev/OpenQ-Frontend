@@ -73,7 +73,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const neededAccountData = accountKeys.filter((key) => {
     return !accountData[key];
   });
-  const hasInvoicingInfo = neededAccountData.length === 0 || !bounty.invoiceable;
+  const hasInvoicingInfo = neededAccountData.length === 0 || !bounty.invoiceRequired;
 
   const canvas = useRef();
 
@@ -232,7 +232,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
             )}
 
             {/*
-            {bounty.invoiceable && (
+            {bounty.invoiceRequired && (
               <>
                 {neededAccountData.length > 0 && (
                   <div>

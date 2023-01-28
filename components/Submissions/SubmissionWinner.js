@@ -5,7 +5,7 @@ const SubmissionWinner = ({ linkedPrize }) => {
 
   let tierWon = null;
   if (linkedPrize) {
-    tierWon = parseInt(linkedPrize.tier) + 1;
+    tierWon = parseInt(linkedPrize);
   }
   const prizeColor = appState.utils.getPrizeColor(tierWon - 1);
 

@@ -205,6 +205,7 @@ const address = ({ address, mergedBounty, renderError }) => {
   }, []);
   const claimOverView = bounty?.claims?.length > 0 ? [{ name: 'Claims Overview', Svg: Log }] : [];
   const claim = claimable ? [{ name: 'Claim', Svg: Fire }] : [];
+  const submissions = bounty.bountyType === '3' ? [{ name: 'Submissions', Svg: Log }] : [];
 
   // User Methods
 
@@ -239,6 +240,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                   { name: 'View', Svg: Telescope },
                   { name: 'Fund', Svg: Add },
                   { name: 'Refund', Svg: Subtract },
+                  ...submissions,
                   ...claim,
                   ...claimOverView,
                   {

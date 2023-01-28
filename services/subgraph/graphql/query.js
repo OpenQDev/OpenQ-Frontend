@@ -93,7 +93,11 @@ export const GET_BOUNTY = gql`
       payoutTokenVolume
       payoutTokenAddress
       payoutSchedule
+      tierWinners
+      supportingDocumentsRequired
+      supportingDocumentsCompleted
       invoiceRequired
+      invoiceCompleted
       kycRequired
       claims(orderBy: "claimTime", orderDirection: "desc") {
         claimTime
