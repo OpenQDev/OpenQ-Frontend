@@ -520,12 +520,12 @@ class OpenQClient {
     });
   };
 
-  setSupportingDocumentsRequired = async (library, _bountyId, _data) => {
+  setSupportingDocumentsComplete = async (library, _bountyId, _data) => {
     return new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
       const contract = this.OpenQ(signer);
       try {
-        let txnResponse = await contract.setSupportingDocumentsRequired(_bountyId, _data);
+        let txnResponse = await contract.setSupportingDocumentsComplete(_bountyId, _data);
         let txnReceipt = await txnResponse.wait();
         resolve(txnReceipt);
       } catch (error) {

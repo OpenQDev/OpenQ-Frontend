@@ -142,6 +142,12 @@ export const GET_PRIVATE_USER = gql`
           address
           bountyId
           watchingCount
+        }
+      }
+      createdBounties(limit: 100) {
+        nodes {
+          address
+          bountyId
           requests(limit: 100) {
             nodes {
               id

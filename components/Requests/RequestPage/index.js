@@ -17,18 +17,20 @@ const RequestPage = ({ user }) => {
   const isOwner = loggedId == user.id;
   const [bounties, setBounties] = useState([]);
   const router = useRouter();
-  const requests = bounties.reduce((accum, bounty) => {
-    const requests = bounty.requests.nodes.reduce((accum, request) => {
-      const user = accum.find((earlierRequest) => earlierRequest.requestingUser.id === request.requestingUser.id);
-      console.log(user);
+  const requests = bounties
+    .map((bounty) => {
+      const requests = bounty.requests.nodes.reduce((accum, request) => {
+        const user = accum.find(
+          (earlierRequest) => earlierRequest.request.requestingUser.id === request.requestingUser.id
+        );
 
-      if (!user) {
-        return accum.concat({ request, bounty });
-      } else return accum;
-    }, []);
-    return accum.concat(requests);
-  }, []);
-  console.log(requests);
+        if (!user) {
+          return accum.concat({ request, bounty });
+        } else return accum;
+      }, []);
+      return requests;
+    })
+    .flat();
 
   useEffect(() => {
     const getOffChainData = async () => {
@@ -40,10 +42,11 @@ const RequestPage = ({ user }) => {
             github: githubId,
             email: email,
           });
-          const watchedBounties = userOffChainData.watchedBounties.nodes.filter((bounty) => {
+          const createdBounties = userOffChainData.createdBounties.nodes.filter((bounty) => {
             return bounty.requests;
           });
-          setBounties(watchedBounties);
+          console.log(createdBounties);
+          setBounties(createdBounties);
         } catch (error) {
           router.push('/login');
           appState.logger.error(error, accountData.id, '[userId.js]1');

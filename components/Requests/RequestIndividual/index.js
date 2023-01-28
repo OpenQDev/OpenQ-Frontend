@@ -21,7 +21,8 @@ const RequestIndividual = ({ bounty, request }) => {
     const getSubgraphBounty = async () => {
       const subgraphBounty = await appState.openQSubgraphClient.getBounty(bounty.address.toLowerCase());
       setSubgraphBounty(subgraphBounty);
-      const tier = parseInt(subgraphBounty.tierWinners.indexOf(request.requestingUser.github));
+      if (!subgraphBounty.tierWinners) return;
+      const tier = parseInt(subgraphBounty?.tierWinners.indexOf(request.requestingUser.github));
       if (subgraphBounty.supportingDocumentsCompleted?.[tier]) {
         setAccepted(true);
       }
@@ -36,11 +37,11 @@ const RequestIndividual = ({ bounty, request }) => {
       const tier = parseInt(subgraphBounty.tierWinners.indexOf(request.requestingUser.github));
 
       const abiCoder = new ethers.utils.AbiCoder();
-      const bigNumberTier = ethers.BigNumber.from(tier + 1);
+      const bigNumberTier = ethers.BigNumber.from(tier);
       data = abiCoder.encode(['uint256', 'bool'], [bigNumberTier, true]);
     }
 
-    await appState.openQClient.setSupportingDocumentsRequired(library, bounty.bountyId, data);
+    await appState.openQClient.setSupportingDocumentsComplete(library, bounty.bountyId, data);
     setAccepted(true);
   };
 
@@ -79,10 +80,11 @@ const RequestIndividual = ({ bounty, request }) => {
       </a>
       <div>
         <button
+          disabled={accepted}
           onClick={acceptRequest}
-          className={`${accepted ? 'btn-default' : 'btn-primary'} py-0.5 w-full self-center`}
+          className={`${accepted ? 'btn-default cursor-not-allowed' : 'btn-primary'} py-0.5 w-full self-center`}
         >
-          Accept
+          Accept{accepted ? 'ed' : ''}
         </button>
       </div>
     </li>
