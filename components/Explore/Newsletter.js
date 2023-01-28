@@ -97,7 +97,7 @@ export default function Newsletter() {
               target='_blank'
               className='flex items-center justify-between border bg-dark-2 border-dark-1 rounded px-10 py-6'
             >
-              <div className='text-blue-500 text-xl font-semibold truncate pr-3'>{title}</div>
+              <div className='text-link-colour text-xl font-semibold truncate pr-3'>{title}</div>
               <div className='text-gray-400 text-xl font-bold flex items-center space-x-3 whitespace-nowrap'>
                 <LocationIcon />
                 <span className='capitalize'>
