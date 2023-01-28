@@ -45,7 +45,6 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
     };
     checkAssociatedAddress();
   }, [library, account, githubId]);
-  console.log(associatedAddressLoading);
 
   useEffect(() => {
     if (hasAssociatedAddress && githubId && claimPage) setVerified(true);
