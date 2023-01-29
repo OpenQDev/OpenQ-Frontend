@@ -5,7 +5,7 @@ const NavLinks = () => {
   const router = useRouter();
   return (
     <>
-      <Link href={'/'} className={`nav-link $ ${router.asPath === '/' && 'text-white'}`}>
+      <Link href={'/'} className={`nav-link ml-1 $ ${router.asPath === '/' && 'text-white'}`}>
         <span> Explore</span>
       </Link>
 
