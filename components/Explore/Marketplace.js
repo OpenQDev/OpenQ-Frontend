@@ -16,7 +16,6 @@ import StarButton from './StarButton';
 import RepoLanguage from './RepoLanguage';
 
 export default function ExploreMarketplace({ fullBounties }) {
-  console.log(fullBounties)
   return (
     <div className='md:grid md:grid-cols-2 md:gap-12 lg:gap-24 w-full mt-8'>
       <Link href='/' className='lg:order-2'>
