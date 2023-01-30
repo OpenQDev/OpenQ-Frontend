@@ -13,7 +13,7 @@ import ExploreGoodFirstIssues from '../components/Explore/GoodFirstIssues';
 import ExploreNewsletter from '../components/Explore/Newsletter';
 import ExploreBlog from '../components/Explore/Blog';
 
-export default function Index({ fullBounties, renderError }) {
+export default function Index({ contestBounties, nonContestBounties, renderError }) {
   return (
     <main className='bg-dark-mode flex-col explore'>
       {renderError ? (
@@ -23,8 +23,8 @@ export default function Index({ fullBounties, renderError }) {
           <ExploreHeader />
           <div className='flex flex-col items-center max-w-screen-2xl mx-auto px-5 lg:px-10'>
             <ExploreSearch />
-            <ExploreHackathons />
-            <ExploreMarketplace fullBounties={fullBounties} />
+            <ExploreHackathons fullBounties={contestBounties} />
+            <ExploreMarketplace fullBounties={nonContestBounties} />
             <ExploreGoodFirstIssues />
             <ExploreNewsletter />
             <ExploreBlog />
@@ -42,16 +42,27 @@ export const getServerSideProps = async () => {
   const utils = new Utils();
   const logger = new Logger();
   const batch = 10;
-  let fullBounties = [];
+  let contestBounties = [];
+  let nonContestBounties = [];
   let renderError = '';
   try {
-    [fullBounties] = await utils.fetchBounties(
+    [contestBounties] = await utils.fetchBounties(
       {
         openQSubgraphClient: openQSubgraphClient.instance,
         githubRepository: githubRepository.instance,
         openQPrismaClient: openQPrismaClient.instance,
       },
-      batch
+      batch,
+      ['2', '3']
+    );
+    [nonContestBounties] = await utils.fetchBounties(
+      {
+        openQSubgraphClient: openQSubgraphClient.instance,
+        githubRepository: githubRepository.instance,
+        openQPrismaClient: openQPrismaClient.instance,
+      },
+      batch,
+      ['0', '1']
     );
   } catch (err) {
     logger.error(err, null, '[index]3.js');
@@ -60,7 +71,8 @@ export const getServerSideProps = async () => {
 
   return {
     props: {
-      fullBounties,
+      contestBounties,
+      nonContestBounties,
       renderError,
     },
   };
