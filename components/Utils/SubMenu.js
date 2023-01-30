@@ -1,6 +1,7 @@
 import React from 'react';
 
 const SubMenu = ({ updatePage, internalMenu, items, styles, colour, vertical }) => {
+  const menu = internalMenu == 'Fixed Contest' ? 'Contest' : internalMenu;
   return (
     <div
       className={`px-2 ${!vertical ? 'sm:px-8' : 'px-0'} text-primary  w-full flex ${
@@ -15,7 +16,7 @@ const SubMenu = ({ updatePage, internalMenu, items, styles, colour, vertical }) 
             className={`${
               vertical && 'pl-2'
             } cursor-pointer px-1 flex gap-1 sm:gap-2 items-center text-sm hover:bg-inactive-gray leading-5 py-1 hover:bg-active-gray rounded-sm justify-center w-fit ${
-              internalMenu === item.name &&
+              menu === item.name &&
               ` ${vertical && 'after:h-5 after:left-0 after:w-0.5 after:absolute after:bg-link-colour'} `
             }`}
           >
@@ -25,7 +26,7 @@ const SubMenu = ({ updatePage, internalMenu, items, styles, colour, vertical }) 
           {!vertical && (
             <div
               className={`absolute w-full  top-9 border ${
-                internalMenu === item.name
+                menu === item.name
                   ? colour === 'rust'
                     ? 'border-rust bg-rust'
                     : 'border-link-colour bg-link-colour'

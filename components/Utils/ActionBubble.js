@@ -181,11 +181,19 @@ const ActionBubble = ({ bounty, action }) => {
             </ToolTipNew>
           </>
         </Link>
+      ) : !action ? (
+        <div className='w-9 h-9 flex-none'></div>
       ) : (
         <Jazzicon tooltipPosition={'-left-2'} size={36} address={address} name={name} />
       )}
-      <div className={` w-full bg-nav-bg flex-0 rounded-sm overflow-hidden ml-4 border-web-gray border-b ${!bounty.issuer ? null : 'before:w-2 before:h-2 before:bg-nav-bg before:absolute before:left-12 before:top-[34px] before:border-b  before:border-l before:border-web-gray before:rotate-45'}  border`}>
-        <div className={` w-full pl-3 ${!action ? 'border-web-gray' : null} flex justify-between`}>
+      <div
+        className={` w-full bg-nav-bg flex-0 rounded-sm overflow-hidden ml-4 border-web-gray border-b ${
+          !bounty.issuer
+            ? null
+            : 'before:w-2 before:h-2 before:bg-nav-bg before:absolute before:left-12 before:top-[34px] before:border-b  before:border-l before:border-web-gray before:rotate-45'
+        }  border`}
+      >
+        <div className={` w-full pl-3 flex justify-between`}>
           <span className='py-2'>
             <span data-testid='actionTitle'>{titlePartOne}</span>
 

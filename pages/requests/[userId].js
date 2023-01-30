@@ -1,50 +1,20 @@
-import React, { useContext, useState, useEffect } from 'react';
-import StoreContext from '../../store/Store/StoreContext';
-import AuthContext from '../../store/AuthStore/AuthContext';
+import React from 'react';
 
 // Custom
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
 import Logger from '../../services/logger/Logger';
 import Centered from '../../components/Layout/Centered';
 import RequestPage from '../../components/Requests/RequestPage/index.js';
-import { useRouter } from 'next/router';
+import AuthorizedOnly from '../../components/Authentication/HigherOrderComponents/OwnerOnly';
 
 const Requests = ({ user }) => {
-  const userId = user.id;
-  const [authState] = useContext(AuthContext);
-  const { githubId, email } = authState;
-  const [appState] = useContext(StoreContext);
-  const { accountData } = appState;
-  const loggedId = accountData?.id;
-  const isOwner = loggedId == user.id;
-  const [bounties, setBounties] = useState();
-  const router = useRouter();
-
-  useEffect(() => {
-    const getOffChainData = async () => {
-      if (isOwner) {
-        //get watched bounties.
-        try {
-          const userOffChainData = await appState.openQPrismaClient.getUser({
-            id: userId,
-            github: githubId,
-            email: email,
-          });
-          const watchedBounties = userOffChainData.watchedBounties.nodes.filter((bounty) => {
-            return bounty.request;
-          });
-          setBounties(watchedBounties);
-        } catch (error) {
-          router.push('/login');
-          appState.logger.error(error, accountData.id, '[userId.js]1');
-        }
-      } else {
-        router.push('/login');
-      }
-    };
-    getOffChainData();
-  }, [loggedId, user.id]);
-  return <Centered>{bounties ? <RequestPage bounties={bounties} /> : null}</Centered>;
+  return (
+    <Centered>
+      <AuthorizedOnly slug='' expectedId={user.id}>
+        <RequestPage user={user} />
+      </AuthorizedOnly>
+    </Centered>
+  );
 };
 export default Requests;
 
