@@ -6,6 +6,9 @@ export const GET_BOUNTY_BY_ADDRESS = gql`
       tvl
       tvc
       bountyId
+      creatingUser {
+        country
+      }
     }
   }
 `;
