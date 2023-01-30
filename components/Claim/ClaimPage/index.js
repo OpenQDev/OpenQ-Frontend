@@ -45,10 +45,12 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const [kycVerified, setKycVerified] = useState(null);
   const [githubHasWalletVerified, setGithubHasWalletVerified] = useState(null);
   let kyc = !bounty.kycRequired || kycVerified;
-  let w8Form = !bounty.supportingDocumentsRequired || bounty.supportingDocumentsCompleted;
+  let w8Form = !bounty.supportingDocumentsRequired; /* || bounty.supportingDocumentsCompleted */
   let githubHasWallet = bounty.bountyType == 0 || bounty.bountyType == 1 || githubHasWalletVerified;
-  let invoice = !bounty.invoiceRequired || bounty.invoiceCompleted;
+  let invoice = !bounty.invoiceRequired; /* || bounty.invoiceCompleted */
   let claimable = kyc && w8Form && githubHasWallet && invoice;
+
+  console.log(bounty, appState.accountData);
 
   useEffect(() => {
     claimable = kyc && w8Form && githubHasWallet && invoice;
