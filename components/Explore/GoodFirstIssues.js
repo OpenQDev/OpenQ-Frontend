@@ -24,7 +24,6 @@ export default function GoodFirstIssues() {
       gun.get(ownerAndRepo).once((repo) => {
         try {
           const repoIssues = JSON.parse(repo.issuesJson);
-          console.log(repoIssues);
           repoIssues.forEach((issue) => {
             issue.repo = repo;
           });
