@@ -181,10 +181,10 @@ const ActionBubble = ({ bounty, action }) => {
             </ToolTipNew>
           </>
         </Link>
-      ) : !action ? (
-        <div className='w-9 h-9 flex-none'></div>
-      ) : (
+      ) : address ? (
         <Jazzicon tooltipPosition={'-left-2'} size={36} address={address} name={name} />
+      ) : (
+        <div className='w-9 h-9 flex-none'></div>
       )}
       <div
         className={` w-full bg-nav-bg flex-0 rounded-sm overflow-hidden ml-4 border-web-gray border-b ${
