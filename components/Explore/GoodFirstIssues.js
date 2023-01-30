@@ -9,6 +9,7 @@ import CardBody from './Card/CardBody';
 import CardFooter from './Card/CardFooter';
 import CardHeader from './Card/CardHeader';
 import StarButton from './StarButton';
+import RepoLanguage from './RepoLanguage';
 
 import reposWhitelist from './reposWhitelist.json';
 
@@ -40,34 +41,6 @@ export default function GoodFirstIssues() {
       });
     });
   }, []);
-
-  // GitHub colors for languages
-  const languageColors = {
-    JavaScript: 'bg-[#f1e05a]',
-    TypeScript: 'bg-[#2b7489]',
-    HTML: 'bg-[#e34c26]',
-    CSS: 'bg-[#563d7c]',
-    Python: 'bg-[#3572A5]',
-    Java: 'bg-[#b07219]',
-    PHP: 'bg-[#4F5D95]',
-    C: 'bg-[#555555]',
-    Go: 'bg-[#00ADD8]',
-    Ruby: 'bg-[#701516]',
-    Shell: 'bg-[#89e051]',
-    Swift: 'bg-[#ffac45]',
-    Starlark: 'bg-[#76d275]',
-    Cython: 'bg-[#fedf5b]',
-    Dockerfile: 'bg-[#384d54]',
-    'C#': 'bg-[#178600]',
-    'C++': 'bg-[#f34b7d]',
-    'Objective-C': 'bg-[#438eff]',
-    'Objective-C++': 'bg-[#6866fb]',
-    Batchfile: 'bg-[#C1F12E]',
-    CMake: 'bg-[#DA3434]',
-    XSLT: 'bg-[#EB8CEB]',
-    Awk: 'bg-[#c30f0f]',
-    PowerShell: 'bg-[#012456]',
-  };
 
   return (
     <div className='my-24 w-full'>
@@ -112,14 +85,7 @@ export default function GoodFirstIssues() {
                 </div>
               </CardBody>
               <CardFooter>
-                <div className='flex items-center mr-3'>
-                  <span
-                    className={`inline-block w-3 h-3 mr-1 rounded-full ${
-                      languageColors[issue.repo.language] || 'bg-gray-300'
-                    }`}
-                  />
-                  {issue.repo.language}
-                </div>
+                <RepoLanguage language={issue.repo.language} />
                 {issue.assignee ? (
                   <div className='text-xs text-gray-400'>Assigned to {issue.assignee}</div>
                 ) : (

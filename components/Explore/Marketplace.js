@@ -13,8 +13,10 @@ import ImageTeaserHeadline from './ImageTeaser/ImageTeaserHeadline';
 import ImageTeaserLink from './ImageTeaser/ImageTeaserLink';
 import ImageTeaserText from './ImageTeaser/ImageTeaserText';
 import StarButton from './StarButton';
+import RepoLanguage from './RepoLanguage';
 
-export default function ExploreMarketplace() {
+export default function ExploreMarketplace({ fullBounties }) {
+  console.log(fullBounties)
   return (
     <div className='md:grid md:grid-cols-2 md:gap-12 lg:gap-24 w-full mt-8'>
       <Link href='/' className='lg:order-2'>
@@ -40,8 +42,8 @@ export default function ExploreMarketplace() {
         </h2>
         <FlexScrollContainer className='min-h-[360px]'>
           <div className='flex flex-col space-y-5'>
-            {[1, 2, 3, 4, 5].map((i) => (
-              <Card key={i}>
+            {fullBounties.map((bounty) => (
+              <Card key={bounty.id}>
                 <CardHeader>
                   <Image
                     src='https://avatars.githubusercontent.com/u/77402538?v=4'
@@ -50,11 +52,20 @@ export default function ExploreMarketplace() {
                     height={24}
                     className='mr-2 rounded-full'
                   />
-                  <div className='mr-auto'>OpenQ</div>
+                  <div className='mr-auto'>{bounty.repoName}</div>
                   <StarButton />
                 </CardHeader>
-                <CardBody>asd</CardBody>
-                <CardFooter>asd</CardFooter>
+                <CardBody>{bounty.title}</CardBody>
+                <CardFooter>
+                  {
+                    bounty.languages.map((language) => <RepoLanguage key={language.name} language={language.name} color={language.color} />)
+                  }
+                  {bounty.assignees.length ? (
+                    <div className='text-xs text-gray-400'>Assigned to {bounty.assignees.length}</div>
+                  ) : (
+                    <div className='text-xs text-gray-400'>No one assigned</div>
+                  )}
+                </CardFooter>
               </Card>
             ))}
           </div>

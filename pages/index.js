@@ -14,7 +14,6 @@ import ExploreNewsletter from '../components/Explore/Newsletter';
 import ExploreBlog from '../components/Explore/Blog';
 
 export default function Index({ fullBounties, renderError }) {
-  console.log('fullBounties', fullBounties);
   return (
     <main className='bg-dark-mode flex-col explore'>
       {renderError ? (
@@ -25,7 +24,7 @@ export default function Index({ fullBounties, renderError }) {
           <div className='flex flex-col items-center max-w-screen-2xl mx-auto px-5 lg:px-10'>
             <ExploreSearch />
             <ExploreHackathons />
-            <ExploreMarketplace />
+            <ExploreMarketplace fullBounties={fullBounties} />
             <ExploreGoodFirstIssues />
             <ExploreNewsletter />
             <ExploreBlog />
