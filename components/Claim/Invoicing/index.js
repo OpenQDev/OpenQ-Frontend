@@ -105,7 +105,12 @@ const Invoicing = ({ bounty }) => {
             <p className='font-semibold'>Step 1</p>
             <p>
               Please fill in your billing details in your{' '}
-              <Link className='text-blue-500 hover:underline col-span-2' href={profileLink}>
+              <Link
+                className='text-blue-500 hover:underline col-span-2'
+                href={profileLink}
+                target='_blank'
+                rel='noopener norefferer'
+              >
                 profile
               </Link>{' '}
               and review the sample invoice.
