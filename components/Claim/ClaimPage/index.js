@@ -49,8 +49,8 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu }) => 
 
   const checkRequirementsWithGraph = (bounty) => {
     if (bounty.bountyType === '2' || bounty.bountyType === '3') {
-      let w8Form = !bounty.supportingDocumentsRequired || bounty.supportingDocumentsCompleted[targetTier];
-      let invoice = !bounty.invoiceRequired || bounty.invoiceCompleted[targetTier];
+      let w8Form = !bounty?.supportingDocumentsRequired || bounty?.supportingDocumentsCompleted?.[targetTier];
+      let invoice = !bounty.invoiceRequired || bounty?.invoiceCompleted?.[targetTier];
       return { w8Form, invoice };
     } else return {};
   };
