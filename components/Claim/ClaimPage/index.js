@@ -46,13 +46,22 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   // const { accountData } = appState;
   const [kycVerified, setKycVerified] = useState(null);
   const [githubHasWalletVerified, setGithubHasWalletVerified] = useState(null);
+
+  const checkRequirementsWithGraph = (bounty) => {
+    if (bounty.bountyType === '2' || bounty.bountyType === '3') {
+      let w8Form = !bounty.supportingDocumentsRequired || bounty.supportingDocumentsCompleted[targetTier];
+      let invoice = !bounty.invoiceRequired || bounty.invoiceCompleted[targetTier];
+      return { w8Form, invoice };
+    } else return {};
+  };
+
+  const targetTier = bounty.tierWinners.indexOf(accountData.github);
+  const { w8Form, invoice } = checkRequirementsWithGraph(bounty);
   let kyc = !bounty.kycRequired || kycVerified;
-  let w8Form = !bounty.supportingDocumentsRequired; /* || bounty.supportingDocumentsCompleted */
   let githubHasWallet = bounty.bountyType == 0 || bounty.bountyType == 1 || githubHasWalletVerified;
-  let invoice = !bounty.invoiceRequired; /* || bounty.invoiceCompleted */
   let claimable = kyc && w8Form && githubHasWallet && invoice;
 
-  console.log(bounty, appState.accountData);
+  console.log({ claimable, kyc, w8Form, githubHasWallet, invoice });
 
   useEffect(() => {
     claimable = kyc && w8Form && githubHasWallet && invoice;
@@ -103,57 +112,61 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
 
   const claimBounty = async () => {
     setClaimState(CHECKING_WITHDRAWAL_ELIGIBILITY);
-    axios
-      .post(
-        `${process.env.NEXT_PUBLIC_ORACLE_URL}/claim`,
-        {
-          issueUrl: url,
-          payoutAddress: account,
-        },
-        { withCredentials: true }
-      )
-      .then(async (result) => {
-        const { txnHash } = result.data;
-        // Upon this return, the claimBounty transaction has been submitted
-        // We should now transition from Transaction Submitted -> Transaction Pending
-        setTransactionHash(txnHash);
-        setClaimState(TRANSACTION_SUBMITTED);
-        await library.waitForTransaction(txnHash);
-        setClaimState(TRANSACTION_CONFIRMED);
-        setJustClaimed(true);
-
-        const payload = {
-          type: 'UPDATE_RELOAD',
-          payload: true,
-        };
-
-        dispatch(payload);
-
-        canvas.current.width = window.innerWidth;
-        canvas.current.height = window.innerHeight;
-
-        const canvasConfetti = confetti.create(canvas.current, {
-          resize: true,
-          useWorker: true,
-        });
-        canvasConfetti({
-          particleCount: 50,
-          spread: window.innerWidth,
-          origin: {
-            x: 1,
-            y: 0,
+    if ((bounty.bountyType === '2') | (bounty.bountyType === '3')) {
+      await appState.openQClient.claimTieredPermissioned(library, bounty);
+    } else {
+      axios
+        .post(
+          `${process.env.NEXT_PUBLIC_ORACLE_URL}/claim`,
+          {
+            issueUrl: url,
+            payoutAddress: account,
           },
+          { withCredentials: true }
+        )
+        .then(async (result) => {
+          const { txnHash } = result.data;
+          // Upon this return, the claimBounty transaction has been submitted
+          // We should now transition from Transaction Submitted -> Transaction Pending
+          setTransactionHash(txnHash);
+          setClaimState(TRANSACTION_SUBMITTED);
+          await library.waitForTransaction(txnHash);
+          setClaimState(TRANSACTION_CONFIRMED);
+          setJustClaimed(true);
+
+          const payload = {
+            type: 'UPDATE_RELOAD',
+            payload: true,
+          };
+
+          dispatch(payload);
+
+          canvas.current.width = window.innerWidth;
+          canvas.current.height = window.innerHeight;
+
+          const canvasConfetti = confetti.create(canvas.current, {
+            resize: true,
+            useWorker: true,
+          });
+          canvasConfetti({
+            particleCount: 50,
+            spread: window.innerWidth,
+            origin: {
+              x: 1,
+              y: 0,
+            },
+          });
+        })
+        .catch((err) => {
+          logger.error(err, account, bounty.id);
+          setClaimState(WITHDRAWAL_INELIGIBLE);
+          setError({
+            message: err.response.data.errorMessage,
+            title: 'Error',
+            referencedPrs: err.response.data.referencedPrs,
+          });
         });
-      })
-      .catch((err) => {
-        logger.error(err, account, bounty.id);
-        setClaimState(WITHDRAWAL_INELIGIBLE);
-        setError({
-          message: err.response.data.errorMessage,
-          title: 'Error',
-          referencedPrs: err.response.data.referencedPrs,
-        });
-      });
+    }
   };
 
   if (showBountyClosed) {

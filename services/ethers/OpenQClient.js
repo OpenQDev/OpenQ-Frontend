@@ -533,6 +533,18 @@ class OpenQClient {
       }
     });
   };
+  claimTieredPermissioned = async (library, bounty) => {
+    return new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.ClaimManager(signer);
+      try {
+        console.log(contract);
+        resolve('asdf');
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
 
   hasKYC = async (library, _address) => {
     return new Promise(async (resolve, reject) => {

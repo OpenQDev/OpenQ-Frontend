@@ -68,7 +68,7 @@ const Invoicing = ({ bounty }) => {
   const getInvoiceSent = (bounty) => {
     if (bounty.bountyType === '3' || bounty.bountyType === '2') {
       const currentTier = bounty.tierWinners.indexOf(accountData.github);
-      return bounty.invoiceCompleted[currentTier];
+      return bounty.invoiceCompleted?.[currentTier];
     } else return false;
   };
   const invoiceSentPreviously = getInvoiceSent(bounty);
