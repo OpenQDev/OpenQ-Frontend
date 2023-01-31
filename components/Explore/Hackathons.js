@@ -17,7 +17,7 @@ import RepoLanguage from './RepoLanguage';
 
 export default function ExploreHackathons({ fullBounties }) {
   return (
-    <div className='md:grid md:grid-cols-2 md:gap-12 lg:gap-18 xl:gap-24 w-full mt-12'>
+    <div className='md:grid md:grid-cols-2 md:gap-12 lg:gap-18 xl:gap-24 w-full'>
       <Link href='/'>
         <ImageTeaser imageSrc='/explore/teaser1.png'>
           <ImageTeaserLink>
@@ -38,7 +38,7 @@ export default function ExploreHackathons({ fullBounties }) {
             <ChevronRightIcon className='ml-2 w-5 h-5' />
           </FancyButton>
         </h2>
-        <FlexScrollContainer className='min-h-[360px]'>
+        <FlexScrollContainer>
           <div className='flex flex-col space-y-5'>
             {fullBounties.map((bounty) => (
               <Card key={bounty.id}>
@@ -53,16 +53,18 @@ export default function ExploreHackathons({ fullBounties }) {
                   <div className='mr-auto'>{bounty.repoName}</div>
                   <StarButton />
                 </CardHeader>
-                <CardBody>{bounty.title}</CardBody>
-                <CardFooter>
-                  {
-                    bounty.languages.map((language) => <RepoLanguage key={language.name} language={language.name} color={language.color} />)
-                  }
+                <CardBody>
+                  {bounty.title}
                   {bounty.assignees.length ? (
                     <div className='text-xs text-gray-400'>Assigned to {bounty.assignees.length}</div>
                   ) : (
-                    <div className='text-xs text-gray-400'>No one assigned</div>
+                    <div className='text-xs whitespace-nowrap text-gray-400 shrink'>No one assigned</div>
                   )}
+                </CardBody>
+                <CardFooter>
+                  {
+                    bounty.languages.filter((_, i) => i < 3).map((language) => <RepoLanguage key={language.name} language={language.name} color={language.color} />)
+                  }
                 </CardFooter>
               </Card>
             ))}

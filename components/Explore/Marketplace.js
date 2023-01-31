@@ -17,7 +17,7 @@ import RepoLanguage from './RepoLanguage';
 
 export default function ExploreMarketplace({ fullBounties }) {
   return (
-    <div className='md:grid md:grid-cols-2 md:gap-12 lg:gap-24 w-full mt-24'>
+    <div className='md:grid md:grid-cols-2 md:gap-12 lg:gap-24 w-full'>
       <Link href='/' className='lg:order-2'>
         <ImageTeaser imageSrc='/explore/teaser2.png' textPosition='top'>
           <ImageTeaserLink>
@@ -39,7 +39,7 @@ export default function ExploreMarketplace({ fullBounties }) {
             <ChevronRightIcon className='ml-2 w-5 h-5' />
           </FancyButton>
         </h2>
-        <FlexScrollContainer className='min-h-[360px]'>
+        <FlexScrollContainer>
           <div className='flex flex-col space-y-5'>
             {fullBounties.map((bounty) => (
               <Card key={bounty.id}>

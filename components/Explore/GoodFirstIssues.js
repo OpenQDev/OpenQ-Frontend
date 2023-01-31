@@ -43,7 +43,7 @@ export default function GoodFirstIssues() {
   }, []);
 
   return (
-    <div className='my-24 w-full'>
+    <div className='w-full'>
       <div className='text-center mb-10'>
         <h1 className='mx-auto'>Contribute to Open-Source in web3.</h1>
         <h3 className='text-3xl text-zinc-400 mt-4'>Find good first issues.</h3>
@@ -52,10 +52,10 @@ export default function GoodFirstIssues() {
           <ChevronRightIcon className='ml-2 w-5 h-5' />
         </FancyButton>
       </div>
-      <div className='border border-dark-1 rounded-sm p-5 bg-dark-3 flex space-x-5 overflow-x-auto custom-scrollbar custom-scrollbar-horizontal snap-x snap-mandatory'>
+      <div className='flex flex-col space-y-5 md:space-y-0 md:flex-row md:border md:border-dark-1 md:rounded-sm md:p-5 md:bg-dark-3 md:space-x-5 md:overflow-x-auto md:custom-scrollbar md:custom-scrollbar-horizontal md:snap-x md:snap-mandatory'>
         {issues.map((issue) => (
           <Link key={issue.id} href={issue.url} target='_blank'>
-            <Card className='!w-96'>
+            <Card className='md:!w-96'>
               <CardHeader>
                 <Image
                   src='https://avatars.githubusercontent.com/u/77402538?v=4'
