@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ToolTipNew from '../../../../Utils/ToolTipNew';
 import TierInput from './TierInput';
 import TextTierInput from './TextTierInput';
 import TierResult from './TierResult';
 import SmallToggle from '../../../../Utils/SmallToggle';
+import StoreContext from '../../../../../store/Store/StoreContext';
 
 const SetTierValues = ({
   category,
@@ -23,6 +24,7 @@ const SetTierValues = ({
   }
   const [fixedTierVolumes, setFixedTierVolumes] = useState(newFixedVolumes);
   const [toggleVal, setToggleVal] = useState('Visual');
+  const [appState] = useContext(StoreContext);
 
   useEffect(() => {
     const newFixedVolumes = [];
@@ -155,7 +157,8 @@ const SetTierValues = ({
         <div className='max-h-40 w-full flex flex-col gap-2 overflow-y-auto overflow-x-hidden'>
           {tierArr.map((t, i) => {
             return (
-              <div key={i}>
+              <div key={i} className='flex gap-2 mr-10'>
+                <div className='w-10'>{appState.utils.handleSuffix(i + 1)}</div>
                 <TextTierInput
                   tier={i + 1}
                   tierVolumes={fixedTierVolumes}
