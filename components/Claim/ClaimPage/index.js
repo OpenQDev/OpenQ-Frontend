@@ -1,5 +1,5 @@
 // Third party Libraries
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import axios from 'axios';
 import confetti from 'canvas-confetti';
 import Link from 'next/link';
@@ -41,9 +41,22 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const [showClaimLoadingModal, setShowClaimLoadingModal] = useState(false);
   const [justClaimed, setJustClaimed] = useState(false);
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
-  const { accountData } = appState;
+  // const { accountData } = appState;
+  const [kycVerified, setKycVerified] = useState(null);
+  const [githubHasWalletVerified, setGithubHasWalletVerified] = useState(null);
+  let kyc = !bounty.kycRequired || kycVerified;
+  let w8Form = !bounty.supportingDocumentsRequired; /* || bounty.supportingDocumentsCompleted */
+  let githubHasWallet = bounty.bountyType == 0 || bounty.bountyType == 1 || githubHasWalletVerified;
+  let invoice = !bounty.invoiceRequired; /* || bounty.invoiceCompleted */
+  let claimable = kyc && w8Form && githubHasWallet && invoice;
 
-  const accountKeys = [
+  console.log(bounty, appState.accountData);
+
+  useEffect(() => {
+    claimable = kyc && w8Form && githubHasWallet && invoice;
+  }, [kyc, w8Form, githubHasWallet, invoice]);
+
+  /*   const accountKeys = [
     'billingName',
     'city',
     'streetAddress',
@@ -62,7 +75,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const neededAccountData = accountKeys.filter((key) => {
     return !accountData[key];
   });
-  const hasInvoicingInfo = neededAccountData.length === 0 || !bounty.invoiceable;
+  const hasInvoicingInfo = neededAccountData.length === 0 || !bounty.invoiceRequired; */
 
   const canvas = useRef();
 
@@ -155,18 +168,28 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
       <>
         <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px]'>
           <div className='flex flex-col w-full space-y-2 rounded-sm gap-4'>
-            <div className='bg-info border-info-strong border-2 p-3 rounded-sm'>
-              Congratulations, you are elgible to receive this bounty! In order to claim it you need to fulfill the
-              requirements highlighted below. To learn more read{' '}
-              <Link href='/' rel='noopener norefferer' target='_blank' className='underline col-span-2'>
-                here
-              </Link>
-              .
+            <div
+              className={`${
+                claimable ? 'border-green bg-green-inside' : 'bg-info border-info-strong'
+              } border-2 p-3 rounded-sm`}
+            >
+              {claimable ? (
+                'Congratulations, you can now claim your bounty!'
+              ) : (
+                <>
+                  Congratulations, you are elgible to receive this bounty! In order to claim it you need to fulfill
+                  therequirements highlighted below. To learn more read{' '}
+                  <Link href='/' rel='noopener norefferer' target='_blank' className='underline col-span-2'>
+                    here
+                  </Link>
+                  .
+                </>
+              )}
             </div>
             <h3 className='flex w-full text-3xl font-semibold text-primary'>Requirements</h3>
-            {bounty.kycRequired && <KycRequirement />}
+            {bounty.kycRequired && <KycRequirement setKycVerified={setKycVerified} />}
             <W8Form bounty={bounty} />
-            <GithubRequirement />
+            <GithubRequirement setGithubHasWalletVerified={setGithubHasWalletVerified} />
             <Invoicing bounty={bounty} />
             <section className='flex flex-col gap-3'>
               <h4 className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>Claim Your Rewards</h4>
@@ -189,21 +212,19 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
                   relativePosition={'-left-2'}
                   triangleStyles={'left-3'}
                   outerStyles={'relative bottom-1'}
-                  hideToolTip={price > 0 && hasInvoicingInfo}
+                  hideToolTip={price > 0 && claimable}
                   toolTipText={
-                    price <= 0
+                    price <= 0 || !price
                       ? 'There are no funds locked to claim, contact the maintainer of this issue.'
-                      : !hasInvoicingInfo
-                      ? 'This bounty requires invoicing data, please fill in the form below.'
                       : 'Please first go through all the required steps before you can claim your rewards.'
                   }
                 >
                   <button
                     type='submit'
                     className={
-                      price > 0 && hasInvoicingInfo ? 'btn-primary cursor-pointer' : 'btn-default cursor-not-allowed'
+                      price > 0 && claimable ? 'btn-primary cursor-pointer w-fit' : 'btn-default cursor-not-allowed'
                     }
-                    disabled={!(price > 0 && hasInvoicingInfo)}
+                    disabled={!(price > 0 && claimable)}
                     onClick={() => setShowClaimLoadingModal(true)}
                   >
                     Claim
@@ -213,7 +234,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
             )}
 
             {/*
-            {bounty.invoiceable && (
+            {bounty.invoiceRequired && (
               <>
                 {neededAccountData.length > 0 && (
                   <div>

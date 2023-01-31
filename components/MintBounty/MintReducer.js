@@ -104,6 +104,12 @@ const MintReducer = (state, action) => {
         kycRequired: action.payload,
       };
     }
+    case 'SET_SUPPORTING_DOCUMENTS_REQUIRED': {
+      return {
+        ...state,
+        supportingDocumentsRequired: action.payload,
+      };
+    }
     case 'SET_ALT_NAME': {
       return {
         ...state,

@@ -1,15 +1,34 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import useWeb3 from '../../../../hooks/useWeb3';
 import StoreContext from '../../../../store/Store/StoreContext';
 import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
 import ShieldCheck from '../../../svg/shieldCheck';
 
-const KycRequirement = () => {
-  // to be added: setState to verified & setError('') when know that Kyc'd
+const KycRequirement = ({ setKycVerified }) => {
   const [stage, setStage] = useState('start');
+  const [failResponse, setFailResponse] = useState(null);
+  const [successResponse, setSuccessResponse] = useState(null);
   const [error, setError] = useState('');
   const [appState] = useContext(StoreContext);
+  const { account, library } = useWeb3();
+  const disabled = stage == 'processing' || stage == 'verified';
+  useEffect(() => {
+    if (failResponse == 'cancelled') {
+      setStage('start');
+      setFailResponse(null);
+    }
+    if (successResponse) {
+      setStage('verified');
+      setKycVerified(true);
+      setError('');
+      setSuccessResponse(null);
+    }
+  }, [failResponse, successResponse]);
+  useEffect(() => {
+    hasKYC();
+  }, []);
   const onOpenSDK = useCallback(async () => {
     try {
       const { KycDaoClient } = await import('@kycdao/widget');
@@ -22,15 +41,32 @@ const KycRequirement = () => {
           enabledVerificationTypes: ['KYC'],
           evmProvider: window.ethereum,
           baseUrl: 'https://kycdao.xyz',
+          // test: 'https://staging.kycdao.xyz', 'PolygonMumbai'
+          // prod: 'https://kycdao.xyz', 'PolygonMainnet'
         },
+        onFail: setFailResponse,
+        onSuccess: setSuccessResponse,
       }).open();
+      setStage('processing');
     } catch (error) {
       setError(error);
+      setStage('start');
       appState.logger.error(error, 'KycRequirement.js1');
     }
-
-    setStage('processing');
   }, []);
+  // [WIP] make sure we get the update of hasKYC when the information changes
+  const hasKYC = async () => {
+    try {
+      const transaction = await appState.openQClient.hasKYC(library, account);
+      if (transaction) {
+        setStage('verified');
+        setKycVerified(true);
+        setError('');
+      }
+    } catch (err) {
+      appState.logger.error(err, account, 'KycRequirement.js1');
+    }
+  };
   return (
     <section className='flex flex-col gap-3'>
       <h4 className='flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
@@ -43,7 +79,7 @@ const KycRequirement = () => {
           {stage == 'verified' ? 'Approved' : 'Required'}
         </div>
       </h4>
-      {error && (
+      {error && !(stage == 'verified') && (
         <div className='bg-info border-info-strong border-2 p-3 rounded-sm'>
           Something went wrong, please try again or reach out for support at{' '}
           <Link
@@ -84,8 +120,13 @@ const KycRequirement = () => {
       </div>
       <div className='font-semibold'>Verify now</div>
       <button
+        disabled={disabled}
         className={`flex items-center gap-2 ${
-          stage == 'start' ? 'btn-requirements' : stage == 'processing' ? 'btn-processing' : 'btn-verified'
+          stage == 'start'
+            ? 'btn-requirements'
+            : stage == 'processing'
+            ? 'btn-processing cursor-not-allowed'
+            : 'btn-verified cursor-not-allowed'
         } w-fit`}
         onClick={onOpenSDK}
       >

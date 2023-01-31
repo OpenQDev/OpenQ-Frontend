@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
-import OpenQABI from '../../artifacts/contracts/OpenQ/Implementations/OpenQV3.sol/OpenQV3.json';
-import DepositManagerABI from '../../artifacts/contracts/DepositManager/DepositManagerV2.sol/DepositManagerV2.json';
-import ClaimManagerAbi from '../../artifacts/contracts/ClaimManager/Implementations/ClaimManagerV2.sol/ClaimManagerV2.json';
+import OpenQABI from '../../artifacts/contracts/OpenQ/Implementations/OpenQV1.sol/OpenQV1.json';
+import DepositManagerABI from '../../artifacts/contracts/DepositManager/Implementations/DepositManagerV1.sol/DepositManagerV1.json';
+import ClaimManagerAbi from '../../artifacts/contracts/ClaimManager/Implementations/ClaimManagerV1.sol/ClaimManagerV1.json';
 
 import ERC20ABI from '../../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json';
 import ERC721ABI from '../../artifacts/@openzeppelin/contracts/token/ERC721/ERC721.sol/ERC721.json';
@@ -70,7 +70,19 @@ class OpenQClient {
     return signature;
   };
 
-  mintBounty = async (library, issueId, organization, type, invoiceable, kycRequired, data) => {
+  mintBounty = async (
+    library,
+    issueId,
+    organization,
+    issuerExternalUserId,
+    type,
+    invoiceable,
+    kycRequired,
+    supportingDocumentsRequired,
+    alternativeName,
+    alternativeLogo,
+    data
+  ) => {
     const promise = new Promise(async (resolve, reject) => {
       let bountyInitOperation;
       let abiCoder = new ethers.utils.AbiCoder();
@@ -79,13 +91,24 @@ class OpenQClient {
         fundVolumeInWei.toLocaleString('fullwide', { useGrouping: false })
       );
       const hasFundingGoal = fundVolumeInWei > 0;
+
       switch (type) {
         case 'Fixed Price':
           {
             let abiCoder = new ethers.utils.AbiCoder();
             const fundingGoalBountyParams = abiCoder.encode(
-              ['bool', 'address', 'uint256', 'bool', 'bool'],
-              [hasFundingGoal, data.fundingTokenAddress.address, fundBigNumberVolumeInWei, invoiceable, kycRequired]
+              ['bool', 'address', 'uint256', 'bool', 'bool', 'bool', 'string', 'string', 'string'],
+              [
+                hasFundingGoal,
+                data.fundingTokenAddress.address,
+                fundBigNumberVolumeInWei,
+                invoiceable,
+                kycRequired,
+                supportingDocumentsRequired,
+                issuerExternalUserId,
+                alternativeName,
+                alternativeLogo,
+              ]
             );
             bountyInitOperation = [0, fundingGoalBountyParams];
           }
@@ -99,7 +122,19 @@ class OpenQClient {
               })
             );
             const ongoingAbiEncodedParams = abiCoder.encode(
-              ['address', 'uint256', 'bool', 'address', 'uint256', 'bool', 'bool'],
+              [
+                'address',
+                'uint256',
+                'bool',
+                'address',
+                'uint256',
+                'bool',
+                'bool',
+                'bool',
+                'string',
+                'string',
+                'string',
+              ],
               [
                 data.payoutToken.address,
                 payoutBigNumberVolumeInWei,
@@ -108,6 +143,10 @@ class OpenQClient {
                 fundBigNumberVolumeInWei,
                 invoiceable,
                 kycRequired,
+                supportingDocumentsRequired,
+                issuerExternalUserId,
+                alternativeName,
+                alternativeLogo,
               ]
             );
             bountyInitOperation = [1, ongoingAbiEncodedParams];
@@ -116,15 +155,18 @@ class OpenQClient {
         case 'Contest':
           {
             const tieredAbiEncodedParams = abiCoder.encode(
-              ['uint256[]', 'bool', 'address', 'uint256', 'bool', 'bool'],
+              ['uint256[]', 'bool', 'address', 'uint256', 'bool', 'bool', 'bool', 'string', 'string', 'string'],
               [
                 data.tiers,
                 hasFundingGoal,
                 data.fundingTokenAddress.address,
                 fundBigNumberVolumeInWei,
-
                 invoiceable,
                 kycRequired,
+                supportingDocumentsRequired,
+                issuerExternalUserId,
+                alternativeName,
+                alternativeLogo,
               ]
             );
             bountyInitOperation = [2, tieredAbiEncodedParams];
@@ -142,8 +184,17 @@ class OpenQClient {
               return payoutBigNumberVolumeInWei;
             });
             const tieredAbiEncodedParams = abiCoder.encode(
-              ['uint256[]', 'address', 'bool', 'bool'],
-              [tierVolumes, data.payoutToken.address, invoiceable, kycRequired]
+              ['uint256[]', 'address', 'bool', 'bool', 'bool', 'string', 'string', 'string'],
+              [
+                tierVolumes,
+                data.payoutToken.address,
+                invoiceable,
+                kycRequired,
+                supportingDocumentsRequired,
+                issuerExternalUserId,
+                alternativeName,
+                alternativeLogo,
+              ]
             );
             bountyInitOperation = [3, tieredAbiEncodedParams];
           }
@@ -450,23 +501,46 @@ class OpenQClient {
    * @returns {promise}
    */
 
-  claimBounty = async (library, _bountyAddress, _closer, _claimantAsset, _tier, _externalUserId) => {
+  setTierWinner = async (library, _bountyId, _tier, _externalUserId) => {
     return new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
-      const contract = this.ClaimManager(signer);
-
-      let abiCoder = new ethers.utils.AbiCoder();
+      const contract = this.OpenQ(signer);
 
       try {
-        let closerData = abiCoder.encode(
-          ['address', 'string', 'address', 'string', 'uint256'],
-          [_bountyAddress, _externalUserId, _closer, _claimantAsset, _tier]
-        );
-
-        let txnResponse = await contract.directClaimTieredBounty(_bountyAddress, _externalUserId, closerData);
+        // string calldata _bountyId,
+        //uint256 _tier,
+        //string calldata _winner
+        let txnResponse = await contract.setTierWinner(_bountyId, _tier, _externalUserId);
 
         let txnReceipt = await txnResponse.wait();
         resolve(txnReceipt);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
+  setSupportingDocumentsComplete = async (library, _bountyId, _data) => {
+    return new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.OpenQ(signer);
+      try {
+        let txnResponse = await contract.setSupportingDocumentsComplete(_bountyId, _data);
+        let txnReceipt = await txnResponse.wait();
+        resolve(txnReceipt);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
+  hasKYC = async (library, _address) => {
+    return new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.ClaimManager(signer);
+      try {
+        const hasKYC = await contract.hasKYC(_address);
+        resolve(hasKYC);
       } catch (error) {
         reject(error);
       }

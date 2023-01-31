@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useMemo } from 'react';
+import React, { useContext, useState, useMemo } from 'react';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
@@ -16,10 +16,8 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
   const { library } = useWeb3();
-  const [user, setUser] = useState({});
-  const [closerAddress, setCloserAddress] = useState('');
+  const winnerId = pr.author.id;
   const [error, setError] = useState({});
-  const zeroAddress = '0x0000000000000000000000000000000000000000';
   const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
   const price = tokenValues?.total;
   const createFixedPayout = () => {
@@ -34,32 +32,12 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
   const [fixedPayoutValue] = useGetTokenValues(payoutBalances);
 
   let unit;
-  useEffect(() => {
-    const getAddress = async () => {
-      const userId = pr.author.id;
-      if (library) {
-        const closerAddress = await appState.openQClient.getAddressById(library, userId);
-        if (ethers.utils.isAddress(closerAddress) && closerAddress !== zeroAddress) {
-          setCloserAddress(closerAddress);
-        }
-      }
-      setUser({ id: pr.author.id, login: pr.author.login });
-    };
-    getAddress();
-  }, [library, pr]);
-
   const claimBounty = async () => {
     try {
       setSelectionState(TRANSFERRING);
-      const transaction = await appState.openQClient.claimBounty(
-        library,
-        bounty.bountyAddress,
-        closerAddress,
-        pr.url,
-        tierIndex,
-        user.id,
-        user.login
-      );
+
+      const transaction = await appState.openQClient.setTierWinner(library, bounty.bountyId, tierIndex, winnerId);
+      console.log('transaction', transaction);
       if (transaction) {
         setSelectionState(SUCCESS);
       }
@@ -138,16 +116,12 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
       <ToolTip
         innerStyles={'  whitespace-pre-wrap'}
         relativePosition={'-right-4 w-32 md:right:auto md:w-60'}
-        hideToolTip={closerAddress && isSolvent}
-        toolTipText={
-          isSolvent
-            ? 'Winner needs to register their Github account on OpenQ with a wallet address before paying out.'
-            : `You don't have enough funds escrowed to cover this contest, please make a deposit.`
-        }
+        hideToolTip={isSolvent}
+        toolTipText={`You don't have enough funds escrowed to cover this contest, please make a deposit.`}
       >
         <button
-          disabled={!closerAddress || disabled || !isSolvent}
-          className={closerAddress && !disabled && isSolvent ? 'btn-primary' : 'btn-default cursor-not-allowed'}
+          disabled={disabled || !isSolvent}
+          className={!disabled && isSolvent ? 'btn-primary' : 'btn-default cursor-not-allowed'}
           onClick={claimBounty}
         >
           Confirm
@@ -216,23 +190,15 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
                 </a>{' '}
                 challenge.
               </p>
-              {closerAddress && closerAddress != zeroAddress ? (
-                <p className='my-2'>
-                  This will automaticaly send{' '}
-                  {bounty.bountyType === '2' ? prize.payout + '% of funds' : formatVolume(prize.payout) + unit} staked
-                  on this competition (
-                  {bounty.bountyType === '2'
-                    ? appState.utils.formatter.format((price * prize.payout) / 100 || 0)
-                    : appState.utils.formatter.format(fixedPayoutValue?.total || 0)}
-                  ) to the author of this submission, at the following address:{' '}
-                  {`${closerAddress.slice(0, 4)}...${closerAddress.slice(39)}`} .
-                </p>
-              ) : (
-                <p className='my-2'>
-                  However, the user has not registered their Github account on OpenQ with a wallet address, please have
-                  them register a wallet address before paying out.
-                </p>
-              )}
+              <p className='my-2'>
+                This will release{' '}
+                {bounty.bountyType === '2' ? prize.payout + '% of funds' : formatVolume(prize.payout) + unit} staked on
+                this competition (
+                {bounty.bountyType === '2'
+                  ? appState.utils.formatter.format((price * prize.payout) / 100 || 0)
+                  : appState.utils.formatter.format(fixedPayoutValue?.total || 0)}
+                ) to the author of this submission, to be claimed at their leisure.
+              </p>
             </>
           )}
           {selectionState === TRANSFERRING && (
@@ -245,8 +211,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
             <>
               <p className='my-2'>
                 {bounty.bountyType === '2' ? prize.payout + '% of funds' : formatVolume(prize.payout) + unit} staked on
-                this competition have been sent to {pr.author.name || pr.author.login} at {closerAddress.slice(0, 4)}
-                ...{closerAddress.slice(39)} .
+                this competition can now be claimed by {pr.author.name || pr.author.login}.
               </p>
             </>
           )}

@@ -6,6 +6,9 @@ export const GET_BOUNTY_BY_ADDRESS = gql`
       tvl
       tvc
       bountyId
+      creatingUser {
+        country
+      }
     }
   }
 `;
@@ -142,13 +145,21 @@ export const GET_PRIVATE_USER = gql`
           address
           bountyId
           watchingCount
-          request {
-            id
-            requestingUser {
+        }
+      }
+      createdBounties(limit: 100) {
+        nodes {
+          address
+          bountyId
+          requests(limit: 100) {
+            nodes {
               id
-              username
-              discord
-              github
+              requestingUser {
+                id
+                username
+                discord
+                github
+              }
             }
           }
         }
@@ -371,7 +382,6 @@ export const UPDATE_USER = gql`
 export const WATCH_BOUNTY = gql`
   mutation WatchBounty($contractAddress: String!, $userId: String!, $github: String, $email: String) {
     watchBounty(contractAddress: $contractAddress, userId: $userId, github: $github, email: $email) {
-      address
       watchingUsers {
         id
       }
