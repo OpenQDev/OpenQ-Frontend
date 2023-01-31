@@ -30,7 +30,7 @@ import KycRequirement from './KycRequirement';
 import GithubRequirement from './GithubRequirement';
 import { ChevronUpIcon, ChevronDownIcon } from '@primer/octicons-react';
 
-const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
+const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu }) => {
   const { url } = bounty;
   const [appState, dispatch] = useContext(StoreContext);
   const { accountData } = appState;
@@ -54,8 +54,9 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
       return { w8Form, invoice };
     } else return {};
   };
-
+  console.log(bounty);
   const targetTier = bounty.tierWinners.indexOf(accountData.github);
+
   const { w8Form, invoice } = checkRequirementsWithGraph(bounty);
   let kyc = !bounty.kycRequired || kycVerified;
   let githubHasWallet = bounty.bountyType == 0 || bounty.bountyType == 1 || githubHasWalletVerified;
@@ -83,6 +84,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
     'vatNumber',
     'vatRate',
   ];
+  const { bountyType } = bounty;
   const neededAccountData = accountKeys.filter((key) => {
     return !accountData[key];
   });
@@ -98,6 +100,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
     setShowClaimLoadingModal(false);
     if (claimState === TRANSACTION_CONFIRMED) {
       refreshBounty();
+      setInternalMenu('Claims Overview');
     } else {
       setClaimState(CONFIRM_CLAIM);
     }
@@ -112,60 +115,94 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
 
   const claimBounty = async () => {
     setClaimState(CHECKING_WITHDRAWAL_ELIGIBILITY);
-    if ((bounty.bountyType === '2') | (bounty.bountyType === '3')) {
-      await appState.openQClient.claimTieredPermissioned(library, bounty);
-    } else {
-      axios
-        .post(
-          `${process.env.NEXT_PUBLIC_ORACLE_URL}/claim`,
-          {
-            issueUrl: url,
-            payoutAddress: account,
-          },
-          { withCredentials: true }
-        )
-        .then(async (result) => {
-          const { txnHash } = result.data;
-          // Upon this return, the claimBounty transaction has been submitted
-          // We should now transition from Transaction Submitted -> Transaction Pending
-          setTransactionHash(txnHash);
-          setClaimState(TRANSACTION_SUBMITTED);
-          await library.waitForTransaction(txnHash);
-          setClaimState(TRANSACTION_CONFIRMED);
-          setJustClaimed(true);
-
-          const payload = {
-            type: 'UPDATE_RELOAD',
-            payload: true,
-          };
-
-          dispatch(payload);
-
-          canvas.current.width = window.innerWidth;
-          canvas.current.height = window.innerHeight;
-
-          const canvasConfetti = confetti.create(canvas.current, {
-            resize: true,
-            useWorker: true,
-          });
-          canvasConfetti({
-            particleCount: 50,
-            spread: window.innerWidth,
-            origin: {
-              x: 1,
-              y: 0,
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        if ((bounty.bountyType === '2') | (bounty.bountyType === '3')) {
+          const pr = bounty?.prs?.find((pr) => pr?.source?.author?.id === accountData?.github);
+          const prUrl = pr ? pr?.source.url : null;
+          const externalUserId = accountData.github;
+          const closerAddress = account;
+          const tier = targetTier;
+          const result = await appState.openQClient.claimTieredPermissioned(
+            library,
+            bounty,
+            externalUserId,
+            closerAddress,
+            prUrl,
+            tier
+          );
+          resolve(result);
+        } else {
+          const result = await axios.post(
+            `${process.env.NEXT_PUBLIC_ORACLE_URL}/claim`,
+            {
+              issueUrl: url,
+              payoutAddress: account,
             },
-          });
-        })
-        .catch((err) => {
-          logger.error(err, account, bounty.id);
+            { withCredentials: true }
+          );
+          resolve(result.txnHash);
+        }
+      } catch (e) {
+        reject(e);
+      }
+    });
+    try {
+      const txnHash = await promise;
+      // Upon this return, the claimBounty transaction has been submitted
+      // We should now transition from Transaction Submitted -> Transaction Pending
+      setTransactionHash(txnHash);
+      setClaimState(TRANSACTION_SUBMITTED);
+      await library.waitForTransaction(txnHash);
+      setClaimState(TRANSACTION_CONFIRMED);
+      setJustClaimed(true);
+
+      const payload = {
+        type: 'UPDATE_RELOAD',
+        payload: true,
+      };
+
+      dispatch(payload);
+
+      canvas.current.width = window.innerWidth;
+      canvas.current.height = window.innerHeight;
+
+      const canvasConfetti = confetti.create(canvas.current, {
+        resize: true,
+        useWorker: true,
+      });
+      canvasConfetti({
+        particleCount: 50,
+        spread: window.innerWidth,
+        origin: {
+          x: 1,
+          y: 0,
+        },
+      });
+    } catch (err) {
+      if (bountyType === '2' || bountyType === '3') {
+        if (err.message.includes('TIER_ALREADY_CLAIMED')) {
           setClaimState(WITHDRAWAL_INELIGIBLE);
           setError({
-            message: err.response.data.errorMessage,
+            message: 'Tier already claimed',
             title: 'Error',
-            referencedPrs: err.response.data.referencedPrs,
           });
+        } else {
+          setClaimState(WITHDRAWAL_INELIGIBLE);
+          setError({
+            message: 'Error claiming bounty',
+            title: 'Error',
+          });
+        }
+      } else {
+        logger.error(err, account, bounty.id);
+        setClaimState(WITHDRAWAL_INELIGIBLE);
+        setError({
+          message: err.response.data.errorMessage,
+          title: 'Error',
+          referencedPrs: err.response.data.referencedPrs,
         });
+      }
     }
   };
 
