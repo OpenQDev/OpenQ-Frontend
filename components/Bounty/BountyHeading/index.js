@@ -7,6 +7,7 @@ import StoreContext from '../../../store/Store/StoreContext';
 import useDisplayValue from '../../../hooks/useDisplayValue';
 import RefreshBounty from './RefreshBounty';
 import { getBountyMarker } from '../../..//services/utils/lib';
+import ClaimButton from '../../Claim/ClaimPage/ClaimButton/ClaimButton';
 
 const BountyHeading = ({ bounty, refreshGithubBounty }) => {
   const [appState] = useContext(StoreContext);
@@ -30,6 +31,7 @@ const BountyHeading = ({ bounty, refreshGithubBounty }) => {
         <div className='flex flex-row space-x-3 self-center items-center'>
           <RefreshBounty refreshGithubBounty={refreshGithubBounty} bounty={bounty} />
           <MintBountyButton types={['0', '1', '2', '3']} styles={'h-8'} />
+          <ClaimButton bounty={bounty} tooltipStyle={'-right-2'} />
         </div>
       </div>
       <div className='w-full flex flex-wrap justify-between pb-4 border-b border-web-gray'>

@@ -105,11 +105,17 @@ const Invoicing = ({ bounty }) => {
             <p className='font-semibold'>Step 1</p>
             <p>
               Please fill in your billing details in your{' '}
-              <Link className='text-blue-500 hover:underline col-span-2' href={profileLink}>
+              <Link
+                className='text-blue-500 hover:underline col-span-2'
+                href={profileLink}
+                target='_blank'
+                rel='noopener norefferer'
+              >
                 profile
               </Link>{' '}
               and review the sample invoice.
             </p>
+            <p>To set the right VAT rate, note that the bounty sponsor's country is: {bounty.creatingUser.country}</p>
           </div>
           <div>
             <p className='font-semibold'>Step 2</p>

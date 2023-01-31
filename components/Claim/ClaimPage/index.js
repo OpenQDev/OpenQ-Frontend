@@ -24,14 +24,16 @@ import ConnectButton from '../../WalletConnect/ConnectButton';
 import AuthContext from '../../../store/AuthStore/AuthContext';
 import Invoicing from '../Invoicing';
 import W8Form from './W8Form';
-//import FreelancerDetails from '../../User/InvoicingDetailsTab/FreelancerDetails';
-//import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
+import FreelancerDetails from '../../User/InvoicingDetailsTab/FreelancerDetails';
+import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
 import KycRequirement from './KycRequirement';
 import GithubRequirement from './GithubRequirement';
+import { ChevronUpIcon, ChevronDownIcon } from '@primer/octicons-react';
 
 const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const { url } = bounty;
   const [appState, dispatch] = useContext(StoreContext);
+  const { accountData } = appState;
   const { account, library } = useWeb3();
   const [ensName] = useEns(account);
   // State
@@ -41,17 +43,41 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const [showClaimLoadingModal, setShowClaimLoadingModal] = useState(false);
   const [justClaimed, setJustClaimed] = useState(false);
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
+  // const { accountData } = appState;
   const [kycVerified, setKycVerified] = useState(null);
   const [githubHasWalletVerified, setGithubHasWalletVerified] = useState(null);
   let kyc = !bounty.kycRequired || kycVerified;
-  //let w8Form = !w8FormRequired || w8FormVerified;
+  let w8Form = !bounty.supportingDocumentsRequired; /* || bounty.supportingDocumentsCompleted */
   let githubHasWallet = bounty.bountyType == 0 || bounty.bountyType == 1 || githubHasWalletVerified;
-  let invoice = !bounty.invoiceRequired; // || invoiceVerified;
-  let claimable = kyc && /* w8form && */ githubHasWallet && invoice;
+  let invoice = !bounty.invoiceRequired; /* || bounty.invoiceCompleted */
+  let claimable = kyc && w8Form && githubHasWallet && invoice;
+
+  console.log(bounty, appState.accountData);
 
   useEffect(() => {
-    claimable = kyc && /* w8form && */ githubHasWallet && invoice;
-  }, [kyc, /* w8Form, */ githubHasWallet, invoice]);
+    claimable = kyc && w8Form && githubHasWallet && invoice;
+  }, [kyc, w8Form, githubHasWallet, invoice]);
+
+  const accountKeys = [
+    'billingName',
+    'city',
+    'streetAddress',
+    'postalCode',
+
+    'country',
+
+    'phoneNumber',
+    'province',
+    'invoicingEmail',
+    'invoiceNumber',
+    'taxId',
+    'vatNumber',
+    'vatRate',
+  ];
+  const neededAccountData = accountKeys.filter((key) => {
+    return !accountData[key];
+  });
+  const hasInvoicingInfo = neededAccountData.length === 0 || !bounty.invoiceRequired;
 
   const canvas = useRef();
 
@@ -209,7 +235,6 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
               </div>
             )}
 
-            {/*
             {bounty.invoiceRequired && (
               <>
                 {neededAccountData.length > 0 && (
@@ -236,7 +261,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
                   <FreelancerDetails slim={true} />
                 </details>
               </>
-            )}*/}
+            )}
             {showClaimLoadingModal && (
               <ClaimLoadingModal
                 confirmMethod={claimBounty}
