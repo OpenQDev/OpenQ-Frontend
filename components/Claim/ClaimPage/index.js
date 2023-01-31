@@ -46,9 +46,11 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu }) => 
   // const { accountData } = appState;
   const [kycVerified, setKycVerified] = useState(null);
   const [githubHasWalletVerified, setGithubHasWalletVerified] = useState(null);
-  const supportingDocumentsCompleted =
-    bounty.supportingDocumentsCompleted && bounty.supportingDocumentsCompleted[targetTier];
-  const invoiceCompleted = bounty.invoiceCompleted && bounty.invoiceCompleted[targetTier];
+
+  // TODO: ESLINT said these were given a value but never used, but they look important, so here I am writing a TODO ;-)
+  // const supportingDocumentsCompleted =
+  //   bounty.supportingDocumentsCompleted && bounty.supportingDocumentsCompleted[targetTier];
+  // const invoiceCompleted = bounty.invoiceCompleted && bounty.invoiceCompleted[targetTier];
 
   const checkRequirementsWithGraph = (bounty) => {
     if (bounty.bountyType === '2' || bounty.bountyType === '3') {
