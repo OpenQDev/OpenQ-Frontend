@@ -19,8 +19,6 @@ import {
   UNSTAR_ORGANIZATION,
   GET_ORGANIZATION,
   BLACKLIST_ISSUE,
-  BLACKLIST_ORG,
-  UPDATE_USER_SIMPLE,
   GET_USERS,
   SET_IS_CONTEST,
   GET_REPOSITORIES,
@@ -290,22 +288,6 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  // only updates github and address, no auth
-  updateUserSimple(values) {
-    const promise = new Promise(async (resolve, reject) => {
-      try {
-        const result = await this.client.mutate({
-          mutation: UPDATE_USER_SIMPLE,
-          variables: values,
-        });
-        resolve(result.data);
-      } catch (e) {
-        reject(e);
-      }
-    });
-    return promise;
-  }
-
   addContributor(prId, userId, address) {
     const promise = new Promise(async (resolve, reject) => {
       try {
@@ -436,22 +418,6 @@ class OpenQPrismaClient {
       }
     });
     return promise;
-  }
-
-  async blacklistOrg(organizationId, blacklist, secret) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const result = await this.client.query({
-          query: BLACKLIST_ORG,
-          variables: { organizationId, blacklist },
-          fetchPolicy: 'no-cache',
-          context: { headers: { authorization: secret } },
-        });
-        resolve(result.data);
-      } catch (e) {
-        reject(e);
-      }
-    });
   }
 
   async blacklistIssue(bountyId, blacklist, secret) {
