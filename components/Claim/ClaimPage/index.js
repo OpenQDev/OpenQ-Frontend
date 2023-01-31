@@ -24,11 +24,11 @@ import ConnectButton from '../../WalletConnect/ConnectButton';
 import AuthContext from '../../../store/AuthStore/AuthContext';
 import Invoicing from '../Invoicing';
 import W8Form from './W8Form';
-import FreelancerDetails from '../../User/InvoicingDetailsTab/FreelancerDetails';
-import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
+// import FreelancerDetails from '../../User/InvoicingDetailsTab/FreelancerDetails';
+// import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
 import KycRequirement from './KycRequirement';
 import GithubRequirement from './GithubRequirement';
-import { ChevronUpIcon, ChevronDownIcon } from '@primer/octicons-react';
+// import { ChevronUpIcon, ChevronDownIcon } from '@primer/octicons-react';
 
 const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu }) => {
   const { url } = bounty;
@@ -46,15 +46,17 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu }) => 
   // const { accountData } = appState;
   const [kycVerified, setKycVerified] = useState(null);
   const [githubHasWalletVerified, setGithubHasWalletVerified] = useState(null);
+  const supportingDocumentsCompleted =
+    bounty.supportingDocumentsCompleted && bounty.supportingDocumentsCompleted[targetTier];
+  const invoiceCompleted = bounty.invoiceCompleted && bounty.invoiceCompleted[targetTier];
 
   const checkRequirementsWithGraph = (bounty) => {
     if (bounty.bountyType === '2' || bounty.bountyType === '3') {
-      let w8Form = !bounty.supportingDocumentsRequired || bounty.supportingDocumentsCompleted[targetTier];
-      let invoice = !bounty.invoiceRequired || bounty.invoiceCompleted[targetTier];
+      let w8Form = !bounty.supportingDocumentsRequired || supportingDocumentsCompleted;
+      let invoice = !bounty.invoiceRequired || invoiceCompleted;
       return { w8Form, invoice };
     } else return {};
   };
-  console.log(bounty);
   const targetTier = bounty.tierWinners.indexOf(accountData.github);
 
   const { w8Form, invoice } = checkRequirementsWithGraph(bounty);
@@ -62,13 +64,11 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu }) => 
   let githubHasWallet = bounty.bountyType == 0 || bounty.bountyType == 1 || githubHasWalletVerified;
   let claimable = kyc && w8Form && githubHasWallet && invoice;
 
-  console.log({ claimable, kyc, w8Form, githubHasWallet, invoice });
-
   useEffect(() => {
     claimable = kyc && w8Form && githubHasWallet && invoice;
   }, [kyc, w8Form, githubHasWallet, invoice]);
 
-  const accountKeys = [
+  /* const accountKeys = [
     'billingName',
     'city',
     'streetAddress',
@@ -83,12 +83,12 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu }) => 
     'taxId',
     'vatNumber',
     'vatRate',
-  ];
+  ]; */
   const { bountyType } = bounty;
-  const neededAccountData = accountKeys.filter((key) => {
+  /* const neededAccountData = accountKeys.filter((key) => {
     return !accountData[key];
   });
-  const hasInvoicingInfo = neededAccountData.length === 0 || !bounty.invoiceRequired;
+  const hasInvoicingInfo = neededAccountData.length === 0 || !bounty.invoiceRequired; */
 
   const canvas = useRef();
 
@@ -285,7 +285,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu }) => 
               </div>
             )}
 
-            {bounty.invoiceRequired && (
+            {/* {bounty.invoiceRequired && (
               <>
                 {neededAccountData.length > 0 && (
                   <div>
@@ -311,7 +311,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu }) => 
                   <FreelancerDetails slim={true} />
                 </details>
               </>
-            )}
+            )} */}
             {showClaimLoadingModal && (
               <ClaimLoadingModal
                 confirmMethod={claimBounty}
