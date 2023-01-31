@@ -1,7 +1,7 @@
 import React from 'react';
 import GrossValueMoved from '../components/Admin/GrossValueMoved';
 import Blacklisting from '../components/Admin/Blacklisting';
-import AuthorizedOnly from '../components/Admin/AuthorizedOnly';
+import AuthorizedOnly from '../components/Authentication/HigherOrderComponents/AuthorizedOnly';
 import Users from '../components/Admin/Users';
 
 const Admin = () => {
