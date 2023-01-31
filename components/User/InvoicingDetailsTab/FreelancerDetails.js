@@ -61,13 +61,12 @@ const InvoicingDetails = ({ slim }) => {
     { value: 'phoneNumber', displayValue: 'Phone Number', required: true },
     { value: 'province', displayValue: 'State/Province', required: true },
     { value: 'invoicingEmail', displayValue: 'Invoicing Email', required: true },
-    { value: 'invoiceNumber', displayValue: 'Invoice Number', required: true, type: 'integer' },
+    { value: 'invoiceNumber', displayValue: 'Invoice Number', required: true, type: 'integer', defaultValue: '1' },
     { value: 'taxId', displayValue: 'Tax ID', required: true },
     { value: 'vatNumber', displayValue: 'VAT Number', required: true },
     { value: 'vatRate', displayValue: 'VAT Rate', required: true, type: 'number' },
     { value: 'memo', displayValue: 'Memo' },
   ];
-
   const submitProfileData = async (e) => {
     e.preventDefault();
     setFormState({ text: 'Updating...', className: 'btn-default', disabled: true });
@@ -163,7 +162,7 @@ const InvoicingDetails = ({ slim }) => {
               return (
                 <StyledInput
                   highlightEmpty={slim}
-                  defaultValue={accountData?.[invoicingField.value]}
+                  defaultValue={accountData?.[invoicingField.value] || invoicingField.defaultValue}
                   key={invoicingField.value}
                   value={invoicingField.value}
                   type={invoicingField.type}

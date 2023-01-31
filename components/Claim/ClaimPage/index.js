@@ -41,7 +41,6 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   const [showClaimLoadingModal, setShowClaimLoadingModal] = useState(false);
   const [justClaimed, setJustClaimed] = useState(false);
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
-  const { accountData } = appState;
   const [kycVerified, setKycVerified] = useState(null);
   const [githubHasWalletVerified, setGithubHasWalletVerified] = useState(null);
   let kyc = !bounty.kycRequired || kycVerified;
@@ -53,27 +52,6 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   useEffect(() => {
     claimable = kyc && /* w8form && */ githubHasWallet && invoice;
   }, [kyc, /* w8Form, */ githubHasWallet, invoice]);
-
-  const accountKeys = [
-    'billingName',
-    'city',
-    'streetAddress',
-    'postalCode',
-
-    'country',
-
-    'phoneNumber',
-    'province',
-    'invoicingEmail',
-    'invoiceNumber',
-    'taxId',
-    'vatNumber',
-    'vatRate',
-  ];
-  const neededAccountData = accountKeys.filter((key) => {
-    return !accountData[key];
-  });
-  const hasInvoicingInfo = neededAccountData.length === 0 || !bounty.invoiceRequired;
 
   const canvas = useRef();
 
