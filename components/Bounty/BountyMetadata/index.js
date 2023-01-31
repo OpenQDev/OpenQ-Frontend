@@ -81,6 +81,8 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
     return formattedVolume;
   }
 
+  const noRequirements = !bounty.kycRequired && !bounty.invoiceRequired && !bounty.supportingDocumentsRequired;
+
   return (
     <ul className='lg:max-w-[300px] w-full lg:pl-4'>
       {bounty.bountyType && (
@@ -90,10 +92,17 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
             <div className='text-xs font-semibold text-primary leading-loose'>{type}</div>
           </li>
           <li className='border-b border-web-gray py-3'>
-            <div className='text-xs font-semibold text-muted'>Requirements </div>
+            <div className='text-xs font-semibold text-muted'>Requirements</div>
             <div className='text-xs font-semibold text-primary leading-loose'>
-              {bounty.invoiceRequired && 'Invoice🧾 '}
-              {bounty.kycRequired && 'KYC ✅ '}
+              {noRequirements ? (
+                'None'
+              ) : (
+                <>
+                  {bounty.invoiceRequired && 'Invoice 📃 '}
+                  {bounty.kycRequired && 'KYC 👤 '}
+                  {bounty.supportingDocumentsRequired && 'W8/W9 Form 🗒 '}
+                </>
+              )}
             </div>
           </li>
         </>

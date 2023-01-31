@@ -257,6 +257,9 @@ const address = ({ address, mergedBounty, renderError }) => {
                 price={tokenValues?.total}
                 budget={budget}
                 bounty={bounty}
+                refreshBounty={refreshBounty}
+                setInternalMenu={setInternalMenu}
+                split={split}
               />
 
               <div className='flex justify-between  w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
@@ -269,7 +272,13 @@ const address = ({ address, mergedBounty, renderError }) => {
                   </FundProvider>
                 ) : null}
                 {internalMenu == 'Claim' && claimable && bounty ? (
-                  <ClaimPage price={tokenValues?.total} split={split} bounty={bounty} refreshBounty={refreshBounty} />
+                  <ClaimPage
+                    price={tokenValues?.total}
+                    split={split}
+                    bounty={bounty}
+                    refreshBounty={refreshBounty}
+                    setInternalMenu={setInternalMenu}
+                  />
                 ) : null}
                 {internalMenu == 'Claims Overview' && bounty ? (
                   <ClaimOverview bounty={bounty} setInternalMenu={setInternalMenu} />
