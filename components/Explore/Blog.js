@@ -29,19 +29,20 @@ export default function Blog() {
     {
       title: 'The Legend of the Code Vending Machine',
       url: 'https://medium.com/openqdev/the-legend-of-the-code-vending-machine-b30d3d573c4f',
-      imageSrc: '/explore/blog-4.png',
+      imageSrc: '/explore/blog-1.png',
       teaserText: 'Why no code is still a no go',
     },
   ]
+
   return (
     <div className='my-24 w-full'>
       <h1 className='text-center mb-10 mx-auto'>What we are thinking about</h1>
-      <div className='border border-dark-1 rounded-lg p-5 bg-dark-3 flex space-x-5 overflow-x-auto custom-scrollbar custom-scrollbar-horizontal snap-x snap-mandatory'>
+      <div className='grid grid-cols-1 gap-5 md:gap-10 sm:grid-cols-2 md:grid-cols-3'>
         {articles.map((article) => (
-          <Link key={article.title} href={article.url}>
+          <Link key={article.title} href={article.url} target='_blank'>
             <ImageTeaser imageSrc={article.imageSrc}>
               <ImageTeaserLink>
-                Learn more
+                Read more
                 <ChevronRightIcon className='ml-2 w-5 h-5' />
               </ImageTeaserLink>
               <ImageTeaserHeadline>{article.title}</ImageTeaserHeadline>

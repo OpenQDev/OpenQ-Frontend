@@ -17,21 +17,21 @@ import RepoLanguage from './RepoLanguage';
 
 export default function ExploreMarketplace({ fullBounties }) {
   return (
-    <div className='md:grid md:grid-cols-2 md:gap-12 lg:gap-24 w-full mt-8'>
+    <div className='md:grid md:grid-cols-2 md:gap-12 lg:gap-24 w-full mt-24'>
       <Link href='/' className='lg:order-2'>
         <ImageTeaser imageSrc='/explore/teaser2.png' textPosition='top'>
           <ImageTeaserLink>
             Learn more
             <ChevronRightIcon className='ml-2 w-5 h-5' />
           </ImageTeaserLink>
-          <ImageTeaserHeadline>A reliable marketplace for devs.</ImageTeaserHeadline>
+          <ImageTeaserHeadline>A permissionless marketplace for devs.</ImageTeaserHeadline>
           <ImageTeaserText>
             Never worry again about not getting paid in time. Every ticket that has an escrow assinged, is ensuring
             payment after the job is completed.
           </ImageTeaserText>
         </ImageTeaser>
       </Link>
-      <div className='flex flex-col mt-10 lg:order-1'>
+      <div className='flex flex-col lg:order-1'>
         <h2 className='flex flex-col space-y-3 md:flex-row items-center justify-between mb-3'>
           <span>Marketplace</span>
           <FancyButton>
