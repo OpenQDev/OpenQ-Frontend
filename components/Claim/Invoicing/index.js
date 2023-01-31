@@ -64,7 +64,15 @@ const Invoicing = ({ bounty }) => {
       ),
     },
   };
-  const successInvoice = invoiceResponseOptions[invoiceResponse]?.successInvoice;
+
+  const getInvoiceSent = (bounty) => {
+    if (bounty.bountyType === '3' || bounty.bountyType === '2') {
+      const currentTier = bounty.tierWinners.indexOf(accountData.github);
+      return bounty.invoiceCompleted[currentTier];
+    } else return false;
+  };
+  const invoiceSentPreviously = getInvoiceSent(bounty);
+  const successInvoice = invoiceResponseOptions[invoiceResponse]?.successInvoice || invoiceSentPreviously;
   const MessageHTML = invoiceResponseOptions[invoiceResponse]?.MessageHTML || (() => <></>);
 
   const handleSendInvoice = async () => {
@@ -84,7 +92,6 @@ const Invoicing = ({ bounty }) => {
       }
     }
   };
-
   return (
     <>
       {bounty.invoiceRequired && (
