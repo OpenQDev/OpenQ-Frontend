@@ -24,14 +24,16 @@ import ConnectButton from '../../WalletConnect/ConnectButton';
 import AuthContext from '../../../store/AuthStore/AuthContext';
 import Invoicing from '../Invoicing';
 import W8Form from './W8Form';
-//import FreelancerDetails from '../../User/InvoicingDetailsTab/FreelancerDetails';
-//import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
+import FreelancerDetails from '../../User/InvoicingDetailsTab/FreelancerDetails';
+import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
 import KycRequirement from './KycRequirement';
 import GithubRequirement from './GithubRequirement';
+import { ChevronUpIcon, ChevronDownIcon } from '@primer/octicons-react';
 
-const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
+const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu }) => {
   const { url } = bounty;
   const [appState, dispatch] = useContext(StoreContext);
+  const { accountData } = appState;
   const { account, library } = useWeb3();
   const [ensName] = useEns(account);
   // State
@@ -44,19 +46,29 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
   // const { accountData } = appState;
   const [kycVerified, setKycVerified] = useState(null);
   const [githubHasWalletVerified, setGithubHasWalletVerified] = useState(null);
+
+  const checkRequirementsWithGraph = (bounty) => {
+    if (bounty.bountyType === '2' || bounty.bountyType === '3') {
+      let w8Form = !bounty.supportingDocumentsRequired || bounty.supportingDocumentsCompleted[targetTier];
+      let invoice = !bounty.invoiceRequired || bounty.invoiceCompleted[targetTier];
+      return { w8Form, invoice };
+    } else return {};
+  };
+  console.log(bounty);
+  const targetTier = bounty.tierWinners.indexOf(accountData.github);
+
+  const { w8Form, invoice } = checkRequirementsWithGraph(bounty);
   let kyc = !bounty.kycRequired || kycVerified;
-  let w8Form = !bounty.supportingDocumentsRequired; /* || bounty.supportingDocumentsCompleted */
   let githubHasWallet = bounty.bountyType == 0 || bounty.bountyType == 1 || githubHasWalletVerified;
-  let invoice = !bounty.invoiceRequired; /* || bounty.invoiceCompleted */
   let claimable = kyc && w8Form && githubHasWallet && invoice;
 
-  console.log(bounty, appState.accountData);
+  console.log({ claimable, kyc, w8Form, githubHasWallet, invoice });
 
   useEffect(() => {
     claimable = kyc && w8Form && githubHasWallet && invoice;
   }, [kyc, w8Form, githubHasWallet, invoice]);
 
-  /*   const accountKeys = [
+  const accountKeys = [
     'billingName',
     'city',
     'streetAddress',
@@ -72,10 +84,11 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
     'vatNumber',
     'vatRate',
   ];
+  const { bountyType } = bounty;
   const neededAccountData = accountKeys.filter((key) => {
     return !accountData[key];
   });
-  const hasInvoicingInfo = neededAccountData.length === 0 || !bounty.invoiceRequired; */
+  const hasInvoicingInfo = neededAccountData.length === 0 || !bounty.invoiceRequired;
 
   const canvas = useRef();
 
@@ -87,6 +100,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
     setShowClaimLoadingModal(false);
     if (claimState === TRANSACTION_CONFIRMED) {
       refreshBounty();
+      setInternalMenu('Claims Overview');
     } else {
       setClaimState(CONFIRM_CLAIM);
     }
@@ -101,49 +115,86 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
 
   const claimBounty = async () => {
     setClaimState(CHECKING_WITHDRAWAL_ELIGIBILITY);
-    axios
-      .post(
-        `${process.env.NEXT_PUBLIC_ORACLE_URL}/claim`,
-        {
-          issueUrl: url,
-          payoutAddress: account,
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        if ((bounty.bountyType === '2') | (bounty.bountyType === '3')) {
+          const pr = bounty?.prs?.find((pr) => pr?.source?.author?.id === accountData?.github);
+          const prUrl = pr ? pr?.source.url : null;
+          const externalUserId = accountData.github;
+          const closerAddress = account;
+          const tier = targetTier;
+          const result = await appState.openQClient.claimTieredPermissioned(
+            library,
+            bounty,
+            externalUserId,
+            closerAddress,
+            prUrl,
+            tier
+          );
+          resolve(result);
+        } else {
+          const result = await axios.post(
+            `${process.env.NEXT_PUBLIC_ORACLE_URL}/claim`,
+            {
+              issueUrl: url,
+              payoutAddress: account,
+            },
+            { withCredentials: true }
+          );
+          resolve(result.txnHash);
+        }
+      } catch (e) {
+        reject(e);
+      }
+    });
+    try {
+      const txnHash = await promise;
+      // Upon this return, the claimBounty transaction has been submitted
+      // We should now transition from Transaction Submitted -> Transaction Pending
+      setTransactionHash(txnHash);
+      setClaimState(TRANSACTION_SUBMITTED);
+      await library.waitForTransaction(txnHash);
+      setClaimState(TRANSACTION_CONFIRMED);
+      setJustClaimed(true);
+
+      const payload = {
+        type: 'UPDATE_RELOAD',
+        payload: true,
+      };
+
+      dispatch(payload);
+
+      canvas.current.width = window.innerWidth;
+      canvas.current.height = window.innerHeight;
+
+      const canvasConfetti = confetti.create(canvas.current, {
+        resize: true,
+        useWorker: true,
+      });
+      canvasConfetti({
+        particleCount: 50,
+        spread: window.innerWidth,
+        origin: {
+          x: 1,
+          y: 0,
         },
-        { withCredentials: true }
-      )
-      .then(async (result) => {
-        const { txnHash } = result.data;
-        // Upon this return, the claimBounty transaction has been submitted
-        // We should now transition from Transaction Submitted -> Transaction Pending
-        setTransactionHash(txnHash);
-        setClaimState(TRANSACTION_SUBMITTED);
-        await library.waitForTransaction(txnHash);
-        setClaimState(TRANSACTION_CONFIRMED);
-        setJustClaimed(true);
-
-        const payload = {
-          type: 'UPDATE_RELOAD',
-          payload: true,
-        };
-
-        dispatch(payload);
-
-        canvas.current.width = window.innerWidth;
-        canvas.current.height = window.innerHeight;
-
-        const canvasConfetti = confetti.create(canvas.current, {
-          resize: true,
-          useWorker: true,
-        });
-        canvasConfetti({
-          particleCount: 50,
-          spread: window.innerWidth,
-          origin: {
-            x: 1,
-            y: 0,
-          },
-        });
-      })
-      .catch((err) => {
+      });
+    } catch (err) {
+      if (bountyType === '2' || bountyType === '3') {
+        if (err.message.includes('TIER_ALREADY_CLAIMED')) {
+          setClaimState(WITHDRAWAL_INELIGIBLE);
+          setError({
+            message: 'Tier already claimed',
+            title: 'Error',
+          });
+        } else {
+          setClaimState(WITHDRAWAL_INELIGIBLE);
+          setError({
+            message: 'Error claiming bounty',
+            title: 'Error',
+          });
+        }
+      } else {
         logger.error(err, account, bounty.id);
         setClaimState(WITHDRAWAL_INELIGIBLE);
         setError({
@@ -151,7 +202,8 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
           title: 'Error',
           referencedPrs: err.response.data.referencedPrs,
         });
-      });
+      }
+    }
   };
 
   if (showBountyClosed) {
@@ -233,7 +285,6 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
               </div>
             )}
 
-            {/*
             {bounty.invoiceRequired && (
               <>
                 {neededAccountData.length > 0 && (
@@ -260,7 +311,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split }) => {
                   <FreelancerDetails slim={true} />
                 </details>
               </>
-            )}*/}
+            )}
             {showClaimLoadingModal && (
               <ClaimLoadingModal
                 confirmMethod={claimBounty}

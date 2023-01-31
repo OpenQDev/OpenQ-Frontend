@@ -269,7 +269,13 @@ const address = ({ address, mergedBounty, renderError }) => {
                   </FundProvider>
                 ) : null}
                 {internalMenu == 'Claim' && claimable && bounty ? (
-                  <ClaimPage price={tokenValues?.total} split={split} bounty={bounty} refreshBounty={refreshBounty} />
+                  <ClaimPage
+                    price={tokenValues?.total}
+                    split={split}
+                    bounty={bounty}
+                    refreshBounty={refreshBounty}
+                    setInternalMenu={setInternalMenu}
+                  />
                 ) : null}
                 {internalMenu == 'Claims Overview' && bounty ? (
                   <ClaimOverview bounty={bounty} setInternalMenu={setInternalMenu} />

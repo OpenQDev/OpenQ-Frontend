@@ -533,6 +533,26 @@ class OpenQClient {
       }
     });
   };
+  claimTieredPermissioned = async (library, bounty, externalUserId, closerAddress, prUrl, tier) => {
+    const { bountyAddress } = bounty;
+    return new Promise(async (resolve, reject) => {
+      const abiCoder = new ethers.utils.AbiCoder();
+      const closerData = abiCoder.encode(
+        ['address', 'string', 'address', 'string', 'uint256'],
+        [bountyAddress, externalUserId, closerAddress, prUrl, tier]
+      );
+      const signer = library.getSigner();
+      const contract = this.ClaimManager(signer);
+      console.log(contract);
+      try {
+        let txnResponse = await contract.permissionedClaimTieredBounty(bountyAddress, closerData);
+        let txnReceipt = await txnResponse.wait();
+        resolve(txnReceipt);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
 
   hasKYC = async (library, _address) => {
     return new Promise(async (resolve, reject) => {
