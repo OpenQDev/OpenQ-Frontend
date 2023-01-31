@@ -240,7 +240,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu }) => 
             </div>
             <h3 className='flex w-full text-3xl font-semibold text-primary'>Requirements</h3>
             {bounty.kycRequired && <KycRequirement setKycVerified={setKycVerified} />}
-            <W8Form bounty={bounty} />
+            {bounty.supportingDocumentsRequired && <W8Form bounty={bounty} />}
             <GithubRequirement setGithubHasWalletVerified={setGithubHasWalletVerified} />
             <Invoicing bounty={bounty} />
             <section className='flex flex-col gap-3'>
