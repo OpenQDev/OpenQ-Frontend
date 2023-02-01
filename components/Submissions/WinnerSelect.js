@@ -147,8 +147,8 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
   };
   const modalTitle = {
     CONFIRM: `Choosing ${suffixed} Place`,
-    TRANSFERRING: `Transferring Funds...`,
-    SUCCESS: 'Winner Selected and Payed!',
+    TRANSFERRING: `Selecting Winner...`,
+    SUCCESS: 'Winner Selected!',
     ERROR: error.title,
   };
   return (
