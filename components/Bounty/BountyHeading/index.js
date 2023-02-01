@@ -10,7 +10,7 @@ import { getBountyMarker } from '../../..//services/utils/lib';
 import ClaimButton from '../../Claim/ClaimPage/ClaimButton/ClaimButton';
 import { checkClaimable } from '../../../services/utils/lib';
 
-const BountyHeading = ({ bounty, refreshGithubBounty, refreshBounty, setInternalMenu, split, price, budget }) => {
+const BountyHeading = ({ bounty, refreshGithubBounty, refreshBounty, setInternalMenu, split, price }) => {
   const [appState] = useContext(StoreContext);
   const githubId = appState.accountData.github;
   const marker = getBountyMarker(bounty, appState.openQClient, githubId);
@@ -42,7 +42,6 @@ const BountyHeading = ({ bounty, refreshGithubBounty, refreshBounty, setInternal
               setInternalMenu={setInternalMenu}
               split={split}
               price={price}
-              budget={budget}
             />
           )}
         </div>

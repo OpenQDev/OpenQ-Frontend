@@ -45,18 +45,6 @@ const address = ({ address, mergedBounty, renderError }) => {
   const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
   const { status } = checkClaimable(bounty, accountData?.github, openQClient);
   const claimable = status === 'Claimable';
-
-  const createBudget = (bounty) => {
-    return bounty.fundingGoalTokenAddress
-      ? {
-          tokenAddress: bounty.fundingGoalTokenAddress,
-          volume: bounty.fundingGoalVolume,
-        }
-      : null;
-  };
-  const budgetObj = useMemo(() => createBudget(bounty), [bounty]);
-  const [budgetValues] = useGetTokenValues(budgetObj);
-  const budget = budgetValues?.total;
   const { account } = useWeb3();
 
   const createRewardSplit = (bounty) => {
@@ -255,7 +243,6 @@ const address = ({ address, mergedBounty, renderError }) => {
               <BountyHeading
                 refreshGithubBounty={refreshGithubBounty}
                 price={tokenValues?.total}
-                budget={budget}
                 bounty={bounty}
                 refreshBounty={refreshBounty}
                 setInternalMenu={setInternalMenu}
@@ -275,7 +262,6 @@ const address = ({ address, mergedBounty, renderError }) => {
                   <ClaimPage
                     price={tokenValues?.total}
                     split={split}
-                    budget={budget}
                     bounty={bounty}
                     refreshBounty={refreshBounty}
                     setInternalMenu={setInternalMenu}

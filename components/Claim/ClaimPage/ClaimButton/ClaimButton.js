@@ -16,17 +16,9 @@ import {
   CONFIRM_CLAIM,
 } from '../../ClaimStates.js';
 import useEns from '../../../../hooks/useENS';
+import useDisplayValue from '../../../../hooks/useDisplayValue';
 
-const ClaimButton = ({
-  bounty,
-  tooltipStyle,
-  refreshBounty,
-  setInternalMenu,
-  split,
-  price,
-  budget,
-  setJustClaimed,
-}) => {
+const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, split, price, setJustClaimed }) => {
   const { url } = bounty;
   const { account, library } = useWeb3();
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
@@ -43,6 +35,9 @@ const ClaimButton = ({
   const { accountData } = appState;
   const zeroAddress = '0x0000000000000000000000000000000000000000';
   const [showClaimLoadingModal, setShowClaimLoadingModal] = useState(false);
+
+  const budgetValues = useDisplayValue(bounty, appState.utils.formatter.format, 'budget');
+  const budget = budgetValues?.value;
 
   const supportingDocumentsCompleted =
     bounty.supportingDocumentsCompleted && bounty.supportingDocumentsCompleted[targetTier];

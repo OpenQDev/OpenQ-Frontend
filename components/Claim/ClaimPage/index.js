@@ -17,8 +17,7 @@ import GithubRequirement from './GithubRequirement';
 import ClaimButton from './ClaimButton/ClaimButton';
 // import { ChevronUpIcon, ChevronDownIcon } from '@primer/octicons-react';
 
-const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, budget }) => {
-  console.log('bounty', bounty);
+const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu }) => {
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
   // State
@@ -136,7 +135,6 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, budge
               setInternalMenu={setInternalMenu}
               split={split}
               price={price}
-              budget={budget}
               setJustClaimed={setJustClaimed}
             />
 
