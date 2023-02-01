@@ -183,7 +183,7 @@ const jsonRpcErrors = [
     CALL_EXCEPTION: {
       title: 'Polygon Call Exception',
       message: () => {
-        return 'An exception occured while calling Polygon. You might want to try again. If you need more information or want to report a bug, please contact info@openq.dev';
+        return 'An exception occured while calling Polygon. This might be due to a network or wallet-related error. If you were in the process of minting a new contract, it is possible that this contract has already been minted. In this case, please check the list of issues on our homepage to see whether yours appears. If your transation did not go through, please try again. If you need more information or want to report a bug, please contact info@openq.dev';
       },
     },
   },
