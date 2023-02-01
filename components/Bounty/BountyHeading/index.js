@@ -8,12 +8,15 @@ import useDisplayValue from '../../../hooks/useDisplayValue';
 import RefreshBounty from './RefreshBounty';
 import { getBountyMarker } from '../../..//services/utils/lib';
 import ClaimButton from '../../Claim/ClaimPage/ClaimButton/ClaimButton';
+import { checkClaimable } from '../../../services/utils/lib';
 
-const BountyHeading = ({ bounty, refreshGithubBounty }) => {
+const BountyHeading = ({ bounty, refreshGithubBounty, refreshBounty, setInternalMenu, split, price }) => {
   const [appState] = useContext(StoreContext);
   const githubId = appState.accountData.github;
   const marker = getBountyMarker(bounty, appState.openQClient, githubId);
   const totalPrice = useDisplayValue(bounty, appState.utils.formatter.format);
+  const { status } = checkClaimable(bounty, appState.accountData?.github, appState.openQClient);
+  const claimable = status === 'Claimable';
 
   return (
     <div className='sm:px-8 px-4 w-full max-w-[1200px] pb-2'>
@@ -31,7 +34,16 @@ const BountyHeading = ({ bounty, refreshGithubBounty }) => {
         <div className='flex flex-row space-x-3 self-center items-center'>
           <RefreshBounty refreshGithubBounty={refreshGithubBounty} bounty={bounty} />
           <MintBountyButton types={['0', '1', '2', '3']} styles={'h-8'} />
-          <ClaimButton bounty={bounty} tooltipStyle={'-right-2'} />
+          {claimable && (
+            <ClaimButton
+              bounty={bounty}
+              tooltipStyle={'-right-2'}
+              refreshBounty={refreshBounty}
+              setInternalMenu={setInternalMenu}
+              split={split}
+              price={price}
+            />
+          )}
         </div>
       </div>
       <div className='w-full flex flex-wrap justify-between pb-4 border-b border-web-gray'>
