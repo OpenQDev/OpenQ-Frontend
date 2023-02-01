@@ -133,7 +133,7 @@ const jsonRpcErrors = [
     INTERNAL_ERROR: {
       title: 'Internal RPC Error',
       message: () => {
-        return 'Something went awry and the transaction failed! Please reload and try again. If you need more information or want to report a bug, please contact info@openq.dev';
+        return 'Something went awry and the transaction failed! If you were in the process of minting a new contract, it is possible that this contract has already been minted. In this case, please check the list of issues on our homepage to see whether yours appears. If your transation did not go through, please reload and try again. If you need more information or want to report a bug, please contact info@openq.dev';
       },
     },
   },
