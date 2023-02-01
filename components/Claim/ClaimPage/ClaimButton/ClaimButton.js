@@ -1,7 +1,6 @@
 import { FeedTrophyIcon } from '@primer/octicons-react';
 import axios from 'axios';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import useDisplayValue from '../../../../hooks/useDisplayValue';
 import useIsOnCorrectNetwork from '../../../../hooks/useIsOnCorrectNetwork';
 import useWeb3 from '../../../../hooks/useWeb3';
 import AuthContext from '../../../../store/AuthStore/AuthContext';
@@ -18,7 +17,16 @@ import {
 } from '../../ClaimStates.js';
 import useEns from '../../../../hooks/useENS';
 
-const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, split }) => {
+const ClaimButton = ({
+  bounty,
+  tooltipStyle,
+  refreshBounty,
+  setInternalMenu,
+  split,
+  price,
+  budget,
+  setJustClaimed,
+}) => {
   const { url } = bounty;
   const { account, library } = useWeb3();
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
@@ -34,22 +42,18 @@ const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, spl
   const [kycVerified, setKycVerified] = useState(null);
   const { accountData } = appState;
   const zeroAddress = '0x0000000000000000000000000000000000000000';
-  const actualValues = useDisplayValue(bounty, appState.utils.formatter.format, 'actual');
-  const price = actualValues?.displayValue;
   const [showClaimLoadingModal, setShowClaimLoadingModal] = useState(false);
 
   const supportingDocumentsCompleted =
     bounty.supportingDocumentsCompleted && bounty.supportingDocumentsCompleted[targetTier];
   const invoiceCompleted = bounty.invoiceCompleted && bounty.invoiceCompleted[targetTier];
 
-  const targetTier = bounty.tierWinners.indexOf(accountData.github);
+  const targetTier = bounty.tierWinners?.indexOf(accountData.github);
 
   const checkRequirementsWithGraph = (bounty) => {
-    if (bounty.bountyType === '2' || bounty.bountyType === '3') {
-      let w8Form = !bounty.supportingDocumentsRequired || supportingDocumentsCompleted;
-      let invoice = !bounty.invoiceRequired || invoiceCompleted;
-      return { w8Form, invoice };
-    } else return {};
+    let w8Form = !bounty.supportingDocumentsRequired || supportingDocumentsCompleted;
+    let invoice = !bounty.invoiceRequired || invoiceCompleted;
+    return { w8Form, invoice };
   };
 
   const { w8Form, invoice } = checkRequirementsWithGraph(bounty);
@@ -146,6 +150,7 @@ const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, spl
       setClaimState(TRANSACTION_SUBMITTED);
       await library.waitForTransaction(txnHash);
       setClaimState(TRANSACTION_CONFIRMED);
+      setJustClaimed && setJustClaimed(true);
 
       const payload = {
         type: 'UPDATE_RELOAD',
@@ -203,17 +208,21 @@ const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, spl
           relativePosition={tooltipStyle}
           triangleStyles={'left-3'}
           outerStyles={'relative bottom-1'}
-          hideToolTip={price > 0 && claimable}
+          hideToolTip={price >= budget && price > 0 && claimable}
           toolTipText={
-            price <= 0 || !price
-              ? 'There are not enough funds locked to claim, contact the maintainer of this issue.'
-              : 'Please first go through all the required steps before you can claim your rewards.'
+            price >= budget && price > 0
+              ? 'Please first go through all the required steps before you can claim your rewards.'
+              : 'There are not enough funds locked to claim, contact the maintainer of this issue.'
           }
         >
           <button
             type='submit'
-            className={price > 0 && claimable ? 'btn-primary cursor-pointer w-fit' : 'btn-default cursor-not-allowed'}
-            disabled={!(price > 0 && claimable)}
+            className={
+              price >= budget && price > 0 && claimable
+                ? 'btn-primary cursor-pointer w-fit'
+                : 'btn-default cursor-not-allowed'
+            }
+            disabled={!(price >= budget && price > 0 && claimable)}
             onClick={() => setShowClaimLoadingModal(true)}
           >
             <div className='flex gap-2 items-center'>
@@ -241,6 +250,7 @@ const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, spl
           split={split}
         />
       )}
+      <canvas className='absolute inset-0 pointer-events-none' ref={canvas}></canvas>
     </>
   );
 };

@@ -275,6 +275,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                   <ClaimPage
                     price={tokenValues?.total}
                     split={split}
+                    budget={budget}
                     bounty={bounty}
                     refreshBounty={refreshBounty}
                     setInternalMenu={setInternalMenu}
