@@ -339,6 +339,7 @@ body::-webkit-scrollbar {
 }
 
 .explore .lead {
+  @apply text-white text-opacity-60;
   font-size: clamp(18px, 5cqw, 30px);
   line-height: clamp(1.5rem, 7cqw, 2.5rem);
 }

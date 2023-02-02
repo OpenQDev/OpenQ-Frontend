@@ -20,15 +20,15 @@ export default function ExploreMarketplace({ fullBounties }) {
     <div className='sm:grid sm:grid-cols-2 sm:gap-6 md:gap-12 xl:gap-24 w-full pt-12 lg:pt-24'>
       <Link href='/' className='md:order-2'>
         <ImageTeaser imageSrc='/explore/teaser2.png' textPosition='top'>
-          <ImageTeaserLink>
-            Learn more
-            <ChevronRightIcon className='ml-2 w-5 h-5' />
-          </ImageTeaserLink>
           <ImageTeaserHeadline>A permissionless marketplace for devs.</ImageTeaserHeadline>
           <ImageTeaserText>
             Never worry again about not getting paid in time. Every ticket that has an escrow assinged, is ensuring
             payment after the job is completed.
           </ImageTeaserText>
+          <ImageTeaserLink className='mt-5'>
+            Learn more
+            <ChevronRightIcon className='ml-2 w-5 h-5' />
+          </ImageTeaserLink>
         </ImageTeaser>
       </Link>
       <div className='flex flex-col md:order-1'>

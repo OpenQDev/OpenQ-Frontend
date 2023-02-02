@@ -15,13 +15,13 @@ export default function Blog() {
       teaserText: 'How to get along with people you’ve never met',
     },
     {
-      title: 'Web 2.0 DAO — Part I',
+      title: 'Web 2.0 DAO Part I',
       url: 'https://medium.com/openqdev/web-2-0-dao-part-i-4cec53dd0ec3',
       imageSrc: '/explore/blog-2.png',
       teaserText: 'How I’d (Fail) To Build a DAO in 2010',
     },
     {
-      title: 'Web 2.0 DAO — Part II',
+      title: 'Web 2.0 DAO Part II',
       url: 'https://medium.com/openqdev/web-2-0-dao-part-ii-6ac736d899d6',
       imageSrc: '/explore/blog-3.png',
       teaserText: 'How I’d (Successfully) Build a DAO in 2022',
