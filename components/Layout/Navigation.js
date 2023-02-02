@@ -142,7 +142,7 @@ const Navigation = () => {
       ) : null}
       <FirstTimeBanner />
       <LoadingThread />
-      <div className='flex bg-nav-bg py-1 h-16 '>
+      <div className='flex bg-nav-bg py-1 h-16 relative z-10'>
         <div className='flex visible relative w-full'>
           <div className='flex w-full lg:py-1 justify-between mx-4 lg:mx-8'>
             <div className='flex space-x-5 items-center'>

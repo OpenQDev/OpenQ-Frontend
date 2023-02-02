@@ -17,7 +17,7 @@ import RepoLanguage from './RepoLanguage';
 
 export default function ExploreHackathons({ fullBounties }) {
   return (
-    <div className='md:grid md:grid-cols-2 md:gap-12 lg:gap-18 xl:gap-24 w-full'>
+    <div className='sm:grid sm:grid-cols-2 sm:gap-6 md:gap-12 lg:gap-18 xl:gap-24 w-full pt-12 lg:pt-32'>
       <Link href='/'>
         <ImageTeaser imageSrc='/explore/teaser1.png'>
           <ImageTeaserLink>
@@ -30,11 +30,11 @@ export default function ExploreHackathons({ fullBounties }) {
           </ImageTeaserText>
         </ImageTeaser>
       </Link>
-      <div className='flex flex-col mt-10 lg:mt-0'>
-        <h2 className='flex flex-col space-y-3 md:flex-row items-center justify-between mb-3'>
-          <span>Hackathons for you</span>
+      <div className='flex flex-col mt-10 sm:mt-0'>
+        <h2 className='flex items-center justify-between mb-1 md:mb-3'>
+          <span>Hackathons<span class="hidden xl:inline"> for you</span></span>
           <FancyButton>
-            Explore more
+            <span class="hidden lg:inline">Explore </span>more
             <ChevronRightIcon className='ml-2 w-5 h-5' />
           </FancyButton>
         </h2>

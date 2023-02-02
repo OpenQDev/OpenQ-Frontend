@@ -17,8 +17,8 @@ import RepoLanguage from './RepoLanguage';
 
 export default function ExploreMarketplace({ fullBounties }) {
   return (
-    <div className='md:grid md:grid-cols-2 md:gap-12 lg:gap-24 w-full'>
-      <Link href='/' className='lg:order-2'>
+    <div className='sm:grid sm:grid-cols-2 sm:gap-6 md:gap-12 lg:gap-24 w-full pt-12 lg:pt-24'>
+      <Link href='/' className='md:order-2'>
         <ImageTeaser imageSrc='/explore/teaser2.png' textPosition='top'>
           <ImageTeaserLink>
             Learn more
@@ -31,11 +31,11 @@ export default function ExploreMarketplace({ fullBounties }) {
           </ImageTeaserText>
         </ImageTeaser>
       </Link>
-      <div className='flex flex-col lg:order-1'>
-        <h2 className='flex flex-col space-y-3 md:flex-row items-center justify-between mb-3'>
+      <div className='flex flex-col md:order-1'>
+        <h2 className='flex items-center justify-between mb-1 md:mb-3'>
           <span>Marketplace</span>
           <FancyButton>
-            Explore more
+            <span class="hidden lg:inline">Explore </span>more
             <ChevronRightIcon className='ml-2 w-5 h-5' />
           </FancyButton>
         </h2>

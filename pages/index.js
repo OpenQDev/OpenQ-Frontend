@@ -21,7 +21,7 @@ export default function Index({ contestBounties, nonContestBounties, renderError
       ) : (
         <>
           <ExploreHeader />
-          <div className='flex flex-col items-center max-w-screen-2xl mx-auto px-5 lg:px-10 space-y-10 md:space-y-20'>
+          <div className='flex flex-col items-center max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-24 z-10 relative'>
             <ExploreSearch />
             <ExploreHackathons fullBounties={contestBounties} />
             <ExploreMarketplace fullBounties={nonContestBounties} />

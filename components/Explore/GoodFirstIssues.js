@@ -43,7 +43,7 @@ export default function GoodFirstIssues() {
   }, []);
 
   return (
-    <div className='w-full'>
+    <div className='w-full pt-12 lg:pt-40'>
       <div className='text-center mb-10'>
         <h1 className='mx-auto'>Contribute to Open-Source in web3.</h1>
         <h3 className='text-3xl text-zinc-400 mt-4'>Find good first issues.</h3>
