@@ -56,10 +56,10 @@ export default function Newsletter() {
   }
 
   return (
-    <div className='sm:grid sm:grid-cols-2 sm:gap-6 md:gap-12 lg:gap-24 w-full pt-12 lg:pt-40'>
-      <div className='pt-3'>
+    <div className='sm:grid sm:grid-cols-2 sm:gap-6 md:gap-12 xl:gap-24 w-full pt-12 lg:pt-40'>
+      <div className='@container pt-3'>
         <h1>Join upcoming web3 hackathons.</h1>
-        <p className='lead text-zinc-400 mt-6'>Subscribe to our newsletter &amp; find out where to build next.</p>
+        <p className='lead text-zinc-400 mt-3 lg:mt-6'>Subscribe to our newsletter &amp; find out where to build next.</p>
         {isSuccess && (
           <p className='text-green-400 text-xl mt-6'>
             <span className='font-bold'>Success!</span> You&apos;ll receive updates on the latest hackathons.
@@ -94,14 +94,14 @@ export default function Newsletter() {
         )}
       </div>
 
-      <FlexScrollContainer className="mt-10">
+      <FlexScrollContainer className="mt-10 sm:mt-0">
         <div className='flex flex-col space-y-5'>
           {upcomingHackathons.map(([title, location, date, url]) => (
             <Link
               key={title + location + date}
               href={url}
               target='_blank'
-              className='flex items-center justify-between border bg-dark-2 border-dark-1 rounded px-5 py-3 lg:px-10 lg:py-6'
+              className='flex items-center justify-between border bg-dark-2 border-dark-1 rounded px-5 py-3 xl:px-10 xl:py-6'
             >
               <div className='flex flex-col w-4/5'>
                 <div className='text-link-colour font-semibold pr-3 truncate lg:text-xl'>
