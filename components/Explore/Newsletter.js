@@ -101,7 +101,7 @@ export default function Newsletter() {
               key={title + location + date}
               href={url}
               target='_blank'
-              className='flex items-center justify-between border bg-dark-2 border-dark-1 rounded px-5 py-3 xl:px-10 xl:py-6'
+              className='flex items-center justify-between border bg-dark-2 border-dark-1 rounded px-5 py-3 xl:px-8 xl:py-4'
             >
               <div className='flex flex-col w-4/5'>
                 <div className='text-link-colour font-semibold pr-3 truncate lg:text-xl'>
