@@ -7,6 +7,12 @@ import FlexScrollContainer from './FlexScrollContainer';
 
 import upcomingHackathons from './upcomingHackathons.json';
 
+upcomingHackathons.sort((a, b) => {
+  const dateA = new Date(a[2]);
+  const dateB = new Date(b[2]);
+  return dateA - dateB;
+});
+
 export default function Newsletter() {
   const [appState] = useContext(StoreContext);
   const [email, setEmail] = useState(appState.accountData.email || '');
