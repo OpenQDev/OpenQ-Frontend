@@ -66,19 +66,19 @@ export default function Newsletter() {
           </p>
         )}
         {!isSuccess && (
-          <div className='flex mt-10'>
+          <div className='@container flex mt-10'>
             <input
               type='email'
               placeholder='Email'
-              className='border rounded-l-2xl w-full text-2xl bg-gray-300 text-gray-900 px-8 py-4 outline-none'
+              className='border rounded-l-2xl w-full text-lg @md:text-2xl bg-gray-300 text-gray-900 px-4 py-2 @md:px-8 md:py-4 outline-none'
               value={email}
               disabled={isSending}
               onChange={handleEmailInputChange}
             />
             <button
               className={`${
-                !isEmailValid && 'opacity-80'
-              } bg-gradient-to-r from-cyan-300 to-green-400 !text-white text-2xl font-bold !rounded-r-2xl !rounded-l-none border-none !px-12 !py-4`}
+                !isEmailValid && 'opacity-90 saturate-50'
+              } transition-all bg-gradient-to-r from-cyan-300 to-green-400 !text-white text-lg @md:text-2xl font-bold !rounded-r-2xl !rounded-l-none border-none @md:!px-12 @md:!py-4`}
               onClick={() => subscribeToNewsletter()}
               disabled={isSending || !isEmailValid}
             >
