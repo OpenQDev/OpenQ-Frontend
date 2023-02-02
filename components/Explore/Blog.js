@@ -21,12 +21,6 @@ export default function Blog() {
       teaserText: 'How I’d (Fail) To Build a DAO in 2010',
     },
     {
-      title: 'Web 2.0 DAO Part II',
-      url: 'https://medium.com/openqdev/web-2-0-dao-part-ii-6ac736d899d6',
-      imageSrc: '/explore/blog-3.png',
-      teaserText: 'How I’d (Successfully) Build a DAO in 2022',
-    },
-    {
       title: 'The Legend of the Code Vending Machine',
       url: 'https://medium.com/openqdev/the-legend-of-the-code-vending-machine-b30d3d573c4f',
       imageSrc: '/explore/blog-1.png',
