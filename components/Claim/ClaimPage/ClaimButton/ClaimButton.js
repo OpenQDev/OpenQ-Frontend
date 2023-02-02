@@ -39,11 +39,10 @@ const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, spl
   const budgetValues = useDisplayValue(bounty, appState.utils.formatter.format, 'budget');
   const budget = budgetValues?.value;
 
+  const targetTier = bounty.tierWinners?.indexOf(accountData.github);
   const supportingDocumentsCompleted =
     bounty.supportingDocumentsCompleted && bounty.supportingDocumentsCompleted[targetTier];
   const invoiceCompleted = bounty.invoiceCompleted && bounty.invoiceCompleted[targetTier];
-
-  const targetTier = bounty.tierWinners?.indexOf(accountData.github);
 
   const checkRequirementsWithGraph = (bounty) => {
     let w8Form = !bounty.supportingDocumentsRequired || supportingDocumentsCompleted;
@@ -121,7 +120,8 @@ const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, spl
             prUrl,
             tier
           );
-          resolve(result);
+          console.log(result);
+          resolve(result.transactionHash);
         } else {
           const result = await axios.post(
             `${process.env.NEXT_PUBLIC_ORACLE_URL}/claim`,
