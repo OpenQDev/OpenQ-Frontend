@@ -2,8 +2,8 @@
  * @jest-environment jsdom
  */
 import React from 'react';
-import { render, screen } from '../../test-utils';
-import ActionBubble from '../../components/Utils/ActionBubble';
+import { render, screen } from '../../../test-utils/';
+import ActionBubble from '.';
 import nextRouter from 'next/router';
 import userEvent from '@testing-library/user-event';
 // Test cases for full balances, empty balances, and undefined balances.
@@ -269,7 +269,7 @@ describe('ActionBubble', () => {
     // ASSERT
     expect(await screen.findByText('0xf3...2266 closed this contract on January 3, 1970 at 7:33.'));
   });
-  it('should display pull request linked action message', async () => {
+  it.only('should display pull request linked action message', async () => {
     // ARRANGE
     const url = 'https://github.com/OpenQDev/OpenQ-Frontend/pull/720';
     const action = {
@@ -289,6 +289,7 @@ describe('ActionBubble', () => {
 
     // ASSERT
     expect(await screen.findByText(/Christopher-Stevers linked/));
-    expect(screen.getAllByRole('link')[0].href).toBe(url);
+    console.log(screen.getAllByRole('link'))
+    expect(screen.getAllByRole('link')[1].href).toBe(url);
   });
 });

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import StoreContext from '../../../store/Store/StoreContext';
-import AuthButton from '../../Authentication/AuthButton';
+import StoreContext from '../../../../store/Store/StoreContext';
+import AuthButton from '../../../Authentication/AuthButton';
 
 const AuthorizedOnly = ({ children }) => {
   const [showPage, setShowPage] = useState();

@@ -122,7 +122,11 @@ const Invoicing = ({ bounty }) => {
               </Link>{' '}
               and review the sample invoice.
             </p>
-            <p>To set the right VAT rate, note that the bounty sponsor's country is: {bounty.creatingUser.country}</p>
+            {bounty.creatingUser && (
+              <p>
+                To set the right VAT rate, note that the bounty sponsor's country is: {bounty.creatingUser?.country}
+              </p>
+            )}
           </div>
           <div>
             <p className='font-semibold'>Step 2</p>

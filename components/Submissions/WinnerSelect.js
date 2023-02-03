@@ -30,6 +30,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
   };
   const payoutBalances = useMemo(() => createFixedPayout(), [prize]);
   const [fixedPayoutValue] = useGetTokenValues(payoutBalances);
+  const claimReady = !bounty.kycRequired && !bounty.supportingDocumentsRequired && !bounty.invoiceRequired;
 
   let unit;
   const claimBounty = async () => {
@@ -146,8 +147,8 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
   };
   const modalTitle = {
     CONFIRM: `Choosing ${suffixed} Place`,
-    TRANSFERRING: `Transferring Funds...`,
-    SUCCESS: 'Winner Selected and Payed!',
+    TRANSFERRING: `Selecting Winner...`,
+    SUCCESS: 'Winner Selected!',
     ERROR: error.title,
   };
   return (
@@ -191,13 +192,25 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
                 challenge.
               </p>
               <p className='my-2'>
-                This will release{' '}
-                {bounty.bountyType === '2' ? prize.payout + '% of funds' : formatVolume(prize.payout) + unit} staked on
-                this competition (
+                {claimReady ? 'This will release' : 'Before being able to claim'}{' '}
+                {bounty.bountyType === '2' ? prize.payout + '% of funds' : formatVolume(prize.payout) + unit} (
                 {bounty.bountyType === '2'
                   ? appState.utils.formatter.format((price * prize.payout) / 100 || 0)
                   : appState.utils.formatter.format(fixedPayoutValue?.total || 0)}
-                ) to the author of this submission, to be claimed at their leisure.
+                )
+                {claimReady ? (
+                  ` to ${pr.author.login}, to be claimed at their leisure.`
+                ) : (
+                  <>
+                    {', '}
+                    {pr.author.login} will have to complete:
+                    <ul className='mt-2 ml-4 list-disc'>
+                      {bounty.invoiceRequired && <li>Invoice</li>}
+                      {bounty.supportingDocumentsRequired && <li>W8/W9 Form</li>}
+                      {bounty.kycRequired && <li>KYC</li>}
+                    </ul>
+                  </>
+                )}
               </p>
             </>
           )}

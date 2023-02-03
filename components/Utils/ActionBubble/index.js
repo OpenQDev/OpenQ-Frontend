@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
-import StoreContext from '../../store/Store/StoreContext';
-import useEns from '../../hooks/useENS';
+import useGetTokenValues from '../../../hooks/useGetTokenValues';
+import StoreContext from '../../../store/Store/StoreContext';
+import useEns from '../../../hooks/useENS';
 import { ethers } from 'ethers';
-import Jazzicon from './Jazzicon';
-import useWeb3 from '../../hooks/useWeb3';
-import ToolTipNew from './ToolTipNew';
+import Jazzicon from './../Jazzicon';
+import useWeb3 from '../../../hooks/useWeb3';
+import ToolTipNew from './../ToolTipNew';
 
 const ActionBubble = ({ bounty, action }) => {
   const [appState] = useContext(StoreContext);
@@ -167,7 +167,7 @@ const ActionBubble = ({ bounty, action }) => {
           )}) on ${appState.utils.formatUnixDate(action.refundTime)}.`;
     }
   }
-
+console.log(titlePartOne)
   return (
     <div className='w-full pt-4 flex relative'>
       {avatarUrl ? (

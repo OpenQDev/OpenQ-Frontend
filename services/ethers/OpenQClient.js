@@ -543,7 +543,6 @@ class OpenQClient {
       );
       const signer = library.getSigner();
       const contract = this.ClaimManager(signer);
-      console.log(contract);
       try {
         let txnResponse = await contract.permissionedClaimTieredBounty(bountyAddress, closerData);
         let txnReceipt = await txnResponse.wait();
