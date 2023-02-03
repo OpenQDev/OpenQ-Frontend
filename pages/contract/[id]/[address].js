@@ -45,18 +45,6 @@ const address = ({ address, mergedBounty, renderError }) => {
   const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
   const { status } = checkClaimable(bounty, accountData?.github, openQClient);
   const claimable = status === 'Claimable';
-
-  const createBudget = (bounty) => {
-    return bounty.fundingGoalTokenAddress
-      ? {
-          tokenAddress: bounty.fundingGoalTokenAddress,
-          volume: bounty.fundingGoalVolume,
-        }
-      : null;
-  };
-  const budgetObj = useMemo(() => createBudget(bounty), [bounty]);
-  const [budgetValues] = useGetTokenValues(budgetObj);
-  const budget = budgetValues?.total;
   const { account } = useWeb3();
 
   const createRewardSplit = (bounty) => {
@@ -73,7 +61,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 
   // State
   const [error] = useState(renderError);
-  const [internalMenu, setInternalMenu] = useState();
+  const [internalMenu, setInternalMenu] = useState('View');
   const [, setJustMinted] = useState();
 
   // Refs
@@ -238,8 +226,8 @@ const address = ({ address, mergedBounty, renderError }) => {
                 colour='rust'
                 items={[
                   { name: 'View', Svg: Telescope },
-                  { name: 'Fund', Svg: Add },
-                  { name: 'Refund', Svg: Subtract },
+                  { name: bounty.issuer && 'Fund', Svg: bounty.issuer && Add },
+                  { name: bounty.issuer && 'Refund', Svg: bounty.issuer && Subtract },
                   ...submissions,
                   ...claim,
                   ...claimOverView,
@@ -255,8 +243,10 @@ const address = ({ address, mergedBounty, renderError }) => {
               <BountyHeading
                 refreshGithubBounty={refreshGithubBounty}
                 price={tokenValues?.total}
-                budget={budget}
                 bounty={bounty}
+                refreshBounty={refreshBounty}
+                setInternalMenu={setInternalMenu}
+                split={split}
               />
 
               <div className='flex justify-between  w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
@@ -269,7 +259,13 @@ const address = ({ address, mergedBounty, renderError }) => {
                   </FundProvider>
                 ) : null}
                 {internalMenu == 'Claim' && claimable && bounty ? (
-                  <ClaimPage price={tokenValues?.total} split={split} bounty={bounty} refreshBounty={refreshBounty} />
+                  <ClaimPage
+                    price={tokenValues?.total}
+                    split={split}
+                    bounty={bounty}
+                    refreshBounty={refreshBounty}
+                    setInternalMenu={setInternalMenu}
+                  />
                 ) : null}
                 {internalMenu == 'Claims Overview' && bounty ? (
                   <ClaimOverview bounty={bounty} setInternalMenu={setInternalMenu} />

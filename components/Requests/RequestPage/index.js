@@ -45,7 +45,6 @@ const RequestPage = ({ user }) => {
           const createdBounties = userOffChainData.createdBounties.nodes.filter((bounty) => {
             return bounty.requests;
           });
-          console.log(createdBounties);
           setBounties(createdBounties);
         } catch (error) {
           router.push('/login');

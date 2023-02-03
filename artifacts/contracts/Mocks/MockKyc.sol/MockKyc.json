@@ -1,0 +1,56 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "MockKyc",
+  "sourceName": "contracts/Mocks/MockKyc.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "hasValidToken",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "valid",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "isValid",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bool",
+          "name": "_isValid",
+          "type": "bool"
+        }
+      ],
+      "name": "setIsValid",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608060405234801561001057600080fd5b5061011a806100206000396000f3fe6080604052348015600f57600080fd5b5060043610603c5760003560e01c806317c136771460415780639d267630146061578063bb5d40eb14608a575b600080fd5b605f604c3660046096565b6000805460ff1916911515919091179055565b005b6076606c36600460bd565b5060005460ff1690565b604051901515815260200160405180910390f35b60005460769060ff1681565b60006020828403121560a757600080fd5b8135801515811460b657600080fd5b9392505050565b60006020828403121560ce57600080fd5b81356001600160a01b038116811460b657600080fdfea264697066735822122025179c9eed4b93d2b4e4c45cbf6795bc437ef53701e91e482b9103611e48874b64736f6c63430008110033",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b5060043610603c5760003560e01c806317c136771460415780639d267630146061578063bb5d40eb14608a575b600080fd5b605f604c3660046096565b6000805460ff1916911515919091179055565b005b6076606c36600460bd565b5060005460ff1690565b604051901515815260200160405180910390f35b60005460769060ff1681565b60006020828403121560a757600080fd5b8135801515811460b657600080fd5b9392505050565b60006020828403121560ce57600080fd5b81356001600160a01b038116811460b657600080fdfea264697066735822122025179c9eed4b93d2b4e4c45cbf6795bc437ef53701e91e482b9103611e48874b64736f6c63430008110033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
