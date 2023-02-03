@@ -159,8 +159,8 @@ class Utils {
           ...relatedIssue,
           ...subgraphBounty,
           ...contract,
-          alternativeTitle: '',
-          alternativeSrc: '',
+          alternativeName: '',
+          alternativeLogo: '',
         };
         fullBounties.push(mergedBounty);
       }

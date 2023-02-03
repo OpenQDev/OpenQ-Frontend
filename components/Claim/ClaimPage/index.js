@@ -15,10 +15,12 @@ import W8Form from './W8Form';
 import KycRequirement from './KycRequirement';
 import GithubRequirement from './GithubRequirement';
 import ClaimButton from './ClaimButton/ClaimButton';
+import { isContest } from '../../../services/utils/lib';
 // import { ChevronUpIcon, ChevronDownIcon } from '@primer/octicons-react';
 
-const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu }) => {
+const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claimState }) => {
   const [appState] = useContext(StoreContext);
+
   const { accountData } = appState;
   // State
   const [justClaimed, setJustClaimed] = useState(false);
@@ -31,6 +33,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu }) => 
   //   bounty.supportingDocumentsCompleted && bounty.supportingDocumentsCompleted[targetTier];
   // const invoiceCompleted = bounty.invoiceCompleted && bounty.invoiceCompleted[targetTier];
 
+  const targetTier = bounty.tierWinners?.indexOf(accountData.github);
   const checkRequirementsWithGraph = (bounty) => {
     if (bounty.bountyType === '2' || bounty.bountyType === '3') {
       let w8Form = !bounty?.supportingDocumentsRequired || bounty?.supportingDocumentsCompleted?.[targetTier];
@@ -38,15 +41,19 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu }) => 
       return { w8Form, invoice };
     } else return {};
   };
-  const targetTier = bounty.tierWinners?.indexOf(accountData.github);
 
   const { w8Form, invoice } = checkRequirementsWithGraph(bounty);
   let kyc = !bounty.kycRequired || kycVerified;
   let githubHasWallet = bounty.bountyType == 0 || bounty.bountyType == 1 || githubHasWalletVerified;
-  let claimable = kyc && w8Form && githubHasWallet && invoice;
+  console.log(kyc, w8Form, githubHasWallet, invoice);
+  console.log(kyc && w8Form && githubHasWallet && invoice);
+  const [claimable, setClaimable] = claimState;
+  const hasRequirements =
+    bounty.kycRequired || bounty.supportingDocumentsRequired || bounty.invoiceRequired || isContest(bounty);
 
   useEffect(() => {
-    claimable = kyc && w8Form && githubHasWallet && invoice;
+    console.log('executed', kyc && w8Form && githubHasWallet && invoice);
+    setClaimable(kyc && w8Form && githubHasWallet && invoice);
   }, [kyc, w8Form, githubHasWallet, invoice]);
 
   /* const accountKeys = [
@@ -108,10 +115,10 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu }) => 
                 </>
               )}
             </div>
-            <h3 className='flex w-full text-3xl font-semibold text-primary'>Requirements</h3>
+            {hasRequirements && <h3 className='flex w-full text-3xl font-semibold text-primary'>Requirements</h3>}
             {bounty.kycRequired && <KycRequirement setKycVerified={setKycVerified} />}
             {bounty.supportingDocumentsRequired && <W8Form bounty={bounty} />}
-            <GithubRequirement setGithubHasWalletVerified={setGithubHasWalletVerified} />
+            {isContest(bounty) && <GithubRequirement setGithubHasWalletVerified={setGithubHasWalletVerified} />}
             <Invoicing bounty={bounty} />
             <section className='flex flex-col gap-3'>
               <h4 className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>Claim Your Rewards</h4>
@@ -129,6 +136,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu }) => 
             ) : null}
             <ConnectButton needsGithub={true} nav={false} tooltipAction={'claim this contract!'} hideSignOut={true} />
             <ClaimButton
+              claimable={claimable}
               bounty={bounty}
               tooltipStyle={'-left-2'}
               refreshBounty={refreshBounty}

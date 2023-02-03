@@ -45,6 +45,7 @@ const address = ({ address, mergedBounty, renderError }) => {
   const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
   const { status } = checkClaimable(bounty, accountData?.github, openQClient);
   const claimable = status === 'Claimable';
+  const claimState = useState();
   const { account } = useWeb3();
 
   const createRewardSplit = (bounty) => {
@@ -247,6 +248,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                 refreshBounty={refreshBounty}
                 setInternalMenu={setInternalMenu}
                 split={split}
+                claimReqsCompleted={claimState[0]}
               />
 
               <div className='flex justify-between  w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
@@ -265,6 +267,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                     bounty={bounty}
                     refreshBounty={refreshBounty}
                     setInternalMenu={setInternalMenu}
+                    claimState={claimState}
                   />
                 ) : null}
                 {internalMenu == 'Claims Overview' && bounty ? (

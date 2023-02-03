@@ -542,3 +542,25 @@ export const GET_IS_ADMIN = gql`
     }
   }
 `;
+
+export const GET_ORG_BY_URL = gql`
+  query ($url: URI!) {
+    resource(url: $url) {
+      ... on Organization {
+        id
+        login
+        name
+        avatarUrl
+        url
+      }
+
+      ... on User {
+        id
+        login
+        name
+        avatarUrl
+        url
+      }
+    }
+  }
+`;

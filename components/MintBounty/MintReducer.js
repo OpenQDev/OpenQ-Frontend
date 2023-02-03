@@ -1,4 +1,5 @@
 const MintReducer = (state, action) => {
+  console.log('MintReducer', action);
   switch (action.type) {
     case 'UPDATE_GOAL_TOKEN': {
       return {
@@ -110,16 +111,11 @@ const MintReducer = (state, action) => {
         supportingDocumentsRequired: action.payload,
       };
     }
-    case 'SET_ALT_NAME': {
-      return {
-        ...state,
-        altName: action.payload,
-      };
-    }
     case 'SET_ALT_URL': {
       return {
         ...state,
-        altUrl: action.payload,
+        altUrl: action.payload.avatarUrl,
+        altName: action.payload.name,
       };
     }
 

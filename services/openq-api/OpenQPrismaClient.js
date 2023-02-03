@@ -112,8 +112,8 @@ class OpenQPrismaClient {
         });
         resolve({
           ...result.data.bounty,
-          alternativeTitle: '',
-          alternativeSrc: '',
+          alternativeName: '',
+          alternativeLogo: '',
         });
       } catch (e) {
         reject(e);

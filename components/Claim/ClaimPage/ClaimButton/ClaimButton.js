@@ -1,6 +1,6 @@
 import { FeedTrophyIcon } from '@primer/octicons-react';
 import axios from 'axios';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import useIsOnCorrectNetwork from '../../../../hooks/useIsOnCorrectNetwork';
 import useWeb3 from '../../../../hooks/useWeb3';
 import AuthContext from '../../../../store/AuthStore/AuthContext';
@@ -17,8 +17,18 @@ import {
 } from '../../ClaimStates.js';
 import useEns from '../../../../hooks/useENS';
 import useDisplayValue from '../../../../hooks/useDisplayValue';
+import { isContest } from '../../../../services/utils/lib';
 
-const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, split, price, setJustClaimed }) => {
+const ClaimButton = ({
+  bounty,
+  tooltipStyle,
+  refreshBounty,
+  setInternalMenu,
+  split,
+  price,
+  setJustClaimed,
+  claimable,
+}) => {
   const { url } = bounty;
   const { account, library } = useWeb3();
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
@@ -30,68 +40,15 @@ const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, spl
   const { logger } = appState;
   const [authState] = useContext(AuthContext);
 
-  const [associatedAddress, setAssociatedAddress] = useState(null);
-  const [kycVerified, setKycVerified] = useState(null);
   const { accountData } = appState;
-  const zeroAddress = '0x0000000000000000000000000000000000000000';
   const [showClaimLoadingModal, setShowClaimLoadingModal] = useState(false);
 
   const budgetValues = useDisplayValue(bounty, appState.utils.formatter.format, 'budget');
   const budget = budgetValues?.value;
 
-  const supportingDocumentsCompleted =
-    bounty.supportingDocumentsCompleted && bounty.supportingDocumentsCompleted[targetTier];
-  const invoiceCompleted = bounty.invoiceCompleted && bounty.invoiceCompleted[targetTier];
-
   const targetTier = bounty.tierWinners?.indexOf(accountData.github);
 
-  const checkRequirementsWithGraph = (bounty) => {
-    let w8Form = !bounty.supportingDocumentsRequired || supportingDocumentsCompleted;
-    let invoice = !bounty.invoiceRequired || invoiceCompleted;
-    return { w8Form, invoice };
-  };
-
-  const { w8Form, invoice } = checkRequirementsWithGraph(bounty);
-  let kyc = !bounty.kycRequired || kycVerified;
-  let githubHasWallet = bounty.bountyType == 0 || bounty.bountyType == 1 || associatedAddress;
-  let claimable = kyc && w8Form && githubHasWallet && invoice;
-
   const canvas = useRef();
-
-  useEffect(() => {
-    hasKYC();
-  }, []);
-
-  useEffect(() => {
-    claimable = kyc && w8Form && githubHasWallet && invoice;
-  }, [kyc, w8Form, githubHasWallet, invoice]);
-
-  useEffect(() => {
-    const checkAssociatedAddress = async () => {
-      if (library && account && authState.githubId) {
-        try {
-          const associatedAddress = await appState.openQClient.getAddressById(library, authState.githubId);
-          if (associatedAddress !== zeroAddress) {
-            setAssociatedAddress(associatedAddress);
-          }
-        } catch (err) {
-          appState.logger.error(err, accountData.id, 'GithubConnection.js1');
-        }
-      }
-    };
-    checkAssociatedAddress();
-  }, [library, account, authState.githubId]);
-
-  const hasKYC = async () => {
-    try {
-      const transaction = await appState.openQClient.hasKYC(library, account);
-      if (transaction) {
-        setKycVerified(true);
-      }
-    } catch (err) {
-      appState.logger.error(err, account, 'KycRequirement.js1');
-    }
-  };
 
   const updateModal = () => {
     setShowClaimLoadingModal(false);
@@ -121,7 +78,7 @@ const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, spl
             prUrl,
             tier
           );
-          resolve(result);
+          resolve(result.transactionHash);
         } else {
           const result = await axios.post(
             `${process.env.NEXT_PUBLIC_ORACLE_URL}/claim`,
@@ -131,7 +88,7 @@ const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, spl
             },
             { withCredentials: true }
           );
-          resolve(result.txnHash);
+          resolve(result.data.txnHash);
         }
       } catch (e) {
         reject(e);
@@ -170,7 +127,7 @@ const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, spl
         },
       });
     } catch (err) {
-      if (bounty.bountyType === '2' || bounty.bountyType === '3') {
+      if (isContest(bounty)) {
         if (err.message.includes('TIER_ALREADY_CLAIMED')) {
           setClaimState(WITHDRAWAL_INELIGIBLE);
           setError({
@@ -188,9 +145,9 @@ const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, spl
         logger.error(err, account, bounty.id);
         setClaimState(WITHDRAWAL_INELIGIBLE);
         setError({
-          message: err.response.data.errorMessage,
+          message: err?.response?.data?.errorMessage || 'Error claiming bounty',
           title: 'Error',
-          referencedPrs: err.response.data.referencedPrs,
+          referencedPrs: err?.response?.data?.referencedPrs || [],
         });
       }
     }
