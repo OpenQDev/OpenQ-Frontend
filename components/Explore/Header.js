@@ -26,7 +26,13 @@ export default function Header() {
           Join the ultimate hub for builders and turn your ideas into reality.
         </p>
       </div>
-      <Image className='opacity-20 md:opacity-30 xl:opacity-100 absolute -right-50 top-0 sm:right-0 sm:-top-10 lg:right-20 lg:top-10 z-0 min-w-[450px]' src='/explore/planet.png' alt='' width={571} height={587} />
+      <Image
+        className='opacity-20 md:opacity-30 xl:opacity-100 absolute -right-50 top-0 sm:right-0 sm:-top-10 lg:right-20 lg:top-10 z-0 min-w-[450px]'
+        src='/explore/planet.png'
+        alt=''
+        width={571}
+        height={587}
+      />
     </header>
   );
 }

@@ -46,19 +46,19 @@ const Footer = () => {
         </div>
         <div className='text-center lg:text-right lg:ml-6 min-w-max mt-12 lg:mt-0'>
           <div className='text-3xl lg:text-4xl font-bold text-slate-800'>
-            Made with <HeartFillIcon size={40} className='text-slate-700' /><br />
+            Made with <HeartFillIcon size={40} className='text-slate-700' />
+            <br />
             for devs, by devs.
           </div>
           <div className='font-bold text-lg mt-2 text-slate-800'>
-            in USA, Germany, Canada, Austria,<br />
+            in USA, Germany, Canada, Austria,
+            <br />
             Netherlands and Spain.
           </div>
         </div>
       </div>
       <div className='text-sm text-slate-800 flex flex-col items-center justify-center sm:flex-row pb-12 sm:space-x-6'>
-        <div>
-          Build: production-1.0.22
-        </div>
+        <div>Build: production-1.0.22</div>
         <div>
           &copy; {year}, <span className='whitespace-nowrap'>OpenQ Labs GmbH</span>
         </div>

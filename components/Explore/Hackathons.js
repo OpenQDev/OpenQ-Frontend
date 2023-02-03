@@ -32,9 +32,11 @@ export default function ExploreHackathons({ fullBounties }) {
       </Link>
       <div className='flex flex-col mt-10 sm:mt-0'>
         <h2 className='flex items-center justify-between mb-1 md:mb-3'>
-          <span>Hackathons<span class="hidden xl:inline"> for you</span></span>
+          <span>
+            Hackathons<span className='hidden xl:inline'> for you</span>
+          </span>
           <FancyButton>
-            <span class="hidden lg:inline">Explore </span>more
+            <span className='hidden lg:inline'>Explore </span>more
             <ChevronRightIcon className='ml-2 w-5 h-5' />
           </FancyButton>
         </h2>
@@ -62,9 +64,11 @@ export default function ExploreHackathons({ fullBounties }) {
                   )}
                 </CardBody>
                 <CardFooter>
-                  {
-                    bounty.languages.filter((_, i) => i < 3).map((language) => <RepoLanguage key={language.name} language={language.name} color={language.color} />)
-                  }
+                  {bounty.languages
+                    .filter((_, i) => i < 3)
+                    .map((language) => (
+                      <RepoLanguage key={language.name} language={language.name} color={language.color} />
+                    ))}
                 </CardFooter>
               </Card>
             ))}

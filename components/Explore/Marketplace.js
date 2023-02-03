@@ -35,7 +35,7 @@ export default function ExploreMarketplace({ fullBounties }) {
         <h2 className='flex items-center justify-between mb-1 md:mb-3'>
           <span>Marketplace</span>
           <FancyButton>
-            <span class="hidden lg:inline">Explore </span>more
+            <span className='hidden lg:inline'>Explore </span>more
             <ChevronRightIcon className='ml-2 w-5 h-5' />
           </FancyButton>
         </h2>
@@ -56,9 +56,9 @@ export default function ExploreMarketplace({ fullBounties }) {
                 </CardHeader>
                 <CardBody>{bounty.title}</CardBody>
                 <CardFooter>
-                  {
-                    bounty.languages.map((language) => <RepoLanguage key={language.name} language={language.name} color={language.color} />)
-                  }
+                  {bounty.languages.map((language) => (
+                    <RepoLanguage key={language.name} language={language.name} color={language.color} />
+                  ))}
                   {bounty.assignees.length ? (
                     <div className='text-xs text-gray-400'>Assigned to {bounty.assignees.length}</div>
                   ) : (

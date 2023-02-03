@@ -26,7 +26,7 @@ export default function Blog() {
       imageSrc: '/explore/blog-1.png',
       teaserText: 'Why no code is still a no go',
     },
-  ]
+  ];
 
   return (
     <div className='w-full pt-12 lg:pt-40 lg:pb-24'>
@@ -40,9 +40,7 @@ export default function Blog() {
                 <ChevronRightIcon className='ml-2 w-5 h-5' />
               </ImageTeaserLink>
               <ImageTeaserHeadline>{article.title}</ImageTeaserHeadline>
-              <ImageTeaserText>
-                {article.teaserText}
-              </ImageTeaserText>
+              <ImageTeaserText>{article.teaserText}</ImageTeaserText>
             </ImageTeaser>
           </Link>
         ))}
