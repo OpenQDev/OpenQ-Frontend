@@ -15,7 +15,7 @@ const Invoicing = ({ bounty }) => {
   const [appState] = useContext(StoreContext);
   const { account } = appState;
   const { accountData } = appState;
-  const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}`;
+  const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}?tab=Invoicng Details - Freelancer`;
 
   const [invoiceResponse, setInvoiceResponse] = useState('');
   const handleResult = (result) => {

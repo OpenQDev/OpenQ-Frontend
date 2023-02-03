@@ -18,8 +18,8 @@ import GithubConnection from './OverviewTab/GithubConnection';
 import AuthContext from '../../store/AuthStore/AuthContext';
 import Username from './OverviewTab/Username';
 
-const AboutFreelancer = ({ user, starredOrganizations, watchedBounties }) => {
-  const [internalMenu, setInternalMenu] = useState('Overview');
+const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) => {
+  const [internalMenu, setInternalMenu] = useState(tab || 'Overview');
   const [appState] = useContext(StoreContext);
   const { github } = appState.accountData;
   const [watchedFullBounties, setWatchedFullBounties] = useState([]);
