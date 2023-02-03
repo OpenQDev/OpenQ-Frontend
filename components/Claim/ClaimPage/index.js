@@ -15,10 +15,12 @@ import W8Form from './W8Form';
 import KycRequirement from './KycRequirement';
 import GithubRequirement from './GithubRequirement';
 import ClaimButton from './ClaimButton/ClaimButton';
+import { isContest } from '../../../services/utils/lib';
 // import { ChevronUpIcon, ChevronDownIcon } from '@primer/octicons-react';
 
 const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu }) => {
   const [appState] = useContext(StoreContext);
+
   const { accountData } = appState;
   // State
   const [justClaimed, setJustClaimed] = useState(false);
@@ -44,6 +46,8 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu }) => 
   let kyc = !bounty.kycRequired || kycVerified;
   let githubHasWallet = bounty.bountyType == 0 || bounty.bountyType == 1 || githubHasWalletVerified;
   let claimable = kyc && w8Form && githubHasWallet && invoice;
+  const hasRequirements =
+    bounty.kycRequired || bounty.supportingDocumentsRequired || bounty.invoiceRequired || isContest(bounty);
 
   useEffect(() => {
     claimable = kyc && w8Form && githubHasWallet && invoice;
@@ -108,10 +112,10 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu }) => 
                 </>
               )}
             </div>
-            <h3 className='flex w-full text-3xl font-semibold text-primary'>Requirements</h3>
+            {hasRequirements && <h3 className='flex w-full text-3xl font-semibold text-primary'>Requirements</h3>}
             {bounty.kycRequired && <KycRequirement setKycVerified={setKycVerified} />}
             {bounty.supportingDocumentsRequired && <W8Form bounty={bounty} />}
-            <GithubRequirement setGithubHasWalletVerified={setGithubHasWalletVerified} />
+            {isContest(bounty) && <GithubRequirement setGithubHasWalletVerified={setGithubHasWalletVerified} />}
             <Invoicing bounty={bounty} />
             <section className='flex flex-col gap-3'>
               <h4 className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>Claim Your Rewards</h4>
