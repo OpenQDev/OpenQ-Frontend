@@ -42,7 +42,7 @@ const MintBountyInputIssue = () => {
         const issueData = await fetchIssue();
         if (issueData) {
           try {
-            let bounty = await appState.openQSubgraphClient.getBountyByGithubId(issueData.id);
+            let bounty = await appState.openQSubgraphClient.getBountyByGithubId(issueData.id, 'no-cache');
             if (closed === false && bounty?.status == '1' && didCancel) {
               setClosed(true);
             }
