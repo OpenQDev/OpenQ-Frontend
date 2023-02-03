@@ -45,14 +45,12 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claim
   const { w8Form, invoice } = checkRequirementsWithGraph(bounty);
   let kyc = !bounty.kycRequired || kycVerified;
   let githubHasWallet = bounty.bountyType == 0 || bounty.bountyType == 1 || githubHasWalletVerified;
-  console.log(kyc, w8Form, githubHasWallet, invoice);
-  console.log(kyc && w8Form && githubHasWallet && invoice);
+
   const [claimable, setClaimable] = claimState;
   const hasRequirements =
     bounty.kycRequired || bounty.supportingDocumentsRequired || bounty.invoiceRequired || isContest(bounty);
 
   useEffect(() => {
-    console.log('executed', kyc && w8Form && githubHasWallet && invoice);
     setClaimable(kyc && w8Form && githubHasWallet && invoice);
   }, [kyc, w8Form, githubHasWallet, invoice]);
 

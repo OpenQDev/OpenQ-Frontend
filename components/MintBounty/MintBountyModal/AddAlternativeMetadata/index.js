@@ -9,14 +9,12 @@ const AddAlternativeMetadata = () => {
   const [mintState, mintDispatch] = useContext(MintContext);
   const { altName, altUrl } = mintState;
   const [appState] = useContext(StoreContext);
-  console.log(altName, altUrl);
 
   const handleNameChange = async (e) => {
     setGithubUrl(e.target.value);
     const githubOrgRegex = /https:\/\/github.com\/([a-zA-Z0-9-]+)\/?/;
     if (!githubOrgRegex.test(e.target.value)) return;
     const organization = await appState.githubRepository.getOrgByUrl(e.target.value);
-    console.log(organization);
     if (organization) {
       const dispatch = {
         type: 'SET_ALT_URL',

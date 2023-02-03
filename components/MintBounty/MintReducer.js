@@ -1,5 +1,4 @@
 const MintReducer = (state, action) => {
-  console.log('MintReducer', action);
   switch (action.type) {
     case 'UPDATE_GOAL_TOKEN': {
       return {

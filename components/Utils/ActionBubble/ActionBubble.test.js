@@ -289,7 +289,6 @@ describe('ActionBubble', () => {
 
     // ASSERT
     expect(await screen.findByText(/Christopher-Stevers linked/));
-    console.log(screen.getAllByRole('link'))
     expect(screen.getAllByRole('link')[1].href).toBe(url);
   });
 });
