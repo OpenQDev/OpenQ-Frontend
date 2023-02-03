@@ -17,6 +17,7 @@ import {
 } from '../../ClaimStates.js';
 import useEns from '../../../../hooks/useENS';
 import useDisplayValue from '../../../../hooks/useDisplayValue';
+import { isContest } from '../../../../services/utils/lib';
 
 const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, split, price, setJustClaimed }) => {
   const { url } = bounty;
@@ -52,8 +53,8 @@ const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, spl
 
   const { w8Form, invoice } = checkRequirementsWithGraph(bounty);
   let kyc = !bounty.kycRequired || kycVerified;
-  let githubHasWallet = bounty.bountyType == 0 || bounty.bountyType == 1 || associatedAddress;
-  let claimable = kyc && w8Form && githubHasWallet && invoice;
+  let githubHasWallet = !isContest(bounty) || associatedAddress;
+  const [claimable, setClaimable] = useState(kyc && w8Form && githubHasWallet && invoice);
 
   const canvas = useRef();
 
@@ -62,7 +63,7 @@ const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, spl
   }, []);
 
   useEffect(() => {
-    claimable = kyc && w8Form && githubHasWallet && invoice;
+    setClaimable(kyc && w8Form && githubHasWallet && invoice);
   }, [kyc, w8Form, githubHasWallet, invoice]);
 
   useEffect(() => {
@@ -120,7 +121,6 @@ const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, spl
             prUrl,
             tier
           );
-          console.log(result);
           resolve(result.transactionHash);
         } else {
           const result = await axios.post(
@@ -131,7 +131,7 @@ const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, spl
             },
             { withCredentials: true }
           );
-          resolve(result.txnHash);
+          resolve(result.data.txnHash);
         }
       } catch (e) {
         reject(e);
@@ -170,7 +170,7 @@ const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, spl
         },
       });
     } catch (err) {
-      if (bounty.bountyType === '2' || bounty.bountyType === '3') {
+      if (isContest(bounty)) {
         if (err.message.includes('TIER_ALREADY_CLAIMED')) {
           setClaimState(WITHDRAWAL_INELIGIBLE);
           setError({
@@ -188,9 +188,9 @@ const ClaimButton = ({ bounty, tooltipStyle, refreshBounty, setInternalMenu, spl
         logger.error(err, account, bounty.id);
         setClaimState(WITHDRAWAL_INELIGIBLE);
         setError({
-          message: err.response.data.errorMessage,
+          message: err?.response?.data?.errorMessage || 'Error claiming bounty',
           title: 'Error',
-          referencedPrs: err.response.data.referencedPrs,
+          referencedPrs: err?.response?.data?.referencedPrs || [],
         });
       }
     }
