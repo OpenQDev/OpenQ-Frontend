@@ -61,7 +61,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 
   // State
   const [error] = useState(renderError);
-  const [internalMenu, setInternalMenu] = useState();
+  const [internalMenu, setInternalMenu] = useState('View');
   const [, setJustMinted] = useState();
 
   // Refs
@@ -226,8 +226,8 @@ const address = ({ address, mergedBounty, renderError }) => {
                 colour='rust'
                 items={[
                   { name: 'View', Svg: Telescope },
-                  { name: 'Fund', Svg: Add },
-                  { name: 'Refund', Svg: Subtract },
+                  { name: bounty.issuer && 'Fund', Svg: bounty.issuer && Add },
+                  { name: bounty.issuer && 'Refund', Svg: bounty.issuer && Subtract },
                   ...submissions,
                   ...claim,
                   ...claimOverView,

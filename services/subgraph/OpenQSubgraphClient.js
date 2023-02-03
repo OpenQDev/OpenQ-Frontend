@@ -88,12 +88,13 @@ class OpenQSubgraphClient {
     return promise;
   }
 
-  async getBountyByGithubId(id) {
+  async getBountyByGithubId(id, fetchPolicy = 'cache-first') {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
           query: GET_BOUNTY_BY_ID,
           variables: { id },
+          fetchPolicy,
         });
         resolve(result.data.bounties[0] ? result.data.bounties[0] : null);
       } catch (e) {
