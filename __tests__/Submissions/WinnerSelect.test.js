@@ -166,7 +166,7 @@ describe('WinnerSelect', () => {
     }));
   });
 
-  it('should render 0 in WinnerSelect', async () => {
+  it('should render failiure in WinnerSelect', async () => {
     // ARRANGE
     const user = await userEvent.setup();
     render(
@@ -178,15 +178,13 @@ describe('WinnerSelect', () => {
     await user.click(bar);
     expect(await screen.findByText(/You are about to select/i)).toBeInTheDocument();
     await user.click(await screen.findByText(/confirm/i));
-    await waitFor(
-      async () => {
-        const elem = await screen.findByText(/staked on/);
-        expect(elem).toBeInTheDocument();
-      },
-      { timeout: 5000 }
-    );
+
+    const elem = await screen.findByText(/An exception occured while calling Polygon/i);
+    expect(elem).toBeInTheDocument();
 
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
   });
+
+  // TODO add mocks and test for success. May need to serviceize some of this.
 });

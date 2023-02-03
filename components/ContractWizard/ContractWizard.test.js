@@ -48,7 +48,7 @@ describe('ContractWizard', () => {
     await user.click(screen.getByText('No'));
     await user.click(screen.getByText('No'));
     await user.click(screen.getByText('Yes'));
-    expect(await screen.findByText(/Create a Fixed Contest Contract to send funds to any GitHub issue/i));
+    expect(await screen.findByText(/Create a Contest Contract to send funds to any GitHub issue/i));
   });
   it('should open wizard and direct to  contest contract', async () => {
     // ARRANGE

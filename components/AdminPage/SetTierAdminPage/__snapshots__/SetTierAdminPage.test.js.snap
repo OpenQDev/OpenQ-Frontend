@@ -459,7 +459,14 @@ exports[`SetTierAdminPage should match DOM and render "Which token?", "Volumes:"
     <div
       class="max-h-40 w-full flex flex-col gap-2 overflow-y-auto overflow-x-hidden"
     >
-      <div>
+      <div
+        class="flex gap-2 mr-10"
+      >
+        <div
+          class="w-10"
+        >
+          1st
+        </div>
         <div
           class="flex-1 w-11/12 mb-1 undefined"
         >
@@ -473,7 +480,14 @@ exports[`SetTierAdminPage should match DOM and render "Which token?", "Volumes:"
           />
         </div>
       </div>
-      <div>
+      <div
+        class="flex gap-2 mr-10"
+      >
+        <div
+          class="w-10"
+        >
+          2nd
+        </div>
         <div
           class="flex-1 w-11/12 mb-1 undefined"
         >
@@ -487,7 +501,14 @@ exports[`SetTierAdminPage should match DOM and render "Which token?", "Volumes:"
           />
         </div>
       </div>
-      <div>
+      <div
+        class="flex gap-2 mr-10"
+      >
+        <div
+          class="w-10"
+        >
+          3rd
+        </div>
         <div
           class="flex-1 w-11/12 mb-1 undefined"
         >
