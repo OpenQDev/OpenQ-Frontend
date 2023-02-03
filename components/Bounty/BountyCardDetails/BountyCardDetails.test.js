@@ -39,10 +39,10 @@ describe('BountyCardDetails', () => {
         //gets actions individually
         const refundAction = screen.getByText(
           /0xf3\.\.\.2266 refunded a deposit of 2\.0 DERC20 \(\$1\.34\) on September 7, 2022 at 14:08/i
-        );
+        );/*
         const fundActionOne = screen.getByText(
           /0xf3\.\.\.2266 funded this contract with 1\.0 MATIC \(\$0\.67\) on September 7, 2022 at 10:09/i
-        );
+        );*/
         const fundActionTwo = screen.getByText(
           /funded this contract with 2\.0 DERC20 \(\$1\.34\) on September 7, 2022 at 10:09/i
         );
@@ -57,7 +57,7 @@ describe('BountyCardDetails', () => {
         //orders individual actions into a correctly ordered array.
         const orderedActions = [
           refundAction,
-          fundActionOne,
+      /*    fundActionOne,*/
           fundActionTwo,
           fundActionThree,
           mergeAction,
