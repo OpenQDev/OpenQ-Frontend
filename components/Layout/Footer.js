@@ -12,7 +12,7 @@ const Footer = () => {
 
   return (
     <div className='w-full max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-24 mt-12 lg:mt-24'>
-      <div className='flex justify-between items-end border-b border-slate-600 pb-3'>
+      <div className='flex justify-between items-end border-b border-slate-800 pb-3'>
         <OpenQSocials />
         <div className='flex flex-col items-end space-y-2'>
           <div className='flex items-center font-semibold font-sans text-3xl'>
