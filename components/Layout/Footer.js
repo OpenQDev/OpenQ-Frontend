@@ -55,7 +55,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className='text-xs text-slate-800 flex flex-col items-center justify-center sm:flex-row pb-12 sm:space-x-6'>
+      <div className='text-sm text-slate-800 flex flex-col items-center justify-center sm:flex-row pb-12 sm:space-x-6'>
         <div>
           Build: production-1.0.22
         </div>
