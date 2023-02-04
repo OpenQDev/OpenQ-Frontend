@@ -13,7 +13,10 @@ exports[`KycRegistration should match initial DOM Snapshot 1`] = `
     <div>
       Due to current regulations, it may sometimes be necessary for you to perform a KYC registration to receive specific prizes displayed on OpenQ. We use the KycDAO process. You can learn more about it 
       <a
+        class="text-blue-500 hover:underline col-span-2"
         href="https://kycdao.xyz/home"
+        rel="noopener norefferer"
+        target="_blank"
       >
         here
       </a>

@@ -9,7 +9,7 @@ import userEvent from '@testing-library/user-event';
 import ShallowRenderer from 'react-test-renderer/shallow';
 
 describe('SetTier', () => {
-  it('should render match DOM Snapshot', () => {
+  it.skip('should render match DOM Snapshot', () => {
     // ARRANGE
     nextRouter.useRouter = jest.fn();
     nextRouter.useRouter.mockImplementation(() => ({

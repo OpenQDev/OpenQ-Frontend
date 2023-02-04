@@ -62,7 +62,7 @@ exports[`BountyModalHeading Snapshot should match DOM Snapshot 1`] = `
   <div
     className="sm:flex sm:flex-col items-center hidden sm:pr-8 justify-around"
   >
-    <Image
+    <ForwardRef
       alt="avatarUrl"
       className="rounded-full"
       height="62"
@@ -89,6 +89,7 @@ exports[`BountyModalHeading Snapshot should match DOM Snapshot 1`] = `
             undefined,
           ],
           "bountyType": "0",
+          "claims": [],
           "closed": true,
           "closedAt": "2022-03-28T17:57:44Z",
           "closedEvents": [

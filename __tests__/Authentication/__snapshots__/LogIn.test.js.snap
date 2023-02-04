@@ -1,18 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Login Snapshot should match DOM Snapshot 1`] = `
-<button
-  className="flex justify-center btn-default whitespace-nowrap w-full"
+<a
+  href="/login"
   onClick={[Function]}
   onMouseEnter={[Function]}
   onTouchStart={[Function]}
 >
-  <div
-    className="flex flex-row items-center justify-center space-x-3"
+  <button
+    className="flex justify-center btn-default whitespace-nowrap w-full"
   >
-    <div>
-      Log in
+    <div
+      className="flex flex-row items-center justify-center space-x-3"
+    >
+      <div>
+        Log in
+      </div>
     </div>
-  </div>
-</button>
+  </button>
+</a>
 `;

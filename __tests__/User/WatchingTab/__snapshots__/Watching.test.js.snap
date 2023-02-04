@@ -27,6 +27,7 @@ exports[`Watching should render match DOM Snapshot 1`] = `
             undefined,
           ],
           "bountyType": "0",
+          "claims": [],
           "closed": true,
           "closedAt": "2022-03-28T17:57:44Z",
           "closedEvents": [
@@ -192,6 +193,7 @@ exports[`Watching should render match DOM Snapshot 1`] = `
             undefined,
           ],
           "bountyType": "1",
+          "claims": [],
           "closed": true,
           "closedAt": "2022-03-28T17:57:44Z",
           "closedEvents": [
@@ -359,6 +361,7 @@ exports[`Watching should render match DOM Snapshot 1`] = `
             undefined,
           ],
           "bountyType": "2",
+          "claims": [],
           "closed": true,
           "closedAt": "2022-03-28T17:57:44Z",
           "closedEvents": [
@@ -529,6 +532,7 @@ exports[`Watching should render match DOM Snapshot 1`] = `
             undefined,
           ],
           "bountyType": "3",
+          "claims": [],
           "closed": true,
           "closedAt": "2022-03-28T17:57:44Z",
           "closedEvents": [
