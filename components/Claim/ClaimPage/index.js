@@ -8,13 +8,13 @@ import BountyClosed from '../../BountyClosed';
 import StoreContext from '../../../store/Store/StoreContext';
 import ConnectButton from '../../WalletConnect/ConnectButton';
 import AuthContext from '../../../store/AuthStore/AuthContext';
-import Invoicing from '../Invoicing';
+import InvoicingRequirement from './InvoicingRequirement';
 import W8Form from './W8Form';
 // import FreelancerDetails from '../../User/InvoicingDetailsTab/FreelancerDetails';
 // import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
 import KycRequirement from './KycRequirement';
 import GithubRequirement from './GithubRequirement';
-import ClaimButton from './ClaimButton/ClaimButton';
+import ClaimButton from './ClaimButton';
 import { isContest } from '../../../services/utils/lib';
 // import { ChevronUpIcon, ChevronDownIcon } from '@primer/octicons-react';
 
@@ -117,7 +117,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claim
             {bounty.kycRequired && <KycRequirement setKycVerified={setKycVerified} />}
             {bounty.supportingDocumentsRequired && <W8Form bounty={bounty} />}
             {isContest(bounty) && <GithubRequirement setGithubHasWalletVerified={setGithubHasWalletVerified} />}
-            <Invoicing bounty={bounty} />
+            <InvoicingRequirement bounty={bounty} />
             <section className='flex flex-col gap-3'>
               <h4 className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>Claim Your Rewards</h4>
               <div className='flex flex-col gap-2'>

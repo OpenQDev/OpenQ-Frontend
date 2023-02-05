@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AddSkill from './AddSkill';
+import AddSkill from '../AddSkill';
 
 const LanguagesAndFrameworks = ({ user }) => {
   const languages = [

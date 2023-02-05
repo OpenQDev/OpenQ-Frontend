@@ -4,7 +4,7 @@ import searchTagInBounty from './searchTagInBounty';
 
 //const [appState] = useContext(StoreContext);
 const searchRegex = /label:"[^"]+"/gi;
-
+// TODO refactor into smaller bounties and test.
 const filterBounties = (
   bounties,
   options,

@@ -1,6 +1,6 @@
 import React from 'react';
-import Alert from '../../components/svg/alert';
-import Cross from '../../components/svg/cross';
+import Alert from '../../svg/alert';
+import Cross from '../../svg/cross';
 
 const LoadingBar = ({ loadingBar, changeText }) => {
   return (

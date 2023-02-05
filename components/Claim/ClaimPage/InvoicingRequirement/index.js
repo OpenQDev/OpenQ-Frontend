@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import StoreContext from '../../../store/Store/StoreContext';
+import StoreContext from '../../../../store/Store/StoreContext';
 import Link from 'next/link';
 import axios from 'axios';
 import { MailIcon } from '@primer/octicons-react';
@@ -9,7 +9,7 @@ import {
   NOT_INVOICEABLE,
   NO_DEPOSITS,
   MISSING_FIELDS,
-} from '../../../constants/invoiceableResponses';
+} from '../../../../constants/invoiceableResponses';
 
 const Invoicing = ({ bounty }) => {
   const [appState] = useContext(StoreContext);

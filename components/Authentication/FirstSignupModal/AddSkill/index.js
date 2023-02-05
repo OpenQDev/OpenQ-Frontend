@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import StoreContext from '../../../store/Store/StoreContext';
-import Cross from '../../svg/cross';
+import StoreContext from '../../../../store/Store/StoreContext';
+import Cross from '../../../svg/cross';
 
 const AddSkill = ({ category, user, childInfo, setInputValue }) => {
   const [roles, setRoles] = useState(user[category].map((item) => item.toLowerCase()));
@@ -12,23 +12,6 @@ const AddSkill = ({ category, user, childInfo, setInputValue }) => {
       addRole(childInfo[0]);
     }
   }, [childInfo]);
-
-  const addRole = async (role) => {
-    const emptyOrExists = roles.includes(role.toLowerCase()) || '';
-    if (emptyOrExists) return;
-    const newRoles = [...roles, role.toLowerCase()];
-    try {
-      await updateApiAndState(newRoles, category);
-    } catch (err) {
-      appState.logger.error(err, accountData.id, 'AddSkill.js1');
-    }
-    setInputValue('');
-  };
-  const removeRole = (e, removedRole) => {
-    e.preventDefault();
-    const newRoles = roles.filter((role) => role !== removedRole);
-    updateApiAndState(newRoles, category);
-  };
 
   const updateApiAndState = async (newRoles, category) => {
     const userValues = accountData.github
@@ -44,6 +27,23 @@ const AddSkill = ({ category, user, childInfo, setInputValue }) => {
     if (updateUser) {
       setRoles(newRoles);
     }
+  };
+
+  const addRole = async (role) => {
+    const emptyOrExists = roles.includes(role.toLowerCase()) || '';
+    if (emptyOrExists) return;
+    const newRoles = [...roles, role.toLowerCase()];
+    try {
+      await updateApiAndState(newRoles, category);
+    } catch (err) {
+      appState.logger.error(err, accountData.id, 'AddSkill.js1');
+    }
+    if (typeof setInputValue === 'function') setInputValue('');
+  };
+  const removeRole = (e, removedRole) => {
+    e.preventDefault();
+    const newRoles = roles.filter((role) => role !== removedRole);
+    updateApiAndState(newRoles, category);
   };
   return (
     <>

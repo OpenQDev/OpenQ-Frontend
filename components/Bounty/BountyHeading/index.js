@@ -7,7 +7,7 @@ import StoreContext from '../../../store/Store/StoreContext';
 import useDisplayValue from '../../../hooks/useDisplayValue';
 import RefreshBounty from './RefreshBounty';
 import { getBountyMarker } from '../../..//services/utils/lib';
-import ClaimButton from '../../Claim/ClaimPage/ClaimButton/ClaimButton';
+import ClaimButton from '../../Claim/ClaimPage/ClaimButton';
 import { checkClaimable } from '../../../services/utils/lib';
 
 const BountyHeading = ({
