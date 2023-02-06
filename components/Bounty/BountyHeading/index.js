@@ -6,8 +6,8 @@ import MintBountyButton from '../../MintBounty/MintBountyButton';
 import StoreContext from '../../../store/Store/StoreContext';
 import useDisplayValue from '../../../hooks/useDisplayValue';
 import RefreshBounty from './RefreshBounty';
-import { getBountyMarker } from '../../..//services/utils/lib';
-import ClaimButton from '../../Claim/ClaimPage/ClaimButton';
+import { getBountyMarker } from '../../../services/utils/lib';
+import ClaimButton from '../../Claim/ClaimPage/ClaimButton/ClaimButton';
 import { checkClaimable } from '../../../services/utils/lib';
 
 const BountyHeading = ({
