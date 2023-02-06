@@ -8,7 +8,7 @@ import useDisplayValue from '../../../hooks/useDisplayValue';
 import RefreshBounty from './RefreshBounty';
 import { getBountyMarker } from '../../../services/utils/lib';
 import ClaimButton from '../../Claim/ClaimPage/ClaimButton';
-import { checkClaimable, isEveryValueNotNull } from '../../../services/utils/lib';
+import { checkClaimable } from '../../../services/utils/lib';
 
 const BountyHeading = ({
   bounty,
@@ -25,7 +25,6 @@ const BountyHeading = ({
   const totalPrice = useDisplayValue(bounty, appState.utils.formatter.format);
   const { status } = checkClaimable(bounty, appState.accountData?.github, appState.openQClient);
   const claimable = status === 'Claimable';
-  const canClaim = isEveryValueNotNull(claimReqsCompleted);
 
   return (
     <div className='sm:px-8 px-4 w-full max-w-[1200px] pb-2'>
@@ -49,7 +48,7 @@ const BountyHeading = ({
               tooltipStyle={'-right-2'}
               refreshBounty={refreshBounty}
               setInternalMenu={setInternalMenu}
-              claimable={canClaim}
+              claimable={claimReqsCompleted}
               split={split}
               price={price}
             />

@@ -18,7 +18,7 @@ import ClaimButton from './ClaimButton';
 import { isContest, isEveryValueNotNull } from '../../../services/utils/lib';
 // import { ChevronUpIcon, ChevronDownIcon } from '@primer/octicons-react';
 
-const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claimState }) => {
+const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claimState, showClaimPage }) => {
   const [appState] = useContext(StoreContext);
 
   const { accountData } = appState;
@@ -94,7 +94,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claim
     // rewards are claimable
     return (
       <>
-        <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px]'>
+        <div className={`flex-1 pt-4 pb-8 w-full max-w-[1200px] ${!showClaimPage && 'hidden'}`}>
           <div className='flex flex-col w-full space-y-2 rounded-sm gap-4'>
             <div
               className={`${
@@ -134,6 +134,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claim
               <div>We noticed you are not signed into Github. You must sign to verify and claim an issue!</div>
             ) : null}
             <ConnectButton needsGithub={true} nav={false} tooltipAction={'claim this contract!'} hideSignOut={true} />
+            {console.log('claimable', claimable)}
             <ClaimButton
               claimable={claimable}
               bounty={bounty}

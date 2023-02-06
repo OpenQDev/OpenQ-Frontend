@@ -46,8 +46,6 @@ const ClaimButton = ({
   const budgetValues = useDisplayValue(bounty, appState.utils.formatter.format, 'budget');
   const budget = budgetValues?.value;
   const canClaim = isEveryValueNotNull(claimable);
-  console.log(canClaim);
-  console.log(claimable);
 
   const getRequiredText = (claimable) => {
     let kyc, w8Form, githubHasWallet, invoice;
@@ -55,8 +53,6 @@ const ClaimButton = ({
     w8Form = claimable?.w8Form ?? null;
     githubHasWallet = claimable?.githubHasWallet ?? null;
     invoice = claimable?.invoice ?? null;
-    console.log(githubHasWallet, 'githubHasWallet');
-
     switch (null) {
       case githubHasWallet:
         return 'You must have a wallet connected to your GitHub account to claim this bounty.';
@@ -73,7 +69,6 @@ const ClaimButton = ({
     }
   };
   const claimValuesRequiredText = getRequiredText(claimable);
-  console.log('claimValuesRequiredText', claimValuesRequiredText);
 
   const targetTier = bounty.tierWinners?.indexOf(accountData.github);
 
