@@ -5,8 +5,8 @@
 import React from 'react';
 import { render, screen } from '../../../../test-utils';
 import userEvent from '@testing-library/user-event';
-import AddSplitPriceParams from '.';
 import MintContext from '../../MintContext';
+import Budgeting from '.';
 // Test cases for full balances, empty balances, and undefined balances.
 describe('sample', () => {
   beforeEach(() => {
@@ -33,22 +33,25 @@ describe('sample', () => {
         path: 'https://wallet-asset.matic.network/img/tokens/eth.svg',
         symbol: 'WETH',
       },
-      type: 'UPDATE_PAYOUT_TOKEN',
+      type: 'UPDATE_GOAL_TOKEN',
     };
-    const updateVolumePayload = { payload: '2', type: 'UPDATE_PAYOUT_VOLUME' };
+
+    const updateVolumePayload = { payload: '2', type: 'UPDATE_GOAL_VOLUME' };
     render(
       <MintContext.Provider value={[mintState, mintDispatch]}>
-        <AddSplitPriceParams />
+        <Budgeting />
       </MintContext.Provider>
     );
 
     // ASSERT
-    expect(screen.getByText(/reward split/i)).toBeInTheDocument();
-    expect(screen.getByRole('img')).toBeInTheDocument();
+    expect(screen.getByText(/Set a Budget/i)).toBeInTheDocument();
+    expect(screen.getByText(/How much will each successful submitter earn?/i)).toBeInTheDocument();
+    await user.click(screen.getByRole('checkbox'));
+
     const button = screen.getByRole('button', { name: 'select token' });
     expect(button).toBeInTheDocument();
     await user.click(button);
-    user.click(screen.getByText(/weth/i));
+    await user.click(screen.getByText(/weth/i));
     await user.type(screen.getAllByRole('textbox')[0], '20');
     expect(mintDispatch).toHaveBeenCalledWith(updateToEthPayload);
     expect(mintDispatch).toHaveBeenCalledWith(updateVolumePayload);
