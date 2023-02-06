@@ -45,7 +45,7 @@ const address = ({ address, mergedBounty, renderError }) => {
   const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
   const { status } = checkClaimable(bounty, accountData?.github, openQClient);
   const claimable = status === 'Claimable';
-  const claimState = useState();
+  const claimState = useState({});
   const { account } = useWeb3();
 
   const createRewardSplit = (bounty) => {

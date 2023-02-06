@@ -99,7 +99,7 @@ export const GET_BOUNTY = gql`
       invoiceRequired
       invoiceCompleted
       kycRequired
-      alternativeUrl
+      alternativeLogo
       alternativeName
       claims(orderBy: "claimTime", orderDirection: "desc") {
         claimTime

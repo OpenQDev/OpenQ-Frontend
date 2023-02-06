@@ -15,7 +15,7 @@ import W8Form from './W8Form';
 import KycRequirement from './KycRequirement';
 import GithubRequirement from './GithubRequirement';
 import ClaimButton from './ClaimButton';
-import { isContest } from '../../../services/utils/lib';
+import { isContest, isEveryValueNotNull } from '../../../services/utils/lib';
 // import { ChevronUpIcon, ChevronDownIcon } from '@primer/octicons-react';
 
 const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claimState }) => {
@@ -47,11 +47,12 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claim
   let githubHasWallet = bounty.bountyType == 0 || bounty.bountyType == 1 || githubHasWalletVerified;
 
   const [claimable, setClaimable] = claimState;
+  const canClaim = isEveryValueNotNull(claimable);
   const hasRequirements =
     bounty.kycRequired || bounty.supportingDocumentsRequired || bounty.invoiceRequired || isContest(bounty);
 
   useEffect(() => {
-    setClaimable(kyc && w8Form && githubHasWallet && invoice);
+    setClaimable({ kyc, w8Form, githubHasWallet, invoice });
   }, [kyc, w8Form, githubHasWallet, invoice]);
 
   /* const accountKeys = [
@@ -97,10 +98,10 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claim
           <div className='flex flex-col w-full space-y-2 rounded-sm gap-4'>
             <div
               className={`${
-                claimable ? 'border-green bg-green-inside' : 'bg-info border-info-strong'
+                canClaim ? 'border-green bg-green-inside' : 'bg-info border-info-strong'
               } border-2 p-3 rounded-sm`}
             >
-              {claimable ? (
+              {canClaim ? (
                 'Congratulations, you can now claim your bounty!'
               ) : (
                 <>

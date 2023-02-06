@@ -17,7 +17,7 @@ import {
 } from '../../ClaimStates.js';
 import useEns from '../../../../hooks/useENS';
 import useDisplayValue from '../../../../hooks/useDisplayValue';
-import { isContest } from '../../../../services/utils/lib';
+import { isContest, isEveryValueNotNull } from '../../../../services/utils/lib';
 
 const ClaimButton = ({
   bounty,
@@ -45,6 +45,35 @@ const ClaimButton = ({
 
   const budgetValues = useDisplayValue(bounty, appState.utils.formatter.format, 'budget');
   const budget = budgetValues?.value;
+  const canClaim = isEveryValueNotNull(claimable);
+  console.log(canClaim);
+  console.log(claimable);
+
+  const getRequiredText = (claimable) => {
+    let kyc, w8Form, githubHasWallet, invoice;
+    kyc = claimable?.kyc ?? null;
+    w8Form = claimable?.w8Form ?? null;
+    githubHasWallet = claimable?.githubHasWallet ?? null;
+    invoice = claimable?.invoice ?? null;
+    console.log(githubHasWallet, 'githubHasWallet');
+
+    switch (null) {
+      case githubHasWallet:
+        return 'You must have a wallet connected to your GitHub account to claim this bounty.';
+      case kyc:
+        return 'You must complete KYC to claim this bounty.';
+
+      case w8Form:
+        return 'You must complete a W8 form to claim this bounty.';
+
+      case invoice:
+        return 'You must complete an invoice to claim this bounty.';
+      default:
+        return '';
+    }
+  };
+  const claimValuesRequiredText = getRequiredText(claimable);
+  console.log('claimValuesRequiredText', claimValuesRequiredText);
 
   const targetTier = bounty.tierWinners?.indexOf(accountData.github);
 
@@ -160,21 +189,21 @@ const ClaimButton = ({
           relativePosition={tooltipStyle}
           triangleStyles={'left-3'}
           outerStyles={'relative bottom-1'}
-          hideToolTip={price >= budget && price > 0 && claimable}
+          hideToolTip={price >= budget && price > 0 && canClaim}
           toolTipText={
             price >= budget && price > 0
-              ? 'Please first go through all the required steps before you can claim your rewards.'
+              ? claimValuesRequiredText
               : 'There are not enough funds locked to claim, contact the maintainer of this issue.'
           }
         >
           <button
             type='submit'
             className={
-              price >= budget && price > 0 && claimable
+              price >= budget && price > 0 && canClaim
                 ? 'btn-primary cursor-pointer w-fit'
                 : 'btn-default cursor-not-allowed'
             }
-            disabled={!(price >= budget && price > 0 && claimable)}
+            disabled={!(price >= budget && price > 0 && canClaim)}
             onClick={() => setShowClaimLoadingModal(true)}
           >
             <div className='flex gap-2 items-center'>
