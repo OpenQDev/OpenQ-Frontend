@@ -33,6 +33,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 1`] = `
               undefined,
             ],
             "bountyType": "2",
+            "claims": [],
             "closed": true,
             "closedAt": "2022-03-28T17:57:44Z",
             "closedEvents": [
@@ -223,7 +224,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 1`] = `
         }
         prize={
           {
-            "claimed": undefined,
+            "claimed": false,
             "index": 2,
             "payout": "10",
           }
@@ -249,6 +250,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 1`] = `
               undefined,
             ],
             "bountyType": "2",
+            "claims": [],
             "closed": true,
             "closedAt": "2022-03-28T17:57:44Z",
             "closedEvents": [
@@ -439,7 +441,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 1`] = `
         }
         prize={
           {
-            "claimed": undefined,
+            "claimed": false,
             "index": 0,
             "payout": "30",
           }
@@ -465,6 +467,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 1`] = `
               undefined,
             ],
             "bountyType": "2",
+            "claims": [],
             "closed": true,
             "closedAt": "2022-03-28T17:57:44Z",
             "closedEvents": [
@@ -655,7 +658,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 1`] = `
         }
         prize={
           {
-            "claimed": undefined,
+            "claimed": false,
             "index": 1,
             "payout": "60",
           }
@@ -699,6 +702,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
               undefined,
             ],
             "bountyType": "3",
+            "claims": [],
             "closed": true,
             "closedAt": "2022-03-28T17:57:44Z",
             "closedEvents": [
@@ -889,7 +893,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
         }
         prize={
           {
-            "claimed": undefined,
+            "claimed": false,
             "index": 2,
             "payout": "10",
           }
@@ -915,6 +919,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
               undefined,
             ],
             "bountyType": "3",
+            "claims": [],
             "closed": true,
             "closedAt": "2022-03-28T17:57:44Z",
             "closedEvents": [
@@ -1105,7 +1110,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
         }
         prize={
           {
-            "claimed": undefined,
+            "claimed": false,
             "index": 0,
             "payout": "30",
           }
@@ -1131,6 +1136,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
               undefined,
             ],
             "bountyType": "3",
+            "claims": [],
             "closed": true,
             "closedAt": "2022-03-28T17:57:44Z",
             "closedEvents": [
@@ -1321,7 +1327,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
         }
         prize={
           {
-            "claimed": undefined,
+            "claimed": false,
             "index": 1,
             "payout": "60",
           }

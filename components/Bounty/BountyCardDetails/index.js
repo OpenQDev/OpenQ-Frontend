@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 // Custom
 
@@ -6,7 +6,12 @@ import ActionBubble from '../../Utils/ActionBubble';
 import StoreContext from '../../../store/Store/StoreContext';
 
 const BountyCardDetails = ({ bounty }) => {
+  const [rendered, setRendered] = useState(false);
   const [appState] = useContext(StoreContext);
+
+  useEffect(() => {
+    setRendered(true);
+  }, []);
   const prs = bounty.prs.map((pr) => {
     const referencedTime = new Date(pr.referencedAt).getTime() / 1000;
 
@@ -58,10 +63,14 @@ const BountyCardDetails = ({ bounty }) => {
 
   return (
     <div className='flex-1 pr-4 min-w-[260px]'>
-      {allActions.map((action, index) => (
-        <ActionBubble suppressHydrationWarning key={index} bounty={bounty} action={action} />
-      ))}
-      <ActionBubble suppressHydrationWarning bounty={bounty} />
+      {rendered && (
+        <>
+          {allActions.map((action, index) => (
+            <ActionBubble suppressHydrationWarning key={index} bounty={bounty} action={action} />
+          ))}
+          <ActionBubble suppressHydrationWarning bounty={bounty} />
+        </>
+      )}
     </div>
   );
 };

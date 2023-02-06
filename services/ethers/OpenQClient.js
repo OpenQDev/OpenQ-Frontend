@@ -79,8 +79,8 @@ class OpenQClient {
     invoiceable,
     kycRequired,
     supportingDocumentsRequired,
-    alternativeName,
-    alternativeLogo,
+    alternativeName = '',
+    alternativeLogo = '',
     data
   ) => {
     const promise = new Promise(async (resolve, reject) => {

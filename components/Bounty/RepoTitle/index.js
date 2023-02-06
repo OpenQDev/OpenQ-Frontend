@@ -28,7 +28,7 @@ const RepoTitle = ({ bounty }) => {
               >
                 <span className='text-link-colour hover:underline cursor-pointer'>{bounty.repoName}</span>
               </Link>
-              {bounty.alternativeTitle && ` ( ${bounty.alternativeTitle} ) `}
+              {bounty.alternativeName && ` ( ${bounty.alternativeName} ) `}
             </span>
           )}
         </div>

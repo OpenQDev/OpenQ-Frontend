@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BountyAlreadyMintedMessage should match DOM Snapshot and msg "closed"  1`] = `
+<div
+  className="flex flex-row items-center space-x-1"
+>
+  <div
+    className=""
+  >
+    Bounty is already 
+    closed
+    , view
+     
+    <a
+      className="cursor-pointer text-blue-500 hover:underline"
+      href="/contract/I_kwDOGAqhQc48U5_r/0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onTouchStart={[Function]}
+      rel="noreferrer"
+      target="_blank"
+    >
+      <span
+        data-testid="link"
+      >
+        here
+      </span>
+    </a>
+    .
+  </div>
+</div>
+`;
+
+exports[`BountyAlreadyMintedMessage should match DOM Snapshot and msg "is already minted"  1`] = `
+<div
+  className="flex flex-row items-center space-x-1"
+>
+  <div
+    className=""
+  >
+    Bounty is already 
+    minted
+    , view
+     
+    <a
+      className="cursor-pointer text-blue-500 hover:underline"
+      href="/contract/I_kwDOGAqhQc48U5_r/0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onTouchStart={[Function]}
+      rel="noreferrer"
+      target="_blank"
+    >
+      <span
+        data-testid="link"
+      >
+        here
+      </span>
+    </a>
+    .
+  </div>
+</div>
+`;

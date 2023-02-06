@@ -879,8 +879,14 @@ export default class Constants {
       issuer: Constants.issuer,
       bountyType: Constants.bountyTypeFixed,
       fundingGoalTokenAddress: Constants.zeroAddress,
+      claims: Constants.claims,
     };
   }
+
+  static get claims() {
+    return [];
+  }
+
   static get bountyClaimOverview() {
     return {
       id: 'I_kwDOGWnnz85Z_0oY',
