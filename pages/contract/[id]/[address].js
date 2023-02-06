@@ -198,6 +198,8 @@ const address = ({ address, mergedBounty, renderError }) => {
 
   // User Methods
 
+  console.log(bounty);
+
   // Render
   if (error) {
     return <UnexpectedErrorModal error={error} />;
