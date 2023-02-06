@@ -301,5 +301,22 @@ class MockGithubRepository {
 		return organizations;
 	}
 
+		async getOrgByUrl(url) {
+		const promise = new Promise((resolve) => {
+			axios.get(`http://localhost:3030/githubOrganizations/MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4`)
+				.then(result => {
+					resolve(result.data);
+				})
+				.catch(error => {
+					resolve(null, orgFromGithubURl)
+				});
+		});
+
+		return promise;
+	
+	}
+
+
+
 }
 export default MockGithubRepository;
