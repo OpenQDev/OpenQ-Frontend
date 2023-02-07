@@ -167,15 +167,21 @@ const W8Form = ({ bounty }) => {
         </svg>
       </div>
       <form onSubmit={handleSend} className='flex gap-2'>
-        <label htmlFor='file input' className={`relative cursor-pointer ${file ? 'btn-verified' : 'btn-requirements'}`}>
+        <label
+          htmlFor='file input'
+          className={`relative ${sent ? 'cursor-not-allowed' : 'cursor-pointer'} ${
+            file || sent ? 'btn-verified' : 'btn-requirements'
+          }`}
+        >
           <div className='flex w-28 gap-2 z-20 py-0.5 items-center'>
-            {file ? (
+            {file || sent ? (
               <>
-                <CheckIcon size={16} /> Change File{' '}
+                <CheckIcon size={16} /> {sent ? 'File Sent' : 'Change File'}
               </>
             ) : (
               <>
-                <UploadIcon size={16} /> Choose File
+                <UploadIcon size={16} />
+                Choose File
               </>
             )}
           </div>
