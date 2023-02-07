@@ -154,7 +154,7 @@ const AssociateAddress = ({ githubId, user }) => {
   );
 
   return (
-    <div className='sm:flex flex-wrap py-8 gap-y-4 border-b border-web-gray'>
+    <div className='sm:flex flex-wrap py-8 gap-y-4'>
       <div ref={canvas}></div>
       {user ? (
         <div className='flex flex-col gap-4'>
@@ -164,7 +164,7 @@ const AssociateAddress = ({ githubId, user }) => {
               github!
             </div>
           ) : null}
-          <h2 className='text-2xl pb-4 font-semibold'>Link Address to Github</h2>
+          <h2 className='text-2xl pb-4 font-semibold border-b border-gray-700'>Link Address to Github</h2>
           <div>
             Link your address here in order to receive prize payouts in our seasonal hackathons! You can change this at
             any time.
