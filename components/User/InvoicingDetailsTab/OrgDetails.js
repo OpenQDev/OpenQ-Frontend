@@ -103,11 +103,12 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
     <div className={`${!slim && 'px-8'} py text-lg`}>
       {!slim && (
         <>
-          <div className='flex flex-col flex-1 font-normal pb-16'></div>
-          <div className='border-b border-web-gray'>
-            <h2 className='text-2xl pb-2'>Organization Invoicing Information</h2>
+          <div className='flex justify-between mt-12'>
+            <h2 className='flex justify-between w-full text-2xl pb-4 font-semibold border-b border-gray-700'>
+              Organization Invoicing Information
+            </h2>
           </div>
-          <div className='note'>
+          <div className='mt-4 note'>
             OpenQ will use these values to generate invoices when the contracts you fund
             {slim && ' (including this one)'} are payed out.
           </div>
