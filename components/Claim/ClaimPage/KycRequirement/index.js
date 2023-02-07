@@ -21,7 +21,7 @@ const KycRequirement = ({ setKycVerified }) => {
     }
     if (successResponse) {
       setStage('verified');
-      setKycVerified(true);
+      setKycVerified && setKycVerified(true);
       setError('');
       setSuccessResponse(null);
     }
@@ -60,7 +60,7 @@ const KycRequirement = ({ setKycVerified }) => {
       const transaction = await appState.openQClient.hasKYC(library, account);
       if (transaction) {
         setStage('verified');
-        setKycVerified(true);
+        setKycVerified && setKycVerified(true);
         setError('');
       }
     } catch (err) {
