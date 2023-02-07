@@ -133,6 +133,8 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, centerStyles }) => {
                         className='h-3 w-3'
                         fill='none'
                         viewBox='0 0 24 24'
+                        width='24'
+                        height='24'
                         stroke='white'
                         strokeWidth='3'
                       >
@@ -206,6 +208,8 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, centerStyles }) => {
                       className='h-3 w-3'
                       fill='none'
                       viewBox='0 0 24 24'
+                      width='24'
+                      height='24'
                       stroke='white'
                       strokeWidth='3'
                     >
