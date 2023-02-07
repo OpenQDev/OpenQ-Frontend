@@ -2,40 +2,60 @@
 
 exports[`NavLinks should match DOM Snapshot 1`] = `
 [
-  <span
+  <a
+    className="nav-link ml-1 $ false"
+    href="/"
     onClick={[Function]}
     onMouseEnter={[Function]}
     onTouchStart={[Function]}
   >
-     Explore
-  </span>,
-  <span
+    <span>
+       Explore
+    </span>
+  </a>,
+  <a
+    className="nav-link $ false"
+    href="/fixed-price"
     onClick={[Function]}
     onMouseEnter={[Function]}
     onTouchStart={[Function]}
   >
-     Fixed Price
-  </span>,
-  <span
+    <span>
+       Fixed Price
+    </span>
+  </a>,
+  <a
+    className="nav-link $ false"
+    href="/split-price"
     onClick={[Function]}
     onMouseEnter={[Function]}
     onTouchStart={[Function]}
   >
-     Split Price
-  </span>,
-  <span
+    <span>
+       Split Price
+    </span>
+  </a>,
+  <a
+    className="nav-link $ false"
+    href="/contests"
     onClick={[Function]}
     onMouseEnter={[Function]}
     onTouchStart={[Function]}
   >
-     Contests
-  </span>,
-  <span
+    <span>
+       Contests
+    </span>
+  </a>,
+  <a
+    className="nav-link $ false"
+    href="/non-profit"
     onClick={[Function]}
     onMouseEnter={[Function]}
     onTouchStart={[Function]}
   >
-     Non-Profit
-  </span>,
+    <span>
+       Non-Profit
+    </span>
+  </a>,
 ]
 `;

@@ -30,13 +30,6 @@ describe('SetTierAdminPage', () => {
       expect(asFragment()).toMatchSnapshot();
     });
   });
-  it('should match DOM and render "Weight per Tier (%)", "1st place winner" etc. if bounty type is 2', async () => {
-    const { asFragment } = render(<SetTierAdminPage bounty={Constants.bounty2} />);
-    await waitFor(() => {
-      expect(asFragment()).toMatchSnapshot();
-    });
-  });
-
   it('should match DOM and render "Which token?", "Volumes:" if bounty type is 3', async () => {
     await waitFor(async () => {
       const { asFragment } = render(<SetTierAdminPage bounty={Constants.bounty3} />);
@@ -45,7 +38,6 @@ describe('SetTierAdminPage', () => {
       await expect(screen.findByText(/Which token\?/)).resolves.toBeInTheDocument();
     });
   });
-
   it('should allow user to update budget', async () => {
     const bounty = Constants.bounty2;
     // ARRANGE

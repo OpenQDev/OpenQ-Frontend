@@ -196,3 +196,7 @@ export const getW8Approved = (bounty, accountData) => {
     return bounty.supportingDocumentsCompleted;
   }
 };
+
+export const isContest = (bounty) => {
+  return bounty.bountyType === '2' || bounty.bountyType === '3';
+};

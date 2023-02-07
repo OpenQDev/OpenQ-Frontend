@@ -11,11 +11,10 @@ const Blacklisting = () => {
   const [blacklistingIssue, setBlacklistingIssue] = useState(true);
   const [issueSuccess, setIssueSuccess] = useState();
   const [blacklistingOrg, setBlacklistingOrg] = useState(true);
-  const [orgSuccess, setOrgSuccess] = useState();
+  const [orgSuccess] = useState();
 
   const handleOrgBlacklist = async () => {
     // TODO: add org blacklist
-    console.log(setOrgSuccess);
   };
   const handleIssueBlacklist = async () => {
     try {

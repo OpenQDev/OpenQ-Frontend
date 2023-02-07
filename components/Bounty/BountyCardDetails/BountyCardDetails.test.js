@@ -53,6 +53,7 @@ describe('BountyCardDetails', () => {
         const closedAction = screen.getByText(/FlacoJones closed this issue on March 28, 2022 at 17:57/i);
         const linkedAction = screen.getByText(/FlacoJones linked/i);
         const mintedAction = screen.getByText(/0xf3\.\.\.2266 minted this contract on September 7, 2022 at 10:09/i);
+        expect(mintedAction).toBeInTheDocument();
 
         //orders individual actions into a correctly ordered array.
         const orderedActions = [

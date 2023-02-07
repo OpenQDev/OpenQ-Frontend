@@ -28,13 +28,16 @@ describe('ClaimPage', () => {
   jest.mock('axios');
   axios.get = jest.fn().mockResolvedValue({ data: { data: 'true' } });
 
+  const claimable = true;
+  const setClaimable = jest.fn();
+
   beforeEach(() => {
     InitialState.openQClient.reset();
   });
   it('should render the headings when ready to claim', async () => {
     // ARRANGE
     const user = userEvent.setup();
-    render(<ClaimPage bounty={bounty} price={100} />);
+    render(<ClaimPage claimState={[claimable, setClaimable]} bounty={bounty} price={100} />);
 
     // ACT
     const claimTitle = await screen.findByText('Claim Your Rewards');
@@ -54,7 +57,7 @@ describe('ClaimPage', () => {
   it('should deactivate claim when TVL is zero', async () => {
     // ARRANGE
     const user = userEvent.setup();
-    render(<ClaimPage bounty={bounty} price={0} />);
+    render(<ClaimPage claimState={[claimable, setClaimable]} bounty={bounty} price={0} />);
 
     // ACT
     const claimTitle = await screen.findByText('Claim Your Rewards');
@@ -63,7 +66,7 @@ describe('ClaimPage', () => {
 
     // ASSERT
     const tooltip = await screen.findByText(
-      'There are no funds locked to claim, contact the maintainer of this issue.'
+      /There are not enough funds locked to claim, contact the maintainer of this issue./
     );
     expect(claimTitle).toBeInTheDocument();
     expect(tooltip).toBeInTheDocument();

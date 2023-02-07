@@ -11,7 +11,7 @@ import ReactGA from 'react-ga4';
 import StoreContext from '../../../store/Store/StoreContext';
 import LabelsList from '../../Bounty/LabelsList';
 import useDisplayValue from '../../../hooks/useDisplayValue';
-import { getBountyMarker } from '../../..//services/utils/lib';
+import { getBountyMarker } from '../../../services/utils/lib';
 
 const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
   // State
@@ -103,7 +103,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                 <span data-testid='repo'>
                   {bounty.owner &&
                     `${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}${
-                      bounty.alternativeTitle ? ` ( ${bounty.alternativeTitle} )` : ''
+                      bounty.alternativeName ? ` ( ${bounty.alternativeName} )` : ''
                     }`}
                 </span>
                 <span></span>
@@ -164,10 +164,10 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
             <div className='flex flex-col w-1/4 sm:w-1/2 justify-between items-end leading-tight '>
               <div className='sm:block hidden'>
                 {' '}
-                {bounty?.avatarUrl || bounty?.alternativeSrc ? (
+                {bounty?.avatarUrl || bounty?.alternativeLogo ? (
                   <Image
                     className='rounded-full '
-                    src={bounty?.alternativeSrc || bounty?.avatarUrl}
+                    src={bounty?.alternativeLogo || bounty?.avatarUrl}
                     alt='avatarUrl'
                     width='51'
                     height='51'

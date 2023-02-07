@@ -6,11 +6,19 @@ import MintBountyButton from '../../MintBounty/MintBountyButton';
 import StoreContext from '../../../store/Store/StoreContext';
 import useDisplayValue from '../../../hooks/useDisplayValue';
 import RefreshBounty from './RefreshBounty';
-import { getBountyMarker } from '../../..//services/utils/lib';
-import ClaimButton from '../../Claim/ClaimPage/ClaimButton/ClaimButton';
+import { getBountyMarker } from '../../../services/utils/lib';
+import ClaimButton from '../../Claim/ClaimPage/ClaimButton';
 import { checkClaimable } from '../../../services/utils/lib';
 
-const BountyHeading = ({ bounty, refreshGithubBounty, refreshBounty, setInternalMenu, split, price }) => {
+const BountyHeading = ({
+  bounty,
+  refreshGithubBounty,
+  refreshBounty,
+  setInternalMenu,
+  split,
+  price,
+  claimReqsCompleted,
+}) => {
   const [appState] = useContext(StoreContext);
   const githubId = appState.accountData.github;
   const marker = getBountyMarker(bounty, appState.openQClient, githubId);
@@ -40,6 +48,7 @@ const BountyHeading = ({ bounty, refreshGithubBounty, refreshBounty, setInternal
               tooltipStyle={'-right-2'}
               refreshBounty={refreshBounty}
               setInternalMenu={setInternalMenu}
+              claimable={claimReqsCompleted}
               split={split}
               price={price}
             />

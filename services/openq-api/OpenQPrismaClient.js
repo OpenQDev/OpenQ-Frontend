@@ -112,8 +112,8 @@ class OpenQPrismaClient {
         });
         resolve({
           ...result.data.bounty,
-          alternativeTitle: '',
-          alternativeSrc: '',
+          alternativeName: '',
+          alternativeLogo: '',
         });
       } catch (e) {
         reject(e);
@@ -318,7 +318,7 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async getUser(idObject, types, category, fetchPolicy = {}) {
+  async getUser(idObject, types, category) {
     const promise = new Promise(async (resolve, reject) => {
       const variables = {
         types,
@@ -343,7 +343,8 @@ class OpenQPrismaClient {
         const result = await this.client.query({
           query: GET_PRIVATE_USER,
           variables,
-          ...fetchPolicy,
+
+          fetchPolicy: 'no-cache',
         });
         resolve(result.data.user);
       } catch (e) {

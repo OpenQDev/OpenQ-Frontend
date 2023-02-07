@@ -7,7 +7,7 @@ import SignOut from '../SignOut';
 import StoreContext from '../../../store/Store/StoreContext';
 import ToolTipNew from '../../Utils/ToolTipNew';
 import Username from '../../User/OverviewTab/Username/index';
-import LanguagesAndFrameworks from './LanguagesAndFrameworks';
+import LanguagesAndFrameworks from './LanaguagesAndFrameworks';
 
 const FirstSignupModal = ({ closeModal, setShowModal, user }) => {
   const [authState] = useContext(AuthContext);

@@ -67,6 +67,7 @@ exports[`RepoTitle should render BountyDetails and match DOM Snapshot 1`] = `
           undefined,
         ],
         "bountyType": "0",
+        "claims": [],
         "closed": true,
         "closedAt": "2022-03-28T17:57:44Z",
         "closedEvents": [

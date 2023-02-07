@@ -99,6 +99,8 @@ export const GET_BOUNTY = gql`
       invoiceRequired
       invoiceCompleted
       kycRequired
+      alternativeLogo
+      alternativeName
       claims(orderBy: "claimTime", orderDirection: "desc") {
         claimTime
         claimantAsset
@@ -204,6 +206,8 @@ export const GET_BOUNTIES_BY_CONTRACT_ADDRESSES = gql`
       closerData
       bountyType
       claimedTransactionHash
+      alternativeName
+      alternativeLogo
       deposits {
         id
         refunded

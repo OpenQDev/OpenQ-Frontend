@@ -7,7 +7,7 @@ import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
 import ShieldCheck from '../../../svg/shieldCheck';
 
 const KycRequirement = ({ setKycVerified }) => {
-  const [stage, setStage] = useState('start');
+  const [stage, setStage] = useState('verified');
   const [failResponse, setFailResponse] = useState(null);
   const [successResponse, setSuccessResponse] = useState(null);
   const [error, setError] = useState('');

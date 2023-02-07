@@ -6,7 +6,8 @@ import StoreContext from '../../store/Store/StoreContext';
 
 const MintProvider = ({ children, types }) => {
   const [appState] = useContext(StoreContext);
-  const category = appState.utils.getBountyTypeName({ bountyType: types[0] });
+  let category = appState.utils.getBountyTypeName({ bountyType: types[0] });
+  if (category === 'Fixed Contest') category = 'Contest';
   const [state, dispatch] = useReducer(MintReducer, { category, ...InitialState });
 
   return <MintContext.Provider value={[state, dispatch]}>{children}</MintContext.Provider>;

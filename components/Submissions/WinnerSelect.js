@@ -38,7 +38,6 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
       setSelectionState(TRANSFERRING);
 
       const transaction = await appState.openQClient.setTierWinner(library, bounty.bountyId, tierIndex, winnerId);
-      console.log('transaction', transaction);
       if (transaction) {
         setSelectionState(SUCCESS);
       }

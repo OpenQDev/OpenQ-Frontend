@@ -13,7 +13,7 @@ import Logger from '../../services/logger/Logger';
 import FirstSignupModal from '../../components/Authentication/FirstSignupModal';
 import AuthContext from '../../store/AuthStore/AuthContext';
 
-const userId = ({ user, organizations, renderError }) => {
+const userId = ({ user, organizations, renderError, tab }) => {
   const [authState, dispatch] = useContext(AuthContext);
   const { githubId, email } = authState;
   const [appState] = useContext(StoreContext);
@@ -84,6 +84,7 @@ const userId = ({ user, organizations, renderError }) => {
             <FirstSignupModal closeModal={closeModal} setShowModal={setFirstSignupModal} user={publicPrivateUserData} />
           )}
           <AboutFreelancer
+            tab={tab}
             starredOrganizations={starredOrganizations}
             watchedBounties={watchedBounties}
             user={publicPrivateUserData}
@@ -99,6 +100,7 @@ const userId = ({ user, organizations, renderError }) => {
 };
 
 export const getServerSideProps = async (context) => {
+  const { tab } = context.query;
   const githubRepository = new WrappedGithubClient();
   const logger = new Logger();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
@@ -201,7 +203,7 @@ export const getServerSideProps = async (context) => {
   };
 
   return {
-    props: { user, organizations, renderError, starredOrganizations },
+    props: { user, organizations, renderError, starredOrganizations, tab: tab || null },
   };
 };
 

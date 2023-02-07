@@ -18,6 +18,7 @@ import {
   GET_LEAN_ISSUES_BY_ID,
   GET_PRS,
   GET_IS_ADMIN,
+  GET_ORG_BY_URL,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 
@@ -566,6 +567,23 @@ class GithubRepository {
       }
     });
     return organizations;
+  }
+
+  async getOrgByUrl(url) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_ORG_BY_URL,
+          variables: {
+            url,
+          },
+        });
+        resolve(result?.data?.resource);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
   }
 }
 

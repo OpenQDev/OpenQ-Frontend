@@ -72,9 +72,10 @@ const ClaimLoadingModal = ({
   // Hooks
 
   useEffect(() => {
+    let cancelled = false;
     // Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
     function handleClickOutside(event) {
-      if (modal.current && !modal.current.contains(event.target)) {
+      if (modal.current && !modal.current.contains(event.target) && !cancelled) {
         updateModal();
       }
     }
@@ -85,6 +86,8 @@ const ClaimLoadingModal = ({
     }
     return () => {
       // Unbind the event listener on clean up
+      cancelled = true;
+
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [modal, claimState]);

@@ -33,10 +33,12 @@ exports[`OrganizationHeader should match DOM Snapshot 1`] = `
       className="text-2xl leading-condensed font-semibold"
     >
       <a
+        className="text-blue-400 hover:underline"
         href="https://github.com/OpenQDev"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
+        target="_blank"
       >
         OpenQ Labs
       </a>
@@ -99,10 +101,12 @@ exports[`OrganizationHeader should match DOM Snapshot 1`] = `
             />
           </svg>
           <a
+            className="text-xs"
             href="https://openq.dev"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
+            target="_blank"
           >
             https://openq.dev
           </a>
@@ -133,8 +137,19 @@ exports[`OrganizationHeader should match DOM Snapshot 1`] = `
               fill="currentColor"
             />
           </svg>
-          @
-          openqlabs
+          <a
+            className="text-xs"
+            href="https://twitter.com/openqlabs"
+            itemProp="url"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+            rel="nofollow"
+            target="_blank"
+          >
+            @
+            openqlabs
+          </a>
         </div>
       </li>
       <li
@@ -185,10 +200,14 @@ exports[`OrganizationHeader should match DOM Snapshot 1`] = `
             />
           </svg>
           <a
+            className="text-xs"
             href="https://github.com/OpenQDev"
+            itemProp="url"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
+            rel="nofollow"
+            target="_blank"
           >
             https://github.com/OpenQDev
           </a>

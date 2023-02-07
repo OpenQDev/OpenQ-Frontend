@@ -5,7 +5,7 @@ import useWeb3 from '../../../hooks/useWeb3';
 import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
 import ConnectButton from '../../WalletConnect/ConnectButton';
 import TokenSearch from '../../TokenSelection/TokenSearch';
-import SetTierValues from '../../MintBounty/MintBountyModal/AddContestParams/SetTierValues/SetTierValues';
+import SetTierValues from '../../MintBounty/MintBountyModal/AddContestParams/SetTierValues';
 import AdminModal from '../AdminModal/index.js';
 import TokenContext from '../../TokenSelection/TokenStore/TokenContext';
 
