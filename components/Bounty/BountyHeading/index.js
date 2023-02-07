@@ -1,6 +1,7 @@
 // Third Party
 import React, { useContext } from 'react';
 import Link from 'next/link';
+import { ethers } from 'ethers';
 // Custom
 import MintBountyButton from '../../MintBounty/MintBountyButton';
 import StoreContext from '../../../store/Store/StoreContext';
@@ -9,6 +10,7 @@ import RefreshBounty from './RefreshBounty';
 import { getBountyMarker } from '../../../services/utils/lib';
 import ClaimButton from '../../Claim/ClaimPage/ClaimButton';
 import { checkClaimable } from '../../../services/utils/lib';
+import useWeb3 from '../../../hooks/useWeb3';
 
 const BountyHeading = ({
   bounty,
@@ -20,6 +22,7 @@ const BountyHeading = ({
   claimReqsCompleted,
 }) => {
   const [appState] = useContext(StoreContext);
+  const { account } = useWeb3();
   const githubId = appState.accountData.github;
   const marker = getBountyMarker(bounty, appState.openQClient, githubId);
   const totalPrice = useDisplayValue(bounty, appState.utils.formatter.format);
@@ -41,7 +44,9 @@ const BountyHeading = ({
         </h1>
         <div className='flex flex-row space-x-3 self-center items-center'>
           <RefreshBounty refreshGithubBounty={refreshGithubBounty} bounty={bounty} />
-          <MintBountyButton types={['0', '1', '2', '3']} styles={'h-8'} />
+          {bounty && bounty?.issuer?.id && ethers.utils.getAddress(bounty.issuer.id) == account && (
+            <MintBountyButton types={['0', '1', '2', '3']} styles={'h-8'} />
+          )}
           {claimable && (
             <ClaimButton
               bounty={bounty}
