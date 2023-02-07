@@ -1,19 +1,15 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import StyledInput from './StyledInput';
 import useWeb3 from '../../../hooks/useWeb3';
 import StoreContext from '../../../store/Store/StoreContext';
-import AssociationModal from '../GithubRegistration/AssociateAddress';
 
 import AuthContext from '../../../store/AuthStore/AuthContext';
-import KycRegistration from '../KycRegistration';
 const InvoicingDetails = ({ slim }) => {
   const { account } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
-  const { github } = appState.accountData;
   const { openQPrismaClient } = appState;
   const { accountData } = appState;
   const [formState, setFormState] = useState({ text: 'Update', className: 'btn-primary' });
-  const [githubUser, setGithubUser] = useState({});
   const [showPreview, setShowPreview] = useState(false);
   // const formValuesSocial = [{ value: 'twitter' }, { value: 'discord' }];
   const [authState] = useContext(AuthContext);
@@ -24,15 +20,6 @@ const InvoicingDetails = ({ slim }) => {
   };
 
   // TODO - add encryption to local data
-  useEffect(() => {
-    if (githubId) {
-      const getGithubUser = async () => {
-        const githubUser = await appState.githubRepository.fetchUserById(githubId);
-        setGithubUser(githubUser);
-      };
-      getGithubUser();
-    }
-  }, [githubId]);
 
   const formValuesInvoicing = [
     {
@@ -138,15 +125,13 @@ const InvoicingDetails = ({ slim }) => {
     <div className={`${!slim && 'px-8'} py text-lg`}>
       {!slim && (
         <>
-          <div className='flex flex-col flex-1 font-normal pb-8'>
-            {github && <AssociationModal githubId={github} user={githubUser} renderError={''} redirectUrl={''} />}
-          </div>
-          <KycRegistration />
           <div className='flex justify-between mt-12'>
-            <h2 className='text-2xl pb-2'>Freelancer Invoicing Information</h2>
-            <button onClick={getPdf} className='btn-default text-xs py-0.75 my-0.75 h-7'>
-              {showPreview ? 'Edit' : 'Preview'} Invoice
-            </button>
+            <h2 className='flex justify-between w-full text-2xl pb-4 font-semibold border-b border-gray-700'>
+              <div>Freelancer Invoicing Information</div>
+              <button onClick={getPdf} className='btn-default text-xs py-0.75 my-0.75 h-7'>
+                {showPreview ? 'Edit' : 'Preview'} Invoice
+              </button>
+            </h2>
           </div>
         </>
       )}

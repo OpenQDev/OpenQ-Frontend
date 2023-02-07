@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 // Custom
-import { BookIcon, EyeIcon, StarIcon } from '@primer/octicons-react';
+import { BookIcon, EyeIcon, StarIcon, LinkIcon } from '@primer/octicons-react';
 import SubMenu from '../Utils/SubMenu';
 import Watching from './WatchingTab/Watching';
 import Starred from './StarsTab/Starred';
@@ -11,12 +11,12 @@ import StoreContext from '../../store/Store/StoreContext';
 import FreelancerDetails from './InvoicingDetailsTab/FreelancerDetails';
 import OrgDetails from './InvoicingDetailsTab/OrgDetails';
 import UserSocials from './OverviewTab/UserSocials';
-import Gear from '../svg/gear';
+import GithubRequirement from '../../components/Claim/ClaimPage/GithubRequirement';
 import Skills from './OverviewTab/Skills';
 import Subscribe from '../Utils/Subscribe';
-import GithubConnection from './OverviewTab/GithubConnection';
 import AuthContext from '../../store/AuthStore/AuthContext';
 import Username from './OverviewTab/Username';
+import KycRequirement from '../Claim/ClaimPage/KycRequirement';
 
 const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) => {
   const [internalMenu, setInternalMenu] = useState(tab || 'Overview');
@@ -78,15 +78,17 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
         <SubMenu
           internalMenu={internalMenu}
           updatePage={setInternalMenu}
-          styles='w-full justify-center lg:justify-start max-w-[800px] mx-auto border-none'
+          styles='w-full flex flex-wrap sm:flex-row mb-6 sm:mb-0 justify-center lg:justify-start max-w-[900px] mx-auto border-none'
           colour='rust'
           items={[
             { name: 'Overview', Svg: BookIcon },
             ...[starredOrganizations.length ? { name: 'Stars', Svg: StarIcon } : {}],
             ...[isOwner ? { name: 'Watching', Svg: EyeIcon } : {}],
+            ...[isOwner ? { name: 'Wallet-to-GitHub', Svg: LinkIcon } : {}],
+            ...[isOwner ? { name: '🧍KYC' } : {}],
 
-            ...[isOwner ? { name: 'Invoicing Details - Freelancer', Svg: Gear } : {}],
-            ...[isOwner ? { name: 'Invoicing Details - Org', Svg: Gear } : {}],
+            ...[isOwner ? { name: '📃Invoicing (Freelancer)' } : {}],
+            ...[isOwner ? { name: '📃Invoicing (Org)' } : {}],
           ]}
         />
         <div className='w-full border-b h-px border-web-gray'></div>
@@ -135,7 +137,6 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
             {internalMenu == 'Overview' && (
               <div className=''>
                 <Username user={user} />
-                <GithubConnection user={user} />
                 {/* 
                
                TODO associate openq account with ethereum account
@@ -151,12 +152,22 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
                 {isOwner && <Subscribe user={user} />}
               </div>
             )}
+            {internalMenu == 'Wallet-to-GitHub' && (
+              <div className='flex px-8 justify-between mt-12'>
+                <GithubRequirement />
+              </div>
+            )}
+            {internalMenu == '🧍KYC' && (
+              <div className='flex px-8 justify-between mt-12'>
+                <KycRequirement />
+              </div>
+            )}
             {internalMenu == 'Stars' && <Starred starredOrganizations={starredOrganizations} />}
             {internalMenu === 'Watching' && isOwner && watchedFullBounties.length > 0 && (
               <Watching watchedBounties={watchedFullBounties} />
             )}
-            {internalMenu === 'Invoicing Details - Freelancer' && github && <FreelancerDetails showWatched={isOwner} />}
-            {internalMenu === 'Invoicing Details - Org' && <OrgDetails showWatched={isOwner} />}
+            {internalMenu === '📃Invoicing (Freelancer)' && github && <FreelancerDetails showWatched={isOwner} />}
+            {internalMenu === '📃Invoicing (Org)' && <OrgDetails showWatched={isOwner} />}
           </div>
         </div>
       </div>

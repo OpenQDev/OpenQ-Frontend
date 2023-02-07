@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import Link from 'next/link';
-import { UploadIcon } from '@primer/octicons-react';
+import { CheckIcon, UploadIcon } from '@primer/octicons-react';
 import W8FormModal from './W8FormModal';
 import axios from 'axios';
 import { EMAIL_NOT_SENT } from '../../../../constants/invoiceableResponses';
@@ -167,9 +167,23 @@ const W8Form = ({ bounty }) => {
         </svg>
       </div>
       <form onSubmit={handleSend} className='flex gap-2'>
-        <label htmlFor='file input' className='relative btn-requirements cursor-pointer'>
-          <div className='flex gap-2 z-20 items-center'>
-            <UploadIcon size={16} /> Upload
+        <label
+          htmlFor='file input'
+          className={`relative ${sent ? 'cursor-not-allowed' : 'cursor-pointer'} ${
+            file || sent ? 'btn-verified' : 'btn-requirements'
+          }`}
+        >
+          <div className='flex w-28 gap-2 z-20 py-0.5 items-center'>
+            {file || sent ? (
+              <>
+                <CheckIcon size={16} /> {sent ? 'File Sent' : 'Change File'}
+              </>
+            ) : (
+              <>
+                <UploadIcon size={16} />
+                Choose File
+              </>
+            )}
           </div>
           <input
             onChange={handleFileChange}
