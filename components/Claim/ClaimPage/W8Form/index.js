@@ -37,6 +37,7 @@ const W8Form = ({ bounty }) => {
   const handleSend = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setInvoiceResponse('LOADING');
     const formData = new FormData();
     setSent(true);
     formData.append('file', file);
@@ -52,9 +53,10 @@ const W8Form = ({ bounty }) => {
           },
         }
       );
-
+      console.log(result);
       handleResult(result);
     } catch (e) {
+      console.log(e);
       setLoading(false);
       setInvoiceResponse(EMAIL_NOT_SENT);
       appState.logger.error('w8form.js1', e);
@@ -137,6 +139,17 @@ const W8Form = ({ bounty }) => {
         </>
       ),
     },
+    FILE_TOO_LARGE: {
+      MessageHTML: () => (
+        <>
+          Your pdf was too large, must be under 10 mb threshold. Please reach out to us via{' '}
+          <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
+            discord
+          </a>
+          .
+        </>
+      ),
+    },
 
     NOT_PDF: {
       MessageHTML: () => <>Your file is not a pdf.</>,
@@ -163,6 +176,9 @@ const W8Form = ({ bounty }) => {
           .
         </>
       ),
+    },
+    LOADING: {
+      MessageHTML: () => <>Scanning and sending your tax form to your client.</>,
     },
   };
 
@@ -259,7 +275,6 @@ const W8Form = ({ bounty }) => {
           {loading && <LoadingIcon />}
         </button>
       </form>
-      <div className='note'>{loading && 'Scanning and sending your tax form to your client.'}</div>
       <div className=''>
         *W-8 forms are{' '}
         <Link
