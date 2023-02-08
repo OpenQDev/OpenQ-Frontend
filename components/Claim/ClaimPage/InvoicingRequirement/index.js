@@ -3,6 +3,7 @@ import StoreContext from '../../../../store/Store/StoreContext';
 import Link from 'next/link';
 import axios from 'axios';
 import { MailIcon } from '@primer/octicons-react';
+import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
 import {
   EMAIL_NOT_SENT,
   EMAIL_SENT,
@@ -12,6 +13,7 @@ import {
 } from '../../../../constants/invoiceableResponses';
 
 const Invoicing = ({ bounty, setClaimable }) => {
+  const [loading, setLoading] = useState(false);
   const [appState] = useContext(StoreContext);
   const { account } = appState;
   const { accountData } = appState;
@@ -25,6 +27,7 @@ const Invoicing = ({ bounty, setClaimable }) => {
         setClaimable((prev) => ({ ...prev, invoice: true }));
       }
     } else setInvoiceResponse(EMAIL_NOT_SENT);
+    setLoading(false);
   };
   const invoiceResponseOptions = {
     '': {
@@ -79,6 +82,7 @@ const Invoicing = ({ bounty, setClaimable }) => {
   const MessageHTML = invoiceResponseOptions[invoiceResponse]?.MessageHTML || (() => <></>);
 
   const handleSendInvoice = async () => {
+    setLoading(true);
     try {
       const result = await axios.post(
         `${process.env.NEXT_PUBLIC_INVOICE_URL}/fixedcontest?id=${bounty.bountyAddress}&account=${account}`,
@@ -88,6 +92,7 @@ const Invoicing = ({ bounty, setClaimable }) => {
 
       handleResult(result);
     } catch (err) {
+      setLoading(false);
       if (JSON.parse(err.request.response).missingFields.length) {
         setInvoiceResponse(MISSING_FIELDS);
       } else {
@@ -138,6 +143,7 @@ const Invoicing = ({ bounty, setClaimable }) => {
           <button onClick={handleSendInvoice} className='flex items-center gap-2 btn-requirements w-fit'>
             <MailIcon />
             Send {successInvoice && 'again'}
+            {loading && <LoadingIcon />}
           </button>
           {!successInvoice && invoiceResponse && (
             <div className='bg-info border-info-strong border p-4 rounded-sm'>

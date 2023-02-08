@@ -45,10 +45,10 @@ const FundPage = () => {
     ? ['company', 'city', 'country', 'streetAddress', 'province', 'invoicingEmail']
     : ['invoicingEmail'];
   const mustChangePayoutFirst = bounty.bountyType == '1' && bounty.payoutTokenVolume;
-
   const neededAccountData = accountKeys.filter((key) => {
     return !accountData[key];
   });
+  console.log(neededAccountData);
   const [, tokenDispatch] = useContext(TokenContext);
   useEffect(() => {
     const depositTokenAddress = bounty?.deposits[0]?.tokenAddress;
@@ -92,7 +92,8 @@ const FundPage = () => {
     };
     fundDispatch(volumeDispatch);
   }, [volume]);
-  const hasInvoicingInfo = neededAccountData.length === 0 || (!bounty.invoiceRequired && !bounty.supportingDocuments);
+  const hasInvoicingInfo =
+    neededAccountData.length === 0 || (!bounty.invoiceRequired && !bounty.supportingDocumentsRequired);
 
   // Context
   const { openQClient } = appState;
@@ -274,7 +275,7 @@ const FundPage = () => {
                 </div>
               </div>
 
-              {(bounty.invoiceRequired || bounty.supportingDocuments) && (
+              {(bounty.invoiceRequired || bounty.supportingDocumentsRequired) && (
                 <>
                   {bounty.invoiceRequired && neededAccountData.length !== 0 ? (
                     <div className='w-5/6'>
@@ -299,9 +300,9 @@ const FundPage = () => {
                         <ChevronUpIcon size='24px' />
                       </span>
                     </summary>
-                    <OrgDetails emailOnly={!bounty.invoiceRequired && bounty.supportingDocuments} slim={true} />
+                    <OrgDetails emailOnly={!bounty.invoiceRequired && bounty.supportingDocumentsRequired} slim={true} />
                   </details>
-                  {!bounty.invoiceRequired && bounty.supportingDocuments && (
+                  {!bounty.invoiceRequired && bounty.supportingDocumentsRequired && (
                     <div className='w-5/6 note'>
                       We will send the completed W8 form with link to accept to this email. Please note that only your
                       ethereum account is able to accept this. If someone else reviews the form you will need to confirm

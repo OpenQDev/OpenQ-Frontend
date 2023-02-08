@@ -6,14 +6,16 @@ import axios from 'axios';
 import { EMAIL_NOT_SENT } from '../../../../constants/invoiceableResponses';
 import StoreContext from '../../../../store/Store/StoreContext';
 import { getW8Approved } from '../../../../services/utils/lib';
+import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
 const W8Form = ({ bounty }) => {
+  const [loading, setLoading] = useState(false);
   const [appState] = useContext(StoreContext);
   const [file, setFile] = useState(null);
   const [invoiceResponse, setInvoiceResponse] = useState('');
   const [sent, setSent] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const { accountData } = appState;
-
+  const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}?tab=Invoicing Details - Freelancer`;
   const W8Approved = getW8Approved(bounty, accountData);
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -25,25 +27,34 @@ const W8Form = ({ bounty }) => {
     if (result?.data?.message) {
       setInvoiceResponse(result.data.message);
     } else setInvoiceResponse(EMAIL_NOT_SENT);
+
+    setLoading(false);
   };
   const handleSend = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const formData = new FormData();
     setSent(true);
     formData.append('file', file);
     setFile(null);
-    const result = await axios.post(
-      `${process.env.NEXT_PUBLIC_INVOICE_URL}/taxform?id=${bounty.bountyAddress}`,
-      formData,
-      {
-        withCredentials: true,
-        headers: {
-          'content-type': 'multipart/form-data',
-        },
-      }
-    );
+    try {
+      const result = await axios.post(
+        `${process.env.NEXT_PUBLIC_INVOICE_URL}/taxform?id=${bounty.bountyAddress}`,
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            'content-type': 'multipart/form-data',
+          },
+        }
+      );
 
-    handleResult(result);
+      handleResult(result);
+    } catch (e) {
+      setLoading(false);
+      setInvoiceResponse(EMAIL_NOT_SENT);
+      appState.logger.error('w8form.js1', e);
+    }
   };
 
   const invoiceResponseOptions = {
@@ -61,6 +72,7 @@ const W8Form = ({ bounty }) => {
           <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
             discord
           </a>
+          .
         </>
       ),
     },
@@ -138,19 +150,33 @@ const W8Form = ({ bounty }) => {
       </h4>
       {W8Approved && <div className='border-green bg-green-inside border p-4 rounded-sm'> Your w8 was accepted</div>}{' '}
       <div>
-        Please complete and upload a form W-8. Choose one of five types, depending on your entity. We encourage you to
-        consult with you own tax or financial adviser to determine which form is appropriate for you or ask in our
-        <div>
+        <p>
+          Please complete and upload a form W-8. Choose one of five types, depending on your entity. We encourage you to
+          consult with you own tax or financial adviser to determine which form is appropriate for you or ask in our
+          <div>
+            <Link
+              href={'https://discord.gg/puQVqEvVXn'}
+              rel='noopener norefferer'
+              target='_blank'
+              className='text-blue-500 hover:underline col-span-2'
+            >
+              discord
+            </Link>{' '}
+            for help.
+          </div>
+        </p>
+        <p>
+          Please make sure your email is filled in your{' '}
           <Link
-            href={'https://discord.gg/puQVqEvVXn'}
-            rel='noopener norefferer'
-            target='_blank'
             className='text-blue-500 hover:underline col-span-2'
+            href={profileLink}
+            target='_blank'
+            rel='noopener norefferer'
           >
-            discord
+            profile
           </Link>{' '}
-          for help.
-        </div>
+          so that we can send you a copy of the invoice.
+        </p>
       </div>
       <div className='font-semibold flex gap-2 group w-fit'>
         Upload{' '}
@@ -187,6 +213,7 @@ const W8Form = ({ bounty }) => {
           </div>
           <input
             onChange={handleFileChange}
+            disabled={sent}
             type='file'
             className='absolute invisible w-full top-0 bottom-0 z-10'
             id='file input'
@@ -195,9 +222,10 @@ const W8Form = ({ bounty }) => {
         <div className='border border-web-gray w-full font-semibold px-2 rounded-sm'>{file?.name}</div>
         <button
           disabled={!file}
-          className={file ? 'btn-requirements cursor-pointer' : 'btn-default cursor-not-allowed'}
+          className={file ? 'btn-requirements cursor-pointer flex gap-2' : 'btn-default cursor-not-allowed flex gap-2'}
         >
           {sent ? 'Sent' : 'Send'}
+          {loading && <LoadingIcon />}
         </button>
       </form>
       <div className=''>
