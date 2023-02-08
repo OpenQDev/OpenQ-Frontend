@@ -259,6 +259,7 @@ const W8Form = ({ bounty }) => {
           {loading && <LoadingIcon />}
         </button>
       </form>
+      <div className='note'>{loading && 'Scanning and sending your tax form to your client.'}</div>
       <div className=''>
         *W-8 forms are{' '}
         <Link

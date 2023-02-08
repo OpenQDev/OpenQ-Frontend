@@ -135,7 +135,6 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claim
               <div>We noticed you are not signed into Github. You must sign to verify and claim an issue!</div>
             ) : null}
             <ConnectButton needsGithub={true} nav={false} tooltipAction={'claim this contract!'} hideSignOut={true} />
-            {console.log('claimable', claimable)}
             <ClaimButton
               claimable={claimable}
               bounty={bounty}

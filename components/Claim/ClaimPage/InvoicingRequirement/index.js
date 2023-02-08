@@ -143,7 +143,6 @@ const Invoicing = ({ bounty, setClaimable }) => {
     }
   };
 
-  console.log(invoiceResponseOptions[invoiceResponse]);
   return (
     <>
       {bounty.invoiceRequired && (
