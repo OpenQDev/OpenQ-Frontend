@@ -7,7 +7,7 @@ const index = ({ setGithubHasWalletVerified }) => {
   const [verified, setVerified] = useState(null);
   const [claimPageError, setClaimPageError] = useState('');
   useEffect(() => {
-    if (verified) setGithubHasWalletVerified(true);
+    if (verified) setGithubHasWalletVerified && setGithubHasWalletVerified(true);
   }, [verified]);
   return (
     <section className='flex flex-col gap-3'>
@@ -18,7 +18,7 @@ const index = ({ setGithubHasWalletVerified }) => {
             verified ? 'bg-[#1c6f2c] border-[#2ea043]' : 'bg-info border-info-strong'
           } border-2 text-sm px-2 rounded-full h-6`}
         >
-          {verified ? 'Approved' : 'Required'}
+          {verified ? 'Approved' : setGithubHasWalletVerified ? 'Required' : null}
         </div>
       </h4>
       {claimPageError && (

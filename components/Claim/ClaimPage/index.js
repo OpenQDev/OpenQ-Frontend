@@ -15,18 +15,19 @@ import W8Form from './W8Form';
 import KycRequirement from './KycRequirement';
 import GithubRequirement from './GithubRequirement';
 import ClaimButton from './ClaimButton';
-import { isContest, isEveryValueNotNull } from '../../../services/utils/lib';
+import { checkClaimable, isEveryValueNotNull, isContest } from '../../../services/utils/lib';
 // import { ChevronUpIcon, ChevronDownIcon } from '@primer/octicons-react';
 
 const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claimState, showClaimPage }) => {
   const [appState] = useContext(StoreContext);
 
-  const { accountData } = appState;
+  const { accountData, openQClient } = appState;
   // State
   const [justClaimed, setJustClaimed] = useState(false);
   // const { accountData } = appState;
   const [kycVerified, setKycVerified] = useState(null);
   const [githubHasWalletVerified, setGithubHasWalletVerified] = useState(null);
+  const { status } = checkClaimable(bounty, accountData?.github, openQClient);
 
   // TODO: ESLINT said these were given a value but never used, but they look important, so here I am writing a TODO ;-)
   // const supportingDocumentsCompleted =
@@ -75,7 +76,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claim
     return !accountData[key];
   });
   const hasInvoicingInfo = neededAccountData.length === 0 || !bounty.invoiceRequired; */
-  const showBountyClosed = bounty.status == '1' && (bounty.bountyType == 2 ? price == 0 : true);
+  const showBountyClosed = status == 'Claimed';
 
   // Context
 
@@ -105,8 +106,8 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claim
                 'Congratulations, you can now claim your bounty!'
               ) : (
                 <>
-                  Congratulations, you are elgible to receive this bounty! In order to claim it you need to fulfill
-                  therequirements highlighted below. To learn more read{' '}
+                  Congratulations, you are elgible to receive this bounty! In order to claim it you need to fulfill the
+                  requirements highlighted below. To learn more read{' '}
                   <Link href='/' rel='noopener norefferer' target='_blank' className='underline col-span-2'>
                     here
                   </Link>

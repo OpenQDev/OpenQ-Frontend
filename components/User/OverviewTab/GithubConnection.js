@@ -11,6 +11,7 @@ import AssociateModal from '../GithubRegistration/AssociateModal';
 import AuthContext from '../../../store/AuthStore/AuthContext';
 import Github from '../../svg/github';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) => {
   const [appState] = useContext(StoreContext);
@@ -73,13 +74,33 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
                   <Chain className={'w-6 h-6  fill-primary'} />
 
                   <span>
-                    {associatedAddress && githubId
-                      ? `Signed in Github profile associated with address ${appState.utils.shortenAddress(
-                          associatedAddress
-                        )} on chain.`
-                      : !githubId
-                      ? 'Github profile not signed in.'
-                      : 'No address associated with current Github profile on Chain.'}
+                    {associatedAddress && githubId ? (
+                      <>
+                        Github profile{' '}
+                        <Link
+                          href={`https://github.com/${authState.login}`}
+                          rel='noopener norefferer'
+                          target='_blank'
+                          className='text-blue-500 hover:underline'
+                        >
+                          {authState.login}
+                        </Link>{' '}
+                        associated with address{' '}
+                        <Link
+                          href={`https://polygonscan.com/address/${associatedAddress}`}
+                          rel='noopener norefferer'
+                          target='_blank'
+                          className='text-blue-500 hover:underline'
+                        >
+                          {appState.utils.shortenAddress(associatedAddress)}
+                        </Link>{' '}
+                        on chain.
+                      </>
+                    ) : !githubId ? (
+                      'Github profile not signed in.'
+                    ) : (
+                      'No address associated with current Github profile on Chain.'
+                    )}
                   </span>
                 </div>
                 <div className='flex gap-2'>
