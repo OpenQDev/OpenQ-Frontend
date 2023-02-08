@@ -19,7 +19,7 @@ const W8Form = ({ bounty }) => {
   const [sent, setSent] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const { accountData } = appState;
-  const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}?tab=Invoicing Details - Freelancer`;
+  const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}?tab=📃Invoicing (Freelancer)`;
   const W8Approved = getW8Approved(bounty, accountData);
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -68,8 +68,8 @@ const W8Form = ({ bounty }) => {
     [INVALID_EMAIL_CLIENT]: {
       MessageHTML: () => (
         <>
-          The organizatio's invoicing email is invalid.
-          {invoiceResponse?.invoicingEmail && `The email inputted was  ${invoiceResponse.invoicingEmail}`}. Please
+          The organization's invoicing email is invalid.
+          {invoiceResponse?.invoicingEmail && `The email entered was  ${invoiceResponse.invoicingEmail}.`} Please
           contact them or ask for help in our{' '}
           <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
             discord

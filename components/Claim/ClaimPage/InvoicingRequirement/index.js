@@ -16,11 +16,11 @@ import {
 } from '../../../../constants/invoiceableResponses';
 
 const Invoicing = ({ bounty, setClaimable }) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [appState] = useContext(StoreContext);
   const { account } = appState;
   const { accountData } = appState;
-  const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}?tab=Invoicing Details - Freelancer`;
+  const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}?tab=📃Invoicing (Freelancer)`;
 
   const [invoiceResponse, setInvoiceResponse] = useState('');
   const handleResult = (result) => {
@@ -29,7 +29,8 @@ const Invoicing = ({ bounty, setClaimable }) => {
       if (result.data.message === EMAIL_SENT) {
         setClaimable((prev) => ({ ...prev, invoice: true }));
       }
-    } else setInvoiceResponse(EMAIL_NOT_SENT);
+    } else if (result.data.message) setInvoiceResponse(result.data.message);
+    else setInvoiceResponse(EMAIL_NOT_SENT);
     setLoading(false);
   };
   const invoiceResponseOptions = {
@@ -64,8 +65,8 @@ const Invoicing = ({ bounty, setClaimable }) => {
       MessageHTML: () => (
         <>
           The organization hasn't added all the mandatory fields in their invoice details.{' '}
-          {invoiceResponse?.invoicingEmail && `Please contact them at ${invoiceResponse.invoicingEmail}`} or ask for
-          help in our{' '}
+          {invoiceResponse?.invoicingEmail ? `Please contact them at ${invoiceResponse.invoicingEmail} or` : 'Please'}{' '}
+          ask for help in our{' '}
           <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
             discord
           </a>
@@ -74,10 +75,11 @@ const Invoicing = ({ bounty, setClaimable }) => {
       ),
     },
     [INVALID_EMAIL_CLIENT]: {
+      status: 'invalidEmail',
       MessageHTML: () => (
         <>
-          The organizatio's invoicing email is invalid.
-          {invoiceResponse?.invoicingEmail && `The email inputted was  ${invoiceResponse.invoicingEmail}`}. Please
+          The organization's invoicing email is invalid.
+          {invoiceResponse?.invoicingEmail && `The email entered was  ${invoiceResponse.invoicingEmail}.`} Please
           contact them or ask for help in our{' '}
           <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
             discord
@@ -140,6 +142,8 @@ const Invoicing = ({ bounty, setClaimable }) => {
       setInvoiceResponse(EMAIL_NOT_SENT);
     }
   };
+
+  console.log(invoiceResponseOptions[invoiceResponse]);
   return (
     <>
       {bounty.invoiceRequired && (
