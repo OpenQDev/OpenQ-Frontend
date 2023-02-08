@@ -5,7 +5,7 @@ exports[`Footer should match DOM Snapshot 1`] = `
   className="flex justify-center justify-items-center full"
 >
   <div
-    className="text-primary max-w- text-sm px-4 lg:px-20 max-w-[1120px] lg:py-12 py-4 xs:grid flex flex-col content-start items-start gap-4 xs:gap-y-0 lg:grid-cols-[0.5fr_1fr_1fr_1.5fr] grid-cols-[1fr_1fr] lg:grid-rows-2 grid-rows-4 lg:grid-flow-col xs:items-center lg:flex-row w-full justify-between xs:content-center font-semibold grid-flow-row"
+    className=" text-primary text-sm px-4 lg:px-20 max-w-[1300px] lg:py-12 py-4 xs:grid flex flex-col content-start items-start gap-4 xs:gap-y-0 lg:grid-cols-[0.5fr_1fr_1fr_1.3fr_2.5fr] grid-cols-[1fr_1fr] lg:grid-rows-2 grid-rows-4 lg:grid-flow-col xs:items-center lg:flex-row w-full justify-between xs:content-center font-semibold grid-flow-row"
   >
     <div
       className="font-semibold font-sans text-3xl"
@@ -82,22 +82,50 @@ exports[`Footer should match DOM Snapshot 1`] = `
       </a>
     </div>
     <a
+      className="text-lg lg:justify-self-center"
+      href="/terms-of-use"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onTouchStart={[Function]}
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <span>
+        Terms of Use
+      </span>
+    </a>
+    <a
+      className="text-lg lg:justify-self-center"
+      href="https://www.openq.dev/privacy"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onTouchStart={[Function]}
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      Privacy Policy
+    </a>
+    <a
       className="text-lg lg:justify-self-center "
       href="https://openq.canny.io/openq-feature-requests"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onTouchStart={[Function]}
+      rel="noopener noreferrer"
+      target="_blank"
     >
       <span>
         Feature requests 
       </span>
     </a>
     <a
-      className="text-lg lg:justify-self-center "
+      className="text-lg lg:justify-self-center"
       href="https://docs.openq.dev"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onTouchStart={[Function]}
+      rel="noopener noreferrer"
+      target="_blank"
     >
       <span>
         Documentation
