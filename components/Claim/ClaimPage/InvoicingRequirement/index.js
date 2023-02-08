@@ -9,11 +9,14 @@ import {
   EMAIL_SENT,
   NOT_INVOICEABLE,
   NO_DEPOSITS,
-  MISSING_FIELDS,
+  MISSING_FIELDS_CLIENT,
+  MISSING_FIELDS_FREELANCER,
+  INVALID_EMAIL_CLIENT,
+  INVALID_EMAIL_FREELANCER,
 } from '../../../../constants/invoiceableResponses';
 
 const Invoicing = ({ bounty, setClaimable }) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [appState] = useContext(StoreContext);
   const { account } = appState;
   const { accountData } = appState;
@@ -42,7 +45,7 @@ const Invoicing = ({ bounty, setClaimable }) => {
       MessageHTML: () =>
         "Funder hasn't made any deposits yet, please wait for money to be deposited before sending invoice.",
     },
-    [MISSING_FIELDS]: {
+    [MISSING_FIELDS_FREELANCER]: {
       MessageHTML: () => (
         <>
           You haven't added all the mandatory fields in your invoice details. Please head to your{' '}
@@ -50,6 +53,47 @@ const Invoicing = ({ bounty, setClaimable }) => {
             profile
           </Link>{' '}
           and add them or ask for help in our{' '}
+          <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
+            discord
+          </a>
+          .
+        </>
+      ),
+    },
+    [MISSING_FIELDS_CLIENT]: {
+      MessageHTML: () => (
+        <>
+          The organization hasn't added all the mandatory fields in their invoice details.{' '}
+          {invoiceResponse?.invoicingEmail && `Please contact them at ${invoiceResponse.invoicingEmail}`} or ask for
+          help in our{' '}
+          <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
+            discord
+          </a>
+          .
+        </>
+      ),
+    },
+    [INVALID_EMAIL_CLIENT]: {
+      MessageHTML: () => (
+        <>
+          The organizatio's invoicing email is invalid.
+          {invoiceResponse?.invoicingEmail && `The email inputted was  ${invoiceResponse.invoicingEmail}`}. Please
+          contact them or ask for help in our{' '}
+          <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
+            discord
+          </a>
+          .
+        </>
+      ),
+    },
+    [INVALID_EMAIL_FREELANCER]: {
+      MessageHTML: () => (
+        <>
+          Your email is an invalid format. Please head to your{' '}
+          <Link className='underline' href={profileLink}>
+            profile
+          </Link>{' '}
+          and correct it or ask for help in our{' '}
           <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
             discord
           </a>
@@ -93,11 +137,7 @@ const Invoicing = ({ bounty, setClaimable }) => {
       handleResult(result);
     } catch (err) {
       setLoading(false);
-      if (JSON.parse(err.request.response).missingFields.length) {
-        setInvoiceResponse(MISSING_FIELDS);
-      } else {
-        setInvoiceResponse(EMAIL_NOT_SENT);
-      }
+      setInvoiceResponse(EMAIL_NOT_SENT);
     }
   };
   return (

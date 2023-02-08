@@ -3,7 +3,11 @@ import Link from 'next/link';
 import { CheckIcon, UploadIcon } from '@primer/octicons-react';
 import W8FormModal from './W8FormModal';
 import axios from 'axios';
-import { EMAIL_NOT_SENT } from '../../../../constants/invoiceableResponses';
+import {
+  EMAIL_NOT_SENT,
+  INVALID_EMAIL_CLIENT,
+  INVALID_EMAIL_FREELANCER,
+} from '../../../../constants/invoiceableResponses';
 import StoreContext from '../../../../store/Store/StoreContext';
 import { getW8Approved } from '../../../../services/utils/lib';
 import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
@@ -61,7 +65,34 @@ const W8Form = ({ bounty }) => {
     '': {
       MessageHTML: () => <></>,
     },
-
+    [INVALID_EMAIL_CLIENT]: {
+      MessageHTML: () => (
+        <>
+          The organizatio's invoicing email is invalid.
+          {invoiceResponse?.invoicingEmail && `The email inputted was  ${invoiceResponse.invoicingEmail}`}. Please
+          contact them or ask for help in our{' '}
+          <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
+            discord
+          </a>
+          .
+        </>
+      ),
+    },
+    [INVALID_EMAIL_FREELANCER]: {
+      MessageHTML: () => (
+        <>
+          Your email is an invalid format. Please head to your{' '}
+          <Link className='underline' href={profileLink}>
+            profile
+          </Link>{' '}
+          and correct it or ask for help in our{' '}
+          <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
+            discord
+          </a>
+          .
+        </>
+      ),
+    },
     EMAIL_SENT: {
       successInvoice: true,
       MessageHTML: () => (

@@ -48,7 +48,6 @@ const FundPage = () => {
   const neededAccountData = accountKeys.filter((key) => {
     return !accountData[key];
   });
-  console.log(neededAccountData);
   const [, tokenDispatch] = useContext(TokenContext);
   useEffect(() => {
     const depositTokenAddress = bounty?.deposits[0]?.tokenAddress;
