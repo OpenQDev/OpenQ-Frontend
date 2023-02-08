@@ -119,7 +119,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claim
             {bounty.kycRequired && <KycRequirement setKycVerified={setKycVerified} />}
             {bounty.supportingDocumentsRequired && <W8Form bounty={bounty} />}
             {isContest(bounty) && <GithubRequirement setGithubHasWalletVerified={setGithubHasWalletVerified} />}
-            <InvoicingRequirement bounty={bounty} />
+            <InvoicingRequirement bounty={bounty} setClaimable={claimState[1]} />
             <section className='flex flex-col gap-3'>
               <h4 className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>Claim Your Rewards</h4>
               <div className='flex flex-col gap-2'>

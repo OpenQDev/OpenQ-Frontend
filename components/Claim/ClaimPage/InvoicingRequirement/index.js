@@ -11,7 +11,7 @@ import {
   MISSING_FIELDS,
 } from '../../../../constants/invoiceableResponses';
 
-const Invoicing = ({ bounty }) => {
+const Invoicing = ({ bounty, setClaimable }) => {
   const [appState] = useContext(StoreContext);
   const { account } = appState;
   const { accountData } = appState;
@@ -21,6 +21,9 @@ const Invoicing = ({ bounty }) => {
   const handleResult = (result) => {
     if (result.data) {
       setInvoiceResponse(result.data.message);
+      if (result.data.message === EMAIL_SENT) {
+        setClaimable((prev) => ({ ...prev, invoice: true }));
+      }
     } else setInvoiceResponse(EMAIL_NOT_SENT);
   };
   const invoiceResponseOptions = {
