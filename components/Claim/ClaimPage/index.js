@@ -105,8 +105,8 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claim
                 'Congratulations, you can now claim your bounty!'
               ) : (
                 <>
-                  Congratulations, you are elgible to receive this bounty! In order to claim it you need to fulfill
-                  therequirements highlighted below. To learn more read{' '}
+                  Congratulations, you are elgible to receive this bounty! In order to claim it you need to fulfill the
+                  requirements highlighted below. To learn more read{' '}
                   <Link href='/' rel='noopener norefferer' target='_blank' className='underline col-span-2'>
                     here
                   </Link>

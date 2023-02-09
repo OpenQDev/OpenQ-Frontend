@@ -4,6 +4,7 @@ import Image from 'next/image';
 import useWeb3 from '../../../hooks/useWeb3';
 import Chain from '../../svg/chain';
 import { ethers } from 'ethers';
+import LoadingIcon from '../../Loading/ButtonLoadingIcon';
 
 const RequestIndividual = ({ bounty, request }) => {
   const [appState] = useContext(StoreContext);
@@ -16,6 +17,7 @@ const RequestIndividual = ({ bounty, request }) => {
   const [issue, setIssue] = useState({});
   const { library } = useWeb3();
   const [accepted, setAccepted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getSubgraphBounty = async () => {
@@ -32,17 +34,24 @@ const RequestIndividual = ({ bounty, request }) => {
 
   const acceptRequest = async () => {
     let data = true;
+    setLoading(true);
 
-    if (subgraphBounty.bountyType === '2' || subgraphBounty.bountyType === '3') {
-      const tier = parseInt(subgraphBounty.tierWinners.indexOf(request.requestingUser.github));
+    try {
+      if (subgraphBounty.bountyType === '2' || subgraphBounty.bountyType === '3') {
+        const tier = parseInt(subgraphBounty.tierWinners.indexOf(request.requestingUser.github));
 
-      const abiCoder = new ethers.utils.AbiCoder();
-      const bigNumberTier = ethers.BigNumber.from(tier);
-      data = abiCoder.encode(['uint256', 'bool'], [bigNumberTier, true]);
+        const abiCoder = new ethers.utils.AbiCoder();
+        const bigNumberTier = ethers.BigNumber.from(tier);
+        data = abiCoder.encode(['uint256', 'bool'], [bigNumberTier, true]);
+      }
+
+      await appState.openQClient.setSupportingDocumentsComplete(library, bounty.bountyId, data);
+      setAccepted(true);
+      setLoading(false);
+    } catch (err) {
+      appState.logger.error(err, 'RequestIndividual');
+      setLoading(false);
     }
-
-    await appState.openQClient.setSupportingDocumentsComplete(library, bounty.bountyId, data);
-    setAccepted(true);
   };
 
   useEffect(() => {
@@ -80,11 +89,14 @@ const RequestIndividual = ({ bounty, request }) => {
       </a>
       <div>
         <button
-          disabled={accepted}
+          disabled={accepted || loading}
           onClick={acceptRequest}
-          className={`${accepted ? 'btn-default cursor-not-allowed' : 'btn-primary'} py-0.5 w-full self-center`}
+          className={`flex w-fit gap-2 ${
+            accepted || loading ? 'btn-default cursor-not-allowed' : 'btn-primary'
+          } py-0.5 w-full self-center`}
         >
-          Accept{accepted ? 'ed' : ''}
+          Accept{accepted ? 'ed' : loading ? 'ing' : ''}
+          {loading && <LoadingIcon />}
         </button>
       </div>
     </li>

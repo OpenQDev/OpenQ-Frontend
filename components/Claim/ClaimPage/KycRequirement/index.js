@@ -7,7 +7,7 @@ import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
 import ShieldCheck from '../../../svg/shieldCheck';
 
 const KycRequirement = ({ setKycVerified }) => {
-  const [stage, setStage] = useState('verified');
+  const [stage, setStage] = useState('start');
   const [failResponse, setFailResponse] = useState(null);
   const [successResponse, setSuccessResponse] = useState(null);
   const [error, setError] = useState('');
@@ -21,7 +21,7 @@ const KycRequirement = ({ setKycVerified }) => {
     }
     if (successResponse) {
       setStage('verified');
-      setKycVerified(true);
+      setKycVerified && setKycVerified(true);
       setError('');
       setSuccessResponse(null);
     }
@@ -60,7 +60,7 @@ const KycRequirement = ({ setKycVerified }) => {
       const transaction = await appState.openQClient.hasKYC(library, account);
       if (transaction) {
         setStage('verified');
-        setKycVerified(true);
+        setKycVerified && setKycVerified(true);
         setError('');
       }
     } catch (err) {
@@ -73,7 +73,11 @@ const KycRequirement = ({ setKycVerified }) => {
         <Image src='/kycDao-logo.svg' width={130} height={130} alt='kycDao-logo' />
         <div
           className={`${
-            stage == 'verified' ? 'bg-[#1c6f2c] border-[#2ea043]' : 'bg-info  border-info-strong'
+            stage == 'verified'
+              ? 'bg-[#1c6f2c] border-[#2ea043]'
+              : setKycVerified
+              ? 'bg-info  border-info-strong'
+              : 'hidden'
           } border-2 text-sm px-2 rounded-full h-6`}
         >
           {stage == 'verified' ? 'Approved' : 'Required'}

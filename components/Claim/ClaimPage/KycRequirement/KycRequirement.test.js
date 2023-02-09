@@ -16,6 +16,7 @@ describe('KycRequirement', () => {
     expect(
       await screen.findByText(/kycDAO is a multichain platform for issuing reusable, onchain KYC verifications./)
     ).toBeInTheDocument();
-    expect(await screen.findByText(/Verified/)).toBeInTheDocument();
+    expect(await screen.findByText(/Required/)).toBeInTheDocument();
+    expect(await screen.findByText(/Verify/)).toBeInTheDocument();
   });
 });

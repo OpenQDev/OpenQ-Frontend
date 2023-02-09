@@ -63,7 +63,9 @@ exports[`SetPayoutAdminPage should allow user to update payout token and volume 
             <svg
               class="h-4 w-4"
               fill="white"
+              height="20"
               viewBox="0 0 20 20"
+              width="20"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
@@ -201,7 +203,9 @@ exports[`SetPayoutAdminPage should set payout token per default if payoutTokenVo
             <svg
               class="h-4 w-4"
               fill="white"
+              height="20"
               viewBox="0 0 20 20"
+              width="20"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
