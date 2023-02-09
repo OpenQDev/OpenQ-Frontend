@@ -156,11 +156,11 @@ class Utils {
 
       if (relatedIssue && contract && !contract.blacklisted) {
         let mergedBounty = {
+          alternativeName: '',
+          alternativeLogo: '',
           ...relatedIssue,
           ...subgraphBounty,
           ...contract,
-          alternativeName: '',
-          alternativeLogo: '',
         };
         fullBounties.push(mergedBounty);
       }

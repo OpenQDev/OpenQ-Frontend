@@ -101,10 +101,12 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
               </div>
               <div className='break-word text-xl text-link-colour inline gap-1 pb-1'>
                 <span data-testid='repo'>
-                  {bounty.owner &&
-                    `${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}${
-                      bounty.alternativeName ? ` ( ${bounty.alternativeName} )` : ''
-                    }`}
+                  {bounty.owner && `${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`}
+                  {bounty.alternativeName ? (
+                    <span className='whitespace-nowrap'> ( {bounty.alternativeName} )</span>
+                  ) : (
+                    ''
+                  )}
                 </span>
                 <span></span>
               </div>

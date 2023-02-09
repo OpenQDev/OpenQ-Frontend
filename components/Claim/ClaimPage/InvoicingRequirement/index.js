@@ -143,6 +143,26 @@ const Invoicing = ({ bounty, setClaimable }) => {
     }
   };
 
+  const accountKeys = [
+    'company',
+    'billingName',
+    'city',
+    'streetAddress',
+    'postalCode',
+    'country',
+    'phoneNumber',
+    'province',
+    'invoicingEmail',
+    'invoiceNumber',
+    'taxId',
+    'vatNumber',
+    'vatRate',
+  ];
+  const neededAccountData = accountKeys.filter((key) => {
+    return !accountData[key];
+  });
+  const needsAccountData = neededAccountData.length > 0;
+
   return (
     <>
       {bounty.invoiceRequired && (
@@ -161,6 +181,7 @@ const Invoicing = ({ bounty, setClaimable }) => {
           <div>
             {' '}
             <p className='font-semibold'>Step 1</p>
+            <>{!needsAccountData && <div className='border-green bg-green-inside'>Approved</div>}</>
             <p>
               Please fill in your billing details in your{' '}
               <Link
