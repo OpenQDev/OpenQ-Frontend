@@ -113,7 +113,7 @@ const AddContestParams = () => {
             tierArr={tierArr}
             setSum={noop}
             setEnableContest={noop}
-            initialVolumes={['1', '1', '1']}
+            initialVolumes={['1000000000000000000', '1000000000000000000', '1000000000000000000']}
           />
         </TokenProvider>
       ) : null}
