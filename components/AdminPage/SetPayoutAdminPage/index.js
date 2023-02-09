@@ -108,7 +108,7 @@ const SetPayoutAdminPage = ({ bounty, refreshBounty, setShowButton }) => {
           <div className='flex-1 items-center w-full mt-2'>
             <TokenFundBox onVolumeChange={onPayoutVolumeChange} volume={payoutVolume} bounty={bounty} />
           </div>
-          <ConnectButton nav={false} needsGithub={false} centerStyles={true} />
+          <ConnectButton nav={false} needsGithub={false} centerStyles={true} tooltipAction={'set the payout.'}/>
           {isOnCorrectNetwork && account && (
             <button className='btn-default' type='button' onClick={setPayout}>
               Set Payout
@@ -119,7 +119,7 @@ const SetPayoutAdminPage = ({ bounty, refreshBounty, setShowButton }) => {
           <div className='flex justify-between items-center gap-2'>
             Once you close this split price contract, there is no going back. Please be certain.
           </div>
-          <ConnectButton nav={false} needsGithub={false} centerStyles={true} />
+          <ConnectButton nav={false} needsGithub={false} centerStyles={true} tooltipAction={'close the split price contract.'} />
           {isOnCorrectNetwork && account && (
             <button className='btn-danger' type='button' onClick={closeOngoing}>
               Close Split Price Contract
