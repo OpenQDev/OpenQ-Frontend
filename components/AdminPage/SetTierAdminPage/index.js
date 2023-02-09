@@ -8,7 +8,7 @@ import TokenSearch from '../../TokenSelection/TokenSearch';
 import SetTierValues from '../../MintBounty/MintBountyModal/AddContestParams/SetTierValues';
 import AdminModal from '../AdminModal/index.js';
 import TokenContext from '../../TokenSelection/TokenStore/TokenContext';
-import { ethers } from 'ethers';
+import { formatVolume } from '../../../services/utils/lib';
 
 const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   // Context
@@ -132,12 +132,7 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
       });
     }
   }
-  function formatVolume(tierVolume, token) {
-    let bigNumberVolume = ethers.BigNumber.from(tierVolume.toString());
-    let decimals = parseInt(token.decimals) || 18;
-    let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
-    return formattedVolume;
-  }
+
   return (
     <>
       {(bounty.bountyType === '2' || bounty.bountyType === '3') && (
@@ -192,7 +187,6 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
               category={bountyTypeName}
               sum={sum}
               initialVolumes={bounty.payoutSchedule || []}
-              formatVolume={formatVolume}
               finalTierVolumes={finalTierVolumes}
               setFinalTierVolumes={setFinalTierVolumes}
               setSum={setSum}

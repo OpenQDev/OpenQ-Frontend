@@ -6,6 +6,7 @@ import TierResult from './TierResult';
 import SmallToggle from '../../../../Utils/SmallToggle';
 import StoreContext from '../../../../../store/Store/StoreContext';
 import TokenContext from '../../../../TokenSelection/TokenStore/TokenContext';
+import { formatVolume } from '../../../../../services/utils/lib';
 
 const SetTierValues = ({
   category,
@@ -14,7 +15,6 @@ const SetTierValues = ({
   tierArr,
   setEnableContest,
   initialVolumes,
-  formatVolume,
   finalTierVolumes,
   setFinalTierVolumes,
   currentSum,

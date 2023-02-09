@@ -206,3 +206,9 @@ export const isEveryValueNotNull = (obj) => {
   const { kyc, w8Form, githubHasWallet, invoice } = obj;
   return kyc && w8Form && githubHasWallet && invoice;
 };
+export const formatVolume = (tierVolume, token) => {
+  let bigNumberVolume = ethers.BigNumber.from(tierVolume.toString());
+  let decimals = parseInt(token.decimals) || 18;
+  let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
+  return formattedVolume;
+};

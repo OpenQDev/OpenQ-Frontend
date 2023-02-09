@@ -88,7 +88,6 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
       const dispatch = { type: 'SET_LOADING', payload: true };
       mintDispatch(dispatch);
       let data;
-      console.log(goalToken, goalVolume, payoutToken, payoutVolume);
       switch (category) {
         case 'Fixed Price':
           data = {

@@ -11,11 +11,11 @@ import {
 import StoreContext from '../../../../store/Store/StoreContext';
 import { getW8Approved } from '../../../../services/utils/lib';
 import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
-const W8Form = ({ bounty }) => {
+const W8Requirement = ({ bounty }) => {
   const [loading, setLoading] = useState(false);
   const [appState] = useContext(StoreContext);
   const [file, setFile] = useState(null);
-  const [invoiceResponse, setInvoiceResponse] = useState('');
+  const [w8formResponse, setW8FormResponse] = useState('');
   const [sent, setSent] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const { accountData } = appState;
@@ -24,27 +24,27 @@ const W8Form = ({ bounty }) => {
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
     setSent(false);
-    setInvoiceResponse('');
+    setW8FormResponse('');
   };
 
   const handleResult = (result) => {
     if (result?.data?.message) {
-      setInvoiceResponse(result.data.message);
-    } else setInvoiceResponse(EMAIL_NOT_SENT);
+      setW8FormResponse(result.data.message);
+    } else setW8FormResponse(EMAIL_NOT_SENT);
 
     setLoading(false);
   };
   const handleSend = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setInvoiceResponse('LOADING');
+    setW8FormResponse('LOADING');
     const formData = new FormData();
     setSent(true);
     formData.append('file', file);
     setFile(null);
     try {
       const result = await axios.post(
-        `${process.env.NEXT_PUBLIC_INVOICE_URL}/taxform?id=${bounty.bountyAddress}`,
+        `${process.env.NEXT_PUBLIC_W8FORM_URL}/taxform?id=${bounty.bountyAddress}`,
         formData,
         {
           withCredentials: true,
@@ -53,17 +53,15 @@ const W8Form = ({ bounty }) => {
           },
         }
       );
-      console.log(result);
       handleResult(result);
     } catch (e) {
-      console.log(e);
       setLoading(false);
-      setInvoiceResponse(EMAIL_NOT_SENT);
+      setW8FormResponse(EMAIL_NOT_SENT);
       appState.logger.error('w8form.js1', e);
     }
   };
 
-  const invoiceResponseOptions = {
+  const w8formResponseOptions = {
     '': {
       MessageHTML: () => <></>,
     },
@@ -71,8 +69,8 @@ const W8Form = ({ bounty }) => {
       MessageHTML: () => (
         <>
           The organization's invoicing email is invalid.
-          {invoiceResponse?.invoicingEmail && `The email entered was  ${invoiceResponse.invoicingEmail}.`} Please
-          contact them or ask for help in our{' '}
+          {w8formResponse?.invoicingEmail && `The email entered was  ${w8formResponse.invoicingEmail}.`} Please contact
+          them or ask for help in our{' '}
           <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
             discord
           </a>
@@ -96,7 +94,7 @@ const W8Form = ({ bounty }) => {
       ),
     },
     EMAIL_SENT: {
-      successInvoice: true,
+      successW8Form: true,
       MessageHTML: () => (
         <>
           We have sent your tax document to the organization. Please wait until they have viewed and confirmed them. If
@@ -109,10 +107,10 @@ const W8Form = ({ bounty }) => {
         </>
       ),
     },
-    NO_DEPOSITS: { MessageHTML: () => "This bounty isn't invoiceable." },
+    NO_DEPOSITS: { MessageHTML: () => "This bounty isn't w8formable." },
     'no deposits': {
       MessageHTML: () =>
-        "Funder hasn't made any deposits yet, please wait for money to be deposited before sending invoice.",
+        "Funder hasn't made any deposits yet, please wait for money to be deposited before sending w8form.",
     },
 
     NOT_WINNER: {
@@ -182,7 +180,7 @@ const W8Form = ({ bounty }) => {
     },
   };
 
-  const MessageHTML = invoiceResponseOptions[invoiceResponse]?.MessageHTML || (() => <></>);
+  const MessageHTML = w8formResponseOptions[w8formResponse]?.MessageHTML || (() => <></>);
   return (
     <section className='flex flex-col gap-3'>
       <h4 className='text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
@@ -222,7 +220,7 @@ const W8Form = ({ bounty }) => {
           >
             profile
           </Link>{' '}
-          so that we can send you a copy of the invoice.
+          so that we can send you a copy of the w8form.
         </p>
       </div>
       <div className='font-semibold flex gap-2 group w-fit'>
@@ -288,7 +286,7 @@ const W8Form = ({ bounty }) => {
         (IRS) forms that foreign individuals and businesses must file to verify their country of residence for tax
         purposes, certifying that they qualify for a lower rate of tax withholding.
       </div>
-      {invoiceResponse && (
+      {w8formResponse && (
         <div className='bg-info border-info-strong border p-4 rounded-sm'>
           <MessageHTML />
         </div>
@@ -298,4 +296,4 @@ const W8Form = ({ bounty }) => {
   );
 };
 
-export default W8Form;
+export default W8Requirement;
