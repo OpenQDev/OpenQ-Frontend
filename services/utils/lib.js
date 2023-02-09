@@ -200,3 +200,9 @@ export const getW8Approved = (bounty, accountData) => {
 export const isContest = (bounty) => {
   return bounty.bountyType === '2' || bounty.bountyType === '3';
 };
+
+export const isEveryValueNotNull = (obj) => {
+  if (!obj) return false;
+  const { kyc, w8Form, githubHasWallet, invoice } = obj;
+  return kyc && w8Form && githubHasWallet && invoice;
+};

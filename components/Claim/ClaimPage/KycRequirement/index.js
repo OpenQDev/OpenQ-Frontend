@@ -15,6 +15,7 @@ const KycRequirement = ({ setKycVerified }) => {
   const { account, library } = useWeb3();
   const disabled = stage == 'processing' || stage == 'verified';
   useEffect(() => {
+    setKycVerified(true);
     if (failResponse == 'cancelled') {
       setStage('start');
       setFailResponse(null);

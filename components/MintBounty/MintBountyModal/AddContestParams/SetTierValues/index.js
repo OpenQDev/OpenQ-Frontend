@@ -26,7 +26,7 @@ const SetTierValues = ({
   const newVolumesArr = [];
   for (const index in tierArr) {
     if (initialVolumes[index]) {
-      newFixedVolumes[(index)] = formatVolume(initialVolumes[index], token);
+      newFixedVolumes[index] = formatVolume(initialVolumes[index], token);
       newVolumesArr[index] = initialVolumes[index];
     } else {
       newFixedVolumes[parseInt(index) + 1] = 1;
@@ -66,7 +66,7 @@ const SetTierValues = ({
   }, [finalTierVolumes]);
   // reset when category changes
   // commented out for now as not currently needed & resets even no actual change of category
-/*   useEffect(() => {
+  /*   useEffect(() => {
     const newVolumes = [];
 
     for (const index in tierArr) {
