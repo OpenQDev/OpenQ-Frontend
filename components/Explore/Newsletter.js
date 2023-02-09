@@ -97,7 +97,7 @@ export default function Newsletter() {
       </div>
 
       <FlexScrollContainer className='mt-10 sm:mt-0'>
-        <div className='flex flex-col space-y-5'>
+        <div className='flex flex-col space-y-3 sm:space-y-5 max-h-[50vh]'>
           {upcomingHackathons.map(([title, location, date, url]) => (
             <Link
               key={title + location + date}
@@ -105,9 +105,9 @@ export default function Newsletter() {
               target='_blank'
               className='flex items-center justify-between border bg-dark-2 border-dark-1 rounded px-5 py-3 xl:px-8 xl:py-4'
             >
-              <div className='flex flex-col w-4/5'>
-                <div className='text-link-colour font-semibold pr-3 truncate lg:text-xl'>{title}</div>
-                <div className='text-gray-400 font-bold flex items-center space-x-1 whitespace-nowrap'>
+              <div className='flex flex-col w-5/6'>
+                <div className='text-link-colour font-semibold sm:pr-3 truncate text-sm lg:text-xl'>{title}</div>
+                <div className='text-gray-400 font-bold flex items-center space-x-1 whitespace-nowrap text-sm'>
                   <LocationIcon />
                   <span className='capitalize'>
                     {location},{' '}
@@ -115,7 +115,7 @@ export default function Newsletter() {
                   </span>
                 </div>
               </div>
-              <div className='flex items-center justify-center pl-5'>
+              <div className='flex items-center justify-center pl-3 sm:pl-5'>
                 <ChevronRightIcon />
               </div>
             </Link>
