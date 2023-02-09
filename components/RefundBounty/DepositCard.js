@@ -140,7 +140,7 @@ const DepositCard = ({
         )}
       </div>
       <div className='pb-8'>
-        <ConnectButton nav={false} needsGithub={false} />
+        <ConnectButton nav={false} needsGithub={false} tooltipAction={'extend or refund a deposit.'} />
       </div>
     </div>
   );
