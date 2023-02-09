@@ -79,7 +79,7 @@ const SetBudgetAdminPage = ({ refreshBounty, bounty }) => {
           <div className='flex-1 items-center w-full mt-2'>
             <TokenFundBox onVolumeChange={onVolumeChange} volume={volume} bounty={bounty} />
           </div>
-          <ConnectButton nav={false} needsGithub={false} centerStyles={true} tooltipAction={'set a new budget.'}/>
+          <ConnectButton nav={false} needsGithub={false} centerStyles={true} tooltipAction={'set a new budget.'} />
           {isOnCorrectNetwork && account && (
             <button className='btn-default' type='button' onClick={setBudget}>
               Set New Budget

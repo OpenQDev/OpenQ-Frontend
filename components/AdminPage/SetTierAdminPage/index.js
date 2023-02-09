@@ -189,7 +189,12 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
               setEnableContest={setEnableContest}
             />
           </div>
-          <ConnectButton nav={false} needsGithub={false} centerStyles={true} tooltipAction={'set a new payout schedule.'}/>
+          <ConnectButton
+            nav={false}
+            needsGithub={false}
+            centerStyles={true}
+            tooltipAction={'set a new payout schedule.'}
+          />
           {isOnCorrectNetwork && account && (
             <ToolTipNew
               hideToolTip={enableContest || isLoading}
