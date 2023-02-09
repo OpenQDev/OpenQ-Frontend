@@ -5,6 +5,7 @@ import TextTierInput from './TextTierInput';
 import TierResult from './TierResult';
 import SmallToggle from '../../../../Utils/SmallToggle';
 import StoreContext from '../../../../../store/Store/StoreContext';
+import TokenContext from '../../../../TokenSelection/TokenStore/TokenContext';
 
 const SetTierValues = ({
   category,
@@ -12,24 +13,33 @@ const SetTierValues = ({
   setSum,
   tierArr,
   setEnableContest,
+  initialVolumes,
+  formatVolume,
   finalTierVolumes,
   setFinalTierVolumes,
   currentSum,
 }) => {
-  const newFixedVolumes = {};
+  const [appState] = useContext(StoreContext);
+  const [tokenState] = useContext(TokenContext);
+  const { token } = tokenState;
+  const newFixedVolumes = [];
   const newVolumesArr = [];
   for (const index in tierArr) {
-    newFixedVolumes[parseInt(index) + 1] = 1;
-    newVolumesArr[index] = 1;
+    if (initialVolumes[index]) {
+      newFixedVolumes[(index)] = formatVolume(initialVolumes[index], token);
+      newVolumesArr[index] = initialVolumes[index];
+    } else {
+      newFixedVolumes[parseInt(index) + 1] = 1;
+      newVolumesArr[index] = 1;
+    }
   }
   const [fixedTierVolumes, setFixedTierVolumes] = useState(newFixedVolumes);
   const [toggleVal, setToggleVal] = useState('Visual');
-  const [appState] = useContext(StoreContext);
 
   useEffect(() => {
     const newFixedVolumes = [];
     for (const index in tierArr) {
-      newFixedVolumes[parseInt(index)] = 1;
+      newFixedVolumes[parseInt(index)] = finalTierVolumes[parseInt(index)] || 1;
     }
     setFixedTierVolumes(newFixedVolumes);
     const newFinalVolumes = finalTierVolumes.slice(0, tierArr.length);
@@ -55,7 +65,8 @@ const SetTierValues = ({
     }
   }, [finalTierVolumes]);
   // reset when category changes
-  useEffect(() => {
+  // commented out for now as not currently needed & resets even no actual change of category
+/*   useEffect(() => {
     const newVolumes = [];
 
     for (const index in tierArr) {
@@ -63,7 +74,7 @@ const SetTierValues = ({
     }
     setFinalTierVolumes(newVolumes);
     setFixedTierVolumes(newVolumes);
-  }, [category]);
+  }, [category]); */
 
   const onTierVolumeChange = (e) => {
     if (
