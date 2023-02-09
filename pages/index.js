@@ -6,7 +6,7 @@ import Utils from '../services/utils/Utils';
 import Logger from '../services/logger/Logger';
 import UnexpectedErrorModal from '../components/Utils/UnexpectedErrorModal';
 import ExploreHeader from '../components/Explore/Header';
-import ExploreSearch from '../components/Explore/Search';
+// import ExploreSearch from '../components/Explore/Search';
 import ExploreHackathons from '../components/Explore/Hackathons';
 import ExploreMarketplace from '../components/Explore/Marketplace';
 import ExploreGoodFirstIssues from '../components/Explore/GoodFirstIssues';
@@ -22,7 +22,7 @@ export default function Index({ contestBounties, nonContestBounties, renderError
         <>
           <ExploreHeader />
           <div className='flex flex-col items-center max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-24 z-10 relative'>
-            <ExploreSearch />
+            {/* <ExploreSearch /> */}
             <ExploreHackathons fullBounties={contestBounties} />
             <ExploreMarketplace fullBounties={nonContestBounties} />
             <ExploreGoodFirstIssues />
