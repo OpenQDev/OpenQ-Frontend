@@ -39,7 +39,7 @@ export const GET_ALL_SUBMISSIONS = gql`
 
 export const GET_ALL_CONTRACTS = gql`
   query getAllContracts {
-    bounties(limit: 200) {
+    bounties(limit: 100) {
       nodes {
         address
         bountyId
@@ -210,12 +210,12 @@ export const GET_ORGANIZATION = gql`
 `;
 
 export const GET_ORGANIZATIONS = gql`
-  query getOrganizations($types: [String], $batch: Int!, $category: String) {
+  query getOrganizations($types: [String], $batch: PaginationInt!, $category: String) {
     organizations {
       nodes {
         blacklisted
         id
-        starringUsers(limit: 10000) {
+        starringUsers(limit: 100) {
           nodes {
             id
           }
@@ -404,7 +404,7 @@ export const STAR_ORGANIZATION = gql`
   mutation StarOrg($userId: String!, $organizationId: String!, $github: String, $email: String) {
     starOrg(userId: $userId, organizationId: $organizationId, github: $github, email: $email) {
       id
-      starringUsers(limit: 10000) {
+      starringUsers(limit: 100) {
         nodes {
           id
         }
@@ -417,7 +417,7 @@ export const UNSTAR_ORGANIZATION = gql`
   mutation unstarOrg($userId: String!, $organizationId: String!, $github: String, $email: String) {
     unstarOrg(userId: $userId, organizationId: $organizationId, github: $github, email: $email) {
       id
-      starringUsers(limit: 10000) {
+      starringUsers(limit: 100) {
         nodes {
           id
         }
@@ -433,7 +433,7 @@ export const GET_CONTRACT_PAGE = gql`
     $sortOrder: String
     $organizationId: String
     $types: [String]
-    $limit: Int!
+    $limit: PaginationInt!
     $category: String
     $repositoryId: String
   ) {
