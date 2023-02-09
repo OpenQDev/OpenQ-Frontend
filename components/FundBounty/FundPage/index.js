@@ -229,7 +229,7 @@ const FundPage = () => {
                         </div>
                       </div>
                     )}
-                    <ConnectButton needsGithub={false} nav={false} tooltipAction={'to fund this contract!'} />
+                    <ConnectButton needsGithub={false} nav={false} tooltipAction={'fund this contract!'} />
                     {account && isOnCorrectNetwork && (
                       <ToolTipNew
                         relativePosition={'left-0'}

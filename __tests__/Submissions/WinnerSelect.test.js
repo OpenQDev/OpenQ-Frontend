@@ -6,7 +6,6 @@ import React from 'react';
 import { render, screen } from '../../test-utils';
 import WinnerSelect from '../../components/Submissions/WinnerSelect';
 import userEvent from '@testing-library/user-event';
-import { waitFor } from '@testing-library/react';
 
 describe('WinnerSelect', () => {
   const zeroAddress = '0x0000000000000000000000000000000000000000';
