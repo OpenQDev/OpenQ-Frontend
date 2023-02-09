@@ -41,9 +41,9 @@ export default function ExploreHackathons({ fullBounties }) {
           </FancyButton>
         </h2>
         <FlexScrollContainer>
-          <div className='flex flex-col space-y-5'>
+          <div className='flex space-x-5 sm:flex-col sm:space-x-0 sm:space-y-5'>
             {fullBounties.map((bounty) => (
-              <Card key={bounty.id}>
+              <Card key={bounty.id} className="min-w-full">
                 <CardHeader>
                   <Image
                     src='https://avatars.githubusercontent.com/u/77402538?v=4'
