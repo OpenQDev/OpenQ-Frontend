@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import GithubConnection from '../../../User/OverviewTab/GithubConnection';
 import ToolTipNew from '../../../Utils/ToolTipNew';
 
-const index = ({ setGithubHasWalletVerified }) => {
+const GithubRequirement = ({ setGithubHasWalletVerified }) => {
   const [verified, setVerified] = useState(null);
   const [claimPageError, setClaimPageError] = useState('');
   useEffect(() => {
@@ -15,7 +15,7 @@ const index = ({ setGithubHasWalletVerified }) => {
         GitHub
         <div
           className={`${
-            verified ? 'bg-[#1c6f2c] border-[#2ea043]' : 'bg-info border-info-strong'
+            verified ? 'bg-[#1c6f2c] border-[#2ea043]' : setGithubHasWalletVerified ? 'bg-info border-info-strong' : 'hidden'
           } border-2 text-sm px-2 rounded-full h-6`}
         >
           {verified ? 'Approved' : setGithubHasWalletVerified ? 'Required' : null}
@@ -53,4 +53,4 @@ const index = ({ setGithubHasWalletVerified }) => {
   );
 };
 
-export default index;
+export default GithubRequirement;
