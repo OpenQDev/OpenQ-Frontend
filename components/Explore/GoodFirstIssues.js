@@ -14,7 +14,7 @@ import RepoLanguage from './RepoLanguage';
 import reposWhitelist from './reposWhitelist.json';
 
 const gun = new Gun({
-  peers: ['http://192.168.178.29:4200/gun', 'https://phorum-relay.mktcode.uber.space/gun'],
+  peers: ['https://gun.mktcode.uber.space/gun'],
 });
 
 export default function GoodFirstIssues() {
@@ -23,6 +23,7 @@ export default function GoodFirstIssues() {
   useEffect(() => {
     reposWhitelist.forEach((ownerAndRepo) => {
       gun.get(ownerAndRepo).once((repo) => {
+        if (!repo || !repo.issuesJson) return;
         try {
           const repoIssues = JSON.parse(repo.issuesJson);
           repoIssues.forEach((issue) => {
