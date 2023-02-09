@@ -15,7 +15,11 @@ const GithubRequirement = ({ setGithubHasWalletVerified }) => {
         GitHub
         <div
           className={`${
-            verified ? 'bg-[#1c6f2c] border-[#2ea043]' : setGithubHasWalletVerified ? 'bg-info border-info-strong' : 'hidden'
+            verified
+              ? 'bg-[#1c6f2c] border-[#2ea043]'
+              : setGithubHasWalletVerified
+              ? 'bg-info border-info-strong'
+              : 'hidden'
           } border-2 text-sm px-2 rounded-full h-6`}
         >
           {verified ? 'Approved' : setGithubHasWalletVerified ? 'Required' : null}
