@@ -70,7 +70,7 @@ const RequestIndividual = ({ bounty, request }) => {
     getIssue();
   }, [issueId]);
   return (
-    <li className='border gap-4 grid content-center items-center border-web-gray rounded-md p-4 grid-cols-[80px_1fr_24px_120px]'>
+    <li className='border gap-4 grid content-center items-center border-web-gray rounded-md p-4 grid-cols-[80px_1fr_24px_160px]'>
       <Image className='rounded-full' src={githubUser.avatarUrl} width='80' height='80' />
       <div className='leading-none self-start space-y-1.5 px-4'>
         <div>
@@ -87,18 +87,16 @@ const RequestIndividual = ({ bounty, request }) => {
       <a href={`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.address}`}>
         <Chain className='w-6 h-6 fill-primary' />
       </a>
-      <div>
-        <button
-          disabled={accepted || loading}
-          onClick={acceptRequest}
-          className={`flex w-fit gap-2 ${
-            accepted || loading ? 'btn-default cursor-not-allowed' : 'btn-primary'
-          } py-0.5 w-full self-center`}
-        >
-          Accept{accepted ? 'ed' : loading ? 'ing' : ''}
-          {loading && <LoadingIcon />}
-        </button>
-      </div>
+      <button
+        disabled={accepted || loading}
+        onClick={acceptRequest}
+        className={`flex w-fit gap-2 ${
+          accepted || loading ? 'btn-default cursor-not-allowed' : 'btn-primary'
+        } py-0.5 w-full text-lg self-center flex content-center items-center justify-center`}
+      >
+        Accept{accepted ? 'ed' : loading ? 'ing' : ''}
+        {loading && <LoadingIcon />}
+      </button>
     </li>
   );
 };
