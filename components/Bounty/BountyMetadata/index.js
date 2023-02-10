@@ -161,7 +161,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
                   <div key={index} className='flex items-center gap-4 text-primary'>
                     <div className='text-xs font-semibold leading-loose'>{`${appState.utils.handleSuffix(
                       index + 1
-                    )} winner:`}</div>
+                    )} Place:`}</div>
                     <div className='text-xs font-semibold'>{t} %</div>
                   </div>
                 );
@@ -184,7 +184,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
                 <div key={index} className='flex items-center gap-4 text-primary'>
                   <div className='text-xs font-semibold leading-loose'>{`${appState.utils.handleSuffix(
                     index + 1
-                  )} winner:`}</div>
+                  )} Place:`}</div>
                   <div className='text-xs font-semibold'>
                     {formatVolume(t)} {token.symbol}
                   </div>

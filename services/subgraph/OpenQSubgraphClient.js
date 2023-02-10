@@ -4,7 +4,6 @@ import {
   GET_USER,
   GET_USER_BY_GITHUB_ID,
   GET_BOUNTY,
-  GET_ALL_BOUNTIES,
   GET_ORGANIZATIONS,
   GET_PAYOUT_TRANSACTION_HASH,
   GET_BOUNTY_BY_ID,
@@ -32,26 +31,6 @@ class OpenQSubgraphClient {
     link: this.httpLink,
     cache: new InMemoryCache(),
   });
-
-  async getAllBounties(sortOrder, startAt, quantity, types) {
-    const promise = new Promise(async (resolve, reject) => {
-      try {
-        const result = await this.client.query({
-          query: GET_ALL_BOUNTIES,
-          variables: { skip: startAt, sortOrder, quantity, types },
-        });
-        resolve(
-          result.data.bounties.filter(
-            (bounty) => bounty.bountyId.slice(0, 1) === 'I' || bounty.bountyId.slice(0, 1) === 'M'
-          )
-        );
-      } catch (e) {
-        reject(e);
-      }
-    });
-
-    return promise;
-  }
 
   async getPayoutTransactionHash(bountyAddress) {
     const lowerCasedAddress = bountyAddress.toLowerCase();

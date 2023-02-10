@@ -43,8 +43,7 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
   const { github } = appState.accountData;
   const { account, library, safe } = useWeb3();
   const router = useRouter();
-  const hasRequirements = invoiceable || kycRequired || supportingDocumentsRequired;
-  const loggedInIfNeeded = accountData.id || !hasRequirements;
+  const loggedInIfNeeded = accountData.id;
   const readyToMint =
     enableMint &&
     !issue?.closed &&
