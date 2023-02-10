@@ -113,10 +113,10 @@ describe('SetTierAdminPage', () => {
       expect(await screen.findByText(/1st winner:/i)).toBeInTheDocument();
       expect(await screen.findByText(/2nd winner:/i)).toBeInTheDocument();
       expect(await screen.findByText(/3rd winner:/i)).toBeInTheDocument();
-      expect(await screen.findByText(/^50 Matic/i)).toBeInTheDocument();
-      expect(await screen.findByText(/^30 Matic/i)).toBeInTheDocument();
-      expect(await screen.findByText(/^20 Matic/i)).toBeInTheDocument();
-      expect(setTier).toBeCalledWith(bounty.bountyId, [50, 30, 20], Constants.maticAddress);
+      expect(await screen.findByText(/^5e-17 Matic/i)).toBeInTheDocument();
+      expect(await screen.findByText(/^3e-17 Matic/i)).toBeInTheDocument();
+      expect(await screen.findByText(/^2e-17 Matic/i)).toBeInTheDocument();
+      expect(setTier).toBeCalledWith(bounty.bountyId, [5e-17, 3e-17, 2e-17], Constants.maticAddress);
     });
   });
 });
