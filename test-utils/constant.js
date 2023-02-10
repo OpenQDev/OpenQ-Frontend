@@ -617,6 +617,9 @@ export default class Constants {
   static get payoutSchedule2() {
     return ['30', '60', '10'];
   }
+  static get payoutSchedule3() {
+    return ['30000000000000000000', '60000000000000000000', '10000000000000000000'];
+  }
   static get closerData() {
     return null;
   }
@@ -1060,7 +1063,7 @@ export default class Constants {
   static get bounty3() {
     return {
       ...Constants.bounty,
-      payoutSchedule: Constants.payoutSchedule2,
+      payoutSchedule: Constants.payoutSchedule3,
       bountyType: Constants.bountyTypeFixedContest,
     };
   }

@@ -19,7 +19,7 @@ const W8Requirement = ({ bounty }) => {
   const [w8formResponse, setW8FormResponse] = useState('');
   const [showModal, setShowModal] = useState(false);
   const { accountData } = appState;
-  const pending = bounty.requests.nodes.some((node) => node.requestingUser.id === accountData.id);
+  const pending = bounty.requests?.nodes.some((node) => node.requestingUser.id === accountData.id);
   const [sent, setSent] = useState(pending);
   const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}?tab=📃Invoicing (Freelancer)`;
   const W8Approved = getW8Approved(bounty, accountData);
