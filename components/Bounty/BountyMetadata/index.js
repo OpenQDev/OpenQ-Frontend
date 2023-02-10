@@ -97,11 +97,11 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
               {noRequirements ? (
                 'None'
               ) : (
-                <>
-                  {bounty.invoiceRequired && 'Invoice 📃 '}
-                  {bounty.kycRequired && 'KYC 👤 '}
-                  {bounty.supportingDocumentsRequired && 'W8/W9 Form 🗒 '}
-                </>
+                <div className='flex flex-col'>
+                  <div>{bounty.invoiceRequired && 'Invoice 📃 '}</div>
+                  <div>{bounty.kycRequired && 'KYC 👤 '}</div>
+                  <div>{bounty.supportingDocumentsRequired && 'W8/W9 Form 🗒 '}</div>
+                </div>
               )}
             </div>
           </li>

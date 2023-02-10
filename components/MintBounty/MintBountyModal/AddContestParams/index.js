@@ -103,17 +103,19 @@ const AddContestParams = () => {
       </TokenProvider>
 
       {tier > 0 ? (
-        <SetTierValues
-          category={category}
-          sum={sum}
-          currentSum={currentSum}
-          finalTierVolumes={finalTierVolumes}
-          setFinalTierVolumes={setFinalTierVolumes}
-          tierArr={tierArr}
-          setSum={noop}
-          setEnableContest={noop}
-          initialVolumes={['1', '1', '1']}
-        />
+        <TokenProvider>
+          <SetTierValues
+            category={category}
+            sum={sum}
+            currentSum={currentSum}
+            finalTierVolumes={finalTierVolumes}
+            setFinalTierVolumes={setFinalTierVolumes}
+            tierArr={tierArr}
+            setSum={noop}
+            setEnableContest={noop}
+            initialVolumes={['1', '1', '1']}
+          />
+        </TokenProvider>
       ) : null}
     </div>
   );

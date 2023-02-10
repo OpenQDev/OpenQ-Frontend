@@ -15,10 +15,10 @@ import W8Form from './W8Form';
 import KycRequirement from './KycRequirement';
 import GithubRequirement from './GithubRequirement';
 import ClaimButton from './ClaimButton';
-import { checkClaimable, isContest } from '../../../services/utils/lib';
+import { checkClaimable, isEveryValueNotNull, isContest } from '../../../services/utils/lib';
 // import { ChevronUpIcon, ChevronDownIcon } from '@primer/octicons-react';
 
-const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claimState }) => {
+const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claimState, showClaimPage }) => {
   const [appState] = useContext(StoreContext);
 
   const { accountData, openQClient } = appState;
@@ -48,11 +48,12 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claim
   let githubHasWallet = bounty.bountyType == 0 || bounty.bountyType == 1 || githubHasWalletVerified;
 
   const [claimable, setClaimable] = claimState;
+  const canClaim = isEveryValueNotNull(claimable);
   const hasRequirements =
     bounty.kycRequired || bounty.supportingDocumentsRequired || bounty.invoiceRequired || isContest(bounty);
 
   useEffect(() => {
-    setClaimable(kyc && w8Form && githubHasWallet && invoice);
+    setClaimable({ kyc, w8Form, githubHasWallet, invoice });
   }, [kyc, w8Form, githubHasWallet, invoice]);
 
   /* const accountKeys = [
@@ -94,14 +95,14 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claim
     // rewards are claimable
     return (
       <>
-        <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px]'>
+        <div className={`flex-1 pt-4 pb-8 w-full max-w-[1200px] ${!showClaimPage && 'hidden'}`}>
           <div className='flex flex-col w-full space-y-2 rounded-sm gap-4'>
             <div
               className={`${
-                claimable ? 'border-green bg-green-inside' : 'bg-info border-info-strong'
+                canClaim ? 'border-green bg-green-inside' : 'bg-info border-info-strong'
               } border-2 p-3 rounded-sm`}
             >
-              {claimable ? (
+              {canClaim ? (
                 'Congratulations, you can now claim your bounty!'
               ) : (
                 <>
@@ -118,7 +119,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claim
             {bounty.kycRequired && <KycRequirement setKycVerified={setKycVerified} />}
             {bounty.supportingDocumentsRequired && <W8Form bounty={bounty} />}
             {isContest(bounty) && <GithubRequirement setGithubHasWalletVerified={setGithubHasWalletVerified} />}
-            <InvoicingRequirement bounty={bounty} />
+            <InvoicingRequirement bounty={bounty} setClaimable={claimState[1]} />
             <section className='flex flex-col gap-3'>
               <h4 className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>Claim Your Rewards</h4>
               <div className='flex flex-col gap-2'>

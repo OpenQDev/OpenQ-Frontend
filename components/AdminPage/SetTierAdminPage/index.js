@@ -8,6 +8,7 @@ import TokenSearch from '../../TokenSelection/TokenSearch';
 import SetTierValues from '../../MintBounty/MintBountyModal/AddContestParams/SetTierValues';
 import AdminModal from '../AdminModal/index.js';
 import TokenContext from '../../TokenSelection/TokenStore/TokenContext';
+import { ethers } from 'ethers';
 
 const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   // Context
@@ -46,7 +47,11 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   }, [bounty]);
   const [tier, setTier] = useState(bounty.payoutSchedule?.length);
   const [tierArr, setTierArr] = useState(initialTierArr);
-  const [finalTierVolumes, setFinalTierVolumes] = useState(bounty.payoutSchedule || []);
+  const [finalTierVolumes, setFinalTierVolumes] = useState(
+    bounty.payoutSchedule?.map((p) => {
+      return formatVolume(p, token);
+    }) || []
+  );
 
   const [sum, setSum] = useState(0);
   const [enableContest, setEnableContest] = useState(false);
@@ -127,6 +132,12 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
       });
     }
   }
+  function formatVolume(tierVolume, token) {
+    let bigNumberVolume = ethers.BigNumber.from(tierVolume.toString());
+    let decimals = parseInt(token.decimals) || 18;
+    let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
+    return formattedVolume;
+  }
   return (
     <>
       {(bounty.bountyType === '2' || bounty.bountyType === '3') && (
@@ -181,6 +192,7 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
               category={bountyTypeName}
               sum={sum}
               initialVolumes={bounty.payoutSchedule || []}
+              formatVolume={formatVolume}
               finalTierVolumes={finalTierVolumes}
               setFinalTierVolumes={setFinalTierVolumes}
               setSum={setSum}
@@ -189,7 +201,12 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
               setEnableContest={setEnableContest}
             />
           </div>
-          <ConnectButton nav={false} needsGithub={false} centerStyles={true} />
+          <ConnectButton
+            nav={false}
+            needsGithub={false}
+            centerStyles={true}
+            tooltipAction={'set a new payout schedule.'}
+          />
           {isOnCorrectNetwork && account && (
             <ToolTipNew
               hideToolTip={enableContest || isLoading}

@@ -62,13 +62,7 @@ const BountyHeading = ({
       </div>
       <div className='w-full flex flex-wrap justify-between pb-4 border-b border-web-gray'>
         <div className={`${marker.colour} py-2 font-semibold rounded-full px-4 flex gap-1  w-fit`}>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            viewBox='0 0 16 16'
-            width='16'
-            height='16'
-            className={`fill-white ${marker.colour}`}
-          >
+          <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16' className={`fill-white`}>
             <path d='M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z'></path>
             <path
               fillRule='evenodd'

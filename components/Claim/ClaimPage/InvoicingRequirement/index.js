@@ -3,25 +3,35 @@ import StoreContext from '../../../../store/Store/StoreContext';
 import Link from 'next/link';
 import axios from 'axios';
 import { MailIcon } from '@primer/octicons-react';
+import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
 import {
   EMAIL_NOT_SENT,
   EMAIL_SENT,
   NOT_INVOICEABLE,
   NO_DEPOSITS,
-  MISSING_FIELDS,
+  MISSING_FIELDS_CLIENT,
+  MISSING_FIELDS_FREELANCER,
+  INVALID_EMAIL_CLIENT,
+  INVALID_EMAIL_FREELANCER,
 } from '../../../../constants/invoiceableResponses';
 
-const Invoicing = ({ bounty }) => {
+const Invoicing = ({ bounty, setClaimable }) => {
+  const [loading, setLoading] = useState(false);
   const [appState] = useContext(StoreContext);
   const { account } = appState;
   const { accountData } = appState;
-  const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}?tab=Invoicng Details - Freelancer`;
+  const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}?tab=📃Invoicing (Freelancer)`;
 
   const [invoiceResponse, setInvoiceResponse] = useState('');
   const handleResult = (result) => {
     if (result.data) {
       setInvoiceResponse(result.data.message);
-    } else setInvoiceResponse(EMAIL_NOT_SENT);
+      if (result.data.message === EMAIL_SENT) {
+        setClaimable((prev) => ({ ...prev, invoice: true }));
+      }
+    } else if (result.data.message) setInvoiceResponse(result.data.message);
+    else setInvoiceResponse(EMAIL_NOT_SENT);
+    setLoading(false);
   };
   const invoiceResponseOptions = {
     '': {
@@ -36,7 +46,7 @@ const Invoicing = ({ bounty }) => {
       MessageHTML: () =>
         "Funder hasn't made any deposits yet, please wait for money to be deposited before sending invoice.",
     },
-    [MISSING_FIELDS]: {
+    [MISSING_FIELDS_FREELANCER]: {
       MessageHTML: () => (
         <>
           You haven't added all the mandatory fields in your invoice details. Please head to your{' '}
@@ -44,6 +54,48 @@ const Invoicing = ({ bounty }) => {
             profile
           </Link>{' '}
           and add them or ask for help in our{' '}
+          <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
+            discord
+          </a>
+          .
+        </>
+      ),
+    },
+    [MISSING_FIELDS_CLIENT]: {
+      MessageHTML: () => (
+        <>
+          The organization hasn't added all the mandatory fields in their invoice details.{' '}
+          {invoiceResponse?.invoicingEmail ? `Please contact them at ${invoiceResponse.invoicingEmail} or` : 'Please'}{' '}
+          ask for help in our{' '}
+          <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
+            discord
+          </a>
+          .
+        </>
+      ),
+    },
+    [INVALID_EMAIL_CLIENT]: {
+      status: 'invalidEmail',
+      MessageHTML: () => (
+        <>
+          The organization's invoicing email is invalid.
+          {invoiceResponse?.invoicingEmail && `The email entered was  ${invoiceResponse.invoicingEmail}.`} Please
+          contact them or ask for help in our{' '}
+          <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
+            discord
+          </a>
+          .
+        </>
+      ),
+    },
+    [INVALID_EMAIL_FREELANCER]: {
+      MessageHTML: () => (
+        <>
+          Your email is an invalid format. Please head to your{' '}
+          <Link className='underline' href={profileLink}>
+            profile
+          </Link>{' '}
+          and correct it or ask for help in our{' '}
           <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
             discord
           </a>
@@ -76,6 +128,7 @@ const Invoicing = ({ bounty }) => {
   const MessageHTML = invoiceResponseOptions[invoiceResponse]?.MessageHTML || (() => <></>);
 
   const handleSendInvoice = async () => {
+    setLoading(true);
     try {
       const result = await axios.post(
         `${process.env.NEXT_PUBLIC_INVOICE_URL}/fixedcontest?id=${bounty.bountyAddress}&account=${account}`,
@@ -85,13 +138,11 @@ const Invoicing = ({ bounty }) => {
 
       handleResult(result);
     } catch (err) {
-      if (JSON.parse(err.request.response).missingFields.length) {
-        setInvoiceResponse(MISSING_FIELDS);
-      } else {
-        setInvoiceResponse(EMAIL_NOT_SENT);
-      }
+      setLoading(false);
+      setInvoiceResponse(EMAIL_NOT_SENT);
     }
   };
+
   return (
     <>
       {bounty.invoiceRequired && (
@@ -135,6 +186,7 @@ const Invoicing = ({ bounty }) => {
           <button onClick={handleSendInvoice} className='flex items-center gap-2 btn-requirements w-fit'>
             <MailIcon />
             Send {successInvoice && 'again'}
+            {loading && <LoadingIcon />}
           </button>
           {!successInvoice && invoiceResponse && (
             <div className='bg-info border-info-strong border p-4 rounded-sm'>
