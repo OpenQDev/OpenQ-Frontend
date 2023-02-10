@@ -8,7 +8,7 @@ import TokenSearch from '../../TokenSelection/TokenSearch';
 import SetTierValues from '../../MintBounty/MintBountyModal/AddContestParams/SetTierValues';
 import AdminModal from '../AdminModal/index.js';
 import TokenContext from '../../TokenSelection/TokenStore/TokenContext';
-import { formatVolume } from '../../../services/utils/lib';
+import { ethers } from 'ethers';
 
 const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   // Context
@@ -19,6 +19,13 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   const { token } = tokenState;
   const [showTokenSearch, setShowTokenSearch] = useState();
   const bountyTypeName = appState.utils.getBountyTypeName(bounty);
+
+  function formatVolume(tierVolume, token) {
+    let bigNumberVolume = ethers.BigNumber.from(tierVolume.toString());
+    let decimals = parseInt(token.decimals) || 18;
+    let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
+    return formattedVolume;
+  }
 
   const zeroAddressMetadata = {
     name: 'Matic',
@@ -190,6 +197,7 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
               finalTierVolumes={finalTierVolumes}
               setFinalTierVolumes={setFinalTierVolumes}
               setSum={setSum}
+              formatVolume={formatVolume}
               currentSum={sum}
               tierArr={tierArr}
               setEnableContest={setEnableContest}

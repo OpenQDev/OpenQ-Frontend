@@ -1063,7 +1063,7 @@ export default class Constants {
   static get bounty3() {
     return {
       ...Constants.bounty,
-      payoutSchedule: Constants.payoutSchedule3,
+      payoutSchedule: Constants.payoutSchedule2,
       bountyType: Constants.bountyTypeFixedContest,
     };
   }
