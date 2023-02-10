@@ -28,7 +28,12 @@ describe('ClaimPage', () => {
   jest.mock('axios');
   axios.get = jest.fn().mockResolvedValue({ data: { data: 'true' } });
 
-  const claimable = true;
+  const claimable = {
+    kyc: true,
+    w8Form: true,
+    githubHasWallet: true,
+    invoice: true,
+  };
   const setClaimable = jest.fn();
 
   beforeEach(() => {

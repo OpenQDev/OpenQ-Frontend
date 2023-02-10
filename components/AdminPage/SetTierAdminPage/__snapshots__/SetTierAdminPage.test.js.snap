@@ -186,7 +186,7 @@ exports[`SetTierAdminPage should match DOM and render "Which token?", "Volumes:"
             id="tier-volume"
             name="1"
             placeholder="1st winner"
-            value="1"
+            value="0.00000000000000003"
           />
         </div>
       </div>
@@ -207,7 +207,7 @@ exports[`SetTierAdminPage should match DOM and render "Which token?", "Volumes:"
             id="tier-volume"
             name="2"
             placeholder="2nd winner"
-            value="1"
+            value="0.00000000000000006"
           />
         </div>
       </div>
@@ -228,7 +228,7 @@ exports[`SetTierAdminPage should match DOM and render "Which token?", "Volumes:"
             id="tier-volume"
             name="3"
             placeholder="3rd winner"
-            value="1"
+            value="0.00000000000000001"
           />
         </div>
       </div>
