@@ -2,6 +2,8 @@ import { render, screen, waitFor } from '../../../../test-utils';
 import React from 'react';
 import AddSkill from '.';
 import userEvent from '@testing-library/user-event';
+import MockOpenQPrismaClient from '../../../../services/openq-api/MockOpenQPrismaClient';
+import InitialState from '../../../../store/Store/InitialState';
 
 describe('Add Skill', () => {
   const setInputValue = jest.fn();
@@ -30,9 +32,17 @@ describe('Add Skill', () => {
   });
   it('setInputValue to have been called', async () => {
     const currentUser = userEvent.setup();
+    const updateUserMockFunc = jest.fn();
+    const customInitialState = {
+      ...InitialState,
+      accountData: user,
+      openQPrismaClient: new MockOpenQPrismaClient({ updateUserMockFunc }),
+    };
 
     render(
-      <AddSkill setInputValue={setInputValue} childInfo={['toml', 'languages']} user={user} category={'languages'} />
+      <AddSkill setInputValue={setInputValue} childInfo={['toml', 'languages']} user={user} category={'languages'} />,
+      {},
+      customInitialState
     );
     const buttons = screen.getAllByRole('button');
     expect(buttons.length).toBe(6);
