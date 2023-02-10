@@ -7,6 +7,7 @@ import 'github-markdown-css/github-markdown-dark.css';
 import { useRouter } from 'next/router';
 import ReactGA from 'react-ga4';
 import { hotjar } from 'react-hotjar';
+import ErrorBoundary from '../components/Layout/ErrorBoundary';
 
 // Custom
 import SetContextState from '../store/SetContextState/SetContextState';
@@ -100,14 +101,16 @@ function OpenQ({ Component, pageProps }) {
             <Web3ReactProvider connectors={connectors}>
               <StoreProvider>
                 <SetContextState>
-                  <div className='' id='modalroot'></div>
-                  <div className='min-h-screen  flex flex-col justify-between'>
-                    <div>
-                      {router.asPath == '/login' ? null : <Navigation />}
-                      <Component key={router.asPath} {...pageProps} />
+                  <ErrorBoundary>
+                    <div className='' id='modalroot'></div>
+                    <div className='min-h-screen  flex flex-col justify-between'>
+                      <div>
+                        {router.asPath == '/login' ? null : <Navigation />}
+                        <Component key={router.asPath} {...pageProps} />
+                      </div>
+                      <Footer />
                     </div>
-                    <Footer />
-                  </div>
+                  </ErrorBoundary>
                 </SetContextState>
               </StoreProvider>
             </Web3ReactProvider>

@@ -10,7 +10,7 @@ import {
   GET_CONTRACT_PAGE,
   GET_LEAN_ORGANIZATIONS,
   GET_ALL_CONTRACTS,
-  GET_PR_BY_ID,
+  GET_SUBMISSION_BY_ID,
   CREATE_PR,
   ADD_CONTRIBUTOR,
   REMOVE_CONTRIBUTOR,
@@ -120,12 +120,12 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async getPr(prId) {
+  async getPr(id) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
-          query: GET_PR_BY_ID,
-          variables: { prId },
+          query: GET_SUBMISSION_BY_ID,
+          variables: { id },
           fetchPolicy: 'no-cache',
         });
         resolve(result.data);
