@@ -35,7 +35,7 @@ const AddAlternativeMetadata = () => {
   return (
     <div className='flex flex-col gap-2 w-11/12 pb-4'>
       <div className='flex items-center gap-2 font-semibold'>
-        <label htmlFor='sponsor'>Issue Sponsor</label>
+        <label htmlFor='sponsor'>Issue Sponsor (optional) </label>
         <ToolTipNew
           innerStyles={'w-40 whitespace-normal'}
           toolTipText={'Enter the github url of the sponsor of this issue.'}
@@ -52,6 +52,7 @@ const AddAlternativeMetadata = () => {
         type='text'
         value={githubUrl}
         onChange={handleNameChange}
+        placeholder='https://github.com/...'
       />
 
       {altUrl && (

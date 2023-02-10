@@ -20,6 +20,13 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   const [showTokenSearch, setShowTokenSearch] = useState();
   const bountyTypeName = appState.utils.getBountyTypeName(bounty);
 
+  function formatVolume(tierVolume, token) {
+    let bigNumberVolume = ethers.BigNumber.from(tierVolume.toString());
+    let decimals = parseInt(token.decimals) || 18;
+    let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
+    return formattedVolume;
+  }
+
   const zeroAddressMetadata = {
     name: 'Matic',
     address: '0x0000000000000000000000000000000000000000',
@@ -132,12 +139,7 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
       });
     }
   }
-  function formatVolume(tierVolume, token) {
-    let bigNumberVolume = ethers.BigNumber.from(tierVolume.toString());
-    let decimals = parseInt(token.decimals) || 18;
-    let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
-    return formattedVolume;
-  }
+
   return (
     <>
       {(bounty.bountyType === '2' || bounty.bountyType === '3') && (
@@ -192,10 +194,10 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
               category={bountyTypeName}
               sum={sum}
               initialVolumes={bounty.payoutSchedule || []}
-              formatVolume={formatVolume}
               finalTierVolumes={finalTierVolumes}
               setFinalTierVolumes={setFinalTierVolumes}
               setSum={setSum}
+              formatVolume={formatVolume}
               currentSum={sum}
               tierArr={tierArr}
               setEnableContest={setEnableContest}

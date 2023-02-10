@@ -9,7 +9,7 @@ import StoreContext from '../../../store/Store/StoreContext';
 import ConnectButton from '../../WalletConnect/ConnectButton';
 import AuthContext from '../../../store/AuthStore/AuthContext';
 import InvoicingRequirement from './InvoicingRequirement';
-import W8Form from './W8Form';
+import W8Requirement from './W8Requirement';
 // import FreelancerDetails from '../../User/InvoicingDetailsTab/FreelancerDetails';
 // import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
 import KycRequirement from './KycRequirement';
@@ -117,7 +117,7 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claim
             </div>
             {hasRequirements && <h3 className='flex w-full text-3xl font-semibold text-primary'>Requirements</h3>}
             {bounty.kycRequired && <KycRequirement setKycVerified={setKycVerified} />}
-            {bounty.supportingDocumentsRequired && <W8Form bounty={bounty} />}
+            {bounty.supportingDocumentsRequired && <W8Requirement bounty={bounty} />}
             {isContest(bounty) && <GithubRequirement setGithubHasWalletVerified={setGithubHasWalletVerified} />}
             <InvoicingRequirement bounty={bounty} setClaimable={claimState[1]} />
             <section className='flex flex-col gap-3'>

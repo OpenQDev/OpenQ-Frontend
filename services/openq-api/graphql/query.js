@@ -5,6 +5,14 @@ export const GET_BOUNTY_BY_ADDRESS = gql`
     bounty(address: $contractAddress) {
       tvl
       tvc
+      requests(limit: 100) {
+        nodes {
+          id
+          requestingUser {
+            id
+          }
+        }
+      }
       bountyId
       creatingUser {
         country

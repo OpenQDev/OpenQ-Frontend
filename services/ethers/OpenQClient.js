@@ -74,7 +74,7 @@ class OpenQClient {
     library,
     issueId,
     organization,
-    issuerExternalUserId,
+    issuerExternalUserId = '',
     type,
     invoiceable,
     kycRequired,
