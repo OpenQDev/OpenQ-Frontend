@@ -10,7 +10,6 @@ const SubmissionCard = ({ pr, bounty, refreshBounty }) => {
   const { account } = useWeb3();
   const admin = bounty && bounty?.issuer?.id === account?.toLowerCase();
   const author = pr.author;
-  console.log(bounty);
   const tierWon = bounty?.tierWinners?.indexOf(author.id);
 
   const linkedPrize = tierWon >= 0 && tierWon + 1;
