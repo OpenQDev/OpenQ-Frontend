@@ -42,7 +42,7 @@ const address = ({ address, mergedBounty, renderError }) => {
   const [appState, dispatch] = useContext(StoreContext);
   const { accountData, openQClient } = appState;
   const [bounty, setBounty] = useState(mergedBounty);
-  const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
+
   const { status } = checkClaimable(bounty, accountData?.github, openQClient);
   const claimable = status === 'Claimable';
   const claimState = useState({});
@@ -243,10 +243,10 @@ const address = ({ address, mergedBounty, renderError }) => {
 
               <BountyHeading
                 refreshGithubBounty={refreshGithubBounty}
-                price={tokenValues?.total}
                 bounty={bounty}
                 refreshBounty={refreshBounty}
                 setInternalMenu={setInternalMenu}
+                internalMenu={internalMenu}
                 split={split}
                 claimReqsCompleted={claimState[0]}
               />
@@ -263,11 +263,11 @@ const address = ({ address, mergedBounty, renderError }) => {
                 {claimable && bounty ? (
                   <ClaimPage
                     showClaimPage={internalMenu == 'Claim'}
-                    price={tokenValues?.total}
                     split={split}
                     bounty={bounty}
                     refreshBounty={refreshBounty}
                     setInternalMenu={setInternalMenu}
+                    internalMenu={internalMenu}
                     claimState={claimState}
                   />
                 ) : null}
