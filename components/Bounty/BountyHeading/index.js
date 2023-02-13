@@ -79,12 +79,14 @@ const BountyHeading = ({
               <span className='leading-loose text-lg font-semibold text-primary'>
                 {totalPrice.valueTypeFull} {totalPrice.displayValue}
               </span>
-              {totalPrice.valueType == 'TVL' && totalPrice.value > 0 && <div
-                className={'border-green bg-green-inside text-sm px-2 border rounded-full h-6'}
-              >Fully Funded</div>}
-              {totalPrice.valueType == 'Budget' && <div
-                className={'bg-info border-2 border-info-strong text-sm px-2 border rounded-full h-6'}
-              >Insolvent</div>}
+              {totalPrice.valueType == 'TVL' && totalPrice.value > 0 && (
+                <div className={'border-green bg-green-inside text-sm px-2 border rounded-full h-6'}>Fully Funded</div>
+              )}
+              {totalPrice.valueType == 'Budget' && (
+                <div className={'bg-info border-2 border-info-strong text-sm px-2 border rounded-full h-6'}>
+                  Insolvent
+                </div>
+              )}
             </div>
           ) : null}
         </>
