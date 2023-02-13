@@ -113,7 +113,57 @@ export const GET_USER = gql`
     }
   }
 `;
+export const GET_REQUESTS = gql`
+query ($id: String, $github: String, $email: String, $bountiesLimit: PaginationInt!, $bountiesCursor: ID) {
+  user(id: $id, github: $github, email: $email) {
+    id
+    watchedBountyIds
+    github
+    email
+    company
+    username
+    city
+    streetAddress
+    country
+    province
+    discord
+    github
+    twitter
 
+    postalCode
+    billingName
+    invoiceNumber
+    invoicingEmail
+    phoneNumber
+    taxId
+    vatNumber
+    vatRate
+    memo
+
+    createdBounties(limit: $bountiesLimit, after: $bountiesCursor) {
+			bountyConnection{
+      nodes {
+        address
+        bountyId
+        requests(limit: 100) {
+          nodes {
+            id
+            requestingUser {
+              id
+              username
+              discord
+              github
+            }
+          }
+        }
+      }
+			cursor
+			}
+    }
+    starredOrganizationIds
+  }
+}
+`;
 export const GET_PRIVATE_USER = gql`
   query ($id: String, $github: String, $email: String, $types: [String], $category: String) {
     user(id: $id, github: $github, email: $email) {

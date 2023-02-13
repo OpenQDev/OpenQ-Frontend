@@ -9,7 +9,6 @@ import Image from 'next/image';
 import FirstTimeBanner from './FirstTimeBanner';
 import { QuestionIcon, ThreeBarsIcon } from '@primer/octicons-react';
 import LinkDropdown from '../Utils/LinkDropdown';
-import { useRouter } from 'next/router';
 import NavLinks from './NavLinks';
 import LoadingBar from '../Loading/LoadingBar';
 import LoadingThread from '../Loading/LoadingThread.js';
@@ -27,7 +26,6 @@ const Navigation = () => {
   const [showModal, setShowModal] = useState(false);
   const { bountyMinted, openQSubgraphClient, openQPrismaClient, utils, githubRepository, tokenClient } = appState;
   const { accountData } = appState;
-  const router = useRouter();
   useEffect(() => {
     if (bountyMinted) {
       setLoadingBar(true);
@@ -37,11 +35,6 @@ const Navigation = () => {
     }
   }, [bountyMinted]);
 
-  useEffect(() => {
-    ReactGA.pageview(router.asPath);
-    setQuickSearch('');
-    setOpenMenu(false);
-  }, [router.asPath]);
 
   useEffect(() => {
     // set up searchable
