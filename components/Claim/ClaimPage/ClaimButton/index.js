@@ -24,10 +24,11 @@ const ClaimButton = ({
   tooltipStyle,
   refreshBounty,
   setInternalMenu,
+  internalMenu,
   split,
-  price,
   setJustClaimed,
   claimable,
+  bountyHeading
 }) => {
   const { url } = bounty;
   const { account, library } = useWeb3();
@@ -45,6 +46,8 @@ const ClaimButton = ({
 
   const budgetValues = useDisplayValue(bounty, appState.utils.formatter.format, 'budget');
   const budget = budgetValues?.value;
+  const actualValues = useDisplayValue(bounty, appState.utils.formatter.format, 'actual');
+  const price = actualValues?.value;
   const canClaim = isEveryValueNotNull(claimable);
 
   const getRequiredText = (claimable) => {
@@ -55,13 +58,11 @@ const ClaimButton = ({
     invoice = claimable?.invoice ?? null;
     switch (null) {
       case githubHasWallet:
-        return 'You must have a wallet connected to your GitHub account to claim this bounty.';
+        return 'You must first associate a wallet to your GitHub account to claim this bounty.';
       case kyc:
         return 'You must complete KYC to claim this bounty.';
-
       case w8Form:
         return 'You must complete a W8 form to claim this bounty.';
-
       case invoice:
         return 'You must complete an invoice to claim this bounty.';
       default:
@@ -176,7 +177,6 @@ const ClaimButton = ({
       }
     }
   };
-
   return (
     <>
       {account && isOnCorrectNetwork && authState.isAuthenticated && (
@@ -195,11 +195,12 @@ const ClaimButton = ({
             type='submit'
             className={
               price >= budget && price > 0 && canClaim
-                ? 'btn-primary cursor-pointer w-fit'
-                : 'btn-default cursor-not-allowed'
+                ? 'btn-primary cursor-pointer w-fit' :
+                internalMenu == 'Claim' || !bountyHeading ? 'btn-default cursor-not-allowed'
+                  : 'btn-default'
             }
-            disabled={!(price >= budget && price > 0 && canClaim)}
-            onClick={() => setShowClaimLoadingModal(true)}
+            disabled={!(price >= budget && price > 0 && canClaim) && !bountyHeading}
+            onClick={bountyHeading ? () => setInternalMenu('Claim') : () => setShowClaimLoadingModal(true)}
           >
             <div className='flex gap-2 items-center'>
               {' '}
