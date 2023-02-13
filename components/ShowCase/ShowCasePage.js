@@ -194,11 +194,13 @@ const ShowCasePage = ({ pr }) => {
             </>
           </Link>
           <div className='text-xl '>{pr.author.login}</div>
-          <Link href={`https://twitter.com/${pr.author.twitterUsername}`} target='_blank' rel='noopener norefferer'>
-            <>
-              <Image width={24} height={24} src={'/social-icons/twitter.svg'} alt='twitter icon' />
-            </>
-          </Link>
+          {pr.author.twitterUsername && (
+            <Link href={`https://twitter.com/${pr.author.twitterUsername}`} target='_blank' rel='noopener norefferer'>
+              <>
+                <Image width={24} height={24} src={'/social-icons/twitter.svg'} alt='twitter icon' />
+              </>
+            </Link>
+          )}
         </div>
       </div>
       {contributorData.map((contributor, index) => {

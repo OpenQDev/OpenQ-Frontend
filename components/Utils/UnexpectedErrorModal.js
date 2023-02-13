@@ -5,7 +5,7 @@ import Image from 'next/image';
 import GithubSignIn from '../Authentication/GithubSignIn';
 import StoreContext from '../../store/Store/StoreContext';
 
-const UnexpectedErrorModal = ({ error }) => {
+const UnexpectedErrorModal = ({ error, footerLeft = <></> }) => {
   let currentError = '';
   let loginModal;
   const [appState] = useContext(StoreContext);
@@ -62,7 +62,13 @@ const UnexpectedErrorModal = ({ error }) => {
     );
 
   return (
-    <ModalDefault title={'Unexpected Error'} footerRight={btn} setShowModal={() => {}} resetState={resetState}>
+    <ModalDefault
+      footerLeft={footerLeft}
+      title={'Unexpected Error'}
+      footerRight={btn}
+      setShowModal={() => {}}
+      resetState={resetState}
+    >
       <p className='pb-4'>Unfortunately we could not process your request due to a technical issue. </p>
       <p className='pb-4'>Error: {currentError ? currentError : 'There was an error fetching data for your page.'}</p>
       <p>

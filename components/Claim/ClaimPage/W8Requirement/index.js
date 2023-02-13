@@ -12,7 +12,6 @@ import StoreContext from '../../../../store/Store/StoreContext';
 import { getW8Approved } from '../../../../services/utils/lib';
 import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
 const W8Requirement = ({ bounty }) => {
-  console.log(bounty);
   const [loading, setLoading] = useState(false);
   const [appState] = useContext(StoreContext);
   const [file, setFile] = useState(null);

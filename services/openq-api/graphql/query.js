@@ -21,16 +21,11 @@ export const GET_BOUNTY_BY_ADDRESS = gql`
   }
 `;
 
-export const GET_PR_BY_ID = gql`
-  query pr($prId: String!) {
-    pr(prId: $prId) {
-      prId
+export const GET_SUBMISSION_BY_ID = gql`
+  query getSubmission($id: String!) {
+    submission(id: $id) {
+      id
       bountyAddress
-      contributorIds
-      contributors {
-        userId
-        address
-      }
     }
   }
 `;
