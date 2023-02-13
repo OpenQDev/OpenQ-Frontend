@@ -1,4 +1,4 @@
-import React, {  useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import RequestIndividual from '../RequestIndividual/index.js';
 import { getPlural } from '../../../services/utils/lib';
 import StoreContext from '../../../store/Store/StoreContext';
@@ -21,7 +21,7 @@ const RequestPage = () => {
   const isOwner = loggedId == userId;
   const { githubId, email } = authState;
   const getItems = async (oldCursor, batch, ordering = 'asc', filters = {}) => {
-    return await fetchItemsWithServiceArg(appState, identity, oldCursor, batch, ordering , filters);
+    return await fetchItemsWithServiceArg(appState, identity, oldCursor, batch, ordering, filters);
   };
   const identity = { userId, githubId, email };
   const paginationObj = {

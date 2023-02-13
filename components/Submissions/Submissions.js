@@ -11,7 +11,12 @@ const Submissions = ({ bounty, refreshBounty }) => {
       <div className='grid gap-8 w-full pt-8 justify-between justify-items-center grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))]'>
         {prs
           .filter((element, index, self) => {
-            return self.findIndex((element) => element?.source?.author?.login) === index;
+            console.log(self.findIndex((element) => element?.source?.author?.login));
+            return (
+              self.findIndex(
+                (indexElement) => element?.source?.author?.login === indexElement?.source?.author?.login
+              ) === index
+            );
           })
           .map((pr, index) => {
             return <SubmissionCard refreshBounty={refreshBounty} key={index} pr={pr.source} bounty={bounty} />;
