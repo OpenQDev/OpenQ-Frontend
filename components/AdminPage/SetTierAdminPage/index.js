@@ -20,6 +20,31 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   const [showTokenSearch, setShowTokenSearch] = useState();
   const bountyTypeName = appState.utils.getBountyTypeName(bounty);
 
+  const [, tokenDispatch] = useContext(TokenContext);
+  useEffect(() => {
+    const depositTokenAddress = bounty?.deposits[0]?.tokenAddress;
+    const payoutTokenAddress = bounty?.payoutTokenAddress;
+    if (bounty?.bountyType == '3' && bounty?.deposits?.length > 0) {
+      const tokenAddressDispatch = {
+        type: 'SET_TOKEN',
+        payload: {
+          ...appState.tokenClient.getToken(depositTokenAddress),
+          address: depositTokenAddress,
+        },
+      };
+      tokenDispatch(tokenAddressDispatch);
+    } else if (bounty?.bountyType == '3' && bounty?.payoutSchedule?.length > 0) {
+      const tokenAddressDispatch = {
+        type: 'SET_TOKEN',
+        payload: {
+          ...appState.tokenClient.getToken(payoutTokenAddress),
+          address: payoutTokenAddress,
+        },
+      };
+      tokenDispatch(tokenAddressDispatch);
+    }
+  }, [bounty]);
+
   function formatVolume(tierVolume, token) {
     let bigNumberVolume = ethers.BigNumber.from(tierVolume.toString());
     let decimals = parseInt(token.decimals) || 18;
