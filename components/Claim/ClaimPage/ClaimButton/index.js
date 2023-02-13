@@ -28,7 +28,7 @@ const ClaimButton = ({
   split,
   setJustClaimed,
   claimable,
-  bountyHeading
+  bountyHeading,
 }) => {
   const { url } = bounty;
   const { account, library } = useWeb3();
@@ -195,9 +195,10 @@ const ClaimButton = ({
             type='submit'
             className={
               price >= budget && price > 0 && canClaim
-                ? 'btn-primary cursor-pointer w-fit' :
-                internalMenu == 'Claim' || !bountyHeading ? 'btn-default cursor-not-allowed'
-                  : 'btn-default'
+                ? 'btn-primary cursor-pointer w-fit'
+                : internalMenu == 'Claim' || !bountyHeading
+                ? 'btn-default cursor-not-allowed'
+                : 'btn-default'
             }
             disabled={!(price >= budget && price > 0 && canClaim) && !bountyHeading}
             onClick={bountyHeading ? () => setInternalMenu('Claim') : () => setShowClaimLoadingModal(true)}
