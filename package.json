@@ -88,7 +88,7 @@
     "babel-jest": "29.4.2",
     "eslint": "8.34.0",
     "eslint-config-next": "13.1.6",
-    "eslint-plugin-react": "7.31.11",
+    "eslint-plugin-react": "7.32.2",
     "husky": "8.0.3",
     "jest-environment-jsdom": "29.4.2",
     "jest-junit": "15.0.0",
