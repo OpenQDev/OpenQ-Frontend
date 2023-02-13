@@ -1,10 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import useIsOnCorrectNetwork from '../../../../hooks/useIsOnCorrectNetwork';
 import useWeb3 from '../../../../hooks/useWeb3';
 import StoreContext from '../../../../store/Store/StoreContext';
 import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
 import ShieldCheck from '../../../svg/shieldCheck';
+import ConnectButton from '../../../WalletConnect/ConnectButton';
 
 const KycRequirement = ({ setKycVerified }) => {
   const [stage, setStage] = useState('start');
@@ -12,7 +14,8 @@ const KycRequirement = ({ setKycVerified }) => {
   const [successResponse, setSuccessResponse] = useState(null);
   const [error, setError] = useState('');
   const [appState] = useContext(StoreContext);
-  const { account, library } = useWeb3();
+  const { chainId, account, library } = useWeb3();
+  const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const disabled = stage == 'processing' || stage == 'verified';
   useEffect(() => {
     if (failResponse == 'cancelled') {
@@ -27,8 +30,9 @@ const KycRequirement = ({ setKycVerified }) => {
     }
   }, [failResponse, successResponse]);
   useEffect(() => {
-    hasKYC();
-  }, []);
+    // chainId to 80001 if tested on Mumbai
+    if (account && chainId == 137) hasKYC();
+  }, [chainId, account]);
   const onOpenSDK = useCallback(async () => {
     try {
       const { KycDaoClient } = await import('@kycdao/widget');
@@ -64,7 +68,7 @@ const KycRequirement = ({ setKycVerified }) => {
         setError('');
       }
     } catch (err) {
-      appState.logger.error(err, account, 'KycRequirement.js1');
+      appState.logger.error(err, account, 'KycRequirement.js2');
     }
   };
   return (
@@ -123,21 +127,24 @@ const KycRequirement = ({ setKycVerified }) => {
         </div>
       </div>
       <div className='font-semibold'>Verify now</div>
-      <button
-        disabled={disabled}
-        className={`flex items-center gap-2 ${
-          stage == 'start'
-            ? 'btn-requirements'
-            : stage == 'processing'
-            ? 'btn-processing cursor-not-allowed'
-            : 'btn-verified cursor-not-allowed'
-        } w-fit`}
-        onClick={onOpenSDK}
-      >
-        <ShieldCheck className={'w-4 h-4 fill-primary'} />
-        {stage == 'verified' ? 'Verified' : 'Start'}
-        {stage == 'processing' && <LoadingIcon />}
-      </button>
+      <ConnectButton nav={false} needsGithub={false} centerStyles={true} tooltipAction={'start the KYC process.'} />
+      {isOnCorrectNetwork && account && (
+        <button
+          disabled={disabled}
+          className={`flex items-center gap-2 ${
+            stage == 'start'
+              ? 'btn-requirements'
+              : stage == 'processing'
+              ? 'btn-processing cursor-not-allowed'
+              : 'btn-verified cursor-not-allowed'
+          } w-fit`}
+          onClick={onOpenSDK}
+        >
+          <ShieldCheck className={'w-4 h-4 fill-primary'} />
+          {stage == 'verified' ? 'Verified' : 'Start'}
+          {stage == 'processing' && <LoadingIcon />}
+        </button>
+      )}
     </section>
   );
 };

@@ -14,7 +14,7 @@ const TermsOfUse = () => {
           this Website are protected by copyright and trade mark law.
         </p>
         <h2 className='text-2xl font-bold py-2'>2. Use License </h2>
-        <p className='pb-4'>
+        <div className='pb-4'>
           Permission is granted to temporarily download one copy of the materials on OpenQs Website for personal,
           non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under
           this license you may not:
@@ -29,7 +29,7 @@ const TermsOfUse = () => {
           right will also be terminated and you should destroy any downloaded materials in your possession whether it is
           printed or electronic format. These Terms of Service has been created with the help of the Terms Of Service
           Generator.
-        </p>
+        </div>
         <h2 className='text-2xl font-bold py-2'>3. Disclaimer </h2>
         <p className='pb-4'>
           All the materials on OpenQs Website are provided as is. OpenQ makes no warranties, may it be expressed or

@@ -18,7 +18,7 @@ import ClaimButton from './ClaimButton';
 import { checkClaimable, isEveryValueNotNull, isContest } from '../../../services/utils/lib';
 // import { ChevronUpIcon, ChevronDownIcon } from '@primer/octicons-react';
 
-const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claimState, showClaimPage }) => {
+const ClaimPage = ({ bounty, refreshBounty, split, setInternalMenu, internalMenu, claimState, showClaimPage }) => {
   const [appState] = useContext(StoreContext);
 
   const { accountData, openQClient } = appState;
@@ -141,8 +141,8 @@ const ClaimPage = ({ bounty, refreshBounty, price, split, setInternalMenu, claim
               tooltipStyle={'-left-2'}
               refreshBounty={refreshBounty}
               setInternalMenu={setInternalMenu}
+              internalMenu={internalMenu}
               split={split}
-              price={price}
               setJustClaimed={setJustClaimed}
             />
 

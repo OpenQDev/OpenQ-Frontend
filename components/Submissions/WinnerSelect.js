@@ -23,9 +23,9 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
   const createFixedPayout = () => {
     return prize.payout && bounty.bountyType == 3
       ? {
-          tokenAddress: bounty.payoutTokenAddress,
-          volume: prize.payout,
-        }
+        tokenAddress: bounty.payoutTokenAddress,
+        volume: prize.payout,
+      }
       : null;
   };
   const payoutBalances = useMemo(() => createFixedPayout(), [prize]);
@@ -156,9 +156,8 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
         data-testid='winnerSelect'
         onClick={selectWinner}
         disabled={prize.claimed || disabled}
-        className={`flex justify-center hover:scale-110 ${
-          prize.claimed || disabled ? 'cursor-not-allowed' : 'cursor-pointer hover:scale-200'
-        } text-black content-center items-center w-full`}
+        className={`flex justify-center hover:scale-110 ${prize.claimed || disabled ? 'cursor-not-allowed' : 'cursor-pointer hover:scale-200'
+          } text-black content-center items-center w-full`}
         style={{
           height: `${height}px`,
           transform: `translateY(${100 - height}px)`,
@@ -223,7 +222,16 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
             <>
               <p className='my-2'>
                 {bounty.bountyType === '2' ? prize.payout + '% of funds' : formatVolume(prize.payout) + unit} staked on
-                this competition can now be claimed by {pr.author.name || pr.author.login}.
+                this competition can now be claimed by {pr.author.name || pr.author.login},
+                <>
+                {' '}
+                  after they complete the following:
+                  <ul className='mt-2 ml-4 list-disc'>
+                    {bounty.invoiceRequired && <li>Invoice</li>}
+                    {bounty.supportingDocumentsRequired && <li>W8/W9 Form</li>}
+                    {bounty.kycRequired && <li>KYC</li>}
+                  </ul>
+                </>
               </p>
             </>
           )}
