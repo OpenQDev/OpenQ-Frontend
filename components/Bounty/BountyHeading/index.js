@@ -17,8 +17,8 @@ const BountyHeading = ({
   refreshGithubBounty,
   refreshBounty,
   setInternalMenu,
+  internalMenu,
   split,
-  price,
   claimReqsCompleted,
 }) => {
   const [appState] = useContext(StoreContext);
@@ -53,9 +53,10 @@ const BountyHeading = ({
               tooltipStyle={'-right-2'}
               refreshBounty={refreshBounty}
               setInternalMenu={setInternalMenu}
+              internalMenu={internalMenu}
               claimable={claimReqsCompleted}
               split={split}
-              price={price}
+              bountyHeading={true}
             />
           )}
         </div>
