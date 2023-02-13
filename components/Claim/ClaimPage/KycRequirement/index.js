@@ -1,10 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import useIsOnCorrectNetwork from '../../../../hooks/useIsOnCorrectNetwork';
 import useWeb3 from '../../../../hooks/useWeb3';
 import StoreContext from '../../../../store/Store/StoreContext';
 import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
 import ShieldCheck from '../../../svg/shieldCheck';
+import ConnectButton from '../../../WalletConnect/ConnectButton';
 
 const KycRequirement = ({ setKycVerified }) => {
   const [stage, setStage] = useState('start');
@@ -12,7 +14,8 @@ const KycRequirement = ({ setKycVerified }) => {
   const [successResponse, setSuccessResponse] = useState(null);
   const [error, setError] = useState('');
   const [appState] = useContext(StoreContext);
-  const { account, library } = useWeb3();
+  const { chainId, account, library } = useWeb3();
+  const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const disabled = stage == 'processing' || stage == 'verified';
   useEffect(() => {
     if (failResponse == 'cancelled') {
@@ -27,8 +30,9 @@ const KycRequirement = ({ setKycVerified }) => {
     }
   }, [failResponse, successResponse]);
   useEffect(() => {
-    hasKYC();
-  }, []);
+    // chainId to 80001 if tested on Mumbai
+    if (account && chainId == 137 ) hasKYC();
+  }, [chainId, account]);
   const onOpenSDK = useCallback(async () => {
     try {
       const { KycDaoClient } = await import('@kycdao/widget');
@@ -64,7 +68,7 @@ const KycRequirement = ({ setKycVerified }) => {
         setError('');
       }
     } catch (err) {
-      appState.logger.error(err, account, 'KycRequirement.js1');
+      appState.logger.error(err, account, 'KycRequirement.js2');
     }
   };
   return (
@@ -72,13 +76,12 @@ const KycRequirement = ({ setKycVerified }) => {
       <h4 className='flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
         <Image src='/kycDao-logo.svg' width={130} height={130} alt='kycDao-logo' />
         <div
-          className={`${
-            stage == 'verified'
-              ? 'bg-[#1c6f2c] border-[#2ea043]'
-              : setKycVerified
+          className={`${stage == 'verified'
+            ? 'bg-[#1c6f2c] border-[#2ea043]'
+            : setKycVerified
               ? 'bg-info  border-info-strong'
               : 'hidden'
-          } border-2 text-sm px-2 rounded-full h-6`}
+            } border-2 text-sm px-2 rounded-full h-6`}
         >
           {stage == 'verified' ? 'Approved' : 'Required'}
         </div>
@@ -123,21 +126,21 @@ const KycRequirement = ({ setKycVerified }) => {
         </div>
       </div>
       <div className='font-semibold'>Verify now</div>
-      <button
+      <ConnectButton nav={false} needsGithub={false} centerStyles={true} tooltipAction={'start the KYC process.'} />
+      {isOnCorrectNetwork && account && <button
         disabled={disabled}
-        className={`flex items-center gap-2 ${
-          stage == 'start'
-            ? 'btn-requirements'
-            : stage == 'processing'
+        className={`flex items-center gap-2 ${stage == 'start'
+          ? 'btn-requirements'
+          : stage == 'processing'
             ? 'btn-processing cursor-not-allowed'
             : 'btn-verified cursor-not-allowed'
-        } w-fit`}
+          } w-fit`}
         onClick={onOpenSDK}
       >
         <ShieldCheck className={'w-4 h-4 fill-primary'} />
         {stage == 'verified' ? 'Verified' : 'Start'}
         {stage == 'processing' && <LoadingIcon />}
-      </button>
+      </button>}
     </section>
   );
 };
