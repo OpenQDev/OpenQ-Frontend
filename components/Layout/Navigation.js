@@ -1,7 +1,6 @@
 // Third party
 import React, { useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
-import ReactGA from 'react-ga4';
 // Custom
 import StoreContext from '../../store/Store/StoreContext.js';
 import ConnectButton from '../WalletConnect/ConnectButton.js';
@@ -34,7 +33,6 @@ const Navigation = () => {
       setChangeText(true);
     }
   }, [bountyMinted]);
-
 
   useEffect(() => {
     // set up searchable

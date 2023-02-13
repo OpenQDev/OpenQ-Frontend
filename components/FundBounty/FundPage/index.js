@@ -62,7 +62,10 @@ const FundPage = () => {
       };
       tokenDispatch(tokenAddressDispatch);
       fundDispatch(tokenAddressDispatch);
-    } else if ((bounty?.bountyType == '1' && bounty?.payoutTokenVolume > 0) || (bounty?.bountyType == '3' && bounty?.payoutSchedule?.length > 0) ) {
+    } else if (
+      (bounty?.bountyType == '1' && bounty?.payoutTokenVolume > 0) ||
+      (bounty?.bountyType == '3' && bounty?.payoutSchedule?.length > 0)
+    ) {
       const tokenAddressDispatch = {
         type: 'SET_TOKEN',
         payload: {

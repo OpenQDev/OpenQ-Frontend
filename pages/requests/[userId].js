@@ -6,15 +6,15 @@ import Logger from '../../services/logger/Logger';
 import Centered from '../../components/Layout/Centered';
 import RequestPage from '../../components/Requests/RequestPage/index.js';
 import AuthorizedOnly from '../../components/Authentication/HigherOrderComponents/OwnerOnly';
-import {useRouter} from 'next/router'
+import { useRouter } from 'next/router';
 
 const Requests = () => {
   const router = useRouter();
-  const {userId} = router.query
+  const { userId } = router.query;
   return (
     <Centered>
       <AuthorizedOnly slug='' expectedId={userId}>
-        <RequestPage/>
+        <RequestPage />
       </AuthorizedOnly>
     </Centered>
   );
