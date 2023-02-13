@@ -38,31 +38,14 @@ const RequestPage = () => {
 		getItems
 	}
 	const paginationState = useState(paginationObj);
-  const [bounties, setBounties] = useState([]);
-  console.log(router, "myrouter")
-  const requests = bounties
-    .map((bounty) => {
-      const requests = bounty.requests.nodes.reduce((accum, request) => {
-        const user = accum.find(
-          (earlierRequest) => earlierRequest.request.requestingUser.id === request.requestingUser.id
-        );
-
-        if (!user) {
-          return accum.concat({ request, bounty });
-        } else return accum;
-      }, []);
-      return requests;
-    })
-    .flat();
-    const yeet = "asdf"
-
+const requestsLength = paginationState[0]?.items.length
 
   return (
     <>
       <div className='my-6'>
         <h2 className='text-2xl font-semibold pb-4 border-b border-web-gray my-4'>Manage your bounties</h2>
         <div className='border-web-gray border flex justify-center content-center h-24 rounded-sm items-center'>
-          You have recieved {requests.length} new request{getPlural(requests.length)}.
+          You have recieved {requestsLength} new request{getPlural(requestsLength)}.
         </div>
       </div>
         <div className='my-6'>

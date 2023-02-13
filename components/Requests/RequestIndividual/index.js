@@ -72,7 +72,7 @@ const RequestIndividual = ({item }) => {
   }, [issueId]);
   return (
     <li className='border gap-4 grid content-center items-center border-web-gray rounded-md p-4 my-4 grid-cols-[80px_1fr_24px_160px]'>
-      <Image className='rounded-full' src={githubUser.avatarUrl} width='80' height='80' />
+      <Image alt="picture of request author" className='rounded-full' src={githubUser.avatarUrl} width='80' height='80' />
       <div className='leading-none self-start space-y-1.5 px-4'>
         <div>
           <a
