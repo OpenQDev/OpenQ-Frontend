@@ -31,7 +31,7 @@ const KycRequirement = ({ setKycVerified }) => {
   }, [failResponse, successResponse]);
   useEffect(() => {
     // chainId to 80001 if tested on Mumbai
-    if (account && chainId == 137 ) hasKYC();
+    if (account && chainId == 137) hasKYC();
   }, [chainId, account]);
   const onOpenSDK = useCallback(async () => {
     try {
@@ -76,12 +76,13 @@ const KycRequirement = ({ setKycVerified }) => {
       <h4 className='flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
         <Image src='/kycDao-logo.svg' width={130} height={130} alt='kycDao-logo' />
         <div
-          className={`${stage == 'verified'
-            ? 'bg-[#1c6f2c] border-[#2ea043]'
-            : setKycVerified
+          className={`${
+            stage == 'verified'
+              ? 'bg-[#1c6f2c] border-[#2ea043]'
+              : setKycVerified
               ? 'bg-info  border-info-strong'
               : 'hidden'
-            } border-2 text-sm px-2 rounded-full h-6`}
+          } border-2 text-sm px-2 rounded-full h-6`}
         >
           {stage == 'verified' ? 'Approved' : 'Required'}
         </div>
@@ -127,20 +128,23 @@ const KycRequirement = ({ setKycVerified }) => {
       </div>
       <div className='font-semibold'>Verify now</div>
       <ConnectButton nav={false} needsGithub={false} centerStyles={true} tooltipAction={'start the KYC process.'} />
-      {isOnCorrectNetwork && account && <button
-        disabled={disabled}
-        className={`flex items-center gap-2 ${stage == 'start'
-          ? 'btn-requirements'
-          : stage == 'processing'
-            ? 'btn-processing cursor-not-allowed'
-            : 'btn-verified cursor-not-allowed'
+      {isOnCorrectNetwork && account && (
+        <button
+          disabled={disabled}
+          className={`flex items-center gap-2 ${
+            stage == 'start'
+              ? 'btn-requirements'
+              : stage == 'processing'
+              ? 'btn-processing cursor-not-allowed'
+              : 'btn-verified cursor-not-allowed'
           } w-fit`}
-        onClick={onOpenSDK}
-      >
-        <ShieldCheck className={'w-4 h-4 fill-primary'} />
-        {stage == 'verified' ? 'Verified' : 'Start'}
-        {stage == 'processing' && <LoadingIcon />}
-      </button>}
+          onClick={onOpenSDK}
+        >
+          <ShieldCheck className={'w-4 h-4 fill-primary'} />
+          {stage == 'verified' ? 'Verified' : 'Start'}
+          {stage == 'processing' && <LoadingIcon />}
+        </button>
+      )}
     </section>
   );
 };
