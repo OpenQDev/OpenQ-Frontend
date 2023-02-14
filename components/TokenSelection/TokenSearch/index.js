@@ -7,7 +7,7 @@ import StoreContext from '../../../store/Store/StoreContext';
 import TokenContext from '../TokenStore/TokenContext';
 import Image from 'next/legacy/image';
 
-const TokenSearch = ({ stream, setShowTokenSearch, alone, showTokenSearch }) => {
+const TokenSearch = ({ stream, setShowTokenSearch, alone, showTokenSearch, bounty }) => {
   const [tokenState] = useContext(TokenContext);
   const { token } = tokenState;
   const [showListManager, setShowListManager] = useState(true);
@@ -21,6 +21,7 @@ const TokenSearch = ({ stream, setShowTokenSearch, alone, showTokenSearch }) => 
   const [polygonTokens, setPolygonTokens] = useState([]);
   const [openQTokens, setOpenQTokens] = useState([]);
   const [showStreamTokenSearch, setShowStreamTokenSearch] = useState(false);
+  const bountyTokenLocked = (bounty?.bountyType == 1 || bounty?.bountyType == 3) && bounty?.deposits?.length > 0;
   const handleShowSearch = (bool) => {
     if (stream || alone) {
       setShowStreamTokenSearch(bool);
@@ -52,8 +53,9 @@ const TokenSearch = ({ stream, setShowTokenSearch, alone, showTokenSearch }) => 
     <div className='justify-self-end'>
       <div>
         <button
-          className={`flex flex-row items-center space-x-1 py-2 drop-shadow-lg border border-web-gray rounded-sm p-2 pr-2 `}
+          className={`flex flex-row items-center space-x-1 py-2 p-2 pr-2 ${!bountyTokenLocked ? 'btn-default' : 'cursor-default'}`}
           onClick={() => handleShowSearch(true)}
+          disabled={bountyTokenLocked}
         >
           <div className='flex flex-row space-x-5 items-center justify-center'>
             <div className='h-1 w-6 pb-6'>
@@ -67,15 +69,16 @@ const TokenSearch = ({ stream, setShowTokenSearch, alone, showTokenSearch }) => 
             </div>
           </div>
           <div className='pl-3 '>{token.symbol}</div>
-          <div>
-            <svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5' viewBox='0 0 20 20' fill='white'>
-              <path
-                fillRule='evenodd'
-                d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
-                clipRule='evenodd'
-              />
-            </svg>
-          </div>
+          {!bountyTokenLocked && (
+            <div>
+              <svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5' viewBox='0 0 20 20' fill='white'>
+                <path
+                  fillRule='evenodd'
+                  d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                  clipRule='evenodd'
+                />
+              </svg>
+            </div>)}
         </button>
       </div>
       {((!stream && !alone) || showStreamTokenSearch) && (
