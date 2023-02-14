@@ -210,7 +210,7 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
                   </div>
                 </div>
                 <div className=' pl-4'>
-                  <TokenSearch setShowTokenSearch={setShowTokenSearch} showTokenSearch={showTokenSearch} alone={true} />
+                  <TokenSearch setShowTokenSearch={setShowTokenSearch} showTokenSearch={showTokenSearch} alone={true} bounty={bounty} />
                 </div>
               </div>
             )}
