@@ -352,39 +352,39 @@ class OpenQPrismaClient {
     });
     return promise;
   }
-getUserRequests(idObject, paginationVars) {
-	console.log(paginationVars, "paginationVars")
-  const promise = new Promise(async (resolve, reject) => {
-    const variables = {
-      ...paginationVars,
-    };
+  getUserRequests(idObject, paginationVars) {
+    console.log(paginationVars, 'paginationVars');
+    const promise = new Promise(async (resolve, reject) => {
+      const variables = {
+        ...paginationVars,
+      };
 
-    if (idObject.id) {
-      variables.id = idObject.id;
-    }
+      if (idObject.id) {
+        variables.id = idObject.id;
+      }
 
-    if (idObject.github) {
-      variables.github = idObject.github;
-    }
+      if (idObject.github) {
+        variables.github = idObject.github;
+      }
 
-    if (idObject.email) {
-      variables.email = idObject.email;
-    }
+      if (idObject.email) {
+        variables.email = idObject.email;
+      }
 
-    try {
-      const result = await this.client.query({
-        query: GET_REQUESTS,
-        variables,
+      try {
+        const result = await this.client.query({
+          query: GET_REQUESTS,
+          variables,
 
-        fetchPolicy: 'no-cache',
-      });
-      resolve(result.data.user);
-    } catch (e) {
-      reject(e);
-    }
-  });
-  return promise;
-}
+          fetchPolicy: 'no-cache',
+        });
+        resolve(result.data.user);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
   getLocalUser() {
     const promise = new Promise(async (resolve, reject) => {
       try {

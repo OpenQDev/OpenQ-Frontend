@@ -213,35 +213,39 @@ export const formatVolume = (tierVolume, token) => {
   return formattedVolume;
 };
 
-export const fetchItemsWithServiceArg = async(appState,identity, oldCursor, batch, ordering="asc", filters={})=>{
-  const {userId, githubId, email} = identity;
-  const userOffChainData = await appState.openQPrismaClient.getUserRequests({
-    id: userId,
-    github: githubId,
-    email: email},{
-    bountiesCursor: oldCursor, 
-    bountiesLimit: batch,}
-   
+export const fetchItemsWithServiceArg = async (appState, identity, oldCursor, batch) => {
+  const { userId, githubId, email } = identity;
+  const userOffChainData = await appState.openQPrismaClient.getUserRequests(
+    {
+      id: userId,
+      github: githubId,
+      email: email,
+    },
+    {
+      bountiesCursor: oldCursor,
+      bountiesLimit: batch,
+    }
   );
   const createdBounties = userOffChainData.createdBounties.bountyConnection.nodes.filter((bounty) => {
     return bounty.requests;
   });
   const requests = createdBounties
-  .map((bounty) => {
-    const requests = bounty.requests.nodes.reduce((accum, request) => {
-      const user = accum.find(
-        (earlierRequest) => earlierRequest.request.requestingUser.id === request.requestingUser.id
-      );
+    .map((bounty) => {
+      const requests = bounty.requests.nodes.reduce((accum, request) => {
+        const user = accum.find(
+          (earlierRequest) => earlierRequest.request.requestingUser.id === request.requestingUser.id
+        );
 
-      if (!user) {
-        return accum.concat({ request, bounty });
-      } else return accum;
-    }, []);
-    return requests;
-  })
-  .flat();
-  return {nodes: requests, cursor: userOffChainData.createdBounties.bountyConnection.cursor, complete: createdBounties.length!==batch};
-
-  
-
-  }
+        if (!user) {
+          return accum.concat({ request, bounty });
+        } else return accum;
+      }, []);
+      return requests;
+    })
+    .flat();
+  return {
+    nodes: requests,
+    cursor: userOffChainData.createdBounties.bountyConnection.cursor,
+    complete: createdBounties.length !== batch,
+  };
+};
