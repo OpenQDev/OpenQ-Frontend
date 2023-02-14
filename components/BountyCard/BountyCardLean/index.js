@@ -22,6 +22,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
   const displayValue = useDisplayValue(bounty, appState.utils.formatter.format);
   const currentDate = Date.now();
   const relativeDeployDay = parseInt((currentDate - bounty?.bountyMintTime * 1000) / 86400000);
+  const [imageError, setImageError] = useState(false);
 
   const watchingState = useState(bounty.watchingCount);
   const [watchingUsers] = watchingState;
@@ -166,13 +167,14 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
             <div className='flex flex-col w-1/4 sm:w-1/2 justify-between items-end leading-tight '>
               <div className='sm:block hidden'>
                 {' '}
-                {bounty?.avatarUrl || bounty?.alternativeLogo ? (
+                {!imageError && (bounty?.avatarUrl || bounty?.alternativeLogo) ? (
                   <Image
                     className='rounded-full '
                     src={bounty?.alternativeLogo || bounty?.avatarUrl}
                     alt='avatarUrl'
                     width='51'
                     height='51'
+                    onError={() => setImageError(true)}
                   />
                 ) : (
                   <Skeleton width={51} height={51} />

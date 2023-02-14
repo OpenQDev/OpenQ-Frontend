@@ -16,14 +16,14 @@ const TokenFundBox = ({
 }) => {
   const [showTokenSearch, setShowTokenSearch] = useState(false);
   const [showPayoutModal, setShowPayoutModal] = useState(false);
-  const bountyTokenLocked = bounty?.bountyType == 1 && bounty?.deposits?.length > 0;
+  const bountyTokenLocked = (bounty?.bountyType == 1 || bounty?.bountyType == 3) && bounty?.deposits?.length > 0;
   const btn = (
     <div className='flex gap-2'>
       <button className='btn-default' onClick={() => setShowPayoutModal(false)}>
         I understand
       </button>
       <button className='btn-primary' onClick={() => setInternalMenu('Admin')}>
-        Update Reward Split
+        Update Token
       </button>
     </div>
   );
@@ -76,13 +76,13 @@ const TokenFundBox = ({
       {showPayoutModal ? (
         <ModalDefault
           setShowModal={setShowPayoutModal}
-          title='Update your reward split token first!'
+          title='Update your reward token first!'
           footerRight={btn}
           resetState={() => {}}
         >
           <div>
-            If you want to change the token used for your deposit, you first need to update the reward split (on the
-            admin tab) so that it uses that specific token. Once you have made a deposit, you won't be able to change
+            If you want to change the token used for your deposit, you first need to update the token used for the reward (on the
+            admin tab) so that it uses that specific token for payouts. Once you have made a deposit, you won't be able to change
             the token for deposits or payouts going forward.
           </div>
         </ModalDefault>
