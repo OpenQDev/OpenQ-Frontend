@@ -21,16 +21,11 @@ export const GET_BOUNTY_BY_ADDRESS = gql`
   }
 `;
 
-export const GET_PR_BY_ID = gql`
-  query pr($prId: String!) {
-    pr(prId: $prId) {
-      prId
+export const GET_SUBMISSION_BY_ID = gql`
+  query getSubmission($id: String!) {
+    submission(id: $id) {
+      id
       bountyAddress
-      contributorIds
-      contributors {
-        userId
-        address
-      }
     }
   }
 `;
@@ -118,7 +113,57 @@ export const GET_USER = gql`
     }
   }
 `;
+export const GET_REQUESTS = gql`
+query ($id: String, $github: String, $email: String, $bountiesLimit: PaginationInt!, $bountiesCursor: ID) {
+  user(id: $id, github: $github, email: $email) {
+    id
+    watchedBountyIds
+    github
+    email
+    company
+    username
+    city
+    streetAddress
+    country
+    province
+    discord
+    github
+    twitter
 
+    postalCode
+    billingName
+    invoiceNumber
+    invoicingEmail
+    phoneNumber
+    taxId
+    vatNumber
+    vatRate
+    memo
+
+    createdBounties(limit: $bountiesLimit, after: $bountiesCursor) {
+			bountyConnection{
+      nodes {
+        address
+        bountyId
+        requests(limit: 100) {
+          nodes {
+            id
+            requestingUser {
+              id
+              username
+              discord
+              github
+            }
+          }
+        }
+      }
+			cursor
+			}
+    }
+    starredOrganizationIds
+  }
+}
+`;
 export const GET_PRIVATE_USER = gql`
   query ($id: String, $github: String, $email: String, $types: [String], $category: String) {
     user(id: $id, github: $github, email: $email) {

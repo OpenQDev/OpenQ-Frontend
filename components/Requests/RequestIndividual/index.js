@@ -6,7 +6,8 @@ import Chain from '../../svg/chain';
 import { ethers } from 'ethers';
 import LoadingIcon from '../../Loading/ButtonLoadingIcon';
 
-const RequestIndividual = ({ bounty, request }) => {
+const RequestIndividual = ({ item }) => {
+  const { bounty, request } = item;
   const [appState] = useContext(StoreContext);
   const [subgraphBounty, setSubgraphBounty] = useState();
 
@@ -70,8 +71,14 @@ const RequestIndividual = ({ bounty, request }) => {
     getIssue();
   }, [issueId]);
   return (
-    <li className='border gap-4 grid content-center items-center border-web-gray rounded-md p-4 grid-cols-[80px_1fr_24px_160px]'>
-      <Image className='rounded-full' src={githubUser.avatarUrl} width='80' height='80' />
+    <li className='border gap-4 grid content-center items-center border-web-gray rounded-md p-4 my-4 grid-cols-[80px_1fr_24px_160px]'>
+      <Image
+        alt='picture of request author'
+        className='rounded-full'
+        src={githubUser.avatarUrl}
+        width='80'
+        height='80'
+      />
       <div className='leading-none self-start space-y-1.5 px-4'>
         <div>
           <a

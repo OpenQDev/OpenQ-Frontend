@@ -14,7 +14,7 @@ const useGetValueFromComposite = (address, volume) => {
         const value = await appState.tokenClient.parseTokenValues(tokenBalance);
         return value;
       } catch (err) {
-        appState.logger.error(err, accountData, 'globalErrorBoundary');
+        appState.logger.error(err, accountData, 'use get value from coposite');
       }
     }
     if (tokenBalance?.length === 0) {

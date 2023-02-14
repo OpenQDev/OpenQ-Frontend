@@ -223,7 +223,16 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
             <>
               <p className='my-2'>
                 {bounty.bountyType === '2' ? prize.payout + '% of funds' : formatVolume(prize.payout) + unit} staked on
-                this competition can now be claimed by {pr.author.name || pr.author.login}.
+                this competition can now be claimed by {pr.author.name || pr.author.login},
+                <>
+                  {' '}
+                  after they complete the following:
+                  <ul className='mt-2 ml-4 list-disc'>
+                    {bounty.invoiceRequired && <li>Invoice</li>}
+                    {bounty.supportingDocumentsRequired && <li>W8/W9 Form</li>}
+                    {bounty.kycRequired && <li>KYC</li>}
+                  </ul>
+                </>
               </p>
             </>
           )}

@@ -52,7 +52,7 @@ const FundPage = () => {
   useEffect(() => {
     const depositTokenAddress = bounty?.deposits[0]?.tokenAddress;
     const payoutTokenAddress = bounty?.payoutTokenAddress;
-    if (bounty?.bountyType == '1' && bounty?.deposits?.length > 0) {
+    if ((bounty?.bountyType == '1' || bounty?.bountyType == '3') && bounty?.deposits?.length > 0) {
       const tokenAddressDispatch = {
         type: 'SET_TOKEN',
         payload: {
@@ -62,7 +62,10 @@ const FundPage = () => {
       };
       tokenDispatch(tokenAddressDispatch);
       fundDispatch(tokenAddressDispatch);
-    } else if (bounty?.bountyType == '1' && bounty?.payoutTokenVolume > 0) {
+    } else if (
+      (bounty?.bountyType == '1' && bounty?.payoutTokenVolume > 0) ||
+      (bounty?.bountyType == '3' && bounty?.payoutSchedule?.length > 0)
+    ) {
       const tokenAddressDispatch = {
         type: 'SET_TOKEN',
         payload: {
@@ -75,7 +78,7 @@ const FundPage = () => {
     }
   }, [bounty]);
   useEffect(() => {
-    if (!(bounty?.bountyType == '1' && bounty?.deposits?.length > 0)) {
+    if (!((bounty?.bountyType == '1' || bounty?.bountyType == '3') && bounty?.deposits?.length > 0)) {
       const tokenDispatch = {
         type: 'SET_TOKEN',
         payload: token,

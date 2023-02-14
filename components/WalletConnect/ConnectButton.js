@@ -168,7 +168,7 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, centerStyles }) => {
               outerStyles={'-top-1 '}
               groupStyles={centerStyles ? '' : 'w-min'}
               innerStyles={'sm:w-40 md:w-60 whitespace-normal'}
-              toolTipText={'Please switch to the correct network to fund this contract.'}
+              toolTipText={`Please switch to the correct network to ${tooltipAction}`}
             >
               <button
                 onClick={addOrSwitchNetwork}
