@@ -81,9 +81,9 @@ const TokenFundBox = ({
           resetState={() => {}}
         >
           <div>
-            If you want to change the token used for your deposit, you first need to update the token used for the reward (on the
-            admin tab) so that it uses that specific token for payouts. Once you have made a deposit, you won't be able to change
-            the token for deposits or payouts going forward.
+            If you want to change the token used for your deposit, you first need to update the token used for the
+            reward (on the admin tab) so that it uses that specific token for payouts. Once you have made a deposit, you
+            won't be able to change the token for deposits or payouts going forward.
           </div>
         </ModalDefault>
       ) : null}

@@ -46,7 +46,9 @@ const AddAlternativeMetadata = () => {
           </div>
         </ToolTipNew>
       </div>
-      <span className='note'>Enter the Github Organization URL like: <span className='underline'>https://github.com/OpenQDev</span></span>
+      <span className='note'>
+        Enter the Github Organization URL like: <span className='underline'>https://github.com/OpenQDev</span>
+      </span>
       <input
         className='flex-1 input-field leading-loose w-full'
         id='sponsor'
