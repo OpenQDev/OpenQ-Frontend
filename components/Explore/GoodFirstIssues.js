@@ -44,10 +44,12 @@ export default function GoodFirstIssues() {
       <div className='text-center mb-10'>
         <h1 className='mx-auto'>Contribute to Open-Source in web3.</h1>
         <h3 className='text-2xl sm:text-3xl text-zinc-400 mt-4'>Find good first issues.</h3>
-        <FancyButton className='mt-4 mx-auto'>
-          Find more
-          <ChevronRightIcon className='ml-2 w-5 h-5' />
-        </FancyButton>
+        <Link href='/good-first-issues'>
+          <FancyButton className='mt-4 mx-auto'>
+            Find more
+            <ChevronRightIcon className='ml-2 w-5 h-5' />
+          </FancyButton>
+        </Link>
       </div>
       <div className='flex sm:border sm:border-dark-1 sm:rounded-sm pb-2 sm:p-5 sm:bg-dark-3 space-x-5 overflow-x-auto custom-scrollbar custom-scrollbar-horizontal'>
         {issues.map((issue) => (
