@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { StarIcon } from '@primer/octicons-react';
 import IssueCard from './IssueCard';
 
 export default function RepoCard(props) {
@@ -15,17 +16,17 @@ export default function RepoCard(props) {
       onClick={() => setIsOpen(!isOpen)}
     >
       <h2 className='flex items-center'>
-        <span className='mr-auto'>
+        <span className='mr-auto font-bold text-lg'>
           {props.repo.owner}/{props.repo.name}
         </span>
-        <span className='text-sm'>{props.repo.issuesCount} issues</span>
+        <span className='flex items-center mx-3'>
+          <StarIcon className='mr-1' />
+          {props.repo.stars}
+        </span>
+        <span className='font-bold bg-violet-600 text-white px-3 py-1 rounded-sm'>{props.repo.issuesCount} issues</span>
       </h2>
-      <p className='mt-2 mb-1'>{props.repo.description}</p>
-      <p className='flex space-x-3 text-gray-600'>
-        <span>Lang: {props.repo.language}</span>
-        <span>Stars: {props.repo.stars}</span>
-        <span className='grow text-right'>Last active: {props.repo.lastSynced}</span>
-      </p>
+      <div className='text-sm text-gray-400'>{props.repo.language}</div>
+      <p className='mt-3 mb-1 text-gray-400'>{props.repo.description}</p>
       <div className={isOpen ? 'mt-4 space-y-3' : 'hidden'}>
         {issues?.map((issue) => (
           <IssueCard key={issue.id} issue={issue} />
