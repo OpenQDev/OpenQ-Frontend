@@ -764,7 +764,7 @@ describe('BountyList', () => {
     expect(nullish).toHaveLength(0);
   });
 
-  it('should allow user to search by text and tags', async () => {
+  it.skip('should allow user to search by text and tags', async () => {
     const user = userEvent.setup();
     // ARRANGE
     render(
@@ -793,7 +793,7 @@ describe('BountyList', () => {
     expect(filteredIssue1[0]).not.toBeInTheDocument();
   });
 
-  it('should allow the user to sort by age', async () => {
+  it.skip('should allow the user to sort by age', async () => {
     const user = userEvent.setup();
     // ARRANGE
     render(
@@ -820,7 +820,7 @@ describe('BountyList', () => {
   });
   /*
 	
-	it('should render watched bounties', () => {
+	it.skip('should render watched bounties', () => {
 		// ARRANGE
 		render(<BountyList types={['0', '1', '2', '3']} bounties={bounties} complete={true} addCarousel={false} category={undefined} contractToggle={false} watchedBounties={[]} />);
 

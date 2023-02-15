@@ -23,7 +23,6 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
   const { githubId } = authState;
   const [associatedAddress, setAssociatedAddress] = useState(null);
   const [associatedAddressLoading, setAssociatedAddressLoading] = useState(false);
-  const { library } = useWeb3();
   const zeroAddress = '0x0000000000000000000000000000000000000000';
   let hasAssociatedAddress = associatedAddress && associatedAddress !== zeroAddress;
 
