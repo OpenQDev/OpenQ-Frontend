@@ -70,6 +70,7 @@
     "magic-sdk": "13.2.0",
     "mustache": "4.2.0",
     "next": "13.1.6",
+    "octokit": "^2.0.14",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-ga4": "2.0.0",

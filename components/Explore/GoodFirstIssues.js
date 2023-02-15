@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Gun from 'gun/gun';
 import { ChevronRightIcon, IssueOpenedIcon } from '@primer/octicons-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,19 +9,16 @@ import CardFooter from './Card/CardFooter';
 import CardHeader from './Card/CardHeader';
 import StarButton from './StarButton';
 import RepoLanguage from './RepoLanguage';
-
-import reposWhitelist from './reposWhitelist.json';
-
-const gun = new Gun({
-  peers: ['https://gun.mktcode.uber.space/gun'],
-});
+import { useRepos } from '../../store/Gun/ReposProvider';
 
 export default function GoodFirstIssues() {
   const [issues, setIssues] = useState([]);
 
+  const repos = useRepos();
+
   useEffect(() => {
-    reposWhitelist.forEach((ownerAndRepo) => {
-      gun.get(ownerAndRepo).once((repo) => {
+    if (repos) {
+      repos.forEach((repo) => {
         if (!repo || !repo.issuesJson) return;
         try {
           const repoIssues = JSON.parse(repo.issuesJson);
@@ -40,8 +36,8 @@ export default function GoodFirstIssues() {
           console.log('error parsing issues coming from gun', e, repo.stars);
         }
       });
-    });
-  }, []);
+    }
+  }, [repos]);
 
   return (
     <div className='w-full pt-12 lg:pt-40'>
