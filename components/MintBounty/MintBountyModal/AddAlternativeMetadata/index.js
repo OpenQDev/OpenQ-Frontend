@@ -3,6 +3,7 @@ import ToolTipNew from '../../../Utils/ToolTipNew';
 import MintContext from '../../MintContext';
 import StoreContext from '../../../../store/Store/StoreContext';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const AddAlternativeMetadata = () => {
   const [githubUrl, setGithubUrl] = useState('');
@@ -45,6 +46,7 @@ const AddAlternativeMetadata = () => {
           </div>
         </ToolTipNew>
       </div>
+      <span className='note'>Enter the Github Organization URL like: <span className='underline'>https://github.com/OpenQDev</span></span>
       <input
         className='flex-1 input-field leading-loose w-full'
         id='sponsor'
