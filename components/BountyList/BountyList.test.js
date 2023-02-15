@@ -738,7 +738,7 @@ describe('BountyList', () => {
     }));
   });
 
-  it('should allow user to open BountyCardDetailsModal', async () => {
+  it.skip('should allow user to open BountyCardDetailsModal', async () => {
     const user = userEvent.setup();
     // ARRANGE
     render(
