@@ -31,9 +31,10 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
 
   useEffect(() => {
     const checkAssociatedAddress = async () => {
-      if (library && githubId) {
+      if (githubId) {
         try {
-          const associatedAddress = await appState.openQClient.getAddressById(library, githubId);
+          const associatedAddressSubgraph = await appState.openQSubgraphClient.getUserByGithubId(githubId);
+          const associatedAddress = associatedAddressSubgraph.id;
           if (associatedAddress !== zeroAddress) {
             setAssociatedAddress(associatedAddress);
             setAssociatedAddressLoading(false);
@@ -45,7 +46,7 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
       }
     };
     checkAssociatedAddress();
-  }, [library, account, githubId]);
+  }, [account, githubId]);
 
   useEffect(() => {
     if (hasAssociatedAddress && githubId && claimPage) setVerified(true);
