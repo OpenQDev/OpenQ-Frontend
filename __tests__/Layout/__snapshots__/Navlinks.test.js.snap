@@ -15,7 +15,7 @@ exports[`NavLinks should match DOM Snapshot 1`] = `
   </a>,
   <a
     className="nav-link $ false"
-    href="/fixed-price"
+    href="/marketplace"
     onClick={[Function]}
     onMouseEnter={[Function]}
     onTouchStart={[Function]}

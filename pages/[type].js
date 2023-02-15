@@ -154,6 +154,9 @@ export const getServerSideProps = async (context) => {
     case 'fixed-price':
       types = ['0'];
       break;
+    case 'marketplace':
+      types = ['0', '1'];
+      break;
     case 'contests':
       types = ['2', '3'];
       break;
