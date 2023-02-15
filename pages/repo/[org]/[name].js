@@ -16,6 +16,7 @@ import useWeb3 from '../../../hooks/useWeb3';
 import Logger from '../../../services/logger/Logger';
 import Utils from '../../../services/utils/Utils';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
+import { getReadyText, isOnlyContest } from '../../../services/utils/lib';
 
 const showcase = ({ /* currentPrs, */ batch, renderError, firstCursor, fullBounties, orgData, repoData }) => {
   // oAuthToken?
@@ -79,6 +80,20 @@ const showcase = ({ /* currentPrs, */ batch, renderError, firstCursor, fullBount
     }
     setBounties(bounties.concat(newBounties));
   }
+  const organizationId = orgData.id;
+  const types = ['0', '1', '2', '3'];
+  const paginationObj = {
+    items: bounties,
+    ordering: { direction: 'desc', field: 'createdAt' },
+    fetchFilters: { types, organizationId, repositoryId: repoData.id },
+    filters: {
+      searchText: `order:newest`,
+      isReady: getReadyText(isOnlyContest(types)),
+    },
+    cursor: firstCursor,
+    complete,
+    batch,
+  };
 
   return (
     <>
@@ -101,6 +116,7 @@ const showcase = ({ /* currentPrs, */ batch, renderError, firstCursor, fullBount
                 <div className='max-w-[960px] w-full md:basis-3/4 md:shrink'>
                   <h2 className='text-primary w-full mb-2'>Smart Contracts</h2>
                   <BountyList
+                    paginationObj={paginationObj}
                     contractToggle={true}
                     bounties={bounties}
                     loading={isLoading}

@@ -12,18 +12,13 @@ import Utils from '../services/utils/Utils';
 import Logger from '../services/logger/Logger';
 import SubMenu from '../components/Utils/SubMenu';
 import UnexpectedErrorModal from '../components/Utils/UnexpectedErrorModal';
+import { fetchBountiesWithServiceArg, isOnlyContest, getReadyText } from '../services/utils/lib';
 
-export default function Index({ orgs, fullBounties, batch, types, category, renderError, firstCursor }) {
+export default function Index({ orgs, types, category, renderError, paginationObj }) {
   // State
   const [internalMenu, setInternalMenu] = useState('Issues');
   const [controlledOrgs, setControlledOrgs] = useState(orgs);
-  const [bounties, setBounties] = useState(fullBounties);
-  const [isLoading, setIsLoading] = useState(false);
-  const [complete, setComplete] = useState(false);
-  const [pagination, setPagination] = useState(batch);
-  const [offChainCursor, setOffChainCursor] = useState(firstCursor);
   const [watchedBounties, setWatchedBounties] = useState([]);
-  const [error, setError] = useState(renderError);
 
   // Context
   const [appState] = useContext(StoreContext);
@@ -61,55 +56,6 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
 
   // Methods
 
-  // General method for getting bounty data, used by pagination and handlers.
-  async function getBountyData(sortOrder, currentPagination, orderBy, cursor) {
-    setPagination(() => currentPagination + batch);
-    let complete = false;
-    try {
-      const [fullBounties, newCursor] = await appState.utils.fetchBounties(
-        appState,
-        batch,
-        types,
-        sortOrder,
-        orderBy,
-        cursor,
-        undefined,
-        undefined,
-        category
-      );
-      setOffChainCursor(newCursor);
-
-      if (fullBounties?.length === 0) {
-        complete = true;
-      }
-
-      return [fullBounties, complete];
-    } catch (err) {
-      setError(JSON.stringify(err));
-      return [[], true];
-    }
-  }
-
-  // Pagination handler for when user switches sort order.
-  async function getNewData(order, orderBy) {
-    setIsLoading(true);
-    setComplete(false);
-    let newBounties = [];
-    [newBounties] = await getBountyData(order, 0, orderBy);
-    setBounties(newBounties);
-    setIsLoading(false);
-  }
-
-  // Pagination handler for when user just needs another page of the same sort order.
-  async function getMoreData(order, orderBy) {
-    setComplete(true);
-    const [newBounties, complete] = await getBountyData(order, pagination, orderBy, offChainCursor);
-    if (!complete) {
-      setComplete(false);
-    }
-    setBounties(bounties.concat(newBounties));
-  }
-
   return (
     <main className='bg-dark-mode flex-col'>
       <div className='flex justify-center'>
@@ -121,20 +67,12 @@ export default function Index({ orgs, fullBounties, batch, types, category, rend
         />
       </div>
       <div>
-        {error ? (
-          <UnexpectedErrorModal error={error} />
+        {renderError ? (
+          <UnexpectedErrorModal error={renderError} />
         ) : internalMenu == 'Organizations' ? (
           <OrganizationHomepage orgs={controlledOrgs} types={types} />
         ) : (
-          <BountyHomepage
-            bounties={bounties}
-            watchedBounties={watchedBounties}
-            loading={isLoading}
-            getMoreData={getMoreData}
-            complete={complete}
-            getNewData={getNewData}
-            types={types}
-          />
+          <BountyHomepage paginationObj={paginationObj} watchedBounties={watchedBounties} types={types} />
         )}
       </div>
     </main>
@@ -163,13 +101,36 @@ export const getServerSideProps = async (context) => {
     case 'split-price':
       types = ['1'];
       break;
-    case 'non-profit':
-      category = 'non-profit';
-      types = ['0', '1', '2', '3'];
-      break;
   }
 
   const batch = 10;
+  const appState = {
+    githubRepository: githubRepository.instance,
+    openQSubgraphClient: openQSubgraphClient.instance,
+    openQPrismaClient: openQPrismaClient.instance,
+    utils,
+    logger,
+  };
+  const getItems = async (oldCursor, batch, ordering, filters) => {
+    const value = await fetchBountiesWithServiceArg(appState, oldCursor, batch, ordering, filters);
+
+    return value;
+  };
+  const ordering = { sortOrder: 'desc', field: 'createdAt' };
+  const { nodes, cursor, complete } = await getItems(null, 2, ordering, { types });
+
+  const paginationObj = {
+    items: nodes,
+    ordering: { direction: 'desc', field: 'createdAt' },
+    fetchFilters: { types },
+    filters: {
+      searchText: `order:newest`,
+      isReady: getReadyText(isOnlyContest(types)),
+    },
+    cursor,
+    complete,
+    batch,
+  };
   let fullBounties = [];
   let firstCursor = null;
   let renderError = '';
@@ -218,6 +179,7 @@ export const getServerSideProps = async (context) => {
       types,
       category,
       firstCursor,
+      paginationObj,
     },
   };
 };

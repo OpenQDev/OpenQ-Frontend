@@ -7,7 +7,7 @@ pagination Obj should be passed from parent page to pagination component
 type of paginationObj:
 {
 	items: [],
-	ordering: {direction: "asc", field: "name"},
+	ordering: {direction: "desc", field: "name"},
 	filters: {color: "blue"},
 	cursor: 0,
 	complete: false,
@@ -22,26 +22,13 @@ and returns
 */
 const PaginatedList = ({ paginationState, PaginationCard }) => {
   const [paginationObj, setPaginationObj] = paginationState;
-  const { getItems } = paginationObj;
+  const { getItems, filterFunction, filters, fetchFilters, cursor, complete } = paginationObj;
   const [loading, setLoading] = useState(false);
   const filtering = (items) => {
-    const filters = paginationObj.filters;
     return items.filter((item) => {
-      const filterKeys = Object.keys(filters);
-      const passFilters = filterKeys.map((key) => {
-        if (typeof filters[key] === 'function') {
-          return filters[key](item[key]);
-        }
-        if (item[key] !== filters[key]) {
-          return false;
-        }
-      });
-      return !passFilters.includes(false);
+      return filterFunction(item, filters, fetchFilters);
     });
   };
-
-  const [cursor, setCursor] = useState(paginationObj.cursor);
-  const [complete, setComplete] = useState(paginationObj.complete);
   let observer = useRef();
   const fetchPage = async (currentPaginationObj) => {
     if (complete) {
@@ -51,10 +38,14 @@ const PaginatedList = ({ paginationState, PaginationCard }) => {
       nodes,
       cursor: newCursor,
       complete: newComplete,
-    } = await getItems(cursor, paginationObj.batch, paginationObj.ordering, paginationObj.filters);
-    setCursor(newCursor);
-    setPaginationObj({ ...currentPaginationObj, items: [...currentPaginationObj.items, ...nodes] });
-    setComplete(newComplete);
+    } = await getItems(cursor, paginationObj.batch, paginationObj.ordering, paginationObj.fetchFilters);
+
+    setPaginationObj({
+      ...currentPaginationObj,
+      items: [...currentPaginationObj.items, ...nodes],
+      complete: newComplete,
+      cursor: newCursor,
+    });
   };
   useEffect(() => {
     let cancel = false;
@@ -89,12 +80,18 @@ const PaginatedList = ({ paginationState, PaginationCard }) => {
     [paginationObj]
   );
   const filteredItems = filtering(paginationObj.items);
+  useEffect(() => {
+    if (filteredItems.length > 0 || complete || loading) return;
+    setLoading(true);
+    fetchPage(paginationObj);
+    setLoading(false);
+  }, [filteredItems, complete, loading]);
   return (
     <div>
       {filteredItems.map((item, index) => {
         return (
           <div key={index} ref={index === filteredItems.length - 1 ? lastElem : null} className='pagination'>
-            <PaginationCard item={item} />
+            <PaginationCard index={index} item={item} length={filteredItems.length} />
           </div>
         );
       })}

@@ -1,8 +1,7 @@
 // Third party
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 
 // Custom
-import StoreContext from '../../store/Store/StoreContext';
 import WrappedOpenQSubgraphClient from '../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedGithubClient from '../../services/github/WrappedGithubClient';
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
@@ -17,70 +16,16 @@ import OrganizationContent from '../../components/Organization/OrganizationConte
 // import HackathonTab from '../../components/Organization/HackathonTab.js';
 
 import UnexpectedErrorModal from '../../components/Utils/UnexpectedErrorModal';
-import useWeb3 from '../../hooks/useWeb3';
 
 const organization = ({ organizationData, fullBounties, batch, renderError, firstCursor }) => {
   // Context
-  const [appState] = useContext(StoreContext);
-  // State
-  const [isLoading, setIsLoading] = useState(false);
-  const [bounties, setBounties] = useState(fullBounties);
-  const [pagination, setPagination] = useState(batch);
-  const [offChainCursor, setOffChainCursor] = useState(firstCursor);
   const [toggleVal, setToggleVal] = useState('Overview');
-  const [complete, setComplete] = useState();
-  const { account } = useWeb3();
-  const [error, setError] = useState(renderError);
-  const { accountData, logger } = appState;
   // Methods
-  async function getBountyData(sortOrder, currentPagination, orderBy, cursor) {
-    setPagination(() => currentPagination + batch);
-    let complete = false;
-    try {
-      const [fullBounties, newCursor] = await appState.utils.fetchBounties(
-        appState,
-        batch,
-        null,
-        sortOrder,
-        orderBy,
-        cursor,
-        organizationData.id,
-        account
-      );
-      setOffChainCursor(newCursor);
-      if (fullBounties?.length === 0) {
-        complete = true;
-      }
-      return [fullBounties, complete];
-    } catch (err) {
-      setError(err);
-      logger.error(err, accountData.id, '[organization.js]1');
-      return [[], true];
-    }
-  }
-
-  async function getNewData(order, orderBy) {
-    setIsLoading(true);
-    setComplete(false);
-    let newBounties = [];
-    [newBounties] = await getBountyData(order, 0, orderBy);
-    setBounties(newBounties);
-    setIsLoading(false);
-  }
-
-  async function getMoreData(order, orderBy) {
-    setComplete(true);
-    const [newBounties, complete] = await getBountyData(order, pagination, orderBy, offChainCursor);
-    if (!complete) {
-      setComplete(false);
-    }
-    setBounties(bounties.concat(newBounties));
-  }
 
   const handleToggle = (toggleVal) => {
     setToggleVal(toggleVal);
   };
-  const repositories = bounties?.reduce((repositories, bounty) => {
+  const repositories = fullBounties?.reduce((repositories, bounty) => {
     if (repositories.some((repo) => repo.name === bounty.repoName)) {
       return repositories;
     }
@@ -127,8 +72,8 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
   // Render
   return (
     <>
-      {error ? (
-        <UnexpectedErrorModal error={error} />
+      {renderError ? (
+        <UnexpectedErrorModal error={renderError} />
       ) : (
         <div className='w-full mx-auto text-primary mt-1 px-4 md:px-16 max-w-[1420px] '>
           <OrganizationHeader colour='rust' organizationData={organizationData} />
@@ -147,13 +92,12 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
           {toggleVal === 'Overview' && (
             <div className='px-4 py-3 gap-6 w-full flex flex-wrap md:flex-nowrap'>
               <OrganizationContent
-                bounties={bounties}
-                loading={isLoading}
-                getMoreData={getMoreData}
-                complete={complete}
-                getNewData={getNewData}
+                bounties={fullBounties}
+                complete={false}
                 repositories={repositories}
                 organizationData={organizationData}
+                cursor={firstCursor}
+                batch={batch}
               />
               <OrganizationMetadata organizationData={organizationData} repositories={repositories} />
             </div>

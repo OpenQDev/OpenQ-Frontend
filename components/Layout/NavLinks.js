@@ -16,10 +16,6 @@ const NavLinks = () => {
       <Link href={'/contests'} className={`nav-link $ ${router.asPath === '/contests' && 'text-white'}`}>
         <span> Contests</span>
       </Link>
-
-      <Link href={'/non-profit'} className={`nav-link $ ${router.asPath === '/non-profit' && 'text-white'}`}>
-        <span> Non-Profit</span>
-      </Link>
     </>
   );
 };

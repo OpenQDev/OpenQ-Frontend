@@ -213,7 +213,7 @@ export const formatVolume = (tierVolume, token) => {
   return formattedVolume;
 };
 
-export const fetchItemsWithServiceArg = async (appState, identity, oldCursor, batch) => {
+export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor, batch) => {
   const { userId, githubId, email } = identity;
   const userOffChainData = await appState.openQPrismaClient.getUserRequests(
     {
@@ -248,4 +248,53 @@ export const fetchItemsWithServiceArg = async (appState, identity, oldCursor, ba
     cursor: userOffChainData.createdBounties.bountyConnection.cursor,
     complete: createdBounties.length !== batch,
   };
+};
+
+export const fetchBountiesWithServiceArg = async (appState, oldCursor, batch, ordering, filters) => {
+  let { sortOrder, field } = ordering;
+  if (!sortOrder) {
+    sortOrder = 'desc';
+  }
+  if (!field) {
+    field = 'createdAt';
+  }
+  const { types, organizationId, repositoryId } = filters;
+  let complete = false;
+  try {
+    let [fullBounties, cursor] = await appState.utils.fetchBounties(
+      appState,
+      batch,
+      types,
+      sortOrder,
+      field,
+      oldCursor,
+      organizationId,
+      null,
+      null,
+      repositoryId
+    );
+
+    if (fullBounties?.length === 0) {
+      complete = true;
+    }
+    return {
+      nodes: fullBounties,
+      cursor,
+      complete,
+    };
+  } catch (err) {
+    appState.logger.error(err);
+    return { nodes: [], cursor: null, complete: true };
+  }
+};
+
+export const getReadyText = (isContest) => {
+  if (isContest) {
+    return 'Ready to Hack';
+  } else return 'Ready for Work';
+};
+export const isOnlyContest = (types) => {
+  const includesReady = types.includes('2') || types.includes('3');
+  const includesNonReady = types.includes('0') && types.includes('0');
+  return includesReady && !includesNonReady;
 };

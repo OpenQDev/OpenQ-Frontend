@@ -13,23 +13,23 @@ import LabelsList from '../../Bounty/LabelsList';
 import useDisplayValue from '../../../hooks/useDisplayValue';
 import { getBountyMarker } from '../../../services/utils/lib';
 
-const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
+const BountyCardLean = ({ item, loading, index, length, unWatchable }) => {
   // State
-  const bountyName = bounty?.title.toLowerCase() || '';
+  const bountyName = item?.title.toLowerCase() || '';
   const [appState] = useContext(StoreContext);
   const [isModal, setIsModal] = useState();
   const [hovered, setHovered] = useState();
-  const displayValue = useDisplayValue(bounty, appState.utils.formatter.format);
+  const displayValue = useDisplayValue(item, appState.utils.formatter.format);
   const currentDate = Date.now();
-  const relativeDeployDay = parseInt((currentDate - bounty?.bountyMintTime * 1000) / 86400000);
+  const relativeDeployDay = parseInt((currentDate - item?.bountyMintTime * 1000) / 86400000);
   const [imageError, setImageError] = useState(false);
 
-  const watchingState = useState(bounty.watchingCount);
+  const watchingState = useState(item.watchingCount);
   const [watchingUsers] = watchingState;
   // Hooks
 
-  const marker = getBountyMarker(bounty, appState.openQClient, appState.accountData.github);
-  const bountyTypeName = appState.utils.getBountyTypeName(bounty);
+  const marker = getBountyMarker(item, appState.openQClient, appState.accountData.github);
+  const bountyTypeName = appState.utils.getBountyTypeName(item);
 
   const closeModal = () => {
     setIsModal(false);
@@ -42,9 +42,9 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
         action: 'HOVER_CARD',
         dimension: JSON.stringify({
           bountyType: bountyTypeName,
-          [bounty.address]: 'OPEN_MODAL',
+          [item.address]: 'OPEN_MODAL',
         }),
-        label: 'address:'.concat(bounty.address),
+        label: 'address:'.concat(item.address),
       });
     }
   };
@@ -53,14 +53,14 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
     ReactGA.event({
       category: bountyTypeName,
       action: 'OPEN_MODAL',
-      label: 'address:'.concat(bounty.address),
+      label: 'address:'.concat(item.address),
 
       dimension: [
         {
           bountyType: bountyTypeName,
         },
         {
-          [bounty.address]: 'OPEN_MODAL',
+          [item.address]: 'OPEN_MODAL',
         },
       ],
     });
@@ -72,15 +72,17 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
     <div className={loading ? 'pointer-events-none cursor-normal relative w-full' : 'w-full'}>
       <BountyCardDetailsModal
         unWatchable={unWatchable}
-        bounty={bounty}
+        bounty={item}
         watchingState={watchingState}
         closeModal={closeModal}
-        showModal={bounty && isModal}
+        showModal={item && isModal}
       />
       <div
         onMouseEnter={handleMouseEnter}
         onClick={openModal}
-        className={`flex flex-col md:px-4 py-4 border-web-gray cursor-pointer ${index !== length - 1 && 'border-b'}`}
+        className={`flex flex-col md:px-4 py-4 border-web-gray border-x cursor-pointer border-t ${
+          index === length - 1 && 'border-b rounded-b-sm'
+        } ${index === 0 && 'rounded-t-sm'}`}
       >
         <div className='flex flex-row flex-wrap sm:flex-nowrap justify-between sm:pt-0 text-primary'>
           <div className='w-full sm:w-3/4 md:w-1/2'>
@@ -102,12 +104,8 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
               </div>
               <div className='break-word text-xl text-link-colour inline gap-1 pb-1'>
                 <span data-testid='repo'>
-                  {bounty.owner && `${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`}
-                  {bounty.alternativeName ? (
-                    <span className='whitespace-nowrap'> ( {bounty.alternativeName} )</span>
-                  ) : (
-                    ''
-                  )}
+                  {item.owner && `${item.owner.toLowerCase()}/${item.repoName.toLowerCase()}`}
+                  {item.alternativeName ? <span className='whitespace-nowrap'> ( {item.alternativeName} )</span> : ''}
                 </span>
                 <span></span>
               </div>
@@ -115,8 +113,8 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
             <div className='font-bold text-lg'>
               {loading ? (
                 <Skeleton width={'100px'} />
-              ) : bounty?.title.length < 50 ? (
-                bounty?.title.toLowerCase()
+              ) : item?.title.length < 50 ? (
+                item?.title.toLowerCase()
               ) : (
                 bountyName.slice(0, 50) + '...'
               )}
@@ -132,7 +130,7 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
               </div>
             </div>
             <div className='pt-1'>
-              <LabelsList bounty={bounty} />
+              <LabelsList bounty={item} />
             </div>
             <div className='flex flex-row items-center gap-4 text-muted font-semibold'>
               <span>
@@ -148,13 +146,13 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
                 <span>{watchingUsers}</span>
               </span>
 
-              <span>Assigned to {bounty.assignees[0]?.name || bounty.assignees[0]?.login || 'no one.'}</span>
-              {bounty.assignees[0]?.avatarUrl && (
+              <span>Assigned to {item.assignees[0]?.name || item.assignees[0]?.login || 'no one.'}</span>
+              {item.assignees[0]?.avatarUrl && (
                 <Image
                   height={24}
                   width={24}
                   className='rounded-full pt-1'
-                  src={bounty.assignees[0]?.avatarUrl}
+                  src={item.assignees[0]?.avatarUrl}
                   alt='Image of the assignee'
                 />
               )}
@@ -167,10 +165,10 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
             <div className='flex flex-col w-1/4 sm:w-1/2 justify-between items-end leading-tight '>
               <div className='sm:block hidden'>
                 {' '}
-                {!imageError && (bounty?.avatarUrl || bounty?.alternativeLogo) ? (
+                {!imageError && (item?.avatarUrl || item?.alternativeLogo) ? (
                   <Image
                     className='rounded-full '
-                    src={bounty?.alternativeLogo || bounty?.avatarUrl}
+                    src={item?.alternativeLogo || item?.avatarUrl}
                     alt='avatarUrl'
                     width='51'
                     height='51'
@@ -182,12 +180,12 @@ const BountyCardLean = ({ bounty, loading, index, length, unWatchable }) => {
               </div>
               <div className='flex gap-x-4 flex-wrap sm:flex-nowrap w-full content-center items-center justify-between sm:justify-end sm:w-72'>
                 <span className='font-semibold flex flex-end items-center content-center gap-1 w-max'>
-                  {bounty.bountyType === '0' ? (
+                  {item.bountyType === '0' ? (
                     <PersonIcon />
-                  ) : bounty.bountyType === '1' ? (
+                  ) : item.bountyType === '1' ? (
                     <PersonAddIcon />
                   ) : (
-                    (bounty.bountyType === '2' || bounty.bountyType === '3') && <PeopleIcon />
+                    (item.bountyType === '2' || item.bountyType === '3') && <PeopleIcon />
                   )}
                   <div className='whitespace-nowrap'>{bountyTypeName}</div>
                 </span>

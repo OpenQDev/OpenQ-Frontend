@@ -353,7 +353,6 @@ class OpenQPrismaClient {
     return promise;
   }
   getUserRequests(idObject, paginationVars) {
-    console.log(paginationVars, 'paginationVars');
     const promise = new Promise(async (resolve, reject) => {
       const variables = {
         ...paginationVars,

@@ -5,17 +5,7 @@ import React from 'react';
 import BountyList from '../../BountyList';
 import UnexpectedErrorModal from '../../Utils/UnexpectedErrorModal';
 
-const BountyHomepage = ({
-  bounties,
-  watchedBounties,
-  loading,
-  complete,
-  getMoreData,
-  getNewData,
-  error,
-  types,
-  contractToggle,
-}) => {
+const BountyHomepage = ({ watchedBounties, paginationObj, error, types, contractToggle }) => {
   // Render
   return (
     <div>
@@ -28,13 +18,9 @@ const BountyHomepage = ({
           <UnexpectedErrorModal error={error} />
         ) : (
           <BountyList
-            bounties={bounties}
             watchedBounties={watchedBounties}
             addCarousel={true}
-            loading={loading}
-            getMoreData={getMoreData}
-            complete={complete}
-            getNewData={getNewData}
+            paginationObj={paginationObj}
             types={types}
             contractToggle={contractToggle}
           />
