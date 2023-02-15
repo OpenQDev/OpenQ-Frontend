@@ -108,10 +108,13 @@ const W8Requirement = ({ bounty }) => {
         </>
       ),
     },
-    NO_DEPOSITS: { MessageHTML: () => "This bounty isn't w8formable." },
+    NO_DEPOSITS: {
+      MessageHTML: () =>
+        "Funder hasn't made any deposits yet, please wait for money to be deposited before sending W8/W9 form.",
+    },
     'no deposits': {
       MessageHTML: () =>
-        "Funder hasn't made any deposits yet, please wait for money to be deposited before sending w8form.",
+        "Funder hasn't made any deposits yet, please wait for money to be deposited before sending W8/W9 form.",
     },
 
     NOT_WINNER: {
@@ -200,9 +203,9 @@ const W8Requirement = ({ bounty }) => {
         <>
           <div>
             <p>
-              Please complete and upload a form W-8. Choose one of five types, depending on your entity. We encourage
-              you to consult with you own tax or financial adviser to determine which form is appropriate for you or ask
-              in our
+              Please complete and upload a W-8/W-9 form. Choose one of five types, depending on your entity. We
+              encourage you to consult with you own tax or financial adviser to determine which form is appropriate for
+              you or ask in our
               <div>
                 <Link
                   href={'https://discord.gg/puQVqEvVXn'}
@@ -283,13 +286,13 @@ const W8Requirement = ({ bounty }) => {
                   ) : (
                     <>
                       <UploadIcon size={16} />
-                      Upload Updated W8
+                      Upload Updated W8/W9
                     </>
                   )}
                 </div>
                 <input
                   onChange={handleFileChange}
-                  disabled={sent}
+                  disabled={sent && loading}
                   type='file'
                   className='absolute invisible w-full top-0 bottom-0 z-10'
                   id='file input'
@@ -303,7 +306,7 @@ const W8Requirement = ({ bounty }) => {
                 file ? 'btn-requirements cursor-pointer flex gap-2' : 'btn-default cursor-not-allowed flex gap-2'
               }
             >
-              {sent ? 'Sent' : 'Send'}
+              {sent ? (loading ? 'Sending' : 'Sent') : 'Send'}
               {loading && <LoadingIcon />}
             </button>
           </form>

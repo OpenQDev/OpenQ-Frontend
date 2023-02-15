@@ -203,7 +203,7 @@ exports[`W8FormModal should match initial DOM Snapshot 1`] = `
               <p
                 class="py-2"
               >
-                The IRS requires us to withhold FIL from payments to non-U.S. citizens who live outside of the United States unless we can associate the payee with a completed, signed form W-8.
+                The IRS requires us to withhold FIL from payments to non-U.S. citizens who live outside of the United States unless we can associate the payee with a completed, signed W-8/W-9 form.
               </p>
             </div>
           </div>

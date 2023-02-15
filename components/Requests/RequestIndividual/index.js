@@ -88,7 +88,7 @@ const RequestIndividual = ({ item }) => {
             {requestingUser?.username || githubUser.name || githubUser.login}
           </a>
         </div>
-        <div>Request for acceptance of the w8 form.</div>
+        <div>Request for acceptance of the W8/W9 form.</div>
         <div>{issue.title}</div>
       </div>
       <a href={`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.address}`}>

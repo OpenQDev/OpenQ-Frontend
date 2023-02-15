@@ -308,9 +308,9 @@ const FundPage = () => {
                   </details>
                   {!bounty.invoiceRequired && bounty.supportingDocumentsRequired && (
                     <div className='w-5/6 note'>
-                      We will send the completed W8 form with link to accept to this email. Please note that only your
-                      ethereum account is able to accept this. If someone else reviews the form you will need to confirm
-                      it.
+                      We will send the completed W8/W9 form with link to accept to this email. Please note that only
+                      your ethereum account is able to accept this. If someone else reviews the form you will need to
+                      confirm it.
                     </div>
                   )}
                 </>

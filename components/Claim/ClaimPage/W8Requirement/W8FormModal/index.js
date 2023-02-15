@@ -163,7 +163,7 @@ const index = ({ setShowModal }) => {
 
         <p className='py-2'>
           The IRS requires us to withhold FIL from payments to non-U.S. citizens who live outside of the United States
-          unless we can associate the payee with a completed, signed form W-8.
+          unless we can associate the payee with a completed, signed W-8/W-9 form.
         </p>
       </div>
     </ModalLarge>
