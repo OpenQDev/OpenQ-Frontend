@@ -53,7 +53,9 @@ const TokenSearch = ({ stream, setShowTokenSearch, alone, showTokenSearch, bount
     <div className='justify-self-end'>
       <div>
         <button
-          className={`flex flex-row items-center space-x-1 py-2 p-2 pr-2 ${!bountyTokenLocked ? 'btn-default' : 'cursor-default'}`}
+          className={`flex flex-row items-center space-x-1 py-2 p-2 pr-2 ${
+            !bountyTokenLocked ? 'btn-default' : 'cursor-default'
+          }`}
           onClick={() => handleShowSearch(true)}
           disabled={bountyTokenLocked}
         >
@@ -78,7 +80,8 @@ const TokenSearch = ({ stream, setShowTokenSearch, alone, showTokenSearch, bount
                   clipRule='evenodd'
                 />
               </svg>
-            </div>)}
+            </div>
+          )}
         </button>
       </div>
       {((!stream && !alone) || showStreamTokenSearch) && (
