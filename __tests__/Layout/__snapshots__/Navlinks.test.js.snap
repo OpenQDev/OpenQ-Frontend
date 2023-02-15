@@ -21,18 +21,7 @@ exports[`NavLinks should match DOM Snapshot 1`] = `
     onTouchStart={[Function]}
   >
     <span>
-       Fixed Price
-    </span>
-  </a>,
-  <a
-    className="nav-link $ false"
-    href="/split-price"
-    onClick={[Function]}
-    onMouseEnter={[Function]}
-    onTouchStart={[Function]}
-  >
-    <span>
-       Split Price
+      Marketplace
     </span>
   </a>,
   <a
@@ -44,17 +33,6 @@ exports[`NavLinks should match DOM Snapshot 1`] = `
   >
     <span>
        Contests
-    </span>
-  </a>,
-  <a
-    className="nav-link $ false"
-    href="/non-profit"
-    onClick={[Function]}
-    onMouseEnter={[Function]}
-    onTouchStart={[Function]}
-  >
-    <span>
-       Non-Profit
     </span>
   </a>,
 ]
