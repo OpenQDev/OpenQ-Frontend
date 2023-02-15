@@ -44,7 +44,8 @@ const FundPage = () => {
   const accountKeys = bounty.invoiceRequired
     ? ['company', 'city', 'country', 'streetAddress', 'province', 'invoicingEmail']
     : ['invoicingEmail'];
-  const mustChangePayoutFirst = bounty.bountyType == '1' && bounty.payoutTokenVolume;
+  const mustChangePayoutFirst = (bounty?.bountyType == '1' && bounty?.payoutTokenVolume > 0) ||
+    (bounty?.bountyType == '3' && bounty?.payoutSchedule?.length > 0);
   const neededAccountData = accountKeys.filter((key) => {
     return !accountData[key];
   });
@@ -244,16 +245,15 @@ const FundPage = () => {
                           !(depositPeriodDays > 0)
                             ? "Please indicate how many days you'd like to fund your contract for."
                             : isContest && nftTier === '' && pickedNft
-                            ? 'Please select an eligible tier to send the nft to.'
-                            : !hasInvoicingInfo
-                            ? 'This bounty requires invoicing information.'
-                            : "Please indicate the volume you'd like to fund with. Must be between 0.0000001 and 1,000,000."
+                              ? 'Please select an eligible tier to send the nft to.'
+                              : !hasInvoicingInfo
+                                ? 'This bounty requires invoicing information.'
+                                : "Please indicate the volume you'd like to fund with. Must be between 0.0000001 and 1,000,000."
                         }
                       >
                         <button
-                          className={`text-center px-8 w-min items-center py-0.5  ${
-                            disabledFundButton ? 'btn-default w-full cursor-not-allowed' : 'btn-primary cursor-pointer'
-                          } py-1.5`}
+                          className={`text-center px-8 w-min items-center py-0.5  ${disabledFundButton ? 'btn-default w-full cursor-not-allowed' : 'btn-primary cursor-pointer'
+                            } py-1.5`}
                           disabled={disabledFundButton}
                           type='button'
                           onClick={openFund}

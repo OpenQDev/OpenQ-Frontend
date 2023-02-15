@@ -46,8 +46,10 @@ const AssociateModal = ({
   }, [updateAddress]);
 
   const associateExternalIdToAddress = async () => {
-    setAssociateState('TRANSACTION_SUBMITTED');
+    setAssociateState('SIGN_MESSAGE');
     setShowModal(true);
+    const signature = await appState.openQClient.signMessage(account);
+    setAssociateState('TRANSACTION_SUBMITTED');
     axios
       .post(
         `${process.env.NEXT_PUBLIC_ORACLE_URL}/associateUserIdToAddress`,
@@ -55,7 +57,7 @@ const AssociateModal = ({
           userId: githubId,
           userAddress: account,
         },
-        { withCredentials: true }
+        { withCredentials: true, headers: { signature } }
       )
       .then(async (result) => {
         const { txnHash } = result.data;
@@ -111,6 +113,11 @@ const AssociateModal = ({
     setUpdateAddress(true);
   };
   const statesFormat = {
+    SIGN_MESSAGE: {
+      title: 'Requesting Your Signature',
+      message: 'Please sign with your wallet to prove you own this address.',
+      btn: { text: '', disabled: true, format: 'flex items-center btn-default cursor-not-allowed gap-2' },
+    },
     TRANSACTION_SUBMITTED: {
       title: 'Associating Your Account...',
       message: 'Your wallet address is being associated with your GitHub account...',
@@ -132,7 +139,7 @@ const AssociateModal = ({
       clickAction: () => setShowModal(false),
     },
   };
-  const btn = showModal && (
+  const btn = showModal && statesFormat[associateState].btn.text && (
     <div>
       <button
         onClick={statesFormat[associateState].clickAction}

@@ -31,7 +31,7 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
 
   useEffect(() => {
     const checkAssociatedAddress = async () => {
-      if (library && account && githubId) {
+      if (library && githubId) {
         try {
           const associatedAddress = await appState.openQClient.getAddressById(library, githubId);
           if (associatedAddress !== zeroAddress) {
@@ -103,7 +103,7 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
                     )}
                   </span>
                 </div>
-                <div className='flex gap-2'>
+                <div className='flex gap-2 w-fit'>
                   {claimPage && hasAssociatedAddress && (
                     <div key={2} className='flex items-center gap-2 btn-verified w-fit'>
                       <Image src='/BountyMaterial/polyscan-white.png' width={20} height={20} alt='link-icon' />
@@ -121,7 +121,7 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
                       btnText={
                         claimPage
                           ? [
-                              <div key={1} className='flex items-center gap-2 btn-requirements'>
+                              <div key={1} className='flex w-fit items-center gap-2 btn-requirements'>
                                 <Github className={'h-4 w-4'} />
                                 {hasAssociatedAddress ? 'Update' : 'Start'}
                               </div>,

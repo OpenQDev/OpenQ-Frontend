@@ -41,7 +41,7 @@ const RequestPage = () => {
       <div className='my-6'>
         <h2 className='text-2xl font-semibold pb-4 border-b border-web-gray my-4'>Manage your bounties</h2>
         <div className='border-web-gray border flex justify-center content-center h-24 rounded-sm items-center'>
-          You have recieved {requestsLength} new request{getPlural(requestsLength)}.
+          You have received {requestsLength} new request{getPlural(requestsLength)}.
         </div>
       </div>
       <div className='my-6'>
