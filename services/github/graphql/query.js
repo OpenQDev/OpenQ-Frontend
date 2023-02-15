@@ -443,7 +443,7 @@ export const GET_REPO_BY_NAME = gql`
   }
 `;
 
-export const GET_REPO_WITH_LABELED_ISSUES = gql`
+export const GET_REPO_WITH_LABELED_OPEN_ISSUES = gql`
   query GetRepoWithLabeledIssues($name: String!, $owner: String!, $labels: [String!]) {
     repository(name: $name, owner: $owner) {
       __typename
@@ -462,7 +462,7 @@ export const GET_REPO_WITH_LABELED_ISSUES = gql`
           }
         }
       }
-      issues (first: 100, labels: $labels) {
+      issues (first: 100, labels: $labels, states: [OPEN]) {
         nodes {
           ... on Issue {
             id

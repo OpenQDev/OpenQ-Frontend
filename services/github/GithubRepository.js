@@ -5,7 +5,7 @@ import {
   GET_ORG_BY_ID,
   GET_ORG_BY_NAME,
   GET_REPO_BY_NAME,
-  GET_REPO_WITH_LABELED_ISSUES,
+  GET_REPO_WITH_LABELED_OPEN_ISSUES,
   GET_ISSUE,
   GET_ISSUE_BY_ID,
   GET_ISSUES_BY_ID,
@@ -403,7 +403,7 @@ class GithubRepository {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
-          query: GET_REPO_WITH_LABELED_ISSUES,
+          query: GET_REPO_WITH_LABELED_OPEN_ISSUES,
           variables,
         });
         resolve(result.data.repository);
