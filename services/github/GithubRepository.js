@@ -5,6 +5,7 @@ import {
   GET_ORG_BY_ID,
   GET_ORG_BY_NAME,
   GET_REPO_BY_NAME,
+  GET_REPO_WITH_LABELED_ISSUES,
   GET_ISSUE,
   GET_ISSUE_BY_ID,
   GET_ISSUES_BY_ID,
@@ -387,6 +388,22 @@ class GithubRepository {
       try {
         const result = await this.client.query({
           query: GET_REPO_BY_NAME,
+          variables,
+        });
+        resolve(result.data.repository);
+      } catch (e) {
+        reject(e);
+      }
+    });
+
+    return promise;
+  }
+  async fetchRepoWithLabeledIssues(owner, name, labels) {
+    const variables = { owner, name, labels };
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_REPO_WITH_LABELED_ISSUES,
           variables,
         });
         resolve(result.data.repository);

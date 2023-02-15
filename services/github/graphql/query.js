@@ -443,6 +443,60 @@ export const GET_REPO_BY_NAME = gql`
   }
 `;
 
+export const GET_REPO_WITH_LABELED_ISSUES = gql`
+  query GetRepoWithLabeledIssues($name: String!, $owner: String!, $labels: [String!]) {
+    repository(name: $name, owner: $owner) {
+      __typename
+      name
+      nameWithOwner
+      id
+      description
+      homepageUrl
+      url
+      stargazerCount
+      languages(first: 10) {
+        edges {
+          node {
+            name
+            color
+          }
+        }
+      }
+      issues (first: 100, labels: $labels) {
+        nodes {
+          ... on Issue {
+            id
+            number
+            title
+            url
+            comments {
+              totalCount
+            }
+            assignees(first: 10) {
+              nodes {
+                ... on User {
+                  id
+                  login
+                  avatarUrl
+                }
+              }
+            }
+            labels(first: 100) {
+              nodes {
+                ... on Label {
+                  id
+                  name
+                  color
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const GET_USER_BY_URL = gql`
   query ($url: URI!) {
     resource(url: $url) {
