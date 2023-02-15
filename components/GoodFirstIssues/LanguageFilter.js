@@ -18,7 +18,7 @@ export default function LanguageFilter() {
     }, {}) || {};
 
   return (
-    <div className='flex flex-wrap mt-3 gap-2'>
+    <div className='flex flex-wrap mt-3 gap-2 min-w-[16rem]'>
       {Object.entries(languages).map(([name, count]) => (
         <LanguageFilterLanguage key={name} name={name} count={count} />
       ))}

@@ -3,8 +3,8 @@ import LanguageFilter from './LanguageFilter';
 
 export default function TheSidebar() {
   return (
-    <aside className='p-4 lg:max-w-sm'>
-      <h3 className='mt-9'>languages</h3>
+    <aside className='px-6 pt-6 lg:pb-6 lg:max-w-sm'>
+      <h3 className='font-bold'>Languages</h3>
       <LanguageFilter />
     </aside>
   );

@@ -10,7 +10,7 @@ export default function TheList() {
     repos?.filter((repo) => enabledLanguages.length === 0 || enabledLanguages.includes(repo.language)) || [];
 
   return (
-    <main className='p-4 space-y-4 grow'>
+    <main className='px-6 py-6 space-y-4 grow'>
       {filteredRepos.map((repo) => (
         <RepoCard key={repo.id} repo={repo} />
       ))}
