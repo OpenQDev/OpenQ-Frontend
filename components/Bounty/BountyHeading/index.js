@@ -42,7 +42,7 @@ const BountyHeading = ({
             <div>#{bounty.number}</div>
           )}
         </h1>
-        <div className='flex flex-row space-x-3 self-center items-center'>
+        <div className='flex flex-row flex-wrap justify-start justify-items-start gap-3 self-center items-center py-2'>
           <RefreshBounty refreshGithubBounty={refreshGithubBounty} bounty={bounty} />
           {bounty && bounty?.issuer?.id && ethers.utils.getAddress(bounty.issuer.id) == account && (
             <MintBountyButton types={['0', '1', '2', '3']} styles={'h-8'} />
@@ -80,7 +80,9 @@ const BountyHeading = ({
                 {totalPrice.valueTypeFull} {totalPrice.displayValue}
               </span>
               {totalPrice.valueType == 'TVL' && totalPrice.value > 0 && (
-                <div className={'border-green bg-green-inside text-sm px-2 border rounded-full h-6'}>Fully Funded</div>
+                <div className={'border-green bg-green-inside text-sm px-2 border rounded-full h-min'}>
+                  Fully Funded
+                </div>
               )}
               {totalPrice.valueType == 'Budget' && (
                 <div className={'bg-info border-2 border-info-strong text-sm px-2 border rounded-full h-6'}>
