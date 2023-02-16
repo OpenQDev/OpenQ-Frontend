@@ -488,7 +488,7 @@ class OpenQPrismaClient {
           query: GET_REPOSITORIES,
           variables,
         });
-        resolve(result.data.organization.repositories.nodes);
+        resolve(result.data.repositories.nodes);
       } catch (e) {
         reject(e);
       }

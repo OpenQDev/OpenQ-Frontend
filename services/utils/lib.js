@@ -298,3 +298,15 @@ export const isOnlyContest = (types) => {
   const includesNonReady = types.includes('0') && types.includes('0');
   return includesReady && !includesNonReady;
 };
+
+export const fetchRepositories = async (appState, variables) => {
+  try {
+    const repositories = await appState.openQPrismaClient.getRepositories(variables);
+    const repositoryIds = repositories.map((repository) => repository.id);
+    const githubRepositories = await appState.githubRepository.fetchReposByIds([...repositoryIds]);
+    return githubRepositories;
+  } catch (err) {
+    appState.logger.error(err);
+    return [];
+  }
+};

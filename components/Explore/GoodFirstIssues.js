@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ChevronRightIcon, IssueOpenedIcon } from '@primer/octicons-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,10 +10,11 @@ import CardHeader from './Card/CardHeader';
 import StarButton from './StarButton';
 import RepoLanguage from './RepoLanguage';
 import { useRepos } from '../../store/Gun/ReposProvider';
+import StoreContext from '../../store/Store/StoreContext';
 
 export default function GoodFirstIssues() {
   const [issues, setIssues] = useState([]);
-
+  const [appState] = useContext(StoreContext);
   const repos = useRepos();
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function GoodFirstIssues() {
             return uniqueIssues;
           });
         } catch (e) {
-          console.log('error parsing issues coming from gun', e, repo.stars);
+          appState.logger.error('error parsing issues coming from gun');
         }
       });
     }
