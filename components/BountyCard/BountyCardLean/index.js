@@ -102,12 +102,13 @@ const BountyCardLean = ({ item, loading, index, length, unWatchable }) => {
                   ></path>
                 </svg>
               </div>
-              <div className='break-word text-xl text-link-colour inline gap-1 pb-1'>
-                <span data-testid='repo'>
+              <div className='break-word text-xl inline gap-1 pb-1'>
+                <span className=' text-link-colour' data-testid='repo'>
                   {item.owner && `${item.owner.toLowerCase()}/${item.repoName.toLowerCase()}`}
+                </span>
+                <span>
                   {item.alternativeName ? <span className='whitespace-nowrap'> ( {item.alternativeName} )</span> : ''}
                 </span>
-                <span></span>
               </div>
             </div>
             <div className='font-bold text-lg'>
