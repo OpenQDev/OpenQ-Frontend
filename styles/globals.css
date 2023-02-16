@@ -325,13 +325,11 @@ body::-webkit-scrollbar {
 }
 
 .explore h1 {
-  @apply font-bold leading-tight w-fit;
-  font-size: clamp(30px, 9cqw, 65px);
+  @apply font-bold w-fit;
 }
 
 .explore h2 {
-  @apply text-[30px] font-bold;
-  font-size: clamp(20px, 3cqw, 30px);
+  @apply text-[30px] font-bold text-xl lg:text-3xl;
 }
 
 .explore button {
@@ -340,8 +338,6 @@ body::-webkit-scrollbar {
 
 .explore .lead {
   @apply text-white text-opacity-60;
-  font-size: clamp(18px, 5cqw, 30px);
-  line-height: clamp(1.5rem, 7cqw, 2.5rem);
 }
 
 .explore .custom-scrollbar {

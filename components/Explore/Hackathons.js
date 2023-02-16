@@ -17,7 +17,7 @@ import RepoLanguage from './RepoLanguage';
 
 export default function ExploreHackathons({ fullContests }) {
   return (
-    <div className='sm:grid sm:grid-cols-2 sm:gap-6 md:gap-12 lg:gap-18 xl:gap-24 w-full pt-12 lg:pt-32'>
+    <div className='sm:grid sm:grid-cols-2 sm:gap-6 md:gap-12 lg:gap-18 xl:gap-24 w-full pt-6 lg:pt-10'>
       <Link href='/contests'>
         <ImageTeaser imageSrc='/explore/teaser1.png'>
           <ImageTeaserLink>
