@@ -11,6 +11,10 @@ const TextTierInput = ({ tier, tierVolumes, onTierVolumeChange, style, decimal }
     setSuffix(appState.utils.handleSuffix(tier));
   }, []);
 
+  useEffect(() => {
+    setLocalValue(tierVolumes[tier - 1] || 1);
+  }, [tierVolumes]);
+
   const handleChange = (value, tierVolumes) => {
     const formattedValue = appState.utils.contestNumberFormat(value, decimal);
     setLocalValue(formattedValue);
