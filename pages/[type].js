@@ -15,8 +15,10 @@ import UnexpectedErrorModal from '../components/Utils/UnexpectedErrorModal';
 import { fetchBountiesWithServiceArg, isOnlyContest, getReadyText } from '../services/utils/lib';
 
 export default function Index({ orgs, types, category, renderError, paginationObj }) {
+  const isContest = isOnlyContest(types);
+  const issuesTitle = isContest ? 'Hackathons' : 'Issues';
   // State
-  const [internalMenu, setInternalMenu] = useState('Issues');
+  const [internalMenu, setInternalMenu] = useState(issuesTitle);
   const [controlledOrgs, setControlledOrgs] = useState(orgs);
   const [watchedBounties, setWatchedBounties] = useState([]);
 
@@ -63,7 +65,7 @@ export default function Index({ orgs, types, category, renderError, paginationOb
           updatePage={setInternalMenu}
           internalMenu={internalMenu}
           styles={'justify-center'}
-          items={[{ name: 'Issues' }, { name: 'Organizations' }]}
+          items={[{ name: issuesTitle }, { name: 'Organizations' }]}
         />
       </div>
       <div>
