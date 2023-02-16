@@ -21,9 +21,18 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   const bountyTypeName = appState.utils.getBountyTypeName(bounty);
 
   const [, tokenDispatch] = useContext(TokenContext);
+  const [initialVolumes, setInitialVolumes] = useState([]);
+  const [finalTierVolumes, setFinalTierVolumes] = useState([]);
+
   useEffect(() => {
     const depositTokenAddress = bounty?.deposits[0]?.tokenAddress;
     const payoutTokenAddress = bounty?.payoutTokenAddress;
+    const tokenMetadata = appState.tokenClient.getToken(payoutTokenAddress);
+    setInitialVolumes(
+      bounty.payoutSchedule?.map((p) => {
+        return formatVolume(p, tokenMetadata);
+      }) || []
+    );
     if (bounty?.bountyType == '3' && bounty?.deposits?.length > 0) {
       const tokenAddressDispatch = {
         type: 'SET_TOKEN',
@@ -79,11 +88,6 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   }, [bounty]);
   const [tier, setTier] = useState(bounty.payoutSchedule?.length);
   const [tierArr, setTierArr] = useState(initialTierArr);
-  const [finalTierVolumes, setFinalTierVolumes] = useState(
-    bounty.payoutSchedule?.map((p) => {
-      return formatVolume(p, token);
-    }) || []
-  );
 
   const [sum, setSum] = useState(0);
   const [enableContest, setEnableContest] = useState(false);
@@ -223,11 +227,10 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
             <SetTierValues
               category={bountyTypeName}
               sum={sum}
-              initialVolumes={bounty.payoutSchedule || []}
+              initialVolumes={initialVolumes}
               finalTierVolumes={finalTierVolumes}
               setFinalTierVolumes={setFinalTierVolumes}
               setSum={setSum}
-              formatVolume={formatVolume}
               currentSum={sum}
               tierArr={tierArr}
               setEnableContest={setEnableContest}
