@@ -58,8 +58,8 @@ export default function Newsletter() {
   return (
     <div className='sm:grid sm:grid-cols-2 sm:gap-6 md:gap-12 xl:gap-24 w-full pt-12 lg:pt-40'>
       <div className='pt-3'>
-        <h1 className='text-3xl'>Join upcoming web3 hackathons.</h1>
-        <p className='lead text-zinc-400 mt-3 lg:mt-6'>
+        <h1 className='text-3xl lg:text-6xl'>Join upcoming web3 hackathons.</h1>
+        <p className='lead text-zinc-400 mt-3 lg:mt-6 lg:text-3xl'>
           Subscribe to our newsletter &amp; find out where to build next.
         </p>
         {isSuccess && (

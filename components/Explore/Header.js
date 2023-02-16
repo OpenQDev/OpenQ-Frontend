@@ -21,8 +21,8 @@ export default function Header() {
             </div>
           </div>
         </Link>
-        <h1 className='max-w-2xl mt-5 text-4xl'>The New Universe For Builders</h1>
-        <p className='max-w-xl text-zinc-400 lead mb-5 text-xl'>
+        <h1 className='max-w-2xl mt-5 text-4xl lg:text-6xl lg:mt-10'>The New Universe For Builders</h1>
+        <p className='max-w-xl text-zinc-400 lead mb-5 text-xl lg:text-2xl lg:mt-5'>
           Join the ultimate hub for builders and turn your ideas into reality.
         </p>
       </div>
