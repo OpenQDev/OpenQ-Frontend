@@ -3,7 +3,6 @@ import ToolTipNew from '../../../Utils/ToolTipNew';
 import MintContext from '../../MintContext';
 import StoreContext from '../../../../store/Store/StoreContext';
 import Image from 'next/image';
-import Link from 'next/link';
 
 const AddAlternativeMetadata = () => {
   const [githubUrl, setGithubUrl] = useState('');
