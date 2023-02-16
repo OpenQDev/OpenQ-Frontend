@@ -30,7 +30,7 @@ export default function Blog() {
 
   return (
     <div className='w-full pt-12 lg:pt-40 lg:pb-24'>
-      <h1 className='text-center mb-10 mx-auto'>What we are thinking about</h1>
+      <h1 className='text-center mb-10 mx-auto text-4xl'>What we are thinking about</h1>
       <div className='grid grid-cols-1 gap-5 md:gap-10 sm:grid-cols-2 md:grid-cols-3'>
         {articles.map((article) => (
           <Link key={article.title} href={article.url} target='_blank'>
