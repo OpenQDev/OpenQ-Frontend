@@ -10,7 +10,7 @@ const Watching = ({ watchedBounties }) => {
       {watchedBounties.length > 0 && (
         <div className='py-6 border-border-gray flex flex-wrap items-stretch w-full font-semibold text-lg'>
           {watchedBounties.map((bounty, index) => (
-            <BountyCardLean unWatchable={true} key={index} bounty={bounty} />
+            <BountyCardLean unWatchable={true} key={index} item={bounty} />
           ))}
         </div>
       )}

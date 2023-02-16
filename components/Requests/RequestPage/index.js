@@ -4,7 +4,7 @@ import { getPlural } from '../../../services/utils/lib';
 import StoreContext from '../../../store/Store/StoreContext';
 import AuthContext from '../../../store/AuthStore/AuthContext';
 import PaginatedList from '../../Utils/PaginatedList/index.js';
-import { fetchItemsWithServiceArg } from '../../../services/utils/lib';
+import { fetchRequestsWithServiceArg } from '../../../services/utils/lib';
 
 // Custom
 import { useRouter } from 'next/router';
@@ -21,13 +21,18 @@ const RequestPage = () => {
   const isOwner = loggedId == userId;
   const { githubId, email } = authState;
   const getItems = async (oldCursor, batch, ordering = 'asc', filters = {}) => {
-    return await fetchItemsWithServiceArg(appState, identity, oldCursor, batch, ordering, filters);
+    return await fetchRequestsWithServiceArg(appState, identity, oldCursor, batch, ordering, filters);
   };
   const identity = { userId, githubId, email };
+  const filterFunction = () => {
+    return true;
+  };
   const paginationObj = {
     items: [],
     ordering: { direction: 'asc', field: 'name' },
+    fetchFilters: {},
     filters: {},
+    filterFunction,
     cursor: null,
     complete: false,
     batch: 10,

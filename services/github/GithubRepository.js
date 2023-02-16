@@ -20,6 +20,7 @@ import {
   GET_PRS,
   GET_IS_ADMIN,
   GET_ORG_BY_URL,
+  GET_REPOS_BY_IDS,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 
@@ -414,7 +415,22 @@ class GithubRepository {
 
     return promise;
   }
+  async fetchReposByIds(ids) {
+    const variables = { ids };
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_REPOS_BY_IDS,
 
+          variables,
+        });
+        resolve(result.data.nodes);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
   async fetchOrgOrUserById(id) {
     const promise = new Promise(async (resolve, reject) => {
       try {

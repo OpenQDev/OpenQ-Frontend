@@ -22,7 +22,7 @@ describe('BountyCard', () => {
   const test = (bounty) => {
     it('should render BountyCard', async () => {
       // ARRANGE
-      render(<BountyCardLean bounty={bounty} complete={true} />);
+      render(<BountyCardLean item={bounty} complete={true} />);
 
       // ASSERT
       await waitFor(async () => {
@@ -35,7 +35,7 @@ describe('BountyCard', () => {
     it('should let user open BountyCardDetailsModal', async () => {
       // ARRANGE
       const user = userEvent.setup();
-      render(<BountyCardLean bounty={bounty} complete={true} />);
+      render(<BountyCardLean item={bounty} complete={true} />);
 
       // ASSERT
       await waitFor(async () => {

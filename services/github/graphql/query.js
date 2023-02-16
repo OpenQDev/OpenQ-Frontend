@@ -462,7 +462,7 @@ export const GET_REPO_WITH_LABELED_OPEN_ISSUES = gql`
           }
         }
       }
-      issues (first: 100, labels: $labels, states: [OPEN]) {
+      issues(first: 100, labels: $labels, states: [OPEN]) {
         nodes {
           ... on Issue {
             id
@@ -492,6 +492,26 @@ export const GET_REPO_WITH_LABELED_OPEN_ISSUES = gql`
             }
           }
         }
+      }
+    }
+  }
+`;
+
+export const GET_REPOS_BY_IDS = gql`
+  query GetRepos($ids: [ID!]!) {
+    nodes(ids: $ids) {
+      ... on Repository {
+        id
+        descriptionHTML
+        description
+        stargazerCount
+        languages(first: 10) {
+          nodes {
+            name
+            color
+          }
+        }
+        name
       }
     }
   }

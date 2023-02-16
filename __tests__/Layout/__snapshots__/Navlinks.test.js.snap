@@ -15,24 +15,13 @@ exports[`NavLinks should match DOM Snapshot 1`] = `
   </a>,
   <a
     className="nav-link $ false"
-    href="/fixed-price"
+    href="/marketplace"
     onClick={[Function]}
     onMouseEnter={[Function]}
     onTouchStart={[Function]}
   >
     <span>
-       Fixed Price
-    </span>
-  </a>,
-  <a
-    className="nav-link $ false"
-    href="/split-price"
-    onClick={[Function]}
-    onMouseEnter={[Function]}
-    onTouchStart={[Function]}
-  >
-    <span>
-       Split Price
+      Marketplace
     </span>
   </a>,
   <a
@@ -48,13 +37,13 @@ exports[`NavLinks should match DOM Snapshot 1`] = `
   </a>,
   <a
     className="nav-link $ false"
-    href="/non-profit"
+    href="/good-first-issues"
     onClick={[Function]}
     onMouseEnter={[Function]}
     onTouchStart={[Function]}
   >
     <span>
-       Non-Profit
+       Good First Issues
     </span>
   </a>,
 ]

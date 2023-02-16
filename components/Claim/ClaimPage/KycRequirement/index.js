@@ -145,6 +145,10 @@ const KycRequirement = ({ setKycVerified }) => {
           {stage == 'processing' && <LoadingIcon />}
         </button>
       )}
+      <div>
+        *KycDao and OpenQ do not store personal information involved in kyc, this information is stored by [trusted
+        third party]
+      </div>
     </section>
   );
 };

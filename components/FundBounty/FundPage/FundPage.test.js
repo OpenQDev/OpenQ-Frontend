@@ -83,8 +83,8 @@ describe('FundPage', () => {
       expect(screen.getAllByText(/link/i)[0]).toBeInTheDocument;
       const selectToken = screen.getByRole('button', { name: 'select token' });
       await user.click(selectToken);
-      expect(screen.getAllByText(/Update your reward split token first!/i)[0]).toBeInTheDocument;
-      const button = screen.getByRole('button', { name: /Update Reward Split/i });
+      expect(screen.getAllByText(/Update your reward token first!/i)[0]).toBeInTheDocument;
+      const button = screen.getByRole('button', { name: /Update Token/i });
       await user.click(button);
       expect(setInternalMenu).toHaveBeenCalledWith('Admin');
     });

@@ -213,35 +213,100 @@ export const formatVolume = (tierVolume, token) => {
   return formattedVolume;
 };
 
-export const fetchItemsWithServiceArg = async(appState,identity, oldCursor, batch, ordering="asc", filters={})=>{
-  const {userId, githubId, email} = identity;
-  const userOffChainData = await appState.openQPrismaClient.getUserRequests({
-    id: userId,
-    github: githubId,
-    email: email},{
-    bountiesCursor: oldCursor, 
-    bountiesLimit: batch,}
-   
+export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor, batch) => {
+  const { userId, githubId, email } = identity;
+  const userOffChainData = await appState.openQPrismaClient.getUserRequests(
+    {
+      id: userId,
+      github: githubId,
+      email: email,
+    },
+    {
+      bountiesCursor: oldCursor,
+      bountiesLimit: batch,
+    }
   );
   const createdBounties = userOffChainData.createdBounties.bountyConnection.nodes.filter((bounty) => {
     return bounty.requests;
   });
   const requests = createdBounties
-  .map((bounty) => {
-    const requests = bounty.requests.nodes.reduce((accum, request) => {
-      const user = accum.find(
-        (earlierRequest) => earlierRequest.request.requestingUser.id === request.requestingUser.id
-      );
+    .map((bounty) => {
+      const requests = bounty.requests.nodes.reduce((accum, request) => {
+        const user = accum.find(
+          (earlierRequest) => earlierRequest.request.requestingUser.id === request.requestingUser.id
+        );
 
-      if (!user) {
-        return accum.concat({ request, bounty });
-      } else return accum;
-    }, []);
-    return requests;
-  })
-  .flat();
-  return {nodes: requests, cursor: userOffChainData.createdBounties.bountyConnection.cursor, complete: createdBounties.length!==batch};
+        if (!user) {
+          return accum.concat({ request, bounty });
+        } else return accum;
+      }, []);
+      return requests;
+    })
+    .flat();
+  return {
+    nodes: requests,
+    cursor: userOffChainData.createdBounties.bountyConnection.cursor,
+    complete: createdBounties.length !== batch,
+  };
+};
 
-  
-
+export const fetchBountiesWithServiceArg = async (appState, oldCursor, batch, ordering, filters) => {
+  let { sortOrder, field } = ordering;
+  if (!sortOrder) {
+    sortOrder = 'desc';
   }
+  if (!field) {
+    field = 'createdAt';
+  }
+  const { types, organizationId, repositoryId } = filters;
+  let complete = false;
+  try {
+    let [fullBounties, cursor] = await appState.utils.fetchBounties(
+      appState,
+      batch,
+      types,
+      sortOrder,
+      field,
+      oldCursor,
+      organizationId,
+      null,
+      null,
+      repositoryId
+    );
+
+    if (fullBounties?.length === 0) {
+      complete = true;
+    }
+    return {
+      nodes: fullBounties,
+      cursor,
+      complete,
+    };
+  } catch (err) {
+    appState.logger.error(err);
+    return { nodes: [], cursor: null, complete: true };
+  }
+};
+
+export const getReadyText = (isContest) => {
+  if (isContest) {
+    return 'Ready to Hack';
+  } else return 'Ready for Work';
+};
+export const isOnlyContest = (types) => {
+  const includesReady = types.includes('2') || types.includes('3');
+  const includesNonReady = types.includes('0') && types.includes('0');
+  return includesReady && !includesNonReady;
+};
+
+export const fetchRepositories = async (appState, variables) => {
+  try {
+    const repositories = await appState.openQPrismaClient.getRepositories(variables);
+    const repositoryIds = repositories.map((repository) => repository.id);
+    const githubRepositories = await appState.githubRepository.fetchReposByIds([...repositoryIds]);
+    return githubRepositories;
+  } catch (err) {
+    appState.logger.error(err);
+    return [];
+  }
+};

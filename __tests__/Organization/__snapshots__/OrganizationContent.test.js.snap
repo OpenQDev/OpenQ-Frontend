@@ -120,10 +120,105 @@ How do they calculate these fees? Any way to calculate the cost using their SDK 
         },
       ]
     }
-    complete={true}
     contractToggle={true}
-    getMoreData={[Function]}
-    getNewData={[Function]}
+    paginationObj={
+      {
+        "batch": undefined,
+        "complete": true,
+        "cursor": undefined,
+        "fetchFilters": {
+          "organizationId": undefined,
+          "types": [
+            "0",
+            "1",
+            "2",
+            "3",
+          ],
+        },
+        "filters": {
+          "isReady": "Ready for Work",
+          "searchText": "order:newest",
+        },
+        "items": [
+          {
+            "__typename": "Bounty",
+            "address": "0x033488800Ae672726c34620D4Bd817E1590d4cDc",
+            "assignees": [],
+            "avatarUrl": "https://avatars.githubusercontent.com/u/34966464?v=4",
+            "blacklisted": false,
+            "body": "I am a little confused on how to find out how much it would cost to cancel a bid using the SDK. Current gwei price is arround 80 and opensea gives me a 30 USD transaction fee on medium when trying to cancel from their website.
+
+How do they calculate these fees? Any way to calculate the cost using their SDK before sending the orders in?",
+            "bodyHTML": "<p dir="auto">I am a little confused on how to find out how much it would cost to cancel a bid using the SDK. Current gwei price is arround 80 and opensea gives me a 30 USD transaction fee on medium when trying to cancel from their website.</p>
+<p dir="auto">How do they calculate these fees? Any way to calculate the cost using their SDK before sending the orders in?</p>",
+            "bountyAddress": "0x033488800ae672726c34620d4bd817e1590d4cdc",
+            "bountyClosedTime": null,
+            "bountyId": "I_kwDOCHE8585AYvGo",
+            "bountyMintTime": "1661767968",
+            "bountyTokenBalances": [],
+            "bountyType": "0",
+            "category": "prime",
+            "claimedTransactionHash": null,
+            "closed": false,
+            "createdAt": "2021-12-14T20:52:29Z",
+            "deposits": [],
+            "fundingGoalTokenAddress": "0x0000000000000000000000000000000000000000",
+            "fundingGoalVolume": "0",
+            "id": "I_kwDOCHE8585AYvGo",
+            "issuer": {
+              "__typename": "User",
+              "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+            },
+            "labels": [
+              {
+                "__typename": "Label",
+                "color": "c2e0c6",
+                "name": "dev-documentation",
+              },
+              {
+                "__typename": "Label",
+                "color": "598E75",
+                "name": "dev-sdk-bug",
+              },
+            ],
+            "languages": [
+              {
+                "__typename": "Language",
+                "color": "#3178c6",
+                "name": "TypeScript",
+              },
+              {
+                "__typename": "Language",
+                "color": "#89e051",
+                "name": "Shell",
+              },
+              {
+                "__typename": "Language",
+                "color": "#f1e05a",
+                "name": "JavaScript",
+              },
+            ],
+            "number": 286,
+            "owner": "ProjectOpenSea",
+            "payouts": [],
+            "prs": [],
+            "refunds": [],
+            "repoDescription": "JavaScript SDK for the OpenSea marketplace. Let your users buy or sell cryptogoods on your own site!",
+            "repoName": "opensea-js",
+            "repoUrl": "https://github.com/ProjectOpenSea/opensea-js",
+            "status": "0",
+            "title": "How to estimate transaction fees for cancelling orders on opensea?",
+            "titleHTML": "How to estimate transaction fees for cancelling orders on opensea?",
+            "tvl": 0,
+            "url": "https://github.com/ProjectOpenSea/opensea-js/issues/286",
+          },
+        ],
+        "ordering": {
+          "direction": "desc",
+          "field": "createdAt",
+        },
+      }
+    }
     types={
       [
         "0",

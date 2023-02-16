@@ -168,21 +168,22 @@ export const getServerSideProps = async (context) => {
       // 3. We fetch the on-chain user address if they have registered using the externalUserId (AKA githubId)
       // userOnChainData.id is the address of the user
       userOnChainData = await openQSubgraphClient.instance.getUserByGithubId(userOffChainData.github);
-      try {
-        let provider = new ethers.providers.InfuraProvider('homestead', process.env.INFURA_PROJECT_ID);
+      if (userOnChainData) {
+        try {
+          let provider = new ethers.providers.InfuraProvider('homestead', process.env.INFURA_PROJECT_ID);
+          // 4. We use the address to resolve the ENS name
+          userId = await provider.resolveName(userOnChainData?.id);
+        } catch (error) {
+          logger.error(error, null, '[userId.js]5');
+        }
 
-        // 4. We use the address to resolve the ENS name
-        userId = await provider.resolveName(userOnChainData.id);
-      } catch (error) {
-        logger.error(error, null, '[userId.js]5');
-      }
-
-      // 5. If user closed issues, get relevant issueIds and organizations
-      try {
-        const issueIds = userOnChainData.bountiesClosed?.map((bounty) => bounty.bountyId);
-        if (issueIds) organizations = await githubRepository.instance.parseOrgIssues(issueIds);
-      } catch (err) {
-        logger.error({ mesage: 'could not fetch organizations' }, null, '[userId.js]6');
+        // 5. If user closed issues, get relevant issueIds and organizations
+        try {
+          const issueIds = userOnChainData.bountiesClosed?.map((bounty) => bounty.bountyId);
+          if (issueIds) organizations = await githubRepository.instance.parseOrgIssues(issueIds);
+        } catch (err) {
+          logger.error({ mesage: 'could not fetch organizations' }, null, '[userId.js]6');
+        }
       }
       // NOTE: The order of the spread is important here. We want to override the Github user avatarUrl with the one from the database
       // For email users, they get an auto-assigned anonymous profile picture for email

@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState } from "react";
-import { gun } from "../../lib/Gun";
+import React, { createContext, useContext, useState } from 'react';
+import { gun } from '../../lib/Gun';
 import reposWhitelist from '../../lib/reposWhitelist.json';
 
 const ReposContext = createContext([]);
@@ -26,25 +26,23 @@ export function ReposProvider({ children }) {
       if (!repo || !repo.id) return;
 
       setRepos((repos) => {
-        const index = repos.findIndex((r) => r.id === repo.id)
+        const index = repos.findIndex((r) => r.id === repo.id);
         if (index === -1) {
-          return [...repos, repo]
+          return [...repos, repo];
         } else {
-          return [...repos.slice(0, index), repo, ...repos.slice(index + 1)]
+          return [...repos.slice(0, index), repo, ...repos.slice(index + 1)];
         }
-      })
-    })
-  })
+      });
+    });
+  });
 
   const [enabledLanguages, setEnabledLanguages] = useState([]);
 
   return (
     <ReposContext.Provider value={repos}>
       <LanguageFilterContext.Provider value={enabledLanguages}>
-        <SetLanguageFilterContext.Provider value={setEnabledLanguages}>
-          {children}
-        </SetLanguageFilterContext.Provider>
+        <SetLanguageFilterContext.Provider value={setEnabledLanguages}>{children}</SetLanguageFilterContext.Provider>
       </LanguageFilterContext.Provider>
     </ReposContext.Provider>
-  )
+  );
 }
