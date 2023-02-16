@@ -5,7 +5,7 @@ import ModalLarge from '../../../../Utils/ModalLarge';
 const index = ({ setShowModal }) => {
   const btn = (
     <button className='btn-primary' onClick={() => setShowModal(false)}>
-      I unsertand
+      I understand
     </button>
   );
   return (
