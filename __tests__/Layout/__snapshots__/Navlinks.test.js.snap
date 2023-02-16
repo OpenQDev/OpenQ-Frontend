@@ -35,5 +35,16 @@ exports[`NavLinks should match DOM Snapshot 1`] = `
        Contests
     </span>
   </a>,
+  <a
+    className="nav-link $ false"
+    href="/good-first-issues"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
+  >
+    <span>
+       Good First Issues
+    </span>
+  </a>,
 ]
 `;

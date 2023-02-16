@@ -1,10 +1,11 @@
 import React from 'react';
 import Footer from '../../components/Layout/Footer';
-import renderer from 'react-test-renderer';
-
+import ShallowRenderer from 'react-test-renderer/shallow';
 describe('Footer', () => {
   it('should match DOM Snapshot', () => {
-    const tree = renderer.create(<Footer />);
-    expect(tree.toJSON()).toMatchSnapshot();
+    const shallow = new ShallowRenderer();
+    shallow.render(<Footer />);
+    const tree = shallow.getRenderOutput();
+    expect(tree).toMatchSnapshot();
   });
 });

@@ -7,12 +7,12 @@ import BountyList from '../../BountyList';
 import UnexpectedErrorModal from '../../Utils/UnexpectedErrorModal';
 
 const BountyHomepage = ({ watchedBounties, paginationObj, error, types, contractToggle }) => {
-  const isContest = isOnlyContest(types);
+  const isContest = types && isOnlyContest(types);
   // Render
   return (
     <div>
       <div className='text-center bg-[#161B22] py-14 '>
-        <div className='text-2xl font-bold'>Explore Hackathons</div>
+        <div className='text-2xl font-bold'>{isContest ? 'Explore Hackathons' : 'Explore Issues'}</div>
         <div className='text-gray-500 text-md'>
           {isContest ? 'Hackathon bounties backed by OpenQ escrows' : 'GitHub issues backed by OpenQ escrows.'}
         </div>
