@@ -135,6 +135,9 @@ class Utils {
     } else return '';
   };
 
+  numberFormatter = new Intl.NumberFormat('en-US');
+
+  // TODO: rename to formatCurrency
   formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',

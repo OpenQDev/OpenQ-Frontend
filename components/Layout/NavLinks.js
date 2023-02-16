@@ -23,6 +23,13 @@ const NavLinks = () => {
       <Link href={'/non-profit'} className={`nav-link $ ${router.asPath === '/non-profit' && 'text-white'}`}>
         <span> Non-Profit</span>
       </Link>
+
+      <Link
+        href={'/good-first-issues'}
+        className={`nav-link $ ${router.asPath === '/good-first-issues' && 'text-white'}`}
+      >
+        <span> Good First Issues</span>
+      </Link>
     </>
   );
 };

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -313,4 +315,58 @@ body::-webkit-scrollbar {
   border-radius: 2px;
 }
 
+.explore {
+  @apply bg-dark-4 text-gray-100;
+  background-image: url('/explore/header.png');
+  background-position: right top;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  font-family: 'Inter', sans-serif;
+}
 
+.explore h1 {
+  @apply font-bold leading-tight w-fit;
+  font-size: clamp(30px, 9cqw, 65px);
+}
+
+.explore h2 {
+  @apply text-[30px] font-bold;
+  font-size: clamp(20px, 3cqw, 30px);
+}
+
+.explore button {
+  @apply flex justify-center items-center bg-dark-4 border border-dark-1 text-gray-400 rounded-sm px-4 py-2 whitespace-nowrap;
+}
+
+.explore .lead {
+  @apply text-white text-opacity-60;
+  font-size: clamp(18px, 5cqw, 30px);
+  line-height: clamp(1.5rem, 7cqw, 2.5rem);
+}
+
+.explore .custom-scrollbar {
+  scrollbar-color: rgb(52 52 52) rgb(22 27 34);
+}
+
+.explore .custom-scrollbar::-webkit-scrollbar {
+  @apply w-[5px] h-[5px];
+}
+
+.explore .custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-transparent;
+  margin-block: 1.25rem;
+  margin-inline: 1.25rem;
+}
+
+.explore .custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-dark-2 rounded-full border border-dark-1;
+  border: 1px solid rgb(52 52 52);
+}
+
+.explore .custom-scrollbar-horizontal::-webkit-scrollbar-thumb {
+  border-bottom: none;
+}
+
+.explore .custom-scrollbar-vertical::-webkit-scrollbar-thumb {
+  border-right: none;
+}
