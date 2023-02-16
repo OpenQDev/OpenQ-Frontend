@@ -17,7 +17,15 @@ class Logger {
     if (this.enabled === 'DEV') {
       const { message } = data;
       const currentDate = new Date();
-      console.log(`id: ${id}, message: ${message}, date: ${currentDate}, user: ${user}`);
+      console.error('info', message);
+      // Must use JSON.stringify in each value in case it contains special characters
+      console.error(
+        JSON.parse(
+          `{ "id": ${JSON.stringify(id)}, "message": ${JSON.stringify(message)}, "date": ${JSON.stringify(
+            currentDate
+          )}, "userAddress": ${JSON.stringify(user)} }`
+        )
+      );
     }
   }
   error(data, user, id) {
@@ -25,7 +33,15 @@ class Logger {
     const { message } = data;
     if (this.enabled === 'PROD' || this.enabled === 'DEV') {
       const currentDate = new Date();
-      console.error(`id: ${id}, message: ${message}, date: ${currentDate}, userAddress: ${user}`);
+      console.error('error', message);
+      // Must use JSON.stringify in each value in case it contains special characters
+      console.error(
+        JSON.parse(
+          `{ "id": ${JSON.stringify(id)}, "message": ${JSON.stringify(message)}, "date": ${JSON.stringify(
+            currentDate
+          )}, "userAddress": ${JSON.stringify(user)} }`
+        )
+      );
     }
   }
 }

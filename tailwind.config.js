@@ -6,30 +6,36 @@ module.exports = {
 	content: ['./components/**/*.js', './pages/**/*.js', "./services/utils/Utils.js", "./services/utils/lib.js"],
 	darkMode: false, // or 'media' or 'class'
 	theme: {
-		borderRadius: {
-			none: '0',
-			sm: '0.4rem',
-			DEFAULT: '4px',
-			md: '0.9rem',
-			lg: '1.7rem',
-			xl: '2.5rem',
-			full: '9999px',
-			large: '12px',
-		},
-		borderColor: (theme) => ({
-			...theme('colors'),
-			DEFAULT: theme('colors.gray.300', 'currentColor'),
-			menu: '#4c4c4c',
-			primary: '#3490dc',
-			secondary: '#ffed4a',
-			danger: '#e3342f',
-		}),
 		extend: {
+			borderRadius: {
+				none: '0',
+				sm: '0.4rem',
+				DEFAULT: '4px',
+				md: '0.9rem',
+				lg: '1.7rem',
+				xl: '2.5rem',
+				full: '9999px',
+				large: '12px',
+			},
+			borderColor: (theme) => ({
+				...theme('colors'),
+				DEFAULT: theme('colors.gray.300', 'currentColor'),
+				menu: '#4c4c4c',
+				primary: '#3490dc',
+				secondary: '#ffed4a',
+				danger: '#e3342f',
+			}),
 			boxShadow: {
 				inner: 'inset 0 -2px 3px 0 rgba(0, 0, 0, 0.06)',
 			},
 			colors: {
-			"claim": "#3a4be9",
+				dark: {
+          1: "#343434",
+          2: "#161b22",
+          3: "#10141b",
+          4: "#0d1117",
+        },
+			  'claim': '#3a4be9',
 				'info': '#4b422f',
 				'info-strong': '#7e5a18',
 				'dark-mode': '#0D1117',
@@ -69,7 +75,9 @@ module.exports = {
 				'button-inside-hover': '#461429',
 				'green-inside': '#006d1f',
 				'green-highlight': '#2ea043',
-				'green': '#238636',
+				green: {
+					DEFAULT: '#238636'
+				},
 				'tinted': '#b7b9bc'
 
 			},
@@ -106,11 +114,15 @@ module.exports = {
 				'2xl': '1536px',
 				// => @media (min-width: 1536px) { ... }
 			},
-		},
-		gridTemplateColumns: {
-			'wide': '1fr 950px 1fr',
-			'extra-wide': '.2fr 4fr .2fr',
-			'annoying': 'repeat( auto-fit, 192px)',
+			gridTemplateColumns: {
+				'wide': '1fr 950px 1fr',
+				'extra-wide': '.2fr 4fr .2fr',
+				'annoying': 'repeat( auto-fit, 192px)',
+			},
+			animation: {
+				'single-bounce': 'bump 1s ease-in-out forwards',
+				'spin': 'spin 1s linear infinite'
+			}
 		},
 		keyframes: {
 			bump: {
@@ -134,13 +146,11 @@ module.exports = {
 				}
 			}
 		},
-		animation: {
-			'single-bounce': 'bump 1s ease-in-out forwards',
-			'spin': 'spin 1s linear infinite'
-		}
 	},
 	variants: {
 		extend: {},
 	},
-	plugins: [],
+	plugins: [
+		require('@tailwindcss/container-queries'),
+	],
 };
