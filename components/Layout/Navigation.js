@@ -9,7 +9,6 @@ import FirstTimeBanner from './FirstTimeBanner';
 import { QuestionIcon, ThreeBarsIcon } from '@primer/octicons-react';
 import LinkDropdown from '../Utils/LinkDropdown';
 import NavLinks from './NavLinks';
-import LoadingBar from '../Loading/LoadingBar';
 import LoadingThread from '../Loading/LoadingThread.js';
 import ContractWizard from '../ContractWizard';
 
@@ -20,19 +19,9 @@ const Navigation = () => {
   const includeSearch = false;
   const [items, setItems] = useState([]);
   const [searchable, setSearchable] = useState([]);
-  const [loadingBar, setLoadingBar] = useState(false);
-  const [changeText, setChangeText] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const { bountyMinted, openQSubgraphClient, openQPrismaClient, utils, githubRepository, tokenClient } = appState;
+  const { openQSubgraphClient, openQPrismaClient, utils, githubRepository, tokenClient } = appState;
   const { accountData } = appState;
-  useEffect(() => {
-    if (bountyMinted) {
-      setLoadingBar(true);
-    }
-    if (loadingBar && !bountyMinted) {
-      setChangeText(true);
-    }
-  }, [bountyMinted]);
 
   useEffect(() => {
     // set up searchable
@@ -133,7 +122,7 @@ const Navigation = () => {
       ) : null}
       <FirstTimeBanner />
       <LoadingThread />
-      <div className='flex bg-nav-bg py-1 h-16 '>
+      <div className='flex bg-nav-bg py-1 h-16 relative z-10'>
         <div className='flex visible relative w-full'>
           <div className='flex w-full lg:py-1 justify-between mx-4 lg:mx-8'>
             <div className='flex space-x-5 items-center'>
@@ -178,7 +167,6 @@ const Navigation = () => {
           </div>
         </div>
 
-        {loadingBar && <LoadingBar loadingBar={setLoadingBar} changeText={changeText} />}
         {showModal && <ContractWizard wizardVisibility={setShowModal} />}
       </div>
     </>
