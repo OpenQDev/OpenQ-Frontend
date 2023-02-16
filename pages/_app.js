@@ -108,6 +108,7 @@ function OpenQ({ Component, pageProps }) {
                         {router.asPath == '/login' ? null : <Navigation />}
                         <Component key={router.asPath} {...pageProps} />
                       </div>
+
                       <Footer />
                     </div>
                   </ErrorBoundary>

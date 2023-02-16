@@ -32,6 +32,7 @@ exports[`BountyModalHeading Snapshot should match DOM Snapshot 1`] = `
             OpenQ-Frontend
           </span>
         </ForwardRef(LinkComponent)>
+        
       </div>
       <div
         className="flex-1 leading-tight w-full"
@@ -66,6 +67,7 @@ exports[`BountyModalHeading Snapshot should match DOM Snapshot 1`] = `
       alt="avatarUrl"
       className="rounded-full"
       height="62"
+      onError={[Function]}
       src="https://avatars.githubusercontent.com/u/77402538?v=4"
       width="62"
     />

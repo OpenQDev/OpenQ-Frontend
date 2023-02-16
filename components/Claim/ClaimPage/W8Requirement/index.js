@@ -108,10 +108,13 @@ const W8Requirement = ({ bounty }) => {
         </>
       ),
     },
-    NO_DEPOSITS: { MessageHTML: () => "This bounty isn't w8formable." },
+    NO_DEPOSITS: {
+      MessageHTML: () =>
+        "Funder hasn't made any deposits yet, please wait for money to be deposited before sending W8/W9 form.",
+    },
     'no deposits': {
       MessageHTML: () =>
-        "Funder hasn't made any deposits yet, please wait for money to be deposited before sending w8form.",
+        "Funder hasn't made any deposits yet, please wait for money to be deposited before sending W8/W9 form.",
     },
 
     NOT_WINNER: {
@@ -200,9 +203,9 @@ const W8Requirement = ({ bounty }) => {
         <>
           <div>
             <p>
-              Please complete and upload a form W-8. Choose one of five types, depending on your entity. We encourage
-              you to consult with you own tax or financial adviser to determine which form is appropriate for you or ask
-              in our
+              Please complete and upload a W-8/W-9 form. Choose one of five types, depending on your entity. We
+              encourage you to consult with you own tax or financial adviser to determine which form is appropriate for
+              you or ask in our
               <div>
                 <Link
                   href={'https://discord.gg/puQVqEvVXn'}
@@ -242,14 +245,14 @@ const W8Requirement = ({ bounty }) => {
               <path d='M12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1ZM2.5 12a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5A9.5 9.5 0 0 0 12 2.5 9.5 9.5 0 0 0 2.5 12Z'></path>
             </svg>
           </div>
-          <form onSubmit={handleSend} className='flex gap-2'>
+          <form onSubmit={handleSend} className='flex gap-2  flex-wrap md:flex-nowrap'>
             <label
               htmlFor='file input'
               className={`relative ${sent ? 'cursor-not-allowed' : 'cursor-pointer'} ${
                 file || sent ? 'btn-verified' : 'btn-requirements'
               }`}
             >
-              <div className='flex w-28 gap-2 z-20 py-0.5 items-center'>
+              <div className='flex w-56  lg:w-28 gap-2 z-20 py-0.5 items-center'>
                 {file || sent ? (
                   <>
                     <CheckIcon size={16} /> {sent ? 'Pending' : 'Change File'}
@@ -275,7 +278,7 @@ const W8Requirement = ({ bounty }) => {
                 htmlFor='file input'
                 className={`relative cursor-pointer ${file ? 'btn-verified' : 'btn-requirements'}`}
               >
-                <div className='flex w-44 gap-2 z-20 py-0.5 items-center'>
+                <div className='flex w-56 gap-2 z-20 py-0.5 items-center'>
                   {file ? (
                     <>
                       <CheckIcon size={16} /> Change File
@@ -283,27 +286,27 @@ const W8Requirement = ({ bounty }) => {
                   ) : (
                     <>
                       <UploadIcon size={16} />
-                      Upload Updated W8
+                      Upload Updated W8/W9
                     </>
                   )}
                 </div>
                 <input
                   onChange={handleFileChange}
-                  disabled={sent}
+                  disabled={sent && loading}
                   type='file'
                   className='absolute invisible w-full top-0 bottom-0 z-10'
                   id='file input'
                 />
               </label>
             )}
-            <div className='border border-web-gray w-full font-semibold px-2 rounded-sm'>{file?.name}</div>
+            <div className='border border-web-gray w-full font-semibold h-8 px-2 rounded-sm'>{file?.name}</div>
             <button
               disabled={!file}
               className={
                 file ? 'btn-requirements cursor-pointer flex gap-2' : 'btn-default cursor-not-allowed flex gap-2'
               }
             >
-              {sent ? 'Sent' : 'Send'}
+              {sent ? (loading ? 'Sending' : 'Sent') : 'Send'}
               {loading && <LoadingIcon />}
             </button>
           </form>

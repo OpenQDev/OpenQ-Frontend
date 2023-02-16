@@ -8,7 +8,7 @@ exports[`Watching should render match DOM Snapshot 1`] = `
     className="py-6 border-border-gray flex flex-wrap items-stretch w-full font-semibold text-lg"
   >
     <BountyCardLean
-      bounty={
+      item={
         {
           "assignees": [],
           "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
@@ -174,7 +174,7 @@ exports[`Watching should render match DOM Snapshot 1`] = `
       unWatchable={true}
     />
     <BountyCardLean
-      bounty={
+      item={
         {
           "assignees": [],
           "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
@@ -342,7 +342,7 @@ exports[`Watching should render match DOM Snapshot 1`] = `
       unWatchable={true}
     />
     <BountyCardLean
-      bounty={
+      item={
         {
           "assignees": [],
           "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
@@ -513,7 +513,7 @@ exports[`Watching should render match DOM Snapshot 1`] = `
       unWatchable={true}
     />
     <BountyCardLean
-      bounty={
+      item={
         {
           "assignees": [],
           "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",

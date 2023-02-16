@@ -15,7 +15,7 @@ import StarButton from './StarButton';
 import FlexScrollContainer from './FlexScrollContainer';
 import RepoLanguage from './RepoLanguage';
 
-export default function ExploreHackathons({ fullBounties }) {
+export default function ExploreHackathons({ fullContests }) {
   return (
     <div className='sm:grid sm:grid-cols-2 sm:gap-6 md:gap-12 lg:gap-18 xl:gap-24 w-full pt-12 lg:pt-32'>
       <Link href='/contests'>
@@ -44,8 +44,8 @@ export default function ExploreHackathons({ fullBounties }) {
         </h2>
         <FlexScrollContainer>
           <div className='flex space-x-5 sm:flex-col sm:space-x-0 sm:space-y-5'>
-            {fullBounties.map((bounty) => (
-              <Card key={bounty.id} className='min-w-full'>
+            {fullContests.map((contest) => (
+              <Card key={contest.id} className='min-w-full'>
                 <CardHeader>
                   <Image
                     src='https://avatars.githubusercontent.com/u/77402538?v=4'
@@ -54,19 +54,14 @@ export default function ExploreHackathons({ fullBounties }) {
                     height={24}
                     className='mr-2 rounded-full'
                   />
-                  <div className='mr-auto'>{bounty.repoName}</div>
+                  <div className='mr-auto'>{contest.name}</div>
                   <StarButton />
                 </CardHeader>
                 <CardBody>
-                  {bounty.title}
-                  {bounty.assignees.length ? (
-                    <div className='text-xs text-gray-400'>Assigned to {bounty.assignees.length}</div>
-                  ) : (
-                    <div className='text-xs whitespace-nowrap text-gray-400 shrink'>No one assigned</div>
-                  )}
+                  <div dangerouslySetInnerHTML={{ __html: contest.descriptionHTML }}></div>
                 </CardBody>
                 <CardFooter>
-                  {bounty.languages
+                  {contest.languages.nodes
                     .filter((_, i) => i < 3)
                     .map((language) => (
                       <RepoLanguage key={language.name} language={language.name} color={language.color} />

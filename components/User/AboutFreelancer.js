@@ -166,7 +166,11 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
             {internalMenu === 'Watching' && isOwner && watchedFullBounties.length > 0 && (
               <Watching watchedBounties={watchedFullBounties} />
             )}
-            {internalMenu === '📃Invoicing (Freelancer)' && github && <FreelancerDetails showWatched={isOwner} />}
+            {internalMenu === '📃Invoicing (Freelancer)' && github && (
+              <>
+                <FreelancerDetails emailOnly={true} /> <FreelancerDetails />
+              </>
+            )}
             {internalMenu === '📃Invoicing (Org)' && <OrgDetails showWatched={isOwner} />}
           </div>
         </div>

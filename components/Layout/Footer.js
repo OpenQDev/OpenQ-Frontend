@@ -4,6 +4,7 @@ import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import { ethers } from 'ethers';
 import Link from 'next/link';
 import OpenQSocials from './OpenQSocials';
+import LoadingBar from '../Loading/LoadingBar';
 
 // Custom
 import CopyAddressToClipboard from '../CopyAddressToClipboard';
@@ -146,6 +147,8 @@ const Footer = () => {
         </div>
         <span className='text-muted col-span-2 w-3/4'>Contracts currently not audited, use at your own risk.</span>
       </div>
+
+      <LoadingBar />
     </div>
   );
 };

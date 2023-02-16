@@ -9,21 +9,13 @@ const NavLinks = () => {
         <span> Explore</span>
       </Link>
 
-      <Link href={'/fixed-price'} className={`nav-link $ ${router.asPath === '/fixed-price' && 'text-white'}`}>
-        <span> Fixed Price</span>
-      </Link>
-      <Link href={'/split-price'} className={`nav-link $ ${router.asPath === '/split-price' && 'text-white'}`}>
-        <span> Split Price</span>
+      <Link href={'/marketplace'} className={`nav-link $ ${router.asPath === '/marketplace' && 'text-white'}`}>
+        <span>Marketplace</span>
       </Link>
 
       <Link href={'/contests'} className={`nav-link $ ${router.asPath === '/contests' && 'text-white'}`}>
         <span> Contests</span>
       </Link>
-
-      <Link href={'/non-profit'} className={`nav-link $ ${router.asPath === '/non-profit' && 'text-white'}`}>
-        <span> Non-Profit</span>
-      </Link>
-
       <Link
         href={'/good-first-issues'}
         className={`nav-link $ ${router.asPath === '/good-first-issues' && 'text-white'}`}

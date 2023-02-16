@@ -12,8 +12,9 @@ import ExploreGoodFirstIssues from '../components/Explore/GoodFirstIssues';
 import ExploreNewsletter from '../components/Explore/Newsletter';
 import ExploreBlog from '../components/Explore/Blog';
 import { ReposProvider } from '../store/Gun/ReposProvider';
+import { fetchRepositories } from '../services/utils/lib';
 
-export default function Index({ contestBounties, nonContestBounties, renderError }) {
+export default function Index({ nonContestBounties, contestRepositories, renderError }) {
   return (
     <main className='bg-dark-mode flex-col explore'>
       {renderError ? (
@@ -22,7 +23,7 @@ export default function Index({ contestBounties, nonContestBounties, renderError
         <>
           <ExploreHeader />
           <div className='flex flex-col items-center max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-24 z-10 relative'>
-            <ExploreHackathons fullBounties={contestBounties} />
+            <ExploreHackathons fullContests={contestRepositories} />
             <ExploreMarketplace fullBounties={nonContestBounties} />
             <ReposProvider>
               <ExploreGoodFirstIssues />
@@ -40,31 +41,23 @@ export const getServerSideProps = async () => {
   const githubRepository = new WrappedGithubClient();
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
+
   const utils = new Utils();
   const logger = new Logger();
   const batch = 10;
-  let contestBounties = [];
   let nonContestBounties = [];
   let renderError = '';
+  const appState = {
+    openQSubgraphClient: openQSubgraphClient.instance,
+    githubRepository: githubRepository.instance,
+    openQPrismaClient: openQPrismaClient.instance,
+    logger,
+  };
+
+  const contestRepositories = await fetchRepositories(appState, { contestOnly: true });
+
   try {
-    [contestBounties] = await utils.fetchBounties(
-      {
-        openQSubgraphClient: openQSubgraphClient.instance,
-        githubRepository: githubRepository.instance,
-        openQPrismaClient: openQPrismaClient.instance,
-      },
-      batch,
-      ['2', '3']
-    );
-    [nonContestBounties] = await utils.fetchBounties(
-      {
-        openQSubgraphClient: openQSubgraphClient.instance,
-        githubRepository: githubRepository.instance,
-        openQPrismaClient: openQPrismaClient.instance,
-      },
-      batch,
-      ['0', '1']
-    );
+    [nonContestBounties] = await utils.fetchBounties(appState, batch, ['0', '1']);
   } catch (err) {
     logger.error(err, null, '[index]3.js');
     renderError = JSON.stringify(err);
@@ -72,7 +65,7 @@ export const getServerSideProps = async () => {
 
   return {
     props: {
-      contestBounties,
+      contestRepositories,
       nonContestBounties,
       renderError,
     },

@@ -17,9 +17,19 @@ class Logger {
     if (this.enabled === 'DEV') {
       const { message } = data;
       const currentDate = new Date();
-      
-						// Must use JSON.stringify in each value in case it contains special characters
-						console.error(JSON.parse(`{ "id": ${JSON.stringify(id)}, "message": ${JSON.stringify(message)}, "date": ${JSON.stringify(currentDate)}, "userAddress": ${JSON.stringify(user)} }`));
+      // Must use JSON.stringify in each value in case it contains special characters
+
+      if (message) {
+        console.error(
+          JSON.parse(
+            `{ "id": ${JSON.stringify(id)}, "message": ${JSON.stringify(message)}, "date": ${JSON.stringify(
+              currentDate
+            )}, "userAddress": ${JSON.stringify(user)} }`
+          )
+        );
+      } else {
+        console.error('undefined error');
+      }
     }
   }
   error(data, user, id) {
@@ -27,9 +37,18 @@ class Logger {
     const { message } = data;
     if (this.enabled === 'PROD' || this.enabled === 'DEV') {
       const currentDate = new Date();
-			
-			// Must use JSON.stringify in each value in case it contains special characters
-      console.error(JSON.parse(`{ "id": ${JSON.stringify(id)}, "message": ${JSON.stringify(message)}, "date": ${JSON.stringify(currentDate)}, "userAddress": ${JSON.stringify(user)} }`));
+      // Must use JSON.stringify in each value in case it contains special characters
+      if (message) {
+        console.error(
+          JSON.parse(
+            `{ "id": ${JSON.stringify(id)}, "message": ${JSON.stringify(message)}, "date": ${JSON.stringify(
+              currentDate
+            )}, "userAddress": ${JSON.stringify(user)} }`
+          )
+        );
+      } else {
+        console.error('undefined error');
+      }
     }
   }
 }

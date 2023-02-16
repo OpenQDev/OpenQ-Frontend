@@ -62,7 +62,7 @@ const ClaimButton = ({
       case kyc:
         return 'You must complete KYC to claim this bounty.';
       case w8Form:
-        return 'You must complete a W8 form to claim this bounty.';
+        return 'You must complete a W8/W9 form to claim this bounty.';
       case invoice:
         return 'You must complete an invoice to claim this bounty.';
       default:
