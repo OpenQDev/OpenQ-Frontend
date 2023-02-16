@@ -119,7 +119,7 @@ const KycRequirement = ({ setKycVerified }) => {
             href='https://kycdao.xyz/home'
             rel='noopener norefferer'
             target='_blank'
-            className='text-blue-500 hover:underline col-span-2'
+            className='text-link-colour hover:underline col-span-2'
           >
             here
           </Link>

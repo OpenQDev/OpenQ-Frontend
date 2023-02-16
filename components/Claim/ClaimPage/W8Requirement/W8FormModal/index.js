@@ -27,7 +27,7 @@ const index = ({ setShowModal }) => {
             href={'https://www.irs.gov/instructions/iw8ben'}
             rel='noopener norefferer'
             target='_blank'
-            className='text-blue-500 hover:underline col-span-2'
+            className='text-link-colour hover:underline col-span-2'
           >
             https://www.irs.gov/instructions/iw8ben
           </Link>
@@ -39,7 +39,7 @@ const index = ({ setShowModal }) => {
             href={'https://www.irs.gov/pub/irs-pdf/fw8ben.pdf'}
             rel='noopener norefferer'
             target='_blank'
-            className='text-blue-500 hover:underline col-span-2'
+            className='text-link-colour hover:underline col-span-2'
           >
             https://www.irs.gov/pub/irs-pdf/fw8ben.pdf
           </Link>
@@ -56,7 +56,7 @@ const index = ({ setShowModal }) => {
             href={'https://www.irs.gov/instructions/iw8bene'}
             rel='noopener norefferer'
             target='_blank'
-            className='text-blue-500 hover:underline col-span-2'
+            className='text-link-colour hover:underline col-span-2'
           >
             https://www.irs.gov/instructions/iw8bene
           </Link>
@@ -68,7 +68,7 @@ const index = ({ setShowModal }) => {
             href={'https://www.irs.gov/pub/irs-pdf/fw8bene.pdf'}
             rel='noopener norefferer'
             target='_blank'
-            className='text-blue-500 hover:underline col-span-2'
+            className='text-link-colour hover:underline col-span-2'
           >
             https://www.irs.gov/pub/irs-pdf/fw8bene.pdf
           </Link>
@@ -85,7 +85,7 @@ const index = ({ setShowModal }) => {
             href={'https://www.irs.gov/pub/irs-pdf/iw8eci.pdf'}
             rel='noopener norefferer'
             target='_blank'
-            className='text-blue-500 hover:underline col-span-2'
+            className='text-link-colour hover:underline col-span-2'
           >
             https://www.irs.gov/pub/irs-pdf/iw8eci.pdf
           </Link>
@@ -97,7 +97,7 @@ const index = ({ setShowModal }) => {
             href={'https://www.irs.gov/pub/irs-pdf/fw8eci.pdf'}
             rel='noopener norefferer'
             target='_blank'
-            className='text-blue-500 hover:underline col-span-2'
+            className='text-link-colour hover:underline col-span-2'
           >
             https://www.irs.gov/pub/irs-pdf/fw8eci.pdf
           </Link>
@@ -114,7 +114,7 @@ const index = ({ setShowModal }) => {
             href={'https://www.irs.gov/pub/irs-pdf/iw8exp.pdf'}
             rel='noopener norefferer'
             target='_blank'
-            className='text-blue-500 hover:underline col-span-2'
+            className='text-link-colour hover:underline col-span-2'
           >
             https://www.irs.gov/pub/irs-pdf/iw8exp.pdf
           </Link>
@@ -126,7 +126,7 @@ const index = ({ setShowModal }) => {
             href={'https://www.irs.gov/pub/irs-pdf/fw8exp.pdf'}
             rel='noopener norefferer'
             target='_blank'
-            className='text-blue-500 hover:underline col-span-2'
+            className='text-link-colour hover:underline col-span-2'
           >
             https://www.irs.gov/pub/irs-pdf/fw8exp.pdf
           </Link>
@@ -143,7 +143,7 @@ const index = ({ setShowModal }) => {
             href={'https://www.irs.gov/individuals/international-taxpayers/form-w-8imy'}
             rel='noopener norefferer'
             target='_blank'
-            className='text-blue-500 hover:underline col-span-2'
+            className='text-link-colour hover:underline col-span-2'
           >
             https://www.irs.gov/individuals/international-taxpayers/form-w-8imy
           </Link>
@@ -155,7 +155,7 @@ const index = ({ setShowModal }) => {
             href={'https://www.irs.gov/pub/irs-pdf/fw8imy.pdf'}
             rel='noopener norefferer'
             target='_blank'
-            className='text-blue-500 hover:underline col-span-2'
+            className='text-link-colour hover:underline col-span-2'
           >
             https://www.irs.gov/pub/irs-pdf/fw8imy.pdf
           </Link>
