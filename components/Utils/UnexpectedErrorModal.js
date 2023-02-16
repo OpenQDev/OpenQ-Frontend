@@ -74,7 +74,12 @@ const UnexpectedErrorModal = ({ error, footerLeft = <></> }) => {
       <p>
         {' '}
         If the issue keeps happening, contact us at info@openq.dev or ask us in{' '}
-        <a href={'https://discord.gg/puQVqEvVXn'} target={'_blank'} className='text-blue-500' rel='noopener noreferrer'>
+        <a
+          href={'https://discord.gg/puQVqEvVXn'}
+          target={'_blank'}
+          className='text-link-colour'
+          rel='noopener noreferrer'
+        >
           discord
         </a>
       </p>

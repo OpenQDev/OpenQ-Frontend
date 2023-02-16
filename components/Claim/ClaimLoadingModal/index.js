@@ -181,7 +181,7 @@ const ClaimLoadingModal = ({
           claimState == WITHDRAWAL_INELIGIBLE &&
           error.referencedPrs.map((pr, index) => {
             return (
-              <Link key={index} href={pr.url} className='text-blue-500 hover:underline col-span-2' target='_blank'>
+              <Link key={index} href={pr.url} className='text-link-colour hover:underline col-span-2' target='_blank'>
                 {pr.url}
               </Link>
             );

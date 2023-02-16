@@ -12,7 +12,7 @@ exports[`BountyAlreadyMintedMessage should match DOM Snapshot and msg "closed"  
     , view
      
     <a
-      className="cursor-pointer text-blue-500 hover:underline"
+      className="cursor-pointer text-link-colour hover:underline"
       href="/contract/I_kwDOGAqhQc48U5_r/0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -43,7 +43,7 @@ exports[`BountyAlreadyMintedMessage should match DOM Snapshot and msg "is alread
     , view
      
     <a
-      className="cursor-pointer text-blue-500 hover:underline"
+      className="cursor-pointer text-link-colour hover:underline"
       href="/contract/I_kwDOGAqhQc48U5_r/0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f"
       onClick={[Function]}
       onMouseEnter={[Function]}

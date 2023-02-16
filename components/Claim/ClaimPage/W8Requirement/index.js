@@ -211,7 +211,7 @@ const W8Requirement = ({ bounty }) => {
                   href={'https://discord.gg/puQVqEvVXn'}
                   rel='noopener norefferer'
                   target='_blank'
-                  className='text-blue-500 hover:underline col-span-2'
+                  className='text-link-colour hover:underline col-span-2'
                 >
                   discord
                 </Link>{' '}
@@ -221,7 +221,7 @@ const W8Requirement = ({ bounty }) => {
             <p>
               Please make sure your email is filled in your{' '}
               <Link
-                className='text-blue-500 hover:underline col-span-2'
+                className='text-link-colour hover:underline col-span-2'
                 href={profileLink}
                 target='_blank'
                 rel='noopener norefferer'
@@ -316,7 +316,7 @@ const W8Requirement = ({ bounty }) => {
               href={'https://www.irs.gov/'}
               rel='noopener norefferer'
               target='_blank'
-              className='text-blue-500 hover:underline col-span-2'
+              className='text-link-colour hover:underline col-span-2'
             >
               Internal Revenue Service
             </Link>{' '}

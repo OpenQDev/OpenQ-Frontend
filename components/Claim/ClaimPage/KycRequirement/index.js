@@ -119,7 +119,7 @@ const KycRequirement = ({ setKycVerified }) => {
             href='https://kycdao.xyz/home'
             rel='noopener norefferer'
             target='_blank'
-            className='text-blue-500 hover:underline col-span-2'
+            className='text-link-colour hover:underline col-span-2'
           >
             here
           </Link>
@@ -146,8 +146,16 @@ const KycRequirement = ({ setKycVerified }) => {
         </button>
       )}
       <div>
-        *KycDao and OpenQ do not store personal information involved in kyc, this information is stored by [trusted
-        third party]
+        *KycDao and OpenQ do not store personal information involved in kyc, this information is stored by{' '}
+        <Link
+          target='_blank'
+          rel='noopener noreferrer'
+          className='text-link-colour hover:underline'
+          href='https://withpersona.com/security'
+        >
+          Persona
+        </Link>
+        .
       </div>
     </section>
   );

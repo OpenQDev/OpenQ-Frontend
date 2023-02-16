@@ -13,7 +13,7 @@ export default function BountyAlreadyMintedMessage({ bountyAddress, closed, id }
           as={`/contract/${id}/${bountyAddress}`}
           target={safe ? '_self' : '_blank'}
           rel='noreferrer'
-          className='cursor-pointer text-blue-500 hover:underline'
+          className='cursor-pointer text-link-colour hover:underline'
         >
           <span data-testid='link'>here</span>
         </Link>

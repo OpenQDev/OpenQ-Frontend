@@ -47,7 +47,7 @@ module.exports = {
 				'subtle': 'rgb(22, 27, 34)',
 				'input-gray': '#C2C3C5',
 				'overlay': '#000000dd',
-				'link-colour': '#39A6FF',
+				'link-colour': '#58a6ff',
 				'dropdown-hover': 'rgba(110, 118, 129, 0.1)',
 				'primary': 'rgb(201, 209, 217)',
 				'muted': 'rgb(139, 148, 158)',

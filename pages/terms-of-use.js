@@ -70,7 +70,7 @@ const TermsOfUse = () => {
             href={'https://www.openq.dev/privacy'}
             target='_blank'
             rel='noopener noreferrer'
-            className='text-blue-500 hover:underline w-full truncate'
+            className='text-link-colour hover:underline w-full truncate'
           >
             Privacy Policy
           </Link>
