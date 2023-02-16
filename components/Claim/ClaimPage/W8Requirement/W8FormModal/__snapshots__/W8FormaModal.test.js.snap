@@ -217,7 +217,7 @@ exports[`W8FormModal should match initial DOM Snapshot 1`] = `
               <button
                 class="btn-primary"
               >
-                I unsertand
+                I understand
               </button>
             </div>
           </div>
