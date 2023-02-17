@@ -44,7 +44,7 @@ function CsvUploader() {
       // Convert CSV data to JSON
       const headers = csvData[0];
       const rows = csvData.slice(1);
-      const jsonRows = rows.map((row) => {
+      const jsonData = rows.map((row) => {
         const jsonObject = {};
         row.forEach((cell, index) => {
           if (headers[index] === 'payoutSchedule') {
@@ -61,13 +61,9 @@ function CsvUploader() {
         return jsonObject;
       });
 
-      const jsonData = JSON.stringify(jsonRows);
-
       const transactions = [];
 
-      const jsonDataParsed = JSON.parse(jsonData);
-
-      for (const element of jsonDataParsed) {
+      for (const element of jsonData) {
         const issueUrl = element.githubIssueUrl;
         const githubSponsorUrl = element.githubSponsorUrl;
 
