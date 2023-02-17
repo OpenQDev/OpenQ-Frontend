@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import StoreContext from '../../../../../../store/Store/StoreContext';
 
-const TextTierInput = ({ tier, tierVolumes, onTierVolumeChange, style, decimal }) => {
+const TextTierInput = ({ tier, tierVolumes, onTierVolumeChange, style, decimal, adminPage }) => {
   const [localValue, setLocalValue] = useState(tierVolumes[tier - 1] || 1);
   // State
   const [suffix, setSuffix] = useState();
@@ -12,7 +12,7 @@ const TextTierInput = ({ tier, tierVolumes, onTierVolumeChange, style, decimal }
   }, []);
 
   useEffect(() => {
-    setLocalValue(tierVolumes[tier - 1] || 1);
+    if (adminPage) setLocalValue(tierVolumes[tier - 1] || 1);
   }, [tierVolumes]);
 
   const handleChange = (value, tierVolumes) => {

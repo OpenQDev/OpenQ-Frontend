@@ -234,6 +234,7 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
               currentSum={sum}
               tierArr={tierArr}
               setEnableContest={setEnableContest}
+              adminPage={true}
             />
           </div>
           <ConnectButton
