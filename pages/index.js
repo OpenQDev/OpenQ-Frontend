@@ -22,7 +22,7 @@ export default function Index({ nonContestBounties, contestRepositories, renderE
       ) : (
         <>
           <ExploreHeader />
-          <div className='flex flex-col items-center max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-24 z-10 relative'>
+          <div className='flex flex-col items-center max-w-screen-2xl mx-auto px-4 md:px-12 lg:px-24 z-10 relative'>
             <ExploreHackathons fullContests={contestRepositories} />
             <ExploreMarketplace fullBounties={nonContestBounties} />
             <ReposProvider>

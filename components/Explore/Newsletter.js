@@ -61,9 +61,9 @@ export default function Newsletter() {
 
   return (
     <div className='sm:grid sm:grid-cols-2 sm:gap-6 md:gap-12 xl:gap-24 w-full pt-12 lg:pt-40'>
-      <div className='@container pt-3'>
-        <h1>Join upcoming web3 hackathons.</h1>
-        <p className='lead text-zinc-400 mt-3 lg:mt-6'>
+      <div className='pt-3'>
+        <h1 className='text-3xl lg:text-6xl'>Join upcoming web3 hackathons.</h1>
+        <p className='lead text-zinc-400 mt-3 lg:mt-6 lg:text-3xl'>
           Subscribe to our newsletter &amp; find out where to build next.
         </p>
         {isSuccess && (
@@ -72,11 +72,11 @@ export default function Newsletter() {
           </p>
         )}
         {!isSuccess && (
-          <div className='@container flex mt-10'>
+          <div className='flex my-10'>
             <input
               type='email'
               placeholder='Email'
-              className='border rounded-l-2xl w-full text-lg @md:text-2xl bg-gray-300 text-gray-900 px-4 py-2 @md:px-8 md:py-4 outline-none'
+              className='border rounded-l-2xl w-full text-lg md:text-2xl bg-gray-300 text-gray-900 px-4 py-2 md:px-8 md:py-4 outline-none'
               value={email}
               disabled={isSending}
               onChange={handleEmailInputChange}
@@ -84,7 +84,7 @@ export default function Newsletter() {
             <button
               className={`${
                 !isEmailValid && 'opacity-90 saturate-50'
-              } transition-all bg-gradient-to-r from-cyan-300 to-green-400 !text-white text-lg @md:text-2xl font-bold !rounded-r-2xl !rounded-l-none border-none @md:!px-12 @md:!py-4`}
+              } transition-all bg-gradient-to-r from-cyan-300 to-green-400 !text-white text-lg md:text-2xl font-bold !rounded-r-2xl !rounded-l-none border-none md:!px-12 md:!py-4`}
               onClick={() => subscribeToNewsletter()}
               disabled={isSending || !isEmailValid}
             >

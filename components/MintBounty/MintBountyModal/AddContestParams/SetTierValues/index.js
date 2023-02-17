@@ -5,7 +5,6 @@ import TextTierInput from './TextTierInput';
 import TierResult from './TierResult';
 import SmallToggle from '../../../../Utils/SmallToggle';
 import StoreContext from '../../../../../store/Store/StoreContext';
-import TokenContext from '../../../../TokenSelection/TokenStore/TokenContext';
 
 const SetTierValues = ({
   category,
@@ -14,28 +13,27 @@ const SetTierValues = ({
   tierArr,
   setEnableContest,
   initialVolumes,
-  formatVolume,
   finalTierVolumes,
   setFinalTierVolumes,
   currentSum,
 }) => {
   const [appState] = useContext(StoreContext);
-  const [tokenState] = useContext(TokenContext);
-  const { token } = tokenState;
   const newFixedVolumes = [];
-  const newVolumesArr = [];
-  for (const index in tierArr) {
-    if (initialVolumes[index] && formatVolume) {
-      console.log('initialVolumes[index]', initialVolumes[index]);
-      newFixedVolumes[index] = formatVolume(initialVolumes[index], token);
-      newVolumesArr[index] = initialVolumes[index];
-    } else {
-      console.log('initialVolumes[index] second', initialVolumes[index]);
-      newFixedVolumes[parseInt(index) + 1] = 1;
-      newVolumesArr[index] = 1;
+  const [fixedTierVolumes, setFixedTierVolumes] = useState([]);
+  useEffect(() => {
+    for (const index in tierArr) {
+      if (initialVolumes[index]) {
+        console.log('initialVolumes[index]', initialVolumes[index]);
+        newFixedVolumes[index] = initialVolumes[index];
+      } else {
+        console.log('initialVolumes[index] else', initialVolumes[index]);
+        newFixedVolumes[parseInt(index) + 1] = 1;
+      }
     }
-  }
-  const [fixedTierVolumes, setFixedTierVolumes] = useState(newFixedVolumes);
+    setFinalTierVolumes(newFixedVolumes);
+    setFixedTierVolumes(newFixedVolumes);
+  }, [initialVolumes]);
+
   const [toggleVal, setToggleVal] = useState('Visual');
 
   useEffect(() => {

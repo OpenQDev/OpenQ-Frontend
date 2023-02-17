@@ -5,7 +5,7 @@ import { ChevronRightIcon } from '@primer/octicons-react';
 
 export default function Header() {
   return (
-    <header className='flex justify-between items-center max-w-screen-2xl mx-auto lg:pt-24 lg:pb-6 px-6 md:px-12 lg:px-24 relative z-0'>
+    <header className='flex justify-between items-center max-w-screen-2xl mx-auto lg:pt-24 lg:pb-6 px-4 md:px-12 lg:px-24 relative z-0'>
       <div className='lg:pr-10 z-10'>
         <Link href='https://medium.com/openqdev/introducing-openq-on-polygon-1b096f74e949' target='_blank'>
           <div className='flex items-center bg-dark-4 bg-opacity-70 border border-gray-600 rounded-md sm:rounded-full px-3 md:px-6 py-2 mt-5 max-w-2xl'>
@@ -21,8 +21,8 @@ export default function Header() {
             </div>
           </div>
         </Link>
-        <h1 className='max-w-2xl mt-5'>The New Universe For Builders</h1>
-        <p className='max-w-xl text-zinc-400 lead mb-5'>
+        <h1 className='max-w-2xl mt-5 text-4xl lg:text-6xl lg:mt-10'>The New Universe For Builders</h1>
+        <p className='max-w-xl text-zinc-400 lead mb-5 text-xl lg:text-2xl lg:mt-5'>
           Join the ultimate hub for builders and turn your ideas into reality.
         </p>
       </div>

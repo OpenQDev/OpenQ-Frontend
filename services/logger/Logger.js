@@ -20,13 +20,7 @@ class Logger {
       // Must use JSON.stringify in each value in case it contains special characters
 
       if (message) {
-        console.error(
-          JSON.parse(
-            `{ "id": ${JSON.stringify(id)}, "message": ${JSON.stringify(message)}, "date": ${JSON.stringify(
-              currentDate
-            )}, "userAddress": ${JSON.stringify(user)} }`
-          )
-        );
+        console.log(`id: ${id}, message: ${message}, date: ${currentDate}, user: ${user}`);
       } else {
         console.error('undefined error');
       }
@@ -39,13 +33,7 @@ class Logger {
       const currentDate = new Date();
       // Must use JSON.stringify in each value in case it contains special characters
       if (message) {
-        console.error(
-          JSON.parse(
-            `{ "id": ${JSON.stringify(id)}, "message": ${JSON.stringify(message)}, "date": ${JSON.stringify(
-              currentDate
-            )}, "userAddress": ${JSON.stringify(user)} }`
-          )
-        );
+        console.error(`id: ${id}, message: ${message}, date: ${currentDate}, userAddress: ${user}`);
       } else {
         console.error('undefined error');
       }
