@@ -64,17 +64,8 @@ const ConnectModal = ({ closeModal, setShowModal }) => {
           <div className='leading-loose text-lg'>WalletConnect</div>
         </button>
         <p className='text-sm text-muted pb-4'>
-          Are you using Gnosis Safe? For the best experience use OpenQ as a Safe App. For more information on safe apps,
-          check out{' '}
-          <a
-            className='underline'
-            target='_blank'
-            rel='noopener noreferrer'
-            href='https://help.gnosis-safe.io/en/articles/4022030-add-a-custom-safe-app'
-          >
-            Add a Custom Safe App
-          </a>
-          .
+          Are you using Gnosis Safe? For the best experience use the WalletConnect Safe App and connect Openq via
+          WalletConnect.
         </p>
       </div>
     </ModalLarge>
