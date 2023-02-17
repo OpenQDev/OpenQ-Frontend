@@ -48,7 +48,7 @@ describe('SetTierAdminPage', () => {
       openQClient: new MockOpenQClient({ setTier }),
     };
     await waitFor(async () => {
-      render(<SetTierAdminPage refreshBounty={() => { }} bounty={bounty} />, {}, customInitialState);
+      render(<SetTierAdminPage refreshBounty={() => {}} bounty={bounty} />, {}, customInitialState);
 
       // ACT
       await user.click(screen.getByRole('button', { name: /visual/i }));
