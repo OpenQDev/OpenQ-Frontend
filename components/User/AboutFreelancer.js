@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 // Custom
-import { BookIcon, EyeIcon, StarIcon, LinkIcon } from '@primer/octicons-react';
+import { BookIcon, EyeIcon, StarIcon, LinkIcon, CheckIcon } from '@primer/octicons-react';
 import SubMenu from '../Utils/SubMenu';
 import Watching from './WatchingTab/Watching';
 import Starred from './StarsTab/Starred';
@@ -19,6 +19,8 @@ import Username from './OverviewTab/Username';
 import KycRequirement from '../Claim/ClaimPage/KycRequirement';
 
 const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) => {
+  const githubHasWalletVerifiedState = useState(null);
+  const [githubHasWalletVerified] = githubHasWalletVerifiedState;
   const [internalMenu, setInternalMenu] = useState(tab || 'Overview');
   const [appState] = useContext(StoreContext);
   const [watchedFullBounties, setWatchedFullBounties] = useState([]);
@@ -71,6 +73,8 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
     }
   }, [isOwner, watchedBounties]);
 
+  const GithubVerifiedLogo = githubHasWalletVerified ? CheckIcon : CheckIcon;
+
   return (
     <>
       <div className='flex flex-col justify-center'>
@@ -83,7 +87,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
             { name: 'Overview', Svg: BookIcon },
             ...[starredOrganizations.length ? { name: 'Stars', Svg: StarIcon } : {}],
             ...[isOwner ? { name: 'Watching', Svg: EyeIcon } : {}],
-            ...[isOwner ? { name: 'Wallet-to-GitHub', Svg: LinkIcon } : {}],
+            ...[isOwner ? { name: 'Wallet-to-GitHub', Svg: LinkIcon, SecondSvg: GithubVerifiedLogo } : {}],
             ...[isOwner ? { name: '🧍KYC' } : {}],
 
             ...[isOwner ? { name: '📃Invoicing (Freelancer)' } : {}],
@@ -153,7 +157,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
             )}
             {internalMenu == 'Wallet-to-GitHub' && (
               <div className='flex px-8 justify-between mt-12'>
-                <GithubRequirement />
+                <GithubRequirement githubHasWalletVerifiedState={githubHasWalletVerifiedState} />
               </div>
             )}
             {internalMenu == '🧍KYC' && (

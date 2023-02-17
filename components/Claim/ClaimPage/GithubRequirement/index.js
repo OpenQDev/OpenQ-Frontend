@@ -1,28 +1,22 @@
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import GithubConnection from '../../../User/OverviewTab/GithubConnection';
 import ToolTipNew from '../../../Utils/ToolTipNew';
 
-const GithubRequirement = ({ setGithubHasWalletVerified }) => {
-  const [verified, setVerified] = useState(null);
+const GithubRequirement = ({ githubHasWalletVerifiedState }) => {
+  const [verified, setVerified] = githubHasWalletVerifiedState;
   const [claimPageError, setClaimPageError] = useState('');
-  useEffect(() => {
-    if (verified) setGithubHasWalletVerified && setGithubHasWalletVerified(true);
-  }, [verified]);
+
   return (
     <section className='flex flex-col gap-3'>
       <h4 className='text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
         GitHub
         <div
           className={`${
-            verified
-              ? 'bg-[#1c6f2c] border-[#2ea043]'
-              : setGithubHasWalletVerified
-              ? 'bg-info border-info-strong'
-              : 'hidden'
+            verified ? 'bg-[#1c6f2c] border-[#2ea043]' : setVerified ? 'bg-info border-info-strong' : 'hidden'
           } border-2 text-sm px-2 rounded-full h-6`}
         >
-          {verified ? 'Approved' : setGithubHasWalletVerified ? 'Required' : null}
+          {verified ? 'Approved' : setVerified ? 'Required' : null}
         </div>
       </h4>
       {claimPageError && (

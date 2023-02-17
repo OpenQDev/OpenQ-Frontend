@@ -26,7 +26,8 @@ const ClaimPage = ({ bounty, refreshBounty, split, setInternalMenu, internalMenu
   const [justClaimed, setJustClaimed] = useState(false);
   // const { accountData } = appState;
   const [kycVerified, setKycVerified] = useState(null);
-  const [githubHasWalletVerified, setGithubHasWalletVerified] = useState(null);
+  const githubHasWalletVerifiedState = useState(null);
+  const [githubHasWalletVerified] = githubHasWalletVerifiedState;
   const { status } = checkClaimable(bounty, accountData?.github, openQClient);
 
   // TODO: ESLINT said these were given a value but never used, but they look important, so here I am writing a TODO ;-)
@@ -118,7 +119,7 @@ const ClaimPage = ({ bounty, refreshBounty, split, setInternalMenu, internalMenu
             {hasRequirements && <h3 className='flex w-full text-3xl font-semibold text-primary'>Requirements</h3>}
             {bounty.kycRequired && <KycRequirement setKycVerified={setKycVerified} />}
             {bounty.supportingDocumentsRequired && <W8Requirement bounty={bounty} />}
-            {isContest(bounty) && <GithubRequirement setGithubHasWalletVerified={setGithubHasWalletVerified} />}
+            {isContest(bounty) && <GithubRequirement githubHasWalletVerifiedState={githubHasWalletVerifiedState} />}
             <InvoicingRequirement bounty={bounty} setClaimable={claimState[1]} />
             <section className='flex flex-col gap-3'>
               <h4 className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>Claim Your Rewards</h4>

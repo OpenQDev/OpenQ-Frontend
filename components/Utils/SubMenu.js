@@ -22,6 +22,7 @@ const SubMenu = ({ updatePage, internalMenu, items, styles, colour, vertical }) 
           >
             {item.Svg && <item.Svg />}
             <span className='whitespace-nowrap'>{item.name}</span>
+            {item.SecondSvg && <item.SecondSvg />}
           </button>
           {!vertical && (
             <div
