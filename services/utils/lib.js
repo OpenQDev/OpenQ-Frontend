@@ -259,9 +259,9 @@ export const fetchBountiesWithServiceArg = async (appState, oldCursor, batch, or
     field = 'createdAt';
   }
   const { types, organizationId, repositoryId } = filters;
-  let complete = false;
+
   try {
-    let [fullBounties, cursor] = await appState.utils.fetchBounties(
+    let [fullBounties, cursor, complete] = await appState.utils.fetchBounties(
       appState,
       batch,
       types,
@@ -273,10 +273,6 @@ export const fetchBountiesWithServiceArg = async (appState, oldCursor, batch, or
       null,
       repositoryId
     );
-
-    if (fullBounties?.length === 0) {
-      complete = true;
-    }
     return {
       nodes: fullBounties,
       cursor,

@@ -39,6 +39,7 @@ class GithubRepository {
     uri: this.uri,
     link: this.httpLink,
     cache: new InMemoryCache(),
+    errorPolicy: 'all',
   });
 
   async getIsAdmin(login, team, githubId) {

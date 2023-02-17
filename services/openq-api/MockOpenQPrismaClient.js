@@ -18,7 +18,6 @@ class OpenQPrismaClient {
     }
 
     async updateUser(value) {
-        try {
             const promise = new Promise(async (resolve, reject) => {
 
                 axios.get(`http://localhost:3030/prismaUsers`)
@@ -33,9 +32,7 @@ class OpenQPrismaClient {
 
             });
             return promise;
-        } catch (e) {
-            console.log("error", e);
-        }
+   
 
     }
 

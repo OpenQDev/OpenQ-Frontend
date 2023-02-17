@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ChevronRightIcon, LocationIcon } from '@primer/octicons-react';
 import Link from 'next/link';
 import StoreContext from '../../store/Store/StoreContext';
@@ -20,6 +20,10 @@ export default function Newsletter() {
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [renderDate, setRenderDate] = useState();
+  useEffect(() => {
+    setRenderDate(new Date());
+  }, []);
 
   async function subscribeToNewsletter() {
     if (isEmailValid) {
@@ -111,7 +115,8 @@ export default function Newsletter() {
                   <LocationIcon />
                   <span className='capitalize'>
                     {location},{' '}
-                    {new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                    {renderDate &&
+                      new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
                   </span>
                 </div>
               </div>

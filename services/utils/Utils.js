@@ -272,9 +272,9 @@ class Utils {
         } catch (err) {
           reject(err);
         }
+        const complete = prismaContracts.length < batch;
         const fullBounties = this.combineBounties(subgraphContracts, githubIssues, prismaContracts);
-
-        resolve([fullBounties, newCursor]);
+        resolve([fullBounties, newCursor, complete]);
       } catch (err) {
         reject(err);
       }

@@ -114,12 +114,10 @@ export const getServerSideProps = async (context) => {
     logger,
   };
   const getItems = async (oldCursor, batch, ordering, filters) => {
-    const value = await fetchBountiesWithServiceArg(appState, oldCursor, batch, ordering, filters);
-
-    return value;
+    return await fetchBountiesWithServiceArg(appState, oldCursor, batch, ordering, filters);
   };
   const ordering = { sortOrder: 'desc', field: 'createdAt' };
-  const { nodes, cursor, complete } = await getItems(null, 2, ordering, { types });
+  const { nodes, cursor, complete } = await getItems(null, batch, ordering, { types });
 
   const paginationObj = {
     items: nodes,
@@ -133,8 +131,6 @@ export const getServerSideProps = async (context) => {
     complete,
     batch,
   };
-  let fullBounties = [];
-  let firstCursor = null;
   let renderError = '';
   let mergedOrgs = [];
   try {
@@ -151,36 +147,15 @@ export const getServerSideProps = async (context) => {
 
     renderError = JSON.stringify(err);
   }
-  try {
-    [fullBounties, firstCursor] = await utils.fetchBounties(
-      {
-        openQSubgraphClient: openQSubgraphClient.instance,
-        githubRepository: githubRepository.instance,
-        openQPrismaClient: openQPrismaClient.instance,
-        logger,
-      },
-      batch,
-      types,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      category
-    );
-  } catch (err) {
-    logger.error(err, null, '[type]1.js');
-    renderError = JSON.stringify(err);
-  }
+
   return {
     props: {
       orgs: mergedOrgs,
-      fullBounties,
       renderError,
       batch,
       types,
       category,
-      firstCursor,
+
       paginationObj,
     },
   };
