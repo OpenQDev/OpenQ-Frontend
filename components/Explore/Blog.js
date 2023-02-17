@@ -34,12 +34,12 @@ export default function Blog() {
       <div className='grid grid-cols-1 gap-5 lg:gap-10 sm:grid-cols-2 md:grid-cols-3'>
         {articles.map((article) => (
           <Link key={article.title} href={article.url} target='_blank'>
-            <ImageTeaser imageSrc={article.imageSrc}>
+            <ImageTeaser imageSrc={article.imageSrc} className={'p-2 lg:p-4 xl:p-6'}>
               <ImageTeaserLink>
                 Read more
                 <ChevronRightIcon className='ml-2 w-5 h-5' />
               </ImageTeaserLink>
-              <ImageTeaserHeadline>{article.title}</ImageTeaserHeadline>
+              <ImageTeaserHeadline className='text-xl md:text-2xl xl:text-3xl'>{article.title}</ImageTeaserHeadline>
               <ImageTeaserText>{article.teaserText}</ImageTeaserText>
             </ImageTeaser>
           </Link>
