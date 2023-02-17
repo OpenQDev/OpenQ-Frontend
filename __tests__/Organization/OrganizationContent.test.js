@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { waitFor } from '@testing-library/react';
+import { getReadyText, isOnlyContest } from '../../services/utils/lib';
 
 import { render, screen } from '../../test-utils';
 import OrganizationContent from '../../components/Organization/OrganizationContent';
@@ -93,22 +93,17 @@ describe('OrganizationContent', () => {
       disconnect,
     }));
   });
-  const getMoreData = () => {
-    return null;
-  };
-  const getNewData = () => {
-    return null;
-  };
 
   it('should render match DOM Snapshot', () => {
     const shallow = new ShallowRenderer();
     shallow.render(
       <OrganizationContent
-        getMoreData={getMoreData}
-        getNewData={getNewData}
-        bounties={orgBounties}
+        paginationObj={{
+          items: orgBounties,
+          filters: { searchText: '' },
+          fetchFilters: { types: ['1', '2', '3', '4'] },
+        }}
         repositories={repositories}
-        complete={true}
       />
     );
     const tree = shallow.getRenderOutput();
@@ -118,27 +113,29 @@ describe('OrganizationContent', () => {
   it('should render Org content card for yoheikikuta', async () => {
     // ARRANGE
     const user = userEvent.setup();
+    const types = ['1', '2', '3', '4'];
     render(
       <OrganizationContent
-        getMoreData={getMoreData}
-        getNewData={getNewData}
-        bounties={orgBounties}
+        paginationObj={{
+          items: orgBounties,
+          filters: { searchText: '' },
+          fetchFilters: { types },
+          ordering: { field: 'createdAt', direction: 'desc' },
+          isReady: getReadyText(isOnlyContest(types)),
+        }}
         repositories={repositories}
-        complete={true}
       />
     );
-    await waitFor(async () => {
-      const name = 'opensea';
-      // ASSERT
+    const name = 'opensea';
+    // ASSERT
 
-      await user.click(screen.getByText(/all Issues/i));
-      const nameRegex = new RegExp(name.slice(0, 3), 'i');
-      const title = await screen.findAllByText(nameRegex);
-      expect(title[0]).toBeInTheDocument();
+    await user.click(screen.getByText(/all Issues/i));
+    const nameRegex = new RegExp(name.slice(0, 3), 'i');
+    const title = await screen.findAllByText(nameRegex);
+    expect(title[0]).toBeInTheDocument();
 
-      // should not have null or undefined values
-      const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
-      expect(nullish).toHaveLength(0);
-    });
+    // should not have null or undefined values
+    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(nullish).toHaveLength(0);
   });
 });
