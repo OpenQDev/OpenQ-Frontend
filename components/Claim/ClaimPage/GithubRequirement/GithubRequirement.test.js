@@ -12,7 +12,8 @@ describe('GithubRequirement', () => {
   it('should render GithubRequirement', async () => {
     // ARRANGE
     const setGithubHasWalletVerified = jest.fn();
-    render(<GithubRequirement setGithubHasWalletVerified={setGithubHasWalletVerified} />);
+    const githubHasWalletVerifiedState = [false, setGithubHasWalletVerified];
+    render(<GithubRequirement githubHasWalletVerifiedState={githubHasWalletVerifiedState} />);
     expect(await screen.findByText(/Github profile not signed in./)).toBeInTheDocument();
     expect(await screen.findByText(/Associate your GitHub account on-chain/)).toBeInTheDocument();
   });

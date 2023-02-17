@@ -94,7 +94,7 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
         });
 
         const { updateUser } = await openQPrismaClient.updateUser(formValues);
-        console.log(updateUser);
+
         if (updateUser) {
           const accountDispatch = {
             type: 'UPDATE_ACCOUNT_DATA',
@@ -111,7 +111,6 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
           resolve(true);
         }
       } catch (err) {
-        console.log(err);
         if (err.message === 'Please enter a valid email') {
           setFormState({ text: 'Update', className: 'btn-primary', disabled: false });
         }

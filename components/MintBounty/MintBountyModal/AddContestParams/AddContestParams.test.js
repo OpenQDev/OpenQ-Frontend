@@ -15,13 +15,13 @@ describe('AddContestParams', () => {
     address: '0x0000000000000000000000000000000000000000',
   };
 
-  it('should display Contest', async () => {
+  it('should display Fixed Contest', async () => {
     // ARRANGE
     const currentDate = new Date();
     const mintState = {
       ...InitialMintState.mintState,
       startDate: currentDate,
-      category: 'Contest',
+      type: 3,
       finalTierVolumes: [33, 34, 33],
       payoutToken: zeroAddressMetadata,
     };
@@ -35,12 +35,13 @@ describe('AddContestParams', () => {
 
     // ACT
 
-    expect(screen.getByText(/Weight per Tier/i)).toBeInTheDocument();
-    expect(screen.getByText(/visual/i)).toBeInTheDocument();
-    expect(screen.getByText(/text/i)).toBeInTheDocument();
+    expect(screen.getByText(/Fixed contests can only be funded with one token./i)).toBeInTheDocument();
+    expect(screen.getByText(/1st/i)).toBeInTheDocument();
+    expect(screen.getByText(/2nd/i)).toBeInTheDocument();
+    expect(screen.getByText(/3rd/i)).toBeInTheDocument();
     // ASSERT
 
-    expect(mintDispatch).toHaveBeenCalledTimes(5);
+    expect(mintDispatch).toHaveBeenCalledTimes(2);
     // expect startdate to be in input
   });
 

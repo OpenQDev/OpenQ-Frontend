@@ -60,7 +60,7 @@ describe('MintBountyButton', () => {
     // ACT
     const mintBountyButton = await screen.findByRole('button', { name: /New Contract/i });
     await user.click(mintBountyButton);
-    expect(await screen.findByText(/Deploy Fixed Contest Contract/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Deploy Hackathon Contract/i)).toBeInTheDocument();
     expect(await screen.findByText(/New Contract/i)).toBeInTheDocument();
     expect(screen.getByText(/How many tiers/i));
   });

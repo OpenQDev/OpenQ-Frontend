@@ -22,7 +22,7 @@ describe('Tier Input', () => {
     const mintState = {
       ...InitialMintState.mintState,
       payoutToken: zeroAddressMetadata,
-      category: 'Fixed Contest',
+      type: 3,
       hideModal: false,
     };
     const mintDispatch = jest.fn();

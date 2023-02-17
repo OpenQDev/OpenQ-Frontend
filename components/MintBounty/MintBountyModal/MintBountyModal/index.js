@@ -128,7 +128,7 @@ const MintBountyModal = ({ modalVisibility }) => {
             </div>
             <div className='overflow-y-auto px-2'>
               <h3 className='text-xl pt-2'>
-                {type === 1
+                {type == 1
                   ? 'Pay out a fixed amount to any contributors who submit work to this bounty, as many times as you like'
                   : `Create a ${getBountyTypeName(type)} Contract to send funds to any GitHub issue`}
               </h3>

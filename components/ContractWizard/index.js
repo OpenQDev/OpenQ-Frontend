@@ -53,7 +53,6 @@ const ContractWizard = ({ wizardVisibility }) => {
       setType(type + 2);
     } else setType(type + 1);
   };
-  console.log('contract wizard', type);
   const resetState = () => {
     wizardVisibility(false);
   };
