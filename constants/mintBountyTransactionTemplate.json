@@ -1,0 +1,35 @@
+{
+  "to": "0x4209D2f8E36E544eA6904Ad80758e1cD8Df77d13",
+  "value": "0",
+  "data": null,
+  "contractMethod": {
+    "inputs": [
+      { "internalType": "string", "name": "_bountyId", "type": "string" },
+      {
+        "internalType": "string",
+        "name": "_organization",
+        "type": "string"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint32",
+            "name": "operationType",
+            "type": "uint32"
+          },
+          { "internalType": "bytes", "name": "data", "type": "bytes" }
+        ],
+        "internalType": "struct OpenQDefinitions.InitOperation",
+        "name": "_initOperation",
+        "type": "tuple"
+      }
+    ],
+    "name": "mintBounty",
+    "payable": false
+  },
+  "contractInputsValues": {
+    "_bountyId": "",
+    "_organization": "",
+    "_initOperation": ""
+  }
+}

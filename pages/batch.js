@@ -1,15 +1,17 @@
 import React, { useState, useContext } from 'react';
 import Papa from 'papaparse';
-import { ethers } from 'ethers'
+import { ethers } from 'ethers';
 import StoreContext from '../store/Store/StoreContext';
+import mintBountyTemplate from "../constants/mintBountyTemplate.json"
+import mintBountyTransactionTemplate from "../constants/mintBountyTransactionTemplate.json"
 
 function CsvUploader() {
   const [csvData, setCsvData] = useState([]);
   const [jsonData, setJsonData] = useState(null);
 
-	const [appState,] = useContext(StoreContext)
+  const [appState] = useContext(StoreContext);
 
-	let abiCoder = new ethers.utils.AbiCoder;
+  let abiCoder = new ethers.utils.AbiCoder();
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -26,7 +28,10 @@ function CsvUploader() {
         row.forEach((cell, index) => {
           if (headers[index] === 'payoutSchedule') {
             // Remove spaces from the Payout Schedule array
-            const payouts = cell.split(',').map((payout) => payout.trim()).join();
+            const payouts = cell
+              .split(',')
+              .map((payout) => payout.trim())
+              .join();
             jsonObject[headers[index]] = payouts;
           } else {
             jsonObject[headers[index]] = cell;
@@ -34,15 +39,50 @@ function CsvUploader() {
         });
         return jsonObject;
       });
-      const jsonData = JSON.stringify(jsonRows, null, 2);
+      
+			const jsonData = JSON.stringify(jsonRows, null, 2);
       setJsonData(jsonData);
 
-			const jsonDataParsed = JSON.parse(jsonData)
+			const transactions = []
 
-			const resource = await appState.githubRepository.fetchIssueByUrl(jsonDataParsed[0].githubIssueUrl)
+      const jsonDataParsed = JSON.parse(jsonData);
 
-			const bountyId = resource.id
-			const organizationId = resource.repository.owner.id
+			for (const element of jsonDataParsed) {
+				const issueUrl = element.githubIssueUrl
+
+				const resource = await appState.githubRepository.fetchIssueByUrl(issueUrl);
+
+				const bountyId = resource.id;
+				const organizationId = resource.repository.owner.id;
+				
+				const payoutSchedule = JSON.parse(element.payoutSchedule)
+				const payoutTokenAddress = element.payoutTokenAddress
+				
+				const invoiceRequired = element.invoiceRequired
+				const kycRequired = element.kycRequired
+				const supportingDocumentsRequired = element.supportingDocumentsRequired
+
+				const mintBountyTransactionTemplateCopy = mintBountyTransactionTemplate
+				
+				mintBountyTransactionTemplateCopy.contractInputsValues._bountyId = bountyId
+				mintBountyTransactionTemplateCopy.contractInputsValues._organization = organizationId
+
+				const initializationSchema = ['uint256[]', 'address', 'bool', 'bool', 'bool', 'string', 'string', 'string'];
+				const initializationData = [payoutSchedule, payoutTokenAddress, invoiceRequired, kycRequired, supportingDocumentsRequired, 'po', 'po', 'po'];
+
+				const tieredFixedEncoded = abiCoder.encode(initializationSchema, initializationData);
+				let tieredFixed = [3, tieredFixedEncoded];
+
+				mintBountyTransactionTemplateCopy.contractInputsValues._initOperation = `[${tieredFixed}]`
+
+				transactions.push(mintBountyTransactionTemplateCopy)
+
+				console.log(mintBountyTransactionTemplateCopy)
+			};
+
+			mintBountyTemplate.transactions = transactions
+
+			console.log(mintBountyTemplate)
     };
 
     reader.readAsText(file);
@@ -50,7 +90,7 @@ function CsvUploader() {
 
   return (
     <div>
-      <input type="file" onChange={handleFileUpload} />
+      <input type='file' onChange={handleFileUpload} />
       {csvData.length > 0 && (
         <div>
           <h2>CSV Data</h2>
