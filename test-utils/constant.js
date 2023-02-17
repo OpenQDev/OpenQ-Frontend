@@ -1063,7 +1063,8 @@ export default class Constants {
   static get bounty3() {
     return {
       ...Constants.bounty,
-      payoutSchedule: Constants.payoutSchedule2,
+      payoutSchedule: Constants.payoutSchedule3,
+      payoutTokenAddress: Constants.linkAddress,
       bountyType: Constants.bountyTypeFixedContest,
     };
   }

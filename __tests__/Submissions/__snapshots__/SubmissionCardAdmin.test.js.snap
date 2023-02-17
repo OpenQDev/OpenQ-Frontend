@@ -785,10 +785,11 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
             "number": 8,
             "owner": "OpenQDev",
             "payoutSchedule": [
-              "30",
-              "60",
-              "10",
+              "30000000000000000000",
+              "60000000000000000000",
+              "10000000000000000000",
             ],
+            "payoutTokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
             "prs": [
               {
                 "__typename": "CrossReferencedEvent",
@@ -895,7 +896,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
           {
             "claimed": false,
             "index": 2,
-            "payout": "10",
+            "payout": "10000000000000000000",
           }
         }
       />
@@ -1002,10 +1003,11 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
             "number": 8,
             "owner": "OpenQDev",
             "payoutSchedule": [
-              "30",
-              "60",
-              "10",
+              "30000000000000000000",
+              "60000000000000000000",
+              "10000000000000000000",
             ],
+            "payoutTokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
             "prs": [
               {
                 "__typename": "CrossReferencedEvent",
@@ -1112,7 +1114,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
           {
             "claimed": false,
             "index": 0,
-            "payout": "30",
+            "payout": "30000000000000000000",
           }
         }
       />
@@ -1219,10 +1221,11 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
             "number": 8,
             "owner": "OpenQDev",
             "payoutSchedule": [
-              "30",
-              "60",
-              "10",
+              "30000000000000000000",
+              "60000000000000000000",
+              "10000000000000000000",
             ],
+            "payoutTokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
             "prs": [
               {
                 "__typename": "CrossReferencedEvent",
@@ -1329,7 +1332,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
           {
             "claimed": false,
             "index": 1,
-            "payout": "60",
+            "payout": "60000000000000000000",
           }
         }
       />

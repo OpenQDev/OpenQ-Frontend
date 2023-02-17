@@ -615,10 +615,11 @@ exports[`Watching should render match DOM Snapshot 1`] = `
           "number": 8,
           "owner": "OpenQDev",
           "payoutSchedule": [
-            "30",
-            "60",
-            "10",
+            "30000000000000000000",
+            "60000000000000000000",
+            "10000000000000000000",
           ],
+          "payoutTokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
           "prs": [
             {
               "__typename": "CrossReferencedEvent",
