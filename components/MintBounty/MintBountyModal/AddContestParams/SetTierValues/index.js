@@ -26,9 +26,11 @@ const SetTierValues = ({
   const newVolumesArr = [];
   for (const index in tierArr) {
     if (initialVolumes[index] && formatVolume) {
+      console.log('initialVolumes[index]', initialVolumes[index]);
       newFixedVolumes[index] = formatVolume(initialVolumes[index], token);
       newVolumesArr[index] = initialVolumes[index];
     } else {
+      console.log('initialVolumes[index] second', initialVolumes[index]);
       newFixedVolumes[parseInt(index) + 1] = 1;
       newVolumesArr[index] = 1;
     }
