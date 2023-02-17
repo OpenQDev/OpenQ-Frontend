@@ -16,8 +16,9 @@ import OrganizationContent from '../../components/Organization/OrganizationConte
 // import HackathonTab from '../../components/Organization/HackathonTab.js';
 
 import UnexpectedErrorModal from '../../components/Utils/UnexpectedErrorModal';
+import { getReadyText, isOnlyContest, fetchBountiesWithServiceArg } from '../../services/utils/lib';
 
-const organization = ({ organizationData, fullBounties, batch, renderError, firstCursor }) => {
+const organization = ({ organizationData, renderError, paginationObj }) => {
   // Context
   const [toggleVal, setToggleVal] = useState('Overview');
   // Methods
@@ -25,7 +26,7 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
   const handleToggle = (toggleVal) => {
     setToggleVal(toggleVal);
   };
-  const repositories = fullBounties?.reduce((repositories, bounty) => {
+  const repositories = paginationObj.items.reduce((repositories, bounty) => {
     if (repositories.some((repo) => repo.name === bounty.repoName)) {
       return repositories;
     }
@@ -92,12 +93,9 @@ const organization = ({ organizationData, fullBounties, batch, renderError, firs
           {toggleVal === 'Overview' && (
             <div className='px-4 py-3 gap-6 w-full flex flex-wrap md:flex-nowrap'>
               <OrganizationContent
-                bounties={fullBounties}
-                complete={false}
+                paginationObj={paginationObj}
                 repositories={repositories}
                 organizationData={organizationData}
-                cursor={firstCursor}
-                batch={batch}
               />
               <OrganizationMetadata organizationData={organizationData} repositories={repositories} />
             </div>
@@ -152,29 +150,38 @@ export const getServerSideProps = async (context) => {
     logger.error(err, null, '[organization.js]3');
   }
   mergedOrgData = { ...org, ...orgData };
-  const bounties = mergedOrgData.bountiesCreated || [];
-  const bountyIds = bounties.map((bounty) => bounty.bountyId);
-  let issueData;
 
-  try {
-    issueData = await githubRepository.instance.getIssueData(bountyIds);
-  } catch (err) {
-    logger.error(err, null, '[organization.js]4');
-    renderError = 'OpenQ cannot fetch organization data from Github.';
-  }
-  const prismaContracts = orgMetadata.organization.bounties.bountyConnection.nodes.filter((node) => !node.blacklisted);
+  const appState = {
+    githubRepository: githubRepository.instance,
+    openQSubgraphClient: openQSubgraphClient.instance,
+    openQPrismaClient: openQPrismaClient.instance,
+    utils,
+    logger,
+  };
+  const types = ['1', '2', '3', '4'];
 
-  const fullBounties = utils.combineBounties(bounties, issueData, prismaContracts);
+  const getItems = async (oldCursor, batch, ordering, filters) => {
+    return await fetchBountiesWithServiceArg(appState, oldCursor, batch, ordering, filters);
+  };
+  const ordering = { sortOrder: 'desc', field: 'createdAt' };
+  const fetchFilters = { types, organizationId: orgData.id };
+  const { nodes, cursor, complete } = await getItems(null, batch, ordering, fetchFilters);
+
+  const paginationObj = {
+    items: nodes,
+    ordering: { direction: 'desc', field: 'createdAt' },
+    fetchFilters,
+    filters: {
+      searchText: `order:newest`,
+      isReady: getReadyText(isOnlyContest(types)),
+    },
+    cursor,
+    complete,
+    batch,
+  };
 
   return {
-    props: {
-      organization,
-      organizationData: mergedOrgData,
-      fullBounties,
-      batch,
-      renderError,
-      firstCursor: orgMetadata.organization.bounties.bountyConnection.cursor || null,
-    },
+    props: { renderError, paginationObj, organizationData: mergedOrgData },
   };
 };
 
