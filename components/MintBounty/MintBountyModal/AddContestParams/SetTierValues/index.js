@@ -16,6 +16,7 @@ const SetTierValues = ({
   finalTierVolumes,
   setFinalTierVolumes,
   currentSum,
+  adminPage,
 }) => {
   const [appState] = useContext(StoreContext);
   const newFixedVolumes = [];
@@ -28,7 +29,7 @@ const SetTierValues = ({
         newFixedVolumes[parseInt(index) + 1] = 1;
       }
     }
-    setFinalTierVolumes(newFixedVolumes);
+    if (adminPage) setFinalTierVolumes(newFixedVolumes);
     setFixedTierVolumes(newFixedVolumes);
   }, [initialVolumes]);
 
@@ -173,6 +174,7 @@ const SetTierValues = ({
                   tierVolumes={fixedTierVolumes}
                   onTierVolumeChange={onFixedTierChange}
                   decimal={true}
+                  adminPage={adminPage}
                 />
               </div>
             );
