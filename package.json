@@ -67,7 +67,7 @@
     "json-server": "0.17.1",
     "jspdf": "2.5.1",
     "jspdf-autotable": "3.5.28",
-    "lodash": "4.17.21",
+    "lodash": "^4.17.21",
     "magic-sdk": "13.2.0",
     "mustache": "4.2.0",
     "next": "13.1.6",
