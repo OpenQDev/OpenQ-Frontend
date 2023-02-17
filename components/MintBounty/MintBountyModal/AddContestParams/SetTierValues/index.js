@@ -24,10 +24,8 @@ const SetTierValues = ({
   useEffect(() => {
     for (const index in tierArr) {
       if (initialVolumes[index]) {
-        console.log('initialVolumes[index]', initialVolumes[index]);
         newFixedVolumes[index] = initialVolumes[index];
       } else {
-        console.log('initialVolumes[index] else', initialVolumes[index]);
         newFixedVolumes[parseInt(index) + 1] = 1;
       }
     }
