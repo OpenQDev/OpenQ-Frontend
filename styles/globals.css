@@ -325,7 +325,7 @@ body::-webkit-scrollbar {
 }
 
 .explore h1 {
-  @apply font-bold w-fit;
+  @apply font-bold;
 }
 
 .explore h2 {

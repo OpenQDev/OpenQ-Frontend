@@ -1,5 +1,7 @@
 import React from 'react';
 
-export default function ImageTeaserHeadline({ children }) {
-  return <h1 className='text-2xl'>{children}</h1>;
+export default function ImageTeaserHeadline({ children, className = '' }) {
+  className = className || 'text-2xl lg:text-4xl xl:text-6xl';
+
+  return <h1 className={className}>{children}</h1>;
 }
