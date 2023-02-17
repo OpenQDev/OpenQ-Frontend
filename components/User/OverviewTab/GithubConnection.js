@@ -81,7 +81,7 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
                           href={`https://github.com/${authState.login}`}
                           rel='noopener norefferer'
                           target='_blank'
-                          className='text-blue-500 hover:underline'
+                          className='text-link-colour hover:underline'
                         >
                           {authState.login}
                         </Link>{' '}
@@ -90,7 +90,7 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
                           href={`https://polygonscan.com/address/${associatedAddress}`}
                           rel='noopener norefferer'
                           target='_blank'
-                          className='text-blue-500 hover:underline'
+                          className='text-link-colour hover:underline'
                         >
                           {appState.utils.shortenAddress(associatedAddress)}
                         </Link>{' '}

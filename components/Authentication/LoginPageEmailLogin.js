@@ -147,7 +147,7 @@ const LoginPageEmailLogin = () => {
       ) : (
         <div className='flex flex-col md:flex-row md:items-center gap-4 '>
           <div className='flex gap-2'>
-            You are logged in as <div className='text-blue-500'>{user.email}</div>
+            You are logged in as <div className='text-link-colour'>{user.email}</div>
           </div>
           <button
             className={`flex items-center whitespace-nowrap gap-3 btn-default ${

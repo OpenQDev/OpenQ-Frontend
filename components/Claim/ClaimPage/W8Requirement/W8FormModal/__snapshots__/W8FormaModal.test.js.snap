@@ -55,7 +55,7 @@ exports[`W8FormModal should match initial DOM Snapshot 1`] = `
               >
                 Instructions: 
                 <a
-                  class="text-blue-500 hover:underline col-span-2"
+                  class="text-link-colour hover:underline col-span-2"
                   href="https://www.irs.gov/instructions/iw8ben"
                   rel="noopener norefferer"
                   target="_blank"
@@ -68,7 +68,7 @@ exports[`W8FormModal should match initial DOM Snapshot 1`] = `
               >
                 Form: 
                 <a
-                  class="text-blue-500 hover:underline col-span-2"
+                  class="text-link-colour hover:underline col-span-2"
                   href="https://www.irs.gov/pub/irs-pdf/fw8ben.pdf"
                   rel="noopener norefferer"
                   target="_blank"
@@ -86,7 +86,7 @@ exports[`W8FormModal should match initial DOM Snapshot 1`] = `
               >
                 Instructions: 
                 <a
-                  class="text-blue-500 hover:underline col-span-2"
+                  class="text-link-colour hover:underline col-span-2"
                   href="https://www.irs.gov/instructions/iw8bene"
                   rel="noopener norefferer"
                   target="_blank"
@@ -99,7 +99,7 @@ exports[`W8FormModal should match initial DOM Snapshot 1`] = `
               >
                 Form: 
                 <a
-                  class="text-blue-500 hover:underline col-span-2"
+                  class="text-link-colour hover:underline col-span-2"
                   href="https://www.irs.gov/pub/irs-pdf/fw8bene.pdf"
                   rel="noopener norefferer"
                   target="_blank"
@@ -117,7 +117,7 @@ exports[`W8FormModal should match initial DOM Snapshot 1`] = `
               >
                 Instructions: 
                 <a
-                  class="text-blue-500 hover:underline col-span-2"
+                  class="text-link-colour hover:underline col-span-2"
                   href="https://www.irs.gov/pub/irs-pdf/iw8eci.pdf"
                   rel="noopener norefferer"
                   target="_blank"
@@ -130,7 +130,7 @@ exports[`W8FormModal should match initial DOM Snapshot 1`] = `
               >
                 Form: 
                 <a
-                  class="text-blue-500 hover:underline col-span-2"
+                  class="text-link-colour hover:underline col-span-2"
                   href="https://www.irs.gov/pub/irs-pdf/fw8eci.pdf"
                   rel="noopener norefferer"
                   target="_blank"
@@ -148,7 +148,7 @@ exports[`W8FormModal should match initial DOM Snapshot 1`] = `
               >
                 Instructions: 
                 <a
-                  class="text-blue-500 hover:underline col-span-2"
+                  class="text-link-colour hover:underline col-span-2"
                   href="https://www.irs.gov/pub/irs-pdf/iw8exp.pdf"
                   rel="noopener norefferer"
                   target="_blank"
@@ -161,7 +161,7 @@ exports[`W8FormModal should match initial DOM Snapshot 1`] = `
               >
                 Form: 
                 <a
-                  class="text-blue-500 hover:underline col-span-2"
+                  class="text-link-colour hover:underline col-span-2"
                   href="https://www.irs.gov/pub/irs-pdf/fw8exp.pdf"
                   rel="noopener norefferer"
                   target="_blank"
@@ -179,7 +179,7 @@ exports[`W8FormModal should match initial DOM Snapshot 1`] = `
               >
                 Instructions: 
                 <a
-                  class="text-blue-500 hover:underline col-span-2"
+                  class="text-link-colour hover:underline col-span-2"
                   href="https://www.irs.gov/individuals/international-taxpayers/form-w-8imy"
                   rel="noopener norefferer"
                   target="_blank"
@@ -192,7 +192,7 @@ exports[`W8FormModal should match initial DOM Snapshot 1`] = `
               >
                 Form: 
                 <a
-                  class="text-blue-500 hover:underline col-span-2"
+                  class="text-link-colour hover:underline col-span-2"
                   href="https://www.irs.gov/pub/irs-pdf/fw8imy.pdf"
                   rel="noopener norefferer"
                   target="_blank"

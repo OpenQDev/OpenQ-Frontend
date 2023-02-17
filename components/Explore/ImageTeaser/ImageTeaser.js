@@ -7,7 +7,9 @@ export default function ImageTeaser({ children, imageSrc, textPosition = 'bottom
       style={{ backgroundImage: `url(${imageSrc})` }}
     >
       <div
-        className={`p-4 md:p-6 xl:p-10 flex flex-col bg-gradient-to-t from-black grow ${textPosition === 'bottom' ? 'justify-end' : ''} ${className}`}
+        className={`p-4 md:p-6 xl:p-10 flex flex-col bg-gradient-to-t from-black grow ${
+          textPosition === 'bottom' ? 'justify-end' : ''
+        } ${className}`}
       >
         {children}
       </div>

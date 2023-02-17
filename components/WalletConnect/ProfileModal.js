@@ -26,7 +26,7 @@ const ProfileModal = ({ domRef, isSafeApp, showModal }) => {
           <span className='text-left break-all'> Signed in as </span>
           <Link
             href={`https://github.com/${authState.login}`}
-            className='text-blue-500 hover:underline semi-bold '
+            className='text-link-colour hover:underline semi-bold '
             target='_blank'
           >
             <span className='break-all'> {accountData.username}</span>

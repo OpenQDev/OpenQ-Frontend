@@ -36,14 +36,14 @@ const LoginModal = ({ closeModal, setShowModal }) => {
             potential prizes for continuing working on projects submitted at Hackathons...
           </li>
           <li>
-            <div className='text-blue-500'>"more..."</div> on every point? {'=>'} cf page that is more exhaustive and
+            <div className='text-link-colour'>"more..."</div> on every point? {'=>'} cf page that is more exhaustive and
             link to specific point on it
           </li>
         </ul>
         <div className='flex flex-col md:flex-row p-4 gap-4 md:items-center'>
           {authState.isAuthenticated ? (
             <div className='flex items-center gap-2'>
-              You are signed in as <div className='text-blue-500'>{authState.login}</div>
+              You are signed in as <div className='text-link-colour'>{authState.login}</div>
               {authState.avatarUrl && (
                 <Image src={authState.avatarUrl} width={31} height={31} alt={'profile pic'} className='rounded-full' />
               )}

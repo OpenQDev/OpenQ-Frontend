@@ -193,7 +193,7 @@ const Invoicing = ({ bounty, setClaimable }) => {
             <p>
               Please fill in your billing details in your{' '}
               <Link
-                className='text-blue-500 hover:underline col-span-2'
+                className='text-link-colour hover:underline col-span-2'
                 href={profileLink}
                 target='_blank'
                 rel='noopener norefferer'
