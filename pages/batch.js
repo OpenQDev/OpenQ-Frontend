@@ -61,7 +61,7 @@ function CsvUploader() {
         return jsonObject;
       });
 
-      const jsonData = JSON.stringify(jsonRows, null, 2);
+      const jsonData = JSON.stringify(jsonRows);
 
       const transactions = [];
 
@@ -99,15 +99,17 @@ function CsvUploader() {
           invoiceRequired,
           kycRequired,
           supportingDocumentsRequired,
-          '63da6f261d7d7b7cad0bc19d',
+          '63da6f261d7d7b7cad0bc19d', // # TODO this should be the externalUserId of the currently logged in User
           sponsorOrganizationName,
           sponsorOrganizationLogo,
         ];
 
         const tieredFixedEncoded = abiCoder.encode(initializationSchema, initializationData);
-        let tieredFixed = [3, tieredFixedEncoded];
+        let tieredFixed = [3, `\"${tieredFixedEncoded}\"`];
 
         mintBountyTransactionTemplateCopy.contractInputsValues._initOperation = `[${tieredFixed}]`;
+
+				addEscapedQuotes(mintBountyTransactionTemplateCopy)
 
         transactions.push(mintBountyTransactionTemplateCopy);
 
@@ -122,14 +124,32 @@ function CsvUploader() {
     reader.readAsText(file);
   };
 
+	function addEscapedQuotes(json) {
+		const contractInputs = json["contractInputsValues"];
+		for (const key in contractInputs) {
+			if (key === "_initOperation") { 
+				continue;
+			}
+			if (contractInputs.hasOwnProperty(key)) {
+				contractInputs[key] = JSON.stringify(contractInputs[key]);
+			}
+		}
+		return json;
+	}
+
   return (
     <div>
 			<h1>OpenQ Mint Bounty Batcher</h1>
-			<div>This is a utility to input a CSV of your bounty information and convert it to a format for upload to <Link href="https://help.safe.global/en/articles/4680071-transaction-builder">Gnosis Safe Transaction Builder</Link></div>
+			<div>This is a utility to input a CSV of your bounty information and convert it to a format for upload to <Link target="_blank" href="https://help.safe.global/en/articles/4680071-transaction-builder">Gnosis Safe Transaction Builder</Link></div>
       <h2>Step 1: Create Your Bounty CSV</h2>
-			<div>Copy <Link href="https://docs.google.com/spreadsheets/d/1JpJ6xj278Cirez9hldCmUDWlE3ZzwEoFX4kNfNC1oSE/template/preview">this Google Sheets template.</Link>Simply click <b>Use Template</b></div>
-			<h2>Step 2: Click Submit and Download JSON</h2>
-			<h2>Step 3: Drag and drop the downloaded file to the Gnosis Safe App Transaction Builder</h2>
+			<div>Copy <Link target="_blank" href="https://docs.google.com/spreadsheets/d/1JpJ6xj278Cirez9hldCmUDWlE3ZzwEoFX4kNfNC1oSE/template/preview">this Google Sheets template.</Link>Simply click <b>Use Template</b></div>
+			<h2>Step 2: Download your Google Sheet as a CSV</h2>
+			<div>File -&gt; Download -&gt; Comma Separated Values (.csv)</div>
+			<h2>Step 3: Choose File here and select you CSV file</h2>
+			<h2>Step 4: Click Submit and Download JSON</h2>
+			<h2>Step 5: Navigate to the Transaction Builder Safe App</h2>
+			<div>Go to https://app.safe.global, navigate to Apps. Search for <b>Transaction Builder</b></div>
+			<h2>Step 6: Drag and drop the downloaded file to the Gnosis Safe App Transaction Builder</h2>
 			<input type='file' onChange={handleFileUpload} />
       {mintBountyBatchData && (
         <div>
