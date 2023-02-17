@@ -21,13 +21,17 @@ export default function Header() {
             </div>
           </div>
         </Link>
-        <h1 className='max-w-2xl mt-5 text-4xl lg:text-6xl lg:mt-10'>The New Universe For Builders</h1>
-        <p className='max-w-xl text-zinc-400 lead mb-5 text-xl lg:text-2xl lg:mt-5'>
+        <h1 className='text-center mt-10 text-4xl md:text-left md:leading-tight md:text-6xl'>
+          The New Universe
+          <br />
+          For Builders
+        </h1>
+        <p className='text-center max-w-md mx-auto md:mx-0 text-zinc-400 mb-5 text-xl md:text-3xl md:max-w-xl md:text-left mt-5'>
           Join the ultimate hub for builders and turn your ideas into reality.
         </p>
       </div>
       <Image
-        className='opacity-20 md:opacity-30 xl:opacity-100 absolute -right-50 top-0 sm:right-0 sm:-top-10 lg:right-20 lg:top-10 z-0 min-w-[450px]'
+        className='opacity-10 md:opacity-30 xl:opacity-100 absolute -right-50 top-0 sm:right-0 sm:-top-10 lg:right-20 lg:top-10 z-0 min-w-[450px]'
         src='/explore/planet.png'
         alt=''
         width={571}
