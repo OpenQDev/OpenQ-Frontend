@@ -93,7 +93,7 @@ class OpenQClient {
       const hasFundingGoal = fundVolumeInWei > 0;
 
       switch (type) {
-        case 'Fixed Price':
+        case 0:
           {
             let abiCoder = new ethers.utils.AbiCoder();
             const fundingGoalBountyParams = abiCoder.encode(
@@ -113,7 +113,7 @@ class OpenQClient {
             bountyInitOperation = [0, fundingGoalBountyParams];
           }
           break;
-        case 'Split Price':
+        case 1:
           {
             const payoutVolumeInWei = data.payoutVolume * 10 ** data.payoutToken.decimals;
             const payoutBigNumberVolumeInWei = ethers.BigNumber.from(
@@ -152,7 +152,7 @@ class OpenQClient {
             bountyInitOperation = [1, ongoingAbiEncodedParams];
           }
           break;
-        case 'Contest':
+        case 2:
           {
             const tieredAbiEncodedParams = abiCoder.encode(
               ['uint256[]', 'bool', 'address', 'uint256', 'bool', 'bool', 'bool', 'string', 'string', 'string'],
@@ -172,7 +172,7 @@ class OpenQClient {
             bountyInitOperation = [2, tieredAbiEncodedParams];
           }
           break;
-        case 'Fixed Contest':
+        case 3:
           {
             const tierVolumes = data.tiers.map((tier) => {
               const payoutVolumeInWei = tier * 10 ** data.payoutToken.decimals;

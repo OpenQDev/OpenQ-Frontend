@@ -306,3 +306,31 @@ export const fetchRepositories = async (appState, variables) => {
     return [];
   }
 };
+
+export const getBountyTypeName = (type) => {
+  const bountyType = type?.toString();
+  switch (bountyType) {
+    case '0':
+      return 'Fixed Price';
+    case '1':
+      return 'Split Price';
+    case '2':
+      return 'Contest';
+    case '3':
+      return 'Hackathon';
+    default:
+      return 'Unknown';
+  }
+};
+export const getTypeFromCategory = (category) => {
+  switch (category) {
+    case 'Fixed Price':
+      return 0;
+    case 'Split Price':
+      return 1;
+    case 'Hackathon':
+      return 3;
+    default:
+      return 0;
+  }
+};

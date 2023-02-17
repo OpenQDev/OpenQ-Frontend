@@ -171,21 +171,6 @@ class Utils {
     return fullBounties;
   };
 
-  getBountyTypeName = (bounty) => {
-    switch (bounty.bountyType) {
-      case '0':
-        return 'Fixed Price';
-      case '1':
-        return 'Split Price';
-      case '2':
-        return 'Contest';
-      case '3':
-        return 'Fixed Contest';
-      default:
-        return 'Unknown';
-    }
-  };
-
   fetchOrganizations = async ({ githubRepository, openQPrismaClient }, types, category) => {
     const promise = new Promise(async (resolve, reject) => {
       let githubOrganizations = [];

@@ -35,7 +35,7 @@ import Gear from '../../../components/svg/gear';
 import ClaimOverview from '../../../components/Claim/ClaimOverview';
 import Log from '../../../components/svg/log';
 import FundProvider from '../../../components/FundBounty/FundStore/FundProvider';
-import { checkClaimable } from '../../../services/utils/lib';
+import { checkClaimable, getBountyTypeName } from '../../../services/utils/lib';
 
 const address = ({ address, mergedBounty, renderError }) => {
   // Context
@@ -134,7 +134,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 
   // Hooks
   useEffect(() => {
-    const bountyTypeName = appState.utils.getBountyTypeName(bounty);
+    const bountyTypeName = getBountyTypeName(bounty.bountyType);
     ReactGA.event(
       {
         category: bountyTypeName,

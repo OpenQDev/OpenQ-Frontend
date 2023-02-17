@@ -5,7 +5,7 @@ import ModalDefault from '../Utils/ModalDefault';
 import ToolTipNew from '../Utils/ToolTipNew';
 import GetSupportModal from './GetSupportModal';
 
-const ContractWizard = ({ wizardVisibility, refreshBounties }) => {
+const ContractWizard = ({ wizardVisibility }) => {
   const [type, setType] = useState(0);
   const [mintModal, setMintModal] = useState(false);
   const [supportModal, setSupportModal] = useState(false);
@@ -49,9 +49,11 @@ const ContractWizard = ({ wizardVisibility, refreshBounties }) => {
   }, [mintModal]);
 
   const handleTypeChange = () => {
-    setType(type + 1);
+    if (type == 1) {
+      setType(type + 2);
+    } else setType(type + 1);
   };
-
+  console.log('contract wizard', type);
   const resetState = () => {
     wizardVisibility(false);
   };
@@ -139,13 +141,8 @@ const ContractWizard = ({ wizardVisibility, refreshBounties }) => {
       ) : (
         <>
           {mintModal && (
-            <MintProvider types={[type.toString()]}>
-              <MintBountyModal
-                modalVisibility={setMintModal}
-                types={[type.toString()]}
-                hideSubmenu={true}
-                refreshBounties={refreshBounties}
-              />
+            <MintProvider type={type}>
+              <MintBountyModal modalVisibility={setMintModal} />
             </MintProvider>
           )}
         </>

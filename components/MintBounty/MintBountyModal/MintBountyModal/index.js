@@ -23,6 +23,7 @@ import SubMenu from '../../../Utils/SubMenu';
 import ModalLarge from '../../../Utils/ModalLarge';
 import KycRequiredToggle from '../KycRequiredToggle';
 import W8RequiredToggle from '../W8RequiredToggle';
+import { getBountyTypeName, getTypeFromCategory } from '../../../../services/utils/lib';
 
 const MintBountyModal = ({ modalVisibility }) => {
   const [appState] = useContext(StoreContext);
@@ -32,22 +33,14 @@ const MintBountyModal = ({ modalVisibility }) => {
   const [issue, setIssue] = useState();
   const [error, setError] = useState();
 
-  const { category, isLoading } = mintState;
+  const { type, isLoading } = mintState;
 
   const handleSetCategory = (category) => {
-    if (category === 'Contest') {
-      const dispatch = {
-        payload: 'Fixed Contest',
-        type: 'SET_CATEGORY',
-      };
-      mintDispatch(dispatch);
-    } else {
-      const dispatch = {
-        payload: category,
-        type: 'SET_CATEGORY',
-      };
-      mintDispatch(dispatch);
-    }
+    const dispatch = {
+      payload: getTypeFromCategory(category),
+      type: 'SET_TYPE',
+    };
+    mintDispatch(dispatch);
   };
 
   const modal = useRef();
@@ -112,7 +105,7 @@ const MintBountyModal = ({ modalVisibility }) => {
         <ErrorModal setShowErrorModal={closeModal} error={error} />
       ) : (
         <ModalLarge
-          title={`Deploy ${category} Contract`}
+          title={`Deploy ${getBountyTypeName(type)} Contract`}
           footerLeft={footerLeft}
           footerRight={btn}
           setShowModal={modalVisibility}
@@ -125,9 +118,9 @@ const MintBountyModal = ({ modalVisibility }) => {
                 items={[
                   { name: 'Fixed Price', Svg: PersonIcon },
                   { name: 'Split Price', Svg: PersonAddIcon },
-                  { name: 'Contest', Svg: PeopleIcon },
+                  { name: 'Hackathon', Svg: PeopleIcon },
                 ]}
-                internalMenu={category}
+                internalMenu={getBountyTypeName(type)}
                 updatePage={handleSetCategory}
                 styles={'justify-center'}
                 vertical={true}
@@ -135,14 +128,12 @@ const MintBountyModal = ({ modalVisibility }) => {
             </div>
             <div className='overflow-y-auto px-2'>
               <h3 className='text-xl pt-2'>
-                {category === 'Split Price'
+                {type === 1
                   ? 'Pay out a fixed amount to any contributors who submit work to this bounty, as many times as you like'
-                  : `Create a${category === 'Fixed price' ? 'n' : ''} ${
-                      category !== 'Fixed Contest' ? category : 'Contest'
-                    } Contract to send funds to any GitHub issue`}
+                  : `Create a ${getBountyTypeName(type)} Contract to send funds to any GitHub issue`}
               </h3>
               <MintBountyInputIssue />
-              {category === 'Fixed Contest' && (
+              {type === 3 && (
                 <>
                   <InvoiceableToggle />
                   <KycRequiredToggle />
@@ -150,16 +141,16 @@ const MintBountyModal = ({ modalVisibility }) => {
                 </>
               )}
               <TokenProvider>
-                <Budgeting category={category} />{' '}
+                <Budgeting />{' '}
               </TokenProvider>
 
-              {category === 'Split Price' ? (
+              {type === 1 ? (
                 <>
                   <TokenProvider>
                     <AddSplitPriceParams />
                   </TokenProvider>
                 </>
-              ) : category === 'Contest' || category === 'Fixed Contest' ? (
+              ) : type === 2 || type === 3 ? (
                 <>
                   <AddContestParams />
                 </>

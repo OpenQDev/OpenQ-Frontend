@@ -10,6 +10,7 @@ import useGetTokenValues from '../../../hooks/useGetTokenValues';
 import PieChart from '../PieChart';
 import { ethers } from 'ethers';
 import useDisplayValue from '../../../hooks/useDisplayValue';
+import { getBountyTypeName } from '../../../services/utils/lib';
 
 const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
   const [appState] = useContext(StoreContext);
@@ -71,7 +72,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
     setFundsNeeded(fundsNeeded);
   }, [bounty]);
 
-  const type = appState.utils.getBountyTypeName(bounty);
+  const typeName = getBountyTypeName(bounty.bountyType);
 
   function formatVolume(tierVolume) {
     const tokenMetadata = appState.tokenClient.getToken(bounty.payoutTokenAddress);
@@ -89,7 +90,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
         <>
           <li className='border-b border-web-gray py-3'>
             <div className='text-xs font-semibold text-muted'>Type of Contract</div>
-            <div className='text-xs font-semibold text-primary leading-loose'>{type}</div>
+            <div className='text-xs font-semibold text-primary leading-loose'>{typeName}</div>
           </li>
           <li className='border-b border-web-gray py-3'>
             <div className='text-xs font-semibold text-muted'>Requirements</div>

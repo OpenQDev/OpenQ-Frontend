@@ -100,9 +100,6 @@ export const getServerSideProps = async (context) => {
     case 'contests':
       types = ['2', '3'];
       break;
-    case 'split-price':
-      types = ['1'];
-      break;
   }
 
   const batch = 10;

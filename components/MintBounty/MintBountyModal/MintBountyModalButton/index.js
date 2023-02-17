@@ -21,7 +21,7 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
     registrationDeadline,
     startDate,
     enableRegistration,
-    category,
+    type,
     payoutToken,
     payoutVolume,
     finalTierVolumes,
@@ -34,9 +34,7 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
     altName,
     altUrl,
   } = mintState;
-  const sum = finalTierVolumes.length ? finalTierVolumes.reduce((a, b) => a + b) : 0;
 
-  const enableContest = category === 'Contest' ? sum == 100 : true;
   const [appState, dispatch] = useContext(StoreContext);
   const datesCheck = checkHackathonDates(startDate, registrationDeadline, new Date());
   const { accountData } = appState;
@@ -45,13 +43,7 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
   const router = useRouter();
   const loggedInIfNeeded = accountData.id;
   const readyToMint =
-    enableMint &&
-    !issue?.closed &&
-    issue?.url.includes('/issues/') &&
-    !isLoading &&
-    enableContest &&
-    datesCheck &&
-    loggedInIfNeeded;
+    enableMint && !issue?.closed && issue?.url.includes('/issues/') && !isLoading && datesCheck && loggedInIfNeeded;
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
@@ -88,14 +80,14 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
       const dispatch = { type: 'SET_LOADING', payload: true };
       mintDispatch(dispatch);
       let data;
-      switch (category) {
-        case 'Fixed Price':
+      switch (type) {
+        case 0:
           data = {
             fundingTokenVolume: goalVolume,
             fundingTokenAddress: goalToken,
           };
           break;
-        case 'Split Price':
+        case 1:
           data = {
             payoutVolume: payoutVolume,
             payoutToken: payoutToken,
@@ -103,14 +95,14 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
             fundingTokenAddress: goalToken,
           };
           break;
-        case 'Contest':
+        case 2:
           data = {
             fundingTokenVolume: goalVolume,
             fundingTokenAddress: goalToken,
             tiers: finalTierVolumes,
           };
           break;
-        case 'Fixed Contest':
+        case 3:
           data = {
             payoutToken: payoutToken,
             tiers: finalTierVolumes,
@@ -119,14 +111,14 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
           };
           break;
         default:
-          throw new Error(`No type: ${category}`);
+          throw new Error(`No type: ${type}`);
       }
       const { bountyAddress } = await appState.openQClient.mintBounty(
         library,
         issue.id,
         issue.repository.owner.id,
         accountData.id,
-        category,
+        type,
         invoiceable,
         kycRequired,
         supportingDocumentsRequired,
@@ -175,8 +167,6 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
               ? 'Issue closed'
               : !enableMint || !issue?.url?.includes('/issues/')
               ? 'Please choose an elgible issue.'
-              : !enableContest
-              ? 'Please make sure the sum of tier percentages adds up to 100.'
               : !datesCheck
               ? 'Please make sure your Hackathon Start Date is > today and your End Date after your Start Date.'
               : !loggedInIfNeeded

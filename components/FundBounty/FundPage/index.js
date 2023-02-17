@@ -22,7 +22,7 @@ import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
 import useFundBountyMethod from '../hooks/useFundBountyMethod';
 import TokenContext from '../../TokenSelection/TokenStore/TokenContext';
-import { shortenAddress } from '../../../services/utils/lib';
+import { shortenAddress, getBountyTypeName } from '../../../services/utils/lib';
 import { useRouter } from 'next/router';
 
 const FundPage = () => {
@@ -184,7 +184,7 @@ const FundPage = () => {
           {canFund ? (
             <div className='flex flex-col w-full space-y-5 pb-8 items-center md:border rounded-sm border-gray-700'>
               <div className='flex text-3xl w-full text-primary justify-center px-16 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
-                Escrow Funds in {utils.getBountyTypeName(bounty)} Contract
+                Escrow Funds in {getBountyTypeName(bounty.bountyType)} Contract
               </div>
               <div className='flex flex-col space-y-5 w-5/6 pt-2'>
                 {!pickedNft ? (

@@ -33,7 +33,7 @@ const InvoiceableToggle = () => {
         <div className='flex text-sm rounded-sm text-primary '>
           <SmallToggle toggleVal={reverseBool(invoiceable)} names={['Yes', 'No']} toggleFunc={setInvoiceable} />
         </div>
-        <span className='note'>Note: crowdfunding is not available on contracts for which invoicing is required.</span>
+        <div className='note'>Note: crowdfunding is not available on contracts for which invoicing is required.</div>
       </div>
     </div>
   );

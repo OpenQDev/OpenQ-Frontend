@@ -1,4 +1,5 @@
 const MintReducer = (state, action) => {
+  console.log(state, action);
   switch (action.type) {
     case 'UPDATE_GOAL_TOKEN': {
       return {
@@ -42,10 +43,10 @@ const MintReducer = (state, action) => {
         enableRegistration: action.payload,
       };
     }
-    case 'SET_CATEGORY': {
+    case 'SET_TYPE': {
       return {
         ...state,
-        category: action.payload,
+        type: action.payload,
       };
     }
     case 'UPDATE_FINAL_TIER_VOLUMES': {

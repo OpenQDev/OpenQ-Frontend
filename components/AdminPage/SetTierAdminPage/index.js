@@ -9,6 +9,7 @@ import SetTierValues from '../../MintBounty/MintBountyModal/AddContestParams/Set
 import AdminModal from '../AdminModal/index.js';
 import TokenContext from '../../TokenSelection/TokenStore/TokenContext';
 import { ethers } from 'ethers';
+import { getBountyTypeName } from '../../../services/utils/lib';
 
 const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   // Context
@@ -18,7 +19,7 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   const [tokenState] = useContext(TokenContext);
   const { token } = tokenState;
   const [showTokenSearch, setShowTokenSearch] = useState();
-  const bountyTypeName = appState.utils.getBountyTypeName(bounty);
+  const bountyTypeName = getBountyTypeName(bounty.bountyType);
 
   const [, tokenDispatch] = useContext(TokenContext);
   const [initialVolumes, setInitialVolumes] = useState([]);

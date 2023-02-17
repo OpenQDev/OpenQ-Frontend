@@ -6,10 +6,10 @@ import { parseVolume } from '../../../../services/utils/lib';
 import MintContext from '../../MintContext';
 import TokenContext from '../../../TokenSelection/TokenStore/TokenContext';
 
-const Budgeting = ({ category }) => {
+const Budgeting = () => {
   const [budget, setBudget] = useState();
   const [mintState, mintDispatch] = useContext(MintContext);
-  const { goalToken, goalVolume } = mintState;
+  const { goalToken, goalVolume, type } = mintState;
   const [tokenState] = useContext(TokenContext);
   const { token } = tokenState;
 
@@ -35,7 +35,7 @@ const Budgeting = ({ category }) => {
 
   return (
     <>
-      {category !== 'Fixed Contest' && (
+      {type !== 3 && (
         <div className=' flex flex-col gap-2 w-full py-2 items-start text-base bg-[#161B22]'>
           <div className='flex items-center gap-2 font-semibold'>
             Set a Budget
@@ -43,7 +43,7 @@ const Budgeting = ({ category }) => {
             <ToolTipNew
               innerStyles={'w-40 whitespace-normal'}
               toolTipText={
-                category === 'Fixed Price'
+                type === 0 || type === 1
                   ? 'Amount of funds you would like to escrow on this issue.'
                   : 'How much will each successful submitter earn?'
               }

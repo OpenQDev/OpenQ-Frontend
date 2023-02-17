@@ -40,7 +40,9 @@ const W8RequiredToggle = () => {
             toggleFunc={setSupportingDocumentsRequired}
           />
         </div>
-        <span className='note'>Note: crowdfunding is not available on contracts for which W8/W9 form is required.</span>
+        <div className='note leading-normal'>
+          Note: crowdfunding is not available on contracts for which W8/W9 form is required.
+        </div>
       </div>
     </div>
   );

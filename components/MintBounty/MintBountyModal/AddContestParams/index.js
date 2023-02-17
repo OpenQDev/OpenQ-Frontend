@@ -5,6 +5,7 @@ import SetTierValues from './SetTierValues';
 import MintContext from '../../MintContext';
 import StoreContext from '../../../../store/Store/StoreContext';
 import TokenProvider from '../../../TokenSelection/TokenStore/TokenProvider';
+import { getBountyTypeName } from '../../../../services/utils/lib';
 
 const AddContestParams = () => {
   const [appState] = useContext(StoreContext);
@@ -13,7 +14,7 @@ const AddContestParams = () => {
   const [tierVolumes, setTierVolumes] = useState({ 0: 1, 1: 1, 2: 1 });
   const [currentSum, setCurrentSum] = useState(0);
   const [mintState, mintDispatch] = useContext(MintContext);
-  const { category, finalTierVolumes } = mintState;
+  const { finalTierVolumes, type } = mintState;
 
   const setFinalTierVolumes = (tierVolumes) => {
     const dispatch = {
@@ -105,7 +106,7 @@ const AddContestParams = () => {
       {tier > 0 ? (
         <TokenProvider>
           <SetTierValues
-            category={category}
+            category={getBountyTypeName(type)}
             sum={sum}
             currentSum={currentSum}
             finalTierVolumes={finalTierVolumes}

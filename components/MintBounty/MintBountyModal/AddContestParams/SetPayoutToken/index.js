@@ -6,7 +6,7 @@ import TokenContext from '../../../../TokenSelection/TokenStore/TokenContext';
 
 const SetPayoutToken = ({ content }) => {
   const [mintState, mintDispatch] = useContext(MintContext);
-  const { category, hideModal } = mintState;
+  const { hideModal, type } = mintState;
   const [tokenState] = useContext(TokenContext);
   const { token } = tokenState;
 
@@ -28,7 +28,7 @@ const SetPayoutToken = ({ content }) => {
 
   return (
     <>
-      {category === 'Fixed Contest' && (
+      {type === 3 && (
         <div className='flex flex-col w-11/12 items-start py-2 gap-2 text-base pb-4'>
           <div className='flex items-center gap-2'>
             <div className='flex items-center gap-2 font-semibold '>
