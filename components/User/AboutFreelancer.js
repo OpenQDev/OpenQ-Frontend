@@ -170,7 +170,12 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
                 <FreelancerDetails emailOnly={true} /> <FreelancerDetails />
               </>
             )}
-            {internalMenu === '📃Invoicing (Org)' && <OrgDetails showWatched={isOwner} />}
+            {internalMenu === '📃Invoicing (Org)' && (
+              <>
+                {' '}
+                <OrgDetails showWatched={isOwner} emailOnly={true} /> <OrgDetails showWatched={isOwner} />
+              </>
+            )}
           </div>
         </div>
       </div>

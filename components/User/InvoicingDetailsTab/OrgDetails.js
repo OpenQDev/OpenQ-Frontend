@@ -5,13 +5,15 @@ import StoreContext from '../../../store/Store/StoreContext';
 const InvoicingDetails = ({ slim, emailOnly }) => {
   const [appState, dispatch] = useContext(StoreContext);
   const { openQPrismaClient } = appState;
+  const [emailInvalid, setEmailInvalid] = useState(false);
   const [formState, setFormState] = useState({ text: 'Update', className: 'btn-primary' });
   // const formValuesSocial = [{ value: 'twitter' }, { value: 'discord' }];
   const { accountData } = appState;
 
   const formValuesInvoicing = emailOnly
     ? [{ value: 'invoicingEmail', displayValue: 'Invoicing Email', required: true }]
-    : [
+    : slim
+    ? [
         {
           value: 'company',
           displayValue: 'Company',
@@ -29,6 +31,26 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
           required: true,
         },
         { value: 'invoicingEmail', displayValue: 'Invoicing Email', required: true },
+        { value: 'country', required: true },
+        { value: 'province', displayValue: 'State/Province', required: true },
+      ]
+    : [
+        {
+          value: 'company',
+          displayValue: 'Company',
+          required: true,
+        },
+
+        {
+          value: 'city',
+          required: true,
+        },
+        {
+          value: 'streetAddress',
+
+          displayValue: 'Billing Address',
+          required: true,
+        },
         { value: 'country', required: true },
         { value: 'province', displayValue: 'State/Province', required: true },
       ];
@@ -53,6 +75,16 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
             if (!input.value && input.required) {
               throw new Error('Please enter a value for ${input.id}');
             }
+            if (input.value === 'invoicingEmail') {
+              const emailRegex = new RegExp(
+                // eslint-disable-next-line no-control-regex
+                /^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/
+              );
+
+              const emailValid = emailRegex.test(input.value);
+              setEmailInvalid(!emailValid);
+              if (!emailValid) throw new Error('Please enter a valid email');
+            }
             return { [input.id]: input.value };
           });
         interMediateValue.forEach((inputObj) => {
@@ -60,20 +92,6 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
             formValues[key] = inputObj[key];
           }
         });
-        if (formValues.invoicingEmail) {
-          try {
-            const formData = new FormData();
-            formData.append('api_key', process.env.NEXT_PUBLIC_CONVERTKIT_API_KEY);
-            //   formData.append('email', formValues.email);
-            const response = await fetch('https://api.convertkit.com/v3/forms/3697685/subscribe', {
-              method: 'POST',
-              body: formData,
-            });
-            await response.json();
-          } catch (err) {
-            appState.logger.error(err, accountData.id, 'OrgDetails.js1');
-          }
-        }
 
         const { updateUser } = await openQPrismaClient.updateUser(formValues);
         if (updateUser) {
@@ -105,27 +123,41 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
         <>
           <div className='flex justify-between mt-12'>
             <h2 className='flex justify-between w-full text-2xl pb-4 font-semibold border-b border-gray-700'>
-              Organization Invoicing Information
+              <div>{emailOnly ? 'Organization Email' : 'Organization Invoicing Information'}</div>
             </h2>
           </div>
-          <div className='mt-4 note'>
-            OpenQ will use these values to generate invoices when the contracts you fund
-            {slim && ' (including this one)'} are payed out.
-          </div>
+          {!emailOnly && (
+            <div className='mt-4 note'>
+              OpenQ will use these values to generate invoices when the contracts you fund
+              {slim && ' (including this one)'} are payed out.
+            </div>
+          )}
         </>
       )}
       <form className='font-normal max-w-[500px] gap-4' onSubmit={submitProfileData}>
         {formValuesInvoicing.map((invoicingField) => {
           return (
-            <StyledInput
-              highlightEmpty={slim}
-              defaultValue={accountData?.[invoicingField.value]}
-              key={invoicingField.value}
-              value={invoicingField.value}
-              type={invoicingField.type}
-              optional={!invoicingField.required}
-              displayValue={invoicingField.displayValue}
-            />
+            <>
+              {' '}
+              <StyledInput
+                highlightEmpty={slim}
+                defaultValue={accountData?.[invoicingField.value]}
+                key={invoicingField.value}
+                value={invoicingField.value}
+                type={invoicingField.type}
+                optional={!invoicingField.required}
+                displayValue={invoicingField.displayValue}
+              />
+              {emailInvalid && invoicingField.value === 'invoicingEmail' && (
+                <div className='note mb-2 -mt-2 text-danger'>Please enter a valid email address</div>
+              )}
+              {emailOnly && (
+                <div className='note my-4'>
+                  This email will be publicly accesible and will be used by freelancers to communicate with you. OpenQ
+                  will also use this email to send any documents you require from freelancers.
+                </div>
+              )}
+            </>
           );
         })}
 
