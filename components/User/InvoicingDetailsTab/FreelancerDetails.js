@@ -61,7 +61,7 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
     setFormState({ text: 'Updating...', className: 'btn-default', disabled: true });
     return new Promise(async (resolve) => {
       try {
-        const formValues = { github: githubId };
+        const formValues = { github: githubId, email: accountData.email };
         const form = e.target;
         const interMediateValue = Object.values(form)
           .filter((input) => input.nodeName === 'INPUT' && input.type !== 'submit')
@@ -79,37 +79,23 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
             if (input.id === 'invoicingEmail') {
               const emailRegex = new RegExp(
                 // eslint-disable-next-line no-control-regex
-                /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
+                /^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/
               );
-              setEmailInvalid(!emailRegex.test(input.value));
-              throw new Error('Please enter a valid email');
+              console.log(input.value);
+              const emailValid = emailRegex.test(input.value);
+              setEmailInvalid(!emailValid);
+              if (!emailValid) throw new Error('Please enter a valid email');
             }
             return { [input.id]: input.value };
           });
         interMediateValue.forEach((inputObj) => {
           for (let key in inputObj) {
-            if (key !== 'email') {
-              formValues[key] = inputObj[key];
-            }
+            formValues[key] = inputObj[key];
           }
         });
-        if (formValues.email) {
-          try {
-            const formData = new FormData();
-            formData.append('api_key', process.env.NEXT_PUBLIC_CONVERTKIT_API_KEY);
-            formData.append('email', formValues.email);
-            const response = await fetch('https://api.convertkit.com/v3/forms/3697685/subscribe', {
-              method: 'POST',
-              body: formData,
-            });
-            await response.json();
-          } catch (err) {
-            appState.logger.error(err, accountData.id, 'FreelancerDetails.js1');
-          }
-        }
 
         const { updateUser } = await openQPrismaClient.updateUser(formValues);
-
+        console.log(updateUser);
         if (updateUser) {
           const accountDispatch = {
             type: 'UPDATE_ACCOUNT_DATA',
@@ -126,6 +112,7 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
           resolve(true);
         }
       } catch (err) {
+        console.log(err);
         if (err.message === 'Please enter a valid email') {
           setFormState({ text: 'Update', className: 'btn-primary', disabled: false });
         }

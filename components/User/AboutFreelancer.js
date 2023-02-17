@@ -21,7 +21,6 @@ import KycRequirement from '../Claim/ClaimPage/KycRequirement';
 const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) => {
   const [internalMenu, setInternalMenu] = useState(tab || 'Overview');
   const [appState] = useContext(StoreContext);
-  const { github } = appState.accountData;
   const [watchedFullBounties, setWatchedFullBounties] = useState([]);
   const [githubUser, setGithubUser] = useState();
 
@@ -166,7 +165,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
             {internalMenu === 'Watching' && isOwner && watchedFullBounties.length > 0 && (
               <Watching watchedBounties={watchedFullBounties} />
             )}
-            {internalMenu === '📃Invoicing (Freelancer)' && github && (
+            {internalMenu === '📃Invoicing (Freelancer)' && (
               <>
                 <FreelancerDetails emailOnly={true} /> <FreelancerDetails />
               </>

@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '../../../../test-utils';
+import { render, screen } from '../../../../test-utils';
 import React from 'react';
 import AddSkill from '.';
 import userEvent from '@testing-library/user-event';
