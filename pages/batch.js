@@ -4,6 +4,8 @@ import { ethers } from 'ethers';
 import StoreContext from '../store/Store/StoreContext';
 import mintBountyTemplate from '../constants/mintBountyTemplate.json';
 import mintBountyTransactionTemplate from '../constants/mintBountyTransactionTemplate.json';
+import md4 from "js-md4"
+import Link from "next/link"
 
 function CsvUploader() {
   const [csvData, setCsvData] = useState([]);
@@ -16,10 +18,15 @@ function CsvUploader() {
   };
 
   const handleDownload = () => {
+		const stringifiedJsonData = JSON.stringify(mintBountyBatchData)
     const element = document.createElement('a');
-    const file = new Blob([JSON.stringify(mintBountyBatchData)], { type: 'application/json' });
+    const file = new Blob([stringifiedJsonData], { type: 'application/json' });
     element.href = URL.createObjectURL(file);
-    element.download = 'data.json';
+    
+		const textEncoder = new TextEncoder();
+		const md4Digest = md4(textEncoder.encode(stringifiedJsonData))
+
+		element.download = `mintBountyBatchTransactions-${md4Digest.substring(0, 5)}.json`;
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
@@ -117,36 +124,22 @@ function CsvUploader() {
 
   return (
     <div>
-      <input type='file' onChange={handleFileUpload} />
-      {csvData.length > 0 && (
-        <div>
-          <h2>CSV Data</h2>
-          <table>
-            <thead>
-              <tr>
-                {csvData[0].map((header) => (
-                  <th key={header}>{header}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {csvData.slice(1).map((row, index) => (
-                <tr key={index}>
-                  {row.map((cell, index) => (
-                    <td key={index}>{cell}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+			<h1>OpenQ Mint Bounty Batcher</h1>
+			<div>This is a utility to input a CSV of your bounty information and convert it to a format for upload to <Link href="https://help.safe.global/en/articles/4680071-transaction-builder">Gnosis Safe Transaction Builder</Link></div>
+      <h2>Step 1: Create Your Bounty CSV</h2>
+			<div>Copy <Link href="https://docs.google.com/spreadsheets/d/1JpJ6xj278Cirez9hldCmUDWlE3ZzwEoFX4kNfNC1oSE/template/preview">this Google Sheets template.</Link>Simply click <b>Use Template</b></div>
+			<h2>Step 2: Click Submit and Download JSON</h2>
+			<h2>Step 3: Drag and drop the downloaded file to the Gnosis Safe App Transaction Builder</h2>
+			<input type='file' onChange={handleFileUpload} />
       {mintBountyBatchData && (
         <div>
-          <h2>JSON Data</h2>
-          <pre>{JSON.stringify(mintBountyBatchData)}</pre>
-          <button onClick={handleCopyToClipboard}>Copy to Clipboard</button>
-          <button onClick={handleDownload}>Download JSON</button>
+          <h2>Gnosis Safe Transaction Builder JSON - Mint Bounty {mintBountyBatchData.transactions.length} Bounties</h2>
+          <div>{mintBountyBatchData === null ? "" : "✅ Success! Download JSON below"}</div>
+          <br/>
+					<button style={{background: "green"}} onClick={handleDownload}>Download JSON</button>
+          <br/>
+					<br/>
+					<button style={{background: "green"}} onClick={handleCopyToClipboard}>Copy to Clipboard</button>
         </div>
       )}
     </div>

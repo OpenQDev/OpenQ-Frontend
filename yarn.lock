@@ -11758,6 +11758,11 @@ joycon@^2.2.5:
   resolved "https://registry.yarnpkg.com/joycon/-/joycon-2.2.5.tgz#8d4cf4cbb2544d7b7583c216fcdfec19f6be1615"
   integrity sha512-YqvUxoOcVPnCp0VU1/56f+iKSdvIRJYPznH22BdXV3xMk75SFXhWeJkZ8C9XxUWt1b5x2X1SxuFygW1U0FmkEQ==
 
+js-md4@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/js-md4/-/js-md4-0.3.2.tgz#cd3b3dc045b0c404556c81ddb5756c23e59d7cf5"
+  integrity sha512-/GDnfQYsltsjRswQhN9fhv3EMw2sCpUdrdxyWDOUK7eyD++r3gRhzgiQgc/x4MAv2i1iuQ4lxO5mvqM3vj4bwA==
+
 js-sdsl@^4.1.4:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/js-sdsl/-/js-sdsl-4.3.0.tgz#aeefe32a451f7af88425b11fdb5f58c90ae1d711"
