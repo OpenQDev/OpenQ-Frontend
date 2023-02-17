@@ -27,12 +27,6 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   useEffect(() => {
     const depositTokenAddress = bounty?.deposits[0]?.tokenAddress;
     const payoutTokenAddress = bounty?.payoutTokenAddress;
-    const tokenMetadata = appState.tokenClient.getToken(payoutTokenAddress);
-    setInitialVolumes(
-      bounty.payoutSchedule?.map((p) => {
-        return formatVolume(p, tokenMetadata);
-      }) || []
-    );
     if (bounty?.bountyType == '3' && bounty?.deposits?.length > 0) {
       const tokenAddressDispatch = {
         type: 'SET_TOKEN',
@@ -43,6 +37,12 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
       };
       tokenDispatch(tokenAddressDispatch);
     } else if (bounty?.bountyType == '3' && bounty?.payoutSchedule?.length > 0) {
+      const tokenMetadata = appState.tokenClient.getToken(payoutTokenAddress);
+      setInitialVolumes(
+        bounty.payoutSchedule?.map((p) => {
+          return formatVolume(p, tokenMetadata);
+        }) || []
+      );
       const tokenAddressDispatch = {
         type: 'SET_TOKEN',
         payload: {

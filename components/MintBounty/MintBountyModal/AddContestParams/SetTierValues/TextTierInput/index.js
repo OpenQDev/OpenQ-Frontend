@@ -12,7 +12,7 @@ const TextTierInput = ({ tier, tierVolumes, onTierVolumeChange, style, decimal, 
   }, []);
 
   useEffect(() => {
-    if (adminPage) setLocalValue(tierVolumes[tier - 1] || 1);
+    if (adminPage) setLocalValue(tierVolumes[tier - 1]);
   }, [tierVolumes]);
 
   const handleChange = (value, tierVolumes) => {
