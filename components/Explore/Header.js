@@ -32,6 +32,7 @@ export default function Header() {
         alt=''
         width={571}
         height={587}
+        priority={true}
       />
     </header>
   );
