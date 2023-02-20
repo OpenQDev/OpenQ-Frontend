@@ -166,9 +166,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
               </div>
             )}
             {internalMenu == 'Stars' && <Starred starredOrganizations={starredOrganizations} />}
-            {internalMenu === 'Watching' && isOwner && watchedFullBounties.length > 0 && (
-              <Watching watchedBounties={watchedFullBounties} />
-            )}
+            {internalMenu === 'Watching' && <Watching watchedBounties={watchedFullBounties} />}
             {internalMenu === '📃Invoicing (Freelancer)' && (
               <>
                 <FreelancerDetails emailOnly={true} /> <FreelancerDetails />
