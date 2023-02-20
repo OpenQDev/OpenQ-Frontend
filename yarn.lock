@@ -2814,10 +2814,10 @@
     parse-svg-path "^0.1.2"
     svg-arc-to-cubic-bezier "^3.2.0"
 
-"@react-pdf/renderer@3.1.4":
-  version "3.1.4"
-  resolved "https://registry.yarnpkg.com/@react-pdf/renderer/-/renderer-3.1.4.tgz#47fd12896b86eeb4e4751d0ef3c242d731ca40ff"
-  integrity sha512-r46BKW4Y2bhan6ykXNUunjWqBcID6Bbda2WoQnk+hSlUoru5vMyZYPI/PtvWRXacuiqUvMzTEUQLm+mRRHEJGg==
+"@react-pdf/renderer@3.1.5":
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/@react-pdf/renderer/-/renderer-3.1.5.tgz#e911a98bbf27adaaee61992f4e08d58c3de12716"
+  integrity sha512-jZkj5ckZfkWyLVVh37E7bOcvo9TaqemnMogQt5TZw0F4yNG/QLyPI4KTvOoOj80HQ9QFG7BnanA6igGLh3ZJuw==
   dependencies:
     "@babel/runtime" "^7.16.4"
     "@react-pdf/font" "^2.3.1"
@@ -2826,6 +2826,7 @@
     "@react-pdf/primitives" "^3.0.0"
     "@react-pdf/render" "^3.2.1"
     "@react-pdf/types" "^2.2.0"
+    events "^3.3.0"
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.2"
