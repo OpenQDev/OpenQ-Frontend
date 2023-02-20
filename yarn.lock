@@ -2358,10 +2358,10 @@
     bs58 "^5.0.0"
     uuid "^8.3.2"
 
-"@kycdao/kycdao-sdk@^0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@kycdao/kycdao-sdk/-/kycdao-sdk-0.6.1.tgz#7dd4c9ba0b31c6c6885449e387a3d66127f7ba8c"
-  integrity sha512-H/Bvge7P8BUH6xORPmn8R0l+wvvWBaw50q2L21N1Wy0gZgkY1qQ5Dm7JBEHiVGvVCE3tqC15QH9Nou6mBcrEKg==
+"@kycdao/kycdao-sdk@^0.6.3":
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/@kycdao/kycdao-sdk/-/kycdao-sdk-0.6.3.tgz#810daf52c41f0dda669888834bd9572413b7dd13"
+  integrity sha512-Rhm467Xb0Bm0u618vn/0b+I3SQs+A1VfV3DqE9QcSkohLFoJbf51ok1cR/ge7oYzJ1NlYNnV4DKztyhkuErE5A==
   dependencies:
     "@solana/wallet-adapter-base" "^0.9.18"
     "@solana/wallet-adapter-wallets" "^0.19.3"
@@ -2369,12 +2369,12 @@
     bn.js "^5.2.1"
     bs58 "^5.0.0"
 
-"@kycdao/widget@0.4.4":
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/@kycdao/widget/-/widget-0.4.4.tgz#cffc4fc0d5dabf020b7f43b7bd280872c098ad34"
-  integrity sha512-PB5GpGR4/2PIG9c7bklWC6eko9HSFmRHTng7svpizT/JSmgRih8eppq3gorYBxEwK6O53H2RXVcXpPO7eIahHg==
+"@kycdao/widget@0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@kycdao/widget/-/widget-0.5.0.tgz#47d2ada028ab7e533109d486160ab22f7f2460ac"
+  integrity sha512-VYH6HzDiNU1KM2CUgRycnrFDImkSw87UEwrXHJlvoYQTK884S4tzj1pkNChl0iPYQU5yaReLgKVVLa5ligQ2kg==
   dependencies:
-    "@kycdao/kycdao-sdk" "^0.6.1"
+    "@kycdao/kycdao-sdk" "^0.6.3"
     buffer "^6.0.3"
     clsx "^1.2.1"
     near-api-js "0.44.2"
