@@ -13,9 +13,9 @@ import LabelsList from '../../Bounty/LabelsList';
 import useDisplayValue from '../../../hooks/useDisplayValue';
 import { getBountyMarker, getBountyTypeName } from '../../../services/utils/lib';
 
-const BountyCardLean = ({ item, loading, index, length, unWatchable }) => {
+const BountyCardLean = ({ item, loading, index, length, unWatchable, noModal }) => {
   // State
-  const bountyName = item?.title.toLowerCase() || '';
+  const bountyName = item?.title?.toLowerCase() || '';
   const [appState] = useContext(StoreContext);
   const [isModal, setIsModal] = useState();
   const [hovered, setHovered] = useState();
@@ -75,12 +75,12 @@ const BountyCardLean = ({ item, loading, index, length, unWatchable }) => {
         bounty={item}
         watchingState={watchingState}
         closeModal={closeModal}
-        showModal={item && isModal}
+        showModal={item && isModal && !noModal}
       />
       <div
         onMouseEnter={handleMouseEnter}
         onClick={openModal}
-        className={`flex flex-col md:px-4 py-4 border-web-gray border-x cursor-pointer border-t ${
+        className={`flex flex-col md:px-4 py-4 border-web-gray border-x ${!noModal && 'cursor-pointer'} border-t ${
           index === length - 1 && 'border-b rounded-b-sm'
         } ${index === 0 && 'rounded-t-sm'}`}
       >
@@ -114,8 +114,8 @@ const BountyCardLean = ({ item, loading, index, length, unWatchable }) => {
             <div className='font-bold text-lg'>
               {loading ? (
                 <Skeleton width={'100px'} />
-              ) : item?.title.length < 50 ? (
-                item?.title.toLowerCase()
+              ) : item?.title?.length < 50 ? (
+                bountyName
               ) : (
                 bountyName.slice(0, 50) + '...'
               )}

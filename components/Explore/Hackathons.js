@@ -16,6 +16,9 @@ import FlexScrollContainer from './FlexScrollContainer';
 import RepoLanguage from './RepoLanguage';
 
 export default function ExploreHackathons({ fullContests }) {
+  const handleStar = (contest) => {
+    console.log(contest);
+  };
   return (
     <div className='sm:grid sm:grid-cols-2 sm:gap-6 md:gap-12 lg:gap-18 xl:gap-24 w-full pt-6 lg:pt-10'>
       <Link href='/contests'>
@@ -55,7 +58,9 @@ export default function ExploreHackathons({ fullContests }) {
                     className='mr-2 rounded-full'
                   />
                   <div className='mr-auto'>{contest.name}</div>
-                  <StarButton />
+                  <div className='hidden'>
+                    <StarButton onClick={() => handleStar(contest)} />
+                  </div>
                 </CardHeader>
                 <CardBody>
                   <div dangerouslySetInnerHTML={{ __html: contest.descriptionHTML }}></div>

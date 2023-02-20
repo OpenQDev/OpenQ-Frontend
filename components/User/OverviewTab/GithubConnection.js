@@ -116,7 +116,7 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
                 </div>
                 <div className='flex gap-2 w-fit'>
                   {claimPage && hasAssociatedAddress && (
-                    <div key={2} className='flex items-center gap-2 btn-verified w-fit'>
+                    <div key={2} className='flex items-center gap-2  btn-primary py-0.5 w-fit'>
                       <Image src='/BountyMaterial/polyscan-white.png' width={20} height={20} alt='link-icon' />
                       Verified
                     </div>

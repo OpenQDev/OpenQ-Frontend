@@ -5,7 +5,7 @@ import Image from 'next/image';
 import GithubSignIn from '../Authentication/GithubSignIn';
 import StoreContext from '../../store/Store/StoreContext';
 
-const UnexpectedErrorModal = ({ error, footerLeft = <></> }) => {
+const UnexpectedErrorModal = ({ error, footerLeft = <></>, closeModal }) => {
   let currentError = '';
   let loginModal;
   const [appState] = useContext(StoreContext);
@@ -29,7 +29,8 @@ const UnexpectedErrorModal = ({ error, footerLeft = <></> }) => {
   }
   const router = useRouter();
   const resetState = () => {
-    router.push('/');
+    if (typeof closeModal === 'function') closeModal();
+    else router.push('/');
   };
   const signIn = (
     <div>

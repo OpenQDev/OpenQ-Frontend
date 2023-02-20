@@ -435,6 +435,7 @@ export const WATCH_BOUNTY = gql`
       watchingUsers {
         id
       }
+      watchingCount
     }
   }
 `;
@@ -443,6 +444,7 @@ export const UNWATCH_BOUNTY = gql`
   mutation UnwatchBounty($contractAddress: String!, $userId: String!, $github: String, $email: String) {
     unwatchBounty(contractAddress: $contractAddress, userId: $userId, github: $github, email: $email) {
       address
+      watchingCount
       watchingUsers {
         id
       }

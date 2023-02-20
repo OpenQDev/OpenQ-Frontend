@@ -97,7 +97,7 @@ export const getServerSideProps = async (context) => {
     case 'marketplace':
       types = ['0', '1'];
       break;
-    case 'contests':
+    case 'hackathons':
       types = ['2', '3'];
       break;
   }

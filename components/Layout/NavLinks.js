@@ -13,8 +13,8 @@ const NavLinks = () => {
         <span>Marketplace</span>
       </Link>
 
-      <Link href={'/contests'} className={`nav-link $ ${router.asPath === '/contests' && 'text-white'}`}>
-        <span> Contests</span>
+      <Link href={'/hackathons'} className={`nav-link $ ${router.asPath === '/hackathons' && 'text-white'}`}>
+        <span> Hackathons</span>
       </Link>
       <Link
         href={'/good-first-issues'}

@@ -24,7 +24,7 @@ const PaginatedList = ({ paginationState, PaginationCard }) => {
   const [paginationObj, setPaginationObj] = paginationState;
   const { getItems, filterFunction, filters, fetchFilters, cursor, complete } = paginationObj;
   const [loading, setLoading] = useState(false);
-  const filtering = (items) => {
+  const filtering = (items, filters, fetchFilters) => {
     return items.filter((item) => {
       return filterFunction(item, filters, fetchFilters);
     });
@@ -79,7 +79,7 @@ const PaginatedList = ({ paginationState, PaginationCard }) => {
     },
     [paginationObj]
   );
-  const filteredItems = filtering(paginationObj.items);
+  const filteredItems = filtering(paginationObj.items, filters, fetchFilters);
   useEffect(() => {
     if (filteredItems.length > 0 || complete || loading) return;
     setLoading(true);

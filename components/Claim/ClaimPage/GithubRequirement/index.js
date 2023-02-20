@@ -16,7 +16,7 @@ const GithubRequirement = ({ githubHasWalletVerifiedState }) => {
             verified ? 'bg-[#1c6f2c] border-[#2ea043]' : setVerified ? 'bg-info border-info-strong' : 'hidden'
           } border-2 text-sm px-2 rounded-full h-6`}
         >
-          {verified ? 'Approved' : setVerified ? 'Required' : null}
+          {verified ? 'Verified' : setVerified ? 'Required' : null}
         </div>
       </h4>
       {claimPageError && (
