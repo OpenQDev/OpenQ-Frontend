@@ -7,6 +7,7 @@ import mintBountyTemplate from '../constants/mintBountyTemplate.json';
 import mintBountyTransactionTemplate from '../constants/mintBountyTransactionTemplate.json';
 import md4 from 'js-md4';
 import Link from 'next/link';
+import Image from 'next/image';
 
 function Batch() {
   const [mintBountyBatchData, setMintBountyBatchData] = useState(null);
@@ -142,7 +143,7 @@ function Batch() {
         </div>
       </div>
       <div className='flex flex-col space-y-4'>
-        <h2 className='text-xl mt-8 font-bold'>Step 1: Create Your Bounty CSV</h2>
+        <h2 className='text-xl pt-8 font-bold'>Step 1: Create Your Bounty CSV</h2>
         <div>
           Copy{' '}
           <Link
@@ -154,12 +155,60 @@ function Batch() {
             this Google Sheets template.
           </Link>{' '}
           Simply click <b>"Use Template"</b>
+          <Image
+            src='/batchPage/Use_Template_Button.png'
+            width={1000}
+            height={80}
+            alt='use template button'
+            className='mt-4'
+          />
         </div>
-        <h2 className='text-xl mt-8 font-bold'>Step 2: Download your Google Sheet as a CSV</h2>
-        <div>File -&gt; Download -&gt; Comma Separated Values (.csv)</div>
-        <h2 className='text-xl mt-8 font-bold'>Step 3: Choose File here and select you CSV file</h2>
-        <h2 className='text-xl mt-8 font-bold'>Step 4: Click Submit and Download JSON</h2>
-        <h2 className='text-xl mt-8 font-bold'>Step 5: Navigate to the Transaction Builder Safe App</h2>
+        <h2 className='text-xl pt-8 font-bold'>Step 2: Download your Google Sheet as a CSV</h2>
+        <div>File =&gt; Download =&gt; Comma Separated Values (.csv)</div>
+        <Image src='/batchPage/Download_CSV.png' width={1000} height={80} alt='use template button' className='my-2' />
+        <h2 className='text-xl pt-8 font-bold'>Step 3: Choose File here and select your CSV file</h2>
+        {/* <label className='btn-primary w-fit' htmlFor='upload'>
+          Choose File
+        </label> */}
+        <input
+          /* className='absolute invisible w-full top-0 bottom-0 z-10' */
+          type='file'
+          id='upload'
+          onChange={handleFileUpload}
+        />
+        {mintBountyBatchData && (
+          <div>
+            {mintBountyBatchData === null ? (
+              ''
+            ) : (
+              <>
+                <div>✅ Success!</div>
+                <div>Now go on to the next step and download your JSON file below:</div>
+              </>
+            )}
+          </div>
+        )}
+        <h2 className='text-xl pt-8 font-bold'>Step 4: Download the generated JSON file</h2>
+        {mintBountyBatchData && (
+          <div className='flex flex-col'>
+            <h2>
+              You will use the Gnosis Safe Transaction Builder JSON to mint {mintBountyBatchData.transactions.length}{' '}
+              bounties.
+              <br />
+              If this is correct, then dowlaod the JSON file and follow the next steps.
+            </h2>
+            <div className='pt-4 flex items-center space-x-4'>
+              <button className='btn-primary' onClick={handleDownload}>
+                Download JSON
+              </button>
+              <div>OR</div>
+              <button className='btn-primary' onClick={handleCopyToClipboard}>
+                Copy to Clipboard
+              </button>
+            </div>
+          </div>
+        )}
+        <h2 className='text-xl pt-8 font-bold'>Step 5: Navigate to the Transaction Builder Safe App</h2>
         <div>
           Go to{' '}
           <Link
@@ -172,36 +221,20 @@ function Batch() {
           </Link>
           , navigate to Apps. Search for <b>"Transaction Builder"</b>
         </div>
-        <h2 className='text-xl mt-8 font-bold'>
+        <div>
+          For a more detailed guide on how to use the Transaction Builder, see{' '}
+          <Link
+            className='hover:underline text-blue-400'
+            rel='noopener norefferer'
+            target='_blank'
+            href='https://help.safe.global/en/articles/4680071-transaction-builder'
+          >
+            https://help.safe.global/en/articles/4680071-transaction-builder
+          </Link>
+        </div>
+        <h2 className='text-xl pt-8 font-bold'>
           Step 6: Drag and drop the downloaded file to the Gnosis Safe App Transaction Builder
         </h2>
-        <label className='btn-primary w-fit' htmlFor='upload'>
-          Choose File
-        </label>
-        <input
-          className='absolute invisible w-full top-0 bottom-0 z-10'
-          type='file'
-          id='upload'
-          onChange={handleFileUpload}
-        />
-        {mintBountyBatchData && (
-          <div>
-            <h2>
-              Gnosis Safe Transaction Builder JSON - Mint Bounty {mintBountyBatchData.transactions.length}
-              Bounties
-            </h2>
-            <div>{mintBountyBatchData === null ? '' : '✅ Success! Download JSON below'}</div>
-            <br />
-            <button style={{ background: 'green' }} onClick={handleDownload}>
-              Download JSON
-            </button>
-            <br />
-            <br />
-            <button style={{ background: 'green' }} onClick={handleCopyToClipboard}>
-              Copy to Clipboard
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );
