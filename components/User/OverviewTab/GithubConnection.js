@@ -100,8 +100,8 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
                       'Github profile not signed in.'
                     ) : (
                       <>
-											No Ethereum address associated with current Github profile {' '}
-											<Link
+                        No Ethereum address associated with current Github profile{' '}
+                        <Link
                           href={`https://github.com/${authState.login}`}
                           rel='noopener norefferer'
                           target='_blank'
@@ -109,8 +109,8 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
                         >
                           {authState.login}
                         </Link>
-												.
-												</>
+                        .
+                      </>
                     )}
                   </span>
                 </div>

@@ -113,8 +113,8 @@ const KycRequirement = ({ setKycVerified }) => {
       <div className='font-semibold'>What is kycDAO?</div>
       <div>
         kycDAO is a multichain platform for issuing reusable, on-chain KYC verifications.
-				<div>
-          Learn more about kycDAO {' '}
+        <div>
+          Learn more about kycDAO{' '}
           <Link
             href='https://kycdao.xyz/home'
             rel='noopener norefferer'
@@ -146,7 +146,8 @@ const KycRequirement = ({ setKycVerified }) => {
         </button>
       )}
       <div className='italic'>
-        * kycDAO and OpenQ do not process personally identifiable information (PII) submitted for KYC. <br/>This information is processed by{' '}
+        * kycDAO and OpenQ do not process personally identifiable information (PII) submitted for KYC. <br />
+        This information is processed by{' '}
         <Link
           target='_blank'
           rel='noopener noreferrer'
