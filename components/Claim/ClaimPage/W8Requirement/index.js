@@ -266,7 +266,7 @@ const W8Requirement = ({ bounty }) => {
               </div>
               <input
                 onChange={handleFileChange}
-                disabled={sent}
+                disabled={loading}
                 type='file'
                 className='absolute invisible w-full top-0 bottom-0 z-10'
                 id='file input'
@@ -292,7 +292,7 @@ const W8Requirement = ({ bounty }) => {
                 </div>
                 <input
                   onChange={handleFileChange}
-                  disabled={sent && loading}
+                  disabled={loading}
                   type='file'
                   className='absolute invisible w-full top-0 bottom-0 z-10'
                   id='file input'
