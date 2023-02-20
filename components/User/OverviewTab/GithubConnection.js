@@ -99,7 +99,18 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
                     ) : !githubId ? (
                       'Github profile not signed in.'
                     ) : (
-                      'No address associated with current Github profile on Chain.'
+                      <>
+											No Ethereum address associated with current Github profile {' '}
+											<Link
+                          href={`https://github.com/${authState.login}`}
+                          rel='noopener norefferer'
+                          target='_blank'
+                          className='text-link-colour hover:underline'
+                        >
+                          {authState.login}
+                        </Link>
+												.
+												</>
                     )}
                   </span>
                 </div>

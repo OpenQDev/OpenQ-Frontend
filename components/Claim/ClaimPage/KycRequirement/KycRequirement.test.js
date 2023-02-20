@@ -14,7 +14,7 @@ describe('KycRequirement', () => {
     const setKycVerified = jest.fn();
     render(<KycRequirement setKycVerified={setKycVerified} />);
     expect(
-      await screen.findByText(/kycDAO is a multichain platform for issuing reusable, onchain KYC verifications./)
+      await screen.findByText(/kycDAO is a multichain platform for issuing reusable, on-chain KYC verifications./)
     ).toBeInTheDocument();
     expect(await screen.findByText(/Required/)).toBeInTheDocument();
     expect(await screen.findByText(/Verify/)).toBeInTheDocument();
