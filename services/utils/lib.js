@@ -331,6 +331,6 @@ export const getTypeFromCategory = (category) => {
     case 'Hackathon':
       return 3;
     default:
-      return 0;
+      return null;
   }
 };
