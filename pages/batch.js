@@ -55,6 +55,7 @@ function Batch() {
 
       // Populate the transaction template
       const transactions = [];
+
       for (const transactionData of jsonData) {
         const {
           githubIssueUrl,
@@ -65,45 +66,48 @@ function Batch() {
           kycRequired,
           supportingDocumentsRequired,
         } = transactionData;
+        try {
+          const payoutScheduleParsed = payoutSchedule && JSON.parse(payoutSchedule);
 
-        const payoutScheduleParsed = JSON.parse(payoutSchedule);
+          // Fetch Github Issue ID and Organization ID
+          const resource = await appState.githubRepository.fetchIssueByUrl(githubIssueUrl);
+          const githubSponsorResource = await appState.githubRepository.getOrgByUrl(githubSponsorUrl);
 
-        // Fetch Github Issue ID and Organization ID
-        const resource = await appState.githubRepository.fetchIssueByUrl(githubIssueUrl);
-        const githubSponsorResource = await appState.githubRepository.getOrgByUrl(githubSponsorUrl);
+          const bountyId = resource.id;
+          const organizationId = resource.repository.owner.id;
 
-        const bountyId = resource.id;
-        const organizationId = resource.repository.owner.id;
+          const sponsorOrganizationName = githubSponsorResource.login;
+          const sponsorOrganizationLogo = githubSponsorResource.avatarUrl;
 
-        const sponsorOrganizationName = githubSponsorResource.login;
-        const sponsorOrganizationLogo = githubSponsorResource.avatarUrl;
+          // Overwrite contractInputsValues on mintBountyTransactionTemplate
+          const mintBountyTransactionTemplateCopy = _.cloneDeep(mintBountyTransactionTemplate);
 
-        // Overwrite contractInputsValues on mintBountyTransactionTemplate
-        const mintBountyTransactionTemplateCopy = _.cloneDeep(mintBountyTransactionTemplate);
+          mintBountyTransactionTemplateCopy.contractInputsValues._bountyId = bountyId;
+          mintBountyTransactionTemplateCopy.contractInputsValues._organization = organizationId;
 
-        mintBountyTransactionTemplateCopy.contractInputsValues._bountyId = bountyId;
-        mintBountyTransactionTemplateCopy.contractInputsValues._organization = organizationId;
+          const initializationSchema = ['uint256[]', 'address', 'bool', 'bool', 'bool', 'string', 'string', 'string'];
+          const initializationData = [
+            payoutScheduleParsed,
+            payoutTokenAddress,
+            invoiceRequired,
+            kycRequired,
+            supportingDocumentsRequired,
+            '63da6f261d7d7b7cad0bc19d', // # TODO this should be the externalUserId of the currently logged in User
+            sponsorOrganizationName,
+            sponsorOrganizationLogo,
+          ];
 
-        const initializationSchema = ['uint256[]', 'address', 'bool', 'bool', 'bool', 'string', 'string', 'string'];
-        const initializationData = [
-          payoutScheduleParsed,
-          payoutTokenAddress,
-          invoiceRequired,
-          kycRequired,
-          supportingDocumentsRequired,
-          '63da6f261d7d7b7cad0bc19d', // # TODO this should be the externalUserId of the currently logged in User
-          sponsorOrganizationName,
-          sponsorOrganizationLogo,
-        ];
+          const tieredFixedEncoded = abiCoder.encode(initializationSchema, initializationData);
+          let tieredFixed = [3, `\"${tieredFixedEncoded}\"`];
 
-        const tieredFixedEncoded = abiCoder.encode(initializationSchema, initializationData);
-        let tieredFixed = [3, `\"${tieredFixedEncoded}\"`];
+          mintBountyTransactionTemplateCopy.contractInputsValues._initOperation = `[${tieredFixed}]`;
 
-        mintBountyTransactionTemplateCopy.contractInputsValues._initOperation = `[${tieredFixed}]`;
+          const mintBountyTransactionTemplateEscaped = addEscapedQuotes(mintBountyTransactionTemplateCopy);
 
-        const mintBountyTransactionTemplateEscaped = addEscapedQuotes(mintBountyTransactionTemplateCopy);
-
-        transactions.push(mintBountyTransactionTemplateEscaped);
+          transactions.push(mintBountyTransactionTemplateEscaped);
+        } catch (err) {
+          appState.logger.error(err, 'batch.js1');
+        }
       }
 
       const mintBountyTemplateCopy = _.cloneDeep(mintBountyTemplate);
@@ -154,7 +158,7 @@ function Batch() {
           >
             this Google Sheets template.
           </Link>{' '}
-          Simply click <b>"Use Template"</b>
+          To do this, simply click <b>"Use Template"</b>.
           <Image
             src='/batchPage/Use_Template_Button.png'
             width={1000}
@@ -166,12 +170,13 @@ function Batch() {
         <h2 className='text-xl pt-8 font-bold'>Step 2: Download your Google Sheet as a CSV</h2>
         <div>File =&gt; Download =&gt; Comma Separated Values (.csv)</div>
         <Image src='/batchPage/Download_CSV.png' width={1000} height={80} alt='use template button' className='my-2' />
-        <h2 className='text-xl pt-8 font-bold'>Step 3: Choose File here and select your CSV file</h2>
+        <h2 className='text-xl pt-8 font-bold'>Step 3: Select your CSV file here</h2>
         {/* <label className='btn-primary w-fit' htmlFor='upload'>
           Choose File
         </label> */}
         <input
           /* className='absolute invisible w-full top-0 bottom-0 z-10' */
+          accept='.csv'
           type='file'
           id='upload'
           onChange={handleFileUpload}
@@ -181,10 +186,10 @@ function Batch() {
             {mintBountyBatchData === null ? (
               ''
             ) : (
-              <>
+              <div className='flex flex-col space-y-2'>
                 <div>✅ Success!</div>
                 <div>Now go on to the next step and download your JSON file below:</div>
-              </>
+              </div>
             )}
           </div>
         )}
@@ -219,7 +224,7 @@ function Batch() {
           >
             https://app.safe.global
           </Link>
-          , navigate to Apps. Search for <b>"Transaction Builder"</b>
+          , navigate to "Apps" and then search for <b>"Transaction Builder"</b>.
         </div>
         <div>
           For a more detailed guide on how to use the Transaction Builder, see{' '}
