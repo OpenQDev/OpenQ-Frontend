@@ -34,12 +34,10 @@ const GithubRequirement = ({ githubHasWalletVerifiedState }) => {
         </div>
       )}
       <div className='flex items-center gap-2'>
-        Associate your GitHub account on-chain{' '}
+        Associate your GitHub account to an Ethereum address{' '}
         <ToolTipNew
           innerStyles={'whitespace-normal w-60'}
-          toolTipText={
-            'You need to associate a wallet address to your GitHub account in order to be able to receive prizes.'
-          }
+          toolTipText={'You need to associate a wallet address to your GitHub account in order to receive prizes.'}
         >
           <div className='cursor-help p-0.25 rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
             ?

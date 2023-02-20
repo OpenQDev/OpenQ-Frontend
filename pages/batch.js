@@ -102,7 +102,7 @@ function Batch() {
             invoiceRequired,
             kycRequired,
             supportingDocumentsRequired,
-            accountData.id,
+            accountData.id, // externalUserId of the currently logged in User
             sponsorOrganizationName,
             sponsorOrganizationLogo,
           ];
