@@ -13,6 +13,7 @@ function Batch() {
   const [mintBountyBatchData, setMintBountyBatchData] = useState(null);
 
   const [appState] = useContext(StoreContext);
+  const [file, setFile] = useState(null);
 
   const handleCopyToClipboard = () => {
     navigator.clipboard.writeText(JSON.stringify(mintBountyBatchData));
@@ -37,6 +38,7 @@ function Batch() {
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
+    setFile(file);
     const reader = new FileReader();
 
     reader.onload = async (event) => {
@@ -129,6 +131,7 @@ function Batch() {
     }
     return json;
   }
+  console.log(mintBountyBatchData);
 
   return (
     <div className='flex flex-col items-center py-14'>
@@ -171,16 +174,21 @@ function Batch() {
         <div>File =&gt; Download =&gt; Comma Separated Values (.csv)</div>
         <Image src='/batchPage/Download_CSV.png' width={1000} height={80} alt='use template button' className='my-2' />
         <h2 className='text-xl pt-8 font-bold'>Step 3: Select your CSV file here</h2>
-        {/* <label className='btn-primary w-fit' htmlFor='upload'>
-          Choose File
-        </label> */}
-        <input
-          /* className='absolute invisible w-full top-0 bottom-0 z-10' */
-          accept='.csv'
-          type='file'
-          id='upload'
-          onChange={handleFileUpload}
-        />
+        <form className='flex gap-4'>
+          <label className='btn-primary cursor-pointer whitespace-nowrap' htmlFor='upload'>
+            {mintBountyBatchData ? 'Update File' : 'Choose File'}
+          </label>
+          <input
+            className='absolute invisible w-full top-0 bottom-0 z-10'
+            accept='.csv'
+            type='file'
+            id='upload'
+            onChange={handleFileUpload}
+          />
+          <div className='flex items-center border border-web-gray w-full font-semibold h-8 px-2 rounded-sm'>
+            {file?.name}
+          </div>
+        </form>
         {mintBountyBatchData && (
           <div>
             {mintBountyBatchData === null ? (
