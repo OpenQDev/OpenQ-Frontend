@@ -11,8 +11,8 @@ import Image from 'next/image';
 
 function Batch() {
   const [mintBountyBatchData, setMintBountyBatchData] = useState(null);
-
   const [appState] = useContext(StoreContext);
+  const { accountData } = appState;
   const [file, setFile] = useState(null);
 
   const handleCopyToClipboard = () => {
@@ -94,7 +94,7 @@ function Batch() {
             invoiceRequired,
             kycRequired,
             supportingDocumentsRequired,
-            '63da6f261d7d7b7cad0bc19d', // # TODO this should be the externalUserId of the currently logged in User
+            accountData.id, // externalUserId of the currently logged in User
             sponsorOrganizationName,
             sponsorOrganizationLogo,
           ];
@@ -131,7 +131,6 @@ function Batch() {
     }
     return json;
   }
-  console.log(mintBountyBatchData);
 
   return (
     <div className='flex flex-col items-center py-14'>
