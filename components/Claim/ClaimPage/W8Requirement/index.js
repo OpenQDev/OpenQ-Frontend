@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Link from 'next/link';
 import { CheckIcon, UploadIcon } from '@primer/octicons-react';
 import W8FormModal from './W8FormModal';
@@ -21,7 +21,12 @@ const W8Requirement = ({ bounty }) => {
   const pending = bounty.requests?.nodes.some((node) => node.requestingUser.id === accountData.id);
   const [sent, setSent] = useState(pending);
   const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}?tab=📃Invoicing (Freelancer)`;
-  const W8Approved = getW8Approved(bounty, accountData);
+  const [w8Approved, setW8Approved] = useState(false);
+  useEffect(() => {
+    const W8Approved = getW8Approved(bounty, accountData);
+    setW8Approved(W8Approved);
+  }, [bounty, accountData]);
+
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
     setSent(false);
@@ -191,13 +196,13 @@ const W8Requirement = ({ bounty }) => {
         Form W8/W9*
         <div
           className={`${
-            W8Approved ? 'border-green bg-green-inside' : 'bg-info border-2 border-info-strong'
+            w8Approved ? 'border-green bg-green-inside' : 'bg-info border-2 border-info-strong'
           } text-sm px-2 border rounded-full h-6`}
         >
-          {W8Approved ? 'Approved' : 'Required'}
+          {w8Approved ? 'Approved' : 'Required'}
         </div>
       </h4>
-      {W8Approved ? (
+      {w8Approved ? (
         <div className='border-green bg-green-inside border p-4 rounded-sm'> Your w8 was accepted</div>
       ) : (
         <>
