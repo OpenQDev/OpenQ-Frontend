@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { gun } from '../../lib/Gun';
-import reposWhitelist from '../../lib/reposWhitelist.json';
+import reposWhitelist from '../../lib/goodFirstIssuesOrgWhitelist.json';
 
 const ReposContext = createContext([]);
 const LanguageFilterContext = createContext([]);
