@@ -94,18 +94,29 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
                         >
                           {appState.utils.shortenAddress(associatedAddress)}
                         </Link>{' '}
-                        on chain.
+                        on Polygon.
                       </>
                     ) : !githubId ? (
                       'Github profile not signed in.'
                     ) : (
-                      'No address associated with current Github profile on Chain.'
+                      <>
+                        No Ethereum address associated with current Github profile{' '}
+                        <Link
+                          href={`https://github.com/${authState.login}`}
+                          rel='noopener norefferer'
+                          target='_blank'
+                          className='text-link-colour hover:underline'
+                        >
+                          {authState.login}
+                        </Link>
+                        .
+                      </>
                     )}
                   </span>
                 </div>
                 <div className='flex gap-2 w-fit'>
                   {claimPage && hasAssociatedAddress && (
-                    <div key={2} className='flex items-center gap-2 btn-verified w-fit'>
+                    <div key={2} className='flex items-center gap-2  btn-primary py-0.5 w-fit'>
                       <Image src='/BountyMaterial/polyscan-white.png' width={20} height={20} alt='link-icon' />
                       Verified
                     </div>

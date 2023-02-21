@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Papa from 'papaparse';
 import { ethers } from 'ethers';
 import StoreContext from '../store/Store/StoreContext';
@@ -8,9 +8,11 @@ import mintBountyTransactionTemplate from '../constants/mintBountyTransactionTem
 import md4 from 'js-md4';
 import Link from 'next/link';
 import Image from 'next/image';
+import BountyCardLean from '../components/BountyCard/BountyCardLean';
 
 function Batch() {
   const [mintBountyBatchData, setMintBountyBatchData] = useState(null);
+  const [bounties, setBounties] = useState([]);
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
   const [file, setFile] = useState(null);
@@ -35,6 +37,7 @@ function Batch() {
   };
 
   let abiCoder = new ethers.utils.AbiCoder();
+  const initializationSchema = ['uint256[]', 'address', 'bool', 'bool', 'bool', 'string', 'string', 'string'];
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -71,6 +74,12 @@ function Batch() {
         try {
           const payoutScheduleParsed = payoutSchedule && JSON.parse(payoutSchedule);
 
+          const token = await appState.tokenClient.getToken(payoutTokenAddress);
+          let decimals = parseInt(token.decimals) || 18;
+          const newPayoutSchedule = payoutScheduleParsed.map((tierVolume) => {
+            let formattedVolume = tierVolume * 10 ** decimals;
+            return formattedVolume.toString();
+          });
           // Fetch Github Issue ID and Organization ID
           const resource = await appState.githubRepository.fetchIssueByUrl(githubIssueUrl);
           const githubSponsorResource = await appState.githubRepository.getOrgByUrl(githubSponsorUrl);
@@ -87,9 +96,8 @@ function Batch() {
           mintBountyTransactionTemplateCopy.contractInputsValues._bountyId = bountyId;
           mintBountyTransactionTemplateCopy.contractInputsValues._organization = organizationId;
 
-          const initializationSchema = ['uint256[]', 'address', 'bool', 'bool', 'bool', 'string', 'string', 'string'];
           const initializationData = [
-            payoutScheduleParsed,
+            newPayoutSchedule,
             payoutTokenAddress,
             invoiceRequired,
             kycRequired,
@@ -131,6 +139,43 @@ function Batch() {
     }
     return json;
   }
+  const parseTransaction = async (transaction) => {
+    const { contractInputsValues } = transaction;
+    const githubData = await appState.githubRepository.fetchIssueById(contractInputsValues._bountyId);
+
+    const initializationOp = contractInputsValues._initOperation.slice(4, -2);
+
+    const [payoutSchedule, payoutTokenAddress, , , , , sponsorOrganizationName, sponsorOrganizationLogo] =
+      abiCoder.decode(initializationSchema, initializationOp);
+    return {
+      ...githubData,
+      payoutSchedule,
+      payoutTokenAddress,
+      alternativeLogo: sponsorOrganizationLogo,
+      alternativeName: sponsorOrganizationName,
+    };
+  };
+  useEffect(() => {
+    const getBountyData = async () => {
+      if (mintBountyBatchData) {
+        const bounties = mintBountyBatchData.transactions.map(async (transaction) => {
+          const bountyData = await parseTransaction(transaction);
+          const currentTimestamp = Date.now();
+
+          return {
+            ...bountyData,
+            deposits: [],
+            payouts: [],
+            bountyType: '3',
+            bountyMintTime: currentTimestamp / 1000,
+            status: '0',
+          }; //<BountyCardLean key={index} item={bountyData} />;
+        });
+        setBounties(await Promise.all(bounties));
+      }
+    };
+    getBountyData();
+  }, [mintBountyBatchData]);
 
   return (
     <div className='flex flex-col items-center py-14'>
@@ -200,14 +245,23 @@ function Batch() {
             )}
           </div>
         )}
-        <h2 className='text-xl pt-8 font-bold'>Step 4: Download the generated JSON file</h2>
+
+        <h2 className='text-xl pt-8 font-bold'>Step 5: Download the generated JSON file</h2>
         {mintBountyBatchData && (
           <div className='flex flex-col'>
             <h2>
-              You will use the Gnosis Safe Transaction Builder JSON to mint {mintBountyBatchData.transactions.length}{' '}
-              bounties.
+              You will use the Gnosis Safe Transaction Builder JSON to mint the{' '}
+              {mintBountyBatchData.transactions.length} bounties show below.
               <br />
-              If this is correct, then dowlaod the JSON file and follow the next steps.
+              <div className='my-4'>
+                {bounties.map((bounty, index) => {
+                  return (
+                    <BountyCardLean noModal={true} length={bounties.length} index={index} key={index} item={bounty} />
+                  );
+                })}
+              </div>
+              <br />
+              If this is correct, then download the JSON file and follow the next steps.
             </h2>
             <div className='pt-4 flex items-center space-x-4'>
               <button className='btn-primary' onClick={handleDownload}>

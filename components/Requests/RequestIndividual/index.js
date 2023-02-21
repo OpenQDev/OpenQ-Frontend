@@ -5,8 +5,10 @@ import useWeb3 from '../../../hooks/useWeb3';
 import Chain from '../../svg/chain';
 import { ethers } from 'ethers';
 import LoadingIcon from '../../Loading/ButtonLoadingIcon';
+import UnexpectedErrorModal from '../../Utils/UnexpectedErrorModal';
 
 const RequestIndividual = ({ item }) => {
+  const CALLER_NOT_ISSUER_OR_ORACLE = 'CALLER_NOT_ISSUER_OR_ORACLE';
   const { bounty, request } = item;
   const [appState] = useContext(StoreContext);
   const [subgraphBounty, setSubgraphBounty] = useState();
@@ -19,6 +21,7 @@ const RequestIndividual = ({ item }) => {
   const { library } = useWeb3();
   const [accepted, setAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const getSubgraphBounty = async () => {
@@ -50,6 +53,11 @@ const RequestIndividual = ({ item }) => {
       setAccepted(true);
       setLoading(false);
     } catch (err) {
+      if (err?.message?.includes(CALLER_NOT_ISSUER_OR_ORACLE)) {
+        setError("You're not authorized to accept this request with this wallet, please change wallets.");
+        setLoading(false);
+        return;
+      }
       appState.logger.error(err, 'RequestIndividual');
       setLoading(false);
     }
@@ -71,7 +79,7 @@ const RequestIndividual = ({ item }) => {
     getIssue();
   }, [issueId]);
   return (
-    <li className='border gap-4 grid content-center items-center border-web-gray rounded-md p-4 my-4 grid-cols-[80px_1fr_24px_160px]'>
+    <li className='border gap-4 grid content-center items-center border-web-gray rounded-md p-4 my-4 grid-cols-[80px_1fr_160px]'>
       <Image
         alt='picture of request author'
         className='rounded-full'
@@ -89,11 +97,14 @@ const RequestIndividual = ({ item }) => {
           </a>
         </div>
         <div>Request for acceptance of the W8/W9 form.</div>
-        <div>{issue.title}</div>
+        <div className='flex gap-2'>
+          {issue.title}{' '}
+          <a href={`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.address}`}>
+            <Chain className='w-6 h-6 fill-primary' />
+          </a>
+        </div>
       </div>
-      <a href={`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.address}`}>
-        <Chain className='w-6 h-6 fill-primary' />
-      </a>
+
       <button
         disabled={accepted || loading}
         onClick={acceptRequest}
@@ -104,6 +115,12 @@ const RequestIndividual = ({ item }) => {
         Accept{accepted ? 'ed' : loading ? 'ing' : ''}
         {loading && <LoadingIcon />}
       </button>
+      {error && (
+        <UnexpectedErrorModal
+          closeModal={() => setError('')}
+          error={error || 'An error occured while accepting this submission.'}
+        />
+      )}
     </li>
   );
 };

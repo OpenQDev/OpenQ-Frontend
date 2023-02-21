@@ -1,11 +1,17 @@
 import searchFoundInLabels from '../searchFoundInLabels';
 import searchFoundInText from '../searchFoundInText';
+import { getTypeFromCategory } from '../../../../services/utils/lib';
 
 const filterBounties = (item, filters, fetchFilters) => {
   const { types } = fetchFilters;
   const { searchText, isReady } = filters;
 
   const contractTypeRegex = /type:"[^"]+"/gi;
+
+  //regex for letters and spaces but no quotes
+  const myRegex = /type:"([\w\s]+)"/gi;
+  const contractType = searchText.match(myRegex, '$1')?.[0]?.replace(myRegex, '$1') || '';
+  const type = getTypeFromCategory(contractType);
   const orderRegex = /order:(\w+)/gi;
   // copilot, write regex to take label from search text, and extract label as a capture group
 
@@ -38,11 +44,12 @@ const filterBounties = (item, filters, fetchFilters) => {
 
   //if non-profit type selected in search, make sure bounties filtered per 'non-profit' category, otherwise neglect ('true')
   const isBountyType = types.some((type) => type === bounty.bountyType);
-
+  const isTempType = type === parseInt(bounty.bountyType) || typeof type !== 'number';
   // Criteria: to be respected at all time:
   // => Bounty must contain the searched terms, tags, github labels, and selected bounty type(s)
   // => Bounty must have a valid url and not be blacklisted
-  const overallCriteria = containsSearch && hasLabels && isBountyType && bounty.url && !bounty.blacklisted;
+  const overallCriteria =
+    containsSearch && hasLabels && isBountyType && isTempType && bounty.url && !bounty.blacklisted;
 
   // Criteria: TVL or Budget condition:
   // => Bounty must have a Budget, or a Total Value locked, or neither if it is a non-profit bounty

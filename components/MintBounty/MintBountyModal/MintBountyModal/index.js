@@ -37,7 +37,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 
   const handleSetCategory = (category) => {
     const dispatch = {
-      payload: getTypeFromCategory(category),
+      payload: getTypeFromCategory(category) || 0,
       type: 'SET_TYPE',
     };
     mintDispatch(dispatch);

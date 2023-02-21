@@ -179,7 +179,7 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
               styles='whitespace-nowrap'
               width='w-36'
               title='Contract Type'
-              names={['Fixed Price', 'Split Price', 'Contest']}
+              names={['Fixed Price', 'Split Price', 'Hackathon']}
               borderShape={'rounded-r-lg'}
             />
           )}
