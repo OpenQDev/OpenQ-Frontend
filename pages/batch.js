@@ -276,7 +276,7 @@ function Batch() {
             </div>
           </div>
         )}
-        <h2 className='text-xl pt-8 font-bold'>Step 5: Navigate to the Transaction Builder Safe App</h2>
+        <h2 className='text-xl pt-8 font-bold'>Step 6: Navigate to the Transaction Builder Safe App</h2>
         <div>
           Go to{' '}
           <Link
@@ -301,7 +301,7 @@ function Batch() {
           </Link>
         </div>
         <h2 className='text-xl pt-8 font-bold'>
-          Step 6: Drag and drop the downloaded file to the Gnosis Safe App Transaction Builder
+          Step 7: Drag and drop the downloaded file to the Gnosis Safe App Transaction Builder
         </h2>
       </div>
     </div>
