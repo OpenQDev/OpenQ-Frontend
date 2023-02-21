@@ -126,7 +126,7 @@ const Footer = () => {
           <h1 className='font-bold pb-2'>HELP ME</h1>
           <Link
             href={'https://openq.canny.io/openq-feature-requests'}
-            className='text-lg lg:justify-self-center '
+            className='lg:justify-self-center '
             target='_blank'
             rel='noopener noreferrer'
           >
@@ -136,18 +136,21 @@ const Footer = () => {
         <div className='flex flex-col pb-8'>
           <h1 className='font-bold pb-2'>COMPANY</h1>
           <Link
-            href={'/terms-of-use'}
-            className='text-lg lg:justify-self-center'
+            href={'https://www.openq.dev/'}
+            className=' lg:justify-self-center'
             target='_blank'
             rel='noopener noreferrer'
           >
+            <span>About</span>
+          </Link>
+          <Link href={'/terms-of-use'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
             <span>Terms of Use</span>
           </Link>
           <Link
             href={'https://www.openq.dev/privacy'}
             target='_blank'
             rel='noopener noreferrer'
-            className='text-lg lg:justify-self-center'
+            className=' lg:justify-self-center'
           >
             Privacy Policy
           </Link>
@@ -156,13 +159,13 @@ const Footer = () => {
           <h1 className='font-bold pb-2'>RESSOURCES</h1>
           <Link
             href={'https://docs.openq.dev'}
-            className='text-lg lg:justify-self-center'
+            className=' lg:justify-self-center'
             target='_blank'
             rel='noopener noreferrer'
           >
             <span>Documentation</span>
           </Link>
-          <Link href={'/batch'} className='text-lg lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
+          <Link href={'/batch'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
             <span>Batch Mint</span>
           </Link>
         </div>
