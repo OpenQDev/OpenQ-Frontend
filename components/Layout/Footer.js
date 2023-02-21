@@ -40,7 +40,7 @@ const Footer = () => {
         <Link href={'/batch'} className='text-lg lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
           <span>Batch Mint</span>
         </Link>
-        <div className='flex flex-col items-center'>
+        <div className='flex flex-col lg:items-center gap-4 lg:gap-0'>
           <Link
             href={'/terms-of-use'}
             className='text-lg lg:justify-self-center'
