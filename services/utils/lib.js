@@ -25,6 +25,7 @@ export const parseVolume = (volume) => {
   }
 };
 export const listWordsWithAnd = (words) => {
+  if (words.length === 0) return '';
   if (words.length === 1) {
     return words[0];
   }
@@ -35,6 +36,7 @@ export const listWordsWithAnd = (words) => {
 };
 
 export const capitalize = (word) => {
+  if (!word) return '';
   return word[0].toUpperCase() + word.substring(1);
 };
 export const valueToDisplay = (value) => {
@@ -80,13 +82,13 @@ export const checkHackathonDates = (startDate, endDate, today) => {
   return true;
 };
 const checkPrUsed = (pr, bounty) => {
-  bounty.claims.some((claim) => claim.claimantAsset === pr);
+  return bounty.claims.some((claim) => claim.claimantAsset === pr.source.url);
 };
 const checkTierClaimed = (bounty, index) => {
   return bounty.claims.some((claim) => claim.tier === index.toString());
 };
 
-const checkFixedAndSplit = (bounty, currentUser) => {
+export const checkFixedAndSplit = (bounty, currentUser) => {
   if (
     bounty.status == '0' &&
     bounty?.prs?.some((pr) => pr.source.merged && pr.source.author.id === currentUser && checkPrUsed(pr, bounty))
@@ -97,7 +99,7 @@ const checkFixedAndSplit = (bounty, currentUser) => {
   }
   return { status: null };
 };
-const checkTiered = (bounty, currentUser) => {
+export const checkTiered = (bounty, currentUser) => {
   if (bounty?.tierWinners?.some((winner, index) => winner === currentUser && checkTierClaimed(bounty, index))) {
     return { status: 'Claimed' };
   }
@@ -128,9 +130,9 @@ export const checkClaimable = (bounty, currentUser) => {
   }
 };
 
-export const getBountyMarker = (bounty, openQClient, githubId) => {
+export const getBountyMarker = (bounty, openQClient, githubId, checkClaimableImpl = checkClaimable) => {
   if (bounty.closed) return { status: 'Closed', colour: 'bg-danger', fill: 'fill-danger' };
-  const { status } = checkClaimable(bounty, githubId, openQClient);
+  const { status } = checkClaimableImpl(bounty, githubId, openQClient);
   if (status === 'Claimable') {
     return {
       status: 'Claim Available',
@@ -191,7 +193,7 @@ export const reverseBool = (value) => {
 export const getW8Approved = (bounty, accountData) => {
   if (!bounty.supportingDocumentsCompleted) return bounty.supportingDocumentsCompleted;
   if (bounty.bountyType === '2' || bounty.bountyType === '3') {
-    return bounty.supportingDocumentsCompleted[bounty.tierWinners.indexOf(accountData.github)];
+    return bounty.supportingDocumentsCompleted[bounty.tierWinners?.indexOf(accountData.github)];
   } else {
     return bounty.supportingDocumentsCompleted;
   }
@@ -208,7 +210,7 @@ export const isEveryValueNotNull = (obj) => {
 };
 export const formatVolume = (tierVolume, token) => {
   let bigNumberVolume = ethers.BigNumber.from(tierVolume.toString());
-  let decimals = parseInt(token.decimals) || 18;
+  let decimals = parseInt(token?.decimals) || 18;
   let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
   return formattedVolume;
 };
