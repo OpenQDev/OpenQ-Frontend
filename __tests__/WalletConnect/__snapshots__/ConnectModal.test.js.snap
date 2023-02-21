@@ -65,11 +65,7 @@ exports[`ConnectModal should render match DOM Snapshot 1`] = `
         WalletConnect
       </div>
     </button>
-    <p
-      className="text-sm text-muted pb-4"
-    >
-      Are you using Gnosis Safe? For the best experience use the WalletConnect Safe App and connect Openq via WalletConnect.
-    </p>
+
   </div>
 </ModalLarge>
 `;
