@@ -65,7 +65,6 @@ exports[`ConnectModal should render match DOM Snapshot 1`] = `
         WalletConnect
       </div>
     </button>
-
   </div>
 </ModalLarge>
 `;
