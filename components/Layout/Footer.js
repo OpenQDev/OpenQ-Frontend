@@ -37,22 +37,27 @@ const Footer = () => {
       <div className=' text-primary text-sm px-4 lg:px-20 max-w-[1300px] lg:py-12 py-4  xs:grid flex flex-col content-start items-start gap-4 xs:gap-y-0 lg:grid-cols-[0.5fr_1fr_1fr_1.3fr_2.5fr] grid-cols-[1fr_1fr]  lg:grid-rows-2 grid-rows-4 lg:grid-flow-col xs:items-center lg:flex-row w-full justify-between xs:content-center font-semibold grid-flow-row'>
         <div className='font-semibold font-sans text-3xl'>OpenQ</div>
         <OpenQSocials />
-        <Link
-          href={'/terms-of-use'}
-          className='text-lg lg:justify-self-center'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <span>Terms of Use</span>
+        <Link href={'/batch'} className='text-lg lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
+          <span>Batch Mint</span>
         </Link>
-        <Link
-          href={'https://www.openq.dev/privacy'}
-          target='_blank'
-          rel='noopener noreferrer'
-          className='text-lg lg:justify-self-center'
-        >
-          Privacy Policy
-        </Link>
+        <div className='flex flex-col items-center'>
+          <Link
+            href={'/terms-of-use'}
+            className='text-lg lg:justify-self-center'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <span>Terms of Use</span>
+          </Link>
+          <Link
+            href={'https://www.openq.dev/privacy'}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='text-lg lg:justify-self-center'
+          >
+            Privacy Policy
+          </Link>
+        </div>
         <Link
           href={'https://openq.canny.io/openq-feature-requests'}
           className='text-lg lg:justify-self-center '
