@@ -315,7 +315,7 @@ exports[`Starred should render match DOM Snapshot 1`] = `
           "starred": true,
           "twitterUsername": "openqlabs",
           "url": "https://github.com/OpenQDev",
-          "websiteUrl": "https://openq.dev",
+          "websiteUrl": "https://www.openq.dev",
         }
       }
       starringParent="true"
