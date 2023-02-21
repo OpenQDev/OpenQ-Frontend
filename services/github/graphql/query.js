@@ -443,6 +443,32 @@ export const GET_REPO_BY_NAME = gql`
   }
 `;
 
+export const GET_REPO_NAMES_BY_ORG_NAME = gql`
+  query GetRepoNamesByOrgName($orgName: String!) {
+    organization(login: $orgName) {
+      repositories (first: 50) {
+        nodes {
+          __typename
+          name
+          nameWithOwner
+          id
+          description
+          homepageUrl
+          url
+          languages(first: 3) {
+            edges {
+              node {
+                name
+                color
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const GET_REPO_WITH_LABELED_OPEN_ISSUES = gql`
   query GetRepoWithLabeledIssues($name: String!, $owner: String!, $labels: [String!]) {
     repository(name: $name, owner: $owner) {
@@ -454,7 +480,7 @@ export const GET_REPO_WITH_LABELED_OPEN_ISSUES = gql`
       homepageUrl
       url
       stargazerCount
-      languages(first: 10) {
+      languages(first: 3) {
         edges {
           node {
             name
@@ -462,7 +488,7 @@ export const GET_REPO_WITH_LABELED_OPEN_ISSUES = gql`
           }
         }
       }
-      issues(first: 100, labels: $labels, states: [OPEN]) {
+      issues(first: 50, labels: $labels, states: [OPEN]) {
         nodes {
           ... on Issue {
             id
@@ -472,7 +498,7 @@ export const GET_REPO_WITH_LABELED_OPEN_ISSUES = gql`
             comments {
               totalCount
             }
-            assignees(first: 10) {
+            assignees(first: 2) {
               nodes {
                 ... on User {
                   id
@@ -481,7 +507,7 @@ export const GET_REPO_WITH_LABELED_OPEN_ISSUES = gql`
                 }
               }
             }
-            labels(first: 100) {
+            labels(first: 3) {
               nodes {
                 ... on Label {
                   id

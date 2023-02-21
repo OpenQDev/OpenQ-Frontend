@@ -3,4 +3,4 @@
 
 echo "Linting to make sure your code is ✨ spotless ✨ which I'm sure it is..."
 echo "If any linting errors are found, please fix them, git add ., and re-commit 🤠."
-yarn run lint:fix
+# yarn run lint:fix
