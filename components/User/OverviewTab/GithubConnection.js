@@ -94,7 +94,7 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
                         >
                           {appState.utils.shortenAddress(associatedAddress)}
                         </Link>{' '}
-                        on chain.
+                        on Polygon.
                       </>
                     ) : !githubId ? (
                       'Github profile not signed in.'
