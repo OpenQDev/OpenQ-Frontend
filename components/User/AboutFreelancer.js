@@ -91,7 +91,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
             ...[isOwner ? { name: '🧍KYC' } : {}],
 
             ...[isOwner ? { name: '📃Invoicing (Freelancer)' } : {}],
-            ...[isOwner ? { name: '📃Invoicing (Org)' } : {}],
+            ...[isOwner ? { name: '📃Invoicing (Organization)' } : {}],
           ]}
         />
         <div className='w-full border-b h-px border-web-gray'></div>
@@ -172,7 +172,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
                 <FreelancerDetails emailOnly={true} /> <FreelancerDetails />
               </>
             )}
-            {internalMenu === '📃Invoicing (Org)' && (
+            {internalMenu === '📃Invoicing (Organization)' && (
               <>
                 {' '}
                 <OrgDetails showWatched={isOwner} emailOnly={true} /> <OrgDetails showWatched={isOwner} />
