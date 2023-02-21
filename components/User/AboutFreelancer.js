@@ -81,7 +81,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
         <SubMenu
           internalMenu={internalMenu}
           updatePage={setInternalMenu}
-          styles='w-full flex flex-wrap sm:flex-row mb-6 sm:mb-0 justify-center lg:justify-start max-w-[900px] mx-auto border-none'
+          styles='w-full flex sm:flex-row mb-6 sm:mb-0 sm:justify-center lg:justify-start max-w-[900px] mx-auto border-none'
           colour='rust'
           items={[
             { name: 'Overview', Svg: BookIcon },
