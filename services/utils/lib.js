@@ -82,11 +82,9 @@ export const checkHackathonDates = (startDate, endDate, today) => {
   return true;
 };
 const checkPrUsed = (pr, bounty) => {
-  console.log(pr);
   return bounty.claims.some((claim) => claim.claimantAsset === pr.source.url);
 };
 const checkTierClaimed = (bounty, index) => {
-  console.log(bounty.claims, index);
   return bounty.claims.some((claim) => claim.tier === index.toString());
 };
 
@@ -149,7 +147,6 @@ export const getBountyMarker = (bounty, openQClient, githubId, checkClaimable = 
       fill: 'fill-closed',
     };
   }
-  console.log(bounty.bountyType);
   if (bounty.bountyType === '0') {
     if (bounty.assignees[0]) {
       return {
@@ -234,7 +231,6 @@ export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor,
   const createdBounties = userOffChainData.createdBounties.bountyConnection.nodes.filter((bounty) => {
     return bounty.requests;
   });
-  console.log(createdBounties);
   const requests = createdBounties
     .map((bounty) => {
       const requests = bounty.requests.nodes.reduce((accum, request) => {
