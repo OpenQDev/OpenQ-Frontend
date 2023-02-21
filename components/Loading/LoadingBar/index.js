@@ -29,7 +29,7 @@ const LoadingBar = () => {
                 : 'Please reload the page to see your new contract in our explorer'}
             </div>
           </div>
-          <button className='pl-4 pr-0' onClick={() => loadingBar(false)}>
+          <button className='pl-4 pr-0' onClick={() => setLoadingBar(false)}>
             <Cross />
           </button>
         </div>
