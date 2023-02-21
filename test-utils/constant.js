@@ -1060,7 +1060,7 @@ export default class Constants {
       },
     };
   }
-  get bounty0() {
+  static get bounty0() {
     return Constants.bounty;
   }
   static get bounty1() {
