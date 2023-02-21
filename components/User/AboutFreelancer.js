@@ -81,7 +81,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
         <SubMenu
           internalMenu={internalMenu}
           updatePage={setInternalMenu}
-          styles='w-full flex flex-wrap sm:flex-row mb-6 sm:mb-0 justify-center lg:justify-start max-w-[900px] mx-auto border-none'
+          styles='w-full flex sm:flex-row mb-6 sm:mb-0 sm:justify-center lg:justify-start max-w-[900px] mx-auto border-none'
           colour='rust'
           items={[
             { name: 'Overview', Svg: BookIcon },
@@ -91,7 +91,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
             ...[isOwner ? { name: '🧍KYC' } : {}],
 
             ...[isOwner ? { name: '📃Invoicing (Freelancer)' } : {}],
-            ...[isOwner ? { name: '📃Invoicing (Org)' } : {}],
+            ...[isOwner ? { name: '📃Invoicing (Organization)' } : {}],
           ]}
         />
         <div className='w-full border-b h-px border-web-gray'></div>
@@ -172,7 +172,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
                 <FreelancerDetails emailOnly={true} /> <FreelancerDetails />
               </>
             )}
-            {internalMenu === '📃Invoicing (Org)' && (
+            {internalMenu === '📃Invoicing (Organization)' && (
               <>
                 {' '}
                 <OrgDetails showWatched={isOwner} emailOnly={true} /> <OrgDetails showWatched={isOwner} />
