@@ -1040,7 +1040,27 @@ export default class Constants {
       __typename: 'Bounty',
     };
   }
-  static get bounty0() {
+  static get request0() {
+    return {
+      requestingUser: {
+        email: 'abc123@gmail.com',
+
+        username: 'Christopher',
+        watchedBounties: undefined,
+      },
+    };
+  }
+  static get request1() {
+    return {
+      requestingUser: {
+        email: 'abc123@gmail.com',
+
+        username: 'Christopher',
+        watchedBounties: undefined,
+      },
+    };
+  }
+  get bounty0() {
     return Constants.bounty;
   }
   static get bounty1() {

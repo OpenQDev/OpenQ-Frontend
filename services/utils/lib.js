@@ -149,6 +149,7 @@ export const getBountyMarker = (bounty, openQClient, githubId, checkClaimable = 
       fill: 'fill-closed',
     };
   }
+  console.log(bounty.bountyType);
   if (bounty.bountyType === '0') {
     if (bounty.assignees[0]) {
       return {
@@ -195,7 +196,7 @@ export const reverseBool = (value) => {
 export const getW8Approved = (bounty, accountData) => {
   if (!bounty.supportingDocumentsCompleted) return bounty.supportingDocumentsCompleted;
   if (bounty.bountyType === '2' || bounty.bountyType === '3') {
-    return bounty.supportingDocumentsCompleted[bounty.tierWinners.indexOf(accountData.github)];
+    return bounty.supportingDocumentsCompleted[bounty.tierWinners?.indexOf(accountData.github)];
   } else {
     return bounty.supportingDocumentsCompleted;
   }
@@ -212,7 +213,7 @@ export const isEveryValueNotNull = (obj) => {
 };
 export const formatVolume = (tierVolume, token) => {
   let bigNumberVolume = ethers.BigNumber.from(tierVolume.toString());
-  let decimals = parseInt(token.decimals) || 18;
+  let decimals = parseInt(token?.decimals) || 18;
   let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
   return formattedVolume;
 };
@@ -233,6 +234,7 @@ export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor,
   const createdBounties = userOffChainData.createdBounties.bountyConnection.nodes.filter((bounty) => {
     return bounty.requests;
   });
+  console.log(createdBounties);
   const requests = createdBounties
     .map((bounty) => {
       const requests = bounty.requests.nodes.reduce((accum, request) => {

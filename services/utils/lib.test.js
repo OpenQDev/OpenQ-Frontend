@@ -9,6 +9,13 @@ import {
   checkFixedAndSplit,
   checkTiered,
   getBountyMarker,
+  getPlural,
+  getBool,
+  reverseBool,
+  getW8Approved,
+  isEveryValueNotNull,
+  formatVolume,
+  fetchRequestsWithServiceArg,
 } from './lib';
 import Constants from '../../test-utils/constant';
 
@@ -184,7 +191,9 @@ describe('checkFixedAndSplit', () => {
   });
 });
 describe('getBountyMarker', () => {
-  const statusFunc = () => null;
+  const statusFunc = () => {
+    return {};
+  };
 
   it('return closed if closed', () => {
     const currentUser = 'U_kgDOBZIDuA';
@@ -221,5 +230,187 @@ describe('getBountyMarker', () => {
     };
     const value = getBountyMarker(bounty, {}, currentUser, statusFunc);
     expect(value).toEqual({ colour: 'bg-closed', fill: 'fill-closed', status: 'Claimed' });
+  });
+  it('return in progress', () => {
+    const currentUser = 'U_kgDOBZIDuA';
+    const bounty = {
+      ...Constants.bounty,
+      closed: false,
+      assignees: [{}],
+    };
+
+    const value = getBountyMarker(bounty, {}, currentUser, statusFunc);
+    expect(value).toEqual({
+      colour: 'bg-yellow-500 text-black fill-black',
+      fill: 'fill-yellow-500',
+      status: 'In Progress',
+    });
+  });
+  it('return in ready for work', () => {
+    const currentUser = 'U_kgDOBZIDuA';
+    const bounty = {
+      ...Constants.bounty,
+      closed: false,
+      assignees: [],
+    };
+
+    const value = getBountyMarker(bounty, {}, currentUser, statusFunc);
+    expect(value).toEqual({
+      colour: 'bg-green',
+      fill: 'fill-green',
+      status: 'Ready for Work',
+    });
+  });
+  it('return in open', () => {
+    const currentUser = 'U_kgDOBZIDuA';
+    const bounty = {
+      ...Constants.bounty2,
+      closed: false,
+      assignees: [],
+    };
+
+    const value = getBountyMarker(bounty, {}, currentUser, statusFunc);
+    expect(value).toEqual({
+      colour: 'bg-green',
+      fill: 'fill-green',
+      status: 'Open',
+    });
+  });
+  it('return in closed on chain', () => {
+    const currentUser = 'U_kgDOBZIDuA';
+    const bounty = {
+      ...Constants.bounty2,
+      closed: false,
+      assignees: [],
+      status: '1',
+    };
+
+    const value = getBountyMarker(bounty, {}, currentUser, statusFunc);
+    expect(value).toEqual({ status: 'Closed', colour: 'bg-danger', fill: 'fill-danger' });
+  });
+});
+describe('getPlural', () => {
+  it('return plural', () => {
+    const value = getPlural(2);
+    expect(value).toEqual('s');
+  });
+  it('return singular', () => {
+    const value = getPlural(1);
+    expect(value).toEqual('');
+  });
+});
+
+describe('reverseBool', () => {
+  it('should return true when value is true', () => {
+    const result = reverseBool(true);
+    expect(result).toBe('Yes');
+  });
+  it('should return false when value is false', () => {
+    const result = reverseBool(false);
+    expect(result).toBe('No');
+  });
+});
+describe('getBool', () => {
+  it('should return true when value is true', () => {
+    const result = getBool('Yes');
+    expect(result).toBe(true);
+  });
+  it('should return false when value is false', () => {
+    const result = getBool('No');
+    expect(result).toBe(false);
+  });
+});
+describe('getW8Approved', () => {
+  it('should return true when value is true', () => {
+    const user = Constants.accountData;
+    const bounty = Constants.bounty;
+    const result = getW8Approved(bounty, user);
+    expect(result).toBe(undefined);
+  });
+  it('should return false when value is true fixed', () => {
+    const user = Constants.accountData;
+    const bounty = { ...Constants.bounty, bountyType: '0', supportingDocumentsCompleted: true };
+    const result = getW8Approved(bounty, user);
+    expect(result).toBe(true);
+  });
+  it('should return false when value is true contest', () => {
+    const user = Constants.accountData;
+    const bounty = {
+      ...Constants.bounty,
+      bountyType: '3',
+      supportingDocumentsCompleted: [user.github],
+      tierWinners: [user.github],
+    };
+    const result = getW8Approved(bounty, user);
+    expect(result).toBe(user.github);
+  });
+});
+describe('isEveryValueTrue', () => {
+  it('should return true when value is true', () => {
+    const valueObj = {
+      kyc: true,
+      w8Form: true,
+      githubHasWallet: true,
+      invoice: true,
+    };
+    const result = isEveryValueNotNull(valueObj);
+    expect(result).toBe(true);
+  });
+  it('should return false when value is false', () => {
+    const valueObj = {
+      kyc: false,
+      w8Form: false,
+      githubHasWallet: true,
+      invoice: false,
+    };
+    const result = isEveryValueNotNull(valueObj);
+    expect(result).toBe(false);
+  });
+});
+describe('formatVolume', () => {
+  it('should return 0 when value is 0', () => {
+    const value = 0;
+    const token = { decimals: 0 };
+    const result = formatVolume(value, token);
+    expect(result).toBe('0.0');
+  });
+  it('should return 0 when value is 0', () => {
+    const value = '1000000000000000000';
+    const token = { decimals: 0 };
+    const result = formatVolume(value, token);
+    expect(result).toBe('1.0');
+  });
+});
+describe('fetchRequestsWithServiceArg', () => {
+  it('should return an array of requests', async () => {
+    const batch = 10;
+    const bountyWithRequest = {
+      ...Constants.bounty0,
+      requests: {
+        nodes: [Constants.request0, Constants.request1],
+      },
+    };
+    const getUserRequests = jest.fn().mockReturnValueOnce({
+      createdBounties: { bountyConnection: { nodes: [bountyWithRequest, bountyWithRequest] } },
+    });
+    const appState = {
+      openQPrismaClient: {
+        getUserRequests,
+      },
+    };
+    const identity = {
+      github: 'test',
+      id: '0x123',
+    };
+    const oldCursor = '0x123';
+    const result = await fetchRequestsWithServiceArg(appState, identity, oldCursor, batch);
+    expect(result).toEqual({
+      complete: true,
+      cursor: undefined,
+      nodes: [
+        { bounty: bountyWithRequest, request: Constants.request0 },
+        { bounty: bountyWithRequest, request: Constants.request1 },
+      ],
+    });
   });
 });
