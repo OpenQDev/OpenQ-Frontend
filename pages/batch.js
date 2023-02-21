@@ -76,10 +76,12 @@ function Batch() {
 
           const token = await appState.tokenClient.getToken(payoutTokenAddress);
           let decimals = parseInt(token.decimals) || 18;
+
           const newPayoutSchedule = payoutScheduleParsed.map((tierVolume) => {
             let formattedVolume = tierVolume * 10 ** decimals;
-            return formattedVolume.toString();
+            return ethers.BigNumber.from(formattedVolume.toLocaleString('fullwide', { useGrouping: false }));
           });
+
           // Fetch Github Issue ID and Organization ID
           const resource = await appState.githubRepository.fetchIssueByUrl(githubIssueUrl);
           const githubSponsorResource = await appState.githubRepository.getOrgByUrl(githubSponsorUrl);
