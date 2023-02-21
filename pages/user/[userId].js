@@ -19,7 +19,7 @@ const userId = ({ user, organizations, renderError, tab }) => {
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
   const loggedId = accountData?.id;
-  const isOwner = loggedId == user.id;
+  const isOwner = loggedId == user?.id;
   const [starredOrganizations, setStarredOrganizations] = useState([]);
   const [watchedBounties, setWatchedBounties] = useState([]);
   const [firstSignupModal, setFirstSignupModal] = useState(authState.isNewUser);
@@ -147,7 +147,7 @@ export const getServerSideProps = async (context) => {
   try {
     privateUserData = await openQPrismaClient.instance.getUser({ id: userOffChainData.id });
   } catch (error) {
-    logger.error(error, null, '[userId.js]3');
+    logger.error(JSON.stringify(error), null, '[userId.js]3');
   }
 
   const userHasAssociatedGithub = userOffChainData.github;

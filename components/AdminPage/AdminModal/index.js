@@ -70,7 +70,7 @@ const AdminModal = ({ setModal, modal, bounty, tokenAddress }) => {
   }, [modal, modalRef]);
 
   const closeModal = () => {
-    // setModal({});
+    setModal({});
   };
 
   const title = {

@@ -1,13 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Watching should render match DOM Snapshot 1`] = `
-<div
-  className="sm:w-3/4 max-w-[960px] mx-4 sm:mx-auto"
+<ProfileTabWrapper
+  message="Bounties you are keeping track of."
+  title="Watching"
 >
   <div
     className="py-6 border-border-gray flex flex-wrap items-stretch w-full font-semibold text-lg"
   >
     <BountyCardLean
+      index={0}
       item={
         {
           "assignees": [],
@@ -171,9 +173,11 @@ exports[`Watching should render match DOM Snapshot 1`] = `
           "url": "https://github.com/OpenQDev/OpenQ-TestRepo/issues/8",
         }
       }
+      length={4}
       unWatchable={true}
     />
     <BountyCardLean
+      index={1}
       item={
         {
           "assignees": [],
@@ -339,9 +343,11 @@ exports[`Watching should render match DOM Snapshot 1`] = `
           "url": "https://github.com/OpenQDev/OpenQ-TestRepo/issues/8",
         }
       }
+      length={4}
       unWatchable={true}
     />
     <BountyCardLean
+      index={2}
       item={
         {
           "assignees": [],
@@ -510,9 +516,11 @@ exports[`Watching should render match DOM Snapshot 1`] = `
           "url": "https://github.com/OpenQDev/OpenQ-TestRepo/issues/8",
         }
       }
+      length={4}
       unWatchable={true}
     />
     <BountyCardLean
+      index={3}
       item={
         {
           "assignees": [],
@@ -682,8 +690,9 @@ exports[`Watching should render match DOM Snapshot 1`] = `
           "url": "https://github.com/OpenQDev/OpenQ-TestRepo/issues/8",
         }
       }
+      length={4}
       unWatchable={true}
     />
   </div>
-</div>
+</ProfileTabWrapper>
 `;
