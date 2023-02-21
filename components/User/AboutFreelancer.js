@@ -28,7 +28,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
 
   const { accountData } = appState;
   const loggedId = accountData?.id;
-  const isOwner = loggedId == user.id;
+  const isOwner = loggedId == user?.id;
   const [authState] = useContext(AuthContext);
   const { githubId } = authState;
 

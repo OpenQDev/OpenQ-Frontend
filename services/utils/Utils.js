@@ -255,7 +255,7 @@ class Utils {
         try {
           githubIssues = await githubRepository.getIssueData(bountyIds);
         } catch (err) {
-          reject(err);
+          githubIssues = [];
         }
         const complete = prismaContracts.length < batch;
         const fullBounties = this.combineBounties(subgraphContracts, githubIssues, prismaContracts);
