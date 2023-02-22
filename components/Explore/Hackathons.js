@@ -16,8 +16,8 @@ import FlexScrollContainer from './FlexScrollContainer';
 import RepoLanguage from './RepoLanguage';
 
 export default function ExploreHackathons({ fullContests }) {
-  const handleStar = (contest) => {
-    console.log(contest);
+  const handleStar = () => {
+    return null;
   };
   return (
     <div className='sm:grid sm:grid-cols-2 sm:gap-6 md:gap-12 lg:gap-18 xl:gap-24 w-full pt-6 lg:pt-10'>
