@@ -34,7 +34,7 @@ const Footer = () => {
     };
   }, [open]);
   return (
-    <div className='px-12 pb-20'>
+    <div className='px-24 pb-20'>
       <div className='flex p-4 justify-between items-center border-b border-web-gray text-muted'>
         <OpenQSocials />
         <div className='flex'>
@@ -135,23 +135,29 @@ const Footer = () => {
         </div>
         <div className='flex flex-col pb-8'>
           <h1 className='font-bold pb-2'>COMPANY</h1>
+          <Link href={'/'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
+            <span>About</span>
+          </Link>
           <Link
-            href={'https://www.openq.dev/'}
+            href={'https://medium.com/openqdev'}
             className=' lg:justify-self-center'
             target='_blank'
             rel='noopener noreferrer'
           >
-            <span>About</span>
+            <span>Blog</span>
+          </Link>
+          <Link
+            href={'https://github.com/OpenQDev/OpenQ-Careers'}
+            className=' lg:justify-self-center'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <span>Careers</span>
           </Link>
           <Link href={'/terms-of-use'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
             <span>Terms of Use</span>
           </Link>
-          <Link
-            href={'https://www.openq.dev/privacy'}
-            target='_blank'
-            rel='noopener noreferrer'
-            className=' lg:justify-self-center'
-          >
+          <Link href={'/privacy-policy'} target='_blank' rel='noopener noreferrer' className=' lg:justify-self-center'>
             Privacy Policy
           </Link>
         </div>

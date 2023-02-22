@@ -21,12 +21,7 @@ const Login = () => {
           <LoginPageGithubSignIn redirectUrl={'/'} />
           <div className='pt-8 text-muted text-sm'>
             By continuing, you acknowledge that you have read, understood and agree to our{' '}
-            <a
-              className='hover:underline text-blue-400'
-              target='_blank'
-              rel='noopener noreferrer'
-              href='https://www.openq.dev/terms-of-service'
-            >
+            <a className='hover:underline text-blue-400' target='_blank' rel='noopener noreferrer' href='/terms-of-use'>
               terms of service
             </a>{' '}
             and{' '}
@@ -34,7 +29,7 @@ const Login = () => {
               className='hover:underline text-blue-400'
               target='_blank'
               rel='noopener noreferrer'
-              href='https://www.openq.dev/privacy'
+              href='/privacy-policy'
             >
               privacy policy
             </a>
