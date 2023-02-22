@@ -64,7 +64,7 @@ export default function GoodFirstIssues() {
                 </div>
               </CardBody>
               <CardFooter>
-                <RepoLanguage language={issue.repository.languages[0]} />
+                <RepoLanguage language={issue.repository.languages.nodes[0] || null} />
                 {issue.assignee ? (
                   <div className='text-xs text-gray-400 whitespace-nowrap'>Assigned to {issue.assignee}</div>
                 ) : (
