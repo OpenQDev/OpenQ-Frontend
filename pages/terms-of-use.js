@@ -67,7 +67,7 @@ const TermsOfUse = () => {
         <p className='pb-4'>
           Please read our{' '}
           <Link
-            href={'https://www.openq.dev/privacy'}
+            href={'/privacy-policy'}
             target='_blank'
             rel='noopener noreferrer'
             className='text-link-colour hover:underline w-full truncate'
