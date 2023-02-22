@@ -34,7 +34,7 @@ const Footer = () => {
     };
   }, [open]);
   return (
-    <div className='px-24 pb-20'>
+    <div className='p-24'>
       <div className='flex p-4 justify-between items-center border-b border-web-gray text-muted'>
         <OpenQSocials />
         <div className='flex'>
@@ -125,6 +125,14 @@ const Footer = () => {
         <div className='flex flex-col pb-8'>
           <h1 className='font-bold pb-2'>HELP ME</h1>
           <Link
+            href={'mailto:info@openq.dev'}
+            className=' lg:justify-self-center'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <span>Contact us </span>
+          </Link>
+          <Link
             href={'https://openq.canny.io/openq-feature-requests'}
             className='lg:justify-self-center '
             target='_blank'
@@ -137,14 +145,6 @@ const Footer = () => {
           <h1 className='font-bold pb-2'>COMPANY</h1>
           <Link href={'/'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
             <span>About</span>
-          </Link>
-          <Link
-            href={'https://medium.com/openqdev'}
-            className=' lg:justify-self-center'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <span>Blog</span>
           </Link>
           <Link
             href={'https://github.com/OpenQDev/OpenQ-Careers'}
@@ -164,12 +164,20 @@ const Footer = () => {
         <div className='flex flex-col pb-8'>
           <h1 className='font-bold pb-2'>RESSOURCES</h1>
           <Link
+            href={'https://medium.com/openqdev'}
+            className=' lg:justify-self-center'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <span>Blog</span>
+          </Link>
+          <Link
             href={'https://docs.openq.dev'}
             className=' lg:justify-self-center'
             target='_blank'
             rel='noopener noreferrer'
           >
-            <span>Documentation</span>
+            <span>Docs</span>
           </Link>
           <Link href={'/batch'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
             <span>Batch Mint</span>
