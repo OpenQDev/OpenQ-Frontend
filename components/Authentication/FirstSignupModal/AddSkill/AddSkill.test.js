@@ -6,7 +6,6 @@ import MockOpenQPrismaClient from '../../../../services/openq-api/MockOpenQPrism
 import InitialState from '../../../../store/Store/InitialState';
 
 describe('Add Skill', () => {
-  const setInputValue = jest.fn();
   const user = {
     id: '63c58870f2943bf006029305',
     renderError: '',
@@ -39,8 +38,15 @@ describe('Add Skill', () => {
       openQPrismaClient: new MockOpenQPrismaClient({ updateUserMockFunc }),
     };
 
+    const setInputValue = jest.fn();
+
     render(
-      <AddSkill setInputValue={setInputValue} childInfo={['toml', 'languages']} user={user} category={'languages'} />,
+      <AddSkill
+        setInputValue={(arg) => setInputValue(arg)}
+        childInfo={['toml', 'languages']}
+        user={user}
+        category={'languages'}
+      />,
       {},
       customInitialState
     );

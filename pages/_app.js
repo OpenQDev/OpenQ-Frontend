@@ -65,7 +65,7 @@ function OpenQ({ Component, pageProps }) {
       {/* Global Site Tag (gtag.js) - Google Analytics */}
 
       <Head>
-        <title>OpenQ | Tempo Engineering, scale better with Atomic Contracts</title>
+        <title>OpenQ | New Universe For Builders</title>
         <meta name='OpenQ Bounties' content='width=device-width, initial-scale=1.0' />
         <link rel='icon' href='/openq-logo.png' />
         <link rel='manifest' href='/manifest.json' crossOrigin='use-credentials' />

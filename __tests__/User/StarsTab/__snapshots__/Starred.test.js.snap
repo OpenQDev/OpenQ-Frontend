@@ -1,8 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Starred should render match DOM Snapshot 1`] = `
-<div
-  className="sm:w-3/4 max-w-[960px] sm:mx-auto"
+<ProfileTabWrapper
+  message="Organizations you are keeping track of."
+  title="Starred"
 >
   <div
     className="py-6 border-border-gray flex gap-4 flex-wrap justify-center sm:justify-start items-stretch w-full font-semibold text-lg"
@@ -314,7 +315,7 @@ exports[`Starred should render match DOM Snapshot 1`] = `
           "starred": true,
           "twitterUsername": "openqlabs",
           "url": "https://github.com/OpenQDev",
-          "websiteUrl": "https://openq.dev",
+          "websiteUrl": "https://www.openq.dev",
         }
       }
       starringParent="true"
@@ -886,5 +887,5 @@ exports[`Starred should render match DOM Snapshot 1`] = `
       starringParent="true"
     />
   </div>
-</div>
+</ProfileTabWrapper>
 `;

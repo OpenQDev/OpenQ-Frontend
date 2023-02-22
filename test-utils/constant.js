@@ -1040,6 +1040,26 @@ export default class Constants {
       __typename: 'Bounty',
     };
   }
+  static get request0() {
+    return {
+      requestingUser: {
+        email: 'abc123@gmail.com',
+
+        username: 'Christopher',
+        watchedBounties: undefined,
+      },
+    };
+  }
+  static get request1() {
+    return {
+      requestingUser: {
+        email: 'abc123@gmail.com',
+
+        username: 'Christopher',
+        watchedBounties: undefined,
+      },
+    };
+  }
   static get bounty0() {
     return Constants.bounty;
   }
@@ -1136,7 +1156,7 @@ export default class Constants {
       createdAt: '2021-01-13T16:10:08Z',
       description: 'Free, open-source work platform tailored for software development',
       email: 'info@openq.dev',
-      websiteUrl: 'https://openq.dev',
+      websiteUrl: 'https://www.openq.dev',
       avatarUrl: 'https://avatars.githubusercontent.com/u/77402538?v=4',
       isVerified: false,
       descriptionHTML: '<div>Free, open-source work platform tailored for software development</div>',
