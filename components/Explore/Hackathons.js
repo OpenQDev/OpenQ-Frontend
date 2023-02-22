@@ -21,7 +21,7 @@ export default function ExploreHackathons({ fullContests }) {
   };
   return (
     <div className='sm:grid sm:grid-cols-2 sm:gap-6 md:gap-12 lg:gap-18 xl:gap-24 w-full pt-6 lg:pt-10'>
-      <Link href='/contests'>
+      <Link href='/hackathons'>
         <ImageTeaser imageSrc='/explore/teaser1.png'>
           <ImageTeaserLink>
             Learn more
@@ -38,7 +38,7 @@ export default function ExploreHackathons({ fullContests }) {
           <span>
             Hackathons<span className='hidden xl:inline'> for you</span>
           </span>
-          <Link href='/contests'>
+          <Link href='/hackathons'>
             <FancyButton>
               <span className='hidden lg:inline'>Explore </span>more
               <ChevronRightIcon className='ml-2 w-5 h-5' />
