@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import StoreContext from '../../../../../../store/Store/StoreContext';
 
-const TextTierInput = ({ tier, tierVolumes, onTierVolumeChange, style, decimal, adminPage }) => {
+const TextTierInput = ({ tier, tierVolumes, onTierVolumeChange, style, decimal, adminPage, initialVolumes }) => {
   const [localValue, setLocalValue] = useState(tierVolumes[tier - 1] || 1);
   // State
   const [suffix, setSuffix] = useState();
@@ -12,8 +12,8 @@ const TextTierInput = ({ tier, tierVolumes, onTierVolumeChange, style, decimal, 
   }, []);
 
   useEffect(() => {
-    if (adminPage) setLocalValue(tierVolumes[tier - 1]);
-  }, [tierVolumes]);
+    if (adminPage) setLocalValue(initialVolumes[tier - 1]);
+  }, [initialVolumes]);
 
   const handleChange = (value, tierVolumes) => {
     const formattedValue = appState.utils.contestNumberFormat(value, decimal);

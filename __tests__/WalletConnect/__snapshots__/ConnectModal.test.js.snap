@@ -24,7 +24,7 @@ exports[`ConnectModal should render match DOM Snapshot 1`] = `
        
       <a
         className="hover:underline text-blue-400"
-        href="https://www.openq.dev/terms-of-service"
+        href="/terms-of-use"
         rel="noopener noreferrer"
         target="_blank"
       >
