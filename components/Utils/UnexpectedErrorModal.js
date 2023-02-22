@@ -5,7 +5,7 @@ import Image from 'next/image';
 import GithubSignIn from '../Authentication/GithubSignIn';
 import StoreContext from '../../store/Store/StoreContext';
 
-const UnexpectedErrorModal = ({ error, footerLeft = <></>, closeModal }) => {
+const UnexpectedErrorModal = ({ error, closeModal }) => {
   let currentError = '';
   let loginModal;
   const [appState] = useContext(StoreContext);
@@ -37,19 +37,6 @@ const UnexpectedErrorModal = ({ error, footerLeft = <></>, closeModal }) => {
       <GithubSignIn />
     </div>
   );
-  const btn = (
-    <a
-      href={'https://discord.gg/puQVqEvVXn'}
-      className='flex items-center gap-2 btn-primary'
-      target={'_blank'}
-      rel='noopener noreferrer'
-    >
-      <div data-testid='link' className='flex items-center gap-2'>
-        <Image src={'/social-icons/discord.svg'} width={24} height={24} alt='discord icon' />
-        Get Help!
-      </div>
-    </a>
-  );
   if (loginModal)
     return (
       <ModalDefault
@@ -63,33 +50,29 @@ const UnexpectedErrorModal = ({ error, footerLeft = <></>, closeModal }) => {
     );
 
   return (
-    <ModalDefault
-      footerLeft={footerLeft}
-      title={'Unexpected Error'}
-      footerRight={btn}
-      setShowModal={() => {}}
-      resetState={resetState}
-    >
-      <p className='pb-4'>Unfortunately we could not process your request due to a technical issue. </p>
-      <p className='pb-4'>Error: {currentError ? currentError : 'There was an error fetching data for your page.'}</p>
-      <p>
-        {' '}
+    <div className='bg-info border-info-strong border rounded-sm items-center p-4 my-2 mx-24'>
+      <h1 className='text-2xl pb-2'>Unexpected Error</h1>
+      <p>Unfortunately we could not process your request due to a technical issue. </p>
+      <p>Error: {currentError ? currentError : 'There was an error fetching data for your page.'}</p>
+      <p className='flex items-center'>
         If the issue keeps happening, contact us at info@openq.dev or ask us in{' '}
         <a
           href={'https://discord.gg/puQVqEvVXn'}
           target={'_blank'}
-          className='text-link-colour'
+          className='flex text-link-colour'
           rel='noopener noreferrer'
         >
+          <Image src={'/social-icons/discord.svg'} width={24} height={24} alt='discord icon' className='mx-2' />
           discord
         </a>
+        .
       </p>
       {typeof error === 'string' && error?.includes('Github') && (
         <span className='underline'>
           <a href={'https://www.githubstatus.com/'}>Check Github Status</a>.
         </span>
       )}
-    </ModalDefault>
+    </div>
   );
 };
 export default UnexpectedErrorModal;
