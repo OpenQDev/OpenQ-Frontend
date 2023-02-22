@@ -2,32 +2,137 @@
 
 exports[`Footer should match DOM Snapshot 1`] = `
 <div
-  className="flex justify-center justify-items-center full"
+  className="p-8 lg:p-24"
 >
   <div
-    className=" text-primary text-sm px-4 lg:px-20 max-w-[1300px] lg:py-12 py-4 xs:grid flex flex-col content-start items-start gap-4 xs:gap-y-0 lg:grid-cols-[0.5fr_1fr_1fr_1.3fr_2.5fr] grid-cols-[1fr_1fr] lg:grid-rows-2 grid-rows-4 lg:grid-flow-col xs:items-center lg:flex-row w-full justify-between xs:content-center font-semibold grid-flow-row"
+    className="flex flex-col lg:flex-row lg:p-4 justify-between lg:items-center border-b border-web-gray text-muted"
+  >
+    <OpenQSocials />
+    <div
+      className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 py-4 lg:py-0"
+    >
+      <div
+        className="flex gap-2 items-center"
+      >
+        <div
+          className="flex gap-2 cursor-pointer"
+          onClick={[Function]}
+        >
+          <span>
+             Smart Contracts
+          </span>
+          <span
+            onClick={[Function]}
+          >
+            <ChevronDownIcon />
+          </span>
+        </div>
+        <div
+          className="relative h-6"
+        >
+          <div
+            className="relative px-3 w-40 undefined"
+          >
+            <button
+              className="block"
+              value={1}
+            >
+              <CopyAddressToClipboard
+                clipping={
+                  [
+                    5,
+                    38,
+                  ]
+                }
+                styles="pt-0 w-40"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        className="flex flex-col lg:flex-row gap-2 lg:gap-4 lg:items-center"
+      >
+        <div>
+          Build: production-1.0.22
+        </div>
+        <div
+          className=""
+        >
+          <span
+            className="whitespace-nowrap"
+          >
+            ©
+          </span>
+           
+          2023
+          , OpenQ Labs GmbH
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="mt-6 lg:grid lg:grid-cols-[1fr_1fr_1fr_3fr]"
   >
     <div
-      className="font-semibold font-sans text-3xl"
+      className="flex flex-col pb-8"
     >
-      OpenQ
-    </div>
-    <OpenQSocials />
-    <ForwardRef(LinkComponent)
-      className="text-lg lg:justify-self-center"
-      href="/batch"
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      <span>
-        Batch Mint
-      </span>
-    </ForwardRef(LinkComponent)>
-    <div
-      className="flex flex-col lg:items-center gap-4 lg:gap-0"
-    >
+      <h1
+        className="font-bold pb-2"
+      >
+        HELP ME
+      </h1>
       <ForwardRef(LinkComponent)
-        className="text-lg lg:justify-self-center"
+        className=" lg:justify-self-center"
+        href="mailto:info@openq.dev"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span>
+          Contact us 
+        </span>
+      </ForwardRef(LinkComponent)>
+      <ForwardRef(LinkComponent)
+        className="lg:justify-self-center "
+        href="https://openq.canny.io/openq-feature-requests"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span>
+          Feature requests 
+        </span>
+      </ForwardRef(LinkComponent)>
+    </div>
+    <div
+      className="flex flex-col pb-8"
+    >
+      <h1
+        className="font-bold pb-2"
+      >
+        COMPANY
+      </h1>
+      <ForwardRef(LinkComponent)
+        className=" lg:justify-self-center"
+        href="/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span>
+          About
+        </span>
+      </ForwardRef(LinkComponent)>
+      <ForwardRef(LinkComponent)
+        className=" lg:justify-self-center"
+        href="https://github.com/OpenQDev/OpenQ-Careers"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span>
+          Careers
+        </span>
+      </ForwardRef(LinkComponent)>
+      <ForwardRef(LinkComponent)
+        className=" lg:justify-self-center"
         href="/terms-of-use"
         rel="noopener noreferrer"
         target="_blank"
@@ -37,91 +142,83 @@ exports[`Footer should match DOM Snapshot 1`] = `
         </span>
       </ForwardRef(LinkComponent)>
       <ForwardRef(LinkComponent)
-        className="text-lg lg:justify-self-center"
-        href="https://www.openq.dev/privacy"
+        className=" lg:justify-self-center"
+        href="/privacy-policy"
         rel="noopener noreferrer"
         target="_blank"
       >
         Privacy Policy
       </ForwardRef(LinkComponent)>
     </div>
-    <ForwardRef(LinkComponent)
-      className="text-lg lg:justify-self-center "
-      href="https://openq.canny.io/openq-feature-requests"
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      <span>
-        Feature requests 
-      </span>
-    </ForwardRef(LinkComponent)>
-    <ForwardRef(LinkComponent)
-      className="text-lg lg:justify-self-center"
-      href="https://docs.openq.dev"
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      <span>
-        Documentation
-      </span>
-    </ForwardRef(LinkComponent)>
     <div
-      className="text-lg text-muted "
+      className="flex flex-col pb-8"
     >
-      Copyright 
-      2023
-       
-      <span
-        className="whitespace-nowrap"
+      <h1
+        className="font-bold pb-2"
       >
-        OpenQ ©
-      </span>
-    </div>
-    <div />
-    <div
-      className="flex flex-wrap lg:gap-2 items-center justify-content-between text-muted w-full lg:w-fit text-right py-2 "
-    >
-      <div
-        className="min-w-[100px] flex gap-4 cursor-pointer"
-        onClick={[Function]}
+        RESSOURCES
+      </h1>
+      <ForwardRef(LinkComponent)
+        className=" lg:justify-self-center"
+        href="https://medium.com/openqdev"
+        rel="noopener noreferrer"
+        target="_blank"
       >
         <span>
-           Smart Contracts
+          Blog
         </span>
-        <span
-          onClick={[Function]}
-        >
-          <ChevronDownIcon />
+      </ForwardRef(LinkComponent)>
+      <ForwardRef(LinkComponent)
+        className=" lg:justify-self-center"
+        href="https://docs.openq.dev"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span>
+          Docs
         </span>
-      </div>
+      </ForwardRef(LinkComponent)>
+      <ForwardRef(LinkComponent)
+        className=" lg:justify-self-center"
+        href="/batch"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span>
+          Batch Mint
+        </span>
+      </ForwardRef(LinkComponent)>
+    </div>
+    <div
+      className="flex flex-col lg:flex-row lg:justify-end gap-4"
+    >
+      <ForwardRef
+        alt="OpenQ"
+        className="flex lg:items-start max-h-[24px]"
+        height="90"
+        src="/openq-logo-with-text.png"
+        width="90"
+      />
       <div
-        className="relative h-6"
+        className="flex flex-col pb-8 w-56"
       >
         <div
-          className="relative w-48 undefined"
+          className="flex font-bold pb-2 lg:justify-end"
         >
-          <button
-            className="block"
-            value={1}
-          >
-            <CopyAddressToClipboard
-              clipping={
-                [
-                  5,
-                  38,
-                ]
-              }
-              styles="pt-0 w-40"
-            />
-          </button>
+          Made by devs for devs with
+        </div>
+        <div
+          className="flex pb-2 lg:text-right"
+        >
+          ❤️ in USA, Germany, Canada, Austria, Netherlands & Spain.
+        </div>
+        <div
+          className="flex text-muted lg:text-right"
+        >
+          Contracts currently not audited, use at your own risk.
         </div>
       </div>
     </div>
-    <span
-      className="text-muted col-span-2 w-3/4"
-    >
-      Contracts currently not audited, use at your own risk.
-    </span>
   </div>
   <LoadingBar />
 </div>
