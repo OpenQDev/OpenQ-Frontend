@@ -172,6 +172,7 @@ const SetTierValues = ({
                 <TextTierInput
                   tier={i + 1}
                   tierVolumes={fixedTierVolumes}
+                  initialVolumes={initialVolumes}
                   onTierVolumeChange={onFixedTierChange}
                   decimal={true}
                   adminPage={adminPage}

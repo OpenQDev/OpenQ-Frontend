@@ -8,10 +8,11 @@ const AddSkill = ({ category, user, childInfo, setInputValue }) => {
   const { accountData } = appState;
 
   useEffect(() => {
+    if (typeof setInputValue !== 'function') return;
     if (childInfo[1] == category) {
       addRole(childInfo[0]);
     }
-  }, [childInfo]);
+  }, [childInfo, setInputValue]);
 
   const updateApiAndState = async (newRoles, category) => {
     const userValues = accountData.github
@@ -38,7 +39,7 @@ const AddSkill = ({ category, user, childInfo, setInputValue }) => {
     } catch (err) {
       appState.logger.error(err, accountData.id, 'AddSkill.js1');
     }
-    if (typeof setInputValue === 'function') setInputValue('');
+    setInputValue('');
   };
   const removeRole = (e, removedRole) => {
     e.preventDefault();

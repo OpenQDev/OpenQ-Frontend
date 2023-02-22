@@ -15,22 +15,36 @@ exports[`Footer should match DOM Snapshot 1`] = `
     <OpenQSocials />
     <ForwardRef(LinkComponent)
       className="text-lg lg:justify-self-center"
-      href="/terms-of-use"
+      href="/batch"
       rel="noopener noreferrer"
       target="_blank"
     >
       <span>
-        Terms of Use
+        Batch Mint
       </span>
     </ForwardRef(LinkComponent)>
-    <ForwardRef(LinkComponent)
-      className="text-lg lg:justify-self-center"
-      href="https://www.openq.dev/privacy"
-      rel="noopener noreferrer"
-      target="_blank"
+    <div
+      className="flex flex-col lg:items-center gap-4 lg:gap-0"
     >
-      Privacy Policy
-    </ForwardRef(LinkComponent)>
+      <ForwardRef(LinkComponent)
+        className="text-lg lg:justify-self-center"
+        href="/terms-of-use"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span>
+          Terms of Use
+        </span>
+      </ForwardRef(LinkComponent)>
+      <ForwardRef(LinkComponent)
+        className="text-lg lg:justify-self-center"
+        href="https://www.openq.dev/privacy"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Privacy Policy
+      </ForwardRef(LinkComponent)>
+    </div>
     <ForwardRef(LinkComponent)
       className="text-lg lg:justify-self-center "
       href="https://openq.canny.io/openq-feature-requests"

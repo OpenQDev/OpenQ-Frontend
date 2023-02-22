@@ -8,6 +8,7 @@ import LoadingBar from '../Loading/LoadingBar';
 
 // Custom
 import CopyAddressToClipboard from '../CopyAddressToClipboard';
+import Image from 'next/image';
 
 const Footer = () => {
   const [toggle, setToggle] = useState(1);
@@ -33,126 +34,170 @@ const Footer = () => {
     };
   }, [open]);
   return (
-    <div className='flex justify-center justify-items-center full'>
-      <div className=' text-primary text-sm px-4 lg:px-20 max-w-[1300px] lg:py-12 py-4  xs:grid flex flex-col content-start items-start gap-4 xs:gap-y-0 lg:grid-cols-[0.5fr_1fr_1fr_1.3fr_2.5fr] grid-cols-[1fr_1fr]  lg:grid-rows-2 grid-rows-4 lg:grid-flow-col xs:items-center lg:flex-row w-full justify-between xs:content-center font-semibold grid-flow-row'>
-        <div className='font-semibold font-sans text-3xl'>OpenQ</div>
+    <div className='p-8 lg:p-24'>
+      <div className='flex flex-col lg:flex-row lg:p-4 justify-between lg:items-center border-b border-web-gray text-muted'>
         <OpenQSocials />
-        <Link href={'/batch'} className='text-lg lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
-          <span>Batch Mint</span>
-        </Link>
-        <div className='flex flex-col lg:items-center gap-4 lg:gap-0'>
-          <Link
-            href={'/terms-of-use'}
-            className='text-lg lg:justify-self-center'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <span>Terms of Use</span>
-          </Link>
-          <Link
-            href={'https://www.openq.dev/privacy'}
-            target='_blank'
-            rel='noopener noreferrer'
-            className='text-lg lg:justify-self-center'
-          >
-            Privacy Policy
-          </Link>
-        </div>
-        <Link
-          href={'https://openq.canny.io/openq-feature-requests'}
-          className='text-lg lg:justify-self-center '
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <span>Feature requests </span>
-        </Link>
-        <Link
-          href={'https://docs.openq.dev'}
-          className='text-lg lg:justify-self-center'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <span>Documentation</span>
-        </Link>
-        <div className='text-lg text-muted '>
-          Copyright {year} <span className='whitespace-nowrap'>OpenQ ©</span>
-        </div>
-        {process.env.NEXT_PUBLIC_BUILD_NUMBER ? (
-          <div className='text-muted '>Build: {process.env.NEXT_PUBLIC_BUILD_NUMBER}</div>
-        ) : (
-          <div></div>
-        )}
-        <div className='flex flex-wrap lg:gap-2 items-center justify-content-between text-muted w-full lg:w-fit text-right py-2 '>
-          <div onClick={() => setOpen(!open)} className='min-w-[100px] flex gap-4 cursor-pointer'>
-            <span> Smart Contracts</span>
-            {open ? (
-              <span>
-                <ChevronUpIcon />
-              </span>
-            ) : (
-              <span onClick={() => setOpen(!open)}>
-                <ChevronDownIcon />
-              </span>
-            )}
-          </div>
-          <div className='relative h-6'>
-            <div className={`relative w-48 ${open && 'left-0.25 rounded-sm border bg-dark-mode border-web-gray'}`}>
+        <div className='flex flex-col lg:flex-row space-y-2 lg:space-y-0 py-4 lg:py-0'>
+          <div className='flex gap-2 items-center'>
+            <div onClick={() => setOpen(!open)} className='flex gap-2 cursor-pointer'>
+              <span> Smart Contracts</span>
               {open ? (
-                <div ref={modal}>
-                  <button onClick={() => setToggle(1)} value={1} className='block'>
+                <span>
+                  <ChevronUpIcon />
+                </span>
+              ) : (
+                <span onClick={() => setOpen(!open)}>
+                  <ChevronDownIcon />
+                </span>
+              )}
+            </div>
+            <div className='relative h-6'>
+              <div
+                className={`relative px-3 w-40 ${open && 'left-0.25 rounded-sm border bg-dark-mode border-web-gray'}`}
+              >
+                {open ? (
+                  <div ref={modal}>
+                    <button onClick={() => setToggle(1)} value={1} className='block'>
+                      <CopyAddressToClipboard
+                        clipping={[5, 38]}
+                        data={process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS}
+                        styles='pt-0 w-40'
+                      />
+                    </button>
+
+                    <button onClick={() => setToggle(2)} value={2} className='block'>
+                      <CopyAddressToClipboard
+                        clipping={[5, 38]}
+                        data={process.env.NEXT_PUBLIC_DEPOSIT_MANAGER_PROXY_ADDRESS}
+                        styles='pt-0 w-40'
+                      />
+                    </button>
+                    <button onClick={() => setToggle(3)} value={3} className='block'>
+                      <CopyAddressToClipboard
+                        clipping={[5, 38]}
+                        data={process.env.NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS}
+                        styles='pt-0 w-40'
+                      />
+                    </button>
+                  </div>
+                ) : toggle === 1 ? (
+                  <button value={1} className='block'>
                     <CopyAddressToClipboard
                       clipping={[5, 38]}
                       data={process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS}
                       styles='pt-0 w-40'
                     />
                   </button>
-
-                  <button onClick={() => setToggle(2)} value={2} className='block'>
+                ) : toggle === 2 ? (
+                  <button value={2} className='block'>
                     <CopyAddressToClipboard
                       clipping={[5, 38]}
                       data={process.env.NEXT_PUBLIC_DEPOSIT_MANAGER_PROXY_ADDRESS}
                       styles='pt-0 w-40'
                     />
                   </button>
-                  <button onClick={() => setToggle(3)} value={3} className='block'>
+                ) : (
+                  <button value={3} className='block'>
                     <CopyAddressToClipboard
                       clipping={[5, 38]}
-                      data={process.env.NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS}
+                      data={ethers.utils.getAddress(process.env.NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS || '')}
                       styles='pt-0 w-40'
                     />
                   </button>
-                </div>
-              ) : toggle === 1 ? (
-                <button value={1} className='block'>
-                  <CopyAddressToClipboard
-                    clipping={[5, 38]}
-                    data={process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS}
-                    styles='pt-0 w-40'
-                  />
-                </button>
-              ) : toggle === 2 ? (
-                <button value={2} className='block'>
-                  <CopyAddressToClipboard
-                    clipping={[5, 38]}
-                    data={process.env.NEXT_PUBLIC_DEPOSIT_MANAGER_PROXY_ADDRESS}
-                    styles='pt-0 w-40'
-                  />
-                </button>
-              ) : (
-                <button value={3} className='block'>
-                  <CopyAddressToClipboard
-                    clipping={[5, 38]}
-                    data={ethers.utils.getAddress(process.env.NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS || '')}
-                    styles='pt-0 w-40'
-                  />
-                </button>
-              )}
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className='flex flex-col lg:flex-row gap-2 lg:gap-4 lg:items-center'>
+            {process.env.NEXT_PUBLIC_BUILD_NUMBER ? (
+              <div>Build: {process.env.NEXT_PUBLIC_BUILD_NUMBER}</div>
+            ) : (
+              <div>Build: production-1.0.22</div>
+            )}
+            <div className=''>
+              <span className='whitespace-nowrap'>©</span> {year}, OpenQ Labs GmbH
             </div>
           </div>
         </div>
-        <span className='text-muted col-span-2 w-3/4'>Contracts currently not audited, use at your own risk.</span>
       </div>
-
+      <div className='mt-6 lg:grid lg:grid-cols-[1fr_1fr_1fr_3fr]'>
+        <div className='flex flex-col pb-8'>
+          <h1 className='font-bold pb-2'>HELP ME</h1>
+          <Link
+            href={'mailto:info@openq.dev'}
+            className=' lg:justify-self-center'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <span>Contact us </span>
+          </Link>
+          <Link
+            href={'https://openq.canny.io/openq-feature-requests'}
+            className='lg:justify-self-center '
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <span>Feature requests </span>
+          </Link>
+        </div>
+        <div className='flex flex-col pb-8'>
+          <h1 className='font-bold pb-2'>COMPANY</h1>
+          <Link href={'/'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
+            <span>About</span>
+          </Link>
+          <Link
+            href={'https://github.com/OpenQDev/OpenQ-Careers'}
+            className=' lg:justify-self-center'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <span>Careers</span>
+          </Link>
+          <Link href={'/terms-of-use'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
+            <span>Terms of Use</span>
+          </Link>
+          <Link href={'/privacy-policy'} target='_blank' rel='noopener noreferrer' className=' lg:justify-self-center'>
+            Privacy Policy
+          </Link>
+        </div>
+        <div className='flex flex-col pb-8'>
+          <h1 className='font-bold pb-2'>RESSOURCES</h1>
+          <Link
+            href={'https://medium.com/openqdev'}
+            className=' lg:justify-self-center'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <span>Blog</span>
+          </Link>
+          <Link
+            href={'https://docs.openq.dev'}
+            className=' lg:justify-self-center'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <span>Docs</span>
+          </Link>
+          <Link href={'/batch'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
+            <span>Batch Mint</span>
+          </Link>
+        </div>
+        <div className='flex flex-col lg:flex-row lg:justify-end gap-4'>
+          <Image
+            className='flex lg:items-start max-h-[24px]'
+            src='/openq-logo-with-text.png'
+            alt='OpenQ'
+            width='90'
+            height='90'
+          />
+          <div className='flex flex-col pb-8 w-56'>
+            <div className='flex font-bold pb-2 lg:justify-end'>Made by devs for devs with</div>
+            <div className='flex pb-2 lg:text-right'>❤️ in USA, Germany, Canada, Austria, Netherlands & Spain.</div>
+            <div className='flex text-muted lg:text-right'>Contracts currently not audited, use at your own risk.</div>
+          </div>
+        </div>
+      </div>
       <LoadingBar />
     </div>
   );

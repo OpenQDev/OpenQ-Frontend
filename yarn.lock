@@ -2483,23 +2483,23 @@
     "@magic-sdk/types" "^9.0.0"
 
 "@magic-sdk/commons@^9.3.0":
-  version "9.4.0"
-  resolved "https://registry.yarnpkg.com/@magic-sdk/commons/-/commons-9.4.0.tgz#bc23889f420071c959deaca1d6c73a7ec1b016ac"
-  integrity sha512-HRofg3XTiuyHJdF8f5I2K/X9Vj1vtevxC1n0ZAgxQ0Vr4XGHCqIVbduQ6ucd99+MZ9v2I6bwE4214Pys7iVasA==
+  version "9.3.0"
+  resolved "https://registry.yarnpkg.com/@magic-sdk/commons/-/commons-9.3.0.tgz#f026ca76d25612aeef08837646b8d2f2a0946ca3"
+  integrity sha512-K6Vg/LUZr+P2O90iaNoOMkVyufK/W9FbeIYk62ODaRQa7AAnv2Gxwkr5varhx75zeOeJykWKxo+zwBN/iSLAsg==
 
 "@magic-sdk/provider@^13.3.0":
-  version "13.4.0"
-  resolved "https://registry.yarnpkg.com/@magic-sdk/provider/-/provider-13.4.0.tgz#47ba487ee8caf99f4b76320a03f494dc023b1140"
-  integrity sha512-ehTQmSKbjfKS8RokLa1cL1pm/tuG8uJwwXNPtlGpPPojCJVLAKna40GpGYQCgwkUWpwEUI9jEtlRNFemZhOaqg==
+  version "13.3.0"
+  resolved "https://registry.yarnpkg.com/@magic-sdk/provider/-/provider-13.3.0.tgz#9ee3b4360d43bf43d03a53faa645be5edd8831ed"
+  integrity sha512-dTN7vUoG6+fSzDY/4MzlXsDVat6P/rW4IL6ktkqlOR5Nr9XbIcfLvSHKmnJdOS3u47btiV9ISis69TEj9HsUJw==
   dependencies:
-    "@magic-sdk/types" "^11.4.0"
+    "@magic-sdk/types" "^11.3.0"
     eventemitter3 "^4.0.4"
     web3-core "1.5.2"
 
-"@magic-sdk/types@^11.3.0", "@magic-sdk/types@^11.4.0":
-  version "11.4.0"
-  resolved "https://registry.yarnpkg.com/@magic-sdk/types/-/types-11.4.0.tgz#bdc54aec36a06e9c22373093c8e3b5d3db9553b1"
-  integrity sha512-EBod1CVzLx6ikVf2bYPJiRZIyMYJZ4h7Z/fuOuAwWyylY62JqsFrpw7SCv1716xgRBz5ZA33YjNy+MPEW3vwCQ==
+"@magic-sdk/types@^11.3.0":
+  version "11.3.0"
+  resolved "https://registry.yarnpkg.com/@magic-sdk/types/-/types-11.3.0.tgz#f3692cca43b919aa52d7842ce592e2067f11310c"
+  integrity sha512-45Bw8aJ3+LRYYS3RhYHNgMyV+rcVeF5y9M/gHfcGEp8p3sO1aBrYii1+So9KPrvCA1RrBcMAAoN2VGUBn4bYQg==
 
 "@magic-sdk/types@^9.0.0":
   version "9.1.0"

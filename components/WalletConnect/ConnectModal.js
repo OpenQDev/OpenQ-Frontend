@@ -39,12 +39,7 @@ const ConnectModal = ({ closeModal, setShowModal }) => {
       <div className='p-4'>
         <p className='text-xl pt-2'>
           Connect your wallet to continue with OpenQ. By connecting your wallet you agree with OpenQ{"'"}s{' '}
-          <a
-            className='hover:underline text-blue-400'
-            target='_blank'
-            rel='noopener noreferrer'
-            href='https://www.openq.dev/terms-of-service'
-          >
+          <a className='hover:underline text-blue-400' target='_blank' rel='noopener noreferrer' href='/terms-of-use'>
             terms of service
           </a>
           .
@@ -63,10 +58,6 @@ const ConnectModal = ({ closeModal, setShowModal }) => {
           />
           <div className='leading-loose text-lg'>WalletConnect</div>
         </button>
-        <p className='text-sm text-muted pb-4'>
-          Are you using Gnosis Safe? For the best experience use the WalletConnect Safe App and connect Openq via
-          WalletConnect.
-        </p>
       </div>
     </ModalLarge>
   );

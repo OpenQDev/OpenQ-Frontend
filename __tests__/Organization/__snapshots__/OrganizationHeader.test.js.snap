@@ -102,13 +102,13 @@ exports[`OrganizationHeader should match DOM Snapshot 1`] = `
           </svg>
           <a
             className="text-xs"
-            href="https://openq.dev"
+            href="https://www.openq.dev"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
             target="_blank"
           >
-            https://openq.dev
+            https://www.openq.dev
           </a>
         </div>
       </li>

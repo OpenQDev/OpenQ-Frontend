@@ -69,9 +69,8 @@ export default function Index({ orgs, types, category, renderError, paginationOb
         />
       </div>
       <div>
-        {renderError ? (
-          <UnexpectedErrorModal error={renderError} />
-        ) : internalMenu == 'Organizations' ? (
+        {renderError && <UnexpectedErrorModal error={renderError} />}
+        {internalMenu == 'Organizations' ? (
           <OrganizationHomepage orgs={controlledOrgs} types={types} />
         ) : (
           <BountyHomepage paginationObj={paginationObj} watchedBounties={watchedBounties} types={types} />

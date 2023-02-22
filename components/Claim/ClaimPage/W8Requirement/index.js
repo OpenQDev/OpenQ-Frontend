@@ -257,11 +257,15 @@ const W8Requirement = ({ bounty }) => {
                 file || sent ? 'btn-verified' : 'btn-requirements'
               }`}
             >
-              <div className='flex w-56  lg:w-28 gap-2 z-20 py-0.5 items-center'>
+              <div className='flex w-56  lg:w-28 gap-2 z-20 py-0.5 items-center justify-center text-center'>
                 {file || sent ? (
-                  <>
-                    <CheckIcon size={16} /> {sent ? 'Pending' : 'Change File'}
-                  </>
+                  sent ? (
+                    'Pending'
+                  ) : (
+                    <>
+                      <CheckIcon size={16} /> 'Change File'
+                    </>
+                  )
                 ) : (
                   <>
                     <UploadIcon size={16} />
