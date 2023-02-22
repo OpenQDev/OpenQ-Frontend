@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import { ChevronRightIcon, IssueOpenedIcon } from '@primer/octicons-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,36 +9,15 @@ import CardFooter from './Card/CardFooter';
 import CardHeader from './Card/CardHeader';
 import StarButton from './StarButton';
 import RepoLanguage from './RepoLanguage';
-import { useRepos } from '../../store/Gun/ReposProvider';
-import StoreContext from '../../store/Store/StoreContext';
+import { useIssues } from '../../store/Store/GoodFirstIssuesProvider';
 
 export default function GoodFirstIssues() {
-  const [issues, setIssues] = useState([]);
-  const [appState] = useContext(StoreContext);
-  const repos = useRepos();
+  const issues = useIssues();
 
-  useEffect(() => {
-    if (repos) {
-      repos.forEach((repo) => {
-        if (!repo || !repo.issuesJson) return;
-        try {
-          const repoIssues = JSON.parse(repo.issuesJson);
-          repoIssues.forEach((issue) => {
-            issue.repo = repo;
-          });
-          setIssues((currentIssues) => {
-            const issuesWithDuplicates = [...currentIssues, ...repoIssues];
-            const uniqueIssues = issuesWithDuplicates.filter((issue, index, self) => {
-              return self.findIndex((i) => i.id === issue.id) === index;
-            });
-            return uniqueIssues;
-          });
-        } catch (e) {
-          appState.logger.error('error parsing issues coming from gun');
-        }
-      });
-    }
-  }, [repos]);
+  const tenRandomIssuesWithUniqueRepos = issues
+    ?.sort(() => Math.random() - 0.5)
+    .filter((issue, index, self) => self.findIndex((t) => t.repository.name === issue.repository.name) === index)
+    .slice(0, 10);
 
   return (
     <div className='w-full pt-12 lg:pt-40'>
@@ -53,7 +32,7 @@ export default function GoodFirstIssues() {
         </Link>
       </div>
       <div className='flex sm:border sm:border-dark-1 sm:rounded-sm pb-2 sm:p-5 sm:bg-dark-3 space-x-5 overflow-x-auto custom-scrollbar custom-scrollbar-horizontal'>
-        {issues.map((issue) => (
+        {tenRandomIssuesWithUniqueRepos.map((issue) => (
           <Link key={issue.id} href={issue.url} target='_blank' className='min-w-full max-w-[24rem] sm:min-w-[24rem]'>
             <Card>
               <CardHeader>
@@ -64,8 +43,8 @@ export default function GoodFirstIssues() {
                   height={27}
                   className='mr-2 rounded-full'
                 />
-                <div className='pr-3 mr-auto text-link-colour font-bold whitespace-nowrap'>{issue.repo.name}</div>
-                <StarButton count={issue.repo.stars} />
+                <div className='pr-3 mr-auto text-link-colour font-bold whitespace-nowrap'>{issue.repository.name}</div>
+                <StarButton count={issue.repository.stars} />
               </CardHeader>
               <CardBody>
                 <div className='text-xs text-gray-400 truncate'>
@@ -73,7 +52,7 @@ export default function GoodFirstIssues() {
                   {issue.title}
                 </div>
                 <div className='flex space-x-2 mt-3'>
-                  {issue.labels.map((label) => (
+                  {issue.labels.nodes.map((label) => (
                     <span
                       key={label.id}
                       className='inline-block text-[10px] rounded-full px-2 leading-5 text-white text-opacity-75 whitespace-nowrap'
@@ -85,7 +64,7 @@ export default function GoodFirstIssues() {
                 </div>
               </CardBody>
               <CardFooter>
-                <RepoLanguage language={issue.repo.language} />
+                <RepoLanguage language={issue.repository.languages.nodes[0] || null} />
                 {issue.assignee ? (
                   <div className='text-xs text-gray-400 whitespace-nowrap'>Assigned to {issue.assignee}</div>
                 ) : (
