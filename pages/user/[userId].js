@@ -106,7 +106,6 @@ export const getServerSideProps = async (context) => {
   const openQPrismaClient = new WrappedOpenQPrismaClient();
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
 
-  const emailAuth = true;
   let userId = context.params.userId;
   let renderError = '';
 
@@ -130,11 +129,9 @@ export const getServerSideProps = async (context) => {
 
   try {
     // 1. We fetch the API user using the userId we get from the URL
-    if (emailAuth) {
-      userOffChainData = await openQPrismaClient.instance.getPublicUserById(userId);
-    } else {
-      userOffChainData = await openQPrismaClient.instance.getUser(userId);
-    }
+
+    userOffChainData = await openQPrismaClient.instance.getPublicUserById(userId);
+
     if (!userOffChainData) {
       // This is where we should throw a 404
       return { props: { renderError: `User with id ${userId} not found.` } };

@@ -263,7 +263,7 @@ const W8Requirement = ({ bounty }) => {
                     'Pending'
                   ) : (
                     <>
-                      <CheckIcon size={16} /> 'Change File'
+                      <CheckIcon size={16} /> Change File
                     </>
                   )
                 ) : (

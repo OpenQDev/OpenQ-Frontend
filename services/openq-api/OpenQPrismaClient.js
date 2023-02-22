@@ -344,6 +344,7 @@ class OpenQPrismaClient {
           variables,
 
           fetchPolicy: 'no-cache',
+          errorPolicy: 'ignore',
         });
         resolve(result.data.user);
       } catch (e) {
@@ -397,6 +398,7 @@ class OpenQPrismaClient {
   }
 
   getPublicUser(github) {
+    console.log('me', github);
     const promise = new Promise(async (resolve, reject) => {
       const variables = {
         github,
@@ -425,6 +427,7 @@ class OpenQPrismaClient {
         const result = await this.client.query({
           query: GET_USER,
           variables,
+          errorPolicy: 'ignore',
         });
         resolve(result.data.user);
       } catch (e) {

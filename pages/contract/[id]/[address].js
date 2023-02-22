@@ -44,7 +44,7 @@ const address = ({ address, mergedBounty, renderError }) => {
   const [bounty, setBounty] = useState(mergedBounty);
 
   const { status } = checkClaimable(bounty, accountData?.github, openQClient);
-  const claimable = status === 'Claimable' || 'Claimed';
+  const claimable = status === 'Claimable' || status === 'Claimed';
   const claimState = useState({});
   const { account } = useWeb3();
 
