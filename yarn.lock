@@ -2482,24 +2482,24 @@
   dependencies:
     "@magic-sdk/types" "^9.0.0"
 
-"@magic-sdk/commons@^9.3.0":
-  version "9.3.0"
-  resolved "https://registry.yarnpkg.com/@magic-sdk/commons/-/commons-9.3.0.tgz#f026ca76d25612aeef08837646b8d2f2a0946ca3"
-  integrity sha512-K6Vg/LUZr+P2O90iaNoOMkVyufK/W9FbeIYk62ODaRQa7AAnv2Gxwkr5varhx75zeOeJykWKxo+zwBN/iSLAsg==
+"@magic-sdk/commons@^9.4.0":
+  version "9.4.0"
+  resolved "https://registry.yarnpkg.com/@magic-sdk/commons/-/commons-9.4.0.tgz#bc23889f420071c959deaca1d6c73a7ec1b016ac"
+  integrity sha512-HRofg3XTiuyHJdF8f5I2K/X9Vj1vtevxC1n0ZAgxQ0Vr4XGHCqIVbduQ6ucd99+MZ9v2I6bwE4214Pys7iVasA==
 
-"@magic-sdk/provider@^13.3.0":
-  version "13.3.0"
-  resolved "https://registry.yarnpkg.com/@magic-sdk/provider/-/provider-13.3.0.tgz#9ee3b4360d43bf43d03a53faa645be5edd8831ed"
-  integrity sha512-dTN7vUoG6+fSzDY/4MzlXsDVat6P/rW4IL6ktkqlOR5Nr9XbIcfLvSHKmnJdOS3u47btiV9ISis69TEj9HsUJw==
+"@magic-sdk/provider@^13.4.0":
+  version "13.4.0"
+  resolved "https://registry.yarnpkg.com/@magic-sdk/provider/-/provider-13.4.0.tgz#47ba487ee8caf99f4b76320a03f494dc023b1140"
+  integrity sha512-ehTQmSKbjfKS8RokLa1cL1pm/tuG8uJwwXNPtlGpPPojCJVLAKna40GpGYQCgwkUWpwEUI9jEtlRNFemZhOaqg==
   dependencies:
-    "@magic-sdk/types" "^11.3.0"
+    "@magic-sdk/types" "^11.4.0"
     eventemitter3 "^4.0.4"
     web3-core "1.5.2"
 
-"@magic-sdk/types@^11.3.0":
-  version "11.3.0"
-  resolved "https://registry.yarnpkg.com/@magic-sdk/types/-/types-11.3.0.tgz#f3692cca43b919aa52d7842ce592e2067f11310c"
-  integrity sha512-45Bw8aJ3+LRYYS3RhYHNgMyV+rcVeF5y9M/gHfcGEp8p3sO1aBrYii1+So9KPrvCA1RrBcMAAoN2VGUBn4bYQg==
+"@magic-sdk/types@^11.4.0":
+  version "11.4.0"
+  resolved "https://registry.yarnpkg.com/@magic-sdk/types/-/types-11.4.0.tgz#bdc54aec36a06e9c22373093c8e3b5d3db9553b1"
+  integrity sha512-EBod1CVzLx6ikVf2bYPJiRZIyMYJZ4h7Z/fuOuAwWyylY62JqsFrpw7SCv1716xgRBz5ZA33YjNy+MPEW3vwCQ==
 
 "@magic-sdk/types@^9.0.0":
   version "9.1.0"
@@ -4426,10 +4426,10 @@
   resolved "https://registry.yarnpkg.com/@types/trusted-types/-/trusted-types-2.0.2.tgz#fc25ad9943bcac11cceb8168db4f275e0e72e756"
   integrity sha512-F5DIZ36YVLE+PN+Zwws4kJogq47hNgX3Nx6WyDJ3kcplxyke3XIzB8uK5n/Lpm1HBsbGzd6nmGehL8cPekP+Tg==
 
-"@types/uuid@9.0.0":
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-9.0.0.tgz#53ef263e5239728b56096b0a869595135b7952d2"
-  integrity sha512-kr90f+ERiQtKWMz5rP32ltJ/BtULDI5RVO0uavn1HQUOwjx0R1h0rnDYNL0CepF1zL5bSY6FISAfd9tOdDhU5Q==
+"@types/uuid@9.0.1":
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-9.0.1.tgz#98586dc36aee8dacc98cc396dbca8d0429647aa6"
+  integrity sha512-rFT3ak0/2trgvp4yYZo5iKFEPsET7vKydKF+VRCxlQ9bpheehyAJH89dAkaLEq/j/RZXJIqcgsmPJKUP1Z28HA==
 
 "@types/ws@^7.4.4":
   version "7.4.7"
@@ -5683,10 +5683,10 @@ axios-cache-adapter@2.7.3:
     cache-control-esm "1.0.0"
     md5 "^2.2.1"
 
-axios@1.3.3:
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.3.3.tgz#e7011384ba839b885007c9c9fae1ff23dceb295b"
-  integrity sha512-eYq77dYIFS77AQlhzEL937yUBSepBfPIe8FcgEDN35vMNZKMrs81pgnyrQpwfy4NF4b4XWX1Zgx7yX+25w8QJA==
+axios@1.3.4:
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.3.4.tgz#f5760cefd9cfb51fd2481acf88c05f67c4523024"
+  integrity sha512-toYm+Bsyl6VC5wSkfkbbNB6ROv7KY93PEBBL6xyDczaIHasAiv4wPqQ/c4RjoQzipxRD2W5g21cOqQulZ7rHwQ==
   dependencies:
     follow-redirects "^1.15.0"
     form-data "^4.0.0"
@@ -12481,14 +12481,14 @@ lz-string@^1.4.4:
   resolved "https://registry.yarnpkg.com/lz-string/-/lz-string-1.4.4.tgz#c0d8eaf36059f705796e1e344811cf4c498d3a26"
   integrity sha512-0ckx7ZHRPqb0oUm8zNr+90mtf9DQB60H1wMCjBtfi62Kl3a7JbHob6gA2bC+xRvZoOL+1hzUK8jeuEIQE8svEQ==
 
-magic-sdk@13.3.1:
-  version "13.3.1"
-  resolved "https://registry.yarnpkg.com/magic-sdk/-/magic-sdk-13.3.1.tgz#0d7d19dff7d0518bec0ecae0693b7d1726204b04"
-  integrity sha512-CqGpnWs4jb++dravyuEUv64rbG/VHF16Q+JwW3qjTOPaD49KhbY2Ng9/TavM90SVYQjYO/m7TzXlYVobc3jZNA==
+magic-sdk@13.4.0:
+  version "13.4.0"
+  resolved "https://registry.yarnpkg.com/magic-sdk/-/magic-sdk-13.4.0.tgz#ec71244be38b54164e01441d1bf29ebe2dae9317"
+  integrity sha512-hArmjsYEpsPuqqj47IVR/6E347Z1CUuX5LVm8qkJP8oRgBYEJpMqgdGoqdRnyAaTTOBiqeLPboLOwokgccY/pA==
   dependencies:
-    "@magic-sdk/commons" "^9.3.0"
-    "@magic-sdk/provider" "^13.3.0"
-    "@magic-sdk/types" "^11.3.0"
+    "@magic-sdk/commons" "^9.4.0"
+    "@magic-sdk/provider" "^13.4.0"
+    "@magic-sdk/types" "^11.4.0"
     localforage "^1.7.4"
 
 magic-string@^0.25.0, magic-string@^0.25.7:
