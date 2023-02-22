@@ -34,11 +34,11 @@ const Footer = () => {
     };
   }, [open]);
   return (
-    <div className='p-24'>
-      <div className='flex p-4 justify-between items-center border-b border-web-gray text-muted'>
+    <div className='p-8 sm:p-24'>
+      <div className='flex flex-col sm:flex-row sm:p-4 justify-between sm:items-center border-b border-web-gray text-muted'>
         <OpenQSocials />
-        <div className='flex'>
-          <div className='flex lg:gap-2 items-center'>
+        <div className='flex flex-col sm:flex-row space-y-2 py-4 sm:py-0'>
+          <div className='flex gap-2 items-center'>
             <div onClick={() => setOpen(!open)} className='flex gap-2 cursor-pointer'>
               <span> Smart Contracts</span>
               {open ? (
@@ -109,7 +109,7 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className='flex lg:gap-4 items-center'>
+          <div className='flex flex-col sm:flex-row gap-2 lg:gap-4 sm:items-center'>
             {process.env.NEXT_PUBLIC_BUILD_NUMBER ? (
               <div>Build: {process.env.NEXT_PUBLIC_BUILD_NUMBER}</div>
             ) : (
