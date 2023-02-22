@@ -7,7 +7,6 @@ import AuthContext from '../../../../store/AuthStore/AuthContext';
 import StoreContext from '../../../../store/Store/StoreContext';
 import ToolTipNew from '../../../Utils/ToolTipNew';
 import ClaimLoadingModal from '../../ClaimLoadingModal';
-import confetti from 'canvas-confetti';
 import {
   CHECKING_WITHDRAWAL_ELIGIBILITY,
   WITHDRAWAL_INELIGIBLE,
@@ -79,7 +78,6 @@ const ClaimButton = ({
     setShowClaimLoadingModal(false);
     if (claimState === TRANSACTION_CONFIRMED) {
       refreshBounty();
-      setInternalMenu('Claims Overview');
     } else {
       setClaimState(CONFIRM_CLAIM);
     }
@@ -135,22 +133,6 @@ const ClaimButton = ({
       };
 
       dispatch(payload);
-
-      canvas.current.width = window.innerWidth;
-      canvas.current.height = window.innerHeight;
-
-      const canvasConfetti = confetti.create(canvas.current, {
-        resize: true,
-        useWorker: true,
-      });
-      canvasConfetti({
-        particleCount: 50,
-        spread: window.innerWidth,
-        origin: {
-          x: 1,
-          y: 0,
-        },
-      });
     } catch (err) {
       if (isContest(bounty)) {
         if (err.message.includes('TIER_ALREADY_CLAIMED')) {

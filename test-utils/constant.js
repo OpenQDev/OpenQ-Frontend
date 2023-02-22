@@ -12,6 +12,38 @@ export default class Constants {
   static get bountyCost() {
     return '$9.52';
   }
+  static get pr() {
+    return {
+      __typename: 'PullRequest',
+      author: {
+        __typename: 'User',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/93455288?u=fd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84&v=4',
+        email: '',
+        id: 'U_kgDOBZIDuA',
+        login: 'FlacoJones',
+        url: 'https://github.com/FlacoJones',
+        user: { __typename: 'User', login: 'FlacoJones', url: 'https://github.com/FlacoJones' },
+      },
+      body: 'This Closes #136 and also unrelated thing of Fixes #137',
+      bodyHTML:
+        '<p dir="auto">This <span class="issue-keyword tooltipped tooltipped-se" aria-label="This pull request closes issue #136.">Closes</span> <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="1183776821" data-permission-text="Title is private" data-url="https://github.com/OpenQDev/OpenQ-TestRepo/issues/136" data-hovercard-type="issue" data-hovercard-url="/OpenQDev/OpenQ-TestRepo/issues/136/hovercard" href="https://github.com/OpenQDev/OpenQ-TestRepo/issues/136">#136</a> and also unrelated thing of <span class="issue-keyword tooltipped tooltipped-se" aria-label="This pull request closes issue #137.">Fixes</span> <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="1183777365" data-permission-text="Title is private" data-url="https://github.com/OpenQDev/OpenQ-TestRepo/issues/137" data-hovercard-type="issue" data-hovercard-url="/OpenQDev/OpenQ-TestRepo/issues/137/hovercard" href="https://github.com/OpenQDev/OpenQ-TestRepo/issues/137">#137</a></p>',
+      bodyText: 'This Closes #136 and also unrelated thing of Fixes #137',
+      id: 'PR_kwDOGWnnz841LGsK',
+      mergeCommit: {
+        __typename: 'Commit',
+        author: {
+          __typename: 'GitActor',
+          avatarUrl: 'https://avatars.githubusercontent.com/u/93455288?v=4',
+          name: 'FlacoJones',
+          user: { __typename: 'User', login: 'FlacoJones', url: 'https://github.com/FlacoJones' },
+        },
+      },
+      merged: true,
+      mergedAt: '2022-03-28T17:57:44Z',
+      title: 'Update README.md',
+      url: 'https://github.com/OpenQDev/OpenQ-TestRepo/pull/138',
+    };
+  }
 
   static get modalPayout() {
     return {

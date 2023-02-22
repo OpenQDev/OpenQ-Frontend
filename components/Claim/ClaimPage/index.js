@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 // Custom
 import CopyAddressToClipboard from '../../CopyAddressToClipboard';
-import BountyClosed from '../../BountyClosed';
+import BountyClaimed from './BountyClaimed/index.js';
 import StoreContext from '../../../store/Store/StoreContext';
 import ConnectButton from '../../WalletConnect/ConnectButton';
 import AuthContext from '../../../store/AuthStore/AuthContext';
@@ -20,7 +20,6 @@ import { checkClaimable, isEveryValueNotNull, isContest } from '../../../service
 
 const ClaimPage = ({ bounty, refreshBounty, split, setInternalMenu, internalMenu, claimState, showClaimPage }) => {
   const [appState] = useContext(StoreContext);
-
   const { accountData, openQClient } = appState;
   // State
   const [justClaimed, setJustClaimed] = useState(false);
@@ -77,8 +76,7 @@ const ClaimPage = ({ bounty, refreshBounty, split, setInternalMenu, internalMenu
     return !accountData[key];
   });
   const hasInvoicingInfo = neededAccountData.length === 0 || !bounty.invoiceRequired; */
-  const showBountyClosed = status == 'Claimed';
-
+  const showBountyClosed = status === 'Claimed';
   // Context
 
   // Hooks
@@ -86,9 +84,9 @@ const ClaimPage = ({ bounty, refreshBounty, split, setInternalMenu, internalMenu
 
   if (showBountyClosed) {
     return bounty.bountyType ? (
-      <>
-        <BountyClosed bounty={bounty} showTweetLink={justClaimed} />
-      </>
+      <div className={!showClaimPage ? 'hidden' : ' w-full  lg:max-w-[800px]'}>
+        <BountyClaimed bounty={bounty} justClaimed={justClaimed} />
+      </div>
     ) : (
       <div className='text-lg'>Bounty type unknown. Please refresh your window.</div>
     );

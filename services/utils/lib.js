@@ -99,6 +99,15 @@ export const checkFixedAndSplit = (bounty, currentUser) => {
   }
   return { status: null };
 };
+
+export const getWinningPrOfUser = (bounty, currentUser) => {
+  if (bounty?.tierWinners?.some((winner, index) => winner === currentUser && checkTierClaimed(bounty, index))) {
+    const winningPr = bounty?.prs?.find((pr) => pr.source.author.id === currentUser);
+
+    return winningPr.source;
+  }
+};
+
 export const checkTiered = (bounty, currentUser) => {
   if (bounty?.tierWinners?.some((winner, index) => winner === currentUser && checkTierClaimed(bounty, index))) {
     return { status: 'Claimed' };
