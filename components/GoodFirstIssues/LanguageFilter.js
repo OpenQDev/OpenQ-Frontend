@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRepos } from '../../store/Gun/ReposProvider';
+import { useRepos } from '../../store/Store/GoodFirstIssuesProvider';
 import LanguageFilterLanguage from './LanguageFilterLanguage';
 
 export default function LanguageFilter() {
@@ -7,11 +7,12 @@ export default function LanguageFilter() {
 
   const languages =
     repos?.reduce((result, repo) => {
-      if (repo.language) {
-        if (result[repo.language]) {
-          result[repo.language]++;
+      if (repo.languages.nodes.length > 0) {
+        const languageName = repo.languages.nodes[0].name;
+        if (result[languageName]) {
+          result[languageName]++;
         } else {
-          result[repo.language] = 1;
+          result[languageName] = 1;
         }
       }
       return result;
