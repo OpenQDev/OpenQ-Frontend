@@ -6,6 +6,7 @@ import {
   GET_ORG_BY_NAME,
   GET_REPO_BY_NAME,
   GET_REPO_NAMES_BY_ORG_NAME,
+  GET_REPO_NAMES_BY_USER_NAME,
   GET_REPO_WITH_LABELED_OPEN_ISSUES,
   GET_ISSUE,
   GET_ISSUE_BY_ID,
@@ -436,17 +437,24 @@ class GithubRepository {
     return promise;
   }
 
-  async fetchOrgRepoNames(orgName) {
-    const variables = { orgName };
+  async fetchOrgOrUserRepoNames(orgOrUserName) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
           query: GET_REPO_NAMES_BY_ORG_NAME,
-          variables,
+          variables: { orgName: orgOrUserName },
         });
         resolve(result.data.organization.repositories.nodes);
       } catch (e) {
-        reject(e);
+        try {
+          const result = await this.client.query({
+            query: GET_REPO_NAMES_BY_USER_NAME,
+            variables: { userName: orgOrUserName },
+          });
+          resolve(result.data.user.repositories.nodes);
+        } catch (e) {
+          reject(e);
+        }
       }
     });
 

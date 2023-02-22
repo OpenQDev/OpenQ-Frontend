@@ -455,12 +455,36 @@ export const GET_REPO_NAMES_BY_ORG_NAME = gql`
           description
           homepageUrl
           url
-          languages(first: 3) {
-            edges {
-              node {
-                name
-                color
-              }
+          languages(first: 1) {
+            nodes {
+              id
+              name
+              color
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_REPO_NAMES_BY_USER_NAME = gql`
+  query GetRepoNamesByUserName($userName: String!) {
+    user(login: $userName) {
+      repositories (first: 50) {
+        nodes {
+          __typename
+          name
+          nameWithOwner
+          id
+          description
+          homepageUrl
+          url
+          languages(first: 1) {
+            nodes {
+              id
+              name
+              color
             }
           }
         }
@@ -473,6 +497,9 @@ export const GET_REPO_WITH_LABELED_OPEN_ISSUES = gql`
   query GetRepoWithLabeledIssues($name: String!, $owner: String!, $labels: [String!]) {
     repository(name: $name, owner: $owner) {
       __typename
+      owner {
+        login
+      }
       name
       nameWithOwner
       id
@@ -481,11 +508,10 @@ export const GET_REPO_WITH_LABELED_OPEN_ISSUES = gql`
       url
       stargazerCount
       languages(first: 3) {
-        edges {
-          node {
-            name
-            color
-          }
+        nodes {
+          id
+          name
+          color
         }
       }
       issues(first: 50, labels: $labels, states: [OPEN]) {

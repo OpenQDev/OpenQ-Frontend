@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import { ChevronRightIcon, IssueOpenedIcon } from '@primer/octicons-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,55 +9,16 @@ import CardFooter from './Card/CardFooter';
 import CardHeader from './Card/CardHeader';
 import StarButton from './StarButton';
 import RepoLanguage from './RepoLanguage';
-import { gun } from '../../lib/Gun';
-import StoreContext from '../../store/Store/StoreContext';
-import goodFirstIssuesOrgWhitelist from '../../lib/goodFirstIssuesOrgWhitelist.json';
+import { useIssues } from '../../store/Store/GoodFirstIssuesProvider';
 
 export default function GoodFirstIssues() {
-  const [appState] = useContext(StoreContext);
-  const [issues, setIssues] = useState([]);
-  
-  const NUMBER_OF_RANDOMLY_UPDATE_ORGS = 1;
+  const issues = useIssues();
 
-  async function syncOrg(orgName) {
-    const githubOrgRepoNames = await appState.githubRepository.fetchOrgRepoNames(orgName);
-  
-    for (const githubRepoName of githubOrgRepoNames) {
-      console.log('Syncing', orgName, githubRepoName);
-      const repo = await appState.githubRepository.fetchRepoWithLabeledIssues(
-        orgName,
-        githubRepoName,
-        [ 'good first issue' ]
-      );
+  const tenRandomIssuesWithUniqueRepos = issues
+    ?.sort(() => Math.random() - 0.5)
+    .filter((issue, index, self) => self.findIndex((t) => t.repository.name === issue.repository.name) === index)
+    .slice(0, 10);
 
-      repo.issues.nodes.forEach(issue => {
-        const updatedIssue = { ...issue };
-        updatedIssue.repo = {
-          ...repo,
-          issues: undefined,
-        };
-        console.log('goodfirstissues to gun', updatedIssue)
-        gun.get('goodfirstissues').get(updatedIssue.id).put(JSON.stringify(updatedIssue));
-      });
-    }
-  }
-
-  useEffect(() => {
-    try {
-      const shuffledOrgWhitelist = goodFirstIssuesOrgWhitelist.sort(() => 0.5 - Math.random());
-      // const shuffledOrgWhitelist = ['OpenQDev']
-      for (const orgName of shuffledOrgWhitelist.slice(0, NUMBER_OF_RANDOMLY_UPDATE_ORGS)) {
-        syncOrg(orgName);
-      }
-    } catch (e) {
-      console.error('Error syncing org to gun:', e.message);
-    }
-  }, []);
-
-  gun.get('goodfirstissues').once().map((issue, id) => {
-    setIssues(issues => [...issues, JSON.parse(issue)]);
-  });
-  
   return (
     <div className='w-full pt-12 lg:pt-40'>
       <div className='text-center mb-10'>
@@ -71,7 +32,7 @@ export default function GoodFirstIssues() {
         </Link>
       </div>
       <div className='flex sm:border sm:border-dark-1 sm:rounded-sm pb-2 sm:p-5 sm:bg-dark-3 space-x-5 overflow-x-auto custom-scrollbar custom-scrollbar-horizontal'>
-        {issues.map((issue) => (
+        {tenRandomIssuesWithUniqueRepos.map((issue) => (
           <Link key={issue.id} href={issue.url} target='_blank' className='min-w-full max-w-[24rem] sm:min-w-[24rem]'>
             <Card>
               <CardHeader>
@@ -82,8 +43,8 @@ export default function GoodFirstIssues() {
                   height={27}
                   className='mr-2 rounded-full'
                 />
-                <div className='pr-3 mr-auto text-link-colour font-bold whitespace-nowrap'>{issue.repo.name}</div>
-                <StarButton count={issue.repo.stars} />
+                <div className='pr-3 mr-auto text-link-colour font-bold whitespace-nowrap'>{issue.repository.name}</div>
+                <StarButton count={issue.repository.stars} />
               </CardHeader>
               <CardBody>
                 <div className='text-xs text-gray-400 truncate'>
@@ -103,7 +64,7 @@ export default function GoodFirstIssues() {
                 </div>
               </CardBody>
               <CardFooter>
-                <RepoLanguage language={issue.repo.language} />
+                <RepoLanguage language={issue.repository.languages[0]} />
                 {issue.assignee ? (
                   <div className='text-xs text-gray-400 whitespace-nowrap'>Assigned to {issue.assignee}</div>
                 ) : (

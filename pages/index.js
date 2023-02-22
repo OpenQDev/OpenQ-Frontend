@@ -12,6 +12,7 @@ import ExploreGoodFirstIssues from '../components/Explore/GoodFirstIssues';
 import ExploreNewsletter from '../components/Explore/Newsletter';
 import ExploreBlog from '../components/Explore/Blog';
 import { fetchRepositories } from '../services/utils/lib';
+import { GoodFirstIssuesProvider } from '../store/Store/GoodFirstIssuesProvider';
 
 export default function Index({ nonContestBounties, contestRepositories, renderError }) {
   return (
@@ -24,7 +25,9 @@ export default function Index({ nonContestBounties, contestRepositories, renderE
           <div className='flex flex-col items-center max-w-screen-2xl mx-auto px-4 md:px-12 lg:px-24 z-[1] relative'>
             <ExploreHackathons fullContests={contestRepositories} />
             <ExploreMarketplace fullBounties={nonContestBounties} />
-            <ExploreGoodFirstIssues />
+            <GoodFirstIssuesProvider>
+              <ExploreGoodFirstIssues />
+            </GoodFirstIssuesProvider>
             <ExploreNewsletter />
             <ExploreBlog />
           </div>

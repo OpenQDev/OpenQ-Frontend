@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLanguageFilter, useSetLanguageFilter } from '../../store/Gun/ReposProvider';
+import { useLanguageFilter, useSetLanguageFilter } from '../../store/Store/GoodFirstIssuesProvider';
 
 export default function LanguageFilterLanguage({ name, count }) {
   const enabledLanguages = useLanguageFilter();
