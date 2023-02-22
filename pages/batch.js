@@ -97,6 +97,7 @@ function Batch() {
 
           mintBountyTransactionTemplateCopy.contractInputsValues._bountyId = bountyId;
           mintBountyTransactionTemplateCopy.contractInputsValues._organization = organizationId;
+					mintBountyTransactionTemplateCopy.to = process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS
 
           const initializationData = [
             newPayoutSchedule,
