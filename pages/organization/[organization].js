@@ -158,7 +158,7 @@ export const getServerSideProps = async (context) => {
     utils,
     logger,
   };
-  const types = ['1', '2', '3', '4'];
+  const types = ['0', '1', '2', '3'];
 
   const getItems = async (oldCursor, batch, ordering, filters) => {
     return await fetchBountiesWithServiceArg(appState, oldCursor, batch, ordering, filters);
@@ -179,7 +179,7 @@ export const getServerSideProps = async (context) => {
     complete,
     batch,
   };
-
+  console.log(paginationObj);
   return {
     props: { renderError, paginationObj, organizationData: mergedOrgData },
   };

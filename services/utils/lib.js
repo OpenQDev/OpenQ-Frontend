@@ -301,9 +301,9 @@ export const getReadyText = (isContest) => {
   } else return 'Ready for Work';
 };
 export const isOnlyContest = (types) => {
-  const includesReady = types.includes('2') || types.includes('3');
-  const includesNonReady = types.includes('0') && types.includes('0');
-  return includesReady && !includesNonReady;
+  const includesContest = types.includes('2') || types.includes('3');
+  const includesNonContest = types.includes('0') || types.includes('1');
+  return includesContest && !includesNonContest;
 };
 
 export const fetchRepositories = async (appState, variables) => {
