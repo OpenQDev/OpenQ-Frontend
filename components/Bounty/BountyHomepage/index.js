@@ -9,7 +9,6 @@ import UnexpectedErrorModal from '../../Utils/UnexpectedErrorModal';
 const BountyHomepage = ({ watchedBounties, paginationObj, error, types, contractToggle }) => {
   const isContest = types && isOnlyContest(types);
   // Render
-  error = 'myerror';
   return (
     <div>
       <div className='text-center bg-[#161B22] py-14 '>
