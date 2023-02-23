@@ -77,25 +77,30 @@ const userId = ({ user, organizations, renderError, tab }) => {
   }
 
   return (
-    <div className=' gap-4 justify-center pt-6'>
-      {user?.id ? (
-        <>
-          {authState?.isAuthenticated && firstSignupModal && isOwner && (
-            <FirstSignupModal closeModal={closeModal} setShowModal={setFirstSignupModal} user={publicPrivateUserData} />
-          )}
-          <AboutFreelancer
-            tab={tab}
-            starredOrganizations={starredOrganizations}
-            watchedBounties={watchedBounties}
-            user={publicPrivateUserData}
-            userId={user.id}
-            organizations={organizations}
-          />
-        </>
-      ) : (
-        <UnexpectedErrorModal error={renderError} />
-      )}
-    </div>
+    <>
+      <div className=' gap-4 justify-center pt-6'>
+        {renderError && <UnexpectedErrorModal error={renderError} />}
+        {user?.id && (
+          <>
+            {authState?.isAuthenticated && firstSignupModal && isOwner && (
+              <FirstSignupModal
+                closeModal={closeModal}
+                setShowModal={setFirstSignupModal}
+                user={publicPrivateUserData}
+              />
+            )}
+            <AboutFreelancer
+              tab={tab}
+              starredOrganizations={starredOrganizations}
+              watchedBounties={watchedBounties}
+              user={publicPrivateUserData}
+              userId={user.id}
+              organizations={organizations}
+            />
+          </>
+        )}
+      </div>
+    </>
   );
 };
 

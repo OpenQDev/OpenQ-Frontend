@@ -9,6 +9,7 @@ import UnexpectedErrorModal from '../../Utils/UnexpectedErrorModal';
 const BountyHomepage = ({ watchedBounties, paginationObj, error, types, contractToggle }) => {
   const isContest = types && isOnlyContest(types);
   // Render
+  error = 'myerror';
   return (
     <div>
       <div className='text-center bg-[#161B22] py-14 '>
@@ -17,10 +18,11 @@ const BountyHomepage = ({ watchedBounties, paginationObj, error, types, contract
           {isContest ? 'Hackathon bounties backed by OpenQ escrows' : 'GitHub issues backed by OpenQ escrows.'}
         </div>
       </div>
-      <div className='lg:grid lg:grid-cols-extra-wide mx-4 sm:mx-8 xl:grid-cols-wide justify-center md:pr-3 pt-10'>
-        {error ? (
-          <UnexpectedErrorModal error={error} />
-        ) : (
+
+      {error ? (
+        <UnexpectedErrorModal error={error} />
+      ) : (
+        <div className='lg:grid lg:grid-cols-extra-wide mx-4 sm:mx-8 xl:grid-cols-wide justify-center md:pr-3 pt-10'>
           <BountyList
             watchedBounties={watchedBounties}
             addCarousel={true}
@@ -28,8 +30,8 @@ const BountyHomepage = ({ watchedBounties, paginationObj, error, types, contract
             types={types}
             contractToggle={contractToggle}
           />
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

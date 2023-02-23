@@ -50,11 +50,11 @@ const UnexpectedErrorModal = ({ error, closeModal }) => {
     );
 
   return (
-    <div className='bg-info border-info-strong border rounded-sm items-center p-4 my-2 mx-24'>
+    <div className='bg-info border-info-strong border rounded-sm items-center p-4 my-2 mx-2 lg:mx-24'>
       <h1 className='text-2xl pb-2'>Unexpected Error</h1>
       <p>Unfortunately we could not process your request due to a technical issue. </p>
       <p>Error: {currentError ? currentError : 'There was an error fetching data for your page.'}</p>
-      <p className='flex items-center'>
+      <p className='flex flex-wrap'>
         If the issue keeps happening, contact us at info@openq.dev or ask us in{' '}
         <a
           href={'https://discord.gg/puQVqEvVXn'}
