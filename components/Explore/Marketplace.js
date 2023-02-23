@@ -87,16 +87,13 @@ export default function ExploreMarketplace({ fullBounties }) {
         <FlexScrollContainer>
           <div className='flex space-x-5 sm:flex-col sm:space-x-0 sm:space-y-5'>
             {fullBounties.map((bounty) => {
+              console.log(bounty);
               return (
                 <Card key={bounty.id} className='min-w-full'>
                   <CardHeader>
-                    <Image
-                      src='https://avatars.githubusercontent.com/u/77402538?v=4'
-                      alt='OpenQ'
-                      width={24}
-                      height={24}
-                      className='mr-2 rounded-full'
-                    />
+                    {bounty.avatarUrl && (
+                      <Image src={bounty.avatarUrl} alt='OpenQ' width={24} height={24} className='mr-2 rounded-full' />
+                    )}
                     <div className='mr-auto'>{bounty.repoName}</div>
                     <StarButton count={watchingCounts[bounty.id]} onClick={() => watchBounty(bounty)} eye={true} />
                   </CardHeader>
