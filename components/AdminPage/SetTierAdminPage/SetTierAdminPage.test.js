@@ -88,35 +88,32 @@ describe('SetTierAdminPage', () => {
       ...InitialState,
       openQClient: new MockOpenQClient({ setTier }),
     };
-    await waitFor(async () => {
-      render(<SetTierAdminPage refreshBounty={() => {}} bounty={bounty} />, {}, customInitialState);
+    render(<SetTierAdminPage refreshBounty={() => {}} bounty={bounty} />, {}, customInitialState);
 
-      // ACT
-      const textBoxes = screen.getAllByRole('textbox');
+    // ACT
+    const textBoxes = screen.getAllByRole('textbox');
+    await user.type(textBoxes[1], '{backspace}{backspace}{backspace}{backspace}50');
 
-      await user.type(textBoxes[1], '{backspace}50');
+    await user.type(textBoxes[2], '{backspace}{backspace}{backspace}{backspace}30');
 
-      await user.type(textBoxes[2], '{backspace}30');
+    await user.type(textBoxes[3], '{backspace}{backspace}{backspace}{backspace}20');
 
-      await user.type(textBoxes[3], '{backspace}20');
+    await user.click(await screen.findByRole('button', { name: 'Set New Payout Schedule' }));
 
-      await user.click(await screen.findByRole('button', { name: 'Set New Payout Schedule' }));
+    // ASSERT
+    expect(await screen.findByText(/Updating Payout Schedule.../)).toBeInTheDocument();
+    expect(screen.getByText(/our request is being processed.../)).toBeInTheDocument();
 
-      // ASSERT
-      expect(await screen.findByText(/Updating Payout Schedule.../)).toBeInTheDocument();
-      expect(screen.getByText(/our request is being processed.../)).toBeInTheDocument();
-
-      expect(await screen.findByText(/Updating Payout.../)).toBeInTheDocument();
-      expect(screen.getByText(/our request is being processed.../)).toBeInTheDocument();
-      expect(await screen.findByText(/The payout schedule for this issue has been updated./i)).toBeInTheDocument();
-      expect(await screen.findByText(/payout schedule set to/i)).toBeInTheDocument();
-      expect(await screen.findByText(/1st winner:/i)).toBeInTheDocument();
-      expect(await screen.findByText(/2nd winner:/i)).toBeInTheDocument();
-      expect(await screen.findByText(/3rd winner:/i)).toBeInTheDocument();
-      expect(await screen.findByText(/^50 Matic/i)).toBeInTheDocument();
-      expect(await screen.findByText(/^30 Matic/i)).toBeInTheDocument();
-      expect(await screen.findByText(/^20 Matic/i)).toBeInTheDocument();
-      expect(setTier).toBeCalledWith(bounty.bountyId, [50, 30, 20], Constants.maticAddress);
-    });
+    expect(await screen.findByText(/Updating Payout.../)).toBeInTheDocument();
+    expect(screen.getByText(/our request is being processed.../)).toBeInTheDocument();
+    expect(await screen.findByText(/The payout schedule for this issue has been updated./i)).toBeInTheDocument();
+    expect(await screen.findByText(/payout schedule set to/i)).toBeInTheDocument();
+    expect(await screen.findByText(/1st winner:/i)).toBeInTheDocument();
+    expect(await screen.findByText(/2nd winner:/i)).toBeInTheDocument();
+    expect(await screen.findByText(/3rd winner:/i)).toBeInTheDocument();
+    expect(await screen.findByText(/^50 Matic/i)).toBeInTheDocument();
+    expect(await screen.findByText(/^30 Matic/i)).toBeInTheDocument();
+    expect(await screen.findByText(/^20 Matic/i)).toBeInTheDocument();
+    expect(setTier).toBeCalledWith(bounty.bountyId, [50, 30, 20], Constants.maticAddress);
   });
 });
