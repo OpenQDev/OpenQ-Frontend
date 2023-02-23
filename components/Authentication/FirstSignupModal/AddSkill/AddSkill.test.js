@@ -55,7 +55,7 @@ describe('Add Skill', () => {
       expect(buttons.length).toBe(6);
       await currentUser.click(buttons[0]);
       expect(screen.getAllByRole('button').length).toBe(6);
+      expect(setInputValue).toBeCalledWith('');
     });
-    expect(setInputValue).toBeCalledWith('');
   });
 });
