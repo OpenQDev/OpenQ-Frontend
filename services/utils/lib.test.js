@@ -8,6 +8,7 @@ import {
   getBigNumberVol,
   checkFixedAndSplit,
   checkTiered,
+  getWinningPrOfUser,
   getBountyMarker,
   getPlural,
   getBool,
@@ -190,6 +191,28 @@ describe('checkFixedAndSplit', () => {
     expect(result).toEqual({ status: 'Claimable' });
   });
 });
+
+describe('getWinningPrOfUser', () => {
+  it('should return pr', () => {
+    const currentUser = 'U_kgDOBZIDuA';
+    const bounty = {
+      ...Constants.bounty0,
+      tierWinners: [currentUser],
+      claims: [{ tier: '0', claimantAsset: 'claimantAsset' }],
+    };
+    const result = getWinningPrOfUser(bounty, currentUser);
+    expect(result).toEqual(Constants.pr);
+  });
+  it('should return pr', () => {
+    const currentUser = 'U_kgDOBZIDuA';
+    const bounty = {
+      ...Constants.bounty0,
+    };
+    const result = getWinningPrOfUser(bounty, currentUser);
+    expect(result).toEqual(undefined);
+  });
+});
+
 describe('getBountyMarker', () => {
   const statusFunc = () => {
     return {};

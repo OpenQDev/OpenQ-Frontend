@@ -16,12 +16,12 @@ import FlexScrollContainer from './FlexScrollContainer';
 import RepoLanguage from './RepoLanguage';
 
 export default function ExploreHackathons({ fullContests }) {
-  const handleStar = (contest) => {
-    console.log(contest);
+  const handleStar = () => {
+    return null;
   };
   return (
     <div className='sm:grid sm:grid-cols-2 sm:gap-6 md:gap-12 lg:gap-18 xl:gap-24 w-full pt-6 lg:pt-10'>
-      <Link href='/contests'>
+      <Link href='/hackathons'>
         <ImageTeaser imageSrc='/explore/teaser1.png'>
           <ImageTeaserLink>
             Learn more
@@ -38,7 +38,7 @@ export default function ExploreHackathons({ fullContests }) {
           <span>
             Hackathons<span className='hidden xl:inline'> for you</span>
           </span>
-          <Link href='/contests'>
+          <Link href='/hackathons'>
             <FancyButton>
               <span className='hidden lg:inline'>Explore </span>more
               <ChevronRightIcon className='ml-2 w-5 h-5' />
@@ -50,13 +50,9 @@ export default function ExploreHackathons({ fullContests }) {
             {fullContests.map((contest) => (
               <Card key={contest.id} className='min-w-full'>
                 <CardHeader>
-                  <Image
-                    src='https://avatars.githubusercontent.com/u/77402538?v=4'
-                    alt='OpenQ'
-                    width={24}
-                    height={24}
-                    className='mr-2 rounded-full'
-                  />
+                  {contest?.owner?.avatarUrl && (
+                    <Image src={contest?.owner?.avatarUrl} width={24} height={24} className='mr-2 rounded-full' />
+                  )}
                   <div className='mr-auto'>{contest.name}</div>
                   <div className='hidden'>
                     <StarButton onClick={() => handleStar(contest)} />

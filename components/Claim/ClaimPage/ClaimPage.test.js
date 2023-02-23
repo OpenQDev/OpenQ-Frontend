@@ -83,4 +83,26 @@ describe('ClaimPage', () => {
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
   });
+
+  it('should render bounty claimed', async () => {
+    // ARRANGE
+    const currentUser = 'U_kgDOBZIDuA';
+    const bounty = {
+      ...Constants.bounty3,
+      tierWinners: [currentUser],
+      claims: [{ tier: '0', claimantAsset: 'claimantAsset' }],
+    };
+    render(
+      <ClaimPage claimState={[claimable, setClaimable]} internalMenu={'Claim'} bounty={bounty} />,
+      {},
+      { accountData: { github: currentUser } }
+    );
+
+    // ACT
+    expect(screen.getByText(/update readme/i)).toBeInTheDocument();
+    expect(screen.getByText(/1st place/i)).toBeInTheDocument();
+    // should not have null or undefined values
+    const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
+    expect(nullish).toHaveLength(0);
+  });
 });

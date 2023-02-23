@@ -99,6 +99,15 @@ export const checkFixedAndSplit = (bounty, currentUser) => {
   }
   return { status: null };
 };
+
+export const getWinningPrOfUser = (bounty, currentUser) => {
+  if (bounty?.tierWinners?.some((winner, index) => winner === currentUser && checkTierClaimed(bounty, index))) {
+    const winningPr = bounty?.prs?.find((pr) => pr.source.author.id === currentUser);
+
+    return winningPr.source;
+  }
+};
+
 export const checkTiered = (bounty, currentUser) => {
   if (bounty?.tierWinners?.some((winner, index) => winner === currentUser && checkTierClaimed(bounty, index))) {
     return { status: 'Claimed' };
@@ -292,9 +301,9 @@ export const getReadyText = (isContest) => {
   } else return 'Ready for Work';
 };
 export const isOnlyContest = (types) => {
-  const includesReady = types.includes('2') || types.includes('3');
-  const includesNonReady = types.includes('0') && types.includes('0');
-  return includesReady && !includesNonReady;
+  const includesContest = types.includes('2') || types.includes('3');
+  const includesNonContest = types.includes('0') || types.includes('1');
+  return includesContest && !includesNonContest;
 };
 
 export const fetchRepositories = async (appState, variables) => {
@@ -335,4 +344,32 @@ export const getTypeFromCategory = (category) => {
     default:
       return null;
   }
+};
+export const needsOrgData = (accountData) => {
+  const orgAccountKeys = ['company', 'city', 'streetAddress', 'province', 'country', 'invoicingEmail'];
+  const neededAccountData = orgAccountKeys.filter((key) => {
+    return !accountData[key];
+  });
+  return neededAccountData.length > 0;
+};
+export const needsFreelancerData = (accountData) => {
+  const accountKeys = [
+    'company',
+    'billingName',
+    'city',
+    'streetAddress',
+    'postalCode',
+    'country',
+    'phoneNumber',
+    'province',
+    'invoicingEmail',
+    'invoiceNumber',
+    'taxId',
+    'vatNumber',
+    'vatRate',
+  ];
+  const neededAccountData = accountKeys.filter((key) => {
+    return !accountData[key] || accountData[key] == 0;
+  });
+  return neededAccountData.length > 0;
 };

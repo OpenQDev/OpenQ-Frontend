@@ -8,7 +8,7 @@ export default function IssueCard(props) {
         <span className='text-violet-300 mr-2'>#{props.issue.number}</span>
         {props.issue.title}
         <span className='ml-auto opacity-50'>
-          <span className='mr-1 font-normal text-sm'>{props.issue.comments}</span>
+          <span className='mr-1 font-normal text-sm'>{props.issue.comments.totalCount}</span>
           <CommentDiscussionIcon />
         </span>
       </div>

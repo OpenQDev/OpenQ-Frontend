@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLanguageFilter, useRepos } from '../../store/Gun/ReposProvider';
+import { useLanguageFilter, useRepos } from '../../store/Store/GoodFirstIssuesProvider';
 import RepoCard from './RepoCard';
 
 export default function TheList() {
@@ -7,7 +7,9 @@ export default function TheList() {
   const enabledLanguages = useLanguageFilter();
 
   const filteredRepos =
-    repos?.filter((repo) => enabledLanguages.length === 0 || enabledLanguages.includes(repo.language)) || [];
+    repos?.filter(
+      (repo) => enabledLanguages.length === 0 || enabledLanguages.includes(repo.languages.nodes[0]?.name)
+    ) || [];
 
   return (
     <main className='px-6 py-6 space-y-4 grow'>

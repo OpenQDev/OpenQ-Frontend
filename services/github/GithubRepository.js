@@ -5,6 +5,8 @@ import {
   GET_ORG_BY_ID,
   GET_ORG_BY_NAME,
   GET_REPO_BY_NAME,
+  GET_REPO_NAMES_BY_ORG_NAME,
+  GET_REPO_NAMES_BY_USER_NAME,
   GET_REPO_WITH_LABELED_OPEN_ISSUES,
   GET_ISSUE,
   GET_ISSUE_BY_ID,
@@ -400,6 +402,7 @@ class GithubRepository {
 
     return promise;
   }
+
   async fetchRepoWithLabeledIssues(owner, name, labels) {
     const variables = { owner, name, labels };
     const promise = new Promise(async (resolve, reject) => {
@@ -416,6 +419,7 @@ class GithubRepository {
 
     return promise;
   }
+
   async fetchReposByIds(ids) {
     const variables = { ids };
     const promise = new Promise(async (resolve, reject) => {
@@ -432,6 +436,33 @@ class GithubRepository {
     });
     return promise;
   }
+
+  async fetchOrgOrUserRepoNames(orgOrUserName) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_REPO_NAMES_BY_ORG_NAME,
+          variables: { orgName: orgOrUserName },
+        });
+        resolve(result.data.organization.repositories.nodes);
+      } catch (e) {
+        try {
+          const result = await this.client.query({
+            query: GET_REPO_NAMES_BY_USER_NAME,
+            variables: { userName: orgOrUserName },
+          });
+          resolve(result.data.user.repositories.nodes);
+        } catch (e) {
+          reject(e);
+        }
+      }
+    });
+
+    const repos = await promise;
+
+    return repos.map((repo) => repo.name);
+  }
+
   async fetchOrgOrUserById(id) {
     const promise = new Promise(async (resolve, reject) => {
       try {

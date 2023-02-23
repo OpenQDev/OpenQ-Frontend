@@ -94,12 +94,8 @@ exports[`BountyHomepage should render UnexpectedErrorModal and match DOM Snapsho
       GitHub issues backed by OpenQ escrows.
     </div>
   </div>
-  <div
-    className="lg:grid lg:grid-cols-extra-wide mx-4 sm:mx-8 xl:grid-cols-wide justify-center md:pr-3 pt-10"
-  >
-    <UnexpectedErrorModal
-      error={true}
-    />
-  </div>
+  <UnexpectedErrorModal
+    error={true}
+  />
 </div>
 `;

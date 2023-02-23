@@ -77,25 +77,30 @@ const userId = ({ user, organizations, renderError, tab }) => {
   }
 
   return (
-    <div className=' gap-4 justify-center pt-6'>
-      {user?.id ? (
-        <>
-          {authState?.isAuthenticated && firstSignupModal && isOwner && (
-            <FirstSignupModal closeModal={closeModal} setShowModal={setFirstSignupModal} user={publicPrivateUserData} />
-          )}
-          <AboutFreelancer
-            tab={tab}
-            starredOrganizations={starredOrganizations}
-            watchedBounties={watchedBounties}
-            user={publicPrivateUserData}
-            userId={user.id}
-            organizations={organizations}
-          />
-        </>
-      ) : (
-        <UnexpectedErrorModal error={renderError} />
-      )}
-    </div>
+    <>
+      <div className=' gap-4 justify-center pt-6'>
+        {renderError && <UnexpectedErrorModal error={renderError} />}
+        {user?.id && (
+          <>
+            {authState?.isAuthenticated && firstSignupModal && isOwner && (
+              <FirstSignupModal
+                closeModal={closeModal}
+                setShowModal={setFirstSignupModal}
+                user={publicPrivateUserData}
+              />
+            )}
+            <AboutFreelancer
+              tab={tab}
+              starredOrganizations={starredOrganizations}
+              watchedBounties={watchedBounties}
+              user={publicPrivateUserData}
+              userId={user.id}
+              organizations={organizations}
+            />
+          </>
+        )}
+      </div>
+    </>
   );
 };
 
@@ -106,7 +111,6 @@ export const getServerSideProps = async (context) => {
   const openQPrismaClient = new WrappedOpenQPrismaClient();
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
 
-  const emailAuth = true;
   let userId = context.params.userId;
   let renderError = '';
 
@@ -130,17 +134,16 @@ export const getServerSideProps = async (context) => {
 
   try {
     // 1. We fetch the API user using the userId we get from the URL
-    if (emailAuth) {
-      userOffChainData = await openQPrismaClient.instance.getPublicUserById(userId);
-    } else {
-      userOffChainData = await openQPrismaClient.instance.getUser(userId);
-    }
+
+    userOffChainData = await openQPrismaClient.instance.getPublicUserById(userId);
+
     if (!userOffChainData) {
       // This is where we should throw a 404
       return { props: { renderError: `User with id ${userId} not found.` } };
     }
   } catch (error) {
     logger.error(error, null, '[userId.js]2');
+    return { props: { renderError: `User with id ${userId} not found.` } };
   }
 
   let privateUserData;
