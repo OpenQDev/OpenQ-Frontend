@@ -120,7 +120,7 @@ const AssociateModal = ({
     },
     TRANSACTION_SUBMITTED: {
       title: 'Associating Your Account...',
-      message: 'Your wallet address is being associated with your GitHub account by our Oracle.',
+      message: 'Your wallet address is being associated with your GitHub account by the OpenQ oracle.',
       btn: { text: 'In Progress...', disabled: true, format: 'flex items-center btn-default cursor-not-allowed gap-2' },
     },
     TRANSACTION_CONFIRMED: {
