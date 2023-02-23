@@ -140,12 +140,9 @@ export const getServerSideProps = async (context) => {
     } else {
       userOffChainData = await openQPrismaClient.instance.getUser(userId);
     }
-    if (!userOffChainData) {
-      // This is where we should throw a 404
-      return { props: { renderError: `User with id ${userId} not found.` } };
-    }
   } catch (error) {
     logger.error(error, null, '[userId.js]2');
+    return { props: { renderError: `User with id ${userId} not found.` } };
   }
 
   let privateUserData;
