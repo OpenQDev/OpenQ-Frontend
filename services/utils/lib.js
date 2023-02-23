@@ -345,3 +345,32 @@ export const getTypeFromCategory = (category) => {
       return null;
   }
 };
+export const needsOrgData = (accountData) => {
+  const orgAccountKeys = ['company', 'city', 'streetAddress', 'province', 'country', 'invoicingEmail'];
+  const neededAccountData = orgAccountKeys.filter((key) => {
+    return !accountData[key];
+  });
+  return neededAccountData.length > 0;
+};
+export const needsFreelancerData = (accountData) => {
+  console.log(accountData.invoicingEmail);
+  const accountKeys = [
+    'company',
+    'billingName',
+    'city',
+    'streetAddress',
+    'postalCode',
+    'country',
+    'phoneNumber',
+    'province',
+    'invoicingEmail',
+    'invoiceNumber',
+    'taxId',
+    'vatNumber',
+    'vatRate',
+  ];
+  const neededAccountData = accountKeys.filter((key) => {
+    return !accountData[key] || accountData[key] == 0;
+  });
+  return neededAccountData.length > 0;
+};

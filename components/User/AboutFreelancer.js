@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 // Custom
-import { BookIcon, EyeIcon, StarIcon, LinkIcon, CheckIcon } from '@primer/octicons-react';
+import { BookIcon, EyeIcon, StarIcon, LinkIcon, CheckIcon, PersonFillIcon } from '@primer/octicons-react';
 import SubMenu from '../Utils/SubMenu';
 import Watching from './WatchingTab/Watching';
 import Starred from './StarsTab/Starred';
@@ -17,6 +17,8 @@ import Subscribe from '../Utils/Subscribe';
 import AuthContext from '../../store/AuthStore/AuthContext';
 import Username from './OverviewTab/Username';
 import KycRequirement from '../Claim/ClaimPage/KycRequirement';
+import Log from '../svg/log';
+import { needsFreelancerData, needsOrgData } from '../../services/utils/lib';
 
 const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) => {
   const githubHasWalletVerifiedState = useState(null);
@@ -25,6 +27,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
   const [appState] = useContext(StoreContext);
   const [watchedFullBounties, setWatchedFullBounties] = useState([]);
   const [githubUser, setGithubUser] = useState();
+  const [kycVerified, setKycVerified] = useState(null);
 
   const { accountData } = appState;
   const loggedId = accountData?.id;
@@ -72,26 +75,30 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
       getWatched();
     }
   }, [isOwner, watchedBounties]);
+  const orgDataComplete = !needsOrgData(accountData);
+  const freelancerDataComplete = !needsFreelancerData(accountData);
 
   const GithubVerifiedLogo = githubHasWalletVerified ? CheckIcon : () => <></>;
-
+  const KYCVerifiedLogo = kycVerified ? CheckIcon : () => <></>;
+  const OrgCompleteLogo = orgDataComplete ? CheckIcon : () => <></>;
+  const FreelancerCompleteLogo = freelancerDataComplete ? CheckIcon : () => <></>;
   return (
     <>
       <div className='flex flex-col justify-center'>
         <SubMenu
           internalMenu={internalMenu}
           updatePage={setInternalMenu}
-          styles='w-full flex sm:flex-row mb-6 sm:mb-0 sm:justify-center lg:justify-start max-w-[900px] mx-auto border-none'
+          styles='w-full flex sm:flex-row mb-6 sm:mb-0 sm:justify-center lg:justify-start max-w-[1000px] mx-auto border-none'
           colour='rust'
           items={[
             { name: 'Overview', Svg: BookIcon },
             ...[starredOrganizations.length ? { name: 'Stars', Svg: StarIcon } : {}],
             ...[isOwner ? { name: 'Watching', Svg: EyeIcon } : {}],
             ...[isOwner ? { name: 'Wallet-to-GitHub', Svg: LinkIcon, SecondSvg: GithubVerifiedLogo } : {}],
-            ...[isOwner ? { name: '🧍KYC' } : {}],
+            ...[isOwner ? { name: 'KYC', Svg: PersonFillIcon, SecondSvg: KYCVerifiedLogo } : {}],
 
-            ...[isOwner ? { name: '📃Invoicing (Freelancer)' } : {}],
-            ...[isOwner ? { name: '📃Invoicing (Organization)' } : {}],
+            ...[isOwner ? { name: 'Invoicing (Freelancer)', Svg: Log, SecondSvg: OrgCompleteLogo } : {}],
+            ...[isOwner ? { name: 'Invoicing (Organization)', Svg: Log, SecondSvg: FreelancerCompleteLogo } : {}],
           ]}
         />
         <div className='w-full border-b h-px border-web-gray'></div>
@@ -160,19 +167,19 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
                 <GithubRequirement githubHasWalletVerifiedState={githubHasWalletVerifiedState} />
               </div>
             )}
-            {internalMenu == '🧍KYC' && (
+            {internalMenu == 'KYC' && (
               <div className='flex px-8 justify-between mt-12'>
-                <KycRequirement />
+                <KycRequirement setKycVerified={setKycVerified} />
               </div>
             )}
             {internalMenu == 'Stars' && <Starred starredOrganizations={starredOrganizations} />}
             {internalMenu === 'Watching' && <Watching watchedBounties={watchedFullBounties} />}
-            {internalMenu === '📃Invoicing (Freelancer)' && (
+            {internalMenu === 'Invoicing (Freelancer)' && (
               <>
                 <FreelancerDetails emailOnly={true} /> <FreelancerDetails />
               </>
             )}
-            {internalMenu === '📃Invoicing (Organization)' && (
+            {internalMenu === 'Invoicing (Organization)' && (
               <>
                 {' '}
                 <OrgDetails showWatched={isOwner} emailOnly={true} /> <OrgDetails showWatched={isOwner} />
