@@ -353,7 +353,6 @@ export const needsOrgData = (accountData) => {
   return neededAccountData.length > 0;
 };
 export const needsFreelancerData = (accountData) => {
-  console.log(accountData.invoicingEmail);
   const accountKeys = [
     'company',
     'billingName',

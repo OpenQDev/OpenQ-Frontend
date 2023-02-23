@@ -50,13 +50,9 @@ export default function ExploreHackathons({ fullContests }) {
             {fullContests.map((contest) => (
               <Card key={contest.id} className='min-w-full'>
                 <CardHeader>
-                  <Image
-                    src='https://avatars.githubusercontent.com/u/77402538?v=4'
-                    alt='OpenQ'
-                    width={24}
-                    height={24}
-                    className='mr-2 rounded-full'
-                  />
+                  {contest?.owner?.avatarUrl && (
+                    <Image src={contest?.owner?.avatarUrl} width={24} height={24} className='mr-2 rounded-full' />
+                  )}
                   <div className='mr-auto'>{contest.name}</div>
                   <div className='hidden'>
                     <StarButton onClick={() => handleStar(contest)} />
