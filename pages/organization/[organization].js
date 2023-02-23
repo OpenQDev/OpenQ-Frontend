@@ -179,7 +179,6 @@ export const getServerSideProps = async (context) => {
     complete,
     batch,
   };
-  console.log(paginationObj);
   return {
     props: { renderError, paginationObj, organizationData: mergedOrgData },
   };

@@ -398,7 +398,6 @@ class OpenQPrismaClient {
   }
 
   getPublicUser(github) {
-    console.log('me', github);
     const promise = new Promise(async (resolve, reject) => {
       const variables = {
         github,

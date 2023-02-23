@@ -73,7 +73,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
     }
   }, [isOwner, watchedBounties]);
 
-  const GithubVerifiedLogo = githubHasWalletVerified ? CheckIcon : CheckIcon;
+  const GithubVerifiedLogo = githubHasWalletVerified ? CheckIcon : () => <></>;
 
   return (
     <>
