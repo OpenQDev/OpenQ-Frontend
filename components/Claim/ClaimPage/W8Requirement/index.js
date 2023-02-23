@@ -263,7 +263,8 @@ const W8Requirement = ({ bounty }) => {
                     'Pending'
                   ) : (
                     <>
-                      <CheckIcon size={16} /> Change File
+                      <CheckIcon size={16} />
+                      Change File
                     </>
                   )
                 ) : (
@@ -308,7 +309,9 @@ const W8Requirement = ({ bounty }) => {
                 />
               </label>
             )}
-            <div className='border border-web-gray w-full font-semibold h-8 px-2 rounded-sm'>{file?.name}</div>
+            <div className='border border-web-gray w-full flex items-center font-semibold h-8 px-2 rounded-sm'>
+              {file?.name}
+            </div>
             <button
               disabled={!file}
               className={
