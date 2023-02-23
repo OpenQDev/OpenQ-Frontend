@@ -31,7 +31,7 @@ export default function Header() {
         </p>
       </div>
       <Image
-        className='opacity-10 md:opacity-30 xl:opacity-100 absolute -right-50 top-0 sm:right-0 sm:-top-10 lg:right-20 lg:top-10 z-0 min-w-[450px]'
+        className='opacity-10 md:opacity-30 xl:opacity-100 absolute -right-50 top-0 sm:right-0 sm:-top-10 lg:right-20 lg:top-10 z-0 sm:min-w-[450px]'
         src='/explore/planet.png'
         alt=''
         width={571}

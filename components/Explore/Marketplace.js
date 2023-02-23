@@ -87,7 +87,6 @@ export default function ExploreMarketplace({ fullBounties }) {
         <FlexScrollContainer>
           <div className='flex space-x-5 sm:flex-col sm:space-x-0 sm:space-y-5'>
             {fullBounties.map((bounty) => {
-              console.log(bounty);
               return (
                 <Card key={bounty.id} className='min-w-full'>
                   <CardHeader>
