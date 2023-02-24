@@ -35,14 +35,11 @@ describe('Add Skill', () => {
     );
     expect(asFragment()).toMatchSnapshot();
   });
-  it.only('setInputValue to have been called', async () => {
+  it('setInputValue to have been called', async () => {
     const setRolesInCategoriesState = jest.fn();
     const rolesInCategoriesState = [{ languages: user.languages }, setRolesInCategoriesState];
     render(<AddSkill rolesInCategoriesState={rolesInCategoriesState} category={'languages'} />);
     const buttons = screen.getAllByRole('button');
     expect(buttons.length).toBe(6);
-    //    await currentUser.click(buttons[0]);
-    //  expect(screen.getAllByRole('button').length).toBe(6);
-    //expect(setInputValue).toBeCalledWith('');
   });
 });
