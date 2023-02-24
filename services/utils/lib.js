@@ -309,7 +309,14 @@ export const isOnlyContest = (types) => {
 export const fetchRepositories = async (appState, variables) => {
   try {
     const repositories = await appState.openQPrismaClient.getRepositories(variables);
-    const repositoryIds = repositories.map((repository) => repository.id);
+	
+		const checkBlacklisted = (repository)=>{
+			const organizationBlacklisted = repository.organization.blacklisted;
+			const nonBlacklistedBounties = repository.bounties.nodes.filter(bounty=>!bounty.blacklisted)
+			const bountiesBlacklisted = nonBlacklistedBounties?.length===0;
+			return !organizationBlacklisted && !bountiesBlacklisted;
+		}
+    const repositoryIds = repositories.filter(repository=>checkBlacklisted(repository)).map((repository) => repository.id);
     const githubRepositories = await appState.githubRepository.fetchReposByIds([...repositoryIds]);
     return githubRepositories;
   } catch (err) {
