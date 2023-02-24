@@ -13,7 +13,7 @@ const TokenSearch = ({ stream, setShowTokenSearch, alone, showTokenSearch, bount
   const [showListManager, setShowListManager] = useState(true);
   const [tokenSearchTerm, setTokenSearchTerm] = useState();
   const [lists, setLists] = useState({
-    polygon: !stream,
+    polygon: false,
     openq: !stream,
     superTokens: stream,
   });
@@ -142,7 +142,7 @@ const TokenSearch = ({ stream, setShowTokenSearch, alone, showTokenSearch, bount
                   lists={lists}
                 />
               )}
-              {!stream && !alone && (
+              {!stream && !alone && false && (
                 <button
                   className='btn-default p-2 m-2'
                   onClick={(e) => {
