@@ -84,11 +84,11 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
   const FreelancerCompleteLogo = freelancerDataComplete ? CheckIcon : () => <></>;
   return (
     <>
-      <div className='flex flex-col justify-center'>
+      <div className='flex flex-col justify-center items-center'>
         <SubMenu
           internalMenu={internalMenu}
           updatePage={setInternalMenu}
-          styles='w-full flex sm:flex-row mb-6 sm:mb-0 sm:justify-center lg:justify-start max-w-[1000px] mx-auto border-none'
+          styles='w-full flex sm:flex-row mb-6 sm:mb-0 sm:justify-center lg:justify-end max-w-[1100px] border-none'
           colour='rust'
           items={[
             { name: 'Overview', Svg: BookIcon },
