@@ -197,7 +197,7 @@ class OpenQPrismaClient {
     }
 
 
-    async blacklistOrg() {
+    async blacklistOrganization    () {
         return new Promise(async (resolve, reject) => {
 
             axios.get(`http://localhost:3030/watchedBounties`)

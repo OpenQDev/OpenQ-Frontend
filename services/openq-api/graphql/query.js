@@ -524,7 +524,7 @@ export const GET_CONTRACT_PAGE = gql`
 
 export const BLACKLIST_ISSUE = gql`
   mutation blacklist($bountyId: String, $blacklist: Boolean) {
-    blacklist(bountyId: $bountyId, blackList: $blacklist) {
+    blacklist(bountyId: $bountyId, blacklist: $blacklist) {
       blacklisted
     }
   }
