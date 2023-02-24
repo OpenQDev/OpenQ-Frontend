@@ -88,26 +88,34 @@ export default function ExploreMarketplace({ fullBounties }) {
           <div className='flex space-x-5 sm:flex-col sm:space-x-0 sm:space-y-5'>
             {fullBounties.map((bounty) => {
               return (
-                <Card key={bounty.id} className='min-w-full'>
-                  <CardHeader>
-                    {bounty.avatarUrl && (
-                      <Image src={bounty.avatarUrl} alt='OpenQ' width={24} height={24} className='mr-2 rounded-full' />
-                    )}
-                    <div className='mr-auto'>{bounty.repoName}</div>
-                    <StarButton count={watchingCounts[bounty.id]} onClick={() => watchBounty(bounty)} eye={true} />
-                  </CardHeader>
-                  <CardBody>{bounty.title}</CardBody>
-                  <CardFooter>
-                    {bounty.languages.map((language) => (
-                      <RepoLanguage key={language.name} language={language.name} color={language.color} />
-                    ))}
-                    {bounty.assignees.length ? (
-                      <div className='text-xs text-gray-400'>Assigned to {bounty.assignees.length}</div>
-                    ) : (
-                      <div className='text-xs text-gray-400'>No one assigned</div>
-                    )}
-                  </CardFooter>
-                </Card>
+                <Link key={bounty.id} href={`/contract/${bounty.bountyId}/${bounty.bountyAddress}`}>
+                  <Card className='min-w-full'>
+                    <CardHeader>
+                      {bounty.avatarUrl && (
+                        <Image
+                          src={bounty.avatarUrl}
+                          alt='OpenQ'
+                          width={24}
+                          height={24}
+                          className='mr-2 rounded-full'
+                        />
+                      )}
+                      <div className='mr-auto'>{bounty.repoName}</div>
+                      <StarButton count={watchingCounts[bounty.id]} onClick={() => watchBounty(bounty)} eye={true} />
+                    </CardHeader>
+                    <CardBody>{bounty.title}</CardBody>
+                    <CardFooter>
+                      {bounty.languages.map((language) => (
+                        <RepoLanguage key={language.name} language={language.name} color={language.color} />
+                      ))}
+                      {bounty.assignees.length ? (
+                        <div className='text-xs text-gray-400'>Assigned to {bounty.assignees.length}</div>
+                      ) : (
+                        <div className='text-xs text-gray-400'>No one assigned</div>
+                      )}
+                    </CardFooter>
+                  </Card>
+                </Link>
               );
             })}
           </div>
