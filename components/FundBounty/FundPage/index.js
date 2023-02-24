@@ -317,7 +317,7 @@ const FundPage = () => {
               )}
             </div>
           ) : (
-            <div>
+            <div className='p-8 sm:p-0'>
               Sorry crowdfunding isn't available for invoiceable bounties such as this one, please connect the account (
               {shortenAddress(bounty.issuer.id)}) that minted this bounty to fund it.
             </div>
