@@ -26,6 +26,7 @@ describe('useFundMethod', () => {
       const customFundState = {
         ...InitialFundState,
         approveTransferState: 'CONFIRM',
+        refreshBounty: jest.fn(),
         showApproveTransferModal: true,
         volume: '3',
         bounty: Constants.bounty,
