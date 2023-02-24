@@ -39,7 +39,7 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
   const datesCheck = checkHackathonDates(startDate, registrationDeadline, new Date());
   const { accountData } = appState;
   const { github } = appState.accountData;
-  const { account, library, safe } = useWeb3();
+  const { account, library } = useWeb3();
   const router = useRouter();
   const loggedInIfNeeded = accountData.id;
   const readyToMint =
@@ -144,7 +144,7 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
           issue.id
         }/${bountyAddress.toLowerCase()}?invoiceable=${invoiceable}`
       );
-      if (modalVisibility && safe) {
+      if (modalVisibility) {
         modalVisibility(false);
       }
     } catch (error) {

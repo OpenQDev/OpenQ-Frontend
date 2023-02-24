@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ChevronRightIcon, IssueOpenedIcon } from '@primer/octicons-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,6 +13,7 @@ import { useIssues } from '../../store/Store/GoodFirstIssuesProvider';
 
 export default function GoodFirstIssues() {
   const issues = useIssues();
+  const [imageError, setImageError] = useState(false);
 
   const tenRandomIssuesWithUniqueRepos = issues
     ?.sort(() => Math.random() - 0.5)
@@ -36,13 +37,16 @@ export default function GoodFirstIssues() {
           <Link key={issue.id} href={issue.url} target='_blank' className='min-w-full max-w-[24rem] sm:min-w-[24rem]'>
             <Card>
               <CardHeader>
-                <Image
-                  src='https://avatars.githubusercontent.com/u/77402538?v=4'
-                  alt='OpenQ'
-                  width={27}
-                  height={27}
-                  className='mr-2 rounded-full'
-                />
+                {!imageError && issue.repository.owner.avatarUrl && (
+                  <Image
+                    src={issue.repository.owner.avatarUrl}
+                    alt='OpenQ'
+                    width={27}
+                    height={27}
+                    className='mr-2 rounded-full'
+                    onError={() => setImageError(true)}
+                  />
+                )}
                 <div className='pr-3 mr-auto text-link-colour font-bold whitespace-nowrap'>{issue.repository.name}</div>
                 <StarButton count={issue.repository.stars} />
               </CardHeader>

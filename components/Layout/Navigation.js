@@ -5,7 +5,6 @@ import Link from 'next/link';
 import StoreContext from '../../store/Store/StoreContext.js';
 import ConnectButton from '../WalletConnect/ConnectButton.js';
 import Image from 'next/image';
-import FirstTimeBanner from './FirstTimeBanner';
 import { QuestionIcon, ThreeBarsIcon } from '@primer/octicons-react';
 import LinkDropdown from '../Utils/LinkDropdown';
 import NavLinks from './NavLinks';
@@ -120,7 +119,6 @@ const Navigation = () => {
           </div>
         </div>
       ) : null}
-      <FirstTimeBanner />
       <LoadingThread />
       <div className='flex bg-nav-bg py-1 h-16 relative z-10'>
         <div className='flex visible relative w-full'>

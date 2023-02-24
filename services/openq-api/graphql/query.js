@@ -305,6 +305,15 @@ export const GET_REPOSITORIES = gql`
       nodes {
         id
         hackathonBlacklisted
+				organization{
+					blacklisted
+				}
+				bounties(limit:100){
+					nodes{
+						bountyId 
+						blacklisted
+					}
+				}
       }
     }
   }

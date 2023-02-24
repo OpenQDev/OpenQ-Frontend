@@ -457,7 +457,7 @@ class OpenQPrismaClient {
   async blacklistIssue(bountyId, blacklist, secret) {
     return new Promise(async (resolve, reject) => {
       try {
-        const result = await this.client.query({
+        const result = await this.client.mutate({
           mutation: BLACKLIST_ISSUE,
           variables: { bountyId, blacklist },
           fetchPolicy: 'no-cache',
@@ -472,7 +472,7 @@ class OpenQPrismaClient {
   async blacklistOrganization(organizationId, blacklist, secret) {
     return new Promise(async (resolve, reject) => {
       try {
-        const result = await this.client.query({
+        const result = await this.client.mutate({
           mutation: BLACKLIST_ORGANIZATION,
           variables: { organizationId, blacklist },
           fetchPolicy: 'no-cache',
