@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import LoginPageGithubSignIn from '../components/Authentication/LoginPageGithubSignIn';
-import EmailLogin from '../components/Authentication/LoginPageEmailLogin';
+// import EmailLogin from '../components/Authentication/LoginPageEmailLogin';
 
 const Login = () => {
   return (
@@ -17,7 +17,7 @@ const Login = () => {
       <div className='text-xl bottom-0 relative h-full md:w-[1900px] py-8 text-center bg-dark-mode flex gap-4 justify-center items-center'>
         <div className=' md:w-1/2 space-y-4 mx-4'>
           <h1 className='my-2 text-3xl'>Let's get you started!</h1>
-          <EmailLogin />
+          {/* <EmailLogin /> */}
           <LoginPageGithubSignIn redirectUrl={'/'} />
           <div className='pt-8 text-muted text-sm'>
             By continuing, you acknowledge that you have read, understood and agree to our{' '}
