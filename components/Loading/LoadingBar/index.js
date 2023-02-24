@@ -22,7 +22,10 @@ const LoadingBar = () => {
       {loadingBar && (
         <div className='flex fixed bottom-0 z-40 left-0 pl-8 p-4 bg-[#21262d] border border-gray-700 rounded-sm'>
           <div className='flex gap-2 items-center'>
-            <Alert />
+            <div className='min-w-4'>
+              <Alert />
+            </div>
+
             <div>
               {!changeText
                 ? 'It will take a couple of minutes until your contract will be visible in our explorer'
