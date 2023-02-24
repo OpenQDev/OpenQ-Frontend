@@ -23,7 +23,7 @@ export default function Blog() {
     {
       title: 'The Legend of the Code Vending Machine',
       url: 'https://medium.com/openqdev/the-legend-of-the-code-vending-machine-b30d3d573c4f',
-      imageSrc: '/explore/blog-1.png',
+      imageSrc: '/explore/blog-3.png',
       teaserText: 'Why no code is still a no go',
     },
   ];

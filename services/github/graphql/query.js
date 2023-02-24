@@ -558,6 +558,7 @@ export const GET_REPOS_BY_IDS = gql`
         description
         owner {
           avatarUrl
+          login
         }
         stargazerCount
         languages(first: 10) {

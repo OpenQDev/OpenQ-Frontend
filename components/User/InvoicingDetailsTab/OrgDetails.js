@@ -153,7 +153,7 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
               )}
               {emailOnly && (
                 <div className='note my-4'>
-                  This email will be publicly accesible and will be used by freelancers to communicate with you. OpenQ
+                  This email will be publicly accessible and will be used by freelancers to communicate with you. OpenQ
                   will also use this email to send any documents you require from freelancers.
                 </div>
               )}

@@ -21,7 +21,11 @@ export default function ExploreHackathons({ fullContests }) {
   };
   return (
     <div className='sm:grid sm:grid-cols-2 sm:gap-6 md:gap-12 lg:gap-18 xl:gap-24 w-full pt-6 lg:pt-10'>
-      <Link href='/hackathons'>
+      <Link
+        href='https://docs.openq.dev/hackathon-organizer/create-hackathon-repository'
+        target='_blank'
+        rel='noopener noreferrer'
+      >
         <ImageTeaser imageSrc='/explore/teaser1.png'>
           <ImageTeaserLink>
             Learn more
@@ -48,27 +52,29 @@ export default function ExploreHackathons({ fullContests }) {
         <FlexScrollContainer>
           <div className='flex space-x-5 sm:flex-col sm:space-x-0 sm:space-y-5'>
             {fullContests.map((contest) => (
-              <Card key={contest.id} className='min-w-full'>
-                <CardHeader>
-                  {contest?.owner?.avatarUrl && (
-                    <Image src={contest?.owner?.avatarUrl} width={24} height={24} className='mr-2 rounded-full' />
-                  )}
-                  <div className='mr-auto'>{contest.name}</div>
-                  <div className='hidden'>
-                    <StarButton onClick={() => handleStar(contest)} />
-                  </div>
-                </CardHeader>
-                <CardBody>
-                  <div dangerouslySetInnerHTML={{ __html: contest.descriptionHTML }}></div>
-                </CardBody>
-                <CardFooter>
-                  {contest.languages.nodes
-                    .filter((_, i) => i < 3)
-                    .map((language) => (
-                      <RepoLanguage key={language.name} language={language.name} color={language.color} />
-                    ))}
-                </CardFooter>
-              </Card>
+              <Link key={contest.id} href={`/repo/${contest?.owner?.login}/${contest.name}`}>
+                <Card className='min-w-full'>
+                  <CardHeader>
+                    {contest?.owner?.avatarUrl && (
+                      <Image src={contest?.owner?.avatarUrl} width={24} height={24} className='mr-2 rounded-full' />
+                    )}
+                    <div className='mr-auto'>{contest.name}</div>
+                    <div className='hidden'>
+                      <StarButton onClick={() => handleStar(contest)} />
+                    </div>
+                  </CardHeader>
+                  <CardBody>
+                    <div dangerouslySetInnerHTML={{ __html: contest.descriptionHTML }}></div>
+                  </CardBody>
+                  <CardFooter>
+                    {contest.languages.nodes
+                      .filter((_, i) => i < 3)
+                      .map((language) => (
+                        <RepoLanguage key={language.name} language={language.name} color={language.color} />
+                      ))}
+                  </CardFooter>
+                </Card>
+              </Link>
             ))}
           </div>
         </FlexScrollContainer>

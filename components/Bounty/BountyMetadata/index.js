@@ -85,7 +85,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
   const noRequirements = !bounty.kycRequired && !bounty.invoiceRequired && !bounty.supportingDocumentsRequired;
 
   return (
-    <ul className='lg:max-w-[300px] w-full lg:pl-4'>
+    <ul className='lg:max-w-[300px] w-full lg:pl-4 p-8 lg:p-0'>
       {bounty.bountyType && (
         <>
           <li className='border-b border-web-gray py-3'>

@@ -1,58 +1,41 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import StoreContext from '../../../../store/Store/StoreContext';
 import Cross from '../../../svg/cross';
 
-const AddSkill = ({ category, user, childInfo, setInputValue }) => {
-  const [roles, setRoles] = useState(user[category].map((item) => item.toLowerCase()));
+const AddSkill = ({ category, rolesInCategoriesState }) => {
+  const [rolesInCategories, setRolesInCategories] = rolesInCategoriesState;
+  const theseRoles = rolesInCategories[category];
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
 
-  useEffect(() => {
-    if (typeof setInputValue !== 'function') return;
-    if (childInfo[1] == category) {
-      addRole(childInfo[0]);
-    }
-  }, [childInfo, setInputValue]);
-
   const updateApiAndState = async (newRoles, category) => {
+    const newRolesAndCategory = { ...rolesInCategories, [category]: newRoles };
     const userValues = accountData.github
       ? {
           github: accountData.github,
-          [category]: newRoles,
+          ...newRolesAndCategory,
         }
       : {
           email: accountData.email,
-          [category]: newRoles,
+          ...newRolesAndCategory,
         };
-    const updateUser = await appState.openQPrismaClient.updateUser(userValues);
-    if (updateUser) {
-      setRoles(newRoles);
-    }
+    await appState.openQPrismaClient.updateUser(userValues);
+    setRolesInCategories(newRolesAndCategory);
   };
 
-  const addRole = async (role) => {
-    const emptyOrExists = roles.includes(role.toLowerCase()) || '';
-    if (emptyOrExists) return;
-    const newRoles = [...roles, role.toLowerCase()];
-    try {
-      await updateApiAndState(newRoles, category);
-    } catch (err) {
-      appState.logger.error(err, accountData.id, 'AddSkill.js1');
-    }
-    setInputValue('');
-  };
   const removeRole = (e, removedRole) => {
     e.preventDefault();
-    const newRoles = roles.filter((role) => role !== removedRole);
+    const newRoles = theseRoles.filter((role) => role !== removedRole);
     updateApiAndState(newRoles, category);
   };
   return (
     <>
-      {roles?.map((role, index) => {
+      {theseRoles?.map((role, index) => {
         return (
           <div className={`flex items-center gap-2 py-0.5 btn-default w-fit m-1`} key={index}>
             {role}{' '}
             <button onClick={(e) => removeRole(e, role)}>
+              {role}
               <Cross />
             </button>
           </div>

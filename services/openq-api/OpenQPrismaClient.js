@@ -19,6 +19,7 @@ import {
   UNSTAR_ORGANIZATION,
   GET_ORGANIZATION,
   BLACKLIST_ISSUE,
+  BLACKLIST_ORGANIZATION,
   GET_USERS,
   SET_IS_CONTEST,
   GET_REPOSITORIES,
@@ -457,8 +458,23 @@ class OpenQPrismaClient {
     return new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
-          query: BLACKLIST_ISSUE,
+          mutation: BLACKLIST_ISSUE,
           variables: { bountyId, blacklist },
+          fetchPolicy: 'no-cache',
+          context: { headers: { authorization: secret } },
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+  async blacklistOrganization(organizationId, blacklist, secret) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          mutation: BLACKLIST_ORGANIZATION,
+          variables: { organizationId, blacklist },
           fetchPolicy: 'no-cache',
           context: { headers: { authorization: secret } },
         });
