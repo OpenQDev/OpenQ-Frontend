@@ -61,7 +61,12 @@ export default function ExploreMarketplace({ fullBounties }) {
   };
   return (
     <div className='sm:grid sm:grid-cols-2 sm:gap-6 md:gap-12 xl:gap-24 w-full pt-12 lg:pt-24'>
-      <Link href='/marketplace' className='sm:order-2'>
+      <Link
+        href='https://docs.openq.dev/types/a-contract-for-every-occasion'
+        className='sm:order-2'
+        target='_blank'
+        rel='noopener noreferrer'
+      >
         <ImageTeaser imageSrc='/explore/teaser2.png' textPosition='top'>
           <ImageTeaserLink>
             Learn more
