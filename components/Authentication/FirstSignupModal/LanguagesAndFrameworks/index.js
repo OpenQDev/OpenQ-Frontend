@@ -105,10 +105,10 @@ const LanguagesAndFrameworks = ({ user }) => {
   const [rolesInCategories, setRolesInCategories] = rolesInCategoriesState;
   const [inputValue, setInputValue] = useState('');
 
-  const handleKeypress = (e) => {
+  const handleKeypress = (e, inputs) => {
     //it triggers by pressing the enter key
     if (e.key === 'Enter' && e.target.value != '') {
-      checkCategory(e.target.value);
+      checkCategory(inputs);
     }
   };
   useEffect(() => {
@@ -165,7 +165,7 @@ const LanguagesAndFrameworks = ({ user }) => {
           className='flex input-field w-full'
           placeholder='Programming languages, frameworks...'
           onChange={handleInputChange}
-          onKeyDown={handleKeypress}
+          onKeyDown={(e) => handleKeypress(e, [inputValue])}
           value={inputValue}
         />
         <button onClick={() => checkCategory([inputValue])} className='btn-primary'>
