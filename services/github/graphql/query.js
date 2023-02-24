@@ -17,6 +17,7 @@ export const GET_ISSUE = gql`
           owner {
             id
             login
+            avatarUrl
           }
         }
         author {
@@ -499,6 +500,7 @@ export const GET_REPO_WITH_LABELED_OPEN_ISSUES = gql`
       __typename
       owner {
         login
+        avatarUrl
       }
       name
       nameWithOwner

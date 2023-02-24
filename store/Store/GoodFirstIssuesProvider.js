@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import StoreContext from './StoreContext';
 import { gun } from '../../lib/Gun';
 import goodFirstIssuesOrgWhitelist from '../../lib/goodFirstIssuesOrgWhitelist.json';
@@ -28,13 +28,9 @@ async function syncOrgOrUserToGun(orgOrUserName, githubClient) {
   const githubOrgOrUserRepoNames = await githubClient.fetchOrgOrUserRepoNames(orgOrUserName);
 
   for (const githubRepoName of githubOrgOrUserRepoNames) {
-    const repo = await githubClient.fetchRepoWithLabeledIssues(
-      orgOrUserName,
-      githubRepoName,
-      [ 'good first issue' ]
-    );
-    
-    repo.issues.nodes.forEach(issue => {
+    const repo = await githubClient.fetchRepoWithLabeledIssues(orgOrUserName, githubRepoName, ['good first issue']);
+
+    repo.issues.nodes.forEach((issue) => {
       const updatedIssue = { ...issue };
       updatedIssue.repository = {
         ...repo,
@@ -63,35 +59,33 @@ export function GoodFirstIssuesProvider({ children }) {
   gun.get('goodfirstissues').load((issues) => {
     for (const issue of Object.values(issues)) {
       const parsedIssue = JSON.parse(issue);
-      setIssues(issues => {
-        if (issues.find(issue => issue.id === parsedIssue.id)) {
+      setIssues((issues) => {
+        if (issues.find((issue) => issue.id === parsedIssue.id)) {
           return issues;
         }
-  
-        setRepos(repos => {
+
+        setRepos((repos) => {
           // shuffle repos
           const shuffledRepos = repos.sort(() => 0.5 - Math.random());
-          if (shuffledRepos.find(repo => repo.id === parsedIssue.repository.id)) {
+          if (shuffledRepos.find((repo) => repo.id === parsedIssue.repository.id)) {
             return shuffledRepos;
           }
-    
-          return [...shuffledRepos, parsedIssue.repository]
+
+          return [...shuffledRepos, parsedIssue.repository];
         });
-  
-        return [...issues, parsedIssue]
+
+        return [...issues, parsedIssue];
       });
     }
-  })
+  });
 
   return (
     <ReposContext.Provider value={repos}>
       <IssuesContext.Provider value={issues}>
         <LanguageFilterContext.Provider value={enabledLanguages}>
-          <SetLanguageFilterContext.Provider value={setEnabledLanguages}>
-            {children}
-          </SetLanguageFilterContext.Provider>
+          <SetLanguageFilterContext.Provider value={setEnabledLanguages}>{children}</SetLanguageFilterContext.Provider>
         </LanguageFilterContext.Provider>
       </IssuesContext.Provider>
     </ReposContext.Provider>
-  )
+  );
 }
