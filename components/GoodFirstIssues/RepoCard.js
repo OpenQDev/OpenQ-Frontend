@@ -17,12 +17,14 @@ export default function RepoCard(props) {
       onClick={() => setIsOpen(!isOpen)}
     >
       <h2 className='flex items-center'>
-        <span className='mr-auto font-bold text-lg'>{props.repo.nameWithOwner}</span>
+        <span className='mr-auto font-bold text-lg break-word'>{props.repo.nameWithOwner}</span>
         <span className='flex items-center mx-3'>
           <StarIcon className='mr-1' />
           {props.repo.stars}
         </span>
-        <span className='font-bold bg-violet-600 text-white px-3 py-1 rounded-sm'>{repoIssues.length} issues</span>
+        <span className='font-bold bg-violet-600 text-white px-3 py-1 rounded-sm whitespace-nowrap'>
+          {repoIssues.length} issues
+        </span>
       </h2>
       <div className='text-sm text-gray-400'>{props.repo.languages.nodes[0]?.name}</div>
       <p className='mt-3 mb-1 text-gray-400'>{props.repo.description}</p>

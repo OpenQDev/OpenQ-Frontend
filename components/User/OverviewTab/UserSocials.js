@@ -35,7 +35,7 @@ const UserSocials = ({ user }) => {
   return (
     <div className='px-8 py-6 pb border-t border-web-gray'>
       <h2 className='font-semibold text-lg pb-8'>Socials</h2>
-      <div className='flex gap-8'>
+      <div className='flex flex-wrap gap-8'>
         {socials.map((social, index) => {
           return <EditableSocial user={user} social={social} key={index} isOwner={isOwner} />;
         })}

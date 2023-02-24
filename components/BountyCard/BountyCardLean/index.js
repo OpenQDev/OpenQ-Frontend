@@ -80,7 +80,7 @@ const BountyCardLean = ({ item, loading, index, length, unWatchable, noModal }) 
       <div
         onMouseEnter={handleMouseEnter}
         onClick={openModal}
-        className={`flex flex-col md:px-4 py-4 border-web-gray border-x ${!noModal && 'cursor-pointer'} border-t ${
+        className={`flex flex-col px-4 py-4 border-web-gray border-x ${!noModal && 'cursor-pointer'} border-t ${
           index === length - 1 && 'border-b rounded-b-sm'
         } ${index === 0 && 'rounded-t-sm'}`}
       >
