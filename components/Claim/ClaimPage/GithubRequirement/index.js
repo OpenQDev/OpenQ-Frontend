@@ -6,7 +6,6 @@ import ToolTipNew from '../../../Utils/ToolTipNew';
 const GithubRequirement = ({ githubHasWalletVerifiedState }) => {
   const [verified, setVerified] = githubHasWalletVerifiedState;
   const [claimPageError, setClaimPageError] = useState('');
-
   return (
     <section className='flex flex-col gap-3'>
       <h4 className='text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
