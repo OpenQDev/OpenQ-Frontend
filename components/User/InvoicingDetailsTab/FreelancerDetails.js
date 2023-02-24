@@ -160,7 +160,7 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
                   )}
                   {emailOnly && (
                     <div className='note my-4'>
-                      This email will be publicly accesible and will be used by organizations to communicate with you.
+                      This email will be publicly accessible and will be used by organizations to communicate with you.
                       OpenQ will also use this email to copies of any documents you send to organizers via our
                       interface.
                     </div>
