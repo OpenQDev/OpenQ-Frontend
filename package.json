@@ -29,7 +29,7 @@
     "@ethersproject/experimental": "5.7.0",
     "@ethersproject/providers": "5.1.2",
     "@ethersproject/units": "5.7.0",
-    "@kycdao/widget": "0.5.0",
+    "@kycdao/widget": "0.5.3",
     "@magic-ext/oauth": "4.0.0",
     "@metamask/jazzicon": "2.0.0",
     "@primer/octicons-react": "17.12.0",
