@@ -73,7 +73,7 @@ jobs:
             yq -i '.frontend.image.tag = env(CIRCLE_TAG)' values-$DEPLOY_ENV.yaml
             cat values-$DEPLOY_ENV.yaml
             git add .
-            git commit -m "[CIRCLE CI] ${CIRCLE_TAG}"
+            git commit -m "[CIRCLE CI] ${CIRCLE_PROJECT_REPONAME} ${CIRCLE_TAG}"
             git remote set-url origin https://${CIRCLECI_PAT}@github.com/openqdev/OpenQ-Helm.git
             git push
             git tag -f ${CIRCLE_TAG}
