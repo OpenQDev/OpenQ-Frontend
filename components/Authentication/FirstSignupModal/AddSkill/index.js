@@ -32,13 +32,14 @@ const AddSkill = ({ category, rolesInCategoriesState }) => {
     <>
       {theseRoles?.map((role, index) => {
         return (
-          <div className={`flex items-center gap-2 py-0.5 btn-default w-fit m-1`} key={index}>
-            {role}{' '}
-            <button onClick={(e) => removeRole(e, role)}>
-              {role}
-              <Cross />
-            </button>
-          </div>
+          <button
+            className={`flex items-center gap-2 py-0.5 btn-default w-fit m-1`}
+            key={index}
+            onClick={(e) => removeRole(e, role)}
+          >
+            {role}
+            <Cross />
+          </button>
         );
       })}
     </>
