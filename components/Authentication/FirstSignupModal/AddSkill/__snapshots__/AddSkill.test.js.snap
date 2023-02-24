@@ -7,6 +7,7 @@ exports[`Add Skill should match initial DOM Snapshot 1`] = `
   >
     dockerfile 
     <button>
+      dockerfile
       <svg
         class="fill-muted hover:fill-blue-400 w-4 h-4"
         height="16"
@@ -26,6 +27,7 @@ exports[`Add Skill should match initial DOM Snapshot 1`] = `
   >
     javascript 
     <button>
+      javascript
       <svg
         class="fill-muted hover:fill-blue-400 w-4 h-4"
         height="16"
@@ -45,6 +47,7 @@ exports[`Add Skill should match initial DOM Snapshot 1`] = `
   >
     css 
     <button>
+      css
       <svg
         class="fill-muted hover:fill-blue-400 w-4 h-4"
         height="16"
@@ -64,6 +67,7 @@ exports[`Add Skill should match initial DOM Snapshot 1`] = `
   >
     typescript 
     <button>
+      typescript
       <svg
         class="fill-muted hover:fill-blue-400 w-4 h-4"
         height="16"
@@ -83,6 +87,7 @@ exports[`Add Skill should match initial DOM Snapshot 1`] = `
   >
     mustache 
     <button>
+      mustache
       <svg
         class="fill-muted hover:fill-blue-400 w-4 h-4"
         height="16"
@@ -102,6 +107,7 @@ exports[`Add Skill should match initial DOM Snapshot 1`] = `
   >
     rust 
     <button>
+      rust
       <svg
         class="fill-muted hover:fill-blue-400 w-4 h-4"
         height="16"

@@ -10,11 +10,19 @@ const Blacklisting = () => {
   const [banhammer, setBanhammer] = useState('');
   const [blacklistingIssue, setBlacklistingIssue] = useState(true);
   const [issueSuccess, setIssueSuccess] = useState();
+  const [orgSuccess, setOrgSuccess] = useState();
   const [blacklistingOrg, setBlacklistingOrg] = useState(true);
-  const [orgSuccess] = useState();
 
   const handleOrgBlacklist = async () => {
-    setIssueSuccess(false);
+    try {
+      const data = await appState.openQPrismaClient.blacklistOrganization(orgId, blacklistingOrg, banhammer);
+      if (data) {
+        setOrgSuccess(true);
+        setTimeout(() => setOrgSuccess(), 1000);
+      }
+    } catch (err) {
+      appState.logger.error(err, accountData.id, 'blacklisting2');
+    }
   };
   const handleIssueBlacklist = async () => {
     try {

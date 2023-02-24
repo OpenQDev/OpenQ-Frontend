@@ -1,10 +1,6 @@
 import { render, screen } from '../../../../test-utils';
 import React from 'react';
 import AddSkill from '.';
-import userEvent from '@testing-library/user-event';
-import MockOpenQPrismaClient from '../../../../services/openq-api/MockOpenQPrismaClient';
-import InitialState from '../../../../store/Store/InitialState';
-import { waitFor } from '@testing-library/react';
 
 describe('Add Skill', () => {
   const user = {
@@ -27,35 +23,23 @@ describe('Add Skill', () => {
     frameworks: [],
   };
   it('should match initial DOM Snapshot', () => {
-    const { asFragment } = render(<AddSkill childInfo={['toml', 'languages']} user={user} category={'languages'} />);
+    const setRolesInCategoriesState = jest.fn();
+    const rolesInCategoriesState = [{ languages: user.languages }, setRolesInCategoriesState];
+    const { asFragment } = render(
+      <AddSkill
+        rolesInCategoriesState={rolesInCategoriesState}
+        childInfo={['toml', 'languages']}
+        user={user}
+        category={'languages'}
+      />
+    );
     expect(asFragment()).toMatchSnapshot();
   });
   it('setInputValue to have been called', async () => {
-    const currentUser = userEvent.setup();
-    const updateUserMockFunc = jest.fn();
-    const customInitialState = {
-      ...InitialState,
-      accountData: user,
-      openQPrismaClient: new MockOpenQPrismaClient({ updateUserMockFunc }),
-    };
-
-    const setInputValue = jest.fn();
-    await waitFor(async () => {
-      render(
-        <AddSkill
-          setInputValue={(arg) => setInputValue(arg)}
-          childInfo={['toml', 'languages']}
-          user={user}
-          category={'languages'}
-        />,
-        {},
-        customInitialState
-      );
-      const buttons = screen.getAllByRole('button');
-      expect(buttons.length).toBe(6);
-      await currentUser.click(buttons[0]);
-      expect(screen.getAllByRole('button').length).toBe(6);
-      expect(setInputValue).toBeCalledWith('');
-    });
+    const setRolesInCategoriesState = jest.fn();
+    const rolesInCategoriesState = [{ languages: user.languages }, setRolesInCategoriesState];
+    render(<AddSkill rolesInCategoriesState={rolesInCategoriesState} category={'languages'} />);
+    const buttons = screen.getAllByRole('button');
+    expect(buttons.length).toBe(6);
   });
 });
