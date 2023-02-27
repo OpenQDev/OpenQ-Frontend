@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import ModalLarge from '../../../../Utils/ModalLarge';
@@ -16,10 +17,49 @@ const index = ({ setShowModal }) => {
           consult with your own tax or financial adviser to determine which form is appropriate for you.
         </p>
 
-        <p className='py-2'>
-          1. W-8-BEN, Certificate of Foreign Status of Beneficial Owner for United States Tax Withholding and Reporting
-          (Individuals).
+        <br />
+
+        <p className='flex py-2 gap-2'>
+          1.
+          <Image src={'/diverse/us-flag.jpg'} width={24} height={24} />
+          W-9
         </p>
+
+        <p className='py-2'>✅ US Citizen or Resident</p>
+
+        <p className='py-2'>✅ Claiming as an individual</p>
+
+        <p className='py-2'>
+          Instructions:{' '}
+          <Link
+            href={'https://www.irs.gov/forms-pubs/about-form-w-9'}
+            rel='noopener norefferer'
+            target='_blank'
+            className='text-link-colour hover:underline col-span-2'
+          >
+            https://www.irs.gov/forms-pubs/about-form-w-9
+          </Link>
+        </p>
+
+        <p className='py-2'>
+          Form:{' '}
+          <Link
+            href={'https://www.irs.gov/pub/irs-pdf/fw9.pdf'}
+            rel='noopener norefferer'
+            target='_blank'
+            className='text-link-colour hover:underline col-span-2'
+          >
+            https://www.irs.gov/pub/irs-pdf/fw9.pdf
+          </Link>
+        </p>
+
+        <br />
+
+        <p className='py-2'>2. 🌍 W-8-BEN</p>
+
+        <p className='py-2'>✅ Not a US Citizen or Resident</p>
+
+        <p className='py-2'>✅ Claiming as an individual</p>
 
         <p className='py-2'>
           Instructions:{' '}
@@ -45,10 +85,13 @@ const index = ({ setShowModal }) => {
           </Link>
         </p>
 
-        <p className='py-2'>
-          2. W-8-BEN-E, Certificate of Status of Beneficial Owner for United States Tax Withholding and Reporting
-          (Entities).
-        </p>
+        <br />
+
+        <p className='py-2'>3. 🌎 W-8-BEN-E</p>
+
+        <p className='py-2'>✅ Not a US Citizen or Resident</p>
+
+        <p className='py-2'>✅ Claiming as an entity</p>
 
         <p className='py-2'>
           Instructions:{' '}
@@ -74,9 +117,15 @@ const index = ({ setShowModal }) => {
           </Link>
         </p>
 
+        <br />
+
+        <p className='py-2'>4. 🌎 W-8-ECI</p>
+
+        <p className='py-2'>✅ Not a US Citizen or Resident</p>
+
         <p className='py-2'>
-          3. W-8-ECI, Certificate of Foreign Person’s Claim That Income is Effectively Connected With the Conduct of a
-          Trade or Business in the United States.
+          ✅ Foreign Person’s Claim That Income is Effectively Connected With the Conduct of a Trade or Business in the
+          United States
         </p>
 
         <p className='py-2'>
@@ -103,10 +152,13 @@ const index = ({ setShowModal }) => {
           </Link>
         </p>
 
-        <p className='py-2'>
-          4. W-8-EXP, Certificate of Foreign Government or Other Foreign Organization for United States Tax Withholding
-          and Reporting.
-        </p>
+        <br />
+
+        <p className='py-2'>5. 🌎 W-8-EXP</p>
+
+        <p className='py-2'>✅ Not a US Citizen or Resident</p>
+
+        <p className='py-2'>✅ Foreign Government or Other Foreign Organization</p>
 
         <p className='py-2'>
           Instructions:{' '}
@@ -132,10 +184,13 @@ const index = ({ setShowModal }) => {
           </Link>
         </p>
 
-        <p className='py-2'>
-          5. W-8-IMY, Certificate of Foreign Intermediary, Foreign Flow-Through Entity, or Certain U.S. Branches for
-          United States Tax Withholding and Reporting.
-        </p>
+        <br />
+
+        <p className='py-2'>6. 🌎 W-8-IMY</p>
+
+        <p className='py-2'>✅ Not a US Citizen or Resident</p>
+
+        <p className='py-2'>✅ Foreign Intermediary, Foreign Flow-Through Entity, or Certain U.S. Branches</p>
 
         <p className='py-2'>
           Instructions:{' '}
@@ -160,6 +215,8 @@ const index = ({ setShowModal }) => {
             https://www.irs.gov/pub/irs-pdf/fw8imy.pdf
           </Link>
         </p>
+
+        <br />
 
         <p className='py-2'>
           The IRS requires us to withhold FIL from payments to non-U.S. citizens who live outside of the United States
