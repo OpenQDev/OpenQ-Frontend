@@ -49,8 +49,8 @@ const ContractWizard = ({ wizardVisibility }) => {
   }, [mintModal]);
 
   const handleTypeChange = () => {
-    if (type == 1) {
-      setType(type + 2);
+    if (type == 0) {
+      setType(type + 3);
     } else setType(type + 1);
   };
   const resetState = () => {

@@ -36,22 +36,6 @@ describe('MintBountyButton', () => {
     expect(screen.getByText(/Create a Fixed Price Contract to send funds to any GitHub issue/i));
   });
 
-  it('should open MintBountyModal on split price', async () => {
-    // ARRANGE
-    const user = userEvent.setup();
-    render(<MintBountyButton types={['1', '2', '3']} wizard={true} />);
-
-    // ACT
-    const mintBountyButton = await screen.findByRole('button', { name: /New Contract/i });
-    await user.click(mintBountyButton);
-    expect(await screen.findByText(/Deploy Split Price Contract/i)).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        /Pay out a fixed amount to any contributors who submit work to this bounty, as many times as you like/i
-      )
-    );
-  });
-
   it('should open MintBountyModal on contest', async () => {
     // ARRANGE
     const user = userEvent.setup();
