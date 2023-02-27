@@ -74,7 +74,7 @@ const KycRequirement = ({ setKycVerified }) => {
   return (
     <section className='flex flex-col gap-3'>
       <h4 className='flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
-        <Image src='/kycDao-logo.svg' width={130} height={130} alt='kycDao-logo' />
+        <Image src='/kycDao-logo.svg' width={132} height={32} alt='kycDao-logo' priority={true} />
         <div
           className={`${
             stage == 'verified'
