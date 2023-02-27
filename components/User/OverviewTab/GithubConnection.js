@@ -48,8 +48,9 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
     checkAssociatedAddress();
   }, [account, githubId]);
   useEffect(() => {
-    if(associatedAddress && associatedAddress!==zeroAddress){
-    setVerified(true);}
+    if (associatedAddress && associatedAddress !== zeroAddress) {
+      setVerified(true);
+    }
   }, [associatedAddress]);
   return (
     <>
