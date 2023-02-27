@@ -503,6 +503,21 @@ class OpenQClient {
     });
   };
 
+  kycAddress = async (library, _address) => {
+    const promise = new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.KYC(signer);
+      try {
+        const txnResponse = await contract.setIsValid(_address);
+        const txnReceipt = await txnResponse.wait();
+        resolve(txnReceipt);
+      } catch (err) {
+        reject(err);
+      }
+    });
+    return promise;
+  };
+
   hasKYC = async (library, _address) => {
     return new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
@@ -597,21 +612,6 @@ class OpenQClient {
       try {
         const isWhitelisted = await contract.isWhitelisted(tokenAddress);
         resolve(isWhitelisted);
-      } catch (err) {
-        reject(err);
-      }
-    });
-    return promise;
-  };
-
-  kycAddress = async (library, address) => {
-    const promise = new Promise(async (resolve, reject) => {
-      const signer = library.getSigner();
-      const contract = this.KYC(signer);
-      try {
-        const txnResponse = await contract.setIsValid(address);
-        const txnReceipt = await txnResponse.wait();
-        resolve(txnReceipt);
       } catch (err) {
         reject(err);
       }
