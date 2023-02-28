@@ -19,6 +19,7 @@ import Username from './OverviewTab/Username';
 import KycRequirement from '../Claim/ClaimPage/KycRequirement';
 import Log from '../svg/log';
 import { needsFreelancerData, needsOrgData } from '../../services/utils/lib';
+import Email from '../Claim/ClaimPage/Email';
 
 const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) => {
   const githubHasWalletVerifiedState = useState(null);
@@ -96,6 +97,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
             ...[isOwner ? { name: 'Watching', Svg: EyeIcon } : {}],
             ...[isOwner ? { name: 'Wallet-to-GitHub', Svg: LinkIcon, SecondSvg: GithubVerifiedLogo } : {}],
             ...[isOwner ? { name: 'KYC', Svg: PersonFillIcon, SecondSvg: KYCVerifiedLogo } : {}],
+            ...[isOwner ? { name: 'Email', Svg: PersonFillIcon, SecondSvg: KYCVerifiedLogo } : {}],
 
             ...[isOwner ? { name: 'Invoicing (Freelancer)', Svg: Log, SecondSvg: OrgCompleteLogo } : {}],
             ...[isOwner ? { name: 'Invoicing (Organization)', Svg: Log, SecondSvg: FreelancerCompleteLogo } : {}],
@@ -170,6 +172,11 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
             {internalMenu == 'KYC' && (
               <div className='flex px-8 justify-between mt-12'>
                 <KycRequirement setKycVerified={setKycVerified} />
+              </div>
+            )}
+            {internalMenu == 'Email' && (
+              <div className='flex px-8 justify-between mt-12'>
+                <Email user={user} />
               </div>
             )}
             {internalMenu == 'Stars' && <Starred starredOrganizations={starredOrganizations} />}
