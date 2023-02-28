@@ -45,10 +45,74 @@ exports[`W8FormModal should match initial DOM Snapshot 1`] = `
               >
                 Please complete and upload a form W-8. Choose one of five types, depending on your entity. We encourage you to consult with your own tax or financial adviser to determine which form is appropriate for you.
               </p>
+              <br />
+              <p
+                class="flex py-2 gap-2"
+              >
+                1.
+                <img
+                  data-nimg="1"
+                  decoding="async"
+                  height="24"
+                  loading="lazy"
+                  src="/_next/image?url=%2Fdiverse%2Fus-flag.jpg&w=48&q=75"
+                  srcset="/_next/image?url=%2Fdiverse%2Fus-flag.jpg&w=32&q=75 1x, /_next/image?url=%2Fdiverse%2Fus-flag.jpg&w=48&q=75 2x"
+                  style="color: transparent;"
+                  width="24"
+                />
+                W-9
+              </p>
               <p
                 class="py-2"
               >
-                1. W-8-BEN, Certificate of Foreign Status of Beneficial Owner for United States Tax Withholding and Reporting (Individuals).
+                ✅ US Citizen or Resident
+              </p>
+              <p
+                class="py-2"
+              >
+                ✅ Claiming as an individual
+              </p>
+              <p
+                class="py-2"
+              >
+                Instructions: 
+                <a
+                  class="text-link-colour hover:underline col-span-2"
+                  href="https://www.irs.gov/forms-pubs/about-form-w-9"
+                  rel="noopener norefferer"
+                  target="_blank"
+                >
+                  https://www.irs.gov/forms-pubs/about-form-w-9
+                </a>
+              </p>
+              <p
+                class="py-2"
+              >
+                Form: 
+                <a
+                  class="text-link-colour hover:underline col-span-2"
+                  href="https://www.irs.gov/pub/irs-pdf/fw9.pdf"
+                  rel="noopener norefferer"
+                  target="_blank"
+                >
+                  https://www.irs.gov/pub/irs-pdf/fw9.pdf
+                </a>
+              </p>
+              <br />
+              <p
+                class="py-2"
+              >
+                2. 🌍 W-8-BEN
+              </p>
+              <p
+                class="py-2"
+              >
+                ✅ Not a US Citizen or Resident
+              </p>
+              <p
+                class="py-2"
+              >
+                ✅ Claiming as an individual
               </p>
               <p
                 class="py-2"
@@ -76,10 +140,21 @@ exports[`W8FormModal should match initial DOM Snapshot 1`] = `
                   https://www.irs.gov/pub/irs-pdf/fw8ben.pdf
                 </a>
               </p>
+              <br />
               <p
                 class="py-2"
               >
-                2. W-8-BEN-E, Certificate of Status of Beneficial Owner for United States Tax Withholding and Reporting (Entities).
+                3. 🌎 W-8-BEN-E
+              </p>
+              <p
+                class="py-2"
+              >
+                ✅ Not a US Citizen or Resident
+              </p>
+              <p
+                class="py-2"
+              >
+                ✅ Claiming as an entity
               </p>
               <p
                 class="py-2"
@@ -107,10 +182,21 @@ exports[`W8FormModal should match initial DOM Snapshot 1`] = `
                   https://www.irs.gov/pub/irs-pdf/fw8bene.pdf
                 </a>
               </p>
+              <br />
               <p
                 class="py-2"
               >
-                3. W-8-ECI, Certificate of Foreign Person’s Claim That Income is Effectively Connected With the Conduct of a Trade or Business in the United States.
+                4. 🌎 W-8-ECI
+              </p>
+              <p
+                class="py-2"
+              >
+                ✅ Not a US Citizen or Resident
+              </p>
+              <p
+                class="py-2"
+              >
+                ✅ Foreign Person’s Claim That Income is Effectively Connected With the Conduct of a Trade or Business in the United States
               </p>
               <p
                 class="py-2"
@@ -138,10 +224,21 @@ exports[`W8FormModal should match initial DOM Snapshot 1`] = `
                   https://www.irs.gov/pub/irs-pdf/fw8eci.pdf
                 </a>
               </p>
+              <br />
               <p
                 class="py-2"
               >
-                4. W-8-EXP, Certificate of Foreign Government or Other Foreign Organization for United States Tax Withholding and Reporting.
+                5. 🌎 W-8-EXP
+              </p>
+              <p
+                class="py-2"
+              >
+                ✅ Not a US Citizen or Resident
+              </p>
+              <p
+                class="py-2"
+              >
+                ✅ Foreign Government or Other Foreign Organization
               </p>
               <p
                 class="py-2"
@@ -169,10 +266,21 @@ exports[`W8FormModal should match initial DOM Snapshot 1`] = `
                   https://www.irs.gov/pub/irs-pdf/fw8exp.pdf
                 </a>
               </p>
+              <br />
               <p
                 class="py-2"
               >
-                5. W-8-IMY, Certificate of Foreign Intermediary, Foreign Flow-Through Entity, or Certain U.S. Branches for United States Tax Withholding and Reporting.
+                6. 🌎 W-8-IMY
+              </p>
+              <p
+                class="py-2"
+              >
+                ✅ Not a US Citizen or Resident
+              </p>
+              <p
+                class="py-2"
+              >
+                ✅ Foreign Intermediary, Foreign Flow-Through Entity, or Certain U.S. Branches
               </p>
               <p
                 class="py-2"
@@ -200,6 +308,7 @@ exports[`W8FormModal should match initial DOM Snapshot 1`] = `
                   https://www.irs.gov/pub/irs-pdf/fw8imy.pdf
                 </a>
               </p>
+              <br />
               <p
                 class="py-2"
               >

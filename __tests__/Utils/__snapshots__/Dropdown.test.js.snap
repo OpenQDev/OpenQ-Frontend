@@ -37,7 +37,7 @@ exports[`Dropdown should match DOM Snapshot 1`] = `
           value="foo"
         >
           <svg
-            className="inline mr-2 fill-muted"
+            className="inline mr-2  fill-muted"
             height="16"
             viewBox="0 0 16 16"
             width="16"
