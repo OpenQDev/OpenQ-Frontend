@@ -100,7 +100,7 @@ describe('ClaimPage', () => {
 
     // ACT
     expect(screen.getByText(/update readme/i)).toBeInTheDocument();
-    expect(screen.getByText(/1st place/i)).toBeInTheDocument();
+    expect(screen.getByText(/1st tier/i)).toBeInTheDocument();
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);

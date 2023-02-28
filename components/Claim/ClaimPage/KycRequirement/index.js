@@ -7,6 +7,7 @@ import StoreContext from '../../../../store/Store/StoreContext';
 import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
 import ShieldCheck from '../../../svg/shieldCheck';
 import ConnectButton from '../../../WalletConnect/ConnectButton';
+import EthereumProvider from '@walletconnect/ethereum-provider';
 
 const KycRequirement = ({ setKycVerified }) => {
   const [stage, setStage] = useState('start');
@@ -17,6 +18,20 @@ const KycRequirement = ({ setKycVerified }) => {
   const { chainId, account, library } = useWeb3();
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const disabled = stage == 'processing' || stage == 'verified';
+  //  Create WalletConnect Provider
+  const wcProvider = new EthereumProvider({
+    rpc: {
+      137: 'https://rpc-mainnet.maticvigil.com/v1/258e87c299409a354a268f96a06f9e6ae7ab8cea',
+    },
+  });
+
+  //  Enable session (triggers QR Code modal)
+  useEffect(async () => {
+    await wcProvider.enable();
+  }, []);
+
+  const provider = (library && window?.ethereum) || wcProvider;
+
   useEffect(() => {
     if (failResponse == 'cancelled') {
       setStage('start');
@@ -43,7 +58,7 @@ const KycRequirement = ({ setKycVerified }) => {
           demoMode: false,
           enabledBlockchainNetworks: ['PolygonMainnet'],
           enabledVerificationTypes: ['KYC'],
-          evmProvider: window.ethereum,
+          evmProvider: provider,
           baseUrl: 'https://kycdao.xyz',
           // test: 'https://staging.kycdao.xyz', 'PolygonMumbai'
           // prod: 'https://kycdao.xyz', 'PolygonMainnet'
@@ -74,7 +89,7 @@ const KycRequirement = ({ setKycVerified }) => {
   return (
     <section className='flex flex-col gap-3'>
       <h4 className='flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
-        <Image src='/kycDao-logo.svg' width={130} height={130} alt='kycDao-logo' />
+        <Image src='/kycDao-logo.svg' width={132} height={32} alt='kycDao-logo' priority={true} />
         <div
           className={`${
             stage == 'verified'

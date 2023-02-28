@@ -236,20 +236,14 @@ const W8Requirement = ({ bounty }) => {
               so that we can send you a copy of the your submitted form.
             </p>
           </div>
-          <div className='font-semibold flex gap-2 group w-fit'>
-            Upload{' '}
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              viewBox='0 0 24 24'
-              width='24'
-              height='24'
-              className='fill-primary cursor-pointer'
-              onClick={() => setShowModal(true)}
-            >
-              <path d='M13 7.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm-3 3.75a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v4.25h.75a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5h.75V12h-.75a.75.75 0 0 1-.75-.75Z'></path>
-              <path d='M12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1ZM2.5 12a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5A9.5 9.5 0 0 0 12 2.5 9.5 9.5 0 0 0 2.5 12Z'></path>
-            </svg>
+          <div>
+            Explore our W8/W9 templates{' '}
+            <button className='text-blue-500 hover:underlin' onClick={() => setShowModal(true)}>
+              here
+            </button>
+            .
           </div>
+          <div className='font-semibold flex gap-2 group w-fit'>Upload</div>
           <form onSubmit={handleSend} className='flex gap-2  flex-wrap md:flex-nowrap'>
             <label
               htmlFor='file input'

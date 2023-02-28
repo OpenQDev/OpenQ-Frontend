@@ -447,7 +447,7 @@ export const GET_REPO_BY_NAME = gql`
 export const GET_REPO_NAMES_BY_ORG_NAME = gql`
   query GetRepoNamesByOrgName($orgName: String!) {
     organization(login: $orgName) {
-      repositories(first: 50) {
+      repositories(last: 100) {
         nodes {
           __typename
           name
@@ -472,7 +472,7 @@ export const GET_REPO_NAMES_BY_ORG_NAME = gql`
 export const GET_REPO_NAMES_BY_USER_NAME = gql`
   query GetRepoNamesByUserName($userName: String!) {
     user(login: $userName) {
-      repositories(first: 50) {
+      repositories(last: 100) {
         nodes {
           __typename
           name

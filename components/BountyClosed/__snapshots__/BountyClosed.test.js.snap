@@ -2,7 +2,7 @@
 
 exports[`BountyClosed should match DOM Snapshot 1`] = `
 <div
-  className="flex px-2 sm:px-0 flex-wrap flex-1 max-w-[1200px] pb-8"
+  className="flex px-2 sm:px-0 flex-wrap flex-1  max-w-[1200px] pb-8"
 >
   <div
     className="flex-1 pr-4 min-w-[260px] space-y-4 pt-2"
@@ -102,7 +102,7 @@ exports[`BountyClosed should match DOM Snapshot 1`] = `
 
 exports[`BountyClosed should match DOM Snapshot 2`] = `
 <div
-  className="flex px-2 sm:px-0 flex-wrap flex-1 max-w-[1200px] pb-8"
+  className="flex px-2 sm:px-0 flex-wrap flex-1  max-w-[1200px] pb-8"
 >
   <div
     className="flex-1 pr-4 min-w-[260px] space-y-4 pt-2"
@@ -202,7 +202,7 @@ exports[`BountyClosed should match DOM Snapshot 2`] = `
 
 exports[`BountyClosed should match DOM Snapshot 3`] = `
 <div
-  className="flex px-2 sm:px-0 flex-wrap flex-1 max-w-[1200px] pb-8"
+  className="flex px-2 sm:px-0 flex-wrap flex-1  max-w-[1200px] pb-8"
 >
   <div
     className="flex-1 pr-4 min-w-[260px] space-y-4 pt-2"
@@ -302,7 +302,7 @@ exports[`BountyClosed should match DOM Snapshot 3`] = `
 
 exports[`BountyClosed should match DOM Snapshot 4`] = `
 <div
-  className="flex px-2 sm:px-0 flex-wrap flex-1 max-w-[1200px] pb-8"
+  className="flex px-2 sm:px-0 flex-wrap flex-1  max-w-[1200px] pb-8"
 >
   <div
     className="flex-1 pr-4 min-w-[260px] space-y-4 pt-2"

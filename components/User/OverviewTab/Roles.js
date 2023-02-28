@@ -57,7 +57,7 @@ const Roles = ({ defaultRoles, category, user }) => {
         <li className='py-6'>
           <h4 className='font-bold'>{category}s</h4>
           <div>
-            <div className='grid gap-4 py-4 grid-cols-[repeat(auto-fill,_minmax(200px,_1fr))] '>
+            <div className='flex flex-wrap gap-4 py-4 '>
               {roles?.map((role, index) => {
                 return (
                   <div

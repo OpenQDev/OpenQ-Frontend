@@ -5,7 +5,7 @@ exports[`SubMenu should match DOM Snapshot and match horizontal style 1`] = `
   className="px-2 sm:px-8 text-primary  w-full flex h-12 overflow-x-auto overflow-y-hidden border-web-gray border-b items-center  gap-x-1 md:gap-x-4 relative undefined "
 >
   <li
-    className="w-fit list-none relative"
+    className="w-fit list-none  relative"
   >
     <button
       className="undefined cursor-pointer px-1 flex gap-1 sm:gap-2 items-center text-sm hover:bg-inactive-gray leading-5 py-1 hover:bg-active-gray rounded-sm justify-center w-fit false"
@@ -23,7 +23,7 @@ exports[`SubMenu should match DOM Snapshot and match horizontal style 1`] = `
     />
   </li>
   <li
-    className="w-fit list-none relative"
+    className="w-fit list-none  relative"
   >
     <button
       className="undefined cursor-pointer px-1 flex gap-1 sm:gap-2 items-center text-sm hover:bg-inactive-gray leading-5 py-1 hover:bg-active-gray rounded-sm justify-center w-fit  undefined "
@@ -48,7 +48,7 @@ exports[`SubMenu should match DOM Snapshot and match vertical style 1`] = `
   className="px-2 px-0 text-primary  w-full flex flex-col gap-2  gap-x-1 md:gap-x-4 relative undefined "
 >
   <li
-    className="w-fit list-none relative"
+    className="w-fit list-none  relative"
   >
     <button
       className="pl-2 cursor-pointer px-1 flex gap-1 sm:gap-2 items-center text-sm hover:bg-inactive-gray leading-5 py-1 hover:bg-active-gray rounded-sm justify-center w-fit false"
@@ -63,7 +63,7 @@ exports[`SubMenu should match DOM Snapshot and match vertical style 1`] = `
     </button>
   </li>
   <li
-    className="w-fit list-none relative"
+    className="w-fit list-none  relative"
   >
     <button
       className="pl-2 cursor-pointer px-1 flex gap-1 sm:gap-2 items-center text-sm hover:bg-inactive-gray leading-5 py-1 hover:bg-active-gray rounded-sm justify-center w-fit  after:h-5 after:left-0 after:w-0.5 after:absolute after:bg-link-colour "
