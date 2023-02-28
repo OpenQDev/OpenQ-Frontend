@@ -23,7 +23,7 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
   // TODO - add encryption to local data
 
   const formValuesInvoicing = emailOnly
-    ? [{ value: 'invoicingEmail', displayValue: 'Invoicing Email', required: true }]
+    ? [{ value: 'invoicingEmail', displayValue: 'Email', required: true }]
     : [
         {
           value: 'company',
@@ -160,9 +160,8 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
                   )}
                   {emailOnly && (
                     <div className='note my-4'>
-                      This email will be publicly accessible and will be used by organizations to communicate with you.
-                      OpenQ will also use this email to copies of any documents you send to organizers via our
-                      interface.
+                      This email will be used by organizations to communicate with you. OpenQ will also send copies of
+                      any documents you send to organizers via our interface.
                     </div>
                   )}
                 </>

@@ -1,12 +1,11 @@
 // Third party
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import Image from 'next/image';
-import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
+import { PersonIcon, PeopleIcon } from '@primer/octicons-react';
 
 // Children
 import AddContestParams from '../AddContestParams';
 import MintBountyInputIssue from '../MintBountyInputIssue/MintBountyInputIssue';
-import AddSplitPriceParams from '../AddSplitPriceParams';
 import Budgeting from '../Budgeting';
 import ErrorModal from '../ErrorModal';
 import InvoiceableToggle from '../InvoiceRequired';
@@ -117,7 +116,6 @@ const MintBountyModal = ({ modalVisibility }) => {
               <SubMenu
                 items={[
                   { name: 'Fixed Price', Svg: PersonIcon },
-                  { name: 'Split Price', Svg: PersonAddIcon },
                   { name: 'Hackathon', Svg: PeopleIcon },
                 ]}
                 internalMenu={getBountyTypeName(type)}
@@ -128,9 +126,7 @@ const MintBountyModal = ({ modalVisibility }) => {
             </div>
             <div className='overflow-y-auto px-2'>
               <h3 className='text-xl pt-2'>
-                {type == 1
-                  ? 'Pay out a fixed amount to any contributors who submit work to this bounty, as many times as you like'
-                  : `Create a ${getBountyTypeName(type)} Contract to send funds to any GitHub issue`}
+                Create a {getBountyTypeName(type)} Contract to send funds to any GitHub issue
               </h3>
               <MintBountyInputIssue />
               {type === 3 && (
@@ -144,13 +140,7 @@ const MintBountyModal = ({ modalVisibility }) => {
                 <Budgeting />{' '}
               </TokenProvider>
 
-              {type === 1 ? (
-                <>
-                  <TokenProvider>
-                    <AddSplitPriceParams />
-                  </TokenProvider>
-                </>
-              ) : type === 2 || type === 3 ? (
+              {type === 2 || type === 3 ? (
                 <>
                   <AddContestParams />
                 </>

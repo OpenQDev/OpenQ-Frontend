@@ -26,8 +26,8 @@ const KycRequirement = ({ setKycVerified }) => {
   });
 
   //  Enable session (triggers QR Code modal)
-  useEffect(async () => {
-    await wcProvider.enable();
+  useEffect(() => {
+    wcProvider.enable();
   }, []);
 
   const provider = (library && window?.ethereum) || wcProvider;
@@ -71,25 +71,25 @@ const KycRequirement = ({ setKycVerified }) => {
       try {
         const { KycDaoClient } = await import('@kycdao/widget');
 
-				new KycDaoClient({
-					parent: '#modalroot',
-					config: {
-						demoMode: false,
-						enabledBlockchainNetworks: ['PolygonMainnet'],
-						enabledVerificationTypes: ['KYC'],
-						evmProvider: provider,
-						baseUrl: 'https://kycdao.xyz',
-						// test: 'https://staging.kycdao.xyz', 'PolygonMumbai'
-						// prod: 'https://kycdao.xyz', 'PolygonMainnet'
-					},
-					onFail: setFailResponse,
-					onSuccess: setSuccessResponse,
-				}).open();
-				setStage('processing');
-			} catch (error) {
-				setError(error);
-				setStage('start');
-				appState.logger.error(error, 'KycRequirement.js1');
+        new KycDaoClient({
+          parent: '#modalroot',
+          config: {
+            demoMode: false,
+            enabledBlockchainNetworks: ['PolygonMainnet'],
+            enabledVerificationTypes: ['KYC'],
+            evmProvider: provider,
+            baseUrl: 'https://kycdao.xyz',
+            // test: 'https://staging.kycdao.xyz', 'PolygonMumbai'
+            // prod: 'https://kycdao.xyz', 'PolygonMainnet'
+          },
+          onFail: setFailResponse,
+          onSuccess: setSuccessResponse,
+        }).open();
+        setStage('processing');
+      } catch (error) {
+        setError(error);
+        setStage('start');
+        appState.logger.error(error, 'KycRequirement.js1');
       }
     }
   }, []);

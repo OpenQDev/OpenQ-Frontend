@@ -11,6 +11,7 @@ import {
 import StoreContext from '../../../../store/Store/StoreContext';
 import { getW8Approved } from '../../../../services/utils/lib';
 import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
+import FreelancerDetails from '../../../User/InvoicingDetailsTab/FreelancerDetails';
 const W8Requirement = ({ bounty }) => {
   const [loading, setLoading] = useState(false);
   const [appState] = useContext(StoreContext);
@@ -223,18 +224,12 @@ const W8Requirement = ({ bounty }) => {
                 for help.
               </div>
             </p>
-            <p>
-              Please make sure your email is filled in your{' '}
-              <Link
-                className='text-link-colour hover:underline col-span-2'
-                href={profileLink}
-                target='_blank'
-                rel='noopener norefferer'
-              >
-                profile
-              </Link>{' '}
-              so that we can send you a copy of the your submitted form.
-            </p>
+            {!accountData.invoicingEmail && (
+              <>
+                <p>Please add an email to your profile so that we can send you a copy of the your submitted form.</p>
+                <FreelancerDetails slim={true} emailOnly={true} />
+              </>
+            )}
           </div>
           <div>
             Explore our W8/W9 templates{' '}
