@@ -18,7 +18,19 @@ const KycRequirement = ({ setKycVerified }) => {
   const { chainId, account, library } = useWeb3();
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const disabled = stage == 'processing' || stage == 'verified';
-  const provider = (library && window?.ethereum) || new EthereumProvider();
+  //  Create WalletConnect Provider
+  const wcProvider = new EthereumProvider({
+    rpc: {
+      137: 'https://rpc-mainnet.maticvigil.com/v1/258e87c299409a354a268f96a06f9e6ae7ab8cea',
+    },
+  });
+
+  //  Enable session (triggers QR Code modal)
+  useEffect(async () => {
+    await wcProvider.enable();
+  }, []);
+
+  const provider = (library && window?.ethereum) || wcProvider;
 
   useEffect(() => {
     if (failResponse == 'cancelled') {
