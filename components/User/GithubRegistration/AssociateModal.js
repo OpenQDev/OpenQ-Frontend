@@ -11,6 +11,7 @@ import LoadingIcon from '../../Loading/ButtonLoadingIcon';
 import LinkText from '../../svg/linktext';
 import AuthContext from '../../../store/AuthStore/AuthContext';
 import ToolTipNew from '../../Utils/ToolTipNew';
+import OnlyIfAccountPresent from '../../Utils/OnlyIfAccountPresent';
 
 const AssociateModal = ({
   enableLink,
@@ -155,19 +156,21 @@ const AssociateModal = ({
   return (
     <>
       {' '}
-      <ToolTipNew
-        innerStyles={'flex whitespace-normal w-80'}
-        hideToolTip={!hasAssociatedAddress}
-        toolTipText={'You will be prompted to change your Metamask account to update your associated address.'}
-      >
-        <button
-          disabled={!enableLink}
-          className={enableLink ? ` ${activeBtnStyles}  w-full btn-primary` : 'max-w-[340px] w-full btn-default'}
-          onClick={hasAssociatedAddress ? changeAccount : associateExternalIdToAddress}
+      <OnlyIfAccountPresent>
+        <ToolTipNew
+          innerStyles={'flex whitespace-normal w-80'}
+          hideToolTip={!hasAssociatedAddress}
+          toolTipText={'You will be prompted to change your Metamask account to update your associated address.'}
         >
-          {btnText}
-        </button>
-      </ToolTipNew>
+          <button
+            disabled={!enableLink}
+            className={enableLink ? ` ${activeBtnStyles}  w-full btn-primary` : 'max-w-[340px] w-full btn-default'}
+            onClick={hasAssociatedAddress ? changeAccount : associateExternalIdToAddress}
+          >
+            {btnText}
+          </button>
+        </ToolTipNew>
+      </OnlyIfAccountPresent>
       {showModal && (
         <>
           <ModalDefault
