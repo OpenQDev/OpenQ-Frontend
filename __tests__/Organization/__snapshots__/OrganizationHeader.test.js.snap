@@ -9,7 +9,7 @@ exports[`OrganizationHeader should match DOM Snapshot 1`] = `
   >
     <img
       alt="avatar"
-      className="bg-active-gray rounded-sm w-20 h-20"
+      className="bg-active-gray rounded-sm  w-20 h-20"
       data-nimg="1"
       decoding="async"
       height={100}
