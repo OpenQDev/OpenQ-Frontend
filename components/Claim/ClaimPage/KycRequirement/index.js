@@ -37,6 +37,7 @@ const KycRequirement = ({ setKycVerified }) => {
       setStage('start');
       setFailResponse(null);
     }
+
     if (successResponse) {
       setStage('verified');
       setKycVerified && setKycVerified(true);
@@ -44,35 +45,55 @@ const KycRequirement = ({ setKycVerified }) => {
       setSuccessResponse(null);
     }
   }, [failResponse, successResponse]);
+
   useEffect(() => {
     // chainId to 80001 if tested on Mumbai
     if (account && chainId == 137) hasKYC();
   }, [chainId, account]);
-  const onOpenSDK = useCallback(async () => {
-    try {
-      const { KycDaoClient } = await import('@kycdao/widget');
 
-      new KycDaoClient({
-        parent: '#modalroot',
-        config: {
-          demoMode: false,
-          enabledBlockchainNetworks: ['PolygonMainnet'],
-          enabledVerificationTypes: ['KYC'],
-          evmProvider: provider,
-          baseUrl: 'https://kycdao.xyz',
-          // test: 'https://staging.kycdao.xyz', 'PolygonMumbai'
-          // prod: 'https://kycdao.xyz', 'PolygonMainnet'
-        },
-        onFail: setFailResponse,
-        onSuccess: setSuccessResponse,
-      }).open();
-      setStage('processing');
-    } catch (error) {
-      setError(error);
-      setStage('start');
-      appState.logger.error(error, 'KycRequirement.js1');
+  const onOpenSDK = useCallback(async () => {
+    if (process.env.NEXT_PUBLIC_DEPLOY_ENV == 'local' || process.env.NEXT_PUBLIC_DEPLOY_ENV == 'docker') {
+      try {
+        setStage('processing');
+
+        await appState.openQClient.kycAddress(library, account);
+
+        setStage('verified');
+        setKycVerified && setKycVerified(true);
+        setError('');
+        setSuccessResponse(true);
+      } catch (error) {
+        setError(error);
+        setStage('start');
+        appState.logger.error(error, 'KycRequirement.js1');
+      }
+    } else {
+      try {
+        const { KycDaoClient } = await import('@kycdao/widget');
+
+				new KycDaoClient({
+					parent: '#modalroot',
+					config: {
+						demoMode: false,
+						enabledBlockchainNetworks: ['PolygonMainnet'],
+						enabledVerificationTypes: ['KYC'],
+						evmProvider: provider,
+						baseUrl: 'https://kycdao.xyz',
+						// test: 'https://staging.kycdao.xyz', 'PolygonMumbai'
+						// prod: 'https://kycdao.xyz', 'PolygonMainnet'
+					},
+					onFail: setFailResponse,
+					onSuccess: setSuccessResponse,
+				}).open();
+				setStage('processing');
+			} catch (error) {
+				setError(error);
+				setStage('start');
+				appState.logger.error(error, 'KycRequirement.js1');
+      }
     }
   }, []);
+
   // [WIP] make sure we get the update of hasKYC when the information changes
   const hasKYC = async () => {
     try {
@@ -86,6 +107,7 @@ const KycRequirement = ({ setKycVerified }) => {
       appState.logger.error(err, account, 'KycRequirement.js2');
     }
   };
+
   return (
     <section className='flex flex-col gap-3'>
       <h4 className='flex content-center items-center gap-2 border-b border-gray-700 pb-2'>
