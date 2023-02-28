@@ -44,7 +44,6 @@ describe('AdminPage', () => {
     });
   });
 
-
   it('should render contest contract settings', async () => {
     const bounty = { ...Constants.bounty2, status: '0', bountyType: '2' };
     // ARRANGE
