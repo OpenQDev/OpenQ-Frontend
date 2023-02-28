@@ -13,6 +13,7 @@ const SubmissionCard = ({ pr, bounty, refreshBounty }) => {
   const tierWon = bounty?.tierWinners?.indexOf(author.id);
 
   const linkedPrize = tierWon >= 0 && tierWon + 1;
+
   return (
     <div className={`min-w-[300px] w-60  border rounded-sm border-border-gray bg-menu-bg `}>
       <div
@@ -68,7 +69,7 @@ const SubmissionCard = ({ pr, bounty, refreshBounty }) => {
       {!linkedPrize ? (
         admin && <SubmissionCardAdmin refreshBounty={refreshBounty} pr={pr} bounty={bounty} />
       ) : (
-        <SubmissionWinner linkedPrize={linkedPrize} />
+        <SubmissionWinner linkedPrize={linkedPrize} bounty={bounty} />
       )}
     </div>
   );
