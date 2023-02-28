@@ -33,7 +33,7 @@ describe('BountyClaimed', () => {
 
     // ACT
     expect(screen.getByText(/update readme/i)).toBeInTheDocument();
-    expect(screen.getByText(/1st place/i)).toBeInTheDocument();
+    expect(screen.getByText(/1st tier/i)).toBeInTheDocument();
     expect(
       screen.getByText(
         /Congratulations on winning this bounty! Your share of the funds deposited on this bounty have been sent to your wallet./i
