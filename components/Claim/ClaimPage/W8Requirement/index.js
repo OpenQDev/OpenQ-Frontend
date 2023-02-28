@@ -226,18 +226,7 @@ const W8Requirement = ({ bounty }) => {
             </p>
             {!accountData.invoicingEmail && (
               <>
-                <p>
-                  Please make sure your email is filled in your{' '}
-                  <Link
-                    className='text-link-colour hover:underline col-span-2'
-                    href={profileLink}
-                    target='_blank'
-                    rel='noopener norefferer'
-                  >
-                    profile
-                  </Link>{' '}
-                  so that we can send you a copy of the your submitted form.
-                </p>
+                <p>Please add an email to your profile so that we can send you a copy of the your submitted form.</p>
                 <FreelancerDetails slim={true} emailOnly={true} />
               </>
             )}
