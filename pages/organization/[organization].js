@@ -131,6 +131,9 @@ export const getServerSideProps = async (context) => {
     return {
       props: {
         renderError: `Could not find ${organization} on Github, does an organization with this name exists on Github?`,
+        paginationObj: {
+          items: [],
+        },
       },
     };
   }
