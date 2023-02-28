@@ -124,7 +124,7 @@ const ClaimPage = ({ bounty, refreshBounty, split, setInternalMenu, internalMenu
             {isContest(bounty) && <GithubRequirement githubHasWalletVerifiedState={githubHasWalletVerifiedState} />}
             <InvoicingRequirement bounty={bounty} setClaimable={claimState[1]} />
             {bounty.supportingDocumentsRequired && <W8Requirement bounty={bounty} />}
-           
+
             <section className='flex flex-col gap-3'>
               <h4 className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>Claim Your Rewards</h4>
               <div className='flex flex-col gap-2'>
