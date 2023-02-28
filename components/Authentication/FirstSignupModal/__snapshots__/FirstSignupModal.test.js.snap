@@ -94,7 +94,7 @@ exports[`FirstSignupModal should match initial DOM Snapshot 1`] = `
               class="mx-4 p-4"
             >
               <p
-                class="text-2xl font-semibold py-2"
+                class="text-2xl font-semibold  py-2"
               >
                 Tell us a bit about yourself
               </p>
