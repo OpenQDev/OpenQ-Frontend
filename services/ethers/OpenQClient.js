@@ -2,9 +2,9 @@ import { ethers } from 'ethers';
 import OpenQABI from '../../artifacts/contracts/OpenQ/Implementations/OpenQV1.sol/OpenQV1.json';
 import DepositManagerABI from '../../artifacts/contracts/DepositManager/Implementations/DepositManagerV1.sol/DepositManagerV1.json';
 import ClaimManagerAbi from '../../artifacts/contracts/ClaimManager/Implementations/ClaimManagerV1.sol/ClaimManagerV1.json';
+import KYCABI from '../../artifacts/contracts/Mocks/MockKyc.sol/MockKyc.json';
 
 import ERC20ABI from '../../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json';
-import ERC721ABI from '../../artifacts/@openzeppelin/contracts/token/ERC721/ERC721.sol/ERC721.json';
 
 import jsonRpcErrors from './JsonRPCErrors';
 
@@ -43,21 +43,20 @@ class OpenQClient {
     );
     return contract;
   };
+
   /**
    *
    * @param {string} tokenAddress Contract address of an ERC20 token
    * @param {Web3Provider} signer An ethers.js signer
    * @returns Web3Contract
    */
-
   ERC20 = (tokenAddress, signer) => {
     const contract = new ethers.Contract(tokenAddress, ERC20ABI.abi, signer);
     return contract;
   };
 
-  ERC721 = (tokenAddress, signer) => {
-    const contract = new ethers.Contract(tokenAddress, ERC721ABI.abi, signer);
-
+  KYC = (signer) => {
+    const contract = new ethers.Contract(process.env.NEXT_PUBLIC_KYC_ADDRESS, KYCABI.abi, signer);
     return contract;
   };
 
@@ -322,21 +321,6 @@ class OpenQClient {
     });
     return promise;
   };
-  approveNFT = async (library, _bountyAddress, _tokenAddress, _tokenId) => {
-    const promise = new Promise(async (resolve, reject) => {
-      const signer = library.getSigner();
-
-      const contract = this.ERC721(_tokenAddress, signer);
-      try {
-        const txnResponse = await contract.approve(_bountyAddress, _tokenId);
-        const txnReceipt = await txnResponse.wait();
-        resolve(txnReceipt);
-      } catch (error) {
-        reject(error);
-      }
-    });
-    return promise;
-  };
 
   allowance = async (library, _callerAddress, _tokenAddress, _bountyAddress) => {
     const promise = new Promise(async (resolve) => {
@@ -457,41 +441,6 @@ class OpenQClient {
     return promise;
   };
 
-  getNFT = async (library, _tokenAddress, _tokenId) => {
-    const promise = new Promise(async (resolve, reject) => {
-      try {
-        const signer = library.getSigner();
-        const contract = new ethers.Contract(process.env.NEXT_PUBLIC_MOCK_NFT_TOKEN_ADDRESS, ERC721ABI.abi, signer);
-
-        resolve({ name: await contract.name(), uri: await contract.tokenURI(_tokenId) });
-      } catch (err) {
-        reject(err);
-      }
-    });
-    return promise;
-  };
-
-  fundBountyWithNft = async (library, _bountyAddress, _tokenAddress, _tokenId, _depositPeriodDays) => {
-    const promise = new Promise(async (resolve, reject) => {
-      const signer = library.getSigner();
-      const contract = this.DepositManager(signer);
-
-      try {
-        const expiration = _depositPeriodDays * 24 * 60 * 60;
-
-        let txnResponse;
-        let txnReceipt;
-        txnResponse = await contract.fundBountyNFT(_bountyAddress, _tokenAddress, _tokenId, expiration, 0);
-
-        txnReceipt = await txnResponse.wait();
-        resolve(txnReceipt);
-      } catch (error) {
-        reject(error);
-      }
-    });
-    return promise;
-  };
-
   /**
    *
    * @param {*} library
@@ -552,6 +501,21 @@ class OpenQClient {
         reject(error);
       }
     });
+  };
+
+  kycAddress = async (library, _address) => {
+    const promise = new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.KYC(signer);
+      try {
+        const txnResponse = await contract.setIsValid(_address);
+        const txnReceipt = await txnResponse.wait();
+        resolve(txnReceipt);
+      } catch (err) {
+        reject(err);
+      }
+    });
+    return promise;
   };
 
   hasKYC = async (library, _address) => {
@@ -641,20 +605,6 @@ class OpenQClient {
     return promise;
   };
 
-  tokenAddressLimitReached = async (library, _bountyAddress) => {
-    const promise = new Promise(async (resolve, reject) => {
-      const signer = library.getSigner();
-      const contract = this.DepositManager(signer);
-      try {
-        const tokenAddressLimitReached = await contract.tokenAddressLimitReached(_bountyAddress);
-        resolve(tokenAddressLimitReached);
-      } catch (err) {
-        reject(err);
-      }
-    });
-    return promise;
-  };
-
   isWhitelisted = async (library, tokenAddress) => {
     const promise = new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
@@ -667,54 +617,6 @@ class OpenQClient {
       }
     });
     return promise;
-  };
-
-  fetchNfts = async (library, account) => {
-    return new Promise(async (resolve, reject) => {
-      if (process.env.NEXT_PUBLIC_DEPLOY_ENV === 'docker') {
-        try {
-          const localNfts = [];
-          for (let i = 0; i < 6; i++) {
-            const value = await this.getNFT(library, process.env.NEXT_PUBLIC_MOCK_NFT_TOKEN_ADDRESS, i);
-            const { uri, name } = value;
-            const fetchProm = await fetch(uri);
-            const fetchJson = await fetchProm.json();
-            const nftData = {
-              token_address: process.env.NEXT_PUBLIC_MOCK_NFT_TOKEN_ADDRESS,
-              token_id: i.toString(),
-              amount: '1',
-              contract_type: 'ERC721',
-              metadata: fetchJson,
-              name: name,
-              token_uri: uri,
-              symbol: 'MNFT',
-            };
-            localNfts[i] = nftData;
-          }
-          resolve(localNfts);
-        } catch (err) {
-          reject(err);
-        }
-      } else {
-        try {
-          const url = `https://deep-index.moralis.io/api/v2/${account}/nft?chain=polygon`;
-          const headers = { 'X-API-Key': 'test', accept: 'application/json' };
-          const fetchProm = await fetch(url, { headers });
-          const fetchJson = await fetchProm.json();
-          const nfts = fetchJson.result;
-          resolve(
-            nfts &&
-              nfts
-                .map((nft) => {
-                  return { ...nft, metadata: nft.metadata && JSON.parse(nft.metadata) };
-                })
-                .filter((nft) => nft.contract_type === 'ERC721')
-          );
-        } catch (err) {
-          reject(err);
-        }
-      }
-    });
   };
 
   handleError(data) {
