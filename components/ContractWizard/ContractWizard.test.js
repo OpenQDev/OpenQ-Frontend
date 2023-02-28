@@ -46,6 +46,4 @@ describe('ContractWizard', () => {
     await user.click(screen.getByText('Yes'));
     expect(await screen.findByText(/Create a Hackathon Contract to send funds to any GitHub issue/i));
   });
-
-  
 });
