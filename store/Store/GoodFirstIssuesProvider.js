@@ -24,7 +24,11 @@ export function useSetLanguageFilter() {
   return useContext(SetLanguageFilterContext);
 }
 
+let isSyncing = false;
 async function syncOrgOrUserToGun(orgOrUserName, githubClient) {
+  if (isSyncing) return;
+  isSyncing = true;
+
   const githubOrgOrUserRepoNames = await githubClient.fetchOrgOrUserRepoNames(orgOrUserName);
 
   for (const githubRepoName of githubOrgOrUserRepoNames) {
@@ -38,8 +42,12 @@ async function syncOrgOrUserToGun(orgOrUserName, githubClient) {
       };
       const gunIssue = gun.get('goodfirstissues').get(updatedIssue.id);
       gunIssue.put(JSON.stringify(updatedIssue));
+
+      gun.get('updatedAt').put(new Date().getTime());
     });
   }
+
+  isSyncing = false;
 }
 
 export function GoodFirstIssuesProvider({ children }) {
@@ -47,14 +55,17 @@ export function GoodFirstIssuesProvider({ children }) {
   const [repos, setRepos] = useState([]);
   const [issues, setIssues] = useState([]);
   const [enabledLanguages, setEnabledLanguages] = useState([]);
-  const NUMBER_OF_RANDOMLY_UPDATE_ORGS = 1;
+  const NUMBER_OF_RANDOMLY_UPDATED_ORGS = 1;
+  const FIVE_MINUTES = 1000 * 60 * 5;
 
-  useEffect(() => {
-    const shuffledOrgWhitelist = goodFirstIssuesOrgWhitelist.sort(() => 0.5 - Math.random());
-    for (const orgName of shuffledOrgWhitelist.slice(0, NUMBER_OF_RANDOMLY_UPDATE_ORGS)) {
-      syncOrgOrUserToGun(orgName, appState.githubRepository);
+  gun.get('updatedAt').once((updatedAt) => {
+    if (!updatedAt || new Date().getTime() - updatedAt > FIVE_MINUTES) {
+      const shuffledOrgWhitelist = goodFirstIssuesOrgWhitelist.sort(() => 0.5 - Math.random());
+      for (const orgName of shuffledOrgWhitelist.slice(0, NUMBER_OF_RANDOMLY_UPDATED_ORGS)) {
+        syncOrgOrUserToGun(orgName, appState.githubRepository);
+      }
     }
-  }, []);
+  });
 
   gun.get('goodfirstissues').load((issues) => {
     for (const issue of Object.values(issues)) {

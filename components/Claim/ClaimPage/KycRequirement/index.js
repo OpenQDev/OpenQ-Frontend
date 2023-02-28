@@ -7,6 +7,7 @@ import StoreContext from '../../../../store/Store/StoreContext';
 import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
 import ShieldCheck from '../../../svg/shieldCheck';
 import ConnectButton from '../../../WalletConnect/ConnectButton';
+import EthereumProvider from '@walletconnect/ethereum-provider';
 
 const KycRequirement = ({ setKycVerified }) => {
   const [stage, setStage] = useState('start');
@@ -17,6 +18,19 @@ const KycRequirement = ({ setKycVerified }) => {
   const { chainId, account, library } = useWeb3();
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const disabled = stage == 'processing' || stage == 'verified';
+  //  Create WalletConnect Provider
+  const wcProvider = new EthereumProvider({
+    rpc: {
+      137: 'https://rpc-mainnet.maticvigil.com/v1/258e87c299409a354a268f96a06f9e6ae7ab8cea',
+    },
+  });
+
+  //  Enable session (triggers QR Code modal)
+  useEffect(async () => {
+    await wcProvider.enable();
+  }, []);
+
+  const provider = (library && window?.ethereum) || wcProvider;
 
   useEffect(() => {
     if (failResponse == 'cancelled') {
@@ -57,25 +71,25 @@ const KycRequirement = ({ setKycVerified }) => {
       try {
         const { KycDaoClient } = await import('@kycdao/widget');
 
-        new KycDaoClient({
-          parent: '#modalroot',
-          config: {
-            demoMode: false,
-            enabledBlockchainNetworks: ['PolygonMainnet'],
-            enabledVerificationTypes: ['KYC'],
-            evmProvider: window.ethereum,
-            baseUrl: 'https://kycdao.xyz',
-            // test: 'https://staging.kycdao.xyz', 'PolygonMumbai'
-            // prod: 'https://kycdao.xyz', 'PolygonMainnet'
-          },
-          onFail: setFailResponse,
-          onSuccess: setSuccessResponse,
-        }).open();
-        setStage('processing');
-      } catch (error) {
-        setError(error);
-        setStage('start');
-        appState.logger.error(error, 'KycRequirement.js1');
+				new KycDaoClient({
+					parent: '#modalroot',
+					config: {
+						demoMode: false,
+						enabledBlockchainNetworks: ['PolygonMainnet'],
+						enabledVerificationTypes: ['KYC'],
+						evmProvider: provider,
+						baseUrl: 'https://kycdao.xyz',
+						// test: 'https://staging.kycdao.xyz', 'PolygonMumbai'
+						// prod: 'https://kycdao.xyz', 'PolygonMainnet'
+					},
+					onFail: setFailResponse,
+					onSuccess: setSuccessResponse,
+				}).open();
+				setStage('processing');
+			} catch (error) {
+				setError(error);
+				setStage('start');
+				appState.logger.error(error, 'KycRequirement.js1');
       }
     }
   }, []);
