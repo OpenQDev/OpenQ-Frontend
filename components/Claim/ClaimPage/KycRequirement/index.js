@@ -43,7 +43,7 @@ const KycRequirement = ({ setKycVerified }) => {
           demoMode: false,
           enabledBlockchainNetworks: ['PolygonMainnet'],
           enabledVerificationTypes: ['KYC'],
-          evmProvider: window.ethereum,
+          evmProvider: library?.provider,
           baseUrl: 'https://kycdao.xyz',
           // test: 'https://staging.kycdao.xyz', 'PolygonMumbai'
           // prod: 'https://kycdao.xyz', 'PolygonMainnet'
