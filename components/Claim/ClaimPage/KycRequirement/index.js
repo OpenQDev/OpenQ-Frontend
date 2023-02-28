@@ -7,6 +7,7 @@ import StoreContext from '../../../../store/Store/StoreContext';
 import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
 import ShieldCheck from '../../../svg/shieldCheck';
 import ConnectButton from '../../../WalletConnect/ConnectButton';
+import EthereumProvider from '@walletconnect/ethereum-provider';
 
 const KycRequirement = ({ setKycVerified }) => {
   const [stage, setStage] = useState('start');
@@ -17,6 +18,8 @@ const KycRequirement = ({ setKycVerified }) => {
   const { chainId, account, library } = useWeb3();
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const disabled = stage == 'processing' || stage == 'verified';
+  const provider = (library && window?.ethereum) || new EthereumProvider();
+
   useEffect(() => {
     if (failResponse == 'cancelled') {
       setStage('start');
@@ -43,7 +46,7 @@ const KycRequirement = ({ setKycVerified }) => {
           demoMode: false,
           enabledBlockchainNetworks: ['PolygonMainnet'],
           enabledVerificationTypes: ['KYC'],
-          evmProvider: library?.provider,
+          evmProvider: provider,
           baseUrl: 'https://kycdao.xyz',
           // test: 'https://staging.kycdao.xyz', 'PolygonMumbai'
           // prod: 'https://kycdao.xyz', 'PolygonMainnet'
