@@ -7,7 +7,6 @@ import StoreContext from '../../../../store/Store/StoreContext';
 import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
 import ShieldCheck from '../../../svg/shieldCheck';
 import ConnectButton from '../../../WalletConnect/ConnectButton';
-import EthereumProvider from '@walletconnect/ethereum-provider';
 
 const KycRequirement = ({ setKycVerified }) => {
   const [stage, setStage] = useState('start');
@@ -15,22 +14,9 @@ const KycRequirement = ({ setKycVerified }) => {
   const [successResponse, setSuccessResponse] = useState(null);
   const [error, setError] = useState('');
   const [appState] = useContext(StoreContext);
-  const { chainId, account, library } = useWeb3();
+  const { chainId, account, library, kycLibrary } = useWeb3();
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const disabled = stage == 'processing' || stage == 'verified';
-  //  Create WalletConnect Provider
-  const wcProvider = new EthereumProvider({
-    rpc: {
-      137: 'https://rpc-mainnet.maticvigil.com/v1/258e87c299409a354a268f96a06f9e6ae7ab8cea',
-    },
-  });
-
-  //  Enable session (triggers QR Code modal)
-  useEffect(() => {
-    wcProvider.enable();
-  }, []);
-
-  const provider = (library && window?.ethereum) || wcProvider;
 
   useEffect(() => {
     if (failResponse == 'cancelled') {
@@ -55,9 +41,7 @@ const KycRequirement = ({ setKycVerified }) => {
     if (process.env.NEXT_PUBLIC_DEPLOY_ENV == 'local' || process.env.NEXT_PUBLIC_DEPLOY_ENV == 'docker') {
       try {
         setStage('processing');
-
         await appState.openQClient.kycAddress(library, account);
-
         setStage('verified');
         setKycVerified && setKycVerified(true);
         setError('');
@@ -68,6 +52,19 @@ const KycRequirement = ({ setKycVerified }) => {
         appState.logger.error(error, 'KycRequirement.js1');
       }
     } else {
+      let provider;
+      try {
+        if (!window?.ethereum) {
+          await kycLibrary.enable();
+          provider = kycLibrary;
+        } else {
+          provider = window.ethereum;
+        }
+      } catch (error) {
+        setError(error);
+        setStage('start');
+        appState.logger.error(error, 'KycRequirement.js1');
+      }
       try {
         const { KycDaoClient } = await import('@kycdao/widget');
 
@@ -89,7 +86,7 @@ const KycRequirement = ({ setKycVerified }) => {
       } catch (error) {
         setError(error);
         setStage('start');
-        appState.logger.error(error, 'KycRequirement.js1');
+        appState.logger.error(error, 'KycRequirement.js2');
       }
     }
   }, []);
