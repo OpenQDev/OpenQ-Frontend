@@ -19,6 +19,7 @@ import Username from './OverviewTab/Username';
 import KycRequirement from '../Claim/ClaimPage/KycRequirement';
 import Log from '../svg/log';
 import { needsFreelancerData, needsOrgData } from '../../services/utils/lib';
+import InvoicingDetails from './InvoicingDetailsTab/OrgDetails';
 
 const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) => {
   const githubHasWalletVerifiedState = useState(null);
@@ -93,12 +94,12 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
           items={[
             { name: 'Overview', Svg: BookIcon },
             ...[starredOrganizations.length ? { name: 'Stars', Svg: StarIcon } : {}],
-            ...[isOwner ? { name: 'Watching', Svg: EyeIcon } : {}],
+            ...[isOwner ? { name: 'Email', Svg: PersonFillIcon, SecondSvg: KYCVerifiedLogo } : {}],
             ...[isOwner ? { name: 'Wallet-to-GitHub', Svg: LinkIcon, SecondSvg: GithubVerifiedLogo } : {}],
             ...[isOwner ? { name: 'KYC', Svg: PersonFillIcon, SecondSvg: KYCVerifiedLogo } : {}],
-
             ...[isOwner ? { name: 'Invoicing (Freelancer)', Svg: Log, SecondSvg: OrgCompleteLogo } : {}],
             ...[isOwner ? { name: 'Invoicing (Organization)', Svg: Log, SecondSvg: FreelancerCompleteLogo } : {}],
+            ...[isOwner ? { name: 'Watching', Svg: EyeIcon } : {}],
           ]}
         />
         <div className='w-full border-b h-px border-web-gray'></div>
@@ -160,6 +161,16 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
 
                 <Skills user={user} />
                 {isOwner && <Subscribe user={user} />}
+              </div>
+            )}
+            {internalMenu == 'Email' && (
+              <div className='flex px-8 justify-between mt-12'>
+                <h2 className='flex justify-between w-full text-2xl pb-4 font-semibold border-b border-gray-700'>
+                  <div>{'Your Email'}</div>
+                </h2>
+                <section className='flex flex-col gap-3'>
+                  <InvoicingDetails slim={true} emailOnly={true} />
+                </section>
               </div>
             )}
             {internalMenu == 'Wallet-to-GitHub' && (
