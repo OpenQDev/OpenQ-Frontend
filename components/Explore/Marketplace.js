@@ -108,7 +108,7 @@ export default function ExploreMarketplace({ fullBounties }) {
                       <div className='mr-auto'>{bounty.repoName}</div>
                       <StarButton count={watchingCounts[bounty.id]} onClick={() => watchBounty(bounty)} eye={true} />
                     </CardHeader>
-                    <CardBody className={'w-80 sm:w-full h-48 py-2 sm:py-4 sm:h-fit overflow-y-auto'}>
+                    <CardBody className={'w-80 sm:w-full h-36 py-2 sm:py-4 sm:h-fit overflow-y-auto'}>
                       {bounty.title}
                     </CardBody>
                     <CardFooter className={'w-80 sm:w-full py-0 sm:py-4 h-12 sm:h-fit'}>
