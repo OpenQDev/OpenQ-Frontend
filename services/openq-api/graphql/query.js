@@ -420,6 +420,11 @@ export const UPDATE_USER = gql`
       city
       streetAddress
       country
+      otherRoles
+      interests
+      languages
+      frameworks
+      devRoles
       province
       discord
       github

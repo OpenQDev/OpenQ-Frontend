@@ -3,7 +3,7 @@ import AddSkill from '../AddSkill';
 import StoreContext from '../../../../store/Store/StoreContext';
 
 const LanguagesAndFrameworks = ({ user }) => {
-  const [appState] = useContext(StoreContext);
+  const [appState, appDispatch] = useContext(StoreContext);
   const { accountData } = appState;
   const languages = [
     'python',
@@ -37,6 +37,8 @@ const LanguagesAndFrameworks = ({ user }) => {
     'nim',
     'ocaml',
     'red',
+    'typescript',
+    'solidity',
     'scheme',
     'smalltalk',
     'sql',
@@ -93,7 +95,8 @@ const LanguagesAndFrameworks = ({ user }) => {
           email: accountData.email,
           ...newRolesAndCategory,
         };
-    await appState.openQPrismaClient.updateUser(userValues);
+    const { updateUser } = await appState.openQPrismaClient.updateUser(userValues);
+    appDispatch({ type: 'SET_ACCOUNT_DATA', payload: updateUser });
     setRolesInCategories(newRolesAndCategory);
   };
 
@@ -123,13 +126,16 @@ const LanguagesAndFrameworks = ({ user }) => {
     // setValidUsername(true); Check if lang or framework here
   };
   const checkCategory = async (inputs) => {
+    const allSkils = Object.values(rolesInCategories).flat();
+    const filteredInputs = inputs.filter((input) => !allSkils.includes(input));
+    if (!filteredInputs.length) return;
     let updateObj = { ...rolesInCategories };
     const createUpdateObj = (nameOfCategory, updateObj, input) => {
       updateObj = { ...updateObj, [nameOfCategory]: [...updateObj[nameOfCategory], input] };
       return updateObj;
     };
     const categoriesArr = Object.entries(categories);
-    for (const input of inputs) {
+    for (const input of filteredInputs) {
       let matches = false;
       for (const category of categoriesArr) {
         const nameOfCategory = category[0];
@@ -141,7 +147,8 @@ const LanguagesAndFrameworks = ({ user }) => {
       }
       if (!matches) updateObj = createUpdateObj('otherRoles', updateObj, input);
     }
-    await updateApiAndState(updateObj, accountData, appState);
+    const apiAndStateValue = await updateApiAndState(updateObj, accountData, appState);
+    console.log(apiAndStateValue);
     setInputValue('');
   };
   return (

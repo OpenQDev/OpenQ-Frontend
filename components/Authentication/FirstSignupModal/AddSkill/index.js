@@ -5,7 +5,7 @@ import Cross from '../../../svg/cross';
 const AddSkill = ({ category, rolesInCategoriesState }) => {
   const [rolesInCategories, setRolesInCategories] = rolesInCategoriesState;
   const theseRoles = rolesInCategories[category];
-  const [appState] = useContext(StoreContext);
+  const [appState, appDispatch] = useContext(StoreContext);
   const { accountData } = appState;
 
   const updateApiAndState = async (newRoles, category) => {
@@ -19,7 +19,8 @@ const AddSkill = ({ category, rolesInCategoriesState }) => {
           email: accountData.email,
           ...newRolesAndCategory,
         };
-    await appState.openQPrismaClient.updateUser(userValues);
+    const { updateUser } = await appState.openQPrismaClient.updateUser(userValues);
+    appDispatch({ type: 'SET_ACCOUNT_DATA', payload: updateUser });
     setRolesInCategories(newRolesAndCategory);
   };
 
