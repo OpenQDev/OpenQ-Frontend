@@ -133,6 +133,7 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
               )}
             </h2>
           </div>
+          {!emailOnly && <div className='note'>Not needed for EthDenver</div>}
         </>
       )}
       {showPreview ? (
