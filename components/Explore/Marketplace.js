@@ -119,7 +119,7 @@ export default function ExploreMarketplace({ fullBounties }) {
                       )}
                       <div className='flex w-fit justify-end'>
                         {bounty.languages
-                          .filter((_, i) => i < 3)
+                          .filter((_, i) => i < 2)
                           .map((language) => (
                             <RepoLanguage key={language.name} language={language} />
                           ))}
