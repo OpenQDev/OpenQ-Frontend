@@ -136,6 +136,7 @@ export const getServerSideProps = async (context) => {
     // 1. We fetch the API user using the userId we get from the URL
 
     userOffChainData = await openQPrismaClient.instance.getPublicUserById(userId);
+    console.log('userOffChainData', userOffChainData);
 
     if (!userOffChainData) {
       // This is where we should throw a 404
