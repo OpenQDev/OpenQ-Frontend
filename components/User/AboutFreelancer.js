@@ -164,9 +164,9 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
               </div>
             )}
             {internalMenu == 'Email' && (
-              <div className='flex px-8 justify-between mt-12'>
+              <div className='flex flex-col px-8 justify-between mt-12'>
                 <h2 className='flex justify-between w-full text-2xl pb-4 font-semibold border-b border-gray-700'>
-                  <div>{'Your Email'}</div>
+                  Your Email
                 </h2>
                 <section className='flex flex-col gap-3'>
                   <InvoicingDetails slim={true} emailOnly={true} />
