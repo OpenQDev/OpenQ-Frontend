@@ -53,8 +53,8 @@ export default function ExploreHackathons({ fullContests }) {
           <div className='flex space-x-5 sm:flex-col sm:space-x-0 sm:space-y-5'>
             {fullContests.map((contest) => (
               <Link key={contest.id} href={`/repo/${contest?.owner?.login}/${contest.name}`}>
-                <Card className='min-w-full'>
-                  <CardHeader>
+                <Card className='w-80 sm:w-full h-60 sm:h-fit'>
+                  <CardHeader className='w-80 sm:w-full h-12 sm:h-fit'>
                     {contest?.owner?.avatarUrl && (
                       <Image src={contest?.owner?.avatarUrl} width={24} height={24} className='mr-2 rounded-full' />
                     )}
@@ -63,16 +63,24 @@ export default function ExploreHackathons({ fullContests }) {
                       <StarButton onClick={() => handleStar(contest)} />
                     </div>
                   </CardHeader>
-                  <CardBody>
+                  <CardBody
+                    className={`w-80 sm:w-full ${
+                      contest.languages.nodes?.length > 0 ? 'h-36' : 'h-48'
+                    } py-2 sm:py-4 sm:h-fit overflow-y-auto`}
+                  >
                     <div dangerouslySetInnerHTML={{ __html: contest.descriptionHTML }}></div>
                   </CardBody>
-                  <CardFooter>
-                    {contest.languages.nodes
-                      .filter((_, i) => i < 3)
-                      .map((language) => (
-                        <RepoLanguage key={language.name} language={language.name} color={language.color} />
-                      ))}
-                  </CardFooter>
+                  {contest.languages.nodes?.length > 0 && (
+                    <CardFooter className={'w-80 sm:w-full py-0 sm:py-4 h-12 sm:h-fit'}>
+                      <div className='flex w-full justify-end'>
+                        {contest.languages.nodes
+                          .filter((_, i) => i < 3)
+                          .map((language) => (
+                            <RepoLanguage key={language.name} language={language} />
+                          ))}
+                      </div>
+                    </CardFooter>
+                  )}
                 </Card>
               </Link>
             ))}
