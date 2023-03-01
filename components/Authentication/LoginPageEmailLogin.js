@@ -50,7 +50,7 @@ const LoginPageEmailLogin = () => {
         withCredentials: true,
       })
       .then(() => {
-        appDispatch({ payload: {}, type: 'UPDATE_ACCOUNTDATA' });
+        appDispatch({ payload: {}, type: 'UPDATE_ACCOUNT_DATA' });
         appState.logger.info({ message: 'Sign out success. Cookies cleared.' }, accountData.id, 'loginPageEmailLogin1');
       })
       .catch((error) => {
@@ -95,7 +95,7 @@ const LoginPageEmailLogin = () => {
           payload: { isAuthenticated: true, email: email },
         });
         const accountDispatch = {
-          type: 'UPDATE_ACCOUNTDATA',
+          type: 'UPDATE_ACCOUNT_DATA',
           payload: { ...user, id },
         };
         appDispatch(accountDispatch);

@@ -20,7 +20,7 @@ const AddSkill = ({ category, rolesInCategoriesState }) => {
           ...newRolesAndCategory,
         };
     const { updateUser } = await appState.openQPrismaClient.updateUser(userValues);
-    appDispatch({ type: 'SET_ACCOUNT_DATA', payload: updateUser });
+    appDispatch({ type: 'UPDATE_ACCOUNT_DATA', payload: updateUser });
     setRolesInCategories(newRolesAndCategory);
   };
 

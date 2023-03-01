@@ -10,7 +10,7 @@ const Username = ({ user, firstSignup }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(user.username);
   const [localUsername, setLocalUsername] = useState(user.username);
-  const [appState] = useContext(StoreContext);
+  const [appState, appDispatch] = useContext(StoreContext);
   const [validUsername, setValidUsername] = useState(false);
   const [authState] = useContext(AuthContext);
   const { accountData } = appState;
@@ -31,18 +31,21 @@ const Username = ({ user, firstSignup }) => {
       const { updateUser } = githubId
         ? await appState.openQPrismaClient.updateUser({ username: inputValue, github: githubId })
         : await appState.openQPrismaClient.updateUser({ username: inputValue, email: user.email });
+
       if (updateUser) {
         setLocalUsername(inputValue);
+        const dispatch = { username: inputValue };
+        appDispatch({ type: 'UPDATE_ACCOUNT_DATA', payload: dispatch });
         setIsEditing(false);
       }
     } catch (err) {
       setIsEditing(false);
     }
   };
-  const handleKeypress = (e) => {
+  const handleKeypress = async (e) => {
     //it triggers by pressing the enter key
     if (e.key === 'Enter') {
-      handleSave(inputValue);
+      await handleSave(inputValue);
     }
   };
   const handleInputChange = (e) => {
