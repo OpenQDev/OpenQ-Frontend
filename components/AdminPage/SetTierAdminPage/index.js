@@ -9,7 +9,6 @@ import SetTierValues from '../../MintBounty/MintBountyModal/AddContestParams/Set
 import AdminModal from '../AdminModal/index.js';
 import TokenContext from '../../TokenSelection/TokenStore/TokenContext';
 import { ethers } from 'ethers';
-import { getBountyTypeName } from '../../../services/utils/lib';
 
 const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   // Context
@@ -19,7 +18,6 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   const [tokenState] = useContext(TokenContext);
   const { token } = tokenState;
   const [showTokenSearch, setShowTokenSearch] = useState();
-  const bountyTypeName = getBountyTypeName(bounty.bountyType);
 
   const [, tokenDispatch] = useContext(TokenContext);
   const [initialVolumes, setInitialVolumes] = useState([]);
@@ -148,9 +146,6 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
       setIsLoading(true);
 
       let transaction;
-      if (bounty.bountyType === '2') {
-        transaction = await openQClient.setPayoutSchedule(library, bounty.bountyId, finalTierVolumes);
-      }
 
       if (bounty.bountyType === '3') {
         transaction = await openQClient.setPayoutScheduleFixed(library, bounty.bountyId, finalTierVolumes, token);
@@ -178,7 +173,7 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
 
   return (
     <>
-      {(bounty.bountyType === '2' || bounty.bountyType === '3') && (
+      {bounty.bountyType === '3' && (
         <>
           <div className=' flex flex-col gap-4'>
             <div className=' w-11/12 text-base flex flex-col gap-2'>
@@ -208,37 +203,35 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
               </div>
             </div>
 
-            {bounty.bountyType === '3' && (
-              <div className='flex flex-col w-11/12 items-start py-2 gap-2 text-base pb-4'>
+            <div className='flex flex-col w-11/12 items-start py-2 gap-2 text-base pb-4'>
+              <div className='flex items-center gap-2'>
                 <div className='flex items-center gap-2'>
-                  <div className='flex items-center gap-2'>
-                    Which token?
-                    <ToolTipNew mobileX={10} toolTipText={'Fixed contests can only be funded with one token.'}>
-                      <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>
-                        ?
-                      </div>
-                    </ToolTipNew>
-                  </div>
-                </div>
-                <div className=' pl-4'>
-                  <TokenSearch
-                    setShowTokenSearch={setShowTokenSearch}
-                    showTokenSearch={showTokenSearch}
-                    alone={true}
-                    bounty={bounty}
-                  />
+                  Which token?
+                  <ToolTipNew mobileX={10} toolTipText={'Fixed contests can only be funded with one token.'}>
+                    <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>
+                      ?
+                    </div>
+                  </ToolTipNew>
                 </div>
               </div>
-            )}
-            <div>{bounty.bountyType ? 'Volumes:' : 'Percentage'}</div>
+              <div className=' pl-4'>
+                <TokenSearch
+                  setShowTokenSearch={setShowTokenSearch}
+                  showTokenSearch={showTokenSearch}
+                  alone={true}
+                  bounty={bounty}
+                />
+              </div>
+            </div>
+
+            <div>Volumes:</div>
             <SetTierValues
-              category={bountyTypeName}
+              bountyType={bounty.bountyType}
               sum={sum}
               initialVolumes={initialVolumes}
               finalTierVolumes={finalTierVolumes}
               setFinalTierVolumes={setFinalTierVolumes}
               setSum={setSum}
-              currentSum={sum}
               tierArr={tierArr}
               setEnableContest={setEnableContest}
               adminPage={true}

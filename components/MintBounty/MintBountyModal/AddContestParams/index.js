@@ -1,20 +1,18 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import ToolTipNew from '../../../Utils/ToolTipNew';
 import SetPayoutToken from './SetPayoutToken';
 import SetTierValues from './SetTierValues';
 import MintContext from '../../MintContext';
 import StoreContext from '../../../../store/Store/StoreContext';
 import TokenProvider from '../../../TokenSelection/TokenStore/TokenProvider';
-import { getBountyTypeName } from '../../../../services/utils/lib';
 
 const AddContestParams = () => {
   const [appState] = useContext(StoreContext);
   const [tier, setTier] = useState(3);
   const [tierArr, setTierArr] = useState(['0', '1', '2']);
   const [tierVolumes, setTierVolumes] = useState({ 0: 1, 1: 1, 2: 1 });
-  const [currentSum, setCurrentSum] = useState(0);
   const [mintState, mintDispatch] = useContext(MintContext);
-  const { finalTierVolumes, type } = mintState;
+  const { finalTierVolumes } = mintState;
 
   const setFinalTierVolumes = (tierVolumes) => {
     const dispatch = {
@@ -29,25 +27,6 @@ const AddContestParams = () => {
   };
 
   const sum = finalTierVolumes.length ? finalTierVolumes.reduce((a, b) => a + b) : 0;
-
-  useEffect(() => {
-    if (finalTierVolumes.length) {
-      setCurrentSum(
-        finalTierVolumes.reduce((a, b) => {
-          if (a && b) {
-            return a + b;
-          }
-          if (a) {
-            return a;
-          }
-          if (b) {
-            return b;
-          }
-          return 0;
-        })
-      );
-    }
-  }, [finalTierVolumes]);
 
   function onTierChange(e) {
     const value = e.target.value;
@@ -106,9 +85,8 @@ const AddContestParams = () => {
       {tier > 0 ? (
         <TokenProvider>
           <SetTierValues
-            category={getBountyTypeName(type)}
+            bountyType={'3'}
             sum={sum}
-            currentSum={currentSum}
             finalTierVolumes={finalTierVolumes}
             setFinalTierVolumes={setFinalTierVolumes}
             tierArr={tierArr}

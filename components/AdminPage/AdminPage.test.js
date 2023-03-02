@@ -44,15 +44,16 @@ describe('AdminPage', () => {
     });
   });
 
-  it('should render contest contract settings', async () => {
-    const bounty = { ...Constants.bounty2, status: '0', bountyType: '2' };
+  it('should render fixed contest contract settings', async () => {
+    const bounty = { ...Constants.bounty3, status: '0', bountyType: '3' };
     // ARRANGE
     render(<AdminPage bounty={bounty} />);
     // ACT
+
     await waitFor(() => {
       const subheading = screen.getByText('How many Tiers?');
-      const tierHeading = screen.getByText('Weight per Tier (%)');
-      const inputFieldBudget = screen.getByPlaceholderText('0.0');
+      const tierHeading = screen.getByText('Volumes:');
+      const inputFieldBudget = screen.getByDisplayValue('30.0');
       const inputFieldTiers = screen.getByDisplayValue('3');
       const selectCurrency = screen.getByText(/Matic/i);
       const payoutBtn = screen.getByRole('button', { name: 'Set New Payout Schedule' });
