@@ -30,7 +30,7 @@ const ModalDefault = ({ title, children, footerLeft, footerRight, setShowModal, 
 
   return (
     <div>
-      <div className='flex justify-center items-end sm:items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50'>
+      <div className='flex justify-center items-end sm:items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-[53]'>
         <div
           ref={modal}
           className='flex w-full sm:w-[480px] h-[320px] border border-gray-700 sm:rounded-sm bg-[#161B22]'
