@@ -190,6 +190,7 @@ export const GET_PRIVATE_USER = gql`
       vatNumber
       vatRate
       memo
+      languages
 
       watchedBounties(limit: 100, types: $types, category: $category) {
         nodes {
