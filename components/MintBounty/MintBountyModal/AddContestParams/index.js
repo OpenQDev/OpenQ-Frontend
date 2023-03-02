@@ -22,12 +22,6 @@ const AddContestParams = () => {
     mintDispatch(dispatch);
   };
 
-  const noop = () => {
-    return null;
-  };
-
-  const sum = finalTierVolumes.length ? finalTierVolumes.reduce((a, b) => a + b) : 0;
-
   function onTierChange(e) {
     const value = e.target.value;
     if (parseInt(value) <= 100) {
@@ -85,13 +79,9 @@ const AddContestParams = () => {
       {tier > 0 ? (
         <TokenProvider>
           <SetTierValues
-            bountyType={'3'}
-            sum={sum}
             finalTierVolumes={finalTierVolumes}
             setFinalTierVolumes={setFinalTierVolumes}
             tierArr={tierArr}
-            setSum={noop}
-            setEnableContest={noop}
             initialVolumes={['1', '1', '1']}
           />
         </TokenProvider>

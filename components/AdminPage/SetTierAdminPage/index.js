@@ -94,10 +94,7 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   const [tier, setTier] = useState(bounty.payoutSchedule?.length);
   const [tierArr, setTierArr] = useState(initialTierArr);
 
-  const [sum, setSum] = useState(0);
-  const [enableContest, setEnableContest] = useState(false);
   const [isLoading, setIsLoading] = useState();
-  const tierConditions = sum == 100 || bounty.bountyType === '3';
 
   // handle change in Funding Goal
 
@@ -127,16 +124,6 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
     });
     setFinalTierVolumes(newFinalTierVolumes);
   }
-
-  // useEffect
-
-  useEffect(() => {
-    if (!tierConditions) {
-      setEnableContest(false);
-    } else {
-      setEnableContest(true);
-    }
-  }, [tier, sum]);
 
   // trigger smart contracts
 
@@ -226,14 +213,10 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
 
             <div>Volumes:</div>
             <SetTierValues
-              bountyType={bounty.bountyType}
-              sum={sum}
               initialVolumes={initialVolumes}
               finalTierVolumes={finalTierVolumes}
               setFinalTierVolumes={setFinalTierVolumes}
-              setSum={setSum}
               tierArr={tierArr}
-              setEnableContest={setEnableContest}
               adminPage={true}
             />
           </div>
@@ -244,21 +227,11 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
             tooltipAction={'set a new payout schedule.'}
           />
           {isOnCorrectNetwork && account && (
-            <ToolTipNew
-              hideToolTip={enableContest || isLoading}
-              toolTipText={!enableContest && 'Please make sure the sum of tier percentages adds up to 100.'}
-            >
-              <div className='px-4'>
-                <button
-                  className={`w-full btn-default ${enableContest ? 'cursor-pointer' : 'cursor-not-allowed'}`}
-                  type='button'
-                  onClick={setPayoutSchedule}
-                  disabled={!enableContest}
-                >
-                  Set New Payout Schedule
-                </button>
-              </div>
-            </ToolTipNew>
+            <div className='px-4'>
+              <button className={`w-full btn-default cursor-pointer`} type='button' onClick={setPayoutSchedule}>
+                Set New Payout Schedule
+              </button>
+            </div>
           )}
           <AdminModal tokenAddress={token.address} setModal={setModal} bounty={bounty} modal={modal} />
         </>

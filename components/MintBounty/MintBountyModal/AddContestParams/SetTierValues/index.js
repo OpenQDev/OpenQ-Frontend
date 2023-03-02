@@ -2,17 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import TextTierInput from './TextTierInput';
 import StoreContext from '../../../../../store/Store/StoreContext';
 
-const SetTierValues = ({
-  bountyType,
-  sum,
-  setSum,
-  tierArr,
-  setEnableContest,
-  initialVolumes,
-  finalTierVolumes,
-  setFinalTierVolumes,
-  adminPage,
-}) => {
+const SetTierValues = ({ tierArr, initialVolumes, finalTierVolumes, setFinalTierVolumes, adminPage }) => {
   const [appState] = useContext(StoreContext);
   const newFixedVolumes = [];
   const [fixedTierVolumes, setFixedTierVolumes] = useState([]);
@@ -47,15 +37,6 @@ const SetTierValues = ({
     setFixedTierVolumes(newVolumes);
     setFinalTierVolumes(newVolumes);
   }
-  useEffect(() => {
-    if (finalTierVolumes.length) {
-      setSum(finalTierVolumes.reduce((a, b) => a + b));
-    }
-
-    if (sum == 100 || bountyType === '3') {
-      setEnableContest(true);
-    }
-  }, [finalTierVolumes]);
 
   return (
     <div className='max-h-40 w-full flex flex-col gap-2 overflow-y-auto overflow-x-hidden'>

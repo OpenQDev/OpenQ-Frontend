@@ -18,17 +18,10 @@ describe('SetTier', () => {
         return { catch: jest.fn };
       }),
     }));
-    const mockSum = jest.fn();
-    const mockEnabler = jest.fn();
     const mockSetFinalVolumes = jest.fn();
     const shallow = new ShallowRenderer();
     shallow.render(
       <SetTierValues
-        category={'Contest'}
-        sum={9}
-        currentSum={9}
-        setSum={mockSum}
-        setEnableContest={mockEnabler}
         finalTierVolumes={['2', '3', '4']}
         tierArr={['0', '1', '2']}
         setFinalTierVolumes={mockSetFinalVolumes}
@@ -49,15 +42,10 @@ describe('SetTier', () => {
         return { catch: jest.fn };
       }),
     }));
-    const mockSum = jest.fn();
-    const mockEnabler = jest.fn();
+
     const mockSetFinalVolumes = jest.fn();
     render(
       <SetTierValues
-        bountyType={'3'}
-        sum={9}
-        setSum={mockSum}
-        setEnableContest={mockEnabler}
         finalTierVolumes={['2', '3', '4']}
         tierArr={['1', '2', '3']}
         setFinalTierVolumes={mockSetFinalVolumes}
