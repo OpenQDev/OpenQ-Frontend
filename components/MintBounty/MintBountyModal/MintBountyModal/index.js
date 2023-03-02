@@ -122,6 +122,7 @@ const MintBountyModal = ({ modalVisibility }) => {
         footerRight={btn}
         setShowModal={modalVisibility}
         resetState={closeMintModal}
+        error={error}
       >
         <div className='h-full grid grid-cols-[150px_1fr] gap-4'>
           <div className='pl-4 p-2 text-muted border-r border-gray-700'>
