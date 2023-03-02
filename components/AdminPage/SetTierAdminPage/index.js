@@ -228,7 +228,12 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
           />
           {isOnCorrectNetwork && account && (
             <div className='px-4'>
-              <button className={`w-full btn-default cursor-pointer`} type='button' onClick={setPayoutSchedule}>
+              <button
+                className={`w-full btn-default cursor-pointer`}
+                type='button'
+                onClick={setPayoutSchedule}
+                disabled={isLoading}
+              >
                 Set New Payout Schedule
               </button>
             </div>
