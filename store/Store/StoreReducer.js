@@ -1,5 +1,4 @@
 const StoreReducer = (state, action) => {
-  console.log(state, action);
   switch (action.type) {
     case 'BOUNTY_MINTED':
       return {

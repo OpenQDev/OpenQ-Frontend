@@ -16,7 +16,6 @@ const SubmissionWinner = ({ linkedPrize, bounty }) => {
   if (bounty.payoutTokenAddress) {
     unit = ` ${appState.tokenClient.getToken(bounty.payoutTokenAddress).name}`;
   }
-  console.log(linkedPrize);
 
   return (
     <div className='border-web-gray border-t px-2'>
