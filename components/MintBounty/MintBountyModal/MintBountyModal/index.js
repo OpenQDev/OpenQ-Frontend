@@ -44,10 +44,20 @@ const MintBountyModal = ({ modalVisibility }) => {
 
   const modal = useRef();
 
-  const closeModal = () => {
+  const closeMintModal = () => {
     setIssue();
     setError();
     modalVisibility(false);
+
+    const dispatch = {
+      type: 'SET_LOADING',
+      payload: false,
+    };
+    mintDispatch(dispatch);
+  };
+
+  const closeErrorModal = () => {
+    setError();
 
     const dispatch = {
       type: 'SET_LOADING',
@@ -100,56 +110,59 @@ const MintBountyModal = ({ modalVisibility }) => {
   // Render
   return (
     <>
-      {error ? (
-        <ErrorModal setShowErrorModal={closeModal} error={error} />
-      ) : (
-        <ModalLarge
-          title={`Deploy ${getBountyTypeName(type)} Contract`}
-          footerLeft={footerLeft}
-          footerRight={btn}
-          setShowModal={modalVisibility}
-          resetState={closeModal}
-        >
-          <div className='h-full grid grid-cols-[150px_1fr] gap-4'>
-            <div className='pl-4 p-2 text-muted border-r border-gray-700'>
-              <div className='pb-2'>Contract Type</div>
-              <SubMenu
-                items={[
-                  { name: 'Fixed Price', Svg: PersonIcon },
-                  { name: 'Hackathon', Svg: PeopleIcon },
-                ]}
-                internalMenu={getBountyTypeName(type)}
-                updatePage={handleSetCategory}
-                styles={'justify-center'}
-                vertical={true}
-              />
-            </div>
-            <div className='overflow-y-auto px-2'>
-              <h3 className='text-xl pt-2'>
-                Create a {getBountyTypeName(type)} Contract to send funds to any GitHub issue
-              </h3>
-              <MintBountyInputIssue />
-              {type === 3 && (
-                <>
-                  <InvoiceableToggle />
-                  <KycRequiredToggle />
-                  <W8RequiredToggle />
-                </>
-              )}
-              <TokenProvider>
-                <Budgeting />{' '}
-              </TokenProvider>
-
-              {type === 2 || type === 3 ? (
-                <>
-                  <AddContestParams />
-                </>
-              ) : null}
-              <AddAlternativeMetadata />
-            </div>
-          </div>
-        </ModalLarge>
+      {error && (
+        <>
+          <ErrorModal setShowErrorModal={closeErrorModal} error={error} />
+          <div className='bg-overlay z-[52] fixed inset-0'></div>
+        </>
       )}
+      <ModalLarge
+        title={`Deploy ${getBountyTypeName(type)} Contract`}
+        footerLeft={footerLeft}
+        footerRight={btn}
+        setShowModal={modalVisibility}
+        resetState={closeMintModal}
+        error={error}
+      >
+        <div className='h-full grid grid-cols-[150px_1fr] gap-4'>
+          <div className='pl-4 p-2 text-muted border-r border-gray-700'>
+            <div className='pb-2'>Contract Type</div>
+            <SubMenu
+              items={[
+                { name: 'Fixed Price', Svg: PersonIcon },
+                { name: 'Hackathon', Svg: PeopleIcon },
+              ]}
+              internalMenu={getBountyTypeName(type)}
+              updatePage={handleSetCategory}
+              styles={'justify-center'}
+              vertical={true}
+            />
+          </div>
+          <div className='overflow-y-auto px-2'>
+            <h3 className='text-xl pt-2'>
+              Create a {getBountyTypeName(type)} Contract to send funds to any GitHub issue
+            </h3>
+            <MintBountyInputIssue />
+            {type === 3 && (
+              <>
+                <InvoiceableToggle />
+                <KycRequiredToggle />
+                <W8RequiredToggle />
+              </>
+            )}
+            <TokenProvider>
+              <Budgeting />{' '}
+            </TokenProvider>
+
+            {type === 2 || type === 3 ? (
+              <>
+                <AddContestParams />
+              </>
+            ) : null}
+            <AddAlternativeMetadata />
+          </div>
+        </div>
+      </ModalLarge>
     </>
   );
 };
