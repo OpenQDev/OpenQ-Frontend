@@ -426,7 +426,6 @@ class OpenQPrismaClient {
       const variables = {
         id,
       };
-      console.log('id', id);
 
       try {
         const result = await this.client.query({
@@ -434,7 +433,6 @@ class OpenQPrismaClient {
           variables,
           errorPolicy: 'ignore',
         });
-        console.log('result', result);
         resolve(result.data.user);
       } catch (e) {
         reject(e);

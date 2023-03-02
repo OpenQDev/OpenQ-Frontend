@@ -25,7 +25,6 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
   const [associatedAddress, setAssociatedAddress] = useState(null);
   const [associatedAddressLoading, setAssociatedAddressLoading] = useState(false);
   let hasAssociatedAddress = associatedAddress && associatedAddress !== zeroAddress;
-  console.log('hasAssociatedAddress', associatedAddress, hasAssociatedAddress);
   // State
 
   useEffect(() => {
