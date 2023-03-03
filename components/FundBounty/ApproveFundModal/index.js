@@ -1,5 +1,5 @@
 // Third party
-import React, { useRef, useEffect, useContext } from 'react';
+import React, { useRef, useEffect, useContext, useState } from 'react';
 import Link from 'next/link';
 
 // Custom
@@ -39,6 +39,10 @@ const ApproveFundModal = ({
     error,
     approveTransferState,
   } = fundState;
+  const [accepted, setAccepted] = useState(false);
+  const handleAccept = (e) => {
+    setAccepted(e.target.checked);
+  };
   const closeModal = () => {
     const dispatch = {
       type: 'SET_NFT',
@@ -110,7 +114,11 @@ const ApproveFundModal = ({
     [CONFIRM]: {
       title: 'Confirm Deposit',
       message: 'Are you sure you want to fund this deposit?',
-      rightBtn: ['Fund', 'btn-primary', 'enabled'],
+      rightBtn: [
+        'Fund',
+        accepted ? 'btn-primary' : 'btn-default cursor-not-allowed',
+        accepted ? 'enabled' : 'disabled',
+      ],
       leftBtn: ['Approved!', 'btn-default cursor-not-allowed', 'disabled'],
       clickMethod: confirmMethod,
     },
@@ -153,7 +161,6 @@ const ApproveFundModal = ({
   const tweetText = `💸 Just funded this issue from ${bounty.owner}/${bounty.repoName} on OpenQ, looking for devs to work on it: `;
 
   const usableVolume = Math.round(volume * Math.pow(10, 10)) / Math.pow(10, 10);
-
   const fundButton = (
     <div className='flex gap-2'>
       {/* Left Button */}
@@ -238,6 +245,21 @@ const ApproveFundModal = ({
                   </>
                 </Link>
               </>
+            )}
+            sdfasdf
+            {(approveTransferState !== 'ERROR' || approveTransferState !== 'SUCCESS') && (
+              <div className='flex items-center col-span-2 gap-2 font-semibold'>
+                I accept the{''}
+                <Link className='underline' href={'/terms-of-use'}>
+                  terms of use
+                </Link>
+                <input
+                  aria-label='accept terms of service'
+                  type='checkbox'
+                  className='checkbox'
+                  onChange={handleAccept}
+                ></input>
+              </div>
             )}
             <div className='col-span-2'>{statesFormat[approveTransferState].message}</div>
           </div>

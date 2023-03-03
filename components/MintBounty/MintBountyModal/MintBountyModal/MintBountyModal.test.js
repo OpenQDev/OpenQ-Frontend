@@ -114,7 +114,8 @@ const test = (issue, type) => {
     );
     //ASSERT
     await waitFor(() => {
-      expect(screen.getByRole('link').href).toEqual(
+      expect(screen.getAllByRole('link')[0].href).toEqual('http://localhost/terms-of-use');
+      expect(screen.getAllByRole('link')[1].href).toEqual(
         'https://github.com/OpenQDev/OpenQ-Contracts/blob/production/contracts/Bounty/Implementations/BountyV2.sol'
       );
     });
