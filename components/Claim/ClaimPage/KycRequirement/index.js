@@ -14,7 +14,7 @@ const KycRequirement = ({ setKycVerified }) => {
   const [successResponse, setSuccessResponse] = useState(null);
   const [error, setError] = useState('');
   const [appState] = useContext(StoreContext);
-  const { chainId, account, library, kycLibrary } = useWeb3();
+  const { chainId, account, library, kycLibrary } = useWeb3(true);
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const disabled = stage == 'processing' || stage == 'verified';
 
