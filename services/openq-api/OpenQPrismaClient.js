@@ -31,10 +31,7 @@ import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
 
 class OpenQPrismaClient {
-  constructor() {
-    console.log('process.env.NEXT_PUBLIC_OPENQ_API_URL', process.env.NEXT_PUBLIC_OPENQ_API_URL);
-    console.log('process.env.OPENQ_API_SSR_URL', process.env.OPENQ_API_SSR_URL);
-  }
+  constructor() {}
 
   uri = process.env.OPENQ_API_SSR_URL ? process.env.OPENQ_API_SSR_URL : process.env.NEXT_PUBLIC_OPENQ_API_URL;
   httpLink = new HttpLink({ uri: this.uri, fetch, credentials: 'include' });
@@ -426,7 +423,6 @@ class OpenQPrismaClient {
       const variables = {
         id,
       };
-      console.log('id', id);
 
       try {
         const result = await this.client.query({
@@ -434,7 +430,6 @@ class OpenQPrismaClient {
           variables,
           errorPolicy: 'ignore',
         });
-        console.log('result', result);
         resolve(result.data.user);
       } catch (e) {
         reject(e);

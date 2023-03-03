@@ -15,11 +15,6 @@ const AdminPage = ({ bounty, refreshBounty }) => {
   const [showButton, setShowButton] = useState(
     ethers.utils.getAddress(bounty.issuer.id) == account && bounty.status == '0'
   );
-
-  // funding goal volume and token
-  // payout volume and token
-
-  // contest state
   useEffect(() => {
     setShowButton(ethers.utils.getAddress(bounty.issuer.id) == account && bounty.status == '0');
   }, [bounty]);

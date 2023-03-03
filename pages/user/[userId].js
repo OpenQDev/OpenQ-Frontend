@@ -84,7 +84,6 @@ const userId = ({ initialUser, organizations, renderError, tab }) => {
         {renderError && <UnexpectedErrorModal error={renderError} />}
         {user?.id && (
           <>
-            {console.log(authState?.isAuthenticated, firstSignupModal, isOwner)}
             {authState?.isAuthenticated && firstSignupModal && isOwner && (
               <FirstSignupModal
                 closeModal={closeModal}
@@ -139,7 +138,6 @@ export const getServerSideProps = async (context) => {
     // 1. We fetch the API user using the userId we get from the URL
 
     userOffChainData = await openQPrismaClient.instance.getPublicUserById(userId);
-    console.log('userOffChainData', userOffChainData);
 
     if (!userOffChainData) {
       // This is where we should throw a 404
