@@ -108,6 +108,7 @@ describe('FundPage', () => {
       const button = screen.getByRole('button', { name: /Fund/i });
       await user.click(button);
       const confirmBtn = await screen.findAllByRole('button', { name: /Fund/i });
+      await user.click(screen.getByLabelText(/terms/i));
       await user.click(confirmBtn[1]);
       const modalContent = await screen.findByText(/Too Low/i);
 
@@ -136,6 +137,7 @@ describe('FundPage', () => {
       await user.click(button);
       const confirmBtn = await screen.findAllByRole('button', { name: /Fund/i });
       expect(confirmBtn[0]).toBeInTheDocument();
+      await user.click(screen.getByLabelText(/terms/i));
       await user.click(confirmBtn[1]);
       const modalContent = await screen.findByText(/Too Low/i);
 
@@ -162,6 +164,7 @@ describe('FundPage', () => {
       const button = screen.getByRole('button', { name: /Fund/i });
       await user.click(button);
       const confirmBtn = await screen.findAllByRole('button', { name: /Fund/i });
+      await user.click(screen.getByLabelText(/terms/i));
       await user.click(confirmBtn[1]);
       const modalContent = await screen.findByText(/Too Low/i);
 
@@ -252,6 +255,8 @@ describe('FundPage', () => {
 
       // ASSERT
       expect(value).toBeInTheDocument();
+      await user.click(await screen.findByLabelText(/terms/i));
+
       const confirmBtn = await screen.findAllByRole('button', { name: /Fund/i });
       await user.click(confirmBtn[1]);
       const modalContent = await screen.findByText(/Transfer Complete/i);

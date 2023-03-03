@@ -21,7 +21,7 @@ const AssociateModal = ({
   setClaimPageError,
   hasAssociatedAddress,
 }) => {
-  const { account } = useWeb3();
+  const { account, library } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
   const [updateAddress, setUpdateAddress] = useState(false);
   const { accountData } = appState;
@@ -63,8 +63,12 @@ const AssociateModal = ({
       .then(async (result) => {
         const { txnHash } = result.data;
         setAssociatedAddress(account);
+        setAssociateState('TRANSACTION_PENDING');
+        setError('');
         // Upon this return, the associateExternalIdToAddress transaction has been submitted
-        setTransactionHash(txnHash);
+
+        const completedTransaction = await library?.waitForTransaction(txnHash);
+        setTransactionHash(completedTransaction?.transactionHash);
         setAssociateState('TRANSACTION_CONFIRMED');
 
         const payload = {
@@ -97,7 +101,12 @@ const AssociateModal = ({
         if (err.message.includes(canvas)) return;
         logger.error(err, account, githubId);
         setAssociateState('ERROR');
-        setError({ message: err.response.data.errorMessage, title: 'Error' });
+        setError({
+          message:
+            err.response.data.errorMessage ||
+            `Error associating wallet address ${account} with the github account that whose id is ${githubId}`,
+          title: 'Error',
+        });
       });
   };
   const changeAccount = async () => {
@@ -123,6 +132,14 @@ const AssociateModal = ({
       title: 'Associating Your Account...',
       message: 'Your wallet address is being associated with your GitHub account by the OpenQ oracle.',
       btn: { text: 'In Progress...', disabled: true, format: 'flex items-center btn-default cursor-not-allowed gap-2' },
+    },
+    TRANSACTION_PENDING: {
+      title: 'Account association pending!',
+      message: `Your wallet address (${appState.utils.shortenAddress(
+        account
+      )}) is being associated with your GitHub account by the OpenQ oracle.`,
+      btn: { text: 'Close', disabled: false, format: 'flex btn-default' },
+      clickAction: handleClose,
     },
     TRANSACTION_CONFIRMED: {
       title: 'Account Successfully Associated!',
@@ -183,7 +200,7 @@ const AssociateModal = ({
             <p className='flex justify-between pt-4'>
               {transactionHash && (
                 <>
-                  <span>Transaction:</span>
+                  <span>{associateState === 'TRANSATION_PENDING' && 'Pending '}Transaction:</span>
                   <a
                     target='_blank'
                     href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`}

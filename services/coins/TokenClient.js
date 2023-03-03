@@ -1,12 +1,9 @@
 import axios from 'axios';
 import { ethers } from 'ethers';
 import localSuperfluidIndexable from '../../constants/superfluid-local-indexable.json';
-import enumerable from '../../constants/polygon-mainnet-enumerable.json';
-import indexable from '../../constants/polygon-mainnet-indexable.json';
+
 import localEnumerable from '../../constants/openq-local-enumerable.json';
 import localIndexable from '../../constants/openq-local-indexable.json';
-import mumbaiEnumerable from '../../constants/openq-polygon-mumbai-enumerable.json';
-import mumbaiIndexable from '../../constants/openq-polygon-mumbai-indexable.json';
 import polygonMainnetEnumerable from '../../constants/openq-polygon-mainnet-enumerable.json';
 import polygonMainnetIndexable from '../../constants/openq-polygon-mainnet-indexable.json';
 import superFluidPolygonIndexable from '../../constants/superfluid-polygon-mainnet-indexable.json';
@@ -29,12 +26,6 @@ class CoinClient {
         this.openqIndexableTokens = localIndexable;
         this.openqEnumerableTokens = localEnumerable;
         break;
-      case 'development':
-        this.superFluidLocalIndexable = superFluidPolygonIndexable;
-        this.superfluidEnumerable = superFluidPolygonEnumerable;
-        this.openqIndexableTokens = mumbaiIndexable;
-        this.openqEnumerableTokens = mumbaiEnumerable;
-        break;
       case 'staging':
         this.superFluidLocalIndexable = superFluidPolygonIndexable;
         this.superfluidEnumerable = superFluidPolygonEnumerable;
@@ -47,6 +38,11 @@ class CoinClient {
         this.openqIndexableTokens = polygonMainnetIndexable;
         this.openqEnumerableTokens = polygonMainnetEnumerable;
         break;
+      default:
+        this.superFluidLocalIndexable = superFluidPolygonIndexable;
+        this.superfluidEnumerable = superFluidPolygonEnumerable;
+        this.openqIndexableTokens = polygonMainnetIndexable;
+        this.openqEnumerableTokens = polygonMainnetEnumerable;
     }
   }
   firstTenPrices = {};
@@ -157,23 +153,9 @@ class CoinClient {
     }
   };
 
-  async getTokenMetadata(cursor, limit, list) {
-    if (list === 'polygon') {
-      return enumerable.tokens.slice(cursor, cursor + limit);
-    }
-    if (this.openqEnumerableTokens.length && list === 'constants') {
-      return this.openqEnumerableTokens;
-    } else return [];
-  }
-
   getToken(address) {
     const checkSummedAddress = ethers.utils.getAddress(address);
-    if (indexable[address.toLowerCase()]) {
-      return indexable[address.toLowerCase()];
-    }
-    if (indexable[checkSummedAddress]) {
-      return indexable[checkSummedAddress];
-    }
+
     if (this.openqIndexableTokens[checkSummedAddress]) {
       return this.openqIndexableTokens[checkSummedAddress];
     }

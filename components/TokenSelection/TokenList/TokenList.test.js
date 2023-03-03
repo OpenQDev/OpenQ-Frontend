@@ -29,7 +29,7 @@ describe('TokenList', () => {
     );
 
     // ASSERT
-    expect(screen.getByText(/Chainlink/i)).toBeInTheDocument();
+    expect(screen.getByText(/derc20/i)).toBeInTheDocument();
     expect(await screen.getAllByRole('img').length).toBeGreaterThan(1);
 
     // should not have null or undefined values

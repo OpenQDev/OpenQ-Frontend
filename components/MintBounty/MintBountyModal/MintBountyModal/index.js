@@ -1,6 +1,7 @@
 // Third party
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { PersonIcon, PeopleIcon } from '@primer/octicons-react';
 
 // Children
@@ -62,6 +63,15 @@ const MintBountyModal = ({ modalVisibility }) => {
     const dispatch = {
       type: 'SET_LOADING',
       payload: false,
+    };
+    mintDispatch(dispatch);
+  };
+
+  const setAccepted = (e) => {
+    const accepted = e.target.checked;
+    const dispatch = {
+      type: 'SET_ACCEPTED',
+      payload: accepted,
     };
     mintDispatch(dispatch);
   };
@@ -160,6 +170,18 @@ const MintBountyModal = ({ modalVisibility }) => {
               </>
             ) : null}
             <AddAlternativeMetadata />
+            <div className='flex items-center gap-2 font-semibold'>
+              I accept the{''}
+              <Link className='underline' href={'/terms-of-use'}>
+                terms of use
+              </Link>
+              <input
+                aria-label='accept terms of service'
+                type='checkbox'
+                className='checkbox'
+                onChange={setAccepted}
+              ></input>
+            </div>
           </div>
         </div>
       </ModalLarge>

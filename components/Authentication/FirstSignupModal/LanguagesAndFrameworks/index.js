@@ -147,8 +147,8 @@ const LanguagesAndFrameworks = ({ user }) => {
       }
       if (!matches) updateObj = createUpdateObj('otherRoles', updateObj, input);
     }
-    const apiAndStateValue = await updateApiAndState(updateObj, accountData, appState);
-    console.log(apiAndStateValue);
+    await updateApiAndState(updateObj, accountData, appState);
+
     setInputValue('');
   };
   return (

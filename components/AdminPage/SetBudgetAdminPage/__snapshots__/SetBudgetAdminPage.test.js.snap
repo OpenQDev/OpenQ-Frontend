@@ -48,7 +48,7 @@ exports[`SetBudgetAdminPage Split Price Contracts should allow user to update bu
               decoding="async"
               height="40"
               loading="lazy"
-              src="https://wallet-asset.matic.network/img/tokens/matic.svg"
+              src="/crypto-logos/MATIC.svg"
               style="color: transparent;"
               width="40"
             />

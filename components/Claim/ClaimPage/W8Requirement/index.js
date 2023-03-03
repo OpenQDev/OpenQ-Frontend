@@ -21,7 +21,7 @@ const W8Requirement = ({ bounty }) => {
   const { accountData } = appState;
   const pending = bounty.requests?.nodes.some((node) => node.requestingUser.id === accountData.id);
   const [sent, setSent] = useState(pending);
-  const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}?tab=📃Invoicing (Freelancer)`;
+  const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}?tab=Invoicing (Freelancer)`;
   const [w8Approved, setW8Approved] = useState(false);
 
   const noEmail = !accountData?.invoicingEmail;

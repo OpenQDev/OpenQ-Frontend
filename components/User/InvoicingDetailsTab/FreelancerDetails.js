@@ -125,7 +125,7 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
         <>
           <div className='flex justify-between mt-12'>
             <h2 className='flex justify-between w-full text-2xl pb-4 font-semibold border-b border-gray-700'>
-              <div>{emailOnly ? 'Freelancer Email' : 'Freelancer Invoicing Information'}</div>
+              <div>{emailOnly ? 'Freelancer Email' : 'Freelancer Invoice Information'}</div>
               {!emailOnly && (
                 <button onClick={getPdf} className='btn-default text-xs py-0.75 my-0.75 h-7'>
                   {showPreview ? 'Edit' : 'Preview'} Invoice
@@ -133,6 +133,7 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
               )}
             </h2>
           </div>
+          {!emailOnly && <div className='note'>Not needed for EthDenver.</div>}
         </>
       )}
       {showPreview ? (
