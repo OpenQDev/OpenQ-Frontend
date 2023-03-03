@@ -24,14 +24,14 @@ describe('sample', () => {
     const user = userEvent.setup();
     const mintState = { altUrl: 'https://avatars.githubusercontent.com/u/77402538?s=200&v=4', altName: 'agasdf' };
     const mintDispatch = jest.fn();
-    const updateToEthPayload = {
+    const updateToUsdc = {
       payload: {
-        address: '0x714550C2C1Ea08688607D86ed8EeF4f5E4F22323',
-        chainId: 80001,
-        decimals: 18,
-        name: 'Wrapped Ether',
-        path: 'https://wallet-asset.matic.network/img/tokens/eth.svg',
-        symbol: 'WETH',
+        address: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
+        chainId: 137,
+        decimals: 6,
+        name: 'USD Coin',
+        path: '/crypto-logos/USDC.svg',
+        symbol: 'USDC',
       },
       type: 'UPDATE_GOAL_TOKEN',
     };
@@ -51,9 +51,9 @@ describe('sample', () => {
     const button = screen.getByRole('button', { name: 'select token' });
     expect(button).toBeInTheDocument();
     await user.click(button);
-    await user.click(screen.getByText(/weth/i));
+    await user.click(screen.getByText(/usdc/i));
     await user.type(screen.getAllByRole('textbox')[0], '20');
-    expect(mintDispatch).toHaveBeenCalledWith(updateToEthPayload);
     expect(mintDispatch).toHaveBeenCalledWith(updateVolumePayload);
+    expect(mintDispatch).toHaveBeenCalledWith(updateToUsdc);
   });
 });

@@ -3,7 +3,10 @@ import { ethers } from 'ethers';
 
 import indexable from '../../constants/openq-local-indexable.json';
 import openqIndexableTokens from '../../constants/openq-local-indexable.json';
-import enumerable from '../../constants/openq-local-enumerable.json';
+import polygonMainnetEnumerable from '../../constants/openq-polygon-mainnet-enumerable.json';
+import polygonMainnetIndexable from '../../constants/openq-polygon-mainnet-indexable.json';
+import superFluidPolygonIndexable from '../../constants/superfluid-polygon-mainnet-indexable.json';
+import superFluidPolygonEnumerable from '../../constants/superfluid-polygon-mainnet-enumerable.json';
 
 class MockCoinClient {
   async sleep(time) {
@@ -11,6 +14,11 @@ class MockCoinClient {
       return setTimeout(resolve, time);
     });
   }
+
+  superFluidLocalIndexable = superFluidPolygonIndexable;
+  superfluidEnumerable = superFluidPolygonEnumerable;
+  openqIndexableTokens = polygonMainnetIndexable;
+  openqEnumerableTokens = polygonMainnetEnumerable;
 
   async getTokenValues(data) {
     const promise = new Promise(async (resolve, reject) => {

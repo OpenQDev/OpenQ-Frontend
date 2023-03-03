@@ -38,6 +38,11 @@ class CoinClient {
         this.openqIndexableTokens = polygonMainnetIndexable;
         this.openqEnumerableTokens = polygonMainnetEnumerable;
         break;
+      default:
+        this.superFluidLocalIndexable = superFluidPolygonIndexable;
+        this.superfluidEnumerable = superFluidPolygonEnumerable;
+        this.openqIndexableTokens = polygonMainnetIndexable;
+        this.openqEnumerableTokens = polygonMainnetEnumerable;
     }
   }
   firstTenPrices = {};
