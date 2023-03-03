@@ -163,39 +163,34 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
                 {isOwner && <Subscribe user={user} />}
               </div>
             )}
-            {internalMenu == 'Email' && (
-              <div className='flex flex-col px-8 justify-between mt-12'>
-                <h2 className='flex justify-between w-full text-2xl pb-4 font-semibold border-b border-gray-700'>
-                  Your Email
-                </h2>
-                <section className='flex flex-col gap-3'>
-                  <InvoicingDetails slim={true} emailOnly={true} />
-                </section>
-              </div>
-            )}
-            {internalMenu == 'Wallet-to-GitHub' && (
-              <div className='flex px-8 justify-between mt-12'>
-                <GithubRequirement githubHasWalletVerifiedState={githubHasWalletVerifiedState} />
-              </div>
-            )}
-            {internalMenu == 'KYC' && (
-              <div className='flex px-8 justify-between mt-12'>
-                <KycRequirement setKycVerified={setKycVerified} />
-              </div>
-            )}
+            <div className={`flex flex-col px-8 justify-between ${internalMenu !== 'Email' && 'hidden'} mt-12`}>
+              <h2 className='flex justify-between w-full text-2xl pb-4 font-semibold border-b border-gray-700'>
+                Your Email
+              </h2>
+              <section className='flex flex-col gap-3'>
+                <InvoicingDetails slim={true} emailOnly={true} />
+              </section>
+            </div>
+
+            <div
+              className={`flex flex-col px-8 justify-between ${internalMenu !== 'Wallet-to-GitHub' && 'hidden'} mt-12`}
+            >
+              <GithubRequirement githubHasWalletVerifiedState={githubHasWalletVerifiedState} />
+            </div>
+
+            <div className={`flex flex-col px-8 justify-between ${internalMenu !== 'KYC' && 'hidden'} mt-12`}>
+              <KycRequirement setKycVerified={setKycVerified} />
+            </div>
+
             {internalMenu == 'Stars' && <Starred starredOrganizations={starredOrganizations} />}
             {internalMenu === 'Watching' && <Watching watchedBounties={watchedFullBounties} />}
-            {internalMenu === 'Invoicing (Freelancer)' && (
-              <>
-                <FreelancerDetails emailOnly={true} /> <FreelancerDetails />
-              </>
-            )}
-            {internalMenu === 'Invoicing (Organization)' && (
-              <>
-                {' '}
-                <OrgDetails showWatched={isOwner} emailOnly={true} /> <OrgDetails showWatched={isOwner} />
-              </>
-            )}
+
+            <div className={internalMenu !== 'Invoicing (Freelancer)' && 'hidden'}>
+              <FreelancerDetails emailOnly={true} /> <FreelancerDetails />
+            </div>
+            <div className={internalMenu !== 'Invoicing (Organization)' && 'hidden'}>
+              <OrgDetails showWatched={isOwner} emailOnly={true} /> <OrgDetails showWatched={isOwner} />
+            </div>
           </div>
         </div>
       </div>
