@@ -93,7 +93,7 @@ class CoinClient {
       if (Array.isArray(tokenBalances)) {
         for (let i = 0; i < tokenBalances.length; i++) {
           const tokenMetadata = this.getToken(tokenBalances[i].tokenAddress);
-          const tokenAddress = tokenMetadata.address;
+          const tokenAddress = tokenMetadata.valueAddress;
           if (tokenVolumes[tokenAddress]) {
             tokenVolumes[tokenAddress] = {
               volume: parseInt(tokenVolumes[tokenAddress]) + parseInt(tokenBalances[i].volume),
@@ -108,7 +108,7 @@ class CoinClient {
         }
       } else {
         const tokenMetadata = await this.getToken(tokenBalances.tokenAddress);
-        tokenVolumes[tokenMetadata.address] = {
+        tokenVolumes[tokenMetadata.valueAddress] = {
           volume: tokenBalances.volume,
           decimals: tokenMetadata.decimals,
         };
@@ -155,9 +155,15 @@ class CoinClient {
 
   getToken(address) {
     const checkSummedAddress = ethers.utils.getAddress(address);
-
+    const lowerCaseAddress = address.toLowerCase();
+    console.log(lowerCaseAddress, this.openqIndexableTokens);
     if (this.openqIndexableTokens[checkSummedAddress]) {
+      console.log('this.openqIndexableTokens[checkSummedAddress]', this.openqIndexableTokens[checkSummedAddress]);
       return this.openqIndexableTokens[checkSummedAddress];
+    }
+    if (this.openqIndexableTokens[lowerCaseAddress]) {
+      console.log('this.openqIndexableTokens[lowerCaseAddress]', this.openqIndexableTokens[checkSummedAddress]);
+      return this.openqIndexableTokens[lowerCaseAddress];
     }
     if (localSuperfluidIndexable[address.toLowerCase()]) {
       return localSuperfluidIndexable[address.toLowerCase()];

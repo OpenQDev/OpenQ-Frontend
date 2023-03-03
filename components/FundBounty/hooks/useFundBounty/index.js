@@ -8,7 +8,7 @@ import { getBigNumberVol } from '../../../../services/utils/lib';
 const useFundBounty = () => {
   const [appState] = useContext(StoreContext);
   const [fundState, fundDispatch] = useContext(FundContext);
-  const { bounty, token, volume, depositPeriodDays, refreshBounty, pickedNft } = fundState;
+  const { bounty, token, volume, depositPeriodDays, refreshBounty } = fundState;
   const { library, account } = useWeb3();
   const { openQClient, logger, accountData } = appState;
   const bigNumberVolumeInWei = getBigNumberVol(volume, token);
@@ -20,25 +20,15 @@ const useFundBounty = () => {
     fundDispatch(transfferringDispatch);
     try {
       let fundTxnReceipt;
-      if (pickedNft) {
-        const { token_address, token_id } = pickedNft;
-        fundTxnReceipt = await openQClient.fundBountyWithNft(
-          library,
-          bounty.bountyAddress,
-          token_address,
-          token_id,
-          depositPeriodDays
-        );
-      } else {
-        fundTxnReceipt = await openQClient.fundBounty(
-          library,
-          bounty.bountyAddress,
-          token.address,
-          bigNumberVolumeInWei,
-          depositPeriodDays,
-          accountData.id
-        );
-      }
+      console.log('address', token.address);
+      fundTxnReceipt = await openQClient.fundBounty(
+        library,
+        bounty.bountyAddress,
+        token.address,
+        bigNumberVolumeInWei,
+        depositPeriodDays,
+        accountData.id
+      );
 
       const transactionDispatch = {
         type: 'SET_TRANSACTION_HASH',
