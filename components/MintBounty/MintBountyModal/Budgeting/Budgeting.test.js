@@ -26,12 +26,12 @@ describe('sample', () => {
     const mintDispatch = jest.fn();
     const updateToUsdc = {
       payload: {
-        address: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
-        chainId: 137,
-        decimals: 6,
-        name: 'USD Coin',
-        path: '/crypto-logos/USDC.svg',
-        symbol: 'USDC',
+        name: 'Dummy ERC20',
+        address: '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063',
+        symbol: 'DERC20',
+        decimals: 18,
+        chainId: 80001,
+        path: 'https://wallet-asset.matic.network/img/tokens/dai.svg',
       },
       type: 'UPDATE_GOAL_TOKEN',
     };
@@ -51,7 +51,7 @@ describe('sample', () => {
     const button = screen.getByRole('button', { name: 'select token' });
     expect(button).toBeInTheDocument();
     await user.click(button);
-    await user.click(screen.getByText(/usdc/i));
+    await user.click(screen.getByText(/derc20/i));
     await user.type(screen.getAllByRole('textbox')[0], '20');
     expect(mintDispatch).toHaveBeenCalledWith(updateVolumePayload);
     expect(mintDispatch).toHaveBeenCalledWith(updateToUsdc);

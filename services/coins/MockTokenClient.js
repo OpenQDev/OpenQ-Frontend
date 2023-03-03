@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { ethers } from 'ethers';
 
+import localEnumerable from '../../constants/openq-local-enumerable.json';
+import localIndexable from '../../constants/openq-local-indexable.json';
 import indexable from '../../constants/openq-local-indexable.json';
 import openqIndexableTokens from '../../constants/openq-local-indexable.json';
 import polygonMainnetEnumerable from '../../constants/openq-polygon-mainnet-enumerable.json';
@@ -17,8 +19,8 @@ class MockCoinClient {
 
   superFluidLocalIndexable = superFluidPolygonIndexable;
   superfluidEnumerable = superFluidPolygonEnumerable;
-  openqIndexableTokens = polygonMainnetIndexable;
-  openqEnumerableTokens = polygonMainnetEnumerable;
+  openqIndexableTokens = localIndexable;
+  openqEnumerableTokens = localEnumerable;
 
   async getTokenValues(data) {
     const promise = new Promise(async (resolve, reject) => {
