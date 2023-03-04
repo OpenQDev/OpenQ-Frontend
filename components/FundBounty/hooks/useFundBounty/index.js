@@ -20,7 +20,6 @@ const useFundBounty = () => {
     fundDispatch(transfferringDispatch);
     try {
       let fundTxnReceipt;
-      console.log('address', token.address);
       fundTxnReceipt = await openQClient.fundBounty(
         library,
         bounty.bountyAddress,

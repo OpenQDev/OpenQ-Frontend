@@ -22,7 +22,7 @@
     "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
     "valueAddress": "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
     "symbol": "DERC20",
-    "decimals": 18,
+    "decimals": 6,
     "chainId": 80001,
     "path": "/crypto-logos/DAI.svg"
   }

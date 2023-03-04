@@ -135,7 +135,6 @@ const Invoicing = ({ bounty, setClaimable }) => {
         {},
         { withCredentials: true }
       );
-
       handleResult(result);
     } catch (err) {
       setLoading(false);

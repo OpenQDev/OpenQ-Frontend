@@ -156,7 +156,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, pr, disabled }) => {
         }}
       >
         <div>
-          {formatVolume(prize.payout, bounty.payoutTokenAddress) + unit}{' '}
+          {formatVolume(prize.payout, appState.tokenClient.getToken(bounty.payoutTokenAddress)) + unit}{' '}
           {bounty.tierWinners?.[tierIndex] && '(selected)'}
         </div>
       </button>
@@ -185,7 +185,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, pr, disabled }) => {
                 {claimReady ? 'This will release' : 'Before being able to claim'}{' '}
                 {bounty.bountyType === '2'
                   ? prize.payout + '% of funds'
-                  : formatVolume(prize.payout, bounty.payoutTokenAddress) + unit}{' '}
+                  : formatVolume(prize.payout, appState.tokenClient.getToken(bounty.payoutTokenAddress)) + unit}{' '}
                 (
                 {bounty.bountyType === '2'
                   ? appState.utils.formatter.format((price * prize.payout) / 100 || 0)
@@ -218,7 +218,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, pr, disabled }) => {
               <p className='my-2'>
                 {bounty.bountyType === '2'
                   ? prize.payout + '% of funds'
-                  : formatVolume(prize.payout, bounty.payoutTokenAddress) + unit}{' '}
+                  : formatVolume(prize.payout, appState.tokenClient.getToken(bounty.payoutTokenAddress)) + unit}{' '}
                 staked on this competition can now be claimed by {pr.author.name || pr.author.login},
                 <>
                   {' '}

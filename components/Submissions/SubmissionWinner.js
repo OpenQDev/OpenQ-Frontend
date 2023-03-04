@@ -20,7 +20,7 @@ const SubmissionWinner = ({ linkedPrize, bounty }) => {
   return (
     <div className='border-web-gray border-t px-2'>
       <h4 className='pt-4 pb-2 text-center w-full font-medium text-xl'>
-        Winner of {formatVolume(amount, bounty.payoutTokenAddress) + unit}
+        Winner of {formatVolume(amount, appState.tokenClient.getToken(bounty.payoutTokenAddress)) + unit}
       </h4>
       {amount && (
         <div className='pb-4 text-center w-full font-medium text-lg'>({appState.utils.handleSuffix(tierWon)} Tier)</div>

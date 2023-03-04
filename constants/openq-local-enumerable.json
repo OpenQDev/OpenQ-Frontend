@@ -19,7 +19,7 @@
     "name": "Dummy ERC20",
     "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
     "symbol": "DERC20",
-    "decimals": 18,
+    "decimals": 6,
     "chainId": 80001,
     "path": "/crypto-logos/DAI.svg"
   }

@@ -170,7 +170,7 @@ const MintBountyModal = ({ modalVisibility }) => {
               </>
             ) : null}
             <AddAlternativeMetadata />
-            <div className='flex items-center gap-2 font-semibold'>
+            <div className='flex items-center gap-2 pb-4 font-semibold'>
               I accept the{''}
               <Link className='underline' href={'/terms-of-use'}>
                 terms of use

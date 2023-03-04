@@ -156,13 +156,10 @@ class CoinClient {
   getToken(address) {
     const checkSummedAddress = ethers.utils.getAddress(address);
     const lowerCaseAddress = address.toLowerCase();
-    console.log(lowerCaseAddress, this.openqIndexableTokens);
     if (this.openqIndexableTokens[checkSummedAddress]) {
-      console.log('this.openqIndexableTokens[checkSummedAddress]', this.openqIndexableTokens[checkSummedAddress]);
       return this.openqIndexableTokens[checkSummedAddress];
     }
     if (this.openqIndexableTokens[lowerCaseAddress]) {
-      console.log('this.openqIndexableTokens[lowerCaseAddress]', this.openqIndexableTokens[checkSummedAddress]);
       return this.openqIndexableTokens[lowerCaseAddress];
     }
     if (localSuperfluidIndexable[address.toLowerCase()]) {
