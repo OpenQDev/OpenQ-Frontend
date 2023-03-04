@@ -72,7 +72,7 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
     symbol: 'MATIC',
     decimals: 18,
     chainId: 80001,
-    path: 'https://wallet-asset.matic.network/img/tokens/matic.svg',
+    path: '/crypto-logos/MATIC.svg',
   };
 
   // State
@@ -156,6 +156,7 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
         title,
       });
     }
+    setIsLoading(false);
   }
 
   return (

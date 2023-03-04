@@ -21,6 +21,7 @@ class MockCoinClient {
   superfluidEnumerable = superFluidPolygonEnumerable;
   openqIndexableTokens = localIndexable;
   openqEnumerableTokens = localEnumerable;
+  firstTenPrices = {};
 
   async getTokenValues(data) {
     const promise = new Promise(async (resolve, reject) => {
@@ -54,15 +55,16 @@ class MockCoinClient {
       let tokenVolumes = {};
       if (Array.isArray(tokenBalances)) {
         for (let i = 0; i < tokenBalances.length; i++) {
-          const tokenMetadata = await this.getToken(tokenBalances[i].tokenAddress);
-          const tokenAddress = tokenMetadata.address;
+          const tokenMetadata = this.getToken(tokenBalances[i].tokenAddress);
+
+          const tokenAddress = tokenMetadata.valueAddress || this.getToken(tokenAddress).valueAddress;
           if (tokenVolumes[tokenAddress]) {
             tokenVolumes[tokenAddress] = {
               volume: parseInt(tokenVolumes[tokenAddress]) + parseInt(tokenBalances[i].volume),
               decimals: tokenMetadata.decimals,
             };
           } else {
-            tokenVolumes[tokenAddress] = {
+            tokenVolumes[tokenAddress.toLowerCase()] = {
               volume: tokenBalances[i].volume,
               decimals: tokenMetadata.decimals,
             };
@@ -70,28 +72,55 @@ class MockCoinClient {
         }
       } else {
         const tokenMetadata = await this.getToken(tokenBalances.tokenAddress);
-        tokenVolumes[tokenMetadata.address] = {
+        tokenVolumes[tokenMetadata.valueAddress] = {
           volume: tokenBalances.volume,
           decimals: tokenMetadata.decimals,
         };
       }
       const data = { tokenVolumes, network: 'polygon-pos' };
-      const url = process.env.NEXT_PUBLIC_COIN_API_URL + '/tvl';
+      const url = this.url + '/tvl';
       //only query tvl for bounties that have deposits
-
+      let fetchValues = false;
       if (JSON.stringify(data.tokenVolumes) != '{}') {
+        await new Promise((resolve) => setTimeout(resolve, 200));
+
+        while (!fetchValues) {
+          const tokenValues = { tokenPrices: {}, tokens: {}, total: 0 };
+          let total = 0;
+          for (let key in tokenVolumes) {
+            console.log('key', key);
+            const lowercaseKey = key.toLowerCase();
+            if (this.firstTenPrices[lowercaseKey] && !fetchValues) {
+              console.log('hs');
+              const multiplier = parseInt(tokenVolumes[key].volume) / Math.pow(10, tokenVolumes[key].decimals);
+              const value = this.firstTenPrices[lowercaseKey].usd;
+              tokenValues.tokens[lowercaseKey] = value * multiplier;
+              tokenValues.tokenPrices[lowercaseKey] = Math.round(parseFloat(value) * 100) / 100;
+              total = total + value * multiplier;
+            } else {
+              console.log('fetching');
+              fetchValues = true;
+            }
+          }
+          tokenValues.total = Math.round(parseFloat(total) * 100) / 100;
+          if (JSON.stringify(tokenValues) !== '{"tokenPrices":{},"tokens":{},"total":0}' && !fetchValues) {
+            console.log('tokenValues', tokenValues);
+
+            return tokenValues;
+          }
+        }
+
         try {
           const tokenValues = await this.getTokenValues(data, url);
           return tokenValues;
         } catch (error) {
-          console.error(error);
+          throw new Error(error);
         }
       } else {
-        return { total: 0 };
+        return null;
       }
     }
   };
-
   getToken(address) {
     const checkSummedAddress = ethers.utils.getAddress(address);
     if (indexable[address.toLowerCase()]) {

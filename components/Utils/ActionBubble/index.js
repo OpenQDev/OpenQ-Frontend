@@ -30,7 +30,7 @@ const ActionBubble = ({ bounty, action }) => {
   };
   const payoutObj = useMemo(() => getPayout(bounty), [bounty]);
   const [payoutValues] = useGetTokenValues(payoutObj);
-  const payoutTotal = appState.utils.formatter.format(payoutValues?.total);
+  const payoutTotal = appState.utils.formatter.format(payoutValues?.total || 0);
 
   useEffect(() => {
     const justMinted = sessionStorage.getItem('justMinted');

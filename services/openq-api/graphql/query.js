@@ -447,9 +447,6 @@ export const UPDATE_USER = gql`
 export const WATCH_BOUNTY = gql`
   mutation WatchBounty($contractAddress: String!, $userId: String!, $github: String, $email: String) {
     watchBounty(contractAddress: $contractAddress, userId: $userId, github: $github, email: $email) {
-      watchingUsers {
-        id
-      }
       watchingCount
     }
   }
@@ -460,9 +457,6 @@ export const UNWATCH_BOUNTY = gql`
     unwatchBounty(contractAddress: $contractAddress, userId: $userId, github: $github, email: $email) {
       address
       watchingCount
-      watchingUsers {
-        id
-      }
     }
   }
 `;
