@@ -103,7 +103,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 
   const footerLeft = (
     <a
-      href={'https://github.com/OpenQDev/OpenQ-Contracts/blob/production/contracts/Bounty/Implementations/BountyV2.sol'}
+      href={'https://github.com/OpenQDev/OpenQ-Contracts/tree/production/contracts/Bounty/Implementations'}
       className='flex gap-2 underline'
       target='_blank'
       rel='noreferrer'
