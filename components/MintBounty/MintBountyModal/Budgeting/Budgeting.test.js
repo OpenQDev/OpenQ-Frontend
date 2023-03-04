@@ -31,7 +31,7 @@ describe('sample', () => {
         symbol: 'DERC20',
         decimals: 18,
         chainId: 80001,
-        path: 'https://wallet-asset.matic.network/img/tokens/dai.svg',
+        path: '/crypto-logos/DAI.svg',
       },
       type: 'UPDATE_GOAL_TOKEN',
     };

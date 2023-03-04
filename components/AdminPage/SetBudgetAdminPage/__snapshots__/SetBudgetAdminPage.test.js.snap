@@ -109,7 +109,7 @@ exports[`SetBudgetAdminPage Split Price Contracts should lock token but allow vo
       decoding="async"
       height="40"
       loading="lazy"
-      src="https://wallet-asset.matic.network/img/tokens/dai.svg"
+      src="/crypto-logos/DAI.svg"
       style="color: transparent;"
       width="40"
     />
@@ -170,7 +170,7 @@ exports[`SetBudgetAdminPage Split Price Contracts should set payout token per de
               decoding="async"
               height="40"
               loading="lazy"
-              src="https://wallet-asset.matic.network/img/tokens/dai.svg"
+              src="/crypto-logos/DAI.svg"
               style="color: transparent;"
               width="40"
             />

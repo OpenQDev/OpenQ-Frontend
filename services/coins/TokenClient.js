@@ -93,7 +93,7 @@ class CoinClient {
       if (Array.isArray(tokenBalances)) {
         for (let i = 0; i < tokenBalances.length; i++) {
           const tokenMetadata = this.getToken(tokenBalances[i].tokenAddress);
-          const tokenAddress = tokenMetadata.valueAddress;
+          const tokenAddress = tokenMetadata.valueAddress || this.getToken(tokenAddress).valueAddress;
           if (tokenVolumes[tokenAddress]) {
             tokenVolumes[tokenAddress] = {
               volume: parseInt(tokenVolumes[tokenAddress]) + parseInt(tokenBalances[i].volume),
