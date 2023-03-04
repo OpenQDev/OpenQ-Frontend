@@ -4,13 +4,11 @@
  */
 import React from 'react';
 import ConnectModal from '../../components/WalletConnect/ConnectModal';
-import ShallowRenderer from 'react-test-renderer/shallow';
+import { render } from '../../test-utils';
 
 describe('ConnectModal', () => {
   it('should render match DOM Snapshot', () => {
-    const shallow = new ShallowRenderer();
-    shallow.render(<ConnectModal />);
-    const tree = shallow.getRenderOutput();
-    expect(tree).toMatchSnapshot();
+    const { asFragment } = render(<ConnectModal closeModal={() => {}} setShowModal={() => {}} />);
+    expect(asFragment()).toMatchSnapshot();
   });
 });
