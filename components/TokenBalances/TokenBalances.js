@@ -25,7 +25,6 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
         let decimals = parseInt(tokenMetadata.decimals) || 18;
         let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
         let totalValue;
-        console.log('tokenValues', tokenValues);
         if (!singleCurrency) {
           const unCutValue = tokenValues?.tokens[tokenValueAddress] || 0;
           totalValue = unCutValue.toFixed(2);
@@ -36,7 +35,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
         formattedVolume = Number.isInteger(Number(formattedVolume * 10))
           ? Number(formattedVolume).toFixed(2)
           : parseFloat(Number(formattedVolume).toFixed(10));
-        console.log('totalValue', totalValue);
+
         let usdValue = appState.utils.formatter.format(totalValue);
         if (totalValue > highest) highest = totalValue;
         const path = tokenMetadata.path || tokenMetadata.logoURI;
@@ -93,7 +92,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
           {tokenBalances && displayedBalances && (displayedBalances.length > 0 || tokenBalances.length === 0) ? (
             displayedBalances.map((tokenBalance) => {
               const { symbol, usdValue, formattedVolume, path } = tokenBalance;
-              console.log(formattedVolume, usdValue);
+
               return (
                 <div className='flex flex-row flex-wrap gap-2  content-center items-center' key={symbol}>
                   <div className='pt-1'>
