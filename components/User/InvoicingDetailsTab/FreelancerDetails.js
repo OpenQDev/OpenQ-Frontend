@@ -9,7 +9,7 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
   const [appState, dispatch] = useContext(StoreContext);
   const { openQPrismaClient } = appState;
   const { accountData } = appState;
-  const [formState, setFormState] = useState({ text: 'Update', className: 'btn-primary' });
+  const [formState, setFormState] = useState({ text: 'Update', className: 'btn-primary bg-green' });
   const [showPreview, setShowPreview] = useState(false);
   const [emailInvalid, setEmailInvalid] = useState(false);
   // const formValuesSocial = [{ value: 'twitter' }, { value: 'discord' }];
@@ -105,15 +105,15 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
             },
           };
           dispatch(accountDispatch);
-          setFormState({ text: 'Updated', className: 'btn-primary', disabled: false });
+          setFormState({ text: 'Updated', className: 'btn-primary bg-green', disabled: false });
           setTimeout(() => {
-            setFormState({ text: 'Update', className: 'btn-primary', disabled: false });
+            setFormState({ text: 'Update', className: 'btn-primary bg-green', disabled: false });
           }, 5000);
           resolve(true);
         }
       } catch (err) {
         if (err.message === 'Please enter a valid email') {
-          setFormState({ text: 'Update', className: 'btn-primary', disabled: false });
+          setFormState({ text: 'Update', className: 'btn-primary bg-green', disabled: false });
         }
       }
     });

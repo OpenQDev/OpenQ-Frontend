@@ -203,7 +203,9 @@ const FundPage = () => {
                       >
                         <button
                           className={`text-center px-8 w-min items-center py-0.5  ${
-                            disabledFundButton ? 'btn-default w-full cursor-not-allowed' : 'btn-primary cursor-pointer'
+                            disabledFundButton
+                              ? 'btn-default w-full cursor-not-allowed'
+                              : 'btn-primary bg-green cursor-pointer'
                           } py-1.5`}
                           disabled={disabledFundButton}
                           type='button'
