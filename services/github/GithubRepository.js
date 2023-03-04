@@ -1,7 +1,6 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 import {
   GET_USER_BY_ID,
-  GET_USER_BY_NAME,
   GET_ORG_BY_ID,
   GET_ORG_BY_NAME,
   GET_REPO_BY_NAME,
@@ -32,7 +31,7 @@ class GithubRepository {
   uri = process.env.GITHUB_PROXY_SSR_URL ? process.env.GITHUB_PROXY_SSR_URL : process.env.NEXT_PUBLIC_GITHUB_PROXY_URL;
 
   httpLink = new HttpLink({
-    uri: this.uri,
+    uri: this.uri + '/graphql',
     credentials: 'include',
     fetch,
   });
@@ -43,6 +42,37 @@ class GithubRepository {
     cache: new InMemoryCache(),
     errorPolicy: 'all',
   });
+
+  restClient = async (query) => {
+    const response = await fetch('https://api.github.com' + query, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((res) => res.json());
+
+    if (response.message) {
+      if (response.message.includes('Not Found')) {
+        throw new Error(response.message);
+      } else if (response.message.includes('API rate limit exceeded')) {
+        console.info(response.message);
+        const response = await fetch(this.uri + query, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }).then((res) => res.json());
+  
+        if (response.message) {
+          throw new Error(response.message);
+        }
+  
+        return response;
+      }
+    }
+
+    return response;
+  }
 
   async getIsAdmin(login, team, githubId) {
     const promise = new Promise(async (resolve, reject) => {
@@ -371,13 +401,18 @@ class GithubRepository {
   async fetchUserByLogin(login) {
     const promise = new Promise(async (resolve, reject) => {
       try {
-        const result = await this.client.query({
-          query: GET_USER_BY_NAME,
-          variables: {
-            login,
-          },
+        const result = await this.restClient(`/users/${login}`);
+        
+        resolve({
+          login: result.login,
+          id: result.node_id,
+          createdAt: result.created_at,
+          websiteUrl: result.blog,
+          bio: result.bio,
+          avatarUrl: result.avatar_url,
+          twitterUsername: result.twitter_username,
+          url: result.html_url,
         });
-        resolve(result.data.user);
       } catch (e) {
         reject(e);
       }

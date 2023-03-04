@@ -404,22 +404,6 @@ export const GET_USERS_BY_IDS = gql`
   }
 `;
 
-export const GET_USER_BY_NAME = gql`
-  query GetUser($login: String!) {
-    user(login: $login) {
-      __typename
-      login
-      id
-      createdAt
-      websiteUrl
-      bio
-      avatarUrl
-      twitterUsername
-      url
-    }
-  }
-`;
-
 // REPOSITORY
 
 export const GET_REPO_BY_NAME = gql`
