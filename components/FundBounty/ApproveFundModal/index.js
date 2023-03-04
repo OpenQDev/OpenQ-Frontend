@@ -126,7 +126,11 @@ const ApproveFundModal = ({
       title: 'Approve Deposit',
       message: 'Approve your ERC20 for the deposit:',
       rightBtn: ['Fund', 'btn-default cursor-not-allowed', 'disabled'],
-      leftBtn: ['Approve', 'btn-primary', 'enabled'],
+      leftBtn: [
+        'Approve',
+        accepted ? 'btn-primary' : 'btn-default cursor-not-allowed',
+        accepted ? 'enabled' : 'disabled',
+      ],
       clickMethod: confirmMethod,
     },
     [APPROVING]: {
