@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { metaMask, walletConnect } from './connectors';
+import { metaMask, walletConnect, uauth } from './connectors';
 import useWeb3 from '../../hooks/useWeb3';
 import Image from 'next/image';
 import ModalLarge from '../Utils/ModalLarge';
@@ -28,6 +28,10 @@ const ConnectModal = ({ closeModal, setShowModal }) => {
     } catch (err) {
       appState.logger.info(err, accountData?.id, 'ConnectModal.js');
     }
+  };
+  const handleUnstoppableConnect = async () => {
+    await uauth.activate();
+    closeModal();
   };
   useEffect(() => {
     if (account) {

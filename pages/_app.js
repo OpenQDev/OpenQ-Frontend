@@ -24,6 +24,8 @@ import {
   metaMaskHooks,
   gnosisSafe,
   gnosisSafeHooks,
+  uauth,
+  uauthHooks
 } from '../components/WalletConnect/connectors';
 import Script from 'next/script';
 
@@ -32,6 +34,7 @@ function OpenQ({ Component, pageProps }) {
     [metaMask, metaMaskHooks],
     [walletConnect, walletConnectHooks],
     [gnosisSafe, gnosisSafeHooks],
+    [uauth, uauthHooks],
   ];
 
   const [user, setUser] = useState();
