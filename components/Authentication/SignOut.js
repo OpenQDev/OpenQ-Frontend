@@ -20,7 +20,7 @@ const SignOut = ({ propicUrl, styles, hidePropPic }) => {
           type: 'UPDATE_IS_AUTHENTICATED',
           payload: res.data.isAuthenticated,
         });
-        dispatch({ payload: {}, type: 'UPDATE_ACCOUNTDATA' });
+        dispatch({ payload: {}, type: 'UPDATE_ACCOUNT_DATA' });
       })
       .catch((error) => {
         console.error(error);

@@ -9,7 +9,6 @@ import SetTierValues from '../../MintBounty/MintBountyModal/AddContestParams/Set
 import AdminModal from '../AdminModal/index.js';
 import TokenContext from '../../TokenSelection/TokenStore/TokenContext';
 import { ethers } from 'ethers';
-import { getBountyTypeName } from '../../../services/utils/lib';
 
 const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   // Context
@@ -19,7 +18,6 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   const [tokenState] = useContext(TokenContext);
   const { token } = tokenState;
   const [showTokenSearch, setShowTokenSearch] = useState();
-  const bountyTypeName = getBountyTypeName(bounty.bountyType);
 
   const [, tokenDispatch] = useContext(TokenContext);
   const [initialVolumes, setInitialVolumes] = useState([]);
@@ -74,7 +72,7 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
     symbol: 'MATIC',
     decimals: 18,
     chainId: 80001,
-    path: 'https://wallet-asset.matic.network/img/tokens/matic.svg',
+    path: '/crypto-logos/MATIC.svg',
   };
 
   // State
@@ -96,10 +94,7 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
   const [tier, setTier] = useState(bounty.payoutSchedule?.length);
   const [tierArr, setTierArr] = useState(initialTierArr);
 
-  const [sum, setSum] = useState(0);
-  const [enableContest, setEnableContest] = useState(false);
   const [isLoading, setIsLoading] = useState();
-  const tierConditions = sum == 100 || bounty.bountyType === '3';
 
   // handle change in Funding Goal
 
@@ -130,16 +125,6 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
     setFinalTierVolumes(newFinalTierVolumes);
   }
 
-  // useEffect
-
-  useEffect(() => {
-    if (!tierConditions) {
-      setEnableContest(false);
-    } else {
-      setEnableContest(true);
-    }
-  }, [tier, sum]);
-
   // trigger smart contracts
 
   async function setPayoutSchedule() {
@@ -148,9 +133,6 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
       setIsLoading(true);
 
       let transaction;
-      if (bounty.bountyType === '2') {
-        transaction = await openQClient.setPayoutSchedule(library, bounty.bountyId, finalTierVolumes);
-      }
 
       if (bounty.bountyType === '3') {
         transaction = await openQClient.setPayoutScheduleFixed(library, bounty.bountyId, finalTierVolumes, token);
@@ -174,11 +156,12 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
         title,
       });
     }
+    setIsLoading(false);
   }
 
   return (
     <>
-      {(bounty.bountyType === '2' || bounty.bountyType === '3') && (
+      {bounty.bountyType === '3' && (
         <>
           <div className=' flex flex-col gap-4'>
             <div className=' w-11/12 text-base flex flex-col gap-2'>
@@ -208,39 +191,33 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
               </div>
             </div>
 
-            {bounty.bountyType === '3' && (
-              <div className='flex flex-col w-11/12 items-start py-2 gap-2 text-base pb-4'>
+            <div className='flex flex-col w-11/12 items-start py-2 gap-2 text-base pb-4'>
+              <div className='flex items-center gap-2'>
                 <div className='flex items-center gap-2'>
-                  <div className='flex items-center gap-2'>
-                    Which token?
-                    <ToolTipNew mobileX={10} toolTipText={'Fixed contests can only be funded with one token.'}>
-                      <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>
-                        ?
-                      </div>
-                    </ToolTipNew>
-                  </div>
-                </div>
-                <div className=' pl-4'>
-                  <TokenSearch
-                    setShowTokenSearch={setShowTokenSearch}
-                    showTokenSearch={showTokenSearch}
-                    alone={true}
-                    bounty={bounty}
-                  />
+                  Which token?
+                  <ToolTipNew mobileX={10} toolTipText={'Fixed contests can only be funded with one token.'}>
+                    <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>
+                      ?
+                    </div>
+                  </ToolTipNew>
                 </div>
               </div>
-            )}
-            <div>{bounty.bountyType ? 'Volumes:' : 'Percentage'}</div>
+              <div className=' pl-4'>
+                <TokenSearch
+                  setShowTokenSearch={setShowTokenSearch}
+                  showTokenSearch={showTokenSearch}
+                  alone={true}
+                  bounty={bounty}
+                />
+              </div>
+            </div>
+
+            <div>Volumes:</div>
             <SetTierValues
-              category={bountyTypeName}
-              sum={sum}
               initialVolumes={initialVolumes}
               finalTierVolumes={finalTierVolumes}
               setFinalTierVolumes={setFinalTierVolumes}
-              setSum={setSum}
-              currentSum={sum}
               tierArr={tierArr}
-              setEnableContest={setEnableContest}
               adminPage={true}
             />
           </div>
@@ -251,21 +228,16 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
             tooltipAction={'set a new payout schedule.'}
           />
           {isOnCorrectNetwork && account && (
-            <ToolTipNew
-              hideToolTip={enableContest || isLoading}
-              toolTipText={!enableContest && 'Please make sure the sum of tier percentages adds up to 100.'}
-            >
-              <div className='px-4'>
-                <button
-                  className={`w-full btn-default ${enableContest ? 'cursor-pointer' : 'cursor-not-allowed'}`}
-                  type='button'
-                  onClick={setPayoutSchedule}
-                  disabled={!enableContest}
-                >
-                  Set New Payout Schedule
-                </button>
-              </div>
-            </ToolTipNew>
+            <div className='px-4'>
+              <button
+                className={`w-full btn-default cursor-pointer`}
+                type='button'
+                onClick={setPayoutSchedule}
+                disabled={isLoading}
+              >
+                Set New Payout Schedule
+              </button>
+            </div>
           )}
           <AdminModal tokenAddress={token.address} setModal={setModal} bounty={bounty} modal={modal} />
         </>

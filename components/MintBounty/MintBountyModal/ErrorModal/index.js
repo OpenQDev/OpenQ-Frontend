@@ -6,7 +6,7 @@ const ErrorModal = ({ setShowErrorModal, error }) => {
   const { title, message } = error;
 
   const updateModal = () => {
-    setShowErrorModal(false);
+    setShowErrorModal();
   };
 
   const btn = (

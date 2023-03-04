@@ -64,6 +64,7 @@ describe('ApproveFundModal', () => {
 
     // ASSERT
     expect(screen.getByText(/Confirm/i)).toBeInTheDocument();
+    await user.click(await screen.findByLabelText(/terms/i));
     await user.click(screen.getByRole('button', { name: 'Fund' }));
     expect(fundBounty).toHaveBeenCalled();
 

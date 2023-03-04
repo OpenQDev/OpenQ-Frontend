@@ -1,12 +1,12 @@
 // Third party
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import Image from 'next/image';
-import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
+import Link from 'next/link';
+import { PersonIcon, PeopleIcon } from '@primer/octicons-react';
 
 // Children
 import AddContestParams from '../AddContestParams';
 import MintBountyInputIssue from '../MintBountyInputIssue/MintBountyInputIssue';
-import AddSplitPriceParams from '../AddSplitPriceParams';
 import Budgeting from '../Budgeting';
 import ErrorModal from '../ErrorModal';
 import InvoiceableToggle from '../InvoiceRequired';
@@ -45,7 +45,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 
   const modal = useRef();
 
-  const closeModal = () => {
+  const closeMintModal = () => {
     setIssue();
     setError();
     modalVisibility(false);
@@ -53,6 +53,25 @@ const MintBountyModal = ({ modalVisibility }) => {
     const dispatch = {
       type: 'SET_LOADING',
       payload: false,
+    };
+    mintDispatch(dispatch);
+  };
+
+  const closeErrorModal = () => {
+    setError();
+
+    const dispatch = {
+      type: 'SET_LOADING',
+      payload: false,
+    };
+    mintDispatch(dispatch);
+  };
+
+  const setAccepted = (e) => {
+    const accepted = e.target.checked;
+    const dispatch = {
+      type: 'SET_ACCEPTED',
+      payload: accepted,
     };
     mintDispatch(dispatch);
   };
@@ -84,7 +103,7 @@ const MintBountyModal = ({ modalVisibility }) => {
 
   const footerLeft = (
     <a
-      href={'https://github.com/OpenQDev/OpenQ-Contracts/blob/production/contracts/Bounty/Implementations/BountyV2.sol'}
+      href={'https://github.com/OpenQDev/OpenQ-Contracts/tree/production/contracts/Bounty/Implementations'}
       className='flex gap-2 underline'
       target='_blank'
       rel='noreferrer'
@@ -101,65 +120,71 @@ const MintBountyModal = ({ modalVisibility }) => {
   // Render
   return (
     <>
-      {error ? (
-        <ErrorModal setShowErrorModal={closeModal} error={error} />
-      ) : (
-        <ModalLarge
-          title={`Deploy ${getBountyTypeName(type)} Contract`}
-          footerLeft={footerLeft}
-          footerRight={btn}
-          setShowModal={modalVisibility}
-          resetState={closeModal}
-        >
-          <div className='h-full grid grid-cols-[150px_1fr] gap-4'>
-            <div className='pl-4 p-2 text-muted border-r border-gray-700'>
-              <div className='pb-2'>Contract Type</div>
-              <SubMenu
-                items={[
-                  { name: 'Fixed Price', Svg: PersonIcon },
-                  { name: 'Split Price', Svg: PersonAddIcon },
-                  { name: 'Hackathon', Svg: PeopleIcon },
-                ]}
-                internalMenu={getBountyTypeName(type)}
-                updatePage={handleSetCategory}
-                styles={'justify-center'}
-                vertical={true}
-              />
-            </div>
-            <div className='overflow-y-auto px-2'>
-              <h3 className='text-xl pt-2'>
-                {type == 1
-                  ? 'Pay out a fixed amount to any contributors who submit work to this bounty, as many times as you like'
-                  : `Create a ${getBountyTypeName(type)} Contract to send funds to any GitHub issue`}
-              </h3>
-              <MintBountyInputIssue />
-              {type === 3 && (
-                <>
-                  <InvoiceableToggle />
-                  <KycRequiredToggle />
-                  <W8RequiredToggle />
-                </>
-              )}
-              <TokenProvider>
-                <Budgeting />{' '}
-              </TokenProvider>
+      {error && (
+        <>
+          <ErrorModal setShowErrorModal={closeErrorModal} error={error} />
+          <div className='bg-overlay z-[52] fixed inset-0'></div>
+        </>
+      )}
+      <ModalLarge
+        title={`Deploy ${getBountyTypeName(type)} Contract`}
+        footerLeft={footerLeft}
+        footerRight={btn}
+        setShowModal={modalVisibility}
+        resetState={closeMintModal}
+        error={error}
+      >
+        <div className='h-full grid grid-cols-[150px_1fr] gap-4'>
+          <div className='pl-4 p-2 text-muted border-r border-gray-700'>
+            <div className='pb-2'>Contract Type</div>
+            <SubMenu
+              items={[
+                { name: 'Fixed Price', Svg: PersonIcon },
+                { name: 'Hackathon', Svg: PeopleIcon },
+              ]}
+              internalMenu={getBountyTypeName(type)}
+              updatePage={handleSetCategory}
+              styles={'justify-center'}
+              vertical={true}
+            />
+          </div>
+          <div className='overflow-y-auto px-2'>
+            <h3 className='text-xl pt-2'>
+              Create a {getBountyTypeName(type)} Contract to send funds to any GitHub issue
+            </h3>
+            <MintBountyInputIssue />
+            {type === 3 && (
+              <>
+                <InvoiceableToggle />
+                <KycRequiredToggle />
+                <W8RequiredToggle />
+              </>
+            )}
+            <TokenProvider>
+              <Budgeting />{' '}
+            </TokenProvider>
 
-              {type === 1 ? (
-                <>
-                  <TokenProvider>
-                    <AddSplitPriceParams />
-                  </TokenProvider>
-                </>
-              ) : type === 2 || type === 3 ? (
-                <>
-                  <AddContestParams />
-                </>
-              ) : null}
-              <AddAlternativeMetadata />
+            {type === 2 || type === 3 ? (
+              <>
+                <AddContestParams />
+              </>
+            ) : null}
+            <AddAlternativeMetadata />
+            <div className='flex items-center gap-2 pb-4 font-semibold'>
+              I accept the{''}
+              <Link className='underline' href={'/terms-of-use'}>
+                terms of use
+              </Link>
+              <input
+                aria-label='accept terms of service'
+                type='checkbox'
+                className='checkbox'
+                onChange={setAccepted}
+              ></input>
             </div>
           </div>
-        </ModalLarge>
-      )}
+        </div>
+      </ModalLarge>
     </>
   );
 };

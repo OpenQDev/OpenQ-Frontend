@@ -357,10 +357,23 @@
     },
     {
       "inputs": [],
+      "name": "openQ",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "openQTokenWhitelist",
       "outputs": [
         {
-          "internalType": "contract OpenQTokenWhitelist",
+          "internalType": "address",
           "name": "",
           "type": "address"
         }

@@ -1,10 +1,5 @@
 const StoreReducer = (state, action) => {
   switch (action.type) {
-    case 'UPDATE_ACCOUNTDATA':
-      return {
-        ...state,
-        accountData: action.payload || {},
-      };
     case 'BOUNTY_MINTED':
       return {
         ...state,
@@ -29,7 +24,7 @@ const StoreReducer = (state, action) => {
     case 'UPDATE_ACCOUNT_DATA': {
       return {
         ...state,
-        accountData: action.payload,
+        accountData: { ...state.accountData, ...action.payload },
       };
     }
     default:

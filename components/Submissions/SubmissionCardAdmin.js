@@ -1,5 +1,5 @@
 import React from 'react';
-import WinnerSelect from './WinnerSelect';
+import WinnerSelectAmounts from './WinnerSelectAmounts';
 
 const SubmissionCardAdmin = ({ bounty, pr, refreshBounty }) => {
   const claimedArr = bounty.claims?.map((claim) => parseInt(claim.tier));
@@ -11,55 +11,22 @@ const SubmissionCardAdmin = ({ bounty, pr, refreshBounty }) => {
       payout,
     };
   });
-  const firstPrize = payoutAndIndex[0];
-  const evenPrizes = payoutAndIndex
-    .filter((elem, index) => {
-      return index % 2 === 0 && index !== 0;
-    })
-    .reverse();
-
-  const oddPrizes = payoutAndIndex.filter((elem, index) => {
-    return index % 2 !== 0;
-  });
 
   const linkedPrize = bounty?.claims?.filter((claim) => claim.claimantAsset === pr.url)[0];
   return (
     <div className='border-web-gray border-t px-2'>
       <h4 className='py-4 text-center w-full font-medium text-xl'>Select Winner</h4>
-      <div className='flex w-full relative h-32'>
+      <div className='flex flex-col w-full relative h-48 overflow-y-auto'>
         <>
-          {evenPrizes.map((payout, index) => {
+          {payoutAndIndex.map((payout, index) => {
             return (
-              <WinnerSelect
+              <WinnerSelectAmounts
                 pr={pr}
                 disabled={linkedPrize}
                 bounty={bounty}
-                numberOfPayouts={payoutAndIndex.length}
                 prize={payout}
                 key={index}
                 refreshBounty={refreshBounty}
-              />
-            );
-          })}
-          <WinnerSelect
-            pr={pr}
-            disabled={linkedPrize}
-            refreshBounty={refreshBounty}
-            bounty={bounty}
-            numberOfPayouts={payoutAndIndex.length}
-            prize={firstPrize}
-            key={firstPrize.index}
-          />
-          {oddPrizes.map((payout, index) => {
-            return (
-              <WinnerSelect
-                refreshBounty={refreshBounty}
-                pr={pr}
-                disabled={linkedPrize}
-                bounty={bounty}
-                numberOfPayouts={payoutAndIndex.length}
-                prize={payout}
-                key={index}
               />
             );
           })}

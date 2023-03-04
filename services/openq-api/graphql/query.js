@@ -190,6 +190,7 @@ export const GET_PRIVATE_USER = gql`
       vatNumber
       vatRate
       memo
+      languages
 
       watchedBounties(limit: 100, types: $types, category: $category) {
         nodes {
@@ -420,6 +421,11 @@ export const UPDATE_USER = gql`
       city
       streetAddress
       country
+      otherRoles
+      interests
+      languages
+      frameworks
+      devRoles
       province
       discord
       github
@@ -441,9 +447,6 @@ export const UPDATE_USER = gql`
 export const WATCH_BOUNTY = gql`
   mutation WatchBounty($contractAddress: String!, $userId: String!, $github: String, $email: String) {
     watchBounty(contractAddress: $contractAddress, userId: $userId, github: $github, email: $email) {
-      watchingUsers {
-        id
-      }
       watchingCount
     }
   }
@@ -454,9 +457,6 @@ export const UNWATCH_BOUNTY = gql`
     unwatchBounty(contractAddress: $contractAddress, userId: $userId, github: $github, email: $email) {
       address
       watchingCount
-      watchingUsers {
-        id
-      }
     }
   }
 `;

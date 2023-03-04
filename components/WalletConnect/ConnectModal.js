@@ -1,20 +1,33 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { metaMask, walletConnect } from './connectors';
 import useWeb3 from '../../hooks/useWeb3';
 import Image from 'next/image';
 import ModalLarge from '../Utils/ModalLarge';
+import StoreContext from '../../store/Store/StoreContext';
 
 const ConnectModal = ({ closeModal, setShowModal }) => {
   const { account } = useWeb3();
+  const [appState] = useContext(StoreContext);
+  const { accountData } = appState;
 
   const handleMetaMask = async () => {
-    await metaMask.activate();
-    closeModal();
+    try {
+      if (!metaMask) return;
+      await metaMask.activate();
+      closeModal();
+    } catch (err) {
+      appState.logger.info(err, accountData?.id, 'ConnectModal.js');
+    }
   };
 
   const handleWalletConnect = async () => {
-    await walletConnect.activate();
-    closeModal();
+    try {
+      if (!walletConnect) return;
+      await walletConnect.activate();
+      closeModal();
+    } catch (err) {
+      appState.logger.info(err, accountData?.id, 'ConnectModal.js');
+    }
   };
   useEffect(() => {
     if (account) {

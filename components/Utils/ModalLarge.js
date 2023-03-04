@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useContext } from 'react';
 import Cross from '../svg/cross';
 import StoreContext from '../../store/Store/StoreContext';
 
-const ModalLarge = ({ title, children, footerLeft, footerRight, setShowModal, resetState, isWalletConnect }) => {
+const ModalLarge = ({ title, children, footerLeft, footerRight, setShowModal, resetState, isWalletConnect, error }) => {
   const modal = useRef();
   const [appState] = useContext(StoreContext);
   const updateModal = () => {
@@ -13,7 +13,7 @@ const ModalLarge = ({ title, children, footerLeft, footerRight, setShowModal, re
   useEffect(() => {
     // Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
     function handleClickOutside(event) {
-      if (modal.current && !modal?.current.contains(event.target) && !appState.walletConnectModal) {
+      if (modal.current && !modal?.current.contains(event.target) && !appState.walletConnectModal && !error) {
         setShowModal(false);
         updateModal();
       }
@@ -26,7 +26,7 @@ const ModalLarge = ({ title, children, footerLeft, footerRight, setShowModal, re
       // Unbind the event listener on clean up
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [modal, appState.walletConnectModal]);
+  }, [error, modal, appState.walletConnectModal]);
 
   return (
     <div>

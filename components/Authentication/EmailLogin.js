@@ -36,7 +36,7 @@ const EmailLogin = () => {
         withCredentials: true,
       })
       .then(() => {
-        dispatch({ payload: {}, type: 'UPDATE_ACCOUNTDATA' });
+        dispatch({ payload: {}, type: 'UPDATE_ACCOUNT_DATA' });
         appState.logger.info({ message: 'Sign out success. Cookies cleared.' }, accountData.id, 'emailLogin1');
       })
       .catch((error) => {

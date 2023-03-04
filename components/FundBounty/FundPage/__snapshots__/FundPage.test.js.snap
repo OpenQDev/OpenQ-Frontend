@@ -23,10 +23,10 @@ exports[`FundPage Split Price Bounties should lock token choice to deposit token
             class="flex space-x-4 w-full undefined"
           >
             <div
-              class="flex w-full flex-row justify-between items-center px-4 input-field-big"
+              class="w-full flex w-full flex-row justify-between items-center px-4 input-field-big"
             >
               <div
-                class=" bg-dark-mode"
+                class="w-full bg-dark-mode"
               >
                 <input
                   aria-label="amount"
@@ -57,7 +57,7 @@ exports[`FundPage Split Price Bounties should lock token choice to deposit token
                     decoding="async"
                     height="40"
                     loading="lazy"
-                    src="https://wallet-asset.matic.network/img/tokens/link.svg"
+                    src="/crypto-logos/LINK.svg"
                     style="color: transparent;"
                     width="40"
                   />
@@ -190,7 +190,7 @@ exports[`FundPage Split Price Bounties should lock token choice to deposit token
       decoding="async"
       height="40"
       loading="lazy"
-      src="https://wallet-asset.matic.network/img/tokens/link.svg"
+      src="/crypto-logos/LINK.svg"
       style="color: transparent;"
       width="40"
     />

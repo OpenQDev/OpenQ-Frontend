@@ -115,7 +115,7 @@ pre {
 		@apply bg-[#686d74] border border-[#686d74] rounded-sm px-3 py-0.5 text-white
 	}
 	.btn-primary{
-		@apply bg-[#238636] border border-[#238636] rounded-sm px-3 py-1 hover:bg-[#2ea043] text-white
+		@apply bg-green border border-green rounded-sm px-3 py-1 hover:bg-[#2ea043] text-white
 	}
 	.btn-default{
 		@apply rounded-sm px-3 py-1 bg-[#21262d] hover:bg-[#30363d] border border-gray-700 hover:border-[#8b949e]

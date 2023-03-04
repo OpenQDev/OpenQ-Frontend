@@ -8,8 +8,10 @@ import StoreContext from '../../../store/Store/StoreContext';
 import ToolTipNew from '../../Utils/ToolTipNew';
 import Username from '../../User/OverviewTab/Username/index';
 import LanguagesAndFrameworks from './LanguagesAndFrameworks';
+import { useRouter } from 'next/router';
 
 const FirstSignupModal = ({ closeModal, setShowModal, user }) => {
+  const router = useRouter();
   const [authState] = useContext(AuthContext);
   const [appState] = useContext(StoreContext);
   const [subscribe, setSubscribe] = useState(false);
@@ -38,7 +40,6 @@ const FirstSignupModal = ({ closeModal, setShowModal, user }) => {
   }, [subscribe, validEmail]);
 
   async function submit() {
-    closeModal();
     if (subscribe && validEmail) {
       try {
         const formData = new FormData();
@@ -53,6 +54,7 @@ const FirstSignupModal = ({ closeModal, setShowModal, user }) => {
         appState.logger.error(err, appState.accountData.id, 'FirstSignupModal.js1');
       }
     }
+    router.reload(`/user/${appState.accountData.id}`);
   }
 
   function handleChange(e) {

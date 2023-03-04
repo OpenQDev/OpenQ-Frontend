@@ -69,7 +69,7 @@ function EmailAuth() {
     });
 
     const accountDispatch = {
-      type: 'UPDATE_ACCOUNTDATA',
+      type: 'UPDATE_ACCOUNT_DATA',
       payload: { ...user, id },
     };
     appDispatch(accountDispatch);

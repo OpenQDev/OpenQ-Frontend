@@ -13,9 +13,7 @@ import ApproveFundModal from '../ApproveFundModal';
 import OrgDetails from '../../User/InvoicingDetailsTab/OrgDetails';
 import { RESTING, CONFIRM, APPROVING, TRANSFERRING, APPROVE } from '../FundStore/ApproveFundState';
 import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
-import SelectableNFT from '../../TokenSelection/SelectableNFT';
 import NFTFundModal from '../../TokenSelection/NFTFundModal';
-import Cross from '../../svg/cross';
 import DepositPeriod from '../../TokenSelection/DepositPeriod';
 import ConnectButton from '../../WalletConnect/ConnectButton';
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
@@ -27,7 +25,7 @@ import { useRouter } from 'next/router';
 
 const FundPage = () => {
   const [fundState, fundDispatch] = useContext(FundContext);
-  const { pickedNft, allowance, depositPeriodDays, nftTier, bounty, approveTransferState, setInternalMenu } = fundState;
+  const { allowance, depositPeriodDays, bounty, approveTransferState, setInternalMenu } = fundState;
   const web3 = useWeb3();
   const query = useRouter().query;
   const minter = bounty.issuer.id === web3?.account?.toLowerCase();
@@ -37,7 +35,7 @@ const FundPage = () => {
   const [tokenSelectState] = useContext(TokenContext);
   const { token } = tokenSelectState;
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
-  const [setNftTier] = useState('');
+
   const [appState] = useContext(StoreContext);
   const fundBountyMethod = useFundBountyMethod();
   const { accountData, utils } = appState;
@@ -103,22 +101,6 @@ const FundPage = () => {
   const { openQClient } = appState;
   const { account, library } = web3;
 
-  const clearNft = () => {
-    const dispatch = {
-      type: 'SET_NFT',
-    };
-    fundDispatch(dispatch);
-  };
-
-  // State
-  const isContest = bounty.bountyType === '2' || bounty.bountyType === '3';
-
-  const onNftTierChange = (e) => {
-    const targetedTier = parseInt(e.target.value);
-    if ((targetedTier > 0 && targetedTier <= bounty.payoutSchedule.length) || e.target.value === '') {
-      setNftTier(e.target.value);
-    }
-  };
   const disabledFundButton =
     approveTransferState == CONFIRM ||
     approveTransferState == APPROVING ||
@@ -126,8 +108,7 @@ const FundPage = () => {
     bounty.status == '1' ||
     parseFloat(volume) <= 0.00000001 ||
     parseFloat(volume) > 1000000 ||
-    (volume == '' && !pickedNft) ||
-    (isContest && nftTier === '' && pickedNft) ||
+    volume == '' ||
     !(parseInt(depositPeriodDays) > 0) ||
     !hasInvoicingInfo;
 
@@ -187,53 +168,23 @@ const FundPage = () => {
                 Escrow Funds in {getBountyTypeName(bounty.bountyType)} Contract
               </div>
               <div className='flex flex-col space-y-5 w-5/6 pt-2'>
-                {!pickedNft ? (
-                  <div className='flex w-full gap-4'>
-                    <>
-                      <TokenFundBox
-                        onVolumeChange={onVolumeChange}
-                        token={token}
-                        volume={volume}
-                        bounty={bounty}
-                        mustChangePayoutFirst={mustChangePayoutFirst}
-                        setInternalMenu={setInternalMenu}
-                      />
-                      <NFTFundModal />
-                    </>
-                  </div>
-                ) : null}
+                <div className='flex w-full gap-4'>
+                  <>
+                    <TokenFundBox
+                      onVolumeChange={onVolumeChange}
+                      token={token}
+                      volume={volume}
+                      bounty={bounty}
+                      mustChangePayoutFirst={mustChangePayoutFirst}
+                      setInternalMenu={setInternalMenu}
+                    />
+                    <NFTFundModal />
+                  </>
+                </div>
                 <div className='flex gap-4'>
                   <div className='w-full'>
                     <DepositPeriod />
-                    {isContest && pickedNft && (
-                      <div className='flex w-full input-field-big mb-4'>
-                        <div className=' flex items-center gap-3 w-full text-primary bg-input-bg md:whitespace-nowrap'>
-                          <ToolTipNew
-                            relativePosition={'md:-left-12'}
-                            outerStyles={'-top-1'}
-                            groupStyles={''}
-                            innerStyles={'whitespace-normal md:w-96 sm:w-60 w-40  '}
-                            toolTipText={
-                              'Which tier of this contest do you want this nft to be funded to. Elgible tiers are '
-                            }
-                          >
-                            <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary'>
-                              ?
-                            </div>
-                          </ToolTipNew>
-                          <span>Tier</span>
-                        </div>
-                        <div className={'flex px-4 font-bold bg-input-bg'}>
-                          <input
-                            className='text-primary text-right number outline-none bg-input-bg w-full flex-1'
-                            autoComplete='off'
-                            value={nftTier}
-                            id='deposit-period'
-                            onChange={onNftTierChange}
-                          />
-                        </div>
-                      </div>
-                    )}
+
                     <ConnectButton needsGithub={false} nav={false} tooltipAction={'fund this contract!'} />
                     {account && isOnCorrectNetwork && (
                       <ToolTipNew
@@ -245,8 +196,6 @@ const FundPage = () => {
                         toolTipText={
                           !(depositPeriodDays > 0)
                             ? "Please indicate how many days you'd like to fund your contract for."
-                            : isContest && nftTier === '' && pickedNft
-                            ? 'Please select an eligible tier to send the nft to.'
                             : !hasInvoicingInfo
                             ? 'This bounty requires invoicing information.'
                             : "Please indicate the volume you'd like to fund with. Must be between 0.0000001 and 1,000,000."
@@ -254,7 +203,9 @@ const FundPage = () => {
                       >
                         <button
                           className={`text-center px-8 w-min items-center py-0.5  ${
-                            disabledFundButton ? 'btn-default w-full cursor-not-allowed' : 'btn-primary cursor-pointer'
+                            disabledFundButton
+                              ? 'btn-default w-full cursor-not-allowed'
+                              : 'btn-primary bg-green cursor-pointer'
                           } py-1.5`}
                           disabled={disabledFundButton}
                           type='button'
@@ -265,17 +216,6 @@ const FundPage = () => {
                       </ToolTipNew>
                     )}
                   </div>
-                  {pickedNft && (
-                    <div className='w-60 relative -top-2 rounded-md '>
-                      <SelectableNFT nft={pickedNft} />
-                      <button
-                        onClick={clearNft}
-                        className='absolute top-3 right-3 bg-dark-mode hover:bg-black rounded-full p-1'
-                      >
-                        <Cross />
-                      </button>
-                    </div>
-                  )}
                 </div>
               </div>
 

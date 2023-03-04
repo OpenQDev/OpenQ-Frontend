@@ -52,7 +52,7 @@ function GitHubAuth() {
             if (isNewUser) {
               const { id, ...user } = await appState.openQPrismaClient.upsertUser({ github, username: login });
               const accountDispatch = {
-                type: 'UPDATE_ACCOUNTDATA',
+                type: 'UPDATE_ACCOUNT_DATA',
                 payload: { ...user, id },
               };
               const newUserDispatch = {

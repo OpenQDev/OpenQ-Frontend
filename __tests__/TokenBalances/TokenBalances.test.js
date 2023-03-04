@@ -20,21 +20,12 @@ const tokenBalances = [
 ];
 
 // Test cases for
-const test = (tokenBalances, tokenValues, singleCurrency) => {
-  it('should render the header and balances', async () => {
+const test = (tokenBalances, tokenValues) => {
+  it('should render balances', async () => {
     // ARRANGE
-    render(
-      <TokenBalances
-        tokenBalances={tokenBalances}
-        showOne={true}
-        singleCurrency={singleCurrency}
-        tokenValues={tokenValues}
-        header={'daww'}
-      />
-    );
+    render(<TokenBalances tokenBalances={tokenBalances} lean={true} singleCurrency={true} tokenValues={tokenValues} />);
 
     // ASSERT
-    expect(await screen.findByText('daww')).toBeInTheDocument();
     expect(await screen.findByText(/12.0/)).toBeInTheDocument();
     expect(await screen.findByText(/8.04/)).toBeInTheDocument();
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];

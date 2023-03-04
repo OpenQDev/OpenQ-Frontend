@@ -5,7 +5,6 @@ import { ethers } from 'ethers';
 import BountyClosed from '../BountyClosed';
 import SetBudgetAdminPage from './SetBudgetAdminPage';
 import SetTierAdminPage from './SetTierAdminPage';
-import SetPayoutAdminPage from './SetPayoutAdminPage/index.js';
 import BountyWrapper from '../Bounty/BountyWrapper';
 import TokenProvider from '../TokenSelection/TokenStore/TokenProvider';
 
@@ -16,11 +15,6 @@ const AdminPage = ({ bounty, refreshBounty }) => {
   const [showButton, setShowButton] = useState(
     ethers.utils.getAddress(bounty.issuer.id) == account && bounty.status == '0'
   );
-
-  // funding goal volume and token
-  // payout volume and token
-
-  // contest state
   useEffect(() => {
     setShowButton(ethers.utils.getAddress(bounty.issuer.id) == account && bounty.status == '0');
   }, [bounty]);
@@ -38,10 +32,6 @@ const AdminPage = ({ bounty, refreshBounty }) => {
 
             <TokenProvider>
               <SetTierAdminPage refreshBounty={refreshBounty} bounty={bounty} />
-            </TokenProvider>
-
-            <TokenProvider>
-              <SetPayoutAdminPage setShowButton={setShowButton} refreshBounty={refreshBounty} bounty={bounty} />{' '}
             </TokenProvider>
           </div>
         </BountyWrapper>

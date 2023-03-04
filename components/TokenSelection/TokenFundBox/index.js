@@ -30,8 +30,12 @@ const TokenFundBox = ({
 
   return (
     <div className={`flex space-x-4 w-full ${styles}`}>
-      <div className={`flex ${small ? 'w-52' : 'w-full'} flex-row justify-between items-center px-4 input-field-big`}>
-        <div className={' bg-dark-mode'}>
+      <div
+        className={`w-full flex ${
+          small ? 'w-52' : 'w-full'
+        } flex-row justify-between items-center px-4 input-field-big`}
+      >
+        <div className={'w-full bg-dark-mode'}>
           <input
             aria-label={label || 'amount'}
             className='font-semibold number outline-none bg-input-bg text-primary w-full'

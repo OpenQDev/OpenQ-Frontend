@@ -337,7 +337,7 @@
       "name": "kyc",
       "outputs": [
         {
-          "internalType": "contract IKycValidity",
+          "internalType": "address",
           "name": "",
           "type": "address"
         }

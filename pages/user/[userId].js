@@ -13,13 +13,15 @@ import Logger from '../../services/logger/Logger';
 import FirstSignupModal from '../../components/Authentication/FirstSignupModal';
 import AuthContext from '../../store/AuthStore/AuthContext';
 
-const userId = ({ user, organizations, renderError, tab }) => {
+const userId = ({ initialUser, organizations, renderError, tab }) => {
   const [authState, dispatch] = useContext(AuthContext);
   const { githubId, email } = authState;
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
   const loggedId = accountData?.id;
-  const isOwner = loggedId == user?.id;
+
+  const isOwner = loggedId == initialUser?.id;
+  const user = isOwner ? { ...initialUser, accountData } : initialUser;
   const [starredOrganizations, setStarredOrganizations] = useState([]);
   const [watchedBounties, setWatchedBounties] = useState([]);
   const [firstSignupModal, setFirstSignupModal] = useState(authState.isNewUser);
@@ -207,7 +209,7 @@ export const getServerSideProps = async (context) => {
   };
 
   return {
-    props: { user, organizations, renderError, starredOrganizations, tab: tab || null },
+    props: { initialUser: user, organizations, renderError, starredOrganizations, tab: tab || null },
   };
 };
 

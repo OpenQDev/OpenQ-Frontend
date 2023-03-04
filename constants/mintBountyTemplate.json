@@ -7,7 +7,7 @@
     "description": "",
     "txBuilderVersion": "1.13.2",
     "createdFromSafeAddress": "0xBCb0a2D4e644F294849D7792f2A077F9349b155F",
-    "createdFromOwnerAddress": "",
+    "createdFromOwnerAddress": "0xBCb0a2D4e644F294849D7792f2A077F9349b155F",
     "checksum": "0x8410cef23d8dd3ef48704b50546703ff357836de693728b16a62ae4b7f6869ba"
   },
   "transactions": [
