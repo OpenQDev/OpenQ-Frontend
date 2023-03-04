@@ -27,7 +27,7 @@ describe('sample', () => {
     const updateToUsdc = {
       payload: {
         name: 'Dummy ERC20',
-        address: '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063',
+        address: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
         symbol: 'DERC20',
         decimals: 18,
         chainId: 80001,
