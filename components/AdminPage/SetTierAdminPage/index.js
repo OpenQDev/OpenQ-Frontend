@@ -156,6 +156,7 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
         title,
       });
     }
+    setIsLoading(false);
   }
 
   return (
