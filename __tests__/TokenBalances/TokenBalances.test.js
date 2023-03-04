@@ -23,7 +23,7 @@ const tokenBalances = [
 const test = (tokenBalances, tokenValues) => {
   it('should render balances', async () => {
     // ARRANGE
-    render(<TokenBalances tokenBalances={tokenBalances} singleCurrency={true} tokenValues={tokenValues} />);
+    render(<TokenBalances tokenBalances={tokenBalances} lean={true} singleCurrency={true} tokenValues={tokenValues} />);
 
     // ASSERT
     expect(await screen.findByText(/12.0/)).toBeInTheDocument();

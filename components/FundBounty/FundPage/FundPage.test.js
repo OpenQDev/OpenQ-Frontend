@@ -220,6 +220,7 @@ describe('FundPage', () => {
       const button = screen.getByRole('button', { name: /Fund/i });
       await user.click(button);
       const value = await screen.findByText(/.3 link/i);
+      await user.click(screen.getByLabelText(/terms/i));
 
       // ASSERT
       expect(value);
@@ -287,6 +288,7 @@ describe('FundPage', () => {
 
       // ASSERT
       expect(await screen.findByText(/0.3 LINK/));
+      await user.click(await screen.findByLabelText(/terms/i));
       await user.click(await screen.findByRole('button', { name: /Approv/i }));
       const modalContent = await screen.findByText(/try again./i);
       expect(modalContent).toBeInTheDocument();
