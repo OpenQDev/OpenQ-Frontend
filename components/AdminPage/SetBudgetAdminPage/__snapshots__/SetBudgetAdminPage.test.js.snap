@@ -15,10 +15,10 @@ exports[`SetBudgetAdminPage Split Price Contracts should allow user to update bu
       class="flex space-x-4 w-full undefined"
     >
       <div
-        class="flex w-full flex-row justify-between items-center px-4 input-field-big"
+        class="w-full flex w-full flex-row justify-between items-center px-4 input-field-big"
       >
         <div
-          class=" bg-dark-mode"
+          class="w-full bg-dark-mode"
         >
           <input
             aria-label="amount"
@@ -137,10 +137,10 @@ exports[`SetBudgetAdminPage Split Price Contracts should set payout token per de
       class="flex space-x-4 w-full undefined"
     >
       <div
-        class="flex w-full flex-row justify-between items-center px-4 input-field-big"
+        class="w-full flex w-full flex-row justify-between items-center px-4 input-field-big"
       >
         <div
-          class=" bg-dark-mode"
+          class="w-full bg-dark-mode"
         >
           <input
             aria-label="amount"
