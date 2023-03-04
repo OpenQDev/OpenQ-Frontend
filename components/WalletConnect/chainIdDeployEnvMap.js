@@ -19,7 +19,7 @@ const chainIdDeployEnvMap = {
     ],
   },
   docker: {
-    chainId: 1337,
+    chainId: 31337,
     networkName: 'Localhost:8545',
     params: [
       {

@@ -35,7 +35,7 @@ const zeroAddressMetadata = {
   name: 'Matic',
   symbol: 'MATIC',
   chainId: 80001,
-  path: 'https://wallet-asset.matic.network/img/tokens/matic.svg',
+  path: '/crypto-logos/MATIC.svg',
 };
 InitialState.openQClient.shouldSleep = 200;
 const test = (issue, type) => {

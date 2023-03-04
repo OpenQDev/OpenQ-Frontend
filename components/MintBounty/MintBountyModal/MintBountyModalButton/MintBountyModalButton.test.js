@@ -24,7 +24,7 @@ const zeroAddressMetadata = {
   symbol: 'ZERO',
   decimals: 18,
   chainId: 80001,
-  path: 'https://wallet-asset.matic.network/img/tokens/matic.svg',
+  path: '/crypto-logos/MATIC.svg',
 };
 const issues = [
   {
