@@ -1,8 +1,17 @@
 import { render } from '../../../test-utils';
 import React from 'react';
 import FirstSignupModal from '.';
+import nextRouter from 'next/router';
 
 describe('FirstSignupModal', () => {
+  nextRouter.useRouter = jest.fn();
+  nextRouter.useRouter.mockImplementation(() => ({
+    query: { type: null },
+
+    prefetch: jest.fn(() => {
+      return { catch: jest.fn };
+    }),
+  }));
   const user = {
     id: '63c58870f2943bf006029305',
     renderError: '',

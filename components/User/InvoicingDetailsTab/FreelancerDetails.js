@@ -9,7 +9,7 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
   const [appState, dispatch] = useContext(StoreContext);
   const { openQPrismaClient } = appState;
   const { accountData } = appState;
-  const [formState, setFormState] = useState({ text: 'Update', className: 'btn-primary' });
+  const [formState, setFormState] = useState({ text: 'Update', className: 'btn-primary bg-green' });
   const [showPreview, setShowPreview] = useState(false);
   const [emailInvalid, setEmailInvalid] = useState(false);
   // const formValuesSocial = [{ value: 'twitter' }, { value: 'discord' }];
@@ -23,7 +23,7 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
   // TODO - add encryption to local data
 
   const formValuesInvoicing = emailOnly
-    ? [{ value: 'invoicingEmail', displayValue: 'Invoicing Email', required: true }]
+    ? [{ value: 'invoicingEmail', displayValue: 'Email', required: true }]
     : [
         {
           value: 'company',
@@ -105,15 +105,15 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
             },
           };
           dispatch(accountDispatch);
-          setFormState({ text: 'Updated', className: 'btn-primary', disabled: false });
+          setFormState({ text: 'Updated', className: 'btn-primary bg-green', disabled: false });
           setTimeout(() => {
-            setFormState({ text: 'Update', className: 'btn-primary', disabled: false });
+            setFormState({ text: 'Update', className: 'btn-primary bg-green', disabled: false });
           }, 5000);
           resolve(true);
         }
       } catch (err) {
         if (err.message === 'Please enter a valid email') {
-          setFormState({ text: 'Update', className: 'btn-primary', disabled: false });
+          setFormState({ text: 'Update', className: 'btn-primary bg-green', disabled: false });
         }
       }
     });
@@ -125,7 +125,7 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
         <>
           <div className='flex justify-between mt-12'>
             <h2 className='flex justify-between w-full text-2xl pb-4 font-semibold border-b border-gray-700'>
-              <div>{emailOnly ? 'Freelancer Email' : 'Freelancer Invoicing Information'}</div>
+              <div>{emailOnly ? 'Freelancer Email' : 'Freelancer Invoice Information'}</div>
               {!emailOnly && (
                 <button onClick={getPdf} className='btn-default text-xs py-0.75 my-0.75 h-7'>
                   {showPreview ? 'Edit' : 'Preview'} Invoice
@@ -133,6 +133,7 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
               )}
             </h2>
           </div>
+          {!emailOnly && <div className='note'>Not needed for EthDenver.</div>}
         </>
       )}
       {showPreview ? (
@@ -160,9 +161,8 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
                   )}
                   {emailOnly && (
                     <div className='note my-4'>
-                      This email will be publicly accessible and will be used by organizations to communicate with you.
-                      OpenQ will also use this email to copies of any documents you send to organizers via our
-                      interface.
+                      This email will be used by organizations to communicate with you. OpenQ will also send copies of
+                      any documents you send to organizers via our interface.
                     </div>
                   )}
                 </>

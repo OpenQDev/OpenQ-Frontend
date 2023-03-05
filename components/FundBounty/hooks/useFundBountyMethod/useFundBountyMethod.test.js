@@ -40,45 +40,6 @@ describe('useFundMethod', () => {
     });
   });
 
-  it('should approve and fund NFTS', async () => {
-    await waitFor(async () => {
-      const approveNftMock = jest.fn();
-      const fundNftMock = jest.fn();
-      const errorMock = jest.fn();
-      const approveNftCombined = () => {
-        approveNftMock();
-        return true;
-      };
-      const fundBountyCombined = () => {
-        fundNftMock();
-        return InitialState.openQClient.fundBountyWithNft();
-      };
-      const customInitialState = {
-        ...InitialState,
-        openQClient: {
-          ...InitialState.openQClient,
-          approveNFT: approveNftCombined,
-          handleError: errorMock,
-          fundBountyWithNft: fundBountyCombined,
-        },
-      };
-      const customFundState = {
-        ...InitialFundState,
-        approveTransferState: 'CONFIRM',
-        showApproveTransferModal: true,
-        volume: '3',
-        bounty: Constants.bounty,
-        pickedNft: Constants.nft,
-        token: { address: Constants.daiAddress, ...Constants.tokenMetadata },
-      };
-      const { result } = hookRender(() => useFundBountyMethod(), {}, customInitialState, {}, customFundState);
-      const fundMethodFunc = result.current;
-      await fundMethodFunc();
-      expect(approveNftMock).toHaveBeenCalled();
-      expect(fundNftMock).toHaveBeenCalled();
-    });
-  });
-
   it('should reject if missing address', async () => {
     await waitFor(async () => {
       const approveMock = jest.fn();

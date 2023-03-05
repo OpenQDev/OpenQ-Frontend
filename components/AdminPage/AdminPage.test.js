@@ -44,41 +44,16 @@ describe('AdminPage', () => {
     });
   });
 
-  it('should render split price contract settings', async () => {
-    const bounty = { ...Constants.bounty, status: '0', bountyType: '1' };
+  it('should render fixed contest contract settings', async () => {
+    const bounty = { ...Constants.bounty3, status: '0', bountyType: '3' };
     // ARRANGE
     render(<AdminPage bounty={bounty} />);
     // ACT
-    await waitFor(() => {
-      const heading = screen.getAllByText('Close Split Price Contract');
-      const subheading = screen.getByText(
-        'Once you close this split price contract, there is no going back. Please be certain.'
-      );
-      const payoutText = screen.getByText('Set Payout for Each Submitter');
-      const inputField = screen.getAllByPlaceholderText('0.0');
-      const selectCurrency = screen.getAllByText(/Matic/i);
-      const payoutBtn = screen.getByRole('button', { name: 'Set Payout' });
-      const closeBtn = screen.getByRole('button', { name: 'Close Split Price Contract' });
-      // ASSERT
-      expect(heading).toHaveLength(2);
-      expect(subheading).toBeInTheDocument();
-      expect(payoutText).toBeInTheDocument();
-      expect(inputField).toHaveLength(2);
-      expect(selectCurrency).toHaveLength(2);
-      expect(payoutBtn).toBeInTheDocument();
-      expect(closeBtn).toBeInTheDocument();
-    });
-  });
 
-  it('should render contest contract settings', async () => {
-    const bounty = { ...Constants.bounty2, status: '0', bountyType: '2' };
-    // ARRANGE
-    render(<AdminPage bounty={bounty} />);
-    // ACT
     await waitFor(() => {
       const subheading = screen.getByText('How many Tiers?');
-      const tierHeading = screen.getByText('Weight per Tier (%)');
-      const inputFieldBudget = screen.getByPlaceholderText('0.0');
+      const tierHeading = screen.getByText('Volumes:');
+      const inputFieldBudget = screen.getByDisplayValue('30.0');
       const inputFieldTiers = screen.getByDisplayValue('3');
       const selectCurrency = screen.getByText(/Matic/i);
       const payoutBtn = screen.getByRole('button', { name: 'Set New Payout Schedule' });

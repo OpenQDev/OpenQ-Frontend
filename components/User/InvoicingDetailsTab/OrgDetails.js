@@ -6,12 +6,12 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
   const [appState, dispatch] = useContext(StoreContext);
   const { openQPrismaClient } = appState;
   const [emailInvalid, setEmailInvalid] = useState(false);
-  const [formState, setFormState] = useState({ text: 'Update', className: 'btn-primary' });
+  const [formState, setFormState] = useState({ text: 'Update', className: 'btn-primary bg-green' });
   // const formValuesSocial = [{ value: 'twitter' }, { value: 'discord' }];
   const { accountData } = appState;
 
   const formValuesInvoicing = emailOnly
-    ? [{ value: 'invoicingEmail', displayValue: 'Invoicing Email', required: true }]
+    ? [{ value: 'invoicingEmail', displayValue: 'Email', required: true }]
     : slim
     ? [
         {
@@ -30,7 +30,7 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
           displayValue: 'Billing Address',
           required: true,
         },
-        { value: 'invoicingEmail', displayValue: 'Invoicing Email', required: true },
+        { value: 'invoicingEmail', displayValue: 'Email', required: true },
         { value: 'country', required: true },
         { value: 'province', displayValue: 'State/Province', required: true },
       ]
@@ -57,7 +57,7 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
   const submitProfileData = async (e) => {
     e.preventDefault();
     setFormState({ text: 'Updating...', className: 'btn-default', disabled: true });
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve) => {
       try {
         const { github, email } = accountData;
         const formValues = github ? { github } : { email };
@@ -75,7 +75,7 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
             if (!input.value && input.required) {
               throw new Error('Please enter a value for ${input.id}');
             }
-            if (input.value === 'invoicingEmail') {
+            if (input.id === 'invoicingEmail') {
               const emailRegex = new RegExp(
                 // eslint-disable-next-line no-control-regex
                 /^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/
@@ -103,14 +103,15 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
             },
           };
           dispatch(accountDispatch);
-          setFormState({ text: 'Updated', className: 'btn-primary', disabled: false });
+          setFormState({ text: 'Updated', className: 'btn-primary bg-green', disabled: false });
           setTimeout(() => {
-            setFormState({ text: 'Update', className: 'btn-primary', disabled: false });
+            setFormState({ text: 'Update', className: 'btn-primary bg-green', disabled: false });
           }, 5000);
           resolve(true);
         }
       } catch (err) {
-        reject(err);
+        setFormState({ text: 'Update', className: 'btn-primary bg-green', disabled: false });
+        appState.logger.info(err);
       }
     });
   };

@@ -72,6 +72,12 @@ const MintReducer = (state, action) => {
         hideModal: action.payload,
       };
     }
+    case 'SET_ACCEPTED': {
+      return {
+        ...state,
+        accepted: action.payload,
+      };
+    }
     case 'SET_LOADING': {
       return {
         ...state,

@@ -93,12 +93,14 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, centerStyles }) => {
   };
 
   const addOrSwitchNetwork = () => {
-    window.ethereum
-      .request({
-        method: 'wallet_addEthereumChain',
-        params: chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['params'],
-      })
-      .catch((error) => appState.logger.error(error, accountData.id, 'ConnectButton.js1'));
+    if (window.ethereum) {
+      window.ethereum
+        .request({
+          method: 'wallet_addEthereumChain',
+          params: chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['params'],
+        })
+        .catch((error) => appState.logger.error(error, accountData.id, 'ConnectButton.js1'));
+    }
   };
 
   // Render
@@ -172,7 +174,10 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, centerStyles }) => {
             >
               <button
                 onClick={addOrSwitchNetwork}
-                className='flex w-full items-center justify-center btn-default mr-4 whitespace-nowrap'
+                className={`${
+                  !window.ethereum && 'cursor-not-allowed'
+                } flex w-full items-center justify-center btn-default mr-4 whitespace-nowrap`}
+                disabled={!window.ethereum}
               >
                 Use {chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['networkName']} Network
               </button>

@@ -17,7 +17,7 @@ const TokenBalances = ({ tokenBalances, tokenValues, header, singleCurrency, sho
       const totalValueBalances = tokenBalancesArr.map((tokenBalance) => {
         const tokenAddress = ethers.utils.getAddress(tokenBalance.tokenAddress);
         const tokenMetadata = appState.tokenClient.getToken(tokenAddress);
-        const tokenValueAddress = tokenMetadata.address.toLowerCase();
+        const tokenValueAddress = tokenMetadata.valueAddress.toLowerCase();
         const symbol = tokenMetadata.symbol || `${tokenAddress.slice(0, 4)}...${tokenAddress.slice(36)}`;
         const { volume } = tokenBalance;
 

@@ -33,7 +33,6 @@ describe('ContractWizard', () => {
     // ACT
     await user.click(screen.getByText('No'));
     await user.click(screen.getByText('No'));
-    await user.click(screen.getByText('No'));
     expect(await screen.findByText(/we didn't find a suitable contract/i)).toBeInTheDocument();
   });
 
@@ -44,20 +43,7 @@ describe('ContractWizard', () => {
 
     // ACT
     await user.click(screen.getByText('No'));
-    await user.click(screen.getByText('No'));
     await user.click(screen.getByText('Yes'));
     expect(await screen.findByText(/Create a Hackathon Contract to send funds to any GitHub issue/i));
-  });
-
-  it('should open wizard and direct to split price contract', async () => {
-    // ARRANGE
-    const user = userEvent.setup();
-    render(<ContractWizard wizardVisibility={true} />);
-
-    // ACT
-    await user.click(screen.getByText('No'));
-    await user.click(screen.getByText('Yes'));
-    expect(await screen.findByText(/Deploy split price contract/i));
-    expect(await screen.findByText(/Reward Split/i));
   });
 });

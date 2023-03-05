@@ -11,6 +11,7 @@ import {
 import StoreContext from '../../../../store/Store/StoreContext';
 import { getW8Approved } from '../../../../services/utils/lib';
 import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
+import FreelancerDetails from '../../../User/InvoicingDetailsTab/FreelancerDetails';
 const W8Requirement = ({ bounty }) => {
   const [loading, setLoading] = useState(false);
   const [appState] = useContext(StoreContext);
@@ -20,8 +21,10 @@ const W8Requirement = ({ bounty }) => {
   const { accountData } = appState;
   const pending = bounty.requests?.nodes.some((node) => node.requestingUser.id === accountData.id);
   const [sent, setSent] = useState(pending);
-  const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}?tab=📃Invoicing (Freelancer)`;
+  const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}?tab=Invoicing (Freelancer)`;
   const [w8Approved, setW8Approved] = useState(false);
+
+  const noEmail = !accountData?.invoicingEmail;
   useEffect(() => {
     const W8Approved = getW8Approved(bounty, accountData);
     setW8Approved(W8Approved);
@@ -223,18 +226,12 @@ const W8Requirement = ({ bounty }) => {
                 for help.
               </div>
             </p>
-            <p>
-              Please make sure your email is filled in your{' '}
-              <Link
-                className='text-link-colour hover:underline col-span-2'
-                href={profileLink}
-                target='_blank'
-                rel='noopener norefferer'
-              >
-                profile
-              </Link>{' '}
-              so that we can send you a copy of the your submitted form.
-            </p>
+            {noEmail && (
+              <>
+                <p>Please add an email to your profile so that we can send you a copy of the your submitted form.</p>
+                <FreelancerDetails slim={true} emailOnly={true} />
+              </>
+            )}
           </div>
           <div>
             Explore our W8/W9 templates{' '}
@@ -247,8 +244,8 @@ const W8Requirement = ({ bounty }) => {
           <form onSubmit={handleSend} className='flex gap-2  flex-wrap md:flex-nowrap'>
             <label
               htmlFor='file input'
-              className={`relative ${sent ? 'cursor-not-allowed' : 'cursor-pointer'} ${
-                file || sent ? 'btn-verified' : 'btn-requirements'
+              className={`relative ${sent || noEmail ? 'cursor-not-allowed' : 'cursor-pointer'} ${
+                file || sent || noEmail ? 'btn-verified' : 'btn-requirements'
               }`}
             >
               <div className='flex w-56  lg:w-28 gap-2 z-20 py-0.5 items-center justify-center text-center'>
@@ -270,13 +267,12 @@ const W8Requirement = ({ bounty }) => {
               </div>
               <input
                 onChange={handleFileChange}
-                disabled={loading}
+                disabled={loading || noEmail}
                 type='file'
                 className='absolute invisible w-full top-0 bottom-0 z-10'
                 id='file input'
               />
             </label>
-
             {sent && (
               <label
                 htmlFor='file input'

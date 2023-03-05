@@ -115,9 +115,7 @@ function Batch() {
 
           mintBountyTransactionTemplateCopy.contractInputsValues._initOperation = `[${tieredFixed}]`;
 
-          const mintBountyTransactionTemplateEscaped = addEscapedQuotes(mintBountyTransactionTemplateCopy);
-
-          transactions.push(mintBountyTransactionTemplateEscaped);
+          transactions.push(mintBountyTransactionTemplateCopy);
         } catch (err) {
           appState.logger.error(err, 'batch.js1');
         }
@@ -132,16 +130,6 @@ function Batch() {
     reader.readAsText(file);
   };
 
-  function addEscapedQuotes(json) {
-    const contractInputs = json['contractInputsValues'];
-    for (const key in contractInputs) {
-      if (key === '_initOperation') {
-        continue;
-      }
-      contractInputs[key] = JSON.stringify(contractInputs[key]);
-    }
-    return json;
-  }
   const parseTransaction = async (transaction) => {
     const { contractInputsValues } = transaction;
     const githubData = await appState.githubRepository.fetchIssueById(contractInputsValues._bountyId);

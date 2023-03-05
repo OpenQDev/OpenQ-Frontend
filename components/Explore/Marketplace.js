@@ -94,8 +94,8 @@ export default function ExploreMarketplace({ fullBounties }) {
             {fullBounties.map((bounty) => {
               return (
                 <Link key={bounty.id} href={`/contract/${bounty.bountyId}/${bounty.bountyAddress}`}>
-                  <Card className='min-w-full'>
-                    <CardHeader>
+                  <Card className='w-80 sm:w-full h-60 sm:h-fit'>
+                    <CardHeader className='w-80 sm:w-full h-12 sm:h-fit'>
                       {bounty.avatarUrl && (
                         <Image
                           src={bounty.avatarUrl}
@@ -108,16 +108,22 @@ export default function ExploreMarketplace({ fullBounties }) {
                       <div className='mr-auto'>{bounty.repoName}</div>
                       <StarButton count={watchingCounts[bounty.id]} onClick={() => watchBounty(bounty)} eye={true} />
                     </CardHeader>
-                    <CardBody>{bounty.title}</CardBody>
-                    <CardFooter>
-                      {bounty.languages.map((language) => (
-                        <RepoLanguage key={language.name} language={language.name} color={language.color} />
-                      ))}
+                    <CardBody className={'w-80 sm:w-full h-36 py-2 sm:py-4 sm:h-fit overflow-y-auto'}>
+                      {bounty.title}
+                    </CardBody>
+                    <CardFooter className={'w-80 sm:w-full py-0 sm:py-4 h-12 sm:h-fit'}>
                       {bounty.assignees.length ? (
-                        <div className='text-xs text-gray-400'>Assigned to {bounty.assignees.length}</div>
+                        <div className='flex text-xs text-gray-400'>Assigned to {bounty.assignees.length}</div>
                       ) : (
-                        <div className='text-xs text-gray-400'>No one assigned</div>
+                        <div className='flex text-xs text-gray-400'>No one assigned</div>
                       )}
+                      <div className='flex w-fit justify-end'>
+                        {bounty.languages
+                          .filter((_, i) => i < 2)
+                          .map((language) => (
+                            <RepoLanguage key={language.name} language={language} />
+                          ))}
+                      </div>
                     </CardFooter>
                   </Card>
                 </Link>

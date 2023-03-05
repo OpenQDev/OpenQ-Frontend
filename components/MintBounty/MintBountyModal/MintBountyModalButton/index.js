@@ -22,6 +22,7 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
     startDate,
     enableRegistration,
     type,
+    accepted,
     payoutToken,
     payoutVolume,
     finalTierVolumes,
@@ -34,7 +35,6 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
     altName,
     altUrl,
   } = mintState;
-
   const [appState, dispatch] = useContext(StoreContext);
   const datesCheck = checkHackathonDates(startDate, registrationDeadline, new Date());
   const { accountData } = appState;
@@ -43,7 +43,13 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
   const router = useRouter();
   const loggedInIfNeeded = accountData.id;
   const readyToMint =
-    enableMint && !issue?.closed && issue?.url.includes('/issues/') && !isLoading && datesCheck && loggedInIfNeeded;
+    accepted &&
+    enableMint &&
+    !issue?.closed &&
+    issue?.url.includes('/issues/') &&
+    !isLoading &&
+    datesCheck &&
+    loggedInIfNeeded;
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
@@ -171,11 +177,13 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
               ? 'Please make sure your Hackathon Start Date is > today and your End Date after your Start Date.'
               : !loggedInIfNeeded
               ? 'Please make sure you are logged in.'
+              : !accepted
+              ? 'Please make sure you have accepted the terms of use.'
               : null
           }
         >
           <button
-            className={`${readyToMint ? 'btn-primary cursor-pointer' : 'btn-default cursor-not-allowed'}`}
+            className={`${readyToMint ? 'btn-primary bg-green cursor-pointer' : 'btn-default cursor-not-allowed'}`}
             type='button'
             onClick={() => mintBounty()}
             disabled={!readyToMint}

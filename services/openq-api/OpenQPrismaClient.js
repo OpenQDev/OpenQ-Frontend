@@ -32,6 +32,7 @@ import { ethers } from 'ethers';
 
 class OpenQPrismaClient {
   constructor() {}
+
   uri = process.env.OPENQ_API_SSR_URL ? process.env.OPENQ_API_SSR_URL : process.env.NEXT_PUBLIC_OPENQ_API_URL;
   httpLink = new HttpLink({ uri: this.uri, fetch, credentials: 'include' });
 
