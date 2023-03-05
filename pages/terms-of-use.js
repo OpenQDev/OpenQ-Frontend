@@ -6,7 +6,34 @@ const TermsOfUse = () => {
     <div className='flex flex-col items-center justify-center bg-dark-mode'>
       <div className='flex flex-col w-[1000px] p-12'>
         <h1 className='text-3xl pb-8 self-center font-bold'>Website Terms and Conditions of Use</h1>
-        <h2 className='text-2xl font-bold py-2'>1. Terms</h2>
+        <h2 className='text-2xl font-bold py-2'>1. Terms of Use</h2>
+        <p className='pb-4'>
+          Thank you for using OpenQ, our blockchain-based escrow service for hackathons. Please be aware that our
+          service is currently in active development and is still in the beta stage. By using our service, you
+          acknowledge that you are aware of the risks involved with beta software and that we cannot guarantee the
+          service will be free of bugs, errors, or interruptions.{' '}
+        </p>
+        <p className='pb-4'>
+          {' '}
+          Additionally, please note that our service is based on a blockchain, which is an evolving technology and
+          subject to its own set of risks and challenges. While we take all necessary precautions, like audits to ensure
+          the security and reliability of our service, we cannot guarantee that it will be immune to attacks or other
+          security issues.{' '}
+        </p>
+        <p className='pb-4'>
+          By using our service, you agree to assume all risks associated with its use and release us from any liability
+          arising from your use of our service. We do not accept responsibility for any loss or damages, including but
+          not limited to financial losses, arising from your use of our service.{' '}
+        </p>
+        <p className='pb-4'>
+          We reserve the right to modify or terminate the service at any time without prior notice. We also reserve the
+          right to modify this disclaimer from time to time without prior notice. It is your responsibility to regularly
+          check this page for updates.
+        </p>{' '}
+        <p className='pb-4'>
+          Thank you for your understanding and cooperation. If you have any questions or concerns, please do not
+          hesitate to contact us.{' '}
+        </p>
         <p className='pb-4'>
           By accessing this Website, accessible from www.openq.dev, you are agreeing to be bound by these Website Terms
           and Conditions of Use and agree that you are responsible for the agreement with any applicable local laws. If
@@ -36,6 +63,28 @@ const TermsOfUse = () => {
           implied, therefore negates all other warranties. Furthermore, OpenQ does not make any representations
           concerning the accuracy or reliability of the use of the materials on its Website or otherwise relating to
           such materials or any sites linked to this Website.
+        </p>
+        <p className='pb-4'>
+          By using our service, you agree to assume all risks associated with its use and release us from any liability
+          arising from your use of our service. We do not accept responsibility for any loss or damages, including but
+          not limited to financial losses, arising from your use of our service.
+          <br />
+          The Interface is provided without any guarantees or warranties, whether express or implied, and is subject to
+          availability. We do not make any representations or warranties regarding the accuracy, completeness,
+          reliability, or security of the Interface. Your use of the Interface is entirely at your own risk. We do not
+          guarantee that your access to the Interface will be uninterrupted, timely, or error-free, nor do we assume any
+          responsibility for any harmful elements or viruses that may affect your use of the Interface. Any advice or
+          information provided by us does not create any warranty concerning the Interface. We do not endorse or
+          guarantee any statements, advertisements, or offers made by third parties regarding the Interface.
+          <br />
+          The Protocol is provided without any warranties and is used at your own risk. Although we were involved in
+          creating the initial code, we do not control or own the Protocol, and it operates autonomously through smart
+          contracts on various blockchains. We and other developers involved in creating the Protocol will not be held
+          liable for any damages, claims, or losses arising from your use, inability to use, or interactions with other
+          users of the Protocol, including but not limited to direct, indirect, incidental, special, exemplary,
+          punitive, or consequential damages, or loss of cryptocurrencies, tokens, profits, or other valuable items. We
+          do not endorse, guarantee, or take responsibility for any statements, advertisements, or offers made by third
+          parties regarding the Protocol.
         </p>
         <h2 className='text-2xl font-bold py-2'>4. Limitations </h2>
         <p className='pb-4'>

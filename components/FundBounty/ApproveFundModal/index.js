@@ -250,7 +250,6 @@ const ApproveFundModal = ({
                 </Link>
               </>
             )}
-            sdfasdf
             {(approveTransferState !== 'ERROR' || approveTransferState !== 'SUCCESS') && (
               <div className='flex items-center col-span-2 pb-2 gap-2 font-semibold'>
                 I accept the{''}
