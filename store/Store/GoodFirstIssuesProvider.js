@@ -21,9 +21,11 @@ export function GoodFirstIssuesProvider({ children }) {
   const [enabledLanguages, setEnabledLanguages] = useState([]);
 
   useEffect(() => {
-    fetch('https://gfw3i.mktcode.uber.space').then((res) => res.json()).then((orgs) => {
-      setOrgs(orgs)
-    });
+    fetch('https://gfw3i.mktcode.uber.space')
+      .then((res) => res.json())
+      .then((orgs) => {
+        setOrgs(orgs);
+      });
   }, []);
 
   return (
