@@ -79,6 +79,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
   const orgDataComplete = !needsOrgData(accountData);
   const freelancerDataComplete = !needsFreelancerData(accountData);
 
+  const EmailVerifiedLogo = accountData?.['invoicingEmail'] ? CheckIcon : () => <></>;
   const GithubVerifiedLogo = githubHasWalletVerified ? CheckIcon : () => <></>;
   const KYCVerifiedLogo = kycVerified ? CheckIcon : () => <></>;
   const OrgCompleteLogo = orgDataComplete ? CheckIcon : () => <></>;
@@ -94,7 +95,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
           items={[
             { name: 'Overview', Svg: BookIcon },
             ...[starredOrganizations.length ? { name: 'Stars', Svg: StarIcon } : {}],
-            ...[isOwner ? { name: 'Email', Svg: PersonFillIcon, SecondSvg: KYCVerifiedLogo } : {}],
+            ...[isOwner ? { name: 'Email', Svg: PersonFillIcon, SecondSvg: EmailVerifiedLogo } : {}],
             ...[isOwner ? { name: 'Wallet-to-GitHub', Svg: LinkIcon, SecondSvg: GithubVerifiedLogo } : {}],
             ...[isOwner ? { name: 'KYC', Svg: PersonFillIcon, SecondSvg: KYCVerifiedLogo } : {}],
             ...[isOwner ? { name: 'Invoicing (Freelancer)', Svg: Log, SecondSvg: OrgCompleteLogo } : {}],
