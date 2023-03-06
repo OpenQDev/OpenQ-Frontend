@@ -177,7 +177,7 @@ const ClaimButton = ({
             type='submit'
             className={
               price >= budget && price > 0 && canClaim
-                ? 'btn-primary cursor-pointer w-fit'
+                ? 'btn-primary bg-green cursor-pointer w-fit'
                 : internalMenu == 'Claim' || !bountyHeading
                 ? 'btn-default cursor-not-allowed'
                 : 'btn-default'
