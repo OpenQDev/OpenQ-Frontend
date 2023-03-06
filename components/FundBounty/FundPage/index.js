@@ -238,10 +238,10 @@ const FundPage = () => {
                     <summary className='list-none text-2xl text-muted fill-muted cursor-pointer'>
                       {!bounty.invoiceRequired ? 'Contact Information' : 'Invoicing data'}
                       <span className='group-open:hidden'>
-                        <ChevronDownIcon size='24px' />
+                        <ChevronDownIcon size={24} />
                       </span>
                       <span className='hidden group-open:inline'>
-                        <ChevronUpIcon size='24px' />
+                        <ChevronUpIcon size={24} />
                       </span>
                     </summary>
                     <OrgDetails emailOnly={!bounty.invoiceRequired && bounty.supportingDocumentsRequired} slim={true} />
