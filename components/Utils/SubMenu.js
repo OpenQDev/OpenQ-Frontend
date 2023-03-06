@@ -6,7 +6,7 @@ const SubMenu = ({ updatePage, internalMenu, items, styles, colour, vertical }) 
     <div
       className={`px-2 ${!vertical ? 'sm:px-8' : 'px-0'} text-primary  w-full flex ${
         vertical ? 'flex-col gap-2' : 'h-12 overflow-x-auto overflow-y-hidden border-web-gray border-b items-center'
-      }  gap-x-1 md:gap-x-4 relative ${styles} `}
+      }  gap-x-1 md:gap-x-2 lg:gap-x-3 relative ${styles} `}
     >
       {items.map(
         (item, index) =>
