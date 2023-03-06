@@ -185,10 +185,10 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
             {internalMenu == 'Stars' && <Starred starredOrganizations={starredOrganizations} />}
             {internalMenu === 'Watching' && <Watching watchedBounties={watchedFullBounties} />}
 
-            <div className={internalMenu !== 'Invoicing (Freelancer)' && 'hidden'}>
+            <div className={internalMenu !== 'Invoicing (Freelancer)' ? 'hidden' : ''}>
               <FreelancerDetails emailOnly={true} /> <FreelancerDetails />
             </div>
-            <div className={internalMenu !== 'Invoicing (Organization)' && 'hidden'}>
+            <div className={internalMenu !== 'Invoicing (Organization)' ? 'hidden' : ''}>
               <OrgDetails showWatched={isOwner} emailOnly={true} /> <OrgDetails showWatched={isOwner} />
             </div>
           </div>
