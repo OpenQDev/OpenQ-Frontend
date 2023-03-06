@@ -19,7 +19,6 @@ import Username from './OverviewTab/Username';
 import KycRequirement from '../Claim/ClaimPage/KycRequirement';
 import Log from '../svg/log';
 import { needsFreelancerData, needsOrgData } from '../../services/utils/lib';
-import InvoicingDetails from './InvoicingDetailsTab/OrgDetails';
 
 const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) => {
   const githubHasWalletVerifiedState = useState(null);
@@ -169,7 +168,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
                 Your Email
               </h2>
               <section className='flex flex-col gap-3'>
-                <InvoicingDetails slim={true} emailOnly={true} />
+                <OrgDetails slim={true} emailOnly={true} />
               </section>
             </div>
 

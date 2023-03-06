@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import StyledInput from './StyledInput';
 import StoreContext from '../../../store/Store/StoreContext';
 
-const InvoicingDetails = ({ slim, emailOnly }) => {
+const OrgDetails = ({ slim, emailOnly }) => {
   const [appState, dispatch] = useContext(StoreContext);
   const { openQPrismaClient } = appState;
   const [emailInvalid, setEmailInvalid] = useState(false);
@@ -170,4 +170,4 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
     </div>
   );
 };
-export default InvoicingDetails;
+export default OrgDetails;
