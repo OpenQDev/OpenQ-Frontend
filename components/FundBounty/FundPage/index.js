@@ -13,7 +13,7 @@ import ApproveFundModal from '../ApproveFundModal';
 import OrgDetails from '../../User/InvoicingDetailsTab/OrgDetails';
 import { RESTING, CONFIRM, APPROVING, TRANSFERRING, APPROVE } from '../FundStore/ApproveFundState';
 import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
-import NFTFundModal from '../../TokenSelection/NFTFundModal';
+// import NFTFundModal from '../../TokenSelection/NFTFundModal';
 import DepositPeriod from '../../TokenSelection/DepositPeriod';
 import ConnectButton from '../../WalletConnect/ConnectButton';
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
@@ -178,7 +178,7 @@ const FundPage = () => {
                       mustChangePayoutFirst={mustChangePayoutFirst}
                       setInternalMenu={setInternalMenu}
                     />
-                    <NFTFundModal />
+                    {/* <NFTFundModal /> */}
                   </>
                 </div>
                 <div className='flex gap-4'>
