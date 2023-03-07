@@ -34,7 +34,7 @@ module.exports = () => {
   ];
 
   const config = {
-    reactStrictMode: false,
+    reactStrictMode: true,
     env,
 
     async headers() {
