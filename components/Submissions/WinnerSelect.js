@@ -190,7 +190,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
                 </a>{' '}
                 challenge.
               </p>
-              <p className='my-2'>
+              <div className='my-2'>
                 {claimReady ? 'This will release' : 'Before being able to claim'}{' '}
                 {bounty.bountyType === '2' ? prize.payout + '% of funds' : formatVolume(prize.payout) + unit} (
                 {bounty.bountyType === '2'
@@ -210,7 +210,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
                     </ul>
                   </>
                 )}
-              </p>
+              </div>
             </>
           )}
           {selectionState === TRANSFERRING && (
@@ -221,7 +221,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
           {selectionState === ERROR && <p>{error.message}</p>}
           {selectionState === SUCCESS && (
             <>
-              <p className='my-2'>
+              <div className='my-2'>
                 {bounty.bountyType === '2' ? prize.payout + '% of funds' : formatVolume(prize.payout) + unit} staked on
                 this competition can now be claimed by {pr.author.name || pr.author.login},
                 <>
@@ -233,7 +233,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, numberOfPayouts, pr, disab
                     {bounty.kycRequired && <li>KYC</li>}
                   </ul>
                 </>
-              </p>
+              </div>
             </>
           )}
         </ModalDefault>
