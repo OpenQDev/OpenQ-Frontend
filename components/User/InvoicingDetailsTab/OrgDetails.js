@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import StyledInput from './StyledInput';
 import StoreContext from '../../../store/Store/StoreContext';
 
-const InvoicingDetails = ({ slim, emailOnly }) => {
+const OrgDetails = ({ slim, emailOnly }) => {
   const [appState, dispatch] = useContext(StoreContext);
   const { openQPrismaClient } = appState;
   const [emailInvalid, setEmailInvalid] = useState(false);
@@ -138,12 +138,11 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
       <form className='font-normal max-w-[500px] gap-4' onSubmit={submitProfileData}>
         {formValuesInvoicing.map((invoicingField) => {
           return (
-            <>
+            <div key={invoicingField.value}>
               {' '}
               <StyledInput
                 highlightEmpty={slim}
                 defaultValue={accountData?.[invoicingField.value]}
-                key={invoicingField.value}
                 value={invoicingField.value}
                 type={invoicingField.type}
                 optional={!invoicingField.required}
@@ -158,7 +157,7 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
                   will also use this email to send any documents you require from freelancers.
                 </div>
               )}
-            </>
+            </div>
           );
         })}
 
@@ -171,4 +170,4 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
     </div>
   );
 };
-export default InvoicingDetails;
+export default OrgDetails;

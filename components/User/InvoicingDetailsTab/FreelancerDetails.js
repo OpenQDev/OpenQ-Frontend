@@ -4,7 +4,7 @@ import useWeb3 from '../../../hooks/useWeb3';
 import StoreContext from '../../../store/Store/StoreContext';
 
 import AuthContext from '../../../store/AuthStore/AuthContext';
-const InvoicingDetails = ({ slim, emailOnly }) => {
+const FreelancerDetails = ({ slim, emailOnly }) => {
   const { account } = useWeb3();
   const [appState, dispatch] = useContext(StoreContext);
   const { openQPrismaClient } = appState;
@@ -146,11 +146,10 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
           <form className='font-normal max-w-[500px] gap-4' onSubmit={submitProfileData}>
             {formValuesInvoicing.map((invoicingField) => {
               return (
-                <>
+                <div key={invoicingField.value}>
                   <StyledInput
                     highlightEmpty={slim}
                     defaultValue={accountData?.[invoicingField.value] || invoicingField.defaultValue}
-                    key={invoicingField.value}
                     value={invoicingField.value}
                     type={invoicingField.type}
                     optional={!invoicingField.required}
@@ -165,7 +164,7 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
                       any documents you send to organizers via our interface.
                     </div>
                   )}
-                </>
+                </div>
               );
             })}
 
@@ -180,4 +179,4 @@ const InvoicingDetails = ({ slim, emailOnly }) => {
     </div>
   );
 };
-export default InvoicingDetails;
+export default FreelancerDetails;

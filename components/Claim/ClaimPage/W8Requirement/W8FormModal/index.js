@@ -21,7 +21,7 @@ const index = ({ setShowModal }) => {
 
         <p className='flex py-2 gap-2'>
           1.
-          <Image src={'/diverse/us-flag.jpg'} width={24} height={24} />
+          <Image src={'/diverse/us-flag.jpg'} width={24} height={24} alt={'US-flag'} />
           W-9
         </p>
 

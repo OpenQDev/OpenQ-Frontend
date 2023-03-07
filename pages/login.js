@@ -12,7 +12,13 @@ const Login = () => {
         </div>
       </div>
       <div className='text-2xl relative md:inset-0 w-full h-full'>
-        <Image src='/SpaceScapes/login.png' className='object-fill h-full w-full' width={800} height={500} />
+        <Image
+          src='/SpaceScapes/login.png'
+          className='object-fill h-full w-full'
+          width={800}
+          height={500}
+          alt='spacescapes image'
+        />
       </div>
       <div className='text-xl bottom-0 relative h-full md:w-[1900px] py-8 text-center bg-dark-mode flex gap-4 justify-center items-center'>
         <div className=' md:w-1/2 space-y-4 mx-4'>

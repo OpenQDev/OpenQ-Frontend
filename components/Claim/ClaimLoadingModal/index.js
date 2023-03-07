@@ -102,7 +102,7 @@ const ClaimLoadingModal = ({
       {claimState == TRANSACTION_CONFIRMED && <TweetAbout tweetText={tweetText} bounty={bounty} />}
       {claimState == CONFIRM_CLAIM ? (
         <button
-          className='btn-primary'
+          className='btn-primary bg-green'
           type='button'
           onClick={() => {
             confirmMethod();

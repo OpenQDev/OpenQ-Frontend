@@ -245,7 +245,7 @@ const W8Requirement = ({ bounty }) => {
             <label
               htmlFor='file input'
               className={`relative ${sent || noEmail ? 'cursor-not-allowed' : 'cursor-pointer'} ${
-                file || sent || noEmail ? 'btn-verified' : 'btn-requirements'
+                file || sent || noEmail ? 'btn-primary hover:none' : 'btn-requirements'
               }`}
             >
               <div className='flex w-56  lg:w-28 gap-2 z-20 py-0.5 items-center justify-center text-center'>
@@ -276,7 +276,7 @@ const W8Requirement = ({ bounty }) => {
             {sent && (
               <label
                 htmlFor='file input'
-                className={`relative cursor-pointer ${file ? 'btn-verified' : 'btn-requirements'}`}
+                className={`relative cursor-pointer ${file ? 'btn-primary hover:none' : 'btn-requirements'}`}
               >
                 <div className='flex w-56 gap-2 z-20 py-0.5 items-center'>
                   {file ? (

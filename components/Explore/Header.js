@@ -33,7 +33,7 @@ export default function Header() {
       <Image
         className='opacity-10 md:opacity-30 xl:opacity-100 absolute xl:static -right-50 top-0 sm:right-0 sm:-top-10 lg:right-20 lg:top-10 z-0 max-w-[350px] sm:max-w-none sm:min-w-[450px]'
         src='/explore/planet.png'
-        alt=''
+        alt='explore planet'
         width={571}
         height={587}
         priority={true}
