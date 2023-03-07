@@ -30,7 +30,7 @@
     "@ethersproject/providers": "5.1.2",
     "@ethersproject/units": "5.7.0",
     "@kycdao/widget": "0.5.8",
-    "@magic-ext/oauth": "4.0.0",
+    "@magic-ext/oauth": "7.5.0",
     "@metamask/jazzicon": "2.0.0",
     "@primer/octicons-react": "18.0.0",
     "@react-pdf/renderer": "3.1.6",
