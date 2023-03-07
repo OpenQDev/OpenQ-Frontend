@@ -17,21 +17,13 @@ import AuthProvider from '../store/AuthStore/AuthProvider';
 import Navigation from '../components/Layout/Navigation';
 import Head from 'next/head';
 import Footer from '../components/Layout/Footer';
-import {
-  walletConnect,
-  walletConnectHooks,
-  metaMask,
-  metaMaskHooks,
-  gnosisSafe,
-  gnosisSafeHooks,
-} from '../components/WalletConnect/connectors';
+import { walletConnect, walletConnectHooks, metaMask, metaMaskHooks } from '../components/WalletConnect/connectors';
 import Script from 'next/script';
 
 function OpenQ({ Component, pageProps }) {
   const connectors = [
     [metaMask, metaMaskHooks],
     [walletConnect, walletConnectHooks],
-    [gnosisSafe, gnosisSafeHooks],
   ];
 
   const [user, setUser] = useState();
