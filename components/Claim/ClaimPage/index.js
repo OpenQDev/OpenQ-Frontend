@@ -40,7 +40,11 @@ const ClaimPage = ({ bounty, refreshBounty, split, setInternalMenu, internalMenu
       let w8Form = !bounty?.supportingDocumentsRequired || bounty?.supportingDocumentsCompleted?.[targetTier];
       let invoice = !bounty.invoiceRequired || bounty?.invoiceCompleted?.[targetTier];
       return { w8Form, invoice };
-    } else return {};
+    } else if (bounty.bountyType === '0') {
+      const w8Form = !bounty.supportingDocumentsRequired || bounty.supportingDocumentsCompleted;
+      const invoice = !bounty.invoiceRequired || bounty.invoiceCompleted;
+      return { w8Form, invoice };
+    }
   };
 
   const { w8Form, invoice } = checkRequirementsWithGraph(bounty);
@@ -49,11 +53,11 @@ const ClaimPage = ({ bounty, refreshBounty, split, setInternalMenu, internalMenu
 
   const [claimable, setClaimable] = claimState;
   const canClaim = isEveryValueNotNull(claimable);
-  const hasRequirements =
-    bounty.kycRequired || bounty.supportingDocumentsRequired || bounty.invoiceRequired || isContest(bounty);
+  const hasRequirements = bounty.kycRequired || bounty.supportingDocumentsRequired || bounty.invoiceRequired;
 
   useEffect(() => {
     setClaimable({ kyc, w8Form, githubHasWallet, invoice });
+    console.log();
   }, [kyc, w8Form, githubHasWallet, invoice]);
 
   /* const accountKeys = [

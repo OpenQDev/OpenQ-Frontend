@@ -117,6 +117,7 @@ const ClaimButton = ({
         reject(e);
       }
     });
+    console.log(price >= budget, price > 0, canClaim);
     try {
       const txnHash = await promise;
       // Upon this return, the claimBounty transaction has been submitted
