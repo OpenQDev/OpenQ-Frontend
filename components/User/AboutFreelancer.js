@@ -19,7 +19,6 @@ import Username from './OverviewTab/Username';
 import KycRequirement from '../Claim/ClaimPage/KycRequirement';
 import Log from '../svg/log';
 import { needsFreelancerData, needsOrgData } from '../../services/utils/lib';
-import InvoicingDetails from './InvoicingDetailsTab/OrgDetails';
 
 const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) => {
   const githubHasWalletVerifiedState = useState(null);
@@ -79,6 +78,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
   const orgDataComplete = !needsOrgData(accountData);
   const freelancerDataComplete = !needsFreelancerData(accountData);
 
+  const EmailVerifiedLogo = accountData?.['invoicingEmail'] ? CheckIcon : () => <></>;
   const GithubVerifiedLogo = githubHasWalletVerified ? CheckIcon : () => <></>;
   const KYCVerifiedLogo = kycVerified ? CheckIcon : () => <></>;
   const OrgCompleteLogo = orgDataComplete ? CheckIcon : () => <></>;
@@ -89,12 +89,12 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
         <SubMenu
           internalMenu={internalMenu}
           updatePage={setInternalMenu}
-          styles='w-full flex mb-0 justify-start lg:ml-80 max-w-[1000px] border-none'
+          styles='w-full flex mb-0 justify-start lg:justify-center w-full border-none'
           colour='rust'
           items={[
             { name: 'Overview', Svg: BookIcon },
             ...[starredOrganizations.length ? { name: 'Stars', Svg: StarIcon } : {}],
-            ...[isOwner ? { name: 'Email', Svg: PersonFillIcon, SecondSvg: KYCVerifiedLogo } : {}],
+            ...[isOwner ? { name: 'Email', Svg: PersonFillIcon, SecondSvg: EmailVerifiedLogo } : {}],
             ...[isOwner ? { name: 'Wallet-to-GitHub', Svg: LinkIcon, SecondSvg: GithubVerifiedLogo } : {}],
             ...[isOwner ? { name: 'KYC', Svg: PersonFillIcon, SecondSvg: KYCVerifiedLogo } : {}],
             ...[isOwner ? { name: 'Invoicing (Freelancer)', Svg: Log, SecondSvg: OrgCompleteLogo } : {}],
@@ -104,16 +104,16 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
         />
         <div className='w-full border-b h-px border-web-gray'></div>
         <div className='flex relative max-w-[1440px] w-full mx-auto'>
-          <div className='hidden lg:block max-w-[25%] border-web-gray pl-4 xl:left-20 relative left-24'>
+          <div className='hidden lg:flex lg:flex-col items-start max-w-[25%] border-web-gray pl-4 xl:left-20 left-24'>
             {user ? (
-              <div className='flex '>
-                <div className='flex items-center content-center relative top-4 xl:-top-4'>
+              <div className='flex pt-8'>
+                <div className='flex top-4 xl:-top-4'>
                   <Image src={user.avatarUrl} width={292} height={292} alt={'profile pic'} className='rounded-full' />
                 </div>
               </div>
             ) : (
               <div className='float-right '>
-                <div className='rounded-full h-72 w-72 xl:-mt-4 relative overflow-hidden'></div>
+                <div className='rounded-full h-72 w-72 xl:-mt-4 overflow-hidden'></div>
               </div>
             )}
             {githubUser && (
@@ -144,7 +144,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
             )}
           </div>
 
-          <div className='flex flex-col flex-1 lg:pl-20 '>
+          <div className='flex flex-col flex-1 lg:pl-8 '>
             {internalMenu == 'Overview' && (
               <div className=''>
                 <Username user={user} />
@@ -168,7 +168,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
                 Your Email
               </h2>
               <section className='flex flex-col gap-3'>
-                <InvoicingDetails slim={true} emailOnly={true} />
+                <OrgDetails slim={true} emailOnly={true} />
               </section>
             </div>
 
@@ -185,10 +185,10 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
             {internalMenu == 'Stars' && <Starred starredOrganizations={starredOrganizations} />}
             {internalMenu === 'Watching' && <Watching watchedBounties={watchedFullBounties} />}
 
-            <div className={internalMenu !== 'Invoicing (Freelancer)' && 'hidden'}>
+            <div className={internalMenu !== 'Invoicing (Freelancer)' ? 'hidden' : ''}>
               <FreelancerDetails emailOnly={true} /> <FreelancerDetails />
             </div>
-            <div className={internalMenu !== 'Invoicing (Organization)' && 'hidden'}>
+            <div className={internalMenu !== 'Invoicing (Organization)' ? 'hidden' : ''}>
               <OrgDetails showWatched={isOwner} emailOnly={true} /> <OrgDetails showWatched={isOwner} />
             </div>
           </div>

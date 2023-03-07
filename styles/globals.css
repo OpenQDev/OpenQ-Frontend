@@ -111,9 +111,6 @@ pre {
   .btn-processing{
 		@apply bg-[#A095EB] border border-[#A095EB] rounded-sm px-3 py-0.5 text-white
 	}
-  .btn-verified{
-		@apply bg-[#686d74] border border-[#686d74] rounded-sm px-3 py-0.5 text-white
-	}
 	.btn-primary{
 		@apply bg-green border border-green rounded-sm px-3 py-1 hover:bg-[#2ea043] text-white
 	}

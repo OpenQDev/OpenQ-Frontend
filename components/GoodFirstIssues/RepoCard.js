@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { StarIcon } from '@primer/octicons-react';
 import IssueCard from './IssueCard';
-import { useIssues } from '../../store/Store/GoodFirstIssuesProvider';
 
 export default function RepoCard(props) {
   const [isOpen, setIsOpen] = useState(false);
-  const issues = useIssues();
-  const repoIssues = issues?.filter((issue) => issue.repository.name === props.repo.name);
 
   return (
     <div
@@ -20,16 +17,16 @@ export default function RepoCard(props) {
         <span className='mr-auto font-bold text-lg break-word'>{props.repo.nameWithOwner}</span>
         <span className='flex items-center mx-3'>
           <StarIcon className='mr-1' />
-          {props.repo.stars}
+          {props.repo.starcazerCount}
         </span>
         <span className='font-bold bg-violet-600 text-white px-3 py-1 rounded-sm whitespace-nowrap'>
-          {repoIssues.length} issues
+          {props.repo.issues.length} issues
         </span>
       </h2>
-      <div className='text-sm text-gray-400'>{props.repo.languages.nodes[0]?.name}</div>
+      <div className='text-sm text-gray-400'>{props.repo.languages[0]?.name}</div>
       <p className='mt-3 mb-1 text-gray-400'>{props.repo.description}</p>
       <div className={isOpen ? 'mt-4 space-y-3' : 'hidden'}>
-        {repoIssues.map((issue) => (
+        {props.repo.issues.map((issue) => (
           <IssueCard key={issue.id} issue={issue} />
         ))}
       </div>

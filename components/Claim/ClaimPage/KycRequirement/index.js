@@ -170,7 +170,7 @@ const KycRequirement = ({ setKycVerified }) => {
               ? 'btn-requirements'
               : stage == 'processing'
               ? 'btn-processing cursor-not-allowed'
-              : 'btn-verified cursor-not-allowed'
+              : 'btn-primary hover:none cursor-not-allowed'
           } w-fit`}
           onClick={onOpenSDK}
         >

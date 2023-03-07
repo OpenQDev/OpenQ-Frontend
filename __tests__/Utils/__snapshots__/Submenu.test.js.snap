@@ -2,7 +2,7 @@
 
 exports[`SubMenu should match DOM Snapshot and match horizontal style 1`] = `
 <div
-  className="px-2 sm:px-8 text-primary  w-full flex h-12 overflow-x-auto overflow-y-hidden border-web-gray border-b items-center  gap-x-1 md:gap-x-4 relative undefined "
+  className="px-2 sm:px-8 text-primary  w-full flex h-12 overflow-x-auto overflow-y-hidden border-web-gray border-b items-center  gap-x-1 md:gap-x-2 lg:gap-x-3 relative undefined "
 >
   <li
     className="w-fit list-none  relative"
@@ -45,7 +45,7 @@ exports[`SubMenu should match DOM Snapshot and match horizontal style 1`] = `
 
 exports[`SubMenu should match DOM Snapshot and match vertical style 1`] = `
 <div
-  className="px-2 px-0 text-primary  w-full flex flex-col gap-2  gap-x-1 md:gap-x-4 relative undefined "
+  className="px-2 px-0 text-primary  w-full flex flex-col gap-2  gap-x-1 md:gap-x-2 lg:gap-x-3 relative undefined "
 >
   <li
     className="w-fit list-none  relative"

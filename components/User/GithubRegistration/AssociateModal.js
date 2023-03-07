@@ -62,6 +62,7 @@ const AssociateModal = ({
       )
       .then(async (result) => {
         const { txnHash } = result.data;
+        setTransactionHash(txnHash);
         setAssociatedAddress(account);
         setAssociateState('TRANSACTION_PENDING');
         setError('');
@@ -200,7 +201,7 @@ const AssociateModal = ({
             <p className='flex justify-between pt-4'>
               {transactionHash && (
                 <>
-                  <span>{associateState === 'TRANSATION_PENDING' && 'Pending '}Transaction:</span>
+                  <span>{associateState === 'TRANSACTION_PENDING' && 'Pending '}Transaction:</span>
                   <a
                     target='_blank'
                     href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`}
