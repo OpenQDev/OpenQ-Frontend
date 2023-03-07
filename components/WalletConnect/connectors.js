@@ -7,6 +7,7 @@ export const [walletConnect, walletConnectHooks] = initializeConnector(
   (actions) =>
     new WalletConnect({
       actions,
+      defaultChainId: 137,
       options: {
         projectId: 'a6cc11517a10f6f12953fd67b1eb67e7',
         rpc: {
