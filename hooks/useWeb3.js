@@ -3,7 +3,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import { useRef } from 'react';
 
 // This is a lightweight wrapper of web3React which allows the frontend to run in local mode without attempting to connect to any localhost chain
-const useWeb3 = () => {
+const useWeb3 = (kyc) => {
   if (process.env.NEXT_PUBLIC_DEPLOY_ENV == 'local') {
     return {
       library: {},
