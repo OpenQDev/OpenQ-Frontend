@@ -10,12 +10,7 @@ export const [walletConnect, walletConnectHooks] = initializeConnector(
       defaultChainId: 137,
       options: {
         projectId: 'a6cc11517a10f6f12953fd67b1eb67e7',
-        rpc: {
-          137: [
-            `https://polygon-mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_PROJECT_ID}`,
-            'https://polygon-rpc.com',
-          ],
-        },
+        chains: [137],
       },
     })
 );
