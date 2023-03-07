@@ -1,7 +1,7 @@
 import { useWeb3React } from '@web3-react/core';
 
 // This is a lightweight wrapper of web3React which allows the frontend to run in local mode without attempting to connect to any localhost chain
-const useWeb3 = (kyc) => {
+const useWeb3 = () => {
   if (process.env.NEXT_PUBLIC_DEPLOY_ENV == 'local') {
     return {
       library: {},

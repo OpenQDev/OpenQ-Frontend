@@ -194,7 +194,6 @@ const Footer = () => {
           <div className='flex flex-col pb-8 w-56'>
             <div className='flex font-bold pb-2 lg:justify-end'>Made by devs for devs with</div>
             <div className='flex pb-2 lg:text-right'>❤️ in USA, Germany, Canada, Austria, Netherlands & Spain.</div>
-            <div className='flex text-muted lg:text-right'>Contracts currently not audited, use at your own risk.</div>
           </div>
         </div>
       </div>
