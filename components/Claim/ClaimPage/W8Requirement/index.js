@@ -210,7 +210,7 @@ const W8Requirement = ({ bounty }) => {
       ) : (
         <>
           <div>
-            <p>
+            <div>
               Please complete and upload a W-8/W-9 form. Choose one of five types, depending on your entity. We
               encourage you to consult with you own tax or financial adviser to determine which form is appropriate for
               you or ask in our
@@ -225,7 +225,7 @@ const W8Requirement = ({ bounty }) => {
                 </Link>{' '}
                 for help.
               </div>
-            </p>
+            </div>
             {noEmail && (
               <>
                 <p>Please add an email to your profile so that we can send you a copy of the your submitted form.</p>
