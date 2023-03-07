@@ -55,11 +55,10 @@ const filterBounties = (item, filters, fetchFilters) => {
   // => Bounty must have a Budget, or a Total Value locked, or neither if it is a non-profit bounty
   const meetsFundsCriteria =
     bounty.fundingGoalVolume > 0 ||
-    bounty.payoutSchdule?.some((payout) => payout > 0) ||
+    bounty.payoutSchedule?.some((payout) => payout > 0) ||
     bounty?.deposits?.some((deposit) => {
       return !deposit.refunded;
     });
-
   // Criteria: Must still be open:
   // => Bounty must still be open on OpenQ, unassigned and the issue must still be open on Github
   const isStillOpen = bounty.status === '0' && bounty.assignees?.length == 0 && !bounty.closed;
