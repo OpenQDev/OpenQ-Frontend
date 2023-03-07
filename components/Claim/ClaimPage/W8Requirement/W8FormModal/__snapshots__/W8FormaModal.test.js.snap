@@ -51,6 +51,7 @@ exports[`W8FormModal should match initial DOM Snapshot 1`] = `
               >
                 1.
                 <img
+                  alt="US-flag"
                   data-nimg="1"
                   decoding="async"
                   height="24"

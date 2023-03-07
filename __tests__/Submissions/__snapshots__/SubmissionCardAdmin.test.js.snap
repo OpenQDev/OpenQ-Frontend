@@ -13,7 +13,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 1`] = `
     className="flex flex-col w-full relative h-48 overflow-y-auto"
   >
     <React.Fragment>
-      <WinnerSelect
+      <WinnerSelectAmounts
         bounty={
           {
             "assignees": [],
@@ -229,7 +229,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 1`] = `
           }
         }
       />
-      <WinnerSelect
+      <WinnerSelectAmounts
         bounty={
           {
             "assignees": [],
@@ -445,7 +445,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 1`] = `
           }
         }
       />
-      <WinnerSelect
+      <WinnerSelectAmounts
         bounty={
           {
             "assignees": [],
@@ -679,7 +679,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
     className="flex flex-col w-full relative h-48 overflow-y-auto"
   >
     <React.Fragment>
-      <WinnerSelect
+      <WinnerSelectAmounts
         bounty={
           {
             "assignees": [],
@@ -896,7 +896,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
           }
         }
       />
-      <WinnerSelect
+      <WinnerSelectAmounts
         bounty={
           {
             "assignees": [],
@@ -1113,7 +1113,7 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
           }
         }
       />
-      <WinnerSelect
+      <WinnerSelectAmounts
         bounty={
           {
             "assignees": [],
