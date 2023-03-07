@@ -9,7 +9,7 @@ import { ethers } from 'ethers';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import { formatVolume } from '../../services/utils/lib';
 
-const WinnerSelect = ({ prize, bounty, refreshBounty, pr, disabled }) => {
+const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled }) => {
   const [showModal, setShowModal] = useState();
   const [selectionState, setSelectionState] = useState(RESTING);
   const tierIndex = parseInt(prize.index);
@@ -42,7 +42,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, pr, disabled }) => {
         setSelectionState(SUCCESS);
       }
     } catch (err) {
-      appState.logger.error(err, accountData.id, 'WinnerSelect.js1');
+      appState.logger.error(err, accountData.id, 'WinnerSelectAmounts.js1');
       const { message, title } = appState.openQClient.handleError(err, {
         bounty,
       });
@@ -145,7 +145,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, pr, disabled }) => {
   return (
     <>
       <button
-        data-testid='winnerSelect'
+        data-testid='winnerSelectAmounts'
         onClick={selectWinner}
         disabled={prize.claimed || disabled}
         className={`flex justify-center ${
@@ -215,7 +215,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, pr, disabled }) => {
           {selectionState === ERROR && <p>{error.message}</p>}
           {selectionState === SUCCESS && (
             <>
-              <p className='my-2'>
+              <div className='my-2'>
                 {bounty.bountyType === '2'
                   ? prize.payout + '% of funds'
                   : formatVolume(prize.payout, appState.tokenClient.getToken(bounty.payoutTokenAddress)) + unit}{' '}
@@ -229,7 +229,7 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, pr, disabled }) => {
                     {bounty.kycRequired && <li>KYC</li>}
                   </ul>
                 </>
-              </p>
+              </div>
             </>
           )}
         </ModalDefault>
@@ -237,4 +237,4 @@ const WinnerSelect = ({ prize, bounty, refreshBounty, pr, disabled }) => {
     </>
   );
 };
-export default WinnerSelect;
+export default WinnerSelectAmounts;
