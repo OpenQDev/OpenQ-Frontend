@@ -212,11 +212,6 @@ exports[`Footer should match DOM Snapshot 1`] = `
         >
           ❤️ in USA, Germany, Canada, Austria, Netherlands & Spain.
         </div>
-        <div
-          className="flex text-muted lg:text-right"
-        >
-          Contracts currently not audited, use at your own risk.
-        </div>
       </div>
     </div>
   </div>
