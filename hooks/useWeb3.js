@@ -16,6 +16,7 @@ const useWeb3 = (kyc) => {
     };
   } else {
     const { provider, active, activate, chainId, deactivate, error, connector, account } = useWeb3React();
+
     let wcProvider;
     const effectRan = useRef(false);
     if (kyc) {

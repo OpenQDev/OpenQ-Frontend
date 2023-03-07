@@ -29,6 +29,7 @@ const ConnectModal = ({ closeModal, setShowModal }) => {
       appState.logger.info(err, accountData?.id, 'ConnectModal.js');
     }
   };
+
   useEffect(() => {
     if (account) {
       closeModal();
