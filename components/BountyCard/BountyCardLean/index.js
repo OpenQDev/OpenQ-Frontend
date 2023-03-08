@@ -15,7 +15,7 @@ import { getBountyMarker, getBountyTypeName } from '../../../services/utils/lib'
 
 const BountyCardLean = ({ item, loading, index, length, unWatchable, noModal }) => {
   // State
-  const bountyName = item?.title?.toLowerCase() || '';
+  const bountyName = item?.title || '';
   const [appState] = useContext(StoreContext);
   const [isModal, setIsModal] = useState();
   const [hovered, setHovered] = useState();
@@ -104,7 +104,7 @@ const BountyCardLean = ({ item, loading, index, length, unWatchable, noModal }) 
               </div>
               <div className='break-word text-xl inline gap-1 pb-1'>
                 <span className=' text-link-colour' data-testid='repo'>
-                  {item.owner && `${item.owner.toLowerCase()}/${item.repoName.toLowerCase()}`}
+                  {item.owner && `${item.owner}/${item.repoName}`}
                 </span>
                 <span>
                   {item.alternativeName ? <span className='whitespace-nowrap'> ( {item.alternativeName} )</span> : ''}
