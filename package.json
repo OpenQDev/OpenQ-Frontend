@@ -69,7 +69,7 @@
     "jspdf": "2.5.1",
     "jspdf-autotable": "3.5.28",
     "lodash": "4.17.21",
-    "magic-sdk": "13.5.0",
+    "magic-sdk": "13.6.0",
     "mustache": "4.2.0",
     "next": "13.2.3",
     "papaparse": "5.4.0",
