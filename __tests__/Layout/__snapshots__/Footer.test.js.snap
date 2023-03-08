@@ -156,7 +156,7 @@ exports[`Footer should match DOM Snapshot 1`] = `
       <h1
         className="font-bold pb-2"
       >
-        RESSOURCES
+        RESOURCES
       </h1>
       <ForwardRef(LinkComponent)
         className=" lg:justify-self-center"

@@ -162,7 +162,7 @@ const Footer = () => {
           </Link>
         </div>
         <div className='flex flex-col pb-8'>
-          <h1 className='font-bold pb-2'>RESSOURCES</h1>
+          <h1 className='font-bold pb-2'>RESOURCES</h1>
           <Link
             href={'https://medium.com/openqdev'}
             className=' lg:justify-self-center'
