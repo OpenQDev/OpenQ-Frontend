@@ -24,7 +24,7 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
   // Hooks
   const [appState] = useContext(StoreContext);
   const [labels, setLabels] = useState([]);
-  let paginationState = useState(paginationObjWithFunctions);
+  const paginationState = useState(paginationObjWithFunctions);
   const [paginationStateObj, setPaginationStateObj] = paginationState;
   const { searchText } = paginationStateObj.filters;
 
