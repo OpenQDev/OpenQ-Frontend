@@ -2497,12 +2497,12 @@
   dependencies:
     "@lit-labs/ssr-dom-shim" "^1.0.0"
 
-"@magic-ext/oauth@7.5.0":
-  version "7.5.0"
-  resolved "https://registry.yarnpkg.com/@magic-ext/oauth/-/oauth-7.5.0.tgz#fb06af77feab396fc84e9321cf0bb63764694961"
-  integrity sha512-wrcjKo9bqkp02t1VMyibjaxNxP+aimWzj6cRfOKoH3n3nUU6Szyy/71GoQ7A8f2pJRUuiZvIndaCmW5E2nFBsA==
+"@magic-ext/oauth@7.6.0":
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/@magic-ext/oauth/-/oauth-7.6.0.tgz#f3dd496305c6a6ff3e8a169190fd39edcb377745"
+  integrity sha512-rJqqolXBDirtFuwRq0FH9vDzPv+lq1tlr2w4gChmjhGi0ksT1y1BaxTdaVIan04Qv+9c6tYigF3ptCsMwciUSA==
   dependencies:
-    "@magic-sdk/types" "^11.5.0"
+    "@magic-sdk/types" "^11.6.0"
 
 "@magic-sdk/commons@^9.5.0":
   version "9.5.0"
@@ -2522,6 +2522,11 @@
   version "11.5.0"
   resolved "https://registry.yarnpkg.com/@magic-sdk/types/-/types-11.5.0.tgz#e0c1daa00cac754f1fc377013b24f0151b680a23"
   integrity sha512-sLNUNMcQy43Q4FD2sG+atuUsrgBvnAwrvUSP2IAc4fS30qkDlo+VWAOVNkNWu1o4HcioqOXUAgV3E24dKkLIqQ==
+
+"@magic-sdk/types@^11.6.0":
+  version "11.6.0"
+  resolved "https://registry.yarnpkg.com/@magic-sdk/types/-/types-11.6.0.tgz#0087db0464a02fe9eeb763dc6e92a05974a16f7f"
+  integrity sha512-r+sjmhGjJ9AaHnMvbNY2Wj+FL8o2V2FyPOXAZNtgC0Uv8oniJ7zaDx06SULOozoyAVHuzizs27riT4F6SLIaFA==
 
 "@metamask/detect-provider@^1.2.0":
   version "1.2.0"
@@ -5125,14 +5130,14 @@
     "@walletconnect/window-getters" "^1.0.1"
     tslib "1.14.1"
 
-"@web3-react/core@8.0.36-beta.0":
-  version "8.0.36-beta.0"
-  resolved "https://registry.yarnpkg.com/@web3-react/core/-/core-8.0.36-beta.0.tgz#8364bee05d3ae713bd06fbe283fba214bac3f2af"
-  integrity sha512-ou6sugMV4aaMVFC3KUfEkhFdiNHEGhAjzbe1lnlLeh0PvzCNUuGgr13JyusrMxZ0i7YwnFVp7W8PP6L7UtshBw==
+"@web3-react/core@8.1.1-beta.0":
+  version "8.1.1-beta.0"
+  resolved "https://registry.yarnpkg.com/@web3-react/core/-/core-8.1.1-beta.0.tgz#76b81518829a1dd5bb3e992499824da96b71d2fd"
+  integrity sha512-7Fbsh+dLKAGrqZfDy+ZrFQraLwgnzrrI36YFdNUawUbLlaGAINFebQTUgQWAiEZ30S0xKLpggAdB+3rxwIqRKg==
   dependencies:
-    "@web3-react/store" "^8.0.26-beta.0"
-    "@web3-react/types" "^8.0.21-beta.0"
-    zustand "^4.0.0"
+    "@web3-react/store" "^8.1.1-beta.0"
+    "@web3-react/types" "^8.1.1-beta.0"
+    zustand "4.3.3"
   optionalDependencies:
     "@ethersproject/providers" "^5"
 
@@ -5153,14 +5158,14 @@
     "@metamask/detect-provider" "^1.2.0"
     "@web3-react/types" "^8.0.20-beta.0"
 
-"@web3-react/store@^8.0.26-beta.0":
-  version "8.0.26-beta.0"
-  resolved "https://registry.yarnpkg.com/@web3-react/store/-/store-8.0.26-beta.0.tgz#44c7c0af5b4df46bfb81898dd3c115da44c45ad0"
-  integrity sha512-d5Bza4qFeJFrdsYy3ESMYpTecIUv7kTGiKODE1uH1HX4sLD61EOBtDtwXP+5DfNmYSpeeUx5uCuIRXWZiL+DTg==
+"@web3-react/store@^8.1.1-beta.0":
+  version "8.1.1-beta.0"
+  resolved "https://registry.yarnpkg.com/@web3-react/store/-/store-8.1.1-beta.0.tgz#7abccfd7fe7b75d98d8ed2a9fdff931ed7e11b3a"
+  integrity sha512-hPS3QjbIOxDBT4zsKW7+SZ+LDFb7OpbTsdwSypuAUN8Z53biglF5Ge4U8U2jxMvnDvO3AMAOmDGslpF3j+W+Vg==
   dependencies:
     "@ethersproject/address" "^5"
-    "@web3-react/types" "^8.0.21-beta.0"
-    zustand "^4.0.0"
+    "@web3-react/types" "^8.1.1-beta.0"
+    zustand "4.3.3"
 
 "@web3-react/types@^8.0.14-beta.0":
   version "8.0.14-beta.0"
@@ -5175,13 +5180,6 @@
   integrity sha512-qOZYMyUmsm3Um6t6Pg3OgnE86ufhWZpB5/VxsooB8cdpXc/C/f8KMyYSeM63GoKSMScOKwfqV6yODFL7g/Qc8g==
   dependencies:
     zustand "^4.0.0-rc.0"
-
-"@web3-react/types@^8.0.21-beta.0":
-  version "8.0.21-beta.0"
-  resolved "https://registry.yarnpkg.com/@web3-react/types/-/types-8.0.21-beta.0.tgz#a8c1437f343a5d2955561f4b204190ad3cdf9244"
-  integrity sha512-eOkRtMhB1WDJZPQPDHKRydo5n+2ZEYbYPNm2jmgg2CcfNO2w1gav8OQISvABVW/ExQSaF9iKveGQd897xFLdcQ==
-  dependencies:
-    zustand "^4.0.0"
 
 "@web3-react/types@^8.1.1-beta.0":
   version "8.1.1-beta.0"
@@ -19628,7 +19626,7 @@ zustand@4.3.3:
   dependencies:
     use-sync-external-store "1.2.0"
 
-zustand@^4.0.0, zustand@^4.0.0-rc.0:
+zustand@^4.0.0-rc.0:
   version "4.3.6"
   resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.3.6.tgz#ce7804eb75361af0461a2d0536b65461ec5de86f"
   integrity sha512-6J5zDxjxLE+yukC2XZWf/IyWVKnXT9b9HUv09VJ/bwGCpKNcaTqp7Ws28Xr8jnbvnZcdRaidztAPsXFBIqufiw==
