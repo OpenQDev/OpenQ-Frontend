@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import StoreContext from '../../store/Store/StoreContext';
 const NavLinks = ({ setOpenMenu }) => {
   const router = useRouter();
+  const [appState] = useContext(StoreContext);
+  const { accountData } = appState;
   return (
     <>
       <Link
@@ -35,6 +38,16 @@ const NavLinks = ({ setOpenMenu }) => {
       >
         <span> Good First Issues</span>
       </Link>
+      {!accountData.id && (
+        <>
+          <Link onClick={() => setOpenMenu(false)} href={'/login'} className={`nav-link md:hidden`}>
+            <span> Login </span>
+          </Link>
+          <Link onClick={() => setOpenMenu(false)} href={'/login'} className={`nav-link md:hidden`}>
+            <span>Sign up</span>
+          </Link>
+        </>
+      )}
     </>
   );
 };

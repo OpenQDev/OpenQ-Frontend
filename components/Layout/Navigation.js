@@ -101,8 +101,8 @@ const Navigation = () => {
   return (
     <>
       {openMenu ? (
-        <div className='absolute top-12 left-0 z-50 bg-nav-bg lg:hidden w-60'>
-          <div className='flex flex-col p-4 z-50 bg-nav-bg space-x-1 space-y-2 w-full'>
+        <div className='absolute top-12 left-0 z-10 bg-nav-bg w-full md:hidden w-60'>
+          <div className='flex flex-col p-4 z-10 bg-nav-bg space-x-1 space-y-2 w-full'>
             {includeSearch && (
               <div className='flex-col mr-2 h-7  group'>
                 <input
@@ -122,20 +122,17 @@ const Navigation = () => {
       <LoadingThread />
       <div className='flex bg-nav-bg py-1 h-16 relative z-10'>
         <div className='flex visible relative w-full'>
-          <div className='flex w-full lg:py-1 justify-between mx-4 lg:mx-8'>
+          <div className='flex w-full md:py-1 justify-between mx-4 md:mx-8'>
             <div className='flex space-x-5 items-center'>
-              <Link href={'/'} className='flex items-center lg:hover:opacity-70 min-w-[31px]'>
+              <Link href={'/'} className='flex items-center md:hover:opacity-70 min-w-[31px]'>
                 <Image src='/openq-logo-white-2.png' alt='OpenQ' width='31' height='31' />
               </Link>
-              <button className='flex lg:hidden' onClick={() => setOpenMenu(!openMenu)}>
-                <ThreeBarsIcon size={24} />
-              </button>
 
-              <div className='lg:flex hidden  content-center  items-center'>
+              <div className='md:flex hidden  content-center  items-center'>
                 {includeSearch && (
                   <div className='flex-col justify-center mr-2 h-7 group '>
                     <input
-                      className={`lg:flex hidden pr-4 items-center focus:w-80 w-60  left-0 input-field transition-all  ease-in-out duration-700 ${
+                      className={`md:flex hidden pr-4 items-center focus:w-80 w-60  left-0 input-field transition-all  ease-in-out duration-700 ${
                         quickSearch && 'focus:w-80'
                       }`}
                       onChange={handleSearch}
@@ -152,8 +149,9 @@ const Navigation = () => {
                 </button>
               </div>
             </div>
-            <div className='flex items-center text-[0.8rem] lg:text-[1rem]'>
-              <div className='pr-4'>
+            <div className='md:hidden font-inter text-xl self-center font-bold'>OpenQ</div>
+            <div className='flex items-center text-[0.8rem] md:text-[1rem]'>
+              <div className='pr-4 md:block hidden'>
                 <ConnectButton
                   needsGithub={true}
                   nav={true}
@@ -161,6 +159,9 @@ const Navigation = () => {
                   centerStyles={true}
                 />
               </div>
+              <button className='flex md:hidden pr-4' onClick={() => setOpenMenu(!openMenu)}>
+                <ThreeBarsIcon size={24} />
+              </button>
             </div>
           </div>
         </div>
