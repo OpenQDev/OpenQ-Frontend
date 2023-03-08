@@ -26,7 +26,7 @@ describe('BountyCard', () => {
 
       // ASSERT
       await waitFor(async () => {
-        const orgName = await screen.findByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
+        const orgName = await screen.findByText(`${bounty.owner}/${bounty.repoName}`);
         // ACT
         expect(orgName).toBeInTheDocument();
       });
@@ -39,7 +39,7 @@ describe('BountyCard', () => {
 
       // ASSERT
       await waitFor(async () => {
-        const orgName = await screen.findByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
+        const orgName = await screen.findByText(`${bounty.owner}/${bounty.repoName}`);
         await user.click(orgName);
         if (bounty.status == 1) {
           const bountyStatus = await screen.findAllByText(/Closed/i);
