@@ -32,7 +32,7 @@
     "@kycdao/widget": "0.5.8",
     "@magic-ext/oauth": "7.6.0",
     "@metamask/jazzicon": "2.0.0",
-    "@primer/octicons-react": "18.0.0",
+    "@primer/octicons-react": "18.1.0",
     "@react-pdf/renderer": "3.1.7",
     "@superfluid-finance/sdk-core": "0.6.1",
     "@tailwindcss/container-queries": "0.1.0",

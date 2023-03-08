@@ -2805,10 +2805,10 @@
     schema-utils "^3.0.0"
     source-map "^0.7.3"
 
-"@primer/octicons-react@18.0.0":
-  version "18.0.0"
-  resolved "https://registry.yarnpkg.com/@primer/octicons-react/-/octicons-react-18.0.0.tgz#f5c4b54dc0c835b8e62f356a2f5d39d6f9f7dfcd"
-  integrity sha512-i97d9dIwjvt145XMIB0pekNi2w0ul8bMnjtXJolF8VS6mQNUFUF31hgjYYVAyaqKCMA3/IDQuHj1K0eHshy8Bw==
+"@primer/octicons-react@18.1.0":
+  version "18.1.0"
+  resolved "https://registry.yarnpkg.com/@primer/octicons-react/-/octicons-react-18.1.0.tgz#9125a1aae78f64ff2629a492e2a1b97bb3072129"
+  integrity sha512-tB/mkoA5PG7aqvc8agRwFlO63rlI/D4l+QsdRYjkkKfjc2lhtmIzGS/WzAcmIAbToa+qGRSokj2KC1tCG9gQBw==
 
 "@project-serum/sol-wallet-adapter@0.2.0":
   version "0.2.0"
