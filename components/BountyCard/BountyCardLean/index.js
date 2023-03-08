@@ -85,7 +85,7 @@ const BountyCardLean = ({ item, loading, index, length, unWatchable, noModal }) 
         } ${index === 0 && 'rounded-t-sm'}`}
       >
         <div className='flex flex-row flex-wrap sm:flex-nowrap justify-between sm:pt-0 text-primary'>
-          <div className='w-full sm:w-3/4 md:w-1/2'>
+          <div className='w-full  md:w-full'>
             <div className='flex flex-grow flex-row items-center md:space-x-2 sm:pb-0 w-full'>
               <div className='hidden md:block'>
                 <svg
@@ -111,15 +111,7 @@ const BountyCardLean = ({ item, loading, index, length, unWatchable, noModal }) 
                 </span>
               </div>
             </div>
-            <div className='font-bold text-lg'>
-              {loading ? (
-                <Skeleton width={'100px'} />
-              ) : item?.title?.length < 50 ? (
-                bountyName
-              ) : (
-                bountyName.slice(0, 50) + '...'
-              )}
-            </div>
+            <div className='font-bold text-lg'>{loading ? <Skeleton width={'100px'} /> : bountyName}</div>
 
             <div className='flex flex-row items-center space-x-4 w-full'>
               <div className='font-light text-sm w-full'>
