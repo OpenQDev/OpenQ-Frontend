@@ -2393,11 +2393,12 @@
     bs58 "^5.0.0"
     uuid "^8.3.2"
 
-"@kycdao/kycdao-sdk@^0.6.7":
-  version "0.6.7"
-  resolved "https://registry.yarnpkg.com/@kycdao/kycdao-sdk/-/kycdao-sdk-0.6.7.tgz#23d5886e74dc23bece4c3768057c0b11bae2d3a3"
-  integrity sha512-23sQbaaL9rigaiDHd/mAIvUODLelEj9PcOy46pz8rMtiShuMEXOrtu5Mq9YLVsXZnjzv7Fx4UxLQ29ZafQKW0w==
+"@kycdao/kycdao-sdk@^0.6.9":
+  version "0.6.9"
+  resolved "https://registry.yarnpkg.com/@kycdao/kycdao-sdk/-/kycdao-sdk-0.6.9.tgz#6ff498e4ebe71a6d35300e5f7b6179e067d824f3"
+  integrity sha512-wLz4Dkyvb5sA0kTyHJ8ywSVopo0/zvgqK0yOd1D/gAcWO6ntx4yf6jSOoE3e9ZsLShe4mymyw/XDejTDjo7uEA==
   dependencies:
+    "@solana/buffer-layout" "^4.0.1"
     "@solana/wallet-adapter-base" "^0.9.22"
     "@solana/wallet-adapter-wallets" "^0.19.15"
     "@solana/web3.js" "^1.73.3"
@@ -2405,12 +2406,12 @@
     bs58 "^5.0.0"
     persona "^4.7"
 
-"@kycdao/widget@0.5.8":
-  version "0.5.8"
-  resolved "https://registry.yarnpkg.com/@kycdao/widget/-/widget-0.5.8.tgz#3ad3053a4be2529486e263c903f34cf592578574"
-  integrity sha512-Z0Q4W4Wa1AVIslAC85UprkL0TxhWs65PdXJ6hz6O06kG5gFDar7WyM2z9HzIZk4ETN0dAZzRVCILmrIC621bAg==
+"@kycdao/widget@0.5.9":
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/@kycdao/widget/-/widget-0.5.9.tgz#a86336a53f9645e790367d48616a1dc6d88d34ee"
+  integrity sha512-+gcI0gZRKiXj2danUogp1zxI0OD6XAsQU8imlpcy7go7cdAQW7EFaUAcbFYVB5v883JtfqoObl4mUZE8PMxpeQ==
   dependencies:
-    "@kycdao/kycdao-sdk" "^0.6.7"
+    "@kycdao/kycdao-sdk" "^0.6.9"
     buffer "^6.0.3"
     clsx "^1.2.1"
     near-api-js "^1.1.0"
@@ -2421,6 +2422,7 @@
     react-twitter-embed "^4.0.4"
     rxjs "^7.8.0"
     stream "^0.0.2"
+    styled-components "^5.3.8"
 
 "@ledgerhq/devices@6.27.1", "@ledgerhq/devices@^6.27.1":
   version "6.27.1"
@@ -3060,7 +3062,7 @@
   resolved "https://registry.yarnpkg.com/@socket.io/component-emitter/-/component-emitter-3.1.0.tgz#96116f2a912e0c02817345b3c10751069920d553"
   integrity sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==
 
-"@solana/buffer-layout@^4.0.0":
+"@solana/buffer-layout@^4.0.0", "@solana/buffer-layout@^4.0.1":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@solana/buffer-layout/-/buffer-layout-4.0.1.tgz#b996235eaec15b1e0b5092a8ed6028df77fa6c15"
   integrity sha512-E1ImOIAD1tBZFRdjeM4/pzTiTApC0AOBGwyAMS4fwIodCWArzJ3DWdoh8cKxeFM2fElkxBh2Aqts1BPC373rHA==
