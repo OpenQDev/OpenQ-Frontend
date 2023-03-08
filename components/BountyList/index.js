@@ -111,6 +111,7 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
   };
 
   const showUnready = (toggleVal) => {
+    paginationState[0].filters.isReady = toggleVal;
     setPaginationStateObj({
       ...paginationStateObj,
       filters: {

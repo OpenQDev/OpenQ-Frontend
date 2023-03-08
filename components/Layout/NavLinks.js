@@ -1,10 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import StoreContext from '../../store/Store/StoreContext';
-const NavLinks = ({ setOpenMenu }) => {
+const NavLinks = ({ setOpenMenu, appState }) => {
   const router = useRouter();
-  const [appState] = useContext(StoreContext);
   const { accountData } = appState;
   return (
     <>

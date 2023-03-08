@@ -115,7 +115,7 @@ const Navigation = () => {
                 {quickSearch && <LinkDropdown items={items} />}
               </div>
             )}
-            <NavLinks setOpenMenu={setOpenMenu} />
+            <NavLinks appState={appState} setOpenMenu={setOpenMenu} />
           </div>
         </div>
       ) : null}
@@ -143,7 +143,7 @@ const Navigation = () => {
                     {quickSearch && <LinkDropdown items={items} />}
                   </div>
                 )}
-                <NavLinks setOpenMenu={setOpenMenu} />
+                <NavLinks appState={appState} setOpenMenu={setOpenMenu} />
                 <button onClick={() => setShowModal(true)} className='pl-4 flex items-center'>
                   <QuestionIcon size={16} className='fill-muted hover:fill-primary' />
                 </button>

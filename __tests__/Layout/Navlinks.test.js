@@ -16,7 +16,7 @@ describe('NavLinks', () => {
     }),
   }));
   it('should match DOM Snapshot', () => {
-    const tree = renderer.create(<NavLinks />);
+    const tree = renderer.create(<NavLinks appState={{ accountData: {} }} />);
     expect(tree.toJSON()).toMatchSnapshot();
   });
 });

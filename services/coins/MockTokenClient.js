@@ -88,23 +88,19 @@ class MockCoinClient {
           const tokenValues = { tokenPrices: {}, tokens: {}, total: 0 };
           let total = 0;
           for (let key in tokenVolumes) {
-            console.log('key', key);
             const lowercaseKey = key.toLowerCase();
             if (this.firstTenPrices[lowercaseKey] && !fetchValues) {
-              console.log('hs');
               const multiplier = parseInt(tokenVolumes[key].volume) / Math.pow(10, tokenVolumes[key].decimals);
               const value = this.firstTenPrices[lowercaseKey].usd;
               tokenValues.tokens[lowercaseKey] = value * multiplier;
               tokenValues.tokenPrices[lowercaseKey] = Math.round(parseFloat(value) * 100) / 100;
               total = total + value * multiplier;
             } else {
-              console.log('fetching');
               fetchValues = true;
             }
           }
           tokenValues.total = Math.round(parseFloat(total) * 100) / 100;
           if (JSON.stringify(tokenValues) !== '{"tokenPrices":{},"tokens":{},"total":0}' && !fetchValues) {
-            console.log('tokenValues', tokenValues);
 
             return tokenValues;
           }
