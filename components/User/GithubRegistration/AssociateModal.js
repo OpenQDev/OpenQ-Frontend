@@ -104,8 +104,8 @@ const AssociateModal = ({
         setAssociateState('ERROR');
         setError({
           message:
-            err.response.data.errorMessage ||
-            `Error associating wallet address ${account} with the github account that whose id is ${githubId}`,
+            err?.response?.data?.errorMessage ||
+            `Error associating wallet address ${account} with the github account whose id is ${githubId}. Please try again in an hour or two.`,
           title: 'Error',
         });
       });

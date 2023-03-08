@@ -21,16 +21,13 @@ import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
 import useFundBountyMethod from '../hooks/useFundBountyMethod';
 import TokenContext from '../../TokenSelection/TokenStore/TokenContext';
 import { shortenAddress, getBountyTypeName } from '../../../services/utils/lib';
-import { useRouter } from 'next/router';
 
 const FundPage = () => {
   const [fundState, fundDispatch] = useContext(FundContext);
   const { allowance, depositPeriodDays, bounty, approveTransferState, setInternalMenu } = fundState;
   const web3 = useWeb3();
-  const query = useRouter().query;
-  const minter = bounty.issuer.id === web3?.account?.toLowerCase();
-  const canCrowdFund = !(bounty.invoiceRequired || query.invoiceable) && !bounty.kycRequired;
-  const canFund = canCrowdFund || minter;
+  const canFund = bounty.issuer.id === web3?.account?.toLowerCase();
+
   const [volume, setVolume] = useState('');
   const [tokenSelectState] = useContext(TokenContext);
   const { token } = tokenSelectState;
@@ -258,8 +255,7 @@ const FundPage = () => {
             </div>
           ) : (
             <div className='p-8 sm:p-0'>
-              Sorry crowdfunding isn't available for invoiceable bounties such as this one, please connect the account (
-              {shortenAddress(bounty.issuer.id)}) that minted this bounty to fund it.
+              Please connect the account ({shortenAddress(bounty.issuer.id)}) that minted this bounty to fund it.
             </div>
           )}
 
