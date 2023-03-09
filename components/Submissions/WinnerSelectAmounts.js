@@ -181,7 +181,7 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled }) => 
                 </a>{' '}
                 challenge.
               </p>
-              <p className='my-2'>
+              <div className='my-2'>
                 {claimReady ? 'This will release' : 'Before being able to claim'}{' '}
                 {bounty.bountyType === '2'
                   ? prize.payout + '% of funds'
@@ -204,7 +204,7 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled }) => 
                     </ul>
                   </>
                 )}
-              </p>
+              </div>
             </>
           )}
           {selectionState === TRANSFERRING && (
@@ -219,16 +219,18 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled }) => 
                 {bounty.bountyType === '2'
                   ? prize.payout + '% of funds'
                   : formatVolume(prize.payout, appState.tokenClient.getToken(bounty.payoutTokenAddress)) + unit}{' '}
-                staked on this competition can now be claimed by {pr.author.name || pr.author.login},
-                <>
-                  {' '}
-                  after they complete the following:
-                  <ul className='mt-2 ml-4 list-disc'>
-                    {bounty.invoiceRequired && <li>Invoice</li>}
-                    {bounty.supportingDocumentsRequired && <li>W8/W9 Form</li>}
-                    {bounty.kycRequired && <li>KYC</li>}
-                  </ul>
-                </>
+                staked on this competition can now be claimed by {pr.author.name || pr.author.login}
+                {claimReady && '.'}
+                {!claimReady && (
+                  <>
+                    , after they complete the following:
+                    <ul className='mt-2 ml-4 list-disc'>
+                      {bounty.invoiceRequired && <li>Invoice</li>}
+                      {bounty.supportingDocumentsRequired && <li>W8/W9 Form</li>}
+                      {bounty.kycRequired && <li>KYC</li>}
+                    </ul>
+                  </>
+                )}
               </div>
             </>
           )}

@@ -9,6 +9,7 @@ import ToolTipNew from '../../Utils/ToolTipNew';
 import Username from '../../User/OverviewTab/Username/index';
 import LanguagesAndFrameworks from './LanguagesAndFrameworks';
 import { useRouter } from 'next/router';
+import FreelancerDetails from '../../User/InvoicingDetailsTab/FreelancerDetails';
 
 const FirstSignupModal = ({ closeModal, setShowModal, user }) => {
   const router = useRouter();
@@ -99,7 +100,20 @@ const FirstSignupModal = ({ closeModal, setShowModal, user }) => {
       resetState={closeModal}
     >
       <div className='mx-4 p-4'>
-        <p className='text-2xl font-semibold  py-2'>Tell us a bit about yourself</p>
+        <div>
+          <p className='text-2xl font-semibold  py-2'>Hello {authState.login}</p>
+          <p className='py-2'>If you're coming here as an EthDenver Buidlathon winner, congratulations!</p>
+          <p className='py-2'>Let's get you paid.</p>
+          <p className='py-2'>Enter your email to stay up to date with next steps in claiming your award.</p>
+          <p className='py-2'>
+            OpenQ and EthDenver will use this email to tell you when you uploaded forms have been approved, after which
+            you can claim right away.
+          </p>
+        </div>
+        <section className='flex flex-col gap-3 pb-6'>
+          <FreelancerDetails slim={true} emailOnly={true} />
+        </section>
+        <p className='text-2xl font-semibold  py-2'>Now, tell us a bit about yourself</p>
         <div className='flex gap-2'>
           <p className='font-semibold py-2'>Username:</p>
           <Username user={appState.accountData} firstSignup={true} />
