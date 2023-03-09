@@ -82,10 +82,10 @@ export const checkHackathonDates = (startDate, endDate, today) => {
   return true;
 };
 const checkPrUsed = (pr, bounty) => {
-  return bounty.claims.some((claim) => claim.claimantAsset === pr.source.url);
+  return bounty.claims?.some((claim) => claim.claimantAsset === pr.source.url);
 };
 const checkTierClaimed = (bounty, index) => {
-  return bounty.claims.some((claim) => claim.tier === index.toString());
+  return bounty.claims?.some((claim) => claim.tier === index.toString());
 };
 
 export const checkFixedAndSplit = (bounty, currentUser) => {

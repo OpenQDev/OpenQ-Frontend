@@ -174,7 +174,7 @@ exports[`Watching should render match DOM Snapshot 1`] = `
         }
       }
       length={4}
-      unWatchable={true}
+      setStatefulWatched={[Function]}
     />
     <BountyCardLean
       index={1}
@@ -344,7 +344,7 @@ exports[`Watching should render match DOM Snapshot 1`] = `
         }
       }
       length={4}
-      unWatchable={true}
+      setStatefulWatched={[Function]}
     />
     <BountyCardLean
       index={2}
@@ -517,7 +517,7 @@ exports[`Watching should render match DOM Snapshot 1`] = `
         }
       }
       length={4}
-      unWatchable={true}
+      setStatefulWatched={[Function]}
     />
     <BountyCardLean
       index={3}
@@ -691,7 +691,7 @@ exports[`Watching should render match DOM Snapshot 1`] = `
         }
       }
       length={4}
-      unWatchable={true}
+      setStatefulWatched={[Function]}
     />
   </div>
 </ProfileTabWrapper>

@@ -24,10 +24,12 @@ import ModalLarge from '../../../Utils/ModalLarge';
 import KycRequiredToggle from '../KycRequiredToggle';
 import W8RequiredToggle from '../W8RequiredToggle';
 import { getBountyTypeName, getTypeFromCategory } from '../../../../services/utils/lib';
+import useWeb3 from '../../../../hooks/useWeb3';
 
 const MintBountyModal = ({ modalVisibility }) => {
   const [appState] = useContext(StoreContext);
   const [mintState, mintDispatch] = useContext(MintContext);
+  const { gnosisSafe } = useWeb3();
 
   // State
   const [issue, setIssue] = useState();
@@ -182,6 +184,13 @@ const MintBountyModal = ({ modalVisibility }) => {
                 onChange={setAccepted}
               ></input>
             </div>
+            {gnosisSafe && (
+              <div className='note'>
+                Hey! Looks like you are using gnosis safe via wallet connect. Because gnosis safes' often require
+                multiple signatures, this modal will will be stuck in a pending state. Once you're multi-sig has
+                approved the transaction, please reload the app, and you'll see the results of your transaction.
+              </div>
+            )}
           </div>
         </div>
       </ModalLarge>

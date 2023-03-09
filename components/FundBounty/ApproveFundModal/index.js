@@ -12,6 +12,7 @@ import LinkText from '../../svg/linktext';
 import TweetAbout from '../../Utils/TweetAbout';
 import ModalDefault from '../../Utils/ModalDefault';
 import FundContext from '../FundStore/FundContext';
+import GnosisWarning from '../../Utils/GnosisWarning';
 
 // setError,
 // setApproveTransferState,
@@ -268,6 +269,7 @@ const ApproveFundModal = ({
           </div>
         </>
       )}
+      <GnosisWarning />
     </ModalDefault>
   );
 };
