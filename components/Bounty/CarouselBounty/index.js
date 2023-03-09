@@ -30,7 +30,7 @@ const CarouselBounty = ({ bounty }) => {
             <div className='pt-1'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
-                fill={bounty?.STATUS === 'CLOSED' ? '#F0431D' : '#15FB31'}
+                className={bounty?.status === '1' ? 'fill-danger' : 'fill-green'}
                 viewBox='0 0 16 16'
                 width='19'
                 height='19'
