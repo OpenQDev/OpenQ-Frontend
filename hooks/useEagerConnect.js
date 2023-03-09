@@ -12,7 +12,6 @@ export default function useEagerConnect() {
   useEffect(() => {
     const connect = async () => {
       try {
-        console.log(walletConnect);
         if (walletConnect.defaultChainId === chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]) {
           await walletConnect.connectEagerly();
         } else {

@@ -26,13 +26,23 @@ const useDisplayValue = (bounty, formatter, type) => {
   const setDisplayValues = (budget = 0, tvc, tvl) => {
     const hasTvl = (tvl >= budget && type !== 'budget') || type === 'actual';
     if (bounty.status !== '0') {
-      setValueObj({
-        value: tvc,
-        valueType: 'TVC',
-        valueTypeFull: 'Total Value Claimed',
-        displayValue: formatter(tvc),
-        imgSrc: '/crypto-logos/ETH-COLORED.png',
-      });
+      if (tvl - tvc > tvc / 50) {
+        setValueObj({
+          value: tvl,
+          valueType: 'TVL',
+          valueTypeFull: 'Total Value Locked',
+          displayValue: formatter(tvl),
+          imgSrc: '/crypto-logos/ETH-COLORED.png',
+        });
+      } else {
+        setValueObj({
+          value: tvc,
+          valueType: 'TVC',
+          valueTypeFull: 'Total Value Claimed',
+          displayValue: formatter(tvc),
+          imgSrc: '/crypto-logos/ETH-COLORED.png',
+        });
+      }
     } else if (hasTvl) {
       setValueObj({
         value: tvl,
