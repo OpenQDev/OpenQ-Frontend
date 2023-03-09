@@ -57,7 +57,6 @@ const ClaimPage = ({ bounty, refreshBounty, split, setInternalMenu, internalMenu
 
   useEffect(() => {
     setClaimable({ kyc, w8Form, githubHasWallet, invoice });
-    console.log();
   }, [kyc, w8Form, githubHasWallet, invoice]);
 
   /* const accountKeys = [

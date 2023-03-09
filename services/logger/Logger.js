@@ -21,8 +21,9 @@ class Logger {
 
       if (message) {
         console.log(`id: ${id}, message: ${message}, date: ${currentDate}, user: ${user}`);
-      } else {
-        console.error('undefined error');
+      } else {     
+          console.log(`id: ${id}, message: ${JSON.stringify(data)}, date: ${currentDate}, user: ${user}`);
+
       }
     }
   }

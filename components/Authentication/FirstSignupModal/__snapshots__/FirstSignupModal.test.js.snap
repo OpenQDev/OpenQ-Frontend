@@ -93,10 +93,78 @@ exports[`FirstSignupModal should match initial DOM Snapshot 1`] = `
             <div
               class="mx-4 p-4"
             >
+              <div>
+                <p
+                  class="text-2xl font-semibold  py-2"
+                >
+                  Hello 
+                </p>
+                <p
+                  class="py-2"
+                >
+                  If you're coming here as an EthDenver Buidlathon winner, congratulations!
+                </p>
+                <p
+                  class="py-2"
+                >
+                  Let's get you paid.
+                </p>
+                <p
+                  class="py-2"
+                >
+                  Enter your email to stay up to date with next steps in claiming your award.
+                </p>
+                <p
+                  class="py-2"
+                >
+                  OpenQ and EthDenver will use this email to tell you when you uploaded forms have been approved, after which you can claim right away.
+                </p>
+              </div>
+              <section
+                class="flex flex-col gap-3 pb-6"
+              >
+                <div
+                  class="false py text-lg"
+                >
+                  <form
+                    class="font-normal max-w-[500px] gap-4"
+                  >
+                    <div>
+                      <div
+                        class=" text-sm justify-between my-4"
+                      >
+                        <label
+                          class="block font-semibold mb-1.5"
+                          for="invoicingEmail"
+                        >
+                          Email 
+                        </label>
+                        <input
+                          class="input-field w-full max-w-[400px] bg-input-bg px-3 py-[5px] border-border-muted invalid:border-danger"
+                          id="invoicingEmail"
+                          required=""
+                          type="text"
+                          value=""
+                        />
+                      </div>
+                      <div
+                        class="note my-4"
+                      >
+                        This email will be used by organizations to communicate with you. OpenQ will also send copies of any documents you send to organizers via our interface.
+                      </div>
+                    </div>
+                    <input
+                      class="btn-primary bg-green  text-sm py-1 px-2 text-center w-20 cursor-pointer"
+                      type="submit"
+                      value="Update"
+                    />
+                  </form>
+                </div>
+              </section>
               <p
                 class="text-2xl font-semibold  py-2"
               >
-                Tell us a bit about yourself
+                Now, tell us a bit about yourself
               </p>
               <div
                 class="flex gap-2"

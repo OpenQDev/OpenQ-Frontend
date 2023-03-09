@@ -7,9 +7,8 @@ import CopyBountyAddress from '../CopyBountyAddress';
 import StoreContext from '../../../store/Store/StoreContext';
 import TokenBalances from '../../TokenBalances/TokenBalances';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
-import PieChart from '../PieChart';
 import { ethers } from 'ethers';
-import useDisplayValue from '../../../hooks/useDisplayValue';
+import useGetValueFromComposite from '../../../hooks/useGetValueFromComposite';
 import { getBountyTypeName } from '../../../services/utils/lib';
 
 const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
@@ -25,8 +24,23 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
   };
   const payoutBalances = useMemo(() => createPayout(bounty), [bounty]);
   const [payoutValues] = useGetTokenValues(payoutBalances);
-  const budgetValues = useDisplayValue(bounty, appState.utils.formatter.format, 'budget');
-  const actualValues = useDisplayValue(bounty, appState.utils.formatter.format, 'actual');
+
+  const getPayoutScheduleBalance = (bounty) => {
+    const totalPayoutsScheduled = bounty.payoutSchedule?.reduce((acc, payout) => {
+      return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
+    });
+    return {
+      volume: totalPayoutsScheduled?.toLocaleString('fullwide', { useGrouping: false }),
+      tokenAddress: bounty.payoutTokenAddress,
+    };
+  };
+  const payoutScheduledBalance = getPayoutScheduleBalance(bounty);
+  const [payoutScheduledValue] = useGetValueFromComposite(
+    payoutScheduledBalance.tokenAddress,
+    payoutScheduledBalance.volume
+  );
+  const [fundingGoalValue] = useGetValueFromComposite(bounty.fundingGoalTokenAddress, bounty.fundingGoalVolume);
+  const budgetValues = bounty.bountyType === '0' ? fundingGoalValue : payoutScheduledValue;
   const getFundsNeeded = (bounty) => {
     const { BigNumber } = ethers;
     if (bounty.fundingGoalVolume) {
@@ -69,7 +83,9 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
 
   useEffect(() => {
     const fundsNeeded = getFundsNeeded(bounty);
-    setFundsNeeded(fundsNeeded);
+    if (!bounty.claims?.length) {
+      setFundsNeeded(fundsNeeded);
+    }
   }, [bounty]);
 
   const typeName = getBountyTypeName(bounty.bountyType);
@@ -108,19 +124,30 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
           </li>
         </>
       )}
-      <li className='border-b border-web-gray py-3'>
-        <div className='text-xs font-semibold text-muted'>
-          {bounty.status === '0' ? 'Total Value Locked 🔒' : 'Total Value Claimed 🔓'}
-        </div>
-        <button className='text-xs font-semibold text-primary pt-2' onClick={() => setInternalMenu('Fund')}>
-          {actualValues?.displayValue || '$0.00'}
-        </button>
-      </li>
-
-      <li className='border-b border-web-gray py-3'>
-        <div className='text-xs font-semibold text-muted'>🎯 Current Target Budget</div>
-        <div className='text-xs font-semibold text-primary pt-2'>{budgetValues?.displayValue || '$0.00'}</div>
-      </li>
+      {bounty.tvl ? (
+        <li className='border-b border-web-gray py-3'>
+          <div className='text-xs font-semibold text-muted'>Total Value Locked 🔒</div>
+          <button className='text-xs font-semibold text-primary pt-2' onClick={() => setInternalMenu('Fund')}>
+            {appState.utils.formatter.format(bounty.tvl)}
+          </button>
+        </li>
+      ) : null}
+      {bounty.tvc ? (
+        <li className='border-b border-web-gray py-3'>
+          <div className='text-xs font-semibold text-muted'>Total Value Claimed 🔓</div>
+          <button className='text-xs font-semibold text-primary pt-2' onClick={() => setInternalMenu('Fund')}>
+            {appState.utils.formatter.format(bounty.tvc)}
+          </button>
+        </li>
+      ) : null}
+      {bounty.tvl < budgetValues?.total && !bounty.claims?.length ? (
+        <li className='border-b border-web-gray py-3'>
+          <div className='text-xs font-semibold text-muted'>🎯 Current Target Budget</div>
+          <div className='text-xs font-semibold text-primary pt-2'>
+            {appState.utils.formatter.format(budgetValues?.total) || '$0.00'}
+          </div>
+        </li>
+      ) : null}
       {fundsNeeded && parseFloat(fundsNeeded.volume) > 0 && (
         <li className='border-b border-web-gray py-3'>
           <div className='text-xs font-semibold text-muted'>Insolvent</div>
@@ -148,29 +175,6 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
             </>
           )}
         </li>
-      ) : bounty.bountyType == 2 ? (
-        <>
-          <li className='py-3'>
-            <div className='text-xs font-semibold text-muted'>Current Payout Schedule</div>
-            <div className='flex items-center gap-4 pt-2 text-primary'>
-              <div className='text-xs font-semibold leading-loose'>Number of tiers: </div>
-              <div className='text-xs font-semibold'>{bounty.payoutSchedule?.length}</div>
-            </div>
-            <div className='flex flex-col max-h-80 w-full overflow-y-auto overflow-x-hidden'>
-              {bounty.payoutSchedule?.map((t, index) => {
-                return (
-                  <div key={index} className='flex items-center gap-4 text-primary'>
-                    <div className='text-xs font-semibold leading-loose'>{`${appState.utils.handleSuffix(
-                      index + 1
-                    )} Place:`}</div>
-                    <div className='text-xs font-semibold'>{t} %</div>
-                  </div>
-                );
-              })}
-            </div>
-          </li>
-          <PieChart payoutSchedule={bounty.payoutSchedule} />
-        </>
       ) : bounty.bountyType == 3 ? (
         <li className='border-b border-web-gray py-3'>
           <div className='text-xs font-semibold text-muted'>Current Payout Schedule</div>
@@ -188,6 +192,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
                   )} Place:`}</div>
                   <div className='text-xs font-semibold'>
                     {formatVolume(t)} {token.symbol}
+                    {bounty.tierWinners?.[index] ? ' ( winner already chosen )' : null}
                   </div>
                 </div>
               );

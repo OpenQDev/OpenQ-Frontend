@@ -5,7 +5,7 @@ import Image from 'next/image';
 import WatchButton from '../../WatchButton/WatchButton';
 import Skeleton from 'react-loading-skeleton';
 
-const BountyModalHeading = ({ bounty, unWatchable, watchingState }) => {
+const BountyModalHeading = ({ bounty, setStatefulWatched, watchingState }) => {
   const [imageError, setImageError] = useState(false);
   return (
     <div className='flex'>
@@ -45,7 +45,7 @@ const BountyModalHeading = ({ bounty, unWatchable, watchingState }) => {
         ) : (
           <Skeleton width={51} height={51} />
         )}
-        <WatchButton watchingState={watchingState} unWatchable={unWatchable} bounty={bounty} />
+        <WatchButton watchingState={watchingState} setStatefulWatched={setStatefulWatched} bounty={bounty} />
       </div>
     </div>
   );

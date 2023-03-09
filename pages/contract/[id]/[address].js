@@ -195,6 +195,7 @@ const address = ({ address, mergedBounty, renderError }) => {
   const claimOverView = bounty?.claims?.length > 0 ? [{ name: 'Claims Overview', Svg: Log }] : [];
   const claim = claimable ? [{ name: 'Claim', Svg: Fire }] : [];
   const submissions = bounty.bountyType === '3' ? [{ name: 'Submissions', Svg: Log }] : [];
+  const fund = bounty.issuer?.id === account?.toLowerCase() ? [{ name: 'Fund', Svg: Add }] : [];
 
   // User Methods
 
@@ -227,8 +228,8 @@ const address = ({ address, mergedBounty, renderError }) => {
                 colour='rust'
                 items={[
                   { name: 'View', Svg: Telescope },
-                  { name: bounty.issuer && 'Fund', Svg: bounty.issuer && Add },
-                  { name: bounty.issuer && 'Refund', Svg: bounty.issuer && Subtract },
+                  ...fund,
+                  { name: bounty.issuer && 'Deposits', Svg: bounty.issuer && Subtract },
                   ...submissions,
                   ...claim,
                   ...claimOverView,
@@ -260,7 +261,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                     </TokenProvider>
                   </FundProvider>
                 ) : null}
-                {claimable && bounty && internalMenu === 'Claim' ? (
+                {claimable && bounty ? (
                   <ClaimPage
                     showClaimPage={internalMenu == 'Claim'}
                     split={split}

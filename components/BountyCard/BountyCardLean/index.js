@@ -13,7 +13,7 @@ import LabelsList from '../../Bounty/LabelsList';
 import useDisplayValue from '../../../hooks/useDisplayValue';
 import { getBountyMarker, getBountyTypeName } from '../../../services/utils/lib';
 
-const BountyCardLean = ({ item, loading, index, length, unWatchable, noModal }) => {
+const BountyCardLean = ({ item, loading, index, length, noModal, setStatefulWatched }) => {
   // State
   const bountyName = item?.title || '';
   const [appState] = useContext(StoreContext);
@@ -71,9 +71,9 @@ const BountyCardLean = ({ item, loading, index, length, unWatchable, noModal }) 
   return (
     <div className={loading ? 'pointer-events-none cursor-normal relative w-full' : 'w-full'}>
       <BountyCardDetailsModal
-        unWatchable={unWatchable}
         bounty={item}
         watchingState={watchingState}
+        setStatefulWatched={setStatefulWatched}
         closeModal={closeModal}
         showModal={item && isModal && !noModal}
       />

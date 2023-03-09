@@ -16,6 +16,7 @@ import LinkText from '../../svg/linktext';
 import TweetAbout from '../../Utils/TweetAbout';
 import ModalDefault from '../../Utils/ModalDefault';
 import CopyAddressToClipboard from '../../CopyAddressToClipboard';
+import { ethers } from 'ethers';
 
 const ClaimLoadingModal = ({
   confirmMethod,
@@ -23,6 +24,7 @@ const ClaimLoadingModal = ({
   account,
   transactionHash,
   setShowClaimLoadingModal,
+  claimValueTier,
   error,
   claimState,
   bounty,
@@ -37,9 +39,15 @@ const ClaimLoadingModal = ({
   const updateModal = () => {
     setShowClaimLoadingModal(false);
   };
+
   const modal = useRef();
   const [appState] = useContext(StoreContext);
-
+  const payoutToken = claimValueTier?.tokenAddress ? appState.tokenClient.getToken(claimValueTier?.tokenAddress) : {};
+  const valueText =
+    bounty.bountyType === '0'
+      ? appState.utils.formatter.format(price)
+      : `${ethers.utils.formatUnits(claimValueTier.volume, payoutToken.decimals)} ${payoutToken.name}`;
+  const valueClaimed = appState.utils.formatter.format(bounty.bountyType == 0 ? price : split);
   let title = {
     [CONFIRM_CLAIM]: 'Claim Rewards',
     [CHECKING_WITHDRAWAL_ELIGIBILITY]: 'Validating Claim...',
@@ -62,7 +70,7 @@ const ClaimLoadingModal = ({
     [CONFIRM_CLAIM]: url,
   };
 
-  const tweetText = `💸 Just claimed a developer bounty from ${bounty.owner} on OpenQ working on this issue: `;
+  const tweetText = `💸 Just claimed a developer bounty from ${bounty.owner} for ${valueText} on OpenQ connected to this issue: `;
   const latestUserPR = bounty.prs
     ?.filter((pr) => {
       return pr.source.author.login == authState.login;
@@ -149,7 +157,7 @@ const ClaimLoadingModal = ({
         {(bounty.bountyType == 0 || bounty.bountyType == 1) && (
           <>
             <span>Value:</span>
-            <span>{appState.utils.formatter.format(bounty.bountyType == 0 ? price : split)}</span>
+            <span>{valueClaimed}</span>
           </>
         )}
         <span>To Address:</span>

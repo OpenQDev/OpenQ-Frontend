@@ -14,7 +14,6 @@ import {
   TRANSACTION_CONFIRMED,
   CONFIRM_CLAIM,
 } from '../../ClaimStates.js';
-import useEns from '../../../../hooks/useENS';
 import useDisplayValue from '../../../../hooks/useDisplayValue';
 import { isContest, isEveryValueNotNull } from '../../../../services/utils/lib';
 
@@ -36,7 +35,6 @@ const ClaimButton = ({
   const [claimState, setClaimState] = useState(CONFIRM_CLAIM);
   const [transactionHash, setTransactionHash] = useState(null);
   const [error, setError] = useState('');
-  const [ensName] = useEns(account);
   const { logger } = appState;
   const [authState] = useContext(AuthContext);
 
@@ -71,6 +69,10 @@ const ClaimButton = ({
   const claimValuesRequiredText = getRequiredText(claimable);
 
   const targetTier = bounty.tierWinners?.indexOf(accountData.github);
+  const claimValueTier =
+    bounty.bountyType !== '0'
+      ? { tokenAddress: bounty.payoutTokenAddress, volume: bounty.payoutSchedule?.[targetTier] }
+      : {};
 
   const canvas = useRef();
 
@@ -117,7 +119,6 @@ const ClaimButton = ({
         reject(e);
       }
     });
-    console.log(price >= budget, price > 0, canClaim);
     try {
       const txnHash = await promise;
       // Upon this return, the claimBounty transaction has been submitted
@@ -198,17 +199,16 @@ const ClaimButton = ({
         <ClaimLoadingModal
           confirmMethod={claimBounty}
           url={url}
-          ensName={ensName}
+          split={split}
           account={account}
-          error={error}
-          claimState={claimState}
-          address={account}
           transactionHash={transactionHash}
           setShowClaimLoadingModal={updateModal}
+          claimValueTier={claimValueTier}
+          error={error}
+          claimState={claimState}
           bounty={bounty}
           authState={authState}
           price={price}
-          split={split}
         />
       )}
       <canvas className='absolute inset-0 pointer-events-none' ref={canvas}></canvas>

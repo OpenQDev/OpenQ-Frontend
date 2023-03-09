@@ -12,7 +12,7 @@ import LabelsList from '../../Bounty/LabelsList';
 import ModalLarge from '../../Utils/ModalLarge';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
 
-const BountyCardDetailsModal = ({ bounty, closeModal, showModal, unWatchable, watchingState }) => {
+const BountyCardDetailsModal = ({ bounty, closeModal, showModal, watchingState, setStatefulWatched }) => {
   const modal = useRef();
   const { safe } = useWeb3();
   const [tokenValues] = useGetTokenValues(bounty.bountyTokenBalances);
@@ -60,7 +60,7 @@ const BountyCardDetailsModal = ({ bounty, closeModal, showModal, unWatchable, wa
           title={
             <BountyModalHeading
               watchingState={watchingState}
-              unWatchable={unWatchable}
+              setStatefulWatched={setStatefulWatched}
               closeModal={closeModal}
               bounty={bounty}
             />

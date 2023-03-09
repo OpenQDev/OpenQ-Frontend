@@ -8,6 +8,7 @@ import ModalDefault from '../Utils/ModalDefault';
 import { ethers } from 'ethers';
 import useGetTokenValues from '../../hooks/useGetTokenValues';
 import { formatVolume } from '../../services/utils/lib';
+import GnosisWarning from '../Utils/GnosisWarning';
 
 const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled }) => {
   const [showModal, setShowModal] = useState();
@@ -234,6 +235,7 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled }) => 
               </div>
             </>
           )}
+          <GnosisWarning />
         </ModalDefault>
       )}
     </>
