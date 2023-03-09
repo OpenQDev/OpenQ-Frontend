@@ -192,7 +192,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
                   )} Place:`}</div>
                   <div className='text-xs font-semibold'>
                     {formatVolume(t)} {token.symbol}
-                    {bounty.tierWinners[index] ? ' ( winner already chosen )' : null}
+                    {bounty.tierWinners?.[index] ? ' ( winner already chosen )' : null}
                   </div>
                 </div>
               );

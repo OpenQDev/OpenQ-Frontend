@@ -336,6 +336,10 @@ body::-webkit-scrollbar {
 .explore .lead {
   @apply text-white text-opacity-60;
 }
+.custom-scrollbar {
+  scrollbar-color: rgb(52 52 52) rgb(22 27 34);
+  scrollbar-width: thin;
+}
 
 .explore .custom-scrollbar {
   scrollbar-color: rgb(52 52 52) rgb(22 27 34);
