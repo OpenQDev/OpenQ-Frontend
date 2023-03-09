@@ -195,6 +195,7 @@ const address = ({ address, mergedBounty, renderError }) => {
   const claimOverView = bounty?.claims?.length > 0 ? [{ name: 'Claims Overview', Svg: Log }] : [];
   const claim = claimable ? [{ name: 'Claim', Svg: Fire }] : [];
   const submissions = bounty.bountyType === '3' ? [{ name: 'Submissions', Svg: Log }] : [];
+  const fund = bounty.issuer?.id === account?.toLowerCase() ? [{ name: 'Fund', Svg: Add }] : [];
 
   // User Methods
 
@@ -227,7 +228,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                 colour='rust'
                 items={[
                   { name: 'View', Svg: Telescope },
-                  { name: bounty.issuer && 'Fund', Svg: bounty.issuer && Add },
+                  ...fund,
                   { name: bounty.issuer && 'Deposits', Svg: bounty.issuer && Subtract },
                   ...submissions,
                   ...claim,

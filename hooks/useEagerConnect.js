@@ -14,13 +14,14 @@ export default function useEagerConnect() {
   useEffect(() => {
     const connect = async () => {
       try {
-        if (walletConnect.defaultChainId === chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]) {
+        if (walletConnect.defaultChainId !== chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]) {
           await walletConnect.connectEagerly();
+          
         } else {
           appState.logger.info(
             `WalletConnect chainId mismatch,
             ${walletConnect.defaultChainId},
-           ${chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]},
+           ${chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]?.chainId},
             'useEagerConnect.js'`
           );
         }
