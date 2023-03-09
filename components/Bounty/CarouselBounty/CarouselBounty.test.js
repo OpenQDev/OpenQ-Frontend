@@ -28,7 +28,7 @@ describe('CarouselBounty', () => {
       render(<CarouselBounty bounty={bounty} />);
 
       // ACT
-      const repo = await screen.findByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
+      const repo = await screen.findByText(`${bounty.owner}/${bounty.repoName}`);
       expect(repo).toBeInTheDocument();
 
       // ASSERT
