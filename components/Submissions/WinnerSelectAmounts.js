@@ -181,7 +181,7 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled }) => 
                 </a>{' '}
                 challenge.
               </p>
-              <p className='my-2'>
+              <div className='my-2'>
                 {claimReady ? 'This will release' : 'Before being able to claim'}{' '}
                 {bounty.bountyType === '2'
                   ? prize.payout + '% of funds'
@@ -204,7 +204,7 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled }) => 
                     </ul>
                   </>
                 )}
-              </p>
+              </div>
             </>
           )}
           {selectionState === TRANSFERRING && (
