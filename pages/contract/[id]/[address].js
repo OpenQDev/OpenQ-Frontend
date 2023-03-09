@@ -260,7 +260,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                     </TokenProvider>
                   </FundProvider>
                 ) : null}
-                {claimable && bounty && internalMenu === 'Claim' ? (
+                {claimable && bounty ? (
                   <ClaimPage
                     showClaimPage={internalMenu == 'Claim'}
                     split={split}
