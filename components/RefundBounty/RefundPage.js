@@ -107,155 +107,162 @@ const RefundPage = ({ bounty, refreshBounty, internalMenu }) => {
   return (
     <>
       {closed && bounty.bountyType === '0' ? (
-        <>{internalMenu === 'Refund' && <BountyClosed bounty={bounty} />}</>
+        <>{internalMenu === 'Deposits' && <BountyClosed bounty={bounty} />}</>
       ) : (
         <div
           className={`flex flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center ${
-            internalMenu !== 'Refund' ? 'hidden' : null
+            internalMenu !== 'Deposits' ? 'hidden' : null
           }`}
         >
           <div className='flex flex-col space-y-2 items-center w-full md:border rounded-sm border-gray-700 text-primary'>
-            <h2 className='flex w-full text-3xl justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
-              My Deposits
-            </h2>
-            <div className='flex flex-col space-y-5 w-full px-8 pt-2'>
-              <h2 className='text-2xl border-b border-gray-700 pb-4 flex contents-center items-center gap-4'>
-                <span>My {closed && 'Partially '}Refundable Deposits</span>
-                <span>
-                  <ToolTipNew
-                    innerStyles={'w-48 whitespace-normal'}
-                    mobileX={10}
-                    toolTipText={
-                      'This contract is already closed, if claims have been made on this competition, you may not be able to refund your deposit.'
-                    }
-                  >
-                    <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>
-                      ?
-                    </div>
-                  </ToolTipNew>
-                </span>
-              </h2>
-              <div className='lg:grid lg:grid-cols-[1fr_1fr] gap-4 pb-5'>
-                {bounty.deposits &&
-                  bounty.deposits
-                    .filter((deposit) => {
-                      return isFunder(deposit);
-                    })
-                    .filter((deposit) => {
-                      return deposit.refunded == false;
-                    })
-                    .filter((deposit) => {
-                      return depositExpired(deposit);
-                    })
-                    .map((deposit) => {
-                      return (
-                        <div key={deposit.id}>
-                          <DepositCard
-                            deposit={deposit}
-                            status='refundable'
-                            closed={closed}
-                            bounty={bounty}
-                            onDepositPeriodChanged={onDepositPeriodChanged}
-                            depositPeriodDays={depositPeriodDays[deposit.id]}
-                            refundBounty={() => {
-                              setExtend(false);
-                              setApproveTransferState(CONFIRM);
-                              setShowApproveTransferModal(deposit.id);
-                            }}
-                            extendBounty={() => {
-                              setExtend(true);
-                              setApproveTransferState(CONFIRM);
-                              setShowApproveTransferModal(deposit.id);
-                            }}
-                            isOnCorrectNetwork={isOnCorrectNetwork}
-                            isFunder={isFunder(deposit)}
-                          />
+            {account?.toLowerCase() === bounty?.issuer?.id ? (
+              <>
+                <h2 className='flex w-full text-3xl justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
+                  My Deposits
+                </h2>
+                <div className='flex flex-col space-y-5 w-full px-8 pt-2'>
+                  <h2 className='text-2xl border-b border-gray-700 pb-4 flex contents-center items-center gap-4'>
+                    <span>My {closed && 'Partially '}Refundable Deposits</span>
+                    <span>
+                      <ToolTipNew
+                        innerStyles={'w-48 whitespace-normal'}
+                        mobileX={10}
+                        toolTipText={
+                          'This contract is already closed, if claims have been made on this competition, you may not be able to refund your deposit.'
+                        }
+                      >
+                        <div className='cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary'>
+                          ?
                         </div>
-                      );
-                    })}
-              </div>
-              <h2 className='text-2xl border-b border-gray-700 pb-4'>My Deposits - Not Yet Refundable</h2>
-              <div className='grid lg:grid-cols-[1fr_1fr] gap-4 pb-5'>
-                {bounty.deposits &&
-                  bounty.deposits
-                    .filter((deposit) => {
-                      return isFunder(deposit);
-                    })
-                    .filter((deposit) => {
-                      return !depositExpired(deposit);
-                    })
-                    .map((deposit) => {
-                      return (
-                        <div key={deposit.id}>
-                          <DepositCard
-                            deposit={deposit}
-                            closed={closed}
-                            status='not-yet-refundable'
-                            bounty={bounty}
-                            onDepositPeriodChanged={onDepositPeriodChanged}
-                            depositPeriodDays={depositPeriodDays[deposit.id]}
-                            extendBounty={() => {
-                              setExtend(true);
-                              setApproveTransferState(CONFIRM);
-                              setShowApproveTransferModal(deposit.id);
-                            }}
-                            isOnCorrectNetwork={isOnCorrectNetwork}
-                            isFunder={isFunder(deposit)}
-                          />
-                        </div>
-                      );
-                    })}
-              </div>
-              <h2 className='text-2xl border-b border-gray-700 pb-4'>Refunded</h2>
-              <div className='grid lg:grid-cols-[1fr_1fr] gap-4 pb-5'>
-                {bounty.deposits &&
-                  bounty.deposits
-                    .filter((deposit) => {
-                      return isFunder(deposit);
-                    })
-                    .filter((deposit) => {
-                      return deposit.refunded == true;
-                    })
-                    .map((deposit) => {
-                      return (
-                        <div key={deposit.id}>
-                          <DepositCard
-                            deposit={deposit}
-                            status='refunded'
-                            bounty={bounty}
-                            refundBounty={refundBounty}
-                            isFunder={isFunder(deposit)}
-                          />
-                        </div>
-                      );
-                    })}
-              </div>
-            </div>
-            <h2 className='flex w-full text-3xl justify-center px-12 py-4 md:bg-[#161b22] md:border-y border-gray-700 '>
-              Other Deposits
-            </h2>
-            <div className='flex flex-col space-y-5 w-full px-8 pt-2'>
-              <div className='grid lg:grid-cols-[1fr_1fr] gap-4 pb-5'>
-                {bounty.deposits &&
-                  bounty.deposits
-                    .filter((deposit) => {
-                      return !isFunder(deposit);
-                    })
-                    .map((deposit) => {
-                      return (
-                        <div key={deposit.id}>
-                          <DepositCard
-                            deposit={deposit}
-                            status='other deposits'
-                            bounty={bounty}
-                            refundBounty={refundBounty}
-                            isFunder={isFunder(deposit)}
-                          />
-                        </div>
-                      );
-                    })}
-              </div>
-            </div>
+                      </ToolTipNew>
+                    </span>
+                  </h2>
+                  <div className='lg:grid lg:grid-cols-[1fr_1fr] gap-4 pb-5'>
+                    {bounty.deposits &&
+                      bounty.deposits
+                        .filter((deposit) => {
+                          return isFunder(deposit);
+                        })
+                        .filter((deposit) => {
+                          return deposit.refunded == false;
+                        })
+                        .filter((deposit) => {
+                          return depositExpired(deposit);
+                        })
+                        .map((deposit) => {
+                          return (
+                            <div key={deposit.id}>
+                              <DepositCard
+                                deposit={deposit}
+                                status='refundable'
+                                closed={closed}
+                                bounty={bounty}
+                                onDepositPeriodChanged={onDepositPeriodChanged}
+                                depositPeriodDays={depositPeriodDays[deposit.id]}
+                                refundBounty={() => {
+                                  setExtend(false);
+                                  setApproveTransferState(CONFIRM);
+                                  setShowApproveTransferModal(deposit.id);
+                                }}
+                                extendBounty={() => {
+                                  setExtend(true);
+                                  setApproveTransferState(CONFIRM);
+                                  setShowApproveTransferModal(deposit.id);
+                                }}
+                                isOnCorrectNetwork={isOnCorrectNetwork}
+                                isFunder={isFunder(deposit)}
+                              />
+                            </div>
+                          );
+                        })}
+                  </div>
+                  <h2 className='text-2xl border-b border-gray-700 pb-4'>My Deposits - Not Yet Refundable</h2>
+                  <div className='grid lg:grid-cols-[1fr_1fr] gap-4 pb-5'>
+                    {bounty.deposits &&
+                      bounty.deposits
+                        .filter((deposit) => {
+                          return isFunder(deposit);
+                        })
+                        .filter((deposit) => {
+                          return !depositExpired(deposit);
+                        })
+                        .map((deposit) => {
+                          return (
+                            <div key={deposit.id}>
+                              <DepositCard
+                                deposit={deposit}
+                                closed={closed}
+                                status='not-yet-refundable'
+                                bounty={bounty}
+                                onDepositPeriodChanged={onDepositPeriodChanged}
+                                depositPeriodDays={depositPeriodDays[deposit.id]}
+                                extendBounty={() => {
+                                  setExtend(true);
+                                  setApproveTransferState(CONFIRM);
+                                  setShowApproveTransferModal(deposit.id);
+                                }}
+                                isOnCorrectNetwork={isOnCorrectNetwork}
+                                isFunder={isFunder(deposit)}
+                              />
+                            </div>
+                          );
+                        })}
+                  </div>
+                  <h2 className='text-2xl border-b border-gray-700 pb-4'>Refunded</h2>
+                  <div className='grid lg:grid-cols-[1fr_1fr] gap-4 pb-5'>
+                    {bounty.deposits &&
+                      bounty.deposits
+                        .filter((deposit) => {
+                          return isFunder(deposit);
+                        })
+                        .filter((deposit) => {
+                          return deposit.refunded == true;
+                        })
+                        .map((deposit) => {
+                          return (
+                            <div key={deposit.id}>
+                              <DepositCard
+                                deposit={deposit}
+                                status='refunded'
+                                bounty={bounty}
+                                refundBounty={refundBounty}
+                                isFunder={isFunder(deposit)}
+                              />
+                            </div>
+                          );
+                        })}
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2 className='flex w-full text-3xl justify-center px-12 py-4 md:bg-[#161b22] md:border-b border-gray-700 rounded-t-sm'>
+                  Deposits
+                </h2>
+                <div className='flex flex-col space-y-5 w-full px-8 pt-2'>
+                  <div className='grid lg:grid-cols-[1fr_1fr] gap-4 pb-5'>
+                    {bounty.deposits &&
+                      bounty.deposits
+                        .filter((deposit) => {
+                          return !isFunder(deposit);
+                        })
+                        .map((deposit) => {
+                          return (
+                            <div key={deposit.id}>
+                              <DepositCard
+                                deposit={deposit}
+                                status='other deposits'
+                                bounty={bounty}
+                                refundBounty={refundBounty}
+                                isFunder={isFunder(deposit)}
+                              />
+                            </div>
+                          );
+                        })}
+                  </div>
+                </div>
+              </>
+            )}
             {showApproveTransferModal && (
               <ApproveTransferModal
                 approveTransferState={approveTransferState}

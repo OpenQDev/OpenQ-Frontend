@@ -228,7 +228,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                 items={[
                   { name: 'View', Svg: Telescope },
                   { name: bounty.issuer && 'Fund', Svg: bounty.issuer && Add },
-                  { name: bounty.issuer && 'Refund', Svg: bounty.issuer && Subtract },
+                  { name: bounty.issuer && 'Deposits', Svg: bounty.issuer && Subtract },
                   ...submissions,
                   ...claim,
                   ...claimOverView,
