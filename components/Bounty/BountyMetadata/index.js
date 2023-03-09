@@ -83,7 +83,9 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
 
   useEffect(() => {
     const fundsNeeded = getFundsNeeded(bounty);
-    setFundsNeeded(fundsNeeded);
+    if (!bounty.claims.length) {
+      setFundsNeeded(fundsNeeded);
+    }
   }, [bounty]);
 
   const typeName = getBountyTypeName(bounty.bountyType);
@@ -138,7 +140,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
           </button>
         </li>
       ) : null}
-      {bounty.tvl < budgetValues?.total ? (
+      {bounty.tvl < budgetValues?.total && !bounty.claims.length ? (
         <li className='border-b border-web-gray py-3'>
           <div className='text-xs font-semibold text-muted'>🎯 Current Target Budget</div>
           <div className='text-xs font-semibold text-primary pt-2'>

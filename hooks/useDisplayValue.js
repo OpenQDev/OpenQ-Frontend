@@ -70,7 +70,7 @@ const useDisplayValue = (bounty, formatter, type) => {
   useEffect(() => {
     let budget;
     const tvc = bounty.tvc || payoutPrice?.total || 0;
-    const tvl = tokenValues?.total || bounty.tvl || 0;
+    const tvl = bounty.tvl || tokenValues?.total || 0;
     const isFixedContest = bounty.bountyType === '3' && bounty.payoutSchedule;
     if (isFixedContest) {
       if (payoutScheduledValue) {
