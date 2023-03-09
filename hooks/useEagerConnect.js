@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import chainIdDeployEnvMap from '../components/WalletConnect/chainIdDeployEnvMap';
 import { walletConnect, metaMask } from '../components/WalletConnect/connectors';
+import StoreContext from '../store/Store/StoreContext';
 
 import useWeb3 from './useWeb3';
 
 // inspired by https://github.com/Uniswap/interface/blob/ffe670923e418c18c1f977c5f4f636b5022281b9/src/hooks/useEagerlyConnect.ts
 export default function useEagerConnect() {
   const { active } = useWeb3();
+  const [appState] = useContext(StoreContext);
 
   const [tried, setTried] = useState(false);
   useEffect(() => {
@@ -15,9 +17,15 @@ export default function useEagerConnect() {
         if (walletConnect.defaultChainId === chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]) {
           await walletConnect.connectEagerly();
         } else {
-          throw new Error();
+          appState.logger.info(
+            `WalletConnect chainId mismatch,
+            ${walletConnect.defaultChainId},
+           ${chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]},
+            'useEagerConnect.js'`
+          );
         }
       } catch (err) {
+        appState.logger.info(err, 'useEagerConnect.js');
         if (window.ethereum?.isMetaMask) {
           metaMask.connectEagerly();
           return;
