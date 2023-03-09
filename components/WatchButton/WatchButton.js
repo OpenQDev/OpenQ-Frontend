@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import watchBounty from './watchBounty';
 
-const WatchButton = ({ unWatchable, watchingState, bounty }) => {
+const WatchButton = ({ setStatefulWatched, unWatchable, watchingState, bounty }) => {
   const [appState, dispatch] = useContext(StoreContext);
   const { accountData, logger } = appState;
   const [watchDisabled, setWatchDisabled] = useState();
@@ -12,11 +12,12 @@ const WatchButton = ({ unWatchable, watchingState, bounty }) => {
   useEffect(() => {
     const getWatched = async () => {
       try {
-        if (accountData) {
+        const watchedBecauseFunction = typeof setStatefulWatched === 'function';
+        if (accountData || watchedBecauseFunction) {
           const watching = accountData?.watchedBountyIds?.some((bountyAddress) => {
             return bountyAddress.toLowerCase() === bounty.bountyAddress.toLowerCase();
           });
-          setWatchingDisplay(watching);
+          setWatchingDisplay(watching || watchedBecauseFunction);
         }
       } catch (err) {
         if (JSON.stringify(err).includes('AuthenticationError')) {
@@ -28,6 +29,10 @@ const WatchButton = ({ unWatchable, watchingState, bounty }) => {
   }, [accountData]);
 
   const handleWatch = async () => {
+    if (typeof setStatefulWatched === 'function') {
+      setStatefulWatched();
+      return;
+    }
     if (watchingState) {
       const [watchingUsers, setWatchingUsers] = watchingState;
       if (watchingDisplay) {
