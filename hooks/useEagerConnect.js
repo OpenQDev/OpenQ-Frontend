@@ -12,21 +12,18 @@ export default function useEagerConnect() {
   useEffect(() => {
     const connect = async () => {
       try {
-        await gnosisSafe.activate();
-      } catch {
-        try {
-          if (walletConnect.defaultChainId === chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]) {
-            await walletConnect.connectEagerly();
-          } else {
-            throw new Error();
-          }
-        } catch (err) {
-          if (window.ethereum?.isMetaMask) {
-            metaMask.connectEagerly();
-            return;
-          }
+        if (walletConnect.defaultChainId === chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]) {
+          await walletConnect.connectEagerly();
+        } else {
+          throw new Error();
+        }
+      } catch (err) {
+        if (window.ethereum?.isMetaMask) {
+          metaMask.connectEagerly();
+          return;
         }
       }
+      s;
     };
     connect();
   }, []); // intentionally only running on mount (make sure it's only mounted once :))

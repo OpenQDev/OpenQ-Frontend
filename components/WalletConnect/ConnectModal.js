@@ -22,8 +22,10 @@ const ConnectModal = ({ closeModal, setShowModal }) => {
 
   const handleWalletConnect = async () => {
     try {
+      console.log(walletConnect);
       if (!walletConnect) return;
-      await walletConnect.activate();
+      const value = await walletConnect.activate();
+      console.log(value);
       closeModal();
     } catch (err) {
       appState.logger.info(err, accountData?.id, 'ConnectModal.js');
