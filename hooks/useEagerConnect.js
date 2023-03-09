@@ -16,7 +16,6 @@ export default function useEagerConnect() {
       try {
         if (walletConnect.defaultChainId !== chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]) {
           await walletConnect.connectEagerly();
-          
         } else {
           appState.logger.info(
             `WalletConnect chainId mismatch,

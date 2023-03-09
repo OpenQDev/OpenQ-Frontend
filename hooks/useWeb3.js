@@ -15,8 +15,7 @@ const useWeb3 = (kyc) => {
       error: () => {},
     };
   } else {
-
-    const  { provider, active, activate, chainId, deactivate, error,  account }=useWeb3React();
+    const { provider, active, activate, chainId, deactivate, error, account } = useWeb3React();
 
     let wcProvider;
     const effectRan = useRef(false);
@@ -42,7 +41,7 @@ const useWeb3 = (kyc) => {
       chainId: chainIdEnv,
       deactivate,
       error,
-      gnosisSafe: provider?.provider?.signer?.session?.peer?.metadata?.name==="Safe Wallet" ? true : false,
+      gnosisSafe: provider?.provider?.signer?.session?.peer?.metadata?.name === 'Safe Wallet' ? true : false,
     };
   }
 };
