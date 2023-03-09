@@ -62,7 +62,7 @@ describe('ClaimPage', () => {
   it('should deactivate claim when TVL is zero', async () => {
     // ARRANGE
     const user = userEvent.setup();
-    render(<ClaimPage claimState={[claimable, setClaimable]} bounty={bounty} />);
+    render(<ClaimPage claimState={[claimable, setClaimable]} bounty={{ ...bounty, tvl: 0 }} />);
 
     // ACT
     const claimTitle = await screen.findByText('Claim Your Rewards');

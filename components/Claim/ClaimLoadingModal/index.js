@@ -42,9 +42,9 @@ const ClaimLoadingModal = ({
 
   const modal = useRef();
   const [appState] = useContext(StoreContext);
-  const payoutToken = appState.tokenClient.getToken(claimValueTier?.tokenAddress);
+  const payoutToken = claimValueTier?.tokenAddress ? appState.tokenClient.getToken(claimValueTier?.tokenAddress) : {};
   const valueText =
-    bounty.bountyType === 0
+    bounty.bountyType === '0'
       ? appState.utils.formatter.format(price)
       : `${ethers.utils.formatUnits(claimValueTier.volume, payoutToken.decimals)} ${payoutToken.name}`;
   const valueClaimed = appState.utils.formatter.format(bounty.bountyType == 0 ? price : split);

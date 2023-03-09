@@ -18,7 +18,9 @@ describe('ClaimButton', () => {
   });
   it('should render the button when ready to claim', async () => {
     // ARRANGE
-    render(<ClaimButton bounty={bounty} refreshBounty={refreshBounty} setInternalMenu={setInternalMenu} />);
+    render(
+      <ClaimButton bounty={{ ...bounty, tvl: 0 }} refreshBounty={refreshBounty} setInternalMenu={setInternalMenu} />
+    );
     expect(await screen.findByRole('button')).toHaveClass('cursor-not-allowed');
     expect(
       await screen.findByText(/There are not enough funds locked to claim, contact the maintainer of this issue/)
