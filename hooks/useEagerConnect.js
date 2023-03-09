@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import chainIdDeployEnvMap from '../components/WalletConnect/chainIdDeployEnvMap';
-import { walletConnect, metaMask, gnosisSafe } from '../components/WalletConnect/connectors';
+import { walletConnect, metaMask } from '../components/WalletConnect/connectors';
 
 import useWeb3 from './useWeb3';
 
@@ -12,6 +12,7 @@ export default function useEagerConnect() {
   useEffect(() => {
     const connect = async () => {
       try {
+        console.log(walletConnect);
         if (walletConnect.defaultChainId === chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]) {
           await walletConnect.connectEagerly();
         } else {
@@ -23,7 +24,6 @@ export default function useEagerConnect() {
           return;
         }
       }
-      s;
     };
     connect();
   }, []); // intentionally only running on mount (make sure it's only mounted once :))
