@@ -12,10 +12,8 @@ const WatchButton = ({ unWatchable, watchingState, bounty }) => {
   useEffect(() => {
     const getWatched = async () => {
       try {
-        const user = { watchedBountyIds: [] };
-
-        if (user) {
-          const watching = user.watchedBountyIds?.some((bountyAddress) => {
+        if (accountData) {
+          const watching = accountData?.watchedBountyIds?.some((bountyAddress) => {
             return bountyAddress.toLowerCase() === bounty.bountyAddress.toLowerCase();
           });
           setWatchingDisplay(watching);
@@ -27,7 +25,7 @@ const WatchButton = ({ unWatchable, watchingState, bounty }) => {
       }
     };
     getWatched();
-  }, []);
+  }, [accountData]);
 
   const handleWatch = async () => {
     if (watchingState) {
