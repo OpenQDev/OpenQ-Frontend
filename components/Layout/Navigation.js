@@ -67,7 +67,8 @@ const Navigation = () => {
         appState.logger.error(err, accountData.id, 'Navigation.js1');
       }
       // set up gnosis safe
-
+    };
+    const fetchPrices = async () => {
       // set up tokens
       let tokenPrices = {};
 
@@ -76,12 +77,12 @@ const Navigation = () => {
       } catch (err) {
         appState.logger.error(err, accountData.id, 'Navigation.js2');
       }
-
       tokenClient.firstTenPrices = tokenPrices;
     };
     if (includeSearch) {
       fetchSearch();
     }
+    fetchPrices();
   }, []);
 
   const handleSearch = (e) => {
