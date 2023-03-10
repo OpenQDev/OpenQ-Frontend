@@ -68,7 +68,9 @@ export const valueToDisplay = (value) => {
 
 export const getBigNumberVol = (volume, token) => {
   const volumeFloat = parseFloat(volume) || 0;
-  const volumeInWei = volumeFloat * 10 ** token.decimals;
+  const volumeInWei = volumeFloat
+    ? ethers.utils.parseUnits(volumeFloat.toLocaleString('fullwide', { useGrouping: false }), token.decimals)
+    : 0;
 
   return ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', { useGrouping: false }));
 };
@@ -218,7 +220,7 @@ export const isEveryValueNotNull = (obj) => {
   return kyc && w8Form && githubHasWallet && invoice;
 };
 export const formatVolume = (tierVolume, token) => {
-  let bigNumberVolume = ethers.BigNumber.from(tierVolume.toString());
+  let bigNumberVolume = ethers.BigNumber.from(tierVolume.toLocaleString('fullwide', { useGrouping: false }));
   let decimals = parseInt(token?.decimals) || 18;
   let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
   return formattedVolume;

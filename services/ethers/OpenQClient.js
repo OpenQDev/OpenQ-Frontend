@@ -86,7 +86,12 @@ class OpenQClient {
     const promise = new Promise(async (resolve, reject) => {
       let bountyInitOperation;
       let abiCoder = new ethers.utils.AbiCoder();
-      const fundVolumeInWei = data.fundingTokenVolume * 10 ** data.fundingTokenAddress.decimals;
+      const fundVolumeInWei = data.fundingTokenVolume
+        ? ethers.utils.parseUnits(
+            data.fundingTokenVolume.toLocaleString('fullwide', { useGrouping: false }),
+            data.fundingTokenAddress.decimals
+          )
+        : 0;
       const fundBigNumberVolumeInWei = ethers.BigNumber.from(
         fundVolumeInWei.toLocaleString('fullwide', { useGrouping: false })
       );
@@ -115,7 +120,12 @@ class OpenQClient {
           break;
         case 1:
           {
-            const payoutVolumeInWei = data.payoutVolume * 10 ** data.payoutToken.decimals;
+            const payoutVolumeInWei = data.payoutVolume
+              ? ethers.utils.parseUnits(
+                  data.payoutVolume.toLocaleString('fullwide', { useGrouping: false }),
+                  data.payoutToken.decimals
+                )
+              : 0;
             const payoutBigNumberVolumeInWei = ethers.BigNumber.from(
               payoutVolumeInWei.toLocaleString('fullwide', {
                 useGrouping: false,
@@ -175,7 +185,12 @@ class OpenQClient {
         case 3:
           {
             const tierVolumes = data.tiers.map((tier) => {
-              const payoutVolumeInWei = tier * 10 ** data.payoutToken.decimals;
+              const payoutVolumeInWei = tier
+                ? ethers.utils.parseUnits(
+                    tier.toLocaleString('fullwide', { useGrouping: false }),
+                    data.payoutToken.decimals
+                  )
+                : 0;
               const payoutBigNumberVolumeInWei = ethers.BigNumber.from(
                 payoutVolumeInWei.toLocaleString('fullwide', {
                   useGrouping: false,
@@ -223,7 +238,12 @@ class OpenQClient {
   // setFunding inspired by fundBounty
   setFundingGoal = async (library, _bountyId, _fundingGoalToken, _fundingGoalVolume) => {
     const promise = new Promise(async (resolve, reject) => {
-      const volumeInWei = _fundingGoalVolume * 10 ** _fundingGoalToken.decimals;
+      const volumeInWei = _fundingGoalVolume
+        ? ethers.utils.parseUnits(
+            _fundingGoalVolume.toLocaleString('fullwide', { useGrouping: false }),
+            _fundingGoalToken.decimals
+          )
+        : 0;
       const bigNumberVolumeInWei = ethers.BigNumber.from(
         volumeInWei.toLocaleString('fullwide', { useGrouping: false })
       );
@@ -244,7 +264,12 @@ class OpenQClient {
 
   setPayout = async (library, _bountyId, _payoutToken, _payoutVolume) => {
     const promise = new Promise(async (resolve, reject) => {
-      const volumeInWei = _payoutVolume * 10 ** _payoutToken.decimals;
+      const volumeInWei = _payoutVolume
+        ? ethers.utils.parseUnits(
+            _payoutVolume.toLocaleString('fullwide', { useGrouping: false }),
+            _payoutToken.decimals
+          )
+        : 0;
       const bigNumberVolumeInWei = ethers.BigNumber.from(
         volumeInWei.toLocaleString('fullwide', { useGrouping: false })
       );
@@ -282,7 +307,9 @@ class OpenQClient {
 
   setPayoutScheduleFixed = async (library, _bountyId, _payoutSchedule, _payoutToken) => {
     const tierVolumesInWei = _payoutSchedule.map((tier) => {
-      const payoutVolumeInWei = ethers.utils.parseUnits(tier.toString(), _payoutToken.decimals);
+      const payoutVolumeInWei = tier
+        ? ethers.utils.parseUnits(tier.toLocaleString('fullwide', { useGrouping: false }), _payoutToken.decimals)
+        : 0;
       const payoutBigNumberVolumeInWei = ethers.BigNumber.from(
         payoutVolumeInWei.toLocaleString('fullwide', {
           useGrouping: false,

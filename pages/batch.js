@@ -78,7 +78,9 @@ function Batch() {
           let decimals = parseInt(token.decimals) || 18;
 
           const newPayoutSchedule = payoutScheduleParsed.map((tierVolume) => {
-            let formattedVolume = tierVolume * 10 ** decimals;
+            let formattedVolume = tierVolume
+              ? ethers.utils.parseUnits(tierVolume.toLocaleString('fullwide', { useGrouping: false }), decimals)
+              : 0;
             return ethers.BigNumber.from(formattedVolume.toLocaleString('fullwide', { useGrouping: false }));
           });
 
