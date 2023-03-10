@@ -494,63 +494,6 @@ export const GET_REPO_NAMES_BY_USER_NAME = gql`
   }
 `;
 
-export const GET_REPO_WITH_LABELED_OPEN_ISSUES = gql`
-  query GetRepoWithLabeledIssues($name: String!, $owner: String!, $labels: [String!]) {
-    repository(name: $name, owner: $owner) {
-      __typename
-      owner {
-        login
-        avatarUrl
-      }
-      name
-      nameWithOwner
-      id
-      description
-      homepageUrl
-      url
-      stargazerCount
-      languages(first: 3) {
-        nodes {
-          id
-          name
-          color
-        }
-      }
-      issues(first: 50, labels: $labels, states: [OPEN]) {
-        nodes {
-          ... on Issue {
-            id
-            number
-            title
-            url
-            comments {
-              totalCount
-            }
-            assignees(first: 2) {
-              nodes {
-                ... on User {
-                  id
-                  login
-                  avatarUrl
-                }
-              }
-            }
-            labels(first: 3) {
-              nodes {
-                ... on Label {
-                  id
-                  name
-                  color
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
 export const GET_REPOS_BY_IDS = gql`
   query GetRepos($ids: [ID!]!) {
     nodes(ids: $ids) {
