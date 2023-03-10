@@ -7,28 +7,34 @@ import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPr
 // import SubmissionCard from '../../../components/Submissions/SubmissionCard';
 import OrganizationHeader from '../../../components/Organization/OrganizationHeader';
 import SubMenu from '../../../components/Utils/SubMenu';
-import Home from '../../../components/svg/home';
+import { Home, Trophy } from '../../../components/svg/home';
 // import Trophy from '../../../components/svg/trophy';
 import BountyList from '../../../components/BountyList';
 import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
 import Logger from '../../../services/logger/Logger';
 import Utils from '../../../services/utils/Utils';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
-import { getReadyText, isOnlyContest, fetchBountiesWithServiceArg } from '../../../services/utils/lib';
+import {
+  getReadyText,
+  isOnlyContest,
+  fetchBountiesWithServiceArg,
+  getNonBlacklisted,
+} from '../../../services/utils/lib';
+import SearchBar from '../../../components/Search/SearchBar';
+import SubmissionCard from '../../../components/Submissions/SubmissionCard';
 
-const showcase = ({ /* currentPrs, */ renderError, orgData, repoData, paginationObj }) => {
-  // oAuthToken?
-  //Context
-  // const [submissionSearchTerm, setSubmissionSearchTerm] = useState('');
+const showcase = ({ name, currentPrs, renderError, orgData, repoData, paginationObj }) => {
+  // Context
+  const [submissionSearchTerm, setSubmissionSearchTerm] = useState('');
   const [toggleVal, setToggleVal] = useState('Overview');
   // Render
 
   const handleToggle = (toggleVal) => {
     setToggleVal(toggleVal);
   };
-  /* const filterBySubmission = (e) => {
+  const filterBySubmission = (e) => {
     setSubmissionSearchTerm(e.target.value);
-  }; */
+  };
 
   return (
     <>
@@ -40,7 +46,7 @@ const showcase = ({ /* currentPrs, */ renderError, orgData, repoData, pagination
           <SubMenu
             items={[
               { name: 'Overview', Svg: Home },
-              /* { name: 'Hackathon Submissions', Svg: Trophy }, */
+              { name: 'Hackathon Submissions', Svg: Trophy },
             ]}
             internalMenu={toggleVal}
             updatePage={handleToggle}
@@ -77,6 +83,29 @@ const showcase = ({ /* currentPrs, */ renderError, orgData, repoData, pagination
               </div>
             </>
           )}
+          {toggleVal === 'Hackathon Submissions' && (
+            <div className='  w-full px-2 sm:px-8 flex-wrap max-w-[1028px] pb-8 mx-auto'>
+              <h1 className='lsm:text-[32px] text-4xl py-16 flex-1 leading-tight min-w-[240px] pr-20'>
+                Submissions for {name}
+              </h1>
+
+              <div className='lg:col-start-2 justify-between justify-self-center space-y-3 w-full pb-8'>
+                <SearchBar
+                  onKeyUp={filterBySubmission}
+                  searchText={submissionSearchTerm}
+                  placeholder='Search Submissions...'
+                  styles={''}
+                />
+                <div className='grid gap-8 w-full pt-8 justify-between justify-items-center grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))]'>
+                  {currentPrs
+                    .filter((pr) => pr.title.includes(submissionSearchTerm) || pr.body.includes(submissionSearchTerm))
+                    .map((pr, index) => (
+                      <SubmissionCard key={index} pr={pr} />
+                    ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </>
@@ -101,6 +130,7 @@ export async function getServerSideProps(context) {
     utils,
     logger,
   };
+  const { nonBlacklisted } = await getNonBlacklisted(appState, name, org, 100);
 
   let renderError = '';
   let orgData;
@@ -149,6 +179,9 @@ export async function getServerSideProps(context) {
       orgData,
       repoData,
       paginationObj,
+      org,
+      name,
+      currentPrs: nonBlacklisted,
     },
   };
 }
