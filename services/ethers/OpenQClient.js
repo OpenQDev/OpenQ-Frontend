@@ -282,7 +282,7 @@ class OpenQClient {
 
   setPayoutScheduleFixed = async (library, _bountyId, _payoutSchedule, _payoutToken) => {
     const tierVolumesInWei = _payoutSchedule.map((tier) => {
-      const payoutVolumeInWei = tier * 10 ** _payoutToken.decimals;
+      const payoutVolumeInWei = ethers.utils.parseUnits(tier.toString(), _payoutToken.decimals);
       const payoutBigNumberVolumeInWei = ethers.BigNumber.from(
         payoutVolumeInWei.toLocaleString('fullwide', {
           useGrouping: false,
