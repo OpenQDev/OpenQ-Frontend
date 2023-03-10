@@ -791,7 +791,7 @@ export default class Constants {
     };
   }
   static get bountyTokenBalances() {
-    return [Constants.bountyTokenBalanceMatic, Constants.bountyTokenBalance1, Constants.bountyTokenBalance1];
+    return [Constants.bountyTokenBalanceMatic, Constants.bountyTokenBalanceDai, Constants.bountyTokenBalanceLink];
   }
   static get volume() {
     return '2000000000000000000';
