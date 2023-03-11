@@ -26,6 +26,7 @@ import {
   GET_ALL_SUBMISSIONS,
   COMBINE_USERS,
   GET_REQUESTS,
+  GET_PRIVATE_REQUEST,
   UPDATE_REQUEST,
 } from './graphql/query';
 import fetch from 'cross-fetch';
@@ -380,8 +381,28 @@ class OpenQPrismaClient {
           variables,
 
           fetchPolicy: 'no-cache',
+          errorPolicy: 'ignore',
         });
         resolve(result.data.user);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  getPrivateRequest(id) {
+    const promise = new Promise(async (resolve, reject) => {
+      const variables = {
+        id,
+      };
+
+      try {
+        const result = await this.client.query({
+          query: GET_PRIVATE_REQUEST,
+          variables,
+        });
+        resolve(result.data.request);
       } catch (e) {
         reject(e);
       }

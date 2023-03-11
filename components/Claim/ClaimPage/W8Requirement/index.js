@@ -29,8 +29,14 @@ const W8Requirement = ({ bounty }) => {
   useEffect(() => {
     const W8Approved = getW8Approved(bounty, accountData);
     setW8Approved(W8Approved);
-    const request = bounty.requests?.nodes.find((node) => node.requestingUser.id === accountData.id);
-    setCurrentRequest(request);
+
+    const getPrivateRequest = async () => {
+      const request = bounty.requests.nodes.find((node) => node.requestingUser.id === accountData.id);
+
+      const privateRequest = await appState.openQPrismaClient.getPrivateRequest(request.id);
+      setCurrentRequest(privateRequest?.message);
+    };
+    getPrivateRequest();
   }, [bounty, accountData]);
 
   const handleFileChange = (e) => {
@@ -215,7 +221,7 @@ const W8Requirement = ({ bounty }) => {
           <div>
             {!w8Approved && true && (
               <div className='bg-info border-info-strong rounded-sm border p-4 my-4'>
-                Your W8 was not accepted. {currentRequest?.message}
+                Your W8 was not accepted. {currentRequest}
               </div>
             )}
             <div>

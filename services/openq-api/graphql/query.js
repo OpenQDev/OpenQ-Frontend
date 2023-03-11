@@ -8,7 +8,6 @@ export const GET_BOUNTY_BY_ADDRESS = gql`
       requests(limit: 100) {
         nodes {
           id
-          message
           requestingUser {
             id
           }
@@ -162,6 +161,15 @@ export const GET_REQUESTS = gql`
         }
       }
       starredOrganizationIds
+    }
+  }
+`;
+
+export const GET_PRIVATE_REQUEST = gql`
+  query ($id: String!) {
+    request(id: $id) {
+      id
+      message
     }
   }
 `;
