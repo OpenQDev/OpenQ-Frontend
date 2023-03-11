@@ -26,6 +26,7 @@ import {
   GET_ALL_SUBMISSIONS,
   COMBINE_USERS,
   GET_REQUESTS,
+  UPDATE_REQUEST,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
@@ -387,6 +388,22 @@ class OpenQPrismaClient {
     });
     return promise;
   }
+
+  updateRequest(variables) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: UPDATE_REQUEST,
+          variables,
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
   getLocalUser() {
     const promise = new Promise(async (resolve, reject) => {
       try {

@@ -8,6 +8,7 @@ export const GET_BOUNTY_BY_ADDRESS = gql`
       requests(limit: 100) {
         nodes {
           id
+          message
           requestingUser {
             id
           }
@@ -164,6 +165,16 @@ export const GET_REQUESTS = gql`
     }
   }
 `;
+
+export const UPDATE_REQUEST = gql`
+  mutation updateRequest($requestId: String!, $message: String!, $userId: String!) {
+    updateRequest(requestId: $requestId, message: $message, userId: $userId) {
+      id
+      message
+    }
+  }
+`;
+
 export const GET_PRIVATE_USER = gql`
   query ($id: String, $github: String, $email: String, $types: [String], $category: String) {
     user(id: $id, github: $github, email: $email) {
