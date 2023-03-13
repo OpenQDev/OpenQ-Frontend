@@ -19,7 +19,7 @@ const OrganizationHeader = ({ organizationData, repository }) => {
         <h1 className='text-2xl leading-condensed font-semibold'>
           <Link
             href={repository ? '/organization/' + organizationData.login : organizationData.url}
-            target={!repository && '_blank'}
+            target={!repository ? '_blank' : ''}
             className='text-blue-400 hover:underline'
           >
             {organizationData.name || organizationData.login}

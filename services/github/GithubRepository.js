@@ -82,8 +82,9 @@ class GithubRepository {
     return promise;
   }
 
-  async getPrs(owner, name, limit) {
-    const variables = { owner, name, first: 100 };
+  async getPrs(owner, name, limit, cursor, ordering) {
+    const { direction, field } = ordering;
+    const variables = { owner, name, first: limit, cursor, field, direction };
     if (limit) {
       variables.first = limit;
     }
@@ -95,7 +96,10 @@ class GithubRepository {
           variables,
         });
         const pullRequestObj = result.data.repository.pullRequests;
-        resolve({ repoPrs: pullRequestObj.nodes, totalCount: pullRequestObj.totalCount });
+        resolve({
+          repoPrs: pullRequestObj.nodes,
+          pageInfo: pullRequestObj.pageInfo,
+        });
       } catch (err) {
         reject(err);
       }

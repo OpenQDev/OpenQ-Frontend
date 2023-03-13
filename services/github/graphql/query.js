@@ -93,6 +93,7 @@ export const GET_ISSUE_BY_ID = gql`
 
               source {
                 ... on PullRequest {
+                  createdAt
                   mergedAt
                   url
                   id
@@ -183,11 +184,28 @@ export const GET_ORGS_BY_ISSUES = gql`
 // PULL REQUESTS
 
 export const GET_PRS = gql`
-  query getPrs($owner: String!, $name: String!, $first: Int!) {
+  query getPrs(
+    $owner: String!
+    $name: String!
+    $first: Int!
+    $cursor: String
+    $field: IssueOrderField!
+    $direction: OrderDirection!
+  ) {
     repository(owner: $owner, name: $name) {
       name
-      pullRequests(first: $first) {
+      pullRequests(first: $first, orderBy: { field: $field, direction: $direction }, after: $cursor) {
         totalCount
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
+        edges {
+          node {
+            id
+          }
+          cursor
+        }
         nodes {
           id
           bodyText
@@ -204,6 +222,7 @@ export const GET_PRS = gql`
               avatarUrl
             }
           }
+          createdAt
         }
       }
     }
@@ -227,6 +246,7 @@ export const GET_PRS_BY_ISSUES = gql`
                     bodyText
                     title
                     url
+                    createdAt
                     repository {
                       owner {
                         avatarUrl
@@ -251,6 +271,7 @@ export const GET_PR_BY_ID = gql`
         bodyHTML
         url
         title
+        createdAt
         author {
           login
           avatarUrl
@@ -609,6 +630,7 @@ export const GET_ISSUES_BY_ID = gql`
                 source {
                   ... on PullRequest {
                     url
+                    createdAt
                     merged
                     title
                     author {

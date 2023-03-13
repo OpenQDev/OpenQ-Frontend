@@ -1,5 +1,5 @@
 // Third party
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 // import SearchBar from '../../../components/Search/SearchBar';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
@@ -7,7 +7,7 @@ import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPr
 // import SubmissionCard from '../../../components/Submissions/SubmissionCard';
 import OrganizationHeader from '../../../components/Organization/OrganizationHeader';
 import SubMenu from '../../../components/Utils/SubMenu';
-import Home from '../../../components/svg/home';
+import { Home, Trophy } from '../../../components/svg/home';
 // import Trophy from '../../../components/svg/trophy';
 import BountyList from '../../../components/BountyList';
 import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
@@ -15,20 +15,69 @@ import Logger from '../../../services/logger/Logger';
 import Utils from '../../../services/utils/Utils';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import { getReadyText, isOnlyContest, fetchBountiesWithServiceArg } from '../../../services/utils/lib';
+import SearchBar from '../../../components/Search/SearchBar';
+import ShowCaseCard from '../../../components/ShowCase/ShowCaseCard';
+import StoreContext from '../../../store/Store/StoreContext';
+import PaginatedList from '../../../components/Utils/PaginatedList';
 
-const showcase = ({ /* currentPrs, */ renderError, orgData, repoData, paginationObj }) => {
-  // oAuthToken?
-  //Context
-  // const [submissionSearchTerm, setSubmissionSearchTerm] = useState('');
+const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) => {
+  // Context
+  const [appState] = useContext(StoreContext);
   const [toggleVal, setToggleVal] = useState('Overview');
   // Render
 
   const handleToggle = (toggleVal) => {
     setToggleVal(toggleVal);
   };
-  /* const filterBySubmission = (e) => {
-    setSubmissionSearchTerm(e.target.value);
-  }; */
+
+  const getNonBlacklisted = async (appState, oldCursor, batch, ordering, filters) => {
+    const { repoPrs, pageInfo } = await appState.githubRepository.getPrs(
+      filters.org,
+      filters.name,
+      batch,
+      oldCursor,
+      ordering
+    );
+
+    const prs = await appState.openQPrismaClient.getSubmissions();
+    const blacklistedPrIds = prs.filter((pr) => pr.blacklisted).map((pr) => pr.id);
+
+    return {
+      nodes: repoPrs.filter((pr) => !blacklistedPrIds.includes(pr.id)),
+      cursor: pageInfo.endCursor,
+      complete: !pageInfo.hasNextPage,
+    };
+  };
+
+  const getItems = async (oldCursor, batch, ordering, filters = {}) => {
+    return await getNonBlacklisted(appState, oldCursor, batch, ordering, filters);
+  };
+
+  const filterFunction = (item, filters) => {
+    return item.title.includes(filters.searchText) || item.body.includes(filters.searchText);
+  };
+
+  const githubPagination = {
+    items: [],
+    ordering: { direction: 'DESC', field: 'CREATED_AT' },
+    filters: { searchText: '' },
+    fetchFilters: { name, org },
+    cursor: null,
+    complete: false,
+    batch: 10,
+    filterFunction: filterFunction,
+    getItems,
+  };
+
+  const githubPaginationState = useState(githubPagination);
+  const [githubPaginationObj, setGithubPaginationObj] = githubPaginationState;
+
+  const filterBySubmission = (e) => {
+    setGithubPaginationObj({
+      ...githubPaginationObj,
+      filters: { ...githubPaginationObj.filters, searchText: e.target.value },
+    });
+  };
 
   return (
     <>
@@ -40,7 +89,7 @@ const showcase = ({ /* currentPrs, */ renderError, orgData, repoData, pagination
           <SubMenu
             items={[
               { name: 'Overview', Svg: Home },
-              /* { name: 'Hackathon Submissions', Svg: Trophy }, */
+              { name: 'Hackathon Submissions', Svg: Trophy },
             ]}
             internalMenu={toggleVal}
             updatePage={handleToggle}
@@ -76,6 +125,25 @@ const showcase = ({ /* currentPrs, */ renderError, orgData, repoData, pagination
                 </ul>
               </div>
             </>
+          )}
+          {toggleVal === 'Hackathon Submissions' && (
+            <div className='  w-full px-2 sm:px-8 flex-wrap max-w-[1028px] pb-8'>
+              <h1 className='text-4xl py-16 flex-1 leading-tight min-w-[240px] pr-20'>Submissions for {name}</h1>
+
+              <div className='lg:col-start-2 justify-between justify-self-center space-y-3 w-full pb-8'>
+                <SearchBar
+                  onKeyUp={filterBySubmission}
+                  searchText={githubPaginationObj.filters.searchText}
+                  placeholder='Search Submissions...'
+                  styles={''}
+                />
+                <PaginatedList
+                  paginationState={githubPaginationState}
+                  PaginationCard={ShowCaseCard}
+                  className='flex flex-wrap gap-8 w-full items-start'
+                />
+              </div>
+            </div>
           )}
         </div>
       )}
@@ -149,6 +217,8 @@ export async function getServerSideProps(context) {
       orgData,
       repoData,
       paginationObj,
+      org,
+      name,
     },
   };
 }
