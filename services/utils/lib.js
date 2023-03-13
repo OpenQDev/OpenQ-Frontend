@@ -382,3 +382,10 @@ export const needsFreelancerData = (accountData) => {
   });
   return neededAccountData.length > 0;
 };
+export const handleDispatch = (e, type, dispatchFunc) => {
+  const dispatch = {
+    type,
+    payload: e.target.value,
+  };
+  dispatchFunc(dispatch);
+};

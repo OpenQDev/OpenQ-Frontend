@@ -3,7 +3,7 @@
 /*CHECK DOC ABOUT extensio parameters vs theem*/
 module.exports = {
 	mode: 'jit',
-	content: ['./components/**/*.js', './pages/**/*.js', "./services/utils/Utils.js", "./services/utils/lib.js"],
+	content: ['./components/**/*.js', './pages/**/*.js', "./services/utils/Utils.js",'./pages/hackathons/*.js', "./services/utils/lib.js"],
 	darkMode: false, // or 'media' or 'class'
 	theme: {
 		extend: {
@@ -95,6 +95,9 @@ module.exports = {
 				'5/7': '71.4285714%',
 				'6/7': '85.7142857%',
 			},
+			maxWidth: {
+     			 '60': '240px',
+		    },
 			screens: {
 				xs: '380px',
 				// => @media (min-width: 380px) { ... }
@@ -124,6 +127,7 @@ module.exports = {
 				'spin': 'spin 1s linear infinite'
 			}
 		},
+		},
 		keyframes: {
 			bump: {
 				'0%': {
@@ -146,11 +150,12 @@ module.exports = {
 				}
 			}
 		},
-	},
+	
 	variants: {
 		extend: {},
 	},
 	plugins: [
 		require('@tailwindcss/container-queries'),
 	],
-};
+}
+
