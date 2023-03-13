@@ -31,9 +31,21 @@ class OpenQPrismaClient {
                     });
 
             });
-            return promise;
-   
+            return promise;  
+        }
 
+    async updateRequest(value) {
+        const promise = new Promise(async (resolve, reject) => {
+            axios.get(`http://localhost:3030/prismaRequests`)
+                .then(result => {
+                    this.mockMutations.updateRequest(value);
+                    resolve({ updateRequest: result.data[0] });
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
+        return promise;
     }
 
     getOrgMetadata() {

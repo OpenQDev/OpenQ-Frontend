@@ -84,12 +84,16 @@ const RequestIndividual = ({ item }) => {
 
   useEffect(() => {
     const getSubgraphBounty = async () => {
-      const subgraphBounty = await appState.openQSubgraphClient.getBounty(bounty.address.toLowerCase());
-      setSubgraphBounty(subgraphBounty);
-      if (!subgraphBounty.tierWinners) return;
-      const tier = parseInt(subgraphBounty?.tierWinners.indexOf(request.requestingUser.github));
-      if (subgraphBounty.supportingDocumentsCompleted?.[tier]) {
-        setAccepted(true);
+      try {
+        const subgraphBounty = await appState.openQSubgraphClient.getBounty(bounty.address.toLowerCase());
+        setSubgraphBounty(subgraphBounty);
+        if (!subgraphBounty.tierWinners) return;
+        const tier = parseInt(subgraphBounty?.tierWinners.indexOf(request.requestingUser.github));
+        if (subgraphBounty.supportingDocumentsCompleted?.[tier]) {
+          setAccepted(true);
+        }
+      } catch (err) {
+        appState.logger.error(err, 'RequestIndividual1', accountData.id);
       }
     };
     getSubgraphBounty();
@@ -104,7 +108,7 @@ const RequestIndividual = ({ item }) => {
     setLoading(true);
 
     try {
-      if (subgraphBounty.bountyType === '2' || subgraphBounty.bountyType === '3') {
+      if (item.bounty.bountyType === '3') {
         const tier = parseInt(subgraphBounty.tierWinners.indexOf(request.requestingUser.github));
 
         const abiCoder = new ethers.utils.AbiCoder();
@@ -128,8 +132,12 @@ const RequestIndividual = ({ item }) => {
 
   useEffect(() => {
     const getGithubUser = async () => {
-      const githubUser = await appState.githubRepository.fetchUserById(githubId);
-      setGithubUser(githubUser);
+      try {
+        const githubUser = await appState.githubRepository.fetchUserById(githubId);
+        setGithubUser(githubUser);
+      } catch (err) {
+        appState.logger.error(err, 'RequestIndividual2', accountData.id);
+      }
     };
     getGithubUser();
   }, [githubId]);
@@ -143,13 +151,15 @@ const RequestIndividual = ({ item }) => {
   }, [issueId]);
   return (
     <li className='border gap-4 grid content-center items-center border-web-gray rounded-md p-4 my-4 grid-cols-[80px_1fr_160px]'>
-      <Image
-        alt='picture of request author'
-        className='rounded-full'
-        src={githubUser.avatarUrl}
-        width='80'
-        height='80'
-      />
+      {githubUser.avatarUrl && (
+        <Image
+          alt='picture of request author'
+          className='rounded-full'
+          src={githubUser.avatarUrl}
+          width='80'
+          height='80'
+        />
+      )}
       <div className='leading-none self-start space-y-1.5 px-4'>
         <div>
           <a
@@ -201,7 +211,6 @@ const RequestIndividual = ({ item }) => {
               <div>Add a reason for rejecting the request so that the builder can make adjustments.</div>
               <div className='relative h-full group'>
                 <div
-                  role='textbox'
                   className={`input-field rounded-sm group-focus-within:text-transparent ${
                     !message || message === '<br>' ? null : 'text-[#00000000]'
                   } pointer-events-none border-transparent absolute w-full h-full p-4`}

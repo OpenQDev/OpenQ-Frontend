@@ -134,6 +134,17 @@ class MockOpenQClient {
         return promise;
             
     };
+    setSupportingDocumentsComplete = async (library, _bountyId) => {
+        this.mockMutations.setSupportingDocumentsComplete(_bountyId);
+        const promise = new Promise(async (resolve, reject) => {
+            await this.sleep(200);
+
+            const zeroAddress = "0x0000000000000000000000000000000000000000";
+            resolve({ transactionHash: "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", events: [{ transactionHash: "0x1abcD810374b2C0fCDD11cFA280Df9dA7970da4e", args: [{}] }] });
+        });
+        return promise;
+            
+    };
 
 
     setPayoutSchedule = async (library, _bountyId, _payoutSchedule) => {
