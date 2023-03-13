@@ -23,11 +23,25 @@ const W8Requirement = ({ bounty }) => {
   const [sent, setSent] = useState(pending);
   const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}?tab=Invoicing (Freelancer)`;
   const [w8Approved, setW8Approved] = useState(false);
+  const [currentRequest, setCurrentRequest] = useState(null);
 
   const noEmail = !accountData?.invoicingEmail;
   useEffect(() => {
     const W8Approved = getW8Approved(bounty, accountData);
     setW8Approved(W8Approved);
+
+    const getPrivateRequest = async () => {
+      const request = bounty.requests.nodes.find((node) => node.requestingUser.id === accountData.id);
+      if (request) {
+        try {
+          const privateRequest = await appState.openQPrismaClient.getPrivateRequest(request.id);
+          setCurrentRequest(privateRequest?.message);
+        } catch (e) {
+          appState.logger.error(e);
+        }
+      }
+    };
+    getPrivateRequest();
   }, [bounty, accountData]);
 
   const handleFileChange = (e) => {
@@ -210,6 +224,11 @@ const W8Requirement = ({ bounty }) => {
       ) : (
         <>
           <div>
+            {!w8Approved && currentRequest && (
+              <div className='bg-info border-info-strong rounded-sm border p-4 my-4'>
+                Your W8 was not accepted. {currentRequest}
+              </div>
+            )}
             <div>
               Please complete and upload a W-8/W-9 form. Choose one of five types, depending on your entity. We
               encourage you to consult with you own tax or financial adviser to determine which form is appropriate for

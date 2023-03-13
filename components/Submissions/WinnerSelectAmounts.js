@@ -10,7 +10,7 @@ import useGetTokenValues from '../../hooks/useGetTokenValues';
 import { formatVolume } from '../../services/utils/lib';
 import GnosisWarning from '../Utils/GnosisWarning';
 
-const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled }) => {
+const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled, isRemove }) => {
   const [showModal, setShowModal] = useState();
   const [selectionState, setSelectionState] = useState(RESTING);
   const tierIndex = parseInt(prize.index);
@@ -21,6 +21,7 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled }) => 
   const [error, setError] = useState({});
   const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
   const price = tokenValues?.total;
+  const [targetWinner, setTargetWinner] = useState();
   const createFixedPayout = () => {
     return prize.payout && bounty.bountyType == 3
       ? {
@@ -38,7 +39,7 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled }) => 
     try {
       setSelectionState(TRANSFERRING);
 
-      const transaction = await appState.openQClient.setTierWinner(library, bounty.bountyId, tierIndex, winnerId);
+      const transaction = await appState.openQClient.setTierWinner(library, bounty.bountyId, tierIndex, targetWinner);
       if (transaction) {
         setSelectionState(SUCCESS);
       }
@@ -57,12 +58,13 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled }) => 
 
   const suffixed = appState.utils.handleSuffix(tierIndex + 1);
   const prizeColor = appState.utils.getPrizeColor(tierIndex);
-  const selectWinner = () => {
+  const selectWinner = (targetWinner) => {
     if (prize.claimed) {
       return;
     }
     setSelectionState(CONFIRM);
     setShowModal(true);
+    setTargetWinner(targetWinner);
   };
   const resetState = () => {
     setSelectionState(CONFIRM);
@@ -139,28 +141,36 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled }) => 
   };
   const modalTitle = {
     CONFIRM: `Choosing ${suffixed} Tier`,
-    TRANSFERRING: `Selecting Winner...`,
-    SUCCESS: 'Winner Selected!',
+    TRANSFERRING: isRemove ? 'Removing Selection' : `Selecting Winner...`,
+    SUCCESS: isRemove ? 'Complete' : 'Winner Selected!',
     ERROR: error.title,
   };
   return (
     <>
-      <button
-        data-testid='winnerSelectAmounts'
-        onClick={selectWinner}
-        disabled={prize.claimed || disabled}
-        className={`flex justify-center ${
-          prize.claimed || disabled ? 'cursor-not-allowed' : 'cursor-pointer'
-        } text-black content-center items-center font-semibold`}
-        style={{
-          backgroundColor: (!prize.claimed && !disabled) || disabled ? prizeColor : '#4f4f4f',
-        }}
-      >
-        <div>
-          {formatVolume(prize.payout, appState.tokenClient.getToken(bounty.payoutTokenAddress)) + unit}{' '}
-          {bounty.tierWinners?.[tierIndex] && '(selected)'}
+      {isRemove ? (
+        <div className='flex justify-center py-4'>
+          <button className='btn-danger' onClick={() => selectWinner('')}>
+            Remove Selection
+          </button>
         </div>
-      </button>
+      ) : (
+        <button
+          data-testid='winnerSelectAmounts'
+          onClick={() => selectWinner(winnerId)}
+          disabled={prize.claimed || disabled}
+          className={`flex justify-center ${
+            prize.claimed || disabled ? 'cursor-not-allowed' : 'cursor-pointer'
+          } text-black content-center items-center font-semibold`}
+          style={{
+            backgroundColor: (!prize.claimed && !disabled) || disabled ? prizeColor : '#4f4f4f',
+          }}
+        >
+          <div>
+            {formatVolume(prize.payout, appState.tokenClient.getToken(bounty.payoutTokenAddress)) + unit}{' '}
+            {bounty.tierWinners?.[tierIndex] && '(selected)'}
+          </div>
+        </button>
+      )}
       {showModal && (
         <ModalDefault
           footerLeft={goBackBtn[selectionState]}
@@ -172,7 +182,7 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled }) => 
           {selectionState === CONFIRM && (
             <>
               <p className='my-2'>
-                You are about to select{' '}
+                {isRemove ? "You're about to remove the selection of " : 'You are about to select '}
                 <a href={pr.url} className='underline'>
                   {pr.title}
                 </a>{' '}
@@ -182,30 +192,32 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled }) => 
                 </a>{' '}
                 challenge.
               </p>
-              <div className='my-2'>
-                {claimReady ? 'This will release' : 'Before being able to claim'}{' '}
-                {bounty.bountyType === '2'
-                  ? prize.payout + '% of funds'
-                  : formatVolume(prize.payout, appState.tokenClient.getToken(bounty.payoutTokenAddress)) + unit}{' '}
-                (
-                {bounty.bountyType === '2'
-                  ? appState.utils.formatter.format((price * prize.payout) / 100 || 0)
-                  : appState.utils.formatter.format(fixedPayoutValue?.total || 0)}
-                )
-                {claimReady ? (
-                  ` to ${pr.author.login}, to be claimed at their leisure.`
-                ) : (
-                  <>
-                    {', '}
-                    {pr.author.login} will have to complete:
-                    <ul className='mt-2 ml-4 list-disc'>
-                      {bounty.invoiceRequired && <li>Invoice</li>}
-                      {bounty.supportingDocumentsRequired && <li>W8/W9 Form</li>}
-                      {bounty.kycRequired && <li>KYC</li>}
-                    </ul>
-                  </>
-                )}
-              </div>
+              {!isRemove && (
+                <div className='my-2'>
+                  {claimReady ? 'This will release' : 'Before being able to claim'}{' '}
+                  {bounty.bountyType === '2'
+                    ? prize.payout + '% of funds'
+                    : formatVolume(prize.payout, appState.tokenClient.getToken(bounty.payoutTokenAddress)) + unit}{' '}
+                  (
+                  {bounty.bountyType === '2'
+                    ? appState.utils.formatter.format((price * prize.payout) / 100 || 0)
+                    : appState.utils.formatter.format(fixedPayoutValue?.total || 0)}
+                  )
+                  {claimReady ? (
+                    ` to ${pr.author.login}, to be claimed at their leisure.`
+                  ) : (
+                    <>
+                      {', '}
+                      {pr.author.login} will have to complete:
+                      <ul className='mt-2 ml-4 list-disc'>
+                        {bounty.invoiceRequired && <li>Invoice</li>}
+                        {bounty.supportingDocumentsRequired && <li>W8/W9 Form</li>}
+                        {bounty.kycRequired && <li>KYC</li>}
+                      </ul>
+                    </>
+                  )}
+                </div>
+              )}
             </>
           )}
           {selectionState === TRANSFERRING && (
@@ -216,23 +228,27 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled }) => 
           {selectionState === ERROR && <p>{error.message}</p>}
           {selectionState === SUCCESS && (
             <>
-              <div className='my-2'>
-                {bounty.bountyType === '2'
-                  ? prize.payout + '% of funds'
-                  : formatVolume(prize.payout, appState.tokenClient.getToken(bounty.payoutTokenAddress)) + unit}{' '}
-                staked on this competition can now be claimed by {pr.author.name || pr.author.login}
-                {claimReady && '.'}
-                {!claimReady && (
-                  <>
-                    , after they complete the following:
-                    <ul className='mt-2 ml-4 list-disc'>
-                      {bounty.invoiceRequired && <li>Invoice</li>}
-                      {bounty.supportingDocumentsRequired && <li>W8/W9 Form</li>}
-                      {bounty.kycRequired && <li>KYC</li>}
-                    </ul>
-                  </>
-                )}
-              </div>
+              {isRemove ? (
+                <div>Selection for tier {tierIndex + 1} removed.</div>
+              ) : (
+                <div className='my-2'>
+                  {bounty.bountyType === '2'
+                    ? prize.payout + '% of funds'
+                    : formatVolume(prize.payout, appState.tokenClient.getToken(bounty.payoutTokenAddress)) + unit}{' '}
+                  staked on this competition can now be claimed by {pr.author.name || pr.author.login}
+                  {claimReady && '.'}
+                  {!claimReady && (
+                    <>
+                      , after they complete the following:
+                      <ul className='mt-2 ml-4 list-disc'>
+                        {bounty.invoiceRequired && <li>Invoice</li>}
+                        {bounty.supportingDocumentsRequired && <li>W8/W9 Form</li>}
+                        {bounty.kycRequired && <li>KYC</li>}
+                      </ul>
+                    </>
+                  )}
+                </div>
+              )}
             </>
           )}
           <GnosisWarning />

@@ -16,12 +16,13 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 1`] = `
       <WinnerSelectAmounts
         bounty={
           {
+            "address": "0x066efd87027a4cc4a21c57467f224ef98241d774",
             "assignees": [],
             "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
             "body": "body of test2",
             "bodyHTML": "<p dir="auto">body of test2</p>",
-            "bountyAddress": "0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f",
-            "bountyId": "I_kwDOGAqhQc48U5_r",
+            "bountyAddress": "0x066efd87027a4cc4a21c57467f224ef98241d774",
+            "bountyId": "I_kwDOGWnnz85I9Agl",
             "bountyMintTime": "1662545344",
             "bountyTokenBalances": [
               {
@@ -29,8 +30,16 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 1`] = `
                 "tokenAddress": "0x0000000000000000000000000000000000000000",
                 "volume": "2000000000000000000",
               },
-              undefined,
-              undefined,
+              {
+                "__typename": "BountyFundedTokenBalance",
+                "tokenAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+                "volume": "2000000000000000000",
+              },
+              {
+                "__typename": "BountyFundedTokenBalance",
+                "tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+                "volume": "2000000000000000000",
+              },
             ],
             "bountyType": "2",
             "claims": [],
@@ -232,12 +241,13 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 1`] = `
       <WinnerSelectAmounts
         bounty={
           {
+            "address": "0x066efd87027a4cc4a21c57467f224ef98241d774",
             "assignees": [],
             "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
             "body": "body of test2",
             "bodyHTML": "<p dir="auto">body of test2</p>",
-            "bountyAddress": "0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f",
-            "bountyId": "I_kwDOGAqhQc48U5_r",
+            "bountyAddress": "0x066efd87027a4cc4a21c57467f224ef98241d774",
+            "bountyId": "I_kwDOGWnnz85I9Agl",
             "bountyMintTime": "1662545344",
             "bountyTokenBalances": [
               {
@@ -245,8 +255,16 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 1`] = `
                 "tokenAddress": "0x0000000000000000000000000000000000000000",
                 "volume": "2000000000000000000",
               },
-              undefined,
-              undefined,
+              {
+                "__typename": "BountyFundedTokenBalance",
+                "tokenAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+                "volume": "2000000000000000000",
+              },
+              {
+                "__typename": "BountyFundedTokenBalance",
+                "tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+                "volume": "2000000000000000000",
+              },
             ],
             "bountyType": "2",
             "claims": [],
@@ -448,12 +466,13 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 1`] = `
       <WinnerSelectAmounts
         bounty={
           {
+            "address": "0x066efd87027a4cc4a21c57467f224ef98241d774",
             "assignees": [],
             "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
             "body": "body of test2",
             "bodyHTML": "<p dir="auto">body of test2</p>",
-            "bountyAddress": "0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f",
-            "bountyId": "I_kwDOGAqhQc48U5_r",
+            "bountyAddress": "0x066efd87027a4cc4a21c57467f224ef98241d774",
+            "bountyId": "I_kwDOGWnnz85I9Agl",
             "bountyMintTime": "1662545344",
             "bountyTokenBalances": [
               {
@@ -461,8 +480,16 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 1`] = `
                 "tokenAddress": "0x0000000000000000000000000000000000000000",
                 "volume": "2000000000000000000",
               },
-              undefined,
-              undefined,
+              {
+                "__typename": "BountyFundedTokenBalance",
+                "tokenAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+                "volume": "2000000000000000000",
+              },
+              {
+                "__typename": "BountyFundedTokenBalance",
+                "tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+                "volume": "2000000000000000000",
+              },
             ],
             "bountyType": "2",
             "claims": [],
@@ -682,12 +709,13 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
       <WinnerSelectAmounts
         bounty={
           {
+            "address": "0x066efd87027a4cc4a21c57467f224ef98241d774",
             "assignees": [],
             "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
             "body": "body of test2",
             "bodyHTML": "<p dir="auto">body of test2</p>",
-            "bountyAddress": "0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f",
-            "bountyId": "I_kwDOGAqhQc48U5_r",
+            "bountyAddress": "0x066efd87027a4cc4a21c57467f224ef98241d774",
+            "bountyId": "I_kwDOGWnnz85I9Agl",
             "bountyMintTime": "1662545344",
             "bountyTokenBalances": [
               {
@@ -695,8 +723,16 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
                 "tokenAddress": "0x0000000000000000000000000000000000000000",
                 "volume": "2000000000000000000",
               },
-              undefined,
-              undefined,
+              {
+                "__typename": "BountyFundedTokenBalance",
+                "tokenAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+                "volume": "2000000000000000000",
+              },
+              {
+                "__typename": "BountyFundedTokenBalance",
+                "tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+                "volume": "2000000000000000000",
+              },
             ],
             "bountyType": "3",
             "claims": [],
@@ -842,6 +878,17 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
               },
             ],
             "repoName": "OpenQ-Frontend",
+            "requests": {
+              "nodes": [
+                {
+                  "requestingUser": {
+                    "email": "abc123@gmail.com",
+                    "username": "Christopher",
+                    "watchedBounties": undefined,
+                  },
+                },
+              ],
+            },
             "title": "Properly Referenced and Merged by FlacoJones",
             "titleHTML": "Properly Referenced and Merged by FlacoJones",
             "tvl": "9.51848",
@@ -899,12 +946,13 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
       <WinnerSelectAmounts
         bounty={
           {
+            "address": "0x066efd87027a4cc4a21c57467f224ef98241d774",
             "assignees": [],
             "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
             "body": "body of test2",
             "bodyHTML": "<p dir="auto">body of test2</p>",
-            "bountyAddress": "0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f",
-            "bountyId": "I_kwDOGAqhQc48U5_r",
+            "bountyAddress": "0x066efd87027a4cc4a21c57467f224ef98241d774",
+            "bountyId": "I_kwDOGWnnz85I9Agl",
             "bountyMintTime": "1662545344",
             "bountyTokenBalances": [
               {
@@ -912,8 +960,16 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
                 "tokenAddress": "0x0000000000000000000000000000000000000000",
                 "volume": "2000000000000000000",
               },
-              undefined,
-              undefined,
+              {
+                "__typename": "BountyFundedTokenBalance",
+                "tokenAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+                "volume": "2000000000000000000",
+              },
+              {
+                "__typename": "BountyFundedTokenBalance",
+                "tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+                "volume": "2000000000000000000",
+              },
             ],
             "bountyType": "3",
             "claims": [],
@@ -1059,6 +1115,17 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
               },
             ],
             "repoName": "OpenQ-Frontend",
+            "requests": {
+              "nodes": [
+                {
+                  "requestingUser": {
+                    "email": "abc123@gmail.com",
+                    "username": "Christopher",
+                    "watchedBounties": undefined,
+                  },
+                },
+              ],
+            },
             "title": "Properly Referenced and Merged by FlacoJones",
             "titleHTML": "Properly Referenced and Merged by FlacoJones",
             "tvl": "9.51848",
@@ -1116,12 +1183,13 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
       <WinnerSelectAmounts
         bounty={
           {
+            "address": "0x066efd87027a4cc4a21c57467f224ef98241d774",
             "assignees": [],
             "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
             "body": "body of test2",
             "bodyHTML": "<p dir="auto">body of test2</p>",
-            "bountyAddress": "0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f",
-            "bountyId": "I_kwDOGAqhQc48U5_r",
+            "bountyAddress": "0x066efd87027a4cc4a21c57467f224ef98241d774",
+            "bountyId": "I_kwDOGWnnz85I9Agl",
             "bountyMintTime": "1662545344",
             "bountyTokenBalances": [
               {
@@ -1129,8 +1197,16 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
                 "tokenAddress": "0x0000000000000000000000000000000000000000",
                 "volume": "2000000000000000000",
               },
-              undefined,
-              undefined,
+              {
+                "__typename": "BountyFundedTokenBalance",
+                "tokenAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+                "volume": "2000000000000000000",
+              },
+              {
+                "__typename": "BountyFundedTokenBalance",
+                "tokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+                "volume": "2000000000000000000",
+              },
             ],
             "bountyType": "3",
             "claims": [],
@@ -1276,6 +1352,17 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
               },
             ],
             "repoName": "OpenQ-Frontend",
+            "requests": {
+              "nodes": [
+                {
+                  "requestingUser": {
+                    "email": "abc123@gmail.com",
+                    "username": "Christopher",
+                    "watchedBounties": undefined,
+                  },
+                },
+              ],
+            },
             "title": "Properly Referenced and Merged by FlacoJones",
             "titleHTML": "Properly Referenced and Merged by FlacoJones",
             "tvl": "9.51848",

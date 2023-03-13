@@ -1,13 +1,10 @@
 // Third party
 import React, { useContext, useState, useEffect } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
-import useGetTokenValues from '../../hooks/useGetTokenValues';
-import TokenBalances from '../TokenBalances/TokenBalances';
 import ToolTipNew from '../Utils/ToolTipNew';
 import { ethers } from 'ethers';
-import useWeb3 from '../../hooks/useWeb3';
-import Link from 'next/link';
 import ConnectButton from '../WalletConnect/ConnectButton';
+import TokenBalances from '../TokenBalances/TokenBalances';
 
 const DepositCard = ({
   deposit,
@@ -22,58 +19,41 @@ const DepositCard = ({
 }) => {
   // Context
   const [appState] = useContext(StoreContext);
-  const { library } = useWeb3();
-
+  const [hasClientDate, setHasClientDate] = useState(false);
   // State
-  const [tokenValues] = useGetTokenValues(deposit);
   const tokenMetadata = appState.tokenClient.getToken(deposit.tokenAddress);
   let bigNumberVolume = ethers.BigNumber.from(deposit.volume.toString());
   let decimals = parseInt(tokenMetadata.decimals) || 18;
   let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
 
   const [expanded, setExpanded] = useState(false);
-  const [NFT, setNFT] = useState();
   useEffect(() => {
-    const getNft = async () => {
-      if (deposit?.isNft && library) {
-        const NFT = await appState.openQClient.getNFT(library, deposit.tokenAddress, deposit.tokenId);
-
-        setNFT(NFT);
-      }
-    };
-    getNft();
-  }, [deposit, library]);
+    setHasClientDate(true);
+  }, []);
 
   return (
     <div className='flex flex-col items-center w-full md:border rounded-sm border-gray-700 text-primary hover:bg-[#21262d]'>
       <div className='flex justify-center w-full md:bg-[#161b22] md:border-b border-gray-700 pb-1 rounded-t-sm'>
-        {deposit.isNft && NFT ? (
-          <Link href={NFT.uri} className='underline'>
-            <span>
-              {NFT?.name}#{deposit.tokenId}
-            </span>
-          </Link>
-        ) : (
-          <TokenBalances lean={true} tokenBalances={deposit} tokenValues={tokenValues} singleCurrency={true} />
-        )}
+        <TokenBalances tokenBalances={[deposit]} />
       </div>
-
       <div className={'pt-3 flex flex-col md:flex-row w-full items-center justify-between px-8 sm:px-6 pb-4'}>
-        <div className='flex flex-col space-y-2'>
-          <div className='text-left  py-2'>
-            Deposited on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime))}
+        {hasClientDate && (
+          <div className='flex flex-col space-y-2'>
+            <div className='text-left  py-2'>
+              Deposited on: {appState.utils.formatUnixDate(parseInt(deposit.receiveTime))}
+            </div>
+            {deposit.refunded ? (
+              <div className='text-left  pb-2'>
+                Refunded on: {appState.utils.formatUnixDate(parseInt(deposit.refundTime))}
+              </div>
+            ) : (
+              <div className='text-left  pb-2'>
+                Refundable on:{' '}
+                {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}
+              </div>
+            )}
           </div>
-          {deposit.refunded ? (
-            <div className='text-left  pb-2'>
-              Refunded on: {appState.utils.formatUnixDate(parseInt(deposit.refundTime))}
-            </div>
-          ) : (
-            <div className='text-left  pb-2'>
-              Refundable on:{' '}
-              {appState.utils.formatUnixDate(parseInt(deposit.receiveTime) + parseInt(deposit.expiration))}
-            </div>
-          )}
-        </div>
+        )}
         {isOnCorrectNetwork && isFunder && (
           <>
             <div className='flex flex-col space-y-3 w-44 pl-3 text-primary'>
