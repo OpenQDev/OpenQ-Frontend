@@ -878,6 +878,17 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
               },
             ],
             "repoName": "OpenQ-Frontend",
+            "requests": {
+              "nodes": [
+                {
+                  "requestingUser": {
+                    "email": "abc123@gmail.com",
+                    "username": "Christopher",
+                    "watchedBounties": undefined,
+                  },
+                },
+              ],
+            },
             "title": "Properly Referenced and Merged by FlacoJones",
             "titleHTML": "Properly Referenced and Merged by FlacoJones",
             "tvl": "9.51848",
@@ -1104,6 +1115,17 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
               },
             ],
             "repoName": "OpenQ-Frontend",
+            "requests": {
+              "nodes": [
+                {
+                  "requestingUser": {
+                    "email": "abc123@gmail.com",
+                    "username": "Christopher",
+                    "watchedBounties": undefined,
+                  },
+                },
+              ],
+            },
             "title": "Properly Referenced and Merged by FlacoJones",
             "titleHTML": "Properly Referenced and Merged by FlacoJones",
             "tvl": "9.51848",
@@ -1330,6 +1352,17 @@ exports[`SubmissionCardAdmin should render match DOM Snapshot 2`] = `
               },
             ],
             "repoName": "OpenQ-Frontend",
+            "requests": {
+              "nodes": [
+                {
+                  "requestingUser": {
+                    "email": "abc123@gmail.com",
+                    "username": "Christopher",
+                    "watchedBounties": undefined,
+                  },
+                },
+              ],
+            },
             "title": "Properly Referenced and Merged by FlacoJones",
             "titleHTML": "Properly Referenced and Merged by FlacoJones",
             "tvl": "9.51848",

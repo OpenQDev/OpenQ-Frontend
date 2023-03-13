@@ -1119,6 +1119,7 @@ export default class Constants {
       payoutSchedule: Constants.payoutSchedule3,
       payoutTokenAddress: Constants.linkAddress,
       bountyType: Constants.bountyTypeFixedContest,
+      requests: { nodes: [Constants.request0] },
     };
   }
 
