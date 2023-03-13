@@ -190,7 +190,6 @@ const BountyMetadata = ({ bounty, setInternalMenu }) => {
             })}
           </li>
         )}
-
         {bounty.labels && (
           <li className='border-b border-web-gray py-3'>
             <div className='text-xs font-semibold text-muted pb-2'>GitHub Labels</div>

@@ -12,12 +12,13 @@ exports[`Watching should render match DOM Snapshot 1`] = `
       index={0}
       item={
         {
+          "address": "0x066efd87027a4cc4a21c57467f224ef98241d774",
           "assignees": [],
           "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
           "body": "body of test2",
           "bodyHTML": "<p dir="auto">body of test2</p>",
-          "bountyAddress": "0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f",
-          "bountyId": "I_kwDOGAqhQc48U5_r",
+          "bountyAddress": "0x066efd87027a4cc4a21c57467f224ef98241d774",
+          "bountyId": "I_kwDOGWnnz85I9Agl",
           "bountyMintTime": "1662545344",
           "bountyTokenBalances": [
             {
@@ -188,12 +189,13 @@ exports[`Watching should render match DOM Snapshot 1`] = `
       index={1}
       item={
         {
+          "address": "0x066efd87027a4cc4a21c57467f224ef98241d774",
           "assignees": [],
           "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
           "body": "body of test2",
           "bodyHTML": "<p dir="auto">body of test2</p>",
-          "bountyAddress": "0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f",
-          "bountyId": "I_kwDOGAqhQc48U5_r",
+          "bountyAddress": "0x066efd87027a4cc4a21c57467f224ef98241d774",
+          "bountyId": "I_kwDOGWnnz85I9Agl",
           "bountyMintTime": "1662545344",
           "bountyTokenBalances": [
             {
@@ -366,12 +368,13 @@ exports[`Watching should render match DOM Snapshot 1`] = `
       index={2}
       item={
         {
+          "address": "0x066efd87027a4cc4a21c57467f224ef98241d774",
           "assignees": [],
           "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
           "body": "body of test2",
           "bodyHTML": "<p dir="auto">body of test2</p>",
-          "bountyAddress": "0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f",
-          "bountyId": "I_kwDOGAqhQc48U5_r",
+          "bountyAddress": "0x066efd87027a4cc4a21c57467f224ef98241d774",
+          "bountyId": "I_kwDOGWnnz85I9Agl",
           "bountyMintTime": "1662545344",
           "bountyTokenBalances": [
             {
@@ -547,12 +550,13 @@ exports[`Watching should render match DOM Snapshot 1`] = `
       index={3}
       item={
         {
+          "address": "0x066efd87027a4cc4a21c57467f224ef98241d774",
           "assignees": [],
           "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
           "body": "body of test2",
           "bodyHTML": "<p dir="auto">body of test2</p>",
-          "bountyAddress": "0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f",
-          "bountyId": "I_kwDOGAqhQc48U5_r",
+          "bountyAddress": "0x066efd87027a4cc4a21c57467f224ef98241d774",
+          "bountyId": "I_kwDOGWnnz85I9Agl",
           "bountyMintTime": "1662545344",
           "bountyTokenBalances": [
             {
