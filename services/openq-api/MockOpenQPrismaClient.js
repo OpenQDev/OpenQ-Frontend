@@ -47,6 +47,17 @@ class OpenQPrismaClient {
         });
         return promise;
     }
+    getUserRequests(id) {
+        const promise = new Promise(async (resolve, reject) => {
+        axios.get(`http://localhost:3030/prismaRequests`)
+            .then(result => {
+                resolve({ getUserRequests: result.data });            })
+            .catch(error => {
+                reject(error);
+            });
+    });
+    return promise;
+}
 
     getOrgMetadata() {
         const promise = new Promise(async (resolve,) => {
