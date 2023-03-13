@@ -106,9 +106,8 @@ const RequestIndividual = ({ item }) => {
   const acceptRequest = async () => {
     let data = true;
     setLoading(true);
-
     try {
-      if (item.bounty.bountyType === '3') {
+      if (item.bounty.type === '3') {
         const tier = parseInt(subgraphBounty.tierWinners.indexOf(request.requestingUser.github));
 
         const abiCoder = new ethers.utils.AbiCoder();
@@ -188,16 +187,17 @@ const RequestIndividual = ({ item }) => {
           Accept{accepted ? 'ed' : loading ? 'ing' : ''}
           {loading && <LoadingIcon />}
         </button>
-        <button
-          disabled={accepted || loading}
-          onClick={declineRequest}
-          className={`flex w-fit gap-2 ${
-            accepted || loading ? 'btn-default cursor-not-allowed' : 'btn-danger'
-          } py-0.5  w-full text-lg self-center flex content-center items-center justify-center`}
-        >
-          Decline{accepted ? 'ed' : loading ? 'ing' : ''}
-          {loading && <LoadingIcon />}
-        </button>
+        {!accepted && (
+          <button
+            disabled={accepted || loading}
+            onClick={declineRequest}
+            className={`flex w-fit gap-2 ${
+              accepted || loading ? 'btn-default cursor-not-allowed' : 'btn-danger'
+            } py-0.5  w-full text-lg self-center flex content-center items-center justify-center`}
+          >
+            Decline{accepted ? 'd' : null}
+          </button>
+        )}
       </div>
       {declineState !== RESTING && (
         <ModalLarge

@@ -145,6 +145,7 @@ export const GET_REQUESTS = gql`
           nodes {
             address
             bountyId
+            type
             requests(limit: 100) {
               nodes {
                 id

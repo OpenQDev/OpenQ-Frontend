@@ -327,10 +327,12 @@ export const getServerSideProps = async (context) => {
     bounty = await openQSubgraphClient.instance.getBounty(address, 'no-cache');
 
     if (!bounty) {
+      console.log('subgraph error');
       logger.error({ message: `OpenQ could not find a contract with address: ${address}.` }, null, '[address.js]6');
     }
   } catch (err) {
-    logger.error(err, null, '[address.js]6');
+    console.log('subgraph error');
+    logger.error(err, null, '[address.js]7');
     renderError = ``;
   }
 

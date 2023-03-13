@@ -31,10 +31,12 @@ const W8Requirement = ({ bounty }) => {
     setW8Approved(W8Approved);
 
     const getPrivateRequest = async () => {
+      console.log(bounty);
       const request = bounty.requests.nodes.find((node) => node.requestingUser.id === accountData.id);
-
-      const privateRequest = await appState.openQPrismaClient.getPrivateRequest(request.id);
-      setCurrentRequest(privateRequest?.message);
+      if (request) {
+        const privateRequest = await appState.openQPrismaClient.getPrivateRequest(request.id);
+        setCurrentRequest(privateRequest?.message);
+      }
     };
     getPrivateRequest();
   }, [bounty, accountData]);
@@ -219,7 +221,7 @@ const W8Requirement = ({ bounty }) => {
       ) : (
         <>
           <div>
-            {!w8Approved && true && (
+            {!w8Approved && currentRequest && (
               <div className='bg-info border-info-strong rounded-sm border p-4 my-4'>
                 Your W8 was not accepted. {currentRequest}
               </div>
