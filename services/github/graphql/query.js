@@ -184,11 +184,28 @@ export const GET_ORGS_BY_ISSUES = gql`
 // PULL REQUESTS
 
 export const GET_PRS = gql`
-  query getPrs($owner: String!, $name: String!, $first: Int!) {
+  query getPrs(
+    $owner: String!
+    $name: String!
+    $first: Int!
+    $cursor: String
+    $field: IssueOrderField!
+    $direction: OrderDirection!
+  ) {
     repository(owner: $owner, name: $name) {
       name
-      pullRequests(first: $first, orderBy: { field: CREATED_AT, direction: DESC }) {
+      pullRequests(first: $first, orderBy: { field: $field, direction: $direction }, after: $cursor) {
         totalCount
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
+        edges {
+          node {
+            id
+          }
+          cursor
+        }
         nodes {
           id
           bodyText

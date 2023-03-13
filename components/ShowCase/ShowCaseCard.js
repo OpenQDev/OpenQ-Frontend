@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
-import SubmissionCardAdmin from './SubmissionCardAdmin';
+import SubmissionCardAdmin from '../Submissions/SubmissionCardAdmin';
 import Link from 'next/link';
 import Image from 'next/image';
 import Skeleton from 'react-loading-skeleton';
-import SubmissionWinner from './SubmissionWinner';
+import SubmissionWinner from '../Submissions/SubmissionWinner';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 
-const SubmissionCard = ({ pr, bounty, refreshBounty }) => {
+const ShowCaseCard = ({ bounty, refreshBounty, item }) => {
+  const pr = item;
   const [appState] = useContext(StoreContext);
   const { account } = useWeb3();
   const admin = bounty && bounty?.issuer?.id === account?.toLowerCase();
@@ -89,4 +90,4 @@ const SubmissionCard = ({ pr, bounty, refreshBounty }) => {
     </div>
   );
 };
-export default SubmissionCard;
+export default ShowCaseCard;

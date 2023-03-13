@@ -1,5 +1,5 @@
 // Third party
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 // import SearchBar from '../../../components/Search/SearchBar';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
@@ -14,38 +14,69 @@ import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal
 import Logger from '../../../services/logger/Logger';
 import Utils from '../../../services/utils/Utils';
 import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
-import {
-  getReadyText,
-  isOnlyContest,
-  fetchBountiesWithServiceArg,
-  getNonBlacklisted,
-} from '../../../services/utils/lib';
+import { getReadyText, isOnlyContest, fetchBountiesWithServiceArg } from '../../../services/utils/lib';
 import SearchBar from '../../../components/Search/SearchBar';
-import SubmissionCard from '../../../components/Submissions/SubmissionCard';
+import ShowCaseCard from '../../../components/ShowCase/ShowCaseCard';
+import StoreContext from '../../../store/Store/StoreContext';
+import PaginatedList from '../../../components/Utils/PaginatedList';
 
-const showcase = ({ name, currentPrs, renderError, orgData, repoData, paginationObj }) => {
+const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) => {
   // Context
-  const [submissionSearchTerm, setSubmissionSearchTerm] = useState('');
+  const [appState] = useContext(StoreContext);
   const [toggleVal, setToggleVal] = useState('Overview');
   // Render
 
   const handleToggle = (toggleVal) => {
     setToggleVal(toggleVal);
   };
-  const filterBySubmission = (e) => {
-    setSubmissionSearchTerm(e.target.value);
+
+  const getNonBlacklisted = async (appState, oldCursor, batch, ordering, filters) => {
+    const { repoPrs, pageInfo } = await appState.githubRepository.getPrs(
+      filters.org,
+      filters.name,
+      batch,
+      oldCursor,
+      ordering
+    );
+
+    const prs = await appState.openQPrismaClient.getSubmissions();
+    const blacklistedPrIds = prs.filter((pr) => pr.blacklisted).map((pr) => pr.id);
+
+    return {
+      nodes: repoPrs.filter((pr) => !blacklistedPrIds.includes(pr.id)),
+      cursor: pageInfo.endCursor,
+      complete: !pageInfo.hasNextPage,
+    };
   };
 
-  const classifyDay = (time) => {
-    const prTime = Math.floor(new Date(time).getTime() / 1000);
-    const compare = Date.now() / 1000 - prTime;
-    if (compare < 86400) {
-      return 'Today';
-    } else if (compare < 86400 * 2) {
-      return 'Yesterday';
-    } else {
-      return 'Earlier';
-    }
+  const getItems = async (oldCursor, batch, ordering, filters = {}) => {
+    return await getNonBlacklisted(appState, oldCursor, batch, ordering, filters);
+  };
+
+  const filterFunction = (item, filters) => {
+    return item.title.includes(filters.searchText) || item.body.includes(filters.searchText);
+  };
+
+  const githubPagination = {
+    items: [],
+    ordering: { direction: 'DESC', field: 'CREATED_AT' },
+    filters: { searchText: '' },
+    fetchFilters: { name, org },
+    cursor: null,
+    complete: false,
+    batch: 10,
+    filterFunction: filterFunction,
+    getItems,
+  };
+
+  const githubPaginationState = useState(githubPagination);
+  const [githubPaginationObj, setGithubPaginationObj] = githubPaginationState;
+
+  const filterBySubmission = (e) => {
+    setGithubPaginationObj({
+      ...githubPaginationObj,
+      filters: { ...githubPaginationObj.filters, searchText: e.target.value },
+    });
   };
 
   return (
@@ -102,71 +133,15 @@ const showcase = ({ name, currentPrs, renderError, orgData, repoData, pagination
               <div className='lg:col-start-2 justify-between justify-self-center space-y-3 w-full pb-8'>
                 <SearchBar
                   onKeyUp={filterBySubmission}
-                  searchText={submissionSearchTerm}
+                  searchText={githubPaginationObj.filters.searchText}
                   placeholder='Search Submissions...'
                   styles={''}
                 />
-                {currentPrs.some(
-                  (pr) =>
-                    classifyDay(pr.createdAt) === 'Today' &&
-                    (pr.title.includes(submissionSearchTerm) || pr.body.includes(submissionSearchTerm))
-                ) && (
-                  <>
-                    <h2 className='text-3xl pt-16 py-4 flex-1 leading-tight min-w-[240px] pr-20'>Submitted Today</h2>
-                    <div className='flex flex-wrap gap-8 w-full items-start'>
-                      {currentPrs
-                        .filter((pr) => classifyDay(pr.createdAt) === 'Today')
-                        .filter(
-                          (pr) => pr.title.includes(submissionSearchTerm) || pr.body.includes(submissionSearchTerm)
-                        )
-                        .map((pr, index) => (
-                          <SubmissionCard key={index} pr={pr} />
-                        ))}
-                    </div>
-                  </>
-                )}
-                {currentPrs.some(
-                  (pr) =>
-                    classifyDay(pr.createdAt) === 'Yesterday' &&
-                    (pr.title.includes(submissionSearchTerm) || pr.body.includes(submissionSearchTerm))
-                ) && (
-                  <>
-                    <h2 className='text-3xl pt-16 py-4 flex-1 leading-tight min-w-[240px] pr-20'>
-                      Submitted Yesterday
-                    </h2>
-                    <div className='flex flex-wrap gap-8 w-full items-start'>
-                      {currentPrs
-                        .filter((pr) => classifyDay(pr.createdAt) === 'Yesterday')
-                        .filter(
-                          (pr) => pr.title.includes(submissionSearchTerm) || pr.body.includes(submissionSearchTerm)
-                        )
-                        .map((pr, index) => (
-                          <SubmissionCard key={index} pr={pr} />
-                        ))}
-                    </div>
-                  </>
-                )}
-                {currentPrs.some(
-                  (pr) =>
-                    classifyDay(pr.createdAt) === 'Earlier' &&
-                    (pr.title.includes(submissionSearchTerm) || pr.body.includes(submissionSearchTerm))
-                ) && (
-                  <>
-                    <h2 className='text-3xl pt-16 py-4 flex-1 leading-tight min-w-[240px] pr-20'>
-                      Submitted more than 48 hours ago
-                    </h2>
-                    <div className='flex flex-wrap gap-8 w-full items-start'>
-                      {currentPrs
-                        .filter((pr) => classifyDay(pr.createdAt) === 'Earlier')
-                        .filter(
-                          (pr) => pr.title.includes(submissionSearchTerm) || pr.body.includes(submissionSearchTerm)
-                        )
-                        .map((pr, index) => (
-                          <SubmissionCard key={index} pr={pr} />
-                        ))}
-                    </div>
-                  </>
-                )}
+                <PaginatedList
+                  paginationState={githubPaginationState}
+                  PaginationCard={ShowCaseCard}
+                  className='flex flex-wrap gap-8 w-full items-start'
+                />
               </div>
             </div>
           )}
@@ -194,7 +169,6 @@ export async function getServerSideProps(context) {
     utils,
     logger,
   };
-  const { nonBlacklisted } = await getNonBlacklisted(appState, name, org, 50);
 
   let renderError = '';
   let orgData;
@@ -245,7 +219,6 @@ export async function getServerSideProps(context) {
       paginationObj,
       org,
       name,
-      currentPrs: nonBlacklisted,
     },
   };
 }
