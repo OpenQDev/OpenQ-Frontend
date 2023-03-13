@@ -31,7 +31,6 @@ const W8Requirement = ({ bounty }) => {
     setW8Approved(W8Approved);
 
     const getPrivateRequest = async () => {
-      console.log(bounty);
       const request = bounty.requests.nodes.find((node) => node.requestingUser.id === accountData.id);
       if (request) {
         try {
@@ -220,7 +219,6 @@ const W8Requirement = ({ bounty }) => {
           {w8Approved ? 'Approved' : 'Required'}
         </div>
       </h4>
-      {console.log('w8Approved', currentRequest)}
       {w8Approved ? (
         <div className='border-green bg-green-inside border p-4 rounded-sm'> Your w8 was accepted</div>
       ) : (
