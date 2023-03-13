@@ -1,16 +1,31 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import SubmissionCardAdmin from './SubmissionCardAdmin';
 import Link from 'next/link';
 import Image from 'next/image';
 import Skeleton from 'react-loading-skeleton';
 import SubmissionWinner from './SubmissionWinner';
 import useWeb3 from '../../hooks/useWeb3';
+import StoreContext from '../../store/Store/StoreContext';
 
 const SubmissionCard = ({ pr, bounty, refreshBounty }) => {
+  const [appState] = useContext(StoreContext);
   const { account } = useWeb3();
   const admin = bounty && bounty?.issuer?.id === account?.toLowerCase();
   const author = pr.author;
   const tierWon = bounty?.tierWinners?.indexOf(author.id);
+  const prTime = Math.floor(new Date(pr.createdAt).getTime() / 1000);
+
+  const classifyTime = (time) => {
+    if (time < 3600) {
+      return parseInt(time / 60) + ` minute${parseInt(time / 60) > 1 ? 's' : ''} ago`;
+    } else if (time < 86400) {
+      return parseInt(time / 3600) + ` hour${parseInt(time / 3600) > 1 ? 's' : ''} ago`;
+    } else if (time < 604800) {
+      return parseInt(time / 86400) + ` day${parseInt(time / 86400) > 1 ? 's' : ''} ago`;
+    } else {
+      return 'More than a week ago';
+    }
+  };
 
   const linkedPrize = tierWon >= 0 && tierWon + 1;
 
@@ -53,6 +68,8 @@ const SubmissionCard = ({ pr, bounty, refreshBounty }) => {
             {pr.author.name || pr.author.login}
           </Link>
         </div>
+        <div className='text-center btn-default my-2'>{classifyTime(Date.now() / 1000 - prTime)}</div>
+        <div className='text-center pt-2 text-gray-400 w-full'>On {appState.utils.formatDate(pr.createdAt)}</div>
 
         <div className=' pt-2 text-gray-400 h-20 w-full break-word'>
           {pr.body.slice(0, 100)}

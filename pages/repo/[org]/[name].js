@@ -36,6 +36,18 @@ const showcase = ({ name, currentPrs, renderError, orgData, repoData, pagination
     setSubmissionSearchTerm(e.target.value);
   };
 
+  const classifyDay = (time) => {
+    const prTime = Math.floor(new Date(time).getTime() / 1000);
+    const compare = Date.now() / 1000 - prTime;
+    if (compare < 86400) {
+      return 'Today';
+    } else if (compare < 86400 * 2) {
+      return 'Yesterday';
+    } else {
+      return 'Earlier';
+    }
+  };
+
   return (
     <>
       {renderError ? (
@@ -84,10 +96,8 @@ const showcase = ({ name, currentPrs, renderError, orgData, repoData, pagination
             </>
           )}
           {toggleVal === 'Hackathon Submissions' && (
-            <div className='  w-full px-2 sm:px-8 flex-wrap max-w-[1028px] pb-8 mx-auto'>
-              <h1 className='lsm:text-[32px] text-4xl py-16 flex-1 leading-tight min-w-[240px] pr-20'>
-                Submissions for {name}
-              </h1>
+            <div className='  w-full px-2 sm:px-8 flex-wrap max-w-[1028px] pb-8'>
+              <h1 className='text-4xl py-16 flex-1 leading-tight min-w-[240px] pr-20'>Submissions for {name}</h1>
 
               <div className='lg:col-start-2 justify-between justify-self-center space-y-3 w-full pb-8'>
                 <SearchBar
@@ -96,13 +106,67 @@ const showcase = ({ name, currentPrs, renderError, orgData, repoData, pagination
                   placeholder='Search Submissions...'
                   styles={''}
                 />
-                <div className='grid gap-8 w-full pt-8 justify-between justify-items-center grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))]'>
-                  {currentPrs
-                    .filter((pr) => pr.title.includes(submissionSearchTerm) || pr.body.includes(submissionSearchTerm))
-                    .map((pr, index) => (
-                      <SubmissionCard key={index} pr={pr} />
-                    ))}
-                </div>
+                {currentPrs.some(
+                  (pr) =>
+                    classifyDay(pr.createdAt) === 'Today' &&
+                    (pr.title.includes(submissionSearchTerm) || pr.body.includes(submissionSearchTerm))
+                ) && (
+                  <>
+                    <h2 className='text-3xl pt-16 py-4 flex-1 leading-tight min-w-[240px] pr-20'>Submitted Today</h2>
+                    <div className='flex flex-wrap gap-8 w-full items-start'>
+                      {currentPrs
+                        .filter((pr) => classifyDay(pr.createdAt) === 'Today')
+                        .filter(
+                          (pr) => pr.title.includes(submissionSearchTerm) || pr.body.includes(submissionSearchTerm)
+                        )
+                        .map((pr, index) => (
+                          <SubmissionCard key={index} pr={pr} />
+                        ))}
+                    </div>
+                  </>
+                )}
+                {currentPrs.some(
+                  (pr) =>
+                    classifyDay(pr.createdAt) === 'Yesterday' &&
+                    (pr.title.includes(submissionSearchTerm) || pr.body.includes(submissionSearchTerm))
+                ) && (
+                  <>
+                    <h2 className='text-3xl pt-16 py-4 flex-1 leading-tight min-w-[240px] pr-20'>
+                      Submitted Yesterday
+                    </h2>
+                    <div className='flex flex-wrap gap-8 w-full items-start'>
+                      {currentPrs
+                        .filter((pr) => classifyDay(pr.createdAt) === 'Yesterday')
+                        .filter(
+                          (pr) => pr.title.includes(submissionSearchTerm) || pr.body.includes(submissionSearchTerm)
+                        )
+                        .map((pr, index) => (
+                          <SubmissionCard key={index} pr={pr} />
+                        ))}
+                    </div>
+                  </>
+                )}
+                {currentPrs.some(
+                  (pr) =>
+                    classifyDay(pr.createdAt) === 'Earlier' &&
+                    (pr.title.includes(submissionSearchTerm) || pr.body.includes(submissionSearchTerm))
+                ) && (
+                  <>
+                    <h2 className='text-3xl pt-16 py-4 flex-1 leading-tight min-w-[240px] pr-20'>
+                      Submitted more than 48 hours ago
+                    </h2>
+                    <div className='flex flex-wrap gap-8 w-full items-start'>
+                      {currentPrs
+                        .filter((pr) => classifyDay(pr.createdAt) === 'Earlier')
+                        .filter(
+                          (pr) => pr.title.includes(submissionSearchTerm) || pr.body.includes(submissionSearchTerm)
+                        )
+                        .map((pr, index) => (
+                          <SubmissionCard key={index} pr={pr} />
+                        ))}
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           )}
@@ -130,7 +194,7 @@ export async function getServerSideProps(context) {
     utils,
     logger,
   };
-  const { nonBlacklisted } = await getNonBlacklisted(appState, name, org, 100);
+  const { nonBlacklisted } = await getNonBlacklisted(appState, name, org, 50);
 
   let renderError = '';
   let orgData;
