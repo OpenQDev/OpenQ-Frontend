@@ -10,8 +10,7 @@ import ReactGA from 'react-ga4';
 import StoreContext from '../../../store/Store/StoreContext';
 import BountyCardDetails from '../../../components/Bounty/BountyCardDetails';
 import FundPage from '../../../components/FundBounty/FundPage';
-import dynamic from 'next/dynamic';
-const RefundPage = dynamic(() => import('../../../components/RefundBounty/RefundPage'), { ssr: false });
+import RefundPage from '../../../components/RefundBounty/RefundPage';
 import ClaimPage from '../../../components/Claim/ClaimPage';
 import AdminPage from '../../../components/AdminPage';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
@@ -331,7 +330,7 @@ export const getServerSideProps = async (context) => {
       logger.error({ message: `OpenQ could not find a contract with address: ${address}.` }, null, '[address.js]6');
     }
   } catch (err) {
-    logger.error(err, null, '[address.js]6');
+    logger.error(err, null, '[address.js]7');
     renderError = ``;
   }
 

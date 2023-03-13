@@ -22,7 +22,6 @@ const useGetTokenValues = (tokenBalances) => {
     if (JSON.stringify(tokenValues) !== '{}' && tokenBalances) {
       try {
         const value = await appState.tokenClient.parseTokenValues(tokenBalances);
-
         return value;
       } catch (err) {
         appState.logger.error({ message: err }, accountData.id, 'useGetTokenValues1');

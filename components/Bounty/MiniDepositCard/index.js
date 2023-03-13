@@ -4,7 +4,6 @@ import Link from 'next/link';
 
 // Custom
 import StoreContext from '../../../store/Store/StoreContext';
-import useGetTokenValues from '../../../hooks/useGetTokenValues';
 import TokenBalances from '../../TokenBalances/TokenBalances';
 
 const MiniDepositCard = ({ deposit, showLink, id }) => {
@@ -13,7 +12,6 @@ const MiniDepositCard = ({ deposit, showLink, id }) => {
   const { accountData } = appState;
   // State
   const [title, updateTitle] = useState('');
-  const [tokenValues] = useGetTokenValues(deposit);
 
   // Hooks
   useEffect(() => {
@@ -43,7 +41,7 @@ const MiniDepositCard = ({ deposit, showLink, id }) => {
           <h3 className='text-xl font-semibold leading-none underline cursor-pointer pb-2'>{title}</h3>
         </Link>
       )}
-      <TokenBalances tokenBalances={[deposit]} tokenValues={tokenValues} lean={true} singleCurrency={true} />
+      <TokenBalances tokenBalances={[deposit]} />
     </div>
   );
 };

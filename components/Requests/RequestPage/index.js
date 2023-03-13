@@ -23,7 +23,12 @@ const RequestPage = () => {
   const isOwner = loggedId == userId;
   const { githubId, email } = authState;
   const getItems = async (oldCursor, batch, ordering = 'asc', filters = {}) => {
-    return await fetchRequestsWithServiceArg(appState, identity, oldCursor, batch, ordering, filters);
+    try {
+      return await fetchRequestsWithServiceArg(appState, identity, oldCursor, batch, ordering, filters);
+    } catch (e) {
+      appState.logger.error(e);
+      return { nodes: [], cursor: null, complete: true };
+    }
   };
   const identity = { userId, githubId, email };
   const filterFunction = () => {

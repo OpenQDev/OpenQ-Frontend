@@ -29,7 +29,7 @@ describe('BountyMetadata', () => {
         //await waitFor(async () => {
         const label = screen.getByText('duplicate');
         expect(label).toBeInTheDocument();
-        const polygonscan = screen.getByText(/0x3c57cd5933/);
+        const polygonscan = screen.getByText(/0x066efd8702/);
         expect(polygonscan).toBeInTheDocument();
         const prs = screen.getByText(/merged/);
         expect(prs).toBeInTheDocument();

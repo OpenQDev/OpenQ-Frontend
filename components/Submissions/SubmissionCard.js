@@ -6,6 +6,7 @@ import Skeleton from 'react-loading-skeleton';
 import SubmissionWinner from './SubmissionWinner';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
+import WinnerSelectAmounts from './WinnerSelectAmounts';
 
 const SubmissionCard = ({ pr, bounty, refreshBounty }) => {
   const [appState] = useContext(StoreContext);
@@ -84,7 +85,17 @@ const SubmissionCard = ({ pr, bounty, refreshBounty }) => {
       {!linkedPrize ? (
         admin && <SubmissionCardAdmin refreshBounty={refreshBounty} pr={pr} bounty={bounty} />
       ) : (
-        <SubmissionWinner linkedPrize={linkedPrize} bounty={bounty} />
+        <>
+          <SubmissionWinner linkedPrize={linkedPrize} bounty={bounty} />
+          <WinnerSelectAmounts
+            pr={pr}
+            disabled={false}
+            bounty={bounty}
+            refreshBounty={refreshBounty}
+            isRemove={true}
+            prize={{ index: tierWon, payout: bounty.payoutSchedule[tierWon] }}
+          />
+        </>
       )}
     </div>
   );
