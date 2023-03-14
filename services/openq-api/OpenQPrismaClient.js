@@ -33,7 +33,12 @@ import {
   GET_PRODUCTS,
   CREATE_PRODUCT,
   UPDATE_PRODUCT,
+  GET_PRO_ACCOUNT,
   ADD_PRODUCT_TO_PRO_ACCOUNT,
+  ADD_PRO_ACCOUNT_ADMIN,
+  ADD_PRO_ACCOUNT_MEMBER,
+  REMOVE_PRO_ACCOUNT_MEMBER,
+  REMOVE_PRO_ACCOUNT_ADMIN,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
@@ -111,6 +116,82 @@ class OpenQPrismaClient {
     });
     return promise;
   }
+
+  async getProAccount(id) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_PRO_ACCOUNT,
+          variables: { id },
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  removeProAccountRole = async (variables, role) => {
+    console.log(role);
+    if (role === 'adminUsers') {
+      const promise = new Promise(async (resolve, reject) => {
+        try {
+          const result = await this.client.mutate({
+            mutation: REMOVE_PRO_ACCOUNT_ADMIN,
+            variables,
+          });
+          resolve(result.data);
+        } catch (e) {
+          reject(e);
+        }
+      });
+      return promise;
+    } else {
+      const promise = new Promise(async (resolve, reject) => {
+        try {
+          const result = await this.client.mutate({
+            mutation: REMOVE_PRO_ACCOUNT_MEMBER,
+            variables,
+          });
+          resolve(result.data);
+        } catch (e) {
+          reject(e);
+        }
+      });
+      return promise;
+    }
+  };
+
+  addProAccountRole = async (variables, role) => {
+    if (role === 'adminUsers') {
+      const promise = new Promise(async (resolve, reject) => {
+        try {
+          const result = await this.client.mutate({
+            mutation: ADD_PRO_ACCOUNT_ADMIN,
+            variables,
+          });
+          resolve(result.data);
+        } catch (e) {
+          reject(e);
+        }
+      });
+      return promise;
+    } else {
+      const promise = new Promise(async (resolve, reject) => {
+        try {
+          const result = await this.client.mutate({
+            mutation: ADD_PRO_ACCOUNT_MEMBER,
+            variables,
+          });
+          resolve(result.data);
+        } catch (e) {
+          reject(e);
+        }
+      });
+      return promise;
+    }
+  };
 
   async getBounty(contractAddress) {
     const promise = new Promise(async (resolve, reject) => {
@@ -238,12 +319,13 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  updateUser(values) {
+  updateUser(variables) {
+    console.log(variables);
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
           mutation: UPDATE_USER,
-          variables: values,
+          variables,
         });
         resolve(result.data);
       } catch (e) {
@@ -443,11 +525,11 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  getPublicUser(github) {
+  getPublicUser(github, username) {
     const promise = new Promise(async (resolve, reject) => {
-      const variables = {
-        github,
-      };
+      const variables = {};
+      if (github) variables.github = github;
+      if (username) variables.username = username;
 
       try {
         const result = await this.client.query({

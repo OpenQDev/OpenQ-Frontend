@@ -97,8 +97,8 @@ export const GET_USER_BY_ID = gql`
 `;
 
 export const GET_USER = gql`
-  query ($id: String, $email: String, $github: String) {
-    user(id: $id, email: $email, github: $github) {
+  query ($id: String, $email: String, $github: String, $username: String) {
+    user(id: $id, email: $email, github: $github, username: $username) {
       id
       github
       username
@@ -397,9 +397,6 @@ export const COMBINE_USERS = gql`
 
 export const UPDATE_USER = gql`
   mutation updateUser(
-    $id: String
-    $email: String
-    $github: String
     $username: String
     $company: String
     $city: String
@@ -424,9 +421,6 @@ export const UPDATE_USER = gql`
     $memo: String
   ) {
     updateUser(
-      id: $id
-      email: $email
-      github: $github
       username: $username
       company: $company
       city: $city
@@ -606,8 +600,8 @@ export const SET_IS_CONTEST = gql`
 `;
 
 export const CREATE_PRO_ACCOUNT = gql`
-  mutation CreateProAccount($userId: String!, $name: String!, $email: String, $github: String) {
-    createProAccount(userId: $userId, name: $name, email: $email, github: $github) {
+  mutation CreateProAccount($name: String!) {
+    createProAccount(name: $name) {
       id
     }
   }
@@ -654,6 +648,46 @@ export const GET_PRO_ACCOUNTS = gql`
     }
   }
 `;
+
+export const GET_PRO_ACCOUNT = gql`
+  query GetProAccount($id: String!) {
+    proAccount(id: $id) {
+      id
+      name
+      adminUsers(limit: 10) {
+        nodes {
+          id
+          username
+          github
+          streetAddress
+          email
+        }
+      }
+      ownerUsers(limit: 10) {
+        nodes {
+          id
+          username
+          github
+          email
+        }
+      }
+      memberUsers(limit: 10) {
+        nodes {
+          id
+          username
+          github
+          email
+        }
+      }
+      permissionedProducts(limit: 10) {
+        nodes {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
 export const GET_PRODUCTS = gql`
   query GetProducts {
     products(limit: 10) {
@@ -687,6 +721,42 @@ export const UPDATE_PRODUCT = gql`
 export const ADD_PRODUCT_TO_PRO_ACCOUNT = gql`
   mutation AddProductToProAccount($proAccountId: String!, $productId: String!) {
     addProductToProAccount(proAccountId: $proAccountId, productId: $productId) {
+      id
+      name
+    }
+  }
+`;
+
+export const ADD_PRO_ACCOUNT_ADMIN = gql`
+  mutation AddProAccountAdmin($proAccountId: String!, $targetUserId: String!) {
+    addProAccountAdmin(proAccountId: $proAccountId, targetUserId: $targetUserId) {
+      id
+      name
+    }
+  }
+`;
+
+export const ADD_PRO_ACCOUNT_MEMBER = gql`
+  mutation AddProAccountMember($proAccountId: String!, $targetUserId: String!) {
+    addProAccountMember(proAccountId: $proAccountId, targetUserId: $targetUserId) {
+      id
+      name
+    }
+  }
+`;
+
+export const REMOVE_PRO_ACCOUNT_ADMIN = gql`
+  mutation RemoveProAccountAdmin($proAccountId: String!, $targetUserId: String!) {
+    removeProAccountAdmin(proAccountId: $proAccountId, targetUserId: $targetUserId) {
+      id
+      name
+    }
+  }
+`;
+
+export const REMOVE_PRO_ACCOUNT_MEMBER = gql`
+  mutation RemoveProAccountMember($proAccountId: String!, $targetUserId: String!) {
+    removeProAccountMember(proAccountId: $proAccountId, targetUserId: $targetUserId) {
       id
       name
     }
