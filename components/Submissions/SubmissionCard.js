@@ -15,6 +15,7 @@ const SubmissionCard = ({ pr, bounty, refreshBounty }) => {
   const author = pr.author;
   const tierWon = bounty?.tierWinners?.indexOf(author.id);
   const prTime = Math.floor(new Date(pr.createdAt).getTime() / 1000);
+  const tierClaimed = bounty?.claims?.some((claim) => claim.tier == tierWon);
 
   const classifyTime = (time) => {
     if (time < 3600) {
@@ -93,6 +94,7 @@ const SubmissionCard = ({ pr, bounty, refreshBounty }) => {
             bounty={bounty}
             refreshBounty={refreshBounty}
             isRemove={true}
+            tierClaimed={tierClaimed}
             prize={{ index: tierWon, payout: bounty.payoutSchedule[tierWon] }}
           />
         </>

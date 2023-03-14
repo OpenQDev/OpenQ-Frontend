@@ -10,7 +10,7 @@ import useGetTokenValues from '../../hooks/useGetTokenValues';
 import { formatVolume } from '../../services/utils/lib';
 import GnosisWarning from '../Utils/GnosisWarning';
 
-const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled, isRemove }) => {
+const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled, isRemove, tierClaimed }) => {
   const [showModal, setShowModal] = useState();
   const [selectionState, setSelectionState] = useState(RESTING);
   const tierIndex = parseInt(prize.index);
@@ -147,7 +147,11 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled, isRem
   };
   return (
     <>
-      {isRemove ? (
+      {tierClaimed ? (
+        <div className='flex justify-center py-4'>
+          <div className='btn-primary hover:bg-green cursor-default'>Claimed</div>
+        </div>
+      ) : isRemove ? (
         <div className='flex justify-center py-4'>
           <button className='btn-danger' onClick={() => selectWinner('')}>
             Remove Selection
