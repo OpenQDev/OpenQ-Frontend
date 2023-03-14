@@ -9,7 +9,7 @@ const notificationClicked = (item) => {
   window.location.href = `https://openq.dev/contract/${bountyId}/${bountyAddress}`;
 };
 
-const NotificationBell = ({ userId }) => {
+const NotificationBell = ({ userId, notificationToken }) => {
   const [isVisible, setIsVisible] = useState(false);
   const notifButtonRef = useRef(null);
 
@@ -17,6 +17,7 @@ const NotificationBell = ({ userId }) => {
     <KnockFeedProvider
       apiKey={process.env.NEXT_PUBLIC_NOTIFICATIONS_PUBLIC_KEY}
       feedId={process.env.NEXT_PUBLIC_NOTIFICATIONS_CHANNEL_ID}
+      userToken={notificationToken}
       userId={userId}
     >
       <>

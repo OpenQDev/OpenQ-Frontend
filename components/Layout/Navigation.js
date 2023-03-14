@@ -20,8 +20,20 @@ const Navigation = () => {
   const [items, setItems] = useState([]);
   const [searchable, setSearchable] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [notificationToken, setNotificationToken] = useState(null);
   const { openQSubgraphClient, openQPrismaClient, utils, githubRepository, tokenClient } = appState;
   const { accountData } = appState;
+
+  useEffect(() => {
+    const getNotificationCookie = async () => {
+      const signedKnockTokenCookie = await window.cookieStore.get('signed_knock_token');
+      console.log(signedKnockTokenCookie?.value);
+      setNotificationToken(signedKnockTokenCookie?.value);
+      console.log('accountData', accountData);
+    };
+
+    getNotificationCookie();
+  });
 
   useEffect(() => {
     // set up searchable
@@ -154,7 +166,9 @@ const Navigation = () => {
             <div className='md:hidden font-inter text-xl self-center font-bold'>OpenQ</div>
             <div className='flex items-center text-[0.8rem] md:text-[1rem]'>
               <div className='pr-4 md:block hidden'>
-                <NotificationBell userId={accountData.github} />
+                {notificationToken ? (
+                  <NotificationBell userId={accountData.github} notificationToken={notificationToken} />
+                ) : null}
               </div>
               <div className='pr-4 md:block hidden'>
                 <ConnectButton
