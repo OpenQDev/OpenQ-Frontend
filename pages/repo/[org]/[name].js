@@ -24,6 +24,7 @@ const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) 
   // Context
   const [appState] = useContext(StoreContext);
   const [toggleVal, setToggleVal] = useState('Overview');
+  const [searchValue, setSearchValue] = useState('');
   // Render
 
   const handleToggle = (toggleVal) => {
@@ -73,9 +74,11 @@ const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) 
   const [githubPaginationObj, setGithubPaginationObj] = githubPaginationState;
 
   const filterBySubmission = (e) => {
+    const val = e.target.value;
+    setSearchValue(val);
     setGithubPaginationObj({
       ...githubPaginationObj,
-      filters: { ...githubPaginationObj.filters, searchText: e.target.value },
+      filters: { ...githubPaginationObj.filters, searchText: val },
     });
   };
 
@@ -133,7 +136,7 @@ const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) 
               <div className='lg:col-start-2 justify-between justify-self-center space-y-3 w-full pb-8'>
                 <SearchBar
                   onKeyUp={filterBySubmission}
-                  searchText={githubPaginationObj.filters.searchText}
+                  searchText={searchValue}
                   placeholder='Search Submissions...'
                   styles={''}
                 />
