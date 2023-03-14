@@ -27,9 +27,7 @@ const Navigation = () => {
   useEffect(() => {
     const getNotificationCookie = async () => {
       const signedKnockTokenCookie = await window.cookieStore.get('signed_knock_token');
-      console.log(signedKnockTokenCookie?.value);
       setNotificationToken(signedKnockTokenCookie?.value);
-      console.log('accountData', accountData);
     };
 
     getNotificationCookie();
@@ -166,7 +164,7 @@ const Navigation = () => {
             <div className='md:hidden font-inter text-xl self-center font-bold'>OpenQ</div>
             <div className='flex items-center text-[0.8rem] md:text-[1rem]'>
               <div className='pr-4 md:block hidden'>
-                {notificationToken ? (
+                {notificationToken && accountData.github ? (
                   <NotificationBell userId={accountData.github} notificationToken={notificationToken} />
                 ) : null}
               </div>
