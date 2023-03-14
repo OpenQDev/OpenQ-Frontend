@@ -9,6 +9,7 @@ import { QuestionIcon, ThreeBarsIcon } from '@primer/octicons-react';
 import LinkDropdown from '../Utils/LinkDropdown';
 import NavLinks from './NavLinks';
 import LoadingThread from '../Loading/LoadingThread.js';
+import NotificationBell from '../Notifications/NotificationBell.js';
 import ContractWizard from '../ContractWizard';
 
 const Navigation = () => {
@@ -152,6 +153,9 @@ const Navigation = () => {
             </div>
             <div className='md:hidden font-inter text-xl self-center font-bold'>OpenQ</div>
             <div className='flex items-center text-[0.8rem] md:text-[1rem]'>
+              <div className='pr-4 md:block hidden'>
+                <NotificationBell userId={accountData.github} />
+              </div>
               <div className='pr-4 md:block hidden'>
                 <ConnectButton
                   needsGithub={true}

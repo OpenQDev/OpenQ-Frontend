@@ -39,7 +39,6 @@
     "@testing-library/user-event": "14.4.3",
     "@types/uuid": "9.0.1",
     "@walletconnect/ethereum-provider": "2.4.7",
-    
     "@walletconnect/web3-provider": "1.8.0",
     "@walletconnect/utils": "1.8.0",
     "@web3-react/core": "8.1.2-beta.0",
@@ -84,7 +83,8 @@
     "styled-components": "^5.3.8",
     "tiny-invariant": "1.3.1",
     "uuid": "9.0.0",
-    "web3": "1.8.2"
+    "web3": "1.8.2",
+    "@knocklabs/react-notification-feed": "^0.8.4"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.19.1",
