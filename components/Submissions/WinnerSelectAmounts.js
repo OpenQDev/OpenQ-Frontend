@@ -111,12 +111,14 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled, isRem
       <ToolTip
         innerStyles={'  whitespace-pre-wrap'}
         relativePosition={'-right-4 w-32 md:right:auto md:w-60'}
-        hideToolTip={isSolvent}
+        hideToolTip={isSolvent || bounty.claims.length > 0}
         toolTipText={`You don't have enough funds escrowed to cover this contest, please make a deposit.`}
       >
         <button
-          disabled={disabled || !isSolvent}
-          className={!disabled && isSolvent ? 'btn-primary' : 'btn-default cursor-not-allowed'}
+          disabled={disabled || (!isSolvent && bounty.claims.length == 0)}
+          className={
+            !disabled && (isSolvent || bounty.claims.length > 0) ? 'btn-primary' : 'btn-default cursor-not-allowed'
+          }
           onClick={claimBounty}
         >
           Confirm

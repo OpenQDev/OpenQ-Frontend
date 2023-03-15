@@ -117,7 +117,7 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
                 </div>
                 <div className='flex gap-2 w-fit'>
                   {claimPage && hasAssociatedAddress && (
-                    <div key={2} className='flex items-center gap-2  btn-primary hover:none py-0.5 w-fit'>
+                    <div key={2} className='flex items-center gap-2  btn-primary hover:none h-8 w-fit'>
                       <Image src='/BountyMaterial/polyscan-white.png' width={20} height={20} alt='link-icon' />
                       Verified
                     </div>
@@ -133,7 +133,7 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
                       btnText={
                         claimPage
                           ? [
-                              <div key={1} className='flex w-fit items-center gap-2 btn-requirements'>
+                              <div key={1} className='flex w-fit items-center gap-2 btn-requirements h-8'>
                                 <Github className={'h-4 w-4'} />
                                 {hasAssociatedAddress ? 'Update' : 'Start'}
                               </div>,
