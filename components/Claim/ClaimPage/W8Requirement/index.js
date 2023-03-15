@@ -31,7 +31,7 @@ const W8Requirement = ({ bounty }) => {
     setW8Approved(W8Approved);
 
     const getPrivateRequest = async () => {
-      const request = bounty.requests.nodes.find((node) => node.requestingUser.id === accountData.id);
+      const request = bounty.requests?.nodes?.find((node) => node.requestingUser.id === accountData.id);
       if (request) {
         try {
           const privateRequest = await appState.openQPrismaClient.getPrivateRequest(request.id);
