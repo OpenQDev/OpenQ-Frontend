@@ -31,7 +31,8 @@ const W8Requirement = ({ bounty }) => {
     setW8Approved(W8Approved);
 
     const getPrivateRequest = async () => {
-      const request = bounty.requests?.nodes.find((node) => node.requestingUser.id === accountData.id);
+      const request = bounty.requests?.nodes?.find((node) => node.requestingUser.id === accountData.id);
+
       if (request) {
         try {
           const privateRequest = await appState.openQPrismaClient.getPrivateRequest(request.id);
@@ -220,13 +221,13 @@ const W8Requirement = ({ bounty }) => {
         </div>
       </h4>
       {w8Approved ? (
-        <div className='border-green bg-green-inside border p-4 rounded-sm'> Your w8 was accepted</div>
+        <div className='border-green bg-green-inside border p-4 rounded-sm'> Your tax form was accepted</div>
       ) : (
         <>
           <div>
             {!w8Approved && currentRequest && (
               <div className='bg-info border-info-strong rounded-sm border p-4 my-4'>
-                Your W8 was not accepted. {currentRequest}
+                Your tax form was not accepted. {currentRequest}
               </div>
             )}
             <div>
@@ -254,20 +255,19 @@ const W8Requirement = ({ bounty }) => {
           </div>
           <div>
             Explore our W8/W9 templates{' '}
-            <button className='text-blue-500 hover:underlin' onClick={() => setShowModal(true)}>
+            <button className='text-blue-500 hover:underline' onClick={() => setShowModal(true)}>
               here
             </button>
             .
           </div>
           <div className='font-semibold flex gap-2 group w-fit'>Upload</div>
-          <form onSubmit={handleSend} className='flex gap-2  flex-wrap md:flex-nowrap'>
-            <label
-              htmlFor='file input'
-              className={`relative ${sent || noEmail ? 'cursor-not-allowed' : 'cursor-pointer'} ${
-                file || sent || noEmail ? 'btn-primary hover:none' : 'btn-requirements'
-              }`}
-            >
-              <div className='flex w-56  lg:w-28 gap-2 z-20 py-0.5 items-center justify-center text-center'>
+          <form onSubmit={handleSend} className='flex gap-2 items-center flex-wrap md:flex-nowrap'>
+            <label htmlFor='file input' className={`relative flex items-center`}>
+              <div
+                className={`relative flex w-fit whitespace-nowrap gap-2 z-20 h-8 items-center justify-center text-center ${
+                  sent || noEmail ? 'cursor-not-allowed' : 'cursor-pointer'
+                } ${file || sent || noEmail ? 'btn-primary' : 'btn-requirements'}`}
+              >
                 {file || sent ? (
                   sent ? (
                     'Pending'
@@ -293,11 +293,12 @@ const W8Requirement = ({ bounty }) => {
               />
             </label>
             {sent && (
-              <label
-                htmlFor='file input'
-                className={`relative cursor-pointer ${file ? 'btn-primary hover:none' : 'btn-requirements'}`}
-              >
-                <div className='flex w-56 gap-2 z-20 py-0.5 items-center'>
+              <label htmlFor='file input' className={`relative`}>
+                <div
+                  className={`flex w-fit whitespace-nowrap gap-2 z-20 h-8 items-center cursor-pointer ${
+                    file ? 'btn-primary h-6' : 'btn-requirements'
+                  }`}
+                >
                   {file ? (
                     <>
                       <CheckIcon size={16} /> Change File
@@ -323,9 +324,9 @@ const W8Requirement = ({ bounty }) => {
             </div>
             <button
               disabled={!file}
-              className={
-                file ? 'btn-requirements cursor-pointer flex gap-2' : 'btn-default cursor-not-allowed flex gap-2'
-              }
+              className={`flex gap-2 h-8 items-center justify-center text-center
+                ${file ? 'btn-requirements cursor-pointer' : 'btn-default cursor-not-allowed'}
+              `}
             >
               {sent ? (loading ? 'Sending' : 'Sent') : 'Send'}
               {loading && <LoadingIcon />}
