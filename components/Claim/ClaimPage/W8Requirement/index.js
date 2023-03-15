@@ -220,13 +220,13 @@ const W8Requirement = ({ bounty }) => {
         </div>
       </h4>
       {w8Approved ? (
-        <div className='border-green bg-green-inside border p-4 rounded-sm'> Your w8 was accepted</div>
+        <div className='border-green bg-green-inside border p-4 rounded-sm'> Your tax form was accepted</div>
       ) : (
         <>
           <div>
             {!w8Approved && currentRequest && (
               <div className='bg-info border-info-strong rounded-sm border p-4 my-4'>
-                Your W8 was not accepted. {currentRequest}
+                Your tax form was not accepted. {currentRequest}
               </div>
             )}
             <div>

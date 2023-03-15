@@ -177,15 +177,20 @@ const ClaimButton = ({
         >
           <button
             type='submit'
-            className={
+            className={`h-8 ${
               price >= budget && price > 0 && canClaim
                 ? 'btn-primary bg-green cursor-pointer w-fit'
                 : internalMenu == 'Claim' || !bountyHeading
                 ? 'btn-default cursor-not-allowed'
                 : 'btn-default'
             }
+                `}
             disabled={!(price >= budget && price > 0 && canClaim) && !bountyHeading}
-            onClick={bountyHeading ? () => setInternalMenu('Claim') : () => setShowClaimLoadingModal(true)}
+            onClick={
+              bountyHeading && internalMenu !== 'Claim'
+                ? () => setInternalMenu('Claim')
+                : () => setShowClaimLoadingModal(true)
+            }
           >
             <div className='flex gap-2 items-center'>
               {' '}

@@ -28,6 +28,7 @@ const BountyHeading = ({
   const totalPrice = useDisplayValue(bounty, appState.utils.formatter.format);
   const { status } = checkClaimable(bounty, appState.accountData?.github, appState.openQClient);
   const claimable = status === 'Claimable';
+  console.log(claimReqsCompleted);
 
   return (
     <div className='sm:px-8 px-4 w-full max-w-[1200px] pb-2'>
