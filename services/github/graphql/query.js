@@ -500,6 +500,7 @@ export const GET_REPO_WITH_LABELED_OPEN_ISSUES = gql`
       __typename
       owner {
         login
+        id
         avatarUrl
       }
       name
@@ -556,6 +557,7 @@ export const GET_REPOS_BY_IDS = gql`
     nodes(ids: $ids) {
       ... on Repository {
         id
+        name
         descriptionHTML
         description
         owner {

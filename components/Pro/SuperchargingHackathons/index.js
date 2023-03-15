@@ -1,18 +1,10 @@
 import React from 'react';
-import CreateHackathonPage from '../CreateHackathonPage/index.js';
+import Link from 'next/link';
 
 const SuperchargingHackathons = ({ proAccount }) => {
-  const [createPage, setCreatePage] = React.useState(false);
-  const makeRepoHackathon = async () => {
-    setCreatePage(true);
-  };
   return (
     <div>
-      {!createPage ? (
-        <button onClick={makeRepoHackathon}>Create a New Hackathon</button>
-      ) : (
-        <CreateHackathonPage proAccount={proAccount} />
-      )}
+      <Link href={`/pro/${proAccount.id}/hackathons/create`}>Create a New Hackathon</Link>
     </div>
   );
 };

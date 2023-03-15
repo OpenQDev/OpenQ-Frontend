@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import ModalLarge from '../../../Utils/ModalLarge';
 import StoreContext from '../../../../store/Store/StoreContext';
 
@@ -6,7 +6,10 @@ const ManageProAccountModal = ({ proAccount, products, apiSecret }) => {
   const [appState] = useContext(StoreContext);
   const [showProModal, setShowProModal] = useState(false);
   const [myProducts, setMyProducts] = useState(proAccount.permissionedProducts.nodes);
-  const [selectedProduct, setSelectedProduct] = useState(products[0]?.id);
+  const [selectedProduct, setSelectedProduct] = useState();
+  useEffect(() => {
+    setSelectedProduct(products[0].id);
+  }, [products]);
   const openProAccountModal = () => {
     setShowProModal(true);
   };

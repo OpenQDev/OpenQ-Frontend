@@ -357,8 +357,8 @@ export const GET_REPOSITORIES = gql`
 `;
 
 export const UPSERT_USER = gql`
-  mutation upsertUser($email: String, $github: String) {
-    upsertUser(email: $email, github: $github) {
+  mutation upsertUser {
+    upsertUser {
       github
       email
       username
@@ -580,19 +580,47 @@ export const BLACKLIST_ORGANIZATION = gql`
 export const UPDATE_REPOSITORY_AS_CONTEST = gql`
   mutation updateRepositoryAsContest(
     $repositoryId: String!
+    $organizationId: String
     $isContest: Boolean!
+    $isDraft: Boolean!
     $proAccountId: String!
     $startDate: String
     $registrationDeadline: String
-    $organizationId: String
+    $city: String
+    $timezone: String
+    $eventOrganizer: String
+    $repositoryUrl: String
+    $isIrl: Boolean
+    $endDate: String
+    $topic: [String]
+    $website: String
+    $contactEmail: String
+    $twitter: String
+    $discord: String
+    $telegram: String
+    $slack: String
   ) {
     updateRepositoryAsContest(
       repositoryId: $repositoryId
+      organizationId: $organizationId
       isContest: $isContest
+      isDraft: $isDraft
       proAccountId: $proAccountId
       startDate: $startDate
       registrationDeadline: $registrationDeadline
-      organizationId: $organizationId
+      city: $city
+      timezone: $timezone
+      eventOrganizer: $eventOrganizer
+      repositoryUrl: $repositoryUrl
+      isIrl: $isIrl
+      endDate: $endDate
+      topic: $topic
+      website: $website
+      contactEmail: $contactEmail
+      twitter: $twitter
+      discord: $discord
+      telegram: $telegram
+      slack: $slack
     ) {
       isContest
       id

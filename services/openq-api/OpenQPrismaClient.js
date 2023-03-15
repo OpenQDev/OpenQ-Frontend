@@ -335,12 +335,11 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  upsertUser(values) {
+  upsertUser() {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
           mutation: UPSERT_USER,
-          variables: values,
         });
         resolve(result.data.upsertUser);
       } catch (e) {
@@ -627,6 +626,7 @@ class OpenQPrismaClient {
   }
 
   getRepositories(variables) {
+    console.log(variables);
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({

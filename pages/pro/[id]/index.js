@@ -1,7 +1,7 @@
 import React from 'react';
-import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient.js';
-import ManageUserGroup from '../../components/Pro/ManageUserGroup';
-import SuperchargingHackathons from '../../components/Pro/SuperchargingHackathons/index.js';
+import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient.js';
+import ManageUserGroup from '../../../components/Pro/ManageUserGroup';
+import SuperchargingHackathons from '../../../components/Pro/SuperchargingHackathons/index.js';
 
 const ProAccount = ({ proAccount }) => {
   console.log(proAccount);

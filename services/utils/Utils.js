@@ -340,8 +340,8 @@ class Utils {
     return returnArr.map((elem) => elem.obj);
   };
 
-  capitalize = (word) => {
-    return word[0].toUpperCase() + word.substring(1);
+  capitalize = (word = '') => {
+    if (word.length) return word[0].toUpperCase() + word.substring(1);
   };
 
   // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
