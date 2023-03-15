@@ -15,6 +15,7 @@ export const GET_BOUNTY_BY_ADDRESS = gql`
       }
       bountyId
       creatingUser {
+        id
         country
       }
     }
