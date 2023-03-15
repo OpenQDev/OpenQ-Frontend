@@ -147,7 +147,6 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled, isRem
     SUCCESS: isRemove ? 'Complete' : 'Winner Selected!',
     ERROR: error.title,
   };
-  console.log(bounty.claims.length > 0);
   return (
     <>
       {tierClaimed ? (
