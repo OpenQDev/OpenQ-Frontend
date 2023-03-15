@@ -28,7 +28,6 @@ const BountyHeading = ({
   const totalPrice = useDisplayValue(bounty, appState.utils.formatter.format);
   const { status } = checkClaimable(bounty, appState.accountData?.github, appState.openQClient);
   const claimable = status === 'Claimable';
-  console.log(claimReqsCompleted);
 
   return (
     <div className='sm:px-8 px-4 w-full max-w-[1200px] pb-2'>
@@ -86,9 +85,7 @@ const BountyHeading = ({
                 </div>
               )}
               {totalPrice.valueType == 'Budget' && (
-                <div className={'bg-info border-2 border-info-strong text-sm px-2 border rounded-full h-6'}>
-                  Insolvent
-                </div>
+                <div className={'bg-info border-2 border-info-strong text-sm px-2 rounded-full h-6'}>Insolvent</div>
               )}
             </div>
           ) : null}
