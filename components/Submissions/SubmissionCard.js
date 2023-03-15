@@ -10,6 +10,7 @@ import WinnerSelectAmounts from './WinnerSelectAmounts';
 
 const SubmissionCard = ({ pr, bounty, refreshBounty }) => {
   const [appState] = useContext(StoreContext);
+  const { accountData } = appState;
   const { account } = useWeb3();
   const admin = bounty && bounty?.issuer?.id === account?.toLowerCase();
   const author = pr.author;
@@ -88,15 +89,17 @@ const SubmissionCard = ({ pr, bounty, refreshBounty }) => {
       ) : (
         <>
           <SubmissionWinner linkedPrize={linkedPrize} bounty={bounty} />
-          <WinnerSelectAmounts
-            pr={pr}
-            disabled={false}
-            bounty={bounty}
-            refreshBounty={refreshBounty}
-            isRemove={true}
-            tierClaimed={tierClaimed}
-            prize={{ index: tierWon, payout: bounty.payoutSchedule[tierWon] }}
-          />
+          {bounty?.creatingUser?.id === accountData.id && (
+            <WinnerSelectAmounts
+              pr={pr}
+              disabled={false}
+              bounty={bounty}
+              refreshBounty={refreshBounty}
+              isRemove={true}
+              tierClaimed={tierClaimed}
+              prize={{ index: tierWon, payout: bounty.payoutSchedule[tierWon] }}
+            />
+          )}
         </>
       )}
     </div>
