@@ -43,13 +43,12 @@ const LoadingIcon = ({ bg, graph, className }) => {
           ></svg>
         </div>
       ) : (
-        <div>
+        <div className='w-6 h-6 flex justify-center items-center justify-items-center content-center'>
           <svg
             data-testid='loading'
             className=' animate-spin
 				rounded-full
-				h-6
-				w-6
+				h-3				w-3
 				border-t-2 border-b-2 border-white'
             viewBox='0 0 24 24'
           ></svg>

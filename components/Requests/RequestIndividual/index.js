@@ -206,6 +206,12 @@ const RequestIndividual = ({ item }) => {
           title={modalTitle[declineState]}
           footerRight={confirmBtn[declineState]}
         >
+          {declineState === TRANSFERRING && (
+            <div className='p-4 flex'>
+              Declining request...
+              <LoadingIcon />
+            </div>
+          )}
           {declineState === CONFIRM && (
             <div className='flex flex-col h-full p-4 gap-4'>
               <div>Add a reason for rejecting the request so that the builder can make adjustments.</div>
