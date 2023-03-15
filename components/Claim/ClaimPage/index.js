@@ -16,18 +16,22 @@ import KycRequirement from './KycRequirement';
 import GithubRequirement from './GithubRequirement';
 import ClaimButton from './ClaimButton';
 import { checkClaimable, isEveryValueNotNull, isContest } from '../../../services/utils/lib';
+import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
+import useWeb3 from '../../../hooks/useWeb3';
 // import { ChevronUpIcon, ChevronDownIcon } from '@primer/octicons-react';
 
 const ClaimPage = ({ bounty, refreshBounty, split, setInternalMenu, internalMenu, claimState, showClaimPage }) => {
   const [appState] = useContext(StoreContext);
+  const [authState] = useContext(AuthContext);
   const { accountData, openQClient } = appState;
   // State
   const [justClaimed, setJustClaimed] = useState(false);
-  // const { accountData } = appState;
+  const { account } = useWeb3();
   const [kycVerified, setKycVerified] = useState(null);
   const githubHasWalletVerifiedState = useState(null);
   const [githubHasWalletVerified] = githubHasWalletVerifiedState;
   const { status } = checkClaimable(bounty, accountData?.github, openQClient);
+  const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
 
   // TODO: ESLINT said these were given a value but never used, but they look important, so here I am writing a TODO ;-)
   // const supportingDocumentsCompleted =
@@ -83,7 +87,6 @@ const ClaimPage = ({ bounty, refreshBounty, split, setInternalMenu, internalMenu
   // Context
 
   // Hooks
-  const [authState] = useContext(AuthContext);
 
   if (showBountyClosed) {
     return bounty.bountyType ? (
@@ -128,31 +131,39 @@ const ClaimPage = ({ bounty, refreshBounty, split, setInternalMenu, internalMenu
             <InvoicingRequirement bounty={bounty} setClaimable={claimState[1]} />
             {bounty.supportingDocumentsRequired && <W8Requirement bounty={bounty} />}
 
-            <section className='flex flex-col gap-3'>
+            <section className='flex flex-col gap-4'>
               <h4 className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>Claim Your Rewards</h4>
-              <div className='flex flex-col gap-2'>
-                {bounty.bountyType === '0' && (
+              {bounty.bountyType === '0' && (
+                <div className='flex flex-col gap-2'>
                   <>
                     "Don't forget to add a closer comment for this bounty on your pull request :-)."
                     <CopyAddressToClipboard noClip={true} data={`Closes #${bounty.number}`} />
                   </>
-                )}
-              </div>
+                </div>
+              )}{' '}
+              {!authState.isAuthenticated ? (
+                <div>We noticed you are not signed into Github. You must sign to verify and claim an issue!</div>
+              ) : null}
+              {console.log(!account || !isOnCorrectNetwork || !authState.isAuthenticated)}
+              {(!account || !isOnCorrectNetwork || !accountData.github) && (
+                <ConnectButton
+                  needsGithub={true}
+                  nav={false}
+                  tooltipAction={'claim this contract!'}
+                  hideSignOut={true}
+                />
+              )}
+              <ClaimButton
+                claimable={claimable}
+                bounty={bounty}
+                tooltipStyle={'-left-2'}
+                refreshBounty={refreshBounty}
+                setInternalMenu={setInternalMenu}
+                internalMenu={internalMenu}
+                split={split}
+                setJustClaimed={setJustClaimed}
+              />
             </section>
-            {!authState.isAuthenticated ? (
-              <div>We noticed you are not signed into Github. You must sign to verify and claim an issue!</div>
-            ) : null}
-            <ConnectButton needsGithub={true} nav={false} tooltipAction={'claim this contract!'} hideSignOut={true} />
-            <ClaimButton
-              claimable={claimable}
-              bounty={bounty}
-              tooltipStyle={'-left-2'}
-              refreshBounty={refreshBounty}
-              setInternalMenu={setInternalMenu}
-              internalMenu={internalMenu}
-              split={split}
-              setJustClaimed={setJustClaimed}
-            />
 
             {/* {bounty.invoiceRequired && (
               <>
