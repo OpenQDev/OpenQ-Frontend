@@ -12,7 +12,7 @@ const ProAccount = ({ proAccount }) => {
       <ManageUserGroup groupName={'Admins'} groupKey='adminUsers' proAccount={proAccount} />
       <ManageUserGroup groupName={'Members'} groupKey='memberUsers' proAccount={proAccount} />
       {proAccount.permissionedProducts.nodes.some((node) => node.name === 'SuperchargingHackathonsProduct') && (
-        <SuperchargingHackathons />
+        <SuperchargingHackathons proAccount={proAccount} />
       )}
     </div>
   );

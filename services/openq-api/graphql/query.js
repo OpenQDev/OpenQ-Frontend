@@ -577,21 +577,22 @@ export const BLACKLIST_ORGANIZATION = gql`
   }
 `;
 
-export const SET_IS_CONTEST = gql`
-  mutation setIsContest(
-    $github: String
+export const UPDATE_REPOSITORY_AS_CONTEST = gql`
+  mutation updateRepositoryAsContest(
     $repositoryId: String!
     $isContest: Boolean!
-    $organizationId: String!
-    $startDate: String!
-    $registrationDeadline: String!
+    $proAccountId: String!
+    $startDate: String
+    $registrationDeadline: String
+    $organizationId: String
   ) {
-    setIsContest(
+    updateRepositoryAsContest(
       repositoryId: $repositoryId
       isContest: $isContest
-      organizationId: $organizationId
+      proAccountId: $proAccountId
       startDate: $startDate
       registrationDeadline: $registrationDeadline
+      organizationId: $organizationId
     ) {
       isContest
       id

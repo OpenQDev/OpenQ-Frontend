@@ -21,7 +21,7 @@ import {
   BLACKLIST_ISSUE,
   BLACKLIST_ORGANIZATION,
   GET_USERS,
-  SET_IS_CONTEST,
+  UPDATE_REPOSITORY_AS_CONTEST,
   GET_REPOSITORIES,
   GET_ALL_SUBMISSIONS,
   COMBINE_USERS,
@@ -612,11 +612,11 @@ class OpenQPrismaClient {
     });
   }
 
-  async setIsContest(variables) {
+  async updateRepositoryAsContest(variables) {
     return new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
-          mutation: SET_IS_CONTEST,
+          mutation: UPDATE_REPOSITORY_AS_CONTEST,
           variables,
         });
         resolve(result.data);
