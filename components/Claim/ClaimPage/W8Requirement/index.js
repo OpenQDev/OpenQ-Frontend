@@ -83,6 +83,7 @@ const W8Requirement = ({ bounty }) => {
       setW8FormResponse(EMAIL_NOT_SENT);
       appState.logger.error('w8form.js1', e);
     }
+    e.target.reset();
   };
 
   const w8formResponseOptions = {
@@ -262,21 +263,29 @@ const W8Requirement = ({ bounty }) => {
           </div>
           <div className='font-semibold flex gap-2 group w-fit'>Upload</div>
           <form onSubmit={handleSend} className='flex gap-2 items-center flex-wrap md:flex-nowrap'>
+            {sent && (
+              <div
+                className={`relative flex w-fit whitespace-nowrap gap-2 z-20 h-8 items-center justify-center text-center btn-primary-disabled cursor-not-allowed`}
+              >
+                Pending
+              </div>
+            )}
             <label htmlFor='file input' className={`relative flex items-center`}>
               <div
                 className={`relative flex w-fit whitespace-nowrap gap-2 z-20 h-8 items-center justify-center text-center ${
-                  sent || noEmail ? 'cursor-not-allowed' : 'cursor-pointer'
-                } ${file || sent || noEmail ? 'btn-primary' : 'btn-requirements'}`}
+                  noEmail ? 'cursor-not-allowed' : 'cursor-pointer'
+                } ${file || noEmail ? 'btn-primary' : 'btn-requirements'}`}
               >
-                {file || sent ? (
-                  sent ? (
-                    'Pending'
-                  ) : (
-                    <>
-                      <CheckIcon size={16} />
-                      Change File
-                    </>
-                  )
+                {file ? (
+                  <>
+                    <CheckIcon size={16} />
+                    Change File
+                  </>
+                ) : sent ? (
+                  <>
+                    <UploadIcon size={16} />
+                    Upload Updated W8/W9
+                  </>
                 ) : (
                   <>
                     <UploadIcon size={16} />
@@ -292,33 +301,6 @@ const W8Requirement = ({ bounty }) => {
                 id='file input'
               />
             </label>
-            {sent && (
-              <label htmlFor='file input' className={`relative`}>
-                <div
-                  className={`flex w-fit whitespace-nowrap gap-2 z-20 h-8 items-center cursor-pointer ${
-                    file ? 'btn-primary h-6' : 'btn-requirements'
-                  }`}
-                >
-                  {file ? (
-                    <>
-                      <CheckIcon size={16} /> Change File
-                    </>
-                  ) : (
-                    <>
-                      <UploadIcon size={16} />
-                      Upload Updated W8/W9
-                    </>
-                  )}
-                </div>
-                <input
-                  onChange={handleFileChange}
-                  disabled={loading}
-                  type='file'
-                  className='absolute invisible w-full top-0 bottom-0 z-10'
-                  id='file input'
-                />
-              </label>
-            )}
             <div className='border border-web-gray w-full flex items-center font-semibold h-8 px-2 rounded-sm'>
               {file?.name}
             </div>
