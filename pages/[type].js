@@ -101,7 +101,7 @@ export const getServerSideProps = async (context) => {
       break;
   }
 
-  const batch = 2;
+  const batch = 10;
   const appState = {
     githubRepository: githubRepository.instance,
     openQSubgraphClient: openQSubgraphClient.instance,
