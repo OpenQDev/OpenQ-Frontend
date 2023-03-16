@@ -18,6 +18,8 @@ import StoreContext from '../../../store/Store/StoreContext';
 import PaginatedList from '../../../components/Utils/PaginatedList';
 import ShowCasePage from '../../../components/ShowCase/ShowCasePage';
 import { ChevronLeftIcon } from '@primer/octicons-react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) => {
   // Context
@@ -150,16 +152,54 @@ const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) 
                     />
                   </div>
                 ) : (
-                  <div className='flex flex-col'>
-                    <button
-                      onClick={() => setSingleSubmission(false)}
-                      className='flex items-center gap-1 btn-default w-fit'
-                    >
-                      <ChevronLeftIcon size={16} />
-                      Back to the submissions overview
-                    </button>
-                    <ShowCasePage pr={singleSubmission} />
-                  </div>
+                  <>
+                    <div className='flex-1 pt-4 pb-8 w-full max-w-[1200px] justify-center'>
+                      <button
+                        onClick={() => setSingleSubmission(false)}
+                        className='flex items-center gap-1 btn-default w-fit'
+                      >
+                        <ChevronLeftIcon size={16} />
+                        Back to the submissions overview
+                      </button>
+                      <ShowCasePage pr={singleSubmission} />
+                    </div>
+                    <ul className='lg:max-w-[300px] w-full lg:pl-4 p-8 lg:p-0'>
+                      <li className='border-b border-web-gray py-3'>
+                        <div className='text-xs font-semibold text-muted'>Created</div>
+                        <div className='text-xs font-semibold text-primary leading-loose'>
+                          {appState.utils.formatDate(singleSubmission.createdAt)}
+                        </div>
+                      </li>
+                      <li className='border-b border-web-gray py-3'>
+                        <div className='text-xs font-semibold text-muted'>Author</div>
+                        <div className='text-xs font-semibold text-primary leading-loose'>
+                          <Link href={singleSubmission.author.url} rel='noopener norefferer' target='_blank'>
+                            <span className='text-link-colour cursor-pointer hover:underline flex items-center gap-2'>
+                              {singleSubmission.author.login}{' '}
+                              <Image
+                                className='rounded-lg h-6'
+                                src={singleSubmission.author.avatarUrl}
+                                height={24}
+                                width={24}
+                                alt='avatar'
+                              />
+                            </span>
+                          </Link>
+                        </div>
+                      </li>
+                      <li className='border-b border-web-gray py-3'>
+                        <div className='text-xs font-semibold text-muted'>View on GitHub</div>
+                        <div className='text-xs font-semibold text-primary leading-loose'>
+                          Pull Request{' '}
+                          <Link href={singleSubmission.url} rel='noopener norefferer' target='_blank'>
+                            <span className='text-link-colour cursor-pointer hover:underline'>
+                              #{singleSubmission.url.split('/').pop()}
+                            </span>
+                          </Link>
+                        </div>
+                      </li>
+                    </ul>
+                  </>
                 )}
               </div>
             </>

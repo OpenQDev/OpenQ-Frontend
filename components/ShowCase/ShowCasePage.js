@@ -104,17 +104,13 @@ const ShowCasePage = ({ pr }) => {
 
   return (
     <div className='w-full'>
-      <h1 className='lsm:text-[32px] text-4xl pt-16 pb-8 flex-1 leading-tight min-w-[240px] pr-20'>{pr.title}</h1>
-      <a href={pr.url} className='text-tinted underline' target='_blank' rel='noopener noreferrer'>
+      <h1 className='lsm:text-[32px] text-2xl pt-8 pb-4 flex-1 leading-tight min-w-[240px] pr-20'>{pr.title}</h1>
+      <div className='py-2 text-lg'>{pr.bodyText}</div>
+      <Link href={pr.url} className='text-tinted underline py-2' target='_blank' rel='noopener noreferrer'>
         <span>View Source</span>
-      </a>
-      <div className='pt-8 text-lg'>
-        {' '}
-        <div className='markdown-body' dangerouslySetInnerHTML={{ __html: pr.bodyHTML }}></div>
-      </div>
+      </Link>
 
       <h3 className='flex gap-2 items-center'>
-        <span className='py-1 text-xl pt-8 text-primary'>Contributor</span>{' '}
         {/*    {!showForm && isAuthor ? (
           <button onClick={openContributorForm}>
             <svg
@@ -186,7 +182,7 @@ const ShowCasePage = ({ pr }) => {
           <span className='text-sm'>{error && <div>{error}</div>}</span>
         </div>
       )}
-      <div className='py-2'>
+      {/* <div className='py-2'>
         <div className='flex gap-2 h-6 text-primary'>
           <Link href={pr.author.url} target='_blank' rel='noopener norefferer'>
             <>
@@ -202,7 +198,7 @@ const ShowCasePage = ({ pr }) => {
             </Link>
           )}
         </div>
-      </div>
+      </div> */}
       {contributorData.map((contributor, index) => {
         return (
           <div className='py-2 text-primary' key={index}>
