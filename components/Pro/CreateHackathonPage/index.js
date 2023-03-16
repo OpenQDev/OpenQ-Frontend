@@ -9,13 +9,11 @@ const CreateHackathonPage = ({ proAccount }) => {
   const [name, setName] = useState('');
   const [org, setOrg] = useState('');
   const makeMeHackathon = async () => {
-    console.log('make hackathon');
     const proAccountId = proAccount.id;
     const repositoryId = 'MDEwOlJlcG9zaXRvcnkzODcxNjc5MjQ=';
     const organizationId = 'MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4';
     const startDate = new Date().toString();
     const registrationDeadline = new Date(Date.now() + 12096e5).toString();
-    console.log(startDate, registrationDeadline);
     const variables = {
       proAccountId,
       repositoryId,
@@ -24,8 +22,7 @@ const CreateHackathonPage = ({ proAccount }) => {
       isContest: true,
       organizationId,
     };
-    const value = await appState.openQPrismaClient.updateRepositoryAsContest(variables);
-    console.log(value);
+    await appState.openQPrismaClient.updateRepositoryAsContest(variables);
   };
   const handleUpdateGithubRepositoryUrl = async (urlInput) => {
     setGithubRepositoryUrl(urlInput);
@@ -37,16 +34,6 @@ const CreateHackathonPage = ({ proAccount }) => {
     if (!owner && !name) {
       setName(name);
       setOrg(owner);
-    }
-    console.log(owner, name);
-    if (owner && name) {
-      try {
-        const githubRepository = await appState.githubRepository.fetchRepoWithLabeledIssues(owner, name, []);
-
-        console.log(githubRepository);
-      } catch (e) {
-        console.log(e);
-      }
     }
   };
   return (

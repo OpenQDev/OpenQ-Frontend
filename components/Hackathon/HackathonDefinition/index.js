@@ -3,7 +3,7 @@ import HackathonContext from '../HackathonStore/HackathonContext';
 import { handleDispatch } from '../../../services/utils/lib';
 const HackathonDefinition = () => {
   const [hackathonState, hackathonDispatch] = useContext(HackathonContext);
-  const { eventOrganizer, name, repositoryUrl } = hackathonState;
+  const { eventOrganizer, name, repositoryUrl, description } = hackathonState;
   const handleUpdateGithubRepositoryUrl = async (e) => {
     const urlInput = e.target.value;
     const ownerRegex = /github.com\/([a-zA-Z0-9-]+)\/([a-zA-Z0-9-]+)/;
@@ -29,6 +29,23 @@ const HackathonDefinition = () => {
   return (
     <>
       <div className='my-2'>
+        <label className='font-semibold text-lg block my-2' htmlFor={'repositoryUrl'}>
+          Github Repository URL
+        </label>
+
+        <input
+          onChange={handleUpdateGithubRepositoryUrl}
+          className='input-field w-full h-8 '
+          id={'repositoryUrl'}
+          placeholder={'https://github.com/...'}
+          value={repositoryUrl}
+        />
+        <div className='note mt-2 mb-8'>
+          Connect your Hackathon with your Github repositroy to manage submissions. Your README.md will display basic
+          information about the hackathon on our site.
+        </div>
+      </div>
+      <div className='my-2'>
         <label className='font-semibold text-lg block my-2' htmlFor={'event-organizer'}>
           Event organizer
         </label>
@@ -53,23 +70,17 @@ const HackathonDefinition = () => {
           onChange={(e) => handleDispatch(e, 'SET_NAME', hackathonDispatch)}
         />
       </div>
-
       <div className='my-2'>
-        <label className='font-semibold text-lg block my-2' htmlFor={'repositoryUrl'}>
-          Github Repository URL
+        <label className='font-semibold text-lg block my-2' htmlFor={'name'}>
+          Hackathon Description
         </label>
 
         <input
-          onChange={handleUpdateGithubRepositoryUrl}
-          className='input-field w-full h-8 '
-          id={'repositoryUrl'}
-          placeholder={'https://github.com/...'}
-          value={repositoryUrl}
+          className='input-field w-full h-8'
+          id={'description'}
+          value={description}
+          onChange={(e) => handleDispatch(e, 'SET_DESCRIPTION', hackathonDispatch)}
         />
-        <div className='note mt-2 mb-8'>
-          Connect your Hackathon with your Github repositroy to manage submissions. Your README.md will display basic
-          information about the hackathon on our site.
-        </div>
       </div>
     </>
   );

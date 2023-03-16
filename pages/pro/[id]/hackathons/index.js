@@ -1,12 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import PageHeader from '../../../../components/PageHeader';
 import Manager from '../../../../components/Manager/index.js';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useQuery } from '@apollo/client';
-import gql from 'graphql-tag';
-import StoreContext from '../../../../store/Store/StoreContext';
-import HackathonCard from '../../../../components/HackathonCard/index.js';
 
 const hackathonManager = () => {
   const [searchText, setSearchText] = useState('');

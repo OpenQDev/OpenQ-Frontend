@@ -6,7 +6,7 @@ import Products from '../Products';
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [tempSecret, setTempSecret] = useState('');
-  const [apiSecret, setApiSecret] = useState('secret123!');
+  const [apiSecret, setApiSecret] = useState('');
   const [appState] = useContext(StoreContext);
   const { accountData, logger } = appState;
   const [products, setProducts] = useState([]);

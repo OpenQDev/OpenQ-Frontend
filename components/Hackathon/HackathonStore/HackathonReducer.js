@@ -5,6 +5,8 @@ const HackathonReducer = (state, action) => {
       return { ...state, eventOrganizer: action.payload };
     case 'SET_NAME':
       return { ...state, name: action.payload };
+    case 'SET_DESCRIPTION':
+      return { ...state, description: action.payload };
     case 'SET_REPOSITORY_URL':
       return { ...state, repositoryUrl: action.payload };
     case 'SET_IS_IRL':

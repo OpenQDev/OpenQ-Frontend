@@ -9,13 +9,11 @@ const ManageUserGroup = ({ groupKey, proAccount, groupName }) => {
   const handleAddUser = async () => {
     const user = await appState.openQPrismaClient.getPublicUser(undefined, inputtedUsername);
     if (!user) return;
-    console.log(user);
     const variables = {
       targetUserId: user.id,
       proAccountId: proAccount.id,
     };
     await appState.openQPrismaClient.addProAccountRole(variables, groupKey);
-    console.log(groupKey, proAccount.id);
   };
 
   return (

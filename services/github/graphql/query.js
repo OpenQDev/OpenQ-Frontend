@@ -576,6 +576,35 @@ export const GET_REPOS_BY_IDS = gql`
     }
   }
 `;
+export const GET_REPO_BY_ID = gql`
+  query getRepository($id: [ID!]!) {
+    nodes(ids: $id) {
+      ... on Repository {
+        object(expression: "main:README.md") {
+          ... on Blob {
+            text
+          }
+        }
+        id
+        name
+        descriptionHTML
+        description
+        owner {
+          avatarUrl
+          login
+        }
+        stargazerCount
+        languages(first: 10) {
+          nodes {
+            name
+            color
+          }
+        }
+        name
+      }
+    }
+  }
+`;
 
 export const GET_USER_BY_URL = gql`
   query ($url: URI!) {

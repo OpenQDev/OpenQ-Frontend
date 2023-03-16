@@ -8,7 +8,7 @@ const ManageProAccountModal = ({ proAccount, products, apiSecret }) => {
   const [myProducts, setMyProducts] = useState(proAccount.permissionedProducts.nodes);
   const [selectedProduct, setSelectedProduct] = useState();
   useEffect(() => {
-    setSelectedProduct(products[0].id);
+    setSelectedProduct(products[0]?.id);
   }, [products]);
   const openProAccountModal = () => {
     setShowProModal(true);

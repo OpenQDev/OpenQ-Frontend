@@ -38,6 +38,7 @@ module.exports = {
 			  'claim': '#3a4be9',
 				'info': '#4b422f',
 				'info-strong': '#7e5a18',
+				'heading-bg':'#161B22',
 				'dark-mode': '#0D1117',
 				'nav-bg': '#161B22',
 				'nav-text': '#f0f6fc',

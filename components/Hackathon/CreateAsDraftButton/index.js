@@ -8,6 +8,7 @@ const CreateAsDraftButton = () => {
   const [appState] = useContext(StoreContext);
   const {
     repositoryUrl,
+    description,
     startDate,
     endDate,
     city,
@@ -35,8 +36,8 @@ const CreateAsDraftButton = () => {
     const githubRepository = await appState.githubRepository.fetchRepoWithLabeledIssues(owner, name, []);
     const repositoryId = githubRepository.id;
     const organizationId = githubRepository.owner.id;
-    console.log(githubRepository);
     const variables = {
+      description,
       proAccountId,
       repositoryId,
       startDate,
@@ -59,9 +60,8 @@ const CreateAsDraftButton = () => {
       registrationDeadline,
     };
 
-    const value = await appState.openQPrismaClient.updateRepositoryAsContest(variables);
+    await appState.openQPrismaClient.updateRepositoryAsContest(variables);
     router.push(`/pro/${proAccountId}/hackathons`);
-    console.log(value);
   };
   return (
     <button

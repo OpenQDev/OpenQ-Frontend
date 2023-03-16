@@ -26,6 +26,7 @@ const CreateHackathonButton = () => {
     twitter,
     discord,
     telegram,
+    description,
     slack,
     registrationDeadline,
   } = hackathonState;
@@ -36,7 +37,6 @@ const CreateHackathonButton = () => {
     SUCCESS: { text: 'Success!', Loader: EmptyLoader },
     ERROR: { text: 'Failed to Update', Loader: EmptyLoader },
   };
-  console.log(responseMap[createHackathonResponse].text, 'my text');
   const Loader = responseMap[createHackathonResponse].Loader;
   const router = useRouter();
   const handleCreate = async (e) => {
@@ -73,11 +73,12 @@ const CreateHackathonButton = () => {
         telegram,
         slack,
         registrationDeadline,
+        description,
       };
 
       await appState.openQPrismaClient.updateRepositoryAsContest(variables);
       setCreateHackathonResponse(SUCCESS);
-      router.push(`pro/${proAccountId}/hackathons`);
+      //  router.push(`/pro/${proAccountId}/hackathons`);
     } catch (e) {
       setCreateHackathonResponse(ERROR);
     }

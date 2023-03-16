@@ -6,7 +6,6 @@ import { handleDispatch } from '../../../services/utils/lib';
 const HackathonLocation = () => {
   const [hackathonState, hackathonDispatch] = useContext(HackathonContext);
   const { isIrl, city } = hackathonState;
-  console.log(isIrl);
   const handleRadio = (e) => {
     const isIrl = e.target.id === 'isIrl';
     const dispatch = {

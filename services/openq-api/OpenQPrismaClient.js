@@ -23,6 +23,7 @@ import {
   GET_USERS,
   UPDATE_REPOSITORY_AS_CONTEST,
   GET_REPOSITORIES,
+  GET_REPOSITORY_BY_ID,
   GET_ALL_SUBMISSIONS,
   COMBINE_USERS,
   GET_REQUESTS,
@@ -634,6 +635,20 @@ class OpenQPrismaClient {
           variables,
         });
         resolve(result.data.repositories.nodes);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+  getRepositoryById(id) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_REPOSITORY_BY_ID,
+          variables: { id },
+        });
+        resolve(result.data.repository);
       } catch (e) {
         reject(e);
       }

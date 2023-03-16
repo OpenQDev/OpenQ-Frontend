@@ -5,7 +5,6 @@ import SubMenu from '../../components/Utils/SubMenu';
 const PageHeader = ({ children, menuState, titleLine, items, handleSearchInput, searchText, CTAButton }) => {
   const [internalMenu, setInternalMenu] = menuState;
   const { Title, SubTitle } = titleLine;
-  console.log(Title, SubTitle);
 
   const ButtonAndSearch = () => (
     <>

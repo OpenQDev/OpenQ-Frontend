@@ -342,6 +342,25 @@ export const GET_REPOSITORIES = gql`
       nodes {
         id
         hackathonBlacklisted
+        description
+        isContest
+        isDraft
+        startDate
+        registrationDeadline
+        city
+        timezone
+        eventOrganizer
+        repositoryUrl
+        isIrl
+        endDate
+        topic
+        website
+        contactEmail
+        twitter
+        discord
+        telegram
+        slack
+        description
         organization {
           blacklisted
         }
@@ -355,7 +374,42 @@ export const GET_REPOSITORIES = gql`
     }
   }
 `;
-
+export const GET_REPOSITORY_BY_ID = gql`
+  query getRepositoryById($id: String!) {
+    repository(id: $id) {
+      id
+      hackathonBlacklisted
+      description
+      isContest
+      isDraft
+      startDate
+      registrationDeadline
+      city
+      timezone
+      eventOrganizer
+      repositoryUrl
+      isIrl
+      endDate
+      topic
+      website
+      contactEmail
+      twitter
+      discord
+      telegram
+      slack
+      description
+      organization {
+        blacklisted
+      }
+      bounties(limit: 100) {
+        nodes {
+          bountyId
+          blacklisted
+        }
+      }
+    }
+  }
+`;
 export const UPSERT_USER = gql`
   mutation upsertUser {
     upsertUser {
@@ -599,6 +653,7 @@ export const UPDATE_REPOSITORY_AS_CONTEST = gql`
     $discord: String
     $telegram: String
     $slack: String
+    $description: String
   ) {
     updateRepositoryAsContest(
       repositoryId: $repositoryId
@@ -606,6 +661,7 @@ export const UPDATE_REPOSITORY_AS_CONTEST = gql`
       isContest: $isContest
       isDraft: $isDraft
       proAccountId: $proAccountId
+      description: $description
       startDate: $startDate
       registrationDeadline: $registrationDeadline
       city: $city

@@ -23,6 +23,7 @@ import {
   GET_IS_ADMIN,
   GET_ORG_BY_URL,
   GET_REPOS_BY_IDS,
+  GET_REPO_BY_ID,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 
@@ -430,6 +431,21 @@ class GithubRepository {
           variables,
         });
         resolve(result.data.nodes);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+  async fetchRepoById(id) {
+    const variables = { id: [id] };
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_REPO_BY_ID,
+          variables,
+        });
+        resolve(result.data.node);
       } catch (e) {
         reject(e);
       }

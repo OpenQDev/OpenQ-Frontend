@@ -5,7 +5,7 @@ import Link from 'next/link';
 // Custom
 import WatchButton from '../../WatchButton/WatchButton';
 
-const RepoTitle = ({ bounty }) => {
+const RepoTitle = ({ repo }) => {
   return (
     <div className='flex items-center justify-between pb-5 w-full px-2 sm:px-8'>
       <div className='flex items-center gap-2'>
@@ -16,24 +16,20 @@ const RepoTitle = ({ bounty }) => {
           ></path>
         </svg>
         <div className='text-xl'>
-          {bounty.owner && (
+          {repo.owner && (
             <span>
-              <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/organization/${bounty.owner}`} data-testid='repo'>
-                <span className='text-link-colour hover:underline cursor-pointer'>{bounty.owner}</span>
+              <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/organization/${repo.owner}`} data-testid='repo'>
+                <span className='text-link-colour hover:underline cursor-pointer'>{repo.owner}</span>
               </Link>
               {' / '}
-              <Link
-                href={`${process.env.NEXT_PUBLIC_BASE_URL}/repo/${bounty.owner}/${bounty.repoName}`}
-                data-testid='repo'
-              >
-                <span className='text-link-colour hover:underline cursor-pointer'>{bounty.repoName}</span>
+              <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/repo/${repo.owner}/${repo.name}`} data-testid='repo'>
+                <span className='text-link-colour hover:underline cursor-pointer'>{repo.name}</span>
               </Link>
-              {bounty.alternativeName && ` ( ${bounty.alternativeName} ) `}
             </span>
           )}
         </div>
       </div>
-      <WatchButton bounty={bounty} />
+      <WatchButton repo={repo} />
     </div>
   );
 };

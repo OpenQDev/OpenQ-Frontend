@@ -1,9 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
-import HackathonCard from '../HackathonCard';
-import { useQuery } from '@apollo/client';
-import gql from 'graphql-tag';
-
+import HackathonCard from '../Hackathon/HackathonCard';
 const Manager = () => {
   const [appState] = useContext(StoreContext);
   const { openQPrismaClient } = appState;
