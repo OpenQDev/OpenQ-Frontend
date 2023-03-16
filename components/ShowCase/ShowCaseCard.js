@@ -7,9 +7,10 @@ import SubmissionWinner from '../Submissions/SubmissionWinner';
 import useWeb3 from '../../hooks/useWeb3';
 import StoreContext from '../../store/Store/StoreContext';
 
-const ShowCaseCard = ({ bounty, refreshBounty, item }) => {
+const ShowCaseCard = ({ bounty, refreshBounty, item, setSingleSubmission }) => {
   const pr = item;
   const [appState] = useContext(StoreContext);
+
   const { account } = useWeb3();
   const admin = bounty && bounty?.issuer?.id === account?.toLowerCase();
   const author = pr.author;
@@ -38,36 +39,42 @@ const ShowCaseCard = ({ bounty, refreshBounty, item }) => {
         className={`flex flex-col p-6 items-center text-[0.8rem] tracking-wider placeholder-input-gray outline-none rounded-sm w-full h-120 mb-1`}
       >
         <div className='flex justify-end w-full items-center -mt-2 relative pt-2'></div>
-        <div className='pt-2'>
-          <div className='w-16 h-16 relative'>
-            {author?.avatarUrl ? (
-              <Image
-                className='rounded-full'
-                src={author?.avatarUrl}
-                placeholder={'blur'}
-                blurDataURL={'/diverse/placeholder-px.png'}
-                alt='n/a'
-                width={64}
-                height={64}
-                priority={true}
-              />
-            ) : (
-              <Skeleton baseColor='#333' borderRadius={'1rem'} height={'64px'} width='64px' />
-            )}
+        <button onClick={() => setSingleSubmission(item)} className='w-full'>
+          <div className='flex justify-center pt-2'>
+            <div className='w-16 h-16 relative'>
+              {author?.avatarUrl ? (
+                <Image
+                  className='rounded-full border border-web-gray'
+                  src={author?.avatarUrl}
+                  placeholder={'blur'}
+                  blurDataURL={'/diverse/placeholder-px.png'}
+                  alt='n/a'
+                  width={64}
+                  height={64}
+                  priority={true}
+                />
+              ) : (
+                <Skeleton baseColor='#333' borderRadius={'1rem'} height={'64px'} width='64px' />
+              )}
+            </div>
           </div>
-        </div>
-        <Link href={`/showcase/pr/${pr.id}`} className='w-full'>
+
           <div className='pt-5 text-center cursor-pointer underline w-full font-medium text-xl truncate'>
             {pr.title}
           </div>
-        </Link>
+        </button>
         <div className='text-center pt-2 text-gray-400 w-full'>
           By{' '}
-          <Link href={pr.author.url || '/showcase'} className='underline cursor-pointer'>
+          <Link
+            href={pr.author.url || '/showcase'}
+            className='underline cursor-pointer'
+            target='_blank'
+            rel='noreferrer'
+          >
             {pr.author.name || pr.author.login}
           </Link>
         </div>
-        <div className='text-center btn-default my-2'>{classifyTime(Date.now() / 1000 - prTime)}</div>
+        <div className='text-center btn-default-disabled my-2'>{classifyTime(Date.now() / 1000 - prTime)}</div>
         <div className='text-center pt-2 text-gray-400 w-full'>On {appState.utils.formatDate(pr.createdAt)}</div>
 
         <div className=' pt-2 text-gray-400 h-20 w-full break-word'>
