@@ -14,6 +14,7 @@ const ProAccountManagement = ({ apiSecret, products }) => {
           // add pagination if necessary
           const limit = 400;
           const pros = await appState.openQPrismaClient.getProAccounts(apiSecret, limit);
+
           setProAccounts(pros);
         } catch (error) {
           console.log(error);

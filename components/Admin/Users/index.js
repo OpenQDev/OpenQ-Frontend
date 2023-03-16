@@ -14,7 +14,6 @@ const Users = () => {
   useEffect(() => {
     const getProducts = async () => {
       const products = await appState.openQPrismaClient.getProducts();
-      console.log(products, 'products');
       setProducts(products);
     };
 

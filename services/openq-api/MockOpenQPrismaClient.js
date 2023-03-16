@@ -250,7 +250,8 @@ class OpenQPrismaClient {
     return new Promise(async (resolve, reject) => {
            axios.get(`http://localhost:3030/proaccounts`)
                 .then(result => {
-                    resolve({ proAccounts: result.data });
+                    const nodes = result.data.proAccounts.proAccountConnection.nodes
+                    resolve( nodes );
                 })
                 .catch(error => {
                     reject(error);
@@ -262,7 +263,7 @@ class OpenQPrismaClient {
     return new Promise(async (resolve, reject) => {
          axios.get(`http://localhost:3030/products`)
                 .then(result => {
-                    resolve(result.data );
+                    resolve(result.data.productConnection.nodes );
                 })
                 .catch(error => {
                     reject(error);
