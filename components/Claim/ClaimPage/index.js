@@ -144,7 +144,6 @@ const ClaimPage = ({ bounty, refreshBounty, split, setInternalMenu, internalMenu
               {!authState.isAuthenticated ? (
                 <div>We noticed you are not signed into Github. You must sign to verify and claim an issue!</div>
               ) : null}
-              {console.log(!account || !isOnCorrectNetwork || !authState.isAuthenticated)}
               {(!account || !isOnCorrectNetwork || !accountData.github) && (
                 <ConnectButton
                   needsGithub={true}
