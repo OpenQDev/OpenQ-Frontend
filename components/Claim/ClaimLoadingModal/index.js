@@ -136,6 +136,11 @@ const ClaimLoadingModal = ({
       setShowModal={setShowClaimLoadingModal}
       resetState={updateModal}
     >
+      {bounty.bountyType == 3 && claimState == CHECKING_WITHDRAWAL_ELIGIBILITY && (
+        <div className='bg-info border-info-strong border-2 p-3 rounded-sm mb-4'>
+          Please confirm this transaction via your wallet!
+        </div>
+      )}
       <div className='gap-2 grid grid-cols-[150px_1fr]'>
         <span>Issue: </span>
         {bounty.url && (
