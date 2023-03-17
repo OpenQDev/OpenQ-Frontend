@@ -4,10 +4,7 @@ import ModalDefault from './ModalDefault';
 const ConfirmTransactionModal = ({ setShowConfirm }) => {
   return (
     <>
-      <ModalDefault
-        title='Requesting Your Confirmation'
-        setShowModal={setShowConfirm} /*resetState={setAssociateState} */
-      >
+      <ModalDefault title='Requesting Your Confirmation' setShowModal={setShowConfirm}>
         <div className='whitespace-pre-wrap'>Please confirm this transaction via your wallet.</div>
       </ModalDefault>
     </>
