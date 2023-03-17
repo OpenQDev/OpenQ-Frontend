@@ -227,9 +227,14 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled, isRem
             </>
           )}
           {selectionState === TRANSFERRING && (
-            <div className='flex items-center gap-2'>
-              Your request is being processed... <LoadingIcon />
-            </div>
+            <>
+              <div className='bg-info border-info-strong border-2 p-3 rounded-sm mb-4'>
+                Please confirm this transaction via your wallet!
+              </div>
+              <div className='flex items-center gap-2'>
+                Your request is being processed... <LoadingIcon />
+              </div>
+            </>
           )}
           {selectionState === ERROR && <p>{error.message}</p>}
           {selectionState === SUCCESS && (

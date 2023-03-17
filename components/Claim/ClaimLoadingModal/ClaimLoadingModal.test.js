@@ -60,7 +60,7 @@ describe('ClaimLoadingModal', () => {
     expect(nullish).toHaveLength(0);
   });
 
-  it('should display inelgible', async () => {
+  it('should display ineligible', async () => {
     // ARRANGE
     const claimBounty = jest.fn();
     const url = 'www.example.com';
