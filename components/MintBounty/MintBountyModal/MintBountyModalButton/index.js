@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { useRouter } from 'next/router';
 import useIsOnCorrectNetwork from '../../../../hooks/useIsOnCorrectNetwork';
@@ -9,11 +9,13 @@ import ToolTipNew from '../../../Utils/ToolTipNew';
 import ConnectButton from '../../../WalletConnect/ConnectButton';
 import MintContext from '../../MintContext';
 import { checkHackathonDates } from '../../../../services/utils/lib';
+import ConfirmTransactionModal from '../../../Utils/ConfirmTransactionModal';
 
 // TODO: Put all this state logic into a context, and possibly add a reducer
 const MintBountyModalButton = ({ modalVisibility, setError }) => {
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const [mintState, mintDispatch] = useContext(MintContext);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const {
     goalToken,
@@ -82,6 +84,7 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
   };
 
   const mintBounty = async () => {
+    setShowConfirm(true);
     try {
       const dispatch = { type: 'SET_LOADING', payload: true };
       mintDispatch(dispatch);
@@ -132,6 +135,7 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
         altUrl,
         data
       );
+      setShowConfirm(false);
       if (enableRegistration && datesCheck) {
         await appState.openQPrismaClient.setIsContest({
           github,
@@ -157,6 +161,7 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
       const { message, title } = appState.openQClient.handleError(error);
       appState.logger.error(error, accountData.id, 'MintBountyModalButton.js1');
       setError({ message, title });
+      setShowConfirm(false);
     }
   };
 
@@ -198,6 +203,7 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
           </button>
         </ToolTipNew>
       )}
+      {showConfirm && <ConfirmTransactionModal setShowConfirm={setShowConfirm} />}
     </>
   );
 };
