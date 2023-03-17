@@ -97,7 +97,7 @@ it('should show "choose eligible issue" when on correct network, minted, and sta
   );
 
   expect(screen.getAllByRole('button', { name: 'Deploy Contract' })[0].disabled).toBe(true);
-  const tooltip = screen.getAllByText(/Please choose an elgible issue./i);
+  const tooltip = screen.getAllByText(/Please choose an eligible issue./i);
   expect(tooltip[0]).toBeInTheDocument();
 });
 

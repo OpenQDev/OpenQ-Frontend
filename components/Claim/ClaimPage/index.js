@@ -111,7 +111,7 @@ const ClaimPage = ({ bounty, refreshBounty, split, setInternalMenu, internalMenu
                 'Congratulations, you can now claim your bounty!'
               ) : (
                 <>
-                  Congratulations, you are elgible to receive this bounty! In order to claim it you need to fulfill the
+                  Congratulations, you are eligible to receive this bounty! In order to claim it you need to fulfill the
                   requirements highlighted below. To learn more read{' '}
                   <Link
                     href='https://docs.openq.dev/hackathon-winner/preparing-to-claim'

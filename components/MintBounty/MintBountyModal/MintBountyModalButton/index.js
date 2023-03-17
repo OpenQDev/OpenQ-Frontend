@@ -177,7 +177,7 @@ const MintBountyModalButton = ({ modalVisibility, setError }) => {
             issue?.closed && issue?.url?.includes('/issues/')
               ? 'Issue closed'
               : !enableMint || !issue?.url?.includes('/issues/')
-              ? 'Please choose an elgible issue.'
+              ? 'Please choose an eligible issue.'
               : !datesCheck
               ? 'Please make sure your Hackathon Start Date is > today and your End Date after your Start Date.'
               : !loggedInIfNeeded

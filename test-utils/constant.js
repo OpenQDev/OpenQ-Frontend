@@ -926,7 +926,7 @@ export default class Constants {
   static get bountyClaimOverview() {
     return {
       id: 'I_kwDOGWnnz85Z_0oY',
-      title: 'Checking no elgible prs',
+      title: 'Checking no eligible prs',
       assignees: [],
       body: '',
       url: 'https://github.com/OpenQDev/OpenQ-TestRepo/issues/792',
@@ -938,7 +938,7 @@ export default class Constants {
       createdAt: '2022-12-24T01:53:30Z',
       closed: true,
       bodyHTML: '',
-      titleHTML: 'Checking no elgible prs',
+      titleHTML: 'Checking no eligible prs',
       twitterUsername: 'openqlabs',
       number: 792,
       prs: [
