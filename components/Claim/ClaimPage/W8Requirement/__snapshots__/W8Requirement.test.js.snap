@@ -88,28 +88,17 @@ exports[`W8Requirement should match initial DOM Snapshot 1`] = `
     <form
       class="flex gap-2 items-center flex-wrap md:flex-nowrap"
     >
+      <div
+        class="relative flex w-fit whitespace-nowrap gap-2 z-20 h-8 items-center justify-center text-center btn-default-disabled cursor-not-allowed"
+      >
+        Pending
+      </div>
       <label
         class="relative flex items-center"
         for="file input"
       >
         <div
           class="relative flex w-fit whitespace-nowrap gap-2 z-20 h-8 items-center justify-center text-center cursor-not-allowed btn-primary"
-        >
-          Pending
-        </div>
-        <input
-          class="absolute invisible w-full top-0 bottom-0 z-10"
-          disabled=""
-          id="file input"
-          type="file"
-        />
-      </label>
-      <label
-        class="relative"
-        for="file input"
-      >
-        <div
-          class="flex w-fit whitespace-nowrap gap-2 z-20 h-8 items-center cursor-pointer btn-requirements"
         >
           <svg
             aria-hidden="true"
@@ -133,6 +122,7 @@ exports[`W8Requirement should match initial DOM Snapshot 1`] = `
         </div>
         <input
           class="absolute invisible w-full top-0 bottom-0 z-10"
+          disabled=""
           id="file input"
           type="file"
         />

@@ -121,24 +121,38 @@ const Invoicing = ({ bounty, setClaimable }) => {
     if (bounty.bountyType === '3' || bounty.bountyType === '2') {
       const currentTier = bounty.tierWinners.indexOf(accountData.github);
       return bounty.invoiceCompleted?.[currentTier];
-    } else return false;
+    } else return bounty.invoiceCompleted?.[0];
   };
   const invoiceSentPreviously = getInvoiceSent(bounty);
   const successInvoice = invoiceResponseOptions[invoiceResponse]?.successInvoice || invoiceSentPreviously;
   const MessageHTML = invoiceResponseOptions[invoiceResponse]?.MessageHTML || (() => <></>);
 
   const handleSendInvoice = async () => {
-    setLoading(true);
-    try {
-      const result = await axios.post(
-        `${process.env.NEXT_PUBLIC_INVOICE_URL}/fixedcontest?id=${bounty.bountyAddress}&account=${account}`,
-        {},
-        { withCredentials: true }
-      );
-      handleResult(result);
-    } catch (err) {
-      setLoading(false);
-      setInvoiceResponse(EMAIL_NOT_SENT);
+    if (bounty.bountyType === '3') {
+      setLoading(true);
+      try {
+        const result = await axios.post(
+          `${process.env.NEXT_PUBLIC_INVOICE_URL}/fixedcontest?id=${bounty.bountyAddress}&account=${account}`,
+          {},
+          { withCredentials: true }
+        );
+        handleResult(result);
+      } catch (err) {
+        setLoading(false);
+        setInvoiceResponse(EMAIL_NOT_SENT);
+      }
+    } else if (bounty.bountyType === '0') {
+      try {
+        const result = await axios.post(
+          `${process.env.NEXT_PUBLIC_INVOICE_URL}/single?id=${bounty.bountyAddress}&account=${account}`,
+          {},
+          { withCredentials: true }
+        );
+        handleResult(result);
+      } catch (err) {
+        setLoading(false);
+        setInvoiceResponse(EMAIL_NOT_SENT);
+      }
     }
   };
 

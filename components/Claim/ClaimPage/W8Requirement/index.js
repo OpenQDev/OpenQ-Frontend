@@ -265,7 +265,7 @@ const W8Requirement = ({ bounty }) => {
           <form onSubmit={handleSend} className='flex gap-2 items-center flex-wrap md:flex-nowrap'>
             {sent && (
               <div
-                className={`relative flex w-fit whitespace-nowrap gap-2 z-20 h-8 items-center justify-center text-center btn-primary-disabled cursor-not-allowed`}
+                className={`relative flex w-fit whitespace-nowrap gap-2 z-20 h-8 items-center justify-center text-center btn-default-disabled cursor-not-allowed`}
               >
                 Pending
               </div>
