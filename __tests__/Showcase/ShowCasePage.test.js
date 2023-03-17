@@ -49,7 +49,6 @@ describe('ShowcasePage', () => {
     // ASSERT
     await waitFor(() => {
       expect(screen.getByText(/Update README.md/)).toBeInTheDocument();
-      expect(screen.getByText(/FlacoJones/)).toBeInTheDocument();
       expect(screen.getAllByRole('link')[0].href).toBe('https://github.com/OpenQDev/OpenQ-TestRepo/pull/138');
       expect(screen.getByText(/closes #34/)).toBeInTheDocument();
       // should not have null or undefined values

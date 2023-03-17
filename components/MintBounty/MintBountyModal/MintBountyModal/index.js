@@ -155,13 +155,13 @@ const MintBountyModal = ({ modalVisibility }) => {
               Create a {getBountyTypeName(type)} Contract to send funds to any GitHub issue
             </h3>
             <MintBountyInputIssue />
-            {type === 3 && (
-              <>
-                <InvoiceableToggle />
-                <KycRequiredToggle />
-                <W8RequiredToggle />
-              </>
-            )}
+
+            <>
+              <InvoiceableToggle />
+              <KycRequiredToggle />
+              <W8RequiredToggle />
+            </>
+
             <TokenProvider>
               <Budgeting />{' '}
             </TokenProvider>

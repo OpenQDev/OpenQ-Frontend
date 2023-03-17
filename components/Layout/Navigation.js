@@ -26,7 +26,7 @@ const Navigation = () => {
 
   useEffect(() => {
     const getNotificationCookie = async () => {
-      const signedKnockTokenCookie = await window.cookieStore.get('signed_knock_token');
+      const signedKnockTokenCookie = await window?.cookieStore?.get('signed_knock_token');
       setNotificationToken(signedKnockTokenCookie?.value);
     };
 
