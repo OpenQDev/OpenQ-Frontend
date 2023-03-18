@@ -19,6 +19,7 @@ import Head from 'next/head';
 import Footer from '../components/Layout/Footer';
 import { walletConnect, walletConnectHooks, metaMask, metaMaskHooks } from '../components/WalletConnect/connectors';
 import Script from 'next/script';
+import FirstTimeBanner from '../components/Layout/FirstTimeBanner';
 
 function OpenQ({ Component, pageProps }) {
   const connectors = [
@@ -98,6 +99,7 @@ function OpenQ({ Component, pageProps }) {
                     <div className='min-h-screen  flex flex-col justify-between'>
                       <div>
                         {router.asPath == '/login' ? null : <Navigation />}
+                        <FirstTimeBanner />
                         <Component key={router.asPath} {...pageProps} />
                       </div>
 
