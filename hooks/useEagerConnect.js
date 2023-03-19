@@ -11,6 +11,7 @@ export default function useEagerConnect() {
   const [appState] = useContext(StoreContext);
 
   const [tried, setTried] = useState(false);
+
   useEffect(() => {
     const connect = async () => {
       try {
@@ -24,14 +25,18 @@ export default function useEagerConnect() {
             'useEagerConnect.js'`
           );
         }
-      } catch (err) {
-        appState.logger.info(err, 'useEagerConnect.js');
+      } catch (error) {
+        if (error && !error.message.includes('No active session found.')) {
+          appState.logger.info(error, 'useEagerConnect.js');
+        }
+
         if (window.ethereum?.isMetaMask) {
           metaMask.connectEagerly();
           return;
         }
       }
     };
+
     connect();
   }, []); // intentionally only running on mount (make sure it's only mounted once :))
 
