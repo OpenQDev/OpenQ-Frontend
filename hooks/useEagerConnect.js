@@ -26,7 +26,7 @@ export default function useEagerConnect() {
           );
         }
       } catch (error) {
-        if (error && !error.message.includes('No active session found.')) {
+        if (error.message && !error.message.includes('No active session found.')) {
           appState.logger.info(error, 'useEagerConnect.js');
         }
 
