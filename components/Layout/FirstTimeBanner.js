@@ -14,7 +14,7 @@ const FirstTimeBanner = () => {
             Welcome to <span className='font-bold'>OpenQ!</span>
             <br />
             <br />
-            <div>You{"'"}re early to the party - most EthDenver 2023 bounties will be minted on March 20.</div>
+            <div>You{"'"}re early to the party - most EthDenver 2023 bounties will be minted on March 21.</div>
             <br />
             <div>Some will be minted later as sponsors finalize decisions.</div>
             <br />

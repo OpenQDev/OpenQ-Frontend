@@ -29,7 +29,6 @@ const Navigation = () => {
       // regex for signed_knock_token cookie
       const signedKnockTokenCookie = document.cookie.match(/(signed_knock_token=)(.*?)+/)[0].slice(19);
 
-      console.log(signedKnockTokenCookie);
       setNotificationToken(signedKnockTokenCookie);
     };
 

@@ -127,7 +127,6 @@ const address = ({ address, mergedBounty, renderError }) => {
           sessionStorage.setItem(address, internalMenu);
         }
       }, 1000);
-      console.log(internalMenu);
     }
     return () => {
       cancel = true;
