@@ -15,6 +15,7 @@ const NotificationBell = ({ userId, notificationToken }) => {
 
   return (
     <KnockFeedProvider
+      colorMode='dark'
       apiKey={process.env.NEXT_PUBLIC_NOTIFICATIONS_PUBLIC_KEY}
       feedId={process.env.NEXT_PUBLIC_NOTIFICATIONS_CHANNEL_ID}
       userToken={notificationToken}
@@ -24,6 +25,7 @@ const NotificationBell = ({ userId, notificationToken }) => {
         <NotificationIconButton ref={notifButtonRef} onClick={() => setIsVisible(!isVisible)} />
         <NotificationFeedPopover
           buttonRef={notifButtonRef}
+          className='bg-red-500'
           isVisible={isVisible}
           onNotificationClick={(item) => notificationClicked(item)}
           onClose={() => setIsVisible(false)}
