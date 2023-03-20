@@ -1,10 +1,8 @@
-import React, { useState, useContext } from 'react';
-import CreateAccountModal from '../CreateAccountModal/index.js';
+import React, { useContext } from 'react';
 import StoreContext from '../../../../store/Store/StoreContext';
 import Link from 'next/link';
 
 const CreateAccount = () => {
-  const [showModal, setShowModal] = useState(false);
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
   console.log(accountData, 'my account data');

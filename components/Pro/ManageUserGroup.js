@@ -2,10 +2,12 @@ import React, { useContext, useState } from 'react';
 import MemberManagementCard from './MemberManagementCard';
 import { capitalize } from '../../services/utils/lib';
 import StoreContext from '../../store/Store/StoreContext';
+import InviteMemberModal from './InviteMemberModal.js';
 
 const ManageUserGroup = ({ groupKey, proAccount, groupName }) => {
   const [inputtedUsername, setInputtedUsername] = useState('');
   const [appState] = useContext(StoreContext);
+  const [addNewUser, setAddNewUser] = useState(false);
   const handleAddUser = async () => {
     const user = await appState.openQPrismaClient.getPublicUser(undefined, inputtedUsername);
     if (!user) return;
@@ -17,8 +19,19 @@ const ManageUserGroup = ({ groupKey, proAccount, groupName }) => {
   };
 
   return (
-    <div>
-      <h2>{capitalize(groupName)}</h2>
+    <div className='w-full'>
+      <div className='bg-nav-bg flex content-center items-center justify-between border-t border-x border-web-gray rounded-t-sm w-full px-4 py-2  border border-web-gray'>
+        <h3 className='py-1'>{capitalize(groupName)}</h3>
+        {groupKey !== 'ownerUsers' && (
+          <>
+            {' '}
+            <button onClick={() => setAddNewUser(true)} className='btn-primary'>
+              Invite new member
+            </button>
+            {addNewUser && <InviteMemberModal setShowModal={setAddNewUser} />}
+          </>
+        )}
+      </div>
       {proAccount[groupKey].nodes.map((member) => (
         <MemberManagementCard key={member.id} member={member} groupKey={groupKey} proAccountId={proAccount.id} />
       ))}

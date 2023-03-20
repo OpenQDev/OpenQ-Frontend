@@ -966,3 +966,33 @@ export const REMOVE_PRO_ACCOUNT_MEMBER = gql`
     }
   }
 `;
+
+export const GET_USERS_PAGE = gql`
+  query GetUsersPage($after: ID, $limit: PaginationInt) {
+    users(limit: $limit, after: $after) {
+      userConnection {
+        nodes {
+          id
+          github
+          username
+          ownerOrganizations {
+            nodes {
+              id
+            }
+          }
+          adminOrganizations {
+            nodes {
+              id
+            }
+          }
+          memberOrganizations {
+            nodes {
+              id
+            }
+          }
+        }
+        cursor
+      }
+    }
+  }
+`;

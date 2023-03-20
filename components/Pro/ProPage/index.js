@@ -1,24 +1,21 @@
-import React, { useState } from 'react';
-import CreateAccount from './CreateAccount';
+import React, { useContext, useState } from 'react';
 import PageHeader from '../../../components/PageHeader';
-import Manager from '../../../components/Manager/index.js';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import CreateAccountModal from './CreateAccountModal';
 import { CalendarIcon, PeopleIcon } from '@primer/octicons-react';
+import ProAccountContext from '../ProAccountContext';
+import { getPlural } from '../../../services/utils/lib';
 
-const ProPage = ({ myProAccountInfo }) => {
+const ProPage = () => {
   const [searchText, setSearchText] = useState('');
   const [showModal, setShowModal] = useState(false);
   const menuState = useState('Dashboard');
-  const { adminOrganizations, ownerOrganizations } = myProAccountInfo;
+  const [proAccountState] = useContext(ProAccountContext);
+  const { adminOrganizations, ownerOrganizations } = proAccountState;
   const proOrgsWithPerms = [
-    ...adminOrganizations.nodes.map((value) => ({ ...value, role: 'ADMIN' })),
-    ...ownerOrganizations.nodes.map((value) => ({ ...value, role: 'OWNER' })),
+    ...adminOrganizations.map((value) => ({ ...value, role: 'ADMIN' })),
+    ...ownerOrganizations.map((value) => ({ ...value, role: 'OWNER' })),
   ];
-  console.log(proOrgsWithPerms);
-  const { query } = useRouter();
-  const internalMenu = menuState[0];
   const titleLine = {
     Title: () => <>Manage Pro Accounts</>,
     SubTitle: () => (
@@ -33,6 +30,7 @@ const ProPage = ({ myProAccountInfo }) => {
   };
   const items = [{ name: 'Dashboard' }];
   const handleSearchInput = (e) => {
+    console.log(e.target.value, 'TARGET');
     setSearchText(e.target.value);
   };
 
@@ -49,46 +47,43 @@ const ProPage = ({ myProAccountInfo }) => {
     );
   };
   return (
-    <div className=' '>
-      <>
-        <PageHeader
-          CTAButton={CreateHackathon}
-          menuState={menuState}
-          titleLine={titleLine}
-          items={items}
-          searchText={searchText}
-          handleSearchInput={handleSearchInput}
-        >
-          {<CreateAccountModal showModal={showModal} setShowModal={setShowModal} />}
-          <div className='grid lg:grid-cols-3 sm:grid-cols-2 gap-4 w-full justify-between justify-items-stretch'>
-            {proOrgsWithPerms?.map((proAccount) => {
-              return (
-                <div className=' w-60' key={proAccount.id}>
-                  <div className='p-4 bg-nav-bg rounded-t-sm border-x border-t border-web-gray'>
-                    <Link
-                      className='text-link-colour font-semibold'
-                      href={`${process.env.NEXT_PUBLIC_BASE_URL}/pro/${proAccount.id}`}
-                    >
-                      {proAccount.name}
-                    </Link>
-                  </div>
-                  <div className='border-x border-b border-web-gray p-4 rounded-b-sm '>
-                    <p className='flex items-center content-center text-sm font-semibold text-muted gap-2'>
-                      <CalendarIcon />
-                      Created on 12.08.2022
-                    </p>
-                    <p className='flex items-center content-center text-sm font-semibold text-muted gap-2'>
-                      <PeopleIcon />
-                      {proAccount.adminUsers?.nodes?.length + proAccount.ownerUsers?.nodes?.length} Managers
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </PageHeader>
-      </>
-    </div>
+    <PageHeader
+      CTAButton={CreateHackathon}
+      menuState={menuState}
+      titleLine={titleLine}
+      items={items}
+      searchText={searchText}
+      handleSearchInput={handleSearchInput}
+    >
+      {<CreateAccountModal showModal={showModal} setShowModal={setShowModal} />}
+      <div className='grid lg:grid-cols-3 sm:grid-cols-2 gap-4 w-full justify-between justify-items-stretch'>
+        {proOrgsWithPerms?.map((proAccount) => {
+          const numberOfManagers = proAccount.adminUsers?.nodes?.length || 1;
+          return (
+            <div className=' w-60' key={proAccount.id}>
+              <div className='p-4 bg-nav-bg rounded-t-sm border-x border-t border-web-gray'>
+                <Link
+                  className='text-link-colour font-semibold'
+                  href={`${process.env.NEXT_PUBLIC_BASE_URL}/pro/${proAccount.id}`}
+                >
+                  {proAccount.name}
+                </Link>
+              </div>
+              <div className='border-x border-b border-web-gray p-4 rounded-b-sm '>
+                <p className='flex items-center content-center text-sm font-semibold text-muted gap-2'>
+                  <CalendarIcon />
+                  Created on 12.08.2022
+                </p>
+                <p className='flex items-center content-center text-sm font-semibold text-muted gap-2'>
+                  <PeopleIcon />
+                  {numberOfManagers} Manager{getPlural(numberOfManagers)}
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </PageHeader>
   );
 };
 export default ProPage;

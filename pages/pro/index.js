@@ -1,12 +1,14 @@
 import React, { useContext, useEffect } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import AuthButton from '../../components/Authentication/AuthButton';
-import ProPage from '../../components/Pro/ProPage/index.js';
+import ProPage from '../../components/Pro/ProPage';
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
+import ProAccountProvider from '../../components/Pro/ProAccountProvider';
 
 const ProAccount = ({ myProAccountInfo }) => {
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
+
   useEffect(() => {
     console.log('myProAccountInfo', myProAccountInfo);
   }, [myProAccountInfo]);
@@ -14,7 +16,9 @@ const ProAccount = ({ myProAccountInfo }) => {
   return (
     <>
       {id ? (
-        <ProPage myProAccountInfo={myProAccountInfo} />
+        <ProAccountProvider myProAccountInfo={myProAccountInfo}>
+          <ProPage />
+        </ProAccountProvider>
       ) : (
         <>
           <h1 className='text-4xl my-8 col-span-3'>Please sign in to create a Pro Account</h1>

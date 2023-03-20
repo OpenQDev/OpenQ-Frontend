@@ -1,23 +1,10 @@
 import React from 'react';
-import SearchBar from '../../components/SearchBar';
 import SubMenu from '../../components/Utils/SubMenu';
+import ButtonAndSearch from '../../components/Utils/ButtonAndSearch';
 
 const PageHeader = ({ children, menuState, titleLine, items, handleSearchInput, searchText, CTAButton }) => {
   const [internalMenu, setInternalMenu] = menuState;
   const { Title, SubTitle } = titleLine;
-
-  const ButtonAndSearch = () => (
-    <>
-      <SearchBar
-        onKeyUp={handleSearchInput}
-        placeholder={'Search Issue...'}
-        searchText={searchText}
-        label={'search text'}
-        styles={'rounded-sm w-full'}
-      />
-      <CTAButton />
-    </>
-  );
 
   return (
     <>
@@ -33,7 +20,7 @@ const PageHeader = ({ children, menuState, titleLine, items, handleSearchInput, 
       <div className='lg:grid lg:grid-cols-extra-wide xl:grid-cols-wide justify-center md:pr-3 mx-4 sm:mx-8'>
         <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
           <div className='flex flex-wrap gap-4 w-full items-center pt-10'>
-            <ButtonAndSearch />
+            <ButtonAndSearch handleSearchInput={handleSearchInput} searchText={searchText} CTAButton={CTAButton} />
           </div>
           {children}
         </div>
