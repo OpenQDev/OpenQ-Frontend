@@ -1,5 +1,4 @@
 const HackathonReducer = (state, action) => {
-  console.log(action);
   switch (action.type) {
     case 'SET_EVENT_ORGANIZER':
       return { ...state, eventOrganizer: action.payload };

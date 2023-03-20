@@ -6,7 +6,6 @@ import TwitterIcon from '../../svg/twitter';
 import { getPlural } from '../../../services/utils/lib';
 import Chain from '../../svg/chain';
 const HackathonCard = ({ repository, githubRepository }) => {
-  console.log(repository);
   const parsedStartDate = new Date(parseInt(repository.startDate));
   const parsedEndDate = new Date(parseInt(repository.endDate));
   const monthsToStart = parsedStartDate.getMonth() - new Date().getMonth();
@@ -31,7 +30,9 @@ const HackathonCard = ({ repository, githubRepository }) => {
             </div>
             <div>
               {repository.isDraft && <button className='btn-default bg-input-bg mx-4'>Preview</button>}
-              <button className='btn-default bg-input-bg mx-4'>Edit</button>
+              <Link href={`/hackathon/${repository.id}/edit`} className='btn-default bg-input-bg mx-4'>
+                Edit
+              </Link>
             </div>
           </div>
           <div className='p-4 border-web-gray border-x '>

@@ -4,7 +4,6 @@ import ManageUserGroup from '../../../components/Pro/ManageUserGroup';
 import SuperchargingHackathons from '../../../components/Pro/SuperchargingHackathons/index.js';
 
 const ProAccount = ({ proAccount }) => {
-  console.log(proAccount);
   return (
     <div>
       <ManageUserGroup groupName={'Owner(s)'} groupKey='ownerUsers' proAccount={proAccount} />
@@ -21,6 +20,7 @@ export default ProAccount;
 
 export const getServerSideProps = async (context) => {
   const openQPrismaClient = new WrappedOpenQPrismaClient();
+  await openQPrismaClient.instance.setGraphqlHeaders(context.req.headers.cookie);
   const { id } = context.query;
   const { proAccount } = await openQPrismaClient.instance.getProAccount(id);
   return {

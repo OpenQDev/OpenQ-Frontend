@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
 import WrappedGithubRepository from '../../../services/github/WrappedGithubClient';
 import HackathonHeading from '../../../components/Hackathon/HackathonHeading';
@@ -6,22 +6,24 @@ import PanelWithMetadata from '../../../components/Layout/PanelWithMetadata';
 import ViewHeading from '../../../components/Hackathon/ViewHeading';
 import ViewBody from '../../../components/Hackathon/ViewBody';
 import HackathonMetadata from '../../../components/Hackathon/HackathonMetadata';
+import ViewHackathonBounties from '../../../components/Hackathon/ViewHackathonBounties/index.js';
 
-const Hackathon = ({ githubRepository, repository }) => {
+const Hackathon = ({ githubRepository, hackathon }) => {
   const internalMenuState = useState('View');
+  const [internalMenu] = internalMenuState;
 
-  useEffect(() => {
-    console.log(githubRepository, repository);
-  });
   return (
     <div className='pt-4'>
-      <HackathonHeading internalMenuState={internalMenuState} repository={repository} />
+      <HackathonHeading internalMenuState={internalMenuState} githubRepository={githubRepository} />
       <div className='flex justify-between  w-full px-2 sm:px-8  max-w-[1200px] pb-4 mx-auto'>
         <ViewHeading />
       </div>
       <PanelWithMetadata>
-        <ViewBody />
-        <HackathonMetadata />
+        {internalMenu === 'View' && <ViewBody githubRepository={githubRepository} hackathon={hackathon} />}
+        {internalMenu === 'Bounties' && (
+          <ViewHackathonBounties githubRepository={githubRepository} hackathon={hackathon} />
+        )}
+        <HackathonMetadata githubRepository={githubRepository} hackathon={hackathon} />
       </PanelWithMetadata>
     </div>
   );
@@ -31,13 +33,11 @@ export default Hackathon;
 export const getServerSideProps = async (context) => {
   const repositoryId = context.query.id;
   const openQPrismaClient = new WrappedOpenQPrismaClient();
-  const repository = await openQPrismaClient.instance.getRepositoryById(repositoryId);
+  const hackathon = await openQPrismaClient.instance.getRepositoryById(repositoryId);
   const githubClient = new WrappedGithubRepository();
-  console.log(githubClient);
-  const githubRepository = null; //await githubClient.instance.fetchRepoById(repositoryId);
-  console.log(repositoryId, repository, githubRepository);
+  const githubRepository = await githubClient.instance.fetchRepoById(repositoryId);
   return {
-    props: { githubRepository, repository },
+    props: { githubRepository, hackathon },
   };
 };
 314074269;

@@ -1,15 +1,93 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CreateAccount from './CreateAccount';
+import PageHeader from '../../../components/PageHeader';
+import Manager from '../../../components/Manager/index.js';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import CreateAccountModal from './CreateAccountModal';
+import { CalendarIcon, PeopleIcon } from '@primer/octicons-react';
 
-const ProPage = () => {
+const ProPage = ({ myProAccountInfo }) => {
+  const [searchText, setSearchText] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const menuState = useState('Dashboard');
+  const { adminOrganizations, ownerOrganizations } = myProAccountInfo;
+  const proOrgsWithPerms = [
+    ...adminOrganizations.nodes.map((value) => ({ ...value, role: 'ADMIN' })),
+    ...ownerOrganizations.nodes.map((value) => ({ ...value, role: 'OWNER' })),
+  ];
+  console.log(proOrgsWithPerms);
+  const { query } = useRouter();
+  const internalMenu = menuState[0];
+  const titleLine = {
+    Title: () => <>Manage Pro Accounts</>,
+    SubTitle: () => (
+      <>
+        Learn more about our pro accounts{' '}
+        <Link className='hover:underline text-link-colour' href={'https://openq.dev'}>
+          here
+        </Link>
+        .
+      </>
+    ),
+  };
+  const items = [{ name: 'Dashboard' }];
+  const handleSearchInput = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  const CreateHackathon = ({ styles }) => {
+    return (
+      <>
+        <button
+          onClick={() => setShowModal(true)}
+          className={`lg:col-start-4 col-span-4 lg:col-span-1 whitespace-nowrap btn-primary flex flex-row space-x-3 items-center justify-center leading-tight h-min sm:w-min px-3 ${styles}`}
+        >
+          <div>Create Pro Account</div>
+        </button>
+      </>
+    );
+  };
   return (
-    <div className=' grid grid-cols-3 justify-center'>
-      <h1 className='text-2xl my-8 col-span-3'>
-        Create a (free) pro account with us to sign up for are premium services.
-      </h1>
-      <CreateAccount />
-      <div></div>
-      <div></div>
+    <div className=' '>
+      <>
+        <PageHeader
+          CTAButton={CreateHackathon}
+          menuState={menuState}
+          titleLine={titleLine}
+          items={items}
+          searchText={searchText}
+          handleSearchInput={handleSearchInput}
+        >
+          {<CreateAccountModal showModal={showModal} setShowModal={setShowModal} />}
+          <div className='grid lg:grid-cols-3 sm:grid-cols-2 gap-4 w-full justify-between justify-items-stretch'>
+            {proOrgsWithPerms?.map((proAccount) => {
+              return (
+                <div className=' w-60' key={proAccount.id}>
+                  <div className='p-4 bg-nav-bg rounded-t-sm border-x border-t border-web-gray'>
+                    <Link
+                      className='text-link-colour font-semibold'
+                      href={`${process.env.NEXT_PUBLIC_BASE_URL}/pro/${proAccount.id}`}
+                    >
+                      {proAccount.name}
+                    </Link>
+                  </div>
+                  <div className='border-x border-b border-web-gray p-4 rounded-b-sm '>
+                    <p className='flex items-center content-center text-sm font-semibold text-muted gap-2'>
+                      <CalendarIcon />
+                      Created on 12.08.2022
+                    </p>
+                    <p className='flex items-center content-center text-sm font-semibold text-muted gap-2'>
+                      <PeopleIcon />
+                      {proAccount.adminUsers?.nodes?.length + proAccount.ownerUsers?.nodes?.length} Managers
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </PageHeader>
+      </>
     </div>
   );
 };

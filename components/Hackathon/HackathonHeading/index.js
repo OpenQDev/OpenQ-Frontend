@@ -2,16 +2,23 @@ import React from 'react';
 import SubMenu from '../../Utils/SubMenu';
 import RepoTitle from '../../Bounty/RepoTitle';
 import Telescope from '../../svg/telescope';
-const HackathonHeading = ({ internalMenuState }) => {
+import { GitBranchIcon } from '@primer/octicons-react';
+const HackathonHeading = ({ internalMenuState, githubRepository }) => {
   const [internalMenu, setInternalMenu] = internalMenuState;
-  const githubRepository = { name: 'Name', owner: 'Owner' };
+  const repoInfo = { name: githubRepository.name, owner: githubRepository.owner.login };
   return (
     <>
       {' '}
-      <RepoTitle repo={githubRepository} />
+      <RepoTitle repo={repoInfo} />
       <SubMenu
         colour='rust'
-        items={[{ name: 'View', Svg: Telescope }]}
+        items={[
+          { name: 'View', Svg: Telescope },
+          {
+            name: 'Bounties',
+            Svg: GitBranchIcon,
+          },
+        ]}
         internalMenu={internalMenu}
         updatePage={setInternalMenu}
       />

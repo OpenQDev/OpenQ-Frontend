@@ -40,9 +40,11 @@ import {
   ADD_PRO_ACCOUNT_MEMBER,
   REMOVE_PRO_ACCOUNT_MEMBER,
   REMOVE_PRO_ACCOUNT_ADMIN,
+  GET_PRO_ACCOUNT_INFO_CURRENT,
 } from './graphql/query';
-import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
+
+import { setContext } from '@apollo/client/link/context';
 
 class OpenQPrismaClient {
   constructor() {}
@@ -55,6 +57,20 @@ class OpenQPrismaClient {
     link: this.httpLink,
     cache: new InMemoryCache(),
   });
+
+  setGraphqlHeaders = (cookie) => {
+    let authLink;
+    authLink = setContext(() => {
+      console.log('headers', cookie);
+      return {
+        headers: {
+          cookie,
+        },
+      };
+    });
+
+    this.client.setLink(authLink.concat(this.httpLink));
+  };
 
   async watchBounty(contractAddress, idObj) {
     const promise = new Promise(async (resolve, reject) => {
@@ -134,7 +150,6 @@ class OpenQPrismaClient {
   }
 
   removeProAccountRole = async (variables, role) => {
-    console.log(role);
     if (role === 'adminUsers') {
       const promise = new Promise(async (resolve, reject) => {
         try {
@@ -321,7 +336,6 @@ class OpenQPrismaClient {
   }
 
   updateUser(variables) {
-    console.log(variables);
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
@@ -409,24 +423,11 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async getUser(idObject, types, category) {
+  async getUser(types, category) {
     const promise = new Promise(async (resolve, reject) => {
       const variables = {
         types,
       };
-
-      if (idObject.id) {
-        variables.id = idObject.id;
-      }
-
-      if (idObject.github) {
-        variables.github = idObject.github;
-      }
-
-      if (idObject.email) {
-        variables.email = idObject.email;
-      }
-
       if (category) {
         variables.category = category;
       }
@@ -434,17 +435,34 @@ class OpenQPrismaClient {
         const result = await this.client.query({
           query: GET_PRIVATE_USER,
           variables,
-
           fetchPolicy: 'no-cache',
           errorPolicy: 'ignore',
         });
-        resolve(result.data.user);
+        resolve(result.data.currentUser);
       } catch (e) {
         reject(e);
       }
     });
     return promise;
   }
+
+  getProAccountInfoOfCurrent(cookie) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_PRO_ACCOUNT_INFO_CURRENT,
+          fetchPolicy: 'no-cache',
+          errorPolicy: 'ignore',
+        });
+        console.log('result', result.data, cookie);
+        resolve(result.data.currentUser);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
   getUserRequests(idObject, paginationVars) {
     const promise = new Promise(async (resolve, reject) => {
       const variables = {
@@ -627,7 +645,6 @@ class OpenQPrismaClient {
   }
 
   getRepositories(variables) {
-    console.log(variables);
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({

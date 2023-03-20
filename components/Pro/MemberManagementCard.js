@@ -4,13 +4,8 @@ import { useContext } from 'react';
 
 const MemberManagementCard = ({ member, groupKey, proAccountId }) => {
   const [appState] = useContext(StoreContext);
-  console.log(groupKey);
   const removeMember = async () => {
-    const result = await appState.openQPrismaClient.removeProAccountRole(
-      { targetUserId: member.id, proAccountId },
-      groupKey
-    );
-    console.log(result);
+    await appState.openQPrismaClient.removeProAccountRole({ targetUserId: member.id, proAccountId }, groupKey);
   };
   return (
     <div className='w-80 h-40 bg-green flex flex-col justify-between'>

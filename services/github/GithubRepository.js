@@ -438,12 +438,11 @@ class GithubRepository {
     return promise;
   }
   async fetchRepoById(id) {
-    const variables = { id: [id] };
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
           query: GET_REPO_BY_ID,
-          variables,
+          variables: { id },
         });
         resolve(result.data.node);
       } catch (e) {

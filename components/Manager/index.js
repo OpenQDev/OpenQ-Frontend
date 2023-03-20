@@ -30,7 +30,6 @@ const Manager = () => {
   }, [repositories]);
   return (
     <>
-      {' '}
       {repositories?.map((repository, index) => {
         return (
           <HackathonCard githubRepository={githubRepositories[repository.id]} repository={repository} key={index} />

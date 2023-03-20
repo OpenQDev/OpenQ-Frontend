@@ -80,7 +80,7 @@ const LoginPageEmailLogin = () => {
       });
       if (res.status === 200) {
         // Set the UserContext to the now logged in user
-        const fullApiUser = await appState.openQPrismaClient.getUser({ email });
+        const fullApiUser = await appState.openQPrismaClient.getUser();
         const isNewUser = !fullApiUser;
         if (isNewUser) {
           const newUserDispatch = {

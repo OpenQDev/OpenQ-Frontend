@@ -6,56 +6,68 @@ import Telegram from '../../svg/telegram';
 import Slack from '../../svg/slack';
 import Link from 'next/link';
 
-const HackathonMetadata = () => {
-  const repository = {
-    slack: 'https://slack.com',
-    telegram: 'https://telegram.com',
-    twitter: 'https://twitter.com',
-    discord: 'https://discord.com',
-    topic: ['web3', 'social good'],
-  };
-  const { slack, telegram, twitter, discord, topic } = repository;
+const HackathonMetadata = ({ hackathon }) => {
+  const { slack, telegram, twitter, discord, topic, startDate, endDate } = hackathon;
+  const hasOneSocial = slack || telegram || twitter || discord;
+  const monthDayDateFromStartDate = new Date(parseInt(startDate)).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+  });
+  const monthDayDateFromEndDate = new Date(parseInt(endDate)).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+  });
+  const endDateYear = new Date(parseInt(endDate)).getFullYear();
+  const nowTillStartDateTimestamp = parseInt(startDate) - Date.now();
+  const days = Math.floor(nowTillStartDateTimestamp / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((nowTillStartDateTimestamp % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((nowTillStartDateTimestamp % (1000 * 60 * 60)) / (1000 * 60));
+  const formattedWaitTime = `${days}d:${hours}h:${minutes}m`;
   return (
     <ul className='lg:max-w-[300px] space-y-4  w-full lg:pl-4 p-8  lg:px-0 lg:pt-4'>
       <li>
         <div className='text-muted'>Event Location</div>
         <div className='flex gap-1 text-xs my-1.5  font-semibold'>
-          <LocationIcon className='relative top-1' />
-          N- Line to 48th and Western Standard, Denver, Colorado
+          <LocationIcon className='relative self-start' />
+          {hackathon.city}
         </div>
       </li>
-      <li className='py-1.5 border-t border-web-gray'>
-        <div className='text-muted'>Socials</div>
-        <div className='pl-6 my-1.5 flex gap-2'>
-          {discord && (
-            <Link href={discord}>
-              <Discord />
-            </Link>
-          )}
-          {twitter && (
-            <Link href={twitter}>
-              <Twitter />
-            </Link>
-          )}
-          {slack && (
-            <Link href={slack}>
-              <Slack />
-            </Link>
-          )}
-          {telegram && (
-            <Link href={telegram}>
-              <Telegram />
-            </Link>
-          )}
-        </div>
-      </li>
+      {hasOneSocial && (
+        <li className='py-1.5 border-t border-web-gray'>
+          <div className='text-muted'>Socials</div>
+          <div className='pl-6 my-1.5 flex gap-2'>
+            {discord && (
+              <Link href={discord}>
+                <Discord />
+              </Link>
+            )}
+            {twitter && (
+              <Link href={twitter}>
+                <Twitter />
+              </Link>
+            )}
+            {slack && (
+              <Link href={slack}>
+                <Slack />
+              </Link>
+            )}
+            {telegram && (
+              <Link href={telegram}>
+                <Telegram />
+              </Link>
+            )}
+          </div>
+        </li>
+      )}
       <li className='py-1.5 border-t border-web-gray'>
         <div className='text-muted'>Runs From</div>
-        <div className='pl-6 my-1.5 flex gap-2'>Dec 2 - 4, 2022</div>
+        <div className='pl-6 my-1.5 flex gap-2'>
+          {monthDayDateFromStartDate} - {monthDayDateFromEndDate}, {endDateYear}
+        </div>
       </li>
       <li className='py-1.5 border-t border-web-gray'>
         <div className='text-muted'>Hackathon Starts in</div>
-        <div className='pl-6 my-1.5 flex gap-2'>8d:15h:23m</div>
+        <div className='pl-6 my-1.5 flex gap-2'>{formattedWaitTime}</div>
       </li>
       <li className='py-1.5 border-t border-web-gray'>
         <div className='text-muted'>Topics</div>

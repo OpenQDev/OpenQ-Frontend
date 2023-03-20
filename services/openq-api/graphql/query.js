@@ -166,27 +166,9 @@ export const GET_REQUESTS = gql`
   }
 `;
 
-export const GET_PRIVATE_REQUEST = gql`
-  query ($id: String!) {
-    request(id: $id) {
-      id
-      message
-    }
-  }
-`;
-
-export const UPDATE_REQUEST = gql`
-  mutation updateRequest($requestId: String!, $message: String!, $userId: String!) {
-    updateRequest(requestId: $requestId, message: $message, userId: $userId) {
-      id
-      message
-    }
-  }
-`;
-
-export const GET_PRIVATE_USER = gql`
-  query ($id: String, $github: String, $email: String, $types: [String], $category: String) {
-    user(id: $id, github: $github, email: $email) {
+export const GET_PRO_ACCOUNT_INFO_CURRENT = gql`
+  query ($types: [String], $category: String) {
+    currentUser {
       id
       watchedBountyIds
       github
@@ -214,6 +196,142 @@ export const GET_PRIVATE_USER = gql`
         nodes {
           name
           id
+          adminUsers(limit: 10) {
+            nodes {
+              id
+              username
+            }
+          }
+          ownerUsers(limit: 10) {
+            nodes {
+              id
+              username
+            }
+          }
+
+          repositories(limit: 100) {
+            nodes {
+              id
+            }
+          }
+        }
+      }
+      ownerOrganizations {
+        nodes {
+          name
+          id
+          adminUsers(limit: 10) {
+            nodes {
+              id
+              username
+            }
+          }
+          ownerUsers(limit: 10) {
+            nodes {
+              id
+              username
+            }
+          }
+        }
+      }
+      memberOrganizations {
+        nodes {
+          name
+          id
+        }
+      }
+      watchedBounties(limit: 100, types: $types, category: $category) {
+        nodes {
+          tvl
+          tvc
+          address
+          bountyId
+          watchingCount
+        }
+      }
+      createdBounties(limit: 100) {
+        nodes {
+          address
+          bountyId
+          requests(limit: 100) {
+            nodes {
+              id
+              requestingUser {
+                id
+                username
+                discord
+                github
+              }
+            }
+          }
+        }
+      }
+      starredOrganizationIds
+    }
+  }
+`;
+
+export const GET_PRIVATE_REQUEST = gql`
+  query ($id: String!) {
+    request(id: $id) {
+      id
+      message
+    }
+  }
+`;
+
+export const UPDATE_REQUEST = gql`
+  mutation updateRequest($requestId: String!, $message: String!, $userId: String!) {
+    updateRequest(requestId: $requestId, message: $message, userId: $userId) {
+      id
+      message
+    }
+  }
+`;
+
+export const GET_PRIVATE_USER = gql`
+  query ($types: [String], $category: String) {
+    currentUser {
+      id
+      watchedBountyIds
+      github
+      email
+      company
+      username
+      city
+      streetAddress
+      country
+      province
+      discord
+      github
+      twitter
+
+      postalCode
+      billingName
+      invoiceNumber
+      invoicingEmail
+      phoneNumber
+      taxId
+      vatNumber
+      vatRate
+      memo
+      adminOrganizations {
+        nodes {
+          name
+          id
+          createdAt
+          adminUsers(limit: 100) {
+            nodes {
+              id
+              username
+            }
+          }
+          ownerUsers(limit: 100) {
+            nodes {
+              id
+              username
+            }
+          }
         }
       }
       ownerOrganizations {
@@ -394,6 +512,7 @@ export const GET_REPOSITORY_BY_ID = gql`
       website
       contactEmail
       twitter
+      createdAsHackathonDate
       discord
       telegram
       slack

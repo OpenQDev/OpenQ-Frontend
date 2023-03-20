@@ -40,12 +40,10 @@ const HackathonDefinition = () => {
           placeholder={'https://github.com/...'}
           value={repositoryUrl}
         />
-        <div className='note mt-2 mb-8'>
+        <div className='note mt-2 '>
           Connect your Hackathon with your Github repositroy to manage submissions. Your README.md will display basic
           information about the hackathon on our site.
         </div>
-      </div>
-      <div className='my-2'>
         <label className='font-semibold text-lg block my-2' htmlFor={'event-organizer'}>
           Event organizer
         </label>
@@ -70,7 +68,7 @@ const HackathonDefinition = () => {
           onChange={(e) => handleDispatch(e, 'SET_NAME', hackathonDispatch)}
         />
       </div>
-      <div className='my-2'>
+      <div className='my-2 mb-4'>
         <label className='font-semibold text-lg block my-2' htmlFor={'name'}>
           Hackathon Description
         </label>

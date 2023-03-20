@@ -577,12 +577,20 @@ export const GET_REPOS_BY_IDS = gql`
   }
 `;
 export const GET_REPO_BY_ID = gql`
-  query getRepository($id: [ID!]!) {
-    nodes(ids: $id) {
+  query getRepository($id: ID!) {
+    node(id: $id) {
       ... on Repository {
-        object(expression: "main:README.md") {
-          ... on Blob {
-            text
+        defaultBranchRef {
+          target {
+            ... on Commit {
+              file(path: "README.md") {
+                object {
+                  ... on Blob {
+                    text
+                  }
+                }
+              }
+            }
           }
         }
         id
@@ -590,6 +598,7 @@ export const GET_REPO_BY_ID = gql`
         descriptionHTML
         description
         owner {
+          url
           avatarUrl
           login
         }

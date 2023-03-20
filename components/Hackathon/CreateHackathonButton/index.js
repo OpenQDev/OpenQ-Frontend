@@ -86,7 +86,7 @@ const CreateHackathonButton = () => {
 
   return (
     <div className='flex my-8 gap-4'>
-      <button onClick={handleCreate} className='btn-primary flex'>
+      <button onClick={handleCreate} className='btn-primary flex gap-2 '>
         {responseMap[createHackathonResponse].text}
         <Loader />
       </button>
