@@ -11,6 +11,7 @@ import TotalValue from '../../Bounty/TotalValue';
 import LabelsList from '../../Bounty/LabelsList';
 import ModalLarge from '../../Utils/ModalLarge';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
+import GithubHtmlRenderer from '../../Utils/HtmlReneder';
 
 const BountyCardDetailsModal = ({ bounty, closeModal, showModal, watchingState, setStatefulWatched }) => {
   const modal = useRef();
@@ -152,7 +153,7 @@ const BountyCardDetailsModal = ({ bounty, closeModal, showModal, watchingState, 
             <div className='flex text-lg text-muted px-8 pb-4'>
               <div className='flex flex-col w-full mt-2 p-4 border-web-gray border rounded-sm bg-dark-mode gap-2'>
                 Issue content:
-                <section className='markdown-body' dangerouslySetInnerHTML={{ __html: bounty.bodyHTML }}></section>
+                <GithubHtmlRenderer className={'markdown-body'} html={bounty.bodyHTML} />
               </div>
             </div>
           )}

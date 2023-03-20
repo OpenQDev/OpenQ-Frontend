@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
-import Papa from 'papaparse';
 import { ethers } from 'ethers';
+import Papa from 'papaparse';
 import StoreContext from '../store/Store/StoreContext';
 import _ from 'lodash';
 import mintBountyTemplate from '../constants/mintBountyTemplate.json';
@@ -9,6 +9,7 @@ import md4 from 'js-md4';
 import Link from 'next/link';
 import Image from 'next/image';
 import BountyCardLean from '../components/BountyCard/BountyCardLean';
+import { convertCsvToJson, convertPayoutScheduleToBigInt, abiEncodeTieredFixed } from '../lib/batchUtils';
 
 function Batch() {
   const [mintBountyBatchData, setMintBountyBatchData] = useState(null);
@@ -16,6 +17,9 @@ function Batch() {
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
   const [file, setFile] = useState(null);
+
+  let abiCoder = new ethers.utils.AbiCoder();
+  const initializationSchema = ['uint256[]', 'address', 'bool', 'bool', 'bool', 'string', 'string', 'string'];
 
   const handleCopyToClipboard = () => {
     navigator.clipboard.writeText(JSON.stringify(mintBountyBatchData));
@@ -36,8 +40,23 @@ function Batch() {
     document.body.removeChild(element);
   };
 
-  let abiCoder = new ethers.utils.AbiCoder();
-  const initializationSchema = ['uint256[]', 'address', 'bool', 'bool', 'bool', 'string', 'string', 'string'];
+  const loadGithubData = async (githubIssueUrl, githubSponsorUrl) => {
+    const resource = await appState.githubRepository.fetchIssueByUrl(githubIssueUrl);
+    const githubSponsorResource = await appState.githubRepository.getOrgByUrl(githubSponsorUrl);
+
+    const bountyId = resource.id;
+    const organizationId = resource.repository.owner.id;
+
+    const sponsorOrganizationName = githubSponsorResource.login;
+    const sponsorOrganizationLogo = githubSponsorResource.avatarUrl;
+
+    return {
+      bountyId,
+      organizationId,
+      sponsorOrganizationName,
+      sponsorOrganizationLogo,
+    };
+  };
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -48,15 +67,7 @@ function Batch() {
       const csvData = Papa.parse(event.target.result).data;
 
       // Convert CSV data to JSON
-      const headers = csvData[0];
-      const rows = csvData.slice(1);
-      const jsonData = rows.map((row) => {
-        const jsonObject = {};
-        row.forEach((cell, index) => {
-          jsonObject[headers[index]] = cell;
-        });
-        return jsonObject;
-      });
+      const jsonData = convertCsvToJson(csvData);
 
       // Populate the transaction template
       const transactions = [];
@@ -71,33 +82,17 @@ function Batch() {
           kycRequired,
           supportingDocumentsRequired,
         } = transactionData;
+
         try {
-          const payoutScheduleParsed = payoutSchedule && JSON.parse(payoutSchedule);
+          const { decimals } = await appState.tokenClient.getToken(ethers.utils.getAddress(payoutTokenAddress));
 
-          const token = await appState.tokenClient.getToken(payoutTokenAddress);
-          let decimals = parseInt(token.decimals) || 18;
-
-          const newPayoutSchedule = payoutScheduleParsed.map((tierVolume) => {
-            let formattedVolume = tierVolume * 10 ** decimals;
-            return ethers.BigNumber.from(formattedVolume.toLocaleString('fullwide', { useGrouping: false }));
-          });
+          const newPayoutSchedule = convertPayoutScheduleToBigInt(payoutSchedule, decimals);
 
           // Fetch Github Issue ID and Organization ID
-          const resource = await appState.githubRepository.fetchIssueByUrl(githubIssueUrl);
-          const githubSponsorResource = await appState.githubRepository.getOrgByUrl(githubSponsorUrl);
-
-          const bountyId = resource.id;
-          const organizationId = resource.repository.owner.id;
-
-          const sponsorOrganizationName = githubSponsorResource.login;
-          const sponsorOrganizationLogo = githubSponsorResource.avatarUrl;
-
-          // Overwrite contractInputsValues on mintBountyTransactionTemplate
-          const mintBountyTransactionTemplateCopy = _.cloneDeep(mintBountyTransactionTemplate);
-
-          mintBountyTransactionTemplateCopy.contractInputsValues._bountyId = bountyId;
-          mintBountyTransactionTemplateCopy.contractInputsValues._organization = organizationId;
-          mintBountyTransactionTemplateCopy.to = process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS;
+          const { bountyId, organizationId, sponsorOrganizationName, sponsorOrganizationLogo } = await loadGithubData(
+            githubIssueUrl,
+            githubSponsorUrl
+          );
 
           const initializationData = [
             newPayoutSchedule,
@@ -110,9 +105,14 @@ function Batch() {
             sponsorOrganizationLogo,
           ];
 
-          const tieredFixedEncoded = abiCoder.encode(initializationSchema, initializationData);
-          let tieredFixed = [3, `\"${tieredFixedEncoded}\"`];
+          let tieredFixed = abiEncodeTieredFixed(initializationData);
 
+          // Overwrite contractInputsValues on mintBountyTransactionTemplate
+          const mintBountyTransactionTemplateCopy = _.cloneDeep(mintBountyTransactionTemplate);
+
+          mintBountyTransactionTemplateCopy.contractInputsValues._bountyId = bountyId;
+          mintBountyTransactionTemplateCopy.contractInputsValues._organization = organizationId;
+          mintBountyTransactionTemplateCopy.to = process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS;
           mintBountyTransactionTemplateCopy.contractInputsValues._initOperation = `[${tieredFixed}]`;
 
           transactions.push(mintBountyTransactionTemplateCopy);
@@ -138,6 +138,7 @@ function Batch() {
 
     const [payoutSchedule, payoutTokenAddress, , , , , sponsorOrganizationName, sponsorOrganizationLogo] =
       abiCoder.decode(initializationSchema, initializationOp);
+
     return {
       ...githubData,
       payoutSchedule,
@@ -146,6 +147,7 @@ function Batch() {
       alternativeName: sponsorOrganizationName,
     };
   };
+
   useEffect(() => {
     const getBountyData = async () => {
       if (mintBountyBatchData) {
