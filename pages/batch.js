@@ -84,8 +84,7 @@ function Batch() {
         } = transactionData;
 
         try {
-          const { decimals } = await appState.tokenClient.getToken(payoutTokenAddress);
-					console.log('decimals', decimals)
+          const { decimals } = await appState.tokenClient.getToken(ethers.utils.getAddress(payoutTokenAddress));
 
           const newPayoutSchedule = convertPayoutScheduleToBigInt(payoutSchedule, decimals);
 
@@ -124,7 +123,6 @@ function Batch() {
 
       const mintBountyTemplateCopy = _.cloneDeep(mintBountyTemplate);
       mintBountyTemplateCopy.transactions = transactions;
-      console.log(transactions);
 
       setMintBountyBatchData(mintBountyTemplateCopy);
     };
