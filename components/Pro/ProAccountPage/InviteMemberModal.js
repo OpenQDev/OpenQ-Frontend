@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
-import ModalLarge from '../Utils/ModalLarge';
-import PaginatedList from '../Utils/PaginatedList';
-import StoreContext from '../../store/Store/StoreContext';
+import ModalLarge from '../../Utils/ModalLarge';
+import PaginatedList from '../../Utils/PaginatedList';
+import StoreContext from '../../../store/Store/StoreContext';
 import ListedUser from './ListedUser';
 
 const InviteMemberModal = ({ setShowModal }) => {

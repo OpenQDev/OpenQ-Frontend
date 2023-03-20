@@ -3,7 +3,7 @@ import PageHeader from '../../../components/PageHeader';
 import Link from 'next/link';
 import CreateAccountModal from './CreateAccountModal';
 import { CalendarIcon, PeopleIcon } from '@primer/octicons-react';
-import ProAccountContext from '../ProAccountContext';
+import ProAccountContext from './ProPageContext';
 import { getPlural } from '../../../services/utils/lib';
 
 const ProPage = () => {

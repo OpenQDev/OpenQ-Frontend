@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
-import ProAccountReducer from './ProAccountReducer';
-import ProAccountContext from './ProAccountContext.js';
-import InitialState from './InitialProAccountState';
+import ProAccountReducer from './ProPageReducer';
+import ProAccountContext from './ProPageContext.js';
+import InitialState from './InitialProPageState';
 
 const ProAccountProvider = ({ children, myProAccountInfo }) => {
   const { adminOrganizations } = myProAccountInfo;

@@ -3,7 +3,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import AuthButton from '../../components/Authentication/AuthButton';
 import ProPage from '../../components/Pro/ProPage';
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
-import ProAccountProvider from '../../components/Pro/ProAccountProvider';
+import ProAccountProvider from '../../components/Pro/ProPage/ProPageProvider';
 
 const ProAccount = ({ myProAccountInfo }) => {
   const [appState] = useContext(StoreContext);

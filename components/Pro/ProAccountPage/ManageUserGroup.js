@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import MemberManagementCard from './MemberManagementCard';
-import { capitalize } from '../../services/utils/lib';
-import StoreContext from '../../store/Store/StoreContext';
+import { capitalize } from '../../../services/utils/lib';
+import StoreContext from '../../../store/Store/StoreContext';
 import InviteMemberModal from './InviteMemberModal.js';
 
 const ManageUserGroup = ({ groupKey, proAccount, groupName }) => {

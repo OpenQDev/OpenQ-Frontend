@@ -807,6 +807,7 @@ export const CREATE_PRO_ACCOUNT = gql`
   mutation CreateProAccount($name: String!) {
     createProAccount(name: $name) {
       id
+      name
     }
   }
 `;

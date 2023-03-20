@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import StoreContext from '../../store/Store/StoreContext';
+import StoreContext from '../../../store/Store/StoreContext';
 import { useContext, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';

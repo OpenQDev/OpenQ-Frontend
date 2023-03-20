@@ -1,15 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react';
-import StoreContext from '../../store/Store/StoreContext';
+import StoreContext from '../../../store/Store/StoreContext';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import DropDown from '../Utils/Dropdown';
+import DropDown from '../../Utils/Dropdown';
 
 const ListedUser = ({ item }) => {
   const [appState] = useContext(StoreContext);
-  const names = ['admin', 'owner', 'member'];
-  const toggleFunc = () => {
-    console.log('toggle');
+  const names = ['admin'];
+
+  const toggleFunc = (toggle) => {
+    setToggleVal(toggle);
   };
   const router = useRouter();
   const { id } = router.query;
@@ -19,13 +20,15 @@ const ListedUser = ({ item }) => {
       return 'admin';
     }
     if (item.ownerOrganizations.nodes.some((node) => node.id === id)) {
-      return 'owner';
+      return 'admin';
     }
     if (item.memberOrganizations.nodes.some((node) => node.id === id)) {
       return 'member';
     }
   };
   const role = getRole();
+
+  const [toggleVal, setToggleVal] = useState('Select Role');
   const [githubAccount, setGithubAcount] = useState(null);
   useEffect(() => {
     const updateGithubUser = async () => {
@@ -47,7 +50,20 @@ const ListedUser = ({ item }) => {
               </Link>
             </div>
           </div>
-          <DropDown toggleFunc={toggleFunc} dropdownWidth={'w-40'} toggleVal={role} names={names} role={role} />
+          {role === 'owner' ? (
+            <div>Owner</div>
+          ) : (
+            <button className='btn-default px-0 py-0 h-min w-40'>
+              <DropDown
+                styles={'w-full flex justify-end'}
+                toggleFunc={toggleFunc}
+                dropdownWidth={' w-60'}
+                toggleVal={toggleVal}
+                names={names}
+                role={role}
+              />
+            </button>
+          )}
         </>
       )}
     </div>

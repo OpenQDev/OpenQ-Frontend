@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient.js';
-import ManageUserGroup from '../../../components/Pro/ManageUserGroup';
+import ManageUserGroup from '../../../components/Pro/ProAccountPage/ManageUserGroup';
 import SuperchargingHackathons from '../../../components/Pro/SuperchargingHackathons/index.js';
 import PanelWithMetadata from '../../../components/Layout/PanelWithMetadata.js';
+import ProAccountProvider from '../../../components/Pro//ProAccountPage/ProProvider';
 
 const ProAccount = ({ proAccount }) => {
   useEffect(() => {
@@ -10,7 +11,7 @@ const ProAccount = ({ proAccount }) => {
   }, [proAccount]);
 
   return (
-    <div>
+    <ProAccountProvider>
       <PanelWithMetadata>
         <div className='w-full pt-4 flex flex-col gap-y-4 relative flex-1 pr-16 min-w-[260px]'>
           <h2 className='text-4xl'>{proAccount.name}</h2>
@@ -27,7 +28,7 @@ const ProAccount = ({ proAccount }) => {
           <li>This that and the other</li>
         </ul>
       </PanelWithMetadata>
-    </div>
+    </ProAccountProvider>
   );
 };
 export default ProAccount;
