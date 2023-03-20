@@ -39,6 +39,19 @@ function Batch() {
   let abiCoder = new ethers.utils.AbiCoder();
   const initializationSchema = ['uint256[]', 'address', 'bool', 'bool', 'bool', 'string', 'string', 'string'];
 
+  const convertCsvToJson = (csvData) => {
+    const headers = csvData[0];
+    const rows = csvData.slice(1);
+    const jsonData = rows.map((row) => {
+      const jsonObject = {};
+      row.forEach((cell, index) => {
+        jsonObject[headers[index]] = cell;
+      });
+      return jsonObject;
+    });
+    return jsonData;
+  };
+
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     setFile(file);
@@ -48,18 +61,12 @@ function Batch() {
       const csvData = Papa.parse(event.target.result).data;
 
       // Convert CSV data to JSON
-      const headers = csvData[0];
-      const rows = csvData.slice(1);
-      const jsonData = rows.map((row) => {
-        const jsonObject = {};
-        row.forEach((cell, index) => {
-          jsonObject[headers[index]] = cell;
-        });
-        return jsonObject;
-      });
+      const jsonData = convertCsvToJson(csvData);
 
       // Populate the transaction template
       const transactions = [];
+
+      console.log('jsonData', jsonData);
 
       for (const transactionData of jsonData) {
         const {
@@ -71,6 +78,7 @@ function Batch() {
           kycRequired,
           supportingDocumentsRequired,
         } = transactionData;
+
         try {
           const payoutScheduleParsed = payoutSchedule && JSON.parse(payoutSchedule);
 
@@ -146,6 +154,7 @@ function Batch() {
       alternativeName: sponsorOrganizationName,
     };
   };
+
   useEffect(() => {
     const getBountyData = async () => {
       if (mintBountyBatchData) {
