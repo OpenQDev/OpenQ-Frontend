@@ -210,7 +210,7 @@ exports[`Footer should match DOM Snapshot 1`] = `
         <div
           className="flex pb-2 lg:text-right"
         >
-          ❤️ in USA, Germany, Canada, Austria, Netherlands & Spain.
+          ❤️ in Germany, Austria, Netherlands, Spain and many more
         </div>
       </div>
     </div>
