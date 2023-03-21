@@ -54,7 +54,7 @@ function OpenQ({ Component, pageProps }) {
   }, []);
   const router = useRouter();
   return (
-    <div className='bg-dark-mode font-segoe text-primary'>
+    <>
       {/* Global Site Tag (gtag.js) - Google Analytics */}
 
       <Head>
@@ -88,7 +88,7 @@ function OpenQ({ Component, pageProps }) {
         }
     });`}
       </Script>
-      <>
+      <div className='bg-dark-mode font-segoe text-primary'>
         <UserContext.Provider value={[user, setUser]}>
           <AuthProvider>
             <Web3ReactProvider connectors={connectors}>
@@ -111,8 +111,8 @@ function OpenQ({ Component, pageProps }) {
             </Web3ReactProvider>
           </AuthProvider>
         </UserContext.Provider>
-      </>
-    </div>
+      </div>
+    </>
   );
 }
 
