@@ -14,7 +14,6 @@ const MemberManagementCard = ({ member, groupKey, proAccountId }) => {
     };
     fetchGithubAccount();
   }, [member.github]);
-  console.log(githubAccount);
   const removeMember = async () => {
     await appState.openQPrismaClient.removeProAccountRole({ targetUserId: member.id, proAccountId }, groupKey);
   };
@@ -23,7 +22,7 @@ const MemberManagementCard = ({ member, groupKey, proAccountId }) => {
       {githubAccount && (
         <>
           <Image className='rounded-full' width={48} height={48} src={githubAccount.avatarUrl} />
-          <div className='flex flex-col justify-center'>
+          <div className='flex flex-col justify-center flex-1'>
             <div className='leading-tight'> {member.username}</div>
             <div className='leading-tight'>
               <Link className='text-link-colour hover:underline' href={githubAccount.url}>
@@ -32,7 +31,7 @@ const MemberManagementCard = ({ member, groupKey, proAccountId }) => {
             </div>
           </div>
           {groupKey !== 'ownerUsers' && (
-            <button onClick={removeMember} className='btn-danger'>
+            <button onClick={removeMember} className='btn-danger self-center py-1.5 leading-tight h-min'>
               Remove Member
             </button>
           )}

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import AuthButton from '../../components/Authentication/AuthButton';
 import ProPage from '../../components/Pro/ProPage';
@@ -8,10 +8,6 @@ import ProAccountProvider from '../../components/Pro/ProPage/ProPageProvider';
 const ProAccount = ({ myProAccountInfo }) => {
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
-
-  useEffect(() => {
-    console.log('myProAccountInfo', myProAccountInfo);
-  }, [myProAccountInfo]);
   const { id } = accountData;
   return (
     <>

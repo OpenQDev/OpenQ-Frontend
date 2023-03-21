@@ -62,7 +62,6 @@ class OpenQPrismaClient {
   setGraphqlHeaders = (cookie) => {
     let authLink;
     authLink = setContext(() => {
-      console.log('headers', cookie);
       return {
         headers: {
           cookie,
@@ -151,7 +150,7 @@ class OpenQPrismaClient {
   }
 
   removeProAccountRole = async (variables, role) => {
-    if (role === 'adminUsers') {
+    if (role === 'admin' || role === 'adminUsers') {
       const promise = new Promise(async (resolve, reject) => {
         try {
           const result = await this.client.mutate({
@@ -181,7 +180,7 @@ class OpenQPrismaClient {
   };
 
   addProAccountRole = async (variables, role) => {
-    if (role === 'adminUsers') {
+    if (role === 'admin' || role === 'adminUsers') {
       const promise = new Promise(async (resolve, reject) => {
         try {
           const result = await this.client.mutate({
@@ -455,7 +454,6 @@ class OpenQPrismaClient {
           fetchPolicy: 'no-cache',
           errorPolicy: 'ignore',
         });
-        console.log('result', result.data, cookie);
         resolve(result.data.currentUser);
       } catch (e) {
         reject(e);
@@ -790,8 +788,20 @@ class OpenQPrismaClient {
           query: GET_USERS_PAGE,
           variables,
         });
-        console.log(result.data.users, 'backend');
         resolve(result.data.users.userConnection);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+  removeProAccountMember(variables) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: REMOVE_PRO_ACCOUNT_MEMBER,
+          variables,
+        });
+        resolve(result.data);
       } catch (e) {
         reject(e);
       }

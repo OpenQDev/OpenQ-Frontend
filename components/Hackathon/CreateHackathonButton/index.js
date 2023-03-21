@@ -1,13 +1,14 @@
 import React, { useContext, useState } from 'react';
 import StoreContext from '../../../store/Store/StoreContext';
 import HackathonContext from '../HackathonStore/HackathonContext';
-import { useRouter } from 'next/router';
 import LoadingIcon from '../../Loading/ButtonLoadingIcon';
+import { useRouter } from 'next/router';
 
-const CreateHackathonButton = () => {
+const CreateHackathonButton = ({ proAccountId }) => {
   const CONFIRM = 'CONFIRM';
   const PENDING = 'PENDING';
   const SUCCESS = 'SUCCESS';
+  const router = useRouter();
   const ERROR = 'ERROR';
   const [hackathonState] = useContext(HackathonContext);
   const [createHackathonResponse, setCreateHackathonResponse] = useState(CONFIRM);
@@ -38,14 +39,11 @@ const CreateHackathonButton = () => {
     ERROR: { text: 'Failed to Update', Loader: EmptyLoader },
   };
   const Loader = responseMap[createHackathonResponse].Loader;
-  const router = useRouter();
   const handleCreate = async (e) => {
-    const proAccountId = router.query.id;
     e.preventDefault();
 
     const ownerRegex = /github.com\/([a-zA-Z0-9-]+)\/([a-zA-Z0-9-]+)/;
     const owner = ownerRegex.exec(repositoryUrl)?.[1];
-
     const name = ownerRegex.exec(repositoryUrl)?.[2];
     try {
       setCreateHackathonResponse(PENDING);
@@ -75,10 +73,10 @@ const CreateHackathonButton = () => {
         registrationDeadline,
         description,
       };
-
-      await appState.openQPrismaClient.updateRepositoryAsContest(variables);
-      setCreateHackathonResponse(SUCCESS);
-      //  router.push(`/pro/${proAccountId}/hackathons`);
+      console.log('variable', variables);
+      //   await appState.openQPrismaClient.updateRepositoryAsContest(variables);
+      // setCreateHackathonResponse(SUCCESS);
+      //   router.push(`/pro/${proAccountId}/hackathons`);
     } catch (e) {
       setCreateHackathonResponse(ERROR);
     }

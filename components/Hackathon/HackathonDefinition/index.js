@@ -3,7 +3,7 @@ import HackathonContext from '../HackathonStore/HackathonContext';
 import { handleDispatch } from '../../../services/utils/lib';
 const HackathonDefinition = () => {
   const [hackathonState, hackathonDispatch] = useContext(HackathonContext);
-  const { eventOrganizer, name, repositoryUrl, description } = hackathonState;
+  const { eventOrganizer, eventName, repositoryUrl, description } = hackathonState;
   const handleUpdateGithubRepositoryUrl = async (e) => {
     const urlInput = e.target.value;
     const ownerRegex = /github.com\/([a-zA-Z0-9-]+)\/([a-zA-Z0-9-]+)/;
@@ -64,7 +64,7 @@ const HackathonDefinition = () => {
         <input
           className='input-field w-full h-8'
           id={'name'}
-          value={name}
+          value={eventName}
           onChange={(e) => handleDispatch(e, 'SET_NAME', hackathonDispatch)}
         />
       </div>

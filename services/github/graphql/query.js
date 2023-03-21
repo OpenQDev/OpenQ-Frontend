@@ -593,6 +593,7 @@ export const GET_REPO_BY_ID = gql`
             }
           }
         }
+        url
         id
         name
         descriptionHTML

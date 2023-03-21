@@ -3,7 +3,7 @@ const HackathonReducer = (state, action) => {
     case 'SET_EVENT_ORGANIZER':
       return { ...state, eventOrganizer: action.payload };
     case 'SET_NAME':
-      return { ...state, name: action.payload };
+      return { ...state, eventName: action.payload };
     case 'SET_DESCRIPTION':
       return { ...state, description: action.payload };
     case 'SET_REPOSITORY_URL':

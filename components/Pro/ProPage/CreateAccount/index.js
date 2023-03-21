@@ -5,7 +5,6 @@ import Link from 'next/link';
 const CreateAccount = () => {
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
-  console.log(accountData, 'my account data');
   const userOwned = accountData.ownerOrganizations.nodes;
   const userAdmined = accountData.adminOrganizations.nodes.filter((value) => {
     return !userOwned.some((owned) => owned.id === value.id);

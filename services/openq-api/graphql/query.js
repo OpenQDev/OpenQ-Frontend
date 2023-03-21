@@ -505,6 +505,7 @@ export const GET_REPOSITORY_BY_ID = gql`
       city
       timezone
       eventOrganizer
+      eventName
       repositoryUrl
       isIrl
       endDate
@@ -514,6 +515,7 @@ export const GET_REPOSITORY_BY_ID = gql`
       twitter
       createdAsHackathonDate
       discord
+      proAccountId
       telegram
       slack
       description
@@ -615,6 +617,7 @@ export const UPDATE_USER = gql`
       taxId: $taxId
       vatNumber: $vatNumber
       vatRate: $vatRate
+
       memo: $memo
     ) {
       github
@@ -762,6 +765,7 @@ export const UPDATE_REPOSITORY_AS_CONTEST = gql`
     $city: String
     $timezone: String
     $eventOrganizer: String
+    $eventName: String
     $repositoryUrl: String
     $isIrl: Boolean
     $endDate: String
@@ -786,6 +790,7 @@ export const UPDATE_REPOSITORY_AS_CONTEST = gql`
       city: $city
       timezone: $timezone
       eventOrganizer: $eventOrganizer
+      eventName: $eventName
       repositoryUrl: $repositoryUrl
       isIrl: $isIrl
       endDate: $endDate
@@ -824,22 +829,18 @@ export const GET_PRO_ACCOUNTS = gql`
             nodes {
               id
               github
-              streetAddress
-              email
             }
           }
           ownerUsers(limit: 10) {
             nodes {
               id
               github
-              email
             }
           }
           memberUsers(limit: 10) {
             nodes {
               id
               github
-              email
             }
           }
           permissionedProducts(limit: 10) {
@@ -864,8 +865,6 @@ export const GET_PRO_ACCOUNT = gql`
           id
           username
           github
-          streetAddress
-          email
         }
       }
       ownerUsers(limit: 10) {
@@ -873,7 +872,6 @@ export const GET_PRO_ACCOUNT = gql`
           id
           username
           github
-          email
         }
       }
       memberUsers(limit: 10) {
@@ -881,7 +879,6 @@ export const GET_PRO_ACCOUNT = gql`
           id
           username
           github
-          email
         }
       }
       permissionedProducts(limit: 10) {

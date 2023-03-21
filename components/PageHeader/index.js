@@ -2,7 +2,7 @@ import React from 'react';
 import SubMenu from '../../components/Utils/SubMenu';
 import ButtonAndSearch from '../../components/Utils/ButtonAndSearch';
 
-const PageHeader = ({ children, menuState, titleLine, items, handleSearchInput, searchText, CTAButton }) => {
+const PageHeader = ({ children, menuState, titleLine, items, handleSearchInput, searchText, CTAButton, hasSearch }) => {
   const [internalMenu, setInternalMenu] = menuState;
   const { Title, SubTitle } = titleLine;
 
@@ -19,9 +19,13 @@ const PageHeader = ({ children, menuState, titleLine, items, handleSearchInput, 
       </div>
       <div className='lg:grid lg:grid-cols-extra-wide xl:grid-cols-wide justify-center md:pr-3 mx-4 sm:mx-8'>
         <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
-          <div className='flex flex-wrap gap-4 w-full items-center pt-10'>
-            <ButtonAndSearch handleSearchInput={handleSearchInput} searchText={searchText} CTAButton={CTAButton} />
-          </div>
+          {hasSearch ? (
+            <div className='flex flex-wrap gap-4 w-full items-center pt-10'>
+              <ButtonAndSearch handleSearchInput={handleSearchInput} searchText={searchText} CTAButton={CTAButton} />
+            </div>
+          ) : (
+            <div className='py-2'></div>
+          )}
           {children}
         </div>
       </div>

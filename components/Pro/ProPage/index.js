@@ -30,7 +30,6 @@ const ProPage = () => {
   };
   const items = [{ name: 'Dashboard' }];
   const handleSearchInput = (e) => {
-    console.log(e.target.value, 'TARGET');
     setSearchText(e.target.value);
   };
 
@@ -48,6 +47,7 @@ const ProPage = () => {
   };
   return (
     <PageHeader
+      hasSearch={true}
       CTAButton={CreateHackathon}
       menuState={menuState}
       titleLine={titleLine}

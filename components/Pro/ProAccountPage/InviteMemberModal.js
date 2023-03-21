@@ -9,19 +9,25 @@ const InviteMemberModal = ({ setShowModal }) => {
   const title = 'Invite Member';
   const getItems = async (oldCursor, batch) => {
     const users = await appState.openQPrismaClient.getUsersPage({ limit: batch, cursor: oldCursor });
-    console.log(users, 'my users');
+
     return { nodes: users.nodes, cursor: users.cursor, complete: users.length !== batch };
+  };
+  const filterFunction = (item, filters) => {
+    const filterVal = item.username?.toLowerCase().includes(filters.searchText.toLowerCase());
+
+    return filterVal;
   };
   const paginationObj = {
     items: [],
     cursor: 0,
     complete: false,
     batch: 10,
-    filterFunction: () => true,
+    filters: { searchText: '' },
+    filterFunction,
     getItems,
   };
-
   const paginationState = useState(paginationObj);
+  const [paginationStateObj, setStatePaginationObj] = paginationState;
   /* {
 	items: [],
 	ordering: {direction: "desc", field: "name"},
@@ -41,7 +47,9 @@ const InviteMemberModal = ({ setShowModal }) => {
       Close Modal
     </button>
   );
-  console.log(paginationState);
+  const handleChange = (e) => {
+    setStatePaginationObj({ ...paginationStateObj, filters: { searchText: e.target.value } });
+  };
   return (
     <ModalLarge
       resetState={resetState}
@@ -51,6 +59,9 @@ const InviteMemberModal = ({ setShowModal }) => {
       title={title}
     >
       <div>
+        <div className='p-4 border-b border-web-gray'>
+          <input onChange={handleChange} placeholder='Find an OpenQ User' className='input-field w-full' />
+        </div>
         <PaginatedList paginationState={paginationState} PaginationCard={ListedUser} />
       </div>
     </ModalLarge>

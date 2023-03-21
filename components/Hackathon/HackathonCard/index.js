@@ -25,12 +25,12 @@ const HackathonCard = ({ repository, githubRepository }) => {
             <div className='flex gap-4 items-center'>
               <Image width={48} height={48} src={githubRepository.owner.avatarUrl} />
               <h3 className='font-semibold text-link-colour hover:underline'>
-                <Link href={`/hackathon/${repository.id}`}>{githubRepository?.name}</Link>
+                <Link href={`/hackathons/${repository.id}`}>{githubRepository?.name}</Link>
               </h3>
             </div>
             <div>
               {repository.isDraft && <button className='btn-default bg-input-bg mx-4'>Preview</button>}
-              <Link href={`/hackathon/${repository.id}/edit`} className='btn-default bg-input-bg mx-4'>
+              <Link href={`/hackathons/${repository.id}/edit`} className='btn-default bg-input-bg mx-4'>
                 Edit
               </Link>
             </div>

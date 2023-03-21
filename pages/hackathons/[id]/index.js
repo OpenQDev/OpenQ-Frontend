@@ -40,4 +40,3 @@ export const getServerSideProps = async (context) => {
     props: { githubRepository, hackathon },
   };
 };
-314074269;

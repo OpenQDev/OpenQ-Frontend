@@ -1,13 +1,17 @@
 import React from 'react';
-import HackathonDefinition from '../../../../components/Hackathon/HackathonDefinition';
-import HackathonLocation from '../../../../components/Hackathon/HackathonLocation';
-import HackathonExtraInfo from '../../../../components/Hackathon/HackathonExtraInfo';
-import HackathonTime from '../../../../components/Hackathon/HackathonTime';
-import HackathonProvider from '../../../../components/Hackathon/HackathonStore/HackathonProvider';
-import CreateHackathonButton from '../../../../components/Hackathon/CreateHackathonButton/index.js';
-import CreateAsDraftButton from '../../../../components/Hackathon/CreateAsDraftButton/index.js';
+import HackathonDefinition from '../../../components/Hackathon/HackathonDefinition';
+import HackathonLocation from '../../../components/Hackathon/HackathonLocation';
+import HackathonExtraInfo from '../../../components/Hackathon/HackathonExtraInfo';
+import HackathonTime from '../../../components/Hackathon/HackathonTime';
+import HackathonProvider from '../../../components/Hackathon/HackathonStore/HackathonProvider';
+import CreateHackathonButton from '../../../components/Hackathon/CreateHackathonButton/index.js';
+import CreateAsDraftButton from '../../../components/Hackathon/CreateAsDraftButton/index.js';
+import { useRouter } from 'next/router';
 
 const CreateHackathon = () => {
+  const router = useRouter();
+
+  const proAccountId = router.query.id;
   return (
     <HackathonProvider>
       <div className='lg:grid lg:grid-cols-extra-wide xl:grid-cols-wide justify-center md:pr-3 mx-4 sm:mx-8'>
@@ -28,7 +32,7 @@ const CreateHackathon = () => {
                 <HackathonExtraInfo />
               </div>
               <div className='border-web-gray border-t'>
-                <CreateHackathonButton />
+                <CreateHackathonButton proAccountId={proAccountId} />
               </div>
             </form>
           </div>
