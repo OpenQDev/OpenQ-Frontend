@@ -25,9 +25,25 @@ const Navigation = () => {
   const { accountData } = appState;
 
   useEffect(() => {
-    const getNotificationCookie = async () => {
-      const signedKnockTokenCookie = await window?.cookieStore?.get('signed_knock_token');
-      setNotificationToken(signedKnockTokenCookie?.value);
+    // https://stackoverflow.com/questions/4003823/javascript-getcookie-functions/4004010#4004010
+    const getCookie = (c_name) => {
+      var c_value = ' ' + document.cookie;
+      var c_start = c_value.indexOf(' ' + c_name + '=');
+      if (c_start == -1) {
+        c_value = null;
+      } else {
+        c_start = c_value.indexOf('=', c_start) + 1;
+        var c_end = c_value.indexOf(';', c_start);
+        if (c_end == -1) {
+          c_end = c_value.length;
+        }
+        c_value = unescape(c_value.substring(c_start, c_end));
+      }
+      return c_value;
+    };
+    const getNotificationCookie = () => {
+      const signedKnockTokenCookie = getCookie('signed_knock_token');
+      setNotificationToken(signedKnockTokenCookie);
     };
 
     getNotificationCookie();
