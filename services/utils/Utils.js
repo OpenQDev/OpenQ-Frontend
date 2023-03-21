@@ -186,7 +186,6 @@ class Utils {
       };
       const orgIds = filteredOrgs.map((org) => org.id);
       try {
-        console.log('orgIds', orgIds);
         githubOrganizations = await githubRepository.fetchOrganizationsByIds(orgIds);
       } catch (err) {
         reject(err);
