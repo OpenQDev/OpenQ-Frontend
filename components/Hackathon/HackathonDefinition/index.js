@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import HackathonContext from '../HackathonStore/HackathonContext';
 import { handleDispatch } from '../../../services/utils/lib';
-const HackathonDefinition = () => {
+const HackathonDefinition = ({ isEditing }) => {
   const [hackathonState, hackathonDispatch] = useContext(HackathonContext);
   const { eventOrganizer, eventName, repositoryUrl, description } = hackathonState;
   const handleUpdateGithubRepositoryUrl = async (e) => {
@@ -33,17 +33,25 @@ const HackathonDefinition = () => {
           Github Repository URL
         </label>
 
-        <input
-          onChange={handleUpdateGithubRepositoryUrl}
-          className='input-field w-full h-8 '
-          id={'repositoryUrl'}
-          placeholder={'https://github.com/...'}
-          value={repositoryUrl}
-        />
-        <div className='note mt-2 '>
-          Connect your Hackathon with your Github repositroy to manage submissions. Your README.md will display basic
-          information about the hackathon on our site.
-        </div>
+        {isEditing ? (
+          <div className='input-field bg-transparent py-1.5 w-full h-8 '>{repositoryUrl}</div>
+        ) : (
+          <input
+            onChange={handleUpdateGithubRepositoryUrl}
+            className='input-field w-full h-8 '
+            id={'repositoryUrl'}
+            placeholder={'https://github.com/...'}
+            value={repositoryUrl}
+          />
+        )}
+        {isEditing ? (
+          <div className='note mt-2 '>You can't change the repository of hackathon after creating it.</div>
+        ) : (
+          <div className='note mt-2 '>
+            Connect your Hackathon with your Github repository to manage submissions. Your README.md will display basic
+            information about the hackathon on our site.
+          </div>
+        )}
         <label className='font-semibold text-lg block my-2' htmlFor={'event-organizer'}>
           Event organizer
         </label>

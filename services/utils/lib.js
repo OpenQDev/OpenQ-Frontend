@@ -389,3 +389,65 @@ export const handleDispatch = (e, type, dispatchFunc) => {
   };
   dispatchFunc(dispatch);
 };
+export const updateHackathonState = async (hackathonState, appState, setCreateHackathonResponse, push) => {
+  const {
+    repositoryUrl,
+    startDate,
+    endDate,
+    city,
+    eventOrganizer,
+    isIrl,
+    timezone,
+    topic,
+    website,
+    contactEmail,
+    twitter,
+    discord,
+    telegram,
+    description,
+    slack,
+    registrationDeadline,
+    eventName,
+    proAccountId,
+    isDraft,
+  } = hackathonState;
+  const forwardedDraft = isDraft ? true : false;
+  const ownerRegex = /github.com\/([a-zA-Z0-9-]+)\/([a-zA-Z0-9-]+)/;
+  const owner = ownerRegex.exec(repositoryUrl)?.[1];
+  const name = ownerRegex.exec(repositoryUrl)?.[2];
+  try {
+    setCreateHackathonResponse('PENDING');
+    const githubRepository = await appState.githubRepository.fetchRepoWithLabeledIssues(owner, name, []);
+    const repositoryId = githubRepository.id;
+    const organizationId = githubRepository.owner.id;
+    const variables = {
+      proAccountId,
+      repositoryId,
+      startDate,
+      endDate,
+      organizationId,
+      isContest: true,
+      isDraft: forwardedDraft,
+      city,
+      isIrl,
+      timezone,
+      eventOrganizer,
+      repositoryUrl,
+      topic,
+      website,
+      contactEmail,
+      twitter,
+      discord,
+      telegram,
+      slack,
+      registrationDeadline,
+      description,
+      eventName,
+    };
+    await appState.openQPrismaClient.updateRepositoryAsContest(variables);
+    setCreateHackathonResponse('SUCCESS');
+    push();
+  } catch (e) {
+    setCreateHackathonResponse('ERROR');
+  }
+};

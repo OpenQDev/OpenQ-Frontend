@@ -23,7 +23,7 @@ const CreateHackathon = ({ githubRepository, hackathon }) => {
               modules whicha are paid out automatically and enables user registration and management.
             </p>
             <form className='border-y border-web-gray my-8'>
-              <HackathonDefinition />
+              <HackathonDefinition isEditing={true} />
 
               <HackathonLocation />
               <div className='border-t border-web-gray my-8'>
@@ -31,7 +31,7 @@ const CreateHackathon = ({ githubRepository, hackathon }) => {
                 <HackathonExtraInfo />
               </div>
               <div className='border-web-gray border-t'>
-                <CreateHackathonButton proAccountId={proAccountId} />
+                <CreateHackathonButton isEditing={true} proAccountId={proAccountId} />
               </div>
             </form>
           </div>

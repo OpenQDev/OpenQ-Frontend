@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient.js';
 import ManageUserGroup from '../../../components/Pro/ProAccountPage/ManageUserGroup';
 import SuperchargingHackathons from '../../../components/Pro/SuperchargingHackathons/index.js';
@@ -18,7 +18,11 @@ const ProAccount = ({ proAccount }) => {
   const TEAM = 'Team';
   const menuState = useState(TEAM);
   const { query } = useRouter();
-  const internalMenu = menuState[0];
+
+  const [internalMenu, setInternalMenu] = menuState;
+  useEffect(() => {
+    setInternalMenu(query?.tab || TEAM);
+  }, []);
   const titleLine = {
     [HACKATHONS]: {
       Title: () => <>Create Your Hackathon</>,

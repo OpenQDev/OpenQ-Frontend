@@ -446,7 +446,7 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  getProAccountInfoOfCurrent(cookie) {
+  getProAccountInfoOfCurrent() {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({

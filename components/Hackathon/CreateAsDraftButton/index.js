@@ -3,65 +3,22 @@ import { ChevronLeftIcon } from '@primer/octicons-react';
 import { useRouter } from 'next/router';
 import HackathonContext from '../HackathonStore/HackathonContext';
 import StoreContext from '../../../store/Store/StoreContext';
+import { updateHackathonState } from '../../../services/utils/lib';
 const CreateAsDraftButton = () => {
   const [hackathonState] = useContext(HackathonContext);
+  const { proAccountId } = hackathonState;
   const [appState] = useContext(StoreContext);
-  const {
-    repositoryUrl,
-    description,
-    startDate,
-    endDate,
-    city,
-    eventOrganizer,
-    isIrl,
-    timezone,
-    topic,
-    website,
-    contactEmail,
-    twitter,
-    discord,
-    telegram,
-    slack,
-    registrationDeadline,
-  } = hackathonState;
+  const setCreateHackathonResponse = (e) => {
+    console.log(e);
+  };
+
   const router = useRouter();
   const handleCreateAsDraft = async (e) => {
-    const proAccountId = router.query.id;
     e.preventDefault();
-
-    const ownerRegex = /github.com\/([a-zA-Z0-9-]+)\/([a-zA-Z0-9-]+)/;
-    const owner = ownerRegex.exec(repositoryUrl)?.[1];
-
-    const name = ownerRegex.exec(repositoryUrl)?.[2];
-    const githubRepository = await appState.githubRepository.fetchRepoWithLabeledIssues(owner, name, []);
-    const repositoryId = githubRepository.id;
-    const organizationId = githubRepository.owner.id;
-    const variables = {
-      description,
-      proAccountId,
-      repositoryId,
-      startDate,
-      endDate,
-      organizationId,
-      isContest: true,
-      isDraft: false,
-      city,
-      isIrl,
-      timezone,
-      eventOrganizer,
-      repositoryUrl,
-      topic,
-      website,
-      contactEmail,
-      twitter,
-      discord,
-      telegram,
-      slack,
-      registrationDeadline,
+    const push = () => {
+      router.push(`/pro/${proAccountId}?tab=Hackathons`);
     };
-
-    await appState.openQPrismaClient.updateRepositoryAsContest(variables);
-    router.push(`/pro/${proAccountId}/hackathons`);
+    await updateHackathonState({ ...hackathonState, isDraft: true }, appState, setCreateHackathonResponse, push);
   };
   return (
     <button
