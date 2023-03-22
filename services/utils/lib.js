@@ -390,7 +390,6 @@ export const handleDispatch = (e, type, dispatchFunc) => {
   dispatchFunc(dispatch);
 };
 export const updateHackathonState = async (hackathonState, appState, setCreateHackathonResponse, push) => {
-  console.log(appState);
   const {
     repositoryUrl,
     startDate,
@@ -449,7 +448,6 @@ export const updateHackathonState = async (hackathonState, appState, setCreateHa
     setCreateHackathonResponse('SUCCESS');
     push();
   } catch (e) {
-    console.log(e);
     setCreateHackathonResponse('ERROR');
   }
 };

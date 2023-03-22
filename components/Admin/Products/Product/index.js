@@ -13,7 +13,7 @@ const Product = ({ product, apiSecret }) => {
       await appState.openQPrismaClient.updateProduct(apiSecret, { id, name });
       setEditable(false);
     } catch (error) {
-      console.log(error);
+      appState.logger.error(error, 'Product.js1');
     }
   };
   return (

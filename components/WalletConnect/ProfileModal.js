@@ -12,6 +12,7 @@ const ProfileModal = ({ domRef, isSafeApp, showModal }) => {
   const [authState] = useContext(AuthContext);
   const { accountData } = appState;
   const adminOrganizations = accountData?.adminOrganizations?.nodes;
+  const ownerOrganizations = accountData?.ownerOrganizations?.nodes;
 
   if (!showModal) return <></>;
   return (
@@ -58,6 +59,16 @@ const ProfileModal = ({ domRef, isSafeApp, showModal }) => {
               </div>
             </Link>
             {adminOrganizations?.map((adminOrganization) => (
+              <div
+                key={adminOrganization.id}
+                data-testid='link'
+                className='flex md:hover:bg-[#1f6feb] h-8 md:hover:z-50 items-center w-full cursor-pointer hover:text-white text-[#c9d1d9] self-start gap-4 p-2 mb-2'
+              >
+                <PersonIcon className='w-4 h-4 ml-2' />
+                <Link href={`/pro/${adminOrganization.id}`}>Pro Account: {adminOrganization.name}</Link>
+              </div>
+            ))}
+            {ownerOrganizations?.map((adminOrganization) => (
               <div
                 key={adminOrganization.id}
                 data-testid='link'

@@ -17,7 +17,7 @@ const ProAccountManagement = ({ apiSecret, products }) => {
 
           setProAccounts(pros);
         } catch (error) {
-          console.log(error);
+          appState.logger.error(error, 'ProAccountManagement.js1');
         }
       }
     };

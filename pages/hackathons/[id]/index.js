@@ -202,7 +202,6 @@ export const getServerSideProps = async (context) => {
     return await fetchBountiesWithServiceArg(appState, oldCursor, batch, ordering, filters);
   };
   const ordering = { sortOrder: 'desc', field: 'createdAt' };
-  console.log(githubRepository.owner);
   const fetchFilters = { types, organizationId: githubRepository.owner.id, repositoryId: githubRepository.id };
   const { nodes, cursor, complete } = await getItems(null, batch, ordering, fetchFilters);
 

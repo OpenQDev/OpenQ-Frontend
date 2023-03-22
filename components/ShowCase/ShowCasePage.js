@@ -8,7 +8,6 @@ import GithubHtmlRenderer from '../Utils/HtmlReneder';
 
 const ShowCasePage = ({ pr }) => {
   const [authState] = useContext(AuthContext);
-  console.log(pr);
   const { avatarUrl } = authState;
   const { isAddress } = ethers.utils;
   const [showForm, setShowForm] = useState();

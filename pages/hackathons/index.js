@@ -76,7 +76,7 @@ export const getServerSideProps = async (context) => {
   await openQPrismaClient.instance.setGraphqlHeaders(context.req.headers.cookie);
   const id = '641acf73213807d5f177fe7d';
 
-  const repositories = await openQPrismaClient.instance.getRepositories();
+  const repositories = await openQPrismaClient.instance.getRepositories({ proContestsOnly: true });
   const repositoryIds = repositories?.map((repository) => repository.id);
   const githubRepositories = await githubRepository.instance.fetchReposByIds(repositoryIds);
   let githubRepositoryIndex = {};

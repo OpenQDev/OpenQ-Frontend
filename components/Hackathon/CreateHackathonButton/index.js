@@ -28,7 +28,7 @@ const CreateHackathonButton = ({ proAccountId, isEditing }) => {
     const push = () => {
       router.push(`/pro/${proAccountId}?tab=Hackathons`);
     };
-    updateHackathonState(hackathonState, appState, setCreateHackathonResponse, push);
+    updateHackathonState({ ...hackathonState, proAccountId }, appState, setCreateHackathonResponse, push);
   };
 
   return (

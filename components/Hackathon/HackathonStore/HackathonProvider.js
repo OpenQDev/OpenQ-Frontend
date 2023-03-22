@@ -13,7 +13,6 @@ const HackathonProvider = ({ children, hackathon, githubRepository }) => {
   }
   const fetchedValues = { repositoryUrl: githubRepository?.url, startDate, endDate, city };
   const [state, dispatch] = useReducer(HackathonReducer, { ...InitialState, ...hackathon, ...fetchedValues });
-  console.log(state, 'state');
 
   return <HackathonContext.Provider value={[state, dispatch]}>{children}</HackathonContext.Provider>;
 };

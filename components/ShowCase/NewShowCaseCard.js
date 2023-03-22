@@ -41,7 +41,6 @@ const ShowCaseCard = ({ item, setSingleSubmission }) => {
   const image = firstImageUrlFromPrBodyText(pr.body);
   const link = firstGithubRepoLinkFromPrBody(pr.body);
   const repoNameFromLink = (link) => {
-    console.log(link);
     if (!link) return null;
     const regex = /https:\/\/github.com\/[^/]*\/([^/]*)/g;
     const matches = link.match(regex);

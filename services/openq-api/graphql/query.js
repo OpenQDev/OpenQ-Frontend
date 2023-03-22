@@ -456,8 +456,19 @@ export const GET_LEAN_ORGANIZATIONS = gql`
 `;
 
 export const GET_REPOSITORIES = gql`
-  query getRepositories($organizationId: String, $contestOnly: Boolean) {
-    repositories(limit: 100, contestOnly: $contestOnly, organizationId: $organizationId) {
+  query getRepositories(
+    $organizationId: String
+    $contestOnly: Boolean
+    $proAccountId: String
+    $proContestsOnly: Boolean
+  ) {
+    repositories(
+      limit: 100
+      contestOnly: $contestOnly
+      organizationId: $organizationId
+      proAccountId: $proAccountId
+      proContestsOnly: $proContestsOnly
+    ) {
       nodes {
         id
         hackathonBlacklisted

@@ -10,7 +10,6 @@ import { useRouter } from 'next/router';
 
 const CreateHackathon = () => {
   const router = useRouter();
-  console.log(router.query);
   const proAccountId = router.query.id;
   return (
     <HackathonProvider hackathon={{ proAccountId }}>

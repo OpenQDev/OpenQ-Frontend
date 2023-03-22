@@ -20,7 +20,7 @@ const HackathonCard = ({ repository }) => {
     day: 'numeric',
   });
   const { query } = useRouter();
-  const { proAccountId } = query;
+  const { id: proAccountId } = query;
   return (
     <>
       {repository && (
