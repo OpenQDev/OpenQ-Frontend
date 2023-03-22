@@ -7,7 +7,6 @@ import {
   GET_REPO_BY_NAME,
   GET_REPO_NAMES_BY_ORG_NAME,
   GET_REPO_NAMES_BY_USER_NAME,
-  GET_REPO_WITH_LABELED_OPEN_ISSUES,
   GET_ISSUE,
   GET_ISSUE_BY_ID,
   GET_ISSUES_BY_ID,
@@ -83,8 +82,9 @@ class GithubRepository {
     return promise;
   }
 
-  async getPrs(owner, name, limit) {
-    const variables = { owner, name, first: 100 };
+  async getPrs(owner, name, limit, cursor, ordering) {
+    const { direction, field } = ordering;
+    const variables = { owner, name, first: limit, cursor, field, direction };
     if (limit) {
       variables.first = limit;
     }
@@ -96,7 +96,10 @@ class GithubRepository {
           variables,
         });
         const pullRequestObj = result.data.repository.pullRequests;
-        resolve({ repoPrs: pullRequestObj.nodes, totalCount: pullRequestObj.totalCount });
+        resolve({
+          repoPrs: pullRequestObj.nodes,
+          pageInfo: pullRequestObj.pageInfo,
+        });
       } catch (err) {
         reject(err);
       }
@@ -393,23 +396,6 @@ class GithubRepository {
       try {
         const result = await this.client.query({
           query: GET_REPO_BY_NAME,
-          variables,
-        });
-        resolve(result.data.repository);
-      } catch (e) {
-        reject(e);
-      }
-    });
-
-    return promise;
-  }
-
-  async fetchRepoWithLabeledIssues(owner, name, labels) {
-    const variables = { owner, name, labels };
-    const promise = new Promise(async (resolve, reject) => {
-      try {
-        const result = await this.client.query({
-          query: GET_REPO_WITH_LABELED_OPEN_ISSUES,
           variables,
         });
         resolve(result.data.repository);

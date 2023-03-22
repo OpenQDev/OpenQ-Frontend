@@ -11,7 +11,7 @@ const MintBountyButton = ({ styles, types }) => {
     <>
       <button
         onClick={() => setShowModal(true)}
-        className={`lg:col-start-4 col-span-4 lg:col-span-1 whitespace-nowrap btn-primary flex flex-row space-x-3 items-center justify-center leading-tight h-min sm:w-min px-3 ${styles}`}
+        className={`lg:col-start-4 col-span-4 lg:col-span-1 whitespace-nowrap btn-primary flex flex-row space-x-3 items-center justify-center leading-tight h-8 sm:w-min px-3 ${styles}`}
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'

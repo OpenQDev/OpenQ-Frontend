@@ -13,7 +13,7 @@ exports[`RequestPage should match initial DOM Snapshot 1`] = `
     <div
       class="border-web-gray border flex justify-center content-center h-24 rounded-sm items-center"
     >
-      You have received 0 new requests.
+      You have received 0 requests.
     </div>
   </div>
   <div

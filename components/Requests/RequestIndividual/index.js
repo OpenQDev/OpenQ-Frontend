@@ -87,10 +87,15 @@ const RequestIndividual = ({ item }) => {
       try {
         const subgraphBounty = await appState.openQSubgraphClient.getBounty(bounty.address.toLowerCase());
         setSubgraphBounty(subgraphBounty);
-        if (!subgraphBounty.tierWinners) return;
-        const tier = parseInt(subgraphBounty?.tierWinners.indexOf(request.requestingUser.github));
-        if (subgraphBounty.supportingDocumentsCompleted?.[tier]) {
+        if (subgraphBounty.bountyType === '0' && subgraphBounty.supportingDocumentsCompleted?.[0]) {
           setAccepted(true);
+        }
+        if (!subgraphBounty.tierWinners) return;
+        if (subgraphBounty.bountyType === '3') {
+          const tier = parseInt(subgraphBounty?.tierWinners.indexOf(request.requestingUser.github));
+          if (subgraphBounty.supportingDocumentsCompleted?.[tier]) {
+            setAccepted(true);
+          }
         }
       } catch (err) {
         appState.logger.error(err, 'RequestIndividual1', accountData.id);
@@ -114,7 +119,10 @@ const RequestIndividual = ({ item }) => {
         const bigNumberTier = ethers.BigNumber.from(tier);
         data = abiCoder.encode(['uint256', 'bool'], [bigNumberTier, true]);
       }
-
+      if (item.bounty.type === '0') {
+        const abiCoder = new ethers.utils.AbiCoder();
+        data = abiCoder.encode(['bool'], [true]);
+      }
       await appState.openQClient.setSupportingDocumentsComplete(library, bounty.bountyId, data);
       setAccepted(true);
       setLoading(false);
@@ -206,6 +214,12 @@ const RequestIndividual = ({ item }) => {
           title={modalTitle[declineState]}
           footerRight={confirmBtn[declineState]}
         >
+          {declineState === TRANSFERRING && (
+            <div className='p-4 flex'>
+              Declining request...
+              <LoadingIcon />
+            </div>
+          )}
           {declineState === CONFIRM && (
             <div className='flex flex-col h-full p-4 gap-4'>
               <div>Add a reason for rejecting the request so that the builder can make adjustments.</div>

@@ -14,8 +14,9 @@ const UnexpectedErrorModal = ({ error, closeModal }) => {
   let parsedError;
   try {
     parsedError = JSON.parse(error);
-  } catch (error) {
+  } catch (jsonError) {
     appState.logger.error(error, accountData.id, 'UnexpectedError.js2');
+    appState.logger.error(jsonError, accountData.id, 'UnexpectedError.js2');
   }
   if (error.graphQLErrors && error.graphQLErrors[0].type == 'RATE_LIMITED') {
     currentError = `Looks like you're a power user...We're still building and have limited Github access at the moment. 

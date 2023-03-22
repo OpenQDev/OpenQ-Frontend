@@ -10,7 +10,7 @@ import useGetTokenValues from '../../hooks/useGetTokenValues';
 import { formatVolume } from '../../services/utils/lib';
 import GnosisWarning from '../Utils/GnosisWarning';
 
-const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled, isRemove }) => {
+const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled, isRemove, tierClaimed }) => {
   const [showModal, setShowModal] = useState();
   const [selectionState, setSelectionState] = useState(RESTING);
   const tierIndex = parseInt(prize.index);
@@ -111,12 +111,14 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled, isRem
       <ToolTip
         innerStyles={'  whitespace-pre-wrap'}
         relativePosition={'-right-4 w-32 md:right:auto md:w-60'}
-        hideToolTip={isSolvent}
+        hideToolTip={isSolvent || bounty.claims.length > 0}
         toolTipText={`You don't have enough funds escrowed to cover this contest, please make a deposit.`}
       >
         <button
-          disabled={disabled || !isSolvent}
-          className={!disabled && isSolvent ? 'btn-primary' : 'btn-default cursor-not-allowed'}
+          disabled={disabled || (!isSolvent && bounty.claims.length == 0)}
+          className={
+            !disabled && (isSolvent || bounty.claims.length > 0) ? 'btn-primary' : 'btn-default cursor-not-allowed'
+          }
           onClick={claimBounty}
         >
           Confirm
@@ -147,7 +149,11 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled, isRem
   };
   return (
     <>
-      {isRemove ? (
+      {tierClaimed ? (
+        <div className='flex justify-center py-4'>
+          <div className='btn-primary hover:bg-green cursor-default'>Claimed</div>
+        </div>
+      ) : isRemove ? (
         <div className='flex justify-center py-4'>
           <button className='btn-danger' onClick={() => selectWinner('')}>
             Remove Selection
@@ -221,9 +227,14 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled, isRem
             </>
           )}
           {selectionState === TRANSFERRING && (
-            <div className='flex items-center gap-2'>
-              Your request is being processed... <LoadingIcon />
-            </div>
+            <>
+              <div className='bg-info border-info-strong border-2 p-3 rounded-sm mb-4'>
+                Please confirm this transaction via your wallet!
+              </div>
+              <div className='flex items-center gap-2'>
+                Your request is being processed... <LoadingIcon />
+              </div>
+            </>
           )}
           {selectionState === ERROR && <p>{error.message}</p>}
           {selectionState === SUCCESS && (

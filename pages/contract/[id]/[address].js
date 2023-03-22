@@ -122,9 +122,17 @@ const address = ({ address, mergedBounty, renderError }) => {
   };
 
   useEffect(() => {
+    let cancel;
     if (internalMenu) {
-      sessionStorage.setItem(address, internalMenu);
+      setTimeout(() => {
+        if (!cancel) {
+          sessionStorage.setItem(address, internalMenu);
+        }
+      }, 1000);
     }
+    return () => {
+      cancel = true;
+    };
   }, [internalMenu]);
 
   useEffect(() => {
@@ -185,7 +193,6 @@ const address = ({ address, mergedBounty, renderError }) => {
     // set route and populate
     if (address) {
       const route = sessionStorage.getItem(address);
-
       if (route !== internalMenu) {
         setInternalMenu(route || 'View');
       }
