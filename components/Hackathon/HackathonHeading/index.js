@@ -19,7 +19,7 @@ const HackathonHeading = ({ internalMenuState, githubRepository }) => {
             Svg: TrophyIcon,
           },
           {
-            name: 'Submissionis',
+            name: 'Submissions',
             Svg: SparkleFillIcon,
           },
         ]}

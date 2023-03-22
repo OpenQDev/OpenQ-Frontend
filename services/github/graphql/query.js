@@ -626,6 +626,7 @@ export const GET_REPO_BY_ID = gql`
           url
           avatarUrl
           login
+          id
         }
         stargazerCount
         languages(first: 10) {

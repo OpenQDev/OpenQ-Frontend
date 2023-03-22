@@ -5,6 +5,7 @@ import Twitter from '../../svg/twitter';
 import Telegram from '../../svg/telegram';
 import Slack from '../../svg/slack';
 import Link from 'next/link';
+import NoSSR from '../../Utils/NoSSR';
 
 const HackathonMetadata = ({ hackathon }) => {
   const { slack, telegram, twitter, discord, topic, startDate, endDate } = hackathon;
@@ -62,12 +63,16 @@ const HackathonMetadata = ({ hackathon }) => {
       <li className='py-1.5 border-t border-web-gray'>
         <div className='text-muted'>Runs From</div>
         <div className='pl-6 my-1.5 flex gap-2'>
-          {monthDayDateFromStartDate} - {monthDayDateFromEndDate}, {endDateYear}
+          <NoSSR>
+            {monthDayDateFromStartDate} - {monthDayDateFromEndDate}, {endDateYear}
+          </NoSSR>
         </div>
       </li>
       <li className='py-1.5 border-t border-web-gray'>
         <div className='text-muted'>Hackathon Starts in</div>
-        <div className='pl-6 my-1.5 flex gap-2'>{formattedWaitTime}</div>
+        <div className='pl-6 my-1.5 flex gap-2'>
+          <NoSSR>{formattedWaitTime}</NoSSR>
+        </div>
       </li>
       <li className='py-1.5 border-t border-web-gray'>
         <div className='text-muted'>Topics</div>

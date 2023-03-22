@@ -1,5 +1,6 @@
 // Third party
 import React, { useContext, useState } from 'react';
+import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
@@ -11,7 +12,6 @@ import BountyList from '../../../components/BountyList';
 import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
 import Logger from '../../../services/logger/Logger';
 import Utils from '../../../services/utils/Utils';
-import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import { getReadyText, isOnlyContest, fetchBountiesWithServiceArg } from '../../../services/utils/lib';
 import SearchBar from '../../../components/Search/SearchBar';
 import ShowCaseCard from '../../../components/ShowCase/ShowCaseCard';
