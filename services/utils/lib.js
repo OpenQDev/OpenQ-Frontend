@@ -390,6 +390,7 @@ export const handleDispatch = (e, type, dispatchFunc) => {
   dispatchFunc(dispatch);
 };
 export const updateHackathonState = async (hackathonState, appState, setCreateHackathonResponse, push) => {
+  console.log(appState);
   const {
     repositoryUrl,
     startDate,
@@ -417,7 +418,7 @@ export const updateHackathonState = async (hackathonState, appState, setCreateHa
   const name = ownerRegex.exec(repositoryUrl)?.[2];
   try {
     setCreateHackathonResponse('PENDING');
-    const githubRepository = await appState.githubRepository.fetchRepoWithLabeledIssues(owner, name, []);
+    const githubRepository = await appState.githubRepository.fetchRepoByName(owner, name, []);
     const repositoryId = githubRepository.id;
     const organizationId = githubRepository.owner.id;
     const variables = {
@@ -448,6 +449,7 @@ export const updateHackathonState = async (hackathonState, appState, setCreateHa
     setCreateHackathonResponse('SUCCESS');
     push();
   } catch (e) {
+    console.log(e);
     setCreateHackathonResponse('ERROR');
   }
 };

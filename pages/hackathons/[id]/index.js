@@ -16,7 +16,7 @@ const Hackathon = ({ githubRepository, hackathon }) => {
     <div className='pt-4'>
       <HackathonHeading internalMenuState={internalMenuState} githubRepository={githubRepository} />
       <div className='flex justify-between  w-full px-2 sm:px-8  max-w-[1200px] pb-4 mx-auto'>
-        <ViewHeading />
+        <ViewHeading hackathon={hackathon} />
       </div>
       <PanelWithMetadata>
         {internalMenu === 'View' && <ViewBody githubRepository={githubRepository} hackathon={hackathon} />}

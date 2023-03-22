@@ -861,6 +861,40 @@ export const GET_PRO_ACCOUNT = gql`
     proAccount(id: $id) {
       id
       name
+      repositories(limit: 100) {
+        nodes {
+          id
+          hackathonBlacklisted
+          description
+          isContest
+          isDraft
+          startDate
+          registrationDeadline
+          city
+          timezone
+          eventOrganizer
+          repositoryUrl
+          isIrl
+          endDate
+          topic
+          website
+          contactEmail
+          twitter
+          discord
+          telegram
+          slack
+          description
+          organization {
+            blacklisted
+          }
+          bounties(limit: 100) {
+            nodes {
+              bountyId
+              blacklisted
+            }
+          }
+        }
+      }
       adminUsers(limit: 10) {
         nodes {
           id

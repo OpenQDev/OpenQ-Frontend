@@ -1,39 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
-import StoreContext from '../../store/Store/StoreContext';
+import React from 'react';
 import HackathonCard from '../Hackathon/HackathonCard';
-const Manager = () => {
-  const [appState] = useContext(StoreContext);
-  const { openQPrismaClient } = appState;
-  const [githubRepositories, setGithubRepositories] = useState({});
-
-  const [repositories, setRepositories] = useState();
-  useEffect(() => {
-    const fetchRepositories = async () => {
-      const repositories = await openQPrismaClient.getRepositories();
-      setRepositories(repositories);
-    };
-    fetchRepositories();
-  }, []);
-  useEffect(() => {
-    const repositoryIds = repositories?.map((repository) => repository.id);
-    const fetchRepositories = async () => {
-      const githubRepositories = await appState.githubRepository.fetchReposByIds(repositoryIds);
-      let githubRepositoryIndex = {};
-      for (let githubRepository of githubRepositories) {
-        githubRepositoryIndex[githubRepository.id] = githubRepository;
-      }
-      setGithubRepositories({ ...githubRepositoryIndex });
-    };
-    if (repositoryIds) {
-      fetchRepositories();
-    }
-  }, [repositories]);
+const Manager = ({ repositories }) => {
   return (
     <>
       {repositories?.map((repository, index) => {
-        return (
-          <HackathonCard githubRepository={githubRepositories[repository.id]} repository={repository} key={index} />
-        );
+        return <HackathonCard repository={repository} key={index} />;
       })}
     </>
   );

@@ -10,10 +10,10 @@ import { useRouter } from 'next/router';
 
 const CreateHackathon = () => {
   const router = useRouter();
-
+  console.log(router.query);
   const proAccountId = router.query.id;
   return (
-    <HackathonProvider>
+    <HackathonProvider hackathon={{ proAccountId }}>
       <div className='lg:grid lg:grid-cols-extra-wide xl:grid-cols-wide justify-center md:pr-3 mx-4 sm:mx-8'>
         <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[690px] mx-auto'>
           <div className=' flex-wrap gap-4 w-full items-center pt-10'>

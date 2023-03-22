@@ -8,8 +8,9 @@ import PageHeader from '../../../components/PageHeader/index.js';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Manager from '../../../components/Manager/index.js';
+import WrappedGithubClient from '../../../services/github/WrappedGithubClient.js';
 
-const ProAccount = ({ proAccount }) => {
+const ProAccount = ({ proAccount, repositories }) => {
   const hasSuperchargedHackathons = proAccount?.permissionedProducts?.nodes?.some(
     (node) => node.name === 'SuperchargingHackathonsProduct'
   );
@@ -69,6 +70,9 @@ const ProAccount = ({ proAccount }) => {
   const handleSearchInput = (e) => {
     setSearchText(e.target.value);
   };
+  const searchedRepos = repositories.filter((repository) => {
+    return repository.name.toLowerCase().includes(searchText.toLowerCase());
+  });
 
   return (
     <>
@@ -81,7 +85,7 @@ const ProAccount = ({ proAccount }) => {
         searchText={searchText}
         handleSearchInput={handleSearchInput}
       >
-        {internalMenu === 'Hackathons' && <Manager />}
+        {internalMenu === 'Hackathons' && <Manager repositories={searchedRepos} />}
         {internalMenu === 'Team' && (
           <ProProvider proAccount={proAccount}>
             <div className='w-full flex flex-col gap-y-4 relative flex-1  min-w-[260px]'>
@@ -103,12 +107,28 @@ export default ProAccount;
 
 export const getServerSideProps = async (context) => {
   const openQPrismaClient = new WrappedOpenQPrismaClient();
+  const githubRepository = new WrappedGithubClient();
+
   await openQPrismaClient.instance.setGraphqlHeaders(context.req.headers.cookie);
   const { id } = context.query;
   const { proAccount } = await openQPrismaClient.instance.getProAccount(id);
+  const { repositories } = proAccount;
+  const repositoryIds = repositories.nodes?.map((repository) => repository.id);
+  const githubRepositories = await githubRepository.instance.fetchReposByIds(repositoryIds);
+  let githubRepositoryIndex = {};
+  for (let githubRepository of githubRepositories) {
+    githubRepositoryIndex[githubRepository.id] = githubRepository;
+  }
+  const combinedRepo = repositories.nodes.map((repository) => {
+    return {
+      ...repository,
+      ...githubRepositoryIndex[repository.id],
+    };
+  });
   return {
     props: {
       proAccount,
+      repositories: combinedRepo,
     },
   };
 };

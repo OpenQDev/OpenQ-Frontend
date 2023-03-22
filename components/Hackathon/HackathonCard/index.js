@@ -5,7 +5,9 @@ import { CalendarIcon, LocationIcon } from '@primer/octicons-react';
 import TwitterIcon from '../../svg/twitter';
 import { getPlural } from '../../../services/utils/lib';
 import Chain from '../../svg/chain';
-const HackathonCard = ({ repository, githubRepository }) => {
+import NoSSRWrapper from '../../Utils/NoSSR';
+import { useRouter } from 'next/router';
+const HackathonCard = ({ repository }) => {
   const parsedStartDate = new Date(parseInt(repository.startDate));
   const parsedEndDate = new Date(parseInt(repository.endDate));
   const monthsToStart = parsedStartDate.getMonth() - new Date().getMonth();
@@ -17,22 +19,26 @@ const HackathonCard = ({ repository, githubRepository }) => {
     month: 'long',
     day: 'numeric',
   });
+  const { query } = useRouter();
+  const { proAccountId } = query;
   return (
     <>
-      {githubRepository && (
+      {repository && (
         <div className=''>
           <div className='flex w-full justify-between bg-heading-bg p-4 border-web-gray border  rounded-t-sm'>
             <div className='flex gap-4 items-center'>
-              <Image width={48} height={48} src={githubRepository.owner.avatarUrl} />
+              <Image width={48} height={48} src={repository.owner.avatarUrl} />
               <h3 className='font-semibold text-link-colour hover:underline'>
-                <Link href={`/hackathons/${repository.id}`}>{githubRepository?.name}</Link>
+                <Link href={`/hackathons/${repository.id}`}>{repository?.name}</Link>
               </h3>
             </div>
             <div>
               {repository.isDraft && <button className='btn-default bg-input-bg mx-4'>Preview</button>}
-              <Link href={`/hackathons/${repository.id}/edit`} className='btn-default bg-input-bg mx-4'>
-                Edit
-              </Link>
+              {proAccountId && (
+                <Link href={`/hackathons/${repository.id}/edit`} className='btn-default bg-input-bg mx-4'>
+                  Edit
+                </Link>
+              )}
             </div>
           </div>
           <div className='p-4 border-web-gray border-x '>
@@ -47,7 +53,11 @@ const HackathonCard = ({ repository, githubRepository }) => {
               </div>
               <div className='flex gap-2 items-center'>
                 <CalendarIcon />
-                {startDateReadable} - {endDateReadable}
+                <NoSSRWrapper>
+                  <div>
+                    {startDateReadable} - {endDateReadable}
+                  </div>
+                </NoSSRWrapper>
               </div>
             </div>
           </div>

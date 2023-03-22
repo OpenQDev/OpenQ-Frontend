@@ -453,6 +453,9 @@ export const GET_REPO_BY_NAME = gql`
       description
       homepageUrl
       url
+      owner {
+        id
+      }
       languages(first: 10) {
         edges {
           node {
