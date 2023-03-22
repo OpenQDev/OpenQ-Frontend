@@ -453,3 +453,9 @@ export const updateHackathonState = async (hackathonState, appState, setCreateHa
     setCreateHackathonResponse('ERROR');
   }
 };
+export const shortenString = (str, maxLen) => {
+  if (str.length > maxLen) {
+    return str.substring(0, maxLen) + '...';
+  }
+  return str;
+};

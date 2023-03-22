@@ -18,7 +18,7 @@ import StoreContext from '../../../store/Store/StoreContext';
 import { fetchBountiesWithServiceArg, getReadyText, isOnlyContest } from '../../../services/utils/lib';
 import PaginatedList from '../../../components/Utils/PaginatedList';
 import SearchBar from '../../../components/SearchBar';
-import ShowCaseCard from '../../../components/ShowCase/ShowCaseCard';
+import ShowCaseCard from '../../../components/ShowCase/NewShowCaseCard';
 import ShowCasePage from '../../../components/ShowCase/ShowCasePage';
 import { ChevronLeftIcon } from '@primer/octicons-react';
 
@@ -27,7 +27,6 @@ const Hackathon = ({ githubRepository, hackathon, paginationObj }) => {
   const [internalMenu] = internalMenuState;
 
   const [appState] = useContext(StoreContext);
-  const [toggleVal, setToggleVal] = useState('Overview');
   const [searchValue, setSearchValue] = useState('');
   const [singleSubmission, setSingleSubmission] = useState(null);
 
@@ -85,9 +84,11 @@ const Hackathon = ({ githubRepository, hackathon, paginationObj }) => {
   return (
     <div className='pt-4'>
       <HackathonHeading internalMenuState={internalMenuState} githubRepository={githubRepository} />
-      <div className='flex justify-between  w-full px-2 sm:px-8  max-w-[1200px] pb-4 mx-auto'>
-        <ViewHeading hackathon={hackathon} />
-      </div>
+      {internalMenu === 'View' && (
+        <div className='flex justify-between  w-full px-2 sm:px-8  max-w-[1200px] pb-4 mx-auto'>
+          <ViewHeading hackathon={hackathon} />
+        </div>
+      )}
       <PanelWithMetadata>
         {internalMenu === 'View' && <ViewBody githubRepository={githubRepository} hackathon={hackathon} />}
         {internalMenu === 'Bounties' && (
@@ -97,22 +98,21 @@ const Hackathon = ({ githubRepository, hackathon, paginationObj }) => {
             hackathon={hackathon}
           />
         )}
-        {internalMenu === 'Submissions' && (
-          <div className='w-full flex relative flex-1 pr-16 min-w-[260px]'>
+        {internalMenu === 'Submissions' ? (
+          <div className='w-full flex relative flex-1 pt-8 min-w-[260px]'>
             <div className=' gap-6 w-full flex flex-wrap md:flex-nowrap'>
               {!singleSubmission ? (
                 <div className='flex flex-col w-full'>
-                  <h2 className='text-primary w-full mb-2'>Submissions for {githubRepository.name}</h2>
                   <SearchBar
                     onKeyUp={filterBySubmission}
                     searchText={searchValue}
-                    placeholder='Search Submissions...'
-                    styles={'flex max-w-[960px] mb-8'}
+                    placeholder='Search Projects'
+                    styles={'flex max-w-[1200px] text-xl py-3 mb-8  placeholder:text-nav-bg'}
                   />
                   <PaginatedList
                     paginationState={githubPaginationState}
                     PaginationCard={ShowCaseCard}
-                    className='flex flex-wrap gap-8 w-full items-start'
+                    className='grid grid-cols-[_repeat(_auto-fit,_minmax(250px,_1fr))] flex-wrap gap-6 w-full items-start'
                     singleSubmission={singleSubmission}
                     setSingleSubmission={setSingleSubmission}
                   />
@@ -169,8 +169,9 @@ const Hackathon = ({ githubRepository, hackathon, paginationObj }) => {
               )}
             </div>
           </div>
+        ) : (
+          <HackathonMetadata githubRepository={githubRepository} hackathon={hackathon} />
         )}
-        <HackathonMetadata githubRepository={githubRepository} hackathon={hackathon} />
       </PanelWithMetadata>
     </div>
   );

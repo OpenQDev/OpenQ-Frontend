@@ -8,9 +8,7 @@ const CreateAsDraftButton = () => {
   const [hackathonState] = useContext(HackathonContext);
   const { proAccountId } = hackathonState;
   const [appState] = useContext(StoreContext);
-  const setCreateHackathonResponse = (e) => {
-    console.log(e);
-  };
+  const setCreateHackathonResponse = () => {};
 
   const router = useRouter();
   const handleCreateAsDraft = async (e) => {

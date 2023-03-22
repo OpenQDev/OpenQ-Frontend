@@ -208,6 +208,7 @@ export const GET_PRS = gql`
         }
         nodes {
           id
+          bodyHTML
           bodyText
           body
           title

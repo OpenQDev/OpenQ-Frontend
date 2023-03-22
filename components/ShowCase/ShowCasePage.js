@@ -4,9 +4,11 @@ import { ethers } from 'ethers';
 import Image from 'next/image';
 import Link from 'next/link';
 import AuthContext from '../../store/AuthStore/AuthContext';
+import GithubHtmlRenderer from '../Utils/HtmlReneder';
 
 const ShowCasePage = ({ pr }) => {
   const [authState] = useContext(AuthContext);
+  console.log(pr);
   const { avatarUrl } = authState;
   const { isAddress } = ethers.utils;
   const [showForm, setShowForm] = useState();
@@ -105,7 +107,8 @@ const ShowCasePage = ({ pr }) => {
   return (
     <div className='w-full'>
       <h1 className='lsm:text-[32px] text-2xl pt-8 pb-4 flex-1 leading-tight min-w-[240px] pr-20'>{pr.title}</h1>
-      <div className='py-2 text-lg'>{pr.bodyText}</div>
+
+      <GithubHtmlRenderer className='markdown-body' html={pr.bodyHTML} />
       <Link href={pr.url} className='text-tinted underline py-2' target='_blank' rel='noopener noreferrer'>
         <span>View Source</span>
       </Link>
