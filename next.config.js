@@ -37,6 +37,7 @@ module.exports = () => {
 
   const config = {
     reactStrictMode: true,
+    productionBrowserSourceMaps: true,
     env,
 
     async headers() {
