@@ -1,10 +1,11 @@
-import React from 'react';
+// pages/index.js
 import dynamic from 'next/dynamic';
+import React from 'react';
 
-const DynamicComponent = dynamic((props) => import(`./${props.component}`), { ssr: false });
-
-function NoSSRWrapper(props) {
-  return <DynamicComponent component={props.component} />;
+const DynamicComponent = dynamic(() => import('./NoSSR').then((mod) => mod.NoSSR), {
+  ssr: false,
+});
+export function NoSSR({ children }) {
+  return <>{children}</>;
 }
-
-export default NoSSRWrapper;
+export default DynamicComponent;
