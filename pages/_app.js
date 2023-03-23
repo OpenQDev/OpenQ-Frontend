@@ -14,7 +14,6 @@ import '../styles/globals.css';
 import StoreProvider from '../store/Store/StoreProvider';
 import AuthProvider from '../store/AuthStore/AuthProvider';
 import Head from 'next/head';
-import Footer from '../components/Layout/Footer';
 import { walletConnect, walletConnectHooks, metaMask, metaMaskHooks } from '../components/WalletConnect/connectors';
 import Script from 'next/script';
 
@@ -94,8 +93,6 @@ function OpenQ() {
                     <div className='' id='modalroot'></div>
                     <div className='min-h-screen  flex flex-col justify-between'>
                       <div></div>
-
-                      <Footer />
                     </div>
                   </ErrorBoundary>
                 </SetContextState>
