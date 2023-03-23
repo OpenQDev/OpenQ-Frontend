@@ -5,6 +5,7 @@ import { ethers } from 'ethers';
 import Link from 'next/link';
 import OpenQSocials from './OpenQSocials';
 import LoadingBar from '../Loading/LoadingBar';
+import NoSSR from '../Utils/NoSSR';
 
 // Custom
 import CopyAddressToClipboard from '../CopyAddressToClipboard';
@@ -52,73 +53,77 @@ const Footer = () => {
               )}
             </div>
             <div className='relative h-6'>
-              <div
-                className={`relative px-3 w-40 ${open && 'left-0.25 rounded-sm border bg-dark-mode border-web-gray'}`}
-              >
-                {open ? (
-                  <div ref={modal}>
-                    <button onClick={() => setToggle(1)} value={1} className='block'>
+              <NoSSR>
+                {' '}
+                <div
+                  className={`relative px-3 w-40 ${open && 'left-0.25 rounded-sm border bg-dark-mode border-web-gray'}`}
+                >
+                  {open ? (
+                    <div ref={modal}>
+                      <button onClick={() => setToggle(1)} value={1} className='block'>
+                        <CopyAddressToClipboard
+                          clipping={[5, 38]}
+                          data={process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS}
+                          styles='pt-0 w-40'
+                        />
+                      </button>
+
+                      <button onClick={() => setToggle(2)} value={2} className='block'>
+                        <CopyAddressToClipboard
+                          clipping={[5, 38]}
+                          data={process.env.NEXT_PUBLIC_DEPOSIT_MANAGER_PROXY_ADDRESS}
+                          styles='pt-0 w-40'
+                        />
+                      </button>
+                      <button onClick={() => setToggle(3)} value={3} className='block'>
+                        <CopyAddressToClipboard
+                          clipping={[5, 38]}
+                          data={process.env.NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS}
+                          styles='pt-0 w-40'
+                        />
+                      </button>
+                    </div>
+                  ) : toggle === 1 ? (
+                    <button value={1} className='block'>
                       <CopyAddressToClipboard
                         clipping={[5, 38]}
                         data={process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS}
                         styles='pt-0 w-40'
                       />
                     </button>
-
-                    <button onClick={() => setToggle(2)} value={2} className='block'>
+                  ) : toggle === 2 ? (
+                    <button value={2} className='block'>
                       <CopyAddressToClipboard
                         clipping={[5, 38]}
                         data={process.env.NEXT_PUBLIC_DEPOSIT_MANAGER_PROXY_ADDRESS}
                         styles='pt-0 w-40'
                       />
                     </button>
-                    <button onClick={() => setToggle(3)} value={3} className='block'>
+                  ) : (
+                    <button value={3} className='block'>
                       <CopyAddressToClipboard
                         clipping={[5, 38]}
-                        data={process.env.NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS}
+                        data={ethers.utils.getAddress(process.env.NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS || '')}
                         styles='pt-0 w-40'
                       />
                     </button>
-                  </div>
-                ) : toggle === 1 ? (
-                  <button value={1} className='block'>
-                    <CopyAddressToClipboard
-                      clipping={[5, 38]}
-                      data={process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS}
-                      styles='pt-0 w-40'
-                    />
-                  </button>
-                ) : toggle === 2 ? (
-                  <button value={2} className='block'>
-                    <CopyAddressToClipboard
-                      clipping={[5, 38]}
-                      data={process.env.NEXT_PUBLIC_DEPOSIT_MANAGER_PROXY_ADDRESS}
-                      styles='pt-0 w-40'
-                    />
-                  </button>
-                ) : (
-                  <button value={3} className='block'>
-                    <CopyAddressToClipboard
-                      clipping={[5, 38]}
-                      data={ethers.utils.getAddress(process.env.NEXT_PUBLIC_CLAIM_MANAGER_PROXY_ADDRESS || '')}
-                      styles='pt-0 w-40'
-                    />
-                  </button>
-                )}
+                  )}
+                </div>
+              </NoSSR>
+            </div>
+          </div>
+          <NoSSR>
+            <div className='flex flex-col lg:flex-row gap-2 lg:gap-4 lg:items-center'>
+              {process.env.NEXT_PUBLIC_BUILD_NUMBER ? (
+                <div>Build: {process.env.NEXT_PUBLIC_BUILD_NUMBER}</div>
+              ) : (
+                <div>Build: production-1.0.22</div>
+              )}
+              <div className=''>
+                <span className='whitespace-nowrap'>©</span> {year}, OpenQ Labs GmbH
               </div>
             </div>
-          </div>
-
-          <div className='flex flex-col lg:flex-row gap-2 lg:gap-4 lg:items-center'>
-            {process.env.NEXT_PUBLIC_BUILD_NUMBER ? (
-              <div>Build: {process.env.NEXT_PUBLIC_BUILD_NUMBER}</div>
-            ) : (
-              <div>Build: production-1.0.22</div>
-            )}
-            <div className=''>
-              <span className='whitespace-nowrap'>©</span> {year}, OpenQ Labs GmbH
-            </div>
-          </div>
+          </NoSSR>
         </div>
       </div>
       <div className='mt-6 lg:grid lg:grid-cols-[1fr_1fr_1fr_3fr]'>
