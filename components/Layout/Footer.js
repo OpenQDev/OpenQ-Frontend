@@ -5,6 +5,7 @@ import { ethers } from 'ethers';
 import Link from 'next/link';
 import OpenQSocials from './OpenQSocials';
 import LoadingBar from '../Loading/LoadingBar';
+import NoSSR from '../NoSSR';
 
 // Custom
 import CopyAddressToClipboard from '../CopyAddressToClipboard';
@@ -110,11 +111,13 @@ const Footer = () => {
           </div>
 
           <div className='flex flex-col lg:flex-row gap-2 lg:gap-4 lg:items-center'>
-            {process.env.NEXT_PUBLIC_BUILD_NUMBER ? (
-              <div>Build: {process.env.NEXT_PUBLIC_BUILD_NUMBER}</div>
-            ) : (
-              <div>Build: production-1.0.22</div>
-            )}
+            <NoSSR>
+              {process.env.NEXT_PUBLIC_BUILD_NUMBER ? (
+                <div>Build: {process.env.NEXT_PUBLIC_BUILD_NUMBER}</div>
+              ) : (
+                <div>Build: production-1.0.22</div>
+              )}
+            </NoSSR>
             <div className=''>
               <span className='whitespace-nowrap'>©</span> {year}, OpenQ Labs GmbH
             </div>
