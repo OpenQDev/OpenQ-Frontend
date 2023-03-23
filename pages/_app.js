@@ -4,6 +4,7 @@ import { UserContext } from '../lib/UserContext';
 import { Web3ReactProvider } from '@web3-react/core';
 import 'tailwindcss/tailwind.css';
 import 'github-markdown-css/github-markdown-dark.css';
+import { useRouter } from 'next/router';
 import ReactGA from 'react-ga4';
 import { hotjar } from 'react-hotjar';
 import ErrorBoundary from '../components/Layout/ErrorBoundary';
@@ -13,11 +14,13 @@ import SetContextState from '../store/SetContextState/SetContextState';
 import '../styles/globals.css';
 import StoreProvider from '../store/Store/StoreProvider';
 import AuthProvider from '../store/AuthStore/AuthProvider';
+import Navigation from '../components/Layout/Navigation';
 import Head from 'next/head';
 import { walletConnect, walletConnectHooks, metaMask, metaMaskHooks } from '../components/WalletConnect/connectors';
 import Script from 'next/script';
+import FirstTimeBanner from '../components/Layout/FirstTimeBanner';
 
-function OpenQ() {
+function OpenQ({ Component, pageProps }) {
   const connectors = [
     [metaMask, metaMaskHooks],
     [walletConnect, walletConnectHooks],
@@ -48,6 +51,7 @@ function OpenQ() {
       hotjar.identify('USER_ID', { userProperty: 'value' });
     }
   }, []);
+  const router = useRouter();
   return (
     <>
       {/* Global Site Tag (gtag.js) - Google Analytics */}
@@ -92,7 +96,11 @@ function OpenQ() {
                   <ErrorBoundary>
                     <div className='' id='modalroot'></div>
                     <div className='min-h-screen  flex flex-col justify-between'>
-                      <div></div>
+                      <div>
+                        {router.asPath == '/login' ? null : <Navigation />}
+                        <FirstTimeBanner />
+                        <Component key={router.asPath} {...pageProps} />
+                      </div>
                     </div>
                   </ErrorBoundary>
                 </SetContextState>
