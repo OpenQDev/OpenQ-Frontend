@@ -23,10 +23,9 @@ const Navigation = () => {
   const [notificationToken, setNotificationToken] = useState(null);
   const { openQSubgraphClient, openQPrismaClient, utils, githubRepository, tokenClient } = appState;
   const { accountData } = appState;
-  const [showBell, setShowBell] = useState(false);
+  const [showBell] = useState(false);
 
   useEffect(() => {
-    setShowBell(true);
     // https://stackoverflow.com/questions/4003823/javascript-getcookie-functions/4004010#4004010
     const getCookie = (c_name) => {
       var c_value = ' ' + document.cookie;

@@ -5,4 +5,4 @@ RUN apk update && apk upgrade && \
 COPY . .
 RUN yarn
 EXPOSE 3000
-ENTRYPOINT yarn boot:docker
+ENTRYPOINT boot:local-targeting-staging
