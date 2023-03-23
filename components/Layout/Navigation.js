@@ -23,8 +23,10 @@ const Navigation = () => {
   const [notificationToken, setNotificationToken] = useState(null);
   const { openQSubgraphClient, openQPrismaClient, utils, githubRepository, tokenClient } = appState;
   const { accountData } = appState;
+  const [showBell, setShowBell] = useState(false);
 
   useEffect(() => {
+    setShowBell(true);
     // https://stackoverflow.com/questions/4003823/javascript-getcookie-functions/4004010#4004010
     const getCookie = (c_name) => {
       var c_value = ' ' + document.cookie;
@@ -47,7 +49,7 @@ const Navigation = () => {
     };
 
     getNotificationCookie();
-  });
+  }, []);
 
   useEffect(() => {
     // set up searchable
@@ -125,7 +127,6 @@ const Navigation = () => {
       .map((searchableItem) => searchableItem);
     setItems(e.target.value ? names.slice(0, 5) : []);
   };
-
   return (
     <>
       {openMenu ? (
@@ -180,9 +181,14 @@ const Navigation = () => {
             <div className='md:hidden font-inter text-xl self-center font-bold'>OpenQ</div>
             <div className='flex items-center text-[0.8rem] md:text-[1rem]'>
               <div className='pr-4 md:block hidden'>
-                {notificationToken && accountData.github ? (
-                  <NotificationBell userId={accountData.github} notificationToken={notificationToken} />
-                ) : null}
+                {showBell && (
+                  <>
+                    {' '}
+                    {notificationToken && accountData.github ? (
+                      <NotificationBell userId={accountData.github} notificationToken={notificationToken} />
+                    ) : null}
+                  </>
+                )}
               </div>
               <div className='pr-4 md:block hidden'>
                 <ConnectButton
