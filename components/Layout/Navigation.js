@@ -23,7 +23,6 @@ const Navigation = () => {
   const [notificationToken, setNotificationToken] = useState(null);
   const { openQSubgraphClient, openQPrismaClient, utils, githubRepository, tokenClient } = appState;
   const { accountData } = appState;
-  const [showBell] = useState(false);
 
   useEffect(() => {
     // https://stackoverflow.com/questions/4003823/javascript-getcookie-functions/4004010#4004010
@@ -180,14 +179,12 @@ const Navigation = () => {
             <div className='md:hidden font-inter text-xl self-center font-bold'>OpenQ</div>
             <div className='flex items-center text-[0.8rem] md:text-[1rem]'>
               <div className='pr-4 md:block hidden'>
-                {showBell && (
-                  <>
-                    {' '}
-                    {notificationToken && accountData.github ? (
-                      <NotificationBell userId={accountData.github} notificationToken={notificationToken} />
-                    ) : null}
-                  </>
-                )}
+                <>
+                  {' '}
+                  {notificationToken && accountData.github ? (
+                    <NotificationBell userId={accountData.github} notificationToken={notificationToken} />
+                  ) : null}
+                </>
               </div>
               <div className='pr-4 md:block hidden'>
                 <ConnectButton
