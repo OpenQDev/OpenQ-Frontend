@@ -21,7 +21,7 @@ import { walletConnect, walletConnectHooks, metaMask, metaMaskHooks } from '../c
 import Script from 'next/script';
 import FirstTimeBanner from '../components/Layout/FirstTimeBanner';
 
-function OpenQ({ Component, pageProps }) {
+function OpenQ() {
   const connectors = [
     [metaMask, metaMaskHooks],
     [walletConnect, walletConnectHooks],
@@ -100,7 +100,7 @@ function OpenQ({ Component, pageProps }) {
                       <div>
                         {router.asPath == '/login' ? null : <Navigation />}
                         <FirstTimeBanner />
-                        <Component key={router.asPath} {...pageProps} />
+                        <div></div>
                       </div>
 
                       <Footer />

@@ -26,7 +26,6 @@ const Navigation = () => {
   const [showBell, setShowBell] = useState(false);
 
   useEffect(() => {
-    setShowBell(true);
     // https://stackoverflow.com/questions/4003823/javascript-getcookie-functions/4004010#4004010
     const getCookie = (c_name) => {
       var c_value = ' ' + document.cookie;
@@ -46,6 +45,7 @@ const Navigation = () => {
     const getNotificationCookie = () => {
       const signedKnockTokenCookie = getCookie('signed_knock_token');
       setNotificationToken(signedKnockTokenCookie);
+      setShowBell(true);
     };
 
     getNotificationCookie();
