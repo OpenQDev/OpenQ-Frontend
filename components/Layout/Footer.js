@@ -5,7 +5,7 @@ import { ethers } from 'ethers';
 import Link from 'next/link';
 import OpenQSocials from './OpenQSocials';
 import LoadingBar from '../Loading/LoadingBar';
-import NoSSR from '../NoSSR';
+import NoSSR from '../Utils/NoSSR';
 
 // Custom
 import CopyAddressToClipboard from '../CopyAddressToClipboard';
