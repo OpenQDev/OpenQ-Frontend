@@ -35,12 +35,14 @@ import ClaimOverview from '../../../components/Claim/ClaimOverview';
 import Log from '../../../components/svg/log';
 import FundProvider from '../../../components/FundBounty/FundStore/FundProvider';
 import { checkClaimable, getBountyTypeName } from '../../../services/utils/lib';
+import { useRouter } from 'next/router';
 
 const address = ({ address, mergedBounty, renderError }) => {
   // Context
   const [appState, dispatch] = useContext(StoreContext);
   const { accountData, openQClient } = appState;
   const [bounty, setBounty] = useState(mergedBounty);
+  const router = useRouter();
 
   const { status } = checkClaimable(bounty, accountData?.github, openQClient);
   const claimable = status === 'Claimable' || status === 'Claimed';
@@ -135,7 +137,7 @@ const address = ({ address, mergedBounty, renderError }) => {
 
   useEffect(() => {
     if (bounty && bounty.issuer?.id && ethers.utils.getAddress(bounty.issuer.id) !== account) {
-      setInternalMenu('View');
+      //  setInternalMenu('View');
     }
   }, [account]);
 
@@ -191,8 +193,12 @@ const address = ({ address, mergedBounty, renderError }) => {
     // set route and populate
     if (address) {
       const route = sessionStorage.getItem(address);
-      if (route !== internalMenu) {
-        setInternalMenu(route || 'View');
+      console.log('route', route);
+      const tab = router?.query?.tab;
+      console.log('tab', tab);
+      const newTab = tab || route;
+      if (newTab !== internalMenu) {
+        setInternalMenu(newTab || 'View');
       }
     }
 
