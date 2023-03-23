@@ -3,7 +3,6 @@ import React from 'react';
 import Link from 'next/link';
 
 // Custom
-import WatchButton from '../../WatchButton/WatchButton';
 
 const RepoTitle = ({ repo }) => {
   return (
@@ -29,7 +28,6 @@ const RepoTitle = ({ repo }) => {
           )}
         </div>
       </div>
-      <WatchButton repo={repo} />
     </div>
   );
 };

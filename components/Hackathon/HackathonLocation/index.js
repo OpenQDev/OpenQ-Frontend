@@ -35,7 +35,7 @@ const HackathonLocation = () => {
             disabled={!isIrl}
             onChange={(e) => handleDispatch(e, 'SET_CITY', hackathonDispatch)}
             className={`input-field w-full max-w-60 h-8  ${!isIrl && 'cursor-not-allowed'}`}
-            value={city}
+            value={city !== 'virtual' ? city : ''}
             id={'city'}
           />
         </div>
