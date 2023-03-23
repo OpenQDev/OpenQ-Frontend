@@ -47,7 +47,7 @@ const Navigation = () => {
     };
 
     getNotificationCookie();
-  }, []);
+  });
 
   useEffect(() => {
     // set up searchable
@@ -179,12 +179,9 @@ const Navigation = () => {
             <div className='md:hidden font-inter text-xl self-center font-bold'>OpenQ</div>
             <div className='flex items-center text-[0.8rem] md:text-[1rem]'>
               <div className='pr-4 md:block hidden'>
-                <>
-                  {' '}
-                  {notificationToken && accountData.github ? (
-                    <NotificationBell userId={accountData.github} notificationToken={notificationToken} />
-                  ) : null}
-                </>
+                {notificationToken && accountData.github ? (
+                  <NotificationBell userId={accountData.github} notificationToken={notificationToken} />
+                ) : null}
               </div>
               <div className='pr-4 md:block hidden'>
                 <ConnectButton
