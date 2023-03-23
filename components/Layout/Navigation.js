@@ -125,7 +125,6 @@ const Navigation = () => {
       .map((searchableItem) => searchableItem);
     setItems(e.target.value ? names.slice(0, 5) : []);
   };
-
   return (
     <>
       {openMenu ? (
