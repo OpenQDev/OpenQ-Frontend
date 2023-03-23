@@ -30,7 +30,7 @@ exports[`Footer should match DOM Snapshot 1`] = `
         <div
           className="relative h-6"
         >
-          <NoSSRWrapper>
+          <ForwardRef(LoadableComponent)>
              
             <div
               className="relative px-3 w-40 undefined"
@@ -50,10 +50,10 @@ exports[`Footer should match DOM Snapshot 1`] = `
                 />
               </button>
             </div>
-          </NoSSRWrapper>
+          </ForwardRef(LoadableComponent)>
         </div>
       </div>
-      <NoSSRWrapper>
+      <ForwardRef(LoadableComponent)>
         <div
           className="flex flex-col lg:flex-row gap-2 lg:gap-4 lg:items-center"
         >
@@ -73,7 +73,7 @@ exports[`Footer should match DOM Snapshot 1`] = `
             , OpenQ Labs GmbH
           </div>
         </div>
-      </NoSSRWrapper>
+      </ForwardRef(LoadableComponent)>
     </div>
   </div>
   <div
