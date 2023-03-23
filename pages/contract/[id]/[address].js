@@ -135,12 +135,6 @@ const address = ({ address, mergedBounty, renderError }) => {
     };
   }, [internalMenu]);
 
-  useEffect(() => {
-    if (bounty && bounty.issuer?.id && ethers.utils.getAddress(bounty.issuer.id) !== account) {
-      //  setInternalMenu('View');
-    }
-  }, [account]);
-
   // Hooks
   useEffect(() => {
     const bountyTypeName = getBountyTypeName(bounty.bountyType);
@@ -193,9 +187,7 @@ const address = ({ address, mergedBounty, renderError }) => {
     // set route and populate
     if (address) {
       const route = sessionStorage.getItem(address);
-      console.log('route', route);
       const tab = router?.query?.tab;
-      console.log('tab', tab);
       const newTab = tab || route;
       if (newTab !== internalMenu) {
         setInternalMenu(newTab || 'View');
