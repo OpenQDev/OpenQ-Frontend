@@ -37,6 +37,7 @@ const HackathonDefinition = ({ isEditing }) => {
           <div className='input-field bg-transparent py-1.5 w-full h-8 '>{repositoryUrl}</div>
         ) : (
           <input
+            required='true'
             onChange={handleUpdateGithubRepositoryUrl}
             className='input-field w-full h-8 '
             id={'repositoryUrl'}

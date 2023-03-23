@@ -16,7 +16,11 @@ const CreateAsDraftButton = () => {
     const push = () => {
       router.push(`/pro/${proAccountId}?tab=Hackathons`);
     };
-    await updateHackathonState({ ...hackathonState, isDraft: true }, appState, setCreateHackathonResponse, push);
+    try {
+      await updateHackathonState({ ...hackathonState, isDraft: true }, appState, setCreateHackathonResponse, push);
+    } catch (e) {
+      appState.logger.error('CreateAsDraftButton1', e);
+    }
   };
   return (
     <button

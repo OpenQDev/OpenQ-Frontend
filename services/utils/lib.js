@@ -417,9 +417,11 @@ export const updateHackathonState = async (hackathonState, appState, setCreateHa
   const name = ownerRegex.exec(repositoryUrl)?.[2];
   try {
     setCreateHackathonResponse('PENDING');
-    const githubRepository = await appState.githubRepository.fetchRepoByName(owner, name, []);
+    const githubRepository = await appState.githubRepository.fetchRepoByName(owner, name, []).catch(() => {
+      return null;
+    });
     const repositoryId = githubRepository.id;
-    const organizationId = githubRepository.owner.id;
+    const organizationId = githubRepository.owner?.id;
     const variables = {
       proAccountId,
       repositoryId,
@@ -449,6 +451,7 @@ export const updateHackathonState = async (hackathonState, appState, setCreateHa
     push();
   } catch (e) {
     setCreateHackathonResponse('ERROR');
+    throw e;
   }
 };
 export const shortenString = (str, maxLen) => {

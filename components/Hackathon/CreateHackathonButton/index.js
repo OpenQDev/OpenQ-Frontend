@@ -14,6 +14,7 @@ const CreateHackathonButton = ({ proAccountId, isEditing }) => {
   const [hackathonState] = useContext(HackathonContext);
   const [createHackathonResponse, setCreateHackathonResponse] = useState(CONFIRM);
   const [appState] = useContext(StoreContext);
+  const [error, setError] = useState(null);
   const EmptyLoader = () => <></>;
   const createOrUpdate = isEditing ? 'Updat' : 'Creat';
   const responseMap = {
@@ -28,16 +29,27 @@ const CreateHackathonButton = ({ proAccountId, isEditing }) => {
     const push = () => {
       router.push(`/pro/${proAccountId}?tab=Hackathons`);
     };
-    updateHackathonState({ ...hackathonState, proAccountId }, appState, setCreateHackathonResponse, push);
+    try {
+      await updateHackathonState({ ...hackathonState, proAccountId }, appState, setCreateHackathonResponse, push);
+    } catch (e) {
+      if (JSON.stringify(e).includes('auth')) {
+        setError("You can't create a hackathon for a repository you don't have permissions for.");
+      } else {
+        setError('You must specify a repository URL');
+      }
+    }
   };
 
   return (
-    <div className='flex my-8 gap-4'>
-      <button onClick={handleCreate} className='btn-primary flex gap-2 '>
-        {responseMap[createHackathonResponse].text}
-        <Loader />
-      </button>
-      <button className='btn-default'>Preview</button>
+    <div className='my-8'>
+      <div className='flex mb-2 gap-4'>
+        <button onClick={handleCreate} className='btn-primary flex gap-2 '>
+          {responseMap[createHackathonResponse].text}
+          <Loader />
+        </button>
+        <button className='btn-default'>Preview</button>
+      </div>
+      {error && <div className='text-red-500'>{error}</div>}
     </div>
   );
 };
