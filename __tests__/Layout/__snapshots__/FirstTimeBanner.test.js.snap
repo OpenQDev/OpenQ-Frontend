@@ -18,7 +18,7 @@ exports[`FirstTimeBanner should show nothing 1`] = `
     <div>
       You
       '
-      re early to the party - most EthDenver 2023 bounties will be minted on March 22.
+      re early to the party - most EthDenver 2023 bounties will be minted on March 23.
     </div>
     <br />
     <div>
@@ -71,7 +71,7 @@ exports[`FirstTimeBanner should show the Banner and match DOM Snapshot 1`] = `
     <div>
       You
       '
-      re early to the party - most EthDenver 2023 bounties will be minted on March 22.
+      re early to the party - most EthDenver 2023 bounties will be minted on March 23.
     </div>
     <br />
     <div>
