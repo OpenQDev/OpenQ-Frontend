@@ -1,6 +1,6 @@
 // Third party
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
+import { ChevronDownIcon, ChevronUpIcon, DownloadIcon } from '@primer/octicons-react';
 import { ethers } from 'ethers';
 import Link from 'next/link';
 import OpenQSocials from './OpenQSocials';
@@ -111,6 +111,16 @@ const Footer = () => {
                 </div>
               </NoSSR>
             </div>
+          </div>
+          <div className='pr-4 min-w-[196px]'>
+            <span className='pr-2'> Audited by Sherlock</span>
+            <DownloadIcon
+              className='cursor-pointer'
+              href={
+                'https://github.com/OpenQDev/OpenQ-Frontend/files/11056446/2023.03.22_-_Preliminary_-_OpenQ_Audit_Report.1.pdf'
+              }
+              size={16}
+            />
           </div>
           <NoSSR>
             <div className='flex flex-col lg:flex-row gap-2 lg:gap-4 lg:items-center'>
