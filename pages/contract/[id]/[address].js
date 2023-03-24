@@ -196,12 +196,12 @@ const address = ({ address, mergedBounty, renderError }) => {
   useEffect(() => {
     const route = sessionStorage.getItem(address);
     const tab = router?.query?.tab;
-    const newTab = tab || route;
+    const newTab = tab || route || 'View';
     if (newTab !== internalMenu) {
       if (!accountData || (newTab === 'Claim' && !claimable)) {
         setInternalMenu('View');
       } else {
-        setInternalMenu(newTab || 'View');
+        setInternalMenu(newTab);
       }
     }
   }, [claimable, accountData, internalMenu, router?.query?.tab]);
