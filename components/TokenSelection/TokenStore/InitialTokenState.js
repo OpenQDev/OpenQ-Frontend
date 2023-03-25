@@ -4,7 +4,7 @@ const zeroAddressMetadata = {
   symbol: 'MATIC',
   decimals: 18,
   chainId: 80001,
-  path: 'https://wallet-asset.matic.network/img/tokens/matic.svg',
+  path: '/crypto-logos/MATIC.svg',
 };
 
 // Reminder, this isn't all the props fundState has, just the initial ones.

@@ -50,7 +50,7 @@ const TextTierInput = ({ tier, tierVolumes, onTierVolumeChange, style, decimal, 
         id='tier-volume'
         autoComplete='off'
         placeholder={`${suffix} winner`}
-        value={localValue}
+        value={localValue || ''}
         onChange={(e) => handleChange(e.target.value, tierVolumes)}
         className='input-field w-full number'
       />

@@ -139,6 +139,11 @@ const ApproveTransferModal = ({
     >
       {/* Body */}
       <>
+        {approveTransferState == 'APPROVING' && (
+          <div className='bg-info border-info-strong border-2 p-3 rounded-sm mb-4'>
+            Please confirm this transaction via your wallet!
+          </div>
+        )}
         <div className='gap-4 grid grid-cols-[150px_1fr]'>
           <div>Deposit:</div>
           <div className='flex gap-2'>

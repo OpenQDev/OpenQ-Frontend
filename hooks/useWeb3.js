@@ -1,5 +1,6 @@
 import { useWeb3React } from '@web3-react/core';
 import WalletConnectProvider from '@walletconnect/web3-provider';
+import { useRef } from 'react';
 
 // This is a lightweight wrapper of web3React which allows the frontend to run in local mode without attempting to connect to any localhost chain
 const useWeb3 = (kyc) => {
@@ -14,16 +15,22 @@ const useWeb3 = (kyc) => {
       error: () => {},
     };
   } else {
-    const { provider, active, activate, chainId, deactivate, error, connector, account } = useWeb3React();
+    const { provider, active, activate, chainId, deactivate, error, account } = useWeb3React();
+
     let wcProvider;
+    const effectRan = useRef(false);
     if (kyc) {
-      wcProvider = new WalletConnectProvider({
-        rpc: {
-          137: 'https://rpc-mainnet.maticvigil.com/',
-        },
-        chainId: 137,
-      });
+      if (effectRan.current === false) {
+        wcProvider = new WalletConnectProvider({
+          rpc: {
+            137: 'https://rpc-mainnet.maticvigil.com/',
+          },
+          chainId: 137,
+        });
+      }
+      effectRan.current = true;
     }
+
     const chainIdEnv = /* process.env.NEXT_PUBLIC_DEPLOY_ENV === 'docker' ? 31337 : */ chainId;
     return {
       library: provider,
@@ -34,7 +41,7 @@ const useWeb3 = (kyc) => {
       chainId: chainIdEnv,
       deactivate,
       error,
-      safe: connector?.provider?.safe,
+      gnosisSafe: provider?.provider?.signer?.session?.peer?.metadata?.name === 'Safe Wallet' ? true : false,
     };
   }
 };

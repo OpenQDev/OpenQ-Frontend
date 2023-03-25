@@ -26,6 +26,8 @@ module.exports = () => {
     NEXT_PUBLIC_BUILD_NUMBER: process.env.BUILD_NUMBER,
     NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY: process.env.MAGIC_PUBLISHABLE_KEY,
     NEXT_PUBLIC_CONVERTKIT_API_KEY: process.env.CONVERTKIT_API_KEY,
+    NEXT_PUBLIC_NOTIFICATIONS_PUBLIC_KEY: process.env.NOTIFICATIONS_PUBLIC_KEY,
+    NEXT_PUBLIC_NOTIFICATIONS_CHANNEL_ID: process.env.NOTIFICATIONS_CHANNEL_ID,
   };
   const headers = [
     { key: 'Access-Control-Allow-Origin', value: '*' },
@@ -34,7 +36,7 @@ module.exports = () => {
   ];
 
   const config = {
-    reactStrictMode: false,
+    reactStrictMode: true,
     env,
 
     async headers() {
@@ -97,10 +99,6 @@ module.exports = () => {
         'www.ludenaprotocol.io',
         's.ozys.io',
       ],
-    },
-    webpack: function (config) {
-      config.module.noParse = /gun\.js$/;
-      return config;
     },
   };
 

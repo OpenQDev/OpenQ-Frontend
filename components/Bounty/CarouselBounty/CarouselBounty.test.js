@@ -28,7 +28,7 @@ describe('CarouselBounty', () => {
       render(<CarouselBounty bounty={bounty} />);
 
       // ACT
-      const repo = await screen.findByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
+      const repo = await screen.findByText(`${bounty.owner}/${bounty.repoName}`);
       expect(repo).toBeInTheDocument();
 
       // ASSERT
@@ -52,7 +52,7 @@ describe('CarouselBounty', () => {
           expect(screen.getByText(Constants.contestPrice)).toBeInTheDocument();
       }
       expect(await screen.findByText(Constants.bountyCost)).toBeInTheDocument();
-      const repoName = screen.getByText(/openqdev\/openq-frontend/);
+      const repoName = screen.getByText(/openqdev\/openq-frontend/i);
       expect(repoName).toBeInTheDocument();
       // should not have null or undefined values
       const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];

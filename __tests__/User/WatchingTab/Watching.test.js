@@ -36,7 +36,7 @@ describe('Watching', () => {
     // ASSERT
     for (let i = 0; i < bounties.length; i++) {
       const bounty = bounties[i];
-      const orgName = await screen.findAllByText(`${bounty.owner.toLowerCase()}/${bounty.repoName.toLowerCase()}`);
+      const orgName = await screen.findAllByText(`${bounty.owner}/${bounty.repoName}`);
       await user.click(orgName[i]);
       if (bounty.status == 1) {
         const bountyStatus = await screen.findAllByText(/Closed/i);

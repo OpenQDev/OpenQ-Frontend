@@ -27,6 +27,7 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
   const paginationState = useState(paginationObjWithFunctions);
   const [paginationStateObj, setPaginationStateObj] = paginationState;
   const { searchText } = paginationStateObj.filters;
+  const [renderedSearch, setRenderedSearch] = useState(searchText);
 
   // Utilities
 
@@ -47,6 +48,7 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
   }, [paginationStateObj.items.length]);
 
   const setSearch = (searchText) => {
+    setRenderedSearch(searchText);
     setPaginationStateObj({
       ...paginationStateObj,
       filters: {
@@ -111,6 +113,7 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
   };
 
   const showUnready = (toggleVal) => {
+    paginationState[0].filters.isReady = toggleVal;
     setPaginationStateObj({
       ...paginationStateObj,
       filters: {
@@ -134,7 +137,7 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
         <SearchBar
           onKeyUp={handleSearchInput}
           placeholder={'Search Issue...'}
-          searchText={searchText}
+          searchText={renderedSearch}
           label={'search text'}
           styles={'rounded-sm w-full'}
         />

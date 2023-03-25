@@ -85,9 +85,7 @@ const BountyHeading = ({
                 </div>
               )}
               {totalPrice.valueType == 'Budget' && (
-                <div className={'bg-info border-2 border-info-strong text-sm px-2 border rounded-full h-6'}>
-                  Insolvent
-                </div>
+                <div className={'bg-info border-2 border-info-strong text-sm px-2 rounded-full h-6'}>Insolvent</div>
               )}
             </div>
           ) : null}

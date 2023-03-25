@@ -1,14 +1,15 @@
 import React from 'react';
-import { useRepos } from '../../store/Store/GoodFirstIssuesProvider';
+import { useOrgs } from '../../store/Store/GoodFirstIssuesProvider';
 import LanguageFilterLanguage from './LanguageFilterLanguage';
 
 export default function LanguageFilter() {
-  const repos = useRepos();
+  const orgs = useOrgs();
 
-  const languages =
-    repos?.reduce((result, repo) => {
-      if (repo.languages.nodes.length > 0) {
-        const languageName = repo.languages.nodes[0].name;
+  const languages = Object.values(orgs)
+    .flatMap((org) => org.repositories)
+    .reduce((result, repo) => {
+      if (repo.languages[0]) {
+        const languageName = repo.languages[0].name;
         if (result[languageName]) {
           result[languageName]++;
         } else {
@@ -16,7 +17,7 @@ export default function LanguageFilter() {
         }
       }
       return result;
-    }, {}) || {};
+    }, {});
 
   return (
     <div className='flex flex-wrap mt-3 gap-2 min-w-[16rem]'>

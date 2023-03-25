@@ -5,7 +5,7 @@ exports[`BountyLinks should match DOM Snapshot 1`] = `
   className="flex items-center space-x-4 px-2"
 >
   <ForwardRef(LinkComponent)
-    href="undefined/contract/undefined/0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f"
+    href="undefined/contract/undefined/0x066efd87027a4cc4a21c57467f224ef98241d774"
     onClick={[Function]}
     rel="noopener noreferrer"
     target="_blank"
@@ -45,7 +45,7 @@ exports[`BountyLinks should match DOM Snapshot 1`] = `
   </ForwardRef(LinkComponent)>
   <ForwardRef(LinkComponent)
     className="flex"
-    href="undefined/address/0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f"
+    href="undefined/address/0x066efd87027a4cc4a21c57467f224ef98241d774"
     rel="noreferrer"
     target="_blank"
   >
@@ -63,7 +63,7 @@ exports[`BountyLinks should match DOM Snapshot 1`] = `
     </div>
   </ForwardRef(LinkComponent)>
   <ForwardRef(LinkComponent)
-    href="https://twitter.com/intent/tweet/?text=Check out this contract for OpenQDev on OpenQ. You can claim it just by making a pull request that completes the issue! undefined/contract/undefined/0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f"
+    href="https://twitter.com/intent/tweet/?text=Check out this contract for OpenQDev on OpenQ. You can claim it just by making a pull request that completes the issue! undefined/contract/undefined/0x066efd87027a4cc4a21c57467f224ef98241d774"
     rel="noopener noreferrer"
     target="_blank"
   >

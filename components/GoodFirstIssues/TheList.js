@@ -1,15 +1,17 @@
 import React from 'react';
-import { useLanguageFilter, useRepos } from '../../store/Store/GoodFirstIssuesProvider';
+import { useLanguageFilter, useOrgs } from '../../store/Store/GoodFirstIssuesProvider';
 import RepoCard from './RepoCard';
 
 export default function TheList() {
-  const repos = useRepos();
+  const orgs = useOrgs();
   const enabledLanguages = useLanguageFilter();
 
+  const repos = Object.values(orgs)
+    .flatMap((org) => org.repositories)
+    .sort(() => Math.random() - 0.5);
+
   const filteredRepos =
-    repos?.filter(
-      (repo) => enabledLanguages.length === 0 || enabledLanguages.includes(repo.languages.nodes[0]?.name)
-    ) || [];
+    repos?.filter((repo) => enabledLanguages.length === 0 || enabledLanguages.includes(repo.languages[0]?.name)) || [];
 
   return (
     <main className='px-6 py-6 space-y-4 grow'>

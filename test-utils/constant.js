@@ -382,7 +382,7 @@ export default class Constants {
   }
 
   static get bountyId() {
-    return 'I_kwDOGAqhQc48U5_r';
+    return 'I_kwDOGWnnz85I9Agl';
   }
   static get claimant() {
     return { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' };
@@ -620,7 +620,7 @@ export default class Constants {
   }
 
   static get bountyAddress() {
-    return '0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f';
+    return '0x066efd87027a4cc4a21c57467f224ef98241d774';
   }
   static get bountyMintTime() {
     return '1662545344';
@@ -791,7 +791,7 @@ export default class Constants {
     };
   }
   static get bountyTokenBalances() {
-    return [Constants.bountyTokenBalanceMatic, Constants.bountyTokenBalance1, Constants.bountyTokenBalance1];
+    return [Constants.bountyTokenBalanceMatic, Constants.bountyTokenBalanceDai, Constants.bountyTokenBalanceLink];
   }
   static get volume() {
     return '2000000000000000000';
@@ -915,6 +915,7 @@ export default class Constants {
       bountyType: Constants.bountyTypeFixed,
       fundingGoalTokenAddress: Constants.zeroAddress,
       claims: Constants.claims,
+      address: Constants.bountyAddress,
     };
   }
 
@@ -925,7 +926,7 @@ export default class Constants {
   static get bountyClaimOverview() {
     return {
       id: 'I_kwDOGWnnz85Z_0oY',
-      title: 'Checking no elgible prs',
+      title: 'Checking no eligible prs',
       assignees: [],
       body: '',
       url: 'https://github.com/OpenQDev/OpenQ-TestRepo/issues/792',
@@ -937,7 +938,7 @@ export default class Constants {
       createdAt: '2022-12-24T01:53:30Z',
       closed: true,
       bodyHTML: '',
-      titleHTML: 'Checking no elgible prs',
+      titleHTML: 'Checking no eligible prs',
       twitterUsername: 'openqlabs',
       number: 792,
       prs: [
@@ -1118,6 +1119,7 @@ export default class Constants {
       payoutSchedule: Constants.payoutSchedule3,
       payoutTokenAddress: Constants.linkAddress,
       bountyType: Constants.bountyTypeFixedContest,
+      requests: { nodes: [Constants.request0] },
     };
   }
 

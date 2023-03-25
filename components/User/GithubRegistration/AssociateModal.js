@@ -62,6 +62,7 @@ const AssociateModal = ({
       )
       .then(async (result) => {
         const { txnHash } = result.data;
+        setTransactionHash(txnHash);
         setAssociatedAddress(account);
         setAssociateState('TRANSACTION_PENDING');
         setError('');
@@ -103,8 +104,8 @@ const AssociateModal = ({
         setAssociateState('ERROR');
         setError({
           message:
-            err.response.data.errorMessage ||
-            `Error associating wallet address ${account} with the github account that whose id is ${githubId}`,
+            err?.response?.data?.errorMessage ||
+            `Error associating wallet address ${account} with the github account whose id is ${githubId}. Please try again in an hour or two.`,
           title: 'Error',
         });
       });
@@ -200,7 +201,7 @@ const AssociateModal = ({
             <p className='flex justify-between pt-4'>
               {transactionHash && (
                 <>
-                  <span>{associateState === 'TRANSATION_PENDING' && 'Pending '}Transaction:</span>
+                  <span>{associateState === 'TRANSACTION_PENDING' && 'Pending '}Transaction:</span>
                   <a
                     target='_blank'
                     href={`${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_BASE_URL}/tx/${transactionHash}`}

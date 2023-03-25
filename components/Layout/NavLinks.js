@@ -1,8 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-const NavLinks = ({ setOpenMenu }) => {
+const NavLinks = ({ setOpenMenu, appState }) => {
   const router = useRouter();
+  const { accountData } = appState;
   return (
     <>
       <Link
@@ -35,6 +36,16 @@ const NavLinks = ({ setOpenMenu }) => {
       >
         <span> Good First Issues</span>
       </Link>
+      {!accountData.id && (
+        <>
+          <Link onClick={() => setOpenMenu(false)} href={'/login'} className={`nav-link md:hidden`}>
+            <span> Login </span>
+          </Link>
+          <Link onClick={() => setOpenMenu(false)} href={'/login'} className={`nav-link md:hidden`}>
+            <span>Sign up</span>
+          </Link>
+        </>
+      )}
     </>
   );
 };

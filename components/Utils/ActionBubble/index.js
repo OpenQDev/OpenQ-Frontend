@@ -8,6 +8,7 @@ import { ethers } from 'ethers';
 import Jazzicon from './../Jazzicon';
 import useWeb3 from '../../../hooks/useWeb3';
 import ToolTipNew from './../ToolTipNew';
+import GithubHtmlRenderer from '../HtmlReneder';
 
 const ActionBubble = ({ bounty, action }) => {
   const [appState] = useContext(StoreContext);
@@ -30,7 +31,7 @@ const ActionBubble = ({ bounty, action }) => {
   };
   const payoutObj = useMemo(() => getPayout(bounty), [bounty]);
   const [payoutValues] = useGetTokenValues(payoutObj);
-  const payoutTotal = appState.utils.formatter.format(payoutValues?.total);
+  const payoutTotal = appState.utils.formatter.format(payoutValues?.total || 0);
 
   useEffect(() => {
     const justMinted = sessionStorage.getItem('justMinted');
@@ -208,12 +209,7 @@ const ActionBubble = ({ bounty, action }) => {
           )}
         </div>
         {!action && bodyHTML && (
-          <div
-            className='w-full p-8 p-4 border-web-gray border-t markdown-body'
-            dangerouslySetInnerHTML={{
-              __html: bodyHTML,
-            }}
-          ></div>
+          <GithubHtmlRenderer className={'w-full p-8 p-4 border-web-gray border-t markdown-body'} html={bodyHTML} />
         )}
       </div>
     </div>

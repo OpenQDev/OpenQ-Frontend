@@ -77,7 +77,7 @@ exports[`BountyClosed should match DOM Snapshot 1`] = `
       </div>
       <a
         className="hover:scale-105 animate-single-bounce duration-100"
-        href="https://twitter.com/intent/tweet/?text=💸 Just claimed a developer bounty from OpenQDev on OpenQ for undefined working on this issue: undefined/contract/I_kwDOGAqhQc48U5_r/0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f"
+        href="https://twitter.com/intent/tweet/?text=💸 Just claimed a developer bounty from OpenQDev on OpenQ for undefined working on this issue: undefined/contract/I_kwDOGWnnz85I9Agl/0x066efd87027a4cc4a21c57467f224ef98241d774"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
@@ -177,7 +177,7 @@ exports[`BountyClosed should match DOM Snapshot 2`] = `
       </div>
       <a
         className="hover:scale-105 animate-single-bounce duration-100"
-        href="https://twitter.com/intent/tweet/?text=💸 Just claimed a developer bounty from OpenQDev on OpenQ for undefined working on this issue: undefined/contract/I_kwDOGAqhQc48U5_r/0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f"
+        href="https://twitter.com/intent/tweet/?text=💸 Just claimed a developer bounty from OpenQDev on OpenQ for undefined working on this issue: undefined/contract/I_kwDOGWnnz85I9Agl/0x066efd87027a4cc4a21c57467f224ef98241d774"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
@@ -277,7 +277,7 @@ exports[`BountyClosed should match DOM Snapshot 3`] = `
       </div>
       <a
         className="hover:scale-105 animate-single-bounce duration-100"
-        href="https://twitter.com/intent/tweet/?text=💸 Just claimed a developer bounty from OpenQDev on OpenQ for undefined working on this issue: undefined/contract/I_kwDOGAqhQc48U5_r/0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f"
+        href="https://twitter.com/intent/tweet/?text=💸 Just claimed a developer bounty from OpenQDev on OpenQ for undefined working on this issue: undefined/contract/I_kwDOGWnnz85I9Agl/0x066efd87027a4cc4a21c57467f224ef98241d774"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
@@ -377,7 +377,7 @@ exports[`BountyClosed should match DOM Snapshot 4`] = `
       </div>
       <a
         className="hover:scale-105 animate-single-bounce duration-100"
-        href="https://twitter.com/intent/tweet/?text=💸 Just claimed a developer bounty from OpenQDev on OpenQ for undefined working on this issue: undefined/contract/I_kwDOGAqhQc48U5_r/0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f"
+        href="https://twitter.com/intent/tweet/?text=💸 Just claimed a developer bounty from OpenQDev on OpenQ for undefined working on this issue: undefined/contract/I_kwDOGWnnz85I9Agl/0x066efd87027a4cc4a21c57467f224ef98241d774"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}

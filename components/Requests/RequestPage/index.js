@@ -8,12 +8,14 @@ import { fetchRequestsWithServiceArg } from '../../../services/utils/lib';
 
 // Custom
 import { useRouter } from 'next/router';
+import useWeb3 from '../../../hooks/useWeb3.js';
 
 const RequestPage = () => {
   const router = useRouter();
   const [authState] = useContext(AuthContext);
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
+  const { gnosisSafe } = useWeb3();
 
   const loggedId = accountData?.id;
   const userId = router.query.userId;
@@ -21,7 +23,12 @@ const RequestPage = () => {
   const isOwner = loggedId == userId;
   const { githubId, email } = authState;
   const getItems = async (oldCursor, batch, ordering = 'asc', filters = {}) => {
-    return await fetchRequestsWithServiceArg(appState, identity, oldCursor, batch, ordering, filters);
+    try {
+      return await fetchRequestsWithServiceArg(appState, identity, oldCursor, batch, ordering, filters);
+    } catch (e) {
+      appState.logger.error(e);
+      return { nodes: [], cursor: null, complete: true };
+    }
   };
   const identity = { userId, githubId, email };
   const filterFunction = () => {
@@ -46,7 +53,7 @@ const RequestPage = () => {
       <div className='my-6'>
         <h2 className='text-2xl font-semibold pb-4 border-b border-web-gray my-4'>Manage your bounties</h2>
         <div className='border-web-gray border flex justify-center content-center h-24 rounded-sm items-center'>
-          You have received {requestsLength} new request{getPlural(requestsLength)}.
+          You have received {requestsLength} request{getPlural(requestsLength)}.
         </div>
       </div>
       <div className='my-6'>
@@ -56,6 +63,14 @@ const RequestPage = () => {
           not satisfied with the work, please communicate with the builder, and accept the request once you are
           satisfied with their submission.
         </div>
+
+        {gnosisSafe && (
+          <div className='bg-info border-info-strong border-2 p-3 rounded-sm my-4'>
+            Hey! Looks like you are using gnosis safe via wallet connect. Because gnosis safes often require multiple
+            signatures, this modal will will be stuck in a pending state. Once you're multi-sig has approved the
+            transaction, please reload the app, and you'll see the results of your transaction.
+          </div>
+        )}
         <ul className='flex flex-col gap-4'>
           {isOwner && <PaginatedList paginationState={paginationState} PaginationCard={RequestIndividual} />}
         </ul>

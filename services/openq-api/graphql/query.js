@@ -15,6 +15,7 @@ export const GET_BOUNTY_BY_ADDRESS = gql`
       }
       bountyId
       creatingUser {
+        id
         country
       }
     }
@@ -145,6 +146,7 @@ export const GET_REQUESTS = gql`
           nodes {
             address
             bountyId
+            type
             requests(limit: 100) {
               nodes {
                 id
@@ -164,6 +166,25 @@ export const GET_REQUESTS = gql`
     }
   }
 `;
+
+export const GET_PRIVATE_REQUEST = gql`
+  query ($id: String!) {
+    request(id: $id) {
+      id
+      message
+    }
+  }
+`;
+
+export const UPDATE_REQUEST = gql`
+  mutation updateRequest($requestId: String!, $message: String!, $userId: String!) {
+    updateRequest(requestId: $requestId, message: $message, userId: $userId) {
+      id
+      message
+    }
+  }
+`;
+
 export const GET_PRIVATE_USER = gql`
   query ($id: String, $github: String, $email: String, $types: [String], $category: String) {
     user(id: $id, github: $github, email: $email) {
@@ -447,9 +468,6 @@ export const UPDATE_USER = gql`
 export const WATCH_BOUNTY = gql`
   mutation WatchBounty($contractAddress: String!, $userId: String!, $github: String, $email: String) {
     watchBounty(contractAddress: $contractAddress, userId: $userId, github: $github, email: $email) {
-      watchingUsers {
-        id
-      }
       watchingCount
     }
   }
@@ -460,9 +478,6 @@ export const UNWATCH_BOUNTY = gql`
     unwatchBounty(contractAddress: $contractAddress, userId: $userId, github: $github, email: $email) {
       address
       watchingCount
-      watchingUsers {
-        id
-      }
     }
   }
 `;

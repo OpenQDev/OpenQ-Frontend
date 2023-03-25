@@ -30,45 +30,50 @@ exports[`Footer should match DOM Snapshot 1`] = `
         <div
           className="relative h-6"
         >
-          <div
-            className="relative px-3 w-40 undefined"
-          >
-            <button
-              className="block"
-              value={1}
+          <ForwardRef(LoadableComponent)>
+             
+            <div
+              className="relative px-3 w-40 undefined"
             >
-              <CopyAddressToClipboard
-                clipping={
-                  [
-                    5,
-                    38,
-                  ]
-                }
-                styles="pt-0 w-40"
-              />
-            </button>
+              <button
+                className="block"
+                value={1}
+              >
+                <CopyAddressToClipboard
+                  clipping={
+                    [
+                      5,
+                      38,
+                    ]
+                  }
+                  styles="pt-0 w-40"
+                />
+              </button>
+            </div>
+          </ForwardRef(LoadableComponent)>
+        </div>
+      </div>
+      <ForwardRef(LoadableComponent)>
+        <div
+          className="flex flex-col lg:flex-row gap-2 lg:gap-4 lg:items-center"
+        >
+          <div>
+            Build: production-1.0.22
+          </div>
+          <div
+            className=""
+          >
+            <span
+              className="whitespace-nowrap"
+            >
+              ©
+            </span>
+             
+            2023
+            , OpenQ Labs GmbH
           </div>
         </div>
-      </div>
-      <div
-        className="flex flex-col lg:flex-row gap-2 lg:gap-4 lg:items-center"
-      >
-        <div>
-          Build: production-1.0.22
-        </div>
-        <div
-          className=""
-        >
-          <span
-            className="whitespace-nowrap"
-          >
-            ©
-          </span>
-           
-          2023
-          , OpenQ Labs GmbH
-        </div>
-      </div>
+      </ForwardRef(LoadableComponent)>
     </div>
   </div>
   <div
@@ -156,7 +161,7 @@ exports[`Footer should match DOM Snapshot 1`] = `
       <h1
         className="font-bold pb-2"
       >
-        RESSOURCES
+        RESOURCES
       </h1>
       <ForwardRef(LinkComponent)
         className=" lg:justify-self-center"
@@ -210,12 +215,7 @@ exports[`Footer should match DOM Snapshot 1`] = `
         <div
           className="flex pb-2 lg:text-right"
         >
-          ❤️ in USA, Germany, Canada, Austria, Netherlands & Spain.
-        </div>
-        <div
-          className="flex text-muted lg:text-right"
-        >
-          Contracts currently not audited, use at your own risk.
+          ❤️ in Germany, Austria, Netherlands, Spain and many more
         </div>
       </div>
     </div>

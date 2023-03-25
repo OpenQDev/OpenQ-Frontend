@@ -36,7 +36,7 @@ const BountyCardDetails = ({ bounty }) => {
   if (bounty.bountyClosedTime && bounty.bountyType !== '0') {
     closedEvents = [{ closingTime: bounty.bountyClosedTime }];
   }
-  if (bounty.claims?.length) {
+  if (bounty?.claims?.length) {
     claimedEvent = bounty.claims;
   }
   /*

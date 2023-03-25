@@ -12,6 +12,7 @@ import LinkText from '../../svg/linktext';
 import TweetAbout from '../../Utils/TweetAbout';
 import ModalDefault from '../../Utils/ModalDefault';
 import FundContext from '../FundStore/FundContext';
+import GnosisWarning from '../../Utils/GnosisWarning';
 
 // setError,
 // setApproveTransferState,
@@ -126,7 +127,11 @@ const ApproveFundModal = ({
       title: 'Approve Deposit',
       message: 'Approve your ERC20 for the deposit:',
       rightBtn: ['Fund', 'btn-default cursor-not-allowed', 'disabled'],
-      leftBtn: ['Approve', 'btn-primary', 'enabled'],
+      leftBtn: [
+        'Approve',
+        accepted ? 'btn-primary' : 'btn-default cursor-not-allowed',
+        accepted ? 'enabled' : 'disabled',
+      ],
       clickMethod: confirmMethod,
     },
     [APPROVING]: {
@@ -215,6 +220,11 @@ const ApproveFundModal = ({
         </div>
       ) : (
         <>
+          {(approveTransferState === 'APPROVING' || approveTransferState === 'TRANSFERRING') && (
+            <div className='bg-info border-info-strong border-2 p-3 rounded-sm mb-4'>
+              Please confirm this transaction via your wallet!
+            </div>
+          )}
           <div className='gap-4 grid grid-cols-[150px_1fr]'>
             <div>Deposit:</div>
             <div className='flex  gap-4'>
@@ -246,7 +256,6 @@ const ApproveFundModal = ({
                 </Link>
               </>
             )}
-            sdfasdf
             {(approveTransferState !== 'ERROR' || approveTransferState !== 'SUCCESS') && (
               <div className='flex items-center col-span-2 pb-2 gap-2 font-semibold'>
                 I accept the{''}
@@ -265,6 +274,7 @@ const ApproveFundModal = ({
           </div>
         </>
       )}
+      <GnosisWarning />
     </ModalDefault>
   );
 };

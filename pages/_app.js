@@ -27,7 +27,9 @@ import {
   uauth,
   uauthHooks
 } from '../components/WalletConnect/connectors';
+import { walletConnect, walletConnectHooks, metaMask, metaMaskHooks } from '../components/WalletConnect/connectors';
 import Script from 'next/script';
+import FirstTimeBanner from '../components/Layout/FirstTimeBanner';
 
 function OpenQ({ Component, pageProps }) {
   const connectors = [
@@ -64,7 +66,7 @@ function OpenQ({ Component, pageProps }) {
   }, []);
   const router = useRouter();
   return (
-    <div className='bg-dark-mode font-segoe text-primary'>
+    <>
       {/* Global Site Tag (gtag.js) - Google Analytics */}
 
       <Head>
@@ -98,7 +100,7 @@ function OpenQ({ Component, pageProps }) {
         }
     });`}
       </Script>
-      <>
+      <div className='bg-dark-mode font-segoe text-primary'>
         <UserContext.Provider value={[user, setUser]}>
           <AuthProvider>
             <Web3ReactProvider connectors={connectors}>
@@ -109,6 +111,7 @@ function OpenQ({ Component, pageProps }) {
                     <div className='min-h-screen  flex flex-col justify-between'>
                       <div>
                         {router.asPath == '/login' ? null : <Navigation />}
+                        <FirstTimeBanner />
                         <Component key={router.asPath} {...pageProps} />
                       </div>
 
@@ -120,8 +123,8 @@ function OpenQ({ Component, pageProps }) {
             </Web3ReactProvider>
           </AuthProvider>
         </UserContext.Provider>
-      </>
-    </div>
+      </div>
+    </>
   );
 }
 

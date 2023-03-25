@@ -56,7 +56,13 @@ export default function ExploreHackathons({ fullContests }) {
                 <Card className='w-80 sm:w-full h-60 sm:h-fit'>
                   <CardHeader className='w-80 sm:w-full h-12 sm:h-fit'>
                     {contest?.owner?.avatarUrl && (
-                      <Image src={contest?.owner?.avatarUrl} width={24} height={24} className='mr-2 rounded-full' />
+                      <Image
+                        src={contest?.owner?.avatarUrl}
+                        width={24}
+                        height={24}
+                        className='mr-2 rounded-full'
+                        alt='avatar'
+                      />
                     )}
                     <div className='mr-auto'>{contest.name}</div>
                     <div className='hidden'>
@@ -68,7 +74,7 @@ export default function ExploreHackathons({ fullContests }) {
                       contest.languages.nodes?.length > 0 ? 'h-36' : 'h-48'
                     } py-2 sm:py-4 sm:h-fit overflow-y-auto`}
                   >
-                    <div dangerouslySetInnerHTML={{ __html: contest.descriptionHTML }}></div>
+                    {contest.description}
                   </CardBody>
                   {contest.languages.nodes?.length > 0 && (
                     <CardFooter className={'w-80 sm:w-full py-0 sm:py-4 h-12 sm:h-fit'}>

@@ -13,7 +13,7 @@ import ApproveFundModal from '../ApproveFundModal';
 import OrgDetails from '../../User/InvoicingDetailsTab/OrgDetails';
 import { RESTING, CONFIRM, APPROVING, TRANSFERRING, APPROVE } from '../FundStore/ApproveFundState';
 import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
-import NFTFundModal from '../../TokenSelection/NFTFundModal';
+// import NFTFundModal from '../../TokenSelection/NFTFundModal';
 import DepositPeriod from '../../TokenSelection/DepositPeriod';
 import ConnectButton from '../../WalletConnect/ConnectButton';
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
@@ -21,16 +21,13 @@ import { valueToDisplay, listWordsWithAnd } from '../../../services/utils/lib';
 import useFundBountyMethod from '../hooks/useFundBountyMethod';
 import TokenContext from '../../TokenSelection/TokenStore/TokenContext';
 import { shortenAddress, getBountyTypeName } from '../../../services/utils/lib';
-import { useRouter } from 'next/router';
 
 const FundPage = () => {
   const [fundState, fundDispatch] = useContext(FundContext);
   const { allowance, depositPeriodDays, bounty, approveTransferState, setInternalMenu } = fundState;
   const web3 = useWeb3();
-  const query = useRouter().query;
-  const minter = bounty.issuer.id === web3?.account?.toLowerCase();
-  const canCrowdFund = !(bounty.invoiceRequired || query.invoiceable) && !bounty.kycRequired;
-  const canFund = canCrowdFund || minter;
+  const canFund = bounty.issuer.id === web3?.account?.toLowerCase();
+
   const [volume, setVolume] = useState('');
   const [tokenSelectState] = useContext(TokenContext);
   const { token } = tokenSelectState;
@@ -178,7 +175,7 @@ const FundPage = () => {
                       mustChangePayoutFirst={mustChangePayoutFirst}
                       setInternalMenu={setInternalMenu}
                     />
-                    <NFTFundModal />
+                    {/* <NFTFundModal /> */}
                   </>
                 </div>
                 <div className='flex gap-4'>
@@ -203,7 +200,9 @@ const FundPage = () => {
                       >
                         <button
                           className={`text-center px-8 w-min items-center py-0.5  ${
-                            disabledFundButton ? 'btn-default w-full cursor-not-allowed' : 'btn-primary cursor-pointer'
+                            disabledFundButton
+                              ? 'btn-default w-full cursor-not-allowed'
+                              : 'btn-primary bg-green cursor-pointer'
                           } py-1.5`}
                           disabled={disabledFundButton}
                           type='button'
@@ -236,10 +235,10 @@ const FundPage = () => {
                     <summary className='list-none text-2xl text-muted fill-muted cursor-pointer'>
                       {!bounty.invoiceRequired ? 'Contact Information' : 'Invoicing data'}
                       <span className='group-open:hidden'>
-                        <ChevronDownIcon size='24px' />
+                        <ChevronDownIcon size={24} />
                       </span>
                       <span className='hidden group-open:inline'>
-                        <ChevronUpIcon size='24px' />
+                        <ChevronUpIcon size={24} />
                       </span>
                     </summary>
                     <OrgDetails emailOnly={!bounty.invoiceRequired && bounty.supportingDocumentsRequired} slim={true} />
@@ -256,8 +255,7 @@ const FundPage = () => {
             </div>
           ) : (
             <div className='p-8 sm:p-0'>
-              Sorry crowdfunding isn't available for invoiceable bounties such as this one, please connect the account (
-              {shortenAddress(bounty.issuer.id)}) that minted this bounty to fund it.
+              Please connect the account ({shortenAddress(bounty.issuer.id)}) that minted this bounty to fund it.
             </div>
           )}
 

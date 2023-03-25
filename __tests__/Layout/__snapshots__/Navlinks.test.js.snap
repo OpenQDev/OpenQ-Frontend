@@ -46,5 +46,27 @@ exports[`NavLinks should match DOM Snapshot 1`] = `
        Good First Issues
     </span>
   </a>,
+  <a
+    className="nav-link md:hidden"
+    href="/login"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
+  >
+    <span>
+       Login 
+    </span>
+  </a>,
+  <a
+    className="nav-link md:hidden"
+    href="/login"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
+  >
+    <span>
+      Sign up
+    </span>
+  </a>,
 ]
 `;

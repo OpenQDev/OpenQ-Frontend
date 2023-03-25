@@ -9,6 +9,7 @@ import { QuestionIcon, ThreeBarsIcon } from '@primer/octicons-react';
 import LinkDropdown from '../Utils/LinkDropdown';
 import NavLinks from './NavLinks';
 import LoadingThread from '../Loading/LoadingThread.js';
+import NotificationBell from '../Notifications/NotificationBell.js';
 import ContractWizard from '../ContractWizard';
 
 const Navigation = () => {
@@ -19,8 +20,34 @@ const Navigation = () => {
   const [items, setItems] = useState([]);
   const [searchable, setSearchable] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [notificationToken, setNotificationToken] = useState(null);
   const { openQSubgraphClient, openQPrismaClient, utils, githubRepository, tokenClient } = appState;
   const { accountData } = appState;
+
+  useEffect(() => {
+    // https://stackoverflow.com/questions/4003823/javascript-getcookie-functions/4004010#4004010
+    const getCookie = (c_name) => {
+      var c_value = ' ' + document.cookie;
+      var c_start = c_value.indexOf(' ' + c_name + '=');
+      if (c_start == -1) {
+        c_value = null;
+      } else {
+        c_start = c_value.indexOf('=', c_start) + 1;
+        var c_end = c_value.indexOf(';', c_start);
+        if (c_end == -1) {
+          c_end = c_value.length;
+        }
+        c_value = unescape(c_value.substring(c_start, c_end));
+      }
+      return c_value;
+    };
+    const getNotificationCookie = () => {
+      const signedKnockTokenCookie = getCookie('signed_knock_token');
+      setNotificationToken(signedKnockTokenCookie);
+    };
+
+    getNotificationCookie();
+  });
 
   useEffect(() => {
     // set up searchable
@@ -67,7 +94,8 @@ const Navigation = () => {
         appState.logger.error(err, accountData.id, 'Navigation.js1');
       }
       // set up gnosis safe
-
+    };
+    const fetchPrices = async () => {
       // set up tokens
       let tokenPrices = {};
 
@@ -76,12 +104,12 @@ const Navigation = () => {
       } catch (err) {
         appState.logger.error(err, accountData.id, 'Navigation.js2');
       }
-
       tokenClient.firstTenPrices = tokenPrices;
     };
     if (includeSearch) {
       fetchSearch();
     }
+    fetchPrices();
   }, []);
 
   const handleSearch = (e) => {
@@ -97,12 +125,11 @@ const Navigation = () => {
       .map((searchableItem) => searchableItem);
     setItems(e.target.value ? names.slice(0, 5) : []);
   };
-
   return (
     <>
       {openMenu ? (
-        <div className='absolute top-12 left-0 z-50 bg-nav-bg lg:hidden w-60'>
-          <div className='flex flex-col p-4 z-50 bg-nav-bg space-x-1 space-y-2 w-full'>
+        <div className='absolute top-12 left-0 z-10 bg-nav-bg w-full md:hidden w-60'>
+          <div className='flex flex-col p-4 z-10 bg-nav-bg space-x-1 space-y-2 w-full'>
             {includeSearch && (
               <div className='flex-col mr-2 h-7  group'>
                 <input
@@ -115,27 +142,24 @@ const Navigation = () => {
                 {quickSearch && <LinkDropdown items={items} />}
               </div>
             )}
-            <NavLinks setOpenMenu={setOpenMenu} />
+            <NavLinks appState={appState} setOpenMenu={setOpenMenu} />
           </div>
         </div>
       ) : null}
       <LoadingThread />
       <div className='flex bg-nav-bg py-1 h-16 relative z-10'>
         <div className='flex visible relative w-full'>
-          <div className='flex w-full lg:py-1 justify-between mx-4 lg:mx-8'>
+          <div className='flex w-full md:py-1 justify-between mx-4 md:mx-8'>
             <div className='flex space-x-5 items-center'>
-              <Link href={'/'} className='flex items-center lg:hover:opacity-70 min-w-[31px]'>
+              <Link href={'/'} className='flex items-center md:hover:opacity-70 min-w-[31px]'>
                 <Image src='/openq-logo-white-2.png' alt='OpenQ' width='31' height='31' />
               </Link>
-              <button className='flex lg:hidden' onClick={() => setOpenMenu(!openMenu)}>
-                <ThreeBarsIcon size={24} />
-              </button>
 
-              <div className='lg:flex hidden  content-center  items-center'>
+              <div className='md:flex hidden  content-center  items-center'>
                 {includeSearch && (
                   <div className='flex-col justify-center mr-2 h-7 group '>
                     <input
-                      className={`lg:flex hidden pr-4 items-center focus:w-80 w-60  left-0 input-field transition-all  ease-in-out duration-700 ${
+                      className={`md:flex hidden pr-4 items-center focus:w-80 w-60  left-0 input-field transition-all  ease-in-out duration-700 ${
                         quickSearch && 'focus:w-80'
                       }`}
                       onChange={handleSearch}
@@ -146,14 +170,20 @@ const Navigation = () => {
                     {quickSearch && <LinkDropdown items={items} />}
                   </div>
                 )}
-                <NavLinks setOpenMenu={setOpenMenu} />
+                <NavLinks appState={appState} setOpenMenu={setOpenMenu} />
                 <button onClick={() => setShowModal(true)} className='pl-4 flex items-center'>
                   <QuestionIcon size={16} className='fill-muted hover:fill-primary' />
                 </button>
               </div>
             </div>
-            <div className='flex items-center text-[0.8rem] lg:text-[1rem]'>
-              <div className='pr-4'>
+            <div className='md:hidden font-inter text-xl self-center font-bold'>OpenQ</div>
+            <div className='flex items-center text-[0.8rem] md:text-[1rem]'>
+              <div className='pr-4 md:block hidden'>
+                {notificationToken && accountData.github ? (
+                  <NotificationBell userId={accountData.github} notificationToken={notificationToken} />
+                ) : null}
+              </div>
+              <div className='pr-4 md:block hidden'>
                 <ConnectButton
                   needsGithub={true}
                   nav={true}
@@ -161,6 +191,9 @@ const Navigation = () => {
                   centerStyles={true}
                 />
               </div>
+              <button className='flex md:hidden pr-4' onClick={() => setOpenMenu(!openMenu)}>
+                <ThreeBarsIcon size={24} />
+              </button>
             </div>
           </div>
         </div>

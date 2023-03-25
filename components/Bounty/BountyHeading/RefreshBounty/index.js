@@ -37,7 +37,7 @@ const RefreshBounty = ({ bounty, refreshGithubBounty }) => {
       >
         <button
           onClick={handleRefresh}
-          className={` whitespace-nowrap btn-primary flex flex-row space-x-3 items-center justify-center leading-tight sm:w-min px-3 h-8`}
+          className={` whitespace-nowrap btn-primary flex flex-row space-x-2 items-center justify-center leading-tight sm:w-min px-3 h-8`}
         >
           {completed ? <Github className={'w-6 h-4'} /> : <LoadingIcon />}
           <div>Refresh</div>

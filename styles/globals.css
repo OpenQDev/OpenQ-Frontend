@@ -103,7 +103,7 @@ pre {
 		@apply py-[5px] sm:pl-8 pl-2  pr-2 sm:pr-3 text-[0.75rem] tracking-wider leading-[20px] h-min placeholder:text-muted rounded-sm outline-none border border-border-gray bg-input-bg focus-within:border-blue-400
 	}
 	.nav-link{
-	@apply flex text-[0.8rem] lg:mx-2 hover:text-primary text-muted font-bold hover:cursor-pointer pb-2 lg:pb-0 lg:pt-0 lg:border-none border-b border-web-gray
+	@apply flex text-[0.8rem] md:mx-2 hover:text-primary text-muted font-bold hover:cursor-pointer pb-2 md:pb-0 md:pt-0 md:border-none border-b border-web-gray
 	}
   .btn-requirements{
 		@apply bg-claim border border-claim rounded-sm px-3 py-0.5 hover:bg-blue-600 text-white
@@ -111,11 +111,11 @@ pre {
   .btn-processing{
 		@apply bg-[#A095EB] border border-[#A095EB] rounded-sm px-3 py-0.5 text-white
 	}
-  .btn-verified{
-		@apply bg-[#686d74] border border-[#686d74] rounded-sm px-3 py-0.5 text-white
-	}
 	.btn-primary{
 		@apply bg-green border border-green rounded-sm px-3 py-1 hover:bg-[#2ea043] text-white
+	}
+  .btn-primary-disabled{
+		@apply bg-green border border-green rounded-sm px-3 py-1 text-white
 	}
 	.btn-default{
 		@apply rounded-sm px-3 py-1 bg-[#21262d] hover:bg-[#30363d] border border-gray-700 hover:border-[#8b949e]
@@ -338,6 +338,10 @@ body::-webkit-scrollbar {
 
 .explore .lead {
   @apply text-white text-opacity-60;
+}
+.custom-scrollbar {
+  scrollbar-color: rgb(52 52 52) rgb(22 27 34);
+  scrollbar-width: thin;
 }
 
 .explore .custom-scrollbar {

@@ -29,10 +29,12 @@ const ConnectModal = ({ closeModal, setShowModal }) => {
       appState.logger.info(err, accountData?.id, 'ConnectModal.js');
     }
   };
+
   const handleUnstoppableConnect = async () => {
     await uauth.activate();
     closeModal();
   };
+
   useEffect(() => {
     if (account) {
       closeModal();

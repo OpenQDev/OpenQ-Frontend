@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`W8Requirement should match initial DOM Snapshot 1`] = `
+<DocumentFragment>
+  <section
+    class="flex flex-col gap-3"
+  >
+    <h4
+      class="text-2xl flex content-center items-center gap-2 border-b border-gray-700 pb-2"
+    >
+      Form W8/W9*
+      <div
+        class="bg-info border-2 border-info-strong text-sm px-2 border rounded-full h-6"
+      >
+        Required
+      </div>
+    </h4>
+    <div>
+      <div>
+        Please complete and upload a W-8/W-9 form. Choose one of five types, depending on your entity. We encourage you to consult with you own tax or financial adviser to determine which form is appropriate for you or ask in our
+        <div>
+          <a
+            class="text-link-colour hover:underline col-span-2"
+            href="https://discord.gg/puQVqEvVXn"
+            rel="noopener norefferer"
+            target="_blank"
+          >
+            discord
+          </a>
+           for help.
+        </div>
+      </div>
+      <p>
+        Please add an email to your profile so that we can send you a copy of the your submitted form.
+      </p>
+      <div
+        class="false py text-lg"
+      >
+        <form
+          class="font-normal max-w-[500px] gap-4"
+        >
+          <div>
+            <div
+              class=" text-sm justify-between my-4"
+            >
+              <label
+                class="block font-semibold mb-1.5"
+                for="invoicingEmail"
+              >
+                Email 
+              </label>
+              <input
+                class="input-field w-full max-w-[400px] bg-input-bg px-3 py-[5px] border-border-muted invalid:border-danger"
+                id="invoicingEmail"
+                required=""
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              class="note my-4"
+            >
+              This email will be used by organizations to communicate with you. OpenQ will also send copies of any documents you send to organizers via our interface.
+            </div>
+          </div>
+          <input
+            class="btn-primary bg-green  text-sm py-1 px-2 text-center w-20 cursor-pointer"
+            type="submit"
+            value="Update"
+          />
+        </form>
+      </div>
+    </div>
+    <div>
+      Explore our W8/W9 templates 
+      <button
+        class="text-blue-500 hover:underline"
+      >
+        here
+      </button>
+      .
+    </div>
+    <div
+      class="font-semibold flex gap-2 group w-fit"
+    >
+      Upload
+    </div>
+    <form
+      class="flex gap-2 items-center flex-wrap md:flex-nowrap"
+    >
+      <div
+        class="relative flex w-fit whitespace-nowrap gap-2 z-20 h-8 items-center justify-center text-center btn-default-disabled cursor-not-allowed"
+      >
+        Pending
+      </div>
+      <label
+        class="relative flex items-center"
+        for="file input"
+      >
+        <div
+          class="relative flex w-fit whitespace-nowrap gap-2 z-20 h-8 items-center justify-center text-center cursor-not-allowed btn-primary"
+        >
+          <svg
+            aria-hidden="true"
+            class="octicon octicon-upload"
+            fill="currentColor"
+            focusable="false"
+            height="16"
+            role="img"
+            style="display: inline-block; user-select: none; vertical-align: text-bottom; overflow: visible;"
+            viewBox="0 0 16 16"
+            width="16"
+          >
+            <path
+              d="M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14Z"
+            />
+            <path
+              d="M11.78 4.72a.749.749 0 1 1-1.06 1.06L8.75 3.811V9.5a.75.75 0 0 1-1.5 0V3.811L5.28 5.78a.749.749 0 1 1-1.06-1.06l3.25-3.25a.749.749 0 0 1 1.06 0l3.25 3.25Z"
+            />
+          </svg>
+          Upload Updated W8/W9
+        </div>
+        <input
+          class="absolute invisible w-full top-0 bottom-0 z-10"
+          disabled=""
+          id="file input"
+          type="file"
+        />
+      </label>
+      <div
+        class="border border-web-gray w-full flex items-center font-semibold h-8 px-2 rounded-sm"
+      />
+      <button
+        class="flex gap-2 h-8 items-center justify-center text-center
+                btn-default cursor-not-allowed
+              "
+        disabled=""
+      >
+        Sent
+      </button>
+    </form>
+    <div
+      class=""
+    >
+      *W-8 forms are 
+      <a
+        class="text-link-colour hover:underline col-span-2"
+        href="https://www.irs.gov/"
+        rel="noopener norefferer"
+        target="_blank"
+      >
+        Internal Revenue Service
+      </a>
+       (IRS) forms that foreign individuals and businesses must file to verify their country of residence for tax purposes, certifying that they qualify for a lower rate of tax withholding.
+    </div>
+  </section>
+</DocumentFragment>
+`;

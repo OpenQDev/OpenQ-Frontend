@@ -1,5 +1,5 @@
 // Third party
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import StoreContext from '../../store/Store/StoreContext';
 import AuthContext from '../../store/AuthStore/AuthContext';
@@ -11,12 +11,24 @@ function GitHubAuth() {
   const [, dispatch] = useContext(AuthContext);
   const [userId, setUserId] = useState(null);
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setAuthCode(params.get('code'));
+  const effectRan = useRef(false);
 
-    exchangeAuthCodeForAccessToken(params.get('code'));
+  useEffect(() => {
+    if (effectRan.current === false) {
+      const params = new URLSearchParams(window.location.search);
+      setAuthCode(params.get('code'));
+      exchangeAuthCodeForAccessToken(params.get('code'));
+    }
+    return () => {
+      effectRan.current = true;
+    };
   }, []);
+
+  useEffect(() => {
+    if (userId) {
+      router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${userId}`);
+    }
+  }, [userId]);
 
   const exchangeAuthCodeForAccessToken = (authCode) => {
     appState.authService
@@ -78,12 +90,6 @@ function GitHubAuth() {
         appState.logger.error(err, null, 'github1');
       });
   };
-
-  useEffect(() => {
-    if (userId) {
-      router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${userId}`);
-    }
-  }, [userId]);
 
   return (
     <div className='flex items-center justify-center min-h-[450px]'>

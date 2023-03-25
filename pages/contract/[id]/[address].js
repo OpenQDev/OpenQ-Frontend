@@ -10,8 +10,7 @@ import ReactGA from 'react-ga4';
 import StoreContext from '../../../store/Store/StoreContext';
 import BountyCardDetails from '../../../components/Bounty/BountyCardDetails';
 import FundPage from '../../../components/FundBounty/FundPage';
-import dynamic from 'next/dynamic';
-const RefundPage = dynamic(() => import('../../../components/RefundBounty/RefundPage'), { ssr: false });
+import RefundPage from '../../../components/RefundBounty/RefundPage';
 import ClaimPage from '../../../components/Claim/ClaimPage';
 import AdminPage from '../../../components/AdminPage';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
@@ -36,12 +35,14 @@ import ClaimOverview from '../../../components/Claim/ClaimOverview';
 import Log from '../../../components/svg/log';
 import FundProvider from '../../../components/FundBounty/FundStore/FundProvider';
 import { checkClaimable, getBountyTypeName } from '../../../services/utils/lib';
+import { useRouter } from 'next/router';
 
 const address = ({ address, mergedBounty, renderError }) => {
   // Context
   const [appState, dispatch] = useContext(StoreContext);
   const { accountData, openQClient } = appState;
   const [bounty, setBounty] = useState(mergedBounty);
+  const router = useRouter();
 
   const { status } = checkClaimable(bounty, accountData?.github, openQClient);
   const claimable = status === 'Claimable' || status === 'Claimed';
@@ -121,16 +122,18 @@ const address = ({ address, mergedBounty, renderError }) => {
   };
 
   useEffect(() => {
+    let cancel;
     if (internalMenu) {
-      sessionStorage.setItem(address, internalMenu);
+      setTimeout(() => {
+        if (!cancel) {
+          sessionStorage.setItem(address, internalMenu);
+        }
+      }, 1000);
     }
+    return () => {
+      cancel = true;
+    };
   }, [internalMenu]);
-
-  useEffect(() => {
-    if (bounty && bounty.issuer?.id && ethers.utils.getAddress(bounty.issuer.id) !== account) {
-      setInternalMenu('View');
-    }
-  }, [account]);
 
   // Hooks
   useEffect(() => {
@@ -184,9 +187,10 @@ const address = ({ address, mergedBounty, renderError }) => {
     // set route and populate
     if (address) {
       const route = sessionStorage.getItem(address);
-
-      if (route !== internalMenu) {
-        setInternalMenu(route || 'View');
+      const tab = router?.query?.tab;
+      const newTab = tab || route;
+      if (newTab !== internalMenu) {
+        setInternalMenu(newTab || 'View');
       }
     }
 
@@ -195,6 +199,7 @@ const address = ({ address, mergedBounty, renderError }) => {
   const claimOverView = bounty?.claims?.length > 0 ? [{ name: 'Claims Overview', Svg: Log }] : [];
   const claim = claimable ? [{ name: 'Claim', Svg: Fire }] : [];
   const submissions = bounty.bountyType === '3' ? [{ name: 'Submissions', Svg: Log }] : [];
+  const fund = bounty.issuer?.id === account?.toLowerCase() ? [{ name: 'Fund', Svg: Add }] : [];
 
   // User Methods
 
@@ -227,8 +232,8 @@ const address = ({ address, mergedBounty, renderError }) => {
                 colour='rust'
                 items={[
                   { name: 'View', Svg: Telescope },
-                  { name: bounty.issuer && 'Fund', Svg: bounty.issuer && Add },
-                  { name: bounty.issuer && 'Refund', Svg: bounty.issuer && Subtract },
+                  ...fund,
+                  { name: bounty.issuer && 'Deposits', Svg: bounty.issuer && Subtract },
                   ...submissions,
                   ...claim,
                   ...claimOverView,
@@ -260,7 +265,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                     </TokenProvider>
                   </FundProvider>
                 ) : null}
-                {claimable && bounty && internalMenu === 'Claim' ? (
+                {claimable && bounty ? (
                   <ClaimPage
                     showClaimPage={internalMenu == 'Claim'}
                     split={split}
@@ -330,7 +335,7 @@ export const getServerSideProps = async (context) => {
       logger.error({ message: `OpenQ could not find a contract with address: ${address}.` }, null, '[address.js]6');
     }
   } catch (err) {
-    logger.error(err, null, '[address.js]6');
+    logger.error(err, null, '[address.js]7');
     renderError = ``;
   }
 
