@@ -108,6 +108,8 @@ export const GET_BOUNTY_BY_ID = gql`
       bountyMintTime
       bountyClosedTime
       claimedTransactionHash
+      payoutSchedule
+      tierWinners
       status
       bountyType
       deposits {
