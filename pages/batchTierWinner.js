@@ -65,6 +65,7 @@ function BatchTierWinner() {
 
       // Populate the transaction template
       const transactions = [];
+      const tiersClaimedPreviouslyInBatch = [];
 
       for (const transactionData of jsonData) {
         const { githubIssueUrl, tierAmount, winnerGithubProfileUrl } = transactionData;
@@ -84,13 +85,20 @@ function BatchTierWinner() {
             formattedVolume.toLocaleString('fullwide', { useGrouping: false })
           );
 
-          const tier = getUnclaimedTierWithVolume(payoutSchedule, bigNumberTierVolume);
+          const tier = getUnclaimedTierWithVolume(
+            payoutSchedule,
+            tierWinners,
+            tiersClaimedPreviouslyInBatch,
+            bigNumberTierVolume
+          );
 
           if (tier == null) {
             throw new Error(
               `User ${winnerGithubProfileUrl} for bounty ${githubIssueUrl} has no available tiers for ${tierAmount}.\ Tier winners are ${tierWinners}}. Payout schedule is ${payoutSchedule}`
             );
           }
+
+          tiersClaimedPreviouslyInBatch.push(tier);
 
           const tierWinnerTransactionTemplateCopy = _.cloneDeep(tierWinnerTransactionTemplate);
 
