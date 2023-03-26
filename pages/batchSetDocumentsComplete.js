@@ -3,26 +3,29 @@ import { ethers } from 'ethers';
 import Papa from 'papaparse';
 import StoreContext from '../store/Store/StoreContext';
 import _ from 'lodash';
-import tierWinnerTemplate from '../constants/tierWinnerTemplate.json';
-import tierWinnerTransactionTemplate from '../constants/tierWinnerTransactionTemplate.json';
+import supportingDocumentsCompleteTemplate from '../constants/supportingDocumentsCompleteTemplate.json';
+import supportingDocumentsCompleteTransactionTemplate from '../constants/supportingDocumentsCompleteTransactionTemplate.json';
 import md4 from 'js-md4';
 import Link from 'next/link';
 import Image from 'next/image';
 import BountyCardLean from '../components/BountyCard/BountyCardLean';
-import { convertCsvToJson, getUnclaimedTierWithVolume } from '../lib/batchUtils';
+import { convertCsvToJson } from '../lib/batchUtils';
 
-function BatchTierWinner() {
-  const [tierWinnerBatchData, setTierWinnerBatchData] = useState(null);
+function BatchSetDocumentsComplete() {
+  const [supportingDocsCompleteBatchData, setSupportingDocsCompleteBatchData] = useState(null);
   const [users, setUsers] = useState([]);
   const [appState] = useContext(StoreContext);
   const [file, setFile] = useState(null);
 
+  let abiCoder = new ethers.utils.AbiCoder();
+  const initializationSchema = ['uint256', 'bool'];
+
   const handleCopyToClipboard = () => {
-    navigator.clipboard.writeText(JSON.stringify(tierWinnerBatchData));
+    navigator.clipboard.writeText(JSON.stringify(supportingDocsCompleteBatchData));
   };
 
   const handleDownload = () => {
-    const stringifiedJsonData = JSON.stringify(tierWinnerBatchData);
+    const stringifiedJsonData = JSON.stringify(supportingDocsCompleteBatchData);
     const element = document.createElement('a');
     const file = new Blob([stringifiedJsonData], { type: 'application/json' });
     element.href = URL.createObjectURL(file);
@@ -30,7 +33,7 @@ function BatchTierWinner() {
     const textEncoder = new TextEncoder();
     const md4Digest = md4(textEncoder.encode(stringifiedJsonData));
 
-    element.download = `tierWinnerBatchTransactions-${md4Digest.substring(0, 5)}.json`;
+    element.download = `supportingDocumentsCompleteBatchTransactions-${md4Digest.substring(0, 5)}.json`;
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
@@ -67,49 +70,46 @@ function BatchTierWinner() {
       const transactions = [];
 
       for (const transactionData of jsonData) {
-        const { githubIssueUrl, tierAmount, winnerGithubProfileUrl } = transactionData;
+        const { githubIssueUrl, winnerGithubProfileUrl } = transactionData;
 
         try {
           const { bountyId } = await loadGithubData(githubIssueUrl);
           const userId = await loadGithubDataUser(winnerGithubProfileUrl);
           const bounty = await loadOnChainBounty(bountyId);
 
-          const { payoutSchedule, payoutTokenAddress, tierWinners } = bounty;
+          const { tierWinners } = bounty;
+          console.log('tierWinners', tierWinners);
 
-          const { decimals } = await appState.tokenClient.getToken(ethers.utils.getAddress(payoutTokenAddress));
+          const tier = tierWinners.findIndex((value) => value === userId);
 
-          let formattedVolume = tierAmount * 10 ** decimals;
-
-          const bigNumberTierVolume = ethers.BigNumber.from(
-            formattedVolume.toLocaleString('fullwide', { useGrouping: false })
-          );
-
-          const tier = getUnclaimedTierWithVolume(payoutSchedule, bigNumberTierVolume);
-
-          if (tier == null) {
-            throw new Error(
-              `User ${winnerGithubProfileUrl} for bounty ${githubIssueUrl} has no available tiers for ${tierAmount}.\ Tier winners are ${tierWinners}}. Payout schedule is ${payoutSchedule}`
-            );
+          if (tier == -1) {
+            throw new Error(`User ${winnerGithubProfileUrl} is not a tier winner for bounty ${githubIssueUrl}`);
           }
 
-          const tierWinnerTransactionTemplateCopy = _.cloneDeep(tierWinnerTransactionTemplate);
+          console.log('tier', tier);
 
-          tierWinnerTransactionTemplateCopy.to = process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS;
+          const encoded = abiCoder.encode(initializationSchema, [tier, true]);
+          const encodedFormatted = `"${encoded}"`;
 
-          tierWinnerTransactionTemplateCopy.contractInputsValues._bountyId = bountyId;
-          tierWinnerTransactionTemplateCopy.contractInputsValues._tier = tier.toString();
-          tierWinnerTransactionTemplateCopy.contractInputsValues._winner = userId;
+          const supportingDocumentsCompleteTransactionTemplateCopy = _.cloneDeep(
+            supportingDocumentsCompleteTransactionTemplate
+          );
 
-          transactions.push(tierWinnerTransactionTemplateCopy);
+          supportingDocumentsCompleteTransactionTemplateCopy.to = process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS;
+
+          supportingDocumentsCompleteTransactionTemplateCopy.contractInputsValues._bountyId = bountyId;
+          supportingDocumentsCompleteTransactionTemplateCopy.contractInputsValues._data = encodedFormatted;
+
+          transactions.push(supportingDocumentsCompleteTransactionTemplateCopy);
         } catch (err) {
-          appState.logger.error(err, 'batchTierWinner.js1');
+          appState.logger.error(err, 'batchSetDocumentsComplete.js1');
         }
       }
 
-      const tierWinnerTemplateCopy = _.cloneDeep(tierWinnerTemplate);
-      tierWinnerTemplateCopy.transactions = transactions;
+      const supportingDocumentsCompleteTemplateCopy = _.cloneDeep(supportingDocumentsCompleteTemplate);
+      supportingDocumentsCompleteTemplateCopy.transactions = transactions;
 
-      setTierWinnerBatchData(tierWinnerTemplateCopy);
+      setSupportingDocsCompleteBatchData(supportingDocumentsCompleteTemplateCopy);
     };
 
     reader.readAsText(file);
@@ -117,22 +117,21 @@ function BatchTierWinner() {
 
   const parseTransaction = async (transaction) => {
     const { contractInputsValues } = transaction;
-    const { _bountyId, _tier, _winner } = contractInputsValues;
+    const { _bountyId, _data } = contractInputsValues;
 
     const githubData = await appState.githubRepository.fetchIssueById(_bountyId);
 
     return {
       ...githubData,
       _bountyId,
-      _tier,
-      _winner,
+      _data,
     };
   };
 
   useEffect(() => {
     const getBountyData = async () => {
-      if (tierWinnerBatchData) {
-        const bounties = tierWinnerBatchData.transactions.map(async (transaction) => {
+      if (supportingDocsCompleteBatchData) {
+        const bounties = supportingDocsCompleteBatchData.transactions.map(async (transaction) => {
           const bountyData = await parseTransaction(transaction);
           const currentTimestamp = Date.now();
 
@@ -149,7 +148,7 @@ function BatchTierWinner() {
       }
     };
     getBountyData();
-  }, [tierWinnerBatchData]);
+  }, [supportingDocsCompleteBatchData]);
 
   return (
     <div className='flex flex-col items-center py-14'>
@@ -175,7 +174,7 @@ function BatchTierWinner() {
             className='hover:underline text-blue-400'
             rel='noopener norefferer'
             target='_blank'
-            href='https://docs.google.com/spreadsheets/d/1H0ot3Zd3XHvfpApOlQOmnDMF47o_2Zk6BblATyGT_mE/template/preview'
+            href='https://docs.google.com/spreadsheets/d/1NbFGCVn0xkz2LGzk_pTzLoZ223D2lQ0T8Z4A9osoSo0/template/preview'
           >
             this Google Sheets template.
           </Link>{' '}
@@ -194,7 +193,7 @@ function BatchTierWinner() {
         <h2 className='text-xl pt-8 font-bold'>Step 3: Select your CSV file here</h2>
         <form className='flex gap-4'>
           <label className='btn-primary cursor-pointer whitespace-nowrap' htmlFor='upload'>
-            {tierWinnerBatchData ? 'Update File' : 'Choose File'}
+            {supportingDocsCompleteBatchData ? 'Update File' : 'Choose File'}
           </label>
           <input
             className='absolute invisible w-full top-0 bottom-0 z-10'
@@ -207,9 +206,9 @@ function BatchTierWinner() {
             {file?.name}
           </div>
         </form>
-        {tierWinnerBatchData && (
+        {supportingDocsCompleteBatchData && (
           <div>
-            {tierWinnerBatchData === null ? (
+            {supportingDocsCompleteBatchData === null ? (
               ''
             ) : (
               <div className='flex flex-col space-y-2'>
@@ -221,11 +220,11 @@ function BatchTierWinner() {
         )}
 
         <h2 className='text-xl pt-8 font-bold'>Step 5: Download the generated JSON file</h2>
-        {tierWinnerBatchData && (
+        {supportingDocsCompleteBatchData && (
           <div className='flex flex-col'>
             <h2>
               You will use the Gnosis Safe Transaction Builder JSON to mint the{' '}
-              {tierWinnerBatchData.transactions.length} bounties show below.
+              {supportingDocsCompleteBatchData.transactions.length} bounties show below.
               <br />
               <div className='my-4'>
                 {users.map((bounty, index) => {
@@ -280,4 +279,4 @@ function BatchTierWinner() {
   );
 }
 
-export default BatchTierWinner;
+export default BatchSetDocumentsComplete;
