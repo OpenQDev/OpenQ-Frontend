@@ -110,6 +110,7 @@ export const GET_BOUNTY_BY_ID = gql`
       claimedTransactionHash
       payoutSchedule
       tierWinners
+      payoutTokenAddress
       status
       bountyType
       deposits {

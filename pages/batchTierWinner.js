@@ -71,8 +71,8 @@ function BatchTierWinner() {
 
         try {
           const { bountyId } = await loadGithubData(githubIssueUrl);
-          const { userId } = await loadGithubDataUser(winnerGithubProfileUrl);
-          const bounty = await loadOnChainBounty(winnerGithubProfileUrl);
+          const userId = await loadGithubDataUser(winnerGithubProfileUrl);
+          const bounty = await loadOnChainBounty(bountyId);
 
           const { payoutSchedule, payoutTokenAddress } = bounty;
 
@@ -84,16 +84,14 @@ function BatchTierWinner() {
             formattedVolume.toLocaleString('fullwide', { useGrouping: false })
           );
 
-          const tier = payoutSchedule.findIndex((value) => value.eq(bigNumberTierVolume));
-
-          console.log('tier', tier);
+          const tier = payoutSchedule.findIndex((value) => ethers.BigNumber.from(value).eq(bigNumberTierVolume));
 
           const tierWinnerTransactionTemplateCopy = _.cloneDeep(tierWinnerTransactionTemplate);
 
           tierWinnerTransactionTemplateCopy.to = process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS;
 
           tierWinnerTransactionTemplateCopy.contractInputsValues._bountyId = bountyId;
-          tierWinnerTransactionTemplateCopy.contractInputsValues._tier = tier;
+          tierWinnerTransactionTemplateCopy.contractInputsValues._tier = tier.toString();
           tierWinnerTransactionTemplateCopy.contractInputsValues._winner = userId;
 
           transactions.push(tierWinnerTransactionTemplateCopy);
@@ -115,12 +113,13 @@ function BatchTierWinner() {
     const { contractInputsValues } = transaction;
     const { _bountyId, _tier, _winner } = contractInputsValues;
 
-    console.log({ _bountyId, _tier, _winner });
-
     const githubData = await appState.githubRepository.fetchIssueById(_bountyId);
 
     return {
       ...githubData,
+      _bountyId,
+      _tier,
+      _winner,
     };
   };
 

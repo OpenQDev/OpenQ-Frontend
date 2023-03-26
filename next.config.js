@@ -28,6 +28,7 @@ module.exports = () => {
     NEXT_PUBLIC_CONVERTKIT_API_KEY: process.env.CONVERTKIT_API_KEY,
     NEXT_PUBLIC_NOTIFICATIONS_PUBLIC_KEY: process.env.NOTIFICATIONS_PUBLIC_KEY,
     NEXT_PUBLIC_NOTIFICATIONS_CHANNEL_ID: process.env.NOTIFICATIONS_CHANNEL_ID,
+    NEXT_PUBLIC_PAT: process.env.PAT,
   };
   const headers = [
     { key: 'Access-Control-Allow-Origin', value: '*' },
