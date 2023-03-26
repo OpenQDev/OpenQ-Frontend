@@ -36,13 +36,18 @@ import Log from '../../../components/svg/log';
 import FundProvider from '../../../components/FundBounty/FundStore/FundProvider';
 import { checkClaimable, getBountyTypeName } from '../../../services/utils/lib';
 import { useRouter } from 'next/router';
+import AuthContext from '../../../store/AuthStore/AuthContext';
 
 const address = ({ address, mergedBounty, renderError }) => {
   // Context
   const [appState, dispatch] = useContext(StoreContext);
+  const [authState] = useContext(AuthContext);
+
   const { accountData, openQClient } = appState;
   const [bounty, setBounty] = useState(mergedBounty);
   const router = useRouter();
+  const { isAuthenticated } = authState;
+  const loadingAuthData = isAuthenticated === undefined || isAuthenticated === null;
 
   const { status } = checkClaimable(bounty, accountData?.github, openQClient);
   const claimable = status === 'Claimable' || status === 'Claimed';
@@ -185,17 +190,21 @@ const address = ({ address, mergedBounty, renderError }) => {
       sessionStorage.setItem('justMinted', false);
     }
     // set route and populate
-    if (address) {
-      const route = sessionStorage.getItem(address);
-      const tab = router?.query?.tab;
-      const newTab = tab || route;
-      if (newTab !== internalMenu) {
-        setInternalMenu(newTab || 'View');
-      }
-    }
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+  useEffect(() => {
+    const route = sessionStorage.getItem(address);
+    const tab = router?.query?.tab;
+    const newTab = tab || route || 'View';
+    if (newTab !== internalMenu) {
+      if (!accountData || (newTab === 'Claim' && !claimable)) {
+        setInternalMenu('View');
+      } else {
+        setInternalMenu(newTab);
+      }
+    }
+  }, [claimable, accountData, internalMenu, router?.query?.tab]);
   const claimOverView = bounty?.claims?.length > 0 ? [{ name: 'Claims Overview', Svg: Log }] : [];
   const claim = claimable ? [{ name: 'Claim', Svg: Fire }] : [];
   const submissions = bounty.bountyType === '3' ? [{ name: 'Submissions', Svg: Log }] : [];
@@ -257,41 +266,44 @@ const address = ({ address, mergedBounty, renderError }) => {
               />
 
               <div className='flex justify-between  w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
-                {internalMenu == 'View' && <BountyCardDetails bounty={bounty} />}
-                {internalMenu == 'Fund' && bounty ? (
-                  <FundProvider bounty={bounty} refreshBounty={refreshBounty} setInternalMenu={setInternalMenu}>
-                    <TokenProvider>
-                      <FundPage bounty={bounty} refreshBounty={refreshBounty} />
-                    </TokenProvider>
-                  </FundProvider>
-                ) : null}
-                {claimable && bounty ? (
-                  <ClaimPage
-                    showClaimPage={internalMenu == 'Claim'}
-                    split={split}
-                    bounty={bounty}
-                    refreshBounty={refreshBounty}
-                    setInternalMenu={setInternalMenu}
-                    internalMenu={internalMenu}
-                    claimState={claimState}
-                  />
-                ) : null}
-                {internalMenu == 'Claims Overview' && bounty ? (
-                  <ClaimOverview bounty={bounty} setInternalMenu={setInternalMenu} />
-                ) : null}
-                {internalMenu == 'Admin' &&
-                bounty &&
-                bounty?.issuer?.id &&
-                ethers.utils.getAddress(bounty.issuer.id) == account ? (
-                  <AdminPage bounty={bounty} refreshBounty={refreshBounty} />
-                ) : null}
-                {internalMenu == 'Submissions' && bounty?.payoutSchedule ? (
-                  <Submissions refreshBounty={refreshBounty} bounty={bounty} />
-                ) : null}
-                {bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
-
-                {internalMenu && internalMenu !== 'Submissions' && (
-                  <BountyMetadata split={split} bounty={bounty} setInternalMenu={setInternalMenu} />
+                {!loadingAuthData && (
+                  <>
+                    {internalMenu == 'View' && <BountyCardDetails bounty={bounty} />}
+                    {internalMenu == 'Fund' && bounty ? (
+                      <FundProvider bounty={bounty} refreshBounty={refreshBounty} setInternalMenu={setInternalMenu}>
+                        <TokenProvider>
+                          <FundPage bounty={bounty} refreshBounty={refreshBounty} />
+                        </TokenProvider>
+                      </FundProvider>
+                    ) : null}
+                    {claimable && bounty ? (
+                      <ClaimPage
+                        showClaimPage={internalMenu == 'Claim'}
+                        split={split}
+                        bounty={bounty}
+                        refreshBounty={refreshBounty}
+                        setInternalMenu={setInternalMenu}
+                        internalMenu={internalMenu}
+                        claimState={claimState}
+                      />
+                    ) : null}
+                    {internalMenu == 'Claims Overview' && bounty ? (
+                      <ClaimOverview bounty={bounty} setInternalMenu={setInternalMenu} />
+                    ) : null}
+                    {internalMenu == 'Admin' &&
+                    bounty &&
+                    bounty?.issuer?.id &&
+                    ethers.utils.getAddress(bounty.issuer.id) == account ? (
+                      <AdminPage bounty={bounty} refreshBounty={refreshBounty} />
+                    ) : null}
+                    {internalMenu == 'Submissions' && bounty?.payoutSchedule ? (
+                      <Submissions refreshBounty={refreshBounty} bounty={bounty} />
+                    ) : null}
+                    {bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
+                    {internalMenu && internalMenu !== 'Submissions' && (
+                      <BountyMetadata split={split} bounty={bounty} setInternalMenu={setInternalMenu} />
+                    )}
+                  </>
                 )}
               </div>
               <canvas className='absolute w-full top-0 z-40 bottom-0 pointer-events-none' ref={canvas}></canvas>
