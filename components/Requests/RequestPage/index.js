@@ -66,8 +66,8 @@ const RequestPage = () => {
 
         {gnosisSafe && (
           <div className='bg-info border-info-strong border-2 p-3 rounded-sm my-4'>
-            Hey! Looks like you are using gnosis safe via wallet connect. Because gnosis safes often require multiple
-            signatures, this modal will will be stuck in a pending state. Once you're multi-sig has approved the
+            Hey! Looks like you are using Gnosis Safe via WalletConnect. Because Gnosis Safes often require multiple
+            signatures, this modal will will be stuck in a pending state. Once you're multisig has approved the
             transaction, please reload the app, and you'll see the results of your transaction.
           </div>
         )}
