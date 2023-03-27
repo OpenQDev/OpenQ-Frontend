@@ -1,4 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import {
   GET_USER_BY_ID,
   GET_USER_BY_NAME,
@@ -32,13 +33,21 @@ class GithubRepository {
 
   httpLink = new HttpLink({
     uri: this.uri,
-    credentials: 'include',
     fetch,
+  });
+
+  authLink = setContext((_, { headers }) => {
+    return {
+      headers: {
+        ...headers,
+        authorization: `token ${process.env.NEXT_PUBLIC_PAT}`,
+      },
+    };
   });
 
   client = new ApolloClient({
     uri: this.uri,
-    link: this.httpLink,
+    link: this.authLink.concat(this.httpLink),
     cache: new InMemoryCache(),
     errorPolicy: 'all',
   });

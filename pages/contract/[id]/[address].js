@@ -186,15 +186,18 @@ const address = ({ address, mergedBounty, renderError }) => {
       sessionStorage.setItem('justMinted', false);
     }
     // set route and populate
-    if (address) {
-      const route = sessionStorage.getItem(address);
-      const tab = router?.query?.tab;
-      const newTab = tab || route;
-      if (newTab !== internalMenu) {
-        setInternalMenu(newTab || 'View');
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  useEffect(() => {
+    const route = sessionStorage.getItem(address);
+    const tab = router?.query?.tab;
+    const newTab = tab || route || 'View';
+    if (newTab !== internalMenu) {
+      if (Object.keys(accountData).length === 0 || (newTab === 'Claim' && !claimable)) {
+        setInternalMenu('View');
       }
     }
-    return () => window.removeEventListener('resize', handleResize);
   }, []);
   const claimOverView = bounty?.claims?.length > 0 ? [{ name: 'Claims Overview', Svg: Log }] : [];
   const claim = claimable ? [{ name: 'Claim', Svg: Fire }] : [];
