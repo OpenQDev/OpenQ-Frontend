@@ -198,10 +198,8 @@ const address = ({ address, mergedBounty, renderError }) => {
     const tab = router?.query?.tab;
     const newTab = tab || route || 'View';
     if (newTab !== internalMenu) {
-      if (!accountData || (newTab === 'Claim' && !claimable)) {
+      if (Object.keys(accountData).length === 0 || (newTab === 'Claim' && !claimable)) {
         setInternalMenu('View');
-      } else {
-        setInternalMenu(newTab);
       }
     }
   }, [claimable, accountData, internalMenu, router?.query?.tab]);
