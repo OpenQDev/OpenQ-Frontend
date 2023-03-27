@@ -103,11 +103,15 @@ export const GET_BOUNTY_BY_ID = gql`
   query GetBountyById($id: ID!) {
     bounties(where: { bountyId: $id }) {
       bountyAddress
+      id
       bountyId
       closerData
       bountyMintTime
       bountyClosedTime
       claimedTransactionHash
+      payoutSchedule
+      tierWinners
+      payoutTokenAddress
       status
       bountyType
       deposits {

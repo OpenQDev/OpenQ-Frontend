@@ -32,7 +32,6 @@ class GithubRepository {
 
   httpLink = new HttpLink({
     uri: this.uri,
-    credentials: 'include',
     fetch,
   });
 

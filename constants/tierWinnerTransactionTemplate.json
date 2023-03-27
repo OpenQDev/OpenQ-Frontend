@@ -1,0 +1,19 @@
+{
+  "to": "",
+  "value": "0",
+  "data": null,
+  "contractMethod": {
+    "inputs": [
+      { "internalType": "string", "name": "_bountyId", "type": "string" },
+      { "internalType": "uint256", "name": "_tier", "type": "uint256" },
+      { "internalType": "string", "name": "_winner", "type": "string" }
+    ],
+    "name": "setTierWinner",
+    "payable": false
+  },
+  "contractInputsValues": {
+    "_bountyId": "",
+    "_tier": "",
+    "_winner": ""
+  }
+}

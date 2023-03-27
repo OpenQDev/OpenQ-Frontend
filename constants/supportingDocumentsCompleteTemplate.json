@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "chainId": "137",
+  "createdAt": 1679858337077,
+  "meta": {
+    "name": "Supporting Documents Complete Batch",
+    "description": "",
+    "txBuilderVersion": "1.13.3",
+    "createdFromSafeAddress": "0xBCb0a2D4e644F294849D7792f2A077F9349b155F",
+    "createdFromOwnerAddress": "",
+    "checksum": "0xa1a500e93028e28918139c4f3fc8806a8a9901eaefbc6912826503344154afe6"
+  },
+  "transactions": []
+}

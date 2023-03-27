@@ -1,0 +1,17 @@
+{
+  "to": "",
+  "value": "0",
+  "data": null,
+  "contractMethod": {
+    "inputs": [
+      { "internalType": "string", "name": "_bountyId", "type": "string" },
+      { "internalType": "bytes", "name": "_data", "type": "bytes" }
+    ],
+    "name": "setSupportingDocumentsComplete",
+    "payable": false
+  },
+  "contractInputsValues": {
+    "_bountyId": "",
+    "_data": ""
+  }
+}
