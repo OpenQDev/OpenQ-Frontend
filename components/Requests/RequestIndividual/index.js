@@ -39,6 +39,7 @@ const RequestIndividual = ({ item }) => {
     const userId = accountData.id;
     await appState.openQPrismaClient.updateRequest({ requestId, message, userId });
   };
+
   const rejectRequest = async () => {
     setDeclineState(TRANSFERRING);
     const requestId = request.id;
@@ -53,6 +54,7 @@ const RequestIndividual = ({ item }) => {
       setError({ title: 'Error', message: e?.message });
     }
   };
+
   const confirmBtn = {
     CONFIRM: (
       <button className='btn-danger' onClick={rejectRequest}>
@@ -75,6 +77,7 @@ const RequestIndividual = ({ item }) => {
       </button>
     ),
   };
+
   const modalTitle = {
     CONFIRM: `Decline Request`,
     TRANSFERRING: 'Decline Request',
@@ -179,7 +182,11 @@ const RequestIndividual = ({ item }) => {
         <div>Request for acceptance of the W8/W9 form.</div>
         <div className='flex gap-2'>
           {issue.title}{' '}
-          <a href={`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.address}`}>
+          <a
+            href={`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.address}`}
+            target='_blank'
+            rel='noreferrer'
+          >
             <Chain className='w-6 h-6 fill-primary' />
           </a>
         </div>
