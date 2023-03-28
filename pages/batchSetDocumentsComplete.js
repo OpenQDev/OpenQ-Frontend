@@ -8,14 +8,15 @@ import supportingDocumentsCompleteTransactionTemplate from '../constants/support
 import md4 from 'js-md4';
 import Link from 'next/link';
 import Image from 'next/image';
-import BountyCardLean from '../components/BountyCard/BountyCardLean';
 import { convertCsvToJson } from '../lib/batchUtils';
+import RequestIndividualCardLean from '../components/Requests/RequestIndividualCardLean';
 
 function BatchSetDocumentsComplete() {
   const [supportingDocsCompleteBatchData, setSupportingDocsCompleteBatchData] = useState(null);
-  const [users, setUsers] = useState([]);
+  const [, setUsers] = useState([]);
   const [appState] = useContext(StoreContext);
   const [file, setFile] = useState(null);
+  const mockData = [];
 
   let abiCoder = new ethers.utils.AbiCoder();
   const initializationSchema = ['uint256', 'bool'];
@@ -219,6 +220,8 @@ function BatchSetDocumentsComplete() {
           </div>
         )}
 
+        <h2 className='text-xl pt-8 font-bold'>Step 5: Preview the winners who you are releasing funds to</h2>
+
         <h2 className='text-xl pt-8 font-bold'>Step 5: Download the generated JSON file</h2>
         {supportingDocsCompleteBatchData && (
           <div className='flex flex-col'>
@@ -227,11 +230,13 @@ function BatchSetDocumentsComplete() {
               {supportingDocsCompleteBatchData.transactions.length} bounties show below.
               <br />
               <div className='my-4'>
-                {users.map((bounty, index) => {
-                  return (
-                    <BountyCardLean noModal={true} length={users.length} index={index} key={index} item={bounty} />
-                  );
-                })}
+                {
+                  <>
+                    {mockData.map((mockDataum, index) => {
+                      return <RequestIndividualCardLean key={index} item={mockDataum} />;
+                    })}
+                  </>
+                }
               </div>
               <br />
               If this is correct, then download the JSON file and follow the next steps.
