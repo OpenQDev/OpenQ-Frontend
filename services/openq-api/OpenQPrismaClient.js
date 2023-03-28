@@ -28,6 +28,7 @@ import {
   GET_REQUESTS,
   GET_PRIVATE_REQUEST,
   UPDATE_REQUEST,
+  GET_REQUEST,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
@@ -572,6 +573,24 @@ class OpenQPrismaClient {
           fetchPolicy: 'no-cache',
         });
         resolve(result.data.bounties.bountyConnection);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+  async getRequest(id) {
+    const promise = new Promise(async (resolve, reject) => {
+      const variables = {
+        id,
+      };
+
+      try {
+        const result = await this.client.query({
+          query: GET_REQUEST,
+          variables,
+        });
+        resolve(result.data.request);
       } catch (e) {
         reject(e);
       }
