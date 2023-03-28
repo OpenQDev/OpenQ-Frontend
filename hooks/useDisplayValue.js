@@ -2,6 +2,7 @@ import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import useGetTokenValues from './useGetTokenValues';
 import useGetValueFromComposite from './useGetValueFromComposite';
+import { rounder } from '../services/utils/lib';
 
 const useDisplayValue = (bounty, formatter, type) => {
   //takes in bounty and returns correct value object
@@ -56,7 +57,7 @@ const useDisplayValue = (bounty, formatter, type) => {
         value: budget,
         valueType: 'Budget',
         valueTypeFull: 'Budget',
-        displayValue: formatter(budget),
+        displayValue: formatter(rounder(budget)),
       });
     } else if (budget === 0) {
       setValueObj({
