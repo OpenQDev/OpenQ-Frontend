@@ -1,7 +1,7 @@
 import { getUnclaimedTierWithVolume } from '../../lib/batchUtils';
 import { ethers } from 'ethers';
 
-describe('Batch Mint - Tier Winner', () => {
+describe('Batch Mint - Supporting Docs', () => {
   it('should return correct tier', async () => {
     const tierWinners = ['USER1', '', '', '', ''];
 

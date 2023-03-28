@@ -59,15 +59,15 @@ const RequestPage = () => {
       <div className='my-6'>
         <h2 className='text-2xl font-semibold pb-4  my-4'>Requests</h2>
         <div className='bg-info border-info-strong border-2 p-3 rounded-sm my-4'>
-          If you accept the request, the amount deposited in the contract will be unlocked for the builder. If you are
-          not satisfied with the work, please communicate with the builder, and accept the request once you are
-          satisfied with their submission.
+          If the submission requires changes, please "Decline" the form submission and write a message to the builder in
+          the popup. Once the submission is completed correctly, please click "Accept". If you accept the request, the
+          amount deposited in the contract will be unlocked for the builder.
         </div>
 
         {gnosisSafe && (
           <div className='bg-info border-info-strong border-2 p-3 rounded-sm my-4'>
-            Hey! Looks like you are using gnosis safe via wallet connect. Because gnosis safes often require multiple
-            signatures, this modal will will be stuck in a pending state. Once you're multi-sig has approved the
+            Hey! Looks like you are using Gnosis Safe via WalletConnect. Because Gnosis Safes often require multiple
+            signatures, this modal will will be stuck in a pending state. Once you're multisig has approved the
             transaction, please reload the app, and you'll see the results of your transaction.
           </div>
         )}

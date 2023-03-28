@@ -126,7 +126,7 @@ const W8Requirement = ({ bounty }) => {
           they request changes, you will be notified via your contact email. If you have any questions, feel free to
           reach out in our{' '}
           <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
-            discord
+            Discord
           </a>
           .
         </>
@@ -228,7 +228,12 @@ const W8Requirement = ({ bounty }) => {
           <div>
             {!w8Approved && currentRequest && (
               <div className='bg-info border-info-strong rounded-sm border p-4 my-4'>
-                Your tax form was not accepted. {currentRequest}
+                The organization has requested changes on the tax form you submitted. Please review the requested change
+                below, update your tax forms, and re-upload them here.
+                <br />
+                <br />
+                <br />
+                {currentRequest}
               </div>
             )}
             <div>
