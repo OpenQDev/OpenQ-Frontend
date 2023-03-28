@@ -19,11 +19,6 @@ const FirstTimeBanner = () => {
             <div>EthDenver and team are reviewing all pull request submissions and will verify winners ASAP.</div>
             <br />
             <div>Keep an eye on your inbox for updates.</div>
-            <br />
-            <div>
-              The Graph is experiencing intermittent outtages which are effecting OpenQ. Stand by as the Graph fixes the
-              issue.
-            </div>
           </div>
           <div className='flex justify-self-end'>
             <button onClick={() => updateShowBanner(false)} className='px-4'>
