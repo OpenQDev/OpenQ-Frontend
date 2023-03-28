@@ -263,7 +263,7 @@ export async function getServerSideProps(context) {
     ordering: { direction: 'desc', field: 'createdAt' },
     fetchFilters,
     filters: {
-      searchText: `order:newest`,
+      searchText: ``,
       isReady: getReadyText(isOnlyContest(types)),
     },
     cursor,

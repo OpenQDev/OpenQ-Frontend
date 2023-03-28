@@ -35,9 +35,6 @@ const RequestIndividual = ({ item }) => {
 
   const declineRequest = async () => {
     setDeclineState(CONFIRM);
-    const requestId = request.id;
-    const userId = accountData.id;
-    await appState.openQPrismaClient.updateRequest({ requestId, message, userId });
   };
 
   const rejectRequest = async () => {

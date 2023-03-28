@@ -120,7 +120,7 @@ export const getServerSideProps = async (context) => {
     ordering: { direction: 'desc', field: 'createdAt' },
     fetchFilters: { types },
     filters: {
-      searchText: `order:newest`,
+      searchText: ``,
       isReady: getReadyText(isOnlyContest(types)),
     },
     cursor,
