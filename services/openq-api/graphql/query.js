@@ -589,3 +589,25 @@ export const SET_IS_CONTEST = gql`
     }
   }
 `;
+
+export const GET_REQUEST = gql`
+  query {
+    request(id: "642329d5074ef16db401728b") {
+      id
+
+      requestingUser {
+        github
+      }
+      bounty {
+        type
+        address
+        bountyId
+      }
+    }
+    requests(limit: 10) {
+      nodes {
+        id
+      }
+    }
+  }
+`;
