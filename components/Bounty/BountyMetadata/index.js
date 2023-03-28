@@ -7,7 +7,7 @@ import CopyBountyAddress from '../CopyBountyAddress';
 import StoreContext from '../../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 import useGetValueFromComposite from '../../../hooks/useGetValueFromComposite';
-import { getBountyTypeName } from '../../../services/utils/lib';
+import { getBountyTypeName, rounder } from '../../../services/utils/lib';
 
 const BountyMetadata = ({ bounty, setInternalMenu }) => {
   const [appState] = useContext(StoreContext);
@@ -131,7 +131,7 @@ const BountyMetadata = ({ bounty, setInternalMenu }) => {
         <li className='border-b border-web-gray py-3'>
           <div className='text-xs font-semibold text-muted'>🎯 Current Target Budget</div>
           <div className='text-xs font-semibold text-primary pt-2'>
-            {appState.utils.formatter.format(budgetValues?.total) || '$0.00'}
+            {appState.utils.formatter.format(rounder(budgetValues?.total)) || '$0.00'}
           </div>
         </li>
       ) : null}

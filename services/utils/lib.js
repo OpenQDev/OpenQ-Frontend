@@ -24,6 +24,15 @@ export const parseVolume = (volume) => {
     return null;
   }
 };
+
+export const rounder = (nb) => {
+  if (nb > 10 && Math.round(nb) - nb < 0.1) {
+    return Math.round(nb);
+  } else {
+    return nb;
+  }
+};
+
 export const listWordsWithAnd = (words) => {
   if (words.length === 0) return '';
   if (words.length === 1) {
