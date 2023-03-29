@@ -9,7 +9,7 @@ import md4 from 'js-md4';
 import Link from 'next/link';
 import Image from 'next/image';
 import BountyCardLean from '../components/BountyCard/BountyCardLean';
-import { convertCsvToJson, getUnclaimedTierWithVolume } from '../lib/batchUtils';
+import { convertCsvToJson, getUnclaimedTierWithVolume, getTierWinnerTransactions } from '../lib/batchUtils';
 
 function BatchTierWinner() {
   const [tierWinnerBatchData, setTierWinnerBatchData] = useState(null);
@@ -64,15 +64,20 @@ function BatchTierWinner() {
       const jsonData = convertCsvToJson(csvData);
 
       // Populate the transaction template
-			const transactions = getTierWinnerTransactions(
-				jsonData,
-				process.env.NEXT_PUBLIC_OPENQ_ADDRESS,
-				loadGithubData,
-				loadGithubDataUser,
-				loadOnChainBounty,
-				appState.tokenClient.getToken,
-				console
-			)
+			let transactions = [];
+			try {
+				transactions = await getTierWinnerTransactions(
+					jsonData,
+					process.env.NEXT_PUBLIC_OPENQ_ADDRESS,
+					loadGithubData,
+					loadGithubDataUser,
+					loadOnChainBounty,
+					appState.tokenClient.getToken,
+					console
+				)
+			} catch (error) {
+				logger.error(err, 'batchTierWinner.js1');
+			}
 
       const tierWinnerTemplateCopy = _.cloneDeep(tierWinnerTemplate);
       tierWinnerTemplateCopy.transactions = transactions;
