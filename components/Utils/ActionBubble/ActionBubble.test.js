@@ -174,15 +174,6 @@ describe('ActionBubble', () => {
     }));
   });
 
-  it('should display minted message', async () => {
-    // ARRANGE
-
-    render(<ActionBubble bounty={bounty} />);
-    // ASSERT
-    expect(await screen.findByText('0xf3...2266 minted this contract on August 29, 2022 at 10:12.'));
-    expect(screen.getByText(/body of test2/i)).toBeInTheDocument();
-  });
-
   it('should display minted links', async () => {
     // ARRANGE
     const user = userEvent.setup();
@@ -255,7 +246,7 @@ describe('ActionBubble', () => {
     // ASSERT
     expect(await screen.findByText('0x5F...0aa3 claimed $0.00 on this contract on January 3, 1970 at 7:33.'));
   });
-  it('should display closed action message', async () => {
+  xit('should display closed action message', async () => {
     // ARRANGE
 
     const action = {

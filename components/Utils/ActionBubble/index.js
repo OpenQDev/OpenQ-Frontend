@@ -8,12 +8,10 @@ import { ethers } from 'ethers';
 import Jazzicon from './../Jazzicon';
 import useWeb3 from '../../../hooks/useWeb3';
 import ToolTipNew from './../ToolTipNew';
-import GithubHtmlRenderer from '../HtmlReneder';
 
 const ActionBubble = ({ bounty, action }) => {
   const [appState] = useContext(StoreContext);
   const [justMinted, setJustMinted] = useState(false);
-  const { bodyHTML } = bounty;
   const [senderEnsName] = useEns(action?.sender?.id);
   const { library, account } = useWeb3();
   const [minterEnsName] = useEns(bounty?.issuer?.id || account);
@@ -208,9 +206,6 @@ const ActionBubble = ({ bounty, action }) => {
             <span className='flex items-center border rounded-sm border-web-gray px-2 py-px m-1'> Refunded</span>
           )}
         </div>
-        {!action && bodyHTML && (
-          <GithubHtmlRenderer className={'w-full p-8 p-4 border-web-gray border-t markdown-body'} html={bodyHTML} />
-        )}
       </div>
     </div>
   );
