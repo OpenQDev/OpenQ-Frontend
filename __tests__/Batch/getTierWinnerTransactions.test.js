@@ -1,13 +1,13 @@
 import { getTierWinnerTransactions } from '../../lib/batchUtils';
 import tierWinnerJSON from './json/tierWinner.json';
-import tierWinnerBatchTxnArray from './json/tierWinnerBatchTxnArray.json'
+import tierWinnerBatchTxnArray from './json/tierWinnerBatchTxnArray.json';
 
 describe('Batch Mint - Tier Winner', () => {
   const loadGithubData = async () => {
     return { bountyId: 'bountyId' };
   };
 
-  const loadGithubDataUser = async (userId,tier) => {
+  const loadGithubDataUser = async (userId, tier) => {
     return `USER-${tier}`;
   };
 
@@ -50,22 +50,21 @@ describe('Batch Mint - Tier Winner', () => {
   };
 
   it('should return correct transactions', async () => {
-    let transactions = []
-		try {
-			transactions = await getTierWinnerTransactions(
-				tierWinnerJSON,
-				'0xOPENQ',
-				loadGithubData,
-				loadGithubDataUser,
-				loadOnChainBounty,
-				getToken,
-				console
-			);
-		} catch (error) {
-			console.log('error')
-			fail()
-		}
+    let transactions = [];
+    try {
+      transactions = await getTierWinnerTransactions(
+        tierWinnerJSON,
+        '0xOPENQ',
+        loadGithubData,
+        loadGithubDataUser,
+        loadOnChainBounty,
+        getToken
+      );
+    } catch (error) {
+      console.log('error');
+      expect(1).toEqual(0);
+    }
 
-    expect(transactions).toEqual(tierWinnerBatchTxnArray)
+    expect(transactions).toEqual(tierWinnerBatchTxnArray);
   });
 });
