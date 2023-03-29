@@ -9,7 +9,7 @@ import md4 from 'js-md4';
 import Link from 'next/link';
 import Image from 'next/image';
 import BountyCardLean from '../components/BountyCard/BountyCardLean';
-import { convertCsvToJson, getUnclaimedTierWithVolume } from '../lib/batchUtils';
+import { convertCsvToJson, getUnclaimedTierWithVolume, getTierWinnerTransactions } from '../lib/batchUtils';
 
 function BatchTierWinner() {
   const [tierWinnerBatchData, setTierWinnerBatchData] = useState(null);
@@ -64,55 +64,20 @@ function BatchTierWinner() {
       const jsonData = convertCsvToJson(csvData);
 
       // Populate the transaction template
-      const transactions = [];
-      const tiersClaimedPreviouslyInBatch = [];
-
-      for (const transactionData of jsonData) {
-        const { githubIssueUrl, tierAmount, winnerGithubProfileUrl } = transactionData;
-
-        try {
-          const { bountyId } = await loadGithubData(githubIssueUrl);
-          const userId = await loadGithubDataUser(winnerGithubProfileUrl);
-          const bounty = await loadOnChainBounty(bountyId);
-
-          const { payoutSchedule, payoutTokenAddress, tierWinners } = bounty;
-
-          const { decimals } = await appState.tokenClient.getToken(ethers.utils.getAddress(payoutTokenAddress));
-
-          let formattedVolume = tierAmount * 10 ** decimals;
-
-          const bigNumberTierVolume = ethers.BigNumber.from(
-            formattedVolume.toLocaleString('fullwide', { useGrouping: false })
-          );
-
-          const tier = getUnclaimedTierWithVolume(
-            payoutSchedule,
-            tierWinners,
-            tiersClaimedPreviouslyInBatch,
-            bigNumberTierVolume
-          );
-
-          if (tier == null) {
-            throw new Error(
-              `User ${winnerGithubProfileUrl} for bounty ${githubIssueUrl} has no available tiers for ${tierAmount}.\ Tier winners are ${tierWinners}}. Payout schedule is ${payoutSchedule}`
-            );
-          }
-
-          tiersClaimedPreviouslyInBatch.push(tier);
-
-          const tierWinnerTransactionTemplateCopy = _.cloneDeep(tierWinnerTransactionTemplate);
-
-          tierWinnerTransactionTemplateCopy.to = process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS;
-
-          tierWinnerTransactionTemplateCopy.contractInputsValues._bountyId = bountyId;
-          tierWinnerTransactionTemplateCopy.contractInputsValues._tier = tier.toString();
-          tierWinnerTransactionTemplateCopy.contractInputsValues._winner = userId;
-
-          transactions.push(tierWinnerTransactionTemplateCopy);
-        } catch (err) {
-          appState.logger.error(err, 'batchTierWinner.js1');
-        }
-      }
+			let transactions = [];
+			try {
+				transactions = await getTierWinnerTransactions(
+					jsonData,
+					process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS,
+					loadGithubData,
+					loadGithubDataUser,
+					loadOnChainBounty,
+					appState.tokenClient,
+					console
+				)
+			} catch (error) {
+				appState.logger.error(error, 'batchTierWinner.js1');
+			}
 
       const tierWinnerTemplateCopy = _.cloneDeep(tierWinnerTemplate);
       tierWinnerTemplateCopy.transactions = transactions;
