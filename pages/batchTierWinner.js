@@ -76,7 +76,7 @@ function BatchTierWinner() {
 					console
 				)
 			} catch (error) {
-				logger.error(err, 'batchTierWinner.js1');
+				appState.logger.error(error, 'batchTierWinner.js1');
 			}
 
       const tierWinnerTemplateCopy = _.cloneDeep(tierWinnerTemplate);
