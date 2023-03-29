@@ -124,7 +124,7 @@ function BatchTierWinner() {
   return (
     <div className='flex flex-col items-center py-14'>
       <div className='w-full text-center bg-[#161B22] py-14 border-t border-web-gray'>
-        <h1 className='text-2xl font-bold'>OpenQ Mint Bounty Batcher</h1>
+        <h1 className='text-2xl font-bold'>OpenQ Tier Winner Selection Batcher</h1>
         <div className='text-gray-500 text-md'>
           This is a utility to input a CSV of your bounty information and convert it to a format for upload to{' '}
           <Link
@@ -194,8 +194,8 @@ function BatchTierWinner() {
         {tierWinnerBatchData && (
           <div className='flex flex-col'>
             <h2>
-              You will use the Gnosis Safe Transaction Builder JSON to mint the{' '}
-              {tierWinnerBatchData.transactions.length} bounties show below.
+              You will use the Gnosis Safe Transaction Builder JSON to select the{' '}
+              {tierWinnerBatchData.transactions.length} tier winners below.
               <br />
               <div className='my-4'>
                 {users.map((bounty, index) => {
