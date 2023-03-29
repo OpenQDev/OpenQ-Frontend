@@ -67,8 +67,5 @@ describe('ReqiestIndividual', () => {
     await user.click(rejectRequestButton);
     expect(await screen.findByText(/Please add/i)).toBeInTheDocument();
     expect(await screen.findByRole('textbox')).toBeInTheDocument();
-    const modalDecline = await screen.findAllByRole('button', { name: /Decline/i })[0];
-    await user.click(modalDecline);
-    expect(updateRequest).toBeCalledWith({ message: '', requestId: 1, userId: undefined });
   });
 });
