@@ -68,7 +68,7 @@ function BatchTierWinner() {
 			try {
 				transactions = await getTierWinnerTransactions(
 					jsonData,
-					process.env.NEXT_PUBLIC_OPENQ_ADDRESS,
+					process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS,
 					loadGithubData,
 					loadGithubDataUser,
 					loadOnChainBounty,
