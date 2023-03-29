@@ -158,9 +158,6 @@ const Footer = () => {
         </div>
         <div className='flex flex-col pb-8'>
           <h1 className='font-bold pb-2'>COMPANY</h1>
-          <Link href={'/'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
-            <span>About</span>
-          </Link>
           <Link
             href={'https://github.com/OpenQDev/OpenQ-Careers'}
             className=' lg:justify-self-center'
