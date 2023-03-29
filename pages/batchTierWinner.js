@@ -72,7 +72,7 @@ function BatchTierWinner() {
 					loadGithubData,
 					loadGithubDataUser,
 					loadOnChainBounty,
-					appState.tokenClient.getToken,
+					appState.tokenClient,
 					console
 				)
 			} catch (error) {
