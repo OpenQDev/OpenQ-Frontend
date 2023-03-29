@@ -246,7 +246,7 @@ describe('ActionBubble', () => {
     // ASSERT
     expect(await screen.findByText('0x5F...0aa3 claimed $0.00 on this contract on January 3, 1970 at 7:33.'));
   });
-  xit('should display closed action message', async () => {
+  it('should display closed action message', async () => {
     // ARRANGE
 
     const action = {
