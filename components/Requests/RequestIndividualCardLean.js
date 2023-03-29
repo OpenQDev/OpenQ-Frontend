@@ -1,5 +1,5 @@
 // Third party
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import Image from 'next/image';
 
 // Custom
@@ -14,13 +14,10 @@ const BountyCardLean = ({ item, loading, index, length }) => {
 
   // Hooks
   const token = appState.tokenClient.getToken(item.payoutTokenAddress);
-  console.log(token);
-  useEffect(() => {
-    console.log(token);
-  });
+
   const marker = getBountyMarker(item, appState.openQClient, appState.accountData.github);
   const volume = formatVolume(item.volumeWon, token);
-  console.log(item);
+
   // Render
   return (
     <div className={loading ? 'pointer-events-none cursor-normal relative w-full' : 'w-full'}>

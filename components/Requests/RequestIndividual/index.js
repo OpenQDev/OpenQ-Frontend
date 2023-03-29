@@ -17,9 +17,8 @@ const RequestIndividual = ({ item }) => {
   const { accountData } = appState;
 
   const requestingUser = request?.requestingUser;
-  const githubId = requestingUser.github;
+  const { githubUser } = requestingUser;
   const issueId = bounty.bountyId;
-  const [githubUser, setGithubUser] = useState({});
   const [issue, setIssue] = useState({});
   const { library } = useWeb3();
   const [message, setMessage] = useState('');
@@ -138,24 +137,13 @@ const RequestIndividual = ({ item }) => {
   };
 
   useEffect(() => {
-    const getGithubUser = async () => {
-      try {
-        const githubUser = await appState.githubRepository.fetchUserById(githubId);
-        setGithubUser(githubUser);
-      } catch (err) {
-        appState.logger.error(err, 'RequestIndividual2', accountData.id);
-      }
-    };
-    getGithubUser();
-  }, [githubId]);
-
-  useEffect(() => {
     const getIssue = async () => {
       const issue = await appState.githubRepository.fetchIssueById(issueId);
       setIssue(issue);
     };
     getIssue();
   }, [issueId]);
+  if (!githubUser) return null;
   return (
     <li className='border gap-4 grid content-center items-center border-web-gray rounded-md p-4 my-4 grid-cols-[80px_1fr_160px]'>
       {githubUser.avatarUrl && (
