@@ -20,7 +20,7 @@ const BountyCardLean = ({ item, loading, index, length }) => {
 
   // Render
   return (
-    <div className={loading ? 'pointer-events-none cursor-normal relative w-full' : 'w-full'}>
+    <div className={loading ? 'pointer-events-none cursor-normal relative w-full' : 'w-full mt0'}>
       <div
         className={`flex flex-col px-4 py-4 border-web-gray border-x  border-t ${
           index === length - 1 && 'border-b rounded-b-sm'

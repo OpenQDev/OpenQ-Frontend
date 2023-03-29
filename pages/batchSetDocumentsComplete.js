@@ -220,8 +220,6 @@ function BatchSetDocumentsComplete() {
           </div>
         )}
 
-        <h2 className='text-xl pt-8 font-bold'>Step 5: Preview the winners who you are releasing funds to</h2>
-
         <h2 className='text-xl pt-8 font-bold'>Step 5: Download the generated JSON file</h2>
         {supportingDocsCompleteBatchData && (
           <div className='flex flex-col'>
@@ -231,11 +229,18 @@ function BatchSetDocumentsComplete() {
               <br />
               <div className='my-4'>
                 {
-                  <>
+                  <div>
                     {mockData.map((mockDataum, index) => {
-                      return <RequestIndividualCardLean key={index} item={mockDataum} />;
+                      return (
+                        <RequestIndividualCardLean
+                          length={mockData.length}
+                          index={index}
+                          key={index}
+                          item={mockDataum}
+                        />
+                      );
                     })}
-                  </>
+                  </div>
                 }
               </div>
               <br />
