@@ -233,7 +233,9 @@ const W8Requirement = ({ bounty }) => {
                 <br />
                 <br />
                 <br />
-                {currentRequest}
+                <div className='flex gap-2 font-bold'>
+                  Requested change: <div className='text-gray-400 font-normal'>{currentRequest}</div>
+                </div>
               </div>
             )}
             <div>
