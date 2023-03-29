@@ -8,14 +8,38 @@ import tierWinnerTransactionTemplate from '../constants/tierWinnerTransactionTem
 import md4 from 'js-md4';
 import Link from 'next/link';
 import Image from 'next/image';
-import BountyCardLean from '../components/BountyCard/BountyCardLean';
+import RequestIndividualCardLean from '../components/Requests/RequestIndividualCardLean';
 import { convertCsvToJson, getUnclaimedTierWithVolume } from '../lib/batchUtils';
 
 function BatchTierWinner() {
   const [tierWinnerBatchData, setTierWinnerBatchData] = useState(null);
-  const [users, setUsers] = useState([]);
+  const [, setUsers] = useState([]);
   const [appState] = useContext(StoreContext);
   const [file, setFile] = useState(null);
+  const zeroAdress = '0x0000000000000000000000000000000000000000';
+  const mockData = [
+    {
+      payoutTokenAddress: zeroAdress,
+      volumeWon: '1000000000000000000',
+      login: 'C0ZEN',
+      title: 'Add a new feature to the OpenQ platform',
+      tierWon: '0',
+    },
+    {
+      payoutTokenAddress: '0x6b175474e89094c44da98b954eedeac495271d0f',
+      volumeWon: '1000000000000000000',
+      login: 'C0ZEN',
+      title: 'Add a new feature to the OpenQ platform',
+      tierWon: '0',
+    },
+    {
+      payoutTokenAddress: '0x6b175474e89094c44da98b954eedeac495271d0f',
+      volumeWon: '1000000000000000000',
+      login: 'C0ZEN',
+      title: 'Add a new feature to the OpenQ platform',
+      tierWon: '0',
+    },
+  ];
 
   const handleCopyToClipboard = () => {
     navigator.clipboard.writeText(JSON.stringify(tierWinnerBatchData));
@@ -227,8 +251,13 @@ function BatchTierWinner() {
             )}
           </div>
         )}
+        <div>
+          {mockData.map((mockDataum, index) => {
+            return <RequestIndividualCardLean length={mockData.length} index={index} key={index} item={mockDataum} />;
+          })}
+        </div>
 
-        <h2 className='text-xl pt-8 font-bold'>Step 5: Download the generated JSON file</h2>
+        <h2 className='text-xl pt-8 font-bold'>Step 4: Download the generated JSON file</h2>
         {tierWinnerBatchData && (
           <div className='flex flex-col'>
             <h2>
@@ -236,11 +265,24 @@ function BatchTierWinner() {
               {tierWinnerBatchData.transactions.length} bounties show below.
               <br />
               <div className='my-4'>
-                {users.map((bounty, index) => {
-                  return (
-                    <BountyCardLean noModal={true} length={users.length} index={index} key={index} item={bounty} />
-                  );
-                })}
+                <br />
+                <div className='my-4'>
+                  {
+                    <div>
+                      {mockData.map((mockDataum, index) => {
+                        return (
+                          <RequestIndividualCardLean
+                            length={mockData.length}
+                            index={index}
+                            key={index}
+                            item={mockDataum}
+                          />
+                        );
+                      })}
+                    </div>
+                  }
+                </div>
+                <br />
               </div>
               <br />
               If this is correct, then download the JSON file and follow the next steps.
@@ -256,7 +298,7 @@ function BatchTierWinner() {
             </div>
           </div>
         )}
-        <h2 className='text-xl pt-8 font-bold'>Step 6: Navigate to the Transaction Builder Safe App</h2>
+        <h2 className='text-xl pt-8 font-bold'>Step 5: Navigate to the Transaction Builder Safe App</h2>
         <div>
           Go to{' '}
           <Link
@@ -281,7 +323,7 @@ function BatchTierWinner() {
           </Link>
         </div>
         <h2 className='text-xl pt-8 font-bold'>
-          Step 7: Drag and drop the downloaded file to the Gnosis Safe App Transaction Builder
+          Step 6: Drag and drop the downloaded file to the Gnosis Safe App Transaction Builder
         </h2>
       </div>
     </div>
