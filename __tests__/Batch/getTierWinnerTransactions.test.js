@@ -1,6 +1,6 @@
 import { getTierWinnerTransactions } from '../../lib/batchUtils';
-import tierWinnerJSON from './tierWinner.json';
-import tierWinnerBatchTxnArray from './tierWinnerBatchTxnArray.json'
+import tierWinnerJSON from './json/tierWinner.json';
+import tierWinnerBatchTxnArray from './json/tierWinnerBatchTxnArray.json'
 
 describe('Batch Mint - Tier Winner', () => {
   const loadGithubData = async () => {
