@@ -270,14 +270,14 @@ const W8Requirement = ({ bounty }) => {
           <form onSubmit={handleSend} className='flex gap-2 items-center flex-wrap md:flex-nowrap'>
             {sent && (
               <div
-                className={`relative flex w-fit whitespace-nowrap gap-2 z-20 h-8 items-center justify-center text-center btn-default-disabled cursor-not-allowed`}
+                className={`relative flex w-fit whitespace-nowrap gap-2 h-8 items-center justify-center text-center btn-default-disabled cursor-not-allowed`}
               >
                 Pending
               </div>
             )}
             <label htmlFor='file input' className={`relative flex items-center`}>
               <div
-                className={`relative flex w-fit whitespace-nowrap gap-2 z-20 h-8 items-center justify-center text-center ${
+                className={`relative flex w-fit whitespace-nowrap gap-2 h-8 items-center justify-center text-center ${
                   noEmail ? 'cursor-not-allowed' : 'cursor-pointer'
                 } ${file || noEmail ? 'btn-primary' : 'btn-requirements'}`}
               >
