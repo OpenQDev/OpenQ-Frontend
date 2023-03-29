@@ -591,8 +591,8 @@ export const SET_IS_CONTEST = gql`
 `;
 
 export const GET_REQUEST = gql`
-  query {
-    request(id: "642329d5074ef16db401728b") {
+  query getRequest($id: String!) {
+    request(id: $id) {
       id
 
       requestingUser {
