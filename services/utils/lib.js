@@ -256,7 +256,8 @@ export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor,
         (earlierRequest) => earlierRequest.request.requestingUser.id === request.requestingUser.id
       );
       if (!user) {
-        const githubUser = await appState.githubRepository.fetchUserById(githubId);
+        const requestGithubId = request.requestingUser.github;
+        const githubUser = await appState.githubRepository.fetchUserById(requestGithubId);
         const requestWithGithubUser = {
           ...request,
           requestingUser: {
