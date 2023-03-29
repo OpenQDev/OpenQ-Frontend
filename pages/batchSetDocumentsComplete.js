@@ -220,7 +220,7 @@ function BatchSetDocumentsComplete() {
           </div>
         )}
 
-        <h2 className='text-xl pt-8 font-bold'>Step 5: Download the generated JSON file</h2>
+        <h2 className='text-xl pt-8 font-bold'>Step 4: Download the generated JSON file</h2>
         {supportingDocsCompleteBatchData && (
           <div className='flex flex-col'>
             <h2>
@@ -257,7 +257,7 @@ function BatchSetDocumentsComplete() {
             </div>
           </div>
         )}
-        <h2 className='text-xl pt-8 font-bold'>Step 6: Navigate to the Transaction Builder Safe App</h2>
+        <h2 className='text-xl pt-8 font-bold'>Step 5: Navigate to the Transaction Builder Safe App</h2>
         <div>
           Go to{' '}
           <Link
@@ -282,7 +282,7 @@ function BatchSetDocumentsComplete() {
           </Link>
         </div>
         <h2 className='text-xl pt-8 font-bold'>
-          Step 7: Drag and drop the downloaded file to the Gnosis Safe App Transaction Builder
+          Step 6: Drag and drop the downloaded file to the Gnosis Safe App Transaction Builder
         </h2>
       </div>
     </div>
