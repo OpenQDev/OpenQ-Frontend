@@ -1,0 +1,192 @@
+[
+  {
+    "to": "0xOPENQ",
+    "value": "0",
+    "data": null,
+    "contractMethod": {
+      "inputs": [
+        { "internalType": "string", "name": "_bountyId", "type": "string" },
+        { "internalType": "uint256", "name": "_tier", "type": "uint256" },
+        { "internalType": "string", "name": "_winner", "type": "string" }
+      ],
+      "name": "setTierWinner",
+      "payable": false
+    },
+    "contractInputsValues": {
+      "_bountyId": "bountyId",
+      "_tier": "4",
+      "_winner": "USER-4"
+    }
+  },
+  {
+    "to": "0xOPENQ",
+    "value": "0",
+    "data": null,
+    "contractMethod": {
+      "inputs": [
+        { "internalType": "string", "name": "_bountyId", "type": "string" },
+        { "internalType": "uint256", "name": "_tier", "type": "uint256" },
+        { "internalType": "string", "name": "_winner", "type": "string" }
+      ],
+      "name": "setTierWinner",
+      "payable": false
+    },
+    "contractInputsValues": {
+      "_bountyId": "bountyId",
+      "_tier": "5",
+      "_winner": "USER-5"
+    }
+  },
+  {
+    "to": "0xOPENQ",
+    "value": "0",
+    "data": null,
+    "contractMethod": {
+      "inputs": [
+        { "internalType": "string", "name": "_bountyId", "type": "string" },
+        { "internalType": "uint256", "name": "_tier", "type": "uint256" },
+        { "internalType": "string", "name": "_winner", "type": "string" }
+      ],
+      "name": "setTierWinner",
+      "payable": false
+    },
+    "contractInputsValues": {
+      "_bountyId": "bountyId",
+      "_tier": "6",
+      "_winner": "USER-6"
+    }
+  },
+  {
+    "to": "0xOPENQ",
+    "value": "0",
+    "data": null,
+    "contractMethod": {
+      "inputs": [
+        { "internalType": "string", "name": "_bountyId", "type": "string" },
+        { "internalType": "uint256", "name": "_tier", "type": "uint256" },
+        { "internalType": "string", "name": "_winner", "type": "string" }
+      ],
+      "name": "setTierWinner",
+      "payable": false
+    },
+    "contractInputsValues": {
+      "_bountyId": "bountyId",
+      "_tier": "0",
+      "_winner": "USER-0"
+    }
+  },
+  {
+    "to": "0xOPENQ",
+    "value": "0",
+    "data": null,
+    "contractMethod": {
+      "inputs": [
+        { "internalType": "string", "name": "_bountyId", "type": "string" },
+        { "internalType": "uint256", "name": "_tier", "type": "uint256" },
+        { "internalType": "string", "name": "_winner", "type": "string" }
+      ],
+      "name": "setTierWinner",
+      "payable": false
+    },
+    "contractInputsValues": {
+      "_bountyId": "bountyId",
+      "_tier": "1",
+      "_winner": "USER-1"
+    }
+  },
+  {
+    "to": "0xOPENQ",
+    "value": "0",
+    "data": null,
+    "contractMethod": {
+      "inputs": [
+        { "internalType": "string", "name": "_bountyId", "type": "string" },
+        { "internalType": "uint256", "name": "_tier", "type": "uint256" },
+        { "internalType": "string", "name": "_winner", "type": "string" }
+      ],
+      "name": "setTierWinner",
+      "payable": false
+    },
+    "contractInputsValues": {
+      "_bountyId": "bountyId",
+      "_tier": "2",
+      "_winner": "USER-2"
+    }
+  },
+  {
+    "to": "0xOPENQ",
+    "value": "0",
+    "data": null,
+    "contractMethod": {
+      "inputs": [
+        { "internalType": "string", "name": "_bountyId", "type": "string" },
+        { "internalType": "uint256", "name": "_tier", "type": "uint256" },
+        { "internalType": "string", "name": "_winner", "type": "string" }
+      ],
+      "name": "setTierWinner",
+      "payable": false
+    },
+    "contractInputsValues": {
+      "_bountyId": "bountyId",
+      "_tier": "3",
+      "_winner": "USER-3"
+    }
+  },
+  {
+    "to": "0xOPENQ",
+    "value": "0",
+    "data": null,
+    "contractMethod": {
+      "inputs": [
+        { "internalType": "string", "name": "_bountyId", "type": "string" },
+        { "internalType": "uint256", "name": "_tier", "type": "uint256" },
+        { "internalType": "string", "name": "_winner", "type": "string" }
+      ],
+      "name": "setTierWinner",
+      "payable": false
+    },
+    "contractInputsValues": {
+      "_bountyId": "bountyId",
+      "_tier": "8",
+      "_winner": "USER-8"
+    }
+  },
+  {
+    "to": "0xOPENQ",
+    "value": "0",
+    "data": null,
+    "contractMethod": {
+      "inputs": [
+        { "internalType": "string", "name": "_bountyId", "type": "string" },
+        { "internalType": "uint256", "name": "_tier", "type": "uint256" },
+        { "internalType": "string", "name": "_winner", "type": "string" }
+      ],
+      "name": "setTierWinner",
+      "payable": false
+    },
+    "contractInputsValues": {
+      "_bountyId": "bountyId",
+      "_tier": "9",
+      "_winner": "USER-9"
+    }
+  },
+  {
+    "to": "0xOPENQ",
+    "value": "0",
+    "data": null,
+    "contractMethod": {
+      "inputs": [
+        { "internalType": "string", "name": "_bountyId", "type": "string" },
+        { "internalType": "uint256", "name": "_tier", "type": "uint256" },
+        { "internalType": "string", "name": "_winner", "type": "string" }
+      ],
+      "name": "setTierWinner",
+      "payable": false
+    },
+    "contractInputsValues": {
+      "_bountyId": "bountyId",
+      "_tier": "10",
+      "_winner": "USER-10"
+    }
+  }
+]

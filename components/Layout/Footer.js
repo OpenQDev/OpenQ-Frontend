@@ -194,17 +194,17 @@ const Footer = () => {
           <Link href={'/batch'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
             <span>Batch Mint</span>
           </Link>
-          {/* <Link href={'/batchTierWinner'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
+          <Link href={'/batchTierWinner'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
             <span>Batch Winner Selection</span>
           </Link>
-          <Link
+          {/* <Link
             href={'/batchSetDocumentsComplete'}
             className=' lg:justify-self-center'
             target='_blank'
             rel='noopener noreferrer'
           >
             <span>Batch Tax Form Approval</span>
-              </Link>*/}
+					</Link> */}
         </div>
         <div className='flex flex-col lg:flex-row lg:justify-end gap-4'>
           <Image
