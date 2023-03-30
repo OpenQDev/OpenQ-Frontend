@@ -14,7 +14,6 @@ function BatchTierWinner() {
   const [tierWinnerPreviewData, setTierWinnerPreviewData] = useState([]);
   const [appState] = useContext(StoreContext);
   const [file, setFile] = useState(null);
-  const zeroAdress = '0x0000000000000000000000000000000000000000';
 
   const handleCopyToClipboard = () => {
     navigator.clipboard.writeText(JSON.stringify(tierWinnerBatchData));
@@ -45,7 +44,7 @@ function BatchTierWinner() {
     const id = await appState.githubRepository.fetchUserByUrl(githubUserUrl);
     return id;
   };
-	
+
   const loadGithubDataUserById = async (githubUserId) => {
     const user = await appState.githubRepository.fetchUserById(githubUserId);
     return user;
@@ -103,8 +102,8 @@ function BatchTierWinner() {
       payoutTokenAddress: onChainBountyData.payoutTokenAddress,
       volumeWon: onChainBountyData.payoutSchedule[_tier].toString(),
       login: userData.login,
-			title: githubData.title,
-			tierWon: _tier,
+      title: githubData.title,
+      tierWon: _tier,
     };
   };
 
@@ -200,16 +199,21 @@ function BatchTierWinner() {
         )}
         <div>
           {tierWinnerPreviewData.map((tierWinnerData, index) => {
-            return <RequestIndividualCardLean length={tierWinnerData.length} index={index} key={index} item={tierWinnerData} />;
+            return (
+              <RequestIndividualCardLean
+                length={tierWinnerData.length}
+                index={index}
+                key={index}
+                item={tierWinnerData}
+              />
+            );
           })}
         </div>
 
         <h2 className='text-xl pt-8 font-bold'>Step 4: Download the generated JSON file</h2>
         {tierWinnerBatchData && (
           <div className='flex flex-col'>
-            <h2>
-              If this is correct, then download the JSON file and follow the next steps.
-            </h2>
+            <h2>If this is correct, then download the JSON file and follow the next steps.</h2>
             <div className='pt-4 flex items-center space-x-4'>
               <button className='btn-primary' onClick={handleDownload}>
                 Download JSON
