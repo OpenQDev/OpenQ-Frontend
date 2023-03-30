@@ -7,7 +7,6 @@ import md4 from 'js-md4';
 import Link from 'next/link';
 import Image from 'next/image';
 import RequestIndividualCardLean from '../components/Requests/RequestIndividualCardLean';
-import BountyCardLean from '../components/BountyCard/BountyCardLean';
 import { convertCsvToJson, getTierWinnerTransactions } from '../lib/batchUtils';
 
 function BatchTierWinner() {
