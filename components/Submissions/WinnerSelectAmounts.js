@@ -82,7 +82,13 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled, isRem
       if (tokenBalancesOfTarget) {
         let bigNumberBalance = ethers.BigNumber.from(tokenBalancesOfTarget.volume);
         const bigNumberPayout = ethers.BigNumber.from(currentPayout?.volume);
-        const isSolvent = bigNumberBalance.gte(bigNumberPayout);
+        // TODO fix fuzzy matching / batching algorithm
+        const token = appState.tokenClient.getToken(currentPayout?.tokenAddress);
+        const stringTokenDecimals = token.decimals.toString();
+        const oneUnit = ethers.BigNumber.from('10').pow(stringTokenDecimals);
+        const tenCentsUsdc = ethers.BigNumber.from(oneUnit);
+        const bigNumberBalanceAndTenCents = bigNumberBalance.add(tenCentsUsdc);
+        const isSolvent = bigNumberBalanceAndTenCents.gte(bigNumberPayout);
         return isSolvent;
       }
     } else {

@@ -200,7 +200,6 @@ const address = ({ address, mergedBounty, renderError }) => {
     }
   }, []);
   const claimOverView = bounty?.claims?.length > 0 ? [{ name: 'Claims Overview', Svg: Log }] : [];
-  const claim = claimable ? [{ name: 'Claim', Svg: Fire }] : [];
   const submissions = bounty.bountyType === '3' ? [{ name: 'Submissions', Svg: Log }] : [];
   const fund = bounty.issuer?.id === account?.toLowerCase() ? [{ name: 'Fund', Svg: Add }] : [];
 
@@ -238,7 +237,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                   ...fund,
                   { name: bounty.issuer && 'Deposits', Svg: bounty.issuer && Subtract },
                   ...submissions,
-                  ...claim,
+                  { name: 'Claim', Svg: Fire },
                   ...claimOverView,
                   {
                     name: bounty.issuer && ethers.utils.getAddress(bounty?.issuer?.id) == account ? 'Admin' : null,
@@ -279,6 +278,12 @@ const address = ({ address, mergedBounty, renderError }) => {
                     claimState={claimState}
                   />
                 ) : null}
+                {!claimable && internalMenu == 'Claim' && (
+                  <div className='w-full h-min bg-info border-info-strong border rounded-sm p-3  w-full  lg:max-w-[800px]'>
+                    Looking to claim your prize? The bounty administrator has not selected your PR yet. Please wait
+                    until they have awarded your prize in order to continue.
+                  </div>
+                )}
                 {internalMenu == 'Claims Overview' && bounty ? (
                   <ClaimOverview bounty={bounty} setInternalMenu={setInternalMenu} />
                 ) : null}

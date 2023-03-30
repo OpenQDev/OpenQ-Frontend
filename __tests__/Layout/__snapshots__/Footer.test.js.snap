@@ -200,6 +200,16 @@ exports[`Footer should match DOM Snapshot 1`] = `
           Batch Mint
         </span>
       </ForwardRef(LinkComponent)>
+      <ForwardRef(LinkComponent)
+        className=" lg:justify-self-center"
+        href="/batchTierWinner"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span>
+          Batch Winner Selection
+        </span>
+      </ForwardRef(LinkComponent)>
     </div>
     <div
       className="flex flex-col lg:flex-row lg:justify-end gap-4"
