@@ -18,6 +18,7 @@ import ClaimButton from './ClaimButton';
 import { checkClaimable, isEveryValueNotNull, isContest } from '../../../services/utils/lib';
 import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
 import useWeb3 from '../../../hooks/useWeb3';
+import { ethers } from 'ethers';
 // import { ChevronUpIcon, ChevronDownIcon } from '@primer/octicons-react';
 
 const ClaimPage = ({ bounty, refreshBounty, split, setInternalMenu, internalMenu, claimState, showClaimPage }) => {
@@ -40,6 +41,15 @@ const ClaimPage = ({ bounty, refreshBounty, split, setInternalMenu, internalMenu
   // const invoiceCompleted = bounty.invoiceCompleted && bounty.invoiceCompleted[targetTier];
 
   const targetTier = bounty.tierWinners?.indexOf(accountData.github);
+
+  function formatVolume(tierVolume) {
+    const token = appState.tokenClient.getToken(bounty.payoutTokenAddress);
+    let bigNumberVolume = ethers.BigNumber.from(tierVolume.toString());
+    let decimals = parseInt(token.decimals) || 18;
+    let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
+    return formattedVolume;
+  }
+
   const checkRequirementsWithGraph = (bounty) => {
     if (bounty.bountyType === '2' || bounty.bountyType === '3') {
       let w8Form = !bounty?.supportingDocumentsRequired || bounty?.supportingDocumentsCompleted?.[targetTier];
@@ -144,17 +154,26 @@ const ClaimPage = ({ bounty, refreshBounty, split, setInternalMenu, internalMenu
             <section className='flex flex-col gap-4'>
               <h4 className='flex text-2xl py-2 pt-4 md:border-b border-gray-700'>Claim Your Rewards</h4>
               {bounty.bountyType === '3' && (
-                <div className='flex gap-2'>
+                <div className='flex'>
                   <>
-                    This transaction will send off USDC to your verified wallet associated with address{' '}
-                    <Link
-                      href={`https://polygonscan.com/address/${associatedAddress}`}
-                      rel='noopener norefferer'
-                      target='_blank'
-                      className='text-link-colour hover:underline'
-                    >
-                      {appState.utils.shortenAddress(associatedAddress)}
-                    </Link>{' '}
+                    This transaction will send {formatVolume(bounty.payoutSchedule?.[targetTier])}{' '}
+                    {appState.tokenClient.getToken(bounty.payoutTokenAddress).symbol} to your verified wallet{' '}
+                    {associatedAddress ? (
+                      <>
+                        associated with address{' '}
+                        <Link
+                          href={`https://polygonscan.com/address/${associatedAddress}`}
+                          rel='noopener norefferer'
+                          target='_blank'
+                          className='text-link-colour hover:underline ml-2'
+                        >
+                          {appState.utils.shortenAddress(associatedAddress)}
+                        </Link>
+                        .
+                      </>
+                    ) : (
+                      'once you have associated it with your Github account.'
+                    )}
                   </>
                 </div>
               )}{' '}
