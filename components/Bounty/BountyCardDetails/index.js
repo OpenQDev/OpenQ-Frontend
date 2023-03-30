@@ -65,7 +65,9 @@ const BountyCardDetails = ({ bounty }) => {
 
   return (
     <div className='flex-1 pr-4 min-w-[260px]'>
-      <GithubHtmlRenderer className={'w-full py-8 mb-2 border-web-gray border-b markdown-body'} html={bodyHTML} />
+      {bodyHTML && (
+        <GithubHtmlRenderer className={'w-full py-8 mb-2 border-web-gray border-b markdown-body'} html={bodyHTML} />
+      )}
       {rendered && (
         <>
           {allActions.map((action, index) => (
