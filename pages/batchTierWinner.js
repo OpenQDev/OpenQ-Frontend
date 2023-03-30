@@ -11,7 +11,7 @@ import { convertCsvToJson, getTierWinnerTransactions } from '../lib/batchUtils';
 
 function BatchTierWinner() {
   const [tierWinnerBatchData, setTierWinnerBatchData] = useState(null);
-  const [, setUsers] = useState([]);
+  const [tierWinnerPreviewData, setTierWinnerPreviewData] = useState([]);
   const [appState] = useContext(StoreContext);
   const [file, setFile] = useState(null);
   const zeroAdress = '0x0000000000000000000000000000000000000000';
@@ -114,19 +114,22 @@ function BatchTierWinner() {
     const { _bountyId, _tier, _winner } = contractInputsValues;
 
     const githubData = await appState.githubRepository.fetchIssueById(_bountyId);
+    const onChainBountyData = {}
+    const userData = {}
 
     return {
-      ...githubData,
-      _bountyId,
-      _tier,
-      _winner,
+      payoutTokenAddress: bountyData.payoutTokenAddress,
+      volumeWon: bountyData.payoutSchedule[_tier].toString(),
+      login: userData.login,
+			title: githubData.title,
+			tierWon: _tier,
     };
   };
 
   useEffect(() => {
     const getBountyData = async () => {
       if (tierWinnerBatchData) {
-        const bounties = tierWinnerBatchData.transactions.map(async (transaction) => {
+        const tierWinnerPreviewData = tierWinnerBatchData.transactions.map(async (transaction) => {
           const bountyData = await parseTransaction(transaction);
           const currentTimestamp = Date.now();
 
@@ -139,7 +142,7 @@ function BatchTierWinner() {
             status: '0',
           }; //<BountyCardLean key={index} item={bountyData} />;
         });
-        setUsers(await Promise.all(bounties));
+        setTierWinnerPreviewData(await Promise.all(tierWinnerPreviewData));
       }
     };
     getBountyData();
