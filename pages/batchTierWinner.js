@@ -15,29 +15,6 @@ function BatchTierWinner() {
   const [appState] = useContext(StoreContext);
   const [file, setFile] = useState(null);
   const zeroAdress = '0x0000000000000000000000000000000000000000';
-  const mockData = [
-    {
-      payoutTokenAddress: zeroAdress,
-      volumeWon: '1000000000000000000',
-      login: 'C0ZEN',
-      title: 'Add a new feature to the OpenQ platform',
-      tierWon: '0',
-    },
-    {
-      payoutTokenAddress: '0x6b175474e89094c44da98b954eedeac495271d0f',
-      volumeWon: '1000000000000000000',
-      login: 'C0ZEN',
-      title: 'Add a new feature to the OpenQ platform',
-      tierWon: '0',
-    },
-    {
-      payoutTokenAddress: '0x6b175474e89094c44da98b954eedeac495271d0f',
-      volumeWon: '1000000000000000000',
-      login: 'C0ZEN',
-      title: 'Add a new feature to the OpenQ platform',
-      tierWon: '0',
-    },
-  ];
 
   const handleCopyToClipboard = () => {
     navigator.clipboard.writeText(JSON.stringify(tierWinnerBatchData));
@@ -67,6 +44,11 @@ function BatchTierWinner() {
   const loadGithubDataUser = async (githubUserUrl) => {
     const id = await appState.githubRepository.fetchUserByUrl(githubUserUrl);
     return id;
+  };
+	
+  const loadGithubDataUserById = async (githubUserId) => {
+    const user = await appState.githubRepository.fetchUserById(githubUserId);
+    return user;
   };
 
   const loadOnChainBounty = async (bountyId) => {
@@ -114,12 +96,12 @@ function BatchTierWinner() {
     const { _bountyId, _tier, _winner } = contractInputsValues;
 
     const githubData = await appState.githubRepository.fetchIssueById(_bountyId);
-    const onChainBountyData = {}
-    const userData = {}
+    const onChainBountyData = await loadOnChainBounty(_bountyId);
+    const userData = await loadGithubDataUserById(_winner);
 
     return {
-      payoutTokenAddress: bountyData.payoutTokenAddress,
-      volumeWon: bountyData.payoutSchedule[_tier].toString(),
+      payoutTokenAddress: onChainBountyData.payoutTokenAddress,
+      volumeWon: onChainBountyData.payoutSchedule[_tier].toString(),
       login: userData.login,
 			title: githubData.title,
 			tierWon: _tier,
@@ -140,7 +122,7 @@ function BatchTierWinner() {
             bountyType: '3',
             bountyMintTime: currentTimestamp / 1000,
             status: '0',
-          }; //<BountyCardLean key={index} item={bountyData} />;
+          };
         });
         setTierWinnerPreviewData(await Promise.all(tierWinnerPreviewData));
       }
@@ -211,14 +193,14 @@ function BatchTierWinner() {
             ) : (
               <div className='flex flex-col space-y-2'>
                 <div>✅ Success!</div>
-                <div>Now go on to the next step and download your JSON file below:</div>
+                <div>{`Now go on to the next step and download your JSON file below for these ${tierWinnerPreviewData.length} winners:`}</div>
               </div>
             )}
           </div>
         )}
         <div>
-          {mockData.map((mockDataum, index) => {
-            return <RequestIndividualCardLean length={mockData.length} index={index} key={index} item={mockDataum} />;
+          {tierWinnerPreviewData.map((tierWinnerData, index) => {
+            return <RequestIndividualCardLean length={tierWinnerData.length} index={index} key={index} item={tierWinnerData} />;
           })}
         </div>
 
@@ -226,30 +208,6 @@ function BatchTierWinner() {
         {tierWinnerBatchData && (
           <div className='flex flex-col'>
             <h2>
-              You will use the Gnosis Safe Transaction Builder JSON to select the{' '}
-              {tierWinnerBatchData.transactions.length} tier winners below.
-              <br />
-              <div className='my-4'>
-                <br />
-                <div className='my-4'>
-                  {
-                    <div>
-                      {mockData.map((mockDataum, index) => {
-                        return (
-                          <RequestIndividualCardLean
-                            length={mockData.length}
-                            index={index}
-                            key={index}
-                            item={mockDataum}
-                          />
-                        );
-                      })}
-                    </div>
-                  }
-                </div>
-                <br />
-              </div>
-              <br />
               If this is correct, then download the JSON file and follow the next steps.
             </h2>
             <div className='pt-4 flex items-center space-x-4'>
