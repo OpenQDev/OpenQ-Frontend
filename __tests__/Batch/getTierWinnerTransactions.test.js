@@ -58,10 +58,10 @@ describe('Batch Mint - Tier Winner', () => {
         loadGithubData,
         loadGithubDataUser,
         loadOnChainBounty,
-        getToken
+        { getToken }
       );
     } catch (error) {
-      console.log('error');
+      console.log(error);
       expect(1).toEqual(0);
     }
 
